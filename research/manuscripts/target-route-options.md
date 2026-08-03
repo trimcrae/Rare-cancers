@@ -322,8 +322,8 @@ paralogues do not have cannot be hit in them, at any affinity.
    computed anywhere in this repo** — the covalent artifact says so in its own `_limits`.
 3. Occupancy must do something. This is where an inhibitor is *weaker* than a degrader here, and it must
    be said plainly: NOR-1 is constitutively active and its transcriptional output scales with **expression
-   level** (Munck 2022, as cited in [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md)
-   §1), which is exactly why degradation was chosen — *"an inhibitor would have to block a function NOR-1
+   level** (Zaienne 2022, **PMID 35704774**, as cited in
+   [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) §1), which is exactly why degradation was chosen — *"an inhibitor would have to block a function NOR-1
    may not even gate on a pocket."* **A covalent inhibitor buys selectivity and gives up the mechanism
    argument.**
 
@@ -350,6 +350,23 @@ electrophile only — and ask whether C397's window still closes on a paralogue 
 kills the covalent axis for inhibitors as well as degraders and is worth as much as a positive. (Do this
 *after* the branch-1b reconciliation, which is already roadmap row 5 and also $0 — otherwise the
 comparison has no baseline.)
+
+⛔ **✅ RUN 2026-08-03 — AND IT IS THE NEGATIVE.** The branch-1b reconciliation landed first, so the
+baseline existed; the enumeration was then built as a **paired** test (both configurations in one pass,
+identical frames, anchors and candidate sets, differing only in the length rule) and its bivalent half
+replicates the committed artifact cell for cell. **Removing the E3 arm does not widen the categorical
+window — on the conservative convention it closes every cell that had one, and no cell gains one.** The
+intuition quoted above is true about *reach* and irrelevant to *selectivity*: dropping the E3 term
+shortens every competitor's chain as well as the target's, and it removes a constraint that was
+**ordering** them, so C397 stops being the first residue in reach in almost every cell. Module, artifact,
+mechanism and the limits it inherits:
+[`nr4a3_monovalent_reach.py`](../modalities/nr4a3_monovalent_reach.py) →
+[`nr4a3-monovalent-reach.json`](../modalities/nr4a3-monovalent-reach.json), written up in
+[`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md) §3.
+⚠ **Scoped precisely: this does not close route 2.** It closes the *hope that the inhibitor
+configuration is geometrically easier than the degrader configuration*. It says nothing about a
+non-covalent inhibitor, and nothing about the **probe** use in the paragraph below, which needs only a
+binder.
 
 **Effect on the requirement: RESHAPES.** It moves the paralogue claim from a thermodynamic ΔΔG the
 instruments cannot resolve to a kinetic/categorical one at a residue the paralogues do not have. It does
@@ -655,7 +672,7 @@ Every item is free, none needs an authorization, and each is stated as an action
 | **1** | ✅ **DONE this session — the exon audit** ([run 30772341046](../modalities/nr4a3-exon-audit.json)) | `R13`, routes 3 / 7 | found an **off-by-two**, fixed it at source, and defined `R13`'s object at the sequence level. **What remains:** regenerate `fusion-breakpoint-neoantigens.json`, and pin the patient-level junction against a primary breakpoint report |
 | **2** | **MGI single-KO phenotypes for *Nr4a1/2/3*** | route 1 | the only thing that would bound the NR4A2 half of the requirement without a lab; IMPC returned nothing and MGI is the repo's own named next source |
 | **3** | **HPA per-tissue nTPM for NR4A1/2/3** | route 1 | sizes the CNS-vs-periphery split, i.e. how much of the NR4A2 liability a biodistribution lever could remove. The field is `null` today |
-| **4** | **Re-run the linker-reach enumeration with the E3 arm removed** | route 2 | the 30-of-30 counter-result was computed under a constraint an inhibitor does not face. Run *after* roadmap row 5 (branch-1b reconciliation), or there is no baseline |
+| **4** | ✅ **DONE 2026-08-03 — the E3-arm-free reach enumeration**, run after the branch-1b reconciliation exactly as this row required ([`nr4a3_monovalent_reach.py`](../modalities/nr4a3_monovalent_reach.py)) | route 2 | the 30-of-30 counter-result was computed under a constraint an inhibitor does not face — **and removing that constraint makes the window WORSE, not better.** The negative is worth what a positive would have been: it closes the geometric case for the covalent-inhibitor configuration and names why ([route 2](#route-2--a-covalent-inhibitor-or-covalent-probe-at-c397-instead-of-a-degrader); [`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md)). **What remains:** the same paired test for the **TCIP** configuration, which is a *different* second terminus |
 | **5** | **Resolve the PPARG agonist-vs-antagonist direction from the literature, in CI** | route 5 | unblocks the highest-readiness route that removes the selectivity requirement; approved drugs, no new chemistry |
 | **6** | **Verify the TCIP citation through `verify-refs`, then give it a row on `IDEAS.md`** | route 6 | it has sat as an auto-captured lead since 2026-07-13 with an explicit *"may warrant a new row — for human review"* |
 | **7** | **Re-query DepMap for CRISPR data on ACH-001519 / H-EMC-SS** | route 9 | the only EMC-specific dependency datum that could exist without a lab |
@@ -710,8 +727,7 @@ the repo's own provenance, per the fact-check discipline in `AGENTS.md`. Items n
 | Filion C, et al. **J Pathol** 2009. **PMC4429309** | the fusion transactivates a PPARG response element — routes 5 and 12, and the discriminating evidence in finding 3 | [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md) |
 | Boulay G, et al. *Cancer-specific retargeting of BAF complexes by a prion-like domain.* **Cell** 2017. doi:10.1016/j.cell.2017.07.036 | FET prion-like-domain biology — routes 6, 9, 11 | [`fusion-selective-andgate-degrader-paper.md`](./fusion-selective-andgate-degrader-paper.md); [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) |
 | Brien GL, et al. *Targeted degradation of BRD9 reverses oncogenic gene expression in synovial sarcoma.* **eLife** 2018 | the ncBAF/BRD9 comparator behind route 9 | [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) |
-| **Zaienne 2022** — NOR-1/NR4A3 druggability evaluation, low-µM inverse agonist cmpd 19, **PMC9542104**; ⚠ **no NR4A1/2 counter-screen** (and *"Safe 2025 selective analogues"* is a review's loose paraphrase of the same compounds, **not** a distinct selective series — corrected in the repo 2026-07-12) | NR4A3 is experimentally ligandable | [`nr4a3-degrader-carT-and-family-druggability-framing.md`](./nr4a3-degrader-carT-and-family-druggability-framing.md) |
-| **Munck 2022** — NOR-1 druggability; NOR-1 transcriptional output scales with expression level | route 2's occupancy caveat (why degradation was chosen over inhibition) | [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) §1. ⚠ cited there without a PMID — **resolve through `verify-refs` before quoting in a manuscript** |
+| **Zaienne D, Arifi S, Marschner JA, Heering J, Merk D. 2022**, **PMID 35704774** — NOR-1/NR4A3 druggability evaluation, low-µM inverse agonist cmpd 19, **PMC9542104**; ⭐ **the hits act on a `hinge+LBD` Gal4 chimera — the AF-1 is not in the construct** ([`nr4a3-druggability-reconciliation.md` §5a](../modalities/nr4a3-druggability-reconciliation.md)); ⛔ **this row previously appeared TWICE in this table — once here and once as a separate "Munck 2022" entry, retained-and-merged 2026-08-03 because no such paper exists ([§5b](../modalities/nr4a3-druggability-reconciliation.md))**; ⚠ **no NR4A1/2 counter-screen** (and *"Safe 2025 selective analogues"* is a review's loose paraphrase of the same compounds, **not** a distinct selective series — corrected in the repo 2026-07-12) | NR4A3 is experimentally ligandable | [`nr4a3-degrader-carT-and-family-druggability-framing.md`](./nr4a3-degrader-carT-and-family-druggability-framing.md) |
 | Nabet B, et al. *The dTAG system for immediate and target-specific protein degradation.* **Nat Chem Biol** 2018. doi:10.1038/s41589-018-0021-8 | the delegated fusion-dependence test that gates every driver-directed route | [`fusion-selective-andgate-degrader-paper.md`](./fusion-selective-andgate-degrader-paper.md) |
 | Modern Pathology 2023, PMID **36948401** (58 EMC, 58/58 NR4A3-rearranged); Agaram et al., **Hum Pathol** 2014, **PMC4015728** | the fusion is near-invariant and clonal — the premise of the whole memo | [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md) |
 | TCIP on EWSR1::FLI1 — https://pmc.ncbi.nlm.nih.gov/articles/PMC12851799/ | route 6 | ⚠ **auto-captured field scan, 2026-07-13, [`../IDEAS.md`](../IDEAS.md) — NOT yet through `verify-refs`** |

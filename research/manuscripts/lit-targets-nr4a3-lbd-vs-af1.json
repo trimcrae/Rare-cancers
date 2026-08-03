@@ -1,0 +1,19 @@
+{
+  "_readme": "Corpus for the LBD-vs-AF-1 adjudication of the published NOR-1/NR4A3 ligand campaign, and for resolving whether 'Munck 2022' names a real distinct paper or is a misattribution of Zaienne 2022. Fetched read-only from a CI runner (CLAUDE.md 6). No purchase, no contact, no wet lab.",
+
+  "zaienne_nor1_druggability_pmc": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9542104/",
+  "zaienne_nor1_druggability_pubmed": "https://pubmed.ncbi.nlm.nih.gov/35704774/",
+  "zaienne_nor1_druggability_doi_landing": "https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002/cmdc.202200259",
+
+  "epmc_search_munck_nr4a3": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH%3A%22Munck%22%20AND%20%28NR4A3%20OR%20%22NOR-1%22%20OR%20%22NOR1%22%29&format=json&pageSize=100&resultType=core",
+  "epmc_search_munck_2022_nuclear_receptor": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=AUTH%3A%22Munck%22%20AND%20%22nuclear%20receptor%22%20AND%20PUB_YEAR%3A2022&format=json&pageSize=100",
+  "epmc_search_druggability_nor1_title": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE%3A%22Druggability%20Evaluation%22%20AND%20TITLE%3A%22NOR-1%22&format=json&pageSize=100&resultType=core",
+  "epmc_search_nr4a3_druggability_any": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28NR4A3%20OR%20%22NOR-1%22%29%20AND%20%28druggability%20OR%20%22inverse%20agonist%22%29&format=json&pageSize=100",
+  "pubmed_esearch_munck_nr4a3": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Munck%5BAuthor%5D+AND+(NR4A3+OR+%22NOR-1%22)&retmax=100&retmode=json",
+  "pubmed_esearch_nr4a3_inverse_agonist": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=(NR4A3+OR+%22NOR-1%22)+AND+(%22inverse+agonist%22+OR+druggability)&retmax=100&retmode=json",
+
+  "zaienne_supporting_information_wiley": "https://chemistry-europe.onlinelibrary.wiley.com/action/downloadSupplement?doi=10.1002%2Fcmdc.202200259&file=cmdc202200259-sup-0001-misc_information.pdf",
+  "pfa_cmv_gal4_vector_manual": "https://www.agilent.com/cs/library/usermanuals/public/219005.pdf",
+  "wansa_nor1_af1_6mp_pubmed": "https://pubmed.ncbi.nlm.nih.gov/12709428/",
+  "wansa_nor1_af1_6mp_jbc_fulltext": "https://www.jbc.org/article/S0021-9258(20)80445-3/fulltext"
+}

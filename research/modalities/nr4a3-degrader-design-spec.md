@@ -46,7 +46,11 @@ PROTAC), but it must be assessed, and it is *known* from NR4A3 physiology despit
 
 ## Why a degrader, and why design is the bottleneck (recap, sourced)
 - NOR-1's oncogenic activity scales with **expression level** → removing the protein removes the
-  activity; degradation is mechanistically ideal (Munck 2022, NOR-1 druggability).
+  activity; degradation is mechanistically ideal (Zaienne 2022, PMID 35704774, NOR-1 druggability —
+  verbatim: NOR-1 *"lacks an accessible pocket in the canonical ligand binding region of nuclear
+  receptors, its transcriptional activity mainly depends on its expression level"*).
+  ⛔ *Superseded, retained: cited here as* **"Munck 2022"**, *which names no paper —*
+  [`nr4a3-druggability-reconciliation.md` §5b](./nr4a3-druggability-reconciliation.md) *owns the correction.*
 - The NR4A family is degradable in principle: an **NR4A1 PROTAC** works in cells — but does **not**
   cross-degrade NR4A3 → NR4A3 needs its **own** warhead.
 - Real NR4A3-specific chemical matter exists to start from: fragment-derived **inverse NOR-1
@@ -88,7 +92,7 @@ PROTAC), but it must be assessed, and it is *known* from NR4A3 physiology despit
 
 ## Pipeline
 1. **Site characterisation (CPU — do first).** Dock the known **inverse NOR-1 agonists** and
-   fatty-acid-mimetic NR4A ligands (SMILES from Munck 2022 / J Med Chem 2023) into the LBD with
+   fatty-acid-mimetic NR4A ligands (SMILES from Zaienne 2022, PMID 35704774 / J Med Chem 2023) into the LBD with
    smina/AutoDock Vina (or Gnina) against the AF2 model + MD ensemble. Goal: a validated binding
    site + baseline poses/affinities to seed design. **This is the immediate next executable step and
    needs no GPU.**
@@ -234,8 +238,14 @@ candidate + predicted binding mode, selectivity, ternary geometry, and developab
 degrades, prove EMC fusion-addiction via dTAG) remain the wet-lab hand-off.
 
 ## References (verified)
-- Munck JM et al. *Druggability Evaluation of NOR-1 Reveals Inverse NOR-1 Agonists* (2022).
+- **Zaienne D, Arifi S, Marschner JA, Heering J, Merk D.** *Druggability Evaluation of the Neuron Derived
+  Orphan Receptor (NOR-1) Reveals Inverse NOR-1 Agonists.* **ChemMedChem** 2022;17(16):e202200259.
+  **PMID 35704774**; PMC9542104; doi 10.1002/cmdc.202200259.
   https://pmc.ncbi.nlm.nih.gov/articles/PMC9542104/
+  ⛔ *Superseded, retained so it stays searchable:* **"Munck JM et al. *Druggability Evaluation of NOR-1
+  Reveals Inverse NOR-1 Agonists* (2022)"** *— measured in CI on 2026-08-03 to name no paper in either
+  Europe PMC or PubMed. Correction and evidence:*
+  [`nr4a3-druggability-reconciliation.md` §5b](./nr4a3-druggability-reconciliation.md).
 - *Exploring Fatty Acid Mimetics as NR4A Ligands.* J Med Chem 2023. https://pubs.acs.org/doi/10.1021/acs.jmedchem.3c01467
 - NR4A1 PROTAC degrades NR4A1 but not NR4A2/NR4A3 (melanoma) — family degradable, NR4A3 needs own
   warhead. (See `degrader-vs-synthetic-lethal.md` refs.)

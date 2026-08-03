@@ -10,6 +10,16 @@
 > active manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md) is its publishable form.
 > Read this before resuming *portfolio-level* treatment-research work. Folder map: [`README.md`](./README.md).
 >
+> **🗺 AND ITS MACHINE-CHECKED INDEX: [`emc-systems-map.md`](./emc-systems-map.md)** (generated from
+> [`emc-systems-map.json`](./emc-systems-map.json); invariants run in CI by
+> [`emc_systems_map_check.py`](./emc_systems_map_check.py)). ⛔ **It ranks nothing and asserts no grade** —
+> it is the integrity layer *underneath* this capstone, recording which file OWNS each route's grade, which
+> routes are the same route under a different memo's numbering, which are different routes that must never be
+> conflated (with the opposite blockers that make them different), which instruments have no passing
+> known-answer control, and which quoted figures resolve to a real artifact field **on `main`**. Where it and
+> this capstone appear to disagree about a grade, **this capstone wins and the map is stale** — the map's job
+> is to say where the grade lives, not what it is.
+>
 > **★★ AND READ [`emc-post-degrader-options.md`](./emc-post-degrader-options.md) (2026-08-03) ALONGSIDE IT.**
 > This capstone ranks routes on *likelihood of helping a patient × near-term feasibility*, with the degrader
 > as #1. That memo asks the question this capstone's framing assumes away — **what if the flagship does not
@@ -18,6 +28,20 @@
 > its answer changes what to start next, not what to tell a patient. The two routes it introduced —
 > ATR-inhibitor synthetic lethality via EMC's FET rearrangement, and trabectedin + PPARγ — are now IN the
 > table below; it also closes two routes, recorded on the [board](../IDEAS.md) and in the roadmap's §6a register.
+>
+> ⚠ **THAT MEMO'S RANKING WAS CORRECTED THE SAME DAY — quote its current tiers, not its first ones.** Its
+> original axis graded the wet-lab ask on **cheapness**, which assumes a collaborator with a bench that this
+> programme does not have; cheapness only counts conditional on a taker existing. It now grades **W1** (*is
+> there a plausible, self-interested taker?*), **W2** (*the ask's size, conditional on W1*) and ⭑ **Axis D**
+> (*what do we end up holding if the experiment never happens?*). **What moved:** the **methods paper on the
+> degrader program's own failure record** goes #3 → **#1** (a complete deliverable needing nobody); the
+> **fusion-junction ASO** holds #2; the ATR route **splits** into a Tier-1 computed assessment and a Tier-2
+> **ask** (best W1 in that memo, and not something this programme executes); **TCIP, the covalent probe and
+> SSTR2 drop to Tier 3**. ⚠ **This does not touch this capstone's Axis A or Axis B, and no route was refuted
+> or removed** — the moves are about what to *start*, which is that memo's question, not about what to tell a
+> patient, which is this one's. Superseded tiers, kept quotable:
+> [that memo's §6](./emc-post-degrader-options.md#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis)
+> and [STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings).
 
 **What this is.** The synthesis of the autonomous treatment-route investigation (2026-06-21/22),
 ranking every route by **likelihood of helping a real EMC patient × near-term feasibility**, with
@@ -47,6 +71,44 @@ this repo must be one of them:
 
 The strongest candidates are those where **both** apply. The ranking below therefore carries a
 *"how WE advance it"* judgement, not a wet-lab to-do list.
+
+### ⛔ There is no third path — the question was asked properly and answered NO (2026-08-03)
+
+**"Exactly two ways" is an assertion this section had never tested**, and the obvious candidate for a
+third was never scoped: *what can a private individual with a credit card cause to happen outright —
+mail-order products and contracted services, with no lab and no institutional affiliation?* That is
+now scoped, vendor by vendor, in
+**[`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md)**, against three filters (≲$1,000 · no
+hands-on bench work · a negative that MEANS something).
+
+⛔ **The verdict is that the buyable tier is EMPTY.** Of this repo's open questions, **12 are
+in-silico, 9 need a lab we do not have, and 0 are settled by anything purchasable.** So the two paths
+above are **not a failure of imagination about a third option — they are the complete set**, and this
+subsection exists so that is recorded once rather than re-litigated every few months.
+
+⭑ **The three findings that carry it**, each of which changes how a route should be read here rather
+than merely adding detail:
+
+1. **Biological materials are gated by POLICY, not by price.** DSMZ: *"Only institutions and companies
+   are eligible to order from the DSMZ."* ATCC's account application: *"Do not use a P.O. box or
+   residential address, as this will prevent your account from being approved."* ⇒ **Every
+   confirm-gated row in the Axis-A table that needs EMC cells or EMC tissue is gated on a
+   COLLABORATOR, and no budget reaches it** — including the ATR route's dose–response, which is the
+   cheapest wet-lab ask on the board and is still unbuyable.
+2. **Compounds and sequencing genuinely ARE sold to individuals — and settle nothing**, because there
+   is no assay here to put a compound into and no sample here to sequence. The compound was never the
+   bottleneck.
+3. ⭑ **`R4` — "does anything bind the opened cryptic pocket", the roadmap's cheapest decisive
+   requirement — is NOT buyable, and not for the reason anyone assumed.** A catalogue recombinant
+   NR4A3 ligand-binding domain *does* exist, so protein supply is not the blocker; and the repo's own
+   experimental evidence (the apo 8XTT solution ensemble) says a purchased construct would present
+   the site as a minority sub-state rather than a closed one. The blocker is that **every affordable
+   binding assay reports a binding *event* and `R4` asks about a *site*** — and the field's one NR4A3
+   ligand campaign already returned a clear positive that left the site undefined.
+
+⇒ **The practical consequence for this capstone: read "the wet-lab ask" everywhere as *how easy is
+this to persuade someone else to run*, never as *what we could arrange*.** That is what the column has
+always actually measured, and the ATR route scores well on it for exactly the right reason.
 
 ## The ranking — two axes, not one tier number
 

@@ -1,0 +1,1687 @@
+{
+ "_title": "EMC fusion constructs for the FET / DSB-recruitment laser-microirradiation assay \u2014 computed designs, sourced junctions, registered predictions",
+ "\u26d4_STATUS_OF_EVERYTHING_BELOW": "COMPUTED DESIGNS FOR SOMEONE ELSE TO VERIFY BEFORE ORDERING. Not validated reagents. Never synthesised, expressed, sequenced or tested by anyone. This repository has been wrong about a fusion junction before \u2014 a committed artifact built from a stated Ensembl methodology was off by two exons and silently deleted NR4A3's AF-1 and the first zinc finger of its DNA-binding domain (research/manuscripts/target-route-options.md \u00a71.3). Every boundary here therefore carries its provenance, and every construct carries self-checks a reader can audit before spending a cent.",
+ "_assay_this_serves": {
+  "readout": "accumulation of a GFP-tagged protein at 405 nm laser-induced DNA double-strand-break stripes in U2OS cells, imaged at 1-minute intervals for 15 minutes",
+  "source": "PMID 37205599 / bioRxiv 10.1101/2023.04.30.538578, methods section, fetched to the literature-cache branch"
+ },
+ "_method": "Fusions are built at the cDNA level (5' partner transcript start \u2192 end of the named exon, joined to the 3' partner from the start of its named exon) and translated from the 5' partner's own start codon, which is the only model that gets the frame right when the 3' partner's named exon carries 5'-UTR ahead of its ATG. Every exon boundary is Ensembl-derived; every breakpoint is a quoted published statement.",
+ "gene_models": {
+  "EWSR1": {
+   "symbol": "EWSR1",
+   "transcript": "ENST00000397938",
+   "translation": "ENSP00000381031",
+   "strand": 1,
+   "utr5_len": 69,
+   "exons": [
+    {
+     "transcript_exon_rank": 1,
+     "exon_id": "ENSE00001941182",
+     "exon_length_nt": 82,
+     "cdna_start_0based": 0,
+     "cdna_end_exclusive": 82,
+     "coding_nt_in_exon": 13,
+     "is_coding": true,
+     "first_protein_residue": 1,
+     "cumulative_coding_nt_through_exon": 13
+    },
+    {
+     "transcript_exon_rank": 2,
+     "exon_id": "ENSE00003671623",
+     "exon_length_nt": 37,
+     "cdna_start_0based": 82,
+     "cdna_end_exclusive": 119,
+     "coding_nt_in_exon": 37,
+     "is_coding": true,
+     "first_protein_residue": 5,
+     "cumulative_coding_nt_through_exon": 50
+    },
+    {
+     "transcript_exon_rank": 3,
+     "exon_id": "ENSE00003531289",
+     "exon_length_nt": 52,
+     "cdna_start_0based": 119,
+     "cdna_end_exclusive": 171,
+     "coding_nt_in_exon": 52,
+     "is_coding": true,
+     "first_protein_residue": 17,
+     "cumulative_coding_nt_through_exon": 102
+    },
+    {
+     "transcript_exon_rank": 4,
+     "exon_id": "ENSE00003584318",
+     "exon_length_nt": 124,
+     "cdna_start_0based": 171,
+     "cdna_end_exclusive": 295,
+     "coding_nt_in_exon": 124,
+     "is_coding": true,
+     "first_protein_residue": 35,
+     "cumulative_coding_nt_through_exon": 226
+    },
+    {
+     "transcript_exon_rank": 5,
+     "exon_id": "ENSE00003495391",
+     "exon_length_nt": 187,
+     "cdna_start_0based": 295,
+     "cdna_end_exclusive": 482,
+     "coding_nt_in_exon": 187,
+     "is_coding": true,
+     "first_protein_residue": 76,
+     "cumulative_coding_nt_through_exon": 413
+    },
+    {
+     "transcript_exon_rank": 6,
+     "exon_id": "ENSE00003523502",
+     "exon_length_nt": 168,
+     "cdna_start_0based": 482,
+     "cdna_end_exclusive": 650,
+     "coding_nt_in_exon": 168,
+     "is_coding": true,
+     "first_protein_residue": 138,
+     "cumulative_coding_nt_through_exon": 581
+    },
+    {
+     "transcript_exon_rank": 7,
+     "exon_id": "ENSE00003570564",
+     "exon_length_nt": 212,
+     "cdna_start_0based": 650,
+     "cdna_end_exclusive": 862,
+     "coding_nt_in_exon": 212,
+     "is_coding": true,
+     "first_protein_residue": 194,
+     "cumulative_coding_nt_through_exon": 793
+    },
+    {
+     "transcript_exon_rank": 8,
+     "exon_id": "ENSE00001787873",
+     "exon_length_nt": 181,
+     "cdna_start_0based": 862,
+     "cdna_end_exclusive": 1043,
+     "coding_nt_in_exon": 181,
+     "is_coding": true,
+     "first_protein_residue": 265,
+     "cumulative_coding_nt_through_exon": 974
+    },
+    {
+     "transcript_exon_rank": 9,
+     "exon_id": "ENSE00001300293",
+     "exon_length_nt": 38,
+     "cdna_start_0based": 1043,
+     "cdna_end_exclusive": 1081,
+     "coding_nt_in_exon": 38,
+     "is_coding": true,
+     "first_protein_residue": 325,
+     "cumulative_coding_nt_through_exon": 1012
+    },
+    {
+     "transcript_exon_rank": 10,
+     "exon_id": "ENSE00003554408",
+     "exon_length_nt": 33,
+     "cdna_start_0based": 1081,
+     "cdna_end_exclusive": 1114,
+     "coding_nt_in_exon": 33,
+     "is_coding": true,
+     "first_protein_residue": 338,
+     "cumulative_coding_nt_through_exon": 1045
+    },
+    {
+     "transcript_exon_rank": 11,
+     "exon_id": "ENSE00003470269",
+     "exon_length_nt": 119,
+     "cdna_start_0based": 1114,
+     "cdna_end_exclusive": 1233,
+     "coding_nt_in_exon": 119,
+     "is_coding": true,
+     "first_protein_residue": 349,
+     "cumulative_coding_nt_through_exon": 1164
+    },
+    {
+     "transcript_exon_rank": 12,
+     "exon_id": "ENSE00003524528",
+     "exon_length_nt": 130,
+     "cdna_start_0based": 1233,
+     "cdna_end_exclusive": 1363,
+     "coding_nt_in_exon": 130,
+     "is_coding": true,
+     "first_protein_residue": 389,
+     "cumulative_coding_nt_through_exon": 1294
+    },
+    {
+     "transcript_exon_rank": 13,
+     "exon_id": "ENSE00003534354",
+     "exon_length_nt": 123,
+     "cdna_start_0based": 1363,
+     "cdna_end_exclusive": 1486,
+     "coding_nt_in_exon": 123,
+     "is_coding": true,
+     "first_protein_residue": 432,
+     "cumulative_coding_nt_through_exon": 1417
+    },
+    {
+     "transcript_exon_rank": 14,
+     "exon_id": "ENSE00003589287",
+     "exon_length_nt": 163,
+     "cdna_start_0based": 1486,
+     "cdna_end_exclusive": 1649,
+     "coding_nt_in_exon": 163,
+     "is_coding": true,
+     "first_protein_residue": 473,
+     "cumulative_coding_nt_through_exon": 1580
+    },
+    {
+     "transcript_exon_rank": 15,
+     "exon_id": "ENSE00003684056",
+     "exon_length_nt": 98,
+     "cdna_start_0based": 1649,
+     "cdna_end_exclusive": 1747,
+     "coding_nt_in_exon": 98,
+     "is_coding": true,
+     "first_protein_residue": 527,
+     "cumulative_coding_nt_through_exon": 1678
+    },
+    {
+     "transcript_exon_rank": 16,
+     "exon_id": "ENSE00003513248",
+     "exon_length_nt": 253,
+     "cdna_start_0based": 1747,
+     "cdna_end_exclusive": 2000,
+     "coding_nt_in_exon": 253,
+     "is_coding": true,
+     "first_protein_residue": 560,
+     "cumulative_coding_nt_through_exon": 1931
+    },
+    {
+     "transcript_exon_rank": 17,
+     "exon_id": "ENSE00003901472",
+     "exon_length_nt": 400,
+     "cdna_start_0based": 2000,
+     "cdna_end_exclusive": 2400,
+     "coding_nt_in_exon": 40,
+     "is_coding": true,
+     "first_protein_residue": 644,
+     "cumulative_coding_nt_through_exon": 1971
+    }
+   ],
+   "self_checks": {
+    "exon_lengths_sum_equals_cdna": true,
+    "coding_nt_sum_equals_cds": true,
+    "cdna_slice_at_utr5_equals_cds": true,
+    "cds_translation_equals_protein": true,
+    "n_transcript_exons": 17,
+    "n_coding_exons": 17,
+    "first_transcript_exon_is_coding": true
+   }
+  },
+  "TAF15": {
+   "symbol": "TAF15",
+   "transcript": "ENST00000605844",
+   "translation": "ENSP00000474096",
+   "strand": 1,
+   "utr5_len": 86,
+   "exons": [
+    {
+     "transcript_exon_rank": 1,
+     "exon_id": "ENSE00003506414",
+     "exon_length_nt": 93,
+     "cdna_start_0based": 0,
+     "cdna_end_exclusive": 93,
+     "coding_nt_in_exon": 7,
+     "is_coding": true,
+     "first_protein_residue": 1,
+     "cumulative_coding_nt_through_exon": 7
+    },
+    {
+     "transcript_exon_rank": 2,
+     "exon_id": "ENSE00003594153",
+     "exon_length_nt": 40,
+     "cdna_start_0based": 93,
+     "cdna_end_exclusive": 133,
+     "coding_nt_in_exon": 40,
+     "is_coding": true,
+     "first_protein_residue": 3,
+     "cumulative_coding_nt_through_exon": 47
+    },
+    {
+     "transcript_exon_rank": 3,
+     "exon_id": "ENSE00003484588",
+     "exon_length_nt": 52,
+     "cdna_start_0based": 133,
+     "cdna_end_exclusive": 185,
+     "coding_nt_in_exon": 52,
+     "is_coding": true,
+     "first_protein_residue": 16,
+     "cumulative_coding_nt_through_exon": 99
+    },
+    {
+     "transcript_exon_rank": 4,
+     "exon_id": "ENSE00003536677",
+     "exon_length_nt": 85,
+     "cdna_start_0based": 185,
+     "cdna_end_exclusive": 270,
+     "coding_nt_in_exon": 85,
+     "is_coding": true,
+     "first_protein_residue": 34,
+     "cumulative_coding_nt_through_exon": 184
+    },
+    {
+     "transcript_exon_rank": 5,
+     "exon_id": "ENSE00003468722",
+     "exon_length_nt": 106,
+     "cdna_start_0based": 270,
+     "cdna_end_exclusive": 376,
+     "coding_nt_in_exon": 106,
+     "is_coding": true,
+     "first_protein_residue": 62,
+     "cumulative_coding_nt_through_exon": 290
+    },
+    {
+     "transcript_exon_rank": 6,
+     "exon_id": "ENSE00003636803",
+     "exon_length_nt": 194,
+     "cdna_start_0based": 376,
+     "cdna_end_exclusive": 570,
+     "coding_nt_in_exon": 194,
+     "is_coding": true,
+     "first_protein_residue": 97,
+     "cumulative_coding_nt_through_exon": 484
+    },
+    {
+     "transcript_exon_rank": 7,
+     "exon_id": "ENSE00003657247",
+     "exon_length_nt": 121,
+     "cdna_start_0based": 570,
+     "cdna_end_exclusive": 691,
+     "coding_nt_in_exon": 121,
+     "is_coding": true,
+     "first_protein_residue": 162,
+     "cumulative_coding_nt_through_exon": 605
+    },
+    {
+     "transcript_exon_rank": 8,
+     "exon_id": "ENSE00003528591",
+     "exon_length_nt": 35,
+     "cdna_start_0based": 691,
+     "cdna_end_exclusive": 726,
+     "coding_nt_in_exon": 35,
+     "is_coding": true,
+     "first_protein_residue": 202,
+     "cumulative_coding_nt_through_exon": 640
+    },
+    {
+     "transcript_exon_rank": 9,
+     "exon_id": "ENSE00003489903",
+     "exon_length_nt": 33,
+     "cdna_start_0based": 726,
+     "cdna_end_exclusive": 759,
+     "coding_nt_in_exon": 33,
+     "is_coding": true,
+     "first_protein_residue": 214,
+     "cumulative_coding_nt_through_exon": 673
+    },
+    {
+     "transcript_exon_rank": 10,
+     "exon_id": "ENSE00003687995",
+     "exon_length_nt": 110,
+     "cdna_start_0based": 759,
+     "cdna_end_exclusive": 869,
+     "coding_nt_in_exon": 110,
+     "is_coding": true,
+     "first_protein_residue": 225,
+     "cumulative_coding_nt_through_exon": 783
+    },
+    {
+     "transcript_exon_rank": 11,
+     "exon_id": "ENSE00003590400",
+     "exon_length_nt": 130,
+     "cdna_start_0based": 869,
+     "cdna_end_exclusive": 999,
+     "coding_nt_in_exon": 130,
+     "is_coding": true,
+     "first_protein_residue": 262,
+     "cumulative_coding_nt_through_exon": 913
+    },
+    {
+     "transcript_exon_rank": 12,
+     "exon_id": "ENSE00003574405",
+     "exon_length_nt": 93,
+     "cdna_start_0based": 999,
+     "cdna_end_exclusive": 1092,
+     "coding_nt_in_exon": 93,
+     "is_coding": true,
+     "first_protein_residue": 305,
+     "cumulative_coding_nt_through_exon": 1006
+    },
+    {
+     "transcript_exon_rank": 13,
+     "exon_id": "ENSE00003504314",
+     "exon_length_nt": 82,
+     "cdna_start_0based": 1092,
+     "cdna_end_exclusive": 1174,
+     "coding_nt_in_exon": 82,
+     "is_coding": true,
+     "first_protein_residue": 336,
+     "cumulative_coding_nt_through_exon": 1088
+    },
+    {
+     "transcript_exon_rank": 14,
+     "exon_id": "ENSE00003657743",
+     "exon_length_nt": 89,
+     "cdna_start_0based": 1174,
+     "cdna_end_exclusive": 1263,
+     "coding_nt_in_exon": 89,
+     "is_coding": true,
+     "first_protein_residue": 363,
+     "cumulative_coding_nt_through_exon": 1177
+    },
+    {
+     "transcript_exon_rank": 15,
+     "exon_id": "ENSE00003641314",
+     "exon_length_nt": 562,
+     "cdna_start_0based": 1263,
+     "cdna_end_exclusive": 1825,
+     "coding_nt_in_exon": 562,
+     "is_coding": true,
+     "first_protein_residue": 393,
+     "cumulative_coding_nt_through_exon": 1739
+    },
+    {
+     "transcript_exon_rank": 16,
+     "exon_id": "ENSE00003572275",
+     "exon_length_nt": 337,
+     "cdna_start_0based": 1825,
+     "cdna_end_exclusive": 2162,
+     "coding_nt_in_exon": 40,
+     "is_coding": true,
+     "first_protein_residue": 580,
+     "cumulative_coding_nt_through_exon": 1779
+    }
+   ],
+   "self_checks": {
+    "exon_lengths_sum_equals_cdna": true,
+    "coding_nt_sum_equals_cds": true,
+    "cdna_slice_at_utr5_equals_cds": true,
+    "cds_translation_equals_protein": true,
+    "n_transcript_exons": 16,
+    "n_coding_exons": 16,
+    "first_transcript_exon_is_coding": true
+   }
+  },
+  "FUS": {
+   "symbol": "FUS",
+   "transcript": "ENST00000254108",
+   "translation": "ENSP00000254108",
+   "strand": 1,
+   "utr5_len": 76,
+   "exons": [
+    {
+     "transcript_exon_rank": 1,
+     "exon_id": "ENSE00003903481",
+     "exon_length_nt": 89,
+     "cdna_start_0based": 0,
+     "cdna_end_exclusive": 89,
+     "coding_nt_in_exon": 13,
+     "is_coding": true,
+     "first_protein_residue": 1,
+     "cumulative_coding_nt_through_exon": 13
+    },
+    {
+     "transcript_exon_rank": 2,
+     "exon_id": "ENSE00003475065",
+     "exon_length_nt": 25,
+     "cdna_start_0based": 89,
+     "cdna_end_exclusive": 114,
+     "coding_nt_in_exon": 25,
+     "is_coding": true,
+     "first_protein_residue": 5,
+     "cumulative_coding_nt_through_exon": 38
+    },
+    {
+     "transcript_exon_rank": 3,
+     "exon_id": "ENSE00003630677",
+     "exon_length_nt": 152,
+     "cdna_start_0based": 114,
+     "cdna_end_exclusive": 266,
+     "coding_nt_in_exon": 152,
+     "is_coding": true,
+     "first_protein_residue": 13,
+     "cumulative_coding_nt_through_exon": 190
+    },
+    {
+     "transcript_exon_rank": 4,
+     "exon_id": "ENSE00003599547",
+     "exon_length_nt": 145,
+     "cdna_start_0based": 266,
+     "cdna_end_exclusive": 411,
+     "coding_nt_in_exon": 145,
+     "is_coding": true,
+     "first_protein_residue": 64,
+     "cumulative_coding_nt_through_exon": 335
+    },
+    {
+     "transcript_exon_rank": 5,
+     "exon_id": "ENSE00003537617",
+     "exon_length_nt": 188,
+     "cdna_start_0based": 411,
+     "cdna_end_exclusive": 599,
+     "coding_nt_in_exon": 188,
+     "is_coding": true,
+     "first_protein_residue": 112,
+     "cumulative_coding_nt_through_exon": 523
+    },
+    {
+     "transcript_exon_rank": 6,
+     "exon_id": "ENSE00001791812",
+     "exon_length_nt": 241,
+     "cdna_start_0based": 599,
+     "cdna_end_exclusive": 840,
+     "coding_nt_in_exon": 241,
+     "is_coding": true,
+     "first_protein_residue": 175,
+     "cumulative_coding_nt_through_exon": 764
+    },
+    {
+     "transcript_exon_rank": 7,
+     "exon_id": "ENSE00004027052",
+     "exon_length_nt": 35,
+     "cdna_start_0based": 840,
+     "cdna_end_exclusive": 875,
+     "coding_nt_in_exon": 35,
+     "is_coding": true,
+     "first_protein_residue": 255,
+     "cumulative_coding_nt_through_exon": 799
+    },
+    {
+     "transcript_exon_rank": 8,
+     "exon_id": "ENSE00004027046",
+     "exon_length_nt": 33,
+     "cdna_start_0based": 875,
+     "cdna_end_exclusive": 908,
+     "coding_nt_in_exon": 33,
+     "is_coding": true,
+     "first_protein_residue": 267,
+     "cumulative_coding_nt_through_exon": 832
+    },
+    {
+     "transcript_exon_rank": 9,
+     "exon_id": "ENSE00003524436",
+     "exon_length_nt": 104,
+     "cdna_start_0based": 908,
+     "cdna_end_exclusive": 1012,
+     "coding_nt_in_exon": 104,
+     "is_coding": true,
+     "first_protein_residue": 278,
+     "cumulative_coding_nt_through_exon": 936
+    },
+    {
+     "transcript_exon_rank": 10,
+     "exon_id": "ENSE00003534484",
+     "exon_length_nt": 130,
+     "cdna_start_0based": 1012,
+     "cdna_end_exclusive": 1142,
+     "coding_nt_in_exon": 130,
+     "is_coding": true,
+     "first_protein_residue": 313,
+     "cumulative_coding_nt_through_exon": 1066
+    },
+    {
+     "transcript_exon_rank": 11,
+     "exon_id": "ENSE00003653971",
+     "exon_length_nt": 102,
+     "cdna_start_0based": 1142,
+     "cdna_end_exclusive": 1244,
+     "coding_nt_in_exon": 102,
+     "is_coding": true,
+     "first_protein_residue": 356,
+     "cumulative_coding_nt_through_exon": 1168
+    },
+    {
+     "transcript_exon_rank": 12,
+     "exon_id": "ENSE00003604625",
+     "exon_length_nt": 124,
+     "cdna_start_0based": 1244,
+     "cdna_end_exclusive": 1368,
+     "coding_nt_in_exon": 124,
+     "is_coding": true,
+     "first_protein_residue": 390,
+     "cumulative_coding_nt_through_exon": 1292
+    },
+    {
+     "transcript_exon_rank": 13,
+     "exon_id": "ENSE00003494295",
+     "exon_length_nt": 101,
+     "cdna_start_0based": 1368,
+     "cdna_end_exclusive": 1469,
+     "coding_nt_in_exon": 101,
+     "is_coding": true,
+     "first_protein_residue": 431,
+     "cumulative_coding_nt_through_exon": 1393
+    },
+    {
+     "transcript_exon_rank": 14,
+     "exon_id": "ENSE00003637572",
+     "exon_length_nt": 148,
+     "cdna_start_0based": 1469,
+     "cdna_end_exclusive": 1617,
+     "coding_nt_in_exon": 148,
+     "is_coding": true,
+     "first_protein_residue": 465,
+     "cumulative_coding_nt_through_exon": 1541
+    },
+    {
+     "transcript_exon_rank": 15,
+     "exon_id": "ENSE00004027047",
+     "exon_length_nt": 207,
+     "cdna_start_0based": 1617,
+     "cdna_end_exclusive": 1824,
+     "coding_nt_in_exon": 40,
+     "is_coding": true,
+     "first_protein_residue": 514,
+     "cumulative_coding_nt_through_exon": 1581
+    }
+   ],
+   "self_checks": {
+    "exon_lengths_sum_equals_cdna": true,
+    "coding_nt_sum_equals_cds": true,
+    "cdna_slice_at_utr5_equals_cds": true,
+    "cds_translation_equals_protein": true,
+    "n_transcript_exons": 15,
+    "n_coding_exons": 15,
+    "first_transcript_exon_is_coding": true
+   }
+  },
+  "TCF12": {
+   "symbol": "TCF12",
+   "transcript": "ENST00000333725",
+   "translation": "ENSP00000331057",
+   "strand": 1,
+   "utr5_len": 285,
+   "exons": [
+    {
+     "transcript_exon_rank": 1,
+     "exon_id": "ENSE00001857959",
+     "exon_length_nt": 263,
+     "cdna_start_0based": 0,
+     "cdna_end_exclusive": 263,
+     "coding_nt_in_exon": 0,
+     "is_coding": false
+    },
+    {
+     "transcript_exon_rank": 2,
+     "exon_id": "ENSE00003647364",
+     "exon_length_nt": 97,
+     "cdna_start_0based": 263,
+     "cdna_end_exclusive": 360,
+     "coding_nt_in_exon": 75,
+     "is_coding": true,
+     "first_protein_residue": 1,
+     "cumulative_coding_nt_through_exon": 75
+    },
+    {
+     "transcript_exon_rank": 3,
+     "exon_id": "ENSE00003568449",
+     "exon_length_nt": 73,
+     "cdna_start_0based": 360,
+     "cdna_end_exclusive": 433,
+     "coding_nt_in_exon": 73,
+     "is_coding": true,
+     "first_protein_residue": 26,
+     "cumulative_coding_nt_through_exon": 148
+    },
+    {
+     "transcript_exon_rank": 4,
+     "exon_id": "ENSE00003606443",
+     "exon_length_nt": 74,
+     "cdna_start_0based": 433,
+     "cdna_end_exclusive": 507,
+     "coding_nt_in_exon": 74,
+     "is_coding": true,
+     "first_protein_residue": 50,
+     "cumulative_coding_nt_through_exon": 222
+    },
+    {
+     "transcript_exon_rank": 5,
+     "exon_id": "ENSE00003651986",
+     "exon_length_nt": 103,
+     "cdna_start_0based": 507,
+     "cdna_end_exclusive": 610,
+     "coding_nt_in_exon": 103,
+     "is_coding": true,
+     "first_protein_residue": 75,
+     "cumulative_coding_nt_through_exon": 325
+    },
+    {
+     "transcript_exon_rank": 6,
+     "exon_id": "ENSE00003473844",
+     "exon_length_nt": 65,
+     "cdna_start_0based": 610,
+     "cdna_end_exclusive": 675,
+     "coding_nt_in_exon": 65,
+     "is_coding": true,
+     "first_protein_residue": 109,
+     "cumulative_coding_nt_through_exon": 390
+    },
+    {
+     "transcript_exon_rank": 7,
+     "exon_id": "ENSE00003474900",
+     "exon_length_nt": 136,
+     "cdna_start_0based": 675,
+     "cdna_end_exclusive": 811,
+     "coding_nt_in_exon": 136,
+     "is_coding": true,
+     "first_protein_residue": 131,
+     "cumulative_coding_nt_through_exon": 526
+    },
+    {
+     "transcript_exon_rank": 8,
+     "exon_id": "ENSE00003503784",
+     "exon_length_nt": 53,
+     "cdna_start_0based": 811,
+     "cdna_end_exclusive": 864,
+     "coding_nt_in_exon": 53,
+     "is_coding": true,
+     "first_protein_residue": 176,
+     "cumulative_coding_nt_through_exon": 579
+    },
+    {
+     "transcript_exon_rank": 9,
+     "exon_id": "ENSE00003623588",
+     "exon_length_nt": 106,
+     "cdna_start_0based": 864,
+     "cdna_end_exclusive": 970,
+     "coding_nt_in_exon": 106,
+     "is_coding": true,
+     "first_protein_residue": 194,
+     "cumulative_coding_nt_through_exon": 685
+    },
+    {
+     "transcript_exon_rank": 10,
+     "exon_id": "ENSE00003523777",
+     "exon_length_nt": 140,
+     "cdna_start_0based": 970,
+     "cdna_end_exclusive": 1110,
+     "coding_nt_in_exon": 140,
+     "is_coding": true,
+     "first_protein_residue": 229,
+     "cumulative_coding_nt_through_exon": 825
+    },
+    {
+     "transcript_exon_rank": 11,
+     "exon_id": "ENSE00003558492",
+     "exon_length_nt": 145,
+     "cdna_start_0based": 1110,
+     "cdna_end_exclusive": 1255,
+     "coding_nt_in_exon": 145,
+     "is_coding": true,
+     "first_protein_residue": 276,
+     "cumulative_coding_nt_through_exon": 970
+    },
+    {
+     "transcript_exon_rank": 12,
+     "exon_id": "ENSE00003630817",
+     "exon_length_nt": 65,
+     "cdna_start_0based": 1255,
+     "cdna_end_exclusive": 1320,
+     "coding_nt_in_exon": 65,
+     "is_coding": true,
+     "first_protein_residue": 324,
+     "cumulative_coding_nt_through_exon": 1035
+    },
+    {
+     "transcript_exon_rank": 13,
+     "exon_id": "ENSE00003524068",
+     "exon_length_nt": 79,
+     "cdna_start_0based": 1320,
+     "cdna_end_exclusive": 1399,
+     "coding_nt_in_exon": 79,
+     "is_coding": true,
+     "first_protein_residue": 346,
+     "cumulative_coding_nt_through_exon": 1114
+    },
+    {
+     "transcript_exon_rank": 14,
+     "exon_id": "ENSE00003489614",
+     "exon_length_nt": 74,
+     "cdna_start_0based": 1399,
+     "cdna_end_exclusive": 1473,
+     "coding_nt_in_exon": 74,
+     "is_coding": true,
+     "first_protein_residue": 372,
+     "cumulative_coding_nt_through_exon": 1188
+    },
+    {
+     "transcript_exon_rank": 15,
+     "exon_id": "ENSE00003636796",
+     "exon_length_nt": 72,
+     "cdna_start_0based": 1473,
+     "cdna_end_exclusive": 1545,
+     "coding_nt_in_exon": 72,
+     "is_coding": true,
+     "first_protein_residue": 397,
+     "cumulative_coding_nt_through_exon": 1260
+    },
+    {
+     "transcript_exon_rank": 16,
+     "exon_id": "ENSE00003520324",
+     "exon_length_nt": 207,
+     "cdna_start_0based": 1545,
+     "cdna_end_exclusive": 1752,
+     "coding_nt_in_exon": 207,
+     "is_coding": true,
+     "first_protein_residue": 421,
+     "cumulative_coding_nt_through_exon": 1467
+    },
+    {
+     "transcript_exon_rank": 17,
+     "exon_id": "ENSE00003621902",
+     "exon_length_nt": 115,
+     "cdna_start_0based": 1752,
+     "cdna_end_exclusive": 1867,
+     "coding_nt_in_exon": 115,
+     "is_coding": true,
+     "first_protein_residue": 490,
+     "cumulative_coding_nt_through_exon": 1582
+    },
+    {
+     "transcript_exon_rank": 18,
+     "exon_id": "ENSE00003605283",
+     "exon_length_nt": 163,
+     "cdna_start_0based": 1867,
+     "cdna_end_exclusive": 2030,
+     "coding_nt_in_exon": 163,
+     "is_coding": true,
+     "first_protein_residue": 528,
+     "cumulative_coding_nt_through_exon": 1745
+    },
+    {
+     "transcript_exon_rank": 19,
+     "exon_id": "ENSE00003569678",
+     "exon_length_nt": 233,
+     "cdna_start_0based": 2030,
+     "cdna_end_exclusive": 2263,
+     "coding_nt_in_exon": 233,
+     "is_coding": true,
+     "first_protein_residue": 582,
+     "cumulative_coding_nt_through_exon": 1978
+    },
+    {
+     "transcript_exon_rank": 20,
+     "exon_id": "ENSE00003635680",
+     "exon_length_nt": 154,
+     "cdna_start_0based": 2263,
+     "cdna_end_exclusive": 2417,
+     "coding_nt_in_exon": 143,
+     "is_coding": true,
+     "first_protein_residue": 660,
+     "cumulative_coding_nt_through_exon": 2121
+    },
+    {
+     "transcript_exon_rank": 21,
+     "exon_id": "ENSE00003899694",
+     "exon_length_nt": 3697,
+     "cdna_start_0based": 2417,
+     "cdna_end_exclusive": 6114,
+     "coding_nt_in_exon": 0,
+     "is_coding": false
+    }
+   ],
+   "self_checks": {
+    "exon_lengths_sum_equals_cdna": true,
+    "coding_nt_sum_equals_cds": true,
+    "cdna_slice_at_utr5_equals_cds": true,
+    "cds_translation_equals_protein": true,
+    "n_transcript_exons": 21,
+    "n_coding_exons": 19,
+    "first_transcript_exon_is_coding": false
+   }
+  },
+  "NR4A3": {
+   "symbol": "NR4A3",
+   "transcript": "ENST00000395097",
+   "translation": "ENSP00000378531",
+   "strand": 1,
+   "utr5_len": 699,
+   "exons": [
+    {
+     "transcript_exon_rank": 1,
+     "exon_id": "ENSE00003850329",
+     "exon_length_nt": 523,
+     "cdna_start_0based": 0,
+     "cdna_end_exclusive": 523,
+     "coding_nt_in_exon": 0,
+     "is_coding": false
+    },
+    {
+     "transcript_exon_rank": 2,
+     "exon_id": "ENSE00001409394",
+     "exon_length_nt": 174,
+     "cdna_start_0based": 523,
+     "cdna_end_exclusive": 697,
+     "coding_nt_in_exon": 0,
+     "is_coding": false
+    },
+    {
+     "transcript_exon_rank": 3,
+     "exon_id": "ENSE00003527866",
+     "exon_length_nt": 953,
+     "cdna_start_0based": 697,
+     "cdna_end_exclusive": 1650,
+     "coding_nt_in_exon": 951,
+     "is_coding": true,
+     "first_protein_residue": 1,
+     "cumulative_coding_nt_through_exon": 951
+    },
+    {
+     "transcript_exon_rank": 4,
+     "exon_id": "ENSE00000805727",
+     "exon_length_nt": 130,
+     "cdna_start_0based": 1650,
+     "cdna_end_exclusive": 1780,
+     "coding_nt_in_exon": 130,
+     "is_coding": true,
+     "first_protein_residue": 318,
+     "cumulative_coding_nt_through_exon": 1081
+    },
+    {
+     "transcript_exon_rank": 5,
+     "exon_id": "ENSE00001384030",
+     "exon_length_nt": 173,
+     "cdna_start_0based": 1780,
+     "cdna_end_exclusive": 1953,
+     "coding_nt_in_exon": 173,
+     "is_coding": true,
+     "first_protein_residue": 361,
+     "cumulative_coding_nt_through_exon": 1254
+    },
+    {
+     "transcript_exon_rank": 6,
+     "exon_id": "ENSE00000805731",
+     "exon_length_nt": 200,
+     "cdna_start_0based": 1953,
+     "cdna_end_exclusive": 2153,
+     "coding_nt_in_exon": 200,
+     "is_coding": true,
+     "first_protein_residue": 419,
+     "cumulative_coding_nt_through_exon": 1454
+    },
+    {
+     "transcript_exon_rank": 7,
+     "exon_id": "ENSE00000805733",
+     "exon_length_nt": 179,
+     "cdna_start_0based": 2153,
+     "cdna_end_exclusive": 2332,
+     "coding_nt_in_exon": 179,
+     "is_coding": true,
+     "first_protein_residue": 485,
+     "cumulative_coding_nt_through_exon": 1633
+    },
+    {
+     "transcript_exon_rank": 8,
+     "exon_id": "ENSE00001389327",
+     "exon_length_nt": 3272,
+     "cdna_start_0based": 2332,
+     "cdna_end_exclusive": 5604,
+     "coding_nt_in_exon": 248,
+     "is_coding": true,
+     "first_protein_residue": 545,
+     "cumulative_coding_nt_through_exon": 1881
+    }
+   ],
+   "self_checks": {
+    "exon_lengths_sum_equals_cdna": true,
+    "coding_nt_sum_equals_cds": true,
+    "cdna_slice_at_utr5_equals_cds": true,
+    "cds_translation_equals_protein": true,
+    "n_transcript_exons": 8,
+    "n_coding_exons": 6,
+    "first_transcript_exon_is_coding": false
+   }
+  }
+ },
+ "ensembl_vs_uniprot_sequences": {
+  "EWSR1": {
+   "ensembl_len": 656,
+   "uniprot_len": 656,
+   "identical": true,
+   "_meaning": "false is not automatically an error \u2014 the two databases can choose different canonical isoforms \u2014 but it means a UniProt-numbered literature statement must be converted before it is compared with anything here, and it means this module's RG counts may differ from emc-fet-idr-census.json, which computes them on the UniProt sequence."
+  },
+  "TAF15": {
+   "ensembl_len": 592,
+   "uniprot_len": 592,
+   "identical": true,
+   "_meaning": "false is not automatically an error \u2014 the two databases can choose different canonical isoforms \u2014 but it means a UniProt-numbered literature statement must be converted before it is compared with anything here, and it means this module's RG counts may differ from emc-fet-idr-census.json, which computes them on the UniProt sequence."
+  },
+  "FUS": {
+   "ensembl_len": 526,
+   "uniprot_len": 526,
+   "identical": true,
+   "_meaning": "false is not automatically an error \u2014 the two databases can choose different canonical isoforms \u2014 but it means a UniProt-numbered literature statement must be converted before it is compared with anything here, and it means this module's RG counts may differ from emc-fet-idr-census.json, which computes them on the UniProt sequence."
+  },
+  "TCF12": {
+   "ensembl_len": 706,
+   "uniprot_len": 682,
+   "identical": false,
+   "_meaning": "false is not automatically an error \u2014 the two databases can choose different canonical isoforms \u2014 but it means a UniProt-numbered literature statement must be converted before it is compared with anything here, and it means this module's RG counts may differ from emc-fet-idr-census.json, which computes them on the UniProt sequence."
+  },
+  "NR4A3": {
+   "ensembl_len": 626,
+   "uniprot_len": 626,
+   "identical": true,
+   "_meaning": "false is not automatically an error \u2014 the two databases can choose different canonical isoforms \u2014 but it means a UniProt-numbered literature statement must be converted before it is compared with anything here, and it means this module's RG counts may differ from emc-fet-idr-census.json, which computes them on the UniProt sequence."
+  }
+ },
+ "gene_model_self_checks_all_pass": true,
+ "_self_check_keys_aggregated": [
+  "exon_lengths_sum_equals_cdna",
+  "coding_nt_sum_equals_cds",
+  "cdna_slice_at_utr5_equals_cds",
+  "cds_translation_equals_protein"
+ ],
+ "nr4a3_landmarks_read_from_the_audit": {
+  "c4_zinc_finger_first_cysteine": 292,
+  "lbd_start": 373,
+  "_home": "nr4a3-exon-audit.json / nr4a3_exon_audit.NR4A3_LBD_START"
+ },
+ "constructs": [
+  {
+   "id": "EWSR1_NR4A3_type1",
+   "label": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+   "reported_rank": "the commonest reported EWSR1::NR4A3 transcript type",
+   "breakpoint_sources": [
+    {
+     "id": "PMC3335514",
+     "quote": "The most common fusion transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript."
+    },
+    {
+     "id": "PMC4055444",
+     "quote": "The most frequent are: type 1, for the fusion between exons 12 of EWS and 3 of CHN, and type 5, between exons 13 of EWS and 3 of CHN."
+    },
+    {
+     "id": "PMC4015728 (Agaram 2014) \u2014 RT-PCR primer design",
+     "quote": "EWSR1 exon 12 forward ... and NR4A3 reverse A exon 3 ... for the type 1 EWSR1-NR4A3 fusion (109 base pair product)"
+    },
+    {
+     "id": "PMC6766969 \u2014 an EXPRESSED construct with this architecture",
+     "quote": "E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)"
+    }
+   ],
+   "junction_in_exon_numbering": {
+    "five_prime_gene": "EWSR1",
+    "five_prime_transcript": "ENST00000397938",
+    "five_prime_last_exon_retained_transcript_rank": 12,
+    "three_prime_gene": "NR4A3",
+    "three_prime_transcript": "ENST00000395097",
+    "three_prime_first_exon_retained_transcript_rank": 3,
+    "_numbering_scheme": "TRANSCRIPT exon rank on the Ensembl canonical transcript \u2014 the scheme the EMC literature uses. The CODING-exon index differs whenever leading exons are non-coding (NR4A3: exons 1-2 non-coding), and confusing the two is the documented off-by-two this module exists to avoid."
+   },
+   "junction_in_nucleotide_numbering": {
+    "five_prime_cdna_nt_retained": 1363,
+    "five_prime_coding_nt_retained": 1294,
+    "five_prime_utr5_len_nt": 69,
+    "three_prime_cdna_resume_offset_0based": 697,
+    "three_prime_utr_nt_read_through": 2,
+    "fusion_cdna_len_nt": 6270,
+    "fusion_orf_len_nt": 3174
+   },
+   "junction_in_residue_numbering": {
+    "five_prime_residues_fully_encoded": 431,
+    "codon_split_across_the_junction": true,
+    "seam_residue_index_1based": 432,
+    "junction_context_aa": "TAKAAVEWFD|DMPCVQAQYS",
+    "junction_context_nt": "AATGGTTTGATG|ATATGCCCTGCG"
+   },
+   "self_checks": {
+    "five_prime_start_matches_partner": true,
+    "three_prime_c_terminus_intact": true,
+    "in_frame": true,
+    "_meaning": "in_frame == false means the reported exon junction does NOT produce an ORF containing both partners' termini on the canonical transcripts. That is reported, not repaired."
+   },
+   "domains_retained_and_lost": {
+    "five_prime_FET_half": {
+     "residues_retained": "EWSR1(1-431)",
+     "n_terminal_composition": {
+      "span": [
+       1,
+       431
+      ],
+      "length": 431,
+      "sygq_fraction": 0.473
+     },
+     "rg_dipeptides_retained": 8,
+     "rg_dipeptides_total_in_wildtype": 30,
+     "fraction_of_wildtype_RG_retained": 0.267,
+     "rgg_boxes_touched": 1,
+     "rgg_free_ceiling_of_wildtype": 299,
+     "census_precondition_verdict": "NOT_MET \u2014 the retained segment carries 8 RG dipeptide(s)",
+     "_what_is_lost": "EWSR1 residues 432-656, including the C-terminal RGG-rich region beyond the retained segment"
+    },
+    "three_prime_NR4A3_half": {
+     "nr4a3_first_residue_retained": 1,
+     "retains_AF1": true,
+     "retains_C4_zinc_finger_DBD": true,
+     "retains_LBD": true,
+     "retains_C166": true,
+     "_provenance": "zinc-finger first cysteine and LBD start are READ from nr4a3-exon-audit.json / nr4a3_exon_audit.NR4A3_LBD_START, not typed"
+    },
+    "n_extra_junction_encoded_residues": 1
+   },
+   "protein_sequence": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQSSFRQDHPSSMGVYGQESGGFSGPGENRSMSGPDNRGRGRGGFDRGGMSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFDDMPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+   "protein_length_aa": 1058,
+   "_protein_sequence_withheld_reason": null
+  },
+  {
+   "id": "EWSR1_NR4A3_type2",
+   "label": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+   "reported_rank": "the second reported EWSR1::NR4A3 transcript type",
+   "breakpoint_sources": [
+    {
+     "id": "PMC3335514",
+     "quote": "exon 7 of EWSR1 is fused to exon 2 of NR4A3 in the type 2 fusion transcript"
+    },
+    {
+     "id": "PMC4015728 (Agaram 2014) \u2014 RT-PCR primer design",
+     "quote": "EWSR1 exon 7 forward ... and NR4A3 reverse B exon 2 ... for the type 2 fusion (201 base pair product)"
+    }
+   ],
+   "junction_in_exon_numbering": {
+    "five_prime_gene": "EWSR1",
+    "five_prime_transcript": "ENST00000397938",
+    "five_prime_last_exon_retained_transcript_rank": 7,
+    "three_prime_gene": "NR4A3",
+    "three_prime_transcript": "ENST00000395097",
+    "three_prime_first_exon_retained_transcript_rank": 2,
+    "_numbering_scheme": "TRANSCRIPT exon rank on the Ensembl canonical transcript \u2014 the scheme the EMC literature uses. The CODING-exon index differs whenever leading exons are non-coding (NR4A3: exons 1-2 non-coding), and confusing the two is the documented off-by-two this module exists to avoid."
+   },
+   "junction_in_nucleotide_numbering": {
+    "five_prime_cdna_nt_retained": 862,
+    "five_prime_coding_nt_retained": 793,
+    "five_prime_utr5_len_nt": 69,
+    "three_prime_cdna_resume_offset_0based": 523,
+    "three_prime_utr_nt_read_through": 176,
+    "fusion_cdna_len_nt": 5943,
+    "fusion_orf_len_nt": 2847
+   },
+   "junction_in_residue_numbering": {
+    "five_prime_residues_fully_encoded": 264,
+    "codon_split_across_the_junction": true,
+    "seam_residue_index_1based": 265,
+    "junction_context_aa": "SQQSSSYGQQ|KPTAEEGSPA",
+    "junction_context_nt": "ACGGGCAGCAGA|AGCCCACTGCGG"
+   },
+   "self_checks": {
+    "five_prime_start_matches_partner": true,
+    "three_prime_c_terminus_intact": true,
+    "in_frame": true,
+    "_meaning": "in_frame == false means the reported exon junction does NOT produce an ORF containing both partners' termini on the canonical transcripts. That is reported, not repaired."
+   },
+   "domains_retained_and_lost": {
+    "five_prime_FET_half": {
+     "residues_retained": "EWSR1(1-264)",
+     "n_terminal_composition": {
+      "span": [
+       1,
+       264
+      ],
+      "length": 264,
+      "sygq_fraction": 0.561
+     },
+     "rg_dipeptides_retained": 0,
+     "rg_dipeptides_total_in_wildtype": 30,
+     "fraction_of_wildtype_RG_retained": 0.0,
+     "rgg_boxes_touched": 0,
+     "rgg_free_ceiling_of_wildtype": 299,
+     "census_precondition_verdict": "PRECONDITION_MET \u2014 retains the FET N-terminus, retains no RG dipeptide",
+     "_what_is_lost": "EWSR1 residues 265-656, including the C-terminal RGG-rich region beyond the retained segment"
+    },
+    "three_prime_NR4A3_half": {
+     "nr4a3_first_residue_retained": 1,
+     "retains_AF1": true,
+     "retains_C4_zinc_finger_DBD": true,
+     "retains_LBD": true,
+     "retains_C166": true,
+     "_provenance": "zinc-finger first cysteine and LBD start are READ from nr4a3-exon-audit.json / nr4a3_exon_audit.NR4A3_LBD_START, not typed"
+    },
+    "n_extra_junction_encoded_residues": 59
+   },
+   "protein_sequence": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQKPTAEEGSPASPGPEPGPLAVPGSTAGASPRRTSAPPTLSASAGETPSPTIQRARYPPDMPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+   "protein_length_aa": 949,
+   "_protein_sequence_withheld_reason": null,
+   "_note": "NR4A3 transcript exon 2 is entirely NON-CODING on the canonical transcript (nr4a3-exon-audit.json), so this junction splices EWSR1 into NR4A3 5'-UTR and the frame of everything downstream is decided by that UTR's length. This is computed below, not assumed, and it is exactly the kind of junction the repo's earlier off-by-two got wrong."
+  },
+  {
+   "id": "EWSR1_NR4A3_type5",
+   "label": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+   "reported_rank": "a minority reported type",
+   "breakpoint_sources": [
+    {
+     "id": "PMC4055444",
+     "quote": "type 5, between exons 13 of EWS and 3 of CHN"
+    },
+    {
+     "id": "PMC2395470 (CTOS 2001 abstract \u2014 a counted series)",
+     "quote": "The most frequent EWS/CHN transcript (10 tumors), was fusion of exon 12 of EWS with exon 3 of CHN (type 1), followed by fusion of exon 13 of EWS with exon 3 of CHN (two cases; type 5)."
+    }
+   ],
+   "junction_in_exon_numbering": {
+    "five_prime_gene": "EWSR1",
+    "five_prime_transcript": "ENST00000397938",
+    "five_prime_last_exon_retained_transcript_rank": 13,
+    "three_prime_gene": "NR4A3",
+    "three_prime_transcript": "ENST00000395097",
+    "three_prime_first_exon_retained_transcript_rank": 3,
+    "_numbering_scheme": "TRANSCRIPT exon rank on the Ensembl canonical transcript \u2014 the scheme the EMC literature uses. The CODING-exon index differs whenever leading exons are non-coding (NR4A3: exons 1-2 non-coding), and confusing the two is the documented off-by-two this module exists to avoid."
+   },
+   "junction_in_nucleotide_numbering": {
+    "five_prime_cdna_nt_retained": 1486,
+    "five_prime_coding_nt_retained": 1417,
+    "five_prime_utr5_len_nt": 69,
+    "three_prime_cdna_resume_offset_0based": 697,
+    "three_prime_utr_nt_read_through": 2,
+    "fusion_cdna_len_nt": 6393,
+    "fusion_orf_len_nt": 3297
+   },
+   "junction_in_residue_numbering": {
+    "five_prime_residues_fully_encoded": 472,
+    "codon_split_across_the_junction": true,
+    "seam_residue_index_1based": 473,
+    "junction_context_aa": "GRGMPPPLRG|DMPCVQAQYS",
+    "junction_context_nt": "CACTCCGTGGAG|ATATGCCCTGCG"
+   },
+   "self_checks": {
+    "five_prime_start_matches_partner": true,
+    "three_prime_c_terminus_intact": true,
+    "in_frame": true,
+    "_meaning": "in_frame == false means the reported exon junction does NOT produce an ORF containing both partners' termini on the canonical transcripts. That is reported, not repaired."
+   },
+   "domains_retained_and_lost": {
+    "five_prime_FET_half": {
+     "residues_retained": "EWSR1(1-472)",
+     "n_terminal_composition": {
+      "span": [
+       1,
+       472
+      ],
+      "length": 472,
+      "sygq_fraction": 0.456
+     },
+     "rg_dipeptides_retained": 11,
+     "rg_dipeptides_total_in_wildtype": 30,
+     "fraction_of_wildtype_RG_retained": 0.367,
+     "rgg_boxes_touched": 2,
+     "rgg_free_ceiling_of_wildtype": 299,
+     "census_precondition_verdict": "NOT_MET \u2014 the retained segment carries 11 RG dipeptide(s)",
+     "_what_is_lost": "EWSR1 residues 473-656, including the C-terminal RGG-rich region beyond the retained segment"
+    },
+    "three_prime_NR4A3_half": {
+     "nr4a3_first_residue_retained": 1,
+     "retains_AF1": true,
+     "retains_C4_zinc_finger_DBD": true,
+     "retains_LBD": true,
+     "retains_C166": true,
+     "_provenance": "zinc-finger first cysteine and LBD start are READ from nr4a3-exon-audit.json / nr4a3_exon_audit.NR4A3_LBD_START, not typed"
+    },
+    "n_extra_junction_encoded_residues": 1
+   },
+   "protein_sequence": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQSSFRQDHPSSMGVYGQESGGFSGPGENRSMSGPDNRGRGRGGFDRGGMSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFDGKDFQGSKLKVSLARKKPPMNSMRGGLPPREGRGMPPPLRGDMPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+   "protein_length_aa": 1099,
+   "_protein_sequence_withheld_reason": null
+  },
+  {
+   "id": "TAF15_NR4A3",
+   "label": "TAF15::NR4A3 \u2014 TAF15 exon 6 :: NR4A3 exon 3",
+   "reported_rank": "the only reported TAF15::NR4A3 coding junction",
+   "breakpoint_sources": [
+    {
+     "id": "PMC3335514",
+     "quote": "In the TAF15-NR4A3 fusion transcript, exon 6 of TAF15 is fused exclusively to exon 3 of NR4A3"
+    },
+    {
+     "id": "PMC4055444",
+     "quote": "The chimeric gene RBP56/CHN is always formed by fusion between exons 6 of RBP56 and 3 of CHN."
+    },
+    {
+     "id": "PMC2395470 (CTOS 2001 abstract \u2014 a counted series)",
+     "quote": "In tumors with RBP56/CHN fusion, exon 6 of RBP56 was fused to exon 3 of CHN."
+    },
+    {
+     "id": "PMC6766969 \u2014 an EXPRESSED construct with this architecture",
+     "quote": "T-N*, corresponding to the commonest TAF15 (exons 1-6)-NR4A3 (exons 3-8) fusion"
+    }
+   ],
+   "junction_in_exon_numbering": {
+    "five_prime_gene": "TAF15",
+    "five_prime_transcript": "ENST00000605844",
+    "five_prime_last_exon_retained_transcript_rank": 6,
+    "three_prime_gene": "NR4A3",
+    "three_prime_transcript": "ENST00000395097",
+    "three_prime_first_exon_retained_transcript_rank": 3,
+    "_numbering_scheme": "TRANSCRIPT exon rank on the Ensembl canonical transcript \u2014 the scheme the EMC literature uses. The CODING-exon index differs whenever leading exons are non-coding (NR4A3: exons 1-2 non-coding), and confusing the two is the documented off-by-two this module exists to avoid."
+   },
+   "junction_in_nucleotide_numbering": {
+    "five_prime_cdna_nt_retained": 570,
+    "five_prime_coding_nt_retained": 484,
+    "five_prime_utr5_len_nt": 86,
+    "three_prime_cdna_resume_offset_0based": 697,
+    "three_prime_utr_nt_read_through": 2,
+    "fusion_cdna_len_nt": 5477,
+    "fusion_orf_len_nt": 2364
+   },
+   "junction_in_residue_numbering": {
+    "five_prime_residues_fully_encoded": 161,
+    "codon_split_across_the_junction": true,
+    "seam_residue_index_1based": 162,
+    "junction_context_aa": "QRENYSHHTQ|DMPCVQAQYS",
+    "junction_context_nt": "ACCACACACAAG|ATATGCCCTGCG"
+   },
+   "self_checks": {
+    "five_prime_start_matches_partner": true,
+    "three_prime_c_terminus_intact": true,
+    "in_frame": true,
+    "_meaning": "in_frame == false means the reported exon junction does NOT produce an ORF containing both partners' termini on the canonical transcripts. That is reported, not repaired."
+   },
+   "domains_retained_and_lost": {
+    "five_prime_FET_half": {
+     "residues_retained": "TAF15(1-161)",
+     "n_terminal_composition": {
+      "span": [
+       1,
+       161
+      ],
+      "length": 161,
+      "sygq_fraction": 0.727
+     },
+     "rg_dipeptides_retained": 0,
+     "rg_dipeptides_total_in_wildtype": 31,
+     "fraction_of_wildtype_RG_retained": 0.0,
+     "rgg_boxes_touched": 0,
+     "rgg_free_ceiling_of_wildtype": 174,
+     "census_precondition_verdict": "PRECONDITION_MET \u2014 retains the FET N-terminus, retains no RG dipeptide",
+     "_what_is_lost": "TAF15 residues 162-592, including the C-terminal RGG-rich region beyond the retained segment"
+    },
+    "three_prime_NR4A3_half": {
+     "nr4a3_first_residue_retained": 1,
+     "retains_AF1": true,
+     "retains_C4_zinc_finger_DBD": true,
+     "retains_LBD": true,
+     "retains_C166": true,
+     "_provenance": "zinc-finger first cysteine and LBD start are READ from nr4a3-exon-audit.json / nr4a3_exon_audit.NR4A3_LBD_START, not typed"
+    },
+    "n_extra_junction_encoded_residues": 1
+   },
+   "protein_sequence": "MSDSGSYGQSGGEQQSYSTYGNPGSQGYGQASQSYSGYGQTTDSSYGQNYSGYSSYGQSQSGYSQSYGGYENQKQSSYSQQPYNNQGQQQNMESSGSQGGRAPSYDQPDYGQQDSYDQQSGYDQHQGSYDEQSNYDQQHDSYSQNQQSYHSQRENYSHHTQDMPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+   "protein_length_aa": 788,
+   "_protein_sequence_withheld_reason": null,
+   "_reported_variant_not_modelled": {
+    "what": "TAF15 exon 6 :: NR4A3 intron 2 (a cryptic exon), adding 25 residues ahead of the NR4A3 start codon",
+    "source": {
+     "id": "PMC6766969",
+     "quote": "T-N retains a short cryptic exon located in NR4A3 intron 2 (ENST00000395097.6 isoform), thus encoding 25 additional amino acids prior to the NR4A3 ATG"
+    },
+    "why_not_modelled": "the cryptic exon's sequence is not in any artifact this repo holds, so building it would mean inventing 75 nucleotides. It is registered here so a collaborator knows it exists; the same source reports T-N and T-N* were 'essentially indistinguishable' for colony formation."
+   }
+  }
+ ],
+ "n_constructs_in_frame": 4,
+ "n_constructs_total": 4,
+ "partners_with_no_sourced_transcript_junction": [
+  {
+   "fusion": "FUS::NR4A3",
+   "status": "NO transcript-level junction sourced in this repo's literature cache",
+   "what_can_be_said": "FUS is named as a rare EMC 5' partner (<5% of cases). No exon-level breakpoint statement was found, so no construct is emitted. The breakpoint-independent answer is the sweep already published in emc-fet-idr-census.json -> emc_TAF15_and_FUS_breakpoint_sweep."
+  },
+  {
+   "fusion": "TCF12::NR4A3",
+   "status": "GENOMIC breakpoint only \u2014 reported as TCF12 intron 5, not as an mRNA exon junction, and TCF12 has several alternatively-spliced isoforms",
+   "source": {
+    "id": "PMC4055444",
+    "quote": "Gene TCF12, also known as HTF4, presents different isoforms by alternative splicing and the breakpoint affects the region of intron 5"
+   },
+   "what_can_be_said": "the negative-control prediction below does NOT need the junction. It is computed as a property of every possible TCF12 breakpoint (see tcf12_negative_control), which is stronger than a prediction resting on one assumed junction."
+  }
+ ],
+ "wild_type_controls": {
+  "_why_these": "The source's own controls define the anchors of the recruitment axis: native GFP-EWSR1 recruits rapidly, GFP-FLI1 (partner alone) does not accumulate at all, and the fusion sits between them. An EMC arm needs the same anchors for ITS partner genes, or a delayed curve cannot be told from a badly-expressed construct.",
+  "_source_quote_partner_alone": "Control experiments with the full-length FLI1 protein showed no accumulation at laser-induced DSBs (Fig. S5G).",
+  "controls": [
+   {
+    "construct": "GFP-EWSR1 (full length)",
+    "role": "fast-recruitment anchor; the paper already has this construct",
+    "registered_prediction": "rapid recruitment, as published \u2014 if it does not reproduce, nothing else in the run is interpretable",
+    "protein_length_aa": 656,
+    "rg_dipeptides_total": 30,
+    "rgg_boxes_operational": [
+     {
+      "start": 300,
+      "end": 332,
+      "n_RG": 8
+     },
+     {
+      "start": 455,
+      "end": 638,
+      "n_RG": 22
+     }
+    ],
+    "protein_sequence": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQSSFRQDHPSSMGVYGQESGGFSGPGENRSMSGPDNRGRGRGGFDRGGMSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFDGKDFQGSKLKVSLARKKPPMNSMRGGLPPREGRGMPPPLRGGPGGPGGPGGPMGRMGGRGGDRGGFPPRGPRGSRGNPSGGGNVQHRAGDWQCPNPGCGNQNFAWRTECNQCKAPKPEGFLPPPFPPPGGDRGRGGPGGMRGGRGGLMDRGGPGGMFRGGRGGDRGGFRGGRGMDRGGFGGGRRGGPGGPPGPLMEQMGGRRGGRGGPGKMDKGEHRQERRDRPY",
+    "already_in_the_source_paper": true
+   },
+   {
+    "construct": "GFP-TAF15 (full length)",
+    "role": "wild-type anchor for the TAF15::NR4A3 arm",
+    "registered_prediction": "rapid recruitment, like native EWSR1 \u2014 TAF15 carries its own C-terminal RGG region. NOT previously reported in this assay, so this is a prediction, not a reproduction",
+    "protein_length_aa": 592,
+    "rg_dipeptides_total": 31,
+    "rgg_boxes_operational": [
+     {
+      "start": 326,
+      "end": 572,
+      "n_RG": 26
+     }
+    ],
+    "protein_sequence": "MSDSGSYGQSGGEQQSYSTYGNPGSQGYGQASQSYSGYGQTTDSSYGQNYSGYSSYGQSQSGYSQSYGGYENQKQSSYSQQPYNNQGQQQNMESSGSQGGRAPSYDQPDYGQQDSYDQQSGYDQHQGSYDEQSNYDQQHDSYSQNQQSYHSQRENYSHHTQDDRRDVSRYGEDNRGYGGSQGGGRGRGGYDKDGRGPMTGSSGGDRGGFKNFGGHRDYGPRTDADSESDNSDNNTIFVQGLGEGVSTDQVGEFFKQIGIIKTNKKTGKPMINLYTDKDTGKPKGEATVSFDDPPSAKAAIDWFDGKEFHGNIIKVSFATRRPEFMRGGGSGGGRRGRGGYRGRGGFQGRGGDPKSGDWVCPNPSCGNMNFARRNSCNQCNEPRPEDSRPSGGDFRGRGYGGERGYRGRGGRGGDRGGYGGDRSGGGYGGDRSSGGGYSGDRSGGGYGGDRSGGGYGGDRGGGYGGDRGGGYGGDRGGGYGGDRGGYGGDRGGGYGGDRGGYGGDRGGYGGDRGGYGGDRGGYGGDRSRGGYGGDRGGGSGYGGDRSGGYGGDRSGGGYGGDRGGGYGGDRGGYGGKMGGRNDYRNDQRNRPY",
+    "already_in_the_source_paper": false
+   },
+   {
+    "construct": "GFP-NR4A3 (full length)",
+    "role": "partner-alone control \u2014 the EMC analogue of their GFP-FLI1 control",
+    "registered_prediction": "NO accumulation at the damage stripe. If NR4A3 alone IS recruited, the EMC fusion's recruitment cannot be attributed to the FET half and the whole structural argument for EMC fails at this single control",
+    "protein_length_aa": 626,
+    "rg_dipeptides_total": 2,
+    "rgg_boxes_operational": [],
+    "protein_sequence": "MPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+    "already_in_the_source_paper": false
+   },
+   {
+    "construct": "GFP-TCF12 (full length)",
+    "role": "partner-alone anchor for the within-EMC negative control arm",
+    "registered_prediction": "NO accumulation \u2014 TCF12 is not a FET protein (computed in tcf12_negative_control)",
+    "protein_length_aa": 706,
+    "rg_dipeptides_total": 7,
+    "rgg_boxes_operational": [],
+    "protein_sequence": "MNPQQQRMAAIGTDKELSDLLDFSAMFSPPVNSGKTRPTTLGSSQFSGSGIDERGGTTSWGTSGQPSPSYDSSRGFTDSPHYSDHLNDSRLGAHEGLSPTPFMNSNLMGKTSERGSFSLYSRDTGLPGCQSSLLRQDLGLGSPAQLSSSGKPGTAYYSFSATSSRRRPLHDSAALDPLQAKKVRKVPPGLPSSVYAPSPNSDDFNRESPSYPSPKPPTSMFASTFFMQDGTHNSSDLWSSSNGMSQPGFGGILGTSTSHMSQSSSYGNLHSHDRLSYPPHSVSPTDINTSLPPMSSFHRGSTSSSPYVAASHTPPINGSDSILGTRGNAAGSSQTGDALGKALASIYSPDHTSSSFPSNPSTPVGSPSPLTGTSQWPRPGGQAPSSPSYENSLHSLKNRVEQQLHEHLQDAMSFLKDVCEQSRMEDRLDRLDDAIHVLRNHAVGPSTSLPAGHSDIHSLLGPSHNAPIGSLNSNYGGSSLVASSRSASMVGTHREDSVSLNGNHSVLSSTVTTSSTDLNHKTQENYRGGLQSQSGTVVTTEIKTENKEKDENLHEPPSSDDMKSDDESSQKDIKVSSRGRTSSTNEDEDLNPEQKIEREKERRMANNARERLRVRDINEAFKELGRMCQLHLKSEKPQTKLLILHQAVAVILSLEQQVRERNLNPKAACLKRREEEKVSAVSAEPPTTLPGTHPGLSETTNPMGHM",
+    "already_in_the_source_paper": false
+   }
+  ],
+  "_tag_orientation": "\u26a0 The source is internally inconsistent about tag orientation: its methods say 'EWSR1-GFP, EWSR1-FLI1-GFP' (C-terminal) while the Fig. 5 legend says 'GFP-EWSR1 ... GFP-EWSR1-FLI1' (N-terminal). Because a tag can itself change IDR behaviour, the EMC constructs should be built in WHICHEVER orientation their existing EWSR1-FLI1 construct uses. This module emits the untagged ORF for exactly that reason \u2014 the tag is theirs to place."
+ },
+ "rgg_dose_calibration_and_predictions": {
+  "_the_calibration_curve_is_theirs_not_ours": "The source built an RGG dose series into EWSR1-FLI1 and into EWSR1-ATF1 and measured recruitment for each: 'In an RGG dose-dependent manner, the RGG containing versions of EWSR1-FLI1 displayed earlier DSB recruitment kinetics and higher levels of overall recruitment when compared to EWSR1-FLI1'. That series is the axis; the EMC constructs are placed ON it rather than judged against a bar we invented.",
+  "axis_definition": "retained RG dipeptides of the 5' FET partner, as a fraction of that partner's wild-type total. THRESHOLD-FREE \u2014 an RG dipeptide is either inside the retained segment or it is not (emc_fet_idr_census.rgg_free_ceiling docstring).",
+  "_why_not_count_RGG_DOMAINS": "the source names 3 RGG-rich domains in EWSR1; the census's operational box-finder merges them into 2 boxes on this sequence. Rather than tune the box definition until it returns 3 \u2014 which would be fitting the instrument to the expected answer \u2014 the axis is the underlying RG count, which needs no definition at all. The box count is reported for context only.",
+  "source_anchors": [
+   {
+    "construct": "EWSR1-FLI1 (0 RGG domains)",
+    "rgg_domains_present": 0,
+    "ewsr1_RG_retained": 0,
+    "fraction_of_wildtype_RG": 0.0,
+    "measured_behaviour": "delayed recruitment kinetics vs native EWSR1; the reference fusion of the whole study"
+   },
+   {
+    "construct": "EWSR1-RGG(1)-FLI1",
+    "rgg_domains_present": 1,
+    "ewsr1_RG_retained": null,
+    "fraction_of_wildtype_RG": null,
+    "measured_behaviour": "earlier recruitment kinetics and higher overall recruitment than EWSR1-FLI1"
+   },
+   {
+    "construct": "EWSR1-RGG(3)-FLI1 (the entire EWSR1 C-terminus)",
+    "rgg_domains_present": 3,
+    "ewsr1_RG_retained": 30,
+    "fraction_of_wildtype_RG": 1.0,
+    "measured_behaviour": "earlier still, higher still, and it 'further suppressed ATM signaling beyond the effects seen with EWSR1-FLI1'"
+   },
+   {
+    "construct": "native EWSR1 (full length)",
+    "rgg_domains_present": 3,
+    "ewsr1_RG_retained": 30,
+    "fraction_of_wildtype_RG": 1.0,
+    "measured_behaviour": "rapid recruitment \u2014 the fast end of the axis"
+   }
+  ],
+  "measured_comparator_fusions": [
+   {
+    "comparator": "EWSR1::FLI1 (Ewing, type 1) \u2014 EWSR1 e7",
+    "_role": "the mechanism was MEASURED on this fusion",
+    "ewsr1_transcript_exon": 7,
+    "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793",
+    "ewsr1_residues_retained": 264,
+    "rg_dipeptides_retained": 0,
+    "fraction_of_wildtype_RG_retained": 0.0
+   },
+   {
+    "comparator": "EWSR1::ATF1 (clear cell, commonest type) \u2014 EWSR1 e8",
+    "_role": "the mechanism was MEASURED on this fusion",
+    "ewsr1_transcript_exon": 8,
+    "breakpoint_provenance": "EWSR1 transcript exon 8, cumulative coding nt 974",
+    "ewsr1_residues_retained": 324,
+    "rg_dipeptides_retained": 7,
+    "fraction_of_wildtype_RG_retained": 0.233
+   },
+   {
+    "comparator": "EWSR1::ATF1 (clear cell, reported type) \u2014 EWSR1 e7",
+    "_role": "the mechanism was MEASURED on this fusion",
+    "ewsr1_transcript_exon": 7,
+    "breakpoint_provenance": "EWSR1 transcript exon 7, cumulative coding nt 793",
+    "ewsr1_residues_retained": 264,
+    "rg_dipeptides_retained": 0,
+    "fraction_of_wildtype_RG_retained": 0.0
+   },
+   {
+    "comparator": "EWSR1::ATF1 (clear cell, reported type) \u2014 EWSR1 e10",
+    "_role": "the mechanism was MEASURED on this fusion",
+    "ewsr1_transcript_exon": 10,
+    "breakpoint_provenance": "EWSR1 transcript exon 10, cumulative coding nt 1045",
+    "ewsr1_residues_retained": 348,
+    "rg_dipeptides_retained": 8,
+    "fraction_of_wildtype_RG_retained": 0.267
+   }
+  ],
+  "emc_constructs_on_the_same_axis": [
+   {
+    "construct": "EWSR1::NR4A3 type 1 \u2014 EWSR1 exon 12 :: NR4A3 exon 3",
+    "five_prime_gene": "EWSR1",
+    "rg_dipeptides_retained": 8,
+    "rg_dipeptides_total_in_wildtype": 30,
+    "fraction_of_wildtype_RG_retained": 0.267,
+    "rgg_boxes_touched": 1
+   },
+   {
+    "construct": "EWSR1::NR4A3 type 2 \u2014 EWSR1 exon 7 :: NR4A3 exon 2",
+    "five_prime_gene": "EWSR1",
+    "rg_dipeptides_retained": 0,
+    "rg_dipeptides_total_in_wildtype": 30,
+    "fraction_of_wildtype_RG_retained": 0.0,
+    "rgg_boxes_touched": 0
+   },
+   {
+    "construct": "EWSR1::NR4A3 type 5 \u2014 EWSR1 exon 13 :: NR4A3 exon 3",
+    "five_prime_gene": "EWSR1",
+    "rg_dipeptides_retained": 11,
+    "rg_dipeptides_total_in_wildtype": 30,
+    "fraction_of_wildtype_RG_retained": 0.367,
+    "rgg_boxes_touched": 2
+   },
+   {
+    "construct": "TAF15::NR4A3 \u2014 TAF15 exon 6 :: NR4A3 exon 3",
+    "five_prime_gene": "TAF15",
+    "rg_dipeptides_retained": 0,
+    "rg_dipeptides_total_in_wildtype": 31,
+    "fraction_of_wildtype_RG_retained": 0.0,
+    "rgg_boxes_touched": 0
+   }
+  ],
+  "registered_predictions": [
+   {
+    "id": "P1",
+    "prediction": "EWSR1::NR4A3 type 2 (EWSR1 exon 7) is recruited to laser-induced DSBs with recruitment kinetics INDISTINGUISHABLE from EWSR1-FLI1 and from EWSR1::ATF1 built at the same EWSR1 exon.",
+    "basis": "its retained EWSR1 segment carries 0 of 30 RG dipeptides \u2014 the same zero as the EWSR1-FLI1 reference construct, and the census reports the retained segment as byte-identical over the shared prefix.",
+    "falsified_by": "no accumulation at the stripe, or kinetics matching native EWSR1 rather than the fusion reference."
+   },
+   {
+    "id": "P2",
+    "prediction": "EWSR1::NR4A3 type 1 (EWSR1 exon 12, the COMMONEST EMC fusion) is recruited, with kinetics EARLIER than type 2 and closest to the commonest reported EWSR1::ATF1 type \u2014 i.e. it sits one step up the RGG dose axis, not at its zero.",
+    "basis": "it retains 8 of 30 EWSR1 RG dipeptides, against 7 of 30 for EWSR1::ATF1 at EWSR1 exon 8 and 8 of 30 at exon 10 \u2014 the clear-cell types in which this mechanism was MEASURED and found present.",
+    "falsified_by": "type 1 recruiting no earlier than type 2 (which would say retained RG content is not the variable), or type 1 failing to be recruited at all."
+   },
+   {
+    "id": "P3",
+    "prediction": "TAF15::NR4A3 is recruited, with kinetics at or near the zero end of the RGG axis.",
+    "basis": "its retained TAF15 segment's RG count, computed below from the exon audit built for this deliverable.",
+    "falsified_by": "recruitment kinetics indistinguishable from native TAF15."
+   },
+   {
+    "id": "P4",
+    "prediction": "\u2b50 THE ONE THAT COSTS THEM NOTHING EXTRA: EMC supplies, in nature, the RGG dose series the source had to ENGINEER. Type 2 (0 RG) and type 1 (8 RG) are two naturally occurring points on the same axis in the same disease with the same 3' partner. If the RGG dose-dependence is real, the type-1 / type-2 pair must reproduce it without a single engineered add-back construct.",
+    "basis": "the two rows above, from the same exon audit.",
+    "falsified_by": "the pair showing no kinetic difference, which would bound the RGG dose-dependence to engineered constructs."
+   }
+  ],
+  "\u26d4_what_is_NOT_predicted": [
+   "Retained RGG content is ONE input to recruitment kinetics, not the only one. The source's own data show a second variable \u2014 EWSR1::ATF1 recruits like EWSR1-FLI1 but with 'differences in departure timing' \u2014 and recruitment also depends 'at least in part' on native EWSR1, which these constructs do not control.",
+   "Nothing here predicts ATM suppression, ATR dependency, drug sensitivity, or any cellular or clinical outcome. Recruitment kinetics is the only readout on this axis.",
+   "No effect size is predicted. The axis is ORDINAL \u2014 earlier/later, more/less \u2014 because the source reports it that way and a fabricated slope would be false precision.",
+   "The 3' partner is a nuclear receptor with its own DNA-binding domain and its own nuclear behaviour. The source showed a DBD mutation did not change EWSR1-FLI1's DSB localisation, which is reassuring but was measured on an ETS DBD, not a C4 zinc finger."
+  ],
+  "\u26a0_the_calibration_point_that_sets_the_scale": "The commonest reported clear-cell EWSR1::ATF1 type RETAINS RG dipeptides (7 of 30 at EWSR1 exon 8) and the mechanism was measured in that disease anyway. So retaining some RG content is NOT a prediction of no phenotype, and P2 must not be read that way. 'Loses the C-terminal RGG repeats' means losing the bulk, not literally all \u2014 which is why the axis is a comparison and not a bar."
+ },
+ "tcf12_negative_control": {
+  "_question": "Is TCF12 a FET-family protein with the N-terminal architecture the mechanism requires? Computed, not asserted.",
+  "_why_it_matters": "\u22483-4% of EMC carries TCF12::NR4A3, and TCF12 is not one of the three FET genes. The class argument therefore PREDICTS these cases do not show the phenotype. A prediction that says 'these should, and these specifically should not' is falsifiable within EMC itself.",
+  "n_terminal_window_aa": 250,
+  "test_1_sygq_composition": {
+   "EWSR1": {
+    "span": [
+     1,
+     250
+    ],
+    "length": 250,
+    "sygq_fraction": 0.54
+   },
+   "TAF15": {
+    "span": [
+     1,
+     250
+    ],
+    "length": 250,
+    "sygq_fraction": 0.62
+   },
+   "FUS": {
+    "span": [
+     1,
+     250
+    ],
+    "length": 250,
+    "sygq_fraction": 0.804
+   },
+   "TCF12": {
+    "span": [
+     1,
+     250
+    ],
+    "length": 250,
+    "sygq_fraction": 0.368
+   }
+  },
+  "test_2_rg_content": {
+   "EWSR1": {
+    "rg_total": 30,
+    "rg_in_first_250": 0,
+    "rgg_boxes_operational": 2,
+    "length_aa": 656
+   },
+   "TAF15": {
+    "rg_total": 31,
+    "rg_in_first_250": 5,
+    "rgg_boxes_operational": 1,
+    "length_aa": 592
+   },
+   "FUS": {
+    "rg_total": 24,
+    "rg_in_first_250": 6,
+    "rgg_boxes_operational": 2,
+    "length_aa": 526
+   },
+   "TCF12": {
+    "rg_total": 7,
+    "rg_in_first_250": 3,
+    "rgg_boxes_operational": 0,
+    "length_aa": 706
+   }
+  },
+  "test_3_sequence_identity_n_terminal_window": {
+   "EWSR1 vs TAF15 (FET vs FET \u2014 positive control)": {
+    "aligned_length": 264,
+    "identities": 69,
+    "percent_identity": 26.1
+   },
+   "EWSR1 vs FUS (FET vs FET \u2014 positive control)": {
+    "aligned_length": 264,
+    "identities": 86,
+    "percent_identity": 32.6
+   },
+   "TAF15 vs FUS (FET vs FET \u2014 positive control)": {
+    "aligned_length": 263,
+    "identities": 94,
+    "percent_identity": 35.7
+   },
+   "TCF12 vs EWSR1 (the test)": {
+    "aligned_length": 258,
+    "identities": 47,
+    "percent_identity": 18.2
+   },
+   "TCF12 vs TAF15 (the test)": {
+    "aligned_length": 256,
+    "identities": 43,
+    "percent_identity": 16.8
+   },
+   "TCF12 vs FUS (the test)": {
+    "aligned_length": 259,
+    "identities": 53,
+    "percent_identity": 20.5
+   }
+  },
+  "test_4_breakpoint_independent_sweep": {
+   "_what": "the [S,Y,G,Q] fraction of EVERY TCF12 N-terminal prefix, 50 aa to full length in 10-aa steps \u2014 so the conclusion does not depend on the unpinned TCF12 breakpoint",
+   "n_prefixes_tested": 66,
+   "best_achievable_sygq_fraction": 0.4,
+   "best_achieved_at_prefix": [
+    1,
+    160
+   ],
+   "fet_n_terminal_sygq_fractions": {
+    "EWSR1": 0.54,
+    "TAF15": 0.62,
+    "FUS": 0.804
+   },
+   "any_tcf12_prefix_reaches_the_fet_range": false
+  },
+  "verdict": {
+   "fet_vs_fet_identity_range_pct": [
+    26.1,
+    35.7
+   ],
+   "tcf12_vs_fet_identity_range_pct": [
+    16.8,
+    20.5
+   ],
+   "tcf12_is_fet_family": false,
+   "_how_this_verdict_is_reached": "TCF12 is not one of the three FET genes (a fact), AND its N-terminal window has neither the [S,Y,G,Q]-rich composition nor the sequence relationship the three FET N-termini share with each other, AND no TCF12 prefix of any length reaches the FET compositional range. The three tests are independent and the FET-vs-FET pairs are the positive control for the third."
+  },
+  "registered_prediction": {
+   "id": "P5",
+   "prediction": "TCF12::NR4A3 is NOT recruited to laser-induced DSBs \u2014 it should behave like the source's own full-length FLI1 control, which 'showed no accumulation at laser-induced DSBs'.",
+   "why_this_is_the_most_informative_single_arm": "every other arm can only confirm. This one can FALSIFY. If TCF12::NR4A3 IS recruited, then recruitment is not a property of the FET N-terminal IDR, the structural precondition is not the mechanism, and the entire basis for extending the class to EMC \u2014 and arguably to the other FET sarcomas \u2014 is wrong. A hypothesis that cannot lose is not worth their microscope time; this one can.",
+   "what_a_violation_would_mean": [
+    "TCF12::NR4A3 recruited AND EWSR1::NR4A3 recruited \u2192 recruitment is driven by something shared by the two chimeras that is NOT the FET IDR. The obvious candidate is the NR4A3 half, which is why GFP-NR4A3 alone is a required control in the same run.",
+    "TCF12::NR4A3 recruited AND EWSR1::NR4A3 not \u2192 the structural argument is inverted and this repo's census is measuring the wrong feature.",
+    "Neither recruited \u2192 EMC does not inherit the lesion by this readout. That is a clean, publishable negative and it is worth as much as a hit."
+   ],
+   "construct_status": "\u26a0 NO TCF12::NR4A3 construct is emitted. The junction is reported only at genomic intron-5 resolution and TCF12 has multiple spliced isoforms, so any protein-level junction would be invented. A collaborator with a TCF12::NR4A3 case should sequence the junction; failing that, the arm can be run with full-length GFP-TCF12, which tests the same thing this control is for \u2014 whether a non-FET N-terminus reaches a DSB."
+  }
+ },
+ "_limits": [
+  "These are computed designs. Nothing here has been synthesised, expressed or sequenced. A collaborator must verify every junction against their own case's sequenced breakpoint before ordering anything.",
+  "Canonical Ensembl transcripts only. A patient's tumour may use a different transcript or a different breakpoint, in which case the exon\u2192residue map changes and so does the protein.",
+  "The predictions are about DSB-recruitment kinetics only. They say nothing about ATM signalling, ATR dependency, drug sensitivity, efficacy, safety or any clinical question, and nothing downstream may be read as if they did.",
+  "Retained RGG content is one input to recruitment kinetics, not the only one \u2014 the source's own data show recruitment also depends in part on native EWSR1, which these constructs do not control.",
+  "FUS::NR4A3 and TCF12::NR4A3 have no sourced transcript-level junction in this repo's literature cache, so no construct is emitted for either. That is a gap in the sourcing, not evidence that the fusions are rare or unimportant."
+ ]
+}

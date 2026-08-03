@@ -23,6 +23,7 @@ on:
       - research/modalities/nr4a_superfamily_selectivity.py
       - research/modalities/fet_ddr_axis_scan.py
       - research/modalities/emc_fet_idr_census.py
+      - research/modalities/emc_fet_construct_designs.py
       - .github/workflows/depmap-dependency.yml
 
 permissions:
@@ -99,9 +100,43 @@ jobs:
         timeout-minutes: 10
         run: python research/modalities/emc_fet_idr_census.py --refresh || echo "fet-idr-census soft-fail (network); non-blocking"
 
+      # ⭐ The in-silico ATR VULNERABILITY ASSESSMENT (parts A-D). Tests whether the FET-fusion /
+      # ATM-defect / ATR-dependency hypothesis is internally consistent and transfers to EMC.
+      # It is NOT evidence that an ATR inhibitor kills EMC cells and never becomes that.
+      # `--refresh` is the fetch path; `--check` then proves the derive half reproduces offline
+      # from the cached inputs, which is what makes the artifact re-checkable without network.
+      - name: "EMC in-silico ATR vulnerability assessment (A: line identity, B: tumour signature, C: matched dependency, D: drug-response correlation)"
+        if: always()
+        timeout-minutes: 30
+        run: python research/modalities/emc_atr_vulnerability.py --refresh || echo "atr-vulnerability soft-fail (network); non-blocking"
+
+      - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
+        if: always()
+        timeout-minutes: 10
+        run: python research/modalities/emc_atr_vulnerability.py --check || echo "atr-vulnerability --check reported drift; non-blocking, but READ IT"
+
+      # ⭐ READY-TO-ORDER EMC FUSION CONSTRUCTS for the FET DSB-recruitment assay, plus the RGG
+      # dose-calibration prediction and the within-EMC TCF12 negative control. Everything it
+      # emits is a COMPUTED DESIGN FOR SOMEONE ELSE TO VERIFY BEFORE ORDERING — this repo has
+      # been wrong about a fusion junction before (target-route-options.md §1.3), which is why
+      # the module carries per-construct in-frame self-checks and quotes every breakpoint.
+      - name: EMC fusion construct designs (exon-verified junctions + RGG prediction + TCF12 control)
+        if: always()
+        timeout-minutes: 20
+        run: python research/modalities/emc_fet_construct_designs.py --refresh || echo "construct-designs soft-fail (network); non-blocking"
+
+      - name: Reproduce check — construct designs must re-derive offline from their inputs cache
+        if: always()
+        timeout-minutes: 10
+        run: python research/modalities/emc_fet_construct_designs.py --check || echo "construct-designs --check reported drift; non-blocking, but READ IT"
+
       # ---- publish -------------------------------------------------------------------------
-      # Stage ONCE, stub-guarded, then commit the same set to the source branch and to
-      # modalities-cache. Staging first is what makes the second checkout safe.
+      # ⚠ CLAUDE.md §7: an artifact whose only home is a side branch is a stale fact that reads as
+      # a current one. Stage ONCE, stub-guarded, then commit that same set to the branch this run
+      # was dispatched from AND to modalities-cache. Staging first is what makes the second
+      # checkout safe, and it is why there is now ONE publish mechanism rather than one per lane:
+      # the ATR-vulnerability/construct-design artifacts used to have their own step gated
+      # `github.ref_name != 'main'`, which excluded the one branch where the drift does the damage.
       - name: Stage results (drop failure stubs)
         if: always()
         timeout-minutes: 5
@@ -120,7 +155,11 @@ jobs:
             research/modalities/nr4a-superfamily-selectivity.json \
             research/modalities/fet-ddr-axis-scan.json \
             research/modalities/emc-fet-idr-census.json \
-            research/modalities/fet-sequences-cache.json
+            research/modalities/fet-sequences-cache.json \
+            research/modalities/emc-atr-vulnerability.json \
+            research/modalities/emc-atr-vulnerability-inputs.json \
+            research/modalities/emc-fet-construct-designs.json \
+            research/modalities/emc-construct-inputs.json
 
       - name: Publish results to the branch this run was dispatched from
         if: always() && github.ref_type == 'branch'
@@ -141,9 +180,10 @@ jobs:
           for p in "$RUNNER_TEMP"/res/*; do
             [ -e "$p" ] || continue
             cp "$p" "research/modalities/$(basename "$p")"
-            git add "research/modalities/$(basename "$p")" || true
+            git add -f "research/modalities/$(basename "$p")" || true
           done
-          git commit -m "DepMap / FET-DDR / IDR-census artifacts (CI)" || { echo "no changes"; exit 0; }
+          git commit -m "DepMap / FET-DDR / IDR-census / ATR-vulnerability / construct-design artifacts (CI)" \
+            || { echo "no changes"; exit 0; }
           # This branch (often main) takes CI commits constantly, so rebase-and-retry rather than
           # fail the publish and leave the artifacts only on modalities-cache — which is the exact
           # drift this step exists to end.
@@ -177,7 +217,7 @@ jobs:
           for p in "$RUNNER_TEMP"/res/*; do
             [ -e "$p" ] || continue
             cp "$p" "research/modalities/$(basename "$p")"
-            git add "research/modalities/$(basename "$p")" || true
+            git add -f "research/modalities/$(basename "$p")" || true
           done
           git commit -m "DepMap + NR4A safety-genetics + resistance-map + E3-expression + superfamily-selectivity compute" || { echo "no changes"; exit 0; }
           git push origin modalities-cache

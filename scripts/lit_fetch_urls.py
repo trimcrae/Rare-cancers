@@ -87,13 +87,18 @@ def pdf_to_text(data: bytes) -> str:
 
 
 def fetch(name: str, url: str) -> dict:
-    req = urllib.request.Request(url, headers={
-        "User-Agent": UA,
-        "Accept": "text/html,application/xhtml+xml,application/pdf,*/*",
-        "Accept-Language": "en-US,en;q=0.9",
-    })
     rec = {"name": name, "url": url}
+    # Request() is built INSIDE the try: a value that is not a URL raises ValueError
+    # from the constructor, and building it outside let ONE bad entry abort the whole
+    # corpus run (measured 2026-08-03: a "_readme" prose key in a targets file killed
+    # a 14-target fetch before a single request went out). One bad target is now one
+    # bad row in the manifest.
     try:
+        req = urllib.request.Request(url, headers={
+            "User-Agent": UA,
+            "Accept": "text/html,application/xhtml+xml,application/pdf,*/*",
+            "Accept-Language": "en-US,en;q=0.9",
+        })
         with urllib.request.urlopen(req, timeout=90) as resp:
             data = resp.read()
             rec["status"] = resp.status
@@ -141,6 +146,10 @@ def resolve_targets() -> dict:
         extra = json.load(fh)
     if not isinstance(extra, dict) or not all(isinstance(v, str) for v in extra.values()):
         raise SystemExit(f"{path}: expected a flat JSON object of name -> url")
+    # Underscore-prefixed keys are documentation, not targets. Corpus files in this repo
+    # carry a "_readme" line saying what the corpus is for and under what constraints it
+    # was fetched; that is worth keeping, so the convention is honoured rather than banned.
+    extra = {k: v for k, v in extra.items() if not k.startswith("_")}
     if os.environ.get("LIT_TARGETS_MODE", "replace").strip() == "extend":
         return {**TARGETS, **extra}
     return extra

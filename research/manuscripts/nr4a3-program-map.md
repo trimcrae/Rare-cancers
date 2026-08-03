@@ -358,6 +358,18 @@ is the index, and the pointer for anything they own that this page deliberately 
 | [`paper-framing-options.md`](paper-framing-options.md) | **what else this body of work could publish** — 7 framings on six columns | [§13](#13--the-deliverables-framing--an-open-question-with-a-register-and-no-decision), recorded as open and **not decided here** |
 | [`path-family-synthesis.md`](path-family-synthesis.md) | the ranked synthesis across the five | read as a reader's guide; every ranking it states is graded independently below |
 
+🗺 **AND THE INDEX UNDER ALL OF THEM — [`emc-systems-map.md`](emc-systems-map.md), generated from
+[`emc-systems-map.json`](emc-systems-map.json) and checked in CI by
+[`emc_systems_map_check.py`](emc_systems_map_check.py) (2026-08-03).** It is **not** a seventh options
+register and it grades nothing: it is the machine-checkable record of **which file owns each route's grade**,
+which routes are the same route under a different memo's numbering, which are different routes that must not
+be conflated (with the opposite blockers that separate them), which **instruments have no passing
+known-answer control**, and which quoted figures resolve to a real artifact field **on `main`**. It mirrors
+this page's `V*` instrument rows rather than restating them — the [§3.1 table](#31--the-instrument-table)
+remains their one home, and the map fails its own build if it points at a `V` row that has moved. Its reason
+for existing is the same as this page's, one layer down: four integrity failures were found in one day, all
+of the shape *one thing carried under two names*, and prose cannot be run.
+
 ⛔ **AN OPTIONS REGISTER AMENDS NOTHING.** None of the six changes a gate, a criterion, a price, a rung, a
 status or a claim ceiling, and none is a source of truth for anything this page also carries. **They own
 their numbers; this page owns the claim, the state and the pointer** — and per invariant 6 a figure that

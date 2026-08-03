@@ -6,6 +6,18 @@
 > 2026-08-03.) It ranks every route, including several this repo has never carried, on the axes that
 > the degrader program's own failure record says matter.
 >
+> ⚠ **THE RANKING BELOW IS THE SECOND ONE. The first was graded on an axis that assumed a
+> collaborator we do not have** — it scored the wet-lab ask on *cheapness*, which only matters if
+> somebody exists who would run it. Corrected the same day: Axis W split into **W1 (is there a
+> self-interested taker?)** and **W2 (the ask's size, conditional on W1)**, and **Axis D (what do we
+> end up holding if the experiment never happens?)** was added, which is the axis that actually
+> decides things for a programme that cannot execute. The superseded tiers are kept quotable in
+> [§6](#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis) and registered in
+> [STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings); **the live
+> text carries only the corrected ranking.** ⚠ **Route NUMBERS are stable identifiers and did not
+> change** — other files cite "route 1", "route 4" — so a route's number tells you which route it is
+> and its **tier** tells you where it now ranks.
+>
 > **Subordinate to [`nr4a3-program-map.md`](./nr4a3-program-map.md)** (the roadmap owns the plan, the
 > gates and the prices — nothing here restates one), to
 > [`emc-treatment-strategy.md`](./emc-treatment-strategy.md) + [`../IDEAS.md`](../IDEAS.md) (the route
@@ -67,22 +79,54 @@ spent on modalities that need a binder rather than on the one modality that also
 
 ---
 
-## 1 · The three axes every route is graded on
+## 1 · The four axes every route is graded on
 
 A single tier number blends questions that do not move together — the mistake
 [`emc-treatment-strategy.md`](./emc-treatment-strategy.md) already corrected for the portfolio. This
 memo asks a narrower question than that capstone (*what produces a testable candidate now*), so it
-uses three axes of its own and reports each separately.
+uses axes of its own and reports each separately.
 
 - **Axis P — what NEW evidence can we generate with no wet lab?** Not "can we argue for it" — can we
   *compute* something that did not exist before. This is the axis that decides whether a route yields
   a paper or an opinion.
-- **Axis W — the wet-lab ask.** How cheap, how decisive, and **does the reagent and the model already
-  exist**? A route needing a bespoke molecule synthesised is a different ask from one needing a
-  catalogue compound on a plate.
+- **Axis W1 — is there a plausible, SELF-INTERESTED taker?** Not *is the experiment cheap* but **does
+  a specific group already exist that would want this result for their OWN reasons?** The calibrating
+  example is route 1's: the FET/ATR authors published a partner-class argument spanning an **ETS**
+  (FLI1), a **bZIP** (ATF1) and a **zinc-finger** (WT1) partner, and **EMC's NR4A3 is a nuclear
+  receptor — the missing fourth class in their own argument.** Running it completes something they
+  already own. That is a materially stronger position than *"please test our molecule"*, and it is
+  the bar every route is graded against. ⚠ **Grade the taker, not the reagent** — a group that could
+  in principle do it is not a group that wants to.
+- **Axis W2 — the ask's SIZE**, and it is **conditional on W1**. A catalogue compound on a plate is a
+  smaller ask than a bespoke synthesis, and that ordering is real — but **a cheap ask with no
+  plausible taker scores worse than a moderate ask with a motivated one**, because an experiment
+  nobody will run has no size. W2 is a tie-breaker within a W1 band, never a substitute for one.
 - **Axis S — does it inherit the program's blockers?** Specifically: does its central claim reduce to
   a ~1 kcal/mol free-energy difference, does it need a generated ternary, and does it need
   NR4A-paralogue discrimination. **Three noes is the profile that survives.**
+- **⭑ Axis D — what do we END UP HOLDING if the experiment never happens?** A complete published
+  deliverable, or an unrun proposal. **This is the decisive axis under this programme's real
+  constraint** and it is the one the first ranking lacked entirely. It is not a pessimism axis: it
+  asks what the *expected* product of a route is, given that this programme can finish computation
+  and writing and cannot finish an assay. A route whose in-silico half stands alone scores high; a
+  route whose in-silico half is a preamble to somebody else's experiment scores low **however good
+  that experiment is**.
+
+⛔ **Why the axis set changed, stated once here so the tables do not have to.** trimcrae is a private
+individual: **no lab, no institutional affiliation, no committed collaborator**, and paying four
+figures for a contracted assay whose failure he could not interpret has been ruled out. The first
+ranking's Axis W graded *"how cheap is this for whoever runs it"*, which silently assumes a
+whoever. Cheapness is real but it is **conditional**, and the thing it was conditional on is what we
+do not have. The full correction and the superseded tiers are in
+[§6](#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis).
+
+⚠ **What this memo deliberately does NOT decide: which of these an unaffiliated individual could
+BUY.** That is a separate question with its own evidence — vendor policies, catalogue protein,
+assay services, institutional-affiliation requirements — and it is being fetched into its own
+corpora ([`lit-targets-civilian-purchasing.json`](./lit-targets-civilian-purchasing.json),
+[`lit-targets-civilian-purchasing-b.json`](./lit-targets-civilian-purchasing-b.json)) rather than
+guessed at here. **Nothing in W1/W2 above should be read as a claim about what is purchasable**;
+where the two touch, the purchasing memo those corpora feed owns the answer and this one cites it.
 
 ⚠ **One standing constraint that no route escapes, so it is stated once here rather than in every
 row.** EMC is indolent: **5-year OS 66–88 %, 10-year DSS ≈ 85 %, median time to metastasis ≈ 28
@@ -100,60 +144,78 @@ of every route below is that.
 
 ### ⭑ The trade-off this ranking makes, stated plainly so it can be overruled
 
-**Tier 1 buys speed-to-a-tested-candidate by giving up "the candidate is ours".** The degrader was
-attractive partly because the molecule would have been this program's own invention; route 1's
-molecule is somebody else's, and the contribution is the *hypothesis, the class argument and the
-preregistered experiment* rather than the compound. That is a real loss and it should be named rather
-than glossed.
+**Tier 1 is now defined by what this programme can FINISH, not by what would be cheapest for someone
+else to run.** Every Tier-1 entry is a document this programme can complete alone and post; every
+Tier-2 entry is an *ask* — a specific experiment, a specific taker, a preregistration already
+written. The two are separated because they fail differently: a deliverable's risk is that nobody
+cites it, an ask's risk is that nobody runs it, and only the second risk is outside our control.
 
-The reason I still rank it first: **for an ultra-rare cancer with no wet lab, the binding constraint
-is not idea supply — it is getting anything tested at all.** A hypothesis whose reagent is in a
-catalogue and whose model exists in three labs converts into a real experiment on a timescale nothing
-requiring a synthesised molecule can match, and a positive would be the first mechanistically-grounded
-systemic hypothesis EMC has had. **If the program's goal is weighted instead toward originating a
-novel agent, the correct reordering is 2 → 4 → 5 first** (junction ASO, TCIP, covalent probe — all
-"ours"), with route 1 run in parallel because it costs almost nothing to carry. That is a judgement
-about what the program is for, not about the evidence, and it is trimcrae's to make.
+**What this costs, named rather than glossed.** Ranking on Axis D pushes the routes with the biggest
+*ceiling* down. Route 1's cell panel, if run and positive, would be the first mechanistically-grounded
+systemic hypothesis EMC has had — larger than anything in Tier 1 — and it is now Tier 2 not because
+it got worse but because **we cannot cause it.** The ranking deliberately prefers a smaller certain
+product to a larger contingent one. ⚠ **That preference is a judgement about the operating regime,
+not about the science, and it flips if the regime changes**: a committed collaborator, an
+institutional affiliation, or a funded model-holding group would move route 1's panel to the top of
+the list on the same evidence. The asks are written so they are ready the moment that happens —
+that is what Tier 2 is *for*, and it is why nothing is deleted.
+
+⚠ **The one thing this reordering must not be read as.** Tier 2 is **not** a discard pile and the
+Tier-1/Tier-2 boundary is **not** a claim that the asks are weak. Route 1's panel has the best W1 in
+the portfolio and the smallest W2; it is simply not a thing this programme executes, and the previous
+ranking obscured that by scoring its cheapness as if cheapness were ours to spend.
 
 ---
 
 ## 2 · THE RANKED LIST
 
-**Tier 1 — start now. Each is $0-to-cheap for us, each produces a paper, and each hands a lab an
-experiment it could run in weeks with reagents that already exist.**
+⚠ **Read the tier, not the number.** Route numbers are stable identifiers carried over from the first
+ranking and cited by other files; the **tier** is the rank. Where a route moved, the move is stated in
+its row and the reason is one of the corrected axes (W1, W2 or D).
 
-| # | route | P (what we compute) | W (the ask) | S (blockers inherited) |
-|---|---|---|---|---|
-| **1** | **ATR-inhibitor synthetic lethality, inherited by EMC as a FET-rearranged cancer** | ✅ **done, and it cuts both ways** — the public ATRi sensitivity data re-cut by **FET status** with a general-sensitivity correction: the ATRi effect survives (AZD6738 Δ −0.491, *t* −5.08) but PARP inhibitors are 2–4× larger, and PARPi monotherapy already failed clinically in Ewing | **catalogue ATR inhibitor, dose–response, 3 existing EMC lines, γH2AX readout** | **none of the three** |
-| **2** | **Fusion-junction ASO / siRNA** *(already the repo's priority paper 2)* | in-silico arc is complete; the open GPU item is the RNase-H1 cleavage-discrimination MD | junction knockdown + parental sparing in EMC lines | **none of the three** |
-| **3** | **The honest methods paper the degrader program has already earned** | nothing new needed — the negative results *are* the result | none | n/a — it is *about* the blockers |
+**Tier 1 — DELIVERABLES. Each is a complete, publishable product this programme can finish alone, at
+$0, with nobody's cooperation. Ranked on Axis D first; W1/W2 do not apply, which is the point.**
 
-**Tier 2 — high ceiling, one build away, still no wet lab required from us. Each spends the asset
-(a ligandable NR4A3 pocket) on a modality that does not need the liability (a ternary).**
+| rank | # | route | P (what we compute) | D (what we hold if no experiment ever happens) | S |
+|---|---|---|---|---|---|
+| **1** | **3** | **The honest methods paper the degrader program has already earned** — ⭑ **was Tier 1 #3, now #1** | nothing new needed — the negative results *are* the result, and two further instruments failed their own known-answer tests on 2026-08-03 | ⭑ **the whole paper.** Its content is already computed, already preregistered, already red-teamed. It is the only route in this memo whose value **rises** as the degrader program's failures accumulate, and the only one that is finished when we stop typing | n/a — it is *about* the blockers |
+| **2** | **2** | **Fusion-junction ASO / siRNA** *(already the repo's priority paper 2)* — ⭑ **held rank, and it is the route the reframe most clearly vindicates** | in-silico arc is complete: design → transcriptome-wide off-target → per-breakpoint favorability → gap-resolved cleavage-risk. The open GPU item (RNase-H1 cleavage-discrimination MD) is an upgrade, **not a gate on posting** | ⭑ **a complete red-teamed manuscript**, [`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md) + [its red team](./fusion-junction-aso-paper-redteam.md). The delivery gate is stated honestly *inside* the deliverable rather than being a precondition for having one | **none of the three** |
+| **3** | **1a** | **The in-silico ATR vulnerability assessment** — the COMPUTED half of route 1, separated from its ask; its module is [`emc_atr_vulnerability.py`](../modalities/emc_atr_vulnerability.py) | ✅ **done, and it cuts both ways** — the FET-IDR/RGG structural precondition computed from sequence, plus the public ATRi sensitivity data re-cut by **FET status** with a general-sensitivity correction: the ATRi effect survives (AZD6738 Δ −0.491, *t* −5.08) but PARP inhibitors are 2–4× larger, and PARPi monotherapy already failed clinically in Ewing | ⭑ **a computed result either way** — a class-inheritance assessment with its own internal bound, which stands as a paper whether or not one cell is ever plated. ⚠ It is an assessment, **not** a measurement in EMC; §5 holds that limit | **none of the three** |
 
-| # | route | why it is here |
+**Tier 2 — ASKS. Each is an experiment this programme has specified and cannot run. Ranked on W1
+(is there a self-interested taker?), then W2 (size). ⚠ These are not lesser routes; they are the ones
+whose completion is outside our control.**
+
+| rank | # | route | W1 — the taker | W2 — the ask | D (if it never happens) |
+|---|---|---|---|---|---|
+| **4** | **1b** | **The ATR-inhibitor cell panel in EMC lines** — ⭑ **the ASK behind route 1, presented as one** | ⭑ **the strongest in the portfolio.** The FET/ATR authors' own class argument runs ETS → bZIP → zinc-finger; **EMC's nuclear-receptor partner is the missing fourth class**, so running it completes something they already published rather than testing something of ours. Secondary help: the compounds have been commercially deprioritised, which makes them *easier* to obtain for investigator-initiated work | **smallest in the portfolio** — catalogue ATR inhibitor, 7-point dose–response, published EMC lines, γH2AX (the readout the source paper reports as the reliable one here, after p-CHK1 did not discriminate), **plus a PARPi arm and a proliferation index**, both required by [the prereg](../modalities/emc-atri-prereg.md) | the prereg and the assessment above. **The panel itself is an unrun proposal** — which is exactly why it sits here and not in Tier 1 |
+| **5** | **6** | **Trabectedin + PPARγ agonist, on EMC's own documented fusion→PPARG axis** | **good, and better than its in-silico half suggests.** All drugs approved; the pioglitazone + trabectedin combination was published in the sibling myxoid sarcoma, so **its own authors have a class-extension interest** of the same shape as route 1's. Sarcoma clinicians already give trabectedin in EMC | small — a two-drug matrix on the existing EMC lines, one plate, catalogue reagents | ⚠ **thin, and this is what stops it out-ranking the panel.** A literature synthesis plus, at best, a one-line expression read on the single EMC model in DepMap (`n = 1`, no CRISPR data). It is a *hypothesis*, not a computed result |
+| **6** | **2b** | **Junction knockdown + parental sparing in EMC lines** — the ASK behind route 2 | ⚠ **weak, and stated as such.** No group has a standing self-interest in an EMC-specific junction oligo; the ASO field's takers want de-risked targets in larger indications. The route's rank comes from its **deliverable**, not its ask | moderate — synthesised gapmers plus the lines | **the paper is unaffected** — this is the one ask whose failure costs the route nothing, because Tier 1 #2 does not depend on it |
+
+**Tier 3 — value concentrated in an experiment nobody here can cause, with an in-silico half too thin
+to stand alone. ⭑ The first three rows are the DEMOTIONS from Tier 2, each graded individually and
+none of them as a block.**
+
+| # | route | why it dropped, or why it is here |
 |---|---|---|
-| **4** | **TCIP / transcriptional chemically-induced proximity on EWSR1::NR4A3** | the field's blocker is "no ligand for the fusion"; ours is the fusion that has one |
-| **5** | **Covalent probe at C397 — as a REAGENT, not a drug** | the cheapest possible form of the one un-buyable requirement (`R4`: does anything bind the opened pocket) |
-| **6** | **Trabectedin + PPARγ agonist, on EMC's own documented fusion→PPARG axis** | all-approved-drug combination with an exact precedent in a sibling myxoid sarcoma |
-| **7** | **SSTR2 / neuroendocrine theranostic** | the confirm is an *existing approved scan*, which is the cheapest decisive test in the whole portfolio |
-
-**Tier 3 — real, and correctly ranked below the above because each is gated on something neither we
-nor a small collaborator can supply.**
-
-| # | route | the gate |
-|---|---|---|
-| 8 | RIPTAC (bind-the-tumour-protein, poison an essential one) | needs paralogue selectivity *and* a medicinal-chemistry campaign |
+| **4** | **TCIP / transcriptional chemically-induced proximity on EWSR1::NR4A3** — ⭑ **was Tier 2 #4** | **W1 is real but contingent, and P has not been run.** The TCIP authors' stated first limitation *is* the missing ligand, so they have a genuine interest — **but what we can offer is a computationally-opened cryptic pocket, not a ligand**, and `R4` (does anything bind it) is unanswered, which is precisely the gap they named. W2 needs a bespoke bivalent synthesised. **D is currently zero and one free CPU run from being non-zero** — the TCIP-configuration linker enumeration (§3, route 4) has not been executed. ⭑ **Run it, then re-grade** — this is the cheapest promotion available in the memo |
+| **5** | **Covalent probe at C397 — as a REAGENT, not a drug** — ⭑ **was Tier 2 #5, the largest drop; RE-EXAMINED 2026-08-03 against the published NR4A3 hits and HELD at Tier 3** | ⛔ **D ≈ 0, and P is negative rather than merely absent.** Its entire value is a wet-lab readout: no thiol pKa or intrinsic reactivity is computed anywhere in this repo, and its own exposure instrument `V17` **fails its positive control**, so the in-silico half is not publishable as it stands. W2 is a bespoke synthesis — the largest ask class — and W1 has no identified group with a standing interest in an EMC covalent probe. Its earlier rank came from being *cheap for a collaborator*, which is the exact axis this memo corrected. ⭐ **HELD after adjudication (§3, route 5a): the published NR4A3 hits do not rescue this row, because they answer a different question** — a cell reporter on a `hinge+LBD` chimera, no purified protein, no biophysics, site unassigned, and nothing about C397, thiol pKa or reactivity. **The instruments this demotion rests on are untouched by them** |
+| **16** | ⭑ **Monovalent LBD pocket modulation — a molecule that only OCCUPIES the pocket** *(NEW row 2026-08-03; memo: [`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md))* | ⭐ **A SEPARATE ROW ON PURPOSE, AND THE SEPARATION IS THE POINT.** Until now C397's *third framing* was described only inside route 5's detail section, so route 5's demotion read as covering it. It does not, and cannot: **route 5's demotion rests on `V17` — a CYSTEINE-EXPOSURE criterion — failing its own positive control, and on no thiol pKa or intrinsic reactivity being computed. The non-covalent sub-form of this route has no cysteine, so none of that reaches it.** ⛔ **It lands in Tier 3 anyway, on its OWN grounds and they are different ones:** its two sub-forms fail on opposite blockers (non-covalent inherits the ~1 kcal/mol ΔΔG in full; covalent's categorical escape is measured shut by the $0 paired reach enumeration — 37 corridors lost, 0 kept, 0 gained), and it carries a make-or-break **no other LBD route has**: the LBD must be a functional handle *in the chimera*. ★ **One sub-question genuinely promoted, verbatim-verified:** the AF-1 deletion is **not** a defeater (§3, route 5a) |
+| **7** | **SSTR2 / neuroendocrine theranostic** — ⭑ **was Tier 2 #7** | **W2 is the smallest imaginable (an approved scan) and W1 is the problem.** Ordering ⁶⁸Ga-DOTATATE needs a clinician **with an EMC patient**; that is not a group wanting a result for its own reasons, it is the hardest access class in the memo. **D ≈ 0:** [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md) already exists and already records SSTR2 as unmeasured in EMC, so nothing further is computable and no new document falls out. ⚠ The route is not refuted — a negative scan still kills it cheaply, and it stays on the ask list |
+| 8 | RIPTAC (bind-the-tumour-protein, poison an essential one) | needs paralogue selectivity *and* a medicinal-chemistry campaign — strictly worse than route 4 on both |
 | 9 | CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown | delivery, and Cas13 collateral activity |
 | 10 | Fusion-junction TCR / ImmTAC | the weak-junction-pHLA problem; EMC is antigen-cold |
 | 11 | HDAC / BET to lower fusion *expression* | not fusion-selective; a class effect, not an EMC result |
 | 12 | Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript | vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing |
 | 13 | B7-H3 / CD56 ADC or CAR-T | already red-teamed in this repo: not selective (BH q = 1.0) |
-| **14** | ⭑ **Fusion-driven synthetic promoter → suicide gene** *(NEW to this repo)* | vector delivery — **and EMC lacks the neomorphic DNA-binding element the technique depends on** (§3, route 14) |
+| **14** | ⭑ **Fusion-driven synthetic promoter → suicide gene** *(NEW to this repo)* | vector delivery — **and EMC lacks the neomorphic DNA-binding element the technique depends on** (§3, route 14). ⭑ Note on Axis D: the *reason* it fails is itself a computed-and-cited EMC result and belongs in a paper, even though the route does not |
 | **15** | ⭑ **A ligand for the shared FET low-complexity half** *(NEW to this repo)* | binds wild-type EWSR1 too — an essential housekeeping protein — so it *relocates* selectivity somewhere worse |
 
 **Tier 4 — closed. Do not spend on these; two of them are closed *by this session's reading* and are
-new entries.**
+new entries.** ⭑ **Unchanged by the axis correction, and worth one line on why:** a closure is a
+completed product needing nobody's cooperation, so on Axis D these are the highest-scoring rows in
+the memo. They are Tier 4 because they close a *route*, not because the work was worth less — and
+they are exactly the kind of content Tier 1 #3 is made of.
 
 | route | why closed |
 |---|---|
@@ -168,6 +230,20 @@ new entries.**
 ## 3 · The routes in detail
 
 ### Route 1 — ⭐ ATR-inhibitor synthetic lethality: EMC inherits a class vulnerability it has never been tested for
+
+⭑ **READ THIS ROUTE AS TWO THINGS, because the axis correction split it and the split is the most
+consequential thing in this memo.**
+
+| | **1a — the in-silico vulnerability assessment** | **1b — the ATR-inhibitor cell panel** |
+|---|---|---|
+| what it is | a computed class-inheritance assessment: the FET-IDR/RGG structural precondition from sequence, the GDSC2 ATRi re-cut by FET status, the PARPi negative-translation bound | a 7-point dose–response in EMC lines with γH2AX, a PARPi arm and a proliferation index |
+| who has to agree | **nobody** | a group holding an EMC model |
+| tier | **Tier 1, rank 3** — it produces a result either way | **Tier 2, rank 4** — best W1 and smallest W2 in the memo, and still not ours to run |
+| its home | ⭑ **[`emc_atr_vulnerability.py`](../modalities/emc_atr_vulnerability.py)** — the dedicated assessment module, which asks the reviewer's next four questions and reports a failing specificity control as a failure; upstream of it, [`emc_fet_idr_census.py`](../modalities/emc_fet_idr_census.py) → [`emc-fet-idr-census.json`](../modalities/emc-fet-idr-census.json) (the structural precondition) and [`fet_ddr_axis_scan.py`](../modalities/fet_ddr_axis_scan.py) → [`fet-ddr-axis-scan.json`](../modalities/fet-ddr-axis-scan.json) (the transfer prior and its two bounds). **This memo cites those, it does not restate them** | [`emc-atri-prereg.md`](../modalities/emc-atri-prereg.md), written before anyone was approached |
+
+**The two must not be quoted as one route.** Merging them is what let the first ranking put route 1
+at #1 on the strength of an experiment nobody has agreed to run. **1a is the strongest new
+*deliverable* this memo found; 1b is the strongest *ask* it found; they are different claims.**
 
 **This is the strongest new candidate in the memo and it is not a molecule we have to invent.**
 
@@ -192,6 +268,15 @@ stopping at Ewing, and both are quoted rather than paraphrased:
    NR4A3, is a nuclear receptor — a fourth TF class, and the untested one.**
 
 #### ⭐ The structural precondition, computed — and EMC's fusion carries the *identical* FET segment
+
+> ⚠ **POINTER, added 2026-08-03.** The construct-level version of this route — exon-verified,
+> source-quoted junctions for the EMC fusions, the RGG dose-calibration prediction registered
+> against the source's own add-back series, and a within-EMC TCF12 negative control — is
+> [`emc-atr-collaborator-package.md`](./emc-atr-collaborator-package.md)
+> ([`emc_fet_construct_designs.py`](../modalities/emc_fet_construct_designs.py)). **It corrects the
+> junction used in the table below**: the commonest reported EMC fusion is **EWSR1 exon 12** ::
+> NR4A3 exon 3, not exon 7, and the two reported EMC types straddle the two fusions the mechanism
+> was measured on rather than sitting at one point. Old value registered in that file's appendix.
 
 **The partner-list argument is about gene names. The mechanism is about structure**, and the source
 states it as a conjunction: the fusion **retains** the FET N-terminal IDR (so it reaches DSBs) and
@@ -326,20 +411,42 @@ closes the `[to verify]` that has sat in [`../IDEAS.md`](../IDEAS.md) since 2026
 **POLR2A and PRKDC are simply absent from the 24Q4 column set**, which is why the first run's stated
 pan-essential control read `null`; the control is now RPL5.
 
-**Axis P — what we can publish without a lab.** The FET-fraction arithmetic above; the re-cut ATRi
-sensitivity analysis; a structural argument that all three EMC fusions retain the full FET IDR
+**Axis P (1a) — what we can publish without a lab.** The FET-fraction arithmetic above; the re-cut
+ATRi sensitivity analysis; a structural argument that all three EMC fusions retain the full FET IDR
 (this repo already owns the exon-resolved fusion model that resolves the junction to **EWSR1(1–264)::NR4A3(1–626)**,
 [`target-route-options.md` §1.3](./target-route-options.md)); and a preregistered prediction with
 kill criteria.
 
-**Axis W — the ask, and why it is the cheapest in the portfolio.** *Run a 7-point elimusertib (or
-ceralasertib/berzosertib) dose–response in EMC cells against a non-FET sarcoma control, and stain
-γH2AX.* Every component exists: **the compounds are catalogue reagents**; **the models exist** —
-USZ20-EMC1 and USZ22-EMC2 ([Bangerter et al., *Human Cell* 2023;36:446–455](https://link.springer.com/article/10.1007/s13577-022-00818-x)),
+**⭑ Axis D (1a) — what we hold if nobody ever plates a cell.** A complete in-silico vulnerability
+assessment: a class-inheritance argument with a **computed** structural precondition, a **computed**
+drug-sensitivity re-cut the source paper did not perform (it split Ewing-vs-rest; this is
+FET-vs-rest with a general-chemosensitivity correction and two non-DDR controls that land at zero),
+and a **computed internal bound** — the PARPi rows, which are larger than the ATRi rows and whose
+clinical answer is already known to be negative. ⚠ **That last part is what makes 1a a real
+deliverable rather than an advocacy document**: it publishes the strongest available argument
+*against* its own hypothesis alongside it, from the same data, and a reader can grade it without
+running anything.
+
+**Axis W1 (1b) — the taker, and this is the calibrating example for the whole axis.** The source
+paper's argument is a **partner-class** argument: it spans an ETS partner (FLI1, Ewing), a bZIP
+partner (ATF1, clear cell) and a zinc-finger partner (WT1, DSRCT), and it generalises from the shared
+FET N-terminus rather than from any partner. **EMC's partner, NR4A3, is a nuclear receptor — a fourth
+TF class, and the untested one.** So the ask is not *"please test our molecule"*; it is *"here is the
+missing class in the argument you published, with the structural precondition already computed and
+byte-identical to your own system's, and a preregistration that includes the control that would
+embarrass it."* ⚠ **Stated at its true weight: a self-interested taker is not a committed one.**
+Nobody has been approached — that step is outward-facing and is trimcrae's alone (CLAUDE.md §3) — so
+W1 grades the *position*, and no group's willingness is claimed or implied.
+
+**Axis W2 (1b) — the ask's size, and it is the smallest in the portfolio.** *Run a 7-point
+elimusertib (or ceralasertib/berzosertib) dose–response in EMC cells against a non-FET sarcoma
+control, and stain γH2AX.* Every component exists: **the compounds are catalogue reagents**; **the
+models exist** — USZ20-EMC1 and USZ22-EMC2 ([Bangerter et al., *Human Cell* 2023;36:446–455](https://link.springer.com/article/10.1007/s13577-022-00818-x)),
 NCC-EMC1-C1 ([Iwata et al., *Human Cell* 2025](https://link.springer.com/article/10.1007/s13577-025-01250-7)),
 and H-EMC-SS; and **the readout is pre-validated** — the source paper found *"gH2AX proved to be a
 reliable biomarker for elimusertib activity"* after p-CHK1 did not discriminate. This is a plate
-experiment, not a program.
+experiment, not a program. ⚠ Per Axis W2's definition this counts **only because W1 is strong**; the
+same plate with no interested group would be worth nothing.
 
 **Axis S — inherits none of the three blockers.** No ΔΔG, no ternary, no paralogue discrimination.
 The molecule is not ours and does not need to be selective for anything in the NR4A family.
@@ -370,7 +477,7 @@ mechanism readout rather than viability alone.
 
 ---
 
-### Route 2 — Fusion-junction ASO / siRNA: unchanged in rank, and it is now the *most* de-risked thing we own
+### Route 2 — ⭐ Fusion-junction ASO / siRNA: unchanged in rank, and the route the axis correction most clearly vindicates
 
 Nothing in this memo changes the existing plan ([`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md);
 route detail in [`target-route-options.md` route 3](./target-route-options.md)). It is repeated here
@@ -389,15 +496,32 @@ already built the EMC surfaceome scan that asks precisely that question**
 honest headline is that the intersection of selective and normal-tissue-restricted is **empty** among
 classic antigens, so this is a *reframing of the gate*, not a solution to it.
 
+**⭑ Axis D — why this route survives the reframe better than anything except the methods paper.** Its
+in-silico arc was *completed and red-teamed before* the wet-lab question was ever asked, so the
+deliverable and the ask are already separate objects:
+[`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md) is finished work with its own
+[red team](./fusion-junction-aso-paper-redteam.md), and the delivery gate lives **inside** it as a
+stated limitation rather than as a precondition for having a paper. ⚠ **That is the profile Axis D
+was added to detect** — and note what it does *not* claim: base-pairing selectivity is computed, not
+demonstrated in a cell, and the one remaining GPU item (RNase-H1 cleavage-discrimination MD) would
+strengthen the specificity argument without changing that. **Axis W1 — weak, and it costs the route
+nothing.** No group has a standing self-interest in an EMC-specific junction oligo; the route ranks
+where it does entirely on D.
+
 ---
 
-### Route 3 — ⭐ Publish the methods result the program has already earned
+### Route 3 — ⭐⭐ Publish the methods result the program has already earned — **RANK 1**
 
-**This is the route most likely to be under-rated because it feels like a consolation prize. It is
-not.** The north star is *"the state of the art of what in-silico can do"* — and a rigorous,
-preregistered demonstration of **where in-silico selectivity prediction breaks** is a state-of-the-art
-result about the state of the art. What this program can put on the record that essentially nobody
-else has:
+⭑ **This route was #3 in the first ranking and it should have been #1.** It was under-rated for
+exactly the reason it is now first: the old Axis W had nothing to say about a route with **no wet-lab
+ask at all**, so a route needing nobody scored as though it offered nothing, while a route needing a
+collaborator scored on how cheap that collaborator's afternoon would be. Under Axis D the ordering
+inverts — **this is the only entry in the memo that is finished when we stop typing.**
+
+**And it feels like a consolation prize, which is the second reason it was under-rated. It is not.**
+The north star is *"the state of the art of what in-silico can do"* — and a rigorous, preregistered
+demonstration of **where in-silico selectivity prediction breaks** is a state-of-the-art result about
+the state of the art. What this program can put on the record that essentially nobody else has:
 
 - **Three independent, preregistered attempts at a positive control for paralogue-selectivity
   detection, all failing, with their mechanisms diagnosed** — a wrong-sign ternary FEP calibrator, an
@@ -408,13 +532,39 @@ else has:
   target↔E3 interface while the internal E3 machinery scores 0.89–0.97 — localised by decomposition to
   *relative placement of the two proteins*, at the scale a true complex reaches when displaced ~32 Å.
 - **A selectivity detector that passes a known-answer test** (the SMARCA2/SMARCA4 Gln98→Leu interface
-  signature) **and then returns "not yet" on our own system for a stated, reproducible reason.**
+  signature, instrument `V1`) **and then returns "not yet" on our own system for a stated,
+  reproducible reason.**
+- ⭑ **Two further instruments that were assembled and then FAILED or DISAGREED on their own
+  known-answer terms, both landed 2026-08-03 and neither in the first ranking** — the anti-target
+  docking panel `V21`, which cannot recover 3 of its own 10 cognate crystallographic ligands and is
+  therefore graded unreadable, and the scoring-independent second pose method `V22`, which disagrees
+  with the primary docking instrument. **The roadmap's instrument register is the one home for both
+  verdicts and their numbers** ([§V-register](./nr4a3-program-map.md#3--instruments--which-one-answers-each-requirement));
+  this memo only records that the paper has them. ⚠ **A failing instrument is a *harder* result to
+  publish than a hole and a more useful one** — a hole says nothing was built.
+- ⭑ **A published method's blindness claim retracted from that method's own released data.** The
+  DeepTernary benchmark's unbound protocol turns out to superpose both binaries into the native
+  ternary frame and supply the native degrader pose, so it is blind to the two proteins' relative
+  placement and **not** to which pocket each ligand end occupies; our own arms were re-labelled and
+  the positive control moved to an honestly-labelled in-set case. One home for the evidence:
+  [STRATEGY.md Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)
+  row 65. **This is a finding about the field's instrument, not about our target**, which is the
+  kind of content a methods venue exists for.
 
 Negative results with working controls are publishable and they are what the field is short of. Venue
 is a methods/assessment journal, not a target paper. **Cost: $0. Blockers inherited: none — it is a
 paper *about* the blockers.** This also protects the program's credibility: the alternative is a
 target paper carrying an unvalidated selectivity prediction, which is the outcome the roadmap's
 language discipline exists to prevent.
+
+**⭑ Axis D — maximal, and the reason this is rank 1.** Every input already exists as a committed
+artifact with a preregistration in front of it; nothing here is waiting on a reagent, a group, a
+scan or a plate. **W1 and W2 are not weak for this route — they are undefined**, because there is no
+ask. ⚠ **What it is not:** it is not an EMC treatment candidate, and it must never be presented as
+one. It is the honest product of a program that set out to build a selectivity instrument and can
+report, with controls, that the instrument is not yet there. The memo's own question — *what reaches
+a testable candidate* — this route answers with "nothing, and here is precisely why", which is a
+result rather than a failure to have one.
 
 ---
 
@@ -438,19 +588,188 @@ effector-recruiter, **no E3 arm**), which is a strictly smaller geometric proble
 enumerated, and ask whether a productive bivalent exists at all. Same free CPU as
 [route 2 of `target-route-options.md`](./target-route-options.md), different pendant.
 
-**Grade: ★★ promote, behind Tier 1 only because it still needs a molecule.**
+**⭑ Grade under the corrected axes: Tier 3, and one free CPU run from moving.** *(Superseded, kept
+quotable: the first ranking's* **"★★ promote, behind Tier 1 only because it still needs a molecule"**
+*— see [§6](#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis).)*
+
+- **W1 — real but contingent, which is the whole demotion.** The TCIP authors' own stated first
+  limitation is the missing ligand for the endogenous fusion, so the interest is genuine. ⛔ **But
+  what this repo can offer them is a computationally-opened cryptic pocket, not a ligand** — `R4`
+  (*does anything bind it*) is the program's one un-buyable requirement and is unanswered. So the
+  offer is "we predict a site", which is a weaker position than route 1b's "we complete your class
+  argument with a catalogue compound", and W1 is graded against that bar.
+- **W2 — large.** A bespoke bivalent, synthesised, downstream of a binder that does not yet exist.
+- **⛔ D — currently ZERO, and that is the correctable part.** The TCIP-configuration enumeration
+  above has **not been run**, so as of this memo the route holds no computed result of its own.
+  ⭑ **It is the cheapest promotion available here:** free CPU, and a negative is worth as much as a
+  positive because "no productive bivalent exists in the enumerated space" is itself a publishable
+  geometric result. **Run it, then re-grade this row** — do not re-rank it on the expectation.
 
 ---
 
-### Route 5 — the covalent probe at C397, proposed as a REAGENT
+### Route 5 — the covalent probe at C397, proposed as a REAGENT — ⭑ **the largest single demotion**
 
-Already specified in [`target-route-options.md` route 2](./target-route-options.md); its rank *rises*
-here for one reason. The program's single un-buyable requirement is **`R4` — does anything bind the
-opened cryptic pocket** — and a covalent probe is the cheapest form of that experiment for a
-collaborator: an irreversible adduct gives an intact-mass readout with no SPR, ITC or thermal-shift
-rig. **Ask for the probe, not the drug.** ⚠ Its named risks stand unchanged: reach is necessary and
-never sufficient, no thiol pKa or intrinsic reactivity is computed anywhere in this repo, and the
-exposure criterion `V17` fails its own positive control.
+Already specified in [`target-route-options.md` route 2](./target-route-options.md). The program's
+single un-buyable requirement is **`R4` — does anything bind the opened cryptic pocket** — and a
+covalent probe is the cheapest form of that experiment for a collaborator: an irreversible adduct
+gives an intact-mass readout with no SPR, ITC or thermal-shift rig. **Ask for the probe, not the
+drug.** ⚠ Its named risks stand unchanged: reach is necessary and never sufficient, no thiol pKa or
+intrinsic reactivity is computed anywhere in this repo, and the exposure criterion `V17` fails its
+own positive control.
+
+**⭑ And that last clause is now the ranking, not a footnote. Tier 2 → Tier 3.** *(Superseded, kept
+quotable: the first ranking's* **"its rank RISES here for one reason … the cheapest form of that
+experiment for a collaborator"** *.)* ⭐ **RE-EXAMINED 2026-08-03 against the published NR4A3 ligand
+campaign and HELD — see [route 5a](#route-5a--the-published-nr4a3-hits-adjudicated-they-do-not-rescue-route-5-because-they-answer-a-different-question),
+which also splits this row from the monovalent one.** The sentence "the cheapest form of that experiment **for a
+collaborator**" names the defect exactly: the whole promotion was an Axis-W judgement about somebody
+else's cost.
+
+- **W1 — no identified taker.** Chemical-probe programmes exist for orphan targets, but none has a
+  standing interest in an **EMC-specific** covalent NR4A3 probe, and nothing has been approached.
+- **W2 — the largest ask class in the memo:** a bespoke molecule synthesised, before any readout.
+- **⛔ D ≈ 0, and P is negative rather than merely absent.** This is what separates route 5 from
+  route 4, which is otherwise similarly gated. Route 4 has a free computation waiting; route 5's
+  in-silico half is **not currently publishable on its own terms** — no thiol pKa or intrinsic
+  reactivity is computed anywhere in this repo, and its own exposure instrument fails its positive
+  control, so the reach argument cannot be read. ⚠ **Not refuted, and not closed** — the route is
+  intact and the fix (a working exposure instrument, or computed reactivity) is in-silico and
+  therefore ours to do. It simply cannot be ranked above routes that already hold their product.
+
+#### ⭑ The THIRD framing of C397 now has its own memo — and it hardens two of the rows above
+
+This row frames C397 as a **reagent**; [`target-route-options.md` route 2](./target-route-options.md)
+frames it as the **targeting arm of a bivalent**. Neither states the third option — *a standalone
+monovalent molecule that only occupies the LBD and thereby alters what the fusion does*. It is written
+up and graded in [`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md) (2026-08-03,
+$0) rather than here, because it turns on a different question: not *does anything bind*, but **does
+binary occupancy change what the fusion does.** Its verdict is **registered, not promoted**, and three
+of its findings bear on this row:
+
+1. ★ **The AF-1 argument that closes 6-MP in Tier 4 does NOT also close LBD-directed modulation.** The
+   one published demonstration of LBD-borne functional modulation of NOR-1 was read out on a
+   **Gal4-NOR-1-LBD** reporter — a construct that is *itself* AF-1-less — so the domain the fusion
+   deletes is not the domain that result rests on. Free, and it was sitting unconnected in the repo.
+2. ⛔ **The E3-arm-free reach enumeration that item 4 of §4 asks for HAS NOW BEEN RUN** (in the
+   monovalent configuration; the TCIP configuration is still a different second terminus and is not
+   answered by it). **It goes against the covalent axis:** removing the second terminus does not widen
+   the categorical window at C397 — on the conservative convention it closes every cell that had one.
+   A strictly smaller search problem returning a strictly worse selectivity margin, with the mechanism
+   measured ([`nr4a3-monovalent-reach.json`](../modalities/nr4a3-monovalent-reach.json)).
+3. ⛔ **And the ask cannot be routed around a missing collaborator by buying it** —
+   [`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md) owns that verdict and it is not
+   restated here. ⭑ **One consequence specific to THIS row that its audit did not draw:** the single
+   off-the-shelf recombinant NR4A3 LBD it identifies spans UniProt **398–626**, so it contains C420 and
+   C559 — the two cysteines branch 1b closed — and **excludes C397, the one that survived, by a single
+   residue.** An intact-mass covalent-probe experiment on the catalogue protein would therefore be
+   blind to the handle this row exists for. That **strengthens the demotion above** rather than merely
+   accompanying it.
+
+---
+
+### Route 5a — THE PUBLISHED NR4A3 HITS, ADJUDICATED: they do not rescue route 5, because they answer a DIFFERENT QUESTION
+
+**Why this section exists.** Two findings in this repo pointed in opposite directions and neither had the
+other. **(A)** Route 5 was demoted above because its in-silico half is *unreadable* — `V17` fails its own
+positive control and no thiol pKa or intrinsic reactivity is computed anywhere here. **(B)** A published
+screen returned a clear **positive** on this exact protein: <1 % hit rate, three chemotypes, a low-µM
+inverse agonist. If (B) is about (A)'s question, the demotion is wrong. **It is not**, and the reason is
+specific rather than dismissive.
+
+#### ⭑ First: (B) is evidence this repo ALREADY HELD, under a name that matched no paper
+
+The screen is **Zaienne et al., *ChemMedChem* 2022;17(16):e202200259, PMID 35704774, PMC9542104** — and
+[`../IDEAS.md`](../IDEAS.md) has recorded it since long before this memo, as *"NR4A3-specific warhead
+starting points exist (inverse NOR-1 agonists, **Munck 2022**)"*. **There is no Munck 2022.** Measured in
+CI on 2026-08-03 against two indexes: `AUTH:"Munck" AND (NR4A3 OR "NOR-1")` returns **0** in Europe PMC,
+`Munck[Author]` returns **0** in PubMed, and the title resolves **uniquely** to Zaienne. The full
+correction is registered once, in
+[`nr4a3-druggability-reconciliation.md` §5b](../modalities/nr4a3-druggability-reconciliation.md), with the
+superseded attribution retained and quotable and a test pinning it.
+
+⚠ **That is a finding in its own right and it belongs in this memo, not only in a citation register.**
+Route 5 was demoted partly for having **no experimental anchor** — while the field's one positive NR4A3
+ligand-discovery result sat two documents away under a name a future session could not look up.
+[`target-route-options.md`](./target-route-options.md)'s reference table even carried the *same paper as
+two separate rows*, "Zaienne 2022" and "Munck 2022", which is what a misattribution looks like once it has
+propagated. **A mis-cited source is evidence the repo holds and cannot find**, and this is the cost, made
+concrete.
+
+#### ⭐ Second, and it is the discriminating question: LBD or AF-1? — **LBD (strictly, `hinge+LBD`), verbatim**
+
+This matters more here than anywhere else in the memo, because **Tier 4 closes 6-mercaptopurine on exactly
+this axis**: 6-MP acts through the AF-1, and the fusion replaces NR4A3's AF-1 (1–260) with EWSR1's
+low-complexity region. If the published hits were also AF-1-borne, they would say nothing about the disease
+protein and route 5 would stay demoted *and* the monovalent framing would be dead. **They are not.** From
+the paper's own Experimental Section:
+
+> *"the Gal4‐NOR‐1 fusion receptor plasmid **pFA‐CMV‐hNOR‐1‐LBD coding for the hinge region and LBD of the
+> canonical isoform of NOR‐1**"*
+
+and its Results:
+
+> *"a chimeric receptor composed of the **human NOR‐1 LBD and the Gal4 DNA binding domain from yeast**."*
+
+**The AF-1 is not in the construct.** Every IC₅₀, EC₅₀ and SAR point in that paper — and the NCoR1/SMRT
+mechanism work, which uses the same plasmid — was measured on it. The paper draws the distinction itself,
+for the two prior ligands: 6-MP *"was found to require the N‐terminal activation function 1 (AF‐1) of NOR‐1
+for activity and **does not bind to the ligand binding domain (LBD)**"*, whereas PGA2 *"weakly activates
+NOR‐1 **through direct interaction with its LBD**."*
+
+⇒ ★ **The AF-1 deletion is not, by itself, a defeater for LBD-directed modulation of EWSR1::NR4A3.** The
+receptor has two separable transactivation modules and the fusion deletes only one. ⚠ **One sharpening the
+repo had not made:** the construct is **`hinge + LBD`**, which is the plasmid's *contents*, not
+"Gal4-NOR-1-LBD", which is its *name*. Nothing localises any hit to the LBD as against the hinge, so the
+honest scope is `hinge+LBD` — wider than the repo has been saying, and still entirely outside the AF-1, so
+the adjudication holds. Quotes, limits and provenance are owned by
+[`nr4a3-druggability-reconciliation.md` §5a](../modalities/nr4a3-druggability-reconciliation.md); they are
+not restated elsewhere.
+
+#### ⛔ Third: why that does NOT move route 5 — the four things the demotion rests on, and what the paper says about each
+
+**Route 5 asks a *reagent* question — "can a covalent probe at C397 report that something binds the opened
+cryptic Pocket-5?" — and its demotion was about instruments, not about enthusiasm.**
+
+| what route 5's demotion rests on | what Zaienne 2022 contributes | net |
+|---|---|---|
+| `V17`, the exposure criterion, **fails its own positive control** (NR4A1 Cys551) | nothing — a luciferase reporter measures no residue's solvent accessibility | **unmoved** |
+| **no thiol pKa, intrinsic electrophile reactivity, adduct stability or chemoproteomic selectivity** is computed anywhere in this repo | nothing — the paper contains no covalent chemistry and never mentions C397 | **unmoved** |
+| `R4` — *does anything bind the **opened cryptic Pocket-5*** | ⛔ **the site is unassigned.** The only site evidence is competition: *"Competition experiments suggested different binding sites … pointing to non‐competitive behavior and thus independent binding of the agonist 3 and the inverse agonist 1."* No site is named for any compound | **unmoved** |
+| the readout would need **purified protein + intact mass** | ⛔ **the campaign used no purified protein and made no biophysical binding measurement at all.** Every readout is a cell reporter or qPCR — so there is *no* published precedent to copy | **unmoved, arguably worse** |
+
+⇒ ⛔ **VERDICT: the published hits answer a DIFFERENT question, so route 5 is HELD at Tier 3.** They
+establish that NOR-1's `hinge+LBD` is **ligandable and functionally modulable in cells**. Route 5 needs
+something else entirely: that a *specific cysteine* is exposed and reactive, and that a probe would report
+on a *specific modelled pocket*. **Empirical evidence outranks an unreadable instrument only when it is
+evidence about the same thing**, and this is not.
+
+⚠ **One thing it DOES change, and it is a correction of a stated reason rather than of a verdict.**
+[`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md) §1.2 closes the cheap site-localisation route
+because *"For NR4A3's cryptic Pocket-5 there is no known binder"*, which the competition-with-a-known-binder
+method requires. Strictly, a known **NOR-1 binder** now exists — Zaienne compound 19, with measured
+functional IC₅₀s and cellular target engagement. The circularity still holds, but **for a sharper reason
+that is worth having right**: competing against compound 19 would establish *"same site as 19"*, and 19's
+own site is unassigned. So it localises to an unknown, which is not a localisation. **The verdict is
+unchanged; the reason is now exact.** That memo owns the verdict and this is a pointer, not a re-ranking.
+
+#### ⭐ Fourth: ONE ROW OR TWO? — **TWO, and route 5's demotion must not be read onto the other**
+
+| | **route 5** — covalent probe at C397 | **route 16** — monovalent pocket modulation |
+|---|---|---|
+| **what the object is** | a **reagent**: an irreversible adduct read by intact mass | a **drug**: a molecule that changes what the fusion does by occupancy |
+| **what it must show** | *something binds Pocket-5* (`R4`) | *occupancy changes output, in the chimera* |
+| **evidence base** | reach geometry + `V17` + reactivity — **all absent or unreadable** | the Zaienne functional result + the ΔΔG selectivity requirement |
+| **does `V17`'s failure reach it?** | ⛔ **yes — it is the demotion** | ⚠ **only the covalent sub-form. The non-covalent sub-form has no cysteine** |
+| **does the AF-1 adjudication reach it?** | ⚠ barely — a probe needs only to *bind* | ★ **yes, decisively, and favourably** |
+
+⭐ **They share exactly one instrument — reach geometry — and only for route 16's covalent sub-form.** A
+covalent probe and a reversible functional modulator are different objects with different evidence bases,
+and until 2026-08-03 the repo carried the second **only inside this row's detail section**, which is
+precisely the shape in which one demotion gets silently applied to two routes. **Route 16 is now its own
+row in [§2](#2--the-ranked-list)**, graded on its own grounds, and it lands in Tier 3 for reasons that have
+nothing to do with `V17`: its two sub-forms fail on opposite blockers, and it carries a make-or-break no
+other LBD route does. ⚠ **Same tier, different reasons — and that distinction is the whole content of this
+subsection.**
 
 ---
 
@@ -480,17 +799,53 @@ data, which is the $0 next step** (does EMC express PPARG target genes at a leve
 active or a poised receptor). **Blockers inherited: none.** **Wet-lab ask: a two-drug matrix on the
 existing EMC lines** — approved drugs, catalogue reagents, one plate.
 
+**⭑ Grade under the corrected axes: Tier 2, rank 5 — and it is the route where the two new axes
+disagree with each other, so both are reported.**
+
+- **W1 — good, and better than the route's in-silico half would suggest.** The pioglitazone +
+  trabectedin result was published in the sibling myxoid sarcoma, so **its own authors hold a
+  class-extension interest** of the same shape that makes route 1b strong: EMC would be a second
+  myxoid sarcoma for their combination, not a favour. Every drug is approved, which removes the
+  usual reagent barrier entirely. ⚠ As with 1b, **nobody has been approached** and no willingness is
+  claimed.
+- **W2 — small.** One plate, catalogue reagents, no synthesis.
+- **⚠ D — thin, and this is what keeps it behind route 1b.** If nobody runs the matrix we hold a
+  *literature synthesis* — three published pieces joined for the first time — plus, at best, a
+  PPARG-axis expression read on **the single EMC model in DepMap** (`ACH-001519 / H-EMC-SS`, `n = 1`,
+  expression only). That settles the agonism-vs-redundancy direction question well enough to write
+  down and **not** well enough to call a computed result about EMC. The synthesis is genuinely new
+  and worth publishing inside a broader memo; it is not a paper on its own.
+- **Net:** high W1 and low D pull opposite ways. It sits above the ASO's ask (better taker, smaller
+  ask) and below route 1b (whose deliverable half stands alone and whose taker is stronger still).
+
 ---
 
-### Route 7 — SSTR2 / neuroendocrine theranostic: the cheapest decisive confirm in the entire portfolio
+### Route 7 — SSTR2 / neuroendocrine theranostic: the cheapest possible confirm, and the clearest case of cheapness not being enough
 
 Fully worked in [`emc-surface-target-landscape.md` §3.4](./emc-surface-target-landscape.md) and
-unchanged; it is listed here because **its confirm is an approved diagnostic scan that a clinician can
-order on a single patient**, which no other route in this memo can say. If EMC's neuroendocrine
-phenotype extends to SSTR2, ⁶⁸Ga-DOTATATE PET is both the biomarker and the eligibility test for an
-off-the-shelf ¹⁷⁷Lu-DOTATATE theranostic. ⚠ SSTR2's normal-tissue window is `ENHANCED_BROAD`, the
-expression is **unmeasured in EMC**, and a negative scan kills the route — which is exactly why it is
-worth asking for.
+unchanged; **its confirm is an approved diagnostic scan that a clinician can order on a single
+patient**, which no other route in this memo can say. If EMC's neuroendocrine phenotype extends to
+SSTR2, ⁶⁸Ga-DOTATATE PET is both the biomarker and the eligibility test for an off-the-shelf
+¹⁷⁷Lu-DOTATATE theranostic. ⚠ SSTR2's normal-tissue window is `ENHANCED_BROAD`, the expression is
+**unmeasured in EMC**, and a negative scan kills the route — which is exactly why it is worth asking
+for.
+
+**⭑ Grade under the corrected axes: Tier 2 → Tier 3, and this route is the axis correction's cleanest
+worked example.** *(Superseded, kept quotable: the first ranking's* **"the cheapest decisive confirm
+in the entire portfolio"** *, which was true and was not a reason.)*
+
+- **W2 is as small as W2 gets** — an already-approved scan, no reagent, no protocol development.
+- **⛔ W1 is the smallest in the memo, and it dominates.** Ordering that scan requires a clinician
+  **who has an EMC patient in front of them.** That is not a group wanting a result for its own
+  reasons; it is the single hardest access class here, and it is contingent on an ultra-rare
+  disease's presentation rather than on anyone's research interest. **A free experiment with no
+  taker is not a cheap experiment — it is an experiment that does not happen**, which is precisely
+  the conflation the old Axis W encoded.
+- **⛔ D ≈ 0.** The surface-target landscape memo already exists and already records SSTR2 as
+  unmeasured in EMC. There is no further computation that moves the question — the answer is an
+  expression measurement — so if the scan never happens, **nothing new is written.** ⚠ Not refuted
+  and not removed: it stays on the ask list, because a single negative scan would still close it for
+  the cost of one existing procedure.
 
 ---
 
@@ -565,14 +920,20 @@ is not re-derived as novel.
 and rejected is not re-proposed as an unexplored idea. **Absence from Tier 1–2 here is a judgement,
 not an oversight.***
 
+⚠ **The `landed` column is the CORRECTED tier.** Where it moved, the first ranking's tier is given
+beside it so the change is auditable from this table alone; the reasoning is in
+[§6](#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis).
+
 | technique class searched | landed |
 |---|---|
-| DDR synthetic lethality in FET-rearranged cancer | **Tier 1 #1** |
-| fusion-junction ASO / siRNA; antibody-oligonucleotide delivery | **Tier 1 #2** |
-| chemically-induced proximity: TCIP (rewiring) | **Tier 2 #4** |
-| covalent probes / chemical-biology reagents | **Tier 2 #5** |
-| differentiation therapy + fusion-TF displacement (PPARγ × trabectedin) | **Tier 2 #6** |
-| peptide-receptor radioligand therapy / theranostics | **Tier 2 #7** |
+| in-silico methods/assessment of where selectivity prediction breaks | **Tier 1 rank 1** *(was Tier 1 #3)* |
+| fusion-junction ASO / siRNA; antibody-oligonucleotide delivery | **Tier 1 rank 2** *(was Tier 1 #2 — held)* |
+| DDR synthetic lethality in FET-rearranged cancer — **the computed assessment** | **Tier 1 rank 3** *(was, merged with its ask, Tier 1 #1)* |
+| DDR synthetic lethality in FET-rearranged cancer — **the cell panel** | **Tier 2 rank 4 — an ASK, best W1 in the memo** |
+| differentiation therapy + fusion-TF displacement (PPARγ × trabectedin) | **Tier 2 rank 5** *(was Tier 2 #6 — held tier, now explicitly an ask)* |
+| chemically-induced proximity: TCIP (rewiring) | **Tier 3** *(was Tier 2 #4)* — one free CPU run from re-grading |
+| covalent probes / chemical-biology reagents | **Tier 3** *(was Tier 2 #5)* — the largest demotion |
+| peptide-receptor radioligand therapy / theranostics | **Tier 3** *(was Tier 2 #7)* |
 | chemically-induced proximity: RIPTAC (essential-protein poisoning) | Tier 3 #8 |
 | gene editing: Cas9 intron-targeting, Cas13 RNA knockdown | Tier 3 #9 |
 | TCR-T / ImmTAC / fusion-junction immunopeptidomics | Tier 3 #10 |
@@ -592,29 +953,45 @@ not an oversight.***
 
 ## 4 · What I would do in the next two weeks, in order
 
-Everything below is $0 or free CI. Ordered by what unblocks the most, not by appeal.
+Everything below is $0 or free CI. ⭑ **Re-ordered on Axis D: FINISH THINGS FIRST.** The old order put
+the ask-preparation work at the top, which was correct under the old axes and is not under these —
+preparing an ask we cannot execute ahead of finishing a paper we can is the exact inversion the
+correction identified. *(Superseded, kept quotable: the old order's step 5,* **"Draft the methods
+paper's outline"** *, ranked below three ask-side items.)*
 
-1. ✅ **DONE — the ATRi-sensitivity re-cut landed** (GDSC2 8.5; §3 route 1). It is a genuine result
+1. ⭑ **Draft the methods paper (route 3) — rank 1, and it is the largest un-started deliverable in
+   the repo.** Its inputs are all committed: the three failed selectivity controls with their
+   diagnosed mechanisms, the co-fold assembly result, `V1`'s known-answer pass beside its "not yet"
+   on our own system, and the two 2026-08-03 instrument results (`V21` failing its own panel, `V22`
+   disagreeing with `V3`). The roadmap's registers are the one home for every verdict; the paper
+   cites them rather than restating.
+2. **Re-run the linker enumeration in the TCIP configuration** (no E3 arm) — free CPU, and a negative
+   is worth as much as a positive. ⭑ **Promoted in the order because it is the one action that moves
+   a route's Axis-D grade**: route 4 holds nothing until this runs, and holds a real geometric result
+   the moment it does, whichever way it comes out.
+3. **Pull EMC PPARG-axis expression** to settle route 6's direction question, using the surfaceome/
+   expression machinery that already exists. ⚠ Bounded in advance: the only EMC model in DepMap is
+   `n = 1`, expression-only, so the honest ceiling on this is *a direction*, not a result.
+4. ✅ **DONE — the ATRi-sensitivity re-cut landed** (GDSC2 8.5; §3 route 1a). It is a genuine result
    in both directions: the ATR-inhibitor effect in FET lines survives correction for general
    chemosensitivity, and PARP inhibitors are 2–4× larger in the same lines despite having already
-   failed clinically in Ewing. Route 1 keeps its rank; its in-vitro case is now explicitly bounded.
-2. ✅ **DONE — the route-1 preregistration is written and committed**
+   failed clinically in Ewing. Route 1a keeps Tier 1; its in-vitro case is explicitly bounded.
+5. ✅ **DONE — the structural precondition is computed** and EMC's canonical fusion meets it with a
+   byte-identical FET segment to the Ewing fusion the mechanism was measured on (§3 route 1).
+6. ✅ **DONE — the route-1b preregistration is written and committed**
    ([`emc-atri-prereg.md`](../modalities/emc-atri-prereg.md)), before anyone has been approached. It
    carries the two design requirements this session's analyses produced — **a PARP-inhibitor arm as
    an internal negative-translation control** and a **proliferation index** alongside γH2AX — names
    the published EMC models, fixes the criteria in advance, and registers its own adverse prior in
    writing rather than discovering it later.
-2b. ✅ **DONE — the structural precondition is computed** and EMC's canonical fusion meets it with a
-   byte-identical FET segment to the Ewing fusion the mechanism was measured on (§3 route 1).
-2c. ⛔ **NEXT, AND IT IS trimcrae's CALL, NOT MINE.** The remaining step is to approach one of the
-   groups holding an EMC model. That is **outward-facing**, so CLAUDE.md §3 gates it. Everything
-   needed for the ask exists; nothing further should be built to delay it.
-3. **Pull EMC PPARG-axis expression** to settle route 6's direction question, using the surfaceome/
-   expression machinery that already exists.
-4. **Re-run the linker enumeration in the TCIP configuration** (no E3 arm) — free CPU, and a negative
-   is worth as much as a positive.
-5. **Draft the methods paper's outline** (route 3) against the four failures and their controls.
-6. ✅ **DONE this session** — routes 1 and 6 and the two Tier-4 closures are on
+7. ⛔ **THE ASK — trimcrae's CALL, NOT MINE, AND NOT A BLOCKER ON 1–3.** The remaining step for route
+   1b is to approach one of the groups holding an EMC model, or the FET/ATR authors whose class
+   argument it completes. That is **outward-facing**, so CLAUDE.md §3 gates it. Everything needed for
+   the ask exists. ⭑ **What changed with the axis correction: this is no longer the top of the
+   list.** It was, when the ranking treated a cheap ask as a near-certain experiment. It is now a
+   step whose timing is trimcrae's and whose failure costs the programme nothing that is not already
+   written down — which is the whole reason for splitting 1a from 1b.
+8. ✅ **DONE this session** — routes 1 and 6 and the two Tier-4 closures are on
    [`../IDEAS.md`](../IDEAS.md)'s board, and the closures are rows in the roadmap's
    [§6a register](./nr4a3-program-map.md#6a--dead--conclusively-unworkable-never-retry), pointing here
    rather than restating the reasoning.
@@ -648,6 +1025,120 @@ Everything below is $0 or free CI. Ordered by what unblocks the most, not by app
   peptide; the correct id is 12709428. It is recorded here rather than silently fixed because it is
   the case for routing every closure through fetch-and-quote instead of a search summary — and because
   the RXR closure, written the same way, came back verbatim and stands.
+- ⭑ **W1 grades a POSITION, never a person's willingness.** Nobody has been approached for any route
+  in this memo — outreach is outward-facing and gated by CLAUDE.md §3 — so every W1 statement is an
+  argument about why a group *would have reason* to want a result, and none of them is evidence that
+  any group will do anything. A strong W1 with nobody contacted is still an unrun experiment, which
+  is why W1 cannot by itself put a route in Tier 1.
+- ⭑ **Axis D is a judgement, not a measurement, and it is the axis doing the most work here.** "What
+  we end up holding" is graded from what is already committed to this repo (an existing manuscript,
+  a committed artifact, a preregistration) versus what would have to be written from nothing. That
+  is checkable, but the *weighting* of a certain small product against a contingent large one is a
+  preference about the operating regime, stated in §2's trade-off block so it can be overruled.
 - **This memo does not re-rank the portfolio.** [`emc-treatment-strategy.md`](./emc-treatment-strategy.md)
   owns that, on its own two axes and for a different question (what could help a patient), and where
   the two differ it wins.
+
+---
+
+## 6 · APPENDIX — the superseded ranking, and what was wrong with its axis
+
+*★ **APPENDIX, per CLAUDE.md §1.2.** Kept so the first ranking stays quotable and is never silently
+dropped; kept **out of the live text** so it stops competing with the corrected one. ⛔ **Do not cite
+anything in this section as current.** Registered alongside the repo's other retired plan framings in
+[STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings).*
+
+### 6.1 · What the first ranking assumed
+
+| the assumption | where it lived | why it was wrong |
+|---|---|---|
+| **A collaborator with a bench exists who will run the winning experiment**, so the right question is which experiment is cheapest and most decisive **for them** | **Axis W — "the wet-lab ask. How cheap, how decisive, and does the reagent and the model already exist?"** | trimcrae is a private individual: **no lab, no institutional affiliation, no committed collaborator**, and paying four figures for a contracted assay whose failure he could not interpret is ruled out. **Cheapness is conditional on a whoever**, and the whoever is exactly what is missing. An experiment nobody will run has no size |
+| **Speed-to-a-tested-candidate is the thing to optimise**, because *"the binding constraint is not idea supply — it is getting anything tested at all"* | the §2 trade-off block, verbatim | The observation is true and the inference from it was backwards. If getting anything tested is the binding constraint **and it is outside our control**, then optimising for it ranks routes by a variable we cannot move. The constraint we *can* move is what this programme can finish |
+| **A route with no wet-lab ask has nothing to score on the ask axis**, so it ranks low by omission | route 3's `W (the ask)` cell reading simply **"none"** | Under Axis D "needs nobody" is the highest possible score, not a blank. This is the mechanism by which the methods paper — a complete deliverable — was ranked below two proposals |
+| **A route's in-silico half and its wet-lab ask are one route with one rank** | route 1 as a single row | They fail independently and belong to different owners. Merging them let route 1 take #1 on the strength of an experiment nobody had agreed to run, while its genuinely-finished computed half was never graded on its own |
+
+### 6.2 · The superseded tiers, verbatim, so they stay quotable
+
+⛔ **Superseded 2026-08-03. Retained, not current.**
+
+**Superseded Tier 1** — *"start now. Each is $0-to-cheap for us, each produces a paper, and each hands
+a lab an experiment it could run in weeks with reagents that already exist."*
+
+| # | route | superseded W (the ask) |
+|---|---|---|
+| **1** | ATR-inhibitor synthetic lethality, inherited by EMC as a FET-rearranged cancer | catalogue ATR inhibitor, dose–response, 3 existing EMC lines, γH2AX readout |
+| **2** | Fusion-junction ASO / siRNA | junction knockdown + parental sparing in EMC lines |
+| **3** | The honest methods paper the degrader program has already earned | **none** |
+
+**Superseded Tier 2** — *"high ceiling, one build away, still no wet lab required from us."*
+
+| # | route | superseded reason |
+|---|---|---|
+| **4** | TCIP / transcriptional chemically-induced proximity on EWSR1::NR4A3 | the field's blocker is "no ligand for the fusion"; ours is the fusion that has one |
+| **5** | Covalent probe at C397 — as a REAGENT, not a drug | the cheapest possible form of the one un-buyable requirement (`R4`) |
+| **6** | Trabectedin + PPARγ agonist | all-approved-drug combination with an exact precedent in a sibling myxoid sarcoma |
+| **7** | SSTR2 / neuroendocrine theranostic | *"the confirm is an existing approved scan, which is the cheapest decisive test in the whole portfolio"* |
+
+**Superseded Tier 3 and Tier 4** are unchanged by the correction except for the four demotions into
+Tier 3 and their renumbering; nothing was removed from either.
+
+**Other superseded lines, retained because they are quotable and are now wrong:**
+
+- *"**Grade: ★★ promote, behind Tier 1 only because it still needs a molecule**"* (route 4).
+- *"its rank **rises** here for one reason … **the cheapest form of that experiment for a
+  collaborator**"* (route 5).
+- *"the cheapest **decisive confirm in the entire portfolio**"* as a *ranking* reason (route 7). The
+  clause itself remains true on Axis W2 and is still in the live text; what is superseded is treating
+  it as sufficient.
+- *"**If the program's goal is weighted instead toward originating a novel agent, the correct
+  reordering is 2 → 4 → 5 first**"* — the alternative ordering offered in the old trade-off block. It
+  is superseded because it re-ranks on *ownership of the molecule*, which the corrected axes do not
+  score, and because it puts routes 4 and 5 — the two thinnest on Axis D — ahead of route 3.
+- The old §4 ordering, in which **"Draft the methods paper's outline"** was step 5, below three
+  ask-side items.
+
+### 6.3 · What actually changed, in one table
+
+| route | first ranking | corrected | the axis that moved it |
+|---|---|---|---|
+| **3** methods paper | Tier 1 **#3** | **Tier 1 rank 1** | **D** — a complete deliverable needing nobody. Under the old axes "no ask" scored as nothing |
+| **2** junction ASO | Tier 1 #2 | **Tier 1 rank 2** *(held)* | **D** — its in-silico arc was already finished and red-teamed, which is the profile the reframe rewards |
+| **1a** ATR assessment | *(not separated)* | **Tier 1 rank 3** | **D** — the computed half produces a result either way and is now graded on its own |
+| **1b** ATR cell panel | *(not separated; the merged route was #1)* | **Tier 2 rank 4** | **W1 keeps it top of the asks; D is what stops it being top of the memo** — it is the ask, not the deliverable |
+| **6** trabectedin + PPARγ | Tier 2 #6 | **Tier 2 rank 5** | **W1 good** (the sibling-sarcoma authors' own class extension), **D thin** — the two disagree and both are reported |
+| **4** TCIP | Tier 2 #4 | **Tier 3** | **D = 0 today**, and one free CPU run from moving. W1 is real but contingent on `R4`, which is unanswered |
+| **5** covalent probe | Tier 2 #5 | **Tier 3** | **D ≈ 0 and P negative** — its own exposure instrument fails its positive control, so the in-silico half is not readable |
+| **7** SSTR2 | Tier 2 #7 | **Tier 3** | **W1** — the smallest possible ask, and no taker who is not a clinician with an EMC patient. **D ≈ 0** |
+
+### 6.4 · ⭐ The 2026-08-03 re-examination against the published NR4A3 hits — what was retained
+
+*★ Same appendix discipline as §6.1–§6.3: the earlier statements stay quotable and stay OUT of the live
+text. ⛔ Do not cite anything in this subsection as current.*
+
+**What was re-examined and why.** Route 5 was demoted to Tier 3 above (§6.3) on the grounds that its
+in-silico half is unreadable. Separately, a published screen returned a clear positive on this protein.
+Neither finding had the other. The adjudication is
+[route 5a](#route-5a--the-published-nr4a3-hits-adjudicated-they-do-not-rescue-route-5-because-they-answer-a-different-question);
+this is the register of what it superseded.
+
+| # | superseded, retained so it stays quotable | what replaced it |
+|---|---|---|
+| **1** | ⛔ **"Munck 2022"** and **"Munck JM et al. *Druggability Evaluation of NOR-1 Reveals Inverse NOR-1 Agonists* (2022)"** — the attribution five repo files carried, always without a PMID, for the NR4A3 warhead anchor | **Zaienne D, Arifi S, Marschner JA, Heering J, Merk D.** *ChemMedChem* 2022;17(16):e202200259, **PMID 35704774**. Measured in CI: 0 hits for any author Munck on NR4A3/NOR-1 in Europe PMC *or* PubMed. One home: [`nr4a3-druggability-reconciliation.md` §5b](../modalities/nr4a3-druggability-reconciliation.md) |
+| **2** | ⚠ **"the published result used a Gal4-NOR-1-LBD construct"** — the repo's relay of the construct, which is the plasmid's *name* | **`pFA-CMV-hNOR-1-LBD`, *"coding for the hinge region and LBD"*** — the scope is **`hinge+LBD`**, one range wider. The AF-1 adjudication is unaffected; a claim scoped to "the LBD" is wider than the evidence |
+| **3** | ⚠ **the reference-table entry listing four authors** (Zaienne, Arifi, Marschner, Heering), and the note *"full author list to collate before submission"* | five authors, **Merk D** corresponding; the collation note is discharged |
+| **4** | ⚠ **[`target-route-options.md`](./target-route-options.md)'s reference table carrying the SAME paper as two rows** — "Zaienne 2022" and "Munck 2022" | one merged row, with the PMID and a retention note. Retained because it is the clearest single demonstration of what a misattribution costs |
+| **5** | ⚠ **the monovalent route existing only inside route 5's detail section**, so that route 5's Tier-3 demotion read as covering it | **route 16, its own row in [§2](#2--the-ranked-list)**, Tier 3 on its own grounds. `V17` is a cysteine-exposure criterion and does not reach a non-covalent occupier |
+| **6** | ⚠ *(not superseded, sharpened)* [`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md) §1.2's reason that competition-based site localisation is closed because **"there is no known binder"** | a known NOR-1 binder does exist (compound 19). The circularity holds for a sharper reason: competing against 19 gives *"same site as 19"*, and 19's site is unassigned. **That memo owns the verdict; only its reason is refined** |
+
+⚠ **What did NOT change.** Route 5's tier. It was demoted on instruments — `V17` failing its own positive
+control, and no thiol pKa or intrinsic reactivity computed anywhere in this repo — and a cell-based
+reporter assay with no purified protein, no biophysics and an unassigned site moves none of them. **The
+published hits are a positive answer to a question route 5 does not ask.**
+
+⚠ **What did NOT change, and must not be inferred from the above.** Every Tier-3 and Tier-4 entry
+from routes 8–15 keeps its grounds and its reasoning; the two Tier-4 closures stand on their cited
+primary sources and are untouched. §0's organising finding — that every degrader blocker is a
+property of the architecture rather than of the target — is **unaffected**, because it is a claim
+about the failures and not about who would run an experiment. And **no route was refused, refuted or
+removed**: four moved from Tier 2 to Tier 3, which is a statement about what this programme should do
+next, not about whether the science is sound.
