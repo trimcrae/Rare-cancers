@@ -1,0 +1,2223 @@
+{
+ "_what": "RUNG 5b-T \u2014 the pre-registered three-arm GO/NO-GO",
+ "_criteria_source": "ternary-rebuild-cost.json -> gate (registered 2026-08-02, before any arm ran)",
+ "_scope": {
+  "a_pass_licenses": "a STRUCTURAL statement: these modelled interface contacts differ between the paralogues, at named positions, with a per-model frequency and a validated detector behind the descriptor",
+  "a_pass_does_not_license": [
+   "any affinity, potency or N-fold statement \u2014 this computes NO free energy",
+   "discharging R12, R13, R6 or the free-energy requirement",
+   "any degradation, efficacy, safety, therapeutic-window or clinical claim",
+   "the word 'blind' \u2014 DeepTernary is GIVEN which pocket each end of the degrader occupies",
+   "generalisation \u2014 both harness controls are inside the model's 2023-10-14 data horizon"
+  ],
+  "inherited_limits_that_travel_with_every_result": [
+   "`R5` is UNRESOLVED and site 1 inherits it: `V3` is INCONCLUSIVE because the pipeline's SITE SELECTION missed on 6 of 6 pairs, so the warhead sub-pose is conditional",
+   "`R3` FAILED on 2026-08-03: the generation frame (unbiased release replica 0, frame 95) scores druggability 0.259 against D* = 0.53 \u2014 see `_r3_dependency` below",
+   "`V1` validates ONE contact in ONE pair (SMARCA2 Gln1469<->VCB) and makes no NR4A prediction correct",
+   "`V2`'s post-horizon pass is ONE arm on a VHL/bromodomain system; NOTHING covers a CRBN ternary with a nuclear receptor, which is exactly what this rung assembles",
+   "there is NO native NR4A3 ternary, so the published 'superpose into the native frame' step has no reference and a modelled RUNG-5a basin supplies the arrangement instead",
+   "every structure here is an isolated LBD construct \u2014 `R13` is untouched"
+  ]
+ },
+ "harness_controls": [
+  {
+   "artifact": "nr4a3-5bt-poscontrol-harness-crbn.json",
+   "ran": true,
+   "case": "6HAX_B_A_FWZ",
+   "case_is_in_set": true,
+   "passes": true,
+   "summary": {
+    "best_DockQ": 0.6788,
+    "median_DockQ": 0.2515,
+    "best_quality_class": "Medium",
+    "best_fnat": 0.75,
+    "best_iRMSD_A": 1.2351700523933993
+   },
+   "sentence": "Positive control PASSES: DeepTernary on its own in-set case 6HAX_B_A_FWZ reaches DockQ 0.679 (Medium) over 16 scored poses, measured by the same DockQ implementation that put our co-folds at 0.023\u20130.046. The harness and both instruments can therefore produce and recognise a correct ternary, so a near-zero reading elsewhere is about that input or that system \u2014 not about the plumbing. It says nothing about generalisation: this case is inside the model's data horizon."
+  },
+  {
+   "artifact": "nr4a3-5bt-poscontrol-harness-vhl.json",
+   "ran": true,
+   "case": "6HAX_B_A_FWZ",
+   "case_is_in_set": true,
+   "passes": true,
+   "summary": {
+    "best_DockQ": 0.6176,
+    "median_DockQ": 0.4347,
+    "best_quality_class": "Medium",
+    "best_fnat": 0.3333333333333333,
+    "best_iRMSD_A": 1.2116782515776137
+   },
+   "sentence": "Positive control PASSES: DeepTernary on its own in-set case 6HAX_B_A_FWZ reaches DockQ 0.618 (Medium) over 16 scored poses, measured by the same DockQ implementation that put our co-folds at 0.023\u20130.046. The harness and both instruments can therefore produce and recognise a correct ternary, so a near-zero reading elsewhere is about that input or that system \u2014 not about the plumbing. It says nothing about generalisation: this case is inside the model's data horizon."
+  }
+ ],
+ "run_is_interpretable": true,
+ "harness_sentence": "Both harness positive controls PASS (6HAX_B_A_FWZ, 6HAX_B_A_FWZ). The harness and both scoring instruments can produce and recognise a correct ternary, so a null on the paralogue arms is about those systems rather than the plumbing. \u26d4 It says NOTHING about generalisation: both cases are inside the model's 2023-10-14 data horizon.",
+ "frame_artifact": "nr4a3-5bt-frame.json",
+ "frame_artifact_state": {
+  "present": true,
+  "readable": true,
+  "complete": true,
+  "why": "",
+  "bytes": 17552,
+  "_artifact_state": "COMPLETE \u2014 all 3 arms attempted"
+ },
+ "arms_built": [
+  "NR4A3_5BT_LIG",
+  "NR4A1_5BT_LIG",
+  "NR4A2_5BT_LIG"
+ ],
+ "arms_refused": [],
+ "_r3_dependency": {
+  "_question": "does site 1 derive from the generation frame that FAILED `R3` on 2026-08-03?",
+  "answer": "NO \u2014 but the two are cousins, and the difference matters less than it looks.",
+  "site_1_receptors": "results/nr4a3-matrix/nr4a{1,2,3}-opened.pdb \u2014 the METAD-OPENED matched models (NR4A3 frame 300, NR4A1 524, NR4A2 125), fpocket druggability 0.931/0.981/0.938 as recorded in results/nr4a3-matrix/nr4a3-matrix.json",
+  "the_frame_R3_failed_on": "the unbiased RELEASE replica 0, frame 95, scored 0.259 against D* = 0.53 (r3-generation-frame-harmonized.json) \u2014 a DIFFERENT frame from a DIFFERENT trajectory class",
+  "\u26a0_what_it_still_does_to_the_reading": "the matched models and the generation frame come from the same metadynamics/release pipeline and the same cryptic-pocket hypothesis, so `R3`'s failure is evidence about that pipeline's OUTPUT DISTRIBUTION, not only about one frame. The honest statement is that site 1 is NOT the failing frame and its own druggability was scored ABOVE D* on its own model \u2014 and that a pipeline shown to emit a non-druggable generation frame cannot be assumed to emit druggable ones. That is a caveat on the SITE, which arm (A)/(B) then inherit; it is not repaired by anything in this rung.",
+  "matched_superposition_of_the_comparators": {
+   "_note": "reference frame; identity transform"
+  }
+ },
+ "frame_is_usable": true,
+ "A_and_B": {
+  "n_models": {
+   "NR4A1": 16,
+   "NR4A2": 16,
+   "NR4A3": 16
+  },
+  "unreadable": {},
+  "n_readable": {
+   "NR4A1": 16,
+   "NR4A2": 16,
+   "NR4A3": 16
+  },
+  "min_models_per_arm": 16,
+  "reproducibility_bar": 3,
+  "thresholds": {
+   "min_present_on_focus": 12,
+   "max_present_on_each_comparator": 4,
+   "models_per_arm_registered": 16
+  },
+  "per_column": [
+   {
+    "reference_column": 6,
+    "residues": {
+     "NR4A3": "K",
+     "NR4A1": "K",
+     "NR4A2": "K"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 15,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99998,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 7,
+    "residues": {
+     "NR4A3": "S",
+     "NR4A1": "Q",
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 16,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 8,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": "P",
+     "NR4A2": null
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 15,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99998,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 11,
+    "residues": {
+     "NR4A3": "Q",
+     "NR4A1": null,
+     "NR4A2": null
+    },
+    "counts": {
+     "NR4A3": 1,
+     "NR4A1": 0,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99998,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 12,
+    "residues": {
+     "NR4A3": "E",
+     "NR4A1": null,
+     "NR4A2": null
+    },
+    "counts": {
+     "NR4A3": 9,
+     "NR4A1": 0,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.40181,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 13,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": null,
+     "NR4A2": "P"
+    },
+    "counts": {
+     "NR4A3": 11,
+     "NR4A1": 0,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.10506,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 14,
+    "residues": {
+     "NR4A3": "S",
+     "NR4A1": null,
+     "NR4A2": "Q"
+    },
+    "counts": {
+     "NR4A3": 8,
+     "NR4A1": 0,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.59819,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 15,
+    "residues": {
+     "NR4A3": "Q",
+     "NR4A1": null,
+     "NR4A2": "E"
+    },
+    "counts": {
+     "NR4A3": 12,
+     "NR4A1": 0,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "PASS",
+    "p_focus_at_least": 0.03841,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 16,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": null,
+     "NR4A2": "P"
+    },
+    "counts": {
+     "NR4A3": 14,
+     "NR4A1": 0,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "PASS",
+    "p_focus_at_least": 0.00209,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 17,
+    "residues": {
+     "NR4A3": "S",
+     "NR4A1": null,
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 16,
+     "NR4A1": 0,
+     "NR4A2": 5
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 2e-05,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.10506
+    }
+   },
+   {
+    "reference_column": 18,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": "P",
+     "NR4A2": "P"
+    },
+    "counts": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 11
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 2e-05,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 0.96159
+    }
+   },
+   {
+    "reference_column": 19,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": "D",
+     "NR4A2": "P"
+    },
+    "counts": {
+     "NR4A3": 12,
+     "NR4A1": 16,
+     "NR4A2": 14
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.03841,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 0.99974
+    }
+   },
+   {
+    "reference_column": 20,
+    "residues": {
+     "NR4A3": "S",
+     "NR4A1": "A",
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 2e-05,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 21,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": "S",
+     "NR4A2": "P"
+    },
+    "counts": {
+     "NR4A3": 15,
+     "NR4A1": 16,
+     "NR4A2": 14
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.00026,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 0.99974
+    }
+   },
+   {
+    "reference_column": 22,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": "P",
+     "NR4A2": "P"
+    },
+    "counts": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 7
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 2e-05,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 0.40181
+    }
+   },
+   {
+    "reference_column": 23,
+    "residues": {
+     "NR4A3": "I",
+     "NR4A1": "A",
+     "NR4A2": "V"
+    },
+    "counts": {
+     "NR4A3": 8,
+     "NR4A1": 16,
+     "NR4A2": 10
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.59819,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 0.89494
+    }
+   },
+   {
+    "reference_column": 24,
+    "residues": {
+     "NR4A3": "C",
+     "NR4A1": "N",
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 5,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.96159,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 25,
+    "residues": {
+     "NR4A3": "M",
+     "NR4A1": "L",
+     "NR4A2": "L"
+    },
+    "counts": {
+     "NR4A3": 3,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99791,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 26,
+    "residues": {
+     "NR4A3": "M",
+     "NR4A1": "L",
+     "NR4A2": "I"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 15,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99998,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 27,
+    "residues": {
+     "NR4A3": "N",
+     "NR4A1": "T",
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 6,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.89494,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 28,
+    "residues": {
+     "NR4A3": "A",
+     "NR4A1": "S",
+     "NR4A2": "A"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 15,
+     "NR4A2": 12
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99998,
+     "NR4A2": 0.98936
+    }
+   },
+   {
+    "reference_column": 29,
+    "residues": {
+     "NR4A3": "L",
+     "NR4A1": "L",
+     "NR4A2": "L"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 7,
+     "NR4A2": 5
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.40181,
+     "NR4A2": 0.10506
+    }
+   },
+   {
+    "reference_column": 30,
+    "residues": {
+     "NR4A3": "V",
+     "NR4A1": "V",
+     "NR4A2": "V"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 12,
+     "NR4A2": 5
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.98936,
+     "NR4A2": 0.10506
+    }
+   },
+   {
+    "reference_column": 31,
+    "residues": {
+     "NR4A3": "R",
+     "NR4A1": "R",
+     "NR4A2": "R"
+    },
+    "counts": {
+     "NR4A3": 4,
+     "NR4A1": 15,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.98936,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99998,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 32,
+    "residues": {
+     "NR4A3": "A",
+     "NR4A1": "A",
+     "NR4A2": "A"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 2,
+     "NR4A2": 2
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00209,
+     "NR4A2": 0.00209
+    }
+   },
+   {
+    "reference_column": 33,
+    "residues": {
+     "NR4A3": "L",
+     "NR4A1": "H",
+     "NR4A2": "H"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 1,
+     "NR4A2": 1
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00026,
+     "NR4A2": 0.00026
+    }
+   },
+   {
+    "reference_column": 34,
+    "residues": {
+     "NR4A3": "T",
+     "NR4A1": "L",
+     "NR4A2": "V"
+    },
+    "counts": {
+     "NR4A3": 3,
+     "NR4A1": 0,
+     "NR4A2": 1
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99791,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00026
+    }
+   },
+   {
+    "reference_column": 35,
+    "residues": {
+     "NR4A3": "D",
+     "NR4A1": "D",
+     "NR4A2": "D"
+    },
+    "counts": {
+     "NR4A3": 3,
+     "NR4A1": 0,
+     "NR4A2": 6
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99791,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.22725
+    }
+   },
+   {
+    "reference_column": 37,
+    "residues": {
+     "NR4A3": "T",
+     "NR4A1": "G",
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 4,
+     "NR4A1": 3,
+     "NR4A2": 4
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.98936,
+    "p_comparators_at_most": {
+     "NR4A1": 0.01064,
+     "NR4A2": 0.03841
+    }
+   },
+   {
+    "reference_column": 38,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": "P",
+     "NR4A2": "P"
+    },
+    "counts": {
+     "NR4A3": 5,
+     "NR4A1": 10,
+     "NR4A2": 14
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.96159,
+    "p_comparators_at_most": {
+     "NR4A1": 0.89494,
+     "NR4A2": 0.99974
+    }
+   },
+   {
+    "reference_column": 39,
+    "residues": {
+     "NR4A3": "R",
+     "NR4A1": "A",
+     "NR4A2": "T"
+    },
+    "counts": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 2e-05,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 40,
+    "residues": {
+     "NR4A3": "D",
+     "NR4A1": "K",
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 2e-05,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 41,
+    "residues": {
+     "NR4A3": "L",
+     "NR4A1": "L",
+     "NR4A2": "L"
+    },
+    "counts": {
+     "NR4A3": 2,
+     "NR4A1": 11,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99974,
+    "p_comparators_at_most": {
+     "NR4A1": 0.96159,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 42,
+    "residues": {
+     "NR4A3": "D",
+     "NR4A1": "D",
+     "NR4A2": "D"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 7,
+     "NR4A2": 5
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.40181,
+     "NR4A2": 0.10506
+    }
+   },
+   {
+    "reference_column": 43,
+    "residues": {
+     "NR4A3": "Y",
+     "NR4A1": "Y",
+     "NR4A2": "Y"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 13,
+     "NR4A2": 7
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99791,
+     "NR4A2": 0.40181
+    }
+   },
+   {
+    "reference_column": 81,
+    "residues": {
+     "NR4A3": "K",
+     "NR4A1": "K",
+     "NR4A2": "K"
+    },
+    "counts": {
+     "NR4A3": 1,
+     "NR4A1": 0,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99998,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 83,
+    "residues": {
+     "NR4A3": "P",
+     "NR4A1": "P",
+     "NR4A2": "P"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 3,
+     "NR4A2": 5
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.01064,
+     "NR4A2": 0.10506
+    }
+   },
+   {
+    "reference_column": 84,
+    "residues": {
+     "NR4A3": "G",
+     "NR4A1": "G",
+     "NR4A2": "G"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 5,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.10506,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 111,
+    "residues": {
+     "NR4A3": "I",
+     "NR4A1": "Y",
+     "NR4A2": "Y"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 2,
+     "NR4A2": 0
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00209,
+     "NR4A2": 2e-05
+    }
+   },
+   {
+    "reference_column": 112,
+    "residues": {
+     "NR4A3": "R",
+     "NR4A1": "R",
+     "NR4A2": "R"
+    },
+    "counts": {
+     "NR4A3": 2,
+     "NR4A1": 10,
+     "NR4A2": 12
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99974,
+    "p_comparators_at_most": {
+     "NR4A1": 0.89494,
+     "NR4A2": 0.98936
+    }
+   },
+   {
+    "reference_column": 113,
+    "residues": {
+     "NR4A3": "S",
+     "NR4A1": "S",
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 2,
+     "NR4A2": 4
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00209,
+     "NR4A2": 0.03841
+    }
+   },
+   {
+    "reference_column": 114,
+    "residues": {
+     "NR4A3": "N",
+     "NR4A1": "K",
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 10,
+     "NR4A2": 5
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.89494,
+     "NR4A2": 0.10506
+    }
+   },
+   {
+    "reference_column": 117,
+    "residues": {
+     "NR4A3": "E",
+     "NR4A1": "E",
+     "NR4A2": "E"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 1,
+     "NR4A2": 1
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00026,
+     "NR4A2": 0.00026
+    }
+   },
+   {
+    "reference_column": 122,
+    "residues": {
+     "NR4A3": "F",
+     "NR4A1": "F",
+     "NR4A2": "F"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 1
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00026
+    }
+   },
+   {
+    "reference_column": 123,
+    "residues": {
+     "NR4A3": "C",
+     "NR4A1": "C",
+     "NR4A2": "C"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 1
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00026
+    }
+   },
+   {
+    "reference_column": 124,
+    "residues": {
+     "NR4A3": "N",
+     "NR4A1": "S",
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 9,
+     "NR4A2": 6
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.77275,
+     "NR4A2": 0.22725
+    }
+   },
+   {
+    "reference_column": 125,
+    "residues": {
+     "NR4A3": "G",
+     "NR4A1": "G",
+     "NR4A2": "G"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 4,
+     "NR4A2": 2
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.03841,
+     "NR4A2": 0.00209
+    }
+   },
+   {
+    "reference_column": 152,
+    "residues": {
+     "NR4A3": "Q",
+     "NR4A1": "H",
+     "NR4A2": "Q"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 10,
+     "NR4A2": 10
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.89494,
+     "NR4A2": 0.89494
+    }
+   },
+   {
+    "reference_column": 154,
+    "residues": {
+     "NR4A3": "L",
+     "NR4A1": "L",
+     "NR4A2": "M"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 13
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.99791
+    }
+   },
+   {
+    "reference_column": 155,
+    "residues": {
+     "NR4A3": "N",
+     "NR4A1": "L",
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 15,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99998,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 156,
+    "residues": {
+     "NR4A3": "L",
+     "NR4A1": "V",
+     "NR4A2": "I"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 3,
+     "NR4A2": 7
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.01064,
+     "NR4A2": 0.40181
+    }
+   },
+   {
+    "reference_column": 157,
+    "residues": {
+     "NR4A3": "D",
+     "NR4A1": "D",
+     "NR4A2": "D"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 15,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99998,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 158,
+    "residues": {
+     "NR4A3": "I",
+     "NR4A1": "V",
+     "NR4A2": "I"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 13,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.99791,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 159,
+    "residues": {
+     "NR4A3": "Q",
+     "NR4A1": "P",
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 5,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.96159,
+    "p_comparators_at_most": {
+     "NR4A1": 1.0,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 160,
+    "residues": {
+     "NR4A3": "A",
+     "NR4A1": "A",
+     "NR4A2": "A"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 7,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.40181,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 161,
+    "residues": {
+     "NR4A3": "L",
+     "NR4A1": "F",
+     "NR4A2": "F"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 2,
+     "NR4A2": 11
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00209,
+     "NR4A2": 0.96159
+    }
+   },
+   {
+    "reference_column": 162,
+    "residues": {
+     "NR4A3": "A",
+     "NR4A1": "A",
+     "NR4A2": "S"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 9,
+     "NR4A2": 13
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.77275,
+     "NR4A2": 0.99791
+    }
+   },
+   {
+    "reference_column": 163,
+    "residues": {
+     "NR4A3": "C",
+     "NR4A1": "C",
+     "NR4A2": "C"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 4,
+     "NR4A2": 1
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.03841,
+     "NR4A2": 0.00026
+    }
+   },
+   {
+    "reference_column": 184,
+    "residues": {
+     "NR4A3": "E",
+     "NR4A1": "E",
+     "NR4A2": "E"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 2
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00209
+    }
+   },
+   {
+    "reference_column": 185,
+    "residues": {
+     "NR4A3": "L",
+     "NR4A1": "L",
+     "NR4A2": "L"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 1
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00026
+    }
+   },
+   {
+    "reference_column": 186,
+    "residues": {
+     "NR4A3": "C",
+     "NR4A1": "Q",
+     "NR4A2": "Q"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 1
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00026
+    }
+   },
+   {
+    "reference_column": 187,
+    "residues": {
+     "NR4A3": "N",
+     "NR4A1": "N",
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 2
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00209
+    }
+   },
+   {
+    "reference_column": 188,
+    "residues": {
+     "NR4A3": "K",
+     "NR4A1": "R",
+     "NR4A2": "K"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 1,
+     "NR4A2": 11
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00026,
+     "NR4A2": 0.96159
+    }
+   },
+   {
+    "reference_column": 189,
+    "residues": {
+     "NR4A3": "I",
+     "NR4A1": "I",
+     "NR4A2": "I"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 2
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00209
+    }
+   },
+   {
+    "reference_column": 190,
+    "residues": {
+     "NR4A3": "T",
+     "NR4A1": "A",
+     "NR4A2": "V"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 2
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.00209
+    }
+   },
+   {
+    "reference_column": 191,
+    "residues": {
+     "NR4A3": "S",
+     "NR4A1": "S",
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 9,
+     "NR4A2": 14
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.77275,
+     "NR4A2": 0.99974
+    }
+   },
+   {
+    "reference_column": 192,
+    "residues": {
+     "NR4A3": "S",
+     "NR4A1": "C",
+     "NR4A2": "C"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 7
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.40181
+    }
+   },
+   {
+    "reference_column": 194,
+    "residues": {
+     "NR4A3": "K",
+     "NR4A1": "K",
+     "NR4A2": "K"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 11,
+     "NR4A2": 15
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.96159,
+     "NR4A2": 0.99998
+    }
+   },
+   {
+    "reference_column": 195,
+    "residues": {
+     "NR4A3": "D",
+     "NR4A1": "E",
+     "NR4A2": "D"
+    },
+    "counts": {
+     "NR4A3": 3,
+     "NR4A1": 12,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99791,
+    "p_comparators_at_most": {
+     "NR4A1": 0.98936,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 196,
+    "residues": {
+     "NR4A3": "H",
+     "NR4A1": "H",
+     "NR4A2": "H"
+    },
+    "counts": {
+     "NR4A3": 1,
+     "NR4A1": 1,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 0.99998,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00026,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 197,
+    "residues": {
+     "NR4A3": "Q",
+     "NR4A1": "V",
+     "NR4A2": "V"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 7
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.40181
+    }
+   },
+   {
+    "reference_column": 198,
+    "residues": {
+     "NR4A3": "S",
+     "NR4A1": "A",
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 1,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00026,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 199,
+    "residues": {
+     "NR4A3": "K",
+     "NR4A1": null,
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 16,
+     "NR4A1": 0,
+     "NR4A2": 15
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 2e-05,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.99998
+    }
+   },
+   {
+    "reference_column": 200,
+    "residues": {
+     "NR4A3": "G",
+     "NR4A1": "A",
+     "NR4A2": "G"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 1,
+     "NR4A2": 11
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 0.00026,
+     "NR4A2": 0.96159
+    }
+   },
+   {
+    "reference_column": 201,
+    "residues": {
+     "NR4A3": "Q",
+     "NR4A1": "V",
+     "NR4A2": "G"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 202,
+    "residues": {
+     "NR4A3": "A",
+     "NR4A1": "A",
+     "NR4A2": "L"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 203,
+    "residues": {
+     "NR4A3": "L",
+     "NR4A1": "G",
+     "NR4A2": "N"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 3
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.01064
+    }
+   },
+   {
+    "reference_column": 204,
+    "residues": {
+     "NR4A3": "E",
+     "NR4A1": "E",
+     "NR4A2": "R"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 16
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": false,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 1.0
+    }
+   },
+   {
+    "reference_column": 207,
+    "residues": {
+     "NR4A3": "E",
+     "NR4A1": "P",
+     "NR4A2": "Y"
+    },
+    "counts": {
+     "NR4A3": 0,
+     "NR4A1": 0,
+     "NR4A2": 15
+    },
+    "n_models": {
+     "NR4A3": 16,
+     "NR4A1": 16,
+     "NR4A2": 16
+    },
+    "sequence_encoded": true,
+    "arm_B": "INDETERMINATE",
+    "p_focus_at_least": 1.0,
+    "p_comparators_at_most": {
+     "NR4A1": 2e-05,
+     "NR4A2": 0.99998
+    }
+   }
+  ],
+  "n_columns_with_any_contact": 79,
+  "A_sequence_encoded_candidates": [
+   23,
+   24,
+   25,
+   26,
+   27,
+   33,
+   34,
+   37,
+   39,
+   40,
+   111,
+   156,
+   159,
+   161,
+   186,
+   190,
+   192,
+   197,
+   198,
+   201,
+   203,
+   207
+  ],
+  "A_verdict": "PASS",
+  "B_passing_columns": [],
+  "B_indeterminate_columns": [
+   23,
+   24,
+   25,
+   26,
+   27,
+   33,
+   34,
+   37,
+   39,
+   40,
+   111,
+   156,
+   159,
+   161,
+   186,
+   190,
+   192,
+   197,
+   198,
+   201,
+   203,
+   207
+  ],
+  "B_verdict": "INDETERMINATE",
+  "same_residue_placement_artifacts_that_would_have_passed_B": [
+   15,
+   16
+  ],
+  "_why_same_residue_is_excluded": "an identical residue at the aligned column cannot encode a paralogue difference; five of the six positions the earlier pass returned were exactly this, and counting them is how three independently-folded structures become a selectivity claim",
+  "verdict": "INDETERMINATE"
+ },
+ "C": {
+  "_reported": "under BOTH reach conventions, never merged \u2014 they do not agree for this construct",
+  "construct": {
+   "construct_id": "crbnM0@ex_5amide_a2-a5_acrylamide",
+   "pendant": "acrylamide",
+   "reach_key": "dab_branch",
+   "n_backbone_atoms_measured": 14
+  },
+  "C2_chemoselectivity_window": {
+   "through_space": {
+    "window_lo": 11,
+    "window_hi": 11,
+    "closed_by": "NR4A1 C505",
+    "closed_at_atoms": 12,
+    "target_atoms": 11,
+    "construct_backbone_atoms": 14,
+    "verdict": "FAIL",
+    "why": "the construct's 14 backbone atoms lie above the window [11, 11], which NR4A1 C505 closes at 12 atoms \u2014 the assembled ternary is past the paralogue-collision knee under this convention, and the gate calls that NO-GO, not a caveat"
+   },
+   "corridor": {
+    "window_lo": 12,
+    "window_hi": 15,
+    "closed_by": "NR4A2 C534",
+    "closed_at_atoms": 16,
+    "target_atoms": 12,
+    "construct_backbone_atoms": 14,
+    "verdict": "PASS",
+    "why": null
+   }
+  },
+  "C1_electrophile_reaches_C397": {
+   "pendant_reach_A": 8.75,
+   "measured": {
+    "n_models": 16,
+    "median_A": 9.71,
+    "min_A": 5.82,
+    "max_A": 18.3
+   },
+   "verdict": "FAIL",
+   "why": "median 9.71 \u00c5 against the dab_branch pendant-reach convention of 8.75 \u00c5",
+   "unreadable": []
+  },
+  "verdict_by_convention": {
+   "through_space": "FAIL",
+   "corridor": "FAIL"
+  },
+  "verdict": "FAIL",
+  "_registered_at_risk_in_advance": "\u26a0 This arm was registered AT RISK before the rung ran: no committed construct sits at or below 12 backbone atoms, and the only CRBN basin in the CONFIRMED set needs 13 for C397 under the rung-5a convention. The sharper conflict found since is that CRBN reaches C397 at 12 only under THROUGH-SPACE; under CORRIDOR its floor is 14. Saying any of this afterwards would be worthless, which is why it is registered rather than discovered."
+ },
+ "verdict": "NO-GO",
+ "sentence": "GATE NOT PASSED. (A) sequence-encoded: PASS (22 candidate column(s)). (B) reproducible \u226512 of 16 focus / \u22644 of 16 each comparator: INDETERMINATE (passing: none; indeterminate: 23, 24, 25, 26, 27, 33, 34, 37, 39, 40, 111, 156, 159, 161, 186, 190, 192, 197, 198, 201, 203, 207). (C) tether geometry, reported under BOTH conventions and never merged: corridor FAIL; through_space FAIL. \u26d4 Whatever this says, it is STRUCTURAL: no free energy is computed, nothing about affinity, degradation, efficacy or safety follows, and the arms are not blind \u2014 DeepTernary is given which pocket each end of the degrader occupies.",
+ "map_edits_required": [
+  {
+   "section": "\u00a710.1 \u00b7 Open rows \u2014 row 1 (the rebuild)",
+   "anchor": "| **1** | **Rebuild the ternaries by the assembly route**",
+   "current_text": "**RUN IT \u2014 it needs no authorization, and the row-25 hold is DISCHARGED.**",
+   "proposed_text": "\u2705 **RAN 2026-08-03 8:29 AM ET \u2014 the pre-registered three-arm gate returns `NO-GO`.** \u26d4 Whatever it says is **STRUCTURAL**: no free energy is computed, so nothing about affinity, degradation, efficacy or safety follows, and the arms are **not blind** \u2014 DeepTernary is given which pocket each end of the degrader occupies. Every number, per arm and per column, has one home: [`nr4a3-5bt-gate.json`](../modalities/nr4a3-5bt-gate.json) (built inputs and the snap-mask pre-flight: [`nr4a3-5bt-frame.json`](../modalities/nr4a3-5bt-frame.json); the `V1` read over all 16 models per arm: [`nr4a3-5bt-signature.json`](../modalities/nr4a3-5bt-signature.json)). \u26a0 **Three inherited conditions travel with the result and are not footnotes:** `R5` is UNRESOLVED (`V3` INCONCLUSIVE \u2014 site selection missed 6 of 6 pairs) and site 1 rests on it; `R3` FAILED 2026-08-03 on the generation frame, and while site 1 is a *different* frame it comes from the same pipeline; and `V2` has **no** validation on a CRBN ternary with a nuclear receptor, which is exactly what this rung assembles. \u26a0 **Superseded, retained:** *\"RUN IT \u2014 it needs no authorization, and the row-25 hold is DISCHARGED.\"*",
+   "why": "the row's next action has been taken; leaving an instruction where a result belongs is how a finished item stays on the critical path",
+   "artifact": "nr4a3-5bt-gate.json:verdict"
+  },
+  {
+   "section": "THE ORDERED PLAN \u2192 RUNG 5b-T",
+   "anchor": "`[ ]` 5b-T \u00b7 Rebuild the NR4A1/2/3 ternaries by the ASSEMBLY route",
+   "current_text": "`[ ]` 5b-T \u00b7 Rebuild the NR4A1/2/3 ternaries by the ASSEMBLY route",
+   "proposed_text": "`[x]` 5b-T \u00b7 Rebuild the NR4A1/2/3 ternaries by the ASSEMBLY route",
+   "why": "the rung ran; its verdict and every figure live in the gate artifact, not here",
+   "artifact": "nr4a3-5bt-gate.json:verdict"
+  },
+  {
+   "section": "\u00a710.1 \u00b7 Open rows \u2014 row 18 (\u22653 ternary models per paralogue, then `V1`)",
+   "anchor": "PRICED \u2014 it is the second half of row 1's rung `5b-T`, at $0",
+   "current_text": "PRICED \u2014 it is the second half of row 1's rung `5b-T`, at $0",
+   "proposed_text": "PRICED AND RAN \u2014 it is the second half of row 1's rung `5b-T`, at $0, and the `V1` read covered all 16 models per arm against a bar of 3",
+   "why": "row 18's reproducibility bar was the thing 5b-T's arm (B) turned into a threshold with a stated null; the row must stop reading as unrun",
+   "artifact": "nr4a3-5bt-gate.json:A_and_B.min_models_per_arm"
+  },
+  {
+   "section": "\u00a710.2 \u00b7 The readout",
+   "anchor": "### 10.2 \u00b7 The readout \u2014 derived from the column, not typed",
+   "current_text": "### 10.2 \u00b7 The readout \u2014 derived from the column, not typed",
+   "proposed_text": null,
+   "flag": "DERIVED COUNT \u2014 do not hand-edit. Row 1's state column changed, so \u00a710.2's row tally and its RESOLVED list must be RE-DERIVED from \u00a710.1 rather than replaced with a typed total.",
+   "why": "row 1 (and with it row 18) moved state, so the readout is stale \u2014 but the readout is a DERIVED total and rule 1.1 forbids typing one, so this is deferred rather than applied",
+   "artifact": "nr4a3-5bt-gate.json:verdict"
+  }
+ ]
+}

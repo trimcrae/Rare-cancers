@@ -1,0 +1,49 @@
+{
+ "_what": "verbatim verification that every routed roadmap edit still applies to the map AS IT STANDS RIGHT NOW. Exact substring matching only.",
+ "map": "research/manuscripts/nr4a3-program-map.md",
+ "map_bytes": 658854,
+ "artifacts": [
+  {
+   "artifact": "nr4a3-5bt-gate.json",
+   "edits": [
+    {
+     "section": "\u00a710.1 \u00b7 Open rows \u2014 row 1 (the rebuild)",
+     "why": "the row's next action has been taken; leaving an instruction where a result belongs is how a finished item stays on the critical path",
+     "artifact": "nr4a3-5bt-gate.json:verdict",
+     "status": "APPLIES",
+     "ok": true,
+     "detail": "anchor and current_text are both present exactly once in the live map"
+    },
+    {
+     "section": "THE ORDERED PLAN \u2192 RUNG 5b-T",
+     "why": "the rung ran; its verdict and every figure live in the gate artifact, not here",
+     "artifact": "nr4a3-5bt-gate.json:verdict",
+     "status": "APPLIES",
+     "ok": true,
+     "detail": "anchor and current_text are both present exactly once in the live map"
+    },
+    {
+     "section": "\u00a710.1 \u00b7 Open rows \u2014 row 18 (\u22653 ternary models per paralogue, then `V1`)",
+     "why": "row 18's reproducibility bar was the thing 5b-T's arm (B) turned into a threshold with a stated null; the row must stop reading as unrun",
+     "artifact": "nr4a3-5bt-gate.json:A_and_B.min_models_per_arm",
+     "status": "APPLIES",
+     "ok": true,
+     "detail": "anchor and current_text are both present exactly once in the live map"
+    },
+    {
+     "section": "\u00a710.2 \u00b7 The readout",
+     "why": "row 1 (and with it row 18) moved state, so the readout is stale \u2014 but the readout is a DERIVED total and rule 1.1 forbids typing one, so this is deferred rather than applied",
+     "artifact": "nr4a3-5bt-gate.json:verdict",
+     "status": "APPLIES",
+     "ok": true,
+     "detail": "anchor and current_text are both present exactly once in the live map"
+    }
+   ],
+   "n_edits": 4,
+   "n_applies": 4,
+   "n_needs_new_section": 0
+  }
+ ],
+ "n_not_applicable": 0,
+ "verdict": "ALL EDITS APPLY"
+}
