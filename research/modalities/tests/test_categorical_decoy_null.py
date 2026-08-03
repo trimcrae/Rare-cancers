@@ -506,3 +506,26 @@ def test_the_licence_travels_with_every_per_cysteine_percentile():
         assert must in joined, must
     assert row["percentile_reach_only"] == 0.0        # 0.0 beats every strictly-positive background point
     assert row["⚠_percentile_resolution"] == round(1 / 5, 4)
+
+
+def test_a_zero_percentile_is_flagged_as_the_same_number_as_the_background_zero_rate():
+    """⚠ When the target's own P is exactly 0 — the case this whole lane is about — the percentile IS
+    P(background <= 0) = `frac_exactly_zero`. Quoting both as independent findings double-counts one
+    measurement, so the row says so."""
+    decoys = [{"gene_target": "X", "gene_paralogue": "Y", "target": "T", "per_unique_cysteine": {
+        "C1": {"status": "GRADED", "n_conditioning_events_gate": 50, "P_gate": 0.0, "P_gate_EXPOSED": 0.0},
+        "C2": {"status": "GRADED", "n_conditioning_events_gate": 50, "P_gate": 0.4, "P_gate_EXPOSED": 0.4}}}]
+    zero = [{"gene_paralogue": "NR4A1", "per_unique_cysteine": {
+        "C397": {"status": "GRADED", "n_conditioning_events_gate": 90, "P_gate": 0.0,
+                 "P_gate_EXPOSED": None}}}]
+    bg, n3 = CDN.cysteine_level_background(decoys, zero)
+    row = n3["C397_vs_NR4A1"]
+    assert row["percentile_reach_only"] == bg["reach_only"]["frac_exactly_zero"]
+    msg = row["⚠_percentile_equals_the_background_zero_rate"]
+    assert "one measurement, not two" in msg and "frac_exactly_zero" in msg
+    # ...and a NON-zero target must NOT carry the flag, or it would read as boilerplate
+    nonzero = [{"gene_paralogue": "NR4A1", "per_unique_cysteine": {
+        "C397": {"status": "GRADED", "n_conditioning_events_gate": 90, "P_gate": 0.2,
+                 "P_gate_EXPOSED": None}}}]
+    _bg2, n3b = CDN.cysteine_level_background(decoys, nonzero)
+    assert n3b["C397_vs_NR4A1"]["⚠_percentile_equals_the_background_zero_rate"] is None
