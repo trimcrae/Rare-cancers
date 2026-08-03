@@ -10,7 +10,7 @@
     "No efficacy, safety, tolerability, therapeutic-window or clinical claim is made or implied.",
     "This module does not edit the roadmap, the paper or the SI. Required edits are ROUTED in map_edits_required and must be applied by whoever owns those files."
   ],
-  "_utc": "2026-08-03T02:09:01Z",
+  "_utc": "2026-08-03T11:09:39Z",
   "refusals": [],
   "_source": "Ensembl REST, canonical transcripts, re-derived this run (never read back from a committed artifact \u2014 that is what the gate is for)",
   "transcripts": {
@@ -1686,11 +1686,12 @@
       "why": "the rung ran on a free CI runner at $0; the junction re-derived from Ensembl exon structure alone reproduces EWSR1(1-264)::NR4A3(1-626), and the inventory names 45 reactive residues of the real object that lie outside the modelled LBD construct",
       "artifact": "research/modalities/fusion-object-inventory.json",
       "_schema_complete": true,
-      "anchor_occurrences": 1,
-      "current_text_occurrences": 1,
-      "proposed_text_occurrences": 0,
+      "_probe_is_the_difference": false,
+      "anchor_occurrences": 0,
+      "current_text_occurrences": 0,
+      "proposed_text_occurrences": 1,
       "_proposed_probe_chars": 119,
-      "anchor_status": "OK"
+      "anchor_status": "APPLIED"
     },
     {
       "section": "\u00a710.1 row 9",
@@ -1700,10 +1701,26 @@
       "why": "row 9's next action was to run R13-a; it has run and the object is now stated at the sequence level, with what is invariant across breakpoints separated from what is not",
       "artifact": "research/modalities/fusion-object-inventory.json",
       "_schema_complete": true,
+      "_probe_is_the_difference": false,
+      "anchor_occurrences": 0,
+      "current_text_occurrences": 0,
+      "proposed_text_occurrences": 1,
+      "_proposed_probe_chars": 120,
+      "anchor_status": "APPLIED"
+    },
+    {
+      "section": "\u00a710.1 row 9 \u2014 the state cell",
+      "anchor": "| `R13` | \u25cb **not started** |",
+      "current_text": "| `R13` | \u25cb **not started** |",
+      "proposed_text": "| `R13` | \u25d0 **`R13-a` done 2026-08-03 \u00b7 `R13-b` not started** |",
+      "why": "the row's next-action cell records R13-a as run while its state cell still says nothing has started. Per \u00a70.3 the work-state axis is not the authorization axis: R13-b is still \ud83d\udd12 and unrun, so the row is partial, not done",
+      "artifact": "research/modalities/fusion-object-inventory.json",
+      "_schema_complete": true,
+      "_probe_is_the_difference": false,
       "anchor_occurrences": 1,
       "current_text_occurrences": 1,
       "proposed_text_occurrences": 0,
-      "_proposed_probe_chars": 120,
+      "_proposed_probe_chars": 63,
       "anchor_status": "OK"
     },
     {
@@ -1714,11 +1731,12 @@
       "why": "the map states this consequence as an inference from the indexing bug; R13-a measured it from the corrected exon map, which is a stronger warrant for the same conclusion \u2014 and a pointer avoids giving the fact a second home",
       "artifact": "research/modalities/fusion-object-inventory.json",
       "_schema_complete": true,
+      "_probe_is_the_difference": true,
       "anchor_occurrences": 1,
       "current_text_occurrences": 1,
-      "proposed_text_occurrences": 0,
+      "proposed_text_occurrences": 1,
       "_proposed_probe_chars": 120,
-      "anchor_status": "OK"
+      "anchor_status": "APPLIED"
     },
     {
       "section": "\u00a79 finding 23 \u2192 'Still not settled'",
@@ -1728,24 +1746,25 @@
       "why": "STALE \u2014 contradicted by \u00a710.1 row 9 ('\u2705 PRICED and GATED, 2026-08-03') and by RUNG S in THE ORDERED PLAN, which carries `R13-a` at $0 and `R13-b` at ~$0.66. One fact, one place: this sentence is the second, out-of-date copy",
       "artifact": "research/modalities/scope-rung-cost.json",
       "_schema_complete": true,
-      "anchor_occurrences": 1,
-      "current_text_occurrences": 1,
-      "proposed_text_occurrences": 0,
+      "_probe_is_the_difference": false,
+      "anchor_occurrences": 0,
+      "current_text_occurrences": 0,
+      "proposed_text_occurrences": 1,
       "_proposed_probe_chars": 67,
-      "anchor_status": "OK"
+      "anchor_status": "APPLIED"
     }
   ],
   "map_edit_anchor_check": {
     "map": "../manuscripts/nr4a3-program-map.md",
     "map_read": true,
     "map_read_why": null,
-    "n_edits": 4,
-    "n_ok": 4,
-    "n_applied": 0,
+    "n_edits": 5,
+    "n_ok": 1,
+    "n_applied": 4,
     "not_found": [],
     "ambiguous": [],
     "unread": [],
-    "all_applicable": true,
+    "all_applicable": false,
     "all_accounted": true,
     "_rule": "a routed edit whose current_text is not present EXACTLY ONCE cannot be applied mechanically and must be rewritten, not applied by judgement \u2014 UNLESS its proposed_text is present, which means it already landed and there is nothing to do"
   }
