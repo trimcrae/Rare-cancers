@@ -566,7 +566,22 @@ effector-recruiter, **no E3 arm**), which is a strictly smaller geometric proble
 enumerated, and ask whether a productive bivalent exists at all. Same free CPU as
 [route 2 of `target-route-options.md`](./target-route-options.md), different pendant.
 
-**Grade: ★★ promote, behind Tier 1 only because it still needs a molecule.**
+**⭑ Grade under the corrected axes: Tier 3, and one free CPU run from moving.** *(Superseded, kept
+quotable: the first ranking's* **"★★ promote, behind Tier 1 only because it still needs a molecule"**
+*— see [§6](#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis).)*
+
+- **W1 — real but contingent, which is the whole demotion.** The TCIP authors' own stated first
+  limitation is the missing ligand for the endogenous fusion, so the interest is genuine. ⛔ **But
+  what this repo can offer them is a computationally-opened cryptic pocket, not a ligand** — `R4`
+  (*does anything bind it*) is the program's one un-buyable requirement and is unanswered. So the
+  offer is "we predict a site", which is a weaker position than route 1b's "we complete your class
+  argument with a catalogue compound", and W1 is graded against that bar.
+- **W2 — large.** A bespoke bivalent, synthesised, downstream of a binder that does not yet exist.
+- **⛔ D — currently ZERO, and that is the correctable part.** The TCIP-configuration enumeration
+  above has **not been run**, so as of this memo the route holds no computed result of its own.
+  ⭑ **It is the cheapest promotion available here:** free CPU, and a negative is worth as much as a
+  positive because "no productive bivalent exists in the enumerated space" is itself a publishable
+  geometric result. **Run it, then re-grade this row** — do not re-rank it on the expectation.
 
 ---
 
