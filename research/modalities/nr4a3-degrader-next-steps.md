@@ -6,6 +6,16 @@
 > subordinate — it holds infra gotchas, run commands, and the historical program state. The "three-step spine"
 > banner just below is SUPERSEDED as the *ordering* by nr4a3-program-map.md's reviewer-revised ladder (thesis unchanged).
 
+> **↗ NOT WORKING ON THE DEGRADER? The ATR-inhibitor / FET-rearrangement route started 2026-08-03 and
+> its files live in this folder too**, so a fresh session does not have to find them by accident:
+> [`emc-atri-prereg.md`](./emc-atri-prereg.md) (the preregistration — criteria fixed in advance),
+> [`emc_fet_idr_census.py`](./emc_fet_idr_census.py) → [`emc-fet-idr-census.json`](./emc-fet-idr-census.json)
+> (the structural precondition, computed), [`fet_ddr_axis_scan.py`](./fet_ddr_axis_scan.py) →
+> [`fet-ddr-axis-scan.json`](./fet-ddr-axis-scan.json) (the DepMap/GDSC public-data analysis), and
+> [`emc-atri-outreach-DRAFT.md`](./emc-atri-outreach-DRAFT.md) (⛔ **held, not sent**). The route's
+> rationale and rank: [`../manuscripts/emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md).
+> Both scans run from `depmap-dependency.yml`; **neither needs a GPU or a rental.**
+
 **Source of truth for HOW to resume/run the degrader compute from a fresh session** (infra + run commands). Read
 this alongside the plan ([`/nr4a3-program-map.md`](../manuscripts/nr4a3-program-map.md)), the
 manuscript ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md)) and the
