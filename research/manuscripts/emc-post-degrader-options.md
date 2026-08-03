@@ -6,6 +6,18 @@
 > 2026-08-03.) It ranks every route, including several this repo has never carried, on the axes that
 > the degrader program's own failure record says matter.
 >
+> ⚠ **THE RANKING BELOW IS THE SECOND ONE. The first was graded on an axis that assumed a
+> collaborator we do not have** — it scored the wet-lab ask on *cheapness*, which only matters if
+> somebody exists who would run it. Corrected the same day: Axis W split into **W1 (is there a
+> self-interested taker?)** and **W2 (the ask's size, conditional on W1)**, and **Axis D (what do we
+> end up holding if the experiment never happens?)** was added, which is the axis that actually
+> decides things for a programme that cannot execute. The superseded tiers are kept quotable in
+> [§6](#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis) and registered in
+> [STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings); **the live
+> text carries only the corrected ranking.** ⚠ **Route NUMBERS are stable identifiers and did not
+> change** — other files cite "route 1", "route 4" — so a route's number tells you which route it is
+> and its **tier** tells you where it now ranks.
+>
 > **Subordinate to [`nr4a3-program-map.md`](./nr4a3-program-map.md)** (the roadmap owns the plan, the
 > gates and the prices — nothing here restates one), to
 > [`emc-treatment-strategy.md`](./emc-treatment-strategy.md) + [`../IDEAS.md`](../IDEAS.md) (the route
@@ -64,22 +76,46 @@ spent on modalities that need a binder rather than on the one modality that also
 
 ---
 
-## 1 · The three axes every route is graded on
+## 1 · The four axes every route is graded on
 
 A single tier number blends questions that do not move together — the mistake
 [`emc-treatment-strategy.md`](./emc-treatment-strategy.md) already corrected for the portfolio. This
 memo asks a narrower question than that capstone (*what produces a testable candidate now*), so it
-uses three axes of its own and reports each separately.
+uses axes of its own and reports each separately.
 
 - **Axis P — what NEW evidence can we generate with no wet lab?** Not "can we argue for it" — can we
   *compute* something that did not exist before. This is the axis that decides whether a route yields
   a paper or an opinion.
-- **Axis W — the wet-lab ask.** How cheap, how decisive, and **does the reagent and the model already
-  exist**? A route needing a bespoke molecule synthesised is a different ask from one needing a
-  catalogue compound on a plate.
+- **Axis W1 — is there a plausible, SELF-INTERESTED taker?** Not *is the experiment cheap* but **does
+  a specific group already exist that would want this result for their OWN reasons?** The calibrating
+  example is route 1's: the FET/ATR authors published a partner-class argument spanning an **ETS**
+  (FLI1), a **bZIP** (ATF1) and a **zinc-finger** (WT1) partner, and **EMC's NR4A3 is a nuclear
+  receptor — the missing fourth class in their own argument.** Running it completes something they
+  already own. That is a materially stronger position than *"please test our molecule"*, and it is
+  the bar every route is graded against. ⚠ **Grade the taker, not the reagent** — a group that could
+  in principle do it is not a group that wants to.
+- **Axis W2 — the ask's SIZE**, and it is **conditional on W1**. A catalogue compound on a plate is a
+  smaller ask than a bespoke synthesis, and that ordering is real — but **a cheap ask with no
+  plausible taker scores worse than a moderate ask with a motivated one**, because an experiment
+  nobody will run has no size. W2 is a tie-breaker within a W1 band, never a substitute for one.
 - **Axis S — does it inherit the program's blockers?** Specifically: does its central claim reduce to
   a ~1 kcal/mol free-energy difference, does it need a generated ternary, and does it need
   NR4A-paralogue discrimination. **Three noes is the profile that survives.**
+- **⭑ Axis D — what do we END UP HOLDING if the experiment never happens?** A complete published
+  deliverable, or an unrun proposal. **This is the decisive axis under this programme's real
+  constraint** and it is the one the first ranking lacked entirely. It is not a pessimism axis: it
+  asks what the *expected* product of a route is, given that this programme can finish computation
+  and writing and cannot finish an assay. A route whose in-silico half stands alone scores high; a
+  route whose in-silico half is a preamble to somebody else's experiment scores low **however good
+  that experiment is**.
+
+⛔ **Why the axis set changed, stated once here so the tables do not have to.** trimcrae is a private
+individual: **no lab, no institutional affiliation, no committed collaborator**, and paying four
+figures for a contracted assay whose failure he could not interpret has been ruled out. The first
+ranking's Axis W graded *"how cheap is this for whoever runs it"*, which silently assumes a
+whoever. Cheapness is real but it is **conditional**, and the thing it was conditional on is what we
+do not have. The full correction and the superseded tiers are in
+[§6](#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis).
 
 ⚠ **One standing constraint that no route escapes, so it is stated once here rather than in every
 row.** EMC is indolent: **5-year OS 66–88 %, 10-year DSS ≈ 85 %, median time to metastasis ≈ 28
@@ -97,20 +133,26 @@ of every route below is that.
 
 ### ⭑ The trade-off this ranking makes, stated plainly so it can be overruled
 
-**Tier 1 buys speed-to-a-tested-candidate by giving up "the candidate is ours".** The degrader was
-attractive partly because the molecule would have been this program's own invention; route 1's
-molecule is somebody else's, and the contribution is the *hypothesis, the class argument and the
-preregistered experiment* rather than the compound. That is a real loss and it should be named rather
-than glossed.
+**Tier 1 is now defined by what this programme can FINISH, not by what would be cheapest for someone
+else to run.** Every Tier-1 entry is a document this programme can complete alone and post; every
+Tier-2 entry is an *ask* — a specific experiment, a specific taker, a preregistration already
+written. The two are separated because they fail differently: a deliverable's risk is that nobody
+cites it, an ask's risk is that nobody runs it, and only the second risk is outside our control.
 
-The reason I still rank it first: **for an ultra-rare cancer with no wet lab, the binding constraint
-is not idea supply — it is getting anything tested at all.** A hypothesis whose reagent is in a
-catalogue and whose model exists in three labs converts into a real experiment on a timescale nothing
-requiring a synthesised molecule can match, and a positive would be the first mechanistically-grounded
-systemic hypothesis EMC has had. **If the program's goal is weighted instead toward originating a
-novel agent, the correct reordering is 2 → 4 → 5 first** (junction ASO, TCIP, covalent probe — all
-"ours"), with route 1 run in parallel because it costs almost nothing to carry. That is a judgement
-about what the program is for, not about the evidence, and it is trimcrae's to make.
+**What this costs, named rather than glossed.** Ranking on Axis D pushes the routes with the biggest
+*ceiling* down. Route 1's cell panel, if run and positive, would be the first mechanistically-grounded
+systemic hypothesis EMC has had — larger than anything in Tier 1 — and it is now Tier 2 not because
+it got worse but because **we cannot cause it.** The ranking deliberately prefers a smaller certain
+product to a larger contingent one. ⚠ **That preference is a judgement about the operating regime,
+not about the science, and it flips if the regime changes**: a committed collaborator, an
+institutional affiliation, or a funded model-holding group would move route 1's panel to the top of
+the list on the same evidence. The asks are written so they are ready the moment that happens —
+that is what Tier 2 is *for*, and it is why nothing is deleted.
+
+⚠ **The one thing this reordering must not be read as.** Tier 2 is **not** a discard pile and the
+Tier-1/Tier-2 boundary is **not** a claim that the asks are weak. Route 1's panel has the best W1 in
+the portfolio and the smallest W2; it is simply not a thing this programme executes, and the previous
+ranking obscured that by scoring its cheapness as if cheapness were ours to spend.
 
 ---
 

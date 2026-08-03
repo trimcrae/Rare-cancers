@@ -264,6 +264,50 @@ def family_window(nr4a3_rows, paralogue_rows, key_field, convention, target=TARG
     return out
 
 
+TERM_A = "term_a_exemplar"
+
+
+def paired_transitions(mono_rows, bival_rows, anchor_of_placement):
+    """★★ THE HONEST COMPARATOR, AND THE REASON A BARE COUNT WOULD MISLEAD.
+
+    The two configurations do not have the same number of cells: ten (placement x pendant) bivalent cells
+    collapse onto five (anchor x pendant) monovalent ones, so `n_open` is not comparable between them and a
+    ratio of ratios would still hide which cells moved. Instead, every bivalent cell is PAIRED with the
+    monovalent cell at its own warhead anchor and the same pendant, and the transition is counted:
+
+        open -> open      the window survives removing the E3 arm
+        open -> closed    the window existed only because of the E3 arm's geometry
+        closed -> open    removing the arm CREATED a window
+        closed -> closed  no window either way
+
+    A 'closed -> open' count of zero and a large 'open -> closed' count is the shape that refutes the
+    intuition this module was built to test.
+    """
+    m = {(r["cell"], r["pendant"]): r for r in mono_rows}
+    out = {"open_to_open": 0, "open_to_closed": 0, "closed_to_open": 0, "closed_to_closed": 0,
+           "n_paired": 0, "unpaired": 0, "cells_that_gained_a_window": [],
+           "cells_that_lost_a_window": []}
+    for b in bival_rows:
+        anc = anchor_of_placement.get(b["cell"])
+        mo = m.get((anc, b["pendant"])) if anc else None
+        if mo is None:
+            out["unpaired"] += 1
+            continue
+        out["n_paired"] += 1
+        key = "%s -> %s" % ("open" if b["width"] > 0 else "closed",
+                            "open" if mo["width"] > 0 else "closed")
+        out[key.replace(" -> ", "_to_")] += 1
+        if b["width"] == 0 and mo["width"] > 0:
+            out["cells_that_gained_a_window"].append({"bivalent_cell": b["cell"], "pendant": b["pendant"],
+                                                      "monovalent_width": mo["width"]})
+        if b["width"] > 0 and mo["width"] == 0:
+            out["cells_that_lost_a_window"].append({"bivalent_cell": b["cell"], "pendant": b["pendant"],
+                                                    "bivalent_width": b["width"],
+                                                    "monovalent_closed_by": mo["closed_by"]})
+    out["cells_that_lost_a_window"] = out["cells_that_lost_a_window"][:20]
+    return out
+
+
 def window_summary(rows):
     """n_open / median width / who closes it / how often the target is not even first."""
     widths = sorted(r["width"] for r in rows)
@@ -301,7 +345,8 @@ def crosscheck_replicates_committed(bival_windows, path=COMMITTED_BIVALENT):
     if not os.path.exists(path):
         return {"status": "UNREAD", "reason": "%s absent" % path}
     with open(path) as fh:
-        committed = json.load(fh).get("family_wide_window") or {}
+        committed = ((json.load(fh).get("★_family_wide_chemoselectivity_window") or {})
+                     .get("by_convention") or {})
     compared, mismatches = 0, []
     for conv, rows in bival_windows.items():
         ref = {(r["placement"], r["pendant"]): r for r in (committed.get(conv) or [])}
@@ -434,18 +479,7 @@ def build(seqs, cutoff=CLASH_PRIMARY_A, paralogue_ensembles=True, struct_root=RE
             ens_windows[prot] = worst
 
     xchecks = {
-        "committed_anchor_distances": CR.crosscheck_committed_distances(
-            [dict(r, meta_basin_id=r["placement"].split("@")[0],
-                  placement_label=r["placement"].split("@")[1],
-                  d_warhead_anchor_A=round(G.dist(
-                      CR.cysteines_in(nr4a3, CR.OFFSET, unique_labels)[r["cysteine"]]["xyz"],
-                      next(p["_a"] for p in placements
-                           if "%s@%s" % (p["meta_basin_id"], p["placement_label"]) == r["placement"])), 2),
-                  d_e3_anchor_A=round(G.dist(
-                      CR.cysteines_in(nr4a3, CR.OFFSET, unique_labels)[r["cysteine"]]["xyz"],
-                      next(p["_b"] for p in placements
-                           if "%s@%s" % (p["meta_basin_id"], p["placement_label"]) == r["placement"])), 2))
-             for r in tgt["bival"]]),
+        "committed_anchor_distances": CR.crosscheck_committed_distances(tgt["bival"]),
         "unique_cysteine_partition": CR.crosscheck_unique_set(
             {"unique": unique_labels, "all": set(tgt["cysteines"])}),
         "replicates_the_committed_bivalent_window": crosscheck_replicates_committed(bival_windows),
@@ -504,6 +538,28 @@ def build(seqs, cutoff=CLASH_PRIMARY_A, paralogue_ensembles=True, struct_root=RE
         "summary": {
             "monovalent": {c: window_summary(mono_windows[c]) for c in mono_windows},
             "bivalent": {c: window_summary(bival_windows[c]) for c in bival_windows},
+            # the subset the committed bivalent verdict grades on — the C397 term-(a) exemplar placements —
+            # carried so the comparison can be read on the committed artifact's own footing as well as on
+            # the full board (rule 1: the committed figures are not re-typed, they are re-derived here and
+            # cross-checked cell for cell against the artifact that owns them)
+            "graded_term_a_only": {
+                "monovalent": {c: window_summary(
+                    [r for r in mono_windows[c]
+                     if r["cell"] in {a["pose_id"] for a in anchors
+                                      if any(TERM_A in p for p in a["subsumes_bivalent_placements"])}])
+                    for c in mono_windows},
+                "bivalent": {c: window_summary([r for r in bival_windows[c] if TERM_A in r["cell"]])
+                             for c in bival_windows},
+            },
+        },
+        "paired_transitions": {
+            "_what": ("every bivalent (placement x pendant) cell paired with the monovalent cell at its "
+                      "own warhead anchor and the same pendant — the comparator that survives the "
+                      "collapse from ten placements to five anchors"),
+            "by_convention": {c: paired_transitions(mono_windows[c], bival_windows[c],
+                                                    {"%s@%s" % (p["meta_basin_id"], p["placement_label"]):
+                                                     p["pose_id"] for p in placements})
+                              for c in mono_windows},
         },
         "paralogue_metadynamics_ensembles": {
             "_what": "the monovalent window re-graded against every available paralogue conformer",
@@ -521,23 +577,35 @@ def verdict(d):
     bs = d["summary"]["bivalent"]
     co_m, co_b = ms["corridor"], bs["corridor"]
     ts_m, ts_b = ms["through_space"], bs["through_space"]
+    pt = d["paired_transitions"]["by_convention"]
+    pco, pts = pt["corridor"], pt["through_space"]
 
-    direction = ("WORSE" if (co_m["n_open"] < co_b["n_open"] and ts_m["n_open"] < ts_b["n_open"])
-                 else "BETTER" if (co_m["n_open"] > co_b["n_open"] and ts_m["n_open"] > ts_b["n_open"])
-                 else "MIXED")
+    gained = pco["closed_to_open"] + pts["closed_to_open"]
+    lost = pco["open_to_closed"] + pts["open_to_closed"]
+    direction = "WORSE" if lost and not gained else "BETTER" if gained and not lost else "MIXED"
 
     return {
         "answer": direction,
         "headline": (
-            "Removing the E3 arm makes the categorical window %s, not better. Under the conservative "
-            "corridor convention the family-wide window at C397 is open in %d of %d monovalent cells "
-            "against %d of %d bivalent ones; under the permissive through-space convention, %d of %d "
-            "against %d of %d. The intuition that one fewer terminus is 'a strictly smaller search "
-            "problem' is true about reach and irrelevant to selectivity: dropping the |p-b| term shortens "
-            "every competitor's chain as well as the target's, and it removes the geometric constraint "
-            "that was ORDERING them."
-            % (direction, co_m["n_open"], co_m["n_cells"], co_b["n_open"], co_b["n_cells"],
-               ts_m["n_open"], ts_m["n_cells"], ts_b["n_open"], ts_b["n_cells"])),
+            "Removing the E3 arm makes the categorical window %s, not better, and the paired comparison "
+            "is one-directional. Corridor (conservative): of the %d bivalent cells that had an open "
+            "family-wide window at C397, %d retain one when the E3 arm is removed, and %d cells gain a "
+            "window they did not have. Through-space (permissive): %d of %d retained, %d gained. The "
+            "intuition that one fewer terminus is 'a strictly smaller search problem' is true about reach "
+            "and irrelevant to selectivity: dropping the |p-b| term shortens every competitor's chain as "
+            "well as the target's, and it removes the geometric constraint that was ORDERING them."
+            % (direction, pco["open_to_open"] + pco["open_to_closed"], pco["open_to_open"],
+               pco["closed_to_open"],
+               pts["open_to_open"], pts["open_to_open"] + pts["open_to_closed"], pts["closed_to_open"])),
+        "board_level_counts": {
+            "_caveat": ("cell counts are NOT comparable between configurations — ten bivalent placements "
+                        "collapse to five monovalent anchors — so these are reported as rates and the "
+                        "decision rests on `paired_transitions` above."),
+            "corridor": {"monovalent": [co_m["n_open"], co_m["n_cells"]],
+                         "bivalent": [co_b["n_open"], co_b["n_cells"]]},
+            "through_space": {"monovalent": [ts_m["n_open"], ts_m["n_cells"]],
+                              "bivalent": [ts_b["n_open"], ts_b["n_cells"]]},
+        },
         "what_changed_and_why_it_matters": {
             "the_E3_term_was_doing_selectivity_work": (
                 "n = ceil(|p-a|/r) + ceil(|p-b|/r) is not merely a larger number than ceil(|p-a|/r): it "
@@ -547,13 +615,12 @@ def verdict(d):
                 "of %d corridor cells; bivalent, in %d of %d."
                 % (co_m["n_target_not_first"], co_m["n_cells"],
                    co_b["n_target_not_first"], co_b["n_cells"])),
-            "an_NR4A3_conserved_cysteine_now_closes_it_too": (
+            "the_intra_NR4A3_margin_collapses_too": (
                 "the bivalent counter-test's finding was that the window is closed by a PARALOGUE cysteine "
-                "rather than by one of NR4A3's own conserved ones. Monovalent, an NR4A3 conserved cysteine "
-                "closes %d of %d corridor cells on the intra-NR4A3 margin alone (median intra-NR4A3 width "
-                "%s atoms against %s bivalent), so the route loses a margin it previously had."
-                % (co_m["n_closed_by_an_NR4A3_conserved_cysteine"], co_m["n_cells"],
-                   co_m["median_intra_nr4a3_width"], co_b["median_intra_nr4a3_width"])),
+                "rather than by one of NR4A3's own conserved ones — i.e. the intra-NR4A3 margin was the "
+                "easy half. Monovalent it is not: the median intra-NR4A3 window falls to %s backbone "
+                "atoms from %s, so the route loses a margin it had before any paralogue is considered."
+                % (co_m["median_intra_nr4a3_width"], co_b["median_intra_nr4a3_width"])),
             "closers": {"monovalent_corridor": co_m["closers_by_count"],
                         "bivalent_corridor": co_b["closers_by_count"]},
         },
@@ -593,7 +660,19 @@ def to_markdown(d):
     A("⛔ %s" % ver["_what_this_verdict_is_not"])
     A("")
 
-    A("## 2 · The family-wide window, both configurations")
+    A("## 2 · The paired comparison — every bivalent cell against the monovalent cell at its own anchor")
+    A("")
+    A("| convention | paired cells | open → open | open → closed | **closed → open** | closed → closed |")
+    A("|---|---|---|---|---|---|")
+    for conv, t in sorted(d["paired_transitions"]["by_convention"].items()):
+        A("| %s | %d | %d | %d | **%d** | %d |"
+          % (conv, t["n_paired"], t["open_to_open"], t["open_to_closed"], t["closed_to_open"],
+             t["closed_to_closed"]))
+    A("")
+    A("## 3 · The family-wide window, both configurations")
+    A("")
+    A("⚠ Cell counts are **not** comparable between the two rows — ten bivalent placements collapse to "
+      "five monovalent anchors. Read §2 for the decision.")
     A("")
     A("| configuration | convention | cells | open | median width | closed by a paralogue | closed by an "
       "NR4A3 conserved Cys | target not first |")
@@ -612,7 +691,7 @@ def to_markdown(d):
     A("")
 
     cc = d["configuration_change"]
-    A("## 3 · What the configuration change does besides the arithmetic")
+    A("## 4 · What the configuration change does besides the arithmetic")
     A("")
     A("- **%d bivalent placements collapse to %d monovalent anchors.** %s"
       % (cc["n_bivalent_placements"], cc["n_monovalent_anchors"], cc["_reading"]))
@@ -620,7 +699,7 @@ def to_markdown(d):
       % cc["admissibility_filter_retires"]["_reading"])
     A("")
 
-    A("## 4 · Cross-checks (rule 1 — this module may not mint a second value)")
+    A("## 5 · Cross-checks (rule 1 — this module may not mint a second value)")
     A("")
     for k, v in d["cross_checks"].items():
         A("- `%s`: **%s**%s" % (k, v.get("status"),
@@ -629,7 +708,7 @@ def to_markdown(d):
 
     ew = d.get("paralogue_metadynamics_ensembles", {}).get("per_paralogue") or {}
     if ew:
-        A("## 5 · Robustness — the monovalent window against every paralogue conformer")
+        A("## 6 · Robustness — the monovalent window against every paralogue conformer")
         A("")
         A("| paralogue | convention | frames | cells | open |")
         A("|---|---|---|---|---|")
@@ -638,7 +717,7 @@ def to_markdown(d):
                 A("| %s | %s | %d | %d | **%d** |" % (prot, conv, s["n_frames"], s["n_cells"], s["n_open"]))
         A("")
 
-    A("## 6 · What this inherits and cannot say")
+    A("## 7 · What this inherits and cannot say")
     A("")
     for lim in d["_inherits"]:
         A("- %s" % lim)
