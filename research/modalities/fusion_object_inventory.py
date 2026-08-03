@@ -595,13 +595,19 @@ def render_markdown(doc):
              "invariant** (present under every plausible breakpoint) and **%s are breakpoint-dependent**.\n"
              % (ex.get("n_reactive_residues_outside_the_construct_at_the_canonical_junction"),
                 inv.get("n_rows"), inv.get("n_invariant"), inv.get("n_breakpoint_dependent")))
-    L.append("\n| residue | protein | domain | class | present under | NR4A3-unique vs |")
-    L.append("|---|---|---|---|---|---|")
+    sl = inv.get("structurally_load_bearing_outside_the_construct") or []
+    if sl:
+        L.append("\nStructurally load-bearing among them: **%s** — the C4 zinc-finger coordinating "
+                 "cysteines, matched in the sequence rather than assumed from position. These are the "
+                 "fingers the superseded off-by-two junctions deleted.\n" % ", ".join(sl))
+    L.append("\n| residue | protein | domain | class | present under | NR4A3-unique vs | structural role |")
+    L.append("|---|---|---|---|---|---|---|")
     for r in inv.get("rows", []):
-        L.append("| **%s** | %s | %s | %s | %d/%d | %s |" % (
+        L.append("| **%s** | %s | %s | %s | %d/%d | %s | %s |" % (
             r["residue"], r["protein"], r["domain"], r["class"],
             r["present_under_n_of_n_plausible"][0], r["present_under_n_of_n_plausible"][1],
-            ", ".join(r.get("nr4a3_unique_vs_paralogues") or []) or "—"))
+            ", ".join(r.get("nr4a3_unique_vs_paralogues") or []) or "—",
+            r.get("structural_role") or "—"))
 
     nf = doc.get("neoantigen_lane_flag") or {}
     if nf.get("read"):
