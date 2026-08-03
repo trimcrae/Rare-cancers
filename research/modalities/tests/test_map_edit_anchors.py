@@ -119,7 +119,9 @@ def test_the_verifier_cannot_write(doc):
 def test_r14a_routed_edits_resolve_against_the_live_map(verdict):
     d = {"selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": verdict}]), targets=[])}
     edits, s = mea.verify(sc.map_edits(d), LIVE_MAP)
-    assert s["all_applicable"], json.dumps(
+    # `all_accounted`, not `all_applicable`: once an edit has been ROUTED it reports APPLIED, and a test
+    # that demanded `all_applicable` would go red the moment the routing it exists to protect succeeds.
+    assert s["all_accounted"], json.dumps(
         {"not_found": s["not_found"], "ambiguous": s["ambiguous"]}, indent=1)
     assert all(e["_schema_complete"] for e in edits)
 
@@ -131,9 +133,14 @@ def test_r13a_routed_edits_resolve_against_the_live_map():
     fi.assemble(dict(audit["EWSR1"], protein=cache["EWSR1"]),
                 dict(audit["NR4A3"], protein=cache["NR4A3"]), d)
     edits, s = mea.verify(fi.map_edits(d), LIVE_MAP)
-    assert s["all_applicable"], json.dumps(
+    assert s["all_accounted"], json.dumps(
         {"not_found": s["not_found"], "ambiguous": s["ambiguous"]}, indent=1)
     assert all(e["_schema_complete"] for e in edits)
+    # ⚠ NO ASSERTION ON `n_applied` HERE. Whether these have been ROUTED yet varies by checkout — the
+    # edits land on `main` while a feature branch's copy of the roadmap has not received them — so an
+    # "at least one is applied" assertion would pass or fail on which branch the suite runs from, which
+    # is not a property of the code. `all_accounted` is the durable claim: every anchor is either
+    # applicable or already applied, on any ref.
 
 
 def test_r13a_does_not_give_the_stale_neoantigen_fact_a_second_home():
