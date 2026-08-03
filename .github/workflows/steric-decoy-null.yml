@@ -1,0 +1,114 @@
+name: C25 steric decoy null (CPU, $0)
+
+# THE CROSS-SYSTEM DECOY NULL FOR THE STERIC-EXCLUSION AXIS (`S3`). No GPU, no rental, no SageMaker, no AWS
+# credentials, no priced rung. Public-repo Actions minutes only.
+#
+# WHAT IT ANSWERS. `S3` reports 0.923 paralogue-only clash at bulkier-in-both Pocket-5 positions against a
+# 0.173 null at conserved/shared positions (5.34x) — with a WITHIN-SYSTEM null only. This job pushes
+# arbitrary close human nuclear-receptor pairs and trios through the IDENTICAL `steric_design_rule.score_pose`
+# path, so that contrast can be read against a MEASURED background instead of an unmeasured one. It is the
+# same repair `C24` made to the categorical axis hours earlier, and `C24`'s answer was not flattering.
+#
+# ⛔ WHY NO micromamba AND NO BAKED IMAGE (CLAUDE.md §6). Nothing here needs a scientific stack: every module
+# this job imports (`steric_decoy_null`, `steric_design_rule`, `selectivity_mechanism_options`,
+# `nr4a3_basin_search`, `categorical_decoy_null`, `nr4a_paralogue_unique_residues`) is pure Python stdlib,
+# and unlike the sibling `C02` lane this one uses NO fpocket — its pocket is `C5`'s prespecified Pocket-5
+# lining set mapped by alignment, never a detected cavity. So "which baked image?" has the answer "none is
+# needed", which is a different thing from skipping the question.
+#
+# ⛔ THE ORDER OF THE STEPS IS THE SCIENCE. The pre-registration is published BEFORE any structure is
+# fetched; the pair/trio plan is published BEFORE any statistic is computed; and the harness known-answer
+# check runs BEFORE the background is published, with `set -e` so a harness that cannot reproduce the
+# committed `M3` rates fails the job instead of shipping a background nobody can read.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "branch to publish artifacts to"
+        default: "main"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: steric-decoy-null-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  steric_decoy_null:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+
+      # ── 1. the pre-registration, from constants alone: no network, no model, no statistic ──────────────
+      - name: Emit the pre-registration
+        run: cd research/modalities && python3 steric_decoy_null.py plan
+
+      - name: Publish the pre-registration (design only, before any structure is fetched)
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C25: PRE-REGISTRATION for the steric-exclusion decoy null (no structures, no statistic)" \
+            research/modalities/steric-decoy-null-plan.json
+
+      # ── 2. the plumbing shakeout, on committed models, before a single byte is fetched ────────────────
+      # CLAUDE.md §6: smoke -> one real leg -> fleet. This exercises the `full_trio` construction (two
+      # chained superpositions and two `corr_from_ref` maps) whose plumbing nothing else covers.
+      - name: Smoke the full_trio code path (committed models, no network)
+        run: cd research/modalities && python3 steric_decoy_null.py smoke
+
+      # ── 3. structures ─────────────────────────────────────────────────────────────────────────────────
+      - name: Fetch AlphaFold DB models for the universe
+        run: cd research/modalities && python3 steric_decoy_null.py fetch
+
+      - name: Trim to C24's LBD window, all-vs-all identity, answer-blind pair/trio selection
+        run: cd research/modalities && python3 steric_decoy_null.py pairs
+
+      # ⛔ The selection is part of the pre-registration and is published BEFORE the statistic exists, so a
+      # reader can check that no arm was chosen on what it scored.
+      - name: Publish the pair/trio plan (still no statistic)
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C25: selected pairs and trios for the steric decoy null (answer-blind; still no statistic)" \
+            research/modalities/steric-decoy-null-plan.json
+
+      # ── 4. the known-answer check, and it is allowed to fail the job ──────────────────────────────────
+      # A background measured by a harness that cannot reproduce the measurement it calibrates is worse than
+      # no background. `selfcheck` exits non-zero unless it recovers M3's committed 0.923 / 0.000 / 0.173 AND
+      # all ten committed denied-lobe volumes.
+      - name: Harness known-answer check vs the committed M3 rates and lobes
+        run: cd research/modalities && python3 steric_decoy_null.py selfcheck
+
+      # ── 5. the backgrounds ────────────────────────────────────────────────────────────────────────────
+      - name: Run the two backgrounds and the percentiles
+        run: cd research/modalities && python3 steric_decoy_null.py run
+
+      - name: Publish
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C25: cross-system decoy null for the steric axis — measured background + NR4A3 percentiles" \
+            research/modalities/steric-decoy-null.json \
+            research/modalities/steric-decoy-null.md \
+            research/modalities/steric-decoy-null-plan.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: steric-decoy-null
+          path: |
+            research/modalities/steric-decoy-null.json
+            research/modalities/steric-decoy-null.md
+            research/modalities/steric-decoy-null-plan.json
+          if-no-files-found: warn

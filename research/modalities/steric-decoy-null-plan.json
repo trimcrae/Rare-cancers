@@ -1,0 +1,162 @@
+{
+ "_title": "`C25` — cross-system decoy null for the STERIC-EXCLUSION axis (`S3`): PRE-REGISTRATION. No statistic under this design exists yet.",
+ "_status": "INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, affinity, reactivity, degradation, efficacy, safety or clinical readiness.",
+ "_reading": "This calibrates the STERIC SCREEN, not NR4A3. It converts 'the steric rule fired at 5.34x its own within-system null' into 'it fired at 5.34x, against a measured cross-system background of X'.",
+ "_generated": {
+  "utc": "2026-08-03T18:14:30Z",
+  "et": "2026-08-03 02:14 PM ET",
+  "generator": "research/modalities/steric_decoy_null.py"
+ },
+ "_configuration": {
+  "_rule": "roadmap §3b: a number whose value depends on a frozen definitional choice must NAME that choice, inline, where the number is written. Declared here so every percentile in this artifact carries its conditions.",
+  "items": {
+   "C25": {
+    "what_it_fixes": "the STERIC decoy-null construction — which proteins may play the paralogue roles, how a decoy arm is built, how poses are carried and filtered, and the gradeability floor a background row must clear",
+    "value": "two backgrounds never pooled (`partner_swap` PRIMARY, `full_trio` SECONDARY); decoy roles drawn from the committed 47-receptor nuclear-receptor universe minus the NR4A family; AlphaFold models trimmed by `C24`'s LBD window; pairs/trios ranked answer-blind on identity; 20 conditioning events per class",
+    "frozen_by": "this file's `PREREG`, emitted by `plan` before any model was fetched under it and before any statistic under it existed",
+    "home": "research/modalities/steric_decoy_null.py -> PREREG; plan file research/modalities/steric-decoy-null-plan.json",
+    "what_moves_if_it_moves": "every percentile this artifact quotes for `S3`'s 0.923 / 0.173 / 0.000, and therefore whether the 5.34x contrast is reported as distinctive or as ordinary",
+    "status": "frozen"
+   },
+   "C24": "the LBD window trim and the pair-selection rule, INHERITED here rather than re-frozen",
+   "C5": "the Pocket-5 lining set, mapped onto every arm's target",
+   "C16": "the sibling decoy-null trim; cited, never used here"
+  },
+  "⛔_none_of_these_is_altered_by_this_run": "they are cited, not edited. Changing any of them is trimcrae's decision, per §3b."
+ },
+ "preregistration": {
+  "_frozen": "Design fixed BEFORE any structure was fetched under this rule and before any statistic under it existed. `plan` emits this block from constants alone — it reads no model, no alignment and no result, so a plan file and a result file cannot disagree about what was registered.",
+  "_configuration_id": "C25",
+  "question": "The steric-exclusion axis `S3` reports 0.923 paralogue-only clash at bulkier-in-both positions against a 0.173 null at conserved/shared positions (5.34x), and it has a WITHIN-SYSTEM null only. Does an ARBITRARY close paralogue pair, pushed through the IDENTICAL pipeline, also produce that contrast? If most do, the contrast is a property of the METHOD, not of NR4A3.",
+  "★_why_this_is_asked_now": "Because the same gap was closed on the categorical axis hours earlier and the answer was NOT flattering: `C24` measured `frac_exactly_zero = 0.56` at the cysteine level, so a clean P = 0 sat at roughly the 56th percentile — zero was the MODAL outcome. A headline with no cross-system background is a headline nobody can grade, in either direction.",
+  "two_backgrounds_never_pooled": {
+   "⛔_rule": "These are two separate tests answering two different questions. Their rows are NEVER merged into one background, neither supersedes the other, and every percentile names which one it came from. Same discipline as `C24`'s two scopes.",
+   "partner_swap": {
+    "role": "PRIMARY",
+    "what_varies": "the PARTNER PAIR only",
+    "construction": "target = the committed NR4A3 opened model (`results/nr4a3-matrix/nr4a3-opened.pdb`), poses = the 13 committed docked molecules, positions = Pocket-5 (`C5`). The two proteins playing the paralogue ROLES are an arbitrary close pair from the universe, superposed onto NR4A3 by the same `superpose_paralogue` call `M3` makes.",
+    "★_why_it_is_the_primary": "It is the only construction in which EVERYTHING except the swapped pair is byte-identical to `M3`: same target, same poses, same frame, same by-construction absence of target clash. It therefore isolates the question exactly — is the NR4A1/NR4A2 pair special, or would any close homologue pair produce this contrast?",
+    "⚠_what_it_cannot_answer": "It never varies the TARGET or the POSES, so it cannot say whether an arbitrary close paralogue SYSTEM produces the contrast. That is what `full_trio` is for."
+   },
+   "full_trio": {
+    "role": "SECONDARY",
+    "what_varies": "the target AND both partners",
+    "construction": "a trio {T, A, B} from the universe. T is superposed into the NR4A3 pose frame by `superpose_paralogue(T, nr4a3_opened)`; A and B are then superposed onto T-as-placed by the same function, so the partners are fitted to THEIR OWN target exactly as in `M3`. Positions = Pocket-5 mapped onto T through the same `corr_from_ref` chain. Poses = the same 13 molecules, unmoved.",
+    "⚠_the_asymmetry_it_carries_and_the_reading_that_follows": "The poses were docked into NR4A3, not into T. The per-arm pose filter below removes the resulting bias in the FIRING statistic (a pose that clashes with its own target is dropped in every arm, index included), but it cannot remove the SELECTION effect: an arm whose target fills the pocket keeps fewer poses and may fall below the gradeability floor. PRE-REGISTERED READING, asymmetric on purpose: a HIGH `full_trio` background is decisive against distinctiveness; a LOW one is UNINTERPRETABLE, because pose attrition and a real absence of contrast are not separable here. `partner_swap` carries no such asymmetry.",
+    "⛔_A_MEASURED_PREDICTION_MADE_BEFORE_ANY_DECOY_WAS_FETCHED": "The `smoke` mode runs this exact construction on the three COMMITTED opened models with NR4A1 as target — a trio whose answer is meaningless and whose plumbing is the decoys' — and it returns **0 of 13 poses surviving the target-clash filter**. That is not a surprise once stated: `M3`'s own per-pose table shows NR4A1's side chains clashing at 2-5 of the 10 Pocket-5 positions for EVERY pose, which is the whole reason the steric signal exists. So it is registered HERE, in advance and with its evidence, that `full_trio`'s CLASH contrasts are EXPECTED TO BE UNGRADEABLE, and that this is a property of transporting a docked pose set, not a finding about any decoy. ⭑ What `full_trio` therefore contributes is its POSE-FREE half — the denied-lobe VOLUME axis, which needs no ligand at all and is unaffected by pose attrition. Predicting this before the run is the difference between a limitation and an excuse."
+   }
+  },
+  "universe_and_structures": {
+   "universe": "`research/modalities/nr4a-superfamily-selectivity.json` -> `ranking[]` — 47 human nuclear receptors with UniProt accessions, a COMMITTED artifact. The same universe `C24` used; not re-picked here.",
+   "decoy_roles_exclude_the_NR4A_family": "NR4A1, NR4A2 and NR4A3 are removed from the decoy candidate pool. They are the INDEX arm; a decoy row containing one of them would not be a decoy.",
+   "models": "AlphaFold DB model of each accession, fetched by `categorical_decoy_null.fetch_af` — the same function, the same URL template, the same version fallback.",
+   "trim": "`categorical_decoy_null.trim_one` at `--scope lbd`, i.e. `C24`'s REFERENCE-ANCHORED LBD WINDOW (Smith-Waterman local alignment to the committed NR4A3 LBD construct). Imported, not restated: `C24` is the home of that rule and this file inherits it rather than freezing a second one.",
+   "⚠_index_arm_partner_source": "The decoys' partners are AlphaFold models, so the MATCHED index row uses AlphaFold models of NR4A1 and NR4A2 too — `C24`'s discipline, which refused 8XTT for exactly this reason. The committed OPENED NR4A1/NR4A2 models are also scored, as the reference row that must reproduce `M3`. Both are reported; the percentile is quoted for the matched row and the mixed-source percentile is reported beside it, labelled.",
+   "⚠_index_arm_target_source": "The target stays the committed NR4A3 OPENED model in both backgrounds, because the poses were docked into it and a pose set is meaningless in another frame. In `full_trio` the decoy targets are AlphaFold models, so the target SOURCE is not matched there. Stated, not hidden — and it is the reason `full_trio` is secondary."
+  },
+  "selection_rule": {
+   "⛔_answer_blind": "Pairs and trios are chosen on SEQUENCE IDENTITY and STRUCTURE AVAILABILITY alone, both of which are fixed before any clash, lobe or rate exists. No arm is ever selected, dropped or re-ranked on what it scored.",
+   "pairs": "`categorical_decoy_null.select_pairs`, imported unchanged: identity band [0.35, 0.90], alignment coverage >= 0.6, ranked by |identity - reference identity| ASCENDING, taken greedily subject to `max_per_protein = 2`. The reference identity is the mean of the measured NR4A3-vs-NR4A1 and NR4A3-vs-NR4A2 trimmed-window identities, computed by the same code.",
+   "max_pairs": 20,
+   "_why_20": "Held identical to `C24`'s budget, which is itself on record with its reason: a percentile against 8 points cannot resolve finer than 1/8 = 0.125. 20 gives 0.05. Chosen as an inheritance, not as a fresh number, so it cannot be read as tuned.",
+   "pair_orientation": "an unordered pair contributes ONE arm. `score_pose`'s predicate is symmetric in the two partners (`all(...)` over both), so A-as-first and B-as-first are the SAME measurement — emitting both would double-count, which is the opposite of `C24`'s situation where the target/paralogue roles are asymmetric.",
+   "trios": "unordered triples whose three pairwise identities all clear the same band and coverage floor, ranked by |mean pairwise identity - the NR4A trio's own mean pairwise identity| ASCENDING, taken greedily subject to `max_per_protein = 2`. Each selected trio contributes THREE arms — each member as target once — because choosing which member is 'the target' would be a choice with no answer-blind rule behind it.",
+   "max_trios": 12,
+   "⚠_clustering": "the three arms of one trio share proteins and the pairs share proteins under `max_per_protein = 2`, so the effective n is below `n_graded`. Every background summary reports `n_distinct_proteins` beside `n`, and the Wilson interval is, if anything, optimistic."
+  },
+  "statistic": {
+   "computed_by": "steric_design_rule.score_pose(heavy_xyz, geometry, HARD_CLASH_A) — UNCHANGED",
+   "per_pose_per_position_predicate": "FIRED = both partner side chains come within HARD_CLASH_A (3.0 A) of a pose heavy atom AND the target's side chain does not. Identical to `M3`.",
+   "classes": {
+    "unique_and_both_bulkier": "the target's residue TYPE is absent from both partners at the aligned position, alignment-robust under two independent aligners, AND both partner side chains carry strictly more heavy atoms than the target's. THE SIGNAL CLASS.",
+    "unique_not_bulkier": "unique but not strictly bulkier in both. On NR4A3 this class fires at 0.000, which is the discriminating behaviour: uniqueness alone creates no steric exclusion. THE SECOND CONTRAST, and it is a separate claim from the first — never pooled with it.",
+    "conserved_or_shared": "the target's residue type appears in at least one partner. THE NULL."
+   },
+   "contrast_a": {
+    "primary": "signal_rate - null_rate (`score_pose`'s own `signal_minus_null`, which the module's `how_to_score_a_new_candidate` names as the quantity to accept on)",
+    "secondary": "signal_rate / null_rate — the 5.34x enrichment as usually quoted",
+    "⚠_undefined_ratios": "an arm whose null rate is exactly 0 has an UNDEFINED ratio. It is reported as null and counted in `n_enrichment_undefined` — never set to infinity, never dropped, and never silently excluded from the difference background where it IS defined."
+   },
+   "contrast_b": {
+    "primary": "the unique_not_bulkier rate. NR4A3 = 0.000.",
+    "⛔_the_modal_value_trap": "if NR4A3's value equals the background's modal value then its percentile IS that modal frequency — ONE measurement, not two — and the artifact must say so in those words. This is the sentence `C24` got right and it is the single most useful line in that artifact."
+   },
+   "volume_axis": {
+    "computed_by": "steric_design_rule.denied_lobe(...) — UNCHANGED, same GRID_A",
+    "bar": "each arm's OWN null-class largest lobe, exactly as `steric_design_rule` measures it for NR4A3. ⛔ NOT NR4A3's 11.78 A^3 — importing the index arm's scale into the background would make the bar a property of NR4A3 rather than of the arm.",
+    "statistic": "fraction of that arm's signal-class positions whose lobe exceeds its own bar",
+    "gradeability": "an arm's volume axis is GRADED only when it has >= 1 unique_and_both_bulkier position AND >= 1 conserved_or_shared position, because without the second there is no MEASURED bar and the absolute sanity floor is a chosen number.",
+    "★_why_this_axis_matters_most_for_full_trio": "it needs no ligand, so it is untouched by the pose attrition registered above. It is the half of `S3` that a transported pose set cannot damage."
+   }
+  },
+  "poses": {
+   "set": "the 13 committed selectivity-matrix molecules, results/nr4a3-matrix/docked_nr4a3.sdf",
+   "per_arm_filter": "a pose is DROPPED from an arm if it clashes with that arm's TARGET side chain at any mapped position. Applied identically to every arm, index included.",
+   "_why": "`score_pose`'s predicate requires the target NOT to clash, and on NR4A3 that is true by construction because the poses were docked in. Applying the filter everywhere makes the same property hold by construction in every arm instead of quietly depressing the decoys.",
+   "⚠_it_costs_the_index_arm_a_pose": "one committed pose clashes with NR4A3 at two Pocket-5 positions, so the filtered index row is NOT the committed 0.923/0.173. The committed value is reported beside it as the reference, and the unfiltered rates are reported for every arm as a declared sensitivity."
+  },
+  "gradeability": {
+   "min_conditioning_events": 20,
+   "_source": "held byte-identical to `C24`'s `gradeability_min_conditioning_events = 20`. Not a fresh choice — an inheritance, so it cannot have been set by looking at these rows.",
+   "definition": "a class is GRADED when it has >= 20 (pose x position) cells in that arm, i.e. `n_poses_used * n_positions_in_class >= 20`. Contrast (a) needs BOTH the signal class and the null class graded; contrast (b) needs the unique_not_bulkier class graded.",
+   "⛔_the_floor_does_not_move": "`C24`'s NR4A3 arm reached 12 conditioning events against this same floor of 20 and could not be graded. Raising or lowering the floor after seeing which rows bind is the same class of act as widening a scope after seeing a residue fall outside it. The floor is fixed here; the count of rows that clear it is a RESULT.",
+   "min_graded_for_a_verdict": 5
+  },
+  "verdict_rule": {
+   "DISTINCTIVE_requires_all_of": [
+    "n_graded >= 5 in the background being quoted",
+    "NR4A3's percentile >= 0.75 — i.e. at most a quarter of the background reaches its contrast",
+    "for contrast (b): the background's frac_exactly_zero <= 0.5, because in a background where most arms also return 0 a 0 from NR4A3 means nothing — the `C24` failure mode exactly"
+   ],
+   "otherwise": "NOT DISTINGUISHED, or UNGRADEABLE when n_graded < the floor",
+   "⛔_both_halves_are_needed": "a favourable percentile computed against a background whose modal value equals NR4A3's own is not evidence. `grade()` is the one home of this rule and the SAME thresholds grade both backgrounds and both contrasts; only the numbers going in differ."
+  },
+  "what_a_favourable_result_licenses": {
+   "★_it_licenses": "that the steric-exclusion CONTRAST is larger on NR4A3/NR4A1/NR4A2 than on an arbitrary close human nuclear-receptor pair pushed through the identical geometry — on one opened NR4A3 conformer, one superposition, 13 poses, at a 3.0 A hard-clash radius, inside a NUCLEAR-RECEPTOR universe.",
+   "⛔_it_does_NOT_license": [
+    "no statement about binding, affinity, a selectivity ratio or any free energy — none is computed anywhere in this file",
+    "⛔ NOT that the paralogue fails to bind these molecules. `M4` measures that it RELOCATES them by a median 5.31 A (NR4A1) / 5.26 A (NR4A2), so the rule constrains a POSE and nothing more",
+    "nothing about degradation, efficacy, safety, a therapeutic window or clinical readiness",
+    "no claim of proteome-wide selectivity: a nuclear-receptor background does not bound the rate over the proteome",
+    "⚠ no escape from `R5` — the whole axis is conditional on the cryptic pocket being the right site, and the pose known-answer test `V3` returned INCONCLUSIVE on site selection",
+    "⚠ RIGID TRANSFER throughout: partner side chains are held in their own conformer and could rotate away. 'Denied in this conformer' is never 'denied'"
+   ]
+  },
+  "⛔_no_tuning": [
+   "no re-picking of pairs or trios after seeing a score",
+   "no adjustment of HARD_CLASH_A, GRID_A or the design-target volume bar",
+   "no dropping of a decoy arm because it scored high",
+   "no moving of the gradeability floor in either direction",
+   "if the contrast is not distinctive, that IS the finding and it is reported as directly as `C24` reported its own"
+  ]
+ },
+ "inherited_verbatim": {
+  "_what": "these are NOT restated here — they are read out of the modules that own them at generation time, so this plan cannot drift from the code it registers.",
+  "hard_clash_A": 3.0,
+  "_hard_clash_source": "selectivity_mechanism_options.HARD_CLASH_A (= nr4a3-orientation-basins.json parameters.hard_clash_A)",
+  "grid_A": 0.4,
+  "absolute_sanity_floor_A3": 1.0,
+  "pocket5_lining": [
+   406,
+   407,
+   410,
+   411,
+   412,
+   481,
+   484,
+   485,
+   531,
+   534
+  ],
+  "_pocket5_source": "selectivity_mechanism_options.POCKET5 (= `C5`, the prespecified site)",
+  "identity_band": [
+   0.35,
+   0.9
+  ],
+  "alignment_coverage_min": 0.6,
+  "max_per_protein": 2,
+  "_selection_source": "categorical_decoy_null.PREREG.pair_formation (`C24`/`C16`)",
+  "gradeability_min_conditioning_events": 20
+ },
+ "⛔_what_is_still_unmeasured_at_plan_time": "everything. No model has been fetched, no pair selected, no clash computed. The pair and trio lists are written by `pairs`, which is also answer-blind, and the statistics by `run`."
+}
