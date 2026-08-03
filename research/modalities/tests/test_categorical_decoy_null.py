@@ -529,3 +529,26 @@ def test_a_zero_percentile_is_flagged_as_the_same_number_as_the_background_zero_
                  "P_gate_EXPOSED": None}}}]
     _bg2, n3b = CDN.cysteine_level_background(decoys, nonzero)
     assert n3b["C397_vs_NR4A1"]["⚠_percentile_equals_the_background_zero_rate"] is None
+
+
+def test_the_nested_budget_matched_subset_is_actually_computed_not_just_promised():
+    """`PREREG_LBD.pair_formation` argues the wider pair cap cannot select on an answer BECAUSE the greedy
+    selection is deterministic and the narrower set nests inside it. A promise like that is worth nothing
+    unless the artifact shows it, so the background over the nested subset is computed."""
+    plan = {"nested_top_pairs_matching_the_C16_budget": ["ESR1|ESR2", "RORA|RORB"]}
+    graded = [
+        {"gene_target": "ESR1", "gene_paralogue": "ESR2", "P_gate": 0.10, "P_gate_EXPOSED": 0.10},
+        {"gene_target": "ESR2", "gene_paralogue": "ESR1", "P_gate": 0.20, "P_gate_EXPOSED": 0.20},
+        {"gene_target": "RORB", "gene_paralogue": "RORA", "P_gate": 0.00, "P_gate_EXPOSED": 0.00},
+        {"gene_target": "RARA", "gene_paralogue": "RARG", "P_gate": 0.90, "P_gate_EXPOSED": 0.90},
+    ]
+    s = CDN.nested_subset_background(graded, plan)
+    assert s["n_graded_in_subset"] == 3, "both orientations of a nested pair count; the extra pair does not"
+    assert s["reach_only"]["max"] == 0.20, "the wider set's 0.90 row must be excluded"
+    assert s["reach_only"]["n_exactly_zero"] == 1
+
+
+def test_the_nested_subset_says_so_when_the_plan_did_not_record_it():
+    """An absent reading is not a reading of absence — a missing subset must not render as an empty one."""
+    s = CDN.nested_subset_background([{"gene_target": "A", "gene_paralogue": "B", "P_gate": 0.1}], {})
+    assert "NOT AVAILABLE" in s["status"]

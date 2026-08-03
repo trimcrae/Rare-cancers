@@ -1550,6 +1550,42 @@ def mode_selfcheck(args):
     return out
 
 
+def nested_subset_background(graded, plan):
+    """★ THE BUDGET-MATCHED SUBSET — the check `PREREG_LBD.pair_formation` PROMISED, so it is computed.
+
+    `C24` raised the pair cap from 10 to 20. That is a budget, not a criterion, and the argument that it
+    cannot select on an answer rests on the selection being deterministic and greedy — so the first 10
+    pairs chosen at a cap of 20 are exactly the 10 a cap of 10 would choose. **A promise like that is worth
+    nothing unless the artifact shows it**, so the background is summarised over that nested subset as well
+    as over the full set, and a reader can see whether widening moved it.
+
+    ⚠ This is NOT a design-matched comparison with `C16` — the two scopes select different pairs from a
+    different candidate pool. It isolates the BUDGET, holding the scope fixed. PURE."""
+    names = plan.get("nested_top_pairs_matching_the_C16_budget") or []
+    if not names:
+        return {"status": "NOT AVAILABLE — the plan does not record the nested subset, so the budget's "
+                          "effect was not isolated. Stated rather than omitted."}
+    want = {frozenset(n.split("|")) for n in names}
+    subset = [r for r in graded
+              if frozenset((r.get("gene_target"), r.get("gene_paralogue"))) in want]
+    return {
+        "_what": "the background restricted to the first `max_pairs` of the C16 budget (both orientations "
+                 "of each), taken from THIS scope's own ranked selection — the nested subset that the "
+                 "wider budget extends.",
+        "pairs": names,
+        "n_graded_in_subset": len(subset),
+        "reach_only": summarise_background(subset, "P_gate"),
+        "exposed": summarise_background(subset, "P_gate_EXPOSED"),
+        "★_reading": "compare against `background_at_gate_12`. A background that moves materially between "
+                     "the nested subset and the full set is one where the pair BUDGET, not the scope, is "
+                     "doing work — which is exactly the thing a widened budget has to be shown not to do.",
+        "⚠_not_a_comparison_with_the_other_scope": "the other scope selected different pairs from a "
+                                                   "different candidate pool. This isolates the BUDGET at "
+                                                   "a fixed scope; `comparison_to_the_other_scope` is "
+                                                   "where the scopes are set side by side.",
+    }
+
+
 def cysteine_level_background(decoys, refs):
     """★ THE CYSTEINE-LEVEL BACKGROUND — and the ONLY construction in this module that can give C397 a
     percentile of its own.
@@ -1867,6 +1903,7 @@ def mode_reduce(args):
 
     bg = {"reach_only": summarise_background(graded, "P_gate"),
           "exposed": summarise_background(graded, "P_gate_EXPOSED")}
+    nested_bg = nested_subset_background(graded, plan)
     cys_bg, cys_nr4a3 = cysteine_level_background(decoys, refs)
 
     nr4a3 = {}
@@ -1958,6 +1995,7 @@ def mode_reduce(args):
             "⛔_placement_budget_saturation": placement_budget_saturation(rows),
             "n_refusals": len(refusals),
             "background_at_gate_12": bg,
+            "background_at_gate_12_nested_budget_matched_subset": nested_bg,
             "nr4a3_harness_matched": nr4a3,
             "★_cysteine_level_background_at_gate_12": cys_bg,
             "★_nr4a3_per_cysteine_vs_that_background": cys_nr4a3,
