@@ -685,6 +685,16 @@ hand-carried total that stood while the fan-out lane alone had realised twenty t
 | **The ranked congeneric ΔΔG map** — 18 computable RBFE edges, the paper's §2.9 | **DONE** (2026-07-29, `$73.79` — inside the derived `$74.91` cap). ⚠ **One of its three cycles does NOT close** — the fan-out row above is the one home for that caveat |
 | **The generation-matched null** — the winner's-curse / generative-confound control on the de-novo funnel | **PARTIAL, and the partiality is the point ($0).** The **scrambled-objective** arm has run and manufactured **0 survivors of 191** against the real campaign's 1 of 191. ⚠ **That does NOT exclude the confound and must not be quoted as if it did:** zero events in 191 generations bounds the manufactured rate at **≤0.0157 (95 %, rule of three)**, **3× the real campaign's own 0.0052**, and Fisher for 1/191 vs 0/191 gives **p = 0.5**. The artifact's earlier `p = 0.0 / enrichment = ∞` came from reading a zero point estimate as a measured zero and is retired in place in its `_superseded` block ([Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) 52). **The arm that actually addresses the GENERATIVE step — a fresh generation into a paralogue pocket — is UNRUN**, and it is the cheap next thing this control needs |
 
+> ### ↗ IF THIS BOARD'S FAILURES ARE THE PROGRAM'S ANSWER RATHER THAN A DETOUR — READ [`emc-post-degrader-options.md`](emc-post-degrader-options.md)
+>
+> ★ **Added 2026-08-03.** This roadmap is scoped to the degrader program and deliberately does not
+> rank non-degrader routes; that memo does, on the axes this board's failure record implies. Its
+> organising finding is a claim about **this** table: every blocking failure above is a property of
+> the degrader ARCHITECTURE — a ternary geometry and a ~1 kcal/mol paralogue ΔΔG — rather than of the
+> target, so the cryptic pocket is an ASSET that survives all of them and a route needing only a
+> **binder** inherits none of them. Nothing in it amends this roadmap, and where the two differ on
+> the degrader program's plan or ordering, **this file wins.**
+
 **Nothing on this board is waiting on trimcrae.** The question that used to sit here — whether the covalent
 design route still has candidates — was answered by the corrected+matched Tier 2 run: it **clears**, and the
 Tier 2 row above is the one home for that status. (Retained as a heading only because it was quotable; see
