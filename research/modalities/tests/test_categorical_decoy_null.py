@@ -485,3 +485,24 @@ def test_the_artifact_declares_its_configuration_and_names_the_defective_one():
             assert str(CDN.EXPOSED_RSA) in it["C7"]["what_it_fixes"]
         finally:
             CDN.set_scope("plddt")
+
+
+def test_the_licence_travels_with_every_per_cysteine_percentile():
+    """A caveat 400 lines above a figure is a caveat that gets dropped when the figure is quoted — that is
+    the whole reason §3.4 fact 4 exists. So the licence is attached to the percentile itself."""
+    refs = [{"gene_paralogue": "NR4A1", "per_unique_cysteine": {
+        "C397": {"rsa": 0.3, "status": "GRADED", "n_conditioning_events_gate": 100,
+                 "P_gate": 0.0, "P_gate_EXPOSED": None}}}]
+    decoys = [{"gene_target": "X", "gene_paralogue": "Y", "target": "T", "per_unique_cysteine": {
+        f"C{i}": {"rsa": 0.2, "status": "GRADED", "n_conditioning_events_gate": 50,
+                  "P_gate": i / 10.0, "P_gate_EXPOSED": i / 10.0} for i in range(1, 6)}}]
+    _bg, n3 = CDN.cysteine_level_background(decoys, refs)
+    row = n3["C397_vs_NR4A1"]
+    lic = row["★_what_a_favourable_value_here_licenses"]
+    assert lic is CDN.LICENCE, "one home — the licence must not be copied per row"
+    assert "SCREEN" in lic["★_it_licenses"]
+    joined = " ".join(lic["⛔_it_does_NOT_license"])
+    for must in ("binding", "reactivity", "degradation", "proteome-wide", "R5", "8XTT"):
+        assert must in joined, must
+    assert row["percentile_reach_only"] == 0.0        # 0.0 beats every strictly-positive background point
+    assert row["⚠_percentile_resolution"] == round(1 / 5, 4)
