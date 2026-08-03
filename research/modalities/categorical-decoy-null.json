@@ -3,8 +3,8 @@
   "_status": "INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, reactivity, degradation, efficacy or safety.",
   "_reading": "This calibrates the SCREEN, not NR4A3. It converts 'the categorical gate fired' into 'the categorical gate fired, against a measured background of X'.",
   "_generated": {
-    "utc": "2026-08-03T01:45:24Z",
-    "et": "2026-08-02 09:45 PM ET",
+    "utc": "2026-08-03T01:59:08Z",
+    "et": "2026-08-02 09:59 PM ET",
     "generator": "research/modalities/categorical_decoy_null.py"
   },
   "preregistration": {
@@ -247,6 +247,38 @@
     "n_graded": 8,
     "n_underpowered": 2,
     "n_undefined": 10,
+    "precondition_has_a_target_unique_cysteine": {
+      "_what": "How often a close paralogue pair even HAS a target-unique cysteine \u2014 the categorical screen's FIRST precondition, before any reach question is asked.",
+      "n_ordered_decoys": 20,
+      "n_with_no_target_unique_cysteine": 10,
+      "frac_with_no_target_unique_cysteine": 0.5,
+      "wilson95": [
+        0.2993,
+        0.7007
+      ],
+      "\u2605_reading": "This is a result in its own right, not bookkeeping: a pair with no target-unique cysteine is a pair on which the categorical screen could never fire at all. It belongs beside the collision statistic, because the two together are what 'how special is the NR4A3 configuration' actually decomposes into."
+    },
+    "\u26d4_nr4a3_harness_scope": {
+      "trimmed_window_uniprot": [
+        427,
+        570
+      ],
+      "n_residues": 144,
+      "committed_nr4a3_unique_cysteines": [
+        397,
+        420,
+        559
+      ],
+      "inside_the_trimmed_window": [
+        559
+      ],
+      "\u26d4_outside_and_therefore_INVISIBLE_to_this_harness": [
+        397,
+        420
+      ],
+      "\u2605_reading": "The pre-registered pLDDT>=70 trim keeps UniProt 427-570 of the NR4A3 AlphaFold model, so of the committed unique set [397, 420, 559] only [559] is inside it. \u26d4 THE HARNESS-MATCHED NR4A3 ROW THEREFORE DOES NOT INTERROGATE THE PROGRAM'S HEADLINE C397 \u2014 it interrogates [559]. The percentile still answers the question it was built to answer (does an arbitrary close paralogue pair, under this IDENTICAL rule, return 0?), because NR4A3 goes through the same rule as every decoy. But it is a statement about the SCREEN, and it is a weaker statement about the program's actual construct than it would be with C397 in the window. The committed C397-led result keeps its own home in nr4a-paralogue-dynamics.json and is NOT re-derived here.",
+      "_why_the_trim_is_not_relaxed_after_the_fact": "It is pre-registered. Widening it to admit C397 AFTER seeing that C397 fell outside would be exactly the tuning the pre-registration exists to prevent. The honest move is to report the scope and, if it matters, re-run with a DIFFERENT pre-registered trim as a separate test."
+    },
     "n_refusals": 0,
     "background_at_gate_12": {
       "reach_only": {
@@ -1175,6 +1207,8 @@
     "One static AlphaFold conformer per protein. The committed NR4A3 verdict has three scopes (static / unbiased-release / metad-biased); only the STATIC scope is comparable to these rows, and the harness-matched NR4A3 row is provided precisely so the percentile is not taken against a differently-produced number.",
     "The pocket rule differs from NR4A3's prespecified Pocket-5 (fpocket top-druggability cavity), which is why NR4A3 is run through the SAME rule here rather than compared across rules.",
     "AlphaFold models are heavy-atom only; the committed NR4A3 opened models carry hydrogens, so the Shrake-Rupley RSA is not numerically identical between the two arms. The exposure-filtered column is affected; the reach-only column, which the audit shows carries the 12-atom result, is not.",
+    "\u26d4 THE HARNESS-MATCHED NR4A3 ROW DOES NOT COVER C397. The pre-registered pLDDT trim leaves only part of the NR4A3 LBD, so the row rests on whichever unique cysteines survive it \u2014 see `results.\u26d4_nr4a3_harness_scope`, which measures exactly which. The percentile calibrates the SCREEN under one identical rule; it is not a re-derivation of the committed C397-led result.",
+    "The EXPOSURE-FILTERED percentile for NR4A3 may be undefined (P_gate_EXPOSED = null) when its surviving unique cysteine is buried in the AlphaFold model. An undefined conditional is reported as null and excluded, never as a zero \u2014 but it means the exposed column can have no NR4A3 point even while the reach-only column does. The audit establishes reach-only as the load-bearing case at the 12-atom gate, which is why that is the column the verdict uses.",
     "Reach and exposure are necessary, not sufficient \u2014 for the decoys exactly as for NR4A3.",
     "Underpowered and undefined rows are excluded from the percentile and counted separately; that exclusion biases the graded background toward pairs with MORE collision opportunity."
   ],
@@ -1240,6 +1274,16 @@
         "proposed_text": "### 10.1 \u00b7 Open rows, ordered by what unblocks the most\n| **C02** | **Cross-system decoy null for the categorical axis** \u2014 unrelated close human paralogue pairs through the identical pipeline | `R8` `R15` | \u2713 **complete** | \u2014 ($0) | **$0** \u2014 CPU/CI | \u2705 **RAN.** Verdict **DISTINGUISHED**. n_graded=8, frac_exactly_zero=0.125, NR4A3 percentile(s)=[0.125, 0.125]. Numbers: [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json); design and pairs: [`categorical-decoy-null-plan.json`](../modalities/categorical-decoy-null-plan.json). The harness reproduces the committed static verdict (`harness_known_answer_check`) |"
       },
       {
+        "section": "\u00a73.4 instrument facts",
+        "anchor": "### 3.4 \u00b7 Three instrument facts this page used to be missing",
+        "kind": "same-anchor-as-the-fourth-fact-entry; apply once, carrying BOTH notes",
+        "status": "OK",
+        "why": "\u26a0 THE CAVEAT THAT MUST TRAVEL WITH THE PERCENTILE. The pre-registered pLDDT trim leaves [397, 420] outside the NR4A3 window, so the harness-matched row does NOT interrogate the program's headline C397. A roadmap that quotes the percentile without this reads as if the committed claim had been calibrated, and it has not been \u2014 the percentile calibrates the SCREEN under one identical rule.",
+        "artifact": "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / results.nr4a3_harness_matched -> results.\u26d4_nr4a3_harness_scope",
+        "current_text": "### 3.4 \u00b7 Three instrument facts this page used to be missing",
+        "proposed_text": "### 3.4 \u00b7 Four instrument facts this page used to be missing"
+      },
+      {
         "section": "\u00a78 Route B",
         "anchor": "### Route B \u2014 a linker-borne covalent handle at an NR4A3-unique cysteine",
         "kind": "amend",
@@ -1251,8 +1295,8 @@
       }
     ],
     "verification": {
-      "n_entries": 5,
-      "n_applicable": 5,
+      "n_entries": 6,
+      "n_applicable": 6,
       "n_unlocatable": 0,
       "n_stale": 0,
       "unlocatable_anchors": [],
