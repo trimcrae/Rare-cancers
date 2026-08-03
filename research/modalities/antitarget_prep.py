@@ -26,6 +26,52 @@ NON_LIGAND = {"HOH", "DOD", "WAT", "NA", "CL", "K", "MG", "ZN", "CA", "MN", "FE"
               "SO4", "PO4", "NO3", "ACT", "EDO", "GOL", "PEG", "PGE", "PG4", "DMS", "MPD", "TRS", "EPE",
               "FMT", "BME", "IOD", "BR", "CS", "IMD", "CIT", "MLI", "ACY", "FLC", "TLA", "1PE", "P6G"}
 
+# =============================================================================================================
+# ⛔ COFACTOR RETENTION — added 2026-08-03, AFTER the panel's cognate-ligand self-control FAILED on CYP3A4.
+# =============================================================================================================
+# THE DOCSTRING ABOVE PREDICTED THIS FAILURE AND NOTHING ACTED ON THE PREDICTION. "protein ATOM records only"
+# is correct for waters, ions and cryo-buffer, and WRONG for a prosthetic group the ligand is coordinated to.
+# `antitarget_selfcontrol.py` measured the consequence: re-docking each panel target's own co-crystallised
+# ligand recovered 7 of 10 poses, and CYP3A4 missed by 9.503 A against a 2.00 A criterion — docking
+# ketoconazole into a haem protein with the haem deleted, when ketoconazole's binding mode is a direct
+# Fe-N coordination to that haem. The cavity the panel was scoring had a hole where the cofactor belongs.
+#
+# ★ THE RULE IS UNIFORM AND CANNOT BE TARGET-SPECIFIC TUNING, WHICH MATTERS BECAUSE THE FROZEN RULE IN
+# `antitarget-selfcontrol.json` FORBIDS EXACTLY THAT: "a failing target may not be dropped, its box may not
+# be re-centred, and no band may be lowered." Retaining a cofactor is none of those — it makes the RECEPTOR
+# more complete rather than the CRITERION more forgiving — but it must apply to every target identically or
+# it becomes the same sin by another route. So the rule is stated once and evaluated for all ten:
+#
+#     retain a HETATM group iff it is (a) a recognised prosthetic group/cofactor OR a metal ion, AND
+#     (b) it lies within COFACTOR_CONTACT_A of the cognate ligand copy the box is centred on.
+#
+# For nine of the ten targets this is a no-op. It is not a list of exceptions; it is one predicate, and
+# `prep_target_full` reports what it kept AND what it still dropped inside the pocket, so "we stripped
+# something else in there" can never again be an unasked question.
+#
+# ⚠ ANY NUMBER PRODUCED BEFORE THIS CHANGE WAS PRODUCED ON THE STRIPPED RECEPTOR. That includes every
+# anti-target margin in SI §S1. `antitarget_selfcontrol.py` therefore runs BOTH receptors as an A/B rather
+# than quietly replacing one with the other.
+COFACTORS = {
+    # haems and haem-like prosthetic groups
+    "HEM", "HEA", "HEB", "HEC", "HEV", "HDD", "HNI", "SRM", "VER", "COH", "DHE", "1CP", "MH0",
+    # flavins, nicotinamides, thiamine, pyridoxal, biotin, SAM/SAH, CoA
+    "FAD", "FMN", "FDA", "NAD", "NAI", "NAP", "NDP", "NAJ", "TPP", "TDP", "PLP", "PMP", "BTN",
+    "SAM", "SAH", "COA", "ACO", "COO", "MCA",
+    # iron-sulfur clusters, molybdopterin, cobalamin, chlorophylls, quinones
+    "FES", "SF4", "F3S", "FE2", "MGD", "MOO", "B12", "COB", "CLA", "BCL", "CHL", "PQN", "UQ1", "UQ2",
+}
+#: Monatomic metal ions. They live in NON_LIGAND (they are never the *ligand* to centre a box on) and are
+#: retained here only when the cognate ligand actually contacts them — a catalytic zinc a ligand chelates
+#: is part of the site; a crystallisation sodium 20 A away is not.
+METAL_IONS = {"ZN", "FE", "FE2", "MG", "MN", "CU", "CU1", "NI", "CO", "CA", "CD", "K", "NA", "HG", "PT", "MO"}
+#: Heavy-atom distance below which a cofactor counts as part of the site the ligand occupies. 4.5 A is the
+#: conventional non-bonded contact shell; a direct metal coordination is ~2 A and sits well inside it.
+COFACTOR_CONTACT_A = 4.5
+#: Default. Env override exists so the A/B can reproduce the STRIPPED receptor that produced the published
+#: numbers — not so anyone can turn the repair off and forget.
+KEEP_COFACTORS = os.environ.get("ANTITARGET_KEEP_COFACTORS", "1") != "0"
+
 
 def _fetch(pdb_id):
     url = f"https://files.rcsb.org/download/{pdb_id.upper()}.pdb"
@@ -47,12 +93,90 @@ def _prep_target(t):
     return f["receptor_pdb"], f["center"], f["n_res"]
 
 
-def prep_target_full(t):
+def _groups(lines, want=None, exclude_resnames=()):
+    """{(resname, chain, resSeq): [lines]} over HETATM records. Pure."""
+    g = {}
+    for ln in lines:
+        if not ln.startswith("HETATM"):
+            continue
+        res = ln[17:20].strip()
+        if res in exclude_resnames:
+            continue
+        if want is not None and res not in want:
+            continue
+        g.setdefault((res, ln[21], ln[22:27]), []).append(ln)
+    return g
+
+
+def _xyz(ln):
+    return float(ln[30:38]), float(ln[38:46]), float(ln[46:54])
+
+
+def _min_dist(a_lines, b_lines):
+    """Minimum heavy-atom distance between two groups of PDB lines. Pure."""
+    b = [_xyz(l) for l in b_lines if (l[76:78].strip() or l[12:16].strip()[:1]).upper() not in ("H", "D")]
+    best = None
+    for l in a_lines:
+        if (l[76:78].strip() or l[12:16].strip()[:1]).upper() in ("H", "D"):
+            continue
+        ax, ay, az = _xyz(l)
+        for bx, by, bz in b:
+            d2 = (ax - bx) ** 2 + (ay - by) ** 2 + (az - bz) ** 2
+            if best is None or d2 < best:
+                best = d2
+    return None if best is None else round(best ** 0.5, 2)
+
+
+def site_hetatm_census(lines, cognate_lines, keep_cofactors=True, cutoff=None):
+    """What non-solvent HETATM matter sits IN the pocket, and what the prep does with it. Pure.
+
+    ⛔ THIS IS THE DIAGNOSTIC THAT ANSWERS "SAME CLASS OF REASON OR NOT". A self-control failure on a
+    receptor built by deletion has exactly two shapes: something the ligand touches was deleted, or it was
+    not. Returning `kept` and `dropped_in_pocket` for EVERY target — not only the failing ones — means the
+    question is answered by measurement for all of them at once, and a target that fails with an empty
+    `dropped_in_pocket` is thereby shown NOT to share CYP3A4's cause.
+    """
+    cutoff = COFACTOR_CONTACT_A if cutoff is None else cutoff
+    cog_ids = {(l[17:20].strip(), l[21], l[22:27]) for l in cognate_lines}
+    kept, dropped = [], []
+    for gid, gl in _groups(lines, exclude_resnames={"HOH", "DOD", "WAT"}).items():
+        if gid in cog_ids:
+            continue
+        d = _min_dist(gl, cognate_lines)
+        if d is None:
+            continue
+        rec = {"resname": gid[0], "chain": gid[1], "resseq": gid[2].strip(), "n_atoms": len(gl),
+               "min_dist_to_cognate_A": d,
+               "is_cofactor": gid[0] in COFACTORS, "is_metal_ion": gid[0] in METAL_IONS}
+        in_site = d <= cutoff
+        rec["in_site"] = in_site
+        eligible = rec["is_cofactor"] or rec["is_metal_ion"]
+        if keep_cofactors and in_site and eligible:
+            kept.append(rec)
+        elif in_site:
+            rec["why_still_dropped"] = ("not a recognised cofactor or metal ion" if not eligible else
+                                        "cofactor retention is OFF for this build")
+            dropped.append(rec)
+    kept.sort(key=lambda r: r["min_dist_to_cognate_A"])
+    dropped.sort(key=lambda r: r["min_dist_to_cognate_A"])
+    return {"kept": kept, "dropped_in_pocket": dropped, "cutoff_A": cutoff,
+            "keep_cofactors": bool(keep_cofactors)}
+
+
+def prep_target_full(t, keep_cofactors=None):
     """Everything `_prep_target` derives, plus the ligand copy the box is centred on.
 
     Keys: receptor_pdb, center, n_res, chain, lig_resname, lig_lines (the HETATM records of the copy
-    used for the centroid, in file order), centre_source ('ligand' | 'box_residues').
+    used for the centroid, in file order), centre_source ('ligand' | 'box_residues'), cofactors (the
+    site-HETATM census above), and `ligand_resname_matched` — FALSE when the panel's declared
+    `ligand_resname` is not in the file and the auto-ligand fallback chose a different molecule.
+
+    ⚠ `ligand_resname_matched` EXISTS BECAUSE THE FALLBACK IS SILENT AND TWO PANEL ROWS WERE WRONG. The
+    self-control's first run centred PXR on `SRL` while the panel declared `348`, and HSA on `RWF` while
+    the panel declared `SWF`; both fell back to "largest drug-like HETATM group" and neither said so
+    anywhere a reader would look. A populated field is not a measured one (CLAUDE.md §4).
     """
+    keep_cofactors = KEEP_COFACTORS if keep_cofactors is None else keep_cofactors
     lines = _fetch(t["pdb_id"])
     lig = t.get("ligand_resname")
     box_res = t.get("box_residues")
@@ -109,6 +233,21 @@ def prep_target_full(t):
     if len(seen) < 50:
         raise RuntimeError(f"only {len(seen)} residues on chain {chain} of {t['pdb_id']}")
 
+    # ⛔ COFACTOR RETENTION. One predicate, evaluated for every target; see the header. The census is
+    # computed whether or not retention is ON, so the STRIPPED build still reports what it is stripping.
+    census = site_hetatm_census(lines, lig_lines, keep_cofactors=keep_cofactors)
+    if keep_cofactors and census["kept"]:
+        keep_ids = {(k["resname"], k["chain"], k["resseq"]) for k in census["kept"]}
+        for ln in lines:
+            if not ln.startswith("HETATM"):
+                continue
+            if ln[16] not in (" ", "A"):
+                continue
+            if (ln[76:78].strip() or ln[12:16].strip()[:1]).upper() in ("H", "D"):
+                continue
+            if (ln[17:20].strip(), ln[21], ln[22:27].strip()) in keep_ids:
+                rec.append(ln)
+
     if lig_atoms:
         n = len(lig_atoms)
         center = (sum(a[0] for a in lig_atoms) / n, sum(a[1] for a in lig_atoms) / n,
@@ -127,7 +266,11 @@ def prep_target_full(t):
         raise RuntimeError("no ligand_resname or box_residues to center on")
     return {"receptor_pdb": "\n".join(rec) + "\n", "center": [round(c, 3) for c in center],
             "n_res": len(seen), "chain": chain, "lig_resname": lig_used, "lig_lines": lig_lines,
-            "centre_source": centre_source, "pdb_id": t["pdb_id"], "name": t.get("name")}
+            "centre_source": centre_source, "pdb_id": t["pdb_id"], "name": t.get("name"),
+            "cofactors": census, "keep_cofactors": bool(keep_cofactors),
+            "ligand_resname_declared": (lig.strip() if lig else None),
+            "ligand_resname_matched": bool(lig) and lig_used == lig.strip(),
+            "all_lines": lines}
 
 
 def main():
