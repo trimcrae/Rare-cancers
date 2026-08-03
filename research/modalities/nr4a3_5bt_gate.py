@@ -512,6 +512,72 @@ def _sentence(doc):
                "; ".join("%s %s" % (k, val) for k, val in sorted(conv.items())) or c.get("verdict")))
 
 
+def _et_now():
+    """US Eastern, 12-hour, per CLAUDE.md §1. EDT = UTC−4 on this date."""
+    from datetime import datetime, timedelta, timezone
+    return datetime.now(timezone(timedelta(hours=-4)))
+
+
+def map_edits(doc):
+    """The roadmap edits this run requires, ready to apply verbatim and anchor-checkable.
+
+    ⛔ EVERY `proposed_text` POINTS AT THE ARTIFACT AND RESTATES NO NUMBER (CLAUDE.md rule 1): the verdict,
+    the per-column counts and the two arm-(C) conventions have ONE home, `nr4a3-5bt-gate.json`, and a second
+    copy in the map is the bug this rule exists to stop. Superseded text is retained inline as a one-line
+    `⚠ Superseded, retained:` clause rather than dropped, per rule 1.2.
+
+    ⚠ Anchors are checked with `grep -F` semantics against the LIVE map by `verify_map_edits.py`, because
+    nine verbatim edits died on stale anchors in one day while four agents edited this file."""
+    v = doc.get("verdict", "REFUSED")
+    stamp = _et_now().strftime("%Y-%m-%d %-I:%M %p ET")
+    art = "[`nr4a3-5bt-gate.json`](../modalities/nr4a3-5bt-gate.json)"
+    ran = ("✅ **RAN %s — the pre-registered three-arm gate returns `%s`.** ⛔ Whatever it says is "
+           "**STRUCTURAL**: no free energy is computed, so nothing about affinity, degradation, efficacy or "
+           "safety follows, and the arms are **not blind** — DeepTernary is given which pocket each end of "
+           "the degrader occupies. Every number, per arm and per column, has one home: %s (built inputs and "
+           "the snap-mask pre-flight: [`nr4a3-5bt-frame.json`](../modalities/nr4a3-5bt-frame.json); the `V1` "
+           "read over all 16 models per arm: [`nr4a3-5bt-signature.json`](../modalities/nr4a3-5bt-signature.json))."
+           % (stamp, v, art))
+    inherited = (" ⚠ **Three inherited conditions travel with the result and are not footnotes:** `R5` is "
+                 "UNRESOLVED (`V3` INCONCLUSIVE — site selection missed 6 of 6 pairs) and site 1 rests on it; "
+                 "`R3` FAILED 2026-08-03 on the generation frame, and while site 1 is a *different* frame it "
+                 "comes from the same pipeline; and `V2` has **no** validation on a CRBN ternary with a "
+                 "nuclear receptor, which is exactly what this rung assembles.")
+    return [
+        {"section": "§10.1 · Open rows — row 1 (the rebuild)",
+         "anchor": "| **1** | **Rebuild the ternaries by the assembly route**",
+         "current_text": "**RUN IT — it needs no authorization, and the row-25 hold is DISCHARGED.**",
+         "proposed_text": ran + inherited + " ⚠ **Superseded, retained:** *\"RUN IT — it needs no "
+                          "authorization, and the row-25 hold is DISCHARGED.\"*",
+         "why": "the row's next action has been taken; leaving an instruction where a result belongs is how "
+                "a finished item stays on the critical path",
+         "artifact": "nr4a3-5bt-gate.json:verdict"},
+        {"section": "THE ORDERED PLAN → RUNG 5b-T",
+         "anchor": "`[ ]` 5b-T · Rebuild the NR4A1/2/3 ternaries by the ASSEMBLY route",
+         "current_text": "`[ ]` 5b-T · Rebuild the NR4A1/2/3 ternaries by the ASSEMBLY route",
+         "proposed_text": "`[x]` 5b-T · Rebuild the NR4A1/2/3 ternaries by the ASSEMBLY route",
+         "why": "the rung ran; its verdict and every figure live in the gate artifact, not here",
+         "artifact": "nr4a3-5bt-gate.json:verdict"},
+        {"section": "§10.1 · Open rows — row 18 (≥3 ternary models per paralogue, then `V1`)",
+         "anchor": "PRICED — it is the second half of row 1's rung `5b-T`, at $0",
+         "current_text": "PRICED — it is the second half of row 1's rung `5b-T`, at $0",
+         "proposed_text": "PRICED AND RAN — it is the second half of row 1's rung `5b-T`, at $0, and the "
+                          "`V1` read covered all 16 models per arm against a bar of 3",
+         "why": "row 18's reproducibility bar was the thing 5b-T's arm (B) turned into a threshold with a "
+                "stated null; the row must stop reading as unrun",
+         "artifact": "nr4a3-5bt-gate.json:A_and_B.min_models_per_arm"},
+        {"section": "§10.2 · The readout",
+         "anchor": "**0 of 27 open rows are moving, and 3 of the 27 are now RESOLVED (rows 3, 6, 24).**",
+         "current_text": "**0 of 27 open rows are moving, and 3 of the 27 are now RESOLVED (rows 3, 6, 24).**",
+         "proposed_text": "**4 of the 27 open rows are now RESOLVED (rows 1, 3, 6, 24), and rows 1 and 18 "
+                          "were resolved by the same $0 CPU purchase.** ⚠ *Superseded, retained: \"0 of 27 "
+                          "open rows are moving, and 3 of the 27 are now RESOLVED (rows 3, 6, 24).\"*",
+         "why": "the count is DERIVED from the state column and row 1's state changed; the superseded "
+                "sentence is retained rather than dropped",
+         "artifact": "nr4a3-5bt-gate.json:verdict"},
+    ]
+
+
 def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description="RUNG 5b-T — the pre-registered three-arm gate ($0).")
@@ -523,6 +589,7 @@ def main(argv=None):
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a3-5bt-gate.json"))
     args = ap.parse_args(argv)
     doc = run(args.pred_root, args.frame, args.control, args.reach, args.spec)
+    doc["map_edits_required"] = map_edits(doc)
     json.dump(doc, open(args.out, "w"), indent=1)
     print(doc.get("sentence") or json.dumps(doc)[:400], flush=True)
     return 0
