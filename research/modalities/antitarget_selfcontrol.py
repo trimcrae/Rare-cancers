@@ -94,6 +94,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PANEL = os.path.join(HERE, "antitarget_panel.json")
 OUT = os.path.join(HERE, "antitarget-selfcontrol.json")
 OUT_MD = os.path.join(HERE, "antitarget-selfcontrol.md")
+#: The SI edit list, standalone, so `route_map_edits.py --target ...paper-SI.md` can consume it directly.
+OUT_SI = os.path.join(HERE, "antitarget-selfcontrol-si-edits.json")
+SI_PATH = os.path.join(HERE, "..", "manuscripts", "nr4a3-degrader-paper-SI.md")
 WORK = os.environ.get("SELFCONTROL_WORK", os.path.join(HERE, "_antitarget_selfcontrol_work"))
 
 #: The receptor the 47-receptor sequence screen flagged and the panel does not carry.
@@ -469,8 +472,29 @@ def _pick_copy(lig_lines, center):
     return groups[gid], gid
 
 
-def mode_selfcontrol(doc):
-    """THE GATE — re-dock every panel target's own cognate ligand through the identical protocol."""
+def _all_cognate_copies(all_lines, comp_id):
+    """{gid: [lines]} for EVERY copy of the cognate component in the file, all chains. Pure."""
+    g = {}
+    for ln in all_lines or []:
+        if ln.startswith("HETATM") and ln[17:20].strip() == (comp_id or "").strip():
+            if ln[16] not in (" ", "A"):
+                continue
+            g.setdefault((ln[17:20].strip(), ln[21], ln[22:27]), []).append(ln)
+    return g
+
+
+def _centroid(mol):
+    c = mol.GetConformer()
+    n = mol.GetNumAtoms()
+    return tuple(sum(getattr(c.GetAtomPosition(i), a) for i in range(n)) / n for a in ("x", "y", "z"))
+
+
+def _score_target(t, keep_cofactors, doc, arm):
+    """Re-dock ONE panel target's own cognate ligand and diagnose the result. Returns the row.
+
+    ⛔ NO `continue`s AND NO SHORT-CIRCUITS: every exit path returns a row, so a target can never vanish
+    from the panel by failing early. An absent row and a failing row are different claims.
+    """
     import apo_pose_recovery as apr
     import nr4a3_dock as ndock
     import antitarget_prep as prep
@@ -478,146 +502,242 @@ def mode_selfcontrol(doc):
 
     b = bands()
     proto = dock_protocol()
-    box = proto["box_size"]
-    exh = proto["exhaustiveness"]
-    nmodes = proto["num_modes"]
-    os.makedirs(WORK, exist_ok=True)
+    box, exh, nmodes = proto["box_size"], proto["exhaustiveness"], proto["num_modes"]
+    t0 = time.time()
+    row = {"name": t["name"], "class": t.get("class"), "pdb_id": t.get("pdb_id"),
+           "ligand_resname_declared": t.get("ligand_resname"), "arm": arm}
+
+    def _fail(why, **extra):
+        row.update({"verdict": "UNSCORED", "why": why})
+        row.update(extra)
+        doc["refusals"].append(_refusal("selfcontrol[%s]/%s" % (arm, t["name"]), why))
+        row["elapsed_s"] = round(time.time() - t0, 1)
+        return row
+
+    try:
+        f = prep.prep_target_full(t, keep_cofactors=keep_cofactors)
+    except Exception as e:                                     # noqa: BLE001
+        return _fail("receptor prep failed: %s" % e)
+
+    all_lines = f.pop("all_lines", None)          # never serialised — it is the whole PDB
+    row.update({
+        "center": f["center"], "chain": f["chain"], "n_res": f["n_res"],
+        "cognate_comp_id": f["lig_resname"], "centre_source": f["centre_source"],
+        # ⚠ THE SILENT FALLBACK, NOW VISIBLE. False means the panel's declared ligand code is not in the
+        # file and the prep centred the box on a different molecule of its own choosing.
+        "ligand_resname_matched": f["ligand_resname_matched"],
+        "cofactors_kept": f["cofactors"]["kept"],
+        "stripped_in_pocket": f["cofactors"]["dropped_in_pocket"],
+        "keep_cofactors": f["keep_cofactors"],
+    })
+    if not f["ligand_resname_matched"]:
+        doc["refusals"].append(_refusal(
+            "panel/%s" % t["name"],
+            "antitarget_panel.json declares ligand_resname %r, which is NOT in %s; the prep fell back to "
+            "the largest drug-like HETATM group (%s) and the box is centred on THAT. The panel row is a "
+            "data error — reported, not silently accepted."
+            % (f["ligand_resname_declared"], t.get("pdb_id"), f["lig_resname"])))
+
+    copy_lines, gid = _pick_copy(f["lig_lines"], f["center"])
+    row["n_copies_in_chain"] = len({(l[17:20].strip(), l[21], l[22:27]) for l in f["lig_lines"]})
+    row["copy_used"] = "".join(gid).strip() if gid else None
+    if not copy_lines:
+        return _fail("no crystallographic ligand copy to score against")
+
+    smi, why = _ccd_smiles(f["lig_resname"])
+    row["cognate_smiles"] = smi
+    if not smi:
+        return _fail("no CCD SMILES: %s" % why)
+
+    xtal, why = apr.crystal_mol(copy_lines, smi)
+    if xtal is None:
+        return _fail("crystal pose not buildable: %s" % why)
+    row["n_heavy_atoms"] = xtal.GetNumAtoms()
+
+    rec_pdb = os.path.join(WORK, "%s_%s_receptor.pdb" % (arm, t["name"]))
+    open(rec_pdb, "w").write(f["receptor_pdb"])
+    row["receptor_atom_lines"] = f["receptor_pdb"].count("\n")
+    lig_sdf = os.path.join(WORK, "%s_%s_cognate.sdf" % (arm, t["name"]))
+    pose_sdf = os.path.join(WORK, "%s_%s_cognate_pose.sdf" % (arm, t["name"]))
+    if not ndock.make_sdf([(f["lig_resname"], f["lig_resname"], smi)], lig_sdf):
+        return _fail("rdkit could not embed the cognate ligand")
+    err = _smina(rec_pdb, f["center"], box, lig_sdf, pose_sdf, exh, nmodes)
+    if err:
+        return _fail("dock failed: %s" % err)
+    mol, dg, why = _top_pose_mol(pose_sdf)
+    row["self_dock_dG"] = dg
+    if mol is None:
+        return _fail("no scorable pose: %s" % why)
+    try:
+        row["rmsd_A"] = round(float(rdMolAlign.CalcRMS(mol, xtal)), 3)
+    except Exception as e:                                     # noqa: BLE001
+        return _fail("RMSD failed: %s: %s" % (type(e).__name__, e))
+
+    # ------------------------------------------------------------------ diagnostics, on every row
+    # (1) SAME SITE, WRONG ORIENTATION vs WRONG SITE. A large RMSD with a small centroid displacement is
+    #     a flipped/reoriented ligand in the same cavity; a large displacement is a different subsite.
+    #     These have different causes and different repairs, and RMSD alone cannot tell them apart.
+    try:
+        cx, cy, cz = _centroid(mol)
+        xx, xy, xz = _centroid(xtal)
+        row["centroid_shift_A"] = round(((cx - xx) ** 2 + (cy - xy) ** 2 + (cz - xz) ** 2) ** 0.5, 3)
+    except Exception:                                          # noqa: BLE001
+        row["centroid_shift_A"] = None
+    # (2) IS THE DOCKED POSE A DIFFERENT *CRYSTALLOGRAPHIC* COPY? Some deposits place the same ligand in
+    #     several orientations in one cavity. Scoring against one copy would then call a genuinely
+    #     observed pose a miss. Report the BEST RMSD over every copy in the file, and which copy it was.
+    best_any, best_gid, n_copies = row["rmsd_A"], row.get("copy_used"), row["n_copies_in_chain"]
+    copies = _all_cognate_copies(all_lines, f["lig_resname"])
+    n_copies = max(n_copies, len(copies))
+    for cgid, clines in copies.items():
+        cm, cwhy = apr.crystal_mol(clines, smi)
+        if cm is None:
+            continue
+        try:
+            r = float(rdMolAlign.CalcRMS(mol, cm))
+        except Exception:                                      # noqa: BLE001
+            continue
+        if r < best_any:
+            best_any, best_gid = round(r, 3), "".join(cgid).strip()
+    row["n_cognate_copies_in_file"] = n_copies
+    row["rmsd_to_best_crystal_copy_A"] = round(best_any, 3)
+    row["best_crystal_copy"] = best_gid
+    row["a_different_copy_would_pass"] = bool(
+        row["rmsd_A"] > b["recovered_rmsd_A"] >= row["rmsd_to_best_crystal_copy_A"])
+
+    # (3) POWER CONTROL — the same box the dock searched.
+    try:
+        null = apr.random_in_box_null(xtal, f["center"], (float(box), float(box), float(box)))
+        row["null"] = null
+        row["null_frac_under_criterion"] = null.get("p_within_criterion")
+    except Exception as e:                                     # noqa: BLE001
+        row["null_frac_under_criterion"] = None
+        doc["refusals"].append(_refusal("selfcontrol[%s]/%s/null" % (arm, t["name"]),
+                                        "power control failed: %s: %s" % (type(e).__name__, e)))
+
+    # (4) fnat — secondary, never gating.
+    try:
+        xconf = xtal.GetConformer()
+        xpts = [(xconf.GetAtomPosition(i).x, xconf.GetAtomPosition(i).y, xconf.GetAtomPosition(i).z)
+                for i in range(xtal.GetNumAtoms())]
+        pconf = mol.GetConformer()
+        ppts = [(pconf.GetAtomPosition(i).x, pconf.GetAtomPosition(i).y, pconf.GetAtomPosition(i).z)
+                for i in range(mol.GetNumAtoms())]
+        cut = apr._contact_a()
+        nat = set(apr.residues_near(f["receptor_pdb"], xpts, cut))
+        got = set(apr.residues_near(f["receptor_pdb"], ppts, cut))
+        row["fnat"] = round(len(nat & got) / len(nat), 3) if nat else None
+    except Exception as e:                                     # noqa: BLE001
+        row["fnat"] = None
+        doc["refusals"].append(_refusal("selfcontrol[%s]/%s/fnat" % (arm, t["name"]),
+                                        "%s: %s" % (type(e).__name__, e)))
+
+    row["verdict"] = target_verdict(row.get("rmsd_A"), row.get("null_frac_under_criterion"),
+                                    b["recovered_rmsd_A"], b["partial_rmsd_A"], b["null_power_max"])
+    row["elapsed_s"] = round(time.time() - t0, 1)
+    for p in (lig_sdf, pose_sdf):
+        try:
+            os.remove(p)
+        except OSError:
+            pass
+    return row
+
+
+def _run_arm(doc, arm, keep_cofactors):
+    """One full pass of the panel on one receptor build. Checkpoints after every target."""
     spec = json.load(open(PANEL))
     rows = []
-    # `rows` is the SAME list object the artifact carries, so every `_checkpoint(doc)` below writes the
-    # panel as far as it has got. `_partial` is true until the panel verdict is computed, so a reader
-    # can never mistake a timed-out half-panel for a finished one.
-    doc["criterion"] = b
-    doc["protocol"] = proto
-    doc["selfcontrol"] = {"targets": rows, "_partial": True,
-                          "_partial_note": "the run had not reached the panel verdict when this was "
-                                           "written; per-target rows are complete, the verdict is absent"}
+    doc.setdefault("arms", {})[arm] = {
+        "keep_cofactors": keep_cofactors, "targets": rows, "_partial": True,
+        "_partial_note": "the run had not reached this arm's panel verdict when this was written; "
+                         "per-target rows are complete, the verdict is absent",
+    }
     _checkpoint(doc)
     for t in spec["targets"]:
-        t0 = time.time()
-        row = {"name": t["name"], "class": t.get("class"), "pdb_id": t.get("pdb_id"),
-               "ligand_resname": t.get("ligand_resname")}
-        try:
-            f = prep.prep_target_full(t)
-        except Exception as e:                                 # noqa: BLE001
-            row.update({"verdict": "UNSCORED", "why": "receptor prep failed: %s" % e})
-            doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
-            rows.append(row)
-            _checkpoint(doc)
-            continue
-        row["center"] = f["center"]
-        row["chain"] = f["chain"]
-        row["n_res"] = f["n_res"]
-        row["cognate_comp_id"] = f["lig_resname"]
-        row["centre_source"] = f["centre_source"]
-        # ⚠ the receptor the PANEL docks into: standard-AA ATOM records only. Cofactors are absent by
-        # construction, and that is a property of the instrument, so it is recorded on every row.
-        row["receptor_is_protein_only"] = True
-
-        copy_lines, gid = _pick_copy(f["lig_lines"], f["center"])
-        row["n_copies_in_chain"] = len({(l[17:20].strip(), l[21], l[22:27]) for l in f["lig_lines"]})
-        row["copy_used"] = "".join(gid).strip() if gid else None
-        if not copy_lines:
-            row.update({"verdict": "UNSCORED", "why": "no crystallographic ligand copy to score against"})
-            doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
-            rows.append(row)
-            _checkpoint(doc)
-            continue
-
-        smi, why = _ccd_smiles(f["lig_resname"])
-        row["cognate_smiles"] = smi
-        if not smi:
-            row.update({"verdict": "UNSCORED", "why": "no CCD SMILES: %s" % why})
-            doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
-            rows.append(row)
-            _checkpoint(doc)
-            continue
-
-        xtal, why = apr.crystal_mol(copy_lines, smi)
-        if xtal is None:
-            row.update({"verdict": "UNSCORED", "why": "crystal pose not buildable: %s" % why})
-            doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
-            rows.append(row)
-            _checkpoint(doc)
-            continue
-        row["n_heavy_atoms"] = xtal.GetNumAtoms()
-
-        rec_pdb = os.path.join(WORK, "%s_receptor.pdb" % t["name"])
-        open(rec_pdb, "w").write(f["receptor_pdb"])
-        lig_sdf = os.path.join(WORK, "%s_cognate.sdf" % t["name"])
-        pose_sdf = os.path.join(WORK, "%s_cognate_pose.sdf" % t["name"])
-        if not ndock.make_sdf([(f["lig_resname"], f["lig_resname"], smi)], lig_sdf):
-            row.update({"verdict": "UNSCORED", "why": "rdkit could not embed the cognate ligand"})
-            doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
-            rows.append(row)
-            _checkpoint(doc)
-            continue
-        err = _smina(rec_pdb, f["center"], box, lig_sdf, pose_sdf, exh, nmodes)
-        if err:
-            row.update({"verdict": "UNSCORED", "why": "dock failed: %s" % err})
-            doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
-            rows.append(row)
-            _checkpoint(doc)
-            continue
-        mol, dg, why = _top_pose_mol(pose_sdf)
-        row["self_dock_dG"] = dg
-        if mol is None:
-            row.update({"verdict": "UNSCORED", "why": "no scorable pose: %s" % why})
-            doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
-            rows.append(row)
-            _checkpoint(doc)
-            continue
-        try:
-            row["rmsd_A"] = round(float(rdMolAlign.CalcRMS(mol, xtal)), 3)
-        except Exception as e:                                 # noqa: BLE001
-            row.update({"verdict": "UNSCORED", "why": "RMSD failed: %s: %s" % (type(e).__name__, e)})
-            doc["refusals"].append(_refusal("selfcontrol/%s" % t["name"], row["why"]))
-            rows.append(row)
-            _checkpoint(doc)
-            continue
-
-        # C2 power control — the same box the dock searched. `random_in_box_null` reports
-        # `p_within_criterion` against ITS OWN `RECOVER_RMSD_A`, which is the same constant this module
-        # reads in `bands()`; that shared home is why the two cannot drift apart.
-        try:
-            null = apr.random_in_box_null(xtal, f["center"], (float(box), float(box), float(box)))
-            row["null"] = null
-            row["null_frac_under_criterion"] = null.get("p_within_criterion")
-        except Exception as e:                                 # noqa: BLE001
-            row["null_frac_under_criterion"] = None
-            doc["refusals"].append(_refusal("selfcontrol/%s/null" % t["name"],
-                                            "power control failed: %s: %s" % (type(e).__name__, e)))
-
-        # fnat (secondary, never gating)
-        try:
-            xconf = xtal.GetConformer()
-            xpts = [(xconf.GetAtomPosition(i).x, xconf.GetAtomPosition(i).y, xconf.GetAtomPosition(i).z)
-                    for i in range(xtal.GetNumAtoms())]
-            pconf = mol.GetConformer()
-            ppts = [(pconf.GetAtomPosition(i).x, pconf.GetAtomPosition(i).y, pconf.GetAtomPosition(i).z)
-                    for i in range(mol.GetNumAtoms())]
-            cut = apr._contact_a()
-            nat = set(apr.residues_near(f["receptor_pdb"], xpts, cut))
-            got = set(apr.residues_near(f["receptor_pdb"], ppts, cut))
-            row["fnat"] = round(len(nat & got) / len(nat), 3) if nat else None
-        except Exception as e:                                 # noqa: BLE001
-            row["fnat"] = None
-            doc["refusals"].append(_refusal("selfcontrol/%s/fnat" % t["name"],
-                                            "%s: %s" % (type(e).__name__, e)))
-
-        row["verdict"] = target_verdict(row.get("rmsd_A"), row.get("null_frac_under_criterion"),
-                                        b["recovered_rmsd_A"], b["partial_rmsd_A"], b["null_power_max"])
-        row["elapsed_s"] = round(time.time() - t0, 1)
+        row = _score_target(t, keep_cofactors, doc, arm)
         rows.append(row)
         _checkpoint(doc)
-        print("  %-8s %s  rmsd %s  dG %s  null %s" % (
-            row["name"], row["verdict"], row.get("rmsd_A"), row.get("self_dock_dG"),
-            row.get("null_frac_under_criterion")), flush=True)
+        print("  [%s] %-8s %-9s rmsd %-8s (best copy %-8s) shift %-8s dG %-9s cofactors_kept %s" % (
+            arm, row.get("name"), row.get("verdict"), row.get("rmsd_A"),
+            row.get("rmsd_to_best_crystal_copy_A"), row.get("centroid_shift_A"),
+            row.get("self_dock_dG"),
+            [k["resname"] for k in row.get("cofactors_kept", [])]), flush=True)
+    v = panel_verdict([{"name": r["name"], "verdict": r.get("verdict")} for r in rows])
+    doc["arms"][arm]["_partial"] = False
+    doc["arms"][arm].pop("_partial_note", None)
+    doc["arms"][arm].update(v)
+    _checkpoint(doc)
+    return doc["arms"][arm]
 
-    doc["selfcontrol"]["_partial"] = False
-    doc["selfcontrol"].pop("_partial_note", None)
-    doc["selfcontrol"].update(panel_verdict([{"name": r["name"], "verdict": r.get("verdict")}
-                                             for r in rows]))
+
+def mode_selfcontrol(doc):
+    """THE GATE — re-dock every panel target's own cognate ligand through the identical protocol.
+
+    ★ RUN AS AN A/B OVER THE RECEPTOR BUILD, NOT AS A REPLACEMENT (2026-08-03). The first run of this
+    control FAILED — 7 of 10, with CYP3A4 / PPARG / PXR at 9.503 / 6.761 / 6.87 A against a 2.00 A
+    criterion — and the repair is `antitarget_prep`'s cofactor retention. Simply switching the receptor
+    over and re-reporting would have destroyed the only evidence that says WHICH receptor produced the
+    numbers already published in SI §S1. So both are run:
+
+        arm `stripped` — the receptor as it was when SI §S1's margins were computed (no cofactors)
+        arm `repaired` — the same predicate applied to all ten: retain a cofactor or metal ion that the
+                         cognate ligand actually contacts
+
+    The HEADLINE verdict is the repaired arm, because that is the instrument going forward. The stripped
+    arm is retained as the provenance of the published numbers, and the per-target delta between them is
+    what attributes any change to the repair rather than to chance.
+    """
+    os.makedirs(WORK, exist_ok=True)
+    doc["criterion"] = bands()
+    doc["protocol"] = dock_protocol()
+    stripped = _run_arm(doc, "stripped", keep_cofactors=False)
+    repaired = _run_arm(doc, "repaired", keep_cofactors=True)
+
+    by_name = {}
+    for r in stripped["targets"]:
+        by_name.setdefault(r["name"], {})["stripped"] = r
+    for r in repaired["targets"]:
+        by_name.setdefault(r["name"], {})["repaired"] = r
+    delta = []
+    for name, pair in by_name.items():
+        s, k = pair.get("stripped") or {}, pair.get("repaired") or {}
+        delta.append({
+            "name": name,
+            "stripped_rmsd_A": s.get("rmsd_A"), "repaired_rmsd_A": k.get("rmsd_A"),
+            "stripped_verdict": s.get("verdict"), "repaired_verdict": k.get("verdict"),
+            "cofactors_kept": [c["resname"] for c in k.get("cofactors_kept", [])],
+            "still_stripped_in_pocket": [c["resname"] for c in k.get("stripped_in_pocket", [])],
+            "repair_changed_the_receptor": bool(k.get("cofactors_kept")),
+            "centroid_shift_A": k.get("centroid_shift_A"),
+            "rmsd_to_best_crystal_copy_A": k.get("rmsd_to_best_crystal_copy_A"),
+            "a_different_copy_would_pass": k.get("a_different_copy_would_pass"),
+            "ligand_resname_matched": k.get("ligand_resname_matched"),
+        })
+    delta.sort(key=lambda d: d["name"])
+
+    # THE HEADLINE IS THE REPAIRED ARM. `selfcontrol` keeps the shape every downstream reader already
+    # parses, so nothing has to learn about arms to read the verdict.
+    doc["selfcontrol"] = dict(repaired)
+    doc["selfcontrol"]["_arm"] = "repaired"
+    doc["selfcontrol"]["_the_other_arm"] = {
+        "arm": "stripped", "panel_readable": stripped.get("panel_readable"),
+        "n_pass": stripped.get("n_pass"), "blocking_targets": stripped.get("blocking_targets"),
+        "_why_it_is_kept": "it is the receptor build that produced SI §S1's published margins; deleting "
+                           "it would delete the provenance of a published number",
+    }
+    doc["repair_delta"] = delta
+    doc["repair_rule"] = {
+        "what": "retain a HETATM group iff it is a recognised prosthetic group/cofactor OR a metal ion, "
+                "AND it lies within antitarget_prep.COFACTOR_CONTACT_A of the cognate ligand copy the "
+                "box is centred on",
+        "uniform": "one predicate, evaluated identically for all ten targets — it is not a list of "
+                   "exceptions, and for a target with nothing in contact it is a no-op",
+        "why_it_is_not_tuning": "the frozen rule forbids dropping a failing target, re-centring its box "
+                                "or lowering a band. This does none of those: it makes the RECEPTOR more "
+                                "complete, not the CRITERION more forgiving, and it is applied to "
+                                "passing targets too",
+        "one_home": "antitarget_prep.COFACTORS / METAL_IONS / COFACTOR_CONTACT_A",
+    }
     _checkpoint(doc)
 
 
@@ -719,6 +839,31 @@ def render_markdown(doc):
                     if sc.get("blocking_targets") else ""))
         L.append("\n⛔ Until every target PASSes, **no anti-target margin from this panel may be read — "
                  "including the one SI §S1 already publishes.**\n")
+        other = sc.get("_the_other_arm") or {}
+        if other:
+            L.append("\nReceptor build reported above: **`%s`**. The **`%s`** arm — the build that "
+                     "produced SI §S1's published margins — returns `panel_readable = %s` (%s of %s "
+                     "pass, blocking %s).\n"
+                     % (sc.get("_arm"), other.get("arm"), other.get("panel_readable"),
+                        other.get("n_pass"), sc.get("n_targets"),
+                        ", ".join(other.get("blocking_targets") or []) or "none"))
+        rr = doc.get("repair_rule") or {}
+        if rr:
+            L.append("\n**The repair, stated as one predicate applied to all ten targets:** %s. "
+                     "*Why this is not tuning:* %s\n" % (rr.get("what"), rr.get("why_it_is_not_tuning")))
+        delta = doc.get("repair_delta") or []
+        if delta:
+            L.append("\n### Stripped → repaired, per target\n")
+            L.append("| target | stripped RMSD | repaired RMSD | stripped | repaired | cofactor kept | "
+                     "still stripped in pocket | centroid shift (Å) | best crystal copy (Å) |")
+            L.append("|---|---|---|---|---|---|---|---|---|")
+            for d in delta:
+                L.append("| %s | %s | %s | %s | **%s** | %s | %s | %s | %s |" % (
+                    d["name"], d.get("stripped_rmsd_A", "—"), d.get("repaired_rmsd_A", "—"),
+                    d.get("stripped_verdict"), d.get("repaired_verdict"),
+                    ", ".join(d.get("cofactors_kept") or []) or "—",
+                    ", ".join(d.get("still_stripped_in_pocket") or []) or "—",
+                    d.get("centroid_shift_A", "—"), d.get("rmsd_to_best_crystal_copy_A", "—")))
         L.append("\n| target | class | PDB | cognate | RMSD (Å) | verdict | self-dock ΔG | fnat | "
                  "P(random ≤ 2 Å) |")
         L.append("|---|---|---|---|---|---|---|---|---|")
@@ -745,16 +890,22 @@ def render_markdown(doc):
     fl = doc.get("flagged") or {}
     if fl.get("rows"):
         L.append("\n## `denovo_401` + carried candidates in the flagged receptors\n")
-        L.append("⛔ **No margin is computed.** %s\n" % "; ".join(fl["margin_refusal"]["why"]))
-        L.append("| molecule | drug | %s |" % " | ".join(fl["receptors"]))
-        L.append("|---|---|%s" % ("---|" * len(fl["receptors"])))
+        # `.get`, because a CARRIED-FORWARD flagged block may predate the refusal field, and a renderer
+        # that raises on an old block would make the merge that preserved it look like the bug.
+        L.append("⛔ **No margin is computed.** %s\n"
+                 % "; ".join((fl.get("margin_refusal") or {}).get("why") or ["see the artifact"]))
+        # DERIVED from the rows rather than read from a sibling field, so a carried-forward block that
+        # predates `receptors` still renders instead of taking the whole report down with it.
+        recs = fl.get("receptors") or sorted({r["target"] for r in fl["rows"]})
+        L.append("| molecule | drug | %s |" % " | ".join(recs))
+        L.append("|---|---|%s" % ("---|" * len(recs)))
         by = {}
         for r in fl["rows"]:
             by.setdefault(r["label"], {})[r["target"]] = r.get("dG")
         for lab in sorted(by):
             drug = next((r.get("drug") for r in fl["rows"] if r["label"] == lab), "")
             L.append("| %s | %s | %s |" % (lab, drug or "—",
-                                           " | ".join(str(by[lab].get(t, "—")) for t in fl["receptors"])))
+                                           " | ".join(str(by[lab].get(t, "—")) for t in recs)))
     if doc.get("refusals"):
         L.append("\n## Refusals\n")
         for r in doc["refusals"]:
@@ -791,6 +942,136 @@ def map_edits(doc):
                          "BUILD, AND IT WAS THE HIGHER-VALUE HALF" % verdict_txt,
         "why": "row 10 records R14-a as not started; it has now run and returned a verdict that governs "
                "a number the paper already publishes",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }] + criterion_decision_edits(doc) + [{
+        # The state cell is a different cell from the next-action cell; updating only the latter leaves
+        # the row reading "○ not started" beside "✅ RAN". `R14` stays partial because `R14-b` is unrun
+        # and registered DO-NOT-LAUNCH.
+        "section": "§10.1 row 10 — the state cell",
+        "anchor": "| `R14` | ○ **not started** |",
+        "current_text": "| `R14` | ○ **not started** |",
+        "proposed_text": "| `R14` | ◐ **`R14-a` ran 2026-08-03 · `R14-b` not started (⛔ DO-NOT-LAUNCH)** |",
+        "why": "the row's next-action cell records R14-a as run while its state cell still says nothing "
+               "has started; R14-b remains unrun and rate-line blocked, so the row is partial, not done",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }, {
+        "section": "THE ORDERED PLAN → RUNG S — R14-a's 'never-run' clause",
+        "anchor": "and that the panel has a **never-run cognate-ligand self-control.**",
+        "current_text": "and that the panel has a **never-run cognate-ligand self-control.**",
+        "proposed_text": ("and that the panel has a cognate-ligand self-control **which has now RUN "
+                          "(2026-08-03, $0): %s** "
+                          "([`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json))."
+                          % verdict_txt),
+        "why": "the rung text still describes the control as never run, and it has run — leaving that "
+               "sentence in place would make the program's own plan a stale fact",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }]
+
+
+def criterion_decision_edits(doc):
+    """⛔ REGISTER THE ONE THING THIS RUN CANNOT DECIDE FOR ITSELF, so it is not lost in an artifact.
+
+    CYP3A4's failure is not a docking failure. 2V0M carries EIGHT copies of ketoconazole, TWO of them in
+    the docked chain, and with the haem restored the top pose lands **1.108 Å from a different deposited
+    copy** than the one it is scored against. The pre-registered criterion says "the crystallographic
+    copy", and for a multi-copy site that phrase has no referent.
+
+    ★ WHY THIS IS A ROUTED DECISION AND NOT A FIX I APPLY. Amending the criterion after seeing which
+    amendment passes is exactly the tuning the frozen rule forbids — the difference between "scored
+    against any deposited copy" and "scored against the nearest copy" is invisible until you know the
+    answer, and by then it is not a pre-registration. So the run reports both numbers, leaves the verdict
+    FAIL, and puts the amendment on the board where it can be decided in writing BEFORE it is used.
+    """
+    sc = doc.get("selfcontrol") or {}
+    rows = {r["name"]: r for r in sc.get("targets", [])}
+    multi = [r for r in rows.values()
+             if r.get("a_different_copy_would_pass") and r.get("verdict") != "PASS"]
+    if not multi:
+        return []
+    detail = "; ".join(
+        "%s: scored %s Å against copy %s, but %s Å from copy %s (%s copies in the deposit)"
+        % (r["name"], r.get("rmsd_A"), r.get("copy_used"), r.get("rmsd_to_best_crystal_copy_A"),
+           r.get("best_crystal_copy"), r.get("n_cognate_copies_in_file")) for r in multi)
+    return [{
+        "section": "Open decisions",
+        "anchor": "## Open decisions",
+        "current_text": "## Open decisions",
+        "proposed_text": (
+            "## Open decisions\n\n"
+            "- ⛔ **NEW 2026-08-03 — the anti-target self-control's criterion is UNDER-SPECIFIED for a "
+            "multi-copy deposit, and it is currently deciding a FAIL.** %s. The pre-registered criterion "
+            "reads *\"the crystallographic copy of the same ligand\"*, which has no referent when a "
+            "deposit places several copies of the cognate in one site. ⚠ **The verdict was left FAIL and "
+            "must stay there until this is ruled on**, because choosing the copy after seeing which one "
+            "passes is the tuning the rung's own frozen rule forbids. The decision is one sentence — "
+            "score against *any* deposited copy, or against a *named* one — and it must be written down "
+            "BEFORE it is applied. Evidence: "
+            "[`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json) → "
+            "`repair_delta`.\n" % detail),
+        "why": "the run produced a finding it is not entitled to act on. Leaving it only in the artifact "
+               "is how a caveat with nowhere to go gets silently dropped",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }]
+
+
+def si_edits(doc):
+    """⛔ THE PUBLICATION-INTEGRITY EDIT. Emitted ONLY while the panel is unreadable.
+
+    This is the edit that matters and it is not a checkbox. Four sentences are already written into
+    SI §S1, and each is a maximum or an every-survivor statement across the whole panel, so a single
+    unreadable receptor changes all four. A rung marked done beside an SI that still asserts them would
+    be the worst possible outcome of running the control at all.
+
+    ⚠ It is emitted against the SI, not the roadmap, and `route_map_edits.py` is told so by `file`. The
+    edit does not delete the result — deleting it would lose a real screen — it CONDITIONS it, which is
+    what the frozen rule permits: "nothing is licensed by a failure except the statement that the margin
+    is not currently readable."
+    """
+    sc = doc.get("selfcontrol") or {}
+    if not sc or sc.get("panel_readable"):
+        return []
+    blocking = sc.get("blocking_targets") or []
+    rows = {r["name"]: r for r in sc.get("targets", [])}
+    detail = "; ".join("%s %s Å" % (n, rows.get(n, {}).get("rmsd_A")) for n in blocking)
+    band = (doc.get("criterion") or {}).get("recovered_rmsd_A")
+    return [{
+        "file": "research/manuscripts/nr4a3-degrader-paper-SI.md",
+        "section": "SI §S1 — the anti-target panel paragraph (3)",
+        "anchor": "*(3) The anti-target panel disqualifies all of them.*",
+        "current_text": "*(3) The anti-target panel disqualifies all of them.*",
+        "proposed_text": (
+            "*(3) The anti-target panel disqualifies all of them.* ⛔ **NOT CURRENTLY READABLE "
+            "(2026-08-03).** The panel's cognate-ligand self-control — each target's own "
+            "co-crystallised ligand re-docked through the identical protocol — recovers %d of %d "
+            "crystallographic poses; **%s** miss the %.2f Å field-standard redocking criterion (%s). "
+            "Every claim in this paragraph is a maximum or an every-survivor statement across the whole "
+            "panel, so an unreadable receptor propagates into all of them. The screen was run and is "
+            "reported; the *margins* below may not be quoted until the control passes "
+            "([`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json))."
+            % (sc.get("n_pass", 0), sc.get("n_targets", 0), ", ".join(blocking), band or 2.0, detail)),
+        "why": "a sentence already written into the SI asserts a panel-wide maximum over receptors the "
+               "panel's own self-control cannot dock into. The number is not deleted — it is "
+               "conditioned, which is the only thing the failure licenses",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }, {
+        # ⛔ IT IS NOT ONLY THE SI. The same panel-wide maximum is asserted in the MAIN TEXT, and an SI
+        # caveat beside an unqualified main-text claim is worse than neither: a reader who never opens
+        # the SI sees only the unconditioned sentence. Found by grepping the paper for "anti-target"
+        # rather than by trusting the brief's scoping to the SI.
+        "file": "research/manuscripts/nr4a3-degrader-paper.md",
+        "section": "main text — the counter-screen sentence",
+        "anchor": "**At marketed-library scale, no repurposing candidate survives the counter-screen**",
+        "current_text": "**Full screen and target panel: SI §S1.**",
+        "proposed_text": ("**Full screen and target panel: SI §S1.** ⛔ **The counter-screen comparison "
+                          "is NOT CURRENTLY READABLE (2026-08-03):** the panel's cognate-ligand "
+                          "self-control recovers %d of %d crystallographic poses (%s miss the %.2f Å "
+                          "criterion), and this sentence is a maximum across the whole panel — see "
+                          "SI §S1 and "
+                          "[`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json)."
+                          % (sc.get("n_pass", 0), sc.get("n_targets", 0), ", ".join(blocking),
+                             band or 2.0)),
+        "why": "the main text asserts the same panel-wide maximum as SI §S1 paragraph 3. Conditioning "
+               "only the SI would leave a reader who never opens it with the unqualified claim",
         "artifact": "research/modalities/antitarget-selfcontrol.json",
     }]
 
@@ -855,7 +1136,7 @@ def check():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", default=os.environ.get("MODE", "all"),
-                    choices=["resolve", "selfcontrol", "flagged", "all"])
+                    choices=["resolve", "selfcontrol", "flagged", "all", "edits"])
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
     if args.check:
@@ -879,6 +1160,64 @@ def main():
         "_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "refusals": [],
     }
+    # ⛔ A PARTIAL MODE MERGES INTO THE PRIOR ARTIFACT — IT DOES NOT REPLACE IT (2026-08-03, after it
+    # already cost a table). `mode=selfcontrol` built a fresh doc and wrote it over the artifact, and the
+    # `flagged` block from an earlier `mode=all` run — denovo_401 plus 18 carried candidates docked into
+    # AR and MR — vanished from the record without a word. Nothing detected it: the run was green, the
+    # file was newer, and the block it deleted was simply not one this mode produces.
+    # This is the branch-drift failure of CLAUDE.md §7 inside a single file: a measured fact overwritten
+    # by a job that never measured it. The blocks a mode DID produce are overwritten as intended; the
+    # blocks it did not are carried forward, and `_carried_forward` names them so a reader can never
+    # mistake a carried block for a fresh one.
+    prior_doc = {}
+    if os.path.exists(OUT):
+        try:
+            prior_doc = json.load(open(OUT))
+        except (ValueError, OSError) as e:                     # noqa: BLE001
+            doc["refusals"].append(_refusal("merge", "prior artifact unreadable, nothing carried: %s" % e))
+    PRODUCED_BY = {"resolve": ["resolve"],
+                   "selfcontrol": ["criterion", "protocol", "arms", "selfcontrol", "repair_delta",
+                                   "repair_rule"],
+                   "flagged": ["flagged"]}
+    ran = {"all": ["resolve", "selfcontrol", "flagged"]}.get(args.mode, [args.mode])
+    fresh = {k for m in ran for k in PRODUCED_BY.get(m, [])}
+    carried = []
+    for key, val in prior_doc.items():
+        if key.startswith("_") or key in ("refusals", "map_edits_required", "map_edit_anchor_check",
+                                          "si_edits_required", "si_edit_anchor_check",
+                                          "manuscript_edits_required"):
+            continue
+        if key in fresh or key in doc:
+            continue
+        doc[key] = val
+        carried.append(key)
+    if carried:
+        doc["_carried_forward"] = {
+            "blocks": sorted(carried),
+            "from_utc": prior_doc.get("_utc"),
+            "_why": "this run's mode does not produce these blocks. They are the PREVIOUS run's "
+                    "measurements, carried so a partial re-run cannot delete a measured table.",
+        }
+
+    if args.mode == "edits":
+        # ⛔ RE-ROUTE WITHOUT RE-MEASURING. The routing blocks are a pure function of the measurement,
+        # and the manuscripts they point at move independently of it. Re-docking 20 targets to
+        # regenerate a paragraph of anchors would be re-running an experiment to fix a citation — and
+        # worse, it would produce a NEW measurement while claiming to re-route the old one.
+        # ⚠ It REFUSES if there is no measurement to route: a routing block computed from an absent
+        # verdict would assert "the panel is readable" by the shape of an empty dict.
+        if not os.path.exists(OUT):
+            sys.exit("mode=edits needs an existing %s to re-route; there is none" % OUT)
+        prior = json.load(open(OUT))
+        if not (prior.get("selfcontrol") or {}).get("targets"):
+            sys.exit("mode=edits refuses: %s carries no scored panel, so there is no verdict to route"
+                     % OUT)
+        doc = prior
+        doc["refusals"] = [r for r in doc.get("refusals", [])
+                           if not str(r.get("where", "")).startswith(("map_edits_required",
+                                                                      "si_edits_required",
+                                                                      "manuscript_edits_required"))]
+        doc["_rerouted_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     if args.mode in ("resolve", "all"):
         mode_resolve(doc)
     if args.mode in ("selfcontrol", "all"):
@@ -895,6 +1234,33 @@ def main():
             "why": "at least one routed edit's anchor is NOT_FOUND, AMBIGUOUS or UNREAD against the live "
                    "roadmap — see map_edit_anchor_check. Those edits must be rewritten, not applied by "
                    "judgement. (An APPLIED edit is NOT one of these: it already landed.)"})
+    # ⛔ THE SI EDIT IS ROUTED SEPARATELY BECAUSE IT TARGETS A DIFFERENT FILE. `route_map_edits.py` takes
+    # ONE `--target`, so mixing an SI edit into `map_edits_required` would make it report DEAD against the
+    # roadmap — a real edit reading as a stale one, which is the failure that tool exists to end. The list
+    # is also written standalone so the router can consume it with `--target ...paper-SI.md` directly.
+    # Grouped by target FILE, because `route_map_edits.py` takes one `--target` and an edit checked
+    # against the wrong file reports DEAD — a real edit reading as a stale one.
+    by_file = {}
+    for e in si_edits(doc):
+        by_file.setdefault(e["file"], []).append(e)
+    doc["manuscript_edits_required"] = {}
+    for path, group in by_file.items():
+        abspath = os.path.join(HERE, "..", "..", path)
+        checked, summary = mea.verify(group, abspath)
+        doc["manuscript_edits_required"][path] = {"edits": checked, "anchor_check": summary}
+        out = os.path.join(HERE, "antitarget-selfcontrol-%s-edits.json"
+                           % ("si" if "SI" in path else "paper"))
+        json.dump(checked, open(out, "w"), indent=2)
+        if not summary["all_accounted"]:
+            doc["refusals"].append({
+                "where": "manuscript_edits_required/%s" % path,
+                "why": "the edit that conditions this file's anti-target claim does NOT resolve against "
+                       "it — see anchor_check. The panel is unreadable and the file still asserts the "
+                       "margin, so this edit must be relocated by hand rather than dropped."})
+    # kept for readers that already parse the SI-only field
+    si_block = doc["manuscript_edits_required"].get("research/manuscripts/nr4a3-degrader-paper-SI.md")
+    doc["si_edits_required"] = (si_block or {}).get("edits", [])
+    doc["si_edit_anchor_check"] = (si_block or {}).get("anchor_check")
     json.dump(doc, open(OUT, "w"), indent=2)
     open(OUT_MD, "w").write(render_markdown(doc))
     print("wrote", OUT)

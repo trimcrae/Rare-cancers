@@ -260,6 +260,25 @@ def plausible_set(bps):
     }
 
 
+def zinc_finger_cysteines(seq):
+    """The C4 zinc-coordinating cysteines, FOUND in the sequence rather than assumed. Pure.
+
+    ⚠ "Structurally load-bearing" is a claim, so it is made only where a motif match supports it. The
+    regex is `nr4a3_exon_audit.ZF_MOTIF` — one home, the same pattern the exon audit anchors the DBD on
+    — and only the cysteines INSIDE the matched span are marked. A cysteine elsewhere in the DBD window
+    is reported as a DBD cysteine and nothing more; calling it structural would be a guess.
+    """
+    import nr4a3_exon_audit as audit
+    out = {}
+    for m in audit.ZF_MOTIF.finditer(seq):
+        lo, hi = m.start() + 1, m.end()
+        for i in range(lo, hi + 1):
+            if seq[i - 1] == "C":
+                out[i] = {"role": "C4 zinc-finger coordinating cysteine",
+                          "motif_span": [lo, hi], "motif": m.group()}
+    return out
+
+
 def reactive_residues(seq, lo, hi, kinds=("C", "K")):
     """1-based positions of `kinds` in seq[lo..hi] inclusive. Pure."""
     out = {k: [] for k in kinds}
@@ -280,7 +299,7 @@ def unique_marks(unique_doc):
     return marks
 
 
-def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range):
+def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range, zf=None):
     """What the real fusion object contains that the modelled LBD construct does not. Pure.
 
     Every row is classified INVARIANT vs BREAKPOINT_DEPENDENT over `plausible`, and every row says which
@@ -299,6 +318,7 @@ def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range):
             carrying = [b for b in plausible if b["nr4a3_first_residue"] <= pos]
             dom = next((lab for lab, (lo, hi) in domains.items() if lo <= pos <= hi), "unassigned")
             m = marks.get(pos)
+            zrec = (zf or {}).get(pos)
             rows.append({
                 "protein": "NR4A3", "residue": "%s%d" % (kind, pos), "resnum": pos, "kind": kind,
                 "domain": dom,
@@ -310,6 +330,9 @@ def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range):
                                                         if b["nr4a3_first_residue"] > pos}),
                 "nr4a3_unique_vs_paralogues": (m or {}).get("unique_vs"),
                 "uniqueness_alignment_robust": (m or {}).get("alignment_robust"),
+                # "structurally load-bearing" is only asserted where a motif match supports it.
+                "structural_role": (zrec or {}).get("role"),
+                "structural_role_evidence": (zrec or {}).get("motif"),
             })
     # ---- EWSR1 side: present in the chimera, absent from every NR4A3-only structure by construction
     for kind in ("C", "K"):
@@ -373,6 +396,8 @@ def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range):
         "n_breakpoint_dependent": len(dep),
         "_where_the_variation_is": {"proteins": dep_prot, "clause": clause},
         "excluded_span": excluded_span,
+        "structurally_load_bearing_outside_the_construct": sorted(
+            r["residue"] for r in rows if r.get("structural_role")),
         "unique_reactive_residues_outside_the_construct": sorted(
             r["residue"] for r in rows if r.get("nr4a3_unique_vs_paralogues")),
         "_what_this_licenses": (
@@ -460,6 +485,19 @@ def map_edits(doc):
                          "[`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json).**",
         "why": "row 9's next action was to run R13-a; it has run and the object is now stated at the "
                "sequence level, with what is invariant across breakpoints separated from what is not",
+        "artifact": "research/modalities/fusion-object-inventory.json",
+    }, {
+        # ⚠ THE STATE GLYPH IS A SEPARATE CELL FROM THE NEXT-ACTION CELL, and updating only the latter
+        # leaves the row reading "○ not started" beside "✅ RAN" — caught by reading the applied diff.
+        # `R13` stays ○ because `R13-b` has not run; what changed is that the free half is done, and the
+        # cell now says which half.
+        "section": "§10.1 row 9 — the state cell",
+        "anchor": "| `R13` | ○ **not started** |",
+        "current_text": "| `R13` | ○ **not started** |",
+        "proposed_text": "| `R13` | ◐ **`R13-a` done 2026-08-03 · `R13-b` not started** |",
+        "why": "the row's next-action cell records R13-a as run while its state cell still says nothing "
+               "has started. Per §0.3 the work-state axis is not the authorization axis: R13-b is still "
+               "🔒 and unrun, so the row is partial, not done",
         "artifact": "research/modalities/fusion-object-inventory.json",
     }, {
         # ⚠ NOT A RESTATEMENT. The map ALREADY carries the consequence (finding 23's sub-bullet), so
@@ -557,13 +595,19 @@ def render_markdown(doc):
              "invariant** (present under every plausible breakpoint) and **%s are breakpoint-dependent**.\n"
              % (ex.get("n_reactive_residues_outside_the_construct_at_the_canonical_junction"),
                 inv.get("n_rows"), inv.get("n_invariant"), inv.get("n_breakpoint_dependent")))
-    L.append("\n| residue | protein | domain | class | present under | NR4A3-unique vs |")
-    L.append("|---|---|---|---|---|---|")
+    sl = inv.get("structurally_load_bearing_outside_the_construct") or []
+    if sl:
+        L.append("\nStructurally load-bearing among them: **%s** — the C4 zinc-finger coordinating "
+                 "cysteines, matched in the sequence rather than assumed from position. These are the "
+                 "fingers the superseded off-by-two junctions deleted.\n" % ", ".join(sl))
+    L.append("\n| residue | protein | domain | class | present under | NR4A3-unique vs | structural role |")
+    L.append("|---|---|---|---|---|---|---|")
     for r in inv.get("rows", []):
-        L.append("| **%s** | %s | %s | %s | %d/%d | %s |" % (
+        L.append("| **%s** | %s | %s | %s | %d/%d | %s | %s |" % (
             r["residue"], r["protein"], r["domain"], r["class"],
             r["present_under_n_of_n_plausible"][0], r["present_under_n_of_n_plausible"][1],
-            ", ".join(r.get("nr4a3_unique_vs_paralogues") or []) or "—"))
+            ", ".join(r.get("nr4a3_unique_vs_paralogues") or []) or "—",
+            r.get("structural_role") or "—"))
 
     nf = doc.get("neoantigen_lane_flag") or {}
     if nf.get("read"):
@@ -612,9 +656,10 @@ def assemble(ews_map, nr4_map, doc):
                                 "why": "nr4a-paralogue-unique-residues.json absent — uniqueness marks "
                                        "are UNREAD, which is not the same as absent"})
     doc["domains"] = {k: list(v) for k, v in domains.items()}
+    doc["zinc_finger_cysteines"] = zinc_finger_cysteines(nr4_map["protein"])
     doc["inventory"] = build_inventory(nr4_map["protein"], ews_map["protein"],
                                        domains, doc["plausible_breakpoints"]["plausible"],
-                                       unique_marks(uniq), lbd)
+                                       unique_marks(uniq), lbd, doc["zinc_finger_cysteines"])
     doc["neoantigen_lane_flag"] = neoantigen_flag(_load("fusion-breakpoint-neoantigens.json"),
                                                   doc["plausible_breakpoints"]["plausible"])
     doc["the_sentence"] = the_sentence(doc["gate"], doc["inventory"], doc["plausible_breakpoints"])
