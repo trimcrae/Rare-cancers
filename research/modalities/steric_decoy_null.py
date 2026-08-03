@@ -1320,11 +1320,13 @@ def assemble(plan, check, index_committed, index_af, swap_rows, trio_rows, refus
                          "across that boundary is not like-for-like."),
             "contrast_a_signal_minus_null": _r(percentile_above(
                 index_committed["signal_minus_null"],
-                [r["signal_minus_null"] for r in graded_a_swap]), 4) if graded_a_swap else None,
+                [r["signal_minus_null"] for r in graded_a_swap]), 4)
+            if (graded_a_swap and index_committed.get("signal_minus_null") is not None) else None,
             "contrast_b_unique_not_bulkier_rate": _r(
                 sum(1 for r in graded_b_swap
                     if r["unique_not_bulkier_rate"] > index_committed["unique_not_bulkier_rate"])
-                / len(graded_b_swap), 4) if graded_b_swap else None,
+                / len(graded_b_swap), 4)
+            if (graded_b_swap and index_committed.get("unique_not_bulkier_rate") is not None) else None,
         },
         "decoy_rows": {"partner_swap": swap_rows, "full_trio": trio_rows},
         "refusals": refusals,
