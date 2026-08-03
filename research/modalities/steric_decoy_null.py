@@ -1704,7 +1704,14 @@ def to_markdown(d):
       % (c["committed_null_volume_ceiling_A3"], c["recomputed_null_volume_ceiling_A3"],
          c["reproduces_committed_lobes"]))
     A("")
-    A("⛔ %s\n" % c["_if_false"])
+    # ⛔ CONDITIONAL. Printed unconditionally this line reads "the backgrounds in this file MUST be
+    # discarded" on a PASSING run — a sentence that would be quoted out of context and is the opposite of
+    # what the check found.
+    if c.get("PASS"):
+        A("✅ **The harness reproduces the committed measurement exactly**, so a background from it is "
+          "readable. Had it not, %s\n" % c["_if_false"])
+    else:
+        A("⛔ **THE KNOWN-ANSWER CHECK FAILED.** %s\n" % c["_if_false"])
     for name in ("partner_swap", "full_trio"):
         b = d["backgrounds"][name]
         A("## Background `%s` (%s)\n" % (name, b["role"]))
@@ -1752,9 +1759,25 @@ def mode_remap(_args):
     return art
 
 
+def mode_render(_args):
+    """Regenerate the .md readout from the COMMITTED artifact. No recompute, nothing measured is touched.
+
+    Same argument as `remap`: how a result is WORDED is not the result, so fixing the wording must not cost
+    a run. Written after a passing run's readout printed the known-answer check's `_if_false` text
+    unconditionally — i.e. "the backgrounds in this file MUST be discarded" on a run where they must not.
+    """
+    art = json.load(open(OUT_JSON))
+    with open(OUT_MD, "w") as fh:
+        fh.write(to_markdown(art))
+    print("[steric-decoy-null] readout re-rendered from the committed artifact: %s"
+          % os.path.relpath(OUT_MD, REPO))
+    return art
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="C25 — cross-system decoy null for the steric axis")
-    ap.add_argument("mode", choices=["plan", "smoke", "fetch", "pairs", "selfcheck", "run", "remap"])
+    ap.add_argument("mode", choices=["plan", "smoke", "fetch", "pairs", "selfcheck", "run", "remap",
+                                     "render"])
     args = ap.parse_args(argv)
     if args.mode == "smoke":
         return mode_smoke(args)
@@ -1766,6 +1789,8 @@ def main(argv=None):
         mode_pairs(args)
     elif args.mode == "remap":
         mode_remap(args)
+    elif args.mode == "render":
+        mode_render(args)
     elif args.mode == "selfcheck":
         out, _row, _ = selfcheck()
         print(json.dumps({k: v for k, v in out.items() if not k.startswith("_")},
