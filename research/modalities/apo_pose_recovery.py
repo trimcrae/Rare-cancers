@@ -348,6 +348,11 @@ APPENDIX = {
         "attributed to seeding unless smina is shown to reproduce at a fixed seed on this system.",
         "`reproducibility`: the panel-level rollup of C6, carrying `all_bands_stable` and `max_spread_A`. "
         "An absent replicate set records `measured: false` rather than an empty summary.",
+        "C6b SEED REPLICATES ON THE CEILING ARM, on EVERY pair. `Q_DOCKING.n_gradeable` moved 3 -> 4 "
+        "between two runs of identical code because `C1c_self_dock_holo_oracle_box` on 2QMV->9V8H drew "
+        "6.809 A one run and 1.916 A the next; the ceiling decides whether a pair may be graded at all, "
+        "so an unseeded draw was choosing the headline count's DENOMINATOR. C6b reports, per pair, on how "
+        "many seeds the pair would have been gradeable, and `reproducibility.gradeability` rolls it up.",
         "MODE=site — the IN-REGIME SITE SUPPLEMENT. The geometric site endpoint, run over every apo/holo "
         "pair on a protein `nr4a3_warhead.PARALOGUES` says the pipeline actually transfers Pocket-5 onto, "
         "with no per-protein cap and NO DOCK. It writes its own artifact (`apo-pose-site-in-regime.json`) "
@@ -2374,6 +2379,13 @@ def panel_reproducibility(panel):
                           "these arms is UNMEASURED here — not zero"}
     arms = rep.get("arms") or {}
     graded = {k: v for k, v in arms.items() if v.get("n_replicates")}
+    # C6b, one level up — how much of `Q_DOCKING.n_gradeable` is a coin flip?
+    ceil = [(r["candidate"]["apo"], r["candidate"]["holo"], r["C6b_ceiling_replicates"])
+            for r in panel if r.get("C6b_ceiling_replicates")]
+    flippy = [{"apo": a, "holo": h, "n_seeds_gradeable": c["n_seeds_gradeable"],
+               "n_seeds": c["n_seeds"], "min_A": c["min_A"], "max_A": c["max_A"]}
+              for a, h, c in ceil if c.get("gradeability_stable") is False]
+    n_always = sum(1 for _a, _h, c in ceil if c["n_seeds"] and c["n_seeds_gradeable"] == c["n_seeds"])
     unstable = sorted(k for k, v in graded.items() if v.get("band_stable") is False)
     nondet = sorted(k for k, v in graded.items()
                     if (v.get("_determinism_selfcheck") or {}).get("identical") is False)
@@ -2386,6 +2398,20 @@ def panel_reproducibility(panel):
         "arms_whose_band_flips": unstable,
         "arms_that_did_not_reproduce_at_a_fixed_seed": nondet,
         "all_bands_stable": bool(graded) and not unstable,
+        "gradeability": {
+            "_asks": ("how much of Q-DOCKING's `n_gradeable` is decided by the search rather than by the "
+                      "data? Measured because it moved 3 -> 4 between two runs of identical code."),
+            "n_pairs_with_ceiling_replicates": len(ceil),
+            "n_pairs_gradeable_on_every_seed": n_always,
+            "pairs_whose_gradeability_flips": flippy,
+            "gradeable_count_is_stable": bool(ceil) and not flippy,
+            "_reads": ("every pair's gradeability is the same on every seed, so `n_gradeable` is a "
+                       "property of the panel and not of the random number generator"
+                       if ceil and not flippy else
+                       "⛔ %d PAIR(S) ARE GRADEABLE ON SOME SEEDS AND NOT OTHERS, so `n_gradeable` is "
+                       "itself a range and must never be quoted as a single integer" % len(flippy)
+                       if flippy else
+                       "UNMEASURED — no pair carried ceiling replicates in this run")},
         "_reads": (
             "every replicated arm stays in one pre-registered band across the seeds, so the panel's "
             "CONCLUSIONS are reproducible even though its 3-figure RMSDs are not. ⛔ Quote the band and "
@@ -2703,6 +2729,13 @@ def render_markdown(doc):
                         _f(row.get("spread_A")), ", ".join(row.get("bands_seen") or []),
                         "yes" if row.get("band_stable") else "**NO**"))
         L.append("\n%s\n" % rp.get("_reads"))
+        gr = rp.get("gradeability") or {}
+        if gr:
+            L.append("\n**Gradeability (C6b) — %s**\n" % gr.get("_reads", ""))
+            for p in gr.get("pairs_whose_gradeability_flips") or []:
+                L.append("- ⛔ **%s→%s** gradeable on **%s of %s** seeds (ceiling %s–%s Å against the "
+                         "2.00 Å criterion)" % (p["apo"], p["holo"], p["n_seeds_gradeable"],
+                                                p["n_seeds"], _f(p["min_A"]), _f(p["max_A"])))
         nd = rp.get("arms_that_did_not_reproduce_at_a_fixed_seed")
         if nd:
             L.append("⚠ **Did not reproduce at a fixed seed:** %s — the spread above is search variation "

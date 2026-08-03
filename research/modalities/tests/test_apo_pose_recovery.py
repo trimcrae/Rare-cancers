@@ -790,6 +790,48 @@ def test_the_reproducibility_rollup_flags_every_arm_whose_band_flips():
     assert rp["all_bands_stable"] is False
 
 
+def test_c6b_measures_whether_gradeability_itself_is_a_coin_flip():
+    """⛔ THE COUNT'S DENOMINATOR, NOT ITS DIGITS. `Q_DOCKING.n_gradeable` moved 3 -> 4 between two runs
+    of identical code because the ceiling arm on one pair drew 6.809 A once and 1.916 A the next. A
+    panel whose *membership* is decided by an unseeded search cannot report `n_gradeable` as an
+    integer, and this asserts the artifact says so."""
+    rp = A.panel_reproducibility([
+        {"candidate": {"apo": "2QMV", "holo": "9V8H"},
+         "C6b_ceiling_replicates": {"n_seeds": 3, "n_seeds_gradeable": 1, "min_A": 1.9, "max_A": 6.8,
+                                    "gradeability_stable": False}},
+        {"candidate": {"apo": "5G42", "holo": "7NPC"},
+         "C6b_ceiling_replicates": {"n_seeds": 3, "n_seeds_gradeable": 3, "min_A": 0.2, "max_A": 0.4,
+                                    "gradeability_stable": True}},
+        {"C6_seed_replicates": {"arms": {"blind_apo_fpocket_top_box": {
+            "n_replicates": 3, "spread_A": 0.2, "band_stable": True, "bands_seen": ["PARTIAL"],
+            "_determinism_selfcheck": {"identical": True}}}, "seeds": [1, 2, 3]}},
+    ])
+    g = rp["gradeability"]
+    assert g["gradeable_count_is_stable"] is False
+    assert g["n_pairs_with_ceiling_replicates"] == 2
+    assert g["n_pairs_gradeable_on_every_seed"] == 1
+    assert g["pairs_whose_gradeability_flips"][0]["holo"] == "9V8H"
+    assert "never be quoted as a single integer" in g["_reads"]
+
+
+def test_c6b_runs_on_every_pair_and_c6_on_one():
+    """C6 is the primary pair's spread; C6b is the whole panel's membership. Different scopes on
+    purpose — replicating every arm on every pair would multiply the panel's wall clock for no
+    decision. The defaults must reflect that and CEILING_REPLICATES must be the smaller."""
+    import inspect
+    src = inspect.getsource(A.main)
+    assert "ceiling_replicates=CEILING_REPLICATES" in src, "C6b does not run on every pair"
+    assert "replicates=0 if replicated else SEED_REPLICATES" in src, "C6 is no longer primary-pair only"
+    assert 0 < A.CEILING_REPLICATES <= A.SEED_REPLICATES
+
+
+def test_c6b_cannot_reach_the_verdict_either():
+    import inspect
+    src = inspect.getsource(A.verdict)
+    for leaked in ("C6b", "gradeability_stable", "CEILING_REPLICATES"):
+        assert leaked not in src
+
+
 # ============================================================ C5b — the apo side of the construct
 
 def test_c5b_grades_the_apo_construct_not_only_the_holo_one():

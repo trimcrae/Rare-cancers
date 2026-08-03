@@ -1,0 +1,88 @@
+{
+  "_what": "Exact, ready-to-apply map edits for §10 row 4 — the pose known-answer test with SITE and DOCKING separated (2026-08-03).",
+  "_rule": "⛔ NO NUMBER IS TYPED IN THIS FILE. Every figure in every `proposed_text` is derived by `row4_pose_map_edits.py` from `apo-pose-recovery.json` (and the site supplement when present), and every `current_text` is the live line the anchor sits on, read from `git show origin/main:`. Regenerate rather than edit.",
+  "_do_not_apply_blind": "P2 and P4 change a requirement's stated BLOCKER, which is a judgement call about what R5 needs next, not a clerical fix.",
+  "generated": "2026-08-03",
+  "verified_against": "origin/main + worktree",
+  "n_edits": 6,
+  "map_edits_required": [
+    {
+      "id": "P1",
+      "row": 4,
+      "serves": "V3 → R5",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§10.1 · Open rows",
+      "anchor": "| **4** | **Re-run the pose known-answer test with SITE and DOCKING separated**",
+      "current_text": "| **4** | **Re-run the pose known-answer test with SITE and DOCKING separated** | `V3` → `R5` | ○ (the test ✓ ran, INCONCLUSIVE) | — | cheap CPU/CI | `R5`, and every anchor Route B's geometry depends on. The docking is fine; the pipeline's **site selection** missed on 6 of 6 pairs, so the primary arm measured the site |",
+      "proposed_text": "| **4** | **Re-run the pose known-answer test with SITE and DOCKING separated** | `V3` → `R5` | ✓ **re-run 2026-08-03 — the split is DONE; `R5` is still unresolved, and the reason has changed** | — | **$0 (realized — free CI, no GPU)** | ⛔ **THE PREMISE OF THIS ROW WAS WRONG AND THE ARTIFACT SAYS SO.** *\"Site selection missed on 6 of 6\"* is not supported: **4 of the 6 pairs are OUT OF THE PIPELINE'S REGIME** — the box is NR4A3's own Pocket-5 (`nr4a3_8xtt_benchmark.POCKET5`) dragged across by a global BLOSUM62 alignment (`nr4a3_warhead.map_pocket_to_paralogue`), and the pipeline only ever performs that transfer onto `nr4a3_warhead.PARALOGUES` (NR4A1, NR4A2) plus NR4A3's own 8XTT; the panel additionally ran it onto PPARG and RORC at 0.24/0.27 aligned identity. On the **2 in-regime pairs**, an *independent* CE structural transfer misses with the sequence transfer, which by C4's own pre-declared logic reads *\"the ligand is not in this receptor's Pocket-5-equivalent site\"* — **the benchmark's design, not a demonstrated defect.** ✅ **Q-DOCKING IS ANSWERED, and it is a negative:** given the correct site, blind apo→holo docking recovered **0 of 4 gradeable** pairs (4 NOT RECOVERED). ⚠ **Q-SITE IS NOT ANSWERABLE FROM THIS PANEL** (n=2, both from one apo crystal) — the in-regime site supplement has not been run yet. One home for every number: [`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json), rendered to [`apo-pose-recovery.md`](../modalities/apo-pose-recovery.md). ⚠ **Superseded, retained:** *\"○ (the test ✓ ran, INCONCLUSIVE) · cheap CPU/CI · The docking is fine; the pipeline's site selection missed on 6 of 6 pairs, so the primary arm measured the site\"* |",
+      "why": "The row instructed a re-run that had in fact already landed (the site/docking split is in the artifact on main), and its one-line reading — 'site selection missed on 6 of 6' — is contradicted by the artifact's own regime gate. Leaving it drives the next session to re-do finished work off a false premise.",
+      "artifact": "research/modalities/apo-pose-recovery.json",
+      "_anchor_hits_on_origin_main": 1
+    },
+    {
+      "id": "P2",
+      "row": 4,
+      "serves": "R5",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§2.1 · The requirement register",
+      "anchor": "| **R5** | **The binding pose is right.** Node `PS`",
+      "current_text": "| **R5** | **The binding pose is right.** Node `PS` | ○ future (re-run) | — | `V3` — **INCONCLUSIVE** | **unresolved.** The docking works; the pipeline's **site selection** missed on 6 of 6 pairs, so the pose's weight rests on the site being right and `V3` could not check that |",
+      "proposed_text": "| **R5** | **The binding pose is right.** Node `PS` | ○ **unresolved — and now for a stated, structural reason** | — | `V3` — **INCONCLUSIVE** | **unresolved.** ⛔ Not *\"site selection missed\"*: only **2 of 6** panel pairs are receptors the pipeline ever transfers Pocket-5 onto, and on those the sequence transfer and an *independent* structural transfer agree the ligand is not in the Pocket-5-equivalent site. **What is measured** is Q-DOCKING: handed the correct site, the protocol recovers **0 of 4** gradeable pairs. **What blocks `R5`** is that no in-regime pair exists with (a) a ligand in the Pocket-5-equivalent site and (b) a large induced fit — NR4A3 has **0 holo entries**, NR4A2's are covalent, and both NR4A1 pairs move only 0.142–0.172 Å of Cα at the site |",
+      "why": "R5's cell blames the site step. The artifact's own regime gate says 4 of the 6 pairs cannot be evidence about that step, and C4 says the 2 that can are a benchmark-design miss. The blocker is the absence of a qualifying known answer, which is a different problem with a different fix.",
+      "artifact": "research/modalities/apo-pose-recovery.json",
+      "_anchor_hits_on_origin_main": 1
+    },
+    {
+      "id": "P3",
+      "row": 4,
+      "serves": "V3",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§3.1 · The instrument table",
+      "anchor": "| **V3** | Ligand pose prediction (dock + MM-GBSA) |",
+      "current_text": "| **V3** | Ligand pose prediction (dock + MM-GBSA) | recover a known holo pose in a nuclear receptor from apo | **INCONCLUSIVE by its own pre-registered rule** — the C1 holo self-dock control failed through the pipeline's own box on **6 of 6 pairs across 3 receptors** (17.3–29.3 Å), so the primary arm measured the *site*, not the docking. With an fpocket-chosen box the same protocol reaches **3.04 Å, fnat 0.778, 7 of 9 native contacts** | it cannot grade the docking: the protocol ceiling itself missed (`C1c_self_dock_holo_oracle_box` 2.849 Å against a 2.0 Å criterion) | ✓ complete — **verdict INCONCLUSIVE** | `R5` `R8` |",
+      "proposed_text": "| **V3** | Ligand pose prediction (dock + MM-GBSA) | recover a known holo pose in a nuclear receptor from apo | **INCONCLUSIVE by its own pre-registered rule** — the C1 holo self-dock control failed through the pipeline's own box on **6 of 6 pairs across 3 receptors** (17.3–29.3 Å), so the primary arm measured the *site*, not the docking. With an fpocket-chosen box the same protocol reaches **3.477 Å, fnat 0.778, 7 of 9 native contacts** — ⚠ **but that is ONE DRAW of an unseeded Monte-Carlo search.** `nr4a3_warhead.dock_into` passes smina no `--seed`; re-seeded (C6) the same arm reads **PARTIAL on all 5 seeds, 3.364–3.593 Å (spread 0.229 Å)**, so the BAND is reproducible and the digits are not | it cannot grade the docking: the protocol ceiling itself missed (`C1c_self_dock_holo_oracle_box` 2.711 Å against a 2.0 Å criterion; re-seeded PARTIAL on all 5 seeds, 2.611–2.878 Å (spread 0.267 Å)) | ✓ complete — **verdict INCONCLUSIVE** | `R5` `R8` |",
+      "why": "The table quotes a 3-figure RMSD from an unseeded search as if it were a measurement. Five committed runs of this benchmark have put that arm at 3.122, 3.437, 3.464, 3.503 and 3.04 Å. C6 measures the spread so the row can quote the band.",
+      "artifact": "research/modalities/apo-pose-recovery.json",
+      "_anchor_hits_on_origin_main": 1
+    },
+    {
+      "id": "P4",
+      "row": 4,
+      "serves": "R5",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§5 · Where each requirement stands",
+      "anchor": "| **R5 · The pose is right** | ⛔ the known-answer test **ran and returned INCONCLUSIVE**",
+      "current_text": "| **R5 · The pose is right** | ⛔ the known-answer test **ran and returned INCONCLUSIVE** ([`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json)) — and its decomposition splits the question in two: the **docking** is fine (**3.04 Å** blind from apo through an fpocket-chosen box, fnat 0.778, 7 of 9 native contacts), the **site selection** is what missed, on 6 of 6 pairs. ⚠ **Superseded, retained: 3.46 Å** — that value was read off an earlier generation of this same artifact (commit `cc4325b68`, `blind_apo_fpocket_top_box` 3.464) and never re-read after regeneration at `060a6a653`; the current arm reads **3.04**, and the oracle-box arm — a *different* arm — reads 3.489 | re-run the primary arm with the site question separated from the docking question — see [§7 branch 2](#7--branches-still-open) | ✓ test complete, claim **unresolved** |",
+      "proposed_text": "| **R5 · The pose is right** | ⛔ the known-answer test **ran and returned INCONCLUSIVE** ([`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json)) — and the re-run of 2026-08-03 separates the two questions properly. **Q-DOCKING (site handed over):** 0 of 4 gradeable pairs recovered. **Q-SITE:** only 2 of 6 pairs are in the pipeline's transfer regime at all, and on those an independent structural transfer misses with the sequence one — so this panel cannot grade the site step. ⚠ **AND THE QUOTED RMSD IS ONE DRAW:** the search is unseeded; re-seeded the blind fpocket arm reads PARTIAL on all 5 seeds, 3.364–3.593 Å (spread 0.229 Å). ⚠ **Superseded, retained: 3.46 Å** (commit `cc4325b68`, `blind_apo_fpocket_top_box` 3.464) and the reading *\"the docking is fine … the site selection is what missed, on 6 of 6 pairs\"* — the oracle-box arm is a *different* arm and reads 3.578. ⛔ **AND 3.04 Å — the figure this page has been quoting — falls BELOW the whole re-seeded range (3.364–3.593 Å), so it is the most flattering of the observed draws rather than the measurement.** | ⛔ **not a re-run — a qualifying known answer.** No in-regime pair exists with a Pocket-5-site ligand AND a large induced fit; see [§10.1 row 4](#101--open-rows-ordered-by-what-unblocks-the-most) | ✓ test complete, claim **unresolved** |",
+      "why": "This cell already carries the drift appendix for 3.46 → 3.04; the re-run shows the underlying number is not stable to 3 figures at all, and that the 'site selection is what missed' half is not supported by the artifact's regime gate.",
+      "artifact": "research/modalities/apo-pose-recovery.json",
+      "_anchor_hits_on_origin_main": 1
+    },
+    {
+      "id": "P5",
+      "row": 4,
+      "serves": "R5",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§4 · The dependency graph (mermaid)",
+      "anchor": "Q2 -->|\"INCONCLUSIVE — the control<br/>failed on 6 of 6 pairs\"| SPLIT",
+      "current_text": "  Q2 -->|\"INCONCLUSIVE — the control<br/>failed on 6 of 6 pairs\"| SPLIT[\"The question was TWO questions.<br/>Docking: 3.04 A, fnat 0.778.<br/>Site selection: missed by 17-29 A\"]",
+      "proposed_text": "  Q2 -->|\"INCONCLUSIVE — the control<br/>failed on 6 of 6 pairs\"| SPLIT[\"The question was TWO questions.<br/>Docking, site handed over: 0 of 4<br/>gradeable pairs recovered.<br/>Site: only 2 of 6 pairs are<br/>in the pipeline's transfer regime\"]",
+      "why": "The graph node asserts 'Site selection: missed by 17-29 A' as a finding. The artifact's regime gate says 4 of those 6 receptors are outside the transfer's scope, so the node states as a result something the panel is not powered to say.",
+      "artifact": "research/modalities/apo-pose-recovery.json",
+      "_anchor_hits_on_origin_main": 1
+    },
+    {
+      "id": "P6",
+      "row": 4,
+      "serves": "R5",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "merge notes — item 14, 'For the pose pass'",
+      "anchor": "rest on is the pose pass's call, not this merge's.**",
+      "current_text": "    rest on is the pose pass's call, not this merge's.**",
+      "proposed_text": "    rest on is the pose pass's call, not this merge's.** ✅ **ANSWERED 2026-08-03: NEITHER ARM'S DIGITS.** The search is unseeded (`nr4a3_warhead.dock_into` passes smina no `--seed`), so every RMSD in this artifact is one draw; C6 re-seeds the three decision-carrying arms and reports the **band**, which is what may be quoted. Blind fpocket arm: PARTIAL on all 5 seeds, 3.364–3.593 Å (spread 0.229 Å). Oracle arm: PARTIAL on all 5 seeds, 3.139–3.573 Å (spread 0.434 Å). Protocol ceiling: PARTIAL on all 5 seeds, 2.611–2.878 Å (spread 0.267 Å). The pre-registered bands are stable, so the CONCLUSIONS survive the noise even though the digits do not.",
+      "why": "The merge notes explicitly deferred 'which arm the pose claim should rest on' to the pose pass. This is the pose pass, and the answer is that neither arm's 3-figure value is quotable — only its band.",
+      "artifact": "research/modalities/apo-pose-recovery.json",
+      "_anchor_hits_on_origin_main": 1
+    }
+  ]
+}

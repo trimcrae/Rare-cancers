@@ -76,14 +76,17 @@ Apo→holo Cα movement **at the ligand site**. A pair below 1.00 Å is a re-doc
 ## 4 · What the deposits themselves declare
 
 
-| pair | engineered substitutions (holo) | any in the ligand's contact shell | ligand declared allosteric |
-|---|---|---|---|
-| 4RZF→4REF | LEU118→TRP | no | no |
-| 4RZF→4RE8 | none | no | no |
-| 2QMV→9F7W | none | no | no |
-| 2QMV→9V8H | none | no | no |
-| 5G42→7NPC | none | no | **yes** |
-| 5G42→6T4X | none | no | **yes** |
+| pair | engineered (apo) | engineered (holo) | same construct? | any in the ligand's contact shell | ligand declared allosteric |
+|---|---|---|---|---|---|
+| 4RZF→4REF | UNREAD | LEU118→TRP | UNREAD | no | no |
+| 4RZF→4RE8 | UNREAD | none | UNREAD | no | no |
+| 2QMV→9F7W | UNREAD | none | UNREAD | no | no |
+| 2QMV→9V8H | UNREAD | none | UNREAD | no | no |
+| 5G42→7NPC | UNREAD | none | UNREAD | no | **yes** |
+| 5G42→6T4X | UNREAD | none | UNREAD | no | **yes** |
+
+⚠ *The apo-side construct comparison is UNREAD in this artifact — it predates C5b. Absent, not "the constructs match".*
+
 
 ## 4b · Is a single-run RMSD from this benchmark quotable? (C6, seed replicates)
 
