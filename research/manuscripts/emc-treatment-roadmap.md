@@ -238,7 +238,9 @@ modality.** If you cannot *occupy* the driver, you can still *remove* it (degrad
 The fusion retains the ordered NR4A3 ligand-binding domain, so a degrader can recruit it to an E3
 ligase and remove the oncoprotein **without needing the collapsed functional pocket** — turning the
 borderline-druggability finding from an obstacle into the rationale. Degradation is mechanistically
-apt: NOR-1 is constitutively active and its output scales with **expression level** (Munck 2022), so
+apt: NOR-1 is constitutively active and its output scales with **expression level** (Zaienne 2022,
+PMID 35704774 — ⛔ *superseded attribution, retained: "Munck 2022", which names no paper;*
+[`nr4a3-druggability-reconciliation.md` §5b](../modalities/nr4a3-druggability-reconciliation.md)), so
 lowering protein lowers oncogenic activity. The modality has precedent — an NR4A1 PROTAC works (though
 it does **not** cross-degrade NR4A3, so NR4A3 needs its own warhead), NR4A3-selective ligand starting
 points exist (inverse NOR-1 agonists), and the first FDA-approved PROTAC (vepdegestrant, 2025; *to
@@ -440,7 +442,9 @@ with EMC models or patients to run them.
 NR4A3/EMC biology and EWSR1::NR4A3 → PPARG (PMC4429309); EMC neuroendocrine phenotype / INSM1
 (Mod Pathol 2017; PMID 36563884); patient-derived EMC line NCC-EMC1-C1 (Human Cell 2025).
 Structure: AlphaFold2 (Jumper 2021, *Nature*, 10.1038/s41586-021-03819-2) / AFDB; fpocket
-(Le Guilloux 2009). Degrader: NOR-1 druggability & inverse agonists (Munck 2022, PMC9542104);
+(Le Guilloux 2009). Degrader: NOR-1 druggability & inverse agonists (Zaienne 2022, **PMID 35704774**,
+PMC9542104 — ⛔ *superseded attribution, retained: "Munck 2022";*
+[`nr4a3-druggability-reconciliation.md` §5b](../modalities/nr4a3-druggability-reconciliation.md));
 NR4A ligands (PMC11267491); vepdegestrant first approved PROTAC (Arvinas 2025 — **primary approval
 record to be cited/verified before submission**). Synthetic-lethal: Boulay *Cell* 2017
 (10.1016/j.cell.2017.07.036; EWSR1 prion-domain BAF retargeting); Brien *eLife* 2018 (BRD9 degrader).

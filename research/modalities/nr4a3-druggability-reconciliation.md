@@ -66,6 +66,111 @@ candidate *structural* mechanism (a breathing orthosteric pocket) for a ligandab
 already demonstrated. This flips the framing of our result from "does a pocket exist?" to "here is where the
 already-demonstrated ligandability likely lives," which is a stronger, experiment-anchored claim.
 
+### 5a. ⭐ WHAT DOMAIN DID THE PUBLISHED HITS ACT ON? — the construct, quoted verbatim (2026-08-03)
+
+**Why this section exists.** The EMC fusion **replaces NR4A3's AF-1 (residues 1–260)** with EWSR1's
+low-complexity region, and the only *approved-drug* NOR-1 pharmacology — 6-mercaptopurine — acts through
+that AF-1 and **not** the LBD ([Wansa et al., *J Biol Chem* 2003;278(27):24776–90, PMID
+12709428](https://pubmed.ncbi.nlm.nih.gov/12709428/); the closure is owned by
+[`emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md) Tier 4). So *"is the
+published NR4A3 pharmacology AF-1-borne too?"* decides whether any of it transfers to the disease protein.
+It is a one-sentence question about a plasmid, and the answer had never been read off the source.
+
+⭐ **ANSWER: THE LBD — and the AF-1 is not in the construct at all.** Zaienne 2022's Experimental Section
+names the plasmid:
+
+> *"the Gal4‐NOR‐1 fusion receptor plasmid **pFA‐CMV‐hNOR‐1‐LBD coding for the hinge region and LBD of
+> the canonical isoform of NOR‐1**"*
+
+and the Results describe it as
+
+> *"a chimeric receptor composed of the **human NOR‐1 LBD and the Gal4 DNA binding domain from yeast**."*
+
+**Every dose–response, IC₅₀, EC₅₀ and SAR number in that paper was measured on that construct**, and so
+was the mechanism work — the NCoR1/SMRT interaction assays use *"pFR‐Luc, pRL‐SV40 and **pFA‐CMV‐hNOR‐1‐LBD**
+in combination with either pFTI‐CMV‐NCoR1 or pFTI‐CMV‐SMRT."* The paper draws the AF-1/LBD distinction
+itself, in its own introduction, for the two prior ligands: 6-MP *"was found to require the N‐terminal
+activation function 1 (AF‐1) of NOR‐1 for activity and **does not bind to the ligand binding domain
+(LBD)**"*, whereas PGA2 *"weakly activates NOR‐1 **through direct interaction with its LBD**."*
+
+⇒ **NOR-1 carries two separable transactivation modules, and the fusion deletes only one of them.** The
+AF-1 deletion is therefore **not** by itself a defeater for LBD-directed modulation of EWSR1::NR4A3.
+
+⚠ **Four limits travel with this, and the first is a correction of how the finding has been relayed.**
+
+1. ⚠ **The construct is `hinge + LBD`, NOT `LBD` alone.** The repo has been relaying this as
+   *"Gal4-NOR-1-LBD"*, which is the plasmid's *name*; its *contents*, verbatim, include the **hinge
+   region**. Nothing in the paper localises any hit to the LBD as against the hinge. The correct
+   statement is **"the site lies within hinge+LBD"** — still entirely outside the AF-1, so the
+   adjudication above is unaffected, but a claim scoped to "the LBD" is one residue-range wider than the
+   evidence.
+2. ⛔ **The site is unassigned, and the authors say only that two hits differ.** Competition is the sole
+   site evidence: *"Competition experiments suggested different binding sites … pointing to
+   non‐competitive behavior and thus independent binding of the agonist 3 and the inverse agonist 1."*
+   No site is named for any compound. **`R4` — does anything bind the *opened cryptic Pocket-5* — is
+   untouched by this paper.**
+3. ⛔ **No purified protein and no biophysical binding measurement exists anywhere in it.** Every readout
+   is a cell-based luciferase reporter or a qPCR. There is therefore **no published precedent for a
+   purified-protein biophysical assay on NR4A3 at all** (owned by
+   [`what-a-civilian-can-buy.md`](../manuscripts/what-a-civilian-can-buy.md) §1.3).
+4. ⚠ **The paper's own framing of the pocket is a challenge, not a support:** *"NOR‐1 … **lacks an
+   accessible pocket in the canonical ligand binding region of nuclear receptors**, its transcriptional
+   activity mainly depends on its expression level."* That is the occluded-canonical-pocket view this
+   document already meets head-on above; it is quoted here so the source is not read as endorsing our
+   structural mechanism, which it does not.
+
+⚠ **And the one caveat that is about the FUSION rather than the paper.** A Gal4 chimera has **no
+competing transactivation domain**, so it is maximally sensitive to LBD-borne activity; EWSR1's
+low-complexity region is a strong, independently-acting activator. *"Occupancy changes output"* is
+established **for that chimera**, not for EWSR1::NR4A3. That is a functional cell assay, not an in-silico
+question, and it is graded as a route blocker in
+[`nr4a3-monovalent-pocket-route.md`](../manuscripts/nr4a3-monovalent-pocket-route.md) §2.3, which owns it.
+
+*Provenance: quoted from PMC9542104 fetched read-only on a CI runner (run 30858114744, corpus
+[`lit-targets-nr4a3-lbd-vs-af1.json`](../manuscripts/lit-targets-nr4a3-lbd-vs-af1.json) →
+`literature-cache:literature/nr4a3-lbd-vs-af1/`). Its body is byte-identical to the independent
+2026-08-03 `civilian-purchasing` fetch of the same article, so two separate retrievals agree.*
+
+### 5b. ⛔ CITATION CORRECTION — "Munck 2022" NAMES NO PAPER. THE SOURCE IS ZAIENNE 2022
+
+**⛔ SUPERSEDED ATTRIBUTION, RETAINED SO IT STAYS QUOTABLE AND SEARCHABLE: "Munck 2022", and
+"Munck JM et al. *Druggability Evaluation of NOR-1 Reveals Inverse NOR-1 Agonists* (2022)".** Five files
+carried it with **no PMID**: [`../IDEAS.md`](../IDEAS.md),
+[`emc-treatment-roadmap.md`](../manuscripts/emc-treatment-roadmap.md),
+[`degrader-vs-synthetic-lethal.md`](../manuscripts/degrader-vs-synthetic-lethal.md),
+[`target-route-options.md`](../manuscripts/target-route-options.md) and
+[`nr4a3-degrader-design-spec.md`](./nr4a3-degrader-design-spec.md). **Do not cite it as current.**
+
+**Measured, not inferred** — three index queries, all run in CI on 2026-08-03 (run 30858114744):
+
+| query | index | result |
+|---|---|---|
+| `AUTH:"Munck" AND (NR4A3 OR "NOR-1" OR "NOR1")` | Europe PMC | **hitCount 0** |
+| `AUTH:"Munck" AND "nuclear receptor" AND PUB_YEAR:2022` | Europe PMC | **hitCount 0** |
+| `Munck[Author] AND (NR4A3 OR "NOR-1")` | PubMed E-utilities | **count 0** — *"No items found."* |
+| `TITLE:"Druggability Evaluation" AND TITLE:"NOR-1"` | Europe PMC | **exactly 1 hit — PMID 35704774**, *"Zaienne D, Arifi S, Marschner JA, Heering J, **Merk D**."* |
+
+⇒ **No paper by any author named Munck exists on NR4A3/NOR-1 in either index, and the title the repo
+attributed to "Munck" resolves uniquely to Zaienne 2022.** It is a wrong author name on the single paper
+the entire warhead lane is anchored to — the same paper this document has cited correctly since
+2026-07-05. **The correct citation, which every corrected site now carries with its PMID so the error
+cannot regress silently:**
+
+> **Zaienne D, Arifi S, Marschner JA, Heering J, Merk D.** *Druggability Evaluation of the Neuron Derived
+> Orphan Receptor (NOR-1) Reveals Inverse NOR-1 Agonists.* **ChemMedChem** 2022;17(16):e202200259.
+> **PMID 35704774**; PMC9542104; doi 10.1002/cmdc.202200259.
+
+⚠ **A second, smaller correction inside the first:** the author list relayed elsewhere in this repo stops
+at four names. **Merk D is the fifth author and the corresponding author**, and is now included above.
+
+⚠ **Recorded as a finding in its own right, because it has a cost.** Route 5 was demoted to Tier 3 partly
+for having no experimental anchor, while the field's one positive NR4A3 ligand-discovery result sat in
+[`../IDEAS.md`](../IDEAS.md) under a name that matches no paper and therefore could not be looked up. **A
+mis-attributed citation is not merely untidy — it makes evidence the repo already holds unfindable to its
+own future sessions.** Guarded against regression by
+[`tests/test_munck_attribution_retired.py`](./tests/test_munck_attribution_retired.py), which fails if
+`Munck` reappears outside the retention notices that make it quotable.
+
 **Recent (2023–2025) NR4A work brackets our druggability claim — one challenge, two supports.** *(Challenge.)*
 The vidofludimus/Nurr1 structure-guided study (Sturm/Willems, *Commun Chem* 2025) reaffirms the **canonical**
 NR4A pocket is "filled with bulky hydrophobic residues" and instead modulates the receptor through an
@@ -254,11 +359,15 @@ The bottleneck is **not** backbone-prediction accuracy:
 - Lanig H, et al. *In Silico Adoption of an Orphan Nuclear Receptor NR4A1.* **PLoS ONE** 10(8):e0135246
   (2015). PMC4535767; doi 10.1371/journal.pone.0135246. (MD-revealed cryptic druggable pocket in
   Nur77/NR4A1; verified 2026-06-26.)
-- Zaienne D, et al. *Druggability Evaluation of the Neuron Derived Orphan Receptor (NOR-1) Reveals Inverse
-  NOR-1 Agonists.* **ChemMedChem** 17(16):e202200259 (2022). PMC9542104; doi 10.1002/cmdc.202200259.
+- Zaienne D, Arifi S, Marschner JA, Heering J, Merk D. *Druggability Evaluation of the Neuron Derived
+  Orphan Receptor (NOR-1) Reveals Inverse NOR-1 Agonists.* **ChemMedChem** 17(16):e202200259 (2022).
+  **PMID 35704774**; PMC9542104; doi 10.1002/cmdc.202200259.
   (Merk group. **Experimental NR4A3/NOR-1 ligandability** — fragment screen (<1 % hit), 3 chemotypes, one →
-  low-µM inverse agonist altering NOR-1 gene expression in cells. Verified 2026-07-05; full author list to
-  collate before submission.)
+  low-µM inverse agonist altering NOR-1 gene expression in cells. Verified 2026-07-05; **full author list
+  collated 2026-08-03** from the Europe PMC record, so the "list to collate before submission" note is
+  discharged. ⛔ **Superseded, retained: this paper was cited as "Munck 2022" / "Munck JM et al." in five
+  repo files — §5b measures that no such paper exists and owns the correction.** Construct and domain
+  adjudication: §5a.)
 - Safe S, Oany AR, Tsui WN, Lee M, Srivastava V, Upadhyay S, et al. *Orphan nuclear receptor transcription
   factors as drug targets.* **Transcription** 16:224–260 (2025). PMID 40646688; PMC12263127;
   doi 10.1080/21541264.2025.2521766. (Safe-group review; source for NR4A3-selective carboxymethyl-indole-3-

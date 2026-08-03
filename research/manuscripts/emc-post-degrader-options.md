@@ -199,7 +199,8 @@ none of them as a block.**
 | # | route | why it dropped, or why it is here |
 |---|---|---|
 | **4** | **TCIP / transcriptional chemically-induced proximity on EWSR1::NR4A3** — ⭑ **was Tier 2 #4** | **W1 is real but contingent, and P has not been run.** The TCIP authors' stated first limitation *is* the missing ligand, so they have a genuine interest — **but what we can offer is a computationally-opened cryptic pocket, not a ligand**, and `R4` (does anything bind it) is unanswered, which is precisely the gap they named. W2 needs a bespoke bivalent synthesised. **D is currently zero and one free CPU run from being non-zero** — the TCIP-configuration linker enumeration (§3, route 4) has not been executed. ⭑ **Run it, then re-grade** — this is the cheapest promotion available in the memo |
-| **5** | **Covalent probe at C397 — as a REAGENT, not a drug** — ⭑ **was Tier 2 #5, the largest drop** | ⛔ **D ≈ 0, and P is negative rather than merely absent.** Its entire value is a wet-lab readout: no thiol pKa or intrinsic reactivity is computed anywhere in this repo, and its own exposure instrument `V17` **fails its positive control**, so the in-silico half is not publishable as it stands. W2 is a bespoke synthesis — the largest ask class — and W1 has no identified group with a standing interest in an EMC covalent probe. Its earlier rank came from being *cheap for a collaborator*, which is the exact axis this memo corrected |
+| **5** | **Covalent probe at C397 — as a REAGENT, not a drug** — ⭑ **was Tier 2 #5, the largest drop; RE-EXAMINED 2026-08-03 against the published NR4A3 hits and HELD at Tier 3** | ⛔ **D ≈ 0, and P is negative rather than merely absent.** Its entire value is a wet-lab readout: no thiol pKa or intrinsic reactivity is computed anywhere in this repo, and its own exposure instrument `V17` **fails its positive control**, so the in-silico half is not publishable as it stands. W2 is a bespoke synthesis — the largest ask class — and W1 has no identified group with a standing interest in an EMC covalent probe. Its earlier rank came from being *cheap for a collaborator*, which is the exact axis this memo corrected. ⭐ **HELD after adjudication (§3, route 5a): the published NR4A3 hits do not rescue this row, because they answer a different question** — a cell reporter on a `hinge+LBD` chimera, no purified protein, no biophysics, site unassigned, and nothing about C397, thiol pKa or reactivity. **The instruments this demotion rests on are untouched by them** |
+| **16** | ⭑ **Monovalent LBD pocket modulation — a molecule that only OCCUPIES the pocket** *(NEW row 2026-08-03; memo: [`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md))* | ⭐ **A SEPARATE ROW ON PURPOSE, AND THE SEPARATION IS THE POINT.** Until now C397's *third framing* was described only inside route 5's detail section, so route 5's demotion read as covering it. It does not, and cannot: **route 5's demotion rests on `V17` — a CYSTEINE-EXPOSURE criterion — failing its own positive control, and on no thiol pKa or intrinsic reactivity being computed. The non-covalent sub-form of this route has no cysteine, so none of that reaches it.** ⛔ **It lands in Tier 3 anyway, on its OWN grounds and they are different ones:** its two sub-forms fail on opposite blockers (non-covalent inherits the ~1 kcal/mol ΔΔG in full; covalent's categorical escape is measured shut by the $0 paired reach enumeration — 37 corridors lost, 0 kept, 0 gained), and it carries a make-or-break **no other LBD route has**: the LBD must be a functional handle *in the chimera*. ★ **One sub-question genuinely promoted, verbatim-verified:** the AF-1 deletion is **not** a defeater (§3, route 5a) |
 | **7** | **SSTR2 / neuroendocrine theranostic** — ⭑ **was Tier 2 #7** | **W2 is the smallest imaginable (an approved scan) and W1 is the problem.** Ordering ⁶⁸Ga-DOTATATE needs a clinician **with an EMC patient**; that is not a group wanting a result for its own reasons, it is the hardest access class in the memo. **D ≈ 0:** [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md) already exists and already records SSTR2 as unmeasured in EMC, so nothing further is computable and no new document falls out. ⚠ The route is not refuted — a negative scan still kills it cheaply, and it stays on the ask list |
 | 8 | RIPTAC (bind-the-tumour-protein, poison an essential one) | needs paralogue selectivity *and* a medicinal-chemistry campaign — strictly worse than route 4 on both |
 | 9 | CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown | delivery, and Cas13 collateral activity |
@@ -618,7 +619,9 @@ own positive control.
 
 **⭑ And that last clause is now the ranking, not a footnote. Tier 2 → Tier 3.** *(Superseded, kept
 quotable: the first ranking's* **"its rank RISES here for one reason … the cheapest form of that
-experiment for a collaborator"** *.)* The sentence "the cheapest form of that experiment **for a
+experiment for a collaborator"** *.)* ⭐ **RE-EXAMINED 2026-08-03 against the published NR4A3 ligand
+campaign and HELD — see [route 5a](#route-5a--the-published-nr4a3-hits-adjudicated-they-do-not-rescue-route-5-because-they-answer-a-different-question),
+which also splits this row from the monovalent one.** The sentence "the cheapest form of that experiment **for a
 collaborator**" names the defect exactly: the whole promotion was an Axis-W judgement about somebody
 else's cost.
 
@@ -661,6 +664,112 @@ of its findings bear on this row:
    residue.** An intact-mass covalent-probe experiment on the catalogue protein would therefore be
    blind to the handle this row exists for. That **strengthens the demotion above** rather than merely
    accompanying it.
+
+---
+
+### Route 5a — THE PUBLISHED NR4A3 HITS, ADJUDICATED: they do not rescue route 5, because they answer a DIFFERENT QUESTION
+
+**Why this section exists.** Two findings in this repo pointed in opposite directions and neither had the
+other. **(A)** Route 5 was demoted above because its in-silico half is *unreadable* — `V17` fails its own
+positive control and no thiol pKa or intrinsic reactivity is computed anywhere here. **(B)** A published
+screen returned a clear **positive** on this exact protein: <1 % hit rate, three chemotypes, a low-µM
+inverse agonist. If (B) is about (A)'s question, the demotion is wrong. **It is not**, and the reason is
+specific rather than dismissive.
+
+#### ⭑ First: (B) is evidence this repo ALREADY HELD, under a name that matched no paper
+
+The screen is **Zaienne et al., *ChemMedChem* 2022;17(16):e202200259, PMID 35704774, PMC9542104** — and
+[`../IDEAS.md`](../IDEAS.md) has recorded it since long before this memo, as *"NR4A3-specific warhead
+starting points exist (inverse NOR-1 agonists, **Munck 2022**)"*. **There is no Munck 2022.** Measured in
+CI on 2026-08-03 against two indexes: `AUTH:"Munck" AND (NR4A3 OR "NOR-1")` returns **0** in Europe PMC,
+`Munck[Author]` returns **0** in PubMed, and the title resolves **uniquely** to Zaienne. The full
+correction is registered once, in
+[`nr4a3-druggability-reconciliation.md` §5b](../modalities/nr4a3-druggability-reconciliation.md), with the
+superseded attribution retained and quotable and a test pinning it.
+
+⚠ **That is a finding in its own right and it belongs in this memo, not only in a citation register.**
+Route 5 was demoted partly for having **no experimental anchor** — while the field's one positive NR4A3
+ligand-discovery result sat two documents away under a name a future session could not look up.
+[`target-route-options.md`](./target-route-options.md)'s reference table even carried the *same paper as
+two separate rows*, "Zaienne 2022" and "Munck 2022", which is what a misattribution looks like once it has
+propagated. **A mis-cited source is evidence the repo holds and cannot find**, and this is the cost, made
+concrete.
+
+#### ⭐ Second, and it is the discriminating question: LBD or AF-1? — **LBD (strictly, `hinge+LBD`), verbatim**
+
+This matters more here than anywhere else in the memo, because **Tier 4 closes 6-mercaptopurine on exactly
+this axis**: 6-MP acts through the AF-1, and the fusion replaces NR4A3's AF-1 (1–260) with EWSR1's
+low-complexity region. If the published hits were also AF-1-borne, they would say nothing about the disease
+protein and route 5 would stay demoted *and* the monovalent framing would be dead. **They are not.** From
+the paper's own Experimental Section:
+
+> *"the Gal4‐NOR‐1 fusion receptor plasmid **pFA‐CMV‐hNOR‐1‐LBD coding for the hinge region and LBD of the
+> canonical isoform of NOR‐1**"*
+
+and its Results:
+
+> *"a chimeric receptor composed of the **human NOR‐1 LBD and the Gal4 DNA binding domain from yeast**."*
+
+**The AF-1 is not in the construct.** Every IC₅₀, EC₅₀ and SAR point in that paper — and the NCoR1/SMRT
+mechanism work, which uses the same plasmid — was measured on it. The paper draws the distinction itself,
+for the two prior ligands: 6-MP *"was found to require the N‐terminal activation function 1 (AF‐1) of NOR‐1
+for activity and **does not bind to the ligand binding domain (LBD)**"*, whereas PGA2 *"weakly activates
+NOR‐1 **through direct interaction with its LBD**."*
+
+⇒ ★ **The AF-1 deletion is not, by itself, a defeater for LBD-directed modulation of EWSR1::NR4A3.** The
+receptor has two separable transactivation modules and the fusion deletes only one. ⚠ **One sharpening the
+repo had not made:** the construct is **`hinge + LBD`**, which is the plasmid's *contents*, not
+"Gal4-NOR-1-LBD", which is its *name*. Nothing localises any hit to the LBD as against the hinge, so the
+honest scope is `hinge+LBD` — wider than the repo has been saying, and still entirely outside the AF-1, so
+the adjudication holds. Quotes, limits and provenance are owned by
+[`nr4a3-druggability-reconciliation.md` §5a](../modalities/nr4a3-druggability-reconciliation.md); they are
+not restated elsewhere.
+
+#### ⛔ Third: why that does NOT move route 5 — the four things the demotion rests on, and what the paper says about each
+
+**Route 5 asks a *reagent* question — "can a covalent probe at C397 report that something binds the opened
+cryptic Pocket-5?" — and its demotion was about instruments, not about enthusiasm.**
+
+| what route 5's demotion rests on | what Zaienne 2022 contributes | net |
+|---|---|---|
+| `V17`, the exposure criterion, **fails its own positive control** (NR4A1 Cys551) | nothing — a luciferase reporter measures no residue's solvent accessibility | **unmoved** |
+| **no thiol pKa, intrinsic electrophile reactivity, adduct stability or chemoproteomic selectivity** is computed anywhere in this repo | nothing — the paper contains no covalent chemistry and never mentions C397 | **unmoved** |
+| `R4` — *does anything bind the **opened cryptic Pocket-5*** | ⛔ **the site is unassigned.** The only site evidence is competition: *"Competition experiments suggested different binding sites … pointing to non‐competitive behavior and thus independent binding of the agonist 3 and the inverse agonist 1."* No site is named for any compound | **unmoved** |
+| the readout would need **purified protein + intact mass** | ⛔ **the campaign used no purified protein and made no biophysical binding measurement at all.** Every readout is a cell reporter or qPCR — so there is *no* published precedent to copy | **unmoved, arguably worse** |
+
+⇒ ⛔ **VERDICT: the published hits answer a DIFFERENT question, so route 5 is HELD at Tier 3.** They
+establish that NOR-1's `hinge+LBD` is **ligandable and functionally modulable in cells**. Route 5 needs
+something else entirely: that a *specific cysteine* is exposed and reactive, and that a probe would report
+on a *specific modelled pocket*. **Empirical evidence outranks an unreadable instrument only when it is
+evidence about the same thing**, and this is not.
+
+⚠ **One thing it DOES change, and it is a correction of a stated reason rather than of a verdict.**
+[`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md) §1.2 closes the cheap site-localisation route
+because *"For NR4A3's cryptic Pocket-5 there is no known binder"*, which the competition-with-a-known-binder
+method requires. Strictly, a known **NOR-1 binder** now exists — Zaienne compound 19, with measured
+functional IC₅₀s and cellular target engagement. The circularity still holds, but **for a sharper reason
+that is worth having right**: competing against compound 19 would establish *"same site as 19"*, and 19's
+own site is unassigned. So it localises to an unknown, which is not a localisation. **The verdict is
+unchanged; the reason is now exact.** That memo owns the verdict and this is a pointer, not a re-ranking.
+
+#### ⭐ Fourth: ONE ROW OR TWO? — **TWO, and route 5's demotion must not be read onto the other**
+
+| | **route 5** — covalent probe at C397 | **route 16** — monovalent pocket modulation |
+|---|---|---|
+| **what the object is** | a **reagent**: an irreversible adduct read by intact mass | a **drug**: a molecule that changes what the fusion does by occupancy |
+| **what it must show** | *something binds Pocket-5* (`R4`) | *occupancy changes output, in the chimera* |
+| **evidence base** | reach geometry + `V17` + reactivity — **all absent or unreadable** | the Zaienne functional result + the ΔΔG selectivity requirement |
+| **does `V17`'s failure reach it?** | ⛔ **yes — it is the demotion** | ⚠ **only the covalent sub-form. The non-covalent sub-form has no cysteine** |
+| **does the AF-1 adjudication reach it?** | ⚠ barely — a probe needs only to *bind* | ★ **yes, decisively, and favourably** |
+
+⭐ **They share exactly one instrument — reach geometry — and only for route 16's covalent sub-form.** A
+covalent probe and a reversible functional modulator are different objects with different evidence bases,
+and until 2026-08-03 the repo carried the second **only inside this row's detail section**, which is
+precisely the shape in which one demotion gets silently applied to two routes. **Route 16 is now its own
+row in [§2](#2--the-ranked-list)**, graded on its own grounds, and it lands in Tier 3 for reasons that have
+nothing to do with `V17`: its two sub-forms fail on opposite blockers, and it carries a make-or-break no
+other LBD route does. ⚠ **Same tier, different reasons — and that distinction is the whole content of this
+subsection.**
 
 ---
 
@@ -1000,6 +1109,31 @@ Tier 3 and their renumbering; nothing was removed from either.
 | **4** TCIP | Tier 2 #4 | **Tier 3** | **D = 0 today**, and one free CPU run from moving. W1 is real but contingent on `R4`, which is unanswered |
 | **5** covalent probe | Tier 2 #5 | **Tier 3** | **D ≈ 0 and P negative** — its own exposure instrument fails its positive control, so the in-silico half is not readable |
 | **7** SSTR2 | Tier 2 #7 | **Tier 3** | **W1** — the smallest possible ask, and no taker who is not a clinician with an EMC patient. **D ≈ 0** |
+
+### 6.4 · ⭐ The 2026-08-03 re-examination against the published NR4A3 hits — what was retained
+
+*★ Same appendix discipline as §6.1–§6.3: the earlier statements stay quotable and stay OUT of the live
+text. ⛔ Do not cite anything in this subsection as current.*
+
+**What was re-examined and why.** Route 5 was demoted to Tier 3 above (§6.3) on the grounds that its
+in-silico half is unreadable. Separately, a published screen returned a clear positive on this protein.
+Neither finding had the other. The adjudication is
+[route 5a](#route-5a--the-published-nr4a3-hits-adjudicated-they-do-not-rescue-route-5-because-they-answer-a-different-question);
+this is the register of what it superseded.
+
+| # | superseded, retained so it stays quotable | what replaced it |
+|---|---|---|
+| **1** | ⛔ **"Munck 2022"** and **"Munck JM et al. *Druggability Evaluation of NOR-1 Reveals Inverse NOR-1 Agonists* (2022)"** — the attribution five repo files carried, always without a PMID, for the NR4A3 warhead anchor | **Zaienne D, Arifi S, Marschner JA, Heering J, Merk D.** *ChemMedChem* 2022;17(16):e202200259, **PMID 35704774**. Measured in CI: 0 hits for any author Munck on NR4A3/NOR-1 in Europe PMC *or* PubMed. One home: [`nr4a3-druggability-reconciliation.md` §5b](../modalities/nr4a3-druggability-reconciliation.md) |
+| **2** | ⚠ **"the published result used a Gal4-NOR-1-LBD construct"** — the repo's relay of the construct, which is the plasmid's *name* | **`pFA-CMV-hNOR-1-LBD`, *"coding for the hinge region and LBD"*** — the scope is **`hinge+LBD`**, one range wider. The AF-1 adjudication is unaffected; a claim scoped to "the LBD" is wider than the evidence |
+| **3** | ⚠ **the reference-table entry listing four authors** (Zaienne, Arifi, Marschner, Heering), and the note *"full author list to collate before submission"* | five authors, **Merk D** corresponding; the collation note is discharged |
+| **4** | ⚠ **[`target-route-options.md`](./target-route-options.md)'s reference table carrying the SAME paper as two rows** — "Zaienne 2022" and "Munck 2022" | one merged row, with the PMID and a retention note. Retained because it is the clearest single demonstration of what a misattribution costs |
+| **5** | ⚠ **the monovalent route existing only inside route 5's detail section**, so that route 5's Tier-3 demotion read as covering it | **route 16, its own row in [§2](#2--the-ranked-list)**, Tier 3 on its own grounds. `V17` is a cysteine-exposure criterion and does not reach a non-covalent occupier |
+| **6** | ⚠ *(not superseded, sharpened)* [`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md) §1.2's reason that competition-based site localisation is closed because **"there is no known binder"** | a known NOR-1 binder does exist (compound 19). The circularity holds for a sharper reason: competing against 19 gives *"same site as 19"*, and 19's site is unassigned. **That memo owns the verdict; only its reason is refined** |
+
+⚠ **What did NOT change.** Route 5's tier. It was demoted on instruments — `V17` failing its own positive
+control, and no thiol pKa or intrinsic reactivity computed anywhere in this repo — and a cell-based
+reporter assay with no purified protein, no biophysics and an unassigned site moves none of them. **The
+published hits are a positive answer to a question route 5 does not ask.**
 
 ⚠ **What did NOT change, and must not be inferred from the above.** Every Tier-3 and Tier-4 entry
 from routes 8–15 keeps its grounds and its reasoning; the two Tier-4 closures stand on their cited
