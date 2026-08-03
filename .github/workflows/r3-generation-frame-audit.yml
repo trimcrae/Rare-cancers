@@ -1,0 +1,93 @@
+name: R3 — frame-level generation-receptor dependency audit (Gate A)
+
+# $0. CPU-only ubuntu-latest, no GPU, no rental, nothing to tear down. It LISTS the release-druggable S3
+# prefix and reads one small JSON manifest, then classifies the result with the pure logic in
+# research/modalities/r3_generation_frame_audit.py and commits the artifact.
+#
+# WHAT IT SETTLES. The paper carries an open SUBMISSION gate: the harmonized pocket rerun "must additionally
+# confirm that the exact release-derived frame used to generate `denovo_401` still qualifies as the same
+# mapped orthosteric site and still exceeds D*", and "if the generation frame does not qualify, the
+# generation receptor -- not merely a reported frame-fraction -- is affected." The committed harmonized
+# artifact cannot discharge that, and the reason is stronger than the paper states: the generation receptor
+# was never an ENTRY in the rerun at all (sagemaker_src/entry_pocket_reharmonize.py scores af2_static,
+# calibration, 8xtt, metad and release_rep0..2 -- there is no release_druggable entry, although
+# nr4a3_pocket_reharmonize.detection_from_result implements that kind and the redesign brief's own rerun
+# list ends with "exact generation receptor frame").
+#
+# ⚠ THIS JOB CAN RETURN A REFUSAL, AND A REFUSAL IS THE DELIVERABLE WHEN IT DOES. Four verdicts:
+# DISCHARGED_PASS / DISCHARGED_FAIL / FRAME_NAMED_UNSCORED (the manifest names the frame but recorded a
+# LEGACY-mode score -- pocket_tracking.match_mode defaults to LEGACY and release-druggable-aws.yml sets no
+# POCKET_MATCH) / FRAME_NOT_RECOVERABLE. It never substitutes a nearby frame for the real one.
+#
+# ⚠ IT LISTS BEFORE IT READS, so "the collector could not read it" stays distinguishable from "it is not
+# there" (CLAUDE.md §4: an absent reading is not a reading of absence). The full listing goes into the
+# artifact either way.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bucket:
+        description: "S3 bucket holding the Step-0 receptor outputs"
+        default: "sagemaker-us-east-2-646605541856"
+        required: false
+      prefix:
+        description: "S3 prefix for the release-druggable receptor manifest"
+        default: "nr4a3-release-druggable"
+        required: false
+      region:
+        description: "AWS region"
+        default: "us-east-2"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -q boto3
+      - name: Audit the generation frame
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ github.event.inputs.region }}
+        run: |
+          set -eo pipefail
+          python research/modalities/r3_generation_frame_audit.py \
+            --bucket "${{ github.event.inputs.bucket }}" \
+            --prefix "${{ github.event.inputs.prefix }}"
+      - name: Verdict LAST
+        run: |
+          set +e
+          echo "================ R3 GENERATION-FRAME AUDIT ================"
+          python -c "
+          import json
+          d = json.load(open('research/modalities/r3-generation-frame-audit.json'))
+          v = d['verdict']
+          print('VERDICT :', v['verdict'])
+          print('REASON  :', v['reason'])
+          print('FRAME   :', json.dumps(v.get('frame_id')))
+          print('SCORE   :', v.get('score'), ' MODE:', v.get('mode'), ' D*:', d['d_star'])
+          if v.get('unblocker'): print('UNBLOCK :', v['unblocker'])
+          if v.get('reaches'):   print('REACHES :', v['reaches'])
+          c = d['reharmonize_coverage']
+          print('HARMONIZED RERUN COVERS THE GENERATION RECEPTOR:', c['covered'])
+          print('  rows scored:', c['rows'])
+          print('  missing kind:', c['missing_kind'])
+          l = d['s3_listing']
+          print('S3 LISTING: n_keys=%s error=%s' % (l.get('n_keys'), l.get('error')))
+          "
+      - name: Publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "R3 frame-level generation-receptor dependency audit (CI, \$0)" \
+            research/modalities/r3-generation-frame-audit.json
