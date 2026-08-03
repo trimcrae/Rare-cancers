@@ -1,0 +1,43 @@
+{
+  "_what": "Map edits owed by the 2026-08-03 revision of path-family-synthesis.md. §10 and §13 both point at the synthesis; neither restates a figure it does not own (CLAUDE.md rule 1, roadmap invariant 6).",
+  "_owner": "research/manuscripts/path-family-synthesis.md",
+  "_cost": "$0 — analysis of committed artifacts only. No GPU, no rental, nothing dispatched.",
+  "_why_routed_and_not_applied_by_hand": "Six agents are suspended mid-work on lanes that read nr4a3-program-map.md. Every edit below is grep -F verified to match the LIVE document exactly once and is applied through route_map_edits.py, which refuses an anchor it cannot locate exactly once rather than guessing. That is the mechanism the three 2026-08-02/03 dead-anchor incidents produced.",
+  "_anchor_contract": "current_text is verified against research/manuscripts/nr4a3-program-map.md at HEAD of claude/nr4a1-protac-positive-control-xnszjl, count == 1 for each. proposed_text is current_text plus an appended pointer; no existing sentence is rewritten, and no number is typed.",
+  "_what_this_deliberately_does_NOT_do": [
+    "It does not change a gate, a price, a rung, a status, a claim ceiling or an Open decision. An options register amends nothing (§0.8).",
+    "It does not re-rank §10.1. The synthesis's ordering is a planning view over the roadmap's rows, not a replacement for them, and where the two disagree the roadmap binds.",
+    "It does not decide the framing. §13 is deliberately open and stays open; the synthesis elaborates the candidates so the decision is makeable, and explicitly records that no §10.1 row waits on it.",
+    "It does not restate any figure. Every number stays in the artifact that owns it."
+  ],
+  "n_edits": 2,
+  "map_edits_required": [
+    {
+      "id": "E1",
+      "section": "10.1",
+      "anchor": "### 10.1 · Open rows, ordered by what unblocks the most",
+      "current_text": "### 10.1 · Open rows, ordered by what unblocks the most\n\n| # | item | serves | state | auth | price | next action — and what it settles |",
+      "proposed_text": "### 10.1 · Open rows, ordered by what unblocks the most\n\n⭑ **A CROSS-REGISTER PLANNING VIEW OVER THIS LIST NOW EXISTS, AND IT IS A QUEUE RATHER THAN A DISCUSSION (2026-08-03).** [`path-family-synthesis.md`](path-family-synthesis.md) ranks the five options registers' rows against each other and gives each of its top rows a **single next action, a cost, what it settles and its falsifier**, so a session can start at the top without reading five files. ⚠ **It amends nothing here** — per [§0.8](#08--the-six-options-registers--what-they-own-and-the-one-thing-they-may-never-do) an options register owns its numbers and this page owns the claim, the state and the pointer; where its ordering and this list's disagree, **this list binds**. Three things in it bear on rows below and are recorded so they are not re-derived: **(a)** it carries the `R3`/`R5` inheritance **row by row** rather than as a footnote, and separates the two — the frame failing and the site/pose being unsettled are different dependencies and had been conflated; **(b)** it reports two `$0` findings this page's rows do not yet carry — rung `5b-T`'s assembled-inputs artifact does not parse, with the cause diagnosed at source, and the row-4 site question re-asked in regime; **(c)** it records that the highest-value startable item is no longer a mechanism but an **instrument repair that gates a number already in print**. Its own superseded ranking is retained inside it rather than dropped.\n\n| # | item | serves | state | auth | price | next action — and what it settles |",
+      "why": "the synthesis was revised 2026-08-03 from a ranking into an actionable queue, and §10 had no pointer to it at the point where a reader chooses what to do next — only §0.8's index row, which describes it as 'a reader's guide'. That description is now wrong in a way that hides work.",
+      "artifact": "research/manuscripts/path-family-synthesis.md"
+    },
+    {
+      "id": "E2",
+      "section": "13",
+      "anchor": "[`paper-framing-options.md`](paper-framing-options.md), which owns every grade and every figure below.",
+      "current_text": "[`paper-framing-options.md`](paper-framing-options.md), which owns every grade and every figure below.",
+      "proposed_text": "[`paper-framing-options.md`](paper-framing-options.md), which owns every grade and every figure below.\n\n⭑ **AND THE CHOICE IS NOW MAKEABLE RATHER THAN MERELY REGISTERED (2026-08-03).** [`path-family-synthesis.md` §5](path-family-synthesis.md#5--the-paper-framing-question--elaborated-because-it-is-a-genuine-fork) states each of the seven framings with **what already supports it, what it still needs, and what the 2026-08-03 results did to it** — which the register, written the day before, could not. Three of those movements matter here and none of them is a decision: the **known-answer audit** framing was *strengthened* by two more known-answer tests completing against published numbers; the **target-enablement dossier** had one named blocker discharged and one deepened, so it is a rewrite rather than a lift; and the **candidate paper**'s sole carried molecule took three independent hits in one day. ⚠ **That last one does not make the candidate work wrong — it makes the title harder to defend**, which is the observation point 3 above already records. ⛔ **Nothing about this changes what this section says: the framing is still OPEN, still trimcrae's, and still not a gate on any row of [§10.1](#101--open-rows-ordered-by-what-unblocks-the-most)** — the synthesis states that explicitly too, and none of its Tier-1 rows waits on it.",
+      "why": "§13 registers the question and points at the options file, but the options file predates a day of results that move three of its seven framings. A framing register that is stale is exactly the drift §13 exists to prevent, and the pointer needs to reach the current view.",
+      "artifact": "research/manuscripts/path-family-synthesis.md"
+    }
+  ],
+  "verification": {
+    "anchors_verified_against": "research/manuscripts/nr4a3-program-map.md",
+    "method": "literal str.count() == 1 for every current_text, run against the live file immediately before routing",
+    "apply_with": "python3 research/manuscripts/route_map_edits.py research/manuscripts/path-family-synthesis-map-edits.json --apply",
+    "post_apply_checks": [
+      "python3 research/manuscripts/lint_consistency.py  → 0 ERROR",
+      "python3 research/manuscripts/lint_claims.py       → 0 ERROR"
+    ]
+  }
+}
