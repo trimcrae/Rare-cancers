@@ -96,7 +96,12 @@ def build_probe(proposed, current, min_chars=None, max_chars=None):
     start, end = _introduced_span(proposed, current)
     if end <= start:
         return "", False                      # a pure deletion introduces nothing probeable
-    while (end - start) < min_chars and (start > 0 or end < len(proposed)):
+    # ⚠ THE LOOP MUST MEASURE WHAT IT WILL ACTUALLY USE, i.e. the STRIPPED window (measured 2026-08-03,
+    # caught by routing the C24 edits twice). Widening on the raw slice length and stripping afterwards
+    # let a 25-character window become a 23-character probe — one below the floor — so `discriminating`
+    # came back False and an edit that HAD landed was reported as a DEAD ANCHOR. Milder than a false
+    # APPLIED, and still wrong: it turns a correctly-applied edit into a red guard.
+    while len(proposed[start:end].strip()) < min_chars and (start > 0 or end < len(proposed)):
         if start > 0:
             start -= 1
         if end < len(proposed):
@@ -128,8 +133,25 @@ def verify(edits, map_path=None):
             e["anchor_why"] = why
             out.append(e)
             continue
-        n_anchor = text.count(e.get("anchor", "\0"))
-        n_current = text.count(e.get("current_text", "\0"))
+        # ⛔ `current_text: null` IS A CONTRACT, NOT A BUG — `route_map_edits.py`'s own docstring says so
+        # (a DERIVED count must be regenerated, never typed, so the edit is deliberately unanchored). But
+        # `text.count(None)` raises TypeError, and `verify()` runs over EVERY edit before the router's own
+        # `cur is None` branch is reached — so one deferred edit took the whole routing pass down with a
+        # traceback, and every other edit in that artifact went unapplied. Measured 2026-08-03 on a live
+        # block. An unanchored edit is now reported as UNANCHORED and skipped, which is what the contract
+        # already said it was.
+        anchor_s, current_s = e.get("anchor"), e.get("current_text")
+        if not isinstance(current_s, str) or not isinstance(anchor_s, str):
+            e["anchor_status"] = "UNANCHORED"
+            e["anchor_occurrences"] = None
+            e["current_text_occurrences"] = None
+            e["anchor_why"] = ("this edit carries no anchor and/or no current_text — deferred by design "
+                               "(a derived count is regenerated, never typed), so there is nothing to "
+                               "locate and nothing to apply")
+            out.append(e)
+            continue
+        n_anchor = text.count(anchor_s)
+        n_current = text.count(current_s)
         # ⚠ THE PROBE IS THE PART OF `proposed_text` THAT IS NOT ALREADY IN `current_text`, AND THAT
         # DISTINCTION IS LOAD-BEARING (2026-08-03, caught on live data before it did damage).
         # Many edits APPEND rather than replace — `proposed_text == current_text + " ✅ new clause"`.
