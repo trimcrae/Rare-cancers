@@ -149,6 +149,25 @@ class TestHomologyIsMeasured(unittest.TestCase):
         pct, _ = m.pairwise_identity(a, b)
         self.assertLess(pct, m.PREREG["identity_min_percent"])
 
+    def test_the_pure_python_fallback_agrees_with_biopython(self):
+        """⛔ A FALLBACK NOBODY CHECKED IS A SECOND, UNTESTED INSTRUMENT. The repo's own CI test job
+        installs rdkit but NOT biopython, so the fallback aligner is the one that actually runs
+        there — and a homology floor computed by a different aligner than the one the artifact
+        claims would be a silent protocol difference. Both are exercised on the same pair."""
+        import random
+        random.seed(0)
+        aa = "ACDEFGHIKLMNPQRSTVWY"
+        x = "".join(random.choice(aa) for _ in range(400))
+        y = list(x)
+        for i in range(0, 400, 7):
+            y[i] = random.choice(aa)
+        y = "".join(y)
+        nw = m._nw_identity(x, y)
+        bio, method = m.pairwise_identity(x, y)
+        if method != "biopython-global":
+            self.skipTest("biopython absent — nothing to compare the fallback against")
+        self.assertLess(abs(nw - bio), 2.0, "fallback %.2f vs biopython %.2f" % (nw, bio))
+
     def test_kmer_prefilter_can_only_lose_candidates(self):
         """The prefilter is a cheap proxy; the alignment is the evidence. Assert it is not used as
         the evidence anywhere: a pair passing the prefilter still faces the identity floor."""
