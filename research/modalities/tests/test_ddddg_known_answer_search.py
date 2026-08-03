@@ -257,5 +257,33 @@ class TestBuildCandidatesEndToEnd(unittest.TestCase):
         self.assertAlmostEqual(cands[0]["energy"]["abs_ddddG_kcal"], 1.364, places=2)
 
 
+@unittest.skipUnless(HAVE_RDKIT, "rdkit not installed in this environment")
+class TestScaffoldBucketPrefilter(unittest.TestCase):
+    """⛔ A SCAN THAT CANNOT FINISH IS A NULL THAT MEANS NOTHING. The bucket exists so the O(n^2)
+    candidate loop does not run a 5 s MCS on every pair of hundreds of shared compounds. It must
+    (a) actually cut the work and (b) lose nothing, because an identical Murcko scaffold is already
+    a required criterion."""
+
+    def test_buckets_group_by_scaffold_and_cut_the_pair_count(self):
+        smiles = {("B%d" % i): {"smiles": s} for i, s in enumerate(
+            ["Cc1ccccc1", "CCc1ccccc1", "CCCc1ccccc1"])}
+        smiles.update({("P%d" % i): {"smiles": s} for i, s in enumerate(
+            ["CN1CCNCC1", "CCN1CCNCC1"])})
+        buckets = m.scaffold_buckets(list(smiles), smiles)
+        self.assertEqual(len(buckets), 2, buckets)
+        n_pairs = sum(len(v) * (len(v) - 1) // 2 for v in buckets.values())
+        n = len(smiles)
+        self.assertLess(n_pairs, n * (n - 1) // 2)
+
+    def test_the_bucket_cannot_drop_a_pair_that_would_have_been_accepted(self):
+        """Anything in different buckets fails `identical_murcko_scaffold` anyway."""
+        smiles = {"A": {"smiles": "Cc1ccccc1"}, "B": {"smiles": "CN1CCNCC1"}}
+        buckets = m.scaffold_buckets(["A", "B"], smiles)
+        self.assertEqual(len(buckets), 2)
+        r = m.congeneric_report(smiles["A"]["smiles"], smiles["B"]["smiles"])
+        self.assertFalse(r["identical_murcko_scaffold"])
+        self.assertFalse(r["is_congeneric"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

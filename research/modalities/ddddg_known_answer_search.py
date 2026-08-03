@@ -682,6 +682,45 @@ def bindingdb_probe(tp, accession, affinity_cutoff=10000):
 # ---------------------------------------------------------------------------------------------------
 # Candidate construction and the gate
 # ---------------------------------------------------------------------------------------------------
+def scaffold_buckets(molecule_ids, smiles):
+    """molecule -> (Murcko scaffold, heavy atoms), bucketed by scaffold. Pure-ish (RDKit).
+
+    ★ WHY THIS EXISTS: WITHOUT IT THE SCAN CANNOT FINISH, AND A SCAN THAT CANNOT FINISH IS A NULL
+    THAT MEANS NOTHING. `build_candidates` is O(n^2) in the compounds measured on BOTH arms, and a
+    well-studied paralogue pair shares hundreds of them -- 500 shared compounds is 124,750 pairs,
+    each of which would otherwise run a maximum-common-substructure search with a 5 s timeout. The
+    bucket costs one scaffold computation per MOLECULE instead of one MCS per PAIR.
+
+    ⚠ AND IT LOSES NOTHING, WHICH IS THE ONLY REASON IT IS ALLOWED. An identical Bemis-Murcko
+    scaffold is already a REQUIRED criterion of `congeneric_report`, so two molecules in different
+    buckets could never have been accepted. This is a re-ordering of the same test, not a
+    relaxation of it -- unlike the k-mer homology prefilter, which is a genuine approximation and is
+    labelled as one.
+    """
+    out = {}
+    try:
+        from rdkit import Chem, RDLogger                          # noqa: PLC0415
+        from rdkit.Chem.Scaffolds import MurckoScaffold           # noqa: PLC0415
+        RDLogger.DisableLog("rdApp.*")
+    except Exception:                                             # noqa: BLE001
+        return None
+    for mid in molecule_ids:
+        smi = (smiles.get(mid) or {}).get("smiles")
+        if not smi:
+            continue
+        mol = Chem.MolFromSmiles(smi)
+        if mol is None:
+            continue
+        try:
+            scaf = Chem.MolToSmiles(MurckoScaffold.GetScaffoldForMol(mol))
+        except Exception:                                         # noqa: BLE001
+            continue
+        if not scaf:
+            continue
+        out.setdefault(scaf, []).append((mid, mol.GetNumHeavyAtoms()))
+    return out
+
+
 def build_candidates(idx, target_a, target_b, smiles, prereg=None, max_pairs=200000):
     """Every (d0, d) pair measured on BOTH arms in the SAME standard_type, scored. Pure.
 
@@ -699,11 +738,21 @@ def build_candidates(idx, target_a, target_b, smiles, prereg=None, max_pairs=200
         shared = sorted(per_t.get(target_a, set()) & per_t.get(target_b, set()))
         if len(shared) < 2:
             continue
-        for i in range(len(shared)):
-            for j in range(i + 1, len(shared)):
+        buckets = scaffold_buckets(shared, smiles)
+        if buckets is None:
+            # RDKit is absent. `congeneric_report` will refuse every pair anyway (it never degrades
+            # to a string comparison), so emit nothing rather than burn an O(n^2) loop proving it.
+            continue
+        pairs_to_test = []
+        for _scaf, members in buckets.items():
+            members.sort()
+            for i in range(len(members)):
+                for j in range(i + 1, len(members)):
+                    if abs(members[i][1] - members[j][1]) <= prereg["heavy_atom_delta_max"]:
+                        pairs_to_test.append((members[i][0], members[j][0]))
+        for d0, d in pairs_to_test:
                 if len(cands) >= max_pairs:
                     break
-                d0, d = shared[i], shared[j]
                 s0 = (smiles.get(d0) or {}).get("smiles")
                 s1 = (smiles.get(d) or {}).get("smiles")
                 if not s0 or not s1:
@@ -966,7 +1015,18 @@ def run_c01b(out_path=OUT_C01B, offline=False, tp=None):
     a_targets = [t["target_chembl_id"] for t in targets if t["accessions"][0] == accs[0]]
     b_targets = [t["target_chembl_id"] for t in targets if t["accessions"][0] == accs[1]]
 
-    mol_ids = {mid for (_t, mid, _s) in idx}
+    # ⚠ ONLY THE MOLECULES MEASURED ON BOTH ARMS IN THE SAME OBSERVABLE. Fetching SMILES for every
+    # compound either arm has ever seen is thousands of extra API calls for molecules that can never
+    # form a candidate -- the double difference needs all four values or it needs none.
+    by_type = {}
+    for (tid, mid, st) in idx:
+        by_type.setdefault(st, {}).setdefault(tid, set()).add(mid)
+    mol_ids = set()
+    for st, per_t in by_type.items():
+        a_side = set().union(*[per_t.get(t, set()) for t in a_targets]) if a_targets else set()
+        b_side = set().union(*[per_t.get(t, set()) for t in b_targets]) if b_targets else set()
+        mol_ids |= (a_side & b_side)
+    doc["n_molecules_measured_on_both_arms"] = len(mol_ids)
     smiles, sm_ok = chembl_smiles(tp, mol_ids)
     read_ok = read_ok and sm_ok
     doc["n_molecules_with_smiles"] = len(smiles)
