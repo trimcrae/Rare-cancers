@@ -3621,9 +3621,11 @@ different ways.
 | `Q17` `Q18` `Q19` | **all seven framings**, which is why they are worth doing before the framing is decided | they are the framing register's own must-fix list, minus the one already done |
 | `Q20` `Q21` | the next map edit, and any verification line quoting *"the fast six"* | ⛔ `main` is **currently red** on the two anchors `Q20` names — measured this pass, not inferred |
 
-⭑ **THE ONE STRUCTURAL FACT THAT FALLS OUT OF DRAWING THE FAMILY.** Of the 22 promoted rows, **15 are
-composers or prerequisites and only 4 are alternatives** (`Q10`, `Q12`, and the two framing/criterion forks,
-which are decisions rather than work). ⇒ **Almost nothing on this queue spends anything else.** The board has
+⭑ **THE ONE STRUCTURAL FACT THAT FALLS OUT OF DRAWING THE FAMILY — and it is DERIVED from the family column,
+not typed.** Of the 22 promoted rows, **19 are composers or prerequisites, exactly 2 are alternatives**
+(`Q10` and `Q12`, and `Q12` is *also* a prerequisite), and **1 is a data-integrity repair** (`Q13`). ⇒ **Almost
+nothing on this queue spends anything else.** The four ⚖ ALTERNATIVE **sets** above are not four sets of rows:
+**three of them contain no `Q` row at all**, because they are decisions rather than work. The board has
 read as *"which one do we pick?"* when the honest answer for most of it is *"these are additive, run them"* —
 and the genuinely exclusive choices are **three decisions, all trimcrae's**: the paper's framing, the `R3`
 re-anchor, and the anti-target recovery criterion.
@@ -3708,8 +3710,8 @@ nothing but GPU-free CPU seconds.
 #### ⭑ What picking this costs — stated as the loss, not as the benefit
 
 - ⛔ **It costs almost nothing exclusive, and that is the single most useful thing the family structure
-  showed.** 15 of the 22 promoted rows are composers or prerequisites; **the genuinely exclusive choices on
-  this board are three DECISIONS, all trimcrae's** — the paper's framing (`P1`…`P7`), the `R3` re-anchor, and
+  showed.** 19 of the 22 promoted rows are composers or prerequisites and only 2 are alternatives;
+  **the genuinely exclusive choices on this board are three DECISIONS, all trimcrae's** — the paper's framing (`P1`…`P7`), the `R3` re-anchor, and
   the anti-target recovery criterion. Starting row 4 spends none of them.
 - ⚠ **What it does cost is ORDER, not options.** `Q1`'s output is pose-conditional, so a row-4 result that
   moves the pose forces `Q1` to be restated as marginalised over poses. That is a re-run, not a loss —
@@ -3794,9 +3796,10 @@ nothing but GPU-free CPU seconds.
   readout:
   - **22 rows. All 22 are ○, all 22 carry `—` on the authorization axis, and 21 of 22 are `$0`** (the
     exception is `Q9`, `$0–cheap`). ⛔ **Not one of them needs a nod, and not one of them is running.**
-  - **15 are composers or prerequisites; 4 are alternatives; 3 are board hygiene.** ⇒ **almost nothing on the
-    queue spends anything else**, and the genuinely exclusive choices are **three decisions, all trimcrae's**
-    — the paper's framing, the `R3` re-anchor, and (new this pass) the anti-target **recovery criterion**.
+  - **19 are composers or prerequisites, 2 are alternatives (`Q10`, `Q12`) and 1 is a data-integrity repair
+    (`Q13`); 3 of the 19 are board hygiene (`Q20`–`Q22`).** ⇒ **almost nothing on the queue spends anything
+    else**, and the genuinely exclusive choices are **three decisions, all trimcrae's** — the paper's framing,
+    the `R3` re-anchor, and (new this pass) the anti-target **recovery criterion**.
   - **Of ≈53 graded options across the four registers: 19 promoted to `Q` rows · 16 already carried by a
     §10.1 row or a §6 entry · 15 left in their register with a stated reason · 3 further `Q` rows are
     board-hygiene defects found while writing** ([§10.1c](#101c--what-todays-results-did-to-the-registers-grades--and-what-was-left-behind)
