@@ -18,6 +18,20 @@
 > its answer changes what to start next, not what to tell a patient. The two routes it introduced —
 > ATR-inhibitor synthetic lethality via EMC's FET rearrangement, and trabectedin + PPARγ — are now IN the
 > table below; it also closes two routes, recorded on the [board](../IDEAS.md) and in the roadmap's §6a register.
+>
+> ⚠ **THAT MEMO'S RANKING WAS CORRECTED THE SAME DAY — quote its current tiers, not its first ones.** Its
+> original axis graded the wet-lab ask on **cheapness**, which assumes a collaborator with a bench that this
+> programme does not have; cheapness only counts conditional on a taker existing. It now grades **W1** (*is
+> there a plausible, self-interested taker?*), **W2** (*the ask's size, conditional on W1*) and ⭑ **Axis D**
+> (*what do we end up holding if the experiment never happens?*). **What moved:** the **methods paper on the
+> degrader program's own failure record** goes #3 → **#1** (a complete deliverable needing nobody); the
+> **fusion-junction ASO** holds #2; the ATR route **splits** into a Tier-1 computed assessment and a Tier-2
+> **ask** (best W1 in that memo, and not something this programme executes); **TCIP, the covalent probe and
+> SSTR2 drop to Tier 3**. ⚠ **This does not touch this capstone's Axis A or Axis B, and no route was refuted
+> or removed** — the moves are about what to *start*, which is that memo's question, not about what to tell a
+> patient, which is this one's. Superseded tiers, kept quotable:
+> [that memo's §6](./emc-post-degrader-options.md#6--appendix--the-superseded-ranking-and-what-was-wrong-with-its-axis)
+> and [STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings).
 
 **What this is.** The synthesis of the autonomous treatment-route investigation (2026-06-21/22),
 ranking every route by **likelihood of helping a real EMC patient × near-term feasibility**, with

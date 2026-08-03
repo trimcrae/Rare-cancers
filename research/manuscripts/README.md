@@ -84,13 +84,21 @@ submitted.
   EMC lines.
 
 - [`emc-post-degrader-options.md`](./emc-post-degrader-options.md) — **decision memo** (trimcrae, 2026-08-03):
-  *if the degrader cannot deliver a candidate, what does?* Ranks every route on three axes chosen from the
-  degrader program's own failure record — what we can compute with no wet lab, how cheap and decisive the
-  wet-lab ask is, and which of the program's blockers it inherits. Organising finding: **every blocking
-  failure is a property of the degrader ARCHITECTURE (ternary geometry + a ~1 kcal/mol paralogue ΔΔG), not
-  of the target**, so the ligandable pocket is an asset that survives them all and routes needing only a
-  binder inherit none of them. Introduces the **ATR-inhibitor / FET-rearrangement** route as the new #1
-  near-term candidate, the **trabectedin + PPARγ** combination, and two closures. **$0**; its literature
+  *if the degrader cannot deliver a candidate, what does?* Ranks every route on axes chosen from the
+  degrader program's own failure record — what we can compute with no wet lab (**P**), whether a
+  **self-interested taker** exists for the experiment (**W1**), the ask's size **conditional on that**
+  (**W2**), which of the program's blockers it inherits (**S**), and ⭑ **what we end up holding if the
+  experiment never happens** (**D**). Organising finding: **every blocking failure is a property of the
+  degrader ARCHITECTURE (ternary geometry + a ~1 kcal/mol paralogue ΔΔG), not of the target**, so the
+  ligandable pocket is an asset that survives them all and routes needing only a binder inherit none of them.
+  Introduces the **ATR-inhibitor / FET-rearrangement** route, the **trabectedin + PPARγ** combination, and two
+  closures. ⚠ **Its ranking was corrected the same day** — the original Axis W graded the ask on *cheapness*,
+  which assumes a collaborator this programme does not have. Current top three: the **methods paper on the
+  degrader program's failure record** (#3 → **#1**, a complete deliverable needing nobody), the
+  **fusion-junction ASO** (held #2), and the **in-silico ATR vulnerability assessment** (#3); the ATR **cell
+  panel** is presented as the ask it is, and TCIP / the covalent probe / SSTR2 drop to Tier 3. Superseded
+  tiers kept quotable in its §6 and in
+  [STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings). **$0**; its literature
   corpus is [`lit-targets-emc-post-degrader.json`](./lit-targets-emc-post-degrader.json) on `literature-cache`.
 
 ## Earlier treatment-track drafts — subsumed by the roadmap
