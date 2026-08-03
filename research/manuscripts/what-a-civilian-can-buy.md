@@ -294,12 +294,13 @@ is the wrong action for them.
 
 | tier | count | share |
 |---|---|---|
-| **(a) IN-SILICO — $0 or on the ladder** | **13** | the overwhelming majority |
+| **(a) IN-SILICO — $0 or on the ladder** | **12** | the overwhelming majority |
 | **(b) BUYABLE — passes F1 + F2 + F3** | **0** | ⛔ **empty** |
-| **(c) NEEDS A LAB WE DO NOT HAVE** | **8** | (of which **2** are (c\*) — need a clinician and a patient) |
+| **(c) NEEDS A LAB WE DO NOT HAVE** | **9** | (of which **1** is (c\*) — needs a clinician and a patient) |
 
-*(Counted over the 21 classified rows in §2.1–§2.2; `R7` is counted once in each tier it spans and the
-outward-facing approach row is not a question.)*
+*(21 tier-assignments over 20 classified rows in §2.1–§2.2: `R7` is counted once in each tier it spans,
+and the outward-facing approach row is not a question. ⚠ **Superseded, retained: 13 / 0 / 8 with 2 (c\*)**
+— typed from memory rather than counted off the tables, and corrected the same session by counting them.)*
 
 ⭑ **The buyable tier is empty. Not thin — empty.** Nothing in this repo's open-question set is
 settled by any product or service a private individual can purchase inside the three filters.
@@ -467,7 +468,7 @@ and equivalents operate the same model.
    cheapest requirement in the programme *and* it is not obtainable with money. The roadmap's own
    framing — *"carry it as the standing wet-lab dependency"* — is right; §1.6 adds the reason.
 4. ✅ **The correct response to an empty buyable tier is to spend harder on the levers that work.**
-   All 13 in-silico rows in §2.2 are ours, several are $0, and the outreach step route 1 is waiting
+   All 12 in-silico rows in §2.1–§2.2 are ours, several are $0, and the outreach step route 1 is waiting
    on costs nothing but a decision. **The binding constraint was never money; it is a collaborator,
    and it always was.**
 5. ⚠ **One narrow thing a credit card genuinely does buy: dissemination.** Preprint posting, DOIs,

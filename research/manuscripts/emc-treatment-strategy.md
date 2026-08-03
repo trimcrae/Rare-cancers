@@ -71,8 +71,8 @@ now scoped, vendor by vendor, in
 **[`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md)**, against three filters (≲$1,000 · no
 hands-on bench work · a negative that MEANS something).
 
-⛔ **The verdict is that the buyable tier is EMPTY.** Of this repo's open questions, **13 are
-in-silico, 8 need a lab we do not have, and 0 are settled by anything purchasable.** So the two paths
+⛔ **The verdict is that the buyable tier is EMPTY.** Of this repo's open questions, **12 are
+in-silico, 9 need a lab we do not have, and 0 are settled by anything purchasable.** So the two paths
 above are **not a failure of imagination about a third option — they are the complete set**, and this
 subsection exists so that is recorded once rather than re-litigated every few months.
 
