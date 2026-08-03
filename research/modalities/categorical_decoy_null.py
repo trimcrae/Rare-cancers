@@ -782,9 +782,48 @@ def summarise_background(rows, key):
         lo = int(math.floor(k))
         hi = min(lo + 1, n - 1)
         return xs[lo] + (xs[hi] - xs[lo]) * (k - lo)
+    n_zero = sum(1 for x in xs if x == 0.0)
     return {"n": n, "min": xs[0], "q25": q(0.25), "median": q(0.5), "q75": q(0.75), "max": xs[-1],
-            "mean": sum(xs) / n, "n_exactly_zero": sum(1 for x in xs if x == 0.0),
-            "frac_exactly_zero": sum(1 for x in xs if x == 0.0) / n}
+            "mean": sum(xs) / n, "n_exactly_zero": n_zero,
+            "frac_exactly_zero": n_zero / n,
+            # ⭑ ADDED 2026-08-03, and it is not decoration. `frac_exactly_zero` IS the headline of this
+            #   whole exercise — "how often does an arbitrary close paralogue pair produce the same
+            #   0-collision answer?" — and it was being reported as a bare point estimate over a
+            #   single-digit n. A point estimate with no interval invites exactly the over-reading this
+            #   module exists to prevent. Uses the SAME `PD.wilson95` as every other interval here.
+            "frac_exactly_zero_wilson95": PD.wilson95(n_zero, n),
+            "percentile_resolution": 1.0 / n,
+            "★_what_this_n_can_and_cannot_exclude": what_n_excludes(n, n_zero)}
+
+
+def what_n_excludes(n, n_zero):
+    """★ THE POWER STATEMENT, written next to the number rather than left to the reader. PURE.
+
+    A background of n points supports exactly two kinds of statement, and being explicit about which is
+    which matters because the second is the one that gets over-read:
+      * a Wilson 95 % interval on the background's zero-rate — outside it is excluded, inside it is not;
+      * a percentile whose RESOLUTION is 1/n and which cannot report anything finer however extreme the
+        target is. ⚠ `C16`'s NR4A3 percentile of 0.125 sat exactly at that floor at n = 8, so it carried
+        no information about how far below the background NR4A3 actually was — the number was a statement
+        about n as much as about NR4A3.
+    """
+    if not n:
+        return None
+    lo, hi = PD.wilson95(n_zero, n)
+    return {
+        "n_graded": n, "n_exactly_zero": n_zero,
+        "zero_rate_wilson95": [lo, hi],
+        "CAN_exclude": f"a true background zero-rate outside [{lo:.3f}, {hi:.3f}] at 95 %",
+        "CANNOT_exclude": (f"any zero-rate inside [{lo:.3f}, {hi:.3f}] — at n = {n} that interval is wide, "
+                           "and two backgrounds differing by less than its width are indistinguishable "
+                           "here"),
+        "CANNOT_report": (f"a percentile finer than {1.0 / n:.4f} (= 1/n). A target that beats every "
+                          f"background point still reports {1.0 / n:.4f} if one point ties it, so a "
+                          "percentile sitting at that floor is a statement about n as much as about the "
+                          "target"),
+        "⚠_effective_n": "the points are not fully independent — see the clustering note beside whichever "
+                         "background this summarises — so the interval above is, if anything, optimistic.",
+    }
 
 
 # =========================================================================================================
@@ -1605,9 +1644,13 @@ def compare_scopes(scope, bg, cys_bg, nr4a3, precondition, nr4a3_scope, n_graded
     out["status"] = "COMPARED"
     out["row_level_background_reach_only"] = {
         "this_scope": {k: (bg.get("reach_only") or {}).get(k) for k in
-                       ("n", "min", "q25", "median", "q75", "max", "n_exactly_zero", "frac_exactly_zero")},
+                       ("n", "min", "q25", "median", "q75", "max", "n_exactly_zero", "frac_exactly_zero",
+                        "frac_exactly_zero_wilson95", "percentile_resolution",
+                        "★_what_this_n_can_and_cannot_exclude")},
         "other_scope": {k: obg.get(k) for k in
-                        ("n", "min", "q25", "median", "q75", "max", "n_exactly_zero", "frac_exactly_zero")},
+                        ("n", "min", "q25", "median", "q75", "max", "n_exactly_zero", "frac_exactly_zero",
+                        "frac_exactly_zero_wilson95", "percentile_resolution",
+                        "★_what_this_n_can_and_cannot_exclude")},
     }
     out["nr4a3_row_percentiles_reach_only"] = {
         "this_scope": {k: v.get("percentile_reach_only") for k, v in nr4a3.items()},

@@ -403,3 +403,21 @@ def test_grade_uses_one_rule_for_both_scopes_and_reports_C397_separately():
     # and a scope with no C397 must say NOT MEASURED rather than inherit the row-level grade
     res["results"]["★_nr4a3_per_cysteine_vs_that_background"] = {"C559_vs_NR4A1": {}}
     assert CDN.grade(res)["c397_verdict"].startswith("NOT MEASURED")
+
+
+def test_summarise_background_carries_an_interval_and_a_resolution_not_a_bare_point_estimate():
+    """`frac_exactly_zero` is the headline of the whole exercise and was a bare point estimate over a
+    single-digit n. A number that invites over-reading must carry its own bounds."""
+    rows = [{"P": v} for v in (0.0, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.9)]
+    s = CDN.summarise_background(rows, "P")
+    assert s["n"] == 8 and s["n_exactly_zero"] == 2 and s["frac_exactly_zero"] == 0.25
+    lo, hi = s["frac_exactly_zero_wilson95"]
+    assert 0.0 <= lo < 0.25 < hi <= 1.0
+    assert s["percentile_resolution"] == 1 / 8
+    ex = s["★_what_this_n_can_and_cannot_exclude"]
+    assert "CAN_exclude" in ex and "CANNOT_exclude" in ex and "CANNOT_report" in ex
+    assert "1/n" in ex["CANNOT_report"] or "0.125" in ex["CANNOT_report"]
+
+
+def test_what_n_excludes_refuses_to_speak_at_n_zero():
+    assert CDN.what_n_excludes(0, 0) is None
