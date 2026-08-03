@@ -473,3 +473,31 @@ def test_the_si_edit_conditions_the_result_rather_than_deleting_it():
         assert e["current_text"] in e["proposed_text"], "the original sentence must survive verbatim"
     si = [e for e in sc.si_edits(fail) if e["file"].endswith("-SI.md")][0]
     assert "may not be quoted until the control passes" in si["proposed_text"]
+
+
+def test_a_partial_mode_must_not_delete_another_modes_measured_block(tmp_path, monkeypatch):
+    """⛔ MEASURED FAILURE, 2026-08-03. `mode=selfcontrol` wrote a fresh doc over the artifact and the
+    `flagged` block from an earlier `mode=all` run — denovo_401 plus 18 candidates docked into AR and MR
+    — vanished. Green run, newer file, deleted table, no word about it."""
+    import importlib
+    out = tmp_path / "antitarget-selfcontrol.json"
+    json.dump({"_utc": "2026-08-03T00:00:00Z",
+               "flagged": {"rows": [{"target": "AR", "label": "denovo_401", "dG": -9.1}]},
+               "selfcontrol": {"panel_readable": False, "targets": [{"name": "PXR"}]}},
+              open(out, "w"))
+    monkeypatch.setattr(sc, "OUT", str(out))
+    monkeypatch.setattr(sc, "OUT_MD", str(tmp_path / "x.md"))
+    monkeypatch.setattr(sc, "OUT_SI", str(tmp_path / "si.json"))
+    # ⛔ HERE TOO. `main()` writes one manuscript-edit file per target document, relative to `HERE` —
+    # the first version of this test quietly rewrote two committed artifacts in the working tree. A test
+    # that mutates the repo is a test that will eventually be blamed on the code it exercises.
+    monkeypatch.setattr(sc, "HERE", str(tmp_path))
+    monkeypatch.setattr(sc, "mode_resolve", lambda doc: doc.setdefault("resolve", {"status": "NEW"}))
+    monkeypatch.setattr(sys, "argv", ["x", "--mode", "resolve"])
+    assert sc.main() == 0
+    after = json.load(open(out))
+    assert after["flagged"]["rows"][0]["dG"] == -9.1, "the flagged table must survive a resolve-only run"
+    assert after["selfcontrol"]["panel_readable"] is False
+    assert set(after["_carried_forward"]["blocks"]) == {"flagged", "selfcontrol"}
+    assert after["resolve"]["status"] == "NEW", "the block this mode DID produce is fresh"
+    importlib.reload(sc)

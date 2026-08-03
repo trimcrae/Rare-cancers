@@ -890,16 +890,22 @@ def render_markdown(doc):
     fl = doc.get("flagged") or {}
     if fl.get("rows"):
         L.append("\n## `denovo_401` + carried candidates in the flagged receptors\n")
-        L.append("⛔ **No margin is computed.** %s\n" % "; ".join(fl["margin_refusal"]["why"]))
-        L.append("| molecule | drug | %s |" % " | ".join(fl["receptors"]))
-        L.append("|---|---|%s" % ("---|" * len(fl["receptors"])))
+        # `.get`, because a CARRIED-FORWARD flagged block may predate the refusal field, and a renderer
+        # that raises on an old block would make the merge that preserved it look like the bug.
+        L.append("⛔ **No margin is computed.** %s\n"
+                 % "; ".join((fl.get("margin_refusal") or {}).get("why") or ["see the artifact"]))
+        # DERIVED from the rows rather than read from a sibling field, so a carried-forward block that
+        # predates `receptors` still renders instead of taking the whole report down with it.
+        recs = fl.get("receptors") or sorted({r["target"] for r in fl["rows"]})
+        L.append("| molecule | drug | %s |" % " | ".join(recs))
+        L.append("|---|---|%s" % ("---|" * len(recs)))
         by = {}
         for r in fl["rows"]:
             by.setdefault(r["label"], {})[r["target"]] = r.get("dG")
         for lab in sorted(by):
             drug = next((r.get("drug") for r in fl["rows"] if r["label"] == lab), "")
             L.append("| %s | %s | %s |" % (lab, drug or "—",
-                                           " | ".join(str(by[lab].get(t, "—")) for t in fl["receptors"])))
+                                           " | ".join(str(by[lab].get(t, "—")) for t in recs)))
     if doc.get("refusals"):
         L.append("\n## Refusals\n")
         for r in doc["refusals"]:
@@ -1108,6 +1114,45 @@ def main():
         "_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "refusals": [],
     }
+    # ⛔ A PARTIAL MODE MERGES INTO THE PRIOR ARTIFACT — IT DOES NOT REPLACE IT (2026-08-03, after it
+    # already cost a table). `mode=selfcontrol` built a fresh doc and wrote it over the artifact, and the
+    # `flagged` block from an earlier `mode=all` run — denovo_401 plus 18 carried candidates docked into
+    # AR and MR — vanished from the record without a word. Nothing detected it: the run was green, the
+    # file was newer, and the block it deleted was simply not one this mode produces.
+    # This is the branch-drift failure of CLAUDE.md §7 inside a single file: a measured fact overwritten
+    # by a job that never measured it. The blocks a mode DID produce are overwritten as intended; the
+    # blocks it did not are carried forward, and `_carried_forward` names them so a reader can never
+    # mistake a carried block for a fresh one.
+    prior_doc = {}
+    if os.path.exists(OUT):
+        try:
+            prior_doc = json.load(open(OUT))
+        except (ValueError, OSError) as e:                     # noqa: BLE001
+            doc["refusals"].append(_refusal("merge", "prior artifact unreadable, nothing carried: %s" % e))
+    PRODUCED_BY = {"resolve": ["resolve"],
+                   "selfcontrol": ["criterion", "protocol", "arms", "selfcontrol", "repair_delta",
+                                   "repair_rule"],
+                   "flagged": ["flagged"]}
+    ran = {"all": ["resolve", "selfcontrol", "flagged"]}.get(args.mode, [args.mode])
+    fresh = {k for m in ran for k in PRODUCED_BY.get(m, [])}
+    carried = []
+    for key, val in prior_doc.items():
+        if key.startswith("_") or key in ("refusals", "map_edits_required", "map_edit_anchor_check",
+                                          "si_edits_required", "si_edit_anchor_check",
+                                          "manuscript_edits_required"):
+            continue
+        if key in fresh or key in doc:
+            continue
+        doc[key] = val
+        carried.append(key)
+    if carried:
+        doc["_carried_forward"] = {
+            "blocks": sorted(carried),
+            "from_utc": prior_doc.get("_utc"),
+            "_why": "this run's mode does not produce these blocks. They are the PREVIOUS run's "
+                    "measurements, carried so a partial re-run cannot delete a measured table.",
+        }
+
     if args.mode == "edits":
         # ⛔ RE-ROUTE WITHOUT RE-MEASURING. The routing blocks are a pure function of the measurement,
         # and the manuscripts they point at move independently of it. Re-docking 20 targets to
