@@ -462,6 +462,19 @@ def map_edits(doc):
                "sequence level, with what is invariant across breakpoints separated from what is not",
         "artifact": "research/modalities/fusion-object-inventory.json",
     }, {
+        # ⚠ THE STATE GLYPH IS A SEPARATE CELL FROM THE NEXT-ACTION CELL, and updating only the latter
+        # leaves the row reading "○ not started" beside "✅ RAN" — caught by reading the applied diff.
+        # `R13` stays ○ because `R13-b` has not run; what changed is that the free half is done, and the
+        # cell now says which half.
+        "section": "§10.1 row 9 — the state cell",
+        "anchor": "| `R13` | ○ **not started** |",
+        "current_text": "| `R13` | ○ **not started** |",
+        "proposed_text": "| `R13` | ◐ **`R13-a` done 2026-08-03 · `R13-b` not started** |",
+        "why": "the row's next-action cell records R13-a as run while its state cell still says nothing "
+               "has started. Per §0.3 the work-state axis is not the authorization axis: R13-b is still "
+               "🔒 and unrun, so the row is partial, not done",
+        "artifact": "research/modalities/fusion-object-inventory.json",
+    }, {
         # ⚠ NOT A RESTATEMENT. The map ALREADY carries the consequence (finding 23's sub-bullet), so
         # repeating "26 binders span seams that do not exist" here would give one fact two homes —
         # exactly what CLAUDE.md §1 forbids. What the map does NOT carry is that the consequence has

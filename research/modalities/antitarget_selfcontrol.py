@@ -937,6 +937,28 @@ def map_edits(doc):
         "why": "row 10 records R14-a as not started; it has now run and returned a verdict that governs "
                "a number the paper already publishes",
         "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }, {
+        # The state cell is a different cell from the next-action cell; updating only the latter leaves
+        # the row reading "○ not started" beside "✅ RAN". `R14` stays partial because `R14-b` is unrun
+        # and registered DO-NOT-LAUNCH.
+        "section": "§10.1 row 10 — the state cell",
+        "anchor": "| `R14` | ○ **not started** |",
+        "current_text": "| `R14` | ○ **not started** |",
+        "proposed_text": "| `R14` | ◐ **`R14-a` ran 2026-08-03 · `R14-b` not started (⛔ DO-NOT-LAUNCH)** |",
+        "why": "the row's next-action cell records R14-a as run while its state cell still says nothing "
+               "has started; R14-b remains unrun and rate-line blocked, so the row is partial, not done",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }, {
+        "section": "THE ORDERED PLAN → RUNG S — R14-a's 'never-run' clause",
+        "anchor": "and that the panel has a **never-run cognate-ligand self-control.**",
+        "current_text": "and that the panel has a **never-run cognate-ligand self-control.**",
+        "proposed_text": ("and that the panel has a cognate-ligand self-control **which has now RUN "
+                          "(2026-08-03, $0): %s** "
+                          "([`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json))."
+                          % verdict_txt),
+        "why": "the rung text still describes the control as never run, and it has run — leaving that "
+               "sentence in place would make the program's own plan a stale fact",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
     }]
 
 

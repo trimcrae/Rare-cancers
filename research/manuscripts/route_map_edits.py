@@ -61,12 +61,29 @@ def extract_edits(obj) -> list[dict]:
 
 
 def route(artifact: pathlib.Path, target: pathlib.Path, apply: bool) -> dict:
+    """⚠ IDEMPOTENT SINCE 2026-08-03, AND IT WAS NOT BEFORE.
+
+    The loop below decided everything from `text.count(current_text)`, which is correct for a REPLACE
+    edit and silently wrong for an APPEND edit — `proposed_text == current_text + " ✅ new clause"`.
+    After such an edit lands, `current_text` is STILL in the document (it is a prefix of what replaced
+    it), so a second routing pass sees exactly one match and appends the clause AGAIN. Nothing would
+    have reported that: the run prints `APPLIED`, the anchor really was there, and the duplicate lives
+    in the middle of a 5,000-line document.
+
+    `map_edit_anchors.verify` decides the status instead. It probes the part of `proposed_text` that is
+    NOT in `current_text` — absent before the edit lands, present after — so an already-applied edit is
+    reported `already_applied` and skipped rather than re-applied.
+    """
     artifact = artifact.resolve()
     edits = extract_edits(json.loads(artifact.read_text()))
     text = target.read_text()
-    applied, deferred, dead, ambiguous = [], [], [], []
+    applied, deferred, dead, ambiguous, already = [], [], [], [], []
 
-    for edit in edits:
+    sys.path.insert(0, str(REPO / "research" / "modalities"))
+    import map_edit_anchors as mea                                    # noqa: E402
+
+    checked, _summary = mea.verify(edits, str(target))
+    for edit, chk in zip(edits, checked):
         eid = edit.get("id") or edit.get("section") or "?"
         cur, new = edit.get("current_text"), edit.get("proposed_text")
 
@@ -75,14 +92,16 @@ def route(artifact: pathlib.Path, target: pathlib.Path, apply: bool) -> dict:
             deferred.append({"id": eid, "why": edit.get("why") or edit.get("where_it_goes") or "unanchored by design"})
             continue
 
-        n = text.count(cur)
-        if n == 1:
+        status = chk.get("anchor_status")
+        if status == "APPLIED":
+            already.append({"id": eid, "section": edit.get("section")})
+        elif status == "OK":
             text = text.replace(cur, new, 1)
             applied.append(eid)
-        elif n == 0:
+        elif status == "NOT_FOUND":
             dead.append({"id": eid, "section": edit.get("section")})
         else:
-            ambiguous.append({"id": eid, "occurrences": n})
+            ambiguous.append({"id": eid, "occurrences": chk.get("current_text_occurrences")})
 
     if apply and applied:
         target.write_text(text)
@@ -92,6 +111,7 @@ def route(artifact: pathlib.Path, target: pathlib.Path, apply: bool) -> dict:
         "target": str(target.relative_to(REPO)) if target.is_relative_to(REPO) else str(target),
         "n_edits": len(edits),
         "applied": applied,
+        "already_applied": already,
         "deferred_by_design": deferred,
         "dead_anchors": dead,
         "ambiguous_anchors": ambiguous,
@@ -117,6 +137,8 @@ def main() -> int:
         verb = "APPLIED" if args.apply else "WOULD APPLY"
         print(f"\n{r['artifact']} → {r['target']}  ({r['n_edits']} edits)")
         print(f"  {verb} {len(r['applied'])}: {', '.join(r['applied']) or '—'}")
+        for d in r["already_applied"]:
+            print(f"  = already    {d['id']} ({d['section']}) — its proposed text is already in the file; not re-applied")
         for d in r["deferred_by_design"]:
             print(f"  · deferred  {d['id']} — {str(d['why'])[:110]}")
         for d in r["dead_anchors"]:

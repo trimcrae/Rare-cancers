@@ -75,25 +75,44 @@ def verify(edits, map_path=None):
             continue
         n_anchor = text.count(e.get("anchor", "\0"))
         n_current = text.count(e.get("current_text", "\0"))
-        # ⚠ THE PROBE IS A PREFIX, NOT THE WHOLE `proposed_text`. A proposed replacement is often edited
-        # for house style as it lands (a link rewritten, a date localised), so requiring the full string
-        # would report a landed edit as dead — the very failure this state exists to end. A long-enough
-        # prefix is specific in a 5,000-line document and survives a tail reword.
+        # ⚠ THE PROBE IS THE PART OF `proposed_text` THAT IS NOT ALREADY IN `current_text`, AND THAT
+        # DISTINCTION IS LOAD-BEARING (2026-08-03, caught on live data before it did damage).
+        # Many edits APPEND rather than replace — `proposed_text == current_text + " ✅ new clause"`.
+        # For those, `current_text` is STILL in the document after the edit lands, so a status decided by
+        # `current_text` alone reports OK forever and a second routing pass appends the clause AGAIN.
+        # Probing a PREFIX would be just as wrong in the other direction: for an append edit the first
+        # 120 characters of `proposed_text` are `current_text`, which is present BEFORE the edit lands,
+        # so every append edit would report APPLIED before it had been.
+        # Probing the DIFFERENCE is correct in both shapes: absent before, present after.
+        # A truncated probe rather than the whole string, because a proposed replacement is routinely
+        # restyled as it lands (a link rewritten, a date localised) and an exact full match would report
+        # a landed edit as dead.
         prop = (e.get("proposed_text") or "")
-        probe = prop[:PROPOSED_PROBE_CHARS]
+        cur = (e.get("current_text") or "")
+        if cur and prop.startswith(cur):
+            probe_src = prop[len(cur):]
+        elif cur and prop.endswith(cur):
+            probe_src = prop[:len(prop) - len(cur)]
+        else:
+            probe_src = prop
+        probe = probe_src.strip()[:PROPOSED_PROBE_CHARS]
         n_proposed = text.count(probe) if len(probe) >= MIN_PROBE_CHARS else 0
+        e["_probe_is_the_difference"] = bool(cur) and probe_src is not prop
         e["anchor_occurrences"] = n_anchor
         e["current_text_occurrences"] = n_current
         e["proposed_text_occurrences"] = n_proposed
         e["_proposed_probe_chars"] = len(probe)
         # The apply target is `current_text`; `anchor` is the human locator. Both are reported, and the
         # STATUS is decided by `current_text`, because that is what a mechanical apply would search for.
-        if n_current == 1:
+        # ⛔ `APPLIED` IS TESTED FIRST, AND THAT ORDER IS THE POINT. The question "has this edit's effect
+        # already landed" outranks "can this edit still be applied", because for an append-style edit
+        # BOTH are true at once and acting on the second one applies it twice.
+        if n_proposed >= 1:
+            e["anchor_status"] = "APPLIED"
+        elif n_current == 1:
             e["anchor_status"] = "OK"
         elif n_current > 1:
             e["anchor_status"] = "AMBIGUOUS"
-        elif n_proposed >= 1:
-            e["anchor_status"] = "APPLIED"
         else:
             e["anchor_status"] = "NOT_FOUND"
         out.append(e)
@@ -162,6 +181,22 @@ def check():
     got, _ = verify([{"section": "f", "anchor": "x", "current_text": "not here at all",
                       "proposed_text": "alpha", "why": "w", "artifact": "x.json"}], p)
     assert got[0]["anchor_status"] == "NOT_FOUND", "a 5-character probe is not evidence of anything"
+
+    # ★ THE APPEND-EDIT ROUND TRIP. `proposed = current + tail`: OK before, APPLIED after, and never
+    # OK after — because OK after would apply the tail a second time.
+    append = {"section": "g", "anchor": "alpha", "current_text": "alpha unique line",
+              "proposed_text": "alpha unique line  ADDENDUM: a clause long enough to probe against",
+              "why": "w", "artifact": "x.json"}
+    got, _ = verify([append], p)
+    assert got[0]["anchor_status"] == "OK", "before it lands, the appended clause is absent"
+    with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as fh:
+        fh.write(doc.replace(append["current_text"], append["proposed_text"], 1))
+        p2 = fh.name
+    got, summary = verify([append], p2)
+    assert got[0]["anchor_status"] == "APPLIED", \
+        "after it lands, current_text is STILL present — deciding on it alone appends twice"
+    assert summary["all_accounted"] is True
+    os.unlink(p2)
 
     os.unlink(p)
     got, summary = verify(edits, p + ".missing")
