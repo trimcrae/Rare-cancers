@@ -85,13 +85,32 @@ The broad "the paralogues do the same jobs so losing NR4A3 is fine" is **under-e
   NurRE (dimer) elements; NR4A2-DBD crystal structures on inverted/everted repeats at 2.6–2.8 Å
   (**PMC6926456**, PDB 6L6Q/6L6L). *Caveat: NR4A3 homodimerization on NurRE is weaker than NR4A1/2.*
 
+- **★ RESOLVED 2026-08-03 — the mouse single-KO phenotypes exist, in MGI, with citations (roadmap row 26).**
+  IMPC held no record for any of the three, and MGI was named here as the remaining source. It was read: the
+  whole `MGI_PhenoGenoMP.rpt` corpus, with a genotype admitted as *single-gene* only when the free-text
+  allelic-composition parse and the curated marker-accession column agree. Counts, terms, PubMed IDs and the
+  verdict have one home in [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) →
+  `mgi.single_gene` / `headline_findings`; what changes **here** is which claims may now be stated:
+  - ✅ **`Nr4a2` single-KO neonatal lethality is CONFIRMED and citable** — the MP term and its PubMed IDs are
+    in the artifact. The **UNCONFIRMED flag this file carried is retired.** The supporting dopaminergic
+    phenotype set (substantia nigra morphology, dopaminergic neuron number, dopamine level) is cited there too.
+  - ⚠ **`Nr4a3`'s OWN single knockout carries lethality terms as well** — a fact about the **target**, not an
+    anti-target, and one this program had no standardized in-vivo source for. It is **concordant with** the
+    gnomAD reading directly above (NR4A3 LoF-constrained, pLI 0.9999) and gives the *"developmental /
+    tissue-specific rather than proliferative"* interpretation a mouse phenotype instead of an inference.
+  - ✅ **`Nr4a1` single-KO carries NO survival/viability term**, which is exactly what *"single nulls do not
+    do it"* predicts, and the **`Nr4a1`+`Nr4a3` double-KO lethality is independently recoverable from MGI**
+    with the same PMID this file already cites — so the hard half of the selectivity requirement now rests on
+    two standardized sources rather than one pair of papers.
+  - ⛔ **NONE of this is a safety result, and the limit is structural rather than a hedge.** A germline
+    knockout bounds **developmental, complete, lifelong** loss of a gene; a degrader is **adult, transient
+    and incomplete** loss of a protein, and no source read here measures that. What would close it is an
+    adult conditional or inducible deletion with a survival readout, plus a CNS-exposure measurement for a
+    real candidate molecule — the first is a wet-lab experiment and the second is a property of a molecule
+    this program has not built. *(Sentence with one home:
+    `verdict.caveat_that_must_travel_with_any_result`.)*
+
 **★ What did NOT survive verification / still open (do NOT state as fact in the paper):**
-- **IMPC single-KO phenotypes returned NO record** for Nr4a1/Nr4a2/Nr4a3 (2026-07-02 query) — these KO lines
-  are not phenotyped in IMPC (or the marker query did not resolve). So the individual **mouse single-KO
-  viability** question is **still unresolved by a standardized source**; in particular the assumption that
-  **Nr4a2/Nurr1 single-KO is neonatal-lethal (dopaminergic-neuron loss) remains UNCONFIRMED here** — it rests
-  on primary literature not re-verified in this pass. gnomAD's strong NR4A2 constraint (pLI 1.0) is *consistent
-  with* an essential Nurr1 role but is not the mouse phenotype itself. (MGI is the remaining follow-up.)
 - No numeric DBD %-identity (only the shared-element mechanism).
 - No T-cell "all three NR4As needed" redundancy in this set.
 - **Refuted (0-3):** "dual NR4A1/3 loss is not catastrophic to HSCs" — the double-KO **does** damage HSCs
@@ -103,18 +122,48 @@ proliferative-compartment window; (b) *myeloid-compartment* NR4A1↔NR4A3 compen
 NR4A1-sparing rationale); (c) broad NR4A1/NR4A3 tissue co-expression (HPA) making paralogue buffering plausible
 outside the CNS. **But two honest brakes must be stated:** NR4A3 is **germline LoF-constrained** in humans
 (gnomAD pLI ~1) — so complete developmental loss is selected against and "dispensable ⇒ safe" is **not** a
-valid inference; and the **CNS/NR4A2 exception is real** (NR4A2 is the most-constrained, most tissue-enhanced
-paralogue), making **NR4A2-sparing selectivity a safety requirement, not just an efficacy nicety**. Pan-tissue
-adult-knockdown tolerability remains an **assumption**, and the single-KO mouse phenotypes are **still
-unverified** (IMPC empty; MGI pending). Net: the safety argument is **materially stronger and more honest** than
-the pre-2026-07-02 hand-wave, and its residual risk is now **specifically located** (developmental / CNS), not vague.
+valid inference; and **NR4A2-sparing selectivity is a safety requirement, not just an efficacy nicety.**
+Pan-tissue **adult**-knockdown tolerability remains an **assumption**, and nothing read to date measures it.
+
+★ **Updated 2026-08-03 (row 26), and the update cuts both ways.** The single-KO mouse phenotypes are **no
+longer unverified**: MGI carries them for all three genes, with citations, and the Nurr1 neonatal-lethality
+claim is confirmed — see the resolved bullet above. Two consequences for this paragraph, neither of them
+comfortable: **(a)** the *germline* brake now applies to **NR4A3 itself** and not only to human constraint
+data, because its own single knockout carries lethality terms; and **(b)** the *"CNS exception"* clause that
+used to sit here was a reading of an HPA **label**, and the per-tissue numbers do not support it — the
+measured exception is that NR4A2 and NR4A3 co-express nearly everywhere, so the residual risk is **not**
+specifically located in the CNS by this evidence. It is located in **development**, and in the fact that a
+degrader's adult, transient, incomplete loss is a regime **no source read here measures**.
+*(Superseded, retained: "the CNS/NR4A2 exception is real … residual risk is now specifically located
+(developmental / CNS)" and "the single-KO mouse phenotypes are still unverified (IMPC empty; MGI pending)" —
+appendix below.)*
 
 ## Open follow-ups (would upgrade both hypotheses; all are database queries, no wet lab)
 1. ✅ **DONE (2026-07-02).** Direct DepMap query for NR4A1/2/3 gene-effect (NR4A3 +0.023 0/1178; NR4A1 −0.115;
    NR4A2 −0.05) + gnomAD LoF constraint (NR4A3 pLI 0.9999; NR4A2 1.0; NR4A1 tolerant) + HPA co-expression.
    `depmap_sarcoma_dependency.py` (`nr4a_paralogue_comparison`) + `nr4a_safety_genetics.py`.
-2. **MGI single-KO phenotypes** for Nr4a1/Nr4a2/Nr4a3 (**IMPC returned no phenotyped KO** for any of the three
-   on 2026-07-02 — MGI is the remaining source to bound CNS tolerability / resolve the Nurr1 question).
-3. **GTEx/HPA co-expression** of NR4A1/2/3 (map where compensation is / isn't available).
+2. ✅ **DONE (2026-08-03, roadmap row 26).** MGI single-KO phenotypes for Nr4a1/Nr4a2/Nr4a3, plus the
+   double-KO genotypes, read out of the public reports with a PubMed ID on every annotation.
+   `nr4a2_sparing_bound.py` → [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json).
+   The Nurr1 question is **resolved**; see the resolved bullet in H1 above.
+3. ✅ **DONE (2026-08-03, same run).** HPA **per-tissue nTPM** for all three, so co-expression is arithmetic
+   rather than a specificity label → `hpa.overlap` in the same artifact.
 4. The one that needs a lab: **acute NR4A3/fusion degradation (dTAG) in an EMC model** — the decisive
    efficacy experiment, and the reason the program is written to be *picked up* by a wet-lab collaborator.
+5. ⭑ **The one row 26 identified and could NOT close at $0:** an **adult conditional or inducible** *Nr4a2*
+   deletion with a survival/behaviour readout. Every mouse phenotype above is germline, and the gap between
+   germline loss and adult degradation is the whole distance between this evidence base and a tolerability
+   claim. Also needed and equally absent: a CNS-exposure datum for a real candidate molecule — this repo
+   holds no measured or predicted CNS-penetration value for any NR4A candidate.
+
+---
+
+## Appendix — superseded readings (retained, because the old wording stays quotable)
+
+Per CLAUDE.md rule 1: a corrected statement is never silently dropped, and the narrative never stays inline.
+
+| date | superseded reading | what replaced it |
+|---|---|---|
+| 2026-08-03 | *"the assumption that **Nr4a2/Nurr1 single-KO is neonatal-lethal** … remains **UNCONFIRMED** here"* and *"the single-KO mouse phenotypes are **still unverified** (IMPC empty; MGI pending)"* | MGI carries the phenotypes for all three genes with PubMed IDs; the Nurr1 neonatal-lethality claim is confirmed. One home: [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) → `mgi.single_gene` |
+| 2026-08-03 | *"NR4A2 is **'tissue enhanced'** … i.e. the tissue where paralogue compensation is **least** available. This is the structural reason the CNS is the safety watch-zone"* | a **label** is not a distribution. Per-tissue nTPM shows NR4A2 above the detection cut in every tissue measured, unbuffered in none, and dominant in none. The CNS localisation of the residual risk is **not** supported by this table — and is not refuted by it either, because a bulk average dilutes the substantia nigra. `hpa.overlap` |
+| 2026-08-03 | *"its residual risk is now **specifically located** (developmental / CNS)"* | developmental, yes; CNS, not by this evidence |
