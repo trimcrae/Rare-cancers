@@ -969,7 +969,13 @@
    "_meaning": "false is not automatically an error \u2014 the two databases can choose different canonical isoforms \u2014 but it means a UniProt-numbered literature statement must be converted before it is compared with anything here, and it means this module's RG counts may differ from emc-fet-idr-census.json, which computes them on the UniProt sequence."
   }
  },
- "gene_model_self_checks_all_pass": false,
+ "gene_model_self_checks_all_pass": true,
+ "_self_check_keys_aggregated": [
+  "exon_lengths_sum_equals_cdna",
+  "coding_nt_sum_equals_cds",
+  "cdna_slice_at_utr5_equals_cds",
+  "cds_translation_equals_protein"
+ ],
  "nr4a3_landmarks_read_from_the_audit": {
   "c4_zinc_finger_first_cysteine": 292,
   "lbd_start": 373,
