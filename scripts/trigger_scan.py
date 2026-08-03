@@ -515,6 +515,13 @@ def main() -> int:
 
         s["seen"] = len(results)
         known = ledger["hits"].setdefault(t["id"], {})
+        # Europe PMC returns the SAME paper under two ids when it is both in PMC and MED, and
+        # two of a trigger's queries commonly overlap -- the 2026-08-03 run reported one Keap1
+        # paper twice under one trigger. Id-level dedup cannot see that; title-level can.
+        seen_titles = {
+            re.sub(r"[^a-z0-9]+", " ", (v.get("title") or "").lower()).strip()
+            for v in known.values()
+        }
         fresh: list[dict] = []
         for h in results:
             if not h["title"] or not _matches(h["title"], must, also, excl):
@@ -525,6 +532,11 @@ def main() -> int:
             s["in_window"] += 1
             if h["id"] in known:
                 continue
+            norm = re.sub(r"[^a-z0-9]+", " ", h["title"].lower()).strip()
+            if norm in seen_titles:
+                known[h["id"]] = {**h, "first_seen": today_s, "duplicate_of_title": True}
+                continue
+            seen_titles.add(norm)
             s["new"] += 1
             rec = dict(h)
             rec["first_seen"] = today_s
