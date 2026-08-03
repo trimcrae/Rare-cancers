@@ -1279,8 +1279,13 @@ def pipeline_box_confound():
             "_called_from": "apo_pose_recovery.pipeline_box",
         },
         "regime": {
-            "proteins_the_pipeline_actually_transfers_onto": sorted(getattr(wh, "PARALOGUES", [])),
-            "_plus": "NR4A3's own 8XTT",
+            # ⚠ NAMES *AND* ACCESSIONS. `nr4a3_warhead.PARALOGUES` is a {name: accession} MAP, so
+            # `sorted(...)` yields the names alone — and the panel is keyed by ACCESSION, so a reader
+            # matching the two lists by eye would find no overlap and conclude the regime is empty.
+            # Read the same way `apo_pose_recovery._REGIME_ACCESSIONS` reads it.
+            "proteins_the_pipeline_actually_transfers_onto": sorted(getattr(wh, "PARALOGUES", {})),
+            "accessions": sorted(set((getattr(wh, "PARALOGUES", {}) or {}).values()) | {"Q92570"}),
+            "_plus": "NR4A3's own 8XTT (Q92570)",
             "_reads": "⛔ A RECEPTOR OUTSIDE THIS LIST IS OUT OF THE PIPELINE'S REGIME. Running the "
                       "transfer onto it and finding the ligand elsewhere is the benchmark's design, "
                       "not a demonstrated defect of site selection.",

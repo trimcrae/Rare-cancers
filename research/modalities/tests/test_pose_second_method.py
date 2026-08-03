@@ -241,6 +241,10 @@ def test_pipeline_box_confound_names_the_transfer_and_the_regime():
     assert c["site_definition_C5"]["pocket5_lining_uniprot_Q92570"] == list(bm.POCKET5)
     assert c["transfer_kernel"]["function"] == "nr4a3_warhead.map_pocket_to_paralogue"
     assert c["regime"]["proteins_the_pipeline_actually_transfers_onto"] == sorted(wh.PARALOGUES)
+    # ⚠ AND THE ACCESSIONS, because the panel is keyed by accession and `PARALOGUES` is a {name:
+    # accession} map — a names-only list looks like a regime containing none of the panel's proteins.
+    assert c["regime"]["accessions"] == sorted(set(wh.PARALOGUES.values()) | {"Q92570"})
+    assert "P22736" in c["regime"]["accessions"] and "P43354" in c["regime"]["accessions"]
     assert "OUT OF THE PIPELINE'S REGIME" in c["regime"]["_reads"]
     read = {r["function"]: r for r in c["_verified_by_reading"]}
     assert read["nr4a3_warhead.map_pocket_to_paralogue"].get("uses_pairwise_sequence_alignment") is True
