@@ -1,7 +1,7 @@
 {
  "_what": "verbatim verification that every routed roadmap edit still applies to the map AS IT STANDS RIGHT NOW. Exact substring matching only.",
  "map": "research/manuscripts/nr4a3-program-map.md",
- "map_bytes": 658854,
+ "map_bytes": 716827,
  "artifacts": [
   {
    "artifact": "nr4a3-5bt-gate.json",
@@ -10,25 +10,22 @@
      "section": "\u00a710.1 \u00b7 Open rows \u2014 row 1 (the rebuild)",
      "why": "the row's next action has been taken; leaving an instruction where a result belongs is how a finished item stays on the critical path",
      "artifact": "nr4a3-5bt-gate.json:verdict",
-     "status": "APPLIES",
-     "ok": true,
-     "detail": "anchor and current_text are both present exactly once in the live map"
+     "status": "DEAD_CURRENT_TEXT",
+     "detail": "the anchor is present but `current_text` is not verbatim in the live map, so the replacement cannot be applied mechanically. First 160 chars: '**RUN IT \u2014 it needs no authorization, and the row-25 hold is DISCHARGED.**'"
     },
     {
      "section": "THE ORDERED PLAN \u2192 RUNG 5b-T",
      "why": "the rung ran; its verdict and every figure live in the gate artifact, not here",
      "artifact": "nr4a3-5bt-gate.json:verdict",
-     "status": "APPLIES",
-     "ok": true,
-     "detail": "anchor and current_text are both present exactly once in the live map"
+     "status": "DEAD_ANCHOR",
+     "detail": "anchor not present in the live map: '`[ ]` 5b-T \u00b7 Rebuild the NR4A1/2/3 ternaries by the ASSEMBLY route'"
     },
     {
      "section": "\u00a710.1 \u00b7 Open rows \u2014 row 18 (\u22653 ternary models per paralogue, then `V1`)",
      "why": "row 18's reproducibility bar was the thing 5b-T's arm (B) turned into a threshold with a stated null; the row must stop reading as unrun",
      "artifact": "nr4a3-5bt-gate.json:A_and_B.min_models_per_arm",
-     "status": "APPLIES",
-     "ok": true,
-     "detail": "anchor and current_text are both present exactly once in the live map"
+     "status": "DEAD_ANCHOR",
+     "detail": "anchor not present in the live map: \"PRICED \u2014 it is the second half of row 1's rung `5b-T`, at $0\""
     },
     {
      "section": "\u00a710.2 \u00b7 The readout",
@@ -40,10 +37,10 @@
     }
    ],
    "n_edits": 4,
-   "n_applies": 4,
+   "n_applies": 1,
    "n_needs_new_section": 0
   }
  ],
- "n_not_applicable": 0,
- "verdict": "ALL EDITS APPLY"
+ "n_not_applicable": 3,
+ "verdict": "3 edit(s) do NOT apply to the live map and must be rewritten before hand-off"
 }
