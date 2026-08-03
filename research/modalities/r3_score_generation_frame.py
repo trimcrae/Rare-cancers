@@ -119,7 +119,30 @@ def score_pdb(pdb_path, workdir):
     cands = [{"pocket": int(num), "residues": sorted(int(r) for r in resids),
               "druggability": info[num]["druggability"]}
              for num, resids in resids_by_num.items()]
-    hit = pt.match_pocket(cands, ref, ca_by_resnum=ca, **pt.match_params())
+    mp = pt.match_params()
+    hit = pt.match_pocket(cands, ref, ca_by_resnum=ca, **mp)
+
+    # ⚠ EVERY CANDIDATE'S GATE ARITHMETIC, NOT JUST THE WINNER'S. Without this the artifact cannot
+    # distinguish two readings that call for different responses: (a) the legacy classifier picked a
+    # cavity that is NOT the mapped orthosteric site, versus (b) two cavities both ARE the site and the
+    # composite rule prefers the less druggable one. `match_pocket` returns only the winner, so the
+    # per-candidate table is recomputed here from the same pure predicates it uses.
+    per_candidate = []
+    for c in cands:
+        m = pt.match_metrics(c["residues"], ref["lining_residues"])
+        cen = pt.pocket_centroid(c["residues"], ca)
+        cdist = None if cen is None else round(
+            sum((a - b) ** 2 for a, b in zip(cen, ref["centroid"])) ** 0.5, 3)
+        per_candidate.append({
+            "pocket": c["pocket"], "druggability": c["druggability"],
+            "n_overlap": m["n_overlap"], "jaccard": round(m["jaccard"], 4),
+            "frac_recovered": round(m["frac_recovered"], 4), "centroid_dist_ang": cdist,
+            "accepted_by_gate": bool(pt.accept_candidate(m, cdist, mp["jaccard_min"],
+                                                         mp["frac_recovered_min"],
+                                                         mp["centroid_max_ang"])),
+        })
+    per_candidate.sort(key=lambda r: -(r["druggability"] or 0.0))
+
     verdict = classify_score(hit is not None, None if hit is None else hit.get("druggability"))
     return {
         "structure": os.path.basename(pdb_path),
@@ -132,6 +155,9 @@ def score_pdb(pdb_path, workdir):
         "match_params": pt.match_params(),
         "n_candidate_pockets": len(cands),
         "all_pocket_druggability": {str(c["pocket"]): c["druggability"] for c in cands},
+        "per_candidate_gate": per_candidate,
+        "n_accepted_by_gate": sum(1 for r in per_candidate if r["accepted_by_gate"]),
+        "most_druggable_cavity_anywhere": (per_candidate[0] if per_candidate else None),
         "matched_pocket": None if hit is None else {"pocket": hit.get("pocket"),
                                                     "druggability": hit.get("druggability"),
                                                     "_match": hit.get("_match")},

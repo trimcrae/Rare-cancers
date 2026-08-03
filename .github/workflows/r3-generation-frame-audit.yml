@@ -146,6 +146,11 @@ jobs:
           print('FPOCKET   :', d['fpocket_version'], ' MODE:', d['match_mode'])
           print('MATCHED   :', json.dumps(d['matched_pocket']))
           print('PRIOR     :', json.dumps(d['_prior_manifest_score']))
+          print('ACCEPTED BY THE GATE: %s of %s cavities' % (d.get('n_accepted_by_gate'),
+                                                             d.get('n_candidate_pockets')))
+          print('MOST DRUGGABLE CAVITY ANYWHERE:', json.dumps(d.get('most_druggable_cavity_anywhere')))
+          for r in (d.get('per_candidate_gate') or [])[:6]:
+              print('   ', json.dumps(r))
           if v.get('reaches'): print('REACHES   :', v['reaches'])
           "
       - name: Publish
