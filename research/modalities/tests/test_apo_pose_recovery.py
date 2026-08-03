@@ -837,6 +837,80 @@ def test_the_markdown_says_UNREAD_when_the_apo_construct_was_never_compared():
     assert 'Absent, not "the constructs match"' in md
 
 
+# ============================================================ MODE=site — the in-regime supplement
+
+def test_the_regime_set_is_read_from_the_pipeline_never_typed():
+    import nr4a3_warhead as wh
+    assert A._REGIME_ACCESSIONS() == set(wh.PARALOGUES.values()) | {"Q92570"}
+    import inspect
+    assert "P22736" not in inspect.getsource(A._REGIME_ACCESSIONS)
+
+
+def test_the_supplement_takes_only_in_regime_pairs_and_one_per_holo():
+    sel = {"_all_ranked_in_regime": [
+        {"accession": "P43354", "apo": "1OVL", "holo": "5Y41", "ligand": {"comp_id": "RPG"}},
+        {"accession": "P43354", "apo": "6L6Q", "holo": "5Y41", "ligand": {"comp_id": "RPG"}},
+        {"accession": "P43354", "apo": "1OVL", "holo": "8CYO", "ligand": {"comp_id": "OBJ"}},
+        {"accession": "P22736", "apo": "4RZF", "holo": "4REF", "ligand": {"comp_id": "3N0"}},
+        {"accession": "P37231", "apo": "2QMV", "holo": "9F7W", "ligand": {"comp_id": "2OH"}},
+    ]}
+    out = A.in_regime_pairs(sel)
+    assert [(r["apo"], r["holo"]) for r in out] == [("1OVL", "5Y41"), ("1OVL", "8CYO"), ("4RZF", "4REF")]
+    assert all(r["accession"] in A._REGIME_ACCESSIONS() for r in out), "an out-of-regime pair got in"
+    # ⛔ and NO per-protein cap: the cap protects a docking panel's wall clock, and there is no dock here
+    assert sum(1 for r in out if r["accession"] == "P43354") > A.MAX_PER_PROTEIN - 1
+
+
+def test_r2b_still_excludes_from_the_docking_panel_and_only_the_site_arm_reads_a_covalent_pair():
+    """⚠ NOT A LOOSENING — A SCOPE CORRECTION. R2b exists because a non-covalent DOCK cannot reproduce a
+    covalent pose; the site endpoint is geometric containment with no dock in it. The pre-registered
+    panel must be untouched, and every covalent pair the supplement reads must be flagged as such."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    assert "if links and not site_only:" in src, "R2b no longer excludes from the docking panel"
+    assert 'R_["excluded_by"] = "R2b"' in src
+    assert "covalent_but_site_gradeable" in src, "a covalent pair read by the site arm is unflagged"
+
+
+def test_site_only_emits_no_arms_no_rmsd_and_no_verdict():
+    """A supplement that could be mistaken for a panel result is worse than no supplement."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    i = src.find("if site_only:")
+    j = src.find("def score_pose")
+    assert 0 < i < j, "the site-only return is not before the first dock"
+    assert "return R_" in src[i:j]
+    for after in ("PRIMARY_blind_apo_pipeline_box", "C1c_self_dock_holo_oracle_box"):
+        assert after not in src[i:j], "%s runs before the site-only return" % after
+
+
+def test_the_supplement_writes_its_own_artifact_and_never_over_the_panels():
+    assert A.OUT_SITE != A.OUT
+    assert A.OUT_SITE.endswith("apo-pose-site-in-regime.json")
+    import inspect
+    src = inspect.getsource(A._emit)
+    assert 'doc.get("_mode") == "site"' in src
+
+
+def test_the_supplement_reports_every_attempted_pair_including_the_unreadable_ones():
+    rows = [{"candidate": {"accession": "P43354", "apo": "1OVL", "holo": "5Y41",
+                           "ligand": {"comp_id": "RPG"}},
+             "covalent_but_site_gradeable": "covalent",
+             "Q_SITE_does_site_selection_find_the_ligand": {"routes": {
+                 "pipeline_sequence_transfer_apo": {"ligand_centroid_in_box": False},
+                 "pocket5_structure_transfer_apo": {"ligand_centroid_in_box": False},
+                 "fpocket_top_pocket_apo": {"ligand_centroid_in_box": True}}}},
+            {"candidate": {"accession": "P22736", "apo": "3V3E", "holo": "8Z5A"},
+             "refusals": [{"stage": "fetch", "evidence": "404"}]}]
+    out = A.panel_site_supplement(rows, attempted=2)
+    assert out["n_attempted"] == 2 and out["n_gradeable"] == 1
+    assert out["refusal_stages"] == {"fetch": 1}
+    assert out["unreadable"] and out["unreadable"][0]["apo"] == "3V3E"
+    assert out["n_covalent_read_here_but_excluded_from_the_docking_panel"] == 1
+    assert out["fpocket_top_pocket_found"] == 1
+    assert out["pipeline_sequence_transfer_found"] == 0
+
+
 # ============================================================ the inert chain restriction (2026-08-03)
 
 def test_the_panel_pool_carries_the_declared_chains_or_the_restriction_is_inert():

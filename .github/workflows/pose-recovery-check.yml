@@ -27,7 +27,7 @@ on:
       task:
         description: "which half to run"
         type: choice
-        options: [both, convergence, benchmark, benchmark_source, benchmark_select]
+        options: [both, convergence, benchmark, benchmark_source, benchmark_select, site_in_regime]
         default: both
       bucket:
         description: "S3 bucket holding the 8XTT re-dock poses (read-only)"
@@ -122,6 +122,11 @@ jobs:
           MODE=$(case "$TASK" in
                    benchmark_source) echo source ;;
                    benchmark_select) echo select ;;
+                   # ★ THE IN-REGIME SITE SUPPLEMENT. Geometric containment only — no smina, no seed,
+                   # no scoring — over every apo/holo pair on a protein the pipeline actually transfers
+                   # Pocket-5 onto. It writes apo-pose-site-in-regime.json and CANNOT touch the
+                   # pre-registered panel's apo-pose-recovery.json.
+                   site_in_regime) echo site ;;
                    *) echo run ;;
                  esac)
           MODE="$MODE" APO_RECOVERY_WORK="$RUNNER_TEMP/apo_work" python -u apo_pose_recovery.py
@@ -143,14 +148,16 @@ jobs:
                       print(k, "=", json.dumps(d[k])[:1400])
               # the two separated questions and the induced-fit caveat are the point of the second
               # revision; a log that shows only `verdict` shows only the arm that could not tell them apart
-              for k in ("site_vs_docking", "induced_fit_panel"):
+              for k in ("site_vs_docking", "induced_fit_panel", "reproducibility",
+                        "site_panel_in_regime"):
                   if k in d:
                       print("=== %s" % k, json.dumps(d[k], indent=1)[:6000])
               ref = d.get("refusals") or (d.get("result") or {}).get("refusals") or []
               print("refusals:", json.dumps(ref)[:900])
           PY
           python "$RUNNER_TEMP/show.py" research/modalities/pose-convergence-401.json \
-                                        research/modalities/apo-pose-recovery.json
+                                        research/modalities/apo-pose-recovery.json \
+                                        research/modalities/apo-pose-site-in-regime.json
       # workflow_dispatch is the ONLY trigger on this file, so the `inputs` context always exists and the
       # null-cast bug lint_optional_input_guards.py exists for cannot arise here.
       - name: Publish the artifacts
@@ -175,4 +182,5 @@ jobs:
             research/modalities/pose-convergence-401.json \
             research/modalities/apo-pose-recovery.json \
             research/modalities/apo-pose-recovery.md \
+            research/modalities/apo-pose-site-in-regime.json \
             research/modalities/_pose_convergence_inputs

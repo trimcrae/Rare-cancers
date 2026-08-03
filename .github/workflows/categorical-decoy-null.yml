@@ -38,6 +38,9 @@ on:
       pocket_limit:
         description: "C04 smoke: cap frames per subset (0 = all 100 per species)"
         default: "0"
+      shards_from_run:
+        description: "decoy_reduce_only: run id whose decoy-shard-* / decoy-inputs artifacts to reduce. Re-running 12 shards to change a documentation block is the wrong trade — this reduces the SAME measured rows again."
+        default: ""
 
 permissions:
   contents: write
@@ -230,6 +233,60 @@ jobs:
             "C02: cross-system decoy null for the categorical axis — measured background + NR4A3 percentile" \
             research/modalities/categorical-decoy-null.json \
             research/modalities/categorical-decoy-null-plan.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: categorical-decoy-null
+          path: research/modalities/categorical-decoy-null.json
+          if-no-files-found: warn
+
+  # =========================================================================================================
+  # C02 stage 3b — REDUCE ONLY, over a PREVIOUS run's shard artifacts.
+  # Why this exists: after the shards have run, a change to how the artifact is WRITTEN (a new scope block, a
+  # new caveat) must not cost 12 more shard jobs. `download-artifact@v4` can read another run's artifacts
+  # given `run-id` + a token, so the same measured rows are reduced again by the current code. The rows are
+  # not recomputed and cannot drift.
+  # =========================================================================================================
+  decoy_reduce_only:
+    if: ${{ inputs.task == 'decoy_reduce_only' && inputs.shards_from_run != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: decoy-shard-*
+          merge-multiple: true
+          path: results/categorical-decoy-null/shards
+          run-id: ${{ inputs.shards_from_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: decoy-inputs
+          path: _decoy_inputs
+          run-id: ${{ inputs.shards_from_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore the plan
+        run: cp -a _decoy_inputs/plan.json research/modalities/categorical-decoy-null-plan.json
+      - name: Show what was recovered (an empty reduce must not look like a clean one)
+        run: |
+          set -euo pipefail
+          ls -la results/categorical-decoy-null/shards
+          test -n "$(ls -A results/categorical-decoy-null/shards)" || { echo "::error::no shard artifacts recovered from run ${{ inputs.shards_from_run }}"; exit 1; }
+      - name: Harness known-answer check vs the committed static verdict
+        run: cd research/modalities && python3 categorical_decoy_null.py selfcheck
+      - name: Reduce
+        run: cd research/modalities && python3 categorical_decoy_null.py reduce
+      - name: Publish
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          bash research/compute/publish_artifacts.sh "${{ inputs.branch }}" \
+            "C02: decoy null — re-reduced over run ${{ inputs.shards_from_run }}'s measured rows (scope + precondition blocks)" \
+            research/modalities/categorical-decoy-null.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

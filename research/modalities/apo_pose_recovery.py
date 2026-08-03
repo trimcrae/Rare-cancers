@@ -173,6 +173,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "apo-pose-recovery.json")
 OUT_MD = os.path.join(HERE, "apo-pose-recovery.md")
+#: MODE=site's own artifact. A separate question (geometric, docking-free, in-regime only) gets a
+#: separate file so it can never be mistaken for — or written over — the pre-registered panel's result.
+OUT_SITE = os.path.join(HERE, "apo-pose-site-in-regime.json")
 WORK = os.environ.get("APO_RECOVERY_WORK", os.path.join(HERE, "_apo_recovery_work"))
 
 # ---------------------------------------------------------------------------------- fixed thresholds
@@ -336,6 +339,16 @@ APPENDIX = {
         "attributed to seeding unless smina is shown to reproduce at a fixed seed on this system.",
         "`reproducibility`: the panel-level rollup of C6, carrying `all_bands_stable` and `max_spread_A`. "
         "An absent replicate set records `measured: false` rather than an empty summary.",
+        "MODE=site — the IN-REGIME SITE SUPPLEMENT. The geometric site endpoint, run over every apo/holo "
+        "pair on a protein `nr4a3_warhead.PARALOGUES` says the pipeline actually transfers Pocket-5 onto, "
+        "with no per-protein cap and NO DOCK. It writes its own artifact (`apo-pose-site-in-regime.json`) "
+        "and is never summed into the pre-registered panel, which is unchanged. Reason: the panel could "
+        "offer only TWO in-regime pairs, both against the same apo structure (4RZF) and both NR4A1.",
+        "R2b is not applied in `site_only` mode, and that is a scope correction rather than a loosening: "
+        "R2b exists because a NON-COVALENT DOCK cannot reproduce a covalent pose, and the site endpoint "
+        "contains no dock. It had removed BOTH NR4A2 pairs (5Y41/RPG, 5YD6/8SU, each LINK SG CYS 566 -> "
+        "ligand C11) — NR4A3's closest paralogue — from a question they can answer. The pre-registered "
+        "DOCKING panel still excludes them; every covalent pair read by the supplement is flagged.",
         "C5b — the APO deposit's engineered substitutions are now graded too, and the two SEQADV sets are "
         "compared: `apo_and_holo_are_the_same_construct`. C5 read the holo side only, which silently "
         "assumed a pair is two states of ONE construct; on the headline pair (4RZF S441W / 4REF L449W) it "
@@ -2124,6 +2137,35 @@ def main():
                                         "transfer could not be fetched: %s" % e}
             _emit(doc)
             return
+    # ★★ MODE=site — THE IN-REGIME SITE SUPPLEMENT, ADDED 2026-08-03. It runs the GEOMETRIC site question
+    # over every pair on a protein the pipeline actually transfers Pocket-5 onto, and it runs NO DOCK, so
+    # it is fast, deterministic and free. It writes its own artifact key and is never summed into the
+    # pre-registered panel. Reason it exists: the panel offered only TWO in-regime pairs, both against the
+    # same apo structure (4RZF) and both on NR4A1, while BOTH NR4A2 pairs — NR4A3's closest paralogue —
+    # were removed by R2b, a rule about docking that has no bearing on a geometric containment test.
+    if mode == "site":
+        rows, cands = [], in_regime_pairs(sel)
+        doc["_in_regime_candidates"] = cands
+        for pair in cands:
+            t0 = time.time()
+            r = run_benchmark(pair, os.path.join(WORK, "site_%s_%s" % (pair["apo"], pair["holo"])),
+                              af2, site_only=True)
+            r["elapsed_s"] = round(time.time() - t0, 1)
+            print("[apo-pose-recovery/site] %s -> %s (%s): seq=%s struct=%s fpocket=%s in %.0fs"
+                  % (pair["apo"], pair["holo"], (pair.get("ligand") or {}).get("comp_id"),
+                     *[((r.get("Q_SITE_does_site_selection_find_the_ligand") or {})
+                        .get("routes", {}).get(k, {}) or {}).get("answer", "UNREAD")
+                       for k in ("pipeline_sequence_transfer_apo", "pocket5_structure_transfer_apo",
+                                 "fpocket_top_pocket_apo")], r["elapsed_s"]), flush=True)
+            rows.append(r)
+        doc["site_panel_in_regime"] = panel_site_supplement(rows, len(cands))
+        doc["site_panel_rows"] = rows
+        doc["_appendix"] = APPENDIX
+        doc["verdict"] = {"outcome": "SITE SUPPLEMENT — NOT A PANEL VERDICT",
+                          "reason": ("MODE=site runs the geometric site endpoint only. It emits no RMSD "
+                                     "and cannot change the pre-registered panel's INCONCLUSIVE.")}
+        _emit(doc)
+        return
     # ⛔ A PANEL, NOT A PICK. Candidates are taken in the pre-registered rank order and every one that is
     # attempted is reported, including the ones R2b throws out. The PRIMARY verdict is the first pair that
     # actually runs; the rest are supporting cases. Nothing here can be re-ordered by its answer, because
@@ -2452,10 +2494,17 @@ def _panel_candidates(sel):
 
 
 def _emit(doc):
-    with open(OUT, "w") as fh:
+    # ⛔ THE SUPPLEMENT MUST NEVER WRITE OVER THE PANEL'S ARTIFACT. MODE=site produces a docking-free
+    # document with no arms and no RMSDs; emitting it to `apo-pose-recovery.json` would silently replace
+    # the pre-registered panel's result with something that cannot be mistaken for it only if you read
+    # it. Different question, different file — and `MODE=report` still renders the panel's.
+    out = OUT_SITE if doc.get("_mode") == "site" else OUT
+    with open(out, "w") as fh:
         json.dump(doc, fh, indent=2)
     print(json.dumps({k: doc[k] for k in ("_mode", "verdict") if k in doc}, indent=2))
-    print("[apo-pose-recovery] wrote %s" % OUT)
+    print("[apo-pose-recovery] wrote %s" % out)
+    if doc.get("_mode") == "site":
+        return
     try:
         _write(OUT_MD, render_markdown(doc))
         print("[apo-pose-recovery] wrote %s" % OUT_MD)
