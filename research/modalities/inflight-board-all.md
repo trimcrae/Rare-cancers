@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 9:28 AM ET Mon Aug 3, 2026. One row per GPU leg, for every lane that can bill.
+Merged 9:29 AM ET Mon Aug 3, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,7 +15,7 @@ Merged 9:28 AM ET Mon Aug 3, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 9:27 AM ET Mon Aug 3, 2026 (1 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 9:27 AM ET Mon Aug 3, 2026 (2 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -23,7 +23,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 9:27 AM ET Mon Aug 3, 2026 (1 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
+_As of 9:28 AM ET Mon Aug 3, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 18 of 19 unit(s) landed; 1 permanently excluded (rows below are the rest)._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -31,7 +31,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 9:27 AM ET Mon Aug 3, 2026 (1 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
+_As of 9:27 AM ET Mon Aug 3, 2026 (2 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 16 of 16 authorized R1 leg(s) landed (rows below are the rest). ⛔ 2 further record(s) exist but are NOT landed legs (mode='smoke', not 'run') — they do not count toward the panel and cannot reach the frozen gate._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
@@ -39,7 +39,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## GCP L4 — step-1 fan-out replicate (free trial credit)
 
-_As of 9:27 AM ET Mon Aug 3, 2026 (0 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. NOT buying this tick [operator_hold]: ⏸ PAUSED BY OPERATOR — this lane will not buy a GPU until gcp-s1f-rep-OPERATOR-HOLD.json is deleted. Reason on record: Pending a reevaluation of strategy. Both selectivity CONTROLS failed on 2026-08-02 (valB_mini wrong-sign, §2.11; the SMARCA2/4 sensitivity control NULL on an adequately-powered design, §2.12a), so whether to keep buying step-1 replicate sampling is a program-direction question, not a scheduling one. See nr4a3-program-map.md → the scoreboard's control-status table. · paused 2026-08-02T09:40:00Z. Banked work is untouched — the GCS commit store is continuous, so a resume re-enters at the last COMMITTED.json and nothing is lost by waiting. The free GCP GPU is idle — that is expiring credit unspent. $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
+_As of 9:27 AM ET Mon Aug 3, 2026 (1 min ago). Written by `gcp_fanout_rep.py tick`. cycle_3carbonyl r1: 0 of 3 units have a ddg.json in GCS. NOT buying this tick [operator_hold]: ⏸ PAUSED BY OPERATOR — this lane will not buy a GPU until gcp-s1f-rep-OPERATOR-HOLD.json is deleted. Reason on record: Pending a reevaluation of strategy. Both selectivity CONTROLS failed on 2026-08-02 (valB_mini wrong-sign, §2.11; the SMARCA2/4 sensitivity control NULL on an adequately-powered design, §2.12a), so whether to keep buying step-1 replicate sampling is a program-direction question, not a scheduling one. See nr4a3-program-map.md → the scoreboard's control-status table. · paused 2026-08-02T09:40:00Z. Banked work is untouched — the GCS commit store is continuous, so a resume re-enters at the last COMMITTED.json and nothing is lost by waiting. The free GCP GPU is idle — that is expiring credit unspent. $0 real dollars: GCP trial credit is a SEPARATE LEDGER (expires 2026-10-10) and is never summed into realized or ladder spend. L4 list $0.708/h is NOT a go-forward cost basis (pricing.md); no $/ns is quoted against the ladder because no ladder dollar is being spent._
 
 ```
 LEG                                      ETA (ET)          % DONE  $/ns STATE          WHY (when not running)
@@ -51,13 +51,13 @@ cw_ms_free_acid__cw_bio_primary_amide r1 —                      —  —    ID
 
 ## SENSITIVITY CONTROL — SMARCA2/4 co-fold panel (instrument calibration, not a result)
 
-_As of 10:38 PM ET Sat Aug 1, 2026 — **2089 min ago, STALE (> 15 min)**. Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
+_As of 10:38 PM ET Sat Aug 1, 2026 — **2090 min ago, STALE (> 15 min)**. Written by `selcal_board.py`. 12 of 12 (arm, seed) co-folds are in S3. % DONE is a COUNT of models that exist; the ETA is refused until 3 arrival intervals have been measured (selcal_board.MIN_RATE_INTERVALS) and is a LOWER BOUND whenever an arm has not started, because no measurable interval includes the MSA + model load an arm pays once._
 
 ```
 LEG                    ETA (ET)          % DONE  $/ns                                                                                             STATE     WHY (when not running)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                            UNKNOWN   lane last reported 2089 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
-selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                            UNKNOWN   lane last reported 2089 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. Host(s): 46560490 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
-selcal-smarca4-m2-r0   —                21/22 l  — $0.0711/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) UNKNOWN   lane last reported 2089 min ago — this row is THAT report, not a current reading; it then read: RUNNING — instance 46560490 running, rented 2026-08-02T02:30:30Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
+selcal_smarca2 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                            UNKNOWN   lane last reported 2090 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
+selcal_smarca4 co-fold —                 100.0%  — no ns: co-fold is inference, not MD                                                            UNKNOWN   lane last reported 2090 min ago — this row is THAT report, not a current reading; it then read: DONE — all 6 seeds have a co-fold in S3. Host(s): 46560490 running. 6/6 seeds; no $/ns is quoted because a co-fold integrates no dynamics — there is no ns denominator. The lane's MD rows quote the $/hr they are billed and refuse the conversion (inflight_board.unpriceable_usd_cell).
+selcal-smarca4-m2-r0   —                21/22 l  — $0.0711/hr (no measured ns/h: endpoint MD, not the 84k-atom RBFE the throughput table benches) UNKNOWN   lane last reported 2090 min ago — this row is THAT report, not a current reading; it then read: RUNNING — instance 46560490 running, rented 2026-08-02T02:30:30Z. ETA UNKNOWN — this lane has never run an MD leg to its terminus, so there is no measured s/iter to project from; the first one that lands supplies it.
 ```
 
