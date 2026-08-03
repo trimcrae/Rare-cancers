@@ -127,14 +127,16 @@ nor a small collaborator can supply.**
 | 11 | HDAC / BET to lower fusion *expression* | not fusion-selective; a class effect, not an EMC result |
 | 12 | Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript | vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing |
 | 13 | B7-H3 / CD56 ADC or CAR-T | already red-teamed in this repo: not selective (BH q = 1.0) |
+| **14** | ⭑ **Fusion-driven synthetic promoter → suicide gene** *(NEW to this repo)* | vector delivery — **and EMC lacks the neomorphic DNA-binding element the technique depends on** (§3, route 14) |
+| **15** | ⭑ **A ligand for the shared FET low-complexity half** *(NEW to this repo)* | binds wild-type EWSR1 too — an essential housekeeping protein — so it *relocates* selectivity somewhere worse |
 
 **Tier 4 — closed. Do not spend on these; two of them are closed *by this session's reading* and are
 new entries.**
 
 | route | why closed |
 |---|---|
-| **RXR-heterodimer modulation of the fusion** — ⭑ **NEW, closed today** | **NR4A3 does not heterodimerise with RXR** (unlike NR4A1 and NR4A2). The one pharmacology that has actually been solved in this receptor family does not apply to our paralogue |
-| **6-mercaptopurine / AF-1 agonism of the fusion** — ⭑ **NEW, closed today** | 6-MP activates NR4A3 *through the AF-1 in the A/B domain, independent of the LBD* — and **the AF-1 is exactly the domain EWSR1's low-complexity region replaces** in the fusion ([`target-route-options.md` check B](./target-route-options.md) measured that swap: NR4A3 AF1 1–260 vs EWSR1-LC 1–264). The one approved-drug NR4A3 ligand acts on the half of the protein the disease deletes |
+| **RXR-heterodimer modulation of the fusion** — ⭑ **NEW, closed today, on a verbatim primary source** | **NR4A3 does not heterodimerise with RXR**, unlike NR4A1 and NR4A2. Quoted rather than paraphrased, because the whole closure turns on it: *"Nor1 is unable to promote RXR signaling due to its inability to form heterodimers with RXR"* ([Zetterström et al., *Mol Endocrinol* 1996;10:1656–66, PMID 8961274](https://pubmed.ncbi.nlm.nih.gov/8961274/) — the paper's title is literally that RXR heterodimerisation *distinguishes* the three). The one pharmacology this receptor family has actually solved is the one place our paralogue is absent |
+| **6-mercaptopurine / AF-1 agonism of the fusion** — ⭑ **NEW, closed today** | 6-MP is the one **approved** drug that activates NR4A3, which would have been the cheapest imaginable entry — but it acts *through the AF-1 in the A/B domain, independently of the LBD* ([Wansa et al., *J Biol Chem* 2003;278:24776–90, PMID 12709428](https://pubmed.ncbi.nlm.nih.gov/12709428/)), and **the AF-1 is exactly the domain EWSR1's low-complexity region replaces** in the fusion ([`target-route-options.md` check B](./target-route-options.md) measured that swap: NR4A3 AF1 1–260 vs EWSR1-LC 1–264). A ligand whose entire mechanism lives in the deleted half cannot act on the chimera at any dose |
 | molecular glue instead of a PROTAC | ⏸ already parked by the roadmap — *removes* handles and keeps the same ~1 kcal/mol claim |
 | relocating the target to the DBD / DNA binding | ✕ already dead by arithmetic — 93–99 % paralogue identity against 59–67 % |
 | fusion-junction vaccine / HLA coverage | ⏸ already parked — weak immunogen in a cold tumour |
@@ -183,17 +185,36 @@ running.
 pre-registered as a **double** prediction — ATR axis more essential in FET lines *and* ATM axis not
 more essential — because either half alone is consistent with a lineage artefact. **It came back
 `NEITHER` / `ATR_HALF_ONLY`, and the diagnosis is the instrument, exactly as the module said in
-advance it would be.** The ATR axis sits at **−1.578** in FET lines, **−1.601** in non-FET sarcoma and
-**−1.559** in everything else: a between-group delta of **0.02** against a within-group SD of
-**0.12–0.15**. That is the common-essential floor, not a null result about biology — a full ATR
-knockout removes the protein everywhere, which is a different question from what a sub-lethal
-inhibitor does. ⛔ **This is reported as a failed instrument and must not be quoted as evidence
-against the hypothesis.** The scan now also carries the *right* instrument — **ATR-inhibitor
+advance it would be.** Three measurements say so rather than one argument:
+
+- The ATR axis sits at **−1.578** in FET lines, **−1.601** in non-FET sarcoma and **−1.559** in
+  everything else — a between-group delta of **0.02** against a within-group SD of **0.12–0.15**.
+- ⭑ **`frac_lines_dependent_on_axis` = 1.000.** *Every* line in DepMap passes the standard dependency
+  threshold on this axis. A readout on which nothing is negative has no discriminating power at all,
+  and that is a cleaner statement of the problem than any delta.
+- The **controls now pass**, so the read itself is sound: RPL5 **−2.55** panel-wide (essential),
+  ATM **−0.008** (near-neutral). ⚠ On the first run the stated pan-essential control read `null`
+  because **POLR2A and PRKDC are simply not in the 24Q4 column set** — measured, then fixed, not
+  explained away.
+- ⭑ **And a second, independent grouping agrees.** Rebuilding FET status from DepMap's own
+  `OmicsFusionFiltered` calls instead of disease labels (**81 models carry an EWSR1/FUS/TAF15 fusion
+  call, 55 with CRISPR data**) gives an ATR-axis delta of **0.006**. Two different groupings, same
+  blindness — so the null is a property of the instrument, not of how the groups were drawn.
+
+⛔ **This is reported as a failed instrument and must not be quoted as evidence against the
+hypothesis.** A full ATR knockout removes the protein everywhere, which is a different question from
+what a sub-lethal inhibitor does. The scan now carries the *right* instrument — **ATR-inhibitor
 sensitivity** — because the source paper used exactly that (*"we utilized DepMap screening data for
 elimusertib in 880 cancer cell lines which included 17 ES samples"*) and **split it only as Ewing vs
-non-Ewing**. Re-cutting the same public data by FET status, so CCS, DSRCT and myxoid liposarcoma sit
-*with* Ewing instead of in the comparator, is a free analysis that is not in the paper and that
-directly tests whether the class claim is partner-agnostic or a Ewing effect.
+non-Ewing**. Re-cutting by FET status, so CCS, DSRCT and myxoid liposarcoma sit *with* Ewing instead
+of in the comparator, is a free analysis that is not in the paper and that directly tests whether the
+class claim is partner-agnostic or a Ewing effect. ⚠ **Where that data lives was itself a measured
+question, and two guesses were wrong**: the quarterly figshare releases carry no drug matrix (73 and
+52 files, all CRISPR/omics) and figshare's search endpoint returns unrelated articles for every PRISM
+term tried, so the scan now reads ATR-inhibitor LN_IC50 from **GDSC**, keyed through `Model.csv`'s
+Sanger/COSMIC ids, with control drugs run through the identical path so an "FET lines are sensitive to
+everything" artefact would be visible rather than inferred. **That contrast is the one number in this
+memo that is still pending.**
 
 ⭑ **Two other $0 answers fell out of the same run.** The one EMC model in DepMap, **ACH-001519 /
 H-EMC-SS**, is present with `OncotreeSubtype: "Extraskeletal Myxoid Chondrosarcoma"`,
@@ -384,6 +405,74 @@ worth asking for.
   fusion-exclusive idea in the list and has real literature behind it, but it is vector-delivered and
   has no modern solid-tumour clinical footing.
 - **B7-H3 / CD56** are already red-teamed here: not selective (BH q = 1.0).
+
+### Route 14 — ⭑ the fusion-driven synthetic promoter, and the precise reason EMC is a *harder* case than Ewing
+
+Worth writing up because it is the most elegant idea in the search and because **the reason it does
+not transfer cleanly is itself a result about EMC.** In Ewing, EWSR1::FLI1 has **neomorphic** DNA
+binding — it activates GGAA microsatellites that wild-type FLI1 does not — so a GGAA-based synthetic
+cassette is active *only* where the fusion is. That has been built: a de-novo enhancer-based
+expression cassette giving EWSR1-FLI1-dependent expression
+([*Mol Cancer* 2022](https://link.springer.com/article/10.1186/s12943-022-01641-6)), and a GGAA
+promoter driving HSV-TK with ganciclovir-dependent killing in vitro and in vivo
+([*Sci Rep* 2025](https://www.nature.com/articles/s41598-025-14945-6)), delivered by an
+anti-GPR64-pseudotyped lentivirus.
+
+⛔ **EWSR1::NR4A3 retains NR4A3's own zinc-finger DBD, which binds the same NBRE/NurRE elements the
+wild-type paralogues bind** — the roadmap already records that *"the whole family also binds the same
+NBRE/NurRE elements, so the functional site is shared as well as the sequence"*
+([§6a](./nr4a3-program-map.md#6a--dead--conclusively-unworkable-never-retry)). So an NBRE cassette
+would fire in any cell with active NR4A signalling. What EMC's fusion changes is **transactivation
+potency**, not binding site — which makes the achievable selectivity a **gradient rather than a
+switch**, and a gradient is the wrong basis for a suicide gene. ⭑ **This is the same finding as §0 in
+a third guise**: EMC's paralogue problem is not solved by moving to DNA, and here it is not solved by
+moving to a promoter either. The route is worth one paragraph in a paper and a named reopening
+trigger — *a demonstrated EMC-specific neomorphic element or enhancer* — not a program.
+
+### Route 15 — ⭑ a ligand for the shared FET low-complexity half
+
+**MS0621** is a real small molecule that modulates chromatin accessibility at EWSR1::FLI1-bound loci
+and interacts with an EWSR1-containing RNA-associated complex
+([*Front Oncol* 2023](https://www.frontiersin.org/journals/oncology/articles/10.3389/fonc.2023.1099550/full));
+the TCIP paper names it as the candidate handle for recruiting *endogenous* EWSR1::FLI1. Because
+**all three of EMC's common fusions carry a FET low-complexity domain**, a ligand for that half would
+engage EWSR1::NR4A3, TAF15::NR4A3 and FUS::NR4A3 alike — the widest possible EMC coverage, and it
+sidesteps NR4A entirely. ⛔ **And that is also its defect, already recorded on the target axis**:
+targeting a FET protein at the protein level *"moves the selectivity burden onto an essential
+housekeeping protein"* ([`target-route-options.md` §3](./target-route-options.md)). It **relocates**
+the requirement rather than removing it, and it relocates it somewhere worse. Recorded so the idea
+is not re-derived as novel.
+
+---
+
+## 3b · The technique classes searched, and where each landed
+
+*So the breadth of the search is auditable rather than asserted, and so a class that was considered
+and rejected is not re-proposed as an unexplored idea. **Absence from Tier 1–2 here is a judgement,
+not an oversight.***
+
+| technique class searched | landed |
+|---|---|
+| DDR synthetic lethality in FET-rearranged cancer | **Tier 1 #1** |
+| fusion-junction ASO / siRNA; antibody-oligonucleotide delivery | **Tier 1 #2** |
+| chemically-induced proximity: TCIP (rewiring) | **Tier 2 #4** |
+| covalent probes / chemical-biology reagents | **Tier 2 #5** |
+| differentiation therapy + fusion-TF displacement (PPARγ × trabectedin) | **Tier 2 #6** |
+| peptide-receptor radioligand therapy / theranostics | **Tier 2 #7** |
+| chemically-induced proximity: RIPTAC (essential-protein poisoning) | Tier 3 #8 |
+| gene editing: Cas9 intron-targeting, Cas13 RNA knockdown | Tier 3 #9 |
+| TCR-T / ImmTAC / fusion-junction immunopeptidomics | Tier 3 #10 |
+| epigenetic suppression of fusion expression (HDAC, BET) | Tier 3 #11 |
+| RNA trans-splicing ribozymes → suicide gene | Tier 3 #12 |
+| surface-antigen ADC / CAR-T / bispecific | Tier 3 #13 |
+| transcriptional targeting via a fusion-responsive synthetic promoter | Tier 3 #14 |
+| ligands for the shared FET low-complexity domain | Tier 3 #15 |
+| RIBOTAC / RNase-L-recruiting small molecules against the fusion transcript | not ranked — needs a small-molecule-bindable RNA structure at the junction, which the repo's junction work gives no reason to expect; a reopening trigger, not a route |
+| condensate-partitioning small molecules against FET fusion condensates | not ranked — the field's own reviews say selective partitioning into a *specific* condensate is unsolved; watch item |
+| de-novo binder / minibinder design (RFdiffusion-class) | not ranked as a route — it is a *method* that would serve routes 4 and 5, and intracellular delivery of a designed protein is the unsolved half |
+| virtual-cell / perturbation foundation models (X-Cell, STATE, scGPT-class) | not ranked as a route — same reason; it is the in-silico lever that would *find* candidates, and belongs in `method-watch.md` |
+| nuclear-receptor heterodimer pharmacology (RXR) | **Tier 4 — closed** |
+| approved NR4A3 agonist (6-mercaptopurine) | **Tier 4 — closed** |
 
 ---
 
