@@ -38,6 +38,10 @@ on:
         description: "AWS region"
         default: "us-east-2"
         required: false
+      score_harmonized:
+        description: "true (default) = also score the generation receptor under POCKET_MATCH=harmonized; false = part 1 only"
+        default: "true"
+        required: false
 
 permissions:
   contents: write
@@ -83,11 +87,74 @@ jobs:
           l = d['s3_listing']
           print('S3 LISTING: n_keys=%s error=%s' % (l.get('n_keys'), l.get('error')))
           "
+      # ── PART 2: the named unblocker. Score that ONE structure under the harmonized matcher. ────────
+      # The manifest's 0.667 predates the harmonized tracker (no pocket_match block, written 2026-06-29
+      # against a freeze of 2026-07-11), so it cannot discharge a harmonized gate. This step closes the
+      # gate rather than reporting that it is open.
+      #
+      # fpocket comes from conda-forge on a FREE runner. CLAUDE.md §6's "never build an environment on a
+      # machine we are paying for" is honoured because nothing here is paid for and no baked image in the
+      # repo carries fpocket -- the same reasoning, and the same micromamba idiom, as
+      # pose-recovery-check.yml. Pinned to 4.2.3, which is what entry_pocket_reharmonize.py built the
+      # committed table with, so the score is protocol-parity rather than merely similar.
+      - name: Install fpocket 4.2.3 (free runner, pinned for parity with the committed table)
+        if: ${{ github.event.inputs.score_harmonized != 'false' }}
+        run: |
+          set -e
+          cd "$RUNNER_TEMP"
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/fenv" -c conda-forge fpocket=4.2.3
+          echo "$RUNNER_TEMP/fenv/bin" >> "$GITHUB_PATH"
+      - name: Score the generation receptor under POCKET_MATCH=harmonized
+        if: ${{ github.event.inputs.score_harmonized != 'false' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ github.event.inputs.region }}
+          POCKET_MATCH: harmonized
+        run: |
+          set -eo pipefail
+          which fpocket && (fpocket -h 2>&1 | head -3 || true)
+          mkdir -p /tmp/r3pdb
+          python - <<'PY'
+          import boto3, os
+          s3 = boto3.client("s3", region_name=os.environ.get("AWS_DEFAULT_REGION", "us-east-2"))
+          key = "${{ github.event.inputs.prefix }}".rstrip("/") + "/nr4a3-release-druggable.pdb"
+          s3.download_file("${{ github.event.inputs.bucket }}", key, "/tmp/r3pdb/generation-receptor.pdb")
+          print("downloaded", key, os.path.getsize("/tmp/r3pdb/generation-receptor.pdb"), "bytes")
+          PY
+          cd research/modalities
+          python r3_score_generation_frame.py --pdb /tmp/r3pdb/generation-receptor.pdb
+      - name: Gate A verdict LAST
+        if: ${{ always() && github.event.inputs.score_harmonized != 'false' }}
+        run: |
+          set +e
+          echo "================ R3 GATE A — HARMONIZED SCORE ================"
+          python -c "
+          import json, os
+          p = 'research/modalities/r3-generation-frame-harmonized.json'
+          if not os.path.exists(p):
+              print('NOT PRODUCED — the harmonized score did not run to completion.')
+              print('⚠ That is a REFUSAL, not a pass: the gate stays open and part 1 stands.')
+              raise SystemExit(0)
+          d = json.load(open(p))
+          v = d['verdict']
+          print('VERDICT   :', v['verdict'])
+          print('REASON    :', v['reason'])
+          print('DRUGGABIL :', v['druggability'], ' D*:', v['d_star'])
+          print('NUMBERING :', d['numbering'], '->', d['mapped_lining_resseqs'])
+          print('FPOCKET   :', d['fpocket_version'], ' MODE:', d['match_mode'])
+          print('MATCHED   :', json.dumps(d['matched_pocket']))
+          print('PRIOR     :', json.dumps(d['_prior_manifest_score']))
+          if v.get('reaches'): print('REACHES   :', v['reaches'])
+          "
       - name: Publish
+        if: ${{ always() }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_IF_CHANGED: "1"
         run: |
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "R3 frame-level generation-receptor dependency audit (CI, \$0)" \
-            research/modalities/r3-generation-frame-audit.json
+            research/modalities/r3-generation-frame-audit.json \
+            research/modalities/r3-generation-frame-harmonized.json
