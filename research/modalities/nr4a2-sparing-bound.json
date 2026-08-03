@@ -1,0 +1,2037 @@
+{
+ "_what": "ROADMAP ROW 26 \u2014 the $0 observation that bounds (or measurably fails to bound) the NR4A2 half of the asymmetric selectivity requirement, from MGI single-KO phenotypes and HPA per-tissue nTPM.",
+ "_this_is_evidence_not_a_conclusion": "Every MGI value is parsed out of the public flat reports named below, with the PubMed ID the curator attached. Every nTPM is read from the HPA consensus table. Nothing is curated, averaged or remembered, and the verdict is a mechanical function of the two, printed beside them.",
+ "_prereg": {
+  "expressed_ntpm_min": 1.0,
+  "_why_1_0": "HPA's own conventional detection floor for consensus nTPM. Pre-registered rather than tuned: every tissue-overlap count below is reported at this one cut, and the artifact additionally emits the full per-tissue table so any other cut can be applied by a reader without re-running anything.",
+  "enriched_fold_min": 4.0,
+  "_why_4_0": "a paralogue is called DOMINANT in a tissue when its nTPM exceeds 4x the larger of the other two. This is the 'no compensation available' shape: it is HPA's own tissue-enriched fold convention applied between paralogues instead of between tissues.",
+  "lethality_term_pattern": "(lethal|viab|survival|died|death|premature death)",
+  "_why_term_pattern": "lethality is matched on MP TERM NAMES read live out of VOC_MammalianPhenotype.rpt, never on a hard-coded list of MP IDs. A hard-coded ID list is a memory, and a memory is what this row exists to replace.",
+  "single_gene_requires_two_agreeing_parses": true
+ },
+ "_asymmetry_this_serves": "roadmap \u00a72.4: NR4A1 is a HARD constraint (the Nr4a1-/-;Nr4a3-/- AML genotype, PMID 17515897 / PMID 29343483); NR4A2 was UNBOUNDED in both directions. This module answers only the NR4A2 half and changes nothing about the NR4A1 half.",
+ "caveat_that_must_travel_with_any_result": "A germline mouse knockout bounds DEVELOPMENTAL, COMPLETE, LIFELONG loss of a gene. A degrader is an ADULT, TRANSIENT, INCOMPLETE loss of a protein, and no source read here measures that. So a KO phenotype -- lethal or not -- sets the ceiling of concern, never the expected effect of a molecule; and an absent KO record is an absence of evidence, not evidence of tolerability. This repo additionally holds no measured or predicted CNS-penetration datum for any NR4A candidate, so the exposure argument that would otherwise narrow the NR4A2 question is a property of a molecule that does not exist.",
+ "mgi": {
+  "source": "https://www.informatics.jax.org/downloads/reports/",
+  "reports": {
+   "markers": "MRK_List2.rpt",
+   "phenogeno": "MGI_PhenoGenoMP.rpt",
+   "mp_vocab": "VOC_MammalianPhenotype.rpt",
+   "alleles": "MGI_PhenotypicAllele.rpt"
+  },
+  "errors": [],
+  "loaded": true,
+  "marker_resolution": {
+   "Nr4a1": "MGI:1352454",
+   "Nr4a2": "MGI:1352456",
+   "Nr4a3": "MGI:1352457"
+  },
+  "n_mp_terms_in_vocabulary": 15253,
+  "n_alleles_found": 40,
+  "alleles": [
+   {
+    "allele_accession": "MGI:8390873",
+    "allele_symbol": "Nr4a1<em1(cre)Smoc>",
+    "allele_name": "endonuclease-mediated mutation 1, Shanghai Model Organisms Center",
+    "gene": "Nr4a1",
+    "allele_type": "Endonuclease-mediated",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7795022",
+    "allele_symbol": "Nr4a1<em1Cya>",
+    "allele_name": "endonuclease-mediated mutation 1, Cyagen Biosciences",
+    "gene": "Nr4a1",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:7303220",
+    "allele_symbol": "Nr4a1<em1Gpt>",
+    "allele_name": "endonuclease-mediated mutation 1, GemPharmatech Co., Ltd",
+    "gene": "Nr4a1",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "No functional change|Conditional ready",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7291399",
+    "allele_symbol": "Nr4a1<em1Smoc>",
+    "allele_name": "endonuclease-mediated mutation 1, Shanghai Model Organisms Center",
+    "gene": "Nr4a1",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "No functional change|Conditional ready",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7795023",
+    "allele_symbol": "Nr4a1<em2Cya>",
+    "allele_name": "endonuclease-mediated mutation 2, Cyagen Biosciences",
+    "gene": "Nr4a1",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Conditional ready|No functional change",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7291400",
+    "allele_symbol": "Nr4a1<em2Smoc>",
+    "allele_name": "endonuclease-mediated mutation 2, Shanghai Model Organisms Center",
+    "gene": "Nr4a1",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:7303221",
+    "allele_symbol": "Nr4a1<em52Gpt>",
+    "allele_name": "endonuclease-mediated mutation 52, GemPharmatech Co., Ltd",
+    "gene": "Nr4a1",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:5570322",
+    "allele_symbol": "Nr4a1<m1Anu>",
+    "allele_name": "mutation 1, Australian National University",
+    "gene": "Nr4a1",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:2182325",
+    "allele_symbol": "Nr4a1<tm1Jmi>",
+    "allele_name": "targeted mutation 1, Jeffrey Milbrandt",
+    "gene": "Nr4a1",
+    "allele_type": "Not Specified",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:5546594",
+    "allele_symbol": "Nr4a1<tm1Pcn>",
+    "allele_name": "targeted mutation 1, Pierre Chambon",
+    "gene": "Nr4a1",
+    "allele_type": "Targeted",
+    "allele_attributes": "No functional change|Conditional ready",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:4432935",
+    "allele_symbol": "Nr4a1<tm1a(EUCOMM)Wtsi>",
+    "allele_name": "targeted mutation 1a, Wellcome Trust Sanger Institute",
+    "gene": "Nr4a1",
+    "allele_type": "Targeted",
+    "allele_attributes": "Conditional ready|Reporter|Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:7766444",
+    "allele_symbol": "Nr4a2<em1(cre)Smoc>",
+    "allele_name": "endonuclease-mediated mutation 1, Shanghai Model Organisms Center",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7303222",
+    "allele_symbol": "Nr4a2<em1(cre/ERT2)Gpt>",
+    "allele_name": "endonuclease-mediated mutation 1, GemPharmatech Co., Ltd",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Inducible|Recombinase|Reporter",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7303223",
+    "allele_symbol": "Nr4a2<em12Gpt>",
+    "allele_name": "endonuclease-mediated mutation 12, GemPharmatech Co., Ltd",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:7585426",
+    "allele_symbol": "Nr4a2<em1Cya>",
+    "allele_name": "endonuclease-mediated mutation 1, Cyagen Biosciences",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:7282247",
+    "allele_symbol": "Nr4a2<em1Inot>",
+    "allele_name": "endonuclease-mediated mutation 1, Takayoshi Inoue",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Reporter",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7766445",
+    "allele_symbol": "Nr4a2<em1Smoc>",
+    "allele_name": "endonuclease-mediated mutation 1, Shanghai Model Organisms Center",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Conditional ready|No functional change",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7585427",
+    "allele_symbol": "Nr4a2<em2Cya>",
+    "allele_name": "endonuclease-mediated mutation 2, Cyagen Biosciences",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "No functional change|Conditional ready",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7303224",
+    "allele_symbol": "Nr4a2<em2Gpt>",
+    "allele_name": "endonuclease-mediated mutation 2, GemPharmatech Co., Ltd",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Conditional ready|No functional change",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:8390874",
+    "allele_symbol": "Nr4a2<em2Smoc>",
+    "allele_name": "endonuclease-mediated mutation 2, Shanghai Model Organisms Center",
+    "gene": "Nr4a2",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:6790280",
+    "allele_symbol": "Nr4a2<tm1(dre)Hze>",
+    "allele_name": "targeted mutation 1, Hongkui Zeng",
+    "gene": "Nr4a2",
+    "allele_type": "Targeted",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:4437024",
+    "allele_symbol": "Nr4a2<tm1.1Pcn>",
+    "allele_name": "targeted mutation 1.1, Pierre Chambon",
+    "gene": "Nr4a2",
+    "allele_type": "Targeted",
+    "allele_attributes": "Conditional ready|No functional change",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:5907171",
+    "allele_symbol": "Nr4a2<tm1.1Taya>",
+    "allele_name": "targeted mutation 1.1, Takashi Yamamura",
+    "gene": "Nr4a2",
+    "allele_type": "Targeted",
+    "allele_attributes": "Conditional ready|No functional change",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:2429971",
+    "allele_symbol": "Nr4a2<tm1Niko>",
+    "allele_name": "targeted mutation 1, Vera M Nikodem",
+    "gene": "Nr4a2",
+    "allele_type": "Targeted",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:3043985",
+    "allele_symbol": "Nr4a2<tm1Omc>",
+    "allele_name": "targeted mutation 1, Orla M Conneely",
+    "gene": "Nr4a2",
+    "allele_type": "Targeted",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:2157566",
+    "allele_symbol": "Nr4a2<tm1Tpe>",
+    "allele_name": "targeted mutation 1, Thomas Perlmann",
+    "gene": "Nr4a2",
+    "allele_type": "Targeted",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:7303225",
+    "allele_symbol": "Nr4a3<em15Gpt>",
+    "allele_name": "endonuclease-mediated mutation 15, GemPharmatech Co., Ltd",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:8376971",
+    "allele_symbol": "Nr4a3<em1Baek>",
+    "allele_name": "endonuclease-mediated mutation 1, In-Jeoung Baek",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "No functional change|Conditional ready",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7795024",
+    "allele_symbol": "Nr4a3<em1Cya>",
+    "allele_name": "endonuclease-mediated mutation 1, Cyagen Biosciences",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:7303226",
+    "allele_symbol": "Nr4a3<em1Gpt>",
+    "allele_name": "endonuclease-mediated mutation 1, GemPharmatech Co., Ltd",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Conditional ready|No functional change",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:6717373",
+    "allele_symbol": "Nr4a3<em1Juz>",
+    "allele_name": "endonuclease-mediated mutation 1, Julie Zikherman",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:7766446",
+    "allele_symbol": "Nr4a3<em1Smoc>",
+    "allele_name": "endonuclease-mediated mutation 1, Shanghai Model Organisms Center",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Conditional ready|No functional change",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:7795025",
+    "allele_symbol": "Nr4a3<em2Cya>",
+    "allele_name": "endonuclease-mediated mutation 2, Cyagen Biosciences",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Conditional ready|No functional change",
+    "is_null_knockout": false
+   },
+   {
+    "allele_accession": "MGI:6717380",
+    "allele_symbol": "Nr4a3<em2Juz>",
+    "allele_name": "endonuclease-mediated mutation 2, Julie Zikherman",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:8390875",
+    "allele_symbol": "Nr4a3<em3Smoc>",
+    "allele_name": "endonuclease-mediated mutation 3, Shanghai Model Organisms Center",
+    "gene": "Nr4a3",
+    "allele_type": "Endonuclease-mediated",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:6507444",
+    "allele_symbol": "Nr4a3<tm1.1Mono>",
+    "allele_name": "targeted mutation 1.1, Masahiro Ono",
+    "gene": "Nr4a3",
+    "allele_type": "Targeted",
+    "allele_attributes": "Reporter|Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:4819522",
+    "allele_symbol": "Nr4a3<tm1Dgen>",
+    "allele_name": "targeted mutation 1, Deltagen",
+    "gene": "Nr4a3",
+    "allele_type": "Targeted",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:3037444",
+    "allele_symbol": "Nr4a3<tm1Omc>",
+    "allele_name": "targeted mutation 1, Orla M Conneely",
+    "gene": "Nr4a3",
+    "allele_type": "Targeted",
+    "allele_attributes": "Null/knockout|Reporter",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:6467329",
+    "allele_symbol": "Nr4a3<tm1Tac>",
+    "allele_name": "targeted mutation 1, Taconic",
+    "gene": "Nr4a3",
+    "allele_type": "Targeted",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   },
+   {
+    "allele_accession": "MGI:3043761",
+    "allele_symbol": "Nr4a3<tm1Wnt>",
+    "allele_name": "targeted mutation 1, Astar Winoto",
+    "gene": "Nr4a3",
+    "allele_type": "Targeted",
+    "allele_attributes": "Null/knockout",
+    "is_null_knockout": true
+   }
+  ],
+  "n_phenogeno_lines_scanned": 395080,
+  "n_records_touching_nr4a": 122,
+  "n_ambiguous_records_counted_nowhere": 122,
+  "ambiguous_records": [
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0001399",
+    "pubmed_id": "11784868",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0001525",
+    "pubmed_id": "11784868",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0002428",
+    "pubmed_id": "11784868",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0000046",
+    "pubmed_id": "11784868",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0001395",
+    "pubmed_id": "11784868",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0000808",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0002906",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0002961",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0006011",
+    "pubmed_id": "11784868",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0003203",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0003240",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0003651",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0003997",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0004742",
+    "pubmed_id": "11784868",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0008284",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Omc>/Nr4a3<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3037447"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0009971",
+    "pubmed_id": "15456880",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a1<tm1Jmi>/Nr4a1<tm1Jmi>",
+    "genes_parsed_from_composition": [
+     "Nr4a1"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352454",
+     "MGI:3042263"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0001619",
+    "pubmed_id": "24485460",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a1<tm1Jmi>/Nr4a1<tm1Jmi>",
+    "genes_parsed_from_composition": [
+     "Nr4a1"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352454",
+     "MGI:3042263"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0005154",
+    "pubmed_id": "32868928",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a1<tm1Jmi>/Nr4a1<tm1Jmi>",
+    "genes_parsed_from_composition": [
+     "Nr4a1"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352454",
+     "MGI:3042263"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0008783",
+    "pubmed_id": "32868928",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a1<tm1Jmi>/Nr4a1<tm1Jmi>",
+    "genes_parsed_from_composition": [
+     "Nr4a1"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352454",
+     "MGI:3042263"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0009671",
+    "pubmed_id": "24485460",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Wnt>/Nr4a3<tm1Wnt>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3043765"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0002085",
+    "pubmed_id": "13129926",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Wnt>/Nr4a3<tm1Wnt>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3043765"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0001695",
+    "pubmed_id": "13129926",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Wnt>/Nr4a3<tm1Wnt>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3043765"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0002174",
+    "pubmed_id": "13129926",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Wnt>/Nr4a3<tm1Wnt>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3043765"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0011097",
+    "pubmed_id": "13129926",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Wnt>/Nr4a3<+>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3043766"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0002085",
+    "pubmed_id": "13129926",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Wnt>/Nr4a3<+>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3043766"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0003984",
+    "pubmed_id": "13129926",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a3<tm1Wnt>/Nr4a3<+>",
+    "genes_parsed_from_composition": [
+     "Nr4a3"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352457",
+     "MGI:3043766"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0011101",
+    "pubmed_id": "13129926",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0001436",
+    "pubmed_id": "10506516",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0001402",
+    "pubmed_id": "10506516",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0000836",
+    "pubmed_id": "9520484",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0005643",
+    "pubmed_id": "9520484",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0006100",
+    "pubmed_id": "9520484",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0003864",
+    "pubmed_id": "9520484",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0011087",
+    "pubmed_id": null,
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0012503",
+    "pubmed_id": "9520484",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<tm1Omc>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619914"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0012574",
+    "pubmed_id": "10506516",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<+>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619915"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0001405",
+    "pubmed_id": "15589522",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<+>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619915"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0005643",
+    "pubmed_id": "15589522",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<+>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619915"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0003313",
+    "pubmed_id": "15589522",
+    "classification": "ambiguous"
+   },
+   {
+    "allelic_composition": "Nr4a2<tm1Omc>/Nr4a2<+>",
+    "genes_parsed_from_composition": [
+     "Nr4a2"
+    ],
+    "marker_accessions_in_record": [
+     "MGI:1352456",
+     "MGI:3619915"
+    ],
+    "allele_accessions_in_record": [],
+    "mp_id": "MP:0003864",
+    "pubmed_id": "10506516",
+    "classification": "ambiguous"
+   }
+  ],
+  "single_gene": {
+   "Nr4a1": {
+    "mgi_marker_accession": "MGI:1352454",
+    "n_single_gene_annotations": 0,
+    "n_distinct_phenotype_terms": 0,
+    "n_genotypes_annotated": 0,
+    "n_alleles_in_allele_report": 11,
+    "n_null_knockout_alleles": 4,
+    "survival_or_viability_terms": [],
+    "phenotype_terms": [],
+    "_note_if_empty": "no MGI single-gene genotype-phenotype annotation was found for this marker. That is a reading of the whole MGI phenotype corpus, not a failed query -- but it is still an absence of a RECORD, never evidence that the knockout is healthy."
+   },
+   "Nr4a2": {
+    "mgi_marker_accession": "MGI:1352456",
+    "n_single_gene_annotations": 0,
+    "n_distinct_phenotype_terms": 0,
+    "n_genotypes_annotated": 0,
+    "n_alleles_in_allele_report": 15,
+    "n_null_knockout_alleles": 6,
+    "survival_or_viability_terms": [],
+    "phenotype_terms": [],
+    "_note_if_empty": "no MGI single-gene genotype-phenotype annotation was found for this marker. That is a reading of the whole MGI phenotype corpus, not a failed query -- but it is still an absence of a RECORD, never evidence that the knockout is healthy."
+   },
+   "Nr4a3": {
+    "mgi_marker_accession": "MGI:1352457",
+    "n_single_gene_annotations": 0,
+    "n_distinct_phenotype_terms": 0,
+    "n_genotypes_annotated": 0,
+    "n_alleles_in_allele_report": 14,
+    "n_null_knockout_alleles": 10,
+    "survival_or_viability_terms": [],
+    "phenotype_terms": [],
+    "_note_if_empty": "no MGI single-gene genotype-phenotype annotation was found for this marker. That is a reading of the whole MGI phenotype corpus, not a failed query -- but it is still an absence of a RECORD, never evidence that the knockout is healthy."
+   }
+  },
+  "multi_gene_genotypes": []
+ },
+ "hpa": {
+  "source": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip",
+  "url_attempts": [
+   {
+    "url": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip",
+    "ok": true,
+    "bytes": 5293680,
+    "member": "rna_tissue_consensus.tsv"
+   }
+  ],
+  "errors": [],
+  "loaded": true,
+  "per_gene_tissue_ntpm": {
+   "NR4A1": {
+    "adipose tissue": 671.1,
+    "adrenal gland": 529.5,
+    "amygdala": 40.7,
+    "appendix": 91.3,
+    "basal ganglia": 44.0,
+    "blood vessel": 605.9,
+    "bone marrow": 32.6,
+    "breast": 222.8,
+    "cerebellum": 54.7,
+    "cerebral cortex": 58.0,
+    "cervix": 141.9,
+    "choroid plexus": 135.5,
+    "colon": 217.3,
+    "duodenum": 28.0,
+    "endometrium": 116.5,
+    "epididymis": 6.8,
+    "esophagus": 125.8,
+    "fallopian tube": 453.9,
+    "gallbladder": 353.3,
+    "heart muscle": 661.1,
+    "hippocampal formation": 45.7,
+    "hypothalamus": 49.0,
+    "kidney": 189.7,
+    "liver": 88.8,
+    "lung": 271.0,
+    "lymph node": 42.8,
+    "midbrain": 37.5,
+    "ovary": 800.4,
+    "pancreas": 83.4,
+    "parathyroid gland": 81.6,
+    "pituitary gland": 428.0,
+    "placenta": 39.3,
+    "prostate": 283.9,
+    "rectum": 67.1,
+    "retina": 26.3,
+    "salivary gland": 137.8,
+    "seminal vesicle": 80.7,
+    "skeletal muscle": 289.8,
+    "skin": 213.2,
+    "small intestine": 108.6,
+    "smooth muscle": 134.7,
+    "spinal cord": 40.8,
+    "spleen": 37.3,
+    "stomach": 248.8,
+    "testis": 31.4,
+    "thymus": 55.3,
+    "thyroid gland": 289.3,
+    "tongue": 67.0,
+    "tonsil": 3.6,
+    "urinary bladder": 276.8,
+    "vagina": 171.9
+   },
+   "NR4A2": {
+    "adipose tissue": 37.7,
+    "adrenal gland": 125.3,
+    "amygdala": 5.9,
+    "appendix": 23.4,
+    "basal ganglia": 4.8,
+    "blood vessel": 51.9,
+    "bone marrow": 126.4,
+    "breast": 14.6,
+    "cerebellum": 24.4,
+    "cerebral cortex": 10.3,
+    "cervix": 16.9,
+    "choroid plexus": 18.7,
+    "colon": 9.2,
+    "duodenum": 2.8,
+    "endometrium": 14.8,
+    "epididymis": 1.6,
+    "esophagus": 11.9,
+    "fallopian tube": 27.4,
+    "gallbladder": 29.9,
+    "heart muscle": 36.1,
+    "hippocampal formation": 7.0,
+    "hypothalamus": 6.0,
+    "kidney": 16.1,
+    "liver": 17.9,
+    "lung": 18.0,
+    "lymph node": 5.4,
+    "midbrain": 7.7,
+    "ovary": 122.1,
+    "pancreas": 8.6,
+    "parathyroid gland": 8.2,
+    "pituitary gland": 51.2,
+    "placenta": 5.1,
+    "prostate": 24.4,
+    "rectum": 19.2,
+    "retina": 5.5,
+    "salivary gland": 17.9,
+    "seminal vesicle": 14.8,
+    "skeletal muscle": 11.2,
+    "skin": 11.9,
+    "small intestine": 7.6,
+    "smooth muscle": 14.6,
+    "spinal cord": 9.7,
+    "spleen": 4.5,
+    "stomach": 18.3,
+    "testis": 5.2,
+    "thymus": 9.4,
+    "thyroid gland": 14.7,
+    "tongue": 8.6,
+    "tonsil": 1.5,
+    "urinary bladder": 50.4,
+    "vagina": 13.1
+   },
+   "NR4A3": {
+    "adipose tissue": 37.6,
+    "adrenal gland": 57.8,
+    "amygdala": 2.8,
+    "appendix": 14.0,
+    "basal ganglia": 3.0,
+    "blood vessel": 35.6,
+    "bone marrow": 30.9,
+    "breast": 6.5,
+    "cerebellum": 2.0,
+    "cerebral cortex": 3.4,
+    "cervix": 10.7,
+    "choroid plexus": 4.4,
+    "colon": 8.4,
+    "duodenum": 0.7,
+    "endometrium": 14.6,
+    "epididymis": 0.6,
+    "esophagus": 3.7,
+    "fallopian tube": 21.1,
+    "gallbladder": 22.0,
+    "heart muscle": 58.7,
+    "hippocampal formation": 4.9,
+    "hypothalamus": 3.3,
+    "kidney": 6.2,
+    "liver": 8.4,
+    "lung": 16.9,
+    "lymph node": 1.2,
+    "midbrain": 1.9,
+    "ovary": 39.5,
+    "pancreas": 4.9,
+    "parathyroid gland": 2.8,
+    "pituitary gland": 19.3,
+    "placenta": 6.1,
+    "prostate": 14.6,
+    "rectum": 3.8,
+    "retina": 8.1,
+    "salivary gland": 2.1,
+    "seminal vesicle": 3.1,
+    "skeletal muscle": 54.7,
+    "skin": 2.0,
+    "small intestine": 5.5,
+    "smooth muscle": 12.5,
+    "spinal cord": 2.9,
+    "spleen": 3.3,
+    "stomach": 11.7,
+    "testis": 0.9,
+    "thymus": 6.1,
+    "thyroid gland": 6.4,
+    "tongue": 5.8,
+    "tonsil": 0.8,
+    "urinary bladder": 30.6,
+    "vagina": 4.3
+   }
+  },
+  "overlap": {
+   "n_tissues_with_all_three_measured": 51,
+   "expressed_cut_ntpm": 1.0,
+   "dominance_fold": 4.0,
+   "counts": {
+    "nr4a2_expressed": 51,
+    "nr4a3_expressed": 47,
+    "nr4a2_and_nr4a3_co_expressed": 47,
+    "nr4a2_unbuffered": 0,
+    "nr4a2_dominant": 0
+   },
+   "fractions": {
+    "nr4a2_expressed": 1.0,
+    "nr4a2_and_nr4a3_co_expressed": 0.9216,
+    "nr4a2_unbuffered": 0.0,
+    "nr4a2_dominant": 0.0
+   },
+   "nr4a2_unbuffered_tissues": [],
+   "nr4a2_dominant_tissues": [],
+   "top_20_tissues_by_nr4a2": [
+    {
+     "tissue": "bone marrow",
+     "NR4A1_nTPM": 32.6,
+     "NR4A2_nTPM": 126.4,
+     "NR4A3_nTPM": 30.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "adrenal gland",
+     "NR4A1_nTPM": 529.5,
+     "NR4A2_nTPM": 125.3,
+     "NR4A3_nTPM": 57.8,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "ovary",
+     "NR4A1_nTPM": 800.4,
+     "NR4A2_nTPM": 122.1,
+     "NR4A3_nTPM": 39.5,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "blood vessel",
+     "NR4A1_nTPM": 605.9,
+     "NR4A2_nTPM": 51.9,
+     "NR4A3_nTPM": 35.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "pituitary gland",
+     "NR4A1_nTPM": 428.0,
+     "NR4A2_nTPM": 51.2,
+     "NR4A3_nTPM": 19.3,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "urinary bladder",
+     "NR4A1_nTPM": 276.8,
+     "NR4A2_nTPM": 50.4,
+     "NR4A3_nTPM": 30.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "adipose tissue",
+     "NR4A1_nTPM": 671.1,
+     "NR4A2_nTPM": 37.7,
+     "NR4A3_nTPM": 37.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "heart muscle",
+     "NR4A1_nTPM": 661.1,
+     "NR4A2_nTPM": 36.1,
+     "NR4A3_nTPM": 58.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "gallbladder",
+     "NR4A1_nTPM": 353.3,
+     "NR4A2_nTPM": 29.9,
+     "NR4A3_nTPM": 22.0,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "fallopian tube",
+     "NR4A1_nTPM": 453.9,
+     "NR4A2_nTPM": 27.4,
+     "NR4A3_nTPM": 21.1,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "cerebellum",
+     "NR4A1_nTPM": 54.7,
+     "NR4A2_nTPM": 24.4,
+     "NR4A3_nTPM": 2.0,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "prostate",
+     "NR4A1_nTPM": 283.9,
+     "NR4A2_nTPM": 24.4,
+     "NR4A3_nTPM": 14.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "appendix",
+     "NR4A1_nTPM": 91.3,
+     "NR4A2_nTPM": 23.4,
+     "NR4A3_nTPM": 14.0,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "rectum",
+     "NR4A1_nTPM": 67.1,
+     "NR4A2_nTPM": 19.2,
+     "NR4A3_nTPM": 3.8,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "choroid plexus",
+     "NR4A1_nTPM": 135.5,
+     "NR4A2_nTPM": 18.7,
+     "NR4A3_nTPM": 4.4,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "stomach",
+     "NR4A1_nTPM": 248.8,
+     "NR4A2_nTPM": 18.3,
+     "NR4A3_nTPM": 11.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "lung",
+     "NR4A1_nTPM": 271.0,
+     "NR4A2_nTPM": 18.0,
+     "NR4A3_nTPM": 16.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "liver",
+     "NR4A1_nTPM": 88.8,
+     "NR4A2_nTPM": 17.9,
+     "NR4A3_nTPM": 8.4,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "salivary gland",
+     "NR4A1_nTPM": 137.8,
+     "NR4A2_nTPM": 17.9,
+     "NR4A3_nTPM": 2.1,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "cervix",
+     "NR4A1_nTPM": 141.9,
+     "NR4A2_nTPM": 16.9,
+     "NR4A3_nTPM": 10.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    }
+   ],
+   "per_tissue": [
+    {
+     "tissue": "adipose tissue",
+     "NR4A1_nTPM": 671.1,
+     "NR4A2_nTPM": 37.7,
+     "NR4A3_nTPM": 37.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "adrenal gland",
+     "NR4A1_nTPM": 529.5,
+     "NR4A2_nTPM": 125.3,
+     "NR4A3_nTPM": 57.8,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "amygdala",
+     "NR4A1_nTPM": 40.7,
+     "NR4A2_nTPM": 5.9,
+     "NR4A3_nTPM": 2.8,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "appendix",
+     "NR4A1_nTPM": 91.3,
+     "NR4A2_nTPM": 23.4,
+     "NR4A3_nTPM": 14.0,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "basal ganglia",
+     "NR4A1_nTPM": 44.0,
+     "NR4A2_nTPM": 4.8,
+     "NR4A3_nTPM": 3.0,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "blood vessel",
+     "NR4A1_nTPM": 605.9,
+     "NR4A2_nTPM": 51.9,
+     "NR4A3_nTPM": 35.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "bone marrow",
+     "NR4A1_nTPM": 32.6,
+     "NR4A2_nTPM": 126.4,
+     "NR4A3_nTPM": 30.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "breast",
+     "NR4A1_nTPM": 222.8,
+     "NR4A2_nTPM": 14.6,
+     "NR4A3_nTPM": 6.5,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "cerebellum",
+     "NR4A1_nTPM": 54.7,
+     "NR4A2_nTPM": 24.4,
+     "NR4A3_nTPM": 2.0,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "cerebral cortex",
+     "NR4A1_nTPM": 58.0,
+     "NR4A2_nTPM": 10.3,
+     "NR4A3_nTPM": 3.4,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "cervix",
+     "NR4A1_nTPM": 141.9,
+     "NR4A2_nTPM": 16.9,
+     "NR4A3_nTPM": 10.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "choroid plexus",
+     "NR4A1_nTPM": 135.5,
+     "NR4A2_nTPM": 18.7,
+     "NR4A3_nTPM": 4.4,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "colon",
+     "NR4A1_nTPM": 217.3,
+     "NR4A2_nTPM": 9.2,
+     "NR4A3_nTPM": 8.4,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "duodenum",
+     "NR4A1_nTPM": 28.0,
+     "NR4A2_nTPM": 2.8,
+     "NR4A3_nTPM": 0.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": false,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": false
+    },
+    {
+     "tissue": "endometrium",
+     "NR4A1_nTPM": 116.5,
+     "NR4A2_nTPM": 14.8,
+     "NR4A3_nTPM": 14.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "epididymis",
+     "NR4A1_nTPM": 6.8,
+     "NR4A2_nTPM": 1.6,
+     "NR4A3_nTPM": 0.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": false,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": false
+    },
+    {
+     "tissue": "esophagus",
+     "NR4A1_nTPM": 125.8,
+     "NR4A2_nTPM": 11.9,
+     "NR4A3_nTPM": 3.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "fallopian tube",
+     "NR4A1_nTPM": 453.9,
+     "NR4A2_nTPM": 27.4,
+     "NR4A3_nTPM": 21.1,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "gallbladder",
+     "NR4A1_nTPM": 353.3,
+     "NR4A2_nTPM": 29.9,
+     "NR4A3_nTPM": 22.0,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "heart muscle",
+     "NR4A1_nTPM": 661.1,
+     "NR4A2_nTPM": 36.1,
+     "NR4A3_nTPM": 58.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "hippocampal formation",
+     "NR4A1_nTPM": 45.7,
+     "NR4A2_nTPM": 7.0,
+     "NR4A3_nTPM": 4.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "hypothalamus",
+     "NR4A1_nTPM": 49.0,
+     "NR4A2_nTPM": 6.0,
+     "NR4A3_nTPM": 3.3,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "kidney",
+     "NR4A1_nTPM": 189.7,
+     "NR4A2_nTPM": 16.1,
+     "NR4A3_nTPM": 6.2,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "liver",
+     "NR4A1_nTPM": 88.8,
+     "NR4A2_nTPM": 17.9,
+     "NR4A3_nTPM": 8.4,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "lung",
+     "NR4A1_nTPM": 271.0,
+     "NR4A2_nTPM": 18.0,
+     "NR4A3_nTPM": 16.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "lymph node",
+     "NR4A1_nTPM": 42.8,
+     "NR4A2_nTPM": 5.4,
+     "NR4A3_nTPM": 1.2,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "midbrain",
+     "NR4A1_nTPM": 37.5,
+     "NR4A2_nTPM": 7.7,
+     "NR4A3_nTPM": 1.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "ovary",
+     "NR4A1_nTPM": 800.4,
+     "NR4A2_nTPM": 122.1,
+     "NR4A3_nTPM": 39.5,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "pancreas",
+     "NR4A1_nTPM": 83.4,
+     "NR4A2_nTPM": 8.6,
+     "NR4A3_nTPM": 4.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "parathyroid gland",
+     "NR4A1_nTPM": 81.6,
+     "NR4A2_nTPM": 8.2,
+     "NR4A3_nTPM": 2.8,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "pituitary gland",
+     "NR4A1_nTPM": 428.0,
+     "NR4A2_nTPM": 51.2,
+     "NR4A3_nTPM": 19.3,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "placenta",
+     "NR4A1_nTPM": 39.3,
+     "NR4A2_nTPM": 5.1,
+     "NR4A3_nTPM": 6.1,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "prostate",
+     "NR4A1_nTPM": 283.9,
+     "NR4A2_nTPM": 24.4,
+     "NR4A3_nTPM": 14.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "rectum",
+     "NR4A1_nTPM": 67.1,
+     "NR4A2_nTPM": 19.2,
+     "NR4A3_nTPM": 3.8,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "retina",
+     "NR4A1_nTPM": 26.3,
+     "NR4A2_nTPM": 5.5,
+     "NR4A3_nTPM": 8.1,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "salivary gland",
+     "NR4A1_nTPM": 137.8,
+     "NR4A2_nTPM": 17.9,
+     "NR4A3_nTPM": 2.1,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "seminal vesicle",
+     "NR4A1_nTPM": 80.7,
+     "NR4A2_nTPM": 14.8,
+     "NR4A3_nTPM": 3.1,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "skeletal muscle",
+     "NR4A1_nTPM": 289.8,
+     "NR4A2_nTPM": 11.2,
+     "NR4A3_nTPM": 54.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "skin",
+     "NR4A1_nTPM": 213.2,
+     "NR4A2_nTPM": 11.9,
+     "NR4A3_nTPM": 2.0,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "small intestine",
+     "NR4A1_nTPM": 108.6,
+     "NR4A2_nTPM": 7.6,
+     "NR4A3_nTPM": 5.5,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "smooth muscle",
+     "NR4A1_nTPM": 134.7,
+     "NR4A2_nTPM": 14.6,
+     "NR4A3_nTPM": 12.5,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "spinal cord",
+     "NR4A1_nTPM": 40.8,
+     "NR4A2_nTPM": 9.7,
+     "NR4A3_nTPM": 2.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "spleen",
+     "NR4A1_nTPM": 37.3,
+     "NR4A2_nTPM": 4.5,
+     "NR4A3_nTPM": 3.3,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "stomach",
+     "NR4A1_nTPM": 248.8,
+     "NR4A2_nTPM": 18.3,
+     "NR4A3_nTPM": 11.7,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "testis",
+     "NR4A1_nTPM": 31.4,
+     "NR4A2_nTPM": 5.2,
+     "NR4A3_nTPM": 0.9,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": false,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": false
+    },
+    {
+     "tissue": "thymus",
+     "NR4A1_nTPM": 55.3,
+     "NR4A2_nTPM": 9.4,
+     "NR4A3_nTPM": 6.1,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "thyroid gland",
+     "NR4A1_nTPM": 289.3,
+     "NR4A2_nTPM": 14.7,
+     "NR4A3_nTPM": 6.4,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "tongue",
+     "NR4A1_nTPM": 67.0,
+     "NR4A2_nTPM": 8.6,
+     "NR4A3_nTPM": 5.8,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "tonsil",
+     "NR4A1_nTPM": 3.6,
+     "NR4A2_nTPM": 1.5,
+     "NR4A3_nTPM": 0.8,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": false,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": false
+    },
+    {
+     "tissue": "urinary bladder",
+     "NR4A1_nTPM": 276.8,
+     "NR4A2_nTPM": 50.4,
+     "NR4A3_nTPM": 30.6,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    },
+    {
+     "tissue": "vagina",
+     "NR4A1_nTPM": 171.9,
+     "NR4A2_nTPM": 13.1,
+     "NR4A3_nTPM": 4.3,
+     "nr4a2_expressed": true,
+     "nr4a3_expressed": true,
+     "nr4a2_unbuffered": false,
+     "nr4a2_dominant": false,
+     "nr4a2_and_nr4a3_co_expressed": true
+    }
+   ],
+   "_what_this_does_not_say": "mRNA nTPM is not protein, and a tissue average is not a cell type. A tissue where the paralogues co-express does not thereby demonstrate functional compensation; it only shows the compensating protein could be present. The counts above bound where a non-sparing degrader WOULD act, not what would happen if it did."
+  }
+ },
+ "verdict": {
+  "decision": "STILL_UNBOUNDED",
+  "gates": {
+   "B1_nr4a2_single_ko_phenotyped": {
+    "requirement": "at least one MGI genotype-phenotype annotation whose genotype involves Nr4a2 AND NO OTHER GENE, admitted only when the free-text composition parse and the curated marker-accession column agree (see module docstring)",
+    "n_single_gene_annotations": 0,
+    "n_distinct_phenotype_terms": 0,
+    "n_null_knockout_alleles_on_record": 6,
+    "met": false
+   },
+   "B2_lethality_claim_resolved_to_a_citation": {
+    "requirement": "the repo's UNCONFIRMED 'Nurr1 single-KO is neonatal-lethal' resolves to a survival/viability MP term on an Nr4a2-only genotype WITH a PubMed ID, or to an explicit not-found",
+    "survival_or_viability_terms_found": [],
+    "terms_with_a_primary_citation": 0,
+    "met": false,
+    "_matched_on": "(lethal|viab|survival|died|death|premature death)"
+   },
+   "B3_tissue_overlap_measured": {
+    "requirement": "per-tissue nTPM for all three paralogues from a named public source, so tissue overlap is a measured quantity rather than the assumption roadmap 2.4 currently carries",
+    "n_tissues": 51,
+    "counts": {
+     "nr4a2_expressed": 51,
+     "nr4a3_expressed": 47,
+     "nr4a2_and_nr4a3_co_expressed": 47,
+     "nr4a2_unbuffered": 0,
+     "nr4a2_dominant": 0
+    },
+    "fractions": {
+     "nr4a2_expressed": 1.0,
+     "nr4a2_and_nr4a3_co_expressed": 0.9216,
+     "nr4a2_unbuffered": 0.0,
+     "nr4a2_dominant": 0.0
+    },
+    "source": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip",
+    "met": true
+   }
+  },
+  "sentence": "STILL UNBOUNDED -- MGI's whole phenotype corpus (395080 annotation lines scanned) carries NO genotype-phenotype annotation for an Nr4a2-only genotype. Combined with the IMPC null already on record, the two standardized in-vivo phenotype sources both return nothing, so 'unbounded' is now a MEASURED ABSENCE rather than an unanswered question. The repo's 'Nurr1 single-KO is neonatal-lethal' does NOT resolve to a citation here and must not be repeated as fact.",
+  "caveat_that_must_travel_with_any_result": "A germline mouse knockout bounds DEVELOPMENTAL, COMPLETE, LIFELONG loss of a gene. A degrader is an ADULT, TRANSIENT, INCOMPLETE loss of a protein, and no source read here measures that. So a KO phenotype -- lethal or not -- sets the ceiling of concern, never the expected effect of a molecule; and an absent KO record is an absence of evidence, not evidence of tolerability. This repo additionally holds no measured or predicted CNS-penetration datum for any NR4A candidate, so the exposure argument that would otherwise narrow the NR4A2 question is a property of a molecule that does not exist.",
+  "tolerance_statement": "STILL UNBOUNDED, AND NOW MEASURABLY SO. Both standardized in-vivo phenotype sources (IMPC previously, MGI here) return no single-gene Nr4a2 phenotype record. The design brief therefore cannot state a required degree of NR4A2 sparing from mouse genetics at all, and any statement that it can is unsupported. WHAT IS NOW MEASURED INSTEAD OF ASSUMED: across 51 tissues with all three paralogues quantified, NR4A2 is expressed in 51, NR4A2 and NR4A3 are co-expressed in 47 (so tissue distribution cannot separate target from anti-target -- selectivity has to be molecular), NR4A2 is expressed with NEITHER paralogue present in 0 (unbuffered), and NR4A2 is the dominant family member in 0. Those four numbers replace the qualitative 'broadly co-expressed / CNS exception' reading the brief carried. FOR CONTRAST, THE OTHER TWO SINGLE KNOCKOUTS -- Nr4a1: 0 single-gene annotations, 0 survival/viability terms; Nr4a3: 0 single-gene annotations, 0 survival/viability terms. WHAT WOULD ACTUALLY CLOSE IT, AND IS NOT AVAILABLE AT $0: an adult conditional or inducible Nr4a2 deletion with a survival/behaviour readout, and a CNS-exposure measurement for a real candidate molecule. Neither exists here; the first is a wet-lab experiment and the second is a property of a molecule this program has not built."
+ },
+ "map_edits_required": [
+  {
+   "section": "2.4",
+   "anchor": "the repo's IMPC query returned nothing for any of the three",
+   "current_text": "\u26a0 the *most* constrained paralogue in human population genetics and the most tissue-enhanced, but **no phenotyped KO** \u2014 the repo's IMPC query returned nothing for any of the three, and the widely-repeated *\"Nurr1 single-KO is neonatal-lethal\"* is flagged **UNCONFIRMED** in [`nr4a3-emc-biology-evidence.md`](nr4a3-emc-biology-evidence.md). **Strongly selected against in humans; unbounded for adult transient loss.**",
+   "proposed_text": "\u26a0 the *most* constrained paralogue in human population genetics and the most tissue-enhanced. **NR4A2 \u2014 STILL UNBOUNDED, and now MEASURABLY so (2026-08-03).** MGI's whole phenotype corpus (395080 annotation lines scanned) carries no Nr4a2-only genotype-phenotype record, so both standardized in-vivo sources (IMPC, MGI) return nothing. *Unbounded* is now a measured absence rather than an unanswered question. Evidence, verdict and the full per-tissue table: [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) \u2192 `verdict.decision` / `verdict.tolerance_statement`. **Adult transient loss remains unbounded by any source read** \u2014 a germline KO bounds developmental loss, not a degrader (`caveat_that_must_travel_with_any_result`).",
+   "why": "row 26 ran; the NR4A2 half now has a measured answer, and the UNCONFIRMED lethality claim resolved one way or the other",
+   "artifact": "research/modalities/nr4a2-sparing-bound.json:verdict"
+  },
+  {
+   "section": "2.4",
+   "anchor": "The two $0 observations that would bound the open half",
+   "current_text": "- **The two $0 observations that would bound the open half** \u2014 MGI single-KO phenotypes for *Nr4a1/2/3*\n  (the named source after IMPC returned nothing) and HPA per-tissue nTPM (the field is `null` today) \u2014 are\n  [\u00a710.1 row 26](#101--open-rows-ordered-by-what-unblocks-the-most).",
+   "proposed_text": "- \u2705 **Both $0 observations have been taken (2026-08-03, row 26).** MGI's four public reports were scanned in full and HPA per-tissue nTPM is now measured for all three paralogues across 51 tissues: NR4A2 and NR4A3 are co-expressed in 47 of them, so **tissue distribution cannot separate target from anti-target and the selectivity has to be molecular**; NR4A2 is unbuffered (both paralogues below the cut) in 0. One home for every figure: [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) \u2192 `hpa.overlap.counts`.",
+   "why": "the per-tissue nTPM field the roadmap calls `null` is no longer null, and the overlap it was needed for is now arithmetic instead of an assumption",
+   "artifact": "research/modalities/nr4a2-sparing-bound.json:hpa.overlap"
+  },
+  {
+   "section": "10.1 row 26",
+   "anchor": "the *only* thing that would bound the unbounded half of the requirement",
+   "current_text": "| **26** | **Bound the NR4A2 half of the selectivity requirement** \u2014 MGI single-KO phenotypes for *Nr4a1/2/3*, and HPA per-tissue nTPM |",
+   "proposed_text": "| **26** | \u2705 **DONE 2026-08-03 \u2014 the NR4A2 half is bounded to the extent public data allows** ([`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json), verdict `STILL_UNBOUNDED`) |",
+   "why": "row 26 has run; leaving it \u25cb would make a taken $0 observation look outstanding",
+   "artifact": "research/modalities/nr4a2-sparing-bound.json:verdict.decision"
+  }
+ ]
+}
