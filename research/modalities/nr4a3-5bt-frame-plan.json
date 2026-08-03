@@ -1,0 +1,100 @@
+{
+ "_what": "RUNG 5b-T pre-flight over the committed inputs only",
+ "ok": true,
+ "problems": [],
+ "degrader": {
+  "construct_id": "crbnM0@ex_5amide_a2-a5_acrylamide",
+  "canonical_smiles": "C=CC(=O)NCC[C@H](NC(=O)CCC(=O)Nc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O)C(=O)NCCCCCC(=O)Nc1ccc2[nH]cc(C(=O)OC)c2c1",
+  "inchikey": "CPOXVXPVTRJUBD-XLTVJXRZSA-N",
+  "n_backbone_atoms_measured": 14,
+  "source": "research/modalities/nr4a3-linker-library-chem.json",
+  "_never": "perceived from coordinates",
+  "substructure_roles": {
+   "warhead": 14,
+   "electrophile": 5,
+   "glutarimide": 9
+  }
+ },
+ "placement": {
+  "meta_basin_id": "crbn|M0",
+  "basin_id": "crbn|exitvec_07|b0",
+  "pose_id": "exitvec_07",
+  "exact_atoms": 13,
+  "span_A": 13.423,
+  "anchor_e3_xyz": [
+   10.955,
+   16.341,
+   -21.897
+  ]
+ },
+ "e3_placement": {
+  "transform_recovery_rms_A": 0.0004,
+  "anchor_reproduced_to_A": 0.0007,
+  "receptor_pdb": "results/nr4a3-e3-arms/crbn-receptor.pdb",
+  "chain": "B",
+  "n_atoms": 3005,
+  "receptor_entry": {
+   "pdb_id": "6BOY",
+   "title": "Crystal structure of DDB1-CRBN-BRD4(BD1) complex bound to dBET6 PROTAC.",
+   "resolution_A": 3.33,
+   "method": "X-ray",
+   "chains_by_accession": {
+    "Q16531": [
+     "A"
+    ],
+    "Q96SW2": [
+     "B"
+    ],
+    "O60885": [
+     "C"
+    ]
+   }
+  },
+  "\u26d4_provenance": "6BOY is a TERNARY (DDB1-CRBN-BRD4/dBET6). This placed copy is used ONLY as the frame onto which a BINARY IMiD deposit is superposed; its own conformer never reaches the model, precisely because a ternary-derived E3 imports that ternary's induced fit."
+ },
+ "boxes": {
+  "NR4A3": {
+   "center": [
+    9.229,
+    14.128,
+    0.998
+   ],
+   "size": [
+    25.905,
+    30.278,
+    23.956
+   ],
+   "n_reference_atoms": 357,
+   "_derived_from": "the extent of the poses already docked into this receptor"
+  },
+  "NR4A1": {
+   "center": [
+    91.755,
+    108.598,
+    87.082
+   ],
+   "size": [
+    27.89,
+    29.332,
+    24.703
+   ],
+   "n_reference_atoms": 357,
+   "_derived_from": "the extent of the poses already docked into this receptor"
+  },
+  "NR4A2": {
+   "center": [
+    88.488,
+    107.62,
+    19.369
+   ],
+   "size": [
+    24.722,
+    27.602,
+    26.123
+   ],
+   "n_reference_atoms": 357,
+   "_derived_from": "the extent of the poses already docked into this receptor"
+  }
+ },
+ "sentence": "Every committed input for RUNG 5b-T resolves."
+}
