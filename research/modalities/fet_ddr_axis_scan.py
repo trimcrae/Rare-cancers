@@ -65,7 +65,25 @@ ATM_AXIS = ["ATM", "MDC1", "NBN", "MRE11A", "MRE11", "RAD50", "TP53BP1"]
 # Neighbouring DDR nodes that are drugged in the clinic; reported, not part of the double prediction.
 OTHER_DDR = ["WEE1", "CHEK2", "PRKDC", "PARP1", "POLQ", "RAD51", "USP1", "PKMYT1"]
 # Controls: a pan-essential floor, a known-dispensable gene, and the fusion context genes.
+# NOTE POLR2A and PRKDC are NOT in the 24Q4 CRISPRGeneEffect column set (measured, not assumed —
+# they came back absent on run 30848356798), so the pan-essential control is RPL5, which is.
+PAN_ESSENTIAL_CONTROL = "RPL5"
+NEAR_NEUTRAL_CONTROL = "ATM"
 CONTEXT = ["POLR2A", "RPL5", "NR4A3", "EWSR1", "TAF15", "FUS", "FLI1", "ATF1", "DDIT3", "WT1"]
+
+# --- the SECOND instrument: ATR-INHIBITOR sensitivity, not ATR knockout -------------------------
+# The source paper's own DepMap analysis used elimusertib sensitivity across 880 lines and split it
+# only as "Ewing vs non-Ewing". Re-cutting the same public data by FET status - so clear cell
+# sarcoma, DSRCT and myxoid liposarcoma sit with Ewing rather than in the comparator - is the free
+# analysis that is NOT in the paper, and it is the one that decides whether the class claim EMC
+# would inherit is really partner-agnostic or really a Ewing effect.
+ATRI_NAMES = ["elimusertib", "bay-1895344", "bay1895344", "ceralasertib", "azd6738", "azd-6738",
+              "berzosertib", "vx-970", "m6620", "ve-822", "ve-821", "az20", "camonsertib",
+              "rp-3500", "gartisertib", "m4344", "atrn-119", "art0380"]
+# Comparator drug classes, so an "everything is more sensitive in FET lines" artefact is visible.
+CONTROL_DRUG_NAMES = ["doxorubicin", "paclitaxel", "olaparib", "talazoparib", "adavosertib",
+                      "az-d1775", "mk-1775", "prexasertib", "trabectedin", "bortezomib",
+                      "carfilzomib", "pazopanib", "sunitinib"]
 
 ALL_GENES = sorted(set(ATR_AXIS) | set(ATM_AXIS) | set(OTHER_DDR) | set(CONTEXT))
 
@@ -143,6 +161,119 @@ def _welch(a, b):
     return {"t": round(t, 3), "df": round(num / den, 1) if den else None,
             "mean_a": round(ma, 4), "mean_b": round(mb, 4),
             "delta_a_minus_b": round(ma - mb, 4)}
+
+
+def _figshare_inventory(article_ids):
+    """Every file name each known DepMap release exposes. A diagnostic, not a guess: if the drug
+    matrix cannot be found, the JSON says what WAS on offer instead of reporting 'unavailable'."""
+    inv = {}
+    for label, aid in article_ids:
+        try:
+            files = json.loads(_get(f"https://api.figshare.com/v2/articles/{aid}")).get("files", [])
+            inv[f"{label}:{aid}"] = sorted(f["name"] for f in files)
+        except Exception as exc:  # noqa: BLE001
+            inv[f"{label}:{aid}"] = [f"_error: {exc}"]
+    return inv
+
+
+def _find_drug_files(inv):
+    """Pick (matrix, metadata) file names that look like a PRISM / Repurposing / OncRef screen."""
+    want_matrix = ("repurposing", "prism", "oncref", "drug_sensitivity", "log2fc", "auc", "viability")
+    hits = {}
+    for src, names in inv.items():
+        for n in names:
+            low = n.lower()
+            if low.endswith((".csv", ".csv.gz")) and any(w in low for w in want_matrix):
+                hits.setdefault(src, []).append(n)
+    return hits
+
+
+def _drug_sensitivity_read(pd, inv, releases, fet_ids, comparator_ids, ge_index):
+    """Best-effort second instrument. Returns a dict that ALWAYS says what it managed to read."""
+    out = {"_instrument": "ATR-INHIBITOR sensitivity (PRISM-class drug screen), NOT ATR knockout — "
+                          "the readout the source paper used and the one a CRISPR KO cannot give",
+           "candidate_files": _find_drug_files(inv)}
+    if not out["candidate_files"]:
+        out["_status"] = ("no PRISM/Repurposing/OncRef-looking file in the release inventory below; "
+                          "the inventory is recorded so the next attempt starts from fact")
+        return out
+    # Try each candidate matrix + its sibling metadata until one yields an ATR-inhibitor column.
+    for src, names in out["candidate_files"].items():
+        label, aid = src.split(":")
+        try:
+            files = {f["name"]: f["download_url"]
+                     for f in json.loads(_get(f"https://api.figshare.com/v2/articles/{aid}"))
+                     .get("files", [])}
+        except Exception as exc:  # noqa: BLE001
+            out.setdefault("_attempts", []).append({"source": src, "error": str(exc)})
+            continue
+        meta_name = next((n for n in files
+                          if "meta" in n.lower() and ("compound" in n.lower()
+                                                      or "treatment" in n.lower()
+                                                      or "drug" in n.lower())), None)
+        for mat_name in names:
+            try:
+                path = _download(files[mat_name], timeout=1800)
+                header = list(pd.read_csv(path, nrows=0).columns)
+            except Exception as exc:  # noqa: BLE001
+                out.setdefault("_attempts", []).append({"source": src, "file": mat_name,
+                                                        "error": str(exc)})
+                continue
+            # Column ids may be compound names or opaque ids resolved through the metadata file.
+            name_by_col = {c: c for c in header[1:]}
+            if meta_name:
+                try:
+                    meta = pd.read_csv(io.BytesIO(_get(files[meta_name], timeout=600)))
+                    id_c = next((c for c in meta.columns if c.lower() in
+                                 ("column_name", "sample_id", "broad_id", "iemcompoundid",
+                                  "compoundid", "drug_id")), meta.columns[0])
+                    nm_c = next((c for c in meta.columns if c.lower() in
+                                 ("name", "drug_name", "compoundname", "compound_name")), None)
+                    if nm_c:
+                        name_by_col = {str(r[id_c]): str(r[nm_c]) for _, r in meta.iterrows()}
+                except Exception as exc:  # noqa: BLE001
+                    out.setdefault("_attempts", []).append({"source": src, "meta": meta_name,
+                                                            "error": str(exc)})
+
+            def _match(namelist):
+                got = {}
+                for col in header[1:]:
+                    nm = str(name_by_col.get(col, col)).lower()
+                    for want in namelist:
+                        if want in nm:
+                            got.setdefault(want, []).append(col)
+                return got
+
+            atri_cols = _match(ATRI_NAMES)
+            if not atri_cols:
+                out.setdefault("_attempts", []).append(
+                    {"source": src, "file": mat_name, "n_cols": len(header) - 1,
+                     "error": "no ATR-inhibitor column matched"})
+                continue
+            ctrl_cols = _match(CONTROL_DRUG_NAMES)
+            use = sorted({c for cols in atri_cols.values() for c in cols} |
+                         {c for cols in ctrl_cols.values() for c in cols})
+            df = pd.read_csv(path, usecols=[header[0]] + use, index_col=0)
+            res = {}
+            for want, cols in list(atri_cols.items()) + list(ctrl_cols.items()):
+                vals = df[cols].mean(axis=1).dropna()
+                a = [float(v) for i, v in vals.items() if i in fet_ids]
+                b = [float(v) for i, v in vals.items() if i in comparator_ids]
+                res[want] = {"n_FET": len(a), "n_comparator": len(b),
+                             "is_atr_inhibitor": want in ATRI_NAMES,
+                             "welch": _welch(a, b)}
+            out.update({"_status": "read", "source": src, "matrix_file": mat_name,
+                        "metadata_file": meta_name, "n_lines_in_matrix": int(df.shape[0]),
+                        "n_lines_also_in_crispr": len(set(df.index) & set(ge_index)),
+                        "by_drug": res,
+                        "_reading": "The score's SIGN convention is dataset-specific (log2 fold "
+                                    "change / AUC: LOWER = more sensitive). Read delta_a_minus_b "
+                                    "with that in mind, and read the control drugs FIRST: if FET "
+                                    "lines look more sensitive to everything, nothing here is "
+                                    "about ATR."})
+            return out
+    out["_status"] = "candidate files found but none yielded an ATR-inhibitor column; see _attempts"
+    return out
 
 
 def main():
@@ -263,6 +394,33 @@ def main():
     context = {g: (round(float(ge[g].dropna().mean()), 4) if g in ge.columns else None)
                for g in CONTEXT}
 
+    # --- second instrument: ATR-INHIBITOR sensitivity, re-cut by FET status ----------------------
+    from depmap_sarcoma_dependency import KNOWN_RELEASES
+    inventory = _figshare_inventory(KNOWN_RELEASES)
+    drug = _drug_sensitivity_read(pd, inventory, KNOWN_RELEASES, fet_ids,
+                                  nonfet_ids | other_sarcoma_ids | nonsarcoma_ids, ge.index)
+
+    # --- is the KNOCKOUT instrument saturated? Decide it from the data, not from the docstring ---
+    atr_panel = ge[[g for g in ATR_AXIS if g in ge.columns]].mean(axis=1).dropna()
+    saturation = {
+        "atr_axis_panel_mean": round(float(atr_panel.mean()), 4),
+        "atr_axis_panel_sd": round(float(atr_panel.std(ddof=1)), 4),
+        "largest_group_delta_seen": max(
+            (abs(v) for v in (_delta("ATR_axis", c) for c in comparators) if v is not None),
+            default=None),
+        "_criterion": "the ATR axis sits near the common-essential floor (~ -1 is the median "
+                      "common-essential gene) in EVERY group, so a between-group delta an order of "
+                      "magnitude under the within-group SD is an INSTRUMENT reading, not a "
+                      "biological one",
+    }
+    saturation["verdict"] = (
+        "SATURATED — the knockout read cannot address this hypothesis; use the drug-sensitivity "
+        "instrument below"
+        if (saturation["atr_axis_panel_mean"] < -1.0
+            and saturation["largest_group_delta_seen"] is not None
+            and saturation["largest_group_delta_seen"] < saturation["atr_axis_panel_sd"])
+        else "NOT SATURATED — the knockout contrast is readable and should be taken at face value")
+
     result = {
         "_what": "Does DepMap support the FET-fusion -> ATM-suppression -> ATR-axis-dependency "
                  "mechanism, as a transfer prior for EMC (EWSR1/TAF15/FUS::NR4A3)?",
@@ -290,13 +448,23 @@ def main():
         "emc_line": emc,
         "double_prediction": double,
         "verdict": verdict,
+        "knockout_instrument_saturation": saturation,
+        "atr_inhibitor_sensitivity": drug,
+        "depmap_release_file_inventory": inventory,
         "other_druggable_ddr_nodes": other_ddr,
         "context_gene_panel_means": context,
         "_controls": {
-            "POLR2A_should_be_strongly_negative_panel_wide": context.get("POLR2A"),
-            "ATM_should_be_near_zero_panel_wide": context.get("ATM"),
-            "_reading": "If POLR2A is not clearly essential or ATM is not near-neutral panel-wide, "
-                        "the read is broken and nothing else here should be quoted.",
+            f"{PAN_ESSENTIAL_CONTROL}_should_be_strongly_negative_panel_wide": round(
+                float(ge[PAN_ESSENTIAL_CONTROL].dropna().mean()), 4
+            ) if PAN_ESSENTIAL_CONTROL in ge.columns else None,
+            f"{NEAR_NEUTRAL_CONTROL}_should_be_near_zero_panel_wide": round(
+                float(ge[NEAR_NEUTRAL_CONTROL].dropna().mean()), 4
+            ) if NEAR_NEUTRAL_CONTROL in ge.columns else None,
+            "_reading": f"If {PAN_ESSENTIAL_CONTROL} is not clearly essential or "
+                        f"{NEAR_NEUTRAL_CONTROL} is not near-neutral panel-wide, the read is broken "
+                        "and nothing else here should be quoted. ⚠ POLR2A and PRKDC are NOT in the "
+                        "24Q4 column set — measured on run 30848356798, which is why the "
+                        "pan-essential control is RPL5.",
         },
     }
 
