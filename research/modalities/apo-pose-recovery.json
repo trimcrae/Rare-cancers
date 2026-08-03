@@ -1843,7 +1843,7 @@
         "LINK         SG  CYS B 566                 C11 RPG B 601     1555   1555  1.62"
       ],
       "excluded_by": "R2b",
-      "elapsed_s": 1.4
+      "elapsed_s": 0.9
     },
     {
       "candidate": {
@@ -2470,68 +2470,277 @@
       },
       "arms": {
         "PRIMARY_blind_apo_pipeline_box": {
-          "rmsd_A": 19.346,
+          "rmsd_A": 19.365,
           "fnat": 0.0,
           "n_native_contacts": 9,
           "n_recovered": 0,
-          "centroid_distance_A": 19.293,
+          "centroid_distance_A": 19.311,
           "verdict": "NOT RECOVERED"
         },
         "blind_apo_fpocket_top_box": {
-          "rmsd_A": 3.04,
+          "rmsd_A": 3.477,
           "fnat": 0.778,
           "n_native_contacts": 9,
           "n_recovered": 7,
-          "centroid_distance_A": 2.651,
+          "centroid_distance_A": 2.884,
           "verdict": "PARTIAL"
         },
         "C3_oracle_box_apo": {
-          "rmsd_A": 3.489,
+          "rmsd_A": 3.578,
           "fnat": 0.778,
           "n_native_contacts": 9,
           "n_recovered": 7,
-          "centroid_distance_A": 2.901,
+          "centroid_distance_A": 3.018,
           "verdict": "PARTIAL"
         },
         "C1_self_dock_holo": {
-          "rmsd_A": 19.529,
+          "rmsd_A": 19.452,
           "fnat": 0.0,
           "n_native_contacts": 9,
           "n_recovered": 0,
-          "centroid_distance_A": 19.474,
+          "centroid_distance_A": 19.382,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo_fpocket": {
-          "rmsd_A": 2.858,
-          "fnat": 0.778,
+          "rmsd_A": 2.731,
+          "fnat": 0.667,
           "n_native_contacts": 9,
-          "n_recovered": 7,
-          "centroid_distance_A": 2.395,
+          "n_recovered": 6,
+          "centroid_distance_A": 2.273,
           "verdict": "PARTIAL"
         },
         "C1c_self_dock_holo_oracle_box": {
-          "rmsd_A": 2.849,
+          "rmsd_A": 2.711,
           "fnat": 0.778,
           "n_native_contacts": 9,
           "n_recovered": 7,
-          "centroid_distance_A": 2.393,
+          "centroid_distance_A": 2.252,
           "verdict": "PARTIAL"
         },
         "C4_blind_apo_struct_transfer_box": {
-          "rmsd_A": 19.347,
+          "rmsd_A": 19.379,
           "fnat": 0.0,
           "n_native_contacts": 9,
           "n_recovered": 0,
-          "centroid_distance_A": 19.296,
+          "centroid_distance_A": 19.326,
           "verdict": "NOT RECOVERED"
         },
         "C4_self_dock_holo_struct_transfer": {
-          "rmsd_A": 19.543,
+          "rmsd_A": 19.548,
           "fnat": 0.0,
           "n_native_contacts": 9,
           "n_recovered": 0,
-          "centroid_distance_A": 19.489,
+          "centroid_distance_A": 19.494,
           "verdict": "NOT RECOVERED"
+        }
+      },
+      "C6_seed_replicates": {
+        "_endpoint": "does the pre-registered BAND survive re-seeding? The spread is reported beside it; neither can change `verdict()`.",
+        "_why": "nr4a3_warhead.dock_into passes smina no --seed, so each pre-registered arm is ONE draw from a Monte-Carlo search. This measures how wide that draw is.",
+        "n_requested": 5,
+        "seeds": [
+          20260803,
+          20260804,
+          20260805,
+          20260806,
+          20260807
+        ],
+        "arms": {
+          "blind_apo_fpocket_top_box": {
+            "unseeded_rmsd_A": 3.477,
+            "unseeded_band": "PARTIAL",
+            "_determinism_selfcheck": {
+              "seed": 20260803,
+              "first_rmsd_A": 3.488,
+              "repeat_rmsd_A": 3.488,
+              "identical": true,
+              "_reads": "smina at a fixed seed is reproducible here, so the spread below is seed-to-seed search variation and nothing else"
+            },
+            "replicates": [
+              {
+                "seed": 20260803,
+                "rmsd_A": 3.488,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260804,
+                "rmsd_A": 3.593,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260805,
+                "rmsd_A": 3.508,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260806,
+                "rmsd_A": 3.479,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260807,
+                "rmsd_A": 3.364,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260803,
+                "rmsd_A": 3.488,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": true
+              }
+            ],
+            "n_replicates": 5,
+            "min_A": 3.364,
+            "max_A": 3.593,
+            "median_A": 3.488,
+            "spread_A": 0.229,
+            "bands_seen": [
+              "PARTIAL"
+            ],
+            "band_stable": true,
+            "_reads": "the pre-registered band is PARTIAL on every replicate, so the CONCLUSION survives the search noise even though the digits do not \u2014 quote the band, never the 3-figure RMSD"
+          },
+          "C3_oracle_box_apo": {
+            "unseeded_rmsd_A": 3.578,
+            "unseeded_band": "PARTIAL",
+            "_determinism_selfcheck": {
+              "seed": 20260803,
+              "first_rmsd_A": 3.472,
+              "repeat_rmsd_A": 3.472,
+              "identical": true,
+              "_reads": "smina at a fixed seed is reproducible here, so the spread below is seed-to-seed search variation and nothing else"
+            },
+            "replicates": [
+              {
+                "seed": 20260803,
+                "rmsd_A": 3.472,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260804,
+                "rmsd_A": 3.139,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260805,
+                "rmsd_A": 3.532,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260806,
+                "rmsd_A": 3.573,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260807,
+                "rmsd_A": 3.414,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260803,
+                "rmsd_A": 3.472,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": true
+              }
+            ],
+            "n_replicates": 5,
+            "min_A": 3.139,
+            "max_A": 3.573,
+            "median_A": 3.472,
+            "spread_A": 0.434,
+            "bands_seen": [
+              "PARTIAL"
+            ],
+            "band_stable": true,
+            "_reads": "the pre-registered band is PARTIAL on every replicate, so the CONCLUSION survives the search noise even though the digits do not \u2014 quote the band, never the 3-figure RMSD"
+          },
+          "C1c_self_dock_holo_oracle_box": {
+            "unseeded_rmsd_A": 2.711,
+            "unseeded_band": "PARTIAL",
+            "_determinism_selfcheck": {
+              "seed": 20260803,
+              "first_rmsd_A": 2.874,
+              "repeat_rmsd_A": 2.874,
+              "identical": true,
+              "_reads": "smina at a fixed seed is reproducible here, so the spread below is seed-to-seed search variation and nothing else"
+            },
+            "replicates": [
+              {
+                "seed": 20260803,
+                "rmsd_A": 2.874,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260804,
+                "rmsd_A": 2.745,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260805,
+                "rmsd_A": 2.878,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260806,
+                "rmsd_A": 2.611,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260807,
+                "rmsd_A": 2.844,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": false
+              },
+              {
+                "seed": 20260803,
+                "rmsd_A": 2.874,
+                "fnat": 0.778,
+                "band": "PARTIAL",
+                "_repeat_of_first": true
+              }
+            ],
+            "n_replicates": 5,
+            "min_A": 2.611,
+            "max_A": 2.878,
+            "median_A": 2.844,
+            "spread_A": 0.267,
+            "bands_seen": [
+              "PARTIAL"
+            ],
+            "band_stable": true,
+            "_reads": "the pre-registered band is PARTIAL on every replicate, so the CONCLUSION survives the search noise even though the digits do not \u2014 quote the band, never the 3-figure RMSD"
+          }
         }
       },
       "C2_random_in_box_null": {
@@ -2548,13 +2757,13 @@
           "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the crystallographic pose?",
           "arm": "C3_oracle_box_apo \u2014 apo receptor, box centred on the crystallographic ligand",
           "control": "C1c_self_dock_holo_oracle_box \u2014 same box, the receptor the ligand was solved in",
-          "apo_rmsd_A": 3.489,
+          "apo_rmsd_A": 3.578,
           "apo_fnat": 0.778,
           "apo_band": "PARTIAL",
-          "control_rmsd_A": 2.849,
+          "control_rmsd_A": 2.711,
           "control_band": "PARTIAL",
           "control_passed": false,
-          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (2.849 A), so this pair cannot grade the docking",
+          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (2.711 A), so this pair cannot grade the docking",
           "_thresholds": {
             "recovered_A": 2.0,
             "partial_A": 4.0
@@ -2601,25 +2810,25 @@
         "outcome": "INCONCLUSIVE",
         "blind_arms_each_against_its_own_control": {
           "pipeline_site_transfer": {
-            "blind_apo_rmsd_A": 19.346,
-            "own_control_rmsd_A": 19.529,
+            "blind_apo_rmsd_A": 19.365,
+            "own_control_rmsd_A": 19.452,
             "control_passed": false,
             "_reads": "the protocol cannot recover this ligand even from the receptor it was solved in, THROUGH THIS SITE \u2014 so this arm is measuring the site, not the docking"
           },
           "fpocket_top_pocket": {
-            "blind_apo_rmsd_A": 3.04,
-            "own_control_rmsd_A": 2.858,
+            "blind_apo_rmsd_A": 3.477,
+            "own_control_rmsd_A": 2.731,
             "control_passed": false,
             "blind_apo_fnat": 0.778
           },
           "C1c_protocol_ceiling": {
-            "self_dock_holo_oracle_box_rmsd_A": 2.849,
+            "self_dock_holo_oracle_box_rmsd_A": 2.711,
             "_reads": "same receptor the ligand was solved in, box centred on the ligand itself. This is the best this docking protocol can possibly do on this system; a miss here is the search and scoring, not the site."
           }
         },
-        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.53 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
-        "primary_rmsd_A": 19.346,
-        "c1_rmsd_A": 19.529,
+        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.45 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
+        "primary_rmsd_A": 19.365,
+        "c1_rmsd_A": 19.452,
         "panel_summary": {
           "n_pairs_scored": 6,
           "pairs": [
@@ -2628,42 +2837,42 @@
               "holo": "4REF",
               "ligand": "3N0",
               "outcome": "INCONCLUSIVE",
-              "primary_rmsd_A": 19.346
+              "primary_rmsd_A": 19.365
             },
             {
               "apo": "4RZF",
               "holo": "4RE8",
               "ligand": "3MJ",
               "outcome": "INCONCLUSIVE",
-              "primary_rmsd_A": 18.511
+              "primary_rmsd_A": 18.182
             },
             {
               "apo": "2QMV",
               "holo": "9F7W",
               "ligand": "2OH",
               "outcome": "INCONCLUSIVE",
-              "primary_rmsd_A": 17.282
+              "primary_rmsd_A": 17.266
             },
             {
               "apo": "2QMV",
               "holo": "9V8H",
               "ligand": "BRL",
               "outcome": "INCONCLUSIVE",
-              "primary_rmsd_A": 17.79
+              "primary_rmsd_A": 17.759
             },
             {
               "apo": "5G42",
               "holo": "7NPC",
               "ligand": "ULT",
               "outcome": "INCONCLUSIVE",
-              "primary_rmsd_A": 28.411
+              "primary_rmsd_A": 28.419
             },
             {
               "apo": "5G42",
               "holo": "6T4X",
               "ligand": "L3E",
               "outcome": "INCONCLUSIVE",
-              "primary_rmsd_A": 29.296
+              "primary_rmsd_A": 30.118
             }
           ],
           "n_recovered": 0,
@@ -2673,7 +2882,7 @@
           "_note": "the PRIMARY verdict is the rank-1 pair; these are supporting cases, reported whatever they returned"
         }
       },
-      "elapsed_s": 62.5
+      "elapsed_s": 147.6
     },
     {
       "candidate": {
@@ -2963,7 +3172,7 @@
         ],
         "engineered_residues_holo": [],
         "engineered_residues_in_native_ligand_site": [],
-        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 no engineered substitution is declared in the holo deposit's SEQADV records"
+        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 SEQADV records ARE present (8) and none of them declares an engineered mutation"
       },
       "declared_allosteric": {
         "declared_in_holo_title": false,
@@ -3235,67 +3444,67 @@
       },
       "arms": {
         "PRIMARY_blind_apo_pipeline_box": {
-          "rmsd_A": 18.511,
+          "rmsd_A": 18.182,
           "fnat": 0.0,
           "n_native_contacts": 14,
           "n_recovered": 0,
-          "centroid_distance_A": 18.16,
+          "centroid_distance_A": 17.853,
           "verdict": "NOT RECOVERED"
         },
         "blind_apo_fpocket_top_box": {
-          "rmsd_A": 4.101,
-          "fnat": 0.643,
-          "n_native_contacts": 14,
-          "n_recovered": 9,
-          "centroid_distance_A": 2.319,
-          "verdict": "NOT RECOVERED"
-        },
-        "C3_oracle_box_apo": {
-          "rmsd_A": 3.572,
-          "fnat": 0.643,
-          "n_native_contacts": 14,
-          "n_recovered": 9,
-          "centroid_distance_A": 1.712,
-          "verdict": "PARTIAL"
-        },
-        "C1_self_dock_holo": {
-          "rmsd_A": 18.475,
-          "fnat": 0.0,
-          "n_native_contacts": 14,
-          "n_recovered": 0,
-          "centroid_distance_A": 18.188,
-          "verdict": "NOT RECOVERED"
-        },
-        "C1_self_dock_holo_fpocket": {
-          "rmsd_A": 2.567,
+          "rmsd_A": 4.094,
           "fnat": 0.714,
           "n_native_contacts": 14,
           "n_recovered": 10,
-          "centroid_distance_A": 1.029,
-          "verdict": "PARTIAL"
+          "centroid_distance_A": 2.356,
+          "verdict": "NOT RECOVERED"
         },
-        "C1c_self_dock_holo_oracle_box": {
-          "rmsd_A": 3.362,
+        "C3_oracle_box_apo": {
+          "rmsd_A": 3.333,
           "fnat": 0.571,
           "n_native_contacts": 14,
           "n_recovered": 8,
-          "centroid_distance_A": 1.335,
+          "centroid_distance_A": 1.692,
+          "verdict": "PARTIAL"
+        },
+        "C1_self_dock_holo": {
+          "rmsd_A": 19.209,
+          "fnat": 0.0,
+          "n_native_contacts": 14,
+          "n_recovered": 0,
+          "centroid_distance_A": 19.052,
+          "verdict": "NOT RECOVERED"
+        },
+        "C1_self_dock_holo_fpocket": {
+          "rmsd_A": 2.515,
+          "fnat": 0.786,
+          "n_native_contacts": 14,
+          "n_recovered": 11,
+          "centroid_distance_A": 0.806,
+          "verdict": "PARTIAL"
+        },
+        "C1c_self_dock_holo_oracle_box": {
+          "rmsd_A": 3.026,
+          "fnat": 0.643,
+          "n_native_contacts": 14,
+          "n_recovered": 9,
+          "centroid_distance_A": 1.033,
           "verdict": "PARTIAL"
         },
         "C4_blind_apo_struct_transfer_box": {
-          "rmsd_A": 18.469,
+          "rmsd_A": 18.743,
           "fnat": 0.0,
           "n_native_contacts": 14,
           "n_recovered": 0,
-          "centroid_distance_A": 18.164,
+          "centroid_distance_A": 18.491,
           "verdict": "NOT RECOVERED"
         },
         "C4_self_dock_holo_struct_transfer": {
-          "rmsd_A": 18.448,
+          "rmsd_A": 18.321,
           "fnat": 0.0,
           "n_native_contacts": 14,
           "n_recovered": 0,
-          "centroid_distance_A": 18.169,
+          "centroid_distance_A": 18.025,
           "verdict": "NOT RECOVERED"
         }
       },
@@ -3313,13 +3522,13 @@
           "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the crystallographic pose?",
           "arm": "C3_oracle_box_apo \u2014 apo receptor, box centred on the crystallographic ligand",
           "control": "C1c_self_dock_holo_oracle_box \u2014 same box, the receptor the ligand was solved in",
-          "apo_rmsd_A": 3.572,
-          "apo_fnat": 0.643,
+          "apo_rmsd_A": 3.333,
+          "apo_fnat": 0.571,
           "apo_band": "PARTIAL",
-          "control_rmsd_A": 3.362,
+          "control_rmsd_A": 3.026,
           "control_band": "PARTIAL",
           "control_passed": false,
-          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (3.362 A), so this pair cannot grade the docking",
+          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (3.026 A), so this pair cannot grade the docking",
           "_thresholds": {
             "recovered_A": 2.0,
             "partial_A": 4.0
@@ -3366,27 +3575,27 @@
         "outcome": "INCONCLUSIVE",
         "blind_arms_each_against_its_own_control": {
           "pipeline_site_transfer": {
-            "blind_apo_rmsd_A": 18.511,
-            "own_control_rmsd_A": 18.475,
+            "blind_apo_rmsd_A": 18.182,
+            "own_control_rmsd_A": 19.209,
             "control_passed": false,
             "_reads": "the protocol cannot recover this ligand even from the receptor it was solved in, THROUGH THIS SITE \u2014 so this arm is measuring the site, not the docking"
           },
           "fpocket_top_pocket": {
-            "blind_apo_rmsd_A": 4.101,
-            "own_control_rmsd_A": 2.567,
+            "blind_apo_rmsd_A": 4.094,
+            "own_control_rmsd_A": 2.515,
             "control_passed": false,
-            "blind_apo_fnat": 0.643
+            "blind_apo_fnat": 0.714
           },
           "C1c_protocol_ceiling": {
-            "self_dock_holo_oracle_box_rmsd_A": 3.362,
+            "self_dock_holo_oracle_box_rmsd_A": 3.026,
             "_reads": "same receptor the ligand was solved in, box centred on the ligand itself. This is the best this docking protocol can possibly do on this system; a miss here is the search and scoring, not the site."
           }
         },
-        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (18.48 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
-        "primary_rmsd_A": 18.511,
-        "c1_rmsd_A": 18.475
+        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.21 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
+        "primary_rmsd_A": 18.182,
+        "c1_rmsd_A": 19.209
       },
-      "elapsed_s": 171.8
+      "elapsed_s": 133.5
     },
     {
       "candidate": {
@@ -3429,7 +3638,7 @@
         "n_null": 200,
         "null_power_max": 0.05
       },
-      "elapsed_s": 1.1
+      "elapsed_s": 0.5
     },
     {
       "candidate": {
@@ -3493,7 +3702,7 @@
         "holo_declared": null,
         "apo_declared": null
       },
-      "elapsed_s": 0.7
+      "elapsed_s": 0.3
     },
     {
       "candidate": {
@@ -3645,7 +3854,7 @@
         "seqadv_apo": [],
         "engineered_residues_holo": [],
         "engineered_residues_in_native_ligand_site": [],
-        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 no engineered substitution is declared in the holo deposit's SEQADV records"
+        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 SEQADV records ARE present (11) and none of them declares an engineered mutation"
       },
       "declared_allosteric": {
         "declared_in_holo_title": false,
@@ -3911,15 +4120,15 @@
       },
       "arms": {
         "PRIMARY_blind_apo_pipeline_box": {
-          "rmsd_A": 17.282,
+          "rmsd_A": 17.266,
           "fnat": 0.0,
           "n_native_contacts": 12,
           "n_recovered": 0,
-          "centroid_distance_A": 17.23,
+          "centroid_distance_A": 17.213,
           "verdict": "NOT RECOVERED"
         },
         "blind_apo_fpocket_top_box": {
-          "rmsd_A": 6.144,
+          "rmsd_A": 6.143,
           "fnat": 0.5,
           "n_native_contacts": 12,
           "n_recovered": 6,
@@ -3927,43 +4136,43 @@
           "verdict": "NOT RECOVERED"
         },
         "C3_oracle_box_apo": {
-          "rmsd_A": 6.133,
-          "fnat": 0.5,
+          "rmsd_A": 7.596,
+          "fnat": 0.083,
           "n_native_contacts": 12,
-          "n_recovered": 6,
-          "centroid_distance_A": 4.374,
+          "n_recovered": 1,
+          "centroid_distance_A": 6.59,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo": {
-          "rmsd_A": 26.485,
+          "rmsd_A": 26.419,
           "fnat": 0.0,
           "n_native_contacts": 12,
           "n_recovered": 0,
-          "centroid_distance_A": 26.191,
+          "centroid_distance_A": 26.126,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo_fpocket": {
-          "rmsd_A": 0.708,
+          "rmsd_A": 0.712,
           "fnat": 0.75,
           "n_native_contacts": 12,
           "n_recovered": 9,
-          "centroid_distance_A": 0.305,
+          "centroid_distance_A": 0.306,
           "verdict": "RECOVERED"
         },
         "C1c_self_dock_holo_oracle_box": {
-          "rmsd_A": 0.637,
+          "rmsd_A": 0.638,
           "fnat": 0.917,
           "n_native_contacts": 12,
           "n_recovered": 11,
-          "centroid_distance_A": 0.305,
+          "centroid_distance_A": 0.303,
           "verdict": "RECOVERED"
         },
         "C4_blind_apo_struct_transfer_box": {
-          "rmsd_A": 14.797,
+          "rmsd_A": 14.792,
           "fnat": 0.0,
           "n_native_contacts": 12,
           "n_recovered": 0,
-          "centroid_distance_A": 14.399,
+          "centroid_distance_A": 14.392,
           "verdict": "NOT RECOVERED"
         },
         "C4_self_dock_holo_struct_transfer": {
@@ -3989,10 +4198,10 @@
           "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the crystallographic pose?",
           "arm": "C3_oracle_box_apo \u2014 apo receptor, box centred on the crystallographic ligand",
           "control": "C1c_self_dock_holo_oracle_box \u2014 same box, the receptor the ligand was solved in",
-          "apo_rmsd_A": 6.133,
-          "apo_fnat": 0.5,
+          "apo_rmsd_A": 7.596,
+          "apo_fnat": 0.083,
           "apo_band": "NOT RECOVERED",
-          "control_rmsd_A": 0.637,
+          "control_rmsd_A": 0.638,
           "control_band": "RECOVERED",
           "control_passed": true,
           "answer": "NOT RECOVERED",
@@ -4044,27 +4253,27 @@
         "outcome": "INCONCLUSIVE",
         "blind_arms_each_against_its_own_control": {
           "pipeline_site_transfer": {
-            "blind_apo_rmsd_A": 17.282,
-            "own_control_rmsd_A": 26.485,
+            "blind_apo_rmsd_A": 17.266,
+            "own_control_rmsd_A": 26.419,
             "control_passed": false,
             "_reads": "the protocol cannot recover this ligand even from the receptor it was solved in, THROUGH THIS SITE \u2014 so this arm is measuring the site, not the docking"
           },
           "fpocket_top_pocket": {
-            "blind_apo_rmsd_A": 6.144,
-            "own_control_rmsd_A": 0.708,
+            "blind_apo_rmsd_A": 6.143,
+            "own_control_rmsd_A": 0.712,
             "control_passed": true,
             "blind_apo_fnat": 0.5
           },
           "C1c_protocol_ceiling": {
-            "self_dock_holo_oracle_box_rmsd_A": 0.637,
+            "self_dock_holo_oracle_box_rmsd_A": 0.638,
             "_reads": "same receptor the ligand was solved in, box centred on the ligand itself. This is the best this docking protocol can possibly do on this system; a miss here is the search and scoring, not the site."
           }
         },
-        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (26.48 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
-        "primary_rmsd_A": 17.282,
-        "c1_rmsd_A": 26.485
+        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (26.42 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
+        "primary_rmsd_A": 17.266,
+        "c1_rmsd_A": 26.419
       },
-      "elapsed_s": 53.1
+      "elapsed_s": 40.1
     },
     {
       "candidate": {
@@ -4116,7 +4325,7 @@
         "seqadv_apo": [],
         "engineered_residues_holo": [],
         "engineered_residues_in_native_ligand_site": [],
-        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 no engineered substitution is declared in the holo deposit's SEQADV records"
+        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 \u26a0 THE HOLO DEPOSIT CARRIES NO SEQADV RECORDS AT ALL \u2014 the substitutions are UNREAD here, not absent. The title flag above is the only evidence for this pair."
       },
       "declared_allosteric": {
         "declared_in_holo_title": false,
@@ -4382,67 +4591,67 @@
       },
       "arms": {
         "PRIMARY_blind_apo_pipeline_box": {
-          "rmsd_A": 17.79,
+          "rmsd_A": 17.759,
           "fnat": 0.0,
           "n_native_contacts": 16,
           "n_recovered": 0,
-          "centroid_distance_A": 17.204,
+          "centroid_distance_A": 17.177,
           "verdict": "NOT RECOVERED"
         },
         "blind_apo_fpocket_top_box": {
-          "rmsd_A": 8.966,
+          "rmsd_A": 8.974,
           "fnat": 0.188,
           "n_native_contacts": 16,
           "n_recovered": 3,
-          "centroid_distance_A": 8.062,
+          "centroid_distance_A": 8.055,
           "verdict": "NOT RECOVERED"
         },
         "C3_oracle_box_apo": {
-          "rmsd_A": 8.957,
+          "rmsd_A": 8.96,
           "fnat": 0.188,
           "n_native_contacts": 16,
           "n_recovered": 3,
-          "centroid_distance_A": 8.036,
+          "centroid_distance_A": 8.04,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo": {
-          "rmsd_A": 10.214,
-          "fnat": 0.312,
+          "rmsd_A": 10.188,
+          "fnat": 0.375,
           "n_native_contacts": 16,
-          "n_recovered": 5,
-          "centroid_distance_A": 6.867,
+          "n_recovered": 6,
+          "centroid_distance_A": 6.834,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo_fpocket": {
-          "rmsd_A": 1.965,
-          "fnat": 0.75,
-          "n_native_contacts": 16,
-          "n_recovered": 12,
-          "centroid_distance_A": 0.605,
-          "verdict": "RECOVERED"
-        },
-        "C1c_self_dock_holo_oracle_box": {
-          "rmsd_A": 6.809,
+          "rmsd_A": 6.89,
           "fnat": 0.625,
           "n_native_contacts": 16,
           "n_recovered": 10,
-          "centroid_distance_A": 4.396,
+          "centroid_distance_A": 4.38,
           "verdict": "NOT RECOVERED"
         },
+        "C1c_self_dock_holo_oracle_box": {
+          "rmsd_A": 1.916,
+          "fnat": 0.75,
+          "n_native_contacts": 16,
+          "n_recovered": 12,
+          "centroid_distance_A": 0.755,
+          "verdict": "RECOVERED"
+        },
         "C4_blind_apo_struct_transfer_box": {
-          "rmsd_A": 15.316,
+          "rmsd_A": 15.153,
           "fnat": 0.0,
           "n_native_contacts": 16,
           "n_recovered": 0,
-          "centroid_distance_A": 14.685,
+          "centroid_distance_A": 14.6,
           "verdict": "NOT RECOVERED"
         },
         "C4_self_dock_holo_struct_transfer": {
-          "rmsd_A": 23.891,
+          "rmsd_A": 23.893,
           "fnat": 0.0,
           "n_native_contacts": 16,
           "n_recovered": 0,
-          "centroid_distance_A": 23.069,
+          "centroid_distance_A": 23.064,
           "verdict": "NOT RECOVERED"
         }
       },
@@ -4460,13 +4669,13 @@
           "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the crystallographic pose?",
           "arm": "C3_oracle_box_apo \u2014 apo receptor, box centred on the crystallographic ligand",
           "control": "C1c_self_dock_holo_oracle_box \u2014 same box, the receptor the ligand was solved in",
-          "apo_rmsd_A": 8.957,
+          "apo_rmsd_A": 8.96,
           "apo_fnat": 0.188,
           "apo_band": "NOT RECOVERED",
-          "control_rmsd_A": 6.809,
-          "control_band": "NOT RECOVERED",
-          "control_passed": false,
-          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (6.809 A), so this pair cannot grade the docking",
+          "control_rmsd_A": 1.916,
+          "control_band": "RECOVERED",
+          "control_passed": true,
+          "answer": "NOT RECOVERED",
           "_thresholds": {
             "recovered_A": 2.0,
             "partial_A": 4.0
@@ -4515,27 +4724,27 @@
         "outcome": "INCONCLUSIVE",
         "blind_arms_each_against_its_own_control": {
           "pipeline_site_transfer": {
-            "blind_apo_rmsd_A": 17.79,
-            "own_control_rmsd_A": 10.214,
+            "blind_apo_rmsd_A": 17.759,
+            "own_control_rmsd_A": 10.188,
             "control_passed": false,
             "_reads": "the protocol cannot recover this ligand even from the receptor it was solved in, THROUGH THIS SITE \u2014 so this arm is measuring the site, not the docking"
           },
           "fpocket_top_pocket": {
-            "blind_apo_rmsd_A": 8.966,
-            "own_control_rmsd_A": 1.965,
-            "control_passed": true,
+            "blind_apo_rmsd_A": 8.974,
+            "own_control_rmsd_A": 6.89,
+            "control_passed": false,
             "blind_apo_fnat": 0.188
           },
           "C1c_protocol_ceiling": {
-            "self_dock_holo_oracle_box_rmsd_A": 6.809,
+            "self_dock_holo_oracle_box_rmsd_A": 1.916,
             "_reads": "same receptor the ligand was solved in, box centred on the ligand itself. This is the best this docking protocol can possibly do on this system; a miss here is the search and scoring, not the site."
           }
         },
-        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (10.21 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
-        "primary_rmsd_A": 17.79,
-        "c1_rmsd_A": 10.214
+        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (10.19 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
+        "primary_rmsd_A": 17.759,
+        "c1_rmsd_A": 10.188
       },
-      "elapsed_s": 208.3
+      "elapsed_s": 161.6
     },
     {
       "candidate": {
@@ -4599,7 +4808,7 @@
         "holo_declared": null,
         "apo_declared": null
       },
-      "elapsed_s": 1.2
+      "elapsed_s": 0.5
     },
     {
       "candidate": {
@@ -4663,7 +4872,7 @@
         "holo_declared": null,
         "apo_declared": null
       },
-      "elapsed_s": 0.5
+      "elapsed_s": 0.3
     },
     {
       "candidate": {
@@ -4933,7 +5142,7 @@
         ],
         "engineered_residues_holo": [],
         "engineered_residues_in_native_ligand_site": [],
-        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 no engineered substitution is declared in the holo deposit's SEQADV records"
+        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 SEQADV records ARE present (1) and none of them declares an engineered mutation"
       },
       "declared_allosteric": {
         "declared_in_holo_title": true,
@@ -5207,59 +5416,59 @@
       },
       "arms": {
         "PRIMARY_blind_apo_pipeline_box": {
-          "rmsd_A": 28.411,
+          "rmsd_A": 28.419,
           "fnat": 0.0,
           "n_native_contacts": 22,
           "n_recovered": 0,
-          "centroid_distance_A": 28.107,
+          "centroid_distance_A": 28.115,
           "verdict": "NOT RECOVERED"
         },
         "blind_apo_fpocket_top_box": {
-          "rmsd_A": 13.828,
+          "rmsd_A": 13.838,
           "fnat": 0.045,
           "n_native_contacts": 22,
           "n_recovered": 1,
-          "centroid_distance_A": 12.908,
+          "centroid_distance_A": 12.922,
           "verdict": "NOT RECOVERED"
         },
         "C3_oracle_box_apo": {
-          "rmsd_A": 13.212,
-          "fnat": 0.045,
+          "rmsd_A": 11.388,
+          "fnat": 0.182,
           "n_native_contacts": 22,
-          "n_recovered": 1,
-          "centroid_distance_A": 12.875,
+          "n_recovered": 4,
+          "centroid_distance_A": 10.406,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo": {
-          "rmsd_A": 15.399,
+          "rmsd_A": 15.413,
           "fnat": 0.045,
           "n_native_contacts": 22,
           "n_recovered": 1,
-          "centroid_distance_A": 14.462,
+          "centroid_distance_A": 14.471,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo_fpocket": {
-          "rmsd_A": 15.113,
-          "fnat": 0.045,
-          "n_native_contacts": 22,
-          "n_recovered": 1,
-          "centroid_distance_A": 14.161,
-          "verdict": "NOT RECOVERED"
-        },
-        "C1c_self_dock_holo_oracle_box": {
-          "rmsd_A": 0.275,
-          "fnat": 1.0,
-          "n_native_contacts": 22,
-          "n_recovered": 22,
-          "centroid_distance_A": 0.049,
-          "verdict": "RECOVERED"
-        },
-        "C4_blind_apo_struct_transfer_box": {
-          "rmsd_A": 28.384,
+          "rmsd_A": 17.105,
           "fnat": 0.0,
           "n_native_contacts": 22,
           "n_recovered": 0,
-          "centroid_distance_A": 28.075,
+          "centroid_distance_A": 15.045,
+          "verdict": "NOT RECOVERED"
+        },
+        "C1c_self_dock_holo_oracle_box": {
+          "rmsd_A": 0.281,
+          "fnat": 0.955,
+          "n_native_contacts": 22,
+          "n_recovered": 21,
+          "centroid_distance_A": 0.069,
+          "verdict": "RECOVERED"
+        },
+        "C4_blind_apo_struct_transfer_box": {
+          "rmsd_A": 28.36,
+          "fnat": 0.0,
+          "n_native_contacts": 22,
+          "n_recovered": 0,
+          "centroid_distance_A": 28.058,
           "verdict": "NOT RECOVERED"
         },
         "C4_self_dock_holo_struct_transfer": {
@@ -5267,7 +5476,7 @@
           "fnat": 0.0,
           "n_native_contacts": 22,
           "n_recovered": 0,
-          "centroid_distance_A": 15.146,
+          "centroid_distance_A": 15.149,
           "verdict": "NOT RECOVERED"
         }
       },
@@ -5285,10 +5494,10 @@
           "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the crystallographic pose?",
           "arm": "C3_oracle_box_apo \u2014 apo receptor, box centred on the crystallographic ligand",
           "control": "C1c_self_dock_holo_oracle_box \u2014 same box, the receptor the ligand was solved in",
-          "apo_rmsd_A": 13.212,
-          "apo_fnat": 0.045,
+          "apo_rmsd_A": 11.388,
+          "apo_fnat": 0.182,
           "apo_band": "NOT RECOVERED",
-          "control_rmsd_A": 0.275,
+          "control_rmsd_A": 0.281,
           "control_band": "RECOVERED",
           "control_passed": true,
           "answer": "NOT RECOVERED",
@@ -5341,27 +5550,27 @@
         "outcome": "INCONCLUSIVE",
         "blind_arms_each_against_its_own_control": {
           "pipeline_site_transfer": {
-            "blind_apo_rmsd_A": 28.411,
-            "own_control_rmsd_A": 15.399,
+            "blind_apo_rmsd_A": 28.419,
+            "own_control_rmsd_A": 15.413,
             "control_passed": false,
             "_reads": "the protocol cannot recover this ligand even from the receptor it was solved in, THROUGH THIS SITE \u2014 so this arm is measuring the site, not the docking"
           },
           "fpocket_top_pocket": {
-            "blind_apo_rmsd_A": 13.828,
-            "own_control_rmsd_A": 15.113,
+            "blind_apo_rmsd_A": 13.838,
+            "own_control_rmsd_A": 17.105,
             "control_passed": false,
             "blind_apo_fnat": 0.045
           },
           "C1c_protocol_ceiling": {
-            "self_dock_holo_oracle_box_rmsd_A": 0.275,
+            "self_dock_holo_oracle_box_rmsd_A": 0.281,
             "_reads": "same receptor the ligand was solved in, box centred on the ligand itself. This is the best this docking protocol can possibly do on this system; a miss here is the search and scoring, not the site."
           }
         },
-        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (15.40 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
-        "primary_rmsd_A": 28.411,
-        "c1_rmsd_A": 15.399
+        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (15.41 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
+        "primary_rmsd_A": 28.419,
+        "c1_rmsd_A": 15.413
       },
-      "elapsed_s": 323.5
+      "elapsed_s": 229.5
     },
     {
       "candidate": {
@@ -5811,7 +6020,7 @@
         ],
         "engineered_residues_holo": [],
         "engineered_residues_in_native_ligand_site": [],
-        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 no engineered substitution is declared in the holo deposit's SEQADV records"
+        "_reads": "0 engineered substitution(s) declared in the HOLO deposit, of which 0 is/are among the ligand's own contact residues \u2014 SEQADV records ARE present (21) and none of them declares an engineered mutation"
       },
       "declared_allosteric": {
         "declared_in_holo_title": true,
@@ -6088,67 +6297,67 @@
       },
       "arms": {
         "PRIMARY_blind_apo_pipeline_box": {
-          "rmsd_A": 29.296,
+          "rmsd_A": 30.118,
           "fnat": 0.0,
           "n_native_contacts": 22,
           "n_recovered": 0,
-          "centroid_distance_A": 28.577,
+          "centroid_distance_A": 29.444,
           "verdict": "NOT RECOVERED"
         },
         "blind_apo_fpocket_top_box": {
-          "rmsd_A": 14.764,
+          "rmsd_A": 14.771,
           "fnat": 0.045,
           "n_native_contacts": 22,
           "n_recovered": 1,
-          "centroid_distance_A": 14.445,
+          "centroid_distance_A": 14.452,
           "verdict": "NOT RECOVERED"
         },
         "C3_oracle_box_apo": {
-          "rmsd_A": 12.434,
+          "rmsd_A": 12.458,
           "fnat": 0.136,
           "n_native_contacts": 22,
           "n_recovered": 3,
-          "centroid_distance_A": 9.849,
+          "centroid_distance_A": 9.869,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo": {
-          "rmsd_A": 29.21,
-          "fnat": 0.0,
+          "rmsd_A": 14.697,
+          "fnat": 0.045,
           "n_native_contacts": 22,
-          "n_recovered": 0,
-          "centroid_distance_A": 28.446,
+          "n_recovered": 1,
+          "centroid_distance_A": 14.229,
           "verdict": "NOT RECOVERED"
         },
         "C1_self_dock_holo_fpocket": {
-          "rmsd_A": 14.357,
+          "rmsd_A": 14.408,
           "fnat": 0.045,
           "n_native_contacts": 22,
           "n_recovered": 1,
-          "centroid_distance_A": 13.915,
+          "centroid_distance_A": 13.972,
           "verdict": "NOT RECOVERED"
         },
         "C1c_self_dock_holo_oracle_box": {
-          "rmsd_A": 0.556,
+          "rmsd_A": 0.555,
           "fnat": 0.955,
           "n_native_contacts": 22,
           "n_recovered": 21,
-          "centroid_distance_A": 0.18,
+          "centroid_distance_A": 0.182,
           "verdict": "RECOVERED"
         },
         "C4_blind_apo_struct_transfer_box": {
-          "rmsd_A": 29.184,
+          "rmsd_A": 15.489,
           "fnat": 0.0,
           "n_native_contacts": 22,
           "n_recovered": 0,
-          "centroid_distance_A": 28.484,
+          "centroid_distance_A": 14.328,
           "verdict": "NOT RECOVERED"
         },
         "C4_self_dock_holo_struct_transfer": {
-          "rmsd_A": 15.424,
-          "fnat": 0.045,
+          "rmsd_A": 27.422,
+          "fnat": 0.0,
           "n_native_contacts": 22,
-          "n_recovered": 1,
-          "centroid_distance_A": 14.352,
+          "n_recovered": 0,
+          "centroid_distance_A": 26.843,
           "verdict": "NOT RECOVERED"
         }
       },
@@ -6166,10 +6375,10 @@
           "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the crystallographic pose?",
           "arm": "C3_oracle_box_apo \u2014 apo receptor, box centred on the crystallographic ligand",
           "control": "C1c_self_dock_holo_oracle_box \u2014 same box, the receptor the ligand was solved in",
-          "apo_rmsd_A": 12.434,
+          "apo_rmsd_A": 12.458,
           "apo_fnat": 0.136,
           "apo_band": "NOT RECOVERED",
-          "control_rmsd_A": 0.556,
+          "control_rmsd_A": 0.555,
           "control_band": "RECOVERED",
           "control_passed": true,
           "answer": "NOT RECOVERED",
@@ -6222,27 +6431,27 @@
         "outcome": "INCONCLUSIVE",
         "blind_arms_each_against_its_own_control": {
           "pipeline_site_transfer": {
-            "blind_apo_rmsd_A": 29.296,
-            "own_control_rmsd_A": 29.21,
+            "blind_apo_rmsd_A": 30.118,
+            "own_control_rmsd_A": 14.697,
             "control_passed": false,
             "_reads": "the protocol cannot recover this ligand even from the receptor it was solved in, THROUGH THIS SITE \u2014 so this arm is measuring the site, not the docking"
           },
           "fpocket_top_pocket": {
-            "blind_apo_rmsd_A": 14.764,
-            "own_control_rmsd_A": 14.357,
+            "blind_apo_rmsd_A": 14.771,
+            "own_control_rmsd_A": 14.408,
             "control_passed": false,
             "blind_apo_fnat": 0.045
           },
           "C1c_protocol_ceiling": {
-            "self_dock_holo_oracle_box_rmsd_A": 0.556,
+            "self_dock_holo_oracle_box_rmsd_A": 0.555,
             "_reads": "same receptor the ligand was solved in, box centred on the ligand itself. This is the best this docking protocol can possibly do on this system; a miss here is the search and scoring, not the site."
           }
         },
-        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (29.21 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
-        "primary_rmsd_A": 29.296,
-        "c1_rmsd_A": 29.21
+        "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (14.70 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
+        "primary_rmsd_A": 30.118,
+        "c1_rmsd_A": 14.697
       },
-      "elapsed_s": 272.2
+      "elapsed_s": 199.8
     }
   ],
   "result": {
@@ -6820,68 +7029,277 @@
     },
     "arms": {
       "PRIMARY_blind_apo_pipeline_box": {
-        "rmsd_A": 19.346,
+        "rmsd_A": 19.365,
         "fnat": 0.0,
         "n_native_contacts": 9,
         "n_recovered": 0,
-        "centroid_distance_A": 19.293,
+        "centroid_distance_A": 19.311,
         "verdict": "NOT RECOVERED"
       },
       "blind_apo_fpocket_top_box": {
-        "rmsd_A": 3.04,
+        "rmsd_A": 3.477,
         "fnat": 0.778,
         "n_native_contacts": 9,
         "n_recovered": 7,
-        "centroid_distance_A": 2.651,
+        "centroid_distance_A": 2.884,
         "verdict": "PARTIAL"
       },
       "C3_oracle_box_apo": {
-        "rmsd_A": 3.489,
+        "rmsd_A": 3.578,
         "fnat": 0.778,
         "n_native_contacts": 9,
         "n_recovered": 7,
-        "centroid_distance_A": 2.901,
+        "centroid_distance_A": 3.018,
         "verdict": "PARTIAL"
       },
       "C1_self_dock_holo": {
-        "rmsd_A": 19.529,
+        "rmsd_A": 19.452,
         "fnat": 0.0,
         "n_native_contacts": 9,
         "n_recovered": 0,
-        "centroid_distance_A": 19.474,
+        "centroid_distance_A": 19.382,
         "verdict": "NOT RECOVERED"
       },
       "C1_self_dock_holo_fpocket": {
-        "rmsd_A": 2.858,
-        "fnat": 0.778,
+        "rmsd_A": 2.731,
+        "fnat": 0.667,
         "n_native_contacts": 9,
-        "n_recovered": 7,
-        "centroid_distance_A": 2.395,
+        "n_recovered": 6,
+        "centroid_distance_A": 2.273,
         "verdict": "PARTIAL"
       },
       "C1c_self_dock_holo_oracle_box": {
-        "rmsd_A": 2.849,
+        "rmsd_A": 2.711,
         "fnat": 0.778,
         "n_native_contacts": 9,
         "n_recovered": 7,
-        "centroid_distance_A": 2.393,
+        "centroid_distance_A": 2.252,
         "verdict": "PARTIAL"
       },
       "C4_blind_apo_struct_transfer_box": {
-        "rmsd_A": 19.347,
+        "rmsd_A": 19.379,
         "fnat": 0.0,
         "n_native_contacts": 9,
         "n_recovered": 0,
-        "centroid_distance_A": 19.296,
+        "centroid_distance_A": 19.326,
         "verdict": "NOT RECOVERED"
       },
       "C4_self_dock_holo_struct_transfer": {
-        "rmsd_A": 19.543,
+        "rmsd_A": 19.548,
         "fnat": 0.0,
         "n_native_contacts": 9,
         "n_recovered": 0,
-        "centroid_distance_A": 19.489,
+        "centroid_distance_A": 19.494,
         "verdict": "NOT RECOVERED"
+      }
+    },
+    "C6_seed_replicates": {
+      "_endpoint": "does the pre-registered BAND survive re-seeding? The spread is reported beside it; neither can change `verdict()`.",
+      "_why": "nr4a3_warhead.dock_into passes smina no --seed, so each pre-registered arm is ONE draw from a Monte-Carlo search. This measures how wide that draw is.",
+      "n_requested": 5,
+      "seeds": [
+        20260803,
+        20260804,
+        20260805,
+        20260806,
+        20260807
+      ],
+      "arms": {
+        "blind_apo_fpocket_top_box": {
+          "unseeded_rmsd_A": 3.477,
+          "unseeded_band": "PARTIAL",
+          "_determinism_selfcheck": {
+            "seed": 20260803,
+            "first_rmsd_A": 3.488,
+            "repeat_rmsd_A": 3.488,
+            "identical": true,
+            "_reads": "smina at a fixed seed is reproducible here, so the spread below is seed-to-seed search variation and nothing else"
+          },
+          "replicates": [
+            {
+              "seed": 20260803,
+              "rmsd_A": 3.488,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260804,
+              "rmsd_A": 3.593,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260805,
+              "rmsd_A": 3.508,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260806,
+              "rmsd_A": 3.479,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260807,
+              "rmsd_A": 3.364,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260803,
+              "rmsd_A": 3.488,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": true
+            }
+          ],
+          "n_replicates": 5,
+          "min_A": 3.364,
+          "max_A": 3.593,
+          "median_A": 3.488,
+          "spread_A": 0.229,
+          "bands_seen": [
+            "PARTIAL"
+          ],
+          "band_stable": true,
+          "_reads": "the pre-registered band is PARTIAL on every replicate, so the CONCLUSION survives the search noise even though the digits do not \u2014 quote the band, never the 3-figure RMSD"
+        },
+        "C3_oracle_box_apo": {
+          "unseeded_rmsd_A": 3.578,
+          "unseeded_band": "PARTIAL",
+          "_determinism_selfcheck": {
+            "seed": 20260803,
+            "first_rmsd_A": 3.472,
+            "repeat_rmsd_A": 3.472,
+            "identical": true,
+            "_reads": "smina at a fixed seed is reproducible here, so the spread below is seed-to-seed search variation and nothing else"
+          },
+          "replicates": [
+            {
+              "seed": 20260803,
+              "rmsd_A": 3.472,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260804,
+              "rmsd_A": 3.139,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260805,
+              "rmsd_A": 3.532,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260806,
+              "rmsd_A": 3.573,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260807,
+              "rmsd_A": 3.414,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260803,
+              "rmsd_A": 3.472,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": true
+            }
+          ],
+          "n_replicates": 5,
+          "min_A": 3.139,
+          "max_A": 3.573,
+          "median_A": 3.472,
+          "spread_A": 0.434,
+          "bands_seen": [
+            "PARTIAL"
+          ],
+          "band_stable": true,
+          "_reads": "the pre-registered band is PARTIAL on every replicate, so the CONCLUSION survives the search noise even though the digits do not \u2014 quote the band, never the 3-figure RMSD"
+        },
+        "C1c_self_dock_holo_oracle_box": {
+          "unseeded_rmsd_A": 2.711,
+          "unseeded_band": "PARTIAL",
+          "_determinism_selfcheck": {
+            "seed": 20260803,
+            "first_rmsd_A": 2.874,
+            "repeat_rmsd_A": 2.874,
+            "identical": true,
+            "_reads": "smina at a fixed seed is reproducible here, so the spread below is seed-to-seed search variation and nothing else"
+          },
+          "replicates": [
+            {
+              "seed": 20260803,
+              "rmsd_A": 2.874,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260804,
+              "rmsd_A": 2.745,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260805,
+              "rmsd_A": 2.878,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260806,
+              "rmsd_A": 2.611,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260807,
+              "rmsd_A": 2.844,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": false
+            },
+            {
+              "seed": 20260803,
+              "rmsd_A": 2.874,
+              "fnat": 0.778,
+              "band": "PARTIAL",
+              "_repeat_of_first": true
+            }
+          ],
+          "n_replicates": 5,
+          "min_A": 2.611,
+          "max_A": 2.878,
+          "median_A": 2.844,
+          "spread_A": 0.267,
+          "bands_seen": [
+            "PARTIAL"
+          ],
+          "band_stable": true,
+          "_reads": "the pre-registered band is PARTIAL on every replicate, so the CONCLUSION survives the search noise even though the digits do not \u2014 quote the band, never the 3-figure RMSD"
+        }
       }
     },
     "C2_random_in_box_null": {
@@ -6898,13 +7316,13 @@
         "_asks": "GIVEN THE CORRECT SITE, does blind apo->holo docking reproduce the crystallographic pose?",
         "arm": "C3_oracle_box_apo \u2014 apo receptor, box centred on the crystallographic ligand",
         "control": "C1c_self_dock_holo_oracle_box \u2014 same box, the receptor the ligand was solved in",
-        "apo_rmsd_A": 3.489,
+        "apo_rmsd_A": 3.578,
         "apo_fnat": 0.778,
         "apo_band": "PARTIAL",
-        "control_rmsd_A": 2.849,
+        "control_rmsd_A": 2.711,
         "control_band": "PARTIAL",
         "control_passed": false,
-        "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (2.849 A), so this pair cannot grade the docking",
+        "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (2.711 A), so this pair cannot grade the docking",
         "_thresholds": {
           "recovered_A": 2.0,
           "partial_A": 4.0
@@ -6951,25 +7369,25 @@
       "outcome": "INCONCLUSIVE",
       "blind_arms_each_against_its_own_control": {
         "pipeline_site_transfer": {
-          "blind_apo_rmsd_A": 19.346,
-          "own_control_rmsd_A": 19.529,
+          "blind_apo_rmsd_A": 19.365,
+          "own_control_rmsd_A": 19.452,
           "control_passed": false,
           "_reads": "the protocol cannot recover this ligand even from the receptor it was solved in, THROUGH THIS SITE \u2014 so this arm is measuring the site, not the docking"
         },
         "fpocket_top_pocket": {
-          "blind_apo_rmsd_A": 3.04,
-          "own_control_rmsd_A": 2.858,
+          "blind_apo_rmsd_A": 3.477,
+          "own_control_rmsd_A": 2.731,
           "control_passed": false,
           "blind_apo_fnat": 0.778
         },
         "C1c_protocol_ceiling": {
-          "self_dock_holo_oracle_box_rmsd_A": 2.849,
+          "self_dock_holo_oracle_box_rmsd_A": 2.711,
           "_reads": "same receptor the ligand was solved in, box centred on the ligand itself. This is the best this docking protocol can possibly do on this system; a miss here is the search and scoring, not the site."
         }
       },
-      "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.53 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
-      "primary_rmsd_A": 19.346,
-      "c1_rmsd_A": 19.529,
+      "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.45 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
+      "primary_rmsd_A": 19.365,
+      "c1_rmsd_A": 19.452,
       "panel_summary": {
         "n_pairs_scored": 6,
         "pairs": [
@@ -6978,42 +7396,42 @@
             "holo": "4REF",
             "ligand": "3N0",
             "outcome": "INCONCLUSIVE",
-            "primary_rmsd_A": 19.346
+            "primary_rmsd_A": 19.365
           },
           {
             "apo": "4RZF",
             "holo": "4RE8",
             "ligand": "3MJ",
             "outcome": "INCONCLUSIVE",
-            "primary_rmsd_A": 18.511
+            "primary_rmsd_A": 18.182
           },
           {
             "apo": "2QMV",
             "holo": "9F7W",
             "ligand": "2OH",
             "outcome": "INCONCLUSIVE",
-            "primary_rmsd_A": 17.282
+            "primary_rmsd_A": 17.266
           },
           {
             "apo": "2QMV",
             "holo": "9V8H",
             "ligand": "BRL",
             "outcome": "INCONCLUSIVE",
-            "primary_rmsd_A": 17.79
+            "primary_rmsd_A": 17.759
           },
           {
             "apo": "5G42",
             "holo": "7NPC",
             "ligand": "ULT",
             "outcome": "INCONCLUSIVE",
-            "primary_rmsd_A": 28.411
+            "primary_rmsd_A": 28.419
           },
           {
             "apo": "5G42",
             "holo": "6T4X",
             "ligand": "L3E",
             "outcome": "INCONCLUSIVE",
-            "primary_rmsd_A": 29.296
+            "primary_rmsd_A": 30.118
           }
         ],
         "n_recovered": 0,
@@ -7023,31 +7441,31 @@
         "_note": "the PRIMARY verdict is the rank-1 pair; these are supporting cases, reported whatever they returned"
       }
     },
-    "elapsed_s": 62.5
+    "elapsed_s": 147.6
   },
   "verdict": {
     "outcome": "INCONCLUSIVE",
     "blind_arms_each_against_its_own_control": {
       "pipeline_site_transfer": {
-        "blind_apo_rmsd_A": 19.346,
-        "own_control_rmsd_A": 19.529,
+        "blind_apo_rmsd_A": 19.365,
+        "own_control_rmsd_A": 19.452,
         "control_passed": false,
         "_reads": "the protocol cannot recover this ligand even from the receptor it was solved in, THROUGH THIS SITE \u2014 so this arm is measuring the site, not the docking"
       },
       "fpocket_top_pocket": {
-        "blind_apo_rmsd_A": 3.04,
-        "own_control_rmsd_A": 2.858,
+        "blind_apo_rmsd_A": 3.477,
+        "own_control_rmsd_A": 2.731,
         "control_passed": false,
         "blind_apo_fnat": 0.778
       },
       "C1c_protocol_ceiling": {
-        "self_dock_holo_oracle_box_rmsd_A": 2.849,
+        "self_dock_holo_oracle_box_rmsd_A": 2.711,
         "_reads": "same receptor the ligand was solved in, box centred on the ligand itself. This is the best this docking protocol can possibly do on this system; a miss here is the search and scoring, not the site."
       }
     },
-    "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.53 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
-    "primary_rmsd_A": 19.346,
-    "c1_rmsd_A": 19.529,
+    "reason": "C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.45 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.",
+    "primary_rmsd_A": 19.365,
+    "c1_rmsd_A": 19.452,
     "panel_summary": {
       "n_pairs_scored": 6,
       "pairs": [
@@ -7056,42 +7474,42 @@
           "holo": "4REF",
           "ligand": "3N0",
           "outcome": "INCONCLUSIVE",
-          "primary_rmsd_A": 19.346
+          "primary_rmsd_A": 19.365
         },
         {
           "apo": "4RZF",
           "holo": "4RE8",
           "ligand": "3MJ",
           "outcome": "INCONCLUSIVE",
-          "primary_rmsd_A": 18.511
+          "primary_rmsd_A": 18.182
         },
         {
           "apo": "2QMV",
           "holo": "9F7W",
           "ligand": "2OH",
           "outcome": "INCONCLUSIVE",
-          "primary_rmsd_A": 17.282
+          "primary_rmsd_A": 17.266
         },
         {
           "apo": "2QMV",
           "holo": "9V8H",
           "ligand": "BRL",
           "outcome": "INCONCLUSIVE",
-          "primary_rmsd_A": 17.79
+          "primary_rmsd_A": 17.759
         },
         {
           "apo": "5G42",
           "holo": "7NPC",
           "ligand": "ULT",
           "outcome": "INCONCLUSIVE",
-          "primary_rmsd_A": 28.411
+          "primary_rmsd_A": 28.419
         },
         {
           "apo": "5G42",
           "holo": "6T4X",
           "ligand": "L3E",
           "outcome": "INCONCLUSIVE",
-          "primary_rmsd_A": 29.296
+          "primary_rmsd_A": 30.118
         }
       ],
       "n_recovered": 0,
@@ -7110,10 +7528,10 @@
           "holo": "4REF",
           "protein": "NR4A1 / Nur77",
           "ligand": "3N0",
-          "apo_rmsd_A": 3.489,
+          "apo_rmsd_A": 3.578,
           "apo_fnat": 0.778,
-          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (2.849 A), so this pair cannot grade the docking",
-          "control_rmsd_A": 2.849,
+          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (2.711 A), so this pair cannot grade the docking",
+          "control_rmsd_A": 2.711,
           "control_passed": false
         },
         {
@@ -7121,10 +7539,10 @@
           "holo": "4RE8",
           "protein": "NR4A1 / Nur77",
           "ligand": "3MJ",
-          "apo_rmsd_A": 3.572,
-          "apo_fnat": 0.643,
-          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (3.362 A), so this pair cannot grade the docking",
-          "control_rmsd_A": 3.362,
+          "apo_rmsd_A": 3.333,
+          "apo_fnat": 0.571,
+          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (3.026 A), so this pair cannot grade the docking",
+          "control_rmsd_A": 3.026,
           "control_passed": false
         },
         {
@@ -7132,10 +7550,10 @@
           "holo": "9F7W",
           "protein": "PPARG",
           "ligand": "2OH",
-          "apo_rmsd_A": 6.133,
-          "apo_fnat": 0.5,
+          "apo_rmsd_A": 7.596,
+          "apo_fnat": 0.083,
           "answer": "NOT RECOVERED",
-          "control_rmsd_A": 0.637,
+          "control_rmsd_A": 0.638,
           "control_passed": true
         },
         {
@@ -7143,21 +7561,21 @@
           "holo": "9V8H",
           "protein": "PPARG",
           "ligand": "BRL",
-          "apo_rmsd_A": 8.957,
+          "apo_rmsd_A": 8.96,
           "apo_fnat": 0.188,
-          "answer": "INCONCLUSIVE \u2014 the protocol ceiling itself missed (6.809 A), so this pair cannot grade the docking",
-          "control_rmsd_A": 6.809,
-          "control_passed": false
+          "answer": "NOT RECOVERED",
+          "control_rmsd_A": 1.916,
+          "control_passed": true
         },
         {
           "apo": "5G42",
           "holo": "7NPC",
           "protein": "RORC / RORgt",
           "ligand": "ULT",
-          "apo_rmsd_A": 13.212,
-          "apo_fnat": 0.045,
+          "apo_rmsd_A": 11.388,
+          "apo_fnat": 0.182,
           "answer": "NOT RECOVERED",
-          "control_rmsd_A": 0.275,
+          "control_rmsd_A": 0.281,
           "control_passed": true
         },
         {
@@ -7165,18 +7583,18 @@
           "holo": "6T4X",
           "protein": "RORC / RORgt",
           "ligand": "L3E",
-          "apo_rmsd_A": 12.434,
+          "apo_rmsd_A": 12.458,
           "apo_fnat": 0.136,
           "answer": "NOT RECOVERED",
-          "control_rmsd_A": 0.556,
+          "control_rmsd_A": 0.555,
           "control_passed": true
         }
       ],
       "n_pairs": 6,
-      "n_gradeable": 3,
+      "n_gradeable": 4,
       "n_recovered": 0,
       "n_partial": 0,
-      "n_not_recovered": 3,
+      "n_not_recovered": 4,
       "_note": "a pair whose protocol ceiling (C1c) missed cannot grade the docking and is counted out, not averaged in \u2014 the same pre-registered rule C1 applies to the primary"
     },
     "Q_SITE_does_site_selection_find_the_site": {
@@ -7345,6 +7763,23 @@
     "_reads": "4 of 6 pairs move at least 1.00 A of Ca at the ligand site, so the panel is not only near-rigid re-docks. Any pair below that line is a weak test of apo->holo transfer and must not be quoted as one.",
     "_caveat": "the induced fit is measured AT THE NATIVE LIGAND SITE. Where a blind arm's box is somewhere else, the rearrangement that arm actually faced is not this number."
   },
+  "reproducibility": {
+    "measured": true,
+    "n_arms_replicated": 3,
+    "n_arms_unrun": 0,
+    "seeds": [
+      20260803,
+      20260804,
+      20260805,
+      20260806,
+      20260807
+    ],
+    "max_spread_A": 0.434,
+    "arms_whose_band_flips": [],
+    "arms_that_did_not_reproduce_at_a_fixed_seed": [],
+    "all_bands_stable": true,
+    "_reads": "every replicated arm stays in one pre-registered band across the seeds, so the panel's CONCLUSIONS are reproducible even though its 3-figure RMSDs are not. \u26d4 Quote the band and the spread; a bare RMSD from this benchmark is one draw and must not be cited as a measurement."
+  },
   "_appendix": {
     "unchanged": [
       "PRIMARY endpoint: symmetry-corrected heavy-atom RMSD of the top pose from the APO receptor, through the pipeline's own site transfer, after site-Ca superposition. Bands 2.00 / 4.00 A.",
@@ -7360,6 +7795,11 @@
       "C5 declared facts read from the deposit: SEQADV engineered substitutions (and whether any is one of the ligand's own contact residues) and a holo-title allosteric declaration.",
       "A regime gate on the site question, computed from `nr4a3_warhead.PARALOGUES` rather than typed: a receptor the pipeline never transfers onto is not evidence about the pipeline's site step.",
       "LARGE_INDUCED_FIT_A = 1.00 A: a REPORTING band on the apo->holo site Ca RMSD, gating nothing."
+    ],
+    "added_2026_08_03_third_revision": [
+      "C6 SEED REPLICATES on the primary pair: the three decision-carrying arms (`blind_apo_fpocket_top_box`, `C3_oracle_box_apo`, `C1c_self_dock_holo_oracle_box`) are re-run at SEED_REPLICATES explicit `--seed`s. Its endpoint is whether the PRE-REGISTERED BAND survives re-seeding, not a tighter number, and `verdict()` does not read it.",
+      "A determinism self-check inside C6: the first seed is run twice, so a spread cannot be attributed to seeding unless smina is shown to reproduce at a fixed seed on this system.",
+      "`reproducibility`: the panel-level rollup of C6, carrying `all_bands_stable` and `max_spread_A`. An absent replicate set records `measured: false` rather than an empty summary."
     ],
     "corrected_2026_08_02": [
       {

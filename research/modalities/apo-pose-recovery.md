@@ -2,7 +2,7 @@
 
 ⛔ **GENERATED FILE — do not edit.** Every number here is rendered from [`apo-pose-recovery.json`](./apo-pose-recovery.json) by `apo_pose_recovery.render_markdown`, which owns none of them. Edit the module or re-run (`MODE=report`), never this file.
 
-Pre-registered verdict, **unchanged by anything below**: **INCONCLUSIVE** — C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.53 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.
+Pre-registered verdict, **unchanged by anything below**: **INCONCLUSIVE** — C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.45 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.
 
 
 ## 1 · Q-DOCKING — given the correct site, does blind apo→holo docking recover the pose?
@@ -12,14 +12,14 @@ Arm: `C3_oracle_box_apo` (apo receptor, box on the crystallographic ligand). Con
 
 | pair | protein | ligand | apo RMSD (Å) | fnat | answer | ceiling (Å) | ceiling passed |
 |---|---|---|---|---|---|---|---|
-| 4RZF→4REF | NR4A1 / Nur77 | 3N0 | 3.489 | 0.778 | INCONCLUSIVE — the protocol ceiling itself missed (2.849 A), so this pair cannot grade the docking | 2.849 | False |
-| 4RZF→4RE8 | NR4A1 / Nur77 | 3MJ | 3.572 | 0.643 | INCONCLUSIVE — the protocol ceiling itself missed (3.362 A), so this pair cannot grade the docking | 3.362 | False |
-| 2QMV→9F7W | PPARG | 2OH | 6.133 | 0.500 | NOT RECOVERED | 0.637 | True |
-| 2QMV→9V8H | PPARG | BRL | 8.957 | 0.188 | INCONCLUSIVE — the protocol ceiling itself missed (6.809 A), so this pair cannot grade the docking | 6.809 | False |
-| 5G42→7NPC | RORC / RORgt | ULT | 13.212 | 0.045 | NOT RECOVERED | 0.275 | True |
-| 5G42→6T4X | RORC / RORgt | L3E | 12.434 | 0.136 | NOT RECOVERED | 0.556 | True |
+| 4RZF→4REF | NR4A1 / Nur77 | 3N0 | 3.578 | 0.778 | INCONCLUSIVE — the protocol ceiling itself missed (2.711 A), so this pair cannot grade the docking | 2.711 | False |
+| 4RZF→4RE8 | NR4A1 / Nur77 | 3MJ | 3.333 | 0.571 | INCONCLUSIVE — the protocol ceiling itself missed (3.026 A), so this pair cannot grade the docking | 3.026 | False |
+| 2QMV→9F7W | PPARG | 2OH | 7.596 | 0.083 | NOT RECOVERED | 0.638 | True |
+| 2QMV→9V8H | PPARG | BRL | 8.960 | 0.188 | NOT RECOVERED | 1.916 | True |
+| 5G42→7NPC | RORC / RORgt | ULT | 11.388 | 0.182 | NOT RECOVERED | 0.281 | True |
+| 5G42→6T4X | RORC / RORgt | L3E | 12.458 | 0.136 | NOT RECOVERED | 0.555 | True |
 
-**3 of 6 pairs gradeable; 0 RECOVERED, 0 PARTIAL, 3 NOT RECOVERED.** a pair whose protocol ceiling (C1c) missed cannot grade the docking and is counted out, not averaged in — the same pre-registered rule C1 applies to the primary
+**4 of 6 pairs gradeable; 0 RECOVERED, 0 PARTIAL, 4 NOT RECOVERED.** a pair whose protocol ceiling (C1c) missed cannot grade the docking and is counted out, not averaged in — the same pre-registered rule C1 applies to the primary
 
 
 ## 2 · Q-SITE — does site selection put the ligand inside the box it draws?
@@ -76,21 +76,27 @@ Apo→holo Cα movement **at the ligand site**. A pair below 1.00 Å is a re-doc
 ## 4 · What the deposits themselves declare
 
 
-| pair | engineered (apo) | engineered (holo) | same construct? | any in the ligand's contact shell | ligand declared allosteric |
-|---|---|---|---|---|---|
-| 4RZF→4REF | UNREAD | LEU118→TRP | UNREAD | no | no |
-| 4RZF→4RE8 | UNREAD | none | UNREAD | no | no |
-| 2QMV→9F7W | UNREAD | none | UNREAD | no | no |
-| 2QMV→9V8H | UNREAD | none | UNREAD | no | no |
-| 5G42→7NPC | UNREAD | none | UNREAD | no | **yes** |
-| 5G42→6T4X | UNREAD | none | UNREAD | no | **yes** |
-
-⚠ *The apo-side construct comparison is UNREAD in this artifact — it predates C5b. Absent, not "the constructs match".*
-
+| pair | engineered substitutions (holo) | any in the ligand's contact shell | ligand declared allosteric |
+|---|---|---|---|
+| 4RZF→4REF | LEU118→TRP | no | no |
+| 4RZF→4RE8 | none | no | no |
+| 2QMV→9F7W | none | no | no |
+| 2QMV→9V8H | none | no | no |
+| 5G42→7NPC | none | no | **yes** |
+| 5G42→6T4X | none | no | **yes** |
 
 ## 4b · Is a single-run RMSD from this benchmark quotable? (C6, seed replicates)
 
-⚠ **UNMEASURED in this artifact** — it predates C6. Absent, not zero.
+Seeds: `20260803, 20260804, 20260805, 20260806, 20260807`. The endpoint is the pre-registered BAND, not a tighter number.
+
+
+| arm | unseeded (the quoted draw) | median | min–max | spread | bands seen | band stable |
+|---|---|---|---|---|---|---|
+| `blind_apo_fpocket_top_box` | 3.477 Å (PARTIAL) | 3.488 | 3.364–3.593 | 0.229 Å | PARTIAL | yes |
+| `C3_oracle_box_apo` | 3.578 Å (PARTIAL) | 3.472 | 3.139–3.573 | 0.434 Å | PARTIAL | yes |
+| `C1c_self_dock_holo_oracle_box` | 2.711 Å (PARTIAL) | 2.844 | 2.611–2.878 | 0.267 Å | PARTIAL | yes |
+
+every replicated arm stays in one pre-registered band across the seeds, so the panel's CONCLUSIONS are reproducible even though its 3-figure RMSDs are not. ⛔ Quote the band and the spread; a bare RMSD from this benchmark is one draw and must not be cited as a measurement.
 
 
 ## 5 · What moved and what did not
@@ -115,7 +121,9 @@ Apo→holo Cα movement **at the ligand site**. A pair below 1.00 Å is a re-doc
 
 **Added 2026-08-03 (third revision)**
 
-- ⚠ *not present in this artifact — it predates this revision.*
+- C6 SEED REPLICATES on the primary pair: the three decision-carrying arms (`blind_apo_fpocket_top_box`, `C3_oracle_box_apo`, `C1c_self_dock_holo_oracle_box`) are re-run at SEED_REPLICATES explicit `--seed`s. Its endpoint is whether the PRE-REGISTERED BAND survives re-seeding, not a tighter number, and `verdict()` does not read it.
+- A determinism self-check inside C6: the first seed is run twice, so a spread cannot be attributed to seeding unless smina is shown to reproduce at a fixed seed on this system.
+- `reproducibility`: the panel-level rollup of C6, carrying `all_bands_stable` and `max_spread_A`. An absent replicate set records `measured: false` rather than an empty summary.
 
 **Corrected — superseded values retained (CLAUDE.md §1.2)**
 
