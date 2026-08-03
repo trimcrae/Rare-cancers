@@ -83,6 +83,16 @@ submitted.
   Makes **no** EMC-validated surface claim; the decisive protein-level validation needs the patient-derived
   EMC lines.
 
+- [`emc-post-degrader-options.md`](./emc-post-degrader-options.md) — **decision memo** (trimcrae, 2026-08-03):
+  *if the degrader cannot deliver a candidate, what does?* Ranks every route on three axes chosen from the
+  degrader program's own failure record — what we can compute with no wet lab, how cheap and decisive the
+  wet-lab ask is, and which of the program's blockers it inherits. Organising finding: **every blocking
+  failure is a property of the degrader ARCHITECTURE (ternary geometry + a ~1 kcal/mol paralogue ΔΔG), not
+  of the target**, so the ligandable pocket is an asset that survives them all and routes needing only a
+  binder inherit none of them. Introduces the **ATR-inhibitor / FET-rearrangement** route as the new #1
+  near-term candidate, the **trabectedin + PPARγ** combination, and two closures. **$0**; its literature
+  corpus is [`lit-targets-emc-post-degrader.json`](./lit-targets-emc-post-degrader.json) on `literature-cache`.
+
 ## Earlier treatment-track drafts — subsumed by the roadmap
 
 Real, cited drafts from before the portfolio was unified. The roadmap **sits on top of** these

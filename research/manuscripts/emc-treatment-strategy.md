@@ -9,6 +9,14 @@
 > **SOURCE OF TRUTH for the route portfolio (not a manuscript).** This capstone ranks every treatment route; the
 > active manuscript [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md) is its publishable form.
 > Read this before resuming *portfolio-level* treatment-research work. Folder map: [`README.md`](./README.md).
+>
+> **★★ AND READ [`emc-post-degrader-options.md`](./emc-post-degrader-options.md) (2026-08-03) ALONGSIDE IT.**
+> This capstone ranks routes on *likelihood of helping a patient × near-term feasibility*, with the degrader
+> as #1. That memo asks the question this capstone's framing assumes away — **what if the flagship does not
+> deliver a candidate?** — and re-ranks on the axes the degrader program's failure record says matter. It does
+> **not** supersede the two axes here; it adds a third question (what produces a *testable* candidate now) and
+> its answer changes what to start next, not what to tell a patient. It also adds two routes this table does
+> not carry (ATR-inhibitor synthetic lethality via EMC's FET rearrangement; trabectedin + PPARγ) and closes two.
 
 **What this is.** The synthesis of the autonomous treatment-route investigation (2026-06-21/22),
 ranking every route by **likelihood of helping a real EMC patient × near-term feasibility**, with
