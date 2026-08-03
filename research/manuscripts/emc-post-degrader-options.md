@@ -168,7 +168,7 @@ ranking obscured that by scoring its cheapness as if cheapness were ours to spen
 
 ⚠ **Read the tier, not the number.** Route numbers are stable identifiers carried over from the first
 ranking and cited by other files; the **tier** is the rank. Where a route moved, the move is stated in
-its row and the reason is one of the two axes that changed.
+its row and the reason is one of the corrected axes (W1, W2 or D).
 
 **Tier 1 — DELIVERABLES. Each is a complete, publishable product this programme can finish alone, at
 $0, with nobody's cooperation. Ranked on Axis D first; W1/W2 do not apply, which is the point.**
@@ -190,7 +190,8 @@ whose completion is outside our control.**
 | **6** | **2b** | **Junction knockdown + parental sparing in EMC lines** — the ASK behind route 2 | ⚠ **weak, and stated as such.** No group has a standing self-interest in an EMC-specific junction oligo; the ASO field's takers want de-risked targets in larger indications. The route's rank comes from its **deliverable**, not its ask | moderate — synthesised gapmers plus the lines | **the paper is unaffected** — this is the one ask whose failure costs the route nothing, because Tier 1 #2 does not depend on it |
 
 **Tier 3 — value concentrated in an experiment nobody here can cause, with an in-silico half too thin
-to stand alone. ⭑ The first four rows are the DEMOTIONS, each graded individually.**
+to stand alone. ⭑ The first three rows are the DEMOTIONS from Tier 2, each graded individually and
+none of them as a block.**
 
 | # | route | why it dropped, or why it is here |
 |---|---|---|
