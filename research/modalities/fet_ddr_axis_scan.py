@@ -220,6 +220,99 @@ def _fet_by_fusion_call(pd, article_ids, crispr_index):
     return out
 
 
+# Where drug-sensitivity data actually lives. Measured, not assumed: run 30849351348 showed the
+# quarterly figshare releases carry no drug matrix (73 and 52 files, all CRISPR/omics), and figshare's
+# search endpoint returns unrelated articles for every PRISM term tried. GDSC publishes static bulk
+# files instead, and GDSC2 contains ATR inhibitors, so that is the instrument to use.
+GDSC_CANDIDATES = [
+    ("GDSC2_8.5_27Oct23", "https://cog.sanger.ac.uk/cancerrxgene/GDSC_release8.5/"
+                          "GDSC2_fitted_dose_response_27Oct23.xlsx"),
+    ("GDSC2_8.4_25Feb20", "https://cog.sanger.ac.uk/cancerrxgene/GDSC_release8.4/"
+                          "GDSC2_fitted_dose_response_25Feb20.xlsx"),
+    ("GDSC1_8.5_27Oct23", "https://cog.sanger.ac.uk/cancerrxgene/GDSC_release8.5/"
+                          "GDSC1_fitted_dose_response_27Oct23.xlsx"),
+]
+
+
+def _gdsc_atri_read(pd, model, fet_ids, comparator_ids):
+    """ATR-INHIBITOR sensitivity from GDSC, re-cut by FET status.
+
+    Sign convention is explicit and load-bearing: GDSC reports LN_IC50, so **LOWER = MORE SENSITIVE**,
+    and a NEGATIVE delta (FET minus comparator) is the direction the hypothesis predicts. Control
+    drugs are read through the identical path so an 'FET lines are sensitive to everything' artefact
+    is visible rather than inferred."""
+    out = {"_instrument": "GDSC LN_IC50 — ATR-INHIBITOR sensitivity, not ATR knockout",
+           "_sign": "LN_IC50: LOWER = MORE SENSITIVE. delta_a_minus_b < 0 == FET lines more sensitive.",
+           "_attempts": []}
+    # DepMap ModelID -> Sanger/COSMIC identifiers, so GDSC rows can be mapped onto our groups.
+    sanger_col = next((c for c in model.columns if c.lower() in ("sangermodelid", "sanger_model_id")),
+                      None)
+    cosmic_col = next((c for c in model.columns if c.lower() in ("cosmicid", "cosmic_id")), None)
+    if not sanger_col and not cosmic_col:
+        out["_status"] = f"no Sanger/COSMIC id column in Model.csv: {list(model.columns)[:12]}"
+        return out
+    fet_keys, comp_keys = set(), set()
+    for mid in model.index:
+        for col, cast in ((sanger_col, str), (cosmic_col, lambda v: str(int(float(v))))):
+            if not col:
+                continue
+            try:
+                key = cast(model.loc[mid, col])
+            except Exception:  # noqa: BLE001
+                continue
+            if key in ("nan", "None", ""):
+                continue
+            (fet_keys if mid in fet_ids else comp_keys if mid in comparator_ids else set()).add(key)
+
+    for label, url in GDSC_CANDIDATES:
+        try:
+            path = _download(url, timeout=1800)
+            df = pd.read_excel(path)
+        except Exception as exc:  # noqa: BLE001
+            out["_attempts"].append({"source": label, "error": str(exc)[:200]})
+            continue
+        cols = {c.upper(): c for c in df.columns}
+        drug_c = cols.get("DRUG_NAME")
+        ic_c = cols.get("LN_IC50")
+        key_cs = [cols[k] for k in ("SANGER_MODEL_ID", "COSMIC_ID", "CELL_LINE_NAME") if k in cols]
+        if not (drug_c and ic_c and key_cs):
+            out["_attempts"].append({"source": label, "error": f"columns {list(df.columns)[:10]}"})
+            continue
+        df["_key"] = df[key_cs[0]].astype(str)
+        if len(key_cs) > 1:
+            alt = df[key_cs[1]].map(lambda v: str(int(v)) if pd.notna(v) else "")
+            df["_key2"] = alt
+        by_drug = {}
+        names = df[drug_c].astype(str).str.lower()
+        for want in ATRI_NAMES + CONTROL_DRUG_NAMES:
+            sub = df[names.str.contains(want, regex=False, na=False)]
+            if sub.empty:
+                continue
+            keys = set(sub["_key"]) | (set(sub["_key2"]) if "_key2" in sub else set())
+            a = [float(v) for k, v in zip(sub["_key"], sub[ic_c]) if k in fet_keys]
+            b = [float(v) for k, v in zip(sub["_key"], sub[ic_c]) if k in comp_keys]
+            if "_key2" in sub:
+                a += [float(v) for k, v in zip(sub["_key2"], sub[ic_c]) if k in fet_keys]
+                b += [float(v) for k, v in zip(sub["_key2"], sub[ic_c]) if k in comp_keys]
+            by_drug[want] = {"is_atr_inhibitor": want in ATRI_NAMES,
+                             "n_rows": int(len(sub)), "n_FET": len(a), "n_comparator": len(b),
+                             "keys_seen": len(keys), "welch": _welch(a, b)}
+        if not any(v["is_atr_inhibitor"] and v.get("welch") for v in by_drug.values()):
+            out["_attempts"].append({"source": label, "n_rows": int(df.shape[0]),
+                                     "error": "no ATR inhibitor with a computable contrast",
+                                     "drugs_matched": sorted(by_drug)})
+            continue
+        out.update({"_status": "read", "source": label, "n_rows": int(df.shape[0]),
+                    "n_FET_keys": len(fet_keys), "n_comparator_keys": len(comp_keys),
+                    "by_drug": by_drug,
+                    "_reading": "Read the CONTROL drugs first. The hypothesis predicts a negative "
+                                "delta for ATR inhibitors and NOT for the controls; a negative delta "
+                                "across both is a growth-rate or lineage artefact, not selectivity."})
+        return out
+    out["_status"] = "no GDSC release yielded an ATR-inhibitor contrast; see _attempts"
+    return out
+
+
 def _figshare_search(terms, page_size=25):
     """Find figshare articles whose title matches a term. The PRISM / Repurposing drug matrices are
     SEPARATE articles from the quarterly CRISPR release — measured on run 30848796748, whose recorded
@@ -499,8 +592,11 @@ def main():
                 seen_ids.add(a["id"])
                 extra.append((str(a.get("title", term))[:60], a["id"]))
     inventory.update(_figshare_inventory(extra[:12]))
+    comparator_all = nonfet_ids | other_sarcoma_ids | nonsarcoma_ids
     drug = _drug_sensitivity_read(pd, inventory, KNOWN_RELEASES + extra, fet_ids,
-                                  nonfet_ids | other_sarcoma_ids | nonsarcoma_ids, ge.index)
+                                  comparator_all, ge.index)
+    # The figshare path found nothing on run 30849351348, so GDSC is the primary attempt now.
+    gdsc = _gdsc_atri_read(pd, model, fet_ids | fet_ids_by_call, comparator_all)
 
     # --- is the KNOCKOUT instrument saturated? Decide it from the data, not from the docstring ---
     atr_panel = ge[[g for g in ATR_AXIS if g in ge.columns]].mean(axis=1).dropna()
@@ -551,7 +647,8 @@ def main():
         "double_prediction": double,
         "verdict": verdict,
         "knockout_instrument_saturation": saturation,
-        "atr_inhibitor_sensitivity": drug,
+        "atr_inhibitor_sensitivity_gdsc": gdsc,
+        "atr_inhibitor_sensitivity_depmap_attempt": drug,
         "depmap_release_file_inventory": inventory,
         "figshare_search_for_drug_matrices": search,
         "fet_grouping_by_fusion_call": fusion_grouping,

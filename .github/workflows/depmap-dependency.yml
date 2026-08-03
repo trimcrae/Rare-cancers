@@ -35,7 +35,7 @@ jobs:
       - name: Install pandas + matplotlib + biopython
         run: |
           python -m pip install --upgrade pip
-          pip install pandas matplotlib biopython
+          pip install pandas matplotlib biopython openpyxl
 
       - name: DepMap sarcoma dependency transfer prior (+ fusion-addiction proxy)
         run: python research/modalities/depmap_sarcoma_dependency.py
