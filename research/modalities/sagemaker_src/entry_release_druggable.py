@@ -25,6 +25,10 @@ def main():
     ap.add_argument("--n-alt", default="3", help="alternate receptor frames to keep (breathing ensemble)")
     ap.add_argument("--d-star", default="0.53", help="druggable threshold (calibrated drug-bound band)")
     ap.add_argument("--force-scan", default="", help="set to 1 to ignore the reusable summary and re-scan")
+    # ⚠ The site-identity rule must reach the driver's process environment. Without it, match_mode()
+    # defaults to LEGACY inside the container and the manifest silently records a retired-rule score.
+    ap.add_argument("--pocket-match", default="harmonized", help="harmonized (default) | legacy (RETIRED)")
+    ap.add_argument("--allow-legacy", default="", help="set to 1 to permit a deliberate legacy-mode run")
     args = ap.parse_args()
 
     subprocess.run(["bash", "-c", "command -v git || (apt-get update && apt-get install -y git)"],
@@ -48,6 +52,11 @@ def main():
     env["D_STAR"] = args.d_star
     if args.force_scan:
         env["FORCE_SCAN"] = args.force_scan
+    env["POCKET_MATCH"] = args.pocket_match
+    if args.allow_legacy:
+        env["ALLOW_LEGACY_POCKET_MATCH"] = args.allow_legacy
+    print(f"[sagemaker] POCKET_MATCH={env['POCKET_MATCH']} "
+          f"(allow_legacy={env.get('ALLOW_LEGACY_POCKET_MATCH', '')})", flush=True)
     os.makedirs(OUT, exist_ok=True)
     print(f"[sagemaker] running receptor re-anchor (ref {args.git_ref}, target_rg={args.target_rg}, "
           f"n_alt={args.n_alt})", flush=True)

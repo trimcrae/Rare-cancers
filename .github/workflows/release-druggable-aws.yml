@@ -36,6 +36,23 @@ on:
         description: "set to 1 to ignore the reusable release-pocket summary and re-scan with fpocket"
         default: ""
         required: false
+      # ⚠ ADDED 2026-08-03, AND IT IS NOT COSMETIC. This workflow used to set NO POCKET_MATCH, and
+      # `pocket_tracking.match_mode()` defaults to LEGACY — so every run silently selected the site by the
+      # RETIRED, outcome-selected rule (highest-druggability cavity in a window that is essentially the whole
+      # LBD) and wrote the resulting number into the manifest with nothing saying which rule produced it.
+      # That is what produced the generation receptor's 0.667 on 2026-06-29, three weeks before the
+      # harmonized tracker froze; under the harmonized rule the same structure scores 0.259 and FAILS D*
+      # (r3-generation-frame-harmonized.json). Per CLAUDE.md §4 a default that silently selects a retired
+      # rule is the same class as a populated field that was never measured, so the default is now
+      # `harmonized` and `nr4a3_release_druggable.py` REFUSES to run legacy without an explicit opt-in.
+      pocket_match:
+        description: "site-identity rule: harmonized (default, score-independent) | legacy (RETIRED — needs allow_legacy=1)"
+        default: "harmonized"
+        required: false
+      allow_legacy:
+        description: "set to 1 ONLY to deliberately reproduce a pre-2026-07-11 legacy-mode manifest"
+        default: ""
+        required: false
       git_ref:
         description: "repo ref the job clones + runs (branch/tag/sha)"
         default: "main"
@@ -65,6 +82,8 @@ jobs:
           D_STAR: ${{ inputs.d_star }}
           FORCE_SCAN: ${{ inputs.force_scan }}
           GIT_REF: ${{ inputs.git_ref }}
+          POCKET_MATCH: ${{ inputs.pocket_match }}
+          ALLOW_LEGACY_POCKET_MATCH: ${{ inputs.allow_legacy }}
         run: |
           if [ -z "$AWS_ACCESS_KEY_ID" ]; then
             echo "::error::Add AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, SAGEMAKER_ROLE_ARN repo secrets first. See deploy/aws-sagemaker-setup.md."

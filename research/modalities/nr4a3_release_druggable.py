@@ -56,6 +56,37 @@ POCKET_DIR = os.environ.get("POCKET_DIR", "/opt/ml/processing/input/pocket")
 OUT = os.environ.get("OUTPUT_DIR", "/opt/ml/processing/output")
 
 
+def check_site_rule(mode, allow_legacy, harmonized=pt.HARMONIZED):
+    """(ok, message) for the active site-identity rule. PURE — the guard's decision, unit-tested.
+
+    ★★ WHY A GUARD AND NOT JUST A DEFAULT (2026-08-03). `release-druggable-aws.yml` set no `POCKET_MATCH`
+    for the whole life of this lane, and `pocket_tracking.match_mode()` defaults to LEGACY, so STEP 0
+    selected the orthosteric site by the RETIRED rule — the highest-**druggability** cavity in a window
+    that is essentially the whole LBD — and wrote the number into the manifest. That manifest is the
+    single most load-bearing structure in the program: it is the receptor `denovo_401` was generated into.
+    It recorded **0.667**; the harmonized, score-independent rule scores the SAME structure at **0.259**,
+    below D* = 0.53 (`r3-generation-frame-harmonized.json`).
+
+    CLAUDE.md §4: a default that silently selects a retired rule is the same class as a populated field
+    that was never measured — the manifest LOOKED complete, and a reader could not tell from it which rule
+    produced the number. So the wiring is not enough on its own: a future run launched with the env unset
+    (a re-dispatch from an older workflow file, a manual `python nr4a3_release_druggable.py`, a copied
+    entry script) would silently regress. This refuses instead, and legacy stays REACHABLE but only by
+    saying so out loud — reproducing the 2026-06-29 manifest is a legitimate thing to want.
+    """
+    if mode == harmonized:
+        return True, f"site-identity rule = {harmonized} (score-independent)"
+    if allow_legacy:
+        return True, (f"site-identity rule = {mode} — RETIRED rule, explicitly permitted by "
+                      "ALLOW_LEGACY_POCKET_MATCH. The manifest records the mode; do NOT use this number "
+                      "to discharge a harmonized gate.")
+    return False, (
+        f"POCKET_MATCH resolves to '{mode}', the RETIRED outcome-selected site rule, and nothing said so. "
+        "This lane wrote the generation receptor's manifest that way once already (0.667 legacy vs 0.259 "
+        "harmonized on the same structure). Set POCKET_MATCH=harmonized, or set "
+        "ALLOW_LEGACY_POCKET_MATCH=1 to reproduce a pre-2026-07-11 manifest deliberately.")
+
+
 def _rep_index(path):
     """release_rep<k>.dcd -> k (0 if unparseable)."""
     base = os.path.basename(path)
@@ -194,6 +225,11 @@ def main():
     import residue_map as rm
     import nr4a3_structure as ns
 
+    ok, msg = check_site_rule(pt.match_mode(), os.environ.get("ALLOW_LEGACY_POCKET_MATCH", ""))
+    print(f"  {msg}", flush=True)
+    if not ok:
+        sys.exit(f"  ABORT: {msg}")
+
     os.makedirs(OUT, exist_ok=True)
     top = os.path.join(STRUCTURE_DIR, "nr4a3-lbd-solvated.pdb")
     if not os.path.exists(top):
@@ -241,7 +277,14 @@ def main():
     lining_resseqs = {resseqs0[i] for i in lpos}
     res["residue_numbering"] = numbering
     res["pocket_match"] = {"mode": pt.match_mode(), "fpocket_version": pt.resolved_fpocket_version(),
-                           "match_params": pt.match_params() if pt.match_mode() == pt.HARMONIZED else None}
+                           "match_params": pt.match_params() if pt.match_mode() == pt.HARMONIZED else None,
+                           # ⚠ PROVENANCE, not decoration. A manifest with no mode field is indistinguishable
+                           # from a harmonized one to every downstream reader — which is exactly how the
+                           # 2026-06-29 manifest's 0.667 was quoted for five weeks. `mode_was_explicit`
+                           # separates "we chose harmonized" from "nothing set it and the default won".
+                           "mode_was_explicit": bool(os.environ.get(pt.MATCH_MODE_ENV)),
+                           "legacy_explicitly_allowed": bool(
+                               os.environ.get("ALLOW_LEGACY_POCKET_MATCH", ""))}
     # Both-denominator detection over the candidate pool (reviewer P0): detected = frames with a matched
     # orthosteric druggability; n_propagated = all candidate frames considered.
     pool_scores = [r["druggability"] for r in records if r.get("druggability") is not None]

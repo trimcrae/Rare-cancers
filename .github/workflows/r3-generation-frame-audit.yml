@@ -125,6 +125,26 @@ jobs:
           PY
           cd research/modalities
           python r3_score_generation_frame.py --pdb /tmp/r3pdb/generation-receptor.pdb
+      # ── THE IDENTITY CROSS-CHECK. $0, one extra fpocket call on a file already in the repo. ────────
+      # r3-generation-frame-audit.json asserts that a `release_rep*` trajectory row "is not a measurement
+      # of it even at per-frame granularity", because the generation receptor is re-extracted and re-boxed
+      # and `nr4a3_release_druggable.confirm_filter` says the reused summary and the fresh confirmation
+      # "can disagree". That is an ARGUMENT, and CLAUDE.md §4 says a free observation settles it instead:
+      # the committed reharmonize frame results/nr4a3-pocket-reharmonize/release_rep0/fp_95_539ml58c is
+      # rep 0, frame 95 — the same (rep, frame) the manifest names — so score it under the identical
+      # matcher and COMPARE. Agreement discharges the caveat for this frame; disagreement is a finding.
+      - name: Cross-check — score the committed rep0/frame-95 trajectory PDB under the same matcher
+        if: ${{ github.event.inputs.score_harmonized != 'false' }}
+        env:
+          POCKET_MATCH: harmonized
+        run: |
+          set -eo pipefail
+          FR=results/nr4a3-pocket-reharmonize/release_rep0/fp_95_539ml58c/frame.pdb
+          if [ ! -f "$FR" ]; then echo "::warning::$FR absent — cross-check skipped"; exit 0; fi
+          cd research/modalities
+          python r3_score_generation_frame.py \
+            --pdb "../../$FR" \
+            --out "$PWD/r3-generation-frame-repframe.json"
       - name: Gate A verdict LAST
         if: ${{ always() && github.event.inputs.score_harmonized != 'false' }}
         run: |
@@ -152,6 +172,35 @@ jobs:
           for r in (d.get('per_candidate_gate') or [])[:6]:
               print('   ', json.dumps(r))
           if v.get('reaches'): print('REACHES   :', v['reaches'])
+          print()
+          print('---- WHAT THE TWO ACCEPTED CAVITIES ACTUALLY ARE ----')
+          print('REF LINING:', d.get('reference_lining_labels'))
+          for n in [str(r['pocket']) for r in (d.get('per_candidate_gate') or []) if r['accepted_by_gate']]:
+              pi = (d.get('pocket_identity') or {}).get(n, {})
+              print(f'  pocket {n}: drug={pi.get(\"druggability\")} vol={pi.get(\"volume_a3\")} '
+                    f'spheres={pi.get(\"alpha_spheres\")} n_res={pi.get(\"n_lining_residues\")}')
+              print('     shares with reference:', pi.get('reference_lining_shared_labels'))
+          for p in ((d.get('site_choice_contrast') or {}).get('pairs') or []):
+              print('  PAIR', p['pockets'], 'shared', p['n_shared'], 'jaccard', p['pairwise_jaccard'],
+                    'centroid sep', p['centroid_separation_ang'], '->', p['relationship'])
+          "
+      - name: Cross-check verdict — re-extracted receptor vs committed trajectory frame
+        if: ${{ always() && github.event.inputs.score_harmonized != 'false' }}
+        run: |
+          set +e
+          python -c "
+          import json, os
+          a='research/modalities/r3-generation-frame-harmonized.json'
+          b='research/modalities/r3-generation-frame-repframe.json'
+          if not (os.path.exists(a) and os.path.exists(b)):
+              print('cross-check NOT PRODUCED — one side missing; the caveat stands unresolved'); raise SystemExit(0)
+          A,B=json.load(open(a)),json.load(open(b))
+          ka=['n_candidate_pockets','n_accepted_by_gate']
+          same=all(A.get(k)==B.get(k) for k in ka) and A['matched_pocket']==B['matched_pocket']
+          print('S3 re-extracted receptor :', A['verdict']['druggability'], A['matched_pocket'])
+          print('committed rep0 frame 95  :', B['verdict']['druggability'], B['matched_pocket'])
+          print('IDENTICAL HARMONIZED READING:', same)
+          print('=> the \'re-extraction can disagree\' caveat is', 'DISCHARGED for this frame' if same else 'REAL — they differ')
           "
       - name: Publish
         if: ${{ always() }}
@@ -162,4 +211,5 @@ jobs:
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "R3 frame-level generation-receptor dependency audit (CI, \$0)" \
             research/modalities/r3-generation-frame-audit.json \
-            research/modalities/r3-generation-frame-harmonized.json
+            research/modalities/r3-generation-frame-harmonized.json \
+            research/modalities/r3-generation-frame-repframe.json

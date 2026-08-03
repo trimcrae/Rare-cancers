@@ -29,6 +29,7 @@ job runs inside the fpocket environment.
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -41,6 +42,109 @@ LBD_FIRST = 373
 POCKET5_LINING = pt.POCKET5_LINING            # 406,407,410,411,412,481,484,485,531,534 (UniProt)
 POCKET_FIRST, POCKET_LAST = pt.POCKET5_SPAN   # 406..534 (UniProt)
 D_STAR = pt.D_STAR
+
+
+def resname_by_resseq(pdb_path):
+    """{resSeq: 3-letter resName} from the frame PDB. PURE-ish (one file read, no fpocket).
+
+    ⚠ ADDED 2026-08-03 and it is not cosmetic. The Gate-A verdict turns on WHICH of two accepted cavities
+    is 'the site', and that question cannot be adjudicated from a druggability float — it needs the
+    residues. Without names, `pocket 2` is an integer; with them it is either the same cavity fpocket
+    segmented differently or a different site, and only the second reading would make the frozen rule's
+    preference for pocket 1 look wrong."""
+    names = {}
+    with open(pdb_path) as fh:
+        for line in fh:
+            if not line.startswith("ATOM") or line[12:16].strip() != "CA":
+                continue
+            if line[16] not in (" ", "A"):
+                continue
+            try:
+                names[int(line[22:26])] = line[17:20].strip()
+            except ValueError:
+                continue
+    return names
+
+
+def parse_pocket_volumes(info_text):
+    """{pocket_number: volume_A3} from an fpocket `<stem>_info.txt`. PURE.
+
+    `fpocket_lib.parse_info` is the ONE home of that file's druggability and alpha-sphere parsing and is
+    NOT modified here (other lanes read it). Volume is parsed separately because 'is pocket 2 a real
+    second cavity or a sliver' is a size question and alpha-sphere count alone under-determines it."""
+    vols, pid = {}, None
+    for line in (info_text or "").splitlines():
+        m = re.match(r"\s*Pocket\s+(\d+)\s*:", line)
+        if m:
+            pid = int(m.group(1))
+            continue
+        if pid is not None and "Volume" in line and ":" in line:
+            v = re.search(r"([0-9]*\.?[0-9]+)", line.split(":", 1)[1])
+            if v:
+                vols[pid] = float(v.group(1))
+    return vols
+
+
+def label_residues(resseqs, resnames, lbd_first=LBD_FIRST):
+    """['LEU406', ...] in UniProt numbering for a structure numbered from 1 at `lbd_first`. PURE.
+
+    The offset is DERIVED from the same `lbd_first` the mapping used, never typed: resSeq 1 <-> 373."""
+    out = []
+    for r in sorted(resseqs):
+        out.append(f"{resnames.get(r, 'UNK')}{r + lbd_first - 1}")
+    return out
+
+
+def site_choice_contrast(pockets, ref_lining, centroids):
+    """DESCRIPTIVE contrast between the cavities the frozen gate ACCEPTED. PURE.
+
+    ⚠ THIS DOES NOT AND MUST NOT FEED THE MATCHER. `pocket_tracking`'s thresholds were frozen 2026-07-11
+    and re-tuning them after seeing a verdict is the outcome-selection defect this whole audit is about.
+    What this returns is a DESCRIPTION of the two accepted cavities so a reader can see what each one IS,
+    and it deliberately reports the raw set arithmetic rather than a verdict.
+
+    `pockets`: [{"pocket": int, "residues": [int], "druggability": float}] — the ACCEPTED ones only.
+    `ref_lining`: the mapped reference lining set (structure numbering).
+    `centroids`: {pocket: (x,y,z)}.
+
+    `relationship` is a descriptive label under thresholds stated inline, not a gate:
+      SAME_CAVITY_RESEGMENTED  pairwise residue Jaccard >= 0.5 (the two cavities are mostly one set)
+      OVERLAPPING_SUBPOCKETS   they share at least one residue but Jaccard < 0.5
+      DISJOINT_CAVITIES        they share no lining residue at all
+    """
+    out = {"n_accepted": len(pockets), "pairs": []}
+    for i in range(len(pockets)):
+        for j in range(i + 1, len(pockets)):
+            a, b = pockets[i], pockets[j]
+            sa, sb = set(a["residues"]), set(b["residues"])
+            inter, union = sa & sb, sa | sb
+            jac = (len(inter) / len(union)) if union else 0.0
+            ca_, cb_ = centroids.get(a["pocket"]), centroids.get(b["pocket"])
+            sep = None
+            if ca_ is not None and cb_ is not None:
+                sep = round(sum((x - y) ** 2 for x, y in zip(ca_, cb_)) ** 0.5, 3)
+            if not inter:
+                rel = "DISJOINT_CAVITIES"
+            elif jac >= 0.5:
+                rel = "SAME_CAVITY_RESEGMENTED"
+            else:
+                rel = "OVERLAPPING_SUBPOCKETS"
+            ref = set(ref_lining)
+            out["pairs"].append({
+                "pockets": [a["pocket"], b["pocket"]],
+                "n_residues": [len(sa), len(sb)],
+                "n_shared": len(inter),
+                "pairwise_jaccard": round(jac, 4),
+                "centroid_separation_ang": sep,
+                "shared_residues": sorted(inter),
+                "only_in_first": sorted(sa - sb),
+                "only_in_second": sorted(sb - sa),
+                "reference_lining_in_first_only": sorted((sa & ref) - sb),
+                "reference_lining_in_second_only": sorted((sb & ref) - sa),
+                "reference_lining_in_both": sorted(inter & ref),
+                "relationship": rel,
+            })
+    return out
 
 
 def ca_by_resseq(pdb_path):
@@ -112,6 +216,12 @@ def score_pdb(pdb_path, workdir):
     resids_by_num, info = ns.pocket_residues_by_number(os.path.join(workdir, stem + "_out"), stem)
 
     ca = ca_by_resseq(local)
+    resnames = resname_by_resseq(local)
+    try:
+        with open(os.path.join(workdir, stem + "_out", stem + "_info.txt")) as fh:
+            volumes = parse_pocket_volumes(fh.read())
+    except OSError:
+        volumes = {}
     resseqs = sorted(ca)
     lining, span, numbering = map_lining(resseqs)
     ref = pt.orthosteric_reference(ca, lining_residues=lining,
@@ -143,8 +253,38 @@ def score_pdb(pdb_path, workdir):
         })
     per_candidate.sort(key=lambda r: -(r["druggability"] or 0.0))
 
+    # ⚠ WHAT EACH CAVITY ACTUALLY IS. The verdict turns on which of two ACCEPTED cavities the frozen
+    # rule calls 'the site', and that is unanswerable from the gate arithmetic alone — two cavities can
+    # both clear it while being one re-segmented pocket or two genuinely different sites, and only the
+    # second reading would put the rule in question. So the residues, their identities, their volumes
+    # and the accepted-pair set arithmetic are recorded. NONE of it touches the matcher.
+    by_num = {c["pocket"]: c for c in cands}
+    centroids = {c["pocket"]: pt.pocket_centroid(c["residues"], ca) for c in cands}
+    accepted_nums = [r["pocket"] for r in per_candidate if r["accepted_by_gate"]]
+    accepted = [by_num[n] for n in accepted_nums]
+    ref_lining = ref["lining_residues"]
+    pocket_identity = {}
+    for c in cands:
+        shared = sorted(set(c["residues"]) & set(ref_lining))
+        cen = centroids.get(c["pocket"])
+        pocket_identity[str(c["pocket"])] = {
+            "druggability": c["druggability"],
+            "alpha_spheres": (info.get(c["pocket"]) or {}).get("alpha_spheres"),
+            "volume_a3": volumes.get(c["pocket"]),
+            "n_lining_residues": len(c["residues"]),
+            "lining_resseqs": c["residues"],
+            "lining_uniprot_labels": label_residues(c["residues"], resnames),
+            "reference_lining_shared": shared,
+            "reference_lining_shared_labels": label_residues(shared, resnames),
+            "centroid": None if cen is None else [round(v, 3) for v in cen],
+        }
+
     verdict = classify_score(hit is not None, None if hit is None else hit.get("druggability"))
     return {
+        "site_choice_contrast": site_choice_contrast(accepted, ref_lining, centroids),
+        "pocket_identity": pocket_identity,
+        "reference_lining_labels": label_residues(ref_lining, resnames),
+        "reference_centroid": [round(v, 3) for v in ref["centroid"]],
         "structure": os.path.basename(pdb_path),
         "numbering": numbering,
         "n_protein_residues": len(resseqs),

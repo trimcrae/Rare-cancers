@@ -35,6 +35,11 @@ def main():
     n_alt = os.environ.get("N_ALT", "3")
     d_star = os.environ.get("D_STAR", "0.53")
     force_scan = os.environ.get("FORCE_SCAN", "")
+    # ⚠ The site-identity rule travels WITH the job or it does not travel at all. Left unset, the remote
+    # process falls back to `pocket_tracking.match_mode()`'s LEGACY default and the manifest records a
+    # score produced by the retired, outcome-selected classifier. See release-druggable-aws.yml.
+    pocket_match = os.environ.get("POCKET_MATCH", "harmonized")
+    allow_legacy = os.environ.get("ALLOW_LEGACY_POCKET_MATCH", "")
     prefixes = {"release": os.environ.get("RELEASE_PREFIX", "nr4a3-release"),
                 "struct": os.environ.get("STRUCT_PREFIX", "nr4a3-metad"),
                 "pocket": os.environ.get("POCKET_PREFIX", "nr4a3-release-pocket")}
@@ -50,9 +55,12 @@ def main():
     print(f"submitting receptor re-anchor: {instance}; inputs " +
           ", ".join(f"{t}=s3://{bucket}/{prefixes[t]}" for t in prefixes) +
           f" -> s3://{bucket}/{out_prefix}", flush=True)
-    args = ["--git-ref", git_ref, "--target-rg", target_rg, "--n-alt", n_alt, "--d-star", d_star]
+    args = ["--git-ref", git_ref, "--target-rg", target_rg, "--n-alt", n_alt, "--d-star", d_star,
+            "--pocket-match", pocket_match]
     if force_scan:
         args += ["--force-scan", force_scan]
+    if allow_legacy:
+        args += ["--allow-legacy", allow_legacy]
     sagemaker_submit.submit_spot(
         entry_point="entry_release_druggable.py",
         source_dir=os.path.join(here, "sagemaker_src"),

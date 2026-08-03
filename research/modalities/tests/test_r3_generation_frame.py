@@ -136,5 +136,64 @@ class TestGateAScoreClassification(unittest.TestCase):
             self.assertIn("generation receptor", v["reaches"])
 
 
+class TestSiteIdentityDescriptors(unittest.TestCase):
+    """The (A) half of the site-choice question: WHAT each accepted cavity is.
+
+    These are descriptive, and the tests exist to keep them descriptive — nothing here may become an
+    acceptance criterion, because the matcher's thresholds were frozen 2026-07-11 and re-tuning them
+    after seeing a verdict is the outcome-selection defect this audit is about."""
+
+    def test_volume_parsing_is_per_pocket_and_tolerates_missing(self):
+        text = ("Pocket 1 :\n\tScore : 0.3\n\tDruggability Score : 0.259\n\tVolume : 512.34\n"
+                "Pocket 2 :\n\tDruggability Score : 0.667\n")
+        vols = sc.parse_pocket_volumes(text)
+        self.assertAlmostEqual(vols[1], 512.34)
+        self.assertNotIn(2, vols)
+        self.assertEqual(sc.parse_pocket_volumes(""), {})
+        self.assertEqual(sc.parse_pocket_volumes(None), {})
+
+    def test_labels_carry_uniprot_numbering_derived_from_lbd_first(self):
+        """resSeq 34 in a structure renumbered from 373 is UniProt 406 — the first Pocket-5 lining
+        residue. Typing the offset is what this asserts against."""
+        labels = sc.label_residues([34, 162], {34: "LEU", 162: "PHE"})
+        self.assertEqual(labels, ["LEU406", "PHE534"])
+
+    def test_unknown_residue_is_labelled_not_dropped(self):
+        self.assertEqual(sc.label_residues([34], {}), ["UNK406"])
+
+    def test_contrast_reports_set_arithmetic_for_the_accepted_pair(self):
+        pockets = [{"pocket": 1, "residues": [1, 2, 3, 4], "druggability": 0.259},
+                   {"pocket": 2, "residues": [3, 4, 5, 6], "druggability": 0.667}]
+        out = sc.site_choice_contrast(pockets, [1, 2, 3], {1: (0.0, 0.0, 0.0), 2: (3.0, 4.0, 0.0)})
+        self.assertEqual(out["n_accepted"], 2)
+        p = out["pairs"][0]
+        self.assertEqual(p["n_shared"], 2)
+        self.assertEqual(p["shared_residues"], [3, 4])
+        self.assertEqual(p["only_in_first"], [1, 2])
+        self.assertEqual(p["only_in_second"], [5, 6])
+        self.assertEqual(p["centroid_separation_ang"], 5.0)
+        self.assertEqual(p["reference_lining_in_first_only"], [1, 2])
+        self.assertEqual(p["reference_lining_in_both"], [3])
+
+    def test_relationship_labels_are_the_three_stated_cases(self):
+        near = sc.site_choice_contrast(
+            [{"pocket": 1, "residues": [1, 2, 3], "druggability": 0.1},
+             {"pocket": 2, "residues": [1, 2, 3, 4], "druggability": 0.9}], [1], {})
+        self.assertEqual(near["pairs"][0]["relationship"], "SAME_CAVITY_RESEGMENTED")
+        mid = sc.site_choice_contrast(
+            [{"pocket": 1, "residues": [1, 2, 3, 4, 5], "druggability": 0.1},
+             {"pocket": 2, "residues": [5, 6, 7, 8, 9], "druggability": 0.9}], [1], {})
+        self.assertEqual(mid["pairs"][0]["relationship"], "OVERLAPPING_SUBPOCKETS")
+        far = sc.site_choice_contrast(
+            [{"pocket": 1, "residues": [1, 2], "druggability": 0.1},
+             {"pocket": 2, "residues": [8, 9], "druggability": 0.9}], [1], {})
+        self.assertEqual(far["pairs"][0]["relationship"], "DISJOINT_CAVITIES")
+
+    def test_contrast_of_a_single_accepted_cavity_has_no_pairs(self):
+        out = sc.site_choice_contrast([{"pocket": 1, "residues": [1], "druggability": 0.1}], [1], {})
+        self.assertEqual(out["n_accepted"], 1)
+        self.assertEqual(out["pairs"], [])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
