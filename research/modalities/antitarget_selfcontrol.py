@@ -1001,6 +1001,26 @@ def si_edits(doc):
                "panel's own self-control cannot dock into. The number is not deleted — it is "
                "conditioned, which is the only thing the failure licenses",
         "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }, {
+        # ⛔ IT IS NOT ONLY THE SI. The same panel-wide maximum is asserted in the MAIN TEXT, and an SI
+        # caveat beside an unqualified main-text claim is worse than neither: a reader who never opens
+        # the SI sees only the unconditioned sentence. Found by grepping the paper for "anti-target"
+        # rather than by trusting the brief's scoping to the SI.
+        "file": "research/manuscripts/nr4a3-degrader-paper.md",
+        "section": "main text — the counter-screen sentence",
+        "anchor": "**At marketed-library scale, no repurposing candidate survives the counter-screen**",
+        "current_text": "**Full screen and target panel: SI §S1.**",
+        "proposed_text": ("**Full screen and target panel: SI §S1.** ⛔ **The counter-screen comparison "
+                          "is NOT CURRENTLY READABLE (2026-08-03):** the panel's cognate-ligand "
+                          "self-control recovers %d of %d crystallographic poses (%s miss the %.2f Å "
+                          "criterion), and this sentence is a maximum across the whole panel — see "
+                          "SI §S1 and "
+                          "[`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json)."
+                          % (sc.get("n_pass", 0), sc.get("n_targets", 0), ", ".join(blocking),
+                             band or 2.0)),
+        "why": "the main text asserts the same panel-wide maximum as SI §S1 paragraph 3. Conditioning "
+               "only the SI would leave a reader who never opens it with the unqualified claim",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
     }]
 
 
@@ -1064,7 +1084,7 @@ def check():
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--mode", default=os.environ.get("MODE", "all"),
-                    choices=["resolve", "selfcontrol", "flagged", "all"])
+                    choices=["resolve", "selfcontrol", "flagged", "all", "edits"])
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
     if args.check:
@@ -1088,6 +1108,25 @@ def main():
         "_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "refusals": [],
     }
+    if args.mode == "edits":
+        # ⛔ RE-ROUTE WITHOUT RE-MEASURING. The routing blocks are a pure function of the measurement,
+        # and the manuscripts they point at move independently of it. Re-docking 20 targets to
+        # regenerate a paragraph of anchors would be re-running an experiment to fix a citation — and
+        # worse, it would produce a NEW measurement while claiming to re-route the old one.
+        # ⚠ It REFUSES if there is no measurement to route: a routing block computed from an absent
+        # verdict would assert "the panel is readable" by the shape of an empty dict.
+        if not os.path.exists(OUT):
+            sys.exit("mode=edits needs an existing %s to re-route; there is none" % OUT)
+        prior = json.load(open(OUT))
+        if not (prior.get("selfcontrol") or {}).get("targets"):
+            sys.exit("mode=edits refuses: %s carries no scored panel, so there is no verdict to route"
+                     % OUT)
+        doc = prior
+        doc["refusals"] = [r for r in doc.get("refusals", [])
+                           if not str(r.get("where", "")).startswith(("map_edits_required",
+                                                                      "si_edits_required",
+                                                                      "manuscript_edits_required"))]
+        doc["_rerouted_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     if args.mode in ("resolve", "all"):
         mode_resolve(doc)
     if args.mode in ("selfcontrol", "all"):
@@ -1108,15 +1147,29 @@ def main():
     # ONE `--target`, so mixing an SI edit into `map_edits_required` would make it report DEAD against the
     # roadmap — a real edit reading as a stale one, which is the failure that tool exists to end. The list
     # is also written standalone so the router can consume it with `--target ...paper-SI.md` directly.
-    si = si_edits(doc)
-    doc["si_edits_required"], doc["si_edit_anchor_check"] = mea.verify(si, SI_PATH)
-    json.dump(doc["si_edits_required"], open(OUT_SI, "w"), indent=2)
-    if si and not doc["si_edit_anchor_check"]["all_accounted"]:
-        doc["refusals"].append({
-            "where": "si_edits_required",
-            "why": "the SI edit that conditions §S1's anti-target margins does NOT resolve against the "
-                   "live SI — see si_edit_anchor_check. The panel is unreadable and the SI still asserts "
-                   "the margin, so this edit must be relocated by hand rather than dropped."})
+    # Grouped by target FILE, because `route_map_edits.py` takes one `--target` and an edit checked
+    # against the wrong file reports DEAD — a real edit reading as a stale one.
+    by_file = {}
+    for e in si_edits(doc):
+        by_file.setdefault(e["file"], []).append(e)
+    doc["manuscript_edits_required"] = {}
+    for path, group in by_file.items():
+        abspath = os.path.join(HERE, "..", "..", path)
+        checked, summary = mea.verify(group, abspath)
+        doc["manuscript_edits_required"][path] = {"edits": checked, "anchor_check": summary}
+        out = os.path.join(HERE, "antitarget-selfcontrol-%s-edits.json"
+                           % ("si" if "SI" in path else "paper"))
+        json.dump(checked, open(out, "w"), indent=2)
+        if not summary["all_accounted"]:
+            doc["refusals"].append({
+                "where": "manuscript_edits_required/%s" % path,
+                "why": "the edit that conditions this file's anti-target claim does NOT resolve against "
+                       "it — see anchor_check. The panel is unreadable and the file still asserts the "
+                       "margin, so this edit must be relocated by hand rather than dropped."})
+    # kept for readers that already parse the SI-only field
+    si_block = doc["manuscript_edits_required"].get("research/manuscripts/nr4a3-degrader-paper-SI.md")
+    doc["si_edits_required"] = (si_block or {}).get("edits", [])
+    doc["si_edit_anchor_check"] = (si_block or {}).get("anchor_check")
     json.dump(doc, open(OUT, "w"), indent=2)
     open(OUT_MD, "w").write(render_markdown(doc))
     print("wrote", OUT)

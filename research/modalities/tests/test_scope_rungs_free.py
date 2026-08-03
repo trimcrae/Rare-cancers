@@ -451,10 +451,14 @@ def test_the_si_edit_only_exists_while_the_panel_is_unreadable():
             "selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": "FAIL"}]),
                                 targets=[{"name": "PXR", "verdict": "FAIL", "rmsd_A": 6.761}])}
     edits = sc.si_edits(fail)
-    assert len(edits) == 1
-    assert edits[0]["file"].endswith("nr4a3-degrader-paper-SI.md")
-    assert "NOT CURRENTLY READABLE" in edits[0]["proposed_text"]
-    assert "PXR" in edits[0]["proposed_text"] and "6.761" in edits[0]["proposed_text"]
+    # BOTH manuscripts, because the main text asserts the same panel-wide maximum as the SI. Conditioning
+    # only the SI leaves a reader who never opens it with the unqualified claim.
+    files = sorted(e["file"] for e in edits)
+    assert files == ["research/manuscripts/nr4a3-degrader-paper-SI.md",
+                     "research/manuscripts/nr4a3-degrader-paper.md"], files
+    assert all("NOT CURRENTLY READABLE" in e["proposed_text"] for e in edits)
+    si = [e for e in edits if e["file"].endswith("-SI.md")][0]
+    assert "PXR" in si["proposed_text"] and "6.761" in si["proposed_text"]
     ok = {"criterion": {"recovered_rmsd_A": 2.0},
           "selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": "PASS"}]), targets=[])}
     assert sc.si_edits(ok) == []
@@ -465,6 +469,7 @@ def test_the_si_edit_conditions_the_result_rather_than_deleting_it():
     fail = {"criterion": {"recovered_rmsd_A": 2.0},
             "selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": "FAIL"}]),
                                 targets=[{"name": "PXR", "verdict": "FAIL", "rmsd_A": 6.761}])}
-    e = sc.si_edits(fail)[0]
-    assert e["current_text"] in e["proposed_text"], "the original sentence must survive verbatim"
-    assert "may not be quoted until the control passes" in e["proposed_text"]
+    for e in sc.si_edits(fail):
+        assert e["current_text"] in e["proposed_text"], "the original sentence must survive verbatim"
+    si = [e for e in sc.si_edits(fail) if e["file"].endswith("-SI.md")][0]
+    assert "may not be quoted until the control passes" in si["proposed_text"]

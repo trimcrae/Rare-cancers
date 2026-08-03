@@ -1784,6 +1784,7 @@
       "why": "the rung ran on a free CI runner at $0; the self-control **FAILS on CYP3A4, PPARG, PXR**, so no anti-target margin from this panel may be read \u2014 including SI \u00a7S1's",
       "artifact": "research/modalities/antitarget-selfcontrol.json",
       "_schema_complete": true,
+      "_probe_is_the_difference": false,
       "anchor_occurrences": 1,
       "current_text_occurrences": 1,
       "proposed_text_occurrences": 0,
@@ -1798,6 +1799,37 @@
       "why": "row 10 records R14-a as not started; it has now run and returned a verdict that governs a number the paper already publishes",
       "artifact": "research/modalities/antitarget-selfcontrol.json",
       "_schema_complete": true,
+      "_probe_is_the_difference": false,
+      "anchor_occurrences": 1,
+      "current_text_occurrences": 1,
+      "proposed_text_occurrences": 0,
+      "_proposed_probe_chars": 120,
+      "anchor_status": "OK"
+    },
+    {
+      "section": "\u00a710.1 row 10 \u2014 the state cell",
+      "anchor": "| `R14` | \u25cb **not started** |",
+      "current_text": "| `R14` | \u25cb **not started** |",
+      "proposed_text": "| `R14` | \u25d0 **`R14-a` ran 2026-08-03 \u00b7 `R14-b` not started (\u26d4 DO-NOT-LAUNCH)** |",
+      "why": "the row's next-action cell records R14-a as run while its state cell still says nothing has started; R14-b remains unrun and rate-line blocked, so the row is partial, not done",
+      "artifact": "research/modalities/antitarget-selfcontrol.json",
+      "_schema_complete": true,
+      "_probe_is_the_difference": false,
+      "anchor_occurrences": 1,
+      "current_text_occurrences": 1,
+      "proposed_text_occurrences": 0,
+      "_proposed_probe_chars": 80,
+      "anchor_status": "OK"
+    },
+    {
+      "section": "THE ORDERED PLAN \u2192 RUNG S \u2014 R14-a's 'never-run' clause",
+      "anchor": "and that the panel has a **never-run cognate-ligand self-control.**",
+      "current_text": "and that the panel has a **never-run cognate-ligand self-control.**",
+      "proposed_text": "and that the panel has a cognate-ligand self-control **which has now RUN (2026-08-03, $0): the self-control **FAILS on CYP3A4, PPARG, PXR**, so no anti-target margin from this panel may be read \u2014 including SI \u00a7S1's** ([`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json)).",
+      "why": "the rung text still describes the control as never run, and it has run \u2014 leaving that sentence in place would make the program's own plan a stale fact",
+      "artifact": "research/modalities/antitarget-selfcontrol.json",
+      "_schema_complete": true,
+      "_probe_is_the_difference": false,
       "anchor_occurrences": 1,
       "current_text_occurrences": 1,
       "proposed_text_occurrences": 0,
@@ -1809,8 +1841,8 @@
     "map": "../manuscripts/nr4a3-program-map.md",
     "map_read": true,
     "map_read_why": null,
-    "n_edits": 2,
-    "n_ok": 2,
+    "n_edits": 4,
+    "n_ok": 4,
     "n_applied": 0,
     "not_found": [],
     "ambiguous": [],
@@ -1829,6 +1861,7 @@
       "why": "a sentence already written into the SI asserts a panel-wide maximum over receptors the panel's own self-control cannot dock into. The number is not deleted \u2014 it is conditioned, which is the only thing the failure licenses",
       "artifact": "research/modalities/antitarget-selfcontrol.json",
       "_schema_complete": true,
+      "_probe_is_the_difference": true,
       "anchor_occurrences": 1,
       "current_text_occurrences": 1,
       "proposed_text_occurrences": 0,
@@ -1849,5 +1882,76 @@
     "all_applicable": true,
     "all_accounted": true,
     "_rule": "a routed edit whose current_text is not present EXACTLY ONCE cannot be applied mechanically and must be rewritten, not applied by judgement \u2014 UNLESS its proposed_text is present, which means it already landed and there is nothing to do"
+  },
+  "_rerouted_utc": "2026-08-03T11:12:35Z",
+  "manuscript_edits_required": {
+    "research/manuscripts/nr4a3-degrader-paper-SI.md": {
+      "edits": [
+        {
+          "file": "research/manuscripts/nr4a3-degrader-paper-SI.md",
+          "section": "SI \u00a7S1 \u2014 the anti-target panel paragraph (3)",
+          "anchor": "*(3) The anti-target panel disqualifies all of them.*",
+          "current_text": "*(3) The anti-target panel disqualifies all of them.*",
+          "proposed_text": "*(3) The anti-target panel disqualifies all of them.* \u26d4 **NOT CURRENTLY READABLE (2026-08-03).** The panel's cognate-ligand self-control \u2014 each target's own co-crystallised ligand re-docked through the identical protocol \u2014 recovers 7 of 10 crystallographic poses; **CYP3A4, PPARG, PXR** miss the 2.00 \u00c5 field-standard redocking criterion (CYP3A4 12.337 \u00c5; PPARG 6.894 \u00c5; PXR 6.804 \u00c5). Every claim in this paragraph is a maximum or an every-survivor statement across the whole panel, so an unreadable receptor propagates into all of them. The screen was run and is reported; the *margins* below may not be quoted until the control passes ([`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json)).",
+          "why": "a sentence already written into the SI asserts a panel-wide maximum over receptors the panel's own self-control cannot dock into. The number is not deleted \u2014 it is conditioned, which is the only thing the failure licenses",
+          "artifact": "research/modalities/antitarget-selfcontrol.json",
+          "_schema_complete": true,
+          "_probe_is_the_difference": true,
+          "anchor_occurrences": 1,
+          "current_text_occurrences": 1,
+          "proposed_text_occurrences": 0,
+          "_proposed_probe_chars": 120,
+          "anchor_status": "OK"
+        }
+      ],
+      "anchor_check": {
+        "map": "../manuscripts/nr4a3-degrader-paper-SI.md",
+        "map_read": true,
+        "map_read_why": null,
+        "n_edits": 1,
+        "n_ok": 1,
+        "n_applied": 0,
+        "not_found": [],
+        "ambiguous": [],
+        "unread": [],
+        "all_applicable": true,
+        "all_accounted": true,
+        "_rule": "a routed edit whose current_text is not present EXACTLY ONCE cannot be applied mechanically and must be rewritten, not applied by judgement \u2014 UNLESS its proposed_text is present, which means it already landed and there is nothing to do"
+      }
+    },
+    "research/manuscripts/nr4a3-degrader-paper.md": {
+      "edits": [
+        {
+          "file": "research/manuscripts/nr4a3-degrader-paper.md",
+          "section": "main text \u2014 the counter-screen sentence",
+          "anchor": "**At marketed-library scale, no repurposing candidate survives the counter-screen**",
+          "current_text": "**Full screen and target panel: SI \u00a7S1.**",
+          "proposed_text": "**Full screen and target panel: SI \u00a7S1.** \u26d4 **The counter-screen comparison is NOT CURRENTLY READABLE (2026-08-03):** the panel's cognate-ligand self-control recovers 7 of 10 crystallographic poses (CYP3A4, PPARG, PXR miss the 2.00 \u00c5 criterion), and this sentence is a maximum across the whole panel \u2014 see SI \u00a7S1 and [`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json).",
+          "why": "the main text asserts the same panel-wide maximum as SI \u00a7S1 paragraph 3. Conditioning only the SI would leave a reader who never opens it with the unqualified claim",
+          "artifact": "research/modalities/antitarget-selfcontrol.json",
+          "_schema_complete": true,
+          "_probe_is_the_difference": true,
+          "anchor_occurrences": 1,
+          "current_text_occurrences": 1,
+          "proposed_text_occurrences": 0,
+          "_proposed_probe_chars": 120,
+          "anchor_status": "OK"
+        }
+      ],
+      "anchor_check": {
+        "map": "../manuscripts/nr4a3-degrader-paper.md",
+        "map_read": true,
+        "map_read_why": null,
+        "n_edits": 1,
+        "n_ok": 1,
+        "n_applied": 0,
+        "not_found": [],
+        "ambiguous": [],
+        "unread": [],
+        "all_applicable": true,
+        "all_accounted": true,
+        "_rule": "a routed edit whose current_text is not present EXACTLY ONCE cannot be applied mechanically and must be rewritten, not applied by judgement \u2014 UNLESS its proposed_text is present, which means it already landed and there is nothing to do"
+      }
+    }
   }
 }

@@ -115,15 +115,41 @@ def test_the_verifier_cannot_write(doc):
 
 # ------------------------------------------------------------------ the two rungs' live anchors
 
-@pytest.mark.parametrize("verdict", ["PASS", "FAIL"])
-def test_r14a_routed_edits_resolve_against_the_live_map(verdict):
-    d = {"selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": verdict}]), targets=[])}
+def test_r14a_routed_edits_resolve_against_the_live_map():
+    """⚠ AGAINST THE REAL ARTIFACT, NOT A SYNTHETIC VERDICT.
+
+    An earlier version of this test built a fake doc (`panel_verdict([...PASS])`) and asserted its
+    anchors resolved. That is unsound once the edits have been routed: several `proposed_text`s embed
+    the MEASURED verdict, so a synthetic doc produces a different replacement string from the one in the
+    document, and the test reports NOT_FOUND for edits that landed perfectly. It was asserting that the
+    map had been edited from a doc that never existed.
+
+    ⚠ AND IT ASSERTS AMBIGUITY, NOT LOCATABILITY. Whether an anchor is currently locatable is a property
+    of the CHECKOUT — the artifact lands on `main` while a feature branch's roadmap has not been routed
+    yet — so a NOT_FOUND here is as likely to mean "different ref" as "the map moved", and a test that
+    cannot tell those apart is noise. The real guard against a dead anchor is the anchor check the module
+    runs INSIDE the CI job, where the artifact and the map are the same checkout by construction. What is
+    a genuine property of the code, on any ref, is that no anchor matches MORE than once.
+    """
+    p = os.path.join(MOD, "antitarget-selfcontrol.json")
+    if not os.path.exists(p):
+        pytest.skip("the panel has not been run on this ref")
+    d = json.load(open(p))
     edits, s = mea.verify(sc.map_edits(d), LIVE_MAP)
-    # `all_accounted`, not `all_applicable`: once an edit has been ROUTED it reports APPLIED, and a test
-    # that demanded `all_applicable` would go red the moment the routing it exists to protect succeeds.
-    assert s["all_accounted"], json.dumps(
-        {"not_found": s["not_found"], "ambiguous": s["ambiguous"]}, indent=1)
+    assert not s["ambiguous"], json.dumps(s["ambiguous"], indent=1)
     assert all(e["_schema_complete"] for e in edits)
+
+
+def test_r14a_edit_shape_holds_for_either_verdict():
+    """The SHAPE is verdict-independent even though the text is not — every edit is schema-complete and
+    carries a non-empty anchor, whichever way the panel went."""
+    for verdict in ("PASS", "FAIL"):
+        d = {"selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": verdict}]), targets=[])}
+        edits = sc.map_edits(d)
+        assert edits
+        for e in edits:
+            assert set(e) >= {"section", "anchor", "current_text", "proposed_text", "why", "artifact"}
+            assert e["current_text"] and e["current_text"] != e["proposed_text"]
 
 
 def test_r13a_routed_edits_resolve_against_the_live_map():

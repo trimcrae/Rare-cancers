@@ -37,7 +37,7 @@ mean − SD. Of the shortlist, only **SNX-5422** (HSP90 inhibitor; +17.56) and *
 had *collapsed* in the single pass). The pan-NR4A cell (balanced tri-engagement, for the SI §S4 ex-vivo CAR-T mode)
 is populated by KB-SRC-4, flupentixol, AT-1015, CP-640186 — but see below.
 
-*(3) The anti-target panel disqualifies all of them.* We docked the survivors into a 9-target panel — six
+*(3) The anti-target panel disqualifies all of them.* ⛔ **NOT CURRENTLY READABLE (2026-08-03).** The panel's cognate-ligand self-control — each target's own co-crystallised ligand re-docked through the identical protocol — recovers 7 of 10 crystallographic poses; **CYP3A4, PPARG, PXR** miss the 2.00 Å field-standard redocking criterion (CYP3A4 12.337 Å; PPARG 6.894 Å; PXR 6.804 Å). Every claim in this paragraph is a maximum or an every-survivor statement across the whole panel, so an unreadable receptor propagates into all of them. The screen was run and is reported; the *margins* below may not be quoted until the control passes ([`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json)). We docked the survivors into a 9-target panel — six
 unrelated nuclear receptors (RXRα, PPARγ, ERα, AR, GR, VDR) plus the promiscuity sensors **PXR** (xenobiotic
 receptor), CYP3A4, and serum albumin — with the identical smina protocol, and compared each drug's best
 off-target ΔG to its NR4A3 ΔG (`antitarget_{panel,prep,dock,report}.py`). **Every survivor is promiscuous**:
