@@ -53,9 +53,28 @@ Receptor build reported above: **`repaired`**. The **`stripped`** arm — the bu
 | S1.3c — denovo_401 through the same panel tops out at -9.1 (VDR), 1.7-5 kcal weaker than any repurposed survivor and not a PXR/HSA hit | False | CYP3A4, PPARG, PXR |
 | S1.3d — the panel DISCRIMINATES rather than merely saturates | False | CYP3A4, PPARG, PXR |
 
-## Refusals
+## `denovo_401` + carried candidates in the flagged receptors
 
-- **panel/PXR** — antitarget_panel.json declares ligand_resname '348', which is NOT in 1NRL; the prep fell back to the largest drug-like HETATM group (SRL) and the box is centred on THAT. The panel row is a data error — reported, not silently accepted.
-- **panel/HSA** — antitarget_panel.json declares ligand_resname 'SWF', which is NOT in 1H9Z; the prep fell back to the largest drug-like HETATM group (RWF) and the box is centred on THAT. The panel row is a data error — reported, not silently accepted.
-- **panel/PXR** — antitarget_panel.json declares ligand_resname '348', which is NOT in 1NRL; the prep fell back to the largest drug-like HETATM group (SRL) and the box is centred on THAT. The panel row is a data error — reported, not silently accepted.
-- **panel/HSA** — antitarget_panel.json declares ligand_resname 'SWF', which is NOT in 1H9Z; the prep fell back to the largest drug-like HETATM group (RWF) and the box is centred on THAT. The panel row is a data error — reported, not silently accepted.
+⛔ **No margin is computed.** GATE: the cognate-ligand self-control governs whether ANY margin from this panel may be read, and it is reported in `selfcontrol` — a margin emitted beside a failing control would be exactly the number the rung exists to stop.; PROVENANCE: the NR4A3 column the published margins subtract is NOT COMMITTED ANYWHERE IN THIS REPO. `nr4a3-antitarget.json` / `nr4a3-antitarget.jsonl` — the raw (drug x target) dG matrix `antitarget_dock.py` writes — exist only under the S3 output prefix; the repo carries the candidate lists and the prose, not the numbers. Recomputing an NR4A3 dG here would need the release receptor and box that lane used, and inventing either would fabricate the denominator of a published figure.
+
+| molecule | drug | AR | MR |
+|---|---|---|---|
+| denovo_401 | denovo_401 | -7.78856 | -7.48741 |
+| rep00066 | 20-hydroxyecdysone | -5.09094 | -6.15325 |
+| rep00307 | AGI-5198 | 0.07694 | -6.2195 |
+| rep00597 | AT-1015 | -0.18394 | -3.66588 |
+| rep00928 | BMS-309403 | 4.12243 | -3.68056 |
+| rep01152 | carebastine | -6.45553 | -4.59148 |
+| rep01538 | CP-640186 | 4.94711 | -5.82102 |
+| rep01696 | DDR1-IN-1 | 1.87862 | -7.30727 |
+| rep02006 | EMD-1214063 | -2.21936 | -5.90242 |
+| rep02322 | flupentixol | -4.24496 | -7.5618 |
+| rep02740 | ICG-001 | 8.34661 | 2.05647 |
+| rep02972 | KB-SRC-4 | 2.90186 | -2.48401 |
+| rep03572 | ML786 | -4.92882 | -7.81485 |
+| rep03785 | nilotinib | -3.93946 | -5.62788 |
+| rep04382 | pizotifen | -2.41037 | -8.88588 |
+| rep04553 | pyrantel | -7.02394 | -7.37431 |
+| rep05021 | siponimod | -6.14012 | -2.07482 |
+| rep05064 | SNX-5422 | -1.27479 | -2.75597 |
+| rep05888 | XL019 | -2.82652 | -7.27006 |
