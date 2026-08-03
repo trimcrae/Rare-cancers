@@ -1,0 +1,182 @@
+name: SCOPE RUNGS — the two FREE halves, R14-a and R13-a ($0, CPU)
+
+# ⛔ $0 BY CONSTRUCTION. Free GitHub CPU runner. No GPU, no SageMaker, no Vast rental, no AWS credential is
+# read and nothing is billed. Both halves of rung S that need no authorization run here; the PAID halves
+# (`R13-b` co-fold, `R14-b` metadynamics ensembles) are NOT in this file and must not be added to it —
+# `R14-b` is additionally registered DO-NOT-LAUNCH in scope-rung-cost.json.
+#
+# R14-a — COMPLETE THE ANTI-TARGET PANEL AND RUN ITS SELF-CONTROL.
+#   The panel is an instrument that has never been calibrated and has already produced a published number
+#   (SI §S1). `antitarget_selfcontrol.py` re-docks each target's OWN co-crystallised ligand through the
+#   IDENTICAL protocol and reports whether the crystallographic pose comes back. THE ORDER IS THE RUNG:
+#   the self-control runs FIRST, and until it passes no anti-target margin from this panel may be read,
+#   including the one SI §S1 already publishes. The MR/NR3C2 receptor the 47-receptor sequence screen
+#   flagged is resolved by a LIVE RCSB query, never from a remembered PDB id.
+#
+# R13-a — THE FUSION-JUNCTION SEQUENCE INVENTORY, AT THE CORRECTED JUNCTION.
+#   `fusion_object_inventory.py` re-derives the junction from Ensembl exon structure and REFUSES unless it
+#   reproduces EWSR1(1-264)::NR4A3(1-626) — the corrected junction, after the off-by-two fixed at source on
+#   2026-08-02. It then states, residue by residue, what the real disease protein contains that the modelled
+#   LBD construct (373-626) does not, split into what is invariant across every plausible breakpoint and
+#   what is not, because the patient-level breakpoint is NOT pinned.
+#
+# The two jobs are independent and deliberately parallel: R13-a is pure stdlib + Ensembl and finishes in
+# under a minute, while R14-a pays a conda solve for smina. Serialising them would buy nothing — neither
+# result can cancel the other (CLAUDE.md §6: serialize only when one result could cancel the rest).
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "which rung half to run"
+        type: choice
+        options: [both, r14a, r13a]
+        default: both
+      r14a_mode:
+        description: "R14-a stage (the self-control is the gate; `all` runs resolve -> selfcontrol -> flagged)"
+        type: choice
+        options: [all, resolve, selfcontrol, flagged]
+        default: all
+      commit:
+        description: "commit the artifacts back to the triggering branch"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  # The task is in the key so an r13a dispatch cannot cancel a running r14a on the same ref.
+  group: scope-rungs-free-${{ github.ref_name }}-${{ inputs.task }}
+  cancel-in-progress: false
+
+jobs:
+  # ------------------------------------------------------------------ R13-a (pure stdlib + Ensembl)
+  r13a:
+    if: inputs.task == 'both' || inputs.task == 'r13a'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # No pip. The module is pure stdlib on purpose — the only external dependency is Ensembl REST,
+      # which the dev sandbox 403s at CONNECT and a runner does not (CLAUDE.md §6 route 1).
+      - name: Offline self-test FIRST (the pure logic, against committed fixtures)
+        run: python3 research/modalities/fusion_object_inventory.py --check
+      - name: R13-a — re-derive the junction and build the inventory
+        run: python3 -u research/modalities/fusion_object_inventory.py
+      - name: Show the gate and the sentence
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          p = "research/modalities/fusion-object-inventory.json"
+          if not os.path.exists(p):
+              print("== not produced"); raise SystemExit(0)
+          d = json.load(open(p))
+          g = d.get("gate") or {}
+          print("GATE:", g.get("status"), g.get("junction"))
+          for c in g.get("checks", []):
+              print("  ", "OK " if c["ok"] else "FAIL", c["check"], "->", json.dumps(c["got"])[:80])
+          inv = d.get("inventory") or {}
+          print("inventory rows:", inv.get("n_rows"), "invariant:", inv.get("n_invariant"),
+                "breakpoint-dependent:", inv.get("n_breakpoint_dependent"))
+          print("unique outside the construct:",
+                inv.get("unique_reactive_residues_outside_the_construct"))
+          print("neoantigen flag:", json.dumps(d.get("neoantigen_lane_flag", {}).get("verdict")))
+          print()
+          print(d.get("the_sentence"))
+          print()
+          print("REFUSALS:", json.dumps(d.get("refusals"), indent=1)[:1500])
+          print("MAP EDITS REQUIRED:", json.dumps(d.get("map_edits_required"), indent=1)[:3000])
+          PY
+      - name: Publish
+        if: always() && inputs.commit
+        env:
+          # ★ AN EVENT PUBLISH, NOT A HEARTBEAT (publish_artifacts.sh header). This job records a
+          # measurement; nothing grades its staleness, and an `--allow-empty` commit here would assert
+          # that the junction was re-derived on a run where nothing was.
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          set -eo pipefail
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "R13-a: fusion-object inventory at the corrected junction (CI run ${{ github.run_id }})" \
+            research/modalities/fusion-object-inventory.json \
+            research/modalities/fusion-object-inventory.md
+
+  # ------------------------------------------------------------------ R14-a (needs smina + rdkit)
+  r14a:
+    if: inputs.task == 'both' || inputs.task == 'r14a'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # smina is the panel's own docking tool and rdkit is what its kernels import. Nothing is being
+      # solved on a machine anybody pays for — CLAUDE.md §6's "never build an environment on a machine we
+      # are paying for" is about billed hosts, and this runner is free.
+      - name: Install smina (micromamba) + rdkit
+        run: |
+          set -e
+          cd "$RUNNER_TEMP"
+          curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/denv" -c conda-forge -c bioconda smina
+          echo "$RUNNER_TEMP/denv/bin" >> "$GITHUB_PATH"
+          python -m pip install --quiet --upgrade pip
+          pip install --quiet rdkit numpy
+      - name: Tool census (a missing tool must be a named refusal, not a mystery)
+        run: |
+          which smina || echo "MISSING smina"
+          smina --version 2>&1 | head -2 || true
+          python -c "import rdkit; print('rdkit', rdkit.__version__)"
+      - name: Offline self-test FIRST (the verdict logic, before anything is docked)
+        run: python3 research/modalities/antitarget_selfcontrol.py --check
+      - name: R14-a — resolve MR, run the self-control, dock into the flagged receptors
+        env:
+          MODE: ${{ inputs.r14a_mode }}
+          SELFCONTROL_WORK: ${{ runner.temp }}/selfcontrol_work
+        run: python3 -u research/modalities/antitarget_selfcontrol.py --mode "$MODE"
+      - name: Show the verdict
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          p = "research/modalities/antitarget-selfcontrol.json"
+          if not os.path.exists(p):
+              print("== not produced"); raise SystemExit(0)
+          d = json.load(open(p))
+          sc = d.get("selfcontrol") or {}
+          print("PANEL READABLE:", sc.get("panel_readable"),
+                "| pass", sc.get("n_pass"), "of", sc.get("n_targets"),
+                "| blocking:", sc.get("blocking_targets"))
+          for r in sc.get("targets", []):
+              print("  %-8s %-9s rmsd=%-7s dG=%-7s fnat=%-5s null=%-6s %s" % (
+                  r.get("name"), r.get("verdict"), r.get("rmsd_A"), r.get("self_dock_dG"),
+                  r.get("fnat"), r.get("null_frac_under_criterion"), r.get("why", "")))
+          print()
+          for s in sc.get("si_s1_statements", []):
+              print("  %-6s readable=%-5s blocked_by=%s" % (s["id"], s["readable"], s["blocked_by"]))
+          print()
+          print("RESOLVE:", json.dumps({k: v for k, v in (d.get("resolve") or {}).items()
+                                        if k in ("status", "row", "resolution_A", "title",
+                                                 "n_entries")}, indent=1)[:1200])
+          print("REFUSALS:", json.dumps(d.get("refusals"), indent=1)[:2000])
+          print("MAP EDITS REQUIRED:", json.dumps(d.get("map_edits_required"), indent=1)[:3000])
+          PY
+      - name: Publish
+        if: always() && inputs.commit
+        env:
+          PUBLISH_IF_CHANGED: "1"
+        run: |
+          set -eo pipefail
+          # antitarget_panel.json is published too: mode=resolve WRITES the MR row into it, and a verdict
+          # computed over a panel whose membership never lands is a verdict nobody can reproduce.
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "R14-a: anti-target panel + its never-run cognate self-control (CI run ${{ github.run_id }})" \
+            research/modalities/antitarget-selfcontrol.json \
+            research/modalities/antitarget-selfcontrol.md \
+            research/modalities/antitarget_panel.json

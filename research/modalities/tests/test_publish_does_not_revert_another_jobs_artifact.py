@@ -235,11 +235,35 @@ def test_no_heartbeat_caller_sets_the_event_flag():
                 if not isinstance(env, dict) or str(env.get("PUBLISH_IF_CHANGED", "")) != "1":
                     continue
                 # The message is the second argument to the primitive; a heartbeat names itself.
-                if "tick" in run.lower() or "heartbeat" in run.lower():
+                # ⚠ COMMENT LINES ARE STRIPPED FIRST, AND THAT IS A CORRECTNESS FIX, NOT A LOOSENING
+                # (2026-08-03). YAML keeps `#` lines inside a `run: |` block, so this test was matching
+                # the PROSE rather than the command — and the prose an event publish is supposed to carry
+                # is precisely an explanation of why it is *not* a lane tick. `pose-recovery-check.yml`
+                # was failing on the words "a lane tick whose" and "a conflicting sibling tick" in the
+                # comment that documents the rule being obeyed, so the guard was red on a compliant
+                # caller and, being the last assertion in this file, took the suite with it. A comment
+                # can never be the message argument, so removing them cannot let a real heartbeat past;
+                # the executable half of the run block is still scanned in full.
+                code = "\n".join(ln for ln in run.splitlines()
+                                 if not ln.lstrip().startswith("#"))
+                if "tick" in code.lower() or "heartbeat" in code.lower():
                     offenders.append(f"{fn}:{job}:{st.get('name')}")
     assert not offenders, (
         "PUBLISH_IF_CHANGED=1 on what looks like a HEARTBEAT publish — the timestamp is the only signal a "
         f"staleness alarm has, so suppressing an unchanged tick makes a healthy job look dead: {offenders}")
+
+
+def test_the_heartbeat_detector_still_fires_on_a_real_tick():
+    """⛔ THE COMMENT STRIP ABOVE MUST NOT HAVE BLUNTED THE GUARD. A commented-out heartbeat is not a
+    heartbeat; a real one — the message argument on an executable line — must still be caught."""
+    def _offends(run):
+        code = "\n".join(ln for ln in run.splitlines() if not ln.lstrip().startswith("#"))
+        return "tick" in code.lower() or "heartbeat" in code.lower()
+
+    assert _offends('bash publish_artifacts.sh main "selcal status: lane tick (CI)" a.json')
+    assert _offends('  bash publish_artifacts.sh main "gcp heartbeat" a.json')
+    assert not _offends('# this is not a lane tick and not a heartbeat\n'
+                        'bash publish_artifacts.sh main "valB closure: freeze cmpd4 (CI)" a.json')
 
 
 # =============================================================================================================
