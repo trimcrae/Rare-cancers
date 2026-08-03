@@ -44,6 +44,32 @@ POCKET_FIRST, POCKET_LAST = pt.POCKET5_SPAN   # 406..534 (UniProt)
 D_STAR = pt.D_STAR
 
 
+def cv_rg_nm(ca_by_resseq_map, lining_resseqs):
+    """The metadynamics CV — Rg (nm) of the Pocket-5 lining CA atoms about their centroid. PURE.
+
+    ★★ WHY THIS IS MEASURED HERE AND NOT QUOTED (2026-08-03). Every document in the program identifies the
+    generation receptor by its Rg: the manifest records `selection_rg: 0.7367`, the paper anchors *"all
+    downstream design"* to a frame at *"Rg ~ 0.737"*, and `release_frame_select.select_receptor_ensemble`
+    picks the primary by MINIMISING |Rg − TARGET_RG| — so the Rg is not a label, it is the selection
+    criterion. It had never been recomputed from the receptor's own coordinates. It is one line of
+    arithmetic on a file we already download.
+
+    ⚠ ONE HOME CAVEAT. `nr4a3_mdpocket._cv_rg_series` owns this CV; it is mdtraj-based and cannot be
+    pointed at a PDB, hence this restatement. `tests/test_r3_generation_frame.py` pins the restatement by
+    recomputing all 25 committed rep0 frames and requiring agreement with that lane's own recorded
+    `cv_rg_nm` — so a drift in either definition fails loudly rather than producing a second Rg.
+
+    Input coordinates are ANGSTROM (PDB native); the CV is nm, hence the /10.
+    """
+    pts = [ca_by_resseq_map[r] for r in lining_resseqs if r in ca_by_resseq_map]
+    n = len(pts)
+    if n < 3:
+        return None
+    cen = [sum(p[i] for p in pts) / n for i in range(3)]
+    msd = sum(sum((p[i] - cen[i]) ** 2 for i in range(3)) for p in pts) / n
+    return round((msd ** 0.5) / 10.0, 4)
+
+
 def resname_by_resseq(pdb_path):
     """{resSeq: 3-letter resName} from the frame PDB. PURE-ish (one file read, no fpocket).
 
@@ -286,6 +312,7 @@ def score_pdb(pdb_path, workdir):
     verdict = classify_score(hit is not None, None if hit is None else hit.get("druggability"))
     return {
         "site_choice_contrast": site_choice_contrast(accepted, ref_lining, centroids),
+        "measured_cv_rg_nm": cv_rg_nm(ca, ref_lining),
         "pocket_identity": pocket_identity,
         "reference_lining_labels": label_residues(ref_lining, resnames),
         "reference_centroid": [round(v, 3) for v in ref["centroid"]],

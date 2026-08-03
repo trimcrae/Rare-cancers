@@ -230,6 +230,15 @@ REPLICATE_SEEDS = (20260803, 20260804, 20260805, 20260806, 20260807, 20260808, 2
 #:   C3_oracle_box_apo            — Q-DOCKING's own arm
 #:   C1c_self_dock_holo_oracle_box— Q-DOCKING's ceiling; whether a pair is gradeable at all turns on it
 REPLICATED_ARMS = ("blind_apo_fpocket_top_box", "C3_oracle_box_apo", "C1c_self_dock_holo_oracle_box")
+# ★★ C6b — AND THE THING C6's FIRST RUN REVEALED, WHICH IS WORSE THAN DRIFTING DIGITS (2026-08-03).
+# `Q_DOCKING`'s `n_gradeable` moved **3 -> 4** between two runs of the identical code, because
+# `C1c_self_dock_holo_oracle_box` on 2QMV->9V8H drew 6.809 A one run and 1.916 A the next. The ceiling
+# is what decides whether a pair may be graded AT ALL, so an unseeded draw is silently choosing the
+# DENOMINATOR of the headline count — not just its digits. C6b re-seeds that one arm on EVERY pair and
+# reports, per pair, on how many seeds the pair would have been gradeable. A pair that is gradeable on
+# some seeds and not others is a pair whose inclusion is a coin flip, and the artifact must say so.
+#: Ceiling replicates per pair. Smaller than SEED_REPLICATES because it runs on all pairs, not one.
+CEILING_REPLICATES = int(os.environ.get("APO_CEILING_REPLICATES", "3"))
 
 # ------------------------------------------------------------------- what counts as a real ligand
 #: Non-polymer components that are crystallisation/cryo/buffer matter, not ligands. A structure carrying
@@ -1314,7 +1323,8 @@ def seed_replicates(n, work, sdf, comp, score_pose, arms, plan, out_of_time):
     return out
 
 
-def run_benchmark(cand, work, af2_reference_pdb, replicates=0, site_only=False):
+def run_benchmark(cand, work, af2_reference_pdb, replicates=0, site_only=False,
+                  ceiling_replicates=0):
     """The whole known-answer test for ONE apo/holo pair. Returns a result dict (never raises).
 
     `site_only=True` runs the GEOMETRIC site question and stops before any dock. It is used by the
@@ -1702,6 +1712,40 @@ def run_benchmark(cand, work, af2_reference_pdb, replicates=0, site_only=False):
         arms["C4_self_dock_holo_struct_transfer"] = {
             "rmsd_A": None, "why": boxes["struct_transfer_holo"].get("why") or "pair budget spent"}
     R_["arms"] = arms
+
+    # 11a) ★★ C6b — IS THIS PAIR'S GRADEABILITY A COIN FLIP? Runs on EVERY pair, ceiling arm only.
+    if ceiling_replicates and not out_of_time("C6b_ceiling_replicates"):
+        vals, rows = [], []
+        for sd in REPLICATE_SEEDS[:ceiling_replicates]:
+            sdf_out, why = dock_seeded(holo_rec, oracle_center_holo, sdf, "ceil_seed%d" % sd, work, sd)
+            mol, why2 = _top_pose(sdf_out, comp) if sdf_out else (None, why)
+            sc = score_pose(mol, transform=False) if mol else {"rmsd_A": None, "why": why2}
+            rows.append({"seed": sd, "rmsd_A": sc.get("rmsd_A"),
+                         "gradeable": (sc.get("rmsd_A") is not None
+                                       and sc["rmsd_A"] <= RECOVER_RMSD_A)})
+            if sc.get("rmsd_A") is not None:
+                vals.append(sc["rmsd_A"])
+        n_pass = sum(1 for r in rows if r["gradeable"])
+        unseeded_gradeable = (arms.get("C1c_self_dock_holo_oracle_box") or {}).get("rmsd_A")
+        unseeded_gradeable = (unseeded_gradeable is not None
+                              and unseeded_gradeable <= RECOVER_RMSD_A)
+        R_["C6b_ceiling_replicates"] = {
+            "_asks": ("does this pair's GRADEABILITY survive re-seeding? The ceiling arm decides whether "
+                      "Q-DOCKING may grade the pair at all, so an unstable ceiling moves the headline "
+                      "count's DENOMINATOR, not only its digits."),
+            "_criterion_A": RECOVER_RMSD_A,
+            "seeds": list(REPLICATE_SEEDS[:ceiling_replicates]),
+            "replicates": rows, "n_seeds": len(rows), "n_seeds_gradeable": n_pass,
+            "min_A": min(vals) if vals else None, "max_A": max(vals) if vals else None,
+            "unseeded_gradeable": unseeded_gradeable,
+            "gradeability_stable": bool(rows) and n_pass in (0, len(rows)),
+            "_reads": ("gradeability is the same on every seed, so this pair's inclusion in (or exclusion "
+                       "from) the Q-DOCKING count is not an artefact of the search"
+                       if rows and n_pass in (0, len(rows)) else
+                       "⛔ THIS PAIR IS GRADEABLE ON %d OF %d SEEDS — its inclusion in the Q-DOCKING "
+                       "count is a coin flip, and `n_gradeable` must be reported with that range, never "
+                       "as a single integer" % (n_pass, len(rows)) if rows else
+                       "UNRUN — no ceiling replicate returned a scorable pose")}
 
     # 11b) ★★ C6 — SEED REPLICATES. Added 2026-08-03. Reporting only; `verdict()` never reads it.
     if replicates:
@@ -2188,7 +2232,8 @@ def main():
             break
         t0 = time.time()
         res = run_benchmark(pair, os.path.join(WORK, "%s_%s" % (pair["apo"], pair["holo"])), af2,
-                            replicates=0 if replicated else SEED_REPLICATES)
+                            replicates=0 if replicated else SEED_REPLICATES,
+                            ceiling_replicates=CEILING_REPLICATES)
         if res.get("C6_seed_replicates"):
             replicated = True
         res["elapsed_s"] = round(time.time() - t0, 1)

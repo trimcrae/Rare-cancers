@@ -282,3 +282,148 @@ def test_the_inherited_R3_failure_travels_with_the_result():
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+# ---------------------------------------------------------------------------------------------------------
+# ★★ THE END-TO-END EXERCISE, OFFLINE. The two network calls are the only thing this fixture replaces.
+#
+# WHY IT EXISTS, MEASURED: run 30777814520 assembled nothing because `selcal_deepternary_run._fetch_structure`
+# returns a **(path, error) PAIR** and this module used it as a path — `TypeError: stat: path should be
+# string ... not tuple`, three lines into the E3 resolution, after smina had already docked all three arms.
+# Nothing in the unit tests above could have caught it, because none of them ran that function. A dev sandbox
+# with a 403 at the egress proxy is not a reason to leave a code path unexercised (CLAUDE.md §6): the fixture
+# below builds a deposit that is a REAL CRBN chain plus a REAL pomalidomide, and drives the whole assembly.
+# ---------------------------------------------------------------------------------------------------------
+
+
+def _synthetic_deposit(tmp_path):
+    """(pdb path, {bond name pairs}) — the staged CRBN chain in its own frame, plus a pomalidomide placed at
+    the basin exemplar's E3 anchor. Everything is real chemistry and real coordinates; only the FETCH is
+    replaced."""
+    from rdkit import Chem
+    from rdkit.Chem import AllChem
+    import numpy as np
+    import nr4a3_basin_search as BS
+
+    reg = json.load(open(os.path.join(MOD, "nr4a3-e3-arm-registry.json")))["arms"]["crbn"]
+    order, res = BS.parse_multichain_pdb(os.path.join(A.REPO, reg["receptor_pdb"]))
+    ch = reg["_receptor_copy_chains"]["CRBN"]
+    rows = [("ATOM  ", nm, res[k]["resname"], "X", k[1], p[0], p[1], p[2],
+             (nm[0] if nm[0].isalpha() else nm[1]))
+            for k in order if k[0] == ch for nm, p in res[k]["atoms"]]
+
+    # the IMiD is READ from the design module's reference cores, not typed here
+    import nr4a3_linker_design as LD
+    pom = Chem.AddHs(Chem.MolFromSmiles(LD.REFERENCE_CORES["pomalidomide"]))
+    AllChem.EmbedMolecule(pom, randomSeed=11)
+    AllChem.MMFFOptimizeMolecule(pom)
+    pom = Chem.RemoveHs(pom)
+    conf = pom.GetConformer()
+    P = np.array([list(conf.GetAtomPosition(i)) for i in range(pom.GetNumAtoms())])
+    # sit it where the CRBN pocket actually is in THIS deposit's frame: on the staged ligand's exit atom
+    P = P - P.mean(0) + np.array(reg["ligand"]["ligand_centroid"], dtype=float)
+    names = ["%s%d" % (pom.GetAtomWithIdx(i).GetSymbol(), i + 1) for i in range(pom.GetNumAtoms())]
+    rows += [("HETATM", names[i], "POM", "X", 900, P[i][0], P[i][1], P[i][2],
+              pom.GetAtomWithIdx(i).GetSymbol()) for i in range(pom.GetNumAtoms())]
+    dest = str(tmp_path / "SYNTH.pdb")
+    A.write_pdb_atoms(rows, dest)
+    bonds = {(names[b.GetBeginAtomIdx()], names[b.GetEndAtomIdx()]) for b in pom.GetBonds()}
+    return dest, bonds
+
+
+def test_resolve_e3_binary_runs_end_to_end_offline(tmp_path, monkeypatch):
+    import selcal_deepternary_run as RUN
+    dep, bonds = _synthetic_deposit(tmp_path)
+    monkeypatch.setattr(RUN, "_fetch_structure", lambda pid, wd: (dep, None))
+    monkeypatch.setattr(RUN, "ccd_bonds", lambda comp, wd: (bonds, None))
+
+    pl, _ = A.exemplar_placement()
+    placed, _, err = A.placed_registry_arm(pl)
+    assert err is None
+    chain, lig, det, err = A.resolve_e3_binary(placed, str(tmp_path), ("SYNTH",))
+    assert err is None, (err, det)
+    sel = det["selected"]
+    # the same chain, so the superposition is the identity to within numerical noise
+    assert sel["identity_to_staged_crbn"] > 0.99 and sel["ca_rmsd_A"] < 0.01
+    assert sel["ligand"]["het_code"] == "POM" and sel["ligand"]["n_heavy"] >= 12
+    assert len(chain) == len(placed) and len(lig) == sel["ligand"]["n_heavy"]
+
+
+def test_a_fetch_that_fails_is_a_refusal_not_a_silent_ternary_fallback(tmp_path, monkeypatch):
+    """⛔ The cost artifact's warning: site 2 must not quietly become the 6BOY TERNARY conformer."""
+    import selcal_deepternary_run as RUN
+    monkeypatch.setattr(RUN, "_fetch_structure", lambda pid, wd: (None, "HTTP 404"))
+    pl, _ = A.exemplar_placement()
+    placed, _, _ = A.placed_registry_arm(pl)
+    chain, lig, det, err = A.resolve_e3_binary(placed, str(tmp_path), ("NOPE",))
+    assert chain is None and lig is None
+    assert "NOT substituted silently" in err
+    assert det["tried"][0]["error"].startswith("fetch produced no file")
+
+
+def test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty(tmp_path, monkeypatch):
+    """The whole assembly, on real structures, with only the fetch replaced — including the PRE-FLIGHT."""
+    from rdkit import Chem
+    from rdkit.Chem import AllChem
+    import numpy as np
+    import selcal_deepternary_run as RUN
+
+    dep, bonds = _synthetic_deposit(tmp_path)
+    monkeypatch.setattr(RUN, "_fetch_structure", lambda pid, wd: (dep, None))
+    monkeypatch.setattr(RUN, "ccd_bonds", lambda comp, wd: (bonds, None))
+
+    c, _ = A.recorded_degrader()
+    deg, roles, _ = A.degrader_mol(c)
+    pl, _ = A.exemplar_placement()
+    placed, _, _ = A.placed_registry_arm(pl)
+    chain, lig, det, err = A.resolve_e3_binary(placed, str(tmp_path), ("SYNTH",))
+    assert err is None, err
+
+    basins = json.load(open(os.path.join(MOD, "nr4a3-orientation-basins.json")))
+    anchor = next(q["anchor_xyz"] for q in basins["pose_ensemble"] if q["pose_id"] == pl["pose_id"])
+
+    # a stand-in "docked" warhead: the real fragment, its C5 nitrogen ON the exit-vector anchor. That is the
+    # geometry the E3 placement was sampled at, so it is the right shape of input for this exercise — the CI
+    # lane docks it with smina instead of asserting it.
+    w = Chem.AddHs(Chem.MolFromSmiles(A.WARHEAD_SMILES))
+    AllChem.EmbedMolecule(w, randomSeed=7)
+    AllChem.MMFFOptimizeMolecule(w)
+    q = Chem.MolFromSmarts(A.WARHEAD_SMARTS)
+    m = w.GetSubstructMatch(q)
+    conf = w.GetConformer()
+    shift = np.array(anchor) - np.array(list(conf.GetAtomPosition(m[11])))
+    for i in range(w.GetNumAtoms()):
+        p = np.array(list(conf.GetAtomPosition(i))) + shift
+        conf.SetAtomPosition(i, [float(x) for x in p])
+    sdf = tmp_path / "docked_nr4a3_warhead.sdf"
+    Chem.MolToMolFile(Chem.RemoveHs(w), str(sdf))
+
+    recs = A.matched_receptors()
+    import nr4a3_basin_search as BS
+    ctx = {"receptors": recs, "degrader_mol": deg, "roles": roles, "construct": c,
+           "e3_chain": chain, "e3_ligand": lig, "e3_ligand_detail": det,
+           "exitvec_anchor": anchor,
+           "c397_sg": list(BS.atom_xyz(recs["NR4A3"]["model"], 25, "SG")),
+           "docked_dir": str(tmp_path),
+           "warhead_elements": [Chem.MolFromSmiles(A.WARHEAD_SMILES).GetAtomWithIdx(int(i)).GetSymbol()
+                                for i in Chem.MolFromSmiles(A.WARHEAD_SMILES).GetSubstructMatch(q)],
+           "n_confs": 25, "seed": 20260803}
+    base = str(tmp_path / "protac22")
+    os.makedirs(base, exist_ok=True)
+    row = A.build_arm("NR4A3", ctx, base, str(tmp_path))
+    assert row["ok"], row["why"]
+
+    masks = row["detail"]["snap_masks"]
+    assert masks["unbound_lig1_warhead"]["n_degrader_atoms_within_1A"] > 0
+    assert masks["unbound_lig2_imid"]["n_degrader_atoms_within_1A"] > 0
+
+    d = os.path.join(base, A.arm_name("NR4A3"))
+    for f in ("unbound_protein1.pdb", "unbound_lig1.pdb", "unbound_protein2.pdb", "unbound_lig2.pdb",
+              "ligand.pdb", "ligand.sdf", "protein1.pdb", "protein2.pdb", "gt_complex.pdb"):
+        p = os.path.join(d, f)
+        assert os.path.exists(p) and os.path.getsize(p) > 0, f
+    assert all(v is True for v in row["detail"]["rdkit_readable"].values())
+    # ⛔ the placeholder must announce itself: there is no native NR4A3 ternary to score against
+    assert "placeholder_not_ground_truth" in row["detail"]["gt_complex_is"]
+    # arm (C) needs an atom index it can find again in the prediction
+    assert row["detail"]["arm_C_inputs"]["electrophile_beta_carbon_index_in_ligand_pdb"] >= 1

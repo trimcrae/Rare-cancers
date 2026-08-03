@@ -136,6 +136,44 @@ class TestGateAScoreClassification(unittest.TestCase):
             self.assertIn("generation receptor", v["reaches"])
 
 
+class TestTheCvRgRestatement(unittest.TestCase):
+    """`cv_rg_nm` restates a CV whose one home (`nr4a3_mdpocket._cv_rg_series`) is mdtraj-based and cannot
+    read a PDB. A second definition of a selection criterion is a liability unless it is pinned to the
+    first, so this recomputes the ENTIRE committed release_rep0 series from the committed frame PDBs and
+    requires agreement with that lane's own recorded `cv_rg_nm`."""
+
+    ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "..", "..", "results", "nr4a3-pocket-reharmonize", "release_rep0")
+
+    def test_it_reproduces_the_committed_rep0_series_frame_for_frame(self):
+        import glob
+        import json
+        import re
+        summ = os.path.join(self.ROOT, "pocket_analysis_summary.json")
+        if not os.path.exists(summ):
+            self.skipTest("committed reharmonize rep0 frames absent from this checkout")
+        with open(summ) as fh:
+            recorded = {s["frame"]: s["cv_rg_nm"]
+                        for s in json.load(fh)["druggability_timeseries"]["series"]}
+        lining, _, _ = sc.map_lining(list(range(1, 255)))
+        n = 0
+        for path in sorted(glob.glob(os.path.join(self.ROOT, "fp_*", "frame.pdb"))):
+            idx = int(re.search(r"fp_(\d+)_", path).group(1))
+            self.assertAlmostEqual(sc.cv_rg_nm(sc.ca_by_resseq(path), lining), recorded[idx], places=4,
+                                   msg=f"rep0 frame {idx}: the two CV definitions disagree")
+            n += 1
+        self.assertEqual(n, 25)
+
+    def test_none_when_the_lining_cannot_be_placed(self):
+        self.assertIsNone(sc.cv_rg_nm({1: (0.0, 0.0, 0.0)}, [1, 2, 3]))
+
+    def test_units_are_nanometres(self):
+        """10 A of spread must read as ~1 nm, not 10. The repo has already paid for one nm/A mix
+        (residue_map.py's docstring records it)."""
+        ca = {1: (10.0, 0.0, 0.0), 2: (-10.0, 0.0, 0.0), 3: (0.0, 10.0, 0.0), 4: (0.0, -10.0, 0.0)}
+        self.assertAlmostEqual(sc.cv_rg_nm(ca, [1, 2, 3, 4]), 1.0, places=4)
+
+
 class TestSiteIdentityDescriptors(unittest.TestCase):
     """The (A) half of the site-choice question: WHAT each accepted cavity is.
 

@@ -225,6 +225,13 @@ jobs:
           set -eo pipefail
           cd research/modalities
           python pocket_accepted_candidates.py --species "${{ github.event.inputs.dump_species }}"
+      # ── PART 4: the two questions, answered separately. Pure stdlib over committed artifacts, so it is
+      # regenerated here rather than hand-carried — a DERIVED file must never be typed (CLAUDE.md rule 1).
+      - name: Site-choice audit — (A) which cavity is the site, (B) what a qualifying frame would be
+        if: ${{ always() }}
+        run: |
+          set -eo pipefail
+          cd research/modalities && python r3_site_choice_audit.py
       - name: Publish
         if: ${{ always() }}
         env:
@@ -236,4 +243,5 @@ jobs:
             research/modalities/r3-generation-frame-audit.json \
             research/modalities/r3-generation-frame-harmonized.json \
             research/modalities/r3-generation-frame-repframe.json \
-            research/modalities/pocket-accepted-candidates.json
+            research/modalities/pocket-accepted-candidates.json \
+            research/modalities/r3-site-choice-audit.json

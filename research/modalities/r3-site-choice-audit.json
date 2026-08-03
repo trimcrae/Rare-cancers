@@ -1,0 +1,1024 @@
+{
+  "_what": "R3 site-choice audit \u2014 (A) which cavity is the site, and (B) what a qualifying generation frame would be. Two questions that had been conflated.",
+  "_prompted_by": "trimcrae, 2026-08-03: \"Why are we using that frame when we have tons of MD saying we can open a cryptic pocket in NR4A3?\"",
+  "_cost": "$0 \u2014 committed artifacts + free CI. No GPU, no rental, nothing to tear down.",
+  "_does_not_license": [
+    "any change to pocket_tracking's thresholds or ordering (frozen 2026-07-11)",
+    "re-generating denovo_401 against any other receptor \u2014 that is a program decision",
+    "any claim about binding, affinity, reactivity, degradation, efficacy or safety",
+    "reading a detection fraction as an opening free energy"
+  ],
+  "generation_frame": {
+    "rep": 0,
+    "frame": 95,
+    "pdb": "nr4a3-release-druggable.pdb",
+    "manifest_confirmed_druggability_LEGACY": 0.667,
+    "harmonized_site_druggability": 0.259
+  },
+  "identity_cross_check": {
+    "comparable": true,
+    "identical": true,
+    "fields_compared": [
+      "n_candidate_pockets",
+      "n_accepted_by_gate",
+      "all_pocket_druggability",
+      "matched_pocket",
+      "mapped_lining_resseqs",
+      "numbering"
+    ],
+    "differences": {},
+    "verdict_a": "GATE_A_FAIL_BELOW_DSTAR",
+    "verdict_b": "GATE_A_FAIL_BELOW_DSTAR",
+    "druggability_a": 0.259,
+    "druggability_b": 0.259
+  },
+  "cv_rg_check": {
+    "manifest_selection_rg_nm": 0.7367,
+    "measured_on_the_generation_receptor_nm": null,
+    "committed_rep0_frame95_series_nm": 0.7612,
+    "target_rg_nm": 0.737,
+    "selector_rule": "release_frame_select.select_receptor_ensemble picks the druggable frame MINIMISING |Rg - target_rg| \u2014 so Rg is the selection criterion, not a label",
+    "agrees": false,
+    "manifest_matches_measurement": false
+  },
+  "question_A_which_cavity_is_the_site": {
+    "_question": "Should the mapped orthosteric site in the generation receptor be pocket 1 or pocket 2? Both clear the frozen composite gate.",
+    "_this_is_a_rule_choice_not_a_measurement": true,
+    "frozen_rule": {
+      "ordering": "frac_recovered -> jaccard -> nearer centroid -> druggability (deterministic tiebreak only)",
+      "source": "pocket_tracking.match_pocket",
+      "thresholds": {
+        "jaccard_min": 0.25,
+        "frac_recovered_min": 0.3,
+        "centroid_max_ang": 8.0
+      },
+      "frozen_on": "2026-07-11",
+      "\u26d4": "re-tuning these after seeing the verdict is the outcome-selection defect the harmonized rerun exists to remove; this module never does it"
+    },
+    "reference_lining_labels": [
+      "LEU406",
+      "THR407",
+      "THR410",
+      "PRO411",
+      "ARG412",
+      "ARG481",
+      "ILE484",
+      "ARG485",
+      "ILE531",
+      "LEU534"
+    ],
+    "reference_centroid": [
+      11.544,
+      10.282,
+      1.719
+    ],
+    "accepted_cavities": [
+      {
+        "pocket": 1,
+        "druggability": 0.259,
+        "n_overlap": 8,
+        "jaccard": 0.6154,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.478,
+        "volume_a3": 590.262,
+        "alpha_spheres": 63,
+        "n_lining_residues": 11,
+        "reference_lining_shared_labels": [
+          "LEU406",
+          "THR407",
+          "THR410",
+          "PRO411",
+          "ARG412",
+          "ARG481",
+          "ARG485",
+          "ILE531"
+        ],
+        "lining_uniprot_labels": [
+          "ASN400",
+          "VAL403",
+          "ARG404",
+          "LEU406",
+          "THR407",
+          "THR410",
+          "PRO411",
+          "ARG412",
+          "ARG481",
+          "ARG485",
+          "ILE531"
+        ],
+        "gate_a_verdict_if_this_were_the_site": "GATE_A_FAIL_BELOW_DSTAR"
+      },
+      {
+        "pocket": 2,
+        "druggability": 0.667,
+        "n_overlap": 6,
+        "jaccard": 0.375,
+        "frac_recovered": 0.6,
+        "centroid_dist_ang": 7.562,
+        "volume_a3": 496.459,
+        "alpha_spheres": 40,
+        "n_lining_residues": 12,
+        "reference_lining_shared_labels": [
+          "LEU406",
+          "ARG481",
+          "ILE484",
+          "ARG485",
+          "ILE531",
+          "LEU534"
+        ],
+        "lining_uniprot_labels": [
+          "LEU406",
+          "LEU480",
+          "ARG481",
+          "ILE484",
+          "ARG485",
+          "LEU524",
+          "GLN525",
+          "ASN528",
+          "LEU529",
+          "ILE531",
+          "LEU534",
+          "SER538"
+        ],
+        "gate_a_verdict_if_this_were_the_site": "GATE_A_PASS"
+      }
+    ],
+    "chosen_by_the_frozen_rule": {
+      "pocket": 1,
+      "druggability": 0.259
+    },
+    "contrast": {
+      "n_accepted": 2,
+      "pairs": [
+        {
+          "pockets": [
+            2,
+            1
+          ],
+          "n_residues": [
+            12,
+            11
+          ],
+          "n_shared": 4,
+          "pairwise_jaccard": 0.2105,
+          "centroid_separation_ang": 9.853,
+          "shared_residues": [
+            34,
+            109,
+            113,
+            159
+          ],
+          "only_in_first": [
+            108,
+            112,
+            152,
+            153,
+            156,
+            157,
+            162,
+            166
+          ],
+          "only_in_second": [
+            28,
+            31,
+            32,
+            35,
+            38,
+            39,
+            40
+          ],
+          "reference_lining_in_first_only": [
+            112,
+            162
+          ],
+          "reference_lining_in_second_only": [
+            35,
+            38,
+            39,
+            40
+          ],
+          "reference_lining_in_both": [
+            34,
+            109,
+            113,
+            159
+          ],
+          "relationship": "OVERLAPPING_SUBPOCKETS"
+        }
+      ]
+    },
+    "ensemble_consequence": {
+      "species": "NR4A3",
+      "per_ensemble": [
+        {
+          "species": "NR4A3",
+          "ensemble": "metad",
+          "n_frames": 25,
+          "n_matched": 25,
+          "n_multi_accept": 11,
+          "max_accepted": 4,
+          "n_ge_dstar_frozen": 17,
+          "n_ge_dstar_if_most_druggable": 17,
+          "n_frames_where_the_two_rules_differ": 2
+        },
+        {
+          "species": "NR4A3",
+          "ensemble": "release_rep0",
+          "n_frames": 25,
+          "n_matched": 25,
+          "n_multi_accept": 7,
+          "max_accepted": 3,
+          "n_ge_dstar_frozen": 14,
+          "n_ge_dstar_if_most_druggable": 15,
+          "n_frames_where_the_two_rules_differ": 2
+        },
+        {
+          "species": "NR4A3",
+          "ensemble": "release_rep1",
+          "n_frames": 25,
+          "n_matched": 25,
+          "n_multi_accept": 4,
+          "max_accepted": 3,
+          "n_ge_dstar_frozen": 10,
+          "n_ge_dstar_if_most_druggable": 11,
+          "n_frames_where_the_two_rules_differ": 1
+        },
+        {
+          "species": "NR4A3",
+          "ensemble": "release_rep2",
+          "n_frames": 25,
+          "n_matched": 25,
+          "n_multi_accept": 8,
+          "max_accepted": 2,
+          "n_ge_dstar_frozen": 20,
+          "n_ge_dstar_if_most_druggable": 20,
+          "n_frames_where_the_two_rules_differ": 1
+        }
+      ],
+      "totals": {
+        "n_frames": 100,
+        "n_matched": 100,
+        "n_multi_accept": 30,
+        "n_ge_dstar_frozen": 61,
+        "n_ge_dstar_if_most_druggable": 63,
+        "n_frames_where_the_two_rules_differ": 6
+      },
+      "d_star": 0.53,
+      "match_params": {
+        "jaccard_min": 0.25,
+        "frac_recovered_min": 0.3,
+        "centroid_max_ang": 8.0
+      }
+    },
+    "selectivity_consequence": {
+      "_what": "the paralogue contrast \u2014 NR4A3's mapped-site >=D* fraction minus each paralogue's \u2014 under the FROZEN rule and under an ordering that preferred the most druggable accepted cavity. Pooled over the three UNBIASED release replicas.",
+      "_does_not_license": "a rule change. This is a sensitivity, computed so the cost of a choice is visible; the frozen rule remains the rule.",
+      "subsets": [
+        "release_rep0",
+        "release_rep1",
+        "release_rep2"
+      ],
+      "rows": [
+        {
+          "species": "NR4A1",
+          "n_frames": 75,
+          "n_ge_dstar_frozen": 18,
+          "n_ge_dstar_if_most_druggable": 23,
+          "frac_frozen": 0.24,
+          "frac_if_most_druggable": 0.3067
+        },
+        {
+          "species": "NR4A2",
+          "n_frames": 75,
+          "n_ge_dstar_frozen": 21,
+          "n_ge_dstar_if_most_druggable": 21,
+          "frac_frozen": 0.28,
+          "frac_if_most_druggable": 0.28
+        },
+        {
+          "species": "NR4A3",
+          "n_frames": 75,
+          "n_ge_dstar_frozen": 44,
+          "n_ge_dstar_if_most_druggable": 46,
+          "frac_frozen": 0.5867,
+          "frac_if_most_druggable": 0.6133
+        }
+      ],
+      "nr4a3_margin_vs_paralogue": {
+        "NR4A1": {
+          "margin_frozen": 0.3467,
+          "margin_if_most_druggable": 0.3066,
+          "margin_change": -0.0401
+        },
+        "NR4A2": {
+          "margin_frozen": 0.3067,
+          "margin_if_most_druggable": 0.3333,
+          "margin_change": 0.0266
+        }
+      }
+    },
+    "ensemble_consequence_status": "MEASURED"
+  },
+  "question_B_what_a_qualifying_frame_would_be": {
+    "_question": "Which release frames clear D* ON THE MAPPED SITE, what does the program's own selector pick from them today, and what would re-anchoring cost?",
+    "d_star": 0.53,
+    "denominator_note": "every count below is on the MATCHED site \u2014 the committed druggability_timeseries rows carry their own `match` block, so a row's number is the cavity the harmonized gate accepted, not the best cavity anywhere in the structure",
+    "n_frames_scored": 75,
+    "n_qualifying": 44,
+    "per_replica": [
+      {
+        "rep": 0,
+        "n": 25,
+        "n_ge_dstar": 14
+      },
+      {
+        "rep": 1,
+        "n": 25,
+        "n_ge_dstar": 10
+      },
+      {
+        "rep": 2,
+        "n": 25,
+        "n_ge_dstar": 20
+      }
+    ],
+    "qualifying_frames": [
+      {
+        "rep": 2,
+        "frame": 21,
+        "rg": 0.7371,
+        "druggability": 0.717,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7692,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.817
+        },
+        "rg_offset": 0.0001
+      },
+      {
+        "rep": 1,
+        "frame": 25,
+        "rg": 0.7367,
+        "druggability": 0.856,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.972
+        },
+        "rg_offset": 0.0003
+      },
+      {
+        "rep": 2,
+        "frame": 12,
+        "rg": 0.7373,
+        "druggability": 0.541,
+        "match": {
+          "n_overlap": 8,
+          "jaccard": 0.6667,
+          "frac_recovered": 0.8,
+          "centroid_dist_ang": 2.84
+        },
+        "rg_offset": 0.0003
+      },
+      {
+        "rep": 2,
+        "frame": 99,
+        "rg": 0.7376,
+        "druggability": 0.88,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.5,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 2.933
+        },
+        "rg_offset": 0.0006
+      },
+      {
+        "rep": 0,
+        "frame": 99,
+        "rg": 0.7376,
+        "druggability": 0.621,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.6923,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 2.147
+        },
+        "rg_offset": 0.0006
+      },
+      {
+        "rep": 0,
+        "frame": 29,
+        "rg": 0.7363,
+        "druggability": 0.598,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7692,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.747
+        },
+        "rg_offset": 0.0007
+      },
+      {
+        "rep": 2,
+        "frame": 0,
+        "rg": 0.7361,
+        "druggability": 0.603,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.336
+        },
+        "rg_offset": 0.0009
+      },
+      {
+        "rep": 2,
+        "frame": 70,
+        "rg": 0.7394,
+        "druggability": 0.74,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.5625,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 0.802
+        },
+        "rg_offset": 0.0024
+      },
+      {
+        "rep": 2,
+        "frame": 4,
+        "rg": 0.7336,
+        "druggability": 0.774,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.309
+        },
+        "rg_offset": 0.0034
+      },
+      {
+        "rep": 0,
+        "frame": 54,
+        "rg": 0.7333,
+        "druggability": 0.597,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.466
+        },
+        "rg_offset": 0.0037
+      },
+      {
+        "rep": 2,
+        "frame": 87,
+        "rg": 0.7409,
+        "druggability": 0.568,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.6429,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 2.259
+        },
+        "rg_offset": 0.0039
+      },
+      {
+        "rep": 2,
+        "frame": 25,
+        "rg": 0.7327,
+        "druggability": 0.53,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.317
+        },
+        "rg_offset": 0.0043
+      },
+      {
+        "rep": 0,
+        "frame": 37,
+        "rg": 0.7326,
+        "druggability": 0.618,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.6667,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.809
+        },
+        "rg_offset": 0.0044
+      },
+      {
+        "rep": 2,
+        "frame": 66,
+        "rg": 0.7324,
+        "druggability": 0.737,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.5294,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 2.81
+        },
+        "rg_offset": 0.0046
+      },
+      {
+        "rep": 1,
+        "frame": 0,
+        "rg": 0.7317,
+        "druggability": 0.889,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.6667,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.959
+        },
+        "rg_offset": 0.0053
+      },
+      {
+        "rep": 1,
+        "frame": 16,
+        "rg": 0.7316,
+        "druggability": 0.834,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.625,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.712
+        },
+        "rg_offset": 0.0054
+      },
+      {
+        "rep": 2,
+        "frame": 91,
+        "rg": 0.7312,
+        "druggability": 0.791,
+        "match": {
+          "n_overlap": 7,
+          "jaccard": 0.4118,
+          "frac_recovered": 0.7,
+          "centroid_dist_ang": 3.144
+        },
+        "rg_offset": 0.0058
+      },
+      {
+        "rep": 0,
+        "frame": 41,
+        "rg": 0.7312,
+        "druggability": 0.637,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.75,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 1.799
+        },
+        "rg_offset": 0.0058
+      },
+      {
+        "rep": 2,
+        "frame": 8,
+        "rg": 0.7309,
+        "druggability": 0.673,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.5,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 4.134
+        },
+        "rg_offset": 0.0061
+      },
+      {
+        "rep": 2,
+        "frame": 29,
+        "rg": 0.7448,
+        "druggability": 0.762,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7692,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.226
+        },
+        "rg_offset": 0.0078
+      },
+      {
+        "rep": 2,
+        "frame": 45,
+        "rg": 0.7448,
+        "druggability": 0.668,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.647
+        },
+        "rg_offset": 0.0078
+      },
+      {
+        "rep": 2,
+        "frame": 37,
+        "rg": 0.7285,
+        "druggability": 0.755,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7692,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.189
+        },
+        "rg_offset": 0.0085
+      },
+      {
+        "rep": 0,
+        "frame": 25,
+        "rg": 0.7284,
+        "druggability": 0.686,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 2.319
+        },
+        "rg_offset": 0.0086
+      },
+      {
+        "rep": 0,
+        "frame": 16,
+        "rg": 0.7275,
+        "druggability": 0.801,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.117
+        },
+        "rg_offset": 0.0095
+      },
+      {
+        "rep": 0,
+        "frame": 21,
+        "rg": 0.7468,
+        "druggability": 0.536,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 0.861
+        },
+        "rg_offset": 0.0098
+      },
+      {
+        "rep": 2,
+        "frame": 82,
+        "rg": 0.7471,
+        "druggability": 0.827,
+        "match": {
+          "n_overlap": 8,
+          "jaccard": 0.5,
+          "frac_recovered": 0.8,
+          "centroid_dist_ang": 2.708
+        },
+        "rg_offset": 0.0101
+      },
+      {
+        "rep": 0,
+        "frame": 45,
+        "rg": 0.7265,
+        "druggability": 0.683,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.39
+        },
+        "rg_offset": 0.0105
+      },
+      {
+        "rep": 1,
+        "frame": 99,
+        "rg": 0.7475,
+        "druggability": 0.678,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.5882,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 2.279
+        },
+        "rg_offset": 0.0105
+      },
+      {
+        "rep": 0,
+        "frame": 12,
+        "rg": 0.7264,
+        "druggability": 0.788,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.227
+        },
+        "rg_offset": 0.0106
+      },
+      {
+        "rep": 1,
+        "frame": 82,
+        "rg": 0.7476,
+        "druggability": 0.741,
+        "match": {
+          "n_overlap": 8,
+          "jaccard": 0.5,
+          "frac_recovered": 0.8,
+          "centroid_dist_ang": 3.456
+        },
+        "rg_offset": 0.0106
+      },
+      {
+        "rep": 0,
+        "frame": 33,
+        "rg": 0.7507,
+        "druggability": 0.861,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.602
+        },
+        "rg_offset": 0.0137
+      },
+      {
+        "rep": 2,
+        "frame": 95,
+        "rg": 0.7507,
+        "druggability": 0.704,
+        "match": {
+          "n_overlap": 7,
+          "jaccard": 0.3333,
+          "frac_recovered": 0.7,
+          "centroid_dist_ang": 3.98
+        },
+        "rg_offset": 0.0137
+      },
+      {
+        "rep": 0,
+        "frame": 8,
+        "rg": 0.7221,
+        "druggability": 0.587,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 2.147
+        },
+        "rg_offset": 0.0149
+      },
+      {
+        "rep": 1,
+        "frame": 54,
+        "rg": 0.7549,
+        "druggability": 0.703,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.351
+        },
+        "rg_offset": 0.0179
+      },
+      {
+        "rep": 2,
+        "frame": 33,
+        "rg": 0.7188,
+        "druggability": 0.854,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.6923,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 1.611
+        },
+        "rg_offset": 0.0182
+      },
+      {
+        "rep": 2,
+        "frame": 16,
+        "rg": 0.7176,
+        "druggability": 0.584,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.8182,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 1.281
+        },
+        "rg_offset": 0.0194
+      },
+      {
+        "rep": 2,
+        "frame": 58,
+        "rg": 0.7173,
+        "druggability": 0.805,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.625,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 2.848
+        },
+        "rg_offset": 0.0197
+      },
+      {
+        "rep": 1,
+        "frame": 58,
+        "rg": 0.7598,
+        "druggability": 0.549,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.168
+        },
+        "rg_offset": 0.0228
+      },
+      {
+        "rep": 1,
+        "frame": 29,
+        "rg": 0.7613,
+        "druggability": 0.557,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7692,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.635
+        },
+        "rg_offset": 0.0243
+      },
+      {
+        "rep": 0,
+        "frame": 91,
+        "rg": 0.7616,
+        "druggability": 0.655,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.8333,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.503
+        },
+        "rg_offset": 0.0246
+      },
+      {
+        "rep": 1,
+        "frame": 87,
+        "rg": 0.7686,
+        "druggability": 0.695,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.5556,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 2.356
+        },
+        "rg_offset": 0.0316
+      },
+      {
+        "rep": 2,
+        "frame": 74,
+        "rg": 0.7689,
+        "druggability": 0.782,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.4762,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 3.868
+        },
+        "rg_offset": 0.0319
+      },
+      {
+        "rep": 1,
+        "frame": 74,
+        "rg": 0.7703,
+        "druggability": 0.818,
+        "match": {
+          "n_overlap": 10,
+          "jaccard": 0.7143,
+          "frac_recovered": 1.0,
+          "centroid_dist_ang": 1.942
+        },
+        "rg_offset": 0.0333
+      },
+      {
+        "rep": 0,
+        "frame": 78,
+        "rg": 0.7811,
+        "druggability": 0.642,
+        "match": {
+          "n_overlap": 9,
+          "jaccard": 0.6,
+          "frac_recovered": 0.9,
+          "centroid_dist_ang": 3.059
+        },
+        "rg_offset": 0.0441
+      }
+    ],
+    "selector_rerun": {
+      "_what": "release_frame_select.select_receptor_ensemble \u2014 the SAME function that chose frame 95 \u2014 run over today's harmonized per-frame series",
+      "rep0_only_the_original_pool_shape": {
+        "n_usable": 25,
+        "n_druggable": 14,
+        "relaxed": false,
+        "d_star_used": 0.53,
+        "primary": {
+          "rep": 0,
+          "frame": 99,
+          "rg": 0.7376,
+          "druggability": 0.621
+        },
+        "alternates": [
+          {
+            "rep": 0,
+            "frame": 78,
+            "rg": 0.7811,
+            "druggability": 0.642
+          },
+          {
+            "rep": 0,
+            "frame": 91,
+            "rg": 0.7616,
+            "druggability": 0.655
+          },
+          {
+            "rep": 0,
+            "frame": 8,
+            "rg": 0.7221,
+            "druggability": 0.587
+          }
+        ],
+        "reason": "14 druggable frame(s) at threshold 0.53; primary at Rg 0.738 (target 0.737), 3 alternate(s) spanning the druggable Rg range"
+      },
+      "all_three_release_replicas": {
+        "n_usable": 75,
+        "n_druggable": 44,
+        "relaxed": false,
+        "d_star_used": 0.53,
+        "primary": {
+          "rep": 2,
+          "frame": 21,
+          "rg": 0.7371,
+          "druggability": 0.717
+        },
+        "alternates": [
+          {
+            "rep": 0,
+            "frame": 78,
+            "rg": 0.7811,
+            "druggability": 0.642
+          },
+          {
+            "rep": 1,
+            "frame": 58,
+            "rg": 0.7598,
+            "druggability": 0.549
+          },
+          {
+            "rep": 2,
+            "frame": 58,
+            "rg": 0.7173,
+            "druggability": 0.805
+          }
+        ],
+        "reason": "44 druggable frame(s) at threshold 0.53; primary at Rg 0.737 (target 0.737), 3 alternate(s) spanning the druggable Rg range"
+      },
+      "\u26a0": "the original selection pool was rep0 ONLY (nr4a3_release_druggable._load_summary_records hardcodes rep: 0 and reads ONE summary), so the rep0 row is the like-for-like comparison and the pooled row is what a wider pool would offer"
+    },
+    "generation_frame_row": {
+      "rep": 0,
+      "frame": 95,
+      "rg": 0.7612,
+      "druggability": 0.259,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6154,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.478
+      }
+    }
+  },
+  "corroboration": {
+    "paralogue_pocket_contrast_independent_rescore": {
+      "frame": "NR4A3/release_rep0/fp_95_539ml58c",
+      "species": "NR4A3",
+      "ensemble": "release_rep0",
+      "druggability": 0.259,
+      "n_candidates": 15,
+      "n_lining_mapped": 10,
+      "n_lining_unmapped": 0,
+      "local_to_uniprot_offset": 372,
+      "reference_lining_present": 10,
+      "matched": true,
+      "match": {
+        "n_overlap": 8,
+        "jaccard": 0.6154,
+        "frac_recovered": 0.8,
+        "centroid_dist_ang": 3.478
+      },
+      "pocket_number": 1
+    },
+    "_why": "an INDEPENDENT harmonized re-score of the same committed frames, run in one process under one fpocket build \u2014 so agreement is a reproduction, not a quote"
+  }
+}

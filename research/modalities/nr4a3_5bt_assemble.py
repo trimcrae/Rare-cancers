@@ -163,6 +163,84 @@ def write_pdb_atoms(rows, dest, conect=()):
     return n
 
 
+#: CCD `_chem_comp_bond.value_order` -> RDKit bond order. The CCD table is KEKULIZED and carries the aromatic
+#: flag separately, so orders alone are enough and sanitization perceives the rings.
+_CCD_ORDER = {"SING": 1, "DOUB": 2, "TRIP": 3, "QUAD": 4}
+
+
+def ccd_bond_orders(comp_id, workdir):
+    """({(atom_id_1, atom_id_2): order}, error) from the CCD's own `_chem_comp_bond` table.
+
+    ⛔ WHY THE ORDERS AND NOT JUST THE PAIRS, MEASURED. `selcal_deepternary_run.ccd_bonds` returns the atom
+    PAIRS, which is exactly right for writing CONECT records. But `Chem.MolFromPDBFile` then reads those
+    CONECTs as **all-single bonds**: a real pomalidomide came back as
+    `N[C@@H]1CCCC2C1C(O)N([C@@H]1CCC(O)N[C@H]1O)C2O` — every carbonyl reduced to an alcohol, every ring
+    saturated — so the glutarimide query found nothing and the MCS that pins the E3 end would have been built
+    on invented chemistry. Sourced orders remove the perception step entirely."""
+    import selcal_deepternary_run as RUN
+    dest = os.path.join(workdir, "%s_ccd.cif" % comp_id)
+    if not os.path.exists(dest):
+        ok, err = RUN._fetch(RUN.CCD_CIF.format(c=comp_id), dest)
+        if not ok:
+            return None, "could not fetch the CCD definition for %s: %s" % (comp_id, err)
+    cols, rows = RUN._cif_loop(open(dest).read(), "_chem_comp_bond.")
+    if not cols:
+        return None, "no _chem_comp_bond loop in the CCD definition for %s" % comp_id
+    try:
+        i1 = cols.index("_chem_comp_bond.atom_id_1")
+        i2 = cols.index("_chem_comp_bond.atom_id_2")
+        io = cols.index("_chem_comp_bond.value_order")
+    except ValueError:
+        return None, "the %s bond loop lacks atom_id_1/atom_id_2/value_order" % comp_id
+    out = {}
+    for r in rows:
+        if len(r) <= max(i1, i2, io):
+            continue
+        out[(r[i1].strip('"\''), r[i2].strip('"\''))] = _CCD_ORDER.get(r[io].strip('"\'').upper(), 1)
+    return (out, None) if out else (None, "the %s bond loop is empty" % comp_id)
+
+
+def mol_from_ccd(atoms, orders):
+    """(RDKit mol with a conformer, error) built from ELEMENTS + SOURCED BOND ORDERS, never from geometry.
+
+    `atoms` is an ordered list of objects carrying `.name`, `.element`, `.x/.y/.z`; the returned molecule's
+    atom order is that same order, which is what makes the index correspondence to the placed coordinates
+    hold."""
+    from rdkit import Chem
+    from rdkit.Chem import rdchem
+    from rdkit.Geometry import Point3D
+    rw = Chem.RWMol()
+    idx = {}
+    for i, a in enumerate(atoms):
+        sym = (a.element or a.name[:1]).strip().capitalize()
+        try:
+            at = Chem.Atom(sym)
+        except Exception:                                        # noqa: BLE001
+            return None, "unknown element %r on atom %s" % (sym, a.name)
+        at.SetNoImplicit(False)
+        idx[a.name.strip()] = rw.AddAtom(at)
+    n_bonds = 0
+    for (b1, b2), order in orders.items():
+        i, j = idx.get(b1.strip()), idx.get(b2.strip())
+        if i is None or j is None or rw.GetBondBetweenAtoms(i, j) is not None:
+            continue
+        rw.AddBond(i, j, {1: rdchem.BondType.SINGLE, 2: rdchem.BondType.DOUBLE,
+                          3: rdchem.BondType.TRIPLE, 4: rdchem.BondType.QUADRUPLE}[order])
+        n_bonds += 1
+    if not n_bonds:
+        return None, "no CCD bond joined two atoms present in the deposit — names do not correspond"
+    conf = Chem.Conformer(rw.GetNumAtoms())
+    for a in atoms:
+        conf.SetAtomPosition(idx[a.name.strip()], Point3D(float(a.x), float(a.y), float(a.z)))
+    m = rw.GetMol()
+    m.AddConformer(conf, assignId=True)
+    try:
+        Chem.SanitizeMol(m)
+    except Exception as e:                                       # noqa: BLE001
+        return None, "the CCD-built molecule does not sanitize: %s" % e
+    return m, None
+
+
 def rdkit_readable(path):
     """(True, None) | (False, why) — a ligand file the model cannot read is a legible refusal here rather than
     `'NoneType' object has no attribute 'GetConformer'` five minutes into the forward pass."""
@@ -387,16 +465,22 @@ def resolve_e3_binary(placed_rows, workdir, candidates=E3_BINARY_CANDIDATES, raw
     tried = []
     for pid in candidates:
         rec = {"pdb_id": pid}
+        # ⚠ `_fetch_structure` returns a **(path, error) PAIR**, not a path — measured, run 30777814520,
+        # where treating it as a path raised `TypeError: stat: path should be string ... not tuple` and took
+        # the whole assembly with it. It tries the legacy .pdb and falls back to mmCIF, because recent or
+        # large entries are deposited mmCIF-only and a 404 there is a FORMAT fact rather than a missing
+        # structure.
         try:
-            path = RUN._fetch_structure(pid, workdir)
+            path, ferr = RUN._fetch_structure(pid, workdir)
         except Exception as e:                                   # noqa: BLE001
             rec["error"] = "fetch failed: %s" % e
             tried.append(rec)
             continue
-        if not path or not os.path.exists(path):
-            rec["error"] = "fetch produced no file"
+        if ferr or not path or not os.path.exists(path):
+            rec["error"] = "fetch produced no file: %s" % (ferr or "no path returned")
             tried.append(rec)
             continue
+        rec["fetched"] = os.path.basename(path)
         atoms = V.parse_structure(path)
 
         best = None
@@ -454,7 +538,9 @@ def resolve_e3_binary(placed_rows, workdir, candidates=E3_BINARY_CANDIDATES, raw
                 continue
             groups.setdefault((a.resname.upper(), a.chain, a.resseq), []).append(a)
         chain_xyz = np.array([[a.x, a.y, a.z] for a in chain_atoms], dtype=float)
-        lig, lig_detail, lig_err = None, None, "no HET component on chain %s sanitizes to a glutarimide" % ch
+        lig, lig_detail, lig_mol = None, None, None
+        lig_err = "no HET component on chain %s sanitizes to a glutarimide" % ch
+        skipped = []
         for (comp, lch, rseq), ats in sorted(groups.items()):
             if not (12 <= len(ats) <= 60):
                 continue
@@ -462,43 +548,50 @@ def resolve_e3_binary(placed_rows, workdir, candidates=E3_BINARY_CANDIDATES, raw
             dmin = float(np.sqrt(((L[:, None, :] - chain_xyz[None, :, :]) ** 2).sum(axis=2)).min())
             if dmin > 5.0:
                 continue
-            bonds, berr = RUN.ccd_bonds(comp, workdir)
-            if berr or not bonds:
-                continue
-            probe = os.path.join(workdir, "_probe_%s_%s%d.pdb" % (comp, lch, rseq))
-            names = {}
-            rows = []
-            for i, a in enumerate(ats, start=1):
-                names[a.name] = i
-                rows.append(("HETATM", a.name, comp, "B", 1, a.x, a.y, a.z, a.element))
-            con = [(names[b1], names[b2]) for (b1, b2) in bonds if b1 in names and b2 in names]
-            write_pdb_atoms(rows, probe, conect=con)
-            ok, why = rdkit_readable(probe)
-            if not ok:
+            orders, berr = ccd_bond_orders(comp, workdir)
+            if berr or not orders:
+                skipped.append({"het": comp, "why": berr or "no CCD bond table"})
                 continue
             from rdkit import Chem
-            mol = Chem.MolFromPDBFile(probe, removeHs=False, sanitize=True)
-            if mol is None or not mol.HasSubstructMatch(Chem.MolFromSmarts(GLUTARIMIDE_SMARTS)):
+            mol, merr = mol_from_ccd(ats, orders)
+            if merr:
+                skipped.append({"het": comp, "why": merr})
                 continue
-            lig, lig_err = ats, None
+            if not mol.HasSubstructMatch(Chem.MolFromSmarts(GLUTARIMIDE_SMARTS)):
+                skipped.append({"het": comp, "why": "sanitizes but carries no glutarimide — not an IMiD",
+                                "smiles": Chem.MolToSmiles(mol)})
+                continue
+            # `unbound_lig2.pdb` still gets CONECT so the model's own RDKit read succeeds; the CHEMISTRY the
+            # MCS is computed on comes from `mol` above, never from re-reading that file.
+            probe = os.path.join(workdir, "_probe_%s_%s%d.pdb" % (comp, lch, rseq))
+            names = {a.name: i for i, a in enumerate(ats, start=1)}
+            write_pdb_atoms([("HETATM", a.name, comp, "B", 1, a.x, a.y, a.z, a.element) for a in ats],
+                            probe,
+                            conect=[(names[b1], names[b2]) for (b1, b2) in orders
+                                    if b1 in names and b2 in names])
+            lig, lig_err, lig_mol = ats, None, mol
             lig_detail = {"het_code": comp, "chain": lch, "resseq": rseq, "n_heavy": len(ats),
-                          "min_dist_to_crbn_A": round(dmin, 2), "n_ccd_bonds_applied": len(con),
-                          "probe_pdb": probe}
+                          "min_dist_to_crbn_A": round(dmin, 2), "n_ccd_bonds_sourced": len(orders),
+                          "smiles_from_ccd_orders": Chem.MolToSmiles(mol), "probe_pdb": probe,
+                          "_never": "bond orders are SOURCED from the CCD, never perceived from the PDB — "
+                                    "`MolFromPDBFile` reads CONECT as all-single and turns every carbonyl "
+                                    "into an alcohol"}
             break
         if lig_err:
             rec["error"] = lig_err
+            rec["het_components_skipped"] = skipped
             tried.append(rec)
             continue
 
         moved_chain = apply_rt([(a.x, a.y, a.z) for a in chain_atoms], R, t)
         moved_lig = apply_rt([(a.x, a.y, a.z) for a in lig], R, t)
-        rec.update(ligand=lig_detail, ok=True)
+        rec.update(ligand=lig_detail, het_components_skipped=skipped, ok=True)
         tried.append(rec)
         chain_out = [{"name": a.name, "resname": a.resname, "resseq": a.resseq, "element": a.element,
                       "xyz": p} for a, p in zip(chain_atoms, moved_chain)]
         lig_out = [{"name": a.name, "resname": a.resname, "resseq": a.resseq, "element": a.element,
                     "xyz": p} for a, p in zip(lig, moved_lig)]
-        return chain_out, lig_out, {"selected": rec, "tried": tried}, None
+        return chain_out, lig_out, {"selected": rec, "tried": tried, "_mol": lig_mol}, None
     return None, None, {"tried": tried}, ("no DDB1–CRBN binary IMiD deposit could be resolved from %s; the "
                                           "6BOY TERNARY conformer is NOT substituted silently"
                                           % ", ".join(candidates))

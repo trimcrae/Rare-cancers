@@ -848,7 +848,16 @@ def main():
         mode_selfcontrol(doc)
     if args.mode in ("flagged", "all"):
         mode_flagged(doc)
-    doc["map_edits_required"] = map_edits(doc)
+    # ⛔ THE ANCHOR CHECK IS PART OF THE RUN, NOT A HUMAN'S LAST STEP. The roadmap is edited concurrently;
+    # a routed edit whose `current_text` has been reworded fails SILENTLY when someone tries to apply it.
+    import map_edit_anchors as mea
+    doc["map_edits_required"], doc["map_edit_anchor_check"] = mea.verify(map_edits(doc))
+    if not doc["map_edit_anchor_check"]["all_applicable"]:
+        doc["refusals"].append({
+            "where": "map_edits_required",
+            "why": "at least one routed edit's anchor is NOT_FOUND, AMBIGUOUS or UNREAD against the live "
+                   "roadmap — see map_edit_anchor_check. Those edits must be rewritten, not applied by "
+                   "judgement."})
     json.dump(doc, open(OUT, "w"), indent=2)
     open(OUT_MD, "w").write(render_markdown(doc))
     print("wrote", OUT)
