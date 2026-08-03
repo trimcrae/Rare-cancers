@@ -343,6 +343,25 @@ APPENDIX = {
         "apo->holo and the induced-fit number is not pure conformational change. Reported, never "
         "filtering.",
     ],
+    "corrected_2026_08_03": [
+        {"what": "`_dedup_pairs` — the panel pool's projected key list",
+         "superseded": "dropped `apo_chains` and `holo_chains`, so the accession-scoped receptor-chain "
+                       "restriction ran against None on EVERY panel pair — the repair for the 1DSZ "
+                       "RXR/RAR heterodimer was written, landed, and was inert. Evidence on CI run "
+                       "30764845241: result.chains = {holo_declared: null, apo_declared: null}, "
+                       "considered_top carries both fields and panel_pool carries neither, and "
+                       "1DSZ->9GFE / 1DSZ->3KMR still refused at identity 0.321 — the number the code's "
+                       "own comment names as that bug's symptom",
+         "now": "both fields are carried into the panel pool. This can only ADD interpretable pairs; it "
+                "moves no threshold and changes no arm's definition."},
+        {"what": "the `alignment` refusal text",
+         "superseded": "passed `map_uniprot_to_pdb`'s message through unchanged, which hard-codes "
+                       "'Q92570 and 8XTT' — so an RXRA pair was reported as failing to align against "
+                       "NR4A3's NMR structure, naming two proteins neither of which is in the pair",
+         "now": "the refusal names the actual apo/holo entries, the chains compared, the declared chain "
+                "sets, and says a low identity between two deposits of the SAME accession is a "
+                "CHAIN-SELECTION symptom first. The upstream function is untouched — other lanes call it."},
+    ],
     "corrected_2026_08_02": [
         {"what": "`boxes.pipeline_box_fpocket_rank._reads`",
          "superseded": "asserted 'the site the pipeline's Pocket-5 transfer selected IS a cavity on this "
@@ -1370,7 +1389,20 @@ def run_benchmark(cand, work, af2_reference_pdb, replicates=0):
     try:
         apo_to_holo, ident = bm.map_uniprot_to_pdb(apo_seq, apo_resnums, holo_seq, holo_resnums)
     except Exception as e:                                    # noqa: BLE001
-        return refuse("alignment", "apo<->holo alignment failed: %s" % e)
+        # ⚠ `map_uniprot_to_pdb` HARD-CODES "Q92570" AND "8XTT" IN ITS MESSAGE, because it was written for
+        # that one mapping. Passed through unchanged it told the reader an RXRA pair had failed to align
+        # against NR4A3's NMR structure — a refusal naming two proteins neither of which is in the pair.
+        # The refusal is re-stated here with the pair and the chains that were actually compared, so the
+        # NEXT diagnosis of it starts from the truth. The upstream function's semantics are untouched.
+        return refuse("alignment",
+                      "apo<->holo alignment failed for %s (chain %s, %d Ca) -> %s (chain %s, %d Ca), "
+                      "declared chains apo=%s holo=%s. Underlying: %s ⚠ that message names Q92570/8XTT "
+                      "because `nr4a3_8xtt_benchmark.map_uniprot_to_pdb` hard-codes them; NEITHER is in "
+                      "this pair. A low identity between two deposits of the SAME accession is a "
+                      "CHAIN-SELECTION symptom before it is a data problem."
+                      % (cand["apo"], _largest_of(apo_txt, cand.get("apo_chains")), len(apo_resnums),
+                         cand["holo"], holo_chain, len(holo_resnums),
+                         cand.get("apo_chains"), cand.get("holo_chains"), e))
     R_["apo_holo_alignment"] = {"identity": round(ident, 4), "n_mapped": len(apo_to_holo)}
     if ident < 0.95:
         return refuse("R4", "apo<->holo sequence identity %.3f < 0.95" % ident)
@@ -2270,9 +2302,17 @@ def _dedup_pairs(cands):
             continue
         seen_holo.add(holo)
         per_protein[acc] = per_protein.get(acc, 0) + 1
+        # ⛔ `apo_chains` / `holo_chains` MUST BE CARRIED. Dropping them here made the accession-scoped
+        # chain restriction INERT on every panel pair — the fix was written, landed, and then ran against
+        # `None` for the whole panel. Measured on CI run 30764845241 (2026-08-03): `result.chains` reads
+        # `{"holo_declared": null, "apo_declared": null}`, `selection.considered_top[0]` carries both
+        # fields and `selection.panel_pool[0]` carries neither, and 1DSZ->9GFE and 1DSZ->3KMR still
+        # refused at identity **0.321** — the exact number the comment at step 3 names as the symptom of
+        # the chain-picking bug it claims to have fixed. Four observations, one mechanism.
         out.append({k: r[k] for k in ("accession", "protein", "apo", "holo", "ligand", "apo_method",
                                       "apo_models", "apo_resolution_A", "holo_resolution_A",
-                                      "apo_title", "holo_title") if k in r})
+                                      "apo_title", "holo_title",
+                                      "apo_chains", "holo_chains") if k in r})
         if len(out) >= PANEL_SIZE:
             break
     return out
@@ -2462,8 +2502,11 @@ def render_markdown(doc):
         for row in ap.get(key) or ["⚠ *not present in this artifact — it predates this revision.*"]:
             L.append("- %s" % row)
     L.append("\n**Corrected — superseded values retained (CLAUDE.md §1.2)**\n")
-    for row in ap.get("corrected_2026_08_02") or []:
-        L.append("- `%s` — was: %s. Now: %s" % (row["what"], row["superseded"], row["now"]))
+    # every `corrected_*` block, not one hard-coded date — a new correction list must never be able to
+    # exist in the artifact and be invisible in the page rendered from it.
+    for key in sorted(k for k in ap if k.startswith("corrected_")):
+        for row in ap.get(key) or []:
+            L.append("- `%s` — was: %s. Now: %s" % (row["what"], row["superseded"], row["now"]))
     L.append("\n⛔ This page claims nothing about NR4A3 selectivity, efficacy, safety or clinical "
              "readiness. It grades an instrument, not a molecule.\n")
     return "\n".join(L) + "\n"

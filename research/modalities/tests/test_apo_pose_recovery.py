@@ -427,6 +427,17 @@ def test_the_appendix_registers_every_change_and_keeps_the_superseded_value():
         assert row["superseded"] and row["now"] and row["what"]
     joined = " ".join(r["superseded"] for r in ap["corrected_2026_08_02"])
     assert "420" in joined and "2700" in joined, "the old wall-clock budgets must remain quotable"
+    # ⚠ EVERY correction block, derived — not one hard-coded date. A correction list that exists in the
+    # artifact and renders nowhere is the same failure as not registering it (asserted as a property).
+    blocks = [k for k in ap if k.startswith("corrected_")]
+    assert len(blocks) >= 2
+    for k in blocks:
+        for row in ap[k]:
+            assert row["superseded"] and row["now"] and row["what"], "%s has an unregistered row" % k
+    md = A.render_markdown({"_appendix": ap, "verdict": {"outcome": "INCONCLUSIVE", "reason": "x"}})
+    for k in blocks:
+        for row in ap[k]:
+            assert row["what"] in md, "%s is registered but renders nowhere" % row["what"]
 
 
 def test_the_site_endpoint_contains_no_docking():
@@ -824,6 +835,38 @@ def test_the_markdown_says_UNREAD_when_the_apo_construct_was_never_compared():
     md = A.render_markdown(doc)
     assert "UNREAD" in md
     assert 'Absent, not "the constructs match"' in md
+
+
+# ============================================================ the inert chain restriction (2026-08-03)
+
+def test_the_panel_pool_carries_the_declared_chains_or_the_restriction_is_inert():
+    """⛔ THE FIX LANDED AND THEN RAN AGAINST `None` FOR THE WHOLE PANEL. `run_benchmark` restricts the
+    receptor chain to the ones the deposit assigns to the UniProt entity under test — the repair for the
+    1DSZ RXR/RAR heterodimer handing the RARA pair an RXR chain. `_dedup_pairs` projected each candidate
+    onto a fixed key list that dropped `apo_chains`/`holo_chains`, so every panel pair reached that code
+    with no allowed set at all. This test is the property, not the wording: what goes in comes out."""
+    rows = [{"accession": "P10276", "protein": "RARA", "apo": "1DSZ", "holo": "9GFE",
+             "ligand": {"comp_id": "EQN"}, "apo_chains": ["D"], "holo_chains": ["A"],
+             "apo_method": "X-RAY DIFFRACTION", "apo_title": "t", "holo_title": "t"}]
+    out = A._dedup_pairs(rows)
+    assert out and out[0].get("apo_chains") == ["D"], "apo_chains was dropped — the restriction is inert"
+    assert out[0].get("holo_chains") == ["A"], "holo_chains was dropped — the restriction is inert"
+
+
+def test_a_low_identity_refusal_names_the_pair_it_actually_compared():
+    """`map_uniprot_to_pdb` hard-codes Q92570/8XTT in its error. Passed through it told the reader an
+    RXRA pair failed to align against NR4A3's NMR structure — two proteins neither of which is in the
+    pair, which is how the same refusal got mis-diagnosed. The re-statement must survive refactoring."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    i = src.find("apo<->holo alignment failed")
+    assert i > 0
+    frag = src[i:i + 1400]
+    assert 'cand["apo"]' in frag and 'cand["holo"]' in frag, "the refusal does not name the real pair"
+    assert "CHAIN-SELECTION symptom" in frag
+    # and the upstream function is left alone — other lanes call it
+    import nr4a3_8xtt_benchmark as bm
+    assert "Q92570" in inspect.getsource(bm.map_uniprot_to_pdb)
 
 
 def test_the_third_revision_is_registered_in_the_appendix():
