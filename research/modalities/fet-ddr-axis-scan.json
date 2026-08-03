@@ -1,0 +1,379 @@
+{
+  "_what": "Does DepMap support the FET-fusion -> ATM-suppression -> ATR-axis-dependency mechanism, as a transfer prior for EMC (EWSR1/TAF15/FUS::NR4A3)?",
+  "_hypothesis_source": "FET fusion oncoproteins disrupt physiologic DNA repair and create a targetable opportunity for ATR inhibitor therapy \u2014 biorxiv 10.1101/2023.04.30.538578 (PMID 37205599); clear cell sarcoma (EWSR1::ATF1) is reported to share the FET-dependent ATRi synthetic lethality, which is what makes this a CLASS claim EMC can inherit.",
+  "_instrument_ceiling": "CRISPR knockout != inhibitor sensitivity. ATR is common-essential, so this scan can SUPPORT the hypothesis or miss it; it cannot refute it. Read with the module docstring's three limits.",
+  "depmap_release": "24Q4",
+  "n_models_with_crispr": 1178,
+  "genes_found": [
+    "ATF1",
+    "ATM",
+    "ATR",
+    "ATRIP",
+    "CHEK1",
+    "CHEK2",
+    "CLSPN",
+    "DDIT3",
+    "EWSR1",
+    "FLI1",
+    "FUS",
+    "MDC1",
+    "MRE11",
+    "NBN",
+    "NR4A3",
+    "PARP1",
+    "PKMYT1",
+    "POLQ",
+    "RAD50",
+    "RAD51",
+    "RPA1",
+    "RPA2",
+    "RPA3",
+    "RPL5",
+    "TAF15",
+    "TOPBP1",
+    "TP53BP1",
+    "USP1",
+    "WEE1",
+    "WT1"
+  ],
+  "genes_requested_but_absent": [
+    "MRE11A",
+    "POLR2A",
+    "PRKDC"
+  ],
+  "dependent_threshold": -0.5,
+  "grouping": {
+    "label_column_used": "OncotreeSubtype",
+    "FET_rearranged": {
+      "Ewing": {
+        "oncotree_match": "ewing",
+        "fusion": "EWSR1::FLI1 / EWSR1::ERG",
+        "n_with_crispr": 27,
+        "labels_seen": [
+          "Ewing Sarcoma"
+        ]
+      },
+      "clear_cell_sarcoma": {
+        "oncotree_match": "clear cell sarcoma",
+        "fusion": "EWSR1::ATF1",
+        "n_with_crispr": 1,
+        "labels_seen": [
+          "Clear Cell Sarcoma"
+        ]
+      },
+      "myxoid_liposarcoma": {
+        "oncotree_match": "myxoid",
+        "fusion": "FUS::DDIT3 / EWSR1::DDIT3",
+        "n_with_crispr": 0,
+        "labels_seen": []
+      },
+      "DSRCT": {
+        "oncotree_match": "desmoplastic small round",
+        "fusion": "EWSR1::WT1",
+        "n_with_crispr": 0,
+        "labels_seen": []
+      },
+      "EMC": {
+        "oncotree_match": "extraskeletal myxoid chondrosarcoma",
+        "fusion": "EWSR1::NR4A3 (the disease itself)",
+        "n_with_crispr": 0,
+        "labels_seen": []
+      }
+    },
+    "n_FET_lines_total": 28,
+    "non_FET_sarcoma": {
+      "synovial": {
+        "oncotree_match": "synovial",
+        "driver": "SS18::SSX",
+        "n_with_crispr": 5
+      },
+      "rhabdomyosarcoma": {
+        "oncotree_match": "rhabdomyosarcoma",
+        "driver": "PAX3::FOXO1 or fusion-negative",
+        "n_with_crispr": 13
+      },
+      "osteosarcoma": {
+        "oncotree_match": "osteosarcoma",
+        "driver": "complex karyotype",
+        "n_with_crispr": 17
+      },
+      "leiomyosarcoma": {
+        "oncotree_match": "leiomyosarcoma",
+        "driver": "complex karyotype",
+        "n_with_crispr": 3
+      },
+      "rhabdoid": {
+        "oncotree_match": "rhabdoid",
+        "driver": "SMARCB1 loss",
+        "n_with_crispr": 5
+      },
+      "chondrosarcoma": {
+        "oncotree_match": "chondrosarcoma",
+        "driver": "IDH1/2 (conventional)",
+        "n_with_crispr": 1
+      }
+    },
+    "n_other_sarcoma_unclassified": 19,
+    "n_non_sarcoma": 1087
+  },
+  "emc_line": {
+    "model_id": "ACH-001519",
+    "in_model_metadata": true,
+    "has_crispr_gene_effect": false,
+    "oncotree_label": "Extraskeletal Myxoid Chondrosarcoma",
+    "lineage": "Bone"
+  },
+  "double_prediction": {
+    "ATR_axis": {
+      "FET": {
+        "group": "FET-rearranged sarcoma",
+        "n_lines": 28,
+        "genes_used": [
+          "ATR",
+          "ATRIP",
+          "CHEK1",
+          "TOPBP1",
+          "CLSPN",
+          "RPA1",
+          "RPA2",
+          "RPA3"
+        ],
+        "axis_mean_gene_effect": -1.5781,
+        "axis_sd_across_lines": 0.1222,
+        "frac_lines_dependent_on_axis": 1.0,
+        "per_gene_mean": {
+          "ATR": -1.4651,
+          "ATRIP": -0.7096,
+          "CHEK1": -1.9135,
+          "TOPBP1": -1.4374,
+          "CLSPN": -0.9137,
+          "RPA1": -2.2462,
+          "RPA2": -1.6818,
+          "RPA3": -2.2573
+        }
+      },
+      "non_FET_sarcoma": {
+        "group": "non_FET_sarcoma",
+        "n_lines": 63,
+        "genes_used": [
+          "ATR",
+          "ATRIP",
+          "CHEK1",
+          "TOPBP1",
+          "CLSPN",
+          "RPA1",
+          "RPA2",
+          "RPA3"
+        ],
+        "axis_mean_gene_effect": -1.6008,
+        "axis_sd_across_lines": 0.1405,
+        "frac_lines_dependent_on_axis": 1.0,
+        "per_gene_mean": {
+          "ATR": -1.4175,
+          "ATRIP": -0.6149,
+          "CHEK1": -1.9571,
+          "TOPBP1": -1.4001,
+          "CLSPN": -0.9169,
+          "RPA1": -2.4005,
+          "RPA2": -1.9137,
+          "RPA3": -2.1858
+        }
+      },
+      "contrast_FET_vs_non_FET_sarcoma": {
+        "t": 0.782,
+        "df": 59.2,
+        "mean_a": -1.5781,
+        "mean_b": -1.6008,
+        "delta_a_minus_b": 0.0228
+      },
+      "all_non_sarcoma": {
+        "group": "all_non_sarcoma",
+        "n_lines": 1087,
+        "genes_used": [
+          "ATR",
+          "ATRIP",
+          "CHEK1",
+          "TOPBP1",
+          "CLSPN",
+          "RPA1",
+          "RPA2",
+          "RPA3"
+        ],
+        "axis_mean_gene_effect": -1.5592,
+        "axis_sd_across_lines": 0.1542,
+        "frac_lines_dependent_on_axis": 1.0,
+        "per_gene_mean": {
+          "ATR": -1.3462,
+          "ATRIP": -0.6176,
+          "CHEK1": -1.8872,
+          "TOPBP1": -1.4155,
+          "CLSPN": -0.9207,
+          "RPA1": -2.3294,
+          "RPA2": -1.8226,
+          "RPA3": -2.134
+        }
+      },
+      "contrast_FET_vs_all_non_sarcoma": {
+        "t": -0.802,
+        "df": 29.3,
+        "mean_a": -1.5781,
+        "mean_b": -1.5592,
+        "delta_a_minus_b": -0.0189
+      }
+    },
+    "ATM_axis": {
+      "FET": {
+        "group": "FET-rearranged sarcoma",
+        "n_lines": 28,
+        "genes_used": [
+          "ATM",
+          "MDC1",
+          "NBN",
+          "MRE11",
+          "RAD50",
+          "TP53BP1"
+        ],
+        "axis_mean_gene_effect": -0.1588,
+        "axis_sd_across_lines": 0.1135,
+        "frac_lines_dependent_on_axis": 0.0,
+        "per_gene_mean": {
+          "ATM": -0.0389,
+          "MDC1": -0.2307,
+          "NBN": -0.0531,
+          "MRE11": -0.5093,
+          "RAD50": -0.0421,
+          "TP53BP1": -0.0788
+        }
+      },
+      "non_FET_sarcoma": {
+        "group": "non_FET_sarcoma",
+        "n_lines": 63,
+        "genes_used": [
+          "ATM",
+          "MDC1",
+          "NBN",
+          "MRE11",
+          "RAD50",
+          "TP53BP1"
+        ],
+        "axis_mean_gene_effect": -0.0935,
+        "axis_sd_across_lines": 0.1309,
+        "frac_lines_dependent_on_axis": 0.0,
+        "per_gene_mean": {
+          "ATM": -0.0101,
+          "MDC1": -0.1271,
+          "NBN": 0.0063,
+          "MRE11": -0.3832,
+          "RAD50": -0.0347,
+          "TP53BP1": -0.0124
+        }
+      },
+      "contrast_FET_vs_non_FET_sarcoma": {
+        "t": -2.412,
+        "df": 59.3,
+        "mean_a": -0.1588,
+        "mean_b": -0.0935,
+        "delta_a_minus_b": -0.0653
+      },
+      "all_non_sarcoma": {
+        "group": "all_non_sarcoma",
+        "n_lines": 1087,
+        "genes_used": [
+          "ATM",
+          "MDC1",
+          "NBN",
+          "MRE11",
+          "RAD50",
+          "TP53BP1"
+        ],
+        "axis_mean_gene_effect": -0.1051,
+        "axis_sd_across_lines": 0.1184,
+        "frac_lines_dependent_on_axis": 0.002,
+        "per_gene_mean": {
+          "ATM": -0.0067,
+          "MDC1": -0.1414,
+          "NBN": -0.0409,
+          "MRE11": -0.3525,
+          "RAD50": -0.0154,
+          "TP53BP1": -0.0739
+        }
+      },
+      "contrast_FET_vs_all_non_sarcoma": {
+        "t": -2.467,
+        "df": 28.5,
+        "mean_a": -0.1588,
+        "mean_b": -0.1051,
+        "delta_a_minus_b": -0.0537
+      }
+    }
+  },
+  "verdict": {
+    "non_FET_sarcoma": {
+      "atr_axis_delta_FET_minus_comparator": 0.0228,
+      "atm_axis_delta_FET_minus_comparator": -0.0653,
+      "atr_axis_more_essential_in_FET": false,
+      "atm_axis_not_more_essential_in_FET": false,
+      "tier": "NEITHER",
+      "_reading": "BOTH_HALVES is the only tier that supports the mechanism. Any other tier is consistent with a lineage artefact and must be reported as one. NOTE the ceiling in the module docstring: a common-essential ATR compresses exactly this contrast, so a null here is NOT a refutation."
+    },
+    "all_non_sarcoma": {
+      "atr_axis_delta_FET_minus_comparator": -0.0189,
+      "atm_axis_delta_FET_minus_comparator": -0.0537,
+      "atr_axis_more_essential_in_FET": true,
+      "atm_axis_not_more_essential_in_FET": false,
+      "tier": "ATR_HALF_ONLY",
+      "_reading": "BOTH_HALVES is the only tier that supports the mechanism. Any other tier is consistent with a lineage artefact and must be reported as one. NOTE the ceiling in the module docstring: a common-essential ATR compresses exactly this contrast, so a null here is NOT a refutation."
+    }
+  },
+  "other_druggable_ddr_nodes": {
+    "WEE1": {
+      "FET_mean": -2.5656,
+      "non_FET_sarcoma_mean": -2.505
+    },
+    "CHEK2": {
+      "FET_mean": 0.1226,
+      "non_FET_sarcoma_mean": 0.1951
+    },
+    "PRKDC": {
+      "FET_mean": null,
+      "non_FET_sarcoma_mean": null
+    },
+    "PARP1": {
+      "FET_mean": -0.186,
+      "non_FET_sarcoma_mean": -0.2178
+    },
+    "POLQ": {
+      "FET_mean": -0.2932,
+      "non_FET_sarcoma_mean": -0.2725
+    },
+    "RAD51": {
+      "FET_mean": -1.5235,
+      "non_FET_sarcoma_mean": -1.4363
+    },
+    "USP1": {
+      "FET_mean": -0.3752,
+      "non_FET_sarcoma_mean": -0.3602
+    },
+    "PKMYT1": {
+      "FET_mean": -1.0121,
+      "non_FET_sarcoma_mean": -1.033
+    }
+  },
+  "context_gene_panel_means": {
+    "POLR2A": null,
+    "RPL5": -2.55,
+    "NR4A3": 0.0227,
+    "EWSR1": -0.8637,
+    "TAF15": -0.071,
+    "FUS": -0.0889,
+    "FLI1": -0.0245,
+    "ATF1": -0.1803,
+    "DDIT3": -0.163,
+    "WT1": 0.0844
+  },
+  "_controls": {
+    "POLR2A_should_be_strongly_negative_panel_wide": null,
+    "ATM_should_be_near_zero_panel_wide": null,
+    "_reading": "If POLR2A is not clearly essential or ATM is not near-neutral panel-wide, the read is broken and nothing else here should be quoted."
+  }
+}
