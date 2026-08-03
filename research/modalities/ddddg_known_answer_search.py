@@ -221,6 +221,14 @@ def engine_band(path=None):
 # Transport. Every failure is RECORDED, never swallowed -- a query that could not run is an absent
 # reading and may not be counted toward a negative.
 # ---------------------------------------------------------------------------------------------------
+def _log(msg):
+    """⚠ PROGRESS, NOT DECORATION. Measured 2026-08-03: both searches ran for ten minutes emitting
+    NOTHING, so a live job was indistinguishable from a hung one and CLAUDE.md §4's 'unexpected
+    slowness is a signal' had no signal to read. Every stage now says what it is doing and how far
+    in it is, on stderr, unbuffered."""
+    print("[ddddg %s] %s" % (time.strftime("%H:%M:%S"), msg), file=sys.stderr, flush=True)
+
+
 class Transport:
     def __init__(self, delay=0.12):
         self.delay = delay
@@ -344,13 +352,17 @@ def chembl_smiles(tp, molecule_ids, batch=40):
     return out, ok
 
 
-def chembl_all_human_components(tp, cap=40000):
-    """Every human ChEMBL target component WITH ITS SEQUENCE. ~10-20 paged calls, not thousands."""
+def chembl_all_human_components(tp, cap=40000, page=200):
+    """Every human ChEMBL target component WITH ITS SEQUENCE. Paged, not one call per target.
+
+    ⚠ `page` is 200, not 1000: each record carries a full protein SEQUENCE, so a 1000-row page is a
+    multi-megabyte response and a slow one. Smaller pages also make the progress log meaningful.
+    """
     out, offset = {}, 0
     while offset < cap:
-        url = ("%s/target_component.json?organism=Homo%%20sapiens&limit=1000&offset=%d"
+        url = ("%s/target_component.json?organism=Homo%%20sapiens&limit=%d&offset=%d"
                "&only=component_id,accession,sequence,component_type,description"
-               % (CHEMBL, offset))
+               % (CHEMBL, page, offset))
         doc = tp.get_json(url)
         if doc is None:
             return out, False
@@ -361,7 +373,8 @@ def chembl_all_human_components(tp, cap=40000):
                                        "sequence": c["sequence"],
                                        "description": c.get("description")}
         total = (doc.get("page_meta") or {}).get("total_count") or 0
-        offset += 1000
+        offset += page
+        _log("components %d/%s (%d with a sequence)" % (min(offset, total), total, len(out)))
         if offset >= total or not batch:
             break
     return out, True
@@ -1000,7 +1013,9 @@ def run_c01b(out_path=OUT_C01B, offline=False, tp=None):
                                "is printed so a domain mismatch is visible rather than averaged away.")
 
     acts, read_ok = {}, True
+    _log("c01b: %d ChEMBL targets resolved by accession" % len(targets))
     for t in targets:
+        _log("c01b: fetching activities for %s (%s)" % (t["target_chembl_id"], t["pref_name"]))
         rows, ok = chembl_activities(tp, t["target_chembl_id"])
         read_ok = read_ok and ok
         acts[t["target_chembl_id"]] = rows
@@ -1027,6 +1042,7 @@ def run_c01b(out_path=OUT_C01B, offline=False, tp=None):
         b_side = set().union(*[per_t.get(t, set()) for t in b_targets]) if b_targets else set()
         mol_ids |= (a_side & b_side)
     doc["n_molecules_measured_on_both_arms"] = len(mol_ids)
+    _log("c01b: %d molecules measured on BOTH arms; fetching SMILES" % len(mol_ids))
     smiles, sm_ok = chembl_smiles(tp, mol_ids)
     read_ok = read_ok and sm_ok
     doc["n_molecules_with_smiles"] = len(smiles)
@@ -1150,8 +1166,9 @@ def stage_counts(tp, universe, min_count=None):
             ok = False
             continue
         have[tid] = n
-        if len(have) % 200 == 0:
+        if len(have) % 100 == 0:
             _save("counts.json", have)
+            _log("activity counts %d/%d" % (len(have), len(universe["targets"])))
     _save("counts.json", have)
     kept = [t for t in universe["targets"] if have.get(t["target_chembl_id"], 0) >= min_count]
     out = {"read_ok": ok, "n_counted": len(have), "min_count": min_count,
@@ -1184,7 +1201,10 @@ def stage_pairs(counted, prereg=None):
             if cont >= prereg["kmer_prefilter_containment_min"]:
                 shared[(i, j)] = cont
     pairs, dropped = [], 0
-    for (i, j), cont in sorted(shared.items(), key=lambda kv: -kv[1]):
+    _log("pairs: %d prefiltered pairs to align" % len(shared))
+    for n_al, ((i, j), cont) in enumerate(sorted(shared.items(), key=lambda kv: -kv[1])):
+        if n_al % 500 == 0:
+            _log("pairs: aligned %d/%d, %d over the identity floor" % (n_al, len(shared), len(pairs)))
         ident, method = pairwise_identity(targets[i]["sequence"], targets[j]["sequence"])
         if ident < prereg["identity_min_percent"]:
             dropped += 1
@@ -1214,12 +1234,15 @@ def stage_activities(tp, pairs, max_targets=None):
     done = set(os.path.splitext(f)[0] for f in os.listdir(_ck("")) if f.startswith("CHEMBL")
                and f.endswith(".json")) if os.path.isdir(CKPT) else set()
     ok = True
-    for tid in tids:
+    _log("activities: %d targets to fetch (%d already checkpointed)" % (len(tids), len(done)))
+    for k, tid in enumerate(tids):
         if tid in done:
             continue
         rows, got = chembl_activities(tp, tid)
         ok = ok and got
         _save("%s.json" % tid, rows)
+        if k % 25 == 0:
+            _log("activities %d/%d (%s: %d rows)" % (k, len(tids), tid, len(rows)))
     meta = {"read_ok": ok, "n_targets": len(tids), "n_targets_required": len(all_tids),
             "capped": len(tids) < len(all_tids)}
     # ⚠ PERSISTED, because the verdict stage runs in a LATER process. A cap that is not carried
@@ -1233,7 +1256,10 @@ def stage_candidates(tp, pairs, targets_done, max_pairs=None):
     out, ok = [], True
     plist = pairs["pairs"][:max_pairs] if max_pairs else pairs["pairs"]
     capped = len(plist) < len(pairs["pairs"])
-    for p in plist:
+    _log("candidates: %d protein pairs to examine" % len(plist))
+    for n_done, p in enumerate(plist):
+        if n_done % 20 == 0:
+            _log("candidates: pair %d/%d, %d found so far" % (n_done, len(plist), len(out)))
         ta = p["arm_a"]["target_chembl_id"]
         tb = p["arm_b"]["target_chembl_id"]
         ra, rb = _load("%s.json" % ta), _load("%s.json" % tb)
