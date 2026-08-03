@@ -1,0 +1,1046 @@
+{
+  "_title": "WHICH NR4A3 LINKER LIBRARY IS CANONICAL — the ruling, its evidence, and its guard",
+  "_status": "A PROVENANCE RULING. $0 — stdlib + the repo's own generators on CPU. Nothing here is a claim about binding, affinity, reactivity, degradation, selectivity, efficacy or safety, and no construct named here is a hit.",
+  "_answers": "research/manuscripts/nr4a3-program-map.md §10.1 row 25",
+  "_one_fact_one_place": "This file is the ONE HOME of: which enumeration is canonical for what, the cause of the drift, the two registered construct-id sets, and the `5b-T` release predicate. It is NOT a second home for any construct's chemistry (that is `nr4a3-linker-design.json` / `nr4a3-linker-library-chem.json`), for the collision profile (`nr4a-paralogue-dynamics.json`), or for any cost (the roadmap's ladder).",
+  "_generated": {
+    "generator": "research/modalities/nr4a3_linker_library_canonical.py"
+  },
+  "_kernel_head_when_generated": "10dd81e42",
+  "cause": {
+    "commit": "382c36947",
+    "landed_utc": "2026-08-02T20:24:35Z",
+    "landed_et": "2026-08-02 4:24 PM ET",
+    "subject": "port to main: exact 3-ball solver + its regression tests + the reach lane's rebase-retry push",
+    "file": "research/modalities/linker_design.py",
+    "symbol": "three_ball_min_margin",
+    "parent": "864a9518f",
+    "ported_from": "claude/nr4a1-protac-positive-control-xnszjl (0755eb9db, d2804fd79)",
+    "what_changed": "a compass search over a convex but NON-differentiable objective, which stalls on the kink ridge the minimiser sits on, was replaced by a closed-form enumeration of the at-most-8 candidate optima.",
+    "which_is_right": "THE NEW ONE, and the commit measured it rather than asserting it: 0 feasibility mismatches against an exact disk oracle over 160,962 cells, replacing a solver with 92 false-disjoint and 0 false-overlap calls in 118,708 cells.",
+    "direction_of_the_error": "ONE-SIDED AND CONSERVATIVE. The old solver reported intersecting balls as disjoint, so it UNDER-claimed reach and never over-claimed it. That is why the corrected kernel ADMITS MORE constructs rather than refuting committed ones — a direction that is visible in the counts below and is the reason the committed library is safe to keep using.",
+    "the_miss": "⛔ `382c36947` DID name the artifacts it invalidated — `nr4a3-orientation-basins.json`'s `term_a_feasibility_envelope`, 'They are NOT regenerated here' — but it did NOT name `nr4a3-linker-design.json`, which is a SECOND live consumer of the same kernel. One consumer was registered and the other was not, which is the whole of this incident.",
+    "still_open_same_class": "⚠ `nr4a3-orientation-basins.json` -> `term_a_feasibility_envelope` is the OTHER artifact built on the pre-fix kernel and it is still not regenerated. Same conservative direction, same registration gap; it is not settled by this ruling and needs its own.",
+    "how_to_reproduce_the_a_b": [
+      "git show 382c36947^:research/modalities/linker_design.py > /tmp/pre.py   # or fetch 864a9518f",
+      "mirror research/modalities into a temp tree, swap in /tmp/pre.py, run nr4a3_linker_design.py there",
+      "the summary block is then byte-identical to the committed artifact's `library_summary`"
+    ]
+  },
+  "ruling": {
+    "_one_line": "BOTH are canonical, for different jobs, and the failure was that nothing said which was which. The committed `nr4a3-linker-design.json` is FROZEN as the EXECUTED enumeration; the corrected kernel is canonical for all NEW design work; the corrected enumeration is REGISTERED here rather than written over the committed one.",
+    "committed_artifact": {
+      "verdict": "FROZEN — canonical as the EXECUTED record. Do NOT regenerate in place.",
+      "why": [
+        "It is fully reproducible, so it is not mystery-stale: HEAD's generator plus `linker_design.py` at 864a9518f reproduces it with ZERO structural differences (see `reproduction` below).",
+        "It is what `V16` / rung 5a-KS was actually measured on, and a landed result must not be orphaned by a re-derivation of its own inputs.",
+        "It is a PREREGISTERED enumeration. Overwriting it in place would rewrite a preregistration, which is exactly the act CLAUDE.md rule 1.2 exists to stop.",
+        "`nr4a3-linker-library-chem.json` and `ternary_rebuild_cost.DEGRADER_SOURCE` reference it BY CONSTRUCT ID, so an in-place regeneration would silently move rung 5b-T's degrader source."
+      ],
+      "the_bias_it_carries_and_must_be_quoted_with": "It UNDER-admits. It was built on a kernel with 92 measured false-disjoint calls, so its enumeration is a conservative subset of the geometrically feasible one — smaller, never larger. It is not wrong in the dangerous direction, and it must never be described as 'the complete library'."
+    },
+    "current_code": {
+      "verdict": "CANONICAL FOR NEW WORK — its geometry is the measured-correct one.",
+      "why": "the exact solver is verified against an independent oracle over 160,962 cells; the solver it replaced is verified WRONG on 92 of 118,708. There is no reading on which the old kernel is the better geometry.",
+      "so": "any NEW enumeration, any re-derived matched pair, and any construct proposed from here on uses the corrected kernel and cites the CORRECTED set below — never the executed one."
+    },
+    "superseded_retained": "SUPERSEDED, RETAINED per CLAUDE.md rule 1.2: the reading under which `nr4a3-linker-design.json` was 'the' linker library, singular and current. It is the EXECUTED library. The recommendation it carries — `crbnM0@ex_5amide_e4-a2_pyr3`, PEG4+alkyl at 19 backbone atoms — is superseded AS A RECOMMENDATION by `crbnM0@ex_5amide_a9-a2_pyr3`, alkyl+alkyl at 18, and is retained AS THE EXECUTED TEST ARTICLE, which is a different and still-live status.",
+    "what_was_NOT_chosen_and_why": {
+      "regenerate_and_overwrite": "REFUSED. It rewrites a preregistered enumeration, orphans `V16`'s landed inputs, and moves rung 5b-T's degrader source from 54 constructs to 57 without anyone deciding to.",
+      "freeze_and_say_nothing": "REFUSED. That is the state that produced this incident: an artifact and its generator disagreeing with nothing in the repo able to notice."
+    }
+  },
+  "reproduction": {
+    "_what": "the committed artifact reproduces EXACTLY from HEAD's generator plus the pre-fix kernel — which is what makes 'frozen' a provenance statement rather than a shrug.",
+    "recipe": [
+      "git show 382c36947^:research/modalities/linker_design.py > /tmp/pre.py   # or fetch 864a9518f",
+      "mirror research/modalities into a temp tree, swap in /tmp/pre.py, run nr4a3_linker_design.py there",
+      "the summary block is then byte-identical to the committed artifact's `library_summary`"
+    ],
+    "measured_2026_08_03": {
+      "structural_differences": 0,
+      "non_structural_differences": "180 collision-profile REPORTING fields (changed by `73566cd47`, which derived the profile from the landed matched ensembles instead of copying the retired 5,657-placement pilot — REPORTED per construct and filtered on by nothing, proven neutral by forcing the pilot values back in and getting the corrected counts unchanged), plus 1 docstring string renamed by the STRATEGY.md → roadmap merge (`10dd81e42`).",
+      "library_summary_is_byte_identical": true
+    }
+  },
+  "registered_enumerations": {
+    "_why_two": "CLAUDE.md rule 1.2: a superseded enumeration is REGISTERED, never silently dropped and never left as a 'was X now Y' narrative in live text. These two sets are the whole of the difference, so any future reader can tell which library a claim came from by its ids alone.",
+    "EXECUTED": {
+      "artifact": "research/modalities/nr4a3-linker-design.json",
+      "kernel": "linker_design.py at 864a9518f (pre-fix `three_ball_min_margin`)",
+      "status": "FROZEN. Canonical for anything already measured, and for `nr4a3-linker-library-chem.json` / rung `5b-T`, which reference it by construct id.",
+      "n_constructs": 54,
+      "n_enumerated": 3544,
+      "by_placement": {
+        "virtual_library_at_the_term_a_exemplar": 36,
+        "virtual_library_at_representative_geometry": 18
+      },
+      "recommended_matched_pair": {
+        "status": "PROPOSED",
+        "test": "S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1); ternary legs only (the shared ligand-E3 binary leg and the solvent leg are paralogue-independent and cancel exactly)",
+        "placement": "term_a_exemplar",
+        "placement_basin_id": "crbn|exitvec_07|b0",
+        "placement_pose_id": "exitvec_07",
+        "placement_span_A": 13.423,
+        "basin": "crbn|M0",
+        "basin_pose_surviving_fraction": 0.917,
+        "arm_selection_audit": [
+          {
+            "meta_basin_id": "crbn|M0",
+            "pose_surviving_fraction": 0.917,
+            "term_b_enrichment": 7.5,
+            "best_wedge_site": {
+              "uniprot_resid": 407,
+              "nr4a3": "T",
+              "nr4a1": "L",
+              "nr4a2": "V",
+              "rsa": 0.279,
+              "nonconservative": true,
+              "branch_k_min": 2,
+              "branch_k_max": 2,
+              "e3_clearance_A": 8.6,
+              "e3_clear_enough_for_a_matched_pair": true
+            },
+            "can_host_the_pair": true,
+            "blockers": []
+          },
+          {
+            "meta_basin_id": "vhl|M3",
+            "pose_surviving_fraction": 0.75,
+            "term_b_enrichment": 1.4,
+            "best_wedge_site": {
+              "uniprot_resid": 407,
+              "nr4a3": "T",
+              "nr4a1": "L",
+              "nr4a2": "V",
+              "rsa": 0.279,
+              "nonconservative": true,
+              "branch_k_min": 2,
+              "branch_k_max": 3,
+              "e3_clearance_A": 6.4,
+              "e3_clear_enough_for_a_matched_pair": true
+            },
+            "can_host_the_pair": true,
+            "blockers": []
+          },
+          {
+            "meta_basin_id": "vhl|M2",
+            "pose_surviving_fraction": 0.5,
+            "term_b_enrichment": 1.43,
+            "best_wedge_site": null,
+            "can_host_the_pair": false,
+            "blockers": [
+              "no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not)",
+              "no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 10 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24"
+            ]
+          },
+          {
+            "meta_basin_id": "vhl|M4",
+            "pose_surviving_fraction": 0.417,
+            "term_b_enrichment": 4.2,
+            "best_wedge_site": null,
+            "can_host_the_pair": false,
+            "blockers": [
+              "no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not)",
+              "no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 18 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24"
+            ]
+          },
+          {
+            "meta_basin_id": "vhl|M14",
+            "pose_surviving_fraction": 0.25,
+            "term_b_enrichment": 0.0,
+            "best_wedge_site": null,
+            "can_host_the_pair": false,
+            "blockers": [
+              "labelled weak control: does not exceed the term-(b) background",
+              "no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not)",
+              "no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 8 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24"
+            ]
+          }
+        ],
+        "arm_selection_note": "Selected on basin evidence only — pose persistence, then measured E3 clearance at the wedge — among basins that can host a matched pair AND satisfy the preregistered wedge chemistry rule. NOT on any CRBN-vs-VHL preference: CRBN is the sole Pareto-front member and VHL is a labelled backfill / E3-choice sensitivity control. Basins that could NOT host the pair at this placement, with the reason each was blocked: vhl|M2 [no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not) + no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 10 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24]; vhl|M4 [no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not) + no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 18 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24]; vhl|M14 [labelled weak control: does not exceed the term-(b) background + no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not) + no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 8 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24]",
+        "alternative_pair_on_the_strongest_basin": {
+          "basin": "vhl|M2",
+          "pose_surviving_fraction": 0.5,
+          "term_b_enrichment_over_background": 1.43,
+          "best_wedge_site": null,
+          "why_it_is_attractive": "the strongest nomination RUNG 5a produced (0.50 pose persistence, 1.4x over the term-(b) null)",
+          "what_it_costs": "a ~10 backbone-atom linker against the 24-atom routine cap used here. Long, but not unprecedented for a PROTAC, and the cap is a stated convention rather than a law.",
+          "the_trade": "a stronger basin and, where the site differs, a stronger wedge residue — paid for in linker length and therefore in permeability and in the ternary assembly's own entropy. Surfaced rather than filtered away, because it is a judgement that should be made explicitly instead of made silently by a threshold."
+        },
+        "wedge_element": "3-pyridyl (d) vs phenyl (d0) — an aza-scan",
+        "wedge_target_residue": {
+          "uniprot_resid": 407,
+          "nr4a3": "T",
+          "nr4a1": "L",
+          "nr4a2": "V",
+          "rsa": 0.279,
+          "nonconservative": true,
+          "branch_k_min": 2,
+          "branch_k_max": 2,
+          "e3_clearance_A": 8.6,
+          "e3_clear_enough_for_a_matched_pair": true
+        },
+        "e3_clearance_at_wedge_A": 9.04,
+        "e3_clearance_at_wedge_site_probe_A": 8.6,
+        "_e3_clearance_reading": "the load-bearing check for the pair: `S` isolates a TARGET-side interaction only because the ligand's entire interaction with the E3 is identical in the two paralogue legs and cancels. `e3_clearance_at_wedge_A` is measured at the PROPOSED CONSTRUCT's own (n, k); `e3_clearance_at_wedge_site_probe_A` is the site-derivation probe value at n = span floor + 4 and the middle of that site's window, which is what the site list carries. The construct value is the one that governs — it is filtered on (>= 6 A) and ranked on.",
+        "d": {
+          "construct_id": "crbnM0@ex_5amide_e4-a2_pyr3",
+          "designed_for_basin": "crbn|M0",
+          "designed_at_placement": "term_a_exemplar",
+          "placement_basin_id": "crbn|exitvec_07|b0",
+          "placement_pose_id": "exitvec_07",
+          "basin_role": "design target",
+          "e3_handle": "crbn",
+          "warhead_handle": "5amide",
+          "linker_segments": [
+            "e4",
+            "a2"
+          ],
+          "linker_class": "peg+alkyl",
+          "n_backbone_atoms_intended": 19,
+          "pendant": "pyr3",
+          "pendant_kind": "wedge",
+          "branch_residue": "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH",
+          "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
+          "branch_k_from_warhead": 6,
+          "branch_target": "T407",
+          "branch_window": {
+            "k_min": 2,
+            "k_max": 6,
+            "best_k": 4
+          },
+          "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)COCCOCCOCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+          "span_window_A": {
+            "deciles_A": [
+              7.43,
+              9.6,
+              13.42,
+              14.63,
+              18.41,
+              20.11,
+              20.54,
+              22.26,
+              23.58,
+              24.44,
+              24.94
+            ],
+            "summary_A": {
+              "min": 7.43,
+              "median": 20.11,
+              "max": 24.94
+            },
+            "_source": "member span deciles"
+          },
+          "basin_fidelity": {
+            "member_fraction_spannable": 0.73,
+            "member_fraction_comfortable": 0.36,
+            "P_reach_normalised": 0.36,
+            "selectivity_vs_other_confirmed_basins": 1.0,
+            "selectivity_note": null,
+            "other_basin_mean_coverage": 0.36,
+            "strain_kT_at_placement_span": 0.27,
+            "spans_the_floor": true
+          },
+          "synthetic_route": {
+            "steps": [
+              "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+              "2. linker: PEG4 diglycolic unit",
+              "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+              "4. selective side-chain deprotection, then Fmoc-3-(3-pyridyl)-L-alanine, a standard unnatural-amino-acid building block, coupled in place of the Fmoc-L-Phe of the control.",
+              "5. extend with succinyl / beta-alanine unit",
+              "6. amide coupling of the linker acid to the 4-amino aniline (or SNAr on 4-fluorothalidomide)  [E3 side: pomalidomide, linker on the 4-amino nitrogen]"
+            ],
+            "convergent": true,
+            "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
+          },
+          "role": "design"
+        },
+        "d0": {
+          "construct_id": "crbnM0@ex_5amide_e4-a2_ph",
+          "designed_for_basin": "crbn|M0",
+          "designed_at_placement": "term_a_exemplar",
+          "placement_basin_id": "crbn|exitvec_07|b0",
+          "placement_pose_id": "exitvec_07",
+          "basin_role": "design target",
+          "e3_handle": "crbn",
+          "warhead_handle": "5amide",
+          "linker_segments": [
+            "e4",
+            "a2"
+          ],
+          "linker_class": "peg+alkyl",
+          "n_backbone_atoms_intended": 19,
+          "pendant": "ph",
+          "pendant_kind": "wedge_control",
+          "branch_residue": "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH",
+          "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
+          "branch_k_from_warhead": 6,
+          "branch_target": "T407",
+          "branch_window": {
+            "k_min": 2,
+            "k_max": 6,
+            "best_k": 4
+          },
+          "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)COCCOCCOCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+          "span_window_A": {
+            "deciles_A": [
+              7.43,
+              9.6,
+              13.42,
+              14.63,
+              18.41,
+              20.11,
+              20.54,
+              22.26,
+              23.58,
+              24.44,
+              24.94
+            ],
+            "summary_A": {
+              "min": 7.43,
+              "median": 20.11,
+              "max": 24.94
+            },
+            "_source": "member span deciles"
+          },
+          "basin_fidelity": {
+            "member_fraction_spannable": 0.73,
+            "member_fraction_comfortable": 0.36,
+            "P_reach_normalised": 0.36,
+            "selectivity_vs_other_confirmed_basins": 1.0,
+            "selectivity_note": null,
+            "other_basin_mean_coverage": 0.36,
+            "strain_kT_at_placement_span": 0.27,
+            "spans_the_floor": true
+          },
+          "synthetic_route": {
+            "steps": [
+              "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+              "2. linker: PEG4 diglycolic unit",
+              "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+              "4. selective side-chain deprotection, then Fmoc-L-Phe-OH — as ordinary a building block as exists.",
+              "5. extend with succinyl / beta-alanine unit",
+              "6. amide coupling of the linker acid to the 4-amino aniline (or SNAr on 4-fluorothalidomide)  [E3 side: pomalidomide, linker on the 4-amino nitrogen]"
+            ],
+            "convergent": true,
+            "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
+          },
+          "role": "control",
+          "matched_to_design_slot": [
+            "crbn|M0",
+            "5amide",
+            "e4+a2"
+          ]
+        },
+        "differs_only_in_the_wedge_element": {
+          "net_charge": "identical (both neutral)",
+          "heavy_atoms": "identical (C-H -> N)",
+          "rotatable_bonds": "identical",
+          "shape": "isosteric aryl ring",
+          "electrophile": "identical in both members (absent, or the SAME reversible-covalent handle at the SAME branch position) — the categorical handle is held constant so it cannot contribute to S",
+          "e3_contact": "the wedge element is 9.0 A from the nearest E3 atom in the modelled placement, so it cannot be re-tuning the ligand-E3 interface"
+        },
+        "remaining_confounds": [
+          "T407's side chain is rigid in this model; the pair is conditional on the modelled rotamer.",
+          "NR4A1 carries L at the aligned position and NR4A2 carries V — neither is an H-bond donor, so the expected signal is an NR4A3 GAIN against an absence, not a paralogue penalty. It is bounded by one partly-buried H-bond (~0.5-1.5 kcal/mol) against a best-case resolvable 1.12, so a NULL is the likely outcome and is recorded here BEFORE the run.",
+          "the construct rests on the hypothesised cmpd19 pose x one receptor frame (double conditionality)",
+          "the basin is a rigid-body nomination, not a modelled complex; the linker conformer that places the wedge on Arg412 is one of many the chain can adopt, and its population is unmeasured.",
+          "★ a non-covalent double difference cannot test the CATEGORICAL mechanism (a bond that forms in NR4A3 and cannot form in NR4A1). S tests the MARGINAL wedge; a null falsifies that wedge, not the program."
+        ],
+        "second_pair_if_the_first_is_read": {
+          "purpose": "the pre-covalent half of the CATEGORICAL axis",
+          "d": "cyac_me (beta-methyl alpha-cyanoacrylamide) at the C397 branch position",
+          "d0": "cyanoprop (2-cyanobutanamide, the saturated analogue), same branch position",
+          "what_it_measures": "whether the electrophile-bearing arm's NON-COVALENT recognition already discriminates Cys397 (NR4A3) from Asn363 (NR4A1). In reversible-covalent chemistry, selectivity is K_i x k_inact; this test addresses K_i only, and a null leaves the categorical (k_inact) argument standing.",
+          "why_this_d0": "the saturated analogue is the standard non-electrophilic control: same heavy atoms, same charge, same nitrile, same amide, no Michael acceptor — so the alchemical change is the C=C and nothing else.",
+          "the_caveat_that_comes_with_it": "reducing the acceptor creates an sp3 stereocentre the electrophile does not have, so this pair is matched in CONSTITUTION but not in STEREOCHEMISTRY. It is declared as a single (S) diastereomer; the (R) epimer is the obvious second control if the centre has to be shown not to matter."
+        }
+      },
+      "only_in_this_set": [
+        "crbnM0@ex_5amide_a11-a2_pyr3",
+        "crbnM0@ex_5amide_e4-a2_ph",
+        "crbnM0@ex_5amide_e4-a2_pyr3"
+      ]
+    },
+    "CORRECTED": {
+      "artifact": "not committed — re-derived on demand by this generator",
+      "kernel": "linker_design.py at 382c36947 or later (exact closed-form solver)",
+      "status": "Canonical for ALL NEW design work. Registered here rather than written over the executed artifact.",
+      "n_constructs": 57,
+      "n_enumerated": 3852,
+      "by_placement": {
+        "virtual_library_at_the_term_a_exemplar": 39,
+        "virtual_library_at_representative_geometry": 18
+      },
+      "recommended_matched_pair": {
+        "status": "PROPOSED",
+        "test": "S = ddG_coop(d0->d | NR4A3) - ddG_coop(d0->d | NR4A1); ternary legs only (the shared ligand-E3 binary leg and the solvent leg are paralogue-independent and cancel exactly)",
+        "placement": "term_a_exemplar",
+        "placement_basin_id": "crbn|exitvec_07|b0",
+        "placement_pose_id": "exitvec_07",
+        "placement_span_A": 13.423,
+        "basin": "crbn|M0",
+        "basin_pose_surviving_fraction": 0.917,
+        "arm_selection_audit": [
+          {
+            "meta_basin_id": "crbn|M0",
+            "pose_surviving_fraction": 0.917,
+            "term_b_enrichment": 7.5,
+            "best_wedge_site": {
+              "uniprot_resid": 407,
+              "nr4a3": "T",
+              "nr4a1": "L",
+              "nr4a2": "V",
+              "rsa": 0.279,
+              "nonconservative": true,
+              "branch_k_min": 2,
+              "branch_k_max": 3,
+              "e3_clearance_A": 8.58,
+              "e3_clear_enough_for_a_matched_pair": true
+            },
+            "can_host_the_pair": true,
+            "blockers": []
+          },
+          {
+            "meta_basin_id": "vhl|M3",
+            "pose_surviving_fraction": 0.75,
+            "term_b_enrichment": 1.4,
+            "best_wedge_site": {
+              "uniprot_resid": 407,
+              "nr4a3": "T",
+              "nr4a1": "L",
+              "nr4a2": "V",
+              "rsa": 0.279,
+              "nonconservative": true,
+              "branch_k_min": 2,
+              "branch_k_max": 3,
+              "e3_clearance_A": 6.39,
+              "e3_clear_enough_for_a_matched_pair": true
+            },
+            "can_host_the_pair": true,
+            "blockers": []
+          },
+          {
+            "meta_basin_id": "vhl|M2",
+            "pose_surviving_fraction": 0.5,
+            "term_b_enrichment": 1.43,
+            "best_wedge_site": null,
+            "can_host_the_pair": false,
+            "blockers": [
+              "no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not)",
+              "no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 10 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24"
+            ]
+          },
+          {
+            "meta_basin_id": "vhl|M4",
+            "pose_surviving_fraction": 0.417,
+            "term_b_enrichment": 4.2,
+            "best_wedge_site": null,
+            "can_host_the_pair": false,
+            "blockers": [
+              "no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not)",
+              "no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 18 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24"
+            ]
+          },
+          {
+            "meta_basin_id": "vhl|M14",
+            "pose_surviving_fraction": 0.25,
+            "term_b_enrichment": 0.0,
+            "best_wedge_site": {
+              "uniprot_resid": 407,
+              "nr4a3": "T",
+              "nr4a1": "L",
+              "nr4a2": "V",
+              "rsa": 0.279,
+              "nonconservative": true,
+              "branch_k_min": 1,
+              "branch_k_max": 5,
+              "e3_clearance_A": 6.29,
+              "e3_clear_enough_for_a_matched_pair": true
+            },
+            "can_host_the_pair": false,
+            "blockers": [
+              "labelled weak control: does not exceed the term-(b) background"
+            ]
+          }
+        ],
+        "arm_selection_note": "Selected on basin evidence only — pose persistence, then measured E3 clearance at the wedge — among basins that can host a matched pair AND satisfy the preregistered wedge chemistry rule. NOT on any CRBN-vs-VHL preference: CRBN is the sole Pareto-front member and VHL is a labelled backfill / E3-choice sensitivity control. Basins that could NOT host the pair at this placement, with the reason each was blocked: vhl|M2 [no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not) + no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 10 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24]; vhl|M4 [no divergent, exposed, linker-reachable residue with >= 6 A of E3 clearance that also satisfies the preregistered wedge chemistry rule (NR4A3 donor, BOTH paralogues not) + no matched pyridyl/phenyl construct survives the basin-fidelity filter — its representative span needs 18 backbone atoms to be held at <= 3.0 kT, against a chemically routine cap of 24]; vhl|M14 [labelled weak control: does not exceed the term-(b) background]",
+        "alternative_pair_on_the_strongest_basin": {
+          "basin": "vhl|M2",
+          "pose_surviving_fraction": 0.5,
+          "term_b_enrichment_over_background": 1.43,
+          "best_wedge_site": null,
+          "why_it_is_attractive": "the strongest nomination RUNG 5a produced (0.50 pose persistence, 1.4x over the term-(b) null)",
+          "what_it_costs": "a ~10 backbone-atom linker against the 24-atom routine cap used here. Long, but not unprecedented for a PROTAC, and the cap is a stated convention rather than a law.",
+          "the_trade": "a stronger basin and, where the site differs, a stronger wedge residue — paid for in linker length and therefore in permeability and in the ternary assembly's own entropy. Surfaced rather than filtered away, because it is a judgement that should be made explicitly instead of made silently by a threshold."
+        },
+        "wedge_element": "3-pyridyl (d) vs phenyl (d0) — an aza-scan",
+        "wedge_target_residue": {
+          "uniprot_resid": 407,
+          "nr4a3": "T",
+          "nr4a1": "L",
+          "nr4a2": "V",
+          "rsa": 0.279,
+          "nonconservative": true,
+          "branch_k_min": 2,
+          "branch_k_max": 3,
+          "e3_clearance_A": 8.58,
+          "e3_clear_enough_for_a_matched_pair": true
+        },
+        "e3_clearance_at_wedge_A": 7.82,
+        "e3_clearance_at_wedge_site_probe_A": 8.58,
+        "_e3_clearance_reading": "the load-bearing check for the pair: `S` isolates a TARGET-side interaction only because the ligand's entire interaction with the E3 is identical in the two paralogue legs and cancels. `e3_clearance_at_wedge_A` is measured at the PROPOSED CONSTRUCT's own (n, k); `e3_clearance_at_wedge_site_probe_A` is the site-derivation probe value at n = span floor + 4 and the middle of that site's window, which is what the site list carries. The construct value is the one that governs — it is filtered on (>= 6 A) and ranked on.",
+        "d": {
+          "construct_id": "crbnM0@ex_5amide_a9-a2_pyr3",
+          "designed_for_basin": "crbn|M0",
+          "designed_at_placement": "term_a_exemplar",
+          "placement_basin_id": "crbn|exitvec_07|b0",
+          "placement_pose_id": "exitvec_07",
+          "basin_role": "design target",
+          "e3_handle": "crbn",
+          "warhead_handle": "5amide",
+          "linker_segments": [
+            "a9",
+            "a2"
+          ],
+          "linker_class": "alkyl+alkyl",
+          "n_backbone_atoms_intended": 18,
+          "pendant": "pyr3",
+          "pendant_kind": "wedge",
+          "branch_residue": "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH",
+          "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
+          "branch_k_from_warhead": 6,
+          "branch_target": "T407",
+          "branch_window": {
+            "k_min": 2,
+            "k_max": 6,
+            "best_k": 4
+          },
+          "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCCCCCCCCC(=O)N[C@@H](Cc7cccnc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+          "span_window_A": {
+            "deciles_A": [
+              7.43,
+              9.6,
+              13.42,
+              14.63,
+              18.41,
+              20.11,
+              20.54,
+              22.26,
+              23.58,
+              24.44,
+              24.94
+            ],
+            "summary_A": {
+              "min": 7.43,
+              "median": 20.11,
+              "max": 24.94
+            },
+            "_source": "member span deciles"
+          },
+          "basin_fidelity": {
+            "member_fraction_spannable": 0.73,
+            "member_fraction_comfortable": 0.36,
+            "P_reach_normalised": 0.36,
+            "selectivity_vs_other_confirmed_basins": 1.0,
+            "selectivity_note": null,
+            "other_basin_mean_coverage": 0.36,
+            "strain_kT_at_placement_span": 0.37,
+            "spans_the_floor": true
+          },
+          "synthetic_route": {
+            "steps": [
+              "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+              "2. linker: undecanedioic-type unit",
+              "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+              "4. selective side-chain deprotection, then Fmoc-3-(3-pyridyl)-L-alanine, a standard unnatural-amino-acid building block, coupled in place of the Fmoc-L-Phe of the control.",
+              "5. extend with succinyl / beta-alanine unit",
+              "6. amide coupling of the linker acid to the 4-amino aniline (or SNAr on 4-fluorothalidomide)  [E3 side: pomalidomide, linker on the 4-amino nitrogen]"
+            ],
+            "convergent": true,
+            "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
+          },
+          "role": "design"
+        },
+        "d0": {
+          "construct_id": "crbnM0@ex_5amide_a9-a2_ph",
+          "designed_for_basin": "crbn|M0",
+          "designed_at_placement": "term_a_exemplar",
+          "placement_basin_id": "crbn|exitvec_07|b0",
+          "placement_pose_id": "exitvec_07",
+          "basin_role": "design target",
+          "e3_handle": "crbn",
+          "warhead_handle": "5amide",
+          "linker_segments": [
+            "a9",
+            "a2"
+          ],
+          "linker_class": "alkyl+alkyl",
+          "n_backbone_atoms_intended": 18,
+          "pendant": "ph",
+          "pendant_kind": "wedge_control",
+          "branch_residue": "Fmoc-L-Phe-OH / Fmoc-3-(3-pyridyl)-L-Ala-OH",
+          "stereocentre": "(S) at the branch alpha-carbon, inherited from the L-amino-acid building block",
+          "branch_k_from_warhead": 6,
+          "branch_target": "T407",
+          "branch_window": {
+            "k_min": 2,
+            "k_max": 6,
+            "best_k": 4
+          },
+          "smiles": "C1CC(=O)NC(=O)C1N2C(=O)C3=C(C2=O)C(=CC=C3)NC(=O)CCCCCCCCCC(=O)N[C@@H](Cc7ccccc7)C(=O)NCCC(=O)Nc4ccc5[nH]cc(C(=O)OC)c5c4",
+          "span_window_A": {
+            "deciles_A": [
+              7.43,
+              9.6,
+              13.42,
+              14.63,
+              18.41,
+              20.11,
+              20.54,
+              22.26,
+              23.58,
+              24.44,
+              24.94
+            ],
+            "summary_A": {
+              "min": 7.43,
+              "median": 20.11,
+              "max": 24.94
+            },
+            "_source": "member span deciles"
+          },
+          "basin_fidelity": {
+            "member_fraction_spannable": 0.73,
+            "member_fraction_comfortable": 0.36,
+            "P_reach_normalised": 0.36,
+            "selectivity_vs_other_confirmed_basins": 1.0,
+            "selectivity_note": null,
+            "other_basin_mean_coverage": 0.36,
+            "strain_kT_at_placement_span": 0.37,
+            "spans_the_floor": true
+          },
+          "synthetic_route": {
+            "steps": [
+              "1. HATU amide coupling; 5-aminoindole esters are commercial  [warhead side: 5-amino indole, linker acylates the aniline]",
+              "2. linker: undecanedioic-type unit",
+              "3. couple the orthogonally protected branch residue (Fmoc-L-Phe-OH or Fmoc-3-(3-pyridyl)-L-Ala-OH); the (S) centre comes from the building block, so the construct's stereochemistry is defined, not assumed",
+              "4. selective side-chain deprotection, then Fmoc-L-Phe-OH — as ordinary a building block as exists.",
+              "5. extend with succinyl / beta-alanine unit",
+              "6. amide coupling of the linker acid to the 4-amino aniline (or SNAr on 4-fluorothalidomide)  [E3 side: pomalidomide, linker on the 4-amino nitrogen]"
+            ],
+            "convergent": true,
+            "_scope": "a ROUTE ANNOTATION, not a validated synthesis. Building-block availability was not checked against a live commercial catalogue, no step was attempted, and no yield is implied. The earned phrase is 'a computationally prioritized, structure-defined, retrosynthetically annotated candidate matrix for synthesis and experimental testing'."
+          },
+          "role": "control",
+          "matched_to_design_slot": [
+            "crbn|M0",
+            "5amide",
+            "a9+a2"
+          ]
+        },
+        "differs_only_in_the_wedge_element": {
+          "net_charge": "identical (both neutral)",
+          "heavy_atoms": "identical (C-H -> N)",
+          "rotatable_bonds": "identical",
+          "shape": "isosteric aryl ring",
+          "electrophile": "identical in both members (absent, or the SAME reversible-covalent handle at the SAME branch position) — the categorical handle is held constant so it cannot contribute to S",
+          "e3_contact": "the wedge element is 7.8 A from the nearest E3 atom in the modelled placement, so it cannot be re-tuning the ligand-E3 interface"
+        },
+        "remaining_confounds": [
+          "T407's side chain is rigid in this model; the pair is conditional on the modelled rotamer.",
+          "NR4A1 carries L at the aligned position and NR4A2 carries V — neither is an H-bond donor, so the expected signal is an NR4A3 GAIN against an absence, not a paralogue penalty. It is bounded by one partly-buried H-bond (~0.5-1.5 kcal/mol) against a best-case resolvable 1.12, so a NULL is the likely outcome and is recorded here BEFORE the run.",
+          "the construct rests on the hypothesised cmpd19 pose x one receptor frame (double conditionality)",
+          "the basin is a rigid-body nomination, not a modelled complex; the linker conformer that places the wedge on Arg412 is one of many the chain can adopt, and its population is unmeasured.",
+          "★ a non-covalent double difference cannot test the CATEGORICAL mechanism (a bond that forms in NR4A3 and cannot form in NR4A1). S tests the MARGINAL wedge; a null falsifies that wedge, not the program."
+        ],
+        "second_pair_if_the_first_is_read": {
+          "purpose": "the pre-covalent half of the CATEGORICAL axis",
+          "d": "cyac_me (beta-methyl alpha-cyanoacrylamide) at the C397 branch position",
+          "d0": "cyanoprop (2-cyanobutanamide, the saturated analogue), same branch position",
+          "what_it_measures": "whether the electrophile-bearing arm's NON-COVALENT recognition already discriminates Cys397 (NR4A3) from Asn363 (NR4A1). In reversible-covalent chemistry, selectivity is K_i x k_inact; this test addresses K_i only, and a null leaves the categorical (k_inact) argument standing.",
+          "why_this_d0": "the saturated analogue is the standard non-electrophilic control: same heavy atoms, same charge, same nitrile, same amide, no Michael acceptor — so the alchemical change is the C=C and nothing else.",
+          "the_caveat_that_comes_with_it": "reducing the acceptor creates an sp3 stereocentre the electrophile does not have, so this pair is matched in CONSTITUTION but not in STEREOCHEMISTRY. It is declared as a single (S) diastereomer; the (R) epimer is the obvious second control if the centre has to be shown not to matter."
+        }
+      },
+      "only_in_this_set": [
+        "crbnM0@ex_5amide_a9-a2_ph",
+        "crbnM0@ex_5amide_a9-a2_pyr3",
+        "crbnM0@ex_5amide_a9-a3_pyr3",
+        "vhlM14@ex_5amide_a3-m3_ph",
+        "vhlM14@ex_5amide_a3-m3_pyr3",
+        "vhlM14@ex_5amide_a9-a2_pyr3"
+      ]
+    },
+    "shared": {
+      "n": 51,
+      "n_with_a_changed_smiles": 0,
+      "changed_smiles": [],
+      "_reading": "★ ZERO shared constructs changed chemistry. The correction moves which constructs are RETAINED, never what a retained construct IS — so no committed SMILES anywhere in the program is invalidated by it."
+    }
+  },
+  "what_actually_moved": {
+    "_reading": "⛔ READ THIS BEFORE CONCLUDING THAT THE CORRECTED KERNEL REFUTES THE TEST ARTICLE. It does not. Each dropped construct's `basin_fidelity` is BYTE-IDENTICAL between the two runs and still passes every preregistered threshold; each is dropped for `diversity cap or unmatched control`, i.e. it loses a fixed-size tie-break to newly-admitted siblings that the old kernel had wrongly called out of reach. Dropping on a tie-break is a change of PREFERENCE; it is not a refutation, and the two must never be reported as the same thing.",
+    "dropped_from_the_executed_set": {
+      "crbnM0@ex_5amide_a11-a2_pyr3": {
+        "rejected_because": [
+          "diversity cap or unmatched control"
+        ],
+        "basin_fidelity_is_byte_identical": true,
+        "smiles_is_byte_identical": true,
+        "n_backbone_atoms_intended": 20,
+        "linker_class": "alkyl+alkyl",
+        "pendant_kind": "wedge"
+      },
+      "crbnM0@ex_5amide_e4-a2_ph": {
+        "rejected_because": [
+          "diversity cap or unmatched control"
+        ],
+        "basin_fidelity_is_byte_identical": true,
+        "smiles_is_byte_identical": true,
+        "n_backbone_atoms_intended": 19,
+        "linker_class": "peg+alkyl",
+        "pendant_kind": "wedge_control"
+      },
+      "crbnM0@ex_5amide_e4-a2_pyr3": {
+        "rejected_because": [
+          "diversity cap or unmatched control"
+        ],
+        "basin_fidelity_is_byte_identical": true,
+        "smiles_is_byte_identical": true,
+        "n_backbone_atoms_intended": 19,
+        "linker_class": "peg+alkyl",
+        "pendant_kind": "wedge"
+      }
+    },
+    "the_recommendation_that_moved": {
+      "_what": "the recommended RUNG 5a-KS matched pair under each kernel. `d` is the wedge-bearing degrader endpoint, `d0` its matched wedge control.",
+      "EXECUTED": {
+        "d": {
+          "construct_id": "crbnM0@ex_5amide_e4-a2_pyr3",
+          "n_backbone_atoms_intended": 19,
+          "linker_class": "peg+alkyl",
+          "linker_segments": [
+            "e4",
+            "a2"
+          ]
+        },
+        "d0": {
+          "construct_id": "crbnM0@ex_5amide_e4-a2_ph",
+          "n_backbone_atoms_intended": 19,
+          "linker_class": "peg+alkyl",
+          "linker_segments": [
+            "e4",
+            "a2"
+          ]
+        }
+      },
+      "CORRECTED": {
+        "d": {
+          "construct_id": "crbnM0@ex_5amide_a9-a2_pyr3",
+          "n_backbone_atoms_intended": 18,
+          "linker_class": "alkyl+alkyl",
+          "linker_segments": [
+            "a9",
+            "a2"
+          ]
+        },
+        "d0": {
+          "construct_id": "crbnM0@ex_5amide_a9-a2_ph",
+          "n_backbone_atoms_intended": 18,
+          "linker_class": "alkyl+alkyl",
+          "linker_segments": [
+            "a9",
+            "a2"
+          ]
+        }
+      },
+      "the_pair_moved": true,
+      "executed_pair_still_retained_by_the_corrected_kernel": false,
+      "corrected_pair_was_absent_from_the_executed_enumeration": true,
+      "_reading": "★ THIS IS THE SENTENCE THE WHOLE ROW EXISTS FOR: re-deriving the causal test article from today's code returns a DIFFERENT MOLECULE from the one `V16` was measured on — different linker class, different backbone length, different SMILES — and until this ruling nothing in the repo said so. It says so now, in two places that cannot drift apart: here, and in the guard that fails if either set moves again."
+    },
+    "which_direction_the_correction_points": "TOWARDS A BETTER MOLECULE, not merely a different one: the corrected recommendation is SHORTER (alkyl+alkyl) than the executed one (PEG4+alkyl), and backbone length is the program's measured paralogue-collision cost — so the corrected kernel's preference is the cheaper one on the categorical axis. That is a reason to use it for new work and NOT a reason to re-cut a landed measurement."
+  },
+  "V16_the_causal_test_article": {
+    "_what": "the molecules rung 5a-KS / `V16` was actually staged on, and whether they are still recorded",
+    "endpoint_smiles_in_the_prep_file": 2,
+    "all_present_in_the_committed_library": true,
+    "resolved_to_construct_ids": [
+      "crbnM0@ex_5amide_e4-a2_ph",
+      "crbnM0@ex_5amide_e4-a2_pyr3"
+    ],
+    "still_retained_by_the_corrected_kernel": [],
+    "_reading": "V16's molecules are NOT lost — they are committed verbatim in nr4a3-5aks-cofold-prep.json and they resolve to committed construct ids. What the corrected kernel changes is only whether those ids are still RECOMMENDED, and the drop reason below shows it is a diversity-cap tie-break, not a fidelity failure."
+  },
+  "release_condition": {
+    "⛔_the_standing_condition": "`5b-T` must not run until this is settled.",
+    "_status": "SETTLED 2026-08-03 by the ruling in this artifact — so the condition is DISCHARGED.",
+    "★_and_it_would_have_been_safe_either_way": "the stronger result is that `5b-T` is INVARIANT to which ruling was taken. Every predicate below holds in BOTH enumerations, so neither freezing the committed artifact nor regenerating it changes one input to this rung.",
+    "predicates_a_reader_can_re_check": {
+      "every_5bT_candidate_is_in_both_enumerations": true,
+      "every_5bT_candidate_has_identical_smiles_in_both": true,
+      "every_5bT_candidate_is_in_library_chem": true,
+      "library_chem_ids_equal_the_executed_ids": true,
+      "shortest_backbone_atoms_unchanged": true,
+      "the_drift_is_confined_to_the_wedge_family": true
+    },
+    "candidates": [
+      {
+        "construct_id": "crbnM0@ex_5amide_a2-a5_acrylamide",
+        "in_executed": true,
+        "in_corrected": true,
+        "in_library_chem": true,
+        "smiles_identical_across_both": true
+      },
+      {
+        "construct_id": "crbnM0@ex_5amide_a2-a5_cyac_me",
+        "in_executed": true,
+        "in_corrected": true,
+        "in_library_chem": true,
+        "smiles_identical_across_both": true
+      },
+      {
+        "construct_id": "crbnM0@ex_5amide_a2-a5_cyanoprop",
+        "in_executed": true,
+        "in_corrected": true,
+        "in_library_chem": true,
+        "smiles_identical_across_both": true
+      },
+      {
+        "construct_id": "crbnM0@ex_5amide_a2-m2_cyac_me",
+        "in_executed": true,
+        "in_corrected": true,
+        "in_library_chem": true,
+        "smiles_identical_across_both": true
+      }
+    ],
+    "_scope": "this discharges the ROW-25 hold on `5b-T` and nothing else. Every other condition on that rung — its preregistered three-arm gate, the snap-mask pre-flight, and the fact that its whole geometry inherits `R5` — is untouched by this ruling and still binds."
+  },
+  "anti_drift_guard": {
+    "_why_a_guard_and_not_a_hash": "hashing the artifact would pass forever and catch nothing about the CODE — the artifact is not what drifted. The guard therefore RE-RUNS the current generator and compares its construct-id set against the CORRECTED set registered above. A third set is a NEW divergence, and the test fails loudly and names the ids.",
+    "tests": [
+      "research/modalities/tests/test_linker_library_canonical.py — the cheap pins: the executed set, library-chem ↔ design parity, V16's molecules, and the 5b-T release predicate. Milliseconds; safe for the fast suite.",
+      "research/modalities/tests/test_linker_library_reproduces.py — the loud one: re-runs the generator (~5 s) and fails if today's code produces neither registered set."
+    ],
+    "what_a_failure_means": {
+      "executed_set_moved": "somebody edited nr4a3-linker-design.json by hand. Revert it.",
+      "corrected_set_moved": "a geometry kernel or the generator changed again. That is allowed — but it must be RULED ON and re-registered here in the same commit, exactly as `382c36947` should have been.",
+      "library_chem_diverged": "the design → chem → 5b-T chain broke; rung `5b-T`'s degrader source is no longer the enumeration it claims."
+    }
+  },
+  "map_edits_required": {
+    "_what": "edits the roadmap needs as a result of this work, ready to apply with no rewriting. This agent does not edit nr4a3-program-map.md — three other agents are working rows in it — so the edits are emitted here and routed.",
+    "_anchor_contract": "every entry's `current_text` is grepped against the LIVE roadmap AT GENERATION TIME and stamped `anchor_live` / `anchor_occurrences` / `anchor_unique`. `--check` REFUSES to pass with a dead anchor, so this artifact cannot ship an edit that silently no-ops. `anchor: null` is deliberate and says where the text goes instead.",
+    "_verified_against": "research/manuscripts/nr4a3-program-map.md",
+    "n_edits": 16,
+    "n_anchored": 15,
+    "n_unanchored_by_design": 1,
+    "n_DEAD_anchors": 0,
+    "edits": [
+      {
+        "id": "row25-state",
+        "section": "§10.1 row 25",
+        "anchor": "row 25's state cell",
+        "current_text": "| **25** | ⛔ **Settle which linker library is CANONICAL",
+        "why": "the row is the open question this artifact answers; it must point at the ruling, not restate it.",
+        "artifact": "research/modalities/nr4a3-linker-library-canonical.json -> ruling",
+        "proposed_text": "| **25** | ✅ **SETTLED 2026-08-03 — which linker library is CANONICAL",
+        "note": "only the row's LEAD CELL is replaced; the rest of the row is rewritten by `row25-body` below so the two are applied together.",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "row25-body",
+        "section": "§10.1 row 25",
+        "anchor": "row 25's 'next action' cell, from '⭑ **Take this before' to the end of the row",
+        "current_text": "⭑ **Take this before `5b-T` runs, not after.**",
+        "why": "the decision is made and the evidence is committed; the cell should carry the ruling in one line and link, per rule 1, rather than re-litigating the question.",
+        "artifact": "research/modalities/nr4a3-linker-library-canonical.json",
+        "proposed_text": "✅ **RULED, with a controlled A/B: BOTH are canonical, for different jobs.** The committed artifact is **FROZEN as the EXECUTED enumeration** (it is what `V16` was measured on, it is referenced by construct id by `nr4a3-linker-library-chem.json` and rung `5b-T`, and it is fully reproducible — HEAD's generator plus `linker_design.py` at `864a9518f` reproduces it with ZERO structural differences); the **corrected kernel is canonical for all NEW design work** and its enumeration is REGISTERED, not written over the committed one. **Cause, established by A/B and not by reading commit messages:** `382c36947` (2026-08-02 4:24 PM ET) replaced `linker_design.three_ball_min_margin`'s compass search with an exact closed-form solver — 0 mismatches over 160,962 cells against 92 false-disjoint in 118,708 — so the drift is a **one-sided, conservative** correction that ADMITS constructs rather than refuting them. ⛔ **The miss was registration, not geometry:** that commit named `nr4a3-orientation-basins.json`'s `term_a_feasibility_envelope` as built on the old kernel and NOT regenerated, but did not name `nr4a3-linker-design.json`, a second consumer of the same kernel — **and the basins artifact is still unregistered, so that half is open.** Every count, the two registered construct sets, the anti-drift guard and the `5b-T` release predicate: [`nr4a3-linker-library-canonical.json`](../modalities/nr4a3-linker-library-canonical.json) |",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "row25-5bt-release",
+        "section": "§10.1 row 1 (rung 5b-T)",
+        "anchor": "row 1's 'next action' cell opening",
+        "current_text": "**RUN IT — it needs no authorization.**",
+        "why": "row 25 held 5b-T; the hold is discharged and the reason is measurable, so the row should say so where someone about to run it will read it.",
+        "artifact": "research/modalities/nr4a3-linker-library-canonical.json -> release_condition",
+        "proposed_text": "**RUN IT — it needs no authorization, and the row-25 hold is DISCHARGED.** ✅ The canonical-library question is settled and **`5b-T` is invariant to which way it went**: its four named degrader candidates are present with **identical SMILES** in BOTH the executed and the corrected enumerations, and `shortest_committed_backbone_atoms` is 14 in both, so no re-derivation changes this rung's inputs ([`nr4a3-linker-library-canonical.json`](../modalities/nr4a3-linker-library-canonical.json) → `release_condition`).",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "row25-readout-decisions",
+        "section": "§10.2 readout",
+        "anchor": "the '3 rows wait on a decision that costs nothing at all' bullet",
+        "current_text": "- **3 rows wait on a decision that costs nothing at all** (7, 8, 25)",
+        "why": "row 25 is settled; the derived count must move with it or the readout contradicts the table.",
+        "artifact": "research/modalities/nr4a3-linker-library-canonical.json -> ruling",
+        "proposed_text": "- **2 rows wait on a decision that costs nothing at all** (7, 8) ⚠ *Superseded, retained: \"3 rows … (7, 8, 25)\" — **row 25 was ruled on 2026-08-03**, and the ruling is the reason it left this list, not a deferral.*",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-banner",
+        "section": "§7 branch 1b",
+        "anchor": "the '⛔ BUT DO NOT QUOTE BRANCH 1b's NUMBERS YET' banner",
+        "current_text": "⛔ **BUT DO NOT QUOTE BRANCH 1b's NUMBERS YET, FOR A NEW AND MEASURABLE REASON.**",
+        "why": "the banner's own example — 'result 3 names NR4A1/NR4A2 C534' — no longer describes result 3, which was corrected; a hold that cites a fixed error reads as a live one.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
+        "proposed_text": "✅ **RECONCILED 2026-08-03, CLAIM BY CLAIM, AND THE HOLD IS LIFTED.** Every branch-1b figure below was re-read from the landed artifact one at a time; the corrections are applied in place and the superseded readings are named where they stood. **What survived unchanged:** C420 refuted at 0 of 60 (placement × pendant) cells under both conventions; C559 surviving at exactly one cell (`vhl|M3@term_a_exemplar | dab_branch`, 2 of that cell's 19 conformers, through-space only); the closer being on a paralogue chain in 30 of 30 graded cells under each convention; NR4A1 C505 closing 24 of 30 through-space cells and NR4A2 C534 closing 23 of 30 corridor cells; C505 aligning to NR4A3 **C536** (which NR4A3 HAS) and C534 to NR4A3 **S565** (which it lacks). **What is newly qualified:** `closed_by` is a TIE-BREAK, not a measurement, in **35 of the 93 rows that have a closer at all** — two or more cysteines arrive at the same atom count — so the honest form names the SET that arrives first, never one residue. ⚠ *Superseded, retained: \"⛔ BUT DO NOT QUOTE BRANCH 1b's NUMBERS YET, FOR A NEW AND MEASURABLE REASON … result 3 names **NR4A1/NR4A2 C534** as the residue that closes C397's window\" — result 3 was corrected before this pass and the banner outlived the error it described.*",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-mermaid-dead-edge",
+        "section": "§7 branch 1b, mermaid",
+        "anchor": "the L --> DEAD edge label",
+        "current_text": "L -->|\"C420, C559: no, at every<br/>placement and pendant\"| DEAD",
+        "why": "the diagram still asserts what result 2 four lines below already retracts: C559 is NOT refuted at every cell. A figure that contradicts its own caption is the failure mode this reconciliation exists to close.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> experimental_ensemble_8xtt.reachable_conformer_counts",
+        "proposed_text": "L -->|\"C420: no, 0 of 60 cells<br/>C559: 1 of 60, through-space only\"| DEAD",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-mermaid-par-node",
+        "section": "§7 branch 1b, mermaid",
+        "anchor": "the PAR node text",
+        "current_text": "PAR[\"The window is closed by a<br/>PARALOGUE cysteine, which<br/>NR4A3 does NOT have\"]",
+        "why": "⛔ THIS IS THE LIVE SURVIVOR OF THE ERROR RESULT 3 ALREADY FIXED. The dominant through-space closer is NR4A1 C505, which aligns to NR4A3 C536 — NR4A3 DOES carry a cysteine there (`paralogue_unique_vs_NR4A3: false`). The blanket gloss is false for 24 of 30 through-space cells.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> paralogue_control.reciprocal_uniqueness.by_paralogue",
+        "proposed_text": "PAR[\"Closed by a cysteine on a<br/>PARALOGUE chain — C505 aligns to<br/>NR4A3 C536 (NR4A3 HAS it);<br/>only C534 → S565 is one NR4A3 lacks\"]",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-mermaid-dead-node",
+        "section": "§7 branch 1b, mermaid",
+        "anchor": "the DEAD node text",
+        "current_text": "DEAD[\"REFUTED at chemically<br/>routine linker length —<br/>classification pending reconciliation\"]",
+        "why": "the reconciliation it was waiting on is this pass, so the node can carry its classification.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
+        "proposed_text": "DEAD[\"⏸ at chemically routine<br/>linker length — not ✕: the bound<br/>is routine length, which a non-routine<br/>linker could exceed\"]",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-dead-classification",
+        "section": "§7 branch 1b",
+        "anchor": "the '⚠ `DEAD` is drawn dashed but carries no ✕' paragraph, final sentence",
+        "current_text": "It gets classified once the prose is reconciled to the artifact.",
+        "why": "the reconciliation is done, so the deferred classification can be made.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict.refuted_unique_cysteines",
+        "proposed_text": "✅ **Classified 2026-08-03: ⏸, not ✕, and the two cysteines are not equal.** C420 is the strong case — 0 of 60 cells, both conventions, no conformer — but it is still bounded by *routine* length rather than by geometry, so ⏸ is the honest glyph for it too. C559 is weaker still: it survives at one cell. ⚠ **The artifact's own `refuted_unique_cysteines` list is built from `best_corridor` alone** (`nr4a3_linker_covalent_reach.py`, the `live`/`dead` split), so it silently drops the through-space evidence recorded two fields away, and it is stronger than the artifact's own data.",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-c559-closed",
+        "section": "§7 branch 1b, result 2",
+        "anchor": "result 2's closing sentence",
+        "current_text": "Those two are closed.",
+        "why": "it lands three lines after 'C559 is NOT [refuted]' and re-merges the two cysteines the sentence above just separated.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> experimental_ensemble_8xtt.reachable_conformer_counts",
+        "proposed_text": "C420 is closed. C559 is closed under the corridor convention everywhere and at 59 of 60 through-space cells — closed enough to plan against, not closed enough to write down as zero.",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-trust-paragraph",
+        "section": "§7 branch 1b",
+        "anchor": "the 'How far these numbers may be trusted' paragraph",
+        "current_text": "the artifact reports ΔCA against ΔSG per pair and states the sulfur displacement that\nwould reopen the window.",
+        "why": "true and incomplete in the way that matters: the noise bound clears by 0.31 Å and is built only from aligned pairs, so it structurally cannot cover C534 — the residue that closes 23 of 30 corridor cells — because C534 has no aligned NR4A3 partner BY DEFINITION of being paralogue-unique. Verified independently against the artifact, not taken from the audit.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> paralogue_control.aligned_pair_displacement + verdict.family_wide_window.*.noise_sensitivity",
+        "proposed_text": "the artifact reports ΔCA against ΔSG per pair and states the sulfur displacement that\nwould reopen the window (**6.25 Å** — the median 5.0 atoms of lost window at 1.25 Å per atom) against the largest\ndisplacement observed at any aligned pair (**5.94 Å**). ⚠ **That clears by 0.31 Å, a 5 % margin — and it\ncannot cover C534 at all**: the yardstick is built from the 8 ALIGNED cysteine pairs, and C534 has no aligned\nNR4A3 partner *because* it is paralogue-unique. So the residue that closes 23 of 30 corridor cells is the one\nresidue the noise test is structurally unable to bound.",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-pose-conditionality",
+        "section": "§7 branch 1b, closing paragraph",
+        "anchor": "the '⚠ Everything here is conditional on the docked pose' sentence",
+        "current_text": "⚠ Everything here is conditional on the docked pose the anchors come from, whose known-answer test is `V3` —\n**which returned INCONCLUSIVE**.",
+        "why": "read from the source, the anchors are NOT a docked pose: `nr4a3_basin_search.build_pose_ensemble` samples 12 solvent-connected anchors around the cryptic-pocket centroid precisely because no cmpd19 pose exists in this frame, and `nr4a3-orientation-basins.json` `_limits[0]` says the exit vector is MARGINALISED rather than asserted. Stating it as a pose dependency overstates one exposure and hides the real one.",
+        "artifact": "research/modalities/nr4a3-orientation-basins.json -> _limits[0], inputs.n_poses; research/modalities/nr4a3_basin_search.py -> build_pose_ensemble",
+        "proposed_text": "⚠ Everything here is conditional on **the cryptic pocket being the right site**, not on a docked ligand pose: the\nwarhead exit vector is **marginalised** over **12** pocket-mouth anchors precisely because no cmpd19 pose exists\nin this frame ([`nr4a3-orientation-basins.json`](../modalities/nr4a3-orientation-basins.json) `_limits[0]`, `inputs.n_poses`).\nThat is what decides how `V3` bears on it: **`V3`'s failure was SITE selection, on 6 of 6 pairs — not pose\naccuracy** — and site selection is exactly what these anchors rest on. A *pose*-accuracy failure is already absorbed\nby the marginalisation; a *site*-selection failure voids every reach number here. ⚠ *Superseded, retained: \"conditional\non the docked pose the anchors come from, whose known-answer test is `V3` — which returned INCONCLUSIVE.\"*",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-r8-row",
+        "section": "§5 row R8",
+        "anchor": "R8's 'NOT reconciled' flag and status cell",
+        "current_text": "⚠ **NOT reconciled to this page's prose** — see [§7 branch 1b]",
+        "why": "the reconciliation is this pass; leaving the flag makes a discharged blocker read as live.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
+        "proposed_text": "✅ **RECONCILED 2026-08-03**, claim by claim — see [§7 branch 1b]",
+        "note": "the same row's trailing status cell reads `✓ work complete · claim **conditional on `R5` and unreconciled**`; the word `unreconciled` must go with it, leaving `✓ work complete · claim **conditional on `R5`**`. ⚠ And `conditional on R5` should become **conditional on the SITE being right (`R5`)**, per `b1b-pose-conditionality`.",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-lk-hold",
+        "section": "§5, the `LK` ◐ → ✓ bullet",
+        "anchor": "the LK bullet's standing hold",
+        "current_text": "⚠ **The hold on quoting branch 1b stands for a different and now-measurable reason**",
+        "why": "the hold is discharged; this is its second home and both must move together (rule 1).",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
+        "proposed_text": "✅ **The hold on quoting branch 1b is DISCHARGED (2026-08-03)** — the prose was reconciled to the landed artifact claim by claim, and the one live contradiction left (the mermaid `PAR` node's \"which NR4A3 does NOT have\") is corrected in the same pass. ⚠ *Superseded, retained: \"**The hold on quoting branch 1b stands for a different and now-measurable reason** — the prose has not been reconciled to the landed artifact.\"*",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "row5-state",
+        "section": "§10.1 row 5",
+        "anchor": "row 5's state cell",
+        "current_text": "| **5** | **Reconcile branch 1b's prose to its landed artifact** | `R8` | ○ | — | **$0** |",
+        "why": "the row is done; leaving it ○ keeps a finished item counted as backlog.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
+        "proposed_text": "| **5** | ✅ **Reconcile branch 1b's prose to its landed artifact — DONE 2026-08-03** | `R8` | ✓ | — | **$0** |",
+        "note": "the row's trailing cell should become: `✅ done — every branch-1b claim re-read from [`nr4a3-linker-covalent-reach.json`](../modalities/nr4a3-linker-covalent-reach.json) one at a time. Two claims corrected (the mermaid `DEAD` edge and `PAR` node), two qualified (the noise bound cannot cover C534; `closed_by` is a tie-break in 35 of 93 rows), one re-sourced (the conditionality is the SITE, not a docked pose), the rest confirmed. Lifts *\"do not quote branch 1b anywhere\"*.`",
+        "anchor_live": true,
+        "anchor_occurrences": 1,
+        "anchor_unique": true
+      },
+      {
+        "id": "b1b-third-paralogue-unique-cysteine",
+        "section": "§7 branch 1b, result 3",
+        "anchor": null,
+        "why": "completeness, not a correction: the artifact records a THIRD paralogue-unique cysteine that no prose anywhere mentions — NR4A1 C551 aligns to NR4A3 T579, `paralogue_unique_vs_NR4A3: true`. It is far outside the window (30 backbone atoms in the widest cell) so it changes no conclusion, but 'the paralogue-unique cysteine' is written as though C534 were the only one and it is not.",
+        "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> paralogue_control.reciprocal_uniqueness.by_paralogue.NR4A1.C551",
+        "current_text": null,
+        "proposed_text": "ADD as a trailing sentence to result 3: \"⚠ **And C534 is not the only paralogue-unique cysteine.** NR4A1 **C551** aligns to NR4A3 **T579** and is also a site NR4A3 lacks; it sits far outside the window (30 backbone atoms in the widest graded cell against a closer at 17), so it changes nothing here — but the reciprocal-uniqueness set has two members, not one.\"",
+        "where_it_goes": "immediately after the sentence ending '…not by both closers under both convention.' in result 3 — no anchor is given because the surrounding text is being rewritten by `b1b-banner` in the same pass.",
+        "anchor_live": null,
+        "anchor_occurrences": null,
+        "_anchor_note": "anchor: null — deliberately unanchored. See `where_it_goes`; an honest 'this needs a new home' beats a stale anchor that silently no-ops."
+      }
+    ]
+  },
+  "_limits": [
+    "PROVENANCE ONLY. This settles which enumeration is which. It makes no claim that any construct binds, degrades, is selective, is synthesisable, is safe, or is a hit.",
+    "The corrected enumeration is re-derived on demand and is NOT committed as an artifact. That is deliberate — committing it would create a second file that looks like a library and would be quoted as one — but it means the CORRECTED ids here are only as reproducible as the code that makes them, which is exactly what the guard tests.",
+    "⚠ The OTHER artifact `382c36947` built on the pre-fix kernel — `nr4a3-orientation-basins.json`'s `term_a_feasibility_envelope` — is NOT settled here. It is the same conservative direction and the same registration gap, and it needs its own ruling.",
+    "The committed enumeration's known bias is one-sided (it under-admits). It must never be described as complete, and a claim that no construct exists below some length must be read as a statement about THIS enumeration rather than about chemistry."
+  ]
+}
