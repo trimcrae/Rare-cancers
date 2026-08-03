@@ -67,6 +67,29 @@ def test_an_unreadable_map_can_never_report_applicable(doc):
 
 def test_no_edits_is_not_all_applicable(doc):
     assert mea.verify([], doc)[1]["all_applicable"] is False
+    assert mea.verify([], doc)[1]["all_accounted"] is False
+
+
+def test_an_applied_edit_is_a_success_not_a_dead_anchor(tmp_path):
+    """⛔ THE REGRESSION THAT WAS RED ON `main`. Applying a routed edit REMOVES its `current_text` — so a
+    guard that only looks for `current_text` goes red exactly when routing succeeds. Fifteen "dead"
+    anchors on 2026-08-03 were all landed edits."""
+    landed = "the replacement sentence that actually landed in the roadmap, verbatim and in full"
+    p = tmp_path / "map.md"
+    p.write_text("# T\n\n%s\n" % landed, encoding="utf-8")
+    got, s = mea.verify([_edit(current_text="the old sentence, now replaced", proposed_text=landed)],
+                        str(p))
+    assert got[0]["anchor_status"] == "APPLIED"
+    assert s["n_applied"] == 1 and s["not_found"] == []
+    assert s["all_accounted"] is True, "an applied edit must not make the build red"
+    assert s["all_applicable"] is False, "...but it is no longer APPLICABLE, and the two differ"
+
+
+def test_a_short_proposed_text_cannot_manufacture_an_applied(tmp_path):
+    p = tmp_path / "map.md"
+    p.write_text("# T\n\nalpha\n", encoding="utf-8")
+    got, _ = mea.verify([_edit(current_text="gone from the file", proposed_text="alpha")], str(p))
+    assert got[0]["anchor_status"] == "NOT_FOUND"
 
 
 def test_schema_completeness_is_reported_separately(doc):

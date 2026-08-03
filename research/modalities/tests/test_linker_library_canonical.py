@@ -195,28 +195,44 @@ def test_the_other_stale_consumer_of_the_same_kernel_is_still_named(ruling):
 
 def test_every_emitted_map_edit_anchor_is_present_in_the_live_roadmap(ruling):
     """A previous audit emitted nine verbatim edits and all nine failed to apply, because the documents moved
-    underneath them. The anchors are therefore machine-checked, here and at generation time."""
-    with open(ROADMAP, encoding="utf-8") as fh:
-        text = fh.read()
-    dead, ambiguous = [], []
+    underneath them. The anchors are therefore machine-checked, here and at generation time.
+
+    ⚠ CORRECTED 2026-08-03, AND THE CORRECTION IS THE WHOLE POINT OF THE TEST. As written, this compared
+    `current_text` against the live roadmap and called any absence DEAD — which meant it went RED at the
+    exact moment a routed edit was APPLIED, because applying an edit is what removes its `current_text`.
+    It was red on `main` with FIFTEEN "dead" anchors (row 25, branch 1b, row 5) and **all fifteen had
+    landed**: each one's `proposed_text` was already in the document. So the guard's only stable green
+    state was "nobody applied anything", and the behaviour it rewarded was not routing edits at all.
+
+    The discriminator costs one extra substring search and is now shared with every other lane in
+    `map_edit_anchors.verify()`:
+        current_text absent + proposed_text PRESENT  => APPLIED   (a success, not an error)
+        current_text absent + proposed_text ABSENT   => NOT_FOUND (the document really did move)
+    Nothing is loosened: AMBIGUOUS is still a failure, a genuinely relocated anchor is still a failure,
+    and an edit with no `proposed_text` to probe still cannot reach APPLIED.
+    """
+    import map_edit_anchors as mea
+
+    edits = []
     for e in ruling["map_edits_required"]["edits"]:
-        ct = e.get("current_text")
-        if ct is None:
+        if e.get("current_text") is None:
             assert e.get("where_it_goes"), (
                 "edit %r has anchor: null but does not say where it goes. An unanchored edit must describe "
                 "its home or it is unroutable." % e["id"])
             continue
-        n = text.count(ct)
-        if n == 0:
-            dead.append(e["id"])
-        elif n > 1:
-            ambiguous.append((e["id"], n))
+        edits.append(e)
+    got, summary = mea.verify(edits, ROADMAP)
+    by_id = {e["id"]: g["anchor_status"] for e, g in zip(edits, got)}
+    dead = [i for i, s in by_id.items() if s == "NOT_FOUND"]
+    ambiguous = [(i, g["current_text_occurrences"])
+                 for i, g in zip(by_id, got) if g["anchor_status"] == "AMBIGUOUS"]
     assert not dead, (
-        "map edits with anchors that are NOT in the live roadmap: %s. Relocate them and regenerate — a dead "
-        "anchor applies to nothing and reads as done." % dead)
+        "map edits whose anchor is NOT in the live roadmap AND whose proposed text is not there either: "
+        "%s. Relocate them and regenerate — a dead anchor applies to nothing and reads as done." % dead)
     assert not ambiguous, (
         "map edits whose anchor matches more than once, so it cannot say which occurrence to change: %s"
         % ambiguous)
+    assert summary["all_accounted"], summary
 
 
 def test_every_map_edit_carries_the_fields_that_make_it_routable(ruling):

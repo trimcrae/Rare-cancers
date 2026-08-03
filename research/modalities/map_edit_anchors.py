@@ -12,11 +12,22 @@ So every module that ROUTES roadmap edits calls `verify()` before it writes its 
 travels WITH the edit. Three states, and the two failures are opposite problems:
 
     OK          exactly one verbatim occurrence — the edit can be applied mechanically
-    NOT_FOUND   zero occurrences — the anchor was reworded or deleted; the edit is DEAD and says so
-    AMBIGUOUS   more than one — a mechanical apply would hit the wrong one, so it must be narrowed
+    APPLIED     `current_text` is gone AND `proposed_text` is present — the edit SUCCEEDED
+    NOT_FOUND   neither is present — the anchor was reworded or deleted; the edit is DEAD and says so
+    AMBIGUOUS   more than one `current_text` — a mechanical apply would hit the wrong one
+    UNREAD      the map could not be read at all
 
 ⚠ AMBIGUOUS IS NOT A WARNING, IT IS A DEFECT IN THE EDIT. An anchor like a bare filename matches wherever
 that file is mentioned; the fix is a longer, unique `current_text`, never "apply the first one".
+
+⚠⚠ AND `APPLIED` IS WHY THIS CANNOT BE A ONE-LINE `text.count(anchor) == 0` CHECK (measured 2026-08-03).
+`tests/test_linker_library_canonical.py` implemented exactly that check and was RED on `main` with FIFTEEN
+"dead" anchors — and every one of the fifteen was dead **because the edit had been applied**: the
+`current_text` was gone precisely because the `proposed_text` had replaced it. A guard shaped that way goes
+red at the moment routing SUCCEEDS, so its only stable green state is "nobody applied anything", and the
+pressure it creates is to stop routing edits. The discriminator costs one extra substring search:
+    current_text absent + proposed_text PRESENT  => APPLIED  (nothing to do, and not an error)
+    current_text absent + proposed_text ABSENT   => NOT_FOUND (the document really did move)
 
 This module reads. It never writes the roadmap, and it is deliberately incapable of doing so.
 """
@@ -30,6 +41,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_MAP = os.path.join(HERE, "..", "manuscripts", "nr4a3-program-map.md")
 
 REQUIRED_FIELDS = ("section", "anchor", "current_text", "proposed_text", "why", "artifact")
+
+#: How much of `proposed_text` to search for when deciding whether an edit already LANDED. Long enough to
+#: be unique in a 5,000-line document, short enough to survive a tail reword as the edit was applied.
+PROPOSED_PROBE_CHARS = 120
+#: Below this a probe is too generic to mean anything, so absence of evidence is reported as NOT_FOUND
+#: rather than manufactured into an APPLIED.
+MIN_PROBE_CHARS = 24
 
 
 def verify(edits, map_path=None):
@@ -57,54 +75,101 @@ def verify(edits, map_path=None):
             continue
         n_anchor = text.count(e.get("anchor", "\0"))
         n_current = text.count(e.get("current_text", "\0"))
+        # ⚠ THE PROBE IS A PREFIX, NOT THE WHOLE `proposed_text`. A proposed replacement is often edited
+        # for house style as it lands (a link rewritten, a date localised), so requiring the full string
+        # would report a landed edit as dead — the very failure this state exists to end. A long-enough
+        # prefix is specific in a 5,000-line document and survives a tail reword.
+        prop = (e.get("proposed_text") or "")
+        probe = prop[:PROPOSED_PROBE_CHARS]
+        n_proposed = text.count(probe) if len(probe) >= MIN_PROBE_CHARS else 0
         e["anchor_occurrences"] = n_anchor
         e["current_text_occurrences"] = n_current
+        e["proposed_text_occurrences"] = n_proposed
+        e["_proposed_probe_chars"] = len(probe)
         # The apply target is `current_text`; `anchor` is the human locator. Both are reported, and the
         # STATUS is decided by `current_text`, because that is what a mechanical apply would search for.
-        e["anchor_status"] = ("OK" if n_current == 1 else
-                              "NOT_FOUND" if n_current == 0 else "AMBIGUOUS")
+        if n_current == 1:
+            e["anchor_status"] = "OK"
+        elif n_current > 1:
+            e["anchor_status"] = "AMBIGUOUS"
+        elif n_proposed >= 1:
+            e["anchor_status"] = "APPLIED"
+        else:
+            e["anchor_status"] = "NOT_FOUND"
         out.append(e)
 
+    unresolved = [e for e in out if e.get("anchor_status") in ("NOT_FOUND", "AMBIGUOUS", "UNREAD")]
     summary = {
         "map": os.path.relpath(path, HERE),
         "map_read": read_ok,
         "map_read_why": why,
         "n_edits": len(out),
         "n_ok": sum(1 for e in out if e.get("anchor_status") == "OK"),
+        "n_applied": sum(1 for e in out if e.get("anchor_status") == "APPLIED"),
         "not_found": [e.get("section") for e in out if e.get("anchor_status") == "NOT_FOUND"],
         "ambiguous": [e.get("section") for e in out if e.get("anchor_status") == "AMBIGUOUS"],
+        "unread": [e.get("section") for e in out if e.get("anchor_status") == "UNREAD"],
         "all_applicable": bool(out) and all(e.get("anchor_status") == "OK" for e in out),
+        # ★ THE FIELD CALLERS SHOULD GATE ON. `all_applicable` answers "can every edit still be applied",
+        # which goes FALSE the moment one lands — correct for a pre-apply check, wrong as a health signal.
+        # `all_accounted` answers "is every edit either applicable or already applied", which is the
+        # question a build should be red about.
+        "all_accounted": bool(out) and not unresolved,
         "_rule": "a routed edit whose current_text is not present EXACTLY ONCE cannot be applied "
-                 "mechanically and must be rewritten, not applied by judgement",
+                 "mechanically and must be rewritten, not applied by judgement — UNLESS its proposed_text "
+                 "is present, which means it already landed and there is nothing to do",
     }
     return out, summary
 
 
 def check():
-    doc = "# T\n\nalpha unique line\n\nrepeated token\n\nrepeated token\n"
+    LANDED = "this edit has already landed in the document verbatim, all of it"
+    doc = ("# T\n\nalpha unique line\n\nrepeated token\n\nrepeated token\n\n%s\n" % LANDED)
     edits = [
         {"section": "a", "anchor": "alpha", "current_text": "alpha unique line",
-         "proposed_text": "beta", "why": "w", "artifact": "x.json"},
+         "proposed_text": "beta replacement text that is long enough to probe", "why": "w",
+         "artifact": "x.json"},
         {"section": "b", "anchor": "repeated token", "current_text": "repeated token",
-         "proposed_text": "beta", "why": "w", "artifact": "x.json"},
+         "proposed_text": "beta replacement text that is long enough to probe", "why": "w",
+         "artifact": "x.json"},
         {"section": "c", "anchor": "gone", "current_text": "nowhere in the file",
-         "proposed_text": "beta", "why": "w", "artifact": "x.json"},
+         "proposed_text": "also nowhere in the file, not one character of it", "why": "w",
+         "artifact": "x.json"},
         {"section": "d", "anchor": "alpha", "current_text": "alpha unique line"},
+        {"section": "e", "anchor": "landed", "current_text": "the text this replaced, now gone",
+         "proposed_text": LANDED, "why": "w", "artifact": "x.json"},
     ]
     import tempfile
     with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False) as fh:
         fh.write(doc)
         p = fh.name
     got, summary = verify(edits, p)
-    assert [e["anchor_status"] for e in got] == ["OK", "AMBIGUOUS", "NOT_FOUND", "OK"]
+    assert [e["anchor_status"] for e in got] == ["OK", "AMBIGUOUS", "NOT_FOUND", "OK", "APPLIED"], \
+        [e["anchor_status"] for e in got]
     assert summary["all_applicable"] is False
+    assert summary["all_accounted"] is False, "b and c are unresolved"
     assert summary["ambiguous"] == ["b"] and summary["not_found"] == ["c"]
+    assert summary["n_applied"] == 1
     assert got[3]["_schema_complete"] is False and "why" in got[3]["_schema_missing"]
+
+    # ★ THE REGRESSION THIS STATE EXISTS FOR: a set in which EVERY edit has landed must be ACCOUNTED FOR
+    # (green), not fifteen dead anchors. That was `main`'s state on 2026-08-03.
+    got, summary = verify([edits[4]], p)
+    assert summary["all_accounted"] is True and summary["all_applicable"] is False
+    assert summary["n_applied"] == 1 and not summary["not_found"]
+
+    # ...and a too-short proposed_text may never manufacture an APPLIED out of a common word.
+    got, _ = verify([{"section": "f", "anchor": "x", "current_text": "not here at all",
+                      "proposed_text": "alpha", "why": "w", "artifact": "x.json"}], p)
+    assert got[0]["anchor_status"] == "NOT_FOUND", "a 5-character probe is not evidence of anything"
+
     os.unlink(p)
     got, summary = verify(edits, p + ".missing")
     assert all(e["anchor_status"] == "UNREAD" for e in got)
     assert summary["all_applicable"] is False, "an unread map can never report every edit applicable"
+    assert summary["all_accounted"] is False, "nor accounted for"
     assert verify([], DEFAULT_MAP)[1]["all_applicable"] is False, "no edits is not 'all applicable'"
+    assert verify([], DEFAULT_MAP)[1]["all_accounted"] is False
     print("map_edit_anchors --check: OK")
     return 0
 
@@ -119,4 +184,6 @@ if __name__ == "__main__":
     edits, summary = verify(d.get("map_edits_required") or [],
                             sys.argv[2] if len(sys.argv) > 2 else None)
     print(json.dumps({"summary": summary, "edits": edits}, indent=2, ensure_ascii=False))
-    sys.exit(0 if summary["all_applicable"] else 1)
+    # Gate on `all_accounted`, not `all_applicable`: an edit that has LANDED is a success, and exiting
+    # non-zero on it would make applying a routed edit the thing that breaks the build.
+    sys.exit(0 if summary["all_accounted"] else 1)

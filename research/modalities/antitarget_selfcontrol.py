@@ -852,12 +852,12 @@ def main():
     # a routed edit whose `current_text` has been reworded fails SILENTLY when someone tries to apply it.
     import map_edit_anchors as mea
     doc["map_edits_required"], doc["map_edit_anchor_check"] = mea.verify(map_edits(doc))
-    if not doc["map_edit_anchor_check"]["all_applicable"]:
+    if not doc["map_edit_anchor_check"]["all_accounted"]:
         doc["refusals"].append({
             "where": "map_edits_required",
             "why": "at least one routed edit's anchor is NOT_FOUND, AMBIGUOUS or UNREAD against the live "
                    "roadmap — see map_edit_anchor_check. Those edits must be rewritten, not applied by "
-                   "judgement."})
+                   "judgement. (An APPLIED edit is NOT one of these: it already landed.)"})
     json.dump(doc, open(OUT, "w"), indent=2)
     open(OUT_MD, "w").write(render_markdown(doc))
     print("wrote", OUT)
