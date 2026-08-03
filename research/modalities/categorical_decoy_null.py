@@ -944,9 +944,14 @@ def mode_selfcheck(args):
     os.makedirs(CACHE, exist_ok=True)
     with open(SELFCHECK, "w") as fh:
         json.dump(out, fh, indent=2)
-    print(f"  [cdn] selfcheck: unique_set_reproduced={out['checks']['unique_set_reproduced']} "
-          f"gate12={out['checks']['gate12_collision_reproduced']} "
-          f"|d20|={out['checks']['atoms20_collision_abs_diff']}")
+    # ⚠ `.get`, NOT `[...]`. This print crashed the whole selfcheck STEP on run 30773415505 with
+    # KeyError: 'gate12_collision_reproduced' — a key I had renamed above and not here. The artifact was
+    # already on disk; only the summary line was stale, and it still took the Reduce and Publish steps down
+    # with it. A cosmetic line must never be able to fail a measured step.
+    c = out["checks"]
+    print(f"  [cdn] selfcheck: unique_set_reproduced={c.get('unique_set_reproduced')} "
+          f"events={c.get('n_conditioning_events')} "
+          f"|d12|={c.get('gate12_collision_abs_diff')} |d20|={c.get('atoms20_collision_abs_diff')}")
     return out
 
 

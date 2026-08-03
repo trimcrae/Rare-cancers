@@ -212,3 +212,20 @@ def test_ca_by_resseq_reads_angstrom_coordinates(tmp_path):
                             _atom(2, "CA", 50.0, 4.0, 5.0, 6.0)]))
     ca = PPC.ca_by_resseq(str(p))
     assert ca == {1: (1.0, 2.0, 3.0), 2: (4.0, 5.0, 6.0)}
+
+
+# ---------------------------------------------------------------------------------------------------------
+# regression: the selfcheck summary line must not be able to fail the step it summarises
+# ---------------------------------------------------------------------------------------------------------
+def test_selfcheck_summary_only_reads_keys_the_checks_block_defines():
+    """Run 30773415505: `mode_selfcheck` wrote its artifact and then died on
+    `KeyError: 'gate12_collision_reproduced'` — a key renamed in the checks block and not in the print — which
+    took the Reduce and Publish steps down with it. A cosmetic line must never fail a measured step, so the
+    summary is asserted to be `.get`-based over exactly the keys the block emits."""
+    import inspect
+    src = inspect.getsource(CDN.mode_selfcheck)
+    summary = src[src.index('print(f"  [cdn] selfcheck'):]
+    assert "['" not in summary.split(")")[0], "the selfcheck summary must use .get(), not [] indexing"
+    for key in ("unique_set_reproduced", "n_conditioning_events", "gate12_collision_abs_diff",
+                "atoms20_collision_abs_diff"):
+        assert f"'{key}'" in src, f"{key} is printed but never defined in the checks block"
