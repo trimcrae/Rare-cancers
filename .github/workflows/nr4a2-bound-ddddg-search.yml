@@ -58,9 +58,37 @@ concurrency:
 
 jobs:
   # =========================================================================================================
+  # THE GATE LOGIC IS PROVEN BEFORE ANY DATA TOUCHES IT — and as its own JOB, not a step.
+  # ⚠ MEASURED 2026-08-03, run 30776199044: as a per-job STEP this failed with `No module named pytest`
+  # (setup-python does not ship it and only rdkit/biopython were installed) and the c01a job's later
+  # `if: always()` stages ran anyway — i.e. the guard failed and the work proceeded, which is the exact
+  # fail-open shape the repo's CI-shape linters exist to catch. A `needs:` edge cannot fail open.
+  # =========================================================================================================
+  selftest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pytest + rdkit + biopython (versions recorded, never assumed)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest rdkit biopython
+          python -c "import rdkit, Bio; print('rdkit', rdkit.__version__); print('biopython', Bio.__version__)"
+      - name: Row 26 and row 27 gate logic, with no network
+        run: |
+          cd research/modalities
+          python3 -m pytest tests/test_nr4a2_sparing_bound.py tests/test_ddddg_known_answer_search.py -q
+
+  # =========================================================================================================
   # ROW 26 — MGI single-KO phenotypes + HPA per-tissue nTPM. Pure stdlib; nothing to install.
   # =========================================================================================================
   row26:
+    needs: selftest
     if: ${{ inputs.task == 'all' || inputs.task == 'row26' }}
     runs-on: ubuntu-latest
     timeout-minutes: 90
@@ -71,8 +99,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Gate logic self-test (no network — proves the verdict logic before any data touches it)
-        run: cd research/modalities && python3 -m pytest tests/test_nr4a2_sparing_bound.py -q
       - name: MGI + HPA — bound the NR4A2 half
         run: cd research/modalities && python3 nr4a2_sparing_bound.py
       - name: Routed roadmap edits must still apply to the live map
@@ -98,6 +124,7 @@ jobs:
   # ROW 27 / C01b — the CREBBP/BRD4 congeneric-analogue precheck. Bounded: two accessions.
   # =========================================================================================================
   c01b:
+    needs: selftest
     if: ${{ inputs.task == 'all' || inputs.task == 'c01b' }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
@@ -111,10 +138,8 @@ jobs:
       - name: Install rdkit + biopython (two wheels, versions recorded not assumed)
         run: |
           python -m pip install --upgrade pip
-          pip install rdkit biopython
+          pip install pytest rdkit biopython
           python -c "import rdkit, Bio; print('rdkit', rdkit.__version__); print('biopython', Bio.__version__)"
-      - name: Gate logic self-test (no network)
-        run: cd research/modalities && python3 -m pytest tests/test_ddddg_known_answer_search.py -q
       - name: C01b — does a measured congeneric pair exist across CREBBP and BRD4?
         run: cd research/modalities && python3 ddddg_known_answer_search.py c01b
       - name: Routed roadmap edits must still apply to the live map
@@ -141,6 +166,7 @@ jobs:
   # UNDETERMINED, because a search-shaped null across a scan that did not finish is an absent reading.
   # =========================================================================================================
   c01a:
+    needs: selftest
     if: ${{ inputs.task == 'all' || inputs.task == 'c01a' }}
     runs-on: ubuntu-latest
     timeout-minutes: 350
@@ -154,10 +180,8 @@ jobs:
       - name: Install rdkit + biopython (versions recorded not assumed)
         run: |
           python -m pip install --upgrade pip
-          pip install rdkit biopython
+          pip install pytest rdkit biopython
           python -c "import rdkit, Bio; print('rdkit', rdkit.__version__); print('biopython', Bio.__version__)"
-      - name: Gate logic self-test (no network)
-        run: cd research/modalities && python3 -m pytest tests/test_ddddg_known_answer_search.py -q
       - name: Stage 1 — the universe of human single-protein ChEMBL targets, with sequences
         run: cd research/modalities && python3 ddddg_known_answer_search.py c01a --stage universe
       - name: Stage 2 — per-target counts of binding activities carrying a pchembl value
