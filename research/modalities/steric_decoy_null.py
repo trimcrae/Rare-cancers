@@ -1107,7 +1107,6 @@ def mode_run(_args):
     print("[steric-decoy-null] %s" % art["headline"])
     for r in refusals[:10]:
         print("   REFUSED %s: %s" % (r.get("pair") or r.get("target"), r.get("reason")))
-    refusal_gate(art)
     return art
 
 
@@ -1358,8 +1357,58 @@ def assemble(plan, check, index_committed, index_af, swap_rows, trio_rows, refus
         "rule": PREREG["verdict_rule"],
         "★_plain_reading": plain_reading(prim_a, prim_b, backgrounds, idx),
     }
+    # ⛔ BEFORE the artifact is written, not after. `n = 5 of 20 graded` looks identical to the 51-arm crash
+    # of run 30841610785 until you can see that NOTHING was refused — so that field has to be IN the file.
+    refusal_gate(art)
+    art["★_the_numbers_that_decide_it"] = decisive_numbers(art)
     art["map_edits_required"] = map_edits(art)
     return art
+
+
+def decisive_numbers(art):
+    """The three readings a reader should not have to assemble by hand. Reporting only — no new statistic."""
+    ps = art["backgrounds"]["partner_swap"]
+    a, r, b = (ps["contrast_a_signal_minus_null"], ps["contrast_a_enrichment_ratio"],
+               ps["contrast_b_unique_not_bulkier_rate"])
+    v = ps["volume_axis_frac_signal_clearing_own_bar"]
+
+    def beat(blk):
+        idx = blk.get("index_value")
+        rows = blk.get("graded_rows") or []
+        key = next((k for k in (rows[0] if rows else {}) if k not in
+                    ("arm", "n_poses_used", "n_positions_by_class")), None)
+        if idx is None or not key:
+            return None
+        return sorted(x["arm"] for x in rows if x[key] is not None and x[key] > idx)
+
+    return {
+        "1_arbitrary_pairs_that_BEAT_NR4A3_on_contrast_a": {
+            "index_signal_minus_null": a.get("index_value"),
+            "arms_scoring_higher": beat(a),
+            "of_n_graded": a.get("n_graded"),
+            "★": ("these are arbitrary close nuclear-receptor pairs, chosen on identity alone, scoring a "
+                  "LARGER steric contrast than NR4A3 does under the identical pipeline."),
+        },
+        "2_the_enrichment_RATIO_form_is_worse_for_NR4A3_not_better": {
+            "index_ratio": r.get("index_value"),
+            "background_ratios": [x.get("enrichment_signal_over_null") for x in (r.get("graded_rows") or [])],
+            "n_undefined_because_the_decoys_null_was_exactly_zero": ps.get("n_enrichment_undefined"),
+            "★": ("an UNDEFINED ratio here is not a missing datum — it is a decoy whose null class fired at "
+                  "exactly 0, i.e. a PERFECT contrast, which is better than NR4A3's, not worse. Counting "
+                  "those as absent would flatter the index."),
+            "⚠": "n is below the verdict floor on this form, so no verdict is claimed from it.",
+        },
+        "3_both_zero_valued_claims_sit_at_the_backgrounds_MODE": {
+            "contrast_b_index": b.get("index_value"),
+            "contrast_b_background_frac_exactly_zero": (b.get("distribution") or {}).get("frac_exactly_zero"),
+            "contrast_b_wilson95": (b.get("distribution") or {}).get("frac_exactly_zero_wilson95"),
+            "volume_axis_index": v.get("index_value"),
+            "volume_axis_background_modal_frac": (v.get("modal_value") or {}).get("frac"),
+            "★": ("on BOTH the 0.000 claim and the volume-bar claim the index arm returns the background's "
+                  "MODAL value, so in each case the percentile and the modal frequency are ONE measurement "
+                  "and not two. This is the same shape `C24` found on the categorical axis."),
+        },
+    }
 
 
 def refusal_gate(art):
