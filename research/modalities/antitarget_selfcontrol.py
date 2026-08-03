@@ -943,7 +943,7 @@ def map_edits(doc):
         "why": "row 10 records R14-a as not started; it has now run and returned a verdict that governs "
                "a number the paper already publishes",
         "artifact": "research/modalities/antitarget-selfcontrol.json",
-    }, {
+    }] + criterion_decision_edits(doc) + [{
         # The state cell is a different cell from the next-action cell; updating only the latter leaves
         # the row reading "○ not started" beside "✅ RAN". `R14` stays partial because `R14-b` is unrun
         # and registered DO-NOT-LAUNCH.
@@ -964,6 +964,52 @@ def map_edits(doc):
                           % verdict_txt),
         "why": "the rung text still describes the control as never run, and it has run — leaving that "
                "sentence in place would make the program's own plan a stale fact",
+        "artifact": "research/modalities/antitarget-selfcontrol.json",
+    }]
+
+
+def criterion_decision_edits(doc):
+    """⛔ REGISTER THE ONE THING THIS RUN CANNOT DECIDE FOR ITSELF, so it is not lost in an artifact.
+
+    CYP3A4's failure is not a docking failure. 2V0M carries EIGHT copies of ketoconazole, TWO of them in
+    the docked chain, and with the haem restored the top pose lands **1.108 Å from a different deposited
+    copy** than the one it is scored against. The pre-registered criterion says "the crystallographic
+    copy", and for a multi-copy site that phrase has no referent.
+
+    ★ WHY THIS IS A ROUTED DECISION AND NOT A FIX I APPLY. Amending the criterion after seeing which
+    amendment passes is exactly the tuning the frozen rule forbids — the difference between "scored
+    against any deposited copy" and "scored against the nearest copy" is invisible until you know the
+    answer, and by then it is not a pre-registration. So the run reports both numbers, leaves the verdict
+    FAIL, and puts the amendment on the board where it can be decided in writing BEFORE it is used.
+    """
+    sc = doc.get("selfcontrol") or {}
+    rows = {r["name"]: r for r in sc.get("targets", [])}
+    multi = [r for r in rows.values()
+             if r.get("a_different_copy_would_pass") and r.get("verdict") != "PASS"]
+    if not multi:
+        return []
+    detail = "; ".join(
+        "%s: scored %s Å against copy %s, but %s Å from copy %s (%s copies in the deposit)"
+        % (r["name"], r.get("rmsd_A"), r.get("copy_used"), r.get("rmsd_to_best_crystal_copy_A"),
+           r.get("best_crystal_copy"), r.get("n_cognate_copies_in_file")) for r in multi)
+    return [{
+        "section": "Open decisions",
+        "anchor": "## Open decisions",
+        "current_text": "## Open decisions",
+        "proposed_text": (
+            "## Open decisions\n\n"
+            "- ⛔ **NEW 2026-08-03 — the anti-target self-control's criterion is UNDER-SPECIFIED for a "
+            "multi-copy deposit, and it is currently deciding a FAIL.** %s. The pre-registered criterion "
+            "reads *\"the crystallographic copy of the same ligand\"*, which has no referent when a "
+            "deposit places several copies of the cognate in one site. ⚠ **The verdict was left FAIL and "
+            "must stay there until this is ruled on**, because choosing the copy after seeing which one "
+            "passes is the tuning the rung's own frozen rule forbids. The decision is one sentence — "
+            "score against *any* deposited copy, or against a *named* one — and it must be written down "
+            "BEFORE it is applied. Evidence: "
+            "[`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json) → "
+            "`repair_delta`.\n" % detail),
+        "why": "the run produced a finding it is not entitled to act on. Leaving it only in the artifact "
+               "is how a caveat with nowhere to go gets silently dropped",
         "artifact": "research/modalities/antitarget-selfcontrol.json",
     }]
 

@@ -501,3 +501,36 @@ def test_a_partial_mode_must_not_delete_another_modes_measured_block(tmp_path, m
     assert set(after["_carried_forward"]["blocks"]) == {"flagged", "selfcontrol"}
     assert after["resolve"]["status"] == "NEW", "the block this mode DID produce is fresh"
     importlib.reload(sc)
+
+
+def test_a_multi_copy_near_miss_is_registered_as_a_DECISION_not_acted_on():
+    """⛔ THE RUN MAY NOT AMEND ITS OWN CRITERION. CYP3A4's top pose is 1.108 Å from a DIFFERENT deposited
+    copy of ketoconazole than the one it is scored against, and 2V0M holds eight. Choosing the copy after
+    seeing which one passes is the tuning the frozen rule forbids, so the finding is ROUTED as an open
+    decision and the verdict stays FAIL."""
+    doc = {"selfcontrol": {"targets": [
+        {"name": "CYP3A4", "verdict": "FAIL", "rmsd_A": 12.337, "copy_used": "KLNA1501",
+         "rmsd_to_best_crystal_copy_A": 1.108, "best_crystal_copy": "KLNA1500",
+         "n_cognate_copies_in_file": 8, "a_different_copy_would_pass": True}]}}
+    edits = sc.criterion_decision_edits(doc)
+    assert len(edits) == 1
+    txt = edits[0]["proposed_text"]
+    assert "1.108" in txt and "KLNA1500" in txt and "8 copies" in txt
+    assert "must stay there until this is ruled on" in txt
+    # ...and it must not appear when there is nothing to decide
+    ok = {"selfcontrol": {"targets": [{"name": "AR", "verdict": "PASS",
+                                       "a_different_copy_would_pass": False}]}}
+    assert sc.criterion_decision_edits(ok) == []
+    # ...nor for a target that already PASSES on its own scored copy
+    passing = {"selfcontrol": {"targets": [{"name": "AR", "verdict": "PASS",
+                                            "a_different_copy_would_pass": True}]}}
+    assert sc.criterion_decision_edits(passing) == [], "a pass needs no criterion amendment"
+
+
+def test_the_verdict_is_never_softened_by_the_alternative_copy():
+    """The alternative-copy RMSD is REPORTED and must never enter the verdict function."""
+    import inspect
+    src = inspect.getsource(sc.target_verdict)
+    for forbidden in ("best_crystal_copy", "a_different_copy_would_pass",
+                      "rmsd_to_best_crystal_copy_A"):
+        assert forbidden not in src, "the verdict consults %s — that is the criterion being tuned" % forbidden
