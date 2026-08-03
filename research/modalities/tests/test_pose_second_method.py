@@ -72,7 +72,8 @@ def test_site_matched_radius_is_half_the_pipeline_box_and_not_typed():
 
 def test_every_arm_declares_its_shared_and_unshared_configuration():
     for arm, decl in P.C_ITEMS_BY_ARM.items():
-        assert set(decl) == {"REQUIRED", "AVOIDABLE", "NOT SHARED"}, arm
+        assert set(k for k in decl if not k.startswith("_")) == {
+            "REQUIRED", "AVOIDABLE", "NOT SHARED"}, arm
         # C14 and C15 are shared on purpose in EVERY arm — they are the yardstick, not the instrument.
         assert "C14" in decl["REQUIRED"], arm
         assert "C15" in decl["REQUIRED"], arm
@@ -88,6 +89,47 @@ def test_the_receptor_wide_arm_shares_no_site_configuration():
     assert decl["AVOIDABLE"] == {}
     for item in ("C1", "C2", "C3", "C4", "C5"):
         assert item in decl["NOT SHARED"], item
+
+
+def test_the_receptor_wide_arm_carries_its_measured_limitation():
+    """⛔ AND IT MUST NOT READ AS A CLEAN INDEPENDENT SITE CHECK. The arm degenerates on this fold, and
+    the declaration has to say so beside the independence claim, not in a footnote somewhere else."""
+    lim = P.C_ITEMS_BY_ARM["receptor_wide"]["_measured_limitation"]
+    assert "whole concave envelope" in lim
+    assert "not in SITE SELECTION" in lim
+
+
+def test_cavity_degeneracy_flags_a_whole_surface_envelope():
+    """★ THE MEASURED CASE, and the reason the comparison is against the RECEPTOR and not the search
+    sphere. Given a 25 Å sphere on the NR4A3 LBD's own centroid, rDock returned ONE 10369 Å³ region
+    spanning 47×46×47.5 Å against a receptor Cα box of 47.7×45.9×59.8 Å."""
+    lbd = [47.67, 45.89, 59.84]
+    d = P.cavity_degeneracy({"cavity_extent_A": [47.0, 46.0, 47.5], "cavity_volume_A3": 10369.4}, lbd)
+    assert d["is_whole_surface_envelope"] is True
+    assert d["mean_extent_over_receptor"] > 0.9
+    assert "NOT A SITE" in d["_reads"]
+    assert d["_gates_nothing"] is True
+
+
+def test_a_real_pocket_is_not_flagged_even_though_it_fills_its_own_sphere():
+    """⛔ THE TRAP THIS AVOIDS. The NR4A1 site cavity spans 23×22×21 Å inside a 12 Å-radius sphere —
+    ~96 % of that sphere's DIAMETER. Comparing to the sphere would have flagged every site-matched arm
+    as degenerate; comparing to the protein puts it at ~0.44."""
+    lbd = [47.67, 45.89, 59.84]
+    ok = P.cavity_degeneracy({"cavity_extent_A": [23.0, 22.0, 21.0], "cavity_volume_A3": 1376.9}, lbd)
+    assert ok["is_whole_surface_envelope"] is False
+    assert ok["mean_extent_over_receptor"] < 0.5
+
+
+def test_cavity_degeneracy_refuses_rather_than_guesses_without_an_extent():
+    """An absent reading is not a reading of absence (CLAUDE.md §4)."""
+    assert P.cavity_degeneracy({"cavity_volume_A3": 100.0}, [40, 40, 40])["is_whole_surface_envelope"] is None
+    assert P.cavity_degeneracy({"cavity_extent_A": [1, 2, 3]}, None)["is_whole_surface_envelope"] is None
+
+
+def test_bbox_extent():
+    assert P.bbox_extent([(0, 0, 0), (1, 2, 3), (-1, 0, 1)]) == [2.0, 2.0, 3.0]
+    assert P.bbox_extent([]) is None
 
 
 def test_the_site_matched_arm_admits_that_it_shares_C5():

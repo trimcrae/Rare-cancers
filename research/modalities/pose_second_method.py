@@ -229,6 +229,16 @@ C_ITEMS_BY_ARM = {
                   "the receptor and its own centroid and finds a cavity by itself. It is the only arm "
                   "here that shares no site-selection configuration with the first method at all.",
         },
+        "_measured_limitation": (
+            "⛔ AND IT DOES NOT DELIVER A SITE ON THIS FOLD — measured 2026-08-03, before the panel ran. "
+            "rDock's two-sphere mapper on an NR4A3 LBD inside a 25 Å sphere returns ONE region of "
+            "10369 Å³ with extent 47×46×47.5 Å: the whole concave envelope, which any ligand centroid "
+            "lies inside trivially and which no affordable run count can sample. So the arm that owes "
+            "the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm "
+            "that CAN be graded shares the site with the first method. ⇒ **this comparison is "
+            "independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** — "
+            "the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own "
+            "`cavity_degeneracy` records whether this happened on that receptor."),
     },
     "oracle_box": {
         "REQUIRED": {"C14": "as above.", "C15": "as above."},
@@ -356,10 +366,20 @@ def write_prm(path, mol2, center, radius, title):
     return path
 
 
-def make_cavity(prm_path, tools, cwd):
-    """`rbcavity -was` — writes the .as docking site beside the prm. Returns (info, why)."""
-    pr = subprocess.run([tools["rbcavity"], "-was", "-r", os.path.basename(prm_path)],
-                        capture_output=True, text=True, env=tools["env"], cwd=cwd, timeout=1800)
+def make_cavity(prm_path, tools, cwd, timeout=None):
+    """`rbcavity -was` — writes the .as docking site beside the prm. Returns (info, why).
+
+    ⚠ THE TIMEOUT IS A REFUSAL, NOT AN EXCEPTION. Cavity mapping cost scales with the sphere volume, so
+    the receptor-wide arm is ~9× the site-matched one; a raise here would lose the WHOLE pair's
+    second-method block rather than the one arm that ran long."""
+    t0 = time.time()
+    try:
+        pr = subprocess.run([tools["rbcavity"], "-was", "-r", os.path.basename(prm_path)],
+                            capture_output=True, text=True, env=tools["env"], cwd=cwd,
+                            timeout=timeout or UNIT_BUDGET_S)
+    except subprocess.TimeoutExpired:
+        return None, ("rbcavity exceeded its %ds budget mapping this sphere — UNRUN, not failed"
+                      % (timeout or UNIT_BUDGET_S))
     out = pr.stdout + pr.stderr
     as_file = prm_path[:-4] + ".as"
     if not os.path.exists(as_file):
@@ -387,7 +407,63 @@ def make_cavity(prm_path, tools, cwd):
                             round(float(v), 3) for v in part[7:].strip("()").split(",")])
                     except ValueError:
                         pass
+                if part.startswith("Extent="):
+                    try:
+                        info.setdefault("cavity_extent_A", [
+                            round(float(v), 2) for v in part[7:].strip("()").split(",")])
+                    except ValueError:
+                        pass
+    info["elapsed_s"] = round(time.time() - t0, 1)
     return info, None
+
+
+#: A mapped "cavity" whose mean extent reaches this fraction of the RECEPTOR'S OWN bounding box is not a
+#: pocket — it is the whole concave envelope, merged into one region by the two-sphere method. ⛔ A
+#: REPORTING flag that gates nothing: it removes no arm, it labels one. Measured separation on this fold
+#: is 0.93 (envelope) against 0.44 (a real pocket), so nothing turns on where inside that gap it sits.
+ENVELOPE_FRAC = 0.85
+
+
+def bbox_extent(points):
+    if not points:
+        return None
+    return [round(max(p[i] for p in points) - min(p[i] for p in points), 2) for i in range(3)]
+
+
+def cavity_degeneracy(info, receptor_extent_A):
+    """Did the mapper return a SITE, or the whole surface? Measured, because it decides what an arm means.
+
+    ⛔ MEASURED ON 2026-08-03, BEFORE THE PANEL RAN, AND IT IS NOT HYPOTHETICAL: rDock's two-sphere
+    mapper, given an NR4A3 LBD and a 25 Å sphere on its own Cα centroid, returns ONE region of
+    **10369 Å³** with extent **47×46×47.5 Å** against a receptor Cα box of 47.7×45.9×59.8 Å — the whole
+    concave envelope of the fold. A ligand centroid lies inside that trivially, so the arm cannot carry a
+    SITE verdict; and a 10^4 Å³ search volume is under-sampled at any run count this test can afford, so
+    its RMSD is a statement about sampling before it is one about scoring.
+    ⛔ THE FIX IS NOT TO SHRINK THE SPHERE UNTIL A POCKET APPEARS — that would be choosing the site after
+    seeing the answer, which is the tuning this whole panel is pre-registered against. The radius stays
+    blind and the degeneracy is reported.
+    ⚠ The comparison is against the RECEPTOR's box and not the SEARCH SPHERE's, because a real pocket
+    fills a small sphere too: at radius 12 the NR4A1 site cavity spans 23×22×21 Å, which is ~96 % of that
+    sphere's diameter and only ~44 % of the protein."""
+    ext = (info or {}).get("cavity_extent_A")
+    if not ext or len(ext) != 3 or not receptor_extent_A or len(receptor_extent_A) != 3:
+        return {"is_whole_surface_envelope": None,
+                "_why": "no cavity extent and/or no receptor extent recorded — UNREAD, not absent"}
+    frac = [round(e / r, 3) for e, r in zip(ext, receptor_extent_A) if r]
+    mean_frac = round(sum(frac) / len(frac), 3) if frac else None
+    env = mean_frac is not None and mean_frac >= ENVELOPE_FRAC
+    return {
+        "is_whole_surface_envelope": bool(env),
+        "cavity_extent_A": ext, "receptor_ca_extent_A": receptor_extent_A,
+        "extent_over_receptor": frac, "mean_extent_over_receptor": mean_frac,
+        "_flag_at": ENVELOPE_FRAC, "_gates_nothing": True,
+        "_reads": ("⛔ NOT A SITE — the mapped region is the size of the whole protein (mean extent %s of "
+                   "the receptor's own box, %s Å³). This arm carries NO site verdict, and its RMSD is a "
+                   "statement about sampling that volume before it is one about scoring."
+                   % (mean_frac, (info or {}).get("cavity_volume_A3"))
+                   if env else
+                   "the mapper returned a bounded region (mean extent %s of the receptor's box), so this "
+                   "arm is about a cavity the tool actually chose" % mean_frac)}
 
 
 def run_rbdock(prm_path, ligand_sd, out_root, n_runs, tools, cwd, seed=RDOCK_SEED, timeout=None):
@@ -504,10 +580,6 @@ def internal_rmsd(mol_a, mol_b):
     except Exception as e:                                    # noqa: BLE001
         return None, "%s: %s" % (type(e).__name__, e)
 
-
-# ==================================================================================================
-# PART A — CROSS-METHOD AGREEMENT ON denovo_401 IN NR4A3
-# ==================================================================================================
 
 def part_a(tools, runs=None):
     """rDock every receptor `pose-convergence-401.json` holds, and compare method to method.
@@ -676,6 +748,10 @@ def _part_a_system(rec, lig_sd, tools, work, radius, runs, bm, pc):
         return row
     row["cavity"] = info
     shutil.copy(lig_sd, os.path.join(d, "lig.sd"))
+    # ⚠ EXPLICIT, not left to rDock's search path. `-p dock.prm` resolves against the cwd and only THEN
+    # against $RBT_ROOT/data/scripts — so without this copy the protocol in force depends on which of the
+    # two rDock happened to find, and two runs could use different protocols with nothing saying so.
+    shutil.copy(os.path.join(work, "dock.prm"), os.path.join(d, "dock.prm"))
     res_, why = run_rbdock(prm, "lig.sd", "out", runs, tools, d)
     if res_ is None:
         row["why"] = why
@@ -850,13 +926,14 @@ def panel_pair(ctx, tools, runs):
     score_pose = ctx["score_pose"]
     radius = site_matched_radius_A()
 
-    prepared = {}
+    prepared, rec_extent = {}, {}
 
     def receptor(kind, path):
         if kind in prepared:
             return prepared[kind]
         m2, why = to_mol2(path, os.path.join(work, kind + ".mol2"), tools)
         prepared[kind] = (m2, why)
+        rec_extent[kind] = bbox_extent(_receptor_ca(path))
         return prepared[kind]
 
     def arm(name, kind, rec_path, center, rad, transform, shared_arm):
@@ -882,14 +959,15 @@ def panel_pair(ctx, tools, runs):
         if info is None:
             out["arms"][name] = {"rmsd_A": None, "why": why, "shared_configuration": shared_arm}
             return
+        degen = cavity_degeneracy(info, rec_extent.get(kind))
         res_, why = run_rbdock(prm, "lig.sd", "out", runs, tools, d)
         if res_ is None:
             out["arms"][name] = {"rmsd_A": None, "why": why, "cavity": info,
-                                 "shared_configuration": shared_arm}
+                                 "cavity_degeneracy": degen, "shared_configuration": shared_arm}
             return
         best = res_["poses"][0][1]
         rec = dict(score_pose(best, transform=transform))
-        rec.update({"cavity": info, "rdock_score": res_["best_score"],
+        rec.update({"cavity": info, "cavity_degeneracy": degen, "rdock_score": res_["best_score"],
                     "rdock_score_spread": res_["score_spread"], "n_rdock_poses": res_["n_poses"],
                     "elapsed_s": res_["elapsed_s"], "box_center": [round(v, 3) for v in center],
                     "search_radius_A": rad, "shared_configuration": shared_arm})
