@@ -834,9 +834,9 @@
     "_what": "edits the roadmap needs as a result of this work, ready to apply with no rewriting. This agent does not edit nr4a3-program-map.md — three other agents are working rows in it — so the edits are emitted here and routed.",
     "_anchor_contract": "every entry's `current_text` is grepped against the LIVE roadmap AT GENERATION TIME and stamped `anchor_live` / `anchor_occurrences` / `anchor_unique`. `--check` REFUSES to pass with a dead anchor, so this artifact cannot ship an edit that silently no-ops. `anchor: null` is deliberate and says where the text goes instead.",
     "_verified_against": "research/manuscripts/nr4a3-program-map.md",
-    "n_edits": 16,
+    "n_edits": 17,
     "n_anchored": 15,
-    "n_unanchored_by_design": 1,
+    "n_unanchored_by_design": 2,
     "n_DEAD_anchors": 0,
     "edits": [
       {
@@ -887,6 +887,19 @@
         "anchor_live": true,
         "anchor_occurrences": 1,
         "anchor_unique": true
+      },
+      {
+        "id": "row25-sibling-row-needed",
+        "section": "§10.1 — a NEW row",
+        "anchor": null,
+        "current_text": null,
+        "why": "⛔ SETTLING ROW 25 DID NOT SETTLE ITS SIBLING, AND NOTHING ELSE WILL NOTICE. `382c36947` named `nr4a3-orientation-basins.json`'s `term_a_feasibility_envelope` as built on the pre-fix geometry kernel and NOT regenerated. That artifact is an INPUT to `nr4a3_linker_design.py` and its `shortest_linker_with_any_feasible_anchor` numbers are quoted downstream. Same conservative direction, same registration gap — and it has no row, so it cannot be scheduled, refused or costed. That is exactly the condition §10.3 exists to stop.",
+        "artifact": "research/modalities/nr4a3-linker-library-canonical.json -> cause.still_open_same_class; research/modalities/nr4a3-orientation-basins.json -> term_a_feasibility_envelope",
+        "proposed_text": "| **28** | ⛔ **Rule on `nr4a3-orientation-basins.json`'s `term_a_feasibility_envelope`, the OTHER artifact built on the pre-fix 3-ball solver** | `R15` → rung `5b`, and it is an INPUT to the linker library | ○ **decision + $0** | **—** | **$0** | the sibling of row 25 and it did NOT come with it. `382c36947` named this field as built on the wrong kernel and explicitly did not regenerate it; the bias is the same one-sided, conservative under-claim, so nothing here is wrong in the dangerous direction — but `shortest_linker_with_any_feasible_anchor` is quoted downstream and no guard would notice if it moved. Same three outcomes as row 25: freeze with a provenance note, regenerate and re-declare, or register the divergence. Evidence and the worked precedent: [`nr4a3-linker-library-canonical.json`](../modalities/nr4a3-linker-library-canonical.json) |",
+        "where_it_goes": "as a new row 28 at the end of the §10.1 table, and the §10.2 readout's derived counts move with it (one more $0 / no-nod / no-bench row, one more decision-that-costs-nothing row). ⚠ anchor is null deliberately: this row does not exist yet, and inventing an anchor for it would be the stale-anchor failure this block is built to avoid.",
+        "anchor_live": null,
+        "anchor_occurrences": null,
+        "_anchor_note": "anchor: null — deliberately unanchored. See `where_it_goes`; an honest 'this needs a new home' beats a stale anchor that silently no-ops."
       },
       {
         "id": "b1b-banner",

@@ -228,6 +228,38 @@ MAP_EDITS = [
             "rows … (7, 8, 25)\" — **row 25 was ruled on 2026-08-03**, and the ruling is the reason it left "
             "this list, not a deferral.*"),
     },
+    {
+        "id": "row25-sibling-row-needed",
+        "section": "§10.1 — a NEW row",
+        "anchor": None,
+        "current_text": None,
+        "why": ("⛔ SETTLING ROW 25 DID NOT SETTLE ITS SIBLING, AND NOTHING ELSE WILL NOTICE. `382c36947` "
+                "named `nr4a3-orientation-basins.json`'s `term_a_feasibility_envelope` as built on the "
+                "pre-fix geometry kernel and NOT regenerated. That artifact is an INPUT to "
+                "`nr4a3_linker_design.py` and its `shortest_linker_with_any_feasible_anchor` numbers are "
+                "quoted downstream. Same conservative direction, same registration gap — and it has no row, "
+                "so it cannot be scheduled, refused or costed. That is exactly the condition §10.3 exists to "
+                "stop."),
+        "artifact": ("research/modalities/nr4a3-linker-library-canonical.json -> "
+                     "cause.still_open_same_class; research/modalities/nr4a3-orientation-basins.json -> "
+                     "term_a_feasibility_envelope"),
+        "proposed_text": (
+            "| **28** | ⛔ **Rule on `nr4a3-orientation-basins.json`'s `term_a_feasibility_envelope`, the "
+            "OTHER artifact built on the pre-fix 3-ball solver** | `R15` → rung `5b`, and it is an INPUT to "
+            "the linker library | ○ **decision + $0** | **—** | **$0** | the sibling of row 25 and it did "
+            "NOT come with it. `382c36947` named this field as built on the wrong kernel and explicitly did "
+            "not regenerate it; the bias is the same one-sided, conservative under-claim, so nothing here is "
+            "wrong in the dangerous direction — but `shortest_linker_with_any_feasible_anchor` is quoted "
+            "downstream and no guard would notice if it moved. Same three outcomes as row 25: freeze with a "
+            "provenance note, regenerate and re-declare, or register the divergence. Evidence and the "
+            "worked precedent: "
+            "[`nr4a3-linker-library-canonical.json`](../modalities/nr4a3-linker-library-canonical.json) |"),
+        "where_it_goes": (
+            "as a new row 28 at the end of the §10.1 table, and the §10.2 readout's derived counts move with "
+            "it (one more $0 / no-nod / no-bench row, one more decision-that-costs-nothing row). ⚠ anchor is "
+            "null deliberately: this row does not exist yet, and inventing an anchor for it would be the "
+            "stale-anchor failure this block is built to avoid."),
+    },
     # ------------------------------------------------------------------------- ROW 5 · branch 1b reconciled
     {
         "id": "b1b-banner",
