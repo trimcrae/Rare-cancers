@@ -225,28 +225,73 @@
       "_what": "the precondition as a FUNCTION of breakpoint \u2014 no breakpoint is assumed",
       "rgg_free_ceiling": 174,
       "first_rgg_box_starts_at": 326,
-      "window_where_precondition_holds": {
+      "window_where_strict_zero_RG_holds": {
         "from": 100,
         "to": 170
       },
+      "window_where_no_RGG_BOX_is_retained": {
+        "from": 100,
+        "to": 325
+      },
+      "_two_windows": "the strict window (no RG dipeptide at all) and the looser one (no dense RGG box). The controls show a MEASURED fusion sits between them, so a breakpoint in the gap is not evidence against the mechanism \u2014 it is the regime the clear-cell fusion occupies.",
       "n_grid_points": 51,
       "n_meeting_precondition": 8,
       "fraction_of_grid_meeting_precondition": 0.157,
-      "_reading": "a fusion breaking ANYWHERE in the window above meets the precondition; reported this way because the repo holds no exon audit for this gene and an assumed breakpoint would be the weakest link in the argument"
+      "_reading": "a fusion breaking anywhere in the STRICT window meets the conservative criterion; one breaking in the gap up to the box window sits where the measured clear-cell fusion sits. Reported as a function of breakpoint because the repo holds no exon audit for this gene, and an assumed breakpoint would be the weakest link in the whole argument."
     },
     "FUS": {
       "_what": "the precondition as a FUNCTION of breakpoint \u2014 no breakpoint is assumed",
       "rgg_free_ceiling": 212,
       "first_rgg_box_starts_at": 213,
-      "window_where_precondition_holds": {
+      "window_where_strict_zero_RG_holds": {
         "from": 100,
         "to": 210
       },
+      "window_where_no_RGG_BOX_is_retained": {
+        "from": 100,
+        "to": 212
+      },
+      "_two_windows": "the strict window (no RG dipeptide at all) and the looser one (no dense RGG box). The controls show a MEASURED fusion sits between them, so a breakpoint in the gap is not evidence against the mechanism \u2014 it is the regime the clear-cell fusion occupies.",
       "n_grid_points": 44,
       "n_meeting_precondition": 12,
       "fraction_of_grid_meeting_precondition": 0.273,
-      "_reading": "a fusion breaking ANYWHERE in the window above meets the precondition; reported this way because the repo holds no exon audit for this gene and an assumed breakpoint would be the weakest link in the argument"
+      "_reading": "a fusion breaking anywhere in the STRICT window meets the conservative criterion; one breaking in the gap up to the box window sits where the measured clear-cell fusion sits. Reported as a function of breakpoint because the repo holds no exon audit for this gene, and an assumed breakpoint would be the weakest link in the whole argument."
     }
+  },
+  "emc_vs_measured_fusions_comparative": {
+    "_claim_under_test": "EMC's canonical fusion loses at least as much of EWSR1's RGG content as each fusion in which ATM suppression was MEASURED",
+    "rows": [
+      {
+        "measured_fusion": "EWSR1::FLI1 (Ewing, type 1 \u2014 EWSR1 e7::FLI1 e6)",
+        "ewsr1_transcript_exon": 7,
+        "comparator_RG_retained_fraction": 0.0,
+        "emc_RG_retained_fraction": 0.0,
+        "emc_loses_at_least_as_much": true
+      },
+      {
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 8,
+        "comparator_RG_retained_fraction": 0.233,
+        "emc_RG_retained_fraction": 0.0,
+        "emc_loses_at_least_as_much": true
+      },
+      {
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 7,
+        "comparator_RG_retained_fraction": 0.0,
+        "emc_RG_retained_fraction": 0.0,
+        "emc_loses_at_least_as_much": true
+      },
+      {
+        "measured_fusion": "EWSR1::ATF1 (clear cell \u2014 swept over reported types e8/e7/e10)",
+        "ewsr1_transcript_exon": 10,
+        "comparator_RG_retained_fraction": 0.267,
+        "emc_RG_retained_fraction": 0.0,
+        "emc_loses_at_least_as_much": true
+      }
+    ],
+    "holds_against_every_measured_type": true,
+    "_why_this_and_not_an_absolute_bar": "the controls show the absolute bar is conservative \u2014 a measured fusion violates it \u2014 so a comparison is what the evidence supports and it needs no threshold that could be tuned"
   },
   "_limits": [
     "This is a SEQUENCE argument about a structural precondition. It cannot show that any NR4A3 fusion is actually recruited to double-strand breaks or actually suppresses ATM \u2014 those are the wet-lab measurements the route asks for.",
