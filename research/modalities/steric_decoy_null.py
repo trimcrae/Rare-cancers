@@ -642,7 +642,14 @@ def arm_result(name, kind, target_model, partner_models, positions, seqs, seq_na
                           for role in ROLES},
     }
     if with_lobes:
-        row["volume_axis"] = summarise_lobes(lobe_axis(target_model, partner_models, positions), detail)
+        # ⛔ ONLY THE POSITIONS THAT SURVIVED ALIGNMENT. `lobe_axis` used to iterate the full position dict
+        # while `detail` held only the aligned ones, so `summarise_lobes` raised `KeyError: <position>` on
+        # any arm with an unaligned position — 51 of 56 arms in CI run 30841610785, which still exited 0 and
+        # published a "verdict" built on the 3 arms that happened to align everywhere. Measured, not guessed:
+        # the three survivors were all ESRR pairs, the closest homologues in the selection.
+        aligned_positions = {lab: positions[lab] for lab in detail}
+        row["volume_axis"] = summarise_lobes(
+            lobe_axis(target_model, partner_models, aligned_positions), detail)
     if extra:
         row.update(extra)
     return row
@@ -1098,6 +1105,9 @@ def mode_run(_args):
     with open(OUT_MD, "w") as fh:
         fh.write(to_markdown(art))
     print("[steric-decoy-null] %s" % art["headline"])
+    for r in refusals[:10]:
+        print("   REFUSED %s: %s" % (r.get("pair") or r.get("target"), r.get("reason")))
+    refusal_gate(art)
     return art
 
 
@@ -1350,6 +1360,33 @@ def assemble(plan, check, index_committed, index_af, swap_rows, trio_rows, refus
     }
     art["map_edits_required"] = map_edits(art)
     return art
+
+
+def refusal_gate(art):
+    """⛔ AN UNGRADEABLE VERDICT STANDING ON REFUSALS IS A CODE FAILURE WEARING A POWER FAILURE'S COSTUME.
+
+    Measured on CI run 30841610785: 51 of 56 arms raised `KeyError: 406`, the run exited 0, and the artifact
+    published `UNGRADEABLE_too_few_graded_rows` over n = 3 — which reads exactly like an honest statement
+    about a thin background and was in fact a crash. Low power is a RESULT and must be reported; low power
+    CAUSED BY REFUSALS is a bug and must fail the job. `n_refusals` is printed either way, so a run that
+    legitimately refuses a few arms still says so.
+    """
+    n_ref = len(art.get("refusals") or [])
+    floor = PREREG["gradeability"]["min_graded_for_a_verdict"]
+    graded = (art["backgrounds"]["partner_swap"]["contrast_a_signal_minus_null"].get("n_graded") or 0)
+    art["⛔_refusal_gate"] = {
+        "n_refusals": n_ref,
+        "n_graded_primary_contrast_a": graded,
+        "rule": ("a run whose primary background falls below the verdict floor WHILE arms were refused is "
+                 "reported as a CODE failure, not as a thin background. Both are 'too few rows'; only one "
+                 "of them is a finding."),
+        "verdict": ("OK" if n_ref == 0 or graded >= floor else "CODE FAILURE — refusals caused the shortfall"),
+    }
+    if n_ref and graded < floor:
+        raise SystemExit(
+            "  ABORT: %d arms were REFUSED and the primary background graded only %d rows against a floor "
+            "of %d. That is a code failure, not a thin background, and it must not be published as a "
+            "verdict. First refusal: %s" % (n_ref, graded, floor, (art["refusals"][0] or {}).get("reason")))
 
 
 def committed_m4_shift():

@@ -200,3 +200,36 @@ def test_unaligned_positions_are_dropped_not_scored_as_null():
     assert set(detail) == {10}
     assert [u["position"] for u in unaligned] == [20]
     assert unaligned[0]["partner_aligned"] == {"NR4A1": True, "NR4A2": False}
+
+
+def test_lobe_axis_and_detail_must_cover_the_same_positions():
+    """⛔ CI run 30841610785: `lobe_axis` iterated ALL positions while `detail` held only the aligned ones,
+    so `summarise_lobes` raised `KeyError: 406` on 51 of 56 arms — and the job still exited 0 and published
+    `UNGRADEABLE_too_few_graded_rows` over the 3 arms that happened to align everywhere. A crash that reads
+    as a thin background is the worst shape a null result can have."""
+    lobes = {406: {"volume_A3": 5.0}, 484: {"volume_A3": 50.0}}
+    detail = {484: {"class": "unique_and_both_bulkier"}}          # 406 was dropped as unaligned
+    import pytest
+    with pytest.raises(KeyError):
+        SDN.summarise_lobes(lobes, detail)                        # the shape that used to reach production
+    # the shape `arm_result` now builds: lobes restricted to the surviving positions
+    out = SDN.summarise_lobes({484: lobes[484]}, detail)
+    assert out["n_signal_positions"] == 1 and out["graded"] is False   # no null position -> no measured bar
+
+
+def test_refusal_gate_separates_a_crash_from_a_thin_background():
+    """Low power is a RESULT. Low power caused by refusals is a BUG. They must not render alike."""
+    import pytest
+
+    def art(n_ref, graded):
+        return {"refusals": [{"reason": "KeyError: 406"}] * n_ref,
+                "backgrounds": {"partner_swap": {"contrast_a_signal_minus_null": {"n_graded": graded}}}}
+
+    a = art(0, 1)                       # genuinely thin, nothing refused -> a finding, not an abort
+    SDN.refusal_gate(a)
+    assert a["⛔_refusal_gate"]["verdict"] == "OK"
+    with pytest.raises(SystemExit):     # refusals AND below the floor -> a code failure
+        SDN.refusal_gate(art(51, 3))
+    b = art(2, 20)                      # a few refusals but the background still grades -> OK, and counted
+    SDN.refusal_gate(b)
+    assert b["⛔_refusal_gate"]["verdict"] == "OK" and b["⛔_refusal_gate"]["n_refusals"] == 2
