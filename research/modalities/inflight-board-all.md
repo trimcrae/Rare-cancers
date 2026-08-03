@@ -2,7 +2,7 @@
      it from the per-lane fragments. Source of every cell: inflight_board.py. -->
 # In-flight board — ALL LANES
 
-Merged 4:17 AM ET Mon Aug 3, 2026. One row per GPU leg, for every lane that can bill.
+Merged 4:18 AM ET Mon Aug 3, 2026. One row per GPU leg, for every lane that can bill.
 
 > ⚠ `inflight-board.md` IS ONE LANE ONLY. Its single writer (`gpu-ternary-fep-vast.yml`
 > `task=collect`) rewrites it wholesale from the ternary lane's rows, so it can never carry another
@@ -15,7 +15,7 @@ Merged 4:17 AM ET Mon Aug 3, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 4:06 AM ET Mon Aug 3, 2026 (12 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 4:14 AM ET Mon Aug 3, 2026 (4 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
