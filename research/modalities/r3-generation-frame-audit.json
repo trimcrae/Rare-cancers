@@ -1,0 +1,123 @@
+{
+  "_what": "R3 \u2014 the frame-level generation-receptor dependency audit (Gate A). Does the EXACT release-derived frame `denovo_401` was generated into still qualify under the harmonized, score-independent orthosteric-site definition?",
+  "_gate": "open SUBMISSION gate, nr4a3-degrader-paper.md 'Dependency audit \u2014 still open'; nr4a3-ensemble-redesign-brief.md Gate A",
+  "d_star": 0.53,
+  "generation_receptor_identity_chain": [
+    {
+      "file": "research/modalities/nr4a3_denovo.py",
+      "says": "loads nr4a3-release-druggable.pdb from the Step-0 receptor dir; docstring: the DRUGGABLE UNBIASED RELEASE conformation, NOT the biased-metad frame"
+    },
+    {
+      "file": "research/manuscripts/nr4a3-degrader-paper-redteam.md (F16.1)",
+      "says": "denovo_401 is pocket-conditioned on the NR4A3 release-druggable frame, quoting the same nr4a3_denovo.py lines"
+    },
+    {
+      "file": "research/manuscripts/nr4a3-degrader-paper.md",
+      "says": "all downstream design is anchored to a druggable release-derived frame (Rg ~ 0.737, fpocket >= 0.5; nr4a3_release_druggable.py)"
+    },
+    {
+      "file": "research/modalities/nr4a3_release_druggable.py",
+      "says": "writes nr4a3-release-druggable.pdb = the role='primary' row of nr4a3-release-druggable.json, which carries rep/frame/selection_rg/selection_druggability/confirmed_druggability"
+    }
+  ],
+  "reharmonize_coverage": {
+    "covered": false,
+    "rows": [
+      "af2_static",
+      "calibration_nr4a3",
+      "8xtt_20conformers",
+      "metad_frames",
+      "release_rep0",
+      "release_rep1",
+      "release_rep2",
+      "release_unbiased_pooled"
+    ],
+    "missing_kind": "release_druggable",
+    "why": "the generation receptor is a RE-EXTRACTED, re-boxed PDB scored by its own fpocket call (nr4a3_release_druggable.py -> confirm_filter: the reused per-frame summary and the fresh confirmation 'can disagree' and the confirmed score governs), so a release_rep* trajectory row is not a measurement of it even at per-frame granularity"
+  },
+  "s3_listing": {
+    "error": null,
+    "n_keys": 6,
+    "keys": [
+      {
+        "key": "nr4a3-release-druggable/nr4a3-release-druggable-alt1.pdb",
+        "size": 327474,
+        "last_modified": "2026-06-29T12:16:05+00:00"
+      },
+      {
+        "key": "nr4a3-release-druggable/nr4a3-release-druggable-alt2.pdb",
+        "size": 327474,
+        "last_modified": "2026-06-29T12:16:05+00:00"
+      },
+      {
+        "key": "nr4a3-release-druggable/nr4a3-release-druggable-alt3.pdb",
+        "size": 327474,
+        "last_modified": "2026-06-29T12:16:05+00:00"
+      },
+      {
+        "key": "nr4a3-release-druggable/nr4a3-release-druggable.json",
+        "size": 3862,
+        "last_modified": "2026-06-29T12:16:05+00:00"
+      },
+      {
+        "key": "nr4a3-release-druggable/nr4a3-release-druggable.pdb",
+        "size": 327474,
+        "last_modified": "2026-06-29T12:16:05+00:00"
+      },
+      {
+        "key": "nr4a3-release-druggable/nr4a3-release-druggable.png",
+        "size": 46711,
+        "last_modified": "2026-06-29T12:16:05+00:00"
+      }
+    ],
+    "manifest_key": "nr4a3-release-druggable/nr4a3-release-druggable.json",
+    "manifest_last_modified": "2026-06-29T12:16:05+00:00"
+  },
+  "bucket": "sagemaker-us-east-2-646605541856",
+  "prefix": "nr4a3-release-druggable",
+  "primary_row": {
+    "pdb": "nr4a3-release-druggable.pdb",
+    "rep": 0,
+    "frame": 95,
+    "confirmed_druggability": 0.667,
+    "box_residues": [
+      34,
+      108,
+      109,
+      112,
+      113,
+      152,
+      153,
+      156,
+      157,
+      159,
+      162,
+      166
+    ],
+    "resseq_range": [
+      1,
+      254
+    ],
+    "role": "primary",
+    "selection_rg": 0.7367,
+    "selection_druggability": 0.692
+  },
+  "docking_primary_receptor": "nr4a3-release-druggable.pdb",
+  "manifest_pocket_match": null,
+  "manifest_status": "ok",
+  "verdict": {
+    "verdict": "FRAME_NAMED_UNSCORED",
+    "frame_id": {
+      "rep": 0,
+      "frame": 95,
+      "pdb": "nr4a3-release-druggable.pdb",
+      "role": "primary",
+      "selection_rg": 0.7367
+    },
+    "score": 0.667,
+    "selection_druggability": 0.692,
+    "mode": "(absent)",
+    "reason": "the generation frame is NAMED, but its recorded pocket match ran in 'absent' mode, not 'harmonized'. `pocket_tracking.match_mode` defaults to LEGACY and release-druggable-aws.yml sets no POCKET_MATCH, so this score is the outcome-selected classifier the harmonized rerun exists to replace. A legacy score cannot discharge a harmonized gate",
+    "unblocker": "score THIS ONE PDB under POCKET_MATCH=harmonized with the pinned fpocket build \u2014 one structure, CPU, no trajectory reload"
+  }
+}
