@@ -53,7 +53,11 @@ permissions:
   contents: write
 
 concurrency:
-  group: nr4a2-bound-ddddg-search-${{ github.ref }}
+  # ⚠ THE TASK IS PART OF THE KEY. Measured 2026-08-03: with a task-independent group, dispatching
+  # `row26` while the long `c01a` scan was still running left row26 QUEUED, and the next dispatch
+  # then CANCELLED it — a job that never ran and left only a grey badge. The three tasks share no
+  # state (separate artifacts, separate checkpoint keys), so serialising them buys nothing.
+  group: nr4a2-bound-ddddg-search-${{ github.ref }}-${{ inputs.task }}
   cancel-in-progress: false
 
 jobs:
