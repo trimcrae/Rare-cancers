@@ -8,20 +8,20 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-08-03T01:00:50Z",
-  "_generated_et": "9:00 PM ET Aug 2, 2026",
+  "_generated_utc": "2026-08-03T01:07:23Z",
+  "_generated_et": "9:07 PM ET Aug 2, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-08-03T01:48:50Z",
-  "_stale_after_et": "9:48 PM ET Aug 2, 2026",
+  "_stale_after_utc": "2026-08-03T01:55:23Z",
+  "_stale_after_et": "9:55 PM ET Aug 2, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
       "scanner": "plan_items",
       "ran": true,
-      "found": 18,
+      "found": 22,
       "error": null,
-      "how": "scanned nr4a3-program-map.md lines 3093-4052 for `[ ]`/`[~]`/`[!]` items; `[x]` and `[\u2013]` are not owed and are skipped"
+      "how": "scanned nr4a3-program-map.md lines 3107-4077 for `[ ]`/`[~]`/`[!]` items; `[x]` and `[\u2013]` are not owed and are skipped"
     },
     {
       "scanner": "fanout_units",
@@ -471,6 +471,130 @@
       "unreadable": null,
       "notes": [
         "rung: RUNG 5 \u2014 mechanism-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*"
+      ]
+    },
+    {
+      "id": "plan:r13-a-fusion-junction-sequence-inventory-at-the-corrected-junction-0-0",
+      "scanner": "plan_items",
+      "what": "[RUNG S] R13-a \u00b7 Fusion-junction SEQUENCE inventory, at the CORRECTED junction \u2014 $0 (0.0 ref-GPU-h) \u00b7 needs no nod \u00b7 CI/CPU. Serves R13. Extend the uniqueness ",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "blocked",
+      "evidence_fingerprint": " ",
+      "last_evidence_utc": "2026-08-03T01:07:23Z",
+      "last_evidence_et": "9:07 PM ET Aug 2, 2026",
+      "last_evidence_what": "roadmap ORDERED PLAN marker `[ ]` (pending)",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [
+        "gate text in the plan item: **gate:**"
+      ],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": "external-gate",
+      "board_group": "plan",
+      "first_seen_utc": "2026-08-03T01:07:23Z",
+      "unreadable": null,
+      "notes": [
+        "rung: RUNG S \u2014 the two SCOPE rungs (`R13`, `R14`): claim-ceiling conditions, deliberately OFF the `Cum.` chain"
+      ]
+    },
+    {
+      "id": "plan:r13-b-apo-co-fold-of-the-two-corrected-fusion-constructs-0-66-0-28-1-6",
+      "scanner": "plan_items",
+      "what": "[RUNG S] R13-b \u00b7 Apo co-fold of the two corrected fusion constructs \u2014 ~$0.66 ($0.28\u20131.67; 5.81 ref-GPU-h, 12 models = 2 constructs \u00d7 6 seeds) \u00b7 \ud83d\udd12 needs a nod \u00b7",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "open",
+      "evidence_fingerprint": " ",
+      "last_evidence_utc": "2026-08-03T01:07:23Z",
+      "last_evidence_et": "9:07 PM ET Aug 2, 2026",
+      "last_evidence_what": "roadmap ORDERED PLAN marker `[ ]` (pending)",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "no ORDERED PLAN item maps to a dispatchable workflow: the plan names science, not CI. This entry is recorded UNOWNED and stays on the board until its marker reaches `[x]` \u2014 the ledger does not invent a dispatch it cannot justify.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": null,
+      "board_group": "plan",
+      "first_seen_utc": "2026-08-03T01:07:23Z",
+      "unreadable": null,
+      "notes": [
+        "rung: RUNG S \u2014 the two SCOPE rungs (`R13`, `R14`): claim-ceiling conditions, deliberately OFF the `Cum.` chain"
+      ]
+    },
+    {
+      "id": "plan:r14-a-complete-the-anti-target-panel-and-run-the-self-control-it-has-n",
+      "scanner": "plan_items",
+      "what": "[RUNG S] R14-a \u00b7 Complete the anti-target panel, and run the self-control it has never run \u2014 $0 (0.0 ref-GPU-h) \u00b7 needs no nod \u00b7 CI/CPU (smina, the identical 2",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "open",
+      "evidence_fingerprint": " ",
+      "last_evidence_utc": "2026-08-03T01:07:23Z",
+      "last_evidence_et": "9:07 PM ET Aug 2, 2026",
+      "last_evidence_what": "roadmap ORDERED PLAN marker `[ ]` (pending)",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "no ORDERED PLAN item maps to a dispatchable workflow: the plan names science, not CI. This entry is recorded UNOWNED and stays on the board until its marker reaches `[x]` \u2014 the ledger does not invent a dispatch it cannot justify.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": null,
+      "board_group": "plan",
+      "first_seen_utc": "2026-08-03T01:07:23Z",
+      "unreadable": null,
+      "notes": [
+        "rung: RUNG S \u2014 the two SCOPE rungs (`R13`, `R14`): claim-ceiling conditions, deliberately OFF the `Cum.` chain"
+      ]
+    },
+    {
+      "id": "plan:r14-b-matched-ar-mr-cryptic-pocket-ensembles-the-0-detector-3-41-1-10-",
+      "scanner": "plan_items",
+      "what": "[RUNG S] R14-b \u00b7 Matched AR/MR cryptic-pocket ensembles (+ the $0 detector) \u2014 ~$3.41 ($1.10\u201318.65; 29.87 ref-GPU-h, band 23.2\u201364.7) \u00b7 \ud83d\udd12 needs a nod \u00b7 \u26d4 AND CUR",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "blocked",
+      "evidence_fingerprint": " ",
+      "last_evidence_utc": "2026-08-03T01:07:23Z",
+      "last_evidence_et": "9:07 PM ET Aug 2, 2026",
+      "last_evidence_what": "roadmap ORDERED PLAN marker `[ ]` (pending)",
+      "next_evidence_due_utc": null,
+      "next_evidence_due_et": null,
+      "blocked_by": [
+        "gate text in the plan item: blocked by"
+      ],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": "external-gate",
+      "board_group": "plan",
+      "first_seen_utc": "2026-08-03T01:07:23Z",
+      "unreadable": null,
+      "notes": [
+        "rung: RUNG S \u2014 the two SCOPE rungs (`R13`, `R14`): claim-ceiling conditions, deliberately OFF the `Cum.` chain"
       ]
     },
     {
@@ -2067,7 +2191,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 9348 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 9354 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2097,7 +2221,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 9338 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 9344 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2533,7 +2657,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "no hosts and 1 unit(s) unfinished, but the last evidence is only 1 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
+        "no hosts and 1 unit(s) unfinished, but the last evidence is only 8 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
       ]
     },
     {
@@ -3013,8 +3137,8 @@
   "_dispatch_plan": [],
   "_dispatch_plan_is_a_request": "this module NEVER shells out. The workflow executes these with `gh workflow run`; each names a workflow and no price.",
   "n_by_state": {
-    "blocked": 20,
-    "open": 12,
+    "blocked": 22,
+    "open": 14,
     "done": 25,
     "dispatched": 1
   },
@@ -3031,6 +3155,8 @@
     "plan:5b-t-rebuild-the-nr4a1-2-3-ternaries-by-the-assembly-route-from-a-smil",
     "plan:5c-explicit-ternary-ensemble-refinement-21-1-9-85-endpoint-md-24-200-l",
     "plan:5d-local-ternary-fep-21-3-1-87-3-6-ternary-comparisons-cum-169-alchemy",
+    "plan:r13-a-fusion-junction-sequence-inventory-at-the-corrected-junction-0-0",
+    "plan:r14-b-matched-ar-mr-cryptic-pocket-ensembles-the-0-detector-3-41-1-10-",
     "plan:g-open-per-paralogue-120-300-only-to-make-affinity-selectivity-uncondi",
     "plan:conditional-abfe-pose-plausibility-80-200-raw-values-t4l-discrepancy-s",
     "plan:post-submit-outward-facing-needs-trimcrae-sign-off",
@@ -3054,6 +3180,10 @@
     "plan:5b-t-rebuild-the-nr4a1-2-3-ternaries-by-the-assembly-route-from-a-smil",
     "plan:5c-explicit-ternary-ensemble-refinement-21-1-9-85-endpoint-md-24-200-l",
     "plan:5d-local-ternary-fep-21-3-1-87-3-6-ternary-comparisons-cum-169-alchemy",
+    "plan:r13-a-fusion-junction-sequence-inventory-at-the-corrected-junction-0-0",
+    "plan:r13-b-apo-co-fold-of-the-two-corrected-fusion-constructs-0-66-0-28-1-6",
+    "plan:r14-a-complete-the-anti-target-panel-and-run-the-self-control-it-has-n",
+    "plan:r14-b-matched-ar-mr-cryptic-pocket-ensembles-the-0-detector-3-41-1-10-",
     "plan:g-open-per-paralogue-120-300-only-to-make-affinity-selectivity-uncondi",
     "plan:conditional-abfe-pose-plausibility-80-200-raw-values-t4l-discrepancy-s",
     "plan:fold-results-into-paper-language-discipline-qm-torsion-validation-at-l",
@@ -3074,17 +3204,17 @@
     "rung:genmatched_null_generative_arm"
   ],
   "_self": {
-    "now_et": "9:00 PM ET Aug 2, 2026",
-    "generated_et": "9:00 PM ET Aug 2, 2026",
-    "stale_after_et": "9:48 PM ET Aug 2, 2026",
+    "now_et": "9:07 PM ET Aug 2, 2026",
+    "generated_et": "9:07 PM ET Aug 2, 2026",
+    "stale_after_et": "9:55 PM ET Aug 2, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 9:48 PM ET Aug 2, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 9:55 PM ET Aug 2, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (8:51 PM ET Aug 2, 2026) refreshed the artifact to 9:00 PM ET Aug 2, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (9:00 PM ET Aug 2, 2026) refreshed the artifact to 9:07 PM ET Aug 2, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
