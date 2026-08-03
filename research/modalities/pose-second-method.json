@@ -1,6 +1,6 @@
 {
  "_module": "pose_second_method",
- "_mode": "cross",
+ "_mode": "both",
  "_question": "Is the pose this program holds for denovo_401 supported by a SECOND method whose scoring is independent of the first \u2014 and on systems with a known answer, what does that second method recover under `C14`?",
  "_licenses": [
   "two methods with disjoint scoring agreeing on a placement, to a stated tolerance"
@@ -64,7 +64,8 @@
     "C3": "no acceptance gate.",
     "C4": "not fpocket.",
     "C5": "\u2b51 THE POINT OF THIS ARM. Nothing about NR4A3's Pocket-5 reaches it: rDock is given the receptor and its own centroid and finds a cavity by itself. It is the only arm here that shares no site-selection configuration with the first method at all."
-   }
+   },
+   "_measured_limitation": "\u26d4 AND IT DOES NOT DELIVER A SITE ON THIS FOLD \u2014 measured 2026-08-03, before the panel ran. rDock's two-sphere mapper on an NR4A3 LBD inside a 25 \u00c5 sphere returns ONE region of 10369 \u00c5\u00b3 with extent 47\u00d746\u00d747.5 \u00c5: the whole concave envelope, which any ligand centroid lies inside trivially and which no affordable run count can sample. So the arm that owes the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm that CAN be graded shares the site with the first method. \u21d2 **this comparison is independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** \u2014 the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own `cavity_degeneracy` records whether this happened on that receptor."
   },
   "oracle_box": {
    "REQUIRED": {
@@ -114,7 +115,12 @@
     "NR4A1",
     "NR4A2"
    ],
-   "_plus": "NR4A3's own 8XTT",
+   "accessions": [
+    "P22736",
+    "P43354",
+    "Q92570"
+   ],
+   "_plus": "NR4A3's own 8XTT (Q92570)",
    "_reads": "\u26d4 A RECEPTOR OUTSIDE THIS LIST IS OUT OF THE PIPELINE'S REGIME. Running the transfer onto it and finding the ligand elsewhere is the benchmark's design, not a demonstrated defect of site selection."
   },
   "independent_check_that_separates_the_two_readings": {
@@ -137,18 +143,18 @@
  },
  "_budgets_s": {
   "unit": 1500,
-  "total": 3000
+  "total": 16200
  },
  "_provenance": {
-  "github_run_id": null,
-  "github_ref": null,
-  "github_sha": null,
-  "where": "local reproduction"
+  "github_run_id": "30826469202",
+  "github_ref": "claude/nr4a1-protac-positive-control-xnszjl",
+  "github_sha": "42b168234647f267e5c806ad57556629c0ae094d",
+  "where": "GitHub Actions"
  },
  "tooling": {
-  "rdock_version": "Executable:\trbdock - v25.07-alpha  Library:\tlibRbt.so/25.07/alpha",
-  "openbabel_version": "Open Babel 3.1.0 -- Nov  2 2021 -- 08:43:52",
-  "RBT_ROOT": "/tmp/claude-0/-home-user-Rare-cancers/1af35c7f-7dc4-53ce-91d2-1631a2a10a85/scratchpad/rdroot/share/rDock"
+  "rdock_version": "Executable:\trbdock ($Id: //depot/dev/client3/rdock/2013.1/src/exe/rbdock.cxx#4 $)  Library:\tlibRbt.so/2013.1/901 2013/11/27",
+  "openbabel_version": "Open Babel 3.1.0 -- Nov 30 2023 -- 20:44:30",
+  "RBT_ROOT": null
  },
  "part_a": {
   "_asks": "Do a scoring-independent method and the pipeline's own method put denovo_401 in the same place, in the same receptor frame?",
@@ -157,586 +163,1507 @@
   "_C6": "\u26a0 `C6` (the receptor-frame selection criterion) is inherited by BOTH methods on the two metadynamics-opened receptors and by NEITHER on the four experimental 8XTT NMR conformers \u2014 it is a property of the receptor a pose was generated in, not of the engine that placed the ligand. So a cross-method agreement measured on an 8XTT conformer is free of `C6`; one measured on `dock/metad-opened/*` is not, and \u00a73b.2 records `C6` as CONTESTED.",
   "n_rdock_runs_per_system": 50,
   "rdock_seed": 20260803,
-  "systems": [
-   {
-    "id": "dock/metad-opened/v2",
-    "kind_first_method": "smina dock, top pose (nr4a3_warhead.dock_into)",
-    "receptor_provenance": "metadynamics-OPENED AF2 prediction",
-    "receptor": "results/nr4a3-denovo/-matrix-v2/nr4a3-opened.pdb",
-    "first_method_pose": "results/nr4a3-denovo/-matrix-v2/docked_nr4a3.sdf",
-    "first_method_score_kcalmol": -7.28137,
-    "inherits_C6": true,
-    "n_pocket5_mapped": 10,
-    "n_pocket5_source": 10,
-    "site_center": [
-     11.544,
-     10.282,
-     1.719
-    ],
-    "cavity": {
-     "n_cavities": 1,
-     "total_volume_A3": 1219.5,
-     "cavity_volume_A3": 1219.5,
-     "cavity_center": [
-      8.709,
-      10.575,
-      1.098
-     ]
-    },
-    "n_rdock_poses": 50,
-    "rdock_best_score": -30.2661,
-    "rdock_score_spread": {
-     "n": 50,
-     "min": -30.266,
-     "median": -13.87,
-     "max": 9.991,
-     "mean": -12.73
-    },
-    "rdock_elapsed_s": 93.0,
-    "best_pose_sd": "research/modalities/_pose_second_method_poses/cross_dock_metad-opened_v2.sd",
-    "cross_method_rmsd_A": 3.147,
-    "cross_method_band": "PARTIAL",
-    "cross_method_internal_conformer_rmsd_A": 1.422,
-    "cross_method_centroid_distance_A": 1.685,
-    "second_method_self_agreement_A": {
-     "n": 49,
-     "min": 0.346,
-     "median": 6.064,
-     "max": 7.059,
-     "mean": 4.532
-    },
-    "second_method_top_vs_runner_up_A": 1.324,
-    "rdock_pose_to_site_center_A": 0.844,
-    "first_method_pose_to_site_center_A": 1.59
-   },
-   {
-    "id": "dock/metad-opened/v2-statematch",
-    "kind_first_method": "smina dock, top pose (nr4a3_warhead.dock_into)",
-    "receptor_provenance": "metadynamics-OPENED AF2 prediction",
-    "receptor": "results/nr4a3-denovo/-matrix-v2-statematch/nr4a3-opened.pdb",
-    "first_method_pose": "results/nr4a3-denovo/-matrix-v2-statematch/docked_nr4a3.sdf",
-    "first_method_score_kcalmol": -7.83328,
-    "inherits_C6": true,
-    "n_pocket5_mapped": 10,
-    "n_pocket5_source": 10,
-    "site_center": [
-     4.189,
-     14.189,
-     -0.138
-    ],
-    "cavity": {
-     "n_cavities": 1,
-     "total_volume_A3": 1505.88,
-     "cavity_volume_A3": 1505.88,
-     "cavity_center": [
-      1.754,
-      13.268,
-      0.111
-     ]
-    },
-    "n_rdock_poses": 50,
-    "rdock_best_score": -23.9601,
-    "rdock_score_spread": {
-     "n": 50,
-     "min": -23.96,
-     "median": -5.931,
-     "max": 38.408,
-     "mean": -3.689
-    },
-    "rdock_elapsed_s": 126.7,
-    "best_pose_sd": "research/modalities/_pose_second_method_poses/cross_dock_metad-opened_v2-statematch.sd",
-    "cross_method_rmsd_A": 6.501,
-    "cross_method_band": "NOT RECOVERED",
-    "cross_method_internal_conformer_rmsd_A": 2.128,
-    "cross_method_centroid_distance_A": 1.37,
-    "second_method_self_agreement_A": {
-     "n": 49,
-     "min": 1.858,
-     "median": 5.761,
-     "max": 8.028,
-     "mean": 5.311
-    },
-    "second_method_top_vs_runner_up_A": 6.311,
-    "rdock_pose_to_site_center_A": 2.497,
-    "first_method_pose_to_site_center_A": 2.579
-   },
-   {
-    "id": "dock/8XTT-model2",
-    "kind_first_method": "smina dock, top pose (nr4a3_warhead.dock_into)",
-    "receptor_provenance": "EXPERIMENTAL apo NMR conformer (8XTT model 2)",
-    "receptor": "research/modalities/_pose_convergence_inputs/8xtt_model2_nr4a3.pdb",
-    "first_method_pose": "research/modalities/_pose_convergence_inputs/docked_nr4a3_m2.sdf",
-    "first_method_score_kcalmol": -6.60602,
-    "inherits_C6": false,
-    "n_pocket5_mapped": 10,
-    "n_pocket5_source": 10,
-    "site_center": [
-     -10.467,
-     10.995,
-     -17.377
-    ],
-    "cavity": {
-     "n_cavities": 1,
-     "total_volume_A3": 1376.88,
-     "cavity_volume_A3": 1376.88,
-     "cavity_center": [
-      -11.523,
-      11.084,
-      -16.737
-     ]
-    },
-    "n_rdock_poses": 50,
-    "rdock_best_score": -18.5194,
-    "rdock_score_spread": {
-     "n": 50,
-     "min": -18.519,
-     "median": -5.351,
-     "max": 33.881,
-     "mean": -2.795
-    },
-    "rdock_elapsed_s": 229.3,
-    "best_pose_sd": "research/modalities/_pose_second_method_poses/cross_dock_8XTT-model2.sd",
-    "cross_method_rmsd_A": 9.816,
-    "cross_method_band": "NOT RECOVERED",
-    "cross_method_internal_conformer_rmsd_A": 1.628,
-    "cross_method_centroid_distance_A": 7.5,
-    "second_method_self_agreement_A": {
-     "n": 49,
-     "min": 0.378,
-     "median": 3.509,
-     "max": 10.206,
-     "mean": 4.055
-    },
-    "second_method_top_vs_runner_up_A": 0.877,
-    "rdock_pose_to_site_center_A": 3.205,
-    "first_method_pose_to_site_center_A": 5.368
-   },
-   {
-    "id": "dock/8XTT-model8",
-    "kind_first_method": "smina dock, top pose (nr4a3_warhead.dock_into)",
-    "receptor_provenance": "EXPERIMENTAL apo NMR conformer (8XTT model 8)",
-    "receptor": "research/modalities/_pose_convergence_inputs/8xtt_model8_nr4a3.pdb",
-    "first_method_pose": "research/modalities/_pose_convergence_inputs/docked_nr4a3_m8.sdf",
-    "first_method_score_kcalmol": -7.20681,
-    "inherits_C6": false,
-    "n_pocket5_mapped": 10,
-    "n_pocket5_source": 10,
-    "site_center": [
-     -9.777,
-     11.0,
-     -17.146
-    ],
-    "cavity": {
-     "n_cavities": 1,
-     "total_volume_A3": 1239.75,
-     "cavity_volume_A3": 1239.75,
-     "cavity_center": [
-      -11.331,
-      11.701,
-      -16.204
-     ]
-    },
-    "n_rdock_poses": 50,
-    "rdock_best_score": -12.9111,
-    "rdock_score_spread": {
-     "n": 50,
-     "min": -12.911,
-     "median": -2.311,
-     "max": 160.513,
-     "mean": 26.908
-    },
-    "rdock_elapsed_s": 136.2,
-    "best_pose_sd": "research/modalities/_pose_second_method_poses/cross_dock_8XTT-model8.sd",
-    "cross_method_rmsd_A": 6.787,
-    "cross_method_band": "NOT RECOVERED",
-    "cross_method_internal_conformer_rmsd_A": 1.355,
-    "cross_method_centroid_distance_A": 1.116,
-    "second_method_self_agreement_A": {
-     "n": 49,
-     "min": 0.195,
-     "median": 6.856,
-     "max": 15.442,
-     "mean": 6.878
-    },
-    "second_method_top_vs_runner_up_A": 0.195,
-    "rdock_pose_to_site_center_A": 4.132,
-    "first_method_pose_to_site_center_A": 5.187
-   },
-   {
-    "id": "dock/8XTT-model20",
-    "kind_first_method": "smina dock, top pose (nr4a3_warhead.dock_into)",
-    "receptor_provenance": "EXPERIMENTAL apo NMR conformer (8XTT model 20)",
-    "receptor": "research/modalities/_pose_convergence_inputs/8xtt_model20_nr4a3.pdb",
-    "first_method_pose": "research/modalities/_pose_convergence_inputs/docked_nr4a3_m20.sdf",
-    "first_method_score_kcalmol": -7.25872,
-    "inherits_C6": false,
-    "n_pocket5_mapped": 10,
-    "n_pocket5_source": 10,
-    "site_center": [
-     -9.654,
-     11.069,
-     -17.363
-    ],
-    "cavity": {
-     "n_cavities": 1,
-     "total_volume_A3": 1174.62,
-     "cavity_volume_A3": 1174.62,
-     "cavity_center": [
-      -8.543,
-      12.805,
-      -16.248
-     ]
-    },
-    "n_rdock_poses": 50,
-    "rdock_best_score": -15.079,
-    "rdock_score_spread": {
-     "n": 50,
-     "min": -15.079,
-     "median": -3.052,
-     "max": 152.784,
-     "mean": 29.688
-    },
-    "rdock_elapsed_s": 147.9,
-    "best_pose_sd": "research/modalities/_pose_second_method_poses/cross_dock_8XTT-model20.sd",
-    "cross_method_rmsd_A": 7.231,
-    "cross_method_band": "NOT RECOVERED",
-    "cross_method_internal_conformer_rmsd_A": 1.367,
-    "cross_method_centroid_distance_A": 2.457,
-    "second_method_self_agreement_A": {
-     "n": 49,
-     "min": 2.102,
-     "median": 7.387,
-     "max": 13.263,
-     "mean": 7.339
-    },
-    "second_method_top_vs_runner_up_A": 7.344,
-    "rdock_pose_to_site_center_A": 7.084,
-    "first_method_pose_to_site_center_A": 4.657
-   },
-   {
-    "id": "dock/8XTT-model6",
-    "kind_first_method": "smina dock, top pose (nr4a3_warhead.dock_into)",
-    "receptor_provenance": "EXPERIMENTAL apo NMR conformer (8XTT model 6)",
-    "receptor": "research/modalities/_pose_convergence_inputs/8xtt_model6_nr4a3.pdb",
-    "first_method_pose": "research/modalities/_pose_convergence_inputs/docked_nr4a3_m6.sdf",
-    "first_method_score_kcalmol": -6.86066,
-    "inherits_C6": false,
-    "n_pocket5_mapped": 10,
-    "n_pocket5_source": 10,
-    "site_center": [
-     -9.332,
-     10.775,
-     -17.453
-    ],
-    "cavity": {
-     "n_cavities": 1,
-     "total_volume_A3": 1085.75,
-     "cavity_volume_A3": 1085.75,
-     "cavity_center": [
-      -11.272,
-      10.124,
-      -14.921
-     ]
-    },
-    "n_rdock_poses": 50,
-    "rdock_best_score": -22.4758,
-    "rdock_score_spread": {
-     "n": 50,
-     "min": -22.476,
-     "median": 4.349,
-     "max": 58.461,
-     "mean": 5.723
-    },
-    "rdock_elapsed_s": 116.5,
-    "best_pose_sd": "research/modalities/_pose_second_method_poses/cross_dock_8XTT-model6.sd",
-    "cross_method_rmsd_A": 6.605,
-    "cross_method_band": "NOT RECOVERED",
-    "cross_method_internal_conformer_rmsd_A": 0.898,
-    "cross_method_centroid_distance_A": 6.416,
-    "second_method_self_agreement_A": {
-     "n": 49,
-     "min": 0.732,
-     "median": 2.566,
-     "max": 8.43,
-     "mean": 3.954
-    },
-    "second_method_top_vs_runner_up_A": 1.379,
-    "rdock_pose_to_site_center_A": 6.146,
-    "first_method_pose_to_site_center_A": 1.575
-   }
-  ],
+  "systems": [],
   "refusals": [],
   "n_sources_readable": 6,
   "n_sources_known": 6,
-  "_ligand": {
-   "label": "denovo_401",
-   "smiles": "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",
-   "_prepared": "a fresh ETKDGv3 conformer built from the census SMILES, NOT the smina pose \u2014 starting rDock from the pose it is being compared against would bias the comparison toward agreement."
+  "_status": "UNRUN \u2014 rDock's dock.prm protocol file is not readable under RBT_ROOT=None"
+ },
+ "part_b": {
+  "_asks": "On systems where the crystallographic answer IS known, what does a scoring-independent method recover \u2014 and does it agree with the first method?",
+  "_panel_source": "research/modalities/apo-pose-recovery.json \u2192 selection.panel_pool. \u26d4 The panel is READ, not re-sourced: re-running the RCSB query could return a different set and the comparison would no longer be on the same systems.",
+  "criterion": {
+   "_C14": "the pose-recovery criterion \u2014 symmetry-corrected heavy-atom RMSD bands",
+   "recovered_A": 2.0,
+   "partial_A": 4.0,
+   "secondary_fnat": 0.5,
+   "_C15": "the null-power rule for the pose panel",
+   "n_null": 200,
+   "null_power_max": 0.05,
+   "_read_from": "apo_pose_recovery.RECOVER_RMSD_A / PARTIAL_RMSD_A / FNAT_SUCCESS / N_NULL / NULL_POWER_MAX \u2014 this module defines no threshold of its own",
+   "_vocabulary": "RECOVERED (<= recovered_A) \u00b7 PARTIAL (<= partial_A) \u00b7 NOT RECOVERED. \u26d4 PARTIAL IS NOT RECOVERY. Every number below is reported in these words."
   },
-  "scale_reference": {
-   "length_A": 10.4,
-   "flip_rmsd_A": 6.84,
-   "random_reorient_mean_A": 5.11,
-   "n_random": 200,
-   "_note": "reference scales for reading the RMSD spread; none of these is a threshold"
+  "shared_configuration_by_arm": {
+   "site_matched": {
+    "REQUIRED": {
+     "C14": "the recovery criterion. Both methods are graded by the same 2.0/4.0 A bands \u2014 that is comparability, not a shared instrument. \u26a0 It is also the coupling \u00a73b.4 item 5 records: the same line produces V3's INCONCLUSIVE and V21's panel_readable=false.",
+     "C15": "the random-in-box null and its power line. \u26d4 ENGINE-INDEPENDENT BY CONSTRUCTION \u2014 `apo_pose_recovery.random_in_box_null` places the CRYSTAL ligand at random inside the box and never docks anything, so its power is a property of (box, molecule, criterion). rDock inherits the panel's null verbatim and could not have its own."
+    },
+    "AVOIDABLE": {
+     "C5": "the site's own definition \u2014 NR4A3's Pocket-5 lining set, transferred onto the receptor. This arm hands rDock the SAME centre smina was given, which is the whole point: holding the site fixed is what isolates search+scoring. The `receptor_wide` arm below does not share it."
+    },
+    "NOT SHARED": {
+     "C1": "D* \u2014 the druggability threshold. rDock's cavity mapper has no druggability score.",
+     "C2": "the cavity-selection rule. Not consulted: the centre is handed over.",
+     "C3": "the cavity acceptance gate. Not consulted.",
+     "C4": "the fpocket build. rDock's two-sphere/grid mapper is not fpocket."
+    }
+   },
+   "fpocket_box": {
+    "REQUIRED": {
+     "C14": "as above.",
+     "C15": "as above."
+    },
+    "AVOIDABLE": {
+     "C4": "the fpocket build \u2014 this arm docks into the box fpocket's top-ranked pocket defines, so it shares the DETECTOR that drew the box (and only that)."
+    },
+    "NOT SHARED": {
+     "C1": "D* is not applied by `apo_pose_recovery.fpocket_boxes`, which ranks by fpocket's own druggability and alpha-sphere count \u2014 verified in source, not assumed.",
+     "C2": "the cavity-selection rule is `pocket_tracking.match_pocket`; this ranking is not it.",
+     "C3": "the acceptance gate is not applied on this path either.",
+     "C5": "Pocket-5 is not used to draw this box."
+    }
+   },
+   "receptor_wide": {
+    "REQUIRED": {
+     "C14": "as above.",
+     "C15": "as above."
+    },
+    "AVOIDABLE": {},
+    "NOT SHARED": {
+     "C1": "no druggability threshold exists in rDock's mapper.",
+     "C2": "rDock picks its own largest cavity by VOLUME; the frozen best-matching rule is not consulted and cannot be, because there is no reference site in this arm.",
+     "C3": "no acceptance gate.",
+     "C4": "not fpocket.",
+     "C5": "\u2b51 THE POINT OF THIS ARM. Nothing about NR4A3's Pocket-5 reaches it: rDock is given the receptor and its own centroid and finds a cavity by itself. It is the only arm here that shares no site-selection configuration with the first method at all."
+    },
+    "_measured_limitation": "\u26d4 AND IT DOES NOT DELIVER A SITE ON THIS FOLD \u2014 measured 2026-08-03, before the panel ran. rDock's two-sphere mapper on an NR4A3 LBD inside a 25 \u00c5 sphere returns ONE region of 10369 \u00c5\u00b3 with extent 47\u00d746\u00d747.5 \u00c5: the whole concave envelope, which any ligand centroid lies inside trivially and which no affordable run count can sample. So the arm that owes the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm that CAN be graded shares the site with the first method. \u21d2 **this comparison is independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** \u2014 the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own `cavity_degeneracy` records whether this happened on that receptor."
+   },
+   "oracle_box": {
+    "REQUIRED": {
+     "C14": "as above.",
+     "C15": "as above."
+    },
+    "AVOIDABLE": {},
+    "NOT SHARED": {
+     "C1": "\u2014",
+     "C2": "\u2014",
+     "C3": "\u2014",
+     "C4": "\u2014",
+     "C5": "the box is centred on the crystallographic ligand itself, so no site selection of any kind is involved. \u26d4 Decomposition only, never a headline \u2014 the same rule `C3` (the control, not the config item) carries in the pre-registered panel."
+    }
+   }
   },
-  "cross_method_same_frame": {
-   "_asks": "In each receptor's OWN frame \u2014 no superposition, nothing to fudge \u2014 how far is the second method's best pose from the first method's committed pose?",
-   "n_systems": 6,
-   "rmsd_A": {
-    "n": 6,
-    "min": 3.147,
-    "median": 6.696,
-    "max": 9.816,
-    "mean": 6.681
+  "_confound_carried": {
+   "_question": "On a benchmark receptor, what does `the pipeline's box` mean?",
+   "site_definition_C5": {
+    "pocket5_lining_uniprot_Q92570": [
+     406,
+     407,
+     410,
+     411,
+     412,
+     481,
+     484,
+     485,
+     531,
+     534
+    ],
+    "span": [
+     406,
+     534
+    ],
+    "_home": "nr4a3_8xtt_benchmark.POCKET5 (= `C5` in the map's configuration register)"
    },
-   "centroid_distance_A": {
-    "n": 6,
-    "min": 1.116,
-    "median": 2.071,
-    "max": 7.5,
-    "mean": 3.424
+   "transfer_kernel": {
+    "function": "nr4a3_warhead.map_pocket_to_paralogue",
+    "how": "a global C\u03b1-sequence alignment of NR4A3's LBD onto the target receptor; the Pocket-5 residue numbers are carried across that alignment",
+    "boxed_by": "nr4a3_warhead.pocket_box \u2014 the C\u03b1 centroid of the carried residues",
+    "_called_from": "apo_pose_recovery.pipeline_box"
    },
-   "internal_conformer_rmsd_A": {
-    "n": 6,
-    "min": 0.898,
-    "median": 1.394,
-    "max": 2.128,
-    "mean": 1.466
+   "regime": {
+    "proteins_the_pipeline_actually_transfers_onto": [
+     "NR4A1",
+     "NR4A2"
+    ],
+    "accessions": [
+     "P22736",
+     "P43354",
+     "Q92570"
+    ],
+    "_plus": "NR4A3's own 8XTT (Q92570)",
+    "_reads": "\u26d4 A RECEPTOR OUTSIDE THIS LIST IS OUT OF THE PIPELINE'S REGIME. Running the transfer onto it and finding the ligand elsewhere is the benchmark's design, not a demonstrated defect of site selection."
    },
-   "bands": {
-    "RECOVERED": 0,
-    "PARTIAL": 1,
-    "NOT RECOVERED": 5
+   "independent_check_that_separates_the_two_readings": {
+    "function": "apo_pose_recovery.pocket5_structure_transfer",
+    "how": "the SAME Pocket-5 set carried across by CE structural superposition (Bio.PDB.cealign) instead of by sequence \u2014 so 'the alignment failed' and 'the ligand is not in this receptor's Pocket-5-equivalent site' can be told apart",
+    "_pre_declared_reading": "the two transfers AGREEING that the ligand is elsewhere reads as (b) \u2014 the ligand is not in the Pocket-5-equivalent site"
    },
-   "_reads": "counted in `C14`'s own words. \u26d4 RECOVERED here means 'the two methods placed it within the recovery line of each other', NOT that either placement is correct."
+   "_verified_by_reading": [
+    {
+     "function": "nr4a3_warhead.map_pocket_to_paralogue",
+     "n_source_lines": 39,
+     "uses_pairwise_sequence_alignment": true
+    },
+    {
+     "function": "nr4a3_warhead.pocket_box",
+     "n_source_lines": 14,
+     "centroid_of_CA": true
+    }
+   ]
   },
-  "orientation_or_location": {
-   "median_rmsd_A": 6.696,
-   "median_centroid_distance_A": 2.071,
-   "median_internal_conformer_rmsd_A": 1.394,
-   "molecule_length_A": 10.4,
-   "flip_rmsd_A": 6.84,
-   "random_reorient_mean_A": 5.11,
-   "_reads": "SAME LOCATION, DIFFERENT ORIENTATION \u2014 the median centroid separation (2.07 A) is small beside a median RMSD (6.70 A) that is ~the cost of turning this molecule end-for-end in place (6.84 A). The two methods are arguing about which way round it sits, not about which pocket. The conformer is NOT the explanation \u2014 median internal RMSD 1.39 A against a 6.70 A in-frame RMSD, so both methods found similar shapes and put them differently."
-  },
-  "within_second_method_spread": {
-   "_asks": "Does the SECOND method converge across receptor conformers any better than the first did? Same superposition (Pocket-5 Ca), same symmetry-corrected RMSD kernel.",
-   "_first_method_home": "research/modalities/pose-convergence-401.json \u2192 verdict.pocket_fit_ligand_rmsd_spread_A (not restated here)",
-   "n_systems": 6,
-   "n_pairs": 15,
-   "pairs": [
+  "pairs": [
+   {
+    "apo": "1OVL",
+    "holo": "5Y41",
+    "protein": "NR4A2 / Nurr1",
+    "accession": "P43354",
+    "ligand": "RPG",
+    "excluded_by": "R2b",
+    "refusals": [
+     {
+      "stage": "R2b",
+      "evidence": "RPG is COVALENTLY linked in 5Y41 (2 LINK record(s)); a non-covalent dock cannot reproduce a covalent pose. First: LINK         SG  CYS A 566                 C11 RPG A 601     1555   1555  1.64"
+     }
+    ],
+    "first_method_verdict": null,
+    "second_method": {},
+    "induced_fit": null,
+    "declared_allosteric": null,
+    "apo_and_holo_same_construct": null,
+    "C2_random_in_box_null": {
+     "p_within_criterion": null,
+     "has_power": null,
+     "n": null
+    }
+   },
+   {
+    "apo": "1OVL",
+    "holo": "5YD6",
+    "protein": "NR4A2 / Nurr1",
+    "accession": "P43354",
+    "ligand": "8SU",
+    "excluded_by": "R2b",
+    "refusals": [
+     {
+      "stage": "R2b",
+      "evidence": "8SU is COVALENTLY linked in 5YD6 (4 LINK record(s)); a non-covalent dock cannot reproduce a covalent pose. First: LINK         SG  CYS A 566                 C11 8SU A 601     1555   1555  1.64"
+     }
+    ],
+    "first_method_verdict": null,
+    "second_method": {},
+    "induced_fit": null,
+    "declared_allosteric": null,
+    "apo_and_holo_same_construct": null,
+    "C2_random_in_box_null": {
+     "p_within_criterion": null,
+     "has_power": null,
+     "n": null
+    }
+   },
+   {
+    "apo": "4RZF",
+    "holo": "4REF",
+    "protein": "NR4A1 / Nur77",
+    "accession": "P22736",
+    "ligand": "3N0",
+    "excluded_by": null,
+    "refusals": [],
+    "first_method_verdict": "INCONCLUSIVE",
+    "second_method": {
+     "_method": "rDock (rbcavity + rbdock, stock three-stage dock.prm)",
+     "_graded_by": "apo_pose_recovery.score_pose \u2014 the SAME scorer, contacts and frame the pre-registered arms use, so the two methods differ only in how the pose was produced",
+     "criterion": {
+      "_C14": "the pose-recovery criterion \u2014 symmetry-corrected heavy-atom RMSD bands",
+      "recovered_A": 2.0,
+      "partial_A": 4.0,
+      "secondary_fnat": 0.5,
+      "_C15": "the null-power rule for the pose panel",
+      "n_null": 200,
+      "null_power_max": 0.05,
+      "_read_from": "apo_pose_recovery.RECOVER_RMSD_A / PARTIAL_RMSD_A / FNAT_SUCCESS / N_NULL / NULL_POWER_MAX \u2014 this module defines no threshold of its own",
+      "_vocabulary": "RECOVERED (<= recovered_A) \u00b7 PARTIAL (<= partial_A) \u00b7 NOT RECOVERED. \u26d4 PARTIAL IS NOT RECOVERY. Every number below is reported in these words."
+     },
+     "n_rdock_runs": 25,
+     "rdock_seed": 20260803,
+     "site_matched_radius_A": 12.0,
+     "shared_configuration_by_arm": {
+      "site_matched": {
+       "REQUIRED": {
+        "C14": "the recovery criterion. Both methods are graded by the same 2.0/4.0 A bands \u2014 that is comparability, not a shared instrument. \u26a0 It is also the coupling \u00a73b.4 item 5 records: the same line produces V3's INCONCLUSIVE and V21's panel_readable=false.",
+        "C15": "the random-in-box null and its power line. \u26d4 ENGINE-INDEPENDENT BY CONSTRUCTION \u2014 `apo_pose_recovery.random_in_box_null` places the CRYSTAL ligand at random inside the box and never docks anything, so its power is a property of (box, molecule, criterion). rDock inherits the panel's null verbatim and could not have its own."
+       },
+       "AVOIDABLE": {
+        "C5": "the site's own definition \u2014 NR4A3's Pocket-5 lining set, transferred onto the receptor. This arm hands rDock the SAME centre smina was given, which is the whole point: holding the site fixed is what isolates search+scoring. The `receptor_wide` arm below does not share it."
+       },
+       "NOT SHARED": {
+        "C1": "D* \u2014 the druggability threshold. rDock's cavity mapper has no druggability score.",
+        "C2": "the cavity-selection rule. Not consulted: the centre is handed over.",
+        "C3": "the cavity acceptance gate. Not consulted.",
+        "C4": "the fpocket build. rDock's two-sphere/grid mapper is not fpocket."
+       }
+      },
+      "fpocket_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {
+        "C4": "the fpocket build \u2014 this arm docks into the box fpocket's top-ranked pocket defines, so it shares the DETECTOR that drew the box (and only that)."
+       },
+       "NOT SHARED": {
+        "C1": "D* is not applied by `apo_pose_recovery.fpocket_boxes`, which ranks by fpocket's own druggability and alpha-sphere count \u2014 verified in source, not assumed.",
+        "C2": "the cavity-selection rule is `pocket_tracking.match_pocket`; this ranking is not it.",
+        "C3": "the acceptance gate is not applied on this path either.",
+        "C5": "Pocket-5 is not used to draw this box."
+       }
+      },
+      "receptor_wide": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "no druggability threshold exists in rDock's mapper.",
+        "C2": "rDock picks its own largest cavity by VOLUME; the frozen best-matching rule is not consulted and cannot be, because there is no reference site in this arm.",
+        "C3": "no acceptance gate.",
+        "C4": "not fpocket.",
+        "C5": "\u2b51 THE POINT OF THIS ARM. Nothing about NR4A3's Pocket-5 reaches it: rDock is given the receptor and its own centroid and finds a cavity by itself. It is the only arm here that shares no site-selection configuration with the first method at all."
+       },
+       "_measured_limitation": "\u26d4 AND IT DOES NOT DELIVER A SITE ON THIS FOLD \u2014 measured 2026-08-03, before the panel ran. rDock's two-sphere mapper on an NR4A3 LBD inside a 25 \u00c5 sphere returns ONE region of 10369 \u00c5\u00b3 with extent 47\u00d746\u00d747.5 \u00c5: the whole concave envelope, which any ligand centroid lies inside trivially and which no affordable run count can sample. So the arm that owes the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm that CAN be graded shares the site with the first method. \u21d2 **this comparison is independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** \u2014 the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own `cavity_degeneracy` records whether this happened on that receptor."
+      },
+      "oracle_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "\u2014",
+        "C2": "\u2014",
+        "C3": "\u2014",
+        "C4": "\u2014",
+        "C5": "the box is centred on the crystallographic ligand itself, so no site selection of any kind is involved. \u26d4 Decomposition only, never a headline \u2014 the same rule `C3` (the control, not the config item) carries in the pre-registered panel."
+       }
+      }
+     },
+     "arms": {},
+     "refusals": [],
+     "_status": "UNRUN \u2014 rDock's dock.prm is not readable"
+    },
+    "induced_fit": {
+     "global_ca_rmsd_A": 0.457,
+     "site_ca_rmsd_A": 0.142,
+     "n_fit": 231,
+     "n_site": 9,
+     "large_rearrangement": false,
+     "_large_rearrangement_A": 1.0,
+     "_note": "apo->holo Ca movement at the ligand site. This is the size of the problem the cross-dock has to solve; it is measured, not assumed."
+    },
+    "declared_allosteric": false,
+    "apo_and_holo_same_construct": false,
+    "C2_random_in_box_null": {
+     "p_within_criterion": 0.0,
+     "has_power": null,
+     "n": 200
+    }
+   },
+   {
+    "apo": "4RZF",
+    "holo": "4RE8",
+    "protein": "NR4A1 / Nur77",
+    "accession": "P22736",
+    "ligand": "3MJ",
+    "excluded_by": null,
+    "refusals": [],
+    "first_method_verdict": "INCONCLUSIVE",
+    "second_method": {
+     "_method": "rDock (rbcavity + rbdock, stock three-stage dock.prm)",
+     "_graded_by": "apo_pose_recovery.score_pose \u2014 the SAME scorer, contacts and frame the pre-registered arms use, so the two methods differ only in how the pose was produced",
+     "criterion": {
+      "_C14": "the pose-recovery criterion \u2014 symmetry-corrected heavy-atom RMSD bands",
+      "recovered_A": 2.0,
+      "partial_A": 4.0,
+      "secondary_fnat": 0.5,
+      "_C15": "the null-power rule for the pose panel",
+      "n_null": 200,
+      "null_power_max": 0.05,
+      "_read_from": "apo_pose_recovery.RECOVER_RMSD_A / PARTIAL_RMSD_A / FNAT_SUCCESS / N_NULL / NULL_POWER_MAX \u2014 this module defines no threshold of its own",
+      "_vocabulary": "RECOVERED (<= recovered_A) \u00b7 PARTIAL (<= partial_A) \u00b7 NOT RECOVERED. \u26d4 PARTIAL IS NOT RECOVERY. Every number below is reported in these words."
+     },
+     "n_rdock_runs": 25,
+     "rdock_seed": 20260803,
+     "site_matched_radius_A": 12.0,
+     "shared_configuration_by_arm": {
+      "site_matched": {
+       "REQUIRED": {
+        "C14": "the recovery criterion. Both methods are graded by the same 2.0/4.0 A bands \u2014 that is comparability, not a shared instrument. \u26a0 It is also the coupling \u00a73b.4 item 5 records: the same line produces V3's INCONCLUSIVE and V21's panel_readable=false.",
+        "C15": "the random-in-box null and its power line. \u26d4 ENGINE-INDEPENDENT BY CONSTRUCTION \u2014 `apo_pose_recovery.random_in_box_null` places the CRYSTAL ligand at random inside the box and never docks anything, so its power is a property of (box, molecule, criterion). rDock inherits the panel's null verbatim and could not have its own."
+       },
+       "AVOIDABLE": {
+        "C5": "the site's own definition \u2014 NR4A3's Pocket-5 lining set, transferred onto the receptor. This arm hands rDock the SAME centre smina was given, which is the whole point: holding the site fixed is what isolates search+scoring. The `receptor_wide` arm below does not share it."
+       },
+       "NOT SHARED": {
+        "C1": "D* \u2014 the druggability threshold. rDock's cavity mapper has no druggability score.",
+        "C2": "the cavity-selection rule. Not consulted: the centre is handed over.",
+        "C3": "the cavity acceptance gate. Not consulted.",
+        "C4": "the fpocket build. rDock's two-sphere/grid mapper is not fpocket."
+       }
+      },
+      "fpocket_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {
+        "C4": "the fpocket build \u2014 this arm docks into the box fpocket's top-ranked pocket defines, so it shares the DETECTOR that drew the box (and only that)."
+       },
+       "NOT SHARED": {
+        "C1": "D* is not applied by `apo_pose_recovery.fpocket_boxes`, which ranks by fpocket's own druggability and alpha-sphere count \u2014 verified in source, not assumed.",
+        "C2": "the cavity-selection rule is `pocket_tracking.match_pocket`; this ranking is not it.",
+        "C3": "the acceptance gate is not applied on this path either.",
+        "C5": "Pocket-5 is not used to draw this box."
+       }
+      },
+      "receptor_wide": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "no druggability threshold exists in rDock's mapper.",
+        "C2": "rDock picks its own largest cavity by VOLUME; the frozen best-matching rule is not consulted and cannot be, because there is no reference site in this arm.",
+        "C3": "no acceptance gate.",
+        "C4": "not fpocket.",
+        "C5": "\u2b51 THE POINT OF THIS ARM. Nothing about NR4A3's Pocket-5 reaches it: rDock is given the receptor and its own centroid and finds a cavity by itself. It is the only arm here that shares no site-selection configuration with the first method at all."
+       },
+       "_measured_limitation": "\u26d4 AND IT DOES NOT DELIVER A SITE ON THIS FOLD \u2014 measured 2026-08-03, before the panel ran. rDock's two-sphere mapper on an NR4A3 LBD inside a 25 \u00c5 sphere returns ONE region of 10369 \u00c5\u00b3 with extent 47\u00d746\u00d747.5 \u00c5: the whole concave envelope, which any ligand centroid lies inside trivially and which no affordable run count can sample. So the arm that owes the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm that CAN be graded shares the site with the first method. \u21d2 **this comparison is independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** \u2014 the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own `cavity_degeneracy` records whether this happened on that receptor."
+      },
+      "oracle_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "\u2014",
+        "C2": "\u2014",
+        "C3": "\u2014",
+        "C4": "\u2014",
+        "C5": "the box is centred on the crystallographic ligand itself, so no site selection of any kind is involved. \u26d4 Decomposition only, never a headline \u2014 the same rule `C3` (the control, not the config item) carries in the pre-registered panel."
+       }
+      }
+     },
+     "arms": {},
+     "refusals": [],
+     "_status": "UNRUN \u2014 rDock's dock.prm is not readable"
+    },
+    "induced_fit": {
+     "global_ca_rmsd_A": 0.227,
+     "site_ca_rmsd_A": 0.172,
+     "n_fit": 233,
+     "n_site": 14,
+     "large_rearrangement": false,
+     "_large_rearrangement_A": 1.0,
+     "_note": "apo->holo Ca movement at the ligand site. This is the size of the problem the cross-dock has to solve; it is measured, not assumed."
+    },
+    "declared_allosteric": false,
+    "apo_and_holo_same_construct": false,
+    "C2_random_in_box_null": {
+     "p_within_criterion": 0.0,
+     "has_power": null,
+     "n": 200
+    }
+   },
+   {
+    "apo": "1RXR",
+    "holo": "9QX6",
+    "protein": "RXRA",
+    "accession": "P19793",
+    "ligand": "A1JAT",
+    "excluded_by": null,
+    "refusals": [
+     {
+      "stage": "fetch",
+      "evidence": "HTTPError: HTTP Error 404: Not Found \u2014 files.rcsb.org serves no legacy PDB-format file for this entry (large or recent depositions are mmCIF-only), so this pair is UNREAD for a FILE-FORMAT reason, not a scientific one. It biases the panel toward older entries and is recorded so that bias is visible."
+     }
+    ],
+    "first_method_verdict": null,
+    "second_method": {},
+    "induced_fit": null,
+    "declared_allosteric": null,
+    "apo_and_holo_same_construct": null,
+    "C2_random_in_box_null": {
+     "p_within_criterion": null,
+     "has_power": null,
+     "n": null
+    }
+   },
+   {
+    "apo": "1RXR",
+    "holo": "6LB4",
+    "protein": "RXRA",
+    "accession": "P19793",
+    "ligand": "E8L",
+    "excluded_by": null,
+    "refusals": [
+     {
+      "stage": "alignment",
+      "evidence": "apo<->holo alignment failed for 1RXR (chain A, 83 Ca) -> 6LB4 (chain A, 218 Ca), declared chains apo=['A'] holo=['A']. Underlying: alignment identity 0.329 < 0.8 between Q92570 and 8XTT chain \u2014 implausibly low for the same protein; refusing to map (wrong chain / corrupt download?). \u26a0 that message names Q92570/8XTT because `nr4a3_8xtt_benchmark.map_uniprot_to_pdb` hard-codes them; NEITHER is in this pair. A low identity between two deposits of the SAME accession is a CHAIN-SELECTION symptom before it is a data problem."
+     }
+    ],
+    "first_method_verdict": null,
+    "second_method": {},
+    "induced_fit": null,
+    "declared_allosteric": false,
+    "apo_and_holo_same_construct": null,
+    "C2_random_in_box_null": {
+     "p_within_criterion": null,
+     "has_power": null,
+     "n": null
+    }
+   },
+   {
+    "apo": "2QMV",
+    "holo": "9F7W",
+    "protein": "PPARG",
+    "accession": "P37231",
+    "ligand": "2OH",
+    "excluded_by": null,
+    "refusals": [],
+    "first_method_verdict": "INCONCLUSIVE",
+    "second_method": {
+     "_method": "rDock (rbcavity + rbdock, stock three-stage dock.prm)",
+     "_graded_by": "apo_pose_recovery.score_pose \u2014 the SAME scorer, contacts and frame the pre-registered arms use, so the two methods differ only in how the pose was produced",
+     "criterion": {
+      "_C14": "the pose-recovery criterion \u2014 symmetry-corrected heavy-atom RMSD bands",
+      "recovered_A": 2.0,
+      "partial_A": 4.0,
+      "secondary_fnat": 0.5,
+      "_C15": "the null-power rule for the pose panel",
+      "n_null": 200,
+      "null_power_max": 0.05,
+      "_read_from": "apo_pose_recovery.RECOVER_RMSD_A / PARTIAL_RMSD_A / FNAT_SUCCESS / N_NULL / NULL_POWER_MAX \u2014 this module defines no threshold of its own",
+      "_vocabulary": "RECOVERED (<= recovered_A) \u00b7 PARTIAL (<= partial_A) \u00b7 NOT RECOVERED. \u26d4 PARTIAL IS NOT RECOVERY. Every number below is reported in these words."
+     },
+     "n_rdock_runs": 25,
+     "rdock_seed": 20260803,
+     "site_matched_radius_A": 12.0,
+     "shared_configuration_by_arm": {
+      "site_matched": {
+       "REQUIRED": {
+        "C14": "the recovery criterion. Both methods are graded by the same 2.0/4.0 A bands \u2014 that is comparability, not a shared instrument. \u26a0 It is also the coupling \u00a73b.4 item 5 records: the same line produces V3's INCONCLUSIVE and V21's panel_readable=false.",
+        "C15": "the random-in-box null and its power line. \u26d4 ENGINE-INDEPENDENT BY CONSTRUCTION \u2014 `apo_pose_recovery.random_in_box_null` places the CRYSTAL ligand at random inside the box and never docks anything, so its power is a property of (box, molecule, criterion). rDock inherits the panel's null verbatim and could not have its own."
+       },
+       "AVOIDABLE": {
+        "C5": "the site's own definition \u2014 NR4A3's Pocket-5 lining set, transferred onto the receptor. This arm hands rDock the SAME centre smina was given, which is the whole point: holding the site fixed is what isolates search+scoring. The `receptor_wide` arm below does not share it."
+       },
+       "NOT SHARED": {
+        "C1": "D* \u2014 the druggability threshold. rDock's cavity mapper has no druggability score.",
+        "C2": "the cavity-selection rule. Not consulted: the centre is handed over.",
+        "C3": "the cavity acceptance gate. Not consulted.",
+        "C4": "the fpocket build. rDock's two-sphere/grid mapper is not fpocket."
+       }
+      },
+      "fpocket_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {
+        "C4": "the fpocket build \u2014 this arm docks into the box fpocket's top-ranked pocket defines, so it shares the DETECTOR that drew the box (and only that)."
+       },
+       "NOT SHARED": {
+        "C1": "D* is not applied by `apo_pose_recovery.fpocket_boxes`, which ranks by fpocket's own druggability and alpha-sphere count \u2014 verified in source, not assumed.",
+        "C2": "the cavity-selection rule is `pocket_tracking.match_pocket`; this ranking is not it.",
+        "C3": "the acceptance gate is not applied on this path either.",
+        "C5": "Pocket-5 is not used to draw this box."
+       }
+      },
+      "receptor_wide": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "no druggability threshold exists in rDock's mapper.",
+        "C2": "rDock picks its own largest cavity by VOLUME; the frozen best-matching rule is not consulted and cannot be, because there is no reference site in this arm.",
+        "C3": "no acceptance gate.",
+        "C4": "not fpocket.",
+        "C5": "\u2b51 THE POINT OF THIS ARM. Nothing about NR4A3's Pocket-5 reaches it: rDock is given the receptor and its own centroid and finds a cavity by itself. It is the only arm here that shares no site-selection configuration with the first method at all."
+       },
+       "_measured_limitation": "\u26d4 AND IT DOES NOT DELIVER A SITE ON THIS FOLD \u2014 measured 2026-08-03, before the panel ran. rDock's two-sphere mapper on an NR4A3 LBD inside a 25 \u00c5 sphere returns ONE region of 10369 \u00c5\u00b3 with extent 47\u00d746\u00d747.5 \u00c5: the whole concave envelope, which any ligand centroid lies inside trivially and which no affordable run count can sample. So the arm that owes the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm that CAN be graded shares the site with the first method. \u21d2 **this comparison is independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** \u2014 the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own `cavity_degeneracy` records whether this happened on that receptor."
+      },
+      "oracle_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "\u2014",
+        "C2": "\u2014",
+        "C3": "\u2014",
+        "C4": "\u2014",
+        "C5": "the box is centred on the crystallographic ligand itself, so no site selection of any kind is involved. \u26d4 Decomposition only, never a headline \u2014 the same rule `C3` (the control, not the config item) carries in the pre-registered panel."
+       }
+      }
+     },
+     "arms": {},
+     "refusals": [],
+     "_status": "UNRUN \u2014 rDock's dock.prm is not readable"
+    },
+    "induced_fit": {
+     "global_ca_rmsd_A": 3.383,
+     "site_ca_rmsd_A": 3.862,
+     "n_fit": 267,
+     "n_site": 12,
+     "large_rearrangement": true,
+     "_large_rearrangement_A": 1.0,
+     "_note": "apo->holo Ca movement at the ligand site. This is the size of the problem the cross-dock has to solve; it is measured, not assumed."
+    },
+    "declared_allosteric": false,
+    "apo_and_holo_same_construct": true,
+    "C2_random_in_box_null": {
+     "p_within_criterion": 0.0,
+     "has_power": null,
+     "n": 200
+    }
+   },
+   {
+    "apo": "2QMV",
+    "holo": "9V8H",
+    "protein": "PPARG",
+    "accession": "P37231",
+    "ligand": "BRL",
+    "excluded_by": null,
+    "refusals": [],
+    "first_method_verdict": "INCONCLUSIVE",
+    "second_method": {
+     "_method": "rDock (rbcavity + rbdock, stock three-stage dock.prm)",
+     "_graded_by": "apo_pose_recovery.score_pose \u2014 the SAME scorer, contacts and frame the pre-registered arms use, so the two methods differ only in how the pose was produced",
+     "criterion": {
+      "_C14": "the pose-recovery criterion \u2014 symmetry-corrected heavy-atom RMSD bands",
+      "recovered_A": 2.0,
+      "partial_A": 4.0,
+      "secondary_fnat": 0.5,
+      "_C15": "the null-power rule for the pose panel",
+      "n_null": 200,
+      "null_power_max": 0.05,
+      "_read_from": "apo_pose_recovery.RECOVER_RMSD_A / PARTIAL_RMSD_A / FNAT_SUCCESS / N_NULL / NULL_POWER_MAX \u2014 this module defines no threshold of its own",
+      "_vocabulary": "RECOVERED (<= recovered_A) \u00b7 PARTIAL (<= partial_A) \u00b7 NOT RECOVERED. \u26d4 PARTIAL IS NOT RECOVERY. Every number below is reported in these words."
+     },
+     "n_rdock_runs": 25,
+     "rdock_seed": 20260803,
+     "site_matched_radius_A": 12.0,
+     "shared_configuration_by_arm": {
+      "site_matched": {
+       "REQUIRED": {
+        "C14": "the recovery criterion. Both methods are graded by the same 2.0/4.0 A bands \u2014 that is comparability, not a shared instrument. \u26a0 It is also the coupling \u00a73b.4 item 5 records: the same line produces V3's INCONCLUSIVE and V21's panel_readable=false.",
+        "C15": "the random-in-box null and its power line. \u26d4 ENGINE-INDEPENDENT BY CONSTRUCTION \u2014 `apo_pose_recovery.random_in_box_null` places the CRYSTAL ligand at random inside the box and never docks anything, so its power is a property of (box, molecule, criterion). rDock inherits the panel's null verbatim and could not have its own."
+       },
+       "AVOIDABLE": {
+        "C5": "the site's own definition \u2014 NR4A3's Pocket-5 lining set, transferred onto the receptor. This arm hands rDock the SAME centre smina was given, which is the whole point: holding the site fixed is what isolates search+scoring. The `receptor_wide` arm below does not share it."
+       },
+       "NOT SHARED": {
+        "C1": "D* \u2014 the druggability threshold. rDock's cavity mapper has no druggability score.",
+        "C2": "the cavity-selection rule. Not consulted: the centre is handed over.",
+        "C3": "the cavity acceptance gate. Not consulted.",
+        "C4": "the fpocket build. rDock's two-sphere/grid mapper is not fpocket."
+       }
+      },
+      "fpocket_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {
+        "C4": "the fpocket build \u2014 this arm docks into the box fpocket's top-ranked pocket defines, so it shares the DETECTOR that drew the box (and only that)."
+       },
+       "NOT SHARED": {
+        "C1": "D* is not applied by `apo_pose_recovery.fpocket_boxes`, which ranks by fpocket's own druggability and alpha-sphere count \u2014 verified in source, not assumed.",
+        "C2": "the cavity-selection rule is `pocket_tracking.match_pocket`; this ranking is not it.",
+        "C3": "the acceptance gate is not applied on this path either.",
+        "C5": "Pocket-5 is not used to draw this box."
+       }
+      },
+      "receptor_wide": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "no druggability threshold exists in rDock's mapper.",
+        "C2": "rDock picks its own largest cavity by VOLUME; the frozen best-matching rule is not consulted and cannot be, because there is no reference site in this arm.",
+        "C3": "no acceptance gate.",
+        "C4": "not fpocket.",
+        "C5": "\u2b51 THE POINT OF THIS ARM. Nothing about NR4A3's Pocket-5 reaches it: rDock is given the receptor and its own centroid and finds a cavity by itself. It is the only arm here that shares no site-selection configuration with the first method at all."
+       },
+       "_measured_limitation": "\u26d4 AND IT DOES NOT DELIVER A SITE ON THIS FOLD \u2014 measured 2026-08-03, before the panel ran. rDock's two-sphere mapper on an NR4A3 LBD inside a 25 \u00c5 sphere returns ONE region of 10369 \u00c5\u00b3 with extent 47\u00d746\u00d747.5 \u00c5: the whole concave envelope, which any ligand centroid lies inside trivially and which no affordable run count can sample. So the arm that owes the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm that CAN be graded shares the site with the first method. \u21d2 **this comparison is independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** \u2014 the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own `cavity_degeneracy` records whether this happened on that receptor."
+      },
+      "oracle_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "\u2014",
+        "C2": "\u2014",
+        "C3": "\u2014",
+        "C4": "\u2014",
+        "C5": "the box is centred on the crystallographic ligand itself, so no site selection of any kind is involved. \u26d4 Decomposition only, never a headline \u2014 the same rule `C3` (the control, not the config item) carries in the pre-registered panel."
+       }
+      }
+     },
+     "arms": {},
+     "refusals": [],
+     "_status": "UNRUN \u2014 rDock's dock.prm is not readable"
+    },
+    "induced_fit": {
+     "global_ca_rmsd_A": 2.808,
+     "site_ca_rmsd_A": 2.161,
+     "n_fit": 250,
+     "n_site": 16,
+     "large_rearrangement": true,
+     "_large_rearrangement_A": 1.0,
+     "_note": "apo->holo Ca movement at the ligand site. This is the size of the problem the cross-dock has to solve; it is measured, not assumed."
+    },
+    "declared_allosteric": false,
+    "apo_and_holo_same_construct": true,
+    "C2_random_in_box_null": {
+     "p_within_criterion": 0.0,
+     "has_power": null,
+     "n": 200
+    }
+   },
+   {
+    "apo": "1DSZ",
+    "holo": "9GFE",
+    "protein": "RARA",
+    "accession": "P10276",
+    "ligand": "EQN",
+    "excluded_by": null,
+    "refusals": [
+     {
+      "stage": "alignment",
+      "evidence": "apo<->holo alignment failed for 1DSZ (chain A, 75 Ca) -> 9GFE (chain A, 235 Ca), declared chains apo=['A'] holo=['A']. Underlying: alignment identity 0.338 < 0.8 between Q92570 and 8XTT chain \u2014 implausibly low for the same protein; refusing to map (wrong chain / corrupt download?). \u26a0 that message names Q92570/8XTT because `nr4a3_8xtt_benchmark.map_uniprot_to_pdb` hard-codes them; NEITHER is in this pair. A low identity between two deposits of the SAME accession is a CHAIN-SELECTION symptom before it is a data problem."
+     }
+    ],
+    "first_method_verdict": null,
+    "second_method": {},
+    "induced_fit": null,
+    "declared_allosteric": false,
+    "apo_and_holo_same_construct": null,
+    "C2_random_in_box_null": {
+     "p_within_criterion": null,
+     "has_power": null,
+     "n": null
+    }
+   },
+   {
+    "apo": "1DSZ",
+    "holo": "3KMR",
+    "protein": "RARA",
+    "accession": "P10276",
+    "ligand": "EQN",
+    "excluded_by": null,
+    "refusals": [
+     {
+      "stage": "alignment",
+      "evidence": "apo<->holo alignment failed for 1DSZ (chain A, 75 Ca) -> 3KMR (chain A, 234 Ca), declared chains apo=['A'] holo=['A']. Underlying: alignment identity 0.347 < 0.8 between Q92570 and 8XTT chain \u2014 implausibly low for the same protein; refusing to map (wrong chain / corrupt download?). \u26a0 that message names Q92570/8XTT because `nr4a3_8xtt_benchmark.map_uniprot_to_pdb` hard-codes them; NEITHER is in this pair. A low identity between two deposits of the SAME accession is a CHAIN-SELECTION symptom before it is a data problem."
+     }
+    ],
+    "first_method_verdict": null,
+    "second_method": {},
+    "induced_fit": null,
+    "declared_allosteric": false,
+    "apo_and_holo_same_construct": null,
+    "C2_random_in_box_null": {
+     "p_within_criterion": null,
+     "has_power": null,
+     "n": null
+    }
+   },
+   {
+    "apo": "5G42",
+    "holo": "7NPC",
+    "protein": "RORC / RORgt",
+    "accession": "P51449",
+    "ligand": "ULT",
+    "excluded_by": null,
+    "refusals": [],
+    "first_method_verdict": "INCONCLUSIVE",
+    "second_method": {
+     "_method": "rDock (rbcavity + rbdock, stock three-stage dock.prm)",
+     "_graded_by": "apo_pose_recovery.score_pose \u2014 the SAME scorer, contacts and frame the pre-registered arms use, so the two methods differ only in how the pose was produced",
+     "criterion": {
+      "_C14": "the pose-recovery criterion \u2014 symmetry-corrected heavy-atom RMSD bands",
+      "recovered_A": 2.0,
+      "partial_A": 4.0,
+      "secondary_fnat": 0.5,
+      "_C15": "the null-power rule for the pose panel",
+      "n_null": 200,
+      "null_power_max": 0.05,
+      "_read_from": "apo_pose_recovery.RECOVER_RMSD_A / PARTIAL_RMSD_A / FNAT_SUCCESS / N_NULL / NULL_POWER_MAX \u2014 this module defines no threshold of its own",
+      "_vocabulary": "RECOVERED (<= recovered_A) \u00b7 PARTIAL (<= partial_A) \u00b7 NOT RECOVERED. \u26d4 PARTIAL IS NOT RECOVERY. Every number below is reported in these words."
+     },
+     "n_rdock_runs": 25,
+     "rdock_seed": 20260803,
+     "site_matched_radius_A": 12.0,
+     "shared_configuration_by_arm": {
+      "site_matched": {
+       "REQUIRED": {
+        "C14": "the recovery criterion. Both methods are graded by the same 2.0/4.0 A bands \u2014 that is comparability, not a shared instrument. \u26a0 It is also the coupling \u00a73b.4 item 5 records: the same line produces V3's INCONCLUSIVE and V21's panel_readable=false.",
+        "C15": "the random-in-box null and its power line. \u26d4 ENGINE-INDEPENDENT BY CONSTRUCTION \u2014 `apo_pose_recovery.random_in_box_null` places the CRYSTAL ligand at random inside the box and never docks anything, so its power is a property of (box, molecule, criterion). rDock inherits the panel's null verbatim and could not have its own."
+       },
+       "AVOIDABLE": {
+        "C5": "the site's own definition \u2014 NR4A3's Pocket-5 lining set, transferred onto the receptor. This arm hands rDock the SAME centre smina was given, which is the whole point: holding the site fixed is what isolates search+scoring. The `receptor_wide` arm below does not share it."
+       },
+       "NOT SHARED": {
+        "C1": "D* \u2014 the druggability threshold. rDock's cavity mapper has no druggability score.",
+        "C2": "the cavity-selection rule. Not consulted: the centre is handed over.",
+        "C3": "the cavity acceptance gate. Not consulted.",
+        "C4": "the fpocket build. rDock's two-sphere/grid mapper is not fpocket."
+       }
+      },
+      "fpocket_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {
+        "C4": "the fpocket build \u2014 this arm docks into the box fpocket's top-ranked pocket defines, so it shares the DETECTOR that drew the box (and only that)."
+       },
+       "NOT SHARED": {
+        "C1": "D* is not applied by `apo_pose_recovery.fpocket_boxes`, which ranks by fpocket's own druggability and alpha-sphere count \u2014 verified in source, not assumed.",
+        "C2": "the cavity-selection rule is `pocket_tracking.match_pocket`; this ranking is not it.",
+        "C3": "the acceptance gate is not applied on this path either.",
+        "C5": "Pocket-5 is not used to draw this box."
+       }
+      },
+      "receptor_wide": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "no druggability threshold exists in rDock's mapper.",
+        "C2": "rDock picks its own largest cavity by VOLUME; the frozen best-matching rule is not consulted and cannot be, because there is no reference site in this arm.",
+        "C3": "no acceptance gate.",
+        "C4": "not fpocket.",
+        "C5": "\u2b51 THE POINT OF THIS ARM. Nothing about NR4A3's Pocket-5 reaches it: rDock is given the receptor and its own centroid and finds a cavity by itself. It is the only arm here that shares no site-selection configuration with the first method at all."
+       },
+       "_measured_limitation": "\u26d4 AND IT DOES NOT DELIVER A SITE ON THIS FOLD \u2014 measured 2026-08-03, before the panel ran. rDock's two-sphere mapper on an NR4A3 LBD inside a 25 \u00c5 sphere returns ONE region of 10369 \u00c5\u00b3 with extent 47\u00d746\u00d747.5 \u00c5: the whole concave envelope, which any ligand centroid lies inside trivially and which no affordable run count can sample. So the arm that owes the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm that CAN be graded shares the site with the first method. \u21d2 **this comparison is independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** \u2014 the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own `cavity_degeneracy` records whether this happened on that receptor."
+      },
+      "oracle_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "\u2014",
+        "C2": "\u2014",
+        "C3": "\u2014",
+        "C4": "\u2014",
+        "C5": "the box is centred on the crystallographic ligand itself, so no site selection of any kind is involved. \u26d4 Decomposition only, never a headline \u2014 the same rule `C3` (the control, not the config item) carries in the pre-registered panel."
+       }
+      }
+     },
+     "arms": {},
+     "refusals": [],
+     "_status": "UNRUN \u2014 rDock's dock.prm is not readable"
+    },
+    "induced_fit": {
+     "global_ca_rmsd_A": 2.775,
+     "site_ca_rmsd_A": 6.46,
+     "n_fit": 240,
+     "n_site": 22,
+     "large_rearrangement": true,
+     "_large_rearrangement_A": 1.0,
+     "_note": "apo->holo Ca movement at the ligand site. This is the size of the problem the cross-dock has to solve; it is measured, not assumed."
+    },
+    "declared_allosteric": true,
+    "apo_and_holo_same_construct": true,
+    "C2_random_in_box_null": {
+     "p_within_criterion": 0.0,
+     "has_power": null,
+     "n": 200
+    }
+   },
+   {
+    "apo": "5G42",
+    "holo": "6T4X",
+    "protein": "RORC / RORgt",
+    "accession": "P51449",
+    "ligand": "L3E",
+    "excluded_by": null,
+    "refusals": [],
+    "first_method_verdict": "INCONCLUSIVE",
+    "second_method": {
+     "_method": "rDock (rbcavity + rbdock, stock three-stage dock.prm)",
+     "_graded_by": "apo_pose_recovery.score_pose \u2014 the SAME scorer, contacts and frame the pre-registered arms use, so the two methods differ only in how the pose was produced",
+     "criterion": {
+      "_C14": "the pose-recovery criterion \u2014 symmetry-corrected heavy-atom RMSD bands",
+      "recovered_A": 2.0,
+      "partial_A": 4.0,
+      "secondary_fnat": 0.5,
+      "_C15": "the null-power rule for the pose panel",
+      "n_null": 200,
+      "null_power_max": 0.05,
+      "_read_from": "apo_pose_recovery.RECOVER_RMSD_A / PARTIAL_RMSD_A / FNAT_SUCCESS / N_NULL / NULL_POWER_MAX \u2014 this module defines no threshold of its own",
+      "_vocabulary": "RECOVERED (<= recovered_A) \u00b7 PARTIAL (<= partial_A) \u00b7 NOT RECOVERED. \u26d4 PARTIAL IS NOT RECOVERY. Every number below is reported in these words."
+     },
+     "n_rdock_runs": 25,
+     "rdock_seed": 20260803,
+     "site_matched_radius_A": 12.0,
+     "shared_configuration_by_arm": {
+      "site_matched": {
+       "REQUIRED": {
+        "C14": "the recovery criterion. Both methods are graded by the same 2.0/4.0 A bands \u2014 that is comparability, not a shared instrument. \u26a0 It is also the coupling \u00a73b.4 item 5 records: the same line produces V3's INCONCLUSIVE and V21's panel_readable=false.",
+        "C15": "the random-in-box null and its power line. \u26d4 ENGINE-INDEPENDENT BY CONSTRUCTION \u2014 `apo_pose_recovery.random_in_box_null` places the CRYSTAL ligand at random inside the box and never docks anything, so its power is a property of (box, molecule, criterion). rDock inherits the panel's null verbatim and could not have its own."
+       },
+       "AVOIDABLE": {
+        "C5": "the site's own definition \u2014 NR4A3's Pocket-5 lining set, transferred onto the receptor. This arm hands rDock the SAME centre smina was given, which is the whole point: holding the site fixed is what isolates search+scoring. The `receptor_wide` arm below does not share it."
+       },
+       "NOT SHARED": {
+        "C1": "D* \u2014 the druggability threshold. rDock's cavity mapper has no druggability score.",
+        "C2": "the cavity-selection rule. Not consulted: the centre is handed over.",
+        "C3": "the cavity acceptance gate. Not consulted.",
+        "C4": "the fpocket build. rDock's two-sphere/grid mapper is not fpocket."
+       }
+      },
+      "fpocket_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {
+        "C4": "the fpocket build \u2014 this arm docks into the box fpocket's top-ranked pocket defines, so it shares the DETECTOR that drew the box (and only that)."
+       },
+       "NOT SHARED": {
+        "C1": "D* is not applied by `apo_pose_recovery.fpocket_boxes`, which ranks by fpocket's own druggability and alpha-sphere count \u2014 verified in source, not assumed.",
+        "C2": "the cavity-selection rule is `pocket_tracking.match_pocket`; this ranking is not it.",
+        "C3": "the acceptance gate is not applied on this path either.",
+        "C5": "Pocket-5 is not used to draw this box."
+       }
+      },
+      "receptor_wide": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "no druggability threshold exists in rDock's mapper.",
+        "C2": "rDock picks its own largest cavity by VOLUME; the frozen best-matching rule is not consulted and cannot be, because there is no reference site in this arm.",
+        "C3": "no acceptance gate.",
+        "C4": "not fpocket.",
+        "C5": "\u2b51 THE POINT OF THIS ARM. Nothing about NR4A3's Pocket-5 reaches it: rDock is given the receptor and its own centroid and finds a cavity by itself. It is the only arm here that shares no site-selection configuration with the first method at all."
+       },
+       "_measured_limitation": "\u26d4 AND IT DOES NOT DELIVER A SITE ON THIS FOLD \u2014 measured 2026-08-03, before the panel ran. rDock's two-sphere mapper on an NR4A3 LBD inside a 25 \u00c5 sphere returns ONE region of 10369 \u00c5\u00b3 with extent 47\u00d746\u00d747.5 \u00c5: the whole concave envelope, which any ligand centroid lies inside trivially and which no affordable run count can sample. So the arm that owes the pipeline nothing is ALSO the arm that cannot answer the site question, and every arm that CAN be graded shares the site with the first method. \u21d2 **this comparison is independent in SCORING, SEARCH and ATOM TYPING, and deliberately not in SITE SELECTION** \u2014 the site question has its own instrument (`apo-pose-site-in-regime.json`). Each arm's own `cavity_degeneracy` records whether this happened on that receptor."
+      },
+      "oracle_box": {
+       "REQUIRED": {
+        "C14": "as above.",
+        "C15": "as above."
+       },
+       "AVOIDABLE": {},
+       "NOT SHARED": {
+        "C1": "\u2014",
+        "C2": "\u2014",
+        "C3": "\u2014",
+        "C4": "\u2014",
+        "C5": "the box is centred on the crystallographic ligand itself, so no site selection of any kind is involved. \u26d4 Decomposition only, never a headline \u2014 the same rule `C3` (the control, not the config item) carries in the pre-registered panel."
+       }
+      }
+     },
+     "arms": {},
+     "refusals": [],
+     "_status": "UNRUN \u2014 rDock's dock.prm is not readable"
+    },
+    "induced_fit": {
+     "global_ca_rmsd_A": 2.734,
+     "site_ca_rmsd_A": 6.384,
+     "n_fit": 240,
+     "n_site": 22,
+     "large_rearrangement": true,
+     "_large_rearrangement_A": 1.0,
+     "_note": "apo->holo Ca movement at the ligand site. This is the size of the problem the cross-dock has to solve; it is measured, not assumed."
+    },
+    "declared_allosteric": true,
+    "apo_and_holo_same_construct": true,
+    "C2_random_in_box_null": {
+     "p_within_criterion": 0.0,
+     "has_power": null,
+     "n": 200
+    }
+   }
+  ],
+  "refusals": [],
+  "n_pairs_attempted": 12,
+  "_af2_reference": "results/nr4a3-metad-r2/ckpt/AF-Q92570.pdb",
+  "rollup": {
+   "rows": [
     {
-     "a": "dock/metad-opened/v2",
-     "b": "dock/metad-opened/v2-statematch",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 0.763,
-     "ligand_rmsd_A": 4.658,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 2.506,
-     "why": null
+     "pair": "1OVL->5Y41",
+     "protein": "NR4A2 / Nurr1",
+     "excluded_by": "R2b",
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/metad-opened/v2",
-     "b": "dock/8XTT-model2",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 2.441,
-     "ligand_rmsd_A": 7.149,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 3.69,
-     "why": null
+     "pair": "1OVL->5YD6",
+     "protein": "NR4A2 / Nurr1",
+     "excluded_by": "R2b",
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/metad-opened/v2",
-     "b": "dock/8XTT-model8",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 2.196,
-     "ligand_rmsd_A": 5.849,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 3.958,
-     "why": null
+     "pair": "4RZF->4REF",
+     "protein": "NR4A1 / Nur77",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/metad-opened/v2",
-     "b": "dock/8XTT-model20",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 2.082,
-     "ligand_rmsd_A": 9.613,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 6.873,
-     "why": null
+     "pair": "4RZF->4RE8",
+     "protein": "NR4A1 / Nur77",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/metad-opened/v2",
-     "b": "dock/8XTT-model6",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 1.991,
-     "ligand_rmsd_A": 8.643,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 6.617,
-     "why": null
+     "pair": "1RXR->9QX6",
+     "protein": "RXRA",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/metad-opened/v2-statematch",
-     "b": "dock/8XTT-model2",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 2.441,
-     "ligand_rmsd_A": 5.766,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 2.388,
-     "why": null
+     "pair": "1RXR->6LB4",
+     "protein": "RXRA",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/metad-opened/v2-statematch",
-     "b": "dock/8XTT-model8",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 2.241,
-     "ligand_rmsd_A": 6.659,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 4.665,
-     "why": null
+     "pair": "2QMV->9F7W",
+     "protein": "PPARG",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/metad-opened/v2-statematch",
-     "b": "dock/8XTT-model20",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 2.095,
-     "ligand_rmsd_A": 8.889,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 7.207,
-     "why": null
+     "pair": "2QMV->9V8H",
+     "protein": "PPARG",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/metad-opened/v2-statematch",
-     "b": "dock/8XTT-model6",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 2.111,
-     "ligand_rmsd_A": 6.736,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 4.819,
-     "why": null
+     "pair": "1DSZ->9GFE",
+     "protein": "RARA",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/8XTT-model2",
-     "b": "dock/8XTT-model8",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 0.505,
-     "ligand_rmsd_A": 7.47,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 6.44,
-     "why": null
+     "pair": "1DSZ->3KMR",
+     "protein": "RARA",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/8XTT-model2",
-     "b": "dock/8XTT-model20",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 0.856,
-     "ligand_rmsd_A": 10.598,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 9.11,
-     "why": null
+     "pair": "5G42->7NPC",
+     "protein": "RORC / RORgt",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     },
     {
-     "a": "dock/8XTT-model2",
-     "b": "dock/8XTT-model6",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 0.881,
-     "ligand_rmsd_A": 4.453,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 2.95,
-     "why": null
-    },
-    {
-     "a": "dock/8XTT-model8",
-     "b": "dock/8XTT-model20",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 0.698,
-     "ligand_rmsd_A": 7.385,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 2.963,
-     "why": null
-    },
-    {
-     "a": "dock/8XTT-model8",
-     "b": "dock/8XTT-model6",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 0.703,
-     "ligand_rmsd_A": 9.843,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 8.953,
-     "why": null
-    },
-    {
-     "a": "dock/8XTT-model20",
-     "b": "dock/8XTT-model6",
-     "n_fit_residues": 10,
-     "receptor_fit_rmsd_A": 0.476,
-     "ligand_rmsd_A": 12.845,
-     "band": "NOT RECOVERED",
-     "ligand_centroid_distance_A": 11.327,
-     "why": null
+     "pair": "5G42->6T4X",
+     "protein": "RORC / RORgt",
+     "excluded_by": null,
+     "ceiling_rmsd_A": null,
+     "ceiling_band": null,
+     "gradeable": false,
+     "blind_apo_pipeline_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "blind_apo_fpocket_top_box": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "C3_oracle_box_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "receptor_wide_own_cavity_apo": {
+      "rmsd_A": null,
+      "band": null
+     },
+     "inter_method": {}
     }
    ],
-   "ligand_rmsd_A": {
-    "n": 15,
-    "min": 4.453,
-    "median": 7.385,
-    "max": 12.845,
-    "mean": 7.77
+   "n_pairs": 12,
+   "n_with_ceiling": 0,
+   "n_gradeable": 0,
+   "_gradeability_rule": "a pair whose own protocol ceiling (self-dock into the holo receptor, box on the crystallographic ligand) does not reach `recovered_A` cannot grade the docking \u2014 the pre-registered C1/C1c rule, applied unchanged",
+   "bands_over_gradeable_pairs": {
+    "blind_apo_pipeline_box": {
+     "RECOVERED": 0,
+     "PARTIAL": 0,
+     "NOT RECOVERED": 0
+    },
+    "blind_apo_fpocket_top_box": {
+     "RECOVERED": 0,
+     "PARTIAL": 0,
+     "NOT RECOVERED": 0
+    },
+    "C3_oracle_box_apo": {
+     "RECOVERED": 0,
+     "PARTIAL": 0,
+     "NOT RECOVERED": 0
+    },
+    "receptor_wide_own_cavity_apo": {
+     "RECOVERED": 0,
+     "PARTIAL": 0,
+     "NOT RECOVERED": 0
+    }
    },
-   "ligand_centroid_distance_A": {
-    "n": 15,
-    "min": 2.388,
-    "median": 4.819,
-    "max": 11.327,
-    "mean": 5.631
+   "inter_method_rmsd_A": {
+    "n": 0,
+    "min": null,
+    "median": null,
+    "max": null,
+    "mean": null
    },
-   "n_pairs_within_recovered_A": 0,
-   "n_pairs_within_partial_A": 0
+   "inter_method_bands": {
+    "RECOVERED": 0,
+    "PARTIAL": 0,
+    "NOT RECOVERED": 0
+   }
+  },
+  "induced_fit_panel": {
+   "_threshold_A": 1.0,
+   "_measured_by": "apo_pose_recovery.run_benchmark \u2014 the same apo->holo site-Ca RMSD the pre-registered panel reports, not a second definition",
+   "rows": [
+    {
+     "pair": "1OVL->5Y41",
+     "protein": "NR4A2 / Nurr1",
+     "accession": "P43354",
+     "in_pipeline_regime": true,
+     "declared_allosteric": null,
+     "site_ca_rmsd_A": null,
+     "global_ca_rmsd_A": null,
+     "n_site_residues": null,
+     "large_rearrangement": null,
+     "apo_and_holo_same_construct": null
+    },
+    {
+     "pair": "1OVL->5YD6",
+     "protein": "NR4A2 / Nurr1",
+     "accession": "P43354",
+     "in_pipeline_regime": true,
+     "declared_allosteric": null,
+     "site_ca_rmsd_A": null,
+     "global_ca_rmsd_A": null,
+     "n_site_residues": null,
+     "large_rearrangement": null,
+     "apo_and_holo_same_construct": null
+    },
+    {
+     "pair": "4RZF->4REF",
+     "protein": "NR4A1 / Nur77",
+     "accession": "P22736",
+     "in_pipeline_regime": true,
+     "declared_allosteric": false,
+     "site_ca_rmsd_A": 0.142,
+     "global_ca_rmsd_A": 0.457,
+     "n_site_residues": 9,
+     "large_rearrangement": false,
+     "apo_and_holo_same_construct": false
+    },
+    {
+     "pair": "4RZF->4RE8",
+     "protein": "NR4A1 / Nur77",
+     "accession": "P22736",
+     "in_pipeline_regime": true,
+     "declared_allosteric": false,
+     "site_ca_rmsd_A": 0.172,
+     "global_ca_rmsd_A": 0.227,
+     "n_site_residues": 14,
+     "large_rearrangement": false,
+     "apo_and_holo_same_construct": false
+    },
+    {
+     "pair": "1RXR->9QX6",
+     "protein": "RXRA",
+     "accession": "P19793",
+     "in_pipeline_regime": false,
+     "declared_allosteric": null,
+     "site_ca_rmsd_A": null,
+     "global_ca_rmsd_A": null,
+     "n_site_residues": null,
+     "large_rearrangement": null,
+     "apo_and_holo_same_construct": null
+    },
+    {
+     "pair": "1RXR->6LB4",
+     "protein": "RXRA",
+     "accession": "P19793",
+     "in_pipeline_regime": false,
+     "declared_allosteric": false,
+     "site_ca_rmsd_A": null,
+     "global_ca_rmsd_A": null,
+     "n_site_residues": null,
+     "large_rearrangement": null,
+     "apo_and_holo_same_construct": null
+    },
+    {
+     "pair": "2QMV->9F7W",
+     "protein": "PPARG",
+     "accession": "P37231",
+     "in_pipeline_regime": false,
+     "declared_allosteric": false,
+     "site_ca_rmsd_A": 3.862,
+     "global_ca_rmsd_A": 3.383,
+     "n_site_residues": 12,
+     "large_rearrangement": true,
+     "apo_and_holo_same_construct": true
+    },
+    {
+     "pair": "2QMV->9V8H",
+     "protein": "PPARG",
+     "accession": "P37231",
+     "in_pipeline_regime": false,
+     "declared_allosteric": false,
+     "site_ca_rmsd_A": 2.161,
+     "global_ca_rmsd_A": 2.808,
+     "n_site_residues": 16,
+     "large_rearrangement": true,
+     "apo_and_holo_same_construct": true
+    },
+    {
+     "pair": "1DSZ->9GFE",
+     "protein": "RARA",
+     "accession": "P10276",
+     "in_pipeline_regime": false,
+     "declared_allosteric": false,
+     "site_ca_rmsd_A": null,
+     "global_ca_rmsd_A": null,
+     "n_site_residues": null,
+     "large_rearrangement": null,
+     "apo_and_holo_same_construct": null
+    },
+    {
+     "pair": "1DSZ->3KMR",
+     "protein": "RARA",
+     "accession": "P10276",
+     "in_pipeline_regime": false,
+     "declared_allosteric": false,
+     "site_ca_rmsd_A": null,
+     "global_ca_rmsd_A": null,
+     "n_site_residues": null,
+     "large_rearrangement": null,
+     "apo_and_holo_same_construct": null
+    },
+    {
+     "pair": "5G42->7NPC",
+     "protein": "RORC / RORgt",
+     "accession": "P51449",
+     "in_pipeline_regime": false,
+     "declared_allosteric": true,
+     "site_ca_rmsd_A": 6.46,
+     "global_ca_rmsd_A": 2.775,
+     "n_site_residues": 22,
+     "large_rearrangement": true,
+     "apo_and_holo_same_construct": true
+    },
+    {
+     "pair": "5G42->6T4X",
+     "protein": "RORC / RORgt",
+     "accession": "P51449",
+     "in_pipeline_regime": false,
+     "declared_allosteric": true,
+     "site_ca_rmsd_A": 6.384,
+     "global_ca_rmsd_A": 2.734,
+     "n_site_residues": 22,
+     "large_rearrangement": true,
+     "apo_and_holo_same_construct": true
+    }
+   ],
+   "n_pairs": 12,
+   "site_ca_rmsd_A": {
+    "n": 6,
+    "min": 0.142,
+    "median": 3.011,
+    "max": 6.46,
+    "mean": 3.197
+   },
+   "n_with_large_rearrangement": 4,
+   "panel_contains_a_large_rearrangement": true,
+   "in_regime_and_rearranging": {
+    "_asks": "is there a pair that BOTH rearranges AND is a protein the pipeline actually transfers Pocket-5 onto? A rearranging pair outside the regime tests the docking engines and cannot test the pipeline's own transfer.",
+    "_regime": [
+     "P22736",
+     "P43354",
+     "Q92570"
+    ],
+    "n_in_regime_measured": 2,
+    "n_in_regime_and_rearranging": 0,
+    "pairs": [],
+    "in_regime_site_ca_rmsd_A": {
+     "n": 2,
+     "min": 0.142,
+     "median": 0.157,
+     "max": 0.172,
+     "mean": 0.157
+    },
+    "_reads": "\u26d4 NO PAIR IN THIS PANEL BOTH REARRANGES AND IS IN REGIME. Every rearranging pair is a receptor the pipeline never transfers Pocket-5 onto, and every in-regime pair is a near-rigid re-dock. So the panel's reassuring '4 of 6 rearrange' does NOT mean the apo\u2192holo transfer was tested where it matters \u2014 it was not tested there at all, by either method. \u21d2 this is a limitation of the TEST, not a caveat on a row, and it is the cheapest thing on the list of what would resolve `R5`."
+   },
+   "_limitation": "\u26d4 A PAIR BELOW 1.00 A OF SITE Ca MOVEMENT IS A NEAR-RIGID RE-DOCK AND IS A WEAK TEST OF APO->HOLO TRANSFER. It must not be quoted as one, in either method. If no pair in this panel rearranges, the panel cannot answer whether either method survives induced fit, and that is a limitation of the TEST, not a caveat on a row.",
+   "_construct_caveat": "\u26a0 AND WHERE `apo_and_holo_same_construct` IS FALSE THE NUMBER IS NOT PURE CONFORMATIONAL CHANGE \u2014 the two deposits are different engineered constructs, so the site-Ca RMSD contains whatever the substitution did as well."
   }
  },
  "verdict": {
   "_asks": "Can `R5` be resolved now?",
   "second_method": "rDock",
-  "cross_method_evidence": "PRESENT \u2014 6 system(s) carry a pose from two methods with disjoint scoring",
-  "part_a_n_systems": 6,
+  "cross_method_evidence": "STILL NONE \u2014 the second method produced no comparable pose",
+  "part_a_n_systems": 0,
   "part_a_agreement_within_recovered_A": 0,
-  "part_a_median_inter_method_rmsd_A": 6.696,
-  "part_b_n_gradeable": null,
-  "part_b_bands": null,
-  "part_b_inter_method_rmsd_A": null,
-  "R5_resolved": false,
-  "outcome": "THE TWO METHODS DISAGREE",
-  "sentence": "0 of 6 system(s) agree within 2.00 A; the median inter-method disagreement is 6.696 A. \u26d4 A disagreement of this size between two methods with disjoint scoring means the pose this program holds is NOT attributable \u2014 and it is now attributable-to-nothing for a measured reason rather than for the absence of a second opinion.",
-  "what_this_does_not_license": [
-   "that the pose is correct \u2014 no experimental structure of this complex exists",
-   "that anything binds \u2014 `R4` still needs a bench and nothing here touches it",
-   "that any downstream free-energy or selectivity number inherits validity",
-   "that either method's search was exhaustive \u2014 the run counts are reported beside every number"
-  ],
-  "what_would_resolve_R5": [
-   {
-    "item": "a known answer IN REGIME with a real apo->holo rearrangement",
-    "why": "the panel's gradeable pairs are the test's own evidence about whether either method survives induced fit; a panel of near-rigid re-docks cannot answer it",
-    "measured_here": {
-     "n_gradeable": null,
-     "n_with_large_rearrangement": null,
-     "site_ca_rmsd_A": null
-    },
-    "cost": "$0 \u2014 CPU/CI; it is a sourcing question, not a compute one"
+  "part_a_median_inter_method_rmsd_A": null,
+  "part_b_n_gradeable": 0,
+  "part_b_bands": {
+   "blind_apo_pipeline_box": {
+    "RECOVERED": 0,
+    "PARTIAL": 0,
+    "NOT RECOVERED": 0
    },
-   {
-    "item": "a third method that is generative rather than a docking search (a co-fold with COMMITTED COORDINATES)",
-    "why": "both methods here place a ligand into a fixed receptor. A co-fold predicts the complex, so it fails differently again \u2014 and `pose-convergence-401.json` already records that the binary co-fold this program ran committed CONFIDENCE SCORES ONLY and no coordinates, which is why it could not enter the comparison",
-    "cost": "GPU \u2014 priced nowhere yet; the $0 half is committing coordinates from a run that already happened, if any survive"
+   "blind_apo_fpocket_top_box": {
+    "RECOVERED": 0,
+    "PARTIAL": 0,
+    "NOT RECOVERED": 0
    },
-   {
-    "item": "a decision on `C6`",
-    "why": "two of the six systems inherit the contested frame-selection criterion; agreement measured in a frame whose selection datum does not reproduce inherits that dispute",
-    "cost": "$0 \u2014 but it is trimcrae's call, not an agent's (\u00a73b.2)"
+   "C3_oracle_box_apo": {
+    "RECOVERED": 0,
+    "PARTIAL": 0,
+    "NOT RECOVERED": 0
+   },
+   "receptor_wide_own_cavity_apo": {
+    "RECOVERED": 0,
+    "PARTIAL": 0,
+    "NOT RECOVERED": 0
    }
-  ]
+  },
+  "part_b_inter_method_rmsd_A": {
+   "n": 0,
+   "min": null,
+   "median": null,
+   "max": null,
+   "mean": null
+  },
+  "R5_resolved": false,
+  "outcome": "UNRUN",
+  "sentence": "The second method did not produce a comparable pose on any system, so `cross_method_evidence` is still NONE and `R5` is exactly where it was."
  },
  "_status": "ok",
- "_elapsed_s": 899.3
+ "_elapsed_s": 1062.2
 }
