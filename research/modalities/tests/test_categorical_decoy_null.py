@@ -440,3 +440,30 @@ def test_compare_scopes_derives_C397_in_scope_for_an_artifact_that_predates_the_
     other = out["what_the_NR4A3_row_actually_scored"]["other_scope"]
     assert other["C397_in_scope"] is False, "a knowable false must not render as null"
     assert "DERIVED" in other["_C397_in_scope_source"]
+
+
+def test_placement_budget_saturation_counts_the_rows_the_sampler_cap_bound():
+    """Measured on the first C24 shard to land: `pilot_rate=0.00104`, budget at the 6,000,000 cap, and
+    13,091 placements against a 45,000 target. A background that shrank because the SAMPLER ran out of
+    budget must never read like one that shrank because the BIOLOGY was uniform."""
+    cap = CDN.PREREG["placements"]["max_samples_per_arm_pose"]
+    target = CDN.PREREG["placements"]["target_n_placements"]
+    rows = [
+        {"target": "P62508", "gene_target": "ESRRG", "n_placements": 13091,
+         "placement_budget_per_arm_pose": cap, "n_poses": 12},
+        {"target": "P62508", "gene_target": "ESRRG", "n_placements": 13091,   # 2nd orientation, same target
+         "placement_budget_per_arm_pose": cap, "n_poses": 12},
+        {"target": "P10589", "gene_target": "NR2F1", "n_placements": target + 500,
+         "placement_budget_per_arm_pose": 250000, "n_poses": 12},
+    ]
+    s = CDN.placement_budget_saturation(rows)
+    assert s["n_targets"] == 2, "targets must be de-duplicated across a pair's two orientations"
+    assert s["n_targets_at_the_sampler_cap"] == 1
+    assert s["n_targets_below_the_placement_target"] == 1
+    assert s["targets_at_cap"] == ["ESRRG"]
+    assert s["placements_min"] == 13091
+    assert "not_repaired_after_the_fact" in "".join(s)
+
+
+def test_placement_budget_saturation_is_none_when_there_is_nothing_to_summarise():
+    assert CDN.placement_budget_saturation([]) is None

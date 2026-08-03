@@ -1613,6 +1613,73 @@ def cysteine_level_background(decoys, refs):
     return bg, nr4a3
 
 
+def placement_budget_saturation(rows):
+    """⛔ DID THE PLACEMENT SETS ACTUALLY REACH THEIR PRE-REGISTERED SIZE? PURE.
+
+    ★ WHY THIS IS A BLOCK AND NOT A FOOTNOTE (measured 2026-08-03, in the first `C24` shard to finish).
+    The pre-registration asks for `target_n_placements` per row and gets there ADAPTIVELY: a pilot measures
+    the acceptance rate, and the budget is set to whatever reaches the target — bounded by
+    `max_samples_per_arm_pose`, which exists so one awkward pocket cannot run forever.
+
+    That bound was observed BINDING on the first `C24` shard to land: `P62508` (ESRRG) reported
+    `pilot_rate=0.00104`, `budget=6000000` (the cap) and **13,091 placements against a 45,000 target**.
+    Nothing is wrong and nothing was tuned — the cap is pre-registered and held identical to `C16`'s. But
+    the consequence is invisible unless it is counted: a row with a third of the placements has a third of
+    the conditioning events, so it is likelier to fall below the gradeability floor and drop out of the
+    graded background. ⚠ **A background that shrank because the SAMPLER ran out of budget must never read
+    like one that shrank because the BIOLOGY was uniform.**
+
+    ⛔ WHAT CAUSES IT — MEASURED, AND IT IS NOT THE OBVIOUS ANSWER. The natural story is "bigger windows,
+    more protein to clash against, lower acceptance". **That story was tested and does not hold.** On the
+    committed NR4A3 opened model with the committed pocket lining, acceptance is **0.001521** over the full
+    254-residue construct and **0.001435** over a 144-residue truncation of it — i.e. the same rate at
+    `C24`-sized and `C16`-sized windows, so window size alone does not explain the saturation. The
+    remaining measured difference between the scopes is WHICH CAVITY the pre-registered fpocket rule picks
+    inside a different window, and acceptance is a property of that cavity. (Also tested and refuted as a
+    cause: the new per-cysteine statistic, which cost **0.00 s** on the same placement set.)
+    """
+    pl = PREREG["placements"]
+    target, cap = pl["target_n_placements"], pl["max_samples_per_arm_pose"]
+    per_target = {}
+    for r in rows:
+        t = r.get("target")
+        if t is None or t in per_target:
+            continue
+        per_target[t] = {"gene": r.get("gene_target"), "n_placements": r.get("n_placements"),
+                         "budget_per_arm_pose": r.get("placement_budget_per_arm_pose"),
+                         "n_poses": r.get("n_poses")}
+    ns = sorted(v["n_placements"] for v in per_target.values() if v.get("n_placements") is not None)
+    at_cap = [k for k, v in per_target.items() if v.get("budget_per_arm_pose") == cap]
+    short = [k for k, v in per_target.items()
+             if v.get("n_placements") is not None and v["n_placements"] < target]
+    if not per_target:
+        return None
+    return {
+        "preregistered_target_n_placements": target,
+        "preregistered_max_samples_per_arm_pose": cap,
+        "n_targets": len(per_target),
+        "n_targets_at_the_sampler_cap": len(at_cap),
+        "n_targets_below_the_placement_target": len(short),
+        "placements_min": (ns[0] if ns else None),
+        "placements_median": (ns[len(ns) // 2] if ns else None),
+        "placements_max": (ns[-1] if ns else None),
+        "targets_at_cap": sorted(per_target[k]["gene"] or k for k in at_cap),
+        "per_target": per_target,
+        "★_reading": (
+            "A row that did not reach the pre-registered placement count has proportionally fewer "
+            "conditioning events and is likelier to fall below the gradeability floor. That makes the "
+            "graded background SMALLER, not biased in a known direction — and it is a property of the "
+            "sampler's pre-registered cost bound meeting a lower acceptance rate, not of the proteins. "
+            "⛔ It is reported here so a background that shrank for a MECHANICAL reason is never read as "
+            "one that shrank for a BIOLOGICAL one."),
+        "⛔_not_repaired_after_the_fact": (
+            "The cap and the adaptive rule are pre-registered and held byte-identical to `C16`'s. Raising "
+            "the cap now — after seeing which rows it bound — is the same class of act as widening `C16`'s "
+            "trim after seeing that C397 fell outside it. It stays where it was registered; if a future "
+            "run wants more placements it registers that in advance."),
+    }
+
+
 def compare_scopes(scope, bg, cys_bg, nr4a3, precondition, nr4a3_scope, n_graded):
     """★ WHAT CHANGED VERSUS THE OTHER SCOPE — read out of the sibling's COMMITTED artifact, never typed.
 
@@ -1806,6 +1873,7 @@ def mode_reduce(args):
             "n_graded": len(graded), "n_underpowered": len(underpowered), "n_undefined": len(undefined),
             "precondition_has_a_target_unique_cysteine": precondition,
             "⛔_nr4a3_harness_scope": nr4a3_scope,
+            "⛔_placement_budget_saturation": placement_budget_saturation(rows),
             "n_refusals": len(refusals),
             "background_at_gate_12": bg,
             "nr4a3_harness_matched": nr4a3,
