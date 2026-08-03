@@ -138,3 +138,33 @@ def test_plan_mode_emits_no_statistic(tmp_path, monkeypatch):
     assert "preregistration" in plan
     for banned in ("selected_pairs", "selected_trios", "decoy_rows", "backgrounds", "verdict"):
         assert banned not in plan, f"{banned} must not exist at plan time"
+
+
+# ── refusing to rank against a default ───────────────────────────────────────────────────────────────────
+def test_reference_identity_must_be_measured_not_defaulted():
+    """⛔ MEASURED 2026-08-03, run 30840744749: NR4A3 is not a row in the committed 47-receptor ranking, so
+    it was never trimmed, the reference identity fell back to a hard-coded 0.6, and the plan published a
+    `nr4a3_reference_identities` of `{}` beside a ranking that looked pre-registered. A populated field that
+    was never measured is CLAUDE.md §4's sharpest failure; the fallback is now a refusal."""
+    import pytest
+    with pytest.raises(SystemExit):
+        SDN.require_measured_reference_identity({}, [])
+    with pytest.raises(SystemExit):
+        SDN.require_measured_reference_identity({"NR4A1": {"identity": 0.65}}, ["a", "b"])
+    # the only accepted shape: both reference identities, all three family members trimmed
+    SDN.require_measured_reference_identity({"NR4A1": {"identity": 0.65}, "NR4A2": {"identity": 0.66}},
+                                            ["a", "b", "c"])
+
+
+# ── the roadmap anchors ──────────────────────────────────────────────────────────────────────────────────
+def test_last_register_row_anchor_picks_the_highest_numbered_row():
+    text = "| **C9** | x |\n| **C23** | y |\n| **C24** | z |\n| **C7** | w |\n"
+    assert SDN.last_register_row_anchor(text) == "| **C24** |"
+    assert SDN.last_register_row_anchor("no rows here") is None
+
+
+def test_register_count_is_counted_from_the_document_not_typed():
+    text = "**24 items.** Status: ok\n| **C1** | a |\n| **C24** | b |\n"
+    rows, anchor = SDN.register_count(text)
+    assert rows == 2 and anchor == "**24 items.**"
+    assert SDN.register_count("nothing") == (0, None)

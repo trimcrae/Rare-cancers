@@ -819,10 +819,18 @@ def _trim_universe():
     """Trim every fetched model to `C24`'s LBD window. Returns (trimmed, refusals, seqs)."""
     CDN.set_scope("lbd")
     ref_seq = CDN.lbd_reference()["seq"]
-    uni = CDN.universe()
+    # ⛔ NR4A3 IS NOT IN THE COMMITTED RANKING — that artifact ranks every OTHER receptor AGAINST NR4A3, so
+    # the reference itself has no row. `C24`'s own `mode_pairs` appends it for exactly this reason, and
+    # omitting it here silently cost the pre-registered ranking its measured reference (see
+    # `require_measured_reference_identity`). Measured 2026-08-03, before any statistic was read.
+    uni = CDN.universe() + [{"gene": "NR4A3", "accession": CDN.NR4A3_ACC, "in_nr4a_family": True}]
     trimmed, refused = {}, []
+    seen = set()
     for u in uni:
         acc = u["accession"]
+        if acc in seen:
+            continue
+        seen.add(acc)
         if not os.path.exists(CDN.af_path(acc)):
             refused.append({"accession": acc, "gene": u["gene"], "reason": "no AlphaFold model fetched"})
             continue
@@ -884,6 +892,26 @@ def select_trios(accs, ident, ref_mean, band, coverage_min, max_trios, max_per_p
     return selected, len(cand)
 
 
+def require_measured_reference_identity(ref_pairs, have_fam):
+    """⛔ REFUSE RATHER THAN FALL BACK. The pre-registration says the ranking reference is the MEASURED
+    NR4A3-vs-NR4A1 / NR4A3-vs-NR4A2 trimmed-window identity. A default that stands in for it produces a
+    ranking that LOOKS pre-registered and is not.
+
+    THIS IS NOT HYPOTHETICAL — it happened, and it is the reason this function exists. On the first
+    dispatch (run 30840744749) NR4A3 was missing from the trim loop, `ref_pairs` came back empty, and a
+    hard-coded 0.6 stood in for a measured ~0.65. The plan file published a `nr4a3_reference_identities`
+    block that was `{}` and a `nr4a3_reference_identity_used_for_pair_ranking` of exactly 0.6 — a populated
+    field that was never measured, which is CLAUDE.md §4's sharpest rule and the reason a silent default is
+    worse than a crash. The selection under it was still answer-blind, but it was not the registered rule,
+    so it was thrown away rather than reported.
+    """
+    if len(ref_pairs) != 2 or len(have_fam) != 3:
+        raise SystemExit(
+            "  ABORT: the ranking reference identity must be MEASURED, not defaulted. "
+            f"Have {sorted(have_fam)} of the NR4A trio and {len(ref_pairs)} reference identities; "
+            "all three must be fetched and trimmed before any pair or trio may be selected.")
+
+
 def mode_pairs(_args):
     """Trim, all-vs-all identity, and the answer-blind pair/trio selection. Still no statistic."""
     trimmed, refused, seqs = _trim_universe()
@@ -897,12 +925,12 @@ def mode_pairs(_args):
             i, c = CDN.alignment_identity(seqs[CDN.NR4A3_ACC], seqs[other],
                                           ATLAS.nw_align(seqs[CDN.NR4A3_ACC], seqs[other]))
             ref_pairs[fam[other]] = {"identity": round(i, 4), "coverage": round(c, 4)}
-    ref_identity = (sum(v["identity"] for v in ref_pairs.values()) / len(ref_pairs)) if ref_pairs else 0.6
+    require_measured_reference_identity(ref_pairs, have_fam)
+    ref_identity = sum(v["identity"] for v in ref_pairs.values()) / len(ref_pairs)
 
     # the NR4A trio's own mean pairwise identity — the trio ranking's reference, measured not typed
-    nr4a_ident = _identities(seqs, sorted(have_fam)) if len(have_fam) == 3 else {}
-    ref_trio_mean = (sum(v["identity"] for v in nr4a_ident.values()) / len(nr4a_ident)
-                     if nr4a_ident else ref_identity)
+    nr4a_ident = _identities(seqs, sorted(have_fam))
+    ref_trio_mean = sum(v["identity"] for v in nr4a_ident.values()) / len(nr4a_ident)
 
     cand = sorted(a for a in trimmed if not trimmed[a]["in_nr4a_family"])
     ident = _identities(seqs, cand)
@@ -938,6 +966,17 @@ def mode_pairs(_args):
         "window_size_spread": CDN.window_spread(trimmed),
         "⛔_still_no_statistic": ("selection above is a function of SEQUENCE IDENTITY and STRUCTURE "
                                  "AVAILABILITY only. No clash, lobe or rate has been computed."),
+        "⚠_superseded_first_publication_of_this_plan": (
+            "An earlier publication of this file (CI run 30840744749, 2026-08-03 2:20 PM ET) carried a "
+            "DIFFERENT pair and trio list. It is VOID and must not be quoted. Cause, measured not guessed: "
+            "NR4A3 is not a row in the committed 47-receptor ranking (that artifact ranks every other "
+            "receptor AGAINST NR4A3), so it was never trimmed, `nr4a3_reference_identities` came back `{}` "
+            "and a hard-coded 0.6 stood in for the MEASURED reference identity the pre-registration "
+            "specifies. The ranking was therefore taken against a default rather than against the "
+            "registered quantity. ⭑ NOTHING WAS READ FROM THAT RUN: it failed in `assemble` before "
+            "publishing any statistic, and the per-arm output was deliberately NOT inspected, because "
+            "re-selecting after seeing an answer is the one thing this design forbids. The fallback is now "
+            "a hard refusal (`require_measured_reference_identity`)."),
     })
     with open(PLAN_JSON, "w") as fh:
         json.dump(plan, fh, indent=1, ensure_ascii=False)
@@ -1438,6 +1477,14 @@ def last_register_row_anchor(text):
     return anchor
 
 
+def register_count(text):
+    """(number of `| **C<n>** |` rows in the live map, the literal '**N items.**' text). PURE."""
+    import re as _re
+    rows = len(_re.findall(r"^\| \*\*C\d+\*\* \|", text or "", _re.M))
+    m = _re.search(r"\*\*(\d+) items\.\*\*", text or "")
+    return rows, (m.group(0) if m else None)
+
+
 def map_edits(art):
     """Roadmap edits this result requires — DESCRIBED, with anchors read out of the LIVE map."""
     text = ME.load_map()
@@ -1475,17 +1522,18 @@ def map_edits(art):
             % (v["contrast_a_bulkier_in_both_vs_conserved_null"], v["contrast_b_unique_but_not_bulkier"])),
         kind="insert"))
 
-    entries.append(ME.edit(
-        text, "§3b.1 register — the item count (DERIVED)",
-        "⚠ **This list is a floor, not a census.**",
-        "The register states how many items it holds and `C25` changes it. ⛔ A COUNT IS DERIVED — "
-        "regenerate it from the table's own rows, never type it. Left unapplied on purpose.",
-        "research/modalities/steric-decoy-null.json",
-        lambda cur: cur, kind="derived-count"))
-    entries[-1].pop("proposed_text", None)
-    entries[-1]["proposed_text"] = None
-    entries[-1]["flag"] = ("DERIVED COUNT — do not hand-edit. Recount the `| **C\\d+** |` rows of §3b.1 "
-                           "after this row and `C24`'s land.")
+    # ⛔ THE COUNT IS DERIVED FROM THE DOCUMENT, NOT REMEMBERED (rule 1: a total is DERIVED, never typed).
+    # `current_rows` is counted in the live map at generation time and the proposed count is that + 1 for
+    # the row above — so this stays correct whether or not a sibling `C*` has landed first.
+    cur_count, count_anchor = register_count(text)
+    if count_anchor:
+        entries.append(ME.edit(
+            text, "§3b.1 register — the item count (DERIVED, not typed)",
+            count_anchor,
+            "The register states how many items it holds and `C25` makes one more. The number is COUNTED "
+            "from the table's own `| **C<n>** |` rows at generation time, never carried by hand.",
+            "research/modalities/steric-decoy-null.json",
+            ME.replace_in_line(count_anchor, "**%d items.**" % (cur_count + 1))))
 
     entries.append(ME.edit(
         text, "§10.1 row 24 — the steric-exclusion design rule",
@@ -1510,7 +1558,7 @@ def map_edits(art):
         "research/modalities/steric-decoy-null.json",
         ME.append_to_line(" " + tag)))
 
-    checked, summary = ME.verify(entries, text) if text else (entries, {})
+    summary = ME.verify(entries, text) if text else {}
     return {
         "_what": ("Roadmap edits this result requires. DESCRIBED, NOT APPLIED — every `current_text` is "
                   "READ out of the live map by `map_edits.locate`, so it is a byte-exact substring of the "
