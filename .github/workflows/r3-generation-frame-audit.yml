@@ -42,6 +42,20 @@ on:
         description: "true (default) = also score the generation receptor under POCKET_MATCH=harmonized; false = part 1 only"
         default: "true"
         required: false
+      # PART 3 (added 2026-08-03). The Gate-A verdict turns on WHICH of two accepted cavities is the site,
+      # and that ordering decides all 300 committed ensemble frames too — but the committed artifacts
+      # record only each frame's WINNER, so the question could not be asked of them at all. This dumps
+      # every accepted cavity per frame ONCE, so any ordering question afterwards is arithmetic on a file
+      # rather than a new fpocket run whose thresholds could drift. ⛔ It changes no threshold and picks
+      # no rule.
+      dump_accepted:
+        description: "true (default) = also dump EVERY gate-accepted cavity per committed ensemble frame"
+        default: "true"
+        required: false
+      dump_species:
+        description: "species for the accepted-candidate dump (NR4A3 alone is ~100 frames; all three ~300)"
+        default: "NR4A3,NR4A1,NR4A2"
+        required: false
 
 permissions:
   contents: write
@@ -49,7 +63,7 @@ permissions:
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with: { ref: "${{ github.ref_name }}" }
@@ -202,6 +216,15 @@ jobs:
           print('IDENTICAL HARMONIZED READING:', same)
           print('=> the \'re-extraction can disagree\' caveat is', 'DISCHARGED for this frame' if same else 'REAL — they differ')
           "
+      # ── PART 3: every gate-accepted cavity, per committed ensemble frame. ──────────────────────────
+      - name: Dump every gate-accepted cavity per committed ensemble frame
+        if: ${{ github.event.inputs.dump_accepted != 'false' }}
+        env:
+          POCKET_MATCH: harmonized
+        run: |
+          set -eo pipefail
+          cd research/modalities
+          python pocket_accepted_candidates.py --species "${{ github.event.inputs.dump_species }}"
       - name: Publish
         if: ${{ always() }}
         env:
@@ -212,4 +235,5 @@ jobs:
             "R3 frame-level generation-receptor dependency audit (CI, \$0)" \
             research/modalities/r3-generation-frame-audit.json \
             research/modalities/r3-generation-frame-harmonized.json \
-            research/modalities/r3-generation-frame-repframe.json
+            research/modalities/r3-generation-frame-repframe.json \
+            research/modalities/pocket-accepted-candidates.json
