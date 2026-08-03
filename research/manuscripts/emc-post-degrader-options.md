@@ -18,7 +18,10 @@
 > committed corpus ([`lit-targets-emc-post-degrader.json`](./lit-targets-emc-post-degrader.json) →
 > `literature-cache` branch, 33 of 38 targets at HTTP 200 — the 5 misses are publisher paywalls,
 > named in §5); every public-data number is computed by [`fet_ddr_axis_scan.py`](../modalities/fet_ddr_axis_scan.py) →
-> [`fet-ddr-axis-scan.json`](../modalities/fet-ddr-axis-scan.json) on the `modalities-cache` branch.
+> [`fet-ddr-axis-scan.json`](../modalities/fet-ddr-axis-scan.json), **committed on `main`** (it used to
+> exist only on `modalities-cache`, so every relative link here was broken and every number below was
+> quoted off a branch — CLAUDE.md §7 harm #1, fixed 2026-08-03 by porting the artifact and by making
+> `depmap-dependency.yml` publish to the branch it was dispatched from as well as to the cache).
 > **Nothing here is a molecule, a dose, an efficacy claim or a statement about activity or
 > tolerability in a patient**, and none is implied.
 

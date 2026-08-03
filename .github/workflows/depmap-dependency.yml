@@ -3,8 +3,16 @@ name: DepMap — sarcoma dependency transfer prior
 # Tests whether the chromatin/transcriptional machinery the EWSR1 prion-like domain recruits
 # (BRD9/ncBAF, BET, CDK9, p300) is selectively essential across DepMap sarcoma lineages — a
 # transfer prior for EWSR1::NR4A3 EMC, which has no DepMap line. Internet-only (the dev sandbox
-# can't reach figshare/DepMap). Results JSON + chart are pushed to the `modalities-cache` branch:
-#   git fetch origin modalities-cache && git checkout modalities-cache -- research/modalities/
+# can't reach figshare/DepMap).
+#
+# WHERE THE RESULTS LAND (changed 2026-08-03). They are published to BOTH:
+#   1. the branch the run was dispatched from (`github.ref_name`) — so a document on that branch
+#      never cites an artifact that is absent or a stub THERE (CLAUDE.md §7 harm #1); and
+#   2. the `modalities-cache` branch, unchanged, for the existing consumers:
+#        git fetch origin modalities-cache && git checkout modalities-cache -- research/modalities/
+# Both publishes are fed from ONE stub-guarded staging set — see artifact_stub_guard.py. A scan that
+# soft-failed writes a placeholder JSON; the guard drops it, so a failed run can never overwrite a
+# good artifact on either branch.
 
 on:
   workflow_dispatch:
@@ -27,6 +35,10 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
+    # Backstop only. The real hang-guard is the whole-transfer deadline in
+    # depmap_sarcoma_dependency._download — `timeout=` on urlopen is per-socket-operation, so a
+    # dribbling peer never trips it (run 30853818120: 15 min against a normal 17-26 s).
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,71 +46,127 @@ jobs:
           python-version: "3.11"
 
       - name: Install pandas + matplotlib + biopython
+        timeout-minutes: 10
         run: |
           python -m pip install --upgrade pip
           pip install pandas matplotlib biopython openpyxl
 
       - name: DepMap sarcoma dependency transfer prior (+ fusion-addiction proxy)
+        timeout-minutes: 20
         run: python research/modalities/depmap_sarcoma_dependency.py
 
       - name: DepMap target-expression mining (surface/CTA/effector targets)
+        timeout-minutes: 20
         run: python research/modalities/depmap_target_expression.py
 
       - name: EMC surfaceome discovery scan (delivery/CAR/ADC targeting-antigen candidate)
         if: always()
+        timeout-minutes: 20
         run: python research/modalities/emc_surfaceome_scan.py || echo "surfaceome-scan soft-fail (network); non-blocking"
 
       - name: EMC surface-target prioritisation figure
         if: always()
+        timeout-minutes: 10
         run: python research/modalities/emc_surface_figure.py || echo "surface-figure soft-fail (network); non-blocking"
 
       - name: NR4A safety genetics (gnomAD constraint + IMPC single-KO + HPA expression)
         if: always()
+        timeout-minutes: 15
         run: python research/modalities/nr4a_safety_genetics.py || echo "safety-genetics soft-fail (network); non-blocking"
 
       - name: NR4A3 resistance / escape-liability map (pocket-residue conservation)
         if: always()
+        timeout-minutes: 15
         run: python research/modalities/nr4a3_resistance_map.py || echo "resistance-map soft-fail (network); non-blocking"
 
       - name: CRBN E3-machinery tissue expression (degrader-completeness E6)
         if: always()
+        timeout-minutes: 15
         run: python research/modalities/nr4a3_e3_expression.py || echo "e3-expression soft-fail (network); non-blocking"
 
       - name: NR-superfamily selectivity liability screen (ledger A4/D4; beyond NR4A1/2)
         if: always()
+        timeout-minutes: 20
         run: python research/modalities/nr4a_superfamily_selectivity.py || echo "superfamily-selectivity soft-fail (network); non-blocking"
 
       - name: FET-fusion DDR axis scan (ATR-axis vs ATM-axis double prediction; EMC transfer prior)
         if: always()
+        timeout-minutes: 30
         run: python research/modalities/fet_ddr_axis_scan.py || echo "fet-ddr-axis soft-fail (network); non-blocking"
 
       - name: EMC FET IDR/RGG census (structural precondition of the ATM-suppression mechanism)
         if: always()
+        timeout-minutes: 10
         run: python research/modalities/emc_fet_idr_census.py --refresh || echo "fet-idr-census soft-fail (network); non-blocking"
 
-      - name: Publish results to modalities-cache branch
+      # ---- publish -------------------------------------------------------------------------
+      # Stage ONCE, stub-guarded, then commit the same set to the source branch and to
+      # modalities-cache. Staging first is what makes the second checkout safe.
+      - name: Stage results (drop failure stubs)
         if: always()
+        timeout-minutes: 5
+        run: |
+          python3 research/modalities/artifact_stub_guard.py --stage "$RUNNER_TEMP/res" \
+            research/modalities/depmap-sarcoma-dependency.json \
+            research/modalities/depmap-sarcoma-dependency.png \
+            research/modalities/depmap-target-expression.json \
+            research/modalities/depmap-target-expression.png \
+            research/modalities/emc-surfaceome-scan.json \
+            research/modalities/emc-surfaceome-scan.png \
+            research/modalities/emc-surface-prioritization.png \
+            research/modalities/nr4a-safety-genetics.json \
+            research/modalities/nr4a-resistance-map.json \
+            research/modalities/nr4a-e3-expression.json \
+            research/modalities/nr4a-superfamily-selectivity.json \
+            research/modalities/fet-ddr-axis-scan.json \
+            research/modalities/emc-fet-idr-census.json \
+            research/modalities/fet-sequences-cache.json
+
+      - name: Publish results to the branch this run was dispatched from
+        if: always() && github.ref_type == 'branch'
+        timeout-minutes: 10
+        env:
+          BR: ${{ github.ref_name }}
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p "$RUNNER_TEMP/res"
-          cp research/modalities/depmap-sarcoma-dependency.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/depmap-sarcoma-dependency.png "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/depmap-target-expression.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/depmap-target-expression.png "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/emc-surfaceome-scan.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/emc-surfaceome-scan.png "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/emc-surface-prioritization.png "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/nr4a-safety-genetics.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/nr4a-resistance-map.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/nr4a-e3-expression.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/nr4a-superfamily-selectivity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/fet-ddr-axis-scan.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/emc-fet-idr-census.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          cp research/modalities/fet-sequences-cache.json "$RUNNER_TEMP/res/" 2>/dev/null || true
-          git fetch origin modalities-cache || true
+          # the scans rewrote tracked artifacts and created untracked ones; both would block the
+          # checkout below. Everything worth keeping is already staged in $RUNNER_TEMP/res.
+          git checkout -- . || true
+          git clean -fd research/modalities || true
+          git fetch origin "$BR"
+          git checkout -B "$BR" "origin/$BR"
+          mkdir -p research/modalities
+          for p in "$RUNNER_TEMP"/res/*; do
+            [ -e "$p" ] || continue
+            cp "$p" "research/modalities/$(basename "$p")"
+            git add "research/modalities/$(basename "$p")" || true
+          done
+          git commit -m "DepMap / FET-DDR / IDR-census artifacts (CI)" || { echo "no changes"; exit 0; }
+          # This branch (often main) takes CI commits constantly, so rebase-and-retry rather than
+          # fail the publish and leave the artifacts only on modalities-cache — which is the exact
+          # drift this step exists to end.
+          for i in 1 2 3 4 5; do
+            git push origin "HEAD:$BR" && exit 0
+            echo "push $i rejected; rebasing onto origin/$BR"
+            git fetch origin "$BR" && git rebase "origin/$BR" || git rebase --abort || true
+            sleep 5
+          done
+          echo "could not publish to $BR after 5 attempts" >&2
+          exit 1
+
+      - name: Publish results to modalities-cache branch
+        if: always()
+        timeout-minutes: 10
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -- . || true
+          git clean -fd research/modalities || true
           rm -f research/modalities/*.json research/modalities/*.png
+          git fetch origin modalities-cache || true
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
             git checkout -B modalities-cache origin/modalities-cache
           else
@@ -106,21 +174,10 @@ jobs:
             git rm -rf . >/dev/null 2>&1 || true
           fi
           mkdir -p research/modalities
-          cp "$RUNNER_TEMP"/res/*.json research/modalities/ 2>/dev/null || true
-          cp "$RUNNER_TEMP"/res/*.png research/modalities/ 2>/dev/null || true
-          git add research/modalities/depmap-sarcoma-dependency.json 2>/dev/null || true
-          git add research/modalities/depmap-sarcoma-dependency.png 2>/dev/null || true
-          git add research/modalities/depmap-target-expression.json 2>/dev/null || true
-          git add research/modalities/depmap-target-expression.png 2>/dev/null || true
-          git add research/modalities/emc-surfaceome-scan.json 2>/dev/null || true
-          git add research/modalities/emc-surfaceome-scan.png 2>/dev/null || true
-          git add research/modalities/emc-surface-prioritization.png 2>/dev/null || true
-          git add research/modalities/nr4a-safety-genetics.json 2>/dev/null || true
-          git add research/modalities/nr4a-resistance-map.json 2>/dev/null || true
-          git add research/modalities/nr4a-e3-expression.json 2>/dev/null || true
-          git add research/modalities/nr4a-superfamily-selectivity.json 2>/dev/null || true
-          git add research/modalities/fet-ddr-axis-scan.json 2>/dev/null || true
-          git add research/modalities/emc-fet-idr-census.json 2>/dev/null || true
-          git add research/modalities/fet-sequences-cache.json 2>/dev/null || true
+          for p in "$RUNNER_TEMP"/res/*; do
+            [ -e "$p" ] || continue
+            cp "$p" "research/modalities/$(basename "$p")"
+            git add "research/modalities/$(basename "$p")" || true
+          done
           git commit -m "DepMap + NR4A safety-genetics + resistance-map + E3-expression + superfamily-selectivity compute" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
