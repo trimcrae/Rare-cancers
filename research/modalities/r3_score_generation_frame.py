@@ -71,17 +71,21 @@ def parse_pocket_volumes(info_text):
 
     `fpocket_lib.parse_info` is the ONE home of that file's druggability and alpha-sphere parsing and is
     NOT modified here (other lanes read it). Volume is parsed separately because 'is pocket 2 a real
-    second cavity or a sliver' is a size question and alpha-sphere count alone under-determines it."""
+    second cavity or a sliver' is a size question and alpha-sphere count alone under-determines it.
+
+    ⚠ THE LABEL MUST BE EXACTLY `Volume`. fpocket's info.txt carries BOTH `Volume :` (Å³, hundreds) and
+    `Volume Score :` (a 0-10 descriptor). A substring test on "Volume" silently returns the SCORE — which
+    is how a first pass of this function reported the two cavities at "4.909" and "4.833 Å³", numbers that
+    are physically impossible for a cavity and would have been quoted as volumes."""
     vols, pid = {}, None
     for line in (info_text or "").splitlines():
         m = re.match(r"\s*Pocket\s+(\d+)\s*:", line)
         if m:
             pid = int(m.group(1))
             continue
-        if pid is not None and "Volume" in line and ":" in line:
-            v = re.search(r"([0-9]*\.?[0-9]+)", line.split(":", 1)[1])
-            if v:
-                vols[pid] = float(v.group(1))
+        m = re.match(r"\s*Volume\s*:\s*(-?[0-9]*\.?[0-9]+)", line)
+        if pid is not None and m:
+            vols[pid] = float(m.group(1))
     return vols
 
 

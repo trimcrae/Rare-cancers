@@ -1301,8 +1301,12 @@ def seed_replicates(n, work, sdf, comp, score_pose, arms, plan, out_of_time):
     return out
 
 
-def run_benchmark(cand, work, af2_reference_pdb, replicates=0):
-    """The whole known-answer test for ONE apo/holo pair. Returns a result dict (never raises)."""
+def run_benchmark(cand, work, af2_reference_pdb, replicates=0, site_only=False):
+    """The whole known-answer test for ONE apo/holo pair. Returns a result dict (never raises).
+
+    `site_only=True` runs the GEOMETRIC site question and stops before any dock. It is used by the
+    in-regime site supplement (`MODE=site`) and never by the pre-registered panel; nothing it produces
+    is summed into the panel's counts, and it emits no `verdict`."""
     import nr4a3_8xtt_benchmark as bm
     import nr4a3_dock as ndock
     from rdkit.Chem import rdMolAlign
@@ -1344,12 +1348,27 @@ def run_benchmark(cand, work, af2_reference_pdb, replicates=0):
     comp = (cand["ligand"] or {}).get("comp_id")
     links = covalent_links(holo_txt, comp)
     R_["covalent_links"] = links
-    if links:
+    # ★★ R2b IS A RULE ABOUT DOCKING, AND THE SITE QUESTION CONTAINS NO DOCKING (added 2026-08-03).
+    # A covalent ligand's crystallographic position is still the crystallographic answer; what a
+    # non-covalent dock cannot do is REPRODUCE it. `Q_SITE` asks only whether a site-selection route
+    # draws a box the ligand's centroid falls inside — geometry, no search, no scoring. So in
+    # `site_only` mode R2b is RECORDED and does not exclude.
+    # ⛔ WHY THIS MATTERS AND IS NOT A LOOPHOLE: R2b threw out BOTH NR4A2 pairs (5Y41/RPG and 5YD6/8SU,
+    # each LINKed SG CYS 566 -> ligand C11), and NR4A2 is NR4A3's CLOSEST paralogue and one of only two
+    # proteins the pipeline ever transfers Pocket-5 onto. The pre-registered docking panel keeps
+    # excluding them; the site supplement can read them, and it is reported separately so the two can
+    # never be summed.
+    if links and not site_only:
         R_["excluded_by"] = "R2b"
         return refuse("R2b", "%s is COVALENTLY linked in %s (%d LINK record(s)); a non-covalent dock "
                              "cannot reproduce a covalent pose. First: %s"
                              % (comp, cand["holo"], len(links), links[0][:80]))
-    lines, key = ligand_hetatms(holo_txt, comp)
+    if links:
+        R_["covalent_but_site_gradeable"] = (
+            "%s is COVALENTLY linked in %s (%d LINK record(s)) and is therefore excluded from the "
+            "pre-registered DOCKING panel by R2b. It is read here because the site endpoint is geometric "
+            "and contains no dock. First: %s" % (comp, cand["holo"], len(links), links[0][:80]))
+    lines, key = ligand_hetatms(holo_txt, comp)  # noqa: E501  (see the R2b note above)
     if not lines:
         return refuse("crystal_ligand", "no HETATM copy of %s in %s" % (comp, cand["holo"]))
     xtal_pts = het_coords(lines)
@@ -1560,6 +1579,18 @@ def run_benchmark(cand, work, af2_reference_pdb, replicates=0):
                       "%s A box the route drew. ADDED 2026-08-02; it replaces no pre-registered endpoint "
                       "and cannot change the primary verdict." % "x".join(str(s) for s in size)),
         "routes": site_rows}
+
+    # ★ SITE-ONLY STOPS HERE, BEFORE THE FIRST DOCK. Everything above is fetch, chain selection,
+    # alignment, native contacts, induced fit and the three site transfers — all deterministic and all
+    # free. Nothing below this line runs, so this path emits NO `arms` and NO `verdict` and cannot be
+    # mistaken for a panel result.
+    if site_only:
+        R_["_site_only"] = True
+        R_["questions"] = pair_questions(R_, cand)
+        R_["_site_only_note"] = (
+            "GEOMETRIC SITE ENDPOINT ONLY — no dock ran on this pair, so it carries no RMSD, no arms and "
+            "no verdict, and it is NOT part of the pre-registered panel or any of its counts.")
+        return R_
 
     def score_pose(mol_in_apo_frame, transform=True):
         m = _transform_mol(mol_in_apo_frame, Rm, tm) if transform else mol_in_apo_frame
@@ -2022,6 +2053,13 @@ def mode_select(src):
             # at four candidates — every one of them NR4A subfamily — so the panel could never reach a
             # nuclear receptor with a canonical orthosteric ligand complex. Measured on CI run 30762378689.
             "panel_pool": _dedup_pairs([c for _s, c in ranked]),
+            # ★ THE COMPLETE IN-REGIME SLICE, kept whole. `considered_top` is a 40-row excerpt and
+            # `panel_pool` is capped at MAX_PER_PROTEIN, so neither can tell you how many pairs exist on
+            # the only two proteins the pipeline actually transfers Pocket-5 onto. That count IS the
+            # answer to "how much in-regime evidence about the site step could ever exist", so it is
+            # recorded rather than re-derived. Bounded by construction: the regime is 3 accessions.
+            "_all_ranked_in_regime": [c for _s, c in ranked
+                                      if c.get("accession") in _REGIME_ACCESSIONS()],
             "considered_top": considered,
             "chosen": ranked[0][1] if ranked else None,
             "selection_rules": SELECTION_RULES,
@@ -2150,6 +2188,85 @@ def main():
     doc["reproducibility"] = panel_reproducibility(panel)
     doc["_appendix"] = APPENDIX
     _emit(doc)
+
+
+def in_regime_pairs(sel, limit=None):
+    """Every apo/holo pair on an accession the pipeline ACTUALLY transfers Pocket-5 onto, one per holo.
+
+    ⛔ THE REGIME SET IS READ FROM THE PIPELINE, NEVER TYPED — `nr4a3_warhead.PARALOGUES` plus NR4A3's own
+    accession, the same source `pair_questions` uses for its disqualifier. No per-protein cap: the cap
+    exists to stop one protein dominating a DOCKING panel's wall clock, and there is no dock here.
+
+    ⚠ THIS DOES NOT TOUCH `panel_pool`. The pre-registered panel, its rank order, its caps and its R2b
+    exclusion are all unchanged; this is a separate list for a separate, docking-free question."""
+    import nr4a3_warhead as wh
+    regime = set(wh.PARALOGUES.values()) | {"Q92570"}
+    seen, out = set(), []
+    for r in (sel.get("panel_pool") or []) + list(sel.get("_all_ranked") or []) \
+            + list(sel.get("considered_top") or []):
+        if r.get("accession") not in regime or not r.get("apo") or not r.get("holo"):
+            continue
+        if (r["apo"], r["holo"]) in seen or r["holo"] in {h for _a, h in seen}:
+            continue
+        seen.add((r["apo"], r["holo"]))
+        out.append(dict(r))
+        if limit and len(out) >= limit:
+            break
+    return out
+
+
+def panel_site_supplement(rows, attempted):
+    """The in-regime site question, counted over what it could actually read.
+
+    ⚠ EVERY ATTEMPTED PAIR IS REPORTED, including the ones that refused, and the refusal reasons are
+    tallied — a supplement that shows only the pairs that worked would understate exactly the thing it
+    exists to measure (how little in-regime evidence about the site step there is)."""
+    import nr4a3_warhead as wh
+    graded = [r for r in rows if (r.get("Q_SITE_does_site_selection_find_the_ligand") or {}).get("routes")]
+
+    def _found(r, route):
+        return ((r.get("Q_SITE_does_site_selection_find_the_ligand") or {})
+                .get("routes", {}).get(route, {}).get("ligand_centroid_in_box"))
+    refusals = {}
+    for r in rows:
+        for f in (r.get("refusals") or []):
+            refusals[f.get("stage")] = refusals.get(f.get("stage"), 0) + 1
+    return {
+        "_asks": ("Over EVERY apo/holo pair on a protein the pipeline actually transfers Pocket-5 onto: "
+                  "does a site-selection route put the crystallographic ligand inside its own box?"),
+        "_why_separate": ("this supplement is NOT the pre-registered panel and is never summed into it. "
+                          "It exists because the panel could only offer 2 in-regime pairs, both from one "
+                          "apo structure, and a site claim on n=2 is not a claim."),
+        "_regime": sorted(set(wh.PARALOGUES.values()) | {"Q92570"}),
+        "_no_docking": "geometric containment only — no smina, no seed, no scoring, deterministic",
+        "n_attempted": attempted, "n_gradeable": len(graded),
+        "refusal_stages": refusals,
+        "pipeline_sequence_transfer_found": sum(1 for r in graded
+                                                if _found(r, "pipeline_sequence_transfer_apo")),
+        "pocket5_structure_transfer_found": sum(1 for r in graded
+                                                if _found(r, "pocket5_structure_transfer_apo")),
+        "fpocket_top_pocket_found": sum(1 for r in graded if _found(r, "fpocket_top_pocket_apo")),
+        "n_covalent_read_here_but_excluded_from_the_docking_panel":
+            sum(1 for r in graded if r.get("covalent_but_site_gradeable")),
+        "pairs": [{
+            "accession": r["candidate"].get("accession"), "protein": r["candidate"].get("protein"),
+            "apo": r["candidate"].get("apo"), "holo": r["candidate"].get("holo"),
+            "ligand": (r["candidate"].get("ligand") or {}).get("comp_id"),
+            "covalent": bool(r.get("covalent_but_site_gradeable")),
+            "site_ca_rmsd_A": (r.get("induced_fit") or {}).get("site_ca_rmsd_A"),
+            "nr4a3_aligned_identity": ((r.get("boxes", {}).get("pipeline_apo") or {}).get("detail")
+                                       or {}).get("nr4a3_aligned_identity"),
+            "pipeline_sequence_transfer": ("SITE FOUND" if _found(r, "pipeline_sequence_transfer_apo")
+                                           else "SITE MISSED"),
+            "pocket5_structure_transfer": ("SITE FOUND" if _found(r, "pocket5_structure_transfer_apo")
+                                           else "SITE MISSED"),
+            "fpocket_top_pocket": ("SITE FOUND" if _found(r, "fpocket_top_pocket_apo")
+                                   else "SITE MISSED"),
+        } for r in graded],
+        "unreadable": [{"apo": r["candidate"].get("apo"), "holo": r["candidate"].get("holo"),
+                        "why": [f.get("stage") for f in (r.get("refusals") or [])]}
+                       for r in rows if r not in graded],
+    }
 
 
 def panel_reproducibility(panel):

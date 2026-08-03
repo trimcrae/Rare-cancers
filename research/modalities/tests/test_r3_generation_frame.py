@@ -152,6 +152,16 @@ class TestSiteIdentityDescriptors(unittest.TestCase):
         self.assertEqual(sc.parse_pocket_volumes(""), {})
         self.assertEqual(sc.parse_pocket_volumes(None), {})
 
+    def test_volume_score_is_not_mistaken_for_volume(self):
+        """MEASURED FAILURE, 2026-08-03: a substring test on 'Volume' returned fpocket's 0-10 `Volume
+        Score` and the artifact printed two cavities at '4.909' and '4.833 Å³'. A cavity is hundreds of
+        Å³; a number that cannot be a volume was one step from being quoted as one."""
+        text = ("Pocket 1 :\n\tVolume Score : 4.909\n\tVolume : 512.34\n"
+                "Pocket 2 :\n\tVolume : 301.5\n\tVolume Score : 4.833\n")
+        vols = sc.parse_pocket_volumes(text)
+        self.assertAlmostEqual(vols[1], 512.34)
+        self.assertAlmostEqual(vols[2], 301.5)
+
     def test_labels_carry_uniprot_numbering_derived_from_lbd_first(self):
         """resSeq 34 in a structure renumbered from 373 is UniProt 406 — the first Pocket-5 lining
         residue. Typing the offset is what this asserts against."""
