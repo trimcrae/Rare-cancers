@@ -542,15 +542,21 @@ def render_markdown(doc):
     inv = doc.get("inventory") or {}
     ex = inv.get("excluded_span") or {}
     L.append("\n## What the real object contains that the modelled construct does not\n")
-    L.append("Modelled: **%s** (%s residues). Excluded on the NR4A3 side: **%s** (%s residues). "
-             "Excluded on the EWSR1 side at the canonical cut: **%s**.\n"
+    L.append("Modelled: **%s** (%s residues). Absent from it on the NR4A3 side: **%s** (%s residues). "
+             "Absent from it on the EWSR1 side at the canonical junction: **%s** — and across the whole "
+             "plausible set the EWSR1 half runs from **%s** to **%s** residues, which is where all the "
+             "breakpoint variation lives.\n"
              % (ex.get("modelled_construct"), ex.get("n_modelled"),
                 ex.get("NR4A3_residues_excluded_by_the_construct"),
                 ex.get("n_NR4A3_residues_excluded"),
-                ex.get("EWSR1_residues_excluded_by_the_construct")))
-    L.append("\n**%s reactive residues** lie outside every structure in this program — **%s invariant** "
-             "across every plausible breakpoint, **%s breakpoint-dependent**.\n"
-             % (inv.get("n_rows"), inv.get("n_invariant"), inv.get("n_breakpoint_dependent")))
+                ex.get("canonical_EWSR1_residues_in_the_chimera"),
+                (ex.get("EWSR1_kept_range_across_plausible_breakpoints") or ["?", "?"])[0],
+                (ex.get("EWSR1_kept_range_across_plausible_breakpoints") or ["?", "?"])[1]))
+    L.append("\n**%s reactive residues at the CANONICAL junction** lie outside every structure in this "
+             "program. Over the whole plausible set the table below enumerates **%s**, of which **%s are "
+             "invariant** (present under every plausible breakpoint) and **%s are breakpoint-dependent**.\n"
+             % (ex.get("n_reactive_residues_outside_the_construct_at_the_canonical_junction"),
+                inv.get("n_rows"), inv.get("n_invariant"), inv.get("n_breakpoint_dependent")))
     L.append("\n| residue | protein | domain | class | present under | NR4A3-unique vs |")
     L.append("|---|---|---|---|---|---|")
     for r in inv.get("rows", []):
