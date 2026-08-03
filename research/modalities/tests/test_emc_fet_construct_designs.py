@@ -11,6 +11,7 @@ The load-bearing case is the third one: a 3' partner whose named exon carries 5'
 ATG, which is exactly NR4A3's situation (transcript exons 1-2 non-coding, exon 3 carries UTR +
 the start codon). A CDS-level fusion model cannot even express that case.
 """
+import json
 import os
 import sys
 
@@ -152,3 +153,19 @@ def test_unpinned_partners_are_named_rather_than_omitted():
     assert "FUS::NR4A3" in fusions and "TCF12::NR4A3" in fusions
     for u in cd.UNPINNED:
         assert u["status"] and u["what_can_be_said"]
+
+
+def test_build_construct_does_not_mutate_its_inputs_and_round_trips_through_json():
+    """`--check` re-derives from the inputs cache and diffs the artifact, so it is only a
+    reproduce mode if the derive half is deterministic THROUGH serialisation and leaves its
+    input untouched. A derive step that quietly edited the cache would leave the committed
+    cache disagreeing with the one the artifact was built from."""
+    genes = _pair([15], [9])
+    before = json.dumps(genes, sort_keys=True)
+    entry = {"id": "t", "label": "A::B", "five_prime": "A", "five_prime_exon": 1,
+             "three_prime": "B", "three_prime_exon": 2, "sources": []}
+    out = cd.build_construct(entry, genes, {}, zf_start=None, lbd_start=1)
+    assert json.dumps(genes, sort_keys=True) == before, "build_construct mutated its input"
+    assert json.loads(json.dumps(out)) == out, "output does not survive a JSON round-trip"
+    again = cd.build_construct(entry, genes, {}, zf_start=None, lbd_start=1)
+    assert again == out, "build_construct is not deterministic"

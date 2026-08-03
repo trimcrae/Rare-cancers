@@ -827,22 +827,28 @@ def tcf12_negative_control(genes, seqs, window=250) -> dict:
 # ---------------------------------------------------------------------------------------------
 def derive(inputs: dict) -> dict:
     genes = inputs["genes"]
-    seqs = dict(inputs.get("uniprot_sequences") or {})
-    # Ensembl translation is what the exon arithmetic is built on; UniProt is the independent
-    # check. A silent difference between them would move every residue number below.
+    uniprot = inputs.get("uniprot_sequences") or {}
+    # ⭐ WHICH SEQUENCE THE ARITHMETIC RUNS ON, and why it is not a matter of taste. Every residue
+    # index below is derived from the EXON MAP, so it is only meaningful against the ENSEMBL
+    # translation that map indexes. Running the census's RG rule over a UniProt sequence that
+    # differed by even one residue would silently misplace every count — the same shape of error
+    # as the off-by-two. So: Ensembl is used, UniProt is the independent CHECK, and the check is
+    # reported rather than assumed to pass.
+    seqs = {sym: g["protein"] for sym, g in genes.items()}
     ens_vs_uni = {}
     for sym, g in genes.items():
-        u = seqs.get(sym)
+        u = uniprot.get(sym)
         ens_vs_uni[sym] = {
             "ensembl_len": len(g["protein"]), "uniprot_len": len(u) if u else None,
             "identical": bool(u is not None and u == g["protein"]),
-            "_if_false": "residue numbering below follows the ENSEMBL translation, because that "
-                         "is what the exon map indexes. A UniProt-numbered literature statement "
-                         "must be converted before it is compared.",
+            "_meaning": "false is not automatically an error — the two databases can choose "
+                        "different canonical isoforms — but it means a UniProt-numbered "
+                        "literature statement must be converted before it is compared with "
+                        "anything here, and it means this module's RG counts may differ from "
+                        "emc-fet-idr-census.json, which computes them on the UniProt sequence.",
         }
-        # the census's RGG arithmetic is defined on its own cached sequences; keep those as the
-        # source of truth for RG counts so this module and the census cannot disagree.
-        seqs.setdefault(sym, g["protein"])
+    for sym, u in uniprot.items():
+        seqs.setdefault(sym, u)
 
     audit = json.load(open(EXON_AUDIT)) if os.path.exists(EXON_AUDIT) else {}
     zf_start = (audit.get("verdict") or {}).get("zinc_finger_first_cysteine_residue")
