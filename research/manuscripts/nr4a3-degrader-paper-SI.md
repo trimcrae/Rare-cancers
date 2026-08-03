@@ -156,8 +156,24 @@ residue sets — the multiplicative budget is real, not double-counting one patc
    untested route; NR4A2 (the
    molecularly hardest case — I531 is NR4A3=NR4A2-identical, §2.4) is topped up from **pharmacokinetics /
    CNS-exclusion**, on the *assumption* that NR4A2/Nurr1 toxicity is CNS-localized (Nurr1's canonical role is
-   dopaminergic) and EMC is a peripheral sarcoma — **an assumption not yet verified**: a systematic check of
-   NR4A2 single-loss tolerability (MGI/IMPC single-KO phenotypes) did not confirm it (SI §S6 safety note).
+   dopaminergic) and EMC is a peripheral sarcoma — **an assumption that remains unverified, and the check
+   that was outstanding has now been run.** IMPC held no record; MGI does, and it changes *why* the
+   assumption is unverified rather than merely leaving it so. The mouse *Nr4a2* single knockout is
+   phenotyped with the expected dopaminergic terms (abnormal substantia nigra morphology, PMID 9520484;
+   reduced dopaminergic neuron number, PMID 20016108) — **and also with complete-penetrance neonatal
+   lethality** (PMID 9092472; PMID 9608532), which is a whole-organism outcome and therefore **does not
+   support localizing the liability to the CNS**. Per-tissue mRNA points the same way: NR4A2 is above the
+   detection cut in every tissue measured and is nowhere the dominant family member, so it is not a
+   CNS-restricted transcript. ⚠ Neither observation refutes the dopaminergic mechanism — a bulk tissue
+   average dilutes the substantia nigra pars compacta to invisibility, and a germline knockout bounds
+   **developmental** loss rather than the adult, transient, incomplete loss a degrader produces. **What the
+   CNS-exclusion argument still lacks is the thing no database can supply: a measured or predicted
+   CNS-exposure value for an actual candidate molecule, of which this work reports none.** Evidence, terms,
+   accessions and the per-tissue table:
+   [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) (SI §S6 safety note).
+   *(Superseded, retained: "a systematic check of NR4A2 single-loss tolerability (MGI/IMPC single-KO
+   phenotypes) did not confirm it" — IMPC was empty and MGI had not yet been read, so that sentence
+   described an unrun check, not a negative result.)*
 3. **Fusion-vs-wild-type selectivity is unobtainable from the degrader at any stage** (the warhead binds a
    LBD identical in fusion and wild-type, and the ternary forms at that LBD, nowhere near the N-terminal
    fusion partner). It is the **ASO's** job (RNA-level junction targeting); the degrader's honest scope is
