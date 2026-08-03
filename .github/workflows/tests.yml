@@ -151,5 +151,9 @@ jobs:
       # entry was auto-disabled, and for 9+ commits the repo's test gate did not run at all — every merge in
       # that window was reported green on a suite nobody executed. A guard failure and a suite failure are
       # different facts and both must be visible on the same run; the job still fails either way.
+      # research/manuscripts/tests was added 2026-08-03 for the EMC systems-map guards. It is listed
+      # explicitly rather than by widening to `research/` because a bare directory walk would start
+      # collecting whatever lands anywhere under research/ — and a suite that silently changes what
+      # it runs is the same failure as a suite that silently stops running (the incident above).
       - if: always()
-        run: python -m pytest research/modalities/tests -q --continue-on-collection-errors
+        run: python -m pytest research/modalities/tests research/manuscripts/tests -q --continue-on-collection-errors

@@ -468,6 +468,195 @@ def check_conflicts(m, f):
             f.error("X1", f"{c['id']}: no why_not_decided")
 
 
+# ---------------------------------------------------------------------------
+# closure kind and revival triggers
+# ---------------------------------------------------------------------------
+#
+# WHY THIS IS A FIRST-CLASS FIELD AND NOT A NOTE (trimcrae, 2026-08-03). AI methods are advancing
+# fast, so many currently-closed paths WILL be unblocked. A register that files
+#
+#     "a residue the paralogues SHARE cannot discriminate between them"   (true forever)
+#
+# beside
+#
+#     "sequence-only co-folding assembles the two halves wrongly, DockQ 0.023-0.046"   (true today)
+#
+# under one word -- "closed" -- has destroyed the only distinction that matters for deciding what to
+# watch for. `instrument_limit` is the most revivable category and is where most of this program's
+# failures actually sit; that is precisely why it must be nameable.
+#
+# `permanently_closed` and `revival_would_reopen` are DERIVED here and rendered into the view. They
+# are never written into the registry, and Z6 fails if they are -- CLAUDE.md §1: a derived value is
+# regenerated, not hand-maintained.
+
+# A trigger must be usable verbatim as a literature-search query: a sibling agent's weekly field
+# scan searches for these strings by name. "Better methods" is not searchable, so it is refused.
+VAGUE_TOKENS = re.compile(
+    r"\b(better|improved|improve|more accurate|more reliable|newer|advances? in|"
+    r"state[- ]of[- ]the[- ]art|next[- ]gen(?:eration)?|when the field|as methods mature)\b", re.I)
+
+# A trigger must NAME something. One of: a named thing (an acronym or CamelCase token such as DockQ,
+# AlphaFlow, CRL, PROTAC, RNF114, NR4A1), or a quantity with a unit.
+NAMED_THING = re.compile(r"\b(?:[A-Z]{2,}[A-Za-z0-9-]*|[A-Z][a-z]+[A-Z][A-Za-z0-9]*|[A-Za-z]+-?\d+)\b")
+QUANTITY = re.compile(r"\d+(?:\.\d+)?\s*(?:kcal/mol|Angstrom|Å|%|atom|atoms|ns|µM|uM|nM|residues?)\b", re.I)
+# ...and a CAPABILITY: what has to be demonstrated, not merely what would be nice.
+CAPABILITY = re.compile(
+    r"\b(validat\w*|benchmark\w*|reach\w*|resolv\w*|recover\w*|reproduc\w*|"
+    r"deposit\w*|report\w*|demonstrat\w*|regenerat\w*|execut\w*|authoriz\w*|"
+    r"access\w*|evaluat\w*|predict\w*|passes|pass\w*|contradict\w*)\b", re.I)
+
+MIN_TRIGGER_CHARS = 60
+
+
+def closure_model(m):
+    return (m.get("_closure_model") or {}).get("kinds", {})
+
+
+def is_permanent(m, kind):
+    """DERIVED, never typed: permanence is a property of the KIND, read from the closure model."""
+    return bool(closure_model(m).get(kind, {}).get("permanent"))
+
+
+def would_reopen(m, item):
+    """DERIVED, never typed: the union of what this item's triggers would reopen."""
+    by_id = {t["id"]: t for t in m.get("revival_triggers", [])}
+    out = []
+    for tid in item.get("revival_trigger", []) or []:
+        for r in by_id.get(tid, {}).get("would_reopen", []):
+            if r not in out:
+                out.append(r)
+    return out
+
+
+def check_closures(m, f):
+    """Z1-Z7 -- which KIND of closure each dead end is, and what would revive it.
+
+    Z1  every route and instrument carries a `closure_kind` from the registered enumeration.
+    Z2  a NON-permanent closure must name a `revival_trigger`. "Closed, and nothing says what would
+        change that" is the state this field exists to abolish.
+    Z3  a PERMANENT closure (`definitional`, `arithmetic_over_fixed_fact`) may NOT carry a revival
+        trigger. That is a category error in either direction: a fact about a sequence filed as
+        temporary, or a method limitation filed as a law of nature.
+    Z4  a trigger must be SPECIFIC enough to be a literature-search query -- it must name a method,
+        artifact, measurable quantity or capability, and must not lean on a bare comparative.
+    Z5  (WARN) a trigger that no watch list carries is a trigger nobody is watching for.
+    Z6  `permanently_closed` and `revival_would_reopen` are derived; typing them is the bug.
+    Z7  every trigger must resolve, and must say what it would reopen.
+    """
+    kinds = closure_model(m)
+    if not kinds:
+        f.error("Z1", "no `_closure_model.kinds` -- the enumeration has no home")
+        return
+    triggers = {t["id"]: t for t in m.get("revival_triggers", [])}
+
+    try:
+        with open(os.path.join(REPO, "research/method-watch.md"), encoding="utf-8") as fh:
+            watch = fh.read().lower()
+    except OSError:
+        watch = ""
+
+    for t in m.get("revival_triggers", []):
+        s = t.get("trigger", "")
+        tid = t["id"]
+        if len(s) < MIN_TRIGGER_CHARS:
+            f.error("Z4", f"{tid}: trigger is {len(s)} chars, under the {MIN_TRIGGER_CHARS}-char "
+                          f"floor -- too short to be a search query")
+        bad = VAGUE_TOKENS.search(s)
+        if bad and not QUANTITY.search(s):
+            f.error("Z4", f"{tid}: trigger leans on the bare comparative {bad.group(0)!r} with no "
+                          f"measurable quantity beside it -- say what must be demonstrated, "
+                          f"not that it must be better")
+        if not (NAMED_THING.search(s) or QUANTITY.search(s)):
+            f.error("Z4", f"{tid}: trigger names no method, artifact or measurable quantity")
+        if not CAPABILITY.search(s):
+            f.error("Z4", f"{tid}: trigger states no capability that must be demonstrated")
+        if not t.get("would_reopen"):
+            f.error("Z7", f"{tid}: names nothing it would reopen -- a trigger nobody benefits from "
+                          f"is not a trigger")
+        if not t.get("why_this_string"):
+            f.error("Z7", f"{tid}: no `why_this_string` -- a search query with no rationale cannot "
+                          f"be re-graded when it fires")
+        # Z5 -- watch-list membership is EVIDENCED, not asserted. A typed `on_watch_list: true` with
+        # nothing behind it is exactly the "populated field is not a measured one" failure
+        # (CLAUDE.md §4), so the claim must quote a verbatim row from the watch list.
+        if t.get("on_watch_list"):
+            ev = t.get("watch_list_evidence")
+            if not ev:
+                f.error("Z5", f"{tid}: claims to be on the watch list with no "
+                              f"`watch_list_evidence` -- an asserted field is not a measured one")
+            elif watch and ev.lower() not in watch:
+                f.error("Z5", f"{tid}: its `watch_list_evidence` {ev[:50]!r} is not in "
+                              f"research/method-watch.md -- the claim is stale or was never true")
+        else:
+            f.warn("Z5", f"{tid} is not carried by research/method-watch.md -- it is a trigger "
+                         f"nobody is scanning for")
+
+    # Z8 -- the cross-check with the sibling SCAN registry, which owns the search queries and
+    # explicitly defers the route<->trigger graph to this file. A `TRG-*` id that does not exist
+    # there is a scan nobody runs; a scannable trigger with no `TRG-*` at all is a capability
+    # nobody is looking for. The file is checked only if present, so neither repo is hard-wired to
+    # the other's landing order.
+    scan_path = (m.get("_scan_interop") or {}).get("_scan_registry")
+    scan_ids, scan_present = set(), False
+    if scan_path and os.path.exists(os.path.join(REPO, scan_path)):
+        try:
+            with open(os.path.join(REPO, scan_path)) as fh:
+                scan_ids = {t.get("id") for t in json.load(fh).get("triggers", [])}
+            scan_present = True
+        except Exception as exc:  # noqa: BLE001
+            f.warn("Z8", f"{scan_path} is present but unreadable ({exc}) -- cross-check skipped")
+    scannable = {"external_capability", "external_measurement", "external_data"}
+    for t in m.get("revival_triggers", []):
+        kind = t.get("trigger_kind")
+        if kind is None:
+            f.error("Z8", f"{t['id']}: no `trigger_kind` -- without it there is no way to say "
+                          f"whether a literature scan could ever detect this trigger")
+            continue
+        refs = t.get("scan_trigger") or []
+        if scan_present:
+            for ref in refs:
+                if ref not in scan_ids:
+                    f.error("Z8", f"{t['id']}: scan_trigger {ref!r} is not in {scan_path} -- "
+                                  f"it points at a query that does not exist")
+        if kind in scannable and not refs:
+            f.warn("Z8", f"{t['id']} is {kind} but has no `scan_trigger` -- it is detectable in "
+                         f"principle and nothing is searching for it")
+
+    known_ids = ({r["id"] for r in m.get("routes", [])}
+                 | {i["id"] for i in m.get("instruments", [])})
+    for t in m.get("revival_triggers", []):
+        for target in t.get("would_reopen", []):
+            if target not in known_ids and not re.fullmatch(r"R\d+", target):
+                f.error("Z7", f"{t['id']}: would_reopen names {target!r}, which is neither a "
+                              f"registered route/instrument nor an `R*` requirement")
+
+    for section in ("routes", "instruments"):
+        for item in m.get(section, []):
+            iid = item["id"]
+            for derived in ("permanently_closed", "revival_would_reopen"):
+                if derived in item:
+                    f.error("Z6", f"{iid}: `{derived}` is DERIVED and must not be typed into the "
+                                  f"registry -- it is regenerated from `closure_kind` and the "
+                                  f"trigger registry")
+            kind = item.get("closure_kind")
+            if kind not in kinds:
+                f.error("Z1", f"{iid}: closure_kind {kind!r} is not in the registered enumeration "
+                              f"{sorted(kinds)}")
+                continue
+            trigs = item.get("revival_trigger", []) or []
+            for tid in trigs:
+                if tid not in triggers:
+                    f.error("Z2", f"{iid}: unregistered revival_trigger {tid!r}")
+            if is_permanent(m, kind) and trigs:
+                f.error("Z3", f"{iid}: closure_kind {kind!r} is PERMANENT and yet carries revival "
+                              f"trigger(s) {trigs} -- a category error. Either the fact is not "
+                              f"permanent, or the trigger belongs to a different row")
+            if kinds[kind].get("needs_trigger") and not trigs:
+                f.error("Z2", f"{iid}: closure_kind {kind!r} is not permanent and names no "
+                              f"`revival_trigger` -- 'closed, and nothing says what would change "
+                              f"that' is the state this field abolishes")
+
+
 ALL_CHECKS = (
     check_ids_unique,
     check_evidence_names,
@@ -477,6 +666,7 @@ ALL_CHECKS = (
     check_claims,
     check_artifact_paths,
     check_conflicts,
+    check_closures,
 )
 
 
@@ -707,8 +897,67 @@ def render_view(m):
           f"| `{c['artifact']}` → `{c.get('field', '—')}` |")
     w("")
 
+    # ---- the watch list ---------------------------------------------------
+    kinds = closure_model(m)
+    trig_by_id = {t["id"]: t for t in m.get("revival_triggers", [])}
+
+    items = [("route", r) for r in routes] + [("instrument", i) for i in m["instruments"]]
+
+    w("## 9 · ⭐ THE WATCH LIST — what would revive what, highest-leverage first")
+    w("")
+    w("**Why this section is the point of the whole registry.** Many of these paths will be "
+      "unblocked, and a register that files *a fact about a sequence* beside *a limitation of "
+      "today's free-energy engine* under one word — \"closed\" — has destroyed the only distinction "
+      "that decides what to watch for. So `closure_kind` is an enumerated field, and every "
+      "non-permanent closure names, in searchable words, what has to land.")
+    w("")
+    w("⭐ **Ordered by how many routes and instruments each trigger revives** — the top rows are the "
+      "highest-leverage advances to watch for. Each `trigger` string is written to be usable "
+      "**verbatim as a literature-search query**.")
+    w("")
+    w("| # revived | trigger | what it would reopen | on the watch list? |")
+    w("|---|---|---|---|")
+    trig_rows = []
+    for t in m.get("revival_triggers", []):
+        users = [i["id"] for _, i in items if t["id"] in (i.get("revival_trigger") or [])]
+        reopen = t.get("would_reopen", [])
+        trig_rows.append((len(set(users) | set(reopen)), t, users, reopen))
+    for n, t, users, reopen in sorted(trig_rows, key=lambda x: (-x[0], x[1]["id"])):
+        watch = "✅ yes" if t.get("on_watch_list") else "⚠ **no — nobody is scanning for it**"
+        w(f"| **{n}** | **{_md_escape(t['trigger'])}** <br>*{_md_escape(t.get('why_this_string', ''))}* "
+          f"| {', '.join('`' + x + '`' for x in reopen)} | {watch} |")
+    w("")
+
+    w("### 9a · Every closure, by KIND — and which are permanent")
+    w("")
+    w("⛔ **A `definitional` or `arithmetic_over_fixed_fact` closure is permanent and may carry NO "
+      "revival trigger** — a fact about what the objects *are* is not waiting on a method. "
+      "⭐ **`instrument_limit` is the most revivable kind and is where most of this program's "
+      "failures actually sit.** `permanently closed` below is DERIVED from the kind, never typed.")
+    w("")
+    for kind, spec in kinds.items():
+        rows = [(sec, i) for sec, i in items if i.get("closure_kind") == kind]
+        if not rows:
+            continue
+        perm = "⛔ **PERMANENT — never revivable**" if spec.get("permanent") else "revivable"
+        w(f"**`{kind}`** — {perm}. {_md_escape(spec.get('meaning', ''))}")
+        w("")
+        w("| id | kind | permanently closed (derived) | revival trigger(s) | would reopen (derived) |")
+        w("|---|---|---|---|---|")
+        for sec, i in sorted(rows, key=lambda x: x[1]["id"]):
+            trigs = ", ".join(f"`{t}`" for t in (i.get("revival_trigger") or [])) or "—"
+            reopen = would_reopen(m, i)
+            w(f"| `{i['id']}` {_md_escape(i.get('display_name') or i.get('name', ''))[:70]} "
+              f"| {kind} | {'**yes**' if spec.get('permanent') else 'no'} | {trigs} "
+              f"| {', '.join('`' + x + '`' for x in reopen) or '—'} |")
+        w("")
+        for sec, i in sorted(rows, key=lambda x: x[1]["id"]):
+            if i.get("closure_note"):
+                w(f"- `{i['id']}` — {i['closure_note']}")
+        w("")
+
     # ---- conflicts --------------------------------------------------------
-    w("## 9 · OPEN CONFLICTS — logged rather than decided")
+    w("## 10 · OPEN CONFLICTS — logged rather than decided")
     w("")
     w("Each of these is a genuine disagreement in the record that this registry could not resolve "
       "from what is committed. Deciding them is the owning file's call, not a navigation layer's.")

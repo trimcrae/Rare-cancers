@@ -321,7 +321,195 @@ The registry records **where** each figure lives, never the figure. The checker 
 | `CLM-C397-DECOY-NULL` | [`nr4a3-program-map.md`](nr4a3-program-map.md) | V17's row — the second, independently pre-registered decoy-null scope that DOES contain C397 | `ART-DECOY-NULL-LBD` → `/results` |
 | `CLM-APO-SITE-IN-REGIME` | [`nr4a3-program-map.md`](nr4a3-program-map.md) | V3's row — the in-regime site panel by two independent transfer routes | `ART-APO-POSE-SITE` → `/site_panel_in_regime` |
 
-## 9 · OPEN CONFLICTS — logged rather than decided
+## 9 · ⭐ THE WATCH LIST — what would revive what, highest-leverage first
+
+**Why this section is the point of the whole registry.** Many of these paths will be unblocked, and a register that files *a fact about a sequence* beside *a limitation of today's free-energy engine* under one word — "closed" — has destroyed the only distinction that decides what to watch for. So `closure_kind` is an enumerated field, and every non-permanent closure names, in searchable words, what has to land.
+
+⭐ **Ordered by how many routes and instruments each trigger revives** — the top rows are the highest-leverage advances to watch for. Each `trigger` string is written to be usable **verbatim as a literature-search query**.
+
+| # revived | trigger | what it would reopen | on the watch list? |
+|---|---|---|---|
+| **13** | **a free-energy method (FEP or ML free-energy) validated on cryptic / induced-fit pockets — an ABFE or RBFE engine that reproduces a public known-answer benchmark to within 1 kcal/mol on a pocket absent from the apo structure** <br>*The program's ABFE engine under-binds T4-lysozyme L99A/benzene by more than the entire selectivity margin it is used to compute, and the FEP tier the degrader needs is least reliable on exactly the cryptic, induced-fit pocket this target presents.* | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` | ✅ yes |
+| **11** | **a fetchable public EMC RNA-seq or proteomics dataset deposited beyond the single DepMap model ACH-001519, enabling an NR4A3-target regulon-dominance readout and a per-antigen expression confirm on real EMC tissue** <br>*EMC is nearly absent from public functional-genomics data and the one line is n = 1 with no CRISPR data — the repo-wide rate-limiter. It is a DATA trigger, not a method one, and it fans out across every route whose in-silico half is bounded by n = 1.* | `RT-SYNLETH-DEP`, `RT-PPARG-DOWNSTREAM`, `RT-TRABECTEDIN-PPARG`, `RT-B7H3`, `RT-SSTR2`, `RT-PRAME-IMMTAC`, `RT-CART-SURFACE`, `RT-FAP-RLT`, `RT-CARFILZOMIB` | ✅ yes |
+| **11** | **access to a patient-derived EMC model (NCC-EMC1-C1, USZ-EMC, or an authenticated H-EMC-SS) through a collaborator or a solo-affordable cloud/robotic wet-lab service with EMC-runnable scope** <br>*The cell-line repositories exclude individuals by published policy rather than by price, so every confirm-gated EMC row is gated on a collaborator and no budget reaches it. This trigger is about ACCESS, and it is the single highest-fan-out non-method trigger in the portfolio.* | `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-TRABECTEDIN-PPARG`, `RT-SSTR2`, `RT-COVALENT-PROBE`, `RT-SYNLETH-DEP`, `RT-B7H3`, `RT-CART-SURFACE`, `RT-PPARG-DOWNSTREAM`, `RT-CARFILZOMIB`, `R4` | ✅ yes |
+| **7** | **generative equilibrium-ensemble models (BioEmu, AlphaFlow, subsampled-MSA AlphaFold) validated against known cryptic pockets — recovering CryptoSite/PocketMiner benchmark sites without GPU-days of metadynamics** <br>*It collapses the per-target 'open the pocket' cost from GPU-days to pennies, which is what decides whether the cryptic-pocket druggability atlas is a focused target class or proteome-scale. ⚠ Its (a) arm already fired 2026-07-24; the calibration half has not.* | `V13`, `V14`, `R1`, `R2`, `R6`, `RT-DEGRADER`, `RT-MONOVALENT` | ✅ yes |
+| **7** | **a pose-prediction protocol whose site transfer places the crystallographic ligand inside its own box in regime, and on which two scoring-independent methods converge in ORIENTATION as well as location on the same receptors** <br>*Two independent transfer routes both put the site at zero in regime, and two disjoint scoring functions disagree in orientation at a median far above their centroid separation — so the non-convergence is the system's, and a single better docker is not the trigger.* | `V3`, `V22`, `R5`, `R8`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-COVALENT-PROBE` | ⚠ **no — nobody is scanning for it** |
+| **5** | **a sequence-only co-folder evaluated on ternary ASSEMBLY — inter-chain DockQ on post-training-horizon PROTAC ternaries — rather than on per-chain pocket accuracy** <br>*Boltz-2 failing is not the class failing: the same harness already recognises a correct ternary when both sites are given (DeepTernary reaches DockQ 0.839 on the same interface), so the plumbing is not what missed.* | `V12`, `R10`, `RT-DEGRADER`, `RT-ANDGATE`, `RT-AF3-INTERFACE` | ✅ yes |
+| **5** | **a solvent-exposure or thiol-reactivity criterion that recovers NR4A1 C551 as engageable on a state-matched opened model — i.e. an exposure instrument that passes the one NR4A-family covalent positive control with literature support** <br>*The standing EXPOSED_RSA cutoff fails that positive control, so anything it adjudicates inherits a demonstrated false negative and only a threshold-free rank survives. A criterion that passes it makes the covalent screen readable again rather than rank-only.* | `V17`, `R8`, `R15`, `RT-COVALENT-PROBE`, `RT-MONOVALENT` | ⚠ **no — nobody is scanning for it** |
+| **5** | **fusion-breakpoint-neoantigens.json regenerated against the corrected exon index, so that every predicted peptide-HLA binder spans a seam that a reported junction actually produces** <br>*The predicted binders currently span seams that do not exist, which is a defect of the input index rather than of the prediction method — so the trigger is a regeneration, and it is free.* | `RT-JUNCTION-NEOANTIGEN`, `RT-VACCINE`, `RT-TCR-IMMTAC` | ⚠ **no — nobody is scanning for it** |
+| **5** | **an oligonucleotide tumour-delivery technology reaching non-hepatic solid tumours — an AOC/conjugate, tumour-penetrating peptide or ligand-targeted LNP platform — OR a characterised EMC-enriched surface antigen to serve as its targeting arm** <br>*Delivery is the ASO route's one remaining gate and it is engineering rather than biology, so it is watched two ways: a delivery PREDICTOR to score a candidate in silico, and a delivery TECHNOLOGY to be that candidate.* | `RT-ASO`, `RT-ASO-ASK`, `RT-CRISPR-CAS13`, `RT-RIBOZYME`, `RT-SYNPROMOTER` | ✅ yes |
+| **4** | **a validated charge-change correction for alchemical free-energy edges — a co-alchemical-ion or PME finite-size treatment demonstrated to reproduce a known-answer set of charge-changing transformations** <br>*Charge-changing edges block legs of the step-1 fan-out and killed the high-contrast calibrator route. ⚠ The correction reopens the EDGES, not the P-series DESIGN, which stays a poor calibrator on perturbation size alone.* | `V5`, `V6`, `R7`, `R11` | ⚠ **no — nobody is scanning for it** |
+| **4** | **a validated prospective molecular-glue design method or glue-interface selectivity predictor, demonstrated on a CRBN or DCAF neosubstrate interface that was not in its training set** <br>*A glue has no linker, so it has no covalent axis and no designed exit vector — the modality most likely to arrive from someone else's screen rather than from this program's design, which is why it is a watch trigger rather than a build item.* | `RT-GLUE`, `R7`, `R9`, `R10` | ✅ yes |
+| **4** | **an OBSERVED rather than COMPOSED CRL RING / E2~Ub geometry — a deposited cryo-EM or crystallographic full-assembly structure that replaces a composed model carrying tens of angstroms of positional uncertainty** <br>*No degradation-geometry claim may rest on a RING or E2 that was composed rather than observed, and the E3-choice selectivity readout is not stable under restaging — both are statements about the geometry's provenance, which only an observed assembly changes.* | `V18`, `R12`, `RT-UBIQ-SELECTIVE`, `RT-DEGRADER` | ⚠ **no — nobody is scanning for it** |
+| **4** | **a ternary alchemical free-energy method that PASSES the valB known-answer cooperativity control — recovering the reference ΔΔG_coop with the correct sign, not merely with more sampling of the present protocol** <br>*The closure triangle localises the present miss to an ENDPOINT-STATE error, which is a property of the model or the reference data; more sampling of the same endpoints cannot fix it.* | `V5`, `R11`, `RT-DEGRADER`, `RT-ANDGATE` | ⚠ **no — nobody is scanning for it** |
+| **3** | **trimcrae authorizing the CREBBP versus BRD4(1) / SGC-CBP30 selectivity ABFE — the program's only binary selectivity control and its highest-leverage unrun item** <br>*Nothing failed and nothing is missing; it is built and staged with no result key. This is an authorization, not a capability — it could run tomorrow.* | `V4`, `R7`, `RT-DEGRADER` | ⚠ **no — nobody is scanning for it** |
+| **3** | **an anti-target docking protocol in which every panel receptor recovers its own cognate crystallographic ligand inside the pre-registered 2.0 Angstrom criterion, with no receptor dropped, no box re-centred and no band lowered** <br>*Three of ten receptors miss, so `panel_readable` is false and all four SI scope clauses that are maximum-over-the-panel statements are unreadable. A failing target may not be dropped, which is what makes this a protocol trigger rather than a curation one.* | `V21`, `R14`, `RT-DEGRADER` | ⚠ **no — nobody is scanning for it** |
+| **3** | **an atom mapper that reaches the 20-atom provable floor on the 19th congeneric edge WITHOUT a degenerate correspondence — i.e. without mapping a carbon onto a hydrogen** <br>*The best available map reaches 19 and the search budget is provably not binding (identical maps at t20 and t300), so more search time buys nothing; the one map that does reach 20 gets there by a chemically impossible correspondence.* | `V6`, `R7`, `RT-DEGRADER` | ⚠ **no — nobody is scanning for it** |
+| **3** | **an interface-stability readout with power at achievable sampling, OR a different test system whose interface effect is large enough for the E1 endpoint to resolve** <br>*Two independent attempts returned no pass, the second on an adequately powered design — so the block is the readout's resolution against this system's effect size, not the sample size. ⚠ Two failures is strong evidence, not proof of impossibility.* | `V11`, `R11`, `RT-DEGRADER` | ⚠ **no — nobody is scanning for it** |
+| **3** | **a deposited partner-free liganded structure for one of the blocked E3 recruiters (RNF114, DCAF16, DCAF15) — a handle pocket rather than a glue interface** <br>*Availability was the wrong constraint; structural stageability binds. RNF114 has no deposited structure at all and DCAF16's ligand is largely buried once its partner is removed.* | `R9`, `R12`, `RT-DEGRADER` | ⚠ **no — nobody is scanning for it** |
+| **3** | **a paralogue-selectivity positive control whose selectivity is reproduced by a NON-covalent readout — i.e. not attributable to a covalent bond at a residue the off-target paralogues lack. A different test system, not more sampling of NR-V04** <br>*NR-V04's geometry readout passes for the wrong reason, and no sample size and no better method fixes a confound in the system. Only a different control compound or a different system does.* | `R7`, `R11`, `RT-DEGRADER` | ⚠ **no — nobody is scanning for it** |
+| **2** | **a re-run of the ternary generation from a logged, bond-order-complete ligand definition — the QUESTION re-answered on a recorded input, never a recovery of the unrecoverable original result** <br>*⚠ THE DISTINCTION THIS REPO HAS CONFLATED. The specific artifact can never be replicated by anyone, us included, because the molecule folded is unrecoverable; the question it was asked of is open and is answerable on a properly logged input.* | `R10`, `RT-DEGRADER` | ⚠ **no — nobody is scanning for it** |
+| **1** | **a primary report of NR4A3/NOR-1 forming a permissive or ligand-modulable heterodimer with RXR in cells, contradicting the published negative that NOR-1 is unable to promote RXR signaling** <br>*The whole closure turns on one measured biological fact about this receptor, so only a contradicting primary measurement of that same fact reopens it — no method advance does.* | `RT-RXR` | ⚠ **no — nobody is scanning for it** |
+| **1** | **the TCIP-configuration linker enumeration executed — the same paired anchor-plus-effector-recruiter reach calculation already built for the E3-free configuration, run with a transcriptional-effector second terminus** <br>*A TCIP is still bivalent, so the monovalent result does not transfer; the machinery exists and takes one more anchor set, which makes this the cheapest promotion available in the options memo.* | `RT-TCIP` | ⚠ **no — nobody is scanning for it** |
+
+### 9a · Every closure, by KIND — and which are permanent
+
+⛔ **A `definitional` or `arithmetic_over_fixed_fact` closure is permanent and may carry NO revival trigger** — a fact about what the objects *are* is not waiting on a method. ⭐ **`instrument_limit` is the most revivable kind and is where most of this program's failures actually sit.** `permanently closed` below is DERIVED from the kind, never typed.
+
+**`open`** — revivable. not closed at all
+
+| id | kind | permanently closed (derived) | revival trigger(s) | would reopen (derived) |
+|---|---|---|---|---|
+| `INS-CONSTRUCT-DESIGNS` Transcript-level fusion construct designer (frame computed at the nucl | open | no | — | — |
+| `INS-DDR-AXIS-SCAN` ATRi/PARPi sensitivity re-cut by FET status (GDSC2) | open | no | — | — |
+| `INS-FUSION-OBJECT-INVENTORY` Fusion object sequence inventory + breakpoint enumeration | open | no | — | — |
+| `INS-IDR-CENSUS` FET N-terminal IDR / RGG retention census | open | no | — | — |
+| `INS-MONOVALENT-REACH` Paired monovalent-vs-bivalent covalent reach enumeration (E3 arm remov | open | no | — | — |
+| `RT-ASO` Fusion-junction ASO / siRNA (the deliverable) | open | no | — | — |
+| `RT-ASYMMETRIC` Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-e | open | no | — | — |
+| `RT-ATR-ASSESS` The in-silico ATR vulnerability assessment (the computed half) | open | no | — | — |
+| `RT-CARFILZOMIB` Carfilzomib ± anthracycline (± venetoclax) | open | no | — | — |
+| `RT-FAP-RLT` FAP-targeted radioligand therapy (FAPI-RLT) | open | no | — | — |
+| `RT-ICI-TKI` Checkpoint inhibitor + anti-angiogenic TKI combination | open | no | — | — |
+| `RT-METHODS-PAPER` The honest methods paper on the degrader program's own failure record | open | no | — | — |
+| `RT-PANNR4A-EXVIVO` Ex-vivo pan-NR4A pole (CAR-T manufacturing additive) | open | no | — | — |
+| `RT-PRAME-IMMTAC` PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR | open | no | — | — |
+| `RT-TRABECTEDIN` Trabectedin (± RT or combination) | open | no | — | — |
+| `V1` Structural selectivity descriptor (selcal_interface_signature) | open | no | — | — |
+| `V15` PocketMiner + four permutation nulls | open | no | — | — |
+| `V2` Ternary generator given both sites (assembly route) | open | no | — | — |
+| `V8` ABFE engine, hydration | open | no | — | — |
+
+- `RT-ASO` — Its gate is delivery, which is engineering rather than a closure.
+- `RT-ASYMMETRIC` — Adopted, free, and it changes the design brief.
+- `RT-ATR-ASSESS` — Computed and complete on its own axis; its limit is stated inside the deliverable.
+- `RT-CARFILZOMIB` — Best ex-vivo EMC evidence; nothing closed.
+- `RT-FAP-RLT` — Emerging and unmeasured in EMC.
+- `RT-ICI-TKI` — Approved drugs and the best EMC clinical signal on the board.
+- `RT-METHODS-PAPER` — Nothing blocks it; it is finished when we stop typing.
+- `RT-PANNR4A-EXVIVO` — It removes the selectivity requirement by changing the exposure regime; nothing is closed.
+- `RT-PRAME-IMMTAC` — The one CTA whose surrogate expression came back favourable; its confirm is an ask, not a closure.
+- `RT-TRABECTEDIN` — An approved drug with a reported EMC responder; nothing about it is closed.
+
+**`definitional`** — ⛔ **PERMANENT — never revivable**. a fact about what the objects ARE — e.g. a residue the paralogues SHARE cannot discriminate between them, or a ligand whose mechanism lives in a domain the disease deletes. NEVER revivable.
+
+| id | kind | permanently closed (derived) | revival trigger(s) | would reopen (derived) |
+|---|---|---|---|---|
+| `RT-6MP` 6-mercaptopurine / AF-1 agonism of the fusion | definitional | **yes** | — | — |
+| `RT-EWSR1-PROTEIN` Target the EWSR1 half at the protein level | definitional | **yes** | — | — |
+| `RT-FET-LC-LIGAND` A ligand for the shared FET low-complexity half | definitional | **yes** | — | — |
+| `RT-HDAC-BET` HDAC / BET to lower fusion expression | definitional | **yes** | — | — |
+
+- `RT-6MP` — 6-MP acts through the AF-1, and the fusion REPLACES the AF-1 with EWSR1's low-complexity region. A ligand whose whole mechanism lives in a domain the disease deletes cannot act on the chimera at any dose. ⚠ Scoped: this closes 6-MP, NOT LBD-directed modulation.
+- `RT-EWSR1-PROTEIN` — The EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages an essential housekeeping protein BY CONSTRUCTION. No method changes what the sequence is.
+- `RT-FET-LC-LIGAND` — A ligand for the SHARED FET low-complexity half binds wild-type EWSR1 by definition of 'shared'. Permanent for the same reason as the row above, reached from the other direction.
+- `RT-HDAC-BET` — A class effect on fusion EXPRESSION is not fusion-selective by construction — the mechanism does not distinguish the chimera from anything else the class regulates.
+
+**`arithmetic_over_fixed_fact`** — ⛔ **PERMANENT — never revivable**. an arithmetic consequence of a fixed measured fact — e.g. the zinc-finger DBD's paralogue identity against the LBD's. NEVER revivable.
+
+| id | kind | permanently closed (derived) | revival trigger(s) | would reopen (derived) |
+|---|---|---|---|---|
+| `RT-DBD` Target the DBD / DNA binding | arithmetic_over_fixed_fact | **yes** | — | — |
+| `V20` Single-snapshot MM-GBSA margin > 0 as a selectivity verdict | arithmetic_over_fixed_fact | **yes** | — | — |
+
+- `RT-DBD` — The zinc-finger DBD is far more conserved between the paralogues than the LBD the program already targets. An arithmetic consequence of a fixed sequence fact — never revivable.
+- `V20` — 38 unrelated marketed drugs score a positive margin through the identical funnel, above the de-novo set's own rate. A signal smaller than its own noise is not recoverable by any downstream method — an arithmetic consequence of a measured null distribution, and the reason §6a files it never-retry.
+
+**`premise_false`** — revivable. a stated premise was measured and is not true. Revivable only if the measurement or the underlying fact changes.
+
+| id | kind | permanently closed (derived) | revival trigger(s) | would reopen (derived) |
+|---|---|---|---|---|
+| `INS-DEPMAP-KO` DepMap CRISPR-knockout dependency scan of the ATR axis | premise_false | no | `TR-EMC-EXPRESSION-DATASET` | `RT-SYNLETH-DEP`, `RT-PPARG-DOWNSTREAM`, `RT-TRABECTEDIN-PPARG`, `RT-B7H3`, `RT-SSTR2`, `RT-PRAME-IMMTAC`, `RT-CART-SURFACE`, `RT-FAP-RLT`, `RT-CARFILZOMIB` |
+| `INS-FUSION-COFOLD` Fusion protein-level co-folding model | premise_false | no | `TR-NEOANTIGEN-SEAMS-REGENERATED` | `RT-JUNCTION-NEOANTIGEN`, `RT-VACCINE`, `RT-TCR-IMMTAC` |
+| `RT-B7H3` B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T | premise_false | no | `TR-EMC-EXPRESSION-DATASET`, `TR-EMC-MODEL-ACCESS` | `RT-SYNLETH-DEP`, `RT-PPARG-DOWNSTREAM`, `RT-TRABECTEDIN-PPARG`, `RT-B7H3`, `RT-SSTR2`, `RT-PRAME-IMMTAC`, `RT-CART-SURFACE`, `RT-FAP-RLT`, `RT-CARFILZOMIB`, `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-COVALENT-PROBE`, `R4` |
+| `RT-PPARG-DOWNSTREAM` PPARG downstream-effector (repurpose TZDs) | premise_false | no | `TR-EMC-EXPRESSION-DATASET` | `RT-SYNLETH-DEP`, `RT-PPARG-DOWNSTREAM`, `RT-TRABECTEDIN-PPARG`, `RT-B7H3`, `RT-SSTR2`, `RT-PRAME-IMMTAC`, `RT-CART-SURFACE`, `RT-FAP-RLT`, `RT-CARFILZOMIB` |
+| `RT-RXR` RXR-heterodimer modulation of the fusion | premise_false | no | `TR-NR4A3-RXR-HETERODIMER-REPORT` | `RT-RXR` |
+| `RT-SYNLETH-DEP` Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BA | premise_false | no | `TR-EMC-EXPRESSION-DATASET`, `TR-EMC-MODEL-ACCESS` | `RT-SYNLETH-DEP`, `RT-PPARG-DOWNSTREAM`, `RT-TRABECTEDIN-PPARG`, `RT-B7H3`, `RT-SSTR2`, `RT-PRAME-IMMTAC`, `RT-CART-SURFACE`, `RT-FAP-RLT`, `RT-CARFILZOMIB`, `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-COVALENT-PROBE`, `R4` |
+| `RT-SYNPROMOTER` Fusion-driven synthetic promoter → suicide gene | premise_false | no | `TR-OLIGO-TUMOUR-DELIVERY` | `RT-ASO`, `RT-ASO-ASK`, `RT-CRISPR-CAS13`, `RT-RIBOZYME`, `RT-SYNPROMOTER` |
+| `RT-TCR-IMMTAC` Fusion-junction TCR-T / soluble-TCR (ImmTAC) against the junction pept | premise_false | no | `TR-NEOANTIGEN-SEAMS-REGENERATED` | `RT-JUNCTION-NEOANTIGEN`, `RT-VACCINE`, `RT-TCR-IMMTAC` |
+| `RT-TCRT-CTA` TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcom | premise_false | no | `TR-EMC-EXPRESSION-DATASET` | `RT-SYNLETH-DEP`, `RT-PPARG-DOWNSTREAM`, `RT-TRABECTEDIN-PPARG`, `RT-B7H3`, `RT-SSTR2`, `RT-PRAME-IMMTAC`, `RT-CART-SURFACE`, `RT-FAP-RLT`, `RT-CARFILZOMIB` |
+| `RT-VACCINE` Fusion-junction vaccine / HLA-coverage paper | premise_false | no | `TR-NEOANTIGEN-SEAMS-REGENERATED` | `RT-JUNCTION-NEOANTIGEN`, `RT-VACCINE`, `RT-TCR-IMMTAC` |
+
+- `RT-B7H3` — The selectivity premise was MEASURED and failed on cell-line surrogates; real EMC tissue is what could change the measurement.
+- `RT-PPARG-DOWNSTREAM` — ⚠ Scoped: the DIRECTION is unresolved, not refuted — in EMC the fusion turns PPARG on, so an agonist may be redundant. An EMC expression read settles it either way.
+- `RT-RXR` — Closed on the receptor's own measured biology. Not definitional — it rests on a published measurement, so a contradicting primary measurement is the only thing that reopens it, and no method advance does.
+- `RT-SYNLETH-DEP` — The DepMap transfer prior came back negative — a measured premise, revivable only by EMC-specific data, which is why it is parked on data and not on ideas.
+- `RT-SYNPROMOTER` — ⭐ EMC lacks the neomorphic DNA-binding element the technique depends on — a measured premise about EMC's fusion, and the reason it fails is itself a computed EMC result worth publishing.
+- `RT-TCR-IMMTAC` — The weak-junction peptide-HLA problem is a measured property of this junction, not of the modality.
+- `RT-TCRT-CTA` — EMC is CTA-low on measured data; a real EMC series is what could change it.
+- `RT-VACCINE` — Parked on immunogenicity — a self-adjacent junction in a cold tumour — and its HLA-coverage output is reusable and still feeds TCR-T eligibility.
+
+**`unregenerable_artifact`** — revivable. ⚠ THE TWO HALVES THIS REPO HAS CONFLATED: the specific RESULT is unrecoverable forever, and the QUESTION it was asked of is OPEN. The trigger is what re-answers the question, never what recovers the result.
+
+| id | kind | permanently closed (derived) | revival trigger(s) | would reopen (derived) |
+|---|---|---|---|---|
+| `RT-JUNCTION-NEOANTIGEN` Fusion-junction neoantigen (the antigen, shared by three delivery rout | unregenerable_artifact | no | `TR-NEOANTIGEN-SEAMS-REGENERATED` | `RT-JUNCTION-NEOANTIGEN`, `RT-VACCINE`, `RT-TCR-IMMTAC` |
+
+- `RT-JUNCTION-NEOANTIGEN` — ⚠ THE TWO HALVES, KEPT APART: the 26 predicted binders are unusable because they span seams that do not exist — that RESULT is void. The QUESTION is open and one free regeneration answers it.
+
+**`instrument_limit`** — revivable. ⭐ THE METHOD CANNOT RESOLVE IT TODAY — the most revivable category and the one most of this program's failures actually fall into. Filing these beside a definitional impossibility is precisely the information loss this field exists to prevent.
+
+| id | kind | permanently closed (derived) | revival trigger(s) | would reopen (derived) |
+|---|---|---|---|---|
+| `INS-HLA-COVERAGE` HLA population-coverage calculator | instrument_limit | no | `TR-NEOANTIGEN-SEAMS-REGENERATED` | `RT-JUNCTION-NEOANTIGEN`, `RT-VACCINE`, `RT-TCR-IMMTAC` |
+| `RT-AF3-INTERFACE` AF3 on a druggable interface | instrument_limit | no | `TR-COFOLD-ASSEMBLY` | `V12`, `R10`, `RT-DEGRADER`, `RT-ANDGATE`, `RT-AF3-INTERFACE` |
+| `RT-ANDGATE` AND-gate bivalent degrader (avidity coincidence detection) | instrument_limit | no | `TR-TERNARY-ALCHEMY-PASSES-VALB`, `TR-COFOLD-ASSEMBLY` | `V5`, `R11`, `RT-DEGRADER`, `RT-ANDGATE`, `V12`, `R10`, `RT-AF3-INTERFACE` |
+| `RT-CART-SURFACE` CAR-T for EMC (surface-directed) | instrument_limit | no | `TR-EMC-EXPRESSION-DATASET`, `TR-EMC-MODEL-ACCESS` | `RT-SYNLETH-DEP`, `RT-PPARG-DOWNSTREAM`, `RT-TRABECTEDIN-PPARG`, `RT-B7H3`, `RT-SSTR2`, `RT-PRAME-IMMTAC`, `RT-CART-SURFACE`, `RT-FAP-RLT`, `RT-CARFILZOMIB`, `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-COVALENT-PROBE`, `R4` |
+| `RT-COVALENT-PROBE` Covalent probe at C397 — as a REAGENT, not a drug | instrument_limit | no | `TR-EXPOSURE-CRITERION-RECOVERS-C551`, `TR-POSE-METHODS-CONVERGE`, `TR-EMC-MODEL-ACCESS` | `V17`, `R8`, `R15`, `RT-COVALENT-PROBE`, `RT-MONOVALENT`, `V3`, `V22`, `R5`, `RT-DEGRADER`, `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-TRABECTEDIN-PPARG`, `RT-SSTR2`, `RT-SYNLETH-DEP`, `RT-B7H3`, `RT-CART-SURFACE`, `RT-PPARG-DOWNSTREAM`, `RT-CARFILZOMIB`, `R4` |
+| `RT-CRISPR-CAS13` CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockd | instrument_limit | no | `TR-OLIGO-TUMOUR-DELIVERY` | `RT-ASO`, `RT-ASO-ASK`, `RT-CRISPR-CAS13`, `RT-RIBOZYME`, `RT-SYNPROMOTER` |
+| `RT-DEGRADER` NR4A3-LBD PROTAC degrader | instrument_limit | no | `TR-FE-CRYPTIC-POCKET`, `TR-COFOLD-ASSEMBLY`, `TR-TERNARY-ALCHEMY-PASSES-VALB`, `TR-ABFE-AUTHORIZATION` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP`, `V12`, `R10`, `RT-AF3-INTERFACE`, `V5`, `R11` |
+| `RT-GLUE` Molecular glue instead of a PROTAC | instrument_limit | no | `TR-GLUE-DESIGN-PREDICTOR`, `TR-FE-CRYPTIC-POCKET` | `RT-GLUE`, `R7`, `R9`, `R10`, `V4`, `V7`, `V9`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
+| `RT-MONOVALENT` Monovalent LBD pocket modulation — a molecule that only OCCUPIES the N | instrument_limit | no | `TR-FE-CRYPTIC-POCKET`, `TR-EXPOSURE-CRITERION-RECOVERS-C551`, `TR-POSE-METHODS-CONVERGE` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP`, `V17`, `R8`, `R15`, `RT-COVALENT-PROBE`, `V3`, `V22`, `R5` |
+| `RT-RIBOZYME` Trans-splicing ribozyme → suicide gene, triggered by the fusion transc | instrument_limit | no | `TR-OLIGO-TUMOUR-DELIVERY` | `RT-ASO`, `RT-ASO-ASK`, `RT-CRISPR-CAS13`, `RT-RIBOZYME`, `RT-SYNPROMOTER` |
+| `RT-RIPTAC` RIPTAC — bind the tumour protein, poison an essential one | instrument_limit | no | `TR-FE-CRYPTIC-POCKET` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
+| `RT-TCIP` TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3 | instrument_limit | no | `TR-TCIP-LINKER-ENUMERATION`, `TR-FE-CRYPTIC-POCKET` | `RT-TCIP`, `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC` |
+| `RT-UBIQ-SELECTIVE` Fusion-selective ubiquitination — discriminate at the transfer step | instrument_limit | no | `TR-OBSERVED-CRL-GEOMETRY` | `V18`, `R12`, `RT-UBIQ-SELECTIVE`, `RT-DEGRADER` |
+| `V10` Interface-mutation physics (pmx/GROMACS) | instrument_limit | no | `TR-FE-CRYPTIC-POCKET` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
+| `V11` Interface-stability endpoint (E1) | instrument_limit | no | `TR-E1-POWERED-SYSTEM` | `V11`, `R11`, `RT-DEGRADER` |
+| `V12` Sequence-only co-folding (Boltz-2 ternary) | instrument_limit | no | `TR-COFOLD-ASSEMBLY` | `V12`, `R10`, `RT-DEGRADER`, `RT-ANDGATE`, `RT-AF3-INTERFACE` |
+| `V13` Cryptic-opening free-energy profile (metadynamics F(Rg)) | instrument_limit | no | `TR-CHEAP-CRYPTIC-ENSEMBLE` | `V13`, `V14`, `R1`, `R2`, `R6`, `RT-DEGRADER`, `RT-MONOVALENT` |
+| `V14` BioEmu unbiased ensemble cross-check | instrument_limit | no | `TR-CHEAP-CRYPTIC-ENSEMBLE` | `V13`, `V14`, `R1`, `R2`, `R6`, `RT-DEGRADER`, `RT-MONOVALENT` |
+| `V16` The causal matched-pair test S (RUNG 5a-KS) | instrument_limit | no | `TR-FE-CRYPTIC-POCKET` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
+| `V17` The exposure criterion EXPOSED_RSA = 0.25 | instrument_limit | no | `TR-EXPOSURE-CRITERION-RECOVERS-C551` | `V17`, `R8`, `R15`, `RT-COVALENT-PROBE`, `RT-MONOVALENT` |
+| `V18` The transfer-zone lysine-identity term | instrument_limit | no | `TR-OBSERVED-CRL-GEOMETRY` | `V18`, `R12`, `RT-UBIQ-SELECTIVE`, `RT-DEGRADER` |
+| `V19` The generation-matched null (winner's-curse / generative confound) | instrument_limit | no | `TR-FE-CRYPTIC-POCKET` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
+| `V21` The anti-target docking panel (antitarget_dock) | instrument_limit | no | `TR-ANTITARGET-PANEL-RECOVERS` | `V21`, `R14`, `RT-DEGRADER` |
+| `V22` The scoring-independent second pose method (rDock) | instrument_limit | no | `TR-POSE-METHODS-CONVERGE` | `V3`, `V22`, `R5`, `R8`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-COVALENT-PROBE` |
+| `V3` Ligand pose prediction (dock + MM-GBSA) | instrument_limit | no | `TR-POSE-METHODS-CONVERGE` | `V3`, `V22`, `R5`, `R8`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-COVALENT-PROBE` |
+| `V5` Alchemical ternary cooperativity (valB_mini ΔΔG_coop) | instrument_limit | no | `TR-TERNARY-ALCHEMY-PASSES-VALB`, `TR-CHARGE-CHANGE-CORRECTION` | `V5`, `R11`, `RT-DEGRADER`, `RT-ANDGATE`, `V6`, `R7` |
+| `V6` Relative FEP (OpenFE, the congeneric lane) | instrument_limit | no | `TR-ATOM-MAPPER-FLOOR`, `TR-CHARGE-CHANGE-CORRECTION` | `V6`, `R7`, `RT-DEGRADER`, `V5`, `R11` |
+| `V7` ABFE engine, absolute | instrument_limit | no | `TR-FE-CRYPTIC-POCKET` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
+| `V9` λ-overlap diagnostic on the standing ABFE block | instrument_limit | no | `TR-FE-CRYPTIC-POCKET` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
+
+- `RT-AF3-INTERFACE` — A method, not a route — it is waiting on a co-folder that assembles ternaries.
+- `RT-ANDGATE` — Arm-2 chemistry does not exist and it inherits the degrader's ternary instruments.
+- `RT-CART-SURFACE` — Blocked by the antigen search and the cold myxoid stroma, not by the cell product.
+- `RT-COVALENT-PROBE` — Its in-silico half is not publishable BECAUSE its exposure instrument fails its own positive control — an instrument limit, not a statement about C397.
+- `RT-CRISPR-CAS13` — Vector delivery, plus Cas13 collateral activity.
+- `RT-DEGRADER` — ⭐ NOT closed — but every one of its four blocking failures is an INSTRUMENT LIMIT rather than a fact about the target, which is the options memo's organising finding restated as a field. Filing it beside a definitional impossibility would lose exactly that.
+- `RT-GLUE` — ⚠ Graded ⏸ rather than ✕ because the block is a MISSING CAPABILITY — the modality most likely to arrive from someone else's screen.
+- `RT-MONOVALENT` — ⚠ Its covalent sub-form's negative rests on a geometry computed with an exposure cutoff that fails its own control and a site question left INCONCLUSIVE — so the result can refute the route and cannot make the closure permanent. Its functional-actionability blocker is separate and needs a bench.
+- `RT-RIBOZYME` — Vector delivery, and a technique with no modern solid-tumour clinical footing.
+- `RT-RIPTAC` — It needs the paralogue selectivity the program cannot measure, plus a med-chem campaign.
+- `RT-TCIP` — Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.
+- `RT-UBIQ-SELECTIVE` — ⚠ GRADED ⏸ NOT ✕, on the register's own caveat that this is a route closed by measurements that already exist rather than a proof of impossibility. The geometry does not reach FROM AN E3 ANCHORED AT THE CRYPTIC POCKET; a different anchor re-opens the measurement.
+
+**`authorization`** — revivable. waiting on a person, not on nature.
+
+| id | kind | permanently closed (derived) | revival trigger(s) | would reopen (derived) |
+|---|---|---|---|---|
+| `RT-ASO-ASK` Junction knockdown + parental sparing in EMC lines (the ask behind the | authorization | no | `TR-EMC-MODEL-ACCESS` | `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-TRABECTEDIN-PPARG`, `RT-SSTR2`, `RT-COVALENT-PROBE`, `RT-SYNLETH-DEP`, `RT-B7H3`, `RT-CART-SURFACE`, `RT-PPARG-DOWNSTREAM`, `RT-CARFILZOMIB`, `R4` |
+| `RT-ATR-PANEL` The ATR-inhibitor cell panel in EMC lines (the ask) | authorization | no | `TR-EMC-MODEL-ACCESS` | `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-TRABECTEDIN-PPARG`, `RT-SSTR2`, `RT-COVALENT-PROBE`, `RT-SYNLETH-DEP`, `RT-B7H3`, `RT-CART-SURFACE`, `RT-PPARG-DOWNSTREAM`, `RT-CARFILZOMIB`, `R4` |
+| `RT-SSTR2` SSTR2 / neuroendocrine theranostic | authorization | no | `TR-EMC-MODEL-ACCESS` | `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-TRABECTEDIN-PPARG`, `RT-SSTR2`, `RT-COVALENT-PROBE`, `RT-SYNLETH-DEP`, `RT-B7H3`, `RT-CART-SURFACE`, `RT-PPARG-DOWNSTREAM`, `RT-CARFILZOMIB`, `R4` |
+| `RT-TRABECTEDIN-PPARG` Trabectedin + a PPARγ agonist (all approved drugs) | authorization | no | `TR-EMC-MODEL-ACCESS`, `TR-EMC-EXPRESSION-DATASET` | `RT-ATR-PANEL`, `RT-ASO-ASK`, `RT-TRABECTEDIN-PPARG`, `RT-SSTR2`, `RT-COVALENT-PROBE`, `RT-SYNLETH-DEP`, `RT-B7H3`, `RT-CART-SURFACE`, `RT-PPARG-DOWNSTREAM`, `RT-CARFILZOMIB`, `R4`, `RT-PRAME-IMMTAC`, `RT-FAP-RLT` |
+| `V4` Selectivity free energy (ABFE) — the selectivity known-answer test | authorization | no | `TR-ABFE-AUTHORIZATION` | `V4`, `R7`, `RT-DEGRADER` |
+
+- `RT-ASO-ASK` — Not refuted — waiting on a person with a bench.
+- `RT-ATR-PANEL` — Best taker in the portfolio and still not something this programme executes.
+- `RT-SSTR2` — Not refuted — a negative scan still kills it cheaply, and it stays on the ask list.
+- `RT-TRABECTEDIN-PPARG` — Good taker, thin deliverable — the ask is the block.
+
+## 10 · OPEN CONFLICTS — logged rather than decided
 
 Each of these is a genuine disagreement in the record that this registry could not resolve from what is committed. Deciding them is the owning file's call, not a navigation layer's.
 

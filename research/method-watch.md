@@ -52,6 +52,19 @@ Adding a row here (breadth) beats over-optimizing an existing test (depth-past-s
 a *prompt to check this table*, not a decision. If a "🆕" line genuinely crosses a trigger
 below, do the paired action and open the follow-up; otherwise no action.
 
+> **🗺 AND THE MACHINE-READABLE TRIGGER SET THIS TABLE DOES NOT YET CARRY:
+> [`manuscripts/emc-systems-map.json`](manuscripts/emc-systems-map.json) → `revival_triggers`,
+> rendered as a leverage-ordered watch list in
+> [`manuscripts/emc-systems-map.md`](manuscripts/emc-systems-map.md) §9 (2026-08-03).** Every closed
+> or parked route and instrument there carries an enumerated **`closure_kind`** — so a fact about a
+> sequence (*never revivable*) is filed apart from a limitation of today's methods (*the most
+> revivable kind, and where most of this program's failures actually sit*) — and every non-permanent
+> closure names, in **searchable** words, what has to land and **which routes come back with it**.
+> ⚠ **Most of those triggers are NOT rows in the table below**, and the map's own checker WARNs on
+> each one it cannot find here — so treat that warning list as the backlog of capabilities nobody is
+> currently scanning for. This table stays the one home of the **capability → action** pairing; the
+> map owns the **closure → trigger → what-it-reopens** graph, and neither restates the other.
+
 ## Capability → action trigger table
 | When this capability becomes usable | …do this |
 |---|---|
