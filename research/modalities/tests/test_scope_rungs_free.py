@@ -534,3 +534,24 @@ def test_the_verdict_is_never_softened_by_the_alternative_copy():
     for forbidden in ("best_crystal_copy", "a_different_copy_would_pass",
                       "rmsd_to_best_crystal_copy_A"):
         assert forbidden not in src, "the verdict consults %s — that is the criterion being tuned" % forbidden
+
+
+def test_structurally_load_bearing_is_asserted_only_where_a_motif_supports_it(maps):
+    """The brief asked for 'any other reactive or structurally load-bearing residue outside the LBD'.
+    That is a CLAIM, so it is made only where the C4 motif is FOUND in the sequence — never by position."""
+    ews, nr4 = maps
+    doc = fi.new_doc()
+    fi.assemble(ews, nr4, doc)
+    inv = doc["inventory"]
+    assert inv["structurally_load_bearing_outside_the_construct"] == \
+        ["C292", "C295", "C301", "C309", "C312"]
+    zf = doc["zinc_finger_cysteines"]
+    for pos in (292, 295, 301, 309, 312):
+        assert nr4["protein"][pos - 1] == "C"
+        assert zf[pos]["motif"].startswith("C")
+    # DBD cysteines OUTSIDE the matched motif span must NOT be called structural — that would be a guess
+    rows = {r["residue"]: r for r in inv["rows"]}
+    for outside in ("C328", "C334"):
+        assert rows[outside]["domain"].startswith("DNA-binding")
+        assert rows[outside]["structural_role"] is None, \
+            "%s is a DBD cysteine but outside the matched C4 motif; calling it structural is a guess" % outside

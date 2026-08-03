@@ -260,6 +260,25 @@ def plausible_set(bps):
     }
 
 
+def zinc_finger_cysteines(seq):
+    """The C4 zinc-coordinating cysteines, FOUND in the sequence rather than assumed. Pure.
+
+    ⚠ "Structurally load-bearing" is a claim, so it is made only where a motif match supports it. The
+    regex is `nr4a3_exon_audit.ZF_MOTIF` — one home, the same pattern the exon audit anchors the DBD on
+    — and only the cysteines INSIDE the matched span are marked. A cysteine elsewhere in the DBD window
+    is reported as a DBD cysteine and nothing more; calling it structural would be a guess.
+    """
+    import nr4a3_exon_audit as audit
+    out = {}
+    for m in audit.ZF_MOTIF.finditer(seq):
+        lo, hi = m.start() + 1, m.end()
+        for i in range(lo, hi + 1):
+            if seq[i - 1] == "C":
+                out[i] = {"role": "C4 zinc-finger coordinating cysteine",
+                          "motif_span": [lo, hi], "motif": m.group()}
+    return out
+
+
 def reactive_residues(seq, lo, hi, kinds=("C", "K")):
     """1-based positions of `kinds` in seq[lo..hi] inclusive. Pure."""
     out = {k: [] for k in kinds}
@@ -280,7 +299,7 @@ def unique_marks(unique_doc):
     return marks
 
 
-def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range):
+def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range, zf=None):
     """What the real fusion object contains that the modelled LBD construct does not. Pure.
 
     Every row is classified INVARIANT vs BREAKPOINT_DEPENDENT over `plausible`, and every row says which
@@ -299,6 +318,7 @@ def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range):
             carrying = [b for b in plausible if b["nr4a3_first_residue"] <= pos]
             dom = next((lab for lab, (lo, hi) in domains.items() if lo <= pos <= hi), "unassigned")
             m = marks.get(pos)
+            zrec = (zf or {}).get(pos)
             rows.append({
                 "protein": "NR4A3", "residue": "%s%d" % (kind, pos), "resnum": pos, "kind": kind,
                 "domain": dom,
@@ -310,6 +330,9 @@ def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range):
                                                         if b["nr4a3_first_residue"] > pos}),
                 "nr4a3_unique_vs_paralogues": (m or {}).get("unique_vs"),
                 "uniqueness_alignment_robust": (m or {}).get("alignment_robust"),
+                # "structurally load-bearing" is only asserted where a motif match supports it.
+                "structural_role": (zrec or {}).get("role"),
+                "structural_role_evidence": (zrec or {}).get("motif"),
             })
     # ---- EWSR1 side: present in the chimera, absent from every NR4A3-only structure by construction
     for kind in ("C", "K"):
@@ -373,6 +396,8 @@ def build_inventory(nr4a3_seq, ewsr1_seq, domains, plausible, marks, lbd_range):
         "n_breakpoint_dependent": len(dep),
         "_where_the_variation_is": {"proteins": dep_prot, "clause": clause},
         "excluded_span": excluded_span,
+        "structurally_load_bearing_outside_the_construct": sorted(
+            r["residue"] for r in rows if r.get("structural_role")),
         "unique_reactive_residues_outside_the_construct": sorted(
             r["residue"] for r in rows if r.get("nr4a3_unique_vs_paralogues")),
         "_what_this_licenses": (
@@ -625,9 +650,10 @@ def assemble(ews_map, nr4_map, doc):
                                 "why": "nr4a-paralogue-unique-residues.json absent — uniqueness marks "
                                        "are UNREAD, which is not the same as absent"})
     doc["domains"] = {k: list(v) for k, v in domains.items()}
+    doc["zinc_finger_cysteines"] = zinc_finger_cysteines(nr4_map["protein"])
     doc["inventory"] = build_inventory(nr4_map["protein"], ews_map["protein"],
                                        domains, doc["plausible_breakpoints"]["plausible"],
-                                       unique_marks(uniq), lbd)
+                                       unique_marks(uniq), lbd, doc["zinc_finger_cysteines"])
     doc["neoantigen_lane_flag"] = neoantigen_flag(_load("fusion-breakpoint-neoantigens.json"),
                                                   doc["plausible_breakpoints"]["plausible"])
     doc["the_sentence"] = the_sentence(doc["gate"], doc["inventory"], doc["plausible_breakpoints"])
