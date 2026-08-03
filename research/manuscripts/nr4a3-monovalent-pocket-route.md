@@ -25,15 +25,16 @@
 
 ## 0 · The four checks taken before any argument
 
-Per CLAUDE.md §4 — a $0 observation is never "watching". Two of the four changed the memo's conclusion, and
-one of those changed it in the direction opposite to the one expected.
+Per CLAUDE.md §4 — a $0 observation is never "watching". **Three of the four changed the memo's conclusion,
+and two of those changed it in the direction opposite to the one expected** — C promoted a sub-question the
+route was assumed to fail, and D refuted this memo's own first reasoning. All four were free the whole time.
 
 | # | check | cost | result |
 |---|---|---|---|
 | **A** | **Run the reach enumeration with NO second terminus** — the configuration `target-route-options.md` $0 item 4 and `emc-post-degrader-options.md` item 4 both named and neither ran | $0 CPU | ⛔ **Built, run, and it goes AGAINST the route.** Removing the E3 arm does not widen the categorical window; on the conservative convention it closes **every** cell that had one. [§3](#3--the-0-test-built-run-and-it-came-back-against-the-route) |
 | **B** | **Does the repo's own reason for choosing degradation over inhibition survive contact with its own citations?** | $0, read | ⚠ **Partly not.** The caveat *"an inhibitor would have to block a function NOR-1 may not even gate on a pocket"* was written without weighing a verified primary source, in another repo file, that measured LBD-directed ligands altering NOR-1-regulated gene expression in cells. [§2.2](#22--and-the-repos-own-verified-citation-answers-it-partly-the-other-way) |
 | **C** | ⭑ **The AF-1 question — is the LBD a functional handle IN THE FUSION, given that the fusion deletes NR4A3's AF-1?** | $0, read | ★ **Asked for the first time, and answered FAVOURABLY by the assay that already exists.** The one published demonstration of LBD-borne functional modulation of NOR-1 used a **Gal4-NOR-1-LBD** reporter — a construct that is *itself* AF-1-less. [§2.3](#23--the-af-1-question-asked-for-the-first-time-and-the-answer-is-not-the-one-i-expected) |
-| **D** | **Is `R4` — the program's one un-buyable requirement — actually purchasable as a service?** | $0, read | ⛔ **Ruled out, and the reason is stronger than cost.** `R4` is two questions and only the already-answered one is buyable. [§6](#6--r4-as-a-purchase--ruled-out-and-the-reason-worth-recording-is-not-the-price) |
+| **D** | **Is `R4` — the program's one un-buyable requirement — actually purchasable as a service?** | $0, read | ⛔ **Ruled out — owned by [`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md), which also REFUTES this memo's first reasoning for it.** What survives here is route-specific: the one catalogue NR4A3 LBD **excludes C397 by a single residue**, so the cheap intact-mass probe readout would be blind to the programme's headline handle. [§6](#6--r4-as-a-purchase--ruled-out-and-not-for-the-reason-i-first-wrote) |
 
 ---
 
@@ -302,51 +303,42 @@ returns one clean no, one qualified yes and one yes — and adds a fourth blocke
 
 ---
 
-## 6 · `R4` as a purchase — ruled out, and the reason worth recording is not the price
+## 6 · `R4` as a purchase — ruled out, and NOT for the reason I first wrote
 
-*Asked because the operating regime is one private individual with no lab, no affiliation and no
-collaborator on hand: the only executable things are in-silico work and what can be ordered with a credit
-card. `R4` is the program's single un-buyable requirement, so whether it is in fact buyable is worth
-knowing. The answer is no, twice over. Vendor and price scoping repo-wide belongs to a separate pass; this
-section states only what can be settled from repo evidence, and it is enough to settle it.*
+⛔ **ONE HOME, AND IT IS NOT THIS FILE.** The purchasability question is owned repo-wide by
+[`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md), which ran the real vendor and construct
+audit. **Its verdict — `R4` IS NOT BUYABLE, on three independent grounds — stands, and nothing is
+restated here.** This section carries only the two things that are route-specific and would otherwise have
+no home: a correction it forces on this memo, and a consequence for C397 that its audit did not draw.
 
-⛔ **VERDICT: RULED OUT.** On cost against a stated ceiling of hundreds rather than thousands, and —
-independently and more strongly — on **uninterpretable negative**, which would rule it out even if it were
-free. **Nothing here should be re-proposed without a named change to one of the three reasons below.**
+⚠ **THE CORRECTION, REGISTERED RATHER THAN SILENTLY DROPPED.** An earlier draft of this memo ruled `R4`
+out primarily *because the pocket is cryptic*, arguing that a purchased LBD might not present the site so
+a negative would be unreadable. **That reasoning is refuted by the owning memo's §1.1 on this repo's own
+evidence:** the site is present in an experimental, ligand-free, solution-state ensemble of the isolated
+LBD, so a purchased construct would on best evidence present it at some minority population. *(Superseded,
+retained: "the cryptic pocket is the reason worth recording", and the framing that the defeater is
+population of the site.)* The operative grounds are the owning memo's, and the strongest of them is a
+category error rather than a budget one — `R4` asks for a screen **against a site**, and no purchasable
+assay can be pointed at a site.
 
-**1 · `R4` is two questions and only the already-answered one is buyable.** This is the cleanest form of
-the no and it needs no vendor at all.
+⭑ **AND THE CONSEQUENCE FOR THIS ROUTE, WHICH THAT AUDIT DID NOT DRAW: THE CATALOGUE PROTEIN CANNOT
+REPORT ON C397 AT ALL, AND IT MISSES BY ONE RESIDUE.** The one off-the-shelf recombinant NR4A3 LBD its §4.2
+identifies spans **UniProt 398–626** (that span is the owning memo's fact and is not re-derived here). This
+programme's three paralogue-unique LBD cysteines are **C397, C420 and C559**
+([`nr4a3-covalent-handle-ensemble.json`](../modalities/nr4a3-covalent-handle-ensemble.json) owns the set).
+So the catalogue construct retains C420 and C559 — the two that branch 1b closed — and **excludes C397, the
+one that survived every test, by a single residue.**
 
-- *"Does anything bind NR4A3's LBD?"* — **already answered yes**, published and verified (§2.2). Buying a
-  binding screen buys another answer to this.
-- *"Does anything bind the **opened cryptic** site?"* — this is the program's actual `R4`
-  ([roadmap `R4`](./nr4a3-program-map.md#21--the-register) is explicit that the scoping is load-bearing:
-  NR4A3 *is* ligandable; the **cryptic site** is what has no ligand). Answering it requires the site to be
-  **populated in the sample**, which is `R2` — a requirement whose only demonstrated reading the roadmap
-  files as ✕ dead. **So a purchased screen cannot distinguish "no ligand" from "no pocket".** Four figures
-  buys a result nobody can read, and that is a defeater the cheapest possible experiment does not escape.
+- ⛔ **An intact-mass covalent-probe experiment on that protein would be blind to the programme's headline
+  handle.** The cheap readout that makes the probe framing attractive would be measuring the wrong
+  cysteines, and a clean negative on it would say nothing about C397. That is a *distinct* defeater from
+  the three the owning memo lists, it is specific to the covalent route, and it is free to know.
+- ⚠ **Stated at its true weight:** this is a construct-boundary observation, not a claim that no supplier
+  could express 373–626. It says the *catalogue* option does not serve *this* route, and that a future
+  session tempted by "the protein is buyable" should check the span before the price.
 
-**2 · There is nothing of ours to send.** `R15`'s library is virtual — nothing has been synthesized. The
-one orderable compound is the published Zaienne lead, whose binding site is structurally undefined (§2.2),
-so a hit would not localise to the cryptic pocket, which is the whole content of `R4`. A **covalent probe**
-would give an intact-mass readout — far simpler and cheaper than SPR, which is precisely why
-[`target-route-options.md` route 2](./target-route-options.md) proposes the probe rather than the drug —
-but this repo computes **no thiol pKa, intrinsic reactivity or adduct anywhere**, and the
-electrophile-bearing constructs are virtual too. There is no probe to order.
-
-**3 · And we could not say what to screen against.** `R5` is unresolved and `V3`'s failure was **site**
-selection; `R3` — the paper's own submission gate — was **refuted on 2026-08-03**, with the generation
-frame's mapped orthosteric site measured *detected and not druggable*. Commissioning an assay against a site
-the program cannot currently specify is not a cheap experiment, it is an expensive coin-flip.
-
-⚠ **Cost, stated as a shape and explicitly not as a quote.** Custom expression and purification of a
-nuclear-receptor LBD is a multi-week protein-production engagement, and a DSF/SPR/NMR screen is a separate
-service on top of it — a four-figure-and-up structure before any compound exists, and before the
-interpretability problem above is touched. **No vendor was contacted, no price was obtained, and nothing
-here is a quote.** ⭑ The point is that **reason 1 does not depend on the price at all**: at any price, the
-negative is uninterpretable, and the cryptic pocket is why. That is the sentence worth keeping.
-
----
+⇒ **Net effect on this memo's grade: none, and that is the point.** `R4` was already this route's
+un-buyable dependency; the audit changes *which* of its grounds is load-bearing, not whether it holds.
 
 ## 7 · Grade against the failure record
 
@@ -406,9 +398,9 @@ route board should carry the distinction rather than the hope.**
   anchors whose site question `V3` left INCONCLUSIVE. It can refute a route; it cannot license one.
 - **The functional-actionability evidence is about the LBD, not about the cryptic pocket** (§2.2 limit 1),
   and it carries no paralogue selectivity of any kind (limit 2).
-- **The `R4`-purchasability verdict is a repo-evidence verdict, not a market one.** No vendor was contacted
-  and no price was obtained; the cost shape in §6 is labelled an estimate and is not load-bearing for the
-  conclusion, which rests on interpretability.
+- **The `R4`-purchasability verdict is not this memo's** — [`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md)
+  owns it, and §6 records the correction it forces on an earlier draft here rather than leaving the
+  superseded reasoning quotable. No vendor was contacted from this memo and no price was obtained here.
 - **This memo does not re-rank the portfolio.** [`emc-treatment-strategy.md`](./emc-treatment-strategy.md)
   owns that and [`nr4a3-program-map.md`](./nr4a3-program-map.md) owns the plan; where either differs from
   this memo, it wins.
