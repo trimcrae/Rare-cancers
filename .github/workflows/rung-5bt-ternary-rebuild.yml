@@ -345,8 +345,11 @@ jobs:
         run: |
           set -eo pipefail
           find /tmp/preds -name 'complex_pred_*.pdb' | sed 's#.*/##' | sed 's/_[0-9]*\.pdb//' | sort | uniq -c
-          cp -f /tmp/preds/research/modalities/nr4a3-5bt-poscontrol-*.json research/modalities/ 2>/dev/null || \
-            cp -f /tmp/preds/nr4a3-5bt-poscontrol-*.json research/modalities/ 2>/dev/null || true
+          # ⚠ FOUND, NOT ASSUMED. `upload-artifact` roots the archive at the common ancestor of everything it
+          # is given, so the depth of these files depends on what else was in the same upload. A hard-coded
+          # path that silently finds nothing would leave the gate with no positive control and it would
+          # (correctly) call the run uninterpretable — a refusal manufactured by packaging.
+          find /tmp/preds -name 'nr4a3-5bt-poscontrol-*.json' -exec cp -f {} research/modalities/ \; || true
           ls -1 research/modalities/nr4a3-5bt-poscontrol-*.json 2>/dev/null || echo "no positive-control artifact"
 
       - name: V1 — the descriptor over ALL 16 models per arm
@@ -358,15 +361,22 @@ jobs:
           import glob, os, shutil
           # `nr4a_ternary_signature` selects by PATH TOKEN with a deny-list and globs *.cif. Give it a tree
           # whose paths carry exactly one paralogue token each, and .cif names its parser reads the same way.
+          # ⚠ ONE file per arm must end `_model_0.cif`. `nr4a_ternary_signature.main` resolves a paralogue
+          # to a SINGLE structure and REFUSES when several candidates tie — its tie-break is exactly that
+          # suffix. Sixteen equally-named models would be an "unresolved paralogue" refusal, i.e. the single
+          # -structure read silently lost while the replicated read it also runs was fine.
           src = glob.glob('/tmp/preds/**/complex_pred_*.pdb', recursive=True)
           n = 0
-          for p in src:
+          for p in sorted(src):
               b = os.path.basename(p)
               for tok in ('NR4A3','NR4A1','NR4A2'):
-                  if b.startswith('complex_pred_%s_' % tok):
-                      d = os.path.join('/tmp/v1', tok); os.makedirs(d, exist_ok=True)
-                      shutil.copyfile(p, os.path.join(d, b.replace('.pdb', '.cif')))
-                      n += 1
+                  if not b.startswith('complex_pred_%s_' % tok):
+                      continue
+                  seed = b.rsplit('_', 1)[-1].split('.')[0]
+                  d = os.path.join('/tmp/v1', tok); os.makedirs(d, exist_ok=True)
+                  name = ('%s_model_0.cif' % tok) if seed == '0' else ('%s_pred_%s.cif' % (tok, seed))
+                  shutil.copyfile(p, os.path.join(d, name))
+                  n += 1
           print('staged %d model(s) for V1' % n)
           PY
           python3 research/modalities/nr4a_ternary_signature.py --root /tmp/v1 --recursive \

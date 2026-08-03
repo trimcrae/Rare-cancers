@@ -456,3 +456,17 @@ def test_the_map_edit_carries_the_scope_and_the_inherited_conditions_not_as_foot
     for must in ("STRUCTURAL", "not blind", "R5", "R3", "V2"):
         assert must in e, must
     assert "Superseded, retained" in e
+
+
+def test_arm_models_finds_predictions_at_any_depth(tmp_path):
+    """⚠ `upload-artifact` roots its archive at the common ancestor of everything it is handed, so the depth
+    of the downloaded predictions depends on what else shared the upload. A flat glob would find nothing and
+    the gate would print "no readable model" — a REFUSAL manufactured by packaging rather than measured."""
+    deep = tmp_path / "a" / "b" / "predictions"
+    deep.mkdir(parents=True)
+    for seed in range(3):
+        (deep / ("complex_pred_NR4A3_5BT_LIG_%d.pdb" % seed)).write_text("END\n")
+    (deep / "complex_pred_NR4A1_5BT_LIG_0.pdb").write_text("END\n")
+    assert len(GT.arm_models(str(tmp_path), "NR4A3_5BT_LIG")) == 3
+    assert len(GT.arm_models(str(tmp_path), "NR4A1_5BT_LIG")) == 1
+    assert GT.arm_models(str(tmp_path), "NR4A2_5BT_LIG") == []
