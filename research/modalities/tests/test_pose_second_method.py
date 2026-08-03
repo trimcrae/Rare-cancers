@@ -263,8 +263,8 @@ def test_panel_pool_is_read_from_the_committed_artifact():
 
 # ------------------------------------------------------------------ rollup arithmetic and vocabulary
 
-def _fake_pair(apo, holo, ceiling, pipeline, fpocket, oracle, wide, inter=None, fit=None):
-    return {"apo": apo, "holo": holo, "protein": "X", "induced_fit": fit or {},
+def _fake_pair(apo, holo, ceiling, pipeline, fpocket, oracle, wide, inter=None, fit=None, acc="X"):
+    return {"apo": apo, "holo": holo, "protein": "X", "accession": acc, "induced_fit": fit or {},
             "second_method": {
                 "arms": {
                     "C1c_self_dock_holo_oracle_box": {"rmsd_A": ceiling},
@@ -316,6 +316,47 @@ def test_induced_fit_panel_states_the_limitation_even_when_a_large_pair_exists()
     assert f["site_ca_rmsd_A"]["min"] == 0.142 and f["site_ca_rmsd_A"]["max"] == 6.46
     assert "WEAK TEST" in f["_limitation"]
     assert f["_threshold_A"] is APR.LARGE_INDUCED_FIT_A
+
+
+def test_induced_fit_the_rearranging_pairs_must_also_be_in_regime():
+    """★ THE DISTINCTION A PANEL-WIDE COUNT HIDES, and it is the panel's real shape: NR4A1 (in regime)
+    is a near-rigid re-dock, while the pairs that genuinely rearrange are receptors the pipeline never
+    transfers Pocket-5 onto. '4 of 6 rearrange' is true and does not mean the transfer was tested."""
+    pairs = [
+        _fake_pair("4RZF", "4REF", 0.5, 1, 1, 1, 1, acc="P22736",
+                   fit={"site_ca_rmsd_A": 0.142, "large_rearrangement": False, "n_site": 9}),
+        _fake_pair("4RZF", "4RE8", 0.5, 1, 1, 1, 1, acc="P22736",
+                   fit={"site_ca_rmsd_A": 0.172, "large_rearrangement": False, "n_site": 14}),
+        _fake_pair("2QMV", "9F7W", 0.5, 1, 1, 1, 1, acc="P37231",
+                   fit={"site_ca_rmsd_A": 3.862, "large_rearrangement": True, "n_site": 12}),
+        _fake_pair("5G42", "7NPC", 0.5, 1, 1, 1, 1, acc="P51449",
+                   fit={"site_ca_rmsd_A": 6.46, "large_rearrangement": True, "n_site": 22}),
+    ]
+    f = P.induced_fit_panel(pairs)
+    r = f["in_regime_and_rearranging"]
+    assert f["panel_contains_a_large_rearrangement"] is True     # the reassuring headline …
+    assert r["n_in_regime_measured"] == 2
+    assert r["n_in_regime_and_rearranging"] == 0                  # … and what it hides
+    assert "NO PAIR IN THIS PANEL BOTH REARRANGES AND IS IN REGIME" in r["_reads"]
+    assert "limitation of the TEST" in r["_reads"]
+    assert r["in_regime_site_ca_rmsd_A"]["max"] == 0.172
+
+
+def test_induced_fit_says_so_when_a_pair_is_both():
+    pairs = [_fake_pair("A", "B", 0.5, 1, 1, 1, 1, acc="P43354",
+                        fit={"site_ca_rmsd_A": 4.0, "large_rearrangement": True, "n_site": 10})]
+    r = P.induced_fit_panel(pairs)["in_regime_and_rearranging"]
+    assert r["n_in_regime_and_rearranging"] == 1
+    assert "genuinely exercised" in r["_reads"]
+
+
+def test_induced_fit_unread_in_regime_is_not_a_finding_of_rigidity():
+    """An absent reading is not a reading of absence (CLAUDE.md §4)."""
+    pairs = [_fake_pair("A", "B", 0.5, 1, 1, 1, 1, acc="P37231",
+                        fit={"site_ca_rmsd_A": 5.0, "large_rearrangement": True, "n_site": 10})]
+    r = P.induced_fit_panel(pairs)["in_regime_and_rearranging"]
+    assert r["n_in_regime_measured"] == 0
+    assert "UNREAD" in r["_reads"]
 
 
 def test_induced_fit_panel_says_so_when_nothing_rearranges():

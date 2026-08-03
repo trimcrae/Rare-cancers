@@ -91,10 +91,20 @@ def facts(doc):
         "panel_gradeable": roll.get("n_gradeable"),
         "panel_bands": roll.get("bands_over_gradeable_pairs") or {},
         "panel_inter": roll.get("inter_method_rmsd_A") or {},
-        "fit_n": ind.get("n_pairs"),
+        # ⚠ THE DENOMINATOR IS THE NUMBER OF *MEASURED* PAIRS, NOT THE PANEL SIZE. The panel carries
+        # rows that were refused before any structure was compared (R2b covalent, a failed fetch), and
+        # those have no induced fit at all — quoting "4 of 12" where 6 were measured understates the
+        # fraction and reads as a weaker panel than the one that ran.
+        "fit_n": (ind.get("site_ca_rmsd_A") or {}).get("n"),
+        "fit_n_rows": ind.get("n_pairs"),
         "fit_large": ind.get("n_with_large_rearrangement"),
         "fit_min": (ind.get("site_ca_rmsd_A") or {}).get("min"),
         "fit_max": (ind.get("site_ca_rmsd_A") or {}).get("max"),
+        "fit_regime_n": (ind.get("in_regime_and_rearranging") or {}).get("n_in_regime_measured"),
+        "fit_regime_large": (ind.get("in_regime_and_rearranging") or {}).get(
+            "n_in_regime_and_rearranging"),
+        "fit_regime_max": ((ind.get("in_regime_and_rearranging") or {}).get(
+            "in_regime_site_ca_rmsd_A") or {}).get("max"),
         "outcome": v.get("outcome"),
         "sentence": v.get("sentence"),
         "rdock_version": tool.get("rdock_version"),
@@ -134,10 +144,21 @@ def _panel_phrase(f):
 def _fit_phrase(f):
     if not f["panel_ran"]:
         return ""
-    return ("⚠ **INDUCED FIT, MEASURED FOR EVERY PAIR:** site Cα movement spans **%s–%s Å** and **%s of "
-            "%s** pairs clear the 1.00 Å reporting band. ⛔ A pair below that line is a near-rigid "
-            "re-dock and is a WEAK TEST of apo→holo transfer in either method — it must not be quoted as "
-            "one." % (_f(f["fit_min"]), _f(f["fit_max"]), _f(f["fit_large"], 0), _f(f["fit_n"], 0)))
+    base = ("⚠ **INDUCED FIT, MEASURED FOR EVERY PAIR:** site Cα movement spans **%s–%s Å** and **%s of "
+            "%s** measured pairs clear the 1.00 Å reporting band. ⛔ A pair below that line is a "
+            "near-rigid re-dock and is a WEAK TEST of apo→holo transfer in either method — it must not "
+            "be quoted as one."
+            % (_f(f["fit_min"]), _f(f["fit_max"]), _f(f["fit_large"], 0), _f(f["fit_n"], 0)))
+    if f["fit_regime_large"] == 0 and (f["fit_regime_n"] or 0) > 0:
+        base += (" ⛔⛔ **AND THE REASSURING COUNT HIDES THE PANEL'S REAL SHAPE: NOT ONE PAIR BOTH "
+                 "REARRANGES AND IS IN THE PIPELINE'S REGIME.** All %s in-regime pairs are near-rigid "
+                 "(site Cα ≤ **%s Å**); every rearranging pair is a receptor the pipeline never "
+                 "transfers Pocket-5 onto. ⇒ **the apo→holo transfer was not tested where the claim "
+                 "needs it — by EITHER method** — and that is a limitation of the TEST, not a caveat on "
+                 "a row. It is also the cheapest item on the list of what would resolve `R5`: a "
+                 "sourcing question at **$0**, not a compute one."
+                 % (_f(f["fit_regime_n"], 0), _f(f["fit_regime_max"])))
+    return base
 
 
 def build(doc):

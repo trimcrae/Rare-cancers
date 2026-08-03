@@ -1205,10 +1205,14 @@ def induced_fit_panel(pairs):
     rearrangement. A panel with no genuinely rearranging pair could not test the thing `R5` needs, and
     that is a limitation of the whole test rather than a caveat on one row."""
     import apo_pose_recovery as apr
+    regime = apr._REGIME_ACCESSIONS()
     rows = []
     for p in pairs:
         f = p.get("induced_fit") or {}
         rows.append({"pair": "%s->%s" % (p.get("apo"), p.get("holo")), "protein": p.get("protein"),
+                     "accession": p.get("accession"),
+                     "in_pipeline_regime": p.get("accession") in regime,
+                     "declared_allosteric": p.get("declared_allosteric"),
                      "site_ca_rmsd_A": f.get("site_ca_rmsd_A"),
                      "global_ca_rmsd_A": f.get("global_ca_rmsd_A"),
                      "n_site_residues": f.get("n_site"),
@@ -1216,6 +1220,12 @@ def induced_fit_panel(pairs):
                      "apo_and_holo_same_construct": p.get("apo_and_holo_same_construct")})
     vals = [r["site_ca_rmsd_A"] for r in rows if r["site_ca_rmsd_A"] is not None]
     n_large = sum(1 for r in rows if r.get("large_rearrangement"))
+    # ⭑ THE QUESTION A PANEL-WIDE COUNT CANNOT ANSWER, AND IT IS THE ONE THAT MATTERS. "4 of 6 pairs
+    # rearrange" is true and reassuring; what `R5` needs is a pair that rearranges AND is one the
+    # pipeline actually transfers Pocket-5 onto. Those are different sets and they are computed here
+    # rather than eyeballed, because eyeballing them is what made the reassuring count quotable.
+    in_regime = [r for r in rows if r["in_pipeline_regime"] and r["site_ca_rmsd_A"] is not None]
+    both = [r for r in in_regime if r.get("large_rearrangement")]
     return {
         "_threshold_A": apr.LARGE_INDUCED_FIT_A,
         "_measured_by": "apo_pose_recovery.run_benchmark — the same apo->holo site-Ca RMSD the "
@@ -1223,6 +1233,29 @@ def induced_fit_panel(pairs):
         "rows": rows, "n_pairs": len(rows), "site_ca_rmsd_A": _spread(vals),
         "n_with_large_rearrangement": n_large,
         "panel_contains_a_large_rearrangement": n_large > 0,
+        "in_regime_and_rearranging": {
+            "_asks": "is there a pair that BOTH rearranges AND is a protein the pipeline actually "
+                     "transfers Pocket-5 onto? A rearranging pair outside the regime tests the docking "
+                     "engines and cannot test the pipeline's own transfer.",
+            "_regime": sorted(regime),
+            "n_in_regime_measured": len(in_regime),
+            "n_in_regime_and_rearranging": len(both),
+            "pairs": [r["pair"] for r in both],
+            "in_regime_site_ca_rmsd_A": _spread([r["site_ca_rmsd_A"] for r in in_regime]),
+            "_reads": (
+                "⛔ NO PAIR IN THIS PANEL BOTH REARRANGES AND IS IN REGIME. Every rearranging pair is a "
+                "receptor the pipeline never transfers Pocket-5 onto, and every in-regime pair is a "
+                "near-rigid re-dock. So the panel's reassuring '%d of %d rearrange' does NOT mean the "
+                "apo→holo transfer was tested where it matters — it was not tested there at all, by "
+                "either method. ⇒ this is a limitation of the TEST, not a caveat on a row, and it is "
+                "the cheapest thing on the list of what would resolve `R5`."
+                % (n_large, len(vals))
+                if in_regime and not both else
+                "at least one pair both rearranges and is in regime, so the apo→holo transfer is "
+                "genuinely exercised in the regime the claim needs"
+                if both else
+                "⚠ NO IN-REGIME PAIR CARRIES AN INDUCED-FIT MEASUREMENT AT ALL — that is an UNREAD "
+                "quantity, not a finding of rigidity.")},
         "_limitation": (
             "⛔ A PAIR BELOW %.2f A OF SITE Ca MOVEMENT IS A NEAR-RIGID RE-DOCK AND IS A WEAK TEST OF "
             "APO->HOLO TRANSFER. It must not be quoted as one, in either method. If no pair in this "
