@@ -1508,6 +1508,9 @@ def main():
         _checkpoint(doc)
     if mode in ("both", "panel"):
         doc["part_b"] = part_b(tools, limit=int(os.environ.get("PANEL_LIMIT", "0")) or None)
+    # the verdict is computed over BOTH halves, including one carried from an earlier run — which is
+    # why the carry has to happen before it, and why each carried half says so in its own record.
+    doc = _carry_forward(doc)
     doc["verdict"] = verdict(doc)
     doc["_status"] = "ok"
     doc["_elapsed_s"] = round(time.time() - _T0, 1)
@@ -1515,7 +1518,41 @@ def main():
     return doc
 
 
+def _carry_forward(doc):
+    """A single-mode run must never DELETE the half it did not run.
+
+    ⛔ THE FAILURE THIS CLOSES, caught before it happened: `MODE=panel` builds a document with no
+    `part_a` key, and `_emit` overwrites the artifact — so a panel-only re-run would silently replace a
+    committed cross-method result with nothing, and the artifact would then say `cross_method_evidence:
+    NONE` again for a bookkeeping reason. Carrying the half forward is honest ONLY if it is labelled, so
+    each carried half is stamped with the run that actually produced it and the fact that this run did
+    not. ⚠ A carried half is not a fresh measurement and the stamp is what stops it reading as one."""
+    if not os.path.exists(OUT):
+        return doc
+    try:
+        prev = json.load(open(OUT))
+    except Exception:                                         # noqa: BLE001
+        return doc
+    for half in ("part_a", "part_b"):
+        if half in doc or half not in prev:
+            continue
+        carried = prev[half]
+        if isinstance(carried, dict):
+            carried = dict(carried)
+            carried["_carried_forward"] = {
+                "_reads": "⚠ NOT MEASURED IN THIS RUN. This half was produced by an earlier run and is "
+                          "carried so a single-mode re-run cannot delete it; treat it as that run's "
+                          "result, not this one's.",
+                "produced_by": prev.get("_provenance"),
+                "produced_at_status": prev.get("_status"),
+                "this_run_mode": doc.get("_mode"),
+            }
+        doc[half] = carried
+    return doc
+
+
 def _emit(doc):
+    doc = _carry_forward(doc)
     with open(OUT, "w") as fh:
         json.dump(doc, fh, indent=1, default=str)
     print(json.dumps({k: v for k, v in doc.items()

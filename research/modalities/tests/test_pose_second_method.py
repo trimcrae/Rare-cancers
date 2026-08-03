@@ -16,6 +16,7 @@ silently stop being what it claims to be:
     make any two methods look like they agree.
 """
 import inspect
+import json
 import os
 
 import pytest
@@ -428,6 +429,31 @@ def test_decompose_calls_a_different_pocket_a_different_pocket():
 
 
 # ------------------------------------------------------------------ tooling refusals are named
+
+def test_a_single_mode_run_does_not_delete_the_half_it_did_not_run(tmp_path, monkeypatch):
+    """★ CAUGHT BEFORE IT HAPPENED. `MODE=panel` builds a doc with no `part_a`, and `_emit` overwrites
+    the artifact — so a panel-only re-run would replace a committed cross-method result with nothing and
+    the artifact would read `cross_method_evidence: NONE` again for a bookkeeping reason."""
+    art = tmp_path / "pose-second-method.json"
+    art.write_text(json.dumps({
+        "_status": "ok", "_provenance": {"where": "GitHub Actions", "github_run_id": "123"},
+        "part_a": {"cross_method_same_frame": {"n_systems": 6}},
+        "part_b": {"rollup": {"n_pairs": 6}}}))
+    monkeypatch.setattr(P, "OUT", str(art))
+    got = P._carry_forward({"_mode": "panel", "part_b": {"rollup": {"n_pairs": 4}}})
+    assert got["part_b"]["rollup"]["n_pairs"] == 4, "this run's own half must win"
+    assert got["part_a"]["cross_method_same_frame"]["n_systems"] == 6, "the other half must survive"
+    cf = got["part_a"]["_carried_forward"]
+    assert "NOT MEASURED IN THIS RUN" in cf["_reads"]
+    assert cf["produced_by"]["github_run_id"] == "123"
+    assert cf["this_run_mode"] == "panel"
+
+
+def test_carry_forward_is_a_no_op_when_there_is_nothing_to_carry(tmp_path, monkeypatch):
+    monkeypatch.setattr(P, "OUT", str(tmp_path / "absent.json"))
+    d = {"_mode": "both", "part_a": {"x": 1}}
+    assert P._carry_forward(d) == d
+
 
 def test_missing_tools_is_a_named_refusal_not_a_crash(monkeypatch):
     monkeypatch.setenv("RDOCK_ROOT", "/definitely/not/here")
