@@ -2256,13 +2256,7 @@ three metad replicas, and the three release replicas. **That rerun has been exec
 fpocket pinned to 4.0, match gate jaccard ≥ 0.25 / fraction-recovered ≥ 0.3 / centroid ≤ 8.0 Å, both
 denominators reported): AF2 static 0/1 ≥ D\*, the 8XTT ensemble 3/19 detected frames (3/20 propagated), the
 metadynamics frames 17/25, and the three release replicas 14/25, 10/25, 20/25 (44/75 pooled). **Dependency
-audit — still open.** Because the generative campaign was conditioned on a receptor frame selected by the
-*provisional* classifier, the rerun must additionally confirm that the **exact release-derived frame used to
-generate `denovo_401` still qualifies as the same mapped orthosteric site and still exceeds D\***. The
-committed harmonized artifact reports **ensemble-level** fractions only and does **not** identify which
-individual frames cleared D\*, so this frame-level dependency check is **not** discharged by it and remains a
-submission gate (§4); if the generation frame does not qualify, the generation receptor — not merely a
-reported frame-fraction — is affected.
+audit — CLOSED, and the gate FAILS (2026-08-03).** The generative campaign was conditioned on a receptor frame selected by the *provisional* classifier, so the rerun had to confirm that the **exact release-derived frame used to generate `denovo_401`** still qualifies as the same mapped orthosteric site and still exceeds D\*. The committed harmonized artifact could not discharge that — and not for the reason previously stated here: the generation receptor was **never an entry in the rerun at all**. It has now been audited directly. The frame is the unbiased release replica 0, frame 95 (CV Rg 0.7367 nm). Under the same harmonized matcher and the same pinned fpocket build, its mapped orthosteric site **is detected** — 8 of 10 lining residues recovered, Jaccard 0.615, centroid 3.478 Å — and its druggability is **0.259, below D\* = 0.53**. **The generation frame does not qualify, so the generation receptor — not merely a reported frame-fraction — is affected**, and every `denovo_401`-derived result must be read subject to that. The verdict is sensitive to the matching rule and the artifact records that sensitivity explicitly: a second cavity also clears the composite gate and scores 0.667, and the score-independent rule prefers the better-matching cavity; the rule and its thresholds were frozen on 2026-07-11, before this measurement. ([`../modalities/r3-generation-frame-harmonized.json`](../modalities/r3-generation-frame-harmonized.json); [`../modalities/r3-generation-frame-audit.json`](../modalities/r3-generation-frame-audit.json).) ⚠ *Superseded, retained: "Dependency audit — still open … this frame-level dependency check is not discharged by it and remains a submission gate (§4)."*
 Calibration: NR-LBD panel ([`../modalities/nr4a3_calibration.py`](../modalities/nr4a3_calibration.py)).
 Falsification: pre-registered gates ([`../modalities/nr4a3-druggability-prereg.md`](../modalities/nr4a3-druggability-prereg.md)).
 Selectivity: Biopython BLOSUM62 alignment vs NR4A1/NR4A2. **Superfamily liability screen (SI §S3, A4/D4):**
@@ -2750,7 +2744,7 @@ can jointly settle (a kinetic/thermodynamic distinction), reported separately be
 
 We explicitly do **not** claim "Gates pass" as unqualified: Gate 1 **failed** as pre-registered, Gate 2's
 frame-fraction clause **passes under the committed harmonized re-analysis** while its handles clause is still
-only at pre-harmonized weight and the frame-level generation-receptor dependency audit is **still open** (§3),
+only at pre-harmonized weight, and the frame-level generation-receptor dependency audit has now **CLOSED and FAILED** — the exact frame `denovo_401` was generated into does **not** clear D\* under the harmonized definition (§3),
 Gate 3A is supported only in the narrow persistence sense
 while **Gate 3B is unresolved**, and Gate 4 is an in-silico criterion, not physical binding. The 3A/3B split
 and the three-replica / gate-descriptor diagnostics are **post-hoc analyses**, logged as such in the deviation
