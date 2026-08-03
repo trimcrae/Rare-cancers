@@ -132,15 +132,39 @@ def edits(f):
         "range (%s–%s Å), so it is the most flattering of the observed draws rather than the "
         "measurement.**" % (QUOTED, _n(r.get("min_A")), _n(r.get("max_A"))))
     supp = f["site_supp"]
-    supp_txt = (
-        "the in-regime site supplement has not been run yet"
+    # What blocks R5 — DERIVED from the supplement, not asserted. "No qualifying known answer exists"
+    # is only sayable because 0 of N in-regime pairs put their ligand where Pocket-5 lands, by two
+    # independent transfers. Without the supplement this must say UNMEASURED.
+    blocker = (
+        "⚠ UNMEASURED — the in-regime site supplement has not been run, so *how many* in-regime known "
+        "answers place their ligand in the Pocket-5-equivalent site is an open question, not a zero."
         if not supp else
-        "the in-regime site supplement read **%s of %s** attempted pairs; the pipeline's own sequence "
-        "transfer found the ligand's site on **%s**, the independent structural transfer on **%s**, and "
-        "fpocket's own top pocket on **%s** (%s of them covalent pairs the DOCKING panel still excludes)"
+        "Over **%s** in-regime pairs on **both** paralogues, the pipeline's sequence transfer landed on "
+        "the crystallographic ligand's site **%s** times and an independent CE structural transfer **%s** "
+        "times ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json)); NR4A3 "
+        "itself has **0 holo entries** in the PDB, so it can never supply one."
+        % (supp.get("n_gradeable"), supp.get("pipeline_sequence_transfer_found"),
+           supp.get("pocket5_structure_transfer_found")))
+    supp_txt = (
+        "⚠ **and the in-regime site supplement has not been run, so the site step is UNMEASURED at any "
+        "usable n — not exonerated**"
+        if not supp else
+        "✅ **SO THE SITE QUESTION WAS RE-ASKED IN REGIME AND AT SIZE, AND IT ANSWERS.** `MODE=site` runs "
+        "the geometric endpoint (no dock, no seed, deterministic) over every apo/holo pair on a protein "
+        "the pipeline actually transfers onto, and R2b — a rule about DOCKING — no longer removes the "
+        "covalent NR4A2 pairs from a question that contains no dock. **%s of %s** attempted pairs read, "
+        "across **both** paralogues. The pipeline's own sequence transfer put the crystallographic ligand "
+        "inside its box on **%s of %s**; an *independent* CE structural transfer, on **%s of %s**; an "
+        "NR4A3-blind fpocket pick, on **%s of %s**. ⛔ **Two independent transfers agreeing on every pair "
+        "is C4's pre-declared reading for *\"the ligand is not in this receptor's Pocket-5-equivalent "
+        "site\"* — so the pipeline's site step is not shown to be broken, and it is also not gradeable "
+        "here: no in-regime known answer puts its ligand where Pocket-5 lands.** %s of the pairs are "
+        "covalent adducts the DOCKING panel still excludes. One home: "
+        "[`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json)"
         % (supp.get("n_gradeable"), supp.get("n_attempted"),
-           supp.get("pipeline_sequence_transfer_found"), supp.get("pocket5_structure_transfer_found"),
-           supp.get("fpocket_top_pocket_found"),
+           supp.get("pipeline_sequence_transfer_found"), supp.get("n_gradeable"),
+           supp.get("pocket5_structure_transfer_found"), supp.get("n_gradeable"),
+           supp.get("fpocket_top_pocket_found"), supp.get("n_gradeable"),
            supp.get("n_covalent_read_here_but_excluded_from_the_docking_panel")))
 
     E = []
@@ -163,8 +187,8 @@ def edits(f):
             "pre-declared logic reads *\"the ligand is not in this receptor's Pocket-5-equivalent site\"* "
             "— **the benchmark's design, not a demonstrated defect.** ✅ **Q-DOCKING IS ANSWERED, and it "
             "is a negative:** given the correct site, blind apo→holo docking recovered **%s of %s "
-            "gradeable** pairs (%s NOT RECOVERED). ⚠ **Q-SITE IS NOT ANSWERABLE FROM THIS PANEL** (n=%s, "
-            "both from one apo crystal) — %s. One home for every number: "
+            "gradeable** pairs (%s NOT RECOVERED). ⚠ **Q-SITE IS NOT ANSWERABLE FROM THE PANEL** (n=%s, "
+            "both from one apo crystal). %s. One home for the panel's numbers: "
             "[`apo-pose-recovery.json`](../modalities/apo-pose-recovery.json), rendered to "
             "[`apo-pose-recovery.md`](../modalities/apo-pose-recovery.md). ⚠ **Superseded, retained:** "
             "*\"○ (the test ✓ ran, INCONCLUSIVE) · cheap CPU/CI · The docking is fine; the pipeline's "
@@ -238,12 +262,16 @@ def edits(f):
             "search is unseeded; re-seeded the blind fpocket arm reads %s. ⚠ **Superseded, retained: "
             "3.46 Å** (commit `cc4325b68`, `blind_apo_fpocket_top_box` 3.464) and the reading *\"the "
             "docking is fine … the site selection is what missed, on 6 of 6 pairs\"* — the oracle-box arm "
-            "is a *different* arm and reads %s.%s | ⛔ **not a re-run — a qualifying known answer.** No "
-            "in-regime pair exists with a Pocket-5-site ligand AND a large induced fit; see [§10.1 row "
+            "is a *different* arm and reads %s.%s | ⛔ **NOT another re-run — a qualifying known answer, "
+            "and it is now MEASURED that none exists.** %s ⚠ So `R5` is **not resolvable by this "
+            "instrument**, and the honest options are (a) report every pose-derived claim as conditional "
+            "on Pocket-5 being the right site — $0 and fully defensible — or (b) validate the site step "
+            "against something other than a crystallographic ligand, which is a **different instrument** "
+            "and inherits none of `V3`'s validation. See [§10.1 row "
             "4](#101--open-rows-ordered-by-what-unblocks-the-most) | ✓ test complete, claim "
             "**unresolved** |"
             % (f["n_recovered"], f["n_gradeable"], f["site_interpretable"], band, _n(f["oracle"]),
-               quoted_clause)),
+               quoted_clause, blocker)),
         "why": ("This cell already carries the drift appendix for 3.46 → 3.04; the re-run shows the "
                 "underlying number is not stable to 3 figures at all, and that the 'site selection is "
                 "what missed' half is not supported by the artifact's regime gate."),
