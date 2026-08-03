@@ -1,7 +1,7 @@
 {
  "_what": "cross-lane, ACCOUNT-KEYED alarm: is any host billing whose lane has stopped reporting? Keyed on the Vast account because a lane-scoped watcher structurally cannot see a host whose lane stopped. REPORT-ONLY: this never destroys, stops, reaps, nudges or rents.",
- "generated_utc": "2026-08-03T14:11:08Z",
- "generated_et": "10:11 AM ET Aug 3, 2026",
+ "generated_utc": "2026-08-03T14:20:04Z",
+ "generated_et": "10:20 AM ET Aug 3, 2026",
  "thresholds": {
   "lane_silent_min": 40.0,
   "census_stale_min": 45.0,
@@ -10,190 +10,13 @@
  "report_only": true,
  "census_utc": "2026-08-03T13:27:00Z",
  "census_et": "9:27 AM ET Aug 3, 2026",
- "census_age_min": 44.1,
+ "census_age_min": 53.1,
  "census_n_instances": 0,
- "graded": true,
- "lanes": [
-  {
-   "lane": "step1-fanout",
-   "label": "Step 1 congeneric RBFE fan-out (Vast)",
-   "tick_workflow": "step1-fanout-autoscale.yml",
-   "fragment": "inflight-board.d/step1-fanout.json",
-   "label_prefixes": [
-    "s1f-"
-   ],
-   "n_instances": 0,
-   "n_live": 0,
-   "n_terminal_but_listed": 0,
-   "instances": [],
-   "last_report_utc": "2026-08-03T14:10:34Z",
-   "last_report_et": "10:10 AM ET Aug 3, 2026",
-   "freshness_basis": "git commit time of inflight-board.d/step1-fanout.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: _generated_utc: absent)",
-   "silent_for_min": 0.6,
-   "threshold_min": 40.0,
-   "future_skew_tolerance_min": 5.0,
-   "verdict": "IDLE",
-   "ok": true,
-   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
-  },
-  {
-   "lane": "ternary-vast",
-   "label": "Ternary FEP lanes \u2014 valB reps, closure triangle, rung 5a-KS (Vast)",
-   "tick_workflow": "gpu-ternary-fep-vast.yml",
-   "fragment": "inflight-board.d/ternary.json",
-   "label_prefixes": [
-    "tvast"
-   ],
-   "n_instances": 0,
-   "n_live": 0,
-   "n_terminal_but_listed": 0,
-   "instances": [],
-   "last_report_utc": "2026-08-03T14:08:43Z",
-   "last_report_et": "10:08 AM ET Aug 3, 2026",
-   "freshness_basis": "in-file stamp (_generated_utc, utc, generated_utc) in inflight-board.d/ternary.json",
-   "silent_for_min": 2.4,
-   "threshold_min": 40.0,
-   "future_skew_tolerance_min": 5.0,
-   "verdict": "IDLE",
-   "ok": true,
-   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
-  },
-  {
-   "lane": "nrv04-retro",
-   "label": "NR-V04 retrospective Arm E / R1 endpoint-MD legs (Vast)",
-   "tick_workflow": "fusion-cpu-extras.yml",
-   "fragment": "inflight-board.d/nrv04-retro.json",
-   "label_prefixes": [
-    "nrv04retro-"
-   ],
-   "n_instances": 0,
-   "n_live": 0,
-   "n_terminal_but_listed": 0,
-   "instances": [],
-   "last_report_utc": "2026-08-03T14:09:34Z",
-   "last_report_et": "10:09 AM ET Aug 3, 2026",
-   "freshness_basis": "in-file stamp (generated_utc) in inflight-board.d/nrv04-retro.json",
-   "silent_for_min": 1.6,
-   "threshold_min": 40.0,
-   "future_skew_tolerance_min": 5.0,
-   "verdict": "IDLE",
-   "ok": true,
-   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
-  },
-  {
-   "lane": "nrv04-covalent",
-   "label": "NR-V04 covalent / co-fold panel (Vast)",
-   "tick_workflow": "fusion-cpu-extras.yml",
-   "fragment": null,
-   "label_prefixes": [
-    "nrv04cov-"
-   ],
-   "n_instances": 0,
-   "n_live": 0,
-   "n_terminal_but_listed": 0,
-   "instances": [],
-   "last_report_utc": null,
-   "last_report_et": null,
-   "freshness_basis": null,
-   "silent_for_min": null,
-   "threshold_min": 40.0,
-   "future_skew_tolerance_min": 5.0,
-   "verdict": "IDLE",
-   "ok": true,
-   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
-  },
-  {
-   "lane": "selcal-cofold",
-   "label": "Selectivity control \u2014 SMARCA2/4 co-fold panel (Vast)",
-   "tick_workflow": "selectivity-control-vast.yml",
-   "fragment": "inflight-board.d/selcal-cofold.json",
-   "label_prefixes": [
-    "selcal-"
-   ],
-   "n_instances": 0,
-   "n_live": 0,
-   "n_terminal_but_listed": 0,
-   "instances": [],
-   "last_report_utc": "2026-08-02T02:38:59Z",
-   "last_report_et": "10:38 PM ET Aug 1, 2026",
-   "freshness_basis": "git commit time of inflight-board.d/selcal-cofold.json \u2014 WEAKER: a refactor touching the file moves this without any tick having run, so it can only make the lane look fresher than it is (in-file stamp unavailable: phase: absent)",
-   "silent_for_min": 2132.2,
-   "threshold_min": 40.0,
-   "future_skew_tolerance_min": 5.0,
-   "verdict": "IDLE",
-   "ok": true,
-   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
-  },
-  {
-   "lane": "protfep-bench",
-   "label": "Protein-FEP benchmark legs (Vast)",
-   "tick_workflow": "gpu-protfep-vast.yml",
-   "fragment": null,
-   "label_prefixes": [
-    "protfep-bench"
-   ],
-   "n_instances": 0,
-   "n_live": 0,
-   "n_terminal_but_listed": 0,
-   "instances": [],
-   "last_report_utc": null,
-   "last_report_et": null,
-   "freshness_basis": null,
-   "silent_for_min": null,
-   "threshold_min": 40.0,
-   "future_skew_tolerance_min": 5.0,
-   "verdict": "IDLE",
-   "ok": true,
-   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
-  },
-  {
-   "lane": "vast-bench-sweep",
-   "label": "Vast card-calibration sweep (throughput benchmarking)",
-   "tick_workflow": "vast-bench-sweep.yml",
-   "fragment": null,
-   "label_prefixes": [
-    "cal-"
-   ],
-   "n_instances": 0,
-   "n_live": 0,
-   "n_terminal_but_listed": 0,
-   "instances": [],
-   "last_report_utc": null,
-   "last_report_et": null,
-   "freshness_basis": null,
-   "silent_for_min": null,
-   "threshold_min": 40.0,
-   "future_skew_tolerance_min": 5.0,
-   "verdict": "IDLE",
-   "ok": true,
-   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
-  },
-  {
-   "lane": "nr4a-paralogue-md",
-   "label": "NR4A paralogue MD (Vast)",
-   "tick_workflow": "gpu-nr4a-paralogue-md-vast.yml",
-   "fragment": null,
-   "label_prefixes": [
-    "nr4a-pdyn"
-   ],
-   "n_instances": 0,
-   "n_live": 0,
-   "n_terminal_but_listed": 0,
-   "instances": [],
-   "last_report_utc": null,
-   "last_report_et": null,
-   "freshness_basis": null,
-   "silent_for_min": null,
-   "threshold_min": 40.0,
-   "future_skew_tolerance_min": 5.0,
-   "verdict": "IDLE",
-   "ok": true,
-   "detail": "no instance in the account wears this lane's prefix, so nothing is billing for it. Its artifact age is NOT graded here on purpose: a finished or parked lane is silent forever and firing on that would make this alarm unreadable within a day. Whether the lane SHOULD have work running is `lane_staleness_watch`'s question, not this one \u2014 this module only asks whether money is moving unwatched."
-  }
- ],
- "orphans": [],
- "terminal_but_listed": [],
- "ok": true,
- "verdict": "ALL-SUPERVISED",
- "detail": "every instance in the account belongs to a lane that has reported inside 40 min, and no instance wears an unclaimed prefix."
+ "verdict": "CENSUS-STALE",
+ "ok": false,
+ "detail": "the account census is 53 min old (stamped 9:27 AM ET Aug 3, 2026; threshold 45 min), so it is NOT treated as a weaker reading \u2014 it is not treated as a reading at all, and every lane verdict is suppressed. Measured today: it went 155 min stale, a window in which a naive check would have reported all-clear while two hosts were up. The census writer is a diagnostic task dispatched from a supervisor loop; if it has stopped, that is the incident.",
+ "graded": false,
+ "lanes": null,
+ "orphans": null,
+ "terminal_but_listed": null
 }
