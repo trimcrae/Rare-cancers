@@ -336,6 +336,12 @@ APPENDIX = {
         "attributed to seeding unless smina is shown to reproduce at a fixed seed on this system.",
         "`reproducibility`: the panel-level rollup of C6, carrying `all_bands_stable` and `max_spread_A`. "
         "An absent replicate set records `measured: false` rather than an empty summary.",
+        "C5b — the APO deposit's engineered substitutions are now graded too, and the two SEQADV sets are "
+        "compared: `apo_and_holo_are_the_same_construct`. C5 read the holo side only, which silently "
+        "assumed a pair is two states of ONE construct; on the headline pair (4RZF S441W / 4REF L449W) it "
+        "is two different NR4A1 tryptophan mutants, so the cross-dock is cross-CONSTRUCT as well as "
+        "apo->holo and the induced-fit number is not pure conformational change. Reported, never "
+        "filtering.",
     ],
     "corrected_2026_08_02": [
         {"what": "`boxes.pipeline_box_fpocket_rank._reads`",
@@ -1666,6 +1672,39 @@ def run_benchmark(cand, work, af2_reference_pdb, replicates=0):
             if R_["engineered_construct"]["seqadv_holo"] else
             "⚠ THE HOLO DEPOSIT CARRIES NO SEQADV RECORDS AT ALL — the substitutions are UNREAD here, not "
             "absent. The title flag above is the only evidence for this pair.")))
+    # ★★ C5b — AND THE APO SIDE, ADDED 2026-08-03. The block above graded the HOLO construct only, which
+    # silently assumes the pair is two STATES OF ONE CONSTRUCT. On the headline pair it is not: 4RZF is
+    # "NUR77 LBD, S441W mutant" and 4REF is "TR3 LBD_L449W" — two DIFFERENT engineered tryptophan mutants
+    # of NR4A1. A cross-dock between them is therefore a cross-CONSTRUCT dock as well as an apo->holo one,
+    # and the apo->holo Ca RMSD reported as "induced fit" contains whatever the substitution did too.
+    # ⛔ THE POINT IS NOT TO FILTER THE PAIR. It is that a reader must not be able to take the induced-fit
+    # number as pure conformational change when the two deposits are not the same molecule.
+    eng_apo = [m for m in R_["engineered_construct"]["seqadv_apo"]
+               if "ENGINEERED" in (m.get("reason") or "").upper()]
+    R_["engineered_construct"]["engineered_residues_apo"] = eng_apo
+    # apo numbering -> holo numbering through the same map every other apo-frame quantity uses, so
+    # "is it in the ligand's contact shell" is asked in ONE frame and never by comparing raw resseqs.
+    apo_in_site = sorted({apo_to_holo[m["resseq"]] for m in eng_apo
+                          if m["resseq"] in apo_to_holo and apo_to_holo[m["resseq"]] in set(native)})
+    R_["engineered_construct"]["engineered_apo_residues_in_native_ligand_site"] = apo_in_site
+    _key = lambda ms: sorted((m["resseq"], m.get("db_residue"), m.get("deposit_residue")) for m in ms)
+    same = _key(eng_apo) == _key(eng_holo)
+    R_["engineered_construct"]["apo_and_holo_are_the_same_construct"] = same
+    R_["engineered_construct"]["_construct_reads"] = (
+        "the apo and holo deposits declare the SAME engineered substitution set, so this is an apo/holo "
+        "pair of ONE construct and the apo->holo Ca RMSD is conformational change" if same else
+        "⚠ THE APO AND HOLO DEPOSITS ARE DIFFERENT CONSTRUCTS — apo declares %s, holo declares %s. This "
+        "cross-dock is cross-CONSTRUCT as well as apo->holo, so the induced-fit number contains the "
+        "substitution's effect too and must not be quoted as pure conformational change. %s"
+        % (", ".join("%s%d->%s" % (m.get("db_residue"), m["resseq"], m.get("deposit_residue"))
+                     for m in eng_apo) or "none",
+           ", ".join("%s%d->%s" % (m.get("db_residue"), m["resseq"], m.get("deposit_residue"))
+                     for m in eng_holo) or "none",
+           ("⛔ AND %d of the apo substitutions map INTO the ligand's own contact shell (holo residues "
+            "%s), so the apo pocket the blind arm docks into is one the mutation helped build."
+            % (len(apo_in_site), apo_in_site)) if apo_in_site else
+           "Neither apo substitution maps into the ligand's contact shell, so the benchmarked pocket is "
+           "not one either mutation built."))
 
     # 14) THE TWO QUESTIONS, SEPARATED. Added 2026-08-02. Neither changes `verdict()`.
     R_["questions"] = pair_questions(R_, cand)
@@ -2345,25 +2384,42 @@ def render_markdown(doc):
     L.append("\n%s\n" % fit.get("_reads", ""))
     L.append("⚠ %s\n" % fit.get("_caveat", ""))
     L.append("\n## 4 · What the deposits themselves declare\n")
-    L.append("\n| pair | engineered substitutions (holo) | any in the ligand's contact shell | "
-             "ligand declared allosteric |")
-    L.append("|---|---|---|---|")
+    L.append("\n| pair | engineered (apo) | engineered (holo) | same construct? | any in the ligand's "
+             "contact shell | ligand declared allosteric |")
+    L.append("|---|---|---|---|---|---|")
+    mismatched = []
     for r in doc.get("panel") or []:
         if not r.get("verdict"):
             continue
         c, ec = r["candidate"], (r.get("engineered_construct") or {})
         al = (r.get("declared_allosteric") or {})
         eng = ec.get("engineered_residues_holo")
+        apo_eng = ec.get("engineered_residues_apo")
         ins = ec.get("engineered_residues_in_native_ligand_site")
-        L.append("| %s→%s | %s | %s | %s |"
+        same = ec.get("apo_and_holo_are_the_same_construct")
+        if same is False:
+            mismatched.append((c, ec))
+        fmt = lambda ms: (", ".join("%s%s→%s" % (m.get("db_residue"), m["resseq"],
+                                                 m.get("deposit_residue")) for m in ms) or "none")
+        L.append("| %s→%s | %s | %s | %s | %s | %s |"
                  % (c.get("apo"), c.get("holo"),
-                    ("UNREAD" if eng is None else
-                     ", ".join("%s%s→%s" % (m["db_residue"], m["resseq"], m["deposit_residue"])
-                               for m in eng) or "none"),
+                    "UNREAD" if apo_eng is None else fmt(apo_eng),
+                    "UNREAD" if eng is None else fmt(eng),
+                    "UNREAD" if same is None else ("yes" if same else "**NO**"),
                     ("UNREAD" if ins is None else
                      ", ".join("**%s%s→%s**" % (m["db_residue"], m["resseq"], m["deposit_residue"])
                                for m in ins) or "no"),
                     "**yes**" if al.get("declared_in_holo_title") else "no"))
+    if mismatched:
+        L.append("")
+        for c, ec in mismatched:
+            L.append("- ⚠ **%s→%s** — %s" % (c.get("apo"), c.get("holo"),
+                                             ec.get("_construct_reads", "")))
+        L.append("")
+    elif any((r.get("engineered_construct") or {}).get("apo_and_holo_are_the_same_construct") is None
+             for r in doc.get("panel") or [] if r.get("verdict")):
+        L.append("\n⚠ *The apo-side construct comparison is UNREAD in this artifact — it predates C5b. "
+                 "Absent, not \"the constructs match\".*\n")
     # ⚠ AN ABSENT SECTION IS RECORDED AS ABSENT. An artifact written before C6 existed carries no
     # `reproducibility`, and a heading with nothing under it would read as "no variation was found".
     L.append("\n## 4b · Is a single-run RMSD from this benchmark quotable? (C6, seed replicates)\n")

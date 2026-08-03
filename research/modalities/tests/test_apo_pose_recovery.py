@@ -779,6 +779,53 @@ def test_the_reproducibility_rollup_flags_every_arm_whose_band_flips():
     assert rp["all_bands_stable"] is False
 
 
+# ============================================================ C5b — the apo side of the construct
+
+def test_c5b_grades_the_apo_construct_not_only_the_holo_one():
+    """⛔ THE HEADLINE PAIR IS TWO DIFFERENT MUTANTS. 4RZF is 'NUR77 LBD, S441W mutant' and 4REF is
+    'TR3 LBD_L449W'; the artifact already carried both SEQADV blocks and graded only the holo one, so
+    the pair read as two states of ONE construct when it is a cross-CONSTRUCT dock as well."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    for field in ("engineered_residues_apo", "apo_and_holo_are_the_same_construct",
+                  "engineered_apo_residues_in_native_ligand_site"):
+        assert field in src, "%s is not emitted — the apo construct is ungraded" % field
+    # the comparison must go through the apo->holo residue map, not raw resseqs in two frames
+    assert "apo_to_holo[m[\"resseq\"]]" in src
+
+
+def test_a_construct_mismatch_says_the_induced_fit_is_not_pure_conformational_change():
+    """The whole reason to compare the two SEQADV sets: `induced_fit.site_ca_rmsd_A` is quoted as the
+    size of the apo→holo problem, and on a cross-construct pair it is not only that."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    assert "cross-CONSTRUCT" in src
+    assert "must not be quoted as pure conformational change" in src
+
+
+def test_c5b_reports_and_never_filters():
+    """Same rule as C5: a declared construct difference is evidence on the record, not an exclusion —
+    the artifact must not gain a filter that silently shrinks the panel."""
+    import inspect
+    src = inspect.getsource(A.run_benchmark)
+    i = src.find("apo_and_holo_are_the_same_construct")
+    assert i > 0
+    tail = src[i:i + 2500]
+    for excluding in ("return refuse", "excluded_by"):
+        assert excluding not in tail, "C5b became a filter — it may only report"
+
+
+def test_the_markdown_says_UNREAD_when_the_apo_construct_was_never_compared():
+    """CLAUDE.md §4: an artifact predating C5b must not render as 'the constructs match'."""
+    doc = {"panel": [{"verdict": {"outcome": "INCONCLUSIVE"},
+                      "candidate": {"apo": "4RZF", "holo": "4REF"},
+                      "engineered_construct": {"engineered_residues_holo": []}}],
+           "verdict": {"outcome": "INCONCLUSIVE", "reason": "x"}}
+    md = A.render_markdown(doc)
+    assert "UNREAD" in md
+    assert 'Absent, not "the constructs match"' in md
+
+
 def test_the_third_revision_is_registered_in_the_appendix():
     ap = A.APPENDIX
     joined = " ".join(ap["added_2026_08_03_third_revision"])
