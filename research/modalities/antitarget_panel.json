@@ -2,14 +2,99 @@
   "purpose": "Off-target / anti-target selectivity panel. A repurposing hit that engages the NR4A LBDs is only a real ligand (not a universal lipophilic sticker) if it does NOT bind unrelated nuclear receptors and classic anti-targets equally well. Dock the candidate set into each panel target with the IDENTICAL smina protocol used for the NR4A dock (24 Angstrom box, exhaustiveness 8), then compare each drug's NR4A delta-G to its best off-target delta-G. Small/negative gap => promiscuous; large positive gap (off-targets weaker) => NR4A-family-preferential.",
   "box_size": 24,
   "targets": [
-    {"name": "RXRA",  "class": "nuclear-receptor", "pdb_id": "1FBY", "ligand_resname": "9CR", "note": "RXRalpha LBD + 9-cis-retinoic acid; heterodimer partner of many NRs"},
-    {"name": "PPARG", "class": "nuclear-receptor", "pdb_id": "2PRG", "ligand_resname": "BRL", "note": "PPARgamma LBD + rosiglitazone"},
-    {"name": "ESR1",  "class": "nuclear-receptor", "pdb_id": "3ERT", "ligand_resname": "OHT", "note": "ERalpha LBD + 4-hydroxytamoxifen"},
-    {"name": "AR",    "class": "nuclear-receptor", "pdb_id": "2AM9", "ligand_resname": "TES", "note": "Androgen receptor LBD + testosterone"},
-    {"name": "GR",    "class": "nuclear-receptor", "pdb_id": "1M2Z", "ligand_resname": "DEX", "note": "Glucocorticoid receptor LBD + dexamethasone"},
-    {"name": "VDR",   "class": "nuclear-receptor", "pdb_id": "1DB1", "ligand_resname": "VDX", "note": "Vitamin D receptor LBD + calcitriol"},
-    {"name": "PXR",   "class": "xenobiotic-sensor", "pdb_id": "1NRL", "ligand_resname": "348", "note": "PXR LBD + SR12813; the promiscuity sensor NR (evolved to bind diverse xenobiotics)"},
-    {"name": "CYP3A4","class": "anti-target", "pdb_id": "2V0M", "ligand_resname": "KLN", "note": "CYP3A4 + ketoconazole; major drug-metabolizing/inhibition anti-target"},
-    {"name": "HSA",   "class": "anti-target", "pdb_id": "1H9Z", "ligand_resname": "SWF", "note": "Human serum albumin Sudlow site I + warfarin; nonspecific sticky-carrier proxy"}
-  ]
+    {
+      "name": "RXRA",
+      "class": "nuclear-receptor",
+      "pdb_id": "1FBY",
+      "ligand_resname": "9CR",
+      "note": "RXRalpha LBD + 9-cis-retinoic acid; heterodimer partner of many NRs"
+    },
+    {
+      "name": "PPARG",
+      "class": "nuclear-receptor",
+      "pdb_id": "2PRG",
+      "ligand_resname": "BRL",
+      "note": "PPARgamma LBD + rosiglitazone"
+    },
+    {
+      "name": "ESR1",
+      "class": "nuclear-receptor",
+      "pdb_id": "3ERT",
+      "ligand_resname": "OHT",
+      "note": "ERalpha LBD + 4-hydroxytamoxifen"
+    },
+    {
+      "name": "AR",
+      "class": "nuclear-receptor",
+      "pdb_id": "2AM9",
+      "ligand_resname": "TES",
+      "note": "Androgen receptor LBD + testosterone"
+    },
+    {
+      "name": "GR",
+      "class": "nuclear-receptor",
+      "pdb_id": "1M2Z",
+      "ligand_resname": "DEX",
+      "note": "Glucocorticoid receptor LBD + dexamethasone"
+    },
+    {
+      "name": "VDR",
+      "class": "nuclear-receptor",
+      "pdb_id": "1DB1",
+      "ligand_resname": "VDX",
+      "note": "Vitamin D receptor LBD + calcitriol"
+    },
+    {
+      "name": "PXR",
+      "class": "xenobiotic-sensor",
+      "pdb_id": "1NRL",
+      "ligand_resname": "348",
+      "note": "PXR LBD + SR12813; the promiscuity sensor NR (evolved to bind diverse xenobiotics)"
+    },
+    {
+      "name": "CYP3A4",
+      "class": "anti-target",
+      "pdb_id": "2V0M",
+      "ligand_resname": "KLN",
+      "note": "CYP3A4 + ketoconazole; major drug-metabolizing/inhibition anti-target"
+    },
+    {
+      "name": "HSA",
+      "class": "anti-target",
+      "pdb_id": "1H9Z",
+      "ligand_resname": "SWF",
+      "note": "Human serum albumin Sudlow site I + warfarin; nonspecific sticky-carrier proxy"
+    },
+    {
+      "name": "MR",
+      "class": "nuclear-receptor",
+      "pdb_id": "4PF3",
+      "ligand_resname": "HFN",
+      "note": "Mineralocorticoid receptor (NR3C2, UniProt P08235) LBD + HFN. RESOLVED BY LIVE RCSB QUERY on 2026-08-03 under antitarget_selfcontrol.RESOLVE_RULES, never from memory; 30 entries considered. Flagged by the 47-receptor sequence screen (nr4a-superfamily-selectivity.json flagged_liabilities) alongside AR."
+    }
+  ],
+  "_provenance": {
+    "MR": {
+      "resolved_by": "antitarget_selfcontrol.py mode=resolve",
+      "accession": "P08235",
+      "n_entries_considered": 30,
+      "title": "Mineralocorticoid receptor ligand-binding domain with compuond 37a",
+      "resolution_A": 1.1,
+      "engineered_title": false,
+      "rules": [
+        "R1 the entry must reference the requested UniProt accession on a protein polymer entity",
+        "R2 X-ray diffraction (a docking box centred on a solution-NMR model's ligand has no single frame)",
+        "R3 at least one drug-like ligand by apo_pose_recovery.drug_like (MW 200-800, not an additive, not a peptide/saccharide/nucleic acid)",
+        "R4 prefer an entry whose title does NOT declare an engineered mutant (apo_pose_recovery.engineered_flag) \u2014 the MR LBD is very often deposited as the S810L mutant, and a mutant receptor is a different anti-target",
+        "R5 then best (lowest) resolution",
+        "R6 then lowest pdb id, purely to make the pick deterministic"
+      ],
+      "cognate_ligand": {
+        "comp_id": "HFN",
+        "name": "6-[1-(2,2-difluoro-3-hydroxypropyl)-5-(4-fluorophenyl)-3-methyl-1H-pyrazol-4-yl]-2H-1,4-benzoxazin-3(4H)-one",
+        "mw": 417.381,
+        "smiles": "Cc1c(c(n(n1)CC(CO)(F)F)c2ccc(cc2)F)c3ccc4c(c3)NC(=O)CO4"
+      }
+    }
+  }
 }

@@ -1,0 +1,1104 @@
+{
+  "_title": "Anti-target panel completion + the cognate-ligand self-control (rung R14-a)",
+  "_owner": "research/manuscripts/nr4a3-program-map.md THE ORDERED PLAN -> RUNG S, and \u00a710.1 row 10",
+  "_cost": "$0 \u2014 free GitHub CPU runner. No GPU, no SageMaker, no Vast rental, nothing billed.",
+  "_gate": "The cognate-ligand self-control runs FIRST. Until it passes, no anti-target margin from this panel may be read, including the one already published in SI \u00a7S1.",
+  "_limits": [
+    "Docking scores are screening-grade smina affinities, not measured affinities, and no affinity, efficacy, safety, therapeutic-window or clinical claim is made or implied.",
+    "A PASS here licenses reading the panel's own margins. It does NOT make the panel a proteome-wide selectivity measurement \u2014 it is 10 receptors.",
+    "The receptors are protein-only by construction (antitarget_prep emits standard-amino-acid ATOM records), so any cofactor-dependent binding mode is outside what this panel can model.",
+    "This module does not touch the SI or the roadmap. Required edits are ROUTED in map_edits."
+  ],
+  "_utc": "2026-08-03T01:54:36Z",
+  "refusals": [],
+  "resolve": {
+    "accession": "P08235",
+    "gene": "NR3C2",
+    "name": "MR",
+    "rules": [
+      "R1 the entry must reference the requested UniProt accession on a protein polymer entity",
+      "R2 X-ray diffraction (a docking box centred on a solution-NMR model's ligand has no single frame)",
+      "R3 at least one drug-like ligand by apo_pose_recovery.drug_like (MW 200-800, not an additive, not a peptide/saccharide/nucleic acid)",
+      "R4 prefer an entry whose title does NOT declare an engineered mutant (apo_pose_recovery.engineered_flag) \u2014 the MR LBD is very often deposited as the S810L mutant, and a mutant receptor is a different anti-target",
+      "R5 then best (lowest) resolution",
+      "R6 then lowest pdb id, purely to make the pick deterministic"
+    ],
+    "already_present": false,
+    "panel_before": [
+      "RXRA",
+      "PPARG",
+      "ESR1",
+      "AR",
+      "GR",
+      "VDR",
+      "PXR",
+      "CYP3A4",
+      "HSA"
+    ],
+    "screen_flagged": {
+      "NR3C2": "P08235",
+      "AR": "P10275"
+    },
+    "flag_confirmed_against": "nr4a-superfamily-selectivity.json flagged_liabilities",
+    "n_entries": 30,
+    "candidates_ranked": [
+      {
+        "pdb": "4PF3",
+        "title": "Mineralocorticoid receptor ligand-binding domain with compuond 37a",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.1,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "HFN",
+            "name": "6-[1-(2,2-difluoro-3-hydroxypropyl)-5-(4-fluorophenyl)-3-methyl-1H-pyrazol-4-yl]-2H-1,4-benzoxazin-3(4H)-one",
+            "mw": 417.381
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "HFN",
+          "name": "6-[1-(2,2-difluoro-3-hydroxypropyl)-5-(4-fluorophenyl)-3-methyl-1H-pyrazol-4-yl]-2H-1,4-benzoxazin-3(4H)-one",
+          "mw": 417.381,
+          "smiles": "Cc1c(c(n(n1)CC(CO)(F)F)c2ccc(cc2)F)c3ccc4c(c3)NC(=O)CO4"
+        }
+      },
+      {
+        "pdb": "3VHV",
+        "title": "Mineralocorticoid receptor ligand-binding domain with non-steroidal antagonist",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.35,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "LD2",
+            "name": "6-[(1E)-2-phenyl-N-(3-sulfanyl-4H-1,2,4-triazol-4-yl)ethanimidoyl]-2H-1,4-benzoxazin-3(4H)-one",
+            "mw": 365.409
+          },
+          {
+            "comp_id": "LD1",
+            "name": "6-[(7S)-7-phenyl-7H-[1,2,4]triazolo[3,4-b][1,3,4]thiadiazin-6-yl]-2H-1,4-benzoxazin-3(4H)-one",
+            "mw": 363.393
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "LD2",
+          "name": "6-[(1E)-2-phenyl-N-(3-sulfanyl-4H-1,2,4-triazol-4-yl)ethanimidoyl]-2H-1,4-benzoxazin-3(4H)-one",
+          "mw": 365.409,
+          "smiles": "c1ccc(cc1)C/C(=N\\n2cnnc2S)/c3ccc4c(c3)NC(=O)CO4"
+        }
+      },
+      {
+        "pdb": "3WFG",
+        "title": "Mineralocorticoid receptor ligand-binding domain with compuond 2e",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.4,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "WFG",
+            "name": "6-[(2S)-4-(4-fluorophenyl)-2-methyl-5-oxo-2,5-dihydrofuran-3-yl]-2H-1,4-benzoxazin-3(4H)-one",
+            "mw": 339.317
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "WFG",
+          "name": "6-[(2S)-4-(4-fluorophenyl)-2-methyl-5-oxo-2,5-dihydrofuran-3-yl]-2H-1,4-benzoxazin-3(4H)-one",
+          "mw": 339.317,
+          "smiles": "C[C@H]1C(=C(C(=O)O1)c2ccc(cc2)F)c3ccc4c(c3)NC(=O)CO4"
+        }
+      },
+      {
+        "pdb": "9GC7",
+        "title": "Mineralocorticoid receptor in complex with acylurea antagonists.",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.46,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "NHE",
+            "name": "2-[N-CYCLOHEXYLAMINO]ETHANE SULFONIC ACID",
+            "mw": 207.29
+          },
+          {
+            "comp_id": "A1IJ6",
+            "name": "(2S)-N-aminocarbonyl-2-[(4-cyano-6-cyclopropyl-cyclohexa-1,2,3,5-tetraen-1-yl)amino]propanamide",
+            "mw": 270.287
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "A1IJ6",
+          "name": "(2S)-N-aminocarbonyl-2-[(4-cyano-6-cyclopropyl-cyclohexa-1,2,3,5-tetraen-1-yl)amino]propanamide",
+          "mw": 270.287,
+          "smiles": "C[C@@H](C(=O)NC(=O)N)NC1=C=C=C(C=C1C2CC2)C#N"
+        }
+      },
+      {
+        "pdb": "6GEV",
+        "title": "Mineralocorticoid receptor in complex with (s)-13",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.54,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "EWN",
+            "name": "6-[[(3~{S})-7-fluoranyl-3-(2-methylpropyl)-2,3-dihydro-1,4-benzoxazin-4-yl]carbonyl]-4~{H}-1,4-benzoxazin-3-one",
+            "mw": 384.401
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "EWN",
+          "name": "6-[[(3~{S})-7-fluoranyl-3-(2-methylpropyl)-2,3-dihydro-1,4-benzoxazin-4-yl]carbonyl]-4~{H}-1,4-benzoxazin-3-one",
+          "mw": 384.401,
+          "smiles": "CC(C)C[C@H]1COc2cc(ccc2N1C(=O)c3ccc4c(c3)NC(=O)CO4)F"
+        }
+      },
+      {
+        "pdb": "6GGG",
+        "title": "Mineralocorticoid receptor in complex with (s)-13",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.71,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "EYN",
+            "name": "2-[(3~{S})-7-fluoranyl-6-(2-methylpropyl)-4-[(3-oxidanylidene-4~{H}-1,4-benzoxazin-6-yl)carbonyl]-2,3-dihydro-1,4-benzoxazin-3-yl]-~{N}-methyl-ethanamide",
+            "mw": 455.479
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "EYN",
+          "name": "2-[(3~{S})-7-fluoranyl-6-(2-methylpropyl)-4-[(3-oxidanylidene-4~{H}-1,4-benzoxazin-6-yl)carbonyl]-2,3-dihydro-1,4-benzoxazin-3-yl]-~{N}-methyl-ethanamide",
+          "mw": 455.479,
+          "smiles": "CC(C)Cc1cc2c(cc1F)OC[C@@H](N2C(=O)c3ccc4c(c3)NC(=O)CO4)CC(=O)NC"
+        }
+      },
+      {
+        "pdb": "5MWY",
+        "title": "The structure of MR in complex with eplerenone.",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.75,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "YNU",
+            "name": "eplerenone",
+            "mw": 414.491
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "YNU",
+          "name": "eplerenone",
+          "mw": 414.491,
+          "smiles": "C[C@]12CCC(=O)C=C1C[C@H]([C@@H]3[C@]24[C@H](O4)C[C@]5([C@H]3CC[C@@]56CCC(=O)O6)C)C(=O)OC"
+        }
+      },
+      {
+        "pdb": "6GG8",
+        "title": "Mineralocorticoid receptor in complex with (s)-13",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.8,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "EY8",
+            "name": "[(3~{R})-7-fluoranyl-4-[(3-oxidanylidene-4~{H}-1,4-benzoxazin-6-yl)carbonyl]-2,3-dihydro-1,4-benzoxazin-3-yl]methanesulfonamide",
+            "mw": 421.4
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "EY8",
+          "name": "[(3~{R})-7-fluoranyl-4-[(3-oxidanylidene-4~{H}-1,4-benzoxazin-6-yl)carbonyl]-2,3-dihydro-1,4-benzoxazin-3-yl]methanesulfonamide",
+          "mw": 421.4,
+          "smiles": "c1cc2c(cc1C(=O)N3c4ccc(cc4OC[C@@H]3CS(=O)(=O)N)F)NC(=O)CO2"
+        }
+      },
+      {
+        "pdb": "5MWP",
+        "title": "The structure of MR in complex with AZD9977.",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.82,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "ECV",
+            "name": "2-[(3~{S})-7-fluoranyl-4-[(3-oxidanylidene-4~{H}-1,4-benzoxazin-6-yl)carbonyl]-2,3-dihydro-1,4-benzoxazin-3-yl]-~{N}-methyl-ethanamide",
+            "mw": 399.372
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "ECV",
+          "name": "2-[(3~{S})-7-fluoranyl-4-[(3-oxidanylidene-4~{H}-1,4-benzoxazin-6-yl)carbonyl]-2,3-dihydro-1,4-benzoxazin-3-yl]-~{N}-methyl-ethanamide",
+          "mw": 399.372,
+          "smiles": "CNC(=O)C[C@H]1COc2cc(ccc2N1C(=O)c3ccc4c(c3)NC(=O)CO4)F"
+        }
+      },
+      {
+        "pdb": "5L7H",
+        "title": "MCR IN COMPLEX WITH ligand",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.84,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "6QG",
+            "name": "3-methyl-5,8-dioxa-17lambda-thia-4,18-diazatetracyclo[18.2.2.1,.0]pentacosa-1(22),2(6),3,9,11,13(25),20,23-octaene-17,17-dione",
+            "mw": 398.475
+          },
+          {
+            "comp_id": "NHE",
+            "name": "2-[N-CYCLOHEXYLAMINO]ETHANE SULFONIC ACID",
+            "mw": 207.29
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "6QG",
+          "name": "3-methyl-5,8-dioxa-17lambda-thia-4,18-diazatetracyclo[18.2.2.1,.0]pentacosa-1(22),2(6),3,9,11,13(25),20,23-octaene-17,17-dione",
+          "mw": 398.475,
+          "smiles": "Cc1c-2c(on1)COc3cccc(c3)CCCS(=O)(=O)NCc4ccc2cc4"
+        }
+      },
+      {
+        "pdb": "5L7E",
+        "title": "MCR IN COMPLEX WITH ligand",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.86,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "NHE",
+            "name": "2-[N-CYCLOHEXYLAMINO]ETHANE SULFONIC ACID",
+            "mw": 207.29
+          },
+          {
+            "comp_id": "6Q0",
+            "name": "~{N}-[[4-(3,5-dimethyl-1,2-oxazol-4-yl)phenyl]methyl]benzenesulfonamide",
+            "mw": 342.412
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "6Q0",
+          "name": "~{N}-[[4-(3,5-dimethyl-1,2-oxazol-4-yl)phenyl]methyl]benzenesulfonamide",
+          "mw": 342.412,
+          "smiles": "Cc1c(c(on1)C)c2ccc(cc2)CNS(=O)(=O)c3ccccc3"
+        }
+      },
+      {
+        "pdb": "2A3I",
+        "title": "Structural and Biochemical Mechanisms for the Specificity of Hormone Binding and Coactivator Assembly by Mineralocorticoid Receptor",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 1.95,
+        "engineered_title": false,
+        "engineered_why": [],
+        "ligands": [
+          {
+            "comp_id": "C0R",
+            "name": "CORTICOSTERONE",
+            "mw": 346.461
+          }
+        ],
+        "rejected_because": [],
+        "cognate": {
+          "comp_id": "C0R",
+          "name": "CORTICOSTERONE",
+          "mw": 346.461,
+          "smiles": "C[C@]12CCC(=O)C=C1CC[C@@H]3[C@@H]2[C@H](C[C@]4([C@H]3CC[C@@H]4C(=O)CO)C)O"
+        }
+      }
+    ],
+    "status": "ADDED",
+    "row": {
+      "name": "MR",
+      "class": "nuclear-receptor",
+      "pdb_id": "4PF3",
+      "ligand_resname": "HFN",
+      "note": "Mineralocorticoid receptor (NR3C2, UniProt P08235) LBD + HFN. RESOLVED BY LIVE RCSB QUERY on 2026-08-03 under antitarget_selfcontrol.RESOLVE_RULES, never from memory; 30 entries considered. Flagged by the 47-receptor sequence screen (nr4a-superfamily-selectivity.json flagged_liabilities) alongside AR."
+    },
+    "resolution_A": 1.1,
+    "title": "Mineralocorticoid receptor ligand-binding domain with compuond 37a"
+  },
+  "criterion": {
+    "recovered_rmsd_A": 2.0,
+    "partial_rmsd_A": 4.0,
+    "null_power_max": 0.05,
+    "n_null": 200,
+    "_read_from": "apo_pose_recovery (RECOVER_RMSD_A / PARTIAL_RMSD_A / NULL_POWER_MAX / N_NULL)"
+  },
+  "protocol": {
+    "box_size": 24,
+    "exhaustiveness": "8",
+    "num_modes": "1",
+    "_read_from": "antitarget_panel.json box_size + antitarget_dock.py source"
+  },
+  "selfcontrol": {
+    "targets": [
+      {
+        "name": "RXRA",
+        "class": "nuclear-receptor",
+        "pdb_id": "1FBY",
+        "ligand_resname": "9CR",
+        "center": [
+          15.725,
+          28.03,
+          47.612
+        ],
+        "chain": "A",
+        "n_res": 217,
+        "cognate_comp_id": "9CR",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "9CRA 500",
+        "cognate_smiles": "CC1=C(C(CCC1)(C)C)/C=C/C(=C\\C=C\\C(=C\\C(=O)O)\\C)/C",
+        "n_heavy_atoms": 22,
+        "self_dock_dG": -10.63436,
+        "rmsd_A": 0.667,
+        "null": {
+          "n": 200,
+          "min_A": 5.53,
+          "median_A": 13.42,
+          "max_A": 20.47,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.846,
+        "verdict": "PASS",
+        "elapsed_s": 11.0
+      },
+      {
+        "name": "PPARG",
+        "class": "nuclear-receptor",
+        "pdb_id": "2PRG",
+        "ligand_resname": "BRL",
+        "center": [
+          49.721,
+          -36.983,
+          19.295
+        ],
+        "chain": "A",
+        "n_res": 271,
+        "cognate_comp_id": "BRL",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "BRLA   1",
+        "cognate_smiles": "CN(CCOc1ccc(cc1)C[C@H]2C(=O)NC(=O)S2)c3ccccn3",
+        "n_heavy_atoms": 25,
+        "self_dock_dG": -8.70365,
+        "rmsd_A": 6.87,
+        "null": {
+          "n": 200,
+          "min_A": 5.35,
+          "median_A": 13.63,
+          "max_A": 20.66,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.625,
+        "verdict": "FAIL",
+        "elapsed_s": 23.2
+      },
+      {
+        "name": "ESR1",
+        "class": "nuclear-receptor",
+        "pdb_id": "3ERT",
+        "ligand_resname": "OHT",
+        "center": [
+          31.575,
+          -1.59,
+          25.599
+        ],
+        "chain": "A",
+        "n_res": 247,
+        "cognate_comp_id": "OHT",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "OHTA 600",
+        "cognate_smiles": "CC/C(=C(\\c1ccc(cc1)O)/c2ccc(cc2)OCCN(C)C)/c3ccccc3",
+        "n_heavy_atoms": 29,
+        "self_dock_dG": -9.76155,
+        "rmsd_A": 1.21,
+        "null": {
+          "n": 200,
+          "min_A": 5.47,
+          "median_A": 13.52,
+          "max_A": 20.64,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.824,
+        "verdict": "PASS",
+        "elapsed_s": 27.3
+      },
+      {
+        "name": "AR",
+        "class": "nuclear-receptor",
+        "pdb_id": "2AM9",
+        "ligand_resname": "TES",
+        "center": [
+          26.767,
+          2.339,
+          4.632
+        ],
+        "chain": "A",
+        "n_res": 250,
+        "cognate_comp_id": "TES",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "TESA1000",
+        "cognate_smiles": "C[C@]12CC[C@H]3[C@H]([C@@H]1CC[C@@H]2O)CCC4=CC(=O)CC[C@]34C",
+        "n_heavy_atoms": 21,
+        "self_dock_dG": -11.26439,
+        "rmsd_A": 0.443,
+        "null": {
+          "n": 200,
+          "min_A": 5.33,
+          "median_A": 12.77,
+          "max_A": 19.43,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.812,
+        "verdict": "PASS",
+        "elapsed_s": 5.7
+      },
+      {
+        "name": "GR",
+        "class": "nuclear-receptor",
+        "pdb_id": "1M2Z",
+        "ligand_resname": "DEX",
+        "center": [
+          30.45,
+          7.071,
+          13.293
+        ],
+        "chain": "A",
+        "n_res": 255,
+        "cognate_comp_id": "DEX",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "DEXA 301",
+        "cognate_smiles": "C[C@@H]1C[C@H]2[C@@H]3CCC4=CC(=O)C=C[C@@]4([C@]3([C@H](C[C@@]2([C@]1(C(=O)CO)O)C)O)F)C",
+        "n_heavy_atoms": 28,
+        "self_dock_dG": -13.29765,
+        "rmsd_A": 0.323,
+        "null": {
+          "n": 200,
+          "min_A": 4.25,
+          "median_A": 13.33,
+          "max_A": 20.29,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 1.0,
+        "verdict": "PASS",
+        "elapsed_s": 12.5
+      },
+      {
+        "name": "VDR",
+        "class": "nuclear-receptor",
+        "pdb_id": "1DB1",
+        "ligand_resname": "VDX",
+        "center": [
+          11.465,
+          22.968,
+          34.462
+        ],
+        "chain": "A",
+        "n_res": 250,
+        "cognate_comp_id": "VDX",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "VDXA 428",
+        "cognate_smiles": "C[C@H](CCCC(C)(C)O)[C@H]1CC[C@@H]\\2[C@@]1(CCC/C2=C\\C=C/3\\C[C@H](C[C@@H](C3=C)O)O)C",
+        "n_heavy_atoms": 30,
+        "self_dock_dG": -12.521,
+        "rmsd_A": 1.031,
+        "null": {
+          "n": 200,
+          "min_A": 5.58,
+          "median_A": 13.86,
+          "max_A": 20.49,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.737,
+        "verdict": "PASS",
+        "elapsed_s": 17.7
+      },
+      {
+        "name": "PXR",
+        "class": "xenobiotic-sensor",
+        "pdb_id": "1NRL",
+        "ligand_resname": "348",
+        "center": [
+          11.641,
+          32.212,
+          24.137
+        ],
+        "chain": "A",
+        "n_res": 278,
+        "cognate_comp_id": "SRL",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "SRLA   1",
+        "cognate_smiles": "CCOP(=O)(C(=Cc1cc(c(c(c1)C(C)(C)C)O)C(C)(C)C)P(=O)(OCC)OCC)OCC",
+        "n_heavy_atoms": 33,
+        "self_dock_dG": -8.29373,
+        "rmsd_A": 6.761,
+        "null": {
+          "n": 200,
+          "min_A": 5.39,
+          "median_A": 13.08,
+          "max_A": 20.16,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.867,
+        "verdict": "FAIL",
+        "elapsed_s": 37.0
+      },
+      {
+        "name": "CYP3A4",
+        "class": "anti-target",
+        "pdb_id": "2V0M",
+        "ligand_resname": "KLN",
+        "center": [
+          18.896,
+          8.491,
+          58.003
+        ],
+        "chain": "A",
+        "n_res": 455,
+        "cognate_comp_id": "KLN",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 2,
+        "copy_used": "KLNA1501",
+        "cognate_smiles": "CC(=O)N1CCN(CC1)c2ccc(cc2)OC[C@@H]3CO[C@@](O3)(Cn4ccnc4)c5ccc(cc5Cl)Cl",
+        "n_heavy_atoms": 36,
+        "self_dock_dG": -9.85435,
+        "rmsd_A": 9.503,
+        "null": {
+          "n": 200,
+          "min_A": 4.31,
+          "median_A": 14.65,
+          "max_A": 23.5,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.769,
+        "verdict": "FAIL",
+        "elapsed_s": 32.8
+      },
+      {
+        "name": "HSA",
+        "class": "anti-target",
+        "pdb_id": "1H9Z",
+        "ligand_resname": "SWF",
+        "center": [
+          32.273,
+          14.039,
+          9.285
+        ],
+        "chain": "A",
+        "n_res": 583,
+        "cognate_comp_id": "RWF",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "RWFA3001",
+        "cognate_smiles": "CC(=O)C[C@H](c1ccccc1)C2=C(c3ccccc3OC2=O)O",
+        "n_heavy_atoms": 23,
+        "self_dock_dG": -8.86238,
+        "rmsd_A": 0.768,
+        "null": {
+          "n": 200,
+          "min_A": 5.08,
+          "median_A": 12.96,
+          "max_A": 20.05,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.818,
+        "verdict": "PASS",
+        "elapsed_s": 11.3
+      },
+      {
+        "name": "MR",
+        "class": "nuclear-receptor",
+        "pdb_id": "4PF3",
+        "ligand_resname": "HFN",
+        "center": [
+          -0.093,
+          30.974,
+          41.113
+        ],
+        "chain": "A",
+        "n_res": 249,
+        "cognate_comp_id": "HFN",
+        "centre_source": "ligand",
+        "receptor_is_protein_only": true,
+        "n_copies_in_chain": 1,
+        "copy_used": "HFNA1001",
+        "cognate_smiles": "Cc1c(c(n(n1)CC(CO)(F)F)c2ccc(cc2)F)c3ccc4c(c3)NC(=O)CO4",
+        "n_heavy_atoms": 30,
+        "self_dock_dG": -11.45829,
+        "rmsd_A": 0.809,
+        "null": {
+          "n": 200,
+          "min_A": 5.31,
+          "median_A": 13.47,
+          "max_A": 20.33,
+          "p_within_criterion": 0.0,
+          "_criterion_A": 2.0,
+          "_note": "uniform random rigid placements of the same ligand in the same box; this is the probability that the success criterion is met by chance"
+        },
+        "null_frac_under_criterion": 0.0,
+        "fnat": 0.87,
+        "verdict": "PASS",
+        "elapsed_s": 22.8
+      }
+    ],
+    "n_targets": 10,
+    "n_pass": 7,
+    "blocking_targets": [
+      "CYP3A4",
+      "PPARG",
+      "PXR"
+    ],
+    "panel_readable": false,
+    "si_s1_statements": [
+      {
+        "id": "S1.3a",
+        "clause": "every survivor binds >=1 off-target more tightly than NR4A3 (gap -0.3 to -5.7 kcal/mol)",
+        "readable": false,
+        "blocked_by": [
+          "CYP3A4",
+          "PPARG",
+          "PXR"
+        ],
+        "why_it_consumes_those": "a MAX over the panel: one unreadable receptor can be the max, or can hide it"
+      },
+      {
+        "id": "S1.3b",
+        "clause": "5-8 panel targets within 2 kcal, and PXR + HSA engaged within 2 kcal in every case",
+        "readable": false,
+        "blocked_by": [
+          "CYP3A4",
+          "PPARG",
+          "PXR"
+        ],
+        "why_it_consumes_those": "counts targets within a window, so it consumes every target; the named pair additionally"
+      },
+      {
+        "id": "S1.3c",
+        "clause": "denovo_401 through the same panel tops out at -9.1 (VDR), 1.7-5 kcal weaker than any repurposed survivor and not a PXR/HSA hit",
+        "readable": false,
+        "blocked_by": [
+          "CYP3A4",
+          "PPARG",
+          "PXR"
+        ],
+        "why_it_consumes_those": "a MAX over the panel whose argmax is named, plus a negative claim about two named targets"
+      },
+      {
+        "id": "S1.3d",
+        "clause": "the panel DISCRIMINATES rather than merely saturates",
+        "readable": false,
+        "blocked_by": [
+          "CYP3A4",
+          "PPARG",
+          "PXR"
+        ],
+        "why_it_consumes_those": "a claim about the instrument itself, which is exactly what the self-control measures"
+      }
+    ],
+    "_rule": "panel_readable is TRUE only if EVERY target PASSes. Every published clause is a maximum or an every-survivor statement over the whole panel, so one unreadable receptor can change a best-off-target and therefore every gap computed from it.",
+    "_what_a_failure_licenses": "NOTHING is licensed by a failure except the statement that the margin is not currently readable. A failing target may not be dropped, its box may not be re-centred, and no band may be lowered."
+  },
+  "flagged": {
+    "receptors": [
+      "AR",
+      "MR"
+    ],
+    "n_molecules": 19,
+    "rows": [
+      {
+        "target": "AR",
+        "label": "denovo_401",
+        "drug": "denovo_401",
+        "source": "nr4a3-antitarget-denovo401.json",
+        "dG": -7.80611,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep00307",
+        "drug": "AGI-5198",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": 0.06411,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep03572",
+        "drug": "ML786",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -1.99401,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep01538",
+        "drug": "CP-640186",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": 4.31178,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep01696",
+        "drug": "DDR1-IN-1",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": 3.33393,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep02322",
+        "drug": "flupentixol",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -4.25263,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep00928",
+        "drug": "BMS-309403",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": 4.10742,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep04382",
+        "drug": "pizotifen",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -2.40461,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep05064",
+        "drug": "SNX-5422",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -1.51774,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep00066",
+        "drug": "20-hydroxyecdysone",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -5.11545,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep04553",
+        "drug": "pyrantel",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -7.05024,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep05021",
+        "drug": "siponimod",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -6.59611,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep02740",
+        "drug": "ICG-001",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": 5.47735,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep03785",
+        "drug": "nilotinib",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -2.91505,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep01152",
+        "drug": "carebastine",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -6.49379,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep02006",
+        "drug": "EMD-1214063",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -3.27247,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep02972",
+        "drug": "KB-SRC-4",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": 2.90627,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep05888",
+        "drug": "XL019",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -2.78771,
+        "note": "ok"
+      },
+      {
+        "target": "AR",
+        "label": "rep00597",
+        "drug": "AT-1015",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -0.42807,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "denovo_401",
+        "drug": "denovo_401",
+        "source": "nr4a3-antitarget-denovo401.json",
+        "dG": -7.46439,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep00307",
+        "drug": "AGI-5198",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -5.86794,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep03572",
+        "drug": "ML786",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -3.90376,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep01538",
+        "drug": "CP-640186",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -6.81589,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep01696",
+        "drug": "DDR1-IN-1",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -4.34182,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep02322",
+        "drug": "flupentixol",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -7.60814,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep00928",
+        "drug": "BMS-309403",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -2.17977,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep04382",
+        "drug": "pizotifen",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -8.88752,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep05064",
+        "drug": "SNX-5422",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -2.86551,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep00066",
+        "drug": "20-hydroxyecdysone",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -7.48462,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep04553",
+        "drug": "pyrantel",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -7.6354,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep05021",
+        "drug": "siponimod",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -5.84459,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep02740",
+        "drug": "ICG-001",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": 1.90796,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep03785",
+        "drug": "nilotinib",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -6.45425,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep01152",
+        "drug": "carebastine",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -4.64678,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep02006",
+        "drug": "EMD-1214063",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -0.63263,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep02972",
+        "drug": "KB-SRC-4",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -2.41302,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep05888",
+        "drug": "XL019",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -7.82991,
+        "note": "ok"
+      },
+      {
+        "target": "MR",
+        "label": "rep00597",
+        "drug": "AT-1015",
+        "source": "nr4a3-antitarget-candidates.json",
+        "dG": -6.16897,
+        "note": "ok"
+      }
+    ],
+    "margin_refusal": {
+      "refused": true,
+      "what": "no NR4A3-vs-off-target MARGIN is computed here, for either flagged receptor",
+      "why": [
+        "GATE: the cognate-ligand self-control governs whether ANY margin from this panel may be read, and it is reported in `selfcontrol` \u2014 a margin emitted beside a failing control would be exactly the number the rung exists to stop.",
+        "PROVENANCE: the NR4A3 column the published margins subtract is NOT COMMITTED ANYWHERE IN THIS REPO. `nr4a3-antitarget.json` / `nr4a3-antitarget.jsonl` \u2014 the raw (drug x target) dG matrix `antitarget_dock.py` writes \u2014 exist only under the S3 output prefix; the repo carries the candidate lists and the prose, not the numbers. Recomputing an NR4A3 dG here would need the release receptor and box that lane used, and inventing either would fabricate the denominator of a published figure."
+      ],
+      "what_is_emitted_instead": "absolute smina dG per (molecule, flagged receptor), under the panel's own protocol, with the receptor's provenance on every row"
+    }
+  },
+  "map_edits_required": [
+    {
+      "section": "THE ORDERED PLAN \u2192 RUNG S",
+      "anchor": "**`[ ]` `R14-a` \u00b7 Complete the anti-target panel, and run the self-control it has never run**",
+      "current_text": "**`[ ]` `R14-a` \u00b7 Complete the anti-target panel, and run the self-control it has never run**",
+      "proposed_text": "**`[x]` `R14-a` \u00b7 Complete the anti-target panel, and run the self-control it has never run \u2014 RAN 2026-08-03, $0**",
+      "why": "the rung ran on a free CI runner at $0; the self-control **FAILS on CYP3A4, PPARG, PXR**, so no anti-target margin from this panel may be read \u2014 including SI \u00a7S1's",
+      "artifact": "research/modalities/antitarget-selfcontrol.json"
+    },
+    {
+      "section": "\u00a710.1 row 10",
+      "anchor": "\u2b51 **`R14-a` IS AN ASSEMBLY JOB, NOT A BUILD, AND IT IS THE HIGHER-VALUE HALF**",
+      "current_text": "\u2b51 **`R14-a` IS AN ASSEMBLY JOB, NOT A BUILD, AND IT IS THE HIGHER-VALUE HALF**",
+      "proposed_text": "\u2705 **`R14-a` RAN 2026-08-03 ($0, CI) \u2014 the self-control **FAILS on CYP3A4, PPARG, PXR**, so no anti-target margin from this panel may be read \u2014 including SI \u00a7S1's.** \u2b51 It was an ASSEMBLY JOB, NOT A BUILD, AND IT WAS THE HIGHER-VALUE HALF",
+      "why": "row 10 records R14-a as not started; it has now run and returned a verdict that governs a number the paper already publishes",
+      "artifact": "research/modalities/antitarget-selfcontrol.json"
+    }
+  ]
+}
