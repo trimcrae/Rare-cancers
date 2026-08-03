@@ -4741,6 +4741,9 @@ dollar ceiling.
 
 ## Open decisions
 
+- ⛔ **NEW 2026-08-03 — the anti-target self-control's criterion is UNDER-SPECIFIED for a multi-copy deposit, and it is currently deciding a FAIL.** CYP3A4: scored 12.337 Å against copy KLNA1501, but 1.108 Å from copy KLNA1500 (8 copies in the deposit). The pre-registered criterion reads *"the crystallographic copy of the same ligand"*, which has no referent when a deposit places several copies of the cognate in one site. ⚠ **The verdict was left FAIL and must stay there until this is ruled on**, because choosing the copy after seeing which one passes is the tuning the rung's own frozen rule forbids. The decision is one sentence — score against *any* deposited copy, or against a *named* one — and it must be written down BEFORE it is applied. Evidence: [`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json) → `repair_delta`.
+
+
 *★ **THE DECISION REGISTER.** 15 numbered rulings, all closed. ⚠ **Cited by number in 30 files and nothing resolves a decision number** — the numbering is **frozen** and survived this file's merge unchanged. [§10](#10--the-roadmap--one-ordered-list) rows cite these by number.*
 
 1. **`[x]` ADOPTED — method calibrator swapped from NR-V04 to SMARCA2-vs-SMARCA4** (valB_full module 3). NR-V04
