@@ -192,24 +192,39 @@ def parse_marker_list(text):
     The header is READ rather than assumed: MGI has added columns to this report before, and a
     positional parse that silently shifts is how a symbol resolves to the wrong accession.
     """
-    out, errors = {}, []
+    out, acc2sym, errors = {}, {}, []
     lines = (text or "").splitlines()
     if not lines:
-        return out, ["MRK_List2.rpt was empty"]
+        return out, acc2sym, ["MRK_List2.rpt was empty"]
     header = [h.strip() for h in lines[0].split("\t")]
+    low = [h.lower() for h in header]
     try:
-        i_acc = next(i for i, h in enumerate(header) if h.lower().startswith("mgi accession"))
-        i_sym = next(i for i, h in enumerate(header) if h.lower() == "marker symbol")
+        i_acc = next(i for i, h in enumerate(low) if h.startswith("mgi accession"))
+        i_sym = next(i for i, h in enumerate(low) if h == "marker symbol")
     except StopIteration:
-        return out, ["MRK_List2.rpt header did not carry the expected columns: %s" % header[:14]]
+        return out, acc2sym, ["MRK_List2.rpt header did not carry the expected columns: %s"
+                              % header[:14]]
+    i_status = next((i for i, h in enumerate(low) if h == "status"), None)
+    i_type = next((i for i, h in enumerate(low) if h == "marker type"), None)
     for line in lines[1:]:
         f = line.split("\t")
         if len(f) <= max(i_acc, i_sym):
             continue
         acc, sym = f[i_acc].strip(), f[i_sym].strip()
-        if acc.startswith("MGI:") and sym:
-            out.setdefault(sym, acc)
-    return out, errors
+        if not acc.startswith("MGI:") or not sym:
+            continue
+        acc2sym[acc] = sym
+        # ⚠ PREFER THE OFFICIAL GENE ROW. A symbol can appear more than once (withdrawn or
+        # non-gene markers), and taking whichever came first is how a symbol silently resolves to
+        # an accession the phenotype report never uses.
+        official = ((i_status is None or f[i_status].strip().upper().startswith("O"))
+                    and (i_type is None or f[i_type].strip() == "Gene"))
+        if official or sym not in out:
+            if official or sym not in out:
+                out[sym] = acc if official else out.get(sym, acc)
+            if official:
+                out[sym] = acc
+    return out, acc2sym, errors
 
 
 def parse_mp_vocab(text):
@@ -257,7 +272,7 @@ def parse_allele_report(text, symbols):
     return out
 
 
-def parse_phenogeno(text, marker_ids, symbols):
+def parse_phenogeno(text, marker_ids, symbols, acc2sym=None):
     """Every MGI_PhenoGenoMP.rpt annotation touching Nr4a1/Nr4a2/Nr4a3. Pure.
 
     MGI_PhenoGenoMP.rpt has no header. Columns are resolved BY CONTENT, not by position, so a
@@ -266,9 +281,20 @@ def parse_phenogeno(text, marker_ids, symbols):
         field 0                     Allelic Composition (free text)
         the field starting `MP:`    the Mammalian Phenotype term -- the pivot everything else is
                                     located relative to
-        `MGI:` ids BEFORE the pivot ALLELE accessions
-        `MGI:` ids AFTER the pivot  MARKER accessions  <-- the curated gene list, and the only one
-                                    the single-gene test is allowed to use
+        `MGI:` ids after the pivot  MARKER accessions -- but ONLY those the marker report itself
+                                    lists as markers. ⚠ MEASURED 2026-08-03 (run 30776301160): the
+                                    trailing column of this report is an MGI **GENOTYPE** accession,
+                                    also `MGI:`-prefixed, so a naive "collect every MGI: token"
+                                    parse read the one-gene genotype
+                                    `Nr4a3<tm1Omc>/Nr4a3<tm1Omc>` as TWO markers
+                                    (MGI:1352457 the marker + MGI:3037447 the genotype) and threw
+                                    it out as ambiguous. It threw out ALL 122 NR4A records that
+                                    way, and the gate then reported STILL_UNBOUNDED off a parse
+                                    that had read nothing -- an absent reading wearing a reading of
+                                    absence's costume. `acc2sym` (built from MRK_List2 in the same
+                                    run) is the authority for what is a marker, and the cross-check
+                                    stays honest because it compares the curated marker column
+                                    against the free-text composition, not against itself.
         digits after the pivot      PubMed ID
 
     ⚠ THE BEFORE/AFTER SPLIT IS LOAD-BEARING. Allele IDs and marker IDs are BOTH `MGI:`-prefixed, so
@@ -284,6 +310,7 @@ def parse_phenogeno(text, marker_ids, symbols):
     """
     want_syms = {s.lower() for s in symbols}
     want_ids = {marker_ids[s] for s in symbols if s in marker_ids}
+    acc2sym = acc2sym or {}
     rows, errors = [], []
     n_scanned = 0
     for line in (text or "").splitlines():
@@ -306,19 +333,31 @@ def parse_phenogeno(text, marker_ids, symbols):
         for cell in f[i_mp + 1:]:
             got = _split_ids(cell)
             if got:
-                ids.extend(got)
+                # Only accessions the marker report calls markers. Everything else on this side of
+                # the pivot is a genotype accession and is kept separately, never counted as a gene.
+                ids.extend([a for a in got if not acc2sym or a in acc2sym])
+                allele_ids.extend([a for a in got if acc2sym and a not in acc2sym])
                 continue
             if pmid is None and re.fullmatch(r"\d{4,9}", cell or ""):
                 pmid = cell
         ids = sorted(set(ids))
         allele_ids = sorted(set(allele_ids))
+        # The CURATED cross-check: what genes does the marker column ITSELF name? This, and not the
+        # accession we happened to resolve from MRK_List2, is the independent second opinion. ⚠ An
+        # earlier version required `set(ids) <= want_ids`, which made the whole classification hinge
+        # on OUR symbol->accession resolution being right; a symbol that resolved to a withdrawn
+        # duplicate would then have made every real record unclassifiable, which is a silent way to
+        # manufacture an absence.
+        genes_from_markers = {acc2sym[a] for a in ids if a in acc2sym} if acc2sym else set()
         touches_by_symbol = bool(low & want_syms)
-        touches_by_id = bool(set(ids) & want_ids)
+        touches_by_id = bool({g.lower() for g in genes_from_markers} & want_syms) or \
+            bool(set(ids) & want_ids)
         if not (touches_by_symbol or touches_by_id):
             continue
-        if len(syms) == 1 and len(ids) == 1 and low <= want_syms and set(ids) <= want_ids:
+        agree = (not acc2sym) or (genes_from_markers == set(syms))
+        if len(syms) == 1 and low <= want_syms and agree:
             kind = "single_gene"
-        elif touches_by_symbol and touches_by_id and len(syms) == len(ids):
+        elif agree and len(syms) > 1 and touches_by_symbol:
             kind = "multi_gene"
         else:
             # symbol parse and curated marker column disagree on how many genes are involved
@@ -327,7 +366,8 @@ def parse_phenogeno(text, marker_ids, symbols):
             "allelic_composition": comp,
             "genes_parsed_from_composition": syms,
             "marker_accessions_in_record": ids,
-            "allele_accessions_in_record": allele_ids,
+            "genes_named_by_the_marker_column": sorted(genes_from_markers),
+            "non_marker_mgi_ids_in_record": allele_ids,
             "mp_id": mp,
             "pubmed_id": pmid,
             "classification": kind,
@@ -411,8 +451,9 @@ def mgi_scan(texts, symbols=None):
     """Run instrument A over already-fetched report texts. Pure, so it is unit-testable offline."""
     symbols = symbols or GENES_MOUSE
     out = {"source": MGI_BASE, "reports": dict(MGI_REPORTS), "errors": [], "loaded": False}
-    marker_ids, err = parse_marker_list(texts.get("markers", ""))
+    marker_ids, acc2sym, err = parse_marker_list(texts.get("markers", ""))
     out["errors"].extend(err)
+    out["n_markers_in_marker_report"] = len(acc2sym)
     resolved = {s: marker_ids.get(s) for s in symbols}
     out["marker_resolution"] = resolved
     missing = [s for s, v in resolved.items() if not v]
@@ -431,7 +472,8 @@ def mgi_scan(texts, symbols=None):
     out["alleles"] = sorted(alleles.values(), key=lambda d: d["allele_symbol"])[:120]
 
     rows, n_scanned, err2 = parse_phenogeno(texts.get("phenogeno", ""),
-                                            {k: v for k, v in resolved.items() if v}, symbols)
+                                            {k: v for k, v in resolved.items() if v}, symbols,
+                                            acc2sym=acc2sym)
     out["errors"].extend(err2)
     out["n_phenogeno_lines_scanned"] = n_scanned
     out["n_records_touching_nr4a"] = len(rows)
@@ -443,7 +485,22 @@ def mgi_scan(texts, symbols=None):
                                     alleles, symbols)
     out["single_gene"] = per_gene
     out["multi_gene_genotypes"] = multi
-    out["loaded"] = bool(n_scanned and mp_names and not err)
+    n_classified = sum(1 for r in rows if r["classification"] in ("single_gene", "multi_gene"))
+    out["n_classified_records"] = n_classified
+    all_ambiguous = bool(rows) and n_classified == 0
+    if all_ambiguous:
+        # ⛔ MEASURED 2026-08-03, run 30776301160: 122 of 122 NR4A records came back `ambiguous`
+        # because the report's trailing MGI GENOTYPE accession was being counted as a second
+        # marker -- and the gate then published STILL_UNBOUNDED off a parse that had read nothing.
+        # A classifier that rejects 100% of its input has not measured an absence; it has failed.
+        # This makes that state a LOAD FAILURE, so the verdict can only be UNDETERMINED.
+        out["errors"].append(
+            "PARSE FAILURE: %d records touch these markers and NONE could be classified as "
+            "single-gene or multi-gene. A classifier that rejects every record has not found an "
+            "absence, it has failed to read -- see the ambiguous_records sample. No negative may be "
+            "drawn from this run." % len(rows))
+    out["loaded"] = bool(n_scanned and mp_names and not err and not all_ambiguous
+                         and not missing and acc2sym)
     return out
 
 

@@ -23,10 +23,15 @@ import nr4a2_sparing_bound as m  # noqa: E402
 # --- MGI fixtures, in the real report shapes -------------------------------------------------------
 MARKERS = "\t".join(["MGI Accession ID", "Chr", "cM Position", "genome coordinate start",
                      "genome coordinate end", "strand", "Marker Symbol", "Status", "Marker Name",
-                     "Marker Type", "Feature Type", "Marker Synonyms (pipe-separated)"]) + "\n" + \
-    "MGI:98139\t15\t50.0\t101\t201\t+\tNr4a1\tO\tnuclear receptor 4a1\tGene\tprotein coding gene\tNur77\n" \
-    "MGI:1352456\t2\t30.0\t301\t401\t+\tNr4a2\tO\tnuclear receptor 4a2\tGene\tprotein coding gene\tNurr1\n" \
-    "MGI:1352457\t4\t20.0\t501\t601\t+\tNr4a3\tO\tnuclear receptor 4a3\tGene\tprotein coding gene\tNor1\n"
+                     "Marker Type", "Feature Type", "Marker Synonyms (pipe-separated)"]) + "\n" + "".join([
+    # a WITHDRAWN duplicate of Nr4a1 FIRST: the official Gene row below must win, not whichever
+    # came first. A symbol resolving to an accession the phenotype report never uses is silent.
+    "MGI:98139\t15\t50.0\t101\t201\t+\tNr4a1\tW\twithdrawn\tGene\tprotein coding gene\t\n",
+    "MGI:1352454\t15\t50.0\t101\t201\t+\tNr4a1\tO\tnuclear receptor 4a1\tGene\tprotein coding gene\tNur77\n",
+    "MGI:1352456\t2\t30.0\t301\t401\t+\tNr4a2\tO\tnuclear receptor 4a2\tGene\tprotein coding gene\tNurr1\n",
+    "MGI:1352457\t4\t20.0\t501\t601\t+\tNr4a3\tO\tnuclear receptor 4a3\tGene\tprotein coding gene\tNor1\n",
+    "MGI:97742\t19\t10.0\t701\t801\t+\tPitx3\tO\tpaired-like homeodomain 3\tGene\tprotein coding gene\t\n",
+])
 
 VOCAB = ("MP:0011100\tcomplete preweaning lethality\tno homozygotes survive\n"
          "MP:0002082\tpostnatal lethality\tdeath after birth\n"
@@ -39,23 +44,27 @@ ALLELES = ("MGI:1857206\tNr4a2<tm1Ddm>\ttargeted mutation 1\tTargeted\tNull/knoc
            "MGI:98139\tNr4a1\n")
 
 
-def _pg(comp, allele_ids, mp, pmid, marker_ids):
-    """One MGI_PhenoGenoMP.rpt line in the real column order (headerless, 7 fields)."""
-    return "\t".join([comp, "x", allele_ids, "involves: 129S1/Sv * C57BL/6", mp, pmid, marker_ids])
+#: ⚠ THIS IS THE REAL COLUMN LAYOUT, TAKEN FROM THE LIVE REPORT (run 30776301160), NOT FROM MEMORY.
+#: There is no Allele-ID column before the MP pivot, and the TRAILING column is an MGI **GENOTYPE**
+#: accession — also `MGI:`-prefixed. Parsing it as a second marker is what made all 122 real NR4A
+#: records classify as `ambiguous` and made the gate publish a negative off a parse that had read
+#: nothing. The fixture carries the genotype accession so that failure cannot silently return.
+def _pg(comp, mp, pmid, marker_ids, genotype_id="MGI:3037447"):
+    """One MGI_PhenoGenoMP.rpt line in the real column order (headerless)."""
+    return "\t".join([comp, "x", "involves: 129S1/Sv * C57BL/6", mp, pmid, marker_ids, genotype_id])
 
 
 PHENOGENO = "\n".join([
     # a clean Nr4a2-only homozygous null with a lethality term and a citation
-    _pg("Nr4a2<tm1Ddm>/Nr4a2<tm1Ddm>", "MGI:1857206", "MP:0011100", "9349815", "MGI:1352456"),
-    _pg("Nr4a2<tm1Ddm>/Nr4a2<tm1Ddm>", "MGI:1857206", "MP:0001262", "9349815", "MGI:1352456"),
+    _pg("Nr4a2<tm1Ddm>/Nr4a2<tm1Ddm>", "MP:0011100", "9349815", "MGI:1352456"),
+    _pg("Nr4a2<tm1Ddm>/Nr4a2<tm1Ddm>", "MP:0001262", "9349815", "MGI:1352456"),
     # a clean Nr4a1-only genotype, no lethality
-    _pg("Nr4a1<tm1Jmi>/Nr4a1<tm1Jmi>", "MGI:1857207", "MP:0005559", "9013867", "MGI:98139"),
+    _pg("Nr4a1<tm1Jmi>/Nr4a1<tm1Jmi>", "MP:0005559", "9013867", "MGI:1352454"),
     # the DOUBLE knockout -- must be classified multi_gene and counted nowhere as a single KO
-    _pg("Nr4a1<tm1Jmi>/Nr4a1<tm1Jmi>,Nr4a3<tm1Jmi>/Nr4a3<tm1Jmi>", "MGI:1857207,MGI:1857208",
-        "MP:0002082", "17515897", "MGI:98139,MGI:1352457"),
-    # the TRAP: Nr4a2 alongside an unrelated gene and a cre transgene. Mentions Nr4a2; is not an
-    # Nr4a2 single-KO phenotype.
-    _pg("Nr4a2<tm1Ddm>/Nr4a2<tm1Ddm>,Pitx3<tm1Rjm>/Pitx3<tm1Rjm>", "MGI:1857206,MGI:9999999",
+    _pg("Nr4a1<tm1Jmi>/Nr4a1<tm1Jmi>,Nr4a3<tm1Jmi>/Nr4a3<tm1Jmi>",
+        "MP:0002082", "17515897", "MGI:1352454,MGI:1352457"),
+    # the TRAP: Nr4a2 alongside an unrelated gene. Mentions Nr4a2; is not an Nr4a2 single-KO.
+    _pg("Nr4a2<tm1Ddm>/Nr4a2<tm1Ddm>,Pitx3<tm1Rjm>/Pitx3<tm1Rjm>",
         "MP:0011100", "12345678", "MGI:1352456,MGI:97742"),
 ]) + "\n"
 
@@ -92,16 +101,23 @@ class TestCompositionParse(unittest.TestCase):
 
 class TestPhenoGenoClassification(unittest.TestCase):
     def setUp(self):
-        ids, _ = m.parse_marker_list(MARKERS)
+        ids, self.acc2sym, _ = m.parse_marker_list(MARKERS)
         self.rows, self.n, self.err = m.parse_phenogeno(
-            PHENOGENO, {s: ids[s] for s in m.GENES_MOUSE}, m.GENES_MOUSE)
+            PHENOGENO, {s: ids[s] for s in m.GENES_MOUSE}, m.GENES_MOUSE, acc2sym=self.acc2sym)
 
-    def test_allele_ids_are_not_mistaken_for_marker_ids(self):
-        """The before/after-MP split. Without it a one-gene genotype reads as two."""
+    def test_a_trailing_genotype_accession_is_not_a_second_marker(self):
+        """⛔ THE MEASURED REGRESSION (run 30776301160). The report's last column is an MGI GENOTYPE
+        accession, also `MGI:`-prefixed. Counting it as a marker made every one of the 122 real NR4A
+        records `ambiguous`, and the gate then published a negative off a parse that read nothing."""
         r = self.rows[0]
         self.assertEqual(r["marker_accessions_in_record"], ["MGI:1352456"])
-        self.assertEqual(r["allele_accessions_in_record"], ["MGI:1857206"])
+        self.assertEqual(r["non_marker_mgi_ids_in_record"], ["MGI:3037447"])
+        self.assertEqual(r["genes_named_by_the_marker_column"], ["Nr4a2"])
         self.assertEqual(r["classification"], "single_gene")
+
+    def test_official_gene_row_wins_over_a_withdrawn_duplicate_symbol(self):
+        ids, _acc2sym, _err = m.parse_marker_list(MARKERS)
+        self.assertEqual(ids["Nr4a1"], "MGI:1352454")
 
     def test_double_knockout_is_not_a_single_ko(self):
         dko = [r for r in self.rows if r["genes_parsed_from_composition"] == ["Nr4a1", "Nr4a3"]]
@@ -141,6 +157,26 @@ class TestGate(unittest.TestCase):
         pg = "\n".join(l for l in PHENOGENO.splitlines() if "Nr4a2" not in l) + "\n"
         doc = self._doc(dict(TEXTS, phenogeno=pg))
         self.assertEqual(doc["verdict"]["decision"], "STILL_UNBOUNDED")
+
+    def test_an_all_ambiguous_parse_is_a_LOAD_FAILURE_not_an_absence(self):
+        """⛔ THE GUARD THE MEASURED BUG NEEDED. A classifier that rejects 100% of its input has not
+        measured an absence; it has failed to read. Simulated by withholding the marker report, so
+        the curated cross-check can never agree."""
+        # every record's curated marker column names a DIFFERENT gene than its composition, so
+        # nothing can be classified — the live shape of the measured bug.
+        bad = "\n".join(_pg("Nr4a2<tm1Ddm>/Nr4a2<tm1Ddm>", mp, "1", "MGI:97742")
+                         for mp in ("MP:0011100", "MP:0001262")) + "\n"
+        doc = self._doc(dict(TEXTS, phenogeno=bad))
+        self.assertEqual(doc["mgi"]["n_records_touching_nr4a"], 2)
+        self.assertEqual(doc["mgi"]["n_classified_records"], 0)
+        self.assertFalse(doc["mgi"]["loaded"])
+        self.assertEqual(doc["verdict"]["decision"], "UNDETERMINED")
+        self.assertTrue(any("PARSE FAILURE" in e for e in doc["mgi"]["errors"]),
+                        doc["mgi"]["errors"])
+
+    def test_unresolved_markers_are_a_load_failure_too(self):
+        doc = self._doc(dict(TEXTS, markers=MARKERS.splitlines()[0] + "\n"))
+        self.assertEqual(doc["verdict"]["decision"], "UNDETERMINED")
 
     def test_load_failure_is_UNDETERMINED_not_a_negative(self):
         """⛔ An absent reading is not a reading of absence."""
