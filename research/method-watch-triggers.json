@@ -4,8 +4,22 @@
   "_role": "THE ONE HOME FOR THE SEARCH QUERIES that detect each reopening trigger. It is NOT the one home for the route<->trigger mapping (that is research/manuscripts/emc-systems-map.json's registry rows and research/manuscripts/nr4a3-program-map.md section 6b), and it is NOT the one home for what each trigger would unlock in prose (that is research/method-watch.md's capability->action table). This file exists because those two say WHAT to watch for and neither says HOW to look for it, so nobody was looking.",
   "_why_it_exists": "CLAUDE.md section 5: 'parked items are revisit when capability X lands, not dead'. The repo already named the X for every parked row, but the weekly scan searched a fixed generic topic list that had no link to those rows, so a paper that satisfied a named trigger would have been indistinguishable from background. Each entry below turns a named trigger into runnable queries and names, from its own metadata, which routes/requirements a hit would reopen — so the scan output states the CONSEQUENCE, not just the paper.",
   "_consumed_by": "scripts/trigger_scan.py, run by .github/workflows/method-watch-triggers.yml",
-  "_reconciliation": "IDs here are TRG-*. They are meant to be referenced from emc-systems-map.json revival_trigger fields (that registry owns route<->trigger); registry vocabulary used below is its own: routes RT-*, blockers BLK-*, plus the roadmap's instrument V* and requirement R* ids. As of 2026-08-03 emc-systems-map.json carries no revival_trigger field yet, so the cross-check is one-directional and OPEN — see _open_reconciliation.",
-  "_open_reconciliation": "emc-systems-map.json has no revival_trigger key at the time of writing. When the sibling registry adds one, every TRG-* id referenced there must exist here and every 'registry_routes'/'registry_blockers' id here must exist there. Nothing enforces that yet.",
+  "_reconciliation": "TWO ID VOCABULARIES EXIST AND THEY ARE NOT THE SAME ONE — say so rather than letting a reader assume. This file's ids are TRG-*; emc-systems-map.json's revival_trigger fields (which landed the same day, independently) use TR-*. Neither is wrong and neither is being renamed under the other: that registry is the one home for WHICH ROUTE a trigger revives, this file is the one home for HOW TO SEARCH for it, and a route's revival condition is not always searchable at all (several of theirs are this repo's own work). The join is the per-trigger 'registry_trigger_ids' field below, and `python3 scripts/trigger_scan.py --check` enforces it in BOTH directions.",
+  "_registry_reconciliation": {
+    "checked": "2026-08-03",
+    "registry": "research/manuscripts/emc-systems-map.json",
+    "mapped_here": "8 of the registry's TR-* ids have a TRG-* counterpart, joined via each trigger's registry_trigger_ids.",
+    "registry_triggers_with_no_counterpart_here": {
+      "TR-ABFE-AUTHORIZATION": "not a capability — an authorization. It is a 🔒 HELD row (trimcrae's decision), not a ⏸ parked one, and no literature can deliver it. Nothing to search.",
+      "TR-TCIP-LINKER-ENUMERATION": "this repo's own enumeration work.",
+      "TR-EXPOSURE-CRITERION-RECOVERS-C551": "this repo's own instrument repair — the RSA cutoff that fails its own positive control. Fixing it is work here, not a field advance.",
+      "TR-POSE-METHODS-CONVERGE": "an internal concordance result between methods already in hand.",
+      "TR-NEOANTIGEN-SEAMS-REGENERATED": "regeneration of this repo's own artifact.",
+      "TR-EMC-EXPRESSION-DATASET": "MAPPED as of this pass — it IS searchable, and building the trigger list surfaced that nothing here was watching for it. See TRG-EMC-EXPRESSION-DATASET."
+    },
+    "divergence_worth_knowing": "The registry maps RT-RIBOZYME / RT-SYNPROMOTER / RT-CRISPR-CAS13 to TR-OLIGO-TUMOUR-DELIVERY. This file splits that into TRG-OLIGO-DELIVERY-TECH (an oligonucleotide reaching the tumour) and TRG-VECTOR-DELIVERY-SOLID-TUMOUR (a vector delivering a transcriptional payload), because the registry itself carries BLK-DELIVERY and BLK-VECTOR-DELIVERY as separate blockers and the evidence that would clear one need not clear the other. Recorded rather than silently reconciled — the two files disagree about the grain, and whoever owns the registry should decide, not this file.",
+    "open": "Nothing checks that a registry TR-* id and the TRG-* it joins to still describe the SAME capability — only that the join exists. A rewritten description on either side would pass."
+  },
   "_integrity": "A hit is an UNVALIDATED LEAD and a prompt to read the paper, never a status change and never a result. CLAUDE.md section 5's guardrail applies in full: a coming capability justifies waiting or re-running, never claiming a result before the method supports it.",
   "_status_values": {
     "watching": "not landed; the scan searches for it",
@@ -25,12 +39,25 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "Sequence-only co-folding to generate ternaries"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "Sequence-only co-folding to generate ternaries"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["V12", "R10"],
-        "registry_routes": ["RT-DEGRADER", "RT-ANDGATE", "RT-AF3-INTERFACE"],
-        "registry_blockers": ["BLK-TERNARY-GEOMETRY"],
+        "roadmap_rows": [
+          "V12",
+          "R10"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER",
+          "RT-ANDGATE",
+          "RT-AF3-INTERFACE"
+        ],
+        "registry_blockers": [
+          "BLK-TERNARY-GEOMETRY"
+        ],
         "also_reopens": "the celastrol-C551 covalent re-fold row and, with it, the required covalent control set — both parked in the same section on 'a better co-folder or a hand-placed pose'",
         "note": "Boltz-2 failing is not the class failing; the same harness already recognises a correct ternary when one is supplied, so the plumbing is not what missed."
       },
@@ -44,10 +71,27 @@
           "all:\"ternary complex\" AND all:\"structure prediction\"",
           "all:PROTAC AND all:\"interface\" AND all:prediction"
         ],
-        "must_match": ["ternary", "protac", "degrader", "molecular glue", "dockq", "co-fold", "cofold"],
-        "exclude_match": ["ternary phase", "ternary alloy", "ternary blend", "ternary mixture", "ternary oxide"],
+        "must_match": [
+          "ternary",
+          "protac",
+          "degrader",
+          "molecular glue",
+          "dockq",
+          "co-fold",
+          "cofold"
+        ],
+        "exclude_match": [
+          "ternary phase",
+          "ternary alloy",
+          "ternary blend",
+          "ternary mixture",
+          "ternary oxide"
+        ],
         "window_days": 120
-      }
+      },
+      "registry_trigger_ids": [
+        "TR-COFOLD-ASSEMBLY"
+      ]
     },
     {
       "id": "TRG-TERNARY-GEN-NO-SITES",
@@ -57,16 +101,35 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#capability--action-trigger-table", "row": "open AF3-class ternary-complex prediction [PARTIALLY FIRED 2026-07-13]"},
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#capability--action-trigger-table",
+          "row": "open AF3-class ternary-complex prediction [PARTIALLY FIRED 2026-07-13]"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen"
+        }
       ],
       "prior_fires": [
-        {"date": "2026-07-13", "what": "DeepTernary and FKSFold exist and were adopted as a second conditional generator — but DeepTernary is rigid-body and needs both sites, so the trigger fired only partially. Protocol: research/modalities/deepternary-qualification-protocol.md"}
+        {
+          "date": "2026-07-13",
+          "what": "DeepTernary and FKSFold exist and were adopted as a second conditional generator — but DeepTernary is rigid-body and needs both sites, so the trigger fired only partially. Protocol: research/modalities/deepternary-qualification-protocol.md"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R10", "R9"],
-        "registry_routes": ["RT-DEGRADER", "RT-GLUE"],
-        "registry_blockers": ["BLK-TERNARY-GEOMETRY", "BLK-INDUCED-COMPLEX"],
+        "roadmap_rows": [
+          "R10",
+          "R9"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER",
+          "RT-GLUE"
+        ],
+        "registry_blockers": [
+          "BLK-TERNARY-GEOMETRY",
+          "BLK-INDUCED-COMPLEX"
+        ],
         "note": "A generator that needs both sites cannot be evidence that a ternary FORMS; it can only be evidence about geometry conditional on an assumed binary pose."
       },
       "on_fire": "Re-open R10 and re-run the three-paralogue ternary rebuild from a recorded SMILES; check explicitly whether the method requires site inputs before crediting it.",
@@ -79,8 +142,20 @@
           "all:\"ternary complex\" AND all:generative",
           "all:\"induced proximity\" AND all:\"structure prediction\""
         ],
-        "must_match": ["ternary", "protac", "molecular glue", "induced proximity", "degrader"],
-        "exclude_match": ["ternary phase", "ternary alloy", "ternary blend", "ternary mixture", "ternary oxide"],
+        "must_match": [
+          "ternary",
+          "protac",
+          "molecular glue",
+          "induced proximity",
+          "degrader"
+        ],
+        "exclude_match": [
+          "ternary phase",
+          "ternary alloy",
+          "ternary blend",
+          "ternary mixture",
+          "ternary oxide"
+        ],
         "window_days": 120
       }
     },
@@ -92,13 +167,30 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged", "note": "the one home for the margin arithmetic — do not restate the numbers elsewhere"},
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "Track A — qualify denovo_401 as a lead via repaired ABFE"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged",
+          "note": "the one home for the margin arithmetic — do not restate the numbers elsewhere"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "Track A — qualify denovo_401 as a lead via repaired ABFE"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R7", "V9", "V4"],
-        "registry_routes": ["RT-DEGRADER", "RT-MONOVALENT"],
-        "registry_blockers": ["BLK-PARALOGUE-DDG"],
+        "roadmap_rows": [
+          "R7",
+          "V9",
+          "V4"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER",
+          "RT-MONOVALENT"
+        ],
+        "registry_blockers": [
+          "BLK-PARALOGUE-DDG"
+        ],
         "note": "This is the trigger under the program's central quantitative claim. A hit here changes what the paper may say about a paralogue margin."
       },
       "on_fire": "Re-grade Track A (denovo_401 as lead vs benchmark) and re-price the paralogue selectivity ABFE against the new method's stated accuracy on cryptic pockets — accuracy on ordinary holo pockets does not count.",
@@ -111,10 +203,23 @@
           "all:\"binding free energy\" AND all:cryptic",
           "all:\"free energy perturbation\" AND all:\"induced fit\""
         ],
-        "must_match": ["free energy", "binding affinity", "fep", "alchemical", "abfe", "rbfe"],
-        "exclude_match": ["free energy landscape of folding", "gibbs free energy of formation"],
+        "must_match": [
+          "free energy",
+          "binding affinity",
+          "fep",
+          "alchemical",
+          "abfe",
+          "rbfe"
+        ],
+        "exclude_match": [
+          "free energy landscape of folding",
+          "gibbs free energy of formation"
+        ],
         "window_days": 120
-      }
+      },
+      "registry_trigger_ids": [
+        "TR-FE-CRYPTIC-POCKET"
+      ]
     },
     {
       "id": "TRG-TERNARY-ALCHEMICAL-VALIDATED",
@@ -124,13 +229,27 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "Arm F of the NR-V04 retrospective — the alchemical ddG_coop arm"},
-        {"file": "research/modalities/s-calibrator-survey.json", "note": "the $0 structural half of the successor-system question"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "Arm F of the NR-V04 retrospective — the alchemical ddG_coop arm"
+        },
+        {
+          "file": "research/modalities/s-calibrator-survey.json",
+          "note": "the $0 structural half of the successor-system question"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R11", "V5"],
-        "registry_routes": ["RT-DEGRADER"],
-        "registry_blockers": ["BLK-PARALOGUE-DDG"],
+        "roadmap_rows": [
+          "R11",
+          "V5"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER"
+        ],
+        "registry_blockers": [
+          "BLK-PARALOGUE-DDG"
+        ],
         "note": "Reopening this ALSO forces the outstanding classification decision on Arm F (held vs explicitly retired), which the roadmap records as undecided."
       },
       "on_fire": "Raise the Arm F classification decision with trimcrae in the same pass — a method that passes the control turns a parked row into a priceable rung, which is the thing it currently lacks.",
@@ -143,10 +262,24 @@
           "all:PROTAC AND all:\"free energy\"",
           "all:cooperativity AND all:alchemical"
         ],
-        "must_match": ["ternary", "protac", "degrader", "cooperativity", "molecular glue"],
-        "exclude_match": ["ternary phase", "ternary alloy", "ternary blend", "ternary mixture"],
+        "must_match": [
+          "ternary",
+          "protac",
+          "degrader",
+          "cooperativity",
+          "molecular glue"
+        ],
+        "exclude_match": [
+          "ternary phase",
+          "ternary alloy",
+          "ternary blend",
+          "ternary mixture"
+        ],
         "window_days": 120
-      }
+      },
+      "registry_trigger_ids": [
+        "TR-TERNARY-ALCHEMY-PASSES-VALB"
+      ]
     },
     {
       "id": "TRG-ATOM-MAPPER-FLOOR",
@@ -156,12 +289,23 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "The 19th congeneric edge (cw_bio_nmethyl_amide)"},
-        {"file": "research/modalities/step1-map-diag.json", "note": "names its own trigger: not a retry candidate until a mapper reaches the floor"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "The 19th congeneric edge (cw_bio_nmethyl_amide)"
+        },
+        {
+          "file": "research/modalities/step1-map-diag.json",
+          "note": "names its own trigger: not a retry candidate until a mapper reaches the floor"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["V6"],
-        "registry_routes": ["RT-DEGRADER"],
+        "roadmap_rows": [
+          "V6"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER"
+        ],
         "registry_blockers": [],
         "note": "Scope is one edge of the congeneric fan-out. Small, but it is a named, checkable trigger and it costs nothing to watch."
       },
@@ -174,8 +318,18 @@
           "all:\"atom mapping\" AND all:\"free energy\"",
           "all:\"maximum common substructure\" AND all:alchemical"
         ],
-        "must_match": ["atom map", "common substructure", "lomap", "kartograf", "perturbation map", "mapping"],
-        "exclude_match": ["atom probe", "atomic mapping of the brain"],
+        "must_match": [
+          "atom map",
+          "common substructure",
+          "lomap",
+          "kartograf",
+          "perturbation map",
+          "mapping"
+        ],
+        "exclude_match": [
+          "atom probe",
+          "atomic mapping of the brain"
+        ],
         "window_days": 180
       }
     },
@@ -187,13 +341,26 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "Charge-changing alchemical edges"},
-        {"file": "research/modalities/valb-pseries-chem.json"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "Charge-changing alchemical edges"
+        },
+        {
+          "file": "research/modalities/valb-pseries-chem.json"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["V5", "V6"],
-        "registry_routes": ["RT-DEGRADER"],
-        "registry_blockers": ["BLK-PARALOGUE-DDG"],
+        "roadmap_rows": [
+          "V5",
+          "V6"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER"
+        ],
+        "registry_blockers": [
+          "BLK-PARALOGUE-DDG"
+        ],
         "note": "SCOPED: the correction reopens the EDGES, not the P-series calibrator DESIGN, which stays poor on perturbation size alone. The roadmap is explicit about this and a scan hit must not be read as reopening the design."
       },
       "on_fire": "Re-grade the blocked fan-out legs only. Do not re-propose the P-series as a calibrator on the strength of a charge correction.",
@@ -205,8 +372,18 @@
           "all:\"charge change\" AND all:\"free energy\" AND all:alchemical",
           "all:\"finite-size correction\" AND all:\"binding free energy\""
         ],
-        "must_match": ["charge", "finite size", "finite-size", "counterion", "alchemical", "ewald"],
-        "exclude_match": ["charge transfer in solar", "battery"],
+        "must_match": [
+          "charge",
+          "finite size",
+          "finite-size",
+          "counterion",
+          "alchemical",
+          "ewald"
+        ],
+        "exclude_match": [
+          "charge transfer in solar",
+          "battery"
+        ],
         "window_days": 180
       }
     },
@@ -218,15 +395,30 @@
       "status": "watching",
       "scan_enabled": true,
       "prior_fires": [
-        {"date": "2026-07-24", "what": "BioEmu v1.4.1 fired the QUALITATIVE half of this trigger — the cryptic-pocket cross-check ran. It did NOT fire the calibrated-population half: apo is BioEmu's weakest regime and it is uncalibrated on rare-open populations. Findings: research/modalities/nr4a3-bioemu-crosscheck-findings.md"}
+        {
+          "date": "2026-07-24",
+          "what": "BioEmu v1.4.1 fired the QUALITATIVE half of this trigger — the cryptic-pocket cross-check ran. It did NOT fire the calibrated-population half: apo is BioEmu's weakest regime and it is uncalibrated on rare-open populations. Findings: research/modalities/nr4a3-bioemu-crosscheck-findings.md"
+        }
       ],
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#capability--action-trigger-table", "row": "cheap generative conformational-ensemble model ... [(a) FIRED 2026-07-24 — BioEmu v1.4.1]"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#capability--action-trigger-table",
+          "row": "cheap generative conformational-ensemble model ... [(a) FIRED 2026-07-24 — BioEmu v1.4.1]"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R5", "R6"],
-        "registry_routes": ["RT-DEGRADER", "RT-MONOVALENT"],
-        "registry_blockers": ["BLK-R4-BINDS"],
+        "roadmap_rows": [
+          "R5",
+          "R6"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER",
+          "RT-MONOVALENT"
+        ],
+        "registry_blockers": [
+          "BLK-R4-BINDS"
+        ],
         "also_reopens": "the proteome-scale cryptic-pocket druggability atlas (research/IDEAS.md, Platform/vision #4), whose per-target cost is the thing this collapses",
         "note": "The remaining half of this trigger is CALIBRATION on rare-open populations. A new model that is merely cheaper does not fire it."
       },
@@ -239,8 +431,18 @@
           "all:\"Boltzmann generator\" AND all:protein",
           "all:\"conformational ensemble\" AND all:generative AND all:protein"
         ],
-        "must_match": ["ensemble", "boltzmann", "conformational", "equilibrium", "sampling"],
-        "exclude_match": ["ensemble learning for", "ensemble classifier", "ensemble of decision trees"],
+        "must_match": [
+          "ensemble",
+          "boltzmann",
+          "conformational",
+          "equilibrium",
+          "sampling"
+        ],
+        "exclude_match": [
+          "ensemble learning for",
+          "ensemble classifier",
+          "ensemble of decision trees"
+        ],
         "window_days": 120
       }
     },
@@ -252,12 +454,25 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#capability--action-trigger-table", "row": "robust cryptic-pocket prediction"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#capability--action-trigger-table",
+          "row": "robust cryptic-pocket prediction"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R4", "R5"],
-        "registry_routes": ["RT-DEGRADER", "RT-MONOVALENT", "RT-COVALENT-PROBE"],
-        "registry_blockers": ["BLK-R4-BINDS"],
+        "roadmap_rows": [
+          "R4",
+          "R5"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER",
+          "RT-MONOVALENT",
+          "RT-COVALENT-PROBE"
+        ],
+        "registry_blockers": [
+          "BLK-R4-BINDS"
+        ],
         "note": "R4 — 'nothing is known to bind the cryptic pocket at all' — is a binding fact, not a prediction fact. A predictor sharpens the prior; it cannot discharge R4."
       },
       "on_fire": "Re-grade the LBD undruggability prior and say plainly that a prediction does not answer whether anything binds.",
@@ -268,7 +483,14 @@
         "arxiv": [
           "all:\"cryptic pocket\" AND all:prediction"
         ],
-        "must_match": ["cryptic", "transient pocket", "hidden pocket", "pocketminer", "cryptosite", "druggab"],
+        "must_match": [
+          "cryptic",
+          "transient pocket",
+          "hidden pocket",
+          "pocketminer",
+          "cryptosite",
+          "druggab"
+        ],
         "exclude_match": [],
         "window_days": 120
       }
@@ -281,12 +503,23 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "E1 interface-stability endpoint as a selectivity readout"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "E1 interface-stability endpoint as a selectivity readout"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["V11", "R11"],
-        "registry_routes": ["RT-DEGRADER"],
-        "registry_blockers": ["BLK-ENDPOINT-MD"],
+        "roadmap_rows": [
+          "V11",
+          "R11"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER"
+        ],
+        "registry_blockers": [
+          "BLK-ENDPOINT-MD"
+        ],
         "note": "Two independent failures is strong evidence, NOT proof of impossibility — and one of them bounds the workflow AS RUN rather than the endpoint class. The retired NR4A1/2/3 re-panel preregistration is the consequence that would have to be revisited."
       },
       "on_fire": "Re-open V11 only with a power calculation done BEFORE the run, against the reference-set floor already measured here.",
@@ -298,7 +531,13 @@
         "arxiv": [
           "all:\"molecular dynamics\" AND all:selectivity AND all:\"statistical power\""
         ],
-        "must_match": ["selectivity", "paralog", "discrimination", "interface", "endpoint"],
+        "must_match": [
+          "selectivity",
+          "paralog",
+          "discrimination",
+          "interface",
+          "endpoint"
+        ],
         "exclude_match": [],
         "window_days": 180
       }
@@ -311,12 +550,27 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#the-standing-tally-this-closes", "note": "all three attempts at a positive control have run and none succeeded — one failed on sign, one was covalency-confounded, one returned an adequately-powered null"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#the-standing-tally-this-closes",
+          "note": "all three attempts at a positive control have run and none succeeded — one failed on sign, one was covalency-confounded, one returned an adequately-powered null"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["V11", "V1", "R7", "R11"],
-        "registry_routes": ["RT-DEGRADER", "RT-ASYMMETRIC"],
-        "registry_blockers": ["BLK-PARALOGUE-CONTROL", "BLK-ENDPOINT-MD"],
+        "roadmap_rows": [
+          "V11",
+          "V1",
+          "R7",
+          "R11"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER",
+          "RT-ASYMMETRIC"
+        ],
+        "registry_blockers": [
+          "BLK-PARALOGUE-CONTROL",
+          "BLK-ENDPOINT-MD"
+        ],
         "note": "This is the single highest-value trigger in the file: without a positive control no selectivity claim in the paper can lean on the instrument, whatever the instrument returns. Distinct from TRG-ENDPOINT-SELECTIVITY-READOUT — that one asks for a better INSTRUMENT, this one asks for a scoreable SYSTEM."
       },
       "on_fire": "Score the existing instrument against the new system BEFORE any NR4A3 claim moves. A confound in the test system cannot be fixed by sample size — check for one first (the last candidate failed on exactly that).",
@@ -326,7 +580,12 @@
           "(TITLE:SMARCA2 OR TITLE:SMARCA4 OR TITLE:\"BRD9\" OR TITLE:\"paralog-selective\" OR TITLE:\"paralogue-selective\") AND (degrader OR selectivity OR structure OR crystal)"
         ],
         "arxiv": [],
-        "must_match": ["paralog", "isoform", "selectiv", "discriminat"],
+        "must_match": [
+          "paralog",
+          "isoform",
+          "selectiv",
+          "discriminat"
+        ],
         "exclude_match": [],
         "window_days": 180
       }
@@ -339,12 +598,24 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "E3 recruiter CHOICE as a paralogue-selectivity lever"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "E3 recruiter CHOICE as a paralogue-selectivity lever"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["V18", "R12"],
-        "registry_routes": ["RT-DEGRADER", "RT-ANDGATE"],
-        "registry_blockers": ["BLK-TERNARY-GEOMETRY"],
+        "roadmap_rows": [
+          "V18",
+          "R12"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER",
+          "RT-ANDGATE"
+        ],
+        "registry_blockers": [
+          "BLK-TERNARY-GEOMETRY"
+        ],
         "note": "The roadmap's standing rule that this trigger enforces: no degradation-geometry claim may rest on a RING or E2 that was COMPOSED rather than observed."
       },
       "on_fire": "Re-stage the recruiter comparison on the observed geometry and check whether a preference survives a restaging — that survival IS the trigger's test.",
@@ -353,10 +624,19 @@
           "(TITLE:\"cullin-RING\" OR TITLE:\"cullin RING\" OR TITLE:CRL OR TITLE:\"E2~Ub\" OR TITLE:\"ubiquitin transfer\" OR TITLE:\"RING E3\") AND (TITLE:\"cryo-EM\" OR TITLE:structure OR TITLE:\"cryoEM\" OR TITLE:crystal OR TITLE:architecture OR TITLE:geometry)"
         ],
         "arxiv": [],
-        "must_match": ["cullin", "crl", "e2", "ubiquitin", "ring"],
+        "must_match": [
+          "cullin",
+          "crl",
+          "e2",
+          "ubiquitin",
+          "ring"
+        ],
         "exclude_match": [],
         "window_days": 180
-      }
+      },
+      "registry_trigger_ids": [
+        "TR-OBSERVED-CRL-GEOMETRY"
+      ]
     },
     {
       "id": "TRG-E3-RECRUITER-STRUCTURE",
@@ -366,13 +646,26 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/modalities/e3-recruiter-downselect-2026-07-25.md"},
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "E3 recruiter breadth beyond CRBN + VHL"}
+        {
+          "file": "research/modalities/e3-recruiter-downselect-2026-07-25.md"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "E3 recruiter breadth beyond CRBN + VHL"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R9", "R12"],
-        "registry_routes": ["RT-DEGRADER"],
-        "registry_blockers": ["BLK-TERNARY-GEOMETRY"],
+        "roadmap_rows": [
+          "R9",
+          "R12"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER"
+        ],
+        "registry_blockers": [
+          "BLK-TERNARY-GEOMETRY"
+        ],
         "note": "The widening LEFT CRBN + VHL STANDING — a negative result about the alternatives, not a positive validation of the incumbents. A hit reopens the widening, it does not demote CRBN/VHL."
       },
       "on_fire": "Re-run the recruiter downselect with the new structure staged; the test is partner-free liganded, not merely deposited.",
@@ -381,7 +674,14 @@
           "(TITLE:RNF114 OR TITLE:DCAF16 OR TITLE:DCAF15 OR TITLE:DCAF11 OR TITLE:FEM1B OR TITLE:KEAP1) AND (TITLE:structure OR TITLE:crystal OR TITLE:\"cryo-EM\" OR TITLE:ligand OR TITLE:covalent OR TITLE:degrader OR TITLE:recruiter)"
         ],
         "arxiv": [],
-        "must_match": ["rnf114", "dcaf", "fem1b", "keap1", "e3 ligase", "recruiter"],
+        "must_match": [
+          "rnf114",
+          "dcaf",
+          "fem1b",
+          "keap1",
+          "e3 ligase",
+          "recruiter"
+        ],
         "exclude_match": [],
         "window_days": 180
       }
@@ -394,13 +694,29 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "A molecular glue instead of a PROTAC"},
-        {"file": "research/manuscripts/target-route-options.md", "note": "route 10 — 'watch, do not build'"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "A molecular glue instead of a PROTAC"
+        },
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "note": "route 10 — 'watch, do not build'"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R7", "R9", "R10"],
-        "registry_routes": ["RT-GLUE"],
-        "registry_blockers": ["BLK-INDUCED-COMPLEX", "BLK-PARALOGUE-DDG"],
+        "roadmap_rows": [
+          "R7",
+          "R9",
+          "R10"
+        ],
+        "registry_routes": [
+          "RT-GLUE"
+        ],
+        "registry_blockers": [
+          "BLK-INDUCED-COMPLEX",
+          "BLK-PARALOGUE-DDG"
+        ],
         "note": "A glue is the modality most likely to arrive from someone ELSE'S screen rather than from this program's design — which is precisely why it is a watch row and not a build row."
       },
       "on_fire": "Re-grade route 10 from 'watch, do not build'. A retrospective rationalisation of a found glue does NOT fire this trigger; the test is prospective.",
@@ -411,10 +727,20 @@
         "arxiv": [
           "all:\"molecular glue\" AND all:design"
         ],
-        "must_match": ["molecular glue", "glue degrader", "induced proximity"],
-        "exclude_match": ["adhesive", "epoxy"],
+        "must_match": [
+          "molecular glue",
+          "glue degrader",
+          "induced proximity"
+        ],
+        "exclude_match": [
+          "adhesive",
+          "epoxy"
+        ],
         "window_days": 180
-      }
+      },
+      "registry_trigger_ids": [
+        "TR-GLUE-DESIGN-PREDICTOR"
+      ]
     },
     {
       "id": "TRG-VIRTUAL-CELL-NO-LINE",
@@ -424,12 +750,25 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#capability--action-trigger-table", "row": "virtual-cell / perturbation model predicts held-out knockdown phenotype"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#capability--action-trigger-table",
+          "row": "virtual-cell / perturbation model predicts held-out knockdown phenotype"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-SYNLETH-DEP", "RT-ATR-ASSESS", "RT-DEGRADER", "RT-ASO"],
-        "registry_blockers": ["BLK-NO-EMC-DATA", "BLK-FUNCTIONAL-ACTIONABILITY", "BLK-CLASS-INHERITANCE"],
+        "registry_routes": [
+          "RT-SYNLETH-DEP",
+          "RT-ATR-ASSESS",
+          "RT-DEGRADER",
+          "RT-ASO"
+        ],
+        "registry_blockers": [
+          "BLK-NO-EMC-DATA",
+          "BLK-FUNCTIONAL-ACTIONABILITY",
+          "BLK-CLASS-INHERITANCE"
+        ],
         "note": "This is the make-or-break for the fusion-dependence question that BOTH the degrader and the ASO route rest on, and the one blocker no in-silico structural work can touch."
       },
       "on_fire": "Test EMC EWSR1::NR4A3 fusion-dependence in the new model AND state its held-out performance on diseases absent from its panel — a model that only works where data exists does not fire this trigger.",
@@ -442,9 +781,31 @@
           "all:\"perturbation prediction\" AND all:\"single-cell\"",
           "all:\"virtual cell\" AND all:model"
         ],
-        "must_match": ["virtual cell", "perturbation", "dependency", "knockdown", "knockout", "essentiality", "depmap", "foundation model"],
-        "exclude_match": ["perturbation theory", "cosmological perturbation"],
-        "window_days": 120
+        "must_match": [
+          "virtual cell",
+          "perturbation",
+          "dependency",
+          "knockdown",
+          "knockout",
+          "essentiality",
+          "depmap",
+          "foundation model"
+        ],
+        "exclude_match": [
+          "perturbation theory",
+          "cosmological perturbation"
+        ],
+        "window_days": 120,
+        "also_match": [
+          "predict",
+          "model",
+          "foundation",
+          "transfer",
+          "held-out",
+          "held out",
+          "benchmark",
+          "learning"
+        ]
       }
     },
     {
@@ -455,12 +816,22 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#the-delivery-rows-are-load-bearing", "note": "two distinct delivery rows: this is the TECHNOLOGY one, which method-watch.md calls the more important of the two"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#the-delivery-rows-are-load-bearing",
+          "note": "two distinct delivery rows: this is the TECHNOLOGY one, which method-watch.md calls the more important of the two"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-ASO", "RT-ASO-ASK", "RT-B7H3"],
-        "registry_blockers": ["BLK-DELIVERY"],
+        "registry_routes": [
+          "RT-ASO",
+          "RT-ASO-ASK",
+          "RT-B7H3"
+        ],
+        "registry_blockers": [
+          "BLK-DELIVERY"
+        ],
         "note": "The honest bottleneck is not 'we can't simulate delivery', it is 'no validated way to deliver an oligo to an EMC tumour exists yet' — so a predictor does not substitute for this."
       },
       "on_fire": "Name a concrete junction-oligo delivery CANDIDATE and re-grade the ASO route's dominant gate. Clinical precedent in a different solid tumour is a prior, not a solution for EMC.",
@@ -470,10 +841,35 @@
           "(TITLE:antisense OR TITLE:siRNA OR TITLE:oligonucleotide) AND (TITLE:sarcoma OR TITLE:\"solid tumor\" OR TITLE:\"solid tumour\" OR TITLE:extrahepatic OR TITLE:\"extra-hepatic\") AND (TITLE:delivery OR TITLE:biodistribution OR TITLE:\"in vivo\")"
         ],
         "arxiv": [],
-        "must_match": ["oligonucleotide", "sirna", "antisense", "gapmer", "aoc", "conjugate", "nanoparticle", "delivery"],
-        "exclude_match": ["mrna vaccine manufacturing"],
-        "window_days": 120
-      }
+        "must_match": [
+          "oligonucleotide",
+          "sirna",
+          "antisense",
+          "gapmer",
+          "aoc",
+          "conjugate",
+          "nanoparticle",
+          "delivery"
+        ],
+        "exclude_match": [
+          "mrna vaccine manufacturing"
+        ],
+        "window_days": 120,
+        "also_match": [
+          "tumor",
+          "tumour",
+          "sarcoma",
+          "solid",
+          "cancer",
+          "oncolog",
+          "conjugate",
+          "aoc",
+          "antibody"
+        ]
+      },
+      "registry_trigger_ids": [
+        "TR-OLIGO-TUMOUR-DELIVERY"
+      ]
     },
     {
       "id": "TRG-OLIGO-DELIVERY-PREDICTOR",
@@ -483,12 +879,20 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#the-delivery-rows-are-load-bearing"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#the-delivery-rows-are-load-bearing"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-ASO", "RT-B7H3"],
-        "registry_blockers": ["BLK-DELIVERY"],
+        "registry_routes": [
+          "RT-ASO",
+          "RT-B7H3"
+        ],
+        "registry_blockers": [
+          "BLK-DELIVERY"
+        ],
         "note": "Moves the route off 'delivery-limited' IN SILICO only. It makes a design testable; it does not make delivery work."
       },
       "on_fire": "Score the B7-H3-targeted junction-siRNA/AOC design and re-grade ASO route feasibility, stating explicitly that the grade is computational.",
@@ -499,9 +903,25 @@
         "arxiv": [
           "all:\"endosomal escape\" AND all:prediction"
         ],
-        "must_match": ["endosomal", "biodistribution", "pbpk", "penetration", "delivery"],
+        "must_match": [
+          "endosomal",
+          "biodistribution",
+          "pbpk",
+          "penetration",
+          "delivery"
+        ],
         "exclude_match": [],
-        "window_days": 120
+        "window_days": 120,
+        "also_match": [
+          "predict",
+          "machine learning",
+          "deep learning",
+          "in silico",
+          "computational",
+          "model",
+          "pbpk",
+          "simulat"
+        ]
       }
     },
     {
@@ -512,12 +932,21 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/emc-systems-map.json", "note": "BLK-VECTOR-DELIVERY"}
+        {
+          "file": "research/manuscripts/emc-systems-map.json",
+          "note": "BLK-VECTOR-DELIVERY"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-RIBOZYME", "RT-SYNPROMOTER", "RT-CRISPR-CAS13"],
-        "registry_blockers": ["BLK-VECTOR-DELIVERY"],
+        "registry_routes": [
+          "RT-RIBOZYME",
+          "RT-SYNPROMOTER",
+          "RT-CRISPR-CAS13"
+        ],
+        "registry_blockers": [
+          "BLK-VECTOR-DELIVERY"
+        ],
         "note": "Three routes share this single gate, which is why it is worth a row of its own rather than being folded into the oligo delivery rows."
       },
       "on_fire": "Re-grade the three vector-gated routes together — they rise and fall on the same evidence.",
@@ -526,8 +955,19 @@
           "(TITLE:AAV OR TITLE:\"adeno-associated\" OR TITLE:\"oncolytic\" OR TITLE:\"lipid nanoparticle\" OR TITLE:\"gene therapy\" OR TITLE:vector) AND (TITLE:\"solid tumor\" OR TITLE:\"solid tumour\" OR TITLE:sarcoma OR TITLE:intratumoral OR TITLE:\"tumor targeting\" OR TITLE:\"tumour targeting\") AND (TITLE:delivery OR TITLE:transduction OR TITLE:biodistribution OR TITLE:efficiency)"
         ],
         "arxiv": [],
-        "must_match": ["aav", "oncolytic", "lipid nanoparticle", "gene therapy", "vector", "transduction"],
-        "exclude_match": ["support vector machine", "vector field", "vector-borne"],
+        "must_match": [
+          "aav",
+          "oncolytic",
+          "lipid nanoparticle",
+          "gene therapy",
+          "vector",
+          "transduction"
+        ],
+        "exclude_match": [
+          "support vector machine",
+          "vector field",
+          "vector-borne"
+        ],
         "window_days": 120
       }
     },
@@ -539,11 +979,16 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/fusion-junction-aso-paper.md", "anchor": "#3a-quater"}
+        {
+          "file": "research/manuscripts/fusion-junction-aso-paper.md",
+          "anchor": "#3a-quater"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-ASO"],
+        "registry_routes": [
+          "RT-ASO"
+        ],
         "registry_blockers": [],
         "note": "Improves the specificity claim's evidence level. Does NOT touch BLK-DELIVERY, which is the route's actual gate."
       },
@@ -553,7 +998,13 @@
           "(TITLE:antisense OR TITLE:gapmer OR TITLE:ASO OR TITLE:\"RNase H\" OR TITLE:\"RNase-H\") AND (TITLE:\"off-target\" OR TITLE:specificity OR TITLE:hepatotoxicity OR TITLE:cleavage OR TITLE:prediction OR TITLE:\"machine learning\" OR TITLE:\"deep learning\")"
         ],
         "arxiv": [],
-        "must_match": ["antisense", "gapmer", "rnase h", "rnase-h", "oligonucleotide"],
+        "must_match": [
+          "antisense",
+          "gapmer",
+          "rnase h",
+          "rnase-h",
+          "oligonucleotide"
+        ],
         "exclude_match": [],
         "window_days": 180
       }
@@ -566,11 +1017,16 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/fusion-junction-aso-paper.md", "anchor": "#3a-bis"}
+        {
+          "file": "research/manuscripts/fusion-junction-aso-paper.md",
+          "anchor": "#3a-bis"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-ASO"],
+        "registry_routes": [
+          "RT-ASO"
+        ],
         "registry_blockers": [],
         "note": "Re-ranking, not unblocking. Filed so the ASO paper's own next-step list is watched by the same machine as the degrader's."
       },
@@ -580,9 +1036,28 @@
           "(TITLE:siRNA OR TITLE:gapmer OR TITLE:antisense OR TITLE:RNAi) AND (TITLE:design OR TITLE:efficacy OR TITLE:potency OR TITLE:accessibility OR TITLE:\"machine learning\" OR TITLE:\"deep learning\" OR TITLE:\"target site\")"
         ],
         "arxiv": [],
-        "must_match": ["sirna", "gapmer", "antisense", "rnai", "oligonucleotide"],
+        "must_match": [
+          "sirna",
+          "gapmer",
+          "antisense",
+          "rnai",
+          "oligonucleotide"
+        ],
         "exclude_match": [],
-        "window_days": 180
+        "window_days": 180,
+        "also_match": [
+          "predict",
+          "machine learning",
+          "deep learning",
+          "design",
+          "accessibility",
+          "efficacy",
+          "potency",
+          "screen",
+          "algorithm",
+          "in silico",
+          "computational"
+        ]
       }
     },
     {
@@ -593,12 +1068,24 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#capability--action-trigger-table", "row": "new patient-derived EMC / FET-fusion-sarcoma model"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#capability--action-trigger-table",
+          "row": "new patient-derived EMC / FET-fusion-sarcoma model"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-ASO-ASK", "RT-ATR-PANEL", "RT-ASO", "RT-DEGRADER"],
-        "registry_blockers": ["BLK-NO-EMC-DATA", "BLK-NO-WET-LAB"],
+        "registry_routes": [
+          "RT-ASO-ASK",
+          "RT-ATR-PANEL",
+          "RT-ASO",
+          "RT-DEGRADER"
+        ],
+        "registry_blockers": [
+          "BLK-NO-EMC-DATA",
+          "BLK-NO-WET-LAB"
+        ],
         "note": "A model is MATERIAL, not execution. It does not by itself supply a bench — see TRG-CLOUD-WET-LAB, which is the execution half."
       },
       "on_fire": "Re-scope the decisive junction-ASO knockdown + parental-sparing experiment against the new model, and re-check whether the ATR panel ask now has a taker.",
@@ -607,7 +1094,80 @@
           "(TITLE:\"myxoid chondrosarcoma\" OR TITLE:\"EWSR1-NR4A3\" OR TITLE:\"EWSR1::NR4A3\" OR TITLE:\"fusion-positive sarcoma\" OR TITLE:\"Ewing sarcoma\" OR TITLE:\"round cell sarcoma\") AND (TITLE:\"cell line\" OR TITLE:organoid OR TITLE:\"patient-derived\" OR TITLE:xenograft OR TITLE:PDX OR TITLE:model OR TITLE:establishment)"
         ],
         "arxiv": [],
-        "must_match": ["sarcoma", "chondrosarcoma", "nr4a3", "ewsr1", "fusion"],
+        "must_match": [
+          "sarcoma",
+          "chondrosarcoma",
+          "nr4a3",
+          "ewsr1",
+          "fusion"
+        ],
+        "exclude_match": [],
+        "window_days": 180
+      },
+      "registry_trigger_ids": [
+        "TR-EMC-MODEL-ACCESS"
+      ]
+    },
+    {
+      "id": "TRG-EMC-EXPRESSION-DATASET",
+      "title": "A public EMC / FET-fusion-sarcoma EXPRESSION or functional-genomics dataset",
+      "capability": "A deposited transcriptomic, proteomic or dependency dataset that actually contains extraskeletal myxoid chondrosarcoma — or enough FET-fusion sarcoma to transfer from. The repo's constraint is not analysis capability, it is that EMC is nearly absent from public functional genomics, so several surface-antigen and repurposing routes are graded on class inheritance rather than on an EMC measurement.",
+      "trigger_kind": "external_capability",
+      "status": "watching",
+      "scan_enabled": true,
+      "registry_trigger_ids": [
+        "TR-EMC-EXPRESSION-DATASET"
+      ],
+      "found_by": "Reconciliation against emc-systems-map.json's revival_trigger fields, 2026-08-03 — the registry named this as the revival condition for five routes and nothing here was searching for it. Recorded because it is the one trigger this file would have missed without the cross-check.",
+      "evidence_home": [
+        {
+          "file": "research/manuscripts/emc-systems-map.json",
+          "note": "TR-EMC-EXPRESSION-DATASET; blocker BLK-NO-EMC-DATA"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [
+          "RT-B7H3",
+          "RT-CART-SURFACE",
+          "RT-PPARG-DOWNSTREAM",
+          "RT-TCRT-CTA",
+          "RT-SYNLETH-DEP",
+          "RT-TRABECTEDIN-PPARG"
+        ],
+        "registry_blockers": [
+          "BLK-NO-EMC-DATA",
+          "BLK-CLASS-INHERITANCE"
+        ],
+        "note": "Six routes are currently graded on class inheritance rather than on an EMC measurement. A dataset that contains EMC is what converts an inherited grade into a measured one — for better or worse, and the worse direction is the more likely."
+      },
+      "on_fire": "Re-grade the surface-antigen and repurposing routes against the actual EMC data, and check FIRST whether the dataset contains EMC itself or only a related fusion sarcoma — the whole point of this trigger is the difference.",
+      "search": {
+        "europepmc": [
+          "(TITLE:\"myxoid chondrosarcoma\" OR TITLE:\"EWSR1-NR4A3\" OR TITLE:\"EWSR1::NR4A3\" OR TITLE:\"FET fusion\" OR TITLE:\"fusion-positive sarcoma\" OR TITLE:\"soft tissue sarcoma\") AND (TITLE:transcriptom OR TITLE:\"RNA-seq\" OR TITLE:proteom OR TITLE:\"single-cell\" OR TITLE:atlas OR TITLE:cohort OR TITLE:\"expression profil\" OR TITLE:CRISPR OR TITLE:dependency)"
+        ],
+        "arxiv": [],
+        "must_match": [
+          "sarcoma",
+          "chondrosarcoma",
+          "nr4a3",
+          "ewsr1",
+          "fet"
+        ],
+        "also_match": [
+          "transcriptom",
+          "rna-seq",
+          "proteom",
+          "single-cell",
+          "single cell",
+          "atlas",
+          "cohort",
+          "expression",
+          "crispr",
+          "dependency",
+          "landscape",
+          "profiling"
+        ],
         "exclude_match": [],
         "window_days": 180
       }
@@ -620,12 +1180,20 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#the-one-row-that-is-not-in-silico-remote-robotic-wet-lab"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#the-one-row-that-is-not-in-silico-remote-robotic-wet-lab"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-ASO-ASK", "RT-ATR-PANEL"],
-        "registry_blockers": ["BLK-NO-WET-LAB"],
+        "registry_routes": [
+          "RT-ASO-ASK",
+          "RT-ATR-PANEL"
+        ],
+        "registry_blockers": [
+          "BLK-NO-WET-LAB"
+        ],
         "note": "The ONLY watched capability that could flip the project's founding no-wet-lab constraint. It flips the EXECUTION gate, not the MATERIAL gate — the EMC line/reagents stay coupled to TRG-EMC-FUNCTIONAL-MODEL."
       },
       "on_fire": "Scope and price the cheapest decisive experiment, then ASK trimcrae before committing spend (CLAUDE.md section 3 — this would be a program-shifting decision AND an outward-facing purchase).",
@@ -636,9 +1204,24 @@
         "arxiv": [
           "all:\"self-driving laboratory\" AND all:biology"
         ],
-        "must_match": ["cloud lab", "self-driving lab", "autonomous lab", "robotic lab", "laboratory automation", "lab-in-the-loop"],
+        "must_match": [
+          "cloud lab",
+          "self-driving lab",
+          "autonomous lab",
+          "robotic lab",
+          "laboratory automation",
+          "lab-in-the-loop"
+        ],
         "exclude_match": [],
-        "window_days": 180
+        "window_days": 180,
+        "also_match": [
+          "cloud",
+          "self-driving",
+          "autonomous",
+          "robotic",
+          "lab-in-the-loop",
+          "automation"
+        ]
       }
     },
     {
@@ -649,13 +1232,26 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/manuscripts/emc-systems-map.json", "note": "BLK-ANTIGEN-COLD"},
-        {"file": "research/IDEAS.md", "anchor": "#-auto-captured-field-scan-advances-review--integrate-into-the-board-above", "note": "the 2026-07-13 Tecelra / SYT-SSX / EWSR1-WT1 capture raised the prior but did not clear the weak-junction-pHLA problem"}
+        {
+          "file": "research/manuscripts/emc-systems-map.json",
+          "note": "BLK-ANTIGEN-COLD"
+        },
+        {
+          "file": "research/IDEAS.md",
+          "anchor": "#-auto-captured-field-scan-advances-review--integrate-into-the-board-above",
+          "note": "the 2026-07-13 Tecelra / SYT-SSX / EWSR1-WT1 capture raised the prior but did not clear the weak-junction-pHLA problem"
+        }
       ],
       "reopens": {
         "roadmap_rows": [],
-        "registry_routes": ["RT-TCR-IMMTAC", "RT-JUNCTION-NEOANTIGEN", "RT-VACCINE"],
-        "registry_blockers": ["BLK-ANTIGEN-COLD"],
+        "registry_routes": [
+          "RT-TCR-IMMTAC",
+          "RT-JUNCTION-NEOANTIGEN",
+          "RT-VACCINE"
+        ],
+        "registry_blockers": [
+          "BLK-ANTIGEN-COLD"
+        ],
         "note": "Three antigen routes share this gate. A clinical success against a DIFFERENT fusion raises the prior; it does not clear the abundance problem."
       },
       "on_fire": "Re-grade the three junction-antigen routes together and state whether the evidence is about presentation, about abundance, or only about a different fusion.",
@@ -664,9 +1260,28 @@
           "(TITLE:neoantigen OR TITLE:\"peptide-HLA\" OR TITLE:\"pMHC\" OR TITLE:immunopeptidome OR TITLE:\"fusion peptide\") AND (TITLE:prediction OR TITLE:presentation OR TITLE:TCR OR TITLE:ImmTAC OR TITLE:\"soluble TCR\" OR TITLE:sarcoma OR TITLE:fusion)"
         ],
         "arxiv": [],
-        "must_match": ["neoantigen", "hla", "pmhc", "immunopeptidom", "tcr", "immtac"],
+        "must_match": [
+          "neoantigen",
+          "hla",
+          "pmhc",
+          "immunopeptidom",
+          "tcr",
+          "immtac"
+        ],
         "exclude_match": [],
-        "window_days": 120
+        "window_days": 120,
+        "also_match": [
+          "predict",
+          "present",
+          "immunogenic",
+          "tcr",
+          "immtac",
+          "fusion",
+          "sarcoma",
+          "benchmark",
+          "identif",
+          "discovery"
+        ]
       }
     },
     {
@@ -677,12 +1292,25 @@
       "status": "watching",
       "scan_enabled": true,
       "evidence_home": [
-        {"file": "research/method-watch.md", "anchor": "#capability--action-trigger-table", "row": "any direct chemical/biological matter against NR4A3 or the fusion"}
+        {
+          "file": "research/method-watch.md",
+          "anchor": "#capability--action-trigger-table",
+          "row": "any direct chemical/biological matter against NR4A3 or the fusion"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R4"],
-        "registry_routes": ["RT-DEGRADER", "RT-MONOVALENT", "RT-COVALENT-PROBE", "RT-TCIP"],
-        "registry_blockers": ["BLK-R4-BINDS"],
+        "roadmap_rows": [
+          "R4"
+        ],
+        "registry_routes": [
+          "RT-DEGRADER",
+          "RT-MONOVALENT",
+          "RT-COVALENT-PROBE",
+          "RT-TCIP"
+        ],
+        "registry_blockers": [
+          "BLK-R4-BINDS"
+        ],
         "note": "R4 — nothing is known to bind the cryptic pocket at all — is the one blocker that a single published binder would discharge outright."
       },
       "on_fire": "Fold into the relevant route memo IMMEDIATELY and re-check R4. Verify the compound is against NR4A3 rather than a family-wide pan-NR4A tool before crediting it.",
@@ -691,10 +1319,20 @@
           "(TITLE:NR4A3 OR TITLE:\"NOR-1\" OR TITLE:\"EWSR1-NR4A3\" OR TITLE:\"EWSR1::NR4A3\" OR TITLE:\"myxoid chondrosarcoma\" OR ABSTRACT:\"EWSR1-NR4A3\" OR ABSTRACT:NR4A3)"
         ],
         "arxiv": [],
-        "must_match": ["nr4a3", "nor-1", "nor1", "ewsr1", "myxoid chondrosarcoma", "nr4a"],
+        "must_match": [
+          "nr4a3",
+          "nor-1",
+          "nor1",
+          "ewsr1",
+          "myxoid chondrosarcoma",
+          "nr4a"
+        ],
         "exclude_match": [],
         "window_days": 90
-      }
+      },
+      "registry_trigger_ids": [
+        "TR-NR4A3-RXR-HETERODIMER-REPORT"
+      ]
     },
     {
       "id": "TRG-NR4A1-SPARING-ENSEMBLE",
@@ -705,17 +1343,35 @@
       "scan_enabled": false,
       "not_searchable_because": "No literature query can detect 'we built the matched ensemble'. Listed so the register is complete and this row is never recorded as un-triggered merely because nothing searches for it.",
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "NR4A1-sparing STERIC exclusion — the inverse of S3"},
-        {"file": "research/modalities/nr4a1-sparing-axis.json"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "NR4A1-sparing STERIC exclusion — the inverse of S3"
+        },
+        {
+          "file": "research/modalities/nr4a1-sparing-axis.json"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R7"],
-        "registry_routes": ["RT-ASYMMETRIC"],
-        "registry_blockers": ["BLK-PARALOGUE-DDG"],
+        "roadmap_rows": [
+          "R7"
+        ],
+        "registry_routes": [
+          "RT-ASYMMETRIC"
+        ],
+        "registry_blockers": [
+          "BLK-PARALOGUE-DDG"
+        ],
         "note": "A third path also reopens it: the site question being settled somewhere other than the cryptic pocket — which would arrive as an internal result too."
       },
       "on_fire": "n/a — this one is a work item, and it belongs on the roadmap's ordered plan rather than in a scan.",
-      "search": {"europepmc": [], "arxiv": [], "must_match": [], "exclude_match": [], "window_days": 0}
+      "search": {
+        "europepmc": [],
+        "arxiv": [],
+        "must_match": [],
+        "exclude_match": [],
+        "window_days": 0
+      }
     },
     {
       "id": "TRG-E3-ANCHORED-ELSEWHERE",
@@ -726,17 +1382,36 @@
       "scan_enabled": false,
       "not_searchable_because": "It is a design change to this program's own construct, not a field capability.",
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "Fusion-selective ubiquitination"},
-        {"file": "research/manuscripts/target-route-options.md", "note": "route 13"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "Fusion-selective ubiquitination"
+        },
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "note": "route 13"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["R13"],
-        "registry_routes": ["RT-UBIQ-SELECTIVE"],
-        "registry_blockers": ["BLK-NOT-FUSION-SELECTIVE"],
+        "roadmap_rows": [
+          "R13"
+        ],
+        "registry_routes": [
+          "RT-UBIQ-SELECTIVE"
+        ],
+        "registry_blockers": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
         "note": "The idea is sound and the geometry is not — the differential lysines sit far from the shared LBD. Moving the anchor is the only thing that changes the geometry."
       },
       "on_fire": "n/a — work item.",
-      "search": {"europepmc": [], "arxiv": [], "must_match": [], "exclude_match": [], "window_days": 0}
+      "search": {
+        "europepmc": [],
+        "arxiv": [],
+        "must_match": [],
+        "exclude_match": [],
+        "window_days": 0
+      }
     },
     {
       "id": "TRG-PERSES-RDKIT-PATH",
@@ -747,16 +1422,28 @@
       "scan_enabled": false,
       "not_searchable_because": "The roadmap is explicit that reopening this buys nothing today: the avenue is already SERVED by pmx + GROMACS, which has passed its known-answer benchmark. The row exists to stop the engine being re-tried, not to be waited on — so spending scan budget on it would be searching for something we would not act on.",
       "evidence_home": [
-        {"file": "research/manuscripts/nr4a3-program-map.md", "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen", "row": "perses as the protein-mutation FEP engine"}
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "anchor": "#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen",
+          "row": "perses as the protein-mutation FEP engine"
+        }
       ],
       "reopens": {
-        "roadmap_rows": ["V10"],
+        "roadmap_rows": [
+          "V10"
+        ],
         "registry_routes": [],
         "registry_blockers": [],
         "note": "Reopening it buys nothing while pmx serves the avenue."
       },
       "on_fire": "n/a — do not act on this without a reason the pmx lane cannot serve.",
-      "search": {"europepmc": [], "arxiv": [], "must_match": [], "exclude_match": [], "window_days": 0}
+      "search": {
+        "europepmc": [],
+        "arxiv": [],
+        "must_match": [],
+        "exclude_match": [],
+        "window_days": 0
+      }
     }
   ]
 }
