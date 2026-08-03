@@ -2267,6 +2267,78 @@
   "caveat_that_must_travel_with_any_result": "A germline mouse knockout bounds DEVELOPMENTAL, COMPLETE, LIFELONG loss of a gene. A degrader is an ADULT, TRANSIENT, INCOMPLETE loss of a protein, and no source read here measures that. So a KO phenotype -- lethal or not -- sets the ceiling of concern, never the expected effect of a molecule; and an absent KO record is an absence of evidence, not evidence of tolerability. This repo additionally holds no measured or predicted CNS-penetration datum for any NR4A candidate, so the exposure argument that would otherwise narrow the NR4A2 question is a property of a molecule that does not exist.",
   "tolerance_statement": "A FLOOR EXISTS AND IT IS CITED. Complete germline Nr4a2 loss produces a phenotyped, primary-cited survival/viability consequence in the mouse, so NR4A2 sparing is a requirement with evidence behind it rather than a precaution. It is still a WEAKER constraint than NR4A1's, because NR4A1's is a combination genotype a non-selective NR4A3 degrader RECONSTITUTES, whereas this one is complete developmental loss of a single gene, which no degrader delivers. WHAT IS NOW MEASURED INSTEAD OF ASSUMED: across 51 tissues with all three paralogues quantified, NR4A2 is expressed in 51, NR4A2 and NR4A3 are co-expressed in 47 (so tissue distribution cannot separate target from anti-target -- selectivity has to be molecular), NR4A2 is expressed with NEITHER paralogue present in 0 (unbuffered), and NR4A2 is the dominant family member in 0. Those four numbers replace the qualitative 'broadly co-expressed / CNS exception' reading the brief carried. \u26d4 AND THE DIRECTION OF THAT RESULT IS THE OPPOSITE OF WHAT THE BRIEF ASSUMED: there is NO tissue in which NR4A2 is present while both paralogues are absent, and NR4A2 is the dominant family member in none of them. The premise that NR4A2 marks the tissue where paralogue compensation is LEAST available is not supported by this table. \u26a0 It is not refuted either, and the reason is stated rather than buried: a bulk tissue average dilutes the substantia nigra to invisibility, so this measures exposure breadth and not the dopaminergic requirement (`hpa.overlap._the_specific_misreading_to_avoid`). HIGHEST NR4A2 TISSUE IN THE TABLE: bone marrow. FOR CONTRAST, THE OTHER TWO SINGLE KNOCKOUTS -- Nr4a1: 8 single-gene annotations, 0 survival/viability terms; Nr4a3: 23 single-gene annotations, 2 survival/viability terms. WHAT WOULD ACTUALLY CLOSE IT, AND IS NOT AVAILABLE AT $0: an adult conditional or inducible Nr4a2 deletion with a survival/behaviour readout, and a CNS-exposure measurement for a real candidate molecule. Neither exists here; the first is a wet-lab experiment and the second is a property of a molecule this program has not built."
  },
+ "headline_findings": [
+  {
+   "finding": "the repo's flagged-UNCONFIRMED \"Nurr1 single-KO is neonatal-lethal\" RESOLVES TO A CITATION",
+   "evidence": [
+    {
+     "term": "neonatal lethality, complete penetrance",
+     "mp_id": "MP:0011087",
+     "pubmed_ids": [
+      "9092472",
+      "9608532"
+     ]
+    }
+   ],
+   "what_it_changes": "nr4a3-emc-biology-evidence.md may retire the UNCONFIRMED flag and roadmap \u00a72.4 may stop calling the NR4A2 half unbounded in that direction",
+   "what_it_does_not_change": "a germline KO bounds developmental loss, not adult transient degradation -- see caveat_that_must_travel_with_any_result"
+  },
+  {
+   "finding": "\u26a0 THE TARGET'S OWN SINGLE KNOCKOUT CARRIES LETHALITY TERMS TOO -- this is about NR4A3, not the anti-targets, and the program had no standardized in-vivo source for it",
+   "evidence": [
+    {
+     "term": "embryonic lethality between somite formation and embryo turning, complete penetrance",
+     "mp_id": "MP:0011097",
+     "pubmed_ids": [
+      "13129926"
+     ]
+    },
+    {
+     "term": "prenatal lethality, incomplete penetrance",
+     "mp_id": "MP:0011101",
+     "pubmed_ids": [
+      "13129926"
+     ]
+    }
+   ],
+   "what_it_changes": "it is concordant with the gnomAD reading already on record (NR4A3 LoF-constrained, pLI 0.9999) and gives the 'developmental / tissue-specific rather than proliferative' interpretation a mouse phenotype instead of an inference",
+   "what_it_does_not_change": "the same developmental-vs-adult limit applies, and it says nothing about degrading NR4A3 in an adult. It is NOT a safety result."
+  },
+  {
+   "finding": "the NR4A double-knockout genotypes the design brief is built around are independently recoverable from MGI, with their lethality terms",
+   "evidence": [
+    {
+     "genotype": "Nr4a1 + Nr4a3",
+     "n_annotations": 21,
+     "survival_terms": [
+      "postnatal lethality, complete penetrance"
+     ],
+     "pubmed_ids": [
+      "17515897"
+     ]
+    }
+   ],
+   "what_it_changes": "roadmap \u00a72.4's NR4A1 half is corroborated by a second, standardized source rather than by the two PMIDs alone",
+   "what_it_does_not_change": "nothing about the NR4A1 constraint, which was already hard"
+  },
+  {
+   "finding": "tissue overlap is now a measured quantity, and it points the OPPOSITE way from the assumption the brief carried",
+   "evidence": {
+    "n_tissues": 51,
+    "counts": {
+     "nr4a2_expressed": 51,
+     "nr4a3_expressed": 47,
+     "nr4a2_and_nr4a3_co_expressed": 47,
+     "nr4a2_unbuffered": 0,
+     "nr4a2_dominant": 0
+    },
+    "highest_nr4a2_tissue": "bone marrow",
+    "source": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip"
+   },
+   "what_it_changes": "NR4A2 and NR4A3 co-express in 47 of 51 tissues, so tissue distribution cannot separate target from anti-target and the selectivity has to be molecular",
+   "what_it_does_not_change": "\u26d4 BULK TISSUE AVERAGES DILUTE A SMALL NUCLEUS, AND THE NR4A2 STORY IS ABOUT ONE. The dopaminergic liability attributed to NR4A2/Nurr1 lives in the substantia nigra pars compacta -- a structure of order 10^5 neurons that is a small fraction of any bulk brain region this table samples. A LOW consensus nTPM in a pooled brain region is therefore NOT evidence against a dopaminergic requirement, and this artifact must never be quoted that way. What the table CAN support is the converse direction, which is the one the design brief needs: wherever NR4A2 is present ABOVE the cut, a non-sparing degrader would act on it, and the count of such tissues is a floor on exposure breadth, not a ceiling."
+  }
+ ],
  "map_edits_required": [
   {
    "section": "2.4",
@@ -2283,6 +2355,23 @@
    "proposed_text": "- \u2705 **Both $0 observations have been taken (2026-08-03, row 26).** MGI's four public reports were scanned in full and HPA per-tissue nTPM is now measured for all three paralogues across 51 tissues: NR4A2 and NR4A3 are co-expressed in 47 of them, so **tissue distribution cannot separate target from anti-target and the selectivity has to be molecular**; NR4A2 is unbuffered (both paralogues below the cut) in 0. One home for every figure: [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) \u2192 `hpa.overlap.counts`.",
    "why": "the per-tissue nTPM field the roadmap calls `null` is no longer null, and the overlap it was needed for is now arithmetic instead of an assumption",
    "artifact": "research/modalities/nr4a2-sparing-bound.json:hpa.overlap"
+  },
+  {
+   "section": "2.4 (a NEW row or footnote \u2014 this is about the TARGET, not an anti-target)",
+   "anchor": null,
+   "where": "\u00a72.4's table has a row per ANTI-TARGET and no place for a fact about NR4A3 itself. This finding belongs either as a third row or as a footnote under the table; the map's owner should choose, because adding a target row changes what the table is.",
+   "current_text": null,
+   "proposed_text": "\u26a0 **And the asymmetry is not the whole picture: the TARGET's own single knockout is lethal too.** MGI records 23 single-gene *Nr4a3* annotations including *\"embryonic lethality between somite formation and embryo turning, complete penetrance\"*; *\"prenatal lethality, incomplete penetrance\"* (PMID 13129926). This is concordant with the gnomAD reading already on record (NR4A3 LoF-constrained, pLI 0.9999) and gives the *\"developmental / tissue-specific rather than proliferative\"* interpretation a mouse phenotype instead of an inference. \u26d4 It is **not** a safety result: a germline knockout bounds developmental loss, and a degrader is adult, transient and incomplete. One home: [`nr4a2-sparing-bound.json`](../modalities/nr4a2-sparing-bound.json) \u2192 `headline_findings`.",
+   "why": "row 26 was scoped to the NR4A2 half and the same $0 read returned a decision-relevant fact about NR4A3 that the program had no standardized in-vivo source for",
+   "artifact": "research/modalities/nr4a2-sparing-bound.json:mgi.single_gene.Nr4a3"
+  },
+  {
+   "section": "2.4 (the NR4A1 row \u2014 corroboration, not a change)",
+   "anchor": "a **named anti-target genotype**",
+   "current_text": "a **named anti-target genotype**",
+   "proposed_text": "a **named anti-target genotype** (independently recoverable from MGI: `Nr4a1 + Nr4a3` \u2192 postnatal lethality, complete penetrance)",
+   "why": "the hard half of the requirement now rests on a second standardized source as well as the two PMIDs",
+   "artifact": "research/modalities/nr4a2-sparing-bound.json:mgi.multi_gene_genotypes"
   },
   {
    "section": "10.1 row 26",
