@@ -316,3 +316,155 @@ def test_selfcontrol_map_edits_carry_the_verdict():
     doc = {"selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": "PASS"}]), targets=[])}
     edits = sc.map_edits(doc)
     assert edits and any("readable" in e["why"] for e in edits)
+
+
+# ==================================================================================================
+# R14-a — the COFACTOR REPAIR, after the self-control failed on CYP3A4 / PPARG / PXR
+# ==================================================================================================
+
+def _pdb(n_res=60, het=()):
+    """A minimal receptor plus arbitrary HETATM groups: (resname, chain, resseq, [(x,y,z), ...])."""
+    out = []
+    for i in range(n_res):
+        out.append("ATOM  %5d  CA  ALA A%4d    %8.3f%8.3f%8.3f  1.00  0.00           C"
+                   % (i + 1, i + 1, i * 1.0, 0.0, 0.0))
+    k = 9000
+    for resname, chain, seq, pts in het:
+        for j, (x, y, z) in enumerate(pts):
+            k += 1
+            out.append("HETATM%5d  C%-2d %-3s %s%4d    %8.3f%8.3f%8.3f  1.00  0.00           C"
+                       % (k, j + 1, resname, chain, seq, x, y, z))
+    return out
+
+
+def _target():
+    return {"name": "T", "pdb_id": "XXXX", "ligand_resname": "LIG"}
+
+
+def test_a_contacting_cofactor_is_retained_and_a_distant_one_is_not(monkeypatch):
+    """CYP3A4's haem in miniature: the predicate keeps what the ligand touches and nothing else."""
+    pdb = _pdb(het=[
+        ("LIG", "A", 501, [(10.0, 2.0, 0.0), (12.0, 2.0, 0.0)]),
+        ("HEM", "A", 601, [(10.0, 4.0, 0.0)]),        # 2.0 A from the ligand -> IN the site
+        ("HEM", "A", 602, [(10.0, 40.0, 0.0)]),       # 38 A away -> not in the site
+    ])
+    monkeypatch.setattr(prep, "_fetch", lambda pid: pdb)
+    f = prep.prep_target_full(_target(), keep_cofactors=True)
+    kept = [(k["resname"], k["resseq"]) for k in f["cofactors"]["kept"]]
+    assert kept == [("HEM", "601")], kept
+    assert "HEM" in f["receptor_pdb"]
+    assert f["receptor_pdb"].count("HETATM") == 1, "only the contacting copy is written"
+
+
+def test_the_stripped_arm_reproduces_the_published_receptor(monkeypatch):
+    """The A/B is only meaningful if one arm is byte-identical to what produced SI §S1's numbers."""
+    pdb = _pdb(het=[("LIG", "A", 501, [(10.0, 2.0, 0.0)]), ("HEM", "A", 601, [(10.0, 4.0, 0.0)])])
+    monkeypatch.setattr(prep, "_fetch", lambda pid: pdb)
+    stripped = prep.prep_target_full(_target(), keep_cofactors=False)
+    assert "HETATM" not in stripped["receptor_pdb"]
+    assert stripped["cofactors"]["kept"] == []
+    # ...and it still REPORTS what it dropped, so the stripped arm is not silent about its own defect
+    assert [d["resname"] for d in stripped["cofactors"]["dropped_in_pocket"]] == ["HEM"]
+    assert stripped["cofactors"]["dropped_in_pocket"][0]["is_cofactor"] is True
+
+
+def test_a_non_cofactor_in_the_pocket_is_reported_but_never_retained(monkeypatch):
+    """The predicate is not 'keep whatever is nearby'. A second drug-like molecule stays out — and is
+    named, because 'we stripped something else in there' must never be an unasked question."""
+    pdb = _pdb(het=[("LIG", "A", 501, [(10.0, 2.0, 0.0)]), ("XYZ", "A", 700, [(10.0, 4.0, 0.0)])])
+    monkeypatch.setattr(prep, "_fetch", lambda pid: pdb)
+    f = prep.prep_target_full(_target(), keep_cofactors=True)
+    assert f["cofactors"]["kept"] == []
+    assert [d["resname"] for d in f["cofactors"]["dropped_in_pocket"]] == ["XYZ"]
+    assert "not a recognised cofactor" in f["cofactors"]["dropped_in_pocket"][0]["why_still_dropped"]
+
+
+def test_a_metal_ion_is_kept_only_when_the_ligand_contacts_it(monkeypatch):
+    near = _pdb(het=[("LIG", "A", 501, [(10.0, 2.0, 0.0)]), ("ZN", "A", 800, [(10.0, 4.0, 0.0)])])
+    far = _pdb(het=[("LIG", "A", 501, [(10.0, 2.0, 0.0)]), ("ZN", "A", 800, [(10.0, 90.0, 0.0)])])
+    monkeypatch.setattr(prep, "_fetch", lambda pid: near)
+    assert [k["resname"] for k in prep.prep_target_full(_target())["cofactors"]["kept"]] == ["ZN"]
+    monkeypatch.setattr(prep, "_fetch", lambda pid: far)
+    assert prep.prep_target_full(_target())["cofactors"]["kept"] == []
+
+
+def test_the_repair_is_a_predicate_not_a_target_list():
+    """⛔ THE FROZEN RULE. A per-target exception would be "dropping a failing target" by another route.
+
+    Scanned over the EXECUTABLE code only — docstrings and comments are stripped first, because the
+    reasoning legitimately names CYP3A4 as the measurement that motivated the predicate, and a guard that
+    punishes documenting your evidence is a guard that gets deleted."""
+    import ast
+    src = open(os.path.join(MOD, "antitarget_prep.py"), encoding="utf-8").read()
+    tree = ast.parse(src)
+    code = []
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.Module)):
+            ds = ast.get_docstring(node, clean=False)
+            if ds is not None and node.body and isinstance(node.body[0], ast.Expr):
+                node.body = node.body[1:]
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            continue
+        if isinstance(node, ast.Name):
+            code.append(node.id)
+        elif isinstance(node, ast.Attribute):
+            code.append(node.attr)
+    # string CONSTANTS still count — a hard-coded "CYP3A4" compared against a name is the real sin
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Compare) or isinstance(node, ast.Set) or isinstance(node, ast.List):
+            for c in ast.walk(node):
+                if isinstance(c, ast.Constant) and isinstance(c.value, str):
+                    code.append(c.value)
+    blob = " ".join(code)
+    for name in ("CYP3A4", "PPARG", "PXR", "2V0M", "2PRG", "1NRL"):
+        assert name not in blob, "the prep branches on %s — that is a per-target exception" % name
+
+
+def test_the_silent_ligand_fallback_is_now_reported(monkeypatch):
+    """PXR was centred on SRL while the panel declared 348, and nothing said so. A populated field is
+    not a measured one (CLAUDE.md §4b)."""
+    pdb = _pdb(het=[("SRL", "A", 501, [(10.0, 2.0, 0.0), (12.0, 2.0, 0.0)])])
+    monkeypatch.setattr(prep, "_fetch", lambda pid: pdb)
+    f = prep.prep_target_full({"name": "PXR", "pdb_id": "1NRL", "ligand_resname": "348"})
+    assert f["ligand_resname_matched"] is False
+    assert f["ligand_resname_declared"] == "348" and f["lig_resname"] == "SRL"
+    f2 = prep.prep_target_full({"name": "PXR", "pdb_id": "1NRL", "ligand_resname": "SRL"})
+    assert f2["ligand_resname_matched"] is True
+
+
+def test_every_crystal_copy_is_considered_before_a_pose_is_called_a_miss():
+    """Some deposits place one ligand in several orientations in one cavity. Scoring against a single
+    copy would call a genuinely observed pose a miss."""
+    lines = [
+        "HETATM    1  C1  SRL A 501       0.000   0.000   0.000  1.00  0.00           C",
+        "HETATM    2  C1  SRL B 501      30.000   0.000   0.000  1.00  0.00           C",
+        "HETATM    3  C1  ZZZ A 900      60.000   0.000   0.000  1.00  0.00           C",
+    ]
+    copies = sc._all_cognate_copies(lines, "SRL")
+    assert len(copies) == 2 and all(g[0] == "SRL" for g in copies)
+
+
+def test_the_si_edit_only_exists_while_the_panel_is_unreadable():
+    """⛔ It conditions a published sentence. Emitting it after a pass would be a false alarm in the SI."""
+    fail = {"criterion": {"recovered_rmsd_A": 2.0},
+            "selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": "FAIL"}]),
+                                targets=[{"name": "PXR", "verdict": "FAIL", "rmsd_A": 6.761}])}
+    edits = sc.si_edits(fail)
+    assert len(edits) == 1
+    assert edits[0]["file"].endswith("nr4a3-degrader-paper-SI.md")
+    assert "NOT CURRENTLY READABLE" in edits[0]["proposed_text"]
+    assert "PXR" in edits[0]["proposed_text"] and "6.761" in edits[0]["proposed_text"]
+    ok = {"criterion": {"recovered_rmsd_A": 2.0},
+          "selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": "PASS"}]), targets=[])}
+    assert sc.si_edits(ok) == []
+
+
+def test_the_si_edit_conditions_the_result_rather_than_deleting_it():
+    """The frozen rule licenses one thing: saying the margin is not currently readable."""
+    fail = {"criterion": {"recovered_rmsd_A": 2.0},
+            "selfcontrol": dict(sc.panel_verdict([{"name": "PXR", "verdict": "FAIL"}]),
+                                targets=[{"name": "PXR", "verdict": "FAIL", "rmsd_A": 6.761}])}
+    e = sc.si_edits(fail)[0]
+    assert e["current_text"] in e["proposed_text"], "the original sentence must survive verbatim"
+    assert "may not be quoted until the control passes" in e["proposed_text"]
