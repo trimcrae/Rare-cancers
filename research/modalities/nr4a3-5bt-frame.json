@@ -1,5 +1,49 @@
 {
- "_what": "RUNG 5b-T \u2014 the assembled inputs for the three paralogue arms",
+ "⛔_TRUNCATED_ARTIFACT": {
+  "state": "PARTIAL — RECOVERED FROM A TRUNCATED WRITE. Not the artifact the run intended to publish.",
+  "⛔_what_this_is_not": "This is NOT a verdict. The run's roll-up fields were never written and have NOT been reconstructed here; a repaired artifact that filled them in would be a record no run produced (CLAUDE.md §4b).",
+  "what_happened": "`mode_build` finished all three arms and then died in its single end-of-run writer: `resolve_e3_binary` returned a raw RDKit `Chem.Mol` under `_mol`, `mode_build` assigned that dict to `doc[\"e3_binary\"]`, and `json.dump(doc, open(out, \"w\"), indent=1)` STREAMS — it had written 16642 bytes when it reached the Mol and raised `TypeError: Object of type Mol is not JSON serializable`, leaving the file cut mid-key. The workflow's `if: always()` publish step then committed the truncated file.",
+  "evidence": {
+   "run": 30778084770,
+   "job": 91577302423,
+   "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30778084770",
+   "traceback": "nr4a3_5bt_assemble.py line 1032, in mode_build -> json.dump(doc, open(args.out, \"w\"), indent=1) -> TypeError: Object of type Mol is not JSON serializable",
+   "published_by": "publish_artifacts.sh at 2026-08-03T02:07:43Z (10:07 PM ET 2026-08-02) -> commit e02aaf7d1",
+   "broken_blob_still_in_history": "3750423b4c179defdb39219328d117cf4f6a6461",
+   "⚠_all_three_arms_had_already_passed": "the same job log records `NR4A3_5BT_LIG READY` at 02:03:16Z (10:03 PM ET 2026-08-02), `NR4A1_5BT_LIG READY` at 02:05:27Z (10:05 PM ET) and `NR4A2_5BT_LIG READY` at 02:07:41Z (10:07 PM ET) — 6 min 44 s of real assembly (started 02:00:57Z), whose verdict the writer then discarded. The per-arm records below ARE that work.",
+   "second_instance": "run 30778487977 hit the identical traceback at 02:17:48Z (10:17 PM ET 2026-08-02); its publish found the same bytes and, with PUBLISH_IF_CHANGED=1, committed nothing"
+  },
+  "recovered_bytes": 16642,
+  "total_bytes": 16654,
+  "dropped_bytes": 12,
+  "dropped_tail_verbatim": ",\n  \"_mol\": ",
+  "closers_added": "}}",
+  "salvaged_by": "research/modalities/json_salvage.py (pure prefix recovery — drops, never completes)",
+  "salvaged_utc": "2026-08-03T11:54:15Z",
+  "keys_never_written": [
+   "exitvec_anchor",
+   "c397_sg_xyz",
+   "ready_arms",
+   "refused_arms",
+   "base",
+   "sentence"
+  ],
+  "⛔_do_not_infer": "The run's own `ready_arms` / `sentence` were lost with the raise. Each arm below carries its OWN `ok` and `why`, measured and written before the failure — read those. Do not restate them as a panel verdict here: the roll-up is `mode_build`'s to write, and it never did.",
+  "fixed_at_source": {
+   "writer": "nr4a3_5bt_assemble.write_json — refuses unserialisable values with every path named, serialises to a string before opening the file, replaces atomically",
+   "the_mol": "nr4a3_5bt_assemble._mol_identity — the detail dict now carries SMILES / InChIKey / atom and bond counts instead of the object; the Mol had no consumer",
+   "continuous_write": "mode_build now flushes after EVERY arm (CLAUDE.md §6) and stamps `_artifact_state`, so a partial artifact says it is partial",
+   "reader": "nr4a3_5bt_gate._read_frame — an unreadable or partial frame is a REFUSAL that names the artifact, never an empty result attributed to the arms",
+   "held_by": [
+    "research/modalities/tests/test_nr4a3_5bt.py::test_no_unserialisable_object_can_reach_the_writer",
+    "research/modalities/tests/test_nr4a3_5bt.py::test_this_module_never_calls_json_dump_directly",
+    "research/modalities/tests/test_json_salvage.py"
+   ]
+  },
+  "⛔_scope_unchanged": "Repairing this file changes NOTHING about what 5b-T shows. It is input construction and its pre-flight: no prediction, no score, no affinity, no selectivity, no degradation, no claim of any magnitude. RUNG 5b-T has NOT been re-run.",
+  "salvaged_et": "2026-08-03 7:54 AM ET"
+ },
+ "_what": "RUNG 5b-T — the assembled inputs for the three paralogue arms",
  "_status": "INPUT CONSTRUCTION AND ITS PRE-FLIGHT. No prediction, no score, no claim.",
  "construct_id": "crbnM0@ex_5amide_a2-a5_acrylamide",
  "arms": [
@@ -74,7 +118,7 @@
      "chosen_conf": 183,
      "warhead_rmsd_to_docked_pose_A": 0.24,
      "imid_rmsd_to_placed_fragment_A": 0.577,
-     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement \u2014 nothing about affinity, and nothing about whether the arrangement is right."
+     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement — nothing about affinity, and nothing about whether the arrangement is right."
     },
     "snap_masks": {
      "unbound_lig1_warhead": {
@@ -102,7 +146,7 @@
      "ligand.pdb": 59,
      "gt_complex.pdb": 4912
     },
-    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth \u2014 there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
+    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth — there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
     "protein1_is_also_unbound_protein1": "the same matched opened LBD serves both slots, because there is no native ternary to take a bound conformer from. Stated rather than hidden: this arm supplies NO induced fit on the target side.",
     "rdkit_readable": {
      "ligand.pdb": true,
@@ -203,7 +247,7 @@
      "chosen_conf": 181,
      "warhead_rmsd_to_docked_pose_A": 0.257,
      "imid_rmsd_to_placed_fragment_A": 0.637,
-     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement \u2014 nothing about affinity, and nothing about whether the arrangement is right."
+     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement — nothing about affinity, and nothing about whether the arrangement is right."
     },
     "snap_masks": {
      "unbound_lig1_warhead": {
@@ -231,7 +275,7 @@
      "ligand.pdb": 59,
      "gt_complex.pdb": 4877
     },
-    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth \u2014 there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
+    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth — there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
     "protein1_is_also_unbound_protein1": "the same matched opened LBD serves both slots, because there is no native ternary to take a bound conformer from. Stated rather than hidden: this arm supplies NO induced fit on the target side.",
     "rdkit_readable": {
      "ligand.pdb": true,
@@ -328,7 +372,7 @@
      "chosen_conf": 42,
      "warhead_rmsd_to_docked_pose_A": 0.252,
      "imid_rmsd_to_placed_fragment_A": 0.66,
-     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement \u2014 nothing about affinity, and nothing about whether the arrangement is right."
+     "_reading": "both are RMSDs to the two supplied fragment poses, not to anything measured. They say how well the recorded molecule can bridge the modelled arrangement — nothing about affinity, and nothing about whether the arrangement is right."
     },
     "snap_masks": {
      "unbound_lig1_warhead": {
@@ -356,7 +400,7 @@
      "ligand.pdb": 59,
      "gt_complex.pdb": 4934
     },
-    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth \u2014 there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
+    "gt_complex_is": "assembly_frame_placeholder_not_ground_truth — there is NO native NR4A3 ternary. DockQ/LRMSD/fnat against this file are meaningless and the scorer refuses to compute them for a paralogue arm.",
     "protein1_is_also_unbound_protein1": "the same matched opened LBD serves both slots, because there is no native ternary to take a bound conformer from. Stated rather than hidden: this arm supplies NO induced fit on the target side.",
     "rdkit_readable": {
      "ligand.pdb": true,
@@ -378,7 +422,7 @@
   "canonical_smiles": "C=CC(=O)NCC[C@H](NC(=O)CCC(=O)Nc1cccc2c1C(=O)N(C1CCC(=O)NC1=O)C2=O)C(=O)NCCCCCC(=O)Nc1ccc2[nH]cc(C(=O)OC)c2c1",
   "inchikey": "CPOXVXPVTRJUBD-XLTVJXRZSA-N",
   "n_backbone_atoms_measured": 14,
-  "_source": "nr4a3-linker-library-chem.json \u2014 recorded, never perceived"
+  "_source": "nr4a3-linker-library-chem.json — recorded, never perceived"
  },
  "placement": {
   "meta_basin_id": "crbn|M0",
@@ -391,7 +435,7 @@
    16.341,
    -21.897
   ],
-  "_the_constraint": "\u26d4 THERE IS NO NATIVE NR4A3 TERNARY, so DeepTernary's published 'superpose both binaries into the native frame' step has no reference. This RUNG-5a orientation basin supplies the arrangement instead, and every result downstream is conditional on it. It does not leak into the prediction \u2014 `predict_one_unbound` randomly rotates and translates protein 2 and the ligand \u2014 but it decides whether the two-fragment embed is feasible at all."
+  "_the_constraint": "⛔ THERE IS NO NATIVE NR4A3 TERNARY, so DeepTernary's published 'superpose both binaries into the native frame' step has no reference. This RUNG-5a orientation basin supplies the arrangement instead, and every result downstream is conditional on it. It does not leak into the prediction — `predict_one_unbound` randomly rotates and translates protein 2 and the ligand — but it decides whether the two-fragment embed is feasible at all."
  },
  "e3_placement": {
   "transform_recovery_rms_A": 0.0004,
@@ -416,7 +460,7 @@
     ]
    }
   },
-  "\u26d4_provenance": "6BOY is a TERNARY (DDB1-CRBN-BRD4/dBET6). This placed copy is used ONLY as the frame onto which a BINARY IMiD deposit is superposed; its own conformer never reaches the model, precisely because a ternary-derived E3 imports that ternary's induced fit."
+  "⛔_provenance": "6BOY is a TERNARY (DDB1-CRBN-BRD4/dBET6). This placed copy is used ONLY as the frame onto which a BINARY IMiD deposit is superposed; its own conformer never reaches the model, precisely because a ternary-derived E3 imports that ternary's induced fit."
  },
  "e3_binary": {
   "selected": {
@@ -435,7 +479,7 @@
     "n_ccd_bonds_sourced": 34,
     "smiles_from_ccd_orders": "Nc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O",
     "probe_pdb": "/tmp/nr4a3_5bt/_probe_LVY_C502.pdb",
-    "_never": "bond orders are SOURCED from the CCD, never perceived from the PDB \u2014 `MolFromPDBFile` reads CONECT as all-single and turns every carbonyl into an alcohol"
+    "_never": "bond orders are SOURCED from the CCD, never perceived from the PDB — `MolFromPDBFile` reads CONECT as all-single and turns every carbonyl into an alcohol"
    },
    "het_components_skipped": [],
    "ok": true
@@ -457,10 +501,11 @@
      "n_ccd_bonds_sourced": 34,
      "smiles_from_ccd_orders": "Nc1cccc2c1CN(C1CCC(=O)NC1=O)C2=O",
      "probe_pdb": "/tmp/nr4a3_5bt/_probe_LVY_C502.pdb",
-     "_never": "bond orders are SOURCED from the CCD, never perceived from the PDB \u2014 `MolFromPDBFile` reads CONECT as all-single and turns every carbonyl into an alcohol"
+     "_never": "bond orders are SOURCED from the CCD, never perceived from the PDB — `MolFromPDBFile` reads CONECT as all-single and turns every carbonyl into an alcohol"
     },
     "het_components_skipped": [],
     "ok": true
    }
-  ],
-  "_mol": 
+  ]
+ }
+}

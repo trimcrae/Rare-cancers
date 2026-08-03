@@ -441,11 +441,29 @@ def run(pred_root, frame_path, control_paths, reach_path=None, spec_path=None):
         doc["sentence"] = csent
         return doc
 
-    frame = json.load(open(frame_path)) if os.path.exists(frame_path) else {}
+    # ⛔ AN UNREADABLE FRAME IS NOT AN EMPTY FRAME, AND A PARTIAL ONE IS NOT A FINISHED ONE (CLAUDE.md §4).
+    # This was a bare `json.load`, so run 30778084770's truncated artifact would have taken the gate down
+    # with a `JSONDecodeError` and no attribution; the version before that would have read `{}` and reported
+    # `arms_built: null` as though the build had simply produced nothing. Both are wrong in the same
+    # direction — they turn "we could not read the input" into a statement about the arms.
+    frame, frame_state = _read_frame(frame_path)
     doc["frame_artifact"] = os.path.basename(frame_path)
+    doc["frame_artifact_state"] = frame_state
     doc["arms_built"] = frame.get("ready_arms")
     doc["arms_refused"] = frame.get("refused_arms")
     doc["_r3_dependency"] = _r3_dependency(frame)
+    # ⛔ `run_is_interpretable` KEEPS ITS ONE MEANING — "the harness positive controls passed". An unreadable
+    # frame is a different failure and gets its own field, so the workflow's final step can name the right
+    # cause instead of blaming a control that was fine.
+    if not frame_state["readable"] or not frame_state["complete"]:
+        doc["verdict"] = "REFUSED"
+        doc["frame_is_usable"] = False
+        doc["sentence"] = (
+            "REFUSED before reading any arm: %s. ⛔ This is a statement about the INPUT ARTIFACT, not about "
+            "the paralogues — no arm was graded, and nothing here is a result of any magnitude."
+            % frame_state["why"])
+        return doc
+    doc["frame_is_usable"] = True
 
     model_sets = {p: arm_models(pred_root, "%s_5BT_LIG" % p) for p in (FOCUS,) + COMPARATORS}
     doc["A_and_B"] = arm_A_and_B(model_sets, spec)
@@ -465,6 +483,40 @@ def run(pred_root, frame_path, control_paths, reach_path=None, spec_path=None):
         doc["verdict"] = "NO-GO"
     doc["sentence"] = _sentence(doc)
     return doc
+
+
+def _read_frame(frame_path):
+    """`(frame_doc, state)` — three distinguishable outcomes, never conflated into one empty dict.
+
+    `state` carries `readable` (did JSON parse), `complete` (did the build reach its terminus, per
+    `_artifact_state`) and `why`. A frame written by a build that predates `_artifact_state` but carries a
+    `sentence` is treated as complete: that field is only set on the final roll-up in the old code path.
+    """
+    st = {"present": os.path.exists(frame_path), "readable": False, "complete": False, "why": ""}
+    if not st["present"]:
+        st["why"] = "the frame artifact %s is absent — the assemble job did not publish it" % (
+            os.path.basename(frame_path))
+        return {}, st
+    st["bytes"] = os.path.getsize(frame_path)
+    try:
+        frame = json.load(open(frame_path))
+    except ValueError as exc:
+        st["why"] = ("the frame artifact %s does not parse as JSON (%s) — it is a TRUNCATED or corrupt "
+                     "write, not an empty result" % (os.path.basename(frame_path), exc))
+        return {}, st
+    st["readable"] = True
+    state = frame.get("_artifact_state")
+    st["_artifact_state"] = state
+    if state is None:
+        st["complete"] = bool(frame.get("sentence"))
+        if not st["complete"]:
+            st["why"] = ("the frame artifact %s carries neither `_artifact_state` nor a `sentence` — the "
+                         "build did not reach its roll-up" % os.path.basename(frame_path))
+    else:
+        st["complete"] = state.startswith("COMPLETE")
+        if not st["complete"]:
+            st["why"] = "the frame artifact %s says `%s`" % (os.path.basename(frame_path), state)
+    return frame, st
 
 
 def _r3_dependency(frame):
@@ -572,14 +624,21 @@ def map_edits(doc):
          "why": "row 18's reproducibility bar was the thing 5b-T's arm (B) turned into a threshold with a "
                 "stated null; the row must stop reading as unrun",
          "artifact": "nr4a3-5bt-gate.json:A_and_B.min_models_per_arm"},
+        # ⛔ THE COUNT IS DERIVED, SO THIS EDIT TYPES NO NUMBER (CLAUDE.md rule 1.1, and the
+        # `proposed_text: null` contract `route_map_edits.py` already implements as DEFERRED). It used to
+        # carry a verbatim replacement — `"**4 of the 27 open rows are now RESOLVED (rows 1, 3, 6, 24)…"` —
+        # anchored on `"**0 of 27 open rows are moving…"`. That anchor DIED when §10.2 was re-derived to 29
+        # rows on 2026-08-03, and the replacement would have re-typed a stale total into the one section
+        # whose title says it is derived from the column. Anchoring on the SECTION HEADING instead makes the
+        # edit survive every re-derivation, because the heading is what does not move.
         {"section": "§10.2 · The readout",
-         "anchor": "**0 of 27 open rows are moving, and 3 of the 27 are now RESOLVED (rows 3, 6, 24).**",
-         "current_text": "**0 of 27 open rows are moving, and 3 of the 27 are now RESOLVED (rows 3, 6, 24).**",
-         "proposed_text": "**4 of the 27 open rows are now RESOLVED (rows 1, 3, 6, 24), and rows 1 and 18 "
-                          "were resolved by the same $0 CPU purchase.** ⚠ *Superseded, retained: \"0 of 27 "
-                          "open rows are moving, and 3 of the 27 are now RESOLVED (rows 3, 6, 24).\"*",
-         "why": "the count is DERIVED from the state column and row 1's state changed; the superseded "
-                "sentence is retained rather than dropped",
+         "anchor": "### 10.2 · The readout — derived from the column, not typed",
+         "current_text": "### 10.2 · The readout — derived from the column, not typed",
+         "proposed_text": None,
+         "flag": "DERIVED COUNT — do not hand-edit. Row 1's state column changed, so §10.2's row tally and "
+                 "its RESOLVED list must be RE-DERIVED from §10.1 rather than replaced with a typed total.",
+         "why": "row 1 (and with it row 18) moved state, so the readout is stale — but the readout is a "
+                "DERIVED total and rule 1.1 forbids typing one, so this is deferred rather than applied",
          "artifact": "nr4a3-5bt-gate.json:verdict"},
     ]
 

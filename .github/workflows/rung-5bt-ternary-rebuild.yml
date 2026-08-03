@@ -441,4 +441,11 @@ jobs:
           if not d.get("run_is_interpretable"):
               print("::error::a harness positive control did not pass — the whole run is UNINTERPRETABLE "
                     "and the paralogue arms are not read"); sys.exit(5)
+          # ⛔ AND THE FRAME HAS TO BE READABLE AND FINISHED. Run 30778084770 published a frame artifact
+          # truncated mid-key (the writer hit an unserialisable RDKit Mol); the gate now refuses on that
+          # instead of dying on a JSONDecodeError or reading it as an empty result — but a refusal must not
+          # be a green tick either. Separate from the control check above so the cause is named correctly.
+          if d.get("frame_is_usable") is False:
+              print("::error::the frame artifact was unreadable or partial — the gate REFUSED before "
+                    "reading any arm: %s" % d.get("sentence")); sys.exit(6)
           PY

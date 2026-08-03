@@ -280,6 +280,119 @@ def test_the_inherited_R3_failure_travels_with_the_result():
     assert dep["answer"].startswith("NO")
 
 
+# ---------------------------------------------------------------------------------------------------------
+# ⛔ NOTHING UNSERIALISABLE MAY REACH THE WRITER, AND A FAILED WRITE MAY NOT TRUNCATE AN ARTIFACT
+#
+# MEASURED, run 30778084770: `resolve_e3_binary` returned a raw `Chem.Mol` under `_mol`; `mode_build` put it
+# in `doc["e3_binary"]`; `json.dump(doc, open(out, "w"))` streamed 16 642 bytes and raised `TypeError:
+# Object of type Mol is not JSON serializable`, leaving `nr4a3-5bt-frame.json` truncated mid-key at
+# `"_mol": `. The `if: always()` publish step committed that file as `e02aaf7d1`, so a broken artifact
+# LOOKED like a committed result — and ALL THREE ARMS HAD ALREADY PASSED, so what was lost was the whole
+# verdict of a 6 min 44 s assembly. These tests stop the second instance appearing in a different mode.
+# ---------------------------------------------------------------------------------------------------------
+
+
+def test_no_unserialisable_object_can_reach_the_writer(tmp_path):
+    from rdkit import Chem
+    out = tmp_path / "frame.json"
+    out.write_text('{"previous": "artifact"}')
+    doc = {"ok": [1, 2, 3], "e3_binary": {"selected": {"x": 1}, "_mol": Chem.MolFromSmiles("CCO")}}
+    with pytest.raises(A.UnserialisableArtifact) as exc:
+        A.write_json(doc, str(out))
+    msg = str(exc.value)
+    assert "$.e3_binary._mol" in msg, "the refusal must name the exact path, not just the type"
+    assert "Mol" in msg
+    # ⛔ AND THE FILE IS UNTOUCHED — the whole point. A streaming writer left a half-written file here.
+    assert json.loads(out.read_text()) == {"previous": "artifact"}
+
+
+def test_the_refusal_names_every_offending_path_not_only_the_first(tmp_path):
+    """`json.dump` abandons at the first offender, which is how one dead `_mol` could hide the rest."""
+    from rdkit import Chem
+    doc = {"a": Chem.MolFromSmiles("C"), "b": {"c": [1, {"d": set([1])}]}, "e": "fine"}
+    bad = A.unserialisable_paths(doc)
+    paths = [p for p, _t, _r in bad]
+    assert "$.a" in paths and "$.b.c[1].d" in paths and len(bad) == 2, paths
+
+
+def test_the_writer_is_atomic_and_leaves_no_partial_file(tmp_path):
+    out = tmp_path / "frame.json"
+    A.write_json({"arms": [{"arm": "NR4A3"}]}, str(out))
+    assert json.loads(out.read_text())["arms"][0]["arm"] == "NR4A3"
+    assert not [f for f in os.listdir(str(tmp_path)) if ".partial" in f], "a temp file survived the write"
+
+
+def test_this_module_never_calls_json_dump_directly():
+    """⛔ `json.dump` STREAMS. Every write in this module goes through `write_json`, which serialises to a
+    string first, so a raise cannot truncate an artifact. A new mode that reaches for `json.dump` reopens
+    exactly the bug that produced the broken `nr4a3-5bt-frame.json`."""
+    import re
+    src = open(os.path.join(MOD, "nr4a3_5bt_assemble.py"), encoding="utf-8").read()
+    code = [l for l in src.split("\n") if not l.lstrip().startswith("#")]
+    hits = [l.strip() for l in code if re.search(r"\bjson\.dump\(", l)]
+    assert not hits, "json.dump( in nr4a3_5bt_assemble.py — use write_json(): %s" % hits
+
+
+def test_the_e3_binary_detail_is_json_serialisable_and_keeps_the_molecule_identity(tmp_path, monkeypatch):
+    """The real path that broke, driven end to end offline — not a hand-built stand-in."""
+    import selcal_deepternary_run as RUN
+    dep, bonds = _synthetic_deposit(tmp_path)
+    monkeypatch.setattr(RUN, "_fetch_structure", lambda pid, wd: (dep, None))
+    monkeypatch.setattr(A, "ccd_bond_orders", lambda comp, wd: (bonds, None))
+    pl, _ = A.exemplar_placement()
+    placed, _, _ = A.placed_registry_arm(pl)
+    _chain, _lig, det, err = A.resolve_e3_binary(placed, str(tmp_path), ("SYNTH",))
+    assert err is None, err
+    assert A.unserialisable_paths(det) == [], "resolve_e3_binary's detail must be writable as it stands"
+    # what replaced the object still identifies the molecule
+    assert det["_mol"]["smiles"] and det["_mol"]["n_heavy_atoms"] >= 12 and det["_mol"]["n_bonds"] > 0
+    A.write_json({"e3_binary": det}, str(tmp_path / "probe.json"))
+
+
+def test_a_partial_frame_says_it_is_partial_and_the_gate_refuses_to_read_it(tmp_path):
+    """§6's continuous-upload rule has a reporting half: a flush mid-build must not read as a finished panel."""
+    doc = {"arms": [{"arm": "NR4A3_5BT_LIG", "ok": True, "why": None}]}
+    A._summarise_arms(doc, complete=False)
+    assert doc["_artifact_state"].startswith("PARTIAL") and "1 of 3" in doc["_artifact_state"]
+    assert doc["sentence"].startswith("⚠ PARTIAL ARTIFACT")
+    p = tmp_path / "frame.json"
+    A.write_json(doc, str(p))
+    _frame, st = GT._read_frame(str(p))
+    assert st["readable"] and not st["complete"]
+
+    doc["arms"] += [{"arm": "NR4A1_5BT_LIG", "ok": True, "why": None},
+                    {"arm": "NR4A2_5BT_LIG", "ok": True, "why": None}]
+    A._summarise_arms(doc, complete=True)
+    assert doc["_artifact_state"].startswith("COMPLETE")
+    assert not doc["sentence"].startswith("⚠")
+    A.write_json(doc, str(p))
+    _frame, st = GT._read_frame(str(p))
+    assert st["readable"] and st["complete"]
+
+
+def test_a_truncated_frame_is_a_refusal_and_never_reads_as_an_empty_result(tmp_path):
+    """⛔ CLAUDE.md §4: an absent reading is not a reading of absence. The committed truncated artifact would
+    previously have taken the gate down with a JSONDecodeError with no attribution."""
+    broken = tmp_path / "frame.json"
+    broken.write_text('{"arms": [{"arm": "NR4A3"}],\n "e3_binary": {\n  "_mol": ')
+    _frame, st = GT._read_frame(str(broken))
+    assert st["present"] and not st["readable"]
+    assert "TRUNCATED" in st["why"] and "not an empty result" in st["why"]
+
+    good = tmp_path / "pc.json"
+    good.write_text(json.dumps({"case": "6HAX_B_A_FWZ", "positive_control_passes": True,
+                                "dockq": 0.9, "sentence": "passes"}))
+    doc = GT.run(str(tmp_path), str(broken), [str(good)])
+    assert doc["verdict"] == "REFUSED" and doc["frame_is_usable"] is False
+    assert "A_and_B" not in doc, "no arm may be graded off an unreadable frame"
+    assert "not about the paralogues" in doc["sentence"].replace("\n", " ")
+
+
+def test_an_absent_frame_is_told_apart_from_a_truncated_one(tmp_path):
+    _frame, st = GT._read_frame(str(tmp_path / "nope.json"))
+    assert st["present"] is False and "absent" in st["why"]
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
 
@@ -447,8 +560,15 @@ def test_map_edits_are_emitted_and_point_at_the_artifact_rather_than_restating_i
         assert map_text.count(e["anchor"]) == 1, "dead or ambiguous anchor: %r" % e["anchor"]
         assert map_text.count(e["current_text"]) == 1, "dead current_text: %r" % e["current_text"]
         assert e["artifact"].startswith("nr4a3-5bt-")
-    joined = " ".join(e["proposed_text"] for e in edits)
+        # ⛔ `proposed_text: null` IS THE DERIVED-COUNT CONTRACT, NOT AN EMPTY EDIT (rule 1.1; the shape
+        # `route_map_edits.py` reports as DEFERRED). It has to carry the `flag` that says WHY, or a reader
+        # cannot tell a deliberate deferral from a half-written entry.
+        if e["proposed_text"] is None:
+            assert e.get("flag", "").startswith("DERIVED"), "a null proposed_text needs a DERIVED flag"
+    joined = " ".join(e["proposed_text"] for e in edits if e["proposed_text"])
     assert "nr4a3-5bt-gate.json" in joined, "the map must point at the artifact"
+    assert any(e["proposed_text"] is None for e in edits), (
+        "§10.2's tally is DERIVED from §10.1's state column — an edit that types a new total is the bug")
 
 
 def test_the_map_edit_carries_the_scope_and_the_inherited_conditions_not_as_footnotes():

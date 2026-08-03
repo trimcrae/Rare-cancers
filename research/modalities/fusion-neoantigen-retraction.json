@@ -1,0 +1,456 @@
+{
+ "_title": "EWSR1::NR4A3 neoantigen artifacts graded against the corrected junction",
+ "_cost": "$0 — committed inputs only, no network, no model, no prediction",
+ "_utc": "2026-08-03T12:05:00Z",
+ "_et": "2026-08-03 8:05 AM ET",
+ "breakpoint_artifact": {
+  "status": "RETRACTED — DO NOT QUOTE ANY PEPTIDE, BINDER OR AFFINITY IN THIS FILE",
+  "one_line": "all 7 junctions carry an NR4A3 exon label the corrected exon map does not reproduce; 6 of them resume at an offset no corrected window entry produces at all, and 24 of the 26 distinct predicted binders exist only at those non-existent seams.",
+  "corrected_junction": "EWSR1(1-264)::NR4A3(1-626)",
+  "corrected_junction_source": {
+   "artifact": "fusion-object-inventory.json",
+   "gate_status": "REPRODUCED",
+   "checks": [
+    {
+     "check": "EWSR1 exon 7 is coding and ends at residue 264",
+     "got": 264,
+     "want": 264,
+     "ok": true
+    },
+    {
+     "check": "NR4A3 exon 3 is coding and begins at residue 1",
+     "got": 1,
+     "want": 1,
+     "ok": true
+    },
+    {
+     "check": "NR4A3 canonical protein is 626 aa",
+     "got": 626,
+     "want": 626,
+     "ok": true
+    },
+    {
+     "check": "NR4A3 transcript exons 1 and 2 are non-coding (the cause of the off-by-two)",
+     "got": [
+      1,
+      2
+     ],
+     "want": [
+      1,
+      2
+     ],
+     "ok": true
+    },
+    {
+     "check": "both exon maps passed their own translate-and-sum self-checks",
+     "got": {
+      "NR4A3": {
+       "offsets_sum_equals_cds_length": true,
+       "cds_translation_equals_ensembl_protein": true
+      },
+      "EWSR1": {
+       "offsets_sum_equals_cds_length": true,
+       "cds_translation_equals_ensembl_protein": true
+      }
+     },
+     "want": "all true",
+     "ok": true
+    }
+   ],
+   "_phase_caveat_has_one_home_there": "EWSR1 exon 7 ends 1 nt past a codon boundary, so residue 265 is SPLIT across the splice junction. That is a normal exon phase and is reported, not corrected: the PROTEIN-level junction the gate asserts is EWSR1 kept to residue 264, and how the split codon is completed depends on the acceptor exon's own 5' phase."
+  },
+  "the_defect": "`fusion_breakpoints.py` indexed NR4A3's `offsets` array (CODING exons) with numbers from a window written in TRANSCRIPT exon numbers. NR4A3 ENST00000395097 has 8 transcript exons of which exons 1 and 2 carry no coding sequence, so the label \"NR4A3 exon 3\" addressed the THIRD CODING exon (transcript exon 5, residue 361) instead of transcript exon 3 (residue 1). Every junction in this file therefore deleted NR4A3's AF1 and the first zinc finger of the C4 DBD, which opens at C292.",
+  "fixed_at_source": "fusion_breakpoints.resume_offset / cut_offset (2026-08-02) — they now RAISE on a non-coding exon rather than sliding onto its neighbour",
+  "⛔_not_regenerated": "regenerating this artifact requires MHCflurry-2.0, which is the neoantigen lane's call and not this module's. NOTHING here was re-predicted: every number in this banner is COUNTED from the committed content below.",
+  "counts": {
+   "n_junctions_committed": 7,
+   "n_junctions_seam_not_produced": 6,
+   "n_junctions_seam_relabelled": 1,
+   "n_junctions_with_a_reproduced_nr4a3_label": 0,
+   "n_junctions_with_a_reproduced_ewsr1_cut": 7,
+   "n_distinct_novel_peptides": 230,
+   "n_distinct_novel_peptides_only_at_seams_not_produced": 200,
+   "n_distinct_novel_peptides_at_a_relabelled_seam": 30,
+   "n_junction_level_peptide_rows": 234,
+   "n_distinct_predicted_binders": 26,
+   "n_distinct_predicted_binders_only_at_seams_not_produced": 24,
+   "n_distinct_predicted_binders_at_a_relabelled_seam": 2,
+   "n_junction_level_binder_rows": 28,
+   "_selfcheck_ranked_equals_junction_level_binders": true,
+   "_selfcheck_artifact_n_distinct_binders": true,
+   "binders_at_a_relabelled_seam": [
+    "GVVKRTVQK",
+    "KQCGVVKRTV"
+   ]
+  },
+  "junctions_graded": [
+   {
+    "committed_label": "EWSR1 exon 7 :: NR4A3 exon 3",
+    "ews_cds_nt": 793,
+    "nr4_cds_nt": 1081,
+    "nr4a3_resumes_at_residue": 361,
+    "junction_context": "SSYGQQ|IVRTDS",
+    "status": "SEAM_NOT_PRODUCED",
+    "ewsr1_cut_reproduced": true,
+    "nr4a3_label_reproduced": false,
+    "corrected_transcript_exon_that_produces_this_offset": null,
+    "n_novel_peptides": 34,
+    "n_binders": 5
+   },
+   {
+    "committed_label": "EWSR1 exon 9 :: NR4A3 exon 3",
+    "ews_cds_nt": 1012,
+    "nr4_cds_nt": 1081,
+    "nr4a3_resumes_at_residue": 361,
+    "junction_context": "GFNKPG|VVRTDS",
+    "status": "SEAM_NOT_PRODUCED",
+    "ewsr1_cut_reproduced": true,
+    "nr4a3_label_reproduced": false,
+    "corrected_transcript_exon_that_produces_this_offset": null,
+    "n_novel_peptides": 34,
+    "n_binders": 5
+   },
+   {
+    "committed_label": "EWSR1 exon 10 :: NR4A3 exon 3",
+    "ews_cds_nt": 1045,
+    "nr4_cds_nt": 1081,
+    "nr4a3_resumes_at_residue": 361,
+    "junction_context": "GPDLDL|VVRTDS",
+    "status": "SEAM_NOT_PRODUCED",
+    "ewsr1_cut_reproduced": true,
+    "nr4a3_label_reproduced": false,
+    "corrected_transcript_exon_that_produces_this_offset": null,
+    "n_novel_peptides": 34,
+    "n_binders": 2
+   },
+   {
+    "committed_label": "EWSR1 exon 11 :: NR4A3 exon 2",
+    "ews_cds_nt": 1164,
+    "nr4_cds_nt": 951,
+    "nr4a3_resumes_at_residue": 318,
+    "junction_context": "QCGVVK|RTVQKN",
+    "status": "SEAM_RELABELLED",
+    "ewsr1_cut_reproduced": true,
+    "nr4a3_label_reproduced": false,
+    "corrected_transcript_exon_that_produces_this_offset": [
+     4
+    ],
+    "n_novel_peptides": 30,
+    "n_binders": 2
+   },
+   {
+    "committed_label": "EWSR1 exon 11 :: NR4A3 exon 4",
+    "ews_cds_nt": 1164,
+    "nr4_cds_nt": 1254,
+    "nr4a3_resumes_at_residue": 419,
+    "junction_context": "QCGVVK|YCPTDQ",
+    "status": "SEAM_NOT_PRODUCED",
+    "ewsr1_cut_reproduced": true,
+    "nr4a3_label_reproduced": false,
+    "corrected_transcript_exon_that_produces_this_offset": null,
+    "n_novel_peptides": 34,
+    "n_binders": 2
+   },
+   {
+    "committed_label": "EWSR1 exon 12 :: NR4A3 exon 3",
+    "ews_cds_nt": 1294,
+    "nr4_cds_nt": 1081,
+    "nr4a3_resumes_at_residue": 361,
+    "junction_context": "AVEWFD|VVRTDS",
+    "status": "SEAM_NOT_PRODUCED",
+    "ewsr1_cut_reproduced": true,
+    "nr4a3_label_reproduced": false,
+    "corrected_transcript_exon_that_produces_this_offset": null,
+    "n_novel_peptides": 34,
+    "n_binders": 5
+   },
+   {
+    "committed_label": "EWSR1 exon 13 :: NR4A3 exon 3",
+    "ews_cds_nt": 1417,
+    "nr4_cds_nt": 1081,
+    "nr4a3_resumes_at_residue": 361,
+    "junction_context": "PPPLRG|VVRTDS",
+    "status": "SEAM_NOT_PRODUCED",
+    "ewsr1_cut_reproduced": true,
+    "nr4a3_label_reproduced": false,
+    "corrected_transcript_exon_that_produces_this_offset": null,
+    "n_novel_peptides": 34,
+    "n_binders": 7
+   }
+  ],
+  "corrected_nr4a3_resumes_over_the_declared_window": {
+   "3": {
+    "cds_nt": 0,
+    "residue": 1
+   },
+   "4": {
+    "cds_nt": 951,
+    "residue": 318
+   }
+  },
+  "corrected_nr4a3_window_entries_skipped_as_non_coding": [
+   {
+    "transcript_exon": 2,
+    "why": "NR4A3: transcript exon 2 carries no coding sequence (coding exons are [3, 4, 5, 6, 7, 8])"
+   }
+  ],
+  "⚠_how_this_reconciles_with_R13a": "`fusion-object-inventory.json` -> `neoantigen_lane_flag` reports `all_seams_stale: true` and `stale_resume_residues: [318, 361, 419]`. That is CORRECT as written and this grading does not contradict it — the two use different reference sets ON PURPOSE. R13-a compares against the PLAUSIBLE corrected breakpoints, i.e. after its DBD filter, which leaves only NR4A3 residue 1; this module compares against every offset the corrected windows ARITHMETICALLY produce, which is residues 1 and 318. Residue 318 is therefore stale to R13-a (implausible) and produced to this module (arithmetic), and BOTH conclusions are the same: none of these binders may be quoted. Recording the split rather than collapsing it is what stops the next reader deciding the two artifacts disagree.",
+  "⚠_the_one_relabelled_seam": "one committed junction (EWSR1 exon 11 :: NR4A3 CDS nt 951, residue 318) resumes at an offset the corrected helpers DO produce — but from transcript exon 4, not the \"exon 2\" this file labels it. Its 30 peptides and 2 binders are real sequences of THAT junction under a wrong label, and that junction is itself excluded by R13-a's DBD filter (residue 318 deletes AF1 and the whole C4 zinc-finger DBD). It is counted separately above and is still not quotable here.",
+  "downstream_citations": [
+   {
+    "path": "research/modalities/vaccine-construct.json",
+    "n_peptides_quoted": 230,
+    "examples": [
+     "AAVEWFDV",
+     "AAVEWFDVV",
+     "AAVEWFDVVR",
+     "AAVEWFDVVRT",
+     "AKAAVEWFDV",
+     "AKAAVEWFDVV"
+    ]
+   },
+   {
+    "path": "research/manuscripts/hla-coverage-emc.md",
+    "n_peptides_quoted": 34,
+    "examples": [
+     "GQQIVRTD",
+     "GQQIVRTDS",
+     "GQQIVRTDSL",
+     "GQQIVRTDSLK",
+     "QIVRTDSL",
+     "QIVRTDSLK"
+    ]
+   },
+   {
+    "path": "research/modalities/patient-cd4-demo.json",
+    "n_peptides_quoted": 34,
+    "examples": [
+     "GQQIVRTD",
+     "GQQIVRTDS",
+     "GQQIVRTDSL",
+     "GQQIVRTDSLK",
+     "QIVRTDSL",
+     "QIVRTDSLK"
+    ]
+   },
+   {
+    "path": "research/modalities/patient-neoepitopes-demo.json",
+    "n_peptides_quoted": 34,
+    "examples": [
+     "GQQIVRTD",
+     "GQQIVRTDS",
+     "GQQIVRTDSL",
+     "GQQIVRTDSLK",
+     "QIVRTDSL",
+     "QIVRTDSLK"
+    ]
+   },
+   {
+    "path": "research/manuscripts/fusion-junction-neoantigen-paper.md",
+    "n_peptides_quoted": 32,
+    "examples": [
+     "AAVEWFDV",
+     "AAVEWFDVV",
+     "AVEWFDVV",
+     "DLVVRTDS",
+     "DLVVRTDSL",
+     "DVVRTDSL"
+    ]
+   },
+   {
+    "path": "research/manuscripts/novel-modalities.md",
+    "n_peptides_quoted": 24,
+    "examples": [
+     "DLVVRTDS",
+     "DLVVRTDSL",
+     "DVVRTDSL",
+     "FDVVRTDS",
+     "FDVVRTDSL",
+     "GMPPPLRGV"
+    ]
+   },
+   {
+    "path": "research/manuscripts/clinical-brief-emc-neoantigen.md",
+    "n_peptides_quoted": 16,
+    "examples": [
+     "QIVRTDSL",
+     "QIVRTDSLK",
+     "QIVRTDSLKG",
+     "QIVRTDSLKGR",
+     "QQIVRTDS",
+     "QQIVRTDSL"
+    ]
+   },
+   {
+    "path": "research/manuscripts/novel-modalities-factcheck.md",
+    "n_peptides_quoted": 13,
+    "examples": [
+     "GVVRTDSL",
+     "GVVRTDSLK",
+     "QIVRTDSL",
+     "QQIVRTDS",
+     "QQIVRTDSL",
+     "QQSSSYGQQI"
+    ]
+   }
+  ],
+  "downstream_consumers": [
+   {
+    "path": "research/modalities/coverage_scan.py",
+    "kind": "CODE — LOADS this artifact and recomputes from it"
+   },
+   {
+    "path": "research/modalities/fusion_object_inventory.py",
+    "kind": "CODE — LOADS this artifact and recomputes from it"
+   },
+   {
+    "path": "research/modalities/hla_coverage.py",
+    "kind": "CODE — LOADS this artifact and recomputes from it"
+   },
+   {
+    "path": "research/modalities/nr4a3_exon_audit.py",
+    "kind": "CODE — LOADS this artifact and recomputes from it"
+   },
+   {
+    "path": "research/modalities/target_route_census.py",
+    "kind": "CODE — LOADS this artifact and recomputes from it"
+   },
+   {
+    "path": "research/modalities/tests/test_fusion_neoantigen_invalidation.py",
+    "kind": "CODE — LOADS this artifact and recomputes from it"
+   },
+   {
+    "path": "research/modalities/tests/test_scope_rungs_free.py",
+    "kind": "CODE — LOADS this artifact and recomputes from it"
+   },
+   {
+    "path": "research/modalities/vaccine_construct.py",
+    "kind": "CODE — LOADS this artifact and recomputes from it"
+   },
+   {
+    "path": "research/modalities/fusion_breakpoints.py",
+    "kind": "CODE — WRITES this artifact (its producer)"
+   },
+   {
+    "path": "research/manuscripts/fusion-junction-neoantigen-paper.md",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/manuscripts/hla-coverage-emc.md",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/manuscripts/novel-modalities-factcheck.md",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/manuscripts/nr4a3-program-map.md",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/manuscripts/target-route-options.md",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/modalities/fusion-object-inventory.json",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/modalities/nr4a3-exon-audit.json",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/modalities/target-route-census.json",
+    "kind": "names the artifact (prose or data)"
+   },
+   {
+    "path": "research/modalities/vaccine-construct.json",
+    "kind": "names the artifact (prose or data)"
+   }
+  ],
+  "⛔_downstream_note": "`downstream_citations` are files quoting peptide STRINGS from this artifact; `downstream_consumers` are files that LOAD it and recompute — the more serious class, because their numbers inherit the defect without ever printing a peptide. A retracted input still quoted downstream is the more serious half of the defect: each needs its own correction, and NONE of them is fixed by this banner.",
+  "⛔_scope": "exon arithmetic and sequence composition only. No affinity, presentation, immunogenicity, efficacy, safety or clinical claim is made, repaired or implied here, and none was ever established by this artifact.",
+  "graded_utc": "2026-08-03T12:05:00Z",
+  "graded_et": "2026-08-03 8:05 AM ET",
+  "graded_by": "research/modalities/fusion_neoantigen_invalidation.py"
+ },
+ "single_breakpoint_artifact": {
+  "status": "NOT VERIFIED AGAINST THE CORRECTED JUNCTION — its seam is one residue off",
+  "⛔_this_is_a_different_defect_from_the_off_by_two": "this artifact was NOT built by `fusion_breakpoints.py` and does not carry the coding/transcript exon slip. It models ONE declared breakpoint, and its EWSR1 half (kept to residue 264) matches the corrected junction exactly.",
+  "corrected_junction": "EWSR1(1-264)::NR4A3(1-626)",
+  "modelled_junction": "EWSR1(1-264)::NR4A3(2-626)",
+  "the_difference": "the corrected junction retains NR4A3 from residue 1; this artifact resumes at residue 2, dropping NR4A3 Met1 (the initiator methionine, which is an INTERNAL residue in a fusion). Measured against the committed UniProt cache: NR4A3[1:11] == 'PCVQAQYSPS', and this artifact's own `junction_context_right10` is 'PCVQAQYSPS'. Every junction-SPANNING peptide therefore differs from the corrected-junction peptide of the same length.",
+  "⚠_what_this_does_NOT_settle": "whether Met1 survives is a splice-PHASE question, not an arithmetic one: EWSR1 exon 7 ends at coding phase 1, so residue 265 is split across the junction and how it completes depends on the acceptor exon's 5' phase. That caveat has its one home in fusion-object-inventory.json -> gate._phase_note and is NOT resolved here. So this artifact is flagged UNVERIFIED, not retracted — the honest state, and the two must not be conflated.",
+  "n_spanning_peptides_affected": 34,
+  "n_predicted_binders_affected": 5,
+  "downstream_citations": [
+   {
+    "path": "research/README.md",
+    "n_peptides_quoted": 3,
+    "examples": [
+     "GQQPCVQAQY",
+     "QPCVQAQY",
+     "QQPCVQAQY"
+    ]
+   },
+   {
+    "path": "research/manuscripts/fusion-junction-neoantigen-paper.md",
+    "n_peptides_quoted": 3,
+    "examples": [
+     "GQQPCVQAQY",
+     "QPCVQAQY",
+     "QQPCVQAQY"
+    ]
+   },
+   {
+    "path": "research/manuscripts/novel-modalities-factcheck.md",
+    "n_peptides_quoted": 3,
+    "examples": [
+     "GQQPCVQAQY",
+     "QPCVQAQY",
+     "QQPCVQAQY"
+    ]
+   },
+   {
+    "path": "research/manuscripts/novel-modalities.md",
+    "n_peptides_quoted": 3,
+    "examples": [
+     "GQQPCVQAQY",
+     "QPCVQAQY",
+     "QQPCVQAQY"
+    ]
+   },
+   {
+    "path": "research/modalities/fusion_breakpoints.py",
+    "n_peptides_quoted": 3,
+    "examples": [
+     "GQQPCVQAQY",
+     "QPCVQAQY",
+     "QQPCVQAQY"
+    ]
+   }
+  ],
+  "⛔_scope": "sequence composition only. No affinity, immunogenicity, efficacy or clinical claim.",
+  "graded_utc": "2026-08-03T12:05:00Z",
+  "graded_et": "2026-08-03 8:05 AM ET",
+  "graded_by": "research/modalities/fusion_neoantigen_invalidation.py"
+ },
+ "map_edits_required": [
+  {
+   "section": "§9 finding 23 → the neoantigen lane's owed consequence",
+   "anchor": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
+   "current_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
+   "proposed_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane). ✅ **BANNERED IN PLACE 2026-08-03, since regeneration is still not this lane's to do:** the artifact now leads with a `⛔_RETRACTED_SEAMS` block that refuses quotation, grades every junction against the corrected windows, and — the part nothing carried before — names its **downstream blast radius**: **8 committed files quote its peptide strings and 8 modules LOAD it and recompute from it**, so `hla-coverage`, `vaccine-construct` and the two patient demos all inherit the defect without ever printing a seam. Per-file list and per-junction grading: [`fusion-breakpoint-neoantigens.json`](../modalities/fusion-breakpoint-neoantigens.json) → `⛔_RETRACTED_SEAMS`, mirrored in [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json).",
+   "why": "the defect was diagnosed and then unowned; a known defect that is not visible AT THE ARTIFACT reads as a handled one, and the downstream consumers were never enumerated at all",
+   "artifact": "fusion-breakpoint-neoantigens.json:⛔_RETRACTED_SEAMS"
+  },
+  {
+   "section": "§9 finding 23 → the OTHER neoantigen artifact",
+   "anchor": "`fusion_cofold.py` resumed NR4A3 at residue 2;",
+   "current_text": "`fusion_cofold.py` resumed NR4A3 at residue 2;",
+   "proposed_text": "`fusion_cofold.py` resumed NR4A3 at residue 2 — **immaterial to a fold model and NOT immaterial to a neoantigen one, which is a distinction this page did not draw**: `fusion-neoantigen-predictions.json` uses that same residue-2 seam, so all 34 of its junction-spanning peptides differ from the corrected junction's by NR4A3 Met1, and its lead epitope is quoted in `research/README.md` and three manuscripts. It is flagged **UNVERIFIED, not retracted** — the Met1 question is a splice-PHASE one that [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) → `gate._phase_note` explicitly leaves open —",
+   "why": "the page treats the residue-2 model as simply vindicated; that holds for the co-fold lane and does not hold for the peptide lane, where one residue at the seam changes every spanning peptide",
+   "artifact": "fusion-neoantigen-predictions.json:⛔_RETRACTED_SEAMS"
+  }
+ ]
+}
