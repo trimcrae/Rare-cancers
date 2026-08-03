@@ -95,17 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-08-03T18:07:32Z",
-      "et": "2:07 PM ET",
-      "outcome": "nothing-to-launch",
-      "what_that_means": "no unit needed a host, so no rental was attempted and nothing was spent. Not a hold: the market was never consulted.",
-      "stage": "5aks-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30839773293",
-      "gate_hold": false,
-      "gate_reason": "no unit of mode 5aks needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
-      "reason": "every 5a-KS leg already done or hosted; no launch dispatched, no rental attempted"
-    },
-    {
       "utc": "2026-08-03T18:07:36Z",
       "et": "2:07 PM ET",
       "outcome": "nothing-to-launch",
@@ -709,12 +698,23 @@
       "gate_hold": false,
       "gate_reason": "no unit of mode edge_reps needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
       "reason": "every unit already done or hosted; no launch dispatched, no rental attempted"
+    },
+    {
+      "utc": "2026-08-03T20:35:47Z",
+      "et": "4:35 PM ET",
+      "outcome": "nothing-to-launch",
+      "what_that_means": "no unit needed a host, so no rental was attempted and nothing was spent. Not a hold: the market was never consulted.",
+      "stage": "triangle-gate",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30850820293",
+      "gate_hold": false,
+      "gate_reason": "no unit of mode triangle needs a host \u2014 4 done, 0 already running. The market was not consulted because nothing is for sale to us right now; this is NOT a price hold.",
+      "reason": "every triangle leg already done or hosted; no launch dispatched, no rental attempted"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 3601,
-    "through_utc": "2026-08-03T18:00:28Z"
+    "n_total": 3602,
+    "through_utc": "2026-08-03T18:07:32Z"
   }
 }
