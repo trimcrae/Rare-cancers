@@ -1,13 +1,28 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-08-03T01:55:25Z",
+  "utc": "2026-08-03T02:02:38Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
-  "pending_seen": [],
+  "pending_seen": [
+    {
+      "run": 30778155394,
+      "name": "RUNG 5b-T \u2014 rebuild the NR4A1/2/3 ternaries by the ASSEMBLY ",
+      "jobs": 0,
+      "age_min": 3.8
+    }
+  ],
   "wedged": [],
   "cancelled": [],
   "cancel_failed": [],
-  "spared": []
+  "spared": [
+    {
+      "run": 30778155394,
+      "name": "RUNG 5b-T \u2014 rebuild the NR4A1/2/3 ternaries by the ASSEMBLY ",
+      "jobs": 0,
+      "age_min": 3.8,
+      "why": "only 3.8 min old; below the 10 min threshold"
+    }
+  ]
 }
