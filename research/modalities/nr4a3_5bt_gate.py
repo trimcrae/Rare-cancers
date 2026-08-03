@@ -86,11 +86,17 @@ def binomial_tail_at_most(k, n, p=0.5):
 
 
 def arm_models(pred_root, arm):
-    """Every predicted complex for one arm, sorted. Flat `complex_pred_<ARM>_<seed>.pdb` layout."""
-    hits = sorted(glob.glob(os.path.join(pred_root, "complex_pred_%s_*.pdb" % arm)))
+    """Every predicted complex for one arm, sorted.
+
+    ⚠ RECURSIVE, and that is not tidiness. `actions/upload-artifact` given both an absolute predictions
+    directory and a workspace-relative artifact computes their COMMON ANCESTOR as the archive root, so the
+    downloaded tree is nested under whatever prefix that produced. A flat glob would find nothing and the gate
+    would report "no readable model" — a REFUSAL manufactured by the packaging, which is exactly the shape of
+    error §4 calls an absent reading being mistaken for a reading of absence."""
+    hits = sorted(glob.glob(os.path.join(pred_root, "**", "complex_pred_%s_*.pdb" % arm), recursive=True))
     if not hits:
-        hits = sorted(glob.glob(os.path.join(pred_root, arm, "complex_pred_*.pdb")))
-    return hits
+        hits = sorted(glob.glob(os.path.join(pred_root, "**", arm, "complex_pred_*.pdb"), recursive=True))
+    return sorted(set(hits))
 
 
 def model_signature(path):

@@ -279,6 +279,20 @@ def build():
         "manifest_matches_measurement": (
             measured_rg is not None and manifest_row.get("selection_rg") is not None
             and abs(measured_rg - float(manifest_row["selection_rg"])) < 1e-4),
+        # ⚠ THE TWO READINGS THIS CANNOT YET SEPARATE, and the fields that would.
+        "open_question": ("mislabelled frame vs mis-selected frame — the two call for different "
+                          "responses and the rep0 legacy selection pool "
+                          "(s3 nr4a3-release-pocket/pocket_analysis_summary.json) is NOT committed to "
+                          "this repo, so it cannot be settled from what is on disk"),
+        "manifest_candidate_source": (audit or {}).get("manifest_candidate_source"),
+        "manifest_params": (audit or {}).get("manifest_params"),
+        "manifest_selection": (audit or {}).get("manifest_selection"),
+        "⚠_latent_hazard": ("nr4a3_release_druggable._load_summary_records labels EVERY record `rep: 0` "
+                            "regardless of which trajectory's summary is mounted at POCKET_DIR, and "
+                            "_extract_receptor then slices that frame index out of release_rep0.dcd. So "
+                            "a summary from another replica would be selected on ITS numbers and "
+                            "extracted from rep0's coordinates, silently. Reported as a code hazard; "
+                            "there is no evidence here that it fired."),
     }
 
     # ---- (A) -----------------------------------------------------------------------------------------

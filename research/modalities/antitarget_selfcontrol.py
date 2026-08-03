@@ -292,6 +292,22 @@ def _refusal(where, why, **extra):
     return r
 
 
+def _checkpoint(doc):
+    """Write the artifact AFTER EVERY UNIT. CLAUDE.md's standing checkpoint rule, applied to a $0 job.
+
+    ⚠ THE RULE IS NOT ABOUT MONEY, WHICH IS WHY IT APPLIES HERE. A single end-of-run `json.dump` means a
+    wall-clock timeout on the flagged fan-out (38 docks, single-threaded) publishes NOTHING — not a
+    partial panel, not the self-control that had already finished and is the GATE. The publish step is
+    `if: always()`, so the only thing standing between a timeout and a lost verdict is whether the file
+    exists on disk. Nine self-docks that completed are a result; losing them because a tenth ligand was
+    slow is a bug, and it costs one `json.dump` per unit to prevent.
+    """
+    try:
+        json.dump(doc, open(OUT, "w"), indent=2)
+    except Exception as e:                                     # noqa: BLE001
+        print("  [checkpoint] could not write %s: %s" % (OUT, e), file=sys.stderr)
+
+
 def mode_resolve(doc):
     """Resolve MR / NR3C2 from UniProt by a live RCSB query and write it into the panel."""
     import apo_pose_recovery as apr
@@ -852,12 +868,12 @@ def main():
     # a routed edit whose `current_text` has been reworded fails SILENTLY when someone tries to apply it.
     import map_edit_anchors as mea
     doc["map_edits_required"], doc["map_edit_anchor_check"] = mea.verify(map_edits(doc))
-    if not doc["map_edit_anchor_check"]["all_applicable"]:
+    if not doc["map_edit_anchor_check"]["all_accounted"]:
         doc["refusals"].append({
             "where": "map_edits_required",
             "why": "at least one routed edit's anchor is NOT_FOUND, AMBIGUOUS or UNREAD against the live "
                    "roadmap — see map_edit_anchor_check. Those edits must be rewritten, not applied by "
-                   "judgement."})
+                   "judgement. (An APPLIED edit is NOT one of these: it already landed.)"})
     json.dump(doc, open(OUT, "w"), indent=2)
     open(OUT_MD, "w").write(render_markdown(doc))
     print("wrote", OUT)

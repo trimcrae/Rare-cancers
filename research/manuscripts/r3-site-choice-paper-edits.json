@@ -1,0 +1,24 @@
+{
+  "_what": "paper edits from the R3 site-choice audit (2026-08-03)",
+  "_rule": "CLAUDE.md rule 1 — each edit's `artifact` names the file that OWNS its numbers; never re-type one here",
+  "_do_not_apply_blind": "route with route_map_edits.py --target research/manuscripts/nr4a3-degrader-paper.md",
+  "generated": "2026-08-03",
+  "verified_against": [
+    "research/manuscripts/nr4a3-degrader-paper.md"
+  ],
+  "n_edits": 1,
+  "map_edits_required": [
+    {
+      "id": "E3",
+      "row": null,
+      "serves": "R3",
+      "file": "research/manuscripts/nr4a3-degrader-paper.md",
+      "section": "Dependency audit — CLOSED",
+      "anchor": "The frame is the unbiased release replica 0, frame 95 (CV Rg",
+      "current_text": "The frame is the unbiased release replica 0, frame 95 (CV Rg 0.7367 nm).",
+      "proposed_text": "The frame is the unbiased release replica 0, frame 95 (CV Rg **0.7612 nm**, recomputed from the frame's own coordinates; the manifest's 0.7367 is superseded).",
+      "artifact": "research/modalities/r3-site-choice-audit.json",
+      "why": "MEASURED erratum: the CV recomputed from the frame reproduces the committed series for all 25 rep0 frames and gives 0.7612"
+    }
+  ]
+}

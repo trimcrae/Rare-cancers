@@ -1,0 +1,74 @@
+{
+  "_what": "map + paper edits from the R3 site-choice audit (2026-08-03)",
+  "_rule": "CLAUDE.md rule 1 — each edit's `artifact` names the file that OWNS its numbers; never re-type one here",
+  "_do_not_apply_blind": "route with research/manuscripts/route_map_edits.py; anchors were grep -F verified at emit time and again at the end of the session",
+  "generated": "2026-08-03",
+  "verified_against": [
+    "research/manuscripts/nr4a3-program-map.md",
+    "research/manuscripts/nr4a3-degrader-paper.md"
+  ],
+  "n_edits": 5,
+  "map_edits_required": [
+    {
+      "id": "E1",
+      "row": 3,
+      "serves": "R3",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§10.1 · Open rows",
+      "anchor": "| **3** | **The frame-level generation-receptor dependency audit**",
+      "current_text": "reasoning: [three-row-audit-2026-08-03.md](three-row-audit-2026-08-03.md). ⚠ **Superseded, retained:** *\"○ future · $0-to-cheap · the cheapest open item in the program\"* |",
+      "proposed_text": "reasoning: [three-row-audit-2026-08-03.md](three-row-audit-2026-08-03.md) and — for the two questions inside this one — [r3-site-choice-audit-2026-08-03.md](r3-site-choice-audit-2026-08-03.md). ⭑ **AND THE RULE-SENSITIVITY IS NOW MEASURED RATHER THAN NOTED, WHICH CHANGES WHAT THE CAVEAT MEANS (2026-08-03).** The two accepted cavities are **not one pocket segmented twice**: 4 shared lining residues, pairwise Jaccard **0.21**, centroids **9.853 Å** apart — *further from each other than the gate's own 8.0 Å ceiling*. The prespecified 10-residue reference site is **SPLIT ACROSS TWO REAL CAVITIES** in this frame, pocket 1 holding the helix-3 face (T407/T410/P411/R412) and pocket 2 the helix-11/12 face (I484/L534); a gate built to ask *\"is this cavity the site?\"* was never built to ask *\"which half of a split site is the site?\"*. ⛔ **And the ordering is not local to this frame** — pooled over the unbiased release replicas it also moves NR4A1 (18→23 of 75) and the paralogue margins (**−0.040** vs NR4A1, **+0.027** vs NR4A2), so the rule that would rescue the generation frame reprices the selectivity premise too. ⚠ **ERRATUM, MEASURED:** the frame's CV Rg is **0.7612 nm**, not the 0.7367 recorded — and Rg is the **selection criterion**, not a label. ⭑ **A qualifying frame needs no new MD:** 44 of 75 unbiased frames clear D\\* on the mapped site, and the program's own selector re-run over rep0 today returns **rep0 frame 99** (Rg 0.7376, 0.621). Numbers: [`r3-site-choice-audit.json`](../modalities/r3-site-choice-audit.json), [`pocket-accepted-candidates.json`](../modalities/pocket-accepted-candidates.json). ⚠ **Superseded, retained:** *\"○ future · $0-to-cheap · the cheapest open item in the program\"* |",
+      "artifact": "research/modalities/r3-site-choice-audit.json",
+      "why": "the caveat said 'rule-sensitive'; the sensitivity is now measured and reaches C04"
+    },
+    {
+      "id": "E2",
+      "row": null,
+      "serves": "R3",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§5 requirement register — R3",
+      "anchor": "| **R3** | **The receptor frame `denovo_401` was generated into still qualifies**",
+      "current_text": "⚠ The verdict is **rule-sensitive and the artifact records the sensitivity**. Evidence: [`r3-generation-frame-harmonized.json`](../modalities/r3-generation-frame-harmonized.json) |",
+      "proposed_text": "⚠ The verdict is **rule-sensitive and the sensitivity is now MEASURED (2026-08-03)**: the two accepted cavities are two different sub-cavities of a **split** reference site (4 shared residues, Jaccard 0.21, centroids 9.853 Å apart), and choosing the other one would also move the paralogue margins (**−0.040** vs NR4A1, **+0.027** vs NR4A2). The frozen rule's answer stands and the thresholds were not touched. ⚠ **And the frame's recorded Rg is wrong** — measured **0.7612 nm** against the 0.7367 on record, where Rg is the selection criterion. Evidence: [`r3-generation-frame-harmonized.json`](../modalities/r3-generation-frame-harmonized.json), [`r3-site-choice-audit.json`](../modalities/r3-site-choice-audit.json), [r3-site-choice-audit-2026-08-03.md](r3-site-choice-audit-2026-08-03.md) |",
+      "artifact": "research/modalities/r3-site-choice-audit.json",
+      "why": "the register's first ✕ now has a measured sensitivity and a measured Rg erratum"
+    },
+    {
+      "id": "E4",
+      "row": null,
+      "serves": "R3",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§10.2 · The readout",
+      "anchor": null,
+      "current_text": null,
+      "proposed_text": null,
+      "flag": "DERIVED COUNT — do not hand-edit. §10.2's row counts are derived from §10.1's state column; row 3 stays RESOLVED either way, so no count moves. Regenerate rather than type.",
+      "why": "rule 1: a total is derived, never typed"
+    },
+    {
+      "id": "E5",
+      "row": null,
+      "serves": "R3",
+      "file": "research/manuscripts/three-row-audit-2026-08-03.md",
+      "section": "F3.1 and F3.5",
+      "anchor": null,
+      "current_text": null,
+      "proposed_text": null,
+      "flag": "ANOTHER LANE'S DOCUMENT — reported, not edited. It carries the superseded CV Rg 0.7367 in two places (:30 and :102). The live correction is E3; this page is a dated session record.",
+      "why": "CLAUDE.md rule 1.2: a superseded number is retained, not silently rewritten, and this file is not mine"
+    },
+    {
+      "id": "E6",
+      "row": 3,
+      "serves": "R3",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§10.1 · Open rows — a NEW row is warranted",
+      "anchor": null,
+      "current_text": null,
+      "proposed_text": null,
+      "flag": "NEEDS A NEW ROW, WHICH THIS TOOL MUST NOT INVENT. Four workflows (gpu-mdpocket-aws.yml, gpu-calibration-aws.yml, gpu-8xtt-benchmark-aws.yml, fpocket-enumerate-aws.yml) still default to the RETIRED legacy site rule, one of them (gpu-mdpocket) directly upstream of STEP 0's candidate pool. $0 to fix, pinned by tests/test_pocket_match_wiring.py, deliberately not rewired because each lane's artifacts are already published. Adding a row is a judgement call about ordering and ownership.",
+      "why": "a defect with no row is the 'caveat with nowhere to go' pattern §10.3 exists to catch"
+    }
+  ],
+  "_paper_edits": "the paper's edits live in r3-site-choice-paper-edits.json — route with --target research/manuscripts/nr4a3-degrader-paper.md; one artifact per target, because the router applies every edit in a file to ONE target and a cross-target edit renders as a DEAD ANCHOR"
+}

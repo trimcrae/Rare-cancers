@@ -270,6 +270,21 @@ def main(argv=None):
         "docking_primary_receptor": (manifest or {}).get("docking_primary_receptor"),
         "manifest_pocket_match": (manifest or {}).get("pocket_match"),
         "manifest_status": (manifest or {}).get("_status"),
+        # ⚠ ADDED 2026-08-03, AND IT IS THE DISCRIMINATING OBSERVATION FOR AN OPEN ERRATUM. The manifest
+        # records `selection_rg: 0.7367` for a frame whose CV Rg, recomputed from its own coordinates,
+        # is 0.7612 (`r3-site-choice-audit.json` -> cv_rg_check). Rg is not a label — it is the SELECTION
+        # CRITERION (`release_frame_select` minimises |Rg - target_rg|) — so the mismatch is either a
+        # mislabelled frame or a mis-selected one, and the two call for different responses.
+        # `candidate_source` names the trajectory the pool was read from and `params` names the
+        # target_rg/D* actually used, which is exactly what tells those apart. ⛔ They were being thrown
+        # away by a collector that had already downloaded them: `nr4a3_release_druggable._load_summary_
+        # records` labels EVERY record `rep: 0` regardless of which trajectory's summary is mounted, so
+        # "which trajectory" is a real question about this manifest and not a pedantic one.
+        "manifest_candidate_source": (manifest or {}).get("candidate_source"),
+        "manifest_candidate_pool": (manifest or {}).get("candidate_pool"),
+        "manifest_params": (manifest or {}).get("params"),
+        "manifest_selection": (manifest or {}).get("selection"),
+        "manifest_confirm_filter": (manifest or {}).get("confirm_filter"),
         "verdict": verdict,
     }
     with open(out_path, "w") as fh:

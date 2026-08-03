@@ -1,0 +1,5990 @@
+{
+ "_title": "The NR4A1-SPARING axis — the inverse of NR-V04, enumerated and measured",
+ "_question_from_trimcrae": "Is there anything to the idea of doing the inverse of NR-V04 here? Like making something that will degrade every NR4A paralogue EXCEPT NR4A1 using the same mechanism as NR-V04 but in reverse?",
+ "_status": "MEASURED at $0 — CPU only: cached UniProt sequences, committed opened models, committed docked poses. No GPU, no rental, no dispatch, no network. Nothing here is a claim about binding, reactivity, degradation, efficacy, safety or clinical readiness.",
+ "_one_fact_one_place": "The MGI and HPA figures are READ from nr4a2-sparing-bound.json at generation time; the relocation control is READ from selectivity-mechanism-options.json M4; hard_clash_A and the Pocket-5 list come from selectivity_mechanism_options; the lobe geometry is steric_design_rule.denied_lobe reused unchanged. This file is the ONE home only of the reciprocal vs-BOTH enumeration and the NR4A1-only steric measurement.",
+ "_documents_this_file_may_not_edit": [
+  "research/manuscripts/nr4a3-program-map.md",
+  "research/modalities/selectivity-mechanism-options.json"
+ ],
+ "_generated": {
+  "utc": "2026-08-03T02:03:59Z",
+  "et": "2026-08-02 10:03 PM ET",
+  "generator": "research/modalities/nr4a1_sparing_axis.py"
+ },
+ "⛔_the_covalent_mechanism_does_not_invert": {
+  "statement": "NR-V04 achieves NR4A1 selectivity by covalently labelling **NR4A1 Cys551**, a residue NR4A2 and NR4A3 do not carry at the aligned position (NR4A3 has T579). That is POSITIVE selection on a PRESENCE. Sparing NR4A1 requires selecting on an ABSENCE — and an electrophile cannot label a residue that is not there.",
+  "so": "there is no 'NR-V04 in reverse' as chemistry, and no amount of warhead engineering creates one. Any NR4A1-sparing design must use a NON-covalent mechanism. This is stated plainly so the idea is not re-proposed as a covalent one.",
+  "the_committed_evidence": "nr4a-paralogue-unique-residues.json -> reciprocal_paralogue_unique.NR4A1 carries C551 with NR4A3 partner T579, alignment-robust; categorical-axis-audit.json records the same pair.",
+  "⚠_and_the_one_thing_that_DOES_carry_over": "the CATEGORICAL logic survives — 'a residue the other proteins do not have' is still a set-membership fact rather than an energy difference. What changes is which observable can read it: a bond cannot, a SHAPE can. That is why the measured half of this file is steric."
+ },
+ "provenance": {
+  "already_existed": [
+   {
+    "artifact": "research/modalities/nr4a-paralogue-unique-residues.json",
+    "field": "reciprocal_paralogue_unique",
+    "what": "PAIRWISE reciprocal uniqueness: positions where a paralogue carries a Cys or Lys and NR4A3 does not, one paralogue at a time. NR4A1 14 rows, NR4A2 5 rows, whole sequence.",
+    "what_it_could_NOT_answer": "it is not 'unique vs BOTH'. 2 of NR4A1's rows are shared with NR4A2 at the same position (C534, K558), so they are NOT NR4A1-unique and cannot support an NR4A1-sparing design. It is also restricted to two residue types, and a steric argument needs all twenty.",
+    "generator_capability": "nr4a_paralogue_unique_residues.reciprocal_unique() hard-codes ref='NR4A3' and iterates `others` INDEPENDENTLY — the 'vs both' intersection is not something it can express."
+   },
+   {
+    "artifact": "research/modalities/nr4a3-linker-covalent-reach.json",
+    "field": "paralogue_control.reciprocal_uniqueness",
+    "what": "the beginning of the reciprocal set, as named in the task: NR4A1 C551 -> NR4A3 T579 and NR4A1/NR4A2 C534 -> NR4A3 S565.",
+    "what_it_could_NOT_answer": "same two limits, plus it is scoped to the chemoselectivity WINDOW (which cysteine closes a linker's reach envelope first), not to a design axis. And C534 is present in BOTH paralogues, so of the two named sites only C551 is NR4A1-unique at all.",
+    "present": [
+     "NR4A1",
+     "NR4A2"
+    ]
+   },
+   {
+    "artifact": "research/modalities/categorical-axis-audit.json",
+    "field": "residue_identity",
+    "what": "the correction that keeps this honest: NR4A1 C505 aligns to NR4A3 C536, so it is NOT a reciprocal-uniqueness site, and naming 'C534' alone mislabels the majority through-space closer.",
+    "what_it_could_NOT_answer": "it audits the pairwise set; it does not compute a vs-both one."
+   },
+   {
+    "artifact": "research/modalities/selectivity-mechanism-options.json",
+    "field": "measurements.M3 / mechanisms S3",
+    "what": "the steric-exclusion measurement and its null, in the NR4A3-selective direction only (both paralogues bulkier than NR4A3).",
+    "what_it_could_NOT_answer": "the NR4A1-only direction was never evaluated — M3's predicate requires BOTH paralogues to clash, which by construction can never fire on an NR4A1-specific bulge."
+   }
+  ],
+  "computed_here_for_the_first_time": [
+   "the vs-BOTH reciprocal set for NR4A1 over all 20 residue types under the two-aligner robustness rule — 58 alignment-robust NR4A1-unique positions in the LBD",
+   "the same enumeration for NR4A2 and NR4A3 as denominators, so the NR4A1 count can be graded",
+   "the NR4A1-ONLY steric clash rate, with the matched null and the uniqueness-alone control, over the same 13 poses and the same hard_clash_A M3 used",
+   "the same measurement over the ligand-envelope lining set rather than fpocket's 10 residues, using a union-over-species lining definition",
+   "the inverted denied lobe (occupiable in NR4A3 and at NR4A2's residue, denied at NR4A1's) with its own measured volume ceiling"
+  ],
+  "_the_gap_this_closes": "Every uniqueness enumeration in this repo ran NR4A3-first. The reciprocal fragments that existed were pairwise-against-NR4A3 and Cys/Lys-only, which is the wrong shape for an NR4A1-sparing design: that design needs positions NR4A1 does not SHARE WITH NR4A2, because a feature NR4A2 also carries cannot spare one and degrade the other."
+ },
+ "reciprocal_enumeration": {
+  "_question": "Which LBD positions are unique to NR4A1 against BOTH NR4A2 and NR4A3 — the reciprocal of the enumeration this repo has always run in one direction?",
+  "_method": "nr4a_paralogue_unique_residues.classify_positions with `ref` set to each species in turn, `others` set to the other two, and residue_types widened from the committed ('C','K') to all 20. Uniqueness is a claim ABOUT AN ALIGNMENT, so it is computed twice with independent aligners (linear-gap NW + affine-gap BLOSUM62) and only `unique_vs_both AND alignment_robust` rows are admitted — identical to the forward enumeration, which is what makes the two comparable.",
+  "_lbd_scope": "A position is IN THE LBD when its NR4A3-aligned partner falls in UniProt 373-626 (nr4a_paralogue_unique_residues.LBD_FIRST/LBD_LAST). One window, one alignment, three species.",
+  "by_species": {
+   "NR4A1": {
+    "accession": "P22736",
+    "n_positions_scanned": 598,
+    "n_unique_vs_both_alignment_robust": 164,
+    "n_unique_in_lbd": 58,
+    "unique_positions_in_lbd": [
+     {
+      "residue": "D",
+      "uniprot": 358,
+      "context": "PKQPP[D]ASPAN",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 391,
+      "nr4a3_aligned_residue": "P",
+      "partners": {
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 357,
+        "affine_residue": "P"
+       },
+       "NR4A3": {
+        "residue": "P",
+        "uniprot": 391,
+        "affine_residue": "P"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 359,
+      "context": "KQPPD[A]SPANL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 392,
+      "nr4a3_aligned_residue": "P",
+      "partners": {
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 358,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "P",
+        "uniprot": 392,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 362,
+      "context": "PDASP[A]NLLTS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 396,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 361,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "I",
+        "uniprot": 396,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 363,
+      "context": "DASPA[N]LLTSL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 397,
+      "nr4a3_aligned_residue": "C",
+      "partners": {
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 362,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "C",
+        "uniprot": 397,
+        "affine_residue": "C"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 366,
+      "context": "PANLL[T]SLVRA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 400,
+      "nr4a3_aligned_residue": "N",
+      "partners": {
+       "NR4A2": {
+        "residue": "I",
+        "uniprot": 365,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "N",
+        "uniprot": 400,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 373,
+      "context": "LVRAH[L]DSGPS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 407,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 373,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 407,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "G",
+      "uniprot": 376,
+      "context": "AHLDS[G]PSTAK",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 410,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 376,
+        "affine_residue": "N"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 410,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 380,
+      "context": "SGPST[A]KLDYS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 412,
+      "nr4a3_aligned_residue": "R",
+      "partners": {
+       "NR4A2": {
+        "residue": "T",
+        "uniprot": 380,
+        "affine_residue": "T"
+       },
+       "NR4A3": {
+        "residue": "R",
+        "uniprot": 412,
+        "affine_residue": "R"
+       }
+      }
+     },
+     {
+      "residue": "K",
+      "uniprot": 381,
+      "context": "GPSTA[K]LDYSK",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 413,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 381,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "D",
+        "uniprot": 413,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "K",
+      "uniprot": 386,
+      "context": "KLDYS[K]FQELV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 418,
+      "nr4a3_aligned_residue": "R",
+      "partners": {
+       "NR4A2": {
+        "residue": "R",
+        "uniprot": 386,
+        "affine_residue": "R"
+       },
+       "NR4A3": {
+        "residue": "R",
+        "uniprot": 418,
+        "affine_residue": "R"
+       }
+      }
+     },
+     {
+      "residue": "E",
+      "uniprot": 389,
+      "context": "YSKFQ[E]LVLPH",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 421,
+      "nr4a3_aligned_residue": "P",
+      "partners": {
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 389,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "P",
+        "uniprot": 421,
+        "affine_residue": "P"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 390,
+      "context": "SKFQE[L]VLPHF",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 422,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 390,
+        "affine_residue": "N"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 422,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 391,
+      "context": "KFQEL[V]LPHFG",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 423,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 391,
+        "affine_residue": "P"
+       },
+       "NR4A3": {
+        "residue": "D",
+        "uniprot": 423,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 392,
+      "context": "FQELV[L]PHFGK",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 424,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A2": {
+        "residue": "D",
+        "uniprot": 392,
+        "affine_residue": "D"
+       },
+       "NR4A3": {
+        "residue": "Q",
+        "uniprot": 424,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "P",
+      "uniprot": 393,
+      "context": "QELVL[P]HFGKE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 425,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A2": {
+        "residue": "Y",
+        "uniprot": 393,
+        "affine_residue": "Y"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 425,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "H",
+      "uniprot": 394,
+      "context": "ELVLP[H]FGKED",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 426,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A2": {
+        "residue": "Q",
+        "uniprot": 394,
+        "affine_residue": "Q"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 426,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "F",
+      "uniprot": 395,
+      "context": "LVLPH[F]GKEDA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 427,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A2": {
+        "residue": "M",
+        "uniprot": 395,
+        "affine_residue": "M"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 427,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "E",
+      "uniprot": 398,
+      "context": "PHFGK[E]DAGDV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 429,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A2": {
+        "residue": "D",
+        "uniprot": 398,
+        "affine_residue": "D"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 429,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "G",
+      "uniprot": 401,
+      "context": "GKEDA[G]DVQQF",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 432,
+      "nr4a3_aligned_residue": "E",
+      "partners": {
+       "NR4A2": {
+        "residue": "Q",
+        "uniprot": 401,
+        "affine_residue": "Q"
+       },
+       "NR4A3": {
+        "residue": "E",
+        "uniprot": 432,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "D",
+      "uniprot": 402,
+      "context": "KEDAG[D]VQQFY",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 433,
+      "nr4a3_aligned_residue": "H",
+      "partners": {
+       "NR4A2": {
+        "residue": "H",
+        "uniprot": 402,
+        "affine_residue": "H"
+       },
+       "NR4A3": {
+        "residue": "H",
+        "uniprot": 433,
+        "affine_residue": "H"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 411,
+      "context": "FYDLL[S]GSLEV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 442,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A2": {
+        "residue": "T",
+        "uniprot": 411,
+        "affine_residue": "T"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 442,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 414,
+      "context": "LLSGS[L]EVIRK",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 445,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A2": {
+        "residue": "M",
+        "uniprot": 414,
+        "affine_residue": "M"
+       },
+       "NR4A3": {
+        "residue": "I",
+        "uniprot": 445,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "K",
+      "uniprot": 419,
+      "context": "LEVIR[K]WAEKI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 450,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A2": {
+        "residue": "G",
+        "uniprot": 419,
+        "affine_residue": "G"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 450,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "E",
+      "uniprot": 429,
+      "context": "IPGFA[E]LSPAD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 460,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A2": {
+        "residue": "D",
+        "uniprot": 429,
+        "affine_residue": "D"
+       },
+       "NR4A3": {
+        "residue": "D",
+        "uniprot": 460,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 431,
+      "context": "GFAEL[S]PADQD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 462,
+      "nr4a3_aligned_residue": "P",
+      "partners": {
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 431,
+        "affine_residue": "P"
+       },
+       "NR4A3": {
+        "residue": "P",
+        "uniprot": 462,
+        "affine_residue": "P"
+       }
+      }
+     },
+     {
+      "residue": "P",
+      "uniprot": 432,
+      "context": "FAELS[P]ADQDL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 463,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A2": {
+        "residue": "K",
+        "uniprot": 432,
+        "affine_residue": "K"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 463,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 439,
+      "context": "DQDLL[L]ESAFL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 470,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A2": {
+        "residue": "F",
+        "uniprot": 439,
+        "affine_residue": "F"
+       },
+       "NR4A3": {
+        "residue": "I",
+        "uniprot": 470,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 448,
+      "context": "FLELF[I]LRLAY",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 479,
+      "nr4a3_aligned_residue": "V",
+      "partners": {
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 448,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "V",
+        "uniprot": 479,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "K",
+      "uniprot": 456,
+      "context": "LAYRS[K]PGEGK",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 487,
+      "nr4a3_aligned_residue": "N",
+      "partners": {
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 456,
+        "affine_residue": "N"
+       },
+       "NR4A3": {
+        "residue": "N",
+        "uniprot": 487,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "G",
+      "uniprot": 458,
+      "context": "YRSKP[G]EGKLI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 489,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 458,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 489,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 466,
+      "context": "KLIFC[S]GLVLH",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 497,
+      "nr4a3_aligned_residue": "N",
+      "partners": {
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 466,
+        "affine_residue": "N"
+       },
+       "NR4A3": {
+        "residue": "N",
+        "uniprot": 497,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 476,
+      "context": "HRLQC[A]RGFGD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 507,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 476,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 507,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "D",
+      "uniprot": 481,
+      "context": "ARGFG[D]WIDSI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 512,
+      "nr4a3_aligned_residue": "E",
+      "partners": {
+       "NR4A2": {
+        "residue": "E",
+        "uniprot": 481,
+        "affine_residue": "E"
+       },
+       "NR4A3": {
+        "residue": "E",
+        "uniprot": 512,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 487,
+      "context": "WIDSI[L]AFSRS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 518,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 487,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 518,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 488,
+      "context": "IDSIL[A]FSRSL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 519,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A2": {
+        "residue": "E",
+        "uniprot": 488,
+        "affine_residue": "E"
+       },
+       "NR4A3": {
+        "residue": "D",
+        "uniprot": 519,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "R",
+      "uniprot": 491,
+      "context": "ILAFS[R]SLHSL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 522,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 491,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 522,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 492,
+      "context": "LAFSR[S]LHSLL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 523,
+      "nr4a3_aligned_residue": "N",
+      "partners": {
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 492,
+        "affine_residue": "N"
+       },
+       "NR4A3": {
+        "residue": "N",
+        "uniprot": 523,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "H",
+      "uniprot": 494,
+      "context": "FSRSL[H]SLLVD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 525,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A2": {
+        "residue": "Q",
+        "uniprot": 494,
+        "affine_residue": "Q"
+       },
+       "NR4A3": {
+        "residue": "Q",
+        "uniprot": 525,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 497,
+      "context": "SLHSL[L]VDVPA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 528,
+      "nr4a3_aligned_residue": "N",
+      "partners": {
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 497,
+        "affine_residue": "N"
+       },
+       "NR4A3": {
+        "residue": "N",
+        "uniprot": 528,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 498,
+      "context": "LHSLL[V]DVPAF",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 529,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A2": {
+        "residue": "I",
+        "uniprot": 498,
+        "affine_residue": "I"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 529,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 500,
+      "context": "SLLVD[V]PAFAC",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 531,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A2": {
+        "residue": "I",
+        "uniprot": 500,
+        "affine_residue": "I"
+       },
+       "NR4A3": {
+        "residue": "I",
+        "uniprot": 531,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "P",
+      "uniprot": 501,
+      "context": "LLVDV[P]AFACL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 532,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 501,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "Q",
+        "uniprot": 532,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 510,
+      "context": "CLSAL[V]LITDR",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 541,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 510,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 541,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 511,
+      "context": "LSALV[L]ITDRH",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 542,
+      "nr4a3_aligned_residue": "M",
+      "partners": {
+       "NR4A2": {
+        "residue": "M",
+        "uniprot": 511,
+        "affine_residue": "M"
+       },
+       "NR4A3": {
+        "residue": "M",
+        "uniprot": 542,
+        "affine_residue": "M"
+       }
+      }
+     },
+     {
+      "residue": "D",
+      "uniprot": 514,
+      "context": "LVLIT[D]RHGLQ",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 545,
+      "nr4a3_aligned_residue": "E",
+      "partners": {
+       "NR4A2": {
+        "residue": "E",
+        "uniprot": 514,
+        "affine_residue": "E"
+       },
+       "NR4A3": {
+        "residue": "E",
+        "uniprot": 545,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 519,
+      "context": "DRHGL[Q]EPRRV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 550,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A2": {
+        "residue": "K",
+        "uniprot": 519,
+        "affine_residue": "K"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 550,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "R",
+      "uniprot": 522,
+      "context": "GLQEP[R]RVEEL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 553,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A2": {
+        "residue": "K",
+        "uniprot": 522,
+        "affine_residue": "K"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 553,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "R",
+      "uniprot": 530,
+      "context": "EELQN[R]IASCL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 561,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A2": {
+        "residue": "K",
+        "uniprot": 530,
+        "affine_residue": "K"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 561,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 532,
+      "context": "LQNRI[A]SCLKE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 563,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 532,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 563,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "E",
+      "uniprot": 537,
+      "context": "ASCLK[E]HVAAV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 568,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A2": {
+        "residue": "D",
+        "uniprot": 537,
+        "affine_residue": "D"
+       },
+       "NR4A3": {
+        "residue": "D",
+        "uniprot": 568,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 540,
+      "context": "LKEHV[A]AVAGE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 572,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A2": {
+        "residue": "T",
+        "uniprot": 540,
+        "affine_residue": "T"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 572,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 541,
+      "context": "KEHVA[A]VAGEP",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 573,
+      "nr4a3_aligned_residue": "G",
+      "partners": {
+       "NR4A2": {
+        "residue": "F",
+        "uniprot": 541,
+        "affine_residue": "F"
+       },
+       "NR4A3": {
+        "residue": "G",
+        "uniprot": 573,
+        "affine_residue": "G"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 542,
+      "context": "EHVAA[V]AGEPQ",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 574,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 542,
+        "affine_residue": "N"
+       },
+       "NR4A3": {
+        "residue": "Q",
+        "uniprot": 574,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "C",
+      "uniprot": 551,
+      "context": "PQPAS[C]LSRLL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 579,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A2": {
+        "residue": "Y",
+        "uniprot": 551,
+        "affine_residue": "Y"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 579,
+        "affine_residue": "-"
+       }
+      }
+     },
+     {
+      "residue": "R",
+      "uniprot": 554,
+      "context": "ASCLS[R]LLGKL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 582,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A2": {
+        "residue": "K",
+        "uniprot": 554,
+        "affine_residue": "K"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 582,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "P",
+      "uniprot": 586,
+      "context": "LVPPP[P]IIDKI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 614,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 586,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 614,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 591,
+      "context": "PIIDK[I]FMDTL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 619,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A2": {
+        "residue": "L",
+        "uniprot": 591,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 619,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "M",
+      "uniprot": 593,
+      "context": "IDKIF[M]DTLPF",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 621,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A2": {
+        "residue": "L",
+        "uniprot": 593,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 621,
+        "affine_residue": "L"
+       }
+      }
+     }
+    ]
+   },
+   "NR4A2": {
+    "accession": "P43354",
+    "n_positions_scanned": 598,
+    "n_unique_vs_both_alignment_robust": 126,
+    "n_unique_in_lbd": 48,
+    "unique_positions_in_lbd": [
+     {
+      "residue": "V",
+      "uniprot": 362,
+      "context": "PPSPP[V]SLISA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 396,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "N",
+        "uniprot": 363,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "I",
+        "uniprot": 396,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 363,
+      "context": "PSPPV[S]LISAL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 397,
+      "nr4a3_aligned_residue": "C",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 364,
+        "affine_residue": "N"
+       },
+       "NR4A3": {
+        "residue": "C",
+        "uniprot": 397,
+        "affine_residue": "C"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 365,
+      "context": "PPVSL[I]SALVR",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 399,
+      "nr4a3_aligned_residue": "M",
+      "partners": {
+       "NR4A1": {
+        "residue": "T",
+        "uniprot": 366,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "M",
+        "uniprot": 399,
+        "affine_residue": "M"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 373,
+      "context": "LVRAH[V]DSNPA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 407,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 373,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 407,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 376,
+      "context": "AHVDS[N]PAMTS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 410,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 376,
+        "affine_residue": "G"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 410,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 380,
+      "context": "SNPAM[T]SLDYS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 412,
+      "nr4a3_aligned_residue": "R",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 380,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "R",
+        "uniprot": 412,
+        "affine_residue": "R"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 381,
+      "context": "NPAMT[S]LDYSR",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 413,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A1": {
+        "residue": "K",
+        "uniprot": 381,
+        "affine_residue": "K"
+       },
+       "NR4A3": {
+        "residue": "D",
+        "uniprot": 413,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 389,
+      "context": "YSRFQ[A]NPDYQ",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 420,
+      "nr4a3_aligned_residue": "C",
+      "partners": {
+       "NR4A1": {
+        "residue": "E",
+        "uniprot": 389,
+        "affine_residue": "E"
+       },
+       "NR4A3": {
+        "residue": "C",
+        "uniprot": 420,
+        "affine_residue": "C"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 390,
+      "context": "SRFQA[N]PDYQM",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 421,
+      "nr4a3_aligned_residue": "P",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 390,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "P",
+        "uniprot": 421,
+        "affine_residue": "P"
+       }
+      }
+     },
+     {
+      "residue": "P",
+      "uniprot": 391,
+      "context": "RFQAN[P]DYQMS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 422,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 391,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 422,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "Y",
+      "uniprot": 393,
+      "context": "QANPD[Y]QMSGD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 424,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 393,
+        "affine_residue": "P"
+       },
+       "NR4A3": {
+        "residue": "Q",
+        "uniprot": 424,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 394,
+      "context": "ANPDY[Q]MSGDD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 425,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "H",
+        "uniprot": 394,
+        "affine_residue": "H"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 425,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "M",
+      "uniprot": 395,
+      "context": "NPDYQ[M]SGDDT",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 426,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "F",
+        "uniprot": 395,
+        "affine_residue": "F"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 426,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 396,
+      "context": "PDYQM[S]GDDTQ",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 427,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 396,
+        "affine_residue": "G"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 427,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "D",
+      "uniprot": 398,
+      "context": "YQMSG[D]DTQHI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 429,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "E",
+        "uniprot": 398,
+        "affine_residue": "E"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 429,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 400,
+      "context": "MSGDD[T]QHIQQ",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 431,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 400,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 431,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 401,
+      "context": "SGDDT[Q]HIQQF",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 432,
+      "nr4a3_aligned_residue": "E",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 401,
+        "affine_residue": "G"
+       },
+       "NR4A3": {
+        "residue": "E",
+        "uniprot": 432,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 403,
+      "context": "DDTQH[I]QQFYD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 434,
+      "nr4a3_aligned_residue": "V",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 403,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "V",
+        "uniprot": 434,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "M",
+      "uniprot": 414,
+      "context": "LLTGS[M]EIIRG",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 445,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 414,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "I",
+        "uniprot": 445,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 416,
+      "context": "TGSME[I]IRGWA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 447,
+      "nr4a3_aligned_residue": "V",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 416,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "V",
+        "uniprot": 447,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "G",
+      "uniprot": 419,
+      "context": "MEIIR[G]WAEKI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 450,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "K",
+        "uniprot": 419,
+        "affine_residue": "K"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 450,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "F",
+      "uniprot": 439,
+      "context": "DQDLL[F]ESAFL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 470,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 439,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "I",
+        "uniprot": 470,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 458,
+      "context": "YRSNP[V]EGKLI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 489,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 458,
+        "affine_residue": "G"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 489,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 468,
+      "context": "IFCNG[V]VLHRL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 499,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 468,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 499,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 476,
+      "context": "HRLQC[V]RGFGE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 507,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 476,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 507,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 487,
+      "context": "WIDSI[V]EFSSN",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 518,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 487,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 518,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "E",
+      "uniprot": 488,
+      "context": "IDSIV[E]FSSNL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 519,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 488,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "D",
+        "uniprot": 519,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 491,
+      "context": "IVEFS[S]NLQNM",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 522,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "R",
+        "uniprot": 491,
+        "affine_residue": "R"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 522,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 495,
+      "context": "SSNLQ[N]MNIDI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 526,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "S",
+        "uniprot": 495,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 526,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "M",
+      "uniprot": 496,
+      "context": "SNLQN[M]NIDIS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 527,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 496,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 527,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 498,
+      "context": "LQNMN[I]DISAF",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 529,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 498,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 529,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 501,
+      "context": "MNIDI[S]AFSCI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 532,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 501,
+        "affine_residue": "P"
+       },
+       "NR4A3": {
+        "residue": "Q",
+        "uniprot": 532,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 504,
+      "context": "DISAF[S]CIAAL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 535,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 504,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 535,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 506,
+      "context": "SAFSC[I]AALAM",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 537,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 506,
+        "affine_residue": "L"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 537,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 507,
+      "context": "AFSCI[A]ALAMV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 538,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "S",
+        "uniprot": 507,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 538,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 510,
+      "context": "CIAAL[A]MVTER",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 541,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 510,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 541,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 512,
+      "context": "AALAM[V]TERHG",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 543,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "I",
+        "uniprot": 512,
+        "affine_residue": "I"
+       },
+       "NR4A3": {
+        "residue": "I",
+        "uniprot": 543,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 532,
+      "context": "LQNKI[V]NCLKD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 563,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 532,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 563,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 533,
+      "context": "QNKIV[N]CLKDH",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 564,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "S",
+        "uniprot": 533,
+        "affine_residue": "S"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 564,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "F",
+      "uniprot": 541,
+      "context": "KDHVT[F]NNGGL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 570,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 541,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "Q",
+        "uniprot": 570,
+        "affine_residue": "-"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 542,
+      "context": "DHVTF[N]NGGLN",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 571,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 542,
+        "affine_residue": "V"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 571,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 543,
+      "context": "HVTFN[N]GGLNR",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 572,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 543,
+        "affine_residue": "A"
+       },
+       "NR4A3": {
+        "residue": "K",
+        "uniprot": 572,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "G",
+      "uniprot": 545,
+      "context": "TFNNG[G]LNRPN",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 574,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "E",
+        "uniprot": 545,
+        "affine_residue": "E"
+       },
+       "NR4A3": {
+        "residue": "Q",
+        "uniprot": 574,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 546,
+      "context": "FNNGG[L]NRPNY",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 575,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 546,
+        "affine_residue": "P"
+       },
+       "NR4A3": {
+        "residue": "A",
+        "uniprot": 575,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 547,
+      "context": "NNGGL[N]RPNYL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 576,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "Q",
+        "uniprot": 547,
+        "affine_residue": "Q"
+       },
+       "NR4A3": {
+        "residue": "L",
+        "uniprot": 576,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "R",
+      "uniprot": 548,
+      "context": "NGGLN[R]PNYLS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 577,
+      "nr4a3_aligned_residue": "E",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 548,
+        "affine_residue": "P"
+       },
+       "NR4A3": {
+        "residue": "E",
+        "uniprot": 577,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "Y",
+      "uniprot": 551,
+      "context": "LNRPN[Y]LSKLL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 579,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "C",
+        "uniprot": 551,
+        "affine_residue": "C"
+       },
+       "NR4A3": {
+        "residue": "T",
+        "uniprot": 579,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 586,
+      "context": "LVPPP[A]IIDKL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 614,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 586,
+        "affine_residue": "P"
+       },
+       "NR4A3": {
+        "residue": "S",
+        "uniprot": 614,
+        "affine_residue": "S"
+       }
+      }
+     }
+    ]
+   },
+   "NR4A3": {
+    "accession": "Q92570",
+    "n_positions_scanned": 626,
+    "n_unique_vs_both_alignment_robust": 174,
+    "n_unique_in_lbd": 68,
+    "unique_positions_in_lbd": [
+     {
+      "residue": "L",
+      "uniprot": 382,
+      "context": "KPKSP[L]QQEPS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 382,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "-"
+       },
+       "NR4A2": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "-"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 383,
+      "context": "PKSPL[Q]QEPSQ",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 383,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "-"
+       },
+       "NR4A2": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "-"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 387,
+      "context": "LQQEP[S]QPSPP",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 387,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "-"
+       },
+       "NR4A2": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 388,
+      "context": "QQEPS[Q]PSPPS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 388,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "-"
+       },
+       "NR4A2": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 396,
+      "context": "PPSPP[I]CMMNA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 396,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 362,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 362,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "C",
+      "uniprot": 397,
+      "context": "PSPPI[C]MMNAL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 397,
+      "nr4a3_aligned_residue": "C",
+      "partners": {
+       "NR4A1": {
+        "residue": "N",
+        "uniprot": 363,
+        "affine_residue": "N"
+       },
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 363,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "M",
+      "uniprot": 398,
+      "context": "SPPIC[M]MNALV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 398,
+      "nr4a3_aligned_residue": "M",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 364,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "L",
+        "uniprot": 364,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "M",
+      "uniprot": 399,
+      "context": "PPICM[M]NALVR",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 399,
+      "nr4a3_aligned_residue": "M",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 365,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "I",
+        "uniprot": 365,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 400,
+      "context": "PICMM[N]ALVRA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 400,
+      "nr4a3_aligned_residue": "N",
+      "partners": {
+       "NR4A1": {
+        "residue": "T",
+        "uniprot": 366,
+        "affine_residue": "T"
+       },
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 366,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 406,
+      "context": "ALVRA[L]TDSTP",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 406,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "H",
+        "uniprot": 372,
+        "affine_residue": "H"
+       },
+       "NR4A2": {
+        "residue": "H",
+        "uniprot": 372,
+        "affine_residue": "H"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 407,
+      "context": "LVRAL[T]DSTPR",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 407,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 373,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 373,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 410,
+      "context": "ALTDS[T]PRDLD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 410,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 376,
+        "affine_residue": "G"
+       },
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 376,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "R",
+      "uniprot": 412,
+      "context": "TDSTP[R]DLDYS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 412,
+      "nr4a3_aligned_residue": "R",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 380,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "T",
+        "uniprot": 380,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "D",
+      "uniprot": 413,
+      "context": "DSTPR[D]LDYSR",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 413,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A1": {
+        "residue": "K",
+        "uniprot": 381,
+        "affine_residue": "K"
+       },
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 381,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "Y",
+      "uniprot": 419,
+      "context": "LDYSR[Y]CPTDQ",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 419,
+      "nr4a3_aligned_residue": "Y",
+      "partners": {
+       "NR4A1": {
+        "residue": "F",
+        "uniprot": 387,
+        "affine_residue": "F"
+       },
+       "NR4A2": {
+        "residue": "Q",
+        "uniprot": 388,
+        "affine_residue": "F"
+       }
+      }
+     },
+     {
+      "residue": "C",
+      "uniprot": 420,
+      "context": "DYSRY[C]PTDQA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 420,
+      "nr4a3_aligned_residue": "C",
+      "partners": {
+       "NR4A1": {
+        "residue": "Q",
+        "uniprot": 388,
+        "affine_residue": "Q"
+       },
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 389,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "P",
+      "uniprot": 421,
+      "context": "YSRYC[P]TDQAA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 421,
+      "nr4a3_aligned_residue": "P",
+      "partners": {
+       "NR4A1": {
+        "residue": "E",
+        "uniprot": 389,
+        "affine_residue": "E"
+       },
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 390,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 422,
+      "context": "SRYCP[T]DQAAA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 422,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 390,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 391,
+        "affine_residue": "P"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 424,
+      "context": "YCPTD[Q]AAAGT",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 424,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 392,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "Y",
+        "uniprot": 393,
+        "affine_residue": "Y"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 425,
+      "context": "CPTDQ[A]AAGTD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 425,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 393,
+        "affine_residue": "P"
+       },
+       "NR4A2": {
+        "residue": "Q",
+        "uniprot": 394,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 426,
+      "context": "PTDQA[A]AGTDA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 426,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "H",
+        "uniprot": 394,
+        "affine_residue": "H"
+       },
+       "NR4A2": {
+        "residue": "M",
+        "uniprot": 395,
+        "affine_residue": "M"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 427,
+      "context": "TDQAA[A]GTDAE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 427,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "F",
+        "uniprot": 395,
+        "affine_residue": "F"
+       },
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 396,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 429,
+      "context": "QAAAG[T]DAEHV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 429,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "E",
+        "uniprot": 398,
+        "affine_residue": "E"
+       },
+       "NR4A2": {
+        "residue": "D",
+        "uniprot": 398,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "E",
+      "uniprot": 432,
+      "context": "AGTDA[E]HVQQF",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 432,
+      "nr4a3_aligned_residue": "E",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 401,
+        "affine_residue": "G"
+       },
+       "NR4A2": {
+        "residue": "Q",
+        "uniprot": 401,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "N",
+      "uniprot": 439,
+      "context": "VQQFY[N]LLTAS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 439,
+      "nr4a3_aligned_residue": "N",
+      "partners": {
+       "NR4A1": {
+        "residue": "D",
+        "uniprot": 408,
+        "affine_residue": "D"
+       },
+       "NR4A2": {
+        "residue": "D",
+        "uniprot": 408,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 443,
+      "context": "YNLLT[A]SIDVS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 443,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 412,
+        "affine_residue": "G"
+       },
+       "NR4A2": {
+        "residue": "G",
+        "uniprot": 412,
+        "affine_residue": "G"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 445,
+      "context": "LLTAS[I]DVSRS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 445,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 414,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "M",
+        "uniprot": 414,
+        "affine_residue": "M"
+       }
+      }
+     },
+     {
+      "residue": "D",
+      "uniprot": 446,
+      "context": "LTASI[D]VSRSW",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 446,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A1": {
+        "residue": "E",
+        "uniprot": 415,
+        "affine_residue": "E"
+       },
+       "NR4A2": {
+        "residue": "E",
+        "uniprot": 415,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 448,
+      "context": "ASIDV[S]RSWAE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 448,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "I",
+        "uniprot": 417,
+        "affine_residue": "I"
+       },
+       "NR4A2": {
+        "residue": "I",
+        "uniprot": 417,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 450,
+      "context": "IDVSR[S]WAEKI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 450,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "K",
+        "uniprot": 419,
+        "affine_residue": "K"
+       },
+       "NR4A2": {
+        "residue": "G",
+        "uniprot": 419,
+        "affine_residue": "G"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 459,
+      "context": "KIPGF[T]DLPKE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 459,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 428,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 428,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "E",
+      "uniprot": 464,
+      "context": "TDLPK[E]DQTLL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 464,
+      "nr4a3_aligned_residue": "E",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 433,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 433,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 467,
+      "context": "PKEDQ[T]LLIES",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 467,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "D",
+        "uniprot": 436,
+        "affine_residue": "D"
+       },
+       "NR4A2": {
+        "residue": "D",
+        "uniprot": 436,
+        "affine_residue": "D"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 470,
+      "context": "DQTLL[I]ESAFL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 470,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 439,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "F",
+        "uniprot": 439,
+        "affine_residue": "F"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 483,
+      "context": "FVLRL[S]IRSNT",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 483,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 452,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 452,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 484,
+      "context": "VLRLS[I]RSNTA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 484,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "Y",
+        "uniprot": 453,
+        "affine_residue": "Y"
+       },
+       "NR4A2": {
+        "residue": "Y",
+        "uniprot": 453,
+        "affine_residue": "Y"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 488,
+      "context": "SIRSN[T]AEDKF",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 488,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 457,
+        "affine_residue": "P"
+       },
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 457,
+        "affine_residue": "P"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 489,
+      "context": "IRSNT[A]EDKFV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 489,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 458,
+        "affine_residue": "G"
+       },
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 458,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "D",
+      "uniprot": 491,
+      "context": "SNTAE[D]KFVFC",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 491,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 460,
+        "affine_residue": "G"
+       },
+       "NR4A2": {
+        "residue": "G",
+        "uniprot": 460,
+        "affine_residue": "G"
+       }
+      }
+     },
+     {
+      "residue": "F",
+      "uniprot": 493,
+      "context": "TAEDK[F]VFCNG",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 493,
+      "nr4a3_aligned_residue": "F",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 462,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "L",
+        "uniprot": 462,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 494,
+      "context": "AEDKF[V]FCNGL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 494,
+      "nr4a3_aligned_residue": "V",
+      "partners": {
+       "NR4A1": {
+        "residue": "I",
+        "uniprot": 463,
+        "affine_residue": "I"
+       },
+       "NR4A2": {
+        "residue": "I",
+        "uniprot": 463,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 507,
+      "context": "HRLQC[L]RGFGE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 507,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 476,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 476,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 514,
+      "context": "GFGEW[L]DSIKD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 514,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "I",
+        "uniprot": 483,
+        "affine_residue": "I"
+       },
+       "NR4A2": {
+        "residue": "I",
+        "uniprot": 483,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "K",
+      "uniprot": 518,
+      "context": "WLDSI[K]DFSLN",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 518,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 487,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 487,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "D",
+      "uniprot": 519,
+      "context": "LDSIK[D]FSLNL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 519,
+      "nr4a3_aligned_residue": "D",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 488,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "E",
+        "uniprot": 488,
+        "affine_residue": "E"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 522,
+      "context": "IKDFS[L]NLQSL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 522,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "R",
+        "uniprot": 491,
+        "affine_residue": "R"
+       },
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 491,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 529,
+      "context": "LQSLN[L]DIQAL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 529,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 498,
+        "affine_residue": "V"
+       },
+       "NR4A2": {
+        "residue": "I",
+        "uniprot": 498,
+        "affine_residue": "I"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 532,
+      "context": "LNLDI[Q]ALACL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 532,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 501,
+        "affine_residue": "P"
+       },
+       "NR4A2": {
+        "residue": "S",
+        "uniprot": 501,
+        "affine_residue": "S"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 534,
+      "context": "LDIQA[L]ACLSA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 534,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "F",
+        "uniprot": 503,
+        "affine_residue": "F"
+       },
+       "NR4A2": {
+        "residue": "F",
+        "uniprot": 503,
+        "affine_residue": "F"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 541,
+      "context": "CLSAL[S]MITER",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 541,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 510,
+        "affine_residue": "V"
+       },
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 510,
+        "affine_residue": "A"
+       }
+      }
+     },
+     {
+      "residue": "C",
+      "uniprot": 559,
+      "context": "RVEEL[C]NKITS",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 559,
+      "nr4a3_aligned_residue": "C",
+      "partners": {
+       "NR4A1": {
+        "residue": "Q",
+        "uniprot": 528,
+        "affine_residue": "Q"
+       },
+       "NR4A2": {
+        "residue": "Q",
+        "uniprot": 528,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 563,
+      "context": "LCNKI[T]SSLKD",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 563,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 532,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "V",
+        "uniprot": 532,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 565,
+      "context": "NKITS[S]LKDHQ",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 565,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "C",
+        "uniprot": 534,
+        "affine_residue": "C"
+       },
+       "NR4A2": {
+        "residue": "C",
+        "uniprot": 534,
+        "affine_residue": "C"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 570,
+      "context": "SLKDH[Q]SKGQA",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 570,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "-",
+        "uniprot": null,
+        "affine_residue": "V"
+       },
+       "NR4A2": {
+        "residue": "F",
+        "uniprot": 541,
+        "affine_residue": "V"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 571,
+      "context": "LKDHQ[S]KGQAL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 571,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 539,
+        "affine_residue": "A"
+       },
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 542,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "K",
+      "uniprot": 572,
+      "context": "KDHQS[K]GQALE",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 572,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A1": {
+        "residue": "A",
+        "uniprot": 540,
+        "affine_residue": "-"
+       },
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 543,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "Q",
+      "uniprot": 574,
+      "context": "HQSKG[Q]ALEPT",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 574,
+      "nr4a3_aligned_residue": "Q",
+      "partners": {
+       "NR4A1": {
+        "residue": "V",
+        "uniprot": 542,
+        "affine_residue": "V"
+       },
+       "NR4A2": {
+        "residue": "G",
+        "uniprot": 545,
+        "affine_residue": "G"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 576,
+      "context": "SKGQA[L]EPTES",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 576,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "G",
+        "uniprot": 544,
+        "affine_residue": "G"
+       },
+       "NR4A2": {
+        "residue": "N",
+        "uniprot": 547,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "T",
+      "uniprot": 579,
+      "context": "QALEP[T]ESKVL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 579,
+      "nr4a3_aligned_residue": "T",
+      "partners": {
+       "NR4A1": {
+        "residue": "C",
+        "uniprot": 551,
+        "affine_residue": "Q"
+       },
+       "NR4A2": {
+        "residue": "Y",
+        "uniprot": 551,
+        "affine_residue": "N"
+       }
+      }
+     },
+     {
+      "residue": "E",
+      "uniprot": 580,
+      "context": "ALEPT[E]SKVLG",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 580,
+      "nr4a3_aligned_residue": "E",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 552,
+        "affine_residue": "P"
+       },
+       "NR4A2": {
+        "residue": "L",
+        "uniprot": 552,
+        "affine_residue": "Y"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 583,
+      "context": "PTESK[V]LGALV",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 583,
+      "nr4a3_aligned_residue": "V",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 555,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "L",
+        "uniprot": 555,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "A",
+      "uniprot": 586,
+      "context": "SKVLG[A]LVELR",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 586,
+      "nr4a3_aligned_residue": "A",
+      "partners": {
+       "NR4A1": {
+        "residue": "K",
+        "uniprot": 558,
+        "affine_residue": "K"
+       },
+       "NR4A2": {
+        "residue": "K",
+        "uniprot": 558,
+        "affine_residue": "K"
+       }
+      }
+     },
+     {
+      "residue": "V",
+      "uniprot": 588,
+      "context": "VLGAL[V]ELRKI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 588,
+      "nr4a3_aligned_residue": "V",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 560,
+        "affine_residue": "P"
+       },
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 560,
+        "affine_residue": "P"
+       }
+      }
+     },
+     {
+      "residue": "K",
+      "uniprot": 592,
+      "context": "LVELR[K]ICTLG",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 592,
+      "nr4a3_aligned_residue": "K",
+      "partners": {
+       "NR4A1": {
+        "residue": "T",
+        "uniprot": 564,
+        "affine_residue": "T"
+       },
+       "NR4A2": {
+        "residue": "T",
+        "uniprot": 564,
+        "affine_residue": "T"
+       }
+      }
+     },
+     {
+      "residue": "I",
+      "uniprot": 593,
+      "context": "VELRK[I]CTLGL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 593,
+      "nr4a3_aligned_residue": "I",
+      "partners": {
+       "NR4A1": {
+        "residue": "L",
+        "uniprot": 565,
+        "affine_residue": "L"
+       },
+       "NR4A2": {
+        "residue": "L",
+        "uniprot": 565,
+        "affine_residue": "L"
+       }
+      }
+     },
+     {
+      "residue": "L",
+      "uniprot": 596,
+      "context": "RKICT[L]GLQRI",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 596,
+      "nr4a3_aligned_residue": "L",
+      "partners": {
+       "NR4A1": {
+        "residue": "Q",
+        "uniprot": 568,
+        "affine_residue": "Q"
+       },
+       "NR4A2": {
+        "residue": "Q",
+        "uniprot": 568,
+        "affine_residue": "Q"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 611,
+      "context": "LEDLV[S]PPSII",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 611,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 583,
+        "affine_residue": "P"
+       },
+       "NR4A2": {
+        "residue": "P",
+        "uniprot": 583,
+        "affine_residue": "P"
+       }
+      }
+     },
+     {
+      "residue": "S",
+      "uniprot": 614,
+      "context": "LVSPP[S]IIDKL",
+      "in_lbd": true,
+      "nr4a3_aligned_resnum": 614,
+      "nr4a3_aligned_residue": "S",
+      "partners": {
+       "NR4A1": {
+        "residue": "P",
+        "uniprot": 586,
+        "affine_residue": "P"
+       },
+       "NR4A2": {
+        "residue": "A",
+        "uniprot": 586,
+        "affine_residue": "A"
+       }
+      }
+     }
+    ]
+   }
+  }
+ },
+ "steric_inverse": {
+  "_question": "Are there positions where NR4A1's side chain is strictly bulkier than BOTH NR4A2's and NR4A3's, and where that bulk lines the pocket — i.e. a lobe NR4A1 alone denies?",
+  "_method": "13 committed NR4A3-docked poses against the shared frame (results/nr4a3-matrix/nr4a3-opened.pdb; paralogues superposed by nr4a3_basin_search.superpose_paralogue). A position clashes when its side-chain heavy atoms come within 3.0 A of a ligand heavy atom — the same hard_clash_A M3 used. The NR4A1-ONLY predicate is: NR4A1 clashes AND NR4A2 does not AND NR4A3 does not.",
+  "_the_null_is_the_whole_point": "Exactly as in M3: a rate without its matched null is not a result. The null is the same predicate evaluated at conserved-or-shared positions, where no categorical difference exists and any firing is a measured false positive of the superposition.",
+  "superposition": {
+   "NR4A1": {
+    "n_ca_pairs": 244,
+    "n_core": 203,
+    "core_fraction": 0.832,
+    "core_rmsd_A": 1.728
+   },
+   "NR4A2": {
+    "n_ca_pairs": 249,
+    "n_core": 206,
+    "core_fraction": 0.827,
+    "core_rmsd_A": 1.602
+   }
+  },
+  "uniprot_offsets_recovered": {
+   "NR4A3": 372,
+   "NR4A1": 347,
+   "NR4A2": 343
+  },
+  "lining_definition": {
+   "cutoff_A": 5.0,
+   "n_lining_positions": 31,
+   "_union_over_species_because": "defining lining from NR4A3 alone would discard the very positions this test looks for — where NR4A1's bulkier side chain protrudes into the pocket and NR4A3's smaller one does not reach it"
+  },
+  "blocks": {
+   "pocket5_matched_to_M3": {
+    "n_positions": 10,
+    "positions": [
+     406,
+     407,
+     410,
+     411,
+     412,
+     481,
+     484,
+     485,
+     531,
+     534
+    ],
+    "n_poses": 13,
+    "per_position": {
+     "406": {
+      "nr4a3_uniprot": 406,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "H",
+       "NR4A2": "H"
+      },
+      "uniprot": {
+       "NR4A3": 406,
+       "NR4A1": 372,
+       "NR4A2": 372
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 6,
+       "NR4A2": 6
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 2.57,
+       "NR4A2": 0.81
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": -2,
+       "both_paralogues_over_nr4a3_S3_signal": 2
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 1
+     },
+     "407": {
+      "nr4a3_uniprot": 407,
+      "residues": {
+       "NR4A3": "T",
+       "NR4A1": "L",
+       "NR4A2": "V"
+      },
+      "uniprot": {
+       "NR4A3": 407,
+       "NR4A1": 373,
+       "NR4A2": 373
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 3,
+       "NR4A1": 4,
+       "NR4A2": 3
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 2.07,
+       "NR4A2": 1.07
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 1,
+       "nr4a3_over_both_paralogues_S3_direction": -1,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": true,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_and_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "410": {
+      "nr4a3_uniprot": 410,
+      "residues": {
+       "NR4A3": "T",
+       "NR4A1": "G",
+       "NR4A2": "N"
+      },
+      "uniprot": {
+       "NR4A3": 410,
+       "NR4A1": 376,
+       "NR4A2": 376
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 3,
+       "NR4A1": 0,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 2.54,
+       "NR4A2": 2.11
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -4,
+       "nr4a3_over_both_paralogues_S3_direction": -1,
+       "both_paralogues_over_nr4a3_S3_signal": -3
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_not_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "411": {
+      "nr4a3_uniprot": 411,
+      "residues": {
+       "NR4A3": "P",
+       "NR4A1": "P",
+       "NR4A2": "P"
+      },
+      "uniprot": {
+       "NR4A3": 411,
+       "NR4A1": 377,
+       "NR4A2": 377
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 3,
+       "NR4A1": 3,
+       "NR4A2": 3
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 2.27,
+       "NR4A2": 1.55
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "412": {
+      "nr4a3_uniprot": 412,
+      "residues": {
+       "NR4A3": "R",
+       "NR4A1": "A",
+       "NR4A2": "T"
+      },
+      "uniprot": {
+       "NR4A3": 412,
+       "NR4A1": 380,
+       "NR4A2": 380
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 7,
+       "NR4A1": 1,
+       "NR4A2": 3
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 5.83,
+       "NR4A2": 4.34
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -6,
+       "nr4a3_over_both_paralogues_S3_direction": 4,
+       "both_paralogues_over_nr4a3_S3_signal": -6
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_not_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "481": {
+      "nr4a3_uniprot": 481,
+      "residues": {
+       "NR4A3": "R",
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "uniprot": {
+       "NR4A3": 481,
+       "NR4A1": 450,
+       "NR4A2": 450
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.42,
+       "NR4A2": 1.51
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 2
+     },
+     "484": {
+      "nr4a3_uniprot": 484,
+      "residues": {
+       "NR4A3": "I",
+       "NR4A1": "Y",
+       "NR4A2": "Y"
+      },
+      "uniprot": {
+       "NR4A3": 484,
+       "NR4A1": 453,
+       "NR4A2": 453
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 8,
+       "NR4A2": 8
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 0.97,
+       "NR4A2": 0.84
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": -4,
+       "both_paralogues_over_nr4a3_S3_signal": 4
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "485": {
+      "nr4a3_uniprot": 485,
+      "residues": {
+       "NR4A3": "R",
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "uniprot": {
+       "NR4A3": 485,
+       "NR4A1": 454,
+       "NR4A2": 454
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 0.57,
+       "NR4A2": 0.96
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "531": {
+      "nr4a3_uniprot": 531,
+      "residues": {
+       "NR4A3": "I",
+       "NR4A1": "V",
+       "NR4A2": "I"
+      },
+      "uniprot": {
+       "NR4A3": 531,
+       "NR4A1": 500,
+       "NR4A2": 500
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 3,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.16,
+       "NR4A2": 1.57
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -1,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": -1
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_not_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "534": {
+      "nr4a3_uniprot": 534,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "F",
+       "NR4A2": "F"
+      },
+      "uniprot": {
+       "NR4A3": 534,
+       "NR4A1": 503,
+       "NR4A2": 503
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.25,
+       "NR4A2": 0.87
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": -3,
+       "both_paralogues_over_nr4a3_S3_signal": 3
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     }
+    },
+    "per_pose": [
+     {
+      "pose": "celastrol",
+      "n_clashing_positions": {
+       "NR4A1": 4,
+       "NR4A2": 3,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       406
+      ]
+     },
+     {
+      "pose": "cytosporone B",
+      "n_clashing_positions": {
+       "NR4A1": 4,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "amodiaquine",
+      "n_clashing_positions": {
+       "NR4A1": 3,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "chloroquine",
+      "n_clashing_positions": {
+       "NR4A1": 5,
+       "NR4A2": 4,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       481
+      ]
+     },
+     {
+      "pose": "piperlongumine",
+      "n_clashing_positions": {
+       "NR4A1": 4,
+       "NR4A2": 4,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "resveratrol",
+      "n_clashing_positions": {
+       "NR4A1": 3,
+       "NR4A2": 4,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1221517",
+      "n_clashing_positions": {
+       "NR4A1": 4,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1961796",
+      "n_clashing_positions": {
+       "NR4A1": 4,
+       "NR4A2": 4,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1961797",
+      "n_clashing_positions": {
+       "NR4A1": 4,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL4755698",
+      "n_clashing_positions": {
+       "NR4A1": 5,
+       "NR4A2": 5,
+       "NR4A3": 2
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1873475",
+      "n_clashing_positions": {
+       "NR4A1": 2,
+       "NR4A2": 3,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL682",
+      "n_clashing_positions": {
+       "NR4A1": 3,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": []
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL76",
+      "n_clashing_positions": {
+       "NR4A1": 5,
+       "NR4A2": 4,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       481
+      ]
+     }
+    ],
+    "by_position_class": {
+     "conserved_or_shared": {
+      "positions": [
+       406,
+       411,
+       481,
+       484,
+       485,
+       534
+      ],
+      "hits": 3,
+      "trials": 78,
+      "rate": 0.038
+     },
+     "nr4a1_unique_and_bulkier": {
+      "positions": [
+       407
+      ],
+      "hits": 0,
+      "trials": 13,
+      "rate": 0.0
+     },
+     "nr4a1_unique_not_bulkier": {
+      "positions": [
+       410,
+       412,
+       531
+      ],
+      "hits": 0,
+      "trials": 39,
+      "rate": 0.0
+     }
+    },
+    "signal_rate": 0.0,
+    "null_rate": 0.038,
+    "enrichment_signal_over_null": null,
+    "signal_minus_null": -0.038
+   },
+   "ligand_envelope_lining": {
+    "n_positions": 31,
+    "positions": [
+     403,
+     406,
+     407,
+     409,
+     410,
+     412,
+     414,
+     416,
+     448,
+     451,
+     477,
+     480,
+     481,
+     484,
+     485,
+     487,
+     490,
+     494,
+     521,
+     524,
+     525,
+     527,
+     528,
+     529,
+     530,
+     531,
+     534,
+     535,
+     538,
+     575,
+     577
+    ],
+    "n_poses": 13,
+    "per_position": {
+     "403": {
+      "nr4a3_uniprot": 403,
+      "residues": {
+       "NR4A3": "V",
+       "NR4A1": "V",
+       "NR4A2": "V"
+      },
+      "uniprot": {
+       "NR4A3": 403,
+       "NR4A1": 369,
+       "NR4A2": 369
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 3,
+       "NR4A1": 3,
+       "NR4A2": 3
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 2.09,
+       "NR4A2": 0.63
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "406": {
+      "nr4a3_uniprot": 406,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "H",
+       "NR4A2": "H"
+      },
+      "uniprot": {
+       "NR4A3": 406,
+       "NR4A1": 372,
+       "NR4A2": 372
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 6,
+       "NR4A2": 6
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 2.57,
+       "NR4A2": 0.81
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": -2,
+       "both_paralogues_over_nr4a3_S3_signal": 2
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 1
+     },
+     "407": {
+      "nr4a3_uniprot": 407,
+      "residues": {
+       "NR4A3": "T",
+       "NR4A1": "L",
+       "NR4A2": "V"
+      },
+      "uniprot": {
+       "NR4A3": 407,
+       "NR4A1": 373,
+       "NR4A2": 373
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 3,
+       "NR4A1": 4,
+       "NR4A2": 3
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 2.07,
+       "NR4A2": 1.07
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 1,
+       "nr4a3_over_both_paralogues_S3_direction": -1,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": true,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_and_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "409": {
+      "nr4a3_uniprot": 409,
+      "residues": {
+       "NR4A3": "S",
+       "NR4A1": "S",
+       "NR4A2": "S"
+      },
+      "uniprot": {
+       "NR4A3": 409,
+       "NR4A1": 375,
+       "NR4A2": 375
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 2,
+       "NR4A1": 2,
+       "NR4A2": 2
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 4.29,
+       "NR4A2": 2.05
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 10
+     },
+     "410": {
+      "nr4a3_uniprot": 410,
+      "residues": {
+       "NR4A3": "T",
+       "NR4A1": "G",
+       "NR4A2": "N"
+      },
+      "uniprot": {
+       "NR4A3": 410,
+       "NR4A1": 376,
+       "NR4A2": 376
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 3,
+       "NR4A1": 0,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 2.54,
+       "NR4A2": 2.11
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -4,
+       "nr4a3_over_both_paralogues_S3_direction": -1,
+       "both_paralogues_over_nr4a3_S3_signal": -3
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_not_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "412": {
+      "nr4a3_uniprot": 412,
+      "residues": {
+       "NR4A3": "R",
+       "NR4A1": "A",
+       "NR4A2": "T"
+      },
+      "uniprot": {
+       "NR4A3": 412,
+       "NR4A1": 380,
+       "NR4A2": 380
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 7,
+       "NR4A1": 1,
+       "NR4A2": 3
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 5.83,
+       "NR4A2": 4.34
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -6,
+       "nr4a3_over_both_paralogues_S3_direction": 4,
+       "both_paralogues_over_nr4a3_S3_signal": -6
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_not_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "414": {
+      "nr4a3_uniprot": 414,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "uniprot": {
+       "NR4A3": 414,
+       "NR4A1": 382,
+       "NR4A2": 382
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.46,
+       "NR4A2": 2.79
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "416": {
+      "nr4a3_uniprot": 416,
+      "residues": {
+       "NR4A3": "Y",
+       "NR4A1": "Y",
+       "NR4A2": "Y"
+      },
+      "uniprot": {
+       "NR4A3": 416,
+       "NR4A1": 384,
+       "NR4A2": 384
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 8,
+       "NR4A1": 8,
+       "NR4A2": 8
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.51,
+       "NR4A2": 3.58
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "448": {
+      "nr4a3_uniprot": 448,
+      "residues": {
+       "NR4A3": "S",
+       "NR4A1": "I",
+       "NR4A2": "I"
+      },
+      "uniprot": {
+       "NR4A3": 448,
+       "NR4A1": 417,
+       "NR4A2": 417
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 2,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.1,
+       "NR4A2": 1.39
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": -2,
+       "both_paralogues_over_nr4a3_S3_signal": 2
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "451": {
+      "nr4a3_uniprot": 451,
+      "residues": {
+       "NR4A3": "W",
+       "NR4A1": "W",
+       "NR4A2": "W"
+      },
+      "uniprot": {
+       "NR4A3": 451,
+       "NR4A1": 420,
+       "NR4A2": 420
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 10,
+       "NR4A1": 10,
+       "NR4A2": 10
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.96,
+       "NR4A2": 1.05
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "477": {
+      "nr4a3_uniprot": 477,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "uniprot": {
+       "NR4A3": 477,
+       "NR4A1": 446,
+       "NR4A2": 446
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.47,
+       "NR4A2": 1.13
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "480": {
+      "nr4a3_uniprot": 480,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "uniprot": {
+       "NR4A3": 480,
+       "NR4A1": 449,
+       "NR4A2": 449
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.16,
+       "NR4A2": 0.93
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "481": {
+      "nr4a3_uniprot": 481,
+      "residues": {
+       "NR4A3": "R",
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "uniprot": {
+       "NR4A3": 481,
+       "NR4A1": 450,
+       "NR4A2": 450
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.42,
+       "NR4A2": 1.51
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 2
+     },
+     "484": {
+      "nr4a3_uniprot": 484,
+      "residues": {
+       "NR4A3": "I",
+       "NR4A1": "Y",
+       "NR4A2": "Y"
+      },
+      "uniprot": {
+       "NR4A3": 484,
+       "NR4A1": 453,
+       "NR4A2": 453
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 8,
+       "NR4A2": 8
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 0.97,
+       "NR4A2": 0.84
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": -4,
+       "both_paralogues_over_nr4a3_S3_signal": 4
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "485": {
+      "nr4a3_uniprot": 485,
+      "residues": {
+       "NR4A3": "R",
+       "NR4A1": "R",
+       "NR4A2": "R"
+      },
+      "uniprot": {
+       "NR4A3": 485,
+       "NR4A1": 454,
+       "NR4A2": 454
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 7,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 0.57,
+       "NR4A2": 0.96
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "487": {
+      "nr4a3_uniprot": 487,
+      "residues": {
+       "NR4A3": "N",
+       "NR4A1": "K",
+       "NR4A2": "N"
+      },
+      "uniprot": {
+       "NR4A3": 487,
+       "NR4A1": 456,
+       "NR4A2": 456
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 5,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.17,
+       "NR4A2": 1.3
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 1,
+       "nr4a3_over_both_paralogues_S3_direction": -1,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": true,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_and_bulkier",
+      "nr4a1_only_clash_poses": 3
+     },
+     "490": {
+      "nr4a3_uniprot": 490,
+      "residues": {
+       "NR4A3": "E",
+       "NR4A1": "E",
+       "NR4A2": "E"
+      },
+      "uniprot": {
+       "NR4A3": 490,
+       "NR4A1": 459,
+       "NR4A2": 459
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 5,
+       "NR4A1": 5,
+       "NR4A2": 5
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.71,
+       "NR4A2": 2.02
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "494": {
+      "nr4a3_uniprot": 494,
+      "residues": {
+       "NR4A3": "V",
+       "NR4A1": "I",
+       "NR4A2": "I"
+      },
+      "uniprot": {
+       "NR4A3": 494,
+       "NR4A1": 463,
+       "NR4A2": 463
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 3,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 0.27,
+       "NR4A2": 1.19
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": -1,
+       "both_paralogues_over_nr4a3_S3_signal": 1
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "521": {
+      "nr4a3_uniprot": 521,
+      "residues": {
+       "NR4A3": "S",
+       "NR4A1": "S",
+       "NR4A2": "S"
+      },
+      "uniprot": {
+       "NR4A3": 521,
+       "NR4A1": 490,
+       "NR4A2": 490
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 2,
+       "NR4A1": 2,
+       "NR4A2": 2
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.55,
+       "NR4A2": 1.29
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "524": {
+      "nr4a3_uniprot": 524,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "L",
+       "NR4A2": "L"
+      },
+      "uniprot": {
+       "NR4A3": 524,
+       "NR4A1": 493,
+       "NR4A2": 493
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 0.94,
+       "NR4A2": 1.04
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "525": {
+      "nr4a3_uniprot": 525,
+      "residues": {
+       "NR4A3": "Q",
+       "NR4A1": "H",
+       "NR4A2": "Q"
+      },
+      "uniprot": {
+       "NR4A3": 525,
+       "NR4A1": 494,
+       "NR4A2": 494
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 5,
+       "NR4A1": 6,
+       "NR4A2": 5
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.93,
+       "NR4A2": 2.41
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 1,
+       "nr4a3_over_both_paralogues_S3_direction": -1,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": true,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_and_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "527": {
+      "nr4a3_uniprot": 527,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "L",
+       "NR4A2": "M"
+      },
+      "uniprot": {
+       "NR4A3": 527,
+       "NR4A1": 496,
+       "NR4A2": 496
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.47,
+       "NR4A2": 3.04
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "528": {
+      "nr4a3_uniprot": 528,
+      "residues": {
+       "NR4A3": "N",
+       "NR4A1": "L",
+       "NR4A2": "N"
+      },
+      "uniprot": {
+       "NR4A3": 528,
+       "NR4A1": 497,
+       "NR4A2": 497
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.8,
+       "NR4A2": 3.74
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_not_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "529": {
+      "nr4a3_uniprot": 529,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "V",
+       "NR4A2": "I"
+      },
+      "uniprot": {
+       "NR4A3": 529,
+       "NR4A1": 498,
+       "NR4A2": 498
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 3,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.76,
+       "NR4A2": 2.35
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -1,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": -1
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_not_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "530": {
+      "nr4a3_uniprot": 530,
+      "residues": {
+       "NR4A3": "D",
+       "NR4A1": "D",
+       "NR4A2": "D"
+      },
+      "uniprot": {
+       "NR4A3": 530,
+       "NR4A1": 499,
+       "NR4A2": 499
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 4,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.55,
+       "NR4A2": 1.57
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 3
+     },
+     "531": {
+      "nr4a3_uniprot": 531,
+      "residues": {
+       "NR4A3": "I",
+       "NR4A1": "V",
+       "NR4A2": "I"
+      },
+      "uniprot": {
+       "NR4A3": 531,
+       "NR4A1": 500,
+       "NR4A2": 500
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 3,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.16,
+       "NR4A2": 1.57
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -1,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": -1
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": true,
+      "class": "nr4a1_unique_not_bulkier",
+      "nr4a1_only_clash_poses": 0
+     },
+     "534": {
+      "nr4a3_uniprot": 534,
+      "residues": {
+       "NR4A3": "L",
+       "NR4A1": "F",
+       "NR4A2": "F"
+      },
+      "uniprot": {
+       "NR4A3": 534,
+       "NR4A1": 503,
+       "NR4A2": 503
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 4,
+       "NR4A1": 7,
+       "NR4A2": 7
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.25,
+       "NR4A2": 0.87
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": -3,
+       "both_paralogues_over_nr4a3_S3_signal": 3
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "535": {
+      "nr4a3_uniprot": 535,
+      "residues": {
+       "NR4A3": "A",
+       "NR4A1": "A",
+       "NR4A2": "S"
+      },
+      "uniprot": {
+       "NR4A3": 535,
+       "NR4A1": 504,
+       "NR4A2": 504
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 1,
+       "NR4A1": 1,
+       "NR4A2": 2
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 1.04,
+       "NR4A2": 0.7
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -1,
+       "nr4a3_over_both_paralogues_S3_direction": -1,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "538": {
+      "nr4a3_uniprot": 538,
+      "residues": {
+       "NR4A3": "S",
+       "NR4A1": "S",
+       "NR4A2": "A"
+      },
+      "uniprot": {
+       "NR4A3": 538,
+       "NR4A1": 507,
+       "NR4A2": 507
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 2,
+       "NR4A1": 2,
+       "NR4A2": 1
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 0.67,
+       "NR4A2": 0.43
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": 0,
+       "nr4a3_over_both_paralogues_S3_direction": 0,
+       "both_paralogues_over_nr4a3_S3_signal": -1
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 8
+     },
+     "575": {
+      "nr4a3_uniprot": 575,
+      "residues": {
+       "NR4A3": "A",
+       "NR4A1": "A",
+       "NR4A2": "L"
+      },
+      "uniprot": {
+       "NR4A3": 575,
+       "NR4A1": 543,
+       "NR4A2": 546
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 1,
+       "NR4A1": 1,
+       "NR4A2": 4
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 6.24,
+       "NR4A2": 13.19
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -3,
+       "nr4a3_over_both_paralogues_S3_direction": -3,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     },
+     "577": {
+      "nr4a3_uniprot": 577,
+      "residues": {
+       "NR4A3": "E",
+       "NR4A1": "E",
+       "NR4A2": "R"
+      },
+      "uniprot": {
+       "NR4A3": 577,
+       "NR4A1": 545,
+       "NR4A2": 548
+      },
+      "n_side_chain_heavy": {
+       "NR4A3": 5,
+       "NR4A1": 5,
+       "NR4A2": 7
+      },
+      "post_fit_deviation_A": {
+       "NR4A1": 6.33,
+       "NR4A2": 9.75
+      },
+      "bulk_margin_heavy_atoms": {
+       "nr4a1_over_both": -2,
+       "nr4a3_over_both_paralogues_S3_direction": -2,
+       "both_paralogues_over_nr4a3_S3_signal": 0
+      },
+      "nr4a1_strictly_bulkier_than_both": false,
+      "nr4a1_categorically_unique_vs_both": false,
+      "class": "conserved_or_shared",
+      "nr4a1_only_clash_poses": 0
+     }
+    },
+    "per_pose": [
+     {
+      "pose": "celastrol",
+      "n_clashing_positions": {
+       "NR4A1": 4,
+       "NR4A2": 4,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       406
+      ]
+     },
+     {
+      "pose": "cytosporone B",
+      "n_clashing_positions": {
+       "NR4A1": 8,
+       "NR4A2": 7,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       538
+      ]
+     },
+     {
+      "pose": "amodiaquine",
+      "n_clashing_positions": {
+       "NR4A1": 6,
+       "NR4A2": 6,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       487
+      ]
+     },
+     {
+      "pose": "chloroquine",
+      "n_clashing_positions": {
+       "NR4A1": 9,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       481,
+       530,
+       538
+      ]
+     },
+     {
+      "pose": "piperlongumine",
+      "n_clashing_positions": {
+       "NR4A1": 7,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       538
+      ]
+     },
+     {
+      "pose": "resveratrol",
+      "n_clashing_positions": {
+       "NR4A1": 5,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       538
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1221517",
+      "n_clashing_positions": {
+       "NR4A1": 8,
+       "NR4A2": 7,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       538
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1961796",
+      "n_clashing_positions": {
+       "NR4A1": 7,
+       "NR4A2": 5,
+       "NR4A3": 1
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       530
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1961797",
+      "n_clashing_positions": {
+       "NR4A1": 7,
+       "NR4A2": 7,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       538
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL4755698",
+      "n_clashing_positions": {
+       "NR4A1": 8,
+       "NR4A2": 7,
+       "NR4A3": 2
+      },
+      "nr4a1_only_clash_positions": [
+       538
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL1873475",
+      "n_clashing_positions": {
+       "NR4A1": 4,
+       "NR4A2": 4,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       487
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL682",
+      "n_clashing_positions": {
+       "NR4A1": 6,
+       "NR4A2": 6,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       487
+      ]
+     },
+     {
+      "pose": "NR4A3-active:CHEMBL76",
+      "n_clashing_positions": {
+       "NR4A1": 9,
+       "NR4A2": 5,
+       "NR4A3": 0
+      },
+      "nr4a1_only_clash_positions": [
+       409,
+       481,
+       530,
+       538
+      ]
+     }
+    ],
+    "by_position_class": {
+     "conserved_or_shared": {
+      "positions": [
+       403,
+       406,
+       409,
+       414,
+       416,
+       448,
+       451,
+       477,
+       480,
+       481,
+       484,
+       485,
+       490,
+       494,
+       521,
+       524,
+       527,
+       530,
+       534,
+       535,
+       538,
+       575,
+       577
+      ],
+      "hits": 24,
+      "trials": 299,
+      "rate": 0.08
+     },
+     "nr4a1_unique_and_bulkier": {
+      "positions": [
+       407,
+       487,
+       525
+      ],
+      "hits": 3,
+      "trials": 39,
+      "rate": 0.077
+     },
+     "nr4a1_unique_not_bulkier": {
+      "positions": [
+       410,
+       412,
+       528,
+       529,
+       531
+      ],
+      "hits": 0,
+      "trials": 65,
+      "rate": 0.0
+     }
+    },
+    "signal_rate": 0.077,
+    "null_rate": 0.08,
+    "enrichment_signal_over_null": 0.96,
+    "signal_minus_null": -0.003
+   }
+  },
+  "⛔_forward_direction_self_check": {
+   "_why": "a null result is indistinguishable from a broken measurement, so the same code path is run with M3's forward predicate and compared to the committed M3 rates",
+   "by_position_class": {
+    "unique_and_both_bulkier": {
+     "positions": [
+      406,
+      484,
+      534
+     ],
+     "hits": 36,
+     "trials": 39,
+     "rate": 0.923
+    },
+    "unique_not_bulkier": {
+     "positions": [
+      407,
+      410,
+      412
+     ],
+     "hits": 0,
+     "trials": 39,
+     "rate": 0.0
+    },
+    "conserved_or_shared": {
+     "positions": [
+      411,
+      481,
+      485,
+      531
+     ],
+     "hits": 9,
+     "trials": 52,
+     "rate": 0.173
+    }
+   },
+   "recomputed": {
+    "unique_and_both_bulkier": 0.923,
+    "conserved_or_shared": 0.173
+   },
+   "committed_M3": {
+    "unique_and_both_bulkier": 0.923,
+    "conserved_or_shared": 0.173
+   },
+   "reproduces_committed_M3": true,
+   "_if_false": "the inverse result in this file MUST be discarded — the code, not the protein, would be the finding"
+  },
+  "★_bulk_margin_the_conformer_independent_reason_the_mechanism_does_not_invert": {
+   "_what": "Heavy atoms the excluding side chain has OVER the larger of the two it must exclude. A clash rate depends on the modelled rotamer; this does not — it is heavy-atom counts of aligned residues, so it is a fact about the PROTEIN.",
+   "by_position_set": {
+    "pocket5_matched_to_M3": {
+     "S3_forward_best_margin": {
+      "position": 484,
+      "heavy_atoms": 4,
+      "residues": {
+       "NR4A3": "I",
+       "NR4A1": "Y",
+       "NR4A2": "Y"
+      }
+     },
+     "inverse_best_margin": {
+      "position": 407,
+      "heavy_atoms": 1,
+      "residues": {
+       "NR4A3": "T",
+       "NR4A1": "L",
+       "NR4A2": "V"
+      }
+     },
+     "inverse_margins_at_signal_positions": {
+      "407": 1
+     }
+    },
+    "ligand_envelope_lining": {
+     "S3_forward_best_margin": {
+      "position": 484,
+      "heavy_atoms": 4,
+      "residues": {
+       "NR4A3": "I",
+       "NR4A1": "Y",
+       "NR4A2": "Y"
+      }
+     },
+     "inverse_best_margin": {
+      "position": 407,
+      "heavy_atoms": 1,
+      "residues": {
+       "NR4A3": "T",
+       "NR4A1": "L",
+       "NR4A2": "V"
+      }
+     },
+     "inverse_margins_at_signal_positions": {
+      "407": 1,
+      "487": 1,
+      "525": 1
+     }
+    }
+   },
+   "_reading": "In the S3 (NR4A3-selective) direction the best pocket margin is +4 heavy atoms at position 484 (I -> Y/Y) — most of an aromatic ring of extra bulk. In the NR4A1-sparing direction the best margin ANYWHERE in the pocket or its lining envelope is +1, at 407 (T -> L/V), and every position in the signal class sits at that same +1. That is the structural reason the inverse fires at its own null while the forward fires well above it: NR4A1 is not BULKIER than its paralogues anywhere that matters — it is DIFFERENT from them, which uniqueness captures and steric exclusion cannot use."
+  },
+  "nr4a1_only_denied_lobes": {
+   "_what": "the sub-volume a ligand heavy atom may occupy in NR4A3 AND at NR4A2's residue, and may NOT occupy at NR4A1's — the S3 design-rule lobe with the roles inverted. Computed by steric_design_rule.denied_lobe, reused unchanged.",
+   "grid_A": 0.4,
+   "null_volume_ceiling_A3": 23.81,
+   "null_volume_ceiling_at": 484,
+   "_bar": "volume must exceed the null class's own largest lobe AND the position must be nr4a1_unique_and_bulkier — the same measured bar S3 uses, never a chosen threshold",
+   "lobes": {
+    "406": {
+     "n_grid_points": 289,
+     "volume_A3": 18.5,
+     "centroid": [
+      5.27,
+      15.75,
+      -3.86
+     ],
+     "span_A": 10.06,
+     "substituent_vector_from_CB": {
+      "reach_A": 4.25,
+      "unit": [
+       0.55,
+       0.731,
+       -0.404
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 406,
+     "class": "conserved_or_shared",
+     "residues": {
+      "NR4A3": "L",
+      "NR4A1": "H",
+      "NR4A2": "H"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 4,
+      "NR4A1": 6,
+      "NR4A2": 6
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 2.57,
+      "NR4A2": 0.81
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "407": {
+     "n_grid_points": 5,
+     "volume_A3": 0.32,
+     "centroid": [
+      1.36,
+      17.89,
+      -8.57
+     ],
+     "span_A": 0.95,
+     "substituent_vector_from_CB": {
+      "reach_A": 3.54,
+      "unit": [
+       0.189,
+       0.372,
+       -0.909
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 407,
+     "class": "nr4a1_unique_and_bulkier",
+     "residues": {
+      "NR4A3": "T",
+      "NR4A1": "L",
+      "NR4A2": "V"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 3,
+      "NR4A1": 4,
+      "NR4A2": 3
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 2.07,
+      "NR4A2": 1.07
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "410": {
+     "n_grid_points": 0,
+     "volume_A3": 0.0,
+     "centroid": null,
+     "why_empty": "one or both paralogues have no aligned side-chain heavy atom at this position",
+     "nr4a3_uniprot": 410,
+     "class": "nr4a1_unique_not_bulkier",
+     "residues": {
+      "NR4A3": "T",
+      "NR4A1": "G",
+      "NR4A2": "N"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 3,
+      "NR4A1": 0,
+      "NR4A2": 4
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 2.54,
+      "NR4A2": 2.11
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "411": {
+     "n_grid_points": 2,
+     "volume_A3": 0.13,
+     "centroid": [
+      0.72,
+      15.5,
+      0.06
+     ],
+     "span_A": 0.4,
+     "substituent_vector_from_CB": {
+      "reach_A": 6.24,
+      "unit": [
+       0.919,
+       -0.315,
+       -0.236
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 411,
+     "class": "conserved_or_shared",
+     "residues": {
+      "NR4A3": "P",
+      "NR4A1": "P",
+      "NR4A2": "P"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 3,
+      "NR4A1": 3,
+      "NR4A2": 3
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 2.27,
+      "NR4A2": 1.55
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "412": {
+     "n_grid_points": 368,
+     "volume_A3": 23.55,
+     "centroid": [
+      4.14,
+      25.64,
+      2.55
+     ],
+     "span_A": 6.66,
+     "substituent_vector_from_CB": {
+      "reach_A": 7.3,
+      "unit": [
+       0.433,
+       0.364,
+       0.824
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 412,
+     "class": "nr4a1_unique_not_bulkier",
+     "residues": {
+      "NR4A3": "R",
+      "NR4A1": "A",
+      "NR4A2": "T"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 7,
+      "NR4A1": 1,
+      "NR4A2": 3
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 5.83,
+      "NR4A2": 4.34
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "481": {
+     "n_grid_points": 130,
+     "volume_A3": 8.32,
+     "centroid": [
+      4.88,
+      7.02,
+      0.91
+     ],
+     "span_A": 9.12,
+     "substituent_vector_from_CB": {
+      "reach_A": 3.83,
+      "unit": [
+       0.435,
+       -0.714,
+       -0.548
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 481,
+     "class": "conserved_or_shared",
+     "residues": {
+      "NR4A3": "R",
+      "NR4A1": "R",
+      "NR4A2": "R"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 7,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 1.42,
+      "NR4A2": 1.51
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "484": {
+     "n_grid_points": 372,
+     "volume_A3": 23.81,
+     "centroid": [
+      13.33,
+      15.83,
+      -0.52
+     ],
+     "span_A": 8.21,
+     "substituent_vector_from_CB": {
+      "reach_A": 5.38,
+      "unit": [
+       0.527,
+       0.652,
+       -0.546
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 484,
+     "class": "conserved_or_shared",
+     "residues": {
+      "NR4A3": "I",
+      "NR4A1": "Y",
+      "NR4A2": "Y"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 4,
+      "NR4A1": 8,
+      "NR4A2": 8
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 0.97,
+      "NR4A2": 0.84
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "485": {
+     "n_grid_points": 70,
+     "volume_A3": 4.48,
+     "centroid": [
+      4.94,
+      13.27,
+      3.2
+     ],
+     "span_A": 6.78,
+     "substituent_vector_from_CB": {
+      "reach_A": 3.45,
+      "unit": [
+       0.276,
+       -0.944,
+       -0.18
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 485,
+     "class": "conserved_or_shared",
+     "residues": {
+      "NR4A3": "R",
+      "NR4A1": "R",
+      "NR4A2": "R"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 7,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 0.57,
+      "NR4A2": 0.96
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "531": {
+     "n_grid_points": 273,
+     "volume_A3": 17.47,
+     "centroid": [
+      8.91,
+      17.16,
+      -2.91
+     ],
+     "span_A": 11.74,
+     "substituent_vector_from_CB": {
+      "reach_A": 3.56,
+      "unit": [
+       0.024,
+       0.531,
+       0.847
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 531,
+     "class": "nr4a1_unique_not_bulkier",
+     "residues": {
+      "NR4A3": "I",
+      "NR4A1": "V",
+      "NR4A2": "I"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 4,
+      "NR4A1": 3,
+      "NR4A2": 4
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 1.16,
+      "NR4A2": 1.57
+     },
+     "qualifies_as_a_design_target": false
+    },
+    "534": {
+     "n_grid_points": 159,
+     "volume_A3": 10.18,
+     "centroid": [
+      6.74,
+      12.73,
+      0.75
+     ],
+     "span_A": 12.14,
+     "substituent_vector_from_CB": {
+      "reach_A": 6.34,
+      "unit": [
+       -0.888,
+       0.221,
+       0.404
+      ],
+      "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+     },
+     "nr4a3_uniprot": 534,
+     "class": "conserved_or_shared",
+     "residues": {
+      "NR4A3": "L",
+      "NR4A1": "F",
+      "NR4A2": "F"
+     },
+     "n_side_chain_heavy": {
+      "NR4A3": 4,
+      "NR4A1": 7,
+      "NR4A2": 7
+     },
+     "post_fit_deviation_A": {
+      "NR4A1": 1.25,
+      "NR4A2": 0.87
+     },
+     "qualifies_as_a_design_target": false
+    }
+   },
+   "design_targets": []
+  }
+ },
+ "controls": {
+  "★_the_relocation_control_is_this_axis's_central_problem_not_a_footnote": "M4 measured that the paralogue's OWN docking relocates the same molecules rather than reproducing the pose: median centroid shift 5.31 A (NR4A1), 5.26 A (NR4A2). For S3 that caps a claim at 'this POSE is denied', which a design rule can live with. An NR4A1-SPARING claim cannot: sparing requires NR4A1 not to be engaged AT ALL, and a molecule that binds NR4A1 5.3 A away in a different sub-site may still recruit an E3 and be degraded there. A steric result in this direction therefore licenses strictly LESS than the same result licenses for S3.",
+  "⚠_construction_bias_and_why_the_contrast_survives_it": "The 13 poses were docked INTO NR4A3, so 'NR4A3 does not clash' is guaranteed by construction and carries no information — and the NR4A1-only predicate contains that free term. The bias inflates every class IDENTICALLY, so the signal-vs-null CONTRAST remains gradeable and the absolute rate does not. Grade the contrast, never the rate. (Identical to M3's own limit, inherited whole.)",
+  "⚠_rigid_transfer": "NR4A1's side chain is held in its own opened conformer and could rotate away. This measures 'clash in NR4A1's modelled conformer with the ligand held fixed', never 'NR4A1 cannot bind'.",
+  "⚠_the_NR4A2_half_is_NOT_construction_guaranteed_and_that_is_the_one_real_signal": "Of the three species in the predicate, only NR4A2's non-clash is a free measurement — NR4A3's is by construction and NR4A1's is the thing being tested. So the informative content of any firing cell is 'NR4A1 clashes where NR4A2 does not', and that is how it must be read.",
+  "⚠_a_single_static_conformer_per_species": "One opened model each. The forward pocket-detection contrast was replicated over matched unbiased ensembles (paralogue-pocket-contrast.json); nothing here is.",
+  "⚠_no_p_value_is_computed_and_that_is_deliberate": "Cells are not independent: positions within one pose share the same superposition and the same ligand, and poses share the same three models — the spatial-correlation caveat Route A already carries. A rate is reported against its matched null and nothing is converted into a test. The verdict does not need one: the signal is AT the null, not near a threshold.",
+  "⛔_no_energy_is_computed_anywhere_in_this_file": "no affinity, no ddG, no selectivity ratio, no degradation, no efficacy, no safety, no therapeutic window, no clinical readiness, and no proteome-wide selectivity of any kind — the comparison set is three paralogues."
+ },
+ "therapeutic_trade": {
+  "_one_fact_one_place": "Every figure below is READ from research/modalities/nr4a2-sparing-bound.json at generation time. This is a citation, not a second home.",
+  "what_the_profile_BUYS": {
+   "the_genotype_it_avoids_by_construction": {
+    "genotype": "Nr4a1 + Nr4a3",
+    "n_annotations": 21,
+    "survival_or_viability_terms": [
+     "postnatal lethality, complete penetrance"
+    ],
+    "pubmed_ids": [
+     "17515897"
+    ],
+    "includes": [
+     "increased leukemia incidence"
+    ],
+    "_why_it_matters": "this is the named mouse AML genotype a NON-selective NR4A3 degrader reconstitutes, and it is the whole reason roadmap §2.4 calls the NR4A1 half MANDATORY. A molecule that spares NR4A1 cannot reconstitute it."
+   },
+   "and_NR4A1's_own_single_null_is_the_mild_one": {
+    "n_single_gene_annotations": 8,
+    "survival_or_viability_terms": [],
+    "_reading": "0 survival/viability terms on 8 single-gene annotations. ⛔ THIS IS NOT A LICENCE — an absent record is an absence of evidence. It is stated because the asymmetry runs the other way from intuition: the mandatory anti-target is mandatory because of a COMBINATION, not because its own null is severe."
+   }
+  },
+  "what_the_profile_COSTS": {
+   "NR4A2_single_null_is_lethal_with_complete_penetrance": {
+    "n_single_gene_annotations": 38,
+    "survival_or_viability_terms": [
+     {
+      "term": "neonatal lethality, complete penetrance",
+      "mp_id": "MP:0011087",
+      "pubmed_ids": [
+       "9092472",
+       "9608532"
+      ]
+     }
+    ],
+    "_reading": "the paralogue this profile DEGRADES is the one whose own single knockout is neonatal-lethal at complete penetrance — while the paralogue it SPARES has no survival term at all. The trade buys the combination and pays on the single."
+   },
+   "a_conditional_deletion_lands_closer_to_a_degrader_and_is_still_lethal": {
+    "genotype": "Nr4a2 + Slc6a3",
+    "n_annotations": 11,
+    "survival_or_viability_terms": [
+     "lethality at weaning, complete penetrance"
+    ],
+    "pubmed_ids": [
+     "20016108"
+    ],
+    "_reading": "a dopaminergic-restricted (Slc6a3/DAT-Cre) Nr4a2 deletion — tissue-restricted and post-developmental, i.e. the closest genotype on record to what a degrader does — still carries 'lethality at weaning, complete penetrance' with neuron degeneration and decreased dopamine. ⛔ Still a genetic deletion, still complete and still lifelong within its lineage; a degrader is partial and reversible."
+   },
+   "tissue_distribution_cannot_rescue_it": {
+    "n_tissues": 51,
+    "counts": {
+     "nr4a2_expressed": 51,
+     "nr4a3_expressed": 47,
+     "nr4a2_and_nr4a3_co_expressed": 47,
+     "nr4a2_unbuffered": 0,
+     "nr4a2_dominant": 0
+    },
+    "source": "https://www.proteinatlas.org/download/tsv/rna_tissue_consensus.tsv.zip",
+    "_reading": "NR4A2 and NR4A3 are co-expressed in 47 of 51 HPA tissues and NR4A2 is the dominant family member in 0, so there is no tissue window in which degrading NR4A3 reaches NR4A2 less. ⛔ AND THE CONVERSE MISREADING IS FORBIDDEN by that artifact: a bulk average dilutes the substantia nigra to invisibility, so this measures exposure breadth and not the dopaminergic requirement."
+   }
+  },
+  "⚠_the_genotype_this_profile_WOULD_reconstitute_and_what_the_record_actually_says": {
+   "genotype": "Nr4a2 + Nr4a3",
+   "n_annotations": 2,
+   "example_genotypes": [
+    "Nr4a2<tm1Tpe>/Nr4a2<+>,Nr4a3<tm1Dgen>/Nr4a3<tm1Dgen>"
+   ],
+   "survival_or_viability_terms": [],
+   "phenotype_terms": [
+    "increased susceptibility to neuronal excitotoxicity",
+    "oxidative stress"
+   ],
+   "pubmed_ids": [
+    "20566846"
+   ],
+   "⛔_read_this_before_quoting_the_empty_survival_list": "The combination IS on record and carries NO survival/viability term — and that is NOT evidence of tolerability, for a reason visible in the genotype string itself: the annotated animal is Nr4a2 HETEROZYGOUS (Nr4a2<tm1Tpe>/Nr4a2<+>) with Nr4a3 homozygous null. A double NULL of Nr4a2 and Nr4a3 has no MGI record at all. So the comparison is not 'Nr4a1;Nr4a3 is lethal and Nr4a2;Nr4a3 is not' — it is 'one double null is phenotyped as lethal and the other has never been reported'. AN ABSENT READING IS NOT A READING OF ABSENCE (CLAUDE.md §4)."
+  },
+  "_the_trade_in_one_sentence": "Sparing NR4A1 removes the one genotype the program treats as disqualifying — the AML double null — and it removes it BY CONSTRUCTION rather than by a margin any instrument here can resolve; but the profile it buys degrades the paralogue whose own single knockout is neonatal-lethal at complete penetrance, in a tissue distribution that offers no window, against a double-null genotype nobody has reported. This file does not decide that trade.",
+  "_what_is_NOT_claimed": "no statement that an NR4A1-sparing degrader would be safe, tolerable, efficacious or clinically relevant. A germline or lineage KO bounds developmental loss, never adult transient partial degradation — the caveat that travels with every row of nr4a2-sparing-bound.json."
+ },
+ "verdict": {
+  "answer_to_the_question": "PARTLY. ⛔ The COVALENT mechanism does not invert and there is no version of it that does — NR-V04 selects positively on NR4A1 Cys551 and sparing NR4A1 means selecting on an ABSENCE, which no electrophile can do. ★ A DIFFERENT mechanism does invert: steric exclusion (S3) needs a bulkier side chain rather than a labelable one, and bulk is a property NR4A1 can have uniquely. That axis is measured here for the first time, and the measurement is thin.",
+  "is_it_measured_or_speculative": "MEASURED, at $0, with its matched null and both controls — and the measurement is what makes it thin rather than promising. Nothing here is a projection or an intention.",
+  "the_axis_in_one_line": "58 alignment-robust NR4A1-unique-vs-BOTH LBD positions exist (against 68 for NR4A3, so the reciprocal set is comparably large and the idea is not vacuous), but at the pocket the signal class is [407] and over the whole ligand-envelope lining set it is [407, 487, 525].",
+  "★_the_one_number_that_answers_it": "The forward (NR4A3-selective) steric test fires at 5.34x its own null. The inverse (NR4A1-sparing) test fires at 0.96x its own null over the same frame, the same 13 poses and the same hard_clash_A. The mechanism does not invert on this protein — not because nobody looked, but because it was looked at with the matched control and came back at the null.",
+  "★_the_structural_reason": "In the S3 (NR4A3-selective) direction the best pocket margin is +4 heavy atoms at position 484 (I -> Y/Y) — most of an aromatic ring of extra bulk. In the NR4A1-sparing direction the best margin ANYWHERE in the pocket or its lining envelope is +1, at 407 (T -> L/V), and every position in the signal class sits at that same +1. That is the structural reason the inverse fires at its own null while the forward fires well above it: NR4A1 is not BULKIER than its paralogues anywhere that matters — it is DIFFERENT from them, which uniqueness captures and steric exclusion cannot use.",
+  "⛔_the_null_is_not_a_bug_and_here_is_the_proof": "The SAME code path, frame and poses run with M3's FORWARD predicate reproduce the committed M3 rates EXACTLY (0.923 / 0.173) — see steric_inverse.⛔_forward_direction_self_check. A null result is otherwise indistinguishable from a broken measurement, and this program has been burned by exactly that shape before.",
+  "⚠_the_single_cell_that_does_fire_above_null_and_why_it_is_not_enough": {
+   "position": 487,
+   "residues": {
+    "NR4A3": "N",
+    "NR4A1": "K",
+    "NR4A2": "N"
+   },
+   "uniprot": {
+    "NR4A3": 487,
+    "NR4A1": 456,
+    "NR4A2": 456
+   },
+   "nr4a1_only_clash_poses": 3,
+   "bulk_margin_heavy_atoms": 1,
+   "_why_it_is_not_enough": "one position out of 31 in the lining set, 13 poses, a +1 heavy-atom margin, and it is selected POST HOC as the largest of the signal class — the multiplicity that makes a per-position rate uninterpretable is exactly why the CLASS rate carries the verdict and a cell does not. It is named rather than dropped because a sweep that reports only what survives is a sweep nobody can grade.",
+   "_and_it_already_existed_in_the_pairwise_set": "this residue appears in nr4a-paralogue-unique-residues.json -> reciprocal_paralogue_unique.NR4A1 — the committed pairwise reciprocal list. What is new is that it survives the vs-BOTH test and that its steric consequence has been measured."
+  },
+  "rates": {
+   "pocket5": {
+    "signal": 0.0,
+    "null": 0.038,
+    "signal_minus_null": -0.038,
+    "enrichment": null
+   },
+   "ligand_envelope_lining": {
+    "signal": 0.077,
+    "null": 0.08,
+    "signal_minus_null": -0.003,
+    "enrichment": 0.96
+   }
+  },
+  "recommended_register_state": "⏸ PARKED",
+  "why_that_state_and_not_the_others": "the axis is not empty — NR4A1-unique-and-bulkier pocket-lining positions EXIST — but the signal class fires at or BELOW its own matched null (0.0 vs 0.038 at the pocket, 0.077 vs 0.08 over the lining envelope), and the inverted denied lobe clears no measured volume ceiling. ⛔ This is ⏸ and not ✕ on purpose. §6's bar for ✕ is POSITIVE EVIDENCE OF IMPOSSIBILITY, and what is measured here is a null result on ONE static conformer per species — an instrument statement. The conformer-INDEPENDENT half (no NR4A1-unique lining position exceeds a +1 heavy-atom bulk margin) points at ✕ and is a fact about the protein, but +1 is not zero and the lining set itself is model-dependent, so it does not reach the bar on its own. 'We looked and found nothing promising' is explicitly not ✕.",
+  "what_would_reopen_it_if_parked": [
+   "an ensemble in the NR4A1 direction — the forward contrast was replicated over matched unbiased ensembles (paralogue-pocket-contrast.json) and this is one static conformer per species; a rotamer that is modelled away here could be a real bulge",
+   "poses docked into NR4A2 as the design frame rather than NR4A3, which would remove the construction bias in the direction that actually matters for a pan-except-NR4A1 molecule",
+   "a site other than the cryptic pocket — the whole test is conditional on R5, and the NR4A1-unique LBD positions outside the pocket envelope are untested by anything here"
+  ],
+  "⛔_what_a_pass_would_still_NOT_license": [
+   "that NR4A1 does not bind the molecule — M4 says it relocates it by a median 5.31 A, and for a SPARING claim relocation is not a footnote but the failure mode",
+   "any degradation, affinity, selectivity ratio, efficacy, safety or window — no energy is computed",
+   "escape from R5: the pocket may not be the right site, and V3 returned INCONCLUSIVE"
+  ]
+ },
+ "register_reconciliation": {
+  "_why_this_block_exists": "selectivity-mechanism-options.md already carries S15 — 'Reciprocal anti-handle avoidance: design AWAY from the paralogues' own unique residues', grade B — which is adjacent to this question. It was read before anything here was written.",
+  "vs_S15": {
+   "S15_is": "a FILTER on an NR4A3-selective covalent construct: do not let the reach envelope admit NR4A1 C505/C551 or NR4A2 C534, so the molecule does not label a paralogue.",
+   "this_is": "a MECHANISM for a different target profile: use an NR4A1-unique BULGE to deny NR4A1 the pose, in a molecule that is deliberately NOT NR4A3-selective.",
+   "shared": "both read the reciprocal direction of the uniqueness map.",
+   "distinct_because": [
+    "different observable — S15 is covalent reach to a reactive residue; this is steric occlusion by side-chain volume, and the two sets barely intersect (a Cys is small, and this axis needs bulk)",
+    "different pairwise structure — S15's set is 'paralogue has it, NR4A3 lacks it' and includes positions NR4A1 SHARES with NR4A2 (C534, K558), which are useless here by construction",
+    "different target product — S15 improves an NR4A3-selective degrader; this describes a pan-NR4A-except-NR4A1 degrader, which is a different molecule with a different brief",
+    "opposite sign on the same protein — S15 says AVOID NR4A1's unique residues; this says SEEK one and design INTO the space around it"
+   ],
+   "verdict": "DISTINCT. It is not S15 measured for the first time — S15 is already measured (the closure data is committed, 30 of 30 graded cells). A new number is warranted."
+  },
+  "vs_S3": {
+   "S3_is": "steric exclusion measured in the NR4A3-selective direction (both paralogues bulkier).",
+   "this_is": "the SAME physics and the SAME instrument, evaluated on the opposite predicate.",
+   "verdict": "SAME MECHANISM CLASS, DIFFERENT DIRECTION AND DIFFERENT TARGET PROFILE. It must not be folded into S3's row: S3's rate (0.923/0.173) answers 'can NR4A3 be selected positively', and merging a second predicate into that row would put two measurements behind one number."
+  },
+  "proposed_register_id": "S18",
+  "proposed_name": "★ Inverse steric exclusion — an NR4A1-unique bulge that denies NR4A1 the pose (the 'pan-NR4A except NR4A1' profile)",
+  "⛔_this_file_does_not_edit_the_register": "selectivity-mechanism-options.json is GENERATED by selectivity_mechanism_options.py and regenerating it rebuilds M1-M7 as well. The row is proposed here with its measurement already owned by this artifact; whoever adds S18 must IMPORT these numbers, never re-type them."
+ },
+ "defect_found_in_a_committed_artifact": {
+  "artifact": "research/modalities/selectivity-mechanism-options.json",
+  "field": "measurements.M3.positions.*.partners.<paralogue>[1]",
+  "what": "the paralogue residue NUMBERS are labelled with NR4A3's local offset (372) instead of the paralogue's own (348 for NR4A1, 344 for NR4A2), so every one is high by 25 (NR4A1) / 29 (NR4A2): M3 reports NR4A3 L406's NR4A1 partner as 'H, 397' where the residue is H372.",
+  "why_it_matters": "the wrong numbers name REAL residues of the same protein — NR4A1 397 is a lysine that appears in this repo's own reciprocal list — so the field reads as measured and is not. CLAUDE.md §4: a populated field is not a measured one.",
+  "blast_radius": "NONE for any conclusion. Every downstream use quotes the residue LETTERS (L406->His/His, I484->Tyr/Tyr, L534->Phe/Phe), which are correct, and steric-design-rule.json carries letters only.",
+  "fix": "selectivity_mechanism_options.m3_steric_exclusion line `(rp + U.LOCAL_OFFSET)` must use the paralogue's own recovered offset — nr4a1_sparing_axis.uniprot_offset() derives it from the model sequence rather than hard-coding it. Not applied here: regenerating that artifact rebuilds M1-M7 and it is owned by another lane."
+ },
+ "map_edits_required": [
+  {
+   "id": "E1",
+   "section": "2.4 — the asymmetric selectivity requirement",
+   "anchor": "hard constraint — spare NR4A1; soft constraint",
+   "current_text": null,
+   "proposed_text": "- ★ **AND THE ASYMMETRY IMPLIES A ROUTE NOBODY HAD PRICED: A MOLECULE THAT SPARES NR4A1 CLEARS THE MANDATORY HALF *BY CONSTRUCTION* (2026-08-03, $0, from trimcrae's question *\"can we do the inverse of NR-V04\"*).** If NR4A1 is the hard constraint because of a **combination** genotype, then a pan-NR4A degrader that spares NR4A1 never reconstitutes it — no margin any instrument here can resolve is required. ⛔ **And the price is on the half this page calls weaker, which is the wrong intuition:** the paralogue such a profile *degrades* is the one whose **own single knockout is neonatal-lethal at complete penetrance** (MP:0011087, PMID 9092472 / 9608532), while the paralogue it *spares* carries **0 survival/viability terms** on its 8 single-gene annotations; and across 51 HPA tissues NR4A2 is co-expressed with NR4A3 in **47** and dominant in **0**, so tissue distribution cannot rescue it. ⚠ The `Nr4a2;Nr4a3` combination *is* on MGI with no survival term — but the annotated animal is **Nr4a2 heterozygous**, and the double null has **never been reported**, so that is an absence of a record and not a reading of tolerability. Both halves, cited: [`nr4a1-sparing-axis.json`](../modalities/nr4a1-sparing-axis.json) → `therapeutic_trade`. ⛔ **The covalent mechanism does not invert** — NR-V04 selects *positively* on NR4A1 Cys551 and sparing requires selecting on an **absence**, which no electrophile can do.",
+   "where_it_goes": "as a new bullet in §2.4's 'What this changes, and what it explicitly does not' list, after the 'It changes the brief' bullet. The finding is about the REQUIREMENT — it exploits the asymmetry — so it belongs beside the asymmetry, not in the mechanism section.",
+   "why": "§2.4 establishes that NR4A1 is mandatory and NR4A2 is weaker, and stops there. The design consequence of that asymmetry — that the mandatory half can be cleared by construction, and what that costs — has no home on the page.",
+   "artifact": "research/modalities/nr4a1-sparing-axis.json:therapeutic_trade"
+  },
+  {
+   "id": "E2",
+   "section": "8 — a NEW subsection, 'Route C'",
+   "anchor": null,
+   "current_text": null,
+   "proposed_text": "### Route C — an NR4A1-sparing (pan-NR4A-except-NR4A1) profile · ⏸ **parked, nothing running** · serves `R7` by a different construction\n\n★ **What distinguishes it from Routes A and B in one line: it does not need NR4A3 to be distinguishable from both paralogues — only NR4A1 to be excludable.** Routes A and B are both POSITIVE selection on NR4A3; this is NEGATIVE selection on NR4A1, and it clears [§2.4](#24--the-selectivity-requirement-is-asymmetric--and-this-page-stated-it-symmetrically)'s mandatory half by construction rather than by a margin.\n\n- ⛔ **The covalent mechanism does not invert, and this is the first thing to say.** NR-V04 selects *positively* on NR4A1 Cys551, a residue NR4A2/NR4A3 lack. Sparing NR4A1 means selecting on an **absence**, and an electrophile cannot label a residue that is not there. There is no reverse-NR-V04 as chemistry.\n- ★ **What does invert is `S3` steric exclusion**, because it needs a bulkier side chain rather than a labelable one. The reciprocal enumeration nobody had run is now run: **58 alignment-robust NR4A1-unique-vs-BOTH LBD positions** (against **68** for NR4A3, so the reciprocal set is comparably large and the idea was not vacuous), same two independent aligners as the forward enumeration.\n- ⛔ **And the measurement came back AT THE NULL — this is a measured negative, not a shortfall of effort.** The forward (NR4A3-selective) steric test fires at 5.34x its own null. The inverse (NR4A1-sparing) test fires at 0.96x its own null over the same frame, the same 13 poses and the same hard_clash_A. The mechanism does not invert on this protein — not because nobody looked, but because it was looked at with the matched control and came back at the null. The NR4A1-only signal class at Pocket-5 is 407; the inverted denied lobe qualifies no position as a design target. Every figure, both nulls and the provenance split: [`nr4a1-sparing-axis.json`](../modalities/nr4a1-sparing-axis.json).\n- ★ **The structural reason, and it is conformer-INDEPENDENT.** In the S3 (NR4A3-selective) direction the best pocket margin is +4 heavy atoms at position 484 (I -> Y/Y) — most of an aromatic ring of extra bulk. In the NR4A1-sparing direction the best margin ANYWHERE in the pocket or its lining envelope is +1, at 407 (T -> L/V), and every position in the signal class sits at that same +1. That is the structural reason the inverse fires at its own null while the forward fires well above it: NR4A1 is not BULKIER than its paralogues anywhere that matters — it is DIFFERENT from them, which uniqueness captures and steric exclusion cannot use.\n- ⛔⛔ **And the `M4` relocation control bites harder here than it does on Route A.** The paralogue *relocates* the ligand by a median 5.31 Å rather than refusing it; for `S3` that caps a claim at *the pose is denied*, which a design rule survives, but a **sparing** claim requires non-engagement, and a molecule bound 5 Å away in NR4A1 may still be degraded there. **This is the axis's central weakness, not a footnote.**\n- ⏸ **Parked, not dead** — [§6b](#6b--parked--failed-with-todays-tools-with-a-named-trigger-to-reopen). The named trigger is a matched NR4A1-direction ensemble, or poses docked into NR4A2 as the design frame; one static conformer per species is what closed it here, and that is a statement about the instrument rather than about the protein.",
+   "where_it_goes": "§8 currently has exactly two route subsections and both are positive selection on NR4A3. This is a negative-selection route and needs its own heading, immediately after 'Route B'. ⚠ No anchor is given because the section does not exist; do not invent one.",
+   "why": "the finding is a ROUTE, not a bullet inside Route A — it targets a different product profile and uses a different logical construction.",
+   "artifact": "research/modalities/nr4a1-sparing-axis.json:verdict"
+  },
+  {
+   "id": "E3",
+   "section": "6b — PARKED",
+   "anchor": null,
+   "current_text": null,
+   "proposed_text": "| **NR4A1-sparing steric exclusion (the inverse of `S3`)** — *serves `R7` by negative selection* | ⏸ | the reciprocal enumeration is not empty (58 alignment-robust NR4A1-unique-vs-BOTH LBD positions), but on ONE static opened conformer per species the pocket signal class is 407 and the inverted denied lobe qualifies no position. ⛔ Not ✕: that is a statement about the instrument, not positive evidence the protein cannot support the mechanism. | **REOPEN WHEN:** a matched NR4A1-direction ensemble exists (the forward contrast has one; this does not), or poses are docked into NR4A2 as the design frame so the construction bias points the right way. [`nr4a1-sparing-axis.json`](../modalities/nr4a1-sparing-axis.json) |",
+   "where_it_goes": "§6b's table. ⚠ Column layout must be read off the live table before inserting — this row is written to the four-column shape §6b used on 2026-08-03 and must be reshaped, not forced, if that has changed.",
+   "why": "§6's own rule: a route that failed with today's tools and names its reopening trigger is ⏸, and filing it is worth as much as filing a live route.",
+   "artifact": "research/modalities/nr4a1-sparing-axis.json:verdict.recommended_register_state"
+  },
+  {
+   "id": "E4",
+   "section": "8 — the options-register bullet list above Route A",
+   "anchor": "Route A's seven divergent handles split.",
+   "current_text": null,
+   "proposed_text": "- ⛔ **AND THE ENUMERATION BEHIND ALL OF THIS RAN IN ONE DIRECTION ONLY UNTIL 2026-08-03.** Every uniqueness map in the program asks *which residues does NR4A3 have that the paralogues lack*; the committed reciprocal fragments (`nr4a-paralogue-unique-residues.json → reciprocal_paralogue_unique`, `nr4a3-linker-covalent-reach.json → paralogue_control.reciprocal_uniqueness`) are **pairwise against NR4A3 and Cys/Lys-only**, which cannot express *unique to NR4A1 against BOTH others*. The vs-BOTH set now exists for all three species over all 20 residue types: [`nr4a1-sparing-axis.json`](../modalities/nr4a1-sparing-axis.json) → `reciprocal_enumeration`.",
+   "where_it_goes": "appended to the four-bullet options-register list in §8's preamble.",
+   "why": "the one-way scope of every enumeration on the page is a limit the page never states.",
+   "artifact": "research/modalities/nr4a1-sparing-axis.json:reciprocal_enumeration"
+  }
+ ],
+ "⛔_limits": [
+  "SEQUENCE UNIQUENESS IS EXACT; EVERYTHING ELSE IS A HYPOTHESIS. The vs-both enumeration is a fact about two alignments of three FASTA sequences. The steric measurement is a fact about three static models and 13 poses.",
+  "ONE STATIC OPENED CONFORMER PER SPECIES, rigidly transferred. A rotamer modelled away here could be a real bulge, and vice versa.",
+  "THE POSES WERE DOCKED INTO NR4A3, so 'NR4A3 does not clash' is free. Only the class contrast is gradeable — never the absolute rate.",
+  "CONDITIONAL ON R5. The whole pocket-level analysis assumes the cryptic pocket is the right site, and the pose known-answer test V3 returned INCONCLUSIVE.",
+  "NO ENERGY, ANYWHERE. No affinity, ddG, selectivity ratio, degradation, efficacy, safety, therapeutic window or clinical readiness is computed or implied, and no proteome-wide selectivity of any kind is claimed — the comparison set is three paralogues.",
+  "THE THERAPEUTIC TRADE IS CITED, NOT DECIDED. Germline and lineage knockouts bound developmental loss; a degrader is adult, transient and incomplete."
+ ]
+}
