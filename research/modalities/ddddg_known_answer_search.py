@@ -991,6 +991,7 @@ def run_c01b(out_path=OUT_C01B, offline=False, tp=None):
                                  notes=["--offline: no fetch attempted" if offline
                                         else "the committed benchmark artifact could not be read"])
         doc["map_edits_required"] = c01_map_edits(doc, which="C01b")
+        doc["map_edits_verified_at_generation"] = verify_edits_now(doc["map_edits_required"])
         if out_path:
             _write(out_path, doc)
         return doc
@@ -1110,6 +1111,7 @@ def run_c01b(out_path=OUT_C01B, offline=False, tp=None):
     doc["transport_errors"] = tp.errors[:40]
     doc["n_api_calls"] = tp.n_calls
     doc["map_edits_required"] = c01_map_edits(doc, which="C01b")
+    doc["map_edits_verified_at_generation"] = verify_edits_now(doc["map_edits_required"])
     if out_path:
         _write(out_path, doc)
     return doc
@@ -1319,6 +1321,7 @@ def run_c01a(out_path=OUT_C01A, stage="all", offline=False, tp=None, max_pairs=N
                                  {}, {"chembl": False, "rcsb": False},
                                  notes=["--offline: no fetch attempted"])
         doc["map_edits_required"] = c01_map_edits(doc, which="C01a")
+        doc["map_edits_verified_at_generation"] = verify_edits_now(doc["map_edits_required"])
         if out_path:
             _write(out_path, doc)
         return doc
@@ -1402,6 +1405,7 @@ def run_c01a(out_path=OUT_C01A, stage="all", offline=False, tp=None, max_pairs=N
     doc["transport_errors"] = tp.errors[:60]
     doc["n_api_calls"] = tp.n_calls
     doc["map_edits_required"] = c01_map_edits(doc, which="C01a")
+    doc["map_edits_verified_at_generation"] = verify_edits_now(doc["map_edits_required"])
     if out_path:
         _write(out_path, doc)
     return doc
@@ -1425,6 +1429,17 @@ MAP_ROW_27_STOP_CLAUSE = "A `STOP_NO_REFERENCE` is a good outcome and not a fail
 # ---------------------------------------------------------------------------------------------------
 # Roadmap edits -- routed, never applied. This module does not own nr4a3-program-map.md.
 # ---------------------------------------------------------------------------------------------------
+def verify_edits_now(edits):
+    """`grep -F` every emitted edit against the LIVE map at generation time. ONE HOME for the check:
+    `nr4a2_sparing_bound.verify_edits_now`, which wraps the sibling generator's `map_edits` module.
+    Writing a second copy here is exactly the duplication CLAUDE.md rule 1 is about."""
+    try:
+        from nr4a2_sparing_bound import verify_edits_now as _v     # noqa: PLC0415
+    except ImportError as e:                                       # noqa: BLE001
+        return {"status": "CHECKER UNAVAILABLE", "error": str(e)}
+    return _v(edits)
+
+
 def c01_map_edits(doc, which="C01a"):
     """Verbatim, ready-to-apply roadmap edits, as a machine-readable list. See row-26 module for the
     field contract; `anchor` must be `grep -F`-verifiable against the live map."""

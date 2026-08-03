@@ -945,6 +945,45 @@ def headline_findings(doc):
     return out
 
 
+
+def verify_edits_now(edits):
+    """`grep -F` every emitted edit against the LIVE map, AT GENERATION TIME. One home for the check:
+    `map_edits.locate` / `map_edits.verify`, the sibling generator built for exactly this failure.
+
+    ⚠ THE POINT IS THAT A QUOTATION CAN GO STALE BETWEEN SESSIONS. This module holds its
+    `current_text` spans as literals so they are reviewable in the source, and a literal quotation of
+    a document that another agent is editing is precisely the thing that went dead nine times out of
+    nine in the categorical audit. So it is re-checked here, and again in CI by
+    `verify_map_edits.py` — belt and braces, because the failure is silent by nature.
+    """
+    try:
+        import map_edits                                          # noqa: PLC0415
+    except ImportError as e:                                      # noqa: BLE001
+        return {"status": "CHECKER UNAVAILABLE", "error": str(e)}
+    text = map_edits.load_map()
+    if text is None:
+        return {"status": "MAP NOT READABLE — the edits could not be checked and must not be applied "
+                          "blind"}
+    rows = []
+    for e in edits:
+        if e.get("anchor") is None:
+            rows.append({"section": e["section"], "status": "NEEDS_NEW_SECTION",
+                         "where": e.get("where")})
+            continue
+        n_anchor = text.count(e["anchor"])
+        n_cur = text.count(e["current_text"]) if e.get("current_text") else None
+        rows.append({"section": e["section"], "anchor_occurrences": n_anchor,
+                     "current_text_occurrences": n_cur,
+                     "status": ("APPLIES" if n_anchor == 1 and (n_cur is None or n_cur == 1)
+                                else "NOT APPLICABLE AS WRITTEN")})
+    bad = [r for r in rows if r["status"] == "NOT APPLICABLE AS WRITTEN"]
+    return {"checked_against": "research/manuscripts/nr4a3-program-map.md",
+            "map_bytes": len(text), "rows": rows,
+            "status": ("ALL EDITS APPLY" if not bad else
+                       "%d edit(s) do not apply to the map as it stands — the FINDINGS are "
+                       "unaffected; re-target the anchors" % len(bad))}
+
+
 def map_edits_required(doc):
     """Verbatim, ready-to-apply edits the roadmap needs, as a machine-readable list.
 
@@ -991,6 +1030,7 @@ def map_edits_required(doc):
             "section": "2.4",
             "anchor": "the repo's IMPC query returned nothing for any of the three",
             "current_text": MAP_2_4_NR4A2_CELL,
+            "_current_text_is_a_quotation": True,
             "proposed_text": (
                 "⚠ the *most* constrained paralogue in human population genetics and the most "
                 "tissue-enhanced. " + new_bound + " Evidence, verdict and the full per-tissue table: "
@@ -1139,6 +1179,7 @@ def run(out_path=OUT, offline=False, mgi_texts=None, hpa_text=None):
     doc["verdict"] = verdict(doc["mgi"], doc["hpa"])
     doc["headline_findings"] = headline_findings(doc)
     doc["map_edits_required"] = map_edits_required(doc)
+    doc["map_edits_verified_at_generation"] = verify_edits_now(doc["map_edits_required"])
 
     if out_path:
         with open(out_path, "w", encoding="utf-8") as fh:
