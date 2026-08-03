@@ -10,7 +10,7 @@
     "No efficacy, safety, tolerability, therapeutic-window or clinical claim is made or implied.",
     "This module does not edit the roadmap, the paper or the SI. Required edits are ROUTED in map_edits_required and must be applied by whoever owns those files."
   ],
-  "_utc": "2026-08-03T01:53:33Z",
+  "_utc": "2026-08-03T02:09:01Z",
   "refusals": [],
   "_source": "Ensembl REST, canonical transcripts, re-derived this run (never read back from a committed artifact \u2014 that is what the gate is for)",
   "transcripts": {
@@ -1684,7 +1684,13 @@
       "current_text": "**`[ ]` `R13-a` \u00b7 Fusion-junction SEQUENCE inventory, at the CORRECTED junction**",
       "proposed_text": "**`[x]` `R13-a` \u00b7 Fusion-junction SEQUENCE inventory, at the CORRECTED junction \u2014 RAN 2026-08-03, $0, gate REPRODUCED**",
       "why": "the rung ran on a free CI runner at $0; the junction re-derived from Ensembl exon structure alone reproduces EWSR1(1-264)::NR4A3(1-626), and the inventory names 45 reactive residues of the real object that lie outside the modelled LBD construct",
-      "artifact": "research/modalities/fusion-object-inventory.json"
+      "artifact": "research/modalities/fusion-object-inventory.json",
+      "_schema_complete": true,
+      "anchor_occurrences": 1,
+      "current_text_occurrences": 1,
+      "proposed_text_occurrences": 0,
+      "_proposed_probe_chars": 119,
+      "anchor_status": "OK"
     },
     {
       "section": "\u00a710.1 row 9",
@@ -1692,15 +1698,55 @@
       "current_text": "**RUN `R13-a` \u2014 it needs no authorization.**",
       "proposed_text": "\u2705 **`R13-a` RAN 2026-08-03 ($0, CI) \u2014 the gate REPRODUCED `EWSR1(1-264)::NR4A3(1-626)` from exon structure alone, and the inventory is [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json).**",
       "why": "row 9's next action was to run R13-a; it has run and the object is now stated at the sequence level, with what is invariant across breakpoints separated from what is not",
-      "artifact": "research/modalities/fusion-object-inventory.json"
+      "artifact": "research/modalities/fusion-object-inventory.json",
+      "_schema_complete": true,
+      "anchor_occurrences": 1,
+      "current_text_occurrences": 1,
+      "proposed_text_occurrences": 0,
+      "_proposed_probe_chars": 120,
+      "anchor_status": "OK"
     },
     {
-      "section": "\u00a79 / the neoantigen lane",
-      "anchor": "fusion-breakpoint-neoantigens.json",
-      "current_text": "fusion-breakpoint-neoantigens.json",
-      "proposed_text": "fusion-breakpoint-neoantigens.json \u26d4 **STALE \u2014 re-derived 2026-08-03: every committed junction resumes at a residue no corrected breakpoint produces, so all 26 predicted binders span seams that do not exist. Flagged, not fixed (MHCflurry-in-CI is that lane's call).**",
-      "why": "the off-by-two fix invalidated that artifact's seams and nothing on the map says so",
-      "artifact": "research/modalities/fusion-object-inventory.json"
+      "section": "\u00a79 finding 23 \u2192 the neoantigen lane's owed consequence",
+      "anchor": "`fusion-breakpoint-neoantigens.json` predates the fix and **must be regenerated before any of it is",
+      "current_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane).",
+      "proposed_text": "quoted** (regeneration needs MHCflurry in CI and belongs to that lane). \u2705 **Independently re-derived 2026-08-03 by rung `R13-a` and CONFIRMED:** all 7 committed junctions resume at residues (318 / 361 / 419) that no breakpoint surviving the corrected windows produces ([`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json) \u2192 `neoantigen_lane_flag`).",
+      "why": "the map states this consequence as an inference from the indexing bug; R13-a measured it from the corrected exon map, which is a stronger warrant for the same conclusion \u2014 and a pointer avoids giving the fact a second home",
+      "artifact": "research/modalities/fusion-object-inventory.json",
+      "_schema_complete": true,
+      "anchor_occurrences": 1,
+      "current_text_occurrences": 1,
+      "proposed_text_occurrences": 0,
+      "_proposed_probe_chars": 120,
+      "anchor_status": "OK"
+    },
+    {
+      "section": "\u00a79 finding 23 \u2192 'Still not settled'",
+      "anchor": "`R13` still has no rung,",
+      "current_text": "`R13` still has no rung,\n      no gate and no price",
+      "proposed_text": "`R13` **now has a rung, a gate and a price** (rung `S`, 2026-08-03)",
+      "why": "STALE \u2014 contradicted by \u00a710.1 row 9 ('\u2705 PRICED and GATED, 2026-08-03') and by RUNG S in THE ORDERED PLAN, which carries `R13-a` at $0 and `R13-b` at ~$0.66. One fact, one place: this sentence is the second, out-of-date copy",
+      "artifact": "research/modalities/scope-rung-cost.json",
+      "_schema_complete": true,
+      "anchor_occurrences": 1,
+      "current_text_occurrences": 1,
+      "proposed_text_occurrences": 0,
+      "_proposed_probe_chars": 67,
+      "anchor_status": "OK"
     }
-  ]
+  ],
+  "map_edit_anchor_check": {
+    "map": "../manuscripts/nr4a3-program-map.md",
+    "map_read": true,
+    "map_read_why": null,
+    "n_edits": 4,
+    "n_ok": 4,
+    "n_applied": 0,
+    "not_found": [],
+    "ambiguous": [],
+    "unread": [],
+    "all_applicable": true,
+    "all_accounted": true,
+    "_rule": "a routed edit whose current_text is not present EXACTLY ONCE cannot be applied mechanically and must be rewritten, not applied by judgement \u2014 UNLESS its proposed_text is present, which means it already landed and there is nothing to do"
+  }
 }
