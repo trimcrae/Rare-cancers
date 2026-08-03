@@ -2,7 +2,7 @@
 
 ⛔ **GENERATED FILE — do not edit.** Every number here is rendered from [`apo-pose-recovery.json`](./apo-pose-recovery.json) by `apo_pose_recovery.render_markdown`, which owns none of them. Edit the module or re-run (`MODE=report`), never this file.
 
-Pre-registered verdict, **unchanged by anything below**: **INCONCLUSIVE** — C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.45 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.
+Pre-registered verdict, **unchanged by anything below**: **INCONCLUSIVE** — C1 FAILED: the protocol could not recover the pose even from the HOLO receptor (19.54 A > 2.00 A), so the primary result measures the docking protocol, not the apo->holo induced-fit gap. Pre-registered: this outcome is INCONCLUSIVE, not a failure of the apo pipeline.
 
 
 ## 1 · Q-DOCKING — given the correct site, does blind apo→holo docking recover the pose?
@@ -12,14 +12,14 @@ Arm: `C3_oracle_box_apo` (apo receptor, box on the crystallographic ligand). Con
 
 | pair | protein | ligand | apo RMSD (Å) | fnat | answer | ceiling (Å) | ceiling passed |
 |---|---|---|---|---|---|---|---|
-| 4RZF→4REF | NR4A1 / Nur77 | 3N0 | 3.578 | 0.778 | INCONCLUSIVE — the protocol ceiling itself missed (2.711 A), so this pair cannot grade the docking | 2.711 | False |
-| 4RZF→4RE8 | NR4A1 / Nur77 | 3MJ | 3.333 | 0.571 | INCONCLUSIVE — the protocol ceiling itself missed (3.026 A), so this pair cannot grade the docking | 3.026 | False |
-| 2QMV→9F7W | PPARG | 2OH | 7.596 | 0.083 | NOT RECOVERED | 0.638 | True |
-| 2QMV→9V8H | PPARG | BRL | 8.960 | 0.188 | NOT RECOVERED | 1.916 | True |
-| 5G42→7NPC | RORC / RORgt | ULT | 11.388 | 0.182 | NOT RECOVERED | 0.281 | True |
-| 5G42→6T4X | RORC / RORgt | L3E | 12.458 | 0.136 | NOT RECOVERED | 0.555 | True |
+| 4RZF→4REF | NR4A1 / Nur77 | 3N0 | 3.516 | 0.778 | INCONCLUSIVE — the protocol ceiling itself missed (2.845 A), so this pair cannot grade the docking | 2.845 | False |
+| 4RZF→4RE8 | NR4A1 / Nur77 | 3MJ | 3.236 | 0.714 | INCONCLUSIVE — the protocol ceiling itself missed (2.972 A), so this pair cannot grade the docking | 2.972 | False |
+| 2QMV→9F7W | PPARG | 2OH | 7.598 | 0.083 | NOT RECOVERED | 0.643 | True |
+| 2QMV→9V8H | PPARG | BRL | 8.966 | 0.188 | INCONCLUSIVE — the protocol ceiling itself missed (6.829 A), so this pair cannot grade the docking | 6.829 | False |
+| 5G42→7NPC | RORC / RORgt | ULT | 12.741 | 0.045 | NOT RECOVERED | 0.277 | True |
+| 5G42→6T4X | RORC / RORgt | L3E | 12.432 | 0.136 | NOT RECOVERED | 0.554 | True |
 
-**4 of 6 pairs gradeable; 0 RECOVERED, 0 PARTIAL, 4 NOT RECOVERED.** a pair whose protocol ceiling (C1c) missed cannot grade the docking and is counted out, not averaged in — the same pre-registered rule C1 applies to the primary
+**3 of 6 pairs gradeable; 0 RECOVERED, 0 PARTIAL, 3 NOT RECOVERED.** a pair whose protocol ceiling (C1c) missed cannot grade the docking and is counted out, not averaged in — the same pre-registered rule C1 applies to the primary
 
 
 ## 2 · Q-SITE — does site selection put the ligand inside the box it draws?
@@ -78,14 +78,15 @@ Apo→holo Cα movement **at the ligand site**. A pair below 1.00 Å is a re-doc
 
 | pair | engineered (apo) | engineered (holo) | same construct? | any in the ligand's contact shell | ligand declared allosteric |
 |---|---|---|---|---|---|
-| 4RZF→4REF | UNREAD | LEU118→TRP | UNREAD | no | no |
-| 4RZF→4RE8 | UNREAD | none | UNREAD | no | no |
-| 2QMV→9F7W | UNREAD | none | UNREAD | no | no |
-| 2QMV→9V8H | UNREAD | none | UNREAD | no | no |
-| 5G42→7NPC | UNREAD | none | UNREAD | no | **yes** |
-| 5G42→6T4X | UNREAD | none | UNREAD | no | **yes** |
+| 4RZF→4REF | SER110→TRP, SER110→TRP | LEU118→TRP | **NO** | no | no |
+| 4RZF→4RE8 | SER110→TRP, SER110→TRP | none | **NO** | no | no |
+| 2QMV→9F7W | none | none | yes | no | no |
+| 2QMV→9V8H | none | none | yes | no | no |
+| 5G42→7NPC | none | none | yes | no | **yes** |
+| 5G42→6T4X | none | none | yes | no | **yes** |
 
-⚠ *The apo-side construct comparison is UNREAD in this artifact — it predates C5b. Absent, not "the constructs match".*
+- ⚠ **4RZF→4REF** — ⚠ THE APO AND HOLO DEPOSITS ARE DIFFERENT CONSTRUCTS — apo declares SER110->TRP, SER110->TRP, holo declares LEU118->TRP. This cross-dock is cross-CONSTRUCT as well as apo->holo, so the induced-fit number contains the substitution's effect too and must not be quoted as pure conformational change. Neither apo substitution maps into the ligand's contact shell, so the benchmarked pocket is not one either mutation built.
+- ⚠ **4RZF→4RE8** — ⚠ THE APO AND HOLO DEPOSITS ARE DIFFERENT CONSTRUCTS — apo declares SER110->TRP, SER110->TRP, holo declares none. This cross-dock is cross-CONSTRUCT as well as apo->holo, so the induced-fit number contains the substitution's effect too and must not be quoted as pure conformational change. Neither apo substitution maps into the ligand's contact shell, so the benchmarked pocket is not one either mutation built.
 
 
 ## 4b · Is a single-run RMSD from this benchmark quotable? (C6, seed replicates)
@@ -95,11 +96,14 @@ Seeds: `20260803, 20260804, 20260805, 20260806, 20260807`. The endpoint is the p
 
 | arm | unseeded (the quoted draw) | median | min–max | spread | bands seen | band stable |
 |---|---|---|---|---|---|---|
-| `blind_apo_fpocket_top_box` | 3.477 Å (PARTIAL) | 3.488 | 3.364–3.593 | 0.229 Å | PARTIAL | yes |
-| `C3_oracle_box_apo` | 3.578 Å (PARTIAL) | 3.472 | 3.139–3.573 | 0.434 Å | PARTIAL | yes |
-| `C1c_self_dock_holo_oracle_box` | 2.711 Å (PARTIAL) | 2.844 | 2.611–2.878 | 0.267 Å | PARTIAL | yes |
+| `blind_apo_fpocket_top_box` | 3.142 Å (PARTIAL) | 3.488 | 3.364–3.593 | 0.229 Å | PARTIAL | yes |
+| `C3_oracle_box_apo` | 3.516 Å (PARTIAL) | 3.472 | 3.139–3.573 | 0.434 Å | PARTIAL | yes |
+| `C1c_self_dock_holo_oracle_box` | 2.845 Å (PARTIAL) | 2.844 | 2.611–2.878 | 0.267 Å | PARTIAL | yes |
 
 every replicated arm stays in one pre-registered band across the seeds, so the panel's CONCLUSIONS are reproducible even though its 3-figure RMSDs are not. ⛔ Quote the band and the spread; a bare RMSD from this benchmark is one draw and must not be cited as a measurement.
+
+
+**Gradeability (C6b) — every pair's gradeability is the same on every seed, so `n_gradeable` is a property of the panel and not of the random number generator**
 
 
 ## 5 · What moved and what did not
@@ -127,11 +131,17 @@ every replicated arm stays in one pre-registered band across the seeds, so the p
 - C6 SEED REPLICATES on the primary pair: the three decision-carrying arms (`blind_apo_fpocket_top_box`, `C3_oracle_box_apo`, `C1c_self_dock_holo_oracle_box`) are re-run at SEED_REPLICATES explicit `--seed`s. Its endpoint is whether the PRE-REGISTERED BAND survives re-seeding, not a tighter number, and `verdict()` does not read it.
 - A determinism self-check inside C6: the first seed is run twice, so a spread cannot be attributed to seeding unless smina is shown to reproduce at a fixed seed on this system.
 - `reproducibility`: the panel-level rollup of C6, carrying `all_bands_stable` and `max_spread_A`. An absent replicate set records `measured: false` rather than an empty summary.
+- C6b SEED REPLICATES ON THE CEILING ARM, on EVERY pair. `Q_DOCKING.n_gradeable` moved 3 -> 4 between two runs of identical code because `C1c_self_dock_holo_oracle_box` on 2QMV->9V8H drew 6.809 A one run and 1.916 A the next; the ceiling decides whether a pair may be graded at all, so an unseeded draw was choosing the headline count's DENOMINATOR. C6b reports, per pair, on how many seeds the pair would have been gradeable, and `reproducibility.gradeability` rolls it up.
+- MODE=site — the IN-REGIME SITE SUPPLEMENT. The geometric site endpoint, run over every apo/holo pair on a protein `nr4a3_warhead.PARALOGUES` says the pipeline actually transfers Pocket-5 onto, with no per-protein cap and NO DOCK. It writes its own artifact (`apo-pose-site-in-regime.json`) and is never summed into the pre-registered panel, which is unchanged. Reason: the panel could offer only TWO in-regime pairs, both against the same apo structure (4RZF) and both NR4A1.
+- R2b is not applied in `site_only` mode, and that is a scope correction rather than a loosening: R2b exists because a NON-COVALENT DOCK cannot reproduce a covalent pose, and the site endpoint contains no dock. It had removed BOTH NR4A2 pairs (5Y41/RPG, 5YD6/8SU, each LINK SG CYS 566 -> ligand C11) — NR4A3's closest paralogue — from a question they can answer. The pre-registered DOCKING panel still excludes them; every covalent pair read by the supplement is flagged.
+- C5b — the APO deposit's engineered substitutions are now graded too, and the two SEQADV sets are compared: `apo_and_holo_are_the_same_construct`. C5 read the holo side only, which silently assumed a pair is two states of ONE construct; on the headline pair (4RZF S441W / 4REF L449W) it is two different NR4A1 tryptophan mutants, so the cross-dock is cross-CONSTRUCT as well as apo->holo and the induced-fit number is not pure conformational change. Reported, never filtering.
 
 **Corrected — superseded values retained (CLAUDE.md §1.2)**
 
 - ``boxes.pipeline_box_fpocket_rank._reads`` — was: asserted 'the site the pipeline's Pocket-5 transfer selected IS a cavity on this receptor' whenever the transferred residues touched a pocket by even one residue — printed beside `n_shared_residues: 1` on the headline pair. Now: the rank is unchanged and still reported; the SENTENCE is conditioned on the share, and the share itself (`frac_transferred_residues_in_that_pocket`) is now emitted
 - `PAIR_BUDGET_S / PANEL_BUDGET_S` — was: 420 s per pair / 2700 s per panel. Now: 900 s / 4500 s — a wall-clock hang-guard raised for the added arms. It can only decide whether an arm RUNS (recorded UNRUN if not), never what an arm returns.
+- ``_dedup_pairs` — the panel pool's projected key list` — was: dropped `apo_chains` and `holo_chains`, so the accession-scoped receptor-chain restriction ran against None on EVERY panel pair — the repair for the 1DSZ RXR/RAR heterodimer was written, landed, and was inert. Evidence on CI run 30764845241: result.chains = {holo_declared: null, apo_declared: null}, considered_top carries both fields and panel_pool carries neither, and 1DSZ->9GFE / 1DSZ->3KMR still refused at identity 0.321 — the number the code's own comment names as that bug's symptom. Now: both fields are carried into the panel pool. This can only ADD interpretable pairs; it moves no threshold and changes no arm's definition.
+- `the `alignment` refusal text` — was: passed `map_uniprot_to_pdb`'s message through unchanged, which hard-codes 'Q92570 and 8XTT' — so an RXRA pair was reported as failing to align against NR4A3's NMR structure, naming two proteins neither of which is in the pair. Now: the refusal names the actual apo/holo entries, the chains compared, the declared chain sets, and says a low identity between two deposits of the SAME accession is a CHAIN-SELECTION symptom first. The upstream function is untouched — other lanes call it.
 
 ⛔ This page claims nothing about NR4A3 selectivity, efficacy, safety or clinical readiness. It grades an instrument, not a molecule.
 
