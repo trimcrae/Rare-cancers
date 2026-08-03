@@ -63,4 +63,4 @@ a trio {T, A, B} from the universe. T is superposed into the NR4A3 pose frame by
 - ⛔ `C5`'s Pocket-5 lining set is mapped onto every decoy target by sequence alignment, so a decoy position is 'NR4A3's site, mapped', never 'this protein's own pocket'. That is the same convention the committed paralogue contrast uses and it has the same reading.
 - ⚠ 13 poses is a small pose set and it is the committed selectivity-matrix library, not the carried candidate. The per-arm filter can only shrink it.
 
-*Generated 2026-08-03 02:40 PM ET by `steric_decoy_null.py`.*
+*Generated 2026-08-03 02:47 PM ET by `steric_decoy_null.py`.*
