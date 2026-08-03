@@ -100,6 +100,26 @@ The two questions, each now answered on its own arm and its own control:
      cannot test an orthosteric site-transfer, and a pocket that exists because of a point mutation is not
      the wild-type site any transfer is aiming at.
 ──────────────────────────────────────────────────────────────────────────────────────────────────────
+★★ AND THE THIRD QUESTION, ADDED 2026-08-03: IS THE NUMBER WE QUOTE A MEASUREMENT AT ALL? (AGAIN NOTHING
+   PRE-REGISTERED MOVES. C6 is a new control on existing arms; `verdict()` does not read it.)
+──────────────────────────────────────────────────────────────────────────────────────────────────────
+The pipeline's dock is an unseeded Monte-Carlo search, so every arm here returns ONE DRAW. Five CI runs
+of this same benchmark have committed the blind-apo fpocket arm at 3.122, 3.437, 3.464, 3.503 and 3.04 A,
+and the roadmap quotes the last as though it were the measurement. A conclusion drawn from one draw is
+only safe if the pre-registered BAND is the same on every draw — which is a fact about this system that
+had never been checked.
+
+  C6 SEED REPLICATES. Re-run `blind_apo_fpocket_top_box`, `C3_oracle_box_apo` and
+     `C1c_self_dock_holo_oracle_box` on the PRIMARY pair at `SEED_REPLICATES` explicit `--seed`s, every
+     other setting still read out of `nr4a3_warhead.dock_into`. Report median, min-max, spread and — the
+     ENDPOINT — whether all replicates fall in ONE pre-registered band. It cannot narrow a number and
+     cannot turn a NOT RECOVERED into a pass; it can only say whether the digits are quotable.
+     ⛔ `nr4a3_warhead` IS NOT SEEDED BY THIS. The pipeline stays as it is, because the unseeded search
+     is the behaviour under test.
+     The first seed is run TWICE as a determinism self-check: if smina does not reproduce at a fixed seed
+     on this system then the spread is not seed-to-seed variation, and the artifact must say so instead
+     of presenting it as one.
+──────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ★ A PANEL, NOT A PICK. `PANEL_SIZE` candidate pairs are attempted in the pre-registered rank order — one
 per distinct crystallographic answer, at most `MAX_PER_PROTEIN` per protein — and EVERY one is reported,
@@ -306,6 +326,16 @@ APPENDIX = {
         "A regime gate on the site question, computed from `nr4a3_warhead.PARALOGUES` rather than typed: "
         "a receptor the pipeline never transfers onto is not evidence about the pipeline's site step.",
         "LARGE_INDUCED_FIT_A = 1.00 A: a REPORTING band on the apo->holo site Ca RMSD, gating nothing.",
+    ],
+    "added_2026_08_03_third_revision": [
+        "C6 SEED REPLICATES on the primary pair: the three decision-carrying arms "
+        "(`blind_apo_fpocket_top_box`, `C3_oracle_box_apo`, `C1c_self_dock_holo_oracle_box`) are re-run "
+        "at SEED_REPLICATES explicit `--seed`s. Its endpoint is whether the PRE-REGISTERED BAND survives "
+        "re-seeding, not a tighter number, and `verdict()` does not read it.",
+        "A determinism self-check inside C6: the first seed is run twice, so a spread cannot be "
+        "attributed to seeding unless smina is shown to reproduce at a fixed seed on this system.",
+        "`reproducibility`: the panel-level rollup of C6, carrying `all_bands_stable` and `max_spread_A`. "
+        "An absent replicate set records `measured: false` rather than an empty summary.",
     ],
     "corrected_2026_08_02": [
         {"what": "`boxes.pipeline_box_fpocket_rank._reads`",
@@ -2046,8 +2076,44 @@ def main():
         }
     doc["site_vs_docking"] = panel_site_vs_docking(ran)
     doc["induced_fit_panel"] = panel_induced_fit(ran)
+    doc["reproducibility"] = panel_reproducibility(panel)
     doc["_appendix"] = APPENDIX
     _emit(doc)
+
+
+def panel_reproducibility(panel):
+    """C6 one level up: is a quoted single-draw RMSD from this benchmark a quotable number?
+
+    ⚠ AN ABSENT REPLICATE SET IS RECORDED AS ABSENT (CLAUDE.md §4). A run made before C6 existed, or one
+    whose primary pair spent its wall clock, gets `measured: false` and the reason — never an empty
+    summary that reads as "no variation found"."""
+    rep = next((r.get("C6_seed_replicates") for r in panel if r.get("C6_seed_replicates")), None)
+    if not rep:
+        return {"measured": False,
+                "_reads": "no pair carried a C6 replicate set in this run, so the run-to-run spread of "
+                          "these arms is UNMEASURED here — not zero"}
+    arms = rep.get("arms") or {}
+    graded = {k: v for k, v in arms.items() if v.get("n_replicates")}
+    unstable = sorted(k for k, v in graded.items() if v.get("band_stable") is False)
+    nondet = sorted(k for k, v in graded.items()
+                    if (v.get("_determinism_selfcheck") or {}).get("identical") is False)
+    return {
+        "measured": True,
+        "n_arms_replicated": len(graded),
+        "n_arms_unrun": len(arms) - len(graded),
+        "seeds": rep.get("seeds"),
+        "max_spread_A": max((v["spread_A"] for v in graded.values()), default=None),
+        "arms_whose_band_flips": unstable,
+        "arms_that_did_not_reproduce_at_a_fixed_seed": nondet,
+        "all_bands_stable": bool(graded) and not unstable,
+        "_reads": (
+            "every replicated arm stays in one pre-registered band across the seeds, so the panel's "
+            "CONCLUSIONS are reproducible even though its 3-figure RMSDs are not. ⛔ Quote the band and "
+            "the spread; a bare RMSD from this benchmark is one draw and must not be cited as a "
+            "measurement." if graded and not unstable else
+            "⛔ at least one replicated arm changes pre-registered band across seeds (%s). Any statement "
+            "of that arm from a single run is not supportable." % ", ".join(unstable) if unstable else
+            "no arm produced a gradeable replicate set; the spread is UNMEASURED, not zero")}
 
 
 # ==================================================================================================
@@ -2298,12 +2364,46 @@ def render_markdown(doc):
                      ", ".join("**%s%s→%s**" % (m["db_residue"], m["resseq"], m["deposit_residue"])
                                for m in ins) or "no"),
                     "**yes**" if al.get("declared_in_holo_title") else "no"))
+    # ⚠ AN ABSENT SECTION IS RECORDED AS ABSENT. An artifact written before C6 existed carries no
+    # `reproducibility`, and a heading with nothing under it would read as "no variation was found".
+    L.append("\n## 4b · Is a single-run RMSD from this benchmark quotable? (C6, seed replicates)\n")
+    rp = doc.get("reproducibility")
+    if not rp:
+        L.append("⚠ **UNMEASURED in this artifact** — it predates C6. Absent, not zero.\n")
+    elif not rp.get("measured"):
+        L.append("⚠ **UNMEASURED in this run** — %s\n" % rp.get("_reads"))
+    else:
+        L.append("Seeds: `%s`. The endpoint is the pre-registered BAND, not a tighter number.\n"
+                 % ", ".join(str(s) for s in rp.get("seeds") or []))
+        L.append("\n| arm | unseeded (the quoted draw) | median | min–max | spread | bands seen | "
+                 "band stable |")
+        L.append("|---|---|---|---|---|---|---|")
+        c6 = next((r.get("C6_seed_replicates") for r in (doc.get("panel") or [])
+                   if r.get("C6_seed_replicates")), {}) or {}
+        for name, row in (c6.get("arms") or {}).items():
+            if not row.get("n_replicates"):
+                L.append("| `%s` | %s | — | — | — | — | ⚠ UNRUN — %s |"
+                         % (name, _f(row.get("unseeded_rmsd_A")), row.get("why")))
+                continue
+            L.append("| `%s` | %s Å (%s) | %s | %s–%s | %s Å | %s | %s |"
+                     % (name, _f(row.get("unseeded_rmsd_A")), row.get("unseeded_band"),
+                        _f(row.get("median_A")), _f(row.get("min_A")), _f(row.get("max_A")),
+                        _f(row.get("spread_A")), ", ".join(row.get("bands_seen") or []),
+                        "yes" if row.get("band_stable") else "**NO**"))
+        L.append("\n%s\n" % rp.get("_reads"))
+        nd = rp.get("arms_that_did_not_reproduce_at_a_fixed_seed")
+        if nd:
+            L.append("⚠ **Did not reproduce at a fixed seed:** %s — the spread above is search variation "
+                     "PLUS non-determinism.\n" % ", ".join(nd))
     L.append("\n## 5 · What moved and what did not\n")
     ap = doc.get("_appendix") or APPENDIX
     for label, key in (("Unchanged (pre-registered)", "unchanged"),
-                       ("Added", "added_2026_08_02_second_revision")):
+                       ("Added 2026-08-02 (second revision)", "added_2026_08_02_second_revision"),
+                       ("Added 2026-08-03 (third revision)", "added_2026_08_03_third_revision")):
         L.append("\n**%s**\n" % label)
-        for row in ap.get(key) or []:
+        # ⚠ An artifact written before a revision existed carries no entry for it. Saying so is the
+        # point; an empty bullet list under a heading reads as "this revision changed nothing".
+        for row in ap.get(key) or ["⚠ *not present in this artifact — it predates this revision.*"]:
             L.append("- %s" % row)
     L.append("\n**Corrected — superseded values retained (CLAUDE.md §1.2)**\n")
     for row in ap.get("corrected_2026_08_02") or []:

@@ -85,6 +85,11 @@ Apo→holo Cα movement **at the ligand site**. A pair below 1.00 Å is a re-doc
 | 5G42→7NPC | none | no | **yes** |
 | 5G42→6T4X | none | no | **yes** |
 
+## 4b · Is a single-run RMSD from this benchmark quotable? (C6, seed replicates)
+
+⚠ **UNMEASURED in this artifact** — it predates C6. Absent, not zero.
+
+
 ## 5 · What moved and what did not
 
 
@@ -96,7 +101,7 @@ Apo→holo Cα movement **at the ligand site**. A pair below 1.00 Å is a re-doc
 - C3 oracle box remains a decomposition and never a headline.
 - `verdict()` is unchanged: no added arm can turn a NOT RECOVERED into a pass.
 
-**Added**
+**Added 2026-08-02 (second revision)**
 
 - Q-SITE: a GEOMETRIC site endpoint — SITE FOUND iff the crystallographic ligand's centroid lies inside the box the route drew. No docking in it, so it is deterministic.
 - Q-DOCKING: the docking question asked with the site handed over (C3 arm) against its own ceiling control (C1c), so a docking answer never borrows the site arm's evidence.
@@ -104,6 +109,10 @@ Apo→holo Cα movement **at the ligand site**. A pair below 1.00 Å is a re-doc
 - C5 declared facts read from the deposit: SEQADV engineered substitutions (and whether any is one of the ligand's own contact residues) and a holo-title allosteric declaration.
 - A regime gate on the site question, computed from `nr4a3_warhead.PARALOGUES` rather than typed: a receptor the pipeline never transfers onto is not evidence about the pipeline's site step.
 - LARGE_INDUCED_FIT_A = 1.00 A: a REPORTING band on the apo->holo site Ca RMSD, gating nothing.
+
+**Added 2026-08-03 (third revision)**
+
+- ⚠ *not present in this artifact — it predates this revision.*
 
 **Corrected — superseded values retained (CLAUDE.md §1.2)**
 

@@ -670,5 +670,121 @@ def test_the_structural_transfer_recovers_pocket5_on_nr4a3_itself():
                             "cannot adjudicate anything until they agree on the positive control" % d)
 
 
+# ============================================================ C6 — seed replicates (added 2026-08-03)
+
+def _fake_replicates(vals, arm="blind_apo_fpocket_top_box"):
+    """Drive `seed_replicates` with a scripted sequence of RMSDs and no smina.
+
+    `vals[0]` is the arm's unseeded draw; the rest are the replicate docks, and the LAST of those is the
+    repeat of the first seed — that is the determinism self-check — so callers pass
+    `1 + n_seeds + 1` numbers and the helper does not have to know the seed list. Only `arm` is given a
+    box, so the other two replicated arms record themselves UNRUN instead of eating the sequence."""
+    seq = list(vals[1:])
+
+    def score_pose(mol, transform=True):
+        v = seq.pop(0)
+        return {"rmsd_A": v, "fnat": 0.5, "verdict": A._band(v)}
+
+    real_dock, real_top = A.dock_seeded, A._top_pose
+    A.dock_seeded = lambda *a, **k: ("/dev/null/pose.sdf", None)
+    A._top_pose = lambda p, c: (object(), None)
+    plan = {a: (None, None, True) for a in A.REPLICATED_ARMS}
+    plan[arm] = ("rec.pdb", (0.0, 0.0, 0.0), True)
+    try:
+        return A.seed_replicates(len(vals) - 2, "/tmp", "lig.sdf", "LIG", score_pose,
+                                 {arm: {"rmsd_A": vals[0]}}, plan, lambda stage: False)
+    finally:
+        A.dock_seeded, A._top_pose = real_dock, real_top
+
+
+def test_c6_replicates_the_arms_the_program_actually_quotes():
+    """A reproducibility control that skipped the arm the roadmap cites would measure nothing that
+    matters. These three are named because each carries a decision."""
+    assert "blind_apo_fpocket_top_box" in A.REPLICATED_ARMS      # the 3.04 A the roadmap quotes
+    assert "C3_oracle_box_apo" in A.REPLICATED_ARMS              # Q-DOCKING's own arm
+    assert "C1c_self_dock_holo_oracle_box" in A.REPLICATED_ARMS  # whether a pair is gradeable at all
+    assert A.SEED_REPLICATES >= 3
+    assert len(set(A.REPLICATE_SEEDS)) == len(A.REPLICATE_SEEDS), "the declared seeds must be distinct"
+
+
+def test_c6_endpoint_is_the_band_not_a_tighter_number():
+    """⛔ The whole risk of a replicate arm is that it becomes a way of reporting a nicer RMSD. The
+    endpoint is whether the PRE-REGISTERED band holds; a stable band is reported as such, and the
+    reading says out loud not to quote the digits."""
+    out = _fake_replicates([3.04, 3.04, 3.5, 3.12, 3.9, 2.4, 3.04])
+    row = out["arms"]["blind_apo_fpocket_top_box"]
+    assert row["band_stable"] is True
+    assert row["bands_seen"] == ["PARTIAL"]
+    assert row["spread_A"] == round(3.9 - 2.4, 3)
+    assert "never the" in row["_reads"] and "band" in row["_reads"]
+
+
+def test_c6_says_the_arm_is_unquotable_when_the_band_flips():
+    out = _fake_replicates([3.04, 1.8, 3.5, 4.6, 3.1, 2.2, 1.8])
+    row = out["arms"]["blind_apo_fpocket_top_box"]
+    assert row["band_stable"] is False
+    assert set(row["bands_seen"]) == {"RECOVERED", "PARTIAL", "NOT RECOVERED"}
+    assert "not quotable" in row["_reads"] or "quotable" in row["_reads"]
+
+
+def test_c6_runs_the_first_seed_twice_and_reports_whether_it_reproduced():
+    """A spread may only be attributed to seeding if the search reproduces at a fixed seed. The repeat
+    is excluded from the spread itself, or the first seed would be double-counted."""
+    same = _fake_replicates([3.04, 3.30, 3.40, 3.50, 3.60, 3.70, 3.30])
+    chk = same["arms"]["blind_apo_fpocket_top_box"]["_determinism_selfcheck"]
+    assert chk["identical"] is True and chk["first_rmsd_A"] == chk["repeat_rmsd_A"] == 3.30
+    assert same["arms"]["blind_apo_fpocket_top_box"]["n_replicates"] == 5
+
+    diff = _fake_replicates([3.04, 3.30, 3.40, 3.50, 3.60, 3.70, 3.99])
+    chk2 = diff["arms"]["blind_apo_fpocket_top_box"]["_determinism_selfcheck"]
+    assert chk2["identical"] is False
+    assert "non-determinism" in chk2["_reads"]
+
+
+def test_c6_can_never_reach_the_verdict():
+    """Same guard as the second revision's added arms: a new control may not become the headline."""
+    import inspect
+    src = inspect.getsource(A.verdict)
+    for leaked in ("C6", "seed_replicates", "band_stable", "REPLICATE_SEEDS"):
+        assert leaked not in src, "%s leaked into verdict() — the headline stays pre-registered" % leaked
+    assert A.RECOVER_RMSD_A == 2.00 and A.PARTIAL_RMSD_A == 4.00
+
+
+def test_c6_leaves_the_pipelines_own_dock_unseeded():
+    """⛔ THE UNSEEDED SEARCH IS THE BEHAVIOUR UNDER TEST. Seeding `nr4a3_warhead.dock_into` would change
+    every number this program has ever produced and would make the control measure nothing."""
+    import inspect
+    import nr4a3_warhead as wh
+    assert "--seed" not in inspect.getsource(wh.dock_into)
+    seeded = inspect.getsource(A.dock_seeded)
+    assert "--seed" in seeded
+    # every other setting still comes from the pipeline, or a replicate would measure the settings
+    assert "pipeline_dock_params()" in seeded
+    for hardcoded in ('"--exhaustiveness", "8"', '"--size_x", "24"'):
+        assert hardcoded not in seeded
+
+
+def test_an_absent_replicate_set_is_recorded_as_absent_not_as_no_variation():
+    """CLAUDE.md §4: an absent reading is not a reading of absence."""
+    rp = A.panel_reproducibility([{"verdict": {"outcome": "INCONCLUSIVE"}}])
+    assert rp["measured"] is False
+    assert "UNMEASURED" in rp["_reads"] or "not zero" in rp["_reads"]
+
+
+def test_the_reproducibility_rollup_flags_every_arm_whose_band_flips():
+    out = _fake_replicates([3.04, 1.8, 3.5, 4.6, 3.1, 2.2, 1.8])
+    rp = A.panel_reproducibility([{"C6_seed_replicates": out}])
+    assert rp["measured"] is True
+    assert "blind_apo_fpocket_top_box" in rp["arms_whose_band_flips"]
+    assert rp["all_bands_stable"] is False
+
+
+def test_the_third_revision_is_registered_in_the_appendix():
+    ap = A.APPENDIX
+    joined = " ".join(ap["added_2026_08_03_third_revision"])
+    assert "C6" in joined and "band" in joined
+    assert "verdict()` does not read it" in joined or "does not read it" in joined
+
+
 if __name__ == "__main__":
     raise SystemExit(pytest.main([os.path.abspath(__file__), "-q"]))
