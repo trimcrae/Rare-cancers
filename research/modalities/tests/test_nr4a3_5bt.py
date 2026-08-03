@@ -431,3 +431,28 @@ def test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty(tmp_path, mo
     assert "placeholder_not_ground_truth" in row["detail"]["gt_complex_is"]
     # arm (C) needs an atom index it can find again in the prediction
     assert row["detail"]["arm_C_inputs"]["electrophile_beta_carbon_index_in_ligand_pdb"] >= 1
+
+
+def test_map_edits_are_emitted_and_point_at_the_artifact_rather_than_restating_it():
+    """⛔ Rule 1: the map LINKS, it does not carry a second copy of the verdict's numbers. And every anchor
+    is checked against the LIVE map by `verify_map_edits.py` — nine verbatim edits died on stale anchors in
+    one day while four agents edited that file."""
+    import verify_map_edits as VME
+    edits = GT.map_edits({"verdict": "INDETERMINATE"})
+    assert edits
+    map_text = open(VME.DEFAULT_MAP).read()
+    for e in edits:
+        for f in VME.REQUIRED_FIELDS:
+            assert f in e, f
+        assert map_text.count(e["anchor"]) == 1, "dead or ambiguous anchor: %r" % e["anchor"]
+        assert map_text.count(e["current_text"]) == 1, "dead current_text: %r" % e["current_text"]
+        assert e["artifact"].startswith("nr4a3-5bt-")
+    joined = " ".join(e["proposed_text"] for e in edits)
+    assert "nr4a3-5bt-gate.json" in joined, "the map must point at the artifact"
+
+
+def test_the_map_edit_carries_the_scope_and_the_inherited_conditions_not_as_footnotes():
+    e = GT.map_edits({"verdict": "GO"})[0]["proposed_text"]
+    for must in ("STRUCTURAL", "not blind", "R5", "R3", "V2"):
+        assert must in e, must
+    assert "Superseded, retained" in e
