@@ -1,0 +1,137 @@
+{
+ "_title": "Bottom-up price for the two SCOPE rungs \u2014 R13 (fusion-context object) and R14 (AR/MR)",
+ "_owner": "research/manuscripts/nr4a3-program-map.md \u00a710.1 rows 9 and 10, and THE ORDERED PLAN",
+ "_this_dispatches_nothing": true,
+ "\u26d4_EXCLUDED_FROM_THE_PINNED_LADDER_TOTAL": "deliberately, and for the same reason pricing.md \u00a7C excludes the 5a-KS confirmatory wedge and the reciprocal cycle: these are CLAIM-CEILING conditions, not steps of the gated 5a->5d spine, and no rung's GO gates them. The map LINKS to this artifact and never adds these into `Cum.`.",
+ "market": {
+  "plan_usd_per_reference_gpu_h": 0.1143,
+  "range_usd_per_reference_gpu_h": [
+   0.0473,
+   0.2881
+  ],
+  "ladder_basis_usd_per_ns": 0.003412,
+  "approved_buy_line_usd_per_ns": 0.006539,
+  "_source": "vast-ladder-repricing.json + inflight_usd_per_ns.APPROVED_USD_PER_NS \u2014 read live so these rungs move with the ladder instead of freezing a rate"
+ },
+ "bases": {
+  "cofold_per_model": {
+   "n_rentals": 8,
+   "cards": [
+    "RTX 4090"
+   ],
+   "all_on_reference_card": true,
+   "ref_gpu_h_total": 5.808,
+   "billed_usd_as_run": 1.0723,
+   "models_delivered": 12,
+   "ref_gpu_h_per_model": 0.484,
+   "as_run_usd_per_model": 0.0894,
+   "_source": "selcal-price-ledger.json, rentals labelled `selcal-cofold-*`; model count from selcal-cofold-census.json n_models_per_arm (6 per arm, 2 arms, complete)",
+   "_why_this_is_an_UPPER_bound_twice_over": [
+    "SIZE: the panel co-folded a SMARCA2/4 ternary + degrader (~4.5k heavy atoms, ~570 residues). The fusion constructs are SMALLER \u2014 seam ~380 residues, composite ~486 (fusion_cofold.py EWS_SEAM_LEN / NR4A3_AF1_END / NR4A3_CORE_START) \u2014 and fusion_cofold.py's own header states the cost is ~N^2 in sequence length. A bigger system's per-model rate therefore OVERSTATES ours.",
+    "ENVIRONMENT: those hours include an environment BUILD on the billing host (apt/pip/~3 GB download), which CLAUDE.md \u00a76 has since forbidden. Running the same work off a baked image is strictly cheaper, so the measured hours overstate a compliant re-run as well."
+   ]
+  },
+  "metad_ensemble_per_species": {
+   "recipe_per_species": {
+    "metad_ns": 60.0,
+    "release_ns_per_rep": 5.0,
+    "n_release_reps": 3,
+    "total_ns": 75.0,
+    "_source": ".github/workflows/gpu-nr4a-paralogue-md-vast.yml:104-105 defaults (metad_ns 60, release_ns 5) x n_rep 3, matching nr4a-paralogue-dynamics.json ensemble_census (25 metad + 3 x 25 release = 100 frames per species)"
+   },
+   "metad_ns_per_day_measured": [
+    141.0,
+    146.0,
+    77.0,
+    47.0
+   ],
+   "metad_ns_per_day_median": 109.0,
+   "_metad_source": "research/compute/pricing.md \u00a7A.1 \u2014 four LANE-13 metadynamics legs, realised ns/day",
+   "release_ns_per_day": 209.0,
+   "_release_source": "research/compute/pricing.md \u00a7A.1 \u2014 instance 45896793 at the metad\u2192release phase boundary (RTX 4080S; the reference RTX 4090 is faster, so this is a conservative rate)",
+   "release_ref_gpu_h": 1.722,
+   "ref_gpu_h_per_species": 14.933,
+   "ref_gpu_h_per_species_band": [
+    11.586,
+    32.361
+   ],
+   "_the_band_is_HOST_CPU_not_price": "the 3.1x spread (146 -> 47 ns/day) is measured on the SAME workload and is host-CPU-bound, not market-driven: pricing.md \u00a7A.1 caught the same instance jump 24-33% -> 74% gpu_util at the metad->release boundary, same card, minutes apart. So this rung's dominant uncertainty is GPU-HOURS, not $/hr, and host CPU has to enter selection for it."
+  }
+ },
+ "rungs": {
+  "R13-a \u00b7 fusion-junction SEQUENCE inventory at the CORRECTED junction": {
+   "serves": "R13",
+   "ref_gpu_h": 0.0,
+   "plan_usd": 0.0,
+   "range_usd": [
+    0.0,
+    0.0
+   ],
+   "where_it_runs": "CI / CPU (Ensembl is networked -> a GitHub Actions runner, CLAUDE.md \u00a76)",
+   "needs_authorization": false,
+   "what_it_buys": "the uniqueness + lysine/cysteine inventory across the CORRECTED junction, and the explicit statement of which real residues the modelled LBD construct (373-626) excludes from every geometry claim in the program"
+  },
+  "R13-b \u00b7 apo co-fold of the two corrected fusion constructs": {
+   "ref_gpu_h": 5.808,
+   "plan_usd": 0.6639,
+   "range_usd": [
+    0.2747,
+    1.6733
+   ],
+   "units": 12,
+   "unit": "apo Boltz-2 co-fold model (construct x seed)",
+   "usd_per_ns": null,
+   "_why_no_usd_per_ns": "a co-fold is structure INFERENCE \u2014 it integrates no dynamics and produces no nanoseconds, so a $/ns here would have no denominator and would be a fabricated figure in the one column CLAUDE.md \u00a71 exists to make gradeable. Same refusal as selcal_board.py / inflight_board.unpriceable_usd_cell. This rung is gated on its DOLLAR ceiling only, and a refusal must say so.",
+   "serves": "R13",
+   "needs_authorization": true,
+   "where_it_runs": "Vast, reference card; baked image (CLAUDE.md \u00a76 \u2014 never build on a billing host)"
+  },
+  "R14-a \u00b7 complete the anti-target panel + run its never-run self-control": {
+   "serves": "R14",
+   "ref_gpu_h": 0.0,
+   "plan_usd": 0.0,
+   "range_usd": [
+    0.0,
+    0.0
+   ],
+   "where_it_runs": "CI / CPU \u2014 smina, the identical 24 A box / exhaustiveness 8 protocol",
+   "needs_authorization": false,
+   "what_it_buys": "MR/NR3C2 added to antitarget_panel.json (AR is already a target), the panel's own cognate-ligand self-control run for the first time, and denovo_401 + the carried candidates docked into both flagged receptors"
+  },
+  "R14-b \u00b7 matched AR/MR cryptic-pocket ensembles (+ the $0 detector)": {
+   "ref_gpu_h": 29.866,
+   "plan_usd": 3.4137,
+   "range_usd": [
+    1.096,
+    18.6464
+   ],
+   "ref_gpu_h_band": [
+    23.172,
+    64.722
+   ],
+   "units": 2,
+   "unit": "matched cryptic-pocket ensemble (60 ns well-tempered metadynamics + 3 x 5 ns release)",
+   "total_ns": 150.0,
+   "usd_per_ns": 0.022758,
+   "multiple_of_ladder_basis": 6.67,
+   "multiple_of_buy_line": 3.48,
+   "\u26d4_WOULD_BE_REFUSED_BY_THE_STANDING_RATE_LINE": true,
+   "\u2605_and_that_refusal_is_a_BLOCKER_TO_SURFACE_not_a_price_to_pay": "This rung's $/ns is 0.0228 against a buy line of 0.006539 \u2014 it would be REFUSED, and per CLAUDE.md \u00a71 a refused row must NAME which ceiling it hit. \u26a0 But the comparison is NOT like-for-like and must not be reported as drift: the line's basis is the 84,534-particle UNBIASED RBFE benchmark, and a PLUMED-biased leg does per-step HOST-CPU work the benchmark does not \u2014 measured on ONE instance at the metad->release boundary, same card, minutes apart (pricing.md \u00a7A.1). So the honest state is: there is no metadynamics-anchored basis in this repo, and until there is, this rung cannot be graded by the rate line at all. \u26d4 REGISTERED GATE: do not launch R14-b until that is resolved. This is surfaced now rather than discovered at launch, and it is a decision for trimcrae, not a rule to loosen.",
+   "serves": "R14",
+   "needs_authorization": true,
+   "where_it_runs": "Vast; the detector itself is $0 CPU once frames exist"
+  }
+ },
+ "totals_for_these_four_rungs_only": {
+  "plan_usd": 4.0776,
+  "range_usd": [
+   1.3707,
+   20.3197
+  ],
+  "_not_the_ladder": "DERIVED here from the rows above; it is NOT added to and does NOT move the pinned ladder total, which vast_cost_model.py owns."
+ },
+ "unpriceable": {
+  "R13 \u00b7 the FULL validation-requirement-5 object": "\u26d4 NOT PRICED, and it must not be. Requirement 5 asks for a fusion-context ENSEMBLE plus full CRL/E2~Ub ensembles. Three separate things are missing before a number could mean anything: (1) no particle count exists anywhere in this repo for an ~890-residue chimera carrying a 264-residue prion-like IDR, and the binary NR4A3 complex's particle count is ALREADY recorded as unknown (pricing.md B); (2) nothing determines how many replicas a statement about a disordered region would need, and fusion_cofold.py's own honest prior is that an MSA-based predictor has NO cross-seam coevolution to work from; (3) the patient-level breakpoint is not pinned \u2014 nr4a3-exon-audit.json says only a primary breakpoint report can do that, and EMC carries several \u2014 so the OBJECT ITSELF is not uniquely defined yet. Pricing an ensemble over an undetermined object would be pricing a guess.",
+  "R14 \u00b7 the ENERGETIC (FEP) half": "\u26d4 NOT PRICED, and it does not get its own rung. The SI asks for 'docking/FEP into their LBDs'. The FEP half IS `V4`'s instrument \u2014 the selectivity-ABFE that has never recovered a known selectivity answer across two pockets. Under the claim-ceiling rule a number from it could not raise R14 above 'unvalidated prediction', so pricing it here would create a SECOND home for a decision that already has one: \u00a710.1 row 2, `V4`'s missing rung. It is downstream of row 2, not parallel to it."
+ }
+}

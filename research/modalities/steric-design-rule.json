@@ -1,0 +1,1066 @@
+{
+ "_title": "The steric-exclusion DESIGN RULE (mechanism S3) \u2014 with its control attached to every record",
+ "_owner": "research/manuscripts/nr4a3-program-map.md \u00a710.1 row 24; mechanism S3 in selectivity-mechanism-options.md. The MEASUREMENT (0.923 vs 0.173) is owned there and is imported, never re-typed, here.",
+ "_cost": "$0 \u2014 CPU, no rental, no GPU, no dispatch.",
+ "_licenses": "A POSE constraint on a candidate molecule. Nothing about binding, affinity, degradation, selectivity ratio, safety or clinical readiness is computed in this file.",
+ "parameters": {
+  "hard_clash_A": 3.0,
+  "grid_A": 0.4,
+  "absolute_sanity_floor_A3": 1.0,
+  "_design_target_bar": "the null class's own largest lobe \u2014 MEASURED, see null_volume_ceiling_A3, not a chosen threshold",
+  "frame": "results/nr4a3-matrix/nr4a3-opened.pdb; paralogues superposed into it",
+  "_hard_clash_source": "selectivity_mechanism_options.HARD_CLASH_A (= nr4a3-orientation-basins.json parameters.hard_clash_A)"
+ },
+ "\u26d4_control": {
+  "_\u2605_THE_CONTROL_THAT_CAPS_THIS_RULE": "The paralogue's OWN docking RELOCATES these same molecules rather than reproducing the pose.",
+  "median_centroid_shift_A": {
+   "NR4A1": 5.31,
+   "NR4A2": 5.26
+  },
+  "\u2705_what_a_high_score_licenses": "this POSE is denied in the paralogue's modelled opened conformer",
+  "\u26d4_what_this_score_is_not": "NOT that the paralogue fails to bind the molecule \u2014 it binds it somewhere else (M4). NOT an affinity, a selectivity ratio, a degradation statement or any energy: none is computed here. NOT independent of R5 \u2014 the whole rule is conditional on the cryptic pocket being the right site, and the pose known-answer test V3 returned INCONCLUSIVE on site selection.",
+  "\u26a0_rigid_transfer": "the paralogue side chain is held in its own opened conformer and could rotate away; the lobe is 'denied in this conformer', never 'denied'",
+  "\u26a0_nr4a3_absence_is_by_construction": "these poses were docked INTO NR4A3, so NR4A3's lack of clash carries no information. Only the signal-vs-null contrast is gradeable, which is why score_pose() never emits one without the other."
+ },
+ "\u2605_findings": {
+  "1_the_rule_has_TWO_usable_vectors_not_three": "M3's 0.923 pools THREE positions; only [484, 534] clear the measured null ceiling in the volume domain. L406->His/His fires in the CLASH statistic but the space both paralogues deny there is almost entirely denied by NR4A3 too (2.69 A^3), so there is nothing for a substituent to occupy. A designer gets two vectors, not three \u2014 which is a narrowing the measurement alone could not show, because a rate over positions cannot see whether the denied space is reachable.",
+  "2_the_null_is_LARGER_than_one_signal_position": "the conserved position 481 offers 11.78 A^3 \u2014 more than L406's 2.69 A^3. The null is not a formality on this axis either: a substituent aimed at L406 would be exploiting no more denied space than a CONSERVED residue's rotamer gap. Grade the contrast, never the signal.",
+  "3_the_LARGEST_lobe_is_at_the_LEAST_trustworthy_position": "position 412 has the biggest lobe of all (68.80 A^3) and must NOT be taken as the top design target: it is class 'unique_not_bulkier' (it fires at 0.000 on the clash test \u2014 uniqueness alone creates no exclusion), and it carries the worst post-fit superposition deviation in the whole set ({'NR4A1': 5.83, 'NR4A2': 4.34} A). \u2605 So VOLUME NEVER OVERRIDES CLASS. Ranking on lobe size alone would put this program's own independently down-weighted position first, which is what the class gate exists to prevent.",
+  "4_what_a_designer_does_with_this": "grow a substituent from the CB of I484 (reach 4.27 A) and/or L534 (reach 5.62 A) along the stated unit vector, keeping the added volume inside the lobe span; then re-score with score_pose() and ACCEPT on signal_minus_null. \u26d4 And report the M4 relocation control in the same sentence."
+ },
+ "design_targets": [
+  484,
+  534
+ ],
+ "null_volume_ceiling_A3": 11.78,
+ "null_volume_ceiling_at": 481,
+ "denied_lobes": {
+  "406": {
+   "n_grid_points": 42,
+   "volume_A3": 2.69,
+   "centroid": [
+    5.59,
+    10.95,
+    -4.09
+   ],
+   "span_A": 2.97,
+   "substituent_vector_from_CB": {
+    "reach_A": 3.7,
+    "unit": [
+     0.715,
+     -0.458,
+     -0.527
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 406,
+   "class": "unique_and_both_bulkier",
+   "nr4a3_residue": "L",
+   "paralogue_residues": {
+    "NR4A1": "H",
+    "NR4A2": "H"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 4,
+    "NR4A1": 6,
+    "NR4A2": 6
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 2.57,
+    "NR4A2": 0.81
+   },
+   "qualifies_as_a_design_target": false,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "407": {
+   "n_grid_points": 9,
+   "volume_A3": 0.58,
+   "centroid": [
+    1.63,
+    17.35,
+    -8.33
+   ],
+   "span_A": 2.32,
+   "substituent_vector_from_CB": {
+    "reach_A": 3.21,
+    "unit": [
+     0.294,
+     0.244,
+     -0.924
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 407,
+   "class": "unique_not_bulkier",
+   "nr4a3_residue": "T",
+   "paralogue_residues": {
+    "NR4A1": "L",
+    "NR4A2": "V"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 3,
+    "NR4A1": 4,
+    "NR4A2": 3
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 2.07,
+    "NR4A2": 1.07
+   },
+   "qualifies_as_a_design_target": false,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "410": {
+   "n_grid_points": 0,
+   "volume_A3": 0.0,
+   "centroid": null,
+   "why_empty": "one or both paralogues have no aligned side-chain heavy atom at this position",
+   "uniprot": 410,
+   "class": "unique_not_bulkier",
+   "nr4a3_residue": "T",
+   "paralogue_residues": {
+    "NR4A1": "G",
+    "NR4A2": "N"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 3,
+    "NR4A1": 0,
+    "NR4A2": 4
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 2.54,
+    "NR4A2": 2.11
+   },
+   "qualifies_as_a_design_target": false,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "411": {
+   "n_grid_points": 3,
+   "volume_A3": 0.19,
+   "centroid": [
+    -2.38,
+    17.56,
+    3.92
+   ],
+   "span_A": 2.47,
+   "substituent_vector_from_CB": {
+    "reach_A": 3.56,
+    "unit": [
+     0.739,
+     0.028,
+     0.673
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 411,
+   "class": "conserved_or_shared",
+   "nr4a3_residue": "P",
+   "paralogue_residues": {
+    "NR4A1": "P",
+    "NR4A2": "P"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 3,
+    "NR4A1": 3,
+    "NR4A2": 3
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 2.27,
+    "NR4A2": 1.55
+   },
+   "qualifies_as_a_design_target": false,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "412": {
+   "n_grid_points": 1075,
+   "volume_A3": 68.8,
+   "centroid": [
+    3.59,
+    24.26,
+    1.19
+   ],
+   "span_A": 6.7,
+   "substituent_vector_from_CB": {
+    "reach_A": 5.5,
+    "unit": [
+     0.475,
+     0.234,
+     0.848
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 412,
+   "class": "unique_not_bulkier",
+   "nr4a3_residue": "R",
+   "paralogue_residues": {
+    "NR4A1": "A",
+    "NR4A2": "T"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 7,
+    "NR4A1": 1,
+    "NR4A2": 3
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 5.83,
+    "NR4A2": 4.34
+   },
+   "qualifies_as_a_design_target": false,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "481": {
+   "n_grid_points": 184,
+   "volume_A3": 11.78,
+   "centroid": [
+    4.44,
+    6.96,
+    2.17
+   ],
+   "span_A": 8.12,
+   "substituent_vector_from_CB": {
+    "reach_A": 3.17,
+    "unit": [
+     0.386,
+     -0.884,
+     -0.264
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 481,
+   "class": "conserved_or_shared",
+   "nr4a3_residue": "R",
+   "paralogue_residues": {
+    "NR4A1": "R",
+    "NR4A2": "R"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 7,
+    "NR4A1": 7,
+    "NR4A2": 7
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 1.42,
+    "NR4A2": 1.51
+   },
+   "qualifies_as_a_design_target": false,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "484": {
+   "n_grid_points": 811,
+   "volume_A3": 51.9,
+   "centroid": [
+    9.58,
+    15.0,
+    -0.78
+   ],
+   "span_A": 9.97,
+   "substituent_vector_from_CB": {
+    "reach_A": 4.27,
+    "unit": [
+     -0.214,
+     0.626,
+     -0.75
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 484,
+   "class": "unique_and_both_bulkier",
+   "nr4a3_residue": "I",
+   "paralogue_residues": {
+    "NR4A1": "Y",
+    "NR4A2": "Y"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 4,
+    "NR4A1": 8,
+    "NR4A2": 8
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 0.97,
+    "NR4A2": 0.84
+   },
+   "qualifies_as_a_design_target": true,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "485": {
+   "n_grid_points": 12,
+   "volume_A3": 0.77,
+   "centroid": [
+    4.16,
+    13.24,
+    5.98
+   ],
+   "span_A": 1.67,
+   "substituent_vector_from_CB": {
+    "reach_A": 3.93,
+    "unit": [
+     0.043,
+     -0.835,
+     0.548
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 485,
+   "class": "conserved_or_shared",
+   "nr4a3_residue": "R",
+   "paralogue_residues": {
+    "NR4A1": "R",
+    "NR4A2": "R"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 7,
+    "NR4A1": 7,
+    "NR4A2": 7
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 0.57,
+    "NR4A2": 0.96
+   },
+   "qualifies_as_a_design_target": false,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "531": {
+   "n_grid_points": 47,
+   "volume_A3": 3.01,
+   "centroid": [
+    7.24,
+    15.0,
+    -3.07
+   ],
+   "span_A": 11.37,
+   "substituent_vector_from_CB": {
+    "reach_A": 3.29,
+    "unit": [
+     -0.485,
+     -0.081,
+     0.871
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 531,
+   "class": "conserved_or_shared",
+   "nr4a3_residue": "I",
+   "paralogue_residues": {
+    "NR4A1": "V",
+    "NR4A2": "I"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 4,
+    "NR4A1": 3,
+    "NR4A2": 4
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 1.16,
+    "NR4A2": 1.57
+   },
+   "qualifies_as_a_design_target": false,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  },
+  "534": {
+   "n_grid_points": 949,
+   "volume_A3": 60.74,
+   "centroid": [
+    6.84,
+    10.82,
+    -0.87
+   ],
+   "span_A": 10.15,
+   "substituent_vector_from_CB": {
+    "reach_A": 5.62,
+    "unit": [
+     -0.982,
+     -0.089,
+     0.167
+    ],
+    "_how_to_use": "place a substituent heavy atom at CB + reach_A * unit, in the frame of results/nr4a3-matrix/nr4a3-opened.pdb, then re-score with score_pose()"
+   },
+   "uniprot": 534,
+   "class": "unique_and_both_bulkier",
+   "nr4a3_residue": "L",
+   "paralogue_residues": {
+    "NR4A1": "F",
+    "NR4A2": "F"
+   },
+   "n_side_chain_heavy": {
+    "NR4A3": 4,
+    "NR4A1": 7,
+    "NR4A2": 7
+   },
+   "post_fit_deviation_A": {
+    "NR4A1": 1.25,
+    "NR4A2": 0.87
+   },
+   "qualifies_as_a_design_target": true,
+   "_bar": "volume must exceed the null class's own largest lobe (11.78 A^3 at position 481) AND the position must be unique_and_both_bulkier"
+  }
+ },
+ "worked_example": {
+  "_what": "the 13 committed selectivity-matrix poses scored by the rule, each with its own null",
+  "n_poses": 13,
+  "poses": [
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 2,
+      "n_positions": 3,
+      "rate": 0.667
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      484,
+      534
+     ],
+     "conserved_or_shared": [
+      531
+     ]
+    },
+    "signal_rate": 0.667,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.417,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "celastrol",
+    "n_heavy_atoms": 33
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ],
+     "conserved_or_shared": [
+      481
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.75,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "cytosporone B",
+    "n_heavy_atoms": 23
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 0,
+      "n_positions": 4,
+      "rate": 0.0
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.0,
+    "signal_minus_null": 1.0,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "amodiaquine",
+    "n_heavy_atoms": 25
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ],
+     "conserved_or_shared": [
+      531
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.75,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "chloroquine",
+    "n_heavy_atoms": 22
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ],
+     "conserved_or_shared": [
+      531
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.75,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "piperlongumine",
+    "n_heavy_atoms": 23
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 2,
+      "n_positions": 3,
+      "rate": 0.667
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "conserved_or_shared": [
+      481
+     ],
+     "unique_and_both_bulkier": [
+      484,
+      534
+     ]
+    },
+    "signal_rate": 0.667,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.417,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "resveratrol",
+    "n_heavy_atoms": 17
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ],
+     "conserved_or_shared": [
+      481
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.75,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "NR4A3-active:CHEMBL1221517",
+    "n_heavy_atoms": 23
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ],
+     "conserved_or_shared": [
+      531
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.75,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "NR4A3-active:CHEMBL1961796",
+    "n_heavy_atoms": 29
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ],
+     "conserved_or_shared": [
+      531
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.75,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "NR4A3-active:CHEMBL1961797",
+    "n_heavy_atoms": 32
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 0,
+      "n_positions": 4,
+      "rate": 0.0
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.0,
+    "signal_minus_null": 1.0,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "NR4A3-active:CHEMBL4755698",
+    "n_heavy_atoms": 30
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 2,
+      "n_positions": 3,
+      "rate": 0.667
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 0,
+      "n_positions": 4,
+      "rate": 0.0
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      484,
+      534
+     ]
+    },
+    "signal_rate": 0.667,
+    "null_rate": 0.0,
+    "signal_minus_null": 0.667,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "NR4A3-active:CHEMBL1873475",
+    "n_heavy_atoms": 33
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 0,
+      "n_positions": 4,
+      "rate": 0.0
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.0,
+    "signal_minus_null": 1.0,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "NR4A3-active:CHEMBL682",
+    "n_heavy_atoms": 25
+   },
+   {
+    "by_position_class": {
+     "unique_and_both_bulkier": {
+      "positions": [
+       406,
+       484,
+       534
+      ],
+      "fired": 3,
+      "n_positions": 3,
+      "rate": 1.0
+     },
+     "unique_not_bulkier": {
+      "positions": [
+       407,
+       410,
+       412
+      ],
+      "fired": 0,
+      "n_positions": 3,
+      "rate": 0.0
+     },
+     "conserved_or_shared": {
+      "positions": [
+       411,
+       481,
+       485,
+       531
+      ],
+      "fired": 1,
+      "n_positions": 4,
+      "rate": 0.25
+     }
+    },
+    "positions_fired": {
+     "unique_and_both_bulkier": [
+      406,
+      484,
+      534
+     ],
+     "conserved_or_shared": [
+      531
+     ]
+    },
+    "signal_rate": 1.0,
+    "null_rate": 0.25,
+    "signal_minus_null": 0.75,
+    "_reading": "signal_rate is the fraction of the THREE bulkier-unique positions this pose denies to both paralogues; null_rate is the same statistic at the conserved/shared positions and is this molecule's OWN false-positive rate. Grade the difference, never the signal.",
+    "pose": "NR4A3-active:CHEMBL76",
+    "n_heavy_atoms": 22
+   }
+  ],
+  "pooled_signal_rate": 0.923,
+  "pooled_null_rate": 0.173,
+  "reproduces_M3": true,
+  "_why_this_check_exists": "if the scorer does not reproduce M3's own rates over M3's own poses then it is a different object from the measurement it claims to operationalise, and the rule must not be used. M3 rates imported for the comparison: signal 0.923, null 0.173."
+ },
+ "how_to_score_a_new_candidate": [
+  "1. Dock or place the candidate in the NR4A3 opened frame (results/nr4a3-matrix/nr4a3-opened.pdb).",
+  "2. score_pose(heavy_xyz, geometry, hard_clash_A) -> signal_rate, null_rate, signal_minus_null.",
+  "3. ACCEPT on signal_minus_null, never on signal_rate: the null is the molecule's own false-positive rate under the same superposition.",
+  "4. Report the M4 relocation control in the same sentence as the score. A score reported without it will be read as 'the paralogue cannot bind this', which is not what was measured."
+ ],
+ "\u26d4_limits": [
+  "RIGID TRANSFER. The paralogue side chain is held in its own opened conformer; it could rotate away. This measures 'clash in the paralogue's modelled conformer with the ligand held fixed', never 'the ligand cannot bind'.",
+  "The absence of NR4A3 clash is guaranteed by construction (these poses were docked into NR4A3) and carries no information. Only the between-class contrast is gradeable.",
+  "Conditional on the two opened paralogue models and on the superposition: post-fit deviation at R412 is the largest in the set, so R412's geometry in this frame is the least trustworthy.",
+  "The 13 molecules are the committed selectivity-matrix library, not the carried candidate."
+ ]
+}
