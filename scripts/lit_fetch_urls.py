@@ -127,10 +127,29 @@ def fetch(name: str, url: str) -> dict:
     return rec
 
 
+def resolve_targets() -> dict:
+    """TARGETS, optionally REPLACED by a JSON {name: url} map named in LIT_TARGETS_FILE.
+
+    Additive by design: the built-in TARGETS list is a fixed corpus tied to specific verification
+    tasks, so a new corpus gets its own file rather than editing that dict (which would silently
+    change what every future run fetches). LIT_TARGETS_MODE=extend appends instead of replacing.
+    """
+    path = os.environ.get("LIT_TARGETS_FILE", "").strip()
+    if not path:
+        return TARGETS
+    with open(path, "r", encoding="utf-8") as fh:
+        extra = json.load(fh)
+    if not isinstance(extra, dict) or not all(isinstance(v, str) for v in extra.values()):
+        raise SystemExit(f"{path}: expected a flat JSON object of name -> url")
+    if os.environ.get("LIT_TARGETS_MODE", "replace").strip() == "extend":
+        return {**TARGETS, **extra}
+    return extra
+
+
 def main() -> int:
     os.makedirs(OUT, exist_ok=True)
     manifest = []
-    for name, url in TARGETS.items():
+    for name, url in resolve_targets().items():
         rec = fetch(name, url)
         manifest.append(rec)
         print(f"{rec.get('status')}\t{rec.get('chars', 0)}\t{name}\t{url}"

@@ -13,6 +13,7 @@ on:
     paths:
       - research/modalities/depmap_sarcoma_dependency.py
       - research/modalities/nr4a_superfamily_selectivity.py
+      - research/modalities/fet_ddr_axis_scan.py
       - .github/workflows/depmap-dependency.yml
 
 permissions:
@@ -66,6 +67,10 @@ jobs:
         if: always()
         run: python research/modalities/nr4a_superfamily_selectivity.py || echo "superfamily-selectivity soft-fail (network); non-blocking"
 
+      - name: FET-fusion DDR axis scan (ATR-axis vs ATM-axis double prediction; EMC transfer prior)
+        if: always()
+        run: python research/modalities/fet_ddr_axis_scan.py || echo "fet-ddr-axis soft-fail (network); non-blocking"
+
       - name: Publish results to modalities-cache branch
         if: always()
         run: |
@@ -84,6 +89,7 @@ jobs:
           cp research/modalities/nr4a-resistance-map.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/nr4a-e3-expression.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/nr4a-superfamily-selectivity.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/fet-ddr-axis-scan.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -106,5 +112,6 @@ jobs:
           git add research/modalities/nr4a-resistance-map.json 2>/dev/null || true
           git add research/modalities/nr4a-e3-expression.json 2>/dev/null || true
           git add research/modalities/nr4a-superfamily-selectivity.json 2>/dev/null || true
+          git add research/modalities/fet-ddr-axis-scan.json 2>/dev/null || true
           git commit -m "DepMap + NR4A safety-genetics + resistance-map + E3-expression + superfamily-selectivity compute" || { echo "no changes"; exit 0; }
           git push origin modalities-cache

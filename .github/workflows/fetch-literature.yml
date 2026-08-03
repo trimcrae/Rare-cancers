@@ -21,6 +21,14 @@ on:
         description: "Output folder under literature/ (defaults to a slug derived from the query)"
         required: false
         default: "extraskeletal-myxoid-chondrosarcoma"
+      targets_file:
+        description: "Optional JSON {name: url} corpus to fetch instead of the built-in TARGETS"
+        required: false
+        default: ""
+      targets_mode:
+        description: "replace (default) or extend — how targets_file combines with built-in TARGETS"
+        required: false
+        default: "replace"
 
 permissions:
   contents: write
@@ -42,6 +50,9 @@ jobs:
         run: python3 -m pip install --quiet pypdf
 
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
+        env:
+          LIT_TARGETS_FILE: ${{ inputs.targets_file }}
+          LIT_TARGETS_MODE: ${{ inputs.targets_mode }}
         run: python3 scripts/lit_fetch_urls.py
 
       - name: Keep full-text artifact (ephemeral, 14 days)
