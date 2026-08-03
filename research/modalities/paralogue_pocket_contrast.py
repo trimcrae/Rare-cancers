@@ -17,10 +17,12 @@ WHAT IS MATCHED, AND WHAT IS NOT
   (`pocket_tracking`, score-INDEPENDENT site identity + fpocket scoring), the acceptance thresholds
   (`pocket_tracking.match_params()`), D* (`pocket_tracking.D_STAR`), and — because every species is scored in
   ONE process against ONE fpocket build — the fpocket binary itself.
-* NOT matched to the COMMITTED NR4A3 table: that table records `fpocket_version: "4.0"`, and this run pins
-  whatever the CI environment resolves (recorded per run). ⚠ THAT IS WHY NR4A3'S OWN 100 FRAMES ARE RE-SCORED
-  HERE rather than quoting the committed rows: the contrast that carries the conclusion is the one computed
-  inside this run, and the committed rows are used only as a REPRODUCTION CHECK, reported as such.
+* NOT matched to the COMMITTED NR4A3 table by construction. ⚠ AND THE VERSION STRING CANNOT ESTABLISH THAT IT
+  IS: `fpocket -h` prints the banner `fpocket 4.0` whatever conda-forge build is installed, so a matching
+  `fpocket_version` proves only that two runs read the same banner. THAT is why NR4A3's own 100 frames are
+  RE-SCORED here rather than quoted — the contrast that carries the conclusion is computed inside this run
+  under ONE binary — and why the committed rows are demoted to a REPRODUCTION CHECK whose verdict compares
+  COUNTS (`committed_nr4a3_reproduction_check.verdict`), not version strings.
 * The site definition is NR4A3's prespecified Pocket-5 lining set mapped onto each paralogue by the same
   BLOSUM62 Needleman-Wunsch construction `nr4a3_metad._resolve_target` uses to put the metadynamics CV on the
   homologous paralogue pocket — i.e. we ask "is NR4A3's site open in the paralogue", not "does the paralogue
@@ -231,6 +233,44 @@ def committed_nr4a3_rows():
             "d_star": d.get("d_star"), "match_params": d.get("match_params"), "rows": out}
 
 
+def reproduction_verdict(mine_by_subset, committed):
+    """Did THIS run reproduce the committed NR4A3 table, cell by cell? PURE.
+
+    ★ This, not the version string, is the evidence that the detector behaved identically. `fpocket -h`
+    prints the banner `fpocket 4.0` regardless of which conda-forge build is installed, so a matching
+    `fpocket_version` proves only that two runs read the same banner. Counts matching exactly across every
+    ensemble is a much stronger statement, and it is the one that licenses treating the paralogue arms as
+    comparable to the committed NR4A3 rows."""
+    if not committed or not committed.get("rows") or not mine_by_subset:
+        return {"status": "NOT COMPARABLE — the committed table could not be read", "rows": {}}
+    pooled = pool_detections([mine_by_subset.get(s) for s in SUBSETS if s not in BIASED])
+    mine = dict(mine_by_subset)
+    if pooled:
+        mine["release_unbiased_pooled"] = pooled
+    rows, all_match, compared = {}, True, 0
+    for key, c in committed["rows"].items():
+        m = mine.get("metad" if key == "metad" else key)
+        if not m:
+            rows[key] = {"status": "not scored in this run"}
+            continue
+        compared += 1
+        same = all(m.get(f) == c.get(f) for f in ("n_propagated", "n_detected", "n_ge_dstar"))
+        all_match = all_match and same
+        rows[key] = {"matches_committed": same,
+                     "this_run": {f: m.get(f) for f in ("n_propagated", "n_detected", "n_ge_dstar")},
+                     "committed": {f: c.get(f) for f in ("n_propagated", "n_detected", "n_ge_dstar")}}
+    return {"status": ("REPRODUCED — every compared NR4A3 cell matches the committed table"
+                       if (all_match and compared) else
+                       "DIVERGED — at least one NR4A3 cell differs from the committed table"),
+            "n_ensembles_compared": compared,
+            "⚠_why_this_and_not_the_version_string":
+                "`fpocket -h` prints the banner `fpocket 4.0` whatever conda-forge build is installed, so a "
+                "matching `fpocket_version` proves only that two runs read the same banner. Matching counts "
+                "across every ensemble is the real evidence, and it is what licenses reading the paralogue "
+                "arms against the committed NR4A3 rows.",
+            "rows": rows}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--species", default=",".join(SPECIES))
@@ -322,10 +362,12 @@ def main(argv=None):
             "fpocket_version_resolved": fp_version,
             "fpocket_banner": fp_banner,
             "fpocket_available": fp_available,
-            "⚠_version_note": "The committed NR4A3 table was produced under a DIFFERENT fpocket build "
-                              "(see committed_nr4a3_reproduction_check.fpocket_version). That is exactly why "
-                              "NR4A3's own frames are re-scored here: the contrast that carries the "
-                              "conclusion is computed inside THIS run, under ONE build.",
+            "⚠_version_note": "`fpocket_version_resolved` is the string the BANNER prints (`fpocket -h` "
+                              "says `fpocket 4.0` whatever conda-forge build is installed), so it is NOT "
+                              "proof that two runs used the same binary. That is exactly why NR4A3's own "
+                              "frames are re-scored here — the contrast that carries the conclusion is "
+                              "computed inside THIS run under ONE binary — and why the real check is "
+                              "`committed_nr4a3_reproduction_check.verdict`, which compares COUNTS.",
         },
         "ensembles": {"subsets": list(SUBSETS), "biased_subsets": sorted(BIASED),
                       "roots": {sp: os.path.relpath(os.path.dirname(os.path.dirname(
@@ -348,7 +390,9 @@ def main(argv=None):
         "rows": rows,
         "refusals": refusals,
         "n_refusals": len(refusals),
-        "committed_nr4a3_reproduction_check": committed_nr4a3_rows(),
+        "committed_nr4a3_reproduction_check": dict(
+            committed_nr4a3_rows() or {},
+            verdict=reproduction_verdict(by_species_subset.get("NR4A3", {}), committed_nr4a3_rows())),
         "per_frame": per_frame,
         "runtime_s": round(time.time() - t0, 1),
     }
