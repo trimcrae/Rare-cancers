@@ -1,0 +1,70 @@
+{
+  "structure": "generation-receptor.pdb",
+  "numbering": "renumbered-from-373",
+  "n_protein_residues": 254,
+  "mapped_lining_resseqs": [
+    34,
+    35,
+    38,
+    39,
+    40,
+    109,
+    112,
+    113,
+    159,
+    162
+  ],
+  "mapped_span_resseqs": [
+    34,
+    162
+  ],
+  "fpocket_version": "4.0",
+  "match_mode": "harmonized",
+  "match_params": {
+    "jaccard_min": 0.25,
+    "frac_recovered_min": 0.3,
+    "centroid_max_ang": 8.0
+  },
+  "n_candidate_pockets": 15,
+  "all_pocket_druggability": {
+    "15": 0.033,
+    "6": 0.002,
+    "14": 0.054,
+    "8": 0.0,
+    "3": 0.004,
+    "2": 0.667,
+    "1": 0.259,
+    "10": 0.005,
+    "12": 0.371,
+    "7": 0.001,
+    "4": 0.003,
+    "9": 0.0,
+    "11": 0.002,
+    "13": 0.026,
+    "5": 0.098
+  },
+  "matched_pocket": {
+    "pocket": 1,
+    "druggability": 0.259,
+    "_match": {
+      "n_overlap": 8,
+      "jaccard": 0.6154,
+      "frac_recovered": 0.8,
+      "centroid_dist_ang": 3.478
+    }
+  },
+  "verdict": {
+    "verdict": "GATE_A_FAIL_BELOW_DSTAR",
+    "druggability": 0.259,
+    "d_star": 0.53,
+    "reason": "the mapped orthosteric site is detected but its harmonized druggability 0.259 < D* 0.53",
+    "reaches": "the generation receptor itself, not merely a reported frame-fraction"
+  },
+  "_what": "R3 Gate A \u2014 the EXACT generation receptor (nr4a3-release-druggable.pdb = release rep 0 frame 95) scored under the harmonized, score-independent orthosteric-site definition with the pinned fpocket build",
+  "_gate": "nr4a3-degrader-paper.md 'Dependency audit \u2014 still open'; nr4a3-ensemble-redesign-brief.md Gate A",
+  "_prior_manifest_score": {
+    "value": 0.667,
+    "mode": "pre-harmonized (no pocket_match block)",
+    "source": "s3 nr4a3-release-druggable/nr4a3-release-druggable.json, written 2026-06-29, before the harmonized tracker froze"
+  }
+}
