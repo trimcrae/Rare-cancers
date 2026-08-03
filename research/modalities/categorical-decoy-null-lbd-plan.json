@@ -1,0 +1,416 @@
+{
+  "_title": "C02-L \u2014 cross-system decoy null over the REFERENCE-ANCHORED LBD WINDOW: PRE-REGISTRATION. A SECOND, INDEPENDENT scope, not a widening of C02's",
+  "_status": "PRE-REGISTRATION ONLY. No structure has been fetched and no statistic computed at the time this file is written.",
+  "_scope": {
+    "name": "lbd",
+    "configuration_id": "C24",
+    "rule": "reference-anchored LBD window (Smith-Waterman local alignment to the committed NR4A3 LBD construct)",
+    "sibling_scopes": {
+      "plddt": "C16"
+    },
+    "\u26d4": "the two scopes are separate tests with separate artifacts. Neither supersedes the other and their rows are never pooled."
+  },
+  "_generated": {
+    "utc": "2026-08-03T14:28:29Z",
+    "et": "2026-08-03 10:28 AM ET",
+    "generator": "research/modalities/categorical_decoy_null.py"
+  },
+  "preregistration": {
+    "_frozen": "Design fixed before any model was trimmed under this rule and before any statistic under it existed. Mode `plan --scope lbd` emits this block with no results at all, so git history carries the design ahead of the numbers \u2014 the same discipline `C16`'s run used.",
+    "_configuration_id": "C24",
+    "\u26d4_this_is_not_a_widening_of_C16": "`C16` (largest contiguous pLDDT >= 70 run, min 120 residues) is a PRE-REGISTERED choice and it STANDS. It is not edited, not re-reduced, not superseded and not quoted less. Relaxing it to admit C397 after seeing that C397 fell outside it would be precisely the outcome-tuning the pre-registration exists to prevent, and `C16`'s own artifact refuses it in those words. This is a SECOND run under a DIFFERENT scope, published as a separate file, and the two are reported side by side and never merged.",
+    "question": "Same question as `C16`, asked over the region of the fold the categorical screen actually interrogates: how often does an ARBITRARY close human paralogue pair, pushed through the identical categorical pipeline over its LIGAND-BINDING DOMAIN, return P(paralogue also labelled | target-unique cysteine labelled) = 0 at the 12-backbone-atom design gate?",
+    "\u2605_what_this_scope_is_FOR": "The categorical screen is a screen over the LIGAND-BINDING DOMAIN. Everything it does happens there: the E3 placements are built around a cavity of the LBD, the frozen site definition `C5` is an LBD lining set (NR4A3 Pocket-5, span 406-534) mapped onto each structure by alignment, and every cysteine the screen adjudicates \u2014 the committed unique set {397, 420, 559} and every paralogue cysteine they are compared against \u2014 is an LBD cysteine. A scope for this screen is therefore THE LBD, taken as the same structural region in every protein. That is a statement about what the instrument is pointed at. It is not a statement about what any protein will return, and no collision statistic, percentile or decoy answer appears anywhere in this rule.",
+    "\u2605_the_defect_in_C16_this_repairs_is_NOT_C397": "C397 is the visible symptom; the defect underneath it is that a CONFIDENCE criterion is not a STRUCTURAL one. pLDDT is a per-model property, so 'largest contiguous pLDDT >= 70 run' returns a DIFFERENT REGION OF THE FOLD in every protein, and the background is then pooled over windows that are not the same thing. \u26a0 MEASURED FROM `C16`'s OWN PLAN FILE, which contains no statistic of any kind: across the 39 proteins it trimmed the window length runs 122 to 247 residues \u2014 a 2.0x spread on a family whose LBD is one conserved ~250-residue fold \u2014 and NR4A3's own window is 144. A larger window carries more cysteines, i.e. more opportunity for the screen to fire, so window size is a confound on the background quite apart from which residues survive. \u26a0 And the criterion REFUSES proteins outright for a confidence dip: 9 of the 48 fetched accessions, including NR3C1 (the glucocorticoid receptor), NR1D1, NR1D2, NR1I3, NR2E1, NR2E3, NR5A2, NR0B1 and NR0B2 \u2014 all real LBD-bearing human nuclear receptors, excluded by their model's confidence rather than by anything about their fold.",
+    "scope_rule": {
+      "name": "reference-anchored LBD window",
+      "reference": "the COMMITTED NR4A3 LBD construct \u2014 the sequence of `results/nr4a3-matrix/nr4a3-opened.pdb`, the very model the committed categorical verdict was computed on. Its UniProt span is DERIVED from the file at run time (local residue 1 == UniProt 373 via `nr4a3_basin_search.UNIPROT_OFFSET`), never typed, and is recorded in the plan.",
+      "procedure": "for EVERY protein, including NR4A3 and including every decoy: (1) SMITH-WATERMAN LOCAL alignment of the AlphaFold model's sequence to the reference, using the SAME BLOSUM62 matrix and the SAME affine gap penalties (open -11, extend -1) as the frozen `nr4a_differential_atlas.nw_align`; (2) the window is the residue-number SPAN [first, last] of the model residues aligned to a reference position; (3) the model is trimmed to that span by the same `trim_pdb_text` the other scope uses.",
+      "why_local_and_not_global": "the query is a full-length chain and the reference is one domain. A GLOBAL aligner pays end-gap penalties proportional to the query's length \u2014 919 residues for AR against a 254-residue reference \u2014 which is the wrong instrument for 'find this domain inside this protein'. Local alignment is the textbook answer and adds no threshold.",
+      "refusals": {
+        "reference_coverage_min": 0.6,
+        "min_window_len": 120,
+        "rule": "a protein is REFUSED, with its reason recorded, if fewer than 0.60 of the reference's residues align (the LBD is not confidently locatable in it) or the window is shorter than 120 residues. Both numbers are BORROWED, not invented: the coverage floor is the pair-formation coverage floor `C16` already uses, and the length floor is `C16`'s own `MIN_DOMAIN_LEN`, so the two scopes' floors are the same numbers."
+      },
+      "\u2b51_no_confidence_criterion_at_all": "pLDDT does not enter this scope. It is REPORTED per window (mean, and the fraction of residues at >= 70) as an observable, so a reader can see exactly what `C16` would have removed and judge the models for themselves \u2014 but it decides nothing. \u26a0 That is a real cost and it is stated: this scope admits lower-confidence residues than `C16` does, in the decoys exactly as in NR4A3.",
+      "\u26a0_the_reference_is_NR4A3s_own_LBD_and_that_is_asymmetric": "NR4A3 aligns to the reference at identity 1.000 and coverage 1.000, so it gets the most complete window; a decoy's window is the region homologous to it. That asymmetry is the SAME construction `C5` already uses \u2014 NR4A3's Pocket-5 lining mapped onto each structure by alignment \u2014 one level up, and it is what makes the region MATCHED rather than merely similarly-sized. \u26a0 Its direction is conservative for the headline: the most complete window carries the most cysteines, hence the most opportunity for the screen to fire on NR4A3 itself, so it makes NR4A3's own zero HARDER to obtain, not easier."
+    },
+    "_held_identical_to_C16": {
+      "_what": "everything except the scope rule and one stated budget. Listed so a reader can check rather than trust.",
+      "gate_atoms": 12,
+      "also_reported": [
+        12,
+        14,
+        16,
+        20
+      ],
+      "exposure_cutoff_EXPOSED_RSA": 0.25,
+      "identity_band": [
+        0.35,
+        0.9
+      ],
+      "alignment_coverage_min": 0.6,
+      "max_per_protein": 2,
+      "ranking_rule": "qualifying unordered pairs ranked by |identity - NR4A3_reference_identity| ASCENDING (closest to the NR4A3 case first), then taken greedily subject to max_per_protein. Answer-blind: identity is a property of the sequences, computed before any reach statistic exists.",
+      "orientations": "each unordered pair contributes TWO ordered decoys (A as target/B as paralogue, and B as target/A as paralogue). Both are reported; neither is chosen.",
+      "pocket_rule": "fpocket's HIGHEST-DRUGGABILITY cavity on the target's trimmed domain supplies the pocket lining set, hence the pocket centroid the warhead exit-vector poses are built around. Family-agnostic and mechanical. \u26a0 It is NOT the same rule as NR4A3's prespecified Pocket-5 \u2014 which is exactly why NR4A3 is ALSO run through this harness under this same rule, and why the percentile is taken against THAT row rather than against the committed one.",
+      "universe": "research/modalities/nr4a-superfamily-selectivity.json -> ranking[] \u2014 47 human nuclear receptors with UniProt accessions, a COMMITTED artifact generated for a different purpose months earlier. Using an existing on-disk list rather than curating one is what keeps the universe answer-blind.",
+      "placements": {
+        "target_n_placements": 45000,
+        "why": "the committed NR4A3 run accepted 73,867 placements; 45,000 keeps every row inside one CI job while staying the same order. The sampler budget is chosen ADAPTIVELY per target from a pilot so that every row gets a comparable placement set rather than a comparable raw sample count \u2014 an acceptance rate is a property of the pocket, and matching samples would silently un-match the statistics.",
+        "pilot_samples_per_arm_pose": 25000,
+        "max_samples_per_arm_pose": 6000000,
+        "n_poses": 12,
+        "seed": 20260802
+      },
+      "gradeability_min_conditioning_events": 20,
+      "statistic_definition": "P(any paralogue cysteine is inside the same linker budget | the same placement puts the electrophile on a TARGET-UNIQUE cysteine), over one matched placement set.",
+      "target_unique_cysteine_rule": "a cysteine in the target whose BLOSUM62-aligned position in the paralogue is not a cysteine (or has no aligned partner) \u2014 the same rule that produces NR4A3's {C397, C420, C559}."
+    },
+    "pair_formation": {
+      "max_pairs": 20,
+      "\u26a0_the_one_budget_change_and_why_it_is_not_tuning": "`C16` capped selection at 10 pairs and graded 8 rows. A percentile against 8 points has a resolution of 1/8 = 0.125 and CANNOT report anything finer \u2014 `C16`'s own NR4A3 percentile of 0.125 is at that floor. Raising the cap to 20 takes MORE OF THE SAME RANKED LIST under the SAME rule: it is a budget, not a criterion, and it cannot select on an answer because the ranking is on sequence identity, computed before any statistic exists. \u2b51 And it is CHECKABLE: the greedy selection is deterministic, so the first 10 pairs chosen at a cap of 20 are exactly the 10 that a cap of 10 would choose. The reduce therefore reports the background over the nested top-10 subset ALONGSIDE the full set, and a reader can see whether widening moved it."
+    },
+    "comparability": {
+      "\u2605_the_question_this_answers": "a background measured on one structure source against a target measured on another is not a background. This is the check that must pass before any percentile below may be read.",
+      "how": "EVERY arm \u2014 all decoys and NR4A3 alike \u2014 is an AlphaFold DB model of a UniProt accession, fetched by the same code, trimmed by the same rule to the same structural region, given a pocket by the same fpocket top-druggability rule, sampled by the same placement sampler at the same budget with the same seed, and scored by the same reach rule at the same gate. There is exactly one structure source in this run.",
+      "\u26d4_why_8XTT_IS_NOT_USED_FOR_NR4A3": "8XTT is the experimental NR4A3 NMR ensemble and it has no pLDDT problem at all, so it is the obvious candidate \u2014 and it is REFUSED here, deliberately. The decoys have no experimental structures; a background measured on AlphaFold models against a target measured on an NMR ensemble differs from its background in structure source, in conformer count and in whether hydrogens are present, and any percentile from it would be uninterpretable. The choice was therefore between changing the target's structure source and changing the trim, and only the trim can be changed for BOTH arms at once. So the trim is what changed.",
+      "\u26a0_the_price_of_that_choice_stated_plainly": "the NR4A3 row here is an ALPHAFOLD-MODEL row, not the committed opened-model row and not an 8XTT row. It calibrates the SCREEN under one identical rule on one identical structure source. It is NOT a re-derivation of the committed C397-led verdict, which keeps its own home in `nr4a-paralogue-dynamics.json` and is quoted here, never recomputed."
+    },
+    "readout_additions": {
+      "per_unique_cysteine": "\u2b51 NEW IN THIS SCOPE, and it is what makes a C397 percentile possible at all. `C16` reported ONE conditional per ordered row, pooled over that target's unique cysteines. This scope ALSO reports the conditional per INDIVIDUAL target-unique cysteine \u2014 conditioned on placements that reach THAT cysteine \u2014 for the decoys exactly as for NR4A3, using the same gradeability floor. The C397 percentile is taken against the cysteine-level background; the pooled row-level percentile is reported beside it under the identical rule `C16` used, so the two designs can be compared.",
+      "both_filters": "as in `C16`: reach-only AND reach-and-exposed. \u26d4 THE REACH-ONLY COLUMN IS THE LOAD-BEARING ONE \u2014 the exposure cutoff is `C7`, which is registered KNOWN-DEFECTIVE because it fails its own positive control (NR4A1 C551 at RSA 0.165, 0 of 25 frames). Both are reported; neither is chosen on its answer.",
+      "precondition": "the fraction of ordered decoys with NO target-unique cysteine is re-derived under this scope. It is a result in its own right \u2014 a pair with no target-unique cysteine is one on which this screen could never fire \u2014 and `C16` measured it at 10 of 20."
+    },
+    "what_a_favourable_result_licenses": {
+      "\u2605_it_licenses": "that the categorical SCREEN fires on NR4A3 more rarely-by-chance than on an arbitrary close human paralogue pair, over the LBD, at the 12-atom gate, on AlphaFold models, within a nuclear-receptor universe.",
+      "\u26d4_it_does_NOT_license": [
+        "binding, affinity or any free energy",
+        "reactivity, thiol pKa, nucleophilicity or adduct formation",
+        "degradation, efficacy, safety, a therapeutic window or clinical readiness",
+        "proteome-wide selectivity \u2014 this is a NUCLEAR-RECEPTOR background, not a proteome one",
+        "that a linker exists: linker length and exit vector remain conditional on the docked-pose anchors, i.e. on `R5`. \u2b51 Cysteine UNIQUENESS and paralogue BURIAL are pose-independent, which is the split the categorical audit established and the reason this test is not blocked by the second-pose-method work."
+      ]
+    },
+    "_inherited_verbatim_from_the_C16_preregistration": {
+      "_what": "these blocks are not restated for this scope. They are the SAME objects, read out of `PREREG` at emit time, so the two pre-registrations cannot drift apart in wording or in value.",
+      "statistic": {
+        "gate_atoms": 12,
+        "also_reported": [
+          14,
+          16,
+          20
+        ],
+        "definition": "P(any paralogue cysteine is inside the same linker budget | the same placement puts the electrophile on a TARGET-UNIQUE cysteine), over one matched placement set.",
+        "target_unique_cysteine": "a cysteine in the target whose BLOSUM62-aligned position in the paralogue is not a cysteine (or has no aligned partner) \u2014 the same rule that produces NR4A3's {C397, C420, C559}.",
+        "both_filters": "computed BOTH reach-only and reach-AND-exposed (RSA >= 0.25). \u26a0 The audit established that at the 12-atom gate the reach-only numbers already carry the result, so a null that tested only the exposure-filtered form would miss the load-bearing case.",
+        "uncertainty": "Wilson 95 % on the conditional, using the SAME `nr4a_paralogue_dynamics.wilson95`."
+      },
+      "gradeability": {
+        "min_conditioning_events": 20,
+        "rule": "an ordered decoy is GRADED only if >= 20 placements put the electrophile on a target-unique cysteine at the 12-atom gate. Below that the conditional has no power and the row is reported as UNDERPOWERED with its counts and EXCLUDED from the percentile.",
+        "\u26a0_selection_effect": "excluding underpowered rows biases the graded set toward pairs whose unique cysteines are reachable at all \u2014 i.e. toward pairs with MORE opportunity to collide, which makes the background HARDER for NR4A3 to beat, not easier. The count of underpowered rows is reported so the reader can see the size of the effect.",
+        "undefined": "a pair with zero target-unique cysteines has no conditional at all. Recorded as UNDEFINED with its count, never as a zero."
+      },
+      "readout": {
+        "percentile": "the fraction of GRADED decoy rows whose collision probability is <= NR4A3's harness-matched row, plus the fraction that are EXACTLY zero. Reported for both the reach-only and the exposure-filtered statistic.",
+        "what_a_pass_means": "if few decoys reach 0, the categorical GO carries information and becomes quotable WITH this background beside it. If most decoys reach 0, the categorical GO is a property of the METHOD and the axis must be re-graded. A pass is not the goal; a measured background is."
+      },
+      "not_claimed": [
+        "Nothing here is a claim about binding, reactivity, degradation, selectivity in vivo, efficacy, safety, a therapeutic window or clinical readiness.",
+        "Reach and exposure are NECESSARY, not sufficient: no thiol pKa, nucleophilicity, adduct stability or promiscuity is modelled, for the decoys any more than for NR4A3.",
+        "This calibrates the SCREEN. It says nothing about NR4A3 specifically that the screen does not."
+      ]
+    }
+  },
+  "lbd_reference": {
+    "path": "results/nr4a3-matrix/nr4a3-opened.pdb",
+    "n_residues": 254,
+    "uniprot_span": [
+      373,
+      626
+    ],
+    "uniprot_offset": 372,
+    "cysteines_uniprot": [
+      397,
+      420,
+      496,
+      506,
+      536,
+      559,
+      594
+    ],
+    "_reading": "the committed NR4A3 LBD construct \u2014 the SAME model the committed categorical verdict was computed on. Its UniProt span is DERIVED from the file, never typed, and it contains every cysteine of the committed unique set.",
+    "committed_nr4a3_unique_cysteines": [
+      397,
+      420,
+      559
+    ],
+    "unique_cysteines_inside_the_reference": [
+      397,
+      420,
+      559
+    ]
+  },
+  "universe": {
+    "source": "research/modalities/nr4a-superfamily-selectivity.json",
+    "n_total": 47,
+    "n_after_nr4a_exclusion": 45,
+    "members": [
+      {
+        "gene": "THRB",
+        "accession": "P10828",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "THRA",
+        "accession": "P10827",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR4A2",
+        "accession": "P43354",
+        "in_nr4a_family": true
+      },
+      {
+        "gene": "RORA",
+        "accession": "P35398",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RORB",
+        "accession": "Q92753",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR3C1",
+        "accession": "P04150",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RXRB",
+        "accession": "P28702",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR4A1",
+        "accession": "P22736",
+        "in_nr4a_family": true
+      },
+      {
+        "gene": "RARB",
+        "accession": "P10826",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1D1",
+        "accession": "P20393",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RARA",
+        "accession": "P10276",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "PPARG",
+        "accession": "P37231",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR3C2",
+        "accession": "P08235",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "AR",
+        "accession": "P10275",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESR1",
+        "accession": "P03372",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RXRG",
+        "accession": "P48443",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESRRA",
+        "accession": "P11474",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESRRG",
+        "accession": "P62508",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESR2",
+        "accession": "Q92731",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "ESRRB",
+        "accession": "O95718",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2E1",
+        "accession": "Q9Y466",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1H4",
+        "accession": "Q96RI1",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "HNF4G",
+        "accession": "Q14541",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RARG",
+        "accession": "P13631",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1D2",
+        "accession": "Q14995",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1H3",
+        "accession": "Q13133",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR6A1",
+        "accession": "Q15406",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "PPARD",
+        "accession": "Q03181",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1I2",
+        "accession": "O75469",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "VDR",
+        "accession": "P11473",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RORC",
+        "accession": "P51449",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1H2",
+        "accession": "P55055",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR5A1",
+        "accession": "Q13285",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "RXRA",
+        "accession": "P19793",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2F2",
+        "accession": "P24468",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2F1",
+        "accession": "P10589",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2E3",
+        "accession": "Q9Y5X4",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2F6",
+        "accession": "P10588",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR1I3",
+        "accession": "Q14994",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2C2",
+        "accession": "P49116",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR2C1",
+        "accession": "P13056",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR5A2",
+        "accession": "O00482",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR0B1",
+        "accession": "P51843",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "NR0B2",
+        "accession": "Q15466",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "PGR",
+        "accession": "P06401",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "HNF4A",
+        "accession": "P41235",
+        "in_nr4a_family": false
+      },
+      {
+        "gene": "PPARA",
+        "accession": "Q07869",
+        "in_nr4a_family": false
+      }
+    ]
+  },
+  "pipeline_provenance": {
+    "reach_rule": "nr4a_paralogue_dynamics.matched_reach_hits_multi -> nr4a3_basin_search.electrophile_reach (the committed prolate-spheroid criterion)",
+    "placement_sampler": "nr4a3_basin_search.sample_placements",
+    "pose_ensemble": "nr4a3_basin_search.build_pose_ensemble",
+    "superposition": "nr4a3_basin_search.superpose_paralogue",
+    "sasa": "nr4a_differential_atlas.shrake_rupley / residue_rsa",
+    "aligner": "nr4a_differential_atlas.nw_align (BLOSUM62 Needleman-Wunsch)",
+    "scope_aligner": "categorical_decoy_null.sw_align (BLOSUM62 Smith-Waterman, nw_align's own affine gap defaults) \u2014 SCOPE ONLY, no statistic passes through it",
+    "e3_arms": "research/modalities/nr4a3-e3-arm-registry-native.json",
+    "params": {
+      "linker_gate_atoms": 12,
+      "linker_rise_per_atom_A": 1.25,
+      "electrophile_arm_A": 3.0,
+      "hard_clash_A": 3.0,
+      "soft_clash_A": 3.6,
+      "contact_A": 6.0,
+      "min_contact_residues": 12
+    }
+  }
+}

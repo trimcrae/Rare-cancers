@@ -229,3 +229,177 @@ def test_selfcheck_summary_only_reads_keys_the_checks_block_defines():
     for key in ("unique_set_reproduced", "n_conditioning_events", "gate12_collision_abs_diff",
                 "atoms20_collision_abs_diff"):
         assert f"'{key}'" in src, f"{key} is printed but never defined in the checks block"
+
+
+# =========================================================================================================
+# `C24` — the SECOND pre-registered scope (the reference-anchored LBD window)
+#
+# What these pin is exactly the property the second scope exists to have: that it is a MATCHED STRUCTURAL
+# REGION chosen by a rule with no confidence criterion and no reference to any outcome, and that the two
+# scopes cannot contaminate each other's artifacts.
+# =========================================================================================================
+def test_sw_align_is_local_and_finds_a_domain_inside_a_long_chain():
+    """The whole reason this is Smith-Waterman and not the frozen global `nw_align`: a full-length chain
+    against a short reference must align only the homologous SEGMENT, not smear across the chain."""
+    ref = "ACDEFGHIKLMNPQRSTVWY" * 3
+    query = "GGGGGGGGGGGGGGGGGGGG" + ref + "PPPPPPPPPPPPPPPPPPPP"
+    aln, score = CDN.sw_align(query, ref)
+    cols = [(i, j) for i, j in aln if i is not None and j is not None]
+    assert len(cols) == len(ref) and score > 0
+    assert min(i for i, _ in cols) == 20 and max(i for i, _ in cols) == 20 + len(ref) - 1
+
+
+def test_sw_align_never_scores_below_zero_and_returns_an_empty_alignment_for_no_similarity():
+    aln, score = CDN.sw_align("WWWWWWWWWW", "PPPPPPPPPP")
+    assert score >= 0
+    assert all(i is None or j is None for i, j in aln) or score > 0
+
+
+def test_lbd_window_returns_the_span_of_residues_aligned_to_the_reference():
+    ref = "ACDEFGHIKLMNPQRSTVWY" * 7            # 140 residues — above the pre-registered 120 floor
+    query = "GGGGG" + ref + "PPPPP"
+    residues = [(i + 101, aa) for i, aa in enumerate(query)]      # non-1-based numbering, as AF models are
+    win = CDN.lbd_window(residues, query, ref)
+    assert win["accepted"] is True
+    assert win["first"] == 106 and win["last"] == 106 + len(ref) - 1
+    assert win["window_len"] == len(ref)
+    assert win["reference_coverage"] == 1.0 and win["identity_to_reference"] == 1.0
+
+
+def test_lbd_window_refuses_on_coverage_and_on_length_and_says_which():
+    ref = "ACDEFGHIKLMNPQRSTVWY" * 7
+    win = CDN.lbd_window([(i + 1, a) for i, a in enumerate(ref[:10])], ref[:10], ref)
+    assert win["accepted"] is False
+    assert "coverage" in win["reason"] or "window" in win["reason"]
+    # the observables are present EVEN ON A REFUSAL — a refusal must be diagnosable from the artifact
+    assert "reference_coverage" in win and "sw_score" in win
+
+
+def test_lbd_window_is_a_pure_span_and_keeps_insertions_inside_it():
+    """An insertion in the query between two aligned positions stays in the window: the window is a
+    contiguous structural span, not a set of aligned residues."""
+    ref = "ACDEFGHIKLMNPQRSTVWY" * 7
+    query = ref[:70] + "GGGGGGGG" + ref[70:]
+    residues = [(i + 1, aa) for i, aa in enumerate(query)]
+    win = CDN.lbd_window(residues, query, ref)
+    assert win["accepted"] is True
+    assert win["window_len"] == len(query)
+
+
+def test_plddt_profile_is_reported_never_applied():
+    prof = CDN.plddt_profile([(1, 90.0), (2, 40.0), (3, 80.0), (9, 95.0)], 1, 3)
+    assert prof["n_residues_with_plddt"] == 3
+    assert prof["frac_at_or_above_70"] == round(2 / 3, 4)
+    assert "NOT APPLIED" in prof["_reading"]
+
+
+def test_set_scope_gives_every_scope_its_own_plan_shard_and_output_paths():
+    """⛔ THE ONE MISTAKE HERE THAT WOULD BE SILENT: a scoped run writing over the other scope's artifact,
+    or a reduce pooling two scopes' shards into one background. Paths must be disjoint."""
+    try:
+        CDN.set_scope("plddt")
+        p0 = (CDN.PLAN, CDN.OUT, CDN.SHARD_DIR, CDN.TRIMMED_DIR)
+        CDN.set_scope("lbd")
+        p1 = (CDN.PLAN, CDN.OUT, CDN.SHARD_DIR, CDN.TRIMMED_DIR)
+        assert len(set(p0) | set(p1)) == 8, "the two scopes share a path"
+        for a, b in zip(p0, p1):
+            assert a != b
+        assert CDN.OUT.endswith("categorical-decoy-null-lbd.json")
+        assert CDN.PLAN.endswith("categorical-decoy-null-lbd-plan.json")
+    finally:
+        CDN.set_scope("plddt")
+
+
+def test_the_alphafold_model_cache_is_shared_between_scopes():
+    """The models are the same files. Sharing them is what makes it impossible for the two scopes to
+    disagree about which model an accession has."""
+    try:
+        CDN.set_scope("plddt")
+        a = CDN.af_path("Q92570")
+        CDN.set_scope("lbd")
+        assert CDN.af_path("Q92570") == a
+    finally:
+        CDN.set_scope("plddt")
+
+
+def test_the_lbd_scope_holds_every_other_preregistered_constant_identical_to_C16():
+    """The claim `PREREG_LBD._held_identical_to_C16` makes is checkable, so it is checked. If someone
+    changes a threshold for one scope only, this fails."""
+    held = CDN.PREREG_LBD["_held_identical_to_C16"]
+    assert held["gate_atoms"] == CDN.GATE == CDN.PREREG["statistic"]["gate_atoms"]
+    assert held["exposure_cutoff_EXPOSED_RSA"] == CDN.EXPOSED_RSA
+    assert held["identity_band"] == CDN.PREREG["pair_formation"]["identity_band"]
+    assert held["alignment_coverage_min"] == CDN.PREREG["pair_formation"]["alignment_coverage_min"]
+    assert held["max_per_protein"] == CDN.PREREG["pair_formation"]["max_per_protein"]
+    assert held["placements"] == CDN.PREREG["placements"]
+    assert held["gradeability_min_conditioning_events"] \
+        == CDN.PREREG["gradeability"]["min_conditioning_events"]
+    # the coverage floor and the length floor are BORROWED, not invented
+    assert CDN.LBD_MIN_REF_COVERAGE == CDN.PREREG["pair_formation"]["alignment_coverage_min"]
+    assert CDN.LBD_MIN_WINDOW_LEN == CDN.MIN_DOMAIN_LEN
+
+
+def test_prereg_lbd_inherits_rather_than_copies_the_shared_blocks():
+    """One fact, one place: the shared pre-registration blocks are the SAME objects, so the two plans
+    cannot drift apart in wording."""
+    p = CDN.prereg_lbd()
+    inherited = p["_inherited_verbatim_from_the_C16_preregistration"]
+    for key in CDN._LBD_INHERITED:
+        assert inherited[key] is CDN.PREREG[key]
+
+
+def test_the_lbd_scopes_only_budget_change_is_max_pairs_and_it_nests():
+    assert CDN.SCOPES["lbd"]["max_pairs"] == CDN.LBD_MAX_PAIRS
+    assert CDN.LBD_MAX_PAIRS > CDN.PREREG["pair_formation"]["max_pairs"]
+    # nesting: the greedy selection is deterministic, so a wider cap's first N are a narrower cap's N
+    entries = [{"a": f"P{i}", "b": f"Q{i}", "identity": 0.5 + i * 0.01, "coverage": 0.9} for i in range(30)]
+    narrow, _ = CDN.select_pairs(entries, 0.5, [0.35, 0.90], 0.6, 10, 2)
+    wide, _ = CDN.select_pairs(entries, 0.5, [0.35, 0.90], 0.6, 20, 2)
+    assert [p["a"] for p in wide[:10]] == [p["a"] for p in narrow]
+
+
+def test_nr4a3_scope_check_reports_C397_in_or_out_and_never_stays_silent():
+    out_of_scope = CDN.nr4a3_scope_check({CDN.NR4A3_ACC: {"first": 427, "last": 570, "n_residues": 144}},
+                                         scope="plddt")
+    assert out_of_scope["headline_residue_C397_in_scope"] is False
+    assert out_of_scope["inside_the_trimmed_window"] == [559]
+    assert 397 in out_of_scope["⛔_outside_and_therefore_INVISIBLE_to_this_harness"]
+    assert "not_relaxed_after_the_fact" in "".join(out_of_scope)
+    in_scope = CDN.nr4a3_scope_check({CDN.NR4A3_ACC: {"first": 373, "last": 626, "n_residues": 254}},
+                                     scope="lbd")
+    assert in_scope["headline_residue_C397_in_scope"] is True
+    assert in_scope["⛔_outside_and_therefore_INVISIBLE_to_this_harness"] == []
+    assert "ALPHAFOLD-MODEL row" in in_scope["★_reading"]
+
+
+def test_window_spread_reports_the_factor_that_makes_a_scope_matched_or_not():
+    sp = CDN.window_spread({"a": {"n_residues": 122}, "b": {"n_residues": 144}, "c": {"n_residues": 247}})
+    assert sp["min"] == 122 and sp["max"] == 247 and sp["n_proteins"] == 3
+    assert sp["max_over_min"] == round(247 / 122, 3)
+
+
+def test_compare_scopes_says_so_when_the_sibling_artifact_is_absent(tmp_path, monkeypatch):
+    """An absent reading is not a reading of absence — a missing sibling must not render as 'no difference'."""
+    monkeypatch.setattr(CDN, "HERE", str(tmp_path))
+    out = CDN.compare_scopes("lbd", {}, {}, {}, {}, {}, 0)
+    assert "NOT ON DISK" in out["status"]
+    assert "not a finding of no difference" in out["status"]
+
+
+def test_grade_uses_one_rule_for_both_scopes_and_reports_C397_separately():
+    res = {"results": {
+        "n_graded": 8,
+        "background_at_gate_12": {"reach_only": {"frac_exactly_zero": 0.125},
+                                  "exposed": {"frac_exactly_zero": 0.33}},
+        "nr4a3_harness_matched": {"NR4A1": {"percentile_reach_only": 0.125, "percentile_exposed": None}},
+        "★_cysteine_level_background_at_gate_12": {"n_graded": 12,
+                                                   "reach_only": {"frac_exactly_zero": 0.25}},
+        "★_nr4a3_per_cysteine_vs_that_background": {
+            "C397_vs_NR4A1": {"percentile_reach_only": 0.0833}},
+    }}
+    g = CDN.grade(res)
+    assert g["verdict"] == "DISTINGUISHED"
+    assert g["c397_verdict"] == "DISTINGUISHED"
+    # and a scope with no C397 must say NOT MEASURED rather than inherit the row-level grade
+    res["results"]["★_nr4a3_per_cysteine_vs_that_background"] = {"C559_vs_NR4A1": {}}
+    assert CDN.grade(res)["c397_verdict"].startswith("NOT MEASURED")
