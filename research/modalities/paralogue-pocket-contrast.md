@@ -94,6 +94,30 @@ detector to something experimental is `8xtt_20conformers`: the **8XTT NMR ensemb
 simulation bias applied. That is the in-repo known-answer anchor for "does this detector find a real cryptic
 site without inventing one", and the paralogue arms go through the identical pinned build and `match_params`.
 
+## 6 · What it returned
+
+Numbers live in [`paralogue-pocket-contrast.json`](./paralogue-pocket-contrast.json) and are not restated
+here (rule 1):
+
+| read this | where |
+|---|---|
+| the per-species, per-subset table, both denominators | `rows` |
+| the readout with **both** error bars, and which is honest | `contrast` |
+| the verdict and the roadmap edits it requires | `map_edits_required` |
+| did this run reproduce the committed NR4A3 table, cell by cell | `committed_nr4a3_reproduction_check.verdict` |
+| frames the detector could not read | `refusals` (and `n_refused` per row) |
+
+★ **The reproduction check is what licenses the contrast.** The NR4A3 arm re-scored here reproduces the
+committed table **cell for cell** across every ensemble. That, not a matching `fpocket_version` string, is
+the evidence the detector behaved identically — `fpocket -h` prints the banner `fpocket 4.0` whatever
+conda-forge build is installed.
+
+⚠ **Detection and druggability are different answers and must not be collapsed.** A high detection fraction
+in a paralogue says the homologous site *exists and is findable*; the `≥ D*` fraction is the one that speaks
+to druggability. And where the pooled Wilson interval and the per-replicate range disagree, **quote the
+replicate range** — the 75 pooled frames are three correlated replicas, so the Wilson interval is
+anti-conservative. `contrast.*.verdict_basis` states which bar the verdict used.
+
 ---
 
 *Produced by [`paralogue_pocket_contrast.py`](./paralogue_pocket_contrast.py) via
