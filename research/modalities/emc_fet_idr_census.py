@@ -58,6 +58,16 @@ DESIGN, AND THE CONTROL THAT COMES FIRST
    across the plausible range, so the conclusion never rests on a breakpoint nobody verified. That is
    the same conservatism that saved the ASO lane from the off-by-two.
 
+   ⚠ POINTER, 2026-08-03. `emc_fet_construct_designs.py` now builds Ensembl exon maps for TAF15,
+   FUS and TCF12 and carries a SOURCED TAF15 breakpoint (TAF15 exon 6 :: NR4A3 exon 3, quoted as
+   "exclusively"/"always" by two reviews and used in a published construct), so the TAF15 sweep
+   below has a pinned point on it. It also shows that "the canonical EMC junction" used here -
+   EWSR1 exon 7 - is the 5' side of reported type 2, while the COMMONEST reported type is EWSR1
+   exon 12; the row below remains valid arithmetic for a 264-residue EWSR1 cut and the right
+   comparator for EWSR1::FLI1 type 1, but the label "canonical" belongs to the exon-12 cut. One
+   home for the correction and the superseded value:
+   `research/manuscripts/emc-atr-collaborator-package.md` (§2.2 + appendix).
+
 Output: emc-fet-idr-census.json. `--check` recomputes and diffs. Network needed only to refresh the
 sequence cache; with the cache present it is pure-stdlib and runs anywhere.
 """
