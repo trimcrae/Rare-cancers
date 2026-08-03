@@ -467,3 +467,21 @@ def test_placement_budget_saturation_counts_the_rows_the_sampler_cap_bound():
 
 def test_placement_budget_saturation_is_none_when_there_is_nothing_to_summarise():
     assert CDN.placement_budget_saturation([]) is None
+
+
+def test_the_artifact_declares_its_configuration_and_names_the_defective_one():
+    """§3b's declaration rule, discharged by the artifact rather than by a page that quotes it. The two
+    items that are NOT merely frozen must be visible without following a link."""
+    for scope, other in (("lbd", "C16"), ("plddt", "C24")):
+        try:
+            CDN.set_scope(scope)
+            d = CDN.configuration_declaration()
+            it = d["items"]
+            assert CDN.SCOPES[scope]["configuration_id"] in it, "the run must declare its own scope"
+            assert {"C7", "C8", "C9"} <= set(it), "the gate, the reach convention and the cutoff"
+            assert other in it and "NOT USED by this run" in it[other]["status"]
+            assert "KNOWN-DEFECTIVE" in it["C7"]["status"]
+            assert "CONTESTED" in it["C9"]["status"]
+            assert str(CDN.EXPOSED_RSA) in it["C7"]["what_it_fixes"]
+        finally:
+            CDN.set_scope("plddt")
