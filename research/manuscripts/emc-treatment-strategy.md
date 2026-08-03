@@ -62,6 +62,44 @@ this repo must be one of them:
 The strongest candidates are those where **both** apply. The ranking below therefore carries a
 *"how WE advance it"* judgement, not a wet-lab to-do list.
 
+### ⛔ There is no third path — the question was asked properly and answered NO (2026-08-03)
+
+**"Exactly two ways" is an assertion this section had never tested**, and the obvious candidate for a
+third was never scoped: *what can a private individual with a credit card cause to happen outright —
+mail-order products and contracted services, with no lab and no institutional affiliation?* That is
+now scoped, vendor by vendor, in
+**[`what-a-civilian-can-buy.md`](./what-a-civilian-can-buy.md)**, against three filters (≲$1,000 · no
+hands-on bench work · a negative that MEANS something).
+
+⛔ **The verdict is that the buyable tier is EMPTY.** Of this repo's open questions, **13 are
+in-silico, 8 need a lab we do not have, and 0 are settled by anything purchasable.** So the two paths
+above are **not a failure of imagination about a third option — they are the complete set**, and this
+subsection exists so that is recorded once rather than re-litigated every few months.
+
+⭑ **The three findings that carry it**, each of which changes how a route should be read here rather
+than merely adding detail:
+
+1. **Biological materials are gated by POLICY, not by price.** DSMZ: *"Only institutions and companies
+   are eligible to order from the DSMZ."* ATCC's account application: *"Do not use a P.O. box or
+   residential address, as this will prevent your account from being approved."* ⇒ **Every
+   confirm-gated row in the Axis-A table that needs EMC cells or EMC tissue is gated on a
+   COLLABORATOR, and no budget reaches it** — including the ATR route's dose–response, which is the
+   cheapest wet-lab ask on the board and is still unbuyable.
+2. **Compounds and sequencing genuinely ARE sold to individuals — and settle nothing**, because there
+   is no assay here to put a compound into and no sample here to sequence. The compound was never the
+   bottleneck.
+3. ⭑ **`R4` — "does anything bind the opened cryptic pocket", the roadmap's cheapest decisive
+   requirement — is NOT buyable, and not for the reason anyone assumed.** A catalogue recombinant
+   NR4A3 ligand-binding domain *does* exist, so protein supply is not the blocker; and the repo's own
+   experimental evidence (the apo 8XTT solution ensemble) says a purchased construct would present
+   the site as a minority sub-state rather than a closed one. The blocker is that **every affordable
+   binding assay reports a binding *event* and `R4` asks about a *site*** — and the field's one NR4A3
+   ligand campaign already returned a clear positive that left the site undefined.
+
+⇒ **The practical consequence for this capstone: read "the wet-lab ask" everywhere as *how easy is
+this to persuade someone else to run*, never as *what we could arrange*.** That is what the column has
+always actually measured, and the ATR route scores well on it for exactly the right reason.
+
 ## The ranking — two axes, not one tier number
 
 A single ranked "tier" misleads here, because a tier number silently blends **two independent
