@@ -55,6 +55,7 @@ CLI:  python3 steric_decoy_null.py plan       # the PRE-REGISTRATION — no netw
       python3 steric_decoy_null.py pairs      # trim + all-vs-all identity + answer-blind selection
       python3 steric_decoy_null.py selfcheck  # known-answer: reproduce the committed M3 rates
       python3 steric_decoy_null.py run        # the two backgrounds + the percentiles
+      python3 steric_decoy_null.py remap      # re-anchor the committed artifact's map edits ($0, no recompute)
 """
 from __future__ import annotations
 
@@ -1420,6 +1421,23 @@ def configuration_declaration():
     }
 
 
+def last_register_row_anchor(text):
+    """The `| **C<n>** |` row with the HIGHEST n in §3b.1, so a new row lands at the END of the register.
+
+    ⛔ WHY THIS IS COMPUTED AND NOT TYPED. A sibling artifact (`C24`) carries its own unapplied register-row
+    edit, so whether the last row is `C23` or `C24` depends on whether that routing has happened yet — and
+    an anchor typed against one of those states inserts this row in the MIDDLE of the register in the other.
+    Scanning for the maximum is correct in both, and stays correct when the next `C*` lands. PURE.
+    """
+    import re as _re
+    best, anchor = None, None
+    for m in _re.finditer(r"^\| \*\*C(\d+)\*\* \|", text or "", _re.M):
+        n = int(m.group(1))
+        if best is None or n > best:
+            best, anchor = n, m.group(0)
+    return anchor
+
+
 def map_edits(art):
     """Roadmap edits this result requires — DESCRIBED, with anchors read out of the LIVE map."""
     text = ME.load_map()
@@ -1438,7 +1456,7 @@ def map_edits(art):
 
     entries.append(ME.edit(
         text, "§3b.1 configuration register — the new `C25` row",
-        "| **C23** |",
+        last_register_row_anchor(text) or "| **C23** |",
         "`C25` is a NEW frozen definitional choice and §3b's rule is that a number depending on one must "
         "name it. Every percentile this run quotes is conditional on it.",
         "research/modalities/steric-decoy-null.json",
@@ -1562,9 +1580,28 @@ def to_markdown(d):
     return "\n".join(L) + "\n"
 
 
+def mode_remap(_args):
+    """Regenerate ONLY the committed artifact's `map_edits_required`, against the map as it stands NOW.
+
+    ★ WHY THIS EXISTS, and it is the same argument the `C02` lane's `decoy_reduce_only` job makes: an anchor
+    is a property of the DOCUMENT, not of the measurement, so a document that moved underneath a committed
+    artifact must not cost a recompute. Nothing measured is touched — the rows, rates, percentiles and
+    verdict are read back from the artifact and written out unchanged; only the anchors and their
+    `current_text` are rebuilt.
+    """
+    art = json.load(open(OUT_JSON))
+    art["map_edits_required"] = map_edits(art)
+    art["map_edits_required"]["_regenerated"] = _stamp()
+    with open(OUT_JSON, "w") as fh:
+        json.dump(art, fh, indent=1, ensure_ascii=False)
+    v = art["map_edits_required"]["verification"]
+    print("[steric-decoy-null] map edits re-anchored: %s" % v)
+    return art
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="C25 — cross-system decoy null for the steric axis")
-    ap.add_argument("mode", choices=["plan", "smoke", "fetch", "pairs", "selfcheck", "run"])
+    ap.add_argument("mode", choices=["plan", "smoke", "fetch", "pairs", "selfcheck", "run", "remap"])
     args = ap.parse_args(argv)
     if args.mode == "smoke":
         return mode_smoke(args)
@@ -1574,6 +1611,8 @@ def main(argv=None):
         mode_fetch(args)
     elif args.mode == "pairs":
         mode_pairs(args)
+    elif args.mode == "remap":
+        mode_remap(args)
     elif args.mode == "selfcheck":
         out, _row, _ = selfcheck()
         print(json.dumps({k: v for k, v in out.items() if not k.startswith("_")},
