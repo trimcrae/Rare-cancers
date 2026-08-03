@@ -114,10 +114,12 @@ def mono_through_space_atoms(q, a, arm_reach: float, rise: float = RISE):
     """The through-space MONOVALENT analogue: the electrophile sits at the chain terminus, so the target is
     reachable by an n-atom chain iff |q-a| <= n*rise + arm_reach.
 
-    ⚠ This is a closed form, not a call into `min_linker_atoms_exact`, BECAUSE the three-ball solve the
-    engine performs degenerates to a single ball when `b` is removed -- there is no second centre. Reusing
-    the solver with a fabricated `b` would be a populated field that was never measured. The identity is
-    asserted against the engine in `tests/test_nr4a3_monovalent_reach.py` at the degenerate limit."""
+    ⚠ THIS IS A CLOSED FORM AND NOT A CALL INTO `min_linker_atoms_exact`, AND THE REASON IS MEASURED
+    RATHER THAN STYLISTIC. Setting b = a does NOT reduce the engine to this question: the three-ball rule
+    still requires some branch index k with min(k, n-k)*rise >= |p-a|, so its shortest admissible n is
+    EXACTLY TWICE the monovalent answer. Reusing the solver with a fabricated second anchor would have
+    doubled every monovalent chain length and inverted the comparison. The factor is pinned in
+    `tests/test_nr4a3_monovalent_reach.py`."""
     d = G.dist(q, a)
     if d <= arm_reach:
         return 1
@@ -563,6 +565,14 @@ def build(seqs, cutoff=CLASH_PRIMARY_A, paralogue_ensembles=True, struct_root=RE
         },
         "paralogue_metadynamics_ensembles": {
             "_what": "the monovalent window re-graded against every available paralogue conformer",
+            "⚠_how_to_read_this": (
+                "each cell here grades C397 against NR4A3's own cysteines and ONE paralogue's, one "
+                "conformer at a time — it is NOT the joint family test. The joint test (NR4A3 + NR4A1 + "
+                "NR4A2 together, on the opened models) is `family_wide_window`, and it is the one the "
+                "verdict rests on. A single-paralogue cell is open more often BY CONSTRUCTION because its "
+                "competitor set is smaller, so these counts may never be quoted as the family window. "
+                "What they DO say is whether the closure is uniform across paralogue conformations, which "
+                "the single opened models cannot answer."),
             "per_paralogue": ens_windows,
             "n_frames": {p: b["n_frames"] for p, b in ens.items()},
         },
@@ -609,7 +619,18 @@ def verdict(d):
             % (pco["open_to_open"] + pco["open_to_closed"], pco["open_to_open"],
                pco["closed_to_open"],
                pts["open_to_open"], pts["open_to_open"] + pts["open_to_closed"], pts["closed_to_open"])),
-        "cells_that_gained_a_window": {c: t["cells_that_gained_a_window"] for c, t in pt.items()},
+        "cells_that_gained_a_window": {
+            "_reading": ("the permissive convention's gains are the REACH half of the intuition being "
+                         "true — cells where C397 needed more than the chemically routine bound "
+                         "bivalently and needs less monovalently. Their widths are what decides whether "
+                         "they mean anything: a window of 1–2 backbone atoms is inside the side-chain "
+                         "displacement the bivalent lane already measured between independently built "
+                         "paralogue models (that lane's `noise_sensitivity` owns the figures and they are "
+                         "not re-typed here)."),
+            "max_width_gained": {c: max([r["monovalent_width"] for r in t["cells_that_gained_a_window"]]
+                                        or [0]) for c, t in pt.items()},
+            "cells": {c: t["cells_that_gained_a_window"] for c, t in pt.items()},
+        },
         "board_level_counts": {
             "_caveat": ("cell counts are NOT comparable between configurations — ten bivalent placements "
                         "collapse to five monovalent anchors — so these are reported as rates and the "

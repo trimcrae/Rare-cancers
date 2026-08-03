@@ -12234,6 +12234,7 @@
  },
  "paralogue_metadynamics_ensembles": {
   "_what": "the monovalent window re-graded against every available paralogue conformer",
+  "\u26a0_how_to_read_this": "each cell here grades C397 against NR4A3's own cysteines and ONE paralogue's, one conformer at a time \u2014 it is NOT the joint family test. The joint test (NR4A3 + NR4A1 + NR4A2 together, on the opened models) is `family_wide_window`, and it is the one the verdict rests on. A single-paralogue cell is open more often BY CONSTRUCTION because its competitor set is smaller, so these counts may never be quoted as the family window. What they DO say is whether the closure is uniform across paralogue conformations, which the single opened models cannot answer.",
   "per_paralogue": {
    "NR4A1": {
     "through_space": {
@@ -12329,49 +12330,56 @@
   "answer_on_the_conservative_convention": "WORSE",
   "headline": "Removing the E3 arm does NOT rescue the categorical axis, and on the conservative convention it destroys it outright. Corridor: of the 37 bivalent cells that had an open family-wide window at C397, **0** retain one when the E3 arm is removed, and **0** gain one \u2014 a complete, one-directional collapse. Through-space (an upper bound on reachability, which scores buried sulfurs as reachable): 24 of 48 retained and 8 gained, so the permissive rule reads MIXED. The intuition that one fewer terminus is 'a strictly smaller search problem' is true about REACH and irrelevant to SELECTIVITY: dropping the |p-b| term shortens every competitor's chain as well as the target's, and it removes the geometric constraint that was ORDERING them.",
   "cells_that_gained_a_window": {
-   "through_space": [
-    {
-     "bivalent_cell": "crbn|M0@representative",
-     "pendant": "rung5a_convention",
-     "monovalent_width": 1
-    },
-    {
-     "bivalent_cell": "crbn|M0@representative",
-     "pendant": "aryl_direct",
-     "monovalent_width": 1
-    },
-    {
-     "bivalent_cell": "crbn|M0@representative",
-     "pendant": "aryl_branch_residue",
-     "monovalent_width": 1
-    },
-    {
-     "bivalent_cell": "vhl|M3@term_a_exemplar",
-     "pendant": "dap_branch",
-     "monovalent_width": 2
-    },
-    {
-     "bivalent_cell": "vhl|M3@term_a_exemplar",
-     "pendant": "dab_branch",
-     "monovalent_width": 2
-    },
-    {
-     "bivalent_cell": "vhl|M4@representative",
-     "pendant": "rung5a_convention",
-     "monovalent_width": 1
-    },
-    {
-     "bivalent_cell": "vhl|M4@representative",
-     "pendant": "aryl_direct",
-     "monovalent_width": 1
-    },
-    {
-     "bivalent_cell": "vhl|M4@representative",
-     "pendant": "aryl_branch_residue",
-     "monovalent_width": 1
-    }
-   ],
-   "corridor": []
+   "_reading": "the permissive convention's gains are the REACH half of the intuition being true \u2014 cells where C397 needed more than the chemically routine bound bivalently and needs less monovalently. Their widths are what decides whether they mean anything: a window of 1\u20132 backbone atoms is inside the side-chain displacement the bivalent lane already measured between independently built paralogue models (that lane's `noise_sensitivity` owns the figures and they are not re-typed here).",
+   "max_width_gained": {
+    "through_space": 2,
+    "corridor": 0
+   },
+   "cells": {
+    "through_space": [
+     {
+      "bivalent_cell": "crbn|M0@representative",
+      "pendant": "rung5a_convention",
+      "monovalent_width": 1
+     },
+     {
+      "bivalent_cell": "crbn|M0@representative",
+      "pendant": "aryl_direct",
+      "monovalent_width": 1
+     },
+     {
+      "bivalent_cell": "crbn|M0@representative",
+      "pendant": "aryl_branch_residue",
+      "monovalent_width": 1
+     },
+     {
+      "bivalent_cell": "vhl|M3@term_a_exemplar",
+      "pendant": "dap_branch",
+      "monovalent_width": 2
+     },
+     {
+      "bivalent_cell": "vhl|M3@term_a_exemplar",
+      "pendant": "dab_branch",
+      "monovalent_width": 2
+     },
+     {
+      "bivalent_cell": "vhl|M4@representative",
+      "pendant": "rung5a_convention",
+      "monovalent_width": 1
+     },
+     {
+      "bivalent_cell": "vhl|M4@representative",
+      "pendant": "aryl_direct",
+      "monovalent_width": 1
+     },
+     {
+      "bivalent_cell": "vhl|M4@representative",
+      "pendant": "aryl_branch_residue",
+      "monovalent_width": 1
+     }
+    ],
+    "corridor": []
+   }
   },
   "board_level_counts": {
    "_caveat": "cell counts are NOT comparable between configurations \u2014 ten bivalent placements collapse to five monovalent anchors \u2014 so these are reported as rates and the decision rests on `paired_transitions` above.",
