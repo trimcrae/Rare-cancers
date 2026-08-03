@@ -2,16 +2,19 @@
   "_what": "THE ALARM BOARD, AS A FILE. Every supervision verdict, when it was measured, how long it has been that way, and when this file should be considered dead. Written by alarm_state.py.",
   "_read_this_when": "you want to know whether anything is wrong and whether anything is still watching \u2014 WITHOUT running anything, and without having been told.",
   "_this_channel_is_PULL_ONLY": "trimcrae, 2026-07-31: 'You should not be emailing me.' Nothing here sends, opens an issue, comments, or fails a run. A red run and a GitHub issue are both PUSH channels that email the repo owner; this file exists so neither is needed. If you are reading this, the channel worked.",
-  "_generated_utc": "2026-08-03T04:49:14Z",
-  "_generated_et": "12:49 AM ET Aug 3, 2026",
+  "_generated_utc": "2026-08-03T04:57:36Z",
+  "_generated_et": "12:57 AM ET Aug 3, 2026",
   "_expected_tick_min": 16.0,
   "_stale_window_basis": "read from work-ledger.json `_expected_tick_min` = 16 min, which is its one home (derived there from step1-fanout-supervisor.yml's tick_every_min x watch_every_ticks). Not typed here.",
-  "_stale_after_utc": "2026-08-03T05:37:14Z",
-  "_stale_after_et": "1:37 AM ET Aug 3, 2026",
+  "_stale_after_utc": "2026-08-03T05:45:36Z",
+  "_stale_after_et": "1:45 AM ET Aug 3, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS WATCHING and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a supervision chain that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed ticks at 16 min. Restart it: `gh workflow run step1-fanout-supervisor.yml --ref main`.",
-  "ok": true,
+  "ok": false,
   "n_conditions": 9,
-  "needs_attention": [],
+  "needs_attention": [
+    "fleet-supervision",
+    "lane:step1-fanout"
+  ],
   "unmeasured": [],
   "_unmeasured_means": "a verdict that could not be reached, NOT a lane that is fine. Listed apart from needs_attention because the fix is different: make it readable first.",
   "conditions": [
@@ -19,26 +22,48 @@
       "key": "fleet-supervision",
       "source": "fleet_supervision_alarm.py",
       "label": "is anything measuring the step-1 fleet?",
-      "verdict": "FRESH",
-      "ok": true,
+      "verdict": "STALE-BUT-RUNS-GREEN",
+      "ok": false,
       "unmeasured": false,
-      "needs_attention": false,
-      "detail": "the last completed run (12:47 AM ET Aug 3, 2026) refreshed the artifact to 12:48 AM ET Aug 3, 2026, 1 min ago \u2014 the fleet really was measured.",
+      "needs_attention": true,
+      "detail": "a run started 12:55 AM ET Aug 3, 2026 and reported success, yet the artifact is still stamped 12:48 AM ET Aug 3, 2026 \u2014 the tick went green WITHOUT measuring, which is exactly what assert_progress_fresh.py exists to prevent. Check it is still wired in.",
       "payload": {
         "artifact_generated_et": "12:48 AM ET Aug 3, 2026",
-        "artifact_age_min": 1.0,
+        "artifact_age_min": 9.3,
         "live_instances": 0,
         "realised_usd_so_far": 73.79,
-        "last_completed_run_et": "12:47 AM ET Aug 3, 2026",
+        "last_completed_run_et": "12:55 AM ET Aug 3, 2026",
         "last_completed_conclusion": "success",
         "scheduled_delivery_gaps_min": []
       },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
-      "last_change_utc": "2026-08-01T19:32:09Z",
-      "bad_since_utc": null,
-      "consecutive_bad_runs": 0,
-      "bad_for_min": null,
-      "bad_since_et": null
+      "last_seen_utc": "2026-08-03T04:57:36Z",
+      "last_change_utc": "2026-08-03T04:57:36Z",
+      "bad_since_utc": "2026-08-03T04:57:36Z",
+      "consecutive_bad_runs": 1,
+      "bad_for_min": 0.0,
+      "bad_since_et": "12:57 AM ET Aug 3, 2026"
+    },
+    {
+      "key": "lane:step1-fanout",
+      "source": "lane_staleness_watch.py",
+      "label": "Step 1 congeneric RBFE fan-out (Vast)",
+      "verdict": "TICK-NOT-MEASURING",
+      "ok": false,
+      "unmeasured": false,
+      "needs_attention": true,
+      "detail": "the lane's own state looks fine, but its tick is not measuring it: [STALE-BUT-RUNS-GREEN] a run started 12:55 AM ET Aug 3, 2026 and reported success, yet the artifact is still stamped 12:48 AM ET Aug 3, 2026 \u2014 the tick went green WITHOUT measuring, which is exactly what assert_progress_fresh.py exists to prevent. Check it is still wired in.",
+      "payload": {
+        "provider": "vast",
+        "evidence_age_min": 9.3,
+        "census_flat_for_min": 6004.5,
+        "supervision": "STALE-BUT-RUNS-GREEN"
+      },
+      "last_seen_utc": "2026-08-03T04:57:36Z",
+      "last_change_utc": "2026-08-03T04:57:36Z",
+      "bad_since_utc": "2026-08-03T04:57:36Z",
+      "consecutive_bad_runs": 1,
+      "bad_for_min": 0.0,
+      "bad_since_et": "12:57 AM ET Aug 3, 2026"
     },
     {
       "key": "lane:closure-triangle",
@@ -51,9 +76,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.3
+        "evidence_age_min": 0.4
       },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
+      "last_seen_utc": "2026-08-03T04:57:36Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -72,7 +97,7 @@
       "payload": {
         "provider": "gcp"
       },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
+      "last_seen_utc": "2026-08-03T04:57:36Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -90,9 +115,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.7
+        "evidence_age_min": 9.1
       },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
+      "last_seen_utc": "2026-08-03T04:57:36Z",
       "last_change_utc": "2026-08-01T01:24:59Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -112,7 +137,7 @@
         "provider": "vast",
         "evidence_age_min": 0.4
       },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
+      "last_seen_utc": "2026-08-03T04:57:36Z",
       "last_change_utc": "2026-08-02T06:14:35Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -130,9 +155,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 1590.3
+        "evidence_age_min": 1598.6
       },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
+      "last_seen_utc": "2026-08-03T04:57:36Z",
       "last_change_utc": "2026-08-02T03:47:33Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -150,32 +175,10 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.3
+        "evidence_age_min": 0.5
       },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
+      "last_seen_utc": "2026-08-03T04:57:36Z",
       "last_change_utc": "2026-08-02T02:43:24Z",
-      "bad_since_utc": null,
-      "consecutive_bad_runs": 0,
-      "bad_for_min": null,
-      "bad_since_et": null
-    },
-    {
-      "key": "lane:step1-fanout",
-      "source": "lane_staleness_watch.py",
-      "label": "Step 1 congeneric RBFE fan-out (Vast)",
-      "verdict": "IDLE-WITHIN-GRACE",
-      "ok": true,
-      "unmeasured": false,
-      "needs_attention": false,
-      "detail": "no hosts and 1 unit(s) unfinished, but the last evidence is only 1 min old (grace 45 min) \u2014 a hand-off in progress looks like this.",
-      "payload": {
-        "provider": "vast",
-        "evidence_age_min": 0.9,
-        "census_flat_for_min": 5996.2,
-        "supervision": "FRESH"
-      },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
-      "last_change_utc": "2026-08-01T19:32:09Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
       "bad_for_min": null,
@@ -192,9 +195,9 @@
       "detail": "every unit of this lane is landed; silence is the correct state and nothing is billing.",
       "payload": {
         "provider": "vast",
-        "evidence_age_min": 0.4
+        "evidence_age_min": 0.5
       },
-      "last_seen_utc": "2026-08-03T04:49:14Z",
+      "last_seen_utc": "2026-08-03T04:57:36Z",
       "last_change_utc": "2026-07-31T11:58:05Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
