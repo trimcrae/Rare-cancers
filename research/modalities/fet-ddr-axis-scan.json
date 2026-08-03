@@ -332,7 +332,118 @@
     "_criterion": "the ATR axis sits near the common-essential floor (~ -1 is the median common-essential gene) in EVERY group, so a between-group delta an order of magnitude under the within-group SD is an INSTRUMENT reading, not a biological one",
     "verdict": "SATURATED \u2014 the knockout read cannot address this hypothesis; use the drug-sensitivity instrument below"
   },
-  "atr_inhibitor_sensitivity": {
+  "atr_inhibitor_sensitivity_gdsc": {
+    "_instrument": "GDSC LN_IC50 \u2014 ATR-INHIBITOR sensitivity, not ATR knockout",
+    "_sign": "LN_IC50: LOWER = MORE SENSITIVE. delta_a_minus_b < 0 == FET lines more sensitive.",
+    "_attempts": [],
+    "_status": "read",
+    "source": "GDSC2_8.5_27Oct23",
+    "n_rows": 242036,
+    "n_FET_keys": 69,
+    "n_comparator_keys": 1230,
+    "by_drug": {
+      "azd6738": {
+        "is_atr_inhibitor": true,
+        "n_rows": 958,
+        "n_FET": 57,
+        "n_comparator": 1124,
+        "keys_seen": 1916,
+        "welch": {
+          "t": -4.477,
+          "df": 64.1,
+          "mean_a": 1.3477,
+          "mean_b": 2.1052,
+          "delta_a_minus_b": -0.7575
+        }
+      },
+      "ve-822": {
+        "is_atr_inhibitor": true,
+        "n_rows": 894,
+        "n_FET": 54,
+        "n_comparator": 1064,
+        "keys_seen": 1788,
+        "welch": {
+          "t": -2.592,
+          "df": 57.6,
+          "mean_a": 2.5266,
+          "mean_b": 3.2172,
+          "delta_a_minus_b": -0.6906
+        }
+      },
+      "paclitaxel": {
+        "is_atr_inhibitor": false,
+        "n_rows": 958,
+        "n_FET": 57,
+        "n_comparator": 1124,
+        "keys_seen": 1916,
+        "welch": {
+          "t": -3.194,
+          "df": 61.2,
+          "mean_a": -3.8583,
+          "mean_b": -3.0664,
+          "delta_a_minus_b": -0.7919
+        }
+      },
+      "olaparib": {
+        "is_atr_inhibitor": false,
+        "n_rows": 967,
+        "n_FET": 57,
+        "n_comparator": 1131,
+        "keys_seen": 1934,
+        "welch": {
+          "t": -5.367,
+          "df": 58.6,
+          "mean_a": 3.0886,
+          "mean_b": 4.3684,
+          "delta_a_minus_b": -1.2798
+        }
+      },
+      "talazoparib": {
+        "is_atr_inhibitor": false,
+        "n_rows": 956,
+        "n_FET": 57,
+        "n_comparator": 1120,
+        "keys_seen": 1912,
+        "welch": {
+          "t": -5.673,
+          "df": 58.6,
+          "mean_a": 0.652,
+          "mean_b": 2.9881,
+          "delta_a_minus_b": -2.3362
+        }
+      },
+      "mk-1775": {
+        "is_atr_inhibitor": false,
+        "n_rows": 967,
+        "n_FET": 57,
+        "n_comparator": 1131,
+        "keys_seen": 1934,
+        "welch": {
+          "t": -1.616,
+          "df": 64.3,
+          "mean_a": 0.3809,
+          "mean_b": 0.6232,
+          "delta_a_minus_b": -0.2423
+        }
+      },
+      "bortezomib": {
+        "is_atr_inhibitor": false,
+        "n_rows": 957,
+        "n_FET": 57,
+        "n_comparator": 1122,
+        "keys_seen": 1914,
+        "welch": {
+          "t": -1.976,
+          "df": 70.9,
+          "mean_a": -4.8811,
+          "mean_b": -4.6981,
+          "delta_a_minus_b": -0.183
+        }
+      }
+    },
+    "_reading": "Read the CONTROL drugs first. The hypothesis predicts a negative delta for ATR inhibitors and NOT for the controls; a negative delta across both is a growth-rate or lineage artefact, not selectivity."
+  },
+  "atr_inhibitor_sensitivity_depmap_attempt": {
     "_instrument": "ATR-INHIBITOR sensitivity (PRISM-class drug screen), NOT ATR knockout \u2014 the readout the source paper used and the one a CRISPR KO cannot give",
     "candidate_files": {},
     "_status": "no PRISM/Repurposing/OncRef-looking file in the release inventory below; the inventory is recorded so the next attempt starts from fact"
@@ -470,6 +581,46 @@
       "ScreenNaiveGeneScore.csv",
       "ScreenSequenceMap.csv"
     ],
+    "Data S3:33148457": [
+      "AG1-1_verified.gb",
+      "AG10-1_verified.gb",
+      "AG10_in_silico.gb",
+      "AG11-1_verified.gb",
+      "AG11_in_silico.gb",
+      "AG12-1_verified.gb",
+      "AG12_in_silico.gb",
+      "AG13-1_verified.gb",
+      "AG13_in_silico.gb",
+      "AG14-1_verified.gb",
+      "AG14_in_silico.gb",
+      "AG15-1_verified.gb",
+      "AG15_in_silico.gb",
+      "AG16-1_verified.gb",
+      "AG16_in_silico.gb",
+      "AG1_in_sillico.gb",
+      "AG2-1_verified.gb",
+      "AG2_in_silico.gb",
+      "AG3-1_verified.gb",
+      "AG3_in_silico.gb",
+      "AG4-1_verified.gb",
+      "AG4_in_silico.gb",
+      "AG5-1_verified.gb",
+      "AG5_in_silico.gb",
+      "AG6-1_verified.gb",
+      "AG6_in_silico.gb",
+      "AG7-1_verified.gb",
+      "AG7_in_silico.gb",
+      "AG8-1_verified.gb",
+      "AG8_in_silico.gb",
+      "AG9-1_verified.gb",
+      "AG9_in_silico.gb"
+    ],
+    "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq s:33135038": [
+      "figshare_deposit_submission.zip"
+    ],
+    "Descri\u00e7\u00e3o Arquivistica:33148430": [
+      "lv_0_20260803165734.mp4"
+    ],
     "VIABILITY OF USING LANDFILL LEACHATE AS AN ADEQUATE & SAFE A:33126776": [],
     "Environmental stress in coastal ecosystems: increased temper:33148442": [
       "thesis_access.pdf"
@@ -506,69 +657,26 @@
       "fig2h.zip",
       "fig3g.zip",
       "population_structure_and_phylogeny.zip"
-    ],
-    "Aorto-Mitral Angle Determines Ease of Mitral Valve Repair: E:33148349": [
-      "117X Francis.mp4"
-    ],
-    "<b>ANRSEB</b> Dataset (2026) for the Study Titled \"Assessing:33148358": [
-      "01_Woreda officials Interview Curriculum Tem.doc",
-      "02_Key_informant_interview_Guide_for_Sample_Woreda_Education_Officials.docx",
-      "02_Sample_Woreda_Education_Officials_bayush_Amharic_Version.doc",
-      "02_Woreda officials Interview Liyu Filagot.doc",
-      "03 School Directors Questionnaire.docx",
-      "03_School_Directors_Questionnair_Mulugeta_and_bayush_Amharic_Version.doc",
-      "03_Woreda officials Interview Examination Expert.doc",
-      "04 northshewa fgd 12.docx",
-      "05 FGD for students 12.docx",
-      "05 Primary School Teachers Questionnaire.docx",
-      "05_Primary_School_Teachers_Questionnaire_updated_demie_and_bayu.doc",
-      "07 FGD Guide for Primary School Teachers\u2019.docx",
-      "07 FGD guide for teachers atklit.docxupdated.docx",
-      "08 FGD Guide for Primary School Students\u2019.docx",
-      "08 FGD for students atiklt  anrd amel updated.docx",
-      "1. Tsadiku Yohans  FGD Tteachers.docx",
-      "1. Tsadiku Yohans SFG.doc",
-      "10 Amharic Classroom Observation amele.docx",
-      "10 Primary Level Classroom Observation Checklists.docx",
-      "2.Hibiret  FGD Tteachers.docx",
-      "2.Hibiret SFG.doc",
-      "3 Teacher FGD Questions -Amharic.doc",
-      "3. Arbaba  SFG.doc",
-      "3. Arbaba FGD Tteachers.docx",
-      "3Teacher FGD Questions  - English.doc",
-      "4  Student FGD  - English.doc",
-      "4  Student FGD -  Amharic.docx",
-      "4. Atse Bekafa  SFG.doc",
-      "4. Atse Bekafa FGD Tteachers.docx",
-      "AEB 2025a - Tool 1- Final Teacher Questionnaire March 5 2025 (2).doc",
-      "AEB 2025b -Tool 2_  Final School Principal March 5 2025 (2).doc",
-      "AEB 2025c -Tool 3 Final Teacher FGD Questions March 5 2025 (2).doc",
-      "AEB 2025d- Tool 4_ Final Student FGD March 5 2025 (2).doc",
-      "AEB 2025e-Tool_5_Final_Classroom_Observation_Checklist_March_5_2025_2.doc",
-      "All   teachers questionniar 2018 Data.sav",
-      "Awi Calss Room observation.sav",
-      "Awi Data excel,2018 for Principal Questionnaire.xlsx",
-      "Awi Final Teachers Questionnair 2018_1.sav",
-      "Awi Pricipals Survey.sav",
-      "Edited Final Calss Room observation Data.sav",
-      "Frequencies for the Missing Data.spv",
-      "NORTH SHEWA 04  12.doc",
-      "New-Awi Data excel,2018.xlsx",
-      "Number of zones,worerdas, and schools from spss data.xlsx",
-      "Students FGD summerized.docx",
-      "Zero Draft Proposal AEB 2025.pdf",
-      "~$Tool 2_  Final School Principal March 5 2025 (2).doc",
-      "~$Tool 3 Final Teacher FGD Questions March 5 2025 (2).doc",
-      "\u12c8\u1228\u12f3 \u1243\u1208 \u1218\u1320\u12ed\u1245.doc",
-      "\u12e8\u1275\u12a9\u1228\u1275 \u1261\u12f5\u1295 \u12cd\u12ed\u12ed\u1275 \u12e8\u1270\u1320\u1243\u1208\u1208.docx"
-    ],
-    "Satellite-derived air quality data can effectively support h:33148367": [
-      "uawm_a_2698602_sm9864.docx"
     ]
   },
   "figshare_search_for_drug_matrices": {
     "PRISM Repurposing Public": [
       {
+        "id": 33148457,
+        "title": "Data S3",
+        "published": "2026-08-03T20:23:45Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T20:22:37Z"
+      },
+      {
+        "id": 33148430,
+        "title": "Descri\u00e7\u00e3o Arquivistica",
+        "published": "2026-08-03T20:18:56Z"
+      },
+      {
         "id": 33126776,
         "title": "VIABILITY OF USING LANDFILL LEACHATE AS AN ADEQUATE & SAFE ALTERNATIVE TO COMMERCIAL FERTILIZER",
         "published": "2026-08-03T20:17:54Z"
@@ -677,25 +785,25 @@
         "id": 33148331,
         "title": "Development of a Creativity Orientation Scale using EFA",
         "published": "2026-08-03T19:14:57Z"
-      },
-      {
-        "id": 33148341,
-        "title": "Targeted Synthesis\nof Durene from CO<sub>2</sub> via\na Tailored Coupling Reaction Pathway",
-        "published": "2026-08-03T19:10:29Z"
-      },
-      {
-        "id": 33148339,
-        "title": "Modulation Mechanisms of Transmembrane Domain Flexibility\nin Amyloid Precursor Protein and Notch: A Coarse-Grained Simulation\nStudy on the Impact of Upper and Lower Leaflet Composition in Liquid-Ordered\nand Liquid-Disordered Ternary Bilayer Membranes",
-        "published": "2026-08-03T19:09:41Z"
-      },
-      {
-        "id": 33148336,
-        "title": "Selective Adsorption of CHF<sub>3</sub> over N<sub>2</sub> in a Scalable Aluminum Fumarate Metal\u2013Organic Framework",
-        "published": "2026-08-03T19:08:46Z"
       }
     ],
     "PRISM Oncology Reference": [
       {
+        "id": 33148457,
+        "title": "Data S3",
+        "published": "2026-08-03T20:23:45Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T20:22:37Z"
+      },
+      {
+        "id": 33148430,
+        "title": "Descri\u00e7\u00e3o Arquivistica",
+        "published": "2026-08-03T20:18:56Z"
+      },
+      {
         "id": 33126776,
         "title": "VIABILITY OF USING LANDFILL LEACHATE AS AN ADEQUATE & SAFE ALTERNATIVE TO COMMERCIAL FERTILIZER",
         "published": "2026-08-03T20:17:54Z"
@@ -804,25 +912,25 @@
         "id": 33148331,
         "title": "Development of a Creativity Orientation Scale using EFA",
         "published": "2026-08-03T19:14:57Z"
-      },
-      {
-        "id": 33148341,
-        "title": "Targeted Synthesis\nof Durene from CO<sub>2</sub> via\na Tailored Coupling Reaction Pathway",
-        "published": "2026-08-03T19:10:29Z"
-      },
-      {
-        "id": 33148339,
-        "title": "Modulation Mechanisms of Transmembrane Domain Flexibility\nin Amyloid Precursor Protein and Notch: A Coarse-Grained Simulation\nStudy on the Impact of Upper and Lower Leaflet Composition in Liquid-Ordered\nand Liquid-Disordered Ternary Bilayer Membranes",
-        "published": "2026-08-03T19:09:41Z"
-      },
-      {
-        "id": 33148336,
-        "title": "Selective Adsorption of CHF<sub>3</sub> over N<sub>2</sub> in a Scalable Aluminum Fumarate Metal\u2013Organic Framework",
-        "published": "2026-08-03T19:08:46Z"
       }
     ],
     "Repurposing_Public": [
       {
+        "id": 33148457,
+        "title": "Data S3",
+        "published": "2026-08-03T20:23:45Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T20:22:37Z"
+      },
+      {
+        "id": 33148430,
+        "title": "Descri\u00e7\u00e3o Arquivistica",
+        "published": "2026-08-03T20:18:56Z"
+      },
+      {
         "id": 33126776,
         "title": "VIABILITY OF USING LANDFILL LEACHATE AS AN ADEQUATE & SAFE ALTERNATIVE TO COMMERCIAL FERTILIZER",
         "published": "2026-08-03T20:17:54Z"
@@ -931,25 +1039,25 @@
         "id": 33148331,
         "title": "Development of a Creativity Orientation Scale using EFA",
         "published": "2026-08-03T19:14:57Z"
-      },
-      {
-        "id": 33148341,
-        "title": "Targeted Synthesis\nof Durene from CO<sub>2</sub> via\na Tailored Coupling Reaction Pathway",
-        "published": "2026-08-03T19:10:29Z"
-      },
-      {
-        "id": 33148339,
-        "title": "Modulation Mechanisms of Transmembrane Domain Flexibility\nin Amyloid Precursor Protein and Notch: A Coarse-Grained Simulation\nStudy on the Impact of Upper and Lower Leaflet Composition in Liquid-Ordered\nand Liquid-Disordered Ternary Bilayer Membranes",
-        "published": "2026-08-03T19:09:41Z"
-      },
-      {
-        "id": 33148336,
-        "title": "Selective Adsorption of CHF<sub>3</sub> over N<sub>2</sub> in a Scalable Aluminum Fumarate Metal\u2013Organic Framework",
-        "published": "2026-08-03T19:08:46Z"
       }
     ],
     "DepMap PRISM": [
       {
+        "id": 33148457,
+        "title": "Data S3",
+        "published": "2026-08-03T20:23:45Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T20:22:37Z"
+      },
+      {
+        "id": 33148430,
+        "title": "Descri\u00e7\u00e3o Arquivistica",
+        "published": "2026-08-03T20:18:56Z"
+      },
+      {
         "id": 33126776,
         "title": "VIABILITY OF USING LANDFILL LEACHATE AS AN ADEQUATE & SAFE ALTERNATIVE TO COMMERCIAL FERTILIZER",
         "published": "2026-08-03T20:17:54Z"
@@ -1058,25 +1166,25 @@
         "id": 33148331,
         "title": "Development of a Creativity Orientation Scale using EFA",
         "published": "2026-08-03T19:14:57Z"
-      },
-      {
-        "id": 33148341,
-        "title": "Targeted Synthesis\nof Durene from CO<sub>2</sub> via\na Tailored Coupling Reaction Pathway",
-        "published": "2026-08-03T19:10:29Z"
-      },
-      {
-        "id": 33148339,
-        "title": "Modulation Mechanisms of Transmembrane Domain Flexibility\nin Amyloid Precursor Protein and Notch: A Coarse-Grained Simulation\nStudy on the Impact of Upper and Lower Leaflet Composition in Liquid-Ordered\nand Liquid-Disordered Ternary Bilayer Membranes",
-        "published": "2026-08-03T19:09:41Z"
-      },
-      {
-        "id": 33148336,
-        "title": "Selective Adsorption of CHF<sub>3</sub> over N<sub>2</sub> in a Scalable Aluminum Fumarate Metal\u2013Organic Framework",
-        "published": "2026-08-03T19:08:46Z"
       }
     ],
     "prism drug repurposing": [
       {
+        "id": 33148457,
+        "title": "Data S3",
+        "published": "2026-08-03T20:23:45Z"
+      },
+      {
+        "id": 33135038,
+        "title": "Kidney graft TCR clonotype analysis: scRNA-seq and TCR-seq source data and analysis code",
+        "published": "2026-08-03T20:22:37Z"
+      },
+      {
+        "id": 33148430,
+        "title": "Descri\u00e7\u00e3o Arquivistica",
+        "published": "2026-08-03T20:18:56Z"
+      },
+      {
         "id": 33126776,
         "title": "VIABILITY OF USING LANDFILL LEACHATE AS AN ADEQUATE & SAFE ALTERNATIVE TO COMMERCIAL FERTILIZER",
         "published": "2026-08-03T20:17:54Z"
@@ -1185,21 +1293,6 @@
         "id": 33148331,
         "title": "Development of a Creativity Orientation Scale using EFA",
         "published": "2026-08-03T19:14:57Z"
-      },
-      {
-        "id": 33148341,
-        "title": "Targeted Synthesis\nof Durene from CO<sub>2</sub> via\na Tailored Coupling Reaction Pathway",
-        "published": "2026-08-03T19:10:29Z"
-      },
-      {
-        "id": 33148339,
-        "title": "Modulation Mechanisms of Transmembrane Domain Flexibility\nin Amyloid Precursor Protein and Notch: A Coarse-Grained Simulation\nStudy on the Impact of Upper and Lower Leaflet Composition in Liquid-Ordered\nand Liquid-Disordered Ternary Bilayer Membranes",
-        "published": "2026-08-03T19:09:41Z"
-      },
-      {
-        "id": 33148336,
-        "title": "Selective Adsorption of CHF<sub>3</sub> over N<sub>2</sub> in a Scalable Aluminum Fumarate Metal\u2013Organic Framework",
-        "published": "2026-08-03T19:08:46Z"
       }
     ]
   },
