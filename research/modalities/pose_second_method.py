@@ -1453,6 +1453,15 @@ def main():
         "_confound_carried": pipeline_box_confound(),
         "_budgets_s": {"unit": UNIT_BUDGET_S, "total": TOTAL_BUDGET_S},
     }
+    # ⚠ WHERE THIS RAN, SO A COMMITTED ARTIFACT CANNOT BE MISTAKEN FOR ANOTHER RUN'S. A CI publish and a
+    # local reproduction produce the same file name; without this the only difference is a scratch path
+    # buried in `tooling`, and "which run is this" becomes a question nobody can answer from the artifact.
+    doc["_provenance"] = {
+        "github_run_id": os.environ.get("GITHUB_RUN_ID"),
+        "github_ref": os.environ.get("GITHUB_REF_NAME"),
+        "github_sha": os.environ.get("GITHUB_SHA"),
+        "where": "GitHub Actions" if os.environ.get("GITHUB_RUN_ID") else "local reproduction",
+    }
     tools, why = rdock_tools()
     doc["tooling"] = ({"rdock_version": tools["rdock_version"],
                        "openbabel_version": tools["openbabel_version"],
