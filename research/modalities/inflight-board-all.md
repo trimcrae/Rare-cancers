@@ -15,7 +15,7 @@ Merged 4:18 PM ET Tue Aug 4, 2026. One row per GPU leg, for every lane that can 
 
 ## TERNARY / RUNG 5a-KS — calibrator, triangle and valB replicate legs
 
-_As of 4:16 PM ET Tue Aug 4, 2026 (2 min ago). Written by `ternary_vast_launch.py task=collect`._
+_As of 4:18 PM ET Tue Aug 4, 2026 (0 min ago). Written by `ternary_vast_launch.py task=collect`._
 
 ```
 IN-FLIGHT BOARD: no GPU legs.
