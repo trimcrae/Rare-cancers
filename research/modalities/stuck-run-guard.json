@@ -1,22 +1,16 @@
 {
   "_what": "Actions runs found `pending` with ZERO jobs \u2014 they hold a concurrency lock and execute nothing. Written on every tick, cancelling nothing included.",
   "_why": "Measured 2026-08-01: a selcal `launch` sat pending 19 min with 0 jobs and blocked the group. `launch` is what re-places a dead host, so the lane looked healthy while every re-placement was silently swallowed (CLAUDE.md \u00a76 \u2014 holding silently).",
-  "utc": "2026-08-04T20:18:05Z",
+  "utc": "2026-08-04T20:20:00Z",
   "threshold_min": 10.0,
   "readable": true,
   "in_progress_readable": true,
   "pending_seen": [
     {
-      "run": 30947131795,
-      "name": "GCP GPU \u2014 STEP 1 fan-out REPLICATE on the free L4 (cycle_3ca",
+      "run": 30947322763,
+      "name": "Account-keyed cross-lane alarm \u2014 is any host billing that no",
       "jobs": 0,
-      "age_min": 1.2
-    },
-    {
-      "run": 30947118304,
-      "name": "STEP 1 fan-out \u2014 progress check + terminus-gated fan-out",
-      "jobs": 0,
-      "age_min": 1.4
+      "age_min": 0.6
     }
   ],
   "wedged": [],
@@ -24,18 +18,11 @@
   "cancel_failed": [],
   "spared": [
     {
-      "run": 30947131795,
-      "name": "GCP GPU \u2014 STEP 1 fan-out REPLICATE on the free L4 (cycle_3ca",
+      "run": 30947322763,
+      "name": "Account-keyed cross-lane alarm \u2014 is any host billing that no",
       "jobs": 0,
-      "age_min": 1.2,
-      "why": "only 1.2 min old; below the 10 min threshold"
-    },
-    {
-      "run": 30947118304,
-      "name": "STEP 1 fan-out \u2014 progress check + terminus-gated fan-out",
-      "jobs": 0,
-      "age_min": 1.4,
-      "why": "only 1.4 min old; below the 10 min threshold"
+      "age_min": 0.6,
+      "why": "only 0.6 min old; below the 10 min threshold"
     }
   ]
 }
