@@ -179,7 +179,14 @@ def classify(rel: str, head: str):
             break
         status, kind = st, kd
         break
-    if "prereg" in os.path.basename(rel).lower():
+    # ⛔ A DRAFT IS NOT A PREREGISTRATION UNTIL IT IS FROZEN, AND THE FILENAME IS WHAT SAYS SO.
+    # This rule originally read `if "prereg" in basename` and marked `nr4a-repanel-prereg-DRAFT.md`
+    # `immutable` — a document whose own H1 says "⚠ DRAFT, NOT FROZEN", sitting in a directory whose
+    # test suite exists specifically to stop a draft being mistaken for a frozen one. `immutable` is
+    # this repository's strongest evidentiary claim; a draft wearing it erodes every real prereg.
+    # The repo's convention: freezing is a separate dated commit that RENAMES the file off `-DRAFT`.
+    base = os.path.basename(rel).lower()
+    if "prereg" in base and "draft" not in base:
         status, kind, needs_review = "immutable", "prereg", False
     return kind, status, level, needs_review
 

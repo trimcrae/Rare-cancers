@@ -2,15 +2,22 @@
 id: DOC-NR4A-REPANEL-PREREG-DRAFT
 title: NR4A1/2/3 RE-PANEL — PREREGISTRATION ·  DRAFT, NOT FROZEN ·  RETIRED UNRUN 2026-08-02
 level: L4
-kind: prereg
-status: immutable
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
-audience: [maintainers, autonomous research agents]
+kind: memo
+status: superseded
+superseded_by: research/modalities/selcal-verdict.json
+frozen: false
+canonical_for: [the step-3 re-panel design as it stood before step 2 returned NULL]
+purpose: >
+  Preserve the step-3 re-panel design EXACTLY as it was fixed before the step-2 verdict that killed it,
+  so nobody later has to take on trust that the design was not tuned to the result. Its §4c power
+  analysis stands on its own and reached the same conclusion the tier reached independently.
+scope: >
+  ⛔ NOTHING HERE MAY BE RUN, QUOTED AS IN FORCE, OR REVIVED WITHOUT A NEW STEP 2. Retired unrun on
+  2026-08-02 because the sensitivity control returned NULL and this document's own freeze condition 1
+  required `tier: PASS`. Retired, not amended, exactly as its §7 said it would be.
+audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
 ---
 # NR4A1/2/3 RE-PANEL — PREREGISTRATION · ⚠ **DRAFT, NOT FROZEN** · ⛔ **RETIRED UNRUN 2026-08-02**
 

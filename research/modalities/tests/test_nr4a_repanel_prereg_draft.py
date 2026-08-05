@@ -27,6 +27,26 @@ def _text():
         return fh.read()
 
 
+def _body():
+    """The document WITHOUT its YAML frontmatter.
+
+    ⚠ THIS IS NOT A LOOSENING OF THE 'not buried' RULE BELOW, AND THE DISTINCTION MATTERS HERE MORE
+    THAN ANYWHERE. Frontmatter is machine metadata — id, kind, status — added to every document in the
+    repository so a checker can read what a human would otherwise have to infer from prose. It is not
+    design content, and nothing can hide in it: `systems_check` parses every field and `[D10]` fails
+    the build if this file's status ever claims to be frozen.
+
+    What the assertion protects is unchanged: the FIRST THING A READER MEETS must be the status. So the
+    identical check is applied to the body, and the frontmatter is required to carry the status too.
+    """
+    t = _text()
+    if t.startswith("---\n"):
+        end = t.find("\n---\n", 4)
+        if end != -1:
+            return t[end + 5:]
+    return t
+
+
 def _flat():
     """⚠ WHITESPACE-NORMALISED. Prose re-wraps; an assertion that pins a line break tests the editor's
     column width, not the document. (Tonight's recurring lesson, applied before it bit again.)"""
@@ -37,9 +57,29 @@ def test_the_draft_declares_itself_unfrozen_and_unrunnable():
     t = _text()
     assert "NOT FROZEN" in t and "NOT IN FORCE" in t
     assert "NOTHING MAY BE RUN AGAINST IT" in t
-    assert t.lstrip().startswith("# NR4A1/2/3 RE-PANEL"), "the status must be at the very top, not buried"
-    head = t[:1600]
-    assert "NOT FROZEN" in head, "a reader must hit the status before any design content"
+    body = _body()
+    assert body.lstrip().startswith("# NR4A1/2/3 RE-PANEL"), \
+        "the status must be the first thing after the frontmatter, not buried"
+    assert "NOT FROZEN" in body[:1600], "a reader must hit the status before any design content"
+
+
+def test_the_frontmatter_never_claims_this_draft_is_frozen():
+    """⛔ THE BULK BACKFILL MARKED THIS FILE `status: immutable`, AND THAT IS WHY THIS TEST EXISTS.
+
+    Its rule was `if "prereg" in the filename` — which is true of every frozen preregistration here and
+    also of this one, whose own H1 says "⚠ DRAFT, NOT FROZEN". `immutable` is the status reserved for a
+    frozen prereg; a draft carrying it is precisely the erosion this whole module guards against, and it
+    would have been machine-readable rather than merely prose.
+
+    A reader of the frontmatter alone must reach the same conclusion as a reader of the banner.
+    """
+    fm = _text().split("---\n", 2)[1] if _text().startswith("---\n") else ""
+    assert fm, "the draft must carry frontmatter like every other document"
+    assert not re.search(r"^status:\s*immutable", fm, re.M), \
+        "`immutable` is reserved for a FROZEN prereg — this file is a draft and says so in its own title"
+    assert re.search(r"^frozen:\s*false", fm, re.M), \
+        "the draft must declare `frozen: false` so the freeze state is machine-readable, not inferred"
+    assert re.search(r"NOT FROZEN|DRAFT", fm), "the frontmatter title must carry the status too"
 
 
 def test_the_filename_still_says_draft():

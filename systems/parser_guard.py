@@ -79,6 +79,40 @@ def check_plan_heading(fail):
              "returns an empty list that is indistinguishable from a finished plan")
 
 
+def check_map_edit_sources(fail):
+    """`map_edit_anchors.verify()` must search EVERY file the roadmap's content now lives in.
+
+    ⛔ THIS EXISTS BECAUSE MOVING THE PLAN BROKE IT AND NOTHING SAID SO. Several modules route proposed
+    edits at plan rows — `fusion_object_inventory` and `antitarget_selfcontrol` both anchor on
+    "THE ORDERED PLAN → RUNG S". When THE ORDERED PLAN left `nr4a3-program-map.md` for the generated
+    view, `verify()` still read only the roadmap and every one of those anchors resolved to NOT_FOUND.
+
+    ⚠ THAT IS THE DANGEROUS DIRECTION. `verify()`'s job is to tell "this edit applies to real text"
+    from "this anchor is dead and the edit reads as done". Reporting a LIVE anchor as dead invites
+    someone to relocate an edit that never moved — and the whole point of this guard file is that a
+    parser which can no longer find what it parses must fail loudly rather than return an empty answer.
+    """
+    sys.path.insert(0, os.path.join(REPO, "research", "modalities"))
+    try:
+        import map_edit_anchors as mea
+    except Exception as e:                                   # pragma: no cover - import-time only
+        fail("map_edit_anchors", f"cannot import: {type(e).__name__}: {e}",
+             "routed map edits stop being anchor-checked at all")
+        return
+    srcs = [os.path.relpath(p, REPO) for p in mea._map_sources()]
+    if MAP not in srcs:
+        fail("map_edit_anchors", f"the roadmap {MAP} is not among the map sources {srcs}",
+             "every roadmap-anchored edit would resolve to NOT_FOUND and read as relocatable")
+    if PLAN_DOC not in srcs:
+        fail("map_edit_anchors", f"the plan {PLAN_DOC} is not among the map sources {srcs}",
+             "THE ORDERED PLAN lives there now, so every plan-anchored edit resolves to NOT_FOUND — a "
+             "LIVE anchor reported as dead, which is the failure this module exists to prevent")
+    for rel in srcs:
+        if not os.path.exists(os.path.join(REPO, rel)):
+            fail("map_edit_anchors", f"map source {rel} does not exist",
+                 "an unreadable companion silently narrows the search instead of failing")
+
+
 def check_paths(fail):
     """Linters and registries that read named files."""
     reg = [
@@ -163,7 +197,7 @@ def check_registry(fail):
             fail(who, f"{rel} is missing", "the registry's invariants stop being checked")
 
 
-CHECKS = [check_plan_heading, check_paths, check_scan_triggers, check_registry]
+CHECKS = [check_plan_heading, check_map_edit_sources, check_paths, check_scan_triggers, check_registry]
 
 
 def main(argv=None):

@@ -40,6 +40,47 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_MAP = os.path.join(HERE, "..", "manuscripts", "nr4a3-program-map.md")
 
+#: ⛔ THE PLAN LEFT THE ROADMAP, AND AN ANCHOR RESOLVER THAT KNOWS ONLY THE ROADMAP THEN REPORTS LIVE
+#: EDITS AS DEAD. On 2026-08-05 THE ORDERED PLAN, the spend ladder and the dependency spine were lifted
+#: out of `nr4a3-program-map.md` into the generated `systems/views/plan.md`. Several modules route edits
+#: at plan rows — `fusion_object_inventory` and `antitarget_selfcontrol` both anchor on
+#: "THE ORDERED PLAN → RUNG S" — and every one of them started resolving to NOT_FOUND.
+#:
+#: ⚠ THAT FAILURE IS THE DANGEROUS DIRECTION. `verify()`'s whole job is to distinguish "this edit
+#: applies to real text" from "this anchor is dead and the edit reads as done". Reporting a live anchor
+#: as dead invites someone to relocate an edit that never moved.
+#:
+#: So the map is now the PAIR of files that between them hold the roadmap's content. It is a search
+#: order, not a fallback: a hit in either is a resolved anchor, and `verify()` records WHICH file
+#: matched so a reader can tell a roadmap edit from a plan edit.
+#: ⚠ An edit anchored in the plan view must be applied in `systems/graph/plan.json`, never in the view —
+#: the view is generated and a hand-edit fails its drift check.
+COMPANION_MAPS = [os.path.join(HERE, "..", "..", "systems", "views", "plan.md")]
+
+
+def _map_sources(map_path=None):
+    """Every file that jointly holds the roadmap's content, in search order, that exists on this ref.
+
+    ⛔ COMPANIONS ARE ADDED ONLY WHEN THE CALLER IS ASKING FOR *THE LIVE MAP* — either by passing
+    nothing, or by naming the roadmap itself. An arbitrary path means exactly that path.
+
+    ⚠ THE FIRST VERSION WIDENED UNCONDITIONALLY AND IT WAS CAUGHT BY THIS MODULE'S OWN TESTS, IN THE
+    WORST DIRECTION. A test writes a temp file holding the PRE-edit text and asserts the status is `OK`
+    (not yet applied). With the companion always appended, the probe was found in the real
+    `systems/views/plan.md` — which legitimately contains the POST-edit text — and the status came back
+    `APPLIED`. A false `APPLIED` tells a router an edit has landed when it has not, which is the exact
+    failure this module's `build_probe` docstring spends thirty lines guarding against.
+    """
+    primary = os.path.abspath(map_path or DEFAULT_MAP)
+    out = [primary]
+    if primary != os.path.abspath(DEFAULT_MAP):
+        return out
+    for p in COMPANION_MAPS:
+        p = os.path.abspath(p)
+        if p not in out and os.path.exists(p):
+            out.append(p)
+    return out
+
 REQUIRED_FIELDS = ("section", "anchor", "current_text", "proposed_text", "why", "artifact")
 
 #: How much of `proposed_text` to search for when deciding whether an edit already LANDED. Long enough to
@@ -112,12 +153,32 @@ def build_probe(proposed, current, min_chars=None, max_chars=None):
 
 def verify(edits, map_path=None):
     """Annotate each routed edit with its anchor status against the live map. Returns (edits, summary)."""
-    path = os.path.abspath(map_path or DEFAULT_MAP)
+    # ⚠ THE PRIMARY MAP MUST STILL BE READABLE. If it is not, this is UNREAD — the companion existing is
+    # not a substitute, because "absent reading, absent verdict" applies per source, not per set.
+    sources = _map_sources(map_path)
+    path = sources[0]
     try:
         text = open(path, encoding="utf-8").read()
         read_ok, why = True, None
     except OSError as e:
         text, read_ok, why = "", False, "%s: %s" % (type(e).__name__, e)
+    #: {absolute path -> its text} for every source that read, primary first.
+    texts = [(path, text)] if read_ok else []
+    for p in sources[1:]:
+        try:
+            texts.append((p, open(p, encoding="utf-8").read()))
+        except OSError:
+            pass  # a companion that is absent on this ref is not an error; the primary decides UNREAD
+
+    def _count(needle):
+        """Occurrences across all readable sources, plus the first source that matched."""
+        total, where = 0, None
+        for p, t in texts:
+            n = t.count(needle)
+            if n and where is None:
+                where = os.path.relpath(p, os.path.join(HERE, "..", ".."))
+            total += n
+        return total, where
 
     out = []
     for e in edits or []:
@@ -150,8 +211,12 @@ def verify(edits, map_path=None):
                                "locate and nothing to apply")
             out.append(e)
             continue
-        n_anchor = text.count(anchor_s)
-        n_current = text.count(current_s)
+        n_anchor, anchor_in = _count(anchor_s)
+        n_current, current_in = _count(current_s)
+        # Which file the anchor resolved in — a roadmap edit and a plan-view edit have DIFFERENT
+        # application routes (the view is generated; its edits belong in systems/graph/plan.json), so
+        # a reader must not have to guess which one they are holding.
+        e["anchor_found_in"] = anchor_in or current_in
         # ⚠ THE PROBE IS THE PART OF `proposed_text` THAT IS NOT ALREADY IN `current_text`, AND THAT
         # DISTINCTION IS LOAD-BEARING (2026-08-03, caught on live data before it did damage).
         # Many edits APPEND rather than replace — `proposed_text == current_text + " ✅ new clause"`.
@@ -181,7 +246,7 @@ def verify(edits, map_path=None):
         prop = (e.get("proposed_text") or "")
         cur = (e.get("current_text") or "")
         probe, discriminating = build_probe(prop, cur)
-        n_proposed = text.count(probe) if discriminating else 0
+        n_proposed = _count(probe)[0] if discriminating else 0
         e["_probe_is_the_difference"] = bool(cur)
         e["_probe_is_discriminating"] = discriminating
         if not discriminating:

@@ -794,6 +794,20 @@ def check_documents(g, f):
                 f.err("[D3]", f"{rel} is a preregistration but is not `immutable` — a prereg's whole "
                               f"value is that it was written before the result")
                 bad += 1
+            # ⛔ AND THE INVERSE, WHICH IS THE DANGEROUS DIRECTION. [D3] alone let the bulk backfill mark a
+            # DRAFT preregistration `immutable` on the strength of "prereg" appearing in its filename —
+            # while the document's own H1 read "⚠ DRAFT, NOT FROZEN". A frozen prereg is the repository's
+            # strongest evidentiary claim (this design was fixed BEFORE that result), so a draft wearing
+            # that status is the one thing that could erode it. The repo's own convention is that the
+            # FILENAME carries the freeze state: freezing is a separate dated commit that renames the file.
+            declared_draft = ("-draft" in rel.lower()
+                              or str(fmv.get("frozen", "")).lower() in ("false", "no")
+                              or re.search(r"NOT FROZEN|\bDRAFT\b", "\n".join(text.splitlines()[:40])))
+            if fmv.get("status") == "immutable" and declared_draft:
+                f.err("[D10]", f"{rel} declares `immutable` while calling itself a DRAFT — `immutable` is "
+                               f"reserved for a FROZEN preregistration, and a draft carrying it is exactly "
+                               f"the confusion that would undermine every real one")
+                bad += 1
             if fmv.get("status") == "superseded" and not fmv.get("superseded_by"):
                 f.err("[D7]", f"{rel} declares `superseded` but names no successor — a supersession "
                               f"with nothing to redirect to is unfalsifiable, and the reader who "
