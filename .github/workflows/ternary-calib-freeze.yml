@@ -46,9 +46,28 @@ jobs:
   triangle:
     if: ${{ github.event.inputs.mode == 'triangle' }}
     runs-on: ubuntu-latest
-    # 90 min, not 45: the gate evaluates 17 distinct edges and each can spend up to 2 x LOMAP(time=20) +
-    # rdFMCS(timeout=60). Those budgets are deliberate (LOMAP settings must match production), so the wall
-    # clock is bounded by them, not by a stall.
+    # ⛔ 90 MINUTES IS NOT ENOUGH, AND THE ARITHMETIC THAT SAID IT WAS IS OFF BY AN ORDER OF MAGNITUDE.
+    # ⚠ Superseded, retained: *"90 min, not 45: the gate evaluates 17 distinct edges and each can spend up
+    # to 2 x LOMAP(time=20) + rdFMCS(timeout=60). Those budgets are deliberate (LOMAP settings must match
+    # production), so the wall clock is bounded by them, not by a stall."* That reasoning predicted ~28 min
+    # for ALL 17 edges. MEASURED on run 31017061570 (2026-08-05), which was CANCELLED at the timeout with
+    # no report written — per-edge wall clock, from the step's own log lines:
+    #
+    #     cmpd1->cmpd4        28.6 min  (element_change=True)  +  6.7 min (element_change=False)
+    #     cmpd4->cmpd4prime   22.4 min                         +  4.9 min
+    #     cmpd1->cmpd4prime    1.4 min                         +  2.4 min
+    #     ------------------------------------------------------------------
+    #     THREE edges: 66 min. Then 22 min more on the fourth before the job was killed.
+    #
+    # The `time=20` in that comment is not the budget actually in force — the production mapper runs at
+    # RBFE_LOMAP_TIME_S=300 (5 min) PER CALL, two calls per edge, and real calls overshoot even that
+    # because LOMAP's timeout bounds its MCS search, not the whole mapping. So the bound is ~10 min/edge
+    # at minimum and observed up to ~35, which is 3-10 HOURS for 17 edges, not 28 minutes.
+    #
+    # ⚠ THE RUN WAS NOT WASTED AND MUST NOT BE RE-LAUNCHED BLIND. Before it died it reported a
+    # ⚠ DEGENERATE MAP on the closing edge — see the pre-gate document — and its own message says the
+    # likely cause is the 300 s MCS budget. Raising `timeout-minutes` alone would reproduce the same
+    # degenerate map more slowly; the budget that has to move first is RBFE_LOMAP_TIME_S.
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4

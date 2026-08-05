@@ -16,6 +16,25 @@ _backfilled: true
 
 **Date:** 2026-07-25 · **Status:** $0 pre-gate + costed recommendation. **No GPU work is proposed for launch
 here** — every number below is a CPU/CI derivation and the spend decision is trimcrae's.
+> ⏳ **THE CHEMISTRY GATE HAS BEEN ATTEMPTED AND HAS NOT FINISHED — 2026-08-05, $0, no GPU.**
+> `valb-triangle-chem.json` is cited throughout this document and **is not committed**, and the reason is
+> now measured rather than assumed: run
+> [31017061570](https://github.com/trimcrae/Rare-cancers/actions/runs/31017061570) ran the production LOMAP
+> mapper for **88.5 min** in the pre-baked `triskit23/ternary-fep` image and was **cancelled at the job's
+> 90-minute timeout with no report written**. Per-edge cost is **~5–29 min** — the workflow's budget
+> comment had assumed ~40 s — so the 17-edge gate needs hours, not the ~28 min predicted.
+>
+> ⚠ **IT GOT FAR ENOUGH TO SAY SOMETHING, AND THE SOMETHING IS NOT YET A FINDING.** On the closing edge
+> `cmpd1 → cmpd4′` the mapper returned **8 of 109 atoms mapped, where both endpoints have 109 atoms and a
+> complete 1:1 map exists** — 101 atoms would become dummies, and the leg would run *a different
+> perturbation from the designed one*. That is exactly the defect §2a predicts for an edge carrying both
+> transforms. ⛔ **But the cause is UNRESOLVED**, and the module says so itself: *"Most likely the MCS hit
+> its 300 s budget (`RBFE_LOMAP_TIME_S`); re-run with a larger one."* A degenerate map produced by a
+> mapper that ran out of time is **not** evidence about the chemistry — treating it as one would be the
+> "absent reading read as a reading of absence" failure. **Nothing in this document may be re-graded on
+> it.** The next step is a re-run at a larger `RBFE_LOMAP_TIME_S` with a timeout to match; raising the
+> timeout alone would reproduce the same degenerate map more slowly.
+
 **Artifacts:** [`valb_triangle_chem.py`](../modalities/valb_triangle_chem.py) ·
 [`valb-triangle-chem.json`](../modalities/valb-triangle-chem.json) (production-mapper chemistry gate, run in
 `triskit23/ternary-fep`) · [`valb_triangle_closure.py`](../modalities/valb_triangle_closure.py) ·

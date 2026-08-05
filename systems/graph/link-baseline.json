@@ -19,7 +19,7 @@
     {
       "from": "research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md",
       "to": "../modalities/valb-triangle-chem.json",
-      "why": "A dated pre-gate document citing a chemistry artifact that is not committed. Its sibling valb-pseries-chem.json does exist, so this is most likely an artifact that was planned and never produced."
+      "why": "A dated pre-gate document citing a chemistry artifact that is not committed. ⭐ MEASURED 2026-08-05, replacing the earlier guess. Superseded, retained: 'this is most likely an artifact that was planned and never produced.' It was not never-produced — it was ATTEMPTED and did not finish. Run 31017061570 (ternary-calib-freeze.yml mode=triangle, $0 CI, pre-baked triskit23/ternary-fep) ran the production LOMAP mapper for 88.5 min and was CANCELLED at the job's 90-minute timeout with no report written. Per-edge cost is ~5-29 min, not the ~40 s the workflow's budget comment assumed, so 17 edges need hours rather than the 28 minutes predicted. ⚠ It got far enough to report a DEGENERATE MAP on the closing edge (8 of 109 atoms mapped where a complete 1:1 map exists) whose cause is UNRESOLVED between the chemistry and the mapper's own 300 s MCS budget — the module says the budget is the likely cause. So this entry clears when the mapper is given a larger RBFE_LOMAP_TIME_S and a matching timeout, not by re-running as-is."
     }
   ]
 }
