@@ -77,6 +77,8 @@ TRIGGERS = os.path.join(_ROOT, "research", "method-watch-triggers.json")
 LEDGER = os.path.join(_ROOT, "research", "method-watch-trigger-hits.json")
 BOARD = os.path.join(_ROOT, "research", "method-watch-trigger-scan.md")
 IDEAS = os.path.join(_ROOT, "research", "IDEAS.md")
+#: The systems model's technology register. The scan writes UNGRADED SIGNALS into it and nothing else.
+TECHNOLOGIES = os.path.join(_ROOT, "systems", "graph", "technologies.json")
 
 IDEAS_SECTION = "## 🔄 Auto-captured field-scan advances (review + integrate into the board above)"
 
@@ -380,6 +382,60 @@ def write_board(cfg: dict, ledger: dict, run: dict, per_trigger: dict) -> None:
 REGISTRY = os.path.join(_ROOT, "research", "manuscripts", "emc-systems-map.json")
 
 
+
+def write_pending_signals(fresh_by_trigger: dict, today: str, dry_run: bool = False) -> int:
+    """Record each new hit against every TECH-* whose `scan_trigger` names the trigger that matched.
+
+    ⛔ THIS WRITES ONLY `pending_signals`. It does not touch `current_state`, `evidence` or the
+    forecast, and it must never be changed to. This module's whole contract is that a hit is an
+    UNVALIDATED LEAD -- machine-matched on a title, not read and not graded -- and a register that
+    updated itself from that would break the one rule keeping the watch list honest.
+
+    What it closes is the gap on the other side: before this, a fired trigger told a human that
+    something MIGHT have landed, and that human then re-derived by hand which routes, requirements
+    and blockers it would reopen. The graph already carries those edges. This puts the hit next to
+    them, so grading is a read rather than a re-derivation.
+
+    Idempotent: a paper already recorded against a technology is not added twice.
+    """
+    if not os.path.exists(TECHNOLOGIES):
+        return 0
+    with open(TECHNOLOGIES, encoding="utf-8") as fh:
+        techs = json.load(fh)
+
+    added = 0
+    for tech in techs:
+        watched = set(tech.get("scan_trigger") or [])
+        if not watched:
+            continue
+        existing = {(s.get("trg"), s.get("paper_id")) for s in tech.get("pending_signals", [])}
+        for trg_id, hits in fresh_by_trigger.items():
+            if trg_id not in watched:
+                continue
+            for h in hits:
+                key = (trg_id, h.get("id"))
+                if key in existing:
+                    continue
+                tech.setdefault("pending_signals", []).append({
+                    "trg": trg_id,
+                    "paper_id": h.get("id", ""),
+                    "title": h.get("title", ""),
+                    "date": h.get("date", ""),
+                    "venue": h.get("venue", ""),
+                    "url": h.get("url", ""),
+                    "seen_on": today,
+                    "graded": False,
+                })
+                existing.add(key)
+                added += 1
+
+    if added and not dry_run:
+        with open(TECHNOLOGIES, "w", encoding="utf-8") as fh:
+            json.dump(techs, fh, indent=2, ensure_ascii=False)
+            fh.write("\n")
+    return added
+
+
 def check_registry(cfg: dict) -> int:
     """Every registry id a trigger points at must EXIST in the registry.
 
@@ -388,10 +444,16 @@ def check_registry(cfg: dict) -> int:
     shape that rots silently: a route gets renamed there, the pointer here keeps rendering,
     and a scan hit names a route nobody can find. Cheap to check, so check it.
 
-    ⚠ ONE-DIRECTIONAL, AND THAT IS THE OPEN ITEM. This verifies trigger -> registry. The
-    reverse (every `revival_trigger` in the registry names a TRG-* that exists here) cannot
-    be checked until the registry carries that field; as of 2026-08-03 it does not, so a
-    registry row could name a trigger that was never written and nothing would say so.
+    ⭐ NO LONGER ONE-DIRECTIONAL — CLOSED 2026-08-05. ⚠ Superseded, retained: *"the reverse
+    (every `revival_trigger` in the registry names a TRG-* that exists here) cannot be checked
+    until the registry carries that field; as of 2026-08-03 it does not."* It does. All 22
+    revival triggers carry `scan_trigger`, and `systems/graph/technologies.json` carries it too.
+    The reverse direction is now checked by `systems_check.check_scan_interop`, which fails when
+    a TECH-* names a TRG-* that does not exist here AND warns when a TRG-* here is watched by no
+    TECH-* -- a trigger nobody has attached a consequence to fires into nothing.
+
+    This docstring is corrected rather than deleted because it was accurate when written and
+    stale for two days, which is the failure mode the whole register exists to make visible.
     """
     problems: list[str] = []
     if not os.path.exists(REGISTRY):
@@ -478,6 +540,7 @@ def main() -> int:
     run = {"date": today_s, "mode": "seed" if args.seed else "scan",
            "triggers": 0, "queries": 0, "new_hits": 0, "appended": 0, "errors": []}
     per_trigger: dict[str, dict] = {}
+    fresh_by_trigger: dict = {}
     bullets: list[str] = []
 
     for t in cfg["triggers"]:
@@ -543,6 +606,7 @@ def main() -> int:
             rec["age_days_at_first_seen"] = age
             known[h["id"]] = rec
             fresh.append(rec)
+        fresh_by_trigger[t["id"]] = list(fresh)
 
         run["new_hits"] += s["new"]
         if not args.seed:
@@ -558,6 +622,14 @@ def main() -> int:
               f"new={s['new']} appended={s['appended']}", flush=True)
 
     ledger["runs"].append(run)
+
+    # Record ungraded signals against the technology register. Runs BEFORE the dry-run return so a
+    # dry run reports what it would write without writing it.
+    signals = write_pending_signals(fresh_by_trigger, today_s, dry_run=args.dry_run)
+    run["signals_recorded"] = signals
+    if signals:
+        print(f"pending_signals: recorded {signals} ungraded signal(s) against the technology register "
+              f"-- ⚠ UNVALIDATED LEADS, not status changes", flush=True)
 
     if args.dry_run:
         print(json.dumps({"run": run, "bullets": bullets}, indent=2))

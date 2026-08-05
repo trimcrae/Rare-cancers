@@ -60,7 +60,7 @@ than surfacing as a traceback inside a large suite.
 | **Set `last_verified`** | on any edit | It records that someone checked the content is still TRUE, which is different from when it was last edited. Only a person can assert the first. ⚠ It cannot be derived here: the history is a squashed import and every file reports the same date. |
 | **Classify a new blocker** | on creation | The selection ladder narrows it, but *accuracy versus scale*, and *access versus cost*, are judgements — and both pairs are expensive to get wrong in the direction that spends money. |
 | **Decide a `timing.recommendation`** | when a dependency moves | The wait equation weighs a falling cost against the cost of not learning anything meanwhile. That trade is the researcher's. |
-| **Grade a scan hit** | weekly | A literature hit is an unvalidated lead. Nothing may change a status by itself, and the scan is explicit about this. |
+| **Grade a scan hit** | weekly | A literature hit is an unvalidated lead. Nothing may change a status by itself, and the scan is explicit about this. The queue is `pending_signals[]` on each `TECH-*`; the generated view lists ungraded ones and `systems_check` warns while any remain. |
 | **Authorise spend** | per run | Unchanged and deliberate. |
 
 ---
@@ -100,10 +100,18 @@ Ordered by value per unit of effort. Each names what it would prevent.
 1. **Auto-derive `fan_out` into the ordering of every view** *(done)*. Kept here because it is the pattern:
    any number that can be computed from the graph is computed, never typed. Prevents a hand-carried count
    drifting the moment a route changes.
-2. **Wire the scan to write `TECH-*` state** *(recommended, not yet built)*. A graded hit should set
-   `current_state` and surface every route, requirement and blocker it would reopen, rather than leaving a
-   human to re-derive the consequence weekly. The graph already carries the edges; what is missing is the
-   write path. **This is the highest-value remaining automation.**
+2. ~~**Wire the scan to write `TECH-*` state**~~ *(done 2026-08-05 — and deliberately NOT as written.)*
+   The original wording said a graded hit "should set `current_state`". ⛔ **That would have been wrong.**
+   The scan's own contract is that every hit is an unvalidated lead, machine-matched on a title, and that
+   nothing may change a status by itself. A register that updated itself from that would break the one
+   rule keeping the watch list honest.
+
+   What was built instead: `trigger_scan.py` writes into a `pending_signals[]` queue on every `TECH-*`
+   whose `scan_trigger` matched, and touches **nothing else** — `current_state`, `evidence`, `confidence`
+   and the forecast are all untouched, asserted by a test that should never need relaxing. The generated
+   view surfaces ungraded signals at the top of the affected row, and the checker warns while any remain.
+   Grading stays a human read. The gap this closes is the other one: the hit now sits next to the routes,
+   requirements and blockers it would reopen, so grading is a read rather than a weekly re-derivation.
 3. **Fail a forecast older than two quarters** *(currently a flag, not a failure)*. A forecast is a claim
    with a shelf life. Promoting the flag to an error would force the quarterly re-grade rather than relying
    on someone noticing the warning.

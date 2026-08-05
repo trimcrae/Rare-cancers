@@ -565,6 +565,52 @@ def check_requirement_source_agreement(g, f):
             f.err("[M5]", f"{rid} served-by disagrees: roadmap {served} vs graph {gr[rid].get('served_by')}")
 
 
+
+SCAN_TRIGGERS = os.path.join(REPO, "research", "method-watch-triggers.json")
+
+
+def check_scan_interop(g, f):
+    """TECH-* <-> TRG-* in BOTH directions, plus the ungraded-signal queue.
+
+    The scan file is the ONE HOME of the search queries and this register never copies one -- it
+    references them by id. Two files sharing one vocabulary is exactly the shape that rots silently,
+    so the reference is checked rather than trusted.
+
+    ⭐ The reverse direction was called uncheckable in trigger_scan.py's own docstring as recently as
+    2026-08-03, because the field it needed did not exist. It does now.
+    """
+    if not os.path.exists(SCAN_TRIGGERS):
+        f.err("[X1]", "research/method-watch-triggers.json is missing; the capability scan has no config")
+        return
+    with open(SCAN_TRIGGERS, encoding="utf-8") as fh:
+        rows = json.load(fh).get("triggers", [])
+    known = {t["id"] for t in rows}
+    # ⚠ An `internal_work` trigger legitimately has no TECH-*: it is work THIS program can do, not a
+    # capability to wait for. Warning on those would be the exact conflation the technology taxonomy
+    # exists to prevent -- and it is how four of them ended up on a watch list in the first place.
+    kind_of = {t["id"]: t.get("trigger_kind", "external_capability") for t in rows}
+
+    watched = set()
+    for t in g["technologies"]:
+        for ref in t.get("scan_trigger") or []:
+            watched.add(ref)
+            if ref not in known:
+                f.err("[X2]", f"{t['id']} names scan trigger {ref}, which does not exist in "
+                              f"research/method-watch-triggers.json")
+    for trg in sorted(known - watched):
+        if kind_of.get(trg) == "internal_work":
+            continue  # not a capability; it belongs on a route's best_next_action, not in the register
+        f.warn("[X3]", f"{trg} is scanned weekly but no TECH-* watches it — it fires into nothing, "
+                       f"so a hit has no recorded consequence")
+
+    for t in g["technologies"]:
+        ungraded = [s for s in t.get("pending_signals", []) if not s.get("graded")]
+        if ungraded:
+            f.warn("[X4]", f"{t['id']} has {len(ungraded)} UNGRADED scan signal(s) — a human must read "
+                           f"them and either promote to `evidence` or mark graded; the scan deliberately "
+                           f"cannot change `current_state` itself")
+
+
 def run_checks(g, f):
     check_schemas(g, f)
     check_legacy_agreement(g, f)
@@ -574,6 +620,7 @@ def run_checks(g, f):
     check_requirements(g, f)
     check_requirement_source_agreement(g, f)
     check_technologies(g, f)
+    check_scan_interop(g, f)
     check_pointers(g, f)
     check_instrument_support(g, f)
     check_compute_case(g, f)
@@ -900,6 +947,18 @@ def render_technologies(g):
                 f"*Category:* `{t['category']}` · *state:* `{t['current_state']}` · "
                 f"*confidence in that state:* `{t['confidence']}`\n",
                 f"**Why it matters.** {t['why_it_matters']}\n"]
+        ungraded = [x for x in t.get("pending_signals", []) if not x.get("graded")]
+        if ungraded:
+            out += [f"> ⏳ **{len(ungraded)} UNGRADED SCAN SIGNAL(S) — read and grade these.** The weekly "
+                    f"scan matched them on this dependency's own queries. ⚠ **They are unvalidated "
+                    f"leads, machine-matched on a title and not read** — the scan deliberately cannot "
+                    f"change `current_state`, so nothing below reflects them yet.", ">"]
+            for x in ungraded[:8]:
+                out.append(f"> - `{x['trg']}` · *{esc(x.get('title',''))}* "
+                           f"({esc(x.get('venue',''))}, {x.get('date','')}) — seen {x.get('seen_on','')}")
+            if len(ungraded) > 8:
+                out.append(f"> - …and {len(ungraded) - 8} more")
+            out.append("")
         if t.get("evidence"):
             out += ["**What the state assessment rests on:**"] + [f"- {e}" for e in t["evidence"]] + [""]
         parts = [f"{k}: {', '.join(v)}" for k, v in u.items() if v]

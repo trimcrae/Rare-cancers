@@ -4,18 +4,30 @@
   "title": "Technology dependency and its forecast — what would unblock the work, and when",
   "_role": "Every TECH-* and FC-* validates against the corresponding $def. A TECH-* sits between a blocker and a scan trigger: BLK-* <-retired by- TECH-* -dated by-> FC-*, and TRG-* detects it.",
   "_prose": "systems/taxonomy/technology.md",
-
   "$defs": {
-
     "technology": {
       "type": "object",
-      "required": ["id", "name", "category", "why_it_matters", "unblocks", "current_state", "confidence", "forecast"],
+      "required": [
+        "id",
+        "name",
+        "category",
+        "why_it_matters",
+        "unblocks",
+        "current_state",
+        "confidence",
+        "forecast"
+      ],
       "additionalProperties": false,
-
       "properties": {
-        "id":   { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" },
-        "name": { "type": "string", "minLength": 10, "description": "What has to exist, in words a literature search could use." },
-
+        "id": {
+          "type": "string",
+          "pattern": "^TECH-[A-Z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 10,
+          "description": "What has to exist, in words a literature search could use."
+        },
         "category": {
           "enum": [
             "structure_prediction",
@@ -32,92 +44,198 @@
           ],
           "description": "`experimental_access` is not a technology and is deliberately here anyway: it behaves exactly like one -- external, watched for, retires named blockers, has a plausible arrival -- and the alternative is that the highest-fan-out non-method dependency in the portfolio has nowhere to live."
         },
-
-        "why_it_matters": { "type": "string", "minLength": 20, "description": "What changes about THIS program if it lands. Not what it means for the field." },
-
+        "why_it_matters": {
+          "type": "string",
+          "minLength": 20,
+          "description": "What changes about THIS program if it lands. Not what it means for the field."
+        },
         "unblocks": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "blockers":     { "type": "array", "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" } },
-            "routes":       { "type": "array", "items": { "type": "string", "pattern": "^RT-[A-Z0-9-]+$" } },
-            "requirements": { "type": "array", "items": { "type": "string", "pattern": "^R[0-9]+$" } },
-            "instruments":  { "type": "array", "items": { "type": "string", "pattern": "^(V[0-9]+|INS-[A-Z0-9-]+)$" } }
+            "blockers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^BLK-[A-Z0-9-]+$"
+              }
+            },
+            "routes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^RT-[A-Z0-9-]+$"
+              }
+            },
+            "requirements": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^R[0-9]+$"
+              }
+            },
+            "instruments": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(V[0-9]+|INS-[A-Z0-9-]+)$"
+              }
+            }
           }
         },
-
         "current_state": {
-          "enum": ["absent", "early_signals", "partially_landed", "landed"],
+          "enum": [
+            "absent",
+            "early_signals",
+            "partially_landed",
+            "landed"
+          ],
           "description": "`partially_landed` is a real state and matters: a capability can arrive for one arm of what a route needs and not another. Recording a half-arrival as `landed` licences claims the tool does not support; recording it as `absent` wastes the arm that did arrive."
         },
-
         "evidence": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "What the current_state assessment rests on -- a released tool, a benchmark, a deposit. REQUIRED non-empty for any state other than `absent`, and for `partially_landed` it must say which half landed."
         },
-
         "confidence": {
-          "enum": ["high", "moderate", "low", "unknown"],
+          "enum": [
+            "high",
+            "moderate",
+            "low",
+            "unknown"
+          ],
           "description": "In the ASSESSMENT of current_state -- not in the arrival, which is the forecast's job."
         },
-
-        "forecast":     { "type": "string", "pattern": "^FC-[A-Z0-9-]+$" },
-
+        "forecast": {
+          "type": "string",
+          "pattern": "^FC-[A-Z0-9-]+$"
+        },
         "scan_trigger": {
           "type": "array",
-          "items": { "type": "string", "pattern": "^TRG-[A-Z0-9-]+$" },
+          "items": {
+            "type": "string",
+            "pattern": "^TRG-[A-Z0-9-]+$"
+          },
           "description": "POINTS at research/method-watch-triggers.json, which is the ONE HOME of the search queries. This register never copies a query. A TECH-* with an EMPTY scan_trigger is flagged in the generated view -- an unscanned dependency is a capability that could land without anyone noticing."
         },
-
         "fan_out": {
           "type": "integer",
           "description": "DERIVED: how many routes, requirements and instruments this would reopen. Orders the watch list."
+        },
+        "pending_signals": {
+          "type": "array",
+          "description": "Literature hits the weekly scan matched against this technology's TRG-* queries and that NOBODY HAS GRADED YET. ⛔ THE SCAN WRITES ONLY HERE. It never touches `current_state`, `evidence` or the forecast — its own contract is that every hit is an unvalidated lead and nothing may change a status by itself, and an auto-updating register would break the one rule that keeps the watch list honest. Grading is a human edit: read the paper, then promote it into `evidence[]`, move `current_state`, and re-date the forecast.",
+          "items": {
+            "type": "object",
+            "required": [
+              "trg",
+              "paper_id",
+              "title",
+              "seen_on"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "trg": {
+                "type": "string",
+                "pattern": "^TRG-[A-Z0-9-]+$"
+              },
+              "paper_id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "date": {
+                "type": "string"
+              },
+              "venue": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "seen_on": {
+                "type": "string",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+              },
+              "graded": {
+                "type": "boolean",
+                "default": false,
+                "description": "Set true by a human once read. An ungraded signal is surfaced in the generated view and warned on by the checker; it is a QUEUE, not a claim."
+              }
+            }
+          }
         }
       }
     },
-
     "forecast": {
       "type": "object",
-      "required": ["id", "tech_ref", "scenarios", "expected_impact", "basis", "last_reviewed"],
+      "required": [
+        "id",
+        "tech_ref",
+        "scenarios",
+        "expected_impact",
+        "basis",
+        "last_reviewed"
+      ],
       "additionalProperties": false,
-
       "properties": {
-        "id":       { "type": "string", "pattern": "^FC-[A-Z0-9-]+$" },
-        "tech_ref": { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" },
-
+        "id": {
+          "type": "string",
+          "pattern": "^FC-[A-Z0-9-]+$"
+        },
+        "tech_ref": {
+          "type": "string",
+          "pattern": "^TECH-[A-Z0-9-]+$"
+        },
         "scenarios": {
           "type": "object",
-          "required": ["conservative", "expected", "optimistic"],
+          "required": [
+            "conservative",
+            "expected",
+            "optimistic"
+          ],
           "additionalProperties": false,
           "description": "The three must be genuinely different. If conservative and optimistic land in the same window, either the capability is nearly here or the forecast has not been thought about -- both need saying.",
           "properties": {
-            "conservative": { "$ref": "#/$defs/scenario" },
-            "expected":     { "$ref": "#/$defs/scenario" },
-            "optimistic":   { "$ref": "#/$defs/scenario" }
+            "conservative": {
+              "$ref": "#/$defs/scenario"
+            },
+            "expected": {
+              "$ref": "#/$defs/scenario"
+            },
+            "optimistic": {
+              "$ref": "#/$defs/scenario"
+            }
           }
         },
-
         "expected_impact": {
-          "enum": ["transformative", "large", "moderate", "marginal"],
+          "enum": [
+            "transformative",
+            "large",
+            "moderate",
+            "marginal"
+          ],
           "description": "Grades what it changes HERE, not in the field. A capability can be a major general advance and marginal for this program."
         },
-
         "basis": {
-          "enum": ["evidence_based", "extrapolated", "speculative"],
+          "enum": [
+            "evidence_based",
+            "extrapolated",
+            "speculative"
+          ],
           "description": "MANDATORY. An unlabelled forecast is indistinguishable from a measurement. `speculative` is legitimate and is not a failure -- the alternative to a labelled guess is not a better number, it is silence, and silence about a two-year horizon defaults the program to a conservative answer without ever saying so."
         },
-
         "what_would_move_this": {
           "type": "string",
           "description": "What observation would shift the expected band. Makes the forecast falsifiable rather than decorative."
         },
-
         "adoption_note": {
           "type": "string",
           "description": "A method existing in a paper, existing as usable software, and being validated on THIS regime are three different arrival dates. date_band refers to the third, because that is the one that unblocks work here."
         },
-
         "last_reviewed": {
           "type": "string",
           "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
@@ -125,16 +243,32 @@
         }
       }
     },
-
     "scenario": {
       "type": "object",
-      "required": ["date_band", "rationale", "confidence"],
+      "required": [
+        "date_band",
+        "rationale",
+        "confidence"
+      ],
       "additionalProperties": false,
       "properties": {
-        "date_band":  { "type": "string", "pattern": "^([0-9]{4}(H[12])?|beyond-[0-9]{4}|never)$",
-                        "description": "A half-year or year window, never a point date. `never` is valid only where the scenario genuinely rules the capability out." },
-        "rationale":  { "type": "string", "minLength": 20 },
-        "confidence": { "enum": ["high", "moderate", "low", "unknown"] }
+        "date_band": {
+          "type": "string",
+          "pattern": "^([0-9]{4}(H[12])?|beyond-[0-9]{4}|never)$",
+          "description": "A half-year or year window, never a point date. `never` is valid only where the scenario genuinely rules the capability out."
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 20
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "moderate",
+            "low",
+            "unknown"
+          ]
+        }
       }
     }
   }

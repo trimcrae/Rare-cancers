@@ -344,3 +344,59 @@ def test_the_plan_is_linted_wherever_it_lives():
     problems = []
     pg.check_paths(lambda p, w, y: problems.append((p, w)))
     assert not [p for p in problems if "not a lint_claims target" in p[1]]
+
+
+# ───────────────────────── the scan write path (§3) ─────────────────────────
+
+def test_scan_writes_signals_and_never_touches_state(tmp_path, monkeypatch):
+    """⛔ THE ONE RULE THAT KEEPS THE WATCH LIST HONEST.
+
+    A hit is machine-matched on a title, not read and not graded. The scan may record it; it may
+    never let it change `current_state`, `evidence` or the forecast. If this test ever needs
+    relaxing, the change is wrong.
+    """
+    import shutil
+    sys.path.insert(0, os.path.join(REPO, "scripts"))
+    import trigger_scan as ts
+
+    real = os.path.join(REPO, "systems", "graph", "technologies.json")
+    tmp = tmp_path / "technologies.json"
+    shutil.copy(real, tmp)
+    monkeypatch.setattr(ts, "TECHNOLOGIES", str(tmp))
+
+    before = json.load(open(tmp, encoding="utf-8"))
+    fresh = {"TRG-FEP-CRYPTIC-POCKET": [{"id": "MED/TEST", "title": "t", "date": "2026-08-04",
+                                         "venue": "v", "url": "u"}]}
+    assert ts.write_pending_signals(fresh, "2026-08-05", dry_run=True) == 1
+    assert json.load(open(tmp, encoding="utf-8")) == before, "a dry run must write nothing"
+
+    assert ts.write_pending_signals(fresh, "2026-08-05") == 1
+    after = json.load(open(tmp, encoding="utf-8"))
+    for a, b in zip(after, before):
+        for key in ("current_state", "evidence", "forecast", "confidence", "unblocks"):
+            assert a.get(key) == b.get(key), f"{a['id']}.{key} changed — the scan must not grade"
+    # idempotent: the same paper is not recorded twice
+    assert ts.write_pending_signals(fresh, "2026-08-06") == 0
+
+
+def test_scan_trigger_references_resolve_in_both_directions(graph):
+    f = sc.Findings()
+    sc.check_scan_interop(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_internal_work_triggers_are_not_expected_to_have_a_technology(graph):
+    """An `internal_work` trigger is work THIS program can do, not a capability to wait for.
+
+    Warning on those would be the exact conflation the technology taxonomy exists to prevent — and
+    it is how four of them ended up sitting on a watch list, invisible, in the first place.
+    """
+    with open(os.path.join(REPO, "research", "method-watch-triggers.json"), encoding="utf-8") as fh:
+        rows = json.load(fh)["triggers"]
+    internal = {t["id"] for t in rows if t.get("trigger_kind") == "internal_work"}
+    assert internal, "expected at least one internal_work trigger"
+    f = sc.Findings()
+    sc.check_scan_interop(graph, f)
+    for trg in internal:
+        assert not [w for w in f.warns if trg in w and "[X3]" in w], \
+            f"{trg} is internal work and must not be flagged as an unwatched capability"
