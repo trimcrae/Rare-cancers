@@ -42,3 +42,13 @@ research/modalities/.ledger-*.tmp
 # Local git worktree used to port commits to main without switching branches in the primary
 # checkout. A working directory, never repo content.
 mainwt2/
+
+# ⛔ SAGEMAKER DEBUGGER SYSTEM TELEMETRY — NEVER COMMIT IT.
+# Every SageMaker training job emits `profiler-output/system/incremental/**` by default: one JSON line
+# per sampled metric (GPUUtilization, IOPS, ReadThroughput). It is monitoring, not science.
+# Measured 2026-08-05 before removal: 383 MB across 4 job directories, 1467 files, 70 % of `results/` —
+# and NOTHING in the repository read a byte of it. The metadynamics record it sat beside (HILLS, COLVAR,
+# fes.dat, the checkpoints and the manifests) is a few MB and is untouched.
+# ⚠ It returns on every new SageMaker job unless ignored, which is how it accumulated unnoticed.
+profiler-output/
+**/profiler-output/

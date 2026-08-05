@@ -6,7 +6,7 @@
   "_generated": {
     "generator": "research/modalities/nr4a3_linker_library_canonical.py"
   },
-  "_kernel_head_when_generated": "10dd81e42",
+  "_kernel_head_when_generated": "e7ed00e17",
   "cause": {
     "commit": "382c36947",
     "landed_utc": "2026-08-02T20:24:35Z",
@@ -835,9 +835,9 @@
     "_anchor_contract": "every entry's `current_text` is grepped against the LIVE roadmap AT GENERATION TIME and stamped `anchor_live` / `anchor_occurrences` / `anchor_unique`. `--check` REFUSES to pass with a dead anchor, so this artifact cannot ship an edit that silently no-ops. `anchor: null` is deliberate and says where the text goes instead.",
     "_verified_against": "research/manuscripts/nr4a3-program-map.md",
     "n_edits": 17,
-    "n_anchored": 15,
-    "n_unanchored_by_design": 2,
-    "n_DEAD_anchors": 0,
+    "n_anchored": 0,
+    "n_unanchored_by_design": 3,
+    "n_DEAD_anchors": 14,
     "edits": [
       {
         "id": "row25-state",
@@ -848,9 +848,9 @@
         "artifact": "research/modalities/nr4a3-linker-library-canonical.json -> ruling",
         "proposed_text": "| **25** | ✅ **SETTLED 2026-08-03 — which linker library is CANONICAL",
         "note": "only the row's LEAD CELL is replaced; the rest of the row is rewritten by `row25-body` below so the two are applied together.",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "row25-body",
@@ -860,9 +860,9 @@
         "why": "the decision is made and the evidence is committed; the cell should carry the ruling in one line and link, per rule 1, rather than re-litigating the question.",
         "artifact": "research/modalities/nr4a3-linker-library-canonical.json",
         "proposed_text": "✅ **RULED, with a controlled A/B: BOTH are canonical, for different jobs.** The committed artifact is **FROZEN as the EXECUTED enumeration** (it is what `V16` was measured on, it is referenced by construct id by `nr4a3-linker-library-chem.json` and rung `5b-T`, and it is fully reproducible — HEAD's generator plus `linker_design.py` at `864a9518f` reproduces it with ZERO structural differences); the **corrected kernel is canonical for all NEW design work** and its enumeration is REGISTERED, not written over the committed one. **Cause, established by A/B and not by reading commit messages:** `382c36947` (2026-08-02 4:24 PM ET) replaced `linker_design.three_ball_min_margin`'s compass search with an exact closed-form solver — 0 mismatches over 160,962 cells against 92 false-disjoint in 118,708 — so the drift is a **one-sided, conservative** correction that ADMITS constructs rather than refuting them. ⛔ **The miss was registration, not geometry:** that commit named `nr4a3-orientation-basins.json`'s `term_a_feasibility_envelope` as built on the old kernel and NOT regenerated, but did not name `nr4a3-linker-design.json`, a second consumer of the same kernel — **and the basins artifact is still unregistered, so that half is open.** Every count, the two registered construct sets, the anti-drift guard and the `5b-T` release predicate: [`nr4a3-linker-library-canonical.json`](../modalities/nr4a3-linker-library-canonical.json) |",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "row25-5bt-release",
@@ -872,21 +872,22 @@
         "why": "row 25 held 5b-T; the hold is discharged and the reason is measurable, so the row should say so where someone about to run it will read it.",
         "artifact": "research/modalities/nr4a3-linker-library-canonical.json -> release_condition",
         "proposed_text": "**RUN IT — it needs no authorization, and the row-25 hold is DISCHARGED.** ✅ The canonical-library question is settled and **`5b-T` is invariant to which way it went**: its four named degrader candidates are present with **identical SMILES** in BOTH the executed and the corrected enumerations, and `shortest_committed_backbone_atoms` is 14 in both, so no re-derivation changes this rung's inputs ([`nr4a3-linker-library-canonical.json`](../modalities/nr4a3-linker-library-canonical.json) → `release_condition`).",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "row25-readout-decisions",
         "section": "§10.2 readout",
-        "anchor": "the '3 rows wait on a decision that costs nothing at all' bullet",
-        "current_text": "- **3 rows wait on a decision that costs nothing at all** (7, 8, 25)",
+        "anchor": null,
+        "current_text": null,
+        "where_it_goes": "NOWHERE — SPENT. It was applied, and then REVERSED ON EVIDENCE: §10.2 is back to \"3 rows … (7, 8, 28)\" because row 28 had read `○ decision + $0` since it landed and was never counted, and the roadmap retains the 2-row wording in its own Superseded-retained clause, so both states are visible there. ⚠ Row 25 is now row 28 — the renumbering is why the original anchor cannot be repaired by editing its numbers. `proposed_text` below is retained verbatim per rule 1.2 and must NOT be re-routed: doing so would revert a correction made on evidence.",
         "why": "row 25 is settled; the derived count must move with it or the readout contradicts the table.",
         "artifact": "research/modalities/nr4a3-linker-library-canonical.json -> ruling",
         "proposed_text": "- **2 rows wait on a decision that costs nothing at all** (7, 8) ⚠ *Superseded, retained: \"3 rows … (7, 8, 25)\" — **row 25 was ruled on 2026-08-03**, and the ruling is the reason it left this list, not a deferral.*",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": null,
+        "anchor_occurrences": null,
+        "_anchor_note": "anchor: null — deliberately unanchored. See `where_it_goes`; an honest 'this needs a new home' beats a stale anchor that silently no-ops."
       },
       {
         "id": "row25-sibling-row-needed",
@@ -909,9 +910,9 @@
         "why": "the banner's own example — 'result 3 names NR4A1/NR4A2 C534' — no longer describes result 3, which was corrected; a hold that cites a fixed error reads as a live one.",
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
         "proposed_text": "✅ **RECONCILED 2026-08-03, CLAIM BY CLAIM, AND THE HOLD IS LIFTED.** Every branch-1b figure below was re-read from the landed artifact one at a time; the corrections are applied in place and the superseded readings are named where they stood. **What survived unchanged:** C420 refuted at 0 of 60 (placement × pendant) cells under both conventions; C559 surviving at exactly one cell (`vhl|M3@term_a_exemplar | dab_branch`, 2 of that cell's 19 conformers, through-space only); the closer being on a paralogue chain in 30 of 30 graded cells under each convention; NR4A1 C505 closing 24 of 30 through-space cells and NR4A2 C534 closing 23 of 30 corridor cells; C505 aligning to NR4A3 **C536** (which NR4A3 HAS) and C534 to NR4A3 **S565** (which it lacks). **What is newly qualified:** `closed_by` is a TIE-BREAK, not a measurement, in **35 of the 93 rows that have a closer at all** — two or more cysteines arrive at the same atom count — so the honest form names the SET that arrives first, never one residue. ⚠ *Superseded, retained: \"⛔ BUT DO NOT QUOTE BRANCH 1b's NUMBERS YET, FOR A NEW AND MEASURABLE REASON … result 3 names **NR4A1/NR4A2 C534** as the residue that closes C397's window\" — result 3 was corrected before this pass and the banner outlived the error it described.*",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-mermaid-dead-edge",
@@ -921,9 +922,9 @@
         "why": "the diagram still asserts what result 2 four lines below already retracts: C559 is NOT refuted at every cell. A figure that contradicts its own caption is the failure mode this reconciliation exists to close.",
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> experimental_ensemble_8xtt.reachable_conformer_counts",
         "proposed_text": "L -->|\"C420: no, 0 of 60 cells<br/>C559: 1 of 60, through-space only\"| DEAD",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-mermaid-par-node",
@@ -933,9 +934,9 @@
         "why": "⛔ THIS IS THE LIVE SURVIVOR OF THE ERROR RESULT 3 ALREADY FIXED. The dominant through-space closer is NR4A1 C505, which aligns to NR4A3 C536 — NR4A3 DOES carry a cysteine there (`paralogue_unique_vs_NR4A3: false`). The blanket gloss is false for 24 of 30 through-space cells.",
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> paralogue_control.reciprocal_uniqueness.by_paralogue",
         "proposed_text": "PAR[\"Closed by a cysteine on a<br/>PARALOGUE chain — C505 aligns to<br/>NR4A3 C536 (NR4A3 HAS it);<br/>only C534 → S565 is one NR4A3 lacks\"]",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-mermaid-dead-node",
@@ -945,9 +946,9 @@
         "why": "the reconciliation it was waiting on is this pass, so the node can carry its classification.",
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
         "proposed_text": "DEAD[\"⏸ at chemically routine<br/>linker length — not ✕: the bound<br/>is routine length, which a non-routine<br/>linker could exceed\"]",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-dead-classification",
@@ -957,9 +958,9 @@
         "why": "the reconciliation is done, so the deferred classification can be made.",
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict.refuted_unique_cysteines",
         "proposed_text": "✅ **Classified 2026-08-03: ⏸, not ✕, and the two cysteines are not equal.** C420 is the strong case — 0 of 60 cells, both conventions, no conformer — but it is still bounded by *routine* length rather than by geometry, so ⏸ is the honest glyph for it too. C559 is weaker still: it survives at one cell. ⚠ **The artifact's own `refuted_unique_cysteines` list is built from `best_corridor` alone** (`nr4a3_linker_covalent_reach.py`, the `live`/`dead` split), so it silently drops the through-space evidence recorded two fields away, and it is stronger than the artifact's own data.",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-c559-closed",
@@ -969,9 +970,9 @@
         "why": "it lands three lines after 'C559 is NOT [refuted]' and re-merges the two cysteines the sentence above just separated.",
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> experimental_ensemble_8xtt.reachable_conformer_counts",
         "proposed_text": "C420 is closed. C559 is closed under the corridor convention everywhere and at 59 of 60 through-space cells — closed enough to plan against, not closed enough to write down as zero.",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-trust-paragraph",
@@ -981,9 +982,9 @@
         "why": "true and incomplete in the way that matters: the noise bound clears by 0.31 Å and is built only from aligned pairs, so it structurally cannot cover C534 — the residue that closes 23 of 30 corridor cells — because C534 has no aligned NR4A3 partner BY DEFINITION of being paralogue-unique. Verified independently against the artifact, not taken from the audit.",
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> paralogue_control.aligned_pair_displacement + verdict.family_wide_window.*.noise_sensitivity",
         "proposed_text": "the artifact reports ΔCA against ΔSG per pair and states the sulfur displacement that\nwould reopen the window (**6.25 Å** — the median 5.0 atoms of lost window at 1.25 Å per atom) against the largest\ndisplacement observed at any aligned pair (**5.94 Å**). ⚠ **That clears by 0.31 Å, a 5 % margin — and it\ncannot cover C534 at all**: the yardstick is built from the 8 ALIGNED cysteine pairs, and C534 has no aligned\nNR4A3 partner *because* it is paralogue-unique. So the residue that closes 23 of 30 corridor cells is the one\nresidue the noise test is structurally unable to bound.",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-pose-conditionality",
@@ -993,9 +994,9 @@
         "why": "read from the source, the anchors are NOT a docked pose: `nr4a3_basin_search.build_pose_ensemble` samples 12 solvent-connected anchors around the cryptic-pocket centroid precisely because no cmpd19 pose exists in this frame, and `nr4a3-orientation-basins.json` `_limits[0]` says the exit vector is MARGINALISED rather than asserted. Stating it as a pose dependency overstates one exposure and hides the real one.",
         "artifact": "research/modalities/nr4a3-orientation-basins.json -> _limits[0], inputs.n_poses; research/modalities/nr4a3_basin_search.py -> build_pose_ensemble",
         "proposed_text": "⚠ Everything here is conditional on **the cryptic pocket being the right site**, not on a docked ligand pose: the\nwarhead exit vector is **marginalised** over **12** pocket-mouth anchors precisely because no cmpd19 pose exists\nin this frame ([`nr4a3-orientation-basins.json`](../modalities/nr4a3-orientation-basins.json) `_limits[0]`, `inputs.n_poses`).\nThat is what decides how `V3` bears on it: **`V3`'s failure was SITE selection, on 6 of 6 pairs — not pose\naccuracy** — and site selection is exactly what these anchors rest on. A *pose*-accuracy failure is already absorbed\nby the marginalisation; a *site*-selection failure voids every reach number here. ⚠ *Superseded, retained: \"conditional\non the docked pose the anchors come from, whose known-answer test is `V3` — which returned INCONCLUSIVE.\"*",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-r8-row",
@@ -1006,9 +1007,9 @@
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
         "proposed_text": "✅ **RECONCILED 2026-08-03**, claim by claim — see [§7 branch 1b]",
         "note": "the same row's trailing status cell reads `✓ work complete · claim **conditional on `R5` and unreconciled**`; the word `unreconciled` must go with it, leaving `✓ work complete · claim **conditional on `R5`**`. ⚠ And `conditional on R5` should become **conditional on the SITE being right (`R5`)**, per `b1b-pose-conditionality`.",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-lk-hold",
@@ -1018,9 +1019,9 @@
         "why": "the hold is discharged; this is its second home and both must move together (rule 1).",
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
         "proposed_text": "✅ **The hold on quoting branch 1b is DISCHARGED (2026-08-03)** — the prose was reconciled to the landed artifact claim by claim, and the one live contradiction left (the mermaid `PAR` node's \"which NR4A3 does NOT have\") is corrected in the same pass. ⚠ *Superseded, retained: \"**The hold on quoting branch 1b stands for a different and now-measurable reason** — the prose has not been reconciled to the landed artifact.\"*",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "row5-state",
@@ -1031,9 +1032,9 @@
         "artifact": "research/modalities/nr4a3-linker-covalent-reach.json -> verdict",
         "proposed_text": "| **5** | ✅ **Reconcile branch 1b's prose to its landed artifact — DONE 2026-08-03** | `R8` | ✓ | — | **$0** |",
         "note": "the row's trailing cell should become: `✅ done — every branch-1b claim re-read from [`nr4a3-linker-covalent-reach.json`](../modalities/nr4a3-linker-covalent-reach.json) one at a time. Two claims corrected (the mermaid `DEAD` edge and `PAR` node), two qualified (the noise bound cannot cover C534; `closed_by` is a tie-break in 35 of 93 rows), one re-sourced (the conditionality is the SITE, not a docked pose), the rest confirmed. Lifts *\"do not quote branch 1b anywhere\"*.`",
-        "anchor_live": true,
-        "anchor_occurrences": 1,
-        "anchor_unique": true
+        "anchor_live": false,
+        "anchor_occurrences": 0,
+        "anchor_unique": false
       },
       {
         "id": "b1b-third-paralogue-unique-cysteine",

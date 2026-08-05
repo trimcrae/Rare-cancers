@@ -91,23 +91,37 @@ jobs:
           retention-days: 30
           if-no-files-found: warn
 
+      # ⛔ THIS STEP USED TO HAND-ROLL `git pull --rebase` + push, AND THAT SHAPE HAS A MEASURED FAILURE
+      # MODE: one conflict leaves the repo MID-REBASE, every retry then dies on the wreckage of the
+      # first, and the step reports SUCCESS having published nothing. Three lanes lost artifacts that
+      # way (GCP 30701290485, selcal 30710853581, step-1 30714482049) — the record is in
+      # publish_artifacts.sh, which is the ONE HOME for this operation and which resets onto upstream so
+      # a conflict is unrepresentable rather than handled.
+      #
+      # ⚠ AND THE PATH LIST WAS MISSING THE FILE THE SCAN NOW WRITES. Since the scan was wired into the
+      # graph it appends to `pending_signals[]` on each matched `TECH-*` in systems/graph/technologies.json
+      # — and that file was never staged, so every signal it wrote would have been discarded on exit. A
+      # scan credited with feeding the watch list while silently dropping its output is precisely the
+      # credited-but-silent scanner MAINTENANCE.md §4 exists to name.
+      #
+      # ⚠ THE GENERATED VIEWS GO THROUGH PUBLISH_REGEN, NOT THE PATH LIST. They are derived from the
+      # graph, so re-rendering them AFTER the reset picks up upstream's freshest graph plus this run's
+      # signals; stamping a copy built before the reset would carry another writer's work backwards.
+      # Without this, a signal landing turns `check_views` red on the very next CI run.
+      #
+      # PUBLISH_IF_CHANGED=1 because this is an EVENT publish, not a heartbeat: a week with no hits
+      # should commit nothing rather than stamp an empty tick.
       - name: Commit results to the triggering branch
         if: ${{ inputs.commit != 'false' }}
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_REGEN: python3 systems/systems_check.py --write-views
+          PUBLISH_REGEN_ADD: systems/views
         run: |
           set -e
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/method-watch-trigger-scan.md \
-                  research/method-watch-trigger-hits.json \
-                  research/IDEAS.md
-          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
-          git commit -m "Reopening-trigger scan $(date -u +%Y-%m-%d) (CI)"
-          # Another agent may have pushed while the scan ran; rebase rather than clobber
-          # (CLAUDE.md §7 — branch drift is a data-loss bug).
-          for i in 1 2 3; do
-            git pull --rebase origin "${GITHUB_REF_NAME}" && \
-              git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
-            sleep 10
-          done
-          echo "push failed after 3 attempts" >&2
-          exit 1
+          bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
+            "Reopening-trigger scan $(date -u +%Y-%m-%d) (CI)" \
+            research/method-watch-trigger-scan.md \
+            research/method-watch-trigger-hits.json \
+            research/IDEAS.md \
+            systems/graph/technologies.json

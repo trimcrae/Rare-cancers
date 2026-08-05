@@ -151,6 +151,54 @@ def build_probe(proposed, current, min_chars=None, max_chars=None):
     return probe, bool(probe) and len(probe) >= min_chars and probe not in current
 
 
+#: How far past an edit's anchor to look for a restyled landing. Wide enough for a long table cell,
+#: narrow enough that a generic block cannot match somewhere unrelated.
+ANCHOR_WINDOW_CHARS = 6000
+
+
+def _locator(anchor, current, text):
+    """Where in `text` to look for a restyled landing, and how far in it starts. Returns -1 if unknown.
+
+    ⚠ THE `anchor` FIELD IS NOT ALWAYS SEARCHABLE TEXT. Several emitters write it as a human location
+    description — "row 25's state cell", "the '3 rows wait on a decision' bullet" — which no `find` will
+    ever match. For those the region is located by the longest surviving PREFIX of `current_text`, which
+    is the right fallback because a partially-edited line is exactly the case being diagnosed: the
+    roadmap that says "(7, 8, 28)" still shares every character before the number with an edit written
+    against "(7, 8, 25)".
+    """
+    if anchor:
+        i = text.find(anchor)
+        if i >= 0:
+            return i
+    for n in range(len(current), MIN_PROBE_CHARS - 1, -1):
+        i = text.find(current[:n])
+        if i >= 0:
+            return i
+    return -1
+
+
+def _longest_shared_block(probe, anchor, texts, current):
+    """The longest contiguous run of `probe` that appears in the region the edit targets. PURE.
+
+    Returns "" unless the block is at least MIN_PROBE_CHARS and is ABSENT from `current` — an
+    already-present block would match the document BEFORE the edit landed, which is the false APPLIED
+    this whole module is built to prevent. Uniqueness is checked by the caller against all sources.
+    """
+    import difflib
+    best = ""
+    for _p, t in texts:
+        start = _locator(anchor, current, t)
+        if start < 0:
+            continue
+        region = t[start:start + ANCHOR_WINDOW_CHARS]
+        m = difflib.SequenceMatcher(None, probe, region, autojunk=False).find_longest_match(
+            0, len(probe), 0, len(region))
+        cand = probe[m.a:m.a + m.size].strip()
+        if len(cand) >= MIN_PROBE_CHARS and cand not in current and len(cand) > len(best):
+            best = cand
+    return best
+
+
 def verify(edits, map_path=None):
     """Annotate each routed edit with its anchor status against the live map. Returns (edits, summary)."""
     # ⚠ THE PRIMARY MAP MUST STILL BE READABLE. If it is not, this is UNREAD — the companion existing is
@@ -275,6 +323,30 @@ def verify(edits, map_path=None):
                         "the full probe missed but this unique prefix is present and is still absent "
                         "from current_text — the edit landed and the text was edited further afterwards")
                     break
+        # ⛔ AND THE DIVERGENCE IS NOT ALWAYS AT THE END. The prefix retry above catches an edit that
+        # landed and was then EXTENDED. It cannot catch one whose FIRST characters differ — and that is
+        # the commoner case here, because several emitters open their proposal with a timestamp.
+        # Measured 2026-08-05: `nr4a3_5bt_gate.map_edits` stamps `_et_now()` at EDIT-GENERATION time, so
+        # its proposal opens "✅ **RAN 2026-08-03 9:19 AM ET" while the roadmap — correctly — records
+        # when the gate actually LANDED, 8:29 AM ET. Every character after that clause is identical.
+        # A prefix probe diverges at character ten and reports a fully-applied edit as dead.
+        #
+        # So the last resort is the LONGEST CONTIGUOUS BLOCK the proposal and the document share,
+        # searched only in the window that follows the edit's own anchor. The guards are unchanged and
+        # all of them are required: the block must reach MIN_PROBE_CHARS, must be ABSENT from
+        # `current_text` (so it cannot match the pre-edit document), and must be UNIQUE in the sources.
+        # Bounding by the anchor is what keeps this cheap and what stops a long generic block matching
+        # somewhere unrelated.
+        if discriminating and not n_proposed:
+            block = _longest_shared_block(probe, anchor_s, texts, current_s)
+            if block and _count(block)[0] == 1:
+                n_proposed = 1
+                e["_probe_matched_block"] = len(block)
+                e["_probe_matched_block_why"] = (
+                    "neither the full probe nor any prefix of it matched, but this contiguous block of "
+                    "the proposal is present, unique, and absent from current_text — the edit landed in "
+                    "a restyled form whose difference is not at the end (a re-stamped time, a reworded "
+                    "opening). Reporting it NOT_FOUND would call a landed edit dead")
         e["_probe_is_the_difference"] = bool(cur)
         e["_probe_is_discriminating"] = discriminating
         if not discriminating:

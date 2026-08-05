@@ -401,6 +401,38 @@ each was checked against every branch and is genuinely unproduced, which is the 
 lane is the expensive half — `CLAUDE.md` §7 records a case where flipping one would have shown 13 finished
 edges as unrun and re-bought them — and it is not this migration's to make.
 
+### 3.7 · Repository hygiene — 383 MB of telemetry that was never evidence (2026-08-05)
+
+`results/` was **551 MB of committed simulation output**, and the first reading of that number was the wrong
+one: *"this is scientific evidence behind manuscript claims, and deleting it trades a reversible
+inconvenience for an irreversible loss."* That reasoning is correct — and it was being applied to the wrong
+files.
+
+**Measured before touching anything.** 70 % of `results/` — **383 MB, 1467 of 2082 files, across 4 job
+directories** — was `profiler-output/system/incremental/**`: SageMaker Debugger's default system-metrics
+dump, one JSON line per sample:
+
+```
+{"Type":"gpu","Name":"gpu0","Dimension":"GPUUtilization","Value":71.00, …}
+{"Type":"i/o","Name":"IOPS","Dimension":"","Value":53507.20, …}
+```
+
+Every one of the 1467 files matched `system/incremental/N/N.algo-1.json`. **Nothing in the repository read a
+byte of it** — no module, no workflow, no manuscript, no test. It is monitoring output, not measurement.
+
+⭐ **The evidence and the bulk were inversely correlated, which is why the size was so misleading.** The
+metadynamics record those directories sat beside — `HILLS`, `COLVAR`, `fes.dat`, the checkpoints and the
+manifests — is a few MB and is untouched. The single most-cited subtree in `results/` is **1.2 MB with 44
+referrers**; the three largest were 396 MB with 17 between them, and almost all of that was the telemetry.
+
+| | before | after |
+|---|---:|---:|
+| `results/` | 551 MB · 2082 files | **168 MB · 615 files** |
+
+⚠ **It returns on every new SageMaker job unless ignored** — which is exactly how it accumulated without
+anyone deciding to keep it. `.gitignore` now carries `**/profiler-output/` with the measurement next to it,
+so the next job cannot re-commit it silently.
+
 *(A phase is not complete until its rows are here.)*
 
 ---

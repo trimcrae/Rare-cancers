@@ -217,10 +217,34 @@ MAP_EDITS = [
             "`release_condition`)."),
     },
     {
+        # ⛔ SPENT 2026-08-05 — THIS EDIT LANDED AND WAS THEN REVERSED ON EVIDENCE, WHICH IS NOT THE SAME
+        # AS NEVER HAVING LANDED, AND KEEPING IT LIVE WAS ASKING FOR THE REVERSAL TO BE UNDONE.
+        # It proposed 3 rows → 2 (7, 8, 25) once row 25 was ruled on. That was applied. Then row 28 was
+        # found to have read `○ decision + $0` since it landed and never to have been counted, so the
+        # roadmap went back to **3 rows (7, 8, 28)** — and it retains the 2-row wording in its own
+        # `⚠ Superseded, retained:` clause, which is how a reader can see both states.
+        #
+        # ⚠ SO ITS ANCHOR IS DEAD FOR THE RIGHT REASON, AND THAT MATTERS. A dead anchor normally means
+        # the document moved and the edit is homeless; here the document moved BECAUSE of this edit and
+        # then past it. Re-routing it would revert a correction made on evidence. It kept
+        # `test_every_emitted_map_edit_anchor_is_present_in_the_live_roadmap` red on `main` — the
+        # roadmap's own Q20 — and the fix is retirement, not relocation.
+        #
+        # `current_text: null` is the schema's existing form for an edit with nothing to anchor; the
+        # test requires `where_it_goes` on any such edit, so the reason cannot be omitted.
+        # Superseded, retained: the proposal is quoted verbatim below rather than deleted.
         "id": "row25-readout-decisions",
         "section": "§10.2 readout",
-        "anchor": "the '3 rows wait on a decision that costs nothing at all' bullet",
-        "current_text": "- **3 rows wait on a decision that costs nothing at all** (7, 8, 25)",
+        "anchor": None,
+        "current_text": None,
+        "where_it_goes": (
+            "NOWHERE — SPENT. It was applied, and then REVERSED ON EVIDENCE: §10.2 is back to \"3 rows "
+            "… (7, 8, 28)\" because row 28 had read `○ decision + $0` since it landed and was never "
+            "counted, and the roadmap retains the 2-row wording in its own Superseded-retained clause, "
+            "so both states are visible there. ⚠ Row 25 is now row 28 — the renumbering is why the "
+            "original anchor cannot be repaired by editing its numbers. `proposed_text` below is "
+            "retained verbatim per rule 1.2 and must NOT be re-routed: doing so would revert a "
+            "correction made on evidence."),
         "why": "row 25 is settled; the derived count must move with it or the readout contradicts the table.",
         "artifact": "research/modalities/nr4a3-linker-library-canonical.json -> ruling",
         "proposed_text": (
