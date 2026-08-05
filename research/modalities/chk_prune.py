@@ -25,6 +25,7 @@ cost a commit.
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import tempfile
 from pathlib import Path
@@ -56,13 +57,30 @@ def _is_vlen(var):
     return dt is str or dt is bytes or str(dt) in ("str", "<class 'str'>")
 
 
+#: `[byteorder]kind<bytes>` — numpy's own dtype notation, and the only part of it this needs.
+_DTYPE_STR = re.compile(r"^[<>=|]?[a-zA-Z](\d+)$")
+
+
 def _itemsize(dtype, default=8):
-    """Bytes per element, tolerating the non-numpy dtypes netCDF4 returns for VLEN variables."""
+    """Bytes per element, tolerating the non-numpy dtypes netCDF4 returns for VLEN variables.
+
+    ⚠ THE `except Exception` BELOW ALSO CATCHES `ImportError`, WHICH IS NOT WHAT IT WAS WRITTEN FOR.
+    It exists for the VLEN `str`/`bytes` case, where size is not fixed and a bound is all the caller
+    needs. But where numpy is absent entirely it returned `default` for EVERY dtype, so `"f4"` reported
+    8 bytes — and `test_itemsize_survives_a_dtype_that_is_not_a_numpy_dtype` asserts 4. Inert in
+    production (netCDF4 requires numpy, so the numpy branch always wins) and wrong everywhere else,
+    which is the combination that survives unnoticed: this one did, behind a preflight step that was
+    aborting at collection and reporting zero failures.
+
+    So the string form is parsed directly when numpy cannot answer. `default` still covers what it was
+    always for — a VLEN type, or a dtype in no recognisable notation.
+    """
     try:
         import numpy as np
         return max(1, int(np.dtype(dtype).itemsize))
-    except Exception:  # noqa: BLE001 — VLEN str/bytes; size is not fixed, and the caller only needs a bound
-        return default
+    except Exception:  # noqa: BLE001 — VLEN str/bytes, or no numpy at all
+        m = _DTYPE_STR.match(dtype) if isinstance(dtype, str) else None
+        return max(1, int(m.group(1))) if m else default
 
 
 def _chunking(var):

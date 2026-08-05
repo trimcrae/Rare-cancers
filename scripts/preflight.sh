@@ -17,10 +17,13 @@
 #   * every check's status captured explicitly and re-reported at the end;
 #   * a non-zero exit if ANY check failed, so `./scripts/preflight.sh && git commit` is actually safe.
 #
-# Sandbox note: this box lacks some scientific deps (scipy, pymbar, rdkit), so those tests fail here and pass
-# in CI, where the baked images supply them. Rather than hide that behind an ignore list -- which would be the
-# very "silently measures nothing" pattern above -- the test step reports a BASELINE count and fails only when
-# failures EXCEED it. Update the baseline deliberately, in a commit, when the environment changes.
+# Sandbox note: this box lacks the scientific deps, so those tests fail here and pass in CI, where the
+# baked images supply them. MEASURED 2026-08-05, rather than remembered -- absent: numpy, scipy, pymbar,
+# rdkit, boto3, netCDF4; present: pyyaml, jsonschema. (The line here used to name "scipy, pymbar, rdkit"
+# and omitted numpy and boto3, which between them account for 29 of the 48 baseline failures.) Rather
+# than hide that behind an ignore list -- which would be the very "silently measures nothing" pattern
+# above -- the test step reports a BASELINE count and fails only when failures EXCEED it. Update the
+# baseline deliberately, in a commit, when the environment changes.
 #
 # Usage:  ./scripts/preflight.sh          # lint + tests
 #         SKIP_TESTS=1 ./scripts/preflight.sh   # docs-only change
@@ -30,18 +33,23 @@ cd "$(dirname "$0")/.."
 
 # Known-failing-in-sandbox count. Raise ONLY with a recorded reason; lowering it is always safe.
 #
-# ⛔ RAISED 14 -> 50 ON 2026-08-05, AND THE RAISE IS A CORRECTION RATHER THAN A CONCESSION. The 14 was
+# ⛔ RAISED 14 -> 48 ON 2026-08-05, AND THE RAISE IS A CORRECTION RATHER THAN A CONCESSION. The 14 was
 # never measured against a run that executed anything: without `--continue-on-collection-errors` below,
 # pytest aborted at collection and this script counted `^FAILED` lines in the output of a run that had
-# tried zero tests. The first sweep that actually ran reported `50 failed, 6107 passed, 107 skipped`
-# (623 s, 2026-08-05) across modalities+manuscripts+systems, and manuscripts (48) and systems (81) pass
-# in full -- so all 50 are in `research/modalities/tests`.
+# tried zero tests. The first sweep that actually ran measured `50 failed, 5984 passed, 107 skipped, 6
+# errors` in 596 s over `research/modalities/tests` alone (manuscripts and systems pass in full).
 #
-# Verified dep-related, not regressions: sampling one gives `ModuleNotFoundError: No module named
-# 'boto3'`, and CI -- which installs the deps -- runs the same suite green. THIS NUMBER SHOULD FALL as
-# the sandbox gains packages; it is a description of a deficient environment, not a tolerance for
-# broken tests.
-BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-50}"
+# ⭐ ALL 50 WERE THEN CLASSIFIED RATHER THAN ASSUMED, and two were NOT dep-related:
+#   48  ModuleNotFoundError -- boto3 (20), rdkit (19), numpy (9). CI installs all three and runs green.
+#    1  test_no_hand_rolled_publish -- a REAL failure, and the same one that had CI red. Fixed.
+#    1  test_itemsize_survives_a_dtype_that_is_not_a_numpy_dtype -- a REAL bug in chk_prune._itemsize,
+#       whose `except Exception` swallowed ImportError as well as the VLEN TypeError it was written
+#       for, so every dtype fell back to 8 bytes where numpy is absent. Fixed.
+# Those two are exactly what a gate reporting "0 failures" from an empty run cannot show you.
+#
+# THIS NUMBER SHOULD FALL as the sandbox gains packages. It describes a deficient environment; it is
+# not a tolerance for broken tests, and every one of the 48 is a missing import, not a failing assert.
+BASELINE_FAILURES="${PREFLIGHT_BASELINE_FAILURES:-48}"
 rc=0
 
 echo "== lint_consistency =="
