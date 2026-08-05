@@ -43,15 +43,68 @@ related: [DOC-ARCHITECTURE, DOC-CONVENTIONS, DOC-TAX-BLOCKERS, DOC-TAX-TECHNOLOG
 
 ## 2 · Phases
 
-| # | phase | destructive? | gate to the next phase |
+| # | phase | state | destructive? |
 |---|---|---|---|
-| **0** | Proposal — architecture, conventions, schemas, taxonomies, L0 diagram | no | the proposal reads coherently and the design decisions are justified |
-| **1** | Build the graph, the checker and the generated views; add the fail-red guards | no | `systems_check.py --check` green; all existing linters still green |
-| **2** | Retire the patient-facing site; promote its clinical data | **yes** | the two research consumers of the clinical dataset still run |
-| **3** | Decompose the program map into the hierarchy | **yes** | zero unresolved anchors across all referrers; the plan parser reports the same item count as before |
-| **4** | Documentation consolidation, archive, rewrite the canonical set | **yes** | frontmatter complete; no concept claimed by two documents |
-| **5** | Wire technology monitoring into the graph; populate forecasts and the multi-year roadmap | no | every non-permanent blocker maps to a technology; every technology has a dated forecast |
-| **6** | *Optional, separately reviewed* — repository hygiene | **yes** | — |
+| **0** | Proposal — architecture, conventions, schemas, taxonomies, L0 diagram | ✅ **done** | no |
+| **1** | Build the graph, the checker, the generated views and the fail-red guards | ✅ **done** | no |
+| **2** | Retire the patient-facing site; promote its clinical data | ✅ **done** | yes |
+| **3** | Decompose the program map into the hierarchy | ◐ **partly done** — see §2.1 | yes |
+| **4** | Documentation consolidation, archive, rewrite the canonical set | ◐ **partly done** — see §2.2 | yes |
+| **5** | Technology register, forecasts, multi-year roadmap, maintenance guide | ◐ **mostly done** — see §2.3 | no |
+| **6** | *Optional, separately reviewed* — repository hygiene | ○ not started | yes |
+
+### 2.1 · Phase 3 — what landed, and what deliberately did not
+
+**Landed.** The requirement register is a first-class model object with a generated view, and the two
+sections that restated it — the coverage matrix and the dependency graph — are now derived from it rather
+than maintained by hand. The extraction is lossless and a check re-parses the roadmap on every run so the
+two cannot diverge (§3.3).
+
+**Not landed, and each for a stated reason:**
+
+- **The ordered plan and the spend ladder have not moved.** Both are structured sections and both are
+  parsed by CI — the plan by exact heading string, the ladder total by a registry that requires it in three
+  named files. Moving either needs the same lossless-extraction-plus-agreement-check treatment the
+  requirement register got, applied to a parser that currently exits 0 when it finds nothing.
+  `parser_guard.py` closes that specific hole and is already in CI, so the precondition is met; the work
+  itself is not done. **This is the largest single remaining item.**
+- **The narrative sections (§7, §8, §9) have not been split into per-route memos.** The register was safe
+  to lift because it is tabular; narrative is not, and splitting it badly would lose argument rather than
+  relocate it.
+- **The 161 referrers have not been repointed**, because nothing they point at has moved yet.
+
+⚠ **Do not repeat the mistake this phase nearly made.** The first extraction capped claim-ceiling cells at
+1200 characters and would have truncated two of them. A lossy migration is a regression. Measure the loss
+before moving anything, and prove it is zero.
+
+### 2.2 · Phase 4 — what landed, and the hazard that stopped the rest
+
+**Landed.** `README.md`, `AGENTS.md`, `CONTRIBUTING.md` and `METHODOLOGY.md` were rewritten in Phase 2
+because they described deleted files (§3.2). Frontmatter is present on every document in `systems/`.
+
+**Not landed:** the archive sweep of the ~44 one-off session reports and the audit cluster.
+
+⚠ **The hazard, measured rather than assumed.** The four map-audit and map-merge documents (2,696 lines,
+every one pinned to a line count or commit that has since moved) look like the safest possible archive
+candidates. They are not: the roadmap cites all four **by relative filename**, mostly in passages
+explaining that their figures are now wrong, and two committed artifacts cite one of them **by row number**.
+Moving them without repointing those links would replace four stale documents with five broken references —
+a worse state, not a better one. The archive sweep therefore needs the link repointing done in the same
+commit, exactly as the migration's own principle 2 requires.
+
+### 2.3 · Phase 5 — what landed
+
+**Landed.** The technology register (24 dependencies), the forecast register (24 scenario-banded forecasts,
+each declaring its basis), the multi-year roadmap generated as a projection of them, and
+[`MAINTENANCE.md`](MAINTENANCE.md).
+
+**Not landed:** wiring the literature scan to WRITE `TECH-*` state. The graph already carries every edge a
+graded hit would need to traverse; what is missing is the write path. It is ranked first in
+[`MAINTENANCE.md`](MAINTENANCE.md) §5 as the highest-value remaining automation.
+
+⭐ **Also recorded there rather than fixed:** one layer of the technology watch is credited in two documents
+with auto-capturing advances and has never written an entry. Fixing or retiring it is a decision, not a
+task, so it is surfaced rather than resolved.
 
 ### Phase 2 — the two things that will break if done carelessly
 
