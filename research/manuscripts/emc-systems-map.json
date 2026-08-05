@@ -555,6 +555,35 @@
           "role": "assertion"
         }
       ]
+    },
+    {
+      "id": "EV-SARC-HRD-2026",
+      "canonical": {
+        "pmid": "41651400",
+        "doi": "10.1016/j.canlet.2026.218300"
+      },
+      "citation": "Planas-Paz L, Zehnder M, Desboeufs N, Kollar S, Chen Y, Schneebeli S, Schenk R, Schmid MP, Lopes M, Weber A, Pauli C. \"Targeting ATR signaling in sarcoma with homologous recombination deficiency.\" Cancer Letters 2026. NOT open access -- only the abstract was read, and it is quoted verbatim in the artifact rather than paraphrased. Data: GEO GSE299349 / BioProject PRJNA1273954.",
+      "what_it_supports": "⛔ IT DOES NOT SUPPORT THE ATR ROUTE -- it is the COMPETING BIOMARKER, and it is registered so that the route's strongest external counter-argument has a home instead of living only in one memo's prose. A 2026 sarcoma ATR/CHK1/WEE1 programme selects patients on HRD (the SARC-HRD signature, ten HR-repair genes), not on FET-fusion status; its tumour cohort contains no FET-fusion sarcoma at all; and EV-FET-ATR-2023 explicitly refutes the HR-deficiency framing for that class. Same target, incompatible upstream lesions, non-overlapping patient selection.",
+      "aliases": [
+        "PMID 41651400",
+        "the SARC-HRD paper",
+        "GSE299349",
+        "the HRD/ATR sarcoma programme",
+        "10.1016/j.canlet.2026.218300"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+          "as": "PMID 41651400",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/atr-hrd-sarcoma-series.json",
+          "as": "10.1016/j.canlet.2026.218300",
+          "role": "assertion"
+        }
+      ]
     }
   ],
   "objects": [
@@ -1262,6 +1291,12 @@
           "use": "a comment in the GSE299349 identity check, naming this line as the REASON that check exists and as the weaker comparator its own read improves on",
           "classification": "unaffected",
           "why_unaffected": "It reads no data from this line and grounds no claim on it. The line appears only as the precedent: an EMC LABEL is not an EMC FUSION, which is why the new EMC-labelled sample (GSM9037837 / USZ-23_EMC3) is corroborated against 67 sarcoma samples from the same deposit before anything is built on it. Citing a disputed identity as a cautionary precedent is the one use the dispute cannot invalidate."
+        },
+        {
+          "file": "research/method-watch-triggers.json",
+          "use": "TRG-EMC-EXPRESSION-DATASET's _still_watching_for clause (a), which names this line's dispute as the reason a per-sample FUSION CONFIRMATION is what the trigger is still waiting for",
+          "classification": "unaffected",
+          "why_unaffected": "The trigger reads no data from this line and grades nothing with it. It cites the dispute as the STANDARD a future EMC dataset has to meet — an EMC LABEL is indistinguishable from an EMC FUSION without a call — which is a use the dispute creates rather than one it invalidates."
         }
       ],
       "distinct_from": [
@@ -1911,6 +1946,26 @@
       "revival_trigger": [
         "TR-NEOANTIGEN-SEAMS-REGENERATED"
       ]
+    },
+    {
+      "id": "INS-GEO-SERIES-CHARACTERISE",
+      "name": "Sample-level GEO series characterisation + disease-label corroboration",
+      "module": "research/modalities/atr_hrd_sarcoma_series.py",
+      "owner": {
+        "file": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+        "anchor": "#8--the-competing-biomarker--a-2026-sarcoma-atr-programme-that-selects-on-hrd-not-on-fet-status"
+      },
+      "known_answer_control": {
+        "description": "Two-sided, on the expression half: housekeeping genes (ACTB, GAPDH) must read high in every sample AND tissue-restricted negatives (ALB, INS) must read near zero, or a low NR4A3 is unreadable rather than informative. Measured 4423.6 / 2574.7 against 0.474 / 0.000.",
+        "state": "passes",
+        "note": "⚠ THE CONTROL PASSING DOES NOT MAKE THE READOUT SENSITIVE. The instrument is disclosed in the artifact as having LOW SENSITIVITY for fusion status by construction -- a wild-type transcript index has no fusion entry, so a fusion's contribution to NR4A3 is systematically under-counted -- and the deposit's own samples are split across two reference indexes, which the module detects from row counts and reports rather than smoothing over."
+      },
+      "serves": [
+        "the characterisation of an external dataset before anything is built on it",
+        "the disease-LABEL-vs-disease-FUSION distinction that OBJ-LINE-HEMCSS is the cautionary precedent for"
+      ],
+      "closure_kind": "open",
+      "revival_trigger": []
     }
   ],
   "artifacts": [
@@ -2025,6 +2080,17 @@
         "main"
       ],
       "note": "Class-II coverage is a FLOOR over a tested 3-allele DR panel, and the junction it is computed on is OBJ-MODEL-E7E3."
+    },
+    {
+      "id": "ART-ATR-HRD-SERIES",
+      "path": "research/modalities/atr-hrd-sarcoma-series.json",
+      "produced_by": "research/modalities/atr_hrd_sarcoma_series.py",
+      "workflow": ".github/workflows/emc-expression-datasets.yml",
+      "published_to": [
+        "main",
+        "claude/atr-gse299349"
+      ],
+      "note": "The sample-level characterisation of GSE299349 and the three questions it was read to answer, plus the NR4A3 identity check on the EMC-labelled model. Offline-reproducible: --check re-derives it byte-identically from the committed inputs cache."
     }
   ],
   "routes": [
@@ -4380,6 +4446,30 @@
       "artifact": "ART-APO-POSE-SITE",
       "field": "/site_panel_in_regime",
       "note": "A geometric site supplement; it emits no RMSD and by its own rule cannot change the pre-registered INCONCLUSIVE."
+    },
+    {
+      "id": "CLM-ATR-HRD-COMPETING-BIOMARKER",
+      "document": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+      "locator": "§8.2 Q3 and §8.4 -- 'a 2026 sarcoma ATR programme selects on HRD, not FET status'",
+      "artifact": "ART-ATR-HRD-SERIES",
+      "field": "/q3_selection_biomarker/answer",
+      "note": "The verbatim series-level and sample-level term hits are beside it in the same block, and the cohort's absence of every FET-fusion sarcoma is in /fet_fusion_sarcoma_subtypes."
+    },
+    {
+      "id": "CLM-ATR-HRD-EMC-SAMPLE",
+      "document": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+      "locator": "§8.2 Q2 -- GSM9037837 / USZ-23_EMC3, the first EMC sample in an ATR-directed dataset",
+      "artifact": "ART-ATR-HRD-SERIES",
+      "field": "/q2_emc_or_nr4a3_sample/samples_with_a_strong_EMC_or_NR4A3_term",
+      "note": "⚠ A LABEL, not a fusion call. The corroboration attempt and its two disclosed confounds are /emc_model_identity_check, whose verdict is the field a reader should open next."
+    },
+    {
+      "id": "CLM-ATR-HRD-NO-RESPONSE-DATA",
+      "document": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+      "locator": "§8.2 Q1 -- the deposit supplies no ATR-inhibitor response readout",
+      "artifact": "ART-ATR-HRD-SERIES",
+      "field": "/q1_atr_inhibitor_response_data/n_samples_with_a_NON_EMPTY_treatment_protocol_field",
+      "note": "The field deliberately quoted is the populated-treatment-protocol count, NOT the keyword count beside it: the keyword count is 68 and is driven entirely by the shared growth protocol's phrase 'cell culture-treated flasks'. A keyword count is not a populated field, and a populated field is not a measured one."
     }
   ],
   "open_conflicts": [
