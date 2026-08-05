@@ -1,8 +1,13 @@
 name: Fetch literature
 
 # Pulls open-access research papers from the GitHub-hosted runner (which has
-# full internet access - no sandbox egress allowlist needed) using the Europe
-# PMC API via scripts/fetch-paper.mjs. The fetched corpus is published to the
+# full internet access - no sandbox egress allowlist needed).
+#
+# TWO INPUT PATHS, and until 2026-08-05 only one of them was implemented:
+#   * `query`        -> Europe PMC search + open-access full text, scripts/fetch-paper.mjs sync
+#   * `targets_file` -> an explicit {name: url} corpus, scripts/lit_fetch_urls.py
+# The header claimed the first for months while the workflow ran only the second, so a dispatch
+# carrying a query searched for nothing and reported success. The fetched corpus is published to the
 # `literature-cache` branch, which Pages never serves (pages.yml only copies
 # index.html, 404.html, assets/, data/, cancers/). A Claude session then does
 # `git fetch origin literature-cache` and extracts cited data into data/cancers/.
@@ -49,6 +54,21 @@ jobs:
       - name: Install PDF text extractor
         run: python3 -m pip install --quiet pypdf
 
+      # ⛔ THE SEARCH THIS WORKFLOW HAS ALWAYS CLAIMED TO DO WAS NEVER WIRED UP (found 2026-08-05).
+      # This file's own header says it "Pulls open-access research papers ... using the Europe PMC API
+      # via scripts/fetch-paper.mjs". That script exists, has exactly the `sync "<query>"` command the
+      # header describes -- and NOTHING IN THIS WORKFLOW EVER INVOKED IT. The `query` input was
+      # decorative: its only use was deriving a default slug in the publish step.
+      #
+      # ⚠ SO A DISPATCH WITH A QUERY SEARCHED FOR NOTHING, re-fetched the built-in URL list, and
+      # reported SUCCESS. CLAUDE.md §6 names this workflow as the Europe PMC escape hatch, on the
+      # strength of the header -- so the rule pointed every session at a search that did not run.
+      - name: Europe PMC search + open-access full text (the `query` path)
+        if: ${{ inputs.query != '' }}
+        env:
+          QUERY: ${{ inputs.query }}
+        run: node scripts/fetch-paper.mjs sync "$QUERY"
+
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
@@ -90,11 +110,11 @@ jobs:
           #
           # So a CUSTOM slug now requires a custom target set. The default slug is unaffected -- it
           # describes the built-in corpus honestly, which is exactly what it is for.
-          if [ -n "$SLUG" ] && [ -z "$TARGETS_FILE" ]; then
+          if [ -n "$SLUG" ] && [ -z "$TARGETS_FILE" ] && [ -z "$QUERY" ]; then
             echo "::error::Refusing to publish under the custom slug '$SLUG': this run used the" \
-                 "BUILT-IN TARGETS list, because no targets_file was given. The slug would assert a" \
-                 "subject the manifest cannot show. Pass targets_file={name:url,...} naming the" \
-                 "sources you actually want, or drop the slug and accept the default."
+                 "BUILT-IN TARGETS list, because neither targets_file nor query was given. The slug" \
+                 "would assert a subject the manifest cannot show. Pass a query, or a" \
+                 "targets_file={name:url,...}, or drop the slug and accept the default."
             exit 1
           fi
           slug="$SLUG"

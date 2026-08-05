@@ -288,7 +288,10 @@ When in doubt: do it and show it.
      dispatch it, then poll with a background poller. Exemplars, all verified to exist 2026-08-05:
      `emc-expression-datasets.yml` + `atr_hrd_sarcoma_series.py` (**GEO**, and it is also where a GEO series
      gets characterised before anything is built on it); `fetch-literature.yml` + `scripts/lit_fetch_urls.py`
-     + `scripts/fetch-paper.mjs` (**Europe PMC / PDF**, publishing to `literature-cache`);
+     + `scripts/fetch-paper.mjs` (**Europe PMC / PDF**, publishing to `literature-cache`; ⚠ its
+     `query` path — the Europe PMC search — was DECORATIVE until 2026-08-05: the header claimed it,
+     `fetch-paper.mjs` implemented it, and the workflow never invoked it, so a dispatch with a query
+     searched for nothing and reported success. Wired up in the same session that wrote this line);
      `fusion-cpu-extras.yml` (→ `modalities-cache` branch).
      ⚠ *Superseded, retained: `atlas-data.yml` + `expression_reprocess.py` + `fulltext_verify.py`. Measured
      2026-08-05: **none of the three exists on this branch, on `main`, on `modalities-cache`, or anywhere in
