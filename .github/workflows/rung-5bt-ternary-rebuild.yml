@@ -115,7 +115,11 @@ jobs:
                       continue
                   seed = b.rsplit('_', 1)[-1].split('.')[0]
                   d = os.path.join('/tmp/v1', tok); os.makedirs(d, exist_ok=True)
-                  name = ('%s_model_0.cif' % tok) if seed == '0' else ('%s_pred_%s.cif' % (tok, seed))
+                  # ⛔ KEEP THE REAL EXTENSION. These are PDB files. Renaming them to `.cif` to satisfy a
+                  # `*.cif` glob made parse_structure dispatch to parse_mmcif, which raised
+                  # `no _atom_site loop` on EVERY run — the reason nr4a3-5bt-signature.json has never
+                  # existed. The glob now accepts both; the `_model_0` tie-break is extension-agnostic.
+                  name = ('%s_model_0.pdb' % tok) if seed == '0' else ('%s_pred_%s.pdb' % (tok, seed))
                   shutil.copyfile(p, os.path.join(d, name))
                   n += 1
           print('staged %d model(s) for V1' % n)
@@ -452,9 +456,9 @@ jobs:
           mkdir -p /tmp/v1
           python3 - <<'PY'
           import glob, os, shutil
-          # `nr4a_ternary_signature` selects by PATH TOKEN with a deny-list and globs *.cif. Give it a tree
-          # whose paths carry exactly one paralogue token each, and .cif names its parser reads the same way.
-          # ⚠ ONE file per arm must end `_model_0.cif`. `nr4a_ternary_signature.main` resolves a paralogue
+          # `nr4a_ternary_signature` selects by PATH TOKEN with a deny-list and globs *.cif AND *.pdb. Give it
+          # a tree whose paths carry exactly one paralogue token each, under names its parser reads the same way.
+          # ⚠ ONE file per arm must end `_model_0` (any extension). `nr4a_ternary_signature.main` resolves a paralogue
           # to a SINGLE structure and REFUSES when several candidates tie — its tie-break is exactly that
           # suffix. Sixteen equally-named models would be an "unresolved paralogue" refusal, i.e. the single
           # -structure read silently lost while the replicated read it also runs was fine.
@@ -467,7 +471,11 @@ jobs:
                       continue
                   seed = b.rsplit('_', 1)[-1].split('.')[0]
                   d = os.path.join('/tmp/v1', tok); os.makedirs(d, exist_ok=True)
-                  name = ('%s_model_0.cif' % tok) if seed == '0' else ('%s_pred_%s.cif' % (tok, seed))
+                  # ⛔ KEEP THE REAL EXTENSION. These are PDB files. Renaming them to `.cif` to satisfy a
+                  # `*.cif` glob made parse_structure dispatch to parse_mmcif, which raised
+                  # `no _atom_site loop` on EVERY run — the reason nr4a3-5bt-signature.json has never
+                  # existed. The glob now accepts both; the `_model_0` tie-break is extension-agnostic.
+                  name = ('%s_model_0.pdb' % tok) if seed == '0' else ('%s_pred_%s.pdb' % (tok, seed))
                   shutil.copyfile(p, os.path.join(d, name))
                   n += 1
           print('staged %d model(s) for V1' % n)

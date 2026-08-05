@@ -678,3 +678,32 @@ def test_arm_models_finds_predictions_at_any_depth(tmp_path):
     assert len(GT.arm_models(str(tmp_path), "NR4A3_5BT_LIG")) == 3
     assert len(GT.arm_models(str(tmp_path), "NR4A1_5BT_LIG")) == 1
     assert GT.arm_models(str(tmp_path), "NR4A2_5BT_LIG") == []
+
+
+def test_the_v1_signature_glob_accepts_pdb_and_the_workflow_stages_it_as_pdb():
+    """⛔ THE REASON `nr4a3-5bt-signature.json` HAS NEVER EXISTED, found 2026-08-05.
+
+    `nr4a_ternary_signature.main` globbed `*.cif` only. DeepTernary emits `complex_pred_*.pdb`, so the
+    rung's V1 step copied its predictions to `*.cif` NAMES to satisfy that glob — and
+    `selcal_cofold_validate.parse_structure` dispatches on the EXTENSION, so it handed PDB content to
+    `parse_mmcif`, which raised `no _atom_site loop`. Every run. The step was the only line in
+    `rung-5bt-ternary-rebuild.yml` written `|| true`, so it failed silently on all of them and the
+    following `git add` skipped a file that was never there.
+
+    ⚠ The workflow comment asserting that `.cif` names are read "the same way" was simply false, and it
+    is exactly the kind of claim a `|| true` keeps nobody honest about.
+    """
+    import re
+    src = open(os.path.join(MOD, "nr4a_ternary_signature.py"), encoding="utf-8").read()
+    assert '"*.pdb"' in src, "the glob must accept PDB — that is what the predictor emits"
+    assert 'endswith("_model_0.cif")' not in src, \
+        "the _model_0 tie-break must be extension-agnostic, or widening the glob does nothing"
+
+    wf = open(os.path.join(MOD, "..", "..", ".github", "workflows",
+                           "rung-5bt-ternary-rebuild.yml"), encoding="utf-8").read()
+    assert "_model_0.cif" not in wf, "staging must keep the real extension; renaming .pdb -> .cif is the bug"
+    assert wf.count("_model_0.pdb") == 2, \
+        "both staging sites (the `read` job and `signature_only`) must agree — a signature computed by a " \
+        "different rule than the gate's would be incomparable with it"
+    assert "|| true" not in re.sub(r"#.*", "", wf.split("nr4a_ternary_signature.py")[1][:400]), \
+        "the V1 step must not swallow its own failure again"

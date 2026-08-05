@@ -359,7 +359,15 @@ def main(argv=None):
     if args.pattern:
         print("[nr4a-signature] --pattern is ignored: selection is by path token with a deny-list", flush=True)
     DENY = ("control", "binary", "apo")
-    all_cif = sorted(glob.glob(os.path.join(args.root, "**", "*.cif"), recursive=True))
+    # ⛔ BOTH EXTENSIONS, AND RESTRICTING TO `.cif` IS WHAT BROKE THE 5b-T RUNG (found 2026-08-05).
+    # `selcal_cofold_validate.parse_structure` dispatches on the extension and handles .cif AND .pdb.
+    # This glob accepted only `.cif`, so the rung's V1 step copied its `complex_pred_*.pdb` predictions
+    # to `*.cif` NAMES to satisfy it — and then parse_mmcif hit PDB content and raised
+    # `no _atom_site loop`. The step was the only one in that workflow written `|| true`, so it failed
+    # EVERY time, silently, and `nr4a3-5bt-signature.json` was never produced on any run. The workflow
+    # comment asserting that `.cif` names "its parser reads the same way" was simply false.
+    all_cif = sorted(glob.glob(os.path.join(args.root, "**", "*.cif"), recursive=True)
+                     + glob.glob(os.path.join(args.root, "**", "*.pdb"), recursive=True))
     candidates, structures, model_sets = {}, {}, {}
     for p in (FOCUS,) + COMPARATORS:
         tok = p.lower()
@@ -375,16 +383,16 @@ def main(argv=None):
         if len(hits) == 1:
             structures[p] = hits[0]
         elif len(hits) > 1:
-            model0 = [f for f in hits if f.endswith("_model_0.cif")]
+            model0 = [f for f in hits if os.path.splitext(f)[0].endswith("_model_0")]
             if len(model0) == 1:
                 structures[p] = model0[0]
     unresolved = {p: candidates[p] for p in (FOCUS,) + COMPARATORS if p not in structures}
     if unresolved:
         json.dump({"error": "could not resolve exactly one ternary per paralogue; not guessing",
                    "candidates": candidates, "unresolved": unresolved,
-                   "n_cif_under_root": len(all_cif), "root": args.root,
+                   "n_structures_under_root": len(all_cif), "root": args.root,
                    "deny_tokens": list(DENY)}, open(args.out, "w"), indent=1)
-        print("[nr4a-signature] REFUSED: unresolved paralogue(s) %s (%d .cif under %s)"
+        print("[nr4a-signature] REFUSED: unresolved paralogue(s) %s (%d structure(s) under %s)"
               % (sorted(unresolved), len(all_cif), args.root), flush=True)
         return 5
 
