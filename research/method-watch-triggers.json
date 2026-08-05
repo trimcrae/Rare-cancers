@@ -689,7 +689,9 @@
             "e3 ligase",
             "recruiter"
           ],
-          "false_negative_risk_accepted": "exclude_match drops titles framed as molecular glues, which is where the criterion is by construction NOT met — but a paper could in principle report a glue AND a partner-free structure and would now be missed. Accepted because decisive_evidence above makes the PDB census the real check and it is free, run on every grading, and cannot be fooled by a title."
+          "false_negative_risk_accepted": "exclude_match drops titles framed as molecular glues, which is where the criterion is by construction NOT met — but a paper could in principle report a glue AND a partner-free structure and would now be missed. Accepted because decisive_evidence above makes the PDB census the real check and it is free, run on every grading, and cannot be fooled by a title.",
+          "measured_effect": "VERIFIED IN A REAL RUN, and the verification was stranded on a feature branch until 2026-08-05. Scan run 2 (pre-revision, on main): 1 query, 25 results seen, 6 in window. Scan run 3 (post-revision): 2 queries, 5 results seen, 0 in window. The three KEAP1 redox-pharmacology papers and the TSPO/heart-failure paper stopped being returned; no structural report for any of the three blocked recruiters was lost, because none exists.",
+          "ledger_is_cumulative_so_the_BOARD_needed_fixing_too": "Revising the query stopped bad hits being INGESTED; it did nothing about the ones already in method-watch-trigger-hits.json, and trigger_scan.write_board rendered 'most recent matches' straight from that cumulative ledger. So this row kept displaying 'Keap1 ligand for acute lung injury' as a match for a criterion about partner-free liganded structures. Fixed 2026-08-05: the board re-applies the trigger's CURRENT must/also/exclude rules at render time and prints the count of withheld entries. The ledger keeps its full history; the VIEW is filtered. This row now correctly shows no matches and 6 withheld."
         },
         "europepmc": [
           "(TITLE:RNF114 OR TITLE:DCAF16 OR TITLE:DCAF15) AND (TITLE:structure OR TITLE:\"crystal structure\" OR TITLE:crystal OR TITLE:\"cryo-EM\" OR TITLE:\"structural basis\" OR TITLE:crystallography)",
@@ -736,8 +738,19 @@
           "DCAF16": "Q9NXF7 — 3 entries (9S3R, 8OV6, 8G46), ALL ternary with DDB1 + a bromodomain partner. n_clean_binary_entries = 0.",
           "DCAF15": "Q66K64 — 9 entries, unchanged since the 2026-07-25 downselect."
         },
-        "blind_spot": "A structure deposited but still ON HOLD is invisible to this check. Stated rather than glossed; it is part of why the trigger stays 'watching' rather than being retired.",
-        "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json"
+        "blind_spot": "A structure deposited but still ON HOLD is invisible to this check. MEASURED 2026-08-05: 34,557 PDB entries are on hold globally. The holdings endpoint returns IDs only, so mapping them to accessions is not a $0 check -- the blind spot is real, bounded and NOT closed. Stated rather than glossed; it is why this trigger stays 'watching' rather than being retired.",
+        "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json",
+        "baseline_2026_08_05_RECHECK": {
+          "_status": "RE-RUN AND UNCHANGED. Fetched fresh (fetch-literature.yml run 31000949990), not quoted from the 2026-08-03 file.",
+          "RNF114": "Q9Y508 - 0 entries (RCSB HTTP 204). Still no deposited structure of the protein at all.",
+          "DCAF16": "Q9NXF7 - 3 entries (9S3R, 8OV6, 8G46), all ternary. n_clean_binary_entries = 0.",
+          "DCAF15": "Q66K64 - 9 entries, unchanged.",
+          "FEM1B": "Q9UK73 - 31 entries, unchanged. Not one of the blocked three.",
+          "releases_since_2026_07_25": "ZERO for all four accessions (HTTP 204 each). Asked directly this time, not inferred by comparing counts.",
+          "neither_paper_cited_by_any_released_entry": "CONFIRMED DIRECTLY: rcsb_primary_citation.pdbx_database_id_DOI returns 0 entries for both 10.1021/acs.jmedchem.6c00889 and 10.1021/acs.jmedchem.6c00968.",
+          "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-05.json"
+        },
+        "_method_fix_2026_08_05": "The 2026-08-03 check could not ask 'did either paper deposit a structure' directly: rcsb_primary_citation.pdbx_database_id_PubMed is not a searchable attribute (HTTP 400). rcsb_primary_citation.pdbx_database_id_DOI IS searchable and is now the query of record. Use it on every future grading -- it turns an inference into a measurement."
       },
       "last_graded": {
         "date": "2026-08-03",
@@ -749,7 +762,15 @@
         "evidence_level": "Both papers are PAYWALLED — ABSTRACTS ONLY (Europe PMC fullTextXML 404, not in PMC, no preprint version indexed). The PDB census is definitive and is what the verdict rests on; the abstract reading is corroborating and labelled provisional.",
         "why": "The DCAF16 paper is a template-assisted covalent GLUE: its own abstract says the cyanobenzothiazole, carried on the BRD4-targeting ligand, 'modifies DCAF16 at Cys58, promoting ternary complex formation'. That is the architecture the 0.3442 buried fraction already described, not a refutation of it — and no structure was deposited (DCAF16 entry count unchanged at 3). 'There are more DCAF16 binders' was never the blocker. The FEM1B paper is a different question entirely — see TRG-FEM1B-LINKER-BEARING-STRUCTURE.",
         "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json",
-        "corpus": "research/manuscripts/lit-targets-e3-recruiter-trigger.json → literature-cache branch, literature/e3-recruiter-trigger/ (fetch-literature.yml run 30861878219)"
+        "corpus": "research/manuscripts/lit-targets-e3-recruiter-trigger.json → literature-cache branch, literature/e3-recruiter-trigger/ (fetch-literature.yml run 30861878219)",
+        "reconfirmed": {
+          "date": "2026-08-05",
+          "verdict": "DOES_NOT_REOPEN - unchanged",
+          "how": "The whole census was RE-FETCHED rather than quoted, because it is free and perishable. Independent CI run, identical query shape, same numbers.",
+          "added": "Two direct answers the first grading could only infer: zero releases for any of the four accessions since 2026-07-25, and neither paper is the primary citation of any released PDB entry.",
+          "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-05.json",
+          "corpus": "research/manuscripts/lit-targets-e3-recruiter-recheck-2026-08-05.json -> literature-cache branch, literature/e3-recruiter-recheck-20260805/ (fetch-literature.yml run 31000949990)"
+        }
       },
       "consequence_caveat": "⚠ A HIT ON THIS TRIGGER DOES NOT BY ITSELF RESTART ANY WORK, and saying so is not a demotion of the trigger — it is the thing a reader needs in order to act on a hit correctly. R9 and R12 are both 'future — NOT STARTED', and emc-post-degrader-options.md section 0 puts the E3 recruiter on the LIABILITY side of the split it draws ('the degradation geometry — ternary, E3, exit vector, ubiquitin transfer, and a ~1 kcal/mol paralogue margin'), not on the ASSET side. So a partner-free liganded structure reopens a parked row inside a programme that is parked for unrelated, architectural reasons. It would still be a real field advance and worth recording; it would not be a reason to spend."
     },
@@ -774,7 +795,8 @@
       "decisive_evidence": {
         "check": "RCSB search on Q9UK73, newest first; then e3-recruiter-staging.json FEM1B.linker_bearing_analogue.n_entries_with_ligand_ge_500Da.",
         "criterion": "n_entries_with_ligand_ge_500Da > 0.",
-        "baseline_2026_08_03": "31 entries, newest release 2025-11-26 (the VU-series fragment structures). n_entries_with_ligand_ge_500Da = 0."
+        "baseline_2026_08_03": "31 entries, newest release 2025-11-26 (the VU-series fragment structures). n_entries_with_ligand_ge_500Da = 0.",
+        "recheck_2026_08_05": "RE-RUN AND UNCHANGED (fetch-literature.yml run 31000949990). Q9UK73 still returns 31 entries; ZERO have been released since 2026-07-25 (HTTP 204); and the dual-site paper (10.1021/acs.jmedchem.6c00968) is the primary citation of NO released PDB entry, confirmed directly via rcsb_primary_citation.pdbx_database_id_DOI rather than inferred. n_entries_with_ligand_ge_500Da remains 0, so the tier-1 limit is untouched. Evidence: research/modalities/e3-recruiter-pdb-recheck-2026-08-05.json"
       },
       "reopens": {
         "roadmap_rows": [

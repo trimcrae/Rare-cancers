@@ -65,6 +65,14 @@ jobs:
         with:
           python-version: "3.11"
 
+      # The board must advertise only what each trigger's CURRENT criterion admits.
+      # The ledger is cumulative, so a revised query leaves stale hits behind that
+      # would otherwise render as current matches forever (the KEAP1 case, 2026-08-05).
+      - name: Board-filter regression test
+        run: |
+          python3 -m pip install --quiet pytest
+          python3 -m pytest tests/test_trigger_board_filter.py -q
+
       - name: Run the reopening-trigger scan
         env:
           MODE: ${{ inputs.mode }}
