@@ -133,6 +133,12 @@ jobs:
           echo "image side:"; cat /tmp/image.json
           # A PRODUCING STEP ASSERTS ITS OWN OUTPUT. `cat` on an empty file succeeds and prints nothing.
           python3 -c "import json,sys; d=json.load(open('/tmp/image.json')); sys.exit(0 if d.get('openfe') else 'no openfe version read from the image')"
+          # ⭐ WHEN THE IMAGE WAS BUILT IS PART OF THE RESULT, NOT TRIVIA. Neither side pins openmmtools or
+          # pymbar, so "both resolved X" means much more when the two solves are far apart in time than when
+          # they are minutes apart — the gap IS the drift evidence. The first run of this job had to have
+          # that date dug out of the Actions history by hand; it is recorded here so the artifact carries it.
+          docker inspect -f '{{.Created}}' "${{ inputs.image || 'triskit23/ternary-fep:latest' }}" > /tmp/image_built.txt
+          echo "image built: $(cat /tmp/image_built.txt)"
 
       # ── side B: the GCP lane's spec — EXTRACTED from that workflow at runtime, never copied ───────────
       # ⭐ THE SPEC IS NOT DUPLICATED HERE, AND THAT IS DELIBERATE (rule 1: one fact, one place). The first
@@ -208,6 +214,11 @@ jobs:
               "decides_on": list(DECIDES),
               "disagreements": diffs,
               "parity": not diffs,
+              # ⭐ THE TWO SOLVE DATES ARE THE DRIFT EVIDENCE. Neither side pins openmmtools/pymbar, so
+              # agreement across a LONG gap says something agreement across minutes does not. The image's is
+              # its build date; the GCP side is solved fresh in this run.
+              "image_built": open("/tmp/image_built.txt").read().strip(),
+              "gcp_solved_in_run": os.environ.get("GITHUB_RUN_ID"),
           }
           doc["sentence"] = (
               "PARITY HOLDS on %s — the image and the GCP spec resolve identical versions, so a leg produced "

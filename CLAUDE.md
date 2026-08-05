@@ -431,9 +431,15 @@ When in doubt: do it and show it.
   disagreements. One home: [`ternary-env-parity.json`](./research/modalities/ternary-env-parity.json). So a
   leg produced on one and analysed on the other cannot move an MBAR number through a version difference —
   which is now a **reading**, not the assertion it replaced.
-  ⚠ **It is a reading of TODAY, and only one side is immutable.** The image is baked; the GCP lane solves on
-  the fly, and neither side pins `openmmtools`/`pymbar`, so that side can drift while the image cannot.
-  Re-run `mode=parity` after any openfe bump or before quoting cross-provider comparability in the paper. Dep genuinely missing → add it to the `Dockerfile.*` and **re-bake once**. Only if you truly
+  ⭐ **AND THE TWO SOLVES WERE 13 DAYS APART, WHICH IS THE POINT.** The image was baked 2026-07-23; the GCP
+  spec was solved fresh 2026-08-05. Neither side pins `openmmtools`/`pymbar`, so agreement across that gap
+  is evidence about the drift RATE, which agreement across two minutes would not have been. (Verified in the
+  same pass: the baked image carries HEAD's spec — the 26-package `create` at commit `07f2dd345` is
+  package-identical to the current one, so this is not an old image being compared to a new spec.)
+  ⚠ **Still a reading of a date, and only one side is immutable.** The image is baked; the GCP lane solves
+  on the fly, so that side can drift while the image cannot. Re-run `mode=parity` after any openfe bump or
+  before quoting cross-provider comparability in the paper — the job records both dates so a future reader
+  can see the gap rather than having to dig it out of the Actions history, which is how it was got here. Dep genuinely missing → add it to the `Dockerfile.*` and **re-bake once**. Only if you truly
   cannot re-bake, use `setup-micromamba` **with `cache-environment: true`**. *(Cost of learning this: ~20 min of
   solve per run, three runs in a row, while the image already carried every package.)*
 
