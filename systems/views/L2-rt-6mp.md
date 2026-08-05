@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · scoped · confidence high · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#2--the-ranked-list|tier4-6mp)): ✕ CLOSED 2026-08-03 — 6-MP acts through the AF-1, the domain the fusion replaces
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): ✕ CLOSED 2026-08-03 — 6-MP acts through the AF-1, the domain the fusion replaces
 
 ## Scientific rationale
 

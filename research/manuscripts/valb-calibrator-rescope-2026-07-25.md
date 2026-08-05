@@ -443,7 +443,7 @@ P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops"* — with:
 
 > **(4) THE REAL DECISION — rescope, but NOT onto the P-series. Both published options are dead, checked for $0
 > before a dollar was spent (GH run 30168578199, RCSB + RDKit MCS in the production mapper's own container;
-> [valb-pseries-chem.json](research/modalities/valb-pseries-chem.json)).** 6 of the 10 Ciulli P-series pairs
+> [valb-pseries-chem.json](../modalities/valb-pseries-chem.json)).** 6 of the 10 Ciulli P-series pairs
 > **change formal charge** (P1 +1, P2 0, P3 +1, P4 0, P5 +1) — which kills **P1→P4 (+2.53)** outright — and the
 > 4 that do not perturb **58–80 heavy atoms** against the **2** of the edge already running (MCS 35–42 of 65–79
 > heavy: half of every molecule). It is a linker/exit-vector *design* series, chemically diverse by
@@ -459,7 +459,7 @@ P1→P4/P5 pair (+2.53 / +2.99) reached through intermediate hops"* — with:
 > *tert*-butyl→isopropyl, 2-hydroxyphenyl→phenyl — never the *trans*-4-hydroxyproline OH, which is the VHL
 > anchor. **Honest limit: closure measures internal consistency and systematic path error, NOT accuracy. The
 > known-answer accuracy requirement stays OPEN.** Design:
-> [valb-calibrator-rescope-2026-07-25.md](research/manuscripts/valb-calibrator-rescope-2026-07-25.md).
+> [valb-calibrator-rescope-2026-07-25.md](./valb-calibrator-rescope-2026-07-25.md).
 
 **(2) Same bullet — replace the "Still unmeasured: the ligand-only pose RMSD … `diagnostics_complete: false`
 says so"** sentence with:

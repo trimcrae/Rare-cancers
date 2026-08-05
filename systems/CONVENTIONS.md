@@ -289,7 +289,7 @@ then gloss it, rather than using a synonym that the reader has to resolve.
 ## 7 · Language discipline
 
 Claim-language rules (`LR1`–`LR5`) are enforced by `lint_claims.py` over the manuscripts and the model's
-generated views. They are stated in full in [`POLICY-language.md`](POLICY-language.md). In summary: never
+generated views. They are stated in full in [`AGENTS.md`](../AGENTS.md) → "medical integrity" and enforced by [`lint_claims.py`](../research/manuscripts/lint_claims.py). In summary: never
 imply proteome-wide selectivity, EMC efficacy, safety, a therapeutic window or clinical readiness; no
 computational result *proves*, *confirms* or *establishes* anything; a projected number is never described as
 *measured*; and novelty is right-sized — incremental, not landmark.

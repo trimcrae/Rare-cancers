@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ parked · concept · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.mdroute-board|af3)): Deferred; method not strategy
+**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): Deferred; method not strategy
 
 ## Scientific rationale
 

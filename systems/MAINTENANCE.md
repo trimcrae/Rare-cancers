@@ -44,7 +44,8 @@ than surfacing as a traceback inside a large suite.
 | check | refuses |
 |---|---|
 | `systems_check.py --check` | a route in no strategy family · a permanent blocker claiming a technology would retire it · a non-permanent blocker naming no way out · a failing or uncontrolled instrument cited as SUPPORT · a technology with no forecast · a forecast with no basis or no review date · a compute recommendation with no case · an unresolvable pointer · a view that has drifted · the requirement register disagreeing with the roadmap |
-| `parser_guard.py` | any registered parser that can no longer find what it parses |
+| `parser_guard.py` | any registered parser that can no longer find what it parses, and the plan going unlinted wherever it lives |
+| `systems_check` document checks | a Markdown file with no frontmatter · a status outside the closed set · a preregistration not marked immutable · a NEW broken relative link (pre-existing ones are baselined in `systems/graph/link-baseline.json`, a list meant to reach zero) |
 | `lint_consistency.py` | the same number typed in two places, or a superseded value quoted without its marker |
 | `lint_claims.py` | claim language the program has not earned |
 | `emc_systems_map_check.py` | a broken pointer, an evidence item under two names, an object under two definitions, a figure quoted from a stub |

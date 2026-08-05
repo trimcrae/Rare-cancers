@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # Blocker register
 
-Typed with [`taxonomy/blockers.md`](../taxonomy/blockers.md). The kinds are **never conflated**:
+Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are **never conflated**:
 *the biology forbids it*, *today's method cannot resolve it*, *nobody has run the assay* and
 *we have not been given the decision* are four situations with four different remedies.
 
@@ -249,4 +249,4 @@ Typed with [`taxonomy/blockers.md`](../taxonomy/blockers.md). The kinds are **ne
 - **evidence:** The instrument is registered with no result key: built and staged, never completed. / It is the highest-fan-out item in the portfolio that costs a conversation rather than a capability.
 - **owner:** `research/manuscripts/nr4a3-program-map.md#31--the-instrument-table`
 
-[← L0](../views/L0-ecosystem.md)
+[← L0](../L0-ecosystem.md)

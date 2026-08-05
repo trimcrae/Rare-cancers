@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-surface-target-landscape.md`](../../research/manuscripts/emc-surface-target-landscape.mdNone)): Tier 3 — already red-teamed in this repo: not selective (BH q = 1.0)
+**Grade** (owned by [`research/manuscripts/emc-surface-target-landscape.md`](../../research/manuscripts/emc-surface-target-landscape.md)): Tier 3 — already red-teamed in this repo: not selective (BH q = 1.0)
 
 ## Scientific rationale
 

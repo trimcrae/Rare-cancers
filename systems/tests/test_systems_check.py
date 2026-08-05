@@ -400,3 +400,47 @@ def test_internal_work_triggers_are_not_expected_to_have_a_technology(graph):
     for trg in internal:
         assert not [w for w in f.warns if trg in w and "[X3]" in w], \
             f"{trg} is internal work and must not be flagged as an unwatched capability"
+
+
+# ───────────────────────── documents and links (§2) ─────────────────────────
+
+def test_every_hand_written_document_has_frontmatter(graph):
+    f = sc.Findings()
+    sc.check_documents(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_no_new_broken_links(graph):
+    """A new broken relative link is an error immediately; the pre-existing ones are baselined.
+
+    Same discipline as the frontmatter backfill: record the baseline, fail on regressions. Turning
+    120 pre-existing breakages into build failures on day one makes the build permanently red for
+    defects that predate the check — and a permanently red build gets ignored.
+    """
+    f = sc.Findings()
+    sc.check_links(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_the_link_baseline_is_not_a_silencer(graph):
+    """Every baselined entry names WHY it is broken, and the list is meant to reach zero.
+
+    ⚠ These are not typos — each is a document citing an artifact that was never produced. Fixing one
+    means producing the artifact or withdrawing the citation, not adding a line here.
+    """
+    path = os.path.join(SYS, "graph", "link-baseline.json")
+    d = json.load(open(path, encoding="utf-8"))
+    assert d["known_broken"], "an empty baseline should be deleted, not kept"
+    assert len(d["known_broken"]) <= 3, \
+        "the baseline grew — a new broken link must be fixed, not grandfathered"
+    for row in d["known_broken"]:
+        assert row.get("why") and len(row["why"]) > 40, f"{row['to']} is baselined with no reason"
+
+
+def test_a_preregistration_is_never_archived():
+    """A prereg's entire value is that it was written before the result."""
+    import glob
+    for p in glob.glob(os.path.join(REPO, "archive", "**", "*.md"), recursive=True):
+        text = open(p, encoding="utf-8", errors="ignore").read()
+        assert "prereg" not in os.path.basename(p).lower(), f"{p} looks like a preregistration"
+        assert "status: immutable" not in text[:600], f"{p} is marked immutable and must not be archived"

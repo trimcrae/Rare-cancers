@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ parked · concept · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#routes-813--why-each-sits-in-tier-3|route12)): Tier 3 — vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing
 
 ## Scientific rationale
 

@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · computed · confidence high · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#2--the-ranked-list|tier4-rxr)): ✕ CLOSED 2026-08-03 — NR4A3 does not heterodimerise with RXR
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): ✕ CLOSED 2026-08-03 — NR4A3 does not heterodimerise with RXR
 
 ## Scientific rationale
 

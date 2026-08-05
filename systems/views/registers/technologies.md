@@ -726,4 +726,4 @@ anyone noticing: `TECH-POSE-CONVERGENCE`, `TECH-EXPOSURE-CRITERION`, `TECH-ANTIT
 
 *Scanned by:* `TRG-ASO-OFFTARGET-PREDICTOR`, `TRG-ASO-EFFICACY-ACCESSIBILITY`
 
-[← L0](L0-ecosystem.md)
+[← L0](../L0-ecosystem.md)

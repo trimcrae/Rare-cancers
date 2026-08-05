@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ blocked · computed · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.mdroute-board|prame)): NEW antigen-directed lead — best of the CTAs
+**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): NEW antigen-directed lead — best of the CTAs
 
 ## Scientific rationale
 

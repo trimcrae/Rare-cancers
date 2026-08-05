@@ -294,7 +294,7 @@ drug**; the medical-integrity labeling discipline gets MORE important as this go
    a platform.
 4. **Cryptic-pocket *druggability* atlas for neglected targets** (trimcrae, 2026-07-05) — **★ HIGH-PRIORITY
    NEXT MAJOR PROGRAM after the NR4A3 degrader preprint posts.** Full concept memo:
-   **[`cryptic-pocket-atlas-concept.md`](./cryptic-pocket-atlas-concept.md)** (funnel, Phase-0 gate, compute
+   **[`cryptic-pocket-atlas-concept.md`](./manuscripts/cryptic-pocket-atlas-concept.md)** (funnel, Phase-0 gate, compute
    budget, staged plan, integrity guardrails). In brief — the **upstream**
    layer that feeds 2+3: before you can design a selective degrader/binder you need a *druggable pocket*, and
    for "undruggable" targets that pocket is often **cryptic** (only opens under dynamics). This is a public,

@@ -685,6 +685,77 @@ def check_documents(g, f):
                        f"count is meant to fall.")
 
 
+
+MD_LINK = re.compile(r"\[[^\]]*\]\(([^)#\s]+)(?:#[^)\s]*)?\)")
+LINK_SKIP_PREFIX = ("http://", "https://", "mailto:", "#", "data:")
+
+#: ⚠ A LINK TARGET MUST LOOK LIKE A PATH. Without this, SMILES strings are read as Markdown links —
+#: `[nH]` followed by `(C(=O)...` is syntactically a link — and the first run reported 184 "broken
+#: links", of which the overwhelming majority were chemistry. A checker that cries wolf gets switched
+#: off, so it recognises a path: a slash, or a real file extension.
+LOOKS_LIKE_PATH = re.compile(r"/|\.(md|json|py|yml|yaml|mjs|sh|txt|csv|png|svg|pdf|cff|html)$", re.I)
+
+
+def _link_baseline():
+    """Known-broken links that predate this check. Anything NOT here is an error."""
+    path = os.path.join(GRAPH, "link-baseline.json")
+    if not os.path.exists(path):
+        return set()
+    with open(path, encoding="utf-8") as fh:
+        return {(r["from"], r["to"]) for r in json.load(fh).get("known_broken", [])}
+
+
+def check_links(g, f):
+    """Every relative Markdown link resolves to a file that exists.
+
+    ⭐ WHY THIS EXISTS. The repository had NO repo-wide link checker — `verify-refs.yml` validates
+    external DOIs, and the only path check in CI inspected `provenance.owner.file`, which for every
+    graph row points at one document. So a document could be moved and every link to it would rot in
+    silence until someone clicked one.
+
+    That is not hypothetical: this class of breakage is precisely what stopped the archive sweep the
+    first time it was attempted, and three of the hazards found then were not links at all but
+    runtime reads — which this check deliberately does NOT cover, and cannot. It catches the easy
+    class so that attention is free for the hard one.
+    """
+    baseline = _link_baseline()
+    checked = broken = grandfathered = 0
+    for root, dirs, files in os.walk(REPO):
+        rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
+        if rel_root.startswith((".git", "node_modules", ".pytest_cache")) or "__pycache__" in rel_root:
+            dirs[:] = []
+            continue
+        # ⚠ archive/ is skipped BY DESIGN. Its files moved, so their relative links point at former
+        # neighbours — and the directory's own README says nothing in it is live. Checking links in
+        # declared-dead documents would generate noise that trains a reader to ignore this check.
+        if rel_root.startswith("archive"):
+            dirs[:] = []
+            continue
+        for fn in sorted(files):
+            if not fn.endswith(".md"):
+                continue
+            src = os.path.normpath(os.path.join(rel_root, fn)).replace(os.sep, "/")
+            with open(os.path.join(REPO, src), encoding="utf-8", errors="ignore") as fh:
+                text = fh.read()
+            for m in MD_LINK.finditer(text):
+                target = m.group(1).strip()
+                if not target or target.startswith(LINK_SKIP_PREFIX):
+                    continue
+                if not LOOKS_LIKE_PATH.search(target):
+                    continue
+                checked += 1
+                dest = os.path.normpath(os.path.join(os.path.dirname(os.path.join(REPO, src)), target))
+                if not os.path.exists(dest):
+                    if (src, target) in baseline:
+                        grandfathered += 1
+                        continue
+                    broken += 1
+                    f.err("[K1]", f"{src} links to {target!r}, which does not exist")
+    f.warn("[K0]", f"relative links checked: {checked}, new breakage: {broken}, "
+                   f"grandfathered: {grandfathered} (systems/graph/link-baseline.json — that list is "
+                   f"meant to reach zero and must never grow)")
+
+
 def run_checks(g, f):
     check_schemas(g, f)
     check_legacy_agreement(g, f)
@@ -696,6 +767,7 @@ def run_checks(g, f):
     check_technologies(g, f)
     check_scan_interop(g, f)
     check_documents(g, f)
+    check_links(g, f)
     check_pointers(g, f)
     check_instrument_support(g, f)
     check_compute_case(g, f)
@@ -860,7 +932,17 @@ def render_l2(r, g):
     if r.get("grade"):
         gv = r["grade"]
         own = gv.get("owner", {})
-        out.append(f"**Grade** (owned by [`{own.get('file','?')}`]({os.path.relpath(os.path.join(REPO, own.get('file','.')), VIEWS)}{own.get('anchor','')})): {esc(gv.get('value',''))}\n")
+        # ⚠ The anchor may be null, and it may carry a disambiguating `|` suffix the target file has no
+        # heading for. Concatenating either produced links like `...IDEAS.mdroute-board|af3` — caught by
+        # the link checker on its first run, in output this module generates.
+        anchor = own.get("anchor") or ""
+        if anchor and "|" not in anchor:
+            anchor = anchor if anchor.startswith("#") else "#" + anchor
+        else:
+            anchor = ""
+        rel_target = os.path.relpath(os.path.join(REPO, own.get("file", ".")), VIEWS)
+        out.append(f"**Grade** (owned by [`{own.get('file','?')}`]({rel_target}{anchor})): "
+                   f"{esc(gv.get('value',''))}\n")
     if r.get("rationale"):
         out += ["## Scientific rationale\n", r["rationale"], ""]
     if r.get("supporting_evidence"):
@@ -946,7 +1028,7 @@ def render_blockers(g):
               audience=["maintainers", "autonomous research agents"],
               date="2026-08-05", last_verified="2026-08-05"),
            BANNER, "# Blocker register\n",
-           "Typed with [`taxonomy/blockers.md`](../taxonomy/blockers.md). The kinds are **never conflated**:",
+           "Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are **never conflated**:",
            "*the biology forbids it*, *today's method cannot resolve it*, *nobody has run the assay* and",
            "*we have not been given the decision* are four situations with four different remedies.\n"]
     counts = defaultdict(int)
@@ -980,7 +1062,7 @@ def render_blockers(g):
             out.append("- **evidence:** " + " / ".join(b["evidence"]))
         own = b.get("owner", {})
         out += [f"- **owner:** `{own.get('file','—')}{own.get('anchor','')}`", ""]
-    out.append("[← L0](../views/L0-ecosystem.md)\n")
+    out.append("[← L0](../L0-ecosystem.md)\n")
     return "\n".join(out)
 
 
@@ -1051,7 +1133,7 @@ def render_technologies(g):
             if c.get("adoption_note"):
                 out.append(f"**⚠ Adoption note.** {c['adoption_note']}\n")
         out.append(f"*Scanned by:* {', '.join('`'+x+'`' for x in t.get('scan_trigger', [])) or '⚠ **nothing**'}\n")
-    out.append("[← L0](L0-ecosystem.md)\n")
+    out.append("[← L0](../L0-ecosystem.md)\n")
     return "\n".join(out)
 
 
@@ -1083,7 +1165,7 @@ def render_instruments(g):
     for i in g["instruments"]:
         out.append(f"| **{i['id']}** | {', '.join(sup.get(i['id'], [])) or '—'} "
                    f"| {', '.join(dis.get(i['id'], [])) or '—'} |")
-    out.append("\n[← L0](L0-ecosystem.md)\n")
+    out.append("\n[← L0](../L0-ecosystem.md)\n")
     return "\n".join(out)
 
 

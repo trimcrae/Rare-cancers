@@ -48,9 +48,9 @@ related: [DOC-ARCHITECTURE, DOC-CONVENTIONS, DOC-TAX-BLOCKERS, DOC-TAX-TECHNOLOG
 | **0** | Proposal — architecture, conventions, schemas, taxonomies, L0 diagram | ✅ **done** | no |
 | **1** | Build the graph, the checker, the generated views and the fail-red guards | ✅ **done** | no |
 | **2** | Retire the patient-facing site; promote its clinical data | ✅ **done** | yes |
-| **3** | Decompose the program map into the hierarchy | ◐ **partly done** — see §2.1 | yes |
+| **3** | Decompose the program map into the hierarchy | ✅ **done** — see §2.1 | yes |
 | **4** | Documentation consolidation, archive, rewrite the canonical set | ◐ **partly done** — see §2.2 | yes |
-| **5** | Technology register, forecasts, multi-year roadmap, maintenance guide | ◐ **mostly done** — see §2.3 | no |
+| **5** | Technology register, forecasts, roadmap, maintenance, scan wiring | ✅ **done** — see §2.3 | no |
 | **6** | *Optional, separately reviewed* — repository hygiene | ○ not started | yes |
 
 ### 2.1 · Phase 3 — what landed, and what deliberately did not
@@ -60,22 +60,29 @@ sections that restated it — the coverage matrix and the dependency graph — a
 than maintained by hand. The extraction is lossless and a check re-parses the roadmap on every run so the
 two cannot diverge (§3.3).
 
-**Not landed, and each for a stated reason:**
+**Also landed, 2026-08-05.** THE ORDERED PLAN and the money/ladder/spine block moved out of the roadmap
+entirely — 1,584 lines — into [`graph/plan.json`](graph/plan.json) → [`views/plan.md`](views/plan.md).
 
-- **The ordered plan and the spend ladder have not moved.** Both are structured sections and both are
-  parsed by CI — the plan by exact heading string, the ladder total by a registry that requires it in three
-  named files. Moving either needs the same lossless-extraction-plus-agreement-check treatment the
-  requirement register got, applied to a parser that currently exits 0 when it finds nothing.
-  `parser_guard.py` closes that specific hole and is already in CI, so the precondition is met; the work
-  itself is not done. **This is the largest single remaining item.**
-- **The narrative sections (§7, §8, §9) have not been split into per-route memos.** The register was safe
-  to lift because it is tabular; narrative is not, and splitting it badly would lose argument rather than
-  relocate it.
-- **The 161 referrers have not been repointed**, because nothing they point at has moved yet.
+⚠ **They had to move as ONE unit, and the reason is not obvious.** `pinned-figures.json`
+`subset_checks/strategy_spine_cum` is a **within-file** check: it scans a single file for `Cum. ~$N`
+(the plan) and `Cum ~$N` (the spine) and asserts the second is a subset of the first. The notations
+differ deliberately. Splitting them across files fails as *"pattern found nothing"* — which reads like
+a broken regex rather than a broken move. A third coupling was checked and was safe: three
+realised-spend figures also require the map, and all three live in the scoreboard, which did not move.
 
-⚠ **Do not repeat the mistake this phase nearly made.** The first extraction capped claim-ceiling cells at
-1200 characters and would have truncated two of them. A lossy migration is a regression. Measure the loss
-before moving anything, and prove it is zero.
+**Still not landed:** the narrative sections (§7, §8, §9) are not split into per-route memos. The
+registers were safe to lift because they are tabular; narrative is not, and splitting it badly would
+lose argument rather than relocate it.
+
+⚠ **Do not repeat the mistake this phase nearly made, twice.** The requirement extraction was first
+written with a 1,200-character cap and would have truncated two claim-ceiling cells. The plan
+extraction now refuses to write unless re-rendering reproduces the source byte for byte. **A lossy
+migration is a regression. Measure the loss before moving anything, and prove it is zero.**
+
+⭐ **And a regression the move itself caused:** `lint_claims` fell from 50 warnings to 43 the moment the
+sections left, because ~1,580 lines of gate language walked out of the linted set and nothing said so.
+A linter whose SCOPE shrinks while its PASS RATE improves is the worst possible signal. The generated
+view is now a lint target and `parser_guard` asserts the coupling.
 
 ### 2.2 · Phase 4 — what landed, and the hazard that stopped the rest
 
@@ -125,9 +132,16 @@ the sweep: `kind` and `status` decide what is archivable, never the filename.
 each declaring its basis), the multi-year roadmap generated as a projection of them, and
 [`MAINTENANCE.md`](MAINTENANCE.md).
 
-**Not landed:** wiring the literature scan to WRITE `TECH-*` state. The graph already carries every edge a
-graded hit would need to traverse; what is missing is the write path. It is ranked first in
-[`MAINTENANCE.md`](MAINTENANCE.md) §5 as the highest-value remaining automation.
+**Also landed, 2026-08-05.** The literature scan now writes into the graph — but **not** as originally
+recommended. `MAINTENANCE.md` §5 had said a graded hit "should set `current_state`". ⛔ That would have
+been wrong: the scan's own contract is that every hit is an unvalidated lead, machine-matched on a
+title, and that nothing may change a status by itself. What was built instead is a `pending_signals[]`
+queue on each `TECH-*` — the scan appends to it and touches nothing else, asserted by a test that should
+never need relaxing. Grading stays a human read.
+
+The interop check is now **bidirectional**, closing a gap `trigger_scan.py` documented against itself:
+its docstring said the reverse direction "cannot be checked until the registry carries that field; as
+of 2026-08-03 it does not." It did. The docstring was stale for two days and is corrected in place.
 
 ⭐ **Also recorded there rather than fixed:** one layer of the technology watch is credited in two documents
 with auto-capturing advances and has never written an entry. Fixing or retiring it is a decision, not a
@@ -229,7 +243,7 @@ Rows are added as each phase lands. `status` values: **moved** (content relocate
 | `README.md` | Rewritten around the L0 view as the entry point. |
 | `AGENTS.md` | ~70 % was the site playbook — architecture file map, add-a-cancer procedure, editing rules, deployment. Removed. Medical integrity, literature ingestion, figures, tests and publishing kept and re-scoped to the research program. Two long-dead references removed: a branch that no longer exists and a CI file that never did. |
 | `CONTRIBUTING.md` | Was ~100 % site. Rewritten as how to add a research object to the model. |
-| `METHODOLOGY.md` | Reframed from *"the most dangerous part of the site"* to the repository's evidence contract, which is what it always was — five of its six sections are what the manuscript's meta-analysis assumes and does not re-check. §2 now states plainly that **two pooling methods exist and are not interchangeable**. ⏳ Moves to `systems/POLICY-evidence.md` in Phase 4, where ~15 inbound references get repointed together. |
+| `METHODOLOGY.md` | Reframed from *"the most dangerous part of the site"* to the repository's evidence contract, which is what it always was — five of its six sections are what the manuscript's meta-analysis assumes and does not re-check. §2 now states plainly that **two pooling methods exist and are not interchangeable**. ⏳ **Still to move** to `systems/POLICY-evidence.md`, together with its ~15 inbound references. Deliberately not done piecemeal: repointing some and not others would leave two homes for one contract. |
 | `CLAUDE.md` | Site block replaced with a pointer to `systems/`. The old *"the site is shelved — keep it working"* line is retained as superseded, because it is the instruction this phase reverses. |
 
 ### 3.3 · The requirement register (Phase 3, 2026-08-05)
@@ -249,7 +263,33 @@ answer** (6). Those are opposite work items — the first needs something built 
 needs a better method — and merging them is the same failure the technology taxonomy found on the watch
 list, one layer down.
 
-*(Phases 4–5 rows are appended as those phases land. A phase is not complete until its rows are here.)*
+### 3.4 · Archived documents (§2, 2026-08-05)
+
+Nine documents with **zero inbound references anywhere in the repository**, verified across every file
+type rather than just Markdown links. Nothing needed repointing, which is why these went first.
+
+| was | now | why it qualified |
+|---|---|---|
+| `research/manuscripts/map-audit-manuscript.md` | [`archive/manuscripts/`](../archive/manuscripts/map-audit-manuscript.md) | 829 lines pinned to a commit and a line count that have both moved. Zero referrers — contradicting what §2.2 originally claimed. |
+| `research/manuscripts/map-merge-spec.md` | [`archive/manuscripts/`](../archive/manuscripts/map-merge-spec.md) | Carries its own `⛔ SUPERSEDED IN PART` banner. Zero referrers. |
+| `research/manuscripts/nr4a3-degrader-paper-review-round3.md` | [`archive/manuscripts/`](../archive/manuscripts/nr4a3-degrader-paper-review-round3.md) | Superseded by later rounds; zero referrers. |
+| `research/manuscripts/nr4a3-degrader-paper-review-round5.md` | [`archive/manuscripts/`](../archive/manuscripts/nr4a3-degrader-paper-review-round5.md) | Zero referrers. |
+| `research/manuscripts/nr4a3-degrader-paper-review-round6.md` | [`archive/manuscripts/`](../archive/manuscripts/nr4a3-degrader-paper-review-round6.md) | 33 lines; zero referrers. ⚠ "round-6 reviewer" appears in three modules as a *concept*, never as this filename — those are not file references and do not break. |
+| `research/ternary-session-handoff.md` | [`archive/research/`](../archive/research/ternary-session-handoff.md) | A one-shot session start-prompt; zero referrers. |
+| `research/modalities/SESSION-HANDOFF-2026-06-28.md` | [`archive/modalities/`](../archive/modalities/SESSION-HANDOFF-2026-06-28.md) | A June state, long overtaken; zero referrers. |
+| `research/modalities/nr4a3-repurpose-handoff.md` | [`archive/modalities/`](../archive/modalities/nr4a3-repurpose-handoff.md) | One-off paste-into-thread doc; zero referrers. |
+| `research/modalities/nrv04-covalent-input-admissibility-2026-07-25.md` | [`archive/modalities/`](../archive/modalities/nrv04-covalent-input-admissibility-2026-07-25.md) | Zero referrers — the roadmap cites the *panel-recovery* document, not this one. |
+
+⭐ **A tenth was on the safe list and was NOT archived.** `nr4a3-reach-rule-correction-2026-07-25.md`
+has zero inbound references and a date-stamped filename, so it looked archivable by every structural
+measure. Its own banner says *"Numbers marked ⏳ are filled from the CI artifacts when they land"* — and
+it still carries **fifteen** ⏳ markers. Those runs never landed, so the document is **live, not stale**,
+and archiving it would have buried an open work item. Checking cost one grep.
+
+**Still outstanding:** 22 documents that need their references repointed in the same commit as the move,
+and 7 that must never be archived. Both lists, with the reason for each, are in §2.2.
+
+*(A phase is not complete until its rows are here.)*
 
 ---
 

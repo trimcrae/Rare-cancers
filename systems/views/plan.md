@@ -29,7 +29,7 @@ last_verified: 2026-08-05
 
 ## THE ORDERED PLAN (spend-gated) — read top-to-bottom for "what's next"
 
-*★ **THE ITEM LAYER, AND THE MOST FRAGILE OBJECT IN THE REPO.** ⚠ **Parsed by [`work_ledger.scan_plan_items`](../modalities/work_ledger.py)** on this heading string, the bullet regex and the `###` rung sub-headings; the skipped marker is an **en dash**, not a hyphen, and the scan ends at the next `##`. Renaming the heading makes the plan invisible with no error; reformatting a bullet makes an open item vanish from the work board. [`degrader-paper-schedule.json`](degrader-paper-schedule.json) is its declared one-for-one machine mirror. [§10](#10--the-roadmap--one-ordered-list) is the ordered view over this layer and never restates a price.*
+*★ **THE ITEM LAYER, AND THE MOST FRAGILE OBJECT IN THE REPO.** ⚠ **Parsed by [`work_ledger.scan_plan_items`](../../research/modalities/work_ledger.py)** on this heading string, the bullet regex and the `###` rung sub-headings; the skipped marker is an **en dash**, not a hyphen, and the scan ends at the next `##`. Renaming the heading makes the plan invisible with no error; reformatting a bullet makes an open item vanish from the work board. [`degrader-paper-schedule.json`](../../research/manuscripts/degrader-paper-schedule.json) is its declared one-for-one machine mirror. [§10](#10--the-roadmap--one-ordered-list) is the ordered view over this layer and never restates a price.*
 
 Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `[!]` result under correction.
 **Price** = spot $ for that step on Vast 4090; **Cum.** = running total if GO at every gate to here (mid-range).
@@ -45,7 +45,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 - **`[x]` EMC E3-ligase expression** — **$0.** All 10 components of both CRL2^VHL and CRL4^CRBN are broadly
   expressed (HPA), so the VHL-vs-CRBN choice is **not** constrained by machinery availability — decide on
   geometry/selectivity. (No EMC line in HPA — general mesenchymal availability.)
-- **`[x]` Steric-exclusion DESIGN RULE (`S3`) — the measurement turned into something a designer runs** — **$0, CPU, no nod, [§10.1 row 24](#101--open-rows-ordered-by-what-unblocks-the-most).** Serves `R7` `R15`. Two substituent vectors, a shape spec and a per-candidate scorer, in [`steric-design-rule.json`](../modalities/steric-design-rule.json) (`python3 research/modalities/steric_design_rule.py --check`; the scorer **reproduces `M3`'s own 0.923-vs-0.173 over `M3`'s own 13 poses**, which is the check that would catch the rule and the measurement having become different objects). ⛔ **AND ITS CONTROL IS ATTACHED TO EVERY RECORD IT EMITS, WHICH IS THE POINT:** the paralogue's own docking **RELOCATES** these molecules by a median **5.31 Å (NR4A1) / 5.26 Å (NR4A2)**, so a high score means ***"this POSE is denied in the paralogue"* and NEVER *"the paralogue cannot bind this molecule"*** — it binds it somewhere else. Also carried on every record: the transfer is **RIGID** (the paralogue side chain is held in its own opened conformer and could rotate away), and **NR4A3's absence of clash is guaranteed by construction** and carries zero information, so only the between-class contrast is gradeable — which is why the scorer refuses to emit a signal without its matched null.
+- **`[x]` Steric-exclusion DESIGN RULE (`S3`) — the measurement turned into something a designer runs** — **$0, CPU, no nod, [§10.1 row 24](#101--open-rows-ordered-by-what-unblocks-the-most).** Serves `R7` `R15`. Two substituent vectors, a shape spec and a per-candidate scorer, in [`steric-design-rule.json`](../../research/modalities/steric-design-rule.json) (`python3 research/modalities/steric_design_rule.py --check`; the scorer **reproduces `M3`'s own 0.923-vs-0.173 over `M3`'s own 13 poses**, which is the check that would catch the rule and the measurement having become different objects). ⛔ **AND ITS CONTROL IS ATTACHED TO EVERY RECORD IT EMITS, WHICH IS THE POINT:** the paralogue's own docking **RELOCATES** these molecules by a median **5.31 Å (NR4A1) / 5.26 Å (NR4A2)**, so a high score means ***"this POSE is denied in the paralogue"* and NEVER *"the paralogue cannot bind this molecule"*** — it binds it somewhere else. Also carried on every record: the transfer is **RIGID** (the paralogue side chain is held in its own opened conformer and could rotate away), and **NR4A3's absence of clash is guaranteed by construction** and carries zero information, so only the between-class contrast is gradeable — which is why the scorer refuses to emit a signal without its matched null.
 - **`[x]` Pocket-tracking re-analysis** — **$0.** Harmonized detection folded into the paper's Gate-2 wording:
   8XTT **19/20 frames detected, 3 ≥ D\*=0.53** (`C1`–`C5`) (= 3/19 among detected, 3/20 across all deposited); release
   continuations druggable in 56/40/80 % of frames per replica, **44/75 = 59 % pooled**
@@ -93,7 +93,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   §1b/§1c.
 
   **★ r0 IS IN, IT IS THE WRONG SIGN, AND MORE REPLICATES CANNOT FIX IT (2026-07-25). Full analysis +
-  recommendation: [valB-mini-r0-verdict-2026-07-25.md](valB-mini-r0-verdict-2026-07-25.md).**
+  recommendation: [valB-mini-r0-verdict-2026-07-25.md](../../research/manuscripts/valB-mini-r0-verdict-2026-07-25.md).**
   The first complete cycle (CI 30148463967, re-dumped 30155238348) gives **ΔΔG_coop(r0) = −0.534 kcal/mol**
   against the +0.944 target — wrong sign, 1.478 off, **both of which are r0's own superseded reading and NOT
   the lane's headline** ([Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) 44 and 51; the
@@ -227,7 +227,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      points with 0 counterexamples**; **conditioned on r0 the corrected PASS rate is 0.0 % in every cell**
      (superseded rule: up to 71.6 %); an exhaustive 58,081-cell (r1,r2) scan gives **0 PASS under both**, so it
      demonstrably **does not rescue the failing result**; discrimination improves 2.0× → 10–3330×. Ratification
-     block: §8 of [valb-gate-defect-fix-audit-2026-07-25.md](valb-gate-defect-fix-audit-2026-07-25.md),
+     block: §8 of [valb-gate-defect-fix-audit-2026-07-25.md](../../research/manuscripts/valb-gate-defect-fix-audit-2026-07-25.md),
      which states the "applied after an unfavourable result" optic plainly as the risk.
   3. *in flight* — the **reverse** ternary+binary legs, testing |ΔG_fwd + ΔG_rev|.
   4. **⚠ THE NAMED RESCOPE IS DEAD — the P-series cannot carry this calibrator, established for $0 on real data**
@@ -256,10 +256,10 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      fixed in the same session and pinned by `tests/test_gate_exit_codes_render_distinctly.py`.
      **`[x]` BUILT AND RUNNABLE 2026-07-27 (LANE 19).** It was fully costed and fully argued and could not be
      *run*: no leg id, no third endpoint, no launcher mode, no reducer. It now has all four —
-     [`valb_triangle_legs.py`](../modalities/valb_triangle_legs.py) (the 4 new legs plus the derived
-     third vertex, frozen in [`valb-triangle-frozen.json`](../modalities/valb-triangle-frozen.json)),
-     `MODES['triangle']` in [`ternary_vast_launch.py`](../modalities/ternary_vast_launch.py), and
-     [`valb_triangle_reduce.py`](../modalities/valb_triangle_reduce.py) → `R`. Venue **Vast**; GCP was
+     [`valb_triangle_legs.py`](../../research/modalities/valb_triangle_legs.py) (the 4 new legs plus the derived
+     third vertex, frozen in [`valb-triangle-frozen.json`](../../research/modalities/valb-triangle-frozen.json)),
+     `MODES['triangle']` in [`ternary_vast_launch.py`](../../research/modalities/ternary_vast_launch.py), and
+     [`valb_triangle_reduce.py`](../../research/modalities/valb_triangle_reduce.py) → `R`. Venue **Vast**; GCP was
      declined deliberately — its scarce quantity is **GPU-days, not dollars**, and this rung would cost
      ~7.3 SERIAL days of the only GPU to save the plan figure below.
      **Three invariants are enforced in code, not remembered**, because each silently turns `R` from a
@@ -269,7 +269,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
      conflated or their legs mixed in one reduction.)*
      T1 = cmpd1→cmpd4 **is r0, reused** at coefficient +1 (verified: the triangle closes in T1's as-run
      direction, no sign flip). Evidence:
-     [valb-closure-triangle-pregate-2026-07-25.md](valb-closure-triangle-pregate-2026-07-25.md)
+     [valb-closure-triangle-pregate-2026-07-25.md](../../research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md)
      (`valb_triangle_chem.py` in the production mapper's own container + `valb_triangle_closure.py`, 19 tests).
      **Three corrections to the design as originally proposed:**
      - **(i) T3 is a DOUBLE perturbation for all four named cmpd4′ candidates** — X and Y act at different
@@ -348,7 +348,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   matters, and revising a threshold now — after the probe survived — would be precisely the retune this program
   forbids.** Both arms are seed 0, hence the same homology model *index* — and the two lanes each built their
   own copy of it, so what is established is that the two builds have an identical atom set (measured:
-  [ternary-4fs-vast-findings.md §2d](../compute/ternary-4fs-vast-findings.md)), not that they started
+  [ternary-4fs-vast-findings.md §2d](../../research/compute/ternary-4fs-vast-findings.md)), not that they started
   from bit-identical coordinates.
   **⚠ AND THE COMPARATOR STAYS THE UNRESTRAINED r0 VALUE.** The r0 cycle now also has a **restrained** binary
   arm ([Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) 44), and swapping that reading in here
@@ -377,7 +377,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   waters and 4 ions. **A disagreement would therefore still not have been attributable to the timestep alone**;
   the agreement is a cross-lane independent reproduction, which is a different and in one respect stronger
   claim. Evidence, the full composition census and the ΔΔG sizing:
-  [ternary-4fs-vast-findings.md §2d](../compute/ternary-4fs-vast-findings.md).
+  [ternary-4fs-vast-findings.md §2d](../../research/compute/ternary-4fs-vast-findings.md).
   **How it was settled, and why a cache listing could not do it.** A read-only setup-cache probe (added to
   `gcp-quota-check.yml`, dispatched against this branch — it writes nothing and cannot perturb the concurrent
   GCP leg) shows **three** versions coexisting for the forward leg: `v1`, `v1pe`, **`v2pe`**. So *presence* is
@@ -461,7 +461,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   **Consequence: do not pay for the re-run as built.** It is `[HELD]`.
 
   **★ THE PREREG AMENDMENT IS DONE (2026-07-25, trimcrae-delegated) — and it does NOT authorise the re-run.**
-  [AMENDMENT 1](../modalities/nr4a3-nrv04-covalent-feasibility-prereg.md#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated)
+  [AMENDMENT 1](../../research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated)
   is appended to the prereg with the frozen text left **unedited**. The standard applied: a rule may be amended
   only if its *statistic is shown to lack discriminating power*, demonstrated independently of whether we liked
   its answer. Four rulings:
@@ -474,7 +474,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
     §3 specifies, and 6 ns from a co-folded pose cannot resolve a binding-affinity difference anyway.
   - **★ NEW BINDING CRITERION A1 — input admissibility, and it FAILS NOW.** A covalent leg must stage its
     electrophilic carbon within bonding distance of the **target-chain** Cys Sγ.
-    ⚠ **CORRECTED SAME DAY BY [AMENDMENT 2](../modalities/nr4a3-nrv04-covalent-feasibility-prereg.md):
+    ⚠ **CORRECTED SAME DAY BY [AMENDMENT 2](../../research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md):
     A1 was measuring the WRONG CYSTEINE.** It resolved the *nearest* of the construct's **six**, which is
     **C566**, not the preregistered site **C551** (offset 344: co-fold resid 222 = C566, 207 = C551; the panel's
     legs record resid **222** throughout). **At C551 the real distances are 28.46 Å (`cov_nr4a1`) and 36.43 Å
@@ -508,9 +508,9 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   already a demoted *biological holdout*, so modelling its covalency inverts the ladder.
   *Hypothesis the amendment raises and the re-run can test (not asserted): the superseded covalent-vs-noncovalent
   null (2/3 = 2/3) is what one predicts if the "covalent" leg never carried a bond.* Full evidence:
-  [nrv04-covalent-panel-recovery-2026-07-25.md](../modalities/nrv04-covalent-panel-recovery-2026-07-25.md)
+  [nrv04-covalent-panel-recovery-2026-07-25.md](../../research/modalities/nrv04-covalent-panel-recovery-2026-07-25.md)
   · prior chain forensics
-  [nrv04-cofold-chain-forensics-2026-07-24.md](../modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
+  [nrv04-cofold-chain-forensics-2026-07-24.md](../../research/modalities/nrv04-cofold-chain-forensics-2026-07-24.md).
 
   **★ FOUR BUGS FOUND HERE PROPAGATE TO THE UNLAUNCHED NR-V04 RETROSPECTIVE (RUNG 4), WHICH SHARES THIS DRIVER —
   both are fixed with regression tests, and the retrospective must not launch on the old code.**
@@ -530,7 +530,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   retrospective would have inherited the gap** — what shipped, why it is an *analysis-atom* closure rather than
   every heavy atom, and what that does and does not buy, is in
   [§WHAT THE LANDED RESULTS CHANGE](#-what-the-landed-results-change-about-the-remaining-plan) 4,
-  which is the one home; code: [`md_analysis_traj.py`](../modalities/md_analysis_traj.py).
+  which is the one home; code: [`md_analysis_traj.py`](../../research/modalities/md_analysis_traj.py).
 
 ### RUNG 4 — warhead map, differential atlas, retrospective gate
 
@@ -542,8 +542,8 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   that exists as a graph fact, and both LOMAP budgets returned in **0.01 s**, so the MCS timeout is measured
   *not* to be the mechanism. A relaunch aborts identically and buys nothing), **17 remaining and being placed
   as the market allows.** Spend, live state and `$/ns` are on the IN FLIGHT board and in
-  [`realised-spend.json`](../modalities/realised-spend.json) — not restated here.
-  Full record: [step1-fanout-lane.md](../modalities/step1-fanout-lane.md).
+  [`realised-spend.json`](../../research/modalities/realised-spend.json) — not restated here.
+  Full record: [step1-fanout-lane.md](../../research/modalities/step1-fanout-lane.md).
   **Scope, if resumed:** the price covers **tranche 1 only** — the 19 edges at their charge-**conserving**
   microstate leg on the **primary frame**. The 8 charge-changing legs are *blocked* (no charge correction
   implemented) and the 6-frame conformer/paralogue axis is a **separate ~6× spend** — so tranche 1 yields a
@@ -575,8 +575,8 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   MBAR-SE error bars"*; this lane shipped at **one**, and the paper says so in three places. Scope is
   deliberately **3 edges of 18**, not the map — the open cycle is the decision-relevant subset.
   **Price, DERIVED not typed:** `realised_usd` **$73.79** over `n_computable` **18** edges
-  ([`realised-spend.json`](../modalities/realised-spend.json) →
-  [`step1-fanout-map.json`](../modalities/step1-fanout-map.json)) ⇒ ~$4.10/edge × 6 edge-replicates.
+  ([`realised-spend.json`](../../research/modalities/realised-spend.json) →
+  [`step1-fanout-map.json`](../../research/modalities/step1-fanout-map.json)) ⇒ ~$4.10/edge × 6 edge-replicates.
   **Gate:** the market, on the same buy line as everything else. **NO-GO reading:** if the replicated cycle
   still fails to close, the defect is mapping or setup rather than sampling, and the three edges are
   **withdrawn from the ranked table** rather than carried with a caveat.
@@ -693,11 +693,11 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   null R1 is a registered, publishable outcome**, not a method failure. Three infrastructure defects (kernel OOM,
   error-swallowing monitoring, the 25-input dispatch cap) are fixed in code and **unproven on hardware**, so the
   next launch is a **pilot, not a fan-out**.
-  **Resume here: [nrv04-retrospective-handoff-2026-07-24.md](../modalities/nrv04-retrospective-handoff-2026-07-24.md)**
+  **Resume here: [nrv04-retrospective-handoff-2026-07-24.md](../../research/modalities/nrv04-retrospective-handoff-2026-07-24.md)**
   (exact commands, cost ledger, traps) · prereg
-  [nr4a3-nrv04-retrospective-prereg.md](../modalities/nr4a3-nrv04-retrospective-prereg.md) · its co-folding
+  [nr4a3-nrv04-retrospective-prereg.md](../../research/modalities/nr4a3-nrv04-retrospective-prereg.md) · its co-folding
   moved off SageMaker onto the Vast lane
-  ([provider-deviation-2026-07-24.md](../compute/provider-deviation-2026-07-24.md)).
+  ([provider-deviation-2026-07-24.md](../../research/compute/provider-deviation-2026-07-24.md)).
 
 ### RUNG 5 — mechanism-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*
 
@@ -706,7 +706,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2 — free at CPU. **★ RECRUITER STAGING + THE MANDATORY ≤2 DOWNSELECT
   ARE DONE, $0 (2026-07-25): CRBN (9CUO) + VHL (9GIO) advance — VHL as a labelled *backfill*, not a co-winner —
   and the full dropped set is logged with reasons**, none of them availability. Engine
-  `e3_recruiter_staging.py` → [`e3-recruiter-staging.json`](../modalities/e3-recruiter-staging.json);
+  `e3_recruiter_staging.py` → [`e3-recruiter-staging.json`](../../research/modalities/e3-recruiter-staging.json);
   consumer API `load_advanced()`, whose `anchor_xyz` / `exit_direction` / `caveats` fields are the contract the
   basin search consumes. **The remaining 5a work is the orientation-basin search itself.** Two constraints it
   inherits: the E3-breadth widening **confirmed the incumbents rather than displacing them** (structural
@@ -779,19 +779,19 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   licence-gated, with no conditional and no RDKit alternative on that path. Cost of establishing that dead end:
   **~$0.05.** Everything around the engine was engine-agnostic and survived the swap: staging with a
   mutation-site refusal, the SKEMPI-verified references, scoring, the verdict, and the Vast lane. Code:
-  [`Dockerfile.pmxfep`](../compute/Dockerfile.pmxfep),
-  [`protfep_pmx.py`](../modalities/protfep_pmx.py),
-  [`protfep_run.py`](../modalities/protfep_run.py),
-  [`protfep_bench.py`](../modalities/protfep_bench.py),
-  [`protfep_reduce.py`](../modalities/protfep_reduce.py),
-  [`protfep_refcheck.py`](../modalities/protfep_refcheck.py), `gpu-protfep-vast.yml`; plan in
-  [protfep-pmx-plan.md](../modalities/protfep-pmx-plan.md). **Most of the ladder is $0** — stage-test,
+  [`Dockerfile.pmxfep`](../../research/compute/Dockerfile.pmxfep),
+  [`protfep_pmx.py`](../../research/modalities/protfep_pmx.py),
+  [`protfep_run.py`](../../research/modalities/protfep_run.py),
+  [`protfep_bench.py`](../../research/modalities/protfep_bench.py),
+  [`protfep_reduce.py`](../../research/modalities/protfep_reduce.py),
+  [`protfep_refcheck.py`](../../research/modalities/protfep_refcheck.py), `gpu-protfep-vast.yml`; plan in
+  [protfep-pmx-plan.md](../../research/modalities/protfep-pmx-plan.md). **Most of the ladder is $0** — stage-test,
   refcheck, bake and a build-test that runs the ENTIRE hybrid construction on a CPU runner; a host is rented only
   once a hybrid demonstrably builds.
 
   *Known-answer benchmark — PASSED* (full set on Vast, equilibrium λ windows + BAR, scored by `protfep_reduce`
   against SKEMPI 2.0-verified references; artifact
-  [`protfep-benchmark-result.json`](../modalities/protfep-benchmark-result.json)):
+  [`protfep-benchmark-result.json`](../../research/modalities/protfep-benchmark-result.json)):
 
   | benchmark | computed ΔΔG_bind | reference | abs err | within ±1.5 |
   |---|---|---|---|---|
@@ -825,7 +825,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   physics** — two hosts rented minutes apart differed ~10× in throughput per particle.
 
   *Two blockers, both cleared in code before any leg runs*
-  (planning layer: [`nr4a3_protein_fep.py`](../modalities/nr4a3_protein_fep.py), whose wedge subtraction
+  (planning layer: [`nr4a3_protein_fep.py`](../../research/modalities/nr4a3_protein_fep.py), whose wedge subtraction
   delegates to `ternary_coop.ddg_coop` so there is **one** definition of the cycle in the repo, not two):
   - **Cross-lane charge mismatch.** `assert_charge_consistency` hard-fails any wedge whose ternary and binary
     legs charge the ligand differently. An un-pinned wedge is not a thermodynamic cycle, so this is a refusal,
@@ -867,8 +867,8 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   nothing, and a test asserts that.
 - **`[x]` 5b · THE TWO-BRANCH TEMPLATE — BUILT 2026-07-30, $0 (trimcrae: *"use your judgement"*). ONE molecule
   CAN carry both mechanisms, there is EXACTLY ONE way to do it, and it is not free.**
-  [`linker_twobranch.py`](../modalities/linker_twobranch.py) →
-  [`nr4a3-linker-twobranch.json`](../modalities/nr4a3-linker-twobranch.json), 10 tests, RDKit-verified
+  [`linker_twobranch.py`](../../research/modalities/linker_twobranch.py) →
+  [`nr4a3-linker-twobranch.json`](../../research/modalities/nr4a3-linker-twobranch.json), 10 tests, RDKit-verified
   **16/16**. **The preregistered enumeration is UNTOUCHED and a test asserts it is byte-identical after a full
   run** — this is a SEPARATE artifact and an additive extension, not an amendment. **It unlocks nothing
   downstream** and no gate, verdict or existing construct changes.
@@ -906,11 +906,11 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   neither is validated on this system** — and **inherits `R5`, which is unresolved.** ⛔ **This closes the program's largest unpriced gap** — the rebuild was prose only,
   in no rung, no spine row and no decision-value rank, and an item with no rung cannot be scheduled, refused
   or costed.
-  **Price, DERIVED not typed — one home:** [`ternary-rebuild-cost.json`](../modalities/ternary-rebuild-cost.json),
-  regenerated by [`ternary_rebuild_cost.py`](../modalities/ternary_rebuild_cost.py) and checked by
+  **Price, DERIVED not typed — one home:** [`ternary-rebuild-cost.json`](../../research/modalities/ternary-rebuild-cost.json),
+  regenerated by [`ternary_rebuild_cost.py`](../../research/modalities/ternary_rebuild_cost.py) and checked by
   `--check` + `tests/test_ternary_rebuild_cost.py`. **It buys 0.0 reference GPU-hours**, so it is $0 at any
   planning rate and **the pinned ladder total does not move**; the rate is read from
-  [`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json) rather than retyped. The wall-clock
+  [`vast-ladder-repricing.json`](../../research/modalities/vast-ladder-repricing.json) rather than retyped. The wall-clock
   figure it derives is a **floor**, not an estimate — the per-arm seconds come from a bromodomain+VCB system
   and this one is larger.
   **What runs:** DeepTernary at the frozen commit, patched to CPU at 16 seeds, over **5 arms** — two harness
@@ -920,7 +920,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   arm**. Inputs, artifacts and the pre-flight snap-mask assertion that stops the empty-mask failure two dead
   runs already paid for: the `spec` block of the cost artifact.
   ⛔ **The degrader's SMILES is recorded this time.** It is taken from
-  [`nr4a3-linker-library-chem.json`](../modalities/nr4a3-linker-library-chem.json), which carries a
+  [`nr4a3-linker-library-chem.json`](../../research/modalities/nr4a3-linker-library-chem.json), which carries a
   `canonical_smiles` and an `inchikey` per construct. The existing ternaries are unusable as evidence for
   exactly this reason: their molecule cannot be recovered from any of the three models, so no replicate can
   ever be matched to them.
@@ -938,7 +938,7 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
   is the named way out; if it returns nothing buildable the rung runs at the shortest committed length and
   **carries the measured collision bracket** instead of claiming the 12-atom figure.
   ✅ **THE NAMED WAY OUT WAS TAKEN, 2026-08-03, AND IT ANSWERS ARM (C) PARTLY IN THIS RUNG'S FAVOUR AND PARTLY
-  AGAINST IT** ([`nr4a3-short-linker-probe.json`](../modalities/nr4a3-short-linker-probe.json)). **(i)** The
+  AGAINST IT** ([`nr4a3-short-linker-probe.json`](../../research/modalities/nr4a3-short-linker-probe.json)). **(i)** The
   premise *"nothing exists at 12"* is false — a construct exists, is named, has a SMILES and an InChIKey, and
   clears the gate under both reach conventions; the library's floor of 14 turned out to be a basin-**breadth
   policy** rather than geometry or chemistry ([§8 Route B](#route-b--a-linker-borne-covalent-handle-at-an-nr4a3-unique-cysteine---blocked-on-r5-nothing-running--serves-r8-r15)).
@@ -975,13 +975,13 @@ Legend: `[ ]` pending · `[~]` in progress · `[x]` done · `[–]` skipped · `
 
 ### RUNG S — the two SCOPE rungs (`R13`, `R14`): claim-ceiling conditions, deliberately OFF the `Cum.` chain
 
-*★ **Added 2026-08-03, closing [§10.1](#101--open-rows-ordered-by-what-unblocks-the-most) rows 9 and 10** — two of the five rows that had **no rung, no gate and no price anywhere in the program.** ⛔ **All four items below are EXCLUDED from the pinned ladder total**, in exactly the way [pricing.md §C](../compute/pricing.md) excludes the 5a-KS confirmatory wedge and the reciprocal mutation cycle: they are **claim-ceiling conditions**, not steps of the gated 5a→5d spine, and **no rung's GO gates them.** So each carries a **Price** and deliberately **no `Cum.`** — folding them into the chain would silently move a total `vast_cost_model.py` derives. Every figure here is **DERIVED, never typed**, and its one home is [`scope-rung-cost.json`](../modalities/scope-rung-cost.json) (`python3 research/modalities/scope_rung_cost.py --check`), priced off the **live** market rate in [`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json) so these rungs move with the ladder instead of freezing a rate.*
+*★ **Added 2026-08-03, closing [§10.1](#101--open-rows-ordered-by-what-unblocks-the-most) rows 9 and 10** — two of the five rows that had **no rung, no gate and no price anywhere in the program.** ⛔ **All four items below are EXCLUDED from the pinned ladder total**, in exactly the way [pricing.md §C](../../research/compute/pricing.md) excludes the 5a-KS confirmatory wedge and the reciprocal mutation cycle: they are **claim-ceiling conditions**, not steps of the gated 5a→5d spine, and **no rung's GO gates them.** So each carries a **Price** and deliberately **no `Cum.`** — folding them into the chain would silently move a total `vast_cost_model.py` derives. Every figure here is **DERIVED, never typed**, and its one home is [`scope-rung-cost.json`](../../research/modalities/scope-rung-cost.json) (`python3 research/modalities/scope_rung_cost.py --check`), priced off the **live** market rate in [`vast-ladder-repricing.json`](../../research/modalities/vast-ladder-repricing.json) so these rungs move with the ladder instead of freezing a rate.*
 
-- **`[x]` `R13-a` · Fusion-junction SEQUENCE inventory, at the CORRECTED junction — RAN 2026-08-03, $0, gate REPRODUCED** — **$0 (0.0 ref-GPU-h) · needs no nod · CI/CPU.** Serves `R13`. Extend the uniqueness + lysine/cysteine sweep **across the junction** and state explicitly which real residues the modelled LBD construct (373–626) excludes from every geometry claim in the program. ⚠ **Price the CORRECTED object, never the old one:** the exon→residue map was re-derived on 2026-08-03 and NR4A3's first two *transcript* exons are non-coding, so all **7** previously committed junctions deleted the AF1 **and** the first zinc finger of the C4 DBD; the corrected canonical junction is **EWSR1 exon 7 ending at residue 264 :: NR4A3 exon 3 beginning at residue 1** ([`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json); the guard that makes a repeat loud is `fusion_breakpoints.resume_offset`, which now **raises** on a non-coding exon instead of sliding to a neighbour). **GATE:** a re-derivation that does **not** reproduce `EWSR1(1-264)::NR4A3(1-626)` from exon structure alone is a REFUSAL, not a result. ⛔ It settles **scope, not geometry** — the deliverable is one sentence the paper currently cannot write, plus the confirmation that **C166** is present in the disease protein and absent from every structure here.
-- **`[ ]` `R13-b` · Apo co-fold of the two corrected fusion constructs** — **~$0.66 ($0.28–1.67; 5.81 ref-GPU-h, 12 models = 2 constructs × 6 seeds) · 🔒 needs a nod · Vast, baked image.** Serves `R13`. The `seam` and `composite` constructs of [`fusion_cofold.py`](../modalities/fusion_cofold.py), re-cut to the corrected junction. **Basis is MEASURED, not estimated:** the one completed co-fold panel in this repo billed **5.808 ref-GPU-h / $1.0723 over 8 rentals, all on the reference card, for 12 models** ([`selcal-price-ledger.json`](../modalities/selcal-price-ledger.json) → `scope-rung-cost.json` `bases.cofold_per_model`), and that basis is an **upper bound twice over** — its system is *larger* (~570 residues vs 380/486, and the co-fold cost is ~N²), and its hours include an environment build on the billing host that [CLAUDE.md §6](../../CLAUDE.md) has since forbidden. **`$/ns` = `—`, and that is an honest refusal, not a missing field:** a co-fold integrates no dynamics, so there is no ns denominator (`inflight_board.unpriceable_usd_cell`); this rung is gated on its **dollar** ceiling alone and a refusal must say which ceiling it hit. **PRE-REGISTERED GATE, written before the run because a null here is the expected outcome:** `fusion_cofold.py`'s own prior is that the EWSR1 side is a prion-like IDR (mean pLDDT 38.8, 98 % of residues < 50) with **no cross-seam coevolution** for an MSA-based predictor to use — so **absence of an ordered composite interface is a FEASIBILITY READ, not evidence that no pocket can form**, and it may not be reported as a refutation. A GO is: an interface cavity present in **≥4 of 6 seeds** on the `composite` construct that is **absent from both parent AlphaFold models** — anything less is INDETERMINATE, a third outcome.
-- **`[x]` `R14-a` · Complete the anti-target panel, and run the self-control it has never run — RAN 2026-08-03, $0** — **$0 (0.0 ref-GPU-h) · needs no nod · CI/CPU (smina, the identical 24 Å box / exhaustiveness 8).** Serves `R14`. ⚠ **This is an ASSEMBLY job, not a build:** the 47-receptor sequence screen has run and flagged exactly **NR3C2 (MR)** and **AR**, the docking harness has run at panel scale (SI §S1), **AR is already a panel target**, and `denovo_401` is already staged. What is missing is that **MR/NR3C2 is not in [`antitarget_panel.json`](../modalities/antitarget_panel.json)** (a data row; `antitarget_prep.py` **drops** a target whose ligand/chain cannot be resolved, loudly, so a bad PDB pick fails rather than emits a bad receptor) and that the panel has a cognate-ligand self-control **which has now RUN (2026-08-03, $0): the self-control **FAILS on CYP3A4, PPARG, PXR**, so no anti-target margin from this panel may be read — including SI §S1's** ([`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json)). **GATE, and it is ordered deliberately:** the self-control runs **FIRST** — each target's own cognate ligand re-docked through the identical protocol — and **until it passes, no anti-target margin from this panel may be read, including the one already published in SI §S1.** ⭑ That is what makes this the higher-value half: a failure would reach a result the paper already carries.
-- **`[ ]` `R14-a2` · REPAIR the anti-target receptor PREPARATION, then re-run the self-control** — **$0 (0.0 ref-GPU-h) · needs no nod · CI/CPU.** Serves `R14`. ⭑ **Created 2026-08-03 because `R14-a` closed with a FAIL and the work it created must not close with it.** 3 of 10 receptors do not recover their own cognate ligand, so `panel_readable: false` and four SI §S1 clauses are unreadable ([`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json); instrument row [`V21`](#31--the-instrument-table)). **GATE — fix the PREPARATION, never the criterion:** the frozen rule is that a failing target **may not be dropped**, its box **may not be re-centred**, and **no band may be lowered**; the panel's own stated limit is that its receptors are protein-only by construction, so any cofactor-dependent binding mode is outside what it can model today. ⛔ **A pass here still does not restore the published margins on its own** — the NR4A3 ΔG column they subtract is **not committed anywhere in this repo**, which is a separate, independent block (`flagged.margin_refusal`).
-- **`[ ]` `R14-b` · Matched AR/MR cryptic-pocket ensembles (+ the $0 detector)** — **~$3.41 ($1.10–18.65; 29.87 ref-GPU-h, band 23.2–64.7) · 🔒 needs a nod · ⛔ AND CURRENTLY BLOCKED BY THE RATE LINE — see the gate.** Serves `R14`. The SI's *second* requirement: 2 species × (60 ns well-tempered metadynamics + 3 × 5 ns release), the workflow's own declared recipe, then the harmonized detector — which is **$0 CPU once frames exist**, the same $0 re-read that `paralogue-pocket-contrast.json` already performed on the paralogues. **⚠ Its dominant uncertainty is GPU-HOURS, not $/hr:** the measured host spread on this exact workload is **3.1× (146 → 47 ns/day)** and is **host-CPU-bound**, because PLUMED does per-step host-side work — caught on one instance jumping 24–33 % → 74 % `gpu_util` at the metad→release boundary, same card, minutes apart ([pricing.md §A.1](../compute/pricing.md)). So host CPU must enter selection for this rung. **⛔ REGISTERED GATE 1 — DO NOT LAUNCH:** its derived `$0.022758/ns` is **6.67× the ladder basis and 3.48× the approved buy line**, i.e. a row the standing gate **refuses**. ⚠ **That is NOT a drift finding and must not be quoted as one** — the line's basis is the 84,534-particle *unbiased* RBFE benchmark and this is a *biased* leg, so the two `$/ns` have different denominators. **There is no metadynamics-anchored basis in this repo, and until one exists this rung cannot be graded by the rate line at all.** Surfaced now rather than discovered at launch; it is a decision for trimcrae, not a rule to loosen. **⛔ REGISTERED GATE 2 — a $0 precheck that can refuse the spend on evidence, exactly like [§10.1 row 12](#101--open-rows-ordered-by-what-unblocks-the-most)'s did:** the CV is the Rg of **NR4A3's** ten Pocket-5 lining residues, mapped onto the target by BLOSUM62 at runtime. That ran on the paralogues at overall identity **0.51 / 0.58**; **AR and MR sit at ~0.32**, only marginally above the SI's own confidence floor, and the SI itself warns that *"a distant global alignment can mis-register a two-residue run"*. If the aligner does not map all ten CV residues at a stated confidence, **R14-b is REFUSED and $0 is spent.**
+- **`[x]` `R13-a` · Fusion-junction SEQUENCE inventory, at the CORRECTED junction — RAN 2026-08-03, $0, gate REPRODUCED** — **$0 (0.0 ref-GPU-h) · needs no nod · CI/CPU.** Serves `R13`. Extend the uniqueness + lysine/cysteine sweep **across the junction** and state explicitly which real residues the modelled LBD construct (373–626) excludes from every geometry claim in the program. ⚠ **Price the CORRECTED object, never the old one:** the exon→residue map was re-derived on 2026-08-03 and NR4A3's first two *transcript* exons are non-coding, so all **7** previously committed junctions deleted the AF1 **and** the first zinc finger of the C4 DBD; the corrected canonical junction is **EWSR1 exon 7 ending at residue 264 :: NR4A3 exon 3 beginning at residue 1** ([`nr4a3-exon-audit.json`](../../research/modalities/nr4a3-exon-audit.json); the guard that makes a repeat loud is `fusion_breakpoints.resume_offset`, which now **raises** on a non-coding exon instead of sliding to a neighbour). **GATE:** a re-derivation that does **not** reproduce `EWSR1(1-264)::NR4A3(1-626)` from exon structure alone is a REFUSAL, not a result. ⛔ It settles **scope, not geometry** — the deliverable is one sentence the paper currently cannot write, plus the confirmation that **C166** is present in the disease protein and absent from every structure here.
+- **`[ ]` `R13-b` · Apo co-fold of the two corrected fusion constructs** — **~$0.66 ($0.28–1.67; 5.81 ref-GPU-h, 12 models = 2 constructs × 6 seeds) · 🔒 needs a nod · Vast, baked image.** Serves `R13`. The `seam` and `composite` constructs of [`fusion_cofold.py`](../../research/modalities/fusion_cofold.py), re-cut to the corrected junction. **Basis is MEASURED, not estimated:** the one completed co-fold panel in this repo billed **5.808 ref-GPU-h / $1.0723 over 8 rentals, all on the reference card, for 12 models** ([`selcal-price-ledger.json`](../../research/modalities/selcal-price-ledger.json) → `scope-rung-cost.json` `bases.cofold_per_model`), and that basis is an **upper bound twice over** — its system is *larger* (~570 residues vs 380/486, and the co-fold cost is ~N²), and its hours include an environment build on the billing host that [CLAUDE.md §6](../../CLAUDE.md) has since forbidden. **`$/ns` = `—`, and that is an honest refusal, not a missing field:** a co-fold integrates no dynamics, so there is no ns denominator (`inflight_board.unpriceable_usd_cell`); this rung is gated on its **dollar** ceiling alone and a refusal must say which ceiling it hit. **PRE-REGISTERED GATE, written before the run because a null here is the expected outcome:** `fusion_cofold.py`'s own prior is that the EWSR1 side is a prion-like IDR (mean pLDDT 38.8, 98 % of residues < 50) with **no cross-seam coevolution** for an MSA-based predictor to use — so **absence of an ordered composite interface is a FEASIBILITY READ, not evidence that no pocket can form**, and it may not be reported as a refutation. A GO is: an interface cavity present in **≥4 of 6 seeds** on the `composite` construct that is **absent from both parent AlphaFold models** — anything less is INDETERMINATE, a third outcome.
+- **`[x]` `R14-a` · Complete the anti-target panel, and run the self-control it has never run — RAN 2026-08-03, $0** — **$0 (0.0 ref-GPU-h) · needs no nod · CI/CPU (smina, the identical 24 Å box / exhaustiveness 8).** Serves `R14`. ⚠ **This is an ASSEMBLY job, not a build:** the 47-receptor sequence screen has run and flagged exactly **NR3C2 (MR)** and **AR**, the docking harness has run at panel scale (SI §S1), **AR is already a panel target**, and `denovo_401` is already staged. What is missing is that **MR/NR3C2 is not in [`antitarget_panel.json`](../../research/modalities/antitarget_panel.json)** (a data row; `antitarget_prep.py` **drops** a target whose ligand/chain cannot be resolved, loudly, so a bad PDB pick fails rather than emits a bad receptor) and that the panel has a cognate-ligand self-control **which has now RUN (2026-08-03, $0): the self-control **FAILS on CYP3A4, PPARG, PXR**, so no anti-target margin from this panel may be read — including SI §S1's** ([`antitarget-selfcontrol.json`](../../research/modalities/antitarget-selfcontrol.json)). **GATE, and it is ordered deliberately:** the self-control runs **FIRST** — each target's own cognate ligand re-docked through the identical protocol — and **until it passes, no anti-target margin from this panel may be read, including the one already published in SI §S1.** ⭑ That is what makes this the higher-value half: a failure would reach a result the paper already carries.
+- **`[ ]` `R14-a2` · REPAIR the anti-target receptor PREPARATION, then re-run the self-control** — **$0 (0.0 ref-GPU-h) · needs no nod · CI/CPU.** Serves `R14`. ⭑ **Created 2026-08-03 because `R14-a` closed with a FAIL and the work it created must not close with it.** 3 of 10 receptors do not recover their own cognate ligand, so `panel_readable: false` and four SI §S1 clauses are unreadable ([`antitarget-selfcontrol.json`](../../research/modalities/antitarget-selfcontrol.json); instrument row [`V21`](#31--the-instrument-table)). **GATE — fix the PREPARATION, never the criterion:** the frozen rule is that a failing target **may not be dropped**, its box **may not be re-centred**, and **no band may be lowered**; the panel's own stated limit is that its receptors are protein-only by construction, so any cofactor-dependent binding mode is outside what it can model today. ⛔ **A pass here still does not restore the published margins on its own** — the NR4A3 ΔG column they subtract is **not committed anywhere in this repo**, which is a separate, independent block (`flagged.margin_refusal`).
+- **`[ ]` `R14-b` · Matched AR/MR cryptic-pocket ensembles (+ the $0 detector)** — **~$3.41 ($1.10–18.65; 29.87 ref-GPU-h, band 23.2–64.7) · 🔒 needs a nod · ⛔ AND CURRENTLY BLOCKED BY THE RATE LINE — see the gate.** Serves `R14`. The SI's *second* requirement: 2 species × (60 ns well-tempered metadynamics + 3 × 5 ns release), the workflow's own declared recipe, then the harmonized detector — which is **$0 CPU once frames exist**, the same $0 re-read that `paralogue-pocket-contrast.json` already performed on the paralogues. **⚠ Its dominant uncertainty is GPU-HOURS, not $/hr:** the measured host spread on this exact workload is **3.1× (146 → 47 ns/day)** and is **host-CPU-bound**, because PLUMED does per-step host-side work — caught on one instance jumping 24–33 % → 74 % `gpu_util` at the metad→release boundary, same card, minutes apart ([pricing.md §A.1](../../research/compute/pricing.md)). So host CPU must enter selection for this rung. **⛔ REGISTERED GATE 1 — DO NOT LAUNCH:** its derived `$0.022758/ns` is **6.67× the ladder basis and 3.48× the approved buy line**, i.e. a row the standing gate **refuses**. ⚠ **That is NOT a drift finding and must not be quoted as one** — the line's basis is the 84,534-particle *unbiased* RBFE benchmark and this is a *biased* leg, so the two `$/ns` have different denominators. **There is no metadynamics-anchored basis in this repo, and until one exists this rung cannot be graded by the rate line at all.** Surfaced now rather than discovered at launch; it is a decision for trimcrae, not a rule to loosen. **⛔ REGISTERED GATE 2 — a $0 precheck that can refuse the spend on evidence, exactly like [§10.1 row 12](#101--open-rows-ordered-by-what-unblocks-the-most)'s did:** the CV is the Rg of **NR4A3's** ten Pocket-5 lining residues, mapped onto the target by BLOSUM62 at runtime. That ran on the paralogues at overall identity **0.51 / 0.58**; **AR and MR sit at ~0.32**, only marginally above the SI's own confidence floor, and the SI itself warns that *"a distant global alignment can mis-register a two-residue run"*. If the aligner does not map all ten CV residues at a stated confidence, **R14-b is REFUSED and $0 is spent.**
 - **`[x]` `R14-c` · The ENERGETIC (FEP) half — RULED OUT OF THIS RUNG, on the claim-ceiling rule** — **$0 (a decision).** The SI asks for *"docking/FEP into their LBDs"*. The FEP half **is `V4`'s instrument** — the selectivity ABFE that has never recovered a known selectivity answer across two pockets — so under [§2.3](#23--the-claim-ceiling-rule-stated-so-it-can-be-checked) a number from it could not raise `R14` above *unvalidated prediction*. Pricing it here would create a **second home** for a decision that already has one: [§10.1 row 2](#101--open-rows-ordered-by-what-unblocks-the-most), `V4`'s missing rung. **It is downstream of row 2, not parallel to it**, and that is why this rung is closed rather than costed.
 
 ### OPTIONAL / HELD — only if a specific claim needs them AND a budget nod is given
@@ -1017,13 +1017,13 @@ the rules lived in another file, a rule-1 violation the moment the merge put the
 
 | | one home |
 |---|---|
-| the pinned ladder total and its derivation | [§Spend summary](#spend-summary), regenerated by `vast_cost_model.py` and CI-checked against [`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json) |
+| the pinned ladder total and its derivation | [§Spend summary](#spend-summary), regenerated by `vast_cost_model.py` and CI-checked against [`vast-ladder-repricing.json`](../../research/modalities/vast-ladder-repricing.json) |
 | per-rung authorisation and cumulative cost | [§Dependency spine](#dependency-spine) |
 | per-item price and gate | [§THE ORDERED PLAN](#the-ordered-plan-spend-gated--read-top-to-bottom-for-whats-next) |
-| the cost evidence behind every rate | [pricing.md](../compute/pricing.md) · [bid-strategy.md](../compute/bid-strategy.md) |
-| realised spend | [`realised-spend.json`](../modalities/realised-spend.json), summed from each lane's own rental ledger — a **floor**, with an attested block the machine ledgers cannot see |
-| the buy line (`$/ns`) | [`inflight_usd_per_ns.APPROVED_USD_PER_NS`](../modalities/inflight_usd_per_ns.py) — **the drift line IS the buy line**; a row that prints `⚠ DRIFT` is a row we do not buy |
-| live in-flight state | [`inflight_usd_per_ns.py`](../modalities/inflight_usd_per_ns.py) / `inflight-board-all.md` — ⚠ **not** the [⏱️ IN FLIGHT](#in-flight-superseded) block on this page, which is superseded ([§12](#12--findings-that-belong-to-other-documents) finding 6) |
+| the cost evidence behind every rate | [pricing.md](../../research/compute/pricing.md) · [bid-strategy.md](../../research/compute/bid-strategy.md) |
+| realised spend | [`realised-spend.json`](../../research/modalities/realised-spend.json), summed from each lane's own rental ledger — a **floor**, with an attested block the machine ledgers cannot see |
+| the buy line (`$/ns`) | [`inflight_usd_per_ns.APPROVED_USD_PER_NS`](../../research/modalities/inflight_usd_per_ns.py) — **the drift line IS the buy line**; a row that prints `⚠ DRIFT` is a row we do not buy |
+| live in-flight state | [`inflight_usd_per_ns.py`](../../research/modalities/inflight_usd_per_ns.py) / `inflight-board-all.md` — ⚠ **not** the [⏱️ IN FLIGHT](#in-flight-superseded) block on this page, which is superseded ([§12](#12--findings-that-belong-to-other-documents) finding 6) |
 
 ⚠ **Two ledgers, never summed.** GCP trial credit buys wall clock, not headroom; it is tracked separately from
 realised and ladder spend.
@@ -1051,12 +1051,12 @@ plan's own ordering. Recorded in [§12](#12--findings-that-belong-to-other-docum
    stage on a hypothesis a cheap stage could have falsified.
 3. **GO/NO-GO after every priced rung.** Each rung ends with an explicit test; NO-GO = stop or pivot.
 4. **Every step is priced bottom-up per edge** on the Vast-4090 bases below; provenance in
-   [pricing.md](../compute/pricing.md). A step whose engine has no completed benchmark leg is carried as
+   [pricing.md](../../research/compute/pricing.md). A step whose engine has no completed benchmark leg is carried as
    **PROJECTED and excluded from the pinned total**, never at a fake number.
 
-## GPU economics (full provenance in [pricing.md](../compute/pricing.md))
+## GPU economics (full provenance in [pricing.md](../../research/compute/pricing.md))
 
-*★ **LARGELY A POINTER**, deliberately: the throughput table's home is `vast_cost_model.MEASURED_NS_PER_DAY_84K`, the bid rule's is `bid-strategy.md §7`, the per-edge bases' is [pricing.md](../compute/pricing.md). What genuinely lives here is the **six cost levers**, which are ratios and survive any reprice.*
+*★ **LARGELY A POINTER**, deliberately: the throughput table's home is `vast_cost_model.MEASURED_NS_PER_DAY_84K`, the bid rule's is `bid-strategy.md §7`, the per-edge bases' is [pricing.md](../../research/compute/pricing.md). What genuinely lives here is the **six cost levers**, which are ratios and survive any reprice.*
 
 **All production runs go on Vast.** GCP L4 / SageMaker / Modal are not the go-forward basis. **The card is not
 the decision — the OFFER is.** Rank live offers by all-in **`$/ns`** (bid + storage ÷ measured throughput) and
@@ -1080,7 +1080,7 @@ proportionally more exposed on it — scaled and flagged per card, not ignored.
   hour and cannot buy safety from on-demand renters. Retention is bought with **checkpoint frequency**, which is
   free. Every multiplier this repo has used (`×1.1`, `×1.5`, `×1.9`, `×1.25`) is retired; derivation, the
   measured bid ladder, and what retired each one are in
-  [bid-strategy.md](../compute/bid-strategy.md). `VAST_BID_FLOOR_MULT` survives only as an unset escape
+  [bid-strategy.md](../../research/compute/bid-strategy.md). `VAST_BID_FLOOR_MULT` survives only as an unset escape
   hatch for a leg that genuinely cannot be paused.
 - **Storage is a real line, not a rounding error** — ~$0.011/hr at the 40 GB the launcher requests, which on the
   *best* offer is 42 % of all-in cost. Ask for the disk the job needs.
@@ -1115,7 +1115,7 @@ carry over) — free credit beats cheap cash, and it buys ≈3 ternary edges, no
 from a **manual** source not yet reconciled against the ~8 dispatched L4 legs. Track GCP burn separately, and do
 not let "we spent ~$2 so far" imply the L4 lane was free.
 
-### Cost levers adopted 2026-07-24 ([evidence](nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md))
+### Cost levers adopted 2026-07-24 ([evidence](../../research/manuscripts/nr4a3-ternary-selectivity-strategy-revision-2026-07-24.md))
 
 1. **~~4 fs ternary production ≈ 2× cheaper per leg.~~ ⚠ CORRECTED 2026-07-25 — the saving is **1.56×**, not
    2×, and the leg is **2800 iterations**, not 2400. Both verified against `rbfe_spot_driver` source, both pure
@@ -1168,16 +1168,16 @@ not let "we spent ~$2 so far" imply the L4 lane was free.
 
 *Operational Vast setup — image `triskit23/nr4a3fep:latest` (openfe ≥1.12 + ambertools + lomap/kartograf +
 OpenMM pinned to CUDA 12.6), the `probe_offers` / `bench` / `firm` tooling in
-[`nrv04_vast_launch.py`](../modalities/nrv04_vast_launch.py), and the bid/ranking code of record in
-[`gpu_backend.py`](../modalities/gpu_backend.py) + `vast_cost_model.recommended_bid` — is documented in
-[pricing.md §E](../compute/pricing.md); not repeated here. The hourly read-only price sampler is
+[`nrv04_vast_launch.py`](../../research/modalities/nrv04_vast_launch.py), and the bid/ranking code of record in
+[`gpu_backend.py`](../../research/modalities/gpu_backend.py) + `vast_cost_model.recommended_bid` — is documented in
+[pricing.md §E](../../research/compute/pricing.md); not repeated here. The hourly read-only price sampler is
 `.github/workflows/vast-price-sample.yml`.*
 
 ---
 
 ## Spend summary
 
-*★ **THE SPEND LADDER'S ARITHMETIC.** The pinned total is **DERIVED** (`vast_cost_model.py` → [`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json)) and `lint_consistency.check_derivations` fails the build if this file, [pricing.md](../compute/pricing.md) or [bid-strategy.md](../compute/bid-strategy.md) drifts from it. Never hand-carry it.*
+*★ **THE SPEND LADDER'S ARITHMETIC.** The pinned total is **DERIVED** (`vast_cost_model.py` → [`vast-ladder-repricing.json`](../../research/modalities/vast-ladder-repricing.json)) and `lint_consistency.check_derivations` fails the build if this file, [pricing.md](../../research/compute/pricing.md) or [bid-strategy.md](../../research/compute/bid-strategy.md) drifts from it. Never hand-carry it.*
 
 **PINNED TOTAL: ~$169 mid-range (~$46–626)**, GO at every gate, priceable stages only.
 *(Superseded, retained: **~$158 mid (~$44–578)** — retired 2026-07-30 when RUNG 5a-KS went from **2 ternary legs
@@ -1190,16 +1190,16 @@ re-anchored; the GPU-hours did not change, the `$/reference-GPU-hour` did. prici
 
 **How it is built** — regenerate the alchemical/MD stages with
 `python research/modalities/vast_cost_model.py --json-out vast-ladder-repricing.json`
-(JSON: [`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json)); the tool prices 9 stages
+(JSON: [`vast-ladder-repricing.json`](../../research/modalities/vast-ladder-repricing.json)); the tool prices 9 stages
 at **$149.63 ($36.58–531.46)** at the committed snapshot's **$0.1143/ref-GPU-h**. The ladder figure adds the
 stages the tool does not cover, at the **[low, mid, high] the machine registry uses** — step0 ~$1–2 (mid
 **$1.5**), valA_mini ~$0–15 (mid **$0**, its *realized* cost on GCP credit rather than the band's midpoint), the
 ~$8 measured covalent panel, 5a basin ~$0–50 (mid **$0**, realized), 5b linker ~$0–20 (mid **$10**):
 `149.63 + 1.5 + 0 + 8 + 0 + 10 ≈ 169`; low `36.58 + 1 + 0 + 8 + 0 + 0 ≈ 46`; high
-`531.46 + 2 + 15 + 8 + 50 + 20 ≈ 626`. [pricing.md §C](../compute/pricing.md) and
-[bid-strategy.md §6](../compute/bid-strategy.md) carry the same total — all three must agree, and
-[`lint_consistency.py`](lint_consistency.py) recomputes it from
-[`pinned-figures.json`](pinned-figures.json) → `derivations.ladder_total` rather than
+`531.46 + 2 + 15 + 8 + 50 + 20 ≈ 626`. [pricing.md §C](../../research/compute/pricing.md) and
+[bid-strategy.md §6](../../research/compute/bid-strategy.md) carry the same total — all three must agree, and
+[`lint_consistency.py`](../../research/manuscripts/lint_consistency.py) recomputes it from
+[`pinned-figures.json`](../../research/manuscripts/pinned-figures.json) → `derivations.ladder_total` rather than
 trusting any of them.
 
 ⚠ **TWO THINGS THIS PARAGRAPH GOT WRONG UNTIL 2026-07-30, both found by regenerating rather than reading.**
@@ -1336,7 +1336,7 @@ dollar ceiling.
 
 ## Open decisions
 
-- ⛔ **NEW 2026-08-03 — the anti-target self-control's criterion is UNDER-SPECIFIED for a multi-copy deposit, and it is currently deciding a FAIL.** CYP3A4: scored 12.337 Å against copy KLNA1501, but 1.108 Å from copy KLNA1500 (8 copies in the deposit). The pre-registered criterion reads *"the crystallographic copy of the same ligand"*, which has no referent when a deposit places several copies of the cognate in one site. ⚠ **The verdict was left FAIL and must stay there until this is ruled on**, because choosing the copy after seeing which one passes is the tuning the rung's own frozen rule forbids. The decision is one sentence — score against *any* deposited copy, or against a *named* one — and it must be written down BEFORE it is applied. Evidence: [`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json) → `repair_delta`.
+- ⛔ **NEW 2026-08-03 — the anti-target self-control's criterion is UNDER-SPECIFIED for a multi-copy deposit, and it is currently deciding a FAIL.** CYP3A4: scored 12.337 Å against copy KLNA1501, but 1.108 Å from copy KLNA1500 (8 copies in the deposit). The pre-registered criterion reads *"the crystallographic copy of the same ligand"*, which has no referent when a deposit places several copies of the cognate in one site. ⚠ **The verdict was left FAIL and must stay there until this is ruled on**, because choosing the copy after seeing which one passes is the tuning the rung's own frozen rule forbids. The decision is one sentence — score against *any* deposited copy, or against a *named* one — and it must be written down BEFORE it is applied. Evidence: [`antitarget-selfcontrol.json`](../../research/modalities/antitarget-selfcontrol.json) → `repair_delta`.
 
 
 *★ **THE DECISION REGISTER.** 15 numbered rulings, all closed. ⚠ **Cited by number in 30 files and nothing resolves a decision number** — the numbering is **frozen** and survived this file's merge unchanged. [§10](#10--the-roadmap--one-ordered-list) rows cite these by number.*
@@ -1371,7 +1371,7 @@ dollar ceiling.
    an ask the same day, quantified at 1→4; withdrawn — see [Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) row 20.)
 
    **AND A FASTER GPU WOULD NOT HELP EITHER — because the GCP lane is DOLLAR-bound, not time-bound.** Asked and
-   answered 2026-07-26 rather than assumed. From [credit-status.json](../compute/credit-status.json): cap
+   answered 2026-07-26 rather than assumed. From [credit-status.json](../../research/compute/credit-status.json): cap
    **$300**, spent **$8**, so **~$292 remains** against a 2026-10-10 expiry.
 
    | | value |
@@ -1417,9 +1417,9 @@ dollar ceiling.
    [Appendix A](../../STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims) row 56 has the correction.
 
    **★★ WHAT THE PROBE MEASURED, AND WHY IT INVERTS THE TABLE.** Built and run 2026-07-31 on free trial credit
-   (`gpu-bench-gcp.yml` + [`gcp_card_bench.py`](../modalities/gcp_card_bench.py)); one home for every
-   number is [`gcp-card-bench.json`](../modalities/gcp-card-bench.json), and the readable table with its
-   full caveats is **[gcp-gpu-facts.md §1c](../compute/gcp-gpu-facts.md)**. Do not copy figures here —
+   (`gpu-bench-gcp.yml` + [`gcp_card_bench.py`](../../research/modalities/gcp_card_bench.py)); one home for every
+   number is [`gcp-card-bench.json`](../../research/modalities/gcp-card-bench.json), and the readable table with its
+   full caveats is **[gcp-gpu-facts.md §1c](../../research/compute/gcp-gpu-facts.md)**. Do not copy figures here —
    point at those.
 
    1. **THE WORKLOAD IS COMPUTE-BOUND, NOT BANDWIDTH-BOUND — and that is the whole ballgame.** The T4 is the
@@ -1443,7 +1443,7 @@ dollar ceiling.
    probe's own admission gate** (CV 5.6 % against a 5 % ceiling) and is reported as a *ranking*, not a rate —
    a 3.5× discrepancy cannot be manufactured by 5.6 % of block scatter, but the number itself is provisional.
    Capacity also intervened: `NVIDIA_T4_GPUS` on-demand returned **`ZONE_RESOURCE_POOL_EXHAUSTED` in all four
-   us-central1 zones**, so the T4 arm had to run on spot ([facts §1d](../compute/gcp-gpu-facts.md)).
+   us-central1 zones**, so the T4 arm had to run on spot ([facts §1d](../../research/compute/gcp-gpu-facts.md)).
    **A granted per-type quota is not capacity** — that is new, and it is the one respect in which "we already
    hold quota for several GPU types" oversold itself.
 
@@ -1492,7 +1492,7 @@ dollar ceiling.
    is ~0.63, which a conventional threshold demotes anyway. **Proposed fix is therefore transparency, not
    correction** — report the computed power *beside* the verdict, keeping the demotion rule, because
    "UNDERPOWERED" currently cannot distinguish power 0.63 from 0.05 and those warrant different responses.
-   Evidence: [`valb_failure_propagation.frozen_rule_vs_measured_power`](../modalities/valb_failure_propagation.py).
+   Evidence: [`valb_failure_propagation.frozen_rule_vs_measured_power`](../../research/modalities/valb_failure_propagation.py).
    **Same standard as item 6 and it is why nothing was changed:** a rule may be amended only if its statistic
    is shown to lack discriminating power, demonstrated independently of whether we like its answer — and here
    the statistic turned out **not** to lack it. Written down **before `R` landed**.
@@ -1504,8 +1504,8 @@ dollar ceiling.
    solvation term. ⚠ The ratio is **transferred, not measured on the triangle** (which has no replicates), so
    this narrows the interval and must never be reported as though the triangle had replicates.
 9b. **`[x]` DONE 2026-07-30 — decision 9's $0 survey RAN, and it answered more than it was asked.
-   Artifact: [`s-calibrator-survey.json`](../modalities/s-calibrator-survey.json)
-   (generator [`s_calibrator_survey.py`](../modalities/s_calibrator_survey.py)); every PDB ID is fetched
+   Artifact: [`s-calibrator-survey.json`](../../research/modalities/s-calibrator-survey.json)
+   (generator [`s_calibrator_survey.py`](../../research/modalities/s_calibrator_survey.py)); every PDB ID is fetched
    from RCSB, never typed.** Ten candidate paralogue pairs screened on whether a deposited **ternary** exists
    on **both** arms. **2 of 10 are symmetric: SMARCA2/SMARCA4 and IKZF1/IKZF3.** The incumbent therefore
    **survives its own screen** and decision 9 forces no system change. Two pairs would have been traps —
@@ -1532,7 +1532,7 @@ dollar ceiling.
    discrimination, SMARCA2-vs-SMARCA4) should be freed from behind the failed cooperativity gate now that `R`
    says the ternary environment is internally clean. **It should not.** Module 1's statistic did not *lack
    discriminating power* — it discriminated perfectly well and returned NO — so the repo's own amendment
-   standard ([AMENDMENT 1](../modalities/nr4a3-nrv04-covalent-feasibility-prereg.md#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated))
+   standard ([AMENDMENT 1](../../research/modalities/nr4a3-nrv04-covalent-feasibility-prereg.md#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated))
    does not reach it; and `R` supplies no licence either, because `R` is **blind to the endpoint-state class
    that broke valB**. Unlocking the prospective ladder here would be the retune this program forbids, wearing
    a diagnosis as cover. **The prospective NR4A ternary matrix stays unrun and cooperativity claims stay
@@ -1542,7 +1542,7 @@ dollar ceiling.
    quantity `S` does not contain (its binary leg cancels algebraically). The failure *exposed* that; it did not
    cause it. Closing it is a **new item**, not a gate amendment, and it unlocks **nothing** beyond whether `S`
    may be read as calibrated rather than exploratory. Reasoning + what must be preregistered first:
-   [`valb_failure_propagation.module3_decision`](../modalities/valb_failure_propagation.py).
+   [`valb_failure_propagation.module3_decision`](../../research/modalities/valb_failure_propagation.py).
    ⚠ **The strongest argument against, recorded because it must be preregistered rather than discovered:** an
    S-calibrator on SMARCA2-vs-SMARCA4 runs on the **same system family carrying the suspected error**, and a
    known-answer accuracy test does *not* telescope an endpoint-state error the way a cycle does — which is
@@ -1560,7 +1560,7 @@ dollar ceiling.
    *protein-mutation* quantity, **not** on a ternary-minus-binary one, so that pass does not cover this
    exposure. Consequence: a concordance between `S` and this cycle is **not two independent lines agreeing**,
    and a discordance would be uninterpretable. Derived in
-   [`valb_failure_propagation.error_algebra`](../modalities/valb_failure_propagation.py). *Not
+   [`valb_failure_propagation.error_algebra`](../../research/modalities/valb_failure_propagation.py). *Not
    load-bearing* — the paper's headline causal result is already stated as not hostage to it.
 11. **`[x]` DECIDED 2026-07-30 (trimcrae go) — `S` GETS n = 2 SEEDS PER ARM (4 ternary legs).**
     The lane is re-specified and the ladder regenerated: `ternary_vast_launch.MODES['5aks']` declares four

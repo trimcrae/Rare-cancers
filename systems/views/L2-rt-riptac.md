@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ parked · concept · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#routes-813--why-each-sits-in-tier-3|route8)): Tier 3 — needs paralogue selectivity AND a med-chem campaign; strictly worse than TCIP on both
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — needs paralogue selectivity AND a med-chem campaign; strictly worse than TCIP on both
 
 ## Scientific rationale
 

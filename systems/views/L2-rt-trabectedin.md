@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ ready · concept · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.mdroute-board|trabectedin)): NEAR-TERM LEAD — approved, mechanism-fit
+**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): NEAR-TERM LEAD — approved, mechanism-fit
 
 ## Scientific rationale
 

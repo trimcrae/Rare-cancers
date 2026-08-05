@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ✓ blocked · computed · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#2--the-ranked-list|tier1-rank2)): Tier 1, rank 2 — DELIVERABLE
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 1, rank 2 — DELIVERABLE
 
 ## Scientific rationale
 

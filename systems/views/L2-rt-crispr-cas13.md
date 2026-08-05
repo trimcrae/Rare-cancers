@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ parked · concept · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#routes-813--why-each-sits-in-tier-3|route9)): Tier 3 — delivery, and Cas13 collateral activity
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — delivery, and Cas13 collateral activity
 
 ## Scientific rationale
 

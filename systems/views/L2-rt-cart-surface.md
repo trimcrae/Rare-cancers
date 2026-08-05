@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/car-t-strategies-emc.md`](../../research/manuscripts/car-t-strategies-emc.mdNone)): Hard but not closed — among surface modalities, ADC/FAPI-RLT likely beat CAR-T to a patient
+**Grade** (owned by [`research/manuscripts/car-t-strategies-emc.md`](../../research/manuscripts/car-t-strategies-emc.md)): Hard but not closed — among surface modalities, ADC/FAPI-RLT likely beat CAR-T to a patient
 
 ## Scientific rationale
 

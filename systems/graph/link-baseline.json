@@ -1,0 +1,27 @@
+{
+  "_schema": "link-baseline/1",
+  "_role": "Known-broken relative links that predate the link checker. Anything NOT listed here is an ERROR.",
+  "_why": [
+    "The repo-wide link checker is new and found 120 broken relative links on its first run. Turning all of them into build failures on day one is the same mistake as enabling frontmatter enforcement before the backfill: it makes the build red for defects that predate the check, and a permanently red build gets ignored.",
+    "So the discipline is the same one used for the frontmatter: RECORD THE BASELINE, FAIL ON REGRESSIONS. A new broken link is an error immediately; an old one is a work item with a name.",
+    "⚠ THESE THREE ARE NOT TYPOS. Each is a document citing an artifact that was never produced or no longer exists — which is a research finding, not a formatting one. They are listed so that fixing them means producing the artifact or withdrawing the citation, not silencing the check.",
+    "This list is meant to reach zero. It must never grow."
+  ],
+  "known_broken": [
+    {
+      "from": "research/manuscripts/fusion-junction-aso-paper.md",
+      "to": "../modalities/emc-line-data-probe.json",
+      "why": "The manuscript cites an EMC cell-line data probe artifact that is not committed. Either the probe was never run, or its output was never committed. Until one is true, the citation is unsupported."
+    },
+    {
+      "from": "research/manuscripts/nr4a3-program-map.md",
+      "to": "../modalities/nr4a3-5bt-signature.json",
+      "why": "The roadmap cites a signature artifact for the ternary-rebuild rung. That rung is registered as NOT STARTED, so the artifact not existing is consistent — but the link promises otherwise and should be a forward reference, not a citation."
+    },
+    {
+      "from": "research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md",
+      "to": "../modalities/valb-triangle-chem.json",
+      "why": "A dated pre-gate document citing a chemistry artifact that is not committed. Its sibling valb-pseries-chem.json does exist, so this is most likely an artifact that was planned and never produced."
+    }
+  ]
+}

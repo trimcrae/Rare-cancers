@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ closed · concept · confidence high · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#routes-813--why-each-sits-in-tier-3|route11)): Tier 3 — not fusion-selective; a class effect, not an EMC result
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — not fusion-selective; a class effect, not an EMC result
 
 ## Scientific rationale
 

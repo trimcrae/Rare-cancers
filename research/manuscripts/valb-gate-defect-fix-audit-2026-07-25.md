@@ -281,7 +281,7 @@ read:
 
 > ⚠ **APPLIED 2026-07-25** (commit `3f11cbf5`, delegated reviewer authority; amendment recorded verbatim in
 > `wurz-calib-frozen.json`) and **independently audited** the same day
-> ([valb-gate-defect-fix-audit-2026-07-25.md](research/manuscripts/valb-gate-defect-fix-audit-2026-07-25.md)):
+> ([valb-gate-defect-fix-audit-2026-07-25.md](./valb-gate-defect-fix-audit-2026-07-25.md)):
 > strictly stricter over **20,468/20,468** grid points with **0** counterexamples; conditioned on r0 the
 > corrected PASS rate is **0.0 % in every cell**, so the fix demonstrably does not rescue the failing result;
 > discrimination rises from **~2×** to **10–3330×**. Ratification is still open with the reviewer-AI.
