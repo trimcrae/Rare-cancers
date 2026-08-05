@@ -146,3 +146,39 @@ def test_cohort_composition_splits_tumours_from_cell_models():
 
 def test_derive_is_json_serialisable():
     json.dumps(M.derive(_inp()), sort_keys=True)
+
+
+def test_quant_parser_reads_a_plain_quant_sf():
+    """Pins the bug that failed all 68 samples on run 31006439097: `_get` already gunzips a `.gz`
+    URL, so a second gzip.decompress destroyed an intact file and reported `Not a gzipped file
+    (b'Na')` — where `Na` is the quant.sf header. The parser must read PLAIN text, and the panel
+    must aggregate every transcript of a gene rather than only the first."""
+    sf = ("Name\tLength\tEffectiveLength\tTPM\tNumReads\n"
+          "NM_006981.4\t3000\t2800\t120.5\t900\n"      # NR4A3
+          "NM_173199.3\t3100\t2900\t30.5\t200\n"       # NR4A3, second transcript
+          "NM_001101.5\t1800\t1600\t4000.0\t50000\n"   # ACTB
+          "NM_000477.7\t2000\t1800\t0.0\t0\n"          # ALB
+          "NM_999999.1\t1000\t800\t7.0\t10\n").encode()
+    tot, nrows, first, matched = M._parse_quant_sf(sf)
+    assert matched == "REFSEQ_ACCESSION"
+    assert nrows == 5
+    assert round(tot["NR4A3"], 1) == 151.0, "both NR4A3 transcripts must be summed"
+    assert tot["ACTB"] == 4000.0 and tot.get("ALB", 0.0) == 0.0
+    assert first[0] == "NM_006981.4"
+
+
+def test_quant_parser_reads_a_symbol_in_name():
+    sf = ("Name\tLength\tEffectiveLength\tTPM\tNumReads\n"
+          "ENST00000000001.1|ENSG00000119508.1|-|-|NR4A3-201|NR4A3|3000|protein_coding|"
+          "\t3000\t2800\t9.5\t80\n").encode()
+    tot, _, _, matched = M._parse_quant_sf(sf)
+    assert matched == "SYMBOL_IN_NAME"
+    assert tot["NR4A3"] == 9.5
+
+
+def test_identity_check_reports_cannot_determine_when_nothing_read():
+    """An unreadable panel must never render as 'the label is not corroborated'."""
+    art = M.derive(_inp())
+    q = {"per_sample": {"GSM2": {"status": "FAILED after 3 tries: HTTP 500"}}}
+    r = M.derive_quant(q, art)
+    assert r["verdict"].startswith("CANNOT_DETERMINE")

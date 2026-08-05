@@ -367,11 +367,18 @@ def fetch_quant(art_path=ART):
         if body is None:
             out["per_sample"][gsm] = {"status": status, "url": urls[0]}
             continue
-        try:
-            body = gzip.decompress(body)
-        except Exception as e:      # noqa: BLE001
-            out["per_sample"][gsm] = {"status": f"gunzip failed: {type(e).__name__}: {e}"}
-            continue
+        # ⚠ DO NOT gunzip here. `_get` already decompresses any URL ending in `.gz`, and gunzipping
+        # a second time failed all 68 samples on run 31006439097 with
+        # `BadGzipFile: Not a gzipped file (b'Na')` — where `Na` is the start of the quant.sf
+        # header `Name\tLength\t…`, i.e. the file had arrived intact and was destroyed on the way
+        # in. Kept as a tolerant branch rather than deleted, because a future GEO URL without a
+        # `.gz` suffix would arrive still compressed.
+        if body[:2] == b"\x1f\x8b":
+            try:
+                body = gzip.decompress(body)
+            except Exception as e:      # noqa: BLE001
+                out["per_sample"][gsm] = {"status": f"gunzip failed: {type(e).__name__}: {e}"}
+                continue
         tpm, nrows, first, matched = _parse_quant_sf(body)
         out["per_sample"][gsm] = {
             "status": status, "url": urls[0], "n_transcript_rows": nrows,
