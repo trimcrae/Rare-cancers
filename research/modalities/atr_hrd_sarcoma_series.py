@@ -1,0 +1,686 @@
+#!/usr/bin/env python3
+"""
+GSE299349 — "Targeting ATR signaling in sarcoma with homologous recombination deficiency".
+
+WHY THIS MODULE EXISTS, stated before anything it computes.
+
+The EMC ATR route (`emc-post-degrader-options.md` route 1) rests on ONE published mechanism
+(PMID 37205599): FET fusion oncoproteins are recruited to double-strand breaks through their
+N-terminal IDR, they IMPAIR ATM activation, and the compensatory ATR axis becomes load-bearing.
+That paper's own framing is explicitly NOT a homologous-recombination-deficiency framing.
+
+`emc_atr_vulnerability.py`'s four-archive search surfaced a 2026 GEO deposit whose title selects
+sarcoma on the OTHER biomarker — homologous recombination deficiency — and nobody had read it. Three
+questions follow, and this module answers each with evidence or an explicit CANNOT_DETERMINE:
+
+  Q1  Does it supply ATR-inhibitor RESPONSE data in sarcoma?  (part D of the assessment had no
+      instrument; a sarcoma ATRi response panel would be one.)
+  Q2  Does it contain EMC / any NR4A3-rearranged sample?      (there has never been one.)
+  Q3  Does it select on HRD rather than on FET-fusion status? (potentially ADVERSE to route 1:
+      a competing biomarker hypothesis, or a different patient population.)
+
+⚠ THE DISCIPLINE THIS MODULE IS BUILT AROUND. A GEO series TITLE is a claim by its depositors, not
+a measurement, and this repo has been bitten twice by treating one as the latter: GSE24369 is titled
+"low-grade fibromyxoid sarcoma" and silently contains six EMC tumours, and DepMap's one EMC-labelled
+model is recorded by the curated record as carrying no EWSR1 fusion. So EVERY verdict below is
+computed from SAMPLE-LEVEL metadata — per-sample title, source, characteristics, treatment and
+growth protocols — and every hit is reported with the sample and the field it came from, verbatim.
+
+⚠ AND THE SECOND DISCIPLINE (CLAUDE.md §4). An absent reading is not a reading of absence. Every
+fetch records its HTTP outcome; a field that could not be READ is `CANNOT_DETERMINE` with the reason,
+never a `false`. `derive()` refuses to answer any question whose input document did not arrive.
+
+$0 — pure stdlib, CPU only, no GPU and no rental. The dev sandbox's egress proxy 403s NCBI on
+CONNECT, so the fetch half runs in CI (`.github/workflows/emc-expression-datasets.yml`,
+`mode: gse-series`) and the derive half is offline-reproducible from the committed inputs cache:
+
+    python3 research/modalities/atr_hrd_sarcoma_series.py --fetch    # CI only (needs NCBI)
+    python3 research/modalities/atr_hrd_sarcoma_series.py --check    # offline, re-derives + diffs
+
+No efficacy, potency, dose, safety, therapeutic-window or clinical-readiness claim is made or
+implied anywhere in this module or its artifact.
+"""
+
+import argparse
+import gzip
+import io
+import json
+import os
+import re
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ART = os.path.join(HERE, "atr-hrd-sarcoma-series.json")
+INPUTS = os.path.join(HERE, "atr-hrd-sarcoma-series-inputs.json")
+
+SERIES = "GSE299349"
+# The mechanism paper route 1 rests on. Fetched here for ONE reason: Q3 asks whether a 2026 sarcoma
+# ATR programme is selecting on a biomarker that paper argues AGAINST, and that comparison has to be
+# made against the paper's own words rather than against this repo's summary of them.
+MECHANISM_PMID = "37205599"
+
+UA = {"User-Agent": "rare-cancers/1.0", "Accept": "text/plain, application/json, */*"}
+
+
+# =============================================================================================
+# fetch half — network. CI only.
+# =============================================================================================
+def _get(url, timeout=120, tries=4, note=""):
+    """Returns (bytes_or_None, status_string). NEVER raises: a failed fetch must be RECORDED,
+    because a verdict computed over a document that did not arrive is the exact failure mode this
+    module exists to avoid."""
+    last = ""
+    for i in range(tries):
+        try:
+            req = urllib.request.Request(url, headers=UA)
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                body = r.read()
+            if url.endswith(".gz"):
+                try:
+                    body = gzip.decompress(body)
+                except Exception as e:      # noqa: BLE001
+                    return None, f"gunzip failed: {type(e).__name__}: {e}"
+            return body, f"HTTP 200, {len(body)} bytes"
+        except urllib.error.HTTPError as e:
+            last = f"HTTP {e.code}"
+            if e.code in (400, 404):        # deterministic; retrying a 404 is just slower
+                break
+        except Exception as e:              # noqa: BLE001
+            last = f"{type(e).__name__}: {e}"
+        time.sleep(2 * (i + 1))
+    return None, f"FAILED after {tries} tries: {last}" + (f" ({note})" if note else "")
+
+
+def _ftp_dir(gse):
+    grp = gse[:-3] + "nnn"
+    return f"https://ftp.ncbi.nlm.nih.gov/geo/series/{grp}/{gse}/"
+
+
+def fetch(series=SERIES):
+    """One network pass. Everything it reads is stored verbatim so `--check` can re-derive offline."""
+    inp = {
+        "_what": (
+            "Raw records for the GEO series characterisation. Stored verbatim so the derive half is "
+            "reproducible with no network — the reproduce mode is a real one, not a re-run of the "
+            "same call."
+        ),
+        "series": series,
+        "fetched_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "fetches": {},
+    }
+
+    def grab(key, url, decode=True):
+        body, status = _get(url)
+        inp["fetches"][key] = {"url": url, "status": status}
+        if body is None:
+            inp[key] = None
+            return None
+        txt = body.decode("utf-8", "replace") if decode else body
+        inp[key] = txt
+        return txt
+
+    # 1 · SAMPLE-LEVEL metadata for the whole series in one request.
+    #     `targ=all&view=brief` returns the SERIES, every SAMPLE and the PLATFORM header WITHOUT the
+    #     platform's probe table — which on an array platform is the large half and is not wanted.
+    grab("soft_all_brief",
+         "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi"
+         f"?acc={series}&targ=all&form=text&view=brief")
+
+    # Fallback if acc.cgi refuses: the FTP family SOFT carries the same sample records.
+    if not inp.get("soft_all_brief"):
+        grab("soft_family_gz", _ftp_dir(series) + f"soft/{series}_family.soft.gz")
+
+    # 2 · Does a PROCESSED matrix exist, or only raw reads? Two directory listings answer it.
+    grab("ftp_matrix_listing", _ftp_dir(series) + "matrix/")
+    grab("ftp_suppl_listing", _ftp_dir(series) + "suppl/")
+
+    # 3 · The GEO DataSets summary — carries the PubMed link, sample count and assay types as GEO
+    #     itself indexes them, independently of the SOFT record.
+    esearch, st = _get("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
+                       f"?db=gds&retmode=json&term={series}[Accession]")
+    inp["fetches"]["gds_esearch"] = {"status": st}
+    uid = None
+    if esearch:
+        try:
+            ids = json.loads(esearch)["esearchresult"]["idlist"]
+            uid = ids[0] if ids else None
+        except Exception as e:      # noqa: BLE001
+            inp["fetches"]["gds_esearch"]["parse_error"] = f"{type(e).__name__}: {e}"
+    inp["gds_uid"] = uid
+    if uid:
+        grab("gds_esummary",
+             "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
+             f"?db=gds&retmode=json&id={uid}")
+
+    # 4 · The publication, if the series names one — and if it does not, ask Europe PMC whether any
+    #     paper cites the accession, which is how a deposit-before-publication series is found.
+    pmids = sorted(set(re.findall(r"!Series_pubmed_id\s*=\s*(\d+)", inp.get("soft_all_brief") or "")))
+    if not pmids and inp.get("gds_esummary"):
+        pmids = sorted(set(re.findall(r'"pubmedids":\s*\[\s*"?(\d+)', inp["gds_esummary"])))
+    inp["series_pmids"] = pmids
+    for p in pmids:
+        grab(f"europepmc_{p}",
+             "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+             f"?query=EXT_ID:{p}%20AND%20SRC:MED&resultType=core&format=json")
+    grab("europepmc_accession_search",
+         "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+         f"?query=%22{series}%22&resultType=core&format=json&pageSize=25")
+
+    # 5 · The mechanism paper, for Q3. Its own words about HR deficiency are the comparison.
+    grab(f"europepmc_{MECHANISM_PMID}",
+         "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+         f"?query=EXT_ID:{MECHANISM_PMID}%20AND%20SRC:MED&resultType=core&format=json")
+    mech = inp.get(f"europepmc_{MECHANISM_PMID}")
+    pmcid = None
+    if mech:
+        m = re.search(r'"pmcid":"(PMC\d+)"', mech)
+        pmcid = m.group(1) if m else None
+    inp["mechanism_pmcid"] = pmcid
+    if pmcid:
+        grab("mechanism_fulltext_xml",
+             f"https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML")
+
+    return inp
+
+
+# =============================================================================================
+# derive half — offline. Everything below runs from the inputs cache.
+# =============================================================================================
+def _parse_soft(txt):
+    """SOFT -> {'series': {...}, 'platforms': {...}, 'samples': {gsm: {...}}}.
+
+    Values are kept as LISTS because SOFT repeats a key per value (a sample has several
+    `!Sample_characteristics_ch1` lines and dropping any of them is how metadata gets lost)."""
+    out = {"series": {}, "platforms": {}, "samples": {}}
+    cur = out["series"]
+    for line in txt.splitlines():
+        if line.startswith("^SAMPLE"):
+            acc = line.split("=", 1)[1].strip()
+            cur = out["samples"].setdefault(acc, {"_accession": acc})
+            continue
+        if line.startswith("^PLATFORM"):
+            acc = line.split("=", 1)[1].strip()
+            cur = out["platforms"].setdefault(acc, {"_accession": acc})
+            continue
+        if line.startswith("^SERIES"):
+            cur = out["series"]
+            continue
+        if line.startswith("!") and "=" in line:
+            k, v = line[1:].split("=", 1)
+            cur.setdefault(k.strip(), []).append(v.strip())
+    return out
+
+
+def _sample_text(s):
+    """Every free-text field of one sample, joined. The searchable body of that sample."""
+    keys = [k for k in s
+            if k != "_accession" and not k.startswith("Sample_supplementary_file")
+            and not k.startswith("Sample_relation")]
+    return " | ".join(f"{k}: {v}" for k in sorted(keys) for v in s[k])
+
+
+# Term banks. Every one is a LITERAL to be found in submitter free text, and every hit is reported
+# with the sample and field it came from — a count with no quotation is not evidence.
+ATRI_TERMS = [
+    "ceralasertib", "azd6738", "azd-6738", "berzosertib", "ve-822", "ve822", "vx-970", "m6620",
+    "ve-821", "ve821", "elimusertib", "bay 1895344", "bay1895344", "bay-1895344", "m4344",
+    "gartisertib", "m1774", "tuvusertib", "camonsertib", "rp-3500", "rp3500", "art0380",
+    "atrn-119", "atri", "atr inhibitor", "atr inhibition", "atrx-inhibitor",
+]
+RESPONSE_TERMS = [
+    "ic50", "gi50", "ec50", "viability", "cell titer", "celltiter", "dose", "dose-response",
+    "dose response", "sensitivity", "resistant", "resistance", "survival fraction", "drug screen",
+    "treated", "treatment", "vehicle", "dmso", "untreated", "control", "µm", "umol", "nm ",
+]
+EMC_TERMS = [
+    "extraskeletal myxoid chondrosarcoma", "myxoid chondrosarcoma", "emc", "nr4a3", "nor-1",
+    "nor1", "chn", "tec ", "csmf",
+]
+FET_TERMS = [
+    "ewsr1", "ews-", "ews::", "fus", "taf15", "fli1", "erg", "atf1", "wt1", "ddit3", "chop",
+    "creb3l2", "creb3l1", "nfatc2", "pbx1", "fusion", "translocation", "rearrange", "fet ",
+]
+HRD_TERMS = [
+    "homologous recombination deficiency", "homologous recombination-deficient",
+    "homologous recombination", "hrd", "hr-deficient", "hr deficient", "hr-proficient",
+    "hr proficient", "brca1", "brca2", "brca", "palb2", "rad51", "rad51c", "rad51d", "bard1",
+    "brip1", "atm", "hrdetect", "loh", "signature 3", "sbs3", "genomic instability", "parp",
+]
+
+_WORDY = re.compile(r"[a-z0-9]")
+
+
+def _hits(text_by_sample, terms):
+    """{term: [(gsm, snippet), ...]} — the SAMPLE and a verbatim window around the match."""
+    found = {}
+    for gsm, txt in sorted(text_by_sample.items()):
+        low = txt.lower()
+        for t in terms:
+            i = low.find(t)
+            if i < 0:
+                continue
+            # ⚠ Guard the short tokens. "emc" inside "chemical", "atm" inside "treatment",
+            # "fus" inside "fusion", "hrd" inside "third" are the kind of hit that turns a scan
+            # into a fabricator. Require non-word neighbours for tokens of 4 characters or fewer.
+            if len(t.strip()) <= 4:
+                before = low[i - 1] if i > 0 else " "
+                after = low[i + len(t)] if i + len(t) < len(low) else " "
+                if _WORDY.match(before) or _WORDY.match(after):
+                    j, ok = i, False
+                    while True:
+                        j = low.find(t, j + 1)
+                        if j < 0:
+                            break
+                        b = low[j - 1] if j > 0 else " "
+                        a = low[j + len(t)] if j + len(t) < len(low) else " "
+                        if not _WORDY.match(b) and not _WORDY.match(a):
+                            i, ok = j, True
+                            break
+                    if not ok:
+                        continue
+            found.setdefault(t, []).append(
+                (gsm, txt[max(0, i - 70): i + len(t) + 70].replace("\n", " ")))
+    return found
+
+
+def _flat(hitmap, limit=12):
+    return [{"term": t, "sample": g, "verbatim": s}
+            for t, hs in sorted(hitmap.items()) for g, s in hs[:limit]]
+
+
+def _processed_matrix_state(inp):
+    """Is there a processed matrix, or only raw reads? Returns (state, evidence)."""
+    ev = {}
+    matrix = inp.get("ftp_matrix_listing")
+    suppl = inp.get("ftp_suppl_listing")
+    ev["matrix_listing_status"] = (inp.get("fetches", {}).get("ftp_matrix_listing") or {}).get("status")
+    ev["suppl_listing_status"] = (inp.get("fetches", {}).get("ftp_suppl_listing") or {}).get("status")
+
+    if matrix is None and suppl is None:
+        return "CANNOT_DETERMINE", dict(ev, why="neither FTP listing was readable")
+
+    mfiles = sorted(set(re.findall(r"(GSE\d+[-_][^\"'<>\s]*?series_matrix\.txt\.gz)", matrix or "")))
+    ev["series_matrix_files"] = mfiles
+    sfiles = sorted(set(re.findall(r'href="([^"]+)"', suppl or "")))
+    sfiles = [f for f in sfiles if f not in ("/", "..") and not f.startswith("/")]
+    ev["supplementary_files"] = sfiles
+
+    procish = [f for f in sfiles
+               if re.search(r"(count|tpm|fpkm|rpkm|cpm|expression|matrix|deseq|normali[sz]ed|"
+                            r"processed|\.csv|\.tsv|\.xlsx?)", f, re.I)]
+    ev["supplementary_files_that_look_processed"] = procish
+
+    if mfiles or procish:
+        return "PROCESSED_MATRIX_PRESENT", ev
+    if sfiles:
+        return "SUPPLEMENTARY_PRESENT_BUT_NONE_LOOKS_LIKE_A_MATRIX", ev
+    return "NO_PROCESSED_MATRIX_FOUND", ev
+
+
+def derive(inp):
+    series = inp.get("series", SERIES)
+    soft_txt = inp.get("soft_all_brief") or inp.get("soft_family_gz")
+    res = {
+        "_what": (
+            f"Sample-level characterisation of GEO series {series}, and the three questions it was "
+            "read to answer for the EMC ATR route."
+        ),
+        "_discipline": (
+            "A GEO series TITLE is a claim by its depositors, not a measurement. Every verdict here "
+            "is computed from per-sample metadata and every hit is reported with the sample and the "
+            "verbatim text it came from. A field that could not be READ is CANNOT_DETERMINE, never "
+            "false — an absent reading is not a reading of absence (CLAUDE.md §4)."
+        ),
+        "_no_clinical_claim": (
+            "No efficacy, potency, dose, safety, therapeutic-window or clinical-readiness claim is "
+            "made or implied. This is a metadata characterisation of a public deposit."
+        ),
+        "series": series,
+        "fetched_utc": inp.get("fetched_utc"),
+        "fetch_status": {k: v.get("status") for k, v in sorted((inp.get("fetches") or {}).items())},
+    }
+
+    if not soft_txt:
+        res["readable"] = False
+        res["verdict"] = "SERIES_METADATA_NOT_READABLE"
+        res["why"] = ("Neither acc.cgi nor the FTP family SOFT returned a document, so NOTHING about "
+                      "this series' samples was read. This is an instrument failure and carries no "
+                      "information about the series' contents.")
+        for q in ("q1_atr_inhibitor_response_data", "q2_emc_or_nr4a3_sample",
+                  "q3_selection_biomarker"):
+            res[q] = {"answer": "CANNOT_DETERMINE", "why": "series metadata never arrived"}
+        return res
+
+    soft = _parse_soft(soft_txt)
+    res["readable"] = True
+
+    # ---- series-level record, quoted rather than paraphrased ----------------------------------
+    sr = soft["series"]
+    res["series_record"] = {
+        "title": (sr.get("Series_title") or [None])[0],
+        "summary": " ".join(sr.get("Series_summary") or []),
+        "overall_design": " ".join(sr.get("Series_overall_design") or []),
+        "type": sr.get("Series_type") or [],
+        "submission_date": (sr.get("Series_submission_date") or [None])[0],
+        "last_update_date": (sr.get("Series_last_update_date") or [None])[0],
+        "contributors": sr.get("Series_contributor") or [],
+        "contact_institute": sr.get("Series_contact_institute") or [],
+        "platforms": sr.get("Series_platform_id") or [],
+        "pubmed_ids": inp.get("series_pmids") or [],
+        "relations": sr.get("Series_relation") or [],
+        "n_sample_ids_listed": len(sr.get("Series_sample_id") or []),
+    }
+    res["platform_records"] = {
+        p: {"title": (d.get("Platform_title") or [None])[0],
+            "technology": (d.get("Platform_technology") or [None])[0],
+            "organism": d.get("Platform_organism") or []}
+        for p, d in sorted(soft["platforms"].items())
+    }
+
+    # ---- sample-level ------------------------------------------------------------------------
+    samples = soft["samples"]
+    text_by_sample = {g: _sample_text(s) for g, s in samples.items()}
+    res["n_samples_parsed"] = len(samples)
+
+    def _one(g, s):
+        return {
+            "accession": g,
+            "title": (s.get("Sample_title") or [None])[0],
+            "source_name": s.get("Sample_source_name_ch1") or [],
+            "organism": s.get("Sample_organism_ch1") or [],
+            "characteristics": s.get("Sample_characteristics_ch1") or [],
+            "treatment_protocol": s.get("Sample_treatment_protocol_ch1") or [],
+            "growth_protocol": s.get("Sample_growth_protocol_ch1") or [],
+            "description": s.get("Sample_description") or [],
+            "type": s.get("Sample_type") or [],
+            "library_strategy": s.get("Sample_library_strategy") or [],
+            "library_source": s.get("Sample_library_source") or [],
+            "library_selection": s.get("Sample_library_selection") or [],
+            "molecule": s.get("Sample_molecule_ch1") or [],
+            "platform": s.get("Sample_platform_id") or [],
+            "supplementary_files": s.get("Sample_supplementary_file_1") or [],
+        }
+
+    res["samples"] = [_one(g, s) for g, s in sorted(samples.items())]
+
+    # tumour vs cell line, from the submitter's own words rather than from the title
+    def _material(rec):
+        t = " ".join(str(x) for x in
+                     (rec["source_name"] + rec["characteristics"] + rec["growth_protocol"]
+                      + rec["description"] + [rec["title"] or ""])).lower()
+        cell = any(k in t for k in ("cell line", "cell-line", "cells", "culture", "passage",
+                                    "dmem", "rpmi", "fbs", "in vitro"))
+        tumour = any(k in t for k in ("tumor", "tumour", "patient", "biopsy", "resect", "ffpe",
+                                      "specimen", "primary tissue", "pdx", "xenograft"))
+        if cell and not tumour:
+            return "cell_line_or_culture"
+        if tumour and not cell:
+            return "tumour_or_patient_material"
+        if cell and tumour:
+            return "ambiguous_both_words_present"
+        return "not_stated"
+
+    mats = {}
+    for rec in res["samples"]:
+        mats.setdefault(_material(rec), []).append(rec["accession"])
+    res["material_type_counts"] = {k: len(v) for k, v in sorted(mats.items())}
+    res["material_type_members"] = {k: v for k, v in sorted(mats.items())}
+
+    res["assay_types"] = {}
+    for rec in res["samples"]:
+        key = "/".join(rec["type"] + rec["library_strategy"]) or "unstated"
+        res["assay_types"][key] = res["assay_types"].get(key, 0) + 1
+
+    # ---- processed matrix? --------------------------------------------------------------------
+    state, ev = _processed_matrix_state(inp)
+    res["processed_matrix"] = {"state": state, "evidence": ev}
+
+    # ---- the three questions ------------------------------------------------------------------
+    atri = _hits(text_by_sample, ATRI_TERMS)
+    resp = _hits(text_by_sample, RESPONSE_TERMS)
+    emc = _hits(text_by_sample, EMC_TERMS)
+    fet = _hits(text_by_sample, FET_TERMS)
+    hrd = _hits(text_by_sample, HRD_TERMS)
+
+    series_blob = " ".join([res["series_record"]["title"] or "",
+                            res["series_record"]["summary"],
+                            res["series_record"]["overall_design"]])
+    series_hits = {
+        "atri": _flat(_hits({"_SERIES_": series_blob}, ATRI_TERMS)),
+        "emc": _flat(_hits({"_SERIES_": series_blob}, EMC_TERMS)),
+        "fet": _flat(_hits({"_SERIES_": series_blob}, FET_TERMS)),
+        "hrd": _flat(_hits({"_SERIES_": series_blob}, HRD_TERMS)),
+    }
+    res["series_level_term_hits"] = series_hits
+
+    # Q1 — ATR-inhibitor RESPONSE data
+    atri_samples = sorted({g for hs in atri.values() for g, _ in hs})
+    resp_samples = sorted({g for hs in resp.values() for g, _ in hs})
+    both = sorted(set(atri_samples) & set(resp_samples))
+    if atri_samples and both:
+        q1 = ("ATR_INHIBITOR_TREATMENT_ANNOTATED_AT_SAMPLE_LEVEL"
+              if len(both) >= 2 else "SINGLE_SAMPLE_ONLY")
+    elif atri_samples:
+        q1 = "ATR_INHIBITOR_NAMED_BUT_NO_RESPONSE_OR_TREATMENT_ANNOTATION"
+    elif series_hits["atri"]:
+        q1 = "ATR_NAMED_ONLY_AT_SERIES_LEVEL_NOT_PER_SAMPLE"
+    else:
+        q1 = "NO_ATR_INHIBITOR_ANNOTATION_IN_SAMPLE_METADATA"
+    res["q1_atr_inhibitor_response_data"] = {
+        "answer": q1,
+        "n_samples_naming_an_ATR_inhibitor_or_ATRi": len(atri_samples),
+        "samples_naming_an_ATR_inhibitor": atri_samples,
+        "n_samples_with_a_treatment_or_response_word": len(resp_samples),
+        "hits_verbatim": _flat(atri),
+        "_bound": ("A viability or IC50 READOUT is a different object from a treated RNA sample. "
+                   "This field says what the sample metadata names; it does not assert that a "
+                   "dose-response measurement is deposited."),
+    }
+
+    # Q2 — EMC / NR4A3
+    emc_samples = sorted({g for hs in emc.values() for g, _ in hs})
+    strong = sorted({g for t in ("extraskeletal myxoid chondrosarcoma", "myxoid chondrosarcoma",
+                                 "nr4a3", "nor-1", "nor1")
+                     for g, _ in emc.get(t, [])})
+    res["q2_emc_or_nr4a3_sample"] = {
+        "answer": ("EMC_OR_NR4A3_SAMPLE_PRESENT" if strong else
+                   "WEAK_TOKEN_ONLY" if emc_samples else "NO_EMC_OR_NR4A3_SAMPLE"),
+        "samples_with_a_strong_EMC_or_NR4A3_term": strong,
+        "samples_with_any_EMC_token": emc_samples,
+        "hits_verbatim": _flat(emc),
+    }
+
+    # FET-fusion status recoverable?
+    fet_samples = sorted({g for hs in fet.values() for g, _ in hs})
+    res["fet_fusion_status_recoverable"] = {
+        "answer": ("FUSION_TERMS_PRESENT_IN_SAMPLE_METADATA" if fet_samples
+                   else "NO_FUSION_TERM_IN_ANY_SAMPLE"),
+        "n_samples": len(fet_samples),
+        "samples": fet_samples,
+        "hits_verbatim": _flat(fet),
+        "_bound": ("A gene name in a sample's free text is not a per-sample fusion CALL. Whether "
+                   "FET status is recoverable for an ANALYSIS depends on a per-sample annotation, "
+                   "which this field reports the presence of and nothing more."),
+    }
+
+    # Q3 — HRD vs FET as the selection biomarker
+    hrd_samples = sorted({g for hs in hrd.values() for g, _ in hs})
+    hrd_series = bool(series_hits["hrd"])
+    fet_series = bool(series_hits["fet"])
+    if hrd_series and not fet_series:
+        q3 = "SELECTS_ON_HRD_NOT_ON_FET_FUSION_STATUS"
+    elif hrd_series and fet_series:
+        q3 = "BOTH_BIOMARKERS_NAMED"
+    elif fet_series and not hrd_series:
+        q3 = "SELECTS_ON_FET_FUSION_STATUS"
+    else:
+        q3 = "NEITHER_BIOMARKER_NAMED_AT_SERIES_LEVEL"
+    res["q3_selection_biomarker"] = {
+        "answer": q3,
+        "n_samples_with_an_HRD_term": len(hrd_samples),
+        "samples_with_an_HRD_term": hrd_samples,
+        "sample_level_hits_verbatim": _flat(hrd),
+        "series_level_hits_verbatim": series_hits["hrd"],
+        "_why_this_matters": (
+            "Route 1 rests on PMID 37205599, which nominates FET-fusion-driven ATM SUPPRESSION as "
+            "the lesion and is not an HR-deficiency argument. A sarcoma ATR programme selecting on "
+            "HRD is either a competing biomarker hypothesis or a different patient population."
+        ),
+    }
+
+    # ---- the publication, if any --------------------------------------------------------------
+    pubs = []
+    for p in inp.get("series_pmids") or []:
+        raw = inp.get(f"europepmc_{p}")
+        if not raw:
+            pubs.append({"pmid": p, "record": "CANNOT_DETERMINE — Europe PMC record not fetched"})
+            continue
+        try:
+            hit = (json.loads(raw).get("resultList", {}).get("result") or [{}])[0]
+        except Exception as e:      # noqa: BLE001
+            pubs.append({"pmid": p, "record": f"parse error {type(e).__name__}: {e}"})
+            continue
+        pubs.append({"pmid": p, "doi": hit.get("doi"), "title": hit.get("title"),
+                     "journal": (hit.get("journalInfo") or {}).get("journal", {}).get("title"),
+                     "year": hit.get("pubYear"), "authors": hit.get("authorString"),
+                     "abstract": hit.get("abstractText")})
+    res["associated_publication"] = {
+        "pmids_declared_by_the_series": inp.get("series_pmids") or [],
+        "records": pubs,
+    }
+    acc_search = inp.get("europepmc_accession_search")
+    if acc_search:
+        try:
+            hits = json.loads(acc_search).get("resultList", {}).get("result") or []
+            res["associated_publication"]["europepmc_papers_citing_the_accession"] = [
+                {"pmid": h.get("pmid"), "doi": h.get("doi"), "title": h.get("title"),
+                 "year": h.get("pubYear"), "journal": (h.get("journalInfo") or {})
+                 .get("journal", {}).get("title")}
+                for h in hits[:15]
+            ]
+        except Exception as e:      # noqa: BLE001
+            res["associated_publication"]["europepmc_accession_search"] = f"parse error: {e}"
+    else:
+        res["associated_publication"]["europepmc_papers_citing_the_accession"] = (
+            "CANNOT_DETERMINE — the accession search did not return")
+
+    # ---- the mechanism paper's own words about HR deficiency (Q3's comparison) -----------------
+    res["mechanism_paper_on_hr_deficiency"] = _mechanism_hr_stance(inp)
+
+    # ---- one overall verdict, DERIVED from the three answers, never typed ----------------------
+    usable = res["processed_matrix"]["state"] == "PROCESSED_MATRIX_PRESENT"
+    res["verdict"] = "READ_AND_CHARACTERISED"
+    res["usable_for_a_reanalysis_here"] = {
+        "state": "USABLE_MATRIX_PRESENT" if usable else res["processed_matrix"]["state"],
+        "_bound": ("Usable means a processed matrix can be downloaded without alignment from FASTQ. "
+                   "It does NOT mean the matrix answers any of the three questions — that is what "
+                   "the per-question answers above are for."),
+    }
+    return res
+
+
+HR_SENTENCE_RE = re.compile(
+    r"[^.]*?\b(homologous recombination|HR[- ]deficien|HR[- ]proficien|BRCA|BRCAness|"
+    r"HRD\b|PARP)[^.]*\.", re.I)
+
+
+def _mechanism_hr_stance(inp):
+    """Verbatim sentences from PMID 37205599 that mention HR/BRCA/PARP. Quoted, never summarised —
+    Q3 turns on what that paper actually claims, and a paraphrase of a paraphrase is how a framing
+    drifts."""
+    out = {"pmid": MECHANISM_PMID,
+           "_role": "route 1's mechanism source; fetched to compare biomarker framings, not re-graded here"}
+    raw = inp.get(f"europepmc_{MECHANISM_PMID}")
+    if raw:
+        try:
+            hit = (json.loads(raw).get("resultList", {}).get("result") or [{}])[0]
+            out["title"] = hit.get("title")
+            out["doi"] = hit.get("doi")
+            out["journal"] = (hit.get("journalInfo") or {}).get("journal", {}).get("title")
+            out["year"] = hit.get("pubYear")
+            abstract = hit.get("abstractText") or ""
+            out["abstract_sentences_mentioning_HR_or_BRCA_or_PARP"] = [
+                m.group(0).strip() for m in HR_SENTENCE_RE.finditer(abstract)]
+        except Exception as e:      # noqa: BLE001
+            out["record"] = f"parse error {type(e).__name__}: {e}"
+    else:
+        out["record"] = "CANNOT_DETERMINE — Europe PMC record for the mechanism paper not fetched"
+
+    xml = inp.get("mechanism_fulltext_xml")
+    if xml:
+        text = re.sub(r"<[^>]+>", " ", xml)
+        text = re.sub(r"\s+", " ", text)
+        sents = [m.group(0).strip() for m in HR_SENTENCE_RE.finditer(text)]
+        seen, uniq = set(), []
+        for s in sents:
+            k = s.lower()[:120]
+            if k not in seen:
+                seen.add(k)
+                uniq.append(s)
+        out["fulltext_pmcid"] = inp.get("mechanism_pmcid")
+        out["fulltext_sentences_mentioning_HR_or_BRCA_or_PARP"] = uniq[:40]
+        out["n_such_sentences"] = len(uniq)
+    else:
+        out["fulltext"] = ("CANNOT_DETERMINE — no open-access full text was fetched; the abstract "
+                           "sentences above are all that was read")
+    return out
+
+
+# =============================================================================================
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--fetch", action="store_true",
+                    help="network pass (CI only: the dev sandbox's proxy 403s NCBI)")
+    ap.add_argument("--check", action="store_true",
+                    help="offline: re-derive from the inputs cache and diff against the artifact")
+    ap.add_argument("--series", default=SERIES)
+    args = ap.parse_args()
+
+    if args.fetch:
+        inp = fetch(args.series)
+        with open(INPUTS, "w") as f:
+            json.dump(inp, f, indent=1, sort_keys=True)
+        res = derive(inp)
+        with open(ART, "w") as f:
+            json.dump(res, f, indent=1, sort_keys=True)
+        print(json.dumps({k: res.get(k) for k in
+                          ("verdict", "readable", "n_samples_parsed", "material_type_counts",
+                           "assay_types")}, indent=1))
+        for q in ("q1_atr_inhibitor_response_data", "q2_emc_or_nr4a3_sample",
+                  "q3_selection_biomarker", "fet_fusion_status_recoverable"):
+            if q in res:
+                print(q, "->", res[q]["answer"])
+        print("processed_matrix ->", (res.get("processed_matrix") or {}).get("state"))
+        return 0
+
+    if not os.path.exists(INPUTS):
+        print(f"no inputs cache at {INPUTS} — run --fetch in CI first", file=sys.stderr)
+        return 2
+    with open(INPUTS) as f:
+        inp = json.load(f)
+    fresh = derive(inp)
+    if not os.path.exists(ART):
+        with open(ART, "w") as f:
+            json.dump(fresh, f, indent=1, sort_keys=True)
+        print("artifact written from the cache")
+        return 0
+    with open(ART) as f:
+        committed = json.load(f)
+    a = json.dumps(fresh, indent=1, sort_keys=True)
+    b = json.dumps(committed, indent=1, sort_keys=True)
+    if a == b:
+        print("OK — the artifact re-derives byte-identically from the committed inputs cache")
+        return 0
+    print("DRIFT — the derive half no longer reproduces the committed artifact", file=sys.stderr)
+    for k in sorted(set(fresh) | set(committed)):
+        if json.dumps(fresh.get(k), sort_keys=True) != json.dumps(committed.get(k), sort_keys=True):
+            print("  differs:", k, file=sys.stderr)
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -3,14 +3,24 @@ name: EMC expression datasets — part B of the ATR vulnerability assessment
 # ⭐ WHY THIS IS ITS OWN WORKFLOW.
 # Part B of `emc_atr_vulnerability.py` asks whether a readable EMC expression dataset exists at
 # all. It is the ONLY part of that assessment that failed for want of DATA rather than for want of
-# signal, and its failure is what made the whole assessment grade NOT_ASSESSABLE — an instrument
-# failure, not a biological result. So it is the part most worth re-running, and it is the part
+# signal, and that failure is what the tier hung on — an instrument failure, not a biological
+# result (the tier's one home is the assessment's own §6.1; it is not restated here, per CLAUDE.md
+# §1). So it is the part most worth re-running, and it is the part
 # that is cheapest to re-run: parts A/C/D need a ~1 GB DepMap expression matrix that part B never
 # touches, so `--refresh-part-b` refreshes part B alone into the existing inputs cache and
 # re-derives everything from it. Minutes, not an hour, and it cannot perturb the other parts.
 #
 # It also stays clear of `depmap-dependency.yml`, which rewrites a dozen other artifacts that
 # other work is editing at the same time. One lane, two files.
+#
+# ⭐ TWO MODES, added 2026-08-05, and they touch DIFFERENT artifacts on purpose.
+#   `part-b`     — the multi-series EMC signature read (emc-atr-vulnerability.json).
+#   `gse-series` — characterise ONE GEO series from its per-sample metadata
+#                  (atr_hrd_sarcoma_series.py -> atr-hrd-sarcoma-series.json), which is how
+#                  GSE299349 was read. It shares this lane because it is the same $0 NCBI-fetch
+#                  capability and the same "the sandbox cannot reach GEO" reason, and it is a
+#                  SEPARATE mode because a series characterisation must never rewrite — or be
+#                  able to perturb — a committed grading artifact.
 #
 # $0 — a GitHub-hosted CPU runner, no GPU, no rental. Pure stdlib: no pip install at all.
 # The dev sandbox's egress proxy 403s NCBI/GEO/Europe PMC on CONNECT, which is the whole reason
@@ -22,11 +32,26 @@ name: EMC expression datasets — part B of the ATR vulnerability assessment
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: >-
+          part-b   = re-run part B of the ATR assessment (the multi-series EMC signature read).
+          gse-series = characterise ONE GEO series at SAMPLE level and answer the three questions
+          in `atr_hrd_sarcoma_series.py`. The two modes touch DIFFERENT artifacts and must not
+          share a run: part B rewrites the 7 MB assessment artifact, and a series characterisation
+          has no business perturbing a committed grading.
+        required: false
+        default: "part-b"
+        type: choice
+        options: ["part-b", "gse-series"]
+      series:
+        description: "gse-series mode only: the GEO series accession to characterise."
+        required: false
+        default: "GSE299349"
       acc_bridge_budget_s:
         description: >-
-          Seconds of TOTAL budget for the EST accession->symbol bridge (GSE4303 only).
-          Lower it to get the readable-series answer fast; the bridge is the expensive,
-          failure-prone half and none of the other series need it.
+          part-b mode only. Seconds of TOTAL budget for the EST accession->symbol bridge
+          (GSE4303 only). Lower it to get the readable-series answer fast; the bridge is the
+          expensive, failure-prone half and none of the other series need it.
         required: false
         default: "1500"
 
@@ -57,9 +82,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest
-          python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py -q
+          python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py \
+                           research/modalities/tests/test_atr_hrd_sarcoma_series.py -q
 
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
+        if: inputs.mode != 'gse-series'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -69,10 +96,23 @@ jobs:
           EMC_ACC_BRIDGE_BUDGET_S: ${{ inputs.acc_bridge_budget_s || '1500' }}
         run: python research/modalities/emc_atr_vulnerability.py --refresh-part-b
 
+      # ⚠ SAMPLE-LEVEL, deliberately. A GEO series TITLE is a claim by its depositors, and this repo
+      # has been bitten twice by reading one as a measurement (GSE24369 is titled after LGFMS and
+      # carries six EMC tumours; DepMap's one "EMC" model is recorded as carrying no EWSR1 fusion).
+      - name: "GEO series — characterise ONE series from its per-sample metadata"
+        if: inputs.mode == 'gse-series'
+        timeout-minutes: 30
+        run: python research/modalities/atr_hrd_sarcoma_series.py --fetch --series "${{ inputs.series || 'GSE299349' }}"
+
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
         if: always()
         timeout-minutes: 10
-        run: python research/modalities/emc_atr_vulnerability.py --check || echo "--check reported drift; non-blocking, but READ IT"
+        run: |
+          if [ "${{ inputs.mode }}" = "gse-series" ]; then
+            python research/modalities/atr_hrd_sarcoma_series.py --check || echo "--check reported drift; non-blocking, but READ IT"
+          else
+            python research/modalities/emc_atr_vulnerability.py --check || echo "--check reported drift; non-blocking, but READ IT"
+          fi
 
       - name: Publish the artifact and the inputs cache to the branch this run was dispatched from
         if: always() && github.ref_type == 'branch'
@@ -83,20 +123,47 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f research/modalities/emc-atr-vulnerability.json \
-                     research/modalities/emc-atr-vulnerability-inputs.json
+          if [ "${{ inputs.mode }}" = "gse-series" ]; then
+            git add -f research/modalities/atr-hrd-sarcoma-series.json \
+                       research/modalities/atr-hrd-sarcoma-series-inputs.json
+          else
+            git add -f research/modalities/emc-atr-vulnerability.json \
+                       research/modalities/emc-atr-vulnerability-inputs.json
+          fi
           if git diff --cached --quiet; then
             echo "no change"
           else
-            git commit -m "EMC expression dataset search + part B multi-series read (CI)"
+            if [ "${{ inputs.mode }}" = "gse-series" ]; then
+              git commit -m "GEO series ${{ inputs.series || 'GSE299349' }}: sample-level characterisation (CI)"
+            else
+              git commit -m "EMC expression dataset search + part B multi-series read (CI)"
+            fi
             for i in 1 2 3 4 5; do
               git pull --rebase origin "$BR" && git push origin "HEAD:$BR" && break
               sleep $((i * 7))
             done
           fi
 
-      - name: Summary
-        if: always()
+      - name: "Summary — gse-series"
+        if: always() && inputs.mode == 'gse-series'
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/atr-hrd-sarcoma-series.json"))
+          print("SERIES:", d.get("series"), "| verdict:", d.get("verdict"))
+          print("title:", (d.get("series_record") or {}).get("title"))
+          print("samples parsed:", d.get("n_samples_parsed"),
+                "| material:", d.get("material_type_counts"),
+                "| assays:", d.get("assay_types"))
+          print("processed matrix:", (d.get("processed_matrix") or {}).get("state"))
+          for q in ("q1_atr_inhibitor_response_data", "q2_emc_or_nr4a3_sample",
+                    "q3_selection_biomarker", "fet_fusion_status_recoverable"):
+              if q in d:
+                  print(f"{q}: {d[q]['answer']}")
+          PY
+
+      - name: "Summary — part-b"
+        if: always() && inputs.mode != 'gse-series'
         run: |
           python3 - <<'PY'
           import json
