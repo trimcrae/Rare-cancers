@@ -12,9 +12,14 @@
 # exactly four packages for the portable driver: netcdf-fortran, openmmtools, boto3, awscli.
 # ⛔ openmmtools (and pymbar) are named HERE and installed by name NOWHERE in that workflow, which still imports
 # both — there they come in transitively via openfe>=1.12. Explicit-unpinned and transitive can float apart, and
-# these are exactly the two packages whose version changes MBAR numbers. Whether they resolve the same is
-# UNMEASURED: no artifact records the versions from both sides. Settle it by solving both specs in one CI job and
-# diffing openfe/openmmtools/pymbar.__version__ — free, and it either restores the parity claim or breaks it. cuda-version=12.6 is pinned so OpenMM's CUDA PTX loads against a >=12.6 host driver (the same
+# these are exactly the two packages whose version changes MBAR numbers.
+# ✅ MEASURED 2026-08-05, AND THEY DO NOT: `ternary-fep-bake.yml mode=parity` resolved openfe 1.12.0,
+# openmmtools 0.26.0, pymbar 4.2.0 and openmm 8.4 on BOTH sides, zero disagreements
+# (research/modalities/ternary-env-parity.json). The superset is real; the versions that decide an MBAR number
+# are not affected by it.
+# ⚠ A READING OF TODAY, AND ONLY THIS SIDE IS IMMUTABLE. This image is baked; the GCP lane solves on the fly and
+# neither side pins openmmtools/pymbar, so that side can drift while this one cannot. Re-run mode=parity after
+# any openfe bump, or before quoting cross-provider comparability in the manuscript. cuda-version=12.6 is pinned so OpenMM's CUDA PTX loads against a >=12.6 host driver (the same
 # pin the GCP lane uses; the actual driver is mounted by nvidia-container-toolkit from the host, so the base-image
 # CUDA tag only needs to be <= the host driver).
 FROM nvidia/cuda:12.6.3-runtime-ubuntu22.04

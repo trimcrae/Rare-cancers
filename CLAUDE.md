@@ -425,10 +425,15 @@ When in doubt: do it and show it.
   driver. ⛔ **`openmmtools` and `pymbar` are named explicitly in the image and installed by NAME nowhere in
   the GCP workflow**, which nonetheless imports both (`gpu-ternary-fep-gcp.yml:653`), so there they arrive
   TRANSITIVELY through `openfe>=1.12`. Explicit-unpinned and transitive can float to different versions.
-  ⚠ **Whether they actually resolve the same is UNMEASURED** — no committed artifact records the versions
-  from both sides, and an absent reading is not a reading of absence (§4). The check is free and decisive:
-  solve both specs in one CI job and diff `openfe/openmmtools/pymbar.__version__`. Until that runs, the
-  parity claim covers the shared core and **not** the two packages the argument above is actually about. Dep genuinely missing → add it to the `Dockerfile.*` and **re-bake once**. Only if you truly
+  ✅ **MEASURED 2026-08-05 AND THE PARITY HOLDS** — `ternary-fep-bake.yml mode=parity` reads the baked
+  image, solves the GCP lane's spec (extracted from that workflow, never copied) and diffs them:
+  **openfe 1.12.0 · openmmtools 0.26.0 · pymbar 4.2.0 · openmm 8.4, identical on both sides**, zero
+  disagreements. One home: [`ternary-env-parity.json`](./research/modalities/ternary-env-parity.json). So a
+  leg produced on one and analysed on the other cannot move an MBAR number through a version difference —
+  which is now a **reading**, not the assertion it replaced.
+  ⚠ **It is a reading of TODAY, and only one side is immutable.** The image is baked; the GCP lane solves on
+  the fly, and neither side pins `openmmtools`/`pymbar`, so that side can drift while the image cannot.
+  Re-run `mode=parity` after any openfe bump or before quoting cross-provider comparability in the paper. Dep genuinely missing → add it to the `Dockerfile.*` and **re-bake once**. Only if you truly
   cannot re-bake, use `setup-micromamba` **with `cache-environment: true`**. *(Cost of learning this: ~20 min of
   solve per run, three runs in a row, while the image already carried every package.)*
 
