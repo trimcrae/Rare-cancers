@@ -1504,6 +1504,20 @@ producer never emitted. Both fixed, 21 tests, the key sweep extracted from the Y
 
 ## 2 · REQUIREMENTS — what must be TRUE
 
+> 🗺 **THIS REGISTER NOW HAS A MACHINE HOME, AND THIS SECTION IS ITS NARRATIVE ONE.** The structured
+> half — id, work state, authorization, which instruments serve it, and the claim ceiling — lives in
+> [`systems/graph/requirements.json`](../../systems/graph/requirements.json) and is rendered, together
+> with the **R×V coverage matrix and the dependency graph derived from it**, to
+> [`systems/views/registers/requirements.md`](../../systems/views/registers/requirements.md).
+>
+> ⚠ **They cannot diverge.** `systems_check.py` re-parses the table below on every run and fails the
+> build if either side has been hand-edited away from the other, naming which. The extraction is
+> lossless — every claim-ceiling cell is stored verbatim — so nothing here was summarised away.
+>
+> **Which to read:** this section for the ARGUMENT, the generated view for the STATE. The coverage
+> matrix in particular is a pure function of this table and is no longer maintained by hand, which is
+> what stops it drifting from the register it summarises.
+
 **Sixteen requirements. None is ✓-settled.** Each row carries its work state, its authorization, the
 instruments that serve it, and — the column that invariant 1 exists to protect — **the ceiling on what may be
 claimed today**, which can never exceed the validation status of the instrument underneath it.

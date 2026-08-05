@@ -34,7 +34,7 @@ SCHEMA = os.path.join(HERE, "schema")
 VIEWS = os.path.join(HERE, "views")
 
 COLLECTIONS = [
-    "strategies", "routes", "blockers", "technologies", "forecasts",
+    "strategies", "routes", "requirements", "blockers", "technologies", "forecasts",
     "instruments", "objects", "evidence", "artifacts", "claims",
 ]
 
@@ -239,6 +239,14 @@ def derive(g):
         t["fan_out"] = len(set(u.get("routes", []))) + len(set(u.get("requirements", []))) \
             + len(set(u.get("instruments", []))) + len(set(u.get("blockers", [])))
 
+    # requirement <-> instrument coverage, both directions, derived from the requirement register only
+    inst_serves = defaultdict(list)
+    for r in g.get("requirements", []):
+        for v in r.get("served_by", []):
+            inst_serves[v].append(r["id"])
+    for i in g["instruments"]:
+        i["serves_derived"] = sorted(inst_serves.get(i["id"], []), key=lambda x: int(x[1:]))
+
     # family-level blocker structure
     rid = by_id(routes)
     for s in strategies:
@@ -428,6 +436,36 @@ def check_instrument_support(g, f):
                               f"'{state}' -- a claim can never be stronger than the instrument underneath it")
 
 
+NON_SUPPORTING_LABEL = {"fails": "its control FAILED", "none": "it has NO control",
+                        "inconclusive": "its control was INCONCLUSIVE"}
+
+
+def check_requirements(g, f):
+    """The requirement register, and the coverage question it exists to answer.
+
+    Invariant 2 lives here: read down a requirement's column and THE WEAKEST CELL SETS ITS CEILING.
+    A requirement served only by instruments that have not recovered a known answer has no usable
+    answer available -- which is a different and more actionable statement than "not done yet".
+    """
+    inst = by_id(g["instruments"])
+    for r in g.get("requirements", []):
+        for v in r.get("served_by", []):
+            if v not in inst:
+                f.err("[Q1]", f"{r['id']} is served by unknown instrument {v}")
+        if not r.get("claim_ceiling"):
+            f.err("[Q2]", f"{r['id']} states no claim ceiling -- a requirement with no stated ceiling "
+                          f"cannot bound what may be claimed from it, which is the register's whole job")
+        if not r.get("served_by") and r["state"]["work_state"] not in ("dead",):
+            f.warn("[Q3]", f"{r['id']} has NO instrument at all -- it is not 'not done yet', there is "
+                           f"nothing built that could answer it")
+        usable = [v for v in r.get("served_by", [])
+                  if (inst.get(v, {}).get("known_answer_control") or {}).get("state")
+                  not in NON_SUPPORTING_CONTROL]
+        if r.get("served_by") and not usable:
+            f.warn("[Q4]", f"{r['id']} has instruments but NONE has returned a usable answer "
+                           f"({', '.join(r['served_by'])}) -- a different failure from having none")
+
+
 def check_compute_case(g, f):
     for r in g["routes"]:
         if r.get("recommends_compute") and not r.get("compute_case"):
@@ -480,12 +518,59 @@ def check_legacy_agreement(g, f):
                            f"(expected while the legacy file is still hand-maintained)")
 
 
+
+MAP_DOC = os.path.join(REPO, "research", "manuscripts", "nr4a3-program-map.md")
+_R_ROW = re.compile(r"^\|\s*\*\*(R\d+)\*\*\s*\|")
+
+
+def check_requirement_source_agreement(g, f):
+    """The roadmap's register table and the graph must not disagree, in either direction.
+
+    ⭐ THIS IS WHAT MAKES THE DECOMPOSITION SAFE. The register was lifted into the graph LOSSLESSLY —
+    every claim-ceiling cell is stored verbatim — so the graph can be the machine home while the roadmap
+    stays the narrative home. Without this check that is just a duplicate waiting to diverge; with it,
+    a hand-edit to either side fails the build and says which.
+
+    ⚠ It re-parses the roadmap rather than trusting a stored copy. A guard that compares the graph to a
+    snapshot of the document is guarding the snapshot, not the document.
+    """
+    if not os.path.exists(MAP_DOC):
+        f.err("[M1]", "the roadmap is missing; the requirement register has no narrative home")
+        return
+    with open(MAP_DOC, encoding="utf-8") as fh:
+        rows = {}
+        for ln in fh:
+            m = _R_ROW.match(ln)
+            if m:
+                cells = [c.strip() for c in ln.split("|")[1:]]
+                rows[m.group(1)] = cells
+    gr = by_id(g.get("requirements", []))
+
+    missing_in_graph = set(rows) - set(gr)
+    missing_in_map = set(gr) - set(rows)
+    for rid in sorted(missing_in_graph):
+        f.err("[M2]", f"{rid} is in the roadmap's register and not in the graph — run the extractor")
+    for rid in sorted(missing_in_map):
+        f.err("[M3]", f"{rid} is in the graph and not in the roadmap's register")
+
+    for rid in sorted(set(rows) & set(gr)):
+        cells = rows[rid]
+        if len(cells) > 5 and cells[5] != gr[rid].get("claim_ceiling_raw"):
+            f.err("[M4]", f"{rid} claim ceiling differs between the roadmap and the graph — one of them "
+                          f"was hand-edited. The roadmap owns the wording; re-run the extractor.")
+        served = sorted(set(re.findall(r"`(V\d+)`", cells[4])), key=lambda x: int(x[1:]))
+        if served != gr[rid].get("served_by"):
+            f.err("[M5]", f"{rid} served-by disagrees: roadmap {served} vs graph {gr[rid].get('served_by')}")
+
+
 def run_checks(g, f):
     check_schemas(g, f)
     check_legacy_agreement(g, f)
     check_ids_unique(g, f)
     check_hierarchy(g, f)
     check_blockers(g, f)
+    check_requirements(g, f)
+    check_requirement_source_agreement(g, f)
     check_technologies(g, f)
     check_pointers(g, f)
     check_instrument_support(g, f)
@@ -922,11 +1007,121 @@ def render_methods_index(g):
     return "\n".join(out)
 
 
+
+def render_requirements(g):
+    """The requirement register, the R x V coverage matrix, and the dependency graph.
+
+    ⭐ ALL THREE ARE DERIVED FROM ONE SOURCE, which is the point of moving them here. In prose they
+    were three separate hand-maintained sections that could disagree with each other, and the coverage
+    matrix in particular is a pure function of the register above it.
+    """
+    inst = by_id(g["instruments"])
+    reqs = sorted(g.get("requirements", []), key=lambda r: int(r["id"][1:]))
+    out = [fm(id="DOC-VIEW-REQUIREMENTS", title="Requirement register and instrument coverage",
+              level="cross-cutting", kind="generated", status="generated",
+              generator="systems/systems_check.py",
+              purpose="What must be TRUE for the program's claims to stand, which instrument could answer each, and what may be claimed today.",
+              scope="All requirements. The narrative that argues each one lives in the roadmap.",
+              audience=["maintainers", "autonomous research agents", "external reviewers"],
+              date="2026-08-05", last_verified="2026-08-05"),
+           BANNER, "# Requirement register\n",
+           "> **The weakest cell sets the ceiling.** A requirement can never be claimed more strongly than",
+           "> the instrument underneath it supports — and an instrument whose known-answer control FAILED",
+           "> and one that has NO control are different facts, neither of which is support.\n",
+           "| id | requirement | work | auth | served by | usable answer? |",
+           "|---|---|---|---|---|---|"]
+    for r in reqs:
+        served = r.get("served_by", [])
+        usable = [v for v in served
+                  if (inst.get(v, {}).get("known_answer_control") or {}).get("state")
+                  not in NON_SUPPORTING_CONTROL]
+        if not served:
+            verdict = "⛔ **no instrument at all**"
+        elif not usable:
+            verdict = "⛔ **none has returned one**"
+        else:
+            verdict = " · ".join(usable)
+        out.append(f"| **{r['id']}** | {esc(r['statement'][:150])} "
+                   f"| {GLYPH.get(r['state']['work_state'],'?')} "
+                   f"| {'🔒' if r['state']['authorization']=='needs_decision' else '—'} "
+                   f"| {' '.join('`'+v+'`' for v in served) or '—'} | {verdict} |")
+
+    holes = [r for r in reqs if not r.get("served_by")]
+    unusable = [r for r in reqs if r.get("served_by") and not
+                [v for v in r["served_by"]
+                 if (inst.get(v, {}).get("known_answer_control") or {}).get("state")
+                 not in NON_SUPPORTING_CONTROL]]
+    out += ["", "## The two kinds of gap — which must never be filed together\n",
+            "⛔ **Filing these under one word is how the cheap one stays invisible.** A requirement with no",
+            "instrument needs something BUILT or a bench; one whose instruments have all failed needs a",
+            "better METHOD. Opposite work items, opposite costs.\n",
+            f"**No instrument exists at all ({len(holes)}):** " +
+            (", ".join(f"**{r['id']}** — {esc(r['statement'][:70])}" for r in holes) or "none") + "\n",
+            f"**An instrument exists but none has returned a usable answer ({len(unusable)}):** " +
+            (", ".join(f"**{r['id']}** ({', '.join(r['served_by'])})" for r in unusable) or "none") + "\n"]
+
+    out += ["## R x V coverage matrix\n",
+            "Read down a column: the weakest cell sets the ceiling. A column with no cell is a hole.\n",
+            "| requirement | " + " | ".join(f"`{i['id']}`" for i in g["instruments"]
+                                            if i["id"].startswith("V")) + " |",
+            "|---|" + "---|" * sum(1 for i in g["instruments"] if i["id"].startswith("V"))]
+    vids = [i["id"] for i in g["instruments"] if i["id"].startswith("V")]
+    # ⚠ `mixed` is a real fifth state (an instrument whose nulls do not all support it) and it is
+    # rendered DISTINCTLY rather than collapsed into pass or fail. The repository's existing
+    # convention treats it as citable, so this view does not overrule that -- it makes it visible.
+    CELL = {"passes": "✓", "fails": "✕", "inconclusive": "⚠", "none": "○", "mixed": "◐"}
+    for r in reqs:
+        row = []
+        for v in vids:
+            if v in r.get("served_by", []):
+                st = (inst.get(v, {}).get("known_answer_control") or {}).get("state", "none")
+                row.append(CELL.get(st, "·"))
+            else:
+                row.append("")
+        out.append(f"| **{r['id']}** | " + " | ".join(row) + " |")
+    out += ["", "*Legend: ✓ recovered a known answer · ◐ mixed — its controls do not all support it · "
+            "⚠ inconclusive · ✕ its control failed · ○ no control exists. An empty cell means the "
+            "instrument does not serve that requirement.*\n"]
+
+    out += ["## The dependency graph\n",
+            "Read upward: a box can only be claimed once everything feeding it holds. Node state is the",
+            "requirement's work state, so the graph reads the same without colour.\n",
+            "```mermaid", "graph BT"]
+    node_of = {r["graph_node"]: r for r in reqs if r.get("graph_node")}
+    for n, r in node_of.items():
+        label = esc(r["statement"][:60]).replace('"', "'")
+        out.append(f'  {n}["{GLYPH.get(r["state"]["work_state"],"?")} {r["id"]} · {label}"]')
+    EDGES = [("PO","L"),("L","PS"),("PS","B"),("DGO","B"),("PS","LK"),("LK","T"),
+             ("ARCH","T"),("T","TS"),("T","UB"),("UB","P"),("B","P"),("TS","P")]
+    out.append('  P["○ PAPER — a defensible NR4A-paralogue-selective degrader candidate"]')
+    for a, b in EDGES:
+        if a in node_of or a == "P":
+            if b in node_of or b == "P":
+                out.append(f"  {a} --> {b}")
+    if "TG" in node_of:
+        out.append("  TG -.delegated.-> P")
+    out += ["```", "",
+            "⚠ **Not every requirement is drawable here, and that is a property of the graph rather than of",
+            "them.** A requirement that BOUNDS every node — a scope or submission condition — cannot be shown",
+            "as an ordinary box without implying it can be discharged in sequence, which it cannot. Those",
+            "appear in the register above and nowhere in this diagram.\n",
+            "## Detail\n"]
+    for r in reqs:
+        out += [f"### {r['id']} — {esc(r['statement'][:120])}\n",
+                f"- **work state:** {GLYPH.get(r['state']['work_state'],'?')} {esc(r['work_state_note'])}",
+                f"- **authorization:** {esc(r['authorization_note']) or '—'}",
+                f"- **served by:** {' '.join('`'+v+'`' for v in r.get('served_by', [])) or '⛔ nothing'}",
+                f"- **⛔ claim ceiling today:** {esc(r['claim_ceiling'][:600])}", ""]
+    out.append("[← L0](../L0-ecosystem.md) · [instrument register](instruments.md)\n")
+    return "\n".join(out)
+
+
 def all_views(g):
     v = {"L0-ecosystem.md": render_l0(g),
          "registers/blockers.md": render_blockers(g),
          "registers/technologies.md": render_technologies(g),
          "registers/instruments.md": render_instruments(g),
+         "registers/requirements.md": render_requirements(g),
          "methods-index.md": render_methods_index(g),
          "readiness.md": render_readiness(g)}
     for s in g["strategies"]:

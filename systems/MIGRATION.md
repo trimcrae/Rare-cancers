@@ -152,7 +152,24 @@ Rows are added as each phase lands. `status` values: **moved** (content relocate
 | `METHODOLOGY.md` | Reframed from *"the most dangerous part of the site"* to the repository's evidence contract, which is what it always was — five of its six sections are what the manuscript's meta-analysis assumes and does not re-check. §2 now states plainly that **two pooling methods exist and are not interchangeable**. ⏳ Moves to `systems/POLICY-evidence.md` in Phase 4, where ~15 inbound references get repointed together. |
 | `CLAUDE.md` | Site block replaced with a pointer to `systems/`. The old *"the site is shelved — keep it working"* line is retained as superseded, because it is the instruction this phase reverses. |
 
-*(Phases 3–5 rows are appended as those phases land. A phase is not complete until its rows are here.)*
+### 3.3 · The requirement register (Phase 3, 2026-08-05)
+
+| was | status | now | note |
+|---|---|---|---|
+| roadmap §2.1 — the requirement register table | **split** | machine home: [`systems/graph/requirements.json`](graph/requirements.json) · rendered to [`views/registers/requirements.md`](views/registers/requirements.md) | The roadmap keeps the ARGUMENT; the graph holds the STATE. Extraction is **lossless** — every claim-ceiling cell is stored verbatim, proven by a check that re-parses the roadmap on every run and fails if either side has been hand-edited away from the other. A capped extraction was written first and rejected: two ceilings would have been truncated, and a lossy migration is a regression, not a move. |
+| roadmap §3.2 — the R×V coverage matrix | superseded | generated inside the same view | It is a pure function of the register above it, so it was a hand-maintained copy of a derivable fact. It is now derived and can no longer drift from the register it summarises. |
+| roadmap §4 — the dependency graph | superseded | generated inside the same view | Node states are read from the requirement register rather than typed, so a requirement changing state can no longer leave the diagram stale. |
+
+⭐ **What the extraction found.** The roadmap's prose says five requirements have no instrument at all.
+Derived from the register itself, the count is also five — but **not the same five**: one row the prose
+lists as a hole does have an instrument (the roadmap itself notes elsewhere that this row *"overstated
+the gap"*), and one delegated row was not counted. The generated view therefore separates the two gaps
+the prose merged: **no instrument exists** (5) versus **instruments exist but none has returned a usable
+answer** (6). Those are opposite work items — the first needs something built or a bench, the second
+needs a better method — and merging them is the same failure the technology taxonomy found on the watch
+list, one layer down.
+
+*(Phases 4–5 rows are appended as those phases land. A phase is not complete until its rows are here.)*
 
 ---
 

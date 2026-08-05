@@ -1,0 +1,483 @@
+[
+  {
+    "id": "R1",
+    "title": "A druggable pocket exists on NR4A3",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: A druggable pocket exists on NR4A3",
+    "graph_node": "PO",
+    "statement": "A druggable pocket exists on NR4A3",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "ready",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "✓ work complete",
+    "authorization_note": "—",
+    "served_by": [
+      "V13",
+      "V14",
+      "V15"
+    ],
+    "served_by_note": "V13 V14 V15",
+    "claim_ceiling": "supported, not settled. Gate 1 (a two-state cryptic *opening*) FAILED as registered and was reformulated to basin-internal breathing; the existence evidence is experimental and independent (8XTT) — see §5 row R1",
+    "claim_ceiling_raw": "**supported, not settled.** Gate 1 (a two-state cryptic *opening*) FAILED as registered and was reformulated to basin-internal breathing; the existence evidence is experimental and independent (8XTT) — see [§5 row R1](#5--where-each-requirement-stands)",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R2",
+    "title": "That state is thermodynamically accessible at equilibrium (Gate 3B)",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: That state is thermodynamically accessible at equilibrium (Gate 3B)",
+    "graph_node": null,
+    "statement": "That state is thermodynamically accessible at equilibrium (Gate 3B)",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future",
+    "authorization_note": "—",
+    "served_by": [
+      "V13"
+    ],
+    "served_by_note": "V13 — ⚠ its only demonstrated reading is ✕ dead",
+    "claim_ceiling": "unresolved. Reading Gate 3B off a *single* biased F(Rg) profile is conclusively closed (§6a); no replacement reading has been run",
+    "claim_ceiling_raw": "**unresolved.** Reading Gate 3B off a *single* biased F(Rg) profile is conclusively closed ([§6a](#6a--dead--conclusively-unworkable-never-retry)); no replacement reading has been run",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R3",
+    "title": "The receptor frame denovo_401 was generated into still qualifies — the paper's explicit submission gate",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: The receptor frame denovo_401 was generated into still qualifies — the paper's explicit submission gate",
+    "graph_node": null,
+    "statement": "The receptor frame denovo_401 was generated into still qualifies — the paper's explicit submission gate",
+    "state": {
+      "work_state": "dead",
+      "authorization": "free",
+      "status": "closed",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "✕ REFUTED 2026-08-03",
+    "authorization_note": "— ($0, spent)",
+    "served_by": [],
+    "served_by_note": "R3's own frame-level audit — built and run",
+    "claim_ceiling": "⛔ MEASURED FALSE. Under the harmonized, score-independent definition the generation frame's mapped orthosteric site is detected and not druggable, so the requirement's own statement does not hold. Per the paper, this *\"reaches the generation receptor … not merely a reported frame-fraction\"*. ⚠ This is the requirement register's FIRST ✕, and §0.2 is explicit that *\"a claim that has been refuted is dead, and should say so\"* — flagged for trimcrae rather than applied silently, because it changes what the paper may claim about every denovo_401-derived result. ⚠ The verdict is rule-sensitive and the sensitivity is now MEASURED (2026-08-03) — the rule is C2 and it is registered ⚠ CONTESTED (§3b.2): the two accepted cavities are two different sub-cavities of a split reference site (4 shared residues, Jaccard 0.21, centroids 9.853 Å apart), and choosing the other one would also move the paralogue margins (−0.040 vs NR4A1, +0.027 vs NR4A2). The frozen rule's answer stands and the thresholds were not touched. ⭑ And the split is NOT NEUTRAL — which is what decides whether this is a segmentation artifact or a real error (§8's steric bullet is its one home): the cavity that CLEARS D\\* holds the program's two usable steric vectors, the one that FAILS holds the positions that fire at zero. ⚠ And the frame's recorded Rg is wrong — measured 0.7612 nm against the 0.7367 on record, where Rg is the selection criterion. Evidence: r3-generation-frame-harmonized.json, r3-site-choice-audit.json, r3-site-choice-audit-2026-08-03.md",
+    "claim_ceiling_raw": "⛔ **MEASURED FALSE.** Under the harmonized, score-independent definition the generation frame's mapped orthosteric site is **detected and not druggable**, so the requirement's own statement does not hold. Per the paper, this *\"reaches the **generation receptor** … not merely a reported frame-fraction\"*. ⚠ **This is the requirement register's FIRST ✕, and [§0.2](#02--work-state--the-five-glyphs) is explicit that *\"a claim that has been refuted is dead, and should say so\"*** — flagged for trimcrae rather than applied silently, because it changes what the paper may claim about every `denovo_401`-derived result. ⚠ The verdict is **rule-sensitive and the sensitivity is now MEASURED (2026-08-03)** — the rule is `C2` and it is registered ⚠ **CONTESTED** ([§3b.2](#3b2--contested-and-known-defective--the-four-that-are-not-merely-frozen)): the two accepted cavities are two different sub-cavities of a **split** reference site (4 shared residues, Jaccard 0.21, centroids 9.853 Å apart), and choosing the other one would also move the paralogue margins (**−0.040** vs NR4A1, **+0.027** vs NR4A2). The frozen rule's answer stands and the thresholds were not touched. ⭑ **And the split is NOT NEUTRAL — which is what decides whether this is a segmentation artifact or a real error** ([§8](#8--the-two-live-routes-to-selectivity--and-where-each-is-actually-blocked)'s steric bullet is its one home): the cavity that CLEARS D\\* holds the program's two usable steric vectors, the one that FAILS holds the positions that fire at zero. ⚠ **And the frame's recorded Rg is wrong** — measured **0.7612 nm** against the 0.7367 on record, where Rg is the selection criterion. Evidence: [`r3-generation-frame-harmonized.json`](../modalities/r3-generation-frame-harmonized.json), [`r3-site-choice-audit.json`](../modalities/r3-site-choice-audit.json), [r3-site-choice-audit-2026-08-03.md](r3-site-choice-audit-2026-08-03.md)",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R4",
+    "title": "Something binds that pocket",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: Something binds that pocket",
+    "graph_node": "L",
+    "statement": "Something binds that pocket",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future",
+    "authorization_note": "—",
+    "served_by": [],
+    "served_by_note": "⛔ none — needs a bench",
+    "claim_ceiling": "nothing binds the cryptic pocket, of any molecule. ⚠ Scoping is load-bearing: NR4A3 *is* experimentally ligandable (§5 row R4); the cryptic site is what has no ligand",
+    "claim_ceiling_raw": "**nothing binds the cryptic pocket, of any molecule.** ⚠ Scoping is load-bearing: NR4A3 *is* experimentally ligandable ([§5 row R4](#5--where-each-requirement-stands)); the cryptic site is what has no ligand",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R5",
+    "title": "The binding pose is right",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: The binding pose is right",
+    "graph_node": "PS",
+    "statement": "The binding pose is right",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future (re-run)",
+    "authorization_note": "—",
+    "served_by": [
+      "V3"
+    ],
+    "served_by_note": "V3 — INCONCLUSIVE, and ⛔ WORSE ON BOTH HALVES AS OF 2026-08-03",
+    "claim_ceiling": "unresolved, and this row understated it. The docking works; the pipeline's site selection missed on 6 of 6 pairs, so the pose's weight rests on the site being right and V3 could not check that. ⛔ Two results landed 2026-08-03 and both go against the row. *(a)* Re-asked in regime — on the three proteins the pipeline actually transfers Pocket-5 onto — the site question is answered 0 of 14 gradeable pairs, by TWO independent transfer routes (sequence and Pocket-5 structure), while an fpocket-chosen box finds it in 11; so the miss is the transfer, not the docking, and it is no longer an n = 6 observation (apo-pose-site-in-regime.json → site_panel_in_regime; it is a site supplement and changes no pre-registered verdict). *(b)* denovo_401's pose is not a singular object: 6 poses, 15 pairs, pocket-superposed median RMSD on a molecule whose end-for-end flip costs less (pose-convergence-401.json), and cross_method_evidence is NONE — every pose this program holds is the same method's top pose. ⇒ every pose-conditional claim must be stated as marginalised over poses, not as \"the predicted pose\" — and stated against C14, since \"agrees\" here means the 2.0 Å line and 1 of 15 pairs meets it",
+    "claim_ceiling_raw": "**unresolved, and this row understated it.** The docking works; the pipeline's **site selection** missed on 6 of 6 pairs, so the pose's weight rests on the site being right and `V3` could not check that. ⛔ **Two results landed 2026-08-03 and both go against the row.** *(a)* Re-asked **in regime** — on the three proteins the pipeline actually transfers Pocket-5 onto — the site question is answered **0 of 14 gradeable pairs, by TWO independent transfer routes** (sequence and Pocket-5 structure), while an fpocket-chosen box finds it in 11; so the miss is the **transfer**, not the docking, and it is no longer an n = 6 observation ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json) → `site_panel_in_regime`; it is a **site supplement and changes no pre-registered verdict**). *(b)* `denovo_401`'s pose is **not a singular object**: 6 poses, 15 pairs, pocket-superposed median RMSD on a molecule whose end-for-end flip costs less ([`pose-convergence-401.json`](../modalities/pose-convergence-401.json)), and `cross_method_evidence` is **NONE** — every pose this program holds is the same method's top pose. ⇒ **every pose-conditional claim must be stated as marginalised over poses, not as \"the predicted pose\"** — and stated against `C14`, since \"agrees\" here means the 2.0 Å line and **1 of 15** pairs meets it",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R6",
+    "title": "The per-paralogue opening penalty does not reverse the margin — ΔG_open",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: The per-paralogue opening penalty does not reverse the margin — ΔG_open",
+    "graph_node": "DGO",
+    "statement": "The per-paralogue opening penalty does not reverse the margin — ΔG_open",
+    "state": {
+      "work_state": "future",
+      "authorization": "needs_decision",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future",
+    "authorization_note": "🔒 explicit nod",
+    "served_by": [],
+    "served_by_note": "⛔ none built",
+    "claim_ceiling": "⛔ every ABSOLUTE ΔΔG on the binder path is conditional on a term nobody has computed. Validation requirement 2: matched-open comparison can *\"miss or REVERSE selectivity\"*. ⚠ Narrowed 2026-08-03, and this page stated it too widely: the block is on the absolute route to R7, not on a ligand-side *relative* double difference, in which the opening penalty is common to both ligands of a matched pair and cancels inside each protein — §3.4 fact 3. ⚠ *Superseded, retained: \"every ΔΔG on the binder path\".*",
+    "claim_ceiling_raw": "⛔ **every ABSOLUTE ΔΔG on the binder path is conditional on a term nobody has computed.** Validation requirement 2: matched-open comparison can *\"miss or REVERSE selectivity\"*. ⚠ **Narrowed 2026-08-03, and this page stated it too widely:** the block is on the **absolute** route to `R7`, **not** on a ligand-side *relative* double difference, in which the opening penalty is common to both ligands of a matched pair and cancels inside each protein — [§3.4 fact 3](#34--four-instrument-facts-this-page-used-to-be-missing). ⚠ *Superseded, retained: \"every ΔΔG on the binder path\".*",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R7",
+    "title": "The binder is paralogue-selective over NR4A1/NR4A2 — ⚠ and the two halves are NOT the same requirement: NR4A1-sparing is a hard constraint with a named anti-tar",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: The binder is paralogue-selective over NR4A1/NR4A2 — ⚠ and the two halves are NOT the same requirement: NR4A1-sparing is a hard constraint with a named anti-target genotype, NR4A2-sparing is unbounded",
+    "graph_node": "B",
+    "statement": "The binder is paralogue-selective over NR4A1/NR4A2 — ⚠ and the two halves are NOT the same requirement: NR4A1-sparing is a hard constraint with a named anti-target genotype, NR4A2-sparing is unbounded in both directions (§2.4)",
+    "state": {
+      "work_state": "future",
+      "authorization": "needs_decision",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ open — the existing result is ⏸ parked",
+    "authorization_note": "🔒 (V4)",
+    "served_by": [
+      "V4",
+      "V6",
+      "V7",
+      "V8",
+      "V9",
+      "V10"
+    ],
+    "served_by_note": "V4 (no result) · V6 V7 V8 V9 V10",
+    "claim_ceiling": "⛔ an unvalidated prediction. Three separate blocks, only one of which is the instrument — see §8",
+    "claim_ceiling_raw": "⛔ **an unvalidated prediction.** Three separate blocks, only one of which is the instrument — see [§8](#8--the-two-live-routes-to-selectivity--and-where-each-is-actually-blocked)",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R8",
+    "title": "A linker geometry is feasible at an NR4A3-unique cysteine",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: A linker geometry is feasible at an NR4A3-unique cysteine",
+    "graph_node": "LK",
+    "statement": "A linker geometry is feasible at an NR4A3-unique cysteine",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "ready",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "✓ computed — ⚠ not reconciled to its artifact",
+    "authorization_note": "— ($0 CPU)",
+    "served_by": [
+      "V17"
+    ],
+    "served_by_note": "V17 (fails its own positive control) + the reach enumeration",
+    "claim_ceiling": "geometry only. No thiol pKa, reactivity, adduct or degradation quantity; reach is necessary and never sufficient. And it is conditional on R5",
+    "claim_ceiling_raw": "**geometry only.** No thiol pKa, reactivity, adduct or degradation quantity; reach is necessary and never sufficient. And it is conditional on `R5`",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R9",
+    "title": "OUR ternary is correctly assembled",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: OUR ternary is correctly assembled",
+    "graph_node": "ARCH",
+    "statement": "OUR ternary is correctly assembled",
+    "state": {
+      "work_state": "future",
+      "authorization": "needs_decision",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future — NOT STARTED",
+    "authorization_note": "— ($0, needs no nod) — rung 5b-T, priced and gated 2026-08-02. ⚠ *Superseded, retained: \"🔒 unpriced, no rung.\"*",
+    "served_by": [
+      "V2"
+    ],
+    "served_by_note": "V2 — recovered its known answer in scope, never pointed at our system",
+    "claim_ceiling": "⛔ no NR4A3 ternary has been correctly assembled by anyone. §what the SMARCA2/4 null BINDS: *\"⛔ NO, and this is the whole remaining gap.\"* ⚠ 5b-T gives it a route and a gate; it does not make the claim, and its output is structural, never thermodynamic",
+    "claim_ceiling_raw": "⛔ **no NR4A3 ternary has been correctly assembled by anyone.** [§what the SMARCA2/4 null BINDS](#what-this-binds-in-the-words-fixed-before-the-run): *\"⛔ **NO, and this is the whole remaining gap.**\"* ⚠ `5b-T` gives it a route and a gate; it does not make the claim, and its output is **structural, never thermodynamic**",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R10",
+    "title": "A ternary forms",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: A ternary forms",
+    "graph_node": "T",
+    "statement": "A ternary forms",
+    "state": {
+      "work_state": "future",
+      "authorization": "needs_decision",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future",
+    "authorization_note": "🔒 (via R9)",
+    "served_by": [
+      "V2",
+      "V12"
+    ],
+    "served_by_note": "V2 (live route) · V12 ⏸ (the route that built the existing one)",
+    "claim_ceiling": "the existing prediction was built by the failing route and its molecule is unrecoverable, so it cannot be replicated",
+    "claim_ceiling_raw": "the existing prediction was built by the failing route and its molecule is **unrecoverable**, so it cannot be replicated",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R11",
+    "title": "The ternary adds or preserves selectivity",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: The ternary adds or preserves selectivity",
+    "graph_node": "TS",
+    "statement": "The ternary adds or preserves selectivity",
+    "state": {
+      "work_state": "future",
+      "authorization": "needs_decision",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future",
+    "authorization_note": "🔒 (via R9)",
+    "served_by": [
+      "V1",
+      "V5",
+      "V11",
+      "V16"
+    ],
+    "served_by_note": "V1 (passes, in scope) · V16 (null with a bound, uncalibrated) · V5 ⏸ FAILS · V11 ⏸ no pass",
+    "claim_ceiling": "one sequence-encoded candidate at 1 model per arm against a reproducibility bar of 3 (C18)",
+    "claim_ceiling_raw": "one sequence-encoded candidate at **1 model per arm against a reproducibility bar of 3** (`C18`)",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R12",
+    "title": "The ternary is compatible with DEGRADATION — productive unique-lysine geometry",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: The ternary is compatible with DEGRADATION — productive unique-lysine geometry",
+    "graph_node": "UB",
+    "statement": "The ternary is compatible with DEGRADATION — productive unique-lysine geometry",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future",
+    "authorization_note": "— ($0 screen)",
+    "served_by": [
+      "V18"
+    ],
+    "served_by_note": "V18 — ⛔ no known-answer test exists for it",
+    "claim_ceiling": "categorical input only (4 NR4A3-unique lysines, 3 exposed — C7, ⛔ the exposure cutoff that FAILS its own positive control). Validation requirement 5's honest limit: real degraders often ubiquitinate several lysines and lysine-less substrates can still be degraded, so this raises the odds; it does not guarantee the paralogue is spared",
+    "claim_ceiling_raw": "categorical input only (**4 NR4A3-unique lysines, 3 exposed** — `C7`, ⛔ the exposure cutoff that FAILS its own positive control). Validation requirement 5's honest limit: real degraders often ubiquitinate several lysines and lysine-less substrates can still be degraded, so this **raises the odds; it does not guarantee** the paralogue is spared",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R13",
+    "title": "The modelled object is the real biological object — EWSR1::NR4A3 in fusion context, not an isolated LBD",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: The modelled object is the real biological object — EWSR1::NR4A3 in fusion context, not an isolated LBD",
+    "graph_node": null,
+    "statement": "The modelled object is the real biological object — EWSR1::NR4A3 in fusion context, not an isolated LBD",
+    "state": {
+      "work_state": "future",
+      "authorization": "needs_decision",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ not started",
+    "authorization_note": "R13-a: — ($0, needs no nod) · R13-b: 🔒 — PRICED and GATED 2026-08-03, rung S. ⚠ *Superseded, retained: \"🔒 unpriced\".*",
+    "served_by": [],
+    "served_by_note": "⚠ an instrument EXISTS and is staged — fusion_cofold.py (apo Boltz-2 co-fold of the seam and composite constructs) — but it has never been pointed at the CORRECTED junction, and it serves only the STRUCTURE tier. ⚠ *Superseded, retained: \"⛔ none — no lane, no rung, no row anywhere\".*",
+    "claim_ceiling": "⛔ every geometry claim on this page is about an isolated LBD construct. Validation requirement 5 asks for the fusion-context ensemble, lysines outside the LBD (hinge, DBD, fusion partner) and full CRL/E2~Ub ensembles",
+    "claim_ceiling_raw": "⛔ **every geometry claim on this page is about an isolated LBD construct.** Validation requirement 5 asks for the fusion-context ensemble, lysines **outside** the LBD (hinge, DBD, fusion partner) and full CRL/E2~Ub ensembles",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R14",
+    "title": "Selectivity claims are bounded to their tested scope — the AR/MR superfamily cross-binding check",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: Selectivity claims are bounded to their tested scope — the AR/MR superfamily cross-binding check",
+    "graph_node": null,
+    "statement": "Selectivity claims are bounded to their tested scope — the AR/MR superfamily cross-binding check",
+    "state": {
+      "work_state": "future",
+      "authorization": "needs_decision",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ not started",
+    "authorization_note": "R14-a: — ($0, needs no nod) · R14-b: 🔒 + ⛔ blocked by the rate line — PRICED and GATED 2026-08-03, rung S. ⚠ *Superseded, retained: \"🔒 unpriced\".*",
+    "served_by": [
+      "V21"
+    ],
+    "served_by_note": "V21 — ⛔ ASSEMBLED 2026-08-03, AND ITS KNOWN-ANSWER TEST FAILED (§3.1). ⚠ *Superseded, retained: \"~8/9 BUILT, NEVER ASSEMBLED — not 'no instrument'\".*",
+    "claim_ceiling": "the selectivity claim is currently bounded to two paralogues by a check whose instrument cannot be read. ⛔ MEASURED 2026-08-03, and it is worse than \"unrun\": the panel is now complete (MR/NR3C2 added and it PASSES) and its never-run cognate-ligand self-control RAN and FAILED on 3 of 10 receptors, so panel_readable: false and all four SI §S1 anti-target clauses are measured-unreadable, not merely unverified — antitarget-selfcontrol.json → selfcontrol. ⚠ *Superseded, retained: \"currently bounded to two paralogues by an unrun check\".* SI names MR/AR *\"the sole sequence-level non-paralogue follow-ups\"* that *\"must clear\"* (SI :213–219). ⚠ *Superseded, retained: served by \"⛔ none run\".*",
+    "claim_ceiling_raw": "the selectivity claim is **currently bounded to two paralogues by a check whose instrument cannot be read**. ⛔ **MEASURED 2026-08-03, and it is worse than \"unrun\":** the panel is now complete (MR/NR3C2 added and it PASSES) and its never-run cognate-ligand self-control **RAN and FAILED on 3 of 10 receptors**, so `panel_readable: false` and **all four SI §S1 anti-target clauses are measured-unreadable**, not merely unverified — [`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json) → `selfcontrol`. ⚠ *Superseded, retained: \"currently bounded to two paralogues by an **unrun** check\".* SI names MR/AR *\"the **sole** sequence-level non-paralogue follow-ups\"* that *\"must clear\"* (SI `:213–219`). ⚠ *Superseded, retained: served by \"⛔ **none run**\".*",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R15",
+    "title": "The candidate set is chemically constructible and physicochemically plausible",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: The candidate set is chemically constructible and physicochemically plausible",
+    "graph_node": null,
+    "statement": "The candidate set is chemically constructible and physicochemically plausible",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "ready",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "✓ work complete for one mechanism per molecule — ⚠ and a named candidate now exists AT the 12-atom gate (§5 row R15)",
+    "authorization_note": "— ($0)",
+    "served_by": [
+      "V17"
+    ],
+    "served_by_note": "RDKit enumeration + V17-adjacent reach",
+    "claim_ceiling": "one mechanism per molecule. The two-mechanism construct needs a two-branch template, which is a design change to a preregistered enumeration and the decision has never been asked for (§10). ⛔ And the library's own provenance is open — its generator no longer reproduces it, which reaches the causal test article: §10.1 row 25",
+    "claim_ceiling_raw": "**one mechanism per molecule.** The two-mechanism construct needs a **two-branch template**, which is a design change to a preregistered enumeration and **the decision has never been asked for** ([§10](#10--the-roadmap--one-ordered-list)). ⛔ **And the library's own provenance is open** — its generator no longer reproduces it, which reaches the causal test article: [§10.1 row 25](#101--open-rows-ordered-by-what-unblocks-the-most)",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  },
+  {
+    "id": "R16",
+    "title": "NR4A3 is the right target (EMC dependence)",
+    "level": "cross-cutting",
+    "kind": "requirement",
+    "purpose": "What must be TRUE for the program's claim to stand: NR4A3 is the right target (EMC dependence)",
+    "graph_node": "TG",
+    "statement": "NR4A3 is the right target (EMC dependence)",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "work_state_note": "○ future — DELEGATED",
+    "authorization_note": "—",
+    "served_by": [],
+    "served_by_note": "the dTAG degradation test, in the EMC-program paper",
+    "claim_ceiling": "not a blocker of this paper. :2508: *\"This paper's claimed contribution is the target's computational druggability/selectivity, not EMC efficacy\"*",
+    "claim_ceiling_raw": "not a blocker of this paper. `:2508`: *\"This paper's claimed contribution is the target's computational druggability/selectivity, **not EMC efficacy**\"*",
+    "provenance": {
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#21--the-register"
+      }
+    }
+  }
+]

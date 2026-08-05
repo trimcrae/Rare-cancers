@@ -219,3 +219,51 @@ def test_cli_check_exits_zero():
     r = subprocess.run([sys.executable, os.path.join(SYS, "systems_check.py"), "--check"],
                        capture_output=True, text=True, cwd=REPO)
     assert r.returncode == 0, r.stdout + r.stderr
+
+
+# ───────────────────────── the requirement register (Phase 3) ─────────────────────────
+
+def test_requirement_extraction_is_lossless(graph):
+    """Every claim-ceiling cell in the roadmap is stored verbatim in the graph.
+
+    This is what makes the decomposition safe rather than a summarisation. A cap here would silently
+    drop the nuance the roadmap's narrative carries, and a lossy migration is a regression.
+    """
+    f = sc.Findings()
+    sc.check_requirement_source_agreement(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_a_hand_edit_to_either_side_fails(graph):
+    g = copy.deepcopy(graph)
+    g["requirements"][0]["claim_ceiling_raw"] = "tampered"
+    f = sc.Findings()
+    sc.check_requirement_source_agreement(g, f)
+    assert any("[M4]" in e for e in f.errors)
+
+
+def test_every_requirement_states_a_claim_ceiling(graph):
+    """A requirement with no ceiling cannot bound what may be claimed from it, which is its whole job."""
+    for r in graph["requirements"]:
+        assert r.get("claim_ceiling"), f"{r['id']} states no claim ceiling"
+
+
+def test_the_two_kinds_of_gap_are_distinguished(graph):
+    """'No instrument exists' and 'every instrument failed' are opposite work items.
+
+    The first needs something built or a bench; the second needs a better method. Filing them under
+    one word is how the cheap one stays invisible — the same failure the technology taxonomy found on
+    the watch list.
+    """
+    inst = sc.by_id(graph["instruments"])
+    holes, unusable = [], []
+    for r in graph["requirements"]:
+        served = r.get("served_by", [])
+        if not served:
+            holes.append(r["id"])
+        elif not [v for v in served
+                  if (inst.get(v, {}).get("known_answer_control") or {}).get("state")
+                  not in sc.NON_SUPPORTING_CONTROL]:
+            unusable.append(r["id"])
+    assert holes and unusable, "both categories should be populated in the current state"
+    assert not set(holes) & set(unusable), "a requirement cannot be in both categories"
