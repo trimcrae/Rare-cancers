@@ -1,3 +1,17 @@
+---
+id: DOC-README
+title: research/manuscripts/ — what's here, and what's active
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # research/manuscripts/ — what's here, and what's active
 
 This folder holds the treatment-track writing plus a few supporting and separate-track

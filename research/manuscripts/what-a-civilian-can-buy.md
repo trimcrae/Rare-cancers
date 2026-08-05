@@ -1,3 +1,17 @@
+---
+id: DOC-WHAT-A-CIVILIAN-CAN-BUY
+title: What a civilian can buy — the third tier, scoped and closed
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: a scoping memo written to one question, and it returns a NEGATIVE answer
+scope: As stated in the document's own role banner.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # What a civilian can buy — the third tier, scoped and closed
 
 > **Role: a scoping memo written to one question, and it returns a NEGATIVE answer.** *"What experiments

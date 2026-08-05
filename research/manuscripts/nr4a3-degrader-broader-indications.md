@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-BROADER-INDICATIONS
+title: Beyond EMC: what else could a selective NR4A3 degrader treat?
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: ** the
+scope: As stated in the document's own role banner.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 > **Role:** the **indication stack** for the NR4A3-degrader paper — see the positioning decision in
 > [`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md). The degrader paper
 > leads with NR4A3 (target-centric); EMC is the lead clinical application among several **NR4A3-selective**

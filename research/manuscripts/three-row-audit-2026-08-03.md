@@ -1,3 +1,17 @@
+---
+id: DOC-THREE-ROW-AUDIT-2026-08-03
+title: Three-row audit — §10 rows 3, 6 and 7 (2026-08-03)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Three-row audit — §10 rows 3, 6 and 7 (2026-08-03)
 
 **$0 throughout.** Free CI + committed artifacts + read-only S3. No GPU, no rental, nothing to tear down.

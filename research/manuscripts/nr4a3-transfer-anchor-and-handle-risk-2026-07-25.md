@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-TRANSFER-ANCHOR-AND-HANDLE-RISK-2026-07-25
+title: The transfer-anchor conflict, resolved — and how much of the mechanism rests on C397
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # The transfer-anchor conflict, resolved — and how much of the mechanism rests on C397
 
 > **Lane doc (LANE 7).** Two unresolved risks that the Tier-2 GO currently rests on:

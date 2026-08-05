@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-METAD-CONVERGENCE-PLAN
+title: NR4A3 metadynamics convergence — data verification + in-silico re-strengthening plan (2026-07-10)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3 metadynamics convergence — data verification + in-silico re-strengthening plan (2026-07-10)
 
 ## 0. Numbers verified against the actual data (not the paper text)

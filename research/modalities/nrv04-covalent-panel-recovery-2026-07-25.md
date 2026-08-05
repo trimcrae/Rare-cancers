@@ -1,3 +1,17 @@
+---
+id: DOC-NRV04-COVALENT-PANEL-RECOVERY-2026-07-25
+title: NR-V04 covalent feasibility panel — can the withdrawn GO be recovered? (2026-07-25)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR-V04 covalent feasibility panel — can the withdrawn GO be recovered? (2026-07-25)
 
 **Question put to this lane:** the 18 endpoint-MD legs already ran and the defect was in the *analysis* (which

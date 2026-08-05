@@ -1,3 +1,17 @@
+---
+id: DOC-FUSION-JUNCTION-ASO-PAPER
+title: A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity 
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity that the NR4A3 degrader cannot reach
 
 > **In-silico design / feasibility draft (2026-06).** No wet lab; no molecule synthesized; **no new

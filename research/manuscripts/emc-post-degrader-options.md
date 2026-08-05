@@ -1,3 +1,17 @@
+---
+id: DOC-EMC-POST-DEGRADER-OPTIONS
+title: If the degrader does not deliver a candidate — the ranked alternatives
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: decision memo, written to one question
+scope: As stated in the document's own role banner.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # If the degrader does not deliver a candidate — the ranked alternatives
 
 > **Role: decision memo, written to one question.** *"If the NR4A3 degrader paper ends up unable to

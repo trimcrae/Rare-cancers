@@ -1,3 +1,17 @@
+---
+id: DOC-METHOD-WATCH
+title: Method-watch — in-silico capabilities we are waiting on
+level: —
+kind: index
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `index` from its location under research/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Method-watch — in-silico capabilities we are waiting on
 
 **Purpose.** This program's bottleneck is *methods*, not ideas: several routes unlock the

@@ -611,6 +611,80 @@ def check_scan_interop(g, f):
                            f"cannot change `current_state` itself")
 
 
+
+FM_RE = re.compile(r"^---\n(.*?)\n---\n", re.S)
+GEN_BANNER = re.compile(r"GENERATED FILE\s*[—-]?\s*do not edit|^<!--\s*GENERATED", re.M | re.I)
+DOC_SKIP = ("systems/views/", "archive/", "node_modules/", ".git/", ".pytest_cache/")
+
+
+def _frontmatter(text):
+    m = FM_RE.match(text)
+    if not m:
+        return None
+    out = {}
+    for ln in m.group(1).splitlines():
+        if ln.startswith((" ", "\t", "-")) or ":" not in ln:
+            continue
+        k, _, v = ln.partition(":")
+        out[k.strip()] = v.strip()
+    return out
+
+
+def check_documents(g, f):
+    """Every hand-written Markdown file declares purpose, scope, audience, status and freshness.
+
+    ⚠ FILESYSTEM DATES CARRY NO INFORMATION HERE — the history is a squashed import and every file
+    reports the same date — so freshness is declared or it does not exist.
+
+    ⛔ `last_verified: unverified` IS AN HONEST VALUE, NOT A HOLE. The bulk backfill read none of these
+    documents; stamping them with its own run date would have claimed a verification nobody performed,
+    in the one field whose entire job is to say how stale something is. The count below is meant to
+    fall as people read them, and it is reported rather than hidden.
+    """
+    allowed_status = {"live", "generated", "historical", "superseded", "immutable"}
+    missing, unverified, bad = [], 0, 0
+    for root, dirs, files in os.walk(REPO):
+        rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
+        if rel_root.startswith((".git", "node_modules", ".pytest_cache")) or "__pycache__" in rel_root:
+            dirs[:] = []
+            continue
+        for fn in sorted(files):
+            if not fn.endswith(".md"):
+                continue
+            rel = os.path.normpath(os.path.join(rel_root, fn)).replace(os.sep, "/")
+            if rel.startswith(DOC_SKIP):
+                continue
+            with open(os.path.join(REPO, rel), encoding="utf-8", errors="ignore") as fh:
+                text = fh.read()
+            fmv = _frontmatter(text)
+            if fmv is None:
+                # A generated file's header is owned by its generator; adding frontmatter would make
+                # it differ from a fresh render and turn ITS drift check red.
+                if GEN_BANNER.search("\n".join(text.splitlines()[:20])):
+                    continue
+                missing.append(rel)
+                continue
+            for key in ("id", "title", "kind", "status", "purpose", "scope", "audience", "last_verified"):
+                if key not in fmv:
+                    f.err("[D1]", f"{rel} frontmatter is missing `{key}`")
+                    bad += 1
+            if fmv.get("status") and fmv["status"] not in allowed_status:
+                f.err("[D2]", f"{rel} has status {fmv['status']!r}, outside the closed set")
+                bad += 1
+            if fmv.get("kind") == "prereg" and fmv.get("status") != "immutable":
+                f.err("[D3]", f"{rel} is a preregistration but is not `immutable` — a prereg's whole "
+                              f"value is that it was written before the result")
+                bad += 1
+            if fmv.get("last_verified") == "unverified":
+                unverified += 1
+    for rel in missing:
+        f.err("[D4]", f"{rel} has no frontmatter — purpose, scope, audience and freshness are undeclared")
+    if unverified:
+        f.warn("[D5]", f"{unverified} document(s) carry `last_verified: unverified` — nobody has "
+                       f"confirmed their content is still true. This is honest, not a defect; the "
+                       f"count is meant to fall.")
+
+
 def run_checks(g, f):
     check_schemas(g, f)
     check_legacy_agreement(g, f)
@@ -621,6 +695,7 @@ def run_checks(g, f):
     check_requirement_source_agreement(g, f)
     check_technologies(g, f)
     check_scan_interop(g, f)
+    check_documents(g, f)
     check_pointers(g, f)
     check_instrument_support(g, f)
     check_compute_case(g, f)

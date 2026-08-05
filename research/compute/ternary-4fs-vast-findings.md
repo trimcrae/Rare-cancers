@@ -1,3 +1,17 @@
+---
+id: DOC-TERNARY-4FS-VAST-FINDINGS
+title: RUNG 2b on Vast — the 4 fs ternary test, and what it corrects in the cost base
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # RUNG 2b on Vast — the 4 fs ternary test, and what it corrects in the cost base
 
 **Lane:** `gpu-ternary-fep-vast.yml` → `ternary_vast_launch.py` → `run_ternary_leg.sh` → `nr4a3_ternary_fep.py`.

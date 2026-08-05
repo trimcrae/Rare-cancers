@@ -1,3 +1,17 @@
+---
+id: DOC-EMC-TREATMENT-STRATEGY
+title: EMC treatment strategy — prioritized route portfolio (capstone)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # EMC treatment strategy — prioritized route portfolio (capstone)
 
 > **SCOPE: this is the ROUTE-PORTFOLIO ranking (all treatment routes), subordinate to the overarching strategy.**

@@ -1,3 +1,17 @@
+---
+id: DOC-VAST-CHURN-OBSERVATIONS-2026-07-25
+title: Vast churn, 2026-07-25 — three cost-model priors the 5a-KS benchmark run contradicts
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Vast churn, 2026-07-25 — three cost-model priors the 5a-KS benchmark run contradicts
 
 *Companion: [vast-placement-facts.md](./vast-placement-facts.md) covers why a rental does or does not

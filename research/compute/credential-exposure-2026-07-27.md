@@ -1,3 +1,17 @@
+---
+id: DOC-CREDENTIAL-EXPOSURE-2026-07-27
+title: Credential exposure — 2026-07-27, ~3:00–3:25 AM ET
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Credential exposure — 2026-07-27, ~3:00–3:25 AM ET
 
 **Status: CONTAINED in the repo. NOT REMEDIATED — rotation is trimcrae's and was still outstanding

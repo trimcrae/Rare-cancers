@@ -1,3 +1,17 @@
+---
+id: DOC-VALB-CALIBRATOR-RESCOPE-2026-07-25
+title: Rescoping the valB calibrator — both designs, priced, with the decision keyed to the reverse leg
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Rescoping the valB calibrator — both designs, priced, with the decision keyed to the reverse leg
 
 **Date:** 2026-07-25 · **Status:** design + recommendation. **No GPU work is proposed for launch here** — every

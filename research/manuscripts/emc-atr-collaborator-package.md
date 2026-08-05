@@ -1,3 +1,17 @@
+---
+id: DOC-EMC-ATR-COLLABORATOR-PACKAGE
+title: The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR laser-microirradiation assay
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR laser-microirradiation assay
 
 **What this is:** everything a group that already runs the FET-fusion DSB-recruitment assay would

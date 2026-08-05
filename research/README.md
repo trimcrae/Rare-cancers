@@ -1,3 +1,17 @@
+---
+id: DOC-README
+title: EMC research program
+level: —
+kind: index
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `index` from its location under research/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # EMC research program
 
 The mission of this project is not a web page — it is to **improve outcomes for

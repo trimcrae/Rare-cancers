@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-INSILICO-COMPLETENESS
+title: In-silico completeness ledger — NR4A3-selective degrader
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # In-silico completeness ledger — NR4A3-selective degrader
 
 > **Why this doc exists.** The North Star is *the state of the art of what in-silico testing can do for an

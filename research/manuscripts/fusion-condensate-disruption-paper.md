@@ -1,3 +1,17 @@
+---
+id: DOC-FUSION-CONDENSATE-DISRUPTION-PAPER
+title: Disrupting the fusion's condensate: an EWS-low-complexity-domain phase-separation strategy as a fusion-selective route i
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Disrupting the fusion's condensate: an EWS-low-complexity-domain phase-separation strategy as a fusion-selective route in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 
 > **IN-SILICO / CONCEPT PAPER — earliest-stage of the three protein-level fusion-unique routes.**

@@ -1,3 +1,17 @@
+---
+id: DOC-NRV04-RETROSPECTIVE-PRESPEND-AUDIT-2026-07-25
+title: NR-V04 retrospective (RUNG 4) — $0 pre-spend audit before any leg is paid for (2026-07-25)
+level: L4
+kind: prereg
+status: immutable
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR-V04 retrospective (RUNG 4) — $0 pre-spend audit before any leg is paid for (2026-07-25)
 
 **Question put to this lane.** The sibling covalent feasibility panel was found today to be wrong in **four**

@@ -1,3 +1,17 @@
+---
+id: DOC-REPURPOSING-HYPOTHESES
+title: Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma
 
 > **EARLIER TREATMENT-TRACK DRAFT — subsumed by the active manuscript**

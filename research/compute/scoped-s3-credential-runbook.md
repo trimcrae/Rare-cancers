@@ -1,3 +1,17 @@
+---
+id: DOC-SCOPED-S3-CREDENTIAL-RUNBOOK
+title: Scoped S3 credential for rented GPU hosts — what trimcrae must create in AWS
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Scoped S3 credential for rented GPU hosts — what trimcrae must create in AWS
 
 **This is the runbook for the decision recorded in

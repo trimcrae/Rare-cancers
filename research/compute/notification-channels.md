@@ -1,3 +1,17 @@
+---
+id: DOC-NOTIFICATION-CHANNELS
+title: Push channels — what can reach trimcrae, and why almost nothing does
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Push channels — what can reach trimcrae, and why almost nothing does
 
 **This file owns the answer to "can this repo notify trimcrae, and how?"** Per CLAUDE.md §1, every other file

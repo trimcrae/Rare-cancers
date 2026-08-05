@@ -1,3 +1,17 @@
+---
+id: DOC-PRICING
+title: GPU / compute PRICING — single source of truth (every number links to a justifying test)
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # GPU / compute PRICING — single source of truth (every number links to a justifying test)
 
 > **This file is authoritative for "what does step X cost, and how do we know."** nr4a3-program-map.md's economics block

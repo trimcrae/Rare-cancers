@@ -1,3 +1,17 @@
+---
+id: DOC-PUBLISHED-WARHEAD-REGISTRY
+title: Published warhead registry — the experimentally anchored NR4A chemistry (Workstream B)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Published warhead registry — the experimentally anchored NR4A chemistry (Workstream B)
 
 **Phase-1 / Workstream-B deliverable of the NR4A3-selective-degrader master brief (deliverables 30–33).**

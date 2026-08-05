@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-PARALOGUE-DYNAMICS-CATEGORICAL-TEST-2026-07-25
+title: Does the CATEGORICAL case survive paralogue dynamics? — matched NR4A1 / NR4A2 / NR4A3 ensembles
+level: L3
+kind: historical
+status: superseded
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Does the CATEGORICAL case survive paralogue dynamics? — matched NR4A1 / NR4A2 / NR4A3 ensembles
 
 > **Lane doc (LANE 13).** Tier 2's GO was won on the **CATEGORICAL** basis: NR4A3 carries reactive residues

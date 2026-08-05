@@ -1,3 +1,17 @@
+---
+id: DOC-FIELD-SCAN-LOG
+title: NR4A3-selective degrader — weekly field-scan log
+level: —
+kind: index
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `index` from its location under research/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3-selective degrader — weekly field-scan log
 
 Dated summaries of new/relevant literature + methods for the in-silico NR4A3 program (EMC / EWSR1::NR4A3).

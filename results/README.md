@@ -1,3 +1,17 @@
+---
+id: DOC-README
+title: results/ — the permanent home for computational outputs
+level: —
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under results/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # `results/` — the permanent home for computational outputs
 
 **Why this exists (2026-07-10).** GPU jobs write to the SageMaker default bucket

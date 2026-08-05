@@ -1,3 +1,17 @@
+---
+id: DOC-SELECTIVITY-SENSITIVITY-CONTROL-PREREG
+title: Pre-registration — the endpoint-MD sensitivity control (options paper D1)
+level: L4
+kind: prereg
+status: immutable
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Pre-registration — the endpoint-MD **sensitivity control** (options paper D1)
 
 **Written and committed BEFORE the first GPU leg.** A criterion written after the numbers arrive is not a

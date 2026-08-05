@@ -1,3 +1,17 @@
+---
+id: DOC-EMC-TREATMENT-PAPER-OUTLINE
+title: Figure & claims-audit checklist for the active manuscript (retired outline)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Figure & claims-audit checklist for the active manuscript (retired outline)
 
 > **QA / CHECKLIST (not a manuscript).** The draft this outlined has been written — it is the active

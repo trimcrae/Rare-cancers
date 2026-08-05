@@ -1,3 +1,17 @@
+---
+id: DOC-CLINICAL-BRIEF-EMC-NEOANTIGEN
+title: Clinical brief: a personalised fusion-neoantigen route to treatment in EMC
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Clinical brief: a personalised fusion-neoantigen route to treatment in EMC
 
 > **EARLIER TREATMENT-TRACK DERIVATIVE — one-page brief drawn from** [`novel-modalities.md`](./novel-modalities.md).

@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-REPURPOSE-NR4A3ONLY
+title: NR4A3-only drug-repurposing dock — interruption-robust spot pipeline (runbook)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3-only drug-repurposing dock — interruption-robust spot pipeline (runbook)
 
 **What:** Option-1 triage of the 5,988-compound Broad Repurposing Hub library against the **cryptic NR4A3

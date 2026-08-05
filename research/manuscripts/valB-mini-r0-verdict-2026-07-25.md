@@ -1,3 +1,17 @@
+---
+id: DOC-VALB-MINI-R0-VERDICT-2026-07-25
+title: valB_mini — what the r0 replicate actually says, and why r1/r2 is the wrong next spend
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # valB_mini — what the r0 replicate actually says, and why r1/r2 is the wrong next spend
 
 **Date:** 2026-07-25 · **Status:** analysis + recommendation; the strategic call (rescope vs spend) is trimcrae's.

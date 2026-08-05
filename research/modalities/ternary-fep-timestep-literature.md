@@ -1,3 +1,17 @@
+---
+id: DOC-TERNARY-FEP-TIMESTEP-LITERATURE
+title: Timestep & equilibration for alchemical FEP on ternary (PROTAC/molecular-glue) complexes — literature review
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Timestep & equilibration for alchemical FEP on ternary (PROTAC/molecular-glue) complexes — literature review
 
 **Date:** 2026-07-19. **Question:** how does the field choose the MD timestep + equilibration for relative

@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-ADAPTIVE-ALLOCATION-DESIGN
+title: Adaptive compute allocation for the NR4A3 selective-degrader screen
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Adaptive compute allocation for the NR4A3 selective-degrader screen
 
 **Status:** DESIGN + OFFLINE PROTOTYPE (2026-07-12; revised after an external methodology review — see §13).

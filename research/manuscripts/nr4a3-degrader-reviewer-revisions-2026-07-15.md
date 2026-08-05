@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-REVIEWER-REVISIONS-2026-07-15
+title: NR4A3-degrader paper — external reviewer verdict (2026-07-15) — VERBATIM CAPTURE
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3-degrader paper — external reviewer verdict (2026-07-15) — VERBATIM CAPTURE
 
 **Do not re-litigate. This records the external reviewer-AI's decision so the revised plan is not second-guessed.**

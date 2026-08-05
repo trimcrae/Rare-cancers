@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-PAPER-POSITIONING
+title: Positioning: lead with the NR4A3 degrader, not EMC
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 > **Role:** decision record — paper positioning/framing for the degrader work. Supersedes the
 > EMC-led framing *for this paper's lead*; see the divergence note at the bottom re: the repo mandate.
 

@@ -1,3 +1,17 @@
+---
+id: DOC-VALB-GATE-DEFECT-FIX-AUDIT-2026-07-25
+title: The valB_mini admits-zero gate defect — independent audit of a fix that was already applied
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # The valB_mini admits-zero gate defect — independent audit of a fix that was already applied
 
 **Date:** 2026-07-25 · **Status:** audit complete; the fix itself is **already in the tree** and this document

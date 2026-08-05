@@ -1,3 +1,17 @@
+---
+id: DOC-PARALOGUE-POCKET-CONTRAST
+title: C04 — paralogue-matched cryptic-pocket druggability
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # C04 — paralogue-matched cryptic-pocket druggability
 
 > **$0 CPU/CI. No GPU, no rental.** Nothing here is a claim about binding, reactivity, degradation,

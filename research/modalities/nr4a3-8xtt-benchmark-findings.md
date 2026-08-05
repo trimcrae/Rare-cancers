@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-8XTT-BENCHMARK-FINDINGS
+title: 8XTT experimental benchmark of the AF2 NR4A3 pocket — findings (2026-07-10)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # 8XTT experimental benchmark of the AF2 NR4A3 pocket — findings (2026-07-10)
 
 **Run:** `gpu-8xtt-benchmark-aws.yml` (SageMaker CPU, ml.c5.2xlarge), git_ref `main`, run 29066297552,

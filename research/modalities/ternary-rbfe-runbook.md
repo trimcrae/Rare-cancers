@@ -1,3 +1,17 @@
+---
+id: DOC-TERNARY-RBFE-RUNBOOK
+title: Ternary RBFE / cooperativity-FEP runbook (GCP L4 spot — and now Vast, see §0)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Ternary RBFE / cooperativity-FEP runbook (GCP L4 spot — **and now Vast, see §0**)
 
 ## 0 · THE VAST LANE — where new ternary legs go from 2026-07-25

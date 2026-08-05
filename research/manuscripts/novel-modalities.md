@@ -1,3 +1,17 @@
+---
+id: DOC-NOVEL-MODALITIES
+title: Computational routes to treatment for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma: structure-guided modalities and 
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Computational routes to treatment for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma: structure-guided modalities and a personalised fusion-neoantigen pipeline
 
 > **EARLIER TREATMENT-TRACK DRAFT — subsumed by the active manuscript**

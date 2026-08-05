@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-MONOVALENT-POCKET-ROUTE
+title: The monovalent pocket-modulation route — a small molecule that only occupies the NR4A3 LBD
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: route memo, written to one question that neither existing treatment of C397 asks
+scope: As stated in the document's own role banner.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # The monovalent pocket-modulation route — a small molecule that only occupies the NR4A3 LBD
 
 > **Role: route memo, written to one question that neither existing treatment of C397 asks.**

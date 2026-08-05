@@ -1,3 +1,17 @@
+---
+id: DOC-TERNARY-CALIB-PAIR-DRAFT
+title: Layer-1 calibration hi/lo pair — DRAFT selection (not yet frozen)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Layer-1 calibration hi/lo pair — DRAFT selection (not yet frozen)
 
 **Status:** DRAFT recommendation for the `calib_hi_to_lo` pilot morph edge. **Nothing here is frozen and no

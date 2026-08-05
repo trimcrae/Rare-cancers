@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-CONGENERIC-RBFE-PLAN
+title: NR4A3 congeneric-warhead RBFE perturbation map — design spec
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3 congeneric-warhead RBFE perturbation map — design spec
 
 **Status: DESIGN ONLY (2026-07-11); PILOT EDGE NOW RUN (2026-07-18) — see "PILOT RESULT" below.** The design

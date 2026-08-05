@@ -1,3 +1,17 @@
+---
+id: DOC-MAP-AUDIT-STRATEGY
+title: Audit — every factual claim in nr4a3-program-map.md against STRATEGY.md and the committed artifacts
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Audit — every factual claim in `nr4a3-program-map.md` against STRATEGY.md and the committed artifacts
 
 **READ-ONLY AUDIT, $0.** No GPU, no CI dispatch, no rental. Every check below is a read of a committed file, a

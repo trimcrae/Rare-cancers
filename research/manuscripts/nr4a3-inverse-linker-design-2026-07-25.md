@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-INVERSE-LINKER-DESIGN-2026-07-25
+title: RUNG 5b — inverse linker design on the confirmed orientation basins
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # RUNG 5b — inverse linker design on the confirmed orientation basins
 
 > **Lane doc.** The record for nr4a3-program-map.md's RUNG 5b: the **$0 CPU** step that turns RUNG 5a's nominated

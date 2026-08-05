@@ -1,3 +1,17 @@
+---
+id: DOC-NOVEL-MODALITIES-FACTCHECK
+title: Fact-check & replication log — novel-modalities.md
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Fact-check & replication log — novel-modalities.md
 
 > **QA / FACT-CHECK LOG (not a manuscript)** for [`novel-modalities.md`](./novel-modalities.md).

@@ -1,3 +1,17 @@
+---
+id: DOC-BID-STRATEGY
+title: Vast bidding and host selection — the measured policy (rewritten 2026-07-25)
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Vast bidding and host selection — the measured policy (rewritten 2026-07-25)
 
 > **Read this for "what do we bid and where do we run."** The policy is derived in

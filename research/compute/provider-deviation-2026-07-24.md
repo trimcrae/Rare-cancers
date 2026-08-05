@@ -1,3 +1,17 @@
+---
+id: DOC-PROVIDER-DEVIATION-2026-07-24
+title: Provider deviation — the NR-V04 co-fold regeneration ran on SageMaker, unconfirmed (2026-07-24)
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Provider deviation — the NR-V04 co-fold regeneration ran on SageMaker, unconfirmed (2026-07-24)
 
 **Recording this because realized spend and ladder spend are tracked separately, and because a deviation that

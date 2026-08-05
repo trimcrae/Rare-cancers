@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-PAPER-REVIEW-ROUND3
+title: NR4A3 binder paper — Round-3 review response ledger
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3 binder paper — Round-3 review response ledger
 
 Tracking every point in the round-3 JCIM-style review (2026-07-10). Goal per trimcrae: **address

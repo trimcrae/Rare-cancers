@@ -1,3 +1,17 @@
+---
+id: DOC-AWS-SAGEMAKER-SETUP
+title: Run the NR4A3 MD on AWS SageMaker (managed, auto-tears-down)
+level: —
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under deploy/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Run the NR4A3 MD on AWS SageMaker (managed, auto-tears-down)
 
 This is the standard AWS path for the cryptic-pocket MD. SageMaker provisions a GPU, enforces a

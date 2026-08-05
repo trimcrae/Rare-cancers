@@ -1,3 +1,17 @@
+---
+id: DOC-VAST-PLACEMENT-FACTS
+title: Vast placement & market structure — hard facts (read BEFORE diagnosing why a lane cannot get a host)
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Vast placement & market structure — hard facts (read BEFORE diagnosing why a lane cannot get a host)
 
 **Scope.** Why a Vast rental does or does not happen: our own filters, board width, host survival, and the

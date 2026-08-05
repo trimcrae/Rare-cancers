@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-LEADOPT-FEP-READINESS
+title: FEP-readiness dossier — lo_m0_NCCO (the better-than-401 lead), 2026-07-06
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # FEP-readiness dossier — lo_m0_NCCO (the better-than-401 lead), 2026-07-06
 
 > **⚠️ SUPERSEDED / HISTORICAL (2026-07-15) — read [`/nr4a3-program-map.md`](../manuscripts/nr4a3-program-map.md) for the live plan.**

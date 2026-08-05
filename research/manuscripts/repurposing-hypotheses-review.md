@@ -1,3 +1,17 @@
+---
+id: DOC-REPURPOSING-HYPOTHESES-REVIEW
+title: Internal review — repurposing-hypotheses.md (draft v0.2)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Internal review — repurposing-hypotheses.md (draft v0.2)
 
 > **QA / INTERNAL REVIEW (not a manuscript)** of [`repurposing-hypotheses.md`](./repurposing-hypotheses.md).

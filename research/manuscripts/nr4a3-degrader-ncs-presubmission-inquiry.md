@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-NCS-PRESUBMISSION-INQUIRY
+title: NCS presubmission inquiry — draft (the free long shot)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NCS presubmission inquiry — draft (the free long shot)
 
 > **Purpose.** A *presubmission enquiry* to the Nature Computational Science editor — a short note asking

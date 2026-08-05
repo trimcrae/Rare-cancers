@@ -1,3 +1,17 @@
+---
+id: DOC-FEP-FALLBACK-PLAN
+title: FEP runbook — live state (2026-07-04)
+level: —
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under scratchpad/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # FEP runbook — live state (2026-07-04)
 
 ## ⛔ HARD DECISION (trimcrae, 2026-07-04): if the CURRENT NR4A3 run FAILS → DONE WITH YANK.

@@ -1,3 +1,17 @@
+---
+id: DOC-MAP-AUDIT-MANUSCRIPT
+title: Audit — nr4a3-program-map.md against the manuscript it claims to graph
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Audit — `nr4a3-program-map.md` against the manuscript it claims to graph
 
 **Scope.** A read-only verification of [`nr4a3-program-map.md`](./nr4a3-program-map.md) against the single

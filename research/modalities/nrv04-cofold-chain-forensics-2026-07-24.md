@@ -1,3 +1,17 @@
+---
+id: DOC-NRV04-COFOLD-CHAIN-FORENSICS-2026-07-24
+title: NR-V04 co-fold + chain-split forensics (2026-07-24)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR-V04 co-fold + chain-split forensics (2026-07-24)
 
 **Two independent defects, found while de-risking the NR-V04 retrospective before spending anything.** Both

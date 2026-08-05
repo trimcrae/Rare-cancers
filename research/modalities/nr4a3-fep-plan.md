@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-FEP-PLAN
+title: Selectivity FEP — spot-priced, parallel strategy (the "make FEP faster & cheaper" wiring)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Selectivity FEP — spot-priced, parallel strategy (the "make FEP faster & cheaper" wiring)
 
 > **Status (2026-07-01):** infra wired; **production FEP is GATED on trimcrae go-ahead** (this doc + the harness

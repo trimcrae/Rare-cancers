@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-STRATEGY-TERNARY-FIRST
+title: NR4A3 degrader — strategy redirection: ternary-selectivity-first, chemotype-anchored
+level: L3
+kind: historical
+status: superseded
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3 degrader — strategy redirection: ternary-selectivity-first, chemotype-anchored
 
 > **⚠️ EXECUTION-PLAN SUPERSEDED 2026-07-15 (external reviewer-AI verdict — conditional approval + 5 mandatory

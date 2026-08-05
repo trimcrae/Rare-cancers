@@ -1,3 +1,17 @@
+---
+id: DOC-TERNARY-SESSION-HANDOFF
+title: HANDOFF — NR4A3 degrader TERNARY-path session (start here)
+level: —
+kind: index
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `index` from its location under research/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # HANDOFF — NR4A3 degrader **TERNARY-path** session (start here)
 
 **You are the TERNARY session.** Continue the induced-proximity / degrader-**ternary-selectivity** path of the

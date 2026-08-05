@@ -1,3 +1,17 @@
+---
+id: DOC-TARGET-ROUTE-OPTIONS
+title: Target-route options — questioning the target, not the method
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: ** decision memo. It asks the question the program has never asked:
+scope: As stated in the document's own role banner.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Target-route options — questioning the target, not the method
 
 > **Role:** decision memo. It asks the question the program has never asked: **must the molecule be

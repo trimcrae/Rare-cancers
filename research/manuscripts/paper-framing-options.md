@@ -1,3 +1,17 @@
+---
+id: DOC-PAPER-FRAMING-OPTIONS
+title: Paper framing options — what else this body of work could publish, graded on the evidence that exists
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: an OPTIONS REGISTER, not a decision and not a plan
+scope: As stated in the document's own role banner.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Paper framing options — what else this body of work could publish, graded on the evidence that exists
 
 > **Role: an OPTIONS REGISTER, not a decision and not a plan.** The plan is

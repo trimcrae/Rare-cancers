@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-LINKER-COVALENT-REACH
+title: Is a linker-borne covalent NR4A3 handle geometrically available?
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Is a linker-borne covalent NR4A3 handle geometrically available?
 
 Can a linker anchored at the warhead attachment point present an electrophile at an NR4A3-unique cysteine SG while the E3 ligand still projects to solvent — across the experimental ensemble, without also reaching a cysteine the paralogues keep?

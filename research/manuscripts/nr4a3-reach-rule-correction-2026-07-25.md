@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-REACH-RULE-CORRECTION-2026-07-25
+title: The reach rule credited the pendant with shortening the span — correction, re-run, and what moved
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # The reach rule credited the pendant with shortening the span — correction, re-run, and what moved
 
 **LANE 10 · 2026-07-25 · $0 realized (CPU/CI only, no GPU) · branch `claude/max-effort-2dq11l-reach`**

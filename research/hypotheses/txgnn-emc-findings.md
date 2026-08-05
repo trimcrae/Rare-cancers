@@ -1,3 +1,17 @@
+---
+id: DOC-TXGNN-EMC-FINDINGS
+title: TxGNN on EMC — what the trained model actually predicts (and why it's a limitation finding)
+level: L5
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/hypotheses/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # TxGNN on EMC — what the trained model actually predicts (and why it's a limitation finding)
 
 We ran the **real** pretrained TxGNN foundation model (Huang et al., *A foundation model

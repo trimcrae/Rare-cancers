@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A-REPANEL-PREREG-DRAFT
+title: NR4A1/2/3 RE-PANEL — PREREGISTRATION ·  DRAFT, NOT FROZEN ·  RETIRED UNRUN 2026-08-02
+level: L4
+kind: prereg
+status: immutable
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A1/2/3 RE-PANEL — PREREGISTRATION · ⚠ **DRAFT, NOT FROZEN** · ⛔ **RETIRED UNRUN 2026-08-02**
 
 > ## ⛔⛔ RETIRED UNRUN — 2026-08-02. STEP 2 RETURNED **NULL**, AND THIS DOCUMENT'S OWN FREEZE CONDITION 1

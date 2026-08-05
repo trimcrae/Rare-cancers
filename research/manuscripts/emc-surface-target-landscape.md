@@ -1,3 +1,17 @@
+---
+id: DOC-EMC-SURFACE-TARGET-LANDSCAPE
+title: In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma surrogate, a hard normal-tissue filter — and a validation request
 
 > **Preprint status (2026-07-03).** Computational, **hypothesis-generating** manuscript, extensively

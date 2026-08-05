@@ -1,3 +1,17 @@
+---
+id: DOC-FUSION-SELECTIVE-APPROACHES-OVERVIEW
+title: Fusion-exclusive approaches to EWSR1::NR4A3 EMC — overview, comparison, and recommendation
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Fusion-exclusive approaches to EWSR1::NR4A3 EMC — overview, comparison, and recommendation
 
 > **Role:** index + decision memo for the five *fusion-unique* manuscripts drafted 2026-06-26. Each

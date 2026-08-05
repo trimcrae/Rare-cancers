@@ -1,3 +1,17 @@
+---
+id: DOC-VALB-CLOSURE-TRIANGLE-PREGATE-2026-07-25
+title: The valB closure triangle, pre-gated for $0 — what it can prove, what it costs, and the topology that should replace it
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # The valB closure triangle, pre-gated for $0 — what it can prove, what it costs, and the topology that should replace it
 
 **Date:** 2026-07-25 · **Status:** $0 pre-gate + costed recommendation. **No GPU work is proposed for launch

@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-TERNARY-CALIB-PREREG-ADDENDUM-2026-07-19
+title: valB_mini calibration — PREREGISTRATION FREEZE ADDENDUM (2026-07-19)
+level: L4
+kind: prereg
+status: immutable
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # valB_mini calibration — PREREGISTRATION FREEZE ADDENDUM (2026-07-19)
 
 **Committed BEFORE any GPU fan-out**, per the external reviewer AI's *conditional protocol approval*

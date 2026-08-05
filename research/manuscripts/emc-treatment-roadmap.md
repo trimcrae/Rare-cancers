@@ -1,3 +1,17 @@
+---
+id: DOC-EMC-TREATMENT-ROADMAP
+title: Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 
 > **EMC-PROGRAM MANUSCRIPT (one of two active papers).** As of 2026-06-25 the **NR4A3 degrader** is

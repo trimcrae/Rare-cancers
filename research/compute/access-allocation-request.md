@@ -1,3 +1,17 @@
+---
+id: DOC-ACCESS-ALLOCATION-REQUEST
+title: Draft: ACCESS free-compute allocation request (GPU hours for the NR4A3 degrader in-silico program)
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Draft: ACCESS free-compute allocation request (GPU hours for the NR4A3 degrader in-silico program)
 
 **What this is.** A ready-to-adapt draft application for **free national-supercomputer GPU time** via

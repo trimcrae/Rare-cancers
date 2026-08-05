@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A1-SPARING-AXIS
+title: The NR4A1-SPARING axis — the inverse of NR-V04, enumerated and measured
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # The NR4A1-SPARING axis — the inverse of NR-V04, enumerated and measured
 
 > **The question, from trimcrae:** *"Is there anything to the idea of doing the inverse of NR-V04 here? Like making something that will degrade every NR4A paralogue EXCEPT NR4A1 using the same mechanism as NR-V04 but in reverse?"*

@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-NEXT-STEPS
+title: NR4A3 degrader — in-silico program state & how to run the warhead next (handoff)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3 degrader — in-silico program state & how to run the warhead next (handoff)
 
 > **⚠️ SCOPE: this is the INFRA / HOW-TO-RUN handoff, NOT the plan.** For WHAT WE RUN, IN WHAT ORDER, AND WHY

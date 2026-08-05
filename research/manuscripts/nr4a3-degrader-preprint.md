@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-PREPRINT
+title: RETIRED — consolidated into the single manuscript
+level: L3
+kind: historical
+status: superseded
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # RETIRED — consolidated into the single manuscript
 
 **This separate condensed preprint has been retired (2026-07-10).** Maintaining a parallel short-form

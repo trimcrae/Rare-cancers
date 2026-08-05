@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-PREPRINT-PLAN
+title: NR4A3-degrader paper → preprint: conversion plan & checklist
+level: L3
+kind: historical
+status: superseded
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3-degrader paper → preprint: conversion plan & checklist
 
 > **⚠ SUPERSEDED (2026-07-10) — no separate preprint is maintained any more.** Keeping a parallel condensed

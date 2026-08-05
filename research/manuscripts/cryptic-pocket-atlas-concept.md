@@ -1,3 +1,17 @@
+---
+id: DOC-CRYPTIC-POCKET-ATLAS-CONCEPT
+title: Concept memo — a cheap cryptic-pocket druggability atlas for neglected targets (AlphaFlow + fpocket)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Concept memo — a cheap cryptic-pocket *druggability* atlas for neglected targets (AlphaFlow + fpocket)
 
 **Status:** concept / pre-proposal. **Priority:** HIGH — the designated next major program *after* the

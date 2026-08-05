@@ -1,3 +1,17 @@
+---
+id: DOC-SCALING-GPU-BEYOND-FREE-CREDITS
+title: Scaling GPU beyond the free credits — the paid-era playbook
+level: —
+kind: runbook
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Scaling GPU beyond the free credits — the paid-era playbook
 
 **Purpose.** What to do when the free pools (GCP $300, Modal $30/mo, and any nonprofit/HPC allocation) are

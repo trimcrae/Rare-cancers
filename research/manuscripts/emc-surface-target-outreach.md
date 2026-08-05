@@ -1,3 +1,17 @@
+---
+id: DOC-EMC-SURFACE-TARGET-OUTREACH
+title: Outreach emails — EMC surface-target preprint → the patient-derived-EMC-model groups
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Outreach emails — EMC surface-target preprint → the patient-derived-EMC-model groups
 
 > **Role:** ready-to-send outreach accompanying [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md).

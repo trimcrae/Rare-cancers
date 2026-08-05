@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-ABFE-MODERN-DESIGN
+title: Modern-stack ABFE — design (trimcrae decision, 2026-07-04)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Modern-stack ABFE — design (trimcrae decision, 2026-07-04)
 
 **Decision:** go forward on a MODERN, MAINTAINED ABFE stack; retire Yank. (Yank kept only as a possible

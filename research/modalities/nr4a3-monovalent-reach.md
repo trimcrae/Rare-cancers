@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-MONOVALENT-REACH
+title: Does removing the E3 arm rescue the categorical selectivity axis at C397?
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Does removing the E3 arm rescue the categorical selectivity axis at C397?
 
 > **$0, CPU, pure stdlib.** GEOMETRY ONLY, $0 CPU, pure stdlib. No reactivity, potency, selectivity, developability, efficacy or clinical claim is made or implied. Reach can refute a route; it cannot license one.

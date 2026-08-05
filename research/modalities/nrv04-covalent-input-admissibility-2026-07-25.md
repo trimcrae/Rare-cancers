@@ -1,3 +1,17 @@
+---
+id: DOC-NRV04-COVALENT-INPUT-ADMISSIBILITY-2026-07-25
+title: NR-V04 covalent panel — can an A1-admissible input be produced? (Lane 8, 2026-07-25)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR-V04 covalent panel — can an A1-admissible input be produced? (Lane 8, 2026-07-25)
 
 **Question put to this lane.** Prereg [AMENDMENT 1](./nr4a3-nrv04-covalent-feasibility-prereg.md#amendment-1--2026-07-25-dated-defect-fix-trimcrae-delegated)

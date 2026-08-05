@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-COVALENT-HANDLE-ENSEMBLE
+title: NR4A3-unique cysteines: accessibility across the experimental ensemble, with NR4A1 Cys551 (the NR-V04 site) as the posit
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3-unique cysteines: accessibility across the experimental ensemble, with NR4A1 Cys551 (the NR-V04 site) as the positive control
 
 NR-V04's NR4A1 selectivity is ATTRIBUTED — proposed by Zhang et al. 2018, never structurally confirmed — to covalent engagement at NR4A1 Cys551, a position NR4A3 lacks. Does NR4A3 carry a cysteine of its own that BOTH paralogues lack, and how accessible is it across the experimental ensemble?

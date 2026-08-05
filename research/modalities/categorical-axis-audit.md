@@ -1,3 +1,17 @@
+---
+id: DOC-CATEGORICAL-AXIS-AUDIT
+title: Audit of the CATEGORICAL selectivity axis
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Audit of the CATEGORICAL selectivity axis
 
 > **$0. No new computation, no GPU, no rental.** Every figure here is READ out of a committed artifact or out

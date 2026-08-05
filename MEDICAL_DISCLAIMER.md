@@ -1,3 +1,17 @@
+---
+id: DOC-MEDICAL-DISCLAIMER
+title: Medical disclaimer
+level: —
+kind: policy
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `policy` from its location under ./.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Medical disclaimer
 
 The Rare Cancer Info Hub is an educational, patient-built project. It is **not

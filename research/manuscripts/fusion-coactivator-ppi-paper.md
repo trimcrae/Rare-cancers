@@ -1,3 +1,17 @@
+---
+id: DOC-FUSION-COACTIVATOR-PPI-PAPER
+title: Blocking the fusion-emergent coactivator interactions of EWSR1::NR4A3: a fusion-selective protein-protein-interaction st
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Blocking the fusion-emergent coactivator interactions of EWSR1::NR4A3: a fusion-selective protein-protein-interaction strategy for extraskeletal myxoid chondrosarcoma
 
 > **CONCEPT / IN-SILICO POSITIONING PAPER — no wet lab, no new compute run, no molecule.**

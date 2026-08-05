@@ -1,3 +1,17 @@
+---
+id: DOC-META-ANALYSIS
+title: Pooled outcomes of extraskeletal myxoid chondrosarcoma: a reproducible systematic review and meta-analysis
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Pooled outcomes of extraskeletal myxoid chondrosarcoma: a reproducible systematic review and meta-analysis
 
 > **SEPARATE-TRACK MANUSCRIPT (EMC outcomes, not treatment).** A distinct paper on prognosis built on

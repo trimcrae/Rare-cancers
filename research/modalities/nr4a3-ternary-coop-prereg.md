@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-TERNARY-COOP-PREREG
+title: NR4A3 ternary-cooperativity method — PREREGISTRATION (physics method + calibration + accept/abort)
+level: L4
+kind: prereg
+status: immutable
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3 ternary-cooperativity method — PREREGISTRATION (physics method + calibration + accept/abort)
 
 **Committed BEFORE any ternary GPU spend, per the external reviewer (2026-07-11, "APPROVED WITH SCOPE

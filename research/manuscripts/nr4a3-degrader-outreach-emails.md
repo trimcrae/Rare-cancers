@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-OUTREACH-EMAILS
+title: NR4A3-degrader — outreach emails (send after the preprint is posted)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3-degrader — outreach emails (send after the preprint is posted)
 
 > **Purpose.** Ready-to-send cold emails to get the NR4A3/EMC in-silico work in front of people with wet labs

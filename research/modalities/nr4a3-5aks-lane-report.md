@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-5AKS-LANE-REPORT
+title: LANE 16 — RUNG 5a-KS, the ligand-side causal kill-switch
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # LANE 16 — RUNG 5a-KS, the ligand-side causal kill-switch
 
 > **What this rung is.** The preregistered Tier-3 test of the design ladder

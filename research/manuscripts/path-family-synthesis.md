@@ -1,3 +1,17 @@
+---
+id: DOC-PATH-FAMILY-SYNTHESIS
+title: The family of paths — synthesis across five independent fan-outs
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # The family of paths — synthesis across five independent fan-outs
 
 ★ **trimcrae, 2026-08-02: *"fan out about alternative ways we could get to our end goal paper… Use everything

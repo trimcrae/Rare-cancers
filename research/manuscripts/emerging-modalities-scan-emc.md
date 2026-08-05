@@ -1,3 +1,17 @@
+---
+id: DOC-EMERGING-MODALITIES-SCAN-EMC
+title: Emerging / other-modality scan for EMC (Phase 2)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Emerging / other-modality scan for EMC (Phase 2)
 
 > **SOURCE MEMO (internal) — feeds the active manuscript** [`emc-treatment-roadmap.md`](./emc-treatment-roadmap.md)

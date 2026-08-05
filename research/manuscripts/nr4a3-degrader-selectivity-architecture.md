@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-SELECTIVITY-ARCHITECTURE
+title: Selectivity architecture of an NR4A3 degrader: binder vs ternary, and whether to select at all
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Selectivity architecture of an NR4A3 degrader: binder vs ternary, and whether to select at all
 
 **Status:** design analysis (in-silico + literature reasoning; no wet lab). Scoped to the EMC

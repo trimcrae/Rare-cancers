@@ -1,3 +1,17 @@
+---
+id: DOC-FUSION-SELECTIVE-ANDGATE-DEGRADER-PAPER
+title: A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeleta
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma
 
 > **In-silico design / feasibility draft (2026-06).** No wet lab; **no molecule synthesized; NO new

@@ -1,3 +1,17 @@
+---
+id: DOC-FUSION-JUNCTION-NEOANTIGEN-PAPER
+title: Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunot
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunotherapy rationale from breakpoint-resolved epitope prediction and HLA population coverage
 
 > **IN-SILICO, PUBLISH-TO-CONVINCE — no wet lab, no new computation for this draft.** Every number

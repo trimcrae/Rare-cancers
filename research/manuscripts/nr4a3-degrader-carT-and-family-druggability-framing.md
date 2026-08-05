@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-DEGRADER-CART-AND-FAMILY-DRUGGABILITY-FRAMING
+title: Leveraging the non-selective degrader for ex-vivo CAR-T — and re-framing the paper around NR4A-family druggability
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 > **Role:** framing/strategy memo — feeds the positioning decision record
 > ([`nr4a3-degrader-paper-positioning.md`](./nr4a3-degrader-paper-positioning.md)) and the lead manuscript
 > ([`nr4a3-degrader-paper.md`](./nr4a3-degrader-paper.md)). Proposes elevating the pan-NR4A / ex-vivo

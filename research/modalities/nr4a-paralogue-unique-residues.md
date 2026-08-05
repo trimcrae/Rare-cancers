@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A-PARALOGUE-UNIQUE-RESIDUES
+title: NR4A3 paralogue-unique reactive residues — the categorical selectivity axes
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3 paralogue-unique reactive residues — the categorical selectivity axes
 
 A residue type present in NR4A3 and absent at the aligned position in BOTH paralogues is a selectivity mechanism that does not depend on winning a ~1 kcal/mol free-energy contest: cysteines gate covalent capture, lysines gate ubiquitin transfer.

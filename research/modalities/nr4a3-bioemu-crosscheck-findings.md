@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-BIOEMU-CROSSCHECK-FINDINGS
+title: BioEmu cross-check of the NR4A3 LBD cryptic pocket (method-watch trigger, BioEmu v1.4.x)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # BioEmu cross-check of the NR4A3 LBD cryptic pocket (method-watch trigger, BioEmu v1.4.x)
 
 **Date:** 2026-07-24. **Trigger:** `method-watch.md` "cheap generative conformational-ensemble model

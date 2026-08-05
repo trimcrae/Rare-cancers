@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-NRV04-RETROSPECTIVE-PREREG
+title: NR-V04 retrospective — PREREGISTRATION of the biological holdout (2026-07-24)
+level: L4
+kind: prereg
+status: immutable
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR-V04 retrospective — PREREGISTRATION of the biological holdout (2026-07-24)
 
 > **This is the SCIENTIFIC contract, not the run book.** For state of play, the exact dispatch commands, the

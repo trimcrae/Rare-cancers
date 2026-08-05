@@ -1,3 +1,17 @@
+---
+id: DOC-TERNARY-LANE-GUARD-AUDIT-2026-07-25
+title: Ternary-lane audit: guards, keys and fallbacks that report success while measuring nothing
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Ternary-lane audit: guards, keys and fallbacks that report success while measuring nothing
 
 **Date:** 2026-07-25 · **Trigger:** trimcrae — *"check for more bugs like this so we don't have to keep finding

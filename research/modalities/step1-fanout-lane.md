@@ -1,3 +1,17 @@
+---
+id: DOC-STEP1-FANOUT-LANE
+title: STEP 1 FAN-OUT — the cmpd19 congeneric RBFE lane (built 2026-07-24; RESUMED 2026-07-26)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # STEP 1 FAN-OUT — the cmpd19 congeneric RBFE lane (built 2026-07-24; RESUMED 2026-07-26)
 
 **Status: RUNNING (wave 2, resumed 2026-07-26 ~3:53 PM ET).** Wave 1 was halted on cost before any result and

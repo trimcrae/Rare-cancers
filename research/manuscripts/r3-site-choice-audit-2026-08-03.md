@@ -1,3 +1,17 @@
+---
+id: DOC-R3-SITE-CHOICE-AUDIT-2026-08-03
+title: R3 site-choice audit — two questions that had been conflated (2026-08-03)
+level: L3
+kind: manuscript
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
+audience: [maintainers, external reviewers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # R3 site-choice audit — two questions that had been conflated (2026-08-03)
 
 **$0 throughout.** Committed artifacts, free CI, one read-only S3 download. No GPU, no rental, nothing to

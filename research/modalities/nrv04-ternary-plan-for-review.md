@@ -1,3 +1,17 @@
+---
+id: DOC-NRV04-TERNARY-PLAN-FOR-REVIEW
+title: NR-V04 ternary workflow — plan for external review (2026-07-11)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR-V04 ternary workflow — plan for external review (2026-07-11)
 
 Status snapshot for the reviewer AI before any further GPU spend. All work below is committed to `main`.

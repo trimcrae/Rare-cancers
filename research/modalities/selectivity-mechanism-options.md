@@ -1,3 +1,17 @@
+---
+id: DOC-SELECTIVITY-MECHANISM-OPTIONS
+title: Every mechanism by which paralogue selectivity could be argued for an NR4A3 degrader
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # Every mechanism by which paralogue selectivity could be argued for an NR4A3 degrader
 
 **Breadth first, then honest grading.** 17 mechanisms, 7 measurements taken to settle them, **$0 — no GPU, no rental, no priced rung dispatched.** Nothing here is a claim about binding, reactivity, degradation, efficacy, safety or clinical readiness; several rows exist precisely to record that a mechanism **cannot** be claimed.

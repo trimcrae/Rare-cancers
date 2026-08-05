@@ -1,3 +1,17 @@
+---
+id: DOC-STRATEGY
+title: STRATEGY — the NR4A3-selective degrader paper
+level: —
+kind: historical
+status: historical
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `historical` from its location under ./.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # STRATEGY — the NR4A3-selective degrader paper
 
 > # ★ THIS FILE IS NOW HISTORY ONLY — TWO APPENDICES ★

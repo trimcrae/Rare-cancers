@@ -1,3 +1,17 @@
+---
+id: DOC-PROTFEP-PMX-PLAN
+title: 5a-KS wedge engine — the pmx + GROMACS route (decided 2026-07-24)
+level: L4
+kind: memo
+status: live
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # 5a-KS wedge engine — the pmx + GROMACS route (decided 2026-07-24)
 
 **Status: ★ QUALIFIED 2026-07-25, full 3 × 3 replication.**

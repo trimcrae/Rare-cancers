@@ -1,3 +1,17 @@
+---
+id: DOC-NR4A3-ABFE-REPAIR-PREREG
+title: NR4A3 ABFE λ-repair — PREREGISTRATION (technical criteria + promotion rules)
+level: L4
+kind: prereg
+status: immutable
+canonical_for: []
+purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
+scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-05
+last_verified: unverified
+_backfilled: true
+---
 # NR4A3 ABFE λ-repair — PREREGISTRATION (technical criteria + promotion rules)
 
 **Committed BEFORE the repaired dense runs complete, per the external reviewer (2026-07-11).** This fixes
