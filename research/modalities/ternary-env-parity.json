@@ -1,0 +1,25 @@
+{
+  "_not_what": "this compares two SOLVES to each other. It says nothing about whether either matches the env that produced any committed .nc \u2014 that is mode=provenance.",
+  "_what": "do the baked ternary image and the GCP lane's on-the-fly solve resolve the same openfe/openmmtools/pymbar? The parity claim in CLAUDE.md \u00a76 rests on this and it had never been measured.",
+  "decides_on": [
+    "openfe",
+    "openmmtools",
+    "pymbar"
+  ],
+  "disagreements": {},
+  "gcp_spec": {
+    "openfe": "1.12.0",
+    "openmm": "8.4",
+    "openmmtools": "0.26.0",
+    "pymbar": "4.2.0"
+  },
+  "image": {
+    "openfe": "1.12.0",
+    "openmm": "8.4",
+    "openmmtools": "0.26.0",
+    "pymbar": "4.2.0"
+  },
+  "image_ref": "triskit23/ternary-fep:latest",
+  "parity": true,
+  "sentence": "PARITY HOLDS on openfe, openmmtools, pymbar \u2014 the image and the GCP spec resolve identical versions, so a leg produced on one and analysed on the other cannot move an MBAR number through a version difference."
+}
