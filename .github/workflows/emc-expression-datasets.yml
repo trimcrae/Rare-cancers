@@ -1,0 +1,98 @@
+name: EMC expression datasets — part B of the ATR vulnerability assessment
+
+# ⭐ WHY THIS IS ITS OWN WORKFLOW.
+# Part B of `emc_atr_vulnerability.py` asks whether a readable EMC expression dataset exists at
+# all. It is the ONLY part of that assessment that failed for want of DATA rather than for want of
+# signal, and its failure is what made the whole assessment grade NOT_ASSESSABLE — an instrument
+# failure, not a biological result. So it is the part most worth re-running, and it is the part
+# that is cheapest to re-run: parts A/C/D need a ~1 GB DepMap expression matrix that part B never
+# touches, so `--refresh-part-b` refreshes part B alone into the existing inputs cache and
+# re-derives everything from it. Minutes, not an hour, and it cannot perturb the other parts.
+#
+# It also stays clear of `depmap-dependency.yml`, which rewrites a dozen other artifacts that
+# other work is editing at the same time. One lane, two files.
+#
+# $0 — a GitHub-hosted CPU runner, no GPU, no rental. Pure stdlib: no pip install at all.
+# The dev sandbox's egress proxy 403s NCBI/GEO/Europe PMC on CONNECT, which is the whole reason
+# this runs here (CLAUDE.md §6).
+
+# ⚠ DISPATCH ONLY, deliberately. A `push:` trigger would fire on the feature branch AND on main
+# after the merge, so two runs would fetch GEO minutes apart and commit two artifacts that
+# `--check` then has to reconcile. One run, one artifact, merged by hand (CLAUDE.md §7).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: emc-expression-datasets-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    # Backstop only. The real guards are inside the module: a per-series compressed-size limit on
+    # the matrix fetch, and a wall-clock budget on the NCBI accession chain, both of which record
+    # what they refused rather than silently truncating.
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # The derive half must be exercisable with no network, so it is tested before the fetch.
+      # A broken derive would otherwise be discovered only after the fetch had spent its time.
+      - name: Unit tests (derive half, offline)
+        timeout-minutes: 10
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py -q
+
+      - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
+        timeout-minutes: 90
+        run: python research/modalities/emc_atr_vulnerability.py --refresh-part-b
+
+      - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
+        if: always()
+        timeout-minutes: 10
+        run: python research/modalities/emc_atr_vulnerability.py --check || echo "--check reported drift; non-blocking, but READ IT"
+
+      - name: Publish the artifact and the inputs cache to the branch this run was dispatched from
+        if: always() && github.ref_type == 'branch'
+        timeout-minutes: 10
+        env:
+          BR: ${{ github.ref_name }}
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f research/modalities/emc-atr-vulnerability.json \
+                     research/modalities/emc-atr-vulnerability-inputs.json
+          if git diff --cached --quiet; then
+            echo "no change"
+          else
+            git commit -m "EMC expression dataset search + part B multi-series read (CI)"
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin "$BR" && git push origin "HEAD:$BR" && break
+              sleep $((i * 7))
+            done
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/emc-atr-vulnerability.json"))
+          b = d["part_b_emc_tumour_signature"]
+          print("TIER:", d["grading"]["tier"])
+          print("PART B:", b.get("verdict"), "| series used:", b.get("series_carrying_the_verdict"))
+          print("readable platforms anywhere:", b.get("readable_platforms_in_ANY_series"))
+          for s, r in sorted((b.get("series_readability") or {}).items()):
+              print(f"  {s}: EMC={r['n_EMC']} comp={r['n_comparator']} "
+                    f"scored_concepts={r['max_scored_concepts_on_one_platform']} "
+                    f"readable={len(r['readable_platforms'])}")
+          PY
