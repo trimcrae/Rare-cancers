@@ -695,6 +695,27 @@ def check_lanes(g, f):
         f.warn("[W2]", f"{lid} is registered but no document mentions it — either it is finished with "
                        f"its record elsewhere, or the register has outlived its subject")
 
+    # ⭐ THE TWO ARTIFACT NAMESPACES MUST MEET SOMEWHERE, AND UNTIL 2026-08-05 THEY DID NOT.
+    # `lane.produces[]` names a FILENAME (deliberately — check_artifacts asks "does this file exist on
+    # this branch?", a filesystem question, and branch drift is what it guards). `artifacts.json` names
+    # `ART-*` ids with a path, a producer and a workflow. The two registers covered DISJOINT SETS: 12
+    # artifacts registered, none of the six a lane produced.
+    #
+    # ⚠ AND THAT WAS WRITTEN DOWN AND WALKED PAST. relations.json recorded it as "a real and stated
+    # gap … registering them would need a path, producer and workflow per row — real data, not a
+    # rename." Every field was findable in minutes. A recorded observation with no owner is the
+    # "watching" costume CLAUDE.md §4 forbids, so it is now a check rather than a sentence.
+    by_path = {os.path.basename(a.get("path", "")): a["id"] for a in g.get("artifacts", [])}
+    for l in g["lanes"]:
+        for p in l.get("produces", []):
+            # An artifact the lane never produced has no path to register — its absence is the fact,
+            # and `check_artifacts` derives the disposition from `produced: false`.
+            if p["produced"] and p["artifact"] not in by_path:
+                f.warn("[W5]", f"{l['id']} produced `{p['artifact']}` and systems/graph/artifacts.json "
+                               f"does not register it — so nothing records its producer, its workflow "
+                               f"or which ref it was published to, which is exactly what makes branch "
+                               f"drift invisible")
+
     for l in g["lanes"]:
         if l["state"] in ("held", "parked") and not l.get("gate"):
             f.err("[W3]", f"{l['id']} is `{l['state']}` and names no gate — a pause with nothing that "

@@ -120,5 +120,55 @@
       "main"
     ],
     "note": "The repository's only structured EMC clinical-evidence store: cited cohorts, individual published cases, systemic-therapy evidence and contested-evidence questions, each resolving to a citation. PROMOTED out of the retired patient site on 2026-08-05 — it was never site tooling. Two research consumers read it and BOTH build the path segment-by-segment, so a text search for the old directory name finds neither: research/meta/meta-analysis.mjs (the manuscript's random-effects meta-analysis) and research/hypotheses/enumerate-drugs.mjs (the repurposing gap analysis, which uses it as the EXCLUSION list — without it, drugs already tried in EMC are reported as novel). Evidence contract: systems/POLICY-evidence.md, enforced by scripts/validate-registry.mjs, which is gate 2 of scripts/preflight.sh."
+  },
+  {
+    "id": "ART-VALB-PSERIES-CHEM",
+    "path": "research/modalities/valb-pseries-chem.json",
+    "produced_by": "research/modalities/valb_pseries_chem.py",
+    "workflow": ".github/workflows/gpu-ternary-fep-gcp.yml",
+    "published_to": [
+      "claude/emc-repository-systems-redesign-07a1h7"
+    ],
+    "note": "Owed and produced by LANE-5. ⭐ Registered 2026-08-05 to close a gap this repository had WRITTEN DOWN and walked past: relations.json said 'artifacts.json registers 12 artifacts and NONE of the six a lane produces, so the two registers cover disjoint sets' — a recorded observation with no owner, which is the 'watching' costume CLAUDE.md §4 forbids. Every field here was findable in minutes."
+  },
+  {
+    "id": "ART-VALB-TRIANGLE-REDUCTION",
+    "path": "research/modalities/valb-triangle-reduction.json",
+    "produced_by": "research/modalities/valb_triangle_reduce.py",
+    "workflow": ".github/workflows/ternary-calib-freeze.yml",
+    "published_to": [
+      "claude/emc-repository-systems-redesign-07a1h7"
+    ],
+    "note": "Owed and produced by LANE-9. ⭐ Registered 2026-08-05 to close a gap this repository had WRITTEN DOWN and walked past: relations.json said 'artifacts.json registers 12 artifacts and NONE of the six a lane produces, so the two registers cover disjoint sets' — a recorded observation with no owner, which is the 'watching' costume CLAUDE.md §4 forbids. Every field here was findable in minutes."
+  },
+  {
+    "id": "ART-VALB-TRIANGLE-CLOSURE",
+    "path": "research/modalities/valb-triangle-closure.json",
+    "produced_by": "research/modalities/valb_triangle_closure.py",
+    "workflow": ".github/workflows/gpu-ternary-fep-vast.yml",
+    "published_to": [
+      "claude/emc-repository-systems-redesign-07a1h7"
+    ],
+    "note": "Owed and produced by LANE-9. ⭐ Registered 2026-08-05 to close a gap this repository had WRITTEN DOWN and walked past: relations.json said 'artifacts.json registers 12 artifacts and NONE of the six a lane produces, so the two registers cover disjoint sets' — a recorded observation with no owner, which is the 'watching' costume CLAUDE.md §4 forbids. Every field here was findable in minutes."
+  },
+  {
+    "id": "ART-NR4A-PARALOGUE-DYNAMICS",
+    "path": "research/modalities/nr4a-paralogue-dynamics.json",
+    "produced_by": "research/modalities/nr4a_paralogue_dynamics.py",
+    "workflow": ".github/workflows/gpu-nr4a-paralogue-md-vast.yml",
+    "published_to": [
+      "claude/emc-repository-systems-redesign-07a1h7"
+    ],
+    "note": "Owed and produced by LANE-13. ⭐ Registered 2026-08-05 to close a gap this repository had WRITTEN DOWN and walked past: relations.json said 'artifacts.json registers 12 artifacts and NONE of the six a lane produces, so the two registers cover disjoint sets' — a recorded observation with no owner, which is the 'watching' costume CLAUDE.md §4 forbids. Every field here was findable in minutes."
+  },
+  {
+    "id": "ART-SELCAL-VERDICT",
+    "path": "research/modalities/selcal-verdict.json",
+    "produced_by": "research/modalities/selcal_cofold_validate.py",
+    "workflow": ".github/workflows/selcal-cofold-validate.yml",
+    "published_to": [
+      "claude/emc-repository-systems-redesign-07a1h7"
+    ],
+    "note": "Owed and produced by LANE-22. ⭐ Registered 2026-08-05 to close a gap this repository had WRITTEN DOWN and walked past: relations.json said 'artifacts.json registers 12 artifacts and NONE of the six a lane produces, so the two registers cover disjoint sets' — a recorded observation with no owner, which is the 'watching' costume CLAUDE.md §4 forbids. Every field here was findable in minutes."
   }
 ]

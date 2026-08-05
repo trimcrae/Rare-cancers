@@ -728,6 +728,10 @@ CAPABILITY = re.compile(
     r"deposit\w*|report\w*|demonstrat\w*|regenerat\w*|execut\w*|authoriz\w*|"
     r"access\w*|evaluat\w*|predict\w*|passes|pass\w*|contradict\w*)\b", re.I)
 
+#: Trigger kinds a literature scan can detect. ⚠ ONE HOME, because Z5 and Z8 both need it and two
+#: copies would let them disagree about what "nobody is watching" means.
+SCANNABLE_KINDS = {"external_capability", "external_measurement", "external_data"}
+
 MIN_TRIGGER_CHARS = 60
 
 
@@ -810,9 +814,31 @@ def check_closures(m, f):
             elif watch and ev.lower() not in watch:
                 f.error("Z5", f"{tid}: its `watch_list_evidence` {ev[:50]!r} is not in "
                               f"research/method-watch.md -- the claim is stale or was never true")
+        # ⛔ "NOBODY IS SCANNING FOR IT" WAS FALSE FOR 12 OF THE 15 IT SAID IT ABOUT (measured
+        # 2026-08-05). This branch read ONE signal -- a prose mention in method-watch.md -- while the
+        # trigger's own `scan_trigger` field named a machine-readable query in the sibling registry, and
+        # Z8 three lines below was already resolving that field. So the check warned that eleven
+        # triggers were unwatched while the model beside it named the query watching each one.
+        #
+        # ⚠ THAT IS THE SAME DEFECT AS [Q3]/R13 IN THE SYSTEMS MODEL, in a different file: a check
+        # reading the weakest of several available signals and reporting its own blindness with total
+        # confidence. And the remedy is the same -- read the model, and distinguish the kinds of gap.
+        #
+        # Three situations, three answers:
+        #   * a resolvable `scan_trigger`  -> IT IS BEING SCANNED. Stronger evidence than a prose
+        #     mention, because a query is executable and a sentence is not.
+        #   * a NON-scannable kind (`internal_work`, `authorization`) -> a literature watch list CANNOT
+        #     carry "we re-run our own lane" or "trimcrae authorises the spend". Warning forever about a
+        #     thing that can never be satisfied is how a reader learns to skim the list.
+        #   * scannable, no query, not on the list -> the real gap, and it still warns.
+        elif t.get("scan_trigger"):
+            pass
+        elif t.get("trigger_kind") not in SCANNABLE_KINDS:
+            pass
         else:
-            f.warn("Z5", f"{tid} is not carried by research/method-watch.md -- it is a trigger "
-                         f"nobody is scanning for")
+            f.warn("Z5", f"{tid} is {t.get('trigger_kind')} — detectable by a literature scan — and is "
+                         f"carried neither by research/method-watch.md nor by a `scan_trigger` query. "
+                         f"Nothing is looking for it")
 
     # Z8 -- the cross-check with the sibling SCAN registry, which owns the search queries and
     # explicitly defers the route<->trigger graph to this file. A `TRG-*` id that does not exist
@@ -828,7 +854,6 @@ def check_closures(m, f):
             scan_present = True
         except Exception as exc:  # noqa: BLE001
             f.warn("Z8", f"{scan_path} is present but unreadable ({exc}) -- cross-check skipped")
-    scannable = {"external_capability", "external_measurement", "external_data"}
     for t in m.get("revival_triggers", []):
         kind = t.get("trigger_kind")
         if kind is None:
@@ -841,7 +866,7 @@ def check_closures(m, f):
                 if ref not in scan_ids:
                     f.error("Z8", f"{t['id']}: scan_trigger {ref!r} is not in {scan_path} -- "
                                   f"it points at a query that does not exist")
-        if kind in scannable and not refs:
+        if kind in SCANNABLE_KINDS and not refs:
             f.warn("Z8", f"{t['id']} is {kind} but has no `scan_trigger` -- it is detectable in "
                          f"principle and nothing is searching for it")
 

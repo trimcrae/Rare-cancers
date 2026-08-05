@@ -129,31 +129,29 @@ jobs:
         timeout-minutes: 10
         env:
           BR: ${{ github.ref_name }}
+        # ⛔ THIS STEP HAND-ROLLED `git pull --rebase` + push, AND `test_no_hand_rolled_publish` FAILED
+        # ON IT — the guard that exists because that exact shape lost artifacts on three separate lanes
+        # (GCP 30701290485, selcal 30710853581, step-1 30714482049). One conflict leaves the repo
+        # MID-REBASE, every retry then dies on the wreckage of the first rather than on anything new,
+        # and the loop ends with the step reporting SUCCESS having published nothing.
+        #
+        # ⚠ THE `if git diff --cached --quiet; then echo "no change"` BRANCH IS ALSO DROPPED ON PURPOSE.
+        # The primitive publishes UNCONDITIONALLY so the commit timestamp keeps working as a heartbeat —
+        # "nothing changed" and "the job never ran" are different facts, and a skipped commit makes them
+        # render alike.
         run: |
           set -e
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
-            git add -f research/modalities/atr-hrd-sarcoma-series.json \
-                       research/modalities/atr-hrd-sarcoma-series-inputs.json \
-                       research/modalities/atr-hrd-sarcoma-series-quant-inputs.json
+            MSG="GEO series ${{ inputs.series || 'GSE299349' }}: sample-level characterisation (CI)"
+            PATHS="research/modalities/atr-hrd-sarcoma-series.json
+                   research/modalities/atr-hrd-sarcoma-series-inputs.json
+                   research/modalities/atr-hrd-sarcoma-series-quant-inputs.json"
           else
-            git add -f research/modalities/emc-atr-vulnerability.json \
-                       research/modalities/emc-atr-vulnerability-inputs.json
+            MSG="EMC expression dataset search + part B multi-series read (CI)"
+            PATHS="research/modalities/emc-atr-vulnerability.json
+                   research/modalities/emc-atr-vulnerability-inputs.json"
           fi
-          if git diff --cached --quiet; then
-            echo "no change"
-          else
-            if [ "${{ inputs.mode }}" = "gse-series" ]; then
-              git commit -m "GEO series ${{ inputs.series || 'GSE299349' }}: sample-level characterisation (CI)"
-            else
-              git commit -m "EMC expression dataset search + part B multi-series read (CI)"
-            fi
-            for i in 1 2 3 4 5; do
-              git pull --rebase origin "$BR" && git push origin "HEAD:$BR" && break
-              sleep $((i * 7))
-            done
-          fi
+          bash research/compute/publish_artifacts.sh "$BR" "$MSG" $PATHS
 
       - name: "Summary — gse-series"
         if: always() && inputs.mode == 'gse-series'

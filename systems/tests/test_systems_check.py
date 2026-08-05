@@ -1262,3 +1262,43 @@ def test_an_instrument_that_cannot_license_is_not_cited_as_support(graph):
     sc.check_instrument_support(g, f)
     assert any("[V3]" in e for e in f.errors), \
         "an instrument that inherits limits it cannot clear must not read as support"
+
+
+def test_every_produced_artifact_is_registered(graph):
+    """[W5]: the two artifact namespaces must meet somewhere.
+
+    ⛔ THEY COVERED DISJOINT SETS AND IT WAS WRITTEN DOWN RATHER THAN FIXED. `lane.produces[]` names a
+    FILENAME on purpose — check_artifacts asks "does this file exist on this branch?", which is a
+    filesystem question and the one branch drift makes invisible. `artifacts.json` names `ART-*` ids
+    with a path, a producer and a workflow. Twelve artifacts were registered and NONE of the six a lane
+    produced, so nothing recorded who produced a lane's output or which ref it went to.
+
+    ⚠ relations.json had recorded this as "a real and stated gap … real data, not a rename." Every
+    field was findable in minutes. A recorded observation with no owner is the "watching" costume
+    CLAUDE.md §4 forbids — either you looked, or you deferred a free answer and called it a decision.
+    """
+    f = sc.Findings()
+    sc.check_lanes(graph, f)
+    assert [w for w in f.warns if "[W5]" in w] == [], "\n".join(f.warns)
+
+    import copy
+    g = copy.deepcopy(graph)
+    g["artifacts"] = [a for a in g["artifacts"] if a["id"] != "ART-SELCAL-VERDICT"]
+    f = sc.Findings()
+    sc.check_lanes(g, f)
+    assert any("[W5]" in w and "selcal-verdict" in w for w in f.warns), \
+        "unregistering a produced artifact must fire, or this is decoration"
+
+
+def test_an_unproduced_artifact_needs_no_registration(graph):
+    """The exemption is exact: no file, no path, nothing to register.
+
+    `valb-triangle-chem.json` was owed by LANE-9 and never produced. Its absence IS the fact, and
+    check_artifacts derives `withdrawn` from `produced: false` — registering a path that will never
+    exist would be the fabricated record CLAUDE.md §4(b) warns about.
+    """
+    paths = {a.get("path", "").rsplit("/", 1)[-1] for a in graph["artifacts"]}
+    assert "valb-triangle-chem.json" not in paths
+    f = sc.Findings()
+    sc.check_lanes(graph, f)
+    assert not [w for w in f.warns if "valb-triangle-chem" in w]

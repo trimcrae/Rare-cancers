@@ -379,3 +379,55 @@ def test_the_committed_view_matches_what_the_registry_generates(m):
             "research/manuscripts/emc-systems-map.md is DERIVED. Regenerate it with "
             "`python3 research/manuscripts/emc_systems_map_check.py --write-view`; never edit it."
         )
+
+
+# --- Z5: "nobody is scanning for it" must mean it, in both directions --------------------------
+
+def _z5(mapping):
+    f = chk.Findings()
+    chk.check_closures(mapping, f)
+    return [w for c, w in f.warnings if c == "Z5"]
+
+
+def test_a_trigger_with_a_query_is_not_reported_as_unwatched(m):
+    """⛔ IT SAID 'NOBODY IS SCANNING FOR IT' ABOUT TWELVE TRIGGERS THAT HAD A QUERY.
+
+    Measured 2026-08-05: Z5 read ONE signal — a prose mention in method-watch.md — while each
+    trigger's own `scan_trigger` named a machine-readable query in the sibling registry, which Z8
+    three lines below was already resolving. Eleven triggers were reported unwatched while the model
+    beside them named the query watching each one, and four more were `internal_work` or
+    `authorization`, which a LITERATURE watch list can never carry.
+
+    ⚠ Same defect as [Q3]/R13 in the systems model, in a different file: a check reading the weakest
+    of several available signals and reporting its own blindness with total confidence.
+    """
+    assert _z5(m) == [], "\n".join(_z5(m))
+
+
+def test_a_scannable_trigger_with_no_query_still_warns(m):
+    """The permissive direction is the dangerous one — this must not have become an off switch."""
+    mm = copy.deepcopy(m)
+    for t in mm["revival_triggers"]:
+        if t["id"] == "TR-POSE-METHODS-CONVERGE":
+            t["scan_trigger"] = []
+    out = _z5(mm)
+    assert any("TR-POSE-METHODS-CONVERGE" in w for w in out), \
+        "a scannable trigger with no query and no watch-list row is the real gap and must warn"
+
+
+def test_an_internal_trigger_reclassified_as_external_starts_warning(m):
+    """The kind is what excuses it, and the kind is checked — not assumed from the id."""
+    mm = copy.deepcopy(m)
+    for t in mm["revival_triggers"]:
+        if t["id"] == "TR-TCIP-LINKER-ENUMERATION":
+            t["trigger_kind"] = "external_capability"
+    assert any("TR-TCIP-LINKER-ENUMERATION" in w for w in _z5(mm))
+
+
+def test_z5_and_z8_agree_on_what_a_scan_can_detect():
+    """One home for the scannable-kind set. Two copies would let them disagree about what
+    'nobody is watching' means, which is the one thing both checks exist to answer."""
+    assert chk.SCANNABLE_KINDS == {"external_capability", "external_measurement", "external_data"}
+    src = open(chk.__file__, encoding="utf-8").read()
+    assert src.count('{"external_capability", "external_measurement", "external_data"}') == 1, \
+        "the set is written twice — that is the second home this check exists to forbid"
