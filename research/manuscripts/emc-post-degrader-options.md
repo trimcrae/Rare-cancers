@@ -463,7 +463,7 @@ The molecule is not ours and does not need to be selective for anything in the N
 > 1b stays **Tier 2, rank 4** exactly as written above. Re-ranking is trimcrae's call
 > (CLAUDE.md §3); what follows is the input to it, surfaced rather than filed.
 
-**`GSE299349` was read** ([assessment §8](./emc-atr-vulnerability-assessment.md#8--the-competing-biomarker--a-2026-sarcoma-atr-programme-that-selects-on-hrd-not-on-fet-status);
+**`GSE299349` was read** ([assessment §8](./emc-atr-vulnerability-assessment.md#8---the-competing-biomarker--a-2026-sarcoma-atr-programme-that-selects-on-hrd-not-on-fet-status);
 producer [`atr_hrd_sarcoma_series.py`](../modalities/atr_hrd_sarcoma_series.py), $0). **Grade of the
 consequence: it WEAKENS route 1**, and the strengthening half is stated beside it rather than
 averaged in.
