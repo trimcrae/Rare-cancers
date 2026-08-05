@@ -100,6 +100,35 @@ def _ftp_dir(gse):
     return f"https://ftp.ncbi.nlm.nih.gov/geo/series/{grp}/{gse}/"
 
 
+# ⚠ MEASURED, not guessed: GSE299349's `targ=all` SOFT came back at 40,732,275 bytes across
+# 1,194,948 lines, and 399,893 of those lines are `!Platform_sample_id` — GEO listing EVERY sample
+# ever deposited on the Illumina NovaSeq 6000 platform, which has nothing to do with this series.
+# Dropping them is what makes the inputs cache committable; the derive half reads only the
+# platform's title/technology/organism, so the artifact is byte-identical either way.
+_SOFT_DROP = ("!Platform_sample_id", "!Platform_series_id")
+
+
+def _trim_soft(txt):
+    kept, dropped, in_table = [], 0, False
+    for line in txt.splitlines(True):
+        if line.startswith("!") and line.split("=", 1)[0].strip() in _SOFT_DROP:
+            dropped += 1
+            continue
+        if "_table_begin" in line:
+            in_table = True
+            kept.append(line)
+            continue
+        if "_table_end" in line:
+            in_table = False
+            kept.append(line)
+            continue
+        if in_table:
+            dropped += 1
+            continue
+        kept.append(line)
+    return "".join(kept), dropped
+
+
 def fetch(series=SERIES):
     """One network pass. Everything it reads is stored verbatim so `--check` can re-derive offline."""
     inp = {
@@ -133,6 +162,14 @@ def fetch(series=SERIES):
     # Fallback if acc.cgi refuses: the FTP family SOFT carries the same sample records.
     if not inp.get("soft_all_brief"):
         grab("soft_family_gz", _ftp_dir(series) + f"soft/{series}_family.soft.gz")
+
+    for k in ("soft_all_brief", "soft_family_gz"):
+        if inp.get(k):
+            raw_len = len(inp[k])
+            inp[k], dropped = _trim_soft(inp[k])
+            inp["fetches"][k]["trimmed"] = (
+                f"{raw_len} bytes on the wire -> {len(inp[k])} stored; {dropped} platform-roster "
+                "and data-table lines dropped (see _trim_soft: they are not read by derive())")
 
     # 2 · Does a PROCESSED matrix exist, or only raw reads? Two directory listings answer it.
     grab("ftp_matrix_listing", _ftp_dir(series) + "matrix/")
@@ -169,6 +206,24 @@ def fetch(series=SERIES):
     grab("europepmc_accession_search",
          "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
          f"?query=%22{series}%22&resultType=core&format=json&pageSize=25")
+
+    # ⭑ A series with no declared PMID is not a series with no paper. Ask three more ways: the
+    #   depositing authors, the signature the summary names, and the title's own words. Recorded
+    #   verbatim so "no publication found" is a SEARCH with a record, not an assertion.
+    contribs = re.findall(r"!Series_contributor\s*=\s*(.+)", inp.get("soft_all_brief") or "")
+    surnames = sorted({c.strip().split(",")[0].strip() for c in contribs if c.strip()})
+    sig = re.findall(r"\b([A-Z]{3,8}-HRD|SARC-[A-Z]+)\b", inp.get("soft_all_brief") or "")
+    queries = {}
+    if len(surnames) >= 2:
+        queries["by_authors"] = " AND ".join(f'AUTH:"{s}"' for s in surnames[:3])
+    for s in sorted(set(sig))[:2]:
+        queries[f"by_signature_{s}"] = f'"{s}"'
+    queries["by_title_words"] = 'TITLE:"ATR" AND TITLE:sarcoma AND TITLE:"homologous recombination"'
+    inp["publication_queries"] = queries
+    for name, q in queries.items():
+        grab(f"europepmc_pub_{name}",
+             "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
+             f"?query={urllib.parse.quote(q)}&resultType=core&format=json&pageSize=25")
 
     # 5 · The mechanism paper, for Q3. Its own words about HR deficiency are the comparison.
     grab(f"europepmc_{MECHANISM_PMID}",
@@ -292,33 +347,61 @@ def _flat(hitmap, limit=12):
             for t, hs in sorted(hitmap.items()) for g, s in hs[:limit]]
 
 
-def _processed_matrix_state(inp):
-    """Is there a processed matrix, or only raw reads? Returns (state, evidence)."""
+PROCESSED_SUFFIX_RE = re.compile(
+    r"(quant\.sf|\.genes\.results|counts?|tpm|fpkm|rpkm|cpm|abundance|expression|matrix|deseq|"
+    r"normali[sz]ed|processed|\.csv|\.tsv|\.xlsx?)", re.I)
+
+
+def _processed_matrix_state(inp, per_sample_files):
+    """Is processed expression data downloadable, or only raw reads?
+
+    ⚠ THE EVIDENCE THAT COUNTS IS THE PER-SAMPLE SUPPLEMENTARY FILE, NOT THE SERIES MATRIX.
+    GEO auto-generates a `*_series_matrix.txt.gz` for EVERY series, and for `Sample_type = SRA`
+    series it routinely contains the sample METADATA with no value matrix at all — the values
+    living in SRA as reads. Deriving "a processed matrix exists" from that file's existence would
+    be reading a populated field as a measured one, which is the failure this repo polices. So the
+    series-matrix listing is recorded as context and the STATE is derived from what the samples
+    themselves carry."""
     ev = {}
     matrix = inp.get("ftp_matrix_listing")
     suppl = inp.get("ftp_suppl_listing")
     ev["matrix_listing_status"] = (inp.get("fetches", {}).get("ftp_matrix_listing") or {}).get("status")
     ev["suppl_listing_status"] = (inp.get("fetches", {}).get("ftp_suppl_listing") or {}).get("status")
 
-    if matrix is None and suppl is None:
-        return "CANNOT_DETERMINE", dict(ev, why="neither FTP listing was readable")
-
     mfiles = sorted(set(re.findall(r"(GSE\d+[-_][^\"'<>\s]*?series_matrix\.txt\.gz)", matrix or "")))
-    ev["series_matrix_files"] = mfiles
+    ev["series_matrix_files_listed"] = mfiles
+    ev["_series_matrix_caveat"] = (
+        "Listed for completeness only. A series_matrix is auto-generated for every GEO series and "
+        "for an SRA-type series it is commonly metadata-only. It is NOT the evidence this state "
+        "rests on.")
     sfiles = sorted(set(re.findall(r'href="([^"]+)"', suppl or "")))
     sfiles = [f for f in sfiles if f not in ("/", "..") and not f.startswith("/")]
-    ev["supplementary_files"] = sfiles
+    ev["series_supplementary_files"] = sfiles
 
-    procish = [f for f in sfiles
-               if re.search(r"(count|tpm|fpkm|rpkm|cpm|expression|matrix|deseq|normali[sz]ed|"
-                            r"processed|\.csv|\.tsv|\.xlsx?)", f, re.I)]
-    ev["supplementary_files_that_look_processed"] = procish
+    ev["n_samples_with_a_supplementary_file"] = sum(1 for v in per_sample_files.values() if v)
+    ev["n_samples_total"] = len(per_sample_files)
+    procs = {g: [f for f in v if PROCESSED_SUFFIX_RE.search(f)] for g, v in per_sample_files.items()}
+    n_proc = sum(1 for v in procs.values() if v)
+    ev["n_samples_with_a_PROCESSED_looking_supplementary_file"] = n_proc
+    ev["example_per_sample_files"] = [v[0] for v in list(per_sample_files.values())[:3] if v]
 
-    if mfiles or procish:
-        return "PROCESSED_MATRIX_PRESENT", ev
-    if sfiles:
-        return "SUPPLEMENTARY_PRESENT_BUT_NONE_LOOKS_LIKE_A_MATRIX", ev
-    return "NO_PROCESSED_MATRIX_FOUND", ev
+    # A positive is a positive whatever else failed to load.
+    if per_sample_files and n_proc == len(per_sample_files) and n_proc > 0:
+        return "PER_SAMPLE_PROCESSED_QUANTIFICATION_FOR_EVERY_SAMPLE", ev
+    if n_proc:
+        return "PER_SAMPLE_PROCESSED_QUANTIFICATION_FOR_SOME_SAMPLES", ev
+    if any(PROCESSED_SUFFIX_RE.search(f) for f in sfiles):
+        return "SERIES_LEVEL_PROCESSED_SUPPLEMENT_ONLY", ev
+    # ⚠ Only NOW may a negative be returned — and only if BOTH halves were actually readable.
+    # A listing that 404'd or timed out leaves the series-level half unread, and reporting that as
+    # "raw reads only" would be a reading of absence built out of an absent reading (CLAUDE.md §4).
+    if matrix is None or suppl is None:
+        return "CANNOT_DETERMINE", dict(
+            ev, why=("no per-sample processed file was found, but at least one FTP listing was not "
+                     "readable, so the series-level half of the question was never asked"))
+    if not per_sample_files:
+        return "CANNOT_DETERMINE", dict(ev, why="no sample records were readable")
+    return "NO_PROCESSED_DATA_FOUND_RAW_READS_ONLY", ev
 
 
 def derive(inp):
@@ -402,10 +485,84 @@ def derive(inp):
             "library_selection": s.get("Sample_library_selection") or [],
             "molecule": s.get("Sample_molecule_ch1") or [],
             "platform": s.get("Sample_platform_id") or [],
-            "supplementary_files": s.get("Sample_supplementary_file_1") or [],
+            "supplementary_files": [v for k in sorted(s)
+                                    if k.startswith("Sample_supplementary_file")
+                                    for v in s[k]],
         }
 
     res["samples"] = [_one(g, s) for g, s in sorted(samples.items())]
+    per_sample_files = {r["accession"]: r["supplementary_files"] for r in res["samples"]}
+
+    # ---- WHAT THE SAMPLES ACTUALLY ARE --------------------------------------------------------
+    # ⭑ The load-bearing split, and it is structural rather than keyword-based: GEO characteristics
+    #   carry `tissue: <subtype>` for a tumour and `tissue: cells` + `cell type: <subtype>` for a
+    #   patient-derived cell model. Read from that pair, not from the series' overall_design —
+    #   which on this series names only part of what the series contains.
+    cohort = {"tumour_samples": {}, "patient_derived_cell_models": {}, "unclassified": []}
+    for rec in res["samples"]:
+        ch = {c.split(":", 1)[0].strip().lower(): c.split(":", 1)[1].strip()
+              for c in rec["characteristics"] if ":" in c}
+        tissue, ctype = ch.get("tissue"), ch.get("cell type")
+        if tissue and tissue.lower() == "cells" and ctype:
+            cohort["patient_derived_cell_models"].setdefault(ctype.lower(), []).append(
+                {"accession": rec["accession"], "title": rec["title"]})
+        elif tissue:
+            cohort["tumour_samples"].setdefault(tissue.lower(), []).append(
+                {"accession": rec["accession"], "title": rec["title"]})
+        else:
+            cohort["unclassified"].append(rec["accession"])
+    res["cohort_composition"] = {
+        "n_tumour_samples": sum(len(v) for v in cohort["tumour_samples"].values()),
+        "n_patient_derived_cell_models": sum(
+            len(v) for v in cohort["patient_derived_cell_models"].values()),
+        "n_unclassified": len(cohort["unclassified"]),
+        "tumour_subtypes": {k: len(v) for k, v in sorted(cohort["tumour_samples"].items())},
+        "cell_model_subtypes": {k: len(v) for k, v in
+                                sorted(cohort["patient_derived_cell_models"].items())},
+        "members": cohort,
+        "_how": ("From each sample's own `tissue:` / `cell type:` characteristics. The series' "
+                 "overall_design is NOT used for this — see `design_vs_contents` below."),
+    }
+    design = res["series_record"]["overall_design"]
+    res["design_vs_contents"] = {
+        "overall_design_verbatim": design,
+        "n_samples_the_design_accounts_for": sum(
+            int(n) for n in re.findall(r"(\d+)\s+[a-z]", design.lower())) if design else None,
+        "n_samples_actually_in_the_series": len(samples),
+        "_why_this_field_exists": (
+            "A GEO series title and design are claims by its depositors, not measurements. This "
+            "repo has been bitten twice by reading one as the other, so the arithmetic is done "
+            "rather than trusted."),
+    }
+
+    # FET-fusion sarcoma subtypes — present or absent, because the biomarker question in Q3 turns
+    # on WHICH sarcomas a programme selected, not only on which biomarker it named.
+    fet_disease_terms = {
+        "ewing": "Ewing sarcoma (EWSR1::FLI1/ERG)",
+        "clear cell sarcoma": "clear cell sarcoma (EWSR1::ATF1)",
+        "desmoplastic small round cell": "DSRCT (EWSR1::WT1)",
+        "myxoid liposarcoma": "myxoid liposarcoma (FUS/EWSR1::DDIT3)",
+        "myxoid chondrosarcoma": "extraskeletal myxoid chondrosarcoma (EWSR1/TAF15/FUS::NR4A3)",
+        "fibromyxoid": "low-grade fibromyxoid sarcoma (FUS::CREB3L2)",
+        "angiomatoid fibrous histiocytoma": "AFH (EWSR1::CREB1/ATF1)",
+        "sclerosing epithelioid fibrosarcoma": "SEF (EWSR1/FUS::CREB3L1)",
+    }
+    all_sub = {k: v for k, v in list(res["cohort_composition"]["tumour_subtypes"].items())
+               + list(res["cohort_composition"]["cell_model_subtypes"].items())}
+    present, absent = {}, []
+    for frag, label in sorted(fet_disease_terms.items()):
+        hit = {s: n for s, n in all_sub.items() if frag in s or frag in s.replace("skelletal", "skeletal")}
+        if hit:
+            present[label] = hit
+        else:
+            absent.append(label)
+    res["fet_fusion_sarcoma_subtypes"] = {
+        "present_in_this_cohort": present,
+        "absent_from_this_cohort": absent,
+        "_bound": ("Presence of a DISEASE whose defining fusion is a FET fusion. It is not a "
+                   "per-sample fusion call, and this series carries none — see "
+                   "`fet_fusion_status_recoverable`."),
+    }
 
     # tumour vs cell line, from the submitter's own words rather than from the title
     def _material(rec):
@@ -436,7 +593,7 @@ def derive(inp):
         res["assay_types"][key] = res["assay_types"].get(key, 0) + 1
 
     # ---- processed matrix? --------------------------------------------------------------------
-    state, ev = _processed_matrix_state(inp)
+    state, ev = _processed_matrix_state(inp, per_sample_files)
     res["processed_matrix"] = {"state": state, "evidence": ev}
 
     # ---- the three questions ------------------------------------------------------------------
@@ -470,11 +627,20 @@ def derive(inp):
         q1 = "ATR_NAMED_ONLY_AT_SERIES_LEVEL_NOT_PER_SAMPLE"
     else:
         q1 = "NO_ATR_INHIBITOR_ANNOTATION_IN_SAMPLE_METADATA"
+    n_treat_field = sum(1 for r in res["samples"] if r["treatment_protocol"])
     res["q1_atr_inhibitor_response_data"] = {
         "answer": q1,
         "n_samples_naming_an_ATR_inhibitor_or_ATRi": len(atri_samples),
         "samples_naming_an_ATR_inhibitor": atri_samples,
-        "n_samples_with_a_treatment_or_response_word": len(resp_samples),
+        "n_samples_with_a_treatment_or_response_word_ANYWHERE": len(resp_samples),
+        "n_samples_with_a_NON_EMPTY_treatment_protocol_field": n_treat_field,
+        "_why_those_two_numbers_differ": (
+            "⚠ The first is a keyword count over ALL free text and is dominated by boilerplate — "
+            "on GSE299349 the shared growth protocol says 'cell culture-treated flasks', so the "
+            "word 'treated' appears on every sample including the untreated tumours. The count "
+            "that means what a reader would assume is the second one: how many samples carry a "
+            "populated `!Sample_treatment_protocol_ch1`. A populated field is not a measured one, "
+            "and a keyword count is not a populated field."),
         "hits_verbatim": _flat(atri),
         "_bound": ("A viability or IC50 READOUT is a different object from a treated RNA sample. "
                    "This field says what the sample metadata names; it does not assert that a "
@@ -568,17 +734,61 @@ def derive(inp):
         res["associated_publication"]["europepmc_papers_citing_the_accession"] = (
             "CANNOT_DETERMINE — the accession search did not return")
 
+    # ⭑ A series with no declared PMID is not a series with no paper. Three further searches, and
+    #   their RECORD is the deliverable when the answer is "none found".
+    searches = {}
+    for name, q in sorted((inp.get("publication_queries") or {}).items()):
+        raw = inp.get(f"europepmc_pub_{name}")
+        if raw is None:
+            searches[name] = {"query": q, "result": "CANNOT_DETERMINE — the query did not return"}
+            continue
+        try:
+            hits = json.loads(raw).get("resultList", {}).get("result") or []
+        except Exception as e:      # noqa: BLE001
+            searches[name] = {"query": q, "result": f"parse error: {type(e).__name__}: {e}"}
+            continue
+        searches[name] = {
+            "query": q, "n_hits": len(hits),
+            "hits": [{"pmid": h.get("pmid"), "doi": h.get("doi"), "title": h.get("title"),
+                      "year": h.get("pubYear"), "authors": h.get("authorString"),
+                      "journal": (h.get("journalInfo") or {}).get("journal", {}).get("title")}
+                     for h in hits[:10]],
+        }
+    res["associated_publication"]["further_searches"] = searches
+    named = bool(inp.get("series_pmids")) or any(
+        s.get("n_hits") for s in searches.values() if isinstance(s, dict))
+    res["associated_publication"]["state"] = (
+        "PMID_DECLARED_BY_THE_SERIES" if inp.get("series_pmids") else
+        "NO_PMID_DECLARED_CANDIDATES_FOUND_BY_SEARCH" if named else
+        "NO_PMID_DECLARED_AND_NO_CANDIDATE_FOUND")
+    res["associated_publication"]["_bound"] = (
+        "A search that returns nothing is a search, not a proof that no paper exists. The queries "
+        "are recorded verbatim so the next look starts from what was already asked.")
+
     # ---- the mechanism paper's own words about HR deficiency (Q3's comparison) -----------------
     res["mechanism_paper_on_hr_deficiency"] = _mechanism_hr_stance(inp)
 
-    # ---- one overall verdict, DERIVED from the three answers, never typed ----------------------
-    usable = res["processed_matrix"]["state"] == "PROCESSED_MATRIX_PRESENT"
+    # ---- one overall verdict, DERIVED from the answers above, never typed ----------------------
+    usable = res["processed_matrix"]["state"].startswith("PER_SAMPLE_PROCESSED")
     res["verdict"] = "READ_AND_CHARACTERISED"
     res["usable_for_a_reanalysis_here"] = {
-        "state": "USABLE_MATRIX_PRESENT" if usable else res["processed_matrix"]["state"],
-        "_bound": ("Usable means a processed matrix can be downloaded without alignment from FASTQ. "
-                   "It does NOT mean the matrix answers any of the three questions — that is what "
-                   "the per-question answers above are for."),
+        "state": "PROCESSED_EXPRESSION_DOWNLOADABLE" if usable
+                 else res["processed_matrix"]["state"],
+        "_bound": ("Usable means processed expression can be downloaded without aligning FASTQ. It "
+                   "does NOT mean the data answers any of the three questions — a transcriptome "
+                   "cannot supply a drug-response readout that was never deposited, and it cannot "
+                   "supply a fusion call the submitter did not make."),
+        "_what_a_reanalysis_here_could_and_could_not_do": {
+            "could": ("score the EMC cell model's DDR/replication-stress transcripts against 62 "
+                      "sarcoma tumours and 5 non-EMC cell models, with proliferation subtracted — "
+                      "the same read part B performs, on a third instrument"),
+            "could_not": ("re-cut ATR-inhibitor sensitivity by FET status, because no sensitivity "
+                          "readout is deposited here; or confirm any sample's fusion, because no "
+                          "per-sample fusion call is deposited here"),
+            "_n_bound": ("n = 1 for EMC. A single cell model against a 67-sample comparator is a "
+                         "position on a distribution, not a group contrast, and no p-value over "
+                         "n = 1 would mean what a reader would take it to mean."),
+        },
     }
     return res
 
