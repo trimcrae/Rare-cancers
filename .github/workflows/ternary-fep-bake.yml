@@ -113,8 +113,13 @@ jobs:
             echo "$DOCKERHUB_TOKEN" | docker login -u triskit23 --password-stdin
           fi
           docker pull "${{ inputs.image || 'triskit23/ternary-fep:latest' }}"
+          # ⛔ `-i` IS LOad-BEARING, AND ITS ABSENCE COST A RUN (31055773931, 2026-08-05). Without `-i`
+          # docker CLOSES the container's stdin, so `python -` read an EMPTY script, printed nothing and
+          # exited 0. The step reported SUCCESS with an empty /tmp/image.json and the failure only surfaced
+          # two steps later as a JSONDecodeError. That is CLAUDE.md §4's exact shape — a step that reports
+          # while measuring nothing — which is why the assertion below exists as well as the flag.
           # --entrypoint python bypasses the image's autoteardown.py ENTRYPOINT (CLAUDE.md §6).
-          docker run --rm --entrypoint python \
+          docker run --rm -i --entrypoint python \
             "${{ inputs.image || 'triskit23/ternary-fep:latest' }}" - <<'PY' > /tmp/image.json
           import json, importlib
           out = {}
@@ -126,6 +131,8 @@ jobs:
           print(json.dumps(out))
           PY
           echo "image side:"; cat /tmp/image.json
+          # A PRODUCING STEP ASSERTS ITS OWN OUTPUT. `cat` on an empty file succeeds and prints nothing.
+          python3 -c "import json,sys; d=json.load(open('/tmp/image.json')); sys.exit(0 if d.get('openfe') else 'no openfe version read from the image')"
 
       # ── side B: the GCP lane's spec — EXTRACTED from that workflow at runtime, never copied ───────────
       # ⭐ THE SPEC IS NOT DUPLICATED HERE, AND THAT IS DELIBERATE (rule 1: one fact, one place). The first
@@ -176,6 +183,8 @@ jobs:
           print(json.dumps(out))
           PY
           echo "gcp-spec side:"; cat /tmp/gcp.json
+          # Same assertion as side A — a producing step must prove it produced (CLAUDE.md §4).
+          python3 -c "import json,sys; d=json.load(open('/tmp/gcp.json')); sys.exit(0 if d.get('openfe') else 'no openfe version read from the solved spec')"
 
       - name: Verdict
         run: |
@@ -218,13 +227,15 @@ jobs:
         env:
           IMAGE_REF: ${{ inputs.image || 'triskit23/ternary-fep:latest' }}
 
+      # ⛔ THROUGH THE PRIMITIVE, NOT A HAND-ROLLED add/commit/push. The first draft hand-rolled it and
+      # `test_no_hand_rolled_publish` caught it in preflight — correctly: that shape has silently failed to
+      # publish on three separate lanes (GCP 30701290485, selcal 30710853581, step-1 30714482049), where one
+      # conflict leaves the repo mid-rebase, every retry dies on the wreckage, and the step reports SUCCESS.
+      # publish_artifacts.sh rewrites onto upstream so a conflict is unrepresentable rather than handled.
       - name: Publish
         if: ${{ inputs.commit != 'false' }}
         run: |
           set -euo pipefail
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add research/modalities/ternary-env-parity.json
-          git diff --cached --quiet && { echo "no change"; exit 0; }
-          git commit -m "ternary env parity: image vs the GCP lane's solve (CI)"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
+            "ternary env parity: image vs the GCP lane's solve (CI)" \
+            research/modalities/ternary-env-parity.json
