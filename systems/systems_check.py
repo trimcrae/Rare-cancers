@@ -847,26 +847,79 @@ def _artifacts_elsewhere(f):
     drift, and drift belongs in the port. Refusing the incomplete entry is what stops this register
     becoming the place warnings go to die.
     """
+#: The three things "cited and absent" can mean. ⛔ NAMING ONLY TWO IS WHAT CAUSED THE 2026-08-05 ERROR.
+#: Each requires its own evidence, because each licenses a DIFFERENT action and they are not
+#: interchangeable: `elsewhere` means go and fetch it, `expected` means go and run something,
+#: `withdrawn` means go and delete the citation. Guessing between them wastes either compute or a fact.
+DISPOSITIONS = {
+    "elsewhere": ("ref", "written_by"),      # it exists, on another ref
+    "expected":  ("produced_by",),           # the work is OPEN and would produce it
+    "withdrawn": ("closed_by",),             # the work is CLOSED — the citation is what is wrong
+}
+
+
+def _artifact_dispositions(f):
+    """Cited-but-absent artifacts that have been CLASSIFIED, and the classification's evidence.
+
+    ⛔ EVERY ENTRY IS A CHECKED CLAIM, NOT A SILENCER — an entry with no reason is indistinguishable
+    from "we did not get round to it", which is the state this register exists to make visible.
+    """
     path = os.path.join(GRAPH, "artifact-refs.json")
     if not os.path.exists(path):
-        return set()
+        return {}
     with open(path, encoding="utf-8") as fh:
-        rows = json.load(fh).get("elsewhere", [])
-    out = set()
+        doc = json.load(fh)
+    rows = doc.get("dispositions") or doc.get("elsewhere") or []
+    out = {}
     for r in rows:
-        missing_fields = [k for k in ("artifact", "ref", "written_by", "why_not_ported", "checked_on")
-                          if not r.get(k)]
-        if missing_fields:
-            f.err("[K2]", f"artifact-refs entry {r.get('artifact', '?')} is missing "
-                          f"{missing_fields} — an off-branch home is a checked claim, and an entry "
-                          f"that does not name the ref and why a copy would be WRONG is a silencer")
+        art, dis = r.get("artifact"), r.get("disposition")
+        if not art:
+            f.err("[K2]", "an artifact-refs entry names no artifact")
             continue
-        if len(r["why_not_ported"]) < 60:
-            f.err("[K2]", f"artifact-refs entry {r['artifact']} gives a one-line reason — the default "
-                          f"is to PORT, so an exemption has to argue that a second copy would be "
-                          f"actively harmful, not merely unnecessary")
+        if dis not in DISPOSITIONS:
+            f.err("[K2]", f"artifact-refs entry {art} has disposition {dis!r}, outside "
+                          f"{sorted(DISPOSITIONS)} — 'absent' is an OBSERVATION and each of those three "
+                          f"licenses a different action, so it has to be chosen rather than implied")
             continue
-        out.add(r["artifact"])
+        need = ("why", "checked_on") + DISPOSITIONS[dis]
+        gaps = [k for k in need if not r.get(k)]
+        if gaps:
+            f.err("[K2]", f"artifact-refs entry {art} is `{dis}` but is missing {gaps} — that "
+                          f"disposition is unsupported, and an unsupported disposition is a silencer")
+            continue
+        if len(r["why"]) < 60:
+            f.err("[K2]", f"artifact-refs entry {art} gives a one-line reason. Each disposition is a "
+                          f"claim someone has to be able to check later: `elsewhere` says a second copy "
+                          f"would be HARMFUL, `expected` says the work is OPEN, `withdrawn` says it is "
+                          f"CLOSED. One line cannot carry any of those")
+            continue
+        out[art] = r
+    return out
+
+
+#: ⭐ THE CHEAP SIGNAL THAT WOULD HAVE STOPPED THE 2026-08-05 ERROR. The roadmap marks a finished lane by
+#: STRIKING THROUGH its row title and following it with "✅ CLOSED". That is a real, consistently-applied
+#: convention — every struck-through span in the file is exactly that — so it can be surfaced as EVIDENCE
+#: next to an absent artifact. ⚠ It is evidence for a human, never a verdict: the check does not decide
+#: `withdrawn` from it, it puts it in front of whoever must decide.
+STRUCK_CLOSED = re.compile(r"~~(.{5,120}?)~~\s*\|?\s*✅?\s*\*\*(?:CLOSED|DONE|COMPLETE)", re.S)
+
+
+def _closed_work_mentioning(stem):
+    """Struck-through, explicitly-CLOSED roadmap rows whose title shares a word-stem with the artifact."""
+    p = os.path.join(REPO, "research", "manuscripts", "nr4a3-program-map.md")
+    if not os.path.exists(p):
+        return []
+    with open(p, encoding="utf-8") as fh:
+        text = fh.read()
+    key = re.sub(r"[^a-z0-9]+", " ", stem.lower()).split()
+    key = [w for w in key if len(w) >= 4]
+    out = []
+    for m in STRUCK_CLOSED.finditer(text):
+        title = re.sub(r"\s+", " ", m.group(1)).strip()
+        low = title.lower()
+        if any(w in low for w in key):
+            out.append(title[:90])
     return out
 
 
@@ -896,14 +949,27 @@ def check_artifacts(g, f):
         if os.path.isdir(p):
             for root, _dirs, files in os.walk(p):
                 known.update(files)
-    baseline = {row["to"].rsplit("/", 1)[-1] for row in _link_baseline_rows()}
-    baseline |= _artifacts_elsewhere(f)
+    # ⛔ THE LINK BASELINE IS **NOT** AN EXEMPTION FROM CLASSIFICATION, AND TREATING IT AS ONE IS THE
+    # ACTUAL ROOT CAUSE OF THE 2026-08-05 ERROR — deeper than the missing third disposition.
+    #
+    # Two registers were describing overlapping sets under different rules. `link-baseline.json` answers
+    # "is this Markdown link known-broken?" and carries a FREE-PROSE `why`; this check answers "what does
+    # this absence MEAN?" and requires a disposition. `valb-triangle-chem.json` was in BOTH — so the
+    # baseline's skip silently exempted it from the requirement, and the only thing describing it was a
+    # prose field with no rules. That prose said "clears when the mapper is given a larger budget",
+    # which is what sent 88.5 minutes of CI at a lane that had closed a week earlier.
+    #
+    # ⭐ THE TWO QUESTIONS ARE DIFFERENT AND BOTH MUST BE ANSWERED. A grandfathered link stops [K0]
+    # failing the build on the LINK. It says nothing about whether the ARTIFACT should ever exist — and
+    # that is precisely the question whose wrong answer costs compute. So the baseline no longer skips
+    # anything here: an artifact that is cited and absent gets classified, however its absence surfaced.
+    classified = _artifact_dispositions(f)
 
     missing = defaultdict(set)
     for rel, text in _walk_md(DOC_SKIP):
         for m in ARTIFACT_CITE.finditer(text):
             name = m.group(1)
-            if name in known or name in baseline:
+            if name in known or name in classified:
                 continue
             # A name nothing anywhere produces is a typo or a plan, not drift. Only flag a citation
             # whose producer exists here — that is what says "this was meant to have been generated".
@@ -912,10 +978,19 @@ def check_artifacts(g, f):
                 missing[name].add(rel)
     for name in sorted(missing):
         cites = sorted(missing[name])
-        f.warn("[K1]", f"`{name}` is cited by {len(cites)} document(s) ({', '.join(cites[:3])}"
-                       f"{', …' if len(cites) > 3 else ''}) and its producer is in this repo, but the "
-                       f"artifact is NOT on this branch — check whether the lane that makes it writes "
-                       f"to a different ref before concluding it was never run")
+        closed = _closed_work_mentioning(os.path.splitext(name)[0])
+        msg = (f"`{name}` is cited by {len(cites)} document(s) ({', '.join(cites[:3])}"
+               f"{', …' if len(cites) > 3 else ''}) and its producer is in this repo, but the artifact "
+               f"is NOT here. ⛔ THAT IS AN OBSERVATION, NOT A GAP — it has THREE possible meanings and "
+               f"they license opposite actions: `elsewhere` (it exists on another ref — fetch it), "
+               f"`expected` (the work is OPEN and would produce it — run it), or `withdrawn` (the work "
+               f"CLOSED — the citation is what is wrong, delete it). Decide which, and record it in "
+               f"systems/graph/artifact-refs.json")
+        if closed:
+            msg += (f". ⚠ **EVIDENCE FOR `withdrawn`:** the roadmap carries {len(closed)} struck-through "
+                    f"CLOSED row(s) naming this work — {'; '.join(repr(c) for c in closed[:2])}. Check "
+                    f"that before running anything")
+        f.warn("[K1]", msg)
 
 
 MD_LINK = re.compile(r"\[[^\]]*\]\(([^)#\s]+)(?:#[^)\s]*)?\)")

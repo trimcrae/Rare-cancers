@@ -43,9 +43,11 @@ here** — every number below is a CPU/CI derivation and the spend decision is t
 > the chemistry, and the edge it concerns has since been run for real. **Nothing in this document may be
 > re-graded on it, and it is not a reason to re-run anything.**
 
-**Artifacts:** [`valb_triangle_chem.py`](../modalities/valb_triangle_chem.py) ·
-[`valb-triangle-chem.json`](../modalities/valb-triangle-chem.json) (production-mapper chemistry gate, run in
-`triskit23/ternary-fep`) · [`valb_triangle_closure.py`](../modalities/valb_triangle_closure.py) ·
+**Artifacts:** [`valb_triangle_chem.py`](../modalities/valb_triangle_chem.py) — ⛔ **its output
+`valb-triangle-chem.json` was never produced and the citation is WITHDRAWN, not pending** (see the banner
+above; disposition recorded in
+[`systems/graph/artifact-refs.json`](../../systems/graph/artifact-refs.json)) ·
+[`valb_triangle_closure.py`](../modalities/valb_triangle_closure.py) ·
 [`valb-triangle-closure.json`](../modalities/valb-triangle-closure.json) ·
 [`tests/test_valb_triangle_closure.py`](../modalities/tests/test_valb_triangle_closure.py) (18 tests — every
 claim below that is arithmetic is asserted there, not merely written here).
@@ -133,8 +135,9 @@ the function `protocol_signature` names as `lomap_prefer_element_change`. rdFMCS
 P-series and the **2** of the edge already running. The harness first **re-derives cmpd4 from cmpd1** and
 checks it against `wurz-calib-frozen.json`, failing closed if it cannot.
 
-*(Per-candidate numbers: `valb-triangle-chem.json`. The structural findings below are properties of the
-molecule and the topology, and hold independently of those numbers.)*
+*(Per-candidate numbers would have been in `valb-triangle-chem.json` — ⛔ **never produced, citation
+withdrawn**, see the banner. The structural findings below are properties of the molecule and the topology,
+and hold independently of those numbers, which is why they survive the withdrawal.)*
 
 ### 2a. The structural defect: the closing edge carries both transforms
 

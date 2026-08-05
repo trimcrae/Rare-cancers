@@ -89,6 +89,29 @@ deliver."* The other two layers do run. ⭐ **A credited-but-silent scanner is w
 because the credit is what stops anyone checking. Either fix it or retire the claim; it is recorded here so
 that the choice is visible rather than assumed.
 
+**⛔ A CHECK WRITTEN FROM ONE INCIDENT INHERITS THAT INCIDENT'S BLIND SPOT — AND REPORTS IT WITH TOTAL
+CONFIDENCE.** `[K1]` was written the same day 24 artifacts were found stranded on `modalities-cache`. Its
+message therefore named the two causes in front of its author — *it's on another ref*, *it was never run* —
+and stopped. There is a third: **the work CLOSED, so the citation is what is wrong.** Reported the old way,
+`valb-triangle-chem.json` sent **88.5 minutes of CI at a lane that had closed five days earlier**, and the
+write-up afterwards told the next reader to spend hours more on it.
+
+⚠ **The deeper cause was two registers answering overlapping questions under different rules.**
+`link-baseline.json` asks *is this Markdown link known-broken?* and carries a free-prose `why`;
+`artifact-refs.json` asks *what does this absence MEAN?* and demands evidence. The artifact was in both —
+and being in the baseline **skipped it past the disposition requirement**, so the only thing describing it
+was prose nothing checked. That is the one-fact-two-places bug, inside the machinery built to remove it.
+
+Now: an absence is an **observation with three dispositions** — `elsewhere` (fetch it), `expected` (run it),
+`withdrawn` (delete the citation) — each demanding its own evidence, and the baseline exempts nothing.
+⭐ `[K1]` also surfaces the roadmap's own closure convention (a struck-through row followed by ✅ CLOSED) as
+**evidence beside the absence**, which is the single line that would have prevented the error. Evidence for
+the person deciding — never a verdict the check reaches alone.
+
+**The transferable rule: when a check reports an absence, make it enumerate what the absence could mean.**
+A check that offers one reading of missing data will be believed, and the reading it omits is the one its
+author had not met yet.
+
 **An artifact that exists one branch away is not a missing artifact — it is a stale fact that reads as a
 current one.** `fusion-cpu-extras.yml` writes its outputs to `modalities-cache`, so a manuscript on another
 branch citing those outputs is citing something real that is not where it is being read. Measured

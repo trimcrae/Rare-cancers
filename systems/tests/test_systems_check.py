@@ -829,25 +829,94 @@ def test_a_cited_artifact_exists_on_this_branch(graph):
         f"whether a lane branch holds them before assuming they were never produced"
 
 
-def test_an_off_branch_artifact_home_is_a_checked_claim_not_a_silencer(graph):
-    """[K2] — the exemption register cannot become where warnings go to die.
+def test_absent_is_an_observation_with_three_meanings_not_a_gap(graph):
+    """⛔ THE 2026-08-05 ERROR, PINNED. `[K1]` named two causes and there are three.
 
-    ⚠ THE DEFAULT IS TO PORT. CLAUDE.md §7 is explicit that a branch a workflow runs from must never be
-    the only home of an artifact. An entry here has to argue a second copy would be actively HARMFUL —
-    for the one current entry, a live append-only log whose copy is stale the moment the next sample
-    lands. "Not ported yet" is drift and belongs in the port.
+    It was written the same day 24 artifacts were found stranded on `modalities-cache`, so its message
+    named branch drift and "never run" — the two in front of its author — and stopped. The third is
+    **the work CLOSED, so the citation is what is wrong**. Reported that way,
+    `valb-triangle-chem.json` sent 88.5 minutes of CI at a lane that had closed five days earlier.
 
-    And the refusal has teeth: when [K2] rejects an entry, [K1] fires again for that artifact, so a
-    malformed exemption silences nothing.
+    The three license OPPOSITE actions — fetch it, run it, delete the citation — so the message must
+    name all three and the check must refuse to let the choice be implied.
+    """
+    f = sc.Findings()
+    sc.check_artifacts(graph, f)
+    for w in [x for x in f.warns if "[K1]" in x]:
+        for word in ("elsewhere", "expected", "withdrawn"):
+            assert word in w, f"[K1] must name the `{word}` disposition; it said: {w[:200]}"
+        assert "OBSERVATION, NOT A GAP" in w, "[K1] must not present an absence as a gap"
+    assert set(sc.DISPOSITIONS) == {"elsewhere", "expected", "withdrawn"}
+
+
+def test_the_link_baseline_never_exempts_an_artifact_from_classification():
+    """⛔ THE ROOT CAUSE, AND IT WAS DEEPER THAN THE MISSING THIRD DISPOSITION.
+
+    Two registers were describing overlapping sets under different rules. `link-baseline.json` answers
+    *is this Markdown link known-broken?* and carries a FREE-PROSE `why`; the disposition register
+    answers *what does this absence MEAN?* and requires evidence. `valb-triangle-chem.json` was in both
+    — and being in the baseline SKIPPED it past the disposition requirement, so the only thing
+    describing it was unchecked prose. That prose is what said "clears with a larger budget".
+
+    A grandfathered link stops `[K0]` failing the build on the LINK. It says nothing about whether the
+    ARTIFACT should exist, and that is the question whose wrong answer costs compute.
+    """
+    src = open(os.path.join(SYS, "systems_check.py"), encoding="utf-8").read()
+    body = src.split("def check_artifacts(", 1)[1].split("\ndef ", 1)[0]
+    skip = re.search(r"if name in known(.*?):", body)
+    assert skip, "could not find check_artifacts' skip condition"
+    assert "baseline" not in skip.group(1), \
+        "the link baseline must not exempt an artifact from needing a disposition"
+
+
+def test_every_cited_and_absent_artifact_is_classified(graph):
+    """The register is enumerated, not trusted — so it cannot silently stop covering the set."""
+    f = sc.Findings()
+    sc.check_artifacts(graph, f)
+    unclassified = [w for w in f.warns if "[K1]" in w]
+    assert not unclassified, (
+        "an artifact is cited here and absent with no recorded disposition. That is not a gap to fill "
+        "on sight — decide which of elsewhere/expected/withdrawn it is:\n" + "\n".join(unclassified))
+
+
+def test_the_closure_convention_is_surfaced_as_evidence(graph):
+    """⭐ THE LINE THAT WOULD HAVE STOPPED ME, and it must keep working.
+
+    The roadmap marks a finished lane by striking through its row title and following it with
+    "✅ CLOSED". `[K1]` surfaces any such row whose title matches an absent artifact's name — as
+    EVIDENCE for the person deciding, never as a verdict the check reaches alone.
+    """
+    hits = sc._closed_work_mentioning("valb-triangle-chem")
+    assert hits, "the roadmap's struck-through CLOSED rows are no longer being detected"
+    assert any("closure triangle" in h.lower() for h in hits), \
+        "the row that would have prevented the error is not being matched"
+    # ...and it must not fire indiscriminately, or it becomes noise nobody reads.
+    assert not sc._closed_work_mentioning("nr4a3-matrix"), \
+        "matched a closed lane for work that is open — the signal must discriminate"
+
+
+def test_every_disposition_carries_the_evidence_its_kind_demands(graph):
+    """[K2] — the register cannot become where warnings go to die.
+
+    Each disposition is a claim someone must be able to check later, and each needs DIFFERENT evidence:
+    `elsewhere` must name the ref and argue a second copy would be actively HARMFUL (CLAUDE.md §7: the
+    default is to PORT, and "not ported yet" is drift); `expected` must name the work that is open;
+    `withdrawn` must name what closed it. A one-line reason cannot carry any of them.
+
+    The refusal has teeth: when [K2] rejects an entry, [K1] fires again for that artifact, so a
+    malformed disposition silences nothing.
     """
     path = os.path.join(SYS, "graph", "artifact-refs.json")
     if not os.path.exists(path):
-        pytest.skip("no off-branch artifacts recorded")
-    rows = json.load(open(path, encoding="utf-8"))["elsewhere"]
+        pytest.skip("no dispositions recorded")
+    rows = json.load(open(path, encoding="utf-8"))["dispositions"]
+    assert rows, "an empty register should be deleted, not kept"
     for r in rows:
-        for k in ("artifact", "ref", "written_by", "why_not_ported", "checked_on"):
-            assert r.get(k), f"{r.get('artifact', '?')} is missing `{k}`"
-        assert len(r["why_not_ported"]) >= 60, f"{r['artifact']} gives no real argument"
+        art, dis = r.get("artifact"), r.get("disposition")
+        assert art and dis in sc.DISPOSITIONS, f"{art!r} has disposition {dis!r}"
+        for k in ("why", "checked_on") + sc.DISPOSITIONS[dis]:
+            assert r.get(k), f"{art} is `{dis}` and is missing `{k}`"
+        assert len(r["why"]) >= 60, f"{art} gives no real argument"
     f = sc.Findings()
     sc.check_artifacts(graph, f)
     assert [e for e in f.errors if "[K2]" in e] == [], "\n".join(f.errors)

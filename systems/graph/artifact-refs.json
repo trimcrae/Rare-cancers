@@ -1,18 +1,48 @@
 {
-  "_schema": "artifact-refs/1",
-  "_role": "Artifacts that deliberately live on a ref OTHER than the one you are reading, with the ref named. Read by check_artifacts ([K1]).",
+  "_schema": "artifact-refs/2",
+  "_role": "The disposition of every artifact that is CITED by a document here and ABSENT from this ref. Read by check_artifacts ([K1]/[K2]).",
   "_why": [
-    "[K1] exists because 41 artifacts were found living only on `modalities-cache`, 24 of them cited from the working branch, and the relative-link checker had caught one. Its message tells the reader to check whether the producing lane writes to a different ref before concluding the artifact was never run.",
-    "This file is where that answer goes once someone has checked. Without it the knowledge stays in prose, which is exactly the shape the systems model exists to remove -- and the document explaining the absence would itself trip the check that found it.",
-    "⛔ AN ENTRY HERE IS A CHECKED CLAIM, NOT A SILENCER. It must name the ref, the workflow that writes there, and why porting a copy would be WRONG rather than merely unnecessary. `not ported yet` is not a reason -- that is drift, and it belongs in the port, not here.",
-    "⚠ THE DEFAULT IS TO PORT. CLAUDE.md section 7 is explicit that a branch a workflow runs from must never be the only home of an artifact. This register is for the narrow case where a second copy would be actively harmful, not for the common case of not having got round to it."
+    "⛔ 'CITED AND ABSENT' IS AN OBSERVATION, NOT A GAP, AND READING IT AS A GAP COST A 90-MINUTE CI RUN ON A RETIRED THREAD (2026-08-05). It has THREE meanings and they license OPPOSITE actions: `elsewhere` says go and fetch it, `expected` says go and run something, `withdrawn` says go and delete the citation. Guessing between them wastes either compute or a fact.",
+    "⚠ THE THIRD ONE IS THE ONE THAT GETS FORGOTTEN, AND HERE IS EXACTLY HOW. [K1] was written the same day 24 artifacts were found stranded on the `modalities-cache` branch, so its message named branch drift and 'never run' — the two causes in front of the author — and stopped. It then reported `valb-triangle-chem.json` that way. That artifact is the chemistry PRE-gate for a lane which CLOSED on 2026-07-30 with all four legs landed; the roadmap said so in a struck-through row. The check inherited its author's blind spot and reported it with total confidence.",
+    "⭐ SO THE FIX IS NOT A LONGER MESSAGE, IT IS A REFUSAL TO LET THE CHOICE BE SKIPPED. An artifact reaches this file only by being cited and absent, so the set is naturally tiny and self-limiting — and [K1] enumerates anything that is missing from it. It cannot silently grow.",
+    "⚠ EVERY ENTRY IS A CHECKED CLAIM. [K2] requires the evidence field its disposition demands plus a real `why`, and rejects one-liners: `elsewhere` must argue a second copy would be HARMFUL, `expected` must name the work that is open, `withdrawn` must name what closed it.",
+    "⭐ [K1] also now SURFACES the roadmap's own closure convention — a struck-through row followed by ✅ CLOSED — as evidence beside any absent artifact whose name it matches. Evidence for the person deciding, never a verdict the check reaches on its own."
   ],
-  "elsewhere": [
+  "dispositions": [
+    {
+      "artifact": "valb-triangle-chem.json",
+      "disposition": "withdrawn",
+      "closed_by": "LANE 9/20 — the valB closure triangle — CLOSED 2026-07-30, all four legs landed 5:11 PM ET and R computed (research/modalities/valb-triangle-reduction.json). The roadmap carries the row struck through. Separately REFUTED as a diagnostic for the wrong-sign miss (V5).",
+      "why": "It is the chemistry PRE-gate: a 'should we buy these edges?' check written 2026-07-25. The edges were bought and run five days later, so producing it now would grade a decision that events had already settled. The citation in valb-closure-triangle-pregate-2026-07-25.md is what is wrong, not the absence. ⛔ Do not re-run mode=triangle for this — an attempt on 2026-08-05 spent 88.5 min of CI and was cancelled at its timeout, and it should never have been launched.",
+      "checked_on": "2026-08-05"
+    },
     {
       "artifact": "vast-board-volatility.jsonl",
+      "disposition": "elsewhere",
       "ref": "modalities-cache",
       "written_by": "research/modalities/vast_board_volatility.py, appended by the Vast price-sampling lane",
-      "why_not_ported": "It is a LIVE APPEND-ONLY LOG -- one market sample per run, 3.9 MB and growing, its tip commit literally 'vast price sample <timestamp>'. A copy here would be stale the moment the next sample lands, which is the one-fact-one-home violation rather than a fix for one. Its only referrer on this branch is its own producer's `--out` default and the prose in systems/MIGRATION.md section 3.6 explaining this entry, so nothing cites it as evidence.",
+      "why": "It is a LIVE APPEND-ONLY LOG — one market sample per run, 3.9 MB and growing, its tip commit literally 'vast price sample <timestamp>'. A copy here would be stale the moment the next sample lands, which is the one-fact-one-home violation rather than a fix for one. Its only referrer on this branch is its own producer's --out default and the prose in systems/MIGRATION.md §3.6 explaining this entry, so nothing cites it as evidence.",
+      "checked_on": "2026-08-05"
+    },
+    {
+      "artifact": "nr4a3-matrix.png",
+      "disposition": "expected",
+      "produced_by": ".github/workflows/gpu-matrix-aws.yml",
+      "why": "Genuinely unproduced — checked against every branch, it exists on none. It is a plt.savefig INSIDE the GPU matrix pipeline rather than a plot over committed JSON, so producing it is a real GPU run behind CLAUDE.md §3's spend gate. Cited by three documents, which is why the absence is worth carrying rather than silencing.",
+      "checked_on": "2026-08-05"
+    },
+    {
+      "artifact": "nr4a3-denovo.png",
+      "disposition": "expected",
+      "produced_by": ".github/workflows/gpu-denovo-aws.yml",
+      "why": "Genuinely unproduced — checked against every branch, it exists on none. Same shape as its sibling: a plt.savefig inside the de-novo GPU pipeline, not a plot over committed data, so it needs an authorized GPU run rather than a CPU re-render.",
+      "checked_on": "2026-08-05"
+    },
+    {
+      "artifact": "deepternary_blind_controls.json",
+      "disposition": "expected",
+      "produced_by": ".github/workflows/deepternary-blind-controls.yml",
+      "why": "Genuinely unproduced — checked against every branch. Cited by the DeepTernary qualification protocol as the output of the blind-control audit, which has not been run. The work is open; the citation is a forward reference to it rather than a claim it exists.",
       "checked_on": "2026-08-05"
     }
   ]

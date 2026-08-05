@@ -8,18 +8,14 @@
     "This list is meant to reach zero. It must never grow.",
     "⭐ CLOSED 2026-08-05, AND THE DIAGNOSIS WAS WRONG IN AN INSTRUCTIVE WAY. The first entry read 'either the probe was never run, or its output was never committed'. Both guesses were wrong: emc_line_data_probe.py had run and HAD committed — to the `modalities-cache` branch, which is where fusion-cpu-extras.yml writes. The artifact existed the whole time, one ref away, while a manuscript on this branch cited it as though it were here.",
     "⚠ AND IT WAS NOT ONE FILE. Measuring the divergence found 41 artifacts on `modalities-cache` that this branch lacked, 24 of them CITED from here. This checker had caught 1 of the 24 — the rest are bare filenames in prose and code, which no relative-link checker can see. That ratio is the point: a link checker measures the shape of a citation, not whether the thing cited exists.",
-    "23 were ported (every cited one except vast-board-volatility.jsonl, a live append-only price log whose only referrer is its own producer's default --out path — porting a snapshot of it would create a second, immediately-stale home). The 17 uncited were left where they are: nothing here claims they exist, so they break nothing."
+    "23 were ported (every cited one except vast-board-volatility.jsonl, a live append-only price log whose only referrer is its own producer's default --out path — porting a snapshot of it would create a second, immediately-stale home). The 17 uncited were left where they are: nothing here claims they exist, so they break nothing.",
+    "⛔ 2026-08-05 — THE valb-triangle-chem ENTRY WAS REMOVED, AND HOW IT BEHAVED HERE IS THE REASON [K1] NO LONGER TREATS THIS FILE AS AN EXEMPTION. Its `why` was free prose, so it carried a conclusion nothing checked — 'clears when the mapper is given a larger RBFE_LOMAP_TIME_S' — for a lane that had CLOSED five days earlier. Being listed here also skipped it past the disposition requirement, so the only thing describing it was that prose. Two registers were answering overlapping questions under different rules. They now answer DIFFERENT questions: this file says a LINK is known-broken; systems/graph/artifact-refs.json says what an artifact's absence MEANS, and every cited-and-absent artifact needs the second regardless of the first."
   ],
   "known_broken": [
     {
       "from": "research/manuscripts/nr4a3-program-map.md",
       "to": "../modalities/nr4a3-5bt-signature.json",
       "why": "The roadmap cites a signature artifact for the ternary-rebuild rung. That rung is registered as NOT STARTED, so the artifact not existing is consistent — but the link promises otherwise and should be a forward reference, not a citation."
-    },
-    {
-      "from": "research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md",
-      "to": "../modalities/valb-triangle-chem.json",
-      "why": "⛔ WITHDRAW THE CITATION — DO NOT PRODUCE THIS ARTIFACT. It is the chemistry PRE-gate for the valB closure triangle, i.e. a 'should we buy these edges?' check. LANE 9/20 CLOSED on 2026-07-30 with all four legs landed and R computed (valb-triangle-reduction.json), and the triangle was separately REFUTED as a diagnostic (V5). The spend it gated has happened, so the pre-gate grades a decision that events already settled. ⚠ TWO SUPERSEDED READINGS, BOTH RETAINED because each cost something. (1) 'most likely an artifact that was planned and never produced' — a guess, and wrong. (2) 'clears when the mapper is given a larger RBFE_LOMAP_TIME_S and a matching timeout' — measured, and MISLEADING: it read a closed lane as live work and pointed the next reader at hours of compute on a retired thread. The error underneath both was the same and is the lesson: a baselined broken link was treated as an artifact to produce WITHOUT first checking whether the thing it gated was still live. The roadmap said it was not, in a struck-through row. ⭐ The only durable by-product is a cost measurement for this gate should anyone ever need it: ~5-29 min per edge (hours for 17), against the ~40 s its workflow comment assumed."
     }
   ]
 }
