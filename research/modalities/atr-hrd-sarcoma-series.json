@@ -6,9 +6,404 @@
   "SRA/RNA-Seq": 68
  },
  "associated_publication": {
+  "_bound": "A search that returns nothing is a search, not a proof that no paper exists. The queries are recorded verbatim so the next look starts from what was already asked.",
   "europepmc_papers_citing_the_accession": [],
+  "further_searches": {
+   "by_authors": {
+    "hits": [],
+    "n_hits": 0,
+    "query": "AUTH:\"Chantal\" AND AUTH:\"Lara\""
+   },
+   "by_signature_SARC-HRD": {
+    "hits": [
+     {
+      "authors": "Planas-Paz L, Zehnder M, Desboeufs N, Kollar S, Chen Y, Schneebeli S, Schenk R, Schmid MP, Lopes M, Weber A, Pauli C.",
+      "doi": "10.1016/j.canlet.2026.218300",
+      "journal": "Cancer letters",
+      "pmid": "41651400",
+      "title": "Targeting ATR signaling in sarcoma with homologous recombination deficiency.",
+      "year": "2026"
+     },
+     {
+      "authors": "Planas-Paz L, Pauli C.",
+      "doi": "10.1007/s00292-024-01381-y",
+      "journal": "Pathologie (Heidelberg, Germany)",
+      "pmid": "39535612",
+      "title": "Leveraging homologous recombination deficiency for sarcoma : Unravelling homologous recombination repair deficiency and therapeutic opportunities in soft tissue and bone sarcoma.",
+      "year": "2024"
+     },
+     {
+      "authors": "Planas-Paz L, Pliego-Mendieta A, Hagedorn C, Aguilera-Garcia D, Haberecker M, Arnold F, Herzog M, Bankel L, Guggenberger R, Steiner S, Chen Y, Kahraman A, Zoche M, Rubin MA, Moch H, Britschgi C, Pauli C.",
+      "doi": "10.15252/emmm.202216863",
+      "journal": "EMBO molecular medicine",
+      "pmid": "36779660",
+      "title": "Unravelling homologous recombination repair deficiency and therapeutic opportunities in soft tissue and bone sarcoma.",
+      "year": "2023"
+     }
+    ],
+    "n_hits": 3,
+    "query": "\"SARC-HRD\""
+   },
+   "by_title_words": {
+    "hits": [
+     {
+      "authors": "Planas-Paz L, Zehnder M, Desboeufs N, Kollar S, Chen Y, Schneebeli S, Schenk R, Schmid MP, Lopes M, Weber A, Pauli C.",
+      "doi": "10.1016/j.canlet.2026.218300",
+      "journal": "Cancer letters",
+      "pmid": "41651400",
+      "title": "Targeting ATR signaling in sarcoma with homologous recombination deficiency.",
+      "year": "2026"
+     }
+    ],
+    "n_hits": 1,
+    "query": "TITLE:\"ATR\" AND TITLE:sarcoma AND TITLE:\"homologous recombination\""
+   }
+  },
   "pmids_declared_by_the_series": [],
-  "records": []
+  "records": [],
+  "state": "NO_PMID_DECLARED_CANDIDATES_FOUND_BY_SEARCH"
+ },
+ "cohort_composition": {
+  "_how": "From each sample's own `tissue:` / `cell type:` characteristics. The series' overall_design is NOT used for this \u2014 see `design_vs_contents` below.",
+  "cell_model_subtypes": {
+   "bcor-rearranged sarcoma": 1,
+   "extraskelletal myxoid chondrosarcoma": 1,
+   "low grade undifferentiated sarcoma": 1,
+   "myxofibrosarcoma": 2,
+   "undifferentiated pleomorphic sarcoma": 1
+  },
+  "members": {
+   "patient_derived_cell_models": {
+    "bcor-rearranged sarcoma": [
+     {
+      "accession": "GSM9037835",
+      "title": "USZ-20_REA1"
+     }
+    ],
+    "extraskelletal myxoid chondrosarcoma": [
+     {
+      "accession": "GSM9037837",
+      "title": "USZ-23_EMC3"
+     }
+    ],
+    "low grade undifferentiated sarcoma": [
+     {
+      "accession": "GSM9037836",
+      "title": "USZ-21_LG1"
+     }
+    ],
+    "myxofibrosarcoma": [
+     {
+      "accession": "GSM9037839",
+      "title": "USZ-21_MFS2"
+     },
+     {
+      "accession": "GSM9037840",
+      "title": "NMFH1"
+     }
+    ],
+    "undifferentiated pleomorphic sarcoma": [
+     {
+      "accession": "GSM9037838",
+      "title": "USZ-21_UPS1"
+     }
+    ]
+   },
+   "tumour_samples": {
+    "leiomyosarcoma": [
+     {
+      "accession": "GSM9037891",
+      "title": "LMS01"
+     },
+     {
+      "accession": "GSM9037892",
+      "title": "LMS02"
+     },
+     {
+      "accession": "GSM9037893",
+      "title": "LMS03"
+     },
+     {
+      "accession": "GSM9037894",
+      "title": "LMS04"
+     },
+     {
+      "accession": "GSM9037895",
+      "title": "LMS05"
+     },
+     {
+      "accession": "GSM9037896",
+      "title": "LMS06"
+     },
+     {
+      "accession": "GSM9037897",
+      "title": "LMS07"
+     },
+     {
+      "accession": "GSM9037898",
+      "title": "LMS08"
+     },
+     {
+      "accession": "GSM9037899",
+      "title": "LMS09"
+     },
+     {
+      "accession": "GSM9037900",
+      "title": "LMS10"
+     },
+     {
+      "accession": "GSM9037901",
+      "title": "LMS11"
+     },
+     {
+      "accession": "GSM9037902",
+      "title": "LMS12"
+     }
+    ],
+    "malignant peripheral nerve sheath tumor": [
+     {
+      "accession": "GSM9037880",
+      "title": "MPNST01"
+     },
+     {
+      "accession": "GSM9037881",
+      "title": "MPNST02"
+     },
+     {
+      "accession": "GSM9037882",
+      "title": "MPNST03"
+     },
+     {
+      "accession": "GSM9037883",
+      "title": "MPNST04"
+     },
+     {
+      "accession": "GSM9037884",
+      "title": "MPNST05"
+     },
+     {
+      "accession": "GSM9037885",
+      "title": "MPNST06"
+     },
+     {
+      "accession": "GSM9037886",
+      "title": "MPNST07"
+     },
+     {
+      "accession": "GSM9037887",
+      "title": "MPNST08"
+     },
+     {
+      "accession": "GSM9037888",
+      "title": "MPNST09"
+     },
+     {
+      "accession": "GSM9037889",
+      "title": "MPNST10"
+     },
+     {
+      "accession": "GSM9037890",
+      "title": "MPNST11"
+     }
+    ],
+    "myxofibrosarcoma": [
+     {
+      "accession": "GSM9037841",
+      "title": "MFS01"
+     },
+     {
+      "accession": "GSM9037842",
+      "title": "MFS02"
+     },
+     {
+      "accession": "GSM9037843",
+      "title": "MFS03"
+     },
+     {
+      "accession": "GSM9037844",
+      "title": "MFS04"
+     },
+     {
+      "accession": "GSM9037845",
+      "title": "MFS05"
+     },
+     {
+      "accession": "GSM9037846",
+      "title": "MFS06"
+     },
+     {
+      "accession": "GSM9037847",
+      "title": "MFS07"
+     },
+     {
+      "accession": "GSM9037848",
+      "title": "MFS08"
+     },
+     {
+      "accession": "GSM9037849",
+      "title": "MFS09"
+     },
+     {
+      "accession": "GSM9037850",
+      "title": "MFS10"
+     },
+     {
+      "accession": "GSM9037851",
+      "title": "MFS11"
+     },
+     {
+      "accession": "GSM9037852",
+      "title": "MFS12"
+     },
+     {
+      "accession": "GSM9037853",
+      "title": "MFS13"
+     },
+     {
+      "accession": "GSM9037854",
+      "title": "MFS14"
+     }
+    ],
+    "synovial sarcoma": [
+     {
+      "accession": "GSM9037855",
+      "title": "SS01"
+     },
+     {
+      "accession": "GSM9037856",
+      "title": "SS02"
+     },
+     {
+      "accession": "GSM9037857",
+      "title": "SS03"
+     },
+     {
+      "accession": "GSM9037858",
+      "title": "SS04"
+     },
+     {
+      "accession": "GSM9037859",
+      "title": "SS05"
+     },
+     {
+      "accession": "GSM9037860",
+      "title": "SS06"
+     },
+     {
+      "accession": "GSM9037861",
+      "title": "SS07"
+     },
+     {
+      "accession": "GSM9037862",
+      "title": "SS08"
+     },
+     {
+      "accession": "GSM9037863",
+      "title": "SS09"
+     },
+     {
+      "accession": "GSM9037864",
+      "title": "SS10"
+     },
+     {
+      "accession": "GSM9037865",
+      "title": "SS11"
+     },
+     {
+      "accession": "GSM9037866",
+      "title": "SS12"
+     }
+    ],
+    "undifferentiated pleomorphic sarcoma": [
+     {
+      "accession": "GSM9037867",
+      "title": "UPS01"
+     },
+     {
+      "accession": "GSM9037868",
+      "title": "UPS02"
+     },
+     {
+      "accession": "GSM9037869",
+      "title": "UPS03"
+     },
+     {
+      "accession": "GSM9037870",
+      "title": "UPS04"
+     },
+     {
+      "accession": "GSM9037871",
+      "title": "UPS05"
+     },
+     {
+      "accession": "GSM9037872",
+      "title": "UPS06"
+     },
+     {
+      "accession": "GSM9037873",
+      "title": "UPS07"
+     },
+     {
+      "accession": "GSM9037874",
+      "title": "UPS08"
+     },
+     {
+      "accession": "GSM9037875",
+      "title": "UPS09"
+     },
+     {
+      "accession": "GSM9037876",
+      "title": "UPS10"
+     },
+     {
+      "accession": "GSM9037877",
+      "title": "UPS11"
+     },
+     {
+      "accession": "GSM9037878",
+      "title": "UPS12"
+     },
+     {
+      "accession": "GSM9037879",
+      "title": "UPS13"
+     }
+    ]
+   },
+   "unclassified": []
+  },
+  "n_patient_derived_cell_models": 6,
+  "n_tumour_samples": 62,
+  "n_unclassified": 0,
+  "tumour_subtypes": {
+   "leiomyosarcoma": 12,
+   "malignant peripheral nerve sheath tumor": 11,
+   "myxofibrosarcoma": 14,
+   "synovial sarcoma": 12,
+   "undifferentiated pleomorphic sarcoma": 13
+  }
+ },
+ "design_vs_contents": {
+  "_why_this_field_exists": "A GEO series title and design are claims by its depositors, not measurements. This repo has been bitten twice by reading one as the other, so the arithmetic is done rather than trusted.",
+  "n_samples_actually_in_the_series": 68,
+  "n_samples_the_design_accounts_for": 62,
+  "overall_design_verbatim": "RNAseq of USZ sarcoma patient cohort including 12 leiomyosarcoma, 12 synovial sarcoma, 13 undifferentiated pleomorphic sarcoma, 14 myxofibrosarcoma and 11 malignant peripheral nerve sheath tumors"
+ },
+ "fet_fusion_sarcoma_subtypes": {
+  "_bound": "Presence of a DISEASE whose defining fusion is a FET fusion. It is not a per-sample fusion call, and this series carries none \u2014 see `fet_fusion_status_recoverable`.",
+  "absent_from_this_cohort": [
+   "AFH (EWSR1::CREB1/ATF1)",
+   "clear cell sarcoma (EWSR1::ATF1)",
+   "DSRCT (EWSR1::WT1)",
+   "Ewing sarcoma (EWSR1::FLI1/ERG)",
+   "low-grade fibromyxoid sarcoma (FUS::CREB3L2)",
+   "myxoid liposarcoma (FUS/EWSR1::DDIT3)",
+   "SEF (EWSR1/FUS::CREB3L1)"
+  ],
+  "present_in_this_cohort": {
+   "extraskeletal myxoid chondrosarcoma (EWSR1/TAF15/FUS::NR4A3)": {
+    "extraskelletal myxoid chondrosarcoma": 1
+   }
+  }
  },
  "fet_fusion_status_recoverable": {
   "_bound": "A gene name in a sample's free text is not a per-sample fusion CALL. Whether FET status is recoverable for an ANALYSIS depends on a per-sample annotation, which this field reports the presence of and nothing more.",
@@ -28,6 +423,9 @@
  "fetch_status": {
   "europepmc_37205599": "HTTP 200, 10235 bytes",
   "europepmc_accession_search": "HTTP 200, 176 bytes",
+  "europepmc_pub_by_authors": "HTTP 200, 197 bytes",
+  "europepmc_pub_by_signature_SARC-HRD": "HTTP 200, 30263 bytes",
+  "europepmc_pub_by_title_words": "HTTP 200, 10717 bytes",
   "ftp_matrix_listing": "HTTP 200, 752 bytes",
   "ftp_suppl_listing": "HTTP 200, 673 bytes",
   "gds_esearch": "HTTP 200, 527 bytes",
@@ -35,7 +433,7 @@
   "mechanism_fulltext_xml": "HTTP 200, 184819 bytes",
   "soft_all_brief": "HTTP 200, 40732751 bytes"
  },
- "fetched_utc": "2026-08-05T12:23:11Z",
+ "fetched_utc": "2026-08-05T12:30:44Z",
  "material_type_counts": {
   "ambiguous_both_words_present": 11,
   "cell_line_or_culture": 57
@@ -188,27 +586,37 @@
  },
  "processed_matrix": {
   "evidence": {
+   "_series_matrix_caveat": "Listed for completeness only. A series_matrix is auto-generated for every GEO series and for an SRA-type series it is commonly metadata-only. It is NOT the evidence this state rests on.",
+   "example_per_sample_files": [
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9037nnn/GSM9037835/suppl/GSM9037835_02_LR2022_4.quant.sf.gz",
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9037nnn/GSM9037836/suppl/GSM9037836_04_LR2022_8.quant.sf.gz",
+    "ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM9037nnn/GSM9037837/suppl/GSM9037837_USZ23_EMC3.RefSeq.quant.sf.gz"
+   ],
    "matrix_listing_status": "HTTP 200, 752 bytes",
-   "series_matrix_files": [
+   "n_samples_total": 68,
+   "n_samples_with_a_PROCESSED_looking_supplementary_file": 68,
+   "n_samples_with_a_supplementary_file": 68,
+   "series_matrix_files_listed": [
     "GSE299349-GPL24676_series_matrix.txt.gz",
     "GSE299349-GPL34281_series_matrix.txt.gz"
    ],
-   "suppl_listing_status": "HTTP 200, 673 bytes",
-   "supplementary_files": [
+   "series_supplementary_files": [
     "GSE299349_RAW.tar",
     "filelist.txt",
     "https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
    ],
-   "supplementary_files_that_look_processed": []
+   "suppl_listing_status": "HTTP 200, 673 bytes"
   },
-  "state": "PROCESSED_MATRIX_PRESENT"
+  "state": "PER_SAMPLE_PROCESSED_QUANTIFICATION_FOR_EVERY_SAMPLE"
  },
  "q1_atr_inhibitor_response_data": {
   "_bound": "A viability or IC50 READOUT is a different object from a treated RNA sample. This field says what the sample metadata names; it does not assert that a dose-response measurement is deposited.",
+  "_why_those_two_numbers_differ": "\u26a0 The first is a keyword count over ALL free text and is dominated by boilerplate \u2014 on GSE299349 the shared growth protocol says 'cell culture-treated flasks', so the word 'treated' appears on every sample including the untreated tumours. The count that means what a reader would assume is the second one: how many samples carry a populated `!Sample_treatment_protocol_ch1`. A populated field is not a measured one, and a keyword count is not a populated field.",
   "answer": "ATR_NAMED_ONLY_AT_SERIES_LEVEL_NOT_PER_SAMPLE",
   "hits_verbatim": [],
   "n_samples_naming_an_ATR_inhibitor_or_ATRi": 0,
-  "n_samples_with_a_treatment_or_response_word": 68,
+  "n_samples_with_a_NON_EMPTY_treatment_protocol_field": 0,
+  "n_samples_with_a_treatment_or_response_word_ANYWHERE": 68,
   "samples_naming_an_ATR_inhibitor": []
  },
  "q2_emc_or_nr4a3_sample": {
@@ -3104,8 +3512,13 @@
   ]
  },
  "usable_for_a_reanalysis_here": {
-  "_bound": "Usable means a processed matrix can be downloaded without alignment from FASTQ. It does NOT mean the matrix answers any of the three questions \u2014 that is what the per-question answers above are for.",
-  "state": "USABLE_MATRIX_PRESENT"
+  "_bound": "Usable means processed expression can be downloaded without aligning FASTQ. It does NOT mean the data answers any of the three questions \u2014 a transcriptome cannot supply a drug-response readout that was never deposited, and it cannot supply a fusion call the submitter did not make.",
+  "_what_a_reanalysis_here_could_and_could_not_do": {
+   "_n_bound": "n = 1 for EMC. A single cell model against a 67-sample comparator is a position on a distribution, not a group contrast, and no p-value over n = 1 would mean what a reader would take it to mean.",
+   "could": "score the EMC cell model's DDR/replication-stress transcripts against 62 sarcoma tumours and 5 non-EMC cell models, with proliferation subtracted \u2014 the same read part B performs, on a third instrument",
+   "could_not": "re-cut ATR-inhibitor sensitivity by FET status, because no sensitivity readout is deposited here; or confirm any sample's fusion, because no per-sample fusion call is deposited here"
+  },
+  "state": "PROCESSED_EXPRESSION_DOWNLOADABLE"
  },
  "verdict": "READ_AND_CHARACTERISED"
 }
