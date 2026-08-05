@@ -1160,15 +1160,20 @@ def diagram_l0(g):
         # ⭐ THE FAMILY COUNT GOES IN THE LABEL, not only in the edge fan. A reader who scans rather than
         # traces still has to be able to see that two of these hold down six families each — which is the
         # single fact this diagram exists to deliver.
+        # ⚠ THE UNIT IS IN THE LABEL BECAUSE THE TABLE BELOW COUNTS A DIFFERENT ONE. This diagram ranks
+        # by FAMILIES spanned; "What holds the portfolio down" ranks by ROUTES held. Both are correct and
+        # they disagree — BLK-NO-EMC-DATA leads on routes (15) and is third on families (5) — so a bare
+        # number here reads as a contradiction with the table three inches below it, and a reader who
+        # spots a contradiction stops trusting the page rather than looking for the unit.
         n = len(fams[b])
-        lab = mermaid_label(f"{b} — {n} families", 52)
+        lab = mermaid_label(f"{b} — {plural(n, 'family', 'families')}", 52)
         out.append(f'  {mm_id(b)}[["{lab}"]]:::perm' if blk[b]["permanent"]
                    else f'  {mm_id(b)}{{{{"{lab}"}}}}:::blk')
     out.append("")
     for s in sorted(g["strategies"], key=lambda x: (-len(x["routes"]), x["id"])):
         ss = s["summary_state"]
         lab = mermaid_label(f"{s['id']} {GLYPH.get(s['state']['work_state'], '?')} · "
-                            f"{ss['n_routes']} routes", 40)
+                            f"{plural(ss['n_routes'], 'route')}", 40)
         out.append(f'  {mm_id(s["id"])}["{lab}"]:::fam')
     out.append("")
     for b in cross:
@@ -1306,8 +1311,12 @@ def render_l0(g):
            f"**{len(g['strategies'])} strategy families · {len(g['routes'])} routes · "
            f"{len(g['blockers'])} blockers · {len(g['technologies'])} technology dependencies.**\n",
            "## The shape of the portfolio\n",
-           "What one screen has to carry is not the list — it is the **convergence**. The table below states"
-           " each family correctly; only this shows that two blockers hold down two-thirds of them.\n"]
+           "What one screen has to carry is not the list — it is the **convergence**. Each family page"
+           " states its own blockers correctly; only this shows how many families they span.\n",
+           "⚠ **This ranks by FAMILIES spanned. [What holds the portfolio down](#what-holds-the-portfolio-down)"
+           " below ranks by ROUTES held, and the two orders differ** — a blocker can sit on many routes"
+           " inside one family, or on one route in each of many. Both are real and they answer different"
+           " questions: *how much work is stuck* versus *how much of the strategy is stuck*.\n"]
     out += diagram_l0(g)
     out += ["## The landscape\n",
             "| family | thesis | routes | state | role |",
@@ -1321,13 +1330,20 @@ def render_l0(g):
 
     out += ["", "## What holds the portfolio down\n",
             "A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.\n",
-            "| blocker | kind | routes held | retired by |", "|---|---|---:|---|"]
+            "⚠ **Ranked by ROUTES held — a different axis from the diagram above**, which ranks by families"
+            " spanned. The top of this list and the top of that one are not the same blocker, and neither"
+            " is wrong: `BLK-NO-EMC-DATA` holds the most ROUTES while sitting in fewer FAMILIES than"
+            " `BLK-NO-WET-LAB`. Read the diagram for *how much of the strategy is stuck* and this table"
+            " for *how much work is stuck*.\n",
+            "| blocker | kind | routes held | families | retired by |", "|---|---|---:|---:|---|"]
+    fam_span = _families_per_blocker(g)
     for b in sorted(g["blockers"], key=lambda x: -len(x["inherited_by"])):
         if not b["inherited_by"]:
             continue
         out_by = ", ".join(f"`{t}`" for t in b["retired_by_technology"]) or \
             ("*permanent — nothing*" if b["permanent"] else "*an action we can take*")
-        out.append(f"| **{b['id']}** | `{b['kind']}` | {len(b['inherited_by'])} | {out_by} |")
+        out.append(f"| **{b['id']}** | `{b['kind']}` | {len(b['inherited_by'])} "
+                   f"| {len(fam_span.get(b['id'], []))} | {out_by} |")
 
     out += ["", "## Highest-leverage things to wait for\n",
             "Ordered by how much comes back if they land. Full register: "

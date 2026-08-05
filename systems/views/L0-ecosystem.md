@@ -26,7 +26,9 @@ last_verified: 2026-08-05
 
 ## The shape of the portfolio
 
-What one screen has to carry is not the list — it is the **convergence**. The table below states each family correctly; only this shows that two blockers hold down two-thirds of them.
+What one screen has to carry is not the list — it is the **convergence**. Each family page states its own blockers correctly; only this shows how many families they span.
+
+⚠ **This ranks by FAMILIES spanned. [What holds the portfolio down](#what-holds-the-portfolio-down) below ranks by ROUTES held, and the two orders differ** — a blocker can sit on many routes inside one family, or on one route in each of many. Both are real and they answer different questions: *how much work is stuck* versus *how much of the strategy is stuck*.
 
 ```mermaid
 flowchart LR
@@ -44,7 +46,7 @@ flowchart LR
   ST_FUSION_DIRECT["ST-FUSION-DIRECT ✕ · 3 routes"]:::fam
   ST_OCCUPANCY["ST-OCCUPANCY ○ · 3 routes"]:::fam
   ST_RADIOLIGAND["ST-RADIOLIGAND ○ · 2 routes"]:::fam
-  ST_DISSEMINATION["ST-DISSEMINATION ○ · 1 routes"]:::fam
+  ST_DISSEMINATION["ST-DISSEMINATION ○ · 1 route"]:::fam
 
   BLK_NO_WET_LAB --> ST_DEPENDENCY
   BLK_NO_WET_LAB --> ST_NUCLEIC_ACID
@@ -96,25 +98,27 @@ flowchart LR
 
 A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
-| blocker | kind | routes held | retired by |
-|---|---|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 15 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 9 | *permanent — nothing* |
-| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 7 | `TECH-FE-CRYPTIC-POCKET` |
-| **BLK-R4-BINDS** | `requires_wet_lab` | 7 | `TECH-EMC-MODEL-ACCESS` |
-| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
-| **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
-| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 5 | *permanent — nothing* |
-| **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | `TECH-VECTOR-DELIVERY` |
-| **BLK-REACH-CATEGORICAL** | `scientific_uncertainty` | 2 | `TECH-EXPOSURE-CRITERION` |
-| **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | 2 | `TECH-COFOLD-ASSEMBLY` |
-| **BLK-ENDPOINT-MD** | `no_known_assay` | 1 | `TECH-E1-POWERED` |
-| **BLK-PARALOGUE-CONTROL** | `no_known_assay` | 1 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
-| **BLK-FUNCTIONAL-ACTIONABILITY** | `requires_wet_lab` | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
-| **BLK-DELIVERY** | `requires_future_technology` | 1 | `TECH-OLIGO-DELIVERY` |
-| **BLK-CLASS-INHERITANCE** | `insufficient_data` | 1 | `TECH-VIRTUAL-CELL` |
-| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | 1 | *an action we can take* |
-| **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | `requires_authorization` | 1 | *an action we can take* |
+⚠ **Ranked by ROUTES held — a different axis from the diagram above**, which ranks by families spanned. The top of this list and the top of that one are not the same blocker, and neither is wrong: `BLK-NO-EMC-DATA` holds the most ROUTES while sitting in fewer FAMILIES than `BLK-NO-WET-LAB`. Read the diagram for *how much of the strategy is stuck* and this table for *how much work is stuck*.
+
+| blocker | kind | routes held | families | retired by |
+|---|---|---:|---:|---|
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 15 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 9 | 6 | *permanent — nothing* |
+| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 7 | 3 | `TECH-FE-CRYPTIC-POCKET` |
+| **BLK-R4-BINDS** | `requires_wet_lab` | 7 | 2 | `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 6 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | 1 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
+| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 5 | 1 | *permanent — nothing* |
+| **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | 1 | `TECH-VECTOR-DELIVERY` |
+| **BLK-REACH-CATEGORICAL** | `scientific_uncertainty` | 2 | 1 | `TECH-EXPOSURE-CRITERION` |
+| **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | 2 | 1 | `TECH-COFOLD-ASSEMBLY` |
+| **BLK-ENDPOINT-MD** | `no_known_assay` | 1 | 1 | `TECH-E1-POWERED` |
+| **BLK-PARALOGUE-CONTROL** | `no_known_assay` | 1 | 1 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
+| **BLK-FUNCTIONAL-ACTIONABILITY** | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-DELIVERY** | `requires_future_technology` | 1 | 1 | `TECH-OLIGO-DELIVERY` |
+| **BLK-CLASS-INHERITANCE** | `insufficient_data` | 1 | 1 | `TECH-VIRTUAL-CELL` |
+| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | 1 | 1 | *an action we can take* |
+| **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | `requires_authorization` | 1 | 1 | *an action we can take* |
 
 ## Highest-leverage things to wait for
 

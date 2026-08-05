@@ -576,6 +576,33 @@ def test_the_landscape_draws_only_the_cross_cutting_blockers(graph):
     assert str(len(local)) in body, "the view must SAY how many blockers it left out"
 
 
+def test_the_two_rankings_on_L0_come_from_one_derivation(graph):
+    """The landscape ranks by FAMILIES; the table below it ranks by ROUTES — and they disagree.
+
+    ⚠ THAT DISAGREEMENT IS REAL AND IT LOOKED LIKE AN ERROR. `BLK-NO-EMC-DATA` holds the most routes
+    (15) and spans only 5 families; `BLK-NO-WET-LAB` holds 6 routes across 6 families. A reader meeting
+    "6" in the diagram and "15" three inches below it in the table concludes the page contradicts
+    itself and stops trusting it — so both now state their unit, and the table carries BOTH columns.
+
+    What this test protects is that the two numbers are one derivation, not two: the family count in the
+    diagram and the family count in the table must both come from `_families_per_blocker`, or they will
+    drift into an actual contradiction rather than an apparent one.
+    """
+    fams = sc._families_per_blocker(graph)
+    view = sc.render_l0(graph)
+    for b in graph["blockers"]:
+        if not b["inherited_by"]:
+            continue
+        n_fam, n_routes = len(fams.get(b["id"], [])), len(b["inherited_by"])
+        row = [l for l in view.splitlines() if l.startswith(f"| **{b['id']}** |")]
+        assert row, f"{b['id']} holds {n_routes} route(s) and is missing from the L0 table"
+        cells = [c.strip() for c in row[0].split("|")]
+        assert cells[3] == str(n_routes) and cells[4] == str(n_fam), \
+            f"{b['id']}: table says routes={cells[3]} families={cells[4]}, graph says {n_routes}/{n_fam}"
+    assert "ranks by FAMILIES" in view and "Ranked by ROUTES" in view, \
+        "both rankings must name their unit — an unlabelled axis reads as a contradiction"
+
+
 def test_a_permanent_blocker_is_never_drawn_with_a_way_out(graph):
     """⛔ The taxonomy's central distinction, enforced in the artifact read at a glance.
 
