@@ -360,7 +360,7 @@ literature cited below.
 
 References for works cited above. EMC clinical/biological references are drawn from the
 catalogue's citation map (`hypotheses/candidates.json`) and the patient registry
-(`data/cancers/emc.json` → `registry.citations`); author lists are abbreviated ("et al.")
+(`research/data/emc-clinical-registry.json` → `registry.citations`); author lists are abbreviated ("et al.")
 where the full list is not carried in those sources. Every entry has a resolvable DOI or
 PMID/PMCID.
 

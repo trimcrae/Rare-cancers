@@ -555,11 +555,20 @@ When in doubt: do it and show it.
   `sourceId`/`primaryRef`, primary vs secondary) and a fixed pooling method (crude denominator-weighted
   proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[METHODOLOGY.md](./METHODOLOGY.md)** before
   touching `registry`.
-- **To add a cancer:** `node scripts/new-cancer.mjs <slug> "Name" "ABBR" "Category"`, then fill
-  `data/cancers/<slug>.json` (the EMC file is the worked example). **A cancer page = one JSON file** — you rarely
-  touch HTML/CSS/JS.
-- **Before committing:** `node scripts/validate.mjs` must pass.
-- **No dependencies, no build step.** Keep it that way. **Deploy:** GitHub Pages (`.github/workflows/pages.yml`)
-  on push to `main`; keep all URLs relative.
-- **The patient-facing site is shelved** — keep it working if you touch it, but don't invest new effort there
-  without being asked.
+- **Before committing:** `./scripts/preflight.sh` must pass. It runs the registry evidence contract
+  (`validate-registry.mjs`), the doc linters and the modalities tests, and its exit code cannot be masked.
+- **★★ THE ARCHITECTURE IS [`systems/`](./systems/) — READ
+  [`systems/views/L0-ecosystem.md`](./systems/views/L0-ecosystem.md) FOR THE WHOLE LANDSCAPE IN ONE SCREEN.**
+  `systems/graph/*.json` is the source of truth for every strategy family, route, blocker, technology
+  dependency and forecast; everything under `systems/views/` is **GENERATED** and a hand-edit fails the
+  build (`python3 systems/systems_check.py --write-views` to regenerate). Design and rationale:
+  [`systems/ARCHITECTURE.md`](./systems/ARCHITECTURE.md). Identifiers, glyphs and controlled vocabularies:
+  [`systems/CONVENTIONS.md`](./systems/CONVENTIONS.md).
+- **⛔ THE PATIENT-FACING SITE IS RETIRED AND DELETED (2026-08-05), NOT SHELVED.** *Superseded, retained:
+  "The patient-facing site is shelved — keep it working if you touch it, but don't invest new effort there
+  without being asked."* The HTML, assets, templates, per-cancer data index, the `add-cancer` skill and the
+  Pages workflow are gone. **Two things survived because they were never site tooling:** the cited EMC
+  clinical registry, now [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
+  — read by the manuscript meta-analysis and by the repurposing gap analysis, both via segment-built paths a
+  text search will not find — and its validator, now `scripts/validate-registry.mjs`, which is gate 2 of
+  preflight. **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).

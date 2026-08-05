@@ -10,7 +10,7 @@ work, unconnected to the author's employer; prepared with AI assistance (see §7
 clinician/methodologist collaborator is being sought and is recommended before submission.
 Results below are auto-generated from the project dataset and require the statistical upgrades in
 `PROTOCOL.md` §6 before submission. Numbers current as of the last data build — regenerate from
-`data/cancers/emc.json` before any version is circulated.
+`research/data/emc-clinical-registry.json` before any version is circulated.
 
 ## Abstract (structured)
 - **Background:** EMC is an ultra-rare NR4A3-rearranged sarcoma; its outcome data are
@@ -73,7 +73,7 @@ separately and not meta-analysed.
 (`scripts/fetch-paper.mjs`) with a fixed query (`"extraskeletal myxoid chondrosarcoma" OR
 "extra-skeletal myxoid chondrosarcoma" OR "chordoid sarcoma" OR (NR4A3 AND chondrosarcoma)`),
 triaged for outcome content (`triage-literature.mjs`), and extracted into a structured registry
-(`data/cancers/emc.json → registry`) in which every cohort carries explicit `{events,
+(`research/data/emc-clinical-registry.json → registry`) in which every cohort carries explicit `{events,
 denominator}` counts, a diagnosis-period, provenance, and population-overlap keys. The PRISMA
 flow is shown in §3.1; a formal per-study risk-of-bias appraisal (adapted Newcastle–Ottawa) is
 planned and **not yet complete** — see Limitations.
@@ -205,7 +205,7 @@ as a causal or definitive figure.
 
 ## 6. Reproducibility
 Search, triage, extraction and pooling are scripted (`scripts/fetch-paper.mjs`,
-`triage-literature.mjs`, `validate.mjs`; data in `data/cancers/emc.json`). Commit
+`triage-literature.mjs`, `validate.mjs`; data in `research/data/emc-clinical-registry.json`). Commit
 hash to be cited in the final manuscript.
 
 ## 7. Author, contributions & disclosures
@@ -221,7 +221,7 @@ author declares no competing interests; the work received no funding and uses on
 
 ## 8. References
 
-Studies cited above, drawn from the registry citation map (`data/cancers/emc.json →
+Studies cited above, drawn from the registry citation map (`research/data/emc-clinical-registry.json →
 registry.citations`); every entry has a resolvable DOI or PMID/PMCID. **Draft — complete to the
 target journal's style (full author lists, volume/issue/pages) before submission; do not infer
 co-authors.** Pooled cohorts: refs 1–4; context (overlap / percentage-only / different-endpoint):

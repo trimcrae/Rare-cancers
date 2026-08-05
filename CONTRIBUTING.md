@@ -1,65 +1,108 @@
+---
+id: DOC-CONTRIBUTING
+title: Contributing
+kind: runbook
+status: live
+canonical_for: [how to add a research object, contribution rules]
+purpose: How to add to this repository so the addition is checkable, traceable and does not drift.
+scope: >
+  Contribution mechanics for the research platform. The non-negotiable medical-integrity rules live in
+  AGENTS.md, the evidence contract in METHODOLOGY.md, and the object model in systems/ARCHITECTURE.md.
+audience: [maintainers, collaborators, autonomous research agents]
+date: 2026-08-05
+last_verified: 2026-08-05
+related: [DOC-AGENTS, DOC-ARCHITECTURE, DOC-CONVENTIONS]
+---
+
 # Contributing
 
-Thank you for helping make rare-cancer information easier to find. Contributions
-from patients, carers, clinicians, and researchers are all welcome.
+Contributions from clinicians, researchers, and anyone who has read the literature carefully are
+welcome. The most valuable contribution is usually a **source we have missed** or a **correction with a
+citation**.
+
+⛔ *Superseded, retained: this file used to describe contributing to a patient-facing website — adding
+support groups, specialist centres and per-cancer JSON pages. That site is retired and deleted.*
 
 ## The one rule that matters most
 
-**Everything clinical must be true and sourced.** Frightened, newly diagnosed
-people read this. Please:
+**Everything clinical must be true and sourced.**
 
-- Add a real, working link for every study, statistic, and clinical claim.
-- Never invent numbers or "round up" from memory — use ranges from real studies.
-- Don't present sample/illustrative patient data as if it were real (see below).
-- Don't remove or soften the medical disclaimers.
+- A real, resolvable identifier for every study, statistic and clinical claim — a PMID, PMC ID or DOI,
+  not a URL alone.
+- Never invent numbers or round from memory. Use ranges across real studies.
+- Never present sample or illustrative data as real. Non-real data is flagged `SAMPLE_SYNTHETIC` and
+  bannered.
+- Never remove or soften a medical disclaimer or a stated limitation.
+- Never read a number out of a review and present it as the primary study's — set
+  `provenance: "secondary"` and record `primaryRef`.
 
-If you're not a clinician, that's fine — most contributions are about *finding
-and linking* good sources, not giving advice.
+You do not need to be a clinician. Most useful contributions are about *finding and linking* good
+sources, not giving advice.
 
-## Easy ways to help (no coding)
+## Easy ways to help, with no code
 
-Open an issue (or a PR editing the JSON) with any of:
+Open an issue with any of:
 
-- A study we're missing → the cancer's `studies.items`
-- A support group (Facebook/Reddit/Discord/in-person) → `supportGroups.groups`
-- A specialist centre (with city/country) → `centers.list`
-- A correction to anything
+- **A study we are missing** — especially an EMC series with explicit event counts, or any EMC
+  functional-genomics or expression dataset. That last one is the repository's single biggest
+  rate-limiter; see [`systems/views/registers/technologies.md`](./systems/views/registers/technologies.md).
+- **A correction**, with the source that establishes it.
+- **A capability that has landed** — a method one of the registered technology dependencies is waiting
+  for. Each says, in searchable words, exactly what would count.
+- **An offer of bench access.** Several routes are fully specified experimental proposals waiting only
+  on someone with cells; see [`systems/views/readiness.md`](./systems/views/readiness.md).
 
-## Editing a cancer page
+## Adding to the model
 
-All content for a cancer lives in **one file**: `data/cancers/<slug>.json`.
-You don't need to touch HTML/CSS/JS.
-
-1. Edit `data/cancers/<slug>.json`.
-2. Run `node scripts/validate.mjs`.
-3. Commit with a clear message.
-
-## Adding a new cancer
+The model is `systems/graph/*.json`. Everything under `systems/views/` is **generated** — editing a view
+directly will fail the build, which is the point.
 
 ```bash
-node scripts/new-cancer.mjs <slug> "Full Name" "ABBR" "Category"
+# 1. edit the relevant systems/graph/*.json
+# 2. regenerate the views
+python3 systems/systems_check.py --write-views
+# 3. check invariants, pointer resolution and view drift
+python3 systems/systems_check.py --check
 ```
 
-Then fill in `data/cancers/<slug>.json`. Use `data/cancers/emc.json` as the
-worked example, and follow the playbook in [AGENTS.md](./AGENTS.md).
+Every object must carry the standard fields — purpose, inputs, outputs, state, assumptions, limitations,
+blockers, provenance and next action ([`systems/ARCHITECTURE.md`](./systems/ARCHITECTURE.md) §5). The
+checker rejects a partially specified object rather than accepting a vague one, and the identifiers and
+controlled vocabularies are closed ([`systems/CONVENTIONS.md`](./systems/CONVENTIONS.md)).
 
-## The patient registry (individual participant data)
+Three rules catch most mistakes:
 
-The "what happened to people like me?" tool reads `registry.patients` — one row
-per reported patient. To be useful for rare cancers this should pool real cases
-from published reports.
+1. **One fact, one home.** If you are typing a number that already exists somewhere, point at it instead.
+2. **A claim can never be stronger than the instrument underneath it.** An instrument that has not
+   recovered a known answer cannot be cited as support — and "the control failed" and "there is no
+   control" are different facts, neither of which is support.
+3. **A superseded number is registered, never silently dropped.** Add it to `pinned-figures.json` in the
+   same commit as the correction, so CI can find the copies you missed.
 
-- Real rows: include a `source` citation for each, and set
-  `registry.dataStatus` to `partial-curated` or `curated`.
-- Don't have real rows yet? Keep `dataStatus: "SAMPLE_SYNTHETIC"` and a
-  `dataStatusBanner`. The site shows a prominent warning so no one mistakes it
-  for real data. Calibrate any sample data to match published group statistics.
+## Adding clinical evidence
 
-Field definitions are in `registry.fields` in each data file and in
-`data/schema.json`.
+Clinical data lives in [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
+and is governed by [METHODOLOGY.md](./METHODOLOGY.md), which specifies the citation structure, what may be
+pooled with what, how to represent disagreement, and how to handle data age.
+
+```bash
+node scripts/validate-registry.mjs      # the evidence contract; also gate 2 of preflight
+```
+
+⚠ **Two pooling methods exist and are not interchangeable** — crude denominator-weighted proportions with
+Wilson intervals for simple proportions, and a random-effects model for the manuscript. METHODOLOGY.md §2
+says which is which and why quoting one where the other is meant is a real error.
+
+## Before you commit
+
+```bash
+./scripts/preflight.sh          # THE gate — its exit code cannot be masked
+```
 
 ## Style
 
-- Plain, kind, non-alarmist language. Define jargon.
-- Keep zero dependencies and no build step.
-- Match the existing vanilla-JS style if you touch `assets/js/`.
+- Plain, precise language. Define jargon once, then use it consistently.
+- State limitations in the same place as the result, not in a separate caveats section.
+- Keep the model layer dependency-free — pure stdlib Python and plain JSON.
+- Prefer adding a check over adding a convention. A convention that is not enforced decays; this
+  repository has the receipts.

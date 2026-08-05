@@ -110,5 +110,15 @@
       "main"
     ],
     "note": "Class-II coverage is a FLOOR over a tested 3-allele DR panel, and the junction it is computed on is OBJ-MODEL-E7E3."
+  },
+  {
+    "id": "ART-EMC-CLINICAL-REGISTRY",
+    "path": "research/data/emc-clinical-registry.json",
+    "produced_by": "hand-curated from published literature; ingestion via scripts/fetch-paper.mjs + scripts/triage-literature.mjs",
+    "workflow": ".github/workflows/fetch-literature.yml",
+    "published_to": [
+      "main"
+    ],
+    "note": "The repository's only structured EMC clinical-evidence store: cited cohorts, individual published cases, systemic-therapy evidence and contested-evidence questions, each resolving to a citation. PROMOTED out of the retired patient site on 2026-08-05 — it was never site tooling. Two research consumers read it and BOTH build the path segment-by-segment, so a text search for the old directory name finds neither: research/meta/meta-analysis.mjs (the manuscript's random-effects meta-analysis) and research/hypotheses/enumerate-drugs.mjs (the repurposing gap analysis, which uses it as the EXCLUSION list — without it, drugs already tried in EMC are reported as novel). Evidence contract: METHODOLOGY.md, enforced by scripts/validate-registry.mjs, which is gate 2 of scripts/preflight.sh."
   }
 ]

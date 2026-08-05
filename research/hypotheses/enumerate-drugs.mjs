@@ -20,7 +20,10 @@ import { dirname, join } from "node:path";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const TARGETS = join(HERE, "targets.json");
 const CATALOG = join(HERE, "candidates.json");
-const PATIENT = join(HERE, "..", "..", "data", "cancers", "emc.json");
+// The EMC clinical registry, used as the EXCLUSION LIST for the gap analysis: without it,
+// drugs already tried in EMC get reported as genuinely novel. ⚠ Segment-built path — not
+// findable by searching for the directory name.
+const PATIENT = join(HERE, "..", "data", "emc-clinical-registry.json");
 const OUT = join(HERE, "target-drug-matrix.json");
 const DGIDB = "https://dgidb.org/api/graphql";
 

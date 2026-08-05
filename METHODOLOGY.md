@@ -1,12 +1,23 @@
-# METHODOLOGY.md — citing sources & combining studies
+# METHODOLOGY.md — the evidence contract: citing sources & combining studies
 
-This file is **policy**, not decoration. The patient registry and its pooled
-"what happened to people like me?" figures are the most dangerous part of the
-site: a number that *looks* authoritative can mislead a frightened person. Two
-mechanisms keep it honest — a **structured citation system** (every datum is
-traceable) and a **conservative statistical method** (numbers are combined in a
-defensible, clearly-bounded way). Both are enforced by `scripts/validate.mjs`
-and rendered by `assets/js/cancer.js`. Read this before touching `registry`.
+This file is **policy**, not decoration. It is the repository's **evidence
+contract**: how a clinical fact enters this project, what may be combined with
+what, and how disagreement and age are represented. Two mechanisms keep it
+honest — a **structured citation system** (every datum traceable to a resolvable
+source) and a **conservative statistical method** (numbers combined in a
+defensible, clearly-bounded way). Enforced by
+[`scripts/validate-registry.mjs`](./scripts/validate-registry.mjs), which is
+gate 2 of `scripts/preflight.sh`.
+
+> ⚠ **This was written for the patient-facing site and it is not site policy.**
+> That framing was misleading and cost a near-miss: this file looked like
+> interface tooling while §1, §2.1, §2.3, §3 and §4 are the extraction contract
+> the manuscript's meta-analysis ASSUMES and does not re-check. The site is
+> retired; the contract is not. Owner of the data:
+> [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json).
+> *(This file becomes `systems/POLICY-evidence.md` in the documentation
+> consolidation; it is reframed here rather than moved so that the site
+> retirement stays one reviewable change.)*
 
 ---
 
@@ -73,10 +84,21 @@ A number read out of a **review** is not the same as a number read from the
 
 ## 2. Statistical method for combining studies
 
-The pooled headline answers "of patients like me, how many had X?" by combining
-**patient-level event counts** across studies. It is deliberately simple,
-conservative, and labelled as crude. It is **hypothesis-generating, not
-prognostic** — there is no survival model and no individual prediction.
+The pooled headline combines **patient-level event counts** across studies. It is
+deliberately simple, conservative, and labelled as crude. It is
+**hypothesis-generating, not prognostic** — there is no survival model and no
+individual prediction.
+
+> ⚠ **TWO POOLING METHODS EXIST AND THEY ARE NOT INTERCHANGEABLE.** The crude
+> denominator-weighted proportions with Wilson intervals described in this
+> section were built for the retired interactive filter, and they remain the
+> repository's standard interval for simple proportions — a dozen research
+> modules cite them by name. The **manuscript** uses a random-effects
+> (DerSimonian–Laird) model implemented in
+> [`research/meta/meta-analysis.mjs`](./research/meta/meta-analysis.mjs). Quoting
+> one where the other is meant is a real error: they answer the same question
+> with different assumptions about between-study heterogeneity. §2.1 and §2.3 —
+> what may be pooled at all — bind BOTH.
 
 ### 2.1 What gets pooled (the `pool: true` set)
 
@@ -241,4 +263,4 @@ survival/recurrence figure on the site must travel with its data vintage.
 - [ ] Overlapping / percentage-only / different-endpoint series set `pool:false` + `contextReason`.
 - [ ] Each cohort/citation has `studyPeriod` (diagnosis years) where the source states it; absent if not.
 - [ ] Genuinely conflicting findings are an `evidenceQuestions` entry with ≥2 opposing, cited positions and the mechanism of conflict — not pooled into one number.
-- [ ] `node scripts/validate.mjs` and `node scripts/smoke-render.mjs` pass.
+- [ ] `node scripts/validate-registry.mjs` passes (or `./scripts/preflight.sh`, which runs it).

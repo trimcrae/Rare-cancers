@@ -120,7 +120,39 @@ Rows are added as each phase lands. `status` values: **moved** (content relocate
 | `research/manuscripts/README.md` — index role | superseded | `views/L0-ecosystem.md` + `views/L1-*.md` | the index is now generated from the model, so it cannot go stale |
 | `nr4a3-program-map.md` §0 — reading rules, glyphs, ID scheme, invariants | moved | [`CONVENTIONS.md`](CONVENTIONS.md) | ID collisions resolved in the move, see `CONVENTIONS.md` §1.1 |
 
-*(Phases 2–5 rows are appended as those phases land. A phase is not complete until its rows are here.)*
+### 3.2 · The patient-facing site (Phase 2, 2026-08-05)
+
+**Deleted.** The interface and its tooling. Git history is the record; nothing referenced them.
+
+| was | status | note |
+|---|---|---|
+| `index.html`, `404.html`, `cancers/emc/index.html` | deleted | page shells |
+| `assets/css/styles.css`, `assets/js/cancer.js`, `assets/js/hub.js` | deleted | referenced only by the HTML |
+| `templates/cancer-shell.html`, `templates/cancer.template.json` | deleted | read only by the scaffolding script |
+| `data/index.json`, `data/schema.json` | deleted | site index and its field definitions |
+| `scripts/new-cancer.mjs`, `scripts/smoke-render.mjs` | deleted | scaffolding and a DOM-shim renderer |
+| `.claude/skills/add-cancer/` | deleted | every dependency of the skill was removed with it |
+| `.github/workflows/pages.yml` | deleted | **in the same commit as the files above** — its `paths-ignore` does not cover the site paths, so deleting the files while keeping the workflow would have left `main` permanently red at the copy step |
+
+**Promoted.** Never site tooling; the framing was what made them look like it.
+
+| was | status | now | note |
+|---|---|---|---|
+| `data/cancers/emc.json` | moved | [`research/data/emc-clinical-registry.json`](../research/data/emc-clinical-registry.json) | The repository's only structured EMC clinical-evidence store. Registered as `ART-EMC-CLINICAL-REGISTRY`. Two consumers patched in the same commit — `research/meta/meta-analysis.mjs` and `research/hypotheses/enumerate-drugs.mjs` — **both of which build the path segment-by-segment, so a text search for the old directory name finds neither.** Verified: the meta-analysis output is byte-identical after the move. |
+| `scripts/validate.mjs` | moved | `scripts/validate-registry.mjs` | Gate 2 of `preflight.sh`. Deleting it with the site would have made preflight report FAILED on every invocation forever. Site-presentation checks removed (index cross-reference, centre coordinates, live trial-search links); every evidence-contract check kept, because the meta-analysis assumes them and does not re-check them. |
+| root `tests/test_degradation_model.py`, `tests/test_pose_validity.py` | moved | `research/modalities/tests/` | ⭐ Research tests that **no CI job ran**: every workflow's `pytest tests/…` resolved to the modalities suite via a working directory, so the root directory was never collected. Six tests that had never executed now run and pass. |
+
+**Rewritten.** These described deleted files, so Phase 2 could not leave them.
+
+| file | what changed |
+|---|---|
+| `README.md` | Rewritten around the L0 view as the entry point. |
+| `AGENTS.md` | ~70 % was the site playbook — architecture file map, add-a-cancer procedure, editing rules, deployment. Removed. Medical integrity, literature ingestion, figures, tests and publishing kept and re-scoped to the research program. Two long-dead references removed: a branch that no longer exists and a CI file that never did. |
+| `CONTRIBUTING.md` | Was ~100 % site. Rewritten as how to add a research object to the model. |
+| `METHODOLOGY.md` | Reframed from *"the most dangerous part of the site"* to the repository's evidence contract, which is what it always was — five of its six sections are what the manuscript's meta-analysis assumes and does not re-check. §2 now states plainly that **two pooling methods exist and are not interchangeable**. ⏳ Moves to `systems/POLICY-evidence.md` in Phase 4, where ~15 inbound references get repointed together. |
+| `CLAUDE.md` | Site block replaced with a pointer to `systems/`. The old *"the site is shelved — keep it working"* line is retained as superseded, because it is the instruction this phase reverses. |
+
+*(Phases 3–5 rows are appended as those phases land. A phase is not complete until its rows are here.)*
 
 ---
 

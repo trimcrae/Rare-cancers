@@ -39,11 +39,11 @@ else
   echo "   FAILED"; rc=1
 fi
 
-echo "== validate (site/registry) =="
-if node scripts/validate.mjs >/dev/null 2>&1; then
+echo "== validate (EMC clinical registry evidence contract) =="
+if node scripts/validate-registry.mjs >/dev/null 2>&1; then
   echo "   OK"
 else
-  echo "   FAILED -- rerun 'node scripts/validate.mjs' to see why"; rc=1
+  echo "   FAILED -- rerun 'node scripts/validate-registry.mjs' to see why"; rc=1
 fi
 
 if [ "${SKIP_TESTS:-0}" != "1" ]; then

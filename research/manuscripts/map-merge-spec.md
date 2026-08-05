@@ -112,7 +112,7 @@ Nothing in either document has a stable identifier today, so no one can write "R
 | `pinned-figures.json` | the CI net that catches copied numbers | every changed pinned figure registers its old value **in the same commit** |
 
 **Verification gate for the merge:** `lint_consistency.py` 0 ERROR · `lint_claims.py` 0 ERROR ·
-`node scripts/validate.mjs` OK · `pytest research/modalities/tests/ -q` no new failures · `work_ledger`
+`node scripts/validate-registry.mjs` OK · `pytest research/modalities/tests/ -q` no new failures · `work_ledger`
 still scans the plan and reports the **same open-item count as before the merge** — that last one is the
 check that catches a silent break, and it must be run and its number quoted.
 

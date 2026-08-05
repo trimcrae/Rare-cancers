@@ -183,7 +183,7 @@ these is generic or borrowed from other sarcomas, and none acts on the EWSR1::NR
 targeted therapy for EMC.** That absence — not a published efficacy number — is the gap this paper
 attacks; we deliberately do *not* frame the standard as an efficacy bar, because our untested candidates
 have no measurable efficacy to compare and any "we beat it" claim would be unprovable. (Sources:
-`data/cancers/emc.json` systemic-evidence table; Stacchiotti et al., *Lancet Oncol* 2019 for pazopanib;
+`research/data/emc-clinical-registry.json` systemic-evidence table; Stacchiotti et al., *Lancet Oncol* 2019 for pazopanib;
 review Remiszewski 2025.)
 
 The table below is the *output* of the framework applied to the full route list. We foreground it not as

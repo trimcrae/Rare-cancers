@@ -15,7 +15,11 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const data = JSON.parse(readFileSync(join(root, "data", "cancers", "emc.json"), "utf8"));
+// The EMC clinical registry. ⚠ Built segment-by-segment, so a text search for the directory
+// name will not find this line — which is exactly how it nearly survived the site retirement
+// unpatched. Owner: research/data/emc-clinical-registry.json, validated by
+// scripts/validate-registry.mjs (which enforces the invariants this file assumes).
+const data = JSON.parse(readFileSync(join(root, "research", "data", "emc-clinical-registry.json"), "utf8"));
 const cites = data.registry.citations || {};
 
 const sum = (a) => a.reduce((x, y) => x + y, 0);

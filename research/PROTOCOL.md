@@ -2,7 +2,7 @@
 
 Status: **DRAFT v0.1** — pre-registration / pre-clinician-review. This protocol
 documents how the pooled EMC outcome estimates on this project are produced, so the
-analysis is reproducible and reviewable. It extends the site's `METHODOLOGY.md`.
+analysis is reproducible and reviewable. It extends the repository's evidence contract, `METHODOLOGY.md`.
 
 ## 1. Objectives
 
@@ -41,7 +41,7 @@ analysis is reproducible and reviewable. It extends the site's `METHODOLOGY.md`.
 
 ## 4. Data extraction
 
-Into `data/cancers/emc.json → registry`: `citations` (structured, ≥1 resolvable
+Into `research/data/emc-clinical-registry.json → registry`: `citations` (structured, ≥1 resolvable
 id + license + study period), `cohorts` (grouped, with `{events, denom}` counts,
 `studyPeriod`, `provenance`, overlap keys), `patients` (IPD). Each datum is
 traceable to a source per the citation rules in `METHODOLOGY.md`.
