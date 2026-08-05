@@ -82,15 +82,42 @@ before moving anything, and prove it is zero.
 **Landed.** `README.md`, `AGENTS.md`, `CONTRIBUTING.md` and `METHODOLOGY.md` were rewritten in Phase 2
 because they described deleted files (§3.2). Frontmatter is present on every document in `systems/`.
 
-**Not landed:** the archive sweep of the ~44 one-off session reports and the audit cluster.
+**Not landed:** the archive sweep of the one-off session reports and the audit cluster.
 
-⚠ **The hazard, measured rather than assumed.** The four map-audit and map-merge documents (2,696 lines,
-every one pinned to a line count or commit that has since moved) look like the safest possible archive
-candidates. They are not: the roadmap cites all four **by relative filename**, mostly in passages
-explaining that their figures are now wrong, and two committed artifacts cite one of them **by row number**.
-Moving them without repointing those links would replace four stale documents with five broken references —
-a worse state, not a better one. The archive sweep therefore needs the link repointing done in the same
-commit, exactly as the migration's own principle 2 requires.
+⛔ **CORRECTION, 2026-08-05 — this section was written from a partial grep and two of its statements were
+wrong.** *Superseded, retained:* *"the roadmap cites all four **by relative filename** … would replace four
+stale documents with five broken references."* An exhaustive sweep over all 39 candidates, all file types,
+whole repo, measured instead:
+
+- The roadmap cites **two** of the four, not four — `map-merge-inventory.md` (×3) and
+  `map-audit-strategy.md` (×1). **`map-audit-manuscript.md` (829 lines) and `map-merge-spec.md` (138
+  lines) have zero referrers anywhere in the repository** and are safe to archive today.
+- The cluster's real inbound count is **10**, not five.
+
+⚠ **And the actual hazard is worse than the one this section described, because none of it is a Markdown
+link.** Three references break at *runtime or in CI*:
+
+1. `research/manuscripts/verify_map_edit_anchors.py` **opens** `map-merge-inventory.md` — the path comes
+   from `three-row-audit-map-edits.json` entry `E10`, which also cites it **by row**
+   (`"section": "map-merge-inventory row 4"`). Moving it raises `FileNotFoundError`.
+2. `pinned-figures.json` `targets[9]` is `nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md`.
+   `lint_consistency.py` emits `S-target-missing` as an **ERROR** for a declared target it cannot find, so
+   moving that file turns `tests.yml` and `preflight.sh` red.
+3. `.github/workflows/gpu-ternary-fep-vast.yml:3130` `awk`-reads `ternary-lane-guard-audit-2026-07-25.md`
+   to print an on-record baseline table. It falls through to a `||` branch rather than failing — which is
+   worse than failing: the baseline silently disappears from the readout, which is the exact defect the
+   surrounding comment exists to prevent.
+
+**The measured tiers: 10 safe to archive today · 22 need repointing · 7 must never be archived** (a
+preregistration freeze addendum, the `pinned-figures` target, the workflow-read audit, an `evidence_home`
+of two *watching* scan triggers, a document cited by the flagship paper and a prereg's frozen-endpoint
+caveat, the "rationale of record" reviewer verdict, and the red-team log — which `preprint-plan.md`
+schedules for the **Supporting Information**, not the archive).
+
+⭐ **Two date-stamped documents are not stale at all.** `three-row-audit-2026-08-03.md` and
+`r3-site-choice-audit-2026-08-03.md` are two days old and are cited by `systems/graph/requirements.json`
+itself. Their filenames made them look like one-off reports. That is why the frontmatter backfill precedes
+the sweep: `kind` and `status` decide what is archivable, never the filename.
 
 ### 2.3 · Phase 5 — what landed
 
