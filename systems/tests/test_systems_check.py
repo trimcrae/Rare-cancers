@@ -402,6 +402,74 @@ def test_internal_work_triggers_are_not_expected_to_have_a_technology(graph):
             f"{trg} is internal work and must not be flagged as an unwatched capability"
 
 
+def test_every_capability_is_either_scanned_or_says_why_not(graph):
+    """[T3] and [X3] both reach zero — with no fabricated query.
+
+    ⛔ THE POINT IS THAT SILENCE IS NOT ALLOWED AND NEITHER IS A FAKE QUERY. Every TECH-* either names
+    a real TRG-* or states in `not_scannable_because` what watches it instead; every scannable TRG-*
+    is watched by a TECH-*, so a hit has somewhere to land.
+    """
+    f = sc.Findings()
+    sc.check_technologies(graph, f)
+    sc.check_scan_interop(graph, f)
+    assert [w for w in f.warns if "[T3]" in w] == [], "\n".join(f.warns)
+    assert [w for w in f.warns if "[X3]" in w] == [], "\n".join(f.warns)
+    assert [w for w in f.warns if "[X5]" in w] == [], "\n".join(f.warns)
+
+
+def test_a_disabled_trigger_is_never_described_as_scanned_weekly(graph):
+    """The [X3] message was factually WRONG for TRG-PERSES-RDKIT-PATH.
+
+    It printed "is scanned weekly" for a trigger with `scan_enabled: false` whose
+    `not_searchable_because` says reopening it buys nothing while pmx serves the avenue. A check that
+    misdescribes what it found costs a real investigation to dismiss a fake finding — the failure mode
+    MAINTENANCE.md §4 is about.
+    """
+    with open(os.path.join(REPO, "research", "method-watch-triggers.json"), encoding="utf-8") as fh:
+        rows = json.load(fh)["triggers"]
+    disabled = {t["id"] for t in rows if not t.get("scan_enabled")}
+    assert disabled, "expected at least one disabled trigger"
+    f = sc.Findings()
+    sc.check_scan_interop(graph, f)
+    for trg in disabled:
+        assert not [w for w in f.warns if trg in w and "[X3]" in w], \
+            f"{trg} has scan_enabled: false and must never be reported as scanned weekly"
+
+
+def test_not_scannable_because_is_not_a_blanket_escape_hatch(graph):
+    """It must stay RARE and always name what watches the dependency instead.
+
+    If this ever covers a large share of the register, the watch list has been silenced rather than
+    completed — which is the outcome the field is meant to prevent, not enable.
+    """
+    techs = graph["technologies"]
+    excused = [t for t in techs if t.get("not_scannable_because")]
+    assert len(excused) <= 3, \
+        f"{len(excused)} of {len(techs)} technologies excuse themselves from the scan — that is a " \
+        f"silenced watch list, not a completed one"
+    for t in excused:
+        why = t["not_scannable_because"]
+        assert len(why) >= 40, f"{t['id']} excuses itself in one line and names no alternative"
+        assert not t.get("scan_trigger"), \
+            f"{t['id']} both names a trigger and excuses itself — one of the two is untrue"
+
+
+def test_the_antigen_technology_does_not_claim_to_retire_a_permanent_blocker(graph):
+    """⭐ TECH-JUNCTION-PMHC unblocks three ROUTES and no BLOCKER, and that is not a modelling slip.
+
+    BLK-ANTIGEN-COLD is a `fundamental_biological_limit` — a fact about what the junction IS. No
+    method changes it; what a capability can change is whether that fact stays DECISIVE for the routes
+    resting on it. Conflating the two is what [B1] refuses, and the distinction is the reason the
+    blocker taxonomy separates `kind` from fan-out at all.
+    """
+    tech = next(t for t in graph["technologies"] if t["id"] == "TECH-JUNCTION-PMHC")
+    blk = next(b for b in graph["blockers"] if b["id"] == "BLK-ANTIGEN-COLD")
+    assert blk["permanent"], "premise check: BLK-ANTIGEN-COLD is a permanent blocker"
+    assert tech["unblocks"]["blockers"] == [], "a permanent blocker cannot be retired by a technology"
+    assert set(tech["unblocks"]["routes"]) == {"RT-TCR-IMMTAC", "RT-JUNCTION-NEOANTIGEN", "RT-VACCINE"}
+    assert "TRG-JUNCTION-PHLA" in tech["scan_trigger"], "the trigger it exists to catch"
+
+
 # ───────────────────────── documents and links (§2) ─────────────────────────
 
 def test_every_hand_written_document_has_frontmatter(graph):

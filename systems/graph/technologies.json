@@ -166,7 +166,9 @@
     ],
     "confidence": "moderate",
     "forecast": "FC-POSE-CONVERGENCE",
-    "scan_trigger": []
+    "scan_trigger": [
+      "TRG-POSE-ORIENTATION-CONVERGENCE"
+    ]
   },
   {
     "id": "TECH-COFOLD-ASSEMBLY",
@@ -231,7 +233,9 @@
     ],
     "confidence": "moderate",
     "forecast": "FC-EXPOSURE-CRITERION",
-    "scan_trigger": []
+    "scan_trigger": [
+      "TRG-COVALENT-EXPOSURE-CRITERION"
+    ]
   },
   {
     "id": "TECH-OLIGO-DELIVERY",
@@ -424,7 +428,9 @@
     ],
     "confidence": "moderate",
     "forecast": "FC-ANTITARGET-PROTOCOL",
-    "scan_trigger": []
+    "scan_trigger": [
+      "TRG-ANTITARGET-PANEL-PROTOCOL"
+    ]
   },
   {
     "id": "TECH-ATOM-MAPPER",
@@ -645,7 +651,9 @@
     ],
     "confidence": "moderate",
     "forecast": "FC-AUTONOMOUS-AGENT",
-    "scan_trigger": []
+    "scan_trigger": [
+      "TRG-AUTONOMOUS-RESEARCH-AGENT"
+    ]
   },
   {
     "id": "TECH-COMPUTE-COST",
@@ -669,7 +677,8 @@
     ],
     "confidence": "moderate",
     "forecast": "FC-COMPUTE-COST",
-    "scan_trigger": []
+    "scan_trigger": [],
+    "not_scannable_because": "A literature search cannot see a GPU price. This is measured directly from a live market board -- relaunch_market_gate.price_offers takes the snapshot and vast_cost_model.py converts it to the $/ns basis every in-flight row is graded against -- so the watch here is a PRICE observation on every fleet launch, not a weekly scan. Inventing an arXiv query to clear [T3] would manufacture the credited-but-silent scanner MAINTENANCE.md section 4 exists to warn about."
   },
   {
     "id": "TECH-ASO-SPECIFICITY-MODEL",
@@ -693,6 +702,34 @@
     "scan_trigger": [
       "TRG-ASO-OFFTARGET-PREDICTOR",
       "TRG-ASO-EFFICACY-ACCESSIBILITY"
+    ]
+  },
+  {
+    "id": "TECH-JUNCTION-PMHC",
+    "name": "A fusion-junction presentation or immunogenicity predictor validated ON FUSION JUNCTIONS, or a TCR/ImmTAC discovery platform demonstrated against a low-abundance peptide-HLA",
+    "category": "foundation_model_biology",
+    "why_it_matters": "Three antigen-directed routes are parked on one shared finding: the EWSR1::NR4A3 junction is a WEAK peptide-HLA, and general presentation predictors are not validated on fusion junctions, so the repo's own coverage instrument is disclosed as failing rather than supporting. Until something can either predict junction presentation credibly or reach a low-abundance pHLA in practice, all three routes rest on the same unmeasured premise and re-grading any one of them alone would be arbitrary. ⚠ IT DOES NOT RETIRE BLK-ANTIGEN-COLD. That blocker is a fundamental_biological_limit -- a fact about what the junction IS -- and no method changes it. What lands here changes whether that fact remains DECISIVE for these three routes, which is why `unblocks` names the routes and not the blocker. The blocker taxonomy draws exactly this line and [B1] enforces it.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-TCR-IMMTAC",
+        "RT-JUNCTION-NEOANTIGEN",
+        "RT-VACCINE"
+      ],
+      "requirements": [],
+      "instruments": [
+        "INS-HLA-COVERAGE"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "The repo's own HLA-coverage instrument is recorded as disclosed_failing on all three routes, not as support.",
+      "No public benchmark validates a presentation or immunogenicity predictor specifically on fusion-junction neopeptides; the training sets are dominated by point-mutation neoantigens."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-JUNCTION-PMHC",
+    "scan_trigger": [
+      "TRG-JUNCTION-PHLA"
     ]
   }
 ]

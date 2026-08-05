@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**9 strategy families · 40 routes · 17 blockers · 24 technology dependencies.**
+**9 strategy families · 40 routes · 17 blockers · 25 technology dependencies.**
 
 ## The landscape
 

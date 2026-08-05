@@ -356,9 +356,16 @@ def check_technologies(g, f):
         if t.get("current_state") != "absent" and not t.get("evidence"):
             f.err("[T2]", f"{t['id']} is {t.get('current_state')} with no evidence -- a state that is not "
                           f"`absent` is a claim about the world and needs its basis")
-        if not t.get("scan_trigger"):
+        # ⛔ `not_scannable_because` IS AN ANSWER, NOT AN ESCAPE HATCH. Some dependencies genuinely
+        # cannot be seen by a literature search -- the price of a GPU-hour is measured from a market
+        # board, not read in a paper -- and pressing for a query anyway would produce a fabricated one
+        # that reports nothing forever while being credited as coverage. That is strictly worse than a
+        # declared gap: the credit is what stops anyone checking (MAINTENANCE.md section 4).
+        if not t.get("scan_trigger") and not t.get("not_scannable_because"):
             f.warn("[T3]", f"{t['id']} has no scan trigger -- nothing is searching for it, so it could "
-                           f"land without anyone noticing")
+                           f"land without anyone noticing. If it genuinely cannot be found by a "
+                           f"literature search, say so in `not_scannable_because` and name what "
+                           f"watches it instead")
         if not t.get("fan_out"):
             f.warn("[T4]", f"{t['id']} unblocks nothing -- why is it registered?")
 
@@ -589,6 +596,13 @@ def check_scan_interop(g, f):
     # capability to wait for. Warning on those would be the exact conflation the technology taxonomy
     # exists to prevent -- and it is how four of them ended up on a watch list in the first place.
     kind_of = {t["id"]: t.get("trigger_kind", "external_capability") for t in rows}
+    # ⛔ A DISABLED TRIGGER IS NOT AN UNWATCHED ONE, AND SAYING IT IS WAS A FACTUAL ERROR IN THIS
+    # CHECK'S OWN MESSAGE. It printed "is scanned weekly" for TRG-PERSES-RDKIT-PATH, which has
+    # `scan_enabled: false` and a `not_searchable_because` explaining that reopening it buys nothing
+    # while pmx serves the avenue. A check that misdescribes what it found is the failure mode
+    # MAINTENANCE.md section 4 is about: it costs a real investigation to dismiss a fake finding.
+    enabled = {t["id"] for t in rows if t.get("scan_enabled")}
+    stated = {t["id"] for t in rows if t.get("not_searchable_because")}
 
     watched = set()
     for t in g["technologies"]:
@@ -600,6 +614,13 @@ def check_scan_interop(g, f):
     for trg in sorted(known - watched):
         if kind_of.get(trg) == "internal_work":
             continue  # not a capability; it belongs on a route's best_next_action, not in the register
+        if trg not in enabled:
+            if trg in stated:
+                continue  # a recorded decision not to search, with its reason next to it
+            f.warn("[X5]", f"{trg} is neither scanned (`scan_enabled: false`) nor watched by any "
+                           f"TECH-*, and gives no `not_searchable_because` — so nothing looks for it "
+                           f"and nothing says why")
+            continue
         f.warn("[X3]", f"{trg} is scanned weekly but no TECH-* watches it — it fires into nothing, "
                        f"so a hit has no recorded consequence")
 
@@ -887,6 +908,15 @@ def run_checks(g, f):
 
 
 # ───────────────────────────── rendering ─────────────────────────────
+
+def _watch_cell(t):
+    """How this dependency is watched — three states, because two would lie about one of them."""
+    if t.get("scan_trigger"):
+        return "yes"
+    if t.get("not_scannable_because"):
+        return "n/a — watched another way"
+    return "⚠ **no**"
+
 
 GLYPH = {"complete": "✓", "in_work": "◐", "future": "○", "parked": "⏸", "dead": "✕"}
 BANNER = ("<!-- GENERATED FILE — DO NOT EDIT. Regenerate with:\n"
@@ -1203,11 +1233,23 @@ def render_technologies(g):
                    f"| **{s.get('expected',{}).get('date_band','—')}** "
                    f"| {s.get('optimistic',{}).get('date_band','—')} "
                    f"| `{c.get('basis','—')}` | `{c.get('expected_impact','—')}` "
-                   f"| {'yes' if t.get('scan_trigger') else '⚠ **no**'} |")
-    unscanned = [t["id"] for t in g["technologies"] if not t.get("scan_trigger")]
+                   f"| {_watch_cell(t)} |")
+    # ⚠ THREE STATES, NOT TWO. "scanned", "deliberately not scanned, watched another way" and
+    # "nobody is looking" are different facts, and collapsing the middle one into ⚠ **no** is what
+    # made the register read as having a hole where it has a stated decision.
+    unscanned = [t["id"] for t in g["technologies"]
+                 if not t.get("scan_trigger") and not t.get("not_scannable_because")]
+    other = [t["id"] for t in g["technologies"]
+             if not t.get("scan_trigger") and t.get("not_scannable_because")]
     if unscanned:
         out += ["", f"⚠ **{len(unscanned)} dependencies have no literature scan**, so they could land without",
                 "anyone noticing: " + ", ".join(f"`{x}`" for x in unscanned) + ".\n"]
+    if other:
+        out += ["", f"**{len(other)} dependency(ies) cannot be seen by a literature search and are watched",
+                "another way** — each says how, under `not_scannable_because` in its Detail entry: "
+                + ", ".join(f"`{x}`" for x in other) + ". ⛔ This is a recorded decision, not a gap; the",
+                "alternative was a fabricated query that reports nothing forever while being credited",
+                "as coverage.\n"]
     out += ["## Detail\n"]
     for t in sorted(g["technologies"], key=lambda x: -x["fan_out"]):
         c = fc.get(t.get("forecast"), {})
@@ -1244,7 +1286,12 @@ def render_technologies(g):
                 out.append(f"**What would move this.** {c['what_would_move_this']}\n")
             if c.get("adoption_note"):
                 out.append(f"**⚠ Adoption note.** {c['adoption_note']}\n")
-        out.append(f"*Scanned by:* {', '.join('`'+x+'`' for x in t.get('scan_trigger', [])) or '⚠ **nothing**'}\n")
+        if t.get("scan_trigger"):
+            out.append(f"*Scanned by:* {', '.join('`' + x + '`' for x in t['scan_trigger'])}\n")
+        elif t.get("not_scannable_because"):
+            out.append(f"*Not scannable — watched another way.* {t['not_scannable_because']}\n")
+        else:
+            out.append("*Scanned by:* ⚠ **nothing**\n")
     out.append("[← L0](../L0-ecosystem.md)\n")
     return "\n".join(out)
 

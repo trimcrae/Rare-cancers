@@ -3,9 +3,21 @@
     "id": "FC-FE-CRYPTIC-POCKET",
     "tech_ref": "TECH-FE-CRYPTIC-POCKET",
     "scenarios": {
-      "conservative": { "date_band": "2030", "rationale": "Absolute free-energy accuracy on induced-fit sites has resisted improvement for a decade; force-field and sampling gains have historically arrived at a pace that would put a validated cryptic-pocket benchmark late in the decade.", "confidence": "moderate" },
-      "expected": { "date_band": "2028", "rationale": "Machine-learned potentials are closing the force-field half of the error while the sampling half is being attacked separately by generative ensembles. Both improving at once is what would produce a validated benchmark, and both are currently improving.", "confidence": "low" },
-      "optimistic": { "date_band": "2027H1", "rationale": "A single well-resourced group publishing a cryptic-pocket benchmark set with an ML-potential engine would satisfy this in one paper. The ingredients exist; nobody has assembled them into a benchmark.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2030",
+        "rationale": "Absolute free-energy accuracy on induced-fit sites has resisted improvement for a decade; force-field and sampling gains have historically arrived at a pace that would put a validated cryptic-pocket benchmark late in the decade.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Machine-learned potentials are closing the force-field half of the error while the sampling half is being attacked separately by generative ensembles. Both improving at once is what would produce a validated benchmark, and both are currently improving.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H1",
+        "rationale": "A single well-resourced group publishing a cryptic-pocket benchmark set with an ML-potential engine would satisfy this in one paper. The ingredients exist; nobody has assembled them into a benchmark.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "transformative",
     "basis": "extrapolated",
@@ -17,9 +29,21 @@
     "id": "FC-EMC-EXPRESSION-DATA",
     "tech_ref": "TECH-EMC-EXPRESSION-DATA",
     "scenarios": {
-      "conservative": { "date_band": "beyond-2031", "rationale": "EMC is an ultra-rare sarcoma. Public deposition depends on a group both collecting a series and choosing to deposit it, and neither is on anyone's published roadmap.", "confidence": "moderate" },
-      "expected": { "date_band": "2029", "rationale": "Sarcoma consortia deposit periodically and sequencing cost continues to fall, so a series including EMC cases arriving inside five years is more likely than not — but the timing is essentially a draw from an unknown distribution.", "confidence": "low" },
-      "optimistic": { "date_band": "2027", "rationale": "A single already-collected series being deposited would satisfy this immediately. The weekly scan has produced hits on this query, none yet graded as usable.", "confidence": "low" }
+      "conservative": {
+        "date_band": "beyond-2031",
+        "rationale": "EMC is an ultra-rare sarcoma. Public deposition depends on a group both collecting a series and choosing to deposit it, and neither is on anyone's published roadmap.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2029",
+        "rationale": "Sarcoma consortia deposit periodically and sequencing cost continues to fall, so a series including EMC cases arriving inside five years is more likely than not — but the timing is essentially a draw from an unknown distribution.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027",
+        "rationale": "A single already-collected series being deposited would satisfy this immediately. The weekly scan has produced hits on this query, none yet graded as usable.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "transformative",
     "basis": "speculative",
@@ -30,9 +54,21 @@
     "id": "FC-EMC-MODEL-ACCESS",
     "tech_ref": "TECH-EMC-MODEL-ACCESS",
     "scenarios": {
-      "conservative": { "date_band": "beyond-2031", "rationale": "Repository policy excludes unaffiliated individuals, and policy of that kind does not change on a research timescale. Without an affiliation or a collaborator this stays shut regardless of budget.", "confidence": "high" },
-      "expected": { "date_band": "2029", "rationale": "The realistic route is not a policy change but a substitution: a cloud or robotic lab reaching a scope that covers this work, which would supply execution — though not the cell line itself.", "confidence": "low" },
-      "optimistic": { "date_band": "2027H2", "rationale": "A single self-interested collaborator with existing access would satisfy this in a week. This is the scenario a convincing preprint is actually aimed at.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "beyond-2031",
+        "rationale": "Repository policy excludes unaffiliated individuals, and policy of that kind does not change on a research timescale. Without an affiliation or a collaborator this stays shut regardless of budget.",
+        "confidence": "high"
+      },
+      "expected": {
+        "date_band": "2029",
+        "rationale": "The realistic route is not a policy change but a substitution: a cloud or robotic lab reaching a scope that covers this work, which would supply execution — though not the cell line itself.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H2",
+        "rationale": "A single self-interested collaborator with existing access would satisfy this in a week. This is the scenario a convincing preprint is actually aimed at.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "transformative",
     "basis": "speculative",
@@ -43,9 +79,21 @@
     "id": "FC-CHEAP-ENSEMBLE",
     "tech_ref": "TECH-CHEAP-ENSEMBLE",
     "scenarios": {
-      "conservative": { "date_band": "2028", "rationale": "Calibrating a generative ensemble on RARE-open populations is harder than detecting a site, and rare-state calibration has no established benchmark.", "confidence": "moderate" },
-      "expected": { "date_band": "2027", "rationale": "The detection arm has already landed and is in use here. Calibration is the active research frontier for exactly these models, with several groups working on it.", "confidence": "moderate" },
-      "optimistic": { "date_band": "2026H2", "rationale": "A benchmark paper evaluating existing ensemble models against known cryptic-pocket populations would satisfy this without any new model at all.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "2028",
+        "rationale": "Calibrating a generative ensemble on RARE-open populations is harder than detecting a site, and rare-state calibration has no established benchmark.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027",
+        "rationale": "The detection arm has already landed and is in use here. Calibration is the active research frontier for exactly these models, with several groups working on it.",
+        "confidence": "moderate"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "A benchmark paper evaluating existing ensemble models against known cryptic-pocket populations would satisfy this without any new model at all.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "large",
     "basis": "evidence_based",
@@ -57,9 +105,21 @@
     "id": "FC-POSE-CONVERGENCE",
     "tech_ref": "TECH-POSE-CONVERGENCE",
     "scenarios": {
-      "conservative": { "date_band": "2030", "rationale": "Two disjoint scoring functions disagreeing in orientation on the same receptors points at the receptor conformer rather than at either function, and conformer-aware pose prediction is not close to solved.", "confidence": "moderate" },
-      "expected": { "date_band": "2028", "rationale": "Co-folding methods that place a ligand and its receptor conformation jointly are improving quickly and sidestep the site-transfer step that is failing here entirely.", "confidence": "low" },
-      "optimistic": { "date_band": "2027", "rationale": "A joint ligand-and-conformer predictor benchmarked on apo-to-holo transfer would satisfy this, and that benchmark is a natural next paper for several existing methods.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2030",
+        "rationale": "Two disjoint scoring functions disagreeing in orientation on the same receptors points at the receptor conformer rather than at either function, and conformer-aware pose prediction is not close to solved.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Co-folding methods that place a ligand and its receptor conformation jointly are improving quickly and sidestep the site-transfer step that is failing here entirely.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027",
+        "rationale": "A joint ligand-and-conformer predictor benchmarked on apo-to-holo transfer would satisfy this, and that benchmark is a natural next paper for several existing methods.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "large",
     "basis": "extrapolated",
@@ -70,9 +130,21 @@
     "id": "FC-COFOLD-ASSEMBLY",
     "tech_ref": "TECH-COFOLD-ASSEMBLY",
     "scenarios": {
-      "conservative": { "date_band": "2028", "rationale": "Assembly from sequence and ligand alone is a materially harder problem than assembly with both sites given, and training data for induced complexes is scarce because few are deposited.", "confidence": "moderate" },
-      "expected": { "date_band": "2027", "rationale": "Structure-prediction models are iterating fast and induced-complex prediction is an explicit target for several. The benchmark discipline — reporting inter-chain rather than per-chain accuracy — is the part most likely to lag.", "confidence": "moderate" },
-      "optimistic": { "date_band": "2026H2", "rationale": "An existing model re-evaluated on post-horizon induced complexes with inter-chain metrics would satisfy this with no new architecture.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "2028",
+        "rationale": "Assembly from sequence and ligand alone is a materially harder problem than assembly with both sites given, and training data for induced complexes is scarce because few are deposited.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027",
+        "rationale": "Structure-prediction models are iterating fast and induced-complex prediction is an explicit target for several. The benchmark discipline — reporting inter-chain rather than per-chain accuracy — is the part most likely to lag.",
+        "confidence": "moderate"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "An existing model re-evaluated on post-horizon induced complexes with inter-chain metrics would satisfy this with no new architecture.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "transformative",
     "basis": "evidence_based",
@@ -84,9 +156,21 @@
     "id": "FC-EXPOSURE-CRITERION",
     "tech_ref": "TECH-EXPOSURE-CRITERION",
     "scenarios": {
-      "conservative": { "date_band": "2029", "rationale": "Covalent-site accessibility criteria are a niche methodological corner with few groups working on them and no benchmark that would force the issue.", "confidence": "moderate" },
-      "expected": { "date_band": "2027H2", "rationale": "Covalent drug discovery is active enough that a reactivity-aware accessibility criterion is a natural methods contribution, and chemoproteomics datasets to calibrate one exist.", "confidence": "low" },
-      "optimistic": { "date_band": "2026H2", "rationale": "This is small enough that it could be BUILT here rather than waited for — a reactivity-weighted criterion calibrated against the existing positive control is a bounded piece of work.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "2029",
+        "rationale": "Covalent-site accessibility criteria are a niche methodological corner with few groups working on them and no benchmark that would force the issue.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027H2",
+        "rationale": "Covalent drug discovery is active enough that a reactivity-aware accessibility criterion is a natural methods contribution, and chemoproteomics datasets to calibrate one exist.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "This is small enough that it could be BUILT here rather than waited for — a reactivity-weighted criterion calibrated against the existing positive control is a bounded piece of work.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "moderate",
     "basis": "extrapolated",
@@ -97,9 +181,21 @@
     "id": "FC-OLIGO-DELIVERY",
     "tech_ref": "TECH-OLIGO-DELIVERY",
     "scenarios": {
-      "conservative": { "date_band": "beyond-2031", "rationale": "Delivering an oligonucleotide to a non-hepatic solid tumour has defeated the field for two decades. Liver tropism is a physical property of the delivery vehicles that work.", "confidence": "high" },
-      "expected": { "date_band": "2029", "rationale": "Antibody-oligonucleotide conjugates have reached the clinic for muscle, which is the first real evidence that the liver constraint is escapable with a targeting arm. Extending that to a stromal-rich sarcoma is a further step and not a small one.", "confidence": "low" },
-      "optimistic": { "date_band": "2027H2", "rationale": "A characterised EMC-enriched surface antigen would matter more than a delivery platform: with a targeting arm, existing conjugate chemistry may suffice. That is a discovery event, not an engineering one, and could happen at any time.", "confidence": "low" }
+      "conservative": {
+        "date_band": "beyond-2031",
+        "rationale": "Delivering an oligonucleotide to a non-hepatic solid tumour has defeated the field for two decades. Liver tropism is a physical property of the delivery vehicles that work.",
+        "confidence": "high"
+      },
+      "expected": {
+        "date_band": "2029",
+        "rationale": "Antibody-oligonucleotide conjugates have reached the clinic for muscle, which is the first real evidence that the liver constraint is escapable with a targeting arm. Extending that to a stromal-rich sarcoma is a further step and not a small one.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H2",
+        "rationale": "A characterised EMC-enriched surface antigen would matter more than a delivery platform: with a targeting arm, existing conjugate chemistry may suffice. That is a discovery event, not an engineering one, and could happen at any time.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "transformative",
     "basis": "extrapolated",
@@ -110,9 +206,21 @@
     "id": "FC-VECTOR-DELIVERY",
     "tech_ref": "TECH-VECTOR-DELIVERY",
     "scenarios": {
-      "conservative": { "date_band": "beyond-2031", "rationale": "Solid-tumour vector coverage at therapeutic levels is a longstanding unsolved problem, and the routes depending on it need near-complete coverage rather than partial transduction.", "confidence": "high" },
-      "expected": { "date_band": "2030", "rationale": "Capsid engineering and intratumoural administration are both improving, but the coverage requirement for a suicide-gene strategy is unusually demanding.", "confidence": "low" },
-      "optimistic": { "date_band": "2028", "rationale": "A locally administered vector in a well-circumscribed soft-tissue mass is a more favourable geometry than most solid tumours, so a sarcoma-specific result could arrive earlier than the general problem is solved.", "confidence": "low" }
+      "conservative": {
+        "date_band": "beyond-2031",
+        "rationale": "Solid-tumour vector coverage at therapeutic levels is a longstanding unsolved problem, and the routes depending on it need near-complete coverage rather than partial transduction.",
+        "confidence": "high"
+      },
+      "expected": {
+        "date_band": "2030",
+        "rationale": "Capsid engineering and intratumoural administration are both improving, but the coverage requirement for a suicide-gene strategy is unusually demanding.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2028",
+        "rationale": "A locally administered vector in a well-circumscribed soft-tissue mass is a more favourable geometry than most solid tumours, so a sarcoma-specific result could arrive earlier than the general problem is solved.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "large",
     "basis": "speculative",
@@ -123,9 +231,21 @@
     "id": "FC-CHARGE-CHANGE-FEP",
     "tech_ref": "TECH-CHARGE-CHANGE-FEP",
     "scenarios": {
-      "conservative": { "date_band": "2028", "rationale": "Finite-size corrections for charge-changing alchemical edges are well studied in theory but validated implementations in production software lag the literature by years.", "confidence": "moderate" },
-      "expected": { "date_band": "2027", "rationale": "The theory is settled and the remaining work is implementation and a known-answer set. Both are within reach of the maintained free-energy packages.", "confidence": "moderate" },
-      "optimistic": { "date_band": "2026H2", "rationale": "A co-alchemical-ion implementation already exists in at least one package; what is missing is a published validation set, which is a bounded piece of work.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2028",
+        "rationale": "Finite-size corrections for charge-changing alchemical edges are well studied in theory but validated implementations in production software lag the literature by years.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027",
+        "rationale": "The theory is settled and the remaining work is implementation and a known-answer set. Both are within reach of the maintained free-energy packages.",
+        "confidence": "moderate"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "A co-alchemical-ion implementation already exists in at least one package; what is missing is a published validation set, which is a bounded piece of work.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "moderate",
     "basis": "extrapolated",
@@ -137,9 +257,21 @@
     "id": "FC-GLUE-DESIGN",
     "tech_ref": "TECH-GLUE-DESIGN",
     "scenarios": {
-      "conservative": { "date_band": "2029", "rationale": "Prospective glue design requires predicting an interface that does not exist until the molecule is present, which is a harder generative problem than binder design and has far less training data.", "confidence": "moderate" },
-      "expected": { "date_band": "2027H2", "rationale": "Generative interface design is advancing quickly and glue discovery is heavily funded. The gating requirement is a PROSPECTIVE demonstration on an out-of-training interface, which is a benchmark discipline problem as much as a capability one.", "confidence": "low" },
-      "optimistic": { "date_band": "2026H2", "rationale": "A single prospective success published from an industrial programme would satisfy this. Several are plausibly in progress and unpublished.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2029",
+        "rationale": "Prospective glue design requires predicting an interface that does not exist until the molecule is present, which is a harder generative problem than binder design and has far less training data.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027H2",
+        "rationale": "Generative interface design is advancing quickly and glue discovery is heavily funded. The gating requirement is a PROSPECTIVE demonstration on an out-of-training interface, which is a benchmark discipline problem as much as a capability one.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "A single prospective success published from an industrial programme would satisfy this. Several are plausibly in progress and unpublished.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "large",
     "basis": "extrapolated",
@@ -150,9 +282,21 @@
     "id": "FC-OBSERVED-CRL",
     "tech_ref": "TECH-OBSERVED-CRL",
     "scenarios": {
-      "conservative": { "date_band": "beyond-2031", "rationale": "Full ligase assemblies with the transfer geometry resolved are hard structures and are deposited rarely. Whether one appears is not under anyone's control here.", "confidence": "moderate" },
-      "expected": { "date_band": "2028", "rationale": "Cryo-electron microscopy of large flexible assemblies continues to improve, and ligase machinery is heavily studied. A deposition inside a few years is plausible without being predictable.", "confidence": "low" },
-      "optimistic": { "date_band": "2027", "rationale": "A single deposition satisfies this. Depositions are Poisson-like events and the optimistic band simply reflects that one could land at any time.", "confidence": "low" }
+      "conservative": {
+        "date_band": "beyond-2031",
+        "rationale": "Full ligase assemblies with the transfer geometry resolved are hard structures and are deposited rarely. Whether one appears is not under anyone's control here.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Cryo-electron microscopy of large flexible assemblies continues to improve, and ligase machinery is heavily studied. A deposition inside a few years is plausible without being predictable.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027",
+        "rationale": "A single deposition satisfies this. Depositions are Poisson-like events and the optimistic band simply reflects that one could land at any time.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "moderate",
     "basis": "speculative",
@@ -163,9 +307,21 @@
     "id": "FC-TERNARY-ALCHEMY",
     "tech_ref": "TECH-TERNARY-ALCHEMY",
     "scenarios": {
-      "conservative": { "date_band": "2030", "rationale": "The present miss is localised to an endpoint-state error, which is a model or reference-data problem. Those are slow to fix because they are not visible as convergence failures.", "confidence": "moderate" },
-      "expected": { "date_band": "2028", "rationale": "Ternary cooperativity is a recognised methodological target with a small number of published reference values, and the field is aware the endpoints are the hard part.", "confidence": "low" },
-      "optimistic": { "date_band": "2027H1", "rationale": "A method paper reporting correct-sign recovery on a known cooperativity would satisfy this, and the reference values already exist.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2030",
+        "rationale": "The present miss is localised to an endpoint-state error, which is a model or reference-data problem. Those are slow to fix because they are not visible as convergence failures.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Ternary cooperativity is a recognised methodological target with a small number of published reference values, and the field is aware the endpoints are the hard part.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H1",
+        "rationale": "A method paper reporting correct-sign recovery on a known cooperativity would satisfy this, and the reference values already exist.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "large",
     "basis": "extrapolated",
@@ -176,9 +332,21 @@
     "id": "FC-ANTITARGET-PROTOCOL",
     "tech_ref": "TECH-ANTITARGET-PROTOCOL",
     "scenarios": {
-      "conservative": { "date_band": "2028", "rationale": "Several of the failing receptors are genuinely hard docking targets with large flexible sites; a protocol that recovers all of them is not a parameter tweak.", "confidence": "moderate" },
-      "expected": { "date_band": "2027", "rationale": "Ensemble or co-folding-assisted receptor preparation is the likely route, and both are improving. The requirement that no receptor be dropped is what makes this slower than it looks.", "confidence": "low" },
-      "optimistic": { "date_band": "2026H2", "rationale": "This is substantially a PREPARATION problem and could plausibly be fixed here rather than waited for — a bounded piece of work on receptor preparation, not a new capability.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "2028",
+        "rationale": "Several of the failing receptors are genuinely hard docking targets with large flexible sites; a protocol that recovers all of them is not a parameter tweak.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027",
+        "rationale": "Ensemble or co-folding-assisted receptor preparation is the likely route, and both are improving. The requirement that no receptor be dropped is what makes this slower than it looks.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "This is substantially a PREPARATION problem and could plausibly be fixed here rather than waited for — a bounded piece of work on receptor preparation, not a new capability.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "moderate",
     "basis": "extrapolated",
@@ -189,9 +357,21 @@
     "id": "FC-ATOM-MAPPER",
     "tech_ref": "TECH-ATOM-MAPPER",
     "scenarios": {
-      "conservative": { "date_band": "2028", "rationale": "Atom mapping is mature tooling and receives incremental attention; a mapper improving on the current floor without degenerate correspondences is not anyone's priority.", "confidence": "moderate" },
-      "expected": { "date_band": "2027", "rationale": "Free-energy map construction is actively maintained and mapping quality is a known pain point, so incremental improvement is likely even if not targeted at this case.", "confidence": "low" },
-      "optimistic": { "date_band": "2026H2", "rationale": "A single release of an existing mapper could close a one-atom gap.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2028",
+        "rationale": "Atom mapping is mature tooling and receives incremental attention; a mapper improving on the current floor without degenerate correspondences is not anyone's priority.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027",
+        "rationale": "Free-energy map construction is actively maintained and mapping quality is a known pain point, so incremental improvement is likely even if not targeted at this case.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "A single release of an existing mapper could close a one-atom gap.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "marginal",
     "basis": "extrapolated",
@@ -202,9 +382,21 @@
     "id": "FC-E1-POWERED",
     "tech_ref": "TECH-E1-POWERED",
     "scenarios": {
-      "conservative": { "date_band": "beyond-2031", "rationale": "Two independent attempts returned no pass, the second adequately powered. That is evidence about the readout's resolution against this effect size, and no obvious methodological development targets it.", "confidence": "moderate" },
-      "expected": { "date_band": "2029", "rationale": "The more likely resolution is a different TEST SYSTEM with a larger interface effect rather than a better readout — which is a sourcing question, and sourcing questions resolve unpredictably.", "confidence": "low" },
-      "optimistic": { "date_band": "2027H2", "rationale": "Identifying a system whose interface effect is large enough is free and could be done at any time. ⭐ The optimistic band is short because the work is a literature search, not a capability.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "beyond-2031",
+        "rationale": "Two independent attempts returned no pass, the second adequately powered. That is evidence about the readout's resolution against this effect size, and no obvious methodological development targets it.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2029",
+        "rationale": "The more likely resolution is a different TEST SYSTEM with a larger interface effect rather than a better readout — which is a sourcing question, and sourcing questions resolve unpredictably.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H2",
+        "rationale": "Identifying a system whose interface effect is large enough is free and could be done at any time. ⭐ The optimistic band is short because the work is a literature search, not a capability.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "moderate",
     "basis": "speculative",
@@ -215,9 +407,21 @@
     "id": "FC-E3-RECRUITER-STRUCTURE",
     "tech_ref": "TECH-E3-RECRUITER-STRUCTURE",
     "scenarios": {
-      "conservative": { "date_band": "2030", "rationale": "One candidate recruiter has no deposited structure at all. Structures of proteins nobody has solved appear on nobody's schedule.", "confidence": "moderate" },
-      "expected": { "date_band": "2028", "rationale": "Degrader chemistry is heavily invested and new recruiter structures appear regularly; the specific requirement is a PARTNER-FREE liganded form, which is less commonly deposited than the complex.", "confidence": "low" },
-      "optimistic": { "date_band": "2027", "rationale": "A single deposition satisfies this, and recruiter structural biology is active enough that one could land at any time.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2030",
+        "rationale": "One candidate recruiter has no deposited structure at all. Structures of proteins nobody has solved appear on nobody's schedule.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Degrader chemistry is heavily invested and new recruiter structures appear regularly; the specific requirement is a PARTNER-FREE liganded form, which is less commonly deposited than the complex.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027",
+        "rationale": "A single deposition satisfies this, and recruiter structural biology is active enough that one could land at any time.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "moderate",
     "basis": "speculative",
@@ -228,9 +432,21 @@
     "id": "FC-NONCOVALENT-PARALOGUE-CONTROL",
     "tech_ref": "TECH-NONCOVALENT-PARALOGUE-CONTROL",
     "scenarios": {
-      "conservative": { "date_band": "beyond-2031", "rationale": "Paralogue-selective chemical probes with clean non-covalent selectivity are rare, and one for a closely related receptor family is rarer still.", "confidence": "moderate" },
-      "expected": { "date_band": "2028", "rationale": "Chemical-probe consortia continue to produce selective tool compounds across receptor families, so a usable control appearing in some family within a few years is reasonable — it need not be this receptor family.", "confidence": "low" },
-      "optimistic": { "date_band": "2027", "rationale": "An existing probe may already satisfy this and simply not have been searched for. ⭐ Identifying one is a literature question, not a capability.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "beyond-2031",
+        "rationale": "Paralogue-selective chemical probes with clean non-covalent selectivity are rare, and one for a closely related receptor family is rarer still.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Chemical-probe consortia continue to produce selective tool compounds across receptor families, so a usable control appearing in some family within a few years is reasonable — it need not be this receptor family.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027",
+        "rationale": "An existing probe may already satisfy this and simply not have been searched for. ⭐ Identifying one is a literature question, not a capability.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "large",
     "basis": "speculative",
@@ -241,9 +457,21 @@
     "id": "FC-RXR-HETERODIMER-REPORT",
     "tech_ref": "TECH-RXR-HETERODIMER-REPORT",
     "scenarios": {
-      "conservative": { "date_band": "never", "rationale": "The closure rests on a direct published measurement of this receptor's behaviour. The conservative reading is simply that the measurement is correct, in which case no contradicting report will ever appear.", "confidence": "high" },
-      "expected": { "date_band": "beyond-2031", "rationale": "Nobody is re-examining this question, and there is no incentive to: the receptor is not a commercial target and the negative result is not contested.", "confidence": "moderate" },
-      "optimistic": { "date_band": "2029", "rationale": "A systematic nuclear-receptor dimerisation survey could re-open it incidentally, without anyone intending to.", "confidence": "low" }
+      "conservative": {
+        "date_band": "never",
+        "rationale": "The closure rests on a direct published measurement of this receptor's behaviour. The conservative reading is simply that the measurement is correct, in which case no contradicting report will ever appear.",
+        "confidence": "high"
+      },
+      "expected": {
+        "date_band": "beyond-2031",
+        "rationale": "Nobody is re-examining this question, and there is no incentive to: the receptor is not a commercial target and the negative result is not contested.",
+        "confidence": "moderate"
+      },
+      "optimistic": {
+        "date_band": "2029",
+        "rationale": "A systematic nuclear-receptor dimerisation survey could re-open it incidentally, without anyone intending to.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "marginal",
     "basis": "speculative",
@@ -254,9 +482,21 @@
     "id": "FC-VIRTUAL-CELL",
     "tech_ref": "TECH-VIRTUAL-CELL",
     "scenarios": {
-      "conservative": { "date_band": "2030", "rationale": "Held-out phenotype prediction in a cell type absent from training is the hard version of the problem, and rare tumour types are exactly where training data is thinnest.", "confidence": "moderate" },
-      "expected": { "date_band": "2028", "rationale": "Perturbation and virtual-cell models are a major, well-funded research direction with rapid iteration. Generalisation to unseen cell types is the explicit target, not a side effect.", "confidence": "low" },
-      "optimistic": { "date_band": "2027H1", "rationale": "A foundation model demonstrating cross-cell-type knockdown prediction on a held-out benchmark would satisfy this, and that benchmark is the field's stated goal.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2030",
+        "rationale": "Held-out phenotype prediction in a cell type absent from training is the hard version of the problem, and rare tumour types are exactly where training data is thinnest.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Perturbation and virtual-cell models are a major, well-funded research direction with rapid iteration. Generalisation to unseen cell types is the explicit target, not a side effect.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H1",
+        "rationale": "A foundation model demonstrating cross-cell-type knockdown prediction on a held-out benchmark would satisfy this, and that benchmark is the field's stated goal.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "transformative",
     "basis": "extrapolated",
@@ -268,9 +508,21 @@
     "id": "FC-CLOUD-WET-LAB",
     "tech_ref": "TECH-CLOUD-WET-LAB",
     "scenarios": {
-      "conservative": { "date_band": "beyond-2031", "rationale": "Existing cloud labs are enterprise-contracted and chemistry-weighted. Solo-affordable per-experiment pricing WITH cell-based assay scope is a business-model change, not a technical one, and those are slow.", "confidence": "moderate" },
-      "expected": { "date_band": "2029", "rationale": "Self-driving-lab research is expanding and autonomous agents create demand for per-experiment API access. Both push toward a solo-usable offering, but the material-sourcing gate remains separate.", "confidence": "low" },
-      "optimistic": { "date_band": "2027H2", "rationale": "A single provider opening cell-based assays at per-run pricing would satisfy the EXECUTION half immediately. Agent-driven demand is a plausible forcing function.", "confidence": "low" }
+      "conservative": {
+        "date_band": "beyond-2031",
+        "rationale": "Existing cloud labs are enterprise-contracted and chemistry-weighted. Solo-affordable per-experiment pricing WITH cell-based assay scope is a business-model change, not a technical one, and those are slow.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2029",
+        "rationale": "Self-driving-lab research is expanding and autonomous agents create demand for per-experiment API access. Both push toward a solo-usable offering, but the material-sourcing gate remains separate.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H2",
+        "rationale": "A single provider opening cell-based assays at per-run pricing would satisfy the EXECUTION half immediately. Agent-driven demand is a plausible forcing function.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "transformative",
     "basis": "extrapolated",
@@ -282,9 +534,21 @@
     "id": "FC-AUTONOMOUS-AGENT",
     "tech_ref": "TECH-AUTONOMOUS-AGENT",
     "scenarios": {
-      "conservative": { "date_band": "2029", "rationale": "Reliability over months, not hours, is the gap. This repository's own record shows a scheduled agent task credited in two documents that has never produced an entry — long-horizon reliability is genuinely not solved.", "confidence": "moderate" },
-      "expected": { "date_band": "2027", "rationale": "Agent capability on multi-step technical work has improved rapidly and continuously. The remaining gap is durability and provenance rather than raw capability, and both are being worked on directly.", "confidence": "moderate" },
-      "optimistic": { "date_band": "2026H2", "rationale": "Much of this has already landed here: agents run the compute lanes, the monitoring and the document generation. The missing piece is unsupervised scientific judgement over long horizons.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "2029",
+        "rationale": "Reliability over months, not hours, is the gap. This repository's own record shows a scheduled agent task credited in two documents that has never produced an entry — long-horizon reliability is genuinely not solved.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027",
+        "rationale": "Agent capability on multi-step technical work has improved rapidly and continuously. The remaining gap is durability and provenance rather than raw capability, and both are being worked on directly.",
+        "confidence": "moderate"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "Much of this has already landed here: agents run the compute lanes, the monitoring and the document generation. The missing piece is unsupervised scientific judgement over long horizons.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "large",
     "basis": "evidence_based",
@@ -295,9 +559,21 @@
     "id": "FC-COMPUTE-COST",
     "tech_ref": "TECH-COMPUTE-COST",
     "scenarios": {
-      "conservative": { "date_band": "2029", "rationale": "Rental prices for the cards this work uses are set by a market with demand from elsewhere. A sustained fall is not guaranteed and the market has thinned as well as cheapened within single days.", "confidence": "moderate" },
-      "expected": { "date_band": "2027H2", "rationale": "New accelerator generations and broadening supply have historically produced step changes in cost per unit of simulation, and the measured throughput table here already records card-to-card ratios large enough to matter.", "confidence": "moderate" },
-      "optimistic": { "date_band": "2026H2", "rationale": "A single generation of hardware entering the rental market at scale would move the rate immediately, and this program measures that rate continuously.", "confidence": "moderate" }
+      "conservative": {
+        "date_band": "2029",
+        "rationale": "Rental prices for the cards this work uses are set by a market with demand from elsewhere. A sustained fall is not guaranteed and the market has thinned as well as cheapened within single days.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2027H2",
+        "rationale": "New accelerator generations and broadening supply have historically produced step changes in cost per unit of simulation, and the measured throughput table here already records card-to-card ratios large enough to matter.",
+        "confidence": "moderate"
+      },
+      "optimistic": {
+        "date_band": "2026H2",
+        "rationale": "A single generation of hardware entering the rental market at scale would move the rate immediately, and this program measures that rate continuously.",
+        "confidence": "moderate"
+      }
     },
     "expected_impact": "moderate",
     "basis": "evidence_based",
@@ -309,14 +585,52 @@
     "id": "FC-ASO-SPECIFICITY-MODEL",
     "tech_ref": "TECH-ASO-SPECIFICITY-MODEL",
     "scenarios": {
-      "conservative": { "date_band": "2029", "rationale": "Calibrated cleavage-activity prediction needs training data that is largely proprietary to the companies running these programmes.", "confidence": "moderate" },
-      "expected": { "date_band": "2028", "rationale": "Oligonucleotide therapeutics are commercially active and off-target prediction is a regulatory pressure point, so a published calibrated model is plausible within a few years.", "confidence": "low" },
-      "optimistic": { "date_band": "2027", "rationale": "A public dataset release from any active programme would enable a calibrated model quickly; the modelling is not the hard part.", "confidence": "low" }
+      "conservative": {
+        "date_band": "2029",
+        "rationale": "Calibrated cleavage-activity prediction needs training data that is largely proprietary to the companies running these programmes.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2028",
+        "rationale": "Oligonucleotide therapeutics are commercially active and off-target prediction is a regulatory pressure point, so a published calibrated model is plausible within a few years.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027",
+        "rationale": "A public dataset release from any active programme would enable a calibrated model quickly; the modelling is not the hard part.",
+        "confidence": "low"
+      }
     },
     "expected_impact": "moderate",
     "basis": "extrapolated",
     "what_would_move_this": "A published cleavage-activity dataset with mismatch coverage, or a calibrated predictor built on one.",
     "adoption_note": "⚠ This could move the route in EITHER direction. The current heuristic is deliberately conservative, so a calibrated model might reveal more off-targets rather than fewer — and that is a reason to want it, not a reason to avoid it.",
+    "last_reviewed": "2026-08-05"
+  },
+  {
+    "id": "FC-JUNCTION-PMHC",
+    "tech_ref": "TECH-JUNCTION-PMHC",
+    "scenarios": {
+      "conservative": {
+        "date_band": "2032",
+        "rationale": "Fusion junctions are a small, hard slice of an already data-poor problem: presentation training sets are dominated by point-mutation neoantigens, and the immunopeptidomics that would supply junction-specific ground truth is generated one tumour type at a time. On the platform side, reaching a genuinely low-abundance pHLA has been the field's stated obstacle for a decade. If neither half moves, this sits out the decade.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2029",
+        "rationale": "Two independent trends point at it: immunopeptidomics datasets are growing and are increasingly released with the mass-spec evidence rather than as predictions, and soluble-TCR platforms now have an approved product, which pulls discovery effort toward harder pHLA targets. Either half alone would be partial evidence; the expected band assumes one of the two lands convincingly and the other does not.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H2",
+        "rationale": "A single sarcoma or fusion-driven-tumour immunopeptidomics study that measured junction peptides directly would satisfy the predictor half in one paper — the technique exists and the cohort is the missing part. ⚠ This is the band most likely to be wrong in the optimistic direction, because a study on a DIFFERENT fusion would read as a hit and would not be one.",
+        "confidence": "low"
+      }
+    },
+    "expected_impact": "large",
+    "basis": "extrapolated",
+    "what_would_move_this": "Direct mass-spec evidence that a fusion-junction peptide is presented at measurable abundance on a common allele — in ANY fusion-driven tumour, which would make the question empirical rather than predictive. Failing that, a soluble-TCR or TCR-T programme reporting activity against a pHLA at an abundance in the range this junction is expected to occupy.",
+    "adoption_note": "⛔ A hit on a DIFFERENT fusion is not this capability. The trigger's on_fire text is explicit: state whether the evidence is about presentation, about abundance, or only about another fusion. EMC's junction is a specific sequence on specific alleles, and a general advance in neoantigen prediction has repeatedly not transferred to it — which is why the repo's own coverage instrument is disclosed as failing rather than quietly dropped.",
     "last_reviewed": "2026-08-05"
   }
 ]

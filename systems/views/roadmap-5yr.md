@@ -182,6 +182,7 @@ each, and what would move them are in [registers/technologies.md](registers/tech
 | **2029** | 10 | TECH-EMC-EXPRESSION-DATA | `transformative` | `speculative` | `early_signals` |
 | **2029** | 6 | TECH-CLOUD-WET-LAB | `transformative` | `extrapolated` | `early_signals` |
 | **2029** | 4 | TECH-E1-POWERED | `moderate` | `speculative` | `absent` |
+| **2029** | 4 | TECH-JUNCTION-PMHC | `large` | `extrapolated` | `absent` |
 | **2029** | 3 | TECH-OLIGO-DELIVERY | `transformative` | `extrapolated` | `early_signals` |
 | **2030** | 4 | TECH-VECTOR-DELIVERY | `large` | `speculative` | `absent` |
 | **beyond-2031** | 1 | TECH-RXR-HETERODIMER-REPORT | `marginal` | `speculative` | `absent` |

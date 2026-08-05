@@ -43,7 +43,7 @@ than surfacing as a traceback inside a large suite.
 
 | check | refuses |
 |---|---|
-| `systems_check.py --check` | a route in no strategy family · a permanent blocker claiming a technology would retire it · a non-permanent blocker naming no way out · a failing or uncontrolled instrument cited as SUPPORT · a technology with no forecast · a forecast with no basis or no review date · a compute recommendation with no case · an unresolvable pointer · a view that has drifted · the requirement register disagreeing with the roadmap |
+| `systems_check.py --check` | a route in no strategy family · a permanent blocker claiming a technology would retire it · a non-permanent blocker naming no way out · a failing or uncontrolled instrument cited as SUPPORT · a technology with no forecast · a forecast with no basis or no review date · **a capability neither scanned for nor saying why it cannot be** · **a scannable trigger no technology watches** · a compute recommendation with no case · an unresolvable pointer · a view that has drifted · the requirement register disagreeing with the roadmap |
 | `parser_guard.py` | any registered parser that can no longer find what it parses, and the plan going unlinted wherever it lives |
 | `systems_check` document checks | a Markdown file with no frontmatter · a status outside the closed set · a preregistration not marked immutable · **two documents claiming one id** · **a supersession naming no successor** · **a `pinned-figures` target or a project-instruction reference declaring itself retired** · a NEW broken relative link (pre-existing ones are baselined in `systems/graph/link-baseline.json`, a list meant to reach zero) |
 | `lint_consistency.py` | the same number typed in two places, or a superseded value quoted without its marker |
@@ -81,6 +81,16 @@ exactly one dated entry, committed by hand under the title *"manual catch-up: au
 deliver."* The other two layers do run. ⭐ **A credited-but-silent scanner is worse than no scanner**,
 because the credit is what stops anyone checking. Either fix it or retire the claim; it is recorded here so
 that the choice is visible rather than assumed.
+
+**A fabricated query is worse than a declared gap — and the register now has a word for the difference.**
+Five dependencies had no literature scan. Four got real queries. The fifth, `TECH-COMPUTE-COST`, is *"a
+sustained fall in the cost per nanosecond of the simulation we actually buy"* — **no literature search can
+see a GPU price**, and inventing an arXiv query to clear the warning would have produced a scanner that
+reports nothing forever while being credited as coverage, which is the same shape as the silent Routine
+above. It carries `not_scannable_because` instead, naming the market snapshot that does watch it. The
+register therefore renders **three** states, not two: scanned · watched another way · nobody is looking.
+⚠ The field is bounded by a test — if it ever covers a large share of the register, the watch list has been
+silenced rather than completed.
 
 **A parser that reports its own blindness is not a parser that failed.** Several print a message and exit 0
 when they cannot find what they parse. That is honest and it is invisible from CI. `parser_guard.py` is the

@@ -1584,6 +1584,178 @@
         "exclude_match": [],
         "window_days": 0
       }
+    },
+    {
+      "id": "TRG-AUTONOMOUS-RESEARCH-AGENT",
+      "title": "An autonomous agent that carried a multi-month scientific thread with reviewer-acceptable provenance",
+      "capability": "Not 'an agent wrote code' and not a single-task benchmark score: a demonstrated end-to-end research thread — planning, running, checking, revising — whose provenance a reviewer accepted. This program is one researcher with no wet lab, so the binding constraint is how much rigorous work one person can supervise; that constraint is what this would move.",
+      "trigger_kind": "external_capability",
+      "status": "watching",
+      "scan_enabled": true,
+      "evidence_home": [
+        {
+          "file": "systems/graph/technologies.json",
+          "note": "TECH-AUTONOMOUS-AGENT"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [],
+        "registry_blockers": [],
+        "note": "Nothing re-opens on a hit. It changes the RATE at which everything already planned can be executed and checked, which is why its technology row is graded on throughput rather than on a blocker."
+      },
+      "on_fire": "Read whether the claim is about a benchmark score or about a thread that was actually carried and reviewed. Only the second is evidence here.",
+      "search": {
+        "europepmc": [
+          "(TITLE:\"autonomous\" OR TITLE:\"AI scientist\" OR TITLE:\"self-driving\") AND (TITLE:laboratory OR TITLE:discovery OR TITLE:research OR TITLE:experiment)"
+        ],
+        "arxiv": [
+          "all:\"AI scientist\" AND all:\"end-to-end\"",
+          "all:\"autonomous research\" AND (all:agent OR all:\"language model\")",
+          "cat:cs.AI AND all:\"scientific discovery\" AND all:agent"
+        ],
+        "must_match": [
+          "autonomous",
+          "ai scientist",
+          "self-driving lab",
+          "research agent"
+        ],
+        "exclude_match": [
+          "autonomous vehicle",
+          "autonomous driving",
+          "autonomous nervous",
+          "autonomic"
+        ],
+        "window_days": 120
+      }
+    },
+    {
+      "id": "TRG-POSE-ORIENTATION-CONVERGENCE",
+      "title": "A pose-prediction protocol validated on ORIENTATION, not only on location",
+      "capability": "A docking or pose-prediction method whose reported control is that the crystallographic ligand is recovered inside its own search box in regime AND that two scoring-independent methods agree on the ligand's ORIENTATION, not merely on which pocket it sits in. Location-only agreement is what this program already has and it is not sufficient — a flipped pose gives the same site and a different interaction map.",
+      "trigger_kind": "external_capability",
+      "status": "watching",
+      "scan_enabled": true,
+      "evidence_home": [
+        {
+          "file": "systems/graph/technologies.json",
+          "note": "TECH-POSE-CONVERGENCE"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [],
+        "registry_blockers": [],
+        "note": "The technology row records what it would unblock. Kept empty here rather than duplicated — the registers are cross-checked, not copied."
+      },
+      "on_fire": "Check the paper reports an ORIENTATION metric (symmetry-corrected RMSD or an interaction-fingerprint agreement) on held-out receptors. A pocket-identification success rate is not this.",
+      "search": {
+        "europepmc": [
+          "(TITLE:docking OR TITLE:\"pose prediction\" OR TITLE:\"binding mode\") AND (TITLE:benchmark OR TITLE:validation OR TITLE:\"self-docking\" OR TITLE:\"cross-docking\" OR TITLE:orientation)",
+          "(TITLE:\"binding pose\" OR TITLE:\"pose selection\") AND (TITLE:consensus OR TITLE:convergence OR TITLE:\"interaction fingerprint\")"
+        ],
+        "arxiv": [
+          "all:\"binding pose\" AND all:prediction AND all:benchmark"
+        ],
+        "must_match": [
+          "docking",
+          "binding pose",
+          "binding mode",
+          "pose prediction"
+        ],
+        "exclude_match": [
+          "molecular docking of nanoparticle",
+          "docking station",
+          "ship docking"
+        ],
+        "window_days": 120
+      }
+    },
+    {
+      "id": "TRG-COVALENT-EXPOSURE-CRITERION",
+      "title": "A solvent-exposure or thiol-reactivity criterion that calls covalent-site engageability on a state-matched model",
+      "capability": "A published criterion — reactivity prediction, exposure threshold, or a chemoproteomic ligandability map — that recovers known engageable cysteines when applied to an OPENED/state-matched model rather than to an apo crystal structure. The distinction is the whole point: this program's covalent sites are only engageable in a state the apo structure does not show.",
+      "trigger_kind": "external_capability",
+      "status": "watching",
+      "scan_enabled": true,
+      "evidence_home": [
+        {
+          "file": "systems/graph/technologies.json",
+          "note": "TECH-EXPOSURE-CRITERION"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [],
+        "registry_blockers": [],
+        "note": "See the technology row for the fan-out."
+      },
+      "on_fire": "Check the criterion was applied to a conformational state, not to a single apo structure — and that its known-answer set includes a cysteine that is buried in apo and engageable in practice.",
+      "search": {
+        "europepmc": [
+          "(TITLE:covalent OR TITLE:cysteine OR TITLE:thiol) AND (TITLE:ligandability OR TITLE:reactivity OR TITLE:\"solvent exposure\" OR TITLE:accessibility OR TITLE:chemoproteomic)",
+          "(TITLE:\"covalent inhibitor\" OR TITLE:\"covalent ligand\") AND (TITLE:prediction OR TITLE:\"site selection\" OR TITLE:screening)"
+        ],
+        "arxiv": [
+          "all:covalent AND all:cysteine AND all:prediction"
+        ],
+        "must_match": [
+          "covalent",
+          "cysteine",
+          "thiol",
+          "ligandab"
+        ],
+        "exclude_match": [
+          "covalent organic framework",
+          "covalent bond order",
+          "covalent radius"
+        ],
+        "window_days": 120
+      }
+    },
+    {
+      "id": "TRG-ANTITARGET-PANEL-PROTOCOL",
+      "title": "An anti-target panel protocol where EVERY receptor recovers its own cognate ligand",
+      "capability": "A selectivity/anti-target docking protocol whose published control is that every receptor in the panel recovers its own crystallographic ligand inside a pre-registered criterion — with no receptor dropped, no search box re-centred and no acceptance band lowered after the fact. The failure this guards against is a panel that reports selectivity because the receptors that would have contradicted it were removed.",
+      "trigger_kind": "external_capability",
+      "status": "watching",
+      "scan_enabled": true,
+      "evidence_home": [
+        {
+          "file": "systems/graph/technologies.json",
+          "note": "TECH-ANTITARGET-PROTOCOL"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [],
+        "registry_blockers": [],
+        "note": "See the technology row for the fan-out."
+      },
+      "on_fire": "Check the panel's control set is COMPLETE — how many receptors were started with and how many are reported. A dropped receptor is the finding, not a footnote.",
+      "search": {
+        "europepmc": [
+          "(TITLE:selectivity OR TITLE:\"off-target\" OR TITLE:\"anti-target\" OR TITLE:antitarget) AND (TITLE:docking OR TITLE:panel OR TITLE:profiling OR TITLE:benchmark)",
+          "(TITLE:\"cross-docking\" OR TITLE:\"self-docking\") AND (TITLE:panel OR TITLE:selectivity OR TITLE:\"control\")"
+        ],
+        "arxiv": [
+          "all:selectivity AND all:docking AND all:benchmark"
+        ],
+        "must_match": [
+          "selectivity",
+          "off-target",
+          "anti-target",
+          "antitarget",
+          "cross-dock"
+        ],
+        "exclude_match": [
+          "selectivity of catalysis",
+          "enantioselectivity",
+          "regioselectivity",
+          "membrane selectivity"
+        ],
+        "window_days": 120
+      }
     }
   ]
 }

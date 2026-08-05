@@ -120,6 +120,11 @@
           },
           "description": "POINTS at research/method-watch-triggers.json, which is the ONE HOME of the search queries. This register never copies a query. A TECH-* with an EMPTY scan_trigger is flagged in the generated view -- an unscanned dependency is a capability that could land without anyone noticing."
         },
+        "not_scannable_because": {
+          "type": "string",
+          "minLength": 40,
+          "description": "The ONE legitimate answer to [T3] other than a real query: this capability cannot be detected by a literature search, and here is what watches it instead. ⛔ IT EXISTS TO STOP A FABRICATED QUERY. TECH-COMPUTE-COST is 'a sustained fall in the cost per nanosecond of the simulation we actually buy' -- that is measured from a live market board by relaunch_market_gate.price_offers and vast_cost_model.py, and inventing an arXiv query for a GPU price would manufacture exactly the credited-but-silent scanner MAINTENANCE.md section 4 warns about. Mirrors `not_searchable_because` in the trigger register, deliberately: one vocabulary for one idea."
+        },
         "fan_out": {
           "type": "integer",
           "description": "DERIVED: how many routes, requirements and instruments this would reopen. Orders the watch list."

@@ -33,8 +33,8 @@ unlabelled forecast is indistinguishable from a measurement.
 | 10 | **TECH-EMC-EXPRESSION-DATA** | `biological_dataset` | `early_signals` | beyond-2031 | **2029** | 2027 | `speculative` | `transformative` | yes |
 | 9 | **TECH-COFOLD-ASSEMBLY** | `structure_prediction` | `partially_landed` | 2028 | **2027** | 2026H2 | `evidence_based` | `transformative` | yes |
 | 7 | **TECH-CHEAP-ENSEMBLE** | `conformational_ensemble` | `partially_landed` | 2028 | **2027** | 2026H2 | `evidence_based` | `large` | yes |
-| 7 | **TECH-POSE-CONVERGENCE** | `structure_prediction` | `absent` | 2030 | **2028** | 2027 | `extrapolated` | `large` | ⚠ **no** |
-| 6 | **TECH-EXPOSURE-CRITERION** | `free_energy_method` | `absent` | 2029 | **2027H2** | 2026H2 | `extrapolated` | `moderate` | ⚠ **no** |
+| 7 | **TECH-POSE-CONVERGENCE** | `structure_prediction` | `absent` | 2030 | **2028** | 2027 | `extrapolated` | `large` | yes |
+| 6 | **TECH-EXPOSURE-CRITERION** | `free_energy_method` | `absent` | 2029 | **2027H2** | 2026H2 | `extrapolated` | `moderate` | yes |
 | 6 | **TECH-VIRTUAL-CELL** | `foundation_model_biology` | `early_signals` | 2030 | **2028** | 2027H1 | `extrapolated` | `transformative` | yes |
 | 6 | **TECH-CLOUD-WET-LAB** | `lab_automation` | `early_signals` | beyond-2031 | **2029** | 2027H2 | `extrapolated` | `transformative` | yes |
 | 5 | **TECH-CHARGE-CHANGE-FEP** | `free_energy_method` | `absent` | 2028 | **2027** | 2026H2 | `extrapolated` | `moderate` | yes |
@@ -45,16 +45,19 @@ unlabelled forecast is indistinguishable from a measurement.
 | 4 | **TECH-E1-POWERED** | `free_energy_method` | `absent` | beyond-2031 | **2029** | 2027H2 | `speculative` | `moderate` | yes |
 | 4 | **TECH-E3-RECRUITER-STRUCTURE** | `structure_prediction` | `absent` | 2030 | **2028** | 2027 | `speculative` | `moderate` | yes |
 | 4 | **TECH-NONCOVALENT-PARALOGUE-CONTROL** | `published_measurement` | `absent` | beyond-2031 | **2028** | 2027 | `speculative` | `large` | yes |
+| 4 | **TECH-JUNCTION-PMHC** | `foundation_model_biology` | `absent` | 2032 | **2029** | 2027H2 | `extrapolated` | `large` | yes |
 | 3 | **TECH-OLIGO-DELIVERY** | `lab_automation` | `early_signals` | beyond-2031 | **2029** | 2027H2 | `extrapolated` | `transformative` | yes |
-| 3 | **TECH-ANTITARGET-PROTOCOL** | `structure_prediction` | `absent` | 2028 | **2027** | 2026H2 | `extrapolated` | `moderate` | ⚠ **no** |
+| 3 | **TECH-ANTITARGET-PROTOCOL** | `structure_prediction` | `absent` | 2028 | **2027** | 2026H2 | `extrapolated` | `moderate` | yes |
 | 3 | **TECH-ATOM-MAPPER** | `free_energy_method` | `absent` | 2028 | **2027** | 2026H2 | `extrapolated` | `marginal` | yes |
-| 3 | **TECH-AUTONOMOUS-AGENT** | `autonomous_research_agent` | `partially_landed` | 2029 | **2027** | 2026H2 | `evidence_based` | `large` | ⚠ **no** |
-| 3 | **TECH-COMPUTE-COST** | `compute_economics` | `early_signals` | 2029 | **2027H2** | 2026H2 | `evidence_based` | `moderate` | ⚠ **no** |
+| 3 | **TECH-AUTONOMOUS-AGENT** | `autonomous_research_agent` | `partially_landed` | 2029 | **2027** | 2026H2 | `evidence_based` | `large` | yes |
+| 3 | **TECH-COMPUTE-COST** | `compute_economics` | `early_signals` | 2029 | **2027H2** | 2026H2 | `evidence_based` | `moderate` | n/a — watched another way |
 | 1 | **TECH-RXR-HETERODIMER-REPORT** | `published_measurement` | `absent` | never | **beyond-2031** | 2029 | `speculative` | `marginal` | yes |
 | 1 | **TECH-ASO-SPECIFICITY-MODEL** | `foundation_model_biology` | `absent` | 2029 | **2028** | 2027 | `extrapolated` | `moderate` | yes |
 
-⚠ **5 dependencies have no literature scan**, so they could land without
-anyone noticing: `TECH-POSE-CONVERGENCE`, `TECH-EXPOSURE-CRITERION`, `TECH-ANTITARGET-PROTOCOL`, `TECH-AUTONOMOUS-AGENT`, `TECH-COMPUTE-COST`.
+**1 dependency(ies) cannot be seen by a literature search and are watched
+another way** — each says how, under `not_scannable_because` in its Detail entry: `TECH-COMPUTE-COST`. ⛔ This is a recorded decision, not a gap; the
+alternative was a fabricated query that reports nothing forever while being credited
+as coverage.
 
 ## Detail
 
@@ -226,7 +229,7 @@ anyone noticing: `TECH-POSE-CONVERGENCE`, `TECH-EXPOSURE-CRITERION`, `TECH-ANTIT
 
 **What would move this.** Any pose method reporting apo-to-holo site transfer in regime rather than holo self-docking. ⚠ A better docking program alone does NOT move this — the non-convergence is the system's, not one function's.
 
-*Scanned by:* ⚠ **nothing**
+*Scanned by:* `TRG-POSE-ORIENTATION-CONVERGENCE`
 
 ### TECH-EXPOSURE-CRITERION — fan-out 6
 
@@ -253,7 +256,7 @@ anyone noticing: `TECH-POSE-CONVERGENCE`, `TECH-EXPOSURE-CRITERION`, `TECH-ANTIT
 
 **What would move this.** A chemoproteomics-calibrated ligandability criterion, or a decision to build one here. ⭐ This is a dependency where waiting may be the wrong call — see the optimistic scenario.
 
-*Scanned by:* ⚠ **nothing**
+*Scanned by:* `TRG-COVALENT-EXPOSURE-CRITERION`
 
 ### TECH-VIRTUAL-CELL — fan-out 6
 
@@ -532,6 +535,36 @@ anyone noticing: `TECH-POSE-CONVERGENCE`, `TECH-EXPOSURE-CRITERION`, `TECH-ANTIT
 
 *Scanned by:* `TRG-PARALOGUE-POSITIVE-CONTROL`
 
+### TECH-JUNCTION-PMHC — fan-out 4
+
+**A fusion-junction presentation or immunogenicity predictor validated ON FUSION JUNCTIONS, or a TCR/ImmTAC discovery platform demonstrated against a low-abundance peptide-HLA**
+
+*Category:* `foundation_model_biology` · *state:* `absent` · *confidence in that state:* `moderate`
+
+**Why it matters.** Three antigen-directed routes are parked on one shared finding: the EWSR1::NR4A3 junction is a WEAK peptide-HLA, and general presentation predictors are not validated on fusion junctions, so the repo's own coverage instrument is disclosed as failing rather than supporting. Until something can either predict junction presentation credibly or reach a low-abundance pHLA in practice, all three routes rest on the same unmeasured premise and re-grading any one of them alone would be arbitrary. ⚠ IT DOES NOT RETIRE BLK-ANTIGEN-COLD. That blocker is a fundamental_biological_limit -- a fact about what the junction IS -- and no method changes it. What lands here changes whether that fact remains DECISIVE for these three routes, which is why `unblocks` names the routes and not the blocker. The blocker taxonomy draws exactly this line and [B1] enforces it.
+
+**What the state assessment rests on:**
+- The repo's own HLA-coverage instrument is recorded as disclosed_failing on all three routes, not as support.
+- No public benchmark validates a presentation or immunogenicity predictor specifically on fusion-junction neopeptides; the training sets are dominated by point-mutation neoantigens.
+
+**Unblocks.** routes: RT-TCR-IMMTAC, RT-JUNCTION-NEOANTIGEN, RT-VACCINE · instruments: INS-HLA-COVERAGE
+
+**Forecast.**
+
+| scenario | band | confidence | rationale |
+|---|---|---|---|
+| conservative | `2032` | moderate | Fusion junctions are a small, hard slice of an already data-poor problem: presentation training sets are dominated by point-mutation neoantigens, and the immunopeptidomics that would supply junction-specific ground truth is generated one tumour type at a time. On the platform side, reaching a genuinely low-abundance pHLA has been the field's stated obstacle for a decade. If neither half moves, this sits out the decade. |
+| expected | `2029` | low | Two independent trends point at it: immunopeptidomics datasets are growing and are increasingly released with the mass-spec evidence rather than as predictions, and soluble-TCR platforms now have an approved product, which pulls discovery effort toward harder pHLA targets. Either half alone would be partial evidence; the expected band assumes one of the two lands convincingly and the other does not. |
+| optimistic | `2027H2` | low | A single sarcoma or fusion-driven-tumour immunopeptidomics study that measured junction peptides directly would satisfy the predictor half in one paper — the technique exists and the cohort is the missing part. ⚠ This is the band most likely to be wrong in the optimistic direction, because a study on a DIFFERENT fusion would read as a hit and would not be one. |
+
+*Basis:* `extrapolated` · *impact here:* `large` · *last reviewed:* 2026-08-05
+
+**What would move this.** Direct mass-spec evidence that a fusion-junction peptide is presented at measurable abundance on a common allele — in ANY fusion-driven tumour, which would make the question empirical rather than predictive. Failing that, a soluble-TCR or TCR-T programme reporting activity against a pHLA at an abundance in the range this junction is expected to occupy.
+
+**⚠ Adoption note.** ⛔ A hit on a DIFFERENT fusion is not this capability. The trigger's on_fire text is explicit: state whether the evidence is about presentation, about abundance, or only about another fusion. EMC's junction is a specific sequence on specific alleles, and a general advance in neoantigen prediction has repeatedly not transferred to it — which is why the repo's own coverage instrument is disclosed as failing rather than quietly dropped.
+
+*Scanned by:* `TRG-JUNCTION-PHLA`
+
 ### TECH-OLIGO-DELIVERY — fan-out 3
 
 **An oligonucleotide tumour-delivery technology reaching non-hepatic solid tumours — a conjugate, tumour-penetrating peptide or ligand-targeted lipid nanoparticle — OR a characterised EMC-enriched surface antigen to serve as its targeting arm**
@@ -584,7 +617,7 @@ anyone noticing: `TECH-POSE-CONVERGENCE`, `TECH-EXPOSURE-CRITERION`, `TECH-ANTIT
 
 **What would move this.** Either an improved receptor-preparation protocol built here, or a docking method reporting cognate-ligand recovery across a diverse receptor panel. ⭐ The first is startable now.
 
-*Scanned by:* ⚠ **nothing**
+*Scanned by:* `TRG-ANTITARGET-PANEL-PROTOCOL`
 
 ### TECH-ATOM-MAPPER — fan-out 3
 
@@ -639,7 +672,7 @@ anyone noticing: `TECH-POSE-CONVERGENCE`, `TECH-EXPOSURE-CRITERION`, `TECH-ANTIT
 
 **What would move this.** Demonstrated multi-month autonomous research threads with provenance a reviewer would accept. ⭐ This repository is unusually well placed to observe this directly, because it is already operated this way and its failures are recorded.
 
-*Scanned by:* ⚠ **nothing**
+*Scanned by:* `TRG-AUTONOMOUS-RESEARCH-AGENT`
 
 ### TECH-COMPUTE-COST — fan-out 3
 
@@ -668,7 +701,7 @@ anyone noticing: `TECH-POSE-CONVERGENCE`, `TECH-EXPOSURE-CRITERION`, `TECH-ANTIT
 
 **⚠ Adoption note.** The measurement home is the repository's own cost model and price sampling. This is one of very few dependencies observable directly rather than inferred from the literature.
 
-*Scanned by:* ⚠ **nothing**
+*Not scannable — watched another way.* A literature search cannot see a GPU price. This is measured directly from a live market board -- relaunch_market_gate.price_offers takes the snapshot and vast_cost_model.py converts it to the $/ns basis every in-flight row is graded against -- so the watch here is a PRICE observation on every fleet launch, not a weekly scan. Inventing an arXiv query to clear [T3] would manufacture the credited-but-silent scanner MAINTENANCE.md section 4 exists to warn about.
 
 ### TECH-RXR-HETERODIMER-REPORT — fan-out 1
 

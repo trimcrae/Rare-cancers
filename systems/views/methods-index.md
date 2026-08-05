@@ -55,6 +55,6 @@ the routes cleanly; method cuts across them, so it gets this view.
 | **INS-DDR-AXIS-SCAN** ATRi/PARPi sensitivity re-cut by FET status (GDSC2) | `passes` | RT-ATR-ASSESS | — |
 | **INS-DEPMAP-KO** DepMap CRISPR-knockout dependency scan of the ATR axis | `fails` | RT-ATR-ASSESS | — |
 | **INS-FUSION-COFOLD** Fusion protein-level co-folding model | `none` | — | — |
-| **INS-HLA-COVERAGE** HLA population-coverage calculator | `none` | RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE | — |
+| **INS-HLA-COVERAGE** HLA population-coverage calculator | `none` | RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE | `TECH-JUNCTION-PMHC` |
 
 [← L0](L0-ecosystem.md)
