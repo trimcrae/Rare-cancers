@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/blocker.schema.json",
+  "title": "Blocker — why work is stalled, typed",
+  "_role": "Every BLK-* validates against this. The `kind` field is the point: four situations with four different remedies must never be filed under one word.",
+  "_prose": "systems/taxonomy/blockers.md",
+
+  "type": "object",
+  "required": ["id", "name", "kind", "statement_about", "owner"],
+  "additionalProperties": false,
+
+  "properties": {
+    "id":   { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" },
+    "name": { "type": "string", "minLength": 10 },
+
+    "kind": {
+      "enum": [
+        "fundamental_biological_limit",
+        "scientific_uncertainty",
+        "insufficient_data",
+        "no_known_assay",
+        "requires_better_simulation_accuracy",
+        "requires_gpu_scale_simulation",
+        "requires_better_structure_prediction",
+        "requires_improved_ai_reasoning",
+        "requires_wet_lab",
+        "requires_robotics",
+        "requires_lower_experimental_cost",
+        "requires_external_collaboration",
+        "requires_authorization",
+        "requires_budget",
+        "requires_future_technology"
+      ],
+      "description": "Exactly one. Selection ladder in taxonomy/blockers.md §3. Two pairs are the ones most often conflated and the conflation is expensive in both: (a) requires_better_simulation_accuracy vs requires_gpu_scale_simulation -- reading an accuracy problem as a scale problem buys more GPU for an answer that would still be wrong; (b) requires_external_collaboration vs requires_lower_experimental_cost -- where a repository excludes individuals by policy rather than price, no budget reaches it. `requires_future_technology` is a FALLBACK: use it only where nothing more specific fits."
+    },
+
+    "statement_about": {
+      "type": "string",
+      "minLength": 10,
+      "description": "What KIND of thing this is a property of -- the architecture, the target, the operating regime, an instrument, the data. This is the human gloss that made the original register useful and it is kept alongside the enum, not replaced by it."
+    },
+
+    "permanent": {
+      "type": "boolean",
+      "description": "DERIVED from kind, never typed. Only fundamental_biological_limit is permanent."
+    },
+
+    "owner": {
+      "type": "object",
+      "required": ["file"],
+      "additionalProperties": false,
+      "description": "The file that owns the statement. This registry records where a fact lives; it does not restate it.",
+      "properties": { "file": { "type": "string" }, "anchor": { "type": "string" } }
+    },
+
+    "retired_by_technology": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" },
+      "description": "REQUIRED and non-empty for every non-permanent blocker; REQUIRED EMPTY for a permanent one. A non-permanent blocker with no route out is either mis-typed or under-analysed, and both need saying. A permanent blocker on a watch list wastes the watch."
+    },
+
+    "inherited_by": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^RT-[A-Z0-9-]+$" },
+      "description": "DERIVED from the route register, never typed. Sorting by this length gives the portfolio's shape: a blocker on one route is a risk, a blocker on fifteen is the rate-limiter."
+    },
+
+    "retired_by": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^RT-[A-Z0-9-]+$" },
+      "description": "DERIVED. Routes that ANSWER this blocker -- the portfolio's hedge against it."
+    },
+
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What the blocker's existence rests on. A blocker asserted without evidence is an opinion holding down a route."
+    },
+
+    "kind_history": {
+      "type": "array",
+      "description": "REQUIRED when kind has ever changed. A reclassification changes what the program watches for, so it is a decision with reasoning, not a tidy-up.",
+      "items": {
+        "type": "object",
+        "required": ["was", "changed_on", "why"],
+        "additionalProperties": false,
+        "properties": {
+          "was":        { "type": "string" },
+          "changed_on": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+          "why":        { "type": "string", "minLength": 10 }
+        }
+      }
+    }
+  }
+}

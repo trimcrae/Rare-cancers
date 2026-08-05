@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/route.schema.json",
+  "title": "Route (L2) — an individual therapeutic approach",
+  "_role": "Extends research-object with the full lifecycle the brief requires. Every RT-* validates against this. A route missing any required field fails the checker -- there are no vague states.",
+  "_prose": "systems/ARCHITECTURE.md §5.1-5.4",
+
+  "allOf": [{ "$ref": "research-object.schema.json" }],
+  "type": "object",
+  "required": [
+    "id", "title", "level", "kind", "purpose", "state", "provenance",
+    "strategy", "rationale", "supporting_evidence", "remaining_unknowns",
+    "required_validation", "readiness", "timing"
+  ],
+  "additionalProperties": true,
+
+  "properties": {
+    "id":    { "type": "string", "pattern": "^RT-[A-Z0-9-]+$" },
+    "level": { "const": "L2" },
+    "kind":  { "const": "route" },
+
+    "strategy": {
+      "type": "string",
+      "pattern": "^ST-[A-Z0-9-]+$",
+      "description": "Exactly one L1 family. Every route lands in exactly one; the checker enforces both directions, so a family that lists a route the route does not claim is an error."
+    },
+
+    "grade": {
+      "type": "object",
+      "required": ["value", "owner"],
+      "additionalProperties": false,
+      "description": "The route's standing. This registry ASSERTS no grade -- it records which file owns it.",
+      "properties": {
+        "value": { "type": "string" },
+        "owner": { "type": "object", "required": ["file"],
+                   "properties": { "file": { "type": "string" }, "anchor": { "type": "string" } },
+                   "additionalProperties": false }
+      }
+    },
+
+    "rationale": {
+      "type": "string",
+      "minLength": 20,
+      "description": "The scientific reason to believe this could work, stated so a reader can disagree with it. Not a summary of activity."
+    },
+
+    "supporting_evidence": {
+      "type": "array",
+      "description": "What the rationale actually rests on. May be empty ONLY for a route at maturity `concept`, and the checker enforces that -- a route claiming computed results with no evidence is the exact defect the registry exists to catch.",
+      "items": {
+        "type": "object",
+        "required": ["ref", "what_it_supports"],
+        "additionalProperties": false,
+        "properties": {
+          "ref":              { "type": "string", "description": "EV-*, ART-* or V* id." },
+          "what_it_supports": { "type": "string", "minLength": 10 },
+          "strength":         { "enum": ["direct", "transferred", "class_inherited", "surrogate"],
+                                "description": "`class_inherited` and `surrogate` are how a plausible-looking case gets built out of measurements that were never taken on this disease. Naming the strength is what keeps that visible." }
+        }
+      }
+    },
+
+    "remaining_unknowns": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 10 },
+      "description": "REQUIRED and never empty. A route with no stated unknowns has not been analysed; it has been advocated for."
+    },
+
+    "required_validation": {
+      "type": "array",
+      "description": "What would have to be shown for this route's central claim to stand, whether or not it is currently possible.",
+      "items": {
+        "type": "object",
+        "required": ["what", "feasible_today"],
+        "additionalProperties": false,
+        "properties": {
+          "what":           { "type": "string", "minLength": 10 },
+          "instrument":     { "type": "string", "description": "V* id, or empty when nothing built serves it." },
+          "feasible_today": { "type": "boolean" },
+          "blocked_by":     { "type": "array", "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" } }
+        }
+      }
+    },
+
+    "readiness": {
+      "type": "object",
+      "required": ["attainable_today"],
+      "additionalProperties": false,
+      "description": "What this route could become RIGHT NOW. If it cannot reach a given output, the remaining fields say what is missing -- so 'not publishable yet' is a work item, never a dead end.",
+      "properties": {
+        "attainable_today": {
+          "enum": ["internal_note", "reproducible_workflow", "preprint", "chemrxiv", "journal_submission", "experimental_proposal"],
+          "description": "Ordered but NOT a ladder: experimental_proposal is not 'better than' journal_submission -- they are different outputs and a route can be ready for one and not the other."
+        },
+        "missing":              { "type": "array", "items": { "type": "string" } },
+        "evidence_required":    { "type": "array", "items": { "type": "string" } },
+        "experiment_required":  { "type": "array", "items": { "type": "string" } },
+        "why_not_higher":       { "type": "string", "description": "REQUIRED when attainable_today is below journal_submission." }
+      }
+    },
+
+    "timing": {
+      "type": "object",
+      "required": ["recommendation", "rationale"],
+      "additionalProperties": false,
+      "description": "The wait equation. Not every project should begin now, and a delay is only defensible when the reasoning is written down and attached to a monitored condition.",
+      "properties": {
+        "recommendation":     { "enum": ["pursue_now", "wait", "monitor", "closed"] },
+        "rationale":          { "type": "string", "minLength": 20 },
+        "six_month_delta":    { "type": "string", "description": "Would six months materially improve the odds, and why?" },
+        "two_year_delta":     { "type": "string", "description": "Would two years fundamentally change feasibility?" },
+        "cost_trend":         { "enum": ["falling_fast", "falling", "flat", "rising", "unknown"] },
+        "automation_outlook": { "type": "string", "description": "How much of this work is plausibly automated by future agents, and which part is not." },
+        "revisit_trigger":    { "type": "array", "items": { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" },
+                                "description": "REQUIRED unless recommendation is pursue_now. This is what turns 'later' from a feeling into a monitored condition with an owner." }
+      },
+      "allOf": [
+        {
+          "if":   { "not": { "properties": { "recommendation": { "const": "pursue_now" } } } },
+          "then": { "required": ["revisit_trigger"] }
+        }
+      ]
+    },
+
+    "recommends_compute": {
+      "type": "boolean",
+      "default": false,
+      "description": "Compute is recommended only when reasoning is genuinely the exhausted resource. See compute_case."
+    },
+
+    "compute_case": {
+      "type": "object",
+      "required": ["why", "expected_value", "resources", "uncertainty", "decision_criteria", "reasoning_exhausted"],
+      "additionalProperties": false,
+      "description": "REQUIRED when recommends_compute is true. Makes 'push reasoning as far as it goes before spending' a structural constraint rather than advice -- which matters because this program is self-funded.",
+      "properties": {
+        "why":               { "type": "string", "minLength": 20, "description": "Why compute, and not more thinking." },
+        "expected_value":    { "type": "string", "minLength": 20, "description": "What decision changes depending on the answer. A run whose every outcome leads to the same next step buys nothing." },
+        "resources":         { "type": "string", "description": "What it needs. Cost POINTS at the pricing home; it is never typed here." },
+        "uncertainty":       { "type": "string", "minLength": 10 },
+        "decision_criteria": { "type": "string", "minLength": 20, "description": "Stated BEFORE the run: which outcomes mean go, stop, or redirect." },
+        "reasoning_exhausted": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["literature_review", "mechanistic_reasoning", "synthesis", "analogy", "planning", "protocol_design", "dependency_analysis", "failure_analysis"] },
+          "description": "Which non-compute avenues have actually been worked. The checker refuses a compute recommendation with an empty list."
+        }
+      }
+    },
+
+    "closure_kind": {
+      "enum": ["open", "definitional", "arithmetic_over_fixed_fact", "premise_false", "confound_in_the_system", "unregenerable_artifact", "instrument_limit", "authorization", "cost"],
+      "description": "Inherited unchanged from the existing registry. `definitional` and `arithmetic_over_fixed_fact` are PERMANENT and may carry no revival trigger. `instrument_limit` is the most revivable kind and is where most of this program's failures sit."
+    },
+    "closure_note": { "type": "string" },
+
+    "blockers_inherited": { "type": "array", "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" } },
+    "blockers_retired":   { "type": "array", "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" },
+                            "description": "Blockers this route ANSWERS. A route that retires a widely inherited blocker is the portfolio's hedge against it, and is worth more than its own grade suggests." },
+
+    "instruments": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "support":           { "type": "array", "items": { "type": "string", "pattern": "^V[0-9]+$" },
+                               "description": "An instrument whose known-answer control FAILED, or that has NO control, may never appear here. Those are different facts and neither is support." },
+        "disclosed_failing": { "type": "array", "items": { "type": "string", "pattern": "^V[0-9]+$" } }
+      }
+    },
+
+    "objects":   { "type": "array", "items": { "type": "string", "pattern": "^OBJ-[A-Z0-9-]+$" } },
+    "artifacts": { "type": "array", "items": { "type": "string", "pattern": "^ART-[A-Z0-9-]+$" } }
+  }
+}

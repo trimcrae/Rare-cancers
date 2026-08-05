@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/research-object.schema.json",
+  "title": "Research object — the base shape every object in the EMC systems model exposes",
+  "_role": "THE ONE HOME of the standard research-object shape. Every collection schema in this directory $refs these $defs rather than restating them. Prose companion: systems/ARCHITECTURE.md §5.",
+  "_why": [
+    "An autonomous agent working over a long horizon must be able to ask 'what is this, what does it need, what does it produce, what may it NOT claim, and what happens next' of ANY object and get the answer in the same place and the same shape.",
+    "Before this, that answer lived in a blockquote banner, in freeform bold, in a glyph, or nowhere -- and none of it was machine-readable at the object level.",
+    "Three fields carry the weight and each exists because of a measured past failure: `limitations` (a claim can never exceed the instrument underneath it), `assumptions` (a result conditional on a frozen choice a defensible alternative would reverse is a different thing from a robust result), and `provenance.owner` (one fact, one home)."
+  ],
+
+  "type": "object",
+  "required": ["id", "title", "level", "kind", "purpose", "state", "provenance"],
+  "additionalProperties": true,
+
+  "properties": {
+    "id":      { "$ref": "#/$defs/id" },
+    "title":   { "type": "string", "minLength": 3 },
+    "level":   { "$ref": "#/$defs/level" },
+    "kind":    { "type": "string", "minLength": 2 },
+    "aliases": { "type": "array", "items": { "type": "string" },
+                 "description": "Every other name this object has travelled under. An alias may never be a contested name -- a name mapping to more than one object is registered as contested, not aliased." },
+
+    "purpose": { "type": "string", "minLength": 10,
+                 "description": "The question this object answers. Not what it is -- what it is FOR." },
+
+    "inputs":  { "$ref": "#/$defs/inputs" },
+    "outputs": { "$ref": "#/$defs/outputs" },
+    "state":   { "$ref": "#/$defs/state" },
+
+    "assumptions": {
+      "type": "array",
+      "description": "Frozen choices this object's conclusion is conditional on. A result that a defensible alternative choice would reverse is NOT a robust result, and this array is where that is said.",
+      "items": {
+        "type": "object",
+        "required": ["ref", "breaks_if_wrong"],
+        "additionalProperties": false,
+        "properties": {
+          "ref":             { "type": "string", "pattern": "^C[0-9]+$", "description": "A configuration item." },
+          "breaks_if_wrong": { "type": "string", "minLength": 10 },
+          "contested":       { "type": "boolean", "default": false,
+                               "description": "true when a defensible alternative exists and has not been ruled out. A contested assumption must be visible wherever the conclusion is quoted." }
+        }
+      }
+    },
+
+    "limitations": {
+      "type": "array",
+      "description": "THE CLAIM CEILING. What this object may NOT be used to claim, in words. Never empty for an object that supports any claim -- 'no limitations' is itself a claim and needs the same evidence as any other.",
+      "items": { "type": "string", "minLength": 10 }
+    },
+
+    "blockers":   { "type": "array", "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" } },
+    "technologies": { "type": "array", "items": { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" },
+                      "description": "Technology dependencies that would retire this object's blockers. Derived from the blockers, never typed independently." },
+
+    "related":    { "$ref": "#/$defs/related" },
+    "provenance": { "$ref": "#/$defs/provenance" },
+    "next":       { "$ref": "#/$defs/next" }
+  },
+
+  "$defs": {
+
+    "id": {
+      "type": "string",
+      "pattern": "^(ST-[A-Z0-9-]+|RT-[A-Z0-9-]+|PUB-[A-Z0-9-]+|EXP-[A-Z0-9-]+|V[0-9]+|R[0-9]+|C[0-9]+|EV-[A-Z0-9-]+|OBJ-[A-Z0-9-]+|ART-[A-Z0-9-]+|CLM-[A-Z0-9-]+|BLK-[A-Z0-9-]+|TECH-[A-Z0-9-]+|FC-[A-Z0-9-]+|MS-[A-Z0-9-]+|TRG-[A-Z0-9-]+|IC-[0-9]+|VR[0-9]+|LR[0-9]+|OC-[0-9]+|RC-[0-9]+|DOC-[A-Z0-9-]+)$",
+      "description": "Namespace is closed and is owned by systems/CONVENTIONS.md §1. Note two deliberate exclusions, each resolving a real collision: a residue is written Cys397 and never C397 (which would collide with the configuration register), and an instrument-options candidate is IC-4 and never C04 (which collided outright with C10-C16)."
+    },
+
+    "level": {
+      "enum": ["L0", "L1", "L2", "L3", "L4", "L5", "cross-cutting"],
+      "description": "L0 ecosystem, L1 strategy family, L2 route, L3 publication, L4 experiment/instrument, L5 assumption/evidence/script/dataset/output. Registers referenced from several levels at once are cross-cutting and are deliberately NOT a level -- making them one would duplicate them per family."
+    },
+
+    "work_state": {
+      "enum": ["complete", "in_work", "future", "parked", "dead"],
+      "description": "Glyphs in prose: complete=. in_work=( future=o parked=|| dead=X. WORK STATUS, not evidence quality -- a claim can rest on excellent evidence and still be blocked. `dead` requires positive evidence of impossibility; a method that merely failed is `parked`."
+    },
+
+    "authorization": {
+      "enum": ["free", "needs_decision", "authorized"],
+      "description": "Orthogonal to work_state. An item that is NOT AUTHORIZED must never be recorded as LOW VALUE -- that conflation is a measured past failure of this repository."
+    },
+
+    "status": {
+      "enum": ["active", "ready", "blocked", "parked", "closed", "delegated", "superseded"]
+    },
+
+    "maturity": {
+      "enum": ["concept", "scoped", "computed", "validated_in_silico", "externally_corroborated", "experimentally_testable"],
+      "description": "`computed` and `validated_in_silico` are deliberately separate: a result exists as soon as a pipeline returns, but it may support a claim only once the instrument underneath it has recovered a known answer."
+    },
+
+    "confidence": {
+      "enum": ["high", "moderate", "low", "unknown"],
+      "description": "`unknown` is a legitimate value, not a placeholder -- nobody has assessed it, which is different from having assessed it as low."
+    },
+
+    "state": {
+      "type": "object",
+      "required": ["work_state", "status", "confidence", "last_verified"],
+      "additionalProperties": false,
+      "properties": {
+        "work_state":    { "$ref": "#/$defs/work_state" },
+        "authorization": { "$ref": "#/$defs/authorization", "default": "free" },
+        "status":        { "$ref": "#/$defs/status" },
+        "maturity":      { "$ref": "#/$defs/maturity" },
+        "confidence":    { "$ref": "#/$defs/confidence" },
+        "last_verified": { "$ref": "#/$defs/date",
+                           "description": "REQUIRED. Filesystem dates carry no information in this repository -- the history is a squashed import and every file reports the same date -- so freshness is declared, never computed." },
+        "running_job":   { "type": "string",
+                           "description": "REQUIRED when work_state is in_work. `in_work` instructs every reader not to start a second copy, so an in_work on something nobody has started is an instruction not to do the work." }
+      },
+      "allOf": [
+        {
+          "if":   { "properties": { "work_state": { "const": "in_work" } }, "required": ["work_state"] },
+          "then": { "required": ["running_job"] }
+        }
+      ]
+    },
+
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "depends_on": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+        "consumes":   { "type": "array", "items": { "$ref": "#/$defs/id" },
+                        "description": "Artifacts, datasets and evidence read by this object." },
+        "external":   { "type": "array", "items": { "type": "string" },
+                        "description": "Inputs from outside the repository -- a database, a deposited structure, a licence." }
+      }
+    },
+
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "produces":     { "type": "array", "items": { "$ref": "#/$defs/id" } },
+        "claims":       { "type": "array", "items": { "type": "string", "pattern": "^CLM-[A-Z0-9-]+$" } },
+        "publications": { "type": "array", "items": { "type": "string", "pattern": "^PUB-[A-Z0-9-]+$" } }
+      }
+    },
+
+    "related": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "parent":   { "$ref": "#/$defs/id" },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+        "siblings": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+        "distinct_from": {
+          "type": "array",
+          "description": "Objects this one is routinely confused with, each with the reason. The registry exists partly because one grade was applied to two routes that fail on OPPOSITE blockers.",
+          "items": {
+            "type": "object",
+            "required": ["ref", "why"],
+            "additionalProperties": false,
+            "properties": {
+              "ref": { "$ref": "#/$defs/id" },
+              "why": { "type": "string", "minLength": 10 }
+            }
+          }
+        }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "required": ["owner"],
+      "additionalProperties": false,
+      "properties": {
+        "owner": {
+          "type": "object",
+          "required": ["file"],
+          "additionalProperties": false,
+          "description": "The file that OWNS this fact. Anything else that shows it is generated, or is a defect.",
+          "properties": {
+            "file":   { "type": "string" },
+            "anchor": { "type": "string", "description": "Must resolve. An unresolvable anchor fails the build." }
+          }
+        },
+        "evidence":    { "type": "array", "items": { "type": "string", "pattern": "^EV-[A-Z0-9-]+$" } },
+        "produced_by": { "type": "string", "description": "Module or workflow path." },
+        "workflow":    { "type": "string" },
+        "published_to":{ "type": "array", "items": { "type": "string" },
+                         "description": "Git refs the artifact actually lands on. `main` is not automatically it, and an artifact on the wrong branch is a stale fact that reads as a current one." }
+      }
+    },
+
+    "next": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "next_milestone":   { "type": "string" },
+        "best_next_action": { "type": "string", "minLength": 5,
+                              "description": "The single most useful thing to do next. Must be startable as written -- 'investigate X' is not an action, 'run <module> against <input>' is." },
+        "cost":             { "type": "string", "description": "$0 for CPU/CI/analysis; otherwise a pointer to the pricing home, never a typed figure." },
+        "blocked_on":       { "type": "array", "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" } }
+      }
+    },
+
+    "date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+
+    "date_band": {
+      "type": "string",
+      "pattern": "^[0-9]{4}(H[12])?$",
+      "description": "A half-year or year window. Never a point date -- a point estimate on a technology arrival is false precision."
+    }
+  }
+}

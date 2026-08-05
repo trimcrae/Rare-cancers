@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/document.schema.json",
+  "title": "Document — the YAML frontmatter every Markdown file carries",
+  "_role": "Every .md file in the repository validates against this. The register of all documents is systems/graph/documents.json, built by scanning frontmatter; the frontmatter is the source, the register is derived.",
+  "_why": [
+    "Filesystem dates carry NO information in this repository -- the history is a squashed import and every file reports the same date -- so freshness has to be declared and enforced rather than computed.",
+    "Roughly seventy of 189 markdown files were one-off session reports, indistinguishable from durable references by their path. `kind` + `status` is what tells them apart.",
+    "The repository already wrote all of this -- role banners, status lines, supersession markers, generated-file banners -- in four incompatible informal conventions, none machine-readable. This captures what was already being written."
+  ],
+
+  "type": "object",
+  "required": ["id", "title", "kind", "status", "purpose", "scope", "audience", "date", "last_verified"],
+  "additionalProperties": false,
+
+  "properties": {
+    "id":    { "type": "string", "pattern": "^DOC-[A-Z0-9-]+$" },
+    "title": { "type": "string", "minLength": 5 },
+
+    "level": {
+      "enum": ["L0", "L1", "L2", "L3", "L4", "L5", "cross-cutting", "—"],
+      "description": "Which zoom level this document belongs to, or em-dash for documents outside the hierarchy (policy, runbook, licence)."
+    },
+
+    "kind": {
+      "enum": ["architecture", "convention", "policy", "manuscript", "prereg", "memo", "register", "runbook", "generated", "historical", "index", "incident"],
+      "description": "`prereg` implies status `immutable`. `generated` implies the file is rendered by a checker and hand-edits fail the build."
+    },
+
+    "status": {
+      "enum": ["live", "generated", "historical", "superseded", "immutable"],
+      "description": "`immutable` is RESERVED for preregistrations: their entire value is that they were written before the result, so they are never rewritten, consolidated or tidied. Amendments are appended as dated blocks and the checker fails on any edit to the body."
+    },
+
+    "canonical_for": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "The concepts this file OWNS. The load-bearing field: it is how a reader finds the owner of a fact, and how the checker detects two documents claiming the same concept. An empty array is valid and common -- most documents own nothing and point at owners."
+    },
+
+    "purpose":  { "type": "string", "minLength": 15, "description": "What question this document answers." },
+    "scope":    { "type": "string", "minLength": 10, "description": "What it covers -- and, where it matters, what it deliberately does not." },
+    "audience": { "type": "array", "minItems": 1,
+                  "items": { "enum": ["maintainers", "autonomous research agents", "external reviewers", "collaborators", "patients", "public"] } },
+
+    "supersedes":   { "type": "array", "items": { "type": "string" },
+                      "description": "Paths or DOC- ids this replaces. Every entry must have a row in systems/MIGRATION.md -- nothing is superseded without a forwarding address." },
+    "superseded_by":{ "type": "string", "description": "REQUIRED when status is `superseded`. A superseded document with no successor is a dead end wearing a redirect." },
+
+    "date":          { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "When authored." },
+    "last_verified": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+                       "description": "When someone last checked the content is STILL TRUE -- not when it was last edited. The distinction is the point: an edited-but-unverified document is exactly as stale as an untouched one." },
+
+    "related":   { "type": "array", "items": { "type": "string" } },
+    "generator": { "type": "string", "description": "REQUIRED when status is `generated`: the module that renders it." },
+    "owns_ids":  { "type": "array", "items": { "type": "string" },
+                   "description": "Model object ids whose owner{file} points at this document. Derived; used to catch a document being archived while it still owns a fact." }
+  },
+
+  "allOf": [
+    { "if":   { "properties": { "status": { "const": "generated" } }, "required": ["status"] },
+      "then": { "required": ["generator"] } },
+    { "if":   { "properties": { "status": { "const": "superseded" } }, "required": ["status"] },
+      "then": { "required": ["superseded_by"] } },
+    { "if":   { "properties": { "kind": { "const": "prereg" } }, "required": ["kind"] },
+      "then": { "properties": { "status": { "const": "immutable" } } } }
+  ]
+}
