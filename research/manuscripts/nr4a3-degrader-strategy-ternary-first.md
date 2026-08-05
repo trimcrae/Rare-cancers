@@ -2,15 +2,21 @@
 id: DOC-NR4A3-DEGRADER-STRATEGY-TERNARY-FIRST
 title: NR4A3 degrader — strategy redirection: ternary-selectivity-first, chemotype-anchored
 level: L3
-kind: historical
-status: superseded
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
-audience: [maintainers, autonomous research agents]
+kind: manuscript
+status: live
+canonical_for: [ternary-selectivity-first thesis, chemotype-anchoring rationale]
+purpose: >
+  Hold the biological and chemotype rationale for pursuing selectivity through binary x ternary x
+  ubiquitination geometry rather than binary affinity alone — the thesis the program still runs on.
+scope: >
+  The rationale only. WHAT IS RUN AND IN WHAT ORDER is not here — that is the roadmap's ordered plan.
+superseded_in_part: >
+  The EXECUTION PLAN (the naive three-step spine RBFE -> NR-V04 -> prospective) was replaced on
+  2026-07-15 by the three-kinds-of-validation architecture. The thesis is unchanged, which is why two
+  modules and a lint test still cite this document.
+audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
 ---
 # NR4A3 degrader — strategy redirection: ternary-selectivity-first, chemotype-anchored
 

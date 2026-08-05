@@ -678,6 +678,47 @@ def check_doc_ids(g, f):
                           f"— an id must resolve to exactly one document")
 
 
+PINNED = os.path.join(REPO, "research", "manuscripts", "pinned-figures.json")
+INSTRUCTION_DOCS = ("CLAUDE.md", "AGENTS.md")
+INSTRUCTION_REF = re.compile(r"[\(\[`]([A-Za-z0-9_./-]+\.md)")
+
+
+def _pinned_targets():
+    """Markdown files `lint_consistency.py` is contractually required to find.
+
+    ⚠ RAISES rather than returning an empty set. A helper that answers "nothing depends on anything"
+    when its input moved would silently switch [D8] off, which is the fail-open shape `parser_guard`
+    exists to catch — and switching a guard off is worse than never having written it.
+    """
+    with open(PINNED, encoding="utf-8") as fh:
+        d = json.load(fh)
+    out = {t for t in d.get("targets", []) if t.endswith(".md")}
+    if not out:
+        raise RuntimeError("pinned-figures.json declares no Markdown targets — [D8] would be inert")
+    return out
+
+
+def _instruction_paths():
+    """Markdown files the standing project instructions tell a reader to go and read.
+
+    A path quoted inside CLAUDE.md or AGENTS.md is an instruction to consult it NOW. Deliberately
+    literal: it does not try to distinguish "read this" from "this is retired", because the
+    `history_only: true` acknowledgement is how a genuine history reference declares itself. Over-
+    flagging costs one frontmatter line; under-flagging is how a live document gets archived.
+    """
+    out = set()
+    for doc in INSTRUCTION_DOCS:
+        p = os.path.join(REPO, doc)
+        if not os.path.exists(p):
+            raise RuntimeError(f"{doc} is missing — [D8]'s instruction half would be inert")
+        with open(p, encoding="utf-8") as fh:
+            for m in INSTRUCTION_REF.finditer(fh.read()):
+                t = m.group(1).lstrip("./")
+                if os.path.exists(os.path.join(REPO, t)):
+                    out.add(t)
+    return out
+
+
 def check_documents(g, f):
     """Every hand-written Markdown file declares purpose, scope, audience, status and freshness.
 
@@ -690,6 +731,15 @@ def check_documents(g, f):
     fall as people read them, and it is reported rather than hidden.
     """
     allowed_status = {"live", "generated", "historical", "superseded", "immutable"}
+    retired = {"historical", "superseded"}
+    # ⚠ TWO SOURCES, REPORTED SEPARATELY. A refusal that does not name which dependency it hit is
+    # unactionable: "it is a pinned figure target" and "CLAUDE.md tells agents to read it" have
+    # different remedies (repoint the numeric contract vs. rewrite an instruction).
+    depends_on = {}
+    for rel in _pinned_targets():
+        depends_on.setdefault(rel, []).append("pinned-figures.json `targets`")
+    for rel in _instruction_paths():
+        depends_on.setdefault(rel, []).append("the project instructions (CLAUDE.md / AGENTS.md)")
     missing, unverified, bad = [], 0, 0
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
@@ -722,6 +772,19 @@ def check_documents(g, f):
             if fmv.get("kind") == "prereg" and fmv.get("status") != "immutable":
                 f.err("[D3]", f"{rel} is a preregistration but is not `immutable` — a prereg's whole "
                               f"value is that it was written before the result")
+                bad += 1
+            if fmv.get("status") == "superseded" and not fmv.get("superseded_by"):
+                f.err("[D7]", f"{rel} declares `superseded` but names no successor — a supersession "
+                              f"with nothing to redirect to is unfalsifiable, and the reader who "
+                              f"needs it most is the one who arrived here by accident")
+                bad += 1
+            if rel in depends_on and fmv.get("status") in retired \
+                    and str(fmv.get("history_only", "")).lower() not in ("true", "yes"):
+                f.err("[D8]", f"{rel} declares `{fmv['status']}` but is depended on by "
+                              f"{' and '.join(depends_on[rel])} — a document something reads TODAY "
+                              f"is live by definition. If the combination is deliberate (a correction "
+                              f"register has to stay reachable to do its job), say so with "
+                              f"`history_only: true`")
                 bad += 1
             if fmv.get("last_verified") == "unverified":
                 unverified += 1

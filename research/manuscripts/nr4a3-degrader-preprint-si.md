@@ -5,12 +5,14 @@ level: L3
 kind: historical
 status: superseded
 canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
-audience: [maintainers, autonomous research agents]
+superseded_by: research/manuscripts/nr4a3-degrader-paper-SI.md
+purpose: >
+  A redirect. Same role as its sibling stub: it exists to be found at the old path and to send the
+  reader to the single SI. ⛔ Do not archive it — moving a redirect destroys the one thing it does.
+scope: 22 lines of forwarding notice; no content of its own.
+audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
 ---
 # RETIRED — consolidated into the single manuscript's SI
 

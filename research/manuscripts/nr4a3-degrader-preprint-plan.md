@@ -2,15 +2,22 @@
 id: DOC-NR4A3-DEGRADER-PREPRINT-PLAN
 title: NR4A3-degrader paper → preprint: conversion plan & checklist
 level: L3
-kind: historical
-status: superseded
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
-audience: [maintainers, autonomous research agents]
+kind: manuscript
+status: live
+canonical_for: [pre-posting checklist]
+purpose: >
+  Hold the pre-posting checklist that must be cleared before anything is posted: author and
+  affiliation, corresponding email, rendered figures, the target journal's preprint policy, the
+  ChemRxiv post and the outreach emails.
+scope: >
+  Pre-posting steps only. CLAUDE.md cites this as the pre-post checklist and preprint-plan schedules
+  the red-team log into the Supporting Information.
+superseded_in_part: >
+  The CONVERSION half is superseded: no separate preprint is maintained, so there is no conversion
+  step. The paper and its SI serve as both the ChemRxiv preprint and the JCIM submission.
+audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
 ---
 # NR4A3-degrader paper → preprint: conversion plan & checklist
 

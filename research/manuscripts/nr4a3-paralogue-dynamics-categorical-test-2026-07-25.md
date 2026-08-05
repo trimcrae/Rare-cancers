@@ -2,15 +2,20 @@
 id: DOC-NR4A3-PARALOGUE-DYNAMICS-CATEGORICAL-TEST-2026-07-25
 title: Does the CATEGORICAL case survive paralogue dynamics? — matched NR4A1 / NR4A2 / NR4A3 ensembles
 level: L3
-kind: historical
-status: superseded
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
-audience: [maintainers, autonomous research agents]
+kind: manuscript
+status: live
+canonical_for: [LANE 13 categorical paralogue-dynamics result]
+purpose: >
+  Record whether the CATEGORICAL basis for Tier 2's GO survives paralogue dynamics — whether NR4A3
+  carries reactive residues that matched NR4A1 and NR4A2 ensembles structurally lack.
+scope: The LANE 13 matched-ensemble measurement and its inputs. Not the marginal-axis argument.
+superseded_in_part: >
+  Two QUOTATIONS in the banner (the ~1.12 kcal/mol resolvable difference and the "confirmation tool
+  operating near its limit" characterisation) are superseded by the 2026-07-30 replicate-SD measurement.
+  The lane's own result is a categorical geometric measurement and depends on neither.
+audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
 ---
 # Does the CATEGORICAL case survive paralogue dynamics? — matched NR4A1 / NR4A2 / NR4A3 ensembles
 

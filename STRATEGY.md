@@ -4,13 +4,20 @@ title: STRATEGY — the NR4A3-selective degrader paper
 level: —
 kind: historical
 status: historical
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `historical` from its location under ./.
-audience: [maintainers, autonomous research agents]
+canonical_for: [superseded numbers and retracted claims, retired strategy framings]
+history_only: true
+superseded_by: research/manuscripts/nr4a3-program-map.md
+purpose: >
+  Hold the two history appendices — Appendix A (superseded numbers and retracted claims, cited AS DATA
+  so an old figure stays traceable rather than quotable) and Appendix B (retired strategy framings).
+  Every live section moved into the roadmap on 2026-08-02.
+scope: >
+  History only. ⚠ It is `historical` AND deliberately cited by CLAUDE.md and the roadmap — a
+  correction register has to be reachable to do its job. `history_only: true` records that this
+  combination is intended rather than a stale status.
+audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
 ---
 # STRATEGY — the NR4A3-selective degrader paper
 

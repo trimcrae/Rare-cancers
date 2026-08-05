@@ -45,7 +45,7 @@ than surfacing as a traceback inside a large suite.
 |---|---|
 | `systems_check.py --check` | a route in no strategy family · a permanent blocker claiming a technology would retire it · a non-permanent blocker naming no way out · a failing or uncontrolled instrument cited as SUPPORT · a technology with no forecast · a forecast with no basis or no review date · a compute recommendation with no case · an unresolvable pointer · a view that has drifted · the requirement register disagreeing with the roadmap |
 | `parser_guard.py` | any registered parser that can no longer find what it parses, and the plan going unlinted wherever it lives |
-| `systems_check` document checks | a Markdown file with no frontmatter · a status outside the closed set · a preregistration not marked immutable · a NEW broken relative link (pre-existing ones are baselined in `systems/graph/link-baseline.json`, a list meant to reach zero) |
+| `systems_check` document checks | a Markdown file with no frontmatter · a status outside the closed set · a preregistration not marked immutable · **two documents claiming one id** · **a supersession naming no successor** · **a `pinned-figures` target or a project-instruction reference declaring itself retired** · a NEW broken relative link (pre-existing ones are baselined in `systems/graph/link-baseline.json`, a list meant to reach zero) |
 | `lint_consistency.py` | the same number typed in two places, or a superseded value quoted without its marker |
 | `lint_claims.py` | claim language the program has not earned |
 | `emc_systems_map_check.py` | a broken pointer, an evidence item under two names, an object under two definitions, a figure quoted from a stub |
@@ -144,3 +144,5 @@ Ordered by value per unit of effort. Each names what it would prevent.
 | a route's state | nothing else — the family counts, blocker fan-outs and technology fan-outs are all derived |
 | **a plan item's tick** | edit `marker` in `systems/graph/plan.json`, then `--write-views`. ⛔ Never edit `views/plan.md`; it is generated and a hand-edit fails the build |
 | **where a parsed document lives** | repoint the parser AND check it is still LINTED. Moving the plan dropped `lint_claims` from 50 warnings to 43 because ~1,580 lines left the linted set silently — `parser_guard` now asserts the coupling |
+| **a document to `historical`/`superseded`** | check it is not a `pinned-figures` target or cited by CLAUDE.md/AGENTS.md (`[D8]` will tell you), and name the successor (`[D7]`). ⚠ If only PART of it is retired, the document is **live** — say which part in `superseded_in_part`. Three live documents were mislabelled by reading a partial-supersession banner as a whole one |
+| **a document's filename** | nothing infers status from it. A date-stamped name is a hint, never evidence — `kind` and `status` decide, which is why the archive sweep's 22-file estimate was wrong |

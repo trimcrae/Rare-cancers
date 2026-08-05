@@ -5,12 +5,16 @@ level: L3
 kind: historical
 status: superseded
 canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `historical` from its location under research/manuscripts/.
-audience: [maintainers, autonomous research agents]
+superseded_by: research/manuscripts/nr4a3-degrader-paper.md
+purpose: >
+  A redirect. It exists ONLY to be found at the path someone looking for the old condensed preprint
+  will try, and to send them to the single manuscript. ⛔ Do not archive it — moving a redirect
+  destroys the one thing it does.
+scope: 26 lines of forwarding notice. It carries no content of its own; the one preprint-only specific
+  (the ternary exposed-lysine distances) was ported into the paper's §2.4 at retirement.
+audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
 ---
 # RETIRED — consolidated into the single manuscript
 

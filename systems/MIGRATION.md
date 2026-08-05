@@ -287,8 +287,52 @@ measure. Its own banner says *"Numbers marked ⏳ are filled from the CI artifac
 it still carries **fifteen** ⏳ markers. Those runs never landed, so the document is **live, not stale**,
 and archiving it would have buried an open work item. Checking cost one grep.
 
-**Still outstanding:** 22 documents that need their references repointed in the same commit as the move,
-and 7 that must never be archived. Both lists, with the reason for each, are in §2.2.
+#### ✅ The sweep is CLOSED — and the answer is not the one that was predicted
+
+*Superseded, retained:* ***"Still outstanding: 22 documents that need their references repointed in the
+same commit as the move, and 7 that must never be archived."*** **That estimate was wrong, and the way it
+was wrong is the point.**
+
+It was built from **filename shape and inbound-link counts** — the only evidence available before the
+documents declared anything about themselves. Once the frontmatter backfill landed, the documents could be
+asked directly, and **20 of the 22 declare `live`**: 14 manuscripts, 3 runbooks, 2 memos and — the one that
+should have stopped the estimate on its own — **a preregistration**, which may never be archived under any
+circumstances. A date-stamped filename and a thin inbound-link count had made a live research record look
+like a one-off report.
+
+**Final count: 9 archived, 0 remaining.** Every candidate that survived triage did so for a stated reason:
+
+| verdict | n | why |
+|---|---|---|
+| archived | 9 | zero inbound references of any kind, verified across every file type (§3.4 above) |
+| live, held back | 1 | `nr4a3-reach-rule-correction-2026-07-25.md` — fifteen ⏳ markers for runs that never landed |
+| live, **mislabelled by the backfill** | 3 | its regex read a **partial** supersession as a whole one — below |
+| retired but **kept in place** | 2 | the two preprint redirect stubs; archiving a redirect destroys it |
+| history, deliberately reachable | 1 | `STRATEGY.md` — a correction register has to be citable, now `history_only: true` |
+| never archivable | 11 | every preregistration in the repository |
+
+⛔ **THE MISLABEL WAS MINE, AND A REGEX CANNOT FIX IT.** `STATUS_SIGNALS` matched any supersession banner,
+including one that supersedes only *part* of a document — and each of the three said so in the very line
+that matched:
+
+- *"**EXECUTION-PLAN** SUPERSEDED … The **thesis** below **stands unchanged**"* — 10 inbound references
+  including a lint test and two modules
+- *"**Both quotations** are SUPERSEDED … **Nothing** in this lane's result depends on either"* — and this
+  one is **`pinned-figures.json targets[9]`**, so believing the label would eventually have archived a
+  document `lint_consistency.py` is contractually required to find
+- *"the checklist below is **retained only for the still-relevant** pre-posting items"* — cited by
+  `CLAUDE.md` as the pre-post checklist
+
+The fix is a **refusal**, not a better pattern: when a retirement marker sits next to a partial-supersession
+qualifier, `classify()` leaves the status `live` and writes `_status_needs_review` for a human. Under-claiming
+is recoverable; a wrong `historical` archives a live document. Two checks now make the class visible from
+CI — **`[D8]`** (a `pinned-figures` target or a project-instruction reference may not declare itself retired)
+and **`[D7]`** (a supersession must name its successor).
+
+⚠ **`[D8]` would have caught two of the three, not all three.**
+`nr4a3-degrader-strategy-ternary-first.md` is in neither register; it was caught by reading its ten inbound
+references. That residue is stated rather than papered over: **the automated guard covers documents CI or the
+instructions depend on, and nothing else.**
 
 ### 3.5 · The evidence contract (2026-08-05)
 

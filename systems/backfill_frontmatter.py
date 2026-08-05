@@ -61,6 +61,28 @@ STATUS_SIGNALS = [
     (r"\bHISTORY ONLY\b|\bTHIS FILE OWNS NOTHING\b", "historical", "historical"),
 ]
 
+#: ⛔ A PARTIAL SUPERSESSION IS NOT A SUPERSESSION — AND THIS IS THE SECOND HALF OF THE SAME BUG THE
+#: COMMENT ABOVE DESCRIBES. That one was "a banner about ANOTHER file is not this file's status".
+#: This one is "a banner about PART of this file is not the whole file's status". Measured 2026-08-05:
+#: three of the six documents the run marked retired were live, and each said so in the very banner
+#: the regex matched —
+#:
+#:   "**EXECUTION-PLAN** SUPERSEDED … The *thesis* below **stands unchanged**"   (10 inbound refs)
+#:   "**Both quotations** are SUPERSEDED … **Nothing** in this lane's result depends on either"
+#:   "the checklist below is **retained only for the still-relevant** pre-posting items"
+#:
+#: One of the three is a `pinned-figures.json` target, so believing the label would eventually have
+#: archived a document CI is contractually required to find.
+#:
+#: ⚠ THE FIX IS NOT A CLEVERER REGEX. A qualifier can be written a hundred ways and the next one will
+#: not match. The fix is to REFUSE TO CLASSIFY when a qualifier is present: emit `live` with a
+#: `_status_needs_review` marker, so the document stays usable and the ambiguity is visible to a human
+#: instead of being resolved by a guess. Under-claiming is recoverable; a wrong `historical` is not.
+PARTIAL_SUPERSESSION = re.compile(
+    r"\bIN PART\b|\bEXECUTION[- ]PLAN\b|\bretained only\b|\bstands? unchanged\b|"
+    r"\bboth quotations?\b|\bstill[- ]relevant\b|\bpartially\b|\bsome of\b|\bthe .{0,20}half\b",
+    re.I)
+
 #: A generated file is rendered by a checker that compares its whole content against a fresh render.
 #: Adding frontmatter to one makes it differ from what its generator produces and turns that check
 #: red — measured on the first run. Generated files are SKIPPED; their generator owns their header.
@@ -124,15 +146,20 @@ def slug(rel: str, all_rels=None) -> str:
 
 
 def classify(rel: str, head: str):
+    """Returns (kind, status, level, needs_review).
+
+    `needs_review` is True when a retirement marker was found NEXT TO a qualifier saying only part of
+    the document is retired. The status is then left `live` — see PARTIAL_SUPERSESSION.
+    """
     if rel in OVERRIDE:
         k, st, lv = OVERRIDE[rel]
-        return (k, st, lv) if st != "—" else (k, "live", lv)
+        return (k, st, lv, False) if st != "—" else (k, "live", lv, False)
     kind, level = "memo", "—"
     for prefix, k, lv in BY_PATH:
         if rel.startswith(prefix):
             kind, level = k, lv
             break
-    status = "live"
+    status, needs_review = "live", False
     # Only a line in the document's own banner region that is NOT about another file can set status.
     # A marker only counts as a BANNER: a heading, a blockquote, or bold at the start of a line.
     # Prose that merely uses the word "superseded" is not a status declaration — that is how a rules
@@ -141,17 +168,25 @@ def classify(rel: str, head: str):
            if not LINKS_ELSEWHERE.search(ln) and re.match(r"^\s*(#{1,3}\s|>|\*\*)", ln)]
     own_text = "\n".join(own)
     for pat, st, kd in STATUS_SIGNALS:
-        if re.search(pat, own_text, re.M | re.I):
-            status, kind = st, kd
+        if not re.search(pat, own_text, re.M | re.I):
+            continue
+        # ⚠ The qualifier is looked for in the RAW head, not in `own_text`. `own_text` drops any line
+        # naming another file, and a banner that says "the thesis stands; read <the roadmap> for what
+        # we run" puts the qualifier and the link on the same line — so filtering first would throw
+        # away exactly the evidence that the supersession is partial.
+        if st != "immutable" and PARTIAL_SUPERSESSION.search(head):
+            needs_review = True
             break
+        status, kind = st, kd
+        break
     if "prereg" in os.path.basename(rel).lower():
-        status, kind = "immutable", "prereg"
-    return kind, status, level
+        status, kind, needs_review = "immutable", "prereg", False
+    return kind, status, level, needs_review
 
 
 def build(rel: str, text: str, all_rels=None) -> str:
     head = "\n".join(text.splitlines()[:40])
-    kind, status, level = classify(rel, head)
+    kind, status, level, needs_review = classify(rel, head)
 
     m = H1.search(text)
     title = (m.group(1) if m else os.path.basename(rel)).strip()
@@ -181,9 +216,12 @@ def build(rel: str, text: str, all_rels=None) -> str:
              f"audience: [{', '.join(aud)}]",
              "date: 2026-08-05",
              "last_verified: unverified",
-             "_backfilled: true",
-             "---",
-             ""]
+             "_backfilled: true"]
+    if needs_review:
+        lines.append("_status_needs_review: a retirement marker was found next to a qualifier saying "
+                     "only PART of this document is retired; left `live` deliberately — a human must "
+                     "decide, because a wrong `historical` gets a live document archived")
+    lines += ["---", ""]
     return "\n".join(lines) + text
 
 
@@ -229,11 +267,14 @@ def main(argv=None):
     todo, all_rels = targets()
     from collections import Counter
     kinds, statuses = Counter(), Counter()
+    deferred = []
     for rel, text in todo:
         head = "\n".join(text.splitlines()[:40])
-        k, s, _ = classify(rel, head)
+        k, s, _, needs_review = classify(rel, head)
         kinds[k] += 1
         statuses[s] += 1
+        if needs_review:
+            deferred.append(rel)
         if not a.dry_run:
             with open(os.path.join(REPO, rel), "w", encoding="utf-8") as fh:
                 fh.write(build(rel, text, all_rels))
@@ -244,6 +285,12 @@ def main(argv=None):
     print(f"  status: {dict(statuses)}")
     print("  last_verified: unverified on every one — this script has read none of them, and a "
           "date here would claim a verification nobody performed")
+    if deferred:
+        print(f"  ⚠ {len(deferred)} document(s) carry a retirement marker NEXT TO a partial-supersession "
+              f"qualifier. Left `live` and flagged `_status_needs_review` rather than guessed — a wrong "
+              f"`historical` is how a live document gets archived:")
+        for rel in deferred:
+            print(f"      {rel}")
     return 0
 
 

@@ -464,6 +464,78 @@ def test_the_backfill_compares_against_every_document_not_just_its_own_batch():
     assert "research/hypotheses/METHODOLOGY.md" in all_rels
 
 
+def test_a_supersession_names_its_successor(graph):
+    """[D7] — a supersession with nothing to redirect to is unfalsifiable."""
+    f = sc.Findings()
+    sc.check_documents(graph, f)
+    assert [e for e in f.errors if "[D7]" in e] == [], "\n".join(f.errors)
+
+
+def test_a_load_bearing_document_cannot_declare_itself_retired(graph):
+    """[D8] — and its two inputs must be non-empty, or the check is inert.
+
+    ⚠ THIS IS THE FAIL-OPEN GUARD. `_pinned_targets()` and `_instruction_paths()` RAISE rather than
+    returning an empty set, because a helper answering "nothing depends on anything" would switch
+    [D8] off silently — the exact shape `parser_guard.py` exists to catch.
+    """
+    pinned, instructed = sc._pinned_targets(), sc._instruction_paths()
+    assert pinned, "[D8]'s pinned-figures half is inert"
+    assert instructed, "[D8]'s project-instruction half is inert"
+    # The two documents that would have been archived on a wrong label are both covered.
+    assert "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md" in pinned
+    assert "research/manuscripts/nr4a3-degrader-preprint-plan.md" in instructed
+    f = sc.Findings()
+    sc.check_documents(graph, f)
+    assert [e for e in f.errors if "[D8]" in e] == [], "\n".join(f.errors)
+
+
+def test_a_partial_supersession_is_never_classified_as_a_whole_one():
+    """The backfill defect that mislabelled three live documents, replayed on the real files.
+
+    ⛔ THE FIX IS NOT A CLEVERER REGEX — a qualifier can be phrased a hundred ways. It is a REFUSAL
+    to classify: when a retirement marker sits next to a qualifier, the status stays `live` and the
+    ambiguity is handed to a human. Under-claiming is recoverable; a wrong `historical` archives a
+    live document, and one of these three is a `pinned-figures.json` target.
+    """
+    sys.path.insert(0, SYS)
+    import backfill_frontmatter as bf
+    partial = ["research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md",
+               "research/manuscripts/nr4a3-degrader-strategy-ternary-first.md",
+               "research/manuscripts/nr4a3-degrader-preprint-plan.md"]
+    whole = ["research/manuscripts/nr4a3-degrader-preprint.md",
+             "research/manuscripts/nr4a3-degrader-preprint-si.md"]
+
+    def replay(rel):
+        body = open(os.path.join(REPO, rel), encoding="utf-8").read().split("---\n", 2)[2]
+        return bf.classify(rel, "\n".join(body.splitlines()[:40]))
+
+    for rel in partial:
+        kind, status, _, needs_review = replay(rel)
+        assert status == "live", f"{rel} was classified {status}; only PART of it is superseded"
+        assert needs_review, f"{rel} must be flagged for a human, not silently passed as live"
+    for rel in whole:
+        _, status, _, needs_review = replay(rel)
+        assert status == "superseded", f"{rel} is wholly retired and must still be classified"
+        assert not needs_review
+    # A whole-file history with no qualifier must still classify, or the refusal has eaten the signal.
+    body = open(os.path.join(REPO, "STRATEGY.md"), encoding="utf-8").read().split("---\n", 2)[2]
+    assert bf.classify("STRATEGY.md", "\n".join(body.splitlines()[:40]))[1] == "historical"
+
+
+def test_a_redirect_stub_stays_at_the_path_it_redirects_from():
+    """⭐ Not archived, deliberately. A stub's entire job is to be found at the old path.
+
+    Both were on the archive shortlist: `historical`, tiny, and referenced only by each other. Moving
+    one to `archive/` would destroy the one thing it does, to reclaim 48 lines.
+    """
+    for rel in ("research/manuscripts/nr4a3-degrader-preprint.md",
+                "research/manuscripts/nr4a3-degrader-preprint-si.md"):
+        p = os.path.join(REPO, rel)
+        assert os.path.exists(p), f"{rel} was archived — a redirect must stay where the reader looks"
+        fm = sc._frontmatter(open(p, encoding="utf-8").read())
+        assert fm.get("superseded_by"), f"{rel} redirects to nothing"
+
+
 def test_no_new_broken_links(graph):
     """A new broken relative link is an error immediately; the pre-existing ones are baselined.
 
