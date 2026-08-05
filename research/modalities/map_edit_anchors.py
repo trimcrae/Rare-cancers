@@ -247,6 +247,34 @@ def verify(edits, map_path=None):
         cur = (e.get("current_text") or "")
         probe, discriminating = build_probe(prop, cur)
         n_proposed = _count(probe)[0] if discriminating else 0
+        # ⛔ A LANDED EDIT THAT WAS LATER RESTYLED STILL LANDED — and without this it reads as DEAD.
+        # `build_probe` widens around the difference to reach MIN_PROBE_CHARS, but it takes the WHOLE
+        # widened window as the probe. When the routed text lands and the roadmap is then edited FURTHER
+        # inside that window — a clause appended, a figure inserted, the whole thing wrapped in a
+        # "⚠ Superseded, retained:" marker — the exact match fails and the status flips to NOT_FOUND.
+        # Measured 2026-08-05 on `main`: two of the three edits that were keeping CI red were of exactly
+        # this shape, their first 30 and 50 characters sitting in the roadmap untouched.
+        #
+        # ⚠ SHORTENING GLOBALLY WOULD BE THE WRONG FIX — a short probe risks the false APPLIED this whole
+        # module is built to prevent. So the retry is narrow and every condition is required:
+        #   · only after the FULL probe has already missed (never as the first answer);
+        #   · never below MIN_PROBE_CHARS;
+        #   · still absent from `current_text`, so it cannot match the pre-edit document; and
+        #   · UNIQUE in the sources, so a short prefix cannot match coincidentally.
+        # The shortened length is recorded, so an APPLIED reached this way is never indistinguishable
+        # from one matched whole.
+        if discriminating and not n_proposed:
+            for n in range(len(probe) - 1, MIN_PROBE_CHARS - 1, -1):
+                short = probe[:n].rstrip()
+                if len(short) < MIN_PROBE_CHARS or short in current_s:
+                    continue
+                if _count(short)[0] == 1:
+                    n_proposed = 1
+                    e["_probe_shortened_to"] = len(short)
+                    e["_probe_shortened_why"] = (
+                        "the full probe missed but this unique prefix is present and is still absent "
+                        "from current_text — the edit landed and the text was edited further afterwards")
+                    break
         e["_probe_is_the_difference"] = bool(cur)
         e["_probe_is_discriminating"] = discriminating
         if not discriminating:

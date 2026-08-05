@@ -20,19 +20,60 @@ import pytest                                                    # noqa: E402
 import json_salvage as JS                                        # noqa: E402
 
 
-def test_the_exact_committed_truncation_recovers_every_complete_value():
-    """The real artifact, byte for byte: `nr4a3-5bt-frame.json` as run 30778084770 published it."""
+#: The roll-up fields the truncated run never reached. Present together in a COMPLETE artifact;
+#: absent together in a SALVAGED one. Any mixture is the state this test exists to refuse.
+ROLLUP_FIELDS = ("ready_arms", "refused_arms", "sentence", "exitvec_anchor", "c397_sg_xyz", "base")
+
+
+def test_the_committed_frame_artifact_is_either_salvaged_or_genuinely_complete():
+    """`nr4a3-5bt-frame.json` — SALVAGED (as run 30778084770 published it) or COMPLETE, never between.
+
+    ⚠ THIS TEST USED TO ASSERT ONLY THE SALVAGED STATE, and it went red when a later run legitimately
+    produced a complete artifact and overwrote the truncated one. That is a real weakness rather than
+    bad luck: a guard pinned to one state of a LIVE artifact reports a correct world as broken, and the
+    fix is not to relax it but to make it express both states — and refuse the third.
+
+    ⛔ THE THIRD STATE IS THE WHOLE POINT. A document with no banner AND no roll-up fields is a
+    truncation that lost its banner: it parses, it looks like a normal artifact, and a reader has no way
+    to know keys are missing rather than false. A document WITH a banner AND roll-up fields is a
+    salvage that synthesised them — the "populated field is not a measured one" failure. Both are
+    invisible to a schema check and both are refused here.
+
+    Provenance is checked the way CLAUDE.md §4(b) requires — on the thing only a real run can produce.
+    A full-precision float and a real working path cannot come from a default; `[]` and `0.0` can.
+    """
     path = os.path.join(MOD, "nr4a3-5bt-frame.json")
     raw = open(path, encoding="utf-8").read()
     doc = json.loads(raw)                                        # repaired in place — it parses now
-    assert "⛔_TRUNCATED_ARTIFACT" in doc, "the repaired artifact must carry its banner"
-    b = doc["⛔_TRUNCATED_ARTIFACT"]
-    assert b["dropped_tail_verbatim"] == ',\n  "_mol": '
-    assert b["recovered_bytes"] + b["dropped_bytes"] == b["total_bytes"]
-    # ⛔ the roll-up fields were never written and must NOT have been invented on repair
-    for never in ("ready_arms", "refused_arms", "sentence", "exitvec_anchor", "c397_sg_xyz", "base"):
-        assert never not in doc, "%s was never written by the run — repair must not synthesise it" % never
-        assert never in b["keys_never_written"]
+    banner = doc.get("⛔_TRUNCATED_ARTIFACT")
+    present = [k for k in ROLLUP_FIELDS if k in doc]
+
+    if banner is not None:
+        # SALVAGED. Recovery is exact and the salvager invented nothing.
+        assert banner["dropped_tail_verbatim"] == ',\n  "_mol": '
+        assert banner["recovered_bytes"] + banner["dropped_bytes"] == banner["total_bytes"]
+        for never in ROLLUP_FIELDS:
+            assert never not in doc, \
+                "%s was never written by the run — repair must not synthesise it" % never
+            assert never in banner["keys_never_written"]
+        return
+
+    # COMPLETE. It must say so, and it must look like something a run actually produced.
+    assert doc.get("_artifact_state", "").startswith("COMPLETE"), (
+        "the frame artifact carries no truncation banner and does not declare itself COMPLETE — that "
+        "is a truncation whose banner was lost, which parses cleanly and hides its own missing keys")
+    assert not present or len(present) == len(ROLLUP_FIELDS), (
+        "the artifact is part-way: roll-up fields %s are present and %s are not. A complete run writes "
+        "all of them and a salvaged one writes none; a mixture means something filled in a subset"
+        % (present, [k for k in ROLLUP_FIELDS if k not in doc]))
+    assert len(doc.get("arms") or []) == 3, "a complete frame attempts all three paralogue arms"
+    # ⛔ Provenance, not presence: a defaulted field cannot carry these.
+    assert isinstance(doc.get("base"), str) and doc["base"], "no working path — nothing ran"
+    ev = doc.get("exitvec_anchor")
+    assert isinstance(ev, list) and len(ev) == 3, "the exit-vector anchor is missing or malformed"
+    assert any(isinstance(v, float) and abs(v - round(v, 3)) > 0 for v in ev), (
+        "every exit-vector component is round to 3dp — a computed anchor carries full float precision, "
+        "so this reads as a value written in rather than measured")
 
 
 def test_a_truncated_document_recovers_its_prefix_and_names_what_it_dropped():
