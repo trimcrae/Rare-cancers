@@ -322,5 +322,30 @@
       "file": "research/modalities/realised_spend.py",
       "anchor": null
     }
+  },
+  {
+    "id": "LANE-8",
+    "title": "NR-V04 covalent input admissibility — does ANY co-fold seat celastrol within bonding distance of the preregistered site?",
+    "state": "complete",
+    "terminus": "✅ CLOSED with a REFUSAL, and the refusal is the result. Prereg AMENDMENT 1's criterion A1 requires a covalent leg to stage its electrophilic carbon within bonding distance of the TARGET-chain Cys Sγ. The amendment's own conclusion rested on `nrv04_prespend_check._pull_model`, which samples ONE model per system out of a seed ENSEMBLE; this lane re-measured A1 on EVERY model of EVERY system of every co-fold prefix, and separated 'passes at the NEAREST cysteine' from 'passes at the FROZEN site (NR4A1 C551)' — a distinction the prespend check cannot make. Result: `n_models_passing_A1: 0` of 3, C551 distances 34.42 / 29.87 / 39.11 Å against an 8.0 Å limit, and the verdict recorded verbatim is *\"EVERY covalent-arm model FAILS the A1 tether gate — build_system RAISES, so these legs cannot run at all\"*. ⛔ So the covalent arm is not unrun, it is UNRUNNABLE on every available input. The companion adduct-construction job exists precisely because the co-folds cannot supply an admissible input; a hand-built preformed Michael adduct at the literature site (Zhang 2018, doi:10.1039/C8CC06140H) would fix the COMPARISON without supplying the EVIDENCE. Both jobs are $0 CPU.",
+    "closed_on": "2026-08-05",
+    "serves": [
+      "V18"
+    ],
+    "produces": [
+      {
+        "artifact": "nrv04-retro-prespend-audit.json",
+        "produced": true,
+        "note": "carries `covalent_arm_admissibility` — the per-model C551 distances and the 0-of-3 verdict this lane closed on"
+      },
+      {
+        "artifact": "nrv04-retro-criteria-audit.json",
+        "produced": true
+      }
+    ],
+    "owner": {
+      "file": ".github/workflows/fusion-cpu-extras.yml",
+      "anchor": null
+    }
   }
 ]

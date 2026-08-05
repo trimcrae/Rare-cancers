@@ -674,7 +674,7 @@ def check_lanes(g, f):
     seen = defaultdict(set)
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
-        if rel_root.startswith((".git", "node_modules", ".pytest_cache")) or "__pycache__" in rel_root:
+        if _is_transient(rel_root):
             dirs[:] = []
             continue
         for fn in sorted(files):
@@ -940,6 +940,22 @@ def _instruction_paths():
     return out
 
 
+#: Directories that are machinery rather than content, matched on any path COMPONENT.
+#:
+#: ⛔ THE PREFIX FORM WAS A BUG AND IT TURNED THE BUILD RED (2026-08-05). Three walks tested
+#: `rel_root.startswith((".git", "node_modules", ".pytest_cache"))`, which only ever matched at the
+#: REPOSITORY ROOT. Running pytest from `research/modalities` creates
+#: `research/modalities/.pytest_cache/README.md` — a file pytest writes, that no human authored — and
+#: [D4] duly failed the build for its missing frontmatter. A checker that goes red because a test run
+#: left a cache behind is a checker people learn to work around.
+TRANSIENT_DIRS = {".git", "node_modules", ".pytest_cache", "__pycache__", ".mypy_cache",
+                  ".ruff_cache", ".ipynb_checkpoints", ".venv", "venv", ".tox", "node_modules"}
+
+
+def _is_transient(rel_root):
+    return bool(TRANSIENT_DIRS & set(rel_root.split("/")))
+
+
 def check_documents(g, f):
     """Every hand-written Markdown file declares purpose, scope, audience, status and freshness.
 
@@ -964,7 +980,7 @@ def check_documents(g, f):
     missing, unverified, bad = [], [], 0
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
-        if rel_root.startswith((".git", "node_modules", ".pytest_cache")) or "__pycache__" in rel_root:
+        if _is_transient(rel_root):
             dirs[:] = []
             continue
         for fn in sorted(files):
@@ -1307,7 +1323,7 @@ def check_links(g, f):
     checked = broken = 0
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
-        if rel_root.startswith((".git", "node_modules", ".pytest_cache")) or "__pycache__" in rel_root:
+        if _is_transient(rel_root):
             dirs[:] = []
             continue
         # ⚠ archive/ is skipped BY DESIGN. Its files moved, so their relative links point at former

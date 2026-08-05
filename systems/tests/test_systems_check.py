@@ -1302,3 +1302,40 @@ def test_an_unproduced_artifact_needs_no_registration(graph):
     f = sc.Findings()
     sc.check_lanes(graph, f)
     assert not [w for w in f.warns if "valb-triangle-chem" in w]
+
+
+def test_the_github_directory_is_not_skipped_as_if_it_were_dot_git():
+    """⛔ `.github`.startswith(`.git`) IS TRUE, AND THREE WALKS RELIED ON THAT PREFIX.
+
+    check_documents, check_lanes and check_links each tested
+    `rel_root.startswith((".git", "node_modules", ".pytest_cache"))` — which silently excluded the
+    ENTIRE `.github/` tree from all three. Measured 2026-08-05: un-skipping it immediately surfaced
+    LANE-8, named in `.github/workflows/fusion-cpu-extras.yml` and absent from the lane register — the
+    exact class of unmodelled executed work the lane collection exists to make visible, hidden by a
+    string prefix.
+
+    ⚠ The second half is the one that motivated the change: the prefix ALSO failed to skip a real cache
+    in a subdirectory, so `research/modalities/.pytest_cache/README.md` turned the build red for missing
+    frontmatter on a file pytest wrote. One bug, both directions — too broad at the root and too narrow
+    below it, which is what a prefix test does to a path.
+    """
+    assert ".github/workflows".startswith(".git"), "the trap itself, stated"
+    assert not sc._is_transient(".github/workflows"), \
+        "`.github` must be walked — it holds the workflows that name lanes and produce artifacts"
+    assert not sc._is_transient(".github")
+    for d in (".git", ".git/objects", "node_modules", "research/modalities/.pytest_cache",
+              "a/b/__pycache__", ".venv/lib"):
+        assert sc._is_transient(d), f"{d} is machinery and must be skipped at ANY depth"
+
+
+def test_lane_enumeration_actually_reaches_the_workflows(graph):
+    """The corollary: a lane named only in a workflow must be found.
+
+    LANE-1 was already the proof that a lane can live in a code comment; LANE-8 is the proof that it
+    can live in a workflow, and that the enumeration was not reaching them.
+    """
+    ids = {l["id"] for l in graph["lanes"]}
+    assert "LANE-8" in ids, "LANE-8 is named in .github/workflows/fusion-cpu-extras.yml"
+    f = sc.Findings()
+    sc.check_lanes(graph, f)
+    assert [e for e in f.errors if "[W1]" in e] == [], "\n".join(f.errors)

@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 
 ⛔ **WHY THIS EXISTS.** Executed work had no object in the model, so *"this lane closed"* lived only as a struck-through row in roadmap prose. Prose is not queryable — which is how, on 2026-08-05, an artifact belonging to a lane that had closed on 2026-07-30 was read as a gap to fill, and **88.5 minutes of CI went at it**. A state the model holds cannot be missed that way.
 
-**17 lanes · 1 not yet complete.**
+**18 lanes · 1 not yet complete.**
 
 ⚠ **A null result is `complete`, not a separate state.** The state answers exactly one question — *will this lane still produce what it owes?* — so a lane that ended with its gate FAILING is finished, with the verdict in its terminus. Collapsing those would make a settled negative look like an outstanding task, which is how dead work gets re-run.
 
@@ -44,6 +44,7 @@ last_verified: 2026-08-05
 | **LANE-3**<br/>Covalent celastrol-NR4A1 (C551) adduct + C551A control legs | `complete`<br/>2026-07-25 | Recorded in the ordered plan with its as-run cost measured over 18 legs. Not on a host. ⭐ Closed 2026-07-25, dated 2026-08-05 from systems/graph/plan.json, this lane's own row: '★ STATUS (2026-07-25, LANE 3)'. | — |
 | **LANE-5**<br/>The valB calibrator rescope — the P-series design | `complete`<br/>2026-07-25 | REFUTED for $0 by valb_pseries_chem.py: 6 of 10 pairs change formal charge and the 4 that do not perturb 58-80 heavy atoms against 2 for the running edge. The design is dead; the broader 'no such calibrator exists' statement is ex | ✓ `valb-pseries-chem.json` |
 | **LANE-7**<br/>Registry-A / orientation basin audit — which crystal registry the Tier | `complete`<br/>2026-07-25 | ✅ RESOLVED 2026-07-25 — registry A (5T35) is CORRECT, and the Tier-2 result rests on it. A same-day claim about CRBN's null was RETRACTED in this lane rather than carried. | — |
+| **LANE-8**<br/>NR-V04 covalent input admissibility — does ANY co-fold seat celastrol  | `complete`<br/>2026-08-05 | ✅ CLOSED with a REFUSAL, and the refusal is the result. Prereg AMENDMENT 1's criterion A1 requires a covalent leg to stage its electrophilic carbon within bonding distance of the TARGET-chain Cys Sγ. The amendment's own conclusion | ✓ `nrv04-retro-prespend-audit.json`<br/>✓ `nrv04-retro-criteria-audit.json` |
 | **LANE-9**<br/>The closure triangle — decides whether valB's miss is fixable at all | `complete`<br/>2026-07-30 | ✅ CLOSED. All four legs landed 5:11 PM ET Jul 30 and `R` is computed. Off every host. ⚠ Separately REFUTED as a DIAGNOSTIC for the wrong-sign miss (V5): it returns a clean R whether or not the program's actual problem exists. The  | ✓ `valb-triangle-reduction.json`<br/>✓ `valb-triangle-closure.json`<br/>✕ `valb-triangle-chem.json` |
 
 ## Artifacts a lane owed and never produced

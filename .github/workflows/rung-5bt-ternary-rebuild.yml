@@ -34,6 +34,11 @@ on:
       e3_binary:
         description: "pin the DDB1-CRBN binary IMiD deposit (blank = discover from the registry's own list)"
         default: ""
+      signature_only_from_run:
+        description: >-
+          A COMPLETED run id of this workflow. Skips build+predict entirely and computes ONLY the V1
+          signature from that run's already-uploaded pred-* artifacts. $0, CPU, no prediction.
+        default: ""
   push:
     branches: [claude/nr4a1-protac-positive-control-xnszjl]
     paths:
@@ -56,9 +61,97 @@ env:
 
 jobs:
   # ═════════════════════════════════════════════════════════════════════════════════════════════════════
+  # 0 · SIGNATURE-ONLY. Recompute the V1 read from a COMPLETED run's uploaded predictions — $0, no rebuild.
+  #
+  # ⛔ WHY THIS EXISTS. `nr4a3-5bt-signature.json` was never produced: its step was the only one in this
+  # workflow written `|| true`, so on 2026-08-03 it failed silently, the `git add` skipped a file that was
+  # never there, and the roadmap went on citing "the V1 read over all 16 models per arm" for a read that
+  # exists on no ref. That absence was then recorded as `expected` and described as needing "the rung
+  # re-run — real compute."
+  #
+  # ⭐ THAT DESCRIPTION WAS WRONG, WHICH IS THE POINT OF THIS JOB. Every run's `pred-*` artifacts are
+  # uploaded and unexpired (until 2026-11-01 for the 2026-08-03 runs), so the read costs a CPU minute and
+  # a download. "It needs a re-run" was an assertion nobody had checked, and checking it is also what
+  # surfaced that this rung ran TWICE that morning and that the gate we hold is the SECOND one.
+  #
+  # ⚠ SO THE RUN ID IS REQUIRED AND IS RECORDED IN THE OUTPUT. A signature computed from a different run's
+  # models than the gate it is cited beside is exactly the provenance error this job was built while
+  # correcting. `_from_run_id` is written into the artifact; it is not optional and it is not inferred.
+  # ═════════════════════════════════════════════════════════════════════════════════════════════════════
+  signature_only:
+    if: ${{ inputs.signature_only_from_run != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.ref_name }}" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.10" }
+      - run: python -m pip install -q "numpy<2"
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: "pred-*"
+          path: /tmp/preds
+          merge-multiple: true
+          run-id: ${{ inputs.signature_only_from_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Stage exactly as the READ job does, then compute V1
+        run: |
+          set -eo pipefail
+          mkdir -p /tmp/v1
+          python3 - <<'PY'
+          import glob, os, shutil
+          # ⚠ IDENTICAL STAGING TO THE `read` JOB, deliberately duplicated rather than shared: the two must
+          # agree, and a signature computed by a DIFFERENT rule than the gate's would be incomparable with
+          # it. If one changes, the other must — `test_nr4a3_5bt` pins the suffix rule both depend on.
+          src = glob.glob('/tmp/preds/**/complex_pred_*.pdb', recursive=True)
+          n = 0
+          for p in sorted(src):
+              b = os.path.basename(p)
+              for tok in ('NR4A3', 'NR4A1', 'NR4A2'):
+                  if not b.startswith('complex_pred_%s_' % tok):
+                      continue
+                  seed = b.rsplit('_', 1)[-1].split('.')[0]
+                  d = os.path.join('/tmp/v1', tok); os.makedirs(d, exist_ok=True)
+                  name = ('%s_model_0.cif' % tok) if seed == '0' else ('%s_pred_%s.cif' % (tok, seed))
+                  shutil.copyfile(p, os.path.join(d, name))
+                  n += 1
+          print('staged %d model(s) for V1' % n)
+          if not n:
+              raise SystemExit('⛔ staged NOTHING — refusing to write an artifact from an empty read')
+          PY
+          python3 research/modalities/nr4a_ternary_signature.py --root /tmp/v1 --recursive \
+            --out research/modalities/nr4a3-5bt-signature.json
+          python3 - <<'PY'
+          import json
+          p = "research/modalities/nr4a3-5bt-signature.json"
+          d = json.load(open(p))
+          # ⛔ PROVENANCE IS PART OF THE ARTIFACT, NOT OF THE COMMIT MESSAGE. This rung ran twice on
+          # 2026-08-03 and the two gates differ materially; a signature that cannot say which run's models
+          # it read is unquotable beside either.
+          d["_from_run_id"] = "${{ inputs.signature_only_from_run }}"
+          d["_what_this_is"] = ("The V1 descriptor over every model of each paralogue arm, recomputed from "
+                                "the named run's uploaded predictions. It is DESCRIPTIVE: it computes no "
+                                "free energy and licenses no margin, ratio or window.")
+          json.dump(d, open(p, "w"), indent=2, ensure_ascii=False)
+          print(d.get("sentence") or d.get("error"))
+          print(d.get("sentence_replicated"))
+          PY
+
+      - name: Publish
+        run: |
+          set -e
+          bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
+            "RUNG 5b-T: V1 signature recomputed from run ${{ inputs.signature_only_from_run }} (CI, $0)" \
+            research/modalities/nr4a3-5bt-signature.json
+
+  # ═════════════════════════════════════════════════════════════════════════════════════════════════════
   # 1 · GUARDS + ASSEMBLY. Nothing is predicted until the pre-flight passes on all three paralogue arms.
   # ═════════════════════════════════════════════════════════════════════════════════════════════════════
   assemble:
+    if: ${{ inputs.signature_only_from_run == '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 90
     outputs:
