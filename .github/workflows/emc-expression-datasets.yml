@@ -21,6 +21,14 @@ name: EMC expression datasets — part B of the ATR vulnerability assessment
 # `--check` then has to reconcile. One run, one artifact, merged by hand (CLAUDE.md §7).
 on:
   workflow_dispatch:
+    inputs:
+      acc_bridge_budget_s:
+        description: >-
+          Seconds of TOTAL budget for the EST accession->symbol bridge (GSE4303 only).
+          Lower it to get the readable-series answer fast; the bridge is the expensive,
+          failure-prone half and none of the other series need it.
+        required: false
+        default: "1500"
 
 permissions:
   contents: write
@@ -52,7 +60,13 @@ jobs:
           python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py -q
 
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
-        timeout-minutes: 90
+        timeout-minutes: 75
+        env:
+          # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
+          # nothing at all — `collect_part_b` never returns, so the series that were already read
+          # successfully are lost with it. The budget is what makes the expensive EST bridge unable
+          # to destroy the cheap reads' results.
+          EMC_ACC_BRIDGE_BUDGET_S: ${{ inputs.acc_bridge_budget_s || '1500' }}
         run: python research/modalities/emc_atr_vulnerability.py --refresh-part-b
 
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
