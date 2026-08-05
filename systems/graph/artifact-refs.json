@@ -33,13 +33,6 @@
       "checked_on": "2026-08-05"
     },
     {
-      "artifact": "nr4a3-5bt-signature.json",
-      "disposition": "expected",
-      "produced_by": ".github/workflows/rung-5bt-ternary-rebuild.yml — the `V1` step, `nr4a_ternary_signature.py --root /tmp/v1 --recursive`",
-      "why": "⛔ THE REASON THIS WAS GRANDFATHERED WAS WRONG, AND THE REAL ONE IS A SILENT-FAILURE DEFECT. The link baseline said 'that rung is registered as NOT STARTED, so the artifact not existing is consistent'. Rung 5b-T RAN on 2026-08-03 8:29 AM ET and its own row says ✓ complete — the same run committed nr4a3-5bt-gate.json, nr4a3-5bt-frame.json and both harness controls. The signature step is the ONLY one in that workflow written `|| true`, so when it produced nothing the workflow proceeded and the following `git add` simply skipped a file that was not there. Absent on this branch, on origin/main and on modalities-cache; the gate artifact carries no signature key, so the V1 read exists nowhere. Producible only by re-running the rung, because the step stages its CIF models from that run's own build outputs — the `|| true` is removed so a future run cannot fail silently again.",
-      "checked_on": "2026-08-05"
-    },
-    {
       "artifact": "deepternary_blind_controls.json",
       "disposition": "expected",
       "produced_by": ".github/workflows/deepternary-blind-controls.yml",

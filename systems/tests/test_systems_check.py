@@ -858,9 +858,16 @@ def test_a_cited_artifact_exists_on_this_branch(graph):
     sc.check_artifacts(graph, f)
     assert f.errors == [], "\n".join(f.errors)
     flagged = [w for w in f.warns if "[K1]" in w]
-    # A citation whose producer does NOT exist here is a plan, not drift, and must not be flagged.
+    # ⭐ 2026-08-05: this assertion USED TO PASS FOR THE WRONG REASON, and the swap is the point.
+    # It read "an artifact with no producer in this repo is a forward reference, not branch drift" —
+    # but `nr4a3-5bt-signature.json` was never a forward reference. Its producer step had run on every
+    # 5b-T invocation and crashed every time, hidden by a `|| true`. The artifact now EXISTS here, so
+    # the check must not flag it because it is PRESENT, and asserting that is strictly stronger than
+    # asserting a forward-reference exemption that no longer applies to anything.
+    assert os.path.exists(os.path.join(sc.REPO, "research/modalities/nr4a3-5bt-signature.json")), \
+        "the V1 signature read is committed here; if it vanished, [K1]'s exemption is not the answer"
     assert not [w for w in flagged if "nr4a3-5bt-signature" in w], \
-        "an artifact with no producer in this repo is a forward reference, not branch drift"
+        "a present artifact must not be reported as cited-and-absent"
     assert len(flagged) < 15, \
         f"{len(flagged)} artifacts cited but absent — that is a drift event, not a residue; check " \
         f"whether a lane branch holds them before assuming they were never produced"

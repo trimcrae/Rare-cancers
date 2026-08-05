@@ -394,8 +394,11 @@ thing cited exists.**
 
 **The durable fix is `[K1]`**, not the port: it flags any artifact cited by name whose **producer exists in
 this repo** but whose output is absent here — scoped that way so a forward reference to something nobody has
-built (`nr4a3-5bt-signature.json`) reads as a plan rather than as drift. It found three more immediately;
+built reads as a plan rather than as drift. It found three more immediately;
 each was checked against every branch and is genuinely unproduced, which is the other legitimate answer.
+⚠ *Superseded, retained: the example given here was `nr4a3-5bt-signature.json`, and it was the WRONG example —
+that artifact was not a forward reference at all but a silent failure of a step that had already run (§3.9).
+It was produced on 2026-08-05 and is committed here; the scoping argument stands, the illustration does not.*
 
 ⛔ **Port-then-switch, and only the port was done.** No workflow's target branch was changed. Repointing a
 lane is the expensive half — `CLAUDE.md` §7 records a case where flipping one would have shown 13 finished
@@ -459,14 +462,26 @@ reason that nothing could check, and each was wrong.**
    run, at **9:19 AM ET**; that run committed `nr4a3-5bt-gate.json`, `nr4a3-5bt-frame.json` and both
    harness controls. ⚠ *Superseded, retained: "ran at 8:29 AM ET, and the same run committed …". Both
    runs are real; ours is byte-identical to the 9:19 commit and differs from the 8:29 one (NR4A1 arm 15
-   vs 16 models, `p_focus_at_least` 0.10506 vs 0.59819), `NO-GO` in both.* `nr4a3-5bt-signature.json` is missing because its
+   vs 16 models, `p_focus_at_least` 0.10506 vs 0.59819), `NO-GO` in both.* `nr4a3-5bt-signature.json` was missing because its
    step was **the only line in `rung-5bt-ternary-rebuild.yml` written `|| true`** — it produced nothing,
    said nothing, and the following `git add` skipped a file that was never there. So the roadmap went on
-   citing *"the `V1` read over all 16 models per arm"* for a read that exists on no ref, and the gate
-   artifact carries no signature key either. **Three fixes, all landed:** the `|| true` is gone and a
-   failed read now writes a `_produced: false` artifact rather than nothing; the roadmap's citation is a
-   forward reference naming the cause; the artifact carries an `expected` disposition in
-   [`artifact-refs.json`](graph/artifact-refs.json).
+   citing *"the `V1` read over all 16 models per arm"* for a read that existed on no ref, and the gate
+   artifact carries no signature key either.
+   ⭐ **ROOT-CAUSED AND CLOSED 2026-08-05, and the cause was not the `|| true` — that only hid it.** The step
+   copied DeepTernary's `complex_pred_*.pdb` outputs to `*.cif` NAMES purely to satisfy
+   `nr4a_ternary_signature`'s `*.cif`-only glob. `selcal_cofold_validate.parse_structure` dispatches on
+   EXTENSION, so the rename routed PDB text into `parse_mmcif`, which raised `no _atom_site loop` on **every**
+   run since the rung existed. Renaming a file to make a glob match is what broke it. Fixed at both ends —
+   the glob accepts `*.pdb`, the staging keeps the real extension — and pinned by
+   `test_the_v1_signature_glob_accepts_pdb_and_the_workflow_stages_it_as_pdb`.
+   A new `signature_only_from_run` mode recomputed the read at **$0** from run `30816072204`'s own uploaded
+   predictions (the 9:19 AM ET run this repo's gate came from, so both read one prediction set), and the
+   artifact is committed. ⛔ **It deepens the `NO-GO` rather than softening it: zero sequence-encoded
+   discriminating contacts in zero of the 16 NR4A3 models.** **Four fixes, all landed:** the `|| true` is
+   gone and a failed read now writes a `_produced: false` artifact rather than nothing; the glob/extension
+   mismatch is repaired; the roadmap's row carries the measured result with its superseded wording retained;
+   and the `expected` disposition in [`artifact-refs.json`](graph/artifact-refs.json) is **removed**, because
+   a disposition for a present artifact is a silencer.
 
 ⚠ **This is the same lesson as §3.5's, one register further out:** a `why` field with no rules is a place
 for a plausible story to sit unchallenged. The registers that replaced it demand a *typed* disposition and
