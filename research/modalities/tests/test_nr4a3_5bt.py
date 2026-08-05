@@ -553,8 +553,12 @@ def test_map_edits_never_stamps_the_wall_clock_into_what_it_proposes():
 
     `map_edits()` used to build its text with `_et_now()`, so the date it proposed was *when the function
     was called*, not when the gate ran. Measured 2026-08-05: a re-run recomputing the same NO-GO emitted
-    "RAN … 9:19 AM ET" while the roadmap correctly recorded the landing at 8:29 AM. Both were real runs;
-    neither file owned the fact. And because the difference sits at the FRONT of the proposal, the anchor
+    "RAN … 9:19 AM ET" while the roadmap recorded 8:29 AM. Both were real runs; neither file owned the
+    fact. ⚠ SUPERSEDED READING, RETAINED: this said the roadmap was the CORRECT one. Re-measured from the
+    producing branch, the committed gate is byte-identical to the 9:19 commit (c682873ca) and NOT to the
+    8:29 one (615f12f73) — NR4A1 arm 15 vs 16 models, p_focus_at_least 0.10506 vs 0.59819, `NO-GO` in
+    both. So 9:19 is the artifact's provenance. The defect this test pins is unchanged: a timestamp the
+    document does not own has no business in `proposed_text`, whichever run it names. And because the difference sits at the FRONT of the proposal, the anchor
     probe diverged at character ten and reported a fully-applied edit as dead.
 
     ⭐ It also broke this function's own docstring — "EVERY `proposed_text` … RESTATES NO NUMBER". A

@@ -3779,8 +3779,12 @@ nothing but GPU-free CPU seconds.
   no window.
 - ⛔ **And the negative this section carried for twenty minutes, kept because it was OVERTAKEN rather than
   wrong:** *"what is NOT started … rung `5b-T` … running it now would spend free compute producing a result
-  conditional on two things that are about to change."* **It ran at 8:29 AM ET on another lane and returned
-  `NO-GO`** — and the caution was **half right in the way that matters**: arm C failed on geometry registered
+  conditional on two things that are about to change."* **It ran on another lane and returned `NO-GO`**
+  — at **9:19 AM ET**, which is the provenance of the gate artifact this page cites. ⚠ *Superseded,
+  retained: **8:29 AM ET**. Both runs are real and both returned `NO-GO`, but the committed
+  `nr4a3-5bt-gate.json` is byte-identical to the 9:19 commit and NOT to the 8:29 one, which differs
+  materially — NR4A1 arm 15 rather than 16 models, `p_focus_at_least` 0.10506 rather than 0.59819. The
+  8:29 gate was superseded fifty minutes later by a re-run with a complete NR4A1 arm.* — and the caution was **half right in the way that matters**: arm C failed on geometry registered
   at risk in advance, arm B returned **zero** passing columns, and **the result is still conditional on the
   pose row 4 is about**, so a row-4 answer that moves site 1 would require the rung to be re-read. ⇒ It does
   **not** change what to start; it removes `5b-T` from the queue and **strengthens** the case for row 4,

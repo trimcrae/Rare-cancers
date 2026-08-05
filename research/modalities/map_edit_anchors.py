@@ -327,8 +327,14 @@ def verify(edits, map_path=None):
         # landed and was then EXTENDED. It cannot catch one whose FIRST characters differ — and that is
         # the commoner case here, because several emitters open their proposal with a timestamp.
         # Measured 2026-08-05: `nr4a3_5bt_gate.map_edits` stamps `_et_now()` at EDIT-GENERATION time, so
-        # its proposal opens "✅ **RAN 2026-08-03 9:19 AM ET" while the roadmap — correctly — records
-        # when the gate actually LANDED, 8:29 AM ET. Every character after that clause is identical.
+        # its proposal opens "✅ **RAN 2026-08-03 9:19 AM ET" while the roadmap records 8:29 AM ET.
+        # Every character after that clause is identical.
+        # ⚠ SUPERSEDED READING, RETAINED: this comment said the roadmap "correctly" recorded 8:29 and the
+        # 9:19 was an artefact of when map_edits() ran. Re-measured 2026-08-05 from the producing branch:
+        # the committed gate is byte-identical to the 9:19 commit (c682873ca) and NOT to the 8:29 one
+        # (615f12f73), which differs materially — NR4A1 arm 15 vs 16 models, p_focus_at_least 0.10506 vs
+        # 0.59819. 9:19 is this artifact's real provenance; 8:29 names a superseded run. Verdict `NO-GO`
+        # in both, so nothing scientific reversed. The anchor lesson is unchanged either way.
         # A prefix probe diverges at character ten and reports a fully-applied edit as dead.
         #
         # So the last resort is the LONGEST CONTIGUOUS BLOCK the proposal and the document share,

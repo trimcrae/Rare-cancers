@@ -590,8 +590,12 @@ def map_edits(doc):
     ⛔ THIS FUNCTION IS PURE AND MUST STAY PURE — IT USED THE WALL CLOCK AND THAT WAS THE BUG.
     It stamped `_et_now()` into `proposed_text`, so the date in the edit was *when this function was
     called*, not when the gate ran. Two consequences, both measured on 2026-08-05:
-      · a re-run that recomputed the same `NO-GO` emitted "RAN … 9:19 AM ET" while the roadmap correctly
-        recorded the landing at 8:29 AM — the artifact and the map disagreed about a fact neither owned;
+      · a re-run that recomputed the same `NO-GO` emitted "RAN … 9:19 AM ET" while the roadmap recorded
+        8:29 AM — the artifact and the map disagreed about a fact neither owned. ⚠ SUPERSEDED READING,
+        RETAINED: this line said the roadmap was the CORRECT one. It is not. The committed gate is
+        byte-identical to the 9:19 commit and differs from the 8:29 one (NR4A1 15 vs 16 models,
+        p_focus_at_least 0.10506 vs 0.59819); `NO-GO` in both. The bug this docstring describes is
+        unchanged — the wall clock had no business in `proposed_text` either way;
       · the divergence sits at the FRONT of the proposal, so an anchor probe diverged at character ten
         and reported a fully-applied edit as DEAD.
     ⭐ And it violated this docstring's own first line: a timestamp IS a number, and that one had no home.

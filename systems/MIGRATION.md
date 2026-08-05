@@ -455,8 +455,11 @@ reason that nothing could check, and each was wrong.**
    wrong: `emc_line_data_probe.py` had run **and** committed — to `modalities-cache`, one ref away
    (§3.6). Measuring that divergence found 41 artifacts there, 24 of them cited from this branch.
 2. The last said rung 5b-T *"is registered as NOT STARTED, so the artifact not existing is consistent."*
-   ⛔ **Rung 5b-T ran on 2026-08-03 at 8:29 AM ET**, and the same run committed `nr4a3-5bt-gate.json`,
-   `nr4a3-5bt-frame.json` and both harness controls. `nr4a3-5bt-signature.json` is missing because its
+   ⛔ **Rung 5b-T ran on 2026-08-03 — twice**, and the gate this repository holds came from the SECOND
+   run, at **9:19 AM ET**; that run committed `nr4a3-5bt-gate.json`, `nr4a3-5bt-frame.json` and both
+   harness controls. ⚠ *Superseded, retained: "ran at 8:29 AM ET, and the same run committed …". Both
+   runs are real; ours is byte-identical to the 9:19 commit and differs from the 8:29 one (NR4A1 arm 15
+   vs 16 models, `p_focus_at_least` 0.10506 vs 0.59819), `NO-GO` in both.* `nr4a3-5bt-signature.json` is missing because its
    step was **the only line in `rung-5bt-ternary-rebuild.yml` written `|| true`** — it produced nothing,
    said nothing, and the following `git add` skipped a file that was never there. So the roadmap went on
    citing *"the `V1` read over all 16 models per arm"* for a read that exists on no ref, and the gate
