@@ -457,6 +457,27 @@ same plate with no interested group would be worth nothing.
 **Axis S — inherits none of the three blockers.** No ΔΔG, no ternary, no paralogue discrimination.
 The molecule is not ours and does not need to be selective for anything in the NR4A family.
 
+#### ⛔ REPORTED FOR A RANKING DECISION, NOT TAKEN AS ONE — a competing biomarker landed on 2026-08-05
+
+> ⚠ **THIS BLOCK CHANGES NO GRADE AND MOVES NO RANK.** Route 1a stays **Tier 1, rank 3** and route
+> 1b stays **Tier 2, rank 4** exactly as written above. Re-ranking is trimcrae's call
+> (CLAUDE.md §3); what follows is the input to it, surfaced rather than filed.
+
+**`GSE299349` was read** ([assessment §8](./emc-atr-vulnerability-assessment.md#8--the-competing-biomarker--a-2026-sarcoma-atr-programme-that-selects-on-hrd-not-on-fet-status);
+producer [`atr_hrd_sarcoma_series.py`](../modalities/atr_hrd_sarcoma_series.py), $0). **Grade of the
+consequence: it WEAKENS route 1**, and the strengthening half is stated beside it rather than
+averaged in.
+
+| | |
+|---|---|
+| ⛔ **why it weakens** | A peer-reviewed 2026 sarcoma ATR/CHK1/WEE1 programme (**Cancer Letters**, [PMID 41651400](https://pubmed.ncbi.nlm.nih.gov/41651400/)) selects patients on **HRD** — a ten-gene SARC-HRD signature — **not on FET-fusion status**. Its 62-tumour cohort (MFS, UPS, SS, LMS, MPNST) contains **no FET-fusion sarcoma at all**. And route 1's own source, [PMID 37205599](https://pubmed.ncbi.nlm.nih.gov/37205599/), spends a figure refuting HR deficiency for this class — *"ES patient tumors do not display the genomic scars of HR deficiency"*. **Same target, incompatible upstream lesions, non-overlapping patient selection.** A reviewer now has a specific, citable alternative to raise |
+| ⛔ **and the sharpest part** | The group behind it is **University Hospital Zurich (Pauli)** — the group [`emc-atri-outreach-DRAFT.md`](../modalities/emc-atri-outreach-DRAFT.md) already ranks **#1** as this ask's best taker. They hold a **third** EMC model (`USZ-23_EMC3`, in the same deposit), they built an ATR programme — **and they did not reach for FET status.** ⚠ Not addressing an idea is not rejecting it, and only the first is observed |
+| ✅ **why it also strengthens, on a different axis** | **Axis W1's taker is now evidenced rather than inferred.** The #1 target demonstrably holds an EMC model, pharmacotypes patient-derived sarcoma models with ATRi/CHK1i/WEE1i/PARPi, and has published it. Route 1b's ask is an experiment they **already run, on a model they already hold, with compounds they already use.** W2 is unchanged; **W1's evidence is materially better than when the row above was written** |
+| ⚪ **what it does NOT supply** | **No ATR-inhibitor response data.** 0 of 68 samples name an inhibitor; 0 carry a treatment protocol. Part D's missing instrument is still missing — now watched by `TRG-SARCOMA-ATRI-RESPONSE-PANEL` |
+
+⚠ **The assessment's tier is unchanged at `WEAK`** — nothing here is an EMC tumour signature, an EMC
+dependency or an ATRi response, so no grading predicate changes value.
+
 ⚠ **A fourth counterweight that is mechanistic rather than commercial, and it is the one I would
 press hardest if I were reviewing this.** ATR-inhibitor activity generally tracks **proliferation and
 replication stress**, and EMC is the opposite of that — indolent, median time to metastasis ≈ 28
