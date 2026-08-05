@@ -225,7 +225,7 @@ every CI run. *(2026-08-01: it was previously a manual `rate --markdown-table` s
 **3 min 41 s** after the last hand regeneration — the leg committed `production 80`, the rate window moved
 out of warmup, and the measurement legitimately changed. See `RATE_ARTIFACT`'s comment for the incident.)*
 
-**⚠ A CHANGED CELL HERE IS A MOVING MEASUREMENT, NOT A RETRACTION.** This leg is still running and every
+**⚠ A CHANGED CELL HERE IS A MOVING MEASUREMENT, NOT A RETRACTION.** ⭐ *Superseded, retained: "This leg is still running" — both legs reached `production 2000` against `targets [400, 2000]` and the last raw mark is 2026-08-02; the table is now a FINISHED measurement, not a moving one.* Every
 tick republishes its trailing-window rate, so cells move by design and **no appendix entry or
 `pinned-figures.json` registration is owed for a tick**. The durable record is the artifact's raw `marks`
 series, from which any earlier reading is re-derivable. Registration is owed only if a figure from here is
@@ -274,13 +274,20 @@ or ladder spend (CLAUDE.md §6), expiring 2026-10-10 — and the L4 list rate is
 ### The one planning consequence, and the measurement that would settle it
 
 The complex leg alone is the wall-clock figure in the table; the **unit** is that leg **plus** the solvent
-leg, and the solvent leg has no measured L4 rate yet. `gcp_fanout_rep.MAX_RUN_S_RUN` is 48 h, fixed at CREATE
+leg. `gcp_fanout_rep.MAX_RUN_S_RUN` is 48 h, fixed at CREATE
 and **unraisable on a running instance** (§3b). So whether one VM can span a whole unit turns entirely on the
 solvent number — which is why `unit_progress` refuses to project the unit off the complex rate and scopes its
 ETA to the leg that has one. **If it does not span, the cost is a boundary, not sampling**: the commit store
 is continuous and the leg is per-leg idempotent, so a resumed unit re-enters at its last committed generation
-and the loss is detection latency. The solvent leg's first three commit intervals close this question, and
-the artifact will carry them the moment they exist.
+and the loss is detection latency.
+
+⭐ **ANSWERED — the solvent leg has its rate, and the unit fits.** Measured 2026-08-05
+(`gcp-s1f-rep-rate.json` → `derived`): solvent at **1.1 s/iter** over
+70 commit intervals = **0.73 leg-hours**, complex at
+36.0 s/iter = 24.0 h, so **`unit_hours` = 24.73 h**
+against `MAX_RUN_S_RUN` = 48 h. **One VM spans a whole unit with ~23 h of headroom.** ⚠ *Superseded,
+retained: "the solvent leg has no measured L4 rate yet" and "the solvent leg's first three commit intervals
+close this question, and the artifact will carry them the moment they exist" — it carries seventy of them.*
 
 ## 1f. ⚠ THE WARMUP→PRODUCTION TRANSITION KILLED AN L4 LEG — localised, NOT yet mechanised (2026-08-01)
 

@@ -134,9 +134,15 @@ The two signatures alternate all afternoon, **at one point 56 seconds apart** �
 four workflow inputs — `gpu_class`, `min_ns_per_h`, `on_demand`, `bid_floor_mult`
 (`gpu-ternary-fep-vast.yml`, the `5aks-gate` job `env:`) — and **the artifact it writes records none of
 them**, so a committed row cannot be attributed to the spec that produced it. Two candidates, not exclusive:
-the ternary lane's self-heal re-placement path dispatches every gate with a hard-coded
-`-f min_ns_per_h=28 -f bid_floor_mult=2.0` and conditionally `-f on_demand=1`, while the supervisor's
-`5aks-gate` dispatch passes no floor. **§2c narrows it, and the narrowing turns on WHERE each filter acts.**
+the ternary lane's self-heal re-placement path and the supervisor's `5aks-gate` dispatch, which passes no
+floor. ⛔ *Superseded, retained — and BOTH halves of it are now false in
+`gpu-ternary-fep-vast.yml`: "dispatches **every** gate with a hard-coded `-f min_ns_per_h=28
+-f bid_floor_mult=2.0` and **conditionally** `-f on_demand=1`".* The floor is per-mode and DERIVED —
+`-f min_ns_per_h="$NSF"` from `ternary_vast_launch.MODE_MIN_NS_PER_H`, which is
+`{'triangle': 28.0, 'triangle_smoke': 28.0}` and carries **no `5aks` entry**, so no floor reaches a 5a-KS
+gate at all; `tests/test_mode_card_floor.py` pins it with the assertion "a hardcoded floor here is how the
+5a-KS revert kept being overridden". And `OD=""` is now unconditional, with the workflow recording its own
+superseded form. `bid_floor_mult=2.0` is unchanged and still correct. **§2c narrows it, and the narrowing turns on WHERE each filter acts.**
 `min_ns_per_h` is **client-side only** (`rank_offers_by_usd_per_ns`), so a card floor **cannot move
 `offers_returned` at all** — it can only depress `qualifying`. The expensive stream shows **both**: 201
 returned against 169 (*higher*) and 80 qualifying against 167 (lower). The **tier** does move both, and in the
