@@ -82,108 +82,92 @@ _TYPES = {
 }
 
 
-class MiniValidator:
+class SchemaSet:
+    """Every schema in `systems/schema/`, validated with the reference implementation.
+
+    ⛔ THIS REPLACED A HAND-ROLLED SUBSET VALIDATOR, AND THE REASON IS THE ONE THIS REPO CARES MOST
+    ABOUT. The previous `MiniValidator` implemented fourteen JSON Schema keywords — exactly the fourteen
+    our schemas happened to use — and SILENTLY IGNORED the rest. It was not under-validating anything on
+    the day it was written. It was a trap: the first time anyone wrote `oneOf`, `minimum`, `uniqueItems`,
+    `maxItems`, `format` or any of ten others, the constraint would be accepted, LOOK enforced, and do
+    nothing, with no error and no warning.
+
+    That is the same shape as every other defect this model has had to fix — a check that reports success
+    while not covering what a reader assumes it covers. `parser_guard.py` exists because a parser that
+    exits 0 on input it cannot read is invisible from CI. A validator that accepts a keyword it does not
+    implement is worse: it does not even report its own blindness.
+
+    ⚠ THE ARGUMENTS FOR HAND-ROLLING IT WERE BOTH WRONG, and are recorded because the reasoning was
+    plausible. (1) "Pure stdlib" was never a repository constraint — CI already installs pytest, numpy,
+    scipy, pymbar, rdkit, pyyaml and boto3, so `jsonschema` is one word on an existing line. (2)
+    CLAUDE.md §6 was cited about not building environments on machines we pay for. Schema validation runs
+    on a free CI runner and in a free sandbox. Invoking a COST rule against a ZERO-COST operation is the
+    same misapplied-rule error the §6 rewrite itself was written to stop.
+
+    ⛔ A MISSING DEPENDENCY FAILS LOUDLY. There is deliberately no fallback to a weaker validator: a
+    silent downgrade is the fail-open pattern this file spends thirty checks removing.
+    """
+
     def __init__(self, schema_dir):
+        try:
+            from jsonschema import Draft202012Validator
+        except ImportError as e:                                   # pragma: no cover - env only
+            raise SystemExit(
+                "systems_check needs `jsonschema` (the reference implementation of the standard the "
+                "schemas in systems/schema/ are written against).\n"
+                "    pip install jsonschema\n"
+                "⛔ There is no fallback on purpose. A hand-rolled subset validator silently ignores "
+                "every keyword it does not implement, which is worse than not validating at all — the "
+                "schema still reads as enforced. (%s)" % e)
+        self._V = Draft202012Validator
         self.docs = {}
         for fn in sorted(os.listdir(schema_dir)):
             if fn.endswith(".json"):
                 with open(os.path.join(schema_dir, fn), encoding="utf-8") as fh:
                     self.docs[fn] = json.load(fh)
+        # ⚠ Resolve $ref ACROSS files. The schemas genuinely cross-reference — every route/strategy/
+        # blocker $refs research-object.schema.json — so a registry is required, not optional.
+        from referencing import Registry, Resource
+        self._registry = Registry().with_resources(
+            [(d.get("$id", fn), Resource.from_contents(d)) for fn, d in self.docs.items()]
+            + [(fn, Resource.from_contents(d)) for fn, d in self.docs.items()])
 
-    def _resolve(self, ref, cur):
-        if ref.startswith("#/"):
-            node = cur
-            for part in ref[2:].split("/"):
-                node = node[part]
-            return node, cur
-        file_part, _, frag = ref.partition("#")
-        doc = self.docs[os.path.basename(file_part)]
-        node = doc
-        if frag:
-            for part in frag.strip("/").split("/"):
-                node = node[part]
-        return node, doc
+    def check_schemas_are_themselves_valid(self, f):
+        """⭐ THE CHECK THE HAND-ROLLED ONE COULD NOT DO AT ALL: is the SCHEMA itself well-formed?
 
-    def validate(self, inst, schema, cur=None, path="$", out=None, _top=True):
-        # A schema that both declares `required` and $refs a base declaring the same field reports it
-        # twice. Dedupe at the top call rather than teaching every branch about it.
-        if _top:
-            inner: list[str] = []
-            self.validate(inst, schema, cur, path, inner, _top=False)
-            seen, uniq = set(), []
-            for m in inner:
-                if m not in seen:
-                    seen.add(m)
-                    uniq.append(m)
-            if out is None:
-                return uniq
-            out.extend(uniq)
-            return out
-        out = [] if out is None else out
-        cur = schema if cur is None else cur
+        A typo in a schema — `"minimun"`, `"enum"` spelled as a list where an object was meant — used to
+        be accepted in silence, because an unknown keyword was simply skipped. The reference
+        implementation checks a schema against the metaschema, so a malformed constraint is now an error
+        rather than an inert line that reads as a rule.
+        """
+        # ⚠ `check_schema` RAISES on the first problem. A checker that dies on a malformed schema tells
+        # you about one file and nothing about the rest, so the metaschema is applied as an ordinary
+        # validation and every problem is COLLECTED — the same reason this whole file reports findings
+        # instead of asserting.
+        meta = self._V(self._V.META_SCHEMA)
+        for fn, doc in sorted(self.docs.items()):
+            for err in meta.iter_errors(doc):
+                where = "/".join(str(x) for x in err.absolute_path) or "(root)"
+                f.err("[S0]", f"{fn} is not a valid JSON Schema at {where}: {err.message[:160]}")
 
-        if "$ref" in schema:
-            sub, subcur = self._resolve(schema["$ref"], cur)
-            self.validate(inst, sub, subcur, path, out, _top=False)
-            return out
+    def validate(self, instance, schema, doc=None):
+        """Every violation, as a stable sorted list of human-readable strings.
 
-        t = schema.get("type")
-        if t:
-            want = _TYPES[t] if isinstance(t, str) else tuple(_TYPES[x] for x in t)
-            # bool is a subclass of int in Python; JSON Schema does not agree
-            if t in ("integer", "number") and isinstance(inst, bool):
-                out.append(f"{path}: expected {t}, got boolean")
-                return out
-            if not isinstance(inst, want):
-                out.append(f"{path}: expected {t}, got {type(inst).__name__}")
-                return out
+        ⚠ `doc` IS THE RESOLUTION SCOPE AND IT IS NOT OPTIONAL FOR A SUBSCHEMA. Several of our schemas
+        are validated at a `$defs` member — `technology.schema.json#/$defs/forecast` — and that member
+        contains its own `#/$defs/scenario` refs. Handing the member to a validator as its ROOT makes
+        those refs point at nowhere inside it. So the validator is built on the whole document and then
+        `evolve`d onto the member, which keeps the document as the base for every internal `$ref`.
+        (The hand-rolled validator hid this by resolving refs against a separately-passed doc, which
+        worked and taught nobody that the scope mattered.)
+        """
+        v = self._V(doc if doc is not None else schema, registry=self._registry).evolve(schema=schema)
+        out = []
+        for e in v.iter_errors(instance):
+            where = "/".join(str(x) for x in e.absolute_path) or "(root)"
+            out.append(f"{where}: {e.message}")
+        return sorted(set(out))
 
-        if "const" in schema and inst != schema["const"]:
-            out.append(f"{path}: must be {schema['const']!r}, got {inst!r}")
-        if "enum" in schema and inst not in schema["enum"]:
-            out.append(f"{path}: {inst!r} not in enum {schema['enum']}")
-
-        if isinstance(inst, str):
-            if "pattern" in schema and not re.search(schema["pattern"], inst):
-                out.append(f"{path}: {inst!r} does not match {schema['pattern']}")
-            if "minLength" in schema and len(inst) < schema["minLength"]:
-                out.append(f"{path}: shorter than minLength {schema['minLength']}")
-
-        if isinstance(inst, list):
-            if "minItems" in schema and len(inst) < schema["minItems"]:
-                out.append(f"{path}: fewer than minItems {schema['minItems']}")
-            if "items" in schema:
-                for i, v in enumerate(inst):
-                    self.validate(v, schema["items"], cur, f"{path}[{i}]", out, _top=False)
-
-        if isinstance(inst, dict):
-            for k in schema.get("required", []):
-                if k not in inst:
-                    out.append(f"{path}: missing required field {k!r}")
-            props = schema.get("properties", {})
-            for k, v in inst.items():
-                if k in props:
-                    self.validate(v, props[k], cur, f"{path}.{k}", out, _top=False)
-                elif schema.get("additionalProperties") is False and not k.startswith("_"):
-                    out.append(f"{path}: unexpected field {k!r}")
-
-        for sub in schema.get("allOf", []):
-            self.validate(inst, sub, cur, path, out, _top=False)
-        if "if" in schema:
-            probe = []
-            self.validate(inst, schema["if"], cur, path, probe, _top=False)
-            branch = "then" if not probe else "else"
-            if branch in schema:
-                self.validate(inst, schema[branch], cur, path, out, _top=False)
-        if "not" in schema:
-            probe = []
-            self.validate(inst, schema["not"], cur, path, probe, _top=False)
-            if not probe:
-                out.append(f"{path}: must NOT match the `not` subschema")
-        return out
-
-
-# ───────────────────────────── loading ─────────────────────────────
 
 def load_graph():
     g = {}
@@ -275,7 +259,8 @@ def derive(g):
 # ───────────────────────────── invariants ─────────────────────────────
 
 def check_schemas(g, f):
-    mv = MiniValidator(SCHEMA)
+    mv = SchemaSet(SCHEMA)
+    mv.check_schemas_are_themselves_valid(f)
     pairs = [("strategies", "strategy.schema.json"),
              ("routes", "route.schema.json"),
              ("blockers", "blocker.schema.json")]

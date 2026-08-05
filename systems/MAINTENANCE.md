@@ -89,6 +89,28 @@ deliver."* The other two layers do run. ⭐ **A credited-but-silent scanner is w
 because the credit is what stops anyone checking. Either fix it or retire the claim; it is recorded here so
 that the choice is visible rather than assumed.
 
+**⛔ A HAND-ROLLED SUBSET OF A STANDARD IS A TRAP, AND THE ARGUMENTS FOR BUILDING ONE WERE BOTH FALSE.**
+The schemas were checked by a ~120-line validator implementing fourteen JSON Schema keywords — exactly the
+fourteen the schemas happened to use. It was under-validating **nothing** on the day it was written. That is
+what made it dangerous: the first time anyone wrote `oneOf`, `minimum`, `uniqueItems`, `maxItems`,
+`maxLength` or any of ten others, the constraint would be accepted, **look enforced, and do nothing** — no
+error, no warning. `parser_guard.py` exists because a parser that exits 0 on input it cannot read is
+invisible from CI; a validator that accepts a keyword it does not implement cannot even report its own
+blindness.
+
+⚠ **Both justifications were wrong and are recorded because they were plausible.** *"Pure stdlib"* was never
+a repository constraint — CI already installs pytest, numpy, scipy, pymbar, rdkit, pyyaml and boto3, so
+`jsonschema` was one word on an existing line. And **§6 was cited about not building environments on
+machines we pay for**: schema validation runs on a free CI runner and a free sandbox, so that was a **cost
+rule invoked against a zero-cost operation** — the same misapplied-rule error §6's own rewrite exists to
+stop. `pip install jsonschema` took four seconds.
+
+⭐ The swap also bought a check the hand-rolled one could not perform at all: **are the schemas themselves
+valid?** A typo in a schema used to be an inert line that still read as a rule. And it immediately surfaced a
+real `$ref`-scoping bug the old code had hidden. **A missing dependency now fails loudly with an actionable
+message — there is deliberately no fallback, because a silent downgrade is the fail-open pattern this whole
+file exists to remove.**
+
 **⛔ A CHECK WRITTEN FROM ONE INCIDENT INHERITS THAT INCIDENT'S BLIND SPOT — AND REPORTS IT WITH TOTAL
 CONFIDENCE.** `[K1]` was written the same day 24 artifacts were found stranded on `modalities-cache`. Its
 message therefore named the two causes in front of its author — *it's on another ref*, *it was never run* —

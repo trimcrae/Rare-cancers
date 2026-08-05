@@ -154,39 +154,6 @@ def test_slugify_matches_github_for_a_heading_with_glyphs():
         "route-1--atr-inhibitor-synthetic-lethality"
 
 
-# ───────────────────────── the mini schema validator is real ─────────────────────────
-
-def test_validator_enforces_enums_and_patterns():
-    mv = sc.MiniValidator(os.path.join(SYS, "schema"))
-    schema = mv.docs["blocker.schema.json"]
-    bad = {"id": "NOTABLOCKER", "name": "x" * 20, "kind": "not_a_kind",
-           "statement_about": "y" * 20, "owner": {"file": "a"}}
-    msgs = mv.validate(bad, schema, schema)
-    assert any("does not match" in m for m in msgs), msgs
-    assert any("not in enum" in m for m in msgs), msgs
-
-
-def test_validator_enforces_conditional_requirements():
-    """work_state `in_work` must name the running job.
-
-    `in_work` instructs every reader not to start a second copy, so one on something nobody has
-    started is an instruction not to do the work. It has been wrong seven times in this repository.
-    """
-    mv = sc.MiniValidator(os.path.join(SYS, "schema"))
-    doc = mv.docs["research-object.schema.json"]
-    msgs = mv.validate({"work_state": "in_work", "status": "active", "confidence": "low",
-                        "last_verified": "2026-08-05"}, doc["$defs"]["state"], doc)
-    assert any("running_job" in m for m in msgs), msgs
-
-
-def test_validator_reports_each_problem_once():
-    """A schema that both declares `required` and $refs a base declaring it must not double-report."""
-    mv = sc.MiniValidator(os.path.join(SYS, "schema"))
-    schema = mv.docs["route.schema.json"]
-    msgs = mv.validate({"id": "RT-X", "level": "L2", "kind": "route"}, schema, schema)
-    assert len(msgs) == len(set(msgs)), msgs
-
-
 # ───────────────────────── the fail-red guard ─────────────────────────
 
 def test_parser_guard_passes_on_the_committed_tree():

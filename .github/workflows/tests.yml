@@ -32,7 +32,7 @@ jobs:
       # not cosmetic: on 2026-07-27 another lane's red assertions took the whole step-1 supervision tick down
       # with them (the tick gated on pytest before it measured). The test CAN run anywhere — it needs no
       # credentials and touches no network — so the fix is to install the dependency, not to skip the test.
-      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3
+      - run: pip install pytest numpy scipy pymbar rdkit pyyaml boto3 jsonschema
       # Run the doc linters FIRST and standalone. Both are also asserted inside the pytest
       # suite, but a doc author who breaks one should see the offending file:line as a
       # failing step named after the linter, not a traceback buried in ~1500 tests.

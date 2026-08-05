@@ -39,6 +39,25 @@ else
   echo "   FAILED"; rc=1
 fi
 
+# ⛔ ADDED 2026-08-05 — THE SYSTEMS MODEL'S INVARIANTS WERE NOT IN THE STATED PRE-COMMIT GATE.
+# CLAUDE.md §7 says "before committing, ./scripts/preflight.sh must pass", and this script did not run
+# systems_check or parser_guard at all: ~35 invariants — a failing instrument cited as SUPPORT, a
+# permanent blocker claiming a technology, a drifted generated view, a parser that has lost its input —
+# were CI-only. Anyone following the documented workflow would not have run them.
+echo "== systems model (invariants, pointers, view drift) =="
+if python3 systems/systems_check.py --check >/dev/null 2>&1; then
+  echo "   OK"
+else
+  echo "   FAILED -- rerun 'python3 systems/systems_check.py --check' to see why"; rc=1
+fi
+
+echo "== parser guard (every registered parser can still find its input) =="
+if python3 systems/parser_guard.py >/dev/null 2>&1; then
+  echo "   OK"
+else
+  echo "   FAILED -- rerun 'python3 systems/parser_guard.py' to see why"; rc=1
+fi
+
 echo "== validate (EMC clinical registry evidence contract) =="
 if node scripts/validate-registry.mjs >/dev/null 2>&1; then
   echo "   OK"
