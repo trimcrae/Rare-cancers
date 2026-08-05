@@ -566,7 +566,8 @@ proof:
 
 **The one decisive gap, stated plainly: there is NO direct loss-of-function experiment in any EMC cell line —
 every published EMC functional result is *gain-of-function* (transactivation, transformation of non-EMC cells);
-no RNAi/CRISPR/ASO knockdown of NR4A3 or the fusion in a human EMC model (e.g. H-EMC-SS) with a survival readout
+no RNAi/CRISPR/ASO knockdown of NR4A3 or the fusion in a human EMC model (e.g. the patient-derived USZ20-EMC1 /
+NCC-EMC1-C1 lines) with a survival readout
 exists** (verified 2026-07-02, [`nr4a3-emc-biology-evidence.md`](./nr4a3-emc-biology-evidence.md)). So the
 multi-pillar case above is a strong *prior*, not demonstrated dependence. The acute, specific degradation (dTAG)
 test that would convert this prior into a demonstration is the make-or-break experiment, delegated to the
