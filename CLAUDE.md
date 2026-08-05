@@ -25,8 +25,14 @@ misattributed (trimcrae, 2026-08-02). **[STRATEGY.md](./STRATEGY.md) is now hist
 (superseded numbers, cited as data) and Appendix B (retired framings).
 
 **This file is standing RULES, not the plan and not a status board.** It loads into every session, so it stays
-short by construction: no cost figures, no rung-by-rung ladder, no history. Those live in the roadmap, and
-anything here that restates them is a bug — see rule 1.
+short by construction: **no ladder, no gate scoreboard, no spend totals, no "what is running now".** Those
+live in the roadmap, and anything here that restates them is a bug — see rule 1.
+⚠ *Superseded, retained: "no cost figures … no history." Both were false of this file as written — it
+carries `$0.006539/ns`, `$0.003412/ns`, `$0.200/hr`, `$22.62`, `$68.98`, and dated incident narratives
+throughout §4, §6 and §7. The distinction that actually holds is not figure-vs-no-figure: **a number stays
+here only when it IS a rule** (the buy line you refuse to cross), and **an incident stays only when it is
+the evidence a rule rests on** — which is why nearly every rule below names the day it was learned. What
+does not belong is the plan's own state.*
 
 ---
 
@@ -46,8 +52,11 @@ anything here that restates them is a bug — see rule 1.
      [`pinned-figures.json`](./research/manuscripts/pinned-figures.json) IN THE SAME COMMIT.** Not paperwork —
      it is how CI finds the copies you missed.
   **Enforced, because prose discipline is exactly what already failed here** (the same reason `lint_claims.py`
-  exists): [`lint_consistency.py`](./research/manuscripts/lint_consistency.py) runs in CI over the roadmap,
-  this file, pricing.md, bid-strategy.md, the schedule JSON, the paper, the SI and the NR-V04 prereg. Run it
+  exists): [`lint_consistency.py`](./research/manuscripts/lint_consistency.py) runs in CI over every file in
+  [`pinned-figures.json`](./research/manuscripts/pinned-figures.json) → `targets` — the roadmap, this file,
+  the paper and SI, the schedule JSON, the NR-V04 prereg and the compute docs among them. ⚠ *Superseded,
+  retained: an eight-file list typed out here. Nothing in it was wrong; it had silently fallen five short of
+  the registry's 13, which is what restating a list instead of pointing at it always does.* Run it
   before committing doc changes: `python3 research/manuscripts/lint_consistency.py`. It clears correctly-written
   retractions, so **a red build is a real inconsistency — fix the doc, don't loosen the pattern.**
 - **⏰ TIMES: ALWAYS US EASTERN, 12-HOUR AM/PM. NEVER UTC, NEVER 24-HOUR.** Every time you report — ETAs, job
@@ -218,8 +227,14 @@ When in doubt: do it and show it.
   ([vast-placement-facts.md §3b](./research/compute/vast-placement-facts.md)).
   **(b)** ⚠ **A RECORD THAT LOOKS PLAUSIBLE IS MORE DANGEROUS THAN ONE THAT LOOKS EMPTY.** 17 smoke legs
   echoed `prod_ns: 5.0` and a filled `R1_interface` **from their ENV rather than from what ran**; a
-  completeness count believed them, `panel_complete` went true, and a frozen gate was ONE leg short of emitting
-  a fabricated verdict ([STRATEGY.md Appendix A](./STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)
+  completeness count believed them, `panel_complete` went true — and the frozen gate **EMITTED a verdict on
+  them**, carrying model-level E1 means for all three arms at `tier: INDETERMINATE`. It had to be withdrawn
+  in full; no R1 result exists. ⚠ *Superseded, retained: "a frozen gate was ONE leg short of emitting a
+  fabricated verdict." The board did read 17 of 18 at 10:54 AM ET — but the 18th landed sixteen minutes
+  later and the verdict went out. Writing it as a near miss makes the guard sound like it held. It did not:
+  what stopped this was a human reading the numbers.* An E1 near 1 Å on a smoke leg is 2 ps of sampling
+  after ZERO equilibration, i.e. the minimised starting structure measured against itself
+  ([STRATEGY.md Appendix A](./STRATEGY.md#appendix-a--superseded-numbers-and-retracted-claims)
   57; the predicate that closes it is `nrv04_retro_panel.production_leg_check`). **A field's PRESENCE is never
   evidence of its provenance** — check the thing only a real run can produce (wall time, frame count,
   equilibration), never the thing a default can fill in.
@@ -265,8 +280,12 @@ When in doubt: do it and show it.
   ones — to strengthen or honestly refute the claims, and post only once that work is folded in. Cost is a reason
   to sequence and right-size, not to skip a decision-relevant run.
   **SINGLE DELIVERABLE:** [nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md) + its SI
-  **is** both the ChemRxiv preprint and the JCIM submission. `nr4a3-degrader-preprint*.md` are retired stubs — a
-  parallel condensed draft drifted out of sync and self-contradicted; **don't recreate one.** Pre-post checklist:
+  **is** both the ChemRxiv preprint and the JCIM submission. `nr4a3-degrader-preprint.md` and
+  `nr4a3-degrader-preprint-si.md` are retired stubs — a
+  parallel condensed draft drifted out of sync and self-contradicted; **don't recreate one.** ⚠ *Superseded,
+  retained: "`nr4a3-degrader-preprint*.md` are retired stubs" — that glob also swept in
+  `nr4a3-degrader-preprint-plan.md`, which is 174 live lines and which this very sentence goes on to cite.*
+  Pre-post checklist:
   [preprint-plan.md](./research/manuscripts/nr4a3-degrader-preprint-plan.md); ready-to-send outreach:
   [outreach-emails.md](./research/manuscripts/nr4a3-degrader-outreach-emails.md).
   **This is long-lived on a rising frontier, not a one-shot:** parked items are "revisit when capability X lands",
@@ -322,10 +341,15 @@ When in doubt: do it and show it.
   self-sustaining** — the gap between scheduled ticks has in practice been covered by an agent remembering to
   dispatch, and when the agent stopped, supervision stopped and nothing said so. Consequences, all binding:
   **(1)** never plan a fleet's safety around a cron interval, and never reassure from one; **(2)** a
-  `*/N`-minute cron comment is a REQUEST, not a cadence — the delivered gaps are MEASURED and printed by
-  [`fleet-supervision-alarm.yml`](.github/workflows/fleet-supervision-alarm.yml), which is their one home
-  (per rule 1, do not re-type a remembered figure into a workflow comment — that is exactly how a stale
-  "~55-65 min" survived into two files and made a normal silence look like an outage); **(3)** while any fleet
+  `*/N`-minute cron comment is a REQUEST, not a cadence — the delivered gaps are MEASURED at runtime and
+  printed by [`fleet-supervision-alarm.yml`](.github/workflows/fleet-supervision-alarm.yml), the **only
+  measurement** of them (per rule 1, do not re-type a remembered figure into a workflow comment — that is
+  exactly how a stale "~55-65 min" survived into two files and made a normal silence look like an outage;
+  ✅ both were closed 2026-08-05, over a week after the alarm's own header recorded that they were stale.
+  ⚠ *Superseded, retained: "which is their one home." The dated 2026-07-27 measurement is narrated in
+  `fleet_supervision_alarm.py` and quoted in three workflow headers, so "one home" was false of the
+  historical figures; it is true only of the live reading, which is what the rule is actually about.*);
+  **(3)** while any fleet
   is billing, **you** are the supervisor — dispatch the tick yourself on the cadence the work needs.
 - **Self-wake = a BACKGROUND-BASH POLLER, not cron** (verified 2026-06-30; a sibling session ran 48 h this way).
   Launch the loop with `run_in_background: true`; its exit delivers a `<task-notification>` that re-invokes you —
@@ -390,10 +414,21 @@ When in doubt: do it and show it.
   ```
   `--entrypoint python` bypasses the image's `autoteardown.py` ENTRYPOINT (for billed GPU legs, not $0 analysis).
   **Log in even for public images** — anonymous pulls share the runner IP and get rate-limited.
-  **★ PARITY IS THE SCIENTIFIC ARGUMENT, NOT JUST SPEED:** `Dockerfile.ternaryfep` is byte-for-byte the spec
-  `gpu-ternary-fep-gcp.yml` builds, and **analysing an OpenFE trajectory with a different pymbar/openmmtools than
-  PRODUCED it can change the MBAR numbers.** An ad-hoc `micromamba create` in an analysis step is a silent
-  protocol deviation. Dep genuinely missing → add it to the `Dockerfile.*` and **re-bake once**. Only if you truly
+  **★ PARITY IS THE SCIENTIFIC ARGUMENT, NOT JUST SPEED**, because **analysing an OpenFE trajectory with a
+  different pymbar/openmmtools than PRODUCED it can change the MBAR numbers.** An ad-hoc `micromamba create`
+  in an analysis step is a silent protocol deviation.
+  ⚠ **BUT THE PARITY IS A SUPERSET, NOT AN IDENTITY, AND THE DIFFERENCE LANDS ON THE PARITY-CRITICAL PACKAGE
+  (measured 2026-08-05).** *Superseded, retained: "`Dockerfile.ternaryfep` is byte-for-byte the spec
+  `gpu-ternary-fep-gcp.yml` builds" — and `Dockerfile.ternaryfep`'s own header said the same.* Token-diffing
+  the two `mamba create` lines: the scientific core is identical package-for-package and in the same order;
+  the image adds exactly four — **`netcdf-fortran`, `openmmtools`, `boto3`, `awscli`** — for the portable
+  driver. ⛔ **`openmmtools` and `pymbar` are named explicitly in the image and installed by NAME nowhere in
+  the GCP workflow**, which nonetheless imports both (`gpu-ternary-fep-gcp.yml:653`), so there they arrive
+  TRANSITIVELY through `openfe>=1.12`. Explicit-unpinned and transitive can float to different versions.
+  ⚠ **Whether they actually resolve the same is UNMEASURED** — no committed artifact records the versions
+  from both sides, and an absent reading is not a reading of absence (§4). The check is free and decisive:
+  solve both specs in one CI job and diff `openfe/openmmtools/pymbar.__version__`. Until that runs, the
+  parity claim covers the shared core and **not** the two packages the argument above is actually about. Dep genuinely missing → add it to the `Dockerfile.*` and **re-bake once**. Only if you truly
   cannot re-bake, use `setup-micromamba` **with `cache-environment: true`**. *(Cost of learning this: ~20 min of
   solve per run, three runs in a row, while the image already carried every package.)*
 
@@ -560,13 +595,20 @@ When in doubt: do it and show it.
 - **★★ KEEP EVERYTHING SYNCED TO `main`, AND KEEP `main` CURRENT — BRANCH DRIFT IS A DATA-LOSS BUG, NOT AN
   INCONVENIENCE (trimcrae, 2026-07-29, after it cost a day).** Long-lived feature branches that a *workflow*
   runs from are the dangerous kind, because they hold **state as well as code**. Measured that morning:
-  `step1-fanout-autoscale.yml` checks out `fleet_branch` (default `claude/max-effort-2dq11l`) and writes its
-  map there, so `main` said the fan-out was **1 of 19 edges, $22.62** while the branch — where the lane really
-  runs — said **14 of 19, $68.98, 197 rentals**. Three separate harms, all real:
+  `step1-fanout-autoscale.yml` checks out `fleet_branch` and writes its
+  map there. Its default was then `claude/max-effort-2dq11l`, so `main` said the fan-out was **1 of 19 edges,
+  $22.62** while the branch — where the lane really ran — said **14 of 19, $68.98, 197 rentals**. ✅ **CLOSED:
+  the default is now `main` and every fallback in that workflow is `|| 'main'`; `step1-fanout-map.json` is
+  byte-identical on this branch and `origin/main`.** The incident is kept because the *rule* is what binds,
+  not the branch name. Three separate harms, all real:
   1. **The paper was wrong.** §2.9 was written off `main`'s artifact and understated the work by 13 computed
      ΔΔG edges. An artifact on the wrong branch is a stale fact that reads as a current one.
-  2. **Fixes landed where nothing runs.** The exclusion-set repair (union 58 → 27), `leg_failure_breaker` and
-     `teardown_decision` all went to `main`, which that lane does not check out — so they were inert.
+  2. **Fixes landed where nothing runs.** The exclusion-set repair, `leg_failure_breaker` and
+     `teardown_decision` all went to `main`, which that lane did not check out — so they were inert.
+     ⚠ *Superseded, retained: this line carried "(union 58 → 27)". Those numbers have **no home anywhere** —
+     not in `vast_machine_blacklist.py`, not in any artifact, not in history — so rule 1 cannot check them,
+     and the mechanism they describe is itself retired (`DURABLE_EXCLUSIONS_ENABLED = False`). An unhomed
+     figure inside the rule that exists to stop unhomed figures.*
   3. **Re-pointing the lane became expensive.** Flipping `fleet_branch` to `main` would have shown 13 finished
      edges as unrun and **re-bought them** (~$46) on a lane that rents unattended.
   So: **merge to `main` early and often; rebase working branches onto `main` before every push; never let a
@@ -580,8 +622,13 @@ When in doubt: do it and show it.
   `sourceId`/`primaryRef`, primary vs secondary) and a fixed pooling method (crude denominator-weighted
   proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[systems/POLICY-evidence.md](./systems/POLICY-evidence.md)** before
   touching `registry`.
-- **Before committing:** `./scripts/preflight.sh` must pass. It runs the registry evidence contract
-  (`validate-registry.mjs`), the doc linters and the modalities tests, and its exit code cannot be masked.
+- **Before committing:** `./scripts/preflight.sh` must pass. **Five gates, in this order:** (1) the consistency
+  linter, (2) `systems/systems_check.py --check`, (3) `systems/parser_guard.py`, (4) the registry evidence
+  contract (`validate-registry.mjs`), (5) the modalities tests. Its exit code cannot be masked.
+  ⚠ **`lint_claims.py` is NOT in preflight** — it runs only in CI, so a green preflight does not mean the
+  language rules passed. *Superseded, retained: "It runs the registry evidence contract
+  (`validate-registry.mjs`), the doc linters and the modalities tests" — written before gates 2 and 3 existed,
+  and "the doc linters" plural was never true of this script.*
 - **★★ THE ARCHITECTURE IS [`systems/`](./systems/) — READ
   [`systems/views/L0-ecosystem.md`](./systems/views/L0-ecosystem.md) FOR THE WHOLE LANDSCAPE IN ONE SCREEN.**
   `systems/graph/*.json` is the source of truth for every strategy family, route, blocker, technology
@@ -594,6 +641,11 @@ When in doubt: do it and show it.
   without being asked."* The HTML, assets, templates, per-cancer data index, the `add-cancer` skill and the
   Pages workflow are gone. **Two things survived because they were never site tooling:** the cited EMC
   clinical registry, now [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
-  — read by the manuscript meta-analysis and by the repurposing gap analysis, both via segment-built paths a
-  text search will not find — and its validator, now `scripts/validate-registry.mjs`, which is gate 2 of
-  preflight. **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).
+  — read by `research/meta/meta-analysis.mjs` and `research/hypotheses/enumerate-drugs.mjs`, both of which build
+  the path from segments, so **searching for the DIRECTORY name finds neither; searching for the filename finds
+  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 4 of preflight's 5**.
+  **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).
+  ⚠ *Superseded, retained: "both via segment-built paths a text search will not find … which is gate 2 of
+  preflight." The first over-stated the problem — `grep emc-clinical-registry` returns both readers at once,
+  and the precise warning is the one `enumerate-drugs.mjs` itself writes. The second was simply the wrong
+  ordinal, which is worse than vague: it sends a reader to the wrong gate when preflight fails.*

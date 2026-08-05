@@ -25,8 +25,11 @@ name: Fleet supervision alarm — is anything actually watching the billing GPUs
 # from CODE, not from GitHub's scheduler. Measured delivery on 2026-07-27 — both workflows, same day:
 #     step1-fanout-autoscale (*/20) : 12:52 AM, 4:19 AM, 7:44 AM, 10:05 AM ET -> gaps 220, 208, 205, 141 min
 #     vast-watchdog          (*/15) : 1:59 AM, 5:56 AM, 8:53 AM, 11:37 AM ET  -> gaps 235, 238, 177, 164 min
-# Both files' comments still claim GitHub lands them "~55-65 min apart". That was true on 2026-07-26 and is
-# off by ~3x now. So the honest position is: the real cadence is 2.5-4 h, the gap between scheduled ticks has
+# Both files' comments used to claim GitHub lands them "~55-65 min apart" — true on 2026-07-26, off by ~3x
+# the next day. ✅ CLOSED 2026-08-05: both copies (`vast_watchdog.py`, at `stall_ticks` and at the heartbeat
+# read) now point HERE instead of carrying a figure. ⚠ They survived over a week AFTER this comment recorded
+# that they were stale — noting a defect is not closing one, and this file is the proof of how long that gap
+# can run. So the honest position is: the real cadence is 2.5-4 h, the gap between scheduled ticks has
 # in practice been covered by an agent hand-dispatching (25 of the last 30 autoscale runs were
 # workflow_dispatch), and THIS ALARM CANNOT RESTORE THAT CADENCE. It can only make its absence loud. The
 # alarm prints the measured delivery gaps on every run so the stale "~55-65 min" figure cannot be re-quoted

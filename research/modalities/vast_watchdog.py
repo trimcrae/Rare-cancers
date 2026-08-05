@@ -449,9 +449,13 @@ class ParalogueMdKind(KindBase):
     # the window closes as soon as the job marks `metad`, which it does with done_ns=0 at the top of its loop.
     setup_grace_min = 90.0
     # The job's heartbeat republishes done_ns every 2 min, and the legs run ~5-6 ns/h, so any real tick
-    # interval (the cron says */15 but GitHub throttles busy repos to ~55-65 min) sees a large advance. Two
-    # frozen ticks is a genuine freeze, and it also absorbs the one non-advancing tick a resume can produce
-    # (a preemption loses at most the 2-minute sync interval, ~0.19 ns, which the next tick recovers).
+    # interval sees a large advance — the cron says */15, but the DELIVERED gap is far longer and is not a
+    # number to remember here: it is measured and printed by `fleet-supervision-alarm.yml`. Two frozen ticks
+    # is a genuine freeze, and it also absorbs the one non-advancing tick a resume can produce (a preemption
+    # loses at most the 2-minute sync interval, ~0.19 ns, which the next tick recovers).
+    # ⚠ Superseded, retained: "GitHub throttles busy repos to ~55-65 min". True on 2026-07-26, off by ~3x by
+    # 2026-07-27, and it survived here for over a week AFTER `fleet-supervision-alarm.yml` recorded that both
+    # copies of it were stale — which is exactly how a normal silence came to read as an outage.
     stall_ticks = 2
 
     PHASE_RANK = {"resume_download": 0, "metad": 1, "release": 2, "package": 3, "done": 4}
@@ -1205,7 +1209,9 @@ def tick(path=None, dry_run=False):
 
     # HEARTBEAT, read BEFORE it is written: the gap since the previous pass is the only in-band evidence that
     # the cron is actually firing at the cadence anybody believes it is. GitHub throttles schedules on busy
-    # repos, so `*/15` really lands ~55-65 min apart — that is expected and is reported, not "fixed".
+    # repos, so `*/15` lands far apart — expected, reported, not "fixed". The delivered gaps have ONE home,
+    # `fleet-supervision-alarm.yml`, which measures them; do not re-type a remembered figure here.
+    # ⚠ Superseded, retained: "`*/15` really lands ~55-65 min apart" — see the note at `stall_ticks`.
     hb_key = f"{state_prefix}/watchdog/heartbeat.json"
     prev_hb = _read_json_key(state_bucket, hb_key, {}) or {}
     gap = ""
