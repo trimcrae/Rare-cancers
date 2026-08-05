@@ -9,7 +9,7 @@ purpose: See the document body; purpose was not stated separately when frontmatt
 scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
+last_verified: 2026-08-05
 _backfilled: true
 ---
 # In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket

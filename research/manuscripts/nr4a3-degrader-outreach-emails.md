@@ -37,7 +37,7 @@ _backfilled: true
 - **Rare-cancer / sarcoma foundations & patient-advocacy orgs** — e.g. Sarcoma Foundation of America and
   EMC/soft-tissue-sarcoma-focused funds; they connect leads to labs and sometimes fund validation.
 - **NR4A / T-cell-exhaustion immunology labs (the CAR-T pole)** — the **Anjana Rao group (La Jolla Institute)**
-  network authored the landmark NR4A-triple-KO CAR-T de-exhaustion result (Chen et al., *Nature* 2019); other
+  network authored the widely-cited NR4A-triple-KO CAR-T de-exhaustion result (Chen et al., *Nature* 2019); other
   labs working NR4A/TOX/NFAT exhaustion biology are natural readers for the **pan-NR4A** design mode (a chemical,
   washable alternative to the genetic triple-KO). Template 6.
 - **Cell-therapy process-development / CAR-T manufacturing groups** — academic GMP/process-dev cores and
@@ -53,15 +53,21 @@ _backfilled: true
 Dear Prof. [LAST NAME],
 
 I'm an independent researcher. I've just posted a preprint on the computational druggability of **NR4A3** — the
-NR4A paralogue with no experimental structure, and the driver of extraskeletal myxoid chondrosarcoma (EMC) and
+NR4A paralogue whose only experimental structure is an apo solution-NMR ensemble (PDB **8XTT**), and the
+driver of extraskeletal myxoid chondrosarcoma (EMC) and
 acinic cell carcinoma. I'm sharing it because [**your work on NR-LBD pocket dynamics / cryptic pockets is
 directly relevant** — personalise].
 
 Briefly: well-tempered metadynamics plus an unbiased "release" run show NR4A3's occluded orthosteric pocket
-**breathes into a metastable, druggable induced-fit cavity** (~24% of unbiased frames), paralleling the Nurr1
+**breathes into a druggable induced-fit cavity** (56 % / 40 % / 80 % of frames per replica, **44/75 = 59 %
+pooled**), paralleling the Nurr1
 breathing pocket. A pocket-conditioned de-novo campaign then produced a candidate (**denovo_401**) that survives
-a full control battery — multi-snapshot MM-GBSA **above a like-for-like decoy null**, plus a state-matched
-re-dock — as a predicted NR4A3-selective (vs NR4A1/2) binder.
+a **release-frame** control battery — multi-snapshot MM-GBSA above a like-for-like decoy null, plus a
+state-matched re-dock — as a predicted NR4A3-selective (vs NR4A1/2) binder. ⚠ Two limits travel with it and
+I would rather you heard them from me: the margin is **release-frame-specific**, not universal — against the
+metadynamics-opened frame's decoy null it sits at ~84th percentile and does **not** clear — and the frame the
+candidate was generated into has since been audited and scores **0.259, below our own D\* = 0.53**, so every
+`denovo_401`-derived result must be read subject to that.
 
 It's entirely in-silico (no wet lab), so the candidate is a **prediction, not a validated molecule** — which is
 exactly where I'd value your read. If any of it looks worth a wet-lab test (even a thermal-shift or SPR binding
@@ -82,9 +88,11 @@ Dear Dr. de Vera,
 Your 2019 *Structure* paper defining Nurr1's dynamic canonical pocket was the direct inspiration for a
 computational study I've just posted as a preprint, and I'd be grateful for your eye on it.
 
-I asked whether **NR4A3** — the uncrystallised paralogue driving EMC and acinic cell carcinoma — has the same
+I asked whether **NR4A3** — the paralogue driving EMC and acinic cell carcinoma, with no *holo* structure and
+only an apo NMR ensemble (PDB 8XTT) — has the same
 "breathing" behaviour. Metadynamics plus an unbiased release run say yes: its occluded orthosteric pocket is
-**metastable and druggable in ~24% of unbiased frames** (an induced-fit cavity, not a static pocket), and a
+**druggable in 56 % / 40 % / 80 % of frames per replica — 44/75 = 59 % pooled** (an induced-fit cavity,
+not a static pocket), and a
 de-novo campaign produced a predicted NR4A3-selective candidate that clears a decoy-null specificity control.
 
 It's in-silico only, so it stands or falls on wet-lab follow-up. Given your NR4A biophysics, I wanted to offer
@@ -103,10 +111,12 @@ With appreciation,
 
 Dear [SGC contact / target-nomination team],
 
-NR4A3 is an understudied, "undruggable"-reputation nuclear receptor with **no experimental structure**, yet it
+NR4A3 is an understudied, "undruggable"-reputation nuclear receptor with **no ligand-bound structure** (its only
+experimental structure is the apo NMR ensemble 8XTT), yet it
 drives two cancers (EMC; acinic cell carcinoma) by gain of NR4A3. I've posted a preprint characterising its
 druggability computationally — a cryptic, induced-fit orthosteric pocket (metadynamics + unbiased release run)
-and a de-novo, decoy-null-validated selective candidate.
+and a de-novo selective candidate that clears a decoy null **in the release frame** — release-frame-specific,
+not universal; see the preprint's §6 Gate 4 and the generation-frame audit.
 
 This seems a natural fit for the SGC's understudied-protein, open-science model. Would NR4A3's ligand-binding
 domain be a candidate for your **structural / biophysical pipeline** (LBD production + a binding/thermal-shift
@@ -181,7 +191,8 @@ degrader (for NR4A3-driven cancers); the **other pole is a deliberately *pan-NR4
 **washable, ex-vivo** route to the same all-three-NR4A loss your genetic triple-KO achieves, but as a dose-tunable
 manufacturing additive rather than an edit (and ex-vivo use sidesteps the systemic NR4A1/NR4A3 leukaemogenicity
 that blocks pan-NR4A blockade in vivo). Computationally the framework already produces matter that engages all
-three paralogue pockets.
+three paralogue pockets — ⚠ at **docking tier**, i.e. triage-grade and within docking noise, not a binding
+claim about any of the three.
 
 It's entirely in-silico — the pan candidates are predicted binders, not validated, and the functional
 exhaustion-reversal claim is precisely the wet-lab test I can't do. If a chemical NR4A de-exhaustion tool would be

@@ -102,9 +102,14 @@ below, do the paired action and open the follow-up; otherwise no action.
 > sequence (*never revivable*) is filed apart from a limitation of today's methods (*the most
 > revivable kind, and where most of this program's failures actually sit*) — and every non-permanent
 > closure names, in **searchable** words, what has to land and **which routes come back with it**.
-> ⚠ **Most of those triggers are NOT rows in the table below**, and the map's own checker WARNs on
-> each one it cannot find here — so treat that warning list as the backlog of capabilities nobody is
-> currently scanning for. This table stays the one home of the **capability → action** pairing; the
+> ⚠ **Most of those triggers are NOT rows in the table below, and that is no longer a backlog.**
+> ⛔ *Superseded, retained: "the map's own checker WARNs on each one it cannot find here — so treat that
+> warning list as the backlog of capabilities nobody is currently scanning for."* That warning list is
+> gone, because it was wrong: `[Z5]` read only this file and reported 15 triggers as unwatched when 12
+> of them named a machine `scan_trigger` query that `[Z8]`, three lines below it, was already
+> resolving. Of 22 revival triggers, **18 carry a query**; the four that carry neither are
+> `internal_work`/`authorization`, which a LITERATURE watch list structurally cannot carry. The
+> checker now reads the query as evidence and reports 0 `[Z5]`. This table stays the one home of the **capability → action** pairing; the
 > map owns the **closure → trigger → what-it-reopens** graph, and neither restates the other.
 
 ## Capability → action trigger table

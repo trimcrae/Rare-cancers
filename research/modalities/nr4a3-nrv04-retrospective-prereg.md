@@ -9,7 +9,7 @@ purpose: See the document body; purpose was not stated separately when frontmatt
 scope: Scope not separately declared. Inferred kind `prereg` from its location under research/modalities/.
 audience: [maintainers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
+last_verified: 2026-08-05
 _backfilled: true
 ---
 # NR-V04 retrospective — PREREGISTRATION of the biological holdout (2026-07-24)

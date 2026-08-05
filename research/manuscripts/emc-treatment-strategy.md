@@ -418,7 +418,8 @@ This is the governing regime for *how* the work reaches impact. Do not re-scope 
   oligo/nanoparticle **delivery** prediction). **The limits of in-silico today are not its limits in 6–12
   months.** So: (a) "parked", "ceiling-bound", or "SKIP" items (FEP; the ASO delivery gate; expensive/unreliable
   tiers) are **"revisit when capability X lands," not "dead"** — the mechanism is
-  [`../method-watch.md`](../method-watch.md) (monthly auto-digest + trigger table) plus Q2/Q3 below; (b) expect
+  [`../method-watch.md`](../method-watch.md) (**weekly** auto-digest + trigger table — the cron is
+  `0 11 * * 5`; ⚠ *superseded, retained: "monthly"*) plus Q2/Q3 below; (b) expect
   to **re-run and re-grade even *completed* work** as methods improve, not just to unblock stalled routes; and
   (c) the project stays meaningfully advanceable **even if a wet-lab partner never materialises**, because the
   frontier keeps moving. **Integrity guardrail (non-negotiable):** the rising frontier justifies *keeping routes
@@ -475,10 +476,10 @@ for the *result* papers. Capability curves to watch:
   arrives — don't bet the schedule on tools that may slip.
 
 ### Q3 — Automating the tracking of in-silico advances (use new tech as soon as it's ready)
-**BUILT** — `scripts/method-watch.mjs` + `.github/workflows/method-watch.yml` (monthly cron),
+**BUILT** — `scripts/method-watch.mjs` + `.github/workflows/method-watch.yml` (**weekly** cron, `0 11 * * 5`),
 publishing a dated digest to the `method-watch-cache` branch; watch config + trigger table tracked
 at `research/method-watch.md`. Reuses the repo's scheduled-probe pattern (`fetch-literature.yml`):
-- A **cron CI job** (monthly) running targeted searches (Europe PMC + GitHub releases) for our gaps
+- A **cron CI job** (**weekly**) running targeted searches (Europe PMC + GitHub releases) for our gaps
   — *virtual cell / perturbation prediction, AlphaFold3 / Boltz / Chai, RFdiffusion, de-novo binder
   design, cryptic pocket, in-silico oligo/nanoparticle tumour-DELIVERY prediction, NR4A3* — emitting
   a **digest** for the next agent/human to triage.

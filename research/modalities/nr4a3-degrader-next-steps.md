@@ -38,9 +38,16 @@ anything. Last updated 2026-06-26.
 
 > **★ RESUMING THE NR-V04 RETROSPECTIVE (RUNG 4)? That lane has its OWN handoff — read it instead of this file:**
 > **[`nrv04-retrospective-handoff-2026-07-24.md`](./nrv04-retrospective-handoff-2026-07-24.md)**. It carries the
-> state of play (built + preregistered + **unlaunched**, no leg has yet produced a result), the exact
+> state of play, the exact
 > `fusion-cpu-extras.yml` dispatch commands for every resume path, the cost ledger, and the six traps that cost
 > a session an evening. The retrospective runs on the **Vast** lane, not SageMaker.
+> ⛔ **IT HAS SINCE RUN AND ANSWERED — do not read the handoff as a pre-launch document.** All 16 legs
+> completed, `panel_complete: true`, and the FROZEN gate emitted tier **`DISCORDANT`** — *"NR4A1 is not
+> the most stable arm"*, `stat −0.282533`, `p 0.392857` over 56 arrangements, arm means NR4A3 3.6852 <
+> NR4A1 4.0977 < NR4A2 4.8435 ([`nrv04-retro-verdict.json`](./nrv04-retro-verdict.json) → `headline`).
+> ⚠ *Superseded, retained: "built + preregistered + **unlaunched**, no leg has yet produced a result".
+> That sentence survived into 2026-08-05 and would have hidden the program's headline negative from
+> exactly the session it was written to orient.*
 
 > **★★ TRACK A SHELVED — GO TRACK B (trimcrae, 2026-07-15). READ THIS FIRST — it re-scopes everything below.**
 > The de novo warhead / **ABFE-validation track is SHELVED** (parked, revisit-when-warranted, not deleted). The

@@ -76,6 +76,22 @@ DEFAULT_TARGETS = [
     # is not a reading of absence" failure in linter form. The plan is what the next session steers by,
     # so it is linted wherever it lives.
     "systems/views/plan.md",
+    # ⛔ ADDED 2026-08-05 — THE ONE DOCUMENT WRITTEN TO LEAVE THE BUILDING WAS THE ONE DOCUMENT NOTHING
+    # LINTED. `nr4a3-degrader-outreach-emails.md` is six ready-to-send emails to named external groups,
+    # carrying manuscript-grade claims, and it was in neither this file's targets nor
+    # `lint_consistency.py`'s. So it drifted exactly as far as an unlinted file drifts, and the
+    # measurement is stark: on 2026-07-10 the paper formally RETRACTED "NR4A3 has no experimental
+    # structure" as FALSE (PDB 8XTT, apo NMR, identity 1.000 to Q92570) and removed it from the
+    # abstract, §1 and §5. On 2026-08-05 three of the six templates still opened with it -- including
+    # the one addressed to a structural-biology group that would recognise 8XTT on sight. Alongside it:
+    # a pocket fraction of "~24 %" that belongs to neither the pre-harmonized (0.20/0.16/0.28) nor the
+    # current (0.56/0.40/0.80, 44/75 = 59 % pooled) measurement, and a "full control battery" framing
+    # for a margin the repo records as failing the metadynamics-frame decoy null (~84th pct) and
+    # generated into a frame that scores 0.259 against D* = 0.53.
+    #
+    # ⭐ THE OUTWARD-FACING DOCUMENT NEEDS THE STRICTEST CHECK, NOT THE LOOSEST. A stale claim in the
+    # manuscript is caught by review; a stale claim in an email is caught by the recipient.
+    "research/manuscripts/nr4a3-degrader-outreach-emails.md",
 ]
 
 # ---------------------------------------------------------------------------
