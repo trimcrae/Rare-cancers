@@ -52,7 +52,7 @@ than surfacing as a traceback inside a large suite.
 |---|---|
 | `systems_check.py --check` | a route in no strategy family · a permanent blocker claiming a technology would retire it · a non-permanent blocker naming no way out · a failing or uncontrolled instrument cited as SUPPORT · a technology with no forecast · a forecast with no basis or no review date · **a capability neither scanned for nor saying why it cannot be** · **a scannable trigger no technology watches** · a compute recommendation with no case · an unresolvable pointer · a view that has drifted · the requirement register disagreeing with the roadmap |
 | `parser_guard.py` | any registered parser that can no longer find what it parses, and the plan going unlinted wherever it lives |
-| `systems_check` document checks | a Markdown file with no frontmatter · a status outside the closed set · a preregistration not marked immutable · **two documents claiming one id** · **a supersession naming no successor** · **a `pinned-figures` target or a project-instruction reference declaring itself retired** · a NEW broken relative link (pre-existing ones are baselined in `systems/graph/link-baseline.json`, a list meant to reach zero) |
+| `systems_check` document checks | a Markdown file with no frontmatter · a status outside the closed set · a preregistration not marked immutable · **two documents claiming one id** · **a supersession naming no successor** · **a `pinned-figures` target or a project-instruction reference declaring itself retired** · **any broken relative link** — the grandfather list reached zero and was deleted 2026-08-05 ([MIGRATION §3.8](./MIGRATION.md#38--systemsgraphlink-baselinejson--deleted-at-zero-and-both-entries-it-ever-explained-were-wrong-2026-08-05)) |
 | `lint_consistency.py` | the same number typed in two places, or a superseded value quoted without its marker |
 | `lint_claims.py` | claim language the program has not earned |
 | `emc_systems_map_check.py` | a broken pointer, an evidence item under two names, an object under two definitions, a figure quoted from a stub |
@@ -119,7 +119,7 @@ and stopped. There is a third: **the work CLOSED, so the citation is what is wro
 write-up afterwards told the next reader to spend hours more on it.
 
 ⚠ **The deeper cause was two registers answering overlapping questions under different rules.**
-`link-baseline.json` asks *is this Markdown link known-broken?* and carries a free-prose `why`;
+`link-baseline.json` asked *is this Markdown link known-broken?* and carried a free-prose `why` (⛔ **deleted at zero, 2026-08-05** — both entries it ever held carried a confident prose reason that turned out to be wrong; [MIGRATION §3.8](./MIGRATION.md#38--systemsgraphlink-baselinejson--deleted-at-zero-and-both-entries-it-ever-explained-were-wrong-2026-08-05));
 `artifact-refs.json` asks *what does this absence MEAN?* and demands evidence. The artifact was in both —
 and being in the baseline **skipped it past the disposition requirement**, so the only thing describing it
 was prose nothing checked. That is the one-fact-two-places bug, inside the machinery built to remove it.

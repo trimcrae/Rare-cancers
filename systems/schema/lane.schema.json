@@ -45,7 +45,12 @@
             "properties": {
               "artifact": { "type": "string", "minLength": 3 },
               "produced": { "type": "boolean" },
-              "note": { "type": "string" }
+              "note": { "type": "string" },
+              "withdrawn_in": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "⭐ THE DOCUMENTS THAT HAVE ALREADY WITHDRAWN THE CITATION, so [K1] can tell a WITHDRAWAL NOTICE from a live citation. Until 2026-08-05 the check counted every mention of a filename as a citation — so `valb-closure-triangle-pregate-2026-07-25.md`, which says in three places that the citation IS withdrawn, and `systems/MAINTENANCE.md`, which names the artifact only to describe the incident, both read as documents still citing it. A warning that fires at a document for having done exactly what the warning asks is a warning nobody can close. ⚠ THIS IS NOT AN EXEMPTION LIST: the check enumerates the REAL citers and warns about any that is not here, so a new document citing the artifact still fires. It only makes sense on an entry with `produced: false` whose lane is `complete` — anything else has no withdrawal to record."
+              }
             }
           }
         },

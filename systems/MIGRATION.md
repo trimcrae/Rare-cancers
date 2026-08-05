@@ -433,6 +433,81 @@ referrers**; the three largest were 396 MB with 17 between them, and almost all 
 anyone deciding to keep it. `.gitignore` now carries `**/profiler-output/` with the measurement next to it,
 so the next job cannot re-commit it silently.
 
+### 3.8 · `systems/graph/link-baseline.json` — DELETED at zero, and both entries it ever explained were wrong (2026-08-05)
+
+| was | is now |
+|---|---|
+| `systems/graph/link-baseline.json` | **deleted.** A broken relative link is an error. An artifact's absence is answered by a lane's `produces[]` or by [`artifact-refs.json`](graph/artifact-refs.json) |
+
+The file opened at **120 known-broken relative links** and closed at none. That was its stated purpose —
+*"This list is meant to reach zero. It must never grow."* — and `systems/tests/test_systems_check.py`
+carried the instruction for what to do when it got there: *"an empty baseline should be deleted, not kept."*
+
+⛔ **Keeping it empty would have been strictly worse than deleting it.** Nothing left to exempt, a standing
+invitation to add a line instead of fixing a link, and — the real hazard — its loader guarded on
+`os.path.exists`, so deleting the file by accident would have switched every exemption to "passes" without
+saying a word. That is the fail-open shape `parser_guard` exists to catch.
+
+⭐ **The two entries it ever held are the reason to be glad it is gone. Each carried a confident FREE-PROSE
+reason that nothing could check, and each was wrong.**
+
+1. The first blamed a probe that *"was never run, or its output was never committed."* Both guesses were
+   wrong: `emc_line_data_probe.py` had run **and** committed — to `modalities-cache`, one ref away
+   (§3.6). Measuring that divergence found 41 artifacts there, 24 of them cited from this branch.
+2. The last said rung 5b-T *"is registered as NOT STARTED, so the artifact not existing is consistent."*
+   ⛔ **Rung 5b-T ran on 2026-08-03 at 8:29 AM ET**, and the same run committed `nr4a3-5bt-gate.json`,
+   `nr4a3-5bt-frame.json` and both harness controls. `nr4a3-5bt-signature.json` is missing because its
+   step was **the only line in `rung-5bt-ternary-rebuild.yml` written `|| true`** — it produced nothing,
+   said nothing, and the following `git add` skipped a file that was never there. So the roadmap went on
+   citing *"the `V1` read over all 16 models per arm"* for a read that exists on no ref, and the gate
+   artifact carries no signature key either. **Three fixes, all landed:** the `|| true` is gone and a
+   failed read now writes a `_produced: false` artifact rather than nothing; the roadmap's citation is a
+   forward reference naming the cause; the artifact carries an `expected` disposition in
+   [`artifact-refs.json`](graph/artifact-refs.json).
+
+⚠ **This is the same lesson as §3.5's, one register further out:** a `why` field with no rules is a place
+for a plausible story to sit unchallenged. The registers that replaced it demand a *typed* disposition and
+the evidence that disposition requires.
+
+### 3.9 · The `verify` relation — where all 35 values of `instrument.serves` went (2026-08-05)
+
+| was | is now |
+|---|---|
+| `requirement.served_by` | **`requirement.verified_by`** — SysML `verify`, the one asserted direction |
+| `instrument.serves` | **deleted.** Every value re-homed; the table below is the forwarding address |
+| `instrument.serves_derived` | **`instrument.verifies`** — derived, and now actually rendered |
+
+⛔ **Three fields carried one relation, and the third was read by nothing.** Both `served_by` and `serves`
+were asserted — the same edge written from both ends — so they could drift, and they had: **11 of 30
+instruments disagreed with the requirement register**, six of them holding free prose in a field the rest
+used for identifiers. `serves_derived` computed a fourth copy that no renderer, check or test consumed.
+
+| the 35 values | where each went |
+|---:|---|
+| **19** | agreed with the requirement register already → pure duplicate, deleted |
+| **4** | requirement ids the register lacked (`V19`→R7+R15, `V22`→R5, `INS-FUSION-COFOLD`→R13, `INS-MONOVALENT-REACH`→R8) → **added to `verified_by`** after reading each |
+| **6** | paraphrases of an edge `route.instruments` **already carried** → deleted; the typed edge is the home, and it keeps the support-vs-disclosed-failing distinction the prose lost for five of the six |
+| **6** | object-level definitions → **`instrument.characterises`** (SysML `refine`) |
+| **2** | ⚖ **REFUSED, with the refusal recorded** — see below |
+| **6** | genuine scope statements → **`instrument.scope_note`**, explicitly not a relation |
+
+⚖ **Two claims were refused rather than merged, because merging them would have made the model say
+something false.** `V3` claimed R8: it verifies R5, and R8's ceiling already declares itself *"conditional
+on R5"* — a transitive reach is not a verification. `INS-FUSION-OBJECT-INVENTORY` claimed R13: its control
+**passes**, and its own note says that pass is *"a statement about arithmetic, not about which junction is
+reported"*, which is precisely what R13 asks — so it `characterises` `OBJ-MODEL-E7E3` and verifies nothing.
+⚠ Adding it would have cleared R13's warning with an instrument that never addressed the question.
+
+**Both source registers gained the schema they never had.** `instruments` and `requirements` were the only
+two collections with none, which is how prose entered a relation field in the first place. `verified_by`,
+`verifies` and `characterises` are now pattern-matched arrays, and `known_answer_control.state` is a closed
+enum — including `mixed`, which was in use on two instruments, enumerated nowhere, and silently counting as
+a pass.
+
+**Warnings moved in both directions, which is the point.** `[W4]`×3, `[K0]` and `[K1]` closed; R4 and R16's
+`[Q3]`s became stated scope boundaries; **R1 gained a `[Q4]`** because `mixed` stopped counting as a pass,
+and R13's `[Q3]` became a `[Q4]` because it turned out to have an instrument after all. 16 → 10.
+
 *(A phase is not complete until its rows are here.)*
 
 ---

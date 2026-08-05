@@ -379,11 +379,38 @@ jobs:
                   n += 1
           print('staged %d model(s) for V1' % n)
           PY
+          # ⛔ `|| true` REMOVED 2026-08-05 — IT HID A REAL FAILURE FOR TWO DAYS. This was the only
+          # step in this workflow written that way. On the 2026-08-03 run it produced nothing, the
+          # workflow carried on, the `git add` below silently skipped a file that was not there, and
+          # the roadmap went on citing `nr4a3-5bt-signature.json` for "the V1 read over all 16 models
+          # per arm" — a read that exists in no artifact, on any ref. That is §4's failure exactly: a
+          # step that reports while measuring nothing.
+          #
+          # ⚠ It still must not abort the run, because the PRE-REGISTERED GATE below is the point of
+          # this rung and a descriptive V1 read is not an input to it. So the failure is CAUGHT and
+          # WRITTEN DOWN instead of swallowed: the artifact always exists, and when the read did not
+          # happen it says so in a field the next reader cannot mistake for a result.
+          set +e
           python3 research/modalities/nr4a_ternary_signature.py --root /tmp/v1 --recursive \
-            --out research/modalities/nr4a3-5bt-signature.json || true
-          python3 -c "
-          import json; d=json.load(open('research/modalities/nr4a3-5bt-signature.json'))
-          print(d.get('sentence') or d.get('error')); print(d.get('sentence_replicated'))" || true
+            --out research/modalities/nr4a3-5bt-signature.json
+          sig_rc=$?
+          set -e
+          python3 - "$sig_rc" <<'PY'
+          import json, os, sys
+          rc, out = int(sys.argv[1]), "research/modalities/nr4a3-5bt-signature.json"
+          if rc != 0 or not os.path.exists(out):
+              json.dump({"_produced": False, "_exit_code": rc,
+                         "_what": "nr4a_ternary_signature.py did not produce a reading on this run.",
+                         "⛔_do_not_cite": "There is NO V1 signature result here. This file exists so "
+                                          "that a failed read is recorded rather than absent — an "
+                                          "absent artifact reads as 'not run yet' and this was run."},
+                        open(out, "w"), indent=2, ensure_ascii=False)
+              print("⛔ V1 signature step FAILED (rc=%d) — recorded in the artifact, gate continues" % rc)
+          else:
+              d = json.load(open(out))
+              print(d.get("sentence") or d.get("error"))
+              print(d.get("sentence_replicated"))
+          PY
 
       - name: THE PRE-REGISTERED GATE
         run: |

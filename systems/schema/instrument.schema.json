@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/instrument.schema.json",
+  "title": "An INSTRUMENT — a method that produces evidence, and whether it has recovered a known answer",
+  "_role": "The register invariant in one sentence: an instrument that has never recovered a known answer cannot support a claim, however good its output looks. Everything here exists to make that checkable rather than assertable.",
+  "_why_it_did_not_exist_until_2026_08_05": "It should have. `instruments.json` and `requirements.json` were the two collections with NO schema — and that is exactly how free prose entered a relation field: `instrument.serves` held values like \"the ATR route's structural precondition\" beside values like \"R13\", and nothing could tell them apart. Six of thirty rows were prose, eleven disagreed with the requirement register, and the visible symptom was [Q3] reporting that R13 had no instrument while two instruments claimed to serve it. A typed array would have refused all six on the day they were written.",
+  "_prose": "systems/ARCHITECTURE.md",
+  "$defs": {
+    "instrument": {
+      "type": "object",
+      "required": ["id", "name", "module", "owner", "known_answer_control", "closure_kind"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(V[0-9]+|INS-[A-Z0-9-]+)$",
+          "description": "⚠ TWO NAMESPACES, BOTH REAL. `V*` are the program map's instrument table; `INS-*` are the systems map's. They are not merged because each is the id its own owning document uses, and renaming either would break the document that names it. Anything comparing or sorting them must handle both — `_req_sort_inst` is the one home of that ordering."
+        },
+        "name": { "type": "string", "minLength": 5 },
+        "module": {
+          "type": ["string", "null"],
+          "description": "The code that IS this instrument. `null` is meaningful and must not be read as missing data: it marks an instrument that is specified but has no implementation — V19 and V22 are both null, and both are consequently things the program plans to run rather than things it can run."
+        },
+        "owner": {
+          "type": "object",
+          "required": ["file"],
+          "additionalProperties": false,
+          "properties": {
+            "file": { "type": "string" },
+            "anchor": { "type": ["string", "null"] }
+          }
+        },
+        "known_answer_control": {
+          "type": "object",
+          "required": ["description", "state"],
+          "additionalProperties": false,
+          "description": "⛔ THE LOAD-BEARING FIELD. Whether this method has ever recovered an answer that was already known. Without one, an output is a number with no demonstrated relationship to reality.",
+          "properties": {
+            "description": { "type": "string", "minLength": 5 },
+            "state": {
+              "enum": ["passes", "fails", "inconclusive", "mixed", "none"],
+              "description": "⛔ NO VAGUE STATES — and this enum is the one that was missing longest. `mixed` was in use on two instruments and enumerated nowhere, so it silently counted as SUPPORTING: V19's own note reads 'PARTIAL — the arm that addresses the GENERATIVE step is unrun' and V15's reads 'one of the five nulls does not support it'. Neither is a pass. As of 2026-08-05 `mixed` is in NON_SUPPORTING_CONTROL, which added a [Q4] to R1 rather than removing one. `none` and `fails` remain deliberately distinct: 'no control exists' and 'the control failed' are different facts, and neither is support."
+            },
+            "note": { "type": ["string", "null"] }
+          }
+        },
+        "verifies": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^R[0-9]+$" },
+          "description": "⛔ DERIVED — never write this. The inverse of `requirement.verified_by`, computed by derive(). [X2] fails the build if it appears in this file. It replaced `serves` (asserted here, disagreeing with the requirement register in 11 of 30 rows) and `serves_derived` (computed and read nowhere)."
+        },
+        "allocated_to": {
+          "type": "object",
+          "description": "⛔ DERIVED — never write this. The inverse of `route.instruments`, computed by derive().",
+          "additionalProperties": { "type": "array", "items": { "type": "string" } }
+        },
+        "usable": {
+          "type": "boolean",
+          "description": "⛔ DERIVED — never write this. Whether this instrument can license a claim: its own control supports, AND every instrument it inherits limits from can too. ⚠ It is NOT `state == passes`. INS-MONOVALENT-REACH passes its own control and cannot license anything."
+        },
+        "characterises": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^OBJ-[A-Z0-9-]+$" },
+          "description": "SysML `refine` — an instrument that makes an OBJECT precise rather than answering a requirement about it. INS-FUSION-OBJECT-INVENTORY's control passes and its own note says the pass is 'a statement about arithmetic, not about which junction is reported', so it refines OBJ-MODEL-E7E3 and verifies nothing."
+        },
+        "inherits_limits_from": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^(V[0-9]+|INS-[A-Z0-9-]+)$" },
+          "description": "SysML `derive` — this instrument's limits follow from another's. ⭐ The reason it exists: INS-MONOVALENT-REACH replicates the committed bivalent artifact cell-for-cell, so its own control PASSES, and its own note still says it 'can refute a route and cannot license one' because it inherits V3's inconclusive site question and V17's defective exposure cutoff. A usability test reading only the control state called it supporting."
+        },
+        "scope_note": {
+          "type": "string",
+          "description": "⚠ PROSE, AND EXPLICITLY NOT A RELATION. What this instrument is and is not about, where that cannot be said with an edge. Everything that survived the 2026-08-05 reconciliation as prose lives here; everything else turned out to be a paraphrase of an edge the model already carried."
+        },
+        "closure_kind": {
+          "$ref": "route.schema.json#/properties/closure_kind",
+          "description": "⚠ REFERENCED, NOT RETYPED (rule 1). route.schema.json is the one home of this controlled vocabulary and instruments use the identical set. The first draft of this file retyped a five-value guess and immediately rejected two real instruments — V4 `authorization` and V20 `arithmetic_over_fixed_fact` — which is precisely what a second copy of a vocabulary does."
+        },
+        "closure_note": { "type": "string" },
+        "revival_trigger": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^TR-[A-Z0-9-]+$" },
+          "description": "The named observation that would reopen this. A closure with no revival trigger is indistinguishable from an abandonment."
+        }
+      }
+    }
+  }
+}

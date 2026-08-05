@@ -3,8 +3,8 @@
     "id": "LANE-1",
     "title": "The ligandable E3 recruiter panel — UniProt resolution, ligandability, exit-vector analysis and downselect",
     "state": "complete",
-    "terminus": "Staged the widened recruiter set (VHL, CRBN, BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) and downselected it. ⚠ Its own boundary is recorded and is the reason a separate adapter exists: it does NOT produce a receptor BODY in a coordinate frame with the RING the transfer zone hangs off, so nr4a3_e3_stage.py consumes its list as INPUT and stages the geometry itself.",
-    "closed_on": null,
+    "terminus": "Staged the widened recruiter set (VHL, CRBN, BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) and downselected it. ⚠ Its own boundary is recorded and is the reason a separate adapter exists: it does NOT produce a receptor BODY in a coordinate frame with the RING the transfer zone hangs off, so nr4a3_e3_stage.py consumes its list as INPUT and stages the geometry itself. ⭐ Closed 2026-07-25, dated 2026-08-05 from research/modalities/e3-recruiter-downselect-2026-07-25.md — 'Lane doc, 2026-07-25', the downselect this lane's terminus describes.",
+    "closed_on": "2026-07-25",
     "gate": null,
     "produces": [],
     "serves": [],
@@ -92,7 +92,11 @@
       {
         "artifact": "valb-triangle-chem.json",
         "produced": false,
-        "note": "The $0 chemistry PRE-gate — a 'should we buy these edges?' check written 2026-07-25. The edges were bought and run five days later, so it was never produced and never will be. ⛔ Its citation is WITHDRAWN, not pending. An attempt to produce it on 2026-08-05 spent 88.5 min of CI and was cancelled; that attempt is the reason this register exists."
+        "note": "The $0 chemistry PRE-gate — a 'should we buy these edges?' check written 2026-07-25. The edges were bought and run five days later, so it was never produced and never will be. ⛔ Its citation is WITHDRAWN, not pending. An attempt to produce it on 2026-08-05 spent 88.5 min of CI and was cancelled; that attempt is the reason this register exists.",
+        "withdrawn_in": [
+          "research/manuscripts/valb-closure-triangle-pregate-2026-07-25.md",
+          "systems/MAINTENANCE.md"
+        ]
       }
     ],
     "serves": [
@@ -147,8 +151,8 @@
     "id": "LANE-14",
     "title": "Inverse linker design",
     "state": "complete",
-    "terminus": "Recorded in the inverse-linker design document alongside LANE 10's corrected reach figures; no open legs and nothing on a host.",
-    "closed_on": null,
+    "terminus": "Recorded in the inverse-linker design document alongside LANE 10's corrected reach figures; no open legs and nothing on a host. ⭐ Closed 2026-07-26, dated 2026-08-05 from research/manuscripts/nr4a3-inverse-linker-design-2026-07-25.md §10 — '★★ RE-ENUMERATED ON THE CORRECTED 10⁶ ARTIFACT (LANE 14, 2026-07-26, $0 CPU/CI)'. ⚠ NOT the 07-25 in the filename: the document was created on the 25th and this lane re-enumerated against the corrected artifact on the 26th.",
+    "closed_on": "2026-07-26",
     "gate": null,
     "produces": [],
     "serves": [],
@@ -256,8 +260,8 @@
     "id": "LANE-3",
     "title": "Covalent celastrol-NR4A1 (C551) adduct + C551A control legs",
     "state": "complete",
-    "terminus": "Recorded in the ordered plan with its as-run cost measured over 18 legs. Not on a host.",
-    "closed_on": null,
+    "terminus": "Recorded in the ordered plan with its as-run cost measured over 18 legs. Not on a host. ⭐ Closed 2026-07-25, dated 2026-08-05 from systems/graph/plan.json, this lane's own row: '★ STATUS (2026-07-25, LANE 3)'.",
+    "closed_on": "2026-07-25",
     "gate": null,
     "produces": [],
     "serves": [],

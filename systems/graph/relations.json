@@ -1,0 +1,344 @@
+{
+  "_schema": "relations/1",
+  "_title": "Every edge in the model, its SysML stereotype, and which end asserts it",
+  "_owner": "systems/CONVENTIONS.md",
+  "_checker": "systems/systems_check.py :: check_relations ([X1]/[X2]/[X3]/[X4])",
+  "_role": "The answer to 'what kind of edge is this, and where is it written?' — once, in the model, instead of once per session.",
+  "_why_it_exists": [
+    "⭐ THE QUESTION THAT PRODUCED IT. Asked on 2026-08-05 whether the whole model should be re-expressed in SysML, the honest measurement was that ONE of the model's relationship families is genuinely a SysML relationship in the sense SysML means it, and most of the rest are domain relations with no honest counterpart. Renaming `blockers_inherited` to `trace` or `unblocks` to `derive` would have made the model LOOK conformant while destroying what those edges say — and this repository's standing complaint about its own checks is that a check which misdescribes what it found is the failure mode.",
+    "But 'we considered SysML and adopted part of it' is exactly the kind of conclusion that evaporates between sessions and gets re-litigated. So it is recorded HERE, as data, with the reason per edge — and [X1] fails the build on any edge the register does not declare, so it cannot quietly stop covering the model.",
+    "⛔ THE PAYOFF WAS NOT THE NAMES. SysML's `verify` has exactly one asserted direction and one derived inverse. The model had THREE fields for that one relation — `requirement.served_by`, `instrument.serves` and a computed `instrument.serves_derived` that nothing read — and 11 of 30 instruments disagreed with the requirement register, six of them holding free prose instead of identifiers. The visible symptom was a warning the model itself contradicted: [Q3] reported 'R13 has NO instrument at all' while two instruments claimed to serve R13 and R13's own note said one exists and is staged. Adopting the relation's SHAPE is what collapsed them; the name came along with it.",
+    "⚠ `asserted` IS THE LOAD-BEARING COLUMN, NOT `sysml`. A derived key written into a source file is a second home for a computed fact, which is rule 1's failure mode and is caught by [X2].",
+    "⚠ AN EDGE IS DETECTED STRUCTURALLY, NOT BY NAME. [X1] treats a key as an edge when any of its values is a whole string equal to a modelled id — so it cannot cry wolf on prose (`statement_about`, `workflow`, `path` hold free text and are invisible to it) and it cannot miss a real edge by failing to guess its name. The first draft of this check enumerated non-edge keys by hand and produced 30 false errors on the first run; a checker that cries wolf gets switched off, which is the same reasoning that keeps SMILES strings out of the link checker."
+  ],
+  "_sysml_stereotypes_not_used": {
+    "satisfy": "A design element satisfies a requirement. Nothing here is an implementation: routes are OPTIONS under consideration, not built things, and calling a route a satisfier of a requirement would assert exactly the readiness the manuscript's language discipline forbids. Revisit only if the model ever holds built artifacts that discharge requirements.",
+    "trace": "SysML's weak general dependency. Deliberately refused: it is the catch-all that would have absorbed `blockers_inherited`, `objects`, `artifacts` and `unblocks` into one meaningless name. Domain relations that say what they mean beat `trace` edges that do not."
+  },
+  "relations": [
+    {
+      "key": "verified_by",
+      "on": [
+        "requirements"
+      ],
+      "to": "instruments",
+      "sysml": "verify",
+      "asserted": true,
+      "why": "A test case establishes whether a requirement holds. The requirement register owns the assertion because the roadmap's §2.1 table is its narrative mirror and check_requirement_source_agreement parses it."
+    },
+    {
+      "key": "verifies",
+      "on": [
+        "instruments"
+      ],
+      "to": "requirements",
+      "sysml": "verify",
+      "asserted": false,
+      "why": "The derived inverse of `verified_by`. ⛔ Replaced `instrument.serves` (asserted, and disagreeing with the register in 11 of 30 rows) and `instrument.serves_derived` (computed and read nowhere)."
+    },
+    {
+      "key": "required_validation",
+      "on": [
+        "routes"
+      ],
+      "to": "instruments + blockers",
+      "sysml": "verify",
+      "asserted": true,
+      "why": "⚠ A SECOND, ROUTE-SCOPED verify site, and deliberately not merged with `verified_by`. These are validations a ROUTE would need — 'an engine that recovers a known selectivity answer before any selectivity number is believed' — which is a different question from whether one of the R* requirements holds. Each entry pairs the validation with its instrument and what blocks it."
+    },
+    {
+      "key": "instruments",
+      "on": [
+        "routes"
+      ],
+      "to": "instruments",
+      "sysml": "allocate",
+      "asserted": true,
+      "why": "An instrument allocated to a route, WITH ITS OUTCOME — `support` or `disclosed_failing`. The outcome is why this is not `verify`: it records what a route may cite, not whether a requirement holds."
+    },
+    {
+      "key": "allocated_to",
+      "on": [
+        "instruments"
+      ],
+      "to": "routes",
+      "sysml": "allocate",
+      "asserted": false,
+      "why": "The derived inverse of `route.instruments`. The six prose values deleted from `serves` in the 2026-08-05 reconciliation were paraphrases of THIS edge, written in a second file where nothing read them and where five of the six lost the support/disclosed-failing distinction."
+    },
+    {
+      "key": "characterises",
+      "on": [
+        "instruments"
+      ],
+      "to": "objects",
+      "sysml": "refine",
+      "asserted": true,
+      "why": "An instrument that makes an OBJECT precise rather than answering a requirement about it. INS-FUSION-OBJECT-INVENTORY's own control note says a pass is 'a statement about arithmetic, not about which junction is reported' — so it refines OBJ-MODEL-E7E3 and verifies nothing. Asserted here because objects carry no instrument edge of their own."
+    },
+    {
+      "key": "inherits_limits_from",
+      "on": [
+        "instruments"
+      ],
+      "to": "instruments",
+      "sysml": "derive",
+      "asserted": true,
+      "why": "⭐ FOUND BY THE RECONCILIATION, NOT PLANNED. INS-MONOVALENT-REACH PASSES its own known-answer control and its own note still says it 'can refute a route and cannot license one', because it inherits V3's inconclusive site question and V17's defective exposure cutoff. A usability test reading only `known_answer_control.state` called it supporting and would have silently cleared R8's [Q4]. `usable` is now computed through this edge."
+    },
+    {
+      "key": "strategy",
+      "on": [
+        "routes"
+      ],
+      "to": "strategies",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Family membership — a containment rather than a cross-cutting relationship. SysML models this as ownership, which is structure, not an edge."
+    },
+    {
+      "key": "routes",
+      "on": [
+        "strategies"
+      ],
+      "to": "routes",
+      "sysml": "domain",
+      "asserted": false,
+      "why": "Derived inverse of `route.strategy` — the family reading its members, computed rather than maintained so a route can never belong to a family that does not list it."
+    },
+    {
+      "key": "blockers_inherited",
+      "on": [
+        "routes"
+      ],
+      "to": "blockers",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "What stops this route that it did NOT solve. There is no SysML relationship for 'is obstructed by', and `trace` would erase the distinction from `blockers_retired` — the single most load-bearing contrast in the model."
+    },
+    {
+      "key": "blockers_retired",
+      "on": [
+        "routes"
+      ],
+      "to": "blockers",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "What this route SOLVES that its siblings do not — the reason a route exists at all. Collapsing it and `blockers_inherited` into one stereotype would destroy the family-level structure `shared_blockers`/`distinguishing_blockers` derive from."
+    },
+    {
+      "key": "inherited_by",
+      "on": [
+        "blockers"
+      ],
+      "to": "routes",
+      "sysml": "domain",
+      "asserted": false,
+      "why": "Derived inverse of `route.blockers_inherited` — every route a blocker stops, which is what makes a blocker's blast radius readable from the blocker rather than by search."
+    },
+    {
+      "key": "retired_by",
+      "on": [
+        "blockers"
+      ],
+      "to": "routes",
+      "sysml": "domain",
+      "asserted": false,
+      "why": "Derived inverse of `route.blockers_retired` — every route that answers this blocker, which is the portfolio's hedge against it."
+    },
+    {
+      "key": "retired_by_technology",
+      "on": [
+        "blockers"
+      ],
+      "to": "technologies",
+      "sysml": "domain",
+      "asserted": false,
+      "why": "Derived inverse of `technology.unblocks.blockers`."
+    },
+    {
+      "key": "shared_blockers",
+      "on": [
+        "strategies"
+      ],
+      "to": "blockers",
+      "sysml": "domain",
+      "asserted": false,
+      "why": "Derived: the intersection of the family's routes' inherited blockers — what no member escapes."
+    },
+    {
+      "key": "distinguishing_blockers",
+      "on": [
+        "strategies"
+      ],
+      "to": "blockers",
+      "sysml": "domain",
+      "asserted": false,
+      "why": "Derived: the union of the family's routes' retired blockers — what choosing between members buys."
+    },
+    {
+      "key": "unblocks",
+      "on": [
+        "technologies",
+        "roadmap"
+      ],
+      "to": "routes / requirements / instruments / blockers",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "What comes back if a capability or milestone lands. Not `derive`: SysML's deriveReqt runs requirement→requirement and says one follows FROM another, whereas this is a forecast about a future capability's fan-out. Naming it `derive` would read as a logical entailment that has already happened."
+    },
+    {
+      "key": "forecast",
+      "on": [
+        "technologies"
+      ],
+      "to": "forecasts",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "The technology's dated arrival forecast. A pointer to the object that holds the scenarios, so the technology row carries no scenario of its own."
+    },
+    {
+      "key": "tech_ref",
+      "on": [
+        "forecasts"
+      ],
+      "to": "technologies",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "⚠ The back-pointer of `technology.forecast`, and asserted rather than derived ON PURPOSE: a forecast is meaningless without its subject, so it must be unable to exist without naming one. [L3]-style agreement between the two is checked by check_technologies."
+    },
+    {
+      "key": "objects",
+      "on": [
+        "routes"
+      ],
+      "to": "objects",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Which molecular object a route is about. Closest to `allocate`, but allocation carries a functional intent this does not — the object is the route's SUBJECT, not something it is mapped onto."
+    },
+    {
+      "key": "distinct_from",
+      "on": [
+        "objects",
+        "routes"
+      ],
+      "to": "objects / routes + blockers",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Two things routinely conflated that must not be, each entry annotated with WHY and (on routes) which blockers the distinction turns on. A disambiguation, with no SysML counterpart at all."
+    },
+    {
+      "key": "sub_forms",
+      "on": [
+        "routes"
+      ],
+      "to": "blockers",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Variants of one route that fail on DIFFERENT blockers — the reason a route cannot be graded as a single thing. Each names what it `fails_on`."
+    },
+    {
+      "key": "definition",
+      "on": [
+        "objects"
+      ],
+      "to": "artifacts + evidence",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "What an object IS, with its length field pointing at the artifact that computes it and its provenance at the papers that report it. Prose with typed pointers embedded, not a free-text field."
+    },
+    {
+      "key": "artifacts",
+      "on": [
+        "routes"
+      ],
+      "to": "artifacts",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Files a route produced. A provenance pointer, not a model relationship."
+    },
+    {
+      "key": "evidence",
+      "on": [
+        "routes"
+      ],
+      "to": "evidence",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Findings a route cites. Provenance rather than a model relationship — the route points at the evidence register so a finding has one home and every citer resolves to it."
+    },
+    {
+      "key": "supporting_evidence",
+      "on": [
+        "routes"
+      ],
+      "to": "instruments + evidence",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "What each cited source actually supports, and how directly. Distinct from `route.instruments` because it records the CLAIM the citation carries, not the instrument's outcome."
+    },
+    {
+      "key": "artifact",
+      "on": [
+        "claims"
+      ],
+      "to": "artifacts",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "The artifact a claim is re-derivable from, with the JSON pointer that locates the number. Provenance."
+    },
+    {
+      "key": "produces",
+      "on": [
+        "lanes"
+      ],
+      "to": "artifacts (BY FILENAME — see id_valued)",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "⭐ Every artifact a lane OWED, produced or not — which is what makes an absence answerable from the model rather than from prose. `allocate` would lose the `produced: false` half, and the false half is the entire reason the collection exists. ⚠ ITS TARGET IS A FILENAME, NOT AN `ART-*` ID, AND THAT IS DELIBERATE: the question check_artifacts asks of it is 'does this file exist on this branch?', which is a filesystem question, and branch drift is the failure it guards. ⛔ A real and stated gap travels with that: artifacts.json currently registers 12 artifacts and NONE of the six a lane produces, so the two registers cover disjoint sets. Registering them would need a path, producer and workflow per row — real data, not a rename.",
+      "id_valued": false
+    },
+    {
+      "key": "serves",
+      "on": [
+        "lanes"
+      ],
+      "to": "rungs / instruments / requirements",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "⚠ SAME WORD, DIFFERENT RELATION from the retired `instrument.serves`, and deliberately kept: a lane's target is a RUNG as often as an instrument, and rungs are not modelled objects. Typing it would mean inventing a rung collection to point at. [X3] bounds the licence by refusing to let it name a requirement id — that is what `verified_by` is for."
+    },
+    {
+      "key": "next",
+      "on": [
+        "routes",
+        "strategies"
+      ],
+      "to": "blockers",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "The single best next action and what it is blocked on. A recommendation carrying typed pointers, not a relationship."
+    },
+    {
+      "key": "timing",
+      "on": [
+        "routes"
+      ],
+      "to": "technologies",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Whether to pursue a route now or wait, and which technologies would change the answer. A forecast-flavoured recommendation; the technology ids are what make it checkable."
+    },
+    {
+      "key": "depends_on",
+      "on": [
+        "roadmap"
+      ],
+      "to": "roadmap",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Milestone precedence. Scheduling, not entailment."
+    }
+  ]
+}

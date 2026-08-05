@@ -50,15 +50,48 @@ PERMANENT_KINDS = {"fundamental_biological_limit"}
 
 # An instrument in any of these control states may never be listed as SUPPORT. `none` is included
 # deliberately: "no control exists" and "the control failed" are different facts, and neither is support.
-NON_SUPPORTING_CONTROL = {"fails", "none", "inconclusive"}
+#
+# ⭐ `mixed` ADDED 2026-08-05, and it ADDS a warning rather than removing one. It was the only value of
+# `known_answer_control.state` never enumerated in a schema, and it silently counted as SUPPORTING. Its
+# two instances are V19 — "PARTIAL — the arm that addresses the GENERATIVE step is unrun" — and V15 —
+# "one of the five nulls does not support it". Neither has returned a usable answer, and a repository
+# whose stated rule is ⛔ NO VAGUE STATES cannot keep a control state that means "partly". R1 (V13
+# fails, V14 none, V15 mixed) consequently gains the [Q4] it should always have carried.
+NON_SUPPORTING_CONTROL = {"fails", "none", "inconclusive", "mixed"}
+
+#: Requirement ids sort numerically (R2 before R13), not lexically. Anything unrecognised sorts last
+#: rather than raising — a sort key is not the place to discover a malformed id, the schema is.
+def _req_sort(x):
+    return (0, int(x[1:])) if x[:1] == "R" and x[1:].isdigit() else (1, 0)
+
+
+#: Instrument ids across BOTH namespaces: `V\d+` numerically first, then `INS-*` alphabetically.
+#: The two namespaces are real — `V*` are the program-map instrument table's, `INS-*` the systems
+#: map's — and mixing their sort orders is what makes a stored list disagree with a regenerated one.
+def _req_sort_inst(x):
+    return (0, int(x[1:]), "") if x[:1] == "V" and x[1:].isdigit() else (1, 0, x)
 
 
 # ───────────────────────────── findings ─────────────────────────────
 
 class Findings:
+    """Three severities, and the third one is the point.
+
+    ⭐ WHY `info` EXISTS (2026-08-05). A check that reports a STATED SCOPE BOUNDARY as a warning is
+    miscalibrated, and the cost is not cosmetic: [Q3] warned identically about R6 (a computable term
+    nobody has computed -- a work item) and about R4, whose own note reads "⛔ none -- needs a bench"
+    against a program that has no wet lab. A permanent warning for a decision already taken is how a
+    reader learns to skim the warning list, which is exactly what the 88.5-minute valB incident cost.
+    So a finding that is TRUE, DELIBERATE and CLOSED is reported once, visibly, and does not accrue.
+
+    ⚠ `info` is NOT a quieter warning. Nothing may be demoted to it because it is inconvenient -- the
+    only qualifying findings are ones the model can point at a recorded decision for.
+    """
+
     def __init__(self):
         self.errors: list[str] = []
         self.warns: list[str] = []
+        self.infos: list[str] = []
 
     def err(self, code, msg):
         self.errors.append(f"{code}  {msg}")
@@ -66,20 +99,12 @@ class Findings:
     def warn(self, code, msg):
         self.warns.append(f"{code}  {msg}")
 
+    def info(self, code, msg):
+        self.infos.append(f"{code}  {msg}")
+
     @property
     def ok(self):
         return not self.errors
-
-
-# ──────────────────── a stdlib subset of JSON Schema ────────────────────
-# Enough of draft 2020-12 to make the schemas in systems/schema/ ENFORCED rather than decorative:
-# type · required · properties · additionalProperties:false · enum · const · pattern · minLength ·
-# minItems · items · allOf · if/then · not · $ref (local $defs and cross-file).
-
-_TYPES = {
-    "object": dict, "array": list, "string": str, "integer": int,
-    "number": (int, float), "boolean": bool, "null": type(None),
-}
 
 
 class SchemaSet:
@@ -231,13 +256,60 @@ def derive(g):
         t["fan_out"] = len(set(u.get("routes", []))) + len(set(u.get("requirements", []))) \
             + len(set(u.get("instruments", []))) + len(set(u.get("blockers", [])))
 
-    # requirement <-> instrument coverage, both directions, derived from the requirement register only
-    inst_serves = defaultdict(list)
+    # ── the SysML `verify` relation: ONE asserted direction, ONE derived inverse ──────────────
+    #
+    # ⭐ WHY THIS SHAPE, AND WHAT IT REPLACED (2026-08-05). The model used to carry THREE fields for
+    # this one relation: `requirement.served_by` (asserted), `instrument.serves` (asserted, the same
+    # edge written from the other end) and `instrument.serves_derived` (computed here, and read
+    # NOWHERE). Two asserted homes for one fact is rule 1's exact failure mode, and it had already
+    # failed: 11 of 30 instruments disagreed with the requirement register, six of them holding free
+    # PROSE rather than identifiers. The visible symptom was a warning the model itself contradicted
+    # — [Q3] reported "R13 has NO instrument at all" while two instruments claimed to serve R13 and
+    # R13's own note said "an instrument EXISTS and is staged".
+    #
+    # SysML's `verify` (a test case verifies a requirement) has exactly one asserted direction and one
+    # derived inverse, which is why adopting it is the fix rather than a rename. The requirement
+    # register keeps the assertion because the roadmap's §2.1 table mirrors it and
+    # check_requirement_source_agreement parses it; `verifies` is derived and may never be written.
+    inst_verifies = defaultdict(list)
     for r in g.get("requirements", []):
-        for v in r.get("served_by", []):
-            inst_serves[v].append(r["id"])
+        for v in r.get("verified_by", []):
+            inst_verifies[v].append(r["id"])
+    # ⚠ `allocate` — instrument → route — is likewise DERIVED, from the edge routes already assert.
+    # The six prose values deleted from `serves` were paraphrases of THIS edge, in a second file,
+    # where nothing read them; the route edge is a better home because it distinguishes support from
+    # disclosed failure, which the prose managed for only one of the six.
+    inst_alloc = defaultdict(dict)
+    for r in routes:
+        for kind, vals in (r.get("instruments") or {}).items():
+            for v in vals:
+                inst_alloc[v].setdefault(kind, []).append(r["id"])
     for i in g["instruments"]:
-        i["serves_derived"] = sorted(inst_serves.get(i["id"], []), key=lambda x: int(x[1:]))
+        i["verifies"] = sorted(inst_verifies.get(i["id"], []), key=_req_sort)
+        i["allocated_to"] = {k: sorted(v) for k, v in sorted(inst_alloc.get(i["id"], {}).items())}
+
+    # ⭐ USABILITY IS TRANSITIVE, AND THE CONTROL STATE ALONE DOES NOT SETTLE IT (found 2026-08-05
+    # during the reconciliation). INS-MONOVALENT-REACH PASSES its own known-answer control — its
+    # bivalent half replicates the committed artifact cell-for-cell — and its own note still says it
+    # "can refute a route and cannot license one", because it inherits V3's INCONCLUSIVE site question
+    # and V17's defective exposure cutoff. A usability test that read only `known_answer_control.state`
+    # would have called it supporting and silently cleared R8's [Q4]. So the inheritance is modelled
+    # (`inherits_limits_from`, SysML `derive`) and usability is computed through it.
+    inst = by_id(g["instruments"])
+
+    def _usable(iid, seen=None):
+        i = inst.get(iid)
+        if i is None:
+            return False
+        seen = seen or set()
+        if iid in seen:                       # a cycle cannot license anything
+            return False
+        if (i.get("known_answer_control") or {}).get("state") in NON_SUPPORTING_CONTROL:
+            return False
+        return all(_usable(p, seen | {iid}) for p in i.get("inherits_limits_from", []))
+
+    for i in g["instruments"]:
+        i["usable"] = _usable(i["id"])
 
     # family-level blocker structure
     rid = by_id(routes)
@@ -270,10 +342,14 @@ def check_schemas(g, f):
             for msg in mv.validate(row, schema, schema):
                 f.err("[S1]", f"{coll}/{row.get('id','?')} {msg}")
 
-    lane_schema = mv.docs["lane.schema.json"]["$defs"]["lane"]
-    for row in g["lanes"]:
-        for msg in mv.validate(row, lane_schema, mv.docs["lane.schema.json"]):
-            f.err("[S3]", f"lanes/{row.get('id','?')} {msg}")
+    # ⛔ `requirements` AND `instruments` WERE THE UNSCHEMA'D PAIR UNTIL 2026-08-05, and that is not a
+    # coincidence — it is where the untyped relation between them lived. `instrument.serves` held
+    # "R13" beside "the ATR route's structural precondition" and nothing could tell them apart.
+    for coll, key in [("lanes", "lane"), ("requirements", "requirement"), ("instruments", "instrument")]:
+        doc = mv.docs[f"{key}.schema.json"]
+        for row in g[coll]:
+            for msg in mv.validate(row, doc["$defs"][key], doc):
+                f.err("[S3]", f"{coll}/{row.get('id','?')} {msg}")
 
     tech_schema = mv.docs["technology.schema.json"]["$defs"]["technology"]
     for row in g["technologies"]:
@@ -439,10 +515,37 @@ def check_instrument_support(g, f):
             if state in NON_SUPPORTING_CONTROL:
                 f.err("[V2]", f"{r['id']} lists {v} as SUPPORT but its known-answer control is "
                               f"'{state}' -- a claim can never be stronger than the instrument underneath it")
+            # ⚠ A PASSING CONTROL IS NOT THE WHOLE ANSWER. An instrument that passes its own control can
+            # still be unable to license a claim, because it inherits another instrument's limits --
+            # INS-MONOVALENT-REACH replicates the committed bivalent artifact cell-for-cell and its own
+            # note still says it "can refute a route and cannot license one". `usable` is computed
+            # through `inherits_limits_from`; reading only the control state is what missed this.
+            elif not i.get("usable"):
+                bad = [p for p in i.get("inherits_limits_from", []) if not inst.get(p, {}).get("usable")]
+                f.err("[V3]", f"{r['id']} lists {v} as SUPPORT and its own control passes, but it "
+                              f"INHERITS the limits of {', '.join(bad)}, which cannot support anything -- "
+                              f"so neither can it. Cite it as `disclosed_failing`, or drop the inheritance "
+                              f"if it is not real")
 
 
 NON_SUPPORTING_LABEL = {"fails": "its control FAILED", "none": "it has NO control",
-                        "inconclusive": "its control was INCONCLUSIVE"}
+                        "inconclusive": "its control was INCONCLUSIVE",
+                        "mixed": "its control was MIXED -- partly, which is not a pass"}
+
+#: Why a requirement has NO instrument. Asserted only where `verified_by` is empty and the requirement
+#: is not dead, because everything else here is derivable and must not be typed twice.
+#:
+#: ⭐ THE POINT IS THAT [Q3] WAS MISCALIBRATED, NOT THAT IT WAS NOISY. It said "there is nothing built
+#: that could answer it" about four requirements that were in two entirely different situations: R6 is a
+#: computable term nobody has computed (a work item), while R4's own note reads "⛔ none -- needs a bench"
+#: and CLAUDE.md §5 puts a self-funded wet-lab program off the table, and R16's own claim_ceiling says the
+#: paper's contribution "is the target's computational druggability/selectivity, not EMC efficacy". Those
+#: last two are STATED SCOPE BOUNDARIES. Warning about them forever trains the reader to skip the check.
+COVERAGE_GAPS = {
+    "buildable":     ("WARN", "nothing built yet, and it could be built in this program"),
+    "needs_wet_lab": ("INFO", "no instrument can be built here -- CLAUDE.md §5, no wet lab"),
+    "out_of_scope":  ("INFO", "not this paper's question, by its own claim ceiling"),
+}
 
 
 def check_requirements(g, f):
@@ -454,21 +557,38 @@ def check_requirements(g, f):
     """
     inst = by_id(g["instruments"])
     for r in g.get("requirements", []):
-        for v in r.get("served_by", []):
+        vb = r.get("verified_by", [])
+        for v in vb:
             if v not in inst:
-                f.err("[Q1]", f"{r['id']} is served by unknown instrument {v}")
+                f.err("[Q1]", f"{r['id']} is verified by unknown instrument {v}")
         if not r.get("claim_ceiling"):
             f.err("[Q2]", f"{r['id']} states no claim ceiling -- a requirement with no stated ceiling "
                           f"cannot bound what may be claimed from it, which is the register's whole job")
-        if not r.get("served_by") and r["state"]["work_state"] not in ("dead",):
-            f.warn("[Q3]", f"{r['id']} has NO instrument at all -- it is not 'not done yet', there is "
-                           f"nothing built that could answer it")
-        usable = [v for v in r.get("served_by", [])
-                  if (inst.get(v, {}).get("known_answer_control") or {}).get("state")
-                  not in NON_SUPPORTING_CONTROL]
-        if r.get("served_by") and not usable:
-            f.warn("[Q4]", f"{r['id']} has instruments but NONE has returned a usable answer "
-                           f"({', '.join(r['served_by'])}) -- a different failure from having none")
+
+        if not vb and r["state"]["work_state"] not in ("dead",):
+            gap = r.get("coverage_gap")
+            if gap not in COVERAGE_GAPS:
+                # ⛔ NOT A WARNING. An uninstrumented requirement that will not say WHY is the vague
+                # state this register exists to forbid, and omitting the field must not be the quiet
+                # way to avoid answering.
+                f.err("[Q3]", f"{r['id']} has no instrument and no `coverage_gap` -- 'nothing built yet' "
+                              f"and 'nothing CAN be built here' license opposite actions, so the model "
+                              f"must say which. One of: {', '.join(sorted(COVERAGE_GAPS))}")
+            elif COVERAGE_GAPS[gap][0] == "WARN":
+                f.warn("[Q3]", f"{r['id']} has NO instrument at all -- {COVERAGE_GAPS[gap][1]}. "
+                               f"{_clip(r.get('coverage_gap_why', ''), 200)}")
+            else:
+                # A stated scope boundary is a FINDING, not a defect. It is reported once, in the
+                # register view, and does not sit in the warning list forever.
+                f.info("[Q3]", f"{r['id']} has no instrument -- {COVERAGE_GAPS[gap][1]}")
+
+        unusable = [v for v in vb if not inst.get(v, {}).get("usable")]
+        if vb and len(unusable) == len(vb):
+            why = ", ".join(
+                f"{v} ({NON_SUPPORTING_LABEL.get((inst.get(v, {}).get('known_answer_control') or {}).get('state'), 'it inherits limits it cannot clear')})"
+                for v in vb)
+            f.warn("[Q4]", f"{r['id']} has instruments but NONE has returned a usable answer -- {why}. "
+                           f"That is a different and more actionable failure than having none")
 
 
 def check_compute_case(g, f):
@@ -505,9 +625,16 @@ def check_legacy_agreement(g, f):
     with open(LEGACY, encoding="utf-8") as fh:
         legacy = json.load(fh)
 
+    # ⚠ `serves` DROPPED FROM THE COMPARED FIELDS 2026-08-05, and this is a deletion rather than a
+    # rename on purpose. The graph no longer asserts it anywhere -- `verifies` is derived from the
+    # requirement register and `allocated_to` from the route register -- so there is nothing on the
+    # graph side for the legacy copy to agree or disagree WITH. Reprojecting a derived value into the
+    # legacy file would recreate the exact duplication this migration removed, one file further out.
+    # Verified before dropping: no consumer reads `instruments[].serves`, and emc-systems-map.md
+    # never rendered it. The legacy rows keep the field; nothing compares it.
     for coll, fields in [("routes", SHARED_ROUTE_FIELDS),
                          ("blockers", ["name", "statement_about", "owner"]),
-                         ("instruments", ["name", "known_answer_control", "serves"])]:
+                         ("instruments", ["name", "known_answer_control"])]:
         lg, gr = by_id(legacy.get(coll, [])), by_id(g[coll])
         for rid, lrow in lg.items():
             grow = gr.get(rid)
@@ -613,9 +740,15 @@ def check_requirement_source_agreement(g, f):
         if len(cells) > 5 and cells[5] != gr[rid].get("claim_ceiling_raw"):
             f.err("[M4]", f"{rid} claim ceiling differs between the roadmap and the graph — one of them "
                           f"was hand-edited. The roadmap owns the wording; re-run the extractor.")
-        served = sorted(set(re.findall(r"`(V\d+)`", cells[4])), key=lambda x: int(x[1:]))
-        if served != gr[rid].get("served_by"):
-            f.err("[M5]", f"{rid} served-by disagrees: roadmap {served} vs graph {gr[rid].get('served_by')}")
+        # ⚠ THE PATTERN MUST MATCH EVERY INSTRUMENT NAMESPACE, NOT JUST `V\d+`. It read only V-ids
+        # until 2026-08-05, so an `INS-`-prefixed instrument could be named in the roadmap and be
+        # invisible to the agreement check — which is half of how R13 came to report "NO instrument at
+        # all" in the graph while the roadmap's own cell said one exists and is staged.
+        verified = sorted(set(re.findall(r"`(V\d+|INS-[A-Z0-9-]+)`", cells[4])), key=_req_sort_inst)
+        if verified != gr[rid].get("verified_by"):
+            f.err("[M5]", f"{rid} verified-by disagrees: roadmap {verified} vs graph "
+                          f"{gr[rid].get('verified_by')} — the roadmap owns the wording, the graph owns "
+                          f"the relation; make the cell name every instrument the graph carries")
 
 
 
@@ -807,7 +940,7 @@ def check_documents(g, f):
         depends_on.setdefault(rel, []).append("pinned-figures.json `targets`")
     for rel in _instruction_paths():
         depends_on.setdefault(rel, []).append("the project instructions (CLAUDE.md / AGENTS.md)")
-    missing, unverified, bad = [], 0, 0
+    missing, unverified, bad = [], [], 0
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
         if rel_root.startswith((".git", "node_modules", ".pytest_cache")) or "__pycache__" in rel_root:
@@ -868,13 +1001,22 @@ def check_documents(g, f):
                               f"`history_only: true`")
                 bad += 1
             if fmv.get("last_verified") == "unverified":
-                unverified += 1
+                unverified.append(rel)
     for rel in missing:
         f.err("[D4]", f"{rel} has no frontmatter — purpose, scope, audience and freshness are undeclared")
     if unverified:
-        f.warn("[D5]", f"{unverified} document(s) carry `last_verified: unverified` — nobody has "
-                       f"confirmed their content is still true. This is honest, not a defect; the "
-                       f"count is meant to fall.")
+        # ⭐ BUCKETED, NOT JUST COUNTED (2026-08-05). "163 documents are unverified" is true and
+        # unactionable — nobody reads 163 documents, so the number sat unchanged and the warning became
+        # furniture. ⛔ Mass-stamping them would be the exact dishonesty this field exists to prevent:
+        # `last_verified` means someone READ it and confirmed it is still true, and a bulk date claims a
+        # verification nobody performed. So the count stays and the warning says WHICH ONES MATTER —
+        # the ones something already depends on, which is the same `depends_on` [D8] is built from.
+        hot = sorted(r for r in unverified if r in depends_on)
+        f.warn("[D5]", f"{len(unverified)} document(s) carry `last_verified: unverified` — nobody has "
+                       f"confirmed their content is still true. This is honest, not a defect; the count "
+                       f"is meant to fall. ⭐ **{len(hot)} of them are LOAD-BEARING** — pinned or named "
+                       f"by the project instructions, so something reads them today: "
+                       f"{', '.join(hot) if hot else '(none — the rest are reference and history)'}")
 
 
 
@@ -1051,6 +1193,27 @@ def check_artifacts(g, f):
         # ⭐ ASK THE MODEL FIRST. If a lane owes this artifact and never produced it, its state ANSWERS
         # the question — no human assertion, no prose matching, no third register to keep in step.
         verdict, lane, entry = _lane_verdict_for(name, g)
+
+        # ⛔ A MENTION IS NOT A CITATION, AND THE CHECK COULD NOT TELL THEM APART (2026-08-05).
+        # `valb-closure-triangle-pregate-2026-07-25.md` says in three places that this citation IS
+        # withdrawn; `systems/MAINTENANCE.md` names the artifact only to describe the incident it
+        # caused. Both counted as citations, so [K1] warned — at two documents that had already done
+        # exactly what it was asking for. A warning nobody can close is a warning everyone learns to
+        # skip, which is the failure this whole register exists to prevent.
+        #
+        # ⚠ THE LIST IS NOT AN EXEMPTION. It is subtracted from the ENUMERATED citers, so a document
+        # that starts citing the artifact tomorrow still fires. Silencing it would need someone to add
+        # that document to the lane's `produces[]` by hand, which is the visible, reviewable act.
+        if verdict == "withdrawn" and entry:
+            done = set(entry.get("withdrawn_in", []))
+            live = [c for c in cites if c not in done]
+            if not live:
+                f.info("[K1]", f"`{name}` is absent and {lane['id']} derives `withdrawn`; all "
+                               f"{len(cites)} document(s) naming it record the withdrawal "
+                               f"({', '.join(sorted(done & set(cites)))}). Closed, not pending")
+                continue
+            cites = live
+
         if verdict:
             f.warn("[K1]", f"`{name}` is cited by {len(cites)} document(s) and is absent. "
                            f"⭐ **THE MODEL ANSWERS THIS: `{verdict}`.** {lane['id']} — {lane['title']} "
@@ -1086,21 +1249,11 @@ LINK_SKIP_PREFIX = ("http://", "https://", "mailto:", "#", "data:")
 LOOKS_LIKE_PATH = re.compile(r"/|\.(md|json|py|yml|yaml|mjs|sh|txt|csv|png|svg|pdf|cff|html)$", re.I)
 
 
-def _link_baseline_rows():
-    path = os.path.join(GRAPH, "link-baseline.json")
-    if not os.path.exists(path):
-        return []
-    with open(path, encoding="utf-8") as fh:
-        return json.load(fh).get("known_broken", [])
-
-
-def _link_baseline():
-    """Known-broken links that predate this check. Anything NOT here is an error."""
-    return {(r["from"], r["to"]) for r in _link_baseline_rows()}
+LINK_BASELINE = os.path.join(GRAPH, "link-baseline.json")
 
 
 def check_links(g, f):
-    """Every relative Markdown link resolves to a file that exists.
+    """Every relative Markdown link resolves to a file that exists. No exemptions.
 
     ⭐ WHY THIS EXISTS. The repository had NO repo-wide link checker — `verify-refs.yml` validates
     external DOIs, and the only path check in CI inspected `provenance.owner.file`, which for every
@@ -1111,9 +1264,26 @@ def check_links(g, f):
     first time it was attempted, and three of the hazards found then were not links at all but
     runtime reads — which this check deliberately does NOT cover, and cannot. It catches the easy
     class so that attention is free for the hard one.
+
+    ⭐ THE GRANDFATHER LIST IS GONE — IT REACHED ZERO AND WAS DELETED, WHICH IS WHAT IT SAID IT WAS FOR.
+    `link-baseline.json` opened at 120 known-broken links and closed at none on 2026-08-05. Keeping an
+    empty exemption register would have been strictly worse than deleting it: nothing to exempt, an
+    invitation to add, and its loader guarded on `os.path.exists` — so deleting the file by accident
+    would have switched the exemption logic to "everything passes" without a word. The two entries it
+    ever explained are the reason to be glad it is gone: both carried a plausible FREE-PROSE reason that
+    nothing checked, and both were wrong. The first blamed a probe that had never run, when the probe
+    had run and committed to `modalities-cache`. The second said rung 5b-T was NOT STARTED, when it had
+    run on 2026-08-03 and its signature step had failed silently behind a `|| true`. Full accounting:
+    systems/MIGRATION.md §3.8. A broken link is now an error, and an artifact's absence is answered by
+    the lane register or systems/graph/artifact-refs.json — which demand evidence, not prose.
     """
-    baseline = _link_baseline()
-    checked = broken = grandfathered = 0
+    if os.path.exists(LINK_BASELINE):
+        f.err("[K0]", "systems/graph/link-baseline.json is back. It reached zero and was deleted on "
+                      "2026-08-05 — a link is either fine or an error, and an artifact's absence is "
+                      "answered by a lane's `produces[]` or by artifact-refs.json, both of which "
+                      "require evidence. This file's `why` was free prose, and both entries it ever "
+                      "held carried a confident explanation that turned out to be wrong")
+    checked = broken = 0
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
         if rel_root.startswith((".git", "node_modules", ".pytest_cache")) or "__pycache__" in rel_root:
@@ -1140,17 +1310,126 @@ def check_links(g, f):
                 checked += 1
                 dest = os.path.normpath(os.path.join(os.path.dirname(os.path.join(REPO, src)), target))
                 if not os.path.exists(dest):
-                    if (src, target) in baseline:
-                        grandfathered += 1
-                        continue
                     broken += 1
                     f.err("[K1]", f"{src} links to {target!r}, which does not exist")
-    f.warn("[K0]", f"relative links checked: {checked}, new breakage: {broken}, "
-                   f"grandfathered: {grandfathered} (systems/graph/link-baseline.json — that list is "
-                   f"meant to reach zero and must never grow)")
+    # ⛔ INFO, NOT WARN, AND THAT IS THE POINT (2026-08-05). This warned unconditionally — it printed
+    # counts whether or not anything was wrong, which is precisely the pattern scripts/preflight.sh's
+    # own header calls out: "a check that reports while measuring nothing actionable". A warning list
+    # that always contains a line nobody can act on is how the actionable lines get skimmed past. The
+    # count still prints, because a link checker silently checking ZERO links is the fail-open shape
+    # this repository keeps paying for — the number is what proves it ran.
+    f.info("[K0]", f"relative links checked: {checked}, broken: {broken} — no grandfather list exists; "
+                   f"a broken link is an error")
+
+
+RELATIONS = os.path.join(GRAPH, "relations.json")
+
+
+def _id_refs(v):
+    """Every whole string inside a value, at any nesting depth.
+
+    ⚠ WHOLE STRINGS ONLY, WHICH IS THE WHOLE TRICK. An id quoted INSIDE a sentence -- and this model is
+    full of prose that names ids -- is not a reference, it is a mention. Matching substrings would make
+    every `why`, `rationale` and `claim_ceiling` look like an edge.
+    """
+    if isinstance(v, str):
+        yield v
+    elif isinstance(v, list):
+        for x in v:
+            yield from _id_refs(x)
+    elif isinstance(v, dict):
+        for x in v.values():
+            yield from _id_refs(x)
+
+
+def check_relations(g, f):
+    """Every edge in the model is declared, with its SysML stereotype or an explicit `domain` reason.
+
+    ⭐ WHY A REGISTER RATHER THAN A COMMENT. Asked on 2026-08-05 whether to re-express the whole model
+    in SysML, the measurement was that one relationship family is genuinely SysML's and most of the rest
+    are domain relations with no honest counterpart. That conclusion is worth keeping, and a conclusion
+    in a session transcript is not kept -- so it is data, per edge, with the reason. [X1] is what stops
+    the register falling quietly behind the model.
+
+    ⚠ THE LOAD-BEARING COLUMN IS `asserted`, NOT `sysml`. A derived key written into a source file is a
+    second home for a computed fact -- which is how `instrument.serves` came to disagree with the
+    requirement register in 11 of 30 rows while a third field computed the same thing and nothing read
+    it. [X2] makes that failure impossible to reintroduce.
+
+    ⛔ AN EDGE IS DETECTED STRUCTURALLY, NOT BY NAME. The first draft enumerated non-edge keys by hand
+    and produced 30 false errors on its first run -- `path`, `workflow`, `statement_about`, `citation`.
+    A checker that cries wolf gets switched off (the same reasoning that keeps SMILES strings out of
+    check_links), and a hand-list of exclusions is also the thing that silently stops covering the
+    model. So: a key is an edge when one of its values IS an id. Prose is invisible to it, and a new
+    relation cannot hide by being named something the author did not think of.
+    """
+    if not os.path.exists(RELATIONS):
+        f.err("[X1]", "systems/graph/relations.json is missing — every edge in the model is declared "
+                      "there, and without it nothing stops a new relation appearing unnamed")
+        return
+    with open(RELATIONS, encoding="utf-8") as fh:
+        reg = json.load(fh)
+    declared = {(coll, r["key"]): r for r in reg["relations"] for coll in r["on"]}
+
+    ids = {row["id"] for coll in COLLECTIONS for row in g.get(coll, []) if "id" in row}
+
+    # ⚠ ENUMERATED FROM THE SOURCE FILES, NOT FROM THE DERIVED GRAPH. derive() adds the derived keys to
+    # the in-memory objects, so checking `g` would find every derived key present everywhere and [X2]
+    # could never fire. The question [X2] asks is precisely what is WRITTEN.
+    seen = set()
+    for coll in COLLECTIONS:
+        path = os.path.join(GRAPH, f"{coll}.json")
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as fh:
+            rows = json.load(fh)
+        for row in (rows if isinstance(rows, list) else []):
+            for k, v in row.items():
+                if k in ("id",) or k.startswith("_"):
+                    continue
+                if not any(s in ids for s in _id_refs(v)):
+                    continue
+                seen.add((coll, k))
+                rel = declared.get((coll, k))
+                if rel is None:
+                    f.err("[X1]", f"{coll}.json writes `{k}`, whose values are ids of modelled objects — "
+                                  f"so it is an EDGE — and systems/graph/relations.json does not declare "
+                                  f"it. Declare it with its SysML stereotype, or with `domain` and the "
+                                  f"reason no stereotype fits. An undeclared edge is how a vocabulary "
+                                  f"drifts back into twelve ad-hoc names")
+                elif not rel["asserted"]:
+                    f.err("[X2]", f"{coll}.json WRITES `{k}`, which relations.json declares DERIVED. A "
+                                  f"computed fact with a hand-written copy is rule 1's failure mode: the "
+                                  f"two drift and the written one wins silently. Delete it — derive() "
+                                  f"computes it")
+
+    # A register entry for an edge the model no longer has is the same defect one direction out: it
+    # documents a relation nobody can find, and the next reader trusts it.
+    for (coll, k), rel in sorted(declared.items()):
+        # `id_valued: false` marks an edge whose targets are FILENAMES rather than modelled ids
+        # (`lane.produces`), which the structural detector above cannot see by construction. Skipping
+        # it here is honest; pretending the detector found it would not be.
+        if rel.get("id_valued", True) is False:
+            continue
+        if rel["asserted"] and (coll, k) not in seen:
+            f.warn("[X4]", f"relations.json declares `{coll}.{k}` as an asserted edge and no row in "
+                           f"{coll}.json carries it — either the edge was removed and this entry is "
+                           f"stale, or it is derived and mis-declared")
+
+    # ⚠ `lane.serves` is prose ON PURPOSE (a lane's target is a rung as often as a requirement, and
+    # rungs are not modelled). That licence is bounded HERE: the moment it names a requirement, the
+    # relation it wants is `verified_by`, and leaving it as prose recreates the exact two-homes problem
+    # the reconciliation removed.
+    for lane in g.get("lanes", []):
+        for s in lane.get("serves", []):
+            if re.fullmatch(r"R\d+", s):
+                f.err("[X3]", f"{lane['id']} `serves` names requirement {s} as free text. `lane.serves` "
+                              f"is prose for rungs, which are not modelled — a requirement IS modelled, "
+                              f"so this belongs in {s}'s `verified_by` or in the lane's `produces[]`")
 
 
 def run_checks(g, f):
+    check_relations(g, f)
     check_schemas(g, f)
     check_legacy_agreement(g, f)
     check_ids_unique(g, f)
@@ -1891,23 +2170,38 @@ def render_instruments(g):
            "> **An instrument that has never recovered a known answer cannot support a claim, however good",
            "> its output looks.** An instrument whose control FAILED and one that has NO control are different",
            "> facts — and neither is support.\n",
-           "| id | instrument | known-answer control | state | serves |", "|---|---|---|---|---|"]
+           "> ⭐ **`verifies` is DERIVED from the requirement register and `allocated_to` from the route",
+           "> register.** Neither is written on an instrument. Until 2026-08-05 an instrument asserted its own",
+           "> `serves` list as well, and 11 of 30 disagreed with the requirements they claimed — six of them",
+           "> holding prose rather than an identifier. One asserted direction, one derived inverse.\n",
+           "| id | instrument | known-answer control | state | usable | verifies |",
+           "|---|---|---|---|---|---|"]
     for i in g["instruments"]:
         kac = i.get("known_answer_control") or {}
+        # ⚠ `usable` is NOT `state == passes`. INS-MONOVALENT-REACH passes and still cannot license a
+        # claim, because it inherits V3's and V17's limits — so the column shows the computed answer
+        # and names the inheritance, rather than letting a green control speak for a red instrument.
+        inh = i.get("inherits_limits_from") or []
+        use = "✓" if i.get("usable") else ("⛔ inherits " + ", ".join(f"`{p}`" for p in inh)
+                                           if inh and kac.get("state") not in NON_SUPPORTING_CONTROL
+                                           else "✕")
         out.append(f"| **{i['id']}** | {esc(i['name'])} | {esc(kac.get('description','—'))} "
-                   f"| `{kac.get('state','—')}` | {', '.join(i.get('serves', [])) or '—'} |")
-    out += ["", "## Which routes cite each instrument\n",
-            "| id | cited as SUPPORT by | disclosed failing on |", "|---|---|---|"]
-    sup, dis = defaultdict(list), defaultdict(list)
-    for r in g["routes"]:
-        ins = r.get("instruments", {})
-        for v in ins.get("support", []):
-            sup[v].append(r["id"])
-        for v in ins.get("disclosed_failing", []):
-            dis[v].append(r["id"])
+                   f"| `{kac.get('state','—')}` | {use} "
+                   f"| {', '.join(f'`{r}`' for r in i.get('verifies', [])) or '—'} |")
+    out += ["", "## Which routes cite each instrument — the `allocate` relation\n",
+            "| id | cited as SUPPORT by | disclosed failing on | characterises |", "|---|---|---|---|"]
     for i in g["instruments"]:
-        out.append(f"| **{i['id']}** | {', '.join(sup.get(i['id'], [])) or '—'} "
-                   f"| {', '.join(dis.get(i['id'], [])) or '—'} |")
+        al = i.get("allocated_to") or {}
+        out.append(f"| **{i['id']}** | {', '.join(al.get('support', [])) or '—'} "
+                   f"| {', '.join(al.get('disclosed_failing', [])) or '—'} "
+                   f"| {', '.join(f'`{o}`' for o in i.get('characterises', [])) or '—'} |")
+    scoped = [i for i in g["instruments"] if i.get("scope_note")]
+    if scoped:
+        out += ["", "## Scope notes\n",
+                "> ⚠ **Prose, and explicitly NOT a relation.** These are what survived the 2026-08-05",
+                "> reconciliation as genuine scope statements rather than edges — everything else that was",
+                "> written as prose turned out to be a paraphrase of an edge the model already carried.\n"]
+        out += [f"- **{i['id']}** — {esc(i['scope_note'])}" for i in scoped]
     out.append("\n[← L0](../L0-ecosystem.md)\n")
     return "\n".join(out)
 
@@ -1994,15 +2288,15 @@ def render_requirements(g):
            "> **The weakest cell sets the ceiling.** A requirement can never be claimed more strongly than",
            "> the instrument underneath it supports — and an instrument whose known-answer control FAILED",
            "> and one that has NO control are different facts, neither of which is support.\n",
-           "| id | requirement | work | auth | served by | usable answer? |",
+           "| id | requirement | work | auth | verified by | usable answer? |",
            "|---|---|---|---|---|---|"]
     for r in reqs:
-        served = r.get("served_by", [])
-        usable = [v for v in served
-                  if (inst.get(v, {}).get("known_answer_control") or {}).get("state")
-                  not in NON_SUPPORTING_CONTROL]
-        if not served:
-            verdict = "⛔ **no instrument at all**"
+        vb = r.get("verified_by", [])
+        usable = [v for v in vb if inst.get(v, {}).get("usable")]
+        if not vb:
+            gap = r.get("coverage_gap")
+            verdict = (f"⛔ **no instrument** — {COVERAGE_GAPS[gap][1]}" if gap in COVERAGE_GAPS
+                       else "⛔ **no instrument at all**")
         elif not usable:
             verdict = "⛔ **none has returned one**"
         else:
@@ -2010,44 +2304,62 @@ def render_requirements(g):
         out.append(f"| **{r['id']}** | {esc(r['statement'][:150])} "
                    f"| {GLYPH.get(r['state']['work_state'],'?')} "
                    f"| {'🔒' if r['state']['authorization']=='needs_decision' else '—'} "
-                   f"| {' '.join('`'+v+'`' for v in served) or '—'} | {verdict} |")
+                   f"| {' '.join('`'+v+'`' for v in vb) or '—'} | {verdict} |")
 
-    holes = [r for r in reqs if not r.get("served_by")]
-    unusable = [r for r in reqs if r.get("served_by") and not
-                [v for v in r["served_by"]
-                 if (inst.get(v, {}).get("known_answer_control") or {}).get("state")
-                 not in NON_SUPPORTING_CONTROL]]
-    out += ["", "## The two kinds of gap — which must never be filed together\n",
-            "⛔ **Filing these under one word is how the cheap one stays invisible.** A requirement with no",
-            "instrument needs something BUILT or a bench; one whose instruments have all failed needs a",
-            "better METHOD. Opposite work items, opposite costs.\n",
-            f"**No instrument exists at all ({len(holes)}):** " +
-            (", ".join(f"**{r['id']}** — {esc(r['statement'][:70])}" for r in holes) or "none") + "\n",
-            f"**An instrument exists but none has returned a usable answer ({len(unusable)}):** " +
-            (", ".join(f"**{r['id']}** ({', '.join(r['served_by'])})" for r in unusable) or "none") + "\n"]
+    holes = [r for r in reqs if not r.get("verified_by")]
+    unusable = [r for r in reqs if r.get("verified_by")
+                and not [v for v in r["verified_by"] if inst.get(v, {}).get("usable")]]
+    # ⭐ THE HOLES SPLIT AGAIN, AND THE SPLIT IS THE 2026-08-05 CORRECTION. "No instrument exists" was
+    # one bucket and it held two entirely different situations: R6 is a computable term nobody has
+    # computed, while R4 needs a bench this program does not have and R16 is not this paper's question
+    # at all. Reporting them together made two stated scope boundaries look like unfinished work, and
+    # a permanent warning for a decision already taken is how a reader learns to skim the list.
+    buckets = defaultdict(list)
+    for r in holes:
+        buckets[r.get("coverage_gap") or ("dead" if r["state"]["work_state"] == "dead" else "?")].append(r)
+    out += ["", "## The kinds of gap — which must never be filed together\n",
+            "⛔ **Filing these under one word is how the cheap one stays invisible.** A requirement with",
+            "nothing built needs something BUILT; one that needs a bench cannot be answered here at all;",
+            "one whose instruments have all failed needs a better METHOD. Opposite work items, opposite costs.\n"]
+    for key, label in [("buildable", "**Nothing built, and it COULD be built here**"),
+                       ("needs_wet_lab", "**No instrument can be built here — CLAUDE.md §5, no wet lab**"),
+                       ("out_of_scope", "**Not this paper's question, by its own claim ceiling**"),
+                       ("dead", "**Dead — the requirement itself is refuted or retired**")]:
+        rows = buckets.get(key, [])
+        out.append(f"*{label} ({len(rows)}):* " +
+                   (", ".join(f"**{r['id']}** — {esc(r['statement'][:70])}" for r in rows) or "none") + "\n")
+    out += [f"**An instrument exists but none has returned a usable answer ({len(unusable)}):** " +
+            (", ".join(f"**{r['id']}** ({', '.join(r['verified_by'])})" for r in unusable) or "none") + "\n"]
 
-    out += ["## R x V coverage matrix\n",
+    # ⚠ EVERY INSTRUMENT THAT VERIFIES SOMETHING, NOT EVERY `V*`. The column set was `id.startswith("V")`,
+    # which silently excluded the `INS-` namespace — so an `INS-` instrument could verify a requirement
+    # and leave its row looking empty. Two namespaces are real here; a matrix that renders one of them
+    # is a coverage view that under-reports coverage.
+    vids = sorted({v for r in reqs for v in r.get("verified_by", [])}, key=_req_sort_inst)
+    out += ["## Requirement × instrument coverage matrix\n",
             "Read down a column: the weakest cell sets the ceiling. A column with no cell is a hole.\n",
-            "| requirement | " + " | ".join(f"`{i['id']}`" for i in g["instruments"]
-                                            if i["id"].startswith("V")) + " |",
-            "|---|" + "---|" * sum(1 for i in g["instruments"] if i["id"].startswith("V"))]
-    vids = [i["id"] for i in g["instruments"] if i["id"].startswith("V")]
-    # ⚠ `mixed` is a real fifth state (an instrument whose nulls do not all support it) and it is
-    # rendered DISTINCTLY rather than collapsed into pass or fail. The repository's existing
-    # convention treats it as citable, so this view does not overrule that -- it makes it visible.
+            "| requirement | " + " | ".join(f"`{v}`" for v in vids) + " |",
+            "|---|" + "---|" * len(vids)]
+    # ⚠ `mixed` is rendered DISTINCTLY rather than collapsed into pass or fail — but as of 2026-08-05 it
+    # is NON-SUPPORTING, not citable. It was the one control state no schema ever enumerated, and it
+    # silently counted as a pass; "partly" is not an answer a claim can rest on.
     CELL = {"passes": "✓", "fails": "✕", "inconclusive": "⚠", "none": "○", "mixed": "◐"}
     for r in reqs:
         row = []
         for v in vids:
-            if v in r.get("served_by", []):
-                st = (inst.get(v, {}).get("known_answer_control") or {}).get("state", "none")
-                row.append(CELL.get(st, "·"))
+            if v in r.get("verified_by", []):
+                i = inst.get(v, {})
+                st = (i.get("known_answer_control") or {}).get("state", "none")
+                # A passing control that cannot license anything gets its own glyph, or the matrix
+                # would show a ✓ for the instrument whose own note says it cannot support a claim.
+                row.append("⊘" if st == "passes" and not i.get("usable") else CELL.get(st, "·"))
             else:
                 row.append("")
         out.append(f"| **{r['id']}** | " + " | ".join(row) + " |")
-    out += ["", "*Legend: ✓ recovered a known answer · ◐ mixed — its controls do not all support it · "
-            "⚠ inconclusive · ✕ its control failed · ○ no control exists. An empty cell means the "
-            "instrument does not serve that requirement.*\n"]
+    out += ["", "*Legend: ✓ recovered a known answer · ⊘ its own control passes but it INHERITS limits it "
+            "cannot clear · ◐ mixed — its controls do not all support it · ⚠ inconclusive · ✕ its control "
+            "failed · ○ no control exists. An empty cell means the instrument does not verify that "
+            "requirement.*\n"]
 
     out += ["## The dependency graph\n",
             "Read upward: a box can only be claimed once everything feeding it holds. Node state is the",
@@ -2076,7 +2388,10 @@ def render_requirements(g):
         out += [f"### {r['id']} — {esc(r['statement'][:120])}\n",
                 f"- **work state:** {GLYPH.get(r['state']['work_state'],'?')} {esc(r['work_state_note'])}",
                 f"- **authorization:** {esc(r['authorization_note']) or '—'}",
-                f"- **served by:** {' '.join('`'+v+'`' for v in r.get('served_by', [])) or '⛔ nothing'}",
+                f"- **verified by:** {' '.join('`'+v+'`' for v in r.get('verified_by', [])) or '⛔ nothing'}"
+                + (f" — {esc(_clip(r['verified_by_note'], 300))}" if r.get("verified_by_note") else ""),
+                *([f"- **why there is no instrument:** `{r['coverage_gap']}` — "
+                   f"{esc(r.get('coverage_gap_why',''))}"] if r.get("coverage_gap") else []),
                 f"- **⛔ claim ceiling today:** {esc(r['claim_ceiling'][:600])}", ""]
     out.append("[← L0](../L0-ecosystem.md) · [instrument register](instruments.md)\n")
     return "\n".join(out)
@@ -2262,15 +2577,21 @@ def main(argv=None):
         check_views(g, f)
 
     if a.json:
-        print(json.dumps({"errors": f.errors, "warns": f.warns}, indent=2, ensure_ascii=False))
+        print(json.dumps({"errors": f.errors, "warns": f.warns, "infos": f.infos},
+                         indent=2, ensure_ascii=False))
     else:
+        # ⚠ INFOS PRINT FIRST AND ARE NOT HIDDEN BEHIND A FLAG. They are findings the model is
+        # deliberately reporting as closed -- a scope boundary, a link baseline at zero -- and burying
+        # them would turn "we decided this" into "nobody checked".
+        for i in f.infos:
+            print("INFO ", i)
         for w in f.warns:
             print("WARN ", w)
         for e in f.errors:
             print("ERROR", e)
         total = sum(len(g[c]) for c in COLLECTIONS)
         print(f"\nsystems_check: {total} objects across {len(COLLECTIONS)} collections · "
-              f"{len(f.errors)} ERROR · {len(f.warns)} WARN")
+              f"{len(f.errors)} ERROR · {len(f.warns)} WARN · {len(f.infos)} INFO")
     return 0 if f.ok else 1
 
 

@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/requirement.schema.json",
+  "title": "A REQUIREMENT — what must be TRUE for the program's claim to stand",
+  "_role": "Not 'what could we do' (a route) and not 'what did we run' (a lane), but what has to HOLD. Its job is to bound what may be claimed: read down a requirement's column and THE WEAKEST CELL SETS THE CEILING.",
+  "_why_it_did_not_exist_until_2026_08_05": "See instrument.schema.json — these two collections were the unschema'd pair, and the untyped `served_by`/`serves` relation between them accumulated eleven disagreements and six prose values before anything noticed.",
+  "_prose": "research/manuscripts/nr4a3-program-map.md#21--the-register",
+  "$defs": {
+    "requirement": {
+      "type": "object",
+      "required": ["id", "title", "statement", "state", "verified_by", "claim_ceiling", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^R[0-9]+$" },
+        "title": { "type": "string", "minLength": 5 },
+        "level": { "type": "string" },
+        "kind": { "const": "requirement" },
+        "purpose": { "type": "string" },
+        "graph_node": {
+          "type": ["string", "null"],
+          "description": "Its box in the dependency diagram. `null` is meaningful: a requirement that BOUNDS every node — a scope or submission condition — cannot be drawn as an ordinary box without implying it can be discharged in sequence."
+        },
+        "statement": { "type": "string", "minLength": 10 },
+        "state": {
+          "type": "object",
+          "required": ["work_state", "authorization", "status", "confidence", "last_verified"],
+          "additionalProperties": false,
+          "properties": {
+            "work_state": { "enum": ["complete", "future", "open", "dead", "partial"] },
+            "authorization": { "enum": ["free", "needs_decision", "spent"] },
+            "status": { "enum": ["ready", "blocked", "active", "parked", "closed"] },
+            "confidence": { "enum": ["high", "medium", "low", "unknown"] },
+            "last_verified": { "type": "string" }
+          }
+        },
+        "work_state_note": { "type": "string" },
+        "authorization_note": { "type": "string" },
+        "verified_by": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^(V[0-9]+|INS-[A-Z0-9-]+)$" },
+          "description": "⭐ SysML `verify`, and the ONE asserted direction of it. `instrument.verifies` is derived from this and may never be written. ⛔ THE PATTERN IS THE POINT: until 2026-08-05 the reverse edge was also asserted, untyped, and held prose — 'the ATR route's structural precondition', 'the exon-level and residue-level definition of every fusion OBJECT'. A pattern-matched array cannot hold a paraphrase."
+        },
+        "verified_by_note": {
+          "type": "string",
+          "description": "The narrative reading of the coverage — including instruments deliberately NOT listed and why. ⚠ It may not be the only place an instrument is named: an instrument described here and absent from `verified_by` is the exact defect that made R13 report 'NO instrument at all' while its own note said one exists and is staged."
+        },
+        "coverage_gap": {
+          "enum": ["buildable", "needs_wet_lab", "out_of_scope"],
+          "description": "⛔ REQUIRED WHENEVER `verified_by` IS EMPTY AND THE REQUIREMENT IS NOT DEAD, and [Q3] errors when it is missing — omitting it must not be the quiet way to avoid answering. 'Nothing built yet' and 'nothing CAN be built here' license opposite actions, and [Q3] reported them identically until this field existed: R6 is a computable term nobody has computed, while R4's own note reads '⛔ none — needs a bench' against a program CLAUDE.md §5 states has no wet lab, and R16's claim ceiling says the paper's contribution 'is the target's computational druggability/selectivity, not EMC efficacy'. Only `buildable` warns; the other two are stated scope boundaries reported once as INFO. ⚠ A DEAD requirement carries none — the deadness is the answer, and asserting a gap for it would be a second home for that fact."
+        },
+        "coverage_gap_why": {
+          "type": "string",
+          "minLength": 20,
+          "description": "The evidence for the gap classification, in the requirement's own terms. A bare enum with no reason is how a scope boundary becomes unfalsifiable."
+        },
+        "claim_ceiling": {
+          "type": "string",
+          "minLength": 10,
+          "description": "⛔ What may be claimed from this requirement TODAY. A requirement with no stated ceiling cannot bound what may be claimed from it, which is the register's whole job — [Q2] errors on its absence."
+        },
+        "claim_ceiling_raw": {
+          "type": "string",
+          "description": "The roadmap's verbatim wording, stored so the decomposition is LOSSLESS and check_requirement_source_agreement can compare the two without a snapshot."
+        },
+        "provenance": {
+          "type": "object",
+          "required": ["owner"],
+          "additionalProperties": true,
+          "properties": {
+            "owner": {
+              "type": "object",
+              "required": ["file"],
+              "additionalProperties": false,
+              "properties": {
+                "file": { "type": "string" },
+                "anchor": { "type": ["string", "null"] }
+              }
+            }
+          }
+        }
+      },
+      "dependentRequired": {
+        "coverage_gap": ["coverage_gap_why"]
+      }
+    }
+  }
+}

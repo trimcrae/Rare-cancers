@@ -216,25 +216,95 @@ def test_every_requirement_states_a_claim_ceiling(graph):
         assert r.get("claim_ceiling"), f"{r['id']} states no claim ceiling"
 
 
-def test_the_two_kinds_of_gap_are_distinguished(graph):
-    """'No instrument exists' and 'every instrument failed' are opposite work items.
+def test_the_kinds_of_gap_are_distinguished(graph):
+    """'Nothing built', 'needs a bench' and 'every instrument failed' are three different work items.
 
-    The first needs something built or a bench; the second needs a better method. Filing them under
-    one word is how the cheap one stays invisible — the same failure the technology taxonomy found on
-    the watch list.
+    The first needs something BUILT, the second cannot be answered in this program at all, the third
+    needs a better METHOD. Filing them under one word is how the cheap one stays invisible — the same
+    failure the technology taxonomy found on the watch list.
+
+    ⭐ THE MIDDLE ONE WAS ADDED 2026-08-05 AND IS THE POINT. [Q3] reported R6 (a computable term nobody
+    has computed) and R4 ('⛔ none — needs a bench', against a program CLAUDE.md §5 says has no wet lab)
+    with the identical sentence. A permanent warning for a decision already taken is how a reader learns
+    to skim the warning list.
     """
     inst = sc.by_id(graph["instruments"])
     holes, unusable = [], []
     for r in graph["requirements"]:
-        served = r.get("served_by", [])
-        if not served:
+        vb = r.get("verified_by", [])
+        if not vb:
             holes.append(r["id"])
-        elif not [v for v in served
-                  if (inst.get(v, {}).get("known_answer_control") or {}).get("state")
-                  not in sc.NON_SUPPORTING_CONTROL]:
+        elif not [v for v in vb if inst.get(v, {}).get("usable")]:
             unusable.append(r["id"])
     assert holes and unusable, "both categories should be populated in the current state"
     assert not set(holes) & set(unusable), "a requirement cannot be in both categories"
+
+    # Every hole says WHY it is a hole, and the three answers license different actions.
+    by_gap = {}
+    for r in graph["requirements"]:
+        if r["id"] in holes and r["state"]["work_state"] != "dead":
+            gap = r.get("coverage_gap")
+            assert gap in sc.COVERAGE_GAPS, f"{r['id']} has no instrument and no coverage_gap"
+            assert len(r.get("coverage_gap_why", "")) > 20, f"{r['id']} states a gap with no reason"
+            by_gap.setdefault(gap, []).append(r["id"])
+    assert {"WARN", "INFO"} <= {sc.COVERAGE_GAPS[g][0] for g in by_gap}, \
+        "the split is inert unless at least one gap warns and at least one is a stated boundary"
+
+
+def test_a_requirement_with_no_instrument_and_no_reason_is_an_error(graph):
+    """⛔ Omitting `coverage_gap` must not be the quiet way to avoid answering.
+
+    Sabotage: strip the field from R4 and the check must ERROR, not fall silent. A field that is only
+    read when present is a field nobody has to write.
+    """
+    import copy
+    g = copy.deepcopy(graph)
+    for r in g["requirements"]:
+        if r["id"] == "R4":
+            r.pop("coverage_gap", None)
+            r.pop("coverage_gap_why", None)
+    f = sc.Findings()
+    sc.check_requirements(g, f)
+    assert any("[Q3]" in e and "R4" in e for e in f.errors), \
+        "an uninstrumented requirement that will not say why must fail the build"
+
+
+def test_a_passing_control_does_not_by_itself_make_an_instrument_usable(graph):
+    """⭐ INS-MONOVALENT-REACH passes its own control and cannot license a claim.
+
+    Its own note: the bivalent replication 'is what makes the monovalent half readable; it inherits
+    V3's INCONCLUSIVE site question and V17's defective exposure cutoff, so it can refute a route and
+    cannot license one.' A usability test reading only `known_answer_control.state` calls it supporting
+    and silently clears R8's [Q4] — which is exactly what the 2026-08-05 reconciliation nearly did.
+    """
+    inst = sc.by_id(graph["instruments"])
+    reach = inst["INS-MONOVALENT-REACH"]
+    assert reach["known_answer_control"]["state"] == "passes"
+    assert reach["inherits_limits_from"] == ["V3", "V17"]
+    assert reach["usable"] is False, "a passing control must not override an inherited limit"
+    r8 = sc.by_id(graph["requirements"])["R8"]
+    assert "INS-MONOVALENT-REACH" in r8["verified_by"]
+    assert not [v for v in r8["verified_by"] if inst[v]["usable"]], "R8 must keep its [Q4]"
+
+
+def test_mixed_is_not_a_pass(graph):
+    """⛔ NO VAGUE STATES — and `mixed` was the one that was never enumerated anywhere.
+
+    It was in use on two instruments and in no schema, so it silently counted as SUPPORTING. V19's own
+    note reads 'PARTIAL — the arm that addresses the GENERATIVE step is unrun' and V15's reads 'one of
+    the five nulls does not support it'. Closing the enum ADDED a warning (R1); that is the direction a
+    correction should move a count.
+    """
+    assert "mixed" in sc.NON_SUPPORTING_CONTROL
+    inst = sc.by_id(graph["instruments"])
+    mixed = [i["id"] for i in graph["instruments"]
+             if (i.get("known_answer_control") or {}).get("state") == "mixed"]
+    assert mixed, "the test is inert if nothing is `mixed`"
+    assert not any(inst[m]["usable"] for m in mixed)
+    f = sc.Findings()
+    sc.check_requirements(graph, f)
+    assert any("[Q4]" in w and "R1" in w for w in f.warns), \
+        "R1 (V13 fails, V14 none, V15 mixed) must warn now that `mixed` is not a pass"
 
 
 # ───────────────────────── the plan move (§1) ─────────────────────────
@@ -970,19 +1040,28 @@ def test_every_disposition_carries_the_evidence_its_kind_demands(graph):
     assert [e for e in f.errors if "[K2]" in e] == [], "\n".join(f.errors)
 
 
-def test_the_link_baseline_is_not_a_silencer(graph):
-    """Every baselined entry names WHY it is broken, and the list is meant to reach zero.
+def test_the_link_baseline_stays_deleted(graph):
+    """It reached zero and was deleted on 2026-08-05, which is what its own note said it was for.
 
-    ⚠ These are not typos — each is a document citing an artifact that was never produced. Fixing one
-    means producing the artifact or withdrawing the citation, not adding a line here.
+    ⛔ AN EMPTY EXEMPTION REGISTER IS WORSE THAN NONE. Nothing left to exempt, a standing invitation to
+    add a line instead of fixing a link, and its loader guarded on `os.path.exists` — so deleting the
+    file by accident would have switched every exemption to 'passes' without a word. That is the
+    fail-open shape `parser_guard` exists to catch.
+
+    ⚠ The two entries it ever held are why: each carried a confident FREE-PROSE reason that nothing
+    could check, and each was wrong. One blamed a probe that had run and committed to another branch;
+    the other called rung 5b-T NOT STARTED when it had run and its signature step had failed silently
+    behind a `|| true`. Full accounting: systems/MIGRATION.md §3.8.
     """
     path = os.path.join(SYS, "graph", "link-baseline.json")
-    d = json.load(open(path, encoding="utf-8"))
-    assert d["known_broken"], "an empty baseline should be deleted, not kept"
-    assert len(d["known_broken"]) <= 3, \
-        "the baseline grew — a new broken link must be fixed, not grandfathered"
-    for row in d["known_broken"]:
-        assert row.get("why") and len(row["why"]) > 40, f"{row['to']} is baselined with no reason"
+    assert not os.path.exists(path), \
+        "link-baseline.json is back — a link is either fine or an error, and an artifact's absence is " \
+        "answered by a lane's produces[] or artifact-refs.json, both of which require evidence"
+    f = sc.Findings()
+    sc.check_links(graph, f)
+    assert not [e for e in f.errors if "[K0]" in e]
+    assert any("[K0]" in i for i in f.infos), "the link count must still print — a checker silently " \
+                                              "checking zero links is the fail-open shape"
 
 
 def test_a_preregistration_is_never_archived():
@@ -992,3 +1071,194 @@ def test_a_preregistration_is_never_archived():
         text = open(p, encoding="utf-8", errors="ignore").read()
         assert "prereg" not in os.path.basename(p).lower(), f"{p} looks like a preregistration"
         assert "status: immutable" not in text[:600], f"{p} is marked immutable and must not be archived"
+
+
+# ───────────────── the SysML `verify` relation and the edge register ─────────────────
+
+def test_serves_and_serves_derived_are_gone(graph):
+    """⛔ THREE FIELDS FOR ONE RELATION, AND THE THIRD WAS READ BY NOTHING.
+
+    `requirement.served_by` and `instrument.serves` were both ASSERTED — the same edge written from
+    both ends — and `instrument.serves_derived` computed a third copy that no renderer, check or test
+    consumed. 11 of 30 instruments disagreed with the requirement register and six held free prose
+    ("the ATR route's structural precondition") in a field the other rows used for identifiers.
+
+    SysML's `verify` has exactly one asserted direction and one derived inverse. Adopting that SHAPE is
+    what collapsed them; the name came along with it.
+    """
+    for i in graph["instruments"]:
+        assert "serves" not in i, f"{i['id']} still asserts `serves`"
+        assert "serves_derived" not in i, f"{i['id']} still carries the dead `serves_derived`"
+        assert isinstance(i.get("verifies"), list), f"{i['id']} has no derived `verifies`"
+    for r in graph["requirements"]:
+        assert "served_by" not in r, f"{r['id']} still uses the old name"
+        assert isinstance(r.get("verified_by"), list)
+
+    # The derived inverse must AGREE with the assertion in both directions, by construction.
+    fwd = {(r["id"], v) for r in graph["requirements"] for v in r["verified_by"]}
+    rev = {(rid, i["id"]) for i in graph["instruments"] for rid in i["verifies"]}
+    assert fwd == rev, f"the derived inverse disagrees: {fwd ^ rev}"
+
+
+def test_no_relation_field_can_hold_prose(graph):
+    """⭐ THE SCHEMA IS WHAT MAKES THE RENAME STICK.
+
+    `requirements` and `instruments` were the two collections with NO schema, and that is not a
+    coincidence — it is where the untyped relation between them lived. Sabotage: put back one of the
+    six real prose values and the schema must reject it.
+    """
+    import copy
+    g = copy.deepcopy(graph)
+    for r in g["requirements"]:
+        if r["id"] == "R13":
+            r["verified_by"] = ["the exon-level and residue-level definition of every fusion OBJECT"]
+    f = sc.Findings()
+    sc.check_schemas(g, f)
+    assert any("[S3]" in e and "R13" in e for e in f.errors), \
+        "a relation field that accepts a sentence is how eleven disagreements accumulated unnoticed"
+
+
+def test_the_control_state_enum_is_closed(graph):
+    """`mixed` was in use and enumerated nowhere. Sabotage with a sixth value; it must be rejected."""
+    import copy
+    g = copy.deepcopy(graph)
+    g["instruments"][0]["known_answer_control"]["state"] = "mostly"
+    f = sc.Findings()
+    sc.check_schemas(g, f)
+    assert any("[S3]" in e for e in f.errors), "a vague control state must not be writable"
+
+
+def test_every_edge_in_the_model_is_declared(graph):
+    """[X1]: an edge the register does not name fails the build.
+
+    ⚠ AN EDGE IS DETECTED STRUCTURALLY — a key one of whose values IS a modelled id — not by name. The
+    first draft enumerated non-edge keys by hand and produced 30 false errors on its first run (`path`,
+    `workflow`, `statement_about`, `citation`). A checker that cries wolf gets switched off.
+    """
+    f = sc.Findings()
+    sc.check_relations(graph, f)
+    assert [e for e in f.errors if "[X1]" in e or "[X2]" in e] == [], "\n".join(f.errors)
+
+    reg = json.load(open(os.path.join(SYS, "graph", "relations.json"), encoding="utf-8"))
+    assert reg["_sysml_stereotypes_not_used"], \
+        "the stereotypes deliberately NOT adopted are half the answer — without them the next reader " \
+        "re-asks whether everything should be `trace`"
+    for rel in reg["relations"]:
+        assert rel["on"] and rel["to"] and rel["why"], rel["key"]
+        assert isinstance(rel["asserted"], bool)
+        assert len(rel["why"]) > 40, f"{rel['key']} is declared with no reason"
+        assert rel["sysml"] in ("verify", "allocate", "refine", "derive", "domain"), rel["sysml"]
+
+
+def test_an_undeclared_edge_fails_the_build(graph):
+    """Sabotage: add a new id-valued key nobody declared."""
+    import copy, tempfile, shutil
+    src = os.path.join(SYS, "graph", "blockers.json")
+    backup = open(src, encoding="utf-8").read()
+    rows = json.loads(backup)
+    rows[0]["caused_by_route"] = [graph["routes"][0]["id"]]
+    try:
+        open(src, "w", encoding="utf-8").write(json.dumps(rows, indent=2, ensure_ascii=False) + "\n")
+        f = sc.Findings()
+        sc.check_relations(graph, f)
+        assert any("[X1]" in e and "caused_by_route" in e for e in f.errors), \
+            "a new relation must not be able to appear unnamed"
+    finally:
+        open(src, "w", encoding="utf-8").write(backup)
+
+
+def test_a_derived_edge_may_not_be_hand_written(graph):
+    """[X2]: a computed fact with a written copy is rule 1's failure mode — the two drift silently."""
+    src = os.path.join(SYS, "graph", "instruments.json")
+    backup = open(src, encoding="utf-8").read()
+    rows = json.loads(backup)
+    rows[0]["verifies"] = ["R1"]
+    try:
+        open(src, "w", encoding="utf-8").write(json.dumps(rows, indent=2, ensure_ascii=False) + "\n")
+        f = sc.Findings()
+        sc.check_relations(graph, f)
+        assert any("[X2]" in e and "verifies" in e for e in f.errors)
+    finally:
+        open(src, "w", encoding="utf-8").write(backup)
+
+
+def test_a_lane_may_not_name_a_requirement_in_free_text(graph):
+    """[X3] bounds the licence `lane.serves` is given.
+
+    It stays prose because a lane's target is a RUNG as often as an instrument, and rungs are not
+    modelled — typing it would mean inventing a collection to point at. But a REQUIREMENT is modelled,
+    so the moment `serves` names one, the relation it wants is `verified_by`, and leaving it as prose
+    recreates the two-homes problem the reconciliation removed.
+    """
+    import copy
+    g = copy.deepcopy(graph)
+    g["lanes"][0]["serves"] = ["R11"]
+    f = sc.Findings()
+    sc.check_relations(g, f)
+    assert any("[X3]" in e for e in f.errors)
+
+
+def test_a_withdrawal_notice_is_not_a_citation(graph):
+    """⛔ [K1] COUNTED A MENTION AS A CITATION, AND WARNED AT DOCUMENTS THAT HAD ALREADY COMPLIED.
+
+    `valb-closure-triangle-pregate-2026-07-25.md` says in three places that the citation IS withdrawn;
+    `systems/MAINTENANCE.md` names the artifact only to describe the incident it caused. Both read as
+    live citations, so the warning asked for something already done — and a warning nobody can close is
+    how the actionable ones get skimmed past.
+
+    ⚠ NOT AN EXEMPTION LIST. It is subtracted from the ENUMERATED citers, so a new document citing the
+    artifact still fires.
+    """
+    import copy
+    entry = [p for l in graph["lanes"] if l["id"] == "LANE-9"
+             for p in l["produces"] if p["artifact"] == "valb-triangle-chem.json"][0]
+    assert entry["produced"] is False and entry["withdrawn_in"], "the withdrawal must be modelled"
+
+    f = sc.Findings()
+    sc.check_artifacts(graph, f)
+    assert not [w for w in f.warns if "valb-triangle-chem" in w], "\n".join(f.warns)
+    assert any("valb-triangle-chem" in i for i in f.infos), "closed is not the same as unreported"
+
+    # Sabotage: a lane that forgets one citer must warn about exactly that citer.
+    g = copy.deepcopy(graph)
+    for l in g["lanes"]:
+        for p in l.get("produces", []):
+            if p["artifact"] == "valb-triangle-chem.json":
+                p["withdrawn_in"] = p["withdrawn_in"][:1]
+    f = sc.Findings()
+    sc.check_artifacts(g, f)
+    assert any("[K1]" in w and "valb-triangle-chem" in w for w in f.warns), \
+        "a citer not on the list must still fire — otherwise this is an off switch"
+
+
+def test_every_complete_lane_is_dated(graph):
+    """A verdict nothing can date is a verdict nothing can call stale.
+
+    All three undated lanes were dated on 2026-08-05 from DOCUMENTS, never from commit timestamps — a
+    git date says when a file was written, which for a lane doc is routinely days after the lane closed.
+    """
+    for l in graph["lanes"]:
+        if l["state"] == "complete":
+            assert l.get("closed_on"), f"{l['id']} is complete with no date"
+            assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", l["closed_on"]), l["id"]
+
+
+def test_an_instrument_that_cannot_license_is_not_cited_as_support(graph):
+    """[V3]: a passing control is not enough, and this found a real mis-filing.
+
+    RT-MONOVALENT listed INS-MONOVALENT-REACH under `support` while its own route document says the
+    test 'came back against the route' and 'Reach can refute a route; it can never license one'.
+    """
+    f = sc.Findings()
+    sc.check_instrument_support(graph, f)
+    assert [e for e in f.errors if "[V3]" in e] == [], "\n".join(f.errors)
+
+    import copy
+    g = copy.deepcopy(graph)
+    for r in g["routes"]:
+        if r["id"] == "RT-MONOVALENT":
+            r["instruments"]["support"] = ["INS-MONOVALENT-REACH"]
+    f = sc.Findings()
+    sc.check_instrument_support(g, f)
+    assert any("[V3]" in e for e in f.errors), \
+        "an instrument that inherits limits it cannot clear must not read as support"

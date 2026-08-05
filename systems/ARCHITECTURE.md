@@ -349,6 +349,57 @@ actually sit. That distinction is inherited unchanged.
 
 ---
 
+## 6.5 · ⭐ Edges: what SysML gave us, and what it could not
+
+**Asked in August 2026 whether the whole model should be re-expressed in SysML, the honest answer was
+"part of it".** [`graph/relations.json`](graph/relations.json) records that answer as data — every edge in
+the model with its stereotype, its ends, and whether it is asserted or derived — because a conclusion left
+in a session transcript gets re-litigated, and `[X1]` fails the build on any edge the register does not
+name.
+
+**Four stereotypes are earned, and one of them changed the model.**
+
+| stereotype | edge | what it buys |
+|---|---|---|
+| `verify` | `requirement.verified_by` → `instrument.verifies` | **one asserted direction, one derived inverse** |
+| `allocate` | `route.instruments` → `instrument.allocated_to` | the same shape, with an outcome (`support` / `disclosed_failing`) |
+| `refine` | `instrument.characterises` → an object | an instrument that makes an OBJECT precise rather than answering a requirement about it |
+| `derive` | `instrument.inherits_limits_from` | one instrument's limits following from another's |
+
+⛔ **`satisfy` and `trace` are refused, and the refusal is recorded.** Nothing here is an implementation —
+routes are *options*, not built things, and calling a route a satisfier of a requirement would assert the
+readiness §7's language discipline forbids. `trace` is worse: it is the catch-all that would have absorbed
+`blockers_inherited`, `objects`, `artifacts` and `unblocks` into one meaningless name. Nine domain relations
+that say what they mean beat nine `trace` edges that do not.
+
+### ⚠ What the rename actually fixed — the reason it was not cosmetic
+
+The model carried **three fields for one relation**: `requirement.served_by` (asserted),
+`instrument.serves` (asserted, the same edge from the other end) and `instrument.serves_derived` (computed,
+and read by nothing). Measured before the change:
+
+- **11 of 30 instruments disagreed with the requirement register.**
+- **6 of those held free prose** — `"the ATR route's structural precondition"` — in a field the other rows
+  used for identifiers, because `instruments` and `requirements` were the only two collections with **no
+  schema**.
+- Every one of the six turned out to be a **paraphrase of an edge the model already carried** in
+  `route.instruments`, written in a second file where nothing read it, and where five of the six lost the
+  support-versus-disclosed-failing distinction that the typed edge keeps.
+
+⭐ **The visible symptom was a warning the model itself contradicted.** `[Q3]` reported *"R13 has NO
+instrument at all — there is nothing built that could answer it"* while two instruments claimed to serve
+R13 and R13's own note read *"an instrument EXISTS and is staged"*. Three places in one model; the check
+read one.
+
+**Two findings fell out of reconciling it, and neither was planned.** An instrument can pass its own
+known-answer control and still be unable to license a claim — `INS-MONOVALENT-REACH` replicates the
+committed bivalent artifact cell-for-cell and its own note says it *"can refute a route and cannot license
+one"* — so `usable` is computed through `inherits_limits_from` rather than read off the control state, and
+`[V3]` immediately caught a route citing it as SUPPORT. And `known_answer_control.state` had a fifth value,
+`mixed`, enumerated in no schema and silently counting as a pass; closing that enum **added** a warning.
+
+---
+
 ## 7 · How the model stays true
 
 Five mechanisms, all in CI, all failing **red**:

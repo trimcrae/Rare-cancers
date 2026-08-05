@@ -236,6 +236,31 @@ Each is enforced by [`systems_check.py`](systems_check.py) and each exists becau
    an unlabelled forecast is indistinguishable from a measurement.
 8. **A guard fails red.** A check that cannot run must exit non-zero. A guard that fails open leaves no
    trace, and a silent guard is worse than no guard because it is trusted.
+9. **An edge has ONE asserted end.** Every relation in the model is declared in
+   [`graph/relations.json`](graph/relations.json) with its stereotype and, more importantly, whether it is
+   *asserted* or *derived*; `[X1]` fails on an undeclared edge and `[X2]` on a derived one that has been
+   hand-written. ⛔ **The rule exists because the reverse was written by hand for months**: `served_by` and
+   `serves` were both asserted, `serves_derived` computed a third copy nothing read, and 11 of 30
+   instruments had drifted out of agreement with the requirement register before anyone looked.
+
+---
+
+## 4.7 · Relationship stereotypes
+
+The four SysML stereotypes this model earns, and the two it refuses. Full reasoning and the per-edge
+register: [`graph/relations.json`](graph/relations.json) · [ARCHITECTURE §6.5](ARCHITECTURE.md#65--edges-what-sysml-gave-us-and-what-it-could-not).
+
+| value | means | asserted on |
+|---|---|---|
+| `verify` | a test establishes whether a requirement holds | `requirement.verified_by`, `route.required_validation` |
+| `allocate` | an instrument is mapped to a route, with an outcome | `route.instruments` |
+| `refine` | an instrument makes an OBJECT precise | `instrument.characterises` |
+| `derive` | one element's limits follow from another's | `instrument.inherits_limits_from` |
+| `domain` | a relation this domain has and SysML does not | everything else — declared with the reason no stereotype fits |
+
+⛔ **`satisfy` and `trace` are deliberately unused.** Nothing here is an implementation, so nothing
+*satisfies* a requirement; and `trace` is the catch-all that would have flattened `blockers_inherited`,
+`blockers_retired`, `objects`, `artifacts` and `unblocks` into one word that says nothing.
 
 ---
 

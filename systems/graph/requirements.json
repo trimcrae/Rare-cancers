@@ -16,12 +16,12 @@
     },
     "work_state_note": "✓ work complete",
     "authorization_note": "—",
-    "served_by": [
+    "verified_by": [
       "V13",
       "V14",
       "V15"
     ],
-    "served_by_note": "V13 V14 V15",
+    "verified_by_note": "V13 V14 V15",
     "claim_ceiling": "supported, not settled. Gate 1 (a two-state cryptic *opening*) FAILED as registered and was reformulated to basin-internal breathing; the existence evidence is experimental and independent (8XTT) — see §5 row R1",
     "claim_ceiling_raw": "**supported, not settled.** Gate 1 (a two-state cryptic *opening*) FAILED as registered and was reformulated to basin-internal breathing; the existence evidence is experimental and independent (8XTT) — see [§5 row R1](#5--where-each-requirement-stands)",
     "provenance": {
@@ -48,10 +48,10 @@
     },
     "work_state_note": "○ future",
     "authorization_note": "—",
-    "served_by": [
+    "verified_by": [
       "V13"
     ],
-    "served_by_note": "V13 — ⚠ its only demonstrated reading is ✕ dead",
+    "verified_by_note": "V13 — ⚠ its only demonstrated reading is ✕ dead",
     "claim_ceiling": "unresolved. Reading Gate 3B off a *single* biased F(Rg) profile is conclusively closed (§6a); no replacement reading has been run",
     "claim_ceiling_raw": "**unresolved.** Reading Gate 3B off a *single* biased F(Rg) profile is conclusively closed ([§6a](#6a--dead--conclusively-unworkable-never-retry)); no replacement reading has been run",
     "provenance": {
@@ -78,8 +78,8 @@
     },
     "work_state_note": "✕ REFUTED 2026-08-03",
     "authorization_note": "— ($0, spent)",
-    "served_by": [],
-    "served_by_note": "R3's own frame-level audit — built and run",
+    "verified_by": [],
+    "verified_by_note": "R3's own frame-level audit — built and run",
     "claim_ceiling": "⛔ MEASURED FALSE. Under the harmonized, score-independent definition the generation frame's mapped orthosteric site is detected and not druggable, so the requirement's own statement does not hold. Per the paper, this *\"reaches the generation receptor … not merely a reported frame-fraction\"*. ⚠ This is the requirement register's FIRST ✕, and §0.2 is explicit that *\"a claim that has been refuted is dead, and should say so\"* — flagged for trimcrae rather than applied silently, because it changes what the paper may claim about every denovo_401-derived result. ⚠ The verdict is rule-sensitive and the sensitivity is now MEASURED (2026-08-03) — the rule is C2 and it is registered ⚠ CONTESTED (§3b.2): the two accepted cavities are two different sub-cavities of a split reference site (4 shared residues, Jaccard 0.21, centroids 9.853 Å apart), and choosing the other one would also move the paralogue margins (−0.040 vs NR4A1, +0.027 vs NR4A2). The frozen rule's answer stands and the thresholds were not touched. ⭑ And the split is NOT NEUTRAL — which is what decides whether this is a segmentation artifact or a real error (§8's steric bullet is its one home): the cavity that CLEARS D\\* holds the program's two usable steric vectors, the one that FAILS holds the positions that fire at zero. ⚠ And the frame's recorded Rg is wrong — measured 0.7612 nm against the 0.7367 on record, where Rg is the selection criterion. Evidence: r3-generation-frame-harmonized.json, r3-site-choice-audit.json, r3-site-choice-audit-2026-08-03.md",
     "claim_ceiling_raw": "⛔ **MEASURED FALSE.** Under the harmonized, score-independent definition the generation frame's mapped orthosteric site is **detected and not druggable**, so the requirement's own statement does not hold. Per the paper, this *\"reaches the **generation receptor** … not merely a reported frame-fraction\"*. ⚠ **This is the requirement register's FIRST ✕, and [§0.2](#02--work-state--the-five-glyphs) is explicit that *\"a claim that has been refuted is dead, and should say so\"*** — flagged for trimcrae rather than applied silently, because it changes what the paper may claim about every `denovo_401`-derived result. ⚠ The verdict is **rule-sensitive and the sensitivity is now MEASURED (2026-08-03)** — the rule is `C2` and it is registered ⚠ **CONTESTED** ([§3b.2](#3b2--contested-and-known-defective--the-four-that-are-not-merely-frozen)): the two accepted cavities are two different sub-cavities of a **split** reference site (4 shared residues, Jaccard 0.21, centroids 9.853 Å apart), and choosing the other one would also move the paralogue margins (**−0.040** vs NR4A1, **+0.027** vs NR4A2). The frozen rule's answer stands and the thresholds were not touched. ⭑ **And the split is NOT NEUTRAL — which is what decides whether this is a segmentation artifact or a real error** ([§8](#8--the-two-live-routes-to-selectivity--and-where-each-is-actually-blocked)'s steric bullet is its one home): the cavity that CLEARS D\\* holds the program's two usable steric vectors, the one that FAILS holds the positions that fire at zero. ⚠ **And the frame's recorded Rg is wrong** — measured **0.7612 nm** against the 0.7367 on record, where Rg is the selection criterion. Evidence: [`r3-generation-frame-harmonized.json`](../modalities/r3-generation-frame-harmonized.json), [`r3-site-choice-audit.json`](../modalities/r3-site-choice-audit.json), [r3-site-choice-audit-2026-08-03.md](r3-site-choice-audit-2026-08-03.md)",
     "provenance": {
@@ -106,8 +106,10 @@
     },
     "work_state_note": "○ future",
     "authorization_note": "—",
-    "served_by": [],
-    "served_by_note": "⛔ none — needs a bench",
+    "verified_by": [],
+    "verified_by_note": "⛔ none — needs a bench",
+    "coverage_gap": "needs_wet_lab",
+    "coverage_gap_why": "Its own note reads '⛔ none — needs a bench'. CLAUDE.md §5 puts a self-funded wet-lab program off the table, so no instrument can be built for this in this program. It is a stated scope boundary, not a backlog item.",
     "claim_ceiling": "nothing binds the cryptic pocket, of any molecule. ⚠ Scoping is load-bearing: NR4A3 *is* experimentally ligandable (§5 row R4); the cryptic site is what has no ligand",
     "claim_ceiling_raw": "**nothing binds the cryptic pocket, of any molecule.** ⚠ Scoping is load-bearing: NR4A3 *is* experimentally ligandable ([§5 row R4](#5--where-each-requirement-stands)); the cryptic site is what has no ligand",
     "provenance": {
@@ -134,10 +136,11 @@
     },
     "work_state_note": "○ future (re-run)",
     "authorization_note": "—",
-    "served_by": [
-      "V3"
+    "verified_by": [
+      "V3",
+      "V22"
     ],
-    "served_by_note": "V3 — INCONCLUSIVE, and ⛔ WORSE ON BOTH HALVES AS OF 2026-08-03",
+    "verified_by_note": "V3 — INCONCLUSIVE, and ⛔ WORSE ON BOTH HALVES AS OF 2026-08-03 ⭐ RECONCILED 2026-08-05: V22 (rDock, the scoring-independent second method) claimed R5 and the register did not carry it.",
     "claim_ceiling": "unresolved, and this row understated it. The docking works; the pipeline's site selection missed on 6 of 6 pairs, so the pose's weight rests on the site being right and V3 could not check that. ⛔ Two results landed 2026-08-03 and both go against the row. *(a)* Re-asked in regime — on the three proteins the pipeline actually transfers Pocket-5 onto — the site question is answered 0 of 14 gradeable pairs, by TWO independent transfer routes (sequence and Pocket-5 structure), while an fpocket-chosen box finds it in 11; so the miss is the transfer, not the docking, and it is no longer an n = 6 observation (apo-pose-site-in-regime.json → site_panel_in_regime; it is a site supplement and changes no pre-registered verdict). *(b)* denovo_401's pose is not a singular object: 6 poses, 15 pairs, pocket-superposed median RMSD on a molecule whose end-for-end flip costs less (pose-convergence-401.json), and cross_method_evidence is NONE — every pose this program holds is the same method's top pose. ⇒ every pose-conditional claim must be stated as marginalised over poses, not as \"the predicted pose\" — and stated against C14, since \"agrees\" here means the 2.0 Å line and 1 of 15 pairs meets it",
     "claim_ceiling_raw": "**unresolved, and this row understated it.** The docking works; the pipeline's **site selection** missed on 6 of 6 pairs, so the pose's weight rests on the site being right and `V3` could not check that. ⛔ **Two results landed 2026-08-03 and both go against the row.** *(a)* Re-asked **in regime** — on the three proteins the pipeline actually transfers Pocket-5 onto — the site question is answered **0 of 14 gradeable pairs, by TWO independent transfer routes** (sequence and Pocket-5 structure), while an fpocket-chosen box finds it in 11; so the miss is the **transfer**, not the docking, and it is no longer an n = 6 observation ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json) → `site_panel_in_regime`; it is a **site supplement and changes no pre-registered verdict**). *(b)* `denovo_401`'s pose is **not a singular object**: 6 poses, 15 pairs, pocket-superposed median RMSD on a molecule whose end-for-end flip costs less ([`pose-convergence-401.json`](../modalities/pose-convergence-401.json)), and `cross_method_evidence` is **NONE** — every pose this program holds is the same method's top pose. ⇒ **every pose-conditional claim must be stated as marginalised over poses, not as \"the predicted pose\"** — and stated against `C14`, since \"agrees\" here means the 2.0 Å line and **1 of 15** pairs meets it",
     "provenance": {
@@ -164,8 +167,10 @@
     },
     "work_state_note": "○ future",
     "authorization_note": "🔒 explicit nod",
-    "served_by": [],
-    "served_by_note": "⛔ none built",
+    "verified_by": [],
+    "verified_by_note": "⛔ none built",
+    "coverage_gap": "buildable",
+    "coverage_gap_why": "ΔG_open is computable — a per-paralogue opening free energy — and nothing has been built for it. `authorization: needs_decision` because it is a GPU spend, not because the method is missing.",
     "claim_ceiling": "⛔ every ABSOLUTE ΔΔG on the binder path is conditional on a term nobody has computed. Validation requirement 2: matched-open comparison can *\"miss or REVERSE selectivity\"*. ⚠ Narrowed 2026-08-03, and this page stated it too widely: the block is on the absolute route to R7, not on a ligand-side *relative* double difference, in which the opening penalty is common to both ligands of a matched pair and cancels inside each protein — §3.4 fact 3. ⚠ *Superseded, retained: \"every ΔΔG on the binder path\".*",
     "claim_ceiling_raw": "⛔ **every ABSOLUTE ΔΔG on the binder path is conditional on a term nobody has computed.** Validation requirement 2: matched-open comparison can *\"miss or REVERSE selectivity\"*. ⚠ **Narrowed 2026-08-03, and this page stated it too widely:** the block is on the **absolute** route to `R7`, **not** on a ligand-side *relative* double difference, in which the opening penalty is common to both ligands of a matched pair and cancels inside each protein — [§3.4 fact 3](#34--four-instrument-facts-this-page-used-to-be-missing). ⚠ *Superseded, retained: \"every ΔΔG on the binder path\".*",
     "provenance": {
@@ -192,15 +197,16 @@
     },
     "work_state_note": "○ open — the existing result is ⏸ parked",
     "authorization_note": "🔒 (V4)",
-    "served_by": [
+    "verified_by": [
       "V4",
       "V6",
       "V7",
       "V8",
       "V9",
-      "V10"
+      "V10",
+      "V19"
     ],
-    "served_by_note": "V4 (no result) · V6 V7 V8 V9 V10",
+    "verified_by_note": "V4 (no result) · V6 V7 V8 V9 V10 ⭐ RECONCILED 2026-08-05: V19 (the generation-matched null) claimed R7 and the register did not carry it.",
     "claim_ceiling": "⛔ an unvalidated prediction. Three separate blocks, only one of which is the instrument — see §8",
     "claim_ceiling_raw": "⛔ **an unvalidated prediction.** Three separate blocks, only one of which is the instrument — see [§8](#8--the-two-live-routes-to-selectivity--and-where-each-is-actually-blocked)",
     "provenance": {
@@ -227,10 +233,11 @@
     },
     "work_state_note": "✓ computed — ⚠ not reconciled to its artifact",
     "authorization_note": "— ($0 CPU)",
-    "served_by": [
-      "V17"
+    "verified_by": [
+      "V17",
+      "INS-MONOVALENT-REACH"
     ],
-    "served_by_note": "V17 (fails its own positive control) + the reach enumeration",
+    "verified_by_note": "V17 (fails its own positive control) + the reach enumeration ⭐ RECONCILED 2026-08-05: `INS-MONOVALENT-REACH` is the reach enumeration this note already named in prose, now carried as a relation. ⚠ Its own control PASSES and it still cannot license R8 — it inherits V3's inconclusive site question and V17's defective exposure cutoff (`inherits_limits_from`), so the usability test reads it as non-supporting. ⛔ V3 also claimed R8 and is NOT added: V3 verifies R5, and R8's ceiling already declares itself conditional on R5 — a transitive reach, not a verification.",
     "claim_ceiling": "geometry only. No thiol pKa, reactivity, adduct or degradation quantity; reach is necessary and never sufficient. And it is conditional on R5",
     "claim_ceiling_raw": "**geometry only.** No thiol pKa, reactivity, adduct or degradation quantity; reach is necessary and never sufficient. And it is conditional on `R5`",
     "provenance": {
@@ -257,10 +264,10 @@
     },
     "work_state_note": "○ future — NOT STARTED",
     "authorization_note": "— ($0, needs no nod) — rung 5b-T, priced and gated 2026-08-02. ⚠ *Superseded, retained: \"🔒 unpriced, no rung.\"*",
-    "served_by": [
+    "verified_by": [
       "V2"
     ],
-    "served_by_note": "V2 — recovered its known answer in scope, never pointed at our system",
+    "verified_by_note": "V2 — recovered its known answer in scope, never pointed at our system",
     "claim_ceiling": "⛔ no NR4A3 ternary has been correctly assembled by anyone. §what the SMARCA2/4 null BINDS: *\"⛔ NO, and this is the whole remaining gap.\"* ⚠ 5b-T gives it a route and a gate; it does not make the claim, and its output is structural, never thermodynamic",
     "claim_ceiling_raw": "⛔ **no NR4A3 ternary has been correctly assembled by anyone.** [§what the SMARCA2/4 null BINDS](#what-this-binds-in-the-words-fixed-before-the-run): *\"⛔ **NO, and this is the whole remaining gap.**\"* ⚠ `5b-T` gives it a route and a gate; it does not make the claim, and its output is **structural, never thermodynamic**",
     "provenance": {
@@ -287,11 +294,11 @@
     },
     "work_state_note": "○ future",
     "authorization_note": "🔒 (via R9)",
-    "served_by": [
+    "verified_by": [
       "V2",
       "V12"
     ],
-    "served_by_note": "V2 (live route) · V12 ⏸ (the route that built the existing one)",
+    "verified_by_note": "V2 (live route) · V12 ⏸ (the route that built the existing one)",
     "claim_ceiling": "the existing prediction was built by the failing route and its molecule is unrecoverable, so it cannot be replicated",
     "claim_ceiling_raw": "the existing prediction was built by the failing route and its molecule is **unrecoverable**, so it cannot be replicated",
     "provenance": {
@@ -318,13 +325,13 @@
     },
     "work_state_note": "○ future",
     "authorization_note": "🔒 (via R9)",
-    "served_by": [
+    "verified_by": [
       "V1",
       "V5",
       "V11",
       "V16"
     ],
-    "served_by_note": "V1 (passes, in scope) · V16 (null with a bound, uncalibrated) · V5 ⏸ FAILS · V11 ⏸ no pass",
+    "verified_by_note": "V1 (passes, in scope) · V16 (null with a bound, uncalibrated) · V5 ⏸ FAILS · V11 ⏸ no pass",
     "claim_ceiling": "one sequence-encoded candidate at 1 model per arm against a reproducibility bar of 3 (C18)",
     "claim_ceiling_raw": "one sequence-encoded candidate at **1 model per arm against a reproducibility bar of 3** (`C18`)",
     "provenance": {
@@ -351,10 +358,10 @@
     },
     "work_state_note": "○ future",
     "authorization_note": "— ($0 screen)",
-    "served_by": [
+    "verified_by": [
       "V18"
     ],
-    "served_by_note": "V18 — ⛔ no known-answer test exists for it",
+    "verified_by_note": "V18 — ⛔ no known-answer test exists for it",
     "claim_ceiling": "categorical input only (4 NR4A3-unique lysines, 3 exposed — C7, ⛔ the exposure cutoff that FAILS its own positive control). Validation requirement 5's honest limit: real degraders often ubiquitinate several lysines and lysine-less substrates can still be degraded, so this raises the odds; it does not guarantee the paralogue is spared",
     "claim_ceiling_raw": "categorical input only (**4 NR4A3-unique lysines, 3 exposed** — `C7`, ⛔ the exposure cutoff that FAILS its own positive control). Validation requirement 5's honest limit: real degraders often ubiquitinate several lysines and lysine-less substrates can still be degraded, so this **raises the odds; it does not guarantee** the paralogue is spared",
     "provenance": {
@@ -381,8 +388,10 @@
     },
     "work_state_note": "○ not started",
     "authorization_note": "R13-a: — ($0, needs no nod) · R13-b: 🔒 — PRICED and GATED 2026-08-03, rung S. ⚠ *Superseded, retained: \"🔒 unpriced\".*",
-    "served_by": [],
-    "served_by_note": "⚠ an instrument EXISTS and is staged — fusion_cofold.py (apo Boltz-2 co-fold of the seam and composite constructs) — but it has never been pointed at the CORRECTED junction, and it serves only the STRUCTURE tier. ⚠ *Superseded, retained: \"⛔ none — no lane, no rung, no row anywhere\".*",
+    "verified_by": [
+      "INS-FUSION-COFOLD"
+    ],
+    "verified_by_note": "⚠ an instrument EXISTS and is staged — fusion_cofold.py (apo Boltz-2 co-fold of the seam and composite constructs) — but it has never been pointed at the CORRECTED junction, and it serves only the STRUCTURE tier. ⚠ *Superseded, retained: \"⛔ none — no lane, no rung, no row anywhere\".* ⭐ RECONCILED 2026-08-05: `INS-FUSION-COFOLD` is now carried as a relation rather than described in this note, so R13 no longer reports 'NO instrument at all' while two instruments claimed to serve it. ⚠ `INS-FUSION-OBJECT-INVENTORY` also claimed R13 and was NOT added: its own note says a pass is 'a statement about arithmetic, not about which junction is reported', which is precisely the question R13 asks. It characterises `OBJ-MODEL-E7E3` instead.",
     "claim_ceiling": "⛔ every geometry claim on this page is about an isolated LBD construct. Validation requirement 5 asks for the fusion-context ensemble, lysines outside the LBD (hinge, DBD, fusion partner) and full CRL/E2~Ub ensembles",
     "claim_ceiling_raw": "⛔ **every geometry claim on this page is about an isolated LBD construct.** Validation requirement 5 asks for the fusion-context ensemble, lysines **outside** the LBD (hinge, DBD, fusion partner) and full CRL/E2~Ub ensembles",
     "provenance": {
@@ -409,10 +418,10 @@
     },
     "work_state_note": "○ not started",
     "authorization_note": "R14-a: — ($0, needs no nod) · R14-b: 🔒 + ⛔ blocked by the rate line — PRICED and GATED 2026-08-03, rung S. ⚠ *Superseded, retained: \"🔒 unpriced\".*",
-    "served_by": [
+    "verified_by": [
       "V21"
     ],
-    "served_by_note": "V21 — ⛔ ASSEMBLED 2026-08-03, AND ITS KNOWN-ANSWER TEST FAILED (§3.1). ⚠ *Superseded, retained: \"~8/9 BUILT, NEVER ASSEMBLED — not 'no instrument'\".*",
+    "verified_by_note": "V21 — ⛔ ASSEMBLED 2026-08-03, AND ITS KNOWN-ANSWER TEST FAILED (§3.1). ⚠ *Superseded, retained: \"~8/9 BUILT, NEVER ASSEMBLED — not 'no instrument'\".*",
     "claim_ceiling": "the selectivity claim is currently bounded to two paralogues by a check whose instrument cannot be read. ⛔ MEASURED 2026-08-03, and it is worse than \"unrun\": the panel is now complete (MR/NR3C2 added and it PASSES) and its never-run cognate-ligand self-control RAN and FAILED on 3 of 10 receptors, so panel_readable: false and all four SI §S1 anti-target clauses are measured-unreadable, not merely unverified — antitarget-selfcontrol.json → selfcontrol. ⚠ *Superseded, retained: \"currently bounded to two paralogues by an unrun check\".* SI names MR/AR *\"the sole sequence-level non-paralogue follow-ups\"* that *\"must clear\"* (SI :213–219). ⚠ *Superseded, retained: served by \"⛔ none run\".*",
     "claim_ceiling_raw": "the selectivity claim is **currently bounded to two paralogues by a check whose instrument cannot be read**. ⛔ **MEASURED 2026-08-03, and it is worse than \"unrun\":** the panel is now complete (MR/NR3C2 added and it PASSES) and its never-run cognate-ligand self-control **RAN and FAILED on 3 of 10 receptors**, so `panel_readable: false` and **all four SI §S1 anti-target clauses are measured-unreadable**, not merely unverified — [`antitarget-selfcontrol.json`](../modalities/antitarget-selfcontrol.json) → `selfcontrol`. ⚠ *Superseded, retained: \"currently bounded to two paralogues by an **unrun** check\".* SI names MR/AR *\"the **sole** sequence-level non-paralogue follow-ups\"* that *\"must clear\"* (SI `:213–219`). ⚠ *Superseded, retained: served by \"⛔ **none run**\".*",
     "provenance": {
@@ -439,10 +448,11 @@
     },
     "work_state_note": "✓ work complete for one mechanism per molecule — ⚠ and a named candidate now exists AT the 12-atom gate (§5 row R15)",
     "authorization_note": "— ($0)",
-    "served_by": [
-      "V17"
+    "verified_by": [
+      "V17",
+      "V19"
     ],
-    "served_by_note": "RDKit enumeration + V17-adjacent reach",
+    "verified_by_note": "RDKit enumeration + V17-adjacent reach ⭐ RECONCILED 2026-08-05: V19 (the generation-matched null) claimed R15 and the register did not carry it.",
     "claim_ceiling": "one mechanism per molecule. The two-mechanism construct needs a two-branch template, which is a design change to a preregistered enumeration and the decision has never been asked for (§10). ⛔ And the library's own provenance is open — its generator no longer reproduces it, which reaches the causal test article: §10.1 row 25",
     "claim_ceiling_raw": "**one mechanism per molecule.** The two-mechanism construct needs a **two-branch template**, which is a design change to a preregistered enumeration and **the decision has never been asked for** ([§10](#10--the-roadmap--one-ordered-list)). ⛔ **And the library's own provenance is open** — its generator no longer reproduces it, which reaches the causal test article: [§10.1 row 25](#101--open-rows-ordered-by-what-unblocks-the-most)",
     "provenance": {
@@ -469,8 +479,10 @@
     },
     "work_state_note": "○ future — DELEGATED",
     "authorization_note": "—",
-    "served_by": [],
-    "served_by_note": "the dTAG degradation test, in the EMC-program paper",
+    "verified_by": [],
+    "verified_by_note": "the dTAG degradation test, in the EMC-program paper",
+    "coverage_gap": "out_of_scope",
+    "coverage_gap_why": "Its own claim_ceiling says 'not a blocker of this paper … the claimed contribution is the target's computational druggability/selectivity, not EMC efficacy'. The dTAG degradation test belongs to the EMC-program paper, not this one.",
     "claim_ceiling": "not a blocker of this paper. :2508: *\"This paper's claimed contribution is the target's computational druggability/selectivity, not EMC efficacy\"*",
     "claim_ceiling_raw": "not a blocker of this paper. `:2508`: *\"This paper's claimed contribution is the target's computational druggability/selectivity, **not EMC efficacy**\"*",
     "provenance": {
