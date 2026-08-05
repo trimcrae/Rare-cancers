@@ -313,13 +313,33 @@ def check_objects(m, f):
 SWEEPABLE_SUFFIXES = (".md", ".py", ".json", ".yml", ".yaml", ".txt")
 
 
+_TRACKED_CACHE = []
+_BODY_CACHE = {}
+
+
 def _tracked_files():
     """Every file git tracks, or None if git is unavailable (then O4 downgrades to a warning)."""
+    if _TRACKED_CACHE:
+        return _TRACKED_CACHE[0]
     try:
         out = subprocess.run(["git", "-C", REPO, "ls-files"], capture_output=True, check=True)
+        val = [p for p in out.stdout.decode("utf-8", "replace").splitlines() if p]
     except (OSError, subprocess.CalledProcessError):
-        return None
-    return [p for p in out.stdout.decode("utf-8", "replace").splitlines() if p]
+        val = None
+    _TRACKED_CACHE.append(val)
+    return val
+
+
+def _body(path):
+    """Read a repo file once per process. The sweep touches every tracked file and the negative
+    tests run it ~20 times; re-reading the tree each time made a 2 s check into a 60 s suite."""
+    if path not in _BODY_CACHE:
+        try:
+            with open(os.path.join(REPO, path), encoding="utf-8", errors="ignore") as fh:
+                _BODY_CACHE[path] = fh.read()
+        except OSError:
+            _BODY_CACHE[path] = None
+    return _BODY_CACHE[path]
 
 
 def check_disputed_identity(m, f):
@@ -432,13 +452,25 @@ def check_disputed_identity(m, f):
                 f.error("O3", f"{oid}: {path} is classed `unaffected` with no `why_unaffected` -- "
                               f"an unexplained exemption is an unanswered question wearing the "
                               f"costume of a classification")
+            # A use the NAME sweep cannot see (the file reads the model through a grouping, not by
+            # id) must say how it was established, or the registry asserts a provenance link that
+            # nothing can re-derive -- a populated field that is not a measured one (CLAUDE.md §4).
+            if use.get("provenance") == "implicit_value_match" and not use.get("how_established"):
+                f.error("O3", f"{oid}: {path} is registered as an IMPLICIT use (invisible to the "
+                              f"name sweep) with no `how_established` -- state the evidence that "
+                              f"ties the file to the model, or the link is an assertion")
             full = os.path.join(REPO, path)
             if not os.path.exists(full):
                 f.warn("O3", f"{oid}: read_by file {path} is not in this checkout")
                 continue
-            with open(full, encoding="utf-8", errors="ignore") as fh:
-                body = fh.read()
-            want = use.get("correction_marker", marker)
+            body = _body(path) or ""
+            # ⚠ A MARKER IS REQUIRED ONLY WHERE THE DISPUTE BEARS ON THE FILE. An `unaffected` use
+            # -- a raw input to the verdict, a record that the model has no data, the guard itself
+            # -- does not need a disclaimer pasted into it; it needs a recorded REASON, which
+            # `why_unaffected` already forces above. Demanding a marker everywhere would push
+            # boilerplate into artifacts and files this pass has no business editing, and
+            # boilerplate is how a marker stops meaning anything.
+            want = use.get("correction_marker") or (marker if cls != "unaffected" else None)
             if want and want not in body:
                 f.error("O3", f"{oid}: {path} reads a disputed-identity object and does NOT "
                               f"contain its correction marker {want!r} -- the file is using the "
@@ -464,11 +496,8 @@ def check_disputed_identity(m, f):
         for path in tracked:
             if path in known or not path.endswith(SWEEPABLE_SUFFIXES):
                 continue
-            full = os.path.join(REPO, path)
-            try:
-                with open(full, encoding="utf-8", errors="ignore") as fh:
-                    body = fh.read()
-            except OSError:
+            body = _body(path)
+            if body is None:
                 continue
             hit = next((a for a in aliases if a in body), None)
             if hit:
@@ -1044,6 +1073,53 @@ def render_view(m):
             w(f"| **{_md_escape(c['name'])}** | {', '.join('`' + x + '`' for x in c['maps_to'])} "
               f"| `{c['conflict']}` — {_md_escape(c.get('note', ''))} |")
         w("")
+
+    disputed = [o for o in m["objects"] if o.get("status") == "identity_disputed"]
+    if disputed:
+        w("### 5b · ⛔ Disputed identity — a model whose label the curated record contradicts")
+        w("")
+        w("A claim is only as good as the provenance of the thing it was read off. An entry here "
+          "means the repository was, or could be, reading biology off a reagent whose identity the "
+          "public record does not support. **Every file naming one of these is classified below, "
+          "and a tracked file that names one without being classified fails the build (`O4`).**")
+        w("")
+        for o in disputed:
+            ident = o.get("identity", {}) or {}
+            w(f"#### {_md_escape(o['display_name'])} (`{o['id']}`) — "
+              f"verdict `{ident.get('verdict', '—')}`")
+            w("")
+            w(f"- **Labelled as:** {_md_escape(ident.get('labelled_as', '—'))}")
+            w(f"- **Verdict lives in:** `{ident.get('verdict_artifact', '—')}` "
+              f"→ `{ident.get('verdict_field', '—')}` (this registry points at it and does not "
+              f"restate it)")
+            if ident.get("evidence_verbatim"):
+                w(f"- **Curated record, verbatim:** *\"{_md_escape(ident['evidence_verbatim'])}\"*")
+            for line in ident.get("independent_lines", []):
+                w(f"- {_md_escape(line)}")
+            if ident.get("what_this_cannot_settle"):
+                w(f"- ⚠ **What this CANNOT settle:** {_md_escape(ident['what_this_cannot_settle'])}")
+            if ident.get("correction_home"):
+                w(f"- **Correction home:** {_link(ident['correction_home'])} "
+                  f"(marker `{ident.get('correction_marker', '—')}`)")
+            if o.get("may_not_ground"):
+                w("- **May NOT ground:** " + "; ".join(_md_escape(x) for x in o["may_not_ground"]))
+            w("")
+            w("| file | how it uses the model | classification |")
+            w("|---|---|---|")
+            order = {"invalidated": 0, "survives_relabelled": 1, "unaffected": 2}
+            for u in sorted(o.get("read_by", []), key=lambda x: (order.get(
+                    x.get("classification"), 9), x.get("file", ""))):
+                cls = u.get("classification", "—")
+                tag = {"invalidated": "⛔ **invalidated**",
+                       "survives_relabelled": "⚠ survives, re-labelled",
+                       "unaffected": "✅ unaffected"}.get(cls, cls)
+                extra = u.get("why_unaffected")
+                w(f"| {_link(u.get('file', '—'))} | {_md_escape(u.get('use', '—'))} | {tag}"
+                  f"{' — ' + _md_escape(extra) if extra else ''} |")
+            w("")
+            if o.get("notes"):
+                w(f"> {_md_escape(o['notes'])}")
+                w("")
 
     # ---- evidence ---------------------------------------------------------
     w("## 6 · Evidence — keyed by a canonical identifier, with every name it travels under")

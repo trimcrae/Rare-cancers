@@ -278,11 +278,20 @@ Mining DepMap 24Q4 with sarcoma lines as the EMC surrogate (pipeline validated o
 - **Degrader premise supported by analogy:** FET-fusion sarcomas are fusion-addicted — **FLI1 in
   Ewing = −0.93 gene effect, 74% dependent** — raising the prior that EMC depends on EWSR1::NR4A3,
   i.e. that degrading it could be lethal. (No EMC line exists, so this is an analogy, not proof.)
-- **B7-H3/CD276 promoted:** expressed in **99% of sarcoma lines, high across every subtype incl.
-  myxoid** → surrogate support for the ADC/CAR-T/bispecific route (was gated on unrun IHC).
-- **PRAME is the best antigen-directed bet:** **53% of sarcoma lines, high in myxoid (7.6)/synovial
-  (7.2)**; MAGE-A4 (7%) and NY-ESO-1 (5%) confirmed low → favour **brenetafusp (PRAME ImmTAC)** over
-  afami-cel. (Cell lines silence CTAs, so these are lower bounds.)
+- **B7-H3/CD276 promoted:** expressed in **99% of sarcoma lines**, present across every subtype
+  → surrogate support for the ADC/CAR-T/bispecific route (was gated on unrun IHC). ⚠ *Superseded,
+  retained: "high across every subtype incl. **myxoid**" — the myxoid read is one line of disputed
+  identity (2026-08-05) and is the LOWEST of the subtypes, so the conclusion rests on the 99 %.*
+- **PRAME is the best antigen-directed bet:** **53% of sarcoma lines**; MAGE-A4 (7%) and NY-ESO-1
+  (5%) confirmed low → favour **brenetafusp (PRAME ImmTAC)** over afami-cel. (Cell lines silence
+  CTAs, so these are lower bounds.) ⛔ **2026-08-05 — the subtype half of this bullet is withdrawn.**
+  The `myxoid (7.6)` read is **one line, ACH-001519 / H-EMC-SS, whose identity is disputed**
+  ([`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md);
+  provenance established by value match in
+  [`../modalities/depmap-insilico-findings.md`](../modalities/depmap-insilico-findings.md)), so it
+  is not an EMC-proximal value. **The surviving, and always the stronger, form of this claim is the
+  RELATIVE one: PRAME ≫ MAGE-A4 / NY-ESO-1 across the whole sarcoma panel.** *(Superseded,
+  retained: "**53% of sarcoma lines, high in myxoid (7.6)/synovial (7.2)**".)*
 
 ## Recommended program (no wet lab)
 - **Publish-to-convince, now:** an EMC treatment-landscape / hypothesis paper built on this tracker —
