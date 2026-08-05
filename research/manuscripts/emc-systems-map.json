@@ -542,16 +542,18 @@
     {
       "id": "EV-BANGERTER-2023",
       "canonical": {
-        "url": "https://pubmed.ncbi.nlm.nih.gov/?term=Bangerter+2023+extraskeletal+myxoid+chondrosarcoma"
+        "pmid": "36316541",
+        "pmcid": "PMC9813045",
+        "doi": "10.1007/s13577-022-00818-x",
+        "url": "https://europepmc.org/article/MED/36316541"
       },
-      "citation": "Bangerter 2023 — ex-vivo drug sensitivity across two patient-derived EMC models.",
+      "citation": "Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C. Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models. Hum Cell 2023. PMID 36316541 · PMC9813045 · doi 10.1007/s13577-022-00818-x.",
       "what_it_supports": "The carfilzomib ± anthracycline ± venetoclax route's only ex-vivo EMC evidence.",
       "aliases": [
         "Bangerter 2023",
         "Bangerter"
       ],
       "misattributed_as": [],
-      "provenance_flag": "NO PMID/DOI RECORDED IN THIS REPO — registered with a search URL as its canonical handle so the gap is visible rather than silent. Resolving it is open_conflicts/OC-4.",
       "cited_in": [
         {
           "file": "research/IDEAS.md",
@@ -563,7 +565,8 @@
           "as": "Bangerter",
           "role": "assertion"
         }
-      ]
+      ],
+      "resolution_note": "⭐ RESOLVED 2026-08-05, and how is the point. It was registered with a PubMed SEARCH URL as its canonical handle because no PMID or DOI was recorded anywhere in this repository — open_conflicts/OC-4. The blocker was believed to be the egress proxy; CLAUDE.md §6 says a proxy 403 is never a dead end, and the route out was a GitHub runner. ⛔ The FIRST attempt still failed, because fetch-literature.yml's Europe PMC search -- which its header had documented for months -- was never wired up, so the run searched for nothing and reported success. With the step wired, the query returned the paper directly: two novel ex vivo EMC models (USZ20-EMC1, USZ22-EMC2) tested against a 40-drug panel, which is exactly what this evidence item was cited for. Full text: literature-cache literature/bangerter-2023-emc-exvivo/PMC9813045.txt."
     },
     {
       "id": "EV-SARC-HRD-2026",
@@ -4542,20 +4545,6 @@
       ],
       "why_not_decided": "The remedy is the merge itself, not a doc edit; editing the sentence to say something weaker would remove a true statement about the intended state. Logged so that if the merge is ever reverted, the claim is already registered as conditional on it.",
       "owner": "CLAUDE.md §7 — keep everything synced to `main`"
-    },
-    {
-      "id": "OC-4",
-      "what": "'Bangerter 2023' — the only ex-vivo EMC drug-sensitivity evidence in the repo — carries no PMID or DOI anywhere.",
-      "files": [
-        "research/IDEAS.md",
-        "research/manuscripts/repurposing-hypotheses.md"
-      ],
-      "positions": [
-        "It is cited as load-bearing evidence for the carfilzomib route ('best ex-vivo EMC evidence', 'only 1 of 17 drugs with high sensitivity across 2 patient-derived EMC models').",
-        "No canonical identifier is recorded, so it cannot be verified through `verify-refs` and is registered here with a search URL rather than an identifier."
-      ],
-      "why_not_decided": "Resolving it needs a literature fetch from a CI runner (the dev sandbox's proxy 403s PubMed/PMC), which is a separate job. Registering the gap is what stops it reading as a verified citation.",
-      "owner": "research/manuscripts/fact-check-log.md"
     }
   ],
   "resolved_conflicts": [
@@ -4566,6 +4555,15 @@
       "resolution_home": "research/modalities/nr4a3-druggability-reconciliation.md#5b",
       "guard": "research/modalities/tests/test_munck_attribution_retired.py",
       "what_this_registry_adds": "The structural half. EV-ZAIENNE-2022 lists every name the source travels under, including the retired one, so the two names can never again be read as two sources — and the E1/E3 invariants fail if any name resolves to two evidence items or if a source is cited under a name nothing registers."
+    },
+    {
+      "id": "RC-OC4",
+      "what": "'Bangerter 2023' — the only ex-vivo EMC drug-sensitivity evidence in the repo — carries no PMID or DOI anywhere.",
+      "resolved_on": "2026-08-05",
+      "resolution": "PMID 36316541 · PMC9813045 · doi 10.1007/s13577-022-00818-x. Bangerter JL et al., 'Establishment, characterization and functional testing of two novel ex vivo extraskeletal myxoid chondrosarcoma (EMC) cell models', Hum Cell 2023 — open access, full text in literature-cache literature/bangerter-2023-emc-exvivo/PMC9813045.txt.",
+      "resolution_home": "research/manuscripts/emc-systems-map.json :: evidence/EV-BANGERTER-2023",
+      "how": "⭐ TWO INDEPENDENT ROUTES AGREED ON THE SAME DAY, which is the strongest form this could take. A main-branch CI commit added the DOI to repurposing-hypotheses.md's reference list, and a Europe PMC search dispatched from this branch returned the paper directly. ⛔ The search only worked on the SECOND attempt: fetch-literature.yml's query path — documented in its header for months — was never wired up, so the first dispatch searched for nothing, re-fetched the built-in FEP corpus, published it under a slug asserting it was the EMC evidence, and reported SUCCESS.",
+      "and_it_corrected_the_claim_it_supports": "⚠ Reading the paper corrected the figure two documents carried. The 17-chemotherapeutic screen (inside a 40-drug panel) ran on USZ20-EMC1 ALONE; carfilzomib, doxorubicin and venetoclax were then validated in BOTH models, where venetoclax showed NO monotherapy response. 'Only 1 of 17 drugs with high sensitivity across 2 patient-derived EMC models' read a single-model screen as a two-model result. Corrected in research/IDEAS.md and research/manuscripts/repurposing-hypotheses.md."
     }
   ],
   "_closure_model": {

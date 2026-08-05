@@ -13,7 +13,7 @@
 - One grade applied to two different routes: the covalent probe at C397 and a monovalent reversible pocket modulator fail on OPPOSITE blockers and must never share a row or a demotion.
 - A number quoted from an artifact that is a STUB on the branch a reader would open: emc-fet-idr-census.json is a 161-byte 'cannot compute' placeholder on `main` while emc-post-degrader-options.md on `main` prints a full results table out of it.
 
-**Registry contents:** 40 routes · 19 objects · 14 evidence items · 31 instruments · 12 artifacts · 17 claims · 17 blockers · 3 open conflicts.
+**Registry contents:** 40 routes · 19 objects · 14 evidence items · 31 instruments · 12 artifacts · 17 claims · 17 blockers · 2 open conflicts.
 
 ---
 
@@ -341,7 +341,7 @@ This is the table that makes the *Munck / Zaienne* class of error structurally i
 | `EV-PMC6766969` "E-N, corresponding to EWSR1 (exons 1-12)-NR4A3 (exons 3-8)"; "T-N*, corresponding to the commonest TAF15 (exo… | PMCID PMC6766969 | `PMC6766969` | — | emc-atr-collaborator-package.md, emc-fet-construct-designs.json |
 | `EV-EB-TCIP-2025` EB-TCIP on EWSR1::FLI1, JACS 2025 — bivalent transcriptional chemically-induced proximity that co-opts a fusio… | DOI 10.1021/jacs.5c05634 · PMCID PMC12851799 | `EB-TCIP`, `EB-TCIP on EWSR1::FLI1, JACS 2025`, `the TCIP paper` | — | IDEAS.md, emc-post-degrader-options.md |
 | `EV-PIOGLITAZONE-TRABECTEDIN-2019` Pioglitazone + trabectedin induced adipocyte differentiation and overcame trabectedin resistance in myxoid lip… | DOI 10.1158/1078-0432.CCR-19-0976 | `Clin Cancer Res 2019;25:7565`, `the pioglitazone + trabectedin paper`, `Clin Cancer Res* 2019;25:7565` | — | IDEAS.md, emc-post-degrader-options.md |
-| `EV-BANGERTER-2023` Bangerter 2023 — ex-vivo drug sensitivity across two patient-derived EMC models.… | URL https://pubmed.ncbi.nlm.nih.gov/?term=Bangerter+2023+extraskeletal+myxoid+chondrosarcoma | `Bangerter 2023`, `Bangerter` | — | IDEAS.md, repurposing-hypotheses.md |
+| `EV-BANGERTER-2023` Bangerter JL, Harnisch KJ, Chen Y, Hagedorn C, Planas-Paz L, Pauli C. Establishment, characterization and func… | PMID 36316541 · PMCID PMC9813045 · DOI 10.1007/s13577-022-00818-x · URL https://europepmc.org/article/MED/36316541 | `Bangerter 2023`, `Bangerter` | — | IDEAS.md, repurposing-hypotheses.md |
 | `EV-SARC-HRD-2026` Planas-Paz L, Zehnder M, Desboeufs N, Kollar S, Chen Y, Schneebeli S, Schenk R, Schmid MP, Lopes M, Weber A, P… | PMID 41651400 · DOI 10.1016/j.canlet.2026.218300 | `PMID 41651400`, `the SARC-HRD paper`, `GSE299349`, `the HRD/ATR sarcoma programme`, `10.1016/j.canlet.2026.218300` | — | atr-hrd-sarcoma-series.json, emc-atr-vulnerability-assessment.md |
 
 ## 7 · Artifacts — which module writes them, which workflow runs it, which ref they land on
@@ -602,17 +602,6 @@ Each of these is a genuine disagreement in the record that this registry could n
 **Why it is not decided here:** The remedy is the merge itself, not a doc edit; editing the sentence to say something weaker would remove a true statement about the intended state. Logged so that if the merge is ever reverted, the claim is already registered as conditional on it.
 
 **Owner:** CLAUDE.md §7 — keep everything synced to `main`
-
-### `OC-4` · 'Bangerter 2023' — the only ex-vivo EMC drug-sensitivity evidence in the repo — carries no PMID or DOI anywhere.
-
-**Files:** `research/IDEAS.md`, `research/manuscripts/repurposing-hypotheses.md`
-
-- It is cited as load-bearing evidence for the carfilzomib route ('best ex-vivo EMC evidence', 'only 1 of 17 drugs with high sensitivity across 2 patient-derived EMC models').
-- No canonical identifier is recorded, so it cannot be verified through `verify-refs` and is registered here with a search URL rather than an identifier.
-
-**Why it is not decided here:** Resolving it needs a literature fetch from a CI runner (the dev sandbox's proxy 403s PubMed/PMC), which is a separate job. Registering the gap is what stops it reading as a verified citation.
-
-**Owner:** research/manuscripts/fact-check-log.md
 
 ---
 
