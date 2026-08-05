@@ -64,20 +64,23 @@ jobs:
     # because LOMAP's timeout bounds its MCS search, not the whole mapping. So the bound is ~10 min/edge
     # at minimum and observed up to ~35, which is 3-10 HOURS for 17 edges, not 28 minutes.
     #
-    # ⚠ THE RUN WAS NOT WASTED AND MUST NOT BE RE-LAUNCHED BLIND. Before it died it reported a
-    # ⚠ DEGENERATE MAP on the closing edge — see the pre-gate document — and its own message says the
-    # likely cause is the 300 s MCS budget. Raising `timeout-minutes` alone would reproduce the same
-    # degenerate map more slowly; the budget that has to move first is RBFE_LOMAP_TIME_S.
+    # ⛔ AND THAT RUN SHOULD NOT HAVE BEEN LAUNCHED AT ALL. `mode=triangle` is the PRE-gate for the valB
+    # closure triangle — a "should we buy these edges?" check. LANE 9/20 CLOSED on 2026-07-30 with all
+    # four legs landed and `R` computed (valb-triangle-reduction.json); the roadmap carries that row
+    # struck through, and the triangle was separately REFUTED as a diagnostic (V5). The edges this gate
+    # would grade were bought and run. It was dispatched on 2026-08-05 to fill a baselined broken link
+    # WITHOUT first checking whether the decision it informs was still open. It was not.
     #
-    # ⛔ AND THE REAL QUESTION IS NOT "WHAT TIMEOUT", IT IS "WHERE THIS RUNS". At the measured 5-29 min
-    # per edge the 17-edge gate needs 1.5-8 HOURS, and a GitHub-hosted job is capped at 6 hours. So the
-    # upper half of that range is UNREACHABLE HERE AT ANY SETTING, and raising RBFE_LOMAP_TIME_S — which
-    # is the fix for the degenerate map — pushes the estimate further up, not down. A lane whose
-    # correctness fix makes it less completable on its current runner has outgrown that runner.
-    # ⚠ Left at 90 deliberately: raising it to 360 would buy one more speculative multi-hour attempt at
-    # the SAME budget that already produced a degenerate map, which is spending wall-clock to reproduce
-    # a known result. Whoever takes this next should decide the venue first — a self-hosted runner, a
-    # rented CPU box, or splitting the 17 edges across jobs so each fits.
+    # ⚠ SUPERSEDED, RETAINED — the analysis written here on the strength of that run: *"the real question
+    # is not what timeout, it is where this runs … a lane whose correctness fix makes it less completable
+    # on its current runner has outgrown that runner."* True arithmetic, wrong subject. There is no lane
+    # here to re-home; planning a venue for retired work is worse than leaving the number unexplained,
+    # because it reads as a live work item to whoever finds it next.
+    #
+    # ✅ WHAT THE MODE IS STILL FOR: a FUTURE triangle design, if one is ever proposed. It would need its
+    # own edges and its own pre-gate; nothing about the 2026-07-25 design carries over. Whoever does that
+    # should budget from the measurement above (~5-29 min/edge) rather than from the 90 below, which is
+    # left as-is precisely because no run is pending against it.
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4

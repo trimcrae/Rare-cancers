@@ -16,24 +16,32 @@ _backfilled: true
 
 **Date:** 2026-07-25 · **Status:** $0 pre-gate + costed recommendation. **No GPU work is proposed for launch
 here** — every number below is a CPU/CI derivation and the spend decision is trimcrae's.
-> ⏳ **THE CHEMISTRY GATE HAS BEEN ATTEMPTED AND HAS NOT FINISHED — 2026-08-05, $0, no GPU.**
-> `valb-triangle-chem.json` is cited throughout this document and **is not committed**, and the reason is
-> now measured rather than assumed: run
-> [31017061570](https://github.com/trimcrae/Rare-cancers/actions/runs/31017061570) ran the production LOMAP
-> mapper for **88.5 min** in the pre-baked `triskit23/ternary-fep` image and was **cancelled at the job's
-> 90-minute timeout with no report written**. Per-edge cost is **~5–29 min** — the workflow's budget
-> comment had assumed ~40 s — so the 17-edge gate needs hours, not the ~28 min predicted.
+> ⛔ **THIS PRE-GATE IS MOOT — THE SPEND IT WAS GATING RAN AND THE LANE CLOSED ON 2026-07-30.**
+> A pre-gate answers *"should we buy this?"*. That question was settled by events: **LANE 9/20 closed with
+> all four legs landed at 5:11 PM ET on 30 July and `R` computed** —
+> [`valb-triangle-reduction.json`](../modalities/valb-triangle-reduction.json), off every host, struck
+> through in the roadmap's own lane table. Separately, the triangle was **REFUTED as a diagnostic** for the
+> wrong-sign miss (`V5`): it returns a clean `R` whether or not the program's actual problem exists.
+> ⚠ Not everything here is dead — the roadmap is explicit that *"the triangle still yields a path-error
+> floor and an endpoint-consistency check; the **diagnosis** is what died"*. What is dead is **the decision
+> this document exists to inform.**
 >
-> ⚠ **IT GOT FAR ENOUGH TO SAY SOMETHING, AND THE SOMETHING IS NOT YET A FINDING.** On the closing edge
-> `cmpd1 → cmpd4′` the mapper returned **8 of 109 atoms mapped, where both endpoints have 109 atoms and a
-> complete 1:1 map exists** — 101 atoms would become dummies, and the leg would run *a different
-> perturbation from the designed one*. That is exactly the defect §2a predicts for an edge carrying both
-> transforms. ⛔ **But the cause is UNRESOLVED**, and the module says so itself: *"Most likely the MCS hit
-> its 300 s budget (`RBFE_LOMAP_TIME_S`); re-run with a larger one."* A degenerate map produced by a
-> mapper that ran out of time is **not** evidence about the chemistry — treating it as one would be the
-> "absent reading read as a reading of absence" failure. **Nothing in this document may be re-graded on
-> it.** The next step is a re-run at a larger `RBFE_LOMAP_TIME_S` with a timeout to match; raising the
-> timeout alone would reproduce the same degenerate map more slowly.
+> ⚠ **SO `valb-triangle-chem.json` IS NOT A GAP TO FILL — THE CITATION IS WITHDRAWN.** It would have been
+> the production-mapper chemistry check *before* buying the T2/T3 edges. Those edges were bought and run.
+> Producing the artifact now would grade a design against a spend that already happened and reported.
+>
+> ⛔ **AND THE ATTEMPT TO PRODUCE IT ON 2026-08-05 WAS A MISTAKE, RECORDED HERE RATHER THAN QUIETLY
+> DROPPED.** Run [31017061570](https://github.com/trimcrae/Rare-cancers/actions/runs/31017061570) spent
+> **88.5 min** of CI on the mapper and was cancelled at its 90-minute timeout. It was launched to close a
+> baselined broken link **without first checking whether the thing the link gated was still live** — the
+> roadmap said, in a struck-through row, that it was not. The one useful by-product is a measurement of
+> what this gate would cost if anyone ever needed it again: **~5–29 min per edge**, so hours for 17 edges,
+> against the ~40 s per edge its workflow comment had assumed.
+>
+> ⚠ **The `⚠ DEGENERATE MAP` the run reported on the closing edge is NOT a finding and must not be
+> carried forward.** Its own message names the likely cause as the mapper's 300 s MCS budget rather than
+> the chemistry, and the edge it concerns has since been run for real. **Nothing in this document may be
+> re-graded on it, and it is not a reason to re-run anything.**
 
 **Artifacts:** [`valb_triangle_chem.py`](../modalities/valb_triangle_chem.py) ·
 [`valb-triangle-chem.json`](../modalities/valb-triangle-chem.json) (production-mapper chemistry gate, run in
