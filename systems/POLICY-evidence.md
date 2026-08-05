@@ -1,18 +1,26 @@
 ---
-id: DOC-METHODOLOGY
-title: METHODOLOGY.md — the evidence contract: citing sources & combining studies
-level: —
+id: DOC-POLICY-EVIDENCE
+title: The evidence contract — citing sources and combining studies
+level: L0
 kind: policy
 status: live
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `policy` from its location under ./.
-audience: [maintainers, autonomous research agents]
+canonical_for: [citation structure, study pooling, double-counting, contested evidence, data vintage]
+purpose: >
+  Define how a clinical fact enters this repository, what may be combined with what, and how
+  disagreement and age are represented — so that every clinical number is traceable to a resolvable
+  source and combined by one stated method rather than by whichever method the author reached for.
+scope: >
+  Clinical and epidemiological evidence only — the EMC registry, the manuscript's meta-analysis, and
+  any pooled proportion or interval derived from published cohorts. It does NOT govern computational
+  results (free energies, poses, ensembles), whose evidence rules live in the roadmap's validation
+  architecture.
+audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
+aliases: [METHODOLOGY.md]
+related: [DOC-ARCHITECTURE, DOC-CONVENTIONS, DOC-RESEARCH-HYPOTHESES-METHODOLOGY]
 ---
-# METHODOLOGY.md — the evidence contract: citing sources & combining studies
+# The evidence contract — citing sources and combining studies
 
 This file is **policy**, not decoration. It is the repository's **evidence
 contract**: how a clinical fact enters this project, what may be combined with
@@ -20,7 +28,7 @@ what, and how disagreement and age are represented. Two mechanisms keep it
 honest — a **structured citation system** (every datum traceable to a resolvable
 source) and a **conservative statistical method** (numbers combined in a
 defensible, clearly-bounded way). Enforced by
-[`scripts/validate-registry.mjs`](./scripts/validate-registry.mjs), which is
+[`scripts/validate-registry.mjs`](../scripts/validate-registry.mjs), which is
 gate 2 of `scripts/preflight.sh`.
 
 > ⚠ **This was written for the patient-facing site and it is not site policy.**
@@ -28,10 +36,16 @@ gate 2 of `scripts/preflight.sh`.
 > interface tooling while §1, §2.1, §2.3, §3 and §4 are the extraction contract
 > the manuscript's meta-analysis ASSUMES and does not re-check. The site is
 > retired; the contract is not. Owner of the data:
-> [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json).
-> *(This file becomes `systems/POLICY-evidence.md` in the documentation
-> consolidation; it is reframed here rather than moved so that the site
-> retirement stays one reviewable change.)*
+> [`research/data/emc-clinical-registry.json`](../research/data/emc-clinical-registry.json).
+>
+> ⚠ **DO NOT CONFUSE THIS WITH
+> [`research/hypotheses/METHODOLOGY.md`](../research/hypotheses/METHODOLOGY.md).** Until this file
+> moved here on 2026-08-05 it was `METHODOLOGY.md` at the repository root, and the two shared a
+> basename — so bare prose references to "METHODOLOGY.md" resolved to whichever one the reader
+> guessed, and they are **different contracts**: this one governs clinical evidence (citation
+> structure, pooling, Wilson intervals, vintage); that one governs drug-repurposing hypotheses
+> (candidate generation, the triage score, the treatment-advice firewall, TxGNN). The move is what
+> makes a bare reference unambiguous.
 
 ---
 
@@ -109,7 +123,7 @@ individual prediction.
 > repository's standard interval for simple proportions — a dozen research
 > modules cite them by name. The **manuscript** uses a random-effects
 > (DerSimonian–Laird) model implemented in
-> [`research/meta/meta-analysis.mjs`](./research/meta/meta-analysis.mjs). Quoting
+> [`research/meta/meta-analysis.mjs`](../research/meta/meta-analysis.mjs). Quoting
 > one where the other is meant is a real error: they answer the same question
 > with different assumptions about between-study heterogeneity. §2.1 and §2.3 —
 > what may be pooled at all — bind BOTH.

@@ -86,8 +86,9 @@ view is now a lint target and `parser_guard` asserts the coupling.
 
 ### 2.2 · Phase 4 — what landed, and the hazard that stopped the rest
 
-**Landed.** `README.md`, `AGENTS.md`, `CONTRIBUTING.md` and `METHODOLOGY.md` were rewritten in Phase 2
-because they described deleted files (§3.2). Frontmatter is present on every document in `systems/`.
+**Landed.** `README.md`, `AGENTS.md`, `CONTRIBUTING.md` and the evidence contract (then `METHODOLOGY.md`,
+now [`systems/POLICY-evidence.md`](./POLICY-evidence.md)) were rewritten in Phase 2 because they described
+deleted files (§3.2). Frontmatter is present on every document in `systems/`.
 
 **Not landed:** the archive sweep of the one-off session reports and the audit cluster.
 
@@ -243,7 +244,7 @@ Rows are added as each phase lands. `status` values: **moved** (content relocate
 | `README.md` | Rewritten around the L0 view as the entry point. |
 | `AGENTS.md` | ~70 % was the site playbook — architecture file map, add-a-cancer procedure, editing rules, deployment. Removed. Medical integrity, literature ingestion, figures, tests and publishing kept and re-scoped to the research program. Two long-dead references removed: a branch that no longer exists and a CI file that never did. |
 | `CONTRIBUTING.md` | Was ~100 % site. Rewritten as how to add a research object to the model. |
-| `METHODOLOGY.md` | Reframed from *"the most dangerous part of the site"* to the repository's evidence contract, which is what it always was — five of its six sections are what the manuscript's meta-analysis assumes and does not re-check. §2 now states plainly that **two pooling methods exist and are not interchangeable**. ⏳ **Still to move** to `systems/POLICY-evidence.md`, together with its ~15 inbound references. Deliberately not done piecemeal: repointing some and not others would leave two homes for one contract. |
+| `METHODOLOGY.md` → [`systems/POLICY-evidence.md`](./POLICY-evidence.md) | Reframed from *"the most dangerous part of the site"* to the repository's evidence contract, which is what it always was — five of its six sections are what the manuscript's meta-analysis assumes and does not re-check. §2 now states plainly that **two pooling methods exist and are not interchangeable**. ✅ **Moved 2026-08-05.** See §3.5 — the move was held back deliberately, and the reason it was worth holding back turned out not to be the one recorded here. |
 | `CLAUDE.md` | Site block replaced with a pointer to `systems/`. The old *"the site is shelved — keep it working"* line is retained as superseded, because it is the instruction this phase reverses. |
 
 ### 3.3 · The requirement register (Phase 3, 2026-08-05)
@@ -288,6 +289,43 @@ and archiving it would have buried an open work item. Checking cost one grep.
 
 **Still outstanding:** 22 documents that need their references repointed in the same commit as the move,
 and 7 that must never be archived. Both lists, with the reason for each, are in §2.2.
+
+### 3.5 · The evidence contract (2026-08-05)
+
+| was | now | inbound references |
+|---|---|---|
+| `METHODOLOGY.md` | [`systems/POLICY-evidence.md`](./POLICY-evidence.md) | **31 across 20 files — of which only 15 were repointed.** |
+
+⛔ **THE HAZARD WAS NOT THE ONE §3.3 PREDICTED.** That row said the move had to be atomic because
+*"repointing some and not others would leave two homes for one contract."* True, and beside the point:
+the actual hazard was that **two files were named `METHODOLOGY.md`**, and the other one —
+[`research/hypotheses/METHODOLOGY.md`](../research/hypotheses/METHODOLOGY.md), a completely different
+contract governing drug-repurposing hypotheses — is referenced *by the same bare string*. A
+find-and-replace across those 31 sites would have silently redirected sixteen references about candidate
+generation, the triage score and the treatment-advice firewall to a document about Wilson intervals.
+
+The split is not visible from the string and had to be read one site at a time:
+
+- **Repointed (15)** — anything about citation structure, pooling, double-counting or vintage:
+  `CLAUDE.md` · `AGENTS.md` ×3 · `CONTRIBUTING.md` ×3 · `research/PROTOCOL.md` ×2 · `research/README.md`
+  (the *no-fabrication* rule) · `hla_coverage.py` ×2 · `nr4a_paralogue_dynamics.py` ·
+  `paralogue_pocket_contrast.py` · `hla-coverage-emc.md` · `novel-modalities-factcheck.md` ·
+  `triage-literature.mjs` · `hla-coverage.json` · `emc-clinical-registry.json` ·
+  `systems/graph/artifacts.json`.
+- **Left alone (16)** — anything about §7, §7.4, the firewall, cataloguing or the triage score:
+  `research/README.md` ×2 · `IDEAS.md` ×2 · `enumerate-drugs.mjs` ×3 · `enumerate-drugs.yml` ·
+  `txgnn-emc-findings.md` ×2 · `repurposing-hypotheses.md` ×4 · `target-drug-matrix.json` ·
+  `validate-research.mjs` · `fact-check-log.md` · `repurposing-hypotheses-review.md`.
+
+⭐ **One line read as a self-reference and was not.** `research/hypotheses/METHODOLOGY.md` §4 opened
+*"Inherits `METHODOLOGY.md` §1"* — sitting inside a file of that name, under a heading about citation
+rules, describing the `sourceId` → `citations` structure, which is the **root** file's §1. Its own §1 is
+candidate generation. It now names the other document explicitly, so a real cross-file inheritance is
+visible instead of looking like a typo.
+
+**No runtime coupling existed** — verified before moving: the path appears in no `pinned-figures.json`
+target, no `parser_guard` registration and no workflow `awk`/`open`. The two data-string hits are prose
+inside JSON; `validate-registry.mjs` checks `dataStatusBanner` for **presence**, not content.
 
 *(A phase is not complete until its rows are here.)*
 

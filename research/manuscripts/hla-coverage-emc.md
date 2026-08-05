@@ -130,7 +130,8 @@ form to a non-browser client, so it is not reproducibly fetchable in CI; the mir
 pinned and re-runnable.) For each allele we reconstructed per-population copy counts
 (copies = round(af × 2N)) and pooled them as a **denominator(2N)-weighted proportion**
 af = Σcopies / Σ2N, with a **Wilson score 95% CI** [4] on (Σcopies, Σ2N) — the same
-conservative pooling the project uses for clinical proportions (see `METHODOLOGY.md`).
+conservative pooling the project uses for clinical proportions (see
+[`systems/POLICY-evidence.md`](../../systems/POLICY-evidence.md)).
 
 ### 2.3 Coverage
 Carrier (phenotype) frequency for one allele = 1 − (1 − af)² (Hardy–Weinberg, ≥1 copy).

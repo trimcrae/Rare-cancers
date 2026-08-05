@@ -82,7 +82,7 @@ OVERRIDE = {
     "AGENTS.md":            ("runbook", "live", "—"),
     "README.md":            ("index", "—", "—"),
     "CONTRIBUTING.md":      ("runbook", "live", "—"),
-    "METHODOLOGY.md":       ("policy", "live", "—"),
+    "systems/POLICY-evidence.md": ("policy", "live", "L0"),
     "MEDICAL_DISCLAIMER.md": ("policy", "live", "—"),
     "STRATEGY.md":          ("historical", "historical", "—"),
 }

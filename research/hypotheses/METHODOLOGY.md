@@ -4,15 +4,27 @@ title: Drug-repurposing hypothesis methodology
 level: L5
 kind: memo
 status: live
-canonical_for: []
-purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.
-scope: Scope not separately declared. Inferred kind `memo` from its location under research/hypotheses/.
+canonical_for: [candidate generation, repurposing triage score, treatment-advice firewall, TxGNN usage]
+purpose: >
+  Define how a drug-repurposing candidate is generated, graded, cited and (rarely) graduated — so that
+  what this repository produces is a set of testable, honestly-graded hypotheses rather than anything
+  that could be read as an efficacy claim or as treatment advice.
+scope: >
+  Drug-repurposing hypotheses only. Clinical-evidence citation and pooling are NOT governed here — they
+  are the separate contract in systems/POLICY-evidence.md, from which §4 below inherits its citation
+  structure.
 audience: [maintainers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
-_backfilled: true
+last_verified: 2026-08-05
+related: [DOC-POLICY-EVIDENCE]
 ---
 # Drug-repurposing hypothesis methodology
+
+> ⚠ **Not the evidence contract.** Until 2026-08-05 a file named `METHODOLOGY.md` also sat at the
+> repository root, and bare prose references to "METHODOLOGY.md" were ambiguous between the two. That
+> one is now [`systems/POLICY-evidence.md`](../../systems/POLICY-evidence.md) and governs **clinical**
+> evidence — citation structure, pooling, Wilson intervals, vintage. **This** file governs repurposing
+> hypotheses. §4 below inherits the other's citation structure and says so explicitly.
 
 How candidate drugs are generated, graded, cited, and (rarely) graduated. The goal
 is **testable, honestly-graded hypotheses** for EMC — existing drugs whose
@@ -91,7 +103,8 @@ score is read in context.
 
 ## 4. Citation rules
 
-Inherits `METHODOLOGY.md` §1. Every `claim` carries either a `sourceId` resolving
+Inherits [`systems/POLICY-evidence.md`](../../systems/POLICY-evidence.md) §1 — the repository's
+evidence contract, a **different** document from this one. Every `claim` carries either a `sourceId` resolving
 to the local `citations` map (≥1 resolvable id) or `sourceStatus: "needs-verification"`
 if it is general/textbook knowledge not yet pinned to a fetched source. A candidate
 may be **catalogued** with unverified claims, but they are tracked and must be

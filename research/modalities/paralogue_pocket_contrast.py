@@ -115,7 +115,8 @@ def contrast_summary(by_species_subset):
 
     * `wilson95_ge_among_propagated` treats the 75 pooled unbiased frames as 75 independent draws. They are
       NOT: frames within a replica are correlated, so the effective n is smaller than 75 and this interval is
-      ANTI-CONSERVATIVE. It is reported because it is the repo's standard interval (METHODOLOGY.md) and
+      ANTI-CONSERVATIVE. It is reported because it is the repo's standard interval
+      (systems/POLICY-evidence.md §2.2) and
       because it is what a reader will otherwise compute themselves.
     * `replicate_spread` takes the three release replicas as the unit — 3 numbers, their mean, their sample
       SD and their range. This is the CLAUDE.md §5 posture ("honest replicate-SD"), and it is the one to

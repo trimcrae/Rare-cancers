@@ -89,7 +89,7 @@ JSON on the `modalities-cache` branch (snapshotted into `research/modalities/`).
 - **HLA coverage — computed from real data, not fabricated.** `hla_coverage.py` pulls
   AFND allele frequencies in CI from the MIT-licensed `slowkow/allelefrequencies` mirror
   (AFND's own site serves only its interactive form to a non-browser client). Denominator
-  (2N)-weighted global pooling + Wilson 95% CIs (per METHODOLOGY.md): e7::e3 public junction
+  (2N)-weighted global pooling + Wilson 95% CIs (per systems/POLICY-evidence.md): e7::e3 public junction
   (A*11:01 + B*08:01) = **29.7%** (95% CI 29.0–30.3%); any strong-binder allele across all
   resolved breakpoints (A*02:01/A*11:01/B*07:02/B*08:01/B*15:01) = **58.0%** (57.1–59.0%).
   Also pooled per UN M49 sub-region (AFND population→country→region via ISO 3166): any-strong

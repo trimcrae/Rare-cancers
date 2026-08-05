@@ -134,7 +134,8 @@ def quantiles(xs):
 
 
 def wilson95(k, n):
-    """PURE. Wilson 95 % interval for a binomial proportion — the repo's standard (METHODOLOGY.md). A
+    """PURE. Wilson 95 % interval for a binomial proportion — the repo's standard
+    (systems/POLICY-evidence.md §2.2). A
     fraction over 75 frames without an interval invites over-reading; this is the interval."""
     if n <= 0:
         return None

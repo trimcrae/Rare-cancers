@@ -459,7 +459,9 @@ def test_the_backfill_compares_against_every_document_not_just_its_own_batch():
     import backfill_frontmatter as bf
     todo, all_rels = bf.targets()
     assert len(all_rels) > len(todo), "the comparison set must be wider than the write set"
-    assert "METHODOLOGY.md" in all_rels and "research/hypotheses/METHODOLOGY.md" in all_rels
+    # Both already carry frontmatter, so neither is in `todo` — and both must still be compared against.
+    assert "systems/POLICY-evidence.md" in all_rels
+    assert "research/hypotheses/METHODOLOGY.md" in all_rels
 
 
 def test_no_new_broken_links(graph):

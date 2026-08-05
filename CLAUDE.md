@@ -567,7 +567,7 @@ When in doubt: do it and show it.
   cited. Non-real registry data must be flagged `SAMPLE_SYNTHETIC` and bannered — AGENTS.md → "medical integrity".
 - **Citing & combining studies:** registry data uses a structured citation map (`registry.citations` +
   `sourceId`/`primaryRef`, primary vs secondary) and a fixed pooling method (crude denominator-weighted
-  proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[METHODOLOGY.md](./METHODOLOGY.md)** before
+  proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[systems/POLICY-evidence.md](./systems/POLICY-evidence.md)** before
   touching `registry`.
 - **Before committing:** `./scripts/preflight.sh` must pass. It runs the registry evidence contract
   (`validate-registry.mjs`), the doc linters and the modalities tests, and its exit code cannot be masked.

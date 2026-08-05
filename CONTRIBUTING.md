@@ -7,7 +7,7 @@ canonical_for: [how to add a research object, contribution rules]
 purpose: How to add to this repository so the addition is checkable, traceable and does not drift.
 scope: >
   Contribution mechanics for the research platform. The non-negotiable medical-integrity rules live in
-  AGENTS.md, the evidence contract in METHODOLOGY.md, and the object model in systems/ARCHITECTURE.md.
+  AGENTS.md, the evidence contract in systems/POLICY-evidence.md, and the object model in systems/ARCHITECTURE.md.
 audience: [maintainers, collaborators, autonomous research agents]
 date: 2026-08-05
 last_verified: 2026-08-05
@@ -82,7 +82,7 @@ Three rules catch most mistakes:
 ## Adding clinical evidence
 
 Clinical data lives in [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
-and is governed by [METHODOLOGY.md](./METHODOLOGY.md), which specifies the citation structure, what may be
+and is governed by [systems/POLICY-evidence.md](./systems/POLICY-evidence.md), which specifies the citation structure, what may be
 pooled with what, how to represent disagreement, and how to handle data age.
 
 ```bash
@@ -90,7 +90,7 @@ node scripts/validate-registry.mjs      # the evidence contract; also gate 2 of 
 ```
 
 ⚠ **Two pooling methods exist and are not interchangeable** — crude denominator-weighted proportions with
-Wilson intervals for simple proportions, and a random-effects model for the manuscript. METHODOLOGY.md §2
+Wilson intervals for simple proportions, and a random-effects model for the manuscript. POLICY-evidence.md §2
 says which is which and why quoting one where the other is meant is a real error.
 
 ## Before you commit

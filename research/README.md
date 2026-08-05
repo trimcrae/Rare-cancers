@@ -81,8 +81,9 @@ research/
 - **Human-in-the-loop publishing.** Claude drafts, structures, and cites. A named
   human author (ideally with a sarcoma clinician/researcher) reviews and is the one
   who submits. No automated posting to a preprint server or journal.
-- **No fabrication** (inherits the repo's medical-integrity rule and
-  `METHODOLOGY.md`): no invented citations, mechanisms, or results.
+- **No fabrication** (inherits the repo's medical-integrity rule and the evidence
+  contract, [`systems/POLICY-evidence.md`](../systems/POLICY-evidence.md)): no
+  invented citations, mechanisms, or results.
 
 ## Status
 

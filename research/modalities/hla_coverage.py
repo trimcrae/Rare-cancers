@@ -26,7 +26,7 @@ Sources (CI-fetchable, citable, reproducible — no invented frequencies):
     bucket and reported — never silently dropped — and are still counted in the global
     figures.
 
-Method (matches METHODOLOGY.md: denominator-weighted pooling + Wilson 95% CI):
+Method (matches systems/POLICY-evidence.md §2: denominator-weighted pooling + Wilson 95% CI):
   - For each allele, reconstruct copies_i = round(af_i * 2*n_i) and pool: af =
     Sigma(copies_i) / Sigma(2*n_i). A sample-size (2N)-weighted frequency; larger
     studies carry more weight. Computed globally and within each region.
@@ -338,7 +338,7 @@ def main():
     result = {
         "_note": "HLA population coverage of EWSR1::NR4A3 junction neoepitopes. Allele "
                  "frequencies are denominator(2N)-weighted means pooled over AFND "
-                 "populations, with Wilson 95% CIs (per METHODOLOGY.md). Coverage = "
+                 "populations, with Wilson 95% CIs (per systems/POLICY-evidence.md). Coverage = "
                  "fraction carrying >=1 presenting allele = 1 - prod(1-af)^2 (independence "
                  "across loci; IEDB population-coverage formula). Reported globally AND per "
                  "UN M49 sub-region, because HLA frequencies vary enormously between "

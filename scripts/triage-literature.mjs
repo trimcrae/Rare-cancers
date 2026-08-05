@@ -11,7 +11,7 @@
 // Flags: --term "<disease phrase>"  --top N  --json  --kind cohort/series
 //
 // Heuristic only — it points you at papers; every clinical value still has to be
-// read, verified, and cited per METHODOLOGY.md. It never writes data.
+// read, verified, and cited per systems/POLICY-evidence.md. It never writes data.
 
 import { readFileSync } from "node:fs";
 

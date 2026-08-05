@@ -42,7 +42,7 @@ manuscript is what someone else acts on.
 
 - Every clinical claim and every statistic must come from a real, resolvable source. Registry data uses
   the **structured citation system** (`registry.citations` + `sourceId`/`primaryRef`); pooled numbers
-  follow a fixed **statistical method**. Both are specified in [METHODOLOGY.md](./METHODOLOGY.md) — read
+  follow a fixed **statistical method**. Both are specified in [systems/POLICY-evidence.md](./systems/POLICY-evidence.md) — read
   it before editing `registry`. Never read a number out of a review and present it as the primary
   study's: set `provenance: "secondary"` and record `primaryRef`.
 - If you cannot find a source, write that the information is not available — do **not** fill the gap
@@ -52,10 +52,10 @@ manuscript is what someone else acts on.
 - Prefer ranges across studies over a single false-precision number.
 - **When studies disagree, show the disagreement** — do not pick a winner or bury it in a pooled
   average. Record an `evidenceQuestions[]` entry with at least two opposing cited positions and the
-  mechanism of conflict (METHODOLOGY.md §3).
+  mechanism of conflict (systems/POLICY-evidence.md §3).
 - **Account for data age.** Tag every cohort and citation with its `studyPeriod`. Old retrospective
   survival data usually *understates* a today-patient's outlook; present it as a conservative floor and
-  surface its vintage — never silently adjust a number to look better (METHODOLOGY.md §4).
+  surface its vintage — never silently adjust a number to look better (systems/POLICY-evidence.md §4).
 - Keep the "not medical advice" framing; never phrase anything as a personal recommendation.
 - **Language discipline is enforced, not advisory.** Never imply proteome-wide selectivity, EMC
   efficacy, safety, a therapeutic window or clinical readiness. No computational result *proves*,
