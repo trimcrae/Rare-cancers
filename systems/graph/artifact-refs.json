@@ -1,0 +1,19 @@
+{
+  "_schema": "artifact-refs/1",
+  "_role": "Artifacts that deliberately live on a ref OTHER than the one you are reading, with the ref named. Read by check_artifacts ([K1]).",
+  "_why": [
+    "[K1] exists because 41 artifacts were found living only on `modalities-cache`, 24 of them cited from the working branch, and the relative-link checker had caught one. Its message tells the reader to check whether the producing lane writes to a different ref before concluding the artifact was never run.",
+    "This file is where that answer goes once someone has checked. Without it the knowledge stays in prose, which is exactly the shape the systems model exists to remove -- and the document explaining the absence would itself trip the check that found it.",
+    "⛔ AN ENTRY HERE IS A CHECKED CLAIM, NOT A SILENCER. It must name the ref, the workflow that writes there, and why porting a copy would be WRONG rather than merely unnecessary. `not ported yet` is not a reason -- that is drift, and it belongs in the port, not here.",
+    "⚠ THE DEFAULT IS TO PORT. CLAUDE.md section 7 is explicit that a branch a workflow runs from must never be the only home of an artifact. This register is for the narrow case where a second copy would be actively harmful, not for the common case of not having got round to it."
+  ],
+  "elsewhere": [
+    {
+      "artifact": "vast-board-volatility.jsonl",
+      "ref": "modalities-cache",
+      "written_by": "research/modalities/vast_board_volatility.py, appended by the Vast price-sampling lane",
+      "why_not_ported": "It is a LIVE APPEND-ONLY LOG -- one market sample per run, 3.9 MB and growing, its tip commit literally 'vast price sample <timestamp>'. A copy here would be stale the moment the next sample lands, which is the one-fact-one-home violation rather than a fix for one. Its only referrer on this branch is its own producer's `--out` default and the prose in systems/MIGRATION.md section 3.6 explaining this entry, so nothing cites it as evidence.",
+      "checked_on": "2026-08-05"
+    }
+  ]
+}

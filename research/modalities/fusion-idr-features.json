@@ -1,0 +1,140 @@
+{
+  "_note": "Sequence-based LLPS / low-complexity propensity descriptors (composition, charge patterning, entropy). These are sequence-derived PROXIES for phase-separation propensity, not a phase-diagram measurement \u2014 consistent with the condensate paper's emerging-field caveats.",
+  "n_windows": 6,
+  "n_ok": 6,
+  "windows": [
+    {
+      "window": "EWSR1_LC (prion-like TAD)",
+      "uniprot": "Q01844",
+      "range_1based": [
+        1,
+        264
+      ],
+      "expected": "LLPS-competent prion-like LC",
+      "status": "ok",
+      "features": {
+        "length": 264,
+        "frac_SYGQ": 0.5606,
+        "frac_aromatic_FYW": 0.1402,
+        "frac_charged_FCR": 0.0303,
+        "net_charge_per_residue_NCPR": -0.0152,
+        "frac_Pro": 0.1136,
+        "frac_Gly": 0.0947,
+        "frac_disorder_promoting": 0.6477,
+        "shannon_entropy_bits": 3.154,
+        "SCD": 0.218
+      }
+    },
+    {
+      "window": "EWSR1_RRM (folded control)",
+      "uniprot": "Q01844",
+      "range_1based": [
+        361,
+        442
+      ],
+      "expected": "folded RNA-binding domain",
+      "status": "ok",
+      "features": {
+        "length": 82,
+        "frac_SYGQ": 0.2195,
+        "frac_aromatic_FYW": 0.0976,
+        "frac_charged_FCR": 0.2805,
+        "net_charge_per_residue_NCPR": -0.0122,
+        "frac_Pro": 0.0488,
+        "frac_Gly": 0.0854,
+        "frac_disorder_promoting": 0.4756,
+        "shannon_entropy_bits": 4.04,
+        "SCD": -0.5457
+      }
+    },
+    {
+      "window": "TAF15_LC (alt fusion partner)",
+      "uniprot": "Q92804",
+      "range_1based": [
+        1,
+        205
+      ],
+      "expected": "LLPS-competent prion-like LC",
+      "status": "ok",
+      "features": {
+        "length": 205,
+        "frac_SYGQ": 0.6829,
+        "frac_aromatic_FYW": 0.1317,
+        "frac_charged_FCR": 0.1659,
+        "net_charge_per_residue_NCPR": -0.0585,
+        "frac_Pro": 0.0244,
+        "frac_Gly": 0.1854,
+        "frac_disorder_promoting": 0.6683,
+        "shannon_entropy_bits": 3.239,
+        "SCD": 1.9398
+      }
+    },
+    {
+      "window": "NR4A3_AF1 (disordered, non-prion)",
+      "uniprot": "Q92570",
+      "range_1based": [
+        1,
+        260
+      ],
+      "expected": "disordered but not SYGQ-prion",
+      "status": "ok",
+      "features": {
+        "length": 260,
+        "frac_SYGQ": 0.2577,
+        "frac_aromatic_FYW": 0.0769,
+        "frac_charged_FCR": 0.1077,
+        "net_charge_per_residue_NCPR": -0.0231,
+        "frac_Pro": 0.1615,
+        "frac_Gly": 0.0577,
+        "frac_disorder_promoting": 0.5885,
+        "shannon_entropy_bits": 3.875,
+        "SCD": 0.0281
+      }
+    },
+    {
+      "window": "NR4A3_LBD (folded control)",
+      "uniprot": "Q92570",
+      "range_1based": [
+        373,
+        626
+      ],
+      "expected": "folded ligand-binding domain",
+      "status": "ok",
+      "features": {
+        "length": 254,
+        "frac_SYGQ": 0.1969,
+        "frac_aromatic_FYW": 0.0669,
+        "frac_charged_FCR": 0.2362,
+        "net_charge_per_residue_NCPR": -0.0157,
+        "frac_Pro": 0.0709,
+        "frac_Gly": 0.0354,
+        "frac_disorder_promoting": 0.4843,
+        "shannon_entropy_bits": 4.035,
+        "SCD": -0.3397
+      }
+    },
+    {
+      "window": "NR4A3_DBD (folded control)",
+      "uniprot": "Q92570",
+      "range_1based": [
+        261,
+        337
+      ],
+      "expected": "folded zinc-finger DBD",
+      "status": "ok",
+      "features": {
+        "length": 77,
+        "frac_SYGQ": 0.2857,
+        "frac_aromatic_FYW": 0.0519,
+        "frac_charged_FCR": 0.1688,
+        "net_charge_per_residue_NCPR": 0.039,
+        "frac_Pro": 0.0909,
+        "frac_Gly": 0.0909,
+        "frac_disorder_promoting": 0.5714,
+        "shannon_entropy_bits": 3.871,
+        "SCD": -0.4197
+      }
+    }
+  ],
+  "interpretation": "Compare EWSR1_LC vs the folded controls (RRM, NR4A3 LBD/DBD) and vs NR4A3_AF1 (disordered but non-prion). The LLPS signature is: HIGH frac_SYGQ + frac_aromatic, HIGH frac_disorder_promoting, LOW shannon_entropy (low-complexity), and low FCR. If EWSR1_LC and TAF15_LC show that signature while the folded controls do not AND NR4A3_AF1 shows disorder WITHOUT the SYGQ/aromatic prion signature, the data support the paper's claim that LLPS capacity is an EWS/TAF15-specific, fusion-emergent property absent from wild-type NR4A3."
+}

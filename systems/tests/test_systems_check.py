@@ -616,6 +616,54 @@ def test_no_new_broken_links(graph):
     assert f.errors == [], "\n".join(f.errors)
 
 
+def test_a_cited_artifact_exists_on_this_branch(graph):
+    """[K1] — the class `check_links` structurally cannot see.
+
+    ⭐ MEASURED: 41 artifacts lived only on `modalities-cache`, 24 of them cited from this branch, and
+    the relative-link checker had caught ONE. It was not broken — it validates the shape of a Markdown
+    link, and this repository cites results as bare backticked filenames in prose. A file that exists
+    one ref away is not a broken link; it is a stale fact that reads as a current one.
+
+    This test does not assert zero. It asserts the check is LIVE and still discriminating: it must
+    know about real artifacts (so it cannot flag everything) and must only flag names whose producer
+    is in the repo (so a plan or a typo is not reported as drift).
+    """
+    f = sc.Findings()
+    sc.check_artifacts(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+    flagged = [w for w in f.warns if "[K1]" in w]
+    # A citation whose producer does NOT exist here is a plan, not drift, and must not be flagged.
+    assert not [w for w in flagged if "nr4a3-5bt-signature" in w], \
+        "an artifact with no producer in this repo is a forward reference, not branch drift"
+    assert len(flagged) < 15, \
+        f"{len(flagged)} artifacts cited but absent — that is a drift event, not a residue; check " \
+        f"whether a lane branch holds them before assuming they were never produced"
+
+
+def test_an_off_branch_artifact_home_is_a_checked_claim_not_a_silencer(graph):
+    """[K2] — the exemption register cannot become where warnings go to die.
+
+    ⚠ THE DEFAULT IS TO PORT. CLAUDE.md §7 is explicit that a branch a workflow runs from must never be
+    the only home of an artifact. An entry here has to argue a second copy would be actively HARMFUL —
+    for the one current entry, a live append-only log whose copy is stale the moment the next sample
+    lands. "Not ported yet" is drift and belongs in the port.
+
+    And the refusal has teeth: when [K2] rejects an entry, [K1] fires again for that artifact, so a
+    malformed exemption silences nothing.
+    """
+    path = os.path.join(SYS, "graph", "artifact-refs.json")
+    if not os.path.exists(path):
+        pytest.skip("no off-branch artifacts recorded")
+    rows = json.load(open(path, encoding="utf-8"))["elsewhere"]
+    for r in rows:
+        for k in ("artifact", "ref", "written_by", "why_not_ported", "checked_on"):
+            assert r.get(k), f"{r.get('artifact', '?')} is missing `{k}`"
+        assert len(r["why_not_ported"]) >= 60, f"{r['artifact']} gives no real argument"
+    f = sc.Findings()
+    sc.check_artifacts(graph, f)
+    assert [e for e in f.errors if "[K2]" in e] == [], "\n".join(f.errors)
+
+
 def test_the_link_baseline_is_not_a_silencer(graph):
     """Every baselined entry names WHY it is broken, and the list is meant to reach zero.
 

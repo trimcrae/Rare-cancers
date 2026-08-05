@@ -818,6 +818,92 @@ def check_documents(g, f):
 
 
 
+#: A bare artifact citation: a backticked `something-like-this.json` / `.png` / `.csv`, which is how
+#: this repository actually cites results in prose. Deliberately NOT a Markdown link — see check_artifacts.
+ARTIFACT_CITE = re.compile(r"`([a-z0-9][a-z0-9._-]*\.(?:json|jsonl|png|csv))`", re.I)
+ARTIFACT_DIRS = ("research/modalities", "research/manuscripts", "research/data", "research/compute",
+                 "research/hypotheses", "research/meta", "systems/graph", "results")
+
+
+def _artifacts_elsewhere(f):
+    """Artifacts that deliberately live on another ref — a CHECKED claim, not a silencer.
+
+    ⛔ EVERY FIELD IS REQUIRED, AND THAT IS THE WHOLE DESIGN. An entry with no `ref`, no `written_by`
+    or no `why_not_ported` is indistinguishable from "we did not get round to porting it" — which is
+    drift, and drift belongs in the port. Refusing the incomplete entry is what stops this register
+    becoming the place warnings go to die.
+    """
+    path = os.path.join(GRAPH, "artifact-refs.json")
+    if not os.path.exists(path):
+        return set()
+    with open(path, encoding="utf-8") as fh:
+        rows = json.load(fh).get("elsewhere", [])
+    out = set()
+    for r in rows:
+        missing_fields = [k for k in ("artifact", "ref", "written_by", "why_not_ported", "checked_on")
+                          if not r.get(k)]
+        if missing_fields:
+            f.err("[K2]", f"artifact-refs entry {r.get('artifact', '?')} is missing "
+                          f"{missing_fields} — an off-branch home is a checked claim, and an entry "
+                          f"that does not name the ref and why a copy would be WRONG is a silencer")
+            continue
+        if len(r["why_not_ported"]) < 60:
+            f.err("[K2]", f"artifact-refs entry {r['artifact']} gives a one-line reason — the default "
+                          f"is to PORT, so an exemption has to argue that a second copy would be "
+                          f"actively harmful, not merely unnecessary")
+            continue
+        out.add(r["artifact"])
+    return out
+
+
+def check_artifacts(g, f):
+    """An artifact cited BY NAME must exist on this branch.
+
+    ⭐ WHY A LINK CHECKER IS NOT ENOUGH, MEASURED 2026-08-05. `check_links` validates the shape of a
+    relative Markdown link. But this repository cites results the way researchers actually do — a bare
+    backticked filename in a sentence, a `--out` default in a docstring, a path inside a JSON note —
+    and none of those is a link. When 41 artifacts were found living only on the `modalities-cache`
+    branch, **24 were cited from here and the link checker had caught exactly one.** It was not
+    broken; it was measuring a different thing.
+
+    ⛔ THE FAILURE MODE IS SPECIFICALLY BRANCH DRIFT, AND IT IS SILENT. A workflow that checks out its
+    own branch writes its outputs there. A manuscript on another branch then cites those outputs as
+    though they were beside it. Nothing errors: the file exists, just not on the ref anyone is reading.
+    CLAUDE.md calls this a data-loss bug rather than an inconvenience, and this check is what makes it
+    visible without needing anyone to remember which branch a lane runs from.
+
+    ⚠ SCOPED TO NAMES THAT LOOK LIKE THIS REPO'S ARTIFACTS, and to citations inside its own
+    directories, because the alternative is flagging every filename ever mentioned — a checker that
+    cries wolf gets switched off, which is how the SMILES-as-links problem was handled in `check_links`.
+    """
+    known = set()
+    for d in ARTIFACT_DIRS:
+        p = os.path.join(REPO, d)
+        if os.path.isdir(p):
+            for root, _dirs, files in os.walk(p):
+                known.update(files)
+    baseline = {row["to"].rsplit("/", 1)[-1] for row in _link_baseline_rows()}
+    baseline |= _artifacts_elsewhere(f)
+
+    missing = defaultdict(set)
+    for rel, text in _walk_md(DOC_SKIP):
+        for m in ARTIFACT_CITE.finditer(text):
+            name = m.group(1)
+            if name in known or name in baseline:
+                continue
+            # A name nothing anywhere produces is a typo or a plan, not drift. Only flag a citation
+            # whose producer exists here — that is what says "this was meant to have been generated".
+            stem = os.path.splitext(name)[0].replace("-", "_")
+            if f"{stem}.py" in known or f"{stem}.mjs" in known:
+                missing[name].add(rel)
+    for name in sorted(missing):
+        cites = sorted(missing[name])
+        f.warn("[K1]", f"`{name}` is cited by {len(cites)} document(s) ({', '.join(cites[:3])}"
+                       f"{', …' if len(cites) > 3 else ''}) and its producer is in this repo, but the "
+                       f"artifact is NOT on this branch — check whether the lane that makes it writes "
+                       f"to a different ref before concluding it was never run")
+
+
 MD_LINK = re.compile(r"\[[^\]]*\]\(([^)#\s]+)(?:#[^)\s]*)?\)")
 LINK_SKIP_PREFIX = ("http://", "https://", "mailto:", "#", "data:")
 
@@ -828,13 +914,17 @@ LINK_SKIP_PREFIX = ("http://", "https://", "mailto:", "#", "data:")
 LOOKS_LIKE_PATH = re.compile(r"/|\.(md|json|py|yml|yaml|mjs|sh|txt|csv|png|svg|pdf|cff|html)$", re.I)
 
 
-def _link_baseline():
-    """Known-broken links that predate this check. Anything NOT here is an error."""
+def _link_baseline_rows():
     path = os.path.join(GRAPH, "link-baseline.json")
     if not os.path.exists(path):
-        return set()
+        return []
     with open(path, encoding="utf-8") as fh:
-        return {(r["from"], r["to"]) for r in json.load(fh).get("known_broken", [])}
+        return json.load(fh).get("known_broken", [])
+
+
+def _link_baseline():
+    """Known-broken links that predate this check. Anything NOT here is an error."""
+    return {(r["from"], r["to"]) for r in _link_baseline_rows()}
 
 
 def check_links(g, f):
@@ -901,6 +991,7 @@ def run_checks(g, f):
     check_doc_ids(g, f)
     check_documents(g, f)
     check_links(g, f)
+    check_artifacts(g, f)
     check_pointers(g, f)
     check_instrument_support(g, f)
     check_compute_case(g, f)

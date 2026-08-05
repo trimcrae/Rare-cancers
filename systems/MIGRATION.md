@@ -371,6 +371,36 @@ visible instead of looking like a typo.
 target, no `parser_guard` registration and no workflow `awk`/`open`. The two data-string hits are prose
 inside JSON; `validate-registry.mjs` checks `dataStatusBanner` for **presence**, not content.
 
+### 3.6 · Artifacts recovered from `modalities-cache` (2026-08-05)
+
+Started as *"one of the three baselined broken links"* and was not one.
+
+The baseline entry for `emc-line-data-probe.json` guessed *"either the probe was never run, or its output
+was never committed."* **Both guesses were wrong.** `emc_line_data_probe.py` had run and had committed — to
+**`modalities-cache`**, the branch `fusion-cpu-extras.yml` writes to. The artifact existed the whole time,
+one ref away, while a manuscript here cited it as though it sat beside it.
+
+⚠ **And it was 41 files, not one.** Of those, **24 were cited from this branch.** The repo-wide
+relative-link checker had caught **one** of the 24 — correctly, and that is the finding: it validates the
+*shape* of a Markdown link, and this repository cites results as bare backticked filenames in prose,
+docstrings and JSON notes. **A checker that measures the shape of a citation cannot tell you whether the
+thing cited exists.**
+
+| action | n | reasoning |
+|---|---|---|
+| **ported** | 23 | cited from here; every one parses and none carries unflagged synthetic data |
+| **left on the cache branch** | 1 | `vast-board-volatility.jsonl` — a live append-only price log (3.9 MB, one sample per run) whose only referrer is its own producer's `--out` default. Porting a snapshot would create a second, immediately-stale home |
+| **left alone** | 17 | uncited from here, so they break nothing |
+
+**The durable fix is `[K1]`**, not the port: it flags any artifact cited by name whose **producer exists in
+this repo** but whose output is absent here — scoped that way so a forward reference to something nobody has
+built (`nr4a3-5bt-signature.json`) reads as a plan rather than as drift. It found three more immediately;
+each was checked against every branch and is genuinely unproduced, which is the other legitimate answer.
+
+⛔ **Port-then-switch, and only the port was done.** No workflow's target branch was changed. Repointing a
+lane is the expensive half — `CLAUDE.md` §7 records a case where flipping one would have shown 13 finished
+edges as unrun and re-bought them — and it is not this migration's to make.
+
 *(A phase is not complete until its rows are here.)*
 
 ---

@@ -82,6 +82,16 @@ deliver."* The other two layers do run. ⭐ **A credited-but-silent scanner is w
 because the credit is what stops anyone checking. Either fix it or retire the claim; it is recorded here so
 that the choice is visible rather than assumed.
 
+**An artifact that exists one branch away is not a missing artifact — it is a stale fact that reads as a
+current one.** `fusion-cpu-extras.yml` writes its outputs to `modalities-cache`, so a manuscript on another
+branch citing those outputs is citing something real that is not where it is being read. Measured
+2026-08-05: **41 artifacts lived only on `modalities-cache` and 24 of them were cited from the working
+branch.** The repo-wide relative-link checker had caught **one** — not because it was broken, but because
+this repository cites results as bare backticked filenames in prose, and a bare filename is not a link.
+⭐ **A checker that measures the shape of a citation cannot tell you whether the thing cited exists.**
+`[K1]` closes that gap; 23 artifacts were ported and the three that remain flagged were each checked
+against every branch and are genuinely unproduced.
+
 **A fabricated query is worse than a declared gap — and the register now has a word for the difference.**
 Five dependencies had no literature scan. Four got real queries. The fifth, `TECH-COMPUTE-COST`, is *"a
 sustained fall in the cost per nanosecond of the simulation we actually buy"* — **no literature search can
@@ -156,3 +166,4 @@ Ordered by value per unit of effort. Each names what it would prevent.
 | **where a parsed document lives** | repoint the parser AND check it is still LINTED. Moving the plan dropped `lint_claims` from 50 warnings to 43 because ~1,580 lines left the linted set silently — `parser_guard` now asserts the coupling |
 | **a document to `historical`/`superseded`** | check it is not a `pinned-figures` target or cited by CLAUDE.md/AGENTS.md (`[D8]` will tell you), and name the successor (`[D7]`). ⚠ If only PART of it is retired, the document is **live** — say which part in `superseded_in_part`. Three live documents were mislabelled by reading a partial-supersession banner as a whole one |
 | **a document's filename** | nothing infers status from it. A date-stamped name is a hint, never evidence — `kind` and `status` decide, which is why the archive sweep's 22-file estimate was wrong |
+| **anything that writes an artifact from a workflow** | check which ref it writes to. If it is not the ref people read, the artifact belongs on both — `[K1]` will tell you, but only after someone cites it. ⚠ Before writing a claim from a committed artifact, confirm the producing workflow actually writes to the branch you are reading |

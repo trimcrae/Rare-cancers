@@ -1,0 +1,1295 @@
+{
+  "_note": "PROTAC assembly feasibility for the top NR4A3 warhead scaffolds. Real fragments (warheads + E3 ligands fetched from ChEMBL); linkers are standard spacers. The assembled properties are an ADDITIVE/condensation ESTIMATE (not a bonded SMILES); exit_vectors are chemical handles (the TRUE attachment vector needs the docked pose); this is a feasibility/triage map for building the degrader, not a finished molecule.",
+  "protac_property_window_used": {
+    "MW": [
+      700,
+      1200
+    ],
+    "HBA": [
+      8,
+      16
+    ],
+    "HBD": [
+      1,
+      7
+    ],
+    "TPSA": [
+      120,
+      270
+    ],
+    "RotB": [
+      10,
+      26
+    ]
+  },
+  "n_warheads": 4,
+  "n_E3_ligands": 4,
+  "E3_ligands_resolved": [
+    "pomalidomide",
+    "lenalidomide",
+    "thalidomide",
+    "VH032"
+  ],
+  "warheads": [
+    {
+      "warhead": "resveratrol",
+      "chembl_id": "CHEMBL165",
+      "smiles": "Oc1ccc(/C=C/c2cc(O)cc(O)c2)cc1",
+      "exit_vectors": [
+        {
+          "type": "phenol",
+          "atom_idx": 0
+        },
+        {
+          "type": "phenol",
+          "atom_idx": 10
+        },
+        {
+          "type": "phenol",
+          "atom_idx": 13
+        }
+      ],
+      "warhead_MW": 228.2,
+      "warhead_HBD": 3,
+      "warhead_HBA": 3,
+      "warhead_TPSA": 60.7,
+      "warhead_RotB": 2
+    },
+    {
+      "warhead": "chloroquine",
+      "chembl_id": "CHEMBL76",
+      "smiles": "CCN(CC)CCCC(C)Nc1ccnc2cc(Cl)ccc12",
+      "exit_vectors": [
+        {
+          "type": "amine",
+          "atom_idx": 10
+        }
+      ],
+      "warhead_MW": 319.9,
+      "warhead_HBD": 1,
+      "warhead_HBA": 3,
+      "warhead_TPSA": 28.2,
+      "warhead_RotB": 8
+    },
+    {
+      "warhead": "amodiaquine",
+      "chembl_id": "CHEMBL682",
+      "smiles": "CCN(CC)Cc1cc(Nc2ccnc3cc(Cl)ccc23)ccc1O",
+      "exit_vectors": [
+        {
+          "type": "amine",
+          "atom_idx": 9
+        },
+        {
+          "type": "phenol",
+          "atom_idx": 24
+        }
+      ],
+      "warhead_MW": 355.9,
+      "warhead_HBD": 2,
+      "warhead_HBA": 4,
+      "warhead_TPSA": 48.4,
+      "warhead_RotB": 6
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "chembl_id": "CHEMBL1873475",
+      "smiles": "C=CC(=O)N1CCC[C@@H](n2nc(-c3ccc(Oc4ccccc4)cc3)c3c(N)ncnc32)C1",
+      "exit_vectors": [
+        {
+          "type": "amine",
+          "atom_idx": 27
+        }
+      ],
+      "warhead_MW": 440.5,
+      "warhead_HBD": 1,
+      "warhead_HBA": 6,
+      "warhead_TPSA": 99.2,
+      "warhead_RotB": 5
+    }
+  ],
+  "linkers": {
+    "PEG2": {
+      "MW": 106.1,
+      "HBD": 2,
+      "HBA": 3,
+      "TPSA": 49.7,
+      "RotB": 4
+    },
+    "PEG4": {
+      "MW": 194.2,
+      "HBD": 2,
+      "HBA": 5,
+      "TPSA": 68.2,
+      "RotB": 10
+    },
+    "PEG6": {
+      "MW": 282.3,
+      "HBD": 2,
+      "HBA": 7,
+      "TPSA": 86.6,
+      "RotB": 16
+    },
+    "alkyl-C6": {
+      "MW": 86.2,
+      "HBD": 0,
+      "HBA": 0,
+      "TPSA": 0.0,
+      "RotB": 3
+    }
+  },
+  "assembly_candidates": [
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "VH032",
+      "linker": "PEG2",
+      "est_MW": 898.6,
+      "est_HBA": 13,
+      "est_HBD": 4,
+      "est_TPSA": 189.7,
+      "est_RotB": 18,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "VH032",
+      "linker": "alkyl-C6",
+      "est_MW": 878.6,
+      "est_HBA": 10,
+      "est_HBD": 4,
+      "est_TPSA": 140.0,
+      "est_RotB": 17,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG6",
+      "est_MW": 875.4,
+      "est_HBA": 16,
+      "est_HBD": 3,
+      "est_TPSA": 224.6,
+      "est_RotB": 25,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG4",
+      "est_MW": 871.9,
+      "est_HBA": 16,
+      "est_HBD": 2,
+      "est_TPSA": 256.9,
+      "est_RotB": 18,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "VH032",
+      "linker": "PEG2",
+      "est_MW": 862.6,
+      "est_HBA": 12,
+      "est_HBD": 3,
+      "est_TPSA": 169.5,
+      "est_RotB": 20,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG6",
+      "est_MW": 861.4,
+      "est_HBA": 15,
+      "est_HBD": 3,
+      "est_TPSA": 207.5,
+      "est_RotB": 25,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG6",
+      "est_MW": 860.4,
+      "est_HBA": 15,
+      "est_HBD": 2,
+      "est_TPSA": 198.6,
+      "est_RotB": 25,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "VH032",
+      "linker": "PEG4",
+      "est_MW": 859.0,
+      "est_HBA": 14,
+      "est_HBD": 5,
+      "est_TPSA": 220.5,
+      "est_RotB": 20,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG4",
+      "est_MW": 858.0,
+      "est_HBA": 15,
+      "est_HBD": 2,
+      "est_TPSA": 239.8,
+      "est_RotB": 18,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG4",
+      "est_MW": 856.9,
+      "est_HBA": 15,
+      "est_HBD": 1,
+      "est_TPSA": 230.9,
+      "est_RotB": 18,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "VH032",
+      "linker": "PEG6",
+      "est_MW": 947.2,
+      "est_HBA": 16,
+      "est_HBD": 5,
+      "est_TPSA": 238.9,
+      "est_RotB": 26,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "VH032",
+      "linker": "PEG4",
+      "est_MW": 950.7,
+      "est_HBA": 14,
+      "est_HBD": 3,
+      "est_TPSA": 187.9,
+      "est_RotB": 26,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "VH032",
+      "linker": "alkyl-C6",
+      "est_MW": 963.3,
+      "est_HBA": 12,
+      "est_HBD": 3,
+      "est_TPSA": 190.8,
+      "est_RotB": 16,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "VH032",
+      "linker": "PEG2",
+      "est_MW": 983.2,
+      "est_HBA": 15,
+      "est_HBD": 3,
+      "est_TPSA": 240.5,
+      "est_RotB": 17,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "VH032",
+      "linker": "PEG4",
+      "est_MW": 986.7,
+      "est_HBA": 15,
+      "est_HBD": 4,
+      "est_TPSA": 208.2,
+      "est_RotB": 24,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG4",
+      "est_MW": 787.3,
+      "est_HBA": 14,
+      "est_HBD": 3,
+      "est_TPSA": 206.1,
+      "est_RotB": 19,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG2",
+      "est_MW": 783.8,
+      "est_HBA": 14,
+      "est_HBD": 2,
+      "est_TPSA": 238.4,
+      "est_RotB": 12,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG4",
+      "est_MW": 773.3,
+      "est_HBA": 13,
+      "est_HBD": 3,
+      "est_TPSA": 189.0,
+      "est_RotB": 19,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG4",
+      "est_MW": 772.3,
+      "est_HBA": 13,
+      "est_HBD": 2,
+      "est_TPSA": 180.1,
+      "est_RotB": 19,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "VH032",
+      "linker": "PEG2",
+      "est_MW": 770.9,
+      "est_HBA": 12,
+      "est_HBD": 5,
+      "est_TPSA": 202.0,
+      "est_RotB": 14,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG2",
+      "est_MW": 769.9,
+      "est_HBA": 13,
+      "est_HBD": 2,
+      "est_TPSA": 221.3,
+      "est_RotB": 12,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG2",
+      "est_MW": 768.8,
+      "est_HBA": 13,
+      "est_HBD": 1,
+      "est_TPSA": 212.4,
+      "est_RotB": 12,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "pomalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 763.9,
+      "est_HBA": 11,
+      "est_HBD": 2,
+      "est_TPSA": 188.7,
+      "est_RotB": 11,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG4",
+      "est_MW": 751.3,
+      "est_HBA": 13,
+      "est_HBD": 2,
+      "est_TPSA": 185.9,
+      "est_RotB": 21,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "VH032",
+      "linker": "alkyl-C6",
+      "est_MW": 751.0,
+      "est_HBA": 9,
+      "est_HBD": 5,
+      "est_TPSA": 152.3,
+      "est_RotB": 13,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "lenalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 749.9,
+      "est_HBA": 10,
+      "est_HBD": 2,
+      "est_TPSA": 171.7,
+      "est_RotB": 11,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "thalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 748.9,
+      "est_HBA": 10,
+      "est_HBD": 1,
+      "est_TPSA": 162.7,
+      "est_RotB": 11,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG6",
+      "est_MW": 747.8,
+      "est_HBA": 15,
+      "est_HBD": 4,
+      "est_TPSA": 236.9,
+      "est_RotB": 21,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG4",
+      "est_MW": 737.3,
+      "est_HBA": 12,
+      "est_HBD": 2,
+      "est_TPSA": 168.8,
+      "est_RotB": 21,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG4",
+      "est_MW": 736.3,
+      "est_HBA": 12,
+      "est_HBD": 1,
+      "est_TPSA": 159.9,
+      "est_RotB": 21,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG6",
+      "est_MW": 733.8,
+      "est_HBA": 14,
+      "est_HBD": 4,
+      "est_TPSA": 219.8,
+      "est_RotB": 21,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG6",
+      "est_MW": 732.8,
+      "est_HBA": 14,
+      "est_HBD": 3,
+      "est_TPSA": 210.9,
+      "est_RotB": 21,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 5
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG6",
+      "est_MW": 945.0,
+      "est_HBA": 17,
+      "est_HBD": 1,
+      "est_TPSA": 249.3,
+      "est_RotB": 24,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG6",
+      "est_MW": 946.1,
+      "est_HBA": 17,
+      "est_HBD": 2,
+      "est_TPSA": 258.3,
+      "est_RotB": 24,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "VH032",
+      "linker": "alkyl-C6",
+      "est_MW": 842.6,
+      "est_HBA": 9,
+      "est_HBD": 3,
+      "est_TPSA": 119.8,
+      "est_RotB": 19,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": false,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG6",
+      "est_MW": 839.4,
+      "est_HBA": 15,
+      "est_HBD": 2,
+      "est_TPSA": 204.3,
+      "est_RotB": 27,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG6",
+      "est_MW": 825.4,
+      "est_HBA": 14,
+      "est_HBD": 2,
+      "est_TPSA": 187.3,
+      "est_RotB": 27,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG6",
+      "est_MW": 824.4,
+      "est_HBA": 14,
+      "est_HBD": 1,
+      "est_TPSA": 178.3,
+      "est_RotB": 27,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "VH032",
+      "linker": "PEG6",
+      "est_MW": 1038.8,
+      "est_HBA": 16,
+      "est_HBD": 3,
+      "est_TPSA": 206.4,
+      "est_RotB": 32,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "VH032",
+      "linker": "PEG4",
+      "est_MW": 1071.3,
+      "est_HBA": 17,
+      "est_HBD": 3,
+      "est_TPSA": 258.9,
+      "est_RotB": 23,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG2",
+      "est_MW": 699.2,
+      "est_HBA": 12,
+      "est_HBD": 3,
+      "est_TPSA": 187.6,
+      "est_RotB": 13,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG2",
+      "est_MW": 685.2,
+      "est_HBA": 11,
+      "est_HBD": 3,
+      "est_TPSA": 170.6,
+      "est_RotB": 13,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG2",
+      "est_MW": 684.2,
+      "est_HBA": 11,
+      "est_HBD": 2,
+      "est_TPSA": 161.6,
+      "est_RotB": 13,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "pomalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 679.3,
+      "est_HBA": 9,
+      "est_HBD": 3,
+      "est_TPSA": 138.0,
+      "est_RotB": 12,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "lenalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 665.3,
+      "est_HBA": 8,
+      "est_HBD": 3,
+      "est_TPSA": 120.9,
+      "est_RotB": 12,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG2",
+      "est_MW": 663.2,
+      "est_HBA": 11,
+      "est_HBD": 2,
+      "est_TPSA": 167.4,
+      "est_RotB": 15,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG4",
+      "est_MW": 659.7,
+      "est_HBA": 13,
+      "est_HBD": 4,
+      "est_TPSA": 218.4,
+      "est_RotB": 15,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG2",
+      "est_MW": 649.2,
+      "est_HBA": 10,
+      "est_HBD": 2,
+      "est_TPSA": 150.3,
+      "est_RotB": 15,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG2",
+      "est_MW": 648.2,
+      "est_HBA": 10,
+      "est_HBD": 1,
+      "est_TPSA": 141.4,
+      "est_RotB": 15,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG4",
+      "est_MW": 645.7,
+      "est_HBA": 12,
+      "est_HBD": 4,
+      "est_TPSA": 201.3,
+      "est_RotB": 15,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG4",
+      "est_MW": 644.7,
+      "est_HBA": 12,
+      "est_HBD": 3,
+      "est_TPSA": 192.4,
+      "est_RotB": 15,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": true
+      },
+      "window_fit_count": 4
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG6",
+      "est_MW": 960.0,
+      "est_HBA": 18,
+      "est_HBD": 2,
+      "est_TPSA": 275.3,
+      "est_RotB": 24,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": false,
+        "RotB": true
+      },
+      "window_fit_count": 3
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "VH032",
+      "linker": "PEG6",
+      "est_MW": 1074.8,
+      "est_HBA": 17,
+      "est_HBD": 4,
+      "est_TPSA": 226.6,
+      "est_RotB": 30,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 3
+    },
+    {
+      "warhead": "amodiaquine",
+      "E3_ligand": "thalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 664.2,
+      "est_HBA": 8,
+      "est_HBD": 2,
+      "est_TPSA": 111.9,
+      "est_RotB": 12,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": false,
+        "RotB": true
+      },
+      "window_fit_count": 3
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "pomalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 643.3,
+      "est_HBA": 8,
+      "est_HBD": 2,
+      "est_TPSA": 117.7,
+      "est_RotB": 14,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": false,
+        "RotB": true
+      },
+      "window_fit_count": 3
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "pomalidomide",
+      "linker": "PEG2",
+      "est_MW": 571.6,
+      "est_HBA": 11,
+      "est_HBD": 4,
+      "est_TPSA": 199.9,
+      "est_RotB": 9,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 3
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "lenalidomide",
+      "linker": "PEG2",
+      "est_MW": 557.6,
+      "est_HBA": 10,
+      "est_HBD": 4,
+      "est_TPSA": 182.9,
+      "est_RotB": 9,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 3
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "thalidomide",
+      "linker": "PEG2",
+      "est_MW": 556.6,
+      "est_HBA": 10,
+      "est_HBD": 3,
+      "est_TPSA": 173.9,
+      "est_RotB": 9,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 3
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "pomalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 551.6,
+      "est_HBA": 8,
+      "est_HBD": 4,
+      "est_TPSA": 150.3,
+      "est_RotB": 8,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": true,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 3
+    },
+    {
+      "warhead": "CHEMBL1873475",
+      "E3_ligand": "VH032",
+      "linker": "PEG6",
+      "est_MW": 1159.4,
+      "est_HBA": 19,
+      "est_HBD": 3,
+      "est_TPSA": 277.4,
+      "est_RotB": 29,
+      "in_protac_window": {
+        "MW": true,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": false,
+        "RotB": false
+      },
+      "window_fit_count": 2
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "lenalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 629.3,
+      "est_HBA": 7,
+      "est_HBD": 2,
+      "est_TPSA": 100.7,
+      "est_RotB": 14,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": false,
+        "RotB": true
+      },
+      "window_fit_count": 2
+    },
+    {
+      "warhead": "chloroquine",
+      "E3_ligand": "thalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 628.3,
+      "est_HBA": 7,
+      "est_HBD": 1,
+      "est_TPSA": 91.7,
+      "est_RotB": 14,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": false,
+        "RotB": true
+      },
+      "window_fit_count": 2
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "lenalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 537.7,
+      "est_HBA": 7,
+      "est_HBD": 4,
+      "est_TPSA": 133.2,
+      "est_RotB": 8,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 2
+    },
+    {
+      "warhead": "resveratrol",
+      "E3_ligand": "thalidomide",
+      "linker": "alkyl-C6",
+      "est_MW": 536.6,
+      "est_HBA": 7,
+      "est_HBD": 3,
+      "est_TPSA": 124.2,
+      "est_RotB": 8,
+      "in_protac_window": {
+        "MW": false,
+        "HBA": false,
+        "HBD": true,
+        "TPSA": true,
+        "RotB": false
+      },
+      "window_fit_count": 2
+    }
+  ]
+}
