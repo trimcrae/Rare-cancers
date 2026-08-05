@@ -357,7 +357,7 @@ panel, 5a basin (**mid $0 — the basin search COMPLETED 2026-07-25 at $0 realiz
 
 ⚠ *Superseded, retained, and this paragraph carried all three at once: tool total **$149.4 ($38.2–466.4)**,
 **5a basin mid $25** (retired by `ladder_total_194` — the search finished at $0 realized), and the resulting
-**≈ 194 / ≈ 47 / ≈ 561**. It sat four lines under the correct headline total, contradicting it. CI missed it
+superseded trio **≈ 194 / ≈ 47 / ≈ 561**. It sat four lines under the correct headline total, contradicting it. CI missed it
 because the text wrote `≈ 194` and bare `47`/`561` with no `$`, and the registered patterns require the
 currency glyph.* nr4a3-program-map.md's per-step `Cum.` chain and
 [bid-strategy.md §6](./bid-strategy.md) end on the same numbers. *(The `~$46–544` this line previously carried

@@ -99,12 +99,30 @@ _WINDOW_FWD = 1
 # actually means "this retraction covers this text" is ADJACENCY — a disclaimer belongs beside the figure
 # it disclaims — so proximity is measured from the match position outward.
 #
-# 400 chars each way is ~4-5 wrapped prose lines: comfortably more than any real markdown retraction needs
-# (the widest in this repo is a two-line wrapped lead-in, well under 200), and far below the multi-thousand
-# character entries that caused the false clear. Both directions are pinned by
-# tests/test_lint_consistency.py — one test that a distant marker does NOT clear, one that a nearby marker
-# on an equally long line still DOES, because over-tightening is how a linter gets switched off.
-_WINDOW_CHARS = 400
+# ★★ 400 → 200, MEASURED 2026-08-05: THE SAFETY MARGIN IS WHERE THE FALSE CLEARS LIVED.
+#
+# The paragraph above set 400 and justified it by saying "the widest [real retraction] in this repo is a
+# two-line wrapped lead-in, WELL UNDER 200". So 400 was 200 of evidence plus 200 of margin — and a sweep of
+# every cleared occurrence in all 13 target files found that the margin was doing the clearing:
+#
+#   `degrader-paper-schedule.json:72` states `WHOLE GATED LADDER: ~$194 mid-range (~$47-561)` — a total
+#   retired on 2026-07-25 and again since — and it was cleared by the word "retiring" in
+#   `retiring the old "no ternary leg has ever completed" caveat`, 130 characters away and about a CAVEAT,
+#   not about a dollar figure. PROXIMITY IS NOT ABOUTNESS. At 400 the linter vouched for it; at 200 it does
+#   not, and the same tightening surfaced `remains UNPRICED` for the protein-mutation wedge in the same
+#   file — which that file's own later entry already contradicts with a ~$4.6 projection.
+#
+# ⚠ WHAT WAS REJECTED, AND WHY, because the obvious fix is worse. Requiring the MARKER'S OWN CLAUSE to
+# contain a digit ("a retraction of a number mentions a number") sounds tighter and was measured first:
+# it newly flags 29 occurrences, nearly all correctly-written retractions in STRATEGY.md Appendix A and the
+# NR-V04 prereg. Scoping to the enclosing sentence flags 118. Both would be switched off within a day,
+# which is the failure mode this file keeps warning about. 200 chars newly flags 8, of which 6 are real.
+#
+# Both directions stay pinned by tests/test_lint_consistency.py — a distant marker must not clear, a marker
+# written beside the figure on an equally long line must still clear — plus a regression test carrying the
+# measured 130-character case above, so this bound cannot drift back without a red build.
+# Superseded, retained: `_WINDOW_CHARS = 400`.
+_WINDOW_CHARS = 200
 
 
 def load_registry(path=REGISTRY):
@@ -176,7 +194,22 @@ def is_cleared(lines, idx, markers, line=None, start=None):
         return True
     lo = max(0, idx - _WINDOW_BACK)
     hi = min(len(lines), idx + _WINDOW_FWD + 1)
-    window = lines[lo:hi]
+    # ★★ A HEADING MAY NOT SUPPLY A *PROXIMITY* MARKER (2026-08-05, found by sabotage-testing the
+    # narrowing below and watching it fail).
+    #
+    # The rule under this one was tightened so a heading clears only when the SECTION IS ABOUT
+    # superseded values. That fixed nothing for a figure written within `_WINDOW_BACK` lines of the
+    # heading, because the heading text is also inside the proximity window — so
+    # `## THE CARD RULE IS RETIRED …` still cleared `755.36` and `2.10×` two lines under it, by the
+    # OTHER path. The narrowing looked like it worked only because the real §4 figures happened to sit
+    # further down. Two paths, one of them unguarded, is not a narrowing.
+    #
+    # So headings are blanked out of the proximity blob — length-preserving, because `offset` is
+    # computed from line lengths and must not shift. The match's OWN line is never blanked: a marker
+    # written beside the figure in the same heading (`## the ladder was $128, superseded`) is genuinely
+    # adjacent and must still clear. A heading now clears exactly one way, through the aboutness test.
+    window = [(" " * len(l) if (l.startswith("#") and lo + k != idx) else l)
+              for k, l in enumerate(lines[lo:hi])]
     # Where the match sits inside the joined window, so proximity is measured from the
     # FIGURE and not from the start of whatever line happens to contain it.
     offset = sum(len(l) + 1 for l in lines[lo:idx]) + (start or 0)

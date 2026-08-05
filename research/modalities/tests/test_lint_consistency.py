@@ -123,6 +123,50 @@ def test_a_nearby_marker_on_a_long_line_still_clears(tmp_path):
     assert _run(tmp_path, text) == []
 
 
+def test_a_marker_word_in_a_nearby_heading_does_not_clear_by_proximity(tmp_path):
+    """★★ THE NARROWING BELOW HAD TWO PATHS AND ONLY ONE WAS GUARDED (found by sabotage test, 2026-08-05).
+
+    `_cleared` was tightened so a HEADING clears only when the section is *about* superseded values —
+    written because `## 4. ⚠ THE CARD RULE IS RETIRED …` had cleared five live figures beneath it. But the
+    heading text also sits inside the PROXIMITY window, so a figure written within `_WINDOW_BACK` lines of
+    that same heading was still cleared, by the other path. The narrowing appeared to work only because the
+    real §4 figures happened to sit further down. Deliberately reintroducing the figure two lines under the
+    heading reproduced the original bug on the "fixed" linter.
+
+    Headings are now blanked from the proximity blob, so a heading clears exactly one way.
+    """
+    text = ("## 4. THE CARD RULE IS RETIRED -- the 4090 default no longer holds\n"
+            "\n"
+            "The whole gated ladder is $128 for the priceable stages.\n")
+    out = _run(tmp_path, text)
+    assert len(out) == 1, "a heading that retires a RULE does not retire a figure two lines beneath it"
+
+
+def test_a_marker_in_the_figures_own_heading_line_still_clears(tmp_path):
+    """The guard above must not reach the adjacent case: a marker written beside the figure in the SAME
+    heading is a real disclaimer, so that line is never blanked."""
+    assert _run(tmp_path, "## the ladder was $128 -- superseded, see the 2026-07-25 repricing\n") == []
+
+
+def test_a_marker_about_a_different_subject_does_not_clear_a_figure(tmp_path):
+    """★★ THE MEASURED CASE THAT TOOK _WINDOW_CHARS FROM 400 TO 200 (2026-08-05). PROXIMITY IS NOT ABOUTNESS.
+
+    `degrader-paper-schedule.json:72` carried `WHOLE GATED LADDER: ~$194 mid-range (~$47-561)` — a retired
+    total, stated flat. It was CLEARED by the word "retiring" in `retiring the old "no ternary leg has ever
+    completed" caveat`, which sat 130 characters away and retracts a CAVEAT, not a dollar figure. The bound
+    was 400 and its own comment justified that as "well under 200" of evidence plus margin; the margin was
+    where the false clear lived.
+
+    This test carries the real distance, not a round number: if the bound ever drifts back above ~130 this
+    goes red. The companion above pins the opposite direction, so neither can be relaxed silently.
+    """
+    gap = "z" * 130
+    text = ('{"note": "seed 0 reached 2000/2000, retiring the old \\"no ternary leg has ever completed\\" '
+            'caveat.' + gap + ' WHOLE GATED LADDER: $128 for the priceable stages, GO at every gate."}\n')
+    out = _run(tmp_path, text)
+    assert len(out) == 1, "a marker about a caveat 130 characters away is not a retraction of this total"
+
+
 def test_negation_lookback_is_bounded(tmp_path):
     """A 'not' far earlier in the sentence must NOT clear a later assertion."""
     text = ("It is not the market rate that changed here at all, and separately "

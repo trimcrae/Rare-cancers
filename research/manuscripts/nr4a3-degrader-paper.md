@@ -1533,7 +1533,7 @@ selective candidates** and the geometric hypotheses behind them.
 **Why the search was re-ordered: the induced-interface axis is uncalibrated, and at the time it was also
 believed to be unresolvable.** A useful degradation window needs on the order of **2.0 kcal/mol** of true
 induced-interface margin (median over 27 potency scenarios, range 1.75–2.25; `selectivity_margin_model.py`).
-When the search was re-ordered, that was set against a best-case **resolvable** difference of 1.12 kcal/mol —
+When the search was re-ordered, that was set against a since-superseded best-case **resolvable** difference of 1.12 kcal/mol —
 a figure computed at a replicate scatter the program had **assumed** rather than measured, and a
 field-standard relative-FE accuracy near 1.7 kcal/mol RMSE taken from the literature. **Both inputs have since
 been measured on this pipeline, and they move in opposite directions.** The replicate scatter is
