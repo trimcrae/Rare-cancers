@@ -21,7 +21,7 @@ _backfilled: true
 > at the end rather than applied here.
 >
 > **Status:** DONE, and **RE-ENUMERATED 2026-07-26 (LANE 14) against the corrected 10⁶ basin artifact.** The
-> live numbers are in §10; everything above §10 that this supersedes is listed in [§11 · Appendix](#11--appendix--superseded-numbers).
+> live numbers are in §10; everything above §10 that this supersedes is listed in [§11 · Appendix](#11-appendix--superseded-numbers).
 > Kernels and driver built and unit-tested (**62 tests**, each against a closed-form answer, a hand-constructed
 > case, or an identity the module must share with `basin_geom`); the design driver run at BOTH placements; the
 > library emitted and RDKit-verified on CI, with every backbone length and branch position re-derived from the
@@ -205,7 +205,7 @@ Two qualifications, both load-bearing:
 
 ## 3b. ★★ THE CORRECTED RESULT — at the mechanism-carrying placement, every basin is routine
 
-> **⚠ THE NUMBERS IN THIS SECTION ARE SUPERSEDED — see [§10](#10--re-enumerated-on-the-corrected-10-artifact-lane-14-2026-07-26).**
+> **⚠ THE NUMBERS IN THIS SECTION ARE SUPERSEDED — see [§10](#10--re-enumerated-on-the-corrected-10-artifact-lane-14-2026-07-26-0-cpuci).**
 > They were computed against the **pre-correction** basin artifact, i.e. with the relaxed reach rule still in
 > the basin search. The *finding* — that designing at the exemplar rather than the representative changes the
 > answer completely, and that the reported minimum's achieving member is not the published representative —
@@ -278,7 +278,7 @@ two-decimal rounding of the stored coordinates). A recovery worse than 0.05 Å i
 
 ## 5. The virtual library
 
-> **⚠ COUNTS SUPERSEDED — the live ones are in [§10.2](#102--the-library-survives-the-corrected-geometry-intact-and-a-different-defect-took-three-of-it).**
+> **⚠ COUNTS SUPERSEDED — the live ones are in [§10.2](#102-the-library-survives-the-corrected-geometry-intact--and-a-different-defect-took-three-of-it).**
 > The **filter** described below is unchanged and still preregistered; only the enumeration totals moved, and
 > they moved because the library is now built at both placements against the corrected artifact.
 
@@ -425,7 +425,7 @@ with nothing hand-transcribed, and one rule covers all three warhead handles ins
 ## 6. ★★ The matched pair for RUNG 5a-KS — RECOMMENDED
 
 > **⚠ THE PAIR ITSELF IS SUPERSEDED — the live specification is
-> [§10.3](#103--the-matched-pair-the-basin-and-the-wedge-site-stand-the-shared-length-does-not).**
+> [§10.3](#103-the-matched-pair-the-basin-and-the-wedge-site-stand-the-shared-length-does-not).**
 > The *basin*, the *wedge element*, the *wedge site* and the *reason for each* are unchanged; the **molecules,
 > the length, the branch position and the clearance are not**, and §6b's block was additionally stale against
 > its own committed artifact by two CI runs before this lane touched it (see §11). Read §10.3 for what to build;
@@ -682,7 +682,7 @@ library, and one changes how the matched pair must be justified.
 ## 10. ★★ RE-ENUMERATED ON THE CORRECTED 10⁶ ARTIFACT (LANE 14, 2026-07-26, $0 CPU/CI)
 
 > **This section is the live record. Where it and anything above disagree, this section wins; the superseded
-> values are listed once in [§11](#11--appendix--superseded-numbers) and nowhere else.**
+> values are listed once in [§11](#11-appendix--superseded-numbers) and nowhere else.**
 
 Inputs: `nr4a3-orientation-basins.json` as committed at **`0fed418c`** — the **matched 10⁶-sample, 12-pose,
 seed-20260725 corrected run** (runtime **4303.6 s** against the published run's 4294.9 s), and the driver at

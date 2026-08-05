@@ -4098,6 +4098,25 @@ tail that a *positive* `S` would unlock, and a paper reporting a bounded null do
 >
 > Cost evidence remains owned by [`pricing.md`](../compute/pricing.md); this page never owned it.
 
+## Open decisions
+
+> Moved — see [`systems/views/plan.md`](../../systems/views/plan.md). Heading kept so inbound anchors resolve.
+> ⛔ **AND THIS ONE'S NUMBERING IS FROZEN AND CITED FROM ~30 FILES**, which §0.7 says in this very
+> document — so of the five sections that moved, this is the one whose stub was least optional. It was
+> deleted without one on 2026-08-05 and **24 in-file links pointed at nothing** until 2026-08-05.
+
+## Current front
+
+> Moved — see [`systems/views/plan.md`](../../systems/views/plan.md). Heading kept so inbound anchors resolve.
+
+## In flight (superseded)
+
+> Moved — see [`systems/views/plan.md`](../../systems/views/plan.md). Heading kept so inbound anchors resolve.
+
+### RUNG S — the two scope rungs (R13, R14) claim-ceiling conditions, deliberately off the Cum. chain
+
+> Moved — see [`systems/views/plan.md`](../../systems/views/plan.md). Heading kept so inbound anchors resolve.
+
 ## Spending rules
 
 > Moved — see [`systems/views/plan.md`](../../systems/views/plan.md). Heading kept so inbound anchors resolve.

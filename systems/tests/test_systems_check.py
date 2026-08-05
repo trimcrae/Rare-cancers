@@ -1413,3 +1413,30 @@ def test_the_plan_view_rehomes_anchors_without_touching_the_lossless_proof(graph
     assert "](#" not in view.split("---", 2)[-1] or \
         "nr4a3-program-map.md#" in view, "same-doc anchors must be re-homed in the view"
     assert "](../../research/manuscripts/nr4a3-program-map.md#" in view
+
+
+def test_slugify_matches_github_where_it_used_to_diverge():
+    """Two divergences, both MEASURED against github-slugger@2.0.0 rather than reasoned about.
+
+    ⛔ EACH ONE MADE THE CHECKER CALL A WORKING LINK BROKEN, which is the failure mode that gets a
+    checker switched off — this file's own docstrings say so twice, about SMILES strings and about
+    leading hyphens.
+
+    1. A MARKDOWN LINK IN A HEADING. GitHub renders it and slugs the TEXT; stripping only the bracket
+       characters kept the URL too, so `## GPU economics (full provenance in
+       [pricing.md](../compute/pricing.md))` yielded `…-in-pricingmdcomputepricingmd` against a real
+       anchor of `…-in-pricingmd`. The roadmap's own §0.7 index linked to it correctly.
+    2. SUPERSCRIPT DIGITS. Python's `\\w` keeps U+2076 (`'⁶'.isalnum()` is True, category `No`);
+       github-slugger deletes it, so `10⁶ ARTIFACT` anchors as `10-artifact`.
+
+    ⚠ `Lm` IS DELIBERATELY NOT DROPPED. `ⁿ` and `ʰ` are letter modifiers and GitHub keeps them —
+    widening the filter to every superscript-looking codepoint would trade one wrong answer for another.
+    """
+    assert sc.slugify("## GPU economics (full provenance in [pricing.md](../compute/pricing.md))") == \
+        "gpu-economics-full-provenance-in-pricingmd"
+    assert sc.slugify("## 10. RE-ENUMERATED ON THE CORRECTED 10⁶ ARTIFACT") == \
+        "10-re-enumerated-on-the-corrected-10-artifact"
+    assert "n" in sc.slugify("## xⁿ notation"), "Lm modifiers are kept by GitHub and must be kept here"
+    # The properties the existing docstrings already promise, held so a future edit cannot lose them.
+    assert sc.slugify("### 2 · THE RANKED LIST") == "2--the-ranked-list", "· leaves its two spaces"
+    assert not sc.slugify("## Plain heading").startswith("-"), "leading # marks must be stripped"

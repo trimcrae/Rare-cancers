@@ -24,6 +24,7 @@ import argparse
 import json
 import os
 import re
+import unicodedata
 import sys
 from collections import defaultdict
 
@@ -510,6 +511,12 @@ def slugify(heading: str) -> str:
     # own docstrings say twice.
     s = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", s)
     s = re.sub(r"`|\*|_|\[|\]|\(|\)", "", s)
+    # ⛔ SUPERSCRIPT DIGITS: PYTHON KEEPS THEM, GITHUB DROPS THEM. `\w` under re.UNICODE matches U+2076
+    # because `'⁶'.isalnum()` is True and its category is `No` — but github-slugger deletes it, so
+    # `10⁶ ARTIFACT` anchors as `10-artifact`. Measured against github-slugger@2.0.0 itself rather than
+    # reasoned about. Categories `No`/`Nl` cover ⁶ ² ³ ½ and the Roman numerals; `Lm` (ⁿ, ʰ) is a
+    # LETTER modifier and GitHub keeps those, so it is deliberately not in this set.
+    s = "".join(c for c in s if unicodedata.category(c) not in ("No", "Nl"))
     s = re.sub(r"[^\w\s-]", "", s, flags=re.UNICODE)
     s = s.replace(" ", "-")
     return s

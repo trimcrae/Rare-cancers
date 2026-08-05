@@ -15,7 +15,7 @@ _backfilled: true
 # In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: a translocation-sarcoma surrogate, a hard normal-tissue filter — and a validation request
 
 > **Preprint status (2026-07-03; ⛔ materially amended 2026-08-05 — read
-> [Amendment 1](#amendment-1-2026-08-05--the-cell-line-this-manuscript-called-the-one-real-emc-line-is-recorded-as-not-carrying-the-fusion)
+> [Amendment 1](#amendment-1-2026-08-05---the-cell-line-this-manuscript-called-the-one-real-emc-line-is-recorded-as-not-carrying-the-fusion)
 > first).** Computational, **hypothesis-generating** manuscript, extensively
 > self-red-teamed (see [`emc-surface-target-redteam.md`](./emc-surface-target-redteam.md)). It reports what an
 > honest in-silico surface-antigen analysis for EMC can and cannot establish from public data. The central,
@@ -117,7 +117,7 @@ selectivity test
 (Mann–Whitney, Benjamini–Hochberg) across a translocation-sarcoma DepMap class (n = 76), which also contains
 the single line DepMap annotates *Extraskeletal Myxoid Chondrosarcoma* (H-EMC-SS / ACH-001519) — ⛔ **a line
 whose fusion status the curated record contradicts, so it is NOT read here as EMC evidence; see
-[Amendment 1](#amendment-1-2026-08-05--the-cell-line-this-manuscript-called-the-one-real-emc-line-is-recorded-as-not-carrying-the-fusion).**
+[Amendment 1](#amendment-1-2026-08-05---the-cell-line-this-manuscript-called-the-one-real-emc-line-is-recorded-as-not-carrying-the-fusion).**
 *(Superseded, retained: this sentence read "— contrary to the common assumption — **also contains one genuine
 EMC line (H-EMC-SS / ACH-001519)** whose surface transcriptome we report directly (n = 1, descriptive)".)*
 We then applied a hard **normal-tissue therapeutic-window filter** (Human Protein Atlas tissue *and* blood-cell specificity, with vital-tissue/immune overrides;
@@ -183,7 +183,7 @@ the output. [`emc_surfaceome_scan.py`]
 translocation-sarcoma class by OncotreeSubtype (Ewing/synovial/alveolar/DSRCT/clear-cell, plus the single line
 DepMap annotates *Extraskeletal Myxoid Chondrosarcoma*; n = 76) as a lineage-generic surrogate.
 ⛔ **That line — ACH-001519 (H-EMC-SS) — is recorded by Cellosaurus as NOT carrying an EWSR1 fusion
-([Amendment 1](#amendment-1-2026-08-05--the-cell-line-this-manuscript-called-the-one-real-emc-line-is-recorded-as-not-carrying-the-fusion)),
+([Amendment 1](#amendment-1-2026-08-05---the-cell-line-this-manuscript-called-the-one-real-emc-line-is-recorded-as-not-carrying-the-fusion)),
 so it is one of 45 class members with expression data and is NOT treated as EMC evidence.** Dropping it moves
 every actionable antigen's `enrichment_vs_rest` by ≤ 0.13 log2TPM with no sign flips (Amendment 1), so the
 selectivity result below does not rest on it. *(Superseded, retained: this paragraph read "— a correction to
@@ -224,7 +224,7 @@ report why it is unusable. [`emc_gse4303_crosscheck.py`, `emc_line_data_probe.py
 > Its own top surface-antigen transcripts are the most EMC-specific in-silico signal available (n = 1,
 > descriptive; no statistics; authentication/fusion status [to verify])."* The `[to verify]` was answered on
 > 2026-08-05 and the answer contradicts the label —
-> [Amendment 1](#amendment-1-2026-08-05--the-cell-line-this-manuscript-called-the-one-real-emc-line-is-recorded-as-not-carrying-the-fusion).
+> [Amendment 1](#amendment-1-2026-08-05---the-cell-line-this-manuscript-called-the-one-real-emc-line-is-recorded-as-not-carrying-the-fusion).
 
 DepMap does contain one line whose OncotreeSubtype string is *Extraskeletal Myxoid Chondrosarcoma* —
 **ACH-001519 / H-EMC-SS**. **Cellosaurus `CVCL_1238` records, citing a primary source, that it "does not

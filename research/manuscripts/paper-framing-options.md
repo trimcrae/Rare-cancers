@@ -541,7 +541,7 @@ print.
 
 | | paper | why here | what it needs first |
 |---|---|---|---|
-| **1st** | **P1** (with **P4** as its framing argument and **P7** as its Data & Software section) | Needs nothing we do not have. Establishes the author's calibration in public, which is what makes 2nd and 3rd credible: a target dossier from a group that has already published *why its own selectivity methods failed* reads very differently from one that has not | the two $0 items in [§2.1](#21--p1--the-known-answer-audit--recommended) |
+| **1st** | **P1** (with **P4** as its framing argument and **P7** as its Data & Software section) | Needs nothing we do not have. Establishes the author's calibration in public, which is what makes 2nd and 3rd credible: a target dossier from a group that has already published *why its own selectivity methods failed* reads very differently from one that has not | the two $0 items in [§2.1](#21--p1--the-known-answer-audit---recommended) |
 | **2nd** | **P2** | ⚠ **the only one with a live clock.** Self-contained, fully committed, and it is the result someone else will publish. Arguably it should go *first* on clock grounds — the reason it does not is that it is also a natural, strong section of P1, and splitting it costs P1 its sharpest chapter | nothing |
 | **3rd** | **P3** (absorbing **P6** as its closing "what a candidate would require" section, and **P5** as a design-principles section unless the cross-family survey gets built) | Its clock is real but slow. It benefits most from P1 existing, and it is the paper that carries the outreach — a dossier plus a specified decisive experiment is what a structural lab can act on | the `nr4a-resistance-map.json` branch-drift repair; `R3`; and the `V17` disclosure |
 
