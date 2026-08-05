@@ -241,6 +241,24 @@ related: [<DOC- ids>]
 `canonical_for` is the load-bearing field: it is how a reader finds the owner of a fact, and how the checker
 detects two documents claiming the same concept.
 
+### 6.0 · ⛔ Ticking a plan item happens in JSON, not in Markdown
+
+**THE ORDERED PLAN lives in [`graph/plan.json`](graph/plan.json)** and is rendered to
+[`views/plan.md`](views/plan.md). A hand-edit to the view fails the build, so **an item is ticked by
+changing its `marker` in the JSON.**
+
+That is the cost of one-fact-one-home and it is deliberate: `marker` is a field precisely so it can be
+set by machine and read by `work_ledger` without parsing prose. Everything else in the plan is stored
+verbatim — the move was lossless and [`extract_plan.py`](extract_plan.py) refuses to write unless
+re-rendering reproduces the original byte for byte.
+
+⚠ **The skipped marker is an EN DASH (U+2013), not an ASCII hyphen.** Matching only `-` reclassifies
+every skipped item as pending and fills the board with work nobody owes.
+
+⚠ **`Cum. ~$N` and `Cum ~$N` are deliberately different** and must both stay in the one generated file:
+`pinned-figures.json` `subset_checks/strategy_spine_cum` asserts one is a subset of the other
+**within a single file**, so the plan and the dependency spine can never be separated.
+
 ### 6.1 · File naming
 
 - Generated views: `systems/views/**` — always carry `status: generated` and a do-not-edit banner.

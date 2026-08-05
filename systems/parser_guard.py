@@ -35,6 +35,12 @@ REPO = os.path.dirname(HERE)
 
 MAP = "research/manuscripts/nr4a3-program-map.md"
 
+#: ⭐ MOVED 2026-08-05. THE ORDERED PLAN now lives in the systems model and `work_ledger` reads the
+#: generated view, not the roadmap. This guard follows it — a guard still watching the old location
+#: would go green on a file that no longer contains the plan, which is the precise failure it exists
+#: to prevent, one layer up.
+PLAN_DOC = "systems/views/plan.md"
+
 
 def read(rel):
     path = os.path.join(REPO, rel)
@@ -48,16 +54,16 @@ def read(rel):
 
 def check_plan_heading(fail):
     """work_ledger bounds its scan to a `## ... THE ORDERED PLAN ...` heading."""
-    text = read(MAP)
+    text = read(PLAN_DOC)
     if text is None:
-        fail("work_ledger", f"the plan document {MAP} does not exist",
+        fail("work_ledger", f"the plan document {PLAN_DOC} does not exist",
              "the plan scanner returns NOT SCANNED and exits 0, so the board empties silently")
         return
     section = re.compile(r"^##\s+(.*)$", re.M)
     heads = [m.group(1) for m in section.finditer(text)]
     hit = [h for h in heads if "THE ORDERED PLAN" in h.upper()]
     if not hit:
-        fail("work_ledger", f"no '## ... THE ORDERED PLAN ...' heading in {MAP}",
+        fail("work_ledger", f"no '## ... THE ORDERED PLAN ...' heading in {PLAN_DOC}",
              "the scanner reports its own blindness and exits 0 — a plan with nothing left to do and a "
              "plan nobody can read render identically")
         return
@@ -120,6 +126,14 @@ def check_paths(fail):
                 if not os.path.exists(os.path.join(REPO, rel)):
                     fail("lint_claims", f"default target does not exist: {rel}",
                          "the linter scans fewer files and still reports success")
+            # ⚠ THE PLAN IS LINTED WHEREVER IT LIVES. Moving it out of the roadmap dropped the
+            # warning count from 50 to 43 because ~1,580 lines of gate language left the linted set
+            # silently. A linter whose SCOPE shrinks while its PASS RATE improves is the worst
+            # possible signal, so the coupling is asserted rather than remembered.
+            if PLAN_DOC not in targets:
+                fail("lint_claims", f"{PLAN_DOC} is not a lint_claims target",
+                     "the plan is what the next session steers by; claim language in it would go "
+                     "unlinted while the build stayed green and the warning count went DOWN")
 
 
 def check_scan_triggers(fail):

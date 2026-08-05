@@ -68,6 +68,14 @@ DEFAULT_TARGETS = [
     # first. R4-shaped over-claims on the map are exactly as damaging as in the manuscript,
     # because the map is what the next session steers by.
     "research/manuscripts/nr4a3-program-map.md",
+    # Added 2026-08-05, IN THE SAME COMMIT that moved THE ORDERED PLAN and the spend ladder out of the
+    # map and into the systems model. ⚠ WITHOUT THIS LINE THE MOVE WOULD HAVE SILENTLY NARROWED
+    # COVERAGE: the warning count fell from 50 to 43 the moment the sections left, because ~1,580 lines
+    # of gate language walked out of the linted set and nothing said so. A linter whose scope shrinks
+    # while its pass rate improves is the worst possible signal, and it is exactly the "absent reading
+    # is not a reading of absence" failure in linter form. The plan is what the next session steers by,
+    # so it is linted wherever it lives.
+    "systems/views/plan.md",
 ]
 
 # ---------------------------------------------------------------------------

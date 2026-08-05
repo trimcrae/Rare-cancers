@@ -188,6 +188,8 @@ def load_graph():
             continue
         with open(path, encoding="utf-8") as fh:
             g[name] = json.load(fh)
+    plan = os.path.join(GRAPH, "plan.json")
+    g["plan"] = json.load(open(plan, encoding="utf-8")) if os.path.exists(plan) else {}
     integ = os.path.join(GRAPH, "integrity.json")
     g["integrity"] = json.load(open(integ, encoding="utf-8")) if os.path.exists(integ) else {}
     return g
@@ -1191,6 +1193,50 @@ def render_roadmap(g):
     return "\n".join(out)
 
 
+
+def render_plan_body(plan):
+    """Reconstruct the plan text from the graph. Inverse of systems/extract_plan.py.
+
+    ⚠ EVERY CHARACTER OUTSIDE A MARKER IS VERBATIM. Only `marker` is a field, because it is the one
+    thing that must be machine-settable: once this view is generated, ticking an item happens in
+    systems/graph/plan.json and a hand-edit here fails the build.
+    """
+    out = []
+    for b in plan.get("blocks", []):
+        if b["kind"] == "raw":
+            out.append(b["text"])
+        elif b["kind"] == "item":
+            out.append(f"{b['indent']}- **`[{b['marker']}]`{b['text']}")
+    return "".join(out)
+
+
+def render_plan(g):
+    plan = g.get("plan") or {}
+    body = render_plan_body(plan)
+    items = [b for b in plan.get("blocks", []) if b["kind"] == "item"]
+    open_n = sum(1 for b in items if b["marker"] in " ~!")
+    head = [fm(id="DOC-VIEW-PLAN", title="THE ORDERED PLAN, the spend ladder and the dependency spine",
+               level="cross-cutting", kind="generated", status="generated",
+               generator="systems/systems_check.py",
+               purpose="What to do next, in order, with each step's gate and cost — and the money rules and cumulative chain the order depends on.",
+               scope="The near-term spend-gated plan. The multi-year horizon is views/roadmap-5yr.md.",
+               audience=["maintainers", "autonomous research agents"],
+               date="2026-08-05", last_verified="2026-08-05"),
+            BANNER,
+            "<!-- ⛔ TICKING AN ITEM HAPPENS IN systems/graph/plan.json, NOT HERE.",
+            "     A hand-edit to this file fails the build. That is the cost of one-fact-one-home,",
+            "     and it is deliberate: `marker` is a field precisely so it can be set by machine.",
+            "",
+            f"     {len(items)} items · {open_n} still open.",
+            "",
+            "     ⚠ THE SKIPPED MARKER IS AN EN DASH (U+2013), NOT AN ASCII HYPHEN.",
+            "     ⚠ `Cum. ~$N` (the plan) and `Cum ~$N` (the spine) are DELIBERATELY different and must",
+            "        both stay in THIS file — pinned-figures.json subset_checks/strategy_spine_cum",
+            "        asserts one is a subset of the other WITHIN A SINGLE FILE. -->",
+            ""]
+    return "\n".join(head) + "\n" + body
+
+
 def all_views(g):
     v = {"L0-ecosystem.md": render_l0(g),
          "registers/blockers.md": render_blockers(g),
@@ -1199,7 +1245,8 @@ def all_views(g):
          "registers/requirements.md": render_requirements(g),
          "methods-index.md": render_methods_index(g),
          "readiness.md": render_readiness(g),
-         "roadmap-5yr.md": render_roadmap(g)}
+         "roadmap-5yr.md": render_roadmap(g),
+         "plan.md": render_plan(g)}
     for s in g["strategies"]:
         v[f"L1-{s['id'].lower()}.md"] = render_l1(s, g)
     for r in g["routes"]:

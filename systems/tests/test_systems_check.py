@@ -194,9 +194,9 @@ def test_parser_guard_passes_on_the_committed_tree():
 
 def test_parser_guard_catches_a_renamed_plan_heading(tmp_path, monkeypatch):
     """The failure this guard exists for: a heading moves, the scanner reports blindness, CI stays green."""
-    src = open(os.path.join(REPO, pg.MAP), encoding="utf-8").read()
+    src = open(os.path.join(REPO, pg.PLAN_DOC), encoding="utf-8").read()
     broken = src.replace("THE ORDERED PLAN", "THE SEQUENCED PLAN")
-    monkeypatch.setattr(pg, "read", lambda rel: broken if rel == pg.MAP else
+    monkeypatch.setattr(pg, "read", lambda rel: broken if rel == pg.PLAN_DOC else
                         (open(os.path.join(REPO, rel), encoding="utf-8").read()
                          if os.path.exists(os.path.join(REPO, rel)) else None))
     problems = []
@@ -207,7 +207,7 @@ def test_parser_guard_catches_a_renamed_plan_heading(tmp_path, monkeypatch):
 def test_parser_guard_catches_a_plan_section_with_no_items(monkeypatch):
     """A heading that has drifted away from the checkboxes is as blinding as a missing heading."""
     text = "# doc\n\n## THE ORDERED PLAN (spend-gated)\n\nprose only, no items\n\n## next section\n"
-    monkeypatch.setattr(pg, "read", lambda rel: text if rel == pg.MAP else None)
+    monkeypatch.setattr(pg, "read", lambda rel: text if rel == pg.PLAN_DOC else None)
     problems = []
     pg.check_plan_heading(lambda p, w, y: problems.append((p, w, y)))
     assert problems and "no checklist items" in problems[0][1]
@@ -267,3 +267,80 @@ def test_the_two_kinds_of_gap_are_distinguished(graph):
             unusable.append(r["id"])
     assert holes and unusable, "both categories should be populated in the current state"
     assert not set(holes) & set(unusable), "a requirement cannot be in both categories"
+
+
+# ───────────────────────── the plan move (§1) ─────────────────────────
+
+def test_plan_render_round_trips(graph):
+    """The generated plan reproduces every stored block exactly.
+
+    Only `marker` is a field; everything else is verbatim. The extractor refuses to write unless the
+    render matches the source byte for byte, and this keeps that true as the graph is edited.
+    """
+    plan = graph.get("plan") or {}
+    assert plan.get("blocks"), "graph/plan.json carries no blocks"
+    body = sc.render_plan_body(plan)
+    for b in plan["blocks"]:
+        if b["kind"] == "raw":
+            assert b["text"] in body
+        elif b["kind"] == "item":
+            assert f"- **`[{b['marker']}]`{b['text']}" in body
+
+
+def test_plan_item_count_and_markers_are_unchanged(graph):
+    """The migration gate. A different count is a failed move, not a new plan."""
+    items = [b for b in (graph.get("plan") or {}).get("blocks", []) if b["kind"] == "item"]
+    from collections import Counter
+    assert len(items) == 38, f"expected 38 plan items, found {len(items)}"
+    assert dict(Counter(b["marker"] for b in items)) == \
+        {"x": 17, "~": 3, " ": 15, "–": 1, "!": 2}
+
+
+def test_the_skipped_marker_is_an_en_dash(graph):
+    """U+2013, not an ASCII hyphen.
+
+    Matching only `-` reclassifies every skipped item as pending and fills the board with work
+    nobody owes. There is exactly one such item and this pins it.
+    """
+    items = [b for b in (graph.get("plan") or {}).get("blocks", []) if b["kind"] == "item"]
+    skipped = [b for b in items if b["marker"] not in " x~!"]
+    assert len(skipped) == 1
+    assert ord(skipped[0]["marker"]) == 0x2013, f"got U+{ord(skipped[0]['marker']):04X}"
+
+
+def test_plan_and_spine_notations_share_one_file():
+    """pinned-figures `strategy_spine_cum` is a WITHIN-FILE subset check.
+
+    `Cum. ~$N` (the plan) and `Cum ~$N` (the spine) differ deliberately, and separating them across
+    files fails that check as "pattern found nothing" — which reads like a broken regex rather than
+    a broken move. This is why the two sections had to travel together.
+    """
+    import re
+    view = open(os.path.join(SYS, "views", "plan.md"), encoding="utf-8").read()
+    plan_cum = re.findall(r"Cum\. ~\$([0-9]+)", view)
+    spine_cum = re.findall(r"Cum ~\$([0-9]+)", view)
+    assert plan_cum and spine_cum, "both notations must be present in the one generated file"
+    assert set(spine_cum) <= set(plan_cum), \
+        f"spine values not a subset of the plan's: {sorted(set(spine_cum) - set(plan_cum))}"
+
+
+def test_work_ledger_reads_the_generated_plan():
+    """The parser follows the plan. A parser left watching the old location goes green on a file
+    that no longer holds what it parses — the exact failure parser_guard exists to prevent."""
+    sys.path.insert(0, os.path.join(REPO, "research", "modalities"))
+    import work_ledger as wl
+    assert wl.DEFAULT_PLAN_DOC.endswith(os.path.join("systems", "views", "plan.md"))
+    assert wl.DEFAULT_STRATEGY == wl.DEFAULT_PLAN_DOC
+    text = open(wl.DEFAULT_PLAN_DOC, encoding="utf-8").read()
+    got, how = wl.scan_plan_items(text, None)
+    assert not how.startswith("NOT SCANNED"), how
+    assert len(got) == 20, f"expected 20 owed items, got {len(got)}"
+
+
+def test_the_plan_is_linted_wherever_it_lives():
+    """Moving the plan dropped lint_claims from 50 warnings to 43 because ~1,580 lines of gate
+    language left the linted set silently. A linter whose scope shrinks while its pass rate improves
+    is the worst possible signal."""
+    problems = []
+    pg.check_paths(lambda p, w, y: problems.append((p, w)))
+    assert not [p for p in problems if "not a lint_claims target" in p[1]]

@@ -113,9 +113,10 @@ Ordered by value per unit of effort. Each names what it would prevent.
 5. **Check `last_verified` against the file's last content change.** A document edited without its
    `last_verified` moving is a document whose freshness claim is stale — detectable by comparing the
    declared date against the git log for that path.
-6. **Extend the roadmap agreement check to the ordered plan and the spend ladder.** The requirement register
-   now cannot diverge from its narrative home. The same technique applies to the two remaining structured
-   sections, and applying it is the prerequisite for moving them safely.
+6. ~~**Extend the roadmap agreement check to the ordered plan and the spend ladder.**~~ *(done
+   2026-08-05, and differently.)* Both moved out of the roadmap entirely rather than being mirrored, so
+   `check_views` covers them — there is no second copy to diverge from. The requirement register still
+   uses the agreement-check pattern because its narrative half stays in the roadmap; the plan's did not.
 7. **Retire the compatibility projection.** `emc-systems-map.json` is read by eleven consumers and is
    currently hand-maintained alongside the graph, policed by a divergence check. Making it a generated
    projection removes the duplication the check exists to survive.
@@ -132,3 +133,5 @@ Ordered by value per unit of effort. Each names what it would prevent.
 | a blocker's `kind` | record the previous kind and why it moved — a reclassification changes what the program watches for |
 | a document's content | update its `last_verified` |
 | a route's state | nothing else — the family counts, blocker fan-outs and technology fan-outs are all derived |
+| **a plan item's tick** | edit `marker` in `systems/graph/plan.json`, then `--write-views`. ⛔ Never edit `views/plan.md`; it is generated and a hand-edit fails the build |
+| **where a parsed document lives** | repoint the parser AND check it is still LINTED. Moving the plan dropped `lint_claims` from 50 warnings to 43 because ~1,580 lines left the linted set silently — `parser_guard` now asserts the coupling |

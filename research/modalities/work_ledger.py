@@ -221,7 +221,11 @@ DEFAULT_LEDGER = os.path.join(HERE, "work-ledger.json")
 #: `nr4a3-program-map.md`, which is now the single document the program is steered by. STRATEGY.md keeps only
 #: Appendix A and Appendix B. Pointing this at the old path is the silent failure `scan_plan_items` exists to
 #: shout about: the scanner would report NOT SCANNED and the whole plan layer would vanish from the board.
-DEFAULT_PLAN_DOC = os.path.join(HERE, "..", "manuscripts", "nr4a3-program-map.md")
+#: ⭐ MOVED 2026-08-05. THE ORDERED PLAN was lifted out of the roadmap into the systems model; its one
+#: home is systems/graph/plan.json and this is the generated view of it. The heading string and the
+#: bullet format are preserved VERBATIM by the renderer, so nothing below had to change but the path.
+#: ⚠ Ticking an item now happens in the JSON — a hand-edit to the view fails the build.
+DEFAULT_PLAN_DOC = os.path.join(HERE, "..", "..", "systems", "views", "plan.md")
 DEFAULT_STRATEGY = DEFAULT_PLAN_DOC                # backwards-compatible alias; do not add a second path
 #: The MACHINE MIRROR of the ORDERED PLAN. It carries `id`, `status` and `depends_on`, so
 #: the "is this rung blocked" question is answerable exactly, against a real graph, with no name matching.
@@ -631,8 +635,12 @@ def scan_plan_items(strategy_text: str | None, err: str | None) -> tuple[list[En
                 "entry is recorded UNOWNED and stays on the board until its marker reaches `[x]` — the "
                 "ledger does not invent a dispatch it cannot justify.")
         out.append(e)
-    return out, (f"scanned nr4a3-program-map.md lines {start + 1}-{end} for `[ ]`/`[~]`/`[!]` items; "
-                 f"`[x]` and `[–]` are not owed and are skipped")
+    # ⚠ Name the file that was ACTUALLY scanned, not a remembered one. This line said
+    # "nr4a3-program-map.md" for a day after the plan moved to the systems model, so the readout
+    # asserted a provenance it no longer had -- the same defect class as a populated field that was
+    # never measured, in the one sentence a reader uses to check what was read.
+    return out, (f"scanned {os.path.basename(DEFAULT_PLAN_DOC)} lines {start + 1}-{end} for "
+                 f"`[ ]`/`[~]`/`[!]` items; `[x]` and `[–]` are not owed and are skipped")
 
 
 def _plain(s: str) -> str:
