@@ -115,6 +115,17 @@ def main():
         return {"n": int(len(vals)), "mean_log2tpm": round(float(vals.mean()), 2),
                 "frac_expressed": round(float((vals >= EXPRESSED).mean()), 2)}
 
+    # ⛔ 2026-08-05 — READ `myxoid` WITH CARE. The substring 'myxoid' matches the Oncotree label
+    # 'Extraskeletal Myxoid Chondrosarcoma', so in DepMap 24Q4 this group is ONE line, ACH-001519 /
+    # H-EMC-SS, and NOT myxoid liposarcoma as the downstream memos originally assumed. That line's
+    # identity is DISPUTED: Cellosaurus CVCL_1238 records "Caution: Does not harbor a gene fusion
+    # involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129)",
+    # and DepMap's filtered fusion caller names no FET gene for it (emc-atr-vulnerability.json ->
+    # part_a_hemcss_identity). So `myxoid` here is neither liposarcoma nor usable EMC -- it is one
+    # sarcoma line of disputed identity, and NO subtype read off it is EMC evidence.
+    # Correction home: research/manuscripts/emc-surface-target-landscape.md (Amendment 1).
+    # ⚠ ALWAYS CHECK `n` BEFORE QUOTING A SUBTYPE NUMBER FROM THIS TABLE. Every one of these groups
+    # can be a single line, and a subtype mean of n=1 reads exactly like a subtype mean of n=20.
     subtypes = ["ewing", "synovial", "myxoid", "alveolar", "rhabdo", "lipo"]
     surface_and_cta = GENE_GROUPS["surface targets (ADC/CAR/bispecific)"] + \
         GENE_GROUPS["cancer-testis antigens (TCR-T/ImmTAC)"]

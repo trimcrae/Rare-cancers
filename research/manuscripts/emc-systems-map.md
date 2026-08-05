@@ -13,7 +13,7 @@
 - One grade applied to two different routes: the covalent probe at C397 and a monovalent reversible pocket modulator fail on OPPOSITE blockers and must never share a row or a demotion.
 - A number quoted from an artifact that is a STUB on the branch a reader would open: emc-fet-idr-census.json is a 161-byte 'cannot compute' placeholder on `main` while emc-post-degrader-options.md on `main` prints a full results table out of it.
 
-**Registry contents:** 40 routes · 18 objects · 13 evidence items · 30 instruments · 11 artifacts · 14 claims · 16 blockers · 3 open conflicts.
+**Registry contents:** 40 routes · 19 objects · 13 evidence items · 30 instruments · 11 artifacts · 14 claims · 16 blockers · 3 open conflicts.
 
 ---
 
@@ -252,6 +252,7 @@ Each fusion type is a **separate object**. The modelled construct that is not a 
 | **NR4A3 C397** (`OBJ-RES-C397`) | residue | — | NR4A3 cysteine 397 | — |
 | **NR4A3 C166** (`OBJ-RES-C166`) | residue | — | NR4A3 cysteine 166 — present in the fusion under every plausible breakpoint, absent from every structure in this program | — |
 | **NR4A1 C551** (`OBJ-RES-NR4A1-C551`) | residue | — | NR4A1 cysteine 551 — the one NR4A-family covalent site with literature support | — |
+| **ACH-001519 / H-EMC-SS** (`OBJ-LINE-HEMCSS`) | identity_disputed | — | — | — |
 
 ### 5a · ⚠ Contested names — a name that maps to more than one object
 
@@ -261,6 +262,58 @@ A name on this list may **not** appear in any object's aliases. That is enforced
 |---|---|---|
 | **the canonical EMC fusion** | `OBJ-FUS-T1`, `OBJ-MODEL-E7E3` | `OC-2` — Live text in several files uses this phrase for the MODELLED e7::e3 construct; the 2026-08-03 correction assigns 'canonical' to reported type 1 (e12::e3). Both readings are currently in the repo, so the name is registered as CONTESTED rather than as an alias of either object. Per the invariant a contested name may not appear in any object's `aliases`. |
 | **EMC's canonical fusion** | `OBJ-FUS-T1`, `OBJ-MODEL-E7E3` | `OC-2` — Same ambiguity, different wording; both forms are in live text. |
+
+### 5b · ⛔ Disputed identity — a model whose label the curated record contradicts
+
+A claim is only as good as the provenance of the thing it was read off. An entry here means the repository was, or could be, reading biology off a reagent whose identity the public record does not support. **Every file naming one of these is classified below, and a tracked file that names one without being classified fails the build (`O4`).**
+
+#### ACH-001519 / H-EMC-SS (`OBJ-LINE-HEMCSS`) — verdict `NOT_FUSION_POSITIVE_PER_CURATED_RECORD`
+
+- **Labelled as:** Extraskeletal Myxoid Chondrosarcoma (DepMap OncotreeSubtype)
+- **Verdict lives in:** `ART-ATR-VULNERABILITY` → `/part_a_hemcss_identity/verdict` (this registry points at it and does not restate it)
+- **Curated record, verbatim:** *"Caution: Does not harbor a gene fusion involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129)."*
+- Cellosaurus CVCL_1238 curated CAUTION, verbatim above, citing a primary source.
+- DepMap OmicsFusionFiltered.csv 24Q4: the model IS in the file (1,670 models) with 2 filtered calls -- AL158209.1--NEBL and VIM--RPS25 -- and NEITHER names NR4A3, EWSR1, TAF15 or FUS. The model being present is what makes this a reading of absence rather than an absent reading.
+- DepMap expression: NR4A3 at 0.941 log2(TPM+1), 83rd percentile of 1,673 lines but against a panel median of 0.214. A fusion transcript carries the NR4A3 body under EWSR1's promoter and would read far higher. WEAK CORROBORATION ONLY -- expression alone can neither prove nor exclude a fusion.
+- ⚠ **What this CANNOT settle:** Cell-line identity is settled by STR authentication against the donor and by RT-PCR for the fusion. Neither is in public data at the resolution needed and neither is something this programme can perform -- it has no bench. So this does NOT establish what the line is instead, that the original characterisation was wrong, or that the line is not EMC: a line can be misidentified, can drift in culture, or can be a genuine fusion-negative tumour of the same histology. What IS established is that the PUBLIC RECORD does not support the label this repository was applying.
+- **Correction home:** [`emc-surface-target-landscape.md`](emc-surface-target-landscape.md) (marker `Amendment 1`)
+- **May NOT ground:** any claim of the form 'EMC expresses X' / 'EMC's surface phenotype is Y'; any EMC-specific dependency, sensitivity or biomarker reading; any corroboration of EMC's neuroendocrine differentiation; the description of this repository as having a real EMC cell line in public data
+
+| file | how it uses the model | classification |
+|---|---|---|
+| [`IDEAS.md`](../IDEAS.md) | the 2026-07-03 'DepMap DOES contain one EMC line' correction, and the surface-paper headline | ⛔ **invalidated** |
+| [`README.md`](README.md) | manuscripts index entry for the surface-target preprint | ⛔ **invalidated** |
+| [`emc-post-degrader-options.md`](emc-post-degrader-options.md) | route 1's $0 CRISPR-availability finding (unaffected); route 1's EMC-model list for the ATRi ask; route 6's D axis, whose only computable component was a PPARG read off this model | ⛔ **invalidated** |
+| [`emc-surface-target-landscape.md`](emc-surface-target-landscape.md) | PREPRINT. Title/abstract framing, §2.2 class definition, §3.1 + Table 1, §3.5, §6, §7 | ⛔ **invalidated** |
+| [`emc-surface-target-outreach.md`](emc-surface-target-outreach.md) | OUTWARD-FACING draft emails: 'the one EMC line in public data'; pre-send checklist | ⛔ **invalidated** |
+| [`emc-surface-target-redteam.md`](emc-surface-target-redteam.md) | the 'reframing discovery' that introduced the EMC label into the preprint; finding M8 | ⛔ **invalidated** |
+| [`depmap-insilico-findings.md`](../modalities/depmap-insilico-findings.md) | Findings 2 and 3 read the `myxoid` subtype column, which is this line at n=1. Finding 3 infers 'EMC is a myxoid-class tumour, so [PRAME 7.6] is the most promising antigen-directed signal' | ⛔ **invalidated** |
+| [`depmap-target-expression.json`](../modalities/depmap-target-expression.json) | the artifact: `/surface_and_cta_by_subtype/*/myxoid`, every entry n=1 | ⛔ **invalidated** |
+| [`depmap_target_expression.py`](../modalities/depmap_target_expression.py) | produces the `myxoid` column: `subtypes = [... 'myxoid' ...]` is a substring match on the Oncotree label, and 'Extraskeletal Myxoid Chondrosarcoma' contains it | ⛔ **invalidated** |
+| [`emc-surfaceome-scan.json`](../modalities/emc-surfaceome-scan.json) | committed artifact carrying `myxoid_mean` / `emc_line_top_surface` and their captions | ⛔ **invalidated** |
+| [`emc_surfaceome_scan.py`](../modalities/emc_surfaceome_scan.py) | produces `myxoid_mean` and `emc_line_top_surface` from this model | ⛔ **invalidated** |
+| [`emc-treatment-roadmap.md`](emc-treatment-roadmap.md) | quotes the myxoid PRAME 7.6, B7-H3 4.4 and CD56 ~0 as 'myxoid liposarcoma' subtype reads | ⚠ survives, re-labelled |
+| [`emc-treatment-strategy.md`](emc-treatment-strategy.md) | the tracker summary: 'PRAME ... high in myxoid (7.6)/synovial (7.2)'; B7-H3 'incl. myxoid' | ⚠ survives, re-labelled |
+| [`nr4a3-degrader-paper-SI.md`](nr4a3-degrader-paper-SI.md) | named as an example EMC model in the 'no LOF experiment exists' statement | ⚠ survives, re-labelled |
+| [`nr4a3-emc-biology-evidence.md`](nr4a3-emc-biology-evidence.md) | 'no LOF experiment in any EMC cell line (e.g. H-EMC-SS)' -- a literature-absence claim | ⚠ survives, re-labelled |
+| [`nr4a3-program-map.md`](nr4a3-program-map.md) | Q14 in the open-question queue | ⚠ survives, re-labelled |
+| [`target-route-options.md`](target-route-options.md) | route 9's park condition and queue item 7 -- 're-query DepMap for CRISPR data' | ⚠ survives, re-labelled |
+| [`what-a-civilian-can-buy.md`](what-a-civilian-can-buy.md) | the JCRB repository row -- the line is named as what JCRB holds | ⚠ survives, re-labelled |
+| [`emc-atri-prereg.md`](../modalities/emc-atri-prereg.md) | §3 names H-EMC-SS among candidate EMC models for the ATRi ask | ⚠ survives, re-labelled |
+| [`emc-atr-vulnerability-assessment.md`](emc-atr-vulnerability-assessment.md) | PART A -- the assessment that established the verdict, and its repo-wide use inventory | ✅ unaffected — It is the document that ESTABLISHED the verdict; it asserts no EMC reading from the line. |
+| [`emc-systems-map.json`](emc-systems-map.json) | this registry: two revival triggers name the line, plus this object | ✅ unaffected — TRG-EMC-MODEL-ACCESS already required an 'authenticated H-EMC-SS' before the verdict existed, and TRG-EMC-EXPRESSION-DATASET asks for data BEYOND this model. Neither asserts an EMC reading from it. |
+| [`emc-systems-map.md`](emc-systems-map.md) | the generated view of this registry | ✅ unaffected — Generated from the registry; never hand-edited. |
+| [`emc_systems_map_check.py`](emc_systems_map_check.py) | the O3/O4 guard itself -- its docstring names the model as the failure it comes from | ✅ unaffected — It is the guard. Naming the model in the guard that classifies uses of the model is not a use of the model; excluding it by name would instead be a silent hole in the sweep. |
+| [`test_emc_systems_map_check.py`](tests/test_emc_systems_map_check.py) | the negative tests for O3/O4 -- they mutate this object's entry into the broken shapes | ✅ unaffected — Test fixtures asserting the guard fails when it should; they assert nothing about EMC. |
+| [`depmap-sarcoma-dependency.json`](../modalities/depmap-sarcoma-dependency.json) | `/BRD9_by_fusion_sarcoma_subtype/Myxoid_liposarcoma` | ✅ unaffected — The field is `null` -- an empty group. It grounds nothing. |
+| [`depmap_sarcoma_dependency.py`](../modalities/depmap_sarcoma_dependency.py) | its `Myxoid_liposarcoma` BRD9 comparator group is a substring match that would select this line | ✅ unaffected — The group is EMPTY -- the model has no CRISPR gene-effect data, so the committed artifact reads `"Myxoid_liposarcoma": null` and no dependency figure rests on it. Verified against the artifact, not assumed. The GROUP NAME is wrong and is corrected in place. |
+| [`emc-atr-vulnerability-inputs.json`](../modalities/emc-atr-vulnerability-inputs.json) | the raw inputs behind `part_a_hemcss_identity` | ✅ unaffected — Raw inputs to the verdict, not a claim about EMC. |
+| [`emc-atr-vulnerability.json`](../modalities/emc-atr-vulnerability.json) | `part_a_hemcss_identity` -- the artifact that owns the verdict | ✅ unaffected — It is the verdict's one home. |
+| [`emc_atr_vulnerability.py`](../modalities/emc_atr_vulnerability.py) | the module that computes `part_a_hemcss_identity` | ✅ unaffected — It is the instrument that produced the verdict. |
+| [`fet-ddr-axis-scan.json`](../modalities/fet-ddr-axis-scan.json) | the `/emc_line` block recording that the model has no CRISPR data | ✅ unaffected — A record of an absence of data about the model. It grounds no EMC claim, and the EMC group it would have joined is empty (`n_with_crispr: 0`). |
+| [`fet_ddr_axis_scan.py`](../modalities/fet_ddr_axis_scan.py) | asks whether the model has CRISPR gene-effect data; defines EMC_MODEL_ID | ✅ unaffected — It reports DATA AVAILABILITY, and the answer was 'no CRISPR data' (`/emc_line/has_crispr_gene_effect: false`). Because `fet_ids` intersects with the CRISPR index the model was never in the FET group (`grouping.FET_rearranged.EMC.n_with_crispr: 0`), and it is absent from the fusion-call grouping too because neither of its 2 calls names a FET gene. So NO dependency, sensitivity or contrast number in this module rests on it. Verified, not assumed. |
+
+> ⛔ Registered 2026-08-05 after the repo spent a month treating this as 'the one real EMC line in DepMap'. The `[to verify]` flag on its fusion status was written honestly and carried faithfully in four places -- carrying a flag is not resolving one, and the resolving observation was one free API call available the whole time. ⚠ A ROUTE GRADE INPUT MOVED AND IS NOT RE-GRADED HERE: route 6 (RT-TRABECTEDIN-PPARG) in emc-post-degrader-options.md had a D axis whose only computable component was a PPARG-axis read off this model. Re-grading is a separate call and belongs to that memo's owner.
 
 ## 6 · Evidence — keyed by a canonical identifier, with every name it travels under
 

@@ -1110,7 +1110,7 @@
           "file": "research/manuscripts/nr4a3-emc-biology-evidence.md",
           "use": "'no LOF experiment in any EMC cell line (e.g. H-EMC-SS)' -- a literature-absence claim",
           "classification": "survives_relabelled",
-          "correction_marker": "a line the curated record does not support as fusion-positive"
+          "correction_marker": "the curated\nrecord does not support as fusion-positive"
         },
         {
           "file": "research/modalities/emc_surfaceome_scan.py",
@@ -1161,8 +1161,7 @@
           "file": "research/modalities/emc-atr-vulnerability-inputs.json",
           "use": "the raw inputs behind `part_a_hemcss_identity`",
           "classification": "unaffected",
-          "why_unaffected": "Raw inputs to the verdict, not a claim about EMC.",
-          "correction_marker": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
+          "why_unaffected": "Raw inputs to the verdict, not a claim about EMC."
         },
         {
           "file": "research/modalities/emc_atr_vulnerability.py",
@@ -1175,8 +1174,7 @@
           "file": "research/manuscripts/nr4a3-degrader-paper-SI.md",
           "use": "named as an example EMC model in the 'no LOF experiment exists' statement",
           "classification": "survives_relabelled",
-          "why_unaffected": null,
-          "correction_marker": "USZ20-EMC1 /\nNCC-EMC1-C1"
+          "correction_marker": "USZ20-EMC1 /"
         },
         {
           "file": "research/manuscripts/emc-systems-map.json",
@@ -1191,6 +1189,73 @@
           "classification": "unaffected",
           "why_unaffected": "Generated from the registry; never hand-edited.",
           "correction_marker": "identity_disputed"
+        },
+        {
+          "file": "research/manuscripts/emc_systems_map_check.py",
+          "use": "the O3/O4 guard itself -- its docstring names the model as the failure it comes from",
+          "classification": "unaffected",
+          "why_unaffected": "It is the guard. Naming the model in the guard that classifies uses of the model is not a use of the model; excluding it by name would instead be a silent hole in the sweep."
+        },
+        {
+          "file": "research/manuscripts/tests/test_emc_systems_map_check.py",
+          "use": "the negative tests for O3/O4 -- they mutate this object's entry into the broken shapes",
+          "classification": "unaffected",
+          "why_unaffected": "Test fixtures asserting the guard fails when it should; they assert nothing about EMC."
+        },
+        {
+          "file": "research/modalities/depmap-insilico-findings.md",
+          "use": "Findings 2 and 3 read the `myxoid` subtype column, which is this line at n=1. Finding 3 infers 'EMC is a myxoid-class tumour, so [PRAME 7.6] is the most promising antigen-directed signal'",
+          "classification": "invalidated",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string.",
+          "correction_marker": "every `myxoid` number below is **one cell line, and that line's identity is disputed**"
+        },
+        {
+          "file": "research/modalities/depmap-target-expression.json",
+          "use": "the artifact: `/surface_and_cta_by_subtype/*/myxoid`, every entry n=1",
+          "classification": "invalidated",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string."
+        },
+        {
+          "file": "research/modalities/depmap_target_expression.py",
+          "use": "produces the `myxoid` column: `subtypes = [... 'myxoid' ...]` is a substring match on the Oncotree label, and 'Extraskeletal Myxoid Chondrosarcoma' contains it",
+          "classification": "invalidated",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string."
+        },
+        {
+          "file": "research/manuscripts/emc-treatment-roadmap.md",
+          "use": "quotes the myxoid PRAME 7.6, B7-H3 4.4 and CD56 ~0 as 'myxoid liposarcoma' subtype reads",
+          "classification": "survives_relabelled",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string.",
+          "correction_marker": "RIGHT for the WRONG REASON"
+        },
+        {
+          "file": "research/manuscripts/emc-treatment-strategy.md",
+          "use": "the tracker summary: 'PRAME ... high in myxoid (7.6)/synovial (7.2)'; B7-H3 'incl. myxoid'",
+          "classification": "survives_relabelled",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string.",
+          "correction_marker": "the subtype half of this bullet is withdrawn"
+        },
+        {
+          "file": "research/modalities/depmap_sarcoma_dependency.py",
+          "use": "its `Myxoid_liposarcoma` BRD9 comparator group is a substring match that would select this line",
+          "classification": "unaffected",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE -- the file names no model ID. `\"Myxoid_liposarcoma\": \"myxoid\"` is a substring match on the Oncotree label, which in DepMap 24Q4 matches 'Extraskeletal Myxoid Chondrosarcoma' (this line) and no liposarcoma line.",
+          "why_unaffected": "The group is EMPTY -- the model has no CRISPR gene-effect data, so the committed artifact reads `\"Myxoid_liposarcoma\": null` and no dependency figure rests on it. Verified against the artifact, not assumed. The GROUP NAME is wrong and is corrected in place.",
+          "correction_marker": "THE NAME IS WRONG, THOUGH NO NUMBER RESTS ON IT"
+        },
+        {
+          "file": "research/modalities/depmap-sarcoma-dependency.json",
+          "use": "`/BRD9_by_fusion_sarcoma_subtype/Myxoid_liposarcoma`",
+          "classification": "unaffected",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE -- the file names no model ID. `\"Myxoid_liposarcoma\": \"myxoid\"` is a substring match on the Oncotree label, which in DepMap 24Q4 matches 'Extraskeletal Myxoid Chondrosarcoma' (this line) and no liposarcoma line.",
+          "why_unaffected": "The field is `null` -- an empty group. It grounds nothing."
         }
       ],
       "distinct_from": [
@@ -1199,7 +1264,8 @@
           "why": "the object registry's fusion entries are REPORTED EMC fusions with exon-level definitions and primary-literature provenance; this line is a reagent whose carriage of any such fusion the curated record contradicts. Reading a fusion property off this line is exactly the confusion this entry exists to stop"
         }
       ],
-      "notes": "⛔ Registered 2026-08-05 after the repo spent a month treating this as 'the one real EMC line in DepMap'. The `[to verify]` flag on its fusion status was written honestly and carried faithfully in four places -- carrying a flag is not resolving one, and the resolving observation was one free API call available the whole time. ⚠ A ROUTE GRADE INPUT MOVED AND IS NOT RE-GRADED HERE: route 6 (RT-TRABECTEDIN-PPARG) in emc-post-degrader-options.md had a D axis whose only computable component was a PPARG-axis read off this model. Re-grading is a separate call and belongs to that memo's owner."
+      "notes": "⛔ Registered 2026-08-05 after the repo spent a month treating this as 'the one real EMC line in DepMap'. The `[to verify]` flag on its fusion status was written honestly and carried faithfully in four places -- carrying a flag is not resolving one, and the resolving observation was one free API call available the whole time. ⚠ A ROUTE GRADE INPUT MOVED AND IS NOT RE-GRADED HERE: route 6 (RT-TRABECTEDIN-PPARG) in emc-post-degrader-options.md had a D axis whose only computable component was a PPARG-axis read off this model. Re-grading is a separate call and belongs to that memo's owner.",
+      "_sweep_limit": "⚠ THE O4 SWEEP IS NAME-BASED AND THEREFORE INCOMPLETE, AND THAT IS MEASURED, NOT SUSPECTED. Five of the uses above name no alias of this line at all -- they read a `myxoid` subtype column that IS this line at n=1, under the older and also-wrong belief that it was myxoid liposarcoma. They were found by matching DATA VALUES across artifacts, which no string sweep can do. So O4 catches a NEW use that names the model; it cannot catch a use that reads it through a grouping. Any future subtype/grouping read has to be checked against `n` and the per-line values, not against the label."
     }
   ],
   "contested_names": [

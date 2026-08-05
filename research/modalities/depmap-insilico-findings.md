@@ -1,5 +1,44 @@
 # DepMap in-silico findings for EMC candidates (no-wet-lab evidence)
 
+> ## ⛔ AMENDMENT (2026-08-05) — every `myxoid` number below is **one cell line, and that line's identity is disputed**
+>
+> **This file's `myxoid` column is `n = 1`, and the line is `ACH-001519` / H-EMC-SS** — established
+> here by exact value match, since neither this file nor
+> [`depmap-target-expression.json`](./depmap-target-expression.json) names a model ID: **CD276 4.44,
+> NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19** are byte-identical to that
+> line's `myxoid_mean_log2tpm` in [`emc-surfaceome-scan.json`](./emc-surfaceome-scan.json), across
+> seven genes. ⭑ **This use was invisible to a name-based search** — the file predates the line's
+> discovery and calls the group "myxoid *liposarcoma*" — so it was found by matching the data, not
+> the string.
+>
+> **And that line is not usable as EMC evidence.** Cellosaurus `CVCL_1238` records, citing a primary
+> source: *"Caution: Does not harbor a gene fusion involving EWSR1 which is a hallmark of
+> extraskeletal myxoid chondrosarcoma (PubMed=34413129)."* DepMap's own filtered fusion caller
+> returns 2 calls for the model and neither names NR4A3 or any FET gene
+> ([`emc-atr-vulnerability.json`](./emc-atr-vulnerability.json) → `part_a_hemcss_identity`; full
+> correction: [`emc-surface-target-landscape.md` → Amendment 1](../manuscripts/emc-surface-target-landscape.md)).
+> ⚠ It does **not** establish what the line is instead — that needs STR authentication + RT-PCR,
+> which this programme cannot perform.
+>
+> **So the `myxoid` label in this file is wrong twice over** — it is not myxoid liposarcoma (that
+> was the belief when this was written), and it is not usable EMC either. Read it as **one sarcoma
+> line of disputed identity**.
+>
+> | claim in this file | status |
+> |---|---|
+> | Finding 3: *"PRAME … HIGH in myxoid (7.6) … **EMC is a myxoid-class tumour, so this is the most promising antigen-directed signal**"* and the tracker update *"best antigen-directed option **for a myxoid-class tumour**"* | ⛔ **INVALIDATED as an EMC-proximal read.** The 7.6 is one line of disputed identity. ⭑ Note [`../manuscripts/emc-treatment-roadmap.md`](../manuscripts/emc-treatment-roadmap.md) already **refused** to treat the 7.6 as EMC-proximal — right conclusion, wrong reason (it thought the line was liposarcoma) |
+> | Finding 3: **PRAME ≫ MAGE-A4 / NY-ESO-1** (53 % vs 7 % / 5 %) | ✅ **SURVIVES.** A *relative* claim across all sarcoma lines; the disputed line is one of them and cannot move it. This is the defensible form of the PRAME lead |
+> | Finding 2: **B7-H3 near-universal (99 %, mean 5.73)** | ✅ **SURVIVES.** Rests on the whole panel; `myxoid 4.4` is one of six subtype numbers and is the *lowest* of them |
+> | Finding 2: *"NCAM1/CD56 … **myxoid-subtype ≈ 0** (myxoid *liposarcoma* is not NE)"* → CD56 stays plausible-but-unconfirmed | ⚠ **CONCLUSION SURVIVES, REASONING RE-LABELLED.** The parenthetical is wrong; the 0.03 is one line of disputed identity, so it was never evidence about EMC either way. "Unconfirmed" was and remains right |
+> | Finding 1 (fusion addiction by FLI1-in-Ewing analogy) and the CTA-silencing / stromal-FAP caveats | ✅ **UNAFFECTED.** No `myxoid` value enters them |
+> | The banner *"EMC has no DepMap line"* and *"no EMC line exists in DepMap"* | ✅ **CORRECT AGAIN**, by accident. It was believed false between 2026-07-03 and 2026-08-05 |
+>
+> ⚠ **Nothing below is rewritten** — the original text stays quotable, per CLAUDE.md §1.2.
+> **A route's grade input moved and is NOT re-graded here:** `RT-PRAME-IMMTAC` is graded *"NEW
+> antigen-directed lead — best of the CTAs"* in [`../IDEAS.md`](../IDEAS.md), and Finding 3 is its
+> in-silico support. The *relative* half of that support survives; the myxoid-proximity half does
+> not. Re-grading is a separate call.
+
 **What.** Results of the in-silico work program's first executable arm — mining public DepMap 24Q4
 across **sarcoma lines as an EMC surrogate** (EMC has no DepMap line). Two analyses:
 `depmap_target_expression.py` (expression of candidate targets) and the `fusion_addiction_proxy`

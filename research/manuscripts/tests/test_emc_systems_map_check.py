@@ -257,6 +257,120 @@ def test_instrument_limit_is_the_biggest_bucket_and_is_revivable(m):
     assert all(i.get("revival_trigger") for i in limited)
 
 
+# --- failure 5: a claim whose provenance is a model whose identity is disputed -----------------
+#
+# The 2026-08-05 failure. DepMap ACH-001519 / H-EMC-SS was called "the one real EMC line in DepMap"
+# across a preprint, an outreach draft, an index and two memos, while an honest `[to verify]` on its
+# fusion status sat in four of them -- and Cellosaurus already recorded, citing a primary source,
+# that the line does not harbor an EWSR1 fusion. In prose a CARRIED flag and a CLEARED flag read
+# identically, which is why this needs a check and not a convention.
+
+
+def disputed(mapping):
+    return next(o for o in mapping["objects"] if o.get("status") == "identity_disputed")
+
+
+def test_the_registry_actually_has_a_disputed_object(m):
+    """If this ever fails, O3/O4 are running over nothing and every other test below is vacuous."""
+    o = disputed(m)
+    assert o["id"] == "OBJ-LINE-HEMCSS"
+    assert o["identity"]["verdict"] == "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
+    assert o["read_by"], "a disputed object with no registered uses classifies nothing"
+
+
+def test_a_disputed_object_with_no_stated_limit_fails(m):
+    """⚠ THE ANTI-OVERCORRECTION HALF. A curated caution plus a fusion-caller miss is strong and is
+    NOT an STR-authenticated identity test. An entry that cannot state its own limit invites the
+    opposite error -- asserting the line is not EMC, which the evidence does not support."""
+    disputed(m)["identity"].pop("what_this_cannot_settle")
+    assert "O3" in codes(m)
+
+
+def test_a_disputed_object_whose_verdict_does_not_match_its_artifact_fails(m):
+    """The registry must POINT at the verdict, not restate it (CLAUDE.md §1)."""
+    disputed(m)["identity"]["verdict"] = "TOTALLY_FINE_ACTUALLY"
+    assert "O3" in codes(m)
+
+
+def test_a_disputed_object_whose_verdict_field_does_not_resolve_fails(m):
+    disputed(m)["identity"]["verdict_field"] = "/part_a_hemcss_identity/no_such_field"
+    assert "O3" in codes(m)
+
+
+def test_a_correction_home_that_does_not_carry_its_own_marker_fails(m):
+    disputed(m)["identity"]["correction_marker"] = "an amendment nobody ever wrote 98765"
+    assert "O3" in codes(m)
+
+
+def test_a_file_reading_a_disputed_model_with_no_visible_correction_fails(m):
+    """THE ONE THAT MATTERS: the preprint may not go on using the model silently."""
+    use = next(u for u in disputed(m)["read_by"]
+               if u["file"] == "research/manuscripts/emc-surface-target-landscape.md")
+    use["correction_marker"] = "a correction marker that is not in that file 98765"
+    assert "O3" in codes(m)
+
+
+def test_an_unclassified_use_is_an_error(m):
+    """O4 -- the recurrence guard. Forget a file and the build says so."""
+    o = disputed(m)
+    o["read_by"] = [u for u in o["read_by"]
+                    if u["file"] != "research/manuscripts/emc-surface-target-landscape.md"]
+    assert "O4" in codes(m)
+
+
+def test_an_unclassified_use_of_ANY_alias_is_an_error(m):
+    """Aliases matter: the same line is HEMCSS in one file and CVCL_1238 in another."""
+    o = disputed(m)
+    o["read_by"] = [u for u in o["read_by"]
+                    if u["file"] != "research/manuscripts/emc-surface-target-redteam.md"]
+    assert "O4" in codes(m)
+
+
+def test_a_use_classified_unaffected_without_a_reason_fails(m):
+    """'Unaffected' must be argued, not asserted -- an unexplained exemption is an unanswered
+    question wearing the costume of a classification (CLAUDE.md §4)."""
+    use = next(u for u in disputed(m)["read_by"] if u["classification"] == "unaffected")
+    use.pop("why_unaffected")
+    assert "O3" in codes(m)
+
+
+def test_an_unrecognised_classification_fails(m):
+    """'Some uses survive' is the judgement this registry exists to record, so the three classes
+    are closed. A fourth would let a use be filed without being decided."""
+    disputed(m)["read_by"][0]["classification"] = "probably fine"
+    assert "O3" in codes(m)
+
+
+def test_an_implicit_use_with_no_stated_evidence_fails(m):
+    """⭑ THE HOLE IN THE NAME SWEEP, MADE EXPLICIT. Five files read this model through a `myxoid`
+    SUBTYPE GROUP that is n=1 -- they name no alias, so O4 could never see them, and they were
+    found by matching data values across artifacts. A registry entry asserting such a link must
+    carry the evidence for it, or it is a populated field that is not a measured one."""
+    use = next(u for u in disputed(m)["read_by"]
+               if u.get("provenance") == "implicit_value_match")
+    use.pop("how_established")
+    assert "O3" in codes(m)
+
+
+def test_the_implicit_uses_are_registered_at_all(m):
+    """A guard for the guard: if these entries vanish, the repo has silently gone back to believing
+    a name sweep is complete."""
+    implicit = [u for u in disputed(m)["read_by"]
+                if u.get("provenance") == "implicit_value_match"]
+    assert len(implicit) >= 5
+    assert disputed(m).get("_sweep_limit"), (
+        "the object must state that O4 is name-based and therefore incomplete -- a guard whose "
+        "limit is undocumented reads as a guard with no limit"
+    )
+
+
+def test_all_three_classifications_are_actually_used(m):
+    """Not decoration: a blanket retraction and a blanket exoneration would both be wrong here, and
+    a registry that only ever emits one class is not classifying."""
+    seen = {u["classification"] for u in disputed(m)["read_by"]}
+    assert seen == {"invalidated", "survives_relabelled", "unaffected"}
+
+
 # --- the derived view may not drift from its source -------------------------------------------
 
 def test_the_committed_view_matches_what_the_registry_generates(m):

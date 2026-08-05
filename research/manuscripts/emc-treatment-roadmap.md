@@ -327,22 +327,39 @@ These are not driver-directed, but the framework's job is to grade them honestly
 All expression reads are **pan-sarcoma surrogate priors** (no EMC line; see §2/§6), not EMC facts.
 - **B7-H3 (CD276) — promoted (confirm-gated).** Expressed in **99% of sarcoma lines** (DepMap mean 5.73
   log2(TPM+1)); on top of 97% pan-STS by IHC. Expression is present across subtypes but **not uniformly
-  "high"** — the myxoid-liposarcoma subtype reads 4.4, *below* the panel mean and the lowest of the
-  subtypes measured — so we state it as *near-universal positivity*, not *uniformly high*. This supports
+  "high"** — the single `myxoid`-matched line reads 4.4, *below* the panel mean and the lowest of the
+  subtypes measured — so we state it as *near-universal positivity*, not *uniformly high*. ⭑ **2026-08-05:**
+  that 4.4 is **one line of disputed identity** (see the PRAME entry below), so it is a weak input to a
+  conclusion that rests on the 99 %; the *near-universal* framing is unchanged. *(Superseded, retained:
+  "the myxoid-liposarcoma subtype reads 4.4".)* This supports
   the antibody-drug conjugate ifinatamab deruxtecan, a B7H3×CD3 bispecific, or B7-H3 CAR-T, and supplies
   the internalising handle the §4.2 delivery proposal borrows. *Gate: EMC-tissue B7-H3 IHC.*
 - **PRAME — promoted as best-of-the-CTAs (confirm-gated), with a stated caveat.** Expressed in **53% of
-  sarcoma lines** overall. Its highest subtype reads are in synovial (7.2) and myxoid *liposarcoma*
+  sarcoma lines** overall. Its highest subtype reads are in synovial (7.2) and the single
+  `myxoid`-matched line (7.6) — and we do **not** treat that 7.6 as an EMC-proximal value; the
+  defensible claim is the *relative* one: PRAME ≫ MAGE-A4/NY-ESO-1.
+  ⭑ **2026-08-05 — this refusal was RIGHT for the WRONG REASON, and the right reason is stronger.**
+  The `myxoid` group is `n = 1` and the line is **ACH-001519 / H-EMC-SS**, not a myxoid liposarcoma
+  (established by exact value match across seven genes —
+  [`../modalities/depmap-insilico-findings.md`](../modalities/depmap-insilico-findings.md)
+  amendment). That line is DepMap-labelled EMC, so the original reasoning would have *permitted*
+  treating 7.6 as EMC-proximal. It must still not be: Cellosaurus records the line as not carrying
+  an EWSR1 fusion ([`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md)),
+  so it is one sarcoma line of **disputed identity**. *(Superseded, retained: "myxoid *liposarcoma*
   (7.6) — but because myxoid liposarcoma is **not** EMC (§2), we do **not** treat that 7.6 as an
-  EMC-proximal value; the defensible claim is the *relative* one: PRAME ≫ MAGE-A4/NY-ESO-1. Cell lines
+  EMC-proximal value".)* Cell lines
   also epigenetically silence cancer-testis antigens, so these are **lower bounds**. → the PRAME ImmTAC
   brenetafusp (tumour-agnostic basket) or PRAME-directed cell therapy. *Gate: EMC-tissue PRAME IHC.*
 - **FAP-targeted radioligand therapy — plausible (confirm-gated).** EMC's myxoid stroma is a candidate;
   cell lines under-represent stromal FAP (no CAF compartment), so the modest cell-line FAP does not
   weaken the case; the tracer is also diagnostic. *Gate: EMC FAP-PET avidity.*
 - **CD56/NCAM — left plausible-but-unsupported.** EMC's neuroendocrine phenotype (synaptophysin/INSM1⁺)
-  suggests CD56, but the surrogate disagrees (myxoid-liposarcoma subtype CD56 ≈ 0); we carry it as
-  unconfirmed rather than promote it, and flag the surrogate–phenotype mismatch openly.
+  suggests CD56, but the surrogate does not support it (the single `myxoid`-matched line reads CD56
+  ≈ 0); we carry it as unconfirmed rather than promote it, and flag the surrogate–phenotype
+  mismatch openly. ⭑ **2026-08-05:** that 0 is **one line of disputed identity** (see the PRAME
+  entry above), so it was never evidence about EMC in either direction — **the "unconfirmed"
+  verdict is unchanged and now rests on the phenotype alone.** *(Superseded, retained: "but the
+  surrogate disagrees (myxoid-liposarcoma subtype CD56 ≈ 0)".)*
 
 **Down-weighted with data/logic.**
 - **TCR-T / ImmTAC against NY-ESO-1 or MAGE-A4:** EMC is CTA-low (NY-ESO-1 5%, MAGE-A4 7% of sarcoma
@@ -390,9 +407,15 @@ already done.
 
 ## 8. Limitations
 Nothing here is experimentally validated in EMC. DepMap analyses use **sarcoma lines as a surrogate**
-(no EMC line exists), and the DepMap "myxoid" label is myxoid *liposarcoma* — a tumour EMC is
-distinguished *from* — so expression reads are pan-sarcoma priors, not EMC-proximal values, and we do
-not lean on the myxoid subtype as an EMC stand-in. Cell lines silence cancer-testis antigens (CTA reads
+(no usable EMC line exists) — so expression reads are pan-sarcoma priors, not EMC-proximal values, and
+we do not lean on the myxoid subtype as an EMC stand-in.
+⛔ **2026-08-05 — the REASON in this sentence was wrong and the CONCLUSION was right.** The DepMap
+`myxoid` group is **one line, ACH-001519 / H-EMC-SS**, which DepMap labels *Extraskeletal Myxoid
+Chondrosarcoma* — **not** myxoid liposarcoma. It is still not an EMC stand-in, for a stronger reason:
+Cellosaurus records it as not carrying an EWSR1 fusion
+([`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md)), so it is one
+sarcoma line of **disputed identity**. *(Superseded, retained: "the DepMap "myxoid" label is myxoid
+*liposarcoma* — a tumour EMC is distinguished *from*".)* Cell lines silence cancer-testis antigens (CTA reads
 are lower bounds) and under-represent stromal FAP; AlphaFold yields a single static model (cryptic
 pockets unseen — the MD experiment in §7 is the test of exactly this); predicted MHC binding and docking
 scores are screens, not proof. The fusion-addiction result is a **class-level analogy** (FLI1/Ewing),
