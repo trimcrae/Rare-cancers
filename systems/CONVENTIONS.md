@@ -81,6 +81,32 @@ at ten — which is exactly the kind of near-miss convention that reads as worki
 configuration register on every residue below `C25`, and residue numbers are quoted constantly in the
 covalent work.
 
+### 1.2 · ⚠ A third collision — this one the migration created
+
+The two above were inherited. This one was **introduced by the frontmatter backfill**, and it is recorded
+here rather than quietly fixed, because how it happened is more useful than the fix.
+
+`backfill_frontmatter.slug()` derived a document id from the **basename**. That is unique right up until
+two directories name the same concept differently-scoped — which is normal and good — and then it is not:
+
+| id that was minted | files claiming it | why they are not the same document |
+|---|---|---|
+| `DOC-METHODOLOGY` | `METHODOLOGY.md`, `research/hypotheses/METHODOLOGY.md` | one is the **evidence contract** (citation structure, pooling, Wilson intervals); the other is **repurposing-hypothesis methodology** (candidate generation, the firewall, TxGNN). Prose cites both as bare "METHODOLOGY.md" |
+| `DOC-README` | `README.md` + four nested READMEs | a README is named for its position, not its content |
+
+**The tie-break, applied by `slug()` and enforced by `[D6]`:**
+
+1. A basename that is not shared keeps the bare id — this renames only what is actually ambiguous.
+2. When it *is* shared, **the root-level file keeps the bare id** and every nested one is path-qualified:
+   `research/hypotheses/METHODOLOGY.md` → `DOC-RESEARCH-HYPOTHESES-METHODOLOGY`. The root file is the one
+   `CLAUDE.md` and `AGENTS.md` point at, so it is the one a reader will guess.
+
+⭐ **`[D6]` checks the RESULT, not the function.** A hand-authored id (`archive/README.md` carries
+`DOC-ARCHIVE`) is welcome and need not agree with what `slug()` would derive — but it must still be the
+only claimant. `check_ids_unique` covers the twelve graph collections and never saw these, because
+document ids live in frontmatter; `[D6]` scans every Markdown file **including `archive/`**, since an
+archived document keeps its id and a new file taking the old name would mint a silent duplicate.
+
 ---
 
 ## 2 · Work state — the five glyphs

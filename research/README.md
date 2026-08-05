@@ -1,5 +1,5 @@
 ---
-id: DOC-README
+id: DOC-RESEARCH-README
 title: EMC research program
 level: —
 kind: index

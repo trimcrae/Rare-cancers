@@ -410,6 +410,58 @@ def test_every_hand_written_document_has_frontmatter(graph):
     assert f.errors == [], "\n".join(f.errors)
 
 
+def test_every_document_id_resolves_to_exactly_one_file(graph):
+    """[D6] — the invariant the bulk backfill broke.
+
+    `slug()` derived ids from basenames, so seven files ended up sharing two ids. `check_ids_unique`
+    never saw it: that covers the twelve graph collections, and document ids live in frontmatter.
+    """
+    f = sc.Findings()
+    sc.check_doc_ids(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_the_id_scan_reaches_into_the_archive(graph):
+    """⚠ Frontmatter ENFORCEMENT stops at `archive/`; UNIQUENESS must not.
+
+    An archived document keeps its id. If the scan skipped the archive, a new file taking an archived
+    document's name would mint a duplicate that surfaced only as a broken cross-reference — which is
+    the failure mode this whole namespace exists to remove.
+    """
+    assert "archive/" in sc.DOC_SKIP, "premise check: enforcement does skip the archive"
+    assert "archive/" not in sc.ID_SKIP, "the id scan must NOT skip the archive"
+    scanned = {rel for rel, _ in sc._walk_md(sc.ID_SKIP)}
+    assert any(r.startswith("archive/") for r in scanned), "no archived document was scanned for ids"
+
+
+def test_the_slug_tie_break_is_root_wins_then_path_qualify():
+    """CONVENTIONS.md §1.2 — stated so the next duplicate is renamed the same way, not a new way."""
+    sys.path.insert(0, SYS)
+    import backfill_frontmatter as bf
+    rels = ["README.md", "research/README.md", "results/README.md",
+            "METHODOLOGY.md", "research/hypotheses/METHODOLOGY.md", "AGENTS.md"]
+    assert bf.slug("README.md", rels) == "DOC-README"                     # root keeps the bare id
+    assert bf.slug("research/README.md", rels) == "DOC-RESEARCH-README"   # nested is path-qualified
+    assert bf.slug("results/README.md", rels) == "DOC-RESULTS-README"
+    assert bf.slug("research/hypotheses/METHODOLOGY.md", rels) == "DOC-RESEARCH-HYPOTHESES-METHODOLOGY"
+    assert bf.slug("AGENTS.md", rels) == "DOC-AGENTS"                     # unshared basename: untouched
+    assert len({bf.slug(r, rels) for r in rels}) == len(rels)
+
+
+def test_the_backfill_compares_against_every_document_not_just_its_own_batch():
+    """A new document can clash with one that ALREADY carries frontmatter.
+
+    `targets()` returns the backfill set AND the full id-bearing set. Deriving uniqueness from the
+    backfill set alone would reintroduce the collision on the very next document added, because the
+    182 already-backfilled files would be invisible to the comparison.
+    """
+    sys.path.insert(0, SYS)
+    import backfill_frontmatter as bf
+    todo, all_rels = bf.targets()
+    assert len(all_rels) > len(todo), "the comparison set must be wider than the write set"
+    assert "METHODOLOGY.md" in all_rels and "research/hypotheses/METHODOLOGY.md" in all_rels
+
+
 def test_no_new_broken_links(graph):
     """A new broken relative link is an error immediately; the pre-existing ones are baselined.
 

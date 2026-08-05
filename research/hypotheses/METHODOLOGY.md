@@ -1,5 +1,5 @@
 ---
-id: DOC-METHODOLOGY
+id: DOC-RESEARCH-HYPOTHESES-METHODOLOGY
 title: Drug-repurposing hypothesis methodology
 level: L5
 kind: memo

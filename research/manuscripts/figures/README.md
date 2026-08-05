@@ -1,5 +1,5 @@
 ---
-id: DOC-README
+id: DOC-RESEARCH-MANUSCRIPTS-FIGURES-README
 title: Manuscript figures
 level: L3
 kind: manuscript

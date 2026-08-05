@@ -1,5 +1,5 @@
 ---
-id: DOC-README
+id: DOC-RESULTS-README
 title: results/ — the permanent home for computational outputs
 level: —
 kind: memo

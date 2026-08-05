@@ -1,5 +1,5 @@
 ---
-id: DOC-README
+id: DOC-RESEARCH-MANUSCRIPTS-README
 title: research/manuscripts/ — what's here, and what's active
 level: L3
 kind: manuscript

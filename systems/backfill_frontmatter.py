@@ -91,10 +91,36 @@ ROLE_BANNER = re.compile(r"^>\s*\*\*Role:\s*(.+?)\.?\*\*", re.M)
 H1 = re.compile(r"^#\s+(.+)$", re.M)
 
 
-def slug(rel: str) -> str:
-    base = os.path.splitext(os.path.basename(rel))[0]
-    s = re.sub(r"[^A-Za-z0-9]+", "-", base).strip("-").upper()
-    return f"DOC-{s}"
+def _slugify(text: str) -> str:
+    return re.sub(r"[^A-Za-z0-9]+", "-", text).strip("-").upper()
+
+
+def slug(rel: str, all_rels=None) -> str:
+    """A document id, unique across the repository.
+
+    ⛔ THE FIRST VERSION DERIVED IT FROM THE BASENAME ALONE, AND SEVEN FILES ENDED UP SHARING TWO IDS:
+    `DOC-METHODOLOGY` on both `METHODOLOGY.md` and `research/hypotheses/METHODOLOGY.md` — two documents
+    that are not the same contract and are cited for different things — and `DOC-README` on five
+    READMEs. That contradicts the one thing CONVENTIONS.md exists to guarantee, that a name always
+    resolves to exactly one thing, and it did so in the namespace the whole document layer is keyed on.
+
+    ⭐ THE TIE-BREAK IS DETERMINISTIC, NOT ALPHABETICAL: **a root-level file keeps the bare id; a nested
+    duplicate is path-qualified.** The root file is the one CLAUDE.md and AGENTS.md point at, so it is
+    the one whose id a reader will guess. Basenames that do not clash are untouched, so this renames
+    only what is actually ambiguous rather than churning 244 ids to fix 7.
+
+    `all_rels` is every relative path in the sweep. Without it there is no way to know a basename is
+    shared, so a bare call returns the un-qualified form — correct for a single-file lookup, and the
+    reason `[D6]` in `systems_check.py` checks the RESULT rather than trusting this function.
+    """
+    base = f"DOC-{_slugify(os.path.splitext(os.path.basename(rel))[0])}"
+    if not all_rels:
+        return base
+    shared = sum(1 for r in all_rels
+                 if os.path.splitext(os.path.basename(r))[0] == os.path.splitext(os.path.basename(rel))[0])
+    if shared < 2 or "/" not in rel:
+        return base
+    return f"DOC-{_slugify(os.path.splitext(rel)[0])}"
 
 
 def classify(rel: str, head: str):
@@ -123,7 +149,7 @@ def classify(rel: str, head: str):
     return kind, status, level
 
 
-def build(rel: str, text: str) -> str:
+def build(rel: str, text: str, all_rels=None) -> str:
     head = "\n".join(text.splitlines()[:40])
     kind, status, level = classify(rel, head)
 
@@ -144,7 +170,7 @@ def build(rel: str, text: str) -> str:
         aud = ["maintainers", "external reviewers", "autonomous research agents"]
 
     lines = ["---",
-             f"id: {slug(rel)}",
+             f"id: {slug(rel, all_rels)}",
              f"title: {title}",
              f"level: {level}",
              f"kind: {kind}",
@@ -162,7 +188,14 @@ def build(rel: str, text: str) -> str:
 
 
 def targets():
-    out = []
+    """Returns (needs_backfill, every_id_bearing_path).
+
+    ⚠ THE SECOND LIST IS WIDER THAN THE FIRST ON PURPOSE. `slug()` decides whether to path-qualify by
+    asking whether a basename is shared, and a new document can clash with one that ALREADY carries
+    frontmatter — which is invisible if the comparison set is only the files being written. Narrowing
+    it to the backfill set would reintroduce the collision on the very next document added.
+    """
+    out, seen = [], []
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO)
         if any(part in SKIP_DIRS for part in rel_root.split(os.sep)):
@@ -179,12 +212,13 @@ def targets():
                 continue
             with open(os.path.join(REPO, rel), encoding="utf-8", errors="ignore") as fh:
                 text = fh.read()
-            if text.startswith("---\n"):
-                continue
             if GENERATED_BANNER.search("\n".join(text.splitlines()[:20])):
                 continue  # its generator owns its header; frontmatter here would fail the drift check
+            seen.append(rel)
+            if text.startswith("---\n"):
+                continue
             out.append((rel, text))
-    return sorted(out)
+    return sorted(out), sorted(seen)
 
 
 def main(argv=None):
@@ -192,7 +226,7 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args(argv)
 
-    todo = targets()
+    todo, all_rels = targets()
     from collections import Counter
     kinds, statuses = Counter(), Counter()
     for rel, text in todo:
@@ -202,7 +236,7 @@ def main(argv=None):
         statuses[s] += 1
         if not a.dry_run:
             with open(os.path.join(REPO, rel), "w", encoding="utf-8") as fh:
-                fh.write(build(rel, text))
+                fh.write(build(rel, text, all_rels))
 
     verb = "would backfill" if a.dry_run else "backfilled"
     print(f"{verb} {len(todo)} document(s)")

@@ -630,6 +630,54 @@ def _frontmatter(text):
     return out
 
 
+#: ⚠ WIDER THAN `DOC_SKIP` ON PURPOSE — see check_doc_ids.
+ID_SKIP = ("systems/views/", "node_modules/", ".git/", ".pytest_cache/")
+
+
+def _walk_md(skip):
+    """Every Markdown file under REPO whose path does not start with one of `skip`."""
+    for root, dirs, files in os.walk(REPO):
+        rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
+        if rel_root == ".":
+            rel_root = ""
+        if "__pycache__" in rel_root or (rel_root and (rel_root + "/").startswith(skip)):
+            dirs[:] = []
+            continue
+        for fn in sorted(files):
+            if not fn.endswith(".md"):
+                continue
+            rel = f"{rel_root}/{fn}" if rel_root else fn
+            if rel.startswith(skip):
+                continue
+            with open(os.path.join(REPO, rel), encoding="utf-8", errors="ignore") as fh:
+                yield rel, fh.read()
+
+
+def check_doc_ids(g, f):
+    """A DOC id resolves to exactly ONE file.
+
+    ⛔ THIS EXISTS BECAUSE THE BULK BACKFILL BROKE IT. `slug()` derived ids from basenames, so
+    `METHODOLOGY.md` and `research/hypotheses/METHODOLOGY.md` — two different contracts, cited for
+    different things — both became `DOC-METHODOLOGY`, and five READMEs became `DOC-README`. Seven
+    files, two ids. `check_ids_unique` did not catch it: that covers the twelve GRAPH collections,
+    and document ids live in frontmatter, which nothing checked.
+
+    ⚠ THE SCAN IS WIDER THAN `DOC_SKIP`: it includes `archive/`. Frontmatter *enforcement* rightly
+    stops at the archive — an archived document is not maintained — but UNIQUENESS is a property of
+    the namespace, not of the live set. An archived document keeps its id, so a new file taking the
+    old name would silently mint a duplicate that only ever showed up as a broken cross-reference.
+    """
+    homes = defaultdict(list)
+    for rel, text in _walk_md(ID_SKIP):
+        fmv = _frontmatter(text)
+        if fmv and fmv.get("id"):
+            homes[fmv["id"]].append(rel)
+    for did, paths in sorted(homes.items()):
+        if len(paths) > 1:
+            f.err("[D6]", f"document id {did} is claimed by {len(paths)} files ({', '.join(paths)}) "
+                          f"— an id must resolve to exactly one document")
+
+
 def check_documents(g, f):
     """Every hand-written Markdown file declares purpose, scope, audience, status and freshness.
 
@@ -766,6 +814,7 @@ def run_checks(g, f):
     check_requirement_source_agreement(g, f)
     check_technologies(g, f)
     check_scan_interop(g, f)
+    check_doc_ids(g, f)
     check_documents(g, f)
     check_links(g, f)
     check_pointers(g, f)
