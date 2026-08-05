@@ -9,7 +9,7 @@ purpose: See the document body; purpose was not stated separately when frontmatt
 scope: Scope not separately declared. Inferred kind `convention` from its location under ./.
 audience: [maintainers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
+last_verified: 2026-08-05
 _backfilled: true
 ---
 # CLAUDE.md

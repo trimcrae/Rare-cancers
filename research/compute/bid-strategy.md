@@ -9,7 +9,7 @@ purpose: See the document body; purpose was not stated separately when frontmatt
 scope: Scope not separately declared. Inferred kind `runbook` from its location under research/compute/.
 audience: [maintainers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
+last_verified: 2026-08-05
 _backfilled: true
 ---
 # Vast bidding and host selection — the measured policy (rewritten 2026-07-25)
