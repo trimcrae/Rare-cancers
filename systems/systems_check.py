@@ -35,7 +35,7 @@ VIEWS = os.path.join(HERE, "views")
 
 COLLECTIONS = [
     "strategies", "routes", "requirements", "blockers", "technologies", "forecasts",
-    "instruments", "objects", "evidence", "artifacts", "claims",
+    "instruments", "objects", "evidence", "artifacts", "claims", "roadmap",
 ]
 
 # A blocker of this kind is a fact about what the objects ARE. It is not waiting on anything,
@@ -656,8 +656,13 @@ def render_l0(g):
             "- **L2** — a single route: `L2-<route>.md`",
             "- **Registers** — [blockers](registers/blockers.md) · [technologies](registers/technologies.md) · "
             "[instruments](registers/instruments.md)",
-            "- **Cross-cutting** — [methods index](methods-index.md) · [readiness](readiness.md)",
-            "- **Architecture** — [../ARCHITECTURE.md](../ARCHITECTURE.md) · [../CONVENTIONS.md](../CONVENTIONS.md)",
+            "- **Cross-cutting** — [methods index](methods-index.md) · [readiness](readiness.md) · "
+            "[requirements](registers/requirements.md)",
+            "- **Multi-year** — [the roadmap](roadmap-5yr.md): scientific, technology, AI-capability and "
+            "lab-capability milestones, and when blocked work becomes revisitable",
+            "- **Architecture** — [../ARCHITECTURE.md](../ARCHITECTURE.md) · "
+            "[../CONVENTIONS.md](../CONVENTIONS.md) · [../MAINTENANCE.md](../MAINTENANCE.md) · "
+            "[../MIGRATION.md](../MIGRATION.md)",
             ""]
     return "\n".join(out)
 
@@ -1116,6 +1121,76 @@ def render_requirements(g):
     return "\n".join(out)
 
 
+
+HORIZONS = ["2026H2", "2027", "2028", "2029", "2030+", "standing"]
+MS_KIND = {"scientific": "science", "technology": "technology", "ai_capability": "AI capability",
+           "lab_capability": "lab capability", "data": "data", "decision": "decision",
+           "process": "process", "capability": "capability"}
+
+
+def render_roadmap(g):
+    """The multi-year roadmap — a PROJECTION of the technology register, not an independent plan.
+
+    ⭐ That is the design decision that matters here. A hand-maintained multi-year roadmap describes the
+    year it was written; this one changes when the register changes, so a landed capability re-orders the
+    portfolio without anyone remembering to.
+    """
+    ms = g.get("roadmap", [])
+    tk, fc = by_id(g["technologies"]), by_id(g["forecasts"])
+    out = [fm(id="DOC-VIEW-ROADMAP", title="The multi-year roadmap", level="cross-cutting",
+              kind="generated", status="generated", generator="systems/systems_check.py",
+              purpose="Scientific, technology, AI-capability and lab-capability milestones over roughly five years, and when blocked work becomes revisitable.",
+              scope="Horizon milestones only. The near-term spend-gated plan is the roadmap document's ordered plan.",
+              audience=["maintainers", "autonomous research agents", "external reviewers"],
+              date="2026-08-05", last_verified="2026-08-05"),
+           BANNER, "# The multi-year roadmap\n",
+           "> **This is a projection of the technology register, not an independent plan.** It changes when",
+           "> the register changes, which is what stops it describing the year it was written. Every arrival",
+           "> band comes from a forecast that declares its `basis` — `evidence_based`, `extrapolated` or",
+           "> `speculative` — because an unlabelled forecast is indistinguishable from a measurement.\n",
+           "> ⚠ **A coming capability justifies waiting and re-running. It never licences claiming a result",
+           "> before the method can support it.**\n"]
+
+    for h in HORIZONS:
+        rows = [m for m in ms if m.get("horizon") == h]
+        if not rows:
+            continue
+        label = "Standing" if h == "standing" else h
+        out += [f"## {label}\n"]
+        for m in rows:
+            out += [f"### {m['id']} — {esc(m['title'])}\n",
+                    f"*{MS_KIND.get(m.get('kind'), m.get('kind'))} · confidence {m.get('confidence','unknown')}*\n",
+                    m["note"], ""]
+            if m.get("depends_on"):
+                out.append("**Depends on:** " + ", ".join(m["depends_on"]) + "\n")
+            if m.get("unblocks"):
+                out.append("**Unblocks:** " + ", ".join(f"`{x}`" for x in m["unblocks"]) + "\n")
+
+    out += ["## Every technology dependency, by expected arrival\n",
+            "Derived from the forecast register. The conservative and optimistic bands, the rationale for",
+            "each, and what would move them are in [registers/technologies.md](registers/technologies.md).\n",
+            "| expected | fan-out | technology | impact here | basis | state |",
+            "|---|---:|---|---|---|---|"]
+    ordered = sorted(g["technologies"],
+                     key=lambda t: (fc.get(t.get("forecast"), {}).get("scenarios", {})
+                                    .get("expected", {}).get("date_band", "9999"), -t["fan_out"]))
+    for t in ordered:
+        c = fc.get(t.get("forecast"), {})
+        exp = c.get("scenarios", {}).get("expected", {}).get("date_band", "—")
+        out.append(f"| **{exp}** | {t['fan_out']} | {t['id']} | `{c.get('expected_impact','—')}` "
+                   f"| `{c.get('basis','—')}` | `{t['current_state']}` |")
+
+    stale = [c["id"] for c in g["forecasts"] if c.get("last_reviewed", "") < "2026-02-05"]
+    out += ["", "## Forecast freshness\n"]
+    if stale:
+        out.append(f"⚠ **{len(stale)} forecast(s) older than two quarters and due a re-grade:** "
+                   + ", ".join(f"`{x}`" for x in stale) + "\n")
+    else:
+        out.append("Every forecast has been reviewed within the last two quarters.\n")
+    out.append("[← L0](L0-ecosystem.md)\n")
+    return "\n".join(out)
+
+
 def all_views(g):
     v = {"L0-ecosystem.md": render_l0(g),
          "registers/blockers.md": render_blockers(g),
@@ -1123,7 +1198,8 @@ def all_views(g):
          "registers/instruments.md": render_instruments(g),
          "registers/requirements.md": render_requirements(g),
          "methods-index.md": render_methods_index(g),
-         "readiness.md": render_readiness(g)}
+         "readiness.md": render_readiness(g),
+         "roadmap-5yr.md": render_roadmap(g)}
     for s in g["strategies"]:
         v[f"L1-{s['id'].lower()}.md"] = render_l1(s, g)
     for r in g["routes"]:
