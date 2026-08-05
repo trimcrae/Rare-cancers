@@ -1,0 +1,322 @@
+[
+  {
+    "id": "LANE-1",
+    "title": "The ligandable E3 recruiter panel — UniProt resolution, ligandability, exit-vector analysis and downselect",
+    "state": "complete",
+    "terminus": "Staged the widened recruiter set (VHL, CRBN, BIRC2, DCAF1, DCAF15, DCAF16, KEAP1, FEM1B, RNF114, MDM2) and downselected it. ⚠ Its own boundary is recorded and is the reason a separate adapter exists: it does NOT produce a receptor BODY in a coordinate frame with the RING the transfer zone hangs off, so nr4a3_e3_stage.py consumes its list as INPUT and stages the geometry itself.",
+    "closed_on": null,
+    "gate": null,
+    "produces": [],
+    "serves": [],
+    "cost_realized": "$0 (CPU/CI)",
+    "owner": {
+      "file": "research/modalities/nr4a3_e3_stage.py",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-2",
+    "title": "Tier-2 12-pose run at corrected exact-kernel values, and the two measurements that landed with it",
+    "state": "complete",
+    "terminus": "★ TWO MEASUREMENTS LANDED HERE 2026-07-25 ($0), and BOTH correct assumptions the program was carrying. Later re-stated at corrected exact-kernel values after the LANE-10 reach correction.",
+    "closed_on": "2026-07-25",
+    "gate": null,
+    "produces": [],
+    "serves": [
+      "Tier 2"
+    ],
+    "cost_realized": "$0 (CPU/CI)",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-5",
+    "title": "The valB calibrator rescope — the P-series design",
+    "state": "complete",
+    "terminus": "REFUTED for $0 by valb_pseries_chem.py: 6 of 10 pairs change formal charge and the 4 that do not perturb 58-80 heavy atoms against 2 for the running edge. The design is dead; the broader 'no such calibrator exists' statement is explicitly a conjecture, not proof.",
+    "closed_on": "2026-07-25",
+    "gate": null,
+    "produces": [
+      {
+        "artifact": "valb-pseries-chem.json",
+        "produced": true
+      }
+    ],
+    "serves": [
+      "V5"
+    ],
+    "cost_realized": "$0 (CPU/CI)",
+    "owner": {
+      "file": "research/manuscripts/valb-calibrator-rescope-2026-07-25.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-7",
+    "title": "Registry-A / orientation basin audit — which crystal registry the Tier-2 result rests on",
+    "state": "complete",
+    "terminus": "✅ RESOLVED 2026-07-25 — registry A (5T35) is CORRECT, and the Tier-2 result rests on it. A same-day claim about CRBN's null was RETRACTED in this lane rather than carried.",
+    "closed_on": "2026-07-25",
+    "gate": null,
+    "produces": [],
+    "serves": [
+      "Tier 2"
+    ],
+    "cost_realized": "$0 (CPU/CI)",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-orientation-basin-search-2026-07-25.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-9",
+    "title": "The closure triangle — decides whether valB's miss is fixable at all",
+    "aliases": [
+      "LANE 9/20"
+    ],
+    "state": "complete",
+    "terminus": "✅ CLOSED. All four legs landed 5:11 PM ET Jul 30 and `R` is computed. Off every host. ⚠ Separately REFUTED as a DIAGNOSTIC for the wrong-sign miss (V5): it returns a clean R whether or not the program's actual problem exists. The path-error floor and endpoint-consistency check survive; the diagnosis is what died.",
+    "closed_on": "2026-07-30",
+    "gate": null,
+    "produces": [
+      {
+        "artifact": "valb-triangle-reduction.json",
+        "produced": true
+      },
+      {
+        "artifact": "valb-triangle-closure.json",
+        "produced": true
+      },
+      {
+        "artifact": "valb-triangle-chem.json",
+        "produced": false,
+        "note": "The $0 chemistry PRE-gate — a 'should we buy these edges?' check written 2026-07-25. The edges were bought and run five days later, so it was never produced and never will be. ⛔ Its citation is WITHDRAWN, not pending. An attempt to produce it on 2026-08-05 spent 88.5 min of CI and was cancelled; that attempt is the reason this register exists."
+      }
+    ],
+    "serves": [
+      "V5"
+    ],
+    "cost_realized": "the 4-leg tranche was priced against its own $3.85 ceiling per pass — see research/modalities/realised-spend.json",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-10",
+    "title": "The reach-rule correction — the C397 reach figures are no longer lower bounds",
+    "state": "complete",
+    "terminus": "✅ CORRECTED 2026-07-26. ⚠ Its own document still carries fifteen ⏳ markers for numbers to be filled from CI artifacts that never landed, so the correction is banked while parts of the write-up remain open.",
+    "closed_on": "2026-07-26",
+    "gate": null,
+    "produces": [],
+    "serves": [
+      "Tier 2"
+    ],
+    "cost_realized": "$0 realized (CPU/CI only, no GPU)",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-reach-rule-correction-2026-07-25.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-13",
+    "title": "Does the CATEGORICAL case survive paralogue dynamics? — matched NR4A1/2/3 ensembles",
+    "state": "complete",
+    "terminus": "✅ DONE 2026-07-26 2:49 PM ET — YES. Legs, collect and analysis all landed.",
+    "closed_on": "2026-07-26",
+    "gate": null,
+    "produces": [
+      {
+        "artifact": "nr4a-paralogue-dynamics.json",
+        "produced": true
+      }
+    ],
+    "serves": [
+      "Tier 0"
+    ],
+    "cost_realized": "realised ~$4-5 against a ~$4.3 projection — see research/modalities/realised-spend.json",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-paralogue-dynamics-categorical-test-2026-07-25.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-14",
+    "title": "Inverse linker design",
+    "state": "complete",
+    "terminus": "Recorded in the inverse-linker design document alongside LANE 10's corrected reach figures; no open legs and nothing on a host.",
+    "closed_on": null,
+    "gate": null,
+    "produces": [],
+    "serves": [],
+    "cost_realized": "$0 (CPU/CI)",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-inverse-linker-design-2026-07-25.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-16",
+    "title": "RUNG 5a-KS — the ligand-side causal kill-switch",
+    "state": "complete",
+    "terminus": "✅ LANDED 2026-08-02 — all four legs (n = 2 seeds/arm). S = −0.1297 ± 0.3264 kcal/mol → the PREREGISTERED NULL. ⚠ Two further 5a-KS legs are PARKED (enabled: false) because a relaunch is a new purchase the price gate refuses — parked, not finished, on no host and costing nothing.",
+    "closed_on": "2026-08-02",
+    "gate": null,
+    "produces": [],
+    "serves": [
+      "RUNG 5a-KS"
+    ],
+    "cost_realized": "see research/modalities/realised-spend.json",
+    "owner": {
+      "file": "research/modalities/nr4a3-5aks-lane-report.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-17",
+    "title": "Step 1 fan-out — 19 congeneric RBFE edges",
+    "aliases": [
+      "LANE 17/21"
+    ],
+    "state": "complete",
+    "terminus": "✅ COMPLETE — 18 of 18 computable edges landed; the 19th is not computable and is recorded as such. Off every host. The lane closed itself.",
+    "closed_on": "2026-07-30",
+    "gate": null,
+    "produces": [],
+    "serves": [
+      "RUNG 4"
+    ],
+    "cost_realized": "see research/modalities/realised-spend.json",
+    "owner": {
+      "file": "research/modalities/step1-fanout-lane.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-19",
+    "title": "valB_mini r1+r2 — the 4 replicate legs",
+    "state": "complete",
+    "terminus": "✅ CLOSED AT n=3 — and the gate FAILED on sign, so the decision is NO-GO. Off every host. The deliverable is the cycle SD, which is the number this lane existed to produce.",
+    "closed_on": "2026-07-30",
+    "gate": null,
+    "produces": [],
+    "serves": [
+      "V5"
+    ],
+    "cost_realized": "⚠ NOT machine-ledgered on this lane; the floor and the reason are in research/modalities/realised-spend.json's attested block, which is a defect register rather than an accounting category",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-20",
+    "title": "The restrained binary re-run",
+    "aliases": [
+      "LANE 9/20"
+    ],
+    "state": "held",
+    "terminus": "HELD ON PURPOSE — and ⚠ NOT behind `R`, which LANDED on 2026-07-30. Nothing is billing; it is off every host.",
+    "closed_on": null,
+    "gate": "the pose diagnostic — gpu-ternary-fep-vast.yml task=triangle-converge",
+    "produces": [],
+    "serves": [
+      "V5"
+    ],
+    "cost_realized": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-21",
+    "title": "Step 1 fan-out autoscale — the rental/placement half of LANE 17",
+    "aliases": [
+      "LANE 17/21"
+    ],
+    "state": "complete",
+    "terminus": "Closed with LANE 17 on 2026-07-30 — the fan-out landed 18 of 18 computable edges and came off every host.",
+    "closed_on": "2026-07-30",
+    "gate": null,
+    "produces": [],
+    "serves": [
+      "RUNG 4"
+    ],
+    "cost_realized": "see research/modalities/realised-spend.json",
+    "owner": {
+      "file": "research/modalities/step1-fanout-lane.md",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-3",
+    "title": "Covalent celastrol-NR4A1 (C551) adduct + C551A control legs",
+    "state": "complete",
+    "terminus": "Recorded in the ordered plan with its as-run cost measured over 18 legs. Not on a host.",
+    "closed_on": null,
+    "gate": null,
+    "produces": [],
+    "serves": [],
+    "cost_realized": "MEASURED as-run over 18 legs — the figure's one home is systems/graph/plan.json, do not re-type it",
+    "owner": {
+      "file": "systems/graph/plan.json",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-11",
+    "title": "RUNG 4 Arm E — the genuine Arm E leg and the 2026-07-31 smoke fan-out rentals",
+    "state": "complete",
+    "terminus": "Its rentals are ledgered in the realised-spend register, including the 17 rentals of the 2026-07-31 smoke fan-out. Off every host.",
+    "closed_on": "2026-07-31",
+    "gate": null,
+    "produces": [],
+    "serves": [
+      "RUNG 4"
+    ],
+    "cost_realized": "see research/modalities/realised-spend.json",
+    "owner": {
+      "file": "research/modalities/realised_spend.py",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-18",
+    "title": "The $/ns throughput bench sweep that re-anchored the ladder basis",
+    "state": "complete",
+    "terminus": "Complete — it re-anchored the ladder basis, which is why the drift line is expressed as an absolute $/ns rather than a multiple of a correctable denominator (CLAUDE.md §1).",
+    "closed_on": "2026-07-27",
+    "gate": null,
+    "produces": [],
+    "serves": [],
+    "cost_realized": "see research/modalities/realised-spend.json",
+    "owner": {
+      "file": "research/modalities/realised_spend.py",
+      "anchor": null
+    }
+  },
+  {
+    "id": "LANE-22",
+    "title": "The SMARCA2/4 endpoint-MD sensitivity control — co-folds plus the 22-leg MD panel",
+    "state": "complete",
+    "terminus": "Scored on its complete panel and returned NULL on an adequately-powered design — exact one-sided p = 0.7468, reference set 462, floor 0.00216, zero technical failures. That verdict is what retired the step-3 re-panel preregistration unrun.",
+    "closed_on": "2026-08-02",
+    "gate": null,
+    "produces": [
+      {
+        "artifact": "selcal-verdict.json",
+        "produced": true
+      }
+    ],
+    "serves": [],
+    "cost_realized": "see research/modalities/realised-spend.json",
+    "owner": {
+      "file": "research/modalities/realised_spend.py",
+      "anchor": null
+    }
+  }
+]

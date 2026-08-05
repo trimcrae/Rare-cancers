@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/lane.schema.json",
+  "title": "A LANE — a unit of executed work, with a lifecycle",
+  "_role": "The level the model was missing. A ROUTE (L2) is a strategic option — 'could we do X?'. A REQUIREMENT is 'what must be TRUE'. A LANE is 'we RAN X, and here is how it ended'. Executed work had no object, so its state lived only as ~~strikethrough~~ in roadmap prose — and prose is not queryable, which is how an artifact belonging to a lane that CLOSED on 2026-07-30 was read as a gap to fill on 2026-08-05 and cost 88.5 minutes of CI.",
+  "_prose": "systems/ARCHITECTURE.md",
+  "$defs": {
+    "lane": {
+      "type": "object",
+      "required": ["id", "title", "state", "terminus", "owner", "produces"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^LANE-[0-9]+$",
+          "description": "Matches the `LANE n` the documents already use. The namespace is theirs; this register does not invent one."
+        },
+        "title": { "type": "string", "minLength": 10 },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Where one board row covers two lane numbers ('LANE 9/20', 'LANE 17/21'), so a reader searching either finds this."
+        },
+        "state": {
+          "enum": ["running", "held", "parked", "complete"],
+          "description": "⛔ NO VAGUE STATES. The question this must answer is 'will this lane still produce what it owes?' — `complete` NO (it ended), `held` and `parked` MAYBE (paused behind a named gate or trigger), `running` YES. A verdict is NOT a state: whether the answer was positive or null belongs in `terminus`, because collapsing them would make 'it failed' and 'it is unfinished' render alike."
+        },
+        "terminus": {
+          "type": "string",
+          "minLength": 20,
+          "description": "How it ended, or what it is waiting on — in the document's own words where possible. For `complete` this carries the verdict, INCLUDING a null one."
+        },
+        "closed_on": { "type": ["string", "null"] },
+        "gate": {
+          "type": ["string", "null"],
+          "description": "For `held`/`parked`: the named thing that would restart it. A pause with no named gate is indistinguishable from an abandonment."
+        },
+        "produces": {
+          "type": "array",
+          "description": "Every artifact this lane was responsible for, PRODUCED OR NOT. ⭐ This is what makes an absence answerable from the model instead of from prose: an artifact whose lane is `complete` and which was never produced is a WITHDRAWN citation, and one whose lane is `running` is EXPECTED. check_artifacts derives the disposition from here rather than asking a human to assert it.",
+          "items": {
+            "type": "object",
+            "required": ["artifact", "produced"],
+            "additionalProperties": false,
+            "properties": {
+              "artifact": { "type": "string", "minLength": 3 },
+              "produced": { "type": "boolean" },
+              "note": { "type": "string" }
+            }
+          }
+        },
+        "serves": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "The rung, instrument or requirement this lane feeds — `RUNG 5a-KS`, `V5`, `R11`."
+        },
+        "cost_realized": {
+          "type": ["string", "null"],
+          "description": "⚠ POINTS at the ledger, never a second copy of a figure. realised-spend.json is the one home."
+        },
+        "owner": {
+          "type": "object",
+          "required": ["file"],
+          "additionalProperties": false,
+          "properties": {
+            "file": { "type": "string" },
+            "anchor": { "type": ["string", "null"] }
+          },
+          "description": "The narrative home. The model carries the structured facts; the document keeps the story, and check_lane_source_agreement stops them diverging."
+        }
+      }
+    }
+  }
+}

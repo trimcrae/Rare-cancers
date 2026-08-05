@@ -105,11 +105,33 @@ once and duplicating it per family would be the same one-fact-many-places bug in
 | register | id | what it is |
 |---|---|---|
 | Requirements | `R*` | what must be TRUE for a claim to stand |
+| **Lanes** | **`LANE-*`** | **executed work and how it ended** — see [views/registers/lanes.md](./views/registers/lanes.md) |
 | Blockers | `BLK-*` | why something is stalled — typed, see [taxonomy/blockers.md](taxonomy/blockers.md) |
 | Technology dependencies | `TECH-*` | what would unblock it — see [taxonomy/technology.md](taxonomy/technology.md) |
 | Forecasts | `FC-*` | when that is expected, in three scenario bands |
 | Roadmap milestones | `MS-*` | the multi-year plan |
 | Scan triggers | `TRG-*` | how to search the literature for a `TECH-*` landing |
+
+### 3.0 · ⭐ Why LANES were added, and what their absence cost
+
+**Added 2026-08-05, after the gap it left did real damage.** A `RT-*` answers *could we do X?* and an `R*`
+answers *what must be TRUE*. **Neither answers *did we run X, and how did it end?*** — so executed work had
+no object, and its state lived only as a **struck-through row in roadmap prose**.
+
+Prose is not queryable. On 2026-08-05 an artifact belonging to a lane that had **closed on 2026-07-30** was
+therefore read as a gap to fill; **88.5 minutes of CI went at it**, and the write-up afterwards told the next
+reader to spend hours more. The roadmap had said so all along, in a row struck through with `~~`.
+
+⚠ **A lane is not a route and must not be folded into one.** A route can be `parked` for years and still be
+a live option; a lane either ran or did not, and once it ends it produces nothing further. The state answers
+exactly one question — ***will this lane still produce what it owes?*** — which is why a **null result is
+`complete`**, with the verdict in `terminus`. Collapsing "it failed" into a distinct state would make a
+settled negative look like an outstanding task, and that is how dead work gets re-run.
+
+⭐ **The payoff is that an absence became derivable.** Each lane lists in `produces[]` every artifact it was
+responsible for *and whether it was produced*, so `check_artifacts` resolves a missing artifact by lookup —
+`complete` lane ⇒ **withdrawn citation**, `running`/`held`/`parked` ⇒ **expected**. No human assertion, no
+second register to keep in step, and `[K2]` errors if anyone writes one anyway.
 
 ### 3.1 · Why L1 is *modality*, not *method*
 

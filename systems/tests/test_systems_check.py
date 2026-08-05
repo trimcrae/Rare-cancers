@@ -829,6 +829,87 @@ def test_a_cited_artifact_exists_on_this_branch(graph):
         f"whether a lane branch holds them before assuming they were never produced"
 
 
+# ───────────────────────── lanes: executed work as modelled state ─────────────────────────
+
+def test_every_lane_the_documents_name_is_registered(graph):
+    """⭐ THE LEVEL THE MODEL WAS MISSING, AND WHY IT COST SOMETHING.
+
+    A ROUTE is a strategic option; a REQUIREMENT is what must be TRUE; a LANE is *we ran X, and here is
+    how it ended*. Executed work had no object, so "this lane closed" lived only as a struck-through row
+    in roadmap prose — and prose is not queryable. An artifact belonging to a lane that closed on
+    2026-07-30 was therefore read as a gap to fill on 2026-08-05, at a cost of 88.5 minutes of CI.
+
+    ⚠ The register is ENUMERATED against every `LANE n` in the repository, not trusted. On its first run
+    it found LANE-1, named only in a module comment, which the hand survey had missed.
+    """
+    f = sc.Findings()
+    sc.check_lanes(graph, f)
+    assert [e for e in f.errors if "[W1]" in e] == [], "\n".join(f.errors)
+    assert len(graph["lanes"]) >= 15, "the lane register has shrunk — executed work is going unmodelled"
+
+
+def test_a_paused_lane_names_what_would_restart_it(graph):
+    """[W3] — `held`/`parked` with no gate is indistinguishable from abandonment.
+
+    The two have very different consequences for anything waiting on the lane, so the distinction is
+    required rather than inferred. LANE-20 is `held` behind a named pose diagnostic; that is the shape.
+    """
+    for l in graph["lanes"]:
+        if l["state"] in ("held", "parked"):
+            assert l.get("gate"), f"{l['id']} is `{l['state']}` and names no gate"
+    f = sc.Findings()
+    sc.check_lanes(graph, f)
+    assert [e for e in f.errors if "[W3]" in e] == [], "\n".join(f.errors)
+
+
+def test_a_verdict_is_never_encoded_as_a_lane_state(graph):
+    """⛔ 'It failed' and 'it is unfinished' must not render alike.
+
+    The state answers one question — *will this lane still produce what it owes?* — so a null result is
+    `complete` with the null in `terminus`, exactly like a positive one. LANE-19 closed with the gate
+    FAILING on sign and is `complete`; collapsing that into a distinct state would make a finished
+    negative look like an outstanding task, which is how dead work gets re-run.
+    """
+    assert set(sc.LANE_STATE_DISPOSITION) == {"running", "held", "parked", "complete"}
+    null_lane = [l for l in graph["lanes"] if l["id"] == "LANE-19"]
+    assert null_lane and null_lane[0]["state"] == "complete"
+    assert "NO-GO" in null_lane[0]["terminus"], "the null verdict must live in terminus, not the state"
+
+
+def test_the_model_derives_the_disposition_instead_of_a_human_asserting_it(graph):
+    """⭐ THE PAYOFF. An absence resolves by lookup, not by parsing struck-through prose.
+
+    `valb-triangle-chem.json` is registered on LANE-9 as an artifact it owed and never produced. The
+    lane is `complete`, so the disposition is `withdrawn` — derived, with the lane's terminus as the
+    evidence, and no human assertion anywhere in the chain.
+    """
+    verdict, lane, entry = sc._lane_verdict_for("valb-triangle-chem.json", graph)
+    assert verdict == "withdrawn", "the closed lane must answer for the artifact it never produced"
+    assert lane["id"] == "LANE-9" and lane["state"] == "complete"
+    assert entry["produced"] is False
+    # A lane that could still run must NOT answer `withdrawn`.
+    for state, expect in (("running", "expected"), ("held", "expected"), ("parked", "expected")):
+        assert sc.LANE_STATE_DISPOSITION[state] == expect
+
+
+def test_a_written_disposition_may_not_shadow_a_derived_one(graph):
+    """[K2] — the shadowing bug, one layer up from the link baseline.
+
+    If a hand-written disposition short-circuits the lane lookup, the two can drift and the stale
+    written one wins silently. That is precisely how the link baseline hid `valb-triangle-chem.json`
+    from classification in the first place, so the same mistake is refused here by construction.
+    """
+    f = sc.Findings()
+    sc.check_artifacts(graph, f)
+    assert [e for e in f.errors if "[K2]" in e] == [], "\n".join(f.errors)
+    written = {r["artifact"] for r in
+               json.load(open(os.path.join(SYS, "graph", "artifact-refs.json"), encoding="utf-8"))
+               ["dispositions"]}
+    for art in written:
+        assert sc._lane_verdict_for(art, graph)[0] is None, \
+            f"{art} is asserted in artifact-refs AND derivable from a lane — two homes for one fact"
+
+
 def test_absent_is_an_observation_with_three_meanings_not_a_gap(graph):
     """⛔ THE 2026-08-05 ERROR, PINNED. `[K1]` named two causes and there are three.
 
@@ -842,7 +923,9 @@ def test_absent_is_an_observation_with_three_meanings_not_a_gap(graph):
     """
     f = sc.Findings()
     sc.check_artifacts(graph, f)
-    for w in [x for x in f.warns if "[K1]" in x]:
+    # ⚠ Scoped to the branch where the model has NO answer. Where a lane answers, [K1] states the
+    # derived disposition instead — a menu would be a worse message, not a safer one.
+    for w in [x for x in f.warns if "[K1]" in x and "THE MODEL ANSWERS THIS" not in x]:
         for word in ("elsewhere", "expected", "withdrawn"):
             assert word in w, f"[K1] must name the `{word}` disposition; it said: {w[:200]}"
         assert "OBSERVATION, NOT A GAP" in w, "[K1] must not present an absence as a gap"
@@ -873,27 +956,25 @@ def test_every_cited_and_absent_artifact_is_classified(graph):
     """The register is enumerated, not trusted — so it cannot silently stop covering the set."""
     f = sc.Findings()
     sc.check_artifacts(graph, f)
-    unclassified = [w for w in f.warns if "[K1]" in w]
-    assert not unclassified, (
-        "an artifact is cited here and absent with no recorded disposition. That is not a gap to fill "
-        "on sight — decide which of elsewhere/expected/withdrawn it is:\n" + "\n".join(unclassified))
+    unanswered = [w for w in f.warns if "[K1]" in w and "THE MODEL ANSWERS THIS" not in w]
+    assert not unanswered, (
+        "an artifact is cited here and absent, and NEITHER a lane nor the disposition register answers "
+        "for it. That is not a gap to fill on sight — decide which of elsewhere/expected/withdrawn it "
+        "is, and prefer putting it on the owing lane so the answer is derived:\n" + "\n".join(unanswered))
 
 
-def test_the_closure_convention_is_surfaced_as_evidence(graph):
-    """⭐ THE LINE THAT WOULD HAVE STOPPED ME, and it must keep working.
+def test_the_prose_parsing_shortcut_was_replaced_by_the_model():
+    """⚠ SUPERSEDED, DELIBERATELY — and the reason is worth keeping.
 
-    The roadmap marks a finished lane by striking through its row title and following it with
-    "✅ CLOSED". `[K1]` surfaces any such row whose title matches an absent artifact's name — as
-    EVIDENCE for the person deciding, never as a verdict the check reaches alone.
+    The first fix read the roadmap's struck-through "✅ CLOSED" rows and surfaced them as EVIDENCE
+    beside an absent artifact. That worked, and it was still prose-matching: it could only ever inform a
+    human, never be a fact the model holds, and it would rot the day someone restyled a table.
+
+    Lanes replaced it. `_closed_work_mentioning` is gone; `_lane_verdict_for` answers from state.
     """
-    hits = sc._closed_work_mentioning("valb-triangle-chem")
-    assert hits, "the roadmap's struck-through CLOSED rows are no longer being detected"
-    assert any("closure triangle" in h.lower() for h in hits), \
-        "the row that would have prevented the error is not being matched"
-    # ...and it must not fire indiscriminately, or it becomes noise nobody reads.
-    assert not sc._closed_work_mentioning("nr4a3-matrix"), \
-        "matched a closed lane for work that is open — the signal must discriminate"
-
+    assert not hasattr(sc, "_closed_work_mentioning"), \
+        "the prose shortcut is back — an answer the model can hold must not be re-derived from prose"
+    assert hasattr(sc, "_lane_verdict_for")
 
 def test_every_disposition_carries_the_evidence_its_kind_demands(graph):
     """[K2] — the register cannot become where warnings go to die.

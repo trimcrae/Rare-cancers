@@ -36,6 +36,12 @@ VIEWS = os.path.join(HERE, "views")
 COLLECTIONS = [
     "strategies", "routes", "requirements", "blockers", "technologies", "forecasts",
     "instruments", "objects", "evidence", "artifacts", "claims", "roadmap",
+    # ⭐ LANES — the level the model was missing. A ROUTE is a strategic option ("could we do X?"),
+    # a REQUIREMENT is "what must be TRUE", and a LANE is "we RAN X, and here is how it ended".
+    # Executed work had no object, so its state lived only as ~~strikethrough~~ in roadmap prose.
+    # Prose is not queryable: that is how an artifact belonging to a lane which CLOSED on 2026-07-30
+    # was read as a gap to fill on 2026-08-05, at a cost of 88.5 minutes of CI.
+    "lanes",
 ]
 
 # A blocker of this kind is a fact about what the objects ARE. It is not waiting on anything,
@@ -278,6 +284,11 @@ def check_schemas(g, f):
         for row in g[coll]:
             for msg in mv.validate(row, schema, schema):
                 f.err("[S1]", f"{coll}/{row.get('id','?')} {msg}")
+
+    lane_schema = mv.docs["lane.schema.json"]["$defs"]["lane"]
+    for row in g["lanes"]:
+        for msg in mv.validate(row, lane_schema, mv.docs["lane.schema.json"]):
+            f.err("[S3]", f"lanes/{row.get('id','?')} {msg}")
 
     tech_schema = mv.docs["technology.schema.json"]["$defs"]["technology"]
     for row in g["technologies"]:
@@ -530,6 +541,56 @@ def check_legacy_agreement(g, f):
 
 MAP_DOC = os.path.join(REPO, "research", "manuscripts", "nr4a3-program-map.md")
 _R_ROW = re.compile(r"^\|\s*\*\*(R\d+)\*\*\s*\|")
+
+
+LANE_MENTION = re.compile(r"\bLANE[- ](\d+)\b")
+
+
+def check_lanes(g, f):
+    """Every lane the documents name is registered, and every registered lane is honest about its state.
+
+    ⭐ WHY THIS COLLECTION EXISTS AT ALL. The model could say what work COULD be done (routes) and what
+    must be TRUE (requirements), but had no object for work that HAS RUN. So "this lane closed" lived
+    only as a struck-through row in roadmap prose — and prose is not queryable. On 2026-08-05 an artifact
+    belonging to a lane that closed on 2026-07-30 was therefore read as a gap to fill, and 88.5 minutes
+    of CI went at it. The fix is not a better regex over the prose; it is that the state is modelled.
+
+    ⚠ ENUMERATED, NOT TRUSTED. The register is checked against every `LANE n` mention in the repository,
+    so it cannot silently stop covering the namespace — the failure mode of every hand-maintained list.
+    """
+    reg = {l["id"] for l in g["lanes"]}
+    seen = defaultdict(set)
+    for root, dirs, files in os.walk(REPO):
+        rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
+        if rel_root.startswith((".git", "node_modules", ".pytest_cache")) or "__pycache__" in rel_root:
+            dirs[:] = []
+            continue
+        for fn in sorted(files):
+            if not fn.endswith((".md", ".py", ".json", ".yml")):
+                continue
+            rel = f"{rel_root}/{fn}" if rel_root != "." else fn
+            if rel.startswith(("systems/views/", "systems/graph/lanes.json", "archive/")):
+                continue
+            with open(os.path.join(REPO, rel), encoding="utf-8", errors="ignore") as fh:
+                for m in LANE_MENTION.finditer(fh.read()):
+                    seen[f"LANE-{m.group(1)}"].add(rel)
+    for lid in sorted(set(seen) - reg):
+        where = sorted(seen[lid])
+        f.err("[W1]", f"{lid} is named in {len(where)} file(s) ({', '.join(where[:3])}) and is not in "
+                      f"the lane register — executed work whose state is not modelled is exactly what "
+                      f"made an artifact's absence unreadable")
+    for lid in sorted(reg - set(seen)):
+        f.warn("[W2]", f"{lid} is registered but no document mentions it — either it is finished with "
+                       f"its record elsewhere, or the register has outlived its subject")
+
+    for l in g["lanes"]:
+        if l["state"] in ("held", "parked") and not l.get("gate"):
+            f.err("[W3]", f"{l['id']} is `{l['state']}` and names no gate — a pause with nothing that "
+                          f"would restart it is indistinguishable from an abandonment, and the two have "
+                          f"very different consequences for anything waiting on it")
+        if l["state"] == "complete" and not l.get("closed_on") and "closed_on" in l:
+            f.warn("[W4]", f"{l['id']} is complete with no date — recoverable, but it means nothing can "
+                           f"say how stale its verdict is")
 
 
 def check_requirement_source_agreement(g, f):
@@ -897,30 +958,41 @@ def _artifact_dispositions(f):
     return out
 
 
-#: ⭐ THE CHEAP SIGNAL THAT WOULD HAVE STOPPED THE 2026-08-05 ERROR. The roadmap marks a finished lane by
-#: STRIKING THROUGH its row title and following it with "✅ CLOSED". That is a real, consistently-applied
-#: convention — every struck-through span in the file is exactly that — so it can be surfaced as EVIDENCE
-#: next to an absent artifact. ⚠ It is evidence for a human, never a verdict: the check does not decide
-#: `withdrawn` from it, it puts it in front of whoever must decide.
-STRUCK_CLOSED = re.compile(r"~~(.{5,120}?)~~\s*\|?\s*✅?\s*\*\*(?:CLOSED|DONE|COMPLETE)", re.S)
+#: What a lane's state means for an artifact it owes but has not produced. ⭐ THIS IS THE MODELLED
+#: ANSWER, and it replaces reading struck-through prose. `complete` means the lane ENDED, so an artifact
+#: it never produced is never coming — the citation is what is wrong. `held`/`parked` mean it may yet
+#: resume behind a named gate. `running` means it is coming.
+LANE_STATE_DISPOSITION = {
+    "complete": "withdrawn",
+    "held": "expected",
+    "parked": "expected",
+    "running": "expected",
+}
 
 
-def _closed_work_mentioning(stem):
-    """Struck-through, explicitly-CLOSED roadmap rows whose title shares a word-stem with the artifact."""
-    p = os.path.join(REPO, "research", "manuscripts", "nr4a3-program-map.md")
-    if not os.path.exists(p):
-        return []
-    with open(p, encoding="utf-8") as fh:
-        text = fh.read()
-    key = re.sub(r"[^a-z0-9]+", " ", stem.lower()).split()
-    key = [w for w in key if len(w) >= 4]
-    out = []
-    for m in STRUCK_CLOSED.finditer(text):
-        title = re.sub(r"\s+", " ", m.group(1)).strip()
-        low = title.lower()
-        if any(w in low for w in key):
-            out.append(title[:90])
-    return out
+def _clip(s, n):
+    """Trim at a sentence or word boundary — a message that cuts mid-clause reads as a bug."""
+    s = re.sub(r"\s+", " ", s or "").strip()
+    if len(s) <= n:
+        return s
+    cut = s[:n]
+    stop = max(cut.rfind(". "), cut.rfind(" — "), cut.rfind("; "))
+    return (cut[:stop + 1] if stop > n // 2 else cut.rsplit(" ", 1)[0]) + " …"
+
+
+def _lane_verdict_for(name, g):
+    """(disposition, lane, entry) for an artifact some lane owes — or (None, None, None).
+
+    ⛔ THIS IS WHY LANES ARE MODELLED. The previous version of this answer was a regex hunting for
+    struck-through rows in the roadmap: it worked, and it was still prose-matching, so it could only ever
+    be *evidence for a human* rather than a fact the model knows. A lane's `produces[]` names every
+    artifact it was responsible for AND whether it was produced, so an absence resolves by lookup.
+    """
+    for lane in g.get("lanes", []):
+        for p in lane.get("produces", []):
+            if p["artifact"] == name and not p["produced"]:
+                return LANE_STATE_DISPOSITION.get(lane["state"]), lane, p
+    return None, None, None
 
 
 def check_artifacts(g, f):
@@ -965,6 +1037,19 @@ def check_artifacts(g, f):
     # anything here: an artifact that is cited and absent gets classified, however its absence surfaced.
     classified = _artifact_dispositions(f)
 
+    # ⛔ A DERIVED ANSWER OUTRANKS A WRITTEN ONE, AND A WRITTEN ONE THAT DUPLICATES IT IS A SECOND HOME.
+    # This is the same shadowing bug as the link baseline, one layer up: if a hand-written disposition
+    # short-circuits the lane lookup, the two can drift and the stale one wins silently. So any artifact
+    # a lane already answers for is REMOVED from the written register's authority and flagged.
+    for art in sorted(classified):
+        verdict, lane, _e = _lane_verdict_for(art, g)
+        if verdict:
+            f.err("[K2]", f"artifact-refs asserts a disposition for `{art}`, but {lane['id']} already "
+                          f"DERIVES it (`{verdict}`, because the lane is `{lane['state']}`). Two homes "
+                          f"for one fact, and the written one would win — delete it and let the lane "
+                          f"answer, or correct the lane if the lane is what is wrong")
+            classified.pop(art, None)
+
     missing = defaultdict(set)
     for rel, text in _walk_md(DOC_SKIP):
         for m in ARTIFACT_CITE.finditer(text):
@@ -978,19 +1063,32 @@ def check_artifacts(g, f):
                 missing[name].add(rel)
     for name in sorted(missing):
         cites = sorted(missing[name])
-        closed = _closed_work_mentioning(os.path.splitext(name)[0])
-        msg = (f"`{name}` is cited by {len(cites)} document(s) ({', '.join(cites[:3])}"
-               f"{', …' if len(cites) > 3 else ''}) and its producer is in this repo, but the artifact "
-               f"is NOT here. ⛔ THAT IS AN OBSERVATION, NOT A GAP — it has THREE possible meanings and "
-               f"they license opposite actions: `elsewhere` (it exists on another ref — fetch it), "
-               f"`expected` (the work is OPEN and would produce it — run it), or `withdrawn` (the work "
-               f"CLOSED — the citation is what is wrong, delete it). Decide which, and record it in "
-               f"systems/graph/artifact-refs.json")
-        if closed:
-            msg += (f". ⚠ **EVIDENCE FOR `withdrawn`:** the roadmap carries {len(closed)} struck-through "
-                    f"CLOSED row(s) naming this work — {'; '.join(repr(c) for c in closed[:2])}. Check "
-                    f"that before running anything")
-        f.warn("[K1]", msg)
+        # ⭐ ASK THE MODEL FIRST. If a lane owes this artifact and never produced it, its state ANSWERS
+        # the question — no human assertion, no prose matching, no third register to keep in step.
+        verdict, lane, entry = _lane_verdict_for(name, g)
+        if verdict:
+            f.warn("[K1]", f"`{name}` is cited by {len(cites)} document(s) and is absent. "
+                           f"⭐ **THE MODEL ANSWERS THIS: `{verdict}`.** {lane['id']} — {lane['title']} "
+                           f"— is `{lane['state']}`, and this artifact is registered as one it owed and "
+                           f"never produced.\n           {_clip(lane['terminus'], 180)}"
+                           + (f"\n           {_clip(entry['note'], 240)}" if entry.get("note") else "")
+                           + (". ⛔ A `complete` lane produces nothing further, so the CITATION is what "
+                              "is wrong — withdraw it rather than running anything."
+                              if verdict == "withdrawn" else
+                              f". The lane can still resume"
+                              f"{' behind: ' + lane['gate'] if lane.get('gate') else ''}, so the "
+                              f"citation is a forward reference rather than a defect."))
+            continue
+        f.warn("[K1]", f"`{name}` is cited by {len(cites)} document(s) ({', '.join(cites[:3])}"
+                       f"{', …' if len(cites) > 3 else ''}) and its producer is in this repo, but the "
+                       f"artifact is NOT here. ⛔ THAT IS AN OBSERVATION, NOT A GAP — it has THREE "
+                       f"possible meanings and they license opposite actions: `elsewhere` (it exists on "
+                       f"another ref — fetch it), `expected` (the work is OPEN and would produce it — "
+                       f"run it), or `withdrawn` (the work CLOSED — the citation is what is wrong, "
+                       f"delete it). ⚠ NO LANE CLAIMS THIS ARTIFACT, which is itself worth fixing: add "
+                       f"it to the owing lane's `produces[]` in systems/graph/lanes.json and the answer "
+                       f"becomes derivable. Failing that, record a disposition in "
+                       f"systems/graph/artifact-refs.json")
 
 
 MD_LINK = re.compile(r"\[[^\]]*\]\(([^)#\s]+)(?:#[^)\s]*)?\)")
@@ -1074,6 +1172,7 @@ def run_checks(g, f):
     check_hierarchy(g, f)
     check_blockers(g, f)
     check_requirements(g, f)
+    check_lanes(g, f)
     check_requirement_source_agreement(g, f)
     check_technologies(g, f)
     check_scan_interop(g, f)
@@ -1433,7 +1532,8 @@ def render_l0(g):
     out += ["", "## Drill down\n",
             "- **L1** — a strategy family: `L1-<family>.md`",
             "- **L2** — a single route: `L2-<route>.md`",
-            "- **Registers** — [blockers](registers/blockers.md) · [technologies](registers/technologies.md) · "
+            "- **Registers** — [lanes](registers/lanes.md) *(executed work and how it ended)* · "
+            "[blockers](registers/blockers.md) · [technologies](registers/technologies.md) · "
             "[instruments](registers/instruments.md)",
             "- **Cross-cutting** — [methods index](methods-index.md) · [readiness](readiness.md) · "
             "[requirements](registers/requirements.md)",
@@ -1604,6 +1704,60 @@ def render_l2(r, g):
     if nx.get("best_next_action"):
         out += ["## Best next action\n", nx["best_next_action"], "", f"*Cost:* {nx.get('cost','—')}\n"]
     out.append(f"[← {r['strategy']}](L1-{r['strategy'].lower()}.md) · [← L0](L0-ecosystem.md)\n")
+    return "\n".join(out)
+
+
+def render_lanes(g):
+    """Executed work, with its lifecycle — the level the model was missing until 2026-08-05."""
+    order = {"running": 0, "held": 1, "parked": 2, "complete": 3}
+    lanes = sorted(g["lanes"], key=lambda l: (order.get(l["state"], 9), l["id"]))
+    live = [l for l in lanes if l["state"] != "complete"]
+    out = [fm(id="DOC-VIEW-LANES", title="Lane register — executed work and how it ended",
+              level="cross-cutting", kind="generated", status="generated",
+              generator="systems/systems_check.py",
+              purpose="Every unit of work that has RUN, its state, how it ended, and the artifacts it "
+                      "owed — so that an artifact's absence is answerable by lookup rather than by "
+                      "reading prose.",
+              scope="All lanes named anywhere in the repository. Enumerated, not curated.",
+              audience=["maintainers", "autonomous research agents"],
+              date="2026-08-05", last_verified="2026-08-05"),
+           BANNER,
+           "# Lane register — executed work and how it ended\n",
+           "> **Role:** a ROUTE is a strategic option (*could we do X?*); a REQUIREMENT is *what must be "
+           "TRUE*; a **LANE is *we ran X, and here is how it ended*.**\n",
+           "⛔ **WHY THIS EXISTS.** Executed work had no object in the model, so *\"this lane closed\"* "
+           "lived only as a struck-through row in roadmap prose. Prose is not queryable — which is how, "
+           "on 2026-08-05, an artifact belonging to a lane that had closed on 2026-07-30 was read as a "
+           "gap to fill, and **88.5 minutes of CI went at it**. A state the model holds cannot be missed "
+           "that way.\n",
+           f"**{len(g['lanes'])} lanes · {len(live)} not yet complete.**\n",
+           "⚠ **A null result is `complete`, not a separate state.** The state answers exactly one "
+           "question — *will this lane still produce what it owes?* — so a lane that ended with its gate "
+           "FAILING is finished, with the verdict in its terminus. Collapsing those would make a settled "
+           "negative look like an outstanding task, which is how dead work gets re-run.\n",
+           "| lane | state | how it ended / what it waits on | owed artifacts |",
+           "|---|---|---|---|"]
+    for l in lanes:
+        owed = l.get("produces") or []
+        art = "<br/>".join(
+            f"{'✓' if p['produced'] else '✕'} `{p['artifact']}`" for p in owed) or "—"
+        gate = f"<br/>⏸ **gate:** {esc(l['gate'])}" if l.get("gate") else ""
+        out.append(f"| **{l['id']}**<br/>{esc(l['title'][:70])} | `{l['state']}`"
+                   f"{'<br/>' + l['closed_on'] if l.get('closed_on') else ''} "
+                   f"| {esc(l['terminus'][:230])}{gate} | {art} |")
+    never = [(l, p) for l in lanes for p in (l.get("produces") or []) if not p["produced"]]
+    if never:
+        out += ["", "## Artifacts a lane owed and never produced\n",
+                "⭐ **This table is the one that stops an absence being read as a gap.** A `complete` "
+                "lane produces nothing further, so anything it never produced is a **withdrawn "
+                "citation** — the document is what needs fixing, not the artifact. `check_artifacts` "
+                "derives exactly that, which is why no human has to assert it.\n",
+                "| artifact | lane | lane state | ⇒ disposition |", "|---|---|---|---|"]
+        for l, p in never:
+            out.append(f"| `{p['artifact']}` | {l['id']} | `{l['state']}` "
+                       f"| **{LANE_STATE_DISPOSITION.get(l['state'], '?')}** |")
+        out.append("")
+    out.append("[← L0](../L0-ecosystem.md)\n")
     return "\n".join(out)
 
 
@@ -2059,6 +2213,7 @@ def render_plan(g):
 
 def all_views(g):
     v = {"L0-ecosystem.md": render_l0(g),
+         "registers/lanes.md": render_lanes(g),
          "registers/blockers.md": render_blockers(g),
          "registers/technologies.md": render_technologies(g),
          "registers/instruments.md": render_instruments(g),
