@@ -1256,6 +1256,12 @@
           "provenance": "implicit_value_match",
           "how_established": "IMPLICIT PROVENANCE -- the file names no model ID. `\"Myxoid_liposarcoma\": \"myxoid\"` is a substring match on the Oncotree label, which in DepMap 24Q4 matches 'Extraskeletal Myxoid Chondrosarcoma' (this line) and no liposarcoma line.",
           "why_unaffected": "The field is `null` -- an empty group. It grounds nothing."
+        },
+        {
+          "file": "research/modalities/atr_hrd_sarcoma_series.py",
+          "use": "a comment in the GSE299349 identity check, naming this line as the REASON that check exists and as the weaker comparator its own read improves on",
+          "classification": "unaffected",
+          "why_unaffected": "It reads no data from this line and grounds no claim on it. The line appears only as the precedent: an EMC LABEL is not an EMC FUSION, which is why the new EMC-labelled sample (GSM9037837 / USZ-23_EMC3) is corroborated against 67 sarcoma samples from the same deposit before anything is built on it. Citing a disputed identity as a cautionary precedent is the one use the dispute cannot invalidate."
         }
       ],
       "distinct_from": [

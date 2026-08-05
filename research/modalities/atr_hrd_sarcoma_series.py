@@ -56,6 +56,7 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 ART = os.path.join(HERE, "atr-hrd-sarcoma-series.json")
 INPUTS = os.path.join(HERE, "atr-hrd-sarcoma-series-inputs.json")
+QUANT_INPUTS = os.path.join(HERE, "atr-hrd-sarcoma-series-quant-inputs.json")
 
 SERIES = "GSE299349"
 # The mechanism paper route 1 rests on. Fetched here for ONE reason: Q3 asks whether a 2026 sarcoma
@@ -211,7 +212,11 @@ def fetch(series=SERIES):
     #   depositing authors, the signature the summary names, and the title's own words. Recorded
     #   verbatim so "no publication found" is a SEARCH with a record, not an assertion.
     contribs = re.findall(r"!Series_contributor\s*=\s*(.+)", inp.get("soft_all_brief") or "")
-    surnames = sorted({c.strip().split(",")[0].strip() for c in contribs if c.strip()})
+    # ⚠ GEO writes a contributor as `First,Middle,Last` — so the SURNAME is the LAST field, not the
+    # first. Taking the first produced `AUTH:"Chantal" AND AUTH:"Lara"`, which returned 0 hits on a
+    # paper that exists. A search that fails for a formatting reason is indistinguishable, in the
+    # artifact, from one that found nothing.
+    surnames = sorted({c.strip().split(",")[-1].strip() for c in contribs if c.strip()})
     sig = re.findall(r"\b([A-Z]{3,8}-HRD|SARC-[A-Z]+)\b", inp.get("soft_all_brief") or "")
     queries = {}
     if len(surnames) >= 2:
@@ -224,6 +229,27 @@ def fetch(series=SERIES):
         grab(f"europepmc_pub_{name}",
              "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
              f"?query={urllib.parse.quote(q)}&resultType=core&format=json&pageSize=25")
+
+    # 4b · If a candidate publication was found by search, pull its record and OA full text. The
+    #      series declares no PMID, so this is the only route to what the authors actually claim.
+    cand = set()
+    for name in list(queries):
+        raw = inp.get(f"europepmc_pub_{name}")
+        if not raw:
+            continue
+        try:
+            for h in json.loads(raw).get("resultList", {}).get("result") or []:
+                t = (h.get("title") or "").lower()
+                if "atr" in t and "sarcoma" in t and "homologous recombination" in t:
+                    cand.add(h.get("pmid"))
+                    if h.get("pmcid"):
+                        inp.setdefault("candidate_pmcids", {})[h.get("pmid")] = h["pmcid"]
+        except Exception:       # noqa: BLE001
+            pass
+    inp["candidate_publication_pmids"] = sorted(x for x in cand if x)
+    for p, pmc in sorted((inp.get("candidate_pmcids") or {}).items()):
+        grab(f"candidate_fulltext_{p}",
+             f"https://www.ebi.ac.uk/europepmc/webservices/rest/{pmc}/fullTextXML")
 
     # 5 · The mechanism paper, for Q3. Its own words about HR deficiency are the comparison.
     grab(f"europepmc_{MECHANISM_PMID}",
@@ -240,6 +266,206 @@ def fetch(series=SERIES):
              f"https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML")
 
     return inp
+
+
+# =============================================================================================
+# The identity check on the EMC-labelled model.
+#
+# ⭐ WHY IT IS NOT OPTIONAL. This repo's most consequential recent finding is that the model it
+# called "the one real EMC line in DepMap" is recorded by Cellosaurus as NOT carrying an EWSR1
+# fusion (assessment §2). An EMC LABEL is not an EMC FUSION, and a new EMC-labelled sample must
+# face the same question the old one failed — before anything is built on it, not after.
+#
+# ⛔ WHAT THIS CANNOT BE. A transcript quantification cannot call a fusion: a Salmon index has no
+# fusion transcript in it, and NR4A3 expression is a CONSEQUENCE that other things can produce.
+# So this is CORROBORATION OR ITS ABSENCE, never a call. What makes it worth doing anyway is that
+# the comparator is unusually good: 67 other sarcoma samples quantified by the same submitter in
+# the same deposit, which is a far better background than the pan-cancer percentile that gave
+# H-EMC-SS its weak corroboration.
+# =============================================================================================
+GENE_PANEL = {
+    # the question
+    "NR4A3": ["NM_006981", "NM_173198", "NM_173199", "NM_173200"],
+    # paralogue context — an EMC fusion drives the NR4A3 body specifically, not the family
+    "NR4A1": ["NM_002135", "NM_173157", "NM_173158"],
+    "NR4A2": ["NM_006186", "NM_173171", "NM_173172", "NM_173173"],
+    # ⭑ instrument controls, both directions. Without these a zero is unreadable: it could be the
+    #   biology or it could be that the panel matched nothing.
+    "ACTB": ["NM_001101"],
+    "GAPDH": ["NM_002046", "NM_001256799", "NM_001289745", "NM_001289746"],
+    "ALB": ["NM_000477"],            # liver-restricted: must be ~0 in every sarcoma sample
+    "INS": ["NM_000207", "NM_001185097", "NM_001185098", "NM_001291897"],
+}
+_ACC2GENE = {a: g for g, accs in GENE_PANEL.items() for a in accs}
+
+
+def _parse_quant_sf(raw):
+    """Salmon quant.sf -> ({gene: summed TPM}, n_rows, first_names, matched_by).
+
+    Two naming conventions are handled and the one used is RECORDED, because a panel that silently
+    matched nothing and a gene that is genuinely off both look like 0.0."""
+    txt = raw.decode("utf-8", "replace")
+    lines = txt.splitlines()
+    if not lines:
+        return {}, 0, [], "EMPTY_FILE"
+    header = lines[0].split("\t")
+    try:
+        i_name, i_tpm = header.index("Name"), header.index("TPM")
+    except ValueError:
+        return {}, len(lines) - 1, lines[:2], f"UNEXPECTED_HEADER: {header[:6]}"
+
+    tot, first, by_symbol, by_acc = {}, [], 0, 0
+    for line in lines[1:]:
+        f = line.split("\t")
+        if len(f) <= max(i_name, i_tpm):
+            continue
+        name = f[i_name]
+        if len(first) < 3:
+            first.append(name)
+        try:
+            tpm = float(f[i_tpm])
+        except ValueError:
+            continue
+        parts = name.split("|")
+        gene = None
+        for p in parts:
+            if p in GENE_PANEL:
+                gene, by_symbol = p, by_symbol + 1
+                break
+        if gene is None:
+            for p in parts:
+                acc = p.split(".")[0]
+                if acc in _ACC2GENE:
+                    gene, by_acc = _ACC2GENE[acc], by_acc + 1
+                    break
+        if gene:
+            tot[gene] = tot.get(gene, 0.0) + tpm
+    matched = ("SYMBOL_IN_NAME" if by_symbol else
+               "REFSEQ_ACCESSION" if by_acc else "NOTHING_MATCHED")
+    return tot, len(lines) - 1, first, matched
+
+
+def fetch_quant(art_path=ART):
+    """Download every sample's processed quantification and reduce it to the gene panel.
+
+    Only the panel is stored — 68 samples x 7 genes — so the inputs cache stays committable while
+    the read stays reproducible."""
+    with open(art_path) as f:
+        art = json.load(f)
+    out = {"_what": "Per-sample gene-panel TPM from each sample's own Salmon quantification.",
+           "fetched_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+           "panel": {g: accs for g, accs in GENE_PANEL.items()},
+           "per_sample": {}}
+    for rec in art.get("samples", []):
+        gsm = rec["accession"]
+        urls = [u.replace("ftp://ftp.ncbi.nlm.nih.gov", "https://ftp.ncbi.nlm.nih.gov")
+                for u in rec.get("supplementary_files", []) if "quant.sf" in u]
+        if not urls:
+            out["per_sample"][gsm] = {"status": "no quant.sf supplementary file listed"}
+            continue
+        body, status = _get(urls[0], timeout=300, tries=3)
+        if body is None:
+            out["per_sample"][gsm] = {"status": status, "url": urls[0]}
+            continue
+        try:
+            body = gzip.decompress(body)
+        except Exception as e:      # noqa: BLE001
+            out["per_sample"][gsm] = {"status": f"gunzip failed: {type(e).__name__}: {e}"}
+            continue
+        tpm, nrows, first, matched = _parse_quant_sf(body)
+        out["per_sample"][gsm] = {
+            "status": status, "url": urls[0], "n_transcript_rows": nrows,
+            "first_names_verbatim": first, "matched_by": matched,
+            "panel_tpm": {g: round(tpm.get(g, 0.0), 4) for g in GENE_PANEL},
+        }
+        print(f"  {gsm} {rec['title']}: rows={nrows} matched_by={matched} "
+              f"NR4A3={tpm.get('NR4A3', 0.0):.2f}")
+    return out
+
+
+def derive_quant(q, art):
+    """Where does the EMC-labelled model sit for NR4A3 against the 67 others?"""
+    per = q.get("per_sample") or {}
+    titles = {r["accession"]: r["title"] for r in art.get("samples", [])}
+    emc = (art.get("q2_emc_or_nr4a3_sample") or {}).get("samples_with_a_strong_EMC_or_NR4A3_term") or []
+
+    read = {g: v for g, v in per.items() if isinstance(v.get("panel_tpm"), dict)}
+    failed = sorted(set(per) - set(read))
+    res = {
+        "_what": "NR4A3 expression in the EMC-labelled model against every other sample in the "
+                 "same deposit, quantified by the same submitter with the same tool.",
+        "_cannot": ("⛔ This CANNOT call a fusion. A Salmon index contains no fusion transcript, "
+                    "and NR4A3 expression is a consequence other things can produce. It is "
+                    "corroboration of a LABEL or the absence of it — nothing more."),
+        "n_samples_read": len(read),
+        "n_samples_that_failed_to_read": len(failed),
+        "samples_that_failed_to_read": failed,
+        "matched_by": sorted({v.get("matched_by") for v in read.values()}),
+        "n_transcript_rows_range": [min((v["n_transcript_rows"] for v in read.values()), default=0),
+                                    max((v["n_transcript_rows"] for v in read.values()), default=0)],
+    }
+    if not read:
+        res["verdict"] = "CANNOT_DETERMINE — no quantification file was readable"
+        return res
+    if res["matched_by"] == ["NOTHING_MATCHED"]:
+        res["verdict"] = "CANNOT_DETERMINE — the gene panel matched no transcript name"
+        res["observed_name_format"] = sorted({tuple(v["first_names_verbatim"])
+                                              for v in read.values()})[:3]
+        return res
+
+    # instrument controls first: a panel that cannot see ACTB cannot be trusted about NR4A3
+    def vals(g):
+        return sorted(v["panel_tpm"].get(g, 0.0) for v in read.values())
+
+    def med(xs):
+        n = len(xs)
+        return 0.0 if not n else (xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2)
+
+    res["instrument_controls"] = {
+        "ACTB_median_TPM": round(med(vals("ACTB")), 2),
+        "GAPDH_median_TPM": round(med(vals("GAPDH")), 2),
+        "ALB_median_TPM": round(med(vals("ALB")), 4),
+        "INS_median_TPM": round(med(vals("INS")), 4),
+        "_pass_condition": ("housekeeping genes high in every sample AND the tissue-restricted "
+                            "negatives near zero. Without both, a zero for NR4A3 is unreadable."),
+    }
+    hk_ok = med(vals("ACTB")) > 100 and med(vals("GAPDH")) > 100
+    neg_ok = med(vals("ALB")) < 5 and med(vals("INS")) < 5
+    res["instrument_controls"]["state"] = "PASS" if (hk_ok and neg_ok) else "FAIL"
+
+    ranked = sorted(((v["panel_tpm"].get("NR4A3", 0.0), g) for g, v in read.items()), reverse=True)
+    res["NR4A3_TPM_ranking_top10"] = [
+        {"rank": i + 1, "sample": g, "title": titles.get(g), "NR4A3_TPM": round(t, 3)}
+        for i, (t, g) in enumerate(ranked[:10])]
+    res["NR4A3_median_TPM_across_all_samples"] = round(med(vals("NR4A3")), 3)
+
+    per_emc = []
+    for g in emc:
+        if g not in read:
+            per_emc.append({"sample": g, "state": "CANNOT_DETERMINE — file not read"})
+            continue
+        t = read[g]["panel_tpm"].get("NR4A3", 0.0)
+        rank = 1 + sum(1 for tt, _ in ranked if tt > t)
+        per_emc.append({
+            "sample": g, "title": titles.get(g), "NR4A3_TPM": round(t, 3),
+            "rank_of_%d" % len(ranked): rank,
+            "n_samples_above_it": rank - 1,
+            "fold_over_panel_median": (round(t / med(vals("NR4A3")), 1)
+                                       if med(vals("NR4A3")) > 0 else None),
+            "NR4A1_TPM": round(read[g]["panel_tpm"].get("NR4A1", 0.0), 3),
+            "NR4A2_TPM": round(read[g]["panel_tpm"].get("NR4A2", 0.0), 3),
+        })
+    res["emc_labelled_samples"] = per_emc
+
+    if res["instrument_controls"]["state"] != "PASS":
+        res["verdict"] = "CANNOT_DETERMINE — the instrument controls did not pass"
+    elif per_emc and per_emc[0].get("rank_of_%d" % len(ranked)) == 1:
+        res["verdict"] = "LABEL_CORROBORATED — the EMC-labelled sample is the panel's top NR4A3 expressor"
+    elif per_emc and (per_emc[0].get("n_samples_above_it") or 0) <= 3:
+        res["verdict"] = "LABEL_CORROBORATED_WEAKLY — near the top of the panel for NR4A3"
+    else:
+        res["verdict"] = "LABEL_NOT_CORROBORATED_BY_NR4A3_EXPRESSION"
+    return res
 
 
 # =============================================================================================
@@ -404,7 +630,7 @@ def _processed_matrix_state(inp, per_sample_files):
     return "NO_PROCESSED_DATA_FOUND_RAW_READS_ONLY", ev
 
 
-def derive(inp):
+def derive(inp, quant=None):
     series = inp.get("series", SERIES)
     soft_txt = inp.get("soft_all_brief") or inp.get("soft_family_gz")
     res = {
@@ -765,8 +991,49 @@ def derive(inp):
         "A search that returns nothing is a search, not a proof that no paper exists. The queries "
         "are recorded verbatim so the next look starts from what was already asked.")
 
+    # What the candidate publication itself says — quoted, for the two facts the metadata cannot
+    # settle: whether the EMC model was in the drug-tested panel, and what SARC-HRD is.
+    cands = {}
+    for p in inp.get("candidate_publication_pmids") or []:
+        rec = {"pmid": p}
+        xml = inp.get(f"candidate_fulltext_{p}")
+        if not xml:
+            rec["fulltext"] = ("CANNOT_DETERMINE — no open-access full text was retrievable; only "
+                               "the search record above was read")
+        else:
+            text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", xml))
+            rec["fulltext_chars"] = len(text)
+            for label, rx in (
+                ("sentences_naming_the_EMC_model",
+                 r"[^.]*?\b(EMC[0-9]?|myxoid chondrosarcoma|NR4A3)\b[^.]*\."),
+                ("sentences_defining_SARC_HRD", r"[^.]*?\bSARC-HRD\b[^.]*\."),
+                ("sentences_naming_an_ATR_inhibitor",
+                 r"[^.]*?\b(ceralasertib|AZD6738|berzosertib|VE-822|elimusertib|BAY ?1895344|"
+                 r"M4344|gartisertib|M1774|camonsertib|RP-3500|ATRi)\b[^.]*\."),
+            ):
+                seen, uniq = set(), []
+                for m in re.finditer(rx, text, re.I):
+                    s = m.group(0).strip()
+                    k = s.lower()[:110]
+                    if k not in seen:
+                        seen.add(k)
+                        uniq.append(s)
+                rec[label] = uniq[:25]
+        cands[p] = rec
+    res["associated_publication"]["candidate_publication_read"] = cands
+
     # ---- the mechanism paper's own words about HR deficiency (Q3's comparison) -----------------
     res["mechanism_paper_on_hr_deficiency"] = _mechanism_hr_stance(inp)
+
+    # ---- is the EMC LABEL corroborated? --------------------------------------------------------
+    if quant:
+        res["emc_model_identity_check"] = derive_quant(quant, res)
+    else:
+        res["emc_model_identity_check"] = {
+            "state": "NOT_RUN",
+            "_why": ("The per-sample quantifications were not fetched. This is an ABSENT READING "
+                     "and says nothing about the model's identity — run `--fetch-quant` in CI."),
+        }
 
     # ---- one overall verdict, DERIVED from the answers above, never typed ----------------------
     usable = res["processed_matrix"]["state"].startswith("PER_SAMPLE_PROCESSED")
@@ -841,20 +1108,44 @@ def _mechanism_hr_stance(inp):
 
 
 # =============================================================================================
+def _load_quant():
+    if os.path.exists(QUANT_INPUTS):
+        with open(QUANT_INPUTS) as f:
+            return json.load(f)
+    return None
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--fetch", action="store_true",
                     help="network pass (CI only: the dev sandbox's proxy 403s NCBI)")
+    ap.add_argument("--fetch-quant", action="store_true",
+                    help="network pass over every sample's quant.sf (CI only). Needs --fetch first")
     ap.add_argument("--check", action="store_true",
                     help="offline: re-derive from the inputs cache and diff against the artifact")
     ap.add_argument("--series", default=SERIES)
     args = ap.parse_args()
 
+    if args.fetch_quant:
+        if not os.path.exists(ART):
+            print("no artifact yet — run --fetch first", file=sys.stderr)
+            return 2
+        q = fetch_quant()
+        with open(QUANT_INPUTS, "w") as f:
+            json.dump(q, f, indent=1, sort_keys=True)
+        with open(INPUTS) as f:
+            inp = json.load(f)
+        res = derive(inp, q)
+        with open(ART, "w") as f:
+            json.dump(res, f, indent=1, sort_keys=True)
+        print(json.dumps(res["emc_model_identity_check"], indent=1)[:2500])
+        return 0
+
     if args.fetch:
         inp = fetch(args.series)
         with open(INPUTS, "w") as f:
             json.dump(inp, f, indent=1, sort_keys=True)
-        res = derive(inp)
+        res = derive(inp, _load_quant())
         with open(ART, "w") as f:
             json.dump(res, f, indent=1, sort_keys=True)
         print(json.dumps({k: res.get(k) for k in
@@ -872,7 +1163,7 @@ def main():
         return 2
     with open(INPUTS) as f:
         inp = json.load(f)
-    fresh = derive(inp)
+    fresh = derive(inp, _load_quant())
     if not os.path.exists(ART):
         with open(ART, "w") as f:
             json.dump(fresh, f, indent=1, sort_keys=True)

@@ -104,6 +104,16 @@ jobs:
         timeout-minutes: 30
         run: python research/modalities/atr_hrd_sarcoma_series.py --fetch --series "${{ inputs.series || 'GSE299349' }}"
 
+      # ⭐ THE IDENTITY CHECK, and it runs by default rather than on request. This repo's most
+      # consequential recent finding is that its one "EMC" cell line is recorded as carrying no
+      # EWSR1 fusion — an EMC LABEL held for a month while a `[to verify]` flag sat beside it. A
+      # new EMC-labelled sample gets the same question asked BEFORE anything is built on it.
+      # Self-limiting on a series with no per-sample quantification: it downloads nothing.
+      - name: "GEO series — corroborate (or fail to corroborate) the disease labels from the data"
+        if: inputs.mode == 'gse-series'
+        timeout-minutes: 45
+        run: python research/modalities/atr_hrd_sarcoma_series.py --fetch-quant
+
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
         if: always()
         timeout-minutes: 10
@@ -125,7 +135,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
             git add -f research/modalities/atr-hrd-sarcoma-series.json \
-                       research/modalities/atr-hrd-sarcoma-series-inputs.json
+                       research/modalities/atr-hrd-sarcoma-series-inputs.json \
+                       research/modalities/atr-hrd-sarcoma-series-quant-inputs.json
           else
             git add -f research/modalities/emc-atr-vulnerability.json \
                        research/modalities/emc-atr-vulnerability-inputs.json
@@ -160,6 +171,9 @@ jobs:
                     "q3_selection_biomarker", "fet_fusion_status_recoverable"):
               if q in d:
                   print(f"{q}: {d[q]['answer']}")
+          ic = d.get("emc_model_identity_check") or {}
+          print("identity check:", ic.get("verdict") or ic.get("state"),
+                "| controls:", (ic.get("instrument_controls") or {}).get("state"))
           PY
 
       - name: "Summary — part-b"
