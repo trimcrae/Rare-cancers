@@ -404,10 +404,15 @@ PARP-inhibitor arm as an internal negative-translation control.** If EMC lines l
 too, the assay is reproducing the Ewing pattern that already failed, and the ATRi number should be
 discounted accordingly. That control costs one extra column on the same plate.
 
-⭑ **Two other $0 answers fell out of the same run.** The one EMC model in DepMap, **ACH-001519 /
+⭑ **Two other $0 answers fell out of the same run.** The DepMap model labelled EMC, **ACH-001519 /
 H-EMC-SS**, is present with `OncotreeSubtype: "Extraskeletal Myxoid Chondrosarcoma"`,
 lineage `Bone` — and **has no CRISPR gene-effect data** (`has_crispr_gene_effect: false`), which
-closes the `[to verify]` that has sat in [`../IDEAS.md`](../IDEAS.md) since 2026-07-03. And
+closes the CRISPR half of the `[to verify]` that has sat in [`../IDEAS.md`](../IDEAS.md) since 2026-07-03.
+✅ **This reading is UNAFFECTED by the 2026-08-05 identity correction** (the model is recorded as not carrying
+an EWSR1 fusion — [`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md)):
+it is a statement about **data availability**, and because the model has no CRISPR data it entered no
+dependency contrast here (`grouping.FET_rearranged.EMC.n_with_crispr: 0`). *(Superseded, retained: this read
+"**The one EMC model in DepMap**, ACH-001519 / H-EMC-SS".)* And
 **POLR2A and PRKDC are simply absent from the 24Q4 column set**, which is why the first run's stated
 pan-essential control read `null`; the control is now RPL5.
 
@@ -443,7 +448,8 @@ elimusertib (or ceralasertib/berzosertib) dose–response in EMC cells against a
 control, and stain γH2AX.* Every component exists: **the compounds are catalogue reagents**; **the
 models exist** — USZ20-EMC1 and USZ22-EMC2 ([Bangerter et al., *Human Cell* 2023;36:446–455](https://link.springer.com/article/10.1007/s13577-022-00818-x)),
 NCC-EMC1-C1 ([Iwata et al., *Human Cell* 2025](https://link.springer.com/article/10.1007/s13577-025-01250-7)),
-and H-EMC-SS; and **the readout is pre-validated** — the source paper found *"gH2AX proved to be a
+and — ⚠ **only if its fusion status is confirmed at the bench, which the curated record contradicts as of
+2026-08-05** ([Amendment 1](./emc-surface-target-landscape.md)) — H-EMC-SS; and **the readout is pre-validated** — the source paper found *"gH2AX proved to be a
 reliable biomarker for elimusertib activity"* after p-CHK1 did not discriminate. This is a plate
 experiment, not a program. ⚠ Per Axis W2's definition this counts **only because W1 is strong**; the
 same plate with no interested group would be worth nothing.
@@ -809,12 +815,19 @@ disagree with each other, so both are reported.**
   usual reagent barrier entirely. ⚠ As with 1b, **nobody has been approached** and no willingness is
   claimed.
 - **W2 — small.** One plate, catalogue reagents, no synthesis.
-- **⚠ D — thin, and this is what keeps it behind route 1b.** If nobody runs the matrix we hold a
-  *literature synthesis* — three published pieces joined for the first time — plus, at best, a
+- **⚠ D — thin, and this is what keeps it behind route 1b.** ⛔ **THINNER AS OF 2026-08-05, AND THIS IS THE
+  ONE PLACE IN THIS MEMO WHERE THE LINE-IDENTITY CORRECTION TOUCHES A ROUTE'S GRADE INPUT.** If nobody runs
+  the matrix we hold a *literature synthesis* — three published pieces joined for the first time — **and
+  nothing else**: the fallback below is withdrawn, because `ACH-001519 / H-EMC-SS` is recorded as not
+  carrying an EWSR1 fusion ([Amendment 1](./emc-surface-target-landscape.md)), so a PPARG read off it is a
+  read of a sarcoma line of disputed identity, not of EMC. *(Superseded, retained: "…plus, at best, a
   PPARG-axis expression read on **the single EMC model in DepMap** (`ACH-001519 / H-EMC-SS`, `n = 1`,
-  expression only). That settles the agonism-vs-redundancy direction question well enough to write
-  down and **not** well enough to call a computed result about EMC. The synthesis is genuinely new
+  expression only). That settles the agonism-vs-redundancy direction question well enough to write down and
+  **not** well enough to call a computed result about EMC.")* The synthesis is genuinely new
   and worth publishing inside a broader memo; it is not a paper on its own.
+  ⚠ **The route's tier is NOT re-graded here.** The D axis lost its only computable component while W1/W2 are
+  unchanged, which is a grade *input* moving. Re-grading is a separate call and belongs to whoever owns this
+  memo's tier table, not to a propagation pass.
 - **Net:** high W1 and low D pull opposite ways. It sits above the ASO's ask (better taker, smaller
   ask) and below route 1b (whose deliverable half stands alone and whose taker is stronger still).
 

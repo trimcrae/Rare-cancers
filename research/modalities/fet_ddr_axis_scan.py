@@ -34,9 +34,17 @@ WHAT THIS CANNOT DO - read before quoting any number
    window that a drug would exploit at sub-lethal occupancy can be invisible here, and a
    common-essential floor compresses exactly the differences we are looking for. This scan can
    therefore SUPPORT the hypothesis or fail to see it; it cannot refute it.
-2. **EMC is n<=1 in DepMap** (ACH-001519 / H-EMC-SS, expression-only per this repo's own record).
-   The script reports what CRISPR data that model actually has rather than assuming. Every FET
+2. **EMC is n=0 in DepMap for this scan's purposes.** ⛔ 2026-08-05: the one model DepMap LABELS EMC
+   (ACH-001519 / H-EMC-SS) is recorded by Cellosaurus as not carrying an EWSR1 fusion, and DepMap's
+   own filtered fusion caller names no FET gene for it (`emc-atr-vulnerability.json` ->
+   `part_a_hemcss_identity`, verdict NOT_FUSION_POSITIVE_PER_CURATED_RECORD). ✅ **No number in this
+   module rests on it**: the model has no CRISPR gene-effect data, so `fet_ids` (which intersects
+   with the CRISPR index) never contained it, `grouping.FET_rearranged.EMC.n_with_crispr` is 0, and
+   it is absent from `fet_ids_by_call` because none of its 2 fusion calls names a FET gene. The
+   script reports what CRISPR data that model actually has rather than assuming. Every FET
    number below is a transfer prior from OTHER FET sarcomas, never an EMC measurement.
+   *(Superseded, retained: "**EMC is n<=1 in DepMap** (ACH-001519 / H-EMC-SS, expression-only per
+   this repo's own record).")*
 3. **Grouping is reported TWICE and the disagreement is the uncertainty.** The primary grouping is
    string matching on Oncotree disease labels, with the labels seen recorded per group. A second
    grouping is built from DepMap's own `OmicsFusionFiltered.csv` calls (a line is FET-rearranged if a
@@ -110,7 +118,11 @@ NON_FET_SARCOMA_SUBTYPES = {
     "rhabdoid": ("rhabdoid", "SMARCB1 loss"),
     "chondrosarcoma": ("chondrosarcoma", "IDH1/2 (conventional)"),
 }
-EMC_MODEL_ID = "ACH-001519"  # H-EMC-SS, per this repo's IDEAS.md correction of 2026-07-03
+# The model DepMap LABELS 'Extraskeletal Myxoid Chondrosarcoma'. ⚠ NOT confirmed EMC: the curated
+# record contradicts the fusion label (see the module docstring, point 2). Kept under this name
+# because the question it answers -- "does that model have CRISPR data?" -- is about the model, not
+# about EMC. Superseded, retained: "H-EMC-SS, per this repo's IDEAS.md correction of 2026-07-03".
+EMC_MODEL_ID = "ACH-001519"
 
 
 def _label_col(model):

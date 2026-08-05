@@ -90,8 +90,12 @@ submitted.
   self-critical after two red-team passes ([`emc-surface-target-redteam.md`](./emc-surface-target-redteam.md)):
   rigorous selectivity + a hard normal-tissue window show **B7-H3 is not selective** and the selective
   candidates carry window liabilities, so the honest result refines priorities and nominates a neuroendocrine
-  **SSTR2/GD2** route rather than declaring winners. Uses the one real EMC line in DepMap (**H-EMC-SS /
-  ACH-001519**, n=1). Ready-to-send author outreach: [`emc-surface-target-outreach.md`](./emc-surface-target-outreach.md).
+  **SSTR2/GD2** route rather than declaring winners. ⛔ **Materially amended 2026-08-05
+  ([Amendment 1](./emc-surface-target-landscape.md)): the DepMap line it called "the one real EMC line" is
+  recorded by Cellosaurus as NOT carrying an EWSR1 fusion, so the paper's real-EMC readings are withdrawn and
+  the selectivity result is re-labelled** — *(superseded, retained: this entry read "Uses the one real EMC
+  line in DepMap (**H-EMC-SS / ACH-001519**, n=1)")*.
+  Ready-to-send author outreach: [`emc-surface-target-outreach.md`](./emc-surface-target-outreach.md).
   Makes **no** EMC-validated surface claim; the decisive protein-level validation needs the patient-derived
   EMC lines.
 

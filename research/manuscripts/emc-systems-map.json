@@ -1009,6 +1009,197 @@
         }
       ],
       "notes": "V17's positive control — and V17 FAILS on it, which is why anything adjudicated by that exposure cutoff inherits a demonstrated false negative."
+    },
+    {
+      "id": "OBJ-LINE-HEMCSS",
+      "kind": "cell_line",
+      "display_name": "ACH-001519 / H-EMC-SS",
+      "aliases": [
+        "ACH-001519",
+        "H-EMC-SS",
+        "HEMCSS",
+        "HEMC-SS",
+        "CVCL_1238"
+      ],
+      "status": "identity_disputed",
+      "definition": {
+        "exon_level": null,
+        "residue_level": null,
+        "length_field": null,
+        "what_it_is": "The single DepMap model whose OncotreeSubtype string is 'Extraskeletal Myxoid Chondrosarcoma'. Cellosaurus CVCL_1238, RIKEN RCB0508, COSMIC-CLP 907290, GDSC 907290, ECACC 94042258. An 18-locus STR profile exists, so the line is a real, profiled entity -- the open question is WHAT it is, not whether it exists.",
+        "provenance": []
+      },
+      "identity": {
+        "labelled_as": "Extraskeletal Myxoid Chondrosarcoma (DepMap OncotreeSubtype)",
+        "verdict": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD",
+        "verdict_artifact": "ART-ATR-VULNERABILITY",
+        "verdict_field": "/part_a_hemcss_identity/verdict",
+        "evidence_verbatim": "Caution: Does not harbor a gene fusion involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129).",
+        "evidence_primary_source": "PubMed=34413129 (cited by Cellosaurus CVCL_1238)",
+        "independent_lines": [
+          "Cellosaurus CVCL_1238 curated CAUTION, verbatim above, citing a primary source.",
+          "DepMap OmicsFusionFiltered.csv 24Q4: the model IS in the file (1,670 models) with 2 filtered calls -- AL158209.1--NEBL and VIM--RPS25 -- and NEITHER names NR4A3, EWSR1, TAF15 or FUS. The model being present is what makes this a reading of absence rather than an absent reading.",
+          "DepMap expression: NR4A3 at 0.941 log2(TPM+1), 83rd percentile of 1,673 lines but against a panel median of 0.214. A fusion transcript carries the NR4A3 body under EWSR1's promoter and would read far higher. WEAK CORROBORATION ONLY -- expression alone can neither prove nor exclude a fusion."
+        ],
+        "what_this_cannot_settle": "Cell-line identity is settled by STR authentication against the donor and by RT-PCR for the fusion. Neither is in public data at the resolution needed and neither is something this programme can perform -- it has no bench. So this does NOT establish what the line is instead, that the original characterisation was wrong, or that the line is not EMC: a line can be misidentified, can drift in culture, or can be a genuine fusion-negative tumour of the same histology. What IS established is that the PUBLIC RECORD does not support the label this repository was applying.",
+        "correction_home": "research/manuscripts/emc-surface-target-landscape.md",
+        "correction_marker": "Amendment 1"
+      },
+      "may_not_ground": [
+        "any claim of the form 'EMC expresses X' / 'EMC's surface phenotype is Y'",
+        "any EMC-specific dependency, sensitivity or biomarker reading",
+        "any corroboration of EMC's neuroendocrine differentiation",
+        "the description of this repository as having a real EMC cell line in public data"
+      ],
+      "read_by": [
+        {
+          "file": "research/manuscripts/emc-surface-target-landscape.md",
+          "use": "PREPRINT. Title/abstract framing, §2.2 class definition, §3.1 + Table 1, §3.5, §6, §7",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/manuscripts/emc-surface-target-redteam.md",
+          "use": "the 'reframing discovery' that introduced the EMC label into the preprint; finding M8",
+          "classification": "invalidated",
+          "correction_marker": "RETRACTED 2026-08-05"
+        },
+        {
+          "file": "research/manuscripts/emc-surface-target-outreach.md",
+          "use": "OUTWARD-FACING draft emails: 'the one EMC line in public data'; pre-send checklist",
+          "classification": "invalidated",
+          "correction_marker": "DO NOT claim H-EMC-SS as an EMC line"
+        },
+        {
+          "file": "research/manuscripts/README.md",
+          "use": "manuscripts index entry for the surface-target preprint",
+          "classification": "invalidated",
+          "correction_marker": "Materially amended 2026-08-05"
+        },
+        {
+          "file": "research/IDEAS.md",
+          "use": "the 2026-07-03 'DepMap DOES contain one EMC line' correction, and the surface-paper headline",
+          "classification": "invalidated",
+          "correction_marker": "CORRECTION-OF-A-CORRECTION (2026-08-05)"
+        },
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "use": "route 1's $0 CRISPR-availability finding (unaffected); route 1's EMC-model list for the ATRi ask; route 6's D axis, whose only computable component was a PPARG read off this model",
+          "classification": "invalidated",
+          "correction_marker": "THE LINE-IDENTITY CORRECTION TOUCHES A ROUTE'S GRADE INPUT"
+        },
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "use": "route 9's park condition and queue item 7 -- 're-query DepMap for CRISPR data'",
+          "classification": "survives_relabelled",
+          "correction_marker": "RUN, AND ITS PREMISE IS NOW GONE (2026-08-05)"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "use": "Q14 in the open-question queue",
+          "classification": "survives_relabelled",
+          "correction_marker": "CLOSED 2026-08-05 — the question is answered AND its premise is withdrawn"
+        },
+        {
+          "file": "research/manuscripts/what-a-civilian-can-buy.md",
+          "use": "the JCRB repository row -- the line is named as what JCRB holds",
+          "classification": "survives_relabelled",
+          "correction_marker": "the DepMap line *labelled* EMC"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-emc-biology-evidence.md",
+          "use": "'no LOF experiment in any EMC cell line (e.g. H-EMC-SS)' -- a literature-absence claim",
+          "classification": "survives_relabelled",
+          "correction_marker": "a line the curated record does not support as fusion-positive"
+        },
+        {
+          "file": "research/modalities/emc_surfaceome_scan.py",
+          "use": "produces `myxoid_mean` and `emc_line_top_surface` from this model",
+          "classification": "invalidated",
+          "correction_marker": "NOT AN EMC READING"
+        },
+        {
+          "file": "research/modalities/emc-surfaceome-scan.json",
+          "use": "committed artifact carrying `myxoid_mean` / `emc_line_top_surface` and their captions",
+          "classification": "invalidated",
+          "correction_marker": "_identity_correction"
+        },
+        {
+          "file": "research/modalities/fet_ddr_axis_scan.py",
+          "use": "asks whether the model has CRISPR gene-effect data; defines EMC_MODEL_ID",
+          "classification": "unaffected",
+          "why_unaffected": "It reports DATA AVAILABILITY, and the answer was 'no CRISPR data' (`/emc_line/has_crispr_gene_effect: false`). Because `fet_ids` intersects with the CRISPR index the model was never in the FET group (`grouping.FET_rearranged.EMC.n_with_crispr: 0`), and it is absent from the fusion-call grouping too because neither of its 2 calls names a FET gene. So NO dependency, sensitivity or contrast number in this module rests on it. Verified, not assumed.",
+          "correction_marker": "NOT confirmed EMC"
+        },
+        {
+          "file": "research/modalities/fet-ddr-axis-scan.json",
+          "use": "the `/emc_line` block recording that the model has no CRISPR data",
+          "classification": "unaffected",
+          "why_unaffected": "A record of an absence of data about the model. It grounds no EMC claim, and the EMC group it would have joined is empty (`n_with_crispr: 0`)."
+        },
+        {
+          "file": "research/modalities/emc-atri-prereg.md",
+          "use": "§3 names H-EMC-SS among candidate EMC models for the ATRi ask",
+          "classification": "survives_relabelled",
+          "correction_marker": "fusion status is UNVERIFIED"
+        },
+        {
+          "file": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+          "use": "PART A -- the assessment that established the verdict, and its repo-wide use inventory",
+          "classification": "unaffected",
+          "why_unaffected": "It is the document that ESTABLISHED the verdict; it asserts no EMC reading from the line.",
+          "correction_marker": "NOT carrying the fusion"
+        },
+        {
+          "file": "research/modalities/emc-atr-vulnerability.json",
+          "use": "`part_a_hemcss_identity` -- the artifact that owns the verdict",
+          "classification": "unaffected",
+          "why_unaffected": "It is the verdict's one home.",
+          "correction_marker": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
+        },
+        {
+          "file": "research/modalities/emc-atr-vulnerability-inputs.json",
+          "use": "the raw inputs behind `part_a_hemcss_identity`",
+          "classification": "unaffected",
+          "why_unaffected": "Raw inputs to the verdict, not a claim about EMC.",
+          "correction_marker": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
+        },
+        {
+          "file": "research/modalities/emc_atr_vulnerability.py",
+          "use": "the module that computes `part_a_hemcss_identity`",
+          "classification": "unaffected",
+          "why_unaffected": "It is the instrument that produced the verdict.",
+          "correction_marker": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-degrader-paper-SI.md",
+          "use": "named as an example EMC model in the 'no LOF experiment exists' statement",
+          "classification": "survives_relabelled",
+          "why_unaffected": null,
+          "correction_marker": "USZ20-EMC1 /\nNCC-EMC1-C1"
+        },
+        {
+          "file": "research/manuscripts/emc-systems-map.json",
+          "use": "this registry: two revival triggers name the line, plus this object",
+          "classification": "unaffected",
+          "why_unaffected": "TRG-EMC-MODEL-ACCESS already required an 'authenticated H-EMC-SS' before the verdict existed, and TRG-EMC-EXPRESSION-DATASET asks for data BEYOND this model. Neither asserts an EMC reading from it.",
+          "correction_marker": "identity_disputed"
+        },
+        {
+          "file": "research/manuscripts/emc-systems-map.md",
+          "use": "the generated view of this registry",
+          "classification": "unaffected",
+          "why_unaffected": "Generated from the registry; never hand-edited.",
+          "correction_marker": "identity_disputed"
+        }
+      ],
+      "distinct_from": [
+        {
+          "object": "OBJ-FUS-T1",
+          "why": "the object registry's fusion entries are REPORTED EMC fusions with exon-level definitions and primary-literature provenance; this line is a reagent whose carriage of any such fusion the curated record contradicts. Reading a fusion property off this line is exactly the confusion this entry exists to stop"
+        }
+      ],
+      "notes": "⛔ Registered 2026-08-05 after the repo spent a month treating this as 'the one real EMC line in DepMap'. The `[to verify]` flag on its fusion status was written honestly and carried faithfully in four places -- carrying a flag is not resolving one, and the resolving observation was one free API call available the whole time. ⚠ A ROUTE GRADE INPUT MOVED AND IS NOT RE-GRADED HERE: route 6 (RT-TRABECTEDIN-PPARG) in emc-post-degrader-options.md had a D axis whose only computable component was a PPARG-axis read off this model. Re-grading is a separate call and belongs to that memo's owner."
     }
   ],
   "contested_names": [

@@ -276,9 +276,15 @@ def main():
     # actionable-antigen callout: where the known ADC/CAR/bispecific targets landed
     actionable = {s["gene"]: s for s in rows if s["gene"] in set(SEED_SURFACE)}
 
-    # The SINGLE real EMC line (ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid
-    # Chondrosarcoma') — its own top surface antigens. n=1, descriptive only, but this is REAL EMC
-    # expression, not a surrogate. (Corrects the 'EMC has no DepMap line' assumption.)
+    # The single line DepMap LABELS 'Extraskeletal Myxoid Chondrosarcoma' (ACH-001519) — its own top
+    # surface antigens. n=1, descriptive only.
+    # ⛔ 2026-08-05: this is NOT an EMC reading. Cellosaurus CVCL_1238 carries "Caution: Does not
+    # harbor a gene fusion involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma
+    # (PubMed=34413129)", and DepMap's own filtered fusion caller returns 2 calls for the model,
+    # none naming NR4A3 or any FET gene (emc-atr-vulnerability.json -> part_a_hemcss_identity,
+    # verdict NOT_FUSION_POSITIVE_PER_CURATED_RECORD). Superseded, retained: this comment read
+    # "The SINGLE real EMC line ... this is REAL EMC expression, not a surrogate. (Corrects the
+    # 'EMC has no DepMap line' assumption.)"
     emc_line_top = None
     if len(myxoid_ids) >= 1:
         emc_vals = {g: float(myx_ex[g].dropna().mean())
@@ -286,9 +292,18 @@ def main():
         emc_line_top = {
             "line": myxoid_lines_named,
             "n": len(myxoid_ids),
-            "note": ("Single DepMap line annotated 'Extraskeletal Myxoid Chondrosarcoma'; n=1 so "
-                     "descriptive only (no statistics). REAL EMC expression, not a surrogate. "
-                     "EWSR1::NR4A3 fusion status of this line: [to verify]."),
+            "identity_verdict": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD",
+            "note": ("⛔ NOT AN EMC READING. Single DepMap line LABELLED 'Extraskeletal Myxoid "
+                     "Chondrosarcoma'; n=1 so descriptive only (no statistics). Cellosaurus "
+                     "CVCL_1238: \"Caution: Does not harbor a gene fusion involving EWSR1 which is "
+                     "a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129)\", and "
+                     "DepMap's filtered fusion caller names no FET gene for this model "
+                     "(emc-atr-vulnerability.json -> part_a_hemcss_identity, 2026-08-05). Read as a "
+                     "single sarcoma line of DISPUTED IDENTITY. ⚠ This is the PUBLIC RECORD not "
+                     "supporting the label; it does not establish what the line is instead — that "
+                     "needs STR authentication + RT-PCR, which this programme cannot perform. "
+                     "Superseded, retained: 'REAL EMC expression, not a surrogate. EWSR1::NR4A3 "
+                     "fusion status of this line: [to verify].'"),
             "top_surface_antigens": [{"gene": g, "log2tpm": round(v, 2)}
                                      for g, v in sorted(emc_vals.items(), key=lambda kv: kv[1],
                                                         reverse=True)[:30]],
@@ -312,7 +327,9 @@ def main():
                   "TRANSLOCATION-sarcoma DepMap class (EMC has no line). NAMES a candidate antigen; "
                   "does NOT confirm EMC surface expression or solve delivery efficiency."),
         "_caveats": [
-            "SURROGATE: DepMap sarcoma lines, not EMC (no EMC line exists).",
+            "SURROGATE: DepMap sarcoma lines, not EMC. ⛔ 2026-08-05: the one line DepMap LABELS EMC "
+            "(ACH-001519) is recorded by Cellosaurus as not carrying an EWSR1 fusion, so this scan "
+            "contains NO usable real-EMC observation — see class_definition._myxoid_caveat.",
             "'rest' = other CANCER lineages, NOT normal tissue; an AOC's real safety window is "
             "tumour-vs-NORMAL (GTEx/HPA) — the flagged next step, not done here.",
             "cell-line surface mRNA != primary-tumour surface PROTEIN density (mRNA is a proxy).",
@@ -328,17 +345,38 @@ def main():
                              "n_sarcoma_lines": len(sarcoma_ids),
                              "class_oncotree_subtypes_present": class_subtypes,
                              "myxoid_lines_named": myxoid_lines_named,
-                             "_myxoid_caveat": ("CORRECTION: the single 'myxoid'-matched line is "
-                                                "ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid "
-                                                "Chondrosarcoma' — i.e. a REAL EMC line (n=1), NOT myxoid "
-                                                "liposarcoma. DepMap therefore contains one EMC line; its "
-                                                "expression (myxoid_mean / emc_line_top_surface) is real "
-                                                "EMC data, descriptive only at n=1. Fusion status [to verify]."),
+                             "_myxoid_caveat": ("⛔ RETRACTED 2026-08-05. The single 'myxoid'-matched line "
+                                                "is ACH-001519, DepMap OncotreeSubtype 'Extraskeletal Myxoid "
+                                                "Chondrosarcoma' — so it is NOT myxoid liposarcoma, and that "
+                                                "half of the original correction stands. But it is NOT usable "
+                                                "as EMC data: Cellosaurus CVCL_1238 records \"Caution: Does "
+                                                "not harbor a gene fusion involving EWSR1 which is a hallmark "
+                                                "of extraskeletal myxoid chondrosarcoma (PubMed=34413129)\" "
+                                                "and DepMap's filtered fusion caller names no FET gene for it "
+                                                "(emc-atr-vulnerability.json -> part_a_hemcss_identity). "
+                                                "`myxoid_mean` / `emc_line_top_surface` are therefore a "
+                                                "SINGLE SARCOMA LINE OF DISPUTED IDENTITY, n=1, and are not "
+                                                "EMC evidence. ⚠ The public record does not support the "
+                                                "label; it does not establish what the line is instead. "
+                                                "Superseded, retained: 'i.e. a REAL EMC line (n=1) ... DepMap "
+                                                "therefore contains one EMC line; its expression is real EMC "
+                                                "data, descriptive only at n=1. Fusion status [to verify].'"),
                              "_surrogate_caveat": ("The broader translocation class (Ewing/synovial/etc.) "
                                                    "is a lineage-GENERIC surrogate — surface phenotype tracks "
                                                    "lineage, and those differ from EMC's myxoid/chondroid "
-                                                   "lineage — so class-level ranks are weaker than the single "
-                                                   "real EMC line, which however lacks statistical power.")},
+                                                   "lineage. ⛔ 2026-08-05: with the myxoid line's identity "
+                                                   "disputed, the surrogate is ALL there is — there is no "
+                                                   "real-EMC observation in this scan. Superseded, retained: "
+                                                   "'so class-level ranks are weaker than the single real EMC "
+                                                   "line, which however lacks statistical power.'"),
+                             "_class_membership_sensitivity": (
+                                 "ACH-001519 is 1 of the class members carrying expression data. Dropping it "
+                                 "and recomputing every actionable antigen's enrichment_vs_rest from the "
+                                 "committed 24Q4 summary moves it by <= 0.13 log2TPM with NO sign flips "
+                                 "(largest: GPC3 0.93->0.81; CD276 0.14->0.15; CDH11 3.18->3.29), so the "
+                                 "selectivity conclusions do not rest on it. ⚠ The rank-based Mann-Whitney p "
+                                 "cannot be recomputed from summary statistics, so the q-values are NOT "
+                                 "re-derived — this is an effect-size bound, not a re-run.")},
         "thresholds": {"detectable_log2tpm": DETECT, "expressed_log2tpm": EXPRESSED},
         "n_surface_genes_scanned": len(keep),
         "top_candidates": rows[:40],

@@ -180,7 +180,7 @@ this memo exists to fill.
 | **6** | **TCIP / transcriptional chemical-induced proximity** (co-opt the fusion, don't degrade it) | **RESHAPES.** Keeps `R4` `R5` `R7`; **retires `R9` `R10` `R12`** | ★ new row — belongs on the board | grade the mechanism against the failure record; verify the auto-captured citation through `verify-refs` |
 | **7** | **Junction neoantigen** (vaccine / TCR-T / soluble TCR) | ⛔ **REMOVES it** — peptide identity is categorical | ○ drafted — and now carrying a **correction owed** | ⛔ **already run:** its 26 predicted binders span seams that do not exist. Regenerate `fusion-breakpoint-neoantigens.json` against the corrected exon index |
 | **8** | **AND-gate bivalent degrader** (avidity coincidence detection) | **NEUTRAL** — a second, independent axis; arm 1 still carries the paralogue handles | ⏸ hold — arm-2 chemistry does not exist | — (already computed; nothing free left) |
-| **9** | **Synthetic-lethal / dependency partner** | ⛔ **REMOVES it** — different target | ⏸ parked on data, not on ideas | check whether the one EMC line in DepMap (**ACH-001519 / H-EMC-SS**) has gained CRISPR data since 24Q4 |
+| **9** | **Synthetic-lethal / dependency partner** | ⛔ **REMOVES it** — different target | ⏸ parked on data, not on ideas | ⛔ **2026-08-05:** the DepMap line labelled EMC (**ACH-001519 / H-EMC-SS**) has no CRISPR data *and* is recorded as not fusion-positive ([Amendment 1](./emc-surface-target-landscape.md)), so the park now waits on a **patient-derived** model, not on a DepMap release. *(Superseded, retained: "check whether the one EMC line in DepMap (**ACH-001519 / H-EMC-SS**) has gained CRISPR data since 24Q4")* |
 | **10** | **Molecular glue instead of a PROTAC** | **RELOCATES and WORSENS** — same discrimination, fewer independent axes | ⏸ watch, do not build | — (add a method-watch trigger) |
 | **11** | **Target the EWSR1 half at the protein level** | ⛔ **RELOCATES onto an essential gene** — WT EWSR1 gene effect ≈ **−1.2** | ✕ down | — (already answerable from committed data) |
 | **12** | **Target the DBD / DNA binding** | ⛔ **WORSENS** — 92.8 % / 98.6 % identity | ✕ down, on arithmetic | — (finding 1 closes it) |
@@ -548,10 +548,16 @@ the EWSR1-prion→BAF mechanism is established (Boulay 2017) — while BRD4 (−
 (−1.46) are pan-essential with no window. The cheap transfer prior is spent, and the repo's standing
 decision is **do not spend a scarce wet-lab slot on a transfer-justified BRD9 test.**
 
-**$0 test that has not been run:** the repo found **one EMC line in DepMap** — ACH-001519 / H-EMC-SS,
-expression only, CRISPR-dependency "[to verify]" as of 2026-07-03. Whether a later release has added
-dependency data for it is a free query through the existing `depmap-dependency.yml` lane. It would not
-make n = 1 decisive, but it is the only EMC-specific dependency datum that could exist without a lab.
+**$0 test — ⛔ RUN, AND ITS PREMISE IS NOW GONE (2026-08-05).** Both halves resolved, and they resolved
+differently. **(a) The query itself was run:** ACH-001519 / H-EMC-SS **has no CRISPR gene-effect data** in
+24Q4 ([`fet-ddr-axis-scan.json`](../modalities/fet-ddr-axis-scan.json) →
+`/emc_line/has_crispr_gene_effect: false`) — a measured absence, not an unasked question. **(b) The premise
+that an answer would be an EMC dependency is withdrawn:** Cellosaurus records the line as not carrying an
+EWSR1 fusion ([`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md)), so even
+if a later release adds dependency data, **it would not be an EMC-specific datum.** The re-query stays worth a
+free tick on release changes; it stops being the route's unlock. *(Superseded, retained: "the repo found
+**one EMC line in DepMap** — ACH-001519 / H-EMC-SS, expression only, CRISPR-dependency "[to verify]" as of
+2026-07-03… it is the only EMC-specific dependency datum that could exist without a lab.")*
 
 **Grade: ⏸ parked on data, not on ideas.** The trigger is already on
 [`../method-watch.md`](../method-watch.md): a new patient-derived EMC / FET-fusion model, or an improved
@@ -675,7 +681,7 @@ Every item is free, none needs an authorization, and each is stated as an action
 | **4** | ✅ **DONE 2026-08-03 — the E3-arm-free reach enumeration**, run after the branch-1b reconciliation exactly as this row required ([`nr4a3_monovalent_reach.py`](../modalities/nr4a3_monovalent_reach.py)) | route 2 | the 30-of-30 counter-result was computed under a constraint an inhibitor does not face — **and removing that constraint makes the window WORSE, not better.** The negative is worth what a positive would have been: it closes the geometric case for the covalent-inhibitor configuration and names why ([route 2](#route-2--a-covalent-inhibitor-or-covalent-probe-at-c397-instead-of-a-degrader); [`nr4a3-monovalent-pocket-route.md`](./nr4a3-monovalent-pocket-route.md)). **What remains:** the same paired test for the **TCIP** configuration, which is a *different* second terminus |
 | **5** | **Resolve the PPARG agonist-vs-antagonist direction from the literature, in CI** | route 5 | unblocks the highest-readiness route that removes the selectivity requirement; approved drugs, no new chemistry |
 | **6** | **Verify the TCIP citation through `verify-refs`, then give it a row on `IDEAS.md`** | route 6 | it has sat as an auto-captured lead since 2026-07-13 with an explicit *"may warrant a new row — for human review"* |
-| **7** | **Re-query DepMap for CRISPR data on ACH-001519 / H-EMC-SS** | route 9 | the only EMC-specific dependency datum that could exist without a lab |
+| **7** | ✅ **DONE — and its premise is withdrawn (2026-08-05).** The re-query ran: **no CRISPR data** for ACH-001519 in 24Q4 (`fet-ddr-axis-scan.json` → `/emc_line/has_crispr_gene_effect`). And the line is recorded as **not carrying an EWSR1 fusion** ([Amendment 1](./emc-surface-target-landscape.md)), so an answer would not be EMC-specific | route 9 | *(superseded, retained: "the only EMC-specific dependency datum that could exist without a lab")* |
 | **8** | **Add a `method-watch.md` row for prospective molecular-glue design** | route 10 | the modality most likely to arrive from outside; a trigger costs nothing and stops it being re-litigated |
 | **9** | **Regenerate the junction neoepitope set against the corrected exon index** | route 7 | ⛔ its 26 predicted binders span seams that do not exist. Needs MHCflurry in CI — free, but it belongs to that lane |
 
