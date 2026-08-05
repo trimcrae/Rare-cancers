@@ -1,0 +1,2688 @@
+SOURCE URL: https://patents.google.com/patent/WO2014151310A2/en
+FINAL URL: https://patents.google.com/patent/WO2014151310A2/en
+HTTP: 200
+CONTENT-TYPE: text/html
+======================================================================
+WO2014151310A2 - Cycle closure estimation of relative binding affinities and errors 
+ - Google Patents 
+
+ WO2014151310A2 - Cycle closure estimation of relative binding affinities and errors 
+ - Google Patents
+
+ Cycle closure estimation of relative binding affinities and errors 
+
+ Download PDF 
+ Info
+
+ Publication number 
+ WO2014151310A2 
+
+ WO2014151310A2 
+ PCT/US2014/025425 
+ US2014025425W 
+ WO2014151310A2 
+ WO 2014151310 A2 
+ WO2014151310 A2 
+ WO 2014151310A2 
+
+ US 2014025425 W 
+ US2014025425 W 
+ US 2014025425W 
+ WO 2014151310 A2 
+ WO2014151310 A2 
+ WO 2014151310A2 
+
+ Authority 
+ WO 
+ WIPO (PCT) 
+
+ Prior art keywords 
+ free energy 
+ ligands 
+ fep 
+ binding 
+ cycle 
+
+ Prior art date 
+ 2013-03-15 
+
+ Legal status (The legal status is an assumption and is not a legal conclusion. Google has not performed a legal analysis and makes no representation as to the accuracy of the status listed.) 
+ 
+ Ceased 
+
+ Application number 
+ PCT/US2014/025425 
+
+ Other languages 
+
+ French ( fr )
+
+ Other versions 
+
+ WO2014151310A3 
+ ( en 
+
+ Inventor 
+ Lingle Wang 
+ Teng Lin 
+ Robert Abel 
+
+ Current Assignee (The listed assignees may be inaccurate. Google has not performed a legal analysis and makes no representation or warranty as to the accuracy of the list.) 
+ 
+ Schroedinger LLC
+
+ Original Assignee 
+ Schroedinger LLC 
+
+ Priority date (The priority date is an assumption and is not a legal conclusion. Google has not performed a legal analysis and makes no representation as to the accuracy of the date listed.) 
+ 2013-03-15 
+
+ Filing date 
+ 2014-03-13 
+
+ Publication date 
+ 2014-09-25 
+
+ 2014-03-13 
+ Application filed by Schroedinger LLC 
+ filed 
+ Critical 
+
+ Schroedinger LLC 
+
+ 2014-03-13 
+ Priority to EP14769374.1A 
+ priority 
+ Critical 
+
+ patent/EP2972311B1/en 
+
+ 2014-03-13 
+ Priority to DK14769374.1T 
+ priority 
+
+ patent/DK2972311T3/en 
+
+ 2014-03-13 
+ Priority to EP20206513.2A 
+ priority 
+
+ patent/EP3836147B1/en 
+
+ 2014-03-13 
+ Priority to ES14769374T 
+ priority 
+
+ patent/ES2853348T3/en 
+
+ 2014-03-13 
+ Priority to JP2016501847A 
+ priority 
+
+ patent/JP6441301B2/en 
+
+ 2014-09-25 
+ Publication of WO2014151310A2 
+ publication 
+ Critical 
+
+ patent/WO2014151310A2/en 
+
+ 2014-11-13 
+ Publication of WO2014151310A3 
+ publication 
+ Critical 
+
+ patent/WO2014151310A3/en 
+
+ 2015-09-15 
+ Anticipated expiration 
+ legal-status 
+ Critical 
+
+ Status 
+ Ceased 
+ legal-status 
+ Critical 
+ Current 
+
+ Links
+
+ Espacenet 
+
+ Global Dossier 
+
+ PatentScope 
+
+ Discuss 
+
+ Classifications
+
+ G — PHYSICS 
+
+ G06 — COMPUTING OR CALCULATING; COUNTING 
+
+ G06N — COMPUTING ARRANGEMENTS BASED ON SPECIFIC COMPUTATIONAL MODELS 
+
+ G06N7/00 — Computing arrangements based on specific mathematical models 
+
+ G06N7/01 — Probabilistic graphical models, e.g. probabilistic networks 
+
+ G — PHYSICS 
+
+ G16 — INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS 
+
+ G16B — BIOINFORMATICS, i.e. INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR GENETIC OR PROTEIN-RELATED DATA PROCESSING IN COMPUTATIONAL MOLECULAR BIOLOGY 
+
+ G16B15/00 — ICT specially adapted for analysing two-dimensional [2D] or three-dimensional [3D] molecular structures, e.g. structural or functional relations or structure alignment 
+
+ G — PHYSICS 
+
+ G16 — INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS 
+
+ G16B — BIOINFORMATICS, i.e. INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR GENETIC OR PROTEIN-RELATED DATA PROCESSING IN COMPUTATIONAL MOLECULAR BIOLOGY 
+
+ G16B15/00 — ICT specially adapted for analysing two-dimensional [2D] or three-dimensional [3D] molecular structures, e.g. structural or functional relations or structure alignment 
+
+ G16B15/30 — Drug targeting using structural data; Docking or binding prediction 
+
+ G — PHYSICS 
+
+ G16 — INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS 
+
+ G16B — BIOINFORMATICS, i.e. INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR GENETIC OR PROTEIN-RELATED DATA PROCESSING IN COMPUTATIONAL MOLECULAR BIOLOGY 
+
+ G16B40/00 — ICT specially adapted for biostatistics; ICT specially adapted for bioinformatics-related machine learning or data mining, e.g. knowledge discovery or pattern finding 
+
+ G16B40/20 — Supervised data analysis 
+
+ G — PHYSICS 
+
+ G16 — INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS 
+
+ G16C — COMPUTATIONAL CHEMISTRY; CHEMOINFORMATICS; COMPUTATIONAL MATERIALS SCIENCE 
+
+ G16C20/00 — Chemoinformatics, i.e. ICT specially adapted for the handling of physicochemical or structural data of chemical particles, elements, compounds or mixtures 
+
+ G16C20/50 — Molecular design, e.g. of drugs 
+
+ G — PHYSICS 
+
+ G16 — INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS 
+
+ G16C — COMPUTATIONAL CHEMISTRY; CHEMOINFORMATICS; COMPUTATIONAL MATERIALS SCIENCE 
+
+ G16C20/00 — Chemoinformatics, i.e. ICT specially adapted for the handling of physicochemical or structural data of chemical particles, elements, compounds or mixtures 
+
+ G16C20/70 — Machine learning, data mining or chemometrics 
+
+ Definitions
+
+ This invention 
+ is in the general field of bioinformatics, more specifically estimating or calculating relative receptor/ligand binding affinities and their errors. 
+
+ free energy calculations 
+ such as TI, FEP, lambda dynamics, alchemical OSRW, etc— generally provide a thermodynamically complete description of the binding event and, at least in theory, yield accurate predictions within the limits of the force field used and complete sampling of the phase space. 
+
+ practical application of free energy calculations in industrial contexts 
+ may be limited by the large computational resources required, particularly when sampling of multiple conformations, the timescales needed to impact live projects, and the need for a robust and meaningful approach to determine the sampling error associated with such free energy calculations. 4 ' u ' 12 
+
+ One aspect of the invention 
+ generally features a computer-implemented method of determining relative strength of binding between a receptor and individual members of a set ligands to form complexes between individual ligand set members and the receptor. 
+
+ the method 
+ includes a computer-implemented determination of multiple relative binding free energy differences for a set of ligand pairs forming at least one closed cycle, and a computer implemented determination of hysteresis magnitude about each closed thermodynamic cycle. 
+
+ the method 
+ includes, 
+
+ the step of estimating the error 
+ comprises computer- implemented analysis of binding free energy differences between ligands along legs of more than one closed thermodynamic cycle, and computer implemented determination of hysteresis magnitude about each of closed thermodynamic cycles. Also in preferred embodiements, steps c and d include determining a set of free energy values for each leg that minimizes the function 
+
+ Ei calculated free energy difference for a given leg i 
+ Fi is the theoretical free energy difference for a given leg i; and Q- . is the standard deviation of the calculated free energy differences for leg i, and where the sum of the theoretical free energy differences for all closed cycles is 0. 
+
+ the receptor 
+ is a protein; the ligands are congeneric; a Gaussian distribution is assumed in the construction of the probabilistic model of the observed hysteresis in step a.; the error distribution associated with the free energy simulations in step a. is assumed to be uniform; the error distribution is assumed to be additive with the Bennett error in step a. 
+
+ the connectivity of the closed thermodynamic cycles 
+ is represented as a graph or as a matrix. 
+
+ the probablisitic determination 
+ can be done by various methods, including without limitation, graph theoretical methods, matrix algebra methods, Bayesian methods, Maximum likelihood methods. 
+
+ aspects of the invention 
+ feature a computer readable medium comprising tangible non-transitory instructions for performing the above-described methods, and a general purpose graphics processing unit with non-transitory computer readable instructions for performing those methods. 
+
+ CDK2 
+ is a member of the CDK family performing various functions in the regulation of the cell proliferation and the RNA polymerase II transcription cycles. CDK2 has also been identified as an important drug target for tumor-selective therapeutic strategies. 17 ' 18 
+
+ Figure 1 
+ A simple model illustrating the problem of consistency and reliability checking in FEP calculations. For a set of three ligands LI, L2, and L3, three FEP calculations were performed with estimated free energy differences E21,E32 and E13 respectively. How to get the best estimates of the relative free energies (F21, F32, and F13) from the three FEP calculations, and how to judge whether the calculations are reliable? 
+
+ Figure 2 
+ A more complicated path with two cycles sharing the same edge used in the CDK2 inhibitors binding affinity calculation. 
+
+ FIG. 3 
+ Example graph for relative free energy calculations in general applications. Each vertex on the graph represents a ligand. Each edge on the graph represents a relative free energy calculations, the arrow of the edge indicates the direction of the relative binding free energy calculation, and the value on each edge is the calculated free energy difference from the free energy calculation for that particular pair of ligands. 
+
+ Figure 4 
+ Decomposition of the whole graph in Figure 3 into 3 independent subgraphs. 
+
+ the subgraphs 
+ may share the same vertex, but they don't share the same edge. 
+
+ Figure 5 
+ The structures of the 6 CDK2 ligands with crystal structures and the paths used for the FEP/REST and FEP/MD calculations. 
+
+ the three red arrows 
+ represent the relative binding free energy calculation paths which complete three distinct cycles for assessing the consistency and reliability of the calculations. 
+
+ Ligand lhlq 
+ was used for the 5 blue relative binding free energy calculations since the other compounds can all be generated by simply adding different substituents on the benzene ring of ligand lhlq. 
+
+ FIG. 6 
+ The FEP/MD and FEP/REST predicted results versus the experimental binding affinity data for the set of CDK2 inhibitors with crystal structures. 
+
+ the FEP/MD predicted binding affinities 
+ do not vary significantly, making it impossible to reliably rank ligands lhlr, lhls, loiu, loi9, and loiy using these values. 
+
+ the FEP/MD predicted binding affinities 
+ do not vary significantly, making it impossible to reliably rank ligands lhlr, lhls, loiu, loi9, and loiy using these values. 
+
+ Figure 7 
+ The starting conformation corresponding to the crystal structure for the FEP/REST simulation for ligand lhlr (left), the alternative binding mode, with the chloro-substituted phenyl ring flipped, observed in the REST/REST trajectory (middle), and the electron density of ligand lhlr in the X-ray crystallography. 
+
+ the proteins 
+ are represented by colored ribbons for the backbone and stick representation for the side- chains, while the ligands are depicted in tube representation, and the electron density is displayed as solid yellow surface. 
+
+ the sigma cutoff used for density visualization 
+ is 1.0. 
+
+ the electron density 
+ has two peaks for the chloro-substituted benzene ring, indicating that the ligand has two binding modes, consistent with the FEP/REST simulations. 
+
+ Figure 8 
+ The starting conformation corresponding to the crystal structure for FEP/REST simulation for ligand lhls (left), and the alternative binding mode observed in the REST/REST trajectory (right). 
+
+ the proteins 
+ are represented by colored ribbons for the backbone and stick representation for the side-chains, while the ligands are depicted in tube representation. 
+
+ the sulfonamide group 
+ rotates about 120° around the C-S bond, and the residues surrounding the binding pocket, especially Gln85 and Asp86, rearrange accordingly. Two hydrogen bonds are formed between the sulfonamide group and the protein residues. 
+
+ Figure 9 
+ The relative binding free energy calculation paths used for the FEP/REST calculations for those ligand without crystal structure binding to CDK2 receptor. 
+
+ Figure 10 
+ The FEP/REST predicted results versus the experimental binding affinity data for the whole set of CDK2 inhibitors including both the 6 ligands with crystal structures and the 10 ligands without crystal structures. 
+
+ the 6 ligands with crystal structures 
+ (displayed in Figure 6) are colored red in the figure and the 10 ligands without crystal structures are colored black. 
+
+ the error bars for the FEP/REST predictions reported in this figure 
+ are calculated based on the method detailed in Appendix A using cycle closures. 
+
+ Figure 11 
+ Relative biding free energy calculation paths for the 7 ligands binding to Jnkl receptors with 2 independent cycle closures. 
+
+ Figure 12 
+ Relative binding free energy calculation paths for the 6 ligands binding to BACE with two independent cycle closures. 
+
+ Figure 13 
+ Relative binding free energy calculation paths for the 3 ligands binding to scytalone dehydratase with and without water bound in the active site. The simulations with water bound in the active site are indicated by '( ⁇ 20)'. 4 independent cycle closures are constructed in the relative binding free energy calculation paths. 
+
+ Figure 14 
+ Thermodynamic cycles connecting methane-plate binding affinities and the free energies of charging the plates in water. 
+
+ the gray particles 
+ represent the Lennard Jones atoms forming the model hydrophobic enclosure, the red particles represent negatively charged ions, blue particles represent positively charged ions, and green particles represent united-atom methane, which binds to the enclosures. 
+
+ Figure 15 
+ A block diagram of a computer system that performs the method. 
+
+ Figure 16 
+ A flow diagram of steps in the method. 
+
+ Relative binding affinities calculated with the invention using Cycle Closure 
+ are highly correlated with the experimental data, and a meaningful error bar is produced indicating the convergence of the calculations. 
+
+ the method 
+ determines the consistency and reliability of the relative free energy calculations by assessing how much the sum of the calculated free energy changes for each closed thermodynamic cycle deviates from the theoretical value of 0. 
+
+ the method 
+ yields reliable predictions of the relative free energies from the multiple free energy estimates obtained by way of the cycle closure relative free energy calculations, as well as the expected error bounds associated with those calculations, as well as mechanism to flag relative free energy calculations that have systematic errors. 
+
+ the errors in relative free energy calculations compared to experimental values 
+ can be separated into two categories: the systematic error coming from the difference of the force field used in simulation compared to the true potential energy surface of the system, and the error coming from the nonconvergence, either due to randomly or systematically incomplete sampling of the phase space, or from the free energy estimator itself, eg TI versus FEP, etc. 
+
+ the calculated free energies 
+ have a distribution. Without loss of generality, for the calculation the relative binding free energy from ligand L. . 
+
+ This method 
+ predicts the free energy difference from ligand L. 
+
+ J 1 
+ denotes the predicted free energy difference between ligand L . 
+
+ the prediction 
+ can be done using many different methods, for example, the maximum likelihood method, which maximizes the probability of the observation; the Bayesian statistics method, which optimizes the parameters based on the calculated free energies and so on. 
+
+ the most likely values of F 2l , F 32 and F l 
+ are the set of values that maximize the above likelihood. 
+
+ the set of values which maximizes the likelihood 
+ is the set of values that minimize the following function: Ei 2 ? where i e (21,32, 13) with the constraint: 
+
+ the above estimators 
+ have no systematic bias, and there will be substantially no discrepancy between the free energy predictions from different paths. 
+
+ the method 
+ interprets the above estimators as the weighted average from the two paths. For example, the free energy difference between ligand L ⁇ nd L 2 , F 21 , can be estimated from E 2l , or from -(£"32 + E l ), and the best estimator is a weighted average of the two predictions. The smaller the standard deviation for the computed free energy difference along the path is, the large the weight to the best estimator, and vice versa. 
+
+ the hysteresis of the cycle closure 
+ itself provides an estimate of the error associated with each free energy prediction. 
+
+ the method 
+ before running the FEP calculation, the method has an estimate of the distribution (the prior distribution) of the free energy difference between the two ligands, ⁇ ⁇ 0 ⁇ .( ⁇ ⁇ ), and after it runs the FEP calculation it adjusts the distribution based on the calculated result from FEP (the posterior distribution 
+
+ the method 
+ performs FEP calculations forming a closed cycle, with the calculated free energy difference E 2l , E 32 and E l3 . Then according the Bayesian statistics, the posterior distribution of 
+
+ the pick of the posterior distribution 
+ is located at 
+
+ the method 
+ For a set of L ligands, the method performs N relative free energy calculations which connect all the ligands with cycle closure(s). 
+
+ the particular embodiment of the invention described in this section 
+ yields the best predictions of the relative free energies among the ligands and the error bars associated with the predictions. 
+
+ the input 
+ is the N calculated free energy differences between the N pairs of ligand with relative free energy simulations performed 
+
+ the output of 
+ is the N predicted relative free energy differences and the associated error bars between the N pairs of ligands for which the relative free energy simulations were performed, and also the relative free energy differences between any pairs of ligands in the set and their associated error bars. 
+
+ the predicted relative free energies 
+ have no hysteresis, meaning the predicted relative free energy difference between any two ligands is independent of the paths connecting them, and thus are internally consistent. 
+
+ the input of the program 
+ is the 11 relative free energy calculations results for the 11 pairs of ligands, and the output is the predicted relative free energy differences for the 11 pairs of the ligands, their associated error bars, and also the relative free energy differences between any arbitrary pair of 8 ligands in the set and their associated error bars. 
+
+ Step 1 
+ List the calculated free energies for all the relative binding free energy calculations performed, and their corresponding initial and final ligands. 
+
+ Step 2 
+ List all the closed cycles in the relative binding free energy calculation paths and build up the Cycle Closure Connectivity Matrix (C3M) for the whole graph. 
+
+ the method 
+ searches through all the ligand pairs and find all those pairs that form a closed cycle and convert this information into the connectivity matrix. 
+
+ pairs 1, 2, and 5 
+ form a closed cycle. Since free energy is a state function, the sum of the free energy along such a closed cycle should be 0. In other words 
+
+ the restrain that the free energy along a closed cycle 
+ can be written in the following general restrain function: where F i is the free energy difference between the two ligands on the two vertexes of the edge along the closed cycle, and M i is 1 if the edge is in the same direction as the closed cycle, -1 if the edge is in the opposite direction of the closed cycle, and 0 if the edge is not in the closed cycle. 
+
+ the method 
+ lists all the closed cycles in the ligand pair paths, and all the restrains. 
+
+ M ⁇ 
+ M G is a M x Nmatrix and each row of the matrix represent a restrain equation for a closed cycle. 
+
+ G 
+ G to denote the Cycle Closure Connectivity Matrix (C3M) of the whole graph. 
+
+ Step 3 
+ Decompose the whole graph into independent subgraphs. 
+
+ the predicted relative free energies among a subset of ligands 
+ are independent from the predicted relative free energies among the other subset of ligands. 
+
+ the predicted relative free energies among the set of ligands [1,2,3,4,5] 
+ are independent from the relative free energies among the set of ligands [6,7,8] because there is no closed cycle connecting the two subgraphs. 
+
+ the whole graph 
+ is decomposed into each independent subgraph, and then each independent subgraph is solved sequentially. 
+
+ Step 3a 
+ Go over the each row of M G , record the column number of the nonzero elements in each row, and put the column number into a list 
+
+ each list 
+ contains the column number of the nonzero elements of each row of the C3M matrix. 
+
+ the set which contains the M lists generated in this step 
+ the raw list is called set S r . 
+
+ Step 3b 
+ Iterate through the second list to the last list in the raw list set S r , and compare the elements contained in L . where j ⁇ ⁇ 2, 3,...m ⁇ with the elements in the first list L x . If they contain a common element (or a few elements), then merge all the elements in L . into the first list L x , and delete L . from the raw list set; if they don't have any comment element, keep the list L . in the raw list set. 
+
+ L 2 , L 4 , L 5 , L 6 
+ contain common element(s) with L x , so those lists are deleted in this step, and their elements are merged into L x . What remains in the raw list set from this step is 
+
+ Step 3c 
+ Repeat step 3b for those lists that have not been deleted in step 3b and merge the elements into L x if they contain common elements with L x . Repeat this step until no more lists can be deleted. 
+
+ Step 3e 
+ After step 3d, if there are more than one lists left in the raw list set, repeat step 3b to step 3d until there is only one list left. 
+
+ Step 3f 
+ Move the last list in the raw list set S r into the final list set S j -. After this step, there are several lists in the final list set, and no list left in the raw list set. The lists in the final list sets do not contain any common elements. 
+
+ Step 3g 
+ Iterate through column number 1 to N. If the column number is in any list in the final list set, skip it, otherwise, add a list which contains only that column number into the final list set. 
+
+ the final list set 
+ contains several lists, and there is no common element between any of the lists. 
+
+ the column number 1 to N 
+ is in one and only one of the lists in the final list set. 
+
+ each independent subgraph 
+ contains the edges with the edges numbers listed in each list of the final list set S f . These independent subgraphs do not have a shared edge, but they may have shared vertexes. 
+
+ the whole graph 
+ is decomposed into 3 independent subgraphs. 
+
+ the first subgraph 
+ contains 7 binding free energy calculation paths [El, E2, E3, E4, E5, E6, E7] 
+
+ the second subgraph 
+ contains 3 relative binding free energy calculation paths [E9, E10, El 1] 
+
+ the third subgraph 
+ contains 1 relative binding free energy calculation path [E8]. 
+
+ Step 4 
+ Get the C3M for each independent subgraph M s . 
+
+ Step 3 
+ the whole connectivity graph is already decomposed into independent subgraphs, and the edges numbers of each subgraph is stored in the list in the final list set. In this step we get to get the C3M for each independent subgraph. 
+
+ the dimensionality of these matrixes 
+ satisfy the following properties: i 
+
+ the whole graph 
+ is decomposed into independent subgraphs, and the C3M of the whole graph, M G , is also decomposed into C3M for each independent subgraph, M s ' . 
+
+ each row in M s ' 
+ represents a closed cycle in the path 
+
+ the connectivity matrix M s ' for some independent subgraph 
+ may contain zero elements, meaning there is no closed cycle in that subgraph. 
+
+ the C3Ms for the three independent subgraphs 
+ are: 
+
+ Step 5 
+ Reduce the C3M for each subgraph M s into independent matrix M SR 
+
+ some rows 
+ are not independent from each other, meaning that the closed cycles listed in M s are not independent. 
+
+ the C3M of each subgraph, M s ' 
+ is reduced into Matrix which only contains independent row vectors. 
+
+ RC3M 
+ the Reduced Cycle Closure Connectivity Matrix 
+
+ Step 5a 
+ Put the first two rows of M ⁇ to form a new 2 x N.matrix M. 
+
+ Step 5b 
+ Calculate det 
+
+ Step 5c 
+ put the third row of M s ' into M, and repeat step 5b. 
+
+ Step 5d 
+ repeat step 5c for all the remaining rows in M s ' . 
+
+ M S ' R 
+ is obtained for each subgraph. 
+
+ the M S ' R 
+ only contains independent row vectors, meaning only independent closed cycles are listed in the matrix. 
+
+ the ⁇ for the first subgraph 
+ is: 
+
+ the M SR for each subgraph 
+ is not unique, but the number of rows in ⁇ is independent on the order of rows and on the algorithm to do the reduction. 
+
+ the reduced cycle closure connectivity matrix M SR 
+ is obtained for each independent subgraph. 
+
+ the ⁇ only 
+ contain independent cycles in each subgraph. In the following we will solve the cycle closure equation for each independent subgraph. 
+
+ Step 6 
+ Solve the cycle closure equation for each independent subgraph. 
+
+ This step 
+ produces, for each subgraph, a set of optimal estimates of free energies for the N i pairs of ligands with no hysteresis, and it also maximizes the probability. 
+
+ the third subgraph 
+ doesn't have any closed cycle. So the solution for the third subgraph is, 
+
+ Case b 
+ There are m independent closed cycles in the subgraph. 
+
+ M T .. 
+ is the transpose of M ... 
+
+ equation (1) 
+ yields the best free energy estimators for the n pairs of simulations. 
+
+ Step 7 
+ Get the error estimates for each possible relative binding free energy calculation path 
+
+ the sum of the relative free energy calculations along a closed cycle 
+ is Gaussian distributed with standard deviation ns where n is the number of members on the closed cycle. 
+
+ the error for the computed free energy difference between the pair of ligands on the closed cycle 
+ can be estimated by the hysteresis of that cycle. 
+
+ Step 6 and Step 7 
+ we get the best free energy estimates for the n relative free energies and also their associated error bars for each independent subgraph. 
+
+ Step 8 
+ Report the estimate of the free energy difference between any pairs of ligands in the set and their associated error bars 
+
+ the method 
+ has already provided best free energy estimates and their associated error bars for the n pairs of ligands in each independent subgraph. Merging these date together from all independent subgraphs, produces Output: 
+
+ the method 
+ lists all the possible paths on the graph that can connect the two ligands, and then sum over the free energies on each edge of the paths and also the errors. 
+
+ the free energy 
+ is independent of the path, but the errors may dependent on the path. 
+
+ the maximal of all the errors to report 
+ can be written in a concrete formula: 
+
+ the free energy estimates and errors 
+ are only calculated for those pairs of ligands where free energy calculations are not performed (not directly connected in the graph). 
+
+ the free energy estimates and errors for those pairs of ligands where free energy calculations are performed 
+ are calculated in previous steps. 
+
+ the matrix algebra formulation in the preceding section 
+ is only a particular embodiment of the invention, and can be readily generalized in a number of ways, including assuming the most probable error of the legs of the pathway is additive with the Bennett error, the Bootstrap error, or both. Likewise it might be generalized to use other distributions aside from the Gaussian distribution, such as without limitation, the Lorentz, Levy, or Rayleigh, delta and uniform distributions. 
+
+ the invention 
+ improves the accuracy and reliability of relative free energy calculations (for example explicit solvent model calculations). Such accuracy is particularly difficult to achieve if the protein residues surrounding the binding pocket move significantly when different ligands bind, or the two ligands adopt different binding modes or manifest one or more degenerate binding modes. 4 ' 11 ' 19 In such cases, sampling all relevant conformations improves the accuracy of estimates of the free energy difference, yet the transition times to interchange between the different conformations may be too large to be accessible on the time scale of most FEP/MD simulation lengths. 
+
+ FEP/REST 
+ a recently developed relative free energy calculation method 
+
+ FEP/REST 
+ introduced by Wang et al, 12 incorporates the enhanced sampling method, REST, into FEP calculations through an efficient ⁇ -hopping protocol, to sample relevant local structural rearrangements in relative protein-ligand binding affinity calculations within easily accessible simulation times. 
+
+ REST 
+ enhanced sampling method 
+
+ FEP 
+ involves calculating the free energy difference between two systems by alchemically transforming between the systems in a series of discrete steps represented by ⁇ values, where ⁇ varies from 0 for the initial state to 1 for the final state. 
+
+ FEP/REST 
+ modifies the potential energy for a localized region surrounding the binding pocket (which we call the 'hot' region) which may include protein residues as well as the ligand. 
+
+ the potential energy for the localized region 
+ is scaled by a factor less than 1. In this way, energy barriers are lowered, enabling the efficient sampling of the different conformations in these intermediate ⁇ windows, and the different conformations are propagated to the end states through the Hamiltonian replica 
+
+ the 'hot' region for REST enhanced sampling 
+ is configured here to include the ligand functioned group mutated in the SAR studies. If the ligand functional group is attached to an aromatic ring, the aromatic ring is also included in the 'hot' region, allowing the ring to flip through REST enhanced sampling. 
+
+ LJ 
+ LJ 
+
+ the bonded interactions 
+ are smoothly turned from the initial state to the final state. 
+
+ the core of the LJ interactions 
+ was softened to avoid the singularities and instabilities in the simulations. 25 
+
+ the benzene ring on which substituents were varied in the SAR studies 
+ 16 are included in the 'hot' region, and the highest effective temperature with a total of 12 ⁇ windows achieved is roughly 900K. 
+
+ the ligand functional group mutation module implemented in Desmond 26 ' 27 
+ was used 
+
+ the OPLS2005 force field ' 
+ was used for the proteins and the ligands along with the SPC 31 water model. 
+
+ the starting structures for the simulations 
+ were taken from the PDB structures with IDs lhlq, lhlr, lhls, loiu, loi9, and loiy. 16 Whenever multiple conformations were present in the PDB, we selected the first conformation for use in the simulations. 
+
+ the protein 
+ was prepared using the Protein Preparation Wizard 32 ' 33 during which the protonation states were assigned assuming a pH of 7.O. 34 Cyclin A was retained with CDK2 and treated as part of the receptor for all calculations. Na + or CI " ions were added to maintain electric neutrality. 
+
+ the systems 
+ were relaxed and equilibrated using the default Desmond relaxation protocol, which involves a series of minimizations and short molecular dynamics simulations. 
+
+ a total of 12 ⁇ windows 
+ were used for the both the normal FEP and FEP/REST calculations. 
+
+ the production stage 
+ lasted 2 ns for the complex simulations and 5 ns for the solvent simulations. Replica exchanges between neighboring lambda windows were attempted every 1.2ps. 
+
+ the production stages 
+ were sampled using both FEP/MD and FEP/REST. 
+
+ the Bennett acceptance ratio method (BAR) 35 
+ was used to calculate the free energy. Errors were estimated for each free energy calculation using both bootstrapping ' and the BAR analytical error prediction, ' ' and the larger of the two errors was reported. 
+
+ the methods discussed herein 
+ are performed by a computer system programmed to perform those steps. 
+
+ the system 
+ includes computer(s) 110, data stores 120 and program modules 130. 
+
+ the computer instructions 
+ are stored in one or more non- transient computer-readable media. 
+
+ Figure 16 
+ shows steps in the method including a listing of calculated free energies for all the free energy calculation paths (302), listing all closed cycles and building cycle closure connectivity matrix (304) and decomposition the entire graph into independent subgraphs (306). 
+
+ Table 1 
+ The FEP/MD and FEP/REST predicted relative binding free energies for the five ligands with crystal structures compared to the reference ligand lhlq. 
+
+ Table 2 
+ The final free energy predictions for the 6 ligands with crystal structures from FEP/MD and FEP/REST calculations using the formula derived by the embodiments of the invention. 
+
+ Table 4 
+ The FEP/REST predicted relative binding free energies for the additional 10 compounds without crystal structures. 
+
+ Table 5 
+ The final free energy predictions for the whole set of ligands using the formula derived by embodiments of the invention. 
+
+ Table 7 
+ The predicted binding affinities and their associated errors for the 7 ligands binding to jnkl . 
+
+ Table 8 
+ FEP/REST results for the 7 relative binding free energy calculation paths for the BACE ligands. 
+
+ Table 9 
+ The predicted binding affinities and their associated errors for the 6 ligands binding to BACE. 
+
+ Table 10 
+ MC/FEP results for the 9 relative binding free energy calculation paths of scytalone dehydratase ligands. 
+
+ Table 11 
+ The predicted binding affinities and their associated errors for the 3 ligands binding to scytalone dehydratase. 
+
+ Table 12 
+ The cycle closure predicted free energy differences among the four states depicted on figure 14, and their associated errors. 
+
+ the FEP/MD and the FEP/REST results for the relative binding free energy calculation paths among the ligand with crystal structures 
+ are given in Table 1. 
+
+ the correlation of the predictions with experimental binding affinity data 
+ is displayed in Figure 6. 
+
+ FEP/MD 
+ predicts that the five compounds (excluding the reference compound lhlq) have almost the same binding affinities, resulting in an R 2 value of 0.32. 
+
+ Figure 8 
+ displays the binding mode found in the crystal structure and the alternative binding mode sampled in the FEP/REST calculation. 
+
+ the sulfonamide group 
+ makes two hydrogen bonds (HB) with Asp86: one with the backbone and another with the side chain. 
+
+ the sulfonamide group 
+ rotates about 120° around the CS bond relative to the crystal structure. 
+
+ the invention 
+ allows this to be determined without reference to the experimental data, since the computed errors associated with the FEP/MD computed by this particular embodiment of the invention to be high (1.01 kcal/mol for loiu and lhls, and -0.7 kcal/mol for loiy, loi9 and lhls), where as the computed errors associated with the FEP/REST are computed by the invention to be low (between 0.2-0.4 kcal/mol for all the ligands). Assessing the consistency and reliability of the relative free energy calculations with a particular embodiment of the invention 
+
+ Cycle closures 
+ are constructed in the paths for these ligands ( Figure 9), and the hysteresis of the cycle closures are all less than 1.0 kcal/mol, indicating the calculations are highly converged. 
+
+ the final predicted relative binding affinities by way of this particular embodiment of the invention 
+ are reported in Table 5. 
+
+ the errors associated with the free energy predictions 
+ are also reported in Table 5. 
+
+ the correlation between the predicted relative binding affinities and the experimental data for the whole set of ligands (6 ligands with crystal structure and the 10 ligands without crystal structure) 
+ is displayed in Figure 10. 
+
+ the method 
+ can be applied in multiple embodiments to the recently developed free energy calculation FEP/REST method as well as the more routinely used FEP/MD free energy calculation method to calculate the relative binding affinities between a series of congeneric ligands binding to the CDK2-cyclin A receptor. 
+
+ the invention 
+ facilitated comparisons between FEP/REST and FEP/MD free energy calculation predictions. While the more routine FEP/MD method performed poorly in rank-ordering the relative binding affinities for the six ligands with crystal structure, the invention provided value indicating the error associated with the FEP/MD predictions was high. In contrast, he FEP/REST calculated relative binding affinities were in excellent agreement with the experimental data, and shown to be converged by application of the invention. 
+
+ Application of the invention to relative free calculations performed by way of FEP/REST method on a larger data set that includes 10 ligands without crystal structures 
+ further verified the invention's ability to correctly rank order the relative binding affinities of congeneric ligands. 
+
+ the invention 
+ provides a means of assessing the consistency and reliability of free energy calculations using information derived from cycle closure calculations associated with any type of relative free energy calculation procedure. This invention provides clear criteria by which to judge the consistency and reliability of the predictions, as well as optimal estimates of the free energies with well-formed error bounds. 
+
+ Application of this invention to the CDK2-cyclin A series 
+ indicates our predictions using FEP/REST relative free energy calculations are highly reliable, which is also demonstrated by the excellent agreement of the predictions with the experimental data. Likewise the invention properly determined the FEP/MD predictions are less reliable. 
+
+ the cycle closure estimates 
+ can not correct the systematic errors in the force field of the simulations. So, the predicted binding affinities for two of the ligands (ligand 12 and 13) deviates by more than 1.5 kcal/mol compared to experimental values. The deviations may either due to the error in the force field, or in the uncertainties in the experimental measurements. The overall correlation between the predicted results and the experimental values is very good, though. 
+
+ FEP/REST simulations 
+ are performed for a subset of ligands binding to BACE receptor with two independent cycle closures in the raltive binding free enery calculation paths (Shown in Figure 12). 
+
+ the ligand numbers for the subset of ligands 
+ are [4j, 4o, 4p, 17d, 17g, 17h], and the 7 FEP/REST results for the 7 relative binding free energy calculation paths are listed in the Table 8. 
+
+ the relative binding affinities between 3 ligands binding to scytalone dehydratase with and without water bound in the active site 
+ are calculated using FEP/MC. 39 
+
+ the relative binding free energy calculation paths for these simulations with 4 independent cycle closures 
+ are displayed in Fig 13. 
+
+ the calculated binding affinities for the relative binding free energy calculations 
+ are reported in Table 10. 
+
+ the hysteresis of the cycle [L1(H20), L2(H20), L3(H20)] 
+ is 4.3 kcal/mol, much larger than 1.4 kcal/mol, indicating these calculations are not converged, and the calculated binding affinities inside this cycle also have large deviations from the experimental data. 
+
+ the hysteresis 
+ is 1.5 kcal/mol, larger than 1.4 kcal/mol, indicating these calculations are not reliable either. 
+
+ the relative binding free energies between a united atom methane and model enclosures with and without charge 
+ are calculated using test particle insertion method. 40 
+
+ the free energies of charging the model enclosure with and without the bound methane 
+ is also calculated using FEP/MD sampling. 
+
+ the relative binding free energy calculation paths 
+ form a closed cycle ( Figure 14) and the associated free energies for each edge on the cycle is reported in there. 
+
+ Table 1 
+ The FEP/MD and FEP/REST predicted relative binding free energies for the five ligands with crystal structures compared to the reference ligand lhlq. 
+
+ the results for the three relative binding free energy calculation paths forming 3 cycle closures for the 6 ligands with crystal structures 
+ are also include in the table. 
+
+ the errors for the calculated free energies using BAR analytical error estimation 
+ are also included in the table. 
+
+ the FEP/MD predicted results 
+ have large deviations from the experimental data for ligands lhlr and lhls (bold in the table), while the FEP/REST predicted results all agree well with the experimental data. Free energies are reported in kcal/mol unit. 
+
+ Table 2 
+ The final free energy predictions for the 6 ligands with crystal structures from FEP/MD and FEP/REST calculations using the formula derived by the embodiments of the invention. 
+
+ the error estimates using the formula derived by embodiments of the invention for the final free energy prediction using cycle closure 
+ are also included in the table. 
+
+ Ligand Ihlq 
+ is used as the reference, so the deviation for ligand Ihlq is 0 by design. Note, a cycle closure error bar is not reported for ligand Ihlq since it is the reference ligand used for this work, and its binding free energy is set identically equal to its experimental value for plotting purposes. Free energies are reported in kcal/mol unit. 
+
+ Table 4 
+ The FEP/REST predicted relative binding free energies for the additional 10 compounds without crystal structures. The errors for the calculated free energies using BAR analytical error estimation are also reported in the table. Free energies are reported in kcal/mol unit. 
+
+ Table 5 
+ The final free energy predictions for the whole set of ligands using the formula derived by embodiments of the invention. 
+
+ the error estimates using the embodiments of the invention for the final free energy prediction using cycle closure 
+ are also included in the table. 
+
+ Ligand Ihlq 
+ is used as the reference, so the deviation for ligand Ihlq is 0 by design. 
+
+ a cycle closure error bar 
+ is not reported for ligand Ihlq since it is the reference ligand used for this work, and its binding free energy is set identically equal to its experimental value for plotting purposes. 
+
+ Cycle closure error bars 
+ are also not reported for ligands 20, 31 and 32, since those species were technically challenging to connect to other ligands other than the reference ligand, as required to form closed cycles for the error. Free energies are reported in kcal/mol unit. 
+
+ Table 7 
+ The predicted binding affinities and their associated errors for the 7 ligands binding to jnkl. 
+
+ Table 9 
+ The predicted binding affinities and their associated errors for the 6 ligands binding to BACE. 
+
+ Table 10 
+ MC/FEP results for the 9 relative binding free energy calculation paths of scytalone dehydratase ligands. 
+
+ Table 11 
+ The predicted binding affinities and their associated errors for the 3 ligands binding to scytalone dehydratase. Even though the predicted binding affinity for ligand 3 has relative large error, the relative binding free energy calculation paths with very large errors are filtered out and the correct rank order is predicted. 
+
+ Table 12 
+ The cycle closure predicted free energy differences among the four states depicted on figure 14, and their associated errors. 
+
+ M 
+ denotes the united atom methane 
+
+ P 
+ denotes the hydrophobic plates 
+
+ CP 
+ denotes the charged plates 
+
+ MP 
+ denotes the hydrophobic plates bound with the united atom methane 
+
+ MCP 
+ denotes the charged plates bound with the united atom methane. 
+
+ Landscapes
+
+ Engineering & Computer Science 
+ ( AREA )
+
+ Physics & Mathematics 
+ ( AREA )
+
+ Life Sciences & Earth Sciences 
+ ( AREA )
+
+ Spectroscopy & Molecular Physics 
+ ( AREA )
+
+ Bioinformatics & Cheminformatics 
+ ( AREA )
+
+ Health & Medical Sciences 
+ ( AREA )
+
+ Chemical & Material Sciences 
+ ( AREA )
+
+ Theoretical Computer Science 
+ ( AREA )
+
+ General Health & Medical Sciences 
+ ( AREA )
+
+ Bioinformatics & Computational Biology 
+ ( AREA )
+
+ Medical Informatics 
+ ( AREA )
+
+ Crystallography & Structural Chemistry 
+ ( AREA )
+
+ Biophysics 
+ ( AREA )
+
+ Evolutionary Biology 
+ ( AREA )
+
+ Biotechnology 
+ ( AREA )
+
+ Pharmacology & Pharmacy 
+ ( AREA )
+
+ Medicinal Chemistry 
+ ( AREA )
+
+ Data Mining & Analysis 
+ ( AREA )
+
+ Computing Systems 
+ ( AREA )
+
+ General Physics & Mathematics 
+ ( AREA )
+
+ Software Systems 
+ ( AREA )
+
+ Artificial Intelligence 
+ ( AREA )
+
+ Evolutionary Computation 
+ ( AREA )
+
+ Bioethics 
+ ( AREA )
+
+ Algebra 
+ ( AREA )
+
+ Public Health 
+ ( AREA )
+
+ Databases & Information Systems 
+ ( AREA )
+
+ Computer Vision & Pattern Recognition 
+ ( AREA )
+
+ Mathematical Analysis 
+ ( AREA )
+
+ General Engineering & Computer Science 
+ ( AREA )
+
+ Computational Mathematics 
+ ( AREA )
+
+ Mathematical Optimization 
+ ( AREA )
+
+ Epidemiology 
+ ( AREA )
+
+ Pure & Applied Mathematics 
+ ( AREA )
+
+ Mathematical Physics 
+ ( AREA )
+
+ Probability & Statistics with Applications 
+ ( AREA )
+
+ Management, Administration, Business Operations System, And Electronic Commerce 
+ ( AREA )
+
+ Medicines That Contain Protein Lipid Enzymes And Other Medicines 
+ ( AREA )
+
+ Investigating Strength Of Materials By Application Of Mechanical Stress 
+ ( AREA )
+
+ Apparatus For Radiation Diagnosis 
+ ( AREA )
+
+ Abstract
+
+ Methods for assessing the consistency and reliability of the calculations using cycle closures in relative binding free energy calculation paths. The methods are used for determining relative strength of binding between a receptor and individual members of a set ligands to form complexes between individual ligand set members and the receptor, in which the binding free energy difference with the lowest error is determined by probabilistic determination of the free energy differences and error distributions about those differences along each of the legs of the closed thermodynamic cycle that probabilistically lead to the hysteresis(es) value(s) observed for each closed of the closed thermodynamic cycle.
+
+ Description
+
+ Cycle Closure Estimation of Relative Binding Affinities and Errors 
+
+ CLAIM OF PRIORITY 
+
+ This application claims priority to U.S. Patent Application Serial No. 13/840,039, filed on March 15, 2013, the entire contents of which are hereby incorporated by reference. 
+
+ TECHNICAL FIELD 
+
+ This invention is in the general field of bioinformatics, more specifically estimating or calculating relative receptor/ligand binding affinities and their errors. 
+
+ BACKGROUND 
+
+ Biological processes often depend on protein-ligand binding events (for example, binding of a ligand to its receptor), and thus accurate calculation of the associated energetics is a central goal of computational structure -based drug design. 1"3 
+
+ A variety of different approaches have been developed to calculate protein-ligand binding free energies with different trade-offs between speed and accuracy, including the fast end point methods such as empirical scoring functions in virtual screening and molecular mechanics/Generalized Born surface area (MM/GBSA) or Poisson-Boltzmann (MM/PBS A) models, the WM/MM method that more explicitly considers the contribution from the desolvation of protein than GB methods, and free energy perturbation (FEP) and thermodynamic integration (TI) methods designed to consider a complete or essentially complete energetic description of binding within the accuracy limits of the underlying force field and complete sampling. 1 ' 2 ' 4"10 
+
+ Among the various methods to calculate protein-ligand binding affinities, free energy calculations— such as TI, FEP, lambda dynamics, alchemical OSRW, etc— generally 
+
+ provide a thermodynamically complete description of the binding event and, at least in theory, yield accurate predictions within the limits of the force field used and complete sampling of the phase space. However, practical application of free energy calculations in industrial contexts may be limited by the large computational resources required, particularly when sampling of multiple conformations, the timescales needed to impact live projects, and the need for a robust and meaningful approach to determine the sampling error associated with such free energy calculations. 4 ' u ' 12 
+
+ SUMMARY 
+
+ We have discovered a generalizable computer-implemented method for improving free energy calculations of relative receptor-ligand binding affinities, particularly for estimating the relative binding affinities of congeneric sets of ligands and determining the sampling errors associated with those estimates. 
+
+ One aspect of the invention generally features a computer-implemented method of determining relative strength of binding between a receptor and individual members of a set ligands to form complexes between individual ligand set members and the receptor. The method includes a computer-implemented determination of multiple relative binding free energy differences for a set of ligand pairs forming at least one closed cycle, and a computer implemented determination of hysteresis magnitude about each closed thermodynamic cycle. In general, the method includes, 
+
+ a. a computer implemented probabilistic determination of the free energy differences and error distributions about those free energy differences along each of the legs of the closed thermodynamic cycle that 
+
+ probabilistically lead to the hysteresis value observed for the closed thermodynamic cycles; 
+
+ b. a computer implemented determination of the most probable free 
+
+ energy difference for each leg in the closed thermodynamic cycle included in the probabilistic model determined in a; 
+
+ c. a computer implemented determination of the most probable error associated with the most probable binding free energy difference for each pair of ligands along each leg in the closed thermodynamic cycle from the probabilistic determination in b.; 
+
+ d. a computer implemented output of values representing the relative binding free energies and errors in c. to a computer user. 
+
+ In preferred embodiments, the step of estimating the error comprises computer- implemented analysis of binding free energy differences between ligands along legs of more than one closed thermodynamic cycle, and computer implemented determination of hysteresis magnitude about each of closed thermodynamic cycles. Also in preferred embodiements, steps c and d include determining a set of free energy values for each leg that minimizes the function 
+
+ with the constraint: 
+
+ where Ei calculated free energy difference for a given leg i; 
+
+ Fi is the theoretical free energy difference for a given leg i; and Q- . is the standard deviation of the calculated free energy differences for leg i, and where the sum of the theoretical free energy differences for all closed cycles is 0. 
+
+ In other preferred embodiments: the receptor is a protein; the ligands are congeneric; a Gaussian distribution is assumed in the construction of the probabilistic model of the observed hysteresis in step a.; the error distribution associated with the free energy simulations in step a. is assumed to be uniform; the error distribution is assumed to be additive with the Bennett error in step a. The connectivity of the closed thermodynamic cycles is represented as a graph or as a matrix. The probablisitic determination can be done by various methods, including without limitation, graph theoretical methods, matrix algebra methods, Bayesian methods, Maximum likelihood methods. 
+
+ Other aspects of the invention feature a computer readable medium comprising tangible non-transitory instructions for performing the above-described methods, and a general purpose graphics processing unit with non-transitory computer readable instructions for performing those methods. 
+
+ Below, we exemplify the invention of the cycle closure affinity estimation and error analysis machinery to FEP/REST (Free Energy Perturbation/Replica Exchange with Solute Tempering), 12"15 to FEP/MD, and to TI relative binding affinity free energy calculations, but the invention can be used with a number of other relative binding free energy calculation platforms, including lambda dynamics, alchemical metadynamics, 
+
+ alchemical OSRW, or others. The invention can also be employed irrespective of whether or not the particular relative free energy calculation platform is implemented employing sampling algorithms based on molecular dynamics, monte carlo, grand- canonical monte carlo, replica-exchange molecular dynamics, accelerated molecular dynamics, or any other sampling protocol. 
+
+ In particular, we exemplify the invention by investigating a subset from a series of congeneric ligands binding to the cyclin dependent kinase CDK2-cyclin A receptor. 16 CDK2 is a member of the CDK family performing various functions in the regulation of the cell proliferation and the RNA polymerase II transcription cycles. CDK2 has also been identified as an important drug target for tumor-selective therapeutic strategies. 17 ' 18 
+
+ Notwithstanding the specific systems we present to exemplify the invention, those skilled in the art will understand that the invention can be used as a general tool for ligand binding investigation. To illustrate this point, we have also applied the invention to compute relative binding affinities of ligands binding to JNK kinase and BACE, which are also protein targets of significant medicinally interest. 
+
+ The details of one or more embodiments of the invention are set forth in the 
+
+ accompanying drawings and in the description below. Other features, objects, and advantages of the invention will be apparent from the description and drawings, and from the claims. 
+
+ DESCRIPTION OF THE DRAWINGS 
+
+ The patent or application file contains at least one drawing executed in color. Copies of this patent or application publication with color drawing(s) will be provided by the
+
+ Office upon request and payment of the necessary fee. 
+
+ Figure 1: A simple model illustrating the problem of consistency and reliability checking in FEP calculations. For a set of three ligands LI, L2, and L3, three FEP calculations were performed with estimated free energy differences E21,E32 and E13 respectively. How to get the best estimates of the relative free energies (F21, F32, and F13) from the three FEP calculations, and how to judge whether the calculations are reliable? 
+
+ Figure 2: A more complicated path with two cycles sharing the same edge used in the CDK2 inhibitors binding affinity calculation. 
+
+ Figure 3: Example graph for relative free energy calculations in general applications. Each vertex on the graph represents a ligand. Each edge on the graph represents a relative free energy calculations, the arrow of the edge indicates the direction of the relative binding free energy calculation, and the value on each edge is the calculated free energy difference from the free energy calculation for that particular pair of ligands. 
+
+ Figure 4: Decomposition of the whole graph in Figure 3 into 3 independent subgraphs. The subgraphs may share the same vertex, but they don't share the same edge. 
+
+ Figure 5: The structures of the 6 CDK2 ligands with crystal structures and the paths used for the FEP/REST and FEP/MD calculations. The three red arrows represent the relative binding free energy calculation paths which complete three distinct cycles for assessing the consistency and reliability of the calculations. Ligand lhlq was used for the 5 blue relative binding free energy calculations since the other compounds can all be generated by simply adding different substituents on the benzene ring of ligand lhlq. 
+
+ Figure 6: The FEP/MD and FEP/REST predicted results versus the experimental binding affinity data for the set of CDK2 inhibitors with crystal structures. The FEP/MD 
+
+ predicted binding affinities do not vary significantly, making it impossible to reliably rank ligands lhlr, lhls, loiu, loi9, and loiy using these values. By contrast, the 
+
+ FEP/REST predicted results have a very high correlation with experimental data 
+
+ (R2=0.91), and the deviation is less than 0.8 kcal/mol for all pairs. The error bars for the FEP/REST predictions reported in this figure are calculated by way of the embodiments of the invention using cycle closure analysis. 
+
+ Figure 7: The starting conformation corresponding to the crystal structure for the FEP/REST simulation for ligand lhlr (left), the alternative binding mode, with the chloro-substituted phenyl ring flipped, observed in the REST/REST trajectory (middle), and the electron density of ligand lhlr in the X-ray crystallography.(right) The proteins are represented by colored ribbons for the backbone and stick representation for the side- chains, while the ligands are depicted in tube representation, and the electron density is displayed as solid yellow surface. The sigma cutoff used for density visualization is 1.0. For ligand lhlr, the electron density has two peaks for the chloro-substituted benzene ring, indicating that the ligand has two binding modes, consistent with the FEP/REST simulations. 
+
+ Figure 8: The starting conformation corresponding to the crystal structure for FEP/REST simulation for ligand lhls (left), and the alternative binding mode observed in the REST/REST trajectory (right). The proteins are represented by colored ribbons for the backbone and stick representation for the side-chains, while the ligands are depicted in tube representation. Compared to the starting conformation, the sulfonamide group rotates about 120° around the C-S bond, and the residues surrounding the binding pocket, 
+
+ especially Gln85 and Asp86, rearrange accordingly. Two hydrogen bonds are formed between the sulfonamide group and the protein residues. 
+
+ Figure 9: The relative binding free energy calculation paths used for the FEP/REST calculations for those ligand without crystal structure binding to CDK2 receptor. 
+
+ Figure 10: The FEP/REST predicted results versus the experimental binding affinity data for the whole set of CDK2 inhibitors including both the 6 ligands with crystal structures and the 10 ligands without crystal structures. The 6 ligands with crystal structures (displayed in Figure 6) are colored red in the figure and the 10 ligands without crystal structures are colored black. The error bars for the FEP/REST predictions reported in this figure are calculated based on the method detailed in Appendix A using cycle closures. 
+
+ Figure 11: Relative biding free energy calculation paths for the 7 ligands binding to Jnkl receptors with 2 independent cycle closures. 
+
+ Figure 12: Relative binding free energy calculation paths for the 6 ligands binding to BACE with two independent cycle closures. 
+
+ Figure 13: Relative binding free energy calculation paths for the 3 ligands binding to scytalone dehydratase with and without water bound in the active site. The simulations with water bound in the active site are indicated by '(Η20)'. 4 independent cycle closures are constructed in the relative binding free energy calculation paths. 
+
+ Figure 14: Thermodynamic cycles connecting methane-plate binding affinities and the free energies of charging the plates in water. The gray particles represent the Lennard Jones atoms forming the model hydrophobic enclosure, the red particles represent 
+
+ negatively charged ions, blue particles represent positively charged ions, and green particles represent united-atom methane, which binds to the enclosures. 
+
+ Figure 15: A block diagram of a computer system that performs the method. 
+
+ Figure 16: A flow diagram of steps in the method. 
+
+ DETAILED DESCRIPTION 
+
+ Relative binding affinities calculated with the invention using Cycle Closure are highly correlated with the experimental data, and a meaningful error bar is produced indicating the convergence of the calculations. 
+
+ This is especially apparent when employing the invention to evaluate FEP/REST free energy calculations, which provide thorough sampling of the different conformations of the ligand in the active site of the receptor. While not being bound to a particular theory, we identified that for two of the ligands there are multiple binding modes and that sampling those mode is important for the correct prediction of the binding affinities. While FEP/REST can sample the important conformations in a relatively short simulation time, the ligands were trapped in the initial conformations using FEP/MD. The method illustrates this feature, indicating a high error associated with the FEP/MD free energy calculations, and a low error with the FEP/REST calculations. Thus, the invention can improve relative free energy calculation techniques by providing a reasonable estimate of the associated errors in the calculation and the reliability of the predictions. 19 
+
+ Initially, the method builds up cycle closures in relative free energy calculations as has 
+
+ 10 20 21 
+
+ been done by several other groups, ' ' then from this input, the method determines the consistency and reliability of the relative free energy calculations by assessing how much the sum of the calculated free energy changes for each closed thermodynamic cycle 
+
+ deviates from the theoretical value of 0. In the section that follows, we describe the method in detail, such that one skilled in the art can immediately see how the method yields reliable predictions of the relative free energies from the multiple free energy estimates obtained by way of the cycle closure relative free energy calculations, as well as the expected error bounds associated with those calculations, as well as mechanism to flag relative free energy calculations that have systematic errors. 
+
+ Detailed Specification of the Cycle Closure Relative Free Energy Consistency Invention 
+
+ I. Consistency validation and the best free energy estimator using cycle closure in relative binding free energy calculation paths 
+
+ The following simple model illustrates the methods and concepts of the method. 
+
+ Consider a set of three ligands, L X , L 2 , and L 3 . Suppose the experimentally measured relative binding free energy differences between the three ligands are F e 2 ^= F 2 - F^, ex P = ^exp _ exp ? ex P= ^exp _ ^exp ^exp ? ^exp ? ^ ^exp ^ ^ experimentally measured binding free energies for the ligands , L 2 , andZ 3 , respectively. The free energy is a thermodynamic property, therefore F^ + F 2 + F e 2 ^= 0 (See Figure 1). Suppose three relative binding free energy calculations are performed, from Z j to L 2 , L 2 to L v and Z 3 to L x , and the calculated free energy differences for the three relative binding free energy calculation paths are E 2l , £"32 and E u respectively. If the simulations are perfectly converged and the force field is perfect, then ideally E 2l = F e 2 , £"32 = F e 3 , E 13 = F } p , and E l3 + E 2l + E 32 = 0 . In practice, however, there are errors associated with the calculated relative free energies, and in general, E 2l ≠ ™ p , 
+
+ E 32 ≠ F 2 , E u ≠ F u , and E l3 + E 32 + E 2l = A≠ 0. We call Δ, the hysteresis of the free energy calculation associated with this cycle closure. These errors include the unbiased statistical errors due to the random fluctuations and the biased errors due to the incomplete sampling of the phase space (the protein and/or the ligand are trapped in a local minimal in the conformation space) and the error in the force field. The method assesses the consistency and reliability of these calculations. 
+
+ The errors in relative free energy calculations compared to experimental values can be separated into two categories: the systematic error coming from the difference of the force field used in simulation compared to the true potential energy surface of the system, and the error coming from the nonconvergence, either due to randomly or systematically incomplete sampling of the phase space, or from the free energy estimator itself, eg TI versus FEP, etc. Let F 21 denote the theoretical free energy difference between two thermodynamic states (ie from ligand L x to ligand L x ) for the underlying force field from an infinite long unbiased simulation and unbiased relative free energy estimator. If there is no systematic error in the force field, then F 21 = F e 21 p . In practical relative free energy calculations, for example, for calculation from L x to L 2 , the simulation is run with a finite amount of sampling time and the sampling may have some bias, thus the calculated free energy E 2l might deviate from its theoretical value F 2l , such that it depends on the initial configuration of the simulation. 
+
+ Repeating the same relative free energy calculation an infinite number of times starting from different initial configurations and different random seeds for the velocities, the calculated free energies have a distribution. Without loss of generality, for the calculation 
+
+ the relative binding free energy from ligand L. . 
+
+ 1 to ligand L 
+
+ J with theoretical free energy difference between them F J. 1 . , P(E J. 1 . I F J. 1 . ) denotes the distribution of the calculated free energy Ε . Ρ(Ε β \ F^) can in principle be any kind of distributions, such as the Gaussian distribution, Lorentz distribution, uniform distribution, delta distribution and so on. 
+
+ S(E ji - F ji ) £ distribution 
+
+ — when E.. e \F.. - a,F.. + a] uniform distribution 1 exp( , (β η —- Fn-—) ) Gaussian distribution 
+
+ ... other distributions 
+
+ This method predicts the free energy difference from ligand L. 
+
+ ; to ligand L 
+
+ J . and the associated error for the prediction based on the distribution Ρ(Ε β | with cycle closures constructed in the relative binding free energy calculation paths, ie: 
+
+ V ji I ji J I closed cycles in the paths \ ji ji f 
+
+ where E .. 
+
+ J 1 denotes the predicted free energy difference between ligand L . 
+
+ 1 to ligand L„ 
+
+ J and e j; denotes the error associated with the prediction. 
+
+ The prediction can be done using many different methods, for example, the maximum likelihood method, which maximizes the probability of the observation; the Bayesian statistics method, which optimizes the parameters based on the calculated free energies and so on. 
+
+ Here, we exemplify the inversion through one specific example, which uses the 
+
+ Maximum Likelihood method and assuming Gaussian distribution for the calculated free 
+
+ energies. Those skilled in the art will understand that the invention can be used as a general tool for other types of statistical analysis methods and other types of distributions. An example derivation using Bayesian statistics is also given at the end of this section. 
+
+ Assume that the calculated free energies are Gaussian distributed with average F 21 (no systematic bias) and standard deviation σ 21 . Then the probability density that one single relative free energy calculation gives a value of E 2l for this path is: 
+
+ Similarly, for paths L 2 to L 3 , and L 3 to L x , the probability density that the relative free energy calculations give values of £"32 and E l are respectively: 
+
+ For a given set of theoretical free energy differences F 21 , F 32 , and F l , the overall likelihood, L , that the three relative free energy calculations give values of E 2l , £"32 , and is 13 is: 
+
+ ,E 32 ,E l3 \ F 2 iAiAi) = where i e (21, 32, 13) 
+
+ According to the maximum likelihood method, the most likely values of F 2l , F 32 and F l are the set of values that maximize the above likelihood. Taking the log of the above expression, the set of values which maximizes the likelihood is the set of values that minimize the following function: 
+
+ Ei 2 ? where i e (21,32, 13) with the constraint: 
+
+ 1 21 Ύ 1 32 Ύ 3 υ 
+
+ Using Lagrange multipliers, the set of values which maximizes the likelihood is: 
+
+ σ 21 + σ 32 + σ 13 σ 21 + σ 32 +σ 13 
+
+ F -F (F +F +F )- ° "21 + ° "13 F 
+
+ σ 21 + ^ σ 32 +σ 13 σ 21 + σ 32 +σ 13 σ 21 + ^ (F +F λ 
+
+ σ 32 +σ 13 
+
+ F -F +F +F )- ° "32 + ° "21 F ^ (F +F ) 
+
+ σ 21 +σ ^ (F
+
+ 3 2 +σ 13 σ 21 + σ 32 +σ 13 σ 21 + σ 32 +σ 13 
+
+ The above estimators have no systematic bias, and there will be substantially no discrepancy between the free energy predictions from different paths. The method interprets the above estimators as the weighted average from the two paths. For example, the free energy difference between ligand L^nd L 2 , F 21 , can be estimated from E 2l , or from -(£"32 + E l ), and the best estimator is a weighted average of the two predictions. The smaller the standard deviation for the computed free energy difference along the path is, the large the weight to the best estimator, and vice versa. 
+
+ In addition, according to the above model, the hysteresis of the cycle closure, 
+
+ E 2l + E }2 + E l} = Δ, is also Gaussian distributed with average of 0 and standard deviation of s =
+
+ . If the sum of the three calculated free energies deviates by more than 2s from 0, it is almost certainly (P - 0.95 ) that the calculations are not converged and the results are not reliable; if the sum of the three calculated free energies deviates by more than s from 0, it is highly probable (P = 0.68 ) that the calculation is not converged 
+
+ and the results may not be reliable. Thus the method determines whether the predictions are reliable. 
+
+ In practical relative free energy calculations, due to the high computational expense, a given calculation is typically only performed for a single time, and the standard deviation cannot be estimated for each prediction. In this case, the method assumes that the standard deviation for each calculation is the same, for example 0.8kcal/mol for each path. Then if the discrepancy of the free energy results from two paths are larger than 1.4 kcal/mol, it indicates the calculation is not converged and probably not reliable. Under this assumption, the best free energy estimator has the following expression: 
+
+ = E 2 i ~ ~ (E 2 i + E32 + E l3 ) = ~ ^E 2l —— (E32 + E l3 ) F32 = + E 32 + E l3 ) =— E 32 —— (E 2l + E l3 )
+
+ F l3 = E l3 —— (E 2l + E 32 + E l3 ) = ~ E l3 —— (E32 + E21 ) 
+
+ In addition, under the assumption that the standard deviation for each calculation is the same, the hysteresis of the cycle closure itself provides an estimate of the error associated with each free energy prediction. As discussed above, the hysteresis Δ of the cycle closure is Gaussian distributed with average of 0 and standard deviation of s = ϊσ. So the probability that a given calculation generates a hysteresis with value Δ for the cycle closure is: 
+
+ The value of sigma which maximizes the above probability gives the maximum likelihood estimate of the standard deviation associated with each free energy calculation: 
+
+ Note that in the above derivation, the free energies and the associated errors that the method estimates are the optimal estimates based on all the information gained from relative free energy calculations. If the underlying force field in the calculations has systematic bias, the perfectly converged relative free energy calculation results may still deviate from the experimental measured values, which is something that cannot be corrected based on the above analysis. 
+
+ The method we describe above applies to more complicated cases with more members in the cycle closure and several cycles sharing the same edge. Here we illustrate the method for obtaining the best free energy estimators for the paths used in the FEP/MD and FEP/REST calculations for the 6 CDK2 ligands with crystal structures (Figure 2). The more general algorithm for any kinds of relative binding free energy calculation path is given in the following section. 
+
+ Best free energy estimators using Bayesian statistics 
+
+ For a FEP calculation mutating from ligand L 1 . to ligand L J . with the theoretical free energy difference F , suppose the calculated free energy Ε is Gaussian distributed with average F fl- and standard deviate σ fl .. (the same model used for the Maximum Likelihood method). Then the probability density that the calculated free energy from one FEP calculation gives a value of EAs, 
+
+ Many different values of F j; can lead to the same calculated free energy E j; with different possibility. According to Bayesian statistics, before running the FEP calculation, the method has an estimate of the distribution (the prior distribution) of the free energy difference between the two ligands, Ρ ρή0Ι .(Ρ β ), and after it runs the FEP calculation it adjusts the distribution based on the calculated result from FEP (the posterior distribution
+
+ PpoA F ji 
+
+ Before running the FEP calculation, if no information is known about the relative binding free energy calculation, a reasonable assumption about the prior distribution of F n would be that 7 is uniformly distributed between -co to +∞, ie 
+
+ Note the prior distribution is not normalized. 
+
+ If the FEP calculation gives a value of E n , then according to Bayesian statistics, the posterior distribution of F n would be: 
+
+ For the case described above, using three ligands L v , J 2 , and 3 , the method performs FEP calculations forming a closed cycle, with the calculated free energy difference E 2l , E 32 and E l3 . Then according the Bayesian statistics, the posterior distribution of
+
+ under the constrain that 
+
+ P +F +F = 0 
+
+ The pick of the posterior distribution is located at 
+
+ This confirms the results obtained from Maximum Likelihood method presented 
+
+ above. 
+
+ II. Programming a general implementation of the cycle closure-derived free energy estimate and error estimate invention 
+
+ For a set of L ligands, the method performs N relative free energy calculations which connect all the ligands with cycle closure(s). The particular embodiment of the invention described in this section yields the best predictions of the relative free energies among the ligands and the error bars associated with the predictions. The input is the N calculated free energy differences between the N pairs of ligand with relative free energy simulations performed, and the output of is the N predicted relative free energy differences and the associated error bars between the N pairs of ligands for which the relative free energy simulations were performed, and also the relative free energy differences between any pairs of ligands in the set and their associated error bars. The predicted relative free energies have no hysteresis, meaning the predicted relative free energy difference between any two ligands is independent of the paths connecting them, and thus are internally consistent. 
+
+ In the example paths depicted in Figure 3, there are 11 relative free energy calculations for a set of 8 ligands which connects all the 8 ligands with several cycle closures. The input of the program is the 11 relative free energy calculations results for the 11 pairs of ligands, and the output is the predicted relative free energy differences for the 11 pairs of the ligands, their associated error bars, and also the relative free energy differences between any arbitrary pair of 8 ligands in the set and their associated error bars. 
+
+ Input: 
+
+ {E i ;L j → L k ] where i≡ {1,2, 3,...N} 
+
+ Output: 
+
+ {F t , e t \L j →L k } where z e {1,2, 3,...N} 
+
+ and {F 9 ,e 9 } where ij≡ {L2...L} 
+
+ Algorithm 
+
+ Step 1 : List the calculated free energies for all the relative binding free energy calculations performed, and their corresponding initial and final ligands. 
+
+ What we get from this step is a list: 
+
+ {E i ;L j → L k ] where i≡ {1,2, 3,...N} 
+
+ Here E ; is the relative free energy simulation calculated free energy for the ith relative binding free energy calculation. The initial and final ligand for this relative binding free energy calculation is L . and L k . This is the input of the program. 
+
+ Step 2: List all the closed cycles in the relative binding free energy calculation paths and build up the Cycle Closure Connectivity Matrix (C3M) for the whole graph. 
+
+ In this step, the method searches through all the ligand pairs and find all those pairs that form a closed cycle and convert this information into the connectivity matrix. 
+
+ For example, in the ligand pair paths shown above, pairs 1, 2, and 5 form a closed cycle. Since free energy is a state function, the sum of the free energy along such a closed cycle should be 0. In other words 
+
+ F l + F 2 - F 5 = 0 
+
+ In the general case, the restrain that the free energy along a closed cycle can be written in the following general restrain function: 
+
+ where F i is the free energy difference between the two ligands on the two vertexes of the edge along the closed cycle, and M i is 1 if the edge is in the same direction as the closed cycle, -1 if the edge is in the opposite direction of the closed cycle, and 0 if the edge is not in the closed cycle. 
+
+ In this step, the method lists all the closed cycles in the ligand pair paths, and all the restrains. In the example shown above, we have the following restrains for closed cycles: 
+
+ F 3 +F 4 -F 5 =0 
+
+ F 4 -F 7 -F 6 = 0 
+
+ F l+ F 2 -F 4 -F 3 =0 
+
+ F 5 -F 7 -F 6 -F 3 = 0 
+
+ F l+ F 2 -F 7 -F 6 -F 3 = 0 
+
+ F 9 +F -F w =0 
+
+ In the general case, suppose there is a total number of M closed cycles in the ligand pair paths, then we have M restrain equations: 
+
+ N 
+
+ = 0 where j e {L2... } 
+
+ M Ί = M G is a M x Nmatrix and each row of the matrix represent a restrain equation for a closed cycle. We use G to denote the Cycle Closure Connectivity Matrix (C3M) of the whole graph. In the example shown above, 
+
+ 11 columns 
+
+ 1 1 -1 
+
+ 1 1 -1 
+
+ 1 -1 -1 
+
+ M. 1 1 -1 -1 
+
+ -1 1 -1 -1 
+
+ 1 1 -1 -1 -1 
+
+ 1 -1 1 
+
+ Step 3: Decompose the whole graph into independent subgraphs. 
+
+ In the relative free energy calculation graph, if there is no closed cycle connecting two subgraphs, then the predicted relative free energies among a subset of ligands are 
+
+ independent from the predicted relative free energies among the other subset of ligands. In the example shown above, the predicted relative free energies among the set of ligands [1,2,3,4,5] are independent from the relative free energies among the set of ligands [6,7,8] because there is no closed cycle connecting the two subgraphs. In this step, the whole graph is decomposed into each independent subgraph, and then each independent subgraph is solved sequentially. 
+
+ Step 3a: Go over the each row of M G , record the column number of the nonzero elements in each row, and put the column number into a list 
+
+ L j = {n - M jnj ≠ 0} where j e {L2... } 
+
+ In this step the method produces M lists. Each list contains the column number of the nonzero elements of each row of the C3M matrix. To make it clear for the following description, the set which contains the M lists generated in this step the raw list is called set S r . 
+
+ In the example shown above, this step of the method produces a raw list set which contains 7 lists = {1,2,5} 
+
+ L 2 = {3, 4, 5}
+
+ 3 = {4,6, 7} 
+
+ L 4 = {1,2, 3, 4} 
+
+ L 5 = {3, 5, 6, 7} 
+
+ L 6 = {1,2, 3, 6, 7} 
+
+ L 7 = {9,10,11} 
+
+ Step 3b: Iterate through the second list to the last list in the raw list set S r , and compare the elements contained in L . where j <≡ {2, 3,...m} with the elements in the first list L x . If 
+
+ they contain a common element (or a few elements), then merge all the elements in L . into the first list L x , and delete L . from the raw list set; if they don't have any comment element, keep the list L . in the raw list set. 
+
+ In the example shown above, L 2 , L 4 , L 5 , L 6 contain common element(s) with L x , so those lists are deleted in this step, and their elements are merged into L x . What remains in the raw list set from this step is 
+
+ L x = {1,2, 3,4,5, 6, 7} 
+
+ L, = {4,6, 7} 
+
+ I 7 = {9,10, 11} 
+
+ Step 3c: Repeat step 3b for those lists that have not been deleted in step 3b and merge the elements into L x if they contain common elements with L x . Repeat this step until no more lists can be deleted. 
+
+ In the example shown above, what remains in the raw list set S r from this step is 
+
+ ^ = {1,2, 3,4,5, 6, 7} 
+
+ I 7 = {9,10, 11} 
+
+ Step 3d: Move the first list L the raw list set S r into the final list setS^ = {L x ...} and delete it from the raw list set. In the example shown above, after this step in the final list set S S f = {L x = {1,2, 3,4,5, 6, 7} } , and there is one list left in the raw list set S r = {I 7 = {9,10, 11}} 
+
+ Step 3e: After step 3d, if there are more than one lists left in the raw list set, repeat step 3b to step 3d until there is only one list left. 
+
+ In the example shown above, no action is need in this step, since there is only one list left in the raw list set after step 3d. 
+
+ Step 3f: Move the last list in the raw list set S r into the final list set S j -. After this step, there are several lists in the final list set, and no list left in the raw list set. The lists in the final list sets do not contain any common elements. 
+
+ In the example shown above, in the final list set we have 
+
+ S f = i L i = {1,2, 3,4, 5,6, 7}, I 2 = {9, 10,11} } 
+
+ Step 3g: Iterate through column number 1 to N. If the column number is in any list in the final list set, skip it, otherwise, add a list which contains only that column number into the final list set. 
+
+ This is the final step in this process. After this step, the final list set contains several lists, and there is no common element between any of the lists. The column number 1 to N is in one and only one of the lists in the final list set. 
+
+ In the example shown above, after this step: 
+
+ S, = {L x = {1,2, 3,4,5, 6, 7},L 2 = {9,10,11},L 3 = {8} } 
+
+ After this process, the whole graph is decomposed into each individual independent subgraph. Each independent subgraph contains the edges with the edges numbers listed in each list of the final list set S f . These independent subgraphs do not have a shared edge, but they may have shared vertexes. 
+
+ In the example shown above, the whole graph is decomposed into 3 independent subgraphs. The first subgraph contains 7 binding free energy calculation paths [El, E2, E3, E4, E5, E6, E7], the second subgraph contains 3 relative binding free energy calculation paths [E9, E10, El 1], and the third subgraph contains 1 relative binding free energy calculation path [E8]. These subgraphs are shown in Figure 4. 
+
+ Step 4: Get the C3M for each independent subgraph M s . 
+
+ From Step 3, the whole connectivity graph is already decomposed into independent subgraphs, and the edges numbers of each subgraph is stored in the list in the final list set. In this step we get to get the C3M for each independent subgraph. 
+
+ Take each list rom the final list set S suppose there are N i elements in the list. 
+
+ Search through all the rows of the C3M of the whole graph, M G . For each row of M G , search all those n elements whose column numbers are in the list L i , and if any of them is not zero, put the n column elements of this row into M s ' , the C3M for the subgraph corresponding to list L i . Do this for all the rows of M G and for all the lists in the final list set S f . 
+
+ From this step, the C3M of the whole group, M G , a M x Nmatrix, is decomposed into each independent C3M, M s ' , a M t = N. matrix, each corresponding to an independent each subgraph. The dimensionality of these matrixes satisfy the following properties: i 
+
+ ∑N, = N 
+
+ i 
+
+ After this step, the whole graph is decomposed into independent subgraphs, and the C3M of the whole graph, M G , is also decomposed into C3M for each independent subgraph, M s ' . 
+
+ Note that, each row in M s ' represents a closed cycle in the path, and the connectivity matrix M s ' for some independent subgraph may contain zero elements, meaning there is no closed cycle in that subgraph. In the above example, the C3Ms for the three independent subgraphs are: 
+
+ 1 1 
+
+ Ml 
+
+ 1 1 
+
+ 1 1 
+
+ M S 3 = 0 
+
+ Note that the M s for the third subgraph is empty. 
+
+ Step 5: Reduce the C3M for each subgraph M s into independent matrix M SR In the C3M generated from step 4 for each subgraph, some rows are not independent from each other, meaning that the closed cycles listed in M s are not independent. For example, in the example shown above, for subgraph 1, there are three independent cycles, but all the six closed cycles are listed in the connectivity matrix
+
+ Three of them are not necessary. 
+
+ In this step, the C3M of each subgraph, M s ' , is reduced into Matrix which only contains independent row vectors. We call the reduced matrix which only contains independent row vectors, RC3M (the Reduced Cycle Closure Connectivity Matrix), and denote it as M S ' R . 
+
+ There are many ways to reduce the matrix M s ' into M S ' R . Here we list a simple one.
+
+ Step 5a: Put the first two rows of M^to form a new 2 x N.matrix M. 
+
+ Step 5b: Calculate det | MM T \ . If the determent is not zero, then the two rows are independent; if the determent is zero, then the two rows are dependent, and delete the second row. 
+
+ Step 5c: put the third row of M s ' into M, and repeat step 5b. 
+
+ Step 5d: repeat step 5c for all the remaining rows in M s ' . 
+
+ After this step, M S ' R is obtained for each subgraph. The M S ' R only contains independent row vectors, meaning only independent closed cycles are listed in the matrix. 
+
+ In the above example, the ^ for the first subgraph is: 
+
+ Note that, depending on the order of rows in C3M and the algorithm to reduce the matrix, the M SR for each subgraph is not unique, but the number of rows in ^ is independent on the order of rows and on the algorithm to do the reduction. 
+
+ After this step, the reduced cycle closure connectivity matrix M SR is obtained for each independent subgraph. The ^only contain independent cycles in each subgraph. In the following we will solve the cycle closure equation for each independent subgraph. 
+
+ Step 6: Solve the cycle closure equation for each independent subgraph. 
+
+ This step produces, for each subgraph, a set of optimal estimates of free energies for the N i pairs of ligands with no hysteresis, and it also maximizes the probability. 
+
+ There are two different cases. 
+
+ Case a: There is no closed cycle in the subgraph. Then the solution to this case is: e t = 
+
+ In the example shown above, the third subgraph doesn't have any closed cycle. So the solution for the third subgraph is, 
+
+ Case b: There are m independent closed cycles in the subgraph. 
+
+ In this case, for the subgraph corresponding to list L s in the final list set S f , with n elements and the corresponding RC3M, M = M SR ( m x n matrix), the following function is minimized: 
+
+ n 
+
+ ∑(^ - £;) 2 where i eL s 
+
+ i under the constrains that: 
+
+ ∑Μ β ^ = 0 where j e {l,2...w},z eL s 
+
+ i 
+
+ Using the Lagrange multiplier, we may need to minimize the following functional: n m 
+
+ ^ =∑(^-^) 2 -∑2 7 .(∑ ,.^) 
+
+ j i under the constrains that 
+
+ ∑_ l M ji F i = 0 where j e {l,2...m},and i eL s i where C . are the coefficients of the Lagrange multipliers. Solving the equation r)T m 
+
+ — = 2(F i -E i )-∑2C J M Ji = 0 the method establishes: 
+
+ m 
+
+ F.=E.+y CM.. 
+
+ j 
+
+ m 
+
+ = E i +∑M ji C j 
+
+ j 
+
+ Here M T .. is the transpose of M ... 
+
+ Written in the Matrix formulation, where 
+
+ yielding the following two sets of equations: 
+
+ (\) : F = E + M T C 
+
+ (2) : MF = 0 
+
+ Plug equation (1) into equation (2) we get the following equation: 
+
+ (3) : MM T C = -ME 
+
+ Both the RC3M matrix M and the vector E are known, so the equation can be solved to get the coefficients vector C. After the coefficients are solved, equation (1) yields the best free energy estimators for the n pairs of simulations. 
+
+ Step 7: Get the error estimates for each possible relative binding free energy calculation path 
+
+ According to the hypothesis introduced above, the sum of the relative free energy calculations along a closed cycle is Gaussian distributed with standard deviation ns where n is the number of members on the closed cycle. The error for each calculated 
+
+ difference between a pair of ligands on this closed cycle is—τ= , where Δ is the hysteresis of the closed cycle. 
+
+ For each pair of ligands on the closed cycle, the error for the computed free energy difference between the pair of ligands on the closed cycle can be estimated by the hysteresis of that cycle. 
+
+ Written in a more reduced form, for each row of the C3M, M s (Note here is the unreduced cycle closure connectivity matrix), the following error estimate can be assigned to each member on the cycle: 
+
+ After doing the error calculation according to equation (4) for all closed cycles, that is for all the rows in M s , the final error estimate for relative binding free energy estimate i is chosen as the maximal of the estimates from all rows. In other words: 
+
+ (5) : e i = Max{e n ;j≡ {1,2...m} } = Max{\ M n ≡ {1,2...m} }
+
+ After Step 6 and Step 7, we get the best free energy estimates for the n relative free energies and also their associated error bars for each independent subgraph. 
+
+ Step 8: Report the estimate of the free energy difference between any pairs of ligands in the set and their associated error bars 
+
+ In the previous steps, the method has already provided best free energy estimates and their associated error bars for the n pairs of ligands in each independent subgraph. Merging these date together from all independent subgraphs, produces Output: 
+
+ For any pairs of ligands that are not listed in the above, the method lists all the possible paths on the graph that can connect the two ligands, and then sum over the free energies on each edge of the paths and also the errors. The free energy is independent of the path, but the errors may dependent on the path. The maximal of all the errors to report can be written in a concrete formula: 
+
+ F tJ =∑I k F k 
+
+ where 
+
+ 1 ; when F k is in the same direction as the path 
+
+ -1 ; when F k is in the opposite direction as the path and the maximal is taken for all possible paths which connects ligand L. and ligand L J . 
+
+ Note that, in this step, the free energy estimates and errors are only calculated for those pairs of ligands where free energy calculations are not performed (not directly connected 
+
+ in the graph). The free energy estimates and errors for those pairs of ligands where free energy calculations are performed are calculated in previous steps. 
+
+ To one skilled in the art, it should be apparent in the above that many different approaches may be taken to develop a computer implementation of a probabilistic model of the probable free energy differences and their errors that give rise to the hysteresis(es) observed for closed cycle(s); and to make optimal predictions of the free energy differences and their errors given such a probabilistic model. For example without limitation, matrix or graph methods may be used to create the required data structure, matrix algebra or graph theory methods may be used to construct the probabilistic model, and maximum likelihood or Bayesian methods may be used to parameterize the model to be consistent with the hysteresis(es). The matrix algebra formulation in the preceding section is only a particular embodiment of the invention, and can be readily generalized in a number of ways, including assuming the most probable error of the legs of the pathway is additive with the Bennett error, the Bootstrap error, or both. Likewise it might be generalized to use other distributions aside from the Gaussian distribution, such as without limitation, the Lorentz, Levy, or Rayleigh, delta and uniform distributions.
+
+ As such, the variety of approaches that might be considered to construct a particular probabilistic model of the probable free energy differences and their errors that give rise to the hysteresis(es) observed for closed cycle(s); and to make optimal predictions of the free energy differences and their errors given such a probabilistic model would be interesting embodiments of the invention described herein. 
+
+ Illustrative examples of applications of the invention to various particular relative binding free energy calculations to various particular receptors and ligands 
+
+ FEP/REST relative free energy calculation algorithm 
+
+ The invention improves the accuracy and reliability of relative free energy calculations (for example explicit solvent model calculations). Such accuracy is particularly difficult to achieve if the protein residues surrounding the binding pocket move significantly when different ligands bind, or the two ligands adopt different binding modes or manifest one or more degenerate binding modes. 4 ' 11 ' 19 In such cases, sampling all relevant conformations improves the accuracy of estimates of the free energy difference, yet the transition times to interchange between the different conformations may be too large to be accessible on the time scale of most FEP/MD simulation lengths. 
+
+ Here, we present a particular set of relative binding free energy calculations that illustrates the utility of the method using a recently developed relative free energy calculation method, FEP/REST. FEP/REST, introduced by Wang et al, 12 incorporates the enhanced sampling method, REST, into FEP calculations through an efficient λ-hopping protocol, to sample relevant local structural rearrangements in relative protein-ligand binding affinity calculations within easily accessible simulation times. We also present more routine FEP/MD relative free energy calculations, to similarly illustrate the utility of the invention, independent of the particular chosen relative binding free energy calculation methodology. 
+
+ FEP involves calculating the free energy difference between two systems by alchemically transforming between the systems in a series of discrete steps represented by λ values, where λ varies from 0 for the initial state to 1 for the final state. FEP/REST 
+
+ modifies the potential energy for a localized region surrounding the binding pocket (which we call the 'hot' region) which may include protein residues as well as the ligand. For the intermediate λ windows, the potential energy for the localized region is scaled by a factor less than 1. In this way, energy barriers are lowered, enabling the efficient sampling of the different conformations in these intermediate λ windows, and the different conformations are propagated to the end states through the Hamiltonian replica 
+
+ 15 22 23 
+
+ exchange method. ' ' We call the region where the potential energy is scaled the 'hot' region, since the local contributions to the potential energy have been scaled to smaller values such that the effective temperature of that region is higher, although this analogy does not carry over to the particles actually having higher kinetic energies in the simulation. The details about the FEP/REST algorithm are described in the FEP/REST work by Wang et al. 12 , hereby incorporated by reference. 
+
+ The 'hot' region for REST enhanced sampling is configured here to include the ligand functioned group mutated in the SAR studies. If the ligand functional group is attached to an aromatic ring, the aromatic ring is also included in the 'hot' region, allowing the ring to flip through REST enhanced sampling. The effective temperature profile for REST
+
+ 'hot' region is calculated according to equation 9 of reference 26 24 , setting the expected acceptance ratio of replica exchange to be 0.3, an optimal value reflecting the trade-offs between the number of replicas needed and exchange efficiency. A total of 12 λ windows are used for the both normal FEP and FEP/REST calculations. The electrostatic interactions that are unique to the initial state were turned off before the Lennard- Jones
+
+ (LJ) interactions, and the LJ interactions that are unique for the final state were turned on before the electrostatic interactions. The bonded interactions are smoothly turned from 
+
+ the initial state to the final state. The core of the LJ interactions was softened to avoid the singularities and instabilities in the simulations. 25 In our current simulations, the benzene ring on which substituents were varied in the SAR studies, 16 are included in the 'hot' region, and the highest effective temperature with a total of 12 λ windows achieved is roughly 900K. 
+
+ Details of the various FEP/REST and FEP/MD relative free energy calculations:
+
+ The ligand functional group mutation module implemented in Desmond 26 ' 27 was used 
+
+ 28 29 30 
+
+ to set up the calculations. The OPLS2005 force field ' was used for the proteins and the ligands along with the SPC 31 water model. The starting structures for the simulations were taken from the PDB structures with IDs lhlq, lhlr, lhls, loiu, loi9, and loiy. 16 Whenever multiple conformations were present in the PDB, we selected the first conformation for use in the simulations. The protein was prepared using the Protein Preparation Wizard 32 ' 33 during which the protonation states were assigned assuming a pH of 7.O. 34 Cyclin A was retained with CDK2 and treated as part of the receptor for all calculations. Na + or CI " ions were added to maintain electric neutrality. The systems were relaxed and equilibrated using the default Desmond relaxation protocol, which involves a series of minimizations and short molecular dynamics simulations. A total of 12 λ windows were used for the both the normal FEP and FEP/REST calculations. The production stage lasted 2 ns for the complex simulations and 5 ns for the solvent simulations. Replica exchanges between neighboring lambda windows were attempted every 1.2ps. The production stages were sampled using both FEP/MD and FEP/REST. The Bennett acceptance ratio method (BAR) 35 was used to calculate the free energy. 
+
+ Errors were estimated for each free energy calculation using both bootstrapping ' and the BAR analytical error prediction, ' ' and the larger of the two errors was reported. 
+
+ Assessing the consistency and reliability of the predictions by way of a particular application of the invention 
+
+ One can rank order the relative binding affinities for the whole set of ligands in relative protein-ligand binding affinity FEP calculations, most simply, by performing all FEP simulations from a common reference ligand. In addition, if one obtains a fully converged result for each calculation, the final predictions are, theoretically, independent of the paths chosen to do the relative binding free energy calculations. For example, for three ligands A, B, and C, there are two strategies to obtain the relative binding affinity between ligand A and ligand C: (1) sample the path directly from A to C; or (2) sample the path in two steps, from A to B and B to C, and then sum the two obtained free energies. Theoretically, the final converged free energy estimate should be the same from the above two methods. In practice, however, due to the errors in each calculation— including unbiased errors due to the random fluctuations in the sampling of the phase space which may be characterized by the Bennett error bound, and biased error due to a systematically incomplete sampling of the phase space which would not be characterized by the Bennett error bound— both the variances and the average values from the above two paths are usually somewhat different. 38 Given these limitations, it is important to assess the reliability of the results obtained. 
+
+ To gain additional information about the consistency and the reliability of the predictions, we include cycle closures for all the paths. In the example given above, if the results from the two paths agree to within a specified threshold, it indicates that the 
+
+ predictions are consistent, and likely reliable within the limits of the employed force field. However, if the results from the two paths differ by more than some threshold value, it may indicate that the results may not be converged and the predictions may not be reliable. The threshold value depends on the number of members in each cycle and the error we expect for leg in the cycle. In this particular embodiment of the invention rigorously assess the reliability of the predictions and how to adaptively assign an appropriate threshold value for each cycle. In addition, once we include cycle closures in the path, there are multiple independent ways to calculate the free energy difference between two states. In this particular embodiment of the invention, optimal predictions from the multiple free energy estimates obtained along the closed cycles are also reported. The invention in this embodiment also directly provides information about the convergence error associated with the free energy calculations from the hysteresis of each cycle. 
+
+ The methods discussed herein are performed by a computer system programmed to perform those steps. In Figure 15, the system includes computer(s) 110, data stores 120 and program modules 130. The computer instructions are stored in one or more non- transient computer-readable media. Figure 16 shows steps in the method including a listing of calculated free energies for all the free energy calculation paths (302), listing all closed cycles and building cycle closure connectivity matrix (304) and decomposition the entire graph into independent subgraphs (306). 
+
+ Below we discuss certain specific examples and present related tables as follows: 
+
+ Table 1: The FEP/MD and FEP/REST predicted relative binding free energies for the five ligands with crystal structures compared to the reference ligand lhlq. 
+
+ Table 2: The final free energy predictions for the 6 ligands with crystal structures from FEP/MD and FEP/REST calculations using the formula derived by the embodiments of the invention. 
+
+ Table 3: The structures of CDK2 inhibitors and their compound # studied using 
+
+ FEP/REST. 
+
+ Table 4: The FEP/REST predicted relative binding free energies for the additional 10 compounds without crystal structures. 
+
+ Table 5: The final free energy predictions for the whole set of ligands using the formula derived by embodiments of the invention. 
+
+ Table 6: FEP/REST results for the 8 relative binding free energy calculation paths of the jnkl ligands. 
+
+ Table 7: The predicted binding affinities and their associated errors for the 7 ligands binding to jnkl . 
+
+ Table 8: FEP/REST results for the 7 relative binding free energy calculation paths for the BACE ligands. 
+
+ Table 9: The predicted binding affinities and their associated errors for the 6 ligands binding to BACE. 
+
+ Table 10: MC/FEP results for the 9 relative binding free energy calculation paths of scytalone dehydratase ligands. 
+
+ Table 11 : The predicted binding affinities and their associated errors for the 3 ligands binding to scytalone dehydratase. 
+
+ Table 12: The cycle closure predicted free energy differences among the four states depicted on figure 14, and their associated errors. 
+
+ Results and Discussions 
+
+ Performance on ligands with crystal structures 
+
+ FEP/MD and FEP/REST simulations were carried out to predict the relative binding affinities for the six ligands displayed in Figure 5 binding to the CDK2-cyclin A receptor. These are the only six ligands with crystal structures available for each holo complex, with PDB IDs lhlq, lhlr, lhls, loi9, loiu, and loiy, 16 and experimental binding affinity data for these ligands came from the same publication using the same method. Thus, the calculations reported here are essentially purely a scoring exercise, since the binding modes of ligands are known from the crystallography. In these crystal structures, the CDK2 receptor conformation is essentially the same regardless of which ligand is bound. Hence, we did not expect the sampling of protein 
+
+ conformational changes to significantly limit simulation convergence. In the calculations, we chose to use the protein conformation and ligand from lhlq as the starting structure for all five perturbations (drawn with blue arrows in Figure 5), since all other ligands in the set are generated by adding different substituents on the benzene ring of ligand lhlq. 
+
+ Comparison between FEP/MD and FEP/REST results 
+
+ The FEP/MD and the FEP/REST results for the relative binding free energy calculation paths among the ligand with crystal structures are given in Table 1. The correlation of the predictions with experimental binding affinity data is displayed in Figure 6. Despite the ~3.5 kcal/mol range of experimental binding affinities, FEP/MD predicts that the five compounds (excluding the reference compound lhlq) have almost the same binding 
+
+ affinities, resulting in an R 2 value of 0.32. By comparison, the FEP/REST results are highly correlated with the experimental values (R 2 =0.91), and the deviations of the FEP/REST results from the experimental values are less than 0.8 kcal/mol for all of the ligand pairs. 
+
+ From comparisons of the FEP/MD and FEP/REST results, it appears that the predictions for compounds loi9, loiu, and lioy from the two methods are essentially the same, and that the main reason for the improved correlation with the experimental results comes from the better binding affinity estimates for ligands lhls and lhlr using 
+
+ FEP/REST. Below we will discuss why FEP/REST significantly outperforms FEP/MD for these two cases. 
+
+ A review of the FEP/MD and FEP/REST trajectories for ligand lhlr showed that the 2- chloro substituted benzene ring flips several times in the FEP/REST trajectory, while that ring remains trapped in the initial conformation in the FEP/MD trajectory. The initial conformation, corresponding to one of the conformations in the crystal structure, and the alternative flipped conformation, observed in the FEP/REST calculation, are displayed in Figure 7. Interestingly, for ligand lhlr, the electron density in the deposited X-ray crystal structure also indicated the presence of an alternative ligand binding mode (Figure 7 right panel) that corresponds to the alternate one found in the FEP/REST calculations. 
+
+ For lhls, in addition to the binding mode modeled in the crystal structure, another conformation is sampled in the FEP/REST trajectory, but not in the FEP/MD simulations.
+
+ Figure 8 displays the binding mode found in the crystal structure and the alternative binding mode sampled in the FEP/REST calculation. In the crystal structure, the sulfonamide group makes two hydrogen bonds (HB) with Asp86: one with the backbone 
+
+ and another with the side chain. In the alternative binding mode sampled in the FEP/REST simulation, the sulfonamide group rotates about 120° around the CS bond relative to the crystal structure. The protein residues surrounding the binding pocket, particularly Gln85 and Asp86, rearrange accordingly and two hydrogen bonds are formed between the sulfonamide group and the protein residues: one with the Asp86 side chain and the other with the Gln85 side chain. The B factors of these few residues surrounding the binding pocket and the ligand in the X-ray crystallography indicate these groups are quite mobile. 16 Therefore, it is quite possible that the ligand can switch between the two binding modes in solution. In the FEP/REST simulation trajectory, the occupancy ratio between the binding mode observed crystallographically and the alternative binding mode is roughly 60:40, in favor of the crystallographically determined mode. However, sampling this alternative binding mode appears to be very important for the correct prediction of the binding affinity, and is responsible for the greater efficacy of FEP/REST in accurately computing the relative binding free energy of this species compared with FEP/MD. Interestingly, the invention allows this to be determined without reference to the experimental data, since the computed errors associated with the FEP/MD computed by this particular embodiment of the invention to be high (1.01 kcal/mol for loiu and lhls, and -0.7 kcal/mol for loiy, loi9 and lhls), where as the computed errors associated with the FEP/REST are computed by the invention to be low (between 0.2-0.4 kcal/mol for all the ligands). 
+
+ Assessing the consistency and reliability of the relative free energy calculations with a particular embodiment of the invention 
+
+ To assess the consistency and reliability of the FEP/REST predictions, we performed three more simulations forming three cycle closures in the relative binding free energy calculation paths (Figure 5). The FEP/REST results for the three paths forming these cycles are given in the last three rows of Table 1. The final predictions for the binding affinities of these ligands determined by way of a particular embodiment of the invention are given in Table 2. The cycles are closed self consistently with discrepancies less than
+
+ 0.8 kcal/mol from different paths for all three cycles, indicating that the free energy is well converged and the predictions are highly reliable within the limits of the underlying force field. 
+
+ However, even though the cycles are well closed and the free energies calculated from different paths agree to within a rather tight threshold value, they are not exactly the same. Thus, for the same pair of ligands, we have multiple different estimates for the free energy differences depending upon how one traverses the paths between the ligand. One is then left with the question of how to best incorporate all the information that is generated in the calculations to obtain the statistically best estimates for the free energies? We use a particular embodiment of the invention to determine the optimal estimates of the free energies and the errors associated with these predictions. Here, all the cycles are well closed, and the final predictions with cycle closures agree well with the above predictions without cycle closures, further validating the high reliability of these calculations. The deviation between the final predictions and the experimental 
+
+ results are all less than 0.7 kcal/mol, and they have very high correlation with the experimental data (R 2 =0.92). 
+
+ In contrast when this particular embodiment of the invention was applied to similar closed cycles computed with the FEP/MD relative free energy calculations, the hysteresis of the closed cycles involving ligand lhlr and lhls are very large (as large as 1.75 kcal/mol and 1.35 kcal/mol respectively), indicating the FEP/MD calculations are not converged. Using the cycle closure free energy estimate by way of this particular embodiment of the invention, the errors for these FEP/MD free energy calculations are much large (1.01 kal/mol and 0.68 kal/mol respectively) than the FEP/REST results (errors of 0.35 kcal/mol and 0.25 kcal/mol respectively). 
+
+ Performance on ligands without crystal structure 
+
+ To further validate our model, additional FEP/REST calculations were performed for another 10 ligands binding to the same receptor without crystal structure available for the holo complex. These 10 ligands were randomly selected from the same publication by Handcastle. 16 The binding affinities were measured using the same method as the above- mentioned ligands with crystal structures and they conserve the same core. The structures of the ligands and their corresponding compound numbers as in the original publication 16 are given in Table 3. The FEP/REST predicted relative binding affinities for these ligands are reported in Table 4 along with the experimental data. Cycle closures are constructed in the paths for these ligands (Figure 9), and the hysteresis of the cycle closures are all less than 1.0 kcal/mol, indicating the calculations are highly converged. The final predicted relative binding affinities by way of this particular embodiment of the invention are reported in Table 5. For ligands with cycle closures constructed in the relative binding 
+
+ free energy calculation paths, the errors associated with the free energy predictions are also reported in Table 5. The correlation between the predicted relative binding affinities and the experimental data for the whole set of ligands (6 ligands with crystal structure and the 10 ligands without crystal structure) is displayed in Figure 10. It is clear this particular embodiment of the invention when applied to the FEP/REST free energy calculation data performs well for these ligands without crystal structures, further demonstrating the transferability of the approach. The average deviation between the predicted binding affinities compared to experimental data is 0.44 kcal/mol, and the R 2 value is 0.82. 
+
+ Conclusions 
+
+ Above, we have illustrated that the method can be applied in multiple embodiments to the recently developed free energy calculation FEP/REST method as well as the more routinely used FEP/MD free energy calculation method to calculate the relative binding affinities between a series of congeneric ligands binding to the CDK2-cyclin A receptor. The invention facilitated comparisons between FEP/REST and FEP/MD free energy calculation predictions. While the more routine FEP/MD method performed poorly in rank-ordering the relative binding affinities for the six ligands with crystal structure, the invention provided value indicating the error associated with the FEP/MD predictions was high. In contrast, he FEP/REST calculated relative binding affinities were in excellent agreement with the experimental data, and shown to be converged by application of the invention. Application of the invention to relative free calculations performed by way of FEP/REST method on a larger data set that includes 10 ligands 
+
+ without crystal structures further verified the invention's ability to correctly rank order the relative binding affinities of congeneric ligands. 
+
+ The invention provides a means of assessing the consistency and reliability of free energy calculations using information derived from cycle closure calculations associated with any type of relative free energy calculation procedure. This invention provides clear criteria by which to judge the consistency and reliability of the predictions, as well as optimal estimates of the free energies with well-formed error bounds. Application of this invention to the CDK2-cyclin A series indicates our predictions using FEP/REST relative free energy calculations are highly reliable, which is also demonstrated by the excellent agreement of the predictions with the experimental data. Likewise the invention properly determined the FEP/MD predictions are less reliable. 
+
+ We include additional applications of various embodiments of the invention to other systems and other relative binding free energy calculation in the generality and utility of the invention. 
+
+ Additional applications of various embodiments of the invention to a variety of systems using a variety of relative binding free energy calculation schemes 
+
+ I. Application of an embodiment of the invention to JNK1 kinase 
+
+ FEP/REST relative binding free energy simulations were performed for a subset of ligands binding to jnkl receptor with two cycle closures in the relative binding free energy calculation paths (Fig 11). The ligand numbers for the subset of ligands are 
+
+ [2,6,7,9,10,12,13], and the 8 FEP/REST results for the 8 relative binding free energy calculation paths are listed in the Table 6. 
+
+ Using cycle closure best free energy estimators and error estimators, the binding affinities for the 7 ligands and their associated error bars are reported in Table 7. 
+
+ Note that, the cycle closure estimates can not correct the systematic errors in the force field of the simulations. So, the predicted binding affinities for two of the ligands (ligand 12 and 13) deviates by more than 1.5 kcal/mol compared to experimental values. The deviations may either due to the error in the force field, or in the uncertainties in the experimental measurements. The overall correlation between the predicted results and the experimental values is very good, though. 
+
+ II. Application of an embodiment of the invention to BACE 
+
+ FEP/REST simulations are performed for a subset of ligands binding to BACE receptor with two independent cycle closures in the raltive binding free enery calculation paths (Shown in Figure 12). The ligand numbers for the subset of ligands are [4j, 4o, 4p, 17d, 17g, 17h], and the 7 FEP/REST results for the 7 relative binding free energy calculation paths are listed in the Table 8. 
+
+ Using cycle closure best free energy estimators and error estimators, the binding affinities for the 6 ligands and their associated error bars are reported in table 9. 
+
+ Note again, the binding affinity for ligand 17h is over predicted by about 2 kcal/mol, but the overall correlation between the predicted results and the experimental values is very good. 
+
+ III. Application of an embodiment of the invention to FEP/MC relative binding free energy calculations of ligands binding to scytalone dehydratase 
+
+ The relative binding affinities between 3 ligands binding to scytalone dehydratase with and without water bound in the active site are calculated using FEP/MC. 39 The relative binding free energy calculation paths for these simulations with 4 independent cycle closures are displayed in Fig 13. The calculated binding affinities for the relative binding free energy calculations are reported in Table 10. 
+
+ The hysteresis of the cycle [L1(H20), L2(H20), L3(H20)] is 4.3 kcal/mol, much larger than 1.4 kcal/mol, indicating these calculations are not converged, and the calculated binding affinities inside this cycle also have large deviations from the experimental data. Similarly, for the cycle [L3(H20), L3, L2, L2(H20)], the hysteresis is 1.5 kcal/mol, larger than 1.4 kcal/mol, indicating these calculations are not reliable either. 
+
+ On the other hand, the hysteresis of the other cycles, [L1(H20), LI, L3, L3(H20)] and [LI, L2, L3], are very small (0.2 kcal/mol and 0.5 kcal/mol respectively), indicating the calculated are reliable. The final predicted relative binding affinities among the three ligands with the cycle closure estimates described above is reported in Table 11. 
+
+ IV. Application of an embodiment of the invention to test particle insertion relative binding free energy sampling for model enclosures 
+
+ The relative binding free energies between a united atom methane and model enclosures with and without charge are calculated using test particle insertion method. 40 The free energies of charging the model enclosure with and without the bound methane is also calculated using FEP/MD sampling. The relative binding free energy calculation 
+
+ paths form a closed cycle (Figure 14) and the associated free energies for each edge on the cycle is reported in there. 
+
+ Using cycle closure analysis described above, the predicted free energy difference between the four states depicted on Fig 16 and their associated errors are reported in Table 12. 
+
+ A number of embodiments have been described. Nevertheless it will be understood that various modifications may be made without departing from the spirit and the scope of the invention. 
+
+ TABLES. 
+
+ Table 1: The FEP/MD and FEP/REST predicted relative binding free energies for the five ligands with crystal structures compared to the reference ligand lhlq. The results for the three relative binding free energy calculation paths forming 3 cycle closures for the 6 ligands with crystal structures are also include in the table. The errors for the calculated free energies using BAR analytical error estimation are also included in the table. The FEP/MD predicted results have large deviations from the experimental data for ligands lhlr and lhls (bold in the table), while the FEP/REST predicted results all agree well with the experimental data. Free energies are reported in kcal/mol unit. 
+
+ Table 2: The final free energy predictions for the 6 ligands with crystal structures from FEP/MD and FEP/REST calculations using the formula derived by the embodiments of the invention. The error estimates using the formula derived by embodiments of the invention for the final free energy prediction using cycle closure are also included in the table. Ligand Ihlq is used as the reference, so the deviation for ligand Ihlq is 0 by design. Note, a cycle closure error bar is not reported for ligand Ihlq since it is the reference ligand used for this work, and its binding free energy is set identically equal to its experimental value for plotting purposes. Free energies are reported in kcal/mol unit. 
+
+ Table 3: The structures of CDK2 inhibitors and their compound # studied using
+
+ FEP/REST.
+
+ Table 4: The FEP/REST predicted relative binding free energies for the additional 10 compounds without crystal structures. The errors for the calculated free energies using BAR analytical error estimation are also reported in the table. Free energies are reported in kcal/mol unit. 
+
+ Table 5: The final free energy predictions for the whole set of ligands using the formula derived by embodiments of the invention. The error estimates using the embodiments of the invention for the final free energy prediction using cycle closure are also included in the table. Ligand Ihlq is used as the reference, so the deviation for ligand Ihlq is 0 by design. Note, a cycle closure error bar is not reported for ligand Ihlq since it is the reference ligand used for this work, and its binding free energy is set identically equal to its experimental value for plotting purposes. Cycle closure error bars are also not reported for ligands 20, 31 and 32, since those species were technically challenging to connect to other ligands other than the reference ligand, as required to form closed cycles for the error. Free energies are reported in kcal/mol unit. 
+
+ Table 6: FEP/REST results for the 8 relative binding free energy calculation paths of the jnkl ligands. 
+
+ Fep2^9 -0.92 -2.47 
+
+ Fep2^10 -0.59 -0.46 
+
+ Fep6^13 1.41 0.20 
+
+ Fep7^13 1.38 -0.04 
+
+ Fep9^12 -0.58 -0.88 
+
+ Fepl0^12 -0.91 -2.59 
+
+ Table 7: The predicted binding affinities and their associated errors for the 7 ligands binding to jnkl. 
+
+ Table 8: FEP/REST results for the 7 relative binding free energy calculation paths for the 
+
+ Table 9: The predicted binding affinities and their associated errors for the 6 ligands binding to BACE.
+
+ 17g -9.74 -10.65 0.2 
+
+ Table 10: MC/FEP results for the 9 relative binding free energy calculation paths of scytalone dehydratase ligands. 
+
+ Table 11: The predicted binding affinities and their associated errors for the 3 ligands binding to scytalone dehydratase. Even though the predicted binding affinity for ligand 3 has relative large error, the relative binding free energy calculation paths with very large errors are filtered out and the correct rank order is predicted. 
+
+ *Note: the binding affinities reported in the table is the relative binding affinity compared to ligand 1. 
+
+ Table 12: The cycle closure predicted free energy differences among the four states depicted on figure 14, and their associated errors. M denotes the united atom methane, P denotes the hydrophobic plates, CP denotes the charged plates, MP denotes the hydrophobic plates bound with the united atom methane, and MCP denotes the charged plates bound with the united atom methane. 
+
+ REFERENCES 
+
+ (1) Gilson, M. K.; Zhou, H. X. Annu. Rev. Biophys. Biomol. Struct. 2007, 36,
+
+ 21. 
+
+ (2) Jorgensen, W. L. Acc. Chem. Res. 2009, 42, 733. 
+
+ (3) Moble, D. L.; Dill, K. A. Structure 2009, 17, 498. 
+
+ (4) Gallicchio, E.; Levy, R. M. Curr. Opin. Struct. Biol. 2011, 21, 161. 
+
+ (5) Mobley, D. L.; Dill, K. A.; Chodera, J. D. J. Phys. Chem. B 2008, 112,
+
+ 938. 
+
+ (6) Young, T.; Abel, R.; Kim, B.; Berne, B. J.; Friesner, R. A. Proc. Nat. Acad. Sci. USA 2007, 104, 813. 
+
+ (7) Abel, R.; Young, T.; Farid, R.; Berne, B. J.; Friesner, R. A. J. Am. Chem. Soc. 2008, 130, 2831. 
+
+ (8) Wang, L.; Berne, B. J.; Friesner, R. A. Proc. Nat. Acad. Sci. USA 2011, 108, 1326. 
+
+ (9) de Amorim, H. L.; Caceres, R. A.; Netz, P. A. Curr. Drug Targets 2008, 9, 1100. 
+
+ (10) Michel, J.; Tirado-Rives, J.; Jorgensen, W. L. J. Am. Chem. Soc. 2009, 131, 15403. 
+
+ (11) Chodera, J. D.; Mobley, D. L.; Shirts, M. R.; Dixon, R. W.; Branson, K.;
+
+ Pande, V. S. Curr. Opin. Struct. Biol. 2011, 21. 
+
+ (12) Wang, L.; Berne, B. J.; Friesner, R. A. Proc. Nat. Acad. Sci. USA 2012, 109, 1937. 
+
+ (13) Huang, X.; Hagen, M.; Kim, B.; Friesner, R. A.; Zhou, R.; Berne, B. J. J. Phys. Chem. B 2007, 111, 5405. 
+
+ (14) Liu, P.; Kim, B.; Friesner, R. A.; Berne, B. J. Proc. Nat. Acad. Sci. USA 2005, 102, 13749. 
+
+ (15) Wang, L.; Friesner, R. A.; Berne, B. J. J. Phys. Chem. B 2011, 115, 9431.
+
+ (16) Hardcastle, I. R.; Arris, C. E.; Bentley, J.; Boyle, F. T.; Chen, Y.; Curtin, N. J.; Endicott, J. A.; Gibson, A. E.; Golding, B. T.; Griffin, R. J.; Jewsbury, P.;
+
+ Menyerol, J.; Mesguiche, V.; Newell, D. R.; Noble, M. E.; Pratt, D. J.; Wang, L. Z.; Whitfield, H. J. J. Med. Chem. 2004, 47, 3710. 
+
+ (17) Malumbres, M.; Barbacid, M. Nat. Rev. Cancer 2009, 9, 153. 
+
+ (18) Chen, Y. N.; Sharma, S. K.; Ramsey, T. M.; Jiang, L.; Martin, M. S.; Baker, K.; Adams, P. D.; Bair, K. W.; Kaelin, W. G., Jr. Proc. Nat. Acad. Sci. USA 1999,
+
+ 96, 4325. 
+
+ (19) Pohorille, A.; Jarzynski, C; Chipot, C. J. Phys. Chem. B 2010, 114,
+
+ 10253. 
+
+ (20) Steiner, D.; Oostenbrink, C; Diederich, F.; Zurcher, M.; van Gunsteren, W. F. J. Comput. Chem. 2011, 32, 1801. 
+
+ (21) Lai, B.; Oostenbrink, C. Theor. Chem. Acc. 2012, 131, 1. 
+
+ (22) Jiang, W.; Roux, B. J. Chem. Theory Comput. 2010, 6, 2565. 
+
+ (23) Woods, C. J.; Essex, J. W.; King, M. A. J. Phys. Chem. B 2003, 107,
+
+ 13703. 
+
+ (24) Patriksson, A.; van der Spoel, D. Phys. Chem. Chem. Phys. 2008, 10,
+
+ 2073. 
+
+ (25) Beutler, T. C; Mark, A. E.; van Schaik, R. C; Gerber, P. R.; van Gunsteren, W. F. Chem. Phys. Lett. 1994, 222, 529. 
+
+ (26) In Desmond; 3.4 ed.; Schrodinger L. L. C: New York, NY, 2012. 
+
+ (27) Bowers, K. J.; Chow, E.; Xu, H.; Dror, R. O.; Eastwood, M. P.;
+
+ Gregersen, B. A.; Klepeis, J. L.; Kolossvary, I.; Moraes, M. A.; Sacerdoti, F. D.; Salmon, J. K.; Shan, Y.; Shaw, D. E. In Proceedings of the 2006 ACM/IEEE conference on Supercomputing; ACM: Tampa, Florida, 2006, p 84. 
+
+ (28) Shivakumar, D.; Williams, J.; Wu, Y.; Damm, W.; Shelley, J.; Sherman, W. J. Chem. Theory Comput. 2010, 6, 1509. 
+
+ (29) Jorgensen, W. L.; Tirado-Rives, J. J. Am. Chem. Soc. 1988, 110, 1657.
+
+ (30) Kaminski, G. A.; Friesner, R. A.; Tirado-Rives, J.; Jorgensen, W. L. J. Phys. Chem. B 2001, 105, 6474. 
+
+ (31) Berendsen, H. J. C; Postma, J. P. M.; van Gunsteren, W. F.; J., FL; Pullman, B., Ed.; Reidel: Dordrecht, 1981, p 331. 
+
+ (32) In Maestro; 9.3 ed.; Schrodinger, L. L. C: New York, NY, 2012. 
+
+ (33) In Schrodinger Suite 2012 Protein Preparation Wizard; Schrodinger L. L. C. : New York, NY, 2012. 
+
+ (34) Olsson, M. H. M.; Sondergaard, C. R.; Rostkowski, M.; Jensen, J. H. J. Chem. Theory Comput. 2011, 7, 525. 
+
+ (35) Bennett, C. H. J. Comput. Phys. 1976, 22, 245. 
+
+ (36) Paliwal, H.; Shirts, M. R. J. Chem. Theory Comput. 2011, 7, 41 15. 
+
+ (37) Hahn, A. M.; Then, H. Phys. Rev. E 2009, SO, 031 1 1 1. 
+
+ (38) Shenfeld, D. K.; Xu, H.; Eastwood, M. P.; Dror, R. O.; Shaw, D. E. Phys. Rev. E 2M9, 80, 046705. 
+
+ (39) Michel, J.; Tirado-Rives, J.; Jorgensen, W. L. J. Am. Chem. Soc. 2009, 131, 15403. 
+
+ (40) Wang, L.; Friesner, R. A.; Berne, B. J. J. Phys. Chem. B 2010, 114, 7294. 
+
+ Claims
+
+ WHAT IS CLAIMED IS: 
+ 
+ 1. A computer-implemented method of determining relative strength of binding between a receptor and individual members of a set ligands to form complexes between individual ligand set members and the receptor, the method comprising a computer-implemented determination of multiple relative binding free energy differences for a set of ligand pairs forming at least one closed cycle, and a computer implemented determination of hysteresis magnitude about each closed thermodynamic cycle, comprising: 
+
+ a. a computer implemented probabilistic determination of the free energy differences and error distributions about those free energy differences along each of the legs of the closed thermodynamic cycle that probabilistically lead to the hysteresis value observed for the closed thermodynamic cycles; 
+
+ b. a computer implemented determination of the most probable free 
+
+ energy difference for each leg in the closed thermodynamic cycle included in the probabilistic model determined in a; 
+
+ c. a computer implemented determination of the most probable error associated with the most probable binding free energy difference for each pair of ligands along each leg in the closed thermodynamic cycle from the probabilistic determination in b.; 
+
+ d. a computer implemented output of values representing the relative binding free energies and errors in c. to a computer user. 
+
+ 2. The method of claim 1 in which the step of estimating the error comprises computer-implemented analysis of binding free energy differences between ligands along legs of more than one closed thermodynamic cycle, and computer implemented determination of hysteresis magnitude about each of closed thermodynamic cycles. 
+
+ 3. The method of claim 1 in which steps c and d include determining a set of free energy values for each leg that minimizes the function 
+
+ with the constraint: i 
+
+ where Ei calculated free energy difference for a given leg i; 
+
+ F; is the theoretical free energy difference for a given leg i; 
+
+ and Q- . is the standard deviation of the calculated free energy differences for leg i, and where the sum of the theoretical free energy differences for all closed cycles is 0. 
+
+ 4. The method of claim 1 , where the receptor is a protein. 
+
+ 5. The method of claim 1, where the ligands are congeneric 
+
+ 6. The method of claim 1, where a Gaussian distribution is assumed in the 
+
+ construction of the probabilistic model of the observed hysteresis in step 1. a. 
+
+ 7. The method of claim 1, where the error distribution associated with the free energy simulations is assumed to be uniform in step la. 
+
+ 8. The method of claim 1, where the error distribution associated with the free energy simulations is assumed to be additive with the Bennett error in step la.
+
+ 9. The method of claim 1, where the connectivity of the closed thermodynamic cycles is represented as a graph. 
+
+ 10. The method of claim 1, where the connectivity of the closed thermodynamic cycles is represented as a matrix. 
+
+ 11. The method of claim 1 , where the probablisitic determination comprises 
+
+ performing graph theoretical methods . 
+
+ 12. The method of claim 1, where the probablisitic determination comprises 
+
+ performing matrix algebra methods. 
+
+ 13. The method of claim 1, where the probablisitic determination comprises 
+
+ performing Bayesian methods. 
+
+ 14. The method of claim 1, where the probablisitic determination comprises 
+
+ performing Maximum likelihood methods. 
+
+ 15. A computer readable medium comprising tangible non-transitory instructions for performing the method of claim 1. 
+
+ 16. A computer system programmed with non-transitory computer readable instructions for performing the method of claim 1. 
+
+ 17. A general purpose graphics processing unit with non-transitory computer readable instructions for performing the method of claim 1. 
+
+ PCT/US2014/025425 
+ 2013-03-15 
+ 2014-03-13 
+ Cycle closure estimation of relative binding affinities and errors 
+ 
+ Ceased 
+
+ WO2014151310A2 
+ ( en )
+
+ Priority Applications (5)
+
+ Application Number 
+ Priority Date 
+ Filing Date 
+ Title 
+
+ EP14769374.1A 
+
+ EP2972311B1 
+ ( en )
+
+ 2013-03-15 
+ 2014-03-13 
+ Cycle closure estimation of relative binding affinities and errors 
+
+ DK14769374.1T 
+
+ DK2972311T3 
+ ( en )
+
+ 2013-03-15 
+ 2014-03-13 
+ 
+ CIRCUIT CLOSURE ESTIMATION OF RELATIVE BINDING AFFINITIES AND ERRORS
+
+ EP20206513.2A 
+
+ EP3836147B1 
+ ( en )
+
+ 2013-03-15 
+ 2014-03-13 
+ Cycle closure estimation of relative binding affinities and errors 
+
+ ES14769374T 
+
+ ES2853348T3 
+ ( en )
+
+ 2013-03-15 
+ 2014-03-13 
+ 
+ Estimation of Loop Closures of Relative Binding Affinities and Errors
+
+ JP2016501847A 
+
+ JP6441301B2 
+ ( en )
+
+ 2013-03-15 
+ 2014-03-13 
+ 
+ Cycle closure estimation of relative binding affinity and error
+
+ Applications Claiming Priority (2)
+
+ Application Number 
+ Priority Date 
+ Filing Date 
+ Title 
+
+ US13/840,039 
+ 
+ US20140278295A1 
+ ( en )
+
+ 2013-03-15 
+ 2013-03-15 
+ Cycle Closure Estimation of Relative Binding Affinities and Errors 
+
+ US13/840,039 
+
+ 2013-03-15 
+
+ Publications (2)
+
+ Publication Number 
+ Publication Date 
+
+ WO2014151310A2 
+ 
+ true 
+ 
+ WO2014151310A2
+ ( en )
+
+ 2014-09-25 
+
+ WO2014151310A3 
+
+ WO2014151310A3
+ ( en )
+
+ 2014-11-13 
+
+ Family
+
+ ID=51531746
+
+ Family Applications (1)
+
+ Application Number 
+ Title 
+ Priority Date 
+ Filing Date 
+
+ PCT/US2014/025425 
+ Ceased 
+
+ WO2014151310A2 
+ ( en )
+
+ 2013-03-15 
+ 2014-03-13 
+ Cycle closure estimation of relative binding affinities and errors 
+
+ Country Status (6)
+
+ Country 
+ Link 
+
+ US 
+ ( 3 )
+
+ US20140278295A1 
+ ( en )
+
+ EP 
+ ( 2 )
+
+ EP2972311B1 
+ ( en )
+
+ JP 
+ ( 1 )
+
+ JP6441301B2 
+ ( en )
+
+ DK 
+ ( 2 )
+
+ DK3836147T3 
+ ( en )
+
+ ES 
+ ( 2 )
+
+ ES2996703T3 
+ ( en )
+
+ WO 
+ ( 1 )
+
+ WO2014151310A2 
+ ( en )
+
+ Families Citing this family (5)
+
+ * Cited by examiner, † Cited by third party 
+
+ Publication number 
+ Priority date 
+ Publication date 
+ Assignee 
+ Title 
+
+ CN107027140A 
+ ( en )
+ 
+ * 
+
+ 2017-03-27 
+ 2017-08-08 
+ 武汉虹信通信技术有限责任公司 
+ Protocal layers customer instance consistency maintaining method in a kind of LTE 
+
+ CN111341391B 
+ ( en )
+ 
+ * 
+
+ 2020-02-25 
+ 2023-12-01 
+ 深圳晶泰科技有限公司 
+ Free energy perturbation calculation scheduling method for heterogeneous cluster environment 
+
+ WO2021031545A1 
+ ( en )
+ 
+ * 
+
+ 2020-02-25 
+ 2021-02-25 
+ 深圳晶泰科技有限公司 
+ Free energy perturbation calculation scheduling method used in heterogeneous cluster environment 
+
+ US11568961B2 
+ ( en )
+ 
+ * 
+
+ 2020-12-16 
+ 2023-01-31 
+ Ro5 Inc. 
+ System and method for accelerating FEP methods using a 3D-restricted variational autoencoder 
+
+ CN114446411B 
+ ( en )
+ 
+ * 
+
+ 2021-12-31 
+ 2025-06-06 
+ 深圳晶泰科技有限公司 
+ 
+ Enhanced sampling method and method for calculating binding free energy of complexes
+
+ Citations (1)
+
+ * Cited by examiner, † Cited by third party 
+
+ Publication number 
+ Priority date 
+ Publication date 
+ Assignee 
+ Title 
+
+ US20100241411A1 
+ ( en )
+
+ 2007-08-03 
+ 2010-09-23 
+ 
+ Thomas Young 
+ 
+ Methods of Calculating Differences of Binding Affinities Between Congeneric Pairs of Ligands by Way of a Displaced Solvent Functional 
+
+ Family Cites Families (11)
+
+ * Cited by examiner, † Cited by third party 
+
+ Publication number 
+ Priority date 
+ Publication date 
+ Assignee 
+ Title 
+
+ US5854992A 
+ ( en )
+ 
+ * 
+
+ 1996-09-26 
+ 1998-12-29 
+ President And Fellows Of Harvard College 
+ System and method for structure-based drug design that includes accurate prediction of binding free energy 
+
+ US6560542B1 
+ ( en )
+ 
+ * 
+
+ 2000-01-24 
+ 2003-05-06 
+ The Cielo Institute 
+ Algorithmic design of peptides for binding and/or modulation of the functions of receptors and/or other proteins 
+
+ AU2003220487A1 
+ ( en )
+ 
+ * 
+
+ 2002-03-19 
+ 2003-10-08 
+ Cengent Therapeutics, Inc. 
+ Discrete bayesian analysis of data 
+
+ US20070026406A1 
+ ( en )
+ 
+ * 
+
+ 2003-08-13 
+ 2007-02-01 
+ Iconix Pharmaceuticals, Inc. 
+ Apparatus and method for classifying multi-dimensional biological data 
+
+ EP1687627A4 
+ ( en )
+ 
+ * 
+
+ 2003-10-14 
+ 2010-01-27 
+ Verseon 
+ 
+ SYSTEM FOR OPTIMIZING AND ANTICIPATING CROSS-REACTIONS OF MOLECULES PRIMERS
+
+ US20110245153A1 
+ ( en )
+ 
+ * 
+
+ 2006-03-15 
+ 2011-10-06 
+ National Institutes of Health (NIH), U. S. Dept. of Health and Human Resources (DHHS) U. S. Govt. 
+ Neutralizing Agents for Bacterial Toxins 
+
+ US8140268B2 
+ ( en )
+ 
+ * 
+
+ 2006-03-31 
+ 2012-03-20 
+ Verachem, Llc 
+ Computational method for drug discovery and receptor design 
+
+ WO2011069017A1 
+ ( en )
+ 
+ * 
+
+ 2009-12-02 
+ 2011-06-09 
+ The Johns Hopkins University 
+ Method for incorporating internal polar and ionizable groups in proteins 
+
+ WO2012109383A2 
+ ( en )
+ 
+ * 
+
+ 2011-02-08 
+ 2012-08-16 
+ University Of Louisville Research Foundation, Inc. 
+ Method of determining protein binding characteristics of a drug candidate 
+
+ US9858395B2 
+ ( en )
+ 
+ * 
+
+ 2011-05-23 
+ 2018-01-02 
+ Schrodinger, Llc 
+ Binding affinity scoring with penalty for breaking conjugation between aromatic ligand groups 
+
+ WO2012168697A1 
+ ( en )
+ 
+ * 
+
+ 2011-06-06 
+ 2012-12-13 
+ Imperial Innovations Limited 
+ Methods to predict binding affinity of tspo imaging agents to tspo 
+
+ 2013 
+
+ 2013-03-15 
+ US 
+ US13/840,039 
+ patent/US20140278295A1/en 
+ not_active 
+ Abandoned 
+
+ 2014 
+
+ 2014-03-13 
+ EP 
+ EP14769374.1A 
+ patent/EP2972311B1/en 
+ active 
+ Active 
+
+ 2014-03-13 
+ EP 
+ EP20206513.2A 
+ patent/EP3836147B1/en 
+ active 
+ Active 
+
+ 2014-03-13 
+ ES 
+ ES20206513T 
+ patent/ES2996703T3/en 
+ active 
+ Active 
+
+ 2014-03-13 
+ WO 
+ PCT/US2014/025425 
+ patent/WO2014151310A2/en 
+ not_active 
+ Ceased 
+
+ 2014-03-13 
+ DK 
+ DK20206513.2T 
+ patent/DK3836147T3/en 
+ active 
+
+ 2014-03-13 
+ DK 
+ DK14769374.1T 
+ patent/DK2972311T3/en 
+ active 
+
+ 2014-03-13 
+ JP 
+ JP2016501847A 
+ patent/JP6441301B2/en 
+ active 
+ Active 
+
+ 2014-03-13 
+ ES 
+ ES14769374T 
+ patent/ES2853348T3/en 
+ active 
+ Active 
+
+ 2018 
+
+ 2018-07-25 
+ US 
+ US16/045,366 
+ patent/US20190026423A1/en 
+ not_active 
+ Abandoned 
+
+ 2024 
+
+ 2024-05-16 
+ US 
+ US18/666,204 
+ patent/US20250356945A1/en 
+ active 
+ Pending 
+
+ Patent Citations (1)
+
+ * Cited by examiner, † Cited by third party 
+
+ Publication number 
+ Priority date 
+ Publication date 
+ Assignee 
+ Title 
+
+ US20100241411A1 
+ ( en )
+
+ 2007-08-03 
+ 2010-09-23 
+ Thomas Young 
+ Methods of Calculating Differences of Binding Affinities Between Congeneric Pairs of Ligands by Way of a Displaced Solvent Functional 
+
+ Non-Patent Citations (4)
+
+ * Cited by examiner, † Cited by third party 
+
+ Title 
+
+ BEVERIDGE ET AL., ANN. REV. BIOPHYS. BIOENG., vol. 18, pages 1 
+
+ COZZINI ET AL., CURR. MED. CHEM., vol. 11, pages 10 
+
+ See also references of EP2972311A4 
+
+ WANG ET AL., PNAS, vol. 109, pages 6 
+
+ Also Published As
+
+ Publication number 
+ Publication date 
+
+ US20140278295A1 
+ ( en )
+
+ 2014-09-18 
+
+ ES2853348T3 
+ ( en )
+
+ 2021-09-15 
+
+ JP6441301B2 
+ ( en )
+
+ 2018-12-19 
+
+ JP2016515273A 
+ ( en )
+
+ 2016-05-26 
+
+ DK3836147T3 
+ ( en )
+
+ 2025-01-02 
+
+ DK2972311T3 
+ ( en )
+
+ 2021-02-08 
+
+ ES2996703T3 
+ ( en )
+
+ 2025-02-13 
+
+ EP2972311B1 
+ ( en )
+
+ 2020-11-11 
+
+ US20190026423A1 
+ ( en )
+
+ 2019-01-24 
+
+ EP3836147A1 
+ ( en )
+
+ 2021-06-16 
+
+ WO2014151310A3 
+ ( en )
+
+ 2014-11-13 
+
+ EP3836147B1 
+ ( en )
+
+ 2024-10-09 
+
+ EP2972311A4 
+ ( en )
+
+ 2016-11-30 
+
+ US20250356945A1 
+ ( en )
+
+ 2025-11-20 
+
+ EP2972311A2 
+ ( en )
+
+ 2016-01-20 
+
+ Similar Documents
+
+ Publication 
+ Publication Date 
+ Title 
+
+ Chen et al. 
+
+ 2018 
+
+ Accurate calculation of relative binding free energies between ligands with different net charges 
+
+ US20250356945A1 
+ ( en )
+
+ 2025-11-20 
+
+ Structure-based drug design for protein binding 
+
+ Kuhn et al. 
+
+ 2020 
+
+ Assessment of binding affinity via alchemical free-energy calculations 
+
+ Šponer et al. 
+
+ 2008 
+
+ Nature and magnitude of aromatic stacking of nucleic acid bases 
+
+ Witek et al. 
+
+ 2016 
+
+ Kinetic models of cyclosporin A in polar and apolar environments reveal multiple congruent conformational states 
+
+ Hayes et al. 
+
+ 2017 
+
+ Adaptive landscape flattening accelerates sampling of alchemical space in multisite λ dynamics 
+
+ Cole et al. 
+
+ 2015 
+
+ Molecular dynamics and Monte Carlo simulations for protein–ligand binding and inhibitor design 
+
+ Biswas et al. 
+
+ 2018 
+
+ Metadynamics enhanced Markov modeling of protein dynamics 
+
+ Shee et al. 
+
+ 2017 
+
+ Chemical transformations approaching chemical accuracy via correlated sampling in auxiliary-field quantum Monte Carlo 
+
+ Daun et al. 
+
+ 2008 
+
+ An ensemble of models of the acute inflammatory response to bacterial lipopolysaccharide in rats: results from parameter space reduction 
+
+ Yu et al. 
+
+ 2016 
+
+ Multiscale implementation of infinite-swap replica exchange molecular dynamics 
+
+ Caine et al. 
+
+ 2019 
+
+ Experiment stands corrected: accurate prediction of the aqueous p K a values of sulfonamide drugs using equilibrium bond lengths 
+
+ Ding et al. 
+
+ 2017 
+
+ Gibbs sampler-based λ-dynamics and Rao–Blackwell estimator for alchemical free energy calculation 
+
+ Tanaka et al. 
+
+ 2013 
+
+ Statistical correction to effective interactions in the fragment molecular orbital method 
+
+ Keränen et al. 
+
+ 2015 
+
+ Free energy calculations of A 2A adenosine receptor mutation effects on agonist binding 
+
+ Greene et al. 
+
+ 2016 
+
+ Modeling membrane protein–ligand binding interactions: the human purinergic platelet receptor 
+
+ Kruse et al. 
+
+ 2014 
+
+ QM computations on complete nucleic acids building blocks: analysis of the Sarcin–Ricin RNA motif using DFT-D3, HF-3c, PM6-D3H, and MM approaches 
+
+ Zeng et al. 
+
+ 2023 
+
+ Modern semiempirical electronic structure methods and machine learning potentials for drug discovery: Conformers, tautomers, and protonation states 
+
+ Karwounopoulos et al. 
+
+ 2025 
+
+ Evaluation of Machine Learning/Molecular Mechanics End-State Corrections with Mechanical Embedding to Calculate Relative Protein–Ligand Binding Free Energies 
+
+ Wang et al. 
+
+ 2018 
+
+ Predicting relative binding affinity using nonequilibrium QM/MM simulations 
+
+ Bravi et al. 
+
+ 2020 
+
+ Direct coupling analysis of epistasis in allosteric materials 
+
+ Katzberger et al. 
+
+ 2023 
+
+ Implicit solvent approach based on generalized Born and transferable graph neural networks for molecular dynamics simulations 
+
+ Cossio et al. 
+
+ 2011 
+
+ Which similarity measure is better for analyzing protein structures in a molecular dynamics trajectory? 
+
+ Hayes et al. 
+
+ 2022 
+
+ Addressing intersite coupling unlocks large combinatorial chemical spaces for alchemical free energy methods 
+
+ George et al. 
+
+ 2020 
+
+ A systems-biology approach to molecular machines: Exploration of alternative transporter mechanisms 
+
+ Legal Events
+
+ Date 
+ Code 
+ Title 
+ Description 
+
+ 2015-09-14 
+ ENP 
+ Entry into the national phase 
+
+ Ref document number :
+ 2016501847 
+
+ Country of ref document :
+ JP 
+
+ Kind code of ref document :
+ A 
+
+ 2015-10-13 
+ WWE 
+ Wipo information: entry into national phase 
+
+ Ref document number :
+ 2014769374 
+
+ Country of ref document :
+ EP 
+
+ 2015-11-18 
+ 121 
+ Ep: the epo has been informed by wipo that ep was designated in this application 
+
+ Ref document number :
+ 14769374 
+
+ Country of ref document :
+ EP 
+
+ Kind code of ref document :
+ A2

@@ -1,0 +1,720 @@
+SOURCE URL: https://link.springer.com/article/10.1007/s10822-013-9678-y
+FINAL URL: https://link.springer.com/article/10.1007/s10822-013-9678-y?error=cookies_not_supported&code=4c35f24b-c882-4a49-a2cb-dc12a939fb44
+HTTP: 200
+CONTENT-TYPE: text/html; charset=utf-8
+======================================================================
+Lead optimization mapper: automating free energy calculations for lead optimization | Journal of Computer-Aided Molecular Design | Springer Nature Link 
+
+ Skip to main content 
+
+ Advertisement
+
+ Log in 
+
+ Menu 
+
+ Find a journal
+
+ Publish with us
+
+ Track your research
+
+ Search 
+
+ Saved research 
+
+ Cart 
+
+ Home 
+
+ Journal of Computer-Aided Molecular Design 
+
+ Article 
+
+ Lead optimization mapper: automating free energy calculations for lead optimization
+
+ Published: 26 September 2013 
+
+ Volume 27 , pages 755–770 ( 2013 )
+
+ Cite this article 
+
+ Save article 
+
+ View saved research 
+
+ Journal of Computer-Aided Molecular Design 
+
+ Aims and scope
+
+ Submit manuscript
+
+ Shuai Liu 1 , 
+ Yujie Wu 3 , 
+ Teng Lin 3 , 
+ Robert Abel 3 , 
+ Jonathan P. Redmann 4 , 
+ Christopher M. Summa 4 , 
+ Vivian R. Jaber 2 , 
+ Nathan M. Lim 1 & 
+ …
+ David L. Mobley 1 , 2 
+ Show authors 
+
+ 3738 Accesses 
+
+ 148 Citations 
+
+ 11 
+ Altmetric
+
+ 6 Mentions 
+
+ Explore all metrics 
+
+ Abstract
+ Alchemical free energy calculations hold increasing promise as an aid to drug discovery efforts. However, applications of these techniques in discovery projects have been relatively few, partly because of the difficulty of planning and setting up calculations. Here, we introduce lead optimization mapper, LOMAP, an automated algorithm to plan efficient relative free energy calculations between potential ligands within a substantial library of perhaps hundreds of compounds. In this approach, ligands are first grouped by structural similarity primarily based on the size of a (loosely defined) maximal common substructure, and then calculations are planned within and between sets of structurally related compounds. An emphasis is placed on ensuring that relative free energies can be obtained between any pair of compounds without combining the results of too many different relative free energy calculations (to avoid accumulation of error) and by providing some redundancy to allow for the possibility of error and consistency checking and provide some insight into when results can be expected to be unreliable. The algorithm is discussed in detail and a Python implementation, based on both Schrödinger’s and OpenEye’s APIs, has been made available freely under the BSD license.
+
+ This is a preview of subscription content, log in via an institution 
+ 
+ to check access.
+
+ Access this article
+
+ Log in via an institution 
+
+ Subscribe and save
+
+ Springer+ 
+
+ from $39.99 /Month
+
+ Starting from 10 chapters or articles per month
+
+ Access and download chapters and articles from more than 300k books and 2,500 journals
+
+ Cancel anytime
+
+ View plans 
+
+ Buy Now
+
+ Buy article PDF USD 39.95 
+
+ Price excludes VAT (USA)
+
+ Tax calculation will be finalised during checkout.
+
+ Instant access to the full article PDF.
+
+ Institutional subscriptions 
+
+ Fig. 1 
+
+ Fig. 2 
+
+ Fig. 3 
+
+ Fig. 4 
+
+ Similar content being viewed by others
+
+ Fast free energy estimates from λ-dynamics with bias-updated Gibbs sampling
+
+ Article 
+ Open access 
+ 21 December 2023 
+
+ Model-Based Lead Molecule Design
+
+ Chapter 
+ 
+ © 2017 
+
+ Automated relative binding free energy calculations from SMILES to ΔΔG
+
+ Article 
+ Open access 
+ 27 April 2023 
+
+ Explore related subjects
+
+ Discover the latest articles, books and news in related subjects, suggested using machine learning. 
+
+ Cheminformatics 
+
+ Computational Chemistry 
+
+ Lead Optimization 
+
+ Molecular Modelling 
+
+ Optimization 
+
+ Virtual Drug Screening 
+
+ Computational Drug Discovery and Design Strategies 
+
+ Notes
+ assuming N 
+ 
+ del 
+ = 0; if it is not, the threshold is adjusted slightly.
+
+ References
+ Beutler T, Mark AE, van Schaik RC, Gerber PR, van Gunsteren WF (1994) Avoiding singularities and numerical instabilities in free energy calculations based on molecular simulations. Chem Phys Lett 222(6):529–539
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Bondy A, Murty U (2008) Graph theory. Springer, New York
+ Book 
+ 
+ Google Scholar 
+
+ Boresch S, Bruckner S (2011) Avoiding the van der Waals endpoint problem using serial atomic insertion. J Comput Chem 32(11):2449–2458
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Boresch S, Karplus M (1999) The role of bonded terms in free energy simulations 2 calculation of their influence on free energy differences of solvation. J Phys Chem A 103(1):119–136. doi: 10.1021/jp981629f 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Boresch S, Karplus M (1999) The role of bonded terms in free energy simulations: 1. theoretical analysis. J Phys Chem A 103(1):103–118. doi: 10.1021/jp981628n 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ van den Bosch M, Swart M, Snijders J, Berendsen H, Mark AE, Oostenbrink C, van Gunsteren W, Canters G (2005) Calculation of the redox potential of the protein azurin and some mutants. Chem Bio Chem 6(4):738–746
+ Article 
+ 
+ Google Scholar 
+
+ Bowers KJ, Chow E, Xu H, Dror RO, Eastwood MP, Gregersen BA, Klepeis JL, Kolossváry I, Moraes MA, Sacerdoti FD, Salmon JK, Shan Y, Shaw DE (2006) Scalable algorithms for molecular dynamics simulations on commodity clusters. In: Proceedings of the 2006 ACM/IEEE Conference on supercomputing, 84. Tampa, FL
+
+ Boyce SE, Mobley DL, Rocklin GJ, Graves AP, Dill KA, Shoichet BK (2009) Predicting ligand binding affinity with alchemical free energy methods in a polar model binding site. J Mol Biol 394(4):747–763
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Chipot C (2006) Free energy calculations in biological systems. How useful are they in practice? In: Leimkuhler B, Chipot C, Elber R, Laaksonen A, Mark A, Schlick T, Schütte C, Skeel Rr (eds) New algorithms for macromolecular simulation, Lecture Notes in Comput Sci Eng 49:185–211. Springer, Berlin, Heidelberg. doi: 10.1007/3-540-31618-3_12 
+
+ Chipot C, Rozanska X, Dixit SB (2005) Can free energy calculations be fast and accurate at the same time? Binding of low-affinity, non-peptide inhibitors to the SH2 domain of the src protein. J Comput Aided Mol Des 19(11):765–770
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Chodera JD, Mobley DL, Shirts MR, Dixon RW, Branson K, Pande VS (2011) Alchemical free energy methods for drug discovery: progress and challenges. Curr Opin Struct Biol 21(2):150–160
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Christ CD, Mark AE, van Gunsteren W (2010) Basic ingredients of free energy calculations: a review. J Comput Chem 31(8):1569–1582
+ CAS 
+ 
+ Google Scholar 
+
+ Deng Y, Roux B (2009) Computations of standard binding free energies with molecular dynamics simulations. J Phys Chem B 113(8):2234–2246
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Dolenc J, Oostenbrink C, Koller J, van Gunsteren W (2005) Molecular dynamics simulations and free energy calculations of netropsin and distamycin binding to an AAAAA DNA binding site. Nucleic Acids Res 33(2):725
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Ellson J, Gansner E, Koutsofios E, North S, Woodhull G (2003) Graphviz and dynagraph—static and dynamic graph drawing tools. In: Junger M, Mutzel P (eds.) Graph drawing software. Springer, New York, 127–148
+
+ Enyedy IJ, Egan WJ (2008) Can we use docking and scoring for hit-to-lead optimization? J Comp-Aided Mol Des 22:161–168
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Erhardt PW, Proudfoot JR (2007) Drug discovery: historical perspective, current status, and outlook. Compr Med Chem II 1:29–96
+ 
+ Google Scholar 
+
+ Gilson MK, Zhou HX (2007) Calculation of protein-ligand binding affinities. Ann Rev Biophys Biomol Struct 36:21–42
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ de Graaf C, Oostenbrink C, Keizers PHJ, van Vugt-Lussenburg BMA, Commandeur JNM, Vermeulen NPE (2007) Molecular modeling-guided site-directed mutagenesis of cytochrome P450 2D6. Curr Drug Metab 8(1):59–77
+ Article 
+ 
+ Google Scholar 
+
+ Hagberg AA, Schult DA, Swart PJ (2008) Exploring network structure, dynamics, and function using NetworkX. In: Proceedings of the 7th Python in Science Conference (SciPy2008), pp 11–15. Pasadena, CA USA
+
+ Hess B, Kutzner C, van der Spoel D, Lindahl E (2008) Gromacs 4: Algorithms for highly efficient, load-balanced, and scalable molecular simulation. J Chem Theory Comput 4(3):435–447. doi: 10.1021/ct700301q 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Homeyer N, Gohlke H (2013) FEW-A workflow tool for free energy calculations of ligand binding. J Comput Chem 34:965–973
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Hünenberger P, McCammon JA (1999) Ewald artifacts in computer simulations of ionic solvation and ion–ion interaction: a continuum electrostatics study. J Chem Phys 110:1856
+ Article 
+ 
+ Google Scholar 
+
+ Hünenberger P, Reif M (2011) Single-ion solvation: experimental and theoretical approaches to elusive thermodynamic quantities. RSC theoretical and computational chemistry series, vol 0, Royal Soc Chem, Cambridge
+
+ Jarzynski C (2006) Rare events and the convergence of exponentially averaged work values. Phys Rev E 73(4):46,105
+ Article 
+ 
+ Google Scholar 
+
+ Kastenholz M, Hünenberger P (2006) Computation of methodology-independent ionic solvation free energies from molecular simulations. I. The electrostatic potential in molecular liquids. J Chem Phys 124:124,106
+ CAS 
+ 
+ Google Scholar 
+
+ Kastenholz M, Hünenberger P (2006) Computation of methodology-independent ionic solvation free energies from molecular simulations. II. The hydration free energy of the sodium cation. J Chem Phys 124:224,501
+ 
+ Google Scholar 
+
+ Klimovich P, Mobley DL (2010) Predicting hydration free energies using all-atom molecular dynamics simulations and multiple starting conformations. J Comput Aided Mol Des 24(4):307–316
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Lu N, Kofke DA, Woolf TB (2004) Improving the efficiency and reliability of free energy perturbation calculations using overlap sampling methods. J Comput Chem 25(1):28–40
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Luccarelli J, Michel J, Tirado-Rives J, Jorgensen WL (2010) Effects of water placement on predictions of binding affinities for p38 MAP kinase inhibitors. J Chem Theory Comput 6(12):3850–3856
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Manly C, Chandrasekhar J, Ochterski J, Hammer J, Warfield, B (2008): Strategies and tactics for optimizing the hit-to-lead process and beyond—A computational chemistry perspective. Drug Discov Today 13(3–4):99–109
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Matter H, Defossa E, Heinelt U, Blohm PM, Schneider D, Müller A, Herok S, Schreuder H, Liesum A, Brachvogel V, Lönze P, Walser A, Al-Obeidi F, Wildgoose P (2002) Design and quantitative structureactivity relationship of 3-amidinobenzyl-1h-indole-2-carboxamides as potent, nonchiral, and selective inhibitors of blood coagulation factor xa. J Med Chem 45(13):2749–2769. doi: 10.1021/jm0111346 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Michel J, Essex JW (2010) Prediction of protein–ligand binding affinity by free energy simulations: assumptions, pitfalls and expectations. J Comput-Aided Mol Des 1–20
+
+ Michel J, Tirado-Rives J, Jorgensen W (2009) Prediction of the water content in protein binding sites. J Phys Chem B 113(40):13337–13346
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Mobley DL, Bayly CI, Cooper MD, Shirts MR, Dill KA (2009) Small molecule hydration free energies in explicit solvent: an extensive test of fixed-charge atomistic simulations. J Chem Theory Comput 5(2):350–358
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Mobley DL, Chodera JD, Dill KA (2007) Confine-and-release method: obtaining correct binding free energies in the presence of protein conformational change. J Chem Theory Comput 3(4):1231–1235
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Mobley DL, Dill K, Chodera JD (2008) Treating entropy and conformational changes in implicit solvent simulations of small molecules. J Phys Chem B 112(3):938
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Mobley DL, Dumont É, Chodera JD, Dill K (2007) Comparison of charge models for fixed-charge force fields: small-molecule hydration free energies in explicit solvent. J Phys Chem B 111(9):2242–2254
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Mobley DL, Graves AP, Chodera JD, McReynolds A, Shoichet BK, Dill KA (2007) Predicting absolute ligand binding free energies to a simple model site. J Mol Biol 371:1118–1134
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Mobley DL, Klimovich PV (2012) Perspective: alchemical free energy calculations for drug discovery. J Chem Phys 137(23):230,901
+ Article 
+ 
+ Google Scholar 
+
+ Mobley DL, Liu S, Cerutti DS, Swope WC, Rice JE (2012) Alchemical prediction of hydration free energies for SAMPL. J Comput Aided Mol Des 26(5):551–562
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Newman J, Dolezal O, Fazio V, Caradoc-Davies T, Peat TS (2012) The DINGO dataset: a comprehensive set of data for the SAMPL challenge. J Comput Aided Mol Des 26(5):497–503
+ 
+ Google Scholar 
+
+ OpenEye Scientific Software, Inc. Santa Fe, NM, USA: OpenEye unified python toolkit (2012). Version 2.0.0
+
+ Palma PN, Bonifácio MJ, Loureiro AI, Soares-da Silva P (2012) Computation of the binding affinities of catechol-O-methyltransferase inhibitors: multisubstate relative free energy calculations. J Comput Chem 33(9):970–986
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Paton K (1969) An algorithm for finding a fundamental set of cycles of a graph. Commun ACM 12(9):514–518
+ Article 
+ 
+ Google Scholar 
+
+ Perola E, Walters WP, Charifson PS (2004) A detailed comparison of current docking and scoring methods on systems of pharmaceutical relevance. Proteins 56(2):235–249
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Reynolds CH (2010) Computer-aided drug design: a practical guide to protein-structure-based modeling. In: Merz KM, Ringe D, Reynolds CH (eds) Drug design: structure- and ligand-based approaches. Cambridge University Press, Cambridge
+ 
+ Google Scholar 
+
+ de Ruiter A, Oostenbrink C (2012) Efficient and accurate free energy calculations on trypsin inhibitors. J Chem Theory Comput 8(10):3686–3695
+ Article 
+ 
+ Google Scholar 
+
+ Schnecke V, Bostrom J (2006) Computational chemistry-driven decision making in lead generation. Drug Disc Today 11(12):43–50
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Schrödinger (2012) LLC, New York, NY: Desmond, 3.4 (ed)
+
+ Schrödinger (2013) LLC, New York, NY: Canvas. Version 1.6
+
+ Shi Y, OConnor SP, Sitkoff D, Zhang J, Shi M, Bisaha SN, Wang Y, Li C, Ruan Z, Lawrence RM, Klei HE, Kish K, Liu ECK, Seiler SM, Schweizer L, Steinbacher TE, Schumacher WA, Robl JA, Macor JE, Atwal KS, Stein PD (2011) Arylsulfonamidopiperidone derivatives as a novel class of factor xa inhibitors. Bioorg Med Chem Lett 21(24):7516–7521. doi: 10.1016/j.bmcl.2011.06.098 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Shirts M, Mobley D (2013) An introduction to best practices in free energy calculations. In: Monticelli L, Salonen E (eds), Biomolecular simulations. Methods in molecular biology, vol. 924, pp 271–311. Humana Press. doi: 10.1007/978-1-62703-017-5_11 
+
+ Shirts M, Mobley D, Brown SP (2010) Free-energy calculations in structure-based drug design. Drug Des: structure- and ligand-based approaches
+
+ Shirts MR, Chodera JD (2008) Statistically optimal analysis of samples from multiple equilibrium states. J Chem Phys 129, 124,105. https://dx.doi.org/10.1063/1.2978177 , See code at: http://simtk.org/home/pymbar 
+
+ Shirts MR, Pande VS (2005) Solvation free energies of amino acid side chain analogs for common molecular mechanics water models. J Chem Phys 122:134,508
+ 
+ Google Scholar 
+
+ Shirts MR, Pitera JW, Swope WC, Pande VS (2003) Extremely precise free energy calculations of amino acid side chain analogs: comparison of common molecular mechanics force fields for proteins. J Chem Phys 119(11):5740–5761
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Steinbrecher T (2012) Free energy calculations in drug lead optimization. In: Gohlke H (eds) Protein-ligand interactions. Wiley, New Jersey
+ 
+ Google Scholar 
+
+ Steinbrecher T, Labahn A (2010) Towards accurate free energy calculations in ligand protein-binding studies. Curr Med Chem 17(8):767–785
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Steinbrecher T, Mobley DL, Case DA (2007) Nonlinear scaling schemes for Lennard-Jones interactions in free energy calculations. J Chem Phys 127(21):214,108
+ Article 
+ 
+ Google Scholar 
+
+ Villa A, Zangi R, Pieffet G, Mark AE (2003) Sampling and convergence in free energy calculations of protein–ligand interactions: the binding of triphenoxypyridine derivatives to factor Xa and trypsin. J Comput-Aided Mol Des 17:673–686
+ 
+ Google Scholar 
+
+ Wang L, Berne BJ, Friesner RA (2012) On achieving high accuracy and reliability in the calculation of relative protein-ligand binding affinities. Proc Nat Acad Sci 109(6):1937–1942
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Wang L, Deng Y, Knight JL, Wu Y, Kim B, Sherman W, Shelley JC, Lin T, Abel R (2013) Modeling local structural rearrangements using fep/rest: application to relative binding affinity predictions of cdk2 inhibitors. J Chem Theory Comput 9(2):1282–1293. doi: 10.1021/ct300911a 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Warren GL, Andrews CW, Capelli AM, Clarke B, Lalonde SJ, Lambert MH, Lindvall M, Nevins N, Semus SF, Senger S, Tedesco G, Wall ID, Woolven JM, Peishoff CE, Head MS (2006) A critical assessment of docking programs and scoring functions. J Med Chem 495:912–5931
+ 
+ Google Scholar 
+
+ Yoshikawa K, Kobayashi S, Nakamoto Y, Haginoya N, Komoriya S, Yoshino T, Nagata T, Mochizuki A, Watanabe K, Suzuki M, Kanno H, Ohta T (2009) Design, synthesis, and sar of cis-1,2-diaminocyclohexane derivatives as potent factor xa inhibitors. Part ii: exploration of 66 fused rings as alternative s1 moieties. Bioorg Med Chem Lett 17(24):8221–8233. doi: 10.1016/j.bmc.2009.10.024 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Yoshikawa K, Yokomizo A, Naito H, Haginoya N, Kobayashi S, Yoshino T, Nagata T, Mochizuki A, Osanai K, Watanabe K, Kanno H, Ohta T (2009) Design, synthesis, and sar of cis-1,2-diaminocyclohexane derivatives as potent factor xa inhibitors. Part i: exploration of 56 fused rings as alternative s1 moieties. Bioorg Med Chem Lett 17(24):8206–8220. doi: 10.1016/j.bmc.2009.10.023 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Young RJ, Adams C, Blows M, Brown D, Burns-Kurtis CL, Chan C, Chaudry L, Convery MA, Davies DE, Exall AM, Foster G, Harling JD, Hortense E, Irvine S, Irving WR, Jackson S, Kleanthous S, Pateman AJ, Patikis AN, Roethka TJ, Senger S, Stelman GJ, Toomey JR, West RI, Whittaker C, Zhou P, Watson NS (2011) Structure and property based design of factor xa inhibitors: pyrrolidin-2-ones with aminoindane and phenylpyrrolidine p4 motifs. Bioorg Med Chem Lett 21(6):1582–1587. doi: 10.1016/j.bmcl.2011.01.131 
+ 
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Zacharias M, Straatsma TP, McCammon JA (1994) Separation-shifted scaling, a new scaling method for Lennard-Jones interactions in thermodynamic integration. J Chem Phys 100(12):025–9031
+ Article 
+ 
+ Google Scholar 
+
+ Zagrovic B, van Gunsteren W (2007) Computational analysis of the mechanism and thermodynamics of inhibition of phosphodiesterase 5A by synthetic ligands. J Chem Theory Comput 3(1):301–311
+ Article 
+ CAS 
+ 
+ Google Scholar 
+
+ Download references 
+
+ Acknowledgments
+ We are grateful to Michael Shirts (University of Virginia) and Pavel Klimovich (UCI) for helpful discussions, and to John Chodera (Memorial Sloan Kettering Cancer Center) for both useful input and an initial MCSS tool that helped motivate the work. We acknowledge the financial support of the National Institutes of Health (1R15GM096257-01A1), the National Science Foundation LA-SiGMA program (EPS-1003897), the Louisiana Board of Regents Research Competitiveness and Research Enhancement Subprograms, Children’s Hospital of New Orleans, and computer time from the UCI GreenPlanet cluster, supported in part by NSF CHE-0840513.
+
+ Author information
+ Authors and Affiliations
+ Department of Pharmaceutical Sciences and Department of Chemistry, University of California, Irvine, 147 Bison Modular, Irvine, CA, 92697, USA
+ Shuai Liu, Nathan M. Lim & David L. Mobley
+
+ Department of Chemistry, University of New Orleans, 2000 Lakeshore Drive New Orleans, New Orleans, LA, 70148, USA
+ Vivian R. Jaber & David L. Mobley
+
+ Schrödinger, 120 West 45th Street 17th Floor Tower 45, New York, NY, 10036-4041, USA
+ Yujie Wu, Teng Lin & Robert Abel
+
+ Department of Computer Science, University of New Orleans, 2000 Lakeshore Drive, New Orleans, LA, 70148, USA
+ Jonathan P. Redmann & Christopher M. Summa
+
+ Authors Shuai Liu View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Yujie Wu View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Teng Lin View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Robert Abel View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Jonathan P. Redmann View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Christopher M. Summa View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Vivian R. Jaber View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Nathan M. Lim View author publications 
+ Search author on: PubMed Google Scholar 
+
+ David L. Mobley View author publications 
+ Search author on: PubMed Google Scholar 
+
+ Corresponding author
+ Correspondence to
+ David L. Mobley .
+
+ Electronic supplementary material
+ 
+ Below is the link to the electronic supplementary material.
+
+ PDF (190 KB) (download PDF ) 
+
+ Rights and permissions
+ Reprints and permissions 
+
+ About this article
+ Cite this article
+ Liu, S., Wu, Y., Lin, T. et al. Lead optimization mapper: automating free energy calculations for lead optimization.
+ J Comput Aided Mol Des 27 , 755–770 (2013). https://doi.org/10.1007/s10822-013-9678-y
+ Download citation 
+ Received : 29 April 2013 
+
+ Accepted : 04 September 2013 
+
+ Published : 26 September 2013 
+
+ Issue date : September 2013 
+
+ DOI : https://doi.org/10.1007/s10822-013-9678-y 
+
+ Share this article
+ Anyone you share the following link with will be able to read this content:
+ Get shareable link Sorry, a shareable link is not currently available for this article.
+
+ Copy shareable link to clipboard 
+ 
+ Provided by the Springer Nature SharedIt content-sharing initiative
+
+ Keywords
+ Binding free energy 
+ Alchemical 
+ Planning 
+ Molecular dynamics 
+ Molecular simulations 
+ Lead optimization 
+
+ Profiles
+
+ David L. Mobley 
+
+ View author profile 
+
+ Access this article
+
+ Log in via an institution 
+
+ Subscribe and save
+
+ Springer+ 
+
+ from $39.99 /Month
+
+ Starting from 10 chapters or articles per month
+
+ Access and download chapters and articles from more than 300k books and 2,500 journals
+
+ Cancel anytime
+
+ View plans 
+
+ Buy Now
+
+ Buy article PDF USD 39.95 
+
+ Price excludes VAT (USA)
+
+ Tax calculation will be finalised during checkout.
+
+ Instant access to the full article PDF.
+
+ Institutional subscriptions 
+
+ Advertisement
+
+ Search
+
+ Search by keyword or author 
+
+ Search 
+
+ Navigation
+
+ Find a journal
+
+ Publish with us
+
+ Track your research
+
+ Footer Navigation
+
+ Discover content
+
+ Journals A-Z 
+
+ Books A-Z 
+
+ Subjects A-Z 
+
+ Publish with us
+
+ Journal finder 
+
+ Publish your research 
+
+ Language editing 
+
+ Open access publishing 
+
+ Products and services
+
+ Our products 
+
+ Librarians 
+
+ Societies 
+
+ Partners and advertisers 
+
+ Our brands
+
+ Springer 
+
+ Nature Portfolio 
+
+ BMC 
+
+ Palgrave Macmillan 
+
+ Apress 
+
+ Discover 
+
+ Corporate Navigation
+
+ Your privacy choices/Manage cookies 
+
+ Your US state privacy rights 
+
+ Accessibility statement 
+
+ Terms and conditions 
+
+ Privacy policy 
+
+ Help and support 
+
+ Legal notice 
+
+ Cancel contracts here 
+
+ 64.236.146.118 
+
+ Not affiliated
+
+ © 2026 Springer Nature
