@@ -991,7 +991,7 @@ the family metad (in flight) is the fix.
 - **🛑 A CI JOB LOG IS ONLY READABLE FROM ITS TAIL, AND THE TAIL IS ALWAYS RUNNER BOILERPLATE.** The
   upload-artifact env dump plus post-job cleanup occupies the last ~50 lines of every job, so a monitor/diag
   summary printed to stdout is unreadable. Write readouts to files and have CI **commit them back to the
-  branch** (the `atlas-data.yml` pattern); `git add A B` fails atomically if either pathspec matches nothing, so
+  branch** (the `emc-expression-datasets.yml` pattern; ⚠ *superseded, retained: `atlas-data.yml` — measured 2026-08-05 to exist on no ref, here or in history*); `git add A B` fails atomically if either pathspec matches nothing, so
   stage each file separately or a mode that writes only one of them silently commits neither.
 - **🛑 CPU-PRIME THE TERNARY SETUP CACHE BEFORE ANY GPU RUN — a cold cache burns ~8–40 min of GPU-idle
   re-parameterization; this is now ENFORCED in code (learned the hard way 2026-07-19).** Setup (solvate +

@@ -451,22 +451,40 @@ def check_technologies(g, f):
                            f"is nearly here or the forecast has not been thought about; both need saying")
 
 
+def _owner_blocks(node, path=()):
+    """Every `{file, anchor}` pair anywhere in a row, at any depth.
+
+    ⛔ IT USED TO LOOK IN EXACTLY TWO PLACES — `row["owner"]` and `row["provenance"]["owner"]` — and
+    the model puts them in more than two. `RT-FAP-RLT.grade.owner` asserts
+    `emerging-modalities-scan-emc.md#2`; the real heading is "## 2. FAP-targeted radioligand therapy
+    (FAPI-RLT) — emerging, plausibly applies", whose slug is nothing like `2`. [P2] never looked, and
+    the generated L2 view rendered the bad anchor into a link that [K1] then declared fine because it
+    stripped the fragment. THREE checks in a row each verified the half they could see.
+    """
+    if isinstance(node, dict):
+        if isinstance(node.get("file"), str):
+            yield "/".join(path), node
+        for k, v in node.items():
+            yield from _owner_blocks(v, path + (k,))
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            yield from _owner_blocks(v, path + (str(i),))
+
+
 def check_pointers(g, f):
-    """Every owner{file} exists on disk, and every anchor is a plausible slug in it."""
+    """Every {file} exists on disk, and every anchor beside one is a real slug in it."""
     for coll in COLLECTIONS:
         for row in g[coll]:
-            owner = (row.get("owner") or row.get("provenance", {}).get("owner") or {})
-            path = owner.get("file")
-            if not path:
-                continue
-            full = os.path.join(REPO, path)
-            if not os.path.exists(full):
-                f.err("[P1]", f"{row['id']} owner file does not exist: {path}")
-                continue
-            anchor = owner.get("anchor")
-            if anchor and path.endswith(".md"):
-                if not anchor_resolves(full, anchor):
-                    f.err("[P2]", f"{row['id']} owner anchor does not resolve: {path}{anchor}")
+            for where, owner in _owner_blocks(row):
+                path = owner["file"]
+                full = os.path.join(REPO, path)
+                if not os.path.exists(full):
+                    f.err("[P1]", f"{row['id']} {where or 'owner'} file does not exist: {path}")
+                    continue
+                anchor = owner.get("anchor")
+                if anchor and path.endswith(".md") and not anchor_resolves(full, anchor):
+                    f.err("[P2]", f"{row['id']} {where or 'owner'} anchor does not resolve: "
+                                  f"{path}{anchor}")
 
 
 _ANCHOR_CACHE: dict[str, set[str]] = {}
@@ -484,6 +502,13 @@ def slugify(heading: str) -> str:
     around — it is the exact drift this check exists to catch, and it found one on its first run.
     """
     s = heading.lstrip("#").strip().lower()
+    # ⛔ A MARKDOWN LINK IN A HEADING: GITHUB KEEPS THE TEXT AND DROPS THE URL. Stripping the brackets
+    # instead kept BOTH, so `## GPU economics (full provenance in [pricing.md](../compute/pricing.md))`
+    # slugified to `…-in-pricingmdcomputepricingmd` while the real anchor is `…-in-pricingmd`. The
+    # roadmap's own §0.7 index linked to it correctly and the checker called the link broken — and a
+    # checker that reports a correct link as broken is one that gets switched off, which this file's
+    # own docstrings say twice.
+    s = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", s)
     s = re.sub(r"`|\*|_|\[|\]|\(|\)", "", s)
     s = re.sub(r"[^\w\s-]", "", s, flags=re.UNICODE)
     s = s.replace(" ", "-")
@@ -491,7 +516,15 @@ def slugify(heading: str) -> str:
 
 
 def anchor_resolves(path: str, anchor: str) -> bool:
-    want = anchor.lstrip("#")
+    """⚠ `#heading|row-selector` IS A REPOSITORY CONVENTION, not a malformed anchor.
+
+    Several `grade.owner` pointers address a ROW inside a section — `#2--the-ranked-list|tier1-rank2` —
+    because a heading alone is too coarse to say which ranked entry a grade came from. Only the part
+    before the `|` is a GitHub anchor; the selector is ours and there is nothing in the document for it
+    to match. Validating the whole string reported nine live pointers as broken on the first run of the
+    widened check, which is how a correct check earns a reputation for crying wolf.
+    """
+    want = anchor.lstrip("#").split("|", 1)[0]
     if path not in _ANCHOR_CACHE:
         slugs = set()
         with open(path, encoding="utf-8") as fh:
@@ -1060,6 +1093,20 @@ def check_documents(g, f):
 #: A bare artifact citation: a backticked `something-like-this.json` / `.png` / `.csv`, which is how
 #: this repository actually cites results in prose. Deliberately NOT a Markdown link — see check_artifacts.
 ARTIFACT_CITE = re.compile(r"`([a-z0-9][a-z0-9._-]*\.(?:json|jsonl|png|csv))`", re.I)
+
+#: A backticked CODE citation — a module or a workflow this repository claims to have.
+#:
+#: ⛔ THESE WERE OUTSIDE EVERY CHECK, AND THE GAP LANDED IN THE RULES FILE. `check_artifacts` scopes
+#: itself to RESULT extensions, so a backticked `.py` or `.yml` was cited by nobody's checker. Measured
+#: 2026-08-05: CLAUDE.md §6 — the rule telling every session how to route work it cannot do in the
+#: sandbox — named `atlas-data.yml`, `expression_reprocess.py` and `fulltext_verify.py` as its
+#: exemplars, and NONE of the three exists on this branch, on `main`, on `modalities-cache`, or anywhere
+#: in history. A reader following that rule finds nothing and concludes the escape hatch is fiction.
+CODE_CITE = re.compile(r"`([a-z0-9][a-z0-9._-]*\.(?:py|yml|yaml|mjs|sh))`", re.I)
+
+#: Directories a backticked code name may live in. A citation is only checkable if we know where to
+#: look; anything outside these is somebody else's repository and is not this check's business.
+CODE_DIRS = ("research", "systems", "scripts", ".github/workflows", "sagemaker_src", "deploy", "tests")
 ARTIFACT_DIRS = ("research/modalities", "research/manuscripts", "research/data", "research/compute",
                  "research/hypotheses", "research/meta", "systems/graph", "results")
 
@@ -1276,7 +1323,47 @@ def check_artifacts(g, f):
                        f"systems/graph/artifact-refs.json")
 
 
-MD_LINK = re.compile(r"\[[^\]]*\]\(([^)#\s]+)(?:#[^)\s]*)?\)")
+def check_code_citations(g, f):
+    """A backticked `.py` / `.yml` this repository names must be a file it has.
+
+    ⚠ SCOPED THE SAME WAY check_artifacts IS, and for the same reason: only a name that looks like this
+    repo's own code, cited from its own directories. A checker that flags every filename anyone ever
+    typed gets switched off, and then it protects nothing.
+    """
+    known = set()
+    for d in CODE_DIRS:
+        p = os.path.join(REPO, d)
+        if os.path.isdir(p):
+            for _root, _dirs, files in os.walk(p):
+                known.update(files)
+    missing = defaultdict(set)
+    for rel, text in _walk_md(DOC_SKIP):
+        for m in CODE_CITE.finditer(text):
+            name = m.group(1)
+            # ⚠ A SUPERSEDED-MARKER LINE IS A RECORD OF A DEAD NAME, NOT A LIVE CITATION. Rule 1.2 says
+            # a correction keeps the old value; flagging the retention would make the discipline
+            # impossible to follow.
+            line = text[text.rfind("\n", 0, m.start()) + 1: text.find("\n", m.end())]
+            if "uperseded" in line or "etired" in line or "does not exist" in line:
+                continue
+            if name not in known:
+                missing[name].add(rel)
+    for name in sorted(missing):
+        cites = sorted(missing[name])
+        f.warn("[K3]", f"`{name}` is named by {len(cites)} document(s) "
+                       f"({', '.join(cites[:3])}{', …' if len(cites) > 3 else ''}) and is in none of "
+                       f"{'/'.join(CODE_DIRS[:4])}/… — either a DEAD POINTER (an instruction the reader "
+                       f"cannot follow, which is how CLAUDE.md §6 came to name three exemplar files that "
+                       f"exist on no ref) or a file in an EXTERNAL repository, which is fine and should "
+                       f"say so in the sentence that names it")
+
+
+#: ⚠ THE FRAGMENT IS CAPTURED NOW, NOT DISCARDED. This pattern read `(?:#[^)\s]*)?` — matching the
+#: anchor and throwing it away — so [K1] proved the FILE existed and said nothing whatever about the
+#: section. Measured 2026-08-05: the roadmap carried 35 links to four headings that a plan-extraction
+#: commit had deleted, including 24 to `#open-decisions`, whose numbering §0.7 of that same document
+#: calls FROZEN and "cited by number in 30 files". Every one passed the link checker.
+MD_LINK = re.compile(r"\[[^\]]*\]\(([^)#\s]*)(#[^)\s]*)?\)")
 LINK_SKIP_PREFIX = ("http://", "https://", "mailto:", "#", "data:")
 
 #: ⚠ A LINK TARGET MUST LOOK LIKE A PATH. Without this, SMILES strings are read as Markdown links —
@@ -1320,7 +1407,7 @@ def check_links(g, f):
                       "answered by a lane's `produces[]` or by artifact-refs.json, both of which "
                       "require evidence. This file's `why` was free prose, and both entries it ever "
                       "held carried a confident explanation that turned out to be wrong")
-    checked = broken = 0
+    checked = broken = anchors_checked = 0
     for root, dirs, files in os.walk(REPO):
         rel_root = os.path.relpath(root, REPO).replace(os.sep, "/")
         if _is_transient(rel_root):
@@ -1339,8 +1426,18 @@ def check_links(g, f):
             with open(os.path.join(REPO, src), encoding="utf-8", errors="ignore") as fh:
                 text = fh.read()
             for m in MD_LINK.finditer(text):
-                target = m.group(1).strip()
-                if not target or target.startswith(LINK_SKIP_PREFIX):
+                target, frag = m.group(1).strip(), (m.group(2) or "").lstrip("#").strip()
+                # A bare `#section` link — the same document. Its file trivially exists; the anchor is
+                # the whole content of the link, and is exactly what went unchecked.
+                if not target:
+                    if frag:
+                        anchors_checked += 1
+                        if not anchor_resolves(os.path.join(REPO, src), frag):
+                            broken += 1
+                            f.err("[K2]", f"{src} links to `#{frag}` in ITSELF and no heading makes that "
+                                          f"anchor — the section was renamed or deleted")
+                    continue
+                if target.startswith(LINK_SKIP_PREFIX):
                     continue
                 if not LOOKS_LIKE_PATH.search(target):
                     continue
@@ -1349,14 +1446,21 @@ def check_links(g, f):
                 if not os.path.exists(dest):
                     broken += 1
                     f.err("[K1]", f"{src} links to {target!r}, which does not exist")
+                elif frag and dest.endswith(".md"):
+                    anchors_checked += 1
+                    if not anchor_resolves(dest, frag):
+                        broken += 1
+                        f.err("[K2]", f"{src} links to {target}#{frag} — the FILE exists and the SECTION "
+                                      f"does not. A link checker that strips the fragment proves the "
+                                      f"cheaper half and reports the expensive half as fine")
     # ⛔ INFO, NOT WARN, AND THAT IS THE POINT (2026-08-05). This warned unconditionally — it printed
     # counts whether or not anything was wrong, which is precisely the pattern scripts/preflight.sh's
     # own header calls out: "a check that reports while measuring nothing actionable". A warning list
     # that always contains a line nobody can act on is how the actionable lines get skimmed past. The
     # count still prints, because a link checker silently checking ZERO links is the fail-open shape
     # this repository keeps paying for — the number is what proves it ran.
-    f.info("[K0]", f"relative links checked: {checked}, broken: {broken} — no grandfather list exists; "
-                   f"a broken link is an error")
+    f.info("[K0]", f"relative links checked: {checked} (+{anchors_checked} anchors), broken: {broken} — "
+                   f"no grandfather list exists; a broken link is an error")
 
 
 RELATIONS = os.path.join(GRAPH, "relations.json")
@@ -1481,6 +1585,7 @@ def run_checks(g, f):
     check_documents(g, f)
     check_links(g, f)
     check_artifacts(g, f)
+    check_code_citations(g, f)
     check_pointers(g, f)
     check_instrument_support(g, f)
     check_compute_case(g, f)
@@ -2518,12 +2623,40 @@ def render_plan_body(plan):
             out.append(b["text"])
         elif b["kind"] == "item":
             out.append(f"{b['indent']}- **`[{b['marker']}]`{b['text']}")
+    # ⛔ VERBATIM, DELIBERATELY. This function IS the round-trip proof's subject: extract_plan.py
+    # refuses to write unless its render matches the source byte for byte. Anchor re-homing happens in
+    # render_plan below, on the way into the VIEW — doing it here would silently make the losslessness
+    # proof prove something weaker while still passing, which is the shape of every defect in this file.
     return "".join(out)
+
+
+#: A bare `](#section)` link — a same-DOCUMENT reference.
+#: ⚠ A LEADING HYPHEN IS LEGAL AND COMMON HERE. A heading opening with a glyph — `## ⭐ WHAT THE
+#: LANDED RESULTS CHANGE…` — slugifies to `-what-the-landed-…`, so a pattern anchored on
+#: `[a-z0-9]` misses exactly the headings this repository writes most.
+_SAME_DOC_ANCHOR = re.compile(r"\]\(#(-?[a-z0-9][a-z0-9-]*)\)")
+
+
+def _rehome_same_doc_anchors(body):
+    """`](#x)` inside the plan means a ROADMAP heading, not a heading of this generated view.
+
+    ⛔ THE EXTRACTION MOVED THE TEXT AND SILENTLY BROKE ITS LINKS. THE ORDERED PLAN was lifted out of
+    `nr4a3-program-map.md` verbatim -- which is the point, the move is provably lossless character for
+    character -- but a link that read `](#101--open-rows-...)` meant *this document, further down*, and
+    "this document" changed. 26 links in the generated view pointed at headings it does not have, and
+    every one of them passed the link checker because that checker stripped the fragment before
+    testing. Two blind spots that only fail when combined, which is why neither was noticed.
+
+    ⚠ REWRITTEN AT RENDER TIME, NOT IN THE SOURCE. plan.json holds the roadmap's text VERBATIM and
+    `extract_plan.py` proves the round trip byte for byte; editing the anchors there would break that
+    proof and make the migration lossy in the one way MIGRATION.md §2.1 says never to make it.
+    """
+    return _SAME_DOC_ANCHOR.sub(r"](../../research/manuscripts/nr4a3-program-map.md#\1)", body)
 
 
 def render_plan(g):
     plan = g.get("plan") or {}
-    body = render_plan_body(plan)
+    body = _rehome_same_doc_anchors(render_plan_body(plan))
     items = [b for b in plan.get("blocks", []) if b["kind"] == "item"]
     open_n = sum(1 for b in items if b["marker"] in " ~!")
     head = [fm(id="DOC-VIEW-PLAN", title="THE ORDERED PLAN, the spend ladder and the dependency spine",

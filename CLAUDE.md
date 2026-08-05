@@ -285,8 +285,16 @@ When in doubt: do it and show it.
   1. **Networked / data / light-CPU / PDF / scraping / needs pip** → a **GitHub Actions runner** (free,
      unrestricted internet, `pip`/`apt` allowed). Write it **pure-stdlib** where you can, add a
      `workflow_dispatch` (`permissions: contents: write`) that commits outputs back to the triggering branch,
-     dispatch it, then poll with a background poller. Exemplars: `atlas-data.yml` + `expression_reprocess.py` +
-     `fulltext_verify.py` (GEO/PMC); `fusion-cpu-extras.yml` (→ `modalities-cache` branch).
+     dispatch it, then poll with a background poller. Exemplars, all verified to exist 2026-08-05:
+     `emc-expression-datasets.yml` + `atr_hrd_sarcoma_series.py` (**GEO**, and it is also where a GEO series
+     gets characterised before anything is built on it); `fetch-literature.yml` + `scripts/lit_fetch_urls.py`
+     + `scripts/fetch-paper.mjs` (**Europe PMC / PDF**, publishing to `literature-cache`);
+     `fusion-cpu-extras.yml` (→ `modalities-cache` branch).
+     ⚠ *Superseded, retained: `atlas-data.yml` + `expression_reprocess.py` + `fulltext_verify.py`. Measured
+     2026-08-05: **none of the three exists on this branch, on `main`, on `modalities-cache`, or anywhere in
+     history.** They survived because a backticked `.py`/`.yml` name falls outside `ARTIFACT_CITE`'s
+     `.json|.jsonl|.png|.csv` scope, so nothing checked them — in the rule that tells every session where to
+     route work it cannot do here, which is the worst possible place for a dead pointer.*
   2. **GPU / MD / FEP / heavy compute** → a spot GPU job. Validate-first: `mode=smoke` → one real leg → fleet.
   3. **"I can't TEST it here"** → that is what the smoke / single-shard shakeout is for. Untestable-in-sandbox
      ≠ untestable. Writing hundreds of lines you can't exercise locally is **fine**; you exercise them out there.

@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ ready · concept · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/immunotherapy-options-emc.md`](../../research/manuscripts/immunotherapy-options-emc.md#2)): TOP NEAR-TERM LEAD (best EMC evidence)
+**Grade** (owned by [`research/manuscripts/immunotherapy-options-emc.md`](../../research/manuscripts/immunotherapy-options-emc.md#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead)): TOP NEAR-TERM LEAD (best EMC evidence)
 
 ## What has to land for this route to move
 

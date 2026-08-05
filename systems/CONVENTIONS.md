@@ -248,7 +248,7 @@ Each is enforced by [`systems_check.py`](systems_check.py) and each exists becau
 ## 4.7 · Relationship stereotypes
 
 The four SysML stereotypes this model earns, and the two it refuses. Full reasoning and the per-edge
-register: [`graph/relations.json`](graph/relations.json) · [ARCHITECTURE §6.5](ARCHITECTURE.md#65--edges-what-sysml-gave-us-and-what-it-could-not).
+register: [`graph/relations.json`](graph/relations.json) · [ARCHITECTURE §6.5](ARCHITECTURE.md#65---edges-what-sysml-gave-us-and-what-it-could-not).
 
 | value | means | asserted on |
 |---|---|---|

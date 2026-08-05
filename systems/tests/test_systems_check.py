@@ -1339,3 +1339,77 @@ def test_lane_enumeration_actually_reaches_the_workflows(graph):
     f = sc.Findings()
     sc.check_lanes(graph, f)
     assert [e for e in f.errors if "[W1]" in e] == [], "\n".join(f.errors)
+
+
+def test_a_link_checker_that_strips_the_fragment_proves_the_cheaper_half(graph):
+    """[K2]: the FILE existing says nothing about the SECTION.
+
+    ⛔ MD_LINK read `(?:#[^)\\s]*)?` — it MATCHED the anchor and threw it away. So every
+    `file.md#section` link was validated as `file.md`, and 50 dead anchors passed, including 24 to
+    `#open-decisions`, a heading the roadmap's own §0.7 calls FROZEN and "cited by number in 30 files".
+
+    ⚠ AND IT COMPOUNDED WITH TWO OTHER BLIND SPOTS, which is why none was noticed:
+      · [P2] inspected only `row["owner"]` and `row["provenance"]["owner"]`, so `grade.owner` anchors
+        were never checked at all — `RT-FAP-RLT` asserted `#2` against a heading whose slug is
+        `2-fap-targeted-radioligand-therapy-fapi-rlt--emerging-plausibly-applies`;
+      · the generated L2 view rendered that bad anchor into a link, which [K1] then declared fine.
+    Three checks in a row, each verifying the half it could see.
+    """
+    f = sc.Findings()
+    sc.check_links(graph, f)
+    assert [e for e in f.errors if "[K2]" in e] == [], "\n".join(f.errors)
+    assert any("anchors" in i for i in f.infos), "the anchor count must print — it is what proves the " \
+                                                 "check ran over more than zero anchors"
+
+
+def test_every_owner_anchor_at_any_depth_is_checked(graph):
+    """[P2] must find a `{file, anchor}` wherever it sits, not in the two places it used to look."""
+    f = sc.Findings()
+    sc.check_pointers(graph, f)
+    assert [e for e in f.errors if "[P" in e] == [], "\n".join(f.errors)
+
+    found = {w for r in graph["routes"] for w, _o in sc._owner_blocks(r)}
+    assert "grade/owner" in found, "grade.owner is the block that was invisible; the walk must reach it"
+
+    import copy
+    g = copy.deepcopy(graph)
+    for r in g["routes"]:
+        if (r.get("grade") or {}).get("owner"):
+            r["grade"]["owner"]["anchor"] = "#no-such-heading-anywhere"
+            break
+    f = sc.Findings()
+    sc.check_pointers(g, f)
+    assert any("[P2]" in e and "grade/owner" in e for e in f.errors)
+
+
+def test_the_row_selector_convention_is_not_reported_as_a_broken_anchor():
+    """`#heading|row-selector` addresses a ROW inside a section; only the heading half is a GitHub
+    anchor. Validating the whole string called nine live pointers broken on the widened check's first
+    run — a correct check earning a reputation for crying wolf."""
+    p = os.path.join(REPO, "research/manuscripts/emc-post-degrader-options.md")
+    assert sc.anchor_resolves(p, "#2--the-ranked-list|tier1-rank2")
+    assert sc.anchor_resolves(p, "#2--the-ranked-list")
+    assert not sc.anchor_resolves(p, "#2--the-ranked-list-that-does-not-exist|tier1-rank2")
+
+
+def test_the_plan_view_rehomes_anchors_without_touching_the_lossless_proof(graph):
+    """Two things that must both stay true, and the obvious fix broke one of them.
+
+    THE ORDERED PLAN was lifted out of the roadmap VERBATIM, and `extract_plan.py` refuses to write
+    unless its render matches the source byte for byte. But a link reading `](#101--open-rows-…)` meant
+    *this document, further down* — and "this document" changed, so 26 links in the generated view
+    pointed at headings it does not have.
+
+    ⛔ Re-homing them inside `render_plan_body` fixed the view and QUIETLY WEAKENED THE PROOF, which
+    still passed. The rewrite belongs on the way into the VIEW; the body stays verbatim.
+    """
+    plan = graph.get("plan") or {}
+    body = sc.render_plan_body(plan)
+    for b in plan["blocks"]:
+        if b["kind"] == "raw":
+            assert b["text"] in body, "render_plan_body must stay byte-verbatim"
+
+    view = sc.render_plan(graph)
+    assert "](#" not in view.split("---", 2)[-1] or \
+        "nr4a3-program-map.md#" in view, "same-doc anchors must be re-homed in the view"
+    assert "](../../research/manuscripts/nr4a3-program-map.md#" in view

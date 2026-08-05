@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-RADIOLIGAND](L1-st-radioligand.md) · **state:** ○ blocked · concept · confidence unknown · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/emerging-modalities-scan-emc.md`](../../research/manuscripts/emerging-modalities-scan-emc.md#2)): Emerging, plausible
+**Grade** (owned by [`research/manuscripts/emerging-modalities-scan-emc.md`](../../research/manuscripts/emerging-modalities-scan-emc.md#2-fap-targeted-radioligand-therapy-fapi-rlt--emerging-plausibly-applies)): Emerging, plausible
 
 ## What has to land for this route to move
 
