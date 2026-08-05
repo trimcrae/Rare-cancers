@@ -585,17 +585,33 @@ def map_edits(doc):
     `⚠ Superseded, retained:` clause rather than dropped, per rule 1.2.
 
     ⚠ Anchors are checked with `grep -F` semantics against the LIVE map by `verify_map_edits.py`, because
-    nine verbatim edits died on stale anchors in one day while four agents edited this file."""
+    nine verbatim edits died on stale anchors in one day while four agents edited this file.
+
+    ⛔ THIS FUNCTION IS PURE AND MUST STAY PURE — IT USED THE WALL CLOCK AND THAT WAS THE BUG.
+    It stamped `_et_now()` into `proposed_text`, so the date in the edit was *when this function was
+    called*, not when the gate ran. Two consequences, both measured on 2026-08-05:
+      · a re-run that recomputed the same `NO-GO` emitted "RAN … 9:19 AM ET" while the roadmap correctly
+        recorded the landing at 8:29 AM — the artifact and the map disagreed about a fact neither owned;
+      · the divergence sits at the FRONT of the proposal, so an anchor probe diverged at character ten
+        and reported a fully-applied edit as DEAD.
+    ⭐ And it violated this docstring's own first line: a timestamp IS a number, and that one had no home.
+    The run now records `_ran_at` and this function READS it. When a document carries none — true of every
+    artifact committed before the change — the edit says so and points at the artifact rather than
+    inventing a date. Same input, same output, forever."""
     v = doc.get("verdict", "REFUSED")
-    stamp = _et_now().strftime("%Y-%m-%d %-I:%M %p ET")
     art = "[`nr4a3-5bt-gate.json`](../modalities/nr4a3-5bt-gate.json)"
-    ran = ("✅ **RAN %s — the pre-registered three-arm gate returns `%s`.** ⛔ Whatever it says is "
+    # ⚠ NO DOUBLE DASH WHEN THERE IS NO STAMP. The clause is followed by an em-dash in the sentence
+    # below, so "RAN — see the artifact for when — the pre-registered…" reads as a stutter. A bare
+    # "RAN" is honest and the artifact is already linked two clauses later.
+    ran_at = doc.get("_ran_at")
+    when = ("RAN %s" % ran_at) if ran_at else "RAN"
+    ran = ("✅ **%s — the pre-registered three-arm gate returns `%s`.** ⛔ Whatever it says is "
            "**STRUCTURAL**: no free energy is computed, so nothing about affinity, degradation, efficacy or "
            "safety follows, and the arms are **not blind** — DeepTernary is given which pocket each end of "
            "the degrader occupies. Every number, per arm and per column, has one home: %s (built inputs and "
            "the snap-mask pre-flight: [`nr4a3-5bt-frame.json`](../modalities/nr4a3-5bt-frame.json); the `V1` "
            "read over all 16 models per arm: [`nr4a3-5bt-signature.json`](../modalities/nr4a3-5bt-signature.json))."
-           % (stamp, v, art))
+           % (when, v, art))
     inherited = (" ⚠ **Three inherited conditions travel with the result and are not footnotes:** `R5` is "
                  "UNRESOLVED (`V3` INCONCLUSIVE — site selection missed 6 of 6 pairs) and site 1 rests on it; "
                  "`R3` FAILED 2026-08-03 on the generation frame, and while site 1 is a *different* frame it "
@@ -654,6 +670,13 @@ def main(argv=None):
     ap.add_argument("--out", default=os.path.join(HERE, "nr4a3-5bt-gate.json"))
     args = ap.parse_args(argv)
     doc = run(args.pred_root, args.frame, args.control, args.reach, args.spec)
+    # ⭐ THE RUN RECORDS WHEN IT RAN, AND NOTHING ELSE MAY INVENT IT. Before this, the only timestamp
+    # anywhere near this gate was the one `map_edits()` stamped from the wall clock at EDIT-GENERATION
+    # time — so a re-run that recomputed the same verdict emitted a DIFFERENT date, and the roadmap and
+    # the artifact disagreed (8:29 AM vs 9:19 AM ET on 2026-08-03, both real runs) with no way to tell
+    # which was the result's own. An artifact that cannot say when it ran cannot support any claim about
+    # when a result landed. Stamped HERE, in the one place a real run is produced and written to disk.
+    doc["_ran_at"] = _et_now().strftime("%Y-%m-%d %-I:%M %p ET")
     doc["map_edits_required"] = map_edits(doc)
     json.dump(doc, open(args.out, "w"), indent=1)
     print(doc.get("sentence") or json.dumps(doc)[:400], flush=True)

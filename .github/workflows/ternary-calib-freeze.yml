@@ -68,6 +68,16 @@ jobs:
     # ⚠ DEGENERATE MAP on the closing edge — see the pre-gate document — and its own message says the
     # likely cause is the 300 s MCS budget. Raising `timeout-minutes` alone would reproduce the same
     # degenerate map more slowly; the budget that has to move first is RBFE_LOMAP_TIME_S.
+    #
+    # ⛔ AND THE REAL QUESTION IS NOT "WHAT TIMEOUT", IT IS "WHERE THIS RUNS". At the measured 5-29 min
+    # per edge the 17-edge gate needs 1.5-8 HOURS, and a GitHub-hosted job is capped at 6 hours. So the
+    # upper half of that range is UNREACHABLE HERE AT ANY SETTING, and raising RBFE_LOMAP_TIME_S — which
+    # is the fix for the degenerate map — pushes the estimate further up, not down. A lane whose
+    # correctness fix makes it less completable on its current runner has outgrown that runner.
+    # ⚠ Left at 90 deliberately: raising it to 360 would buy one more speculative multi-hour attempt at
+    # the SAME budget that already produced a degenerate map, which is spending wall-clock to reproduce
+    # a known result. Whoever takes this next should decide the venue first — a self-hosted runner, a
+    # rented CPU box, or splitting the 17 edges across jobs so each fits.
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4

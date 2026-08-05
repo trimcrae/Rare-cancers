@@ -15,10 +15,12 @@ assembled or predicted:
 """
 from __future__ import annotations
 
+import datetime as _dt
 import json
 import math
 import os
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = os.path.normpath(os.path.join(HERE, ".."))
@@ -544,6 +546,49 @@ def test_build_arm_runs_end_to_end_and_the_snap_masks_are_non_empty(tmp_path, mo
     assert "placeholder_not_ground_truth" in row["detail"]["gt_complex_is"]
     # arm (C) needs an atom index it can find again in the prediction
     assert row["detail"]["arm_C_inputs"]["electrophile_beta_carbon_index_in_ligand_pdb"] >= 1
+
+
+def test_map_edits_never_stamps_the_wall_clock_into_what_it_proposes():
+    """⛔ THE EDIT MUST BE REPRODUCIBLE — IT WAS NOT, AND IT COST A FALSE 'DEAD ANCHOR'.
+
+    `map_edits()` used to build its text with `_et_now()`, so the date it proposed was *when the function
+    was called*, not when the gate ran. Measured 2026-08-05: a re-run recomputing the same NO-GO emitted
+    "RAN … 9:19 AM ET" while the roadmap correctly recorded the landing at 8:29 AM. Both were real runs;
+    neither file owned the fact. And because the difference sits at the FRONT of the proposal, the anchor
+    probe diverged at character ten and reported a fully-applied edit as dead.
+
+    ⭐ It also broke this function's own docstring — "EVERY `proposed_text` … RESTATES NO NUMBER". A
+    timestamp is a number. So: the RUN records `_ran_at`, this function reads it, and a document without
+    one gets no invented date. Same input, same output.
+    """
+    a = GT.map_edits({"verdict": "NO-GO"})
+    time.sleep(1.1)                                   # a real wall clock would move between these
+    b = GT.map_edits({"verdict": "NO-GO"})
+    assert a == b, "map_edits is not reproducible — something in it is reading the clock"
+
+    text = a[0]["proposed_text"]
+    assert "RAN —" in text or "RAN " in text
+    # ⚠ Not a bare date search: `inherited` legitimately cites "R3 FAILED 2026-08-03", a historical fact
+    # with its own home. What must never appear is a date THIS CALL manufactured.
+    today = _dt.datetime.now().strftime("%Y-%m-%d")
+    assert today not in text, "today's date appears in an edit built from a document that never carried it"
+
+    stamped = GT.map_edits({"verdict": "NO-GO", "_ran_at": "2026-08-03 8:29 AM ET"})
+    assert "RAN 2026-08-03 8:29 AM ET" in stamped[0]["proposed_text"], \
+        "when the run DID record its time, the edit must quote that and not something else"
+
+
+def test_a_real_run_records_when_it_ran():
+    """The deeper gap: the gate document carried no run time at all.
+
+    Sixteen top-level keys and not one of them time-shaped — so nothing downstream could source a date,
+    which is why `map_edits` reached for the wall clock in the first place. `main()` now stamps it in the
+    one place a real run is produced and written to disk.
+    """
+    src = open(os.path.join(MOD, "nr4a3_5bt_gate.py"), encoding="utf-8").read()
+    main_body = src.split("def main(", 1)[1]
+    assert '_ran_at' in main_body.split("json.dump", 1)[0], \
+        "main() must stamp _ran_at on the document BEFORE map_edits reads it and before it is written"
 
 
 def test_map_edits_are_emitted_and_point_at_the_artifact_rather_than_restating_it():

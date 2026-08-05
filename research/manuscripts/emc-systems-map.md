@@ -13,7 +13,7 @@
 - One grade applied to two different routes: the covalent probe at C397 and a monovalent reversible pocket modulator fail on OPPOSITE blockers and must never share a row or a demotion.
 - A number quoted from an artifact that is a STUB on the branch a reader would open: emc-fet-idr-census.json is a 161-byte 'cannot compute' placeholder on `main` while emc-post-degrader-options.md on `main` prints a full results table out of it.
 
-**Registry contents:** 40 routes · 18 objects · 13 evidence items · 30 instruments · 11 artifacts · 14 claims · 16 blockers · 3 open conflicts.
+**Registry contents:** 40 routes · 18 objects · 13 evidence items · 30 instruments · 11 artifacts · 14 claims · 17 blockers · 3 open conflicts.
 
 ---
 
@@ -188,6 +188,7 @@ Read this as *redundancy*: a blocker on one route is a risk, a blocker on eleven
 | **The paralogue-discrimination positive control (NR-V04) is discordant** (`BLK-PARALOGUE-CONTROL`) | a positive control for paralogue discrimination | [`nr4a3-program-map.md`](nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language) | **1** — `RT-DEGRADER` | — |
 | **Nobody has stated how much selectivity the route would need, so 'the requirement is smaller' is not a claim this repo can make** (`BLK-UNSIZED-REQUIREMENT`) | an absent specification, not a measured shortfall | [`nr4a3-monovalent-pocket-route.md`](nr4a3-monovalent-pocket-route.md#4--effect-on-the-paralogue-requirement--reshapes-into-a-requirement-of-unquantified-size) | **1** — `RT-MONOVALENT` | — |
 | **The categorical (covalent) window at C397 does not survive the E3-arm-free reach enumeration on the conservative convention** (`BLK-REACH-CATEGORICAL`) | geometry at one opened target frame — it can refute a route, it cannot license one | [`nr4a3-monovalent-pocket-route.md`](nr4a3-monovalent-pocket-route.md#3--the-0-test-built-run-and-it-came-back-against-the-route) | **0** — — | — |
+| **The program's only binary selectivity known-answer control is built and staged and has never been run** (`BLK-SELECTIVITY-CONTROL-UNAUTHORIZED`) | a decision, not a capability and not the target -- nothing failed and nothing is missing | [`nr4a3-program-map.md`](nr4a3-program-map.md#31--the-instrument-table) | **0** — — | — |
 
 ## 4 · Instruments — and which of them have no passing control
 
