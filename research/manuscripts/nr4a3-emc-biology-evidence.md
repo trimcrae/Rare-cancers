@@ -47,7 +47,11 @@ The single-analogy framing is replaced by four independent pillars:
 
 **★ The decisive gap (honest floor).** **No direct loss-of-function experiment in any EMC cell line was found** —
 every confirmed EMC functional result is *gain-of-function*. No RNAi/CRISPR/ASO knockdown of NR4A3 or the fusion
-in a human EMC line (e.g. H-EMC-SS) with a growth/survival readout exists in the literature. So EMC's dependence
+in a human EMC line (e.g. the patient-derived USZ20-EMC1 / NCC-EMC1-C1 models) with a growth/survival readout
+exists in the literature. ⚠ *Superseded, retained: this example named* **H-EMC-SS** *— a line the curated
+record does not support as fusion-positive as of 2026-08-05
+([`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md)). The absence claim
+itself is unaffected and is if anything strengthened.* So EMC's dependence
 on the fusion is a **strong, multi-pillar prior, not a demonstrated dependency.** The **acute-degradation (dTAG)
 experiment remains the make-or-break** (delegated to the EMC-program roadmap). Also un-reconfirmed by this pass:
 the exact EWS-FLI1 DepMap number was taken from the repo cache, not independently re-verified here, and a Ewing

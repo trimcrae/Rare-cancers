@@ -351,7 +351,24 @@ def write_board(cfg: dict, ledger: dict, run: dict, per_trigger: dict) -> None:
         for pf in t.get("prior_fires", []) or []:
             L.append(f"- **prior partial fire ({pf['date']}):** {pf['what']}")
         hits = (ledger["hits"].get(t["id"]) or {})
-        recent = sorted(hits.values(), key=lambda h: h.get("date", ""), reverse=True)[:5]
+        # The ledger is CUMULATIVE and a trigger's query can be REVISED, so a hit admitted
+        # only by a superseded query would otherwise render as a current match forever.
+        # Measured case (2026-08-03): TRG-E3-RECRUITER-STRUCTURE's first query admitted
+        # TITLE:KEAP1 and TITLE:ligand, and three KEAP1 redox-pharmacology papers (acute lung
+        # injury, coenzyme A, heart failure) entered the ledger under a row whose criterion is
+        # a partner-free liganded structure for RNF114/DCAF16/DCAF15. Revising the query
+        # stopped them being INGESTED; it did nothing about the ones already stored, and the
+        # board is what a reader consults. So re-apply the CURRENT criterion at render time.
+        # The ledger keeps every hit -- this filters the VIEW, it does not drop history, and
+        # the count of withheld entries is printed rather than silently swallowed.
+        _s = t.get("search") or {}
+        _must = _s.get("must_match") or []
+        _also = _s.get("also_match") or []
+        _excl = _s.get("exclude_match") or []
+        live, stale = [], []
+        for h in hits.values():
+            (live if _matches(h.get("title", ""), _must, _also, _excl) else stale).append(h)
+        recent = sorted(live, key=lambda h: h.get("date", ""), reverse=True)[:5]
         if recent:
             L.append("- **most recent matches** (unvalidated, newest first):")
             for h in recent:
@@ -360,6 +377,14 @@ def write_board(cfg: dict, ledger: dict, run: dict, per_trigger: dict) -> None:
                          f"{h.get('id', '')}){flag} {h.get('url', '')}")
         else:
             L.append("- **no matches recorded**")
+        if stale:
+            L.append(
+                f"- **{len(stale)} earlier ledger hit(s) withheld** — admitted by a SUPERSEDED "
+                f"query and not matched by this trigger's current criterion. Retained in "
+                f"[`method-watch-trigger-hits.json`](method-watch-trigger-hits.json), not shown "
+                f"here, because a hit the current query would not return is not evidence for "
+                f"this row."
+            )
     L.append("")
 
     L.append("## Run history")

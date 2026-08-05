@@ -1,0 +1,104 @@
+{
+  "_schema": "e3-recruiter-pdb-recheck/1",
+  "_title": "FRESH PDB census re-run, 2026-08-05 — second grading of TRG-E3-RECRUITER-STRUCTURE",
+  "_date": "2026-08-05",
+  "_cost": "$0 — CI fetch only, no GPU, no rental.",
+  "_why": "The 2026-08-03 grading rests on a PDB census. A census is a perishable fact and re-running it is free, so it was RE-RUN rather than quoted. Identical query shape per accession, so the two are directly comparable. This run also answers two questions the 2026-08-03 census could not.",
+  "_integrity": "Every field below is FETCHED, not recalled, and not copied from the 2026-08-03 file. Provenance: .github/workflows/fetch-literature.yml run 31000949990 on branch main, corpus research/manuscripts/lit-targets-e3-recruiter-recheck-2026-08-05.json, raw text on the literature-cache branch under literature/e3-recruiter-recheck-20260805/.",
+  "_relation_to_prior": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json is the first grading. This file does NOT supersede it — it CONFIRMS it on a fresh reading and adds the two direct answers below. Neither file's numbers changed.",
+
+  "fetch_provenance": {
+    "workflow": ".github/workflows/fetch-literature.yml",
+    "run_id": 31000949990,
+    "branch": "main",
+    "targets_file": "research/manuscripts/lit-targets-e3-recruiter-recheck-2026-08-05.json",
+    "corpus_branch_path": "literature-cache:literature/e3-recruiter-recheck-20260805/",
+    "targets_attempted": 19,
+    "targets_http_200": 11,
+    "http_204_zero_results": 6,
+    "http_404": 2,
+    "_204_reading": "RCSB returns 204 No Content for a zero-result search. Every 204 below is therefore a READING OF ABSENCE, not an absent reading."
+  },
+
+  "pdb_census_2026_08_05": {
+    "RNF114": {
+      "uniprot": "Q9Y508", "http_status": 204, "total_count": 0, "entry_ids": [],
+      "prior_2026_08_03_total": 0, "changed": false, "partner_free_liganded": false
+    },
+    "DCAF16": {
+      "uniprot": "Q9NXF7", "http_status": 200, "total_count": 3,
+      "entry_ids": ["9S3R", "8OV6", "8G46"],
+      "prior_2026_08_03_total": 3, "changed": false, "partner_free_liganded": false,
+      "_verdict": "Same 3 entries, all ternary (DCAF16 + DDB1 + a bromodomain partner). n_clean_binary_entries = 0."
+    },
+    "DCAF15": {
+      "uniprot": "Q66K64", "http_status": 200, "total_count": 9,
+      "entry_ids": ["8ROX", "8ROY", "6SJ7", "6UD7", "6UE5", "6Q0R", "6Q0V", "6Q0W", "6PAI"],
+      "prior_2026_08_03_total": 9, "changed": false, "partner_free_liganded": false
+    },
+    "FEM1B": {
+      "uniprot": "Q9UK73", "http_status": 200, "total_count": 31,
+      "prior_2026_08_03_total": 31, "changed": false, "partner_free_liganded": true,
+      "_verdict": "NOT one of the blocked three. Already had 7 partner-free liganded entries before either paper. Unchanged."
+    }
+  },
+
+  "new_this_run_1_release_bounded_query": {
+    "_why": "The 2026-08-03 census answered 'has anything landed?' by COMPARING COUNTS between runs. A count that matches could in principle hide one entry added and one withdrawn. This asks the question directly.",
+    "query": "accession AND rcsb_accession_info.initial_release_date >= 2026-07-25 (the date of the downselect this row rests on)",
+    "results": {
+      "DCAF16": {"http_status": 204, "n": 0},
+      "DCAF15": {"http_status": 204, "n": 0},
+      "RNF114": {"http_status": 204, "n": 0},
+      "FEM1B": {"http_status": 204, "n": 0}
+    },
+    "_reading": "ZERO structures have been RELEASED for any of the four accessions since the assessment was made. Not inferred from a count comparison — asked and answered."
+  },
+
+  "new_this_run_2_citation_doi_query": {
+    "_why": "METHOD FIX. On 2026-08-03 the question 'did either paper deposit a structure' was attempted via rcsb_primary_citation.pdbx_database_id_PubMed and returned HTTP 400 — 'search is not enabled on [that] attribute' — so it was answered only INDIRECTLY, by noting the entry sets were unchanged and cited to other journals. The DOI attribute IS searchable.",
+    "attribute": "rcsb_primary_citation.pdbx_database_id_DOI",
+    "results": {
+      "10.1021/acs.jmedchem.6c00889": {"paper": "DCAF16 cyanobenzothiazole", "http_status": 204, "n_entries": 0},
+      "10.1021/acs.jmedchem.6c00968": {"paper": "FEM1B dual-site", "http_status": 204, "n_entries": 0}
+    },
+    "_reading": "NEITHER PAPER IS THE PRIMARY CITATION OF ANY RELEASED PDB ENTRY. This is now a direct measurement rather than an inference, and it is the single cleanest statement of why the trigger is not satisfied."
+  },
+
+  "blind_spot_quantified": {
+    "_what": "A structure DEPOSITED but still ON HOLD is invisible to every query above. The 2026-08-03 file stated this; this run measures its size.",
+    "rcsb_unreleased_entry_ids_http": 200,
+    "n_unreleased_entries_on_hold_globally": 34557,
+    "_why_not_resolved": "The holdings endpoint returns IDs only. Mapping 34,557 IDs to UniProt accessions needs one request each, which is not a $0 check and would still not see a title-suppressed entry. So the blind spot is real, bounded and NOT closed — which is why the trigger stays 'watching' rather than being retired.",
+    "_what_would_close_it": "The papers' own Data Availability statements, which are behind the paywall."
+  },
+
+  "papers_still_paywalled": {
+    "_status": "UNCHANGED from 2026-08-03 — still ABSTRACT ONLY for both.",
+    "dcaf16_cyanobenzothiazole": {
+      "pmid": "42045146", "doi": "10.1021/acs.jmedchem.6c00889",
+      "europepmc_fullTextXML_http": 404, "pmc_idconv_http": 200,
+      "pmc_idconv_verdict": "Identifier not found in PMC"
+    },
+    "fem1b_dual_site": {
+      "pmid": "42456065", "doi": "10.1021/acs.jmedchem.6c00968",
+      "europepmc_fullTextXML_http": 404, "pmc_idconv_http": 200,
+      "pmc_idconv_verdict": "Identifier not found in PMC"
+    }
+  },
+
+  "literature_recheck": {
+    "_why": "Has anything NEW appeared in the two days since the grading?",
+    "queries_http": 200,
+    "result": "No. Broad free-text EuropePMC searches on DCAF16 / DCAF15 / RNF114 crossed with structural terms return reviews and unrelated papers; no new structural report for any of the three blocked recruiters.",
+    "_note": "These are DELIBERATELY broader than the trigger's own title-anchored queries — a wide net cast to check the narrow one is not missing something. It was not."
+  },
+
+  "grade_2026_08_05": {
+    "trigger": "TRG-E3-RECRUITER-STRUCTURE",
+    "verdict": "DOES_NOT_REOPEN",
+    "relation": "CONFIRMS the 2026-08-03 verdict on an independent fresh reading. Not a new verdict — the same one, re-measured.",
+    "why": "The row's criterion is a deposited partner-free liganded structure for RNF114, DCAF16 or DCAF15. Measured today: RNF114 0 entries, DCAF16 3 entries all ternary, DCAF15 9 entries unchanged; zero releases for any accession since 2026-07-25; and neither paper is the primary citation of any released entry. The DCAF16 paper's own abstract describes a template-assisted covalent glue — the warhead rides on the BRD4-targeting ligand and 'modifies DCAF16 at Cys58, promoting ternary complex formation' — which is the architecture the 0.3442 buried fraction already recorded, not a refutation of it.",
+    "evidence_level": "DEFINITIVE on the PDB census (fetched twice, two days apart, by two independent runs). PROVISIONAL on the paper text — both remain paywalled and abstract-only, and an abstract cannot establish a buried-surface fraction or an exit vector."
+  }
+}

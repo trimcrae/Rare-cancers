@@ -508,6 +508,42 @@ a pass.
 `[Q3]`s became stated scope boundaries; **R1 gained a `[Q4]`** because `mixed` stopped counting as a pass,
 and R13's `[Q3]` became a `[Q4]` because it turned out to have an instrument after all. 16 → 10.
 
+### 3.10 · Merging `main` back in — what nine hours of drift actually cost (2026-08-05)
+
+CLAUDE.md §7 calls branch drift *"a data-loss bug, not an inconvenience"*, and this merge is the receipt.
+`main` had moved **945 commits** since this branch's base — mostly CI artifact commits — and **21 files
+overlapped**, including `nr4a3-program-map.md` and `emc-systems-map.json`, the two files this branch was
+actively rewriting. Four conflicts, and **none of them was a formatting collision**:
+
+| conflict | what it really was |
+|---|---|
+| `emc-surface-target-landscape.md` | this branch added the required frontmatter; `main` revised the H1. **Both wanted** — frontmatter kept, `main`'s title taken |
+| `emc-systems-map.md` | a **generated** view. Regenerated, never hand-resolved |
+| `method-watch-triggers.json` | both sides **appended** a trigger and git interleaved them. Merged by id: 29 from `main` + 4 from here. Verified against the merge base that this branch had edited **none** of the four common entries `main` changed |
+| `tests/test_trigger_board_filter.py` | ⛔ **git's "helpful" relocation broke it.** `main` added it at repo-root `tests/`, which this branch deleted in Phase 2. Git moved it to `research/modalities/tests/`, where its two-level climb to the repo root resolved to `research/` — so it looked for `research/scripts/trigger_scan.py` and **errored at collection**. Fixed to four levels; the directory is right, because that is where CI actually runs it |
+
+⭐ **And two real defects surfaced that neither side would have caught alone.**
+
+1. **`INS-GEO-SERIES-CHARACTERISE` existed only in the legacy registry**, and `[L2]` said so. Porting it
+   found its `serves` holding **two prose values** — the **seventh** instance of the untyped-relation
+   defect (§3.9), *arriving on `main` while the other six were being removed here*. That is the strongest
+   available argument for the typed relation: the field was still accreting paraphrases as it was being
+   retired. Both values placed — one to `characterises`, one to `scope_note`. `OBJ-LINE-HEMCSS` — status `identity_disputed`, cited throughout ONLY as the cautionary
+   precedent that an EMC label is not an EMC fusion — was ported with it as a **projection**: the eight fields the graph's object shape carries, with the
+   `identity` verdict, `may_not_ground`, the 30-entry `read_by` sweep and its `_sweep_limit` left in the
+   legacy registry, because the O3/O4 guards that enforce them live there and a second copy would be a
+   second home for the fact those guards protect.
+2. **`TRG-SARCOMA-ATRI-RESPONSE-PANEL` fired into nothing.** `main` added the trigger; no `TECH-*`
+   watched it, so `[X3]` — the monitoring loop closed earlier in this migration — caught a scanner with
+   no recorded consequence on its first exposure to work it did not come from. Wired to
+   `TECH-EMC-EXPRESSION-DATA`: the trigger's own text says the expression ask is *"three-quarters
+   satisfied"* while the response ask is *"wholly unsatisfied"*, which is two questions about one missing
+   dataset family, sharing `BLK-NO-EMC-DATA`.
+
+⚠ **A code collision was introduced here and is recorded so the next one is expected.** This branch's new
+lane guard was written as `[X3]`, which `check_scan_interop` already owned — two checks under one code,
+which would have made a warning unreadable in exactly the way §1 forbids. Renamed to `[X6]`.
+
 *(A phase is not complete until its rows are here.)*
 
 ---

@@ -1183,7 +1183,7 @@ def test_a_derived_edge_may_not_be_hand_written(graph):
 
 
 def test_a_lane_may_not_name_a_requirement_in_free_text(graph):
-    """[X3] bounds the licence `lane.serves` is given.
+    """[X6] bounds the licence `lane.serves` is given.
 
     It stays prose because a lane's target is a RUNG as often as an instrument, and rungs are not
     modelled — typing it would mean inventing a collection to point at. But a REQUIREMENT is modelled,
@@ -1195,7 +1195,7 @@ def test_a_lane_may_not_name_a_requirement_in_free_text(graph):
     g["lanes"][0]["serves"] = ["R11"]
     f = sc.Findings()
     sc.check_relations(g, f)
-    assert any("[X3]" in e for e in f.errors)
+    assert any("[X6]" in e for e in f.errors)
 
 
 def test_a_withdrawal_notice_is_not_a_citation(graph):

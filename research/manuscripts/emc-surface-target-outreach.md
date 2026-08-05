@@ -54,8 +54,10 @@ driver-directed oligonucleotides). We did this honestly and it is deliberately s
 selectivity test and a hard normal-tissue-window filter, most "obvious" candidates fall away — the field-default
 **B7-H3 is not selective** in the data, and CD56/CDH11/others carry specific normal-tissue liabilities. The two
 leads that survive point at EMC's **neuroendocrine differentiation**: **SSTR2** (the target of the *approved*
-radioligand ¹⁷⁷Lu-DOTATATE — an off-the-shelf theranostic if EMC expresses it) and **GD2**. We even located the
-one EMC line in public data (H-EMC-SS in DepMap), but a single line cannot settle this.
+radioligand ¹⁷⁷Lu-DOTATATE — an off-the-shelf theranostic if EMC expresses it) and **GD2**. **We have no real
+EMC data at all:** the one DepMap line labelled EMC (H-EMC-SS) is recorded by Cellosaurus as not carrying an
+EWSR1 fusion, so we do not read it as EMC, and the only public EMC tumour dataset we could find (GSE4303) is
+technically unusable.
 
 Your models could. The most useful things, in rough order:
 1. **Any transcriptome / RNA-seq** of USZ20-EMC1 / USZ22-EMC2 — we would run it through the pipeline and share
@@ -118,7 +120,16 @@ With respect,
 - [ ] `[VERIFY]` corresponding-author names + emails from both papers (do not guess).
 - [ ] Insert the live preprint `[LINK]` once posted.
 - [ ] Confirm the science matches the final preprint: **B7-H3 not selective; CD56/CDH11 window-liabilities;
-      SSTR2/GD2 the surviving leads; H-EMC-SS (n=1) in DepMap** — do NOT revert to "GPC2/CDH11/CD56 as clean
-      leads" (that was the pre-red-team framing).
+      SSTR2/GD2 the surviving leads; NO usable real-EMC observation** — do NOT revert to "GPC2/CDH11/CD56 as
+      clean leads" (that was the pre-red-team framing).
+- [ ] ⛔ **DO NOT claim H-EMC-SS as an EMC line (2026-08-05).** These recipients are the world's EMC-model
+      experts and would know: Cellosaurus `CVCL_1238` carries *"Caution: Does not harbor a gene fusion
+      involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129)"*, and
+      DepMap's fusion caller names no FET gene for the model. Preprint
+      [Amendment 1](./emc-surface-target-landscape.md) is the one home of this correction. *(Superseded,
+      retained: this draft previously read* "We even located the one EMC line in public data (H-EMC-SS in
+      DepMap), but a single line cannot settle this" *and the checklist previously required confirming*
+      "H-EMC-SS (n=1) in DepMap".*)* ⚠ State it as the **public record not supporting the label**, never as
+      "the line is not EMC" — identity needs STR + RT-PCR, which we cannot do.
 - [ ] Keep each email under ~200 words; attach nothing on first contact beyond the preprint link.
 - [ ] One follow-up after ~2–3 weeks if no reply; do not chase harder.

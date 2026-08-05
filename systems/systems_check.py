@@ -1423,7 +1423,7 @@ def check_relations(g, f):
     for lane in g.get("lanes", []):
         for s in lane.get("serves", []):
             if re.fullmatch(r"R\d+", s):
-                f.err("[X3]", f"{lane['id']} `serves` names requirement {s} as free text. `lane.serves` "
+                f.err("[X6]", f"{lane['id']} `serves` names requirement {s} as free text. `lane.serves` "
                               f"is prose for rungs, which are not modelled — a requirement IS modelled, "
                               f"so this belongs in {s}'s `verified_by` or in the lane's `produces[]`")
 

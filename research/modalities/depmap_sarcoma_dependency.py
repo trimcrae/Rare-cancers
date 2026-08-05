@@ -237,6 +237,15 @@ def main():
     # closest analogues to EMC: FET-fusion / translocation sarcomas
     analogues = {name: subtype_mean("BRD9", pat) for name, pat in
                  {"Ewing": "ewing", "Synovial": "synovial",
+                  # ⚠ 2026-08-05 — THE NAME IS WRONG, THOUGH NO NUMBER RESTS ON IT. The substring
+                  # "myxoid" matches 'Extraskeletal Myxoid Chondrosarcoma' (ACH-001519 /
+                  # H-EMC-SS), not a liposarcoma line, in DepMap 24Q4. ✅ The group is EMPTY
+                  # anyway -- that model has no CRISPR gene-effect data, so the committed
+                  # artifact reads `"Myxoid_liposarcoma": null` and no dependency figure here
+                  # depends on it (verified, not assumed). ⛔ And the model's identity is
+                  # DISPUTED: Cellosaurus CVCL_1238 records that it does not harbor an EWSR1
+                  # fusion, so it would not be an EMC read even if data appeared. Correction
+                  # home: research/manuscripts/emc-surface-target-landscape.md (Amendment 1).
                   "Myxoid_liposarcoma": "myxoid", "Alveolar_RMS": "alveolar"}.items()}
 
     # Fusion-addiction proxy (degrader make-or-break): does a fusion partner read as a dependency

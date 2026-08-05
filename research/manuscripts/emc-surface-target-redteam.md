@@ -21,7 +21,35 @@ _backfilled: true
 > reader can audit the corrections. The review was harsh and the paper changed materially as a result — that
 > is the intent.
 
-## The reframing discovery (supersedes several findings)
+## ⛔ AMENDMENT (2026-08-05) — the reframing discovery below is ITSELF RETRACTED
+
+**The red team's own correction needed a correction, and that is the finding this log should be read for.**
+On 2026-08-05 the `[to verify]` flag that the reframing discovery carried was answered: **Cellosaurus
+`CVCL_1238` records, citing a primary source, that ACH-001519 / H-EMC-SS *"does not harbor a gene fusion
+involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129)"*,** and DepMap's
+own filtered fusion caller returns 2 calls for the model, **none naming NR4A3 or any FET gene**. Verdict
+`NOT_FUSION_POSITIVE_PER_CURATED_RECORD`
+([`../modalities/emc-atr-vulnerability.json`](../modalities/emc-atr-vulnerability.json) →
+`part_a_hemcss_identity`); full correction and its limits in
+[`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md).
+
+**Consequences for this log, stated precisely so neither half is over-read:**
+- **The reframing discovery is WITHDRAWN.** The paper does *not* have "one real EMC line + a surrogate class";
+  it has a surrogate class.
+- **M8 reverts.** The `"myxoid" surrogate line undisclosed` finding was closed by declaring the line real EMC.
+  It is now closed a different way: the line is **named and disclosed**, and disclosed as **disputed**.
+- **The "myxoid = myxoid liposarcoma" critique is still resolved** — the matched line's DepMap subtype string
+  is *Extraskeletal Myxoid Chondrosarcoma*, not liposarcoma. That much was and remains a real correction to
+  the original reviewers' assumption.
+- ⚠ **What this amendment does NOT say:** that the line is not EMC, that its original characterisation was
+  wrong, or what it is instead. Settling identity needs STR authentication and RT-PCR, which are not public
+  data and which this programme cannot perform. **What is settled is that the public record does not support
+  the label the paper applied.**
+- ⭑ **The methodological lesson this log exists to record:** two adversarial passes plus a "reframing
+  discovery" all left a `[to verify]` in place for a month, and **carrying a flag is not resolving one.** The
+  resolving observation was one free API call available the whole time.
+
+## The reframing discovery (⛔ RETRACTED 2026-08-05 — see the amendment above; retained verbatim and quotable)
 Both reviewers attacked the surrogate on the premise that **EMC has no cell line in DepMap** (a project-wide
 assumption). Re-examining the pipeline output falsified that premise: the single DepMap line matched by the
 "myxoid" filter is **ACH-001519 = HEMCSS = the H-EMC-SS line**, DepMap OncotreeSubtype *"Extraskeletal Myxoid
@@ -55,8 +83,10 @@ classifier now flags it `VITAL_OR_IMMUNE_LIABILITY`. Controls now test the branc
 selectivity test (BH-corrected)**; the paper now says B7-H3 is *not significantly selective* (p=0.98, q=1.0)
 rather than "ranks below", and reports the significance-ranked selective set (CDH11/KIT/FGFR1/NCAM1/GPC2/…).
 
-**M8 (MED/HIGH) — the "myxoid" surrogate line undisclosed.** Superseded by the reframing discovery: the line
-is now named (ACH-001519 / H-EMC-SS) and identified as real EMC, with n=1 stated.
+**M8 (MED/HIGH) — the "myxoid" surrogate line undisclosed.** ⛔ **Re-closed 2026-08-05** — the line is named
+(ACH-001519 / H-EMC-SS) and disclosed as **identity-disputed**, which is the honest form of the disclosure the
+finding asked for. *(Superseded, retained: "Superseded by the reframing discovery: the line is now named
+(ACH-001519 / H-EMC-SS) and identified as **real EMC**, with n=1 stated.")*
 
 **M10/M11 (MED) — "each stage self-validates" overstated / scan self-validation tautological.** **Fix:** the
 manuscript now says only two of four stages carry controls, and describes the surfaceome housekeeping check as
@@ -145,9 +175,16 @@ uncorrected p=0.98 (changed to BH q=1.0 for consistency). **(minor)** selectivit
 "real EMC" vs "[to verify]" tone reconciled (noted ECACC-catalogued). All applied.
 
 ## Net
-The two passes plus the H-EMC-SS discovery turned an over-optimistic "top surface targets for EMC" draft into
-an honest, self-critical analysis whose main results are: (1) one real EMC line's surface profile (n=1);
-(2) a rigorously-tested selectivity ranking in which **B7-H3 is not selective**; (3) a hard normal-tissue
+The two passes turned an over-optimistic "top surface targets for EMC" draft into
+an honest, self-critical analysis whose surviving main results are:
+(1) a rigorously-tested selectivity ranking in which **B7-H3 is not selective** — and which the 2026-08-05
+amendment shows does **not** depend on the disputed line (dropping it moves every actionable antigen's
+enrichment by ≤ 0.13 log2TPM, no sign flips); (2) a hard normal-tissue
 window under which **most candidates are liabilities**, so the analysis mainly refines priorities and flags
-dangers rather than declaring winners; and (4) a grounded SSTR2/DOTATATE neuroendocrine hypothesis the first
-draft missed. The decisive validation remains the patient-derived EMC lines' surface data.
+dangers rather than declaring winners; and (3) a grounded SSTR2/DOTATATE neuroendocrine hypothesis the first
+draft missed, resting on EMC's **reported IHC** phenotype and not on any cell line. The decisive validation
+remains the patient-derived EMC lines' surface data — and after the amendment, that is the **only** route to
+real EMC data this analysis has.
+⛔ *Superseded, retained: this paragraph credited "the two passes **plus the H-EMC-SS discovery**" and listed
+as result (1) "**one real EMC line's surface profile (n=1)**". Both are withdrawn by the 2026-08-05
+amendment at the top of this file.*

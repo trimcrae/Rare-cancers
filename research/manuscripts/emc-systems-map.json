@@ -564,6 +564,35 @@
           "role": "assertion"
         }
       ]
+    },
+    {
+      "id": "EV-SARC-HRD-2026",
+      "canonical": {
+        "pmid": "41651400",
+        "doi": "10.1016/j.canlet.2026.218300"
+      },
+      "citation": "Planas-Paz L, Zehnder M, Desboeufs N, Kollar S, Chen Y, Schneebeli S, Schenk R, Schmid MP, Lopes M, Weber A, Pauli C. \"Targeting ATR signaling in sarcoma with homologous recombination deficiency.\" Cancer Letters 2026. NOT open access -- only the abstract was read, and it is quoted verbatim in the artifact rather than paraphrased. Data: GEO GSE299349 / BioProject PRJNA1273954.",
+      "what_it_supports": "⛔ IT DOES NOT SUPPORT THE ATR ROUTE -- it is the COMPETING BIOMARKER, and it is registered so that the route's strongest external counter-argument has a home instead of living only in one memo's prose. A 2026 sarcoma ATR/CHK1/WEE1 programme selects patients on HRD (the SARC-HRD signature, ten HR-repair genes), not on FET-fusion status; its tumour cohort contains no FET-fusion sarcoma at all; and EV-FET-ATR-2023 explicitly refutes the HR-deficiency framing for that class. Same target, incompatible upstream lesions, non-overlapping patient selection.",
+      "aliases": [
+        "PMID 41651400",
+        "the SARC-HRD paper",
+        "GSE299349",
+        "the HRD/ATR sarcoma programme",
+        "10.1016/j.canlet.2026.218300"
+      ],
+      "misattributed_as": [],
+      "cited_in": [
+        {
+          "file": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+          "as": "PMID 41651400",
+          "role": "assertion"
+        },
+        {
+          "file": "research/modalities/atr-hrd-sarcoma-series.json",
+          "as": "10.1016/j.canlet.2026.218300",
+          "role": "assertion"
+        }
+      ]
     }
   ],
   "objects": [
@@ -1018,6 +1047,303 @@
         }
       ],
       "notes": "V17's positive control — and V17 FAILS on it, which is why anything adjudicated by that exposure cutoff inherits a demonstrated false negative."
+    },
+    {
+      "id": "OBJ-LINE-HEMCSS",
+      "kind": "cell_line",
+      "display_name": "ACH-001519 / H-EMC-SS",
+      "aliases": [
+        "ACH-001519",
+        "H-EMC-SS",
+        "HEMCSS",
+        "HEMC-SS",
+        "CVCL_1238"
+      ],
+      "status": "identity_disputed",
+      "definition": {
+        "exon_level": null,
+        "residue_level": null,
+        "length_field": null,
+        "what_it_is": "The single DepMap model whose OncotreeSubtype string is 'Extraskeletal Myxoid Chondrosarcoma'. Cellosaurus CVCL_1238, RIKEN RCB0508, COSMIC-CLP 907290, GDSC 907290, ECACC 94042258. An 18-locus STR profile exists, so the line is a real, profiled entity -- the open question is WHAT it is, not whether it exists.",
+        "provenance": []
+      },
+      "identity": {
+        "labelled_as": "Extraskeletal Myxoid Chondrosarcoma (DepMap OncotreeSubtype)",
+        "verdict": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD",
+        "verdict_artifact": "ART-ATR-VULNERABILITY",
+        "verdict_field": "/part_a_hemcss_identity/verdict",
+        "evidence_verbatim": "Caution: Does not harbor a gene fusion involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma (PubMed=34413129).",
+        "evidence_primary_source": "PubMed=34413129 (cited by Cellosaurus CVCL_1238)",
+        "independent_lines": [
+          "Cellosaurus CVCL_1238 curated CAUTION, verbatim above, citing a primary source.",
+          "DepMap OmicsFusionFiltered.csv 24Q4: the model IS in the file (1,670 models) with 2 filtered calls -- AL158209.1--NEBL and VIM--RPS25 -- and NEITHER names NR4A3, EWSR1, TAF15 or FUS. The model being present is what makes this a reading of absence rather than an absent reading.",
+          "DepMap expression: NR4A3 at 0.941 log2(TPM+1), 83rd percentile of 1,673 lines but against a panel median of 0.214. A fusion transcript carries the NR4A3 body under EWSR1's promoter and would read far higher. WEAK CORROBORATION ONLY -- expression alone can neither prove nor exclude a fusion."
+        ],
+        "what_this_cannot_settle": "Cell-line identity is settled by STR authentication against the donor and by RT-PCR for the fusion. Neither is in public data at the resolution needed and neither is something this programme can perform -- it has no bench. So this does NOT establish what the line is instead, that the original characterisation was wrong, or that the line is not EMC: a line can be misidentified, can drift in culture, or can be a genuine fusion-negative tumour of the same histology. What IS established is that the PUBLIC RECORD does not support the label this repository was applying.",
+        "correction_home": "research/manuscripts/emc-surface-target-landscape.md",
+        "correction_marker": "Amendment 1"
+      },
+      "may_not_ground": [
+        "any claim of the form 'EMC expresses X' / 'EMC's surface phenotype is Y'",
+        "any EMC-specific dependency, sensitivity or biomarker reading",
+        "any corroboration of EMC's neuroendocrine differentiation",
+        "the description of this repository as having a real EMC cell line in public data"
+      ],
+      "read_by": [
+        {
+          "file": "research/manuscripts/emc-surface-target-landscape.md",
+          "use": "PREPRINT. Title/abstract framing, §2.2 class definition, §3.1 + Table 1, §3.5, §6, §7",
+          "classification": "invalidated",
+          "correction_marker": "Amendment 1"
+        },
+        {
+          "file": "research/manuscripts/emc-surface-target-redteam.md",
+          "use": "the 'reframing discovery' that introduced the EMC label into the preprint; finding M8",
+          "classification": "invalidated",
+          "correction_marker": "RETRACTED 2026-08-05"
+        },
+        {
+          "file": "research/manuscripts/emc-surface-target-outreach.md",
+          "use": "OUTWARD-FACING draft emails: 'the one EMC line in public data'; pre-send checklist",
+          "classification": "invalidated",
+          "correction_marker": "DO NOT claim H-EMC-SS as an EMC line"
+        },
+        {
+          "file": "research/manuscripts/README.md",
+          "use": "manuscripts index entry for the surface-target preprint",
+          "classification": "invalidated",
+          "correction_marker": "Materially amended 2026-08-05"
+        },
+        {
+          "file": "research/IDEAS.md",
+          "use": "the 2026-07-03 'DepMap DOES contain one EMC line' correction, and the surface-paper headline",
+          "classification": "invalidated",
+          "correction_marker": "CORRECTION-OF-A-CORRECTION (2026-08-05)"
+        },
+        {
+          "file": "research/manuscripts/emc-post-degrader-options.md",
+          "use": "route 1's $0 CRISPR-availability finding (unaffected); route 1's EMC-model list for the ATRi ask; route 6's D axis, whose only computable component was a PPARG read off this model",
+          "classification": "invalidated",
+          "correction_marker": "THE LINE-IDENTITY CORRECTION TOUCHES A ROUTE'S GRADE INPUT"
+        },
+        {
+          "file": "research/manuscripts/target-route-options.md",
+          "use": "route 9's park condition and queue item 7 -- 're-query DepMap for CRISPR data'",
+          "classification": "survives_relabelled",
+          "correction_marker": "RUN, AND ITS PREMISE IS NOW GONE (2026-08-05)"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-program-map.md",
+          "use": "Q14 in the open-question queue",
+          "classification": "survives_relabelled",
+          "correction_marker": "CLOSED 2026-08-05 — the question is answered AND its premise is withdrawn"
+        },
+        {
+          "file": "research/manuscripts/what-a-civilian-can-buy.md",
+          "use": "the JCRB repository row -- the line is named as what JCRB holds",
+          "classification": "survives_relabelled",
+          "correction_marker": "the DepMap line *labelled* EMC"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-emc-biology-evidence.md",
+          "use": "'no LOF experiment in any EMC cell line (e.g. H-EMC-SS)' -- a literature-absence claim",
+          "classification": "survives_relabelled",
+          "correction_marker": "the curated\nrecord does not support as fusion-positive"
+        },
+        {
+          "file": "research/modalities/emc_surfaceome_scan.py",
+          "use": "produces `myxoid_mean` and `emc_line_top_surface` from this model",
+          "classification": "invalidated",
+          "correction_marker": "NOT AN EMC READING"
+        },
+        {
+          "file": "research/modalities/emc-surfaceome-scan.json",
+          "use": "committed artifact carrying `myxoid_mean` / `emc_line_top_surface` and their captions",
+          "classification": "invalidated",
+          "correction_marker": "_identity_correction"
+        },
+        {
+          "file": "research/modalities/fet_ddr_axis_scan.py",
+          "use": "asks whether the model has CRISPR gene-effect data; defines EMC_MODEL_ID",
+          "classification": "unaffected",
+          "why_unaffected": "It reports DATA AVAILABILITY, and the answer was 'no CRISPR data' (`/emc_line/has_crispr_gene_effect: false`). Because `fet_ids` intersects with the CRISPR index the model was never in the FET group (`grouping.FET_rearranged.EMC.n_with_crispr: 0`), and it is absent from the fusion-call grouping too because neither of its 2 calls names a FET gene. So NO dependency, sensitivity or contrast number in this module rests on it. Verified, not assumed.",
+          "correction_marker": "NOT confirmed EMC"
+        },
+        {
+          "file": "research/modalities/fet-ddr-axis-scan.json",
+          "use": "the `/emc_line` block recording that the model has no CRISPR data",
+          "classification": "unaffected",
+          "why_unaffected": "A record of an absence of data about the model. It grounds no EMC claim, and the EMC group it would have joined is empty (`n_with_crispr: 0`)."
+        },
+        {
+          "file": "research/modalities/emc-atri-prereg.md",
+          "use": "§3 names H-EMC-SS among candidate EMC models for the ATRi ask",
+          "classification": "survives_relabelled",
+          "correction_marker": "fusion status is UNVERIFIED"
+        },
+        {
+          "file": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+          "use": "PART A -- the assessment that established the verdict, and its repo-wide use inventory",
+          "classification": "unaffected",
+          "why_unaffected": "It is the document that ESTABLISHED the verdict; it asserts no EMC reading from the line.",
+          "correction_marker": "NOT carrying the fusion"
+        },
+        {
+          "file": "research/modalities/emc-atr-vulnerability.json",
+          "use": "`part_a_hemcss_identity` -- the artifact that owns the verdict",
+          "classification": "unaffected",
+          "why_unaffected": "It is the verdict's one home.",
+          "correction_marker": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
+        },
+        {
+          "file": "research/modalities/emc-atr-vulnerability-inputs.json",
+          "use": "the raw inputs behind `part_a_hemcss_identity`",
+          "classification": "unaffected",
+          "why_unaffected": "Raw inputs to the verdict, not a claim about EMC."
+        },
+        {
+          "file": "research/modalities/emc_atr_vulnerability.py",
+          "use": "the module that computes `part_a_hemcss_identity`",
+          "classification": "unaffected",
+          "why_unaffected": "It is the instrument that produced the verdict.",
+          "correction_marker": "NOT_FUSION_POSITIVE_PER_CURATED_RECORD"
+        },
+        {
+          "file": "research/manuscripts/nr4a3-degrader-paper-SI.md",
+          "use": "named as an example EMC model in the 'no LOF experiment exists' statement",
+          "classification": "survives_relabelled",
+          "correction_marker": "USZ20-EMC1 /"
+        },
+        {
+          "file": "research/manuscripts/emc-systems-map.json",
+          "use": "this registry: two revival triggers name the line, plus this object",
+          "classification": "unaffected",
+          "why_unaffected": "TRG-EMC-MODEL-ACCESS already required an 'authenticated H-EMC-SS' before the verdict existed, and TRG-EMC-EXPRESSION-DATASET asks for data BEYOND this model. Neither asserts an EMC reading from it.",
+          "correction_marker": "identity_disputed"
+        },
+        {
+          "file": "research/manuscripts/emc-systems-map.md",
+          "use": "the generated view of this registry",
+          "classification": "unaffected",
+          "why_unaffected": "Generated from the registry; never hand-edited.",
+          "correction_marker": "identity_disputed"
+        },
+        {
+          "file": "research/manuscripts/emc_systems_map_check.py",
+          "use": "the O3/O4 guard itself -- its docstring names the model as the failure it comes from",
+          "classification": "unaffected",
+          "why_unaffected": "It is the guard. Naming the model in the guard that classifies uses of the model is not a use of the model; excluding it by name would instead be a silent hole in the sweep."
+        },
+        {
+          "file": "research/manuscripts/tests/test_emc_systems_map_check.py",
+          "use": "the negative tests for O3/O4 -- they mutate this object's entry into the broken shapes",
+          "classification": "unaffected",
+          "why_unaffected": "Test fixtures asserting the guard fails when it should; they assert nothing about EMC."
+        },
+        {
+          "file": "research/modalities/depmap-insilico-findings.md",
+          "use": "Findings 2 and 3 read the `myxoid` subtype column, which is this line at n=1. Finding 3 infers 'EMC is a myxoid-class tumour, so [PRAME 7.6] is the most promising antigen-directed signal'",
+          "classification": "invalidated",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string.",
+          "correction_marker": "every `myxoid` number below is **one cell line, and that line's identity is disputed**"
+        },
+        {
+          "file": "research/modalities/depmap-target-expression.json",
+          "use": "the artifact: `/surface_and_cta_by_subtype/*/myxoid`, every entry n=1",
+          "classification": "invalidated",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string."
+        },
+        {
+          "file": "research/modalities/depmap_target_expression.py",
+          "use": "produces the `myxoid` column: `subtypes = [... 'myxoid' ...]` is a substring match on the Oncotree label, and 'Extraskeletal Myxoid Chondrosarcoma' contains it",
+          "classification": "invalidated",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string."
+        },
+        {
+          "file": "research/manuscripts/emc-treatment-roadmap.md",
+          "use": "quotes the myxoid PRAME 7.6, B7-H3 4.4 and CD56 ~0 as 'myxoid liposarcoma' subtype reads",
+          "classification": "survives_relabelled",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string.",
+          "correction_marker": "RIGHT for the WRONG REASON"
+        },
+        {
+          "file": "research/manuscripts/emc-treatment-strategy.md",
+          "use": "the tracker summary: 'PRAME ... high in myxoid (7.6)/synovial (7.2)'; B7-H3 'incl. myxoid'",
+          "classification": "survives_relabelled",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE — this file names no model ID. The `myxoid` subtype group in depmap-target-expression.json is n=1 and its values are byte-identical to this line's `myxoid_mean_log2tpm` in emc-surfaceome-scan.json across SEVEN genes (CD276 4.44, NCAM1 0.03, FAP 0.0, ERBB2 5.29, L1CAM 3.18, MCAM 0.12, EGFR 0.19). Found by matching the data, not the string.",
+          "correction_marker": "the subtype half of this bullet is withdrawn"
+        },
+        {
+          "file": "research/modalities/depmap_sarcoma_dependency.py",
+          "use": "its `Myxoid_liposarcoma` BRD9 comparator group is a substring match that would select this line",
+          "classification": "unaffected",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE -- the file names no model ID. `\"Myxoid_liposarcoma\": \"myxoid\"` is a substring match on the Oncotree label, which in DepMap 24Q4 matches 'Extraskeletal Myxoid Chondrosarcoma' (this line) and no liposarcoma line.",
+          "why_unaffected": "The group is EMPTY -- the model has no CRISPR gene-effect data, so the committed artifact reads `\"Myxoid_liposarcoma\": null` and no dependency figure rests on it. Verified against the artifact, not assumed. The GROUP NAME is wrong and is corrected in place.",
+          "correction_marker": "THE NAME IS WRONG, THOUGH NO NUMBER RESTS ON IT"
+        },
+        {
+          "file": "research/modalities/depmap-sarcoma-dependency.json",
+          "use": "`/BRD9_by_fusion_sarcoma_subtype/Myxoid_liposarcoma`",
+          "classification": "unaffected",
+          "provenance": "implicit_value_match",
+          "how_established": "IMPLICIT PROVENANCE -- the file names no model ID. `\"Myxoid_liposarcoma\": \"myxoid\"` is a substring match on the Oncotree label, which in DepMap 24Q4 matches 'Extraskeletal Myxoid Chondrosarcoma' (this line) and no liposarcoma line.",
+          "why_unaffected": "The field is `null` -- an empty group. It grounds nothing."
+        },
+        {
+          "file": "research/modalities/atr_hrd_sarcoma_series.py",
+          "use": "a comment in the GSE299349 identity check, naming this line as the REASON that check exists and as the weaker comparator its own read improves on",
+          "classification": "unaffected",
+          "why_unaffected": "It reads no data from this line and grounds no claim on it. The line appears only as the precedent: an EMC LABEL is not an EMC FUSION, which is why the new EMC-labelled sample (GSM9037837 / USZ-23_EMC3) is corroborated against 67 sarcoma samples from the same deposit before anything is built on it. Citing a disputed identity as a cautionary precedent is the one use the dispute cannot invalidate."
+        },
+        {
+          "file": "research/method-watch-triggers.json",
+          "use": "TRG-EMC-EXPRESSION-DATASET's _still_watching_for clause (a), which names this line's dispute as the reason a per-sample FUSION CONFIRMATION is what the trigger is still waiting for",
+          "classification": "unaffected",
+          "why_unaffected": "The trigger reads no data from this line and grades nothing with it. It cites the dispute as the STANDARD a future EMC dataset has to meet — an EMC LABEL is indistinguishable from an EMC FUSION without a call — which is a use the dispute creates rather than one it invalidates."
+        },
+        {
+          "file": "systems/graph/objects.json",
+          "use": "the systems-model projection of this object — the eight fields the graph's object shape carries",
+          "classification": "unaffected",
+          "why_unaffected": "It is a REGISTRATION of the dispute, not a reading of the line. The `identity` verdict, `may_not_ground`, the 30-entry `read_by` sweep and `_sweep_limit` deliberately stay in this registry, because the O3/O4 guards that enforce them live in emc_systems_map_check.py — a second copy would be a second home for the fact those guards protect. The projection asserts nothing about EMC.",
+          "correction_marker": "identity_disputed"
+        },
+        {
+          "file": "systems/graph/instruments.json",
+          "use": "INS-GEO-SERIES-CHARACTERISE `characterises: [OBJ-LINE-HEMCSS]` — the typed form of what its legacy `serves` said in prose",
+          "classification": "unaffected",
+          "why_unaffected": "The same use the instrument's own legacy row already had and which is classified `unaffected` on atr_hrd_sarcoma_series.py: the line appears as the CAUTIONARY PRECEDENT that an EMC label is not an EMC fusion, which is why a new EMC-labelled sample is corroborated before anything is built on it. Citing a disputed identity as the reason for a check is the one use the dispute cannot invalidate.",
+          "correction_marker": "identity_disputed"
+        },
+        {
+          "file": "systems/views/registers/instruments.md",
+          "use": "the generated instrument register — renders the `characterises` edge above",
+          "classification": "unaffected",
+          "why_unaffected": "Generated from systems/graph/instruments.json by systems_check.py and never hand-edited. It inherits that row's classification exactly as emc-systems-map.md inherits this registry's.",
+          "correction_marker": "identity_disputed"
+        },
+        {
+          "file": "systems/MIGRATION.md",
+          "use": "§3.10 — the record of porting this object and its instrument into the graph during the merge",
+          "classification": "unaffected",
+          "why_unaffected": "A migration record: it says WHERE the object was ported and WHY the rich blocks stayed here. It reads no data from the line and grounds no EMC claim.",
+          "correction_marker": "identity_disputed"
+        }
+      ],
+      "distinct_from": [
+        {
+          "object": "OBJ-FUS-T1",
+          "why": "the object registry's fusion entries are REPORTED EMC fusions with exon-level definitions and primary-literature provenance; this line is a reagent whose carriage of any such fusion the curated record contradicts. Reading a fusion property off this line is exactly the confusion this entry exists to stop"
+        }
+      ],
+      "notes": "⛔ Registered 2026-08-05 after the repo spent a month treating this as 'the one real EMC line in DepMap'. The `[to verify]` flag on its fusion status was written honestly and carried faithfully in four places -- carrying a flag is not resolving one, and the resolving observation was one free API call available the whole time. ⚠ A ROUTE GRADE INPUT MOVED AND IS NOT RE-GRADED HERE: route 6 (RT-TRABECTEDIN-PPARG) in emc-post-degrader-options.md had a D axis whose only computable component was a PPARG-axis read off this model. Re-grading is a separate call and belongs to that memo's owner.",
+      "_sweep_limit": "⚠ THE O4 SWEEP IS NAME-BASED AND THEREFORE INCOMPLETE, AND THAT IS MEASURED, NOT SUSPECTED. Five of the uses above name no alias of this line at all -- they read a `myxoid` subtype column that IS this line at n=1, under the older and also-wrong belief that it was myxoid liposarcoma. They were found by matching DATA VALUES across artifacts, which no string sweep can do. So O4 catches a NEW use that names the model; it cannot catch a use that reads it through a grouping. Any future subtype/grouping read has to be checked against `n` and the per-line values, not against the label."
     }
   ],
   "contested_names": [
@@ -1657,6 +1983,26 @@
       "revival_trigger": [
         "TR-NEOANTIGEN-SEAMS-REGENERATED"
       ]
+    },
+    {
+      "id": "INS-GEO-SERIES-CHARACTERISE",
+      "name": "Sample-level GEO series characterisation + disease-label corroboration",
+      "module": "research/modalities/atr_hrd_sarcoma_series.py",
+      "owner": {
+        "file": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+        "anchor": "#8---the-competing-biomarker--a-2026-sarcoma-atr-programme-that-selects-on-hrd-not-on-fet-status"
+      },
+      "known_answer_control": {
+        "description": "Two-sided, on the expression half: housekeeping genes (ACTB, GAPDH) must read high in every sample AND tissue-restricted negatives (ALB, INS) must read near zero, or a low NR4A3 is unreadable rather than informative. Measured 4423.6 / 2574.7 against 0.474 / 0.000.",
+        "state": "passes",
+        "note": "⚠ THE CONTROL PASSING DOES NOT MAKE THE READOUT SENSITIVE. The instrument is disclosed in the artifact as having LOW SENSITIVITY for fusion status by construction -- a wild-type transcript index has no fusion entry, so a fusion's contribution to NR4A3 is systematically under-counted -- and the deposit's own samples are split across two reference indexes, which the module detects from row counts and reports rather than smoothing over."
+      },
+      "serves": [
+        "the characterisation of an external dataset before anything is built on it",
+        "the disease-LABEL-vs-disease-FUSION distinction that OBJ-LINE-HEMCSS is the cautionary precedent for"
+      ],
+      "closure_kind": "open",
+      "revival_trigger": []
     }
   ],
   "artifacts": [
@@ -1771,6 +2117,17 @@
         "main"
       ],
       "note": "Class-II coverage is a FLOOR over a tested 3-allele DR panel, and the junction it is computed on is OBJ-MODEL-E7E3."
+    },
+    {
+      "id": "ART-ATR-HRD-SERIES",
+      "path": "research/modalities/atr-hrd-sarcoma-series.json",
+      "produced_by": "research/modalities/atr_hrd_sarcoma_series.py",
+      "workflow": ".github/workflows/emc-expression-datasets.yml",
+      "published_to": [
+        "main",
+        "claude/atr-gse299349"
+      ],
+      "note": "The sample-level characterisation of GSE299349 and the three questions it was read to answer, plus the NR4A3 identity check on the EMC-labelled model. Offline-reproducible: --check re-derives it byte-identically from the committed inputs cache."
     }
   ],
   "routes": [
@@ -4126,6 +4483,30 @@
       "artifact": "ART-APO-POSE-SITE",
       "field": "/site_panel_in_regime",
       "note": "A geometric site supplement; it emits no RMSD and by its own rule cannot change the pre-registered INCONCLUSIVE."
+    },
+    {
+      "id": "CLM-ATR-HRD-COMPETING-BIOMARKER",
+      "document": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+      "locator": "§8.2 Q3 and §8.4 -- 'a 2026 sarcoma ATR programme selects on HRD, not FET status'",
+      "artifact": "ART-ATR-HRD-SERIES",
+      "field": "/q3_selection_biomarker/answer",
+      "note": "The verbatim series-level and sample-level term hits are beside it in the same block, and the cohort's absence of every FET-fusion sarcoma is in /fet_fusion_sarcoma_subtypes."
+    },
+    {
+      "id": "CLM-ATR-HRD-EMC-SAMPLE",
+      "document": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+      "locator": "§8.2 Q2 -- GSM9037837 / USZ-23_EMC3, the first EMC sample in an ATR-directed dataset",
+      "artifact": "ART-ATR-HRD-SERIES",
+      "field": "/q2_emc_or_nr4a3_sample/samples_with_a_strong_EMC_or_NR4A3_term",
+      "note": "⚠ A LABEL, not a fusion call. The corroboration attempt and its two disclosed confounds are /emc_model_identity_check, whose verdict is the field a reader should open next."
+    },
+    {
+      "id": "CLM-ATR-HRD-NO-RESPONSE-DATA",
+      "document": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+      "locator": "§8.2 Q1 -- the deposit supplies no ATR-inhibitor response readout",
+      "artifact": "ART-ATR-HRD-SERIES",
+      "field": "/q1_atr_inhibitor_response_data/n_samples_with_a_NON_EMPTY_treatment_protocol_field",
+      "note": "The field deliberately quoted is the populated-treatment-protocol count, NOT the keyword count beside it: the keyword count is 68 and is driven entirely by the shared growth protocol's phrase 'cell culture-treated flasks'. A keyword count is not a populated field, and a populated field is not a measured one."
     }
   ],
   "open_conflicts": [

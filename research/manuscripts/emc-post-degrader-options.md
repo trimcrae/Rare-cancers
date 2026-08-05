@@ -194,7 +194,7 @@ $0, with nobody's cooperation. Ranked on Axis D first; W1/W2 do not apply, which
 |---|---|---|---|---|---|
 | **1** | **3** | **The honest methods paper the degrader program has already earned** — ⭑ **was Tier 1 #3, now #1** | nothing new needed — the negative results *are* the result, and two further instruments failed their own known-answer tests on 2026-08-03 | ⭑ **the whole paper.** Its content is already computed, already preregistered, already red-teamed. It is the only route in this memo whose value **rises** as the degrader program's failures accumulate, and the only one that is finished when we stop typing | n/a — it is *about* the blockers |
 | **2** | **2** | **Fusion-junction ASO / siRNA** *(already the repo's priority paper 2)* — ⭑ **held rank, and it is the route the reframe most clearly vindicates** | in-silico arc is complete: design → transcriptome-wide off-target → per-breakpoint favorability → gap-resolved cleavage-risk. The open GPU item (RNase-H1 cleavage-discrimination MD) is an upgrade, **not a gate on posting** | ⭑ **a complete red-teamed manuscript**, [`fusion-junction-aso-paper.md`](./fusion-junction-aso-paper.md) + [its red team](./fusion-junction-aso-paper-redteam.md). The delivery gate is stated honestly *inside* the deliverable rather than being a precondition for having one | **none of the three** |
-| **3** | **1a** | **The in-silico ATR vulnerability assessment** — the COMPUTED half of route 1, separated from its ask; its module is [`emc_atr_vulnerability.py`](../modalities/emc_atr_vulnerability.py) | ✅ **done, and it cuts both ways** — the FET-IDR/RGG structural precondition computed from sequence, plus the public ATRi sensitivity data re-cut by **FET status** with a general-sensitivity correction: the ATRi effect survives (AZD6738 Δ −0.491, *t* −5.08) but PARP inhibitors are 2–4× larger, and PARPi monotherapy already failed clinically in Ewing | ⭑ **a computed result either way** — a class-inheritance assessment with its own internal bound, which stands as a paper whether or not one cell is ever plated. ⚠ It is an assessment, **not** a measurement in EMC; §5 holds that limit | **none of the three** |
+| **3** | **1a** | **The in-silico ATR vulnerability assessment** — the COMPUTED half of route 1, separated from its ask; its module is [`emc_atr_vulnerability.py`](../modalities/emc_atr_vulnerability.py) | ✅ **done, and the four-part assessment now GRADES — tier `WEAK`** ([`emc-atr-vulnerability-assessment.md`](./emc-atr-vulnerability-assessment.md)). ⭐ **Its part B blocker is retired: two readable EMC expression series were found** (GSE24369/GPL6244, 6 EMC against 29 comparators of which 17 are LGFMS/`FUS::CREB3L2`; and GSE4303/GPL3290, 10 EMC, taken from 1.0 % to 58.2 % probe annotation by the archived UniGene build). Both show EMC's DDR transcripts elevated only as far as generic proliferation, with unrelated control sets moving as much — the WEAK criterion verbatim, and a bound on the hypothesis's **transcriptional shadow** rather than on the hypothesis. ⛔ **Parts C and D are NEGATIVE about the hypothesis's computational support:** a matched fusion-negative *sarcoma* comparator does not un-blind the CRISPR readout, and ATRi sensitivity does **not** track the mechanism — 1 of 4 pre-registered tests passes, and the mechanism's load-bearing predictor (low ATM signalling) returns ρ −0.090, the **wrong sign**. ⚠ The group-difference row below is **not** contradicted: a group difference and mechanism-tracking are different claims and only the first is supported. Still standing beside it: the FET-IDR/RGG structural precondition computed from sequence, and the public ATRi re-cut by **FET status** (AZD6738 Δ −0.491, *t* −5.08, with PARP inhibitors 2–4× larger and PARPi monotherapy already failed clinically in Ewing) | ⭑ **a computed result either way** — a class-inheritance assessment with its own internal bound, which stands as a paper whether or not one cell is ever plated, and which is now a *graded* one with its criteria fixed in advance. ⚠ It is an assessment, **not** a measurement in EMC; §5 holds that limit. ⚠ **RANK NOT MOVED HERE.** The assessment's computed support is weaker than when this row was written; whether that changes Tier 1's Axis-D ordering is a grading call, and grades are not re-set by the module that produced the input | **none of the three** |
 
 **Tier 2 — ASKS. Each is an experiment this programme has specified and cannot run. Ranked on W1
 (is there a self-interested taker?), then W2 (size). ⚠ These are not lesser routes; they are the ones
@@ -418,10 +418,15 @@ PARP-inhibitor arm as an internal negative-translation control.** If EMC lines l
 too, the assay is reproducing the Ewing pattern that already failed, and the ATRi number should be
 discounted accordingly. That control costs one extra column on the same plate.
 
-⭑ **Two other $0 answers fell out of the same run.** The one EMC model in DepMap, **ACH-001519 /
+⭑ **Two other $0 answers fell out of the same run.** The DepMap model labelled EMC, **ACH-001519 /
 H-EMC-SS**, is present with `OncotreeSubtype: "Extraskeletal Myxoid Chondrosarcoma"`,
 lineage `Bone` — and **has no CRISPR gene-effect data** (`has_crispr_gene_effect: false`), which
-closes the `[to verify]` that has sat in [`../IDEAS.md`](../IDEAS.md) since 2026-07-03. And
+closes the CRISPR half of the `[to verify]` that has sat in [`../IDEAS.md`](../IDEAS.md) since 2026-07-03.
+✅ **This reading is UNAFFECTED by the 2026-08-05 identity correction** (the model is recorded as not carrying
+an EWSR1 fusion — [`emc-surface-target-landscape.md` → Amendment 1](./emc-surface-target-landscape.md)):
+it is a statement about **data availability**, and because the model has no CRISPR data it entered no
+dependency contrast here (`grouping.FET_rearranged.EMC.n_with_crispr: 0`). *(Superseded, retained: this read
+"**The one EMC model in DepMap**, ACH-001519 / H-EMC-SS".)* And
 **POLR2A and PRKDC are simply absent from the 24Q4 column set**, which is why the first run's stated
 pan-essential control read `null`; the control is now RPL5.
 
@@ -457,13 +462,35 @@ elimusertib (or ceralasertib/berzosertib) dose–response in EMC cells against a
 control, and stain γH2AX.* Every component exists: **the compounds are catalogue reagents**; **the
 models exist** — USZ20-EMC1 and USZ22-EMC2 ([Bangerter et al., *Human Cell* 2023;36:446–455](https://link.springer.com/article/10.1007/s13577-022-00818-x)),
 NCC-EMC1-C1 ([Iwata et al., *Human Cell* 2025](https://link.springer.com/article/10.1007/s13577-025-01250-7)),
-and H-EMC-SS; and **the readout is pre-validated** — the source paper found *"gH2AX proved to be a
+and — ⚠ **only if its fusion status is confirmed at the bench, which the curated record contradicts as of
+2026-08-05** ([Amendment 1](./emc-surface-target-landscape.md)) — H-EMC-SS; and **the readout is pre-validated** — the source paper found *"gH2AX proved to be a
 reliable biomarker for elimusertib activity"* after p-CHK1 did not discriminate. This is a plate
 experiment, not a program. ⚠ Per Axis W2's definition this counts **only because W1 is strong**; the
 same plate with no interested group would be worth nothing.
 
 **Axis S — inherits none of the three blockers.** No ΔΔG, no ternary, no paralogue discrimination.
 The molecule is not ours and does not need to be selective for anything in the NR4A family.
+
+#### ⛔ REPORTED FOR A RANKING DECISION, NOT TAKEN AS ONE — a competing biomarker landed on 2026-08-05
+
+> ⚠ **THIS BLOCK CHANGES NO GRADE AND MOVES NO RANK.** Route 1a stays **Tier 1, rank 3** and route
+> 1b stays **Tier 2, rank 4** exactly as written above. Re-ranking is trimcrae's call
+> (CLAUDE.md §3); what follows is the input to it, surfaced rather than filed.
+
+**`GSE299349` was read** ([assessment §8](./emc-atr-vulnerability-assessment.md#8---the-competing-biomarker--a-2026-sarcoma-atr-programme-that-selects-on-hrd-not-on-fet-status);
+producer [`atr_hrd_sarcoma_series.py`](../modalities/atr_hrd_sarcoma_series.py), $0). **Grade of the
+consequence: it WEAKENS route 1**, and the strengthening half is stated beside it rather than
+averaged in.
+
+| | |
+|---|---|
+| ⛔ **why it weakens** | A peer-reviewed 2026 sarcoma ATR/CHK1/WEE1 programme (**Cancer Letters**, [PMID 41651400](https://pubmed.ncbi.nlm.nih.gov/41651400/)) selects patients on **HRD** — a ten-gene SARC-HRD signature — **not on FET-fusion status**. Its 62-tumour cohort (MFS, UPS, SS, LMS, MPNST) contains **no FET-fusion sarcoma at all**. And route 1's own source, [PMID 37205599](https://pubmed.ncbi.nlm.nih.gov/37205599/), spends a figure refuting HR deficiency for this class — *"ES patient tumors do not display the genomic scars of HR deficiency"*. **Same target, incompatible upstream lesions, non-overlapping patient selection.** A reviewer now has a specific, citable alternative to raise |
+| ⛔ **and the sharpest part** | The group behind it is **University Hospital Zurich (Pauli)** — the group [`emc-atri-outreach-DRAFT.md`](../modalities/emc-atri-outreach-DRAFT.md) already ranks **#1** as this ask's best taker. They hold a **third** EMC model (`USZ-23_EMC3`, in the same deposit), they built an ATR programme — **and they did not reach for FET status.** ⚠ Not addressing an idea is not rejecting it, and only the first is observed |
+| ✅ **why it also strengthens, on a different axis** | **Axis W1's taker is now evidenced rather than inferred.** The #1 target demonstrably holds an EMC model, pharmacotypes patient-derived sarcoma models with ATRi/CHK1i/WEE1i/PARPi, and has published it. Route 1b's ask is an experiment they **already run, on a model they already hold, with compounds they already use.** W2 is unchanged; **W1's evidence is materially better than when the row above was written** |
+| ⚪ **what it does NOT supply** | **No ATR-inhibitor response data.** 0 of 68 samples name an inhibitor; 0 carry a treatment protocol. Part D's missing instrument is still missing — now watched by `TRG-SARCOMA-ATRI-RESPONSE-PANEL` |
+
+⚠ **The assessment's tier is unchanged at `WEAK`** — nothing here is an EMC tumour signature, an EMC
+dependency or an ATRi response, so no grading predicate changes value.
 
 ⚠ **A fourth counterweight that is mechanistic rather than commercial, and it is the one I would
 press hardest if I were reviewing this.** ATR-inhibitor activity generally tracks **proliferation and
@@ -823,12 +850,19 @@ disagree with each other, so both are reported.**
   usual reagent barrier entirely. ⚠ As with 1b, **nobody has been approached** and no willingness is
   claimed.
 - **W2 — small.** One plate, catalogue reagents, no synthesis.
-- **⚠ D — thin, and this is what keeps it behind route 1b.** If nobody runs the matrix we hold a
-  *literature synthesis* — three published pieces joined for the first time — plus, at best, a
+- **⚠ D — thin, and this is what keeps it behind route 1b.** ⛔ **THINNER AS OF 2026-08-05, AND THIS IS THE
+  ONE PLACE IN THIS MEMO WHERE THE LINE-IDENTITY CORRECTION TOUCHES A ROUTE'S GRADE INPUT.** If nobody runs
+  the matrix we hold a *literature synthesis* — three published pieces joined for the first time — **and
+  nothing else**: the fallback below is withdrawn, because `ACH-001519 / H-EMC-SS` is recorded as not
+  carrying an EWSR1 fusion ([Amendment 1](./emc-surface-target-landscape.md)), so a PPARG read off it is a
+  read of a sarcoma line of disputed identity, not of EMC. *(Superseded, retained: "…plus, at best, a
   PPARG-axis expression read on **the single EMC model in DepMap** (`ACH-001519 / H-EMC-SS`, `n = 1`,
-  expression only). That settles the agonism-vs-redundancy direction question well enough to write
-  down and **not** well enough to call a computed result about EMC. The synthesis is genuinely new
+  expression only). That settles the agonism-vs-redundancy direction question well enough to write down and
+  **not** well enough to call a computed result about EMC.")* The synthesis is genuinely new
   and worth publishing inside a broader memo; it is not a paper on its own.
+  ⚠ **The route's tier is NOT re-graded here.** The D axis lost its only computable component while W1/W2 are
+  unchanged, which is a grade *input* moving. Re-grading is a separate call and belongs to whoever owns this
+  memo's tier table, not to a propagation pass.
 - **Net:** high W1 and low D pull opposite ways. It sits above the ASO's ask (better taker, smaller
   ask) and below route 1b (whose deliverable half stands alone and whose taker is stronger still).
 

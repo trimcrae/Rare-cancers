@@ -142,7 +142,7 @@ as coverage.
 
 **What would move this.** Any deposited EMC series, or a pan-sarcoma atlas whose inclusion criteria reach this histology. A single usable deposit collapses the whole forecast.
 
-*Scanned by:* `TRG-EMC-EXPRESSION-DATASET`
+*Scanned by:* `TRG-EMC-EXPRESSION-DATASET`, `TRG-SARCOMA-ATRI-RESPONSE-PANEL`
 
 ### TECH-COFOLD-ASSEMBLY — fan-out 9
 

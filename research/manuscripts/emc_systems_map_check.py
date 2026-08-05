@@ -25,6 +25,17 @@ prevents none of them, because prose cannot be run:
      `emc-fet-idr-census.json` is a 161-byte "cannot compute" placeholder on `main` while a document
      on `main` prints a full results table out of it.  ->  C1, C2, C3
 
+A fifth was found on 2026-08-05 and is checked here too:
+
+  5. A CLAIM WHOSE PROVENANCE IS A MODEL WHOSE IDENTITY IS DISPUTED. DepMap `ACH-001519` /
+     H-EMC-SS was called "the one real EMC line in DepMap" across a preprint, an outreach draft,
+     an index and two memos, while an honest `[to verify]` on its fusion status sat in four of
+     them -- and Cellosaurus already recorded, citing a primary source, that the line does not
+     harbor an EWSR1 fusion. Carrying a flag is not resolving one, and in prose a carried flag and
+     a cleared one read the same. A disputed model is now an OBJECT with a resolving verdict, an
+     explicit statement of what the verdict CANNOT settle, and a per-file classification of every
+     use; and any tracked file that names it without being classified fails the build.  ->  O3, O4
+
 SCOPE. This is a NAVIGATION AND INTEGRITY layer. It checks that pointers resolve and that names are
 unambiguous. It grades nothing and re-derives nothing (CLAUDE.md §1 and §5).
 
@@ -295,6 +306,205 @@ def check_objects(m, f):
                           f"not contested and should be an alias")
         if not c.get("conflict"):
             f.error("O1", f"contested name {c['name']!r} names no open conflict that owns it")
+
+
+# The file kinds a claim can live in. `.png` and the like carry no readable claim, and the git
+# index is swept rather than the filesystem so that untracked scratch files cannot fail a build.
+SWEEPABLE_SUFFIXES = (".md", ".py", ".json", ".yml", ".yaml", ".txt")
+
+
+_TRACKED_CACHE = []
+_BODY_CACHE = {}
+
+
+def _tracked_files():
+    """Every file git tracks, or None if git is unavailable (then O4 downgrades to a warning)."""
+    if _TRACKED_CACHE:
+        return _TRACKED_CACHE[0]
+    try:
+        out = subprocess.run(["git", "-C", REPO, "ls-files"], capture_output=True, check=True)
+        val = [p for p in out.stdout.decode("utf-8", "replace").splitlines() if p]
+    except (OSError, subprocess.CalledProcessError):
+        val = None
+    _TRACKED_CACHE.append(val)
+    return val
+
+
+def _body(path):
+    """Read a repo file once per process. The sweep touches every tracked file and the negative
+    tests run it ~20 times; re-reading the tree each time made a 2 s check into a 60 s suite."""
+    if path not in _BODY_CACHE:
+        try:
+            with open(os.path.join(REPO, path), encoding="utf-8", errors="ignore") as fh:
+                _BODY_CACHE[path] = fh.read()
+        except OSError:
+            _BODY_CACHE[path] = None
+    return _BODY_CACHE[path]
+
+
+def check_disputed_identity(m, f):
+    """O3/O4 -- a claim whose provenance is a MODEL WHOSE IDENTITY IS DISPUTED.
+
+    THE FAILURE THIS COMES FROM (2026-08-05). For a month this repository called DepMap model
+    `ACH-001519` / H-EMC-SS "the one real EMC line in DepMap" and took EMC-specific readings from
+    it -- while carrying, in four places, an honest `[to verify]` on its fusion status. Cellosaurus
+    already recorded, citing a primary source, that the line "does not harbor a gene fusion
+    involving EWSR1 which is a hallmark of extraskeletal myxoid chondrosarcoma", and DepMap's own
+    fusion caller named no FET gene for it. **Carrying a flag is not resolving one**, and nothing in
+    the repository could tell the difference: a `[to verify]` and a resolved-favourably read
+    identically in prose. A full preprint leaned on it.
+
+    So a disputed model is registered as an OBJECT with its verdict, and the invariants are:
+
+    O3  a `status: identity_disputed` object must carry a verdict that RESOLVES -- a registered
+        artifact, a field that exists in it, the evidence verbatim, and an explicit
+        `what_this_cannot_settle`. ⚠ THE LAST ONE IS NOT PAPERWORK: a curated caution plus a
+        fusion-caller miss is strong, and it is NOT an STR-authenticated identity test. An entry
+        that cannot state its own limit invites the opposite over-correction.
+        Every `read_by` entry must be CLASSIFIED, and a file classed as still bearing on the
+        dispute must carry a visible `correction_marker` string -- so a document cannot quietly
+        keep reading a disputed model as sound. A file classed `unaffected` must say WHY, because
+        "unaffected" is otherwise a silent escape hatch (an absent reading is not a reading of
+        absence -- CLAUDE.md §4).
+
+    O4  THE RECURRENCE GUARD. Any tracked file that NAMES the disputed object (by any registered
+        alias) and is not in `read_by` is an UNCLASSIFIED USE. This is what stops the class of
+        error rather than this instance of it: a new document that reads the model fails the build
+        until somebody classifies it as invalidated, survives-re-labelled or unaffected.
+    """
+    artifacts = {a["id"]: a for a in m.get("artifacts", [])}
+    publish_ref = next((r for r in PUBLISH_REF_CANDIDATES if ref_exists(r)), None)
+
+    disputed = [o for o in m.get("objects", []) if o.get("status") == "identity_disputed"]
+    registered_by_alias = {}
+
+    for obj in disputed:
+        oid = obj["id"]
+        ident = obj.get("identity") or {}
+        for key in ("verdict", "evidence_verbatim", "what_this_cannot_settle", "correction_home",
+                    "correction_marker"):
+            if not ident.get(key):
+                f.error("O3", f"{oid} is status=identity_disputed but its `identity` block has no "
+                              f"{key!r} -- a disputed identity that cannot state {key} is a rumour, "
+                              f"not a registry entry")
+        if not obj.get("may_not_ground"):
+            f.error("O3", f"{oid} is status=identity_disputed but names no `may_not_ground` claim "
+                          f"class -- the point of the entry is to say what it may NOT be read for")
+
+        # the verdict must resolve to a real field of a real artifact, exactly like a claim (C1/C3)
+        aid = ident.get("verdict_artifact")
+        art = artifacts.get(aid)
+        if aid and art is None:
+            f.error("O3", f"{oid}: verdict_artifact {aid!r} is not a registered artifact")
+        elif art is not None:
+            raw = git_show(publish_ref, art["path"]) if publish_ref else None
+            if raw is None:
+                try:
+                    with open(os.path.join(REPO, art["path"]), "rb") as fh:
+                        raw = fh.read()
+                except OSError:
+                    raw = None
+            if raw is None:
+                f.error("O3", f"{oid}: its verdict artifact {art['path']} cannot be read")
+            elif ident.get("verdict_field"):
+                try:
+                    doc = json.loads(raw.decode("utf-8"))
+                except Exception as exc:  # noqa: BLE001
+                    f.error("O3", f"{oid}: {art['path']} is unparseable: {exc}")
+                else:
+                    found, val = resolve_field(doc, ident["verdict_field"])
+                    if not found:
+                        f.error("O3", f"{oid}: verdict_field {ident['verdict_field']!r} does not "
+                                      f"resolve in {art['path']}")
+                    elif str(val) != str(ident["verdict"]):
+                        f.error("O3", f"{oid}: the registry says the verdict is "
+                                      f"{ident['verdict']!r} and the artifact says {val!r} -- the "
+                                      f"registry is restating a fact instead of pointing at it")
+
+        home = ident.get("correction_home")
+        marker = ident.get("correction_marker")
+        if home:
+            home_full = os.path.join(REPO, home)
+            if not os.path.exists(home_full):
+                f.error("O3", f"{oid}: correction_home {home} does not exist")
+            elif marker:
+                with open(home_full, encoding="utf-8", errors="ignore") as fh:
+                    if marker not in fh.read():
+                        f.error("O3", f"{oid}: correction_home {home} does not contain its own "
+                                      f"correction_marker {marker!r} -- the correction is claimed "
+                                      f"and not there")
+
+        seen_files = set()
+        for i, use in enumerate(obj.get("read_by", [])):
+            path = use.get("file")
+            if not path:
+                f.error("O3", f"{oid}: read_by[{i}] names no file")
+                continue
+            if path in seen_files:
+                f.error("O3", f"{oid}: {path} is registered twice in read_by")
+            seen_files.add(path)
+            cls = use.get("classification")
+            if cls not in ("invalidated", "survives_relabelled", "unaffected"):
+                f.error("O3", f"{oid}: read_by entry {path} has classification {cls!r} -- it must "
+                              f"be invalidated / survives_relabelled / unaffected, because "
+                              f"'some uses survive' is exactly the judgement this registry records")
+            if cls == "unaffected" and not use.get("why_unaffected"):
+                f.error("O3", f"{oid}: {path} is classed `unaffected` with no `why_unaffected` -- "
+                              f"an unexplained exemption is an unanswered question wearing the "
+                              f"costume of a classification")
+            # A use the NAME sweep cannot see (the file reads the model through a grouping, not by
+            # id) must say how it was established, or the registry asserts a provenance link that
+            # nothing can re-derive -- a populated field that is not a measured one (CLAUDE.md §4).
+            if use.get("provenance") == "implicit_value_match" and not use.get("how_established"):
+                f.error("O3", f"{oid}: {path} is registered as an IMPLICIT use (invisible to the "
+                              f"name sweep) with no `how_established` -- state the evidence that "
+                              f"ties the file to the model, or the link is an assertion")
+            full = os.path.join(REPO, path)
+            if not os.path.exists(full):
+                f.warn("O3", f"{oid}: read_by file {path} is not in this checkout")
+                continue
+            body = _body(path) or ""
+            # ⚠ A MARKER IS REQUIRED ONLY WHERE THE DISPUTE BEARS ON THE FILE. An `unaffected` use
+            # -- a raw input to the verdict, a record that the model has no data, the guard itself
+            # -- does not need a disclaimer pasted into it; it needs a recorded REASON, which
+            # `why_unaffected` already forces above. Demanding a marker everywhere would push
+            # boilerplate into artifacts and files this pass has no business editing, and
+            # boilerplate is how a marker stops meaning anything.
+            want = use.get("correction_marker") or (marker if cls != "unaffected" else None)
+            if want and want not in body:
+                f.error("O3", f"{oid}: {path} reads a disputed-identity object and does NOT "
+                              f"contain its correction marker {want!r} -- the file is using the "
+                              f"model with no visible statement that its identity is disputed")
+
+        for alias in obj.get("aliases", []) + [obj.get("display_name", "")]:
+            if alias:
+                registered_by_alias.setdefault(alias, set()).update(seen_files)
+
+    if not disputed:
+        return
+
+    tracked = _tracked_files()
+    if tracked is None:
+        f.warn("O4", "git is unavailable, so the unclassified-use sweep did not run -- a NEW file "
+                     "reading a disputed-identity model would not be caught in this environment")
+        return
+
+    for obj in disputed:
+        oid = obj["id"]
+        aliases = [a for a in obj.get("aliases", []) + [obj.get("display_name", "")] if a]
+        known = {u.get("file") for u in obj.get("read_by", [])}
+        for path in tracked:
+            if path in known or not path.endswith(SWEEPABLE_SUFFIXES):
+                continue
+            body = _body(path)
+            if body is None:
+                continue
+            hit = next((a for a in aliases if a in body), None)
+            if hit:
+                f.error("O4", f"{path} names {hit!r} ({oid}, identity DISPUTED) and is not "
+                              f"classified in that object's `read_by` -- an unclassified use. "
+                              f"Classify it invalidated / survives_relabelled / unaffected, or "
+                              f"stop reading the model there")
 
 
 def check_routes(m, f):
@@ -674,6 +884,7 @@ ALL_CHECKS = (
     check_ids_unique,
     check_evidence_names,
     check_objects,
+    check_disputed_identity,
     check_routes,
     check_instruments,
     check_claims,
@@ -862,6 +1073,53 @@ def render_view(m):
             w(f"| **{_md_escape(c['name'])}** | {', '.join('`' + x + '`' for x in c['maps_to'])} "
               f"| `{c['conflict']}` — {_md_escape(c.get('note', ''))} |")
         w("")
+
+    disputed = [o for o in m["objects"] if o.get("status") == "identity_disputed"]
+    if disputed:
+        w("### 5b · ⛔ Disputed identity — a model whose label the curated record contradicts")
+        w("")
+        w("A claim is only as good as the provenance of the thing it was read off. An entry here "
+          "means the repository was, or could be, reading biology off a reagent whose identity the "
+          "public record does not support. **Every file naming one of these is classified below, "
+          "and a tracked file that names one without being classified fails the build (`O4`).**")
+        w("")
+        for o in disputed:
+            ident = o.get("identity", {}) or {}
+            w(f"#### {_md_escape(o['display_name'])} (`{o['id']}`) — "
+              f"verdict `{ident.get('verdict', '—')}`")
+            w("")
+            w(f"- **Labelled as:** {_md_escape(ident.get('labelled_as', '—'))}")
+            w(f"- **Verdict lives in:** `{ident.get('verdict_artifact', '—')}` "
+              f"→ `{ident.get('verdict_field', '—')}` (this registry points at it and does not "
+              f"restate it)")
+            if ident.get("evidence_verbatim"):
+                w(f"- **Curated record, verbatim:** *\"{_md_escape(ident['evidence_verbatim'])}\"*")
+            for line in ident.get("independent_lines", []):
+                w(f"- {_md_escape(line)}")
+            if ident.get("what_this_cannot_settle"):
+                w(f"- ⚠ **What this CANNOT settle:** {_md_escape(ident['what_this_cannot_settle'])}")
+            if ident.get("correction_home"):
+                w(f"- **Correction home:** {_link(ident['correction_home'])} "
+                  f"(marker `{ident.get('correction_marker', '—')}`)")
+            if o.get("may_not_ground"):
+                w("- **May NOT ground:** " + "; ".join(_md_escape(x) for x in o["may_not_ground"]))
+            w("")
+            w("| file | how it uses the model | classification |")
+            w("|---|---|---|")
+            order = {"invalidated": 0, "survives_relabelled": 1, "unaffected": 2}
+            for u in sorted(o.get("read_by", []), key=lambda x: (order.get(
+                    x.get("classification"), 9), x.get("file", ""))):
+                cls = u.get("classification", "—")
+                tag = {"invalidated": "⛔ **invalidated**",
+                       "survives_relabelled": "⚠ survives, re-labelled",
+                       "unaffected": "✅ unaffected"}.get(cls, cls)
+                extra = u.get("why_unaffected")
+                w(f"| {_link(u.get('file', '—'))} | {_md_escape(u.get('use', '—'))} | {tag}"
+                  f"{' — ' + _md_escape(extra) if extra else ''} |")
+            w("")
+            if o.get("notes"):
+                w(f"> {_md_escape(o['notes'])}")
+                w("")
 
     # ---- evidence ---------------------------------------------------------
     w("## 6 · Evidence — keyed by a canonical identifier, with every name it travels under")

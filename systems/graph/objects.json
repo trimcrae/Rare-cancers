@@ -450,5 +450,32 @@
       }
     ],
     "notes": "V17's positive control — and V17 FAILS on it, which is why anything adjudicated by that exposure cutoff inherits a demonstrated false negative."
+  },
+  {
+    "id": "OBJ-LINE-HEMCSS",
+    "kind": "cell_line",
+    "display_name": "ACH-001519 / H-EMC-SS",
+    "aliases": [
+      "ACH-001519",
+      "H-EMC-SS",
+      "HEMCSS",
+      "HEMC-SS",
+      "CVCL_1238"
+    ],
+    "status": "identity_disputed",
+    "definition": {
+      "exon_level": null,
+      "residue_level": null,
+      "length_field": null,
+      "what_it_is": "The single DepMap model whose OncotreeSubtype string is 'Extraskeletal Myxoid Chondrosarcoma'. Cellosaurus CVCL_1238, RIKEN RCB0508, COSMIC-CLP 907290, GDSC 907290, ECACC 94042258. An 18-locus STR profile exists, so the line is a real, profiled entity -- the open question is WHAT it is, not whether it exists.",
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T1",
+        "why": "the object registry's fusion entries are REPORTED EMC fusions with exon-level definitions and primary-literature provenance; this line is a reagent whose carriage of any such fusion the curated record contradicts. Reading a fusion property off this line is exactly the confusion this entry exists to stop"
+      }
+    ],
+    "notes": "⛔ Registered 2026-08-05 after the repo spent a month treating this as 'the one real EMC line in DepMap'. The `[to verify]` flag on its fusion status was written honestly and carried faithfully in four places -- carrying a flag is not resolving one, and the resolving observation was one free API call available the whole time. ⚠ A ROUTE GRADE INPUT MOVED AND IS NOT RE-GRADED HERE: route 6 (RT-TRABECTEDIN-PPARG) in emc-post-degrader-options.md had a D axis whose only computable component was a PPARG-axis read off this model. Re-grading is a separate call and belongs to that memo's owner. ⭐ PORTED TO THE GRAPH 2026-08-05 as a PROJECTION, not a copy: the `identity` verdict, the `may_not_ground` list, the 30-entry `read_by` sweep and its `_sweep_limit` stay in research/manuscripts/emc-systems-map.json, because the O3/O4 guards that enforce them live in emc_systems_map_check.py and a second copy here would be a second home for the one fact those guards exist to protect."
   }
 ]

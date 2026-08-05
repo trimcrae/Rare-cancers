@@ -2,7 +2,7 @@
   "_schema": "relations/1",
   "_title": "Every edge in the model, its SysML stereotype, and which end asserts it",
   "_owner": "systems/CONVENTIONS.md",
-  "_checker": "systems/systems_check.py :: check_relations ([X1]/[X2]/[X3]/[X4])",
+  "_checker": "systems/systems_check.py :: check_relations ([X1]/[X2]/[X4]/[X6])",
   "_role": "The answer to 'what kind of edge is this, and where is it written?' — once, in the model, instead of once per session.",
   "_why_it_exists": [
     "⭐ THE QUESTION THAT PRODUCED IT. Asked on 2026-08-05 whether the whole model should be re-expressed in SysML, the honest measurement was that ONE of the model's relationship families is genuinely a SysML relationship in the sense SysML means it, and most of the rest are domain relations with no honest counterpart. Renaming `blockers_inherited` to `trace` or `unblocks` to `derive` would have made the model LOOK conformant while destroying what those edges say — and this repository's standing complaint about its own checks is that a check which misdescribes what it found is the failure mode.",
@@ -307,7 +307,7 @@
       "to": "rungs / instruments / requirements",
       "sysml": "domain",
       "asserted": true,
-      "why": "⚠ SAME WORD, DIFFERENT RELATION from the retired `instrument.serves`, and deliberately kept: a lane's target is a RUNG as often as an instrument, and rungs are not modelled objects. Typing it would mean inventing a rung collection to point at. [X3] bounds the licence by refusing to let it name a requirement id — that is what `verified_by` is for."
+      "why": "⚠ SAME WORD, DIFFERENT RELATION from the retired `instrument.serves`, and deliberately kept: a lane's target is a RUNG as often as an instrument, and rungs are not modelled objects. Typing it would mean inventing a rung collection to point at. [X6] bounds the licence by refusing to let it name a requirement id — that is what `verified_by` is for."
     },
     {
       "key": "next",

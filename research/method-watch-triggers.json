@@ -689,7 +689,9 @@
             "e3 ligase",
             "recruiter"
           ],
-          "false_negative_risk_accepted": "exclude_match drops titles framed as molecular glues, which is where the criterion is by construction NOT met — but a paper could in principle report a glue AND a partner-free structure and would now be missed. Accepted because decisive_evidence above makes the PDB census the real check and it is free, run on every grading, and cannot be fooled by a title."
+          "false_negative_risk_accepted": "exclude_match drops titles framed as molecular glues, which is where the criterion is by construction NOT met — but a paper could in principle report a glue AND a partner-free structure and would now be missed. Accepted because decisive_evidence above makes the PDB census the real check and it is free, run on every grading, and cannot be fooled by a title.",
+          "measured_effect": "VERIFIED IN A REAL RUN, and the verification was stranded on a feature branch until 2026-08-05. Scan run 2 (pre-revision, on main): 1 query, 25 results seen, 6 in window. Scan run 3 (post-revision): 2 queries, 5 results seen, 0 in window. The three KEAP1 redox-pharmacology papers and the TSPO/heart-failure paper stopped being returned; no structural report for any of the three blocked recruiters was lost, because none exists.",
+          "ledger_is_cumulative_so_the_BOARD_needed_fixing_too": "Revising the query stopped bad hits being INGESTED; it did nothing about the ones already in method-watch-trigger-hits.json, and trigger_scan.write_board rendered 'most recent matches' straight from that cumulative ledger. So this row kept displaying 'Keap1 ligand for acute lung injury' as a match for a criterion about partner-free liganded structures. Fixed 2026-08-05: the board re-applies the trigger's CURRENT must/also/exclude rules at render time and prints the count of withheld entries. The ledger keeps its full history; the VIEW is filtered. This row now correctly shows no matches and 6 withheld."
         },
         "europepmc": [
           "(TITLE:RNF114 OR TITLE:DCAF16 OR TITLE:DCAF15) AND (TITLE:structure OR TITLE:\"crystal structure\" OR TITLE:crystal OR TITLE:\"cryo-EM\" OR TITLE:\"structural basis\" OR TITLE:crystallography)",
@@ -736,8 +738,19 @@
           "DCAF16": "Q9NXF7 — 3 entries (9S3R, 8OV6, 8G46), ALL ternary with DDB1 + a bromodomain partner. n_clean_binary_entries = 0.",
           "DCAF15": "Q66K64 — 9 entries, unchanged since the 2026-07-25 downselect."
         },
-        "blind_spot": "A structure deposited but still ON HOLD is invisible to this check. Stated rather than glossed; it is part of why the trigger stays 'watching' rather than being retired.",
-        "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json"
+        "blind_spot": "A structure deposited but still ON HOLD is invisible to this check. MEASURED 2026-08-05: 34,557 PDB entries are on hold globally. The holdings endpoint returns IDs only, so mapping them to accessions is not a $0 check -- the blind spot is real, bounded and NOT closed. Stated rather than glossed; it is why this trigger stays 'watching' rather than being retired.",
+        "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json",
+        "baseline_2026_08_05_RECHECK": {
+          "_status": "RE-RUN AND UNCHANGED. Fetched fresh (fetch-literature.yml run 31000949990), not quoted from the 2026-08-03 file.",
+          "RNF114": "Q9Y508 - 0 entries (RCSB HTTP 204). Still no deposited structure of the protein at all.",
+          "DCAF16": "Q9NXF7 - 3 entries (9S3R, 8OV6, 8G46), all ternary. n_clean_binary_entries = 0.",
+          "DCAF15": "Q66K64 - 9 entries, unchanged.",
+          "FEM1B": "Q9UK73 - 31 entries, unchanged. Not one of the blocked three.",
+          "releases_since_2026_07_25": "ZERO for all four accessions (HTTP 204 each). Asked directly this time, not inferred by comparing counts.",
+          "neither_paper_cited_by_any_released_entry": "CONFIRMED DIRECTLY: rcsb_primary_citation.pdbx_database_id_DOI returns 0 entries for both 10.1021/acs.jmedchem.6c00889 and 10.1021/acs.jmedchem.6c00968.",
+          "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-05.json"
+        },
+        "_method_fix_2026_08_05": "The 2026-08-03 check could not ask 'did either paper deposit a structure' directly: rcsb_primary_citation.pdbx_database_id_PubMed is not a searchable attribute (HTTP 400). rcsb_primary_citation.pdbx_database_id_DOI IS searchable and is now the query of record. Use it on every future grading -- it turns an inference into a measurement."
       },
       "last_graded": {
         "date": "2026-08-03",
@@ -749,7 +762,15 @@
         "evidence_level": "Both papers are PAYWALLED — ABSTRACTS ONLY (Europe PMC fullTextXML 404, not in PMC, no preprint version indexed). The PDB census is definitive and is what the verdict rests on; the abstract reading is corroborating and labelled provisional.",
         "why": "The DCAF16 paper is a template-assisted covalent GLUE: its own abstract says the cyanobenzothiazole, carried on the BRD4-targeting ligand, 'modifies DCAF16 at Cys58, promoting ternary complex formation'. That is the architecture the 0.3442 buried fraction already described, not a refutation of it — and no structure was deposited (DCAF16 entry count unchanged at 3). 'There are more DCAF16 binders' was never the blocker. The FEM1B paper is a different question entirely — see TRG-FEM1B-LINKER-BEARING-STRUCTURE.",
         "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-03.json",
-        "corpus": "research/manuscripts/lit-targets-e3-recruiter-trigger.json → literature-cache branch, literature/e3-recruiter-trigger/ (fetch-literature.yml run 30861878219)"
+        "corpus": "research/manuscripts/lit-targets-e3-recruiter-trigger.json → literature-cache branch, literature/e3-recruiter-trigger/ (fetch-literature.yml run 30861878219)",
+        "reconfirmed": {
+          "date": "2026-08-05",
+          "verdict": "DOES_NOT_REOPEN - unchanged",
+          "how": "The whole census was RE-FETCHED rather than quoted, because it is free and perishable. Independent CI run, identical query shape, same numbers.",
+          "added": "Two direct answers the first grading could only infer: zero releases for any of the four accessions since 2026-07-25, and neither paper is the primary citation of any released PDB entry.",
+          "evidence_file": "research/modalities/e3-recruiter-pdb-recheck-2026-08-05.json",
+          "corpus": "research/manuscripts/lit-targets-e3-recruiter-recheck-2026-08-05.json -> literature-cache branch, literature/e3-recruiter-recheck-20260805/ (fetch-literature.yml run 31000949990)"
+        }
       },
       "consequence_caveat": "⚠ A HIT ON THIS TRIGGER DOES NOT BY ITSELF RESTART ANY WORK, and saying so is not a demotion of the trigger — it is the thing a reader needs in order to act on a hit correctly. R9 and R12 are both 'future — NOT STARTED', and emc-post-degrader-options.md section 0 puts the E3 recruiter on the LIABILITY side of the split it draws ('the degradation geometry — ternary, E3, exit vector, ubiquitin transfer, and a ~1 kcal/mol paralogue margin'), not on the ASSET side. So a partner-free liganded structure reopens a parked row inside a programme that is parked for unrelated, architectural reasons. It would still be a real field advance and worth recording; it would not be a reason to spend."
     },
@@ -774,7 +795,8 @@
       "decisive_evidence": {
         "check": "RCSB search on Q9UK73, newest first; then e3-recruiter-staging.json FEM1B.linker_bearing_analogue.n_entries_with_ligand_ge_500Da.",
         "criterion": "n_entries_with_ligand_ge_500Da > 0.",
-        "baseline_2026_08_03": "31 entries, newest release 2025-11-26 (the VU-series fragment structures). n_entries_with_ligand_ge_500Da = 0."
+        "baseline_2026_08_03": "31 entries, newest release 2025-11-26 (the VU-series fragment structures). n_entries_with_ligand_ge_500Da = 0.",
+        "recheck_2026_08_05": "RE-RUN AND UNCHANGED (fetch-literature.yml run 31000949990). Q9UK73 still returns 31 entries; ZERO have been released since 2026-07-25 (HTTP 204); and the dual-site paper (10.1021/acs.jmedchem.6c00968) is the primary citation of NO released PDB entry, confirmed directly via rcsb_primary_citation.pdbx_database_id_DOI rather than inferred. n_entries_with_ligand_ge_500Da remains 0, so the tier-1 limit is untouched. Evidence: research/modalities/e3-recruiter-pdb-recheck-2026-08-05.json"
       },
       "reopens": {
         "roadmap_rows": [
@@ -1246,7 +1268,8 @@
       },
       "registry_trigger_ids": [
         "TR-EMC-MODEL-ACCESS"
-      ]
+      ],
+      "_partially_satisfied_2026_08_05": "⚠ EVIDENCED, NOT OBTAINED — status stays `watching` deliberately. GSE299349 shows a THIRD patient-derived EMC model at University Hospital Zurich, USZ-23_EMC3, beyond the published USZ20-EMC1 / USZ22-EMC2. What arrived is EVIDENCE THAT THE MATERIAL EXISTS AND WHO HOLDS IT, not the material: this trigger asks for a model 'in the public domain', and an RNA-seq deposit is a transcriptome, not a cell. ⭐ The paired action in `on_fire` — re-check whether the ATR panel ask has a taker — was taken, and the answer improved: the same group has since published an ATR/CHK1/WEE1 pharmacotyping programme on patient-derived sarcoma models (Cancer Letters 2026, PMID 41651400). ⛔ In the same finding they selected on HRD rather than on FET-fusion status, which cuts the other way. Both halves: research/manuscripts/emc-atr-vulnerability-assessment.md §8.4."
     },
     {
       "id": "TRG-EMC-EXPRESSION-DATASET",
@@ -1282,9 +1305,15 @@
         "note": "Six routes are currently graded on class inheritance rather than on an EMC measurement. A dataset that contains EMC is what converts an inherited grade into a measured one — for better or worse, and the worse direction is the more likely."
       },
       "on_fire": "Re-grade the surface-antigen and repurposing routes against the actual EMC data, and check FIRST whether the dataset contains EMC itself or only a related fusion sarcoma — the whole point of this trigger is the difference.",
+      "_partially_satisfied_2026_08_05": "⭐ TWO READABLE EMC EXPRESSION SERIES WERE FOUND, and neither is new: GSE24369 (2011, GPL6244, 6 EMC tumours beside 17 LGFMS) and GSE4303/GPL3290 (2006, 10 EMC, made readable by the archived UniGene build). They were not deposited recently — they were never searched for properly. So this trigger's premise ('EMC is nearly absent from public functional genomics') is now only half true: EMC is nearly absent from public DEPENDENCY and DRUG-RESPONSE data, and is present in bulk EXPRESSION data. Re-grading the routes that cite it is a separate call and is NOT taken here. Evidence: research/manuscripts/emc-atr-vulnerability-assessment.md section 3.4.",
+      "_still_watching_for": "(a) an EMC dataset with per-sample FUSION CONFIRMATION — none of the three series has one, so a TCF12::NR4A3 case is indistinguishable from an EWSR1::NR4A3 one and an EMC LABEL is indistinguishable from an EMC FUSION (the H-EMC-SS lesson, §2 of the assessment); (b) EMC in a DEPENDENCY or DRUG-RESPONSE panel, which is what parts C and D of the assessment actually needed and which GSE299349 does NOT supply — 0 of its 68 samples name an ATR inhibitor and 0 carry a populated treatment_protocol, so this half of the trigger is UNCHANGED and is now watched by TRG-SARCOMA-ATRI-RESPONSE-PANEL; (c) a PROCESSED matrix for the SRA deposits SRP640302 (2026 EMC prognostic-biomarker cohort) and SRP445369 — both are real and deposited, but as raw reads.",
+      "_search_scope_gap": "⚠ MEASURED 2026-08-05, and it is the reason the queries below were widened. This trigger was TITLE-anchored on the disease AND the method, and an EMC dataset does not have to be titled after EMC: GSE24369 is titled 'Gene expression profiling of low-grade fibromyxoid sarcoma (LGFMS)' and carries six samples titled 'Extraskeletal myxoid chondrosarcoma 1..6'. A title-anchored literature query cannot see that, and this file's scanner (scripts/trigger_scan.py) reads Europe PMC and arXiv only — it does not query GEO, SRA, ArrayExpress or Zenodo at all, so a DEPOSITED dataset with no matching paper title was invisible to it in both directions. The archive side is now searched, but NOT from here: research/modalities/emc_atr_vulnerability.py (part B, `--refresh-part-b`, lane .github/workflows/emc-expression-datasets.yml) queries GEO DataSets at GSM level, SRA, BioStudies/ArrayExpress and Zenodo, and records every query verbatim in emc-atr-vulnerability.json -> part_b_emc_tumour_signature.dataset_search. Stated here rather than implemented here because a query list this scanner does not execute would be a scan that only claims to happen.",
       "search": {
         "europepmc": [
-          "(TITLE:\"myxoid chondrosarcoma\" OR TITLE:\"EWSR1-NR4A3\" OR TITLE:\"EWSR1::NR4A3\" OR TITLE:\"FET fusion\" OR TITLE:\"fusion-positive sarcoma\" OR TITLE:\"soft tissue sarcoma\") AND (TITLE:transcriptom OR TITLE:\"RNA-seq\" OR TITLE:proteom OR TITLE:\"single-cell\" OR TITLE:atlas OR TITLE:cohort OR TITLE:\"expression profil\" OR TITLE:CRISPR OR TITLE:dependency)"
+          "(TITLE:\"myxoid chondrosarcoma\" OR TITLE:\"EWSR1-NR4A3\" OR TITLE:\"EWSR1::NR4A3\" OR TITLE:\"FET fusion\" OR TITLE:\"fusion-positive sarcoma\" OR TITLE:\"soft tissue sarcoma\") AND (TITLE:transcriptom OR TITLE:\"RNA-seq\" OR TITLE:proteom OR TITLE:\"single-cell\" OR TITLE:atlas OR TITLE:cohort OR TITLE:\"expression profil\" OR TITLE:CRISPR OR TITLE:dependency)",
+          "(ABSTRACT:\"extraskeletal myxoid chondrosarcoma\" OR ABSTRACT:\"EWSR1-NR4A3\" OR ABSTRACT:\"EWSR1::NR4A3\" OR ABSTRACT:\"NR4A3 fusion\" OR ABSTRACT:\"TAF15-NR4A3\" OR ABSTRACT:\"FUS-NR4A3\" OR ABSTRACT:\"TCF12-NR4A3\") AND (ABSTRACT:\"RNA-seq\" OR ABSTRACT:\"RNA sequencing\" OR ABSTRACT:transcriptom OR ABSTRACT:proteom OR ABSTRACT:\"single-cell\" OR ABSTRACT:\"expression profil\" OR ABSTRACT:\"gene expression omnibus\" OR ABSTRACT:ArrayExpress OR ABSTRACT:\"data availability\")",
+          "(TITLE:sarcoma OR TITLE:\"soft tissue tumour\" OR TITLE:\"soft tissue tumor\" OR TITLE:\"bone tumour\" OR TITLE:\"bone tumor\") AND (ABSTRACT:\"extraskeletal myxoid chondrosarcoma\" OR ABSTRACT:\"myxoid chondrosarcoma\" OR ABSTRACT:NR4A3) AND (ABSTRACT:\"RNA-seq\" OR ABSTRACT:transcriptom OR ABSTRACT:\"expression profil\" OR ABSTRACT:\"gene expression omnibus\" OR ABSTRACT:\"single-cell\")",
+          "(TITLE:sarcoma OR TITLE:\"soft tissue tumour\" OR TITLE:\"soft tissue tumor\") AND (TITLE:ATR OR TITLE:CHK1 OR TITLE:WEE1 OR TITLE:\"DNA damage response\" OR TITLE:DDR OR TITLE:\"homologous recombination\" OR TITLE:HRD OR TITLE:\"synthetic lethal\" OR TITLE:pharmacotyping OR TITLE:\"drug screen\") AND (ABSTRACT:\"cell model\" OR ABSTRACT:\"patient-derived\" OR ABSTRACT:\"gene expression omnibus\" OR ABSTRACT:\"RNA-seq\" OR ABSTRACT:organoid)"
         ],
         "arxiv": [],
         "must_match": [
@@ -1310,7 +1339,9 @@
         ],
         "exclude_match": [],
         "window_days": 180
-      }
+      },
+      "_third_series_2026_08_05": "⭐ A THIRD readable EMC expression datapoint, and it is the first in an ATR-directed dataset: GSE299349 (Cancer Letters 2026, PMID 41651400) carries GSM9037837 / USZ-23_EMC3 — a patient-derived EMC-labelled cell model with its own Salmon quantification, beside 62 sarcoma tumours and 5 other patient-derived models. ⚠ n = 1, and it is a LABEL: no fusion call is deposited, and the repo's own identity check returned LABEL_WEAKLY_CORROBORATED_AND_THE_COMPARISON_IS_CONFOUNDED — NR4A3 rank 4/68 on cross-sample TPM but rank 29/68 on the index-robust family fraction, with that one sample quantified against a different reference index from its 67 comparators. Evidence: research/manuscripts/emc-atr-vulnerability-assessment.md §8.",
+      "_query_sharpened_2026_08_05": "⚠ WHY A FOURTH QUERY WAS ADDED. The three queries above are anchored on the DISEASE. GSE299349's paper is titled 'Targeting ATR signaling in sarcoma with homologous recombination deficiency' and its abstract names no EMC term at all — so none of them could reach it, and the deposit was found only because emc_atr_vulnerability.py's archive-side search casts a wider net at GSM level. The new query is anchored on SARCOMA + a DDR MECHANISM instead, which is the shape a genuinely useful deposit takes when EMC is one sample inside it rather than the subject. Same lesson as _search_scope_gap, one level up: a dataset does not have to be titled after the disease it contains."
     },
     {
       "id": "TRG-CLOUD-WET-LAB",
@@ -1584,6 +1615,71 @@
         "exclude_match": [],
         "window_days": 0
       }
+    },
+    {
+      "id": "TRG-SARCOMA-ATRI-RESPONSE-PANEL",
+      "title": "An ATR-inhibitor RESPONSE readout that includes a FET-fusion sarcoma or an EMC model",
+      "capability": "A deposited or published drug-response matrix — viability, IC50/GI50, or a pharmacotyping panel — in which at least one ATR-pathway inhibitor (ATRi, CHK1i or WEE1i) is applied to a FET-fusion-rearranged sarcoma model, ideally an NR4A3-fusion one. This is the instrument part D of the ATR assessment lacked and could not substitute for: GDSC2 contains no EMC line, and GSE299349 — the one 2026 sarcoma ATR programme with an EMC model in the same deposit — published only baseline transcriptomes, with 0 of 68 samples naming an ATR inhibitor.",
+      "trigger_kind": "external_capability",
+      "status": "watching",
+      "scan_enabled": true,
+      "found_by": "Reading GSE299349 on 2026-08-05 (research/manuscripts/emc-atr-vulnerability-assessment.md §8). The deposit answered Q2 and Q3 and left Q1 exactly where it was, which is what made the gap worth its own trigger rather than a line inside TRG-EMC-EXPRESSION-DATASET: that trigger is about EXPRESSION and is now three-quarters satisfied, while this one is about RESPONSE and is wholly unsatisfied.",
+      "evidence_home": [
+        {
+          "file": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+          "anchor": "#82-the-three-questions-this-series-was-read-to-answer",
+          "row": "Q1 — ATR_NAMED_ONLY_AT_SERIES_LEVEL_NOT_PER_SAMPLE"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [
+          "RT-ATR-ASSESS",
+          "RT-ATR-PANEL"
+        ],
+        "registry_blockers": [
+          "BLK-CLASS-INHERITANCE",
+          "BLK-NO-EMC-DATA"
+        ],
+        "note": "Part D graded SENSITIVITY_DOES_NOT_TRACK_MECHANISM on GDSC2 lines of other diseases. A response readout on a FET-rearranged sarcoma would let that test be re-run on the class the hypothesis is about, and on an NR4A3 model it would be the first such measurement in existence. ⚠ It could go either way, and the assessment's grading criteria are already fixed, so the direction is not assumed here."
+      },
+      "on_fire": "Re-run part D's four pre-registered mechanism tests against the new response data, keeping the criteria in grading._criteria_verbatim unchanged; then check FIRST whether the panel contains a confirmed NR4A3 fusion or only a disease label — the difference is the whole point (§2, §8.3).",
+      "search": {
+        "europepmc": [
+          "(TITLE:sarcoma OR TITLE:\"Ewing\" OR TITLE:\"clear cell sarcoma\" OR TITLE:\"myxoid chondrosarcoma\" OR TITLE:\"desmoplastic small round cell\" OR TITLE:\"fusion-positive\") AND (TITLE:ATR OR TITLE:ATRi OR TITLE:ceralasertib OR TITLE:berzosertib OR TITLE:elimusertib OR TITLE:camonsertib OR TITLE:gartisertib OR TITLE:tuvusertib OR TITLE:CHK1 OR TITLE:WEE1)",
+          "(ABSTRACT:\"EWSR1\" OR ABSTRACT:\"NR4A3\" OR ABSTRACT:\"FET fusion\" OR ABSTRACT:\"TAF15\" OR ABSTRACT:\"FUS fusion\") AND (ABSTRACT:\"ATR inhibitor\" OR ABSTRACT:ceralasertib OR ABSTRACT:berzosertib OR ABSTRACT:elimusertib OR ABSTRACT:\"AZD6738\" OR ABSTRACT:\"VE-822\" OR ABSTRACT:\"BAY 1895344\") AND (ABSTRACT:IC50 OR ABSTRACT:viability OR ABSTRACT:sensitivity OR ABSTRACT:\"dose-response\" OR ABSTRACT:pharmacotyping OR ABSTRACT:\"drug screen\")"
+        ],
+        "arxiv": [],
+        "must_match": [
+          "sarcoma",
+          "atr",
+          "chk1",
+          "wee1",
+          "ewsr1",
+          "nr4a3",
+          "fet"
+        ],
+        "also_match": [
+          "inhibitor",
+          "atri",
+          "ic50",
+          "viability",
+          "sensitivity",
+          "dose",
+          "pharmacotyping",
+          "drug screen",
+          "synthetic lethal",
+          "ceralasertib",
+          "berzosertib",
+          "elimusertib",
+          "camonsertib",
+          "gartisertib",
+          "tuvusertib"
+        ],
+        "exclude_match": [],
+        "window_days": 180
+      },
+      "registry_trigger_ids": []
     },
     {
       "id": "TRG-AUTONOMOUS-RESEARCH-AGENT",

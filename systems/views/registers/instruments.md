@@ -59,6 +59,7 @@ last_verified: 2026-08-05
 | **INS-DEPMAP-KO** | DepMap CRISPR-knockout dependency scan of the ATR axis | the FET-vs-non-FET sarcoma contrast must exceed the panel's own spread | `fails` | ✕ | — |
 | **INS-FUSION-COFOLD** | Fusion protein-level co-folding model | ⛔ none of its own | `none` | ✕ | `R13` |
 | **INS-HLA-COVERAGE** | HLA population-coverage calculator | ⛔ no known-answer test recorded | `none` | ✕ | — |
+| **INS-GEO-SERIES-CHARACTERISE** | Sample-level GEO series characterisation + disease-label corroboration | Two-sided, on the expression half: housekeeping genes (ACTB, GAPDH) must read high in every sample AND tissue-restricted negatives (ALB, INS) must read near zero, or a low NR4A3 is unreadable rather than informative. Measured 4423.6 / 2574.7 against 0.474 / 0.000. | `passes` | ✓ | — |
 
 ## Which routes cite each instrument — the `allocate` relation
 
@@ -94,6 +95,7 @@ last_verified: 2026-08-05
 | **INS-DEPMAP-KO** | — | RT-ATR-ASSESS | — |
 | **INS-FUSION-COFOLD** | — | — | — |
 | **INS-HLA-COVERAGE** | — | RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE | — |
+| **INS-GEO-SERIES-CHARACTERISE** | — | — | `OBJ-LINE-HEMCSS` |
 
 ## Scope notes
 
@@ -107,5 +109,6 @@ last_verified: 2026-08-05
 - **INS-DDR-AXIS-SCAN** — Addresses the ATR route's PHARMACOLOGICAL premise, not its structural precondition — that is INS-IDR-CENSUS.
 - **INS-DEPMAP-KO** — Cited against RT-ATR-ASSESS as a DISCLOSED FAILURE, never as support — which is what `route.instruments.disclosed_failing` already records.
 - **INS-HLA-COVERAGE** — Bounds the junction-neoantigen family; the four routes it bounds are carried by `route.instruments.disclosed_failing`.
+- **INS-GEO-SERIES-CHARACTERISE** — Characterises an EXTERNAL dataset before anything is built on it. ⛔ It `characterises` OBJ-LINE-HEMCSS, whose status is `identity_disputed` — the line is cited here ONLY as the cautionary precedent that an EMC LABEL is not an EMC FUSION, which is why a new EMC-labelled sample is corroborated against 67 sarcoma samples from the same deposit before anything rests on it. No reading of that line grounds anything. ⚠ Its control passing does not make the readout sensitive: the artifact discloses LOW SENSITIVITY for fusion status by construction, because a wild-type transcript index has no fusion entry. Ported from the legacy registry 2026-08-05, where its `serves` held two prose values — the seventh instance of the untyped-relation defect, arriving while the other six were being removed.
 
 [← L0](../L0-ecosystem.md)

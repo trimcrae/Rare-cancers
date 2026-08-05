@@ -542,5 +542,25 @@
     "revival_trigger": [
       "TR-NEOANTIGEN-SEAMS-REGENERATED"
     ]
+  },
+  {
+    "id": "INS-GEO-SERIES-CHARACTERISE",
+    "name": "Sample-level GEO series characterisation + disease-label corroboration",
+    "module": "research/modalities/atr_hrd_sarcoma_series.py",
+    "owner": {
+      "file": "research/manuscripts/emc-atr-vulnerability-assessment.md",
+      "anchor": "#8---the-competing-biomarker--a-2026-sarcoma-atr-programme-that-selects-on-hrd-not-on-fet-status"
+    },
+    "known_answer_control": {
+      "description": "Two-sided, on the expression half: housekeeping genes (ACTB, GAPDH) must read high in every sample AND tissue-restricted negatives (ALB, INS) must read near zero, or a low NR4A3 is unreadable rather than informative. Measured 4423.6 / 2574.7 against 0.474 / 0.000.",
+      "state": "passes",
+      "note": "⚠ THE CONTROL PASSING DOES NOT MAKE THE READOUT SENSITIVE. The instrument is disclosed in the artifact as having LOW SENSITIVITY for fusion status by construction -- a wild-type transcript index has no fusion entry, so a fusion's contribution to NR4A3 is systematically under-counted -- and the deposit's own samples are split across two reference indexes, which the module detects from row counts and reports rather than smoothing over."
+    },
+    "characterises": [
+      "OBJ-LINE-HEMCSS"
+    ],
+    "scope_note": "Characterises an EXTERNAL dataset before anything is built on it. ⛔ It `characterises` OBJ-LINE-HEMCSS, whose status is `identity_disputed` — the line is cited here ONLY as the cautionary precedent that an EMC LABEL is not an EMC FUSION, which is why a new EMC-labelled sample is corroborated against 67 sarcoma samples from the same deposit before anything rests on it. No reading of that line grounds anything. ⚠ Its control passing does not make the readout sensitive: the artifact discloses LOW SENSITIVITY for fusion status by construction, because a wild-type transcript index has no fusion entry. Ported from the legacy registry 2026-08-05, where its `serves` held two prose values — the seventh instance of the untyped-relation defect, arriving while the other six were being removed.",
+    "closure_kind": "open",
+    "revival_trigger": []
   }
 ]
