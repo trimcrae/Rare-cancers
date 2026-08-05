@@ -69,9 +69,34 @@ jobs:
         env:
           QUERY: ${{ inputs.query }}
           SLUG: ${{ inputs.slug }}
+          TARGETS_FILE: ${{ inputs.targets_file }}
         run: |
           set -e
           [ -d .cache/literature ] || { echo "Nothing fetched"; exit 0; }
+
+          # ⛔ A SLUG IS A CLAIM ABOUT CONTENTS, AND NOTHING USED TO CHECK IT (2026-08-05).
+          #
+          # `lit_fetch_urls.py` reads LIT_TARGETS_FILE and falls back to its BUILT-IN `TARGETS` list;
+          # only this step consumes QUERY. So a dispatch carrying a `query` and a custom `slug` but no
+          # `targets_file` re-fetches the built-in FEP-methodology corpus and publishes it under
+          # whatever name was chosen -- and the run reports SUCCESS.
+          #
+          # That happened: `literature/bangerter-2023-emc-exvivo/` was published holding 25 files about
+          # lomap, Schrödinger's cycle-closure patents, cinnabar and diffnet, and NOT ONE about
+          # Bangerter or EMC. A future session greps this branch and finds a directory whose name
+          # promises the one piece of ex-vivo EMC evidence this repository has failed to resolve.
+          # ⚠ A MISLABELLED RECORD IS WORSE THAN A MISSING ONE: nothing inside contradicts the name,
+          # because the name is the only claim being made.
+          #
+          # So a CUSTOM slug now requires a custom target set. The default slug is unaffected -- it
+          # describes the built-in corpus honestly, which is exactly what it is for.
+          if [ -n "$SLUG" ] && [ -z "$TARGETS_FILE" ]; then
+            echo "::error::Refusing to publish under the custom slug '$SLUG': this run used the" \
+                 "BUILT-IN TARGETS list, because no targets_file was given. The slug would assert a" \
+                 "subject the manifest cannot show. Pass targets_file={name:url,...} naming the" \
+                 "sources you actually want, or drop the slug and accept the default."
+            exit 1
+          fi
           slug="$SLUG"
           [ -n "$slug" ] || slug=$(printf '%s' "$QUERY" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
           tmp="$RUNNER_TEMP/litdata"
