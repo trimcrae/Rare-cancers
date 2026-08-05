@@ -440,11 +440,52 @@ def derive_quant(q, art):
     neg_ok = med(vals("ALB")) < 5 and med(vals("INS")) < 5
     res["instrument_controls"]["state"] = "PASS" if (hk_ok and neg_ok) else "FAIL"
 
+    # ⭐ THE CONFOUND THAT DECIDES HOW MUCH THE RANKING IS WORTH, and it is MEASURED rather than
+    #   assumed. TPM is normalised across whatever transcriptome the sample was quantified against,
+    #   so a sample run on a different index is not on the same scale as the rest. The tell is the
+    #   row count and the transcript-name convention, both of which are already in the cache.
+    groups = {}
+    for g, v in read.items():
+        fmt = "REFSEQ_BARE" if any(str(n).startswith(("NM_", "NR_", "XM_", "XR_"))
+                                   for n in v.get("first_names_verbatim") or []) else "OTHER"
+        groups.setdefault((v["n_transcript_rows"], fmt), []).append(g)
+    res["reference_index_groups"] = [
+        {"n_transcript_rows": k[0], "name_convention": k[1], "n_samples": len(v),
+         "example_names_verbatim": read[v[0]].get("first_names_verbatim"),
+         "samples": v if len(v) <= 8 else v[:8] + ["…"]}
+        for k, v in sorted(groups.items(), key=lambda kv: -len(kv[1]))]
+    emc_group = next((k for k, v in groups.items() if emc and emc[0] in v), None)
+    biggest = max(groups, key=lambda k: len(groups[k])) if groups else None
+    res["emc_sample_shares_the_majority_index"] = (
+        None if emc_group is None else emc_group == biggest)
+    res["_index_confound_note"] = (
+        "If the EMC-labelled sample was quantified against a DIFFERENT index from its comparators, "
+        "a cross-sample TPM rank is not an apples-to-apples comparison and must not be reported as "
+        "one. The within-sample NR4A family FRACTION below is the index-robust statistic: it is a "
+        "ratio of three genes measured in the same file under the same normalisation.")
+
     ranked = sorted(((v["panel_tpm"].get("NR4A3", 0.0), g) for g, v in read.items()), reverse=True)
     res["NR4A3_TPM_ranking_top10"] = [
         {"rank": i + 1, "sample": g, "title": titles.get(g), "NR4A3_TPM": round(t, 3)}
         for i, (t, g) in enumerate(ranked[:10])]
     res["NR4A3_median_TPM_across_all_samples"] = round(med(vals("NR4A3")), 3)
+
+    # index-robust statistic: NR4A3 as a fraction of the whole NR4A family, within each file
+    def frac(g):
+        p = read[g]["panel_tpm"]
+        tot = sum(p.get(x, 0.0) for x in ("NR4A1", "NR4A2", "NR4A3"))
+        return (p.get("NR4A3", 0.0) / tot) if tot > 0 else None
+
+    fr = {g: frac(g) for g in read}
+    fr_ranked = sorted(((v, g) for g, v in fr.items() if v is not None), reverse=True)
+    res["NR4A3_family_fraction"] = {
+        "_what": "NR4A3 / (NR4A1 + NR4A2 + NR4A3) TPM, within each sample's own file.",
+        "_why": ("Index-robust. A cross-sample TPM rank is not, when the samples were quantified "
+                 "against different transcriptomes — and here they were."),
+        "median_across_all_samples": round(med(sorted(v for v in fr.values() if v is not None)), 4),
+        "top5": [{"sample": g, "title": titles.get(g), "fraction": round(v, 4)}
+                 for v, g in fr_ranked[:5]],
+    }
 
     per_emc = []
     for g in emc:
@@ -453,25 +494,64 @@ def derive_quant(q, art):
             continue
         t = read[g]["panel_tpm"].get("NR4A3", 0.0)
         rank = 1 + sum(1 for tt, _ in ranked if tt > t)
+        f = fr.get(g)
         per_emc.append({
             "sample": g, "title": titles.get(g), "NR4A3_TPM": round(t, 3),
             "rank_of_%d" % len(ranked): rank,
             "n_samples_above_it": rank - 1,
+            "_rank_bound": ("⚠ cross-sample TPM; see reference_index_groups"
+                            if res["emc_sample_shares_the_majority_index"] is False
+                            else "same index as the comparators"),
             "fold_over_panel_median": (round(t / med(vals("NR4A3")), 1)
                                        if med(vals("NR4A3")) > 0 else None),
             "NR4A1_TPM": round(read[g]["panel_tpm"].get("NR4A1", 0.0), 3),
             "NR4A2_TPM": round(read[g]["panel_tpm"].get("NR4A2", 0.0), 3),
+            "NR4A3_family_fraction": None if f is None else round(f, 4),
+            "family_fraction_rank_of_%d" % len(fr_ranked): (
+                None if f is None else 1 + sum(1 for v, _ in fr_ranked if v > f)),
         })
     res["emc_labelled_samples"] = per_emc
 
+    conf = res["emc_sample_shares_the_majority_index"] is False
     if res["instrument_controls"]["state"] != "PASS":
         res["verdict"] = "CANNOT_DETERMINE — the instrument controls did not pass"
-    elif per_emc and per_emc[0].get("rank_of_%d" % len(ranked)) == 1:
+    elif not per_emc:
+        res["verdict"] = "NOT_APPLICABLE — no EMC-labelled sample in this series"
+    elif per_emc[0].get("rank_of_%d" % len(ranked)) == 1 and not conf:
         res["verdict"] = "LABEL_CORROBORATED — the EMC-labelled sample is the panel's top NR4A3 expressor"
-    elif per_emc and (per_emc[0].get("n_samples_above_it") or 0) <= 3:
+    elif (per_emc[0].get("n_samples_above_it") or 0) <= 3 and conf:
+        res["verdict"] = ("LABEL_WEAKLY_CORROBORATED_AND_THE_COMPARISON_IS_CONFOUNDED — NR4A3 is "
+                          "elevated but not dominant in the EMC-labelled sample, and that sample "
+                          "was quantified against a different reference index from its 67 "
+                          "comparators, so its cross-sample rank is not apples-to-apples")
+    elif (per_emc[0].get("n_samples_above_it") or 0) <= 3:
         res["verdict"] = "LABEL_CORROBORATED_WEAKLY — near the top of the panel for NR4A3"
     else:
         res["verdict"] = "LABEL_NOT_CORROBORATED_BY_NR4A3_EXPRESSION"
+    res["_sensitivity_bound"] = {
+        "_headline": ("⚠ THIS TEST HAS LOW SENSITIVITY FOR THE QUESTION IT IS ASKED, BY "
+                      "CONSTRUCTION — so a null here is much weaker evidence against the label "
+                      "than a positive would have been for it, and it must not be read "
+                      "symmetrically."),
+        "the_index_has_no_fusion_entry": (
+            "An EWSR1::NR4A3 transcript is EWSR1 exons 1-12 joined to NR4A3 exon 3. Quantified "
+            "against a WILD-TYPE transcript index, reads spanning the junction map to neither "
+            "entry cleanly and the EWSR1-derived 5' half never counts toward NR4A3 at all. The "
+            "fusion's contribution to an NR4A3 TPM is therefore systematically UNDER-counted."),
+        "the_family_is_immediate_early": (
+            "NR4A1/2/3 are immediate-early genes driven by serum, stress and handling. 6 of the "
+            "68 samples are cultured cells and 62 are tumour material, so both the absolute TPM "
+            "and the family fraction carry a culture-versus-tissue confound on top of the index "
+            "one."),
+        "what_a_positive_would_have_meant": (
+            "A conspicuous NR4A3 — top of the panel, dominating its own family — would have been "
+            "real corroboration despite both confounds. That is not what was found."),
+    }
+    res["_what_would_settle_it"] = (
+        "RT-PCR or targeted sequencing across the fusion junction, or a fusion caller run on the "
+        "raw reads in SRA (BioProject PRJNA1273954). The first needs a bench; the second is real "
+        "compute this document does not spend. Neither is an expression measurement, which is the "
+        "point: expression can raise or lower a suspicion and can never close it.")
     return res
 
 

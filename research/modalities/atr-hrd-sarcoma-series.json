@@ -530,14 +530,57 @@
     "title": "MPNST08"
    }
   ],
+  "NR4A3_family_fraction": {
+   "_what": "NR4A3 / (NR4A1 + NR4A2 + NR4A3) TPM, within each sample's own file.",
+   "_why": "Index-robust. A cross-sample TPM rank is not, when the samples were quantified against different transcriptomes \u2014 and here they were.",
+   "median_across_all_samples": 0.0524,
+   "top5": [
+    {
+     "fraction": 1.0,
+     "sample": "GSM9037874",
+     "title": "UPS08"
+    },
+    {
+     "fraction": 0.3932,
+     "sample": "GSM9037884",
+     "title": "MPNST05"
+    },
+    {
+     "fraction": 0.3318,
+     "sample": "GSM9037840",
+     "title": "NMFH1"
+    },
+    {
+     "fraction": 0.2985,
+     "sample": "GSM9037901",
+     "title": "LMS11"
+    },
+    {
+     "fraction": 0.2301,
+     "sample": "GSM9037875",
+     "title": "UPS09"
+    }
+   ]
+  },
   "NR4A3_median_TPM_across_all_samples": 1.896,
   "_cannot": "\u26d4 This CANNOT call a fusion. A Salmon index contains no fusion transcript, and NR4A3 expression is a consequence other things can produce. It is corroboration of a LABEL or the absence of it \u2014 nothing more.",
+  "_index_confound_note": "If the EMC-labelled sample was quantified against a DIFFERENT index from its comparators, a cross-sample TPM rank is not an apples-to-apples comparison and must not be reported as one. The within-sample NR4A family FRACTION below is the index-robust statistic: it is a ratio of three genes measured in the same file under the same normalisation.",
+  "_sensitivity_bound": {
+   "_headline": "\u26a0 THIS TEST HAS LOW SENSITIVITY FOR THE QUESTION IT IS ASKED, BY CONSTRUCTION \u2014 so a null here is much weaker evidence against the label than a positive would have been for it, and it must not be read symmetrically.",
+   "the_family_is_immediate_early": "NR4A1/2/3 are immediate-early genes driven by serum, stress and handling. 6 of the 68 samples are cultured cells and 62 are tumour material, so both the absolute TPM and the family fraction carry a culture-versus-tissue confound on top of the index one.",
+   "the_index_has_no_fusion_entry": "An EWSR1::NR4A3 transcript is EWSR1 exons 1-12 joined to NR4A3 exon 3. Quantified against a WILD-TYPE transcript index, reads spanning the junction map to neither entry cleanly and the EWSR1-derived 5' half never counts toward NR4A3 at all. The fusion's contribution to an NR4A3 TPM is therefore systematically UNDER-counted.",
+   "what_a_positive_would_have_meant": "A conspicuous NR4A3 \u2014 top of the panel, dominating its own family \u2014 would have been real corroboration despite both confounds. That is not what was found."
+  },
   "_what": "NR4A3 expression in the EMC-labelled model against every other sample in the same deposit, quantified by the same submitter with the same tool.",
+  "_what_would_settle_it": "RT-PCR or targeted sequencing across the fusion junction, or a fusion caller run on the raw reads in SRA (BioProject PRJNA1273954). The first needs a bench; the second is real compute this document does not spend. Neither is an expression measurement, which is the point: expression can raise or lower a suspicion and can never close it.",
   "emc_labelled_samples": [
    {
     "NR4A1_TPM": 196.784,
     "NR4A2_TPM": 0.0,
     "NR4A3_TPM": 13.332,
+    "NR4A3_family_fraction": 0.0634,
+    "_rank_bound": "\u26a0 cross-sample TPM; see reference_index_groups",
+    "family_fraction_rank_of_68": 29,
     "fold_over_panel_median": 7.0,
     "n_samples_above_it": 3,
     "rank_of_68": 4,
@@ -545,6 +588,7 @@
     "title": "USZ-23_EMC3"
    }
   ],
+  "emc_sample_shares_the_majority_index": false,
   "instrument_controls": {
    "ACTB_median_TPM": 4423.63,
    "ALB_median_TPM": 0.4742,
@@ -562,8 +606,44 @@
    162218,
    188597
   ],
+  "reference_index_groups": [
+   {
+    "example_names_verbatim": [
+     "rna-TRNP",
+     "rna-TRNT",
+     "YP_003024038.1"
+    ],
+    "n_samples": 67,
+    "n_transcript_rows": 188597,
+    "name_convention": "OTHER",
+    "samples": [
+     "GSM9037835",
+     "GSM9037836",
+     "GSM9037838",
+     "GSM9037839",
+     "GSM9037840",
+     "GSM9037841",
+     "GSM9037842",
+     "GSM9037843",
+     "\u2026"
+    ]
+   },
+   {
+    "example_names_verbatim": [
+     "NM_000014.6",
+     "NM_000015.3",
+     "NM_000016.6"
+    ],
+    "n_samples": 1,
+    "n_transcript_rows": 162218,
+    "name_convention": "REFSEQ_BARE",
+    "samples": [
+     "GSM9037837"
+    ]
+   }
+  ],
   "samples_that_failed_to_read": [],
-  "verdict": "LABEL_CORROBORATED_WEAKLY \u2014 near the top of the panel for NR4A3"
+  "verdict": "LABEL_WEAKLY_CORROBORATED_AND_THE_COMPARISON_IS_CONFOUNDED \u2014 NR4A3 is elevated but not dominant in the EMC-labelled sample, and that sample was quantified against a different reference index from its 67 comparators, so its cross-sample rank is not apples-to-apples"
  },
  "fet_fusion_sarcoma_subtypes": {
   "_bound": "Presence of a DISEASE whose defining fusion is a FET fusion. It is not a per-sample fusion call, and this series carries none \u2014 see `fet_fusion_status_recoverable`.",
