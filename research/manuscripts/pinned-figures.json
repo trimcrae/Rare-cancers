@@ -606,16 +606,18 @@
     },
     {
       "id": "ladder_total_194",
-      "pattern": "\\$194\\s*mid|~\\$194\\b",
+      "pattern": "(?:\\$|≈|~)\\s*194\\b|\\b194\\s*(?:mid|;)",
       "current": "~$185 mid (~$51–614)",
-      "retired_by": "RUNG 5a's basin search completed 2026-07-25 at $0 realized (pure CPU/CI, no GPU; the optional MM-GBSA rescore was recommended against). Its mid moves to realized $0 — the convention valA_mini already uses — so the total drops $25. Low/high bands unchanged, since 5a's $0–50 band is unchanged."
+      "retired_by": "RUNG 5a's basin search completed 2026-07-25 at $0 realized (pure CPU/CI, no GPU; the optional MM-GBSA rescore was recommended against). Its mid moves to realized $0 — the convention valA_mini already uses — so the total drops $25. Low/high bands unchanged, since 5a's $0–50 band is unchanged.",
+      "why_pattern_widened": "⛔ WIDENED 2026-08-05 AFTER IT MISSED A LIVE INSTANCE. The document wrote `≈ 194` / bare `47` / `561`; this pattern required the `$`. A bare number would cry wolf, so what is widened is the MONEY CONTEXT — a currency glyph, an approximation sign, or `mid` beside it — not the number alone. Superseded pattern, retained: `\\$194\\s*mid|~\\$194\\b`."
     },
     {
       "id": "ladder_total_169",
-      "pattern": "\\$169\\s*mid\\s*\\(~?\\$47|\\$47[–-]561",
+      "pattern": "\\$169\\s*mid\\s*\\(~?\\$47|\\$47[–-]561|(?:\\$|≈|~)\\s*47\\s*`?;|(?:\\$|≈|~)\\s*561\\b",
       "current": "~$185 mid (~$51–614)",
       "retired_by": "The as-run ternary leg is 2800 iterations, not 2400 (verified 2026-07-25 against rbfe_spot_driver._iters_from_time: warmup iterations derive from the WARMUP integrator at 1 fs, so 1 ns of equilibration is 800 iterations of 1250 steps, not 400). Every 2 fs ternary stage was understated ~17%. Net of 5a completing at $0, the total moves 169 -> 185.",
-      "_narrowed_2026_07_30": "This entry's pattern used to include a bare `~$169`, and on 2026-07-30 the pinned total RETURNED to ~$169 for an unrelated reason (RUNG 5a-KS 2 legs -> 4). Two different quantities landed on one number, so the old pattern began flagging correct current statements. Narrowed to the historical BAND ($47-561), which the current ~$169 (~$46-626) does not share. The 2026-07-25 supersession itself is unchanged and still recorded in STRATEGY.md Appendix A."
+      "_narrowed_2026_07_30": "This entry's pattern used to include a bare `~$169`, and on 2026-07-30 the pinned total RETURNED to ~$169 for an unrelated reason (RUNG 5a-KS 2 legs -> 4). Two different quantities landed on one number, so the old pattern began flagging correct current statements. Narrowed to the historical BAND ($47-561), which the current ~$169 (~$46-626) does not share. The 2026-07-25 supersession itself is unchanged and still recorded in STRATEGY.md Appendix A.",
+      "why_pattern_widened": "⛔ WIDENED 2026-08-05 AFTER IT MISSED A LIVE INSTANCE. The document wrote `≈ 194` / bare `47` / `561`; this pattern required the `$`. A bare number would cry wolf, so what is widened is the MONEY CONTEXT — a currency glyph, an approximation sign, or `mid` beside it — not the number alone. Superseded pattern, retained: `\\$169\\s*mid\\s*\\(~?\\$47|\\$47[–-]561`."
     },
     {
       "id": "triangle_n1_59",
@@ -715,9 +717,10 @@
     },
     {
       "id": "ladder_basis_0_004359",
-      "pattern": "0\\.004359|\\$0\\.0043593",
+      "pattern": "0\\.00435\\d|0\\.00436\\b|\\$0\\.0043593",
       "current": "basis $0.003412/ns (congeneric_fanout.basis_usd_per_ns())",
-      "retired_by": "the 2026-07-27 throughput re-anchoring plus the ladder regeneration — pricing.md Appendix T"
+      "retired_by": "the 2026-07-27 throughput re-anchoring plus the ladder regeneration — pricing.md Appendix T",
+      "why_pattern_widened": "⛔ WIDENED 2026-08-05 AFTER IT MISSED A LIVE INSTANCE. The document rounded to `0.00436` and this pattern demanded `0.004359` — the same retired basis, one digit shorter, invisible to CI for a week while pricing.md §A presented it as 'THE PLANNING NUMBER'. Superseded pattern, retained: `0\\.004359|\\$0\\.0043593`."
     },
     {
       "id": "scoreboard_realised_0_74",

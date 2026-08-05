@@ -1204,7 +1204,7 @@ trusting any of them.
 
 ⚠ **TWO THINGS THIS PARAGRAPH GOT WRONG UNTIL 2026-07-30, both found by regenerating rather than reading.**
 **(a)** It stated the 5a basin stage at **mid $25** while the machine registry has always used **$0** — so its
-own printed arithmetic came out at **`≈ 194`** beside a pinned total of `~$158`, and the sentence that followed
+own printed arithmetic came out at **`≈ 194`** — *superseded, retained* — beside a pinned total of `~$158`, and the sentence that followed
 asserted the chain *"ends on the same ~$158"*. A doc contradicting itself inside four lines, which is precisely
 what rule 1 exists to catch; the registry was right and the prose was wrong. **(b)** The tool figures quoted
 here (**$149.4 at $0.137/ref-GPU-h**) were from an older market snapshot than the committed artifact, which

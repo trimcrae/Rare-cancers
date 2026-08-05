@@ -62,12 +62,18 @@ hour. Neither survives:
 
 | | $/ns | **per reference (4090) GPU-hour** |
 |---|---|---|
-| best offer | 0.00181 | **$0.057** |
-| **best-10 mean — THE PLANNING NUMBER** | 0.00436 | **$0.137** |
-| median offer | 0.00983 | $0.309 |
+| best offer | 0.001412 | **$0.0473** |
+| **best-10 mean — THE PLANNING NUMBER** | 0.003412 | **$0.1143** |
+| median offer | 0.0086 | $0.2881 |
 | *what `step1_fanout` actually paid* | — | *$0.35–0.39* |
 
-Best-to-median spread is **5.43×**, so selection is the dominant lever — worth several times the bid policy
+⚠ *Superseded, retained: best 0.00181/$0.057 · **best-10 mean 0.00436/$0.137** · median 0.00983/$0.309 ·
+spread **5.43×**. Those are the PRE-REPRICE figures, and this table presented them as "THE PLANNING NUMBER"
+for a week after the 2026-07-27 re-anchor — while Appendix U of this same file already carried the current
+basis. `pinned-figures.json` → `ladder_basis_0_004359` registers it; CI missed it only because the doc
+rounds to `0.00436` and the registered pattern is `0\.004359`.*
+
+Best-to-median spread is **6.09×**, so selection is the dominant lever — worth several times the bid policy
 (the whole `×1.9 → floor` bid change is 1.48×). Bid policy, evidence and the retired rules:
 **[bid-strategy.md](./bid-strategy.md)**.
 
@@ -342,10 +348,17 @@ $0.057 best offer .. $0.309 median). Regenerate the alchemical/MD stages with
 [`vast-ladder-repricing.json`](../modalities/vast-ladder-repricing.json).
 
 **Derivation, so all three places can be checked against each other.** The tool prices 9 stages at
-**$149.4 ($38.2–466.4)**. The ladder figure adds what the tool does not cover: step0 ~$1–2 (mid $1.5),
-`valA_mini` ~$0–15 (**realized ~$0** on GCP credit), the ~$8 measured covalent panel, 5a basin ~$0–50 (mid $25),
-5b linker ~$0–20 (mid $10). So `149.4 + 1.5 + 0 + 8 + 25 + 10 ≈ 194`; low `38.2 + 1 + 8 ≈ 47`; high
-`466.4 + 2 + 15 + 8 + 50 + 20 ≈ 561`. nr4a3-program-map.md's per-step `Cum.` chain and
+**$149.63 ($36.58–531.46)**. The ladder figure adds what the tool does not cover, and those
+bands are the registry's, not this page's — `pinned-figures.json` → `derivations.ladder_total.non_tool_stages`
+is their one home: step0 (mid $1.5), `valA_mini` (**realized ~$0** on GCP credit), the ~$8 measured covalent
+panel, 5a basin (**mid $0 — the basin search COMPLETED 2026-07-25 at $0 realized**), 5b linker (mid $10). So
+`149.63 + 1.5 + 0 + 8 + 0 + 10 ≈ $169`; low ≈ $46; high ≈ $626.
+
+⚠ *Superseded, retained, and this paragraph carried all three at once: tool total **$149.4 ($38.2–466.4)**,
+**5a basin mid $25** (retired by `ladder_total_194` — the search finished at $0 realized), and the resulting
+**≈ 194 / ≈ 47 / ≈ 561**. It sat four lines under the correct headline total, contradicting it. CI missed it
+because the text wrote `≈ 194` and bare `47`/`561` with no `$`, and the registered patterns require the
+currency glyph.* nr4a3-program-map.md's per-step `Cum.` chain and
 [bid-strategy.md §6](./bid-strategy.md) end on the same numbers. *(The `~$46–544` this line previously carried
 did not sum; corrected 2026-07-25. Superseded totals: ~$467 (~$249–685), ~$240 (~$90–390), ~$390 (~$170–610),
 and a stray ~$128 that was bid-strategy §6's table with the 5c row missing.)*

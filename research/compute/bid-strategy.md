@@ -35,7 +35,7 @@ _backfilled: true
 3. **Interruptible always**, unless a single leg genuinely cannot survive a pause.
 4. **Buy retention with checkpoint frequency, not with dollars.**
 
-**What it achieves on the live board (2026-07-25, 148 qualifying offers): `$0.137` per reference GPU-hour**
+**What it achieves on the live board: `$0.1143` per reference GPU-hour** ⚠ *superseded, retained: `$0.137` (2026-07-25, 148 qualifying offers) — the pre-reprice basis*
 against the **`$0.35–0.39/hr` that `step1_fanout` actually paid** — **2.6–2.8×**. Range `$0.057` (best offer)
 to `$0.309` (ignoring the ranking and taking a median host).
 
@@ -164,11 +164,15 @@ Measured all-in `$/ns` on the live board:
 
 | | $/ns | per reference GPU-hour |
 |---|---|---|
-| best offer | 0.00181 | **$0.057** |
-| best-10 mean (**the planning number**) | 0.00436 | **$0.137** |
-| median offer | 0.00983 | $0.309 |
+| best offer | 0.001412 | **$0.0473** |
+| best-10 mean (**the planning number**) | 0.003412 | **$0.1143** |
+| median offer | 0.0086 | $0.2881 |
 
-**5.43× from best to median.** Against **1.48×** for the entire bid change that retired `×1.9`. Selection is worth
+⚠ *Superseded, retained: best 0.00181/$0.057 · best-10 mean **0.00436/$0.137** · median 0.00983/$0.309 ·
+**5.43×** best-to-median. The 2026-07-27 re-anchor moved all four, and §6 of this same document announces
+that reprice — so this table contradicted its own file.*
+
+**6.09× from best to median.** Against **1.48×** for the entire bid change that retired `×1.9`. Selection is worth
 several times what bidding is, and it is the thing the old policy did worst — it ranked by `min_bid`, which is
 neither what we pay nor what we get.
 
@@ -197,19 +201,28 @@ single 0.9–4.5 s window, and it ranked an RTX 4080 SUPER above a 4090 and a mi
 cheapest per ns. The **validated** re-run (3 × ~20 s independent blocks, physics-checked, CV < 1.4%, with a
 rejection gate) gives:
 
-| card | ns/day @ 84,534 | CV |
+| card | ns/day @ 84,534 | basis |
 |---|---|---|
-| RTX 4090 | **755.36** | 0.14% |
-| RTX 4080 | **703.51** | 0.18% |
-| RTX 3090 | **359.36** | 1.31% |
+| RTX 4090 | **804.06** | median of 6 hosts |
+| RTX 4080 | **693.35** | median of 4 hosts |
+| RTX 3090 | **460.91** | median of 3 hosts |
 
-So the 4090/3090 ratio is **2.10×, not 2.42×**, and the 4080 is within **7%** of a 4090, not 40% behind. The
+So the 4090/3090 ratio is **1.745×** and the 4080 is **~14 % behind** a 4090, not 40 %.
+
+⛔ *Superseded, retained — and this block presented them as the VALIDATED table for a week:* RTX 4090
+**755.36** (CV 0.14 %) · RTX 4080 **703.51** (0.18 %) · RTX 3090 **359.36** (1.31 %) · ratio **2.10×** ·
+the 4080 "within **7 %**". Those are SINGLE-HOST figures; the median-of-N re-measure on 2026-07-27
+replaced all five, and `pinned-figures.json` registers each one
+(`card_rtx4090_755_36`, `card_rtx4080_703_51`, `card_rtx3090_359_36`,
+`card_ratio_4090_over_3090_2_10`, `card_ratio_4090_over_4080_within_7pct`). ⚠ **CI cleared them because
+this section's heading contains the word "RETIRED"** — which is about the card *rule*, not its *numbers*.
+The one home is `vast_cost_model.MEASURED_NS_PER_DAY_84K`. The
 withdrawn 669 figure survived in `vast_bid_optimizer.MEASURED_NS_PER_DAY` for a day because the number lived in
 two tables and only one was corrected — which is why there is now exactly one.
 
 **(b) At equal price the 4090 wins; prices are not equal.** On the live board the cheapest 3090 is
-`$0.0147/hr` against `$0.1310` for the cheapest 4090 — **8.8× on the bid**, which more than covers being 2.10×
-slower. All-in (storage included, F4) the best 3090 is **2.61×** cheaper per ns than the best 4090, and
+`$0.0147/hr` against `$0.1310` for the cheapest 4090 — **8.8× on the bid**, which more than covers being
+**1.745×** slower. ⚠ *Superseded, retained: "2.10× slower".* All-in (storage included, F4) the best 3090 is **2.61×** cheaper per ns than the best 4090, and
 **the top 10 offers contain both cards**.
 
 > The correct statement is **not** "prefer the 3090." It is: **the card is not the decision — the offer is.**
@@ -219,8 +232,8 @@ slower. All-in (storage included, F4) the best 3090 is **2.61×** cheaper per ns
 **One honest caveat, and it cuts against the cheap 3090 tail.** The validated grid measured **one system size**
 (84,534 particles) for three cards; our real systems are 146k (ternary) and 466–650k (covalent). Ratios are far
 more size-stable than absolute rates, so the ranking is sound, but an absolute ns/day at another size is not
-measured. Also, a 3090 needs **2.10× the wall clock** for the same leg, so a leg with a hard continuity
-requirement is 2.10× more exposed on it — `JobProfile.min_uninterrupted_h` scales the requirement per card and
+measured. Also, a 3090 needs **1.745× the wall clock** for the same leg, so a leg with a hard continuity
+requirement is 1.745× more exposed on it ⚠ *(superseded, retained: **2.10×**, both places)* — `JobProfile.min_uninterrupted_h` scales the requirement per card and
 flags this, precisely so the cheap tail is not chosen for the covalent-style legs that need to run through.
 
 ---

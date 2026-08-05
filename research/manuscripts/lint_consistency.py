@@ -143,6 +143,19 @@ def _enclosing_heading(lines, idx):
     return ""
 
 
+#: Heading phrases that scope a WHOLE SECTION as a record of superseded values. Deliberately a short,
+#: explicit list rather than the general marker vocabulary — see the note in `is_cleared`.
+_HEADING_CLEAR_PHRASES = (
+    "superseded numbers",
+    "retracted claims",
+    "superseded and retracted",
+    "what was believed before",
+    "retired numbers",
+    "superseded figures",
+    "superseded strategy framings",
+)
+
+
 def is_cleared(lines, idx, markers, line=None, start=None):
     """True if this occurrence is a correctly-marked reference to a superseded value.
 
@@ -171,8 +184,22 @@ def is_cleared(lines, idx, markers, line=None, start=None):
     near = blob[max(0, offset - _WINDOW_CHARS):offset + _WINDOW_CHARS].lower()
     if any(m.lower() in near for m in markers):
         return True
+    # ⛔ A HEADING CLEARS ONLY IF THE SECTION IS *ABOUT* SUPERSEDED VALUES (narrowed 2026-08-05).
+    #
+    # This used to accept ANY supersession marker in the enclosing heading, and "retired" is a marker.
+    # So `## 4. ⚠ THE CARD RULE IS RETIRED — "the 4090 is the default" is false as a selection rule`
+    # cleared everything beneath it — and beneath it sat FIVE LIVE FIGURES that pinned-figures.json had
+    # already registered as superseded (755.36 / 703.51 / 359.36 / 2.10× / "within 7 %"). The heading
+    # was about a RULE being retired; its NUMBERS were being presented as current. CI was green on all
+    # five for over a week.
+    #
+    # ⚠ THE RULE ITSELF IS KEPT, because the cases it exists for are real: STRATEGY.md's
+    # "## Appendix A — superseded numbers and retracted claims" and bid-strategy.md's "## 7. WHAT WAS
+    # BELIEVED BEFORE, AND WHICH MEASUREMENT RETIRED IT" are pages OF retractions, and making every row
+    # repeat the disclaimer would be unreadable. The discriminator is what the heading says the section
+    # CONTAINS: historical values, not a retired rule that happens to be described with live numbers.
     heading = _enclosing_heading(lines, idx).lower()
-    return any(m.lower() in heading for m in markers)
+    return any(ph in heading for ph in _HEADING_CLEAR_PHRASES)
 
 
 def _finding(rule, severity, path, line, message, detail=""):

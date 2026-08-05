@@ -24,7 +24,7 @@ The current pilot run finishes on AWS untouched; **nothing new kicks off until t
 > processes, so pick the matrix GPU by measured **$/ns**, not $/hr.
 
 **What's already scaffolded (in `research/modalities/`):** a provider-agnostic harness (`gpu_backend.py`),
-the auto-teardown guarantee so no provider ever idles a GPU on the meter (`autoteardown.py`), an S3-compatible
+an auto-teardown wrapper (`autoteardown.py`) — ⛔ **which does NOT guarantee that no provider idles a GPU on the meter; that claim was MEASURED FALSE 2026-07-27** and the guarantee is [`vast_idle_guard.py`](../modalities/vast_idle_guard.py) acting from CI, because an unprivileged container cannot end itself. ⚠ *Superseded, retained: "the auto-teardown guarantee so no provider ever idles a GPU on the meter"* — an S3-compatible
 checkpoint bridge so compute is stateless and swappable (`object_store.py`), a portable job container
 (`research/compute/Dockerfile.mdjob`), and the ACCESS free-allocation draft (`access-allocation-request.md`).
 21 unit tests pass. **Only the real per-provider `submit()` calls remain — those need live accounts, which is
@@ -89,8 +89,10 @@ what this doc is for.**
 > N-wide, no shared-quota wall. **Modal (the one free-AND-instantly-parallel option) is exhausted this month**
 > (monthly grant spent; resets next month), which is why the paid marketplace is now the wide-parallel play.
 > **`VastBackend.submit()/status()/stop()` are now fully implemented** in `gpu_backend.py` (verified-offer
-> search → cheapest single-GPU RTX-4090-class pick → instance-create with a **guaranteed self-destroy onstart**
-> so no idle-GPU bleed). The load-bearing logic — `_select_cheapest_offer` + `_vast_onstart` + `_vast_status` —
+> search → cheapest single-GPU RTX-4090-class pick → instance-create with a self-destroy EXIT trap armed in
+> the onstart script — ⛔ **not a guarantee**: the trap stops the JOB, not the METER, and a crash-looping
+> container never returns to run it. ⚠ *Superseded, retained: "a **guaranteed self-destroy onstart** so no
+> idle-GPU bleed".*). The load-bearing logic — `_select_cheapest_offer` + `_vast_onstart` + `_vast_status` —
 > is factored into **pure, unit-tested** helpers; the thin `_vast_request` urllib client is isolated. **REMAINING
 > (needs trimcrae):** create/fund a Vast.ai account, set **`VAST_API_KEY`** as a CI/job secret (+ a small
 > balance — first out-of-pocket dollar). Then a **one-instance smoke** confirms the REST endpoint shapes (the
@@ -123,7 +125,7 @@ what this doc is for.**
    Run the whole triage tier and shake out the pipeline for ~free. **NOTE: Modal is the easy/free *starting*
    option, NOT the cheapest — per GPU-hour it's PRICIER than Salad (serverless premium). It's #1 only for the
    free credits + inherent no-idle + easiest setup.**
-2. **Put the checkpoint bucket on Cloudflare R2** (free egress — matters because trajectories move between
+2. ⚠ *Not taken —* **Put the checkpoint bucket on Cloudflare R2** (free egress — matters because trajectories move between
    providers). This is the shared state that makes compute swappable.
 3. **Add SaladCloud + RunPod** for the cheap sustained fleet — **Salad is the actual cost winner (cheapest per
    hour)** and should carry the bulk triage volume once Modal's credits are used; RunPod Secure for the few
@@ -134,7 +136,7 @@ what this doc is for.**
 ## GCP GPU + region choice (recorded 2026-07-12; quota request kicked off ahead of need)
 
 > **STATUS 2026-07-12:** trimcrae requested **4× Preemptible L4 + 4× Preemptible T4** (us-central1), pending
-> approval. 4 concurrent is enough for the pilot + early bulk triage; bump to 8 later if the campaign grows
+> approval. ⛔ **MEASURED SINCE: the binding cap is `GPUS_ALL_REGIONS = 1`** — at most ONE GPU concurrent, any region or type, so replicate seeds and edges run SEQUENTIALLY ([gcp-gpu-facts.md §1](./gcp-gpu-facts.md)). ⚠ *Superseded, retained: "4 concurrent is enough for the pilot + early bulk triage; bump to 8 later if the campaign grows.*
 > (follow-up increases approve faster once the first grant lands). When approved → wire the `gcp` adapter's
 > launch/teardown, then GCP is live and first in line under the free-first waterfall.
 
@@ -232,7 +234,7 @@ what this doc is for.**
   (preemptible) — our per-unit checkpointing makes preemption safe and Spot is 3–4× cheaper than on-demand.
 - **Quota to request** (Console → Quotas & System Limits, after upgrading OFF the free trial + enabling the
   Compute Engine API): `Preemptible NVIDIA L4 GPUs` (us-central1) = 8, `Preemptible NVIDIA T4 GPUs`
-  (us-central1) optional, `GPUs (all regions)` ≥ 8. Justification = independent computational-chemistry
+  (us-central1) optional, `GPUs (all regions)` ≥ 8 — ⛔ **this was requested and the granted binding cap is 1**; see gcp-gpu-facts.md §1. Justification = independent computational-chemistry
   research, MD/FEP on checkpointed Spot GPUs. Small Spot requests approve in minutes–hours; large up to ~2 days.
   **Step 0 gotcha:** GPU quota is denied on a pure trial account — must upgrade to full billing first ($300
   credit still applies). The `gcp` backend defaults should target `us-central1` + L4 Spot to match this.
@@ -269,8 +271,9 @@ above is exhausted or genuinely can't run the job:
 Modal's monthly grant*, un-park GCP FIRST (start the account-upgrade + quota request), burn the $300, then
 Oracle, then paid Vast — and name that free-credit provider in the standing "confirm provider before kickoff"
 step. Until such a run is imminent, don't prompt trimcrae to do the GCP/Oracle setup (no GPU work to burn it on
-yet). The `gcp` backend is already wired + unit-tested in `gpu_backend.py` (Spot GCE VM + self-delete anti-idle
-guard); only the account-side setup above is deferred.
+yet). The `gcp` backend is already wired + unit-tested in `gpu_backend.py` (Spot GCE VM; ⛔ **the in-VM
+self-delete is REFUSED by GCE** — `Required 'compute.instances.delete' permission`, measured 2026-07-27, so
+the reap is the control plane's job — [gcp-gpu-facts.md §6](./gcp-gpu-facts.md)); only the account-side setup above is deferred.
 
 ## Provider choice per GPU run (POLICY — trimcrae, 2026-07-12)
 
@@ -295,7 +298,7 @@ auto-route within a tier.
 | # | Account | URL | Why | Free credit (verify) |
 |---|---|---|---|---|
 | 1 | **Modal** | modal.com | serverless GPU, **auto-scales to zero (no idle billing)**, best "start for free" | **~$30/month free credits**, ongoing |
-| 2 | **Cloudflare R2** | dash.cloudflare.com → R2 | checkpoint/state bucket, **$0 egress** | 10 GB storage + free egress |
+| 2 | ⚠ *not taken* — **Cloudflare R2** | dash.cloudflare.com → R2 | checkpoint/state bucket, **$0 egress** | 10 GB storage + free egress |
 | 3 | **SaladCloud** | portal.salad.com | cheapest sustained compute (consumer GPUs) for triage volume | trial credits for new orgs (verify) |
 | 4 | **RunPod** | runpod.io | Secure Cloud for the long terminal legs (stable, clean API) | occasional signup credit (verify) |
 | 5 | **Google Cloud** *(optional)* | cloud.google.com/free | burn a big trial credit on GPU VMs | **$300 / 90 days** |
@@ -313,7 +316,7 @@ for one-off smoke tests, not the fleet.
 ## Step-by-step to go live
 
 **A. Stand up the state bucket (once).**
-1. Create a **Cloudflare R2** bucket, e.g. `nr4a3-ckpt`.
+1. ⚠ *Not taken — see the CHECKPOINTS block above.* Create a **Cloudflare R2** bucket, e.g. `nr4a3-ckpt`.
 2. Make an R2 **S3-API token** (Access Key ID + Secret). Note the endpoint `https://<acct>.r2.cloudflarestorage.com`.
 3. Give me: `OBJECT_STORE_ENDPOINT` (that URL) — the key/secret go in job secrets as `AWS_ACCESS_KEY_ID` /
    `AWS_SECRET_ACCESS_KEY` (R2 uses the S3 auth scheme). *(If you'd rather reuse the existing AWS S3 bucket,
@@ -351,8 +354,10 @@ say the word and I'll add that workflow (no account needed beyond the repo).
   ACCESS affiliation. Hand me the key **names** (not values) or set them as secrets.
 
 **Cost outlook once live:** triage-heavy Stage-2 on Salad/Modal-credits + terminal legs on RunPod/ACCESS should
-bring the ~$1–5k AWS estimate down to **low hundreds of dollars (or free if ACCESS lands)** — with **no idle-GPU
-bleed on any provider**, guaranteed by the teardown wrapper.
+bring the ~$1–5k AWS estimate down to **low hundreds of dollars (or free if ACCESS lands)**. ⚠ *Superseded,
+retained: "with **no idle-GPU bleed on any provider**, guaranteed by the teardown wrapper" — measured false
+2026-07-27; two 5a-KS legs billed ~53 min at `gpu_util: 0.0` while `actual_status: running`. Idle billing is
+bounded by `vast_idle_guard.py` from CI, not by anything on the host.*
 
 ---
 
