@@ -42,7 +42,7 @@
             "blockers":     { "type": "array", "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" } },
             "routes":       { "type": "array", "items": { "type": "string", "pattern": "^RT-[A-Z0-9-]+$" } },
             "requirements": { "type": "array", "items": { "type": "string", "pattern": "^R[0-9]+$" } },
-            "instruments":  { "type": "array", "items": { "type": "string", "pattern": "^V[0-9]+$" } }
+            "instruments":  { "type": "array", "items": { "type": "string", "pattern": "^(V[0-9]+|INS-[A-Z0-9-]+)$" } }
           }
         },
 

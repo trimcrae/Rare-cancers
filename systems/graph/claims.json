@@ -1,0 +1,114 @@
+[
+  {
+    "id": "CLM-IDR-EMC",
+    "document": "research/manuscripts/emc-post-degrader-options.md",
+    "locator": "route 1's RGG-retention table row for EWSR1::NR4A3",
+    "artifact": "ART-IDR-CENSUS",
+    "field": "/emc_canonical_EWSR1_NR4A3/rg_dipeptides_retained",
+    "note": "⛔ THE FAILURE-4 CLAIM. On `main` this document prints the full table and the artifact is a stub, so the number reads as current and is unsupported by anything on that ref."
+  },
+  {
+    "id": "CLM-IDR-CONTROLS",
+    "document": "research/manuscripts/emc-post-degrader-options.md",
+    "locator": "the positive-control rows beside it (the fusions in which ATM suppression was MEASURED)",
+    "artifact": "ART-IDR-CENSUS",
+    "field": "/positive_controls_pass",
+    "note": "The controls are what make the EMC row readable; if the artifact is a stub they are missing too."
+  },
+  {
+    "id": "CLM-IDR-COMPARATIVE",
+    "document": "research/IDEAS.md",
+    "locator": "the ATR route row's 'structural precondition is COMPUTED and it holds' sentence",
+    "artifact": "ART-IDR-CENSUS",
+    "field": "/emc_vs_measured_fusions_comparative/rows",
+    "note": "The comparative rows are the claim's actual support — EMC loses at least as much RGG content as each measured fusion."
+  },
+  {
+    "id": "CLM-CONSTRUCT-FRAME",
+    "document": "research/manuscripts/emc-atr-collaborator-package.md",
+    "locator": "§7.2 'The four constructs — all four are in frame'",
+    "artifact": "ART-CONSTRUCT-DESIGNS",
+    "field": "/n_constructs_in_frame",
+    "note": "The 59-UTR-residue finding lives in the same artifact's /constructs entry for type 2 and is the reason a CDS-level model is not enough."
+  },
+  {
+    "id": "CLM-CONSTRUCT-TCF12",
+    "document": "research/manuscripts/emc-atr-collaborator-package.md",
+    "locator": "§7.4 'TCF12 — the negative control checked out'",
+    "artifact": "ART-CONSTRUCT-DESIGNS",
+    "field": "/tcf12_negative_control",
+    "note": "The verdict does not rest on the weakest test; the decisive tests are compositional and are computed over every prefix."
+  },
+  {
+    "id": "CLM-MONOVALENT-VERDICT",
+    "document": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+    "locator": "§3 'The result' — the E3-arm-free reach enumeration",
+    "artifact": "ART-MONOVALENT-REACH",
+    "field": "/verdict/answer_on_the_conservative_convention",
+    "note": "This is the finding that holds the monovalent route below the probe framing, and it is the route's own cheapest test."
+  },
+  {
+    "id": "CLM-MONOVALENT-CROSSCHECK",
+    "document": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+    "locator": "§3 'its bivalent half replicates the committed artifact cell-for-cell'",
+    "artifact": "ART-MONOVALENT-REACH",
+    "field": "/cross_checks",
+    "note": "The replication IS the instrument's known-answer control (INS-MONOVALENT-REACH); without it the monovalent half is unreadable."
+  },
+  {
+    "id": "CLM-ATRI-GDSC",
+    "document": "research/manuscripts/emc-post-degrader-options.md",
+    "locator": "the ATRi-contrast section — the GDSC2 re-cut by FET status",
+    "artifact": "ART-DDR-AXIS-SCAN",
+    "field": "/atr_inhibitor_sensitivity_gdsc/by_drug",
+    "note": "⚠ the doc says this artifact is 'committed on `main`'. See OC-3."
+  },
+  {
+    "id": "CLM-KO-SATURATION",
+    "document": "research/manuscripts/emc-post-degrader-options.md",
+    "locator": "the DepMap knockout scan reported as a FAILED instrument",
+    "artifact": "ART-DDR-AXIS-SCAN",
+    "field": "/knockout_instrument_saturation",
+    "note": "A failed instrument reported AS failed — the pattern this registry's instrument invariant enforces."
+  },
+  {
+    "id": "CLM-FUSION-MODEL-DISAGREEMENT",
+    "document": "research/manuscripts/target-route-options.md",
+    "locator": "§1.3 'the repo held two incompatible models of the fusion protein'",
+    "artifact": "ART-TARGET-ROUTE-CENSUS",
+    "field": "/fusion_model_disagreement",
+    "note": "The artifact keeps model B's disagreement rather than deleting it, because model B's own artifact is still committed and still quotable."
+  },
+  {
+    "id": "CLM-AF1-LC-SWAP",
+    "document": "research/manuscripts/emc-post-degrader-options.md",
+    "locator": "the 6-MP closure — 'NOR-1 residues 1–112 sit entirely inside the stretch the fusion replaces'",
+    "artifact": "ART-TARGET-ROUTE-CENSUS",
+    "field": "/af1_to_lc_swap",
+    "note": "The measured swap is what makes the 6-MP closure a computation rather than an assertion."
+  },
+  {
+    "id": "CLM-BREAKPOINT-FILTER",
+    "document": "research/modalities/fusion-object-inventory.md",
+    "locator": "'Which chimeras are possible, and which are plausible'",
+    "artifact": "ART-FUSION-OBJECT-INVENTORY",
+    "field": "/plausible_breakpoints/n_after_DBD_filter",
+    "note": "The DBD filter narrows the set; it does not choose within it. Only a primary breakpoint report pins the patient-level junction."
+  },
+  {
+    "id": "CLM-C397-DECOY-NULL",
+    "document": "research/manuscripts/nr4a3-program-map.md",
+    "locator": "V17's row — the second, independently pre-registered decoy-null scope that DOES contain C397",
+    "artifact": "ART-DECOY-NULL-LBD",
+    "field": "/results",
+    "note": "NOT DISTINGUISHED for C397. Quoting a percentile from the OTHER scope is forbidden because its NR4A3 arm does not contain C397."
+  },
+  {
+    "id": "CLM-APO-SITE-IN-REGIME",
+    "document": "research/manuscripts/nr4a3-program-map.md",
+    "locator": "V3's row — the in-regime site panel by two independent transfer routes",
+    "artifact": "ART-APO-POSE-SITE",
+    "field": "/site_panel_in_regime",
+    "note": "A geometric site supplement; it emits no RMSD and by its own rule cannot change the pre-registered INCONCLUSIVE."
+  }
+]

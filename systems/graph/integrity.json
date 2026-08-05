@@ -1,0 +1,134 @@
+{
+  "contested_names": [
+    {
+      "name": "the canonical EMC fusion",
+      "maps_to": [
+        "OBJ-FUS-T1",
+        "OBJ-MODEL-E7E3"
+      ],
+      "conflict": "OC-2",
+      "note": "Live text in several files uses this phrase for the MODELLED e7::e3 construct; the 2026-08-03 correction assigns 'canonical' to reported type 1 (e12::e3). Both readings are currently in the repo, so the name is registered as CONTESTED rather than as an alias of either object. Per the invariant a contested name may not appear in any object's `aliases`."
+    },
+    {
+      "name": "EMC's canonical fusion",
+      "maps_to": [
+        "OBJ-FUS-T1",
+        "OBJ-MODEL-E7E3"
+      ],
+      "conflict": "OC-2",
+      "note": "Same ambiguity, different wording; both forms are in live text."
+    }
+  ],
+  "open_conflicts": [
+    {
+      "id": "OC-2",
+      "what": "'the canonical EMC fusion' names two incompatible objects, and one working module is built on the one that is not a reported fusion type.",
+      "files": [
+        "research/modalities/fusion_cofold.py",
+        "research/modalities/emc_fet_idr_census.py",
+        "research/modalities/fusion_object_inventory.py",
+        "research/manuscripts/emc-post-degrader-options.md",
+        "research/manuscripts/target-route-options.md",
+        "research/manuscripts/emc-atr-collaborator-package.md"
+      ],
+      "positions": [
+        "emc-atr-collaborator-package.md §2.2 + appendix: 'canonical' now belongs to reported type 1 (EWSR1 e12 :: NR4A3 e3); the e7::e3 combination is not a reported type. The e7::e3 ARITHMETIC remains valid and remains the right comparator for EWSR1::FLI1 type 1.",
+        "Same file §7.2: reported type 2 carries 59 UTR-encoded residues, so fusion_cofold.py's protein-level model (EWS_CUT = 264, 'NR4A3 resumed at res 2') is not type 2 either.",
+        "Same file, appendix: the §1.3 off-by-two correction is NOT superseded — both reported types retain NR4A3 from its first coding exon, so AF-1, the C4 zinc finger and the LBD are present under either."
+      ],
+      "why_not_decided": "Changing which junction fusion_cofold.py models is a science decision with downstream reach (the neoantigen lane's seams, the IDR census's canonical row, R13's object) and at least three modules would have to move together. The registry's job is to make the three models nameable and separable; choosing between them is not a navigation-layer call.",
+      "owner": "research/manuscripts/nr4a3-program-map.md (R13 — 'real biological object')"
+    },
+    {
+      "id": "OC-3",
+      "what": "emc-post-degrader-options.md states that fet-ddr-axis-scan.json is 'committed on `main`'. It is not on `main` as of this registry's authoring — it is on the feature branch and on `modalities-cache`.",
+      "files": [
+        "research/manuscripts/emc-post-degrader-options.md",
+        "research/modalities/fet-ddr-axis-scan.json"
+      ],
+      "positions": [
+        "The sentence is the FIX for an earlier instance of exactly this problem (numbers quoted off a branch), and it becomes true the moment the feature branch merges to `main`.",
+        "Until then a reader on `main` follows a relative link to a file that is not there — the same shape of harm the sentence was written to close."
+      ],
+      "why_not_decided": "The remedy is the merge itself, not a doc edit; editing the sentence to say something weaker would remove a true statement about the intended state. Logged so that if the merge is ever reverted, the claim is already registered as conditional on it.",
+      "owner": "CLAUDE.md §7 — keep everything synced to `main`"
+    },
+    {
+      "id": "OC-4",
+      "what": "'Bangerter 2023' — the only ex-vivo EMC drug-sensitivity evidence in the repo — carries no PMID or DOI anywhere.",
+      "files": [
+        "research/IDEAS.md",
+        "research/manuscripts/repurposing-hypotheses.md"
+      ],
+      "positions": [
+        "It is cited as load-bearing evidence for the carfilzomib route ('best ex-vivo EMC evidence', 'only 1 of 17 drugs with high sensitivity across 2 patient-derived EMC models').",
+        "No canonical identifier is recorded, so it cannot be verified through `verify-refs` and is registered here with a search URL rather than an identifier."
+      ],
+      "why_not_decided": "Resolving it needs a literature fetch from a CI runner (the dev sandbox's proxy 403s PubMed/PMC), which is a separate job. Registering the gap is what stops it reading as a verified citation.",
+      "owner": "research/manuscripts/fact-check-log.md"
+    }
+  ],
+  "resolved_conflicts": [
+    {
+      "id": "RC-1",
+      "what": "⛔ SUPERSEDED ATTRIBUTION, RETAINED: five files cited the NOR-1 druggability paper under a wrong author name with no PMID, so the evidence the warhead lane is anchored to was unfindable to the repo's own sessions.",
+      "resolved_on": "2026-08-03",
+      "resolution_home": "research/modalities/nr4a3-druggability-reconciliation.md#5b",
+      "guard": "research/modalities/tests/test_munck_attribution_retired.py",
+      "what_this_registry_adds": "The structural half. EV-ZAIENNE-2022 lists every name the source travels under, including the retired one, so the two names can never again be read as two sources — and the E1/E3 invariants fail if any name resolves to two evidence items or if a source is cited under a name nothing registers."
+    }
+  ],
+  "_closure_model": {
+    "_why": "trimcrae, 2026-08-03: AI methods are advancing fast, so many currently-closed paths WILL be unblocked — and a register that files a permanent fact about a sequence alongside a limitation of today's free-energy engine loses exactly the information needed to know which is which. `closure_kind` is therefore an ENUMERATED field, not prose.",
+    "_source_of_the_categories": "The repo's own §6a/§6b register already reasons in these words (Definitional · Arithmetic · Premise false · Confound in the system · Unregenerable artifact), and §6b already requires each parked row to NAME what has to land. This registry makes those machine-readable and checks them; it invents no category and re-grades nothing.",
+    "kinds": {
+      "open": {
+        "permanent": false,
+        "needs_trigger": false,
+        "meaning": "not closed at all"
+      },
+      "definitional": {
+        "permanent": true,
+        "needs_trigger": false,
+        "meaning": "a fact about what the objects ARE — e.g. a residue the paralogues SHARE cannot discriminate between them, or a ligand whose mechanism lives in a domain the disease deletes. NEVER revivable."
+      },
+      "arithmetic_over_fixed_fact": {
+        "permanent": true,
+        "needs_trigger": false,
+        "meaning": "an arithmetic consequence of a fixed measured fact — e.g. the zinc-finger DBD's paralogue identity against the LBD's. NEVER revivable."
+      },
+      "premise_false": {
+        "permanent": false,
+        "needs_trigger": true,
+        "meaning": "a stated premise was measured and is not true. Revivable only if the measurement or the underlying fact changes."
+      },
+      "confound_in_the_system": {
+        "permanent": false,
+        "needs_trigger": true,
+        "meaning": "the TEST SYSTEM cannot answer it. Revivable by a DIFFERENT test system, not by a better method and not by more sampling."
+      },
+      "unregenerable_artifact": {
+        "permanent": false,
+        "needs_trigger": true,
+        "meaning": "⚠ THE TWO HALVES THIS REPO HAS CONFLATED: the specific RESULT is unrecoverable forever, and the QUESTION it was asked of is OPEN. The trigger is what re-answers the question, never what recovers the result."
+      },
+      "instrument_limit": {
+        "permanent": false,
+        "needs_trigger": true,
+        "meaning": "⭐ THE METHOD CANNOT RESOLVE IT TODAY — the most revivable category and the one most of this program's failures actually fall into. Filing these beside a definitional impossibility is precisely the information loss this field exists to prevent."
+      },
+      "authorization": {
+        "permanent": false,
+        "needs_trigger": true,
+        "meaning": "waiting on a person, not on nature."
+      },
+      "cost": {
+        "permanent": false,
+        "needs_trigger": true,
+        "meaning": "waiting on a budget, not on nature."
+      }
+    },
+    "_derived_never_typed": "`permanently_closed` and `revival_would_reopen` are DERIVED (from `closure_kind` and from the trigger registry respectively) and are regenerated into the view, never written into this file. The checker FAILS if either is typed here — CLAUDE.md §1: a derived value is regenerated, not hand-maintained.",
+    "_specificity_rule": "A `revival_trigger` string must be usable verbatim as a literature-search query — a sibling agent's weekly field scan searches for them by name. So it must NAME a method, benchmark, artifact, measurable quantity or capability, and must not lean on a bare comparative ('better X', 'improved X'). Enforced by the checker's Z4."
+  }
+}

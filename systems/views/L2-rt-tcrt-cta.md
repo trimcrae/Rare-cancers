@@ -1,0 +1,92 @@
+---
+id: DOC-VIEW-RT-TCRT-CTA
+title: RT-TCRT-CTA — TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcoma port)
+level: L2
+kind: generated
+status: generated
+generator: systems/systems_check.py
+purpose: Could engineered T cells against a cancer-testis antigen be ported to EMC, as was done in synovial sarcoma?
+scope: Level 2 — one route.
+audience: ["maintainers", "autonomous research agents"]
+date: 2026-08-05
+last_verified: 2026-08-05
+---
+
+<!-- GENERATED FILE — DO NOT EDIT. Regenerate with:
+     python3 systems/systems_check.py --write-views
+     Source of truth: systems/graph/*.json -->
+
+# RT-TCRT-CTA — TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcoma port)
+
+**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-05
+
+**Grade** (owned by [`research/manuscripts/immunotherapy-options-emc.md`](../../research/manuscripts/immunotherapy-options-emc.mdNone)): DOWNGRADED to weak — gating fact resolved, mostly negative
+
+## Scientific rationale
+
+The synovial-sarcoma precedent shows the approach works in a translocation sarcoma, and porting an approved approach is far cheaper than inventing one.
+
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-SURFACE-EXPRESSION` | EMC is cancer-testis-antigen-low on the available measured data | `surrogate` |
+
+## Remaining unknowns
+
+- Whether a real EMC series would agree with the surrogate measurement that downgraded this.
+
+## Required validation
+
+| what | instrument | feasible today | blocked by |
+|---|---|---|---|
+| A real EMC expression series | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+
+## Blockers
+
+| blocker | kind | what would retire it |
+|---|---|---|
+| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | *permanent* |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+
+## Blockers this route RETIRES
+
+- **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
+- **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
+
+## Readiness — what this could become today
+
+**`internal_note`**
+
+Downgraded on a measurement rather than on reasoning, which is the useful kind of downgrade — but it means the route needs a better measurement, not a better argument.
+
+**Missing:**
+- a real EMC expression series
+
+## Strategic timing — the wait equation
+
+**Recommendation: `monitor`**
+
+The gating fact was resolved and came back mostly negative. Only better data reopens it, and that data is watched.
+
+| horizon | effect |
+|---|---|
+| Six months | None. |
+| Two years | Only via an EMC dataset. |
+| Cost trend | flat |
+| Automation outlook | Re-grading would be automatic once data lands. |
+
+**Revisit when:**
+- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
+
+## Closure
+
+`premise_false` — EMC is CTA-low on measured data; a real EMC series is what could change it.
+
+## Best next action
+
+Keep registered for automatic re-grade when EMC expression data lands.
+
+*Cost:* $0
+
+[← ST-IMMUNO](L1-st-immuno.md) · [← L0](L0-ecosystem.md)

@@ -1,0 +1,4500 @@
+[
+  {
+    "id": "RT-DEGRADER",
+    "display_name": "NR4A3-LBD PROTAC degrader",
+    "aliases": [
+      "Degrader — NR4A3-LBD PROTAC",
+      "the degrader",
+      "the degrader program"
+    ],
+    "grade": {
+      "value": "LEADING driver-directed route; the program's north star — and the route whose four blocking failures reorganise every other row",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "anchor": "#-where-we-are--the-scoreboard-in-plain-language"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/manuscripts/emc-treatment-strategy.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-ENDPOINT-MD",
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-PARALOGUE-CONTROL",
+      "BLK-PARALOGUE-DDG",
+      "BLK-R4-BINDS",
+      "BLK-SELECTIVITY-CONTROL-UNAUTHORIZED",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [
+        "V1",
+        "V6",
+        "V8",
+        "V2"
+      ],
+      "disclosed_failing": [
+        "V4",
+        "V5",
+        "V7",
+        "V11",
+        "V12",
+        "V13",
+        "V17",
+        "V20",
+        "V21"
+      ]
+    },
+    "objects": [
+      "OBJ-NR4A3-LBD-MODELLED",
+      "OBJ-NR4A3-WT",
+      "OBJ-NR4A1-WT",
+      "OBJ-NR4A2-WT",
+      "OBJ-RES-C397"
+    ],
+    "evidence": [
+      "EV-ZAIENNE-2022"
+    ],
+    "artifacts": [
+      "ART-DECOY-NULL-LBD",
+      "ART-APO-POSE-SITE"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-ANDGATE",
+        "axis": "what the second arm detects",
+        "fails_on": [
+          "BLK-TERNARY-GEOMETRY",
+          "BLK-PARALOGUE-DDG"
+        ],
+        "why": "the AND-gate adds a fusion-vs-wild-type layer and LEAVES the paralogue layer exactly where it was — two orthogonal requirements, not one replaced"
+      },
+      {
+        "route": "RT-GLUE",
+        "axis": "how proximity is induced",
+        "fails_on": [
+          "BLK-PARALOGUE-DDG"
+        ],
+        "why": "a glue faces the same discrimination with FEWER independent handles"
+      },
+      {
+        "route": "RT-MONOVALENT",
+        "axis": "whether a degradation geometry is needed at all",
+        "fails_on": [
+          "BLK-TERNARY-GEOMETRY"
+        ],
+        "why": "the monovalent route deletes the ternary layer entirely; the degrader is defined by it"
+      },
+      {
+        "route": "RT-TCIP",
+        "axis": "what the recruited partner does",
+        "fails_on": [
+          "BLK-TERNARY-GEOMETRY",
+          "BLK-PARALOGUE-CONTROL"
+        ],
+        "why": "the degrader's second partner is an E3 and its verdict is a degradation event; TCIP's is a transcriptional effector and its verdict is a rewired output — the ubiquitin-transfer geometry does not apply to it"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET",
+      "TR-COFOLD-ASSEMBLY",
+      "TR-TERNARY-ALCHEMY-PASSES-VALB",
+      "TR-ABFE-AUTHORIZATION"
+    ],
+    "closure_note": "⭐ NOT closed — but every one of its four blocking failures is an INSTRUMENT LIMIT rather than a fact about the target, which is the options memo's organising finding restated as a field. Filing it beside a definitional impossibility would lose exactly that.",
+    "strategy": "ST-PROXIMITY",
+    "level": "L2",
+    "kind": "route",
+    "title": "NR4A3-LBD PROTAC degrader",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a bifunctional molecule recruit an E3 ligase to NR4A3 and degrade it selectively over NR4A1 and NR4A2?",
+    "state": {
+      "work_state": "in_work",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05",
+      "running_job": "the degrader program's open compute lanes — see the ordered plan in the roadmap"
+    },
+    "rationale": "NR4A3 is a transcription factor with no orthosteric ligand, so occupancy-based inhibition has nothing to bind. Degradation only needs the protein to be ENGAGED, not inhibited, and a cryptic pocket that opens under dynamics gives something to engage. Selectivity over the two paralogues is the whole problem: they share the ligand-binding domain fold, so discrimination has to come from a small free-energy difference, from a residue only NR4A3 has, or from the ternary complex's shape.",
+    "supporting_evidence": [
+      {
+        "ref": "V13",
+        "what_it_supports": "a cryptic pocket opens in biased dynamics, though the two-state mechanism gate failed as registered",
+        "strength": "direct"
+      },
+      {
+        "ref": "V14",
+        "what_it_supports": "an independent sequence-only ensemble method detects the same site, unbiased",
+        "strength": "direct"
+      },
+      {
+        "ref": "V15",
+        "what_it_supports": "an independent cryptic-site predictor agrees, on four of five permutation nulls",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether anything binds the cryptic pocket at all — no molecule of any kind is known to.",
+      "Whether the paralogue selectivity margin is real: the engine used to compute it misses a known absolute answer by more than the entire margin.",
+      "Whether a correctly assembled NR4A3 ternary is even geometrically possible — none has been built by anyone.",
+      "Whether the opening penalty differs between paralogues, which could reverse the margin and has never been computed."
+    ],
+    "required_validation": [
+      {
+        "what": "An engine that recovers a known SELECTIVITY answer before any selectivity number is believed",
+        "instrument": "V4",
+        "feasible_today": true,
+        "blocked_by": [
+          "BLK-SELECTIVITY-CONTROL-UNAUTHORIZED"
+        ]
+      },
+      {
+        "what": "A correctly assembled ternary for THIS system, not a rebuilt known one",
+        "instrument": "V2",
+        "feasible_today": true,
+        "blocked_by": [
+          "BLK-TERNARY-GEOMETRY"
+        ]
+      },
+      {
+        "what": "Experimental evidence that something binds the opened site",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-R4-BINDS"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "why_not_higher": "The computational arc is complete enough to describe honestly, but every selectivity statement is an unvalidated prediction and the paper says so. A journal submission is reachable once the binary selectivity control has run — that is the gating item, and it costs a decision rather than a capability.",
+      "missing": [
+        "a passing selectivity known-answer control",
+        "an anti-target panel that recovers its own cognate ligands"
+      ],
+      "evidence_required": [
+        "a free-energy engine validated in this regime"
+      ],
+      "experiment_required": [
+        "a binding assay against the opened site"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The cheapest decisive item is a decision, not a capability, and the paper is publishable now as an honest negative-leaning record. Waiting improves the physics but does not improve the writing, and the writing is what recruits the collaborator every wet-lab-gated row needs.",
+      "six_month_delta": "Little on the physics. Materially more on whether a co-folder benchmarked on assembly has appeared.",
+      "two_year_delta": "Substantial — a free-energy method validated on cryptic pockets would move this from unvalidated prediction to a measured claim.",
+      "cost_trend": "falling",
+      "automation_outlook": "Lane orchestration is already automated; the scientific judgement about what a failed control means is not."
+    },
+    "next": {
+      "best_next_action": "Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio and it costs a conversation.",
+      "cost": "$0 to ask; the run itself points at the pricing home",
+      "blocked_on": [
+        "BLK-SELECTIVITY-CONTROL-UNAUTHORIZED"
+      ]
+    }
+  },
+  {
+    "id": "RT-ASO",
+    "display_name": "Fusion-junction ASO / siRNA (the deliverable)",
+    "aliases": [
+      "Fusion-junction ASO / siRNA",
+      "the junction ASO",
+      "post-degrader route 2",
+      "target-route route 3"
+    ],
+    "grade": {
+      "value": "Tier 1, rank 2 — DELIVERABLE",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#2--the-ranked-list|tier1-rank2"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/manuscripts/target-route-options.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-DELIVERY"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1",
+      "OBJ-FUS-T2",
+      "OBJ-NR4A3-WT"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-ASO-ASK",
+        "axis": "deliverable vs ask",
+        "fails_on": [
+          "BLK-NO-WET-LAB"
+        ],
+        "why": "the manuscript is finished and needs nobody; the knockdown experiment needs a lab and has the portfolio's weakest taker. Grading them as one row is what the W1/W2/D correction exists to stop"
+      },
+      {
+        "route": "RT-CRISPR-CAS13",
+        "axis": "delivery class",
+        "fails_on": [
+          "BLK-DELIVERY"
+        ],
+        "why": "an oligonucleotide's delivery problem has clinical precedent in solid tumours; a vector's is a different engineering problem with different precedents, and Cas13 additionally carries collateral activity"
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "Its gate is delivery, which is engineering rather than a closure.",
+    "strategy": "ST-NUCLEIC-ACID",
+    "level": "L2",
+    "kind": "route",
+    "title": "Fusion-junction ASO / siRNA (the deliverable)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can an RNase-H gapmer or siRNA against the EWSR1::NR4A3 breakpoint junction silence the chimera while sparing wild-type NR4A3?",
+    "state": {
+      "work_state": "complete",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "The breakpoint junction is a sequence that exists in no healthy cell. An oligonucleotide reads sequence rather than shape, so it discriminates perfectly where every protein-directed route has to fight a shared fold. This is the only genuinely fusion-selective route in the portfolio, and its in-silico arc is complete: design, off-target screen, breakpoint-favourability scan, and gap-mismatch-resolved candidates.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-JUNCTION-ASO-OFFTARGET",
+        "what_it_supports": "a transcriptome-wide off-target screen returning predicted-clean gapmers",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "How to deliver an oligonucleotide to a non-hepatic solid tumour — the one remaining gate, and it is engineering rather than biology.",
+      "Whether predicted specificity survives a calibrated cleavage model: the current screen uses a deliberately conservative gap-mismatch heuristic, so it may be over- or under-calling.",
+      "Whether the potency ranking holds — it rests on a local-fold accessibility proxy rather than a measured accessibility model."
+    ],
+    "required_validation": [
+      {
+        "what": "A delivery vehicle that reaches an EMC tumour",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-DELIVERY"
+        ]
+      },
+      {
+        "what": "Junction knockdown with parental sparing in an EMC line",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "chemrxiv",
+      "why_not_higher": "The computational arc is complete and the delivery gate is stated honestly as a gate rather than hidden. A journal submission is reachable; what would strengthen it most is not more computation but a delivery candidate to name.",
+      "missing": [
+        "a named delivery candidate"
+      ],
+      "experiment_required": [
+        "junction knockdown plus parental sparing in an EMC or FET-fusion line"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The computation is done and publishing is what recruits the collaborator this route needs. Waiting does not improve the design; it only delays the ask. Delivery is watched in parallel and does not gate the write-up.",
+      "six_month_delta": "Little on the design. Possibly a lot on whether a delivery candidate can be named.",
+      "two_year_delta": "Decisive — a working conjugate platform for solid tumours would move this from a design to a programme.",
+      "cost_trend": "flat",
+      "automation_outlook": "The design and screening halves are already automated; delivery is not a computational problem at all."
+    },
+    "next": {
+      "best_next_action": "Publish the complete in-silico arc with delivery named as the gate, and keep the delivery watch running.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-DELIVERY"
+      ]
+    }
+  },
+  {
+    "id": "RT-ASO-ASK",
+    "display_name": "Junction knockdown + parental sparing in EMC lines (the ask behind the ASO)",
+    "aliases": [
+      "post-degrader route 2b",
+      "the ASO wet-lab ask"
+    ],
+    "grade": {
+      "value": "Tier 2, rank 6 — ASK",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#2--the-ranked-list|tier2-rank6"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NO-WET-LAB",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1",
+      "OBJ-NR4A3-WT"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-ASO",
+        "axis": "deliverable vs ask",
+        "fails_on": [
+          "BLK-DELIVERY"
+        ],
+        "why": "the paper is unaffected by this ask failing — the one ask in the portfolio whose failure costs its route nothing"
+      }
+    ],
+    "closure_kind": "authorization",
+    "revival_trigger": [
+      "TR-EMC-MODEL-ACCESS"
+    ],
+    "closure_note": "Not refuted — waiting on a person with a bench.",
+    "strategy": "ST-NUCLEIC-ACID",
+    "level": "L2",
+    "kind": "route",
+    "title": "Junction knockdown + parental sparing in EMC lines (the ask behind the ASO)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Will someone with a bench run the decisive experiment: junction knockdown with wild-type sparing in an EMC line?",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "scoped",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "This is the single experiment that would convert the oligonucleotide route from a design into a result. It is small, cheap for anyone who already has the cells, and its outcome is informative in both directions. It is registered as a route because an ask with no owner is not a plan.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether anyone with an EMC or FET-fusion line is interested enough to run it."
+    ],
+    "required_validation": [
+      {
+        "what": "The experiment itself, run by someone with cells",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "experimental_proposal",
+      "why_not_higher": "It is already a fully specified experimental proposal. What it lacks is a taker, and no amount of further specification produces one.",
+      "missing": [
+        "a collaborator with an EMC or FET-fusion line"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The proposal is written and the cost to ask is zero. An ask that is never made has the same outcome as one that is refused, at the same price.",
+      "six_month_delta": "Only through whoever reads the preprint.",
+      "two_year_delta": "A solo-affordable cloud lab with the right assay scope would remove the need for a taker entirely — though not the need for the cell line.",
+      "cost_trend": "falling",
+      "automation_outlook": "Not automatable today; this is precisely what a cloud lab would change.",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS",
+        "TECH-CLOUD-WET-LAB"
+      ]
+    },
+    "next": {
+      "best_next_action": "Send the ask alongside the preprint. The proposal is ready; the missing input is a person.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-WET-LAB"
+      ]
+    }
+  },
+  {
+    "id": "RT-METHODS-PAPER",
+    "display_name": "The honest methods paper on the degrader program's own failure record",
+    "aliases": [
+      "post-degrader route 3",
+      "the methods paper"
+    ],
+    "grade": {
+      "value": "Tier 1, rank 1 — DELIVERABLE",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#route-3--publish-the-methods-result-the-program-has-already-earned--rank-1"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [],
+    "blockers_retired": [
+      "BLK-NO-WET-LAB"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "V4",
+        "V5",
+        "V7",
+        "V11",
+        "V12",
+        "V13",
+        "V17",
+        "V20",
+        "V21"
+      ]
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "Nothing blocks it; it is finished when we stop typing.",
+    "strategy": "ST-DISSEMINATION",
+    "level": "L2",
+    "kind": "route",
+    "title": "The honest methods paper on the degrader program's own failure record",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "What is the honest, publishable content of a computation-only program's own failure record?",
+    "state": {
+      "work_state": "future",
+      "status": "ready",
+      "maturity": "scoped",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "This program has accumulated something genuinely uncommon: a complete record of which in-silico instruments recovered known answers and which did not, on a real target, with the failures documented rather than discarded. Most published computational drug-discovery work reports the successes. A rigorous negative-and-methods record stops other groups repeating the same failures, and that is a real contribution regardless of whether any route here reaches a patient.",
+    "supporting_evidence": [
+      {
+        "ref": "V5",
+        "what_it_supports": "a ternary free-energy method failing a known-answer control on sign, systematically",
+        "strength": "direct"
+      },
+      {
+        "ref": "V7",
+        "what_it_supports": "an absolute free-energy engine missing a benchmark by more than the margin it is used to compute",
+        "strength": "direct"
+      },
+      {
+        "ref": "V21",
+        "what_it_supports": "an anti-target panel failing to recover its own cognate ligands",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether a venue will take a paper whose principal content is negative and methodological — though the material is unusually complete, which is the argument for it."
+    ],
+    "required_validation": [
+      {
+        "what": "The record is already validated by construction: each instrument's known-answer control IS the validation, and the failures are the content",
+        "feasible_today": true,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "journal_submission",
+      "why_not_higher": "Nothing blocks it. It is the only route in the portfolio with no scientific blocker at all — it is finished when the writing stops."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "It has no blockers, it does not get cheaper or easier by waiting, and it is the portfolio's floor — the outcome that holds even if every other family fails. Deferring the one unblocked deliverable while blocked ones are watched would be exactly backwards.",
+      "six_month_delta": "None. Waiting adds material but the core record is already complete.",
+      "two_year_delta": "The record grows, but a negative result published later is worth less to the people it would have saved effort.",
+      "cost_trend": "flat",
+      "automation_outlook": "Drafting is largely automatable; the judgement about what a failure means is not."
+    },
+    "next": {
+      "best_next_action": "Write it. Nothing blocks it, and it is the only row on the board that is true regardless of how every other row resolves.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-ATR-ASSESS",
+    "display_name": "The in-silico ATR vulnerability assessment (the computed half)",
+    "aliases": [
+      "post-degrader route 1a",
+      "the ATR assessment"
+    ],
+    "grade": {
+      "value": "Tier 1, rank 3 — DELIVERABLE",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#2--the-ranked-list|tier1-rank3"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-CLASS-INHERITANCE",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-R4-BINDS"
+    ],
+    "instruments": {
+      "support": [
+        "INS-IDR-CENSUS",
+        "INS-DDR-AXIS-SCAN",
+        "INS-CONSTRUCT-DESIGNS"
+      ],
+      "disclosed_failing": [
+        "INS-DEPMAP-KO"
+      ]
+    },
+    "objects": [
+      "OBJ-FUS-T1",
+      "OBJ-FUS-T2",
+      "OBJ-FUS-T5",
+      "OBJ-FUS-TAF15",
+      "OBJ-FUS-FUSNR4A3",
+      "OBJ-FUS-TCF12",
+      "OBJ-MODEL-E7E3"
+    ],
+    "evidence": [
+      "EV-FET-ATR-2023"
+    ],
+    "artifacts": [
+      "ART-IDR-CENSUS",
+      "ART-CONSTRUCT-DESIGNS",
+      "ART-DDR-AXIS-SCAN",
+      "ART-ATR-VULNERABILITY"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-ATR-PANEL",
+        "axis": "deliverable vs ask",
+        "fails_on": [
+          "BLK-CLASS-INHERITANCE"
+        ],
+        "why": "the assessment produces a computed result whether or not one cell is ever plated; the panel is the experiment and this programme does not execute it. The corrected ranking SPLIT them for exactly this reason"
+      },
+      {
+        "route": "RT-SYNLETH-DEP",
+        "axis": "where the dependency comes from",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "both are called 'synthetic lethality' and they are not the same route: the ATR axis is inherited from a FET-family class argument, the BRD9/ncBAF axis was a DepMap transfer prior and came back negative"
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "Computed and complete on its own axis; its limit is stated inside the deliverable.",
+    "strategy": "ST-DEPENDENCY",
+    "level": "L2",
+    "kind": "route",
+    "title": "The in-silico ATR vulnerability assessment (the computed half)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does EMC inherit a replication-stress vulnerability from its FET-fusion class, and can that be assessed computationally?",
+    "state": {
+      "work_state": "complete",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "FET-fusion sarcomas as a class show replication-stress phenotypes that make them sensitive to inhibitors of the associated checkpoint kinase. If EMC inherits that, an existing clinical-stage drug class becomes relevant without any new chemistry. The computational half — assembling the class argument and the supporting molecular features — is complete.",
+    "supporting_evidence": [
+      {
+        "ref": "INS-IDR-CENSUS",
+        "what_it_supports": "the low-complexity-region features the class argument rests on",
+        "strength": "class_inherited"
+      },
+      {
+        "ref": "INS-DDR-AXIS-SCAN",
+        "what_it_supports": "the replication-stress axis assembled for EMC from class-level evidence",
+        "strength": "class_inherited"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the class vulnerability transfers: no NR4A3 fusion has ever been tested for the phenotype.",
+      "Whether the computed features predict drug sensitivity, which is a step nobody has validated for this class."
+    ],
+    "required_validation": [
+      {
+        "what": "A cell panel in EMC lines",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-CLASS-INHERITANCE"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "why_not_higher": "It is computationally complete on its own axis, and its limit — that this is class inheritance rather than an EMC measurement — is stated inside the deliverable rather than hidden. That is publishable as an assessment; it is not publishable as a finding about EMC.",
+      "missing": [
+        "an EMC-specific measurement"
+      ],
+      "experiment_required": [
+        "a checkpoint-kinase inhibitor sensitivity panel in EMC lines"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "Complete, honest, and does not need the cell panel to be worth publishing. Its value is precisely that it states a testable class hypothesis clearly enough for someone with cells to act on — which is how a no-wet-lab program converts computation into experiments.",
+      "six_month_delta": "None on the computation.",
+      "two_year_delta": "An EMC dataset would convert the class argument into a measurement.",
+      "cost_trend": "flat",
+      "automation_outlook": "The assessment is automated; the panel is not."
+    },
+    "next": {
+      "best_next_action": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-ATR-PANEL",
+    "display_name": "The ATR-inhibitor cell panel in EMC lines (the ask)",
+    "aliases": [
+      "post-degrader route 1b",
+      "the ATR cell panel"
+    ],
+    "grade": {
+      "value": "Tier 2, rank 4 — ASK, best W1 in the portfolio",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#2--the-ranked-list|tier2-rank4"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-WET-LAB",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [
+      "EV-FET-ATR-2023"
+    ],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-ATR-ASSESS",
+        "axis": "deliverable vs ask",
+        "fails_on": [
+          "BLK-NO-WET-LAB"
+        ],
+        "why": "its value is entirely in an experiment this programme cannot cause; the assessment's value is not"
+      }
+    ],
+    "closure_kind": "authorization",
+    "revival_trigger": [
+      "TR-EMC-MODEL-ACCESS"
+    ],
+    "closure_note": "Best taker in the portfolio and still not something this programme executes.",
+    "strategy": "ST-DEPENDENCY",
+    "level": "L2",
+    "kind": "route",
+    "title": "The ATR-inhibitor cell panel in EMC lines (the ask)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Will someone run a checkpoint-inhibitor sensitivity panel in EMC lines?",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "scoped",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "This is the experiment that converts the computed class argument into an EMC result. It is small, uses commercially available compounds, and is the best-matched ask in the portfolio: the taker gets a publishable result from a short experiment.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether a taker exists — the material gate is an EMC line, which repositories do not supply to unaffiliated individuals."
+    ],
+    "required_validation": [
+      {
+        "what": "The panel itself",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "experimental_proposal",
+      "why_not_higher": "It is already a complete experimental proposal with a costed design. What it lacks is a person with cells.",
+      "missing": [
+        "a collaborator with an EMC line"
+      ],
+      "experiment_required": [
+        "a checkpoint-kinase inhibitor dose-response panel in EMC lines"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The best-matched ask on the board: small, cheap for the taker, publishable for both sides. Asking costs nothing and the proposal is already written.",
+      "six_month_delta": "Only through whoever reads the assessment.",
+      "two_year_delta": "A solo-affordable cloud lab would remove the need for a taker — though not for the cell line.",
+      "cost_trend": "falling",
+      "automation_outlook": "Not automatable today; this is exactly what lab automation would change.",
+      "revisit_trigger": [
+        "TECH-EMC-MODEL-ACCESS",
+        "TECH-CLOUD-WET-LAB"
+      ]
+    },
+    "next": {
+      "best_next_action": "Send the ask with the assessment. It is the strongest taker-fit in the portfolio.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-WET-LAB"
+      ]
+    }
+  },
+  {
+    "id": "RT-TCIP",
+    "display_name": "TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3",
+    "aliases": [
+      "post-degrader route 4",
+      "target-route route 6",
+      "TCIP",
+      "bivalent fusion-TF rewiring"
+    ],
+    "grade": {
+      "value": "Tier 3 — demoted from Tier 2; the cheapest promotion available in the memo",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#2--the-ranked-list|tier3-route4"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/target-route-options.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-R4-BINDS",
+      "BLK-INDUCED-COMPLEX",
+      "BLK-PARALOGUE-DDG",
+      "BLK-NO-WET-LAB"
+    ],
+    "blockers_retired": [
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A3-LBD-MODELLED",
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [
+      "EV-EB-TCIP-2025"
+    ],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-MONOVALENT",
+        "axis": "how many termini the molecule has",
+        "fails_on": [
+          "BLK-INDUCED-COMPLEX",
+          "BLK-R4-BINDS"
+        ],
+        "why": "a TCIP is still bivalent, so the reach result computed for the monovalent configuration DOES NOT TRANSFER to it — a different second terminus is a different enumeration, and running it is an open $0 item"
+      },
+      {
+        "route": "RT-DEGRADER",
+        "axis": "what the recruited partner does",
+        "fails_on": [
+          "BLK-INDUCED-COMPLEX"
+        ],
+        "why": "TCIP recruits a transcriptional effector rather than an E3, so it retires the ubiquitin-transfer geometry while keeping the induced-complex problem"
+      },
+      {
+        "route": "RT-RIPTAC",
+        "axis": "what the recruited partner does",
+        "fails_on": [
+          "BLK-INDUCED-COMPLEX",
+          "BLK-R4-BINDS"
+        ],
+        "why": "a TCIP recruits a transcriptional effector; a RIPTAC recruits an essential protein to poison it, which reinstates the full paralogue-selectivity requirement a TCIP can partly avoid"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-TCIP-LINKER-ENUMERATION",
+      "TR-FE-CRYPTIC-POCKET"
+    ],
+    "closure_note": "Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.",
+    "strategy": "ST-PROXIMITY",
+    "level": "L2",
+    "kind": "route",
+    "title": "TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can chemically induced proximity recruit a transcriptional effector to the fusion instead of degrading it?",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "scoped",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A transcriptional chemical inducer of proximity brings an effector to a DNA-bound transcription factor rather than removing it. Because the fusion is itself a transcriptional driver, an effector that shuts down its output could work without the protein ever being degraded — which sidesteps the entire ubiquitin-transfer geometry problem.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the linker geometry works with a transcriptional effector as the second terminus — the enumeration was built for an E3 and has never been run for this configuration.",
+      "Whether the paralogue selectivity requirement is any smaller here; it has not been sized."
+    ],
+    "required_validation": [
+      {
+        "what": "The paired reach enumeration run with a transcriptional-effector second terminus",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A ternary geometry for the induced complex",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-INDUCED-COMPLEX"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "reproducible_workflow",
+      "why_not_higher": "The enumeration machinery exists and takes one more anchor set. Until it has run there is no result to report.",
+      "missing": [
+        "the enumeration run for this configuration"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "This is the cheapest promotion available anywhere in the options register: the machinery is built and needs one more input set. It was demoted for an UNRUN computation rather than a failed one, which is a reason to run it, not a reason to wait.",
+      "six_month_delta": "None — the work is available now.",
+      "two_year_delta": "Better induced-complex prediction would make the result interpretable rather than merely geometric.",
+      "cost_trend": "flat",
+      "automation_outlook": "Fully automatable; it is a $0 enumeration."
+    },
+    "next": {
+      "best_next_action": "Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-COVALENT-PROBE",
+    "display_name": "Covalent probe at C397 — as a REAGENT, not a drug",
+    "aliases": [
+      "post-degrader route 5",
+      "the covalent probe",
+      "the C397 probe"
+    ],
+    "grade": {
+      "value": "Tier 3 — the largest single demotion; D ≈ 0 and P is negative rather than merely absent",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#route-5--the-covalent-probe-at-c397-proposed-as-a-reagent---the-largest-single-demotion"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/target-route-options.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-WET-LAB",
+      "BLK-R4-BINDS",
+      "BLK-REACH-CATEGORICAL"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-FUNCTIONAL-ACTIONABILITY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "V17",
+        "V3"
+      ]
+    },
+    "objects": [
+      "OBJ-RES-C397",
+      "OBJ-NR4A3-LBD-MODELLED",
+      "OBJ-NR4A3-LBD-CATALOGUE",
+      "OBJ-RES-NR4A1-C551"
+    ],
+    "evidence": [],
+    "artifacts": [
+      "ART-DECOY-NULL-LBD"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-MONOVALENT",
+        "axis": "what the molecule has to DO once bound",
+        "fails_on": [
+          "BLK-NO-WET-LAB",
+          "BLK-R4-BINDS"
+        ],
+        "why": "⭐ THE FAILURE-3 PAIR. A probe needs only to BIND, so it inherits neither functional actionability nor a selectivity window; a monovalent DRUG needs the pocket to be a functional handle in the chimera and needs a selectivity requirement nobody has sized. Their in-silico halves fail on OPPOSITE things, so one demotion cannot cover both"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-EXPOSURE-CRITERION-RECOVERS-C551",
+      "TR-POSE-METHODS-CONVERGE",
+      "TR-EMC-MODEL-ACCESS"
+    ],
+    "closure_note": "Its in-silico half is not publishable BECAUSE its exposure instrument fails its own positive control — an instrument limit, not a statement about C397.",
+    "strategy": "ST-OCCUPANCY",
+    "level": "L2",
+    "kind": "route",
+    "title": "Covalent probe at C397 — as a REAGENT, not a drug",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a covalent probe at an NR4A3-unique cysteine serve as a REAGENT — a tool to test the biology, not a drug?",
+    "state": {
+      "work_state": "complete",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A cysteine present in NR4A3 and absent from both paralogues would give categorical rather than thermodynamic discrimination: the bond either forms or it does not. As a chemical probe rather than a therapeutic, it would let someone test whether engaging this domain does anything at all — which is the question the whole occupancy family rests on.",
+    "supporting_evidence": [
+      {
+        "ref": "V17",
+        "what_it_supports": "a threshold-free RANK of cysteine accessibility across the family — and nothing stronger, because the criterion fails its own positive control",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the target cysteine is actually engageable: the exposure criterion that says it is fails on the one family member with literature support.",
+      "Whether the reach geometry survives a criterion that passes its control — the current negative may be an artifact of the failing one."
+    ],
+    "required_validation": [
+      {
+        "what": "An exposure or reactivity criterion that recovers the known covalent site",
+        "instrument": "V17",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-REACH-CATEGORICAL"
+        ]
+      },
+      {
+        "what": "Chemical synthesis and a binding assay",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Its in-silico half is not publishable BECAUSE its exposure instrument fails its own positive control. That is a statement about the instrument, not about the cysteine.",
+      "missing": [
+        "a criterion that passes its positive control"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The blocking criterion is small enough to BUILD rather than wait for — a reactivity-weighted accessibility criterion calibrated against the existing positive control is bounded work. Waiting for the field to publish one defers a repair this program could make itself.",
+      "six_month_delta": "None if we wait; potentially decisive if we build.",
+      "two_year_delta": "Chemoproteomics datasets keep growing, so a calibrated criterion becomes easier over time either way.",
+      "cost_trend": "flat",
+      "automation_outlook": "Fully automatable — it is a $0 recalculation once the criterion is defined.",
+      "revisit_trigger": [
+        "TECH-EXPOSURE-CRITERION"
+      ]
+    },
+    "next": {
+      "best_next_action": "Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-REACH-CATEGORICAL"
+      ]
+    }
+  },
+  {
+    "id": "RT-MONOVALENT",
+    "display_name": "Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD",
+    "aliases": [
+      "the monovalent route",
+      "monovalent LBD pocket modulation",
+      "the third framing of C397"
+    ],
+    "grade": {
+      "value": "REGISTERED, NOT PROMOTED — and specifically a DOWNGRADE of what the probe framing implies about a monovalent drug",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+        "anchor": "#7--grade-against-the-failure-record"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-FUNCTIONAL-ACTIONABILITY",
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-R4-BINDS",
+      "BLK-REACH-CATEGORICAL",
+      "BLK-UNSIZED-REQUIREMENT"
+    ],
+    "blockers_retired": [
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-INDUCED-COMPLEX"
+    ],
+    "sub_forms": [
+      {
+        "name": "non-covalent occupancy",
+        "fails_on": [
+          "BLK-PARALOGUE-DDG"
+        ],
+        "note": "still an exp(−ΔΔG/RT) ratio — the requirement this program has failed to measure four ways"
+      },
+      {
+        "name": "covalent occupancy",
+        "fails_on": [
+          "BLK-REACH-CATEGORICAL"
+        ],
+        "note": "escapes the ΔΔG requirement CATEGORICALLY — and the E3-arm-free reach enumeration closes the categorical window at C397 on the conservative convention in every cell that had one"
+      }
+    ],
+    "instruments": {
+      "support": [
+        "INS-MONOVALENT-REACH"
+      ],
+      "disclosed_failing": [
+        "V17",
+        "V3"
+      ]
+    },
+    "objects": [
+      "OBJ-RES-C397",
+      "OBJ-NR4A3-LBD-MODELLED",
+      "OBJ-NR4A3-LBD-CATALOGUE",
+      "OBJ-NR4A3-AF1",
+      "OBJ-NR4A3-WT"
+    ],
+    "evidence": [
+      "EV-ZAIENNE-2022"
+    ],
+    "artifacts": [
+      "ART-MONOVALENT-REACH"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-COVALENT-PROBE",
+        "axis": "what the molecule has to DO once bound",
+        "fails_on": [
+          "BLK-FUNCTIONAL-ACTIONABILITY",
+          "BLK-UNSIZED-REQUIREMENT"
+        ],
+        "why": "⭐ THE FAILURE-3 PAIR. This route adds a make-or-break no other LBD route carries — functional actionability of the LBD IN THE CHIMERA — which cannot be computed, cannot be bought, and is not covered by the delegated dTAG test. The probe framing is untouched by all of it"
+      },
+      {
+        "route": "RT-TCIP",
+        "axis": "how many termini the molecule has",
+        "fails_on": [
+          "BLK-FUNCTIONAL-ACTIONABILITY"
+        ],
+        "why": "monovalent is strictly cleaner on the ternary axis — no second protein at all — while TCIP still inherits the induced-complex problem. The monovalent reach result therefore does not transfer to TCIP and vice versa"
+      },
+      {
+        "route": "RT-6MP",
+        "axis": "which domain the mechanism lives in",
+        "fails_on": [
+          "BLK-FUNCTIONAL-ACTIONABILITY"
+        ],
+        "why": "6-MP is closed because it acts through the AF-1, the domain the disease deletes. That closure does NOT close LBD-directed modulation — the published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less"
+      },
+      {
+        "route": "RT-DEGRADER",
+        "axis": "whether a degradation geometry is needed at all",
+        "fails_on": [
+          "BLK-FUNCTIONAL-ACTIONABILITY",
+          "BLK-UNSIZED-REQUIREMENT"
+        ],
+        "why": "the degrader only has to BIND and be degraded; a monovalent modulator has to change what the chimera DOES, which is a make-or-break the degrader does not carry"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET",
+      "TR-EXPOSURE-CRITERION-RECOVERS-C551",
+      "TR-POSE-METHODS-CONVERGE"
+    ],
+    "closure_note": "⚠ Its covalent sub-form's negative rests on a geometry computed with an exposure cutoff that fails its own control and a site question left INCONCLUSIVE — so the result can refute the route and cannot make the closure permanent. Its functional-actionability blocker is separate and needs a bench.",
+    "strategy": "ST-OCCUPANCY",
+    "level": "L2",
+    "kind": "route",
+    "title": "Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Would a molecule that only OCCUPIES the NR4A3 pocket — recruiting nothing — change the fusion's behaviour?",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "scoped",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "If the ligand-binding domain is a functional handle in the chimera, occupancy alone is enough and the entire ternary problem disappears. This is the cheapest possible version of the program, and it is registered explicitly as a DOWNGRADE of what the covalent-probe framing implies about a monovalent drug — the probe is a reagent, not evidence that occupancy is therapeutic.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the ligand-binding domain is functionally actionable in the fusion, whose other end is a strong independent activator. Nobody has run that assay.",
+      "How much paralogue selectivity this route would actually need — the requirement has never been sized.",
+      "Whether the covalent sub-form's negative is real: it rests on an exposure criterion that fails its own positive control."
+    ],
+    "required_validation": [
+      {
+        "what": "A functional cell assay showing the domain is actionable in the chimera",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-FUNCTIONAL-ACTIONABILITY"
+        ]
+      },
+      {
+        "what": "A stated selectivity requirement this route would have to meet",
+        "feasible_today": true,
+        "blocked_by": [
+          "BLK-UNSIZED-REQUIREMENT"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Its central premise — that occupancy does something — has never been tested by anyone, and its one computed negative rests on a criterion known to produce false negatives.",
+      "missing": [
+        "a functional readout",
+        "a sized selectivity requirement"
+      ],
+      "experiment_required": [
+        "a reporter assay for the domain's function inside the chimera"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "One of its two blockers is retired by writing something down: nobody has stated how much selectivity this route would need, and until someone does, the route cannot be shown to meet or miss it. That is free and it is a prerequisite for grading the route at all.",
+      "six_month_delta": "None on the biology; the specification work is available now.",
+      "two_year_delta": "Depends entirely on whether a functional readout becomes reachable.",
+      "cost_trend": "flat",
+      "automation_outlook": "The specification is reasoning, not computation."
+    },
+    "next": {
+      "best_next_action": "Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-UNSIZED-REQUIREMENT"
+      ]
+    }
+  },
+  {
+    "id": "RT-ASYMMETRIC",
+    "display_name": "Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort",
+    "aliases": [
+      "target-route route 1",
+      "the asymmetric requirement"
+    ],
+    "grade": {
+      "value": "★★ adopt now — free, and it changes the design brief",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#route-1--asymmetric-selectivity-nr4a1-sparing-mandatory-nr4a2-sparing-best-effort--pk"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-PARALOGUE-DDG"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A1-WT",
+      "OBJ-NR4A2-WT",
+      "OBJ-NR4A3-WT"
+    ],
+    "evidence": [],
+    "artifacts": [
+      "ART-TARGET-ROUTE-CENSUS"
+    ],
+    "distinct_from": [],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "Adopted, free, and it changes the design brief.",
+    "strategy": "ST-OCCUPANCY",
+    "level": "L2",
+    "kind": "route",
+    "title": "Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Are the two paralogue-sparing requirements actually the same requirement — and what changes if they are not?",
+    "state": {
+      "work_state": "complete",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, and they are not. NR4A1 has a named anti-target genotype making its sparing a hard constraint; NR4A2 sparing is unbounded in both directions. Recognising the asymmetry changes the design brief, because a molecule only has to win decisively against one of them.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "How much NR4A2 engagement is actually acceptable — the bound is unstated in both directions."
+    ],
+    "required_validation": [
+      {
+        "what": "The asymmetry carried through every downstream selectivity statement rather than stated once",
+        "feasible_today": true,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "reproducible_workflow",
+      "why_not_higher": "It is a reframing rather than a result. Its value is that it changes what the other routes are trying to achieve, and that belongs inside them rather than in a paper of its own."
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "Free, already adopted, and it changes the design brief for every route in two families. There is no version of waiting that improves it.",
+      "six_month_delta": "None.",
+      "two_year_delta": "None.",
+      "cost_trend": "flat",
+      "automation_outlook": "It is a definitional decision, not computation."
+    },
+    "next": {
+      "best_next_action": "Ensure the asymmetry is carried in every selectivity statement across the model rather than asserted once — a symmetric restatement anywhere is a defect.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-TRABECTEDIN-PPARG",
+    "display_name": "Trabectedin + a PPARγ agonist (all approved drugs)",
+    "aliases": [
+      "post-degrader route 6",
+      "trabectedin + pioglitazone"
+    ],
+    "grade": {
+      "value": "Tier 2, rank 5 — ASK with a good taker and a thin deliverable",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#route-6--trabectedin--a-ppar-agonist-an-all-approved-drug-combination-on-emcs-own-documented-axis"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-WET-LAB",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-R4-BINDS"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [
+      "EV-FILION-2009",
+      "EV-PIOGLITAZONE-TRABECTEDIN-2019"
+    ],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-TRABECTEDIN",
+        "axis": "combination vs monotherapy",
+        "fails_on": [
+          "BLK-NO-WET-LAB"
+        ],
+        "why": "the board carried trabectedin and the PPARG axis as two separate rows for months and never joined them; joining them is what created THIS route, and the monotherapy row remains a distinct near-term lead with its own evidence"
+      },
+      {
+        "route": "RT-PPARG-DOWNSTREAM",
+        "axis": "whether the agonist acts alone",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "the downstream/TZD row is the agonist ALONE and carries an unresolved direction question that cuts AGAINST the naive version — in EMC the fusion turns PPARG on, so an agonist may be redundant. The combination's logic is promoter displacement unmasking a differentiation-competent receptor, which is a different argument"
+      }
+    ],
+    "closure_kind": "authorization",
+    "revival_trigger": [
+      "TR-EMC-MODEL-ACCESS",
+      "TR-EMC-EXPRESSION-DATASET"
+    ],
+    "closure_note": "Good taker, thin deliverable — the ask is the block.",
+    "strategy": "ST-REPURPOSING",
+    "level": "L2",
+    "kind": "route",
+    "title": "Trabectedin + a PPARγ agonist (all approved drugs)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Would combining trabectedin with a PPARγ agonist — both approved — be better than either alone in EMC?",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Both components are approved, so a combination trial is unusually cheap to propose. The rationale is that the fusion engages PPARγ signalling, so an agonist might either cooperate with or antagonise the transcriptional interference trabectedin provides.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "The DIRECTION of the PPARγ effect in EMC is unresolved — if the fusion already turns PPARγ on, an agonist may be redundant or harmful.",
+      "Whether the combination has any EMC-specific rationale beyond both drugs being available."
+    ],
+    "required_validation": [
+      {
+        "what": "An EMC expression read establishing the direction of PPARγ signalling",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "what": "A cell panel, which needs a bench",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "experimental_proposal",
+      "why_not_higher": "The ask is well formed and both drugs are approved, but the direction of the PPARγ effect is unresolved — proposing a combination whose direction is unknown is a thin deliverable.",
+      "missing": [
+        "the direction of the PPARγ effect in EMC"
+      ]
+    },
+    "timing": {
+      "recommendation": "wait",
+      "rationale": "The single expression readout that settles the direction would either strengthen this proposal considerably or kill it. Asking a collaborator to run a combination whose direction we cannot state is a poor use of a scarce ask.",
+      "six_month_delta": "None unless data lands.",
+      "two_year_delta": "An EMC dataset would settle the direction and make the ask either strong or unnecessary.",
+      "cost_trend": "flat",
+      "automation_outlook": "The re-grade is automatic once data lands.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
+    }
+  },
+  {
+    "id": "RT-TRABECTEDIN",
+    "display_name": "Trabectedin (± RT or combination)",
+    "aliases": [
+      "trabectedin monotherapy"
+    ],
+    "grade": {
+      "value": "NEAR-TERM LEAD — approved, mechanism-fit",
+      "owner": {
+        "file": "research/IDEAS.md",
+        "anchor": "route-board|trabectedin"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/emerging-modalities-scan-emc.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-TRABECTEDIN-PPARG",
+        "axis": "combination vs monotherapy",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "monotherapy rests on a reported EMC responder and a mechanism fit; the combination rests additionally on a published result in a sibling sarcoma and on the fusion→PPARG axis"
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "An approved drug with a reported EMC responder; nothing about it is closed.",
+    "strategy": "ST-REPURPOSING",
+    "level": "L2",
+    "kind": "route",
+    "title": "Trabectedin (± RT or combination)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is trabectedin, an approved sarcoma agent, mechanistically well matched to a FET-fusion sarcoma like EMC?",
+    "state": {
+      "work_state": "future",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Trabectedin is approved for soft-tissue sarcoma and its mechanism — interfering with transcription-factor-driven programmes at the DNA minor groove — is a plausible fit for a disease whose entire biology is one aberrant transcription factor. There is a reported EMC responder. For an ultra-rare cancer with no targeted agent, an approved drug with a mechanistic story and a reported response is the shortest path that exists.",
+    "supporting_evidence": [
+      {
+        "ref": "EV-EMC-CLINICAL",
+        "what_it_supports": "a reported EMC response to an approved agent",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the mechanistic fit is real or a post-hoc story fitted to a single response.",
+      "How the agent interacts with the fusion's specific programme, which has never been measured in EMC."
+    ],
+    "required_validation": [
+      {
+        "what": "A larger EMC series, or a measured effect on the fusion's transcriptional output",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "This is clinical-evidence synthesis rather than a computational contribution. It belongs as landscape context in a paper, not as a result.",
+      "missing": [
+        "a larger clinical series"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Nothing computational advances it. Its role is as the near-term comparator any new route has to beat, which is a role it plays without further work.",
+      "six_month_delta": "Only via new clinical reports.",
+      "two_year_delta": "Same.",
+      "cost_trend": "flat",
+      "automation_outlook": "Literature monitoring is already automated.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep as cited landscape context. Do not overstate a single response.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-PPARG-DOWNSTREAM",
+    "display_name": "PPARG downstream-effector (repurpose TZDs)",
+    "aliases": [
+      "target-route route 5",
+      "the PPARG/TZD row",
+      "downstream nodes the fusion transactivates"
+    ],
+    "grade": {
+      "value": "★ keep; direction unresolved",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#route-5--downstream-of-the-fusion-pparg-and-the-transactivated-nodes"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-R4-BINDS"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [
+      "EV-FILION-2009"
+    ],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-TRABECTEDIN-PPARG",
+        "axis": "whether the agonist acts alone",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "this row is the agonist alone and its direction (agonism vs antagonism vs redundancy) is unresolved; the combination row's argument runs through promoter displacement and does not depend on resolving it the same way"
+      }
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-EMC-EXPRESSION-DATASET"
+    ],
+    "closure_note": "⚠ Scoped: the DIRECTION is unresolved, not refuted — in EMC the fusion turns PPARG on, so an agonist may be redundant. An EMC expression read settles it either way.",
+    "strategy": "ST-REPURPOSING",
+    "level": "L2",
+    "kind": "route",
+    "title": "PPARG downstream-effector (repurpose TZDs)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a PPARγ-directed agent act on a downstream effector of the fusion?",
+    "state": {
+      "work_state": "complete",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "If the fusion drives its phenotype partly through PPARγ signalling, then an approved agent acting on that axis reaches the driver's output without touching the driver. Repurposing a well-characterised drug class is far cheaper than any new modality.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "The direction is unresolved rather than refuted: in EMC the fusion appears to turn PPARγ on, so an agonist may be redundant. Nobody has read the direction in EMC tissue."
+    ],
+    "required_validation": [
+      {
+        "what": "An EMC expression readout of the PPARγ axis",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Its central premise is directionally unresolved. Publishing a repurposing hypothesis whose sign is unknown would be exactly the over-claim the language rules exist to prevent.",
+      "missing": [
+        "a directional read of the PPARγ axis in EMC"
+      ]
+    },
+    "timing": {
+      "recommendation": "wait",
+      "rationale": "One cheap measurement settles it, and no amount of reasoning substitutes for the sign of an effect. Working further on a hypothesis whose direction is unknown is effort that a single dataset would render moot.",
+      "six_month_delta": "None unless data lands.",
+      "two_year_delta": "Settled either way by an EMC dataset.",
+      "cost_trend": "flat",
+      "automation_outlook": "Automatic re-grade on new data.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep with the direction flagged as unresolved — the premise is scoped as unresolved, NOT refuted, and those must not be conflated.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
+    }
+  },
+  {
+    "id": "RT-SSTR2",
+    "display_name": "SSTR2 / neuroendocrine theranostic",
+    "aliases": [
+      "post-degrader route 7",
+      "SSTR2",
+      "⁶⁸Ga-DOTATATE / ¹⁷⁷Lu-DOTATATE"
+    ],
+    "grade": {
+      "value": "Tier 3 — demoted; W2 is the smallest imaginable and W1 is the problem",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#route-7--sstr2--neuroendocrine-theranostic-the-cheapest-possible-confirm-and-the-clearest-case-of-cheapness-not-being-enough"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/emc-surface-target-landscape.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-WET-LAB",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-B7H3",
+        "axis": "which antigen and how it was graded",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "SSTR2 is UNMEASURED in EMC; B7-H3 was MEASURED and came back not selective (BH q = 1.0). 'Surface-target route' names both and they failed differently"
+      },
+      {
+        "route": "RT-FAP-RLT",
+        "axis": "which radioligand target",
+        "fails_on": [
+          "BLK-NO-WET-LAB"
+        ],
+        "why": "SSTR2 follows EMC's own neuroendocrine differentiation and its ask needs a clinician with an EMC patient; FAP targets the myxoid STROMA and its ask is an expression/avidity confirm"
+      }
+    ],
+    "closure_kind": "authorization",
+    "revival_trigger": [
+      "TR-EMC-MODEL-ACCESS"
+    ],
+    "closure_note": "Not refuted — a negative scan still kills it cheaply, and it stays on the ask list.",
+    "strategy": "ST-RADIOLIGAND",
+    "level": "L2",
+    "kind": "route",
+    "title": "SSTR2 / neuroendocrine theranostic",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does EMC express somatostatin receptor 2 well enough for a theranostic pair to work?",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A theranostic gives imaging and therapy from one vector, and the imaging half is a cheap decisive test: a negative scan kills the route immediately and inexpensively. EMC has neuroendocrine-adjacent features that make the receptor worth checking.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether EMC expresses the receptor at all — this has never been measured.",
+      "Whether expression is high enough for therapeutic rather than merely diagnostic use."
+    ],
+    "required_validation": [
+      {
+        "what": "A receptor imaging scan in an EMC patient, or an expression readout on EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA",
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "experimental_proposal",
+      "why_not_higher": "It is a well-formed cheap ask with an unknown answer. There is no computation that would strengthen it — only a measurement.",
+      "missing": [
+        "any expression measurement in EMC"
+      ],
+      "experiment_required": [
+        "a receptor scan, or an expression readout on EMC tissue"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The cheapest possible negative in the entire portfolio: one scan settles it. A cheap decisive negative is worth having now, because it removes a row from the board permanently at almost no cost.",
+      "six_month_delta": "None on our side.",
+      "two_year_delta": "An EMC dataset would answer it without anyone scanning.",
+      "cost_trend": "flat",
+      "automation_outlook": "Not automatable; it is a measurement.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep on the ask list. Frame it as a cheap decisive negative rather than as a promising lead — that is the honest framing and the one most likely to get it run.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
+    }
+  },
+  {
+    "id": "RT-B7H3",
+    "display_name": "B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T",
+    "aliases": [
+      "post-degrader route 13",
+      "B7-H3",
+      "CD276"
+    ],
+    "grade": {
+      "value": "Tier 3 — already red-teamed in this repo: not selective (BH q = 1.0)",
+      "owner": {
+        "file": "research/manuscripts/emc-surface-target-landscape.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-CART-SURFACE",
+        "axis": "antigen vs modality",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "B7-H3 is an ANTIGEN whose selectivity was measured and failed; CAR-T is a MODALITY that would use whichever antigen survives. Collapsing them hides that the modality is blocked by the antigen search, not by the cell product"
+      },
+      {
+        "route": "RT-SSTR2",
+        "axis": "which antigen and how it was graded",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "B7-H3's selectivity was MEASURED and failed (BH q = 1.0); SSTR2 is UNMEASURED in EMC. A measured negative and an unmeasured hope are not the same status"
+      }
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-EMC-EXPRESSION-DATASET",
+      "TR-EMC-MODEL-ACCESS"
+    ],
+    "closure_note": "The selectivity premise was MEASURED and failed on cell-line surrogates; real EMC tissue is what could change the measurement.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is B7-H3 or CD56 selective enough on EMC to support a conjugate, bispecific or CAR-T?",
+    "state": {
+      "work_state": "complete",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "B7-H3 is a broadly expressed tumour antigen with clinical-stage agents already available, so a positive selectivity finding would have been immediately actionable.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-SURFACE-EXPRESSION",
+        "what_it_supports": "the selectivity premise was measured on cell-line surrogates and failed",
+        "strength": "surrogate"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether real EMC tissue would give a different answer than the cell-line surrogates that produced the negative."
+    ],
+    "required_validation": [
+      {
+        "what": "Selectivity measured on real EMC tissue rather than surrogates",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "The negative was measured on surrogates, so it is as provisional as a positive would have been. Reporting it as settled would overstate it.",
+      "missing": [
+        "a tissue-level measurement"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "A measured negative on surrogate data. Only a tissue-level measurement moves it, in either direction.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via an EMC dataset.",
+      "cost_trend": "flat",
+      "automation_outlook": "Re-grade is automatic on new data.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered with the surrogate caveat attached to the negative.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-CART-SURFACE",
+    "display_name": "CAR-T for EMC (surface-directed)",
+    "aliases": [
+      "CAR-T for EMC"
+    ],
+    "grade": {
+      "value": "Hard but not closed — among surface modalities, ADC/FAPI-RLT likely beat CAR-T to a patient",
+      "owner": {
+        "file": "research/manuscripts/car-t-strategies-emc.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-ANTIGEN-COLD",
+      "BLK-NO-EMC-DATA",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-PANNR4A-EXVIVO",
+        "axis": "where the NR4A molecule acts",
+        "fails_on": [
+          "BLK-ANTIGEN-COLD"
+        ],
+        "why": "⚠ TWO DIFFERENT CAR-T ROUTES. This one treats EMC with a CAR against an EMC surface antigen. The pan-NR4A pole is a MANUFACTURING ADDITIVE applied ex vivo to the T cells, where the systemic-selectivity liability does not arise at all"
+      },
+      {
+        "route": "RT-B7H3",
+        "axis": "antigen vs modality",
+        "fails_on": [
+          "BLK-ANTIGEN-COLD",
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "CAR-T is the modality; B7-H3 is one antigen it could use. The modality is blocked by the antigen search and by the cold myxoid stroma, not by the cell product"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-EMC-EXPRESSION-DATASET",
+      "TR-EMC-MODEL-ACCESS"
+    ],
+    "closure_note": "Blocked by the antigen search and the cold myxoid stroma, not by the cell product.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "CAR-T for EMC (surface-directed)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is there a surface antigen on EMC that a CAR-T cell could target?",
+    "state": {
+      "work_state": "complete",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A surface target avoids the intracellular-antigen problem entirely and CAR-T is a mature modality. The whole route reduces to whether EMC presents a surface antigen that healthy tissue does not.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether any sufficiently selective surface antigen exists on EMC.",
+      "Whether the myxoid stroma admits T cells at all."
+    ],
+    "required_validation": [
+      {
+        "what": "A selective surface antigen confirmed on EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA",
+          "BLK-ANTIGEN-COLD"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Blocked by the antigen search and the cold stroma rather than by the cell product. Among surface modalities, conjugates and radioligands would likely reach a patient first.",
+      "missing": [
+        "a selective surface antigen"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Two independent blockers, both about the tumour rather than the modality, and other surface modalities are ahead of it on the same antigen question.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via an EMC dataset that surfaces a candidate antigen.",
+      "cost_trend": "flat",
+      "automation_outlook": "The antigen search is automatable and has been run; the data is what is missing.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered. The antigen search re-runs automatically when EMC expression data lands.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-PANNR4A-EXVIVO",
+    "display_name": "Ex-vivo pan-NR4A pole (CAR-T manufacturing additive)",
+    "aliases": [
+      "target-route route 4",
+      "pole 2",
+      "the pan-NR4A pole"
+    ],
+    "grade": {
+      "value": "★ already in the paper as pole 2; under-used as an ARGUMENT",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#route-4--the-ex-vivo-pan-nr4a-pole-car-t-manufacturing-additive"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/nr4a3-degrader-carT-and-family-druggability-framing.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A1-WT",
+      "OBJ-NR4A2-WT",
+      "OBJ-NR4A3-WT"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-CART-SURFACE",
+        "axis": "where the NR4A molecule acts",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "it is not an EMC treatment route at all in the direct sense — it removes the selectivity requirement by changing the exposure regime, not by being cleverer about the pocket"
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "It removes the selectivity requirement by changing the exposure regime; nothing is closed.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "Ex-vivo pan-NR4A pole (CAR-T manufacturing additive)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could pan-NR4A engagement be useful EX VIVO — during T-cell manufacturing — where selectivity does not matter?",
+    "state": {
+      "work_state": "complete",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "NR4A factors drive T-cell exhaustion, and a manufacturing additive acts on cells outside the patient for a bounded time. That changes the exposure regime entirely: pan-family engagement becomes acceptable, so the paralogue selectivity requirement — the blocker that dominates the whole portfolio — simply does not apply.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether pan-NR4A engagement improves T-cell persistence in a manufacturing context, which is a cell-biology question nobody here can run.",
+      "Whether the same chemistry serves both poles or they diverge."
+    ],
+    "required_validation": [
+      {
+        "what": "An ex-vivo T-cell persistence readout",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "why_not_higher": "It is already a pole of the lead manuscript. Its constraint is that no cellular validation exists, so it is a design argument rather than a result.",
+      "missing": [
+        "a cellular persistence readout"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "It is free, already written, and it is the argument that makes the family's chemistry valuable even if paralogue selectivity is never achieved. It is under-used as an argument rather than under-developed as work.",
+      "six_month_delta": "None.",
+      "two_year_delta": "A cloud lab with T-cell assay scope would make this directly testable.",
+      "cost_trend": "flat",
+      "automation_outlook": "The design half is done; the assay is not computational.",
+      "revisit_trigger": [
+        "TECH-CLOUD-WET-LAB"
+      ]
+    },
+    "next": {
+      "best_next_action": "Use it more prominently as the argument that the family's chemistry has a use that does not depend on solving paralogue selectivity.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-JUNCTION-NEOANTIGEN",
+    "display_name": "Fusion-junction neoantigen (the antigen, shared by three delivery routes)",
+    "aliases": [
+      "target-route route 7",
+      "junction neoantigen"
+    ],
+    "grade": {
+      "value": "○ drafted — and now carrying a correction owed",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#route-7--junction-neoantigen-vaccine--tcr-t--soluble-tcr"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/fusion-junction-neoantigen-paper.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "INS-HLA-COVERAGE"
+      ]
+    },
+    "objects": [
+      "OBJ-MODEL-E7E3",
+      "OBJ-FUS-T1",
+      "OBJ-FUS-T2"
+    ],
+    "evidence": [],
+    "artifacts": [
+      "ART-HLA-COVERAGE"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-VACCINE",
+        "axis": "delivery of the same antigen",
+        "fails_on": [
+          "BLK-ANTIGEN-COLD"
+        ],
+        "why": "the antigen is one object; the vaccine, the TCR-T and the soluble TCR are three different products with different failure modes, and the board has graded them as one row"
+      },
+      {
+        "route": "RT-TCR-IMMTAC",
+        "axis": "delivery of the same antigen",
+        "fails_on": [
+          "BLK-ANTIGEN-COLD"
+        ],
+        "why": "same antigen, engineered-cell or soluble-bispecific product rather than an immunisation"
+      }
+    ],
+    "correction_owed": "⛔ Its 26 predicted binders span seams that do not exist. fusion-breakpoint-neoantigens.json must be regenerated against the corrected exon index — this is a live correction owed, recorded by target-route-options.md, and this registry only points at it.",
+    "closure_kind": "unregenerable_artifact",
+    "revival_trigger": [
+      "TR-NEOANTIGEN-SEAMS-REGENERATED"
+    ],
+    "closure_note": "⚠ THE TWO HALVES, KEPT APART: the 26 predicted binders are unusable because they span seams that do not exist — that RESULT is void. The QUESTION is open and one free regeneration answers it.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "Fusion-junction neoantigen (the antigen, shared by three delivery routes)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does the fusion junction produce a peptide the immune system could see — and is it presented?",
+    "state": {
+      "work_state": "complete",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "The junction is tumour-exclusive at the sequence level, so a peptide spanning it is a true neoantigen shared by every patient with this fusion. That would make one reagent serve the whole disease, which is the only economically plausible shape for an ultra-rare cancer.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "The predicted binders are VOID: they span seams that a corrected exon index says no reported junction produces. The result is unusable; the question is open.",
+      "Whether a junction peptide is presented at all, and at what level — EMC is antigen-cold.",
+      "Whether the peptide-HLA is strong enough to be a target rather than merely present."
+    ],
+    "required_validation": [
+      {
+        "what": "Regeneration of the predictions against the corrected exon index",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Measured presentation on EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-ANTIGEN-COLD",
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "The current predictions cannot be published because they span junctions that do not exist. That is a defect of the input index, not of the method — which is why the fix is free and is the route's next action.",
+      "missing": [
+        "regenerated predictions against the corrected exon index"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The blocking defect is an input error this program made and can fix for nothing. Waiting on any external capability while a free self-inflicted defect stands unrepaired is the wrong order.",
+      "six_month_delta": "None — the fix is available now.",
+      "two_year_delta": "Presentation prediction is improving, but the void result must be repaired first regardless.",
+      "cost_trend": "flat",
+      "automation_outlook": "Fully automatable; it is a regeneration."
+    },
+    "next": {
+      "best_next_action": "Regenerate the junction-neoantigen predictions against the corrected exon index, then re-grade. Every predicted binder currently spans a seam no reported junction produces.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-VACCINE",
+    "display_name": "Fusion-junction vaccine / HLA-coverage paper",
+    "aliases": [
+      "the vaccine route",
+      "HLA-coverage paper"
+    ],
+    "grade": {
+      "value": "PARKED — done, not a treatment path; a self-adjacent junction in a cold tumour is a weak immunogen",
+      "owner": {
+        "file": "research/manuscripts/hla-coverage-emc.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "INS-HLA-COVERAGE"
+      ]
+    },
+    "objects": [
+      "OBJ-MODEL-E7E3"
+    ],
+    "evidence": [],
+    "artifacts": [
+      "ART-HLA-COVERAGE"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "axis": "antigen vs product",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "the vaccine is one product built on the antigen; parking the product does not park the antigen, whose HLA-coverage output still feeds TCR-T eligibility"
+      }
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-NEOANTIGEN-SEAMS-REGENERATED"
+    ],
+    "closure_note": "Parked on immunogenicity — a self-adjacent junction in a cold tumour — and its HLA-coverage output is reusable and still feeds TCR-T eligibility.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "Fusion-junction vaccine / HLA-coverage paper",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a vaccine against the junction peptide work?",
+    "state": {
+      "work_state": "complete",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "If the junction peptide is presented, a vaccine is the cheapest way to point the immune system at it, and its HLA-coverage analysis is reusable regardless of whether the vaccine itself proceeds.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether a self-adjacent junction in a cold tumour can be immunogenic at all — the premise the parking rests on.",
+      "Whether the underlying antigen prediction survives the exon-index correction; it inherits that defect."
+    ],
+    "required_validation": [
+      {
+        "what": "Evidence of immunogenicity for a self-adjacent junction",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-ANTIGEN-COLD"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Parked on immunogenicity, and its antigen input inherits the void prediction above it. The HLA-coverage output is reusable and does feed eligibility analysis elsewhere.",
+      "missing": [
+        "an immunogenicity argument"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Parked on a property of the tumour and the junction rather than of the modality, so it waits on a measurement rather than on effort.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via a measured presentation result.",
+      "cost_trend": "flat",
+      "automation_outlook": "The prediction half is automated; the immunogenicity question is not computational.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep the HLA-coverage output as a reusable input to eligibility analysis. Do not advance the vaccine while the antigen is void.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-TCR-IMMTAC",
+    "display_name": "Fusion-junction TCR-T / soluble-TCR (ImmTAC) against the junction peptide-HLA",
+    "aliases": [
+      "post-degrader route 10",
+      "fusion-junction TCR / ImmTAC"
+    ],
+    "grade": {
+      "value": "Tier 3 — the weak-junction-pHLA problem; EMC is antigen-cold",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3|route10"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/immunotherapy-options-emc.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-ANTIGEN-COLD"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "INS-HLA-COVERAGE"
+      ]
+    },
+    "objects": [
+      "OBJ-MODEL-E7E3"
+    ],
+    "evidence": [],
+    "artifacts": [
+      "ART-HLA-COVERAGE"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-PRAME-IMMTAC",
+        "axis": "which peptide the TCR sees",
+        "fails_on": [
+          "BLK-ANTIGEN-COLD"
+        ],
+        "why": "⚠ BOTH ARE 'ImmTAC' AND THEY ARE NOT THE SAME ROUTE. This one targets the FUSION JUNCTION peptide-HLA (fusion-exclusive, weak junction). The PRAME route targets a cancer-testis antigen through an EXISTING tumour-agnostic basket product and is not fusion-exclusive at all"
+      },
+      {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "axis": "antigen vs product",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "this is one of three products on the same antigen"
+      }
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-NEOANTIGEN-SEAMS-REGENERATED"
+    ],
+    "closure_note": "The weak-junction peptide-HLA problem is a measured property of this junction, not of the modality.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "Fusion-junction TCR-T / soluble-TCR (ImmTAC) against the junction peptide-HLA",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a T-cell receptor therapeutic or a soluble bispecific target the junction peptide-HLA?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A soluble T-cell-receptor bispecific can reach a peptide-HLA that antibodies cannot, which is what makes an intracellular neoantigen targetable at all.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the junction peptide-HLA is strong enough — measurement says it is weak.",
+      "Whether EMC's stroma admits T cells."
+    ],
+    "required_validation": [
+      {
+        "what": "A junction peptide-HLA strong enough to target",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-ANTIGEN-COLD"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "The weak-junction peptide-HLA is a measured property of this junction, not of the modality — so the route is blocked by its input rather than by its design.",
+      "missing": [
+        "a stronger presented epitope"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Waits on a measured property of the junction. No modality improvement changes a weak epitope.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via better presentation prediction or a measured epitope.",
+      "cost_trend": "flat",
+      "automation_outlook": "Prediction is automated; the underlying biology is not.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered. Re-grade after the neoantigen predictions are regenerated.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-PRAME-IMMTAC",
+    "display_name": "PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR",
+    "aliases": [
+      "PRAME-directed",
+      "brenetafusp"
+    ],
+    "grade": {
+      "value": "NEW antigen-directed lead — best of the CTAs",
+      "owner": {
+        "file": "research/IDEAS.md",
+        "anchor": "route-board|prame"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/immunotherapy-options-emc.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-TCR-IMMTAC",
+        "axis": "which peptide the TCR sees",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "a cancer-testis antigen, not the junction; its access route is an existing basket trial rather than a bespoke product, and it sacrifices fusion-exclusivity"
+      },
+      {
+        "route": "RT-TCRT-CTA",
+        "axis": "which CTA",
+        "fails_on": [
+          "BLK-ANTIGEN-COLD"
+        ],
+        "why": "NY-ESO-1/MAGE-A4 TCR-T is DOWNGRADED on measured EMC CTA-low data; PRAME is the one CTA whose surrogate expression read came back favourable"
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "The one CTA whose surrogate expression came back favourable; its confirm is an ask, not a closure.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Unlike the junction neoantigen, this uses an antigen with an existing clinical-stage agent — so the reagent problem is already solved by someone else, and the only question is whether EMC expresses the antigen. That makes it the cheapest antigen-directed route to test.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-SURFACE-EXPRESSION",
+        "what_it_supports": "surrogate expression came back favourable, unlike every other cancer-testis antigen examined",
+        "strength": "surrogate"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the surrogate expression holds on real EMC tissue — the measurement was on cell-line surrogates.",
+      "HLA restriction limits which patients are eligible."
+    ],
+    "required_validation": [
+      {
+        "what": "Expression confirmation on EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "experimental_proposal",
+      "why_not_higher": "The reagent exists clinically and the computational case is made, so what remains is a confirmation, not a discovery. That makes it a proposal rather than a paper.",
+      "missing": [
+        "expression confirmation on EMC tissue"
+      ],
+      "experiment_required": [
+        "immunohistochemistry or expression readout on EMC tissue"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The best-supported antigen-directed row on the board and the one where someone else has already solved the hard part. The confirm is small and the agent already exists, so the value of asking now is high.",
+      "six_month_delta": "None on our side.",
+      "two_year_delta": "An EMC expression dataset would settle it without anyone running anything.",
+      "cost_trend": "flat",
+      "automation_outlook": "The confirm is a bench readout, not computation.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Include in the collaborator ask: an expression confirm on EMC tissue is small, and the therapeutic already exists.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
+    }
+  },
+  {
+    "id": "RT-TCRT-CTA",
+    "display_name": "TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcoma port)",
+    "aliases": [
+      "afami-cel port",
+      "NY-ESO-1 / MAGE-A4 TCR-T"
+    ],
+    "grade": {
+      "value": "DOWNGRADED to weak — gating fact resolved, mostly negative",
+      "owner": {
+        "file": "research/manuscripts/immunotherapy-options-emc.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-ANTIGEN-COLD",
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "INS-HLA-COVERAGE"
+      ]
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [
+      "ART-HLA-COVERAGE"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-PRAME-IMMTAC",
+        "axis": "which CTA",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "EMC is NY-ESO-1-rare and MAGE-A4-low on measured data; PRAME is separately expressed and separately graded"
+      }
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-EMC-EXPRESSION-DATASET"
+    ],
+    "closure_note": "EMC is CTA-low on measured data; a real EMC series is what could change it.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcoma port)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could engineered T cells against a cancer-testis antigen be ported to EMC, as was done in synovial sarcoma?",
+    "state": {
+      "work_state": "complete",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "The synovial-sarcoma precedent shows the approach works in a translocation sarcoma, and porting an approved approach is far cheaper than inventing one.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-SURFACE-EXPRESSION",
+        "what_it_supports": "EMC is cancer-testis-antigen-low on the available measured data",
+        "strength": "surrogate"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether a real EMC series would agree with the surrogate measurement that downgraded this."
+    ],
+    "required_validation": [
+      {
+        "what": "A real EMC expression series",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Downgraded on a measurement rather than on reasoning, which is the useful kind of downgrade — but it means the route needs a better measurement, not a better argument.",
+      "missing": [
+        "a real EMC expression series"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "The gating fact was resolved and came back mostly negative. Only better data reopens it, and that data is watched.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via an EMC dataset.",
+      "cost_trend": "flat",
+      "automation_outlook": "Re-grading would be automatic once data lands.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-ICI-TKI",
+    "display_name": "Checkpoint inhibitor + anti-angiogenic TKI combination",
+    "aliases": [
+      "ImmunoSarc",
+      "sunitinib + nivolumab"
+    ],
+    "grade": {
+      "value": "TOP NEAR-TERM LEAD (best EMC evidence)",
+      "owner": {
+        "file": "research/manuscripts/immunotherapy-options-emc.md",
+        "anchor": "#2"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "Approved drugs and the best EMC clinical signal on the board.",
+    "strategy": "ST-IMMUNO",
+    "level": "L2",
+    "kind": "route",
+    "title": "Checkpoint inhibitor + anti-angiogenic TKI combination",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does the checkpoint-inhibitor plus anti-angiogenic combination have an EMC signal worth pursuing?",
+    "state": {
+      "work_state": "future",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "This carries the best actual EMC clinical signal on the board, and both components are approved drugs. For an ultra-rare disease with no targeted agent, an approved combination with a reported signal is the shortest path to a patient that exists.",
+    "supporting_evidence": [
+      {
+        "ref": "EV-EMC-CLINICAL",
+        "what_it_supports": "the best reported EMC clinical signal among the routes examined",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the reported signal survives in a larger series — the evidence base for any EMC treatment is very small.",
+      "Which patients it applies to; EMC is heterogeneous and the series are tiny."
+    ],
+    "required_validation": [
+      {
+        "what": "A larger EMC series or a registry analysis",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "This is clinical evidence synthesis, not computation, and this program's contribution to it is limited. It belongs in the landscape context of a paper rather than as a result of its own.",
+      "missing": [
+        "a larger clinical series"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Nothing computational advances it and no in-silico work would strengthen the signal. Its role in the portfolio is as context: it is the standard against which any new route has to argue it is worth pursuing.",
+      "six_month_delta": "Only via new clinical reports.",
+      "two_year_delta": "Same.",
+      "cost_trend": "flat",
+      "automation_outlook": "Literature monitoring is already automated.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep as landscape context, cited and never overstated. It is the comparator, not a contribution.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-CARFILZOMIB",
+    "display_name": "Carfilzomib ± anthracycline (± venetoclax)",
+    "aliases": [
+      "carfilzomib"
+    ],
+    "grade": {
+      "value": "NEAR-TERM LEAD — best ex-vivo EMC evidence",
+      "owner": {
+        "file": "research/manuscripts/repurposing-hypotheses.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [
+      "EV-BANGERTER-2023"
+    ],
+    "artifacts": [],
+    "distinct_from": [],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "Best ex-vivo EMC evidence; nothing closed.",
+    "strategy": "ST-REPURPOSING",
+    "level": "L2",
+    "kind": "route",
+    "title": "Carfilzomib ± anthracycline (± venetoclax)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does the best ex-vivo EMC drug-sensitivity evidence point at a proteasome inhibitor combination?",
+    "state": {
+      "work_state": "future",
+      "status": "ready",
+      "maturity": "concept",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "This carries the best ex-vivo EMC drug-sensitivity evidence in the repository — an actual measurement on actual EMC material, which is rarer than anything else in this family. An approved agent with an ex-vivo signal is a strong near-term lead by the standards available for this disease.",
+    "supporting_evidence": [
+      {
+        "ref": "EV-EMC-EXVIVO",
+        "what_it_supports": "ex-vivo drug sensitivity measured on EMC material",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether ex-vivo sensitivity transfers to clinical benefit, which it frequently does not.",
+      "The provenance of the underlying evidence needs firming — it is the repository's only ex-vivo EMC result and its citation has been flagged as incomplete."
+    ],
+    "required_validation": [
+      {
+        "what": "Confirmation of the ex-vivo result and a firm primary citation",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A clinical series",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Its single supporting result currently lacks a resolvable primary identifier, and an uncitable result cannot carry a published claim however good it looks.",
+      "missing": [
+        "a resolvable primary citation for the ex-vivo evidence"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The blocking item is a citation lookup, not a capability — and it gates the only ex-vivo EMC evidence the repository holds. Leaving the program's best measured EMC result uncitable is a defect worth fixing before anything else in this family.",
+      "six_month_delta": "None.",
+      "two_year_delta": "None on the citation; a clinical series would change the route.",
+      "cost_trend": "flat",
+      "automation_outlook": "The literature lookup is automatable and is already wired."
+    },
+    "next": {
+      "best_next_action": "Resolve the primary citation for the ex-vivo EMC drug-sensitivity evidence. It is the only ex-vivo EMC result here and it currently carries no resolvable identifier.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-FAP-RLT",
+    "display_name": "FAP-targeted radioligand therapy (FAPI-RLT)",
+    "aliases": [
+      "FAPI-RLT",
+      "FAP-PET"
+    ],
+    "grade": {
+      "value": "Emerging, plausible",
+      "owner": {
+        "file": "research/manuscripts/emerging-modalities-scan-emc.md",
+        "anchor": "#2"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-SSTR2",
+        "axis": "which radioligand target",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "both are theranostics and they target different things — FAP is the myxoid STROMA, SSTR2 is EMC's own neuroendocrine differentiation"
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "Emerging and unmeasured in EMC.",
+    "strategy": "ST-RADIOLIGAND",
+    "level": "L2",
+    "kind": "route",
+    "title": "FAP-targeted radioligand therapy (FAPI-RLT)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a fibroblast-activation-protein radioligand reach EMC through its stroma?",
+    "state": {
+      "work_state": "future",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "EMC is a stroma-rich myxoid tumour, and a stromal target sidesteps the whole question of what the tumour cells themselves express. That is an unusual advantage in a disease where the cellular antigen search has repeatedly come back empty.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured.",
+      "Whether a stromal-targeted radioligand delivers enough dose to the tumour cells."
+    ],
+    "required_validation": [
+      {
+        "what": "An expression or imaging readout on EMC tissue",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Entirely unmeasured in EMC. The rationale is a plausible inference from the tumour's histology and nothing more.",
+      "missing": [
+        "any measurement in EMC"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Emerging and unmeasured. It is worth a row because the stromal angle is genuinely different from every other antigen route here, but there is nothing to do until a measurement exists.",
+      "six_month_delta": "None.",
+      "two_year_delta": "An EMC dataset, or a sarcoma radioligand series, would move it.",
+      "cost_trend": "falling",
+      "automation_outlook": "Re-grade is automatic on new data.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-SYNLETH-DEP",
+    "display_name": "Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BAF)",
+    "aliases": [
+      "target-route route 9",
+      "BRD9 / ncBAF"
+    ],
+    "grade": {
+      "value": "DOWNGRADED — DepMap 24Q4 transfer prior negative; ⏸ parked on data, not on ideas",
+      "owner": {
+        "file": "research/manuscripts/degrader-vs-synthetic-lethal.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/target-route-options.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-R4-BINDS"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-ATR-ASSESS",
+        "axis": "where the dependency comes from",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "'synthetic lethality' names both. This one is a DepMap transfer prior that came back negative; the ATR route is a class inheritance from a published FET-family argument with its own structural precondition computed"
+      }
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-EMC-EXPRESSION-DATASET",
+      "TR-EMC-MODEL-ACCESS"
+    ],
+    "closure_note": "The DepMap transfer prior came back negative — a measured premise, revivable only by EMC-specific data, which is why it is parked on data and not on ideas.",
+    "strategy": "ST-DEPENDENCY",
+    "level": "L2",
+    "kind": "route",
+    "title": "Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BAF)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does the fusion create a synthetic-lethal dependency on a partner that is already druggable?",
+    "state": {
+      "work_state": "complete",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A synthetic-lethal partner would be an ordinary, already-druggable protein that is only essential because the fusion is present. That removes both the undruggability problem and the selectivity problem at once, and it is the cleanest theoretical escape from everything blocking the lead family.",
+    "supporting_evidence": [
+      {
+        "ref": "INS-DEPMAP-KO",
+        "what_it_supports": "the dependency transfer prior, which came back negative on the available data",
+        "strength": "transferred"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the negative reflects EMC biology or the sample size: there is one EMC model in public dependency data, with no knockout screen data.",
+      "Whether a chromatin-complex dependency exists that the transfer prior could not see."
+    ],
+    "required_validation": [
+      {
+        "what": "An EMC-specific dependency screen",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Parked on DATA rather than on ideas. A negative derived from a transfer prior over one cell line is not a result that can carry a publication.",
+      "missing": [
+        "EMC-specific functional-genomics data"
+      ]
+    },
+    "timing": {
+      "recommendation": "wait",
+      "rationale": "This is the family most starved by the data blocker and the one that would benefit most from it landing. Further reasoning against a sample size of one produces confident-sounding conclusions with no evidential base, which is the failure mode the whole register exists to prevent.",
+      "six_month_delta": "None without data.",
+      "two_year_delta": "Substantial — either an EMC dataset or a perturbation model that generalises to unseen cell types would reopen this properly.",
+      "cost_trend": "flat",
+      "automation_outlook": "High — the screen re-runs automatically once data exists.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA",
+        "TECH-VIRTUAL-CELL"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep parked on data with the transfer-prior negative stated as data-bounded, not as a biological finding.",
+      "cost": "$0",
+      "blocked_on": [
+        "BLK-NO-EMC-DATA"
+      ]
+    }
+  },
+  {
+    "id": "RT-ANDGATE",
+    "display_name": "AND-gate bivalent degrader (avidity coincidence detection)",
+    "aliases": [
+      "target-route route 8",
+      "the AND-gate"
+    ],
+    "grade": {
+      "value": "⏸ hold — arm-2 chemistry does not exist",
+      "owner": {
+        "file": "research/manuscripts/fusion-selective-andgate-degrader-paper.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/target-route-options.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-PARALOGUE-DDG",
+      "BLK-R4-BINDS"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1",
+      "OBJ-NR4A3-LBD-MODELLED"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-DEGRADER",
+        "axis": "what the second arm detects",
+        "fails_on": [
+          "BLK-TERNARY-GEOMETRY"
+        ],
+        "why": "⚠ 'fusion-selective' is NOT automatically 'paralogue-free'. The AND-gate adds a fusion-vs-wild-type layer on top of the paralogue layer; arm 1 still carries the selectivity handles"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-TERNARY-ALCHEMY-PASSES-VALB",
+      "TR-COFOLD-ASSEMBLY"
+    ],
+    "closure_note": "Arm-2 chemistry does not exist and it inherits the degrader's ternary instruments.",
+    "strategy": "ST-PROXIMITY",
+    "level": "L2",
+    "kind": "route",
+    "title": "AND-gate bivalent degrader (avidity coincidence detection)",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a bivalent degrader require BOTH halves of the fusion to be present, so that it acts only in tumour cells?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Avidity turns two weak interactions into one strong one only when both partners are on the same molecule. A degrader with one arm against the NR4A3 half and one against the EWSR1 half would therefore engage the chimera far more strongly than either wild-type protein — coincidence detection rather than affinity. It is the most elegant answer to the selectivity problem in the portfolio.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether any ligand exists for the EWSR1 half — the second arm's chemistry does not exist.",
+      "Whether avidity in this geometry is large enough to matter, which needs the ternary geometry the whole family lacks."
+    ],
+    "required_validation": [
+      {
+        "what": "A ligand for the second arm, which does not exist",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-TERNARY-GEOMETRY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "There is no second arm, so there is nothing to compute and nothing to report beyond the design argument.",
+      "missing": [
+        "arm-2 chemistry"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Nothing can be built until a ligand for the shared low-complexity half exists, and that is a hard target that this program has separately closed as a direct route. Monitoring costs nothing; building costs everything and returns nothing.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only if generative design reaches disordered-region ligands, which would be a major advance.",
+      "cost_trend": "flat",
+      "automation_outlook": "Not automatable — the gap is chemical matter, not effort.",
+      "revisit_trigger": [
+        "TECH-GLUE-DESIGN",
+        "TECH-COFOLD-ASSEMBLY"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep as a registered design option; do not build. Its value is that it names what a second arm would buy, so that a ligand for the EWSR1 half would immediately have a use.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-GLUE",
+    "display_name": "Molecular glue instead of a PROTAC",
+    "aliases": [
+      "target-route route 10",
+      "molecular glue"
+    ],
+    "grade": {
+      "value": "⏸ watch, do not build — removes handles and keeps the same ~1 kcal/mol claim",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#route-10--a-molecular-glue-instead-of-a-protac"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "asserts_grade": false
+      },
+      {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-R4-BINDS"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A3-LBD-MODELLED"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-DEGRADER",
+        "axis": "how proximity is induced",
+        "fails_on": [
+          "BLK-PARALOGUE-DDG",
+          "BLK-R4-BINDS"
+        ],
+        "why": "a glue keeps the same ~1 kcal/mol paralogue claim with FEWER independent handles than a PROTAC — the registered reason it is watch-do-not-build rather than a cheaper degrader"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-GLUE-DESIGN-PREDICTOR",
+      "TR-FE-CRYPTIC-POCKET"
+    ],
+    "closure_note": "⚠ Graded ⏸ rather than ✕ because the block is a MISSING CAPABILITY — the modality most likely to arrive from someone else's screen.",
+    "strategy": "ST-PROXIMITY",
+    "level": "L2",
+    "kind": "route",
+    "title": "Molecular glue instead of a PROTAC",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a molecular glue — no linker, no designed exit vector — degrade NR4A3 instead of a PROTAC?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A glue stabilises a protein–protein interface rather than tethering two ligands. That removes the linker, the exit vector and the covalent axis in one step — three of this program's hardest sub-problems. The cost is that a glue interface cannot be designed from the target alone, and glues are typically found by screening rather than designed.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether a glue interface exists for this target at all.",
+      "Whether prospective glue design works on an interface outside a method's training set — nobody has shown it."
+    ],
+    "required_validation": [
+      {
+        "what": "A prospective glue design method demonstrated out of training distribution",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-PARALOGUE-DDG"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "There is no design method to apply and no screen to run, so there is no computation whose result would mean anything.",
+      "missing": [
+        "a prospective glue design method"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "This is the modality most likely to arrive from someone else's screen rather than from this program's design. Watching costs nothing; building a glue programme without a design method is not a real option for one person with no bench.",
+      "six_month_delta": "None here; possibly a lot in the field.",
+      "two_year_delta": "Generative interface design is moving fast enough that this could become buildable.",
+      "cost_trend": "flat",
+      "automation_outlook": "A prospective design method would make this largely automatable, which is exactly why it is worth watching.",
+      "revisit_trigger": [
+        "TECH-GLUE-DESIGN"
+      ]
+    },
+    "next": {
+      "best_next_action": "Watch for a prospectively validated glue design method. Nothing to build until one exists.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-EWSR1-PROTEIN",
+    "display_name": "Target the EWSR1 half at the protein level",
+    "aliases": [
+      "target-route route 11"
+    ],
+    "grade": {
+      "value": "✕ down — relocates onto an essential gene",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#route-11--target-the-ewsr1-half-at-the-protein-level"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-EWSR1-WT"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-FET-LC-LIGAND",
+        "axis": "the same liability, arrived at from a different direction",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "one targets EWSR1 as EWSR1; the other targets the FET low-complexity half as a shared class feature. Both land on wild-type EWSR1, so they share a blocker and are still separately registered because their entry points differ"
+      }
+    ],
+    "closure_kind": "definitional",
+    "revival_trigger": [],
+    "closure_note": "The EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages an essential housekeeping protein BY CONSTRUCTION. No method changes what the sequence is.",
+    "strategy": "ST-FUSION-DIRECT",
+    "level": "L2",
+    "kind": "route",
+    "title": "Target the EWSR1 half at the protein level",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could the EWSR1 half of the fusion be targeted at the protein level?",
+    "state": {
+      "work_state": "dead",
+      "status": "closed",
+      "maturity": "scoped",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Registered so the idea, which recurs, has a permanent answer rather than being re-argued. The EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages an essential housekeeping protein by construction. This is a fact about what the objects are, not a limit of any method.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Nothing is open. The EWSR1 half of the fusion IS wild-type EWSR1 sequence, so this closure is a fact about what the objects are — no method advance, dataset or capability reopens it."
+    ],
+    "required_validation": [],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "It is a closed route. Its only output is the reasoning that closes it, which belongs in the closed-route register."
+    },
+    "timing": {
+      "recommendation": "closed",
+      "rationale": "Permanently closed on a fact about the sequence. No future capability reopens it, and it must appear on no watch list.",
+      "revisit_trigger": []
+    },
+    "next": {
+      "best_next_action": "Nothing. Cite the closure when the idea resurfaces.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-FET-LC-LIGAND",
+    "display_name": "A ligand for the shared FET low-complexity half",
+    "aliases": [
+      "post-degrader route 15"
+    ],
+    "grade": {
+      "value": "Tier 3 — relocates selectivity somewhere worse",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#route-15---a-ligand-for-the-shared-fet-low-complexity-half"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-EWSR1-WT"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-EWSR1-PROTEIN",
+        "axis": "the same liability, arrived at from a different direction",
+        "fails_on": [
+          "BLK-NO-WET-LAB"
+        ],
+        "why": "a NEW route to this repo, proposed as a class-wide FET handle rather than as an EWSR1-specific one"
+      }
+    ],
+    "closure_kind": "definitional",
+    "revival_trigger": [],
+    "closure_note": "A ligand for the SHARED FET low-complexity half binds wild-type EWSR1 by definition of 'shared'. Permanent for the same reason as the row above, reached from the other direction.",
+    "strategy": "ST-FUSION-DIRECT",
+    "level": "L2",
+    "kind": "route",
+    "title": "A ligand for the shared FET low-complexity half",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a ligand for the shared FET low-complexity region work?",
+    "state": {
+      "work_state": "dead",
+      "status": "closed",
+      "maturity": "scoped",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Registered for the same reason as the row above. A ligand for the SHARED low-complexity half binds wild-type EWSR1 by the definition of 'shared'. It relocates the selectivity problem onto a protein that is more essential, not less.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Nothing is open. A ligand for a SHARED region cannot discriminate between the things that share it; that is what 'shared' means, so no capability reopens it."
+    ],
+    "required_validation": [],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Closed on the same definitional grounds as the EWSR1 protein route."
+    },
+    "timing": {
+      "recommendation": "closed",
+      "rationale": "Permanently closed. A shared region cannot discriminate between the things that share it — that is what 'shared' means.",
+      "revisit_trigger": []
+    },
+    "next": {
+      "best_next_action": "Nothing. Cite the closure.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-DBD",
+    "display_name": "Target the DBD / DNA binding",
+    "aliases": [
+      "target-route route 12"
+    ],
+    "grade": {
+      "value": "✕ down, on arithmetic — 92.8 % / 98.6 % paralogue identity",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#route-12--target-the-dbd--dna-binding"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-PARALOGUE-DDG"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A3-DBD"
+    ],
+    "evidence": [],
+    "artifacts": [
+      "ART-TARGET-ROUTE-CENSUS"
+    ],
+    "distinct_from": [],
+    "closure_kind": "arithmetic_over_fixed_fact",
+    "revival_trigger": [],
+    "closure_note": "The zinc-finger DBD is far more conserved between the paralogues than the LBD the program already targets. An arithmetic consequence of a fixed sequence fact — never revivable.",
+    "strategy": "ST-FUSION-DIRECT",
+    "level": "L2",
+    "kind": "route",
+    "title": "Target the DBD / DNA binding",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could the DNA-binding domain be targeted instead of the ligand-binding domain?",
+    "state": {
+      "work_state": "dead",
+      "status": "closed",
+      "maturity": "computed",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "The zinc-finger DNA-binding domain is far more conserved between the paralogues than the ligand-binding domain the program already targets. Moving there makes the discrimination problem strictly harder, and that follows arithmetically from a measured sequence identity.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Nothing is open. The closure is arithmetic over a measured paralogue sequence identity, and that identity does not change — so no capability reopens it."
+    ],
+    "required_validation": [],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Closed by arithmetic over a fixed measured fact."
+    },
+    "timing": {
+      "recommendation": "closed",
+      "rationale": "Permanently closed. The closure is arithmetic over a sequence identity that does not change.",
+      "revisit_trigger": []
+    },
+    "next": {
+      "best_next_action": "Nothing. Cite the closure.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-UBIQ-SELECTIVE",
+    "display_name": "Fusion-selective ubiquitination — discriminate at the transfer step",
+    "aliases": [
+      "target-route route 13"
+    ],
+    "grade": {
+      "value": "✕ closed by a measurement already committed",
+      "owner": {
+        "file": "research/manuscripts/target-route-options.md",
+        "anchor": "#route-13--fusion-selective-ubiquitination-closed-by-a-number-the-repo-already-owns"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "V18"
+      ]
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-OBSERVED-CRL-GEOMETRY"
+    ],
+    "closure_note": "⚠ GRADED ⏸ NOT ✕, on the register's own caveat that this is a route closed by measurements that already exist rather than a proof of impossibility. The geometry does not reach FROM AN E3 ANCHORED AT THE CRYPTIC POCKET; a different anchor re-opens the measurement.",
+    "strategy": "ST-PROXIMITY",
+    "level": "L2",
+    "kind": "route",
+    "title": "Fusion-selective ubiquitination — discriminate at the transfer step",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could selectivity be achieved at the ubiquitin-transfer step rather than at binding?",
+    "state": {
+      "work_state": "complete",
+      "status": "parked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Even a non-selective binder could give a selective outcome if only the fusion presents a lysine in a geometry that permits ubiquitin transfer. That would move discrimination from thermodynamics, where the margin is tiny, to geometry, where it might be categorical.",
+    "supporting_evidence": [
+      {
+        "ref": "V18",
+        "what_it_supports": "a categorical lysine inventory, as set membership rather than energy",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the transfer geometry is real: the ligase assembly it rests on was COMPOSED rather than observed, and carries tens of angstroms of positional uncertainty.",
+      "Whether lysine identity predicts outcome at all — real degraders often ubiquitinate several lysines, and lysine-less substrates can still be degraded."
+    ],
+    "required_validation": [
+      {
+        "what": "An OBSERVED ligase assembly rather than a composed one",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-TERNARY-GEOMETRY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "No degradation-geometry claim may rest on a composed assembly, so the computed result cannot currently be reported as evidence for anything.",
+      "missing": [
+        "an observed transfer geometry"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "The blocking fact is about the geometry's PROVENANCE, not about sampling or effort, so no amount of work here changes it. Only a deposited structure does.",
+      "six_month_delta": "None unless a structure is deposited.",
+      "two_year_delta": "Plausible — cryo-EM of large flexible assemblies keeps improving.",
+      "cost_trend": "flat",
+      "automation_outlook": "The analysis is automated already; the input is what is missing.",
+      "revisit_trigger": [
+        "TECH-OBSERVED-CRL"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep the categorical inventory as a disclosed-limitation supplement. Do not restate it as a degradation-geometry claim.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-RIPTAC",
+    "display_name": "RIPTAC — bind the tumour protein, poison an essential one",
+    "aliases": [
+      "post-degrader route 8"
+    ],
+    "grade": {
+      "value": "Tier 3 — needs paralogue selectivity AND a med-chem campaign; strictly worse than TCIP on both",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3|route8"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-INDUCED-COMPLEX",
+      "BLK-R4-BINDS"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A3-LBD-MODELLED"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-TCIP",
+        "axis": "what the recruited partner does",
+        "fails_on": [
+          "BLK-PARALOGUE-DDG",
+          "BLK-R4-BINDS"
+        ],
+        "why": "a RIPTAC poisons an essential protein and therefore needs the paralogue selectivity a TCIP's effector recruitment can partly avoid; it is strictly worse on both axes and is registered so it is not re-proposed as 'TCIP-like'"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET"
+    ],
+    "closure_note": "It needs the paralogue selectivity the program cannot measure, plus a med-chem campaign.",
+    "strategy": "ST-PROXIMITY",
+    "level": "L2",
+    "kind": "route",
+    "title": "RIPTAC — bind the tumour protein, poison an essential one",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a bifunctional molecule bind NR4A3 and hold an essential protein hostage, killing only cells that express the fusion?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A RIPTAC does not degrade anything: it forms a complex that poisons an essential protein, so the cell dies only where the tumour protein is present. It converts a selectivity problem into a lethality problem, which is attractive because partial selectivity still gives a therapeutic effect.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the paralogue selectivity this needs is achievable — it needs the same margin the program cannot measure.",
+      "Whether a medicinal-chemistry campaign is even conceivable for one person with no bench."
+    ],
+    "required_validation": [
+      {
+        "what": "A measurable paralogue selectivity margin",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-PARALOGUE-DDG"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "It needs both the selectivity the program cannot measure and a chemistry campaign it cannot run. It is strictly harder than the proximity routes above it on both axes.",
+      "missing": [
+        "paralogue selectivity",
+        "a chemistry programme"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Strictly dominated by the induced-proximity routes: it needs everything they need plus a medicinal-chemistry campaign. There is no state of the world where this is the right next thing while they are still blocked.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via the same free-energy advance that unblocks the whole family.",
+      "cost_trend": "flat",
+      "automation_outlook": "The chemistry half is not automatable at this program's scale.",
+      "revisit_trigger": [
+        "TECH-FE-CRYPTIC-POCKET"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered. Do not build while the routes it is dominated by are still blocked.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-CRISPR-CAS13",
+    "display_name": "CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown",
+    "aliases": [
+      "post-degrader route 9",
+      "Cas13"
+    ],
+    "grade": {
+      "value": "Tier 3 — delivery, and Cas13 collateral activity",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3|route9"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/novel-modalities.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-VECTOR-DELIVERY"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-ASO",
+        "axis": "delivery class",
+        "fails_on": [
+          "BLK-VECTOR-DELIVERY"
+        ],
+        "why": "an oligonucleotide's delivery problem and a vector's delivery problem are different engineering problems with different precedents — BLK-DELIVERY vs BLK-VECTOR-DELIVERY"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-OLIGO-TUMOUR-DELIVERY"
+    ],
+    "closure_note": "Vector delivery, plus Cas13 collateral activity.",
+    "strategy": "ST-NUCLEIC-ACID",
+    "level": "L2",
+    "kind": "route",
+    "title": "CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a nuclease disrupt the fusion gene, or a programmable RNA nuclease knock down the fusion transcript?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Sequence-programmable nucleases share the oligonucleotide route's perfect discrimination and add the possibility of permanent gene disruption. The RNA-targeting form avoids editing the genome at all.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "How to deliver a vector to a solid tumour at therapeutic coverage.",
+      "Whether collateral activity of the RNA-targeting nuclease is tolerable."
+    ],
+    "required_validation": [
+      {
+        "what": "Vector delivery at therapeutic coverage",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-VECTOR-DELIVERY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Gated on a delivery problem the field has not solved, so there is no computation whose result would change the route's standing.",
+      "missing": [
+        "a solid-tumour vector"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Strictly behind the oligonucleotide route on the same discrimination argument, with a harder delivery problem. There is no scenario where this is worth building while that route is still delivery-blocked.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via vector delivery, which is the slower of the two delivery problems.",
+      "cost_trend": "flat",
+      "automation_outlook": "Not automatable — the gap is delivery.",
+      "revisit_trigger": [
+        "TECH-VECTOR-DELIVERY"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered. Watch vector delivery, not the nuclease.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-HDAC-BET",
+    "display_name": "HDAC / BET to lower fusion expression",
+    "aliases": [
+      "post-degrader route 11"
+    ],
+    "grade": {
+      "value": "Tier 3 — not fusion-selective; a class effect, not an EMC result",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3|route11"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "closure_kind": "definitional",
+    "revival_trigger": [],
+    "closure_note": "A class effect on fusion EXPRESSION is not fusion-selective by construction — the mechanism does not distinguish the chimera from anything else the class regulates.",
+    "strategy": "ST-REPURPOSING",
+    "level": "L2",
+    "kind": "route",
+    "title": "HDAC / BET to lower fusion expression",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could an epigenetic agent lower fusion expression?",
+    "state": {
+      "work_state": "future",
+      "status": "closed",
+      "maturity": "concept",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Registered with its refutation attached, because the idea recurs. Lowering expression of a fusion via a broad epigenetic mechanism is not fusion-selective by construction: the mechanism does not distinguish the chimera from anything else the drug class affects.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Nothing is open on selectivity. A class effect on expression is definitionally not fusion-selective, so no capability makes it so."
+    ],
+    "required_validation": [],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Closed on a definitional argument; the output is the reasoning."
+    },
+    "timing": {
+      "recommendation": "closed",
+      "rationale": "Permanently closed as a FUSION-SELECTIVE route. It remains an ordinary non-selective cytotoxic option, which is a different claim and belongs to clinical practice rather than to this program.",
+      "revisit_trigger": []
+    },
+    "next": {
+      "best_next_action": "Nothing. Cite the closure when the idea resurfaces.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-RIBOZYME",
+    "display_name": "Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript",
+    "aliases": [
+      "post-degrader route 12"
+    ],
+    "grade": {
+      "value": "Tier 3 — vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#routes-813--why-each-sits-in-tier-3|route12"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-VECTOR-DELIVERY"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY",
+      "BLK-NOT-FUSION-SELECTIVE"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-SYNPROMOTER",
+        "axis": "what the fusion is sensed BY",
+        "fails_on": [
+          "BLK-VECTOR-DELIVERY"
+        ],
+        "why": "the ribozyme senses the fusion TRANSCRIPT by base-pairing; the synthetic promoter senses the fusion PROTEIN by DNA binding — and the second fails for an EMC-specific reason the first does not (EMC lacks a neomorphic DNA-binding element)"
+      }
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-OLIGO-TUMOUR-DELIVERY"
+    ],
+    "closure_note": "Vector delivery, and a technique with no modern solid-tumour clinical footing.",
+    "strategy": "ST-NUCLEIC-ACID",
+    "level": "L2",
+    "kind": "route",
+    "title": "Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a trans-splicing ribozyme convert the fusion transcript into a suicide gene?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "A ribozyme triggered by the fusion transcript would turn the driver into the thing that kills the cell — the cleanest possible coupling of tumour identity to tumour death.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Vector delivery, as above.",
+      "Whether the technique has any modern solid-tumour footing at all — it is largely a 2000s-era approach."
+    ],
+    "required_validation": [
+      {
+        "what": "Vector delivery, and a modern demonstration of the technique",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-VECTOR-DELIVERY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Two independent gates — delivery and a technique with no modern clinical footing — and no computation addresses either.",
+      "missing": [
+        "a solid-tumour vector",
+        "a modern demonstration of trans-splicing ribozymes"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "The weaker of the two suicide-gene routes: it carries the same delivery gate plus a technique the field has largely moved on from.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Unlikely to change.",
+      "cost_trend": "flat",
+      "automation_outlook": "Not automatable — the gap is delivery and a technique base.",
+      "revisit_trigger": [
+        "TECH-VECTOR-DELIVERY"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered at low priority.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-SYNPROMOTER",
+    "display_name": "Fusion-driven synthetic promoter → suicide gene",
+    "aliases": [
+      "post-degrader route 14"
+    ],
+    "grade": {
+      "value": "Tier 3 — vector delivery, AND EMC lacks the neomorphic DNA-binding element the technique depends on",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#route-14---the-fusion-driven-synthetic-promoter-and-the-precise-reason-emc-is-a-harder-case-than-ewing"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-VECTOR-DELIVERY"
+    ],
+    "blockers_retired": [
+      "BLK-PARALOGUE-DDG",
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1",
+      "OBJ-NR4A3-DBD"
+    ],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-RIBOZYME",
+        "axis": "what the fusion is sensed BY",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "⭐ the REASON this route fails is itself a computed-and-cited EMC result and belongs in a paper even though the route does not — EMC's fusion reads a normal NR4A response element, not a neomorphic one"
+      }
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-OLIGO-TUMOUR-DELIVERY"
+    ],
+    "closure_note": "⭐ EMC lacks the neomorphic DNA-binding element the technique depends on — a measured premise about EMC's fusion, and the reason it fails is itself a computed EMC result worth publishing.",
+    "strategy": "ST-NUCLEIC-ACID",
+    "level": "L2",
+    "kind": "route",
+    "title": "Fusion-driven synthetic promoter → suicide gene",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could a synthetic promoter driven by the fusion switch on a suicide gene only in tumour cells?",
+    "state": {
+      "work_state": "future",
+      "status": "closed",
+      "maturity": "scoped",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Registered with its refutation attached. The technique depends on the fusion creating a neomorphic DNA-binding element that a synthetic promoter can be built against — and this fusion does not appear to create one, which is a measured statement about this disease rather than about the technique.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the absence of a neomorphic binding element is firmly established, or merely unmeasured in EMC — this is what distinguishes a closed route from a data-blocked one."
+    ],
+    "required_validation": [
+      {
+        "what": "A direct read of the fusion's DNA-binding specificity in EMC",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA",
+          "BLK-VECTOR-DELIVERY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Closed on a premise about this fusion's biology; the useful output is the reasoning, not a result.",
+      "missing": [
+        "a direct binding-specificity read in EMC"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "Closed on a premise rather than definitionally, so an EMC dataset that measured the fusion's binding specificity could in principle reopen it — which is exactly why it is `premise_false` and not `definitional`.",
+      "six_month_delta": "None.",
+      "two_year_delta": "Only via an EMC dataset.",
+      "cost_trend": "flat",
+      "automation_outlook": "Not applicable.",
+      "revisit_trigger": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ]
+    },
+    "next": {
+      "best_next_action": "Keep registered with the premise stated. If an EMC dataset lands, re-read the binding specificity before re-closing.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-RXR",
+    "display_name": "RXR-heterodimer modulation of the fusion",
+    "aliases": [
+      "Tier 4 closed — RXR"
+    ],
+    "grade": {
+      "value": "✕ CLOSED 2026-08-03 — NR4A3 does not heterodimerise with RXR",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#2--the-ranked-list|tier4-rxr"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A3-WT",
+      "OBJ-NR4A1-WT",
+      "OBJ-NR4A2-WT"
+    ],
+    "evidence": [
+      "EV-ZETTERSTROM-1996"
+    ],
+    "artifacts": [],
+    "distinct_from": [],
+    "closure_note": "Closed on the receptor's own measured biology. Not definitional — it rests on a published measurement, so a contradicting primary measurement is the only thing that reopens it, and no method advance does.",
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-NR4A3-RXR-HETERODIMER-REPORT"
+    ],
+    "strategy": "ST-REPURPOSING",
+    "level": "L2",
+    "kind": "route",
+    "title": "RXR-heterodimer modulation of the fusion",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could modulating an RXR heterodimer change the fusion's activity?",
+    "state": {
+      "work_state": "complete",
+      "status": "closed",
+      "maturity": "computed",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Registered with its closing measurement. Nuclear receptors commonly act as RXR heterodimers, which would give a well-precedented pharmacological handle — but the published evidence is that this receptor does not form a permissive heterodimer with RXR.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether the published negative is correct. It is a direct measurement, so only a contradicting primary measurement of the same fact reopens this — no method advance does."
+    ],
+    "required_validation": [
+      {
+        "what": "A primary measurement contradicting the published negative",
+        "feasible_today": false,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Closed on a published measurement; the output is the closure and its citation."
+    },
+    "timing": {
+      "recommendation": "closed",
+      "rationale": "Closed on the receptor's own measured biology. It is `premise_false` and not `definitional`, so a contradicting primary measurement would reopen it — which is why it keeps a trigger rather than none.",
+      "revisit_trigger": [
+        "TECH-RXR-HETERODIMER-REPORT"
+      ]
+    },
+    "next": {
+      "best_next_action": "Nothing. The scan carries the one observation that would reopen it.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-6MP",
+    "display_name": "6-mercaptopurine / AF-1 agonism of the fusion",
+    "aliases": [
+      "Tier 4 closed — 6-MP"
+    ],
+    "grade": {
+      "value": "✕ CLOSED 2026-08-03 — 6-MP acts through the AF-1, the domain the fusion replaces",
+      "owner": {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "anchor": "#2--the-ranked-list|tier4-6mp"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/IDEAS.md",
+        "asserts_grade": false
+      }
+    ],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-NR4A3-AF1",
+      "OBJ-EWSR1-WT"
+    ],
+    "evidence": [
+      "EV-WANSA-2003"
+    ],
+    "artifacts": [
+      "ART-TARGET-ROUTE-CENSUS"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-MONOVALENT",
+        "axis": "which domain the mechanism lives in",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "⚠ SCOPED SO IT IS NOT OVER-READ: this closes 6-MP, NOT LBD-directed modulation generally. The published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less"
+      }
+    ],
+    "closure_note": "6-MP acts through the AF-1, and the fusion REPLACES the AF-1 with EWSR1's low-complexity region. A ligand whose whole mechanism lives in a domain the disease deletes cannot act on the chimera at any dose. ⚠ Scoped: this closes 6-MP, NOT LBD-directed modulation.",
+    "closure_kind": "definitional",
+    "revival_trigger": [],
+    "strategy": "ST-REPURPOSING",
+    "level": "L2",
+    "kind": "route",
+    "title": "6-mercaptopurine / AF-1 agonism of the fusion",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Could 6-mercaptopurine act on the fusion through the mechanism reported for wild-type NR4A3?",
+    "state": {
+      "work_state": "complete",
+      "status": "closed",
+      "maturity": "scoped",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Registered with its refutation. The reported mechanism acts through the AF-1 domain — and the fusion REPLACES the AF-1 with EWSR1's low-complexity region. A ligand whose entire mechanism lives in a domain the disease deletes cannot act on the disease protein.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Nothing is open. The mechanism's domain is absent from the fusion by construction, so no capability reopens it."
+    ],
+    "required_validation": [],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "Closed definitionally; the output is the reasoning, which is a useful worked example of why wild-type pharmacology does not transfer to a fusion."
+    },
+    "timing": {
+      "recommendation": "closed",
+      "rationale": "Permanently closed. The domain the mechanism needs is the domain the fusion replaces.",
+      "revisit_trigger": []
+    },
+    "next": {
+      "best_next_action": "Nothing. Cite the closure — it is the clearest example in the register of wild-type pharmacology failing to transfer.",
+      "cost": "$0"
+    }
+  },
+  {
+    "id": "RT-AF3-INTERFACE",
+    "display_name": "AF3 on a druggable interface",
+    "aliases": [
+      "AF3 interface"
+    ],
+    "grade": {
+      "value": "Deferred; method not strategy",
+      "owner": {
+        "file": "research/IDEAS.md",
+        "anchor": "route-board|af3"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [
+      "BLK-TERNARY-GEOMETRY"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": [
+        "V2",
+        "V12"
+      ]
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [],
+    "distinct_from": [],
+    "closure_note": "A method, not a route — it is waiting on a co-folder that assembles ternaries.",
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-COFOLD-ASSEMBLY"
+    ],
+    "strategy": "ST-PROXIMITY",
+    "level": "L2",
+    "kind": "route",
+    "title": "AF3 on a druggable interface",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Can a modern co-folding model predict a druggable interface on the fusion directly?",
+    "state": {
+      "work_state": "future",
+      "status": "parked",
+      "maturity": "concept",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "rationale": "Rather than designing an induced complex, ask a structure predictor to find one. If a co-folder could propose a druggable interface on the fusion, it would replace several manual design steps at once.",
+    "supporting_evidence": [],
+    "remaining_unknowns": [
+      "Whether any co-folder can assemble an induced complex from sequence and ligand alone — the one tested here failed badly."
+    ],
+    "required_validation": [
+      {
+        "what": "A co-folder benchmarked on assembly rather than per-chain accuracy",
+        "instrument": "V12",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-TERNARY-GEOMETRY"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "internal_note",
+      "why_not_higher": "This is a method waiting on a method. There is nothing to report until a co-folder that assembles is available.",
+      "missing": [
+        "a co-folder validated on assembly"
+      ]
+    },
+    "timing": {
+      "recommendation": "monitor",
+      "rationale": "This is a method rather than a strategy, and it is registered so that a co-folder landing has somewhere to attach. Structure prediction is the fastest-moving dependency in the register, so the wait is likely short.",
+      "six_month_delta": "Plausibly material — this field iterates in months, not years.",
+      "two_year_delta": "Likely decisive one way or the other.",
+      "cost_trend": "falling_fast",
+      "automation_outlook": "Entirely automatable once the model exists.",
+      "revisit_trigger": [
+        "TECH-COFOLD-ASSEMBLY"
+      ]
+    },
+    "next": {
+      "best_next_action": "Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In-horizon results are memorisation-permitting and move nothing.",
+      "cost": "$0"
+    }
+  }
+]

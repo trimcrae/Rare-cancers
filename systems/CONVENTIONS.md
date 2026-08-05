@@ -35,7 +35,8 @@ prefix, always, including inside tables and figure captions where it is tempting
 | `RT-` | route / therapeutic approach | L2 | `RT-DEGRADER` |
 | `PUB-` | publication | L3 | `PUB-DEGRADER-PAPER` |
 | `EXP-` | experiment / compute lane | L4 | `EXP-STEP1-FANOUT` |
-| `V` | instrument (a method with a known-answer control) | L4 | `V3` |
+| `V` | instrument **in the validation register** — one with a known-answer control | L4 | `V3` |
+| `INS-` | instrument **outside** the validation register — no known-answer control defined | L4 | `INS-DEPMAP-KO` |
 | `R` | **requirement** — what must be TRUE | cross-cutting | `R7` |
 | `C` | **configuration** — a frozen choice a number is conditional on | L5 | `C14` |
 | `EV-` | evidence (a citable source) | L5 | `EV-ZAIENNE-2022` |

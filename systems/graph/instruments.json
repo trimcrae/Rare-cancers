@@ -1,0 +1,619 @@
+[
+  {
+    "id": "V1",
+    "name": "Structural selectivity descriptor (selcal_interface_signature)",
+    "module": "research/modalities/selcal_interface_signature.py",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "recover the published SMARCA2 Gln1469↔VCB hydrogen bond, unaided, from two crystals",
+      "state": "passes",
+      "note": "validates ONE contact in ONE pair; makes no NR4A3 prediction correct"
+    },
+    "serves": [
+      "R11"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "V2",
+    "name": "Ternary generator given both sites (assembly route)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "rebuild 6HAX (in-set) and 9DTY (post-horizon)",
+      "state": "passes",
+      "note": "in scope only — never pointed at our system; one arm only"
+    },
+    "serves": [
+      "R9",
+      "R10"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "V3",
+    "name": "Ligand pose prediction (dock + MM-GBSA)",
+    "module": "research/modalities/apo_pose_recovery.py",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "recover a known holo pose in a nuclear receptor from apo",
+      "state": "inconclusive",
+      "note": "INCONCLUSIVE by its own pre-registered rule; its site arm is 0 of 14 in regime by two independent transfer routes"
+    },
+    "serves": [
+      "R5",
+      "R8"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-POSE-METHODS-CONVERGE"
+    ]
+  },
+  {
+    "id": "V4",
+    "name": "Selectivity free energy (ABFE) — the selectivity known-answer test",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "CREBBP vs BRD4(1) / SGC-CBP30",
+      "state": "none",
+      "note": "built and staged with no result key; never completed; not authorized"
+    },
+    "serves": [
+      "R7"
+    ],
+    "closure_kind": "authorization",
+    "revival_trigger": [
+      "TR-ABFE-AUTHORIZATION"
+    ]
+  },
+  {
+    "id": "V5",
+    "name": "Alchemical ternary cooperativity (valB_mini ΔΔG_coop)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "reproduce a known cooperativity",
+      "state": "fails",
+      "note": "wrong sign in all 3 replicates; the closure triangle localises the miss to an endpoint-state error"
+    },
+    "serves": [
+      "R11"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-TERNARY-ALCHEMY-PASSES-VALB",
+      "TR-CHARGE-CHANGE-CORRECTION"
+    ]
+  },
+  {
+    "id": "V6",
+    "name": "Relative FEP (OpenFE, the congeneric lane)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "TYK2 ejm_31→ejm_42 benchmark",
+      "state": "passes",
+      "note": "within ONE pocket and ONE charge model; not a selectivity validation"
+    },
+    "serves": [
+      "R7"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-ATOM-MAPPER-FLOOR",
+      "TR-CHARGE-CHANGE-CORRECTION"
+    ]
+  },
+  {
+    "id": "V7",
+    "name": "ABFE engine, absolute",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "T4-lysozyme L99A + benzene",
+      "state": "fails",
+      "note": "the miss is larger than the entire selectivity margin the engine is used to compute"
+    },
+    "serves": [
+      "R7"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET"
+    ]
+  },
+  {
+    "id": "V8",
+    "name": "ABFE engine, hydration",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "methane hydration free energy (FreeSolv)",
+      "state": "passes",
+      "note": "a solvation smoke test; says nothing about a protein site"
+    },
+    "serves": [
+      "R7"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "V9",
+    "name": "λ-overlap diagnostic on the standing ABFE block",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "a self-check, not a known answer",
+      "state": "none",
+      "note": "defect open — holds the whole ABFE block provisional"
+    },
+    "serves": [
+      "R7"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET"
+    ]
+  },
+  {
+    "id": "V10",
+    "name": "Interface-mutation physics (pmx/GROMACS)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "barnase–barstar Y29A vs published ΔΔG",
+      "state": "passes",
+      "note": "PASSES, but not in the regime that matters; its SMARCA2/4 application is refused by its own $0 precheck"
+    },
+    "serves": [
+      "R7"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET"
+    ]
+  },
+  {
+    "id": "V11",
+    "name": "Interface-stability endpoint (E1)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "two attempts: NR-V04 retrospective, SMARCA2/4 sensitivity control",
+      "state": "fails",
+      "note": "no pass — parked"
+    },
+    "serves": [
+      "R11"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-E1-POWERED-SYSTEM"
+    ]
+  },
+  {
+    "id": "V12",
+    "name": "Sequence-only co-folding (Boltz-2 ternary)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "reproduce 9DTY/9DTX from sequence + ligand",
+      "state": "fails",
+      "note": "parked — the true structure moved 32 Å"
+    },
+    "serves": [
+      "R10"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-COFOLD-ASSEMBLY"
+    ]
+  },
+  {
+    "id": "V13",
+    "name": "Cryptic-opening free-energy profile (metadynamics F(Rg))",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "Gate 1: a genuine two-state cryptic opening",
+      "state": "fails",
+      "note": "failed as registered, and reformulated — not a weak pass. A failed MECHANISM test is not evidence of absence"
+    },
+    "serves": [
+      "R1",
+      "R2"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-CHEAP-CRYPTIC-ENSEMBLE"
+    ]
+  },
+  {
+    "id": "V14",
+    "name": "BioEmu unbiased ensemble cross-check",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "⛔ no in-repo known-answer test on this system",
+      "state": "none",
+      "note": "an orthogonal axis for R1 — which is its whole value and also its limit"
+    },
+    "serves": [
+      "R1"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-CHEAP-CRYPTIC-ENSEMBLE"
+    ]
+  },
+  {
+    "id": "V15",
+    "name": "PocketMiner + four permutation nulls",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "the nulls are the control",
+      "state": "mixed",
+      "note": "one of the five nulls does not support it"
+    },
+    "serves": [
+      "R1"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "V16",
+    "name": "The causal matched-pair test S (RUNG 5a-KS)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "⛔ none — it has no known-answer calibrator",
+      "state": "none",
+      "note": "S may be read as a BOUND and may NOT be reported as calibrated"
+    },
+    "serves": [
+      "R11"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET"
+    ]
+  },
+  {
+    "id": "V17",
+    "name": "The exposure criterion EXPOSED_RSA = 0.25",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "NR4A1 C551 — the one NR4A-family covalent site with literature support",
+      "state": "fails",
+      "note": "⛔ KNOWN-DEFECTIVE. Fails its own positive control; anything adjudicated by this cutoff inherits a demonstrated false negative. What survives is a threshold-free RANK"
+    },
+    "serves": [
+      "R8",
+      "R15"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-EXPOSURE-CRITERION-RECOVERS-C551"
+    ]
+  },
+  {
+    "id": "V18",
+    "name": "The transfer-zone lysine-identity term",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "⛔ none exists",
+      "state": "none",
+      "note": "set membership, not energy"
+    },
+    "serves": [
+      "R12"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-OBSERVED-CRL-GEOMETRY"
+    ]
+  },
+  {
+    "id": "V19",
+    "name": "The generation-matched null (winner's-curse / generative confound)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "the scrambled-objective arm",
+      "state": "mixed",
+      "note": "PARTIAL — the arm that addresses the GENERATIVE step is unrun"
+    },
+    "serves": [
+      "R7",
+      "R15"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-FE-CRYPTIC-POCKET"
+    ]
+  },
+  {
+    "id": "V20",
+    "name": "Single-snapshot MM-GBSA margin > 0 as a selectivity verdict",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "38 unrelated marketed drugs through the identical funnel",
+      "state": "fails",
+      "note": "✕ REFUTED and dead — a signal smaller than its own noise"
+    },
+    "serves": [],
+    "closure_kind": "arithmetic_over_fixed_fact",
+    "revival_trigger": [],
+    "closure_note": "38 unrelated marketed drugs score a positive margin through the identical funnel, above the de-novo set's own rate. A signal smaller than its own noise is not recoverable by any downstream method — an arithmetic consequence of a measured null distribution, and the reason §6a files it never-retry."
+  },
+  {
+    "id": "V21",
+    "name": "The anti-target docking panel (antitarget_dock)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "each target's own cognate crystallographic ligand re-docked through the identical protocol",
+      "state": "fails",
+      "note": "7 of 10 pass; panel_readable: false. Nothing from this panel may be read while it fails, and that reaches PRINT"
+    },
+    "serves": [
+      "R14"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-ANTITARGET-PANEL-RECOVERS"
+    ]
+  },
+  {
+    "id": "V22",
+    "name": "The scoring-independent second pose method (rDock)",
+    "module": null,
+    "owner": {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "anchor": "#31--the-instrument-table"
+    },
+    "known_answer_control": {
+      "description": "⛔ none of its own on this system — it is run BESIDE V3 and the comparison IS the test",
+      "state": "none",
+      "note": "the two methods DISAGREE; agreement would not have meant correctness"
+    },
+    "serves": [
+      "R5"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-POSE-METHODS-CONVERGE"
+    ]
+  },
+  {
+    "id": "INS-IDR-CENSUS",
+    "name": "FET N-terminal IDR / RGG retention census",
+    "module": "research/modalities/emc_fet_idr_census.py",
+    "owner": {
+      "file": "research/manuscripts/emc-systems-map.json",
+      "anchor": "instruments/INS-IDR-CENSUS"
+    },
+    "known_answer_control": {
+      "description": "the fusions in which ATM suppression was MEASURED (EWSR1::FLI1 type 1, EWSR1::ATF1 clear-cell types) are pushed through the identical pipeline as positive controls",
+      "state": "passes",
+      "note": "the controls calibrate the reading rather than confirm it — the commonest clear-cell type retains RGG content and the mechanism was measured there anyway, so a zero is not the only qualifying value"
+    },
+    "serves": [
+      "the ATR route's structural precondition"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "INS-CONSTRUCT-DESIGNS",
+    "name": "Transcript-level fusion construct designer (frame computed at the nucleotide level)",
+    "module": "research/modalities/emc_fet_construct_designs.py",
+    "owner": {
+      "file": "research/manuscripts/emc-atr-collaborator-package.md",
+      "anchor": "#72-the-four-constructs--all-four-are-in-frame-4--4"
+    },
+    "known_answer_control": {
+      "description": "each gene model must pass its own translate-and-sum self-check, and Ensembl translations are cross-checked against the UniProt cache",
+      "state": "passes",
+      "note": "⚠ the TCF12 Ensembl/UniProt mismatch is REPORTED rather than smoothed over. This instrument is what found the 59 UTR-encoded residues a CDS-level model cannot see"
+    },
+    "serves": [
+      "the exon-level and residue-level definition of every fusion OBJECT"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "INS-FUSION-OBJECT-INVENTORY",
+    "name": "Fusion object sequence inventory + breakpoint enumeration",
+    "module": "research/modalities/fusion_object_inventory.py",
+    "owner": {
+      "file": "research/modalities/fusion-object-inventory.md",
+      "anchor": "#the-gate"
+    },
+    "known_answer_control": {
+      "description": "a REPRODUCED gate: five checks on exon coding status, boundaries and protein length, plus both exon maps' translate-and-sum self-checks",
+      "state": "passes",
+      "note": "the gate reproduces the MODELLED junction (OBJ-MODEL-E7E3), so a pass is a statement about arithmetic, not about which junction is reported"
+    },
+    "serves": [
+      "R13"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "INS-MONOVALENT-REACH",
+    "name": "Paired monovalent-vs-bivalent covalent reach enumeration (E3 arm removed)",
+    "module": "research/modalities/nr4a3_monovalent_reach.py",
+    "owner": {
+      "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
+      "anchor": "#3--the-0-test-built-run-and-it-came-back-against-the-route"
+    },
+    "known_answer_control": {
+      "description": "its BIVALENT half must replicate the already-committed bivalent artifact cell-for-cell",
+      "state": "passes",
+      "note": "the replication is what makes the monovalent half readable; it inherits V3's INCONCLUSIVE site question and V17's defective exposure cutoff, so it can refute a route and cannot license one"
+    },
+    "serves": [
+      "R8",
+      "the categorical axis at C397"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "INS-DDR-AXIS-SCAN",
+    "name": "ATRi/PARPi sensitivity re-cut by FET status (GDSC2)",
+    "module": "research/modalities/fet_ddr_axis_scan.py",
+    "owner": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "#-the-atri-contrast-and-the-two-things-it-says--one-supporting-route-1-one-bounding-it-hard"
+    },
+    "known_answer_control": {
+      "description": "a general-chemosensitivity correction — the ATRi effect must survive it, and the same lines' PARPi response is computed as the contrast arm",
+      "state": "passes",
+      "note": "the control cuts BOTH ways and is reported that way: the ATRi effect survives the correction AND PARP inhibitors are larger in the same lines"
+    },
+    "serves": [
+      "the ATR route's pharmacological premise"
+    ],
+    "closure_kind": "open",
+    "revival_trigger": []
+  },
+  {
+    "id": "INS-DEPMAP-KO",
+    "name": "DepMap CRISPR-knockout dependency scan of the ATR axis",
+    "module": "research/modalities/fet_ddr_axis_scan.py",
+    "owner": {
+      "file": "research/manuscripts/emc-post-degrader-options.md",
+      "anchor": "#-the-atri-contrast-and-the-two-things-it-says--one-supporting-route-1-one-bounding-it-hard"
+    },
+    "known_answer_control": {
+      "description": "the FET-vs-non-FET sarcoma contrast must exceed the panel's own spread",
+      "state": "fails",
+      "note": "⛔ REPORTED AS A FAILED INSTRUMENT: the ATR axis sits at the common-essential floor, so the contrast is inside the noise. It cannot support the route and is not cited as if it could"
+    },
+    "serves": [
+      "the ATR route — as a disclosed failure, never as support"
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-EMC-EXPRESSION-DATASET"
+    ]
+  },
+  {
+    "id": "INS-FUSION-COFOLD",
+    "name": "Fusion protein-level co-folding model",
+    "module": "research/modalities/fusion_cofold.py",
+    "owner": {
+      "file": "research/manuscripts/emc-atr-collaborator-package.md",
+      "anchor": "#72-the-four-constructs--all-four-are-in-frame-4--4"
+    },
+    "known_answer_control": {
+      "description": "⛔ none of its own",
+      "state": "none",
+      "note": "⚠ KNOWN-DEFECTIVE FOR ONE OBJECT: its protein-level model (EWS_CUT = 264, 'NR4A3 resumed at res 2') describes OBJ-MODEL-E7E3. Applied to reported type 2 it is wrong by the 59 UTR-encoded residues. Applied to type 1 it is wrong by the EWSR1 cut. The off-by-two correction it embodies is NOT superseded — see OC-2"
+    },
+    "serves": [
+      "R13"
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-NEOANTIGEN-SEAMS-REGENERATED"
+    ]
+  },
+  {
+    "id": "INS-HLA-COVERAGE",
+    "name": "HLA population-coverage calculator",
+    "module": "research/modalities/hla_coverage.py",
+    "owner": {
+      "file": "research/manuscripts/hla-coverage-emc.md",
+      "anchor": null
+    },
+    "known_answer_control": {
+      "description": "⛔ no known-answer test recorded",
+      "state": "none",
+      "note": "⚠ its class-II coverage is a FLOOR over a tested 3-allele DR panel, not a complete DR scan. It is computed on the OBJ-MODEL-E7E3 junction, so its epitopes inherit that object's status"
+    },
+    "serves": [
+      "the junction-neoantigen family of routes"
+    ],
+    "closure_kind": "instrument_limit",
+    "revival_trigger": [
+      "TR-NEOANTIGEN-SEAMS-REGENERATED"
+    ]
+  }
+]

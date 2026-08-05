@@ -50,13 +50,18 @@
       "required": ["file"],
       "additionalProperties": false,
       "description": "The file that owns the statement. This registry records where a fact lives; it does not restate it.",
-      "properties": { "file": { "type": "string" }, "anchor": { "type": "string" } }
+      "properties": { "file": { "type": "string" }, "anchor": { "type": ["string", "null"], "description": "May be null: a memo that owns the statement in its entirety has no single section to point at, and inventing one would be a worse pointer than none." } }
     },
 
     "retired_by_technology": {
       "type": "array",
       "items": { "type": "string", "pattern": "^TECH-[A-Z0-9-]+$" },
-      "description": "REQUIRED and non-empty for every non-permanent blocker; REQUIRED EMPTY for a permanent one. A non-permanent blocker with no route out is either mis-typed or under-analysed, and both need saying. A permanent blocker on a watch list wastes the watch."
+      "description": "DERIVED from each technology's `unblocks.blockers`, never typed -- otherwise the same edge would have two homes and could disagree with itself. A PERMANENT blocker must derive EMPTY: a fact about what the objects are is not waiting for anything, and putting one on a watch list wastes the watch."
+    },
+
+    "retired_by_action": {
+      "type": "string",
+      "description": "An action THIS PROGRAM can take that would retire the blocker, for blockers that no external capability unblocks. Discovered while building the register: a `scientific_uncertainty` blocker such as an absent specification is retired by stating the specification -- reasoning, not technology. Without this field the completeness invariant would have forced a fake technology dependency onto it, which is the opposite of what the taxonomy is for. Exactly the same distinction as the internal_work triggers that were sitting on a watch list."
     },
 
     "inherited_by": {

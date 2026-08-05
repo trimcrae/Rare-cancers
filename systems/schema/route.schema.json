@@ -33,7 +33,7 @@
       "properties": {
         "value": { "type": "string" },
         "owner": { "type": "object", "required": ["file"],
-                   "properties": { "file": { "type": "string" }, "anchor": { "type": "string" } },
+                   "properties": { "file": { "type": "string" }, "anchor": { "type": ["string", "null"], "description": "May be null: a memo that owns a route grade in its entirety has no single section to point at, and inventing one would be a worse pointer than none." } },
                    "additionalProperties": false }
       }
     },
@@ -64,7 +64,7 @@
       "type": "array",
       "minItems": 1,
       "items": { "type": "string", "minLength": 10 },
-      "description": "REQUIRED and never empty. A route with no stated unknowns has not been analysed; it has been advocated for."
+      "description": "REQUIRED and never empty. A route with no stated unknowns has not been analysed; it has been advocated for. ⚠ A CLOSED route is not exempt and is not a special case: it states, as its single entry, that nothing is open and WHY no capability reopens it. That is a stronger claim than an empty list and it is the one a reader of a closed route actually needs -- an empty array would read as 'not yet analysed' for a route that has been analysed to completion."
     },
 
     "required_validation": {
@@ -76,7 +76,7 @@
         "additionalProperties": false,
         "properties": {
           "what":           { "type": "string", "minLength": 10 },
-          "instrument":     { "type": "string", "description": "V* id, or empty when nothing built serves it." },
+          "instrument":     { "type": "string", "description": "An instrument id, or omitted when nothing built serves it." },
           "feasible_today": { "type": "boolean" },
           "blocked_by":     { "type": "array", "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" } }
         }
@@ -163,9 +163,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "support":           { "type": "array", "items": { "type": "string", "pattern": "^V[0-9]+$" },
+        "support":           { "type": "array", "items": { "type": "string", "pattern": "^(V[0-9]+|INS-[A-Z0-9-]+)$" },
                                "description": "An instrument whose known-answer control FAILED, or that has NO control, may never appear here. Those are different facts and neither is support." },
-        "disclosed_failing": { "type": "array", "items": { "type": "string", "pattern": "^V[0-9]+$" } }
+        "disclosed_failing": { "type": "array", "items": { "type": "string", "pattern": "^(V[0-9]+|INS-[A-Z0-9-]+)$" } }
       }
     },
 

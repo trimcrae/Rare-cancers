@@ -1,0 +1,454 @@
+[
+  {
+    "id": "OBJ-FUS-T1",
+    "kind": "fusion_protein",
+    "display_name": "EWSR1::NR4A3 type 1",
+    "aliases": [
+      "EWSR1::NR4A3 type 1",
+      "EWSR1 e12 :: NR4A3 e3",
+      "type 1",
+      "E-N",
+      "EWS/CHN exon 12 :: exon 3"
+    ],
+    "status": "reported",
+    "definition": {
+      "exon_level": "EWSR1 exon 12 :: NR4A3 exon 3",
+      "residue_level": "EWSR1(1–431) :: 1 junction residue :: NR4A3(1–626)",
+      "length_field": {
+        "artifact": "ART-CONSTRUCT-DESIGNS",
+        "field": "/constructs"
+      },
+      "reported_rank": "commonest",
+      "provenance": [
+        "EV-PMC3335514",
+        "EV-PMC4055444",
+        "EV-PMC4015728",
+        "EV-PMC2395470",
+        "EV-PMC6766969"
+      ]
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T2",
+        "why": "different 5′ cut AND different 3′ exon; type 2 additionally carries 59 UTR-encoded residues that type 1 does not"
+      },
+      {
+        "object": "OBJ-MODEL-E7E3",
+        "why": "the modelled construct pairs type 2's 5′ half with type 1's 3′ half and is not a reported type"
+      }
+    ],
+    "notes": "Carries the label 'canonical' as of the 2026-08-03 correction. Its RG-retention value sits at the same point on the RGG axis as the commonest clear-cell type, which is why the ATR precondition for it is an interpolation onto a measured point rather than an extrapolation — see CLM-IDR-COMPARATIVE."
+  },
+  {
+    "id": "OBJ-FUS-T2",
+    "kind": "fusion_protein",
+    "display_name": "EWSR1::NR4A3 type 2",
+    "aliases": [
+      "EWSR1::NR4A3 type 2",
+      "EWSR1 e7 :: NR4A3 e2",
+      "type 2"
+    ],
+    "status": "reported",
+    "definition": {
+      "exon_level": "EWSR1 exon 7 :: NR4A3 exon 2",
+      "residue_level": "EWSR1(1–264) :: [59 UTR-encoded residues] :: NR4A3(1–626)",
+      "length_field": {
+        "artifact": "ART-CONSTRUCT-DESIGNS",
+        "field": "/constructs"
+      },
+      "reported_rank": "second",
+      "provenance": [
+        "EV-PMC3335514",
+        "EV-PMC4015728"
+      ]
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T1",
+        "why": "different 5′ cut and different 3′ exon"
+      },
+      {
+        "object": "OBJ-MODEL-E7E3",
+        "why": "shares the EWSR1(1–264) cut but NOT the 3′ exon, and the model omits the 59 UTR-encoded residues entirely"
+      }
+    ],
+    "notes": "⚠ The 59 extra residues are a COMPUTED consequence of the canonical transcripts at the reported exon junction, not an observed protein. NR4A3 exon 2 is entirely non-coding, so the fusion mRNA carries NR4A3 5′-UTR downstream of the EWSR1 cut and reads through in EWSR1's frame with no stop codon. This is what makes fusion_cofold.py's protein-level model wrong for THIS object — see INS-FUSION-COFOLD and OC-2."
+  },
+  {
+    "id": "OBJ-FUS-T5",
+    "kind": "fusion_protein",
+    "display_name": "EWSR1::NR4A3 type 5",
+    "aliases": [
+      "EWSR1::NR4A3 type 5",
+      "EWSR1 e13 :: NR4A3 e3",
+      "type 5"
+    ],
+    "status": "reported",
+    "definition": {
+      "exon_level": "EWSR1 exon 13 :: NR4A3 exon 3",
+      "residue_level": "EWSR1(1–472) :: 1 junction residue :: NR4A3(1–626)",
+      "length_field": {
+        "artifact": "ART-CONSTRUCT-DESIGNS",
+        "field": "/constructs"
+      },
+      "reported_rank": "minority",
+      "provenance": [
+        "EV-PMC4055444",
+        "EV-PMC2395470"
+      ]
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T1",
+        "why": "one exon further 3′ on EWSR1, so it retains more of EWSR1's RGG content"
+      }
+    ],
+    "notes": "Retains the most EWSR1 RGG content of the three reported EWSR1::NR4A3 types, which matters to the ATR precondition and to nothing else on the board."
+  },
+  {
+    "id": "OBJ-FUS-TAF15",
+    "kind": "fusion_protein",
+    "display_name": "TAF15::NR4A3",
+    "aliases": [
+      "TAF15::NR4A3",
+      "TAF15 e6 :: NR4A3 e3",
+      "T-N*"
+    ],
+    "status": "reported",
+    "definition": {
+      "exon_level": "TAF15 exon 6 :: NR4A3 exon 3 — reported as the ONLY coding junction (\"exclusively\", \"always\")",
+      "residue_level": "TAF15(1–161) :: 1 junction residue :: NR4A3(1–626)",
+      "length_field": {
+        "artifact": "ART-CONSTRUCT-DESIGNS",
+        "field": "/constructs"
+      },
+      "provenance": [
+        "EV-PMC3335514",
+        "EV-PMC4055444",
+        "EV-PMC2395470",
+        "EV-PMC6766969"
+      ]
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T1",
+        "why": "a different 5′ FET partner; TAF15's first RG dipeptide sits at a different residue, so its RGG-retention answer is independently computed"
+      }
+    ],
+    "notes": "A rarer T-N isoform splicing into a cryptic exon in NR4A3 intron 2 is REGISTERED AND DELIBERATELY NOT MODELLED — its cryptic exon sequence is in no artifact this repo holds and building it would mean inventing nucleotides."
+  },
+  {
+    "id": "OBJ-FUS-FUSNR4A3",
+    "kind": "fusion_protein",
+    "display_name": "FUS::NR4A3",
+    "aliases": [
+      "FUS::NR4A3"
+    ],
+    "status": "reported_breakpoint_unpinned",
+    "definition": {
+      "exon_level": "⛔ no exon-level breakpoint statement found in this repo's literature cache",
+      "residue_level": "⛔ unpinned — answered as a FUNCTION of breakpoint by the sweep, never as a point",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [],
+    "notes": "Naming the gap is part of the deliverable; silence would read as 'there is no such fusion'. The breakpoint-INDEPENDENT sweep in ART-IDR-CENSUS answers the RGG question across every breakpoint."
+  },
+  {
+    "id": "OBJ-FUS-TCF12",
+    "kind": "fusion_protein",
+    "display_name": "TCF12::NR4A3",
+    "aliases": [
+      "TCF12::NR4A3"
+    ],
+    "status": "reported_breakpoint_unpinned",
+    "definition": {
+      "exon_level": "⛔ genomic resolution only — \"the breakpoint affects the region of intron 5\"",
+      "residue_level": "⛔ unpinned; TCF12 also has several alternatively-spliced isoforms and Ensembl/UniProt disagree on the canonical (706 aa vs 682 aa)",
+      "length_field": null,
+      "provenance": [
+        "EV-PMC4055444"
+      ]
+    },
+    "distinct_from": [],
+    "notes": "Used as the NEGATIVE control for the FET-family precondition, and the control does not need the junction: it is computed over EVERY possible TCF12 breakpoint."
+  },
+  {
+    "id": "OBJ-MODEL-E7E3",
+    "kind": "modelled_construct",
+    "display_name": "The modelled EWSR1 e7 :: NR4A3 e3 construct",
+    "aliases": [
+      "EWSR1 e7 :: NR4A3 e3",
+      "EWSR1 e7::e3",
+      "emc_canonical_EWSR1_NR4A3",
+      "EWS_CUT = 264 :: NR4A3 resumed at res 2"
+    ],
+    "status": "modelled_not_reported",
+    "definition": {
+      "exon_level": "EWSR1 exon 7 :: NR4A3 exon 3 — ⛔ NOT A REPORTED FUSION TYPE. It pairs the 5′ half of reported type 2 with the 3′ half of reported type 1.",
+      "residue_level": "EWSR1(1–264) :: NR4A3(1–626), with no UTR-encoded segment",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T1",
+        "why": "shares type 1's 3′ exon only"
+      },
+      {
+        "object": "OBJ-FUS-T2",
+        "why": "shares type 2's 5′ cut only, and omits type 2's 59 UTR-encoded residues"
+      }
+    ],
+    "notes": "⚠ THE NAME 'the canonical EMC fusion' WAS ATTACHED TO THIS MODEL and to OBJ-FUS-T1 in different files — see contested_names. What the correction does NOT disturb: the arithmetic for a 264-residue EWSR1 cut is still valid, and it is still the right comparator for EWSR1::FLI1 type 1, which really does cut at 264. What changes is the LABEL. Superseded figures quoted off this object stay quotable via emc-atr-collaborator-package.md's appendix."
+  },
+  {
+    "id": "OBJ-NR4A3-WT",
+    "kind": "wild_type_protein",
+    "display_name": "NR4A3 / NOR-1 (wild type)",
+    "aliases": [
+      "NR4A3",
+      "NOR-1",
+      "NOR1",
+      "CHN"
+    ],
+    "status": "wild_type",
+    "definition": {
+      "exon_level": "ENST00000395097 — 8 transcript exons, 6 coding; exons 1 and 2 are NON-CODING (the cause of the off-by-two correction)",
+      "residue_level": "626 aa",
+      "length_field": {
+        "artifact": "ART-FUSION-OBJECT-INVENTORY",
+        "field": "/transcripts/NR4A3/protein_length"
+      },
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-FUS-T1",
+        "why": "every LBD-directed route engages BOTH — the LBD is shared, so an LBD binder is NR4A3-selective but NOT fusion-selective"
+      }
+    ],
+    "notes": "Wild-type NR4A3 is what the ASO spares and what every LBD-directed route also hits."
+  },
+  {
+    "id": "OBJ-NR4A1-WT",
+    "kind": "wild_type_protein",
+    "display_name": "NR4A1 / Nur77",
+    "aliases": [
+      "NR4A1",
+      "Nur77",
+      "NGFI-B"
+    ],
+    "status": "wild_type",
+    "definition": {
+      "exon_level": null,
+      "residue_level": null,
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [],
+    "notes": "The named AML anti-target: the NR4A1+NR4A3 pair is what makes paralogue cross-reactivity unacceptable for any systemic molecule. NR4A1-sparing is the MANDATORY half of the asymmetric requirement."
+  },
+  {
+    "id": "OBJ-NR4A2-WT",
+    "kind": "wild_type_protein",
+    "display_name": "NR4A2 / Nurr1",
+    "aliases": [
+      "NR4A2",
+      "Nurr1"
+    ],
+    "status": "wild_type",
+    "definition": {
+      "exon_level": null,
+      "residue_level": null,
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [],
+    "notes": "NR4A2-sparing is the BEST-EFFORT half of the asymmetric requirement, not the mandatory one."
+  },
+  {
+    "id": "OBJ-EWSR1-WT",
+    "kind": "wild_type_protein",
+    "display_name": "EWSR1 (wild type)",
+    "aliases": [
+      "EWSR1",
+      "EWS"
+    ],
+    "status": "wild_type",
+    "definition": {
+      "exon_level": "ENST00000397938 — 17 transcript exons, 17 coding",
+      "residue_level": "656 aa",
+      "length_field": {
+        "artifact": "ART-FUSION-OBJECT-INVENTORY",
+        "field": "/transcripts/EWSR1/protein_length"
+      },
+      "provenance": []
+    },
+    "distinct_from": [],
+    "notes": "An essential housekeeping protein — which is why targeting the EWSR1 half at the protein level RELOCATES selectivity somewhere worse."
+  },
+  {
+    "id": "OBJ-NR4A3-LBD-MODELLED",
+    "kind": "domain",
+    "display_name": "The modelled NR4A3 ligand-binding domain construct (NR4A3 373–626)",
+    "aliases": [
+      "NR4A3 373-626",
+      "the modelled LBD",
+      "the LBD construct in this program"
+    ],
+    "status": "domain",
+    "definition": {
+      "exon_level": null,
+      "residue_level": "NR4A3 373–626",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-NR4A3-LBD-CATALOGUE",
+        "why": "the catalogue protein starts one residue LATER and therefore excludes C397"
+      }
+    ],
+    "notes": "Every structure in the degrader program is this isolated construct. It contains C397; it does not contain the rest of the fusion object."
+  },
+  {
+    "id": "OBJ-NR4A3-LBD-CATALOGUE",
+    "kind": "reagent",
+    "display_name": "Catalogue recombinant NR4A3 LBD (Cayman 40344, UniProt aa 398–626)",
+    "aliases": [
+      "Cayman 40344",
+      "the catalogue NR4A3 LBD"
+    ],
+    "status": "domain",
+    "definition": {
+      "exon_level": null,
+      "residue_level": "UniProt 398–626",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-NR4A3-LBD-MODELLED",
+        "why": "excludes C397 by exactly one residue, so an intact-mass covalent-probe readout on it would be blind to the programme's headline handle"
+      }
+    ],
+    "notes": "Its existence closes 'is protein supply the blocker on R4?' — it is not. The blocker is that a binding assay reports a binding EVENT and R4 asks about a SITE."
+  },
+  {
+    "id": "OBJ-NR4A3-AF1",
+    "kind": "domain",
+    "display_name": "NR4A3 AF-1 (N-terminal activation function)",
+    "aliases": [
+      "AF-1",
+      "the AF-1 domain",
+      "NR4A3 AF1 1-260"
+    ],
+    "status": "domain",
+    "definition": {
+      "exon_level": null,
+      "residue_level": "delimited to residues 1–112 for SRC-2 recruitment; the repo measures the swapped stretch as NR4A3 1–260 ↔ EWSR1-LC 1–264",
+      "length_field": {
+        "artifact": "ART-TARGET-ROUTE-CENSUS",
+        "field": "/af1_to_lc_swap"
+      },
+      "provenance": [
+        "EV-WANSA-2003"
+      ]
+    },
+    "distinct_from": [],
+    "notes": "This is the domain the fusion REPLACES with EWSR1's low-complexity region. Any ligand whose whole mechanism lives here cannot act on the chimera at any dose — which closes 6-MP and does NOT close LBD-directed modulation."
+  },
+  {
+    "id": "OBJ-NR4A3-DBD",
+    "kind": "domain",
+    "display_name": "NR4A3 C4 zinc-finger DNA-binding domain",
+    "aliases": [
+      "the DBD",
+      "C4 zinc finger"
+    ],
+    "status": "domain",
+    "definition": {
+      "exon_level": null,
+      "residue_level": null,
+      "length_field": {
+        "artifact": "ART-TARGET-ROUTE-CENSUS",
+        "field": "/zinc_finger_window"
+      },
+      "provenance": [
+        "EV-FILION-2009"
+      ]
+    },
+    "distinct_from": [],
+    "notes": "92.8 % / 98.6 % paralogue identity — which is why relocating the target here WORSENS the selectivity problem on arithmetic alone. Its intactness is also the filter that narrows 18 arithmetically-possible breakpoints to 9 plausible ones."
+  },
+  {
+    "id": "OBJ-RES-C397",
+    "kind": "residue",
+    "display_name": "NR4A3 C397",
+    "aliases": [
+      "C397",
+      "Cys397",
+      "the programme's headline handle"
+    ],
+    "status": "residue",
+    "definition": {
+      "exon_level": null,
+      "residue_level": "NR4A3 cysteine 397",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-RES-NR4A1-C551",
+        "why": "different protein, different residue; C551 is NR4A1's only literature-supported covalent site and is V17's positive control"
+      }
+    ],
+    "notes": "The residue on which the categorical (covalent) escape from the ΔΔG requirement rests. Two routes engage it — the covalent PROBE and the covalent-monovalent sub-form — and they are NOT the same route."
+  },
+  {
+    "id": "OBJ-RES-C166",
+    "kind": "residue",
+    "display_name": "NR4A3 C166",
+    "aliases": [
+      "C166"
+    ],
+    "status": "residue",
+    "definition": {
+      "exon_level": null,
+      "residue_level": "NR4A3 cysteine 166 — present in the fusion under every plausible breakpoint, absent from every structure in this program",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-RES-C397",
+        "why": "C166 lies outside the modelled LBD construct entirely; no geometric statement in this program reaches it"
+      }
+    ],
+    "notes": "NR4A3-unique among the reactive residues enumerated in the fusion object; it is one of the 30 reactive residues that lie outside every structure this program has."
+  },
+  {
+    "id": "OBJ-RES-NR4A1-C551",
+    "kind": "residue",
+    "display_name": "NR4A1 C551",
+    "aliases": [
+      "C551",
+      "NR4A1 Cys551"
+    ],
+    "status": "residue",
+    "definition": {
+      "exon_level": null,
+      "residue_level": "NR4A1 cysteine 551 — the one NR4A-family covalent site with literature support",
+      "length_field": null,
+      "provenance": []
+    },
+    "distinct_from": [
+      {
+        "object": "OBJ-RES-C397",
+        "why": "it is the CONTROL, not the target"
+      }
+    ],
+    "notes": "V17's positive control — and V17 FAILS on it, which is why anything adjudicated by that exposure cutoff inherits a demonstrated false negative."
+  }
+]

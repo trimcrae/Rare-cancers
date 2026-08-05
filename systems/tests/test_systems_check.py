@@ -1,0 +1,221 @@
+#!/usr/bin/env python3
+"""Tests for the systems model's checker and guard. ($0, pure stdlib + pytest)
+
+Every test here guards a rule that exists because of a measured failure, and each says which.
+"""
+from __future__ import annotations
+
+import copy
+import json
+import os
+import subprocess
+import sys
+
+import pytest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SYS = os.path.dirname(HERE)
+REPO = os.path.dirname(SYS)
+sys.path.insert(0, SYS)
+
+import systems_check as sc  # noqa: E402
+import parser_guard as pg  # noqa: E402
+
+
+@pytest.fixture(scope="module")
+def graph():
+    return sc.derive(sc.load_graph())
+
+
+# ───────────────────────── the model is internally consistent ─────────────────────────
+
+def test_repo_state_is_clean(graph):
+    """The committed graph passes every invariant. A red build here is a real inconsistency."""
+    f = sc.Findings()
+    sc.run_checks(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_views_match_the_graph(graph):
+    """A generated view that has been hand-edited, or has drifted, is a defect.
+
+    This is the whole reason the views are generated: prose drifts and cannot be checked.
+    """
+    f = sc.Findings()
+    sc.check_views(graph, f)
+    assert f.errors == [], "\n".join(f.errors) + "\n\nRun: python3 systems/systems_check.py --write-views"
+
+
+def test_every_route_lands_in_exactly_one_family(graph):
+    fams = {s["id"]: set(s["routes"]) for s in graph["strategies"]}
+    seen = {}
+    for f, rs in fams.items():
+        for r in rs:
+            assert r not in seen, f"{r} is in both {seen[r]} and {f}"
+            seen[r] = f
+    assert len(seen) == len(graph["routes"])
+
+
+# ───────────────────────── the taxonomies do their job ─────────────────────────
+
+def test_permanent_blocker_carries_no_technology(graph):
+    """A fact about what the objects ARE is not waiting on a capability.
+
+    Putting one on a watch list wastes the watch, and — worse — implies the route might come back.
+    """
+    for b in graph["blockers"]:
+        if b["permanent"]:
+            assert not b["retired_by_technology"], \
+                f"{b['id']} is permanent ({b['kind']}) but claims a technology would retire it"
+
+
+def test_non_permanent_blocker_names_a_way_out(graph):
+    """Either a technology or an action. A blocker with neither is mis-typed or under-analysed."""
+    for b in graph["blockers"]:
+        if not b["permanent"]:
+            assert b["retired_by_technology"] or b.get("retired_by_action"), \
+                f"{b['id']} ({b['kind']}) names no technology and no action that would retire it"
+
+
+def test_every_forecast_declares_its_basis(graph):
+    """An unlabelled forecast is indistinguishable from a measurement."""
+    for c in graph["forecasts"]:
+        assert c.get("basis") in ("evidence_based", "extrapolated", "speculative"), \
+            f"{c['id']} has no usable basis"
+        assert c.get("last_reviewed"), f"{c['id']} has no last_reviewed date"
+
+
+def test_technology_and_forecast_reference_each_other(graph):
+    fc = {c["id"]: c for c in graph["forecasts"]}
+    for t in graph["technologies"]:
+        assert t["forecast"] in fc, f"{t['id']} names a forecast that does not exist"
+        assert fc[t["forecast"]]["tech_ref"] == t["id"], f"{t['id']} back-reference disagrees"
+
+
+def test_blocker_kinds_are_from_the_closed_enum(graph):
+    schema = json.load(open(os.path.join(SYS, "schema", "blocker.schema.json")))
+    allowed = set(schema["properties"]["kind"]["enum"])
+    for b in graph["blockers"]:
+        assert b["kind"] in allowed, f"{b['id']} has kind {b['kind']!r}, which is outside the enum"
+
+
+# ───────────────────────── the claim ceiling is enforced ─────────────────────────
+
+def test_a_failing_instrument_cannot_be_cited_as_support(graph):
+    """A claim can never be stronger than the instrument underneath it.
+
+    Selectivity results in this program have had to be withdrawn; this is the structural version
+    of the rule that exists because of that.
+    """
+    g = copy.deepcopy(graph)
+    failing = next(i["id"] for i in g["instruments"]
+                   if (i.get("known_answer_control") or {}).get("state") in sc.NON_SUPPORTING_CONTROL)
+    g["routes"][0].setdefault("instruments", {}).setdefault("support", []).append(failing)
+    f = sc.Findings()
+    sc.check_instrument_support(g, f)
+    assert any("[V2]" in e for e in f.errors), \
+        "citing an instrument whose known-answer control failed as SUPPORT must be an error"
+
+
+def test_no_control_and_a_failed_control_are_both_non_supporting():
+    """Different facts, and neither is support. `none` is in the set deliberately."""
+    assert "none" in sc.NON_SUPPORTING_CONTROL
+    assert "fails" in sc.NON_SUPPORTING_CONTROL
+
+
+def test_compute_needs_a_case(graph):
+    g = copy.deepcopy(graph)
+    g["routes"][0]["recommends_compute"] = True
+    g["routes"][0].pop("compute_case", None)
+    f = sc.Findings()
+    sc.check_compute_case(g, f)
+    assert any("[C1]" in e for e in f.errors), \
+        "recommending compute with no case must fail — reasoning must be shown exhausted first"
+
+
+# ───────────────────────── pointers resolve ─────────────────────────
+
+def test_every_owner_anchor_resolves(graph):
+    f = sc.Findings()
+    sc.check_pointers(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_slugify_matches_github_for_a_heading_with_glyphs():
+    """The one broken anchor this check found had gained a glyph after being registered.
+
+    Glyphs are stripped and the surrounding spaces each become a hyphen, so adding one to a
+    heading silently changes its anchor. That is exactly the drift this check exists to catch.
+    """
+    assert sc.slugify("## Route 1 — ⭐ ATR-inhibitor synthetic lethality") == \
+        "route-1---atr-inhibitor-synthetic-lethality"
+    assert sc.slugify("## Route 1 — ATR-inhibitor synthetic lethality") == \
+        "route-1--atr-inhibitor-synthetic-lethality"
+
+
+# ───────────────────────── the mini schema validator is real ─────────────────────────
+
+def test_validator_enforces_enums_and_patterns():
+    mv = sc.MiniValidator(os.path.join(SYS, "schema"))
+    schema = mv.docs["blocker.schema.json"]
+    bad = {"id": "NOTABLOCKER", "name": "x" * 20, "kind": "not_a_kind",
+           "statement_about": "y" * 20, "owner": {"file": "a"}}
+    msgs = mv.validate(bad, schema, schema)
+    assert any("does not match" in m for m in msgs), msgs
+    assert any("not in enum" in m for m in msgs), msgs
+
+
+def test_validator_enforces_conditional_requirements():
+    """work_state `in_work` must name the running job.
+
+    `in_work` instructs every reader not to start a second copy, so one on something nobody has
+    started is an instruction not to do the work. It has been wrong seven times in this repository.
+    """
+    mv = sc.MiniValidator(os.path.join(SYS, "schema"))
+    doc = mv.docs["research-object.schema.json"]
+    msgs = mv.validate({"work_state": "in_work", "status": "active", "confidence": "low",
+                        "last_verified": "2026-08-05"}, doc["$defs"]["state"], doc)
+    assert any("running_job" in m for m in msgs), msgs
+
+
+def test_validator_reports_each_problem_once():
+    """A schema that both declares `required` and $refs a base declaring it must not double-report."""
+    mv = sc.MiniValidator(os.path.join(SYS, "schema"))
+    schema = mv.docs["route.schema.json"]
+    msgs = mv.validate({"id": "RT-X", "level": "L2", "kind": "route"}, schema, schema)
+    assert len(msgs) == len(set(msgs)), msgs
+
+
+# ───────────────────────── the fail-red guard ─────────────────────────
+
+def test_parser_guard_passes_on_the_committed_tree():
+    assert pg.main([]) == 0
+
+
+def test_parser_guard_catches_a_renamed_plan_heading(tmp_path, monkeypatch):
+    """The failure this guard exists for: a heading moves, the scanner reports blindness, CI stays green."""
+    src = open(os.path.join(REPO, pg.MAP), encoding="utf-8").read()
+    broken = src.replace("THE ORDERED PLAN", "THE SEQUENCED PLAN")
+    monkeypatch.setattr(pg, "read", lambda rel: broken if rel == pg.MAP else
+                        (open(os.path.join(REPO, rel), encoding="utf-8").read()
+                         if os.path.exists(os.path.join(REPO, rel)) else None))
+    problems = []
+    pg.check_plan_heading(lambda p, w, y: problems.append((p, w, y)))
+    assert problems and problems[0][0] == "work_ledger"
+
+
+def test_parser_guard_catches_a_plan_section_with_no_items(monkeypatch):
+    """A heading that has drifted away from the checkboxes is as blinding as a missing heading."""
+    text = "# doc\n\n## THE ORDERED PLAN (spend-gated)\n\nprose only, no items\n\n## next section\n"
+    monkeypatch.setattr(pg, "read", lambda rel: text if rel == pg.MAP else None)
+    problems = []
+    pg.check_plan_heading(lambda p, w, y: problems.append((p, w, y)))
+    assert problems and "no checklist items" in problems[0][1]
+
+
+# ───────────────────────── cli ─────────────────────────
+
+def test_cli_check_exits_zero():
+    r = subprocess.run([sys.executable, os.path.join(SYS, "systems_check.py"), "--check"],
+                       capture_output=True, text=True, cwd=REPO)
+    assert r.returncode == 0, r.stdout + r.stderr

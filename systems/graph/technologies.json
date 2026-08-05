@@ -1,0 +1,698 @@
+[
+  {
+    "id": "TECH-FE-CRYPTIC-POCKET",
+    "name": "A binding free-energy method — alchemical or ML — with a published known-answer validation on cryptic or induced-fit pockets, reproducing a benchmark to within about 1 kcal/mol on a site absent from the apo structure",
+    "category": "free_energy_method",
+    "why_it_matters": "This program's central quantitative claim is a free-energy difference between two closely related pockets, and the engine used to compute it misses a known absolute answer by more than the entire margin it is asked to resolve. Every absolute number on the binder path is therefore uninterpretable. This is the single highest fan-out dependency in the portfolio.",
+    "unblocks": {
+      "blockers": [
+        "BLK-PARALOGUE-DDG"
+      ],
+      "routes": [
+        "RT-DEGRADER",
+        "RT-MONOVALENT",
+        "RT-GLUE",
+        "RT-ANDGATE",
+        "RT-RIPTAC",
+        "RT-TCIP"
+      ],
+      "requirements": [
+        "R7"
+      ],
+      "instruments": [
+        "V4",
+        "V7",
+        "V9"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "No public benchmark validates an absolute free-energy engine on a cryptic or induced-fit pocket to the accuracy this margin requires."
+    ],
+    "confidence": "high",
+    "forecast": "FC-FE-CRYPTIC-POCKET",
+    "scan_trigger": [
+      "TRG-FEP-CRYPTIC-POCKET"
+    ]
+  },
+  {
+    "id": "TECH-EMC-EXPRESSION-DATA",
+    "name": "A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-antigen expression confirmation on real EMC tissue",
+    "category": "biological_dataset",
+    "why_it_matters": "EMC is nearly absent from public functional genomics: one line, no CRISPR data. This is the repository-wide rate-limiter and it is a DATA dependency, not a method one — it fans out across every route whose in-silico half is bounded by a sample size of one.",
+    "unblocks": {
+      "blockers": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "routes": [
+        "RT-SYNLETH-DEP",
+        "RT-PPARG-DOWNSTREAM",
+        "RT-TRABECTEDIN-PPARG",
+        "RT-B7H3",
+        "RT-SSTR2",
+        "RT-PRAME-IMMTAC",
+        "RT-CART-SURFACE",
+        "RT-FAP-RLT",
+        "RT-CARFILZOMIB"
+      ],
+      "requirements": [],
+      "instruments": []
+    },
+    "current_state": "early_signals",
+    "evidence": [
+      "The weekly scan fired on this trigger with new hits in its most recent run; none has yet been graded as a usable deposit."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-EMC-EXPRESSION-DATA",
+    "scan_trigger": [
+      "TRG-EMC-EXPRESSION-DATASET"
+    ]
+  },
+  {
+    "id": "TECH-EMC-MODEL-ACCESS",
+    "name": "Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with EMC-runnable assay scope",
+    "category": "experimental_access",
+    "why_it_matters": "The cell-line repositories exclude unaffiliated individuals by published policy rather than by price, so no budget reaches this and every confirm-gated row is gated on a person. It is the highest fan-out non-method dependency in the portfolio, and it is about ACCESS rather than capability.",
+    "unblocks": {
+      "blockers": [
+        "BLK-NO-WET-LAB",
+        "BLK-R4-BINDS",
+        "BLK-FUNCTIONAL-ACTIONABILITY"
+      ],
+      "routes": [
+        "RT-ATR-PANEL",
+        "RT-ASO-ASK",
+        "RT-TRABECTEDIN-PPARG",
+        "RT-SSTR2",
+        "RT-COVALENT-PROBE",
+        "RT-SYNLETH-DEP",
+        "RT-B7H3",
+        "RT-CART-SURFACE",
+        "RT-PPARG-DOWNSTREAM",
+        "RT-CARFILZOMIB"
+      ],
+      "requirements": [
+        "R4"
+      ],
+      "instruments": []
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Repository policies exclude individuals; no collaborator has been secured."
+    ],
+    "confidence": "high",
+    "forecast": "FC-EMC-MODEL-ACCESS",
+    "scan_trigger": [
+      "TRG-EMC-FUNCTIONAL-MODEL"
+    ]
+  },
+  {
+    "id": "TECH-CHEAP-ENSEMBLE",
+    "name": "Generative equilibrium-ensemble models validated against known cryptic pockets — recovering benchmark sites without GPU-days of biased sampling, and calibrated on rare-open populations",
+    "category": "conformational_ensemble",
+    "why_it_matters": "It collapses the per-target cost of opening a cryptic pocket from GPU-days to pennies, which decides whether a cryptic-pocket druggability survey is a focused target class or proteome-scale. For this program it is an orthogonal, unbiased cross-check on a biased sampling result.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-DEGRADER",
+        "RT-MONOVALENT"
+      ],
+      "requirements": [
+        "R1",
+        "R2",
+        "R6"
+      ],
+      "instruments": [
+        "V13",
+        "V14"
+      ]
+    },
+    "current_state": "partially_landed",
+    "evidence": [
+      "The detection arm landed: a sequence-only generative ensemble model detects the site and opens it to a druggable state in a minority of frames, concordant in direction with an experimental NMR ensemble.",
+      "The CALIBRATION arm has not landed: the model is uncalibrated on rare-open populations and apo is its weakest regime, so the result is a qualitative cross-check and not a population estimate."
+    ],
+    "confidence": "high",
+    "forecast": "FC-CHEAP-ENSEMBLE",
+    "scan_trigger": [
+      "TRG-GENERATIVE-ENSEMBLE",
+      "TRG-CRYPTIC-POCKET-PREDICTION"
+    ]
+  },
+  {
+    "id": "TECH-POSE-CONVERGENCE",
+    "name": "A pose-prediction protocol whose site transfer places the crystallographic ligand inside its own search box in regime, and on which two scoring-independent methods converge in ORIENTATION as well as location on the same receptors",
+    "category": "structure_prediction",
+    "why_it_matters": "Two independent site-transfer routes both place the site at zero in regime, and two disjoint scoring functions disagree in orientation at a median far above their centroid separation. So the non-convergence belongs to the system, not to one scoring function — and a single better docking program is therefore not the trigger. Every pose-conditional claim in the program depends on this.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-DEGRADER",
+        "RT-MONOVALENT",
+        "RT-COVALENT-PROBE"
+      ],
+      "requirements": [
+        "R5",
+        "R8"
+      ],
+      "instruments": [
+        "V3",
+        "V22"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this — it was registered as a revival trigger with no corresponding literature query."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-POSE-CONVERGENCE",
+    "scan_trigger": []
+  },
+  {
+    "id": "TECH-COFOLD-ASSEMBLY",
+    "name": "A sequence-only co-folder evaluated on ternary ASSEMBLY — inter-chain accuracy on post-training-horizon induced complexes — rather than on per-chain pocket accuracy",
+    "category": "structure_prediction",
+    "why_it_matters": "One co-folder failing is not the class failing: the same harness already recognises a correct ternary when both binding sites are supplied, so the plumbing is not what missed. What is missing is a model benchmarked on the assembly problem itself, and a benchmark discipline that reports inter-chain rather than per-chain accuracy.",
+    "unblocks": {
+      "blockers": [
+        "BLK-TERNARY-GEOMETRY",
+        "BLK-INDUCED-COMPLEX"
+      ],
+      "routes": [
+        "RT-AF3-INTERFACE",
+        "RT-ANDGATE",
+        "RT-DEGRADER",
+        "RT-RIPTAC",
+        "RT-TCIP"
+      ],
+      "requirements": [
+        "R10"
+      ],
+      "instruments": [
+        "V12"
+      ]
+    },
+    "current_state": "partially_landed",
+    "evidence": [
+      "Open tools now exist for induced-complex prediction and one reaches high inter-chain accuracy WHEN BOTH SITES ARE GIVEN.",
+      "The arm that has NOT landed is assembly from sequence and ligand alone, which is the problem this program actually has."
+    ],
+    "confidence": "high",
+    "forecast": "FC-COFOLD-ASSEMBLY",
+    "scan_trigger": [
+      "TRG-COFOLD-TERNARY-ASSEMBLY",
+      "TRG-TERNARY-GEN-NO-SITES"
+    ]
+  },
+  {
+    "id": "TECH-EXPOSURE-CRITERION",
+    "name": "A solvent-exposure or thiol-reactivity criterion that recovers the one NR4A-family covalent site with literature support as engageable on a state-matched opened model",
+    "category": "free_energy_method",
+    "why_it_matters": "The standing exposure cutoff fails that positive control, so anything it adjudicates inherits a demonstrated false negative and only a threshold-free rank survives. A criterion that passes the control makes the whole covalent screen readable again rather than rank-only.",
+    "unblocks": {
+      "blockers": [
+        "BLK-REACH-CATEGORICAL"
+      ],
+      "routes": [
+        "RT-COVALENT-PROBE",
+        "RT-MONOVALENT"
+      ],
+      "requirements": [
+        "R8",
+        "R15"
+      ],
+      "instruments": [
+        "V17"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-EXPOSURE-CRITERION",
+    "scan_trigger": []
+  },
+  {
+    "id": "TECH-OLIGO-DELIVERY",
+    "name": "An oligonucleotide tumour-delivery technology reaching non-hepatic solid tumours — a conjugate, tumour-penetrating peptide or ligand-targeted lipid nanoparticle — OR a characterised EMC-enriched surface antigen to serve as its targeting arm",
+    "category": "lab_automation",
+    "why_it_matters": "Delivery is the single remaining gate on the most structurally sound route in the portfolio, and it is engineering rather than biology. The honest bottleneck is not that delivery cannot be simulated — it is that no validated way to deliver an oligonucleotide to an EMC tumour exists. A single characterised EMC surface antigen or a working soft-tissue-sarcoma conjugate would change this route's standing more than any predictor could.",
+    "unblocks": {
+      "blockers": [
+        "BLK-DELIVERY"
+      ],
+      "routes": [
+        "RT-ASO",
+        "RT-ASO-ASK"
+      ],
+      "requirements": [],
+      "instruments": []
+    },
+    "current_state": "early_signals",
+    "evidence": [
+      "Conjugate and targeted-nanoparticle platforms are advancing generally; none is demonstrated in a non-hepatic solid tumour at the required scope."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-OLIGO-DELIVERY",
+    "scan_trigger": [
+      "TRG-OLIGO-DELIVERY-TECH",
+      "TRG-OLIGO-DELIVERY-PREDICTOR"
+    ]
+  },
+  {
+    "id": "TECH-VECTOR-DELIVERY",
+    "name": "A gene-therapy vector that reaches a solid tumour at therapeutic coverage",
+    "category": "lab_automation",
+    "why_it_matters": "Three genetic routes are gated on it. It is kept strictly separate from oligonucleotide delivery: they are different engineering problems with different candidate solutions, and merging them would let one arriving imply the other had.",
+    "unblocks": {
+      "blockers": [
+        "BLK-VECTOR-DELIVERY"
+      ],
+      "routes": [
+        "RT-CRISPR-CAS13",
+        "RT-RIBOZYME",
+        "RT-SYNPROMOTER"
+      ],
+      "requirements": [],
+      "instruments": []
+    },
+    "current_state": "absent",
+    "evidence": [
+      "No solid-tumour vector delivery platform is established at the coverage these routes assume."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-VECTOR-DELIVERY",
+    "scan_trigger": [
+      "TRG-VECTOR-DELIVERY-SOLID-TUMOUR"
+    ]
+  },
+  {
+    "id": "TECH-CHARGE-CHANGE-FEP",
+    "name": "A validated charge-change correction for alchemical free-energy edges — a co-alchemical-ion or finite-size treatment demonstrated to reproduce a known-answer set of charge-changing transformations",
+    "category": "free_energy_method",
+    "why_it_matters": "Charge-changing edges block legs of the relative free-energy map and killed a high-contrast calibrator route. The correction reopens the EDGES; it does not rescue the calibrator design, which was a poor calibrator on perturbation size alone.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-DEGRADER"
+      ],
+      "requirements": [
+        "R7",
+        "R11"
+      ],
+      "instruments": [
+        "V5",
+        "V6"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-CHARGE-CHANGE-FEP",
+    "scan_trigger": [
+      "TRG-CHARGE-CHANGE-FEP"
+    ]
+  },
+  {
+    "id": "TECH-GLUE-DESIGN",
+    "name": "A validated prospective molecular-glue design method or glue-interface selectivity predictor, demonstrated on a neosubstrate interface that was not in its training set",
+    "category": "generative_design",
+    "why_it_matters": "A glue has no linker, so it has no covalent axis and no designed exit vector — it removes several of this program's hardest sub-problems at once. It is also the modality most likely to arrive from someone else's screen rather than from this program's design, which is why it is watched rather than built.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-GLUE"
+      ],
+      "requirements": [
+        "R7",
+        "R9",
+        "R10"
+      ],
+      "instruments": []
+    },
+    "current_state": "early_signals",
+    "evidence": [
+      "Generative interface-design methods are advancing; none is demonstrated prospectively on an out-of-training neosubstrate interface."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-GLUE-DESIGN",
+    "scan_trigger": [
+      "TRG-GLUE-PROSPECTIVE-DESIGN"
+    ]
+  },
+  {
+    "id": "TECH-OBSERVED-CRL",
+    "name": "An OBSERVED rather than COMPOSED ubiquitin-ligase RING and E2-ubiquitin geometry — a deposited full-assembly structure replacing a composed model carrying tens of angstroms of positional uncertainty",
+    "category": "structure_prediction",
+    "why_it_matters": "No degradation-geometry claim may rest on a composed rather than observed assembly, and the ligase-choice selectivity readout is not stable under restaging. Both are statements about the geometry's PROVENANCE, which only an observed assembly changes — no amount of modelling does.",
+    "unblocks": {
+      "blockers": [
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "routes": [
+        "RT-UBIQ-SELECTIVE",
+        "RT-DEGRADER"
+      ],
+      "requirements": [
+        "R12"
+      ],
+      "instruments": [
+        "V18"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-OBSERVED-CRL",
+    "scan_trigger": [
+      "TRG-OBSERVED-CRL-E2UB-GEOMETRY"
+    ]
+  },
+  {
+    "id": "TECH-TERNARY-ALCHEMY",
+    "name": "A ternary alchemical free-energy method that PASSES the known-answer cooperativity control — recovering the reference value with the correct sign, not merely with more sampling of the present protocol",
+    "category": "free_energy_method",
+    "why_it_matters": "The present method returns the wrong sign in every replicate at many times the statistical uncertainty, and the closure analysis localises the miss to an endpoint-state error. That is a property of the model or the reference data, so more sampling of the same endpoints cannot fix it.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-DEGRADER",
+        "RT-ANDGATE"
+      ],
+      "requirements": [
+        "R11"
+      ],
+      "instruments": [
+        "V5"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this beyond the general ternary-alchemy query."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-TERNARY-ALCHEMY",
+    "scan_trigger": [
+      "TRG-TERNARY-ALCHEMICAL-VALIDATED"
+    ]
+  },
+  {
+    "id": "TECH-ANTITARGET-PROTOCOL",
+    "name": "An anti-target docking protocol in which every panel receptor recovers its own cognate crystallographic ligand inside the pre-registered criterion, with no receptor dropped, no search box re-centred and no band lowered",
+    "category": "structure_prediction",
+    "why_it_matters": "Several panel receptors miss their own cognate ligand, so the panel is unreadable — and because the published scope clauses are maximum-over-the-panel statements, one unreadable receptor makes all of them unreadable. A failing target may not be dropped, which is what makes this a protocol problem rather than a curation one.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-DEGRADER"
+      ],
+      "requirements": [
+        "R14"
+      ],
+      "instruments": [
+        "V21"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-ANTITARGET-PROTOCOL",
+    "scan_trigger": []
+  },
+  {
+    "id": "TECH-ATOM-MAPPER",
+    "name": "An atom mapper that reaches the provable floor on the remaining congeneric edge WITHOUT a degenerate correspondence — without mapping a carbon onto a hydrogen",
+    "category": "free_energy_method",
+    "why_it_matters": "The best available map falls one atom short and the search budget is provably not binding, so more search time buys nothing; the one map that does reach the floor gets there by a chemically impossible correspondence. This is a small, sharp dependency and it blocks a specific edge.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-DEGRADER"
+      ],
+      "requirements": [
+        "R7"
+      ],
+      "instruments": [
+        "V6"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this."
+    ],
+    "confidence": "high",
+    "forecast": "FC-ATOM-MAPPER",
+    "scan_trigger": [
+      "TRG-ATOM-MAPPER-FLOOR"
+    ]
+  },
+  {
+    "id": "TECH-E1-POWERED",
+    "name": "An interface-stability readout with power at achievable sampling, OR a different test system whose interface effect is large enough for an endpoint readout to resolve",
+    "category": "free_energy_method",
+    "why_it_matters": "Two independent attempts returned no pass, the second on an adequately powered design — so the block is the readout's resolution against this system's effect size, not the sample size. Two failures is strong evidence, not proof of impossibility.",
+    "unblocks": {
+      "blockers": [
+        "BLK-ENDPOINT-MD"
+      ],
+      "routes": [
+        "RT-DEGRADER"
+      ],
+      "requirements": [
+        "R11"
+      ],
+      "instruments": [
+        "V11"
+      ]
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-E1-POWERED",
+    "scan_trigger": [
+      "TRG-ENDPOINT-SELECTIVITY-READOUT"
+    ]
+  },
+  {
+    "id": "TECH-E3-RECRUITER-STRUCTURE",
+    "name": "A deposited partner-free liganded structure for one of the blocked ubiquitin-ligase recruiters — a handle pocket rather than a glue interface",
+    "category": "structure_prediction",
+    "why_it_matters": "Availability was the wrong constraint; structural stageability binds. One candidate recruiter has no deposited structure at all and another's ligand is largely buried once its partner is removed, so the recruiter set this program can actually stage is far smaller than the set that exists.",
+    "unblocks": {
+      "blockers": [
+        "BLK-TERNARY-GEOMETRY"
+      ],
+      "routes": [
+        "RT-DEGRADER"
+      ],
+      "requirements": [
+        "R9",
+        "R12"
+      ],
+      "instruments": []
+    },
+    "current_state": "absent",
+    "evidence": [
+      "No partner-free liganded structure has been deposited for the blocked recruiters."
+    ],
+    "confidence": "high",
+    "forecast": "FC-E3-RECRUITER-STRUCTURE",
+    "scan_trigger": [
+      "TRG-E3-RECRUITER-STRUCTURE",
+      "TRG-FEM1B-LINKER-BEARING-STRUCTURE"
+    ]
+  },
+  {
+    "id": "TECH-NONCOVALENT-PARALOGUE-CONTROL",
+    "name": "A paralogue-selectivity positive control whose selectivity is reproduced by a NON-covalent readout — a different test compound or a different system, not more sampling of the current one",
+    "category": "published_measurement",
+    "why_it_matters": "The available control's geometry readout passes for a confounded reason: its selectivity is attributable to a covalent bond at a residue the off-target paralogues lack. No sample size and no better method fixes a confound in the system — only a different control does.",
+    "unblocks": {
+      "blockers": [
+        "BLK-PARALOGUE-CONTROL"
+      ],
+      "routes": [
+        "RT-DEGRADER"
+      ],
+      "requirements": [
+        "R7",
+        "R11"
+      ],
+      "instruments": []
+    },
+    "current_state": "absent",
+    "evidence": [
+      "Nothing is currently scanning for this."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-NONCOVALENT-PARALOGUE-CONTROL",
+    "scan_trigger": [
+      "TRG-PARALOGUE-POSITIVE-CONTROL"
+    ]
+  },
+  {
+    "id": "TECH-RXR-HETERODIMER-REPORT",
+    "name": "A primary report of NR4A3 forming a permissive or ligand-modulable heterodimer with RXR in cells, contradicting the published negative",
+    "category": "published_measurement",
+    "why_it_matters": "One closed route turns entirely on a single measured biological fact about this receptor, so only a contradicting primary measurement of that same fact reopens it. No method advance does — which is exactly why it is registered as a measurement dependency and not a capability one.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-RXR"
+      ],
+      "requirements": [],
+      "instruments": []
+    },
+    "current_state": "absent",
+    "evidence": [
+      "The published negative stands unchallenged."
+    ],
+    "confidence": "high",
+    "forecast": "FC-RXR-HETERODIMER-REPORT",
+    "scan_trigger": [
+      "TRG-NR4A3-DIRECT-MATTER"
+    ]
+  },
+  {
+    "id": "TECH-VIRTUAL-CELL",
+    "name": "A virtual-cell or perturbation model that predicts held-out knockdown phenotype in a cell type it was not trained on",
+    "category": "foundation_model_biology",
+    "why_it_matters": "It would let the fusion-dependence question — the make-or-break premise beneath the degrader and the oligonucleotide routes alike — be asked without an EMC cell line. That is the one question this program currently delegates entirely.",
+    "unblocks": {
+      "blockers": [
+        "BLK-NO-EMC-DATA",
+        "BLK-CLASS-INHERITANCE"
+      ],
+      "routes": [
+        "RT-DEGRADER",
+        "RT-ASO",
+        "RT-SYNLETH-DEP"
+      ],
+      "requirements": [
+        "R16"
+      ],
+      "instruments": []
+    },
+    "current_state": "early_signals",
+    "evidence": [
+      "Perturbation-prediction models exist and are improving; held-out phenotype prediction in an untrained rare cell type is not demonstrated."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-VIRTUAL-CELL",
+    "scan_trigger": [
+      "TRG-VIRTUAL-CELL-NO-LINE"
+    ]
+  },
+  {
+    "id": "TECH-CLOUD-WET-LAB",
+    "name": "A remote robotic or cloud wet lab, rentable per experiment by an unaffiliated researcher, at a price and assay scope that covers EMC cell work",
+    "category": "lab_automation",
+    "why_it_matters": "This is the only watched capability that could flip the program's FOUNDING CONSTRAINT — that no wet lab is available, so every step must be in-silico or publish-to-convince. It would make the wet-lab-gated experiments runnable by this program rather than by a hypothetical collaborator.",
+    "unblocks": {
+      "blockers": [
+        "BLK-NO-WET-LAB",
+        "BLK-FUNCTIONAL-ACTIONABILITY"
+      ],
+      "routes": [
+        "RT-ASO-ASK",
+        "RT-ATR-PANEL",
+        "RT-COVALENT-PROBE"
+      ],
+      "requirements": [
+        "R4"
+      ],
+      "instruments": []
+    },
+    "current_state": "early_signals",
+    "evidence": [
+      "Cloud-lab services exist commercially.",
+      "⚠ A cloud lab unlocks robotic EXECUTION, not the reagents or the biology. The EMC cell line remains a separate dependency, so this flips the execution gate and not automatically the material gate."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-CLOUD-WET-LAB",
+    "scan_trigger": [
+      "TRG-CLOUD-WET-LAB"
+    ]
+  },
+  {
+    "id": "TECH-AUTONOMOUS-AGENT",
+    "name": "Autonomous research agents able to carry a multi-month scientific thread — planning, running, checking and revising — with provenance a reviewer would accept",
+    "category": "autonomous_research_agent",
+    "why_it_matters": "This program is one person with no bench, and its binding constraint after money is attention. An agent that can hold a long thread would change what a solo program can attempt rather than merely how fast it goes. It is also the dependency this repository is best placed to notice arriving, because it is already operated this way.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-METHODS-PAPER",
+        "RT-DEGRADER",
+        "RT-ASO"
+      ],
+      "requirements": [],
+      "instruments": []
+    },
+    "current_state": "partially_landed",
+    "evidence": [
+      "Agents already execute this repository's compute lanes, monitoring and document generation.",
+      "The arm that has NOT landed is unsupervised multi-month scientific judgement: the repository's own automation record shows a scheduled agent task credited in two documents that has never produced an entry."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-AUTONOMOUS-AGENT",
+    "scan_trigger": []
+  },
+  {
+    "id": "TECH-COMPUTE-COST",
+    "name": "A sustained fall in the price of the simulation this program actually buys — cost per nanosecond of molecular dynamics at usable accuracy",
+    "category": "compute_economics",
+    "why_it_matters": "Several parked items are parked on price rather than on method. A sustained fall converts them from unaffordable to routine without any scientific advance at all — and this repository already measures the relevant price series, so it is one of the few dependencies it can observe directly rather than infer.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-DEGRADER",
+        "RT-MONOVALENT"
+      ],
+      "requirements": [
+        "R6"
+      ],
+      "instruments": []
+    },
+    "current_state": "early_signals",
+    "evidence": [
+      "The repository samples the GPU market on a schedule and holds a price time series; the trend has not been graded as a sustained fall."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-COMPUTE-COST",
+    "scan_trigger": []
+  },
+  {
+    "id": "TECH-ASO-SPECIFICITY-MODEL",
+    "name": "A calibrated oligonucleotide off-target and cleavage-activity predictor, and an accessibility-aware efficacy model",
+    "category": "foundation_model_biology",
+    "why_it_matters": "The junction oligonucleotide's predicted specificity currently rests on a deliberately conservative heuristic, and its potency ranking on a local-fold proxy. A calibrated model would let both be re-graded on evidence rather than on caution — which could move the route in either direction, and that is the point.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-ASO"
+      ],
+      "requirements": [],
+      "instruments": []
+    },
+    "current_state": "absent",
+    "evidence": [
+      "No calibrated cleavage-activity predictor is established for this design class."
+    ],
+    "confidence": "moderate",
+    "forecast": "FC-ASO-SPECIFICITY-MODEL",
+    "scan_trigger": [
+      "TRG-ASO-OFFTARGET-PREDICTOR",
+      "TRG-ASO-EFFICACY-ACCESSIBILITY"
+    ]
+  }
+]

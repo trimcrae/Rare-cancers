@@ -53,6 +53,27 @@ jobs:
           git fetch --no-tags --depth=1 origin main:refs/remotes/origin/main || \
             echo "could not fetch origin/main -- the claim check will fall back and say so"
           python3 research/manuscripts/emc_systems_map_check.py --check
+      # The systems model (systems/graph/*.json) and its generated views. Standalone for the same
+      # reason as the linters above -- a doc author who breaks it should see the failing step name,
+      # not a traceback in ~1500 tests. Three distinct things fail here, all red:
+      #   - an invariant (a permanent blocker claiming a technology would retire it; a failing
+      #     instrument cited as SUPPORT; a route in no strategy family; a forecast with no basis);
+      #   - an unresolvable pointer -- it caught a genuinely broken anchor on its first run, where a
+      #     heading had gained a glyph after the anchor was registered;
+      #   - VIEW DRIFT: every view under systems/views/ is re-rendered in memory and compared to what
+      #     is committed, so a hand-edited generated file cannot merge. Prose drifts and cannot be
+      #     checked; a generated view cannot drift without failing this step.
+      - name: Systems model — invariants, pointer resolution and view drift
+        run: python3 systems/systems_check.py --check
+      # The fail-red guard, and it is deliberately SEPARATE from the checks above because it guards a
+      # different failure: not a wrong answer, but a parser that finds nothing and exits 0. The plan
+      # scanner honestly reports `NOT SCANNED -- the plan is invisible this run` and the build stays
+      # green, so a renamed heading yields a board with nothing on it that looks exactly like a board
+      # with nothing left to do. This asserts every registered parser can still LOCATE its input. It
+      # does not import them: a guard that runs the code it guards inherits that code's failure modes,
+      # and the mode being guarded against is succeeding while finding nothing.
+      - name: Parser guard (every registered parser can still find what it parses)
+        run: python3 systems/parser_guard.py
       # Same standalone-step reasoning, for the two CI-shape linters. Both exist because a guard
       # that fails OPEN leaves no trace: a `skipped` step and a silently-loosened threshold both
       # render as a green tick, so the only place they can be caught is before they merge.
@@ -156,4 +177,4 @@ jobs:
       # collecting whatever lands anywhere under research/ — and a suite that silently changes what
       # it runs is the same failure as a suite that silently stops running (the incident above).
       - if: always()
-        run: python -m pytest research/modalities/tests research/manuscripts/tests -q --continue-on-collection-errors
+        run: python -m pytest research/modalities/tests research/manuscripts/tests systems/tests -q --continue-on-collection-errors

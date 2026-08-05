@@ -1,0 +1,114 @@
+[
+  {
+    "id": "ART-IDR-CENSUS",
+    "path": "research/modalities/emc-fet-idr-census.json",
+    "produced_by": "research/modalities/emc_fet_idr_census.py",
+    "workflow": ".github/workflows/depmap-dependency.yml",
+    "published_to": [
+      "claude/emc-treatment-alternatives-jdmiwo",
+      "main (⛔ STUB — see note)"
+    ],
+    "note": "⛔ THE FAILURE-4 ARTIFACT. On `main` this is a 161-byte {_status, _remedy} placeholder written by the module's own network-failure path, while a document on `main` prints a full results table from it. Root cause and the one-way fix: research/modalities/artifact_stub_guard.py. A stub is detected by 'every top-level key starts with _'."
+  },
+  {
+    "id": "ART-CONSTRUCT-DESIGNS",
+    "path": "research/modalities/emc-fet-construct-designs.json",
+    "produced_by": "research/modalities/emc_fet_construct_designs.py",
+    "workflow": ".github/workflows/depmap-dependency.yml",
+    "published_to": [
+      "claude/emc-treatment-alternatives-jdmiwo"
+    ],
+    "note": "The transcript-level constructs. Holds the exon-level and residue-level definition of every reported fusion OBJECT, including the 59 UTR-encoded residues."
+  },
+  {
+    "id": "ART-DDR-AXIS-SCAN",
+    "path": "research/modalities/fet-ddr-axis-scan.json",
+    "produced_by": "research/modalities/fet_ddr_axis_scan.py",
+    "workflow": ".github/workflows/depmap-dependency.yml",
+    "published_to": [
+      "claude/emc-treatment-alternatives-jdmiwo",
+      "modalities-cache"
+    ],
+    "note": "⚠ emc-post-degrader-options.md on the feature branch says this is 'committed on `main`'. As of this registry's authoring it is NOT on `main` — the sentence becomes true only when the branch merges. Logged as OC-3."
+  },
+  {
+    "id": "ART-MONOVALENT-REACH",
+    "path": "research/modalities/nr4a3-monovalent-reach.json",
+    "produced_by": "research/modalities/nr4a3_monovalent_reach.py",
+    "workflow": null,
+    "published_to": [
+      "claude/emc-treatment-alternatives-jdmiwo"
+    ],
+    "note": "The paired monovalent-vs-bivalent reach enumeration; 18 tests. Its bivalent half replicates the committed bivalent artifact cell-for-cell."
+  },
+  {
+    "id": "ART-FUSION-OBJECT-INVENTORY",
+    "path": "research/modalities/fusion-object-inventory.json",
+    "produced_by": "research/modalities/fusion_object_inventory.py",
+    "workflow": ".github/workflows/fusion-cpu-extras.yml",
+    "published_to": [
+      "main"
+    ],
+    "note": "Sequence inventory + the 18→9 breakpoint enumeration. Its gate reproduces OBJ-MODEL-E7E3, not a reported junction."
+  },
+  {
+    "id": "ART-TARGET-ROUTE-CENSUS",
+    "path": "research/modalities/target-route-census.json",
+    "produced_by": "research/modalities/target_route_census.py",
+    "workflow": ".github/workflows/fusion-cpu-extras.yml",
+    "published_to": [
+      "main"
+    ],
+    "note": "Paralogue identity by domain, the zinc-finger window, the AF1↔LC swap measurement, and the recorded fusion_model_disagreement."
+  },
+  {
+    "id": "ART-DECOY-NULL-LBD",
+    "path": "research/modalities/categorical-decoy-null-lbd.json",
+    "produced_by": "research/modalities/categorical_decoy_null.py",
+    "workflow": ".github/workflows/categorical-decoy-null.yml",
+    "published_to": [
+      "main"
+    ],
+    "note": "The second, independently pre-registered decoy-null scope — the one that DOES contain C397."
+  },
+  {
+    "id": "ART-APO-POSE-SITE",
+    "path": "research/modalities/apo-pose-site-in-regime.json",
+    "produced_by": "research/modalities/apo_pose_recovery.py",
+    "workflow": null,
+    "published_to": [
+      "main"
+    ],
+    "note": "V3's in-regime site supplement. Emits no RMSD and by its own rule cannot change the pre-registered INCONCLUSIVE."
+  },
+  {
+    "id": "ART-ATR-VULNERABILITY",
+    "path": "research/modalities/emc-atr-vulnerability.json",
+    "produced_by": "research/modalities/emc_atr_vulnerability.py",
+    "workflow": ".github/workflows/depmap-dependency.yml",
+    "published_to": [
+      "claude/emc-treatment-alternatives-jdmiwo"
+    ],
+    "note": "The computed half of the ATR route, assembled as one module."
+  },
+  {
+    "id": "ART-PUBLISHED-WARHEAD-REGISTRY",
+    "path": "research/modalities/published-warhead-registry.json",
+    "produced_by": null,
+    "workflow": null,
+    "published_to": [
+      "main"
+    ],
+    "note": "Where the Zaienne series is recorded WITH its PMID/PMC — i.e. the record the files carrying the ⛔ superseded, retained \"Munck 2022\" attribution should have been pointing at. See EV-ZAIENNE-2022's misattribution_note; the correction is retired and pinned elsewhere."
+  },
+  {
+    "id": "ART-HLA-COVERAGE",
+    "path": "research/modalities/hla-coverage.json",
+    "produced_by": "research/modalities/hla_coverage.py",
+    "workflow": null,
+    "published_to": [
+      "main"
+    ],
+    "note": "Class-II coverage is a FLOOR over a tested 3-allele DR panel, and the junction it is computed on is OBJ-MODEL-E7E3."
+  }
+]

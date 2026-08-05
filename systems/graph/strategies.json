@@ -1,0 +1,270 @@
+[
+  {
+    "id": "ST-PROXIMITY",
+    "title": "Induced-proximity therapeutics",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Can a bifunctional molecule force NR4A3 into a productive complex with a second protein — an E3 ligase, a transcriptional effector, or an essential protein — and thereby remove or neutralise the driver?",
+    "thesis": "The NR4A3 ligand-binding domain does not need to be inhibited, only ENGAGED, because the therapeutic effect comes from what the molecule recruits rather than from what it blocks. This converts an undruggable transcription factor into a tractable target, at the price of needing a second binding site, a linker geometry and a productive assembly.",
+    "portfolio_role": "lead",
+    "state": {
+      "work_state": "in_work",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05",
+      "running_job": "the degrader program's open compute lanes — see the ordered plan"
+    },
+    "purpose_note": "This is the program's north star and the family that has absorbed most of its effort. It is also the family whose failures reorganise every other row in the portfolio.",
+    "limitations": [
+      "No molecule in this family has been shown to bind NR4A3 at all — the pocket every route here depends on has no known ligand of any kind.",
+      "No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.",
+      "Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness."
+    ],
+    "provenance": {
+      "owner": { "file": "systems/graph/strategies.json" },
+      "evidence": []
+    },
+    "next": {
+      "best_next_action": "Resolve the paralogue selectivity question at its cheapest decisive point — the binary selectivity control that is built, staged and unrun.",
+      "cost": "$0 to decide; the run itself points at the pricing home",
+      "blocked_on": ["BLK-PARALOGUE-DDG", "BLK-TERNARY-GEOMETRY", "BLK-R4-BINDS"]
+    }
+  },
+
+  {
+    "id": "ST-OCCUPANCY",
+    "title": "Direct small-molecule engagement of the NR4A3 ligand-binding domain",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Can a molecule that merely OCCUPIES the NR4A3 pocket — reversibly or covalently — change the fusion's behaviour, without recruiting anything?",
+    "thesis": "If the ligand-binding domain is a functional handle in the chimera, then occupying it is enough, and the entire ternary-assembly problem disappears. The bet is on the pocket being actionable rather than merely bindable.",
+    "portfolio_role": "hedge",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "scoped",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "purpose_note": "The hedge against the proximity family: it retires the ternary-geometry blocker outright. What it cannot retire is the requirement that something binds the pocket, and it adds one the proximity family does not have — that occupancy alone does something.",
+    "limitations": [
+      "Whether the ligand-binding domain is a functional handle in the fusion — whose other end is a strong independent activator — has never been tested by anyone.",
+      "Nobody has stated how much paralogue selectivity this family would need, so 'the requirement is smaller here' is not a claim this repository can make.",
+      "The covalent sub-form's negative result rests on an exposure criterion that fails its own positive control, so it is a rank and not a verdict."
+    ],
+    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "next": {
+      "best_next_action": "State the selectivity requirement this family would actually have to meet — it is currently unsized, and an unsized requirement cannot be shown to be met or missed.",
+      "cost": "$0",
+      "blocked_on": ["BLK-FUNCTIONAL-ACTIONABILITY", "BLK-UNSIZED-REQUIREMENT", "BLK-R4-BINDS"]
+    }
+  },
+
+  {
+    "id": "ST-FUSION-DIRECT",
+    "title": "Targeting the fusion protein's other domains",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Instead of the NR4A3 ligand-binding domain, can the EWSR1 half, the shared low-complexity region, or the DNA-binding domain be targeted?",
+    "thesis": "The fusion has more than one surface. If a different domain is more tractable or more selective, the paralogue problem might be sidestepped rather than solved.",
+    "portfolio_role": "closed_but_informative",
+    "state": {
+      "work_state": "dead",
+      "authorization": "free",
+      "status": "closed",
+      "maturity": "scoped",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "purpose_note": "Every route in this family is PERMANENTLY closed, and the family is kept because knowing why is load-bearing: each one relocates the selectivity problem onto something worse, and the reasons are facts about the objects rather than limits of today's methods. A future capability does not reopen any of them.",
+    "limitations": [
+      "The closures here are definitional or arithmetic over a fixed fact. They may carry no revival trigger and must never appear on a watch list.",
+      "That a route is closed says nothing about whether the disease can be treated — only that this surface is not the way."
+    ],
+    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "next": {
+      "best_next_action": "Nothing. This family is closed on facts about the objects; the correct action is to cite the reasoning when the ideas resurface, which they do.",
+      "cost": "$0"
+    }
+  },
+
+  {
+    "id": "ST-NUCLEIC-ACID",
+    "title": "Nucleic-acid and genetic therapeutics",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Can the fusion be attacked at the RNA or DNA level — where the breakpoint junction is a sequence that exists in no healthy cell?",
+    "thesis": "The junction is the only truly tumour-exclusive feature of this disease. A molecule that reads sequence rather than shape can discriminate perfectly, so the selectivity problem that dominates every protein-directed family simply does not arise. The bet moves entirely to delivery.",
+    "portfolio_role": "hedge",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-05"
+    },
+    "purpose_note": "The strongest structural argument in the portfolio and the family that retires the most blockers — it is the only one that is genuinely fusion-selective rather than target-selective. Its single gate is engineering, not biology.",
+    "limitations": [
+      "Delivery of an oligonucleotide to a non-hepatic solid tumour has no validated solution, and this is not solvable in silico today.",
+      "Predicted specificity rests in part on a conservative heuristic rather than a calibrated cleavage-activity model.",
+      "The vector-delivered sub-routes carry a second, distinct delivery problem that must not be conflated with the oligonucleotide one."
+    ],
+    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "next": {
+      "best_next_action": "Keep the in-silico arc complete and publishable; watch for a delivery technology or a characterised EMC-enriched surface antigen to serve as a targeting arm.",
+      "cost": "$0",
+      "blocked_on": ["BLK-DELIVERY", "BLK-VECTOR-DELIVERY"]
+    }
+  },
+
+  {
+    "id": "ST-IMMUNO",
+    "title": "Immunotherapy and antigen-directed approaches",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Can the immune system be pointed at EMC — via the junction neoantigen, a surface antigen, a cancer-testis antigen, or checkpoint blockade?",
+    "thesis": "If a tumour-restricted antigen exists, the discrimination problem is solved by the immune system rather than by chemistry, and potency comes free. The bet is that EMC presents something the immune system can see.",
+    "portfolio_role": "hedge",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "purpose_note": "The largest family by route count and the one most constrained by a single shared fact: EMC is antigen-cold and the junction is a weak peptide-HLA. Several routes here were downgraded on measurements rather than on reasoning, which is the useful kind of downgrade.",
+    "limitations": [
+      "EMC is antigen-cold and the fusion junction is a weak peptide-HLA — a property of this tumour and this junction, not of any modality here.",
+      "Surface-antigen selectivity was measured on cell-line surrogates rather than on EMC tissue, so the negatives are as provisional as the positives would have been.",
+      "One route's predicted binders span junction seams that a corrected exon index says do not exist; that result is void and the question is open."
+    ],
+    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "next": {
+      "best_next_action": "Regenerate the junction-neoantigen predictions against the corrected exon index — the current binders span seams no reported junction produces, and the regeneration is free.",
+      "cost": "$0",
+      "blocked_on": ["BLK-ANTIGEN-COLD", "BLK-NO-EMC-DATA"]
+    }
+  },
+
+  {
+    "id": "ST-REPURPOSING",
+    "title": "Repurposing approved and late-stage agents",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Is there an already-approved drug whose mechanism plausibly fits EMC's biology and that has not been tried in EMC?",
+    "thesis": "An approved drug skips discovery, synthesis, toxicology and most of the cost of being right. For an ultra-rare disease with no targeted agent, a mechanism-fit repurposing candidate is the shortest path from a computational finding to a patient.",
+    "portfolio_role": "cheap_option",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "purpose_note": "The shortest-latency family in the portfolio and the one whose blockers are almost entirely about DATA rather than chemistry. It carries the repository's earlier computational layer — a target-driven enumeration and a knowledge-graph model's zero-shot ranking — whose divergence from mechanism-based reasoning is itself a reportable limitation result.",
+    "limitations": [
+      "EMC is nearly absent from public functional-genomics data, so mechanism fit is argued from class membership rather than measured in this disease.",
+      "Several routes here rest on a direction of effect that has never been read in EMC tissue; an expression readout would settle them cheaply and does not exist.",
+      "A repurposing hypothesis is a hypothesis. Nothing here asserts efficacy in EMC."
+    ],
+    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "next": {
+      "best_next_action": "Watch for a fetchable public EMC expression dataset — it is the single input that would convert most of this family from class-inherited argument to measurement.",
+      "cost": "$0",
+      "blocked_on": ["BLK-NO-EMC-DATA"]
+    }
+  },
+
+  {
+    "id": "ST-RADIOLIGAND",
+    "title": "Radioligand and theranostic approaches",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Does EMC express a surface or stromal target that a radioligand could reach, giving both imaging and therapy from the same vector?",
+    "thesis": "A radioligand does not need the target to be a driver, only to be present and accessible. That decouples the therapy entirely from the fusion biology that blocks every other family.",
+    "portfolio_role": "cheap_option",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "concept",
+      "confidence": "unknown",
+      "last_verified": "2026-08-05"
+    },
+    "purpose_note": "The family with the cheapest possible negative: a single scan settles whether the target is there. It retires the paralogue and ternary blockers completely, and inherits only the data blocker.",
+    "limitations": [
+      "Target expression in EMC is unmeasured; the case is currently inherited from neuroendocrine and stromal biology rather than observed in this disease.",
+      "A radioligand target is not a driver, so nothing here would be evidence about the fusion."
+    ],
+    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "next": {
+      "best_next_action": "Keep on the ask list — a negative scan kills it cheaply and that is worth having.",
+      "cost": "$0",
+      "blocked_on": ["BLK-NO-EMC-DATA", "BLK-NO-WET-LAB"]
+    }
+  },
+
+  {
+    "id": "ST-DEPENDENCY",
+    "title": "Synthetic lethality and dependency",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "Does the fusion create a vulnerability elsewhere in the cell — a dependency that is not the driver itself but is only essential because the driver is present?",
+    "thesis": "You do not have to drug the driver if the driver has made something else indispensable. A synthetic-lethal partner can be an ordinary, already-druggable protein, which removes both the selectivity problem and the undruggability problem at once.",
+    "portfolio_role": "hedge",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "blocked",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-05"
+    },
+    "purpose_note": "The family that would most cleanly bypass everything blocking the lead family, and the one most starved by the data blocker: it is the family that most needs functional-genomics data EMC does not have.",
+    "limitations": [
+      "The dependency transfer prior came back negative on the available data — a measured premise, revivable only by EMC-specific data.",
+      "One route rests on class inheritance: no NR4A3 fusion has been tested for the phenotype it assumes.",
+      "There is one EMC model in public dependency data, with no CRISPR data, so this family's in-silico half is bounded by a sample size of one."
+    ],
+    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "next": {
+      "best_next_action": "Keep the computed vulnerability assessment as a standalone deliverable with its limit stated inside it; it does not need the cell panel to be publishable.",
+      "cost": "$0",
+      "blocked_on": ["BLK-NO-EMC-DATA", "BLK-CLASS-INHERITANCE", "BLK-NO-WET-LAB"]
+    }
+  },
+
+  {
+    "id": "ST-DISSEMINATION",
+    "title": "Methods and publication as an outcome in itself",
+    "level": "L1",
+    "kind": "strategy_family",
+    "purpose": "What can this program contribute even if no route reaches a patient — and what is the honest publishable content of a failure record?",
+    "thesis": "A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodology and negative results that stop others repeating the same failures. The second is a real contribution and is available now.",
+    "portfolio_role": "dissemination",
+    "state": {
+      "work_state": "future",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "scoped",
+      "confidence": "high",
+      "last_verified": "2026-08-05"
+    },
+    "purpose_note": "The only family with no scientific blocker at all. It is finished when the writing stops, and it is the portfolio's floor: the outcome that holds even if every other family fails.",
+    "limitations": [
+      "A methods paper documents what was done and what failed. It makes no claim about whether any route would work.",
+      "The failure record's value depends on it being complete and honest, including the results that went against the program's own thesis."
+    ],
+    "provenance": { "owner": { "file": "systems/graph/strategies.json" }, "evidence": [] },
+    "next": {
+      "best_next_action": "Nothing blocks it. Write it.",
+      "cost": "$0"
+    }
+  }
+]
