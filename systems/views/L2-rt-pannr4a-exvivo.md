@@ -22,6 +22,21 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-4--the-ex-vivo-pan-nr4a-pole-car-t-manufacturing-additive)): ★ already in the paper as pole 2; under-used as an ARGUMENT
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_PANNR4A_EXVIVO["✓ RT-PANNR4A-EXVIVO"]:::fam
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+✓ Already cleared by this route: `BLK-NOT-FUSION-SELECTIVE`, `BLK-PARALOGUE-DDG`.
+
 ## Scientific rationale
 
 NR4A factors drive T-cell exhaustion, and a manufacturing additive acts on cells outside the patient for a bounded time. That changes the exposure regime entirely: pan-family engagement becomes acceptable, so the paralogue selectivity requirement — the blocker that dominates the whole portfolio — simply does not apply.

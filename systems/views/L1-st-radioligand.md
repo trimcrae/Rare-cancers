@@ -29,6 +29,32 @@ last_verified: 2026-08-05
 - Target expression in EMC is unmeasured; the case is currently inherited from neuroendocrine and stromal biology rather than observed in this disease.
 - A radioligand target is not a driver, so nothing here would be evidence about the fusion.
 
+## Is this family blocked as a unit, or route by route?
+
+```mermaid
+flowchart LR
+  ST_RADIOLIGAND["ST-RADIOLIGAND"]:::fam
+  RT_FAP_RLT["○ RT-FAP-RLT"]:::fam
+  ST_RADIOLIGAND --> RT_FAP_RLT
+  RT_SSTR2["○ RT-SSTR2"]:::fam
+  ST_RADIOLIGAND --> RT_SSTR2
+
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> ST_RADIOLIGAND
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_SSTR2
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_FAP_RLT
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** 1 blocker point at the FAMILY node: every route here inherits it, so the family stands or falls as a unit on that. The rest point at individual routes.
+
+*What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
+
 ## Routes
 
 | route | state | maturity | readiness today | next action |

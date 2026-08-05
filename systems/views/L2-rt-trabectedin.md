@@ -22,6 +22,27 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): NEAR-TERM LEAD — approved, mechanism-fit
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_TRABECTEDIN["○ RT-TRABECTEDIN"]:::fam
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_TRABECTEDIN
+  TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
+  TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+✓ Already cleared by this route: `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
+
 ## Scientific rationale
 
 Trabectedin is approved for soft-tissue sarcoma and its mechanism — interfering with transcription-factor-driven programmes at the DNA minor groove — is a plausible fit for a disease whose entire biology is one aberrant transcription factor. There is a reported EMC responder. For an ultra-rare cancer with no targeted agent, an approved drug with a mechanistic story and a reported response is the shortest path that exists.

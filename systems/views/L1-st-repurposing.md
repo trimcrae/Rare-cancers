@@ -30,6 +30,45 @@ last_verified: 2026-08-05
 - Several routes here rest on a direction of effect that has never been read in EMC tissue; an expression readout would settle them cheaply and does not exist.
 - A repurposing hypothesis is a hypothesis. Nothing here asserts efficacy in EMC.
 
+## Is this family blocked as a unit, or route by route?
+
+```mermaid
+flowchart LR
+  ST_REPURPOSING["ST-REPURPOSING"]:::fam
+  RT_6MP["✓ RT-6MP"]:::fam
+  ST_REPURPOSING --> RT_6MP
+  RT_CARFILZOMIB["○ RT-CARFILZOMIB"]:::fam
+  ST_REPURPOSING --> RT_CARFILZOMIB
+  RT_HDAC_BET["○ RT-HDAC-BET"]:::fam
+  ST_REPURPOSING --> RT_HDAC_BET
+  RT_PPARG_DOWNSTREAM["✓ RT-PPARG-DOWNSTREAM"]:::fam
+  ST_REPURPOSING --> RT_PPARG_DOWNSTREAM
+  RT_RXR["✓ RT-RXR"]:::fam
+  ST_REPURPOSING --> RT_RXR
+  RT_TRABECTEDIN["○ RT-TRABECTEDIN"]:::fam
+  ST_REPURPOSING --> RT_TRABECTEDIN
+  RT_TRABECTEDIN_PPARG["○ RT-TRABECTEDIN-PPARG"]:::fam
+  ST_REPURPOSING --> RT_TRABECTEDIN_PPARG
+
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_CARFILZOMIB
+  BLK_NO_EMC_DATA --> RT_PPARG_DOWNSTREAM
+  BLK_NO_EMC_DATA --> RT_TRABECTEDIN
+  BLK_NO_EMC_DATA --> RT_TRABECTEDIN_PPARG
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_TRABECTEDIN_PPARG
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_HDAC_BET
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
+
+*What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
+
 ## Routes
 
 | route | state | maturity | readiness today | next action |

@@ -22,6 +22,25 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 1, rank 2 — DELIVERABLE
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_ASO["✓ RT-ASO"]:::fam
+  BLK_DELIVERY{{"BLK-DELIVERY — Tumour delivery of an oligonucleotide or a…"}}:::blk
+  BLK_DELIVERY --> RT_ASO
+  TECH_OLIGO_DELIVERY(["TECH-OLIGO-DELIVERY<br/>expected 2029"]):::tech
+  TECH_OLIGO_DELIVERY -.-> BLK_DELIVERY
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+✓ Already cleared by this route: `BLK-NOT-FUSION-SELECTIVE`, `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
+
 ## Scientific rationale
 
 The breakpoint junction is a sequence that exists in no healthy cell. An oligonucleotide reads sequence rather than shape, so it discriminates perfectly where every protein-directed route has to fight a shared fold. This is the only genuinely fusion-selective route in the portfolio, and its in-silico arc is complete: design, off-target screen, breakpoint-favourability scan, and gap-mismatch-resolved candidates.

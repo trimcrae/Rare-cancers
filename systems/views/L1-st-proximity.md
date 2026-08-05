@@ -30,6 +30,67 @@ last_verified: 2026-08-05
 - No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.
 - Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
 
+## Is this family blocked as a unit, or route by route?
+
+```mermaid
+flowchart LR
+  ST_PROXIMITY["ST-PROXIMITY"]:::fam
+  RT_AF3_INTERFACE["○ RT-AF3-INTERFACE"]:::fam
+  ST_PROXIMITY --> RT_AF3_INTERFACE
+  RT_ANDGATE["○ RT-ANDGATE"]:::fam
+  ST_PROXIMITY --> RT_ANDGATE
+  RT_DEGRADER["◐ RT-DEGRADER"]:::fam
+  ST_PROXIMITY --> RT_DEGRADER
+  RT_GLUE["○ RT-GLUE"]:::fam
+  ST_PROXIMITY --> RT_GLUE
+  RT_RIPTAC["○ RT-RIPTAC"]:::fam
+  ST_PROXIMITY --> RT_RIPTAC
+  RT_TCIP["○ RT-TCIP"]:::fam
+  ST_PROXIMITY --> RT_TCIP
+  RT_UBIQ_SELECTIVE["✓ RT-UBIQ-SELECTIVE"]:::fam
+  ST_PROXIMITY --> RT_UBIQ_SELECTIVE
+
+  BLK_ENDPOINT_MD{{"BLK-ENDPOINT-MD — Endpoint-MD selectivity readout E1 retu…"}}:::blk
+  BLK_ENDPOINT_MD --> RT_DEGRADER
+  BLK_INDUCED_COMPLEX{{"BLK-INDUCED-COMPLEX — An induced ternary/bivalent complex…"}}:::blk
+  BLK_INDUCED_COMPLEX --> RT_RIPTAC
+  BLK_INDUCED_COMPLEX --> RT_TCIP
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_TCIP
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_DEGRADER
+  BLK_PARALOGUE_CONTROL{{"BLK-PARALOGUE-CONTROL — The paralogue-discrimination posi…"}}:::blk
+  BLK_PARALOGUE_CONTROL --> RT_DEGRADER
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_ANDGATE
+  BLK_PARALOGUE_DDG --> RT_DEGRADER
+  BLK_PARALOGUE_DDG --> RT_GLUE
+  BLK_PARALOGUE_DDG --> RT_RIPTAC
+  BLK_PARALOGUE_DDG --> RT_TCIP
+  BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
+  BLK_R4_BINDS --> RT_ANDGATE
+  BLK_R4_BINDS --> RT_DEGRADER
+  BLK_R4_BINDS --> RT_GLUE
+  BLK_R4_BINDS --> RT_RIPTAC
+  BLK_R4_BINDS --> RT_TCIP
+  BLK_SELECTIVITY_CONTROL_UNAUTHORIZED{{"BLK-SELECTIVITY-CONTROL-UNAUTHORIZED — The program's only…"}}:::blk
+  BLK_SELECTIVITY_CONTROL_UNAUTHORIZED --> RT_DEGRADER
+  BLK_TERNARY_GEOMETRY{{"BLK-TERNARY-GEOMETRY — Ternary geometry — assembly, E3, e…"}}:::blk
+  BLK_TERNARY_GEOMETRY --> RT_AF3_INTERFACE
+  BLK_TERNARY_GEOMETRY --> RT_ANDGATE
+  BLK_TERNARY_GEOMETRY --> RT_DEGRADER
+  BLK_TERNARY_GEOMETRY --> RT_GLUE
+  BLK_TERNARY_GEOMETRY --> RT_UBIQ_SELECTIVE
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
+
+*What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
+
 ## Routes
 
 | route | state | maturity | readiness today | next action |

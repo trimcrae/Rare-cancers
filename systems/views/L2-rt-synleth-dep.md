@@ -22,6 +22,27 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/degrader-vs-synthetic-lethal.md`](../../research/manuscripts/degrader-vs-synthetic-lethal.md)): DOWNGRADED — DepMap 24Q4 transfer prior negative; ⏸ parked on data, not on ideas
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_SYNLETH_DEP["✓ RT-SYNLETH-DEP"]:::fam
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_SYNLETH_DEP
+  TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
+  TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+✓ Already cleared by this route: `BLK-PARALOGUE-DDG`, `BLK-R4-BINDS`, `BLK-TERNARY-GEOMETRY`.
+
 ## Scientific rationale
 
 A synthetic-lethal partner would be an ordinary, already-druggable protein that is only essential because the fusion is present. That removes both the undruggability problem and the selectivity problem at once, and it is the cleanest theoretical escape from everything blocking the lead family.

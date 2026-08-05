@@ -22,6 +22,35 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md#route-5--the-covalent-probe-at-c397-proposed-as-a-reagent---the-largest-single-demotion)): Tier 3 — the largest single demotion; D ≈ 0 and P is negative rather than merely absent
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_COVALENT_PROBE["✓ RT-COVALENT-PROBE"]:::fam
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_COVALENT_PROBE
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
+  BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
+  BLK_R4_BINDS --> RT_COVALENT_PROBE
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_R4_BINDS
+  BLK_REACH_CATEGORICAL{{"BLK-REACH-CATEGORICAL — The categorical covalent window a…"}}:::blk
+  BLK_REACH_CATEGORICAL --> RT_COVALENT_PROBE
+  TECH_EXPOSURE_CRITERION(["TECH-EXPOSURE-CRITERION<br/>expected 2027H2"]):::tech
+  TECH_EXPOSURE_CRITERION -.-> BLK_REACH_CATEGORICAL
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+✓ Already cleared by this route: `BLK-FUNCTIONAL-ACTIONABILITY`, `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
+
 ## Scientific rationale
 
 A cysteine present in NR4A3 and absent from both paralogues would give categorical rather than thermodynamic discrimination: the bond either forms or it does not. As a chemical probe rather than a therapeutic, it would let someone test whether engaging this domain does anything at all — which is the question the whole occupancy family rests on.

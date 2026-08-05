@@ -22,6 +22,25 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — vector delivery; a 2000s-era technique with no modern solid-tumour clinical footing
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_RIBOZYME["○ RT-RIBOZYME"]:::fam
+  BLK_VECTOR_DELIVERY{{"BLK-VECTOR-DELIVERY — Vector delivery gene-therapy payloa…"}}:::blk
+  BLK_VECTOR_DELIVERY --> RT_RIBOZYME
+  TECH_VECTOR_DELIVERY(["TECH-VECTOR-DELIVERY<br/>expected 2030"]):::tech
+  TECH_VECTOR_DELIVERY -.-> BLK_VECTOR_DELIVERY
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+✓ Already cleared by this route: `BLK-NOT-FUSION-SELECTIVE`, `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
+
 ## Scientific rationale
 
 A ribozyme triggered by the fusion transcript would turn the driver into the thing that kills the cell — the cleanest possible coupling of tumour identity to tumour death.

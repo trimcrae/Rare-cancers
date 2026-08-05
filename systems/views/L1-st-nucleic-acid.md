@@ -30,6 +30,42 @@ last_verified: 2026-08-05
 - Predicted specificity rests in part on a conservative heuristic rather than a calibrated cleavage-activity model.
 - The vector-delivered sub-routes carry a second, distinct delivery problem that must not be conflated with the oligonucleotide one.
 
+## Is this family blocked as a unit, or route by route?
+
+```mermaid
+flowchart LR
+  ST_NUCLEIC_ACID["ST-NUCLEIC-ACID"]:::fam
+  RT_ASO["✓ RT-ASO"]:::fam
+  ST_NUCLEIC_ACID --> RT_ASO
+  RT_ASO_ASK["○ RT-ASO-ASK"]:::fam
+  ST_NUCLEIC_ACID --> RT_ASO_ASK
+  RT_CRISPR_CAS13["○ RT-CRISPR-CAS13"]:::fam
+  ST_NUCLEIC_ACID --> RT_CRISPR_CAS13
+  RT_RIBOZYME["○ RT-RIBOZYME"]:::fam
+  ST_NUCLEIC_ACID --> RT_RIBOZYME
+  RT_SYNPROMOTER["○ RT-SYNPROMOTER"]:::fam
+  ST_NUCLEIC_ACID --> RT_SYNPROMOTER
+
+  BLK_DELIVERY{{"BLK-DELIVERY — Tumour delivery of an oligonucleotide or a…"}}:::blk
+  BLK_DELIVERY --> RT_ASO
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_ASO_ASK
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_ASO_ASK
+  BLK_VECTOR_DELIVERY{{"BLK-VECTOR-DELIVERY — Vector delivery gene-therapy payloa…"}}:::blk
+  BLK_VECTOR_DELIVERY --> RT_CRISPR_CAS13
+  BLK_VECTOR_DELIVERY --> RT_RIBOZYME
+  BLK_VECTOR_DELIVERY --> RT_SYNPROMOTER
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
+
+*What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
+
 ## Routes
 
 | route | state | maturity | readiness today | next action |

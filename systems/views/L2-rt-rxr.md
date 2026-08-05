@@ -22,6 +22,10 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): ✕ CLOSED 2026-08-03 — NR4A3 does not heterodimerise with RXR
 
+## What has to land for this route to move
+
+*This route inherits no blocker and retires none — there is no dependency structure to draw. Its state is decided by the evidence on this page alone.*
+
 ## Scientific rationale
 
 Registered with its closing measurement. Nuclear receptors commonly act as RXR heterodimers, which would give a well-precedented pharmacological handle — but the published evidence is that this receptor does not form a permissive heterodimer with RXR.

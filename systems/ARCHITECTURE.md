@@ -147,6 +147,21 @@ Every one of the forty routes lands in exactly one family, and the checker enfor
 
 ## 4 · The L0 view
 
+> ⚠ **This one is HAND-DRAWN and shows the SHAPE OF THE MODEL — the levels and how they nest.** It is not
+> the portfolio's live state and must never be read as such: it names route counts that were true when it
+> was drawn and that nothing regenerates.
+>
+> **The live diagrams are GENERATED**, from the same graph as every table, and drift-checked by
+> `check_views` like every other view — so they cannot say something the model does not:
+>
+> | diagram | where | what only it can show |
+> |---|---|---|
+> | the landscape | [`views/L0-ecosystem.md`](./views/L0-ecosystem.md) | which blockers cut across **families** — two of them hold down six of the nine |
+> | per family | `views/L1-<family>.md` | whether the family is blocked **as a unit** or route by route |
+> | per route | `views/L2-<route>.md` | the **unblock path**: blocker → the technology that would retire it → its forecast band |
+>
+> Each states what it deliberately left out. An omission a reader cannot see is a lie by composition.
+
 ```mermaid
 graph TD
   L0["<b>L0 · EMC research ecosystem</b><br/>EWSR1::NR4A3 · no wet lab · computation-only"]

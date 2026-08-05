@@ -24,6 +24,60 @@ last_verified: 2026-08-05
 
 **9 strategy families · 40 routes · 17 blockers · 25 technology dependencies.**
 
+## The shape of the portfolio
+
+What one screen has to carry is not the list — it is the **convergence**. The table below states each family correctly; only this shows that two blockers hold down two-thirds of them.
+
+```mermaid
+flowchart LR
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — 6 families"}}:::blk
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 6 families"]]:::perm
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 5 families"}}:::blk
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — 3 families"}}:::blk
+  BLK_R4_BINDS{{"BLK-R4-BINDS — 2 families"}}:::blk
+
+  ST_IMMUNO["ST-IMMUNO ✓ · 9 routes"]:::fam
+  ST_PROXIMITY["ST-PROXIMITY ◐ · 7 routes"]:::fam
+  ST_REPURPOSING["ST-REPURPOSING ✓ · 7 routes"]:::fam
+  ST_NUCLEIC_ACID["ST-NUCLEIC-ACID ✓ · 5 routes"]:::fam
+  ST_DEPENDENCY["ST-DEPENDENCY ✓ · 3 routes"]:::fam
+  ST_FUSION_DIRECT["ST-FUSION-DIRECT ✕ · 3 routes"]:::fam
+  ST_OCCUPANCY["ST-OCCUPANCY ○ · 3 routes"]:::fam
+  ST_RADIOLIGAND["ST-RADIOLIGAND ○ · 2 routes"]:::fam
+  ST_DISSEMINATION["ST-DISSEMINATION ○ · 1 routes"]:::fam
+
+  BLK_NO_WET_LAB --> ST_DEPENDENCY
+  BLK_NO_WET_LAB --> ST_NUCLEIC_ACID
+  BLK_NO_WET_LAB --> ST_OCCUPANCY
+  BLK_NO_WET_LAB --> ST_PROXIMITY
+  BLK_NO_WET_LAB --> ST_RADIOLIGAND
+  BLK_NO_WET_LAB --> ST_REPURPOSING
+  BLK_NOT_FUSION_SELECTIVE --> ST_FUSION_DIRECT
+  BLK_NOT_FUSION_SELECTIVE --> ST_IMMUNO
+  BLK_NOT_FUSION_SELECTIVE --> ST_OCCUPANCY
+  BLK_NOT_FUSION_SELECTIVE --> ST_PROXIMITY
+  BLK_NOT_FUSION_SELECTIVE --> ST_RADIOLIGAND
+  BLK_NOT_FUSION_SELECTIVE --> ST_REPURPOSING
+  BLK_NO_EMC_DATA --> ST_DEPENDENCY
+  BLK_NO_EMC_DATA --> ST_IMMUNO
+  BLK_NO_EMC_DATA --> ST_NUCLEIC_ACID
+  BLK_NO_EMC_DATA --> ST_RADIOLIGAND
+  BLK_NO_EMC_DATA --> ST_REPURPOSING
+  BLK_PARALOGUE_DDG --> ST_FUSION_DIRECT
+  BLK_PARALOGUE_DDG --> ST_OCCUPANCY
+  BLK_PARALOGUE_DDG --> ST_PROXIMITY
+  BLK_R4_BINDS --> ST_OCCUPANCY
+  BLK_R4_BINDS --> ST_PROXIMITY
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A hexagon is a blocker with a named way out; a double-walled box is a **permanent** one — a fact about the biology that no technology retires. An arrow means *holds down*.
+
+⚠ **12 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 17 would render the portfolio as a hairball and bury the 5 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
+
 ## The landscape
 
 | family | thesis | routes | state | role |

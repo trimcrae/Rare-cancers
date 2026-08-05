@@ -29,6 +29,33 @@ last_verified: 2026-08-05
 - The closures here are definitional or arithmetic over a fixed fact. They may carry no revival trigger and must never appear on a watch list.
 - That a route is closed says nothing about whether the disease can be treated — only that this surface is not the way.
 
+## Is this family blocked as a unit, or route by route?
+
+```mermaid
+flowchart LR
+  ST_FUSION_DIRECT["ST-FUSION-DIRECT"]:::fam
+  RT_DBD["✕ RT-DBD"]:::fam
+  ST_FUSION_DIRECT --> RT_DBD
+  RT_EWSR1_PROTEIN["✕ RT-EWSR1-PROTEIN"]:::fam
+  ST_FUSION_DIRECT --> RT_EWSR1_PROTEIN
+  RT_FET_LC_LIGAND["✕ RT-FET-LC-LIGAND"]:::fam
+  ST_FUSION_DIRECT --> RT_FET_LC_LIGAND
+
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_EWSR1_PROTEIN
+  BLK_NOT_FUSION_SELECTIVE --> RT_FET_LC_LIGAND
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_DBD
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
+
+*What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
+
 ## Routes
 
 | route | state | maturity | readiness today | next action |

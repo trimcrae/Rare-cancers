@@ -1048,6 +1048,247 @@ def route_slug(rid):
     return rid.lower()
 
 
+# ───────────────────────────── diagrams ─────────────────────────────
+#
+# ⭐ WHY THESE EXIST. 57 of the 58 generated views were tables. A table is the right instrument for a
+# VALUE and the wrong one for a SHAPE — and the most important fact about this portfolio is a shape:
+# `BLK-NO-WET-LAB` and `BLK-NOT-FUSION-SELECTIVE` each hold down SIX of the nine strategy families. Every
+# route page states its own blockers correctly and none of them can show that convergence; reading it off
+# the tables means opening forty pages and counting, which is exactly the re-derivation this model exists
+# to end.
+#
+# ⛔ A DIAGRAM THAT REDRAWS ITS OWN TABLE IS WASTE. Each one below shows something structural that the
+# table beside it cannot, and each states what it left out — an omission a reader cannot see is a lie by
+# composition.
+#
+# ⚠ THEY ARE GENERATED, so `check_views` re-renders and diffs them like every other view. That is also
+# why every list here is SORTED: a dict-ordering dependence would turn CI red on an unrelated commit.
+
+#: Mermaid node ids must be bare identifiers. `-` terminates one in several contexts and `BLK-NO-WET-LAB`
+#: is full of them, so ids are sanitised rather than interpolated raw.
+_MM_ID_BAD = re.compile(r"[^A-Za-z0-9_]")
+
+#: ⛔ NEVER ENCODE MEANING IN COLOUR ALONE. These render on GitHub in both light and dark themes, and
+#: readers are not all trichromatic. Meaning is carried by NODE SHAPE and EDGE STYLE; the classDefs below
+#: set stroke weight only and deliberately set NO `fill`, because a fill chosen for one theme disappears
+#: in the other. Shapes used, consistently across all three levels:
+#:     ["…"]      a family or a route          — a thing we are doing
+#:     {{"…"}}    a blocker that CAN be retired — a thing in the way, with a way out
+#:     [["…"]]    a PERMANENT blocker           — a fact about the world, double-walled, no way out
+#:     (["…"])    a technology                  — a capability we are waiting for
+#: and edges:  `-->` holds down (real, today)   `-.->` would retire (hypothetical, has not landed)
+MM_CLASSDEF = [
+    "  classDef fam stroke-width:2px;",
+    "  classDef blk stroke-width:2px;",
+    "  classDef perm stroke-width:4px;",
+    "  classDef tech stroke-width:1px,stroke-dasharray:4 3;",
+]
+
+
+def mm_id(x):
+    """A mermaid-safe node id derived from a graph id. Injective over this graph's id namespace."""
+    return _MM_ID_BAD.sub("_", str(x))
+
+
+def plural(n, one, many=None):
+    """`1 blocker`, `2 blockers` — never `1 blocker(s)`.
+
+    Small, and it earns its place: these strings sit under a diagram a reader is already squinting at,
+    and `(s)` is the tell of generated prose nobody proof-read.
+    """
+    return f"{n} {one}" if n == 1 else f"{n} {many or one + 's'}"
+
+
+def mermaid_label(s, width=46):
+    """Text that is safe inside a mermaid node label.
+
+    ⛔ `esc()` IS WRONG HERE AND SILENTLY SO. It escapes table pipes; mermaid cares about entirely
+    different characters. An unescaped `"` or `(` TERMINATES the node, and the resulting parse error
+    renders on GitHub as a BLANK SPACE where the diagram should be — no error, no warning, nothing that
+    any check in this repository would have caught. The graph is full of the hazardous characters
+    already: route display names carry `(`, `)` and `/`, and strategy titles carry `—` and `·`.
+
+    So the label is always emitted wrapped in `["…"]` by the callers, and this function guarantees the
+    inside of those quotes is inert: `"` becomes the `#quot;` entity, brackets are stripped rather than
+    escaped (mermaid's escaping of them is version-dependent and this needs to be boring), and newlines
+    and pipes cannot survive at all.
+    """
+    t = re.sub(r"\s+", " ", str(s or "")).strip()
+    t = t.replace('"', "#quot;")
+    t = re.sub(r"[\[\]{}()<>|\\]", "", t)
+    if len(t) > width:
+        t = t[: width - 1].rstrip() + "…"
+    return t
+
+
+def _families_per_blocker(g):
+    """{blocker id -> sorted set of strategy ids whose routes inherit it}. DERIVED, never typed."""
+    fam = {r["id"]: r.get("strategy") for r in g["routes"]}
+    out = defaultdict(set)
+    for b in g["blockers"]:
+        for rid in b.get("inherited_by") or []:
+            if fam.get(rid):
+                out[b["id"]].add(fam[rid])
+    return {k: sorted(v) for k, v in out.items()}
+
+
+def _blk_node(b, ident=None):
+    """A blocker node. A PERMANENT blocker is drawn differently, and that is not decoration.
+
+    `PERMANENT_KINDS` blockers are facts about what the objects ARE. `[B1]` already refuses any technology
+    claiming to retire one; drawing them identically to a retirable blocker would reintroduce exactly that
+    conflation visually, in the one artifact a reader takes in at a glance rather than reads.
+    """
+    i = ident or mm_id(b["id"])
+    lab = mermaid_label(f"{b['id']} — {b['name']}", 58)
+    return (f'  {i}[["{lab}"]]:::perm' if b["permanent"] else f'  {i}{{{{"{lab}"}}}}:::blk')
+
+
+def diagram_l0(g):
+    """The landscape: nine families, and ONLY the blockers that cut across two or more of them."""
+    fams = _families_per_blocker(g)
+    blk = by_id(g["blockers"])
+    cross = sorted((b for b, f in fams.items() if len(f) >= 2),
+                   key=lambda b: (-len(fams[b]), b))
+    local = sorted(b for b, f in fams.items() if len(f) == 1)
+    if not cross:
+        return ["*No blocker holds down more than one family — the portfolio has no shared chokepoint, "
+                "which would itself be the finding.*", ""]
+
+    out = ["```mermaid", "flowchart LR"]
+    for b in cross:
+        # ⭐ THE FAMILY COUNT GOES IN THE LABEL, not only in the edge fan. A reader who scans rather than
+        # traces still has to be able to see that two of these hold down six families each — which is the
+        # single fact this diagram exists to deliver.
+        n = len(fams[b])
+        lab = mermaid_label(f"{b} — {n} families", 52)
+        out.append(f'  {mm_id(b)}[["{lab}"]]:::perm' if blk[b]["permanent"]
+                   else f'  {mm_id(b)}{{{{"{lab}"}}}}:::blk')
+    out.append("")
+    for s in sorted(g["strategies"], key=lambda x: (-len(x["routes"]), x["id"])):
+        ss = s["summary_state"]
+        lab = mermaid_label(f"{s['id']} {GLYPH.get(s['state']['work_state'], '?')} · "
+                            f"{ss['n_routes']} routes", 40)
+        out.append(f'  {mm_id(s["id"])}["{lab}"]:::fam')
+    out.append("")
+    for b in cross:
+        for sid in fams[b]:
+            out.append(f"  {mm_id(b)} --> {mm_id(sid)}")
+    out += MM_CLASSDEF + ["```", ""]
+    out += [f"**Reading it.** A hexagon is a blocker with a named way out; a double-walled box is a "
+            f"**permanent** one — a fact about the biology that no technology retires. An arrow means "
+            f"*holds down*.\n",
+            f"⚠ **{len(local)} further blocker(s) are NOT drawn here**, because each holds down exactly "
+            f"one family and belongs on that family's page. Drawing all "
+            f"{len(cross) + len(local)} would render the portfolio as a hairball and bury the "
+            f"{len(cross)} that shape it. Every one of them is in "
+            f"[registers/blockers.md](registers/blockers.md).\n"]
+    return out
+
+
+def diagram_l1(s, g):
+    """One family: its routes, and whether it is blocked as a UNIT or route-by-route."""
+    rt, blk = by_id(g["routes"]), by_id(g["blockers"])
+    routes = [rt[r] for r in sorted(s["routes"]) if r in rt]
+    if not routes:
+        return []
+    shared = set(s.get("shared_blockers") or [])
+    per = defaultdict(set)
+    for r in routes:
+        for b in r.get("blockers_inherited") or []:
+            if b not in shared:
+                per[b].add(r["id"])
+
+    out = ["```mermaid", "flowchart LR"]
+    fid = mm_id(s["id"])
+    out.append(f'  {fid}["{mermaid_label(s["id"], 40)}"]:::fam')
+    for r in routes:
+        lab = mermaid_label(f"{GLYPH.get(r.get('state', {}).get('work_state'), '?')} {r['id']}", 40)
+        out.append(f'  {mm_id(r["id"])}["{lab}"]:::fam')
+        out.append(f"  {fid} --> {mm_id(r['id'])}")
+    out.append("")
+    for b in sorted(shared):
+        if b in blk:
+            out.append(_blk_node(blk[b]))
+            out.append(f"  {mm_id(b)} --> {fid}")
+    for b in sorted(per):
+        if b in blk:
+            out.append(_blk_node(blk[b]))
+            for rid in sorted(per[b]):
+                out.append(f"  {mm_id(b)} --> {mm_id(rid)}")
+    out += MM_CLASSDEF + ["```", ""]
+
+    if shared:
+        out.append(f"**Reading it.** {plural(len(shared), 'blocker')} point at the FAMILY node: every route "
+                   f"here inherits {'it' if len(shared) == 1 else 'them'}, so the family stands or "
+                   f"falls as a unit on that. The rest point at individual routes.\n")
+    else:
+        out.append("**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: "
+                   "the routes here are *not* held down by one shared thing. They are blocked "
+                   "individually, for different reasons — so retiring any one blocker frees some routes "
+                   "and not others, and there is no single unlock for the family.\n")
+    out.append("*What this family RETIRES for the portfolio is listed below rather than drawn — it is a "
+               "property of the family, not an edge between these nodes.*\n")
+    return out
+
+
+def diagram_l2(r, g):
+    """One route: the path from blocked to unblocked, and what it has already cleared."""
+    blk, tk, fc = by_id(g["blockers"]), by_id(g["technologies"]), by_id(g["forecasts"])
+    inherited = sorted(r.get("blockers_inherited") or [])
+    retired = sorted(r.get("blockers_retired") or [])
+    if not inherited and not retired:
+        return ["*This route inherits no blocker and retires none — there is no dependency structure to "
+                "draw. Its state is decided by the evidence on this page alone.*", ""]
+
+    out = ["```mermaid", "flowchart LR"]
+    rid = mm_id(r["id"])
+    r_gly = GLYPH.get((r.get("state") or {}).get("work_state"), "?")
+    r_lab = mermaid_label(f"{r_gly} {r['id']}", 40)
+    out.append(f'  {rid}["{r_lab}"]:::fam')
+    for b in inherited:
+        if b not in blk:
+            continue
+        out.append(_blk_node(blk[b]))
+        out.append(f"  {mm_id(b)} --> {rid}")
+        # ⛔ A permanent blocker gets NO incoming technology edge — see _blk_node.
+        if blk[b]["permanent"]:
+            continue
+        for t in sorted(blk[b].get("retired_by_technology") or []):
+            if t not in tk:
+                continue
+            band = ((fc.get(tk[t].get("forecast")) or {}).get("scenarios", {})
+                    .get("expected", {}).get("date_band", "—"))
+            # ⚠ TWO LINES, NOT ONE TRUNCATED ONE. On a single line the longest technology ids run past
+            # the width and the FORECAST BAND — the only reason this node is on the diagram — is what
+            # gets cut. `<br/>` is legal inside a quoted mermaid label and keeps both readable.
+            lab = f"{mermaid_label(t, 44)}<br/>expected {mermaid_label(band, 18)}"
+            out.append(f'  {mm_id(t)}(["{lab}"]):::tech')
+            out.append(f"  {mm_id(t)} -.-> {mm_id(b)}")
+    out += MM_CLASSDEF + ["```", ""]
+
+    unresolved = [b for b in inherited if b in blk and not blk[b]["permanent"]
+                  and not blk[b].get("retired_by_technology")]
+    perm = [b for b in inherited if b in blk and blk[b]["permanent"]]
+    note = ["**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a "
+            "capability that WOULD retire a blocker — dashed because it has not landed, and the date "
+            "beside it is a forecast, not a schedule.\n"]
+    if perm:
+        note.append(f"⛔ **{plural(len(perm), 'of these is permanent', 'of these are permanent')}** "
+                    f"({', '.join('`' + b + '`' for b in perm)}) "
+                    f"— a fact about the biology, drawn double-walled, with no way out by definition. No "
+                    f"technology arrives to fix it.\n")
+    if unresolved:
+        note.append(f"⚠ **{plural(len(unresolved), 'blocker')} here {'has' if len(unresolved) == 1 else 'have'}"
+                    f" no technology named at all** "
+                    f"({', '.join('`' + b + '`' for b in unresolved)}) — not *waiting*, **unaddressed**. "
+                    f"A blocker with no named way out is the most expensive kind, because nothing is "
+                    f"being watched for it.\n")
+    if retired:
+        note.append(f"✓ Already cleared by this route: {', '.join('`' + b + '`' for b in retired)}.\n")
+    return out + note
+
+
 def render_l0(g):
     st, rt = g["strategies"], by_id(g["routes"])
     blk = by_id(g["blockers"])
@@ -1064,9 +1305,13 @@ def render_l0(g):
            "> **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**\n",
            f"**{len(g['strategies'])} strategy families · {len(g['routes'])} routes · "
            f"{len(g['blockers'])} blockers · {len(g['technologies'])} technology dependencies.**\n",
-           "## The landscape\n",
-           "| family | thesis | routes | state | role |",
-           "|---|---|---:|---|---|"]
+           "## The shape of the portfolio\n",
+           "What one screen has to carry is not the list — it is the **convergence**. The table below states"
+           " each family correctly; only this shows that two blockers hold down two-thirds of them.\n"]
+    out += diagram_l0(g)
+    out += ["## The landscape\n",
+            "| family | thesis | routes | state | role |",
+            "|---|---|---:|---|---|"]
     for s in st:
         ss = s["summary_state"]
         gly = GLYPH.get(s["state"]["work_state"], "?")
@@ -1129,6 +1374,8 @@ def render_l1(s, g):
         out += ["## What this family may NOT be used to claim\n"] + \
                [f"- {x}" for x in s["limitations"]] + [""]
 
+    out += ["## Is this family blocked as a unit, or route by route?\n"]
+    out += diagram_l1(s, g)
     out += ["## Routes\n", "| route | state | maturity | readiness today | next action |", "|---|---|---|---|---|"]
     for rid in s["routes"]:
         r = rt[rid]
@@ -1190,6 +1437,8 @@ def render_l2(r, g):
         rel_target = os.path.relpath(os.path.join(REPO, own.get("file", ".")), VIEWS)
         out.append(f"**Grade** (owned by [`{own.get('file','?')}`]({rel_target}{anchor})): "
                    f"{esc(gv.get('value',''))}\n")
+    out += ["## What has to land for this route to move\n"]
+    out += diagram_l2(r, g)
     if r.get("rationale"):
         out += ["## Scientific rationale\n", r["rationale"], ""]
     if r.get("supporting_evidence"):

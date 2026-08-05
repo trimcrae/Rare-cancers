@@ -22,6 +22,25 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-11--target-the-ewsr1-half-at-the-protein-level)): ✕ down — relocates onto an essential gene
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_EWSR1_PROTEIN["✕ RT-EWSR1-PROTEIN"]:::fam
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_EWSR1_PROTEIN
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
+
+✓ Already cleared by this route: `BLK-PARALOGUE-DDG`.
+
 ## Scientific rationale
 
 Registered so the idea, which recurs, has a permanent answer rather than being re-argued. The EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages an essential housekeeping protein by construction. This is a fact about what the objects are, not a limit of any method.

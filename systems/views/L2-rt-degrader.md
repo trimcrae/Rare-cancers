@@ -22,6 +22,51 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/nr4a3-program-map.md`](../../research/manuscripts/nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language)): LEADING driver-directed route; the program's north star — and the route whose four blocking failures reorganise every other row
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_DEGRADER["◐ RT-DEGRADER"]:::fam
+  BLK_ENDPOINT_MD{{"BLK-ENDPOINT-MD — Endpoint-MD selectivity readout E1 retu…"}}:::blk
+  BLK_ENDPOINT_MD --> RT_DEGRADER
+  TECH_E1_POWERED(["TECH-E1-POWERED<br/>expected 2029"]):::tech
+  TECH_E1_POWERED -.-> BLK_ENDPOINT_MD
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_DEGRADER
+  BLK_PARALOGUE_CONTROL{{"BLK-PARALOGUE-CONTROL — The paralogue-discrimination posi…"}}:::blk
+  BLK_PARALOGUE_CONTROL --> RT_DEGRADER
+  TECH_NONCOVALENT_PARALOGUE_CONTROL(["TECH-NONCOVALENT-PARALOGUE-CONTROL<br/>expected 2028"]):::tech
+  TECH_NONCOVALENT_PARALOGUE_CONTROL -.-> BLK_PARALOGUE_CONTROL
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_DEGRADER
+  TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
+  TECH_FE_CRYPTIC_POCKET -.-> BLK_PARALOGUE_DDG
+  BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
+  BLK_R4_BINDS --> RT_DEGRADER
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_R4_BINDS
+  BLK_SELECTIVITY_CONTROL_UNAUTHORIZED{{"BLK-SELECTIVITY-CONTROL-UNAUTHORIZED — The program's only…"}}:::blk
+  BLK_SELECTIVITY_CONTROL_UNAUTHORIZED --> RT_DEGRADER
+  BLK_TERNARY_GEOMETRY{{"BLK-TERNARY-GEOMETRY — Ternary geometry — assembly, E3, e…"}}:::blk
+  BLK_TERNARY_GEOMETRY --> RT_DEGRADER
+  TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
+  TECH_COFOLD_ASSEMBLY -.-> BLK_TERNARY_GEOMETRY
+  TECH_E3_RECRUITER_STRUCTURE(["TECH-E3-RECRUITER-STRUCTURE<br/>expected 2028"]):::tech
+  TECH_E3_RECRUITER_STRUCTURE -.-> BLK_TERNARY_GEOMETRY
+  TECH_OBSERVED_CRL(["TECH-OBSERVED-CRL<br/>expected 2028"]):::tech
+  TECH_OBSERVED_CRL -.-> BLK_TERNARY_GEOMETRY
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
+
+⚠ **1 blocker here has no technology named at all** (`BLK-SELECTIVITY-CONTROL-UNAUTHORIZED`) — not *waiting*, **unaddressed**. A blocker with no named way out is the most expensive kind, because nothing is being watched for it.
+
 ## Scientific rationale
 
 NR4A3 is a transcription factor with no orthosteric ligand, so occupancy-based inhibition has nothing to bind. Degradation only needs the protein to be ENGAGED, not inhibited, and a cryptic pocket that opens under dynamics gives something to engage. Selectivity over the two paralogues is the whole problem: they share the ligand-binding domain fold, so discrimination has to come from a small free-energy difference, from a residue only NR4A3 has, or from the ternary complex's shape.

@@ -22,6 +22,27 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): Deferred; method not strategy
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_AF3_INTERFACE["○ RT-AF3-INTERFACE"]:::fam
+  BLK_TERNARY_GEOMETRY{{"BLK-TERNARY-GEOMETRY — Ternary geometry — assembly, E3, e…"}}:::blk
+  BLK_TERNARY_GEOMETRY --> RT_AF3_INTERFACE
+  TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
+  TECH_COFOLD_ASSEMBLY -.-> BLK_TERNARY_GEOMETRY
+  TECH_E3_RECRUITER_STRUCTURE(["TECH-E3-RECRUITER-STRUCTURE<br/>expected 2028"]):::tech
+  TECH_E3_RECRUITER_STRUCTURE -.-> BLK_TERNARY_GEOMETRY
+  TECH_OBSERVED_CRL(["TECH-OBSERVED-CRL<br/>expected 2028"]):::tech
+  TECH_OBSERVED_CRL -.-> BLK_TERNARY_GEOMETRY
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
 ## Scientific rationale
 
 Rather than designing an induced complex, ask a structure predictor to find one. If a co-folder could propose a druggable interface on the fusion, it would replace several manual design steps at once.

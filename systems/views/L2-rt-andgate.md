@@ -22,6 +22,35 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md)): ⏸ hold — arm-2 chemistry does not exist
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_ANDGATE["○ RT-ANDGATE"]:::fam
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_ANDGATE
+  TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
+  TECH_FE_CRYPTIC_POCKET -.-> BLK_PARALOGUE_DDG
+  BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
+  BLK_R4_BINDS --> RT_ANDGATE
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_R4_BINDS
+  BLK_TERNARY_GEOMETRY{{"BLK-TERNARY-GEOMETRY — Ternary geometry — assembly, E3, e…"}}:::blk
+  BLK_TERNARY_GEOMETRY --> RT_ANDGATE
+  TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
+  TECH_COFOLD_ASSEMBLY -.-> BLK_TERNARY_GEOMETRY
+  TECH_E3_RECRUITER_STRUCTURE(["TECH-E3-RECRUITER-STRUCTURE<br/>expected 2028"]):::tech
+  TECH_E3_RECRUITER_STRUCTURE -.-> BLK_TERNARY_GEOMETRY
+  TECH_OBSERVED_CRL(["TECH-OBSERVED-CRL<br/>expected 2028"]):::tech
+  TECH_OBSERVED_CRL -.-> BLK_TERNARY_GEOMETRY
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
 ## Scientific rationale
 
 Avidity turns two weak interactions into one strong one only when both partners are on the same molecule. A degrader with one arm against the NR4A3 half and one against the EWSR1 half would therefore engage the chimera far more strongly than either wild-type protein — coincidence detection rather than affinity. It is the most elegant answer to the selectivity problem in the portfolio.

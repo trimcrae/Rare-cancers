@@ -30,6 +30,44 @@ last_verified: 2026-08-05
 - Nobody has stated how much paralogue selectivity this family would need, so 'the requirement is smaller here' is not a claim this repository can make.
 - The covalent sub-form's negative result rests on an exposure criterion that fails its own positive control, so it is a rank and not a verdict.
 
+## Is this family blocked as a unit, or route by route?
+
+```mermaid
+flowchart LR
+  ST_OCCUPANCY["ST-OCCUPANCY"]:::fam
+  RT_ASYMMETRIC["✓ RT-ASYMMETRIC"]:::fam
+  ST_OCCUPANCY --> RT_ASYMMETRIC
+  RT_COVALENT_PROBE["✓ RT-COVALENT-PROBE"]:::fam
+  ST_OCCUPANCY --> RT_COVALENT_PROBE
+  RT_MONOVALENT["○ RT-MONOVALENT"]:::fam
+  ST_OCCUPANCY --> RT_MONOVALENT
+
+  BLK_FUNCTIONAL_ACTIONABILITY{{"BLK-FUNCTIONAL-ACTIONABILITY — Is the LBD a FUNCTIONAL ha…"}}:::blk
+  BLK_FUNCTIONAL_ACTIONABILITY --> RT_MONOVALENT
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_COVALENT_PROBE
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_MONOVALENT
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_ASYMMETRIC
+  BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
+  BLK_R4_BINDS --> RT_COVALENT_PROBE
+  BLK_R4_BINDS --> RT_MONOVALENT
+  BLK_REACH_CATEGORICAL{{"BLK-REACH-CATEGORICAL — The categorical covalent window a…"}}:::blk
+  BLK_REACH_CATEGORICAL --> RT_COVALENT_PROBE
+  BLK_REACH_CATEGORICAL --> RT_MONOVALENT
+  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_UNSIZED_REQUIREMENT --> RT_MONOVALENT
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
+
+*What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
+
 ## Routes
 
 | route | state | maturity | readiness today | next action |

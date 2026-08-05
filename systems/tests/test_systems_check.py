@@ -8,6 +8,7 @@ from __future__ import annotations
 import copy
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -468,6 +469,167 @@ def test_the_antigen_technology_does_not_claim_to_retire_a_permanent_blocker(gra
     assert tech["unblocks"]["blockers"] == [], "a permanent blocker cannot be retired by a technology"
     assert set(tech["unblocks"]["routes"]) == {"RT-TCR-IMMTAC", "RT-JUNCTION-NEOANTIGEN", "RT-VACCINE"}
     assert "TRG-JUNCTION-PHLA" in tech["scan_trigger"], "the trigger it exists to catch"
+
+
+# ───────────────────────── the generated diagrams ─────────────────────────
+
+MERMAID_BLOCK = re.compile(r"```mermaid\n(.*?)```", re.S)
+MM_NODE = re.compile(r'^([A-Za-z0-9_]+)\s*(?:\[\[|\{\{|\(\[|\[|\(|\{)')
+MM_EDGE = re.compile(r'^([A-Za-z0-9_]+)\s*(?:--|-\.|==)[^>]*?(?:--|\.-|==)?>\s*([A-Za-z0-9_]+)$')
+
+
+def _mermaid_blocks():
+    import glob
+    for p in sorted(glob.glob(os.path.join(SYS, "views", "**", "*.md"), recursive=True)):
+        text = open(p, encoding="utf-8").read()
+        for m in MERMAID_BLOCK.finditer(text):
+            yield os.path.relpath(p, REPO), m.group(1)
+
+
+def test_every_generated_diagram_parses():
+    """⛔ THE GATE THAT MATTERS MOST — because the failure mode is SILENT.
+
+    A mermaid block with an unescaped `"` renders on GitHub as a BLANK SPACE where the diagram should
+    be. No error, no warning, nothing that any other check in this repository would notice: the file
+    still exists, still has frontmatter, still passes its drift check, still has valid links. The only
+    signal is a human opening the page and seeing nothing.
+
+    So the block is checked structurally: a diagram-type header, every node label quoted with no raw
+    quote inside it, every edge endpoint declared as a node, and balanced brackets.
+    """
+    checked, problems = 0, []
+    for rel, body in _mermaid_blocks():
+        checked += 1
+        lines = [l for l in body.splitlines() if l.strip()]
+        assert lines, f"{rel}: empty mermaid block"
+        if not lines[0].strip().startswith(("flowchart", "graph", "sequenceDiagram")):
+            problems.append(f"{rel}: no diagram-type header"); continue
+        declared, edges = set(), []
+        for ln in lines[1:]:
+            s = ln.strip()
+            if s.startswith(("classDef", "%%", "subgraph", "end", "style", "linkStyle")):
+                continue
+            nd = MM_NODE.match(s)
+            if nd:
+                declared.add(nd.group(1))
+                lab = re.search(r'"(.*?)"', s)
+                if lab is None:
+                    problems.append(f"{rel}: unquoted node label: {s[:60]}")
+                elif '"' in lab.group(1):
+                    problems.append(f"{rel}: raw quote inside label: {lab.group(1)[:40]}")
+                continue
+            e = MM_EDGE.match(s)
+            if e:
+                edges.append((e.group(1), e.group(2))); continue
+            problems.append(f"{rel}: unparsed line: {s[:70]}")
+        for a, b in edges:
+            for n in (a, b):
+                if n not in declared:
+                    problems.append(f"{rel}: edge endpoint never declared: {n}")
+        if body.count("[") != body.count("]") or body.count("{") != body.count("}"):
+            problems.append(f"{rel}: unbalanced brackets")
+    assert checked >= 45, f"only {checked} diagrams found — the generator has stopped emitting them"
+    assert not problems, "\n".join(problems[:15])
+
+
+def test_mermaid_label_neutralises_the_characters_that_break_a_block():
+    """`esc()` escapes table pipes and is WRONG here — mermaid cares about entirely different ones."""
+    f = sc.mermaid_label
+    assert '"' not in f('a "quoted" thing')
+    assert "#quot;" in f('a "quoted" thing')
+    for ch in "[]{}()<>|\\":
+        assert ch not in f(f"danger {ch} here"), f"{ch!r} survived"
+    assert "\n" not in f("two\nlines") and "  " not in f("two   spaces")
+    assert len(f("x" * 200, width=40)) <= 40
+
+
+def test_mermaid_labels_are_safe_on_the_REAL_worst_case_strings(graph):
+    """Not invented hazards — the actual longest and punctuation-heaviest strings in the graph today."""
+    worst = []
+    for coll in ("strategies", "routes", "blockers", "technologies"):
+        for row in graph[coll]:
+            for k in ("title", "display_name", "name"):
+                if row.get(k):
+                    worst.append(row[k])
+    assert worst, "premise check: the graph has labelable strings"
+    for s in worst:
+        out = sc.mermaid_label(s)
+        assert not re.search(r'["\[\]{}()<>|\\\n]', out), f"unsafe label from {s[:60]!r} -> {out!r}"
+
+
+def test_the_landscape_draws_only_the_cross_cutting_blockers(graph):
+    """'Favor clarity over detail' with a defensible edge, not an aesthetic one.
+
+    A blocker on one family is that family's business; a blocker on six is the portfolio's shape. The
+    count is RE-DERIVED here from the graph rather than compared against a typed constant, so the test
+    still holds when a blocker's fan-out changes.
+    """
+    fams = sc._families_per_blocker(graph)
+    expected = {b for b, f in fams.items() if len(f) >= 2}
+    local = {b for b, f in fams.items() if len(f) == 1}
+    assert expected and local, "premise check: the graph has both cross-cutting and local blockers"
+    body = "\n".join(sc.diagram_l0(graph))
+    for b in expected:
+        assert sc.mm_id(b) in body, f"{b} spans {len(fams[b])} families and is missing from the landscape"
+    for b in local:
+        assert sc.mm_id(b) not in body, f"{b} holds down one family and must not be on the landscape"
+    assert str(len(local)) in body, "the view must SAY how many blockers it left out"
+
+
+def test_a_permanent_blocker_is_never_drawn_with_a_way_out(graph):
+    """⛔ The taxonomy's central distinction, enforced in the artifact read at a glance.
+
+    A `fundamental_biological_limit` is a fact about what the objects ARE. `[B1]` already errors if a
+    technology claims to retire one. Drawing it identically to a retirable blocker — or worse, with an
+    incoming 'would retire' edge — would reintroduce exactly that conflation visually.
+    """
+    perm = {b["id"] for b in graph["blockers"] if b["permanent"]}
+    assert perm, "premise check: the graph has at least one permanent blocker"
+    for r in graph["routes"]:
+        body = "\n".join(sc.diagram_l2(r, graph))
+        for b in perm:
+            if sc.mm_id(b) not in body:
+                continue
+            assert f'{sc.mm_id(b)}[["' in body, f"{b} is permanent and must use the double-walled shape"
+            assert f"-.-> {sc.mm_id(b)}" not in body, \
+                f"{b} is permanent — nothing retires it, so it can have no incoming 'would retire' edge"
+
+
+def test_diagram_generation_is_deterministic(graph):
+    """The views are drift-checked by re-render, so a dict-ordering dependence turns CI red later, on
+    an unrelated commit, with a diff nobody can explain."""
+    assert sc.diagram_l0(graph) == sc.diagram_l0(graph)
+    for s in graph["strategies"]:
+        assert sc.diagram_l1(s, graph) == sc.diagram_l1(s, graph)
+    for r in graph["routes"][:8]:
+        assert sc.diagram_l2(r, graph) == sc.diagram_l2(r, graph)
+
+
+def test_an_empty_case_says_so_instead_of_emitting_an_empty_block(graph):
+    """A route with no blockers and a family with none shared are both real and both common."""
+    bare = [r for r in graph["routes"]
+            if not r.get("blockers_inherited") and not r.get("blockers_retired")]
+    for r in bare:
+        body = "\n".join(sc.diagram_l2(r, graph))
+        assert "```mermaid" not in body, "an empty diagram is worse than a sentence"
+        assert "no dependency structure" in body, f"{r['id']} renders nothing at all"
+    unshared = [s for s in graph["strategies"] if not s.get("shared_blockers") and s.get("routes")]
+    assert unshared, "premise check: most families have no shared blocker"
+    for s in unshared:
+        body = "\n".join(sc.diagram_l1(s, graph))
+        assert "No blocker points at the family node" in body, \
+            f"{s['id']} has no shared blocker and must say what that MEANS, not stay silent"
+
+
+def test_meaning_is_never_carried_by_colour_alone():
+    """These render in light and dark on GitHub, and readers are not all trichromatic.
+
+    Shape and edge style carry the meaning; the classDefs deliberately set no `fill`, because a fill
+    picked for one theme disappears in the other.
+    """
+    body = "\n".join(sc.MM_CLASSDEF)
+    assert "fill" not in body, "a fill chosen for one theme vanishes in the other"
+    assert "stroke-width" in body, "shape/weight must be doing the work"
 
 
 # ───────────────────────── documents and links (§2) ─────────────────────────

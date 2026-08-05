@@ -22,6 +22,25 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-7--junction-neoantigen-vaccine--tcr-t--soluble-tcr)): ○ drafted — and now carrying a correction owed
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_JUNCTION_NEOANTIGEN["✓ RT-JUNCTION-NEOANTIGEN"]:::fam
+  BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
+  BLK_ANTIGEN_COLD --> RT_JUNCTION_NEOANTIGEN
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+⛔ **1 of these is permanent** (`BLK-ANTIGEN-COLD`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
+
+✓ Already cleared by this route: `BLK-NOT-FUSION-SELECTIVE`, `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
+
 ## Scientific rationale
 
 The junction is tumour-exclusive at the sequence level, so a peptide spanning it is a true neoantigen shared by every patient with this fusion. That would make one reagent serve the whole disease, which is the only economically plausible shape for an ultra-rare cancer.

@@ -22,6 +22,31 @@ last_verified: 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 1, rank 3 — DELIVERABLE
 
+## What has to land for this route to move
+
+```mermaid
+flowchart LR
+  RT_ATR_ASSESS["✓ RT-ATR-ASSESS"]:::fam
+  BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — Class inheritance, not an EMC mea…"}}:::blk
+  BLK_CLASS_INHERITANCE --> RT_ATR_ASSESS
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_CLASS_INHERITANCE
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_ATR_ASSESS
+  TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
+  TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+✓ Already cleared by this route: `BLK-PARALOGUE-DDG`, `BLK-R4-BINDS`, `BLK-TERNARY-GEOMETRY`.
+
 ## Scientific rationale
 
 FET-fusion sarcomas as a class show replication-stress phenotypes that make them sensitive to inhibitors of the associated checkpoint kinase. If EMC inherits that, an existing clinical-stage drug class becomes relevant without any new chemistry. The computational half — assembling the class argument and the supporting molecular features — is complete.

@@ -30,6 +30,56 @@ last_verified: 2026-08-05
 - Surface-antigen selectivity was measured on cell-line surrogates rather than on EMC tissue, so the negatives are as provisional as the positives would have been.
 - One route's predicted binders span junction seams that a corrected exon index says do not exist; that result is void and the question is open.
 
+## Is this family blocked as a unit, or route by route?
+
+```mermaid
+flowchart LR
+  ST_IMMUNO["ST-IMMUNO"]:::fam
+  RT_B7H3["✓ RT-B7H3"]:::fam
+  ST_IMMUNO --> RT_B7H3
+  RT_CART_SURFACE["✓ RT-CART-SURFACE"]:::fam
+  ST_IMMUNO --> RT_CART_SURFACE
+  RT_ICI_TKI["○ RT-ICI-TKI"]:::fam
+  ST_IMMUNO --> RT_ICI_TKI
+  RT_JUNCTION_NEOANTIGEN["✓ RT-JUNCTION-NEOANTIGEN"]:::fam
+  ST_IMMUNO --> RT_JUNCTION_NEOANTIGEN
+  RT_PANNR4A_EXVIVO["✓ RT-PANNR4A-EXVIVO"]:::fam
+  ST_IMMUNO --> RT_PANNR4A_EXVIVO
+  RT_PRAME_IMMTAC["○ RT-PRAME-IMMTAC"]:::fam
+  ST_IMMUNO --> RT_PRAME_IMMTAC
+  RT_TCR_IMMTAC["○ RT-TCR-IMMTAC"]:::fam
+  ST_IMMUNO --> RT_TCR_IMMTAC
+  RT_TCRT_CTA["✓ RT-TCRT-CTA"]:::fam
+  ST_IMMUNO --> RT_TCRT_CTA
+  RT_VACCINE["✓ RT-VACCINE"]:::fam
+  ST_IMMUNO --> RT_VACCINE
+
+  BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
+  BLK_ANTIGEN_COLD --> RT_CART_SURFACE
+  BLK_ANTIGEN_COLD --> RT_JUNCTION_NEOANTIGEN
+  BLK_ANTIGEN_COLD --> RT_TCR_IMMTAC
+  BLK_ANTIGEN_COLD --> RT_TCRT_CTA
+  BLK_ANTIGEN_COLD --> RT_VACCINE
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_B7H3
+  BLK_NO_EMC_DATA --> RT_CART_SURFACE
+  BLK_NO_EMC_DATA --> RT_ICI_TKI
+  BLK_NO_EMC_DATA --> RT_PRAME_IMMTAC
+  BLK_NO_EMC_DATA --> RT_TCRT_CTA
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_B7H3
+  BLK_NOT_FUSION_SELECTIVE --> RT_CART_SURFACE
+  BLK_NOT_FUSION_SELECTIVE --> RT_PRAME_IMMTAC
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
+
+*What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
+
 ## Routes
 
 | route | state | maturity | readiness today | next action |

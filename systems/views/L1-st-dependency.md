@@ -30,6 +30,34 @@ last_verified: 2026-08-05
 - One route rests on class inheritance: no NR4A3 fusion has been tested for the phenotype it assumes.
 - There is one EMC model in public dependency data, with no CRISPR data, so this family's in-silico half is bounded by a sample size of one.
 
+## Is this family blocked as a unit, or route by route?
+
+```mermaid
+flowchart LR
+  ST_DEPENDENCY["ST-DEPENDENCY"]:::fam
+  RT_ATR_ASSESS["✓ RT-ATR-ASSESS"]:::fam
+  ST_DEPENDENCY --> RT_ATR_ASSESS
+  RT_ATR_PANEL["○ RT-ATR-PANEL"]:::fam
+  ST_DEPENDENCY --> RT_ATR_PANEL
+  RT_SYNLETH_DEP["✓ RT-SYNLETH-DEP"]:::fam
+  ST_DEPENDENCY --> RT_SYNLETH_DEP
+
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> ST_DEPENDENCY
+  BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — Class inheritance, not an EMC mea…"}}:::blk
+  BLK_CLASS_INHERITANCE --> RT_ATR_ASSESS
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_ATR_PANEL
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** 1 blocker point at the FAMILY node: every route here inherits it, so the family stands or falls as a unit on that. The rest point at individual routes.
+
+*What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
+
 ## Routes
 
 | route | state | maturity | readiness today | next action |
