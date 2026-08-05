@@ -31,7 +31,7 @@ Measured 2026-07-31. Every claim below has a run/job ID or a file:line next to i
 
 | # | path | can it reach his inbox? | status now |
 |---|---|---|---|
-| 1 | **GitHub Issue activity** — open/comment/close by anyone, including `github-actions` | **Yes**, via his GitHub notification settings | ⛔ **removed.** `issues:` permission revoked from both alarm workflows; `alarm_issue.py` deleted |
+| 1 | **GitHub Issue activity** — open/comment/close by anyone, including `github-actions` | **Yes**, via his GitHub notification settings | ⛔ **removed.** `issues:` permission revoked from both alarm workflows; `alarm_issue.py` deleted (⚠ *the file no longer exists here — that is the point of this row*) |
 | 2 | **Failed SCHEDULED workflow run** — GitHub emails the repo owner | **Yes**, once per failing run, no memory, no dedupe | ⚠ **still live for 9 workflows** — see §4. Removed from the 2 alarm workflows |
 | 3 | `lane-staleness-watch.yml` mail step | never delivered (SES `AccessDenied`) | ⛔ **step deleted** |
 | 4 | `step1-fanout-autoscale.yml` → "Push the verdict to a human (SES)" (`if: failure()`, ~line 435) | never delivered — passes AWS keys, **not** `MAIL_PASSWORD`, so it takes the SES branch | ⛔ **neutralised at the mailer**, see §3. The file itself belongs to another lane and was not edited |

@@ -1330,6 +1330,23 @@ def check_artifacts(g, f):
                        f"systems/graph/artifact-refs.json")
 
 
+#: Phrases that make a dead-looking code citation legitimate, checked on the line that names it.
+#:
+#: ⚠ TWO GENUINELY DIFFERENT CASES, AND BOTH MUST BE SAYABLE. A name can be absent because the file was
+#: DELETED OR RENAMED — and a document recording that is doing its job, not carrying a dead pointer —
+#: or because it belongs to an EXTERNAL repository, where the whole point of naming it is that we do
+#: not own it. The first draft recognised only "superseded"/"retired"/"does not exist" and so flagged
+#: a row whose own text read "`alarm_issue.py` deleted".
+#:
+#: ⛔ THIS IS NOT A SILENCER. The phrase has to be ON THE LINE, which means a human wrote the reason
+#: next to the citation — exactly the sentence a reader needs. What it cannot do is clear a name that
+#: nobody has explained.
+CODE_CITE_CLEARED = (
+    "uperseded", "etired", "does not exist", "delete", "renamed", "no longer exists",
+    "upstream", "not ours", "external repo", "third-party", "generated at runtime",
+)
+
+
 def check_code_citations(g, f):
     """A backticked `.py` / `.yml` this repository names must be a file it has.
 
@@ -1351,7 +1368,7 @@ def check_code_citations(g, f):
             # a correction keeps the old value; flagging the retention would make the discipline
             # impossible to follow.
             line = text[text.rfind("\n", 0, m.start()) + 1: text.find("\n", m.end())]
-            if "uperseded" in line or "etired" in line or "does not exist" in line:
+            if any(ph in line.lower() for ph in CODE_CITE_CLEARED):
                 continue
             if name not in known:
                 missing[name].add(rel)

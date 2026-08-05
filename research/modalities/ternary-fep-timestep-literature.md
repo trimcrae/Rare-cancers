@@ -46,7 +46,7 @@ final edge (a 2025 cautionary preprint found up to ~3 kcal/mol bias at 4 fs with
 - **OpenFE defaults (verified in source, `OpenFreeEnergy/openfe`):** `IntegratorSettings.timestep = 4.0 fs`;
   `validate_timestep()` allows >2 fs **only** when `hydrogen_mass ≥ 3.0` amu; default `hydrogen_mass=3`,
   `constraints=HBonds`, `lambda_windows=11`, `sampler_method="repex"` (HREX), `minimization_steps=5000`,
-  `softcore_alpha=0.85`. Files: `openmm_utils/settings_validation.py`, `omm_settings.py`,
+  `softcore_alpha=0.85`. Files, all upstream OpenFE (not ours): `openmm_utils/settings_validation.py`, `omm_settings.py`,
   `openmm_rfe/equil_rfe_settings.py`.
 - **HMR → 4 fs basis:** Hopkins, Le Grand, Walker, Roitberg, *JCTC* 2015, 11, 1864 (10.1021/ct5010406).
 - **OpenFE RFE equilibration caveat (snippet-level, docs 403'd):** RFE guide — *"simple equilibration without

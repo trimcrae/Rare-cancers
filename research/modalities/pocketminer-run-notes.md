@@ -32,10 +32,10 @@ independently flags our fpocket **Pocket-5** site, that is genuine cross-method 
 | Run entrypoint (upstream) | `cd src && python xtal_predict.py`, after editing `strucs`, `output_name`, `output_folder`, `nn_path` in the `__main__` block. |
 | Inference API used | `from validate_performance_on_xtals import process_strucs, predict_on_xtals` and `from models import MQAModel`. Model is built with fixed hyperparameters `node_features=(8,50), edge_features=(1,32), hidden_dim=(16,100), num_layers=4, dropout=0.1`; weights via `nn_path="../models/pocketminer"`. |
 | Output format | Per-residue cryptic-pocket **probability in [0,1]**, one value per residue in input order. Upstream writes `{name}-preds.npy` + `{name}-predictions.txt` (`%.4g`, one per line). |
-| Env | conda `pocketminer.yml`: channels conda-forge/defaults; deps `python, numpy, scipy, pandas, tensorflow, tqdm, mdtraj, yaml`. **Authors deliberately removed version pins** ("worked better across OSes"); README notes TF **2.1.0** tested, also compatible with **2.6.2 / 2.9.1**. GPU **not** required. |
+| Env | conda `pocketminer.yml` (⚠ *upstream PocketMiner's file, not ours*): channels conda-forge/defaults; deps `python, numpy, scipy, pandas, tensorflow, tqdm, mdtraj, yaml`. **Authors deliberately removed version pins** ("worked better across OSes"); README notes TF **2.1.0** tested, also compatible with **2.6.2 / 2.9.1**. GPU **not** required. |
 
 ### How our job runs it (differs slightly from upstream, on purpose)
-Instead of editing `xtal_predict.py`, `entry.py` writes a small generated driver (`nr4a3_pm_driver.py`)
+Instead of editing upstream PocketMiner's `xtal_predict.py` (not ours), `entry.py` writes a small driver generated at runtime (`nr4a3_pm_driver.py` — never committed here)
 into the cloned `src/` (so the relative imports resolve) that calls the **same** `process_strucs` /
 `predict_on_xtals` API on our one structure, then dumps `nr4a3_lbd-preds.npy` + a `residue_order.json`
 (read independently via mdtraj) so scores map **exactly** back to UniProt residue numbers.

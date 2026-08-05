@@ -136,7 +136,7 @@ on the L4 (Tier 1, measured), this is the PRIMARY throughput lever for the matri
 ## TIER 3 — free settings micro-wins (reviewed)
 
 - **online / real-time analysis interval.** openmmtools runs periodic online MBAR during the HREX loop (writes
-  `simulation_real_time_analysis.yaml`). For our **fixed-length** 5 ns runs we do **not** use early-termination,
+  upstream GROMACS/OpenFE's `simulation_real_time_analysis.yaml`, not ours). For our **fixed-length** 5 ns runs we do **not** use early-termination,
   so that periodic MBAR solve is strictly overhead. **BUT** the AWS ETA monitor (`nr4a3_rbfe_sagemaker.py`)
   *reads* that YAML to report progress. ⇒ **reviewed no-op: keep it.** The overhead is small (a CPU MBAR every
   ~200 iters) and it buys live ETA. Revisit only if profiling shows it stalls the GPU loop materially.

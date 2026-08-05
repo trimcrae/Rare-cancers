@@ -1440,3 +1440,45 @@ def test_slugify_matches_github_where_it_used_to_diverge():
     # The properties the existing docstrings already promise, held so a future edit cannot lose them.
     assert sc.slugify("### 2 · THE RANKED LIST") == "2--the-ranked-list", "· leaves its two spaces"
     assert not sc.slugify("## Plain heading").startswith("-"), "leading # marks must be stripped"
+
+
+def test_a_dead_code_pointer_still_fires_after_the_external_allowance(graph):
+    """[K3] must not have become an off switch.
+
+    `CODE_CITE_CLEARED` lets a document say a name is DELETED, RENAMED or belongs to an EXTERNAL
+    repository — all three are legitimate reasons a `.py`/`.yml` this repo names is not a file it has,
+    and the first draft flagged a row whose own text read "`alarm_issue.py` deleted".
+
+    ⛔ THE PHRASE MUST BE ON THE LINE, which means a human wrote the reason beside the citation. A name
+    nobody has explained still fires — which is how CLAUDE.md §6's three phantom exemplars were found.
+    """
+    f = sc.Findings()
+    sc.check_code_citations(graph, f)
+    assert [w for w in f.warns if "[K3]" in w] == [], "\n".join(f.warns)
+
+    import tempfile
+    d = os.path.join(REPO, "research", "modalities")
+    probe = os.path.join(d, "k3-probe-DELETEME.md")
+    try:
+        with open(probe, "w", encoding="utf-8") as fh:
+            fh.write("---\nid: DOC-K3-PROBE\ntitle: probe\nkind: memo\nstatus: live\n"
+                     "purpose: probe\nscope: probe\naudience: [maintainers]\n"
+                     "last_verified: unverified\n---\n\nRun `no_such_module_anywhere.py` to do the thing.\n")
+        f = sc.Findings()
+        sc.check_code_citations(graph, f)
+        assert any("no_such_module_anywhere.py" in w for w in f.warns), \
+            "an unexplained dead code pointer must still fire"
+
+        # ...and the SAME citation, with a reason beside it, must not.
+        with open(probe, "w", encoding="utf-8") as fh:
+            fh.write("---\nid: DOC-K3-PROBE\ntitle: probe\nkind: memo\nstatus: live\n"
+                     "purpose: probe\nscope: probe\naudience: [maintainers]\n"
+                     "last_verified: unverified\n---\n\nUpstream's `no_such_module_anywhere.py` "
+                     "(not ours) does the thing.\n")
+        f = sc.Findings()
+        sc.check_code_citations(graph, f)
+        assert not any("no_such_module_anywhere.py" in w for w in f.warns), \
+            "a citation whose line explains the absence is not a dead pointer"
+    finally:
+        if os.path.exists(probe):
+            os.remove(probe)

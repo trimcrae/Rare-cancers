@@ -1025,7 +1025,7 @@ the family metad (in flight) is the fix.
   flush/sync the NetCDF during production (`write_last_iteration()` calls `sync()`); the durability gap is
   SageMaker's cross-file sync of a PAIR of live NetCDF files, not a missing flush. (2) **File SIZE is not a valid
   integrity signal** — HDF5/NetCDF updates in place; you must READ a frame (`read_last_iteration` + actually read
-  the sampler states) to know a checkpoint is resumable. (3) the `simulation_real_time_analysis.yaml` is
+  the sampler states) to know a checkpoint is resumable. (3) upstream GROMACS/OpenFE's `simulation_real_time_analysis.yaml` is
   **append-only monitoring**, not authoritative — a stale "ghost" iteration in it is expected; never decide
   resume state from it. (4) The old **checkpoint-uploader sidecar was never actually validated for its purpose**
   — the leg never reached production, so its uploads were the constant iteration-0 files; do NOT rely on it.

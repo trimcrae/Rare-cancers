@@ -219,7 +219,7 @@ as a causal or definitive figure.
 
 ## 6. Reproducibility
 Search, triage, extraction and pooling are scripted (`scripts/fetch-paper.mjs`,
-`triage-literature.mjs`, `validate.mjs`; data in `research/data/emc-clinical-registry.json`). Commit
+`triage-literature.mjs`, `validate-registry.mjs` (⚠ *renamed from `validate.mjs` when the patient-facing site was retired*); data in `research/data/emc-clinical-registry.json`). Commit
 hash to be cited in the final manuscript.
 
 ## 7. Author, contributions & disclosures

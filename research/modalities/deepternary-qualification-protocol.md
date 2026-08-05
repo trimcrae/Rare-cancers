@@ -93,7 +93,7 @@ example** before any scientific evaluation.
 > **STEP-1 SBOM / PROVENANCE FROZEN (2026-07-13):**
 > - Repo: `github.com/youqingxiaozhua/DeepTernary` — pinned commit **`827821dccca31a5918bd0355e2d6bf70c072b6dd`**
 >   (2025-11-29). **License: Apache-2.0** (confirmed in-repo).
-> - Runs on **CPU** (`predict_cpu.py` / `predict.py --device cpu`) — no GPU needed for qualification → **free CPU
+> - Runs on **CPU** (upstream DeepTernary's `predict_cpu.py` / `predict.py --device cpu`, not ours) — no GPU needed for qualification → **free CPU
 >   GitHub-Actions runner**. Env: Python 3.10, `mmengine==0.10.3`, `mmcv-lite==2.2.0`, `rdkit==2023.9.3`,
 >   `biopandas==0.5.1`, `dgl==2.3.0`, `POT==0.9.4`, `torch==2.3.1`. **CAVEAT:** upstream `requirements.txt` pins
 >   **CUDA** wheels (`torch/dgl +cu121`); the CPU harness swaps in CPU wheels (`torch==2.3.1` cpu index +
@@ -146,7 +146,7 @@ example** before any scientific evaluation.
 > **✅ STEP-2 RESULT (2026-07-13, CI run 29243531774; self-reported via `deepternary-qualify-cache` branch).**
 > Ran on CPU (avg 9.3 s/prediction) after fixing 2 bugs the self-report surfaced: released checkpoint nests its
 > config in a timestamped subdir → pass `--config deepternary/configs/protac.py --checkpoint .../checkpoint.pth`
-> explicitly; and `predict_cpu.py` hardcodes `device='cuda'` → patched to `cpu`. **Preliminary best-of-16**
+> explicitly; and upstream's `predict_cpu.py` (not ours) hardcodes `device='cuda'` → patched to `cpu`. **Preliminary best-of-16**
 > (not 40), N=5, **SOFTWARE-REPRODUCTION control** (these are in DeepTernary's own benchmark — NOT independent
 > validation).
 >
@@ -219,10 +219,11 @@ benchmarks.)
 > Alternates on file: 9N88 (VHL/IRE1), 9YA9 (CRBN/BCL6), 9HYO (VHL/SMARCA2, dual-use w/ the ternary-coop calib
 > panel). **Risk-#5 leakage re-check at reveal is still required** (homologues, target-pair priors, scaffold
 > analogues; exclusion-set membership is necessary, not sufficient). **Next:** understand DeepTernary's unbound-input
-> format from `predict.py`, source separate apo/binary POI+E3 PDBs per control (CI, sourced not guessed), build the
+> format from upstream `predict.py` (not ours), source separate apo/binary POI+E3 PDBs per control (CI, sourced not guessed), build the
 > blind-prep + prediction + DockQ harness, freeze predictions, THEN unseal natives.
 
-> **DeepTernary UNBOUND-INPUT CONTRACT (2026-07-13, CI run 29246136067 read of `predict.py`/`predict_cpu.py`).**
+> **DeepTernary UNBOUND-INPUT CONTRACT (2026-07-13, CI run 29246136067 read of upstream `predict.py` /
+> `predict_cpu.py`, not ours).**
 > `predict_one_unbound(name)` reads from `output/protac22/<name>/`; the files a blind-prep must CREATE per control:
 > - `unbound_protein1.pdb` — POI, from a structure that is NOT the native ternary.
 > - `unbound_lig1.pdb` — the WARHEAD fragment coords in that POI frame (from a POI+warhead binary co-crystal).

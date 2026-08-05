@@ -24,7 +24,7 @@ confirmation a hostile reviewer could demand; ✗ = found wrong and fixed.
 ## Replication (re-run, expect no drift)
 - `node research/hypotheses/build-candidates.mjs` → `candidates.json` byte-identical to committed. ✓
 - Figures are inline Markdown tables + a Mermaid diagram (no SVG); they render on GitHub.
-- `validate.mjs`, `validate-research.mjs`, `smoke-render.mjs` → all PASS. ✓
+- `validate-registry.mjs`, `validate-research.mjs` → all PASS. ✓ ⚠ *As-run those were `validate.mjs` and `smoke-render.mjs`; the first was RENAMED and the second DELETED with the patient-facing site (2026-08-05, MIGRATION §3.2). The verdict stands — the names moved.*
 - TxGNN outputs regenerate via CI (`txgnn-run.yml`); EMC ranks + stress-test reproduced. ✓
 
 ## Reference identifiers (all 16)

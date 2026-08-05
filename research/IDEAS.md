@@ -248,7 +248,7 @@ runnable out-of-the-box in 2026+.
 
 ### Why it could be high-value
 - **The dependency rot is a real, shared barrier.** TxGNN pins **DGL 0.5.2** + an old
-  PyTorch; its `model.py` uses DGL 0.5.2 heterograph/message-passing APIs that broke in
+  PyTorch; upstream PocketMiner's `model.py` (not ours) uses DGL 0.5.2 heterograph/message-passing APIs that broke in
   DGL 0.6→0.7→1.0→2.x. Anyone trying to run it today hits this (we did). A clean
   torch-2.x / DGL-2.x port would unblock many rare-disease researchers — high leverage
   for a small, well-scoped repo.
