@@ -25,7 +25,11 @@ _backfilled: true
 > [`emc-atri-prereg.md`](./emc-atri-prereg.md) (the preregistration — criteria fixed in advance),
 > [`emc_fet_idr_census.py`](./emc_fet_idr_census.py) → [`emc-fet-idr-census.json`](./emc-fet-idr-census.json)
 > (the structural precondition, computed), [`fet_ddr_axis_scan.py`](./fet_ddr_axis_scan.py) →
-> [`fet-ddr-axis-scan.json`](./fet-ddr-axis-scan.json) (the DepMap/GDSC public-data analysis), and
+> [`fet-ddr-axis-scan.json`](./fet-ddr-axis-scan.json) (the DepMap/GDSC public-data analysis),
+> ⭐ [`emc_atr_vulnerability.py`](./emc_atr_vulnerability.py) → [`emc-atr-vulnerability.json`](./emc-atr-vulnerability.json)
+> → [`../manuscripts/emc-atr-vulnerability-assessment.md`](../manuscripts/emc-atr-vulnerability-assessment.md)
+> (**the route's own module and its GRADED output — tier `WEAK`**; `emc-post-degrader-options.md` route 1a calls it
+> "its module"), [`emc_fet_construct_designs.py`](./emc_fet_construct_designs.py), and
 > [`emc-atri-outreach-DRAFT.md`](./emc-atri-outreach-DRAFT.md) (⛔ **held, not sent**). The route's
 > rationale and rank: [`../manuscripts/emc-post-degrader-options.md`](../manuscripts/emc-post-degrader-options.md).
 > Both scans run from `depmap-dependency.yml`; **neither needs a GPU or a rental.**
@@ -34,7 +38,7 @@ _backfilled: true
 this alongside the plan ([`/nr4a3-program-map.md`](../manuscripts/nr4a3-program-map.md)), the
 manuscript ([`../manuscripts/nr4a3-degrader-paper.md`](../manuscripts/nr4a3-degrader-paper.md)) and the
 pre-registration ([`nr4a3-druggability-prereg.md`](./nr4a3-druggability-prereg.md)) before launching
-anything. Last updated 2026-06-26.
+anything. Last updated 2026-08-06. ⚠ *Superseded, retained: "Last updated 2026-06-26" — the file carried content through 2026-07-27 and frontmatter `date: 2026-08-05` while its own stamp read six weeks earlier.*
 
 > **★ RESUMING THE NR-V04 RETROSPECTIVE (RUNG 4)? That lane has its OWN handoff — read it instead of this file:**
 > **[`nrv04-retrospective-handoff-2026-07-24.md`](./nrv04-retrospective-handoff-2026-07-24.md)**. It carries the
@@ -54,8 +58,7 @@ anything. Last updated 2026-06-26.
 > program is now the Track B ternary workflow, expressed as trimcrae's **three-step spine**: **(1)** verify FEP
 > converges on the **known literature NR4A3 molecule** — congeneric **RBFE** on Zaienne cmpd19 (RBFE not ABFE;
 > "converges" = reproducible *relative* ΔG on modeled druggable conformers, no crystal pose to match);
-> **(2)** verify we can **replicate the patented NR4A1 degrader's selectivity in-silico** — the retrospective
-> **NR-V04** functional control (the GATE); **(3)** **design + ternary-test degraders on the cmpd19 anchor — a
+> **(2)** ✅ **ANSWERED — the retrospective NR-V04 functional control RAN and returned `DISCORDANT`** (`nrv04-retro-verdict.json`: `panel_complete: true`, statistic −0.282533, p 0.392857, 56 arrangements). ⚠ *Superseded, retained: "the GATE", and "Steps 1 & 2 are parallel; 3 gates on both." NR-V04 is a **holdout, not the calibrator** — it runs AFTER the known-answer SMARCA2/VHL control (STRATEGY.md Appendix B) — and the roadmap §6a files "NR-V04 as the positive control" in its ✕ DEAD register, because Cys551 is unique to NR4A1 and confounds it;* **(3)** **design + ternary-test degraders on the cmpd19 anchor — a
 > predicted selective candidate is the win** (only after the gate passes). Steps 1 & 2 are parallel; 3 gates on both. RBFE is
 > KEPT as the warhead input; **denovo_401 → side comparator only**; the ABFE λ-repair / replicates / T4L
 > benchmark are shelved. Much of the ABFE/denovo_401 detail below is now **historical context**, not the active
@@ -69,6 +72,7 @@ anything. Last updated 2026-06-26.
 > `S = min_c M − λ·SD − γ·max B` and its gates: **[`nr4a3-ensemble-redesign-plan.md`](./nr4a3-ensemble-redesign-plan.md)**.
 > The scorer is built + unit-tested (`ensemble_robust_score.py`); cheap redesign work is **gated on the
 > harmonized pocket-tracking audit landing**, expensive new-compound ABFE on the λ-repair / T4L-v2 work.
+> ⚠ *Superseded, retained — BOTH halves. (a) ✅ **GATE-1 (cheap work) CLEARED 2026-07-11**: the harmonized > pocket-tracking audit landed, and `nr4a3-ensemble-redesign-plan.md` says so on the same date this block was > written. (b) The λ-repair and the T4L benchmark are SHELVED (see the Track A/B banner above), so gating > anything on them gates it on work nobody intends to do.*
 
 ## 2026-07-11 SESSION — published-warhead registry (Workstream B) built + Gate-2 docking benchmark SPEC'd (ready-to-run)
 
@@ -194,7 +198,7 @@ selectivity). **STATUS (2026-06-28) — MATRIX COMPLETE.**
     NR4A1+NR4A3 engagement while sparing NR4A2, so nothing to design away from here. Off-target leakage
     instead leans NR4A2 (`resveratrol` → NR4A1+NR4A2 cell; `CHEMBL475`/`CHEMBL196` → NR4A2-side).
   - **Census:** NR4A3-only 4, pan-NR4A 3, none 3, NR4A2+NR4A3 1, NR4A2-only 1, NR4A1+NR4A2 1, NR4A1+NR4A3 0.
-- **NEXT ACTION:** the **MM-GBSA / FEP quantitative tier** (matrix step 2 below) — docking dG here is a
+- ⚠ *Superseded, retained: "**NEXT ACTION:** the **MM-GBSA / FEP quantitative tier**" — MM-GBSA is DONE and the FEP/ABFE tier ran (four legs 2026-07-09/10, three replicates in paper §2.8).* Historical context: the MM-GBSA / FEP quantitative tier (matrix step 2 below) — docking dG here is a
   triage prior, not affinity, so the margins nominate chemotypes, not a lead. **Flag the FEP cost before
   launching** (selectivity FEP on 1–3 leads × 3 paralogues is the expensive step; MM-GBSA endpoint rescoring
   is cheap and should go first). **Full result + robustness + FEP go/no-go memo:
@@ -328,6 +332,29 @@ affinity/selectivity from the orthosteric binder alone; source it from the **ter
 FEP budget is spent, spend it confirming 401 or on the ternary geometry, not on chasing an orthosteric win the
 cheap tiers say isn't there. **No FEP/metad launched this session; all runs cheap-tier (<$10 each).**
 
+## ⛔ READ THIS BEFORE ANY denovo_401 MATERIAL BELOW — three 2026-08-03 results refute its foundations
+
+**Everything from here on about `denovo_401` was written before 2026-08-03 and none of it carries these.
+They are not caveats on the candidate; they are failures of the things the candidate's claims REST on.**
+
+1. **`R3` ✕ REFUTED — the receptor it was generated into fails its own gate.** The exact structure
+   (`nr4a3-release-druggable.pdb` = release rep0 frame 95) scores **0.259 against D\* = 0.53** under the
+   harmonized detector → `GATE_A_FAIL_BELOW_DSTAR`
+   ([`r3-generation-frame-harmonized.json`](./r3-generation-frame-harmonized.json)). A candidate cannot be
+   better than the pocket it was designed into.
+2. **`R5` — the pose is not a singular object, so every pose-conditional claim must be marginalised over
+   poses.** Six usable poses, 15 pairs: pocket-frame ligand RMSD **median 7.006 Å** against a whole-molecule
+   flip of 6.84 Å, and only **1 of 15** pairs agrees within 2 Å, with `cross_method_evidence: NONE`
+   ([`pose-convergence-401.json`](./pose-convergence-401.json)). ⚠ The docking SCORES cannot tell these poses
+   apart (−7.83 to −6.61 kcal/mol over six), so score agreement is not pose agreement.
+3. **`R14-a` — the anti-target panel cannot currently grade anything.** Its self-control FAILED on 3 of 10
+   receptors (`CYP3A4`, `PPARG`, `PXR`), `panel_readable: false`, and the repair ran and did **not** restore
+   readability ([`antitarget-selfcontrol.json`](./antitarget-selfcontrol.json)). Off-target statements below
+   rest on a panel that fails its own control.
+
+⚠ This banner exists because of the warning this file already carries about itself: a stale headline hides a
+headline negative. The sections below are retained as the record of what was believed and when.
+
 ## ✅ denovo_401 SURVIVES MULTI-SNAPSHOT (2026-06-30) — first FEP-worthy selective lead
 Ran the multi-snapshot de-noising tier on `denovo_401` (run 28469414513, report 28470289876, `nr4a3-denovo-mmgbsa-v2-ms`):
 | candidate | single-snapshot | **multi-snapshot mean ± SD** | NR4A3 ΔG | NR4A1 ΔG | NR4A2 ΔG | margin − SD | verdict |
@@ -338,7 +365,7 @@ denovo_401 *holds*: the multi-snapshot margin (+12.83) is barely below its singl
 is small (vs the 4–6 that buried 393/780), and **margin − SD = +9.85 ≫ 0** — the FEP-worthy bar is cleanly met.
 NR4A3 binding is strong and favorable (−38.18 kcal/mol) with both paralogues ~13–15 kcal/mol weaker. So the
 de-noising tier is *discriminating*, not destroying: it killed a noise artifact (393) and confirmed a real
-lead (401). **denovo_401 is the first candidate queued for FEP** (do NOT launch yet per trimcrae). SMILES
+lead (401). ⚠ *Superseded, retained: "**denovo_401 is the first candidate queued for FEP** (do NOT launch yet per trimcrae)." It ran — four ABFE legs 2026-07-09/10, three replicates reported in paper §2.8, and the block is now HELD on a soft-core-tail λ-overlap defect rather than on an authorization.* SMILES
 `COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1` (MW 304, QED 0.80, SA 3.87, clean — no structural
 alerts). Next: keep the multi-snapshot screen running over the remaining v3deep pool to find siblings, and
 scaffold-seed lead-opt around denovo_401's chemotype.
@@ -958,7 +985,7 @@ the family metad (✅ landed — all three `*-metad` ensembles are in S3 and the
            sparse → the real lever is re-generation with the filter in-loop over a larger pool (Tier 2), not
            docking the existing set.** `gpu-denovo-dock-aws.yml` now takes `developable_only` (default 1) +
            `receptor_mode` (release|metad, the Tier-1 #3 state-matched re-dock).
-       - **NEXT (gated):** `denovo_15` is the program's first bona-fide in-silico NR4A3-selective warhead
+       - ⚠ *Superseded, retained: "**NEXT (gated):** `denovo_15` is the program's first bona-fide in-silico NR4A3-selective warhead …" — refuted by this file's OWN chemistry red-team below (carbamic acid, cyclopentadiene, SA 5.08 against the campaign's own cut) and superseded by denovo_401 becoming the sole lead.* Historical: `denovo_15` was the program's first in-silico NR4A3-selective warhead
          candidate. Options: (a) selectivity FEP on denovo_15 (the defensible affinity tier; $-hundreds,
          ~1–3 wk serial — gate hardest); (b) ternary-complex modeling (`gpu-ternary-aws.yml`) to turn the
          selective binder into a selective degrader; (c) pan campaign (conserved-core resi_list) for contrast.
