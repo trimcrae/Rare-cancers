@@ -1,0 +1,68 @@
+# Baked Boltz-2 co-folding image — `triskit23/boltz`.
+#
+# ⛔ WHY THIS FILE EXISTS. CLAUDE.md §6: NEVER BUILD AN ENVIRONMENT ON A MACHINE WE ARE PAYING FOR. The repo's
+# only Vast co-fold lane (`nrv04_vast_launch._COFOLD_PIPELINE`) still runs, ON THE BILLING HOST, off stock
+# `pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime`:
+#       apt-get update && apt-get install …
+#       pip install awscli boltz==2.2.1 cuequivariance-torch cuequivariance-ops-torch-cu12
+# plus Boltz's own ~3 GB weight download at first inference. That is the EXACT shape of the 2026-08-01
+# incident CLAUDE.md §6 records: a rented RTX 4090 solving an environment before one second of science, with
+# three of four dead hosts on that lane dying inside the fetch window. Measured elsewhere in §6: ~15–25 min of
+# solve against a ~2–4 min pull — and here that is BILLED time.
+#
+# ⭐ THE WEIGHTS ARE BAKED, NOT JUST THE PACKAGES, and that is the load-bearing half. A `pip install` is a few
+# minutes; the ~3 GB `download_boltz2` fetch is the part with no integrity guarantee and no retry, and it is
+# what killed hosts. An image pull is digest-verified, layer-cached and retried by the runtime, and a failed
+# PULL means the job never starts rather than half-starting and dying with rc=1 and no attribution.
+#
+# ★ THE MARKER FILE IS THE CONTRACT. `/opt/boltz/BAKED` is what a launcher tests to skip its install step.
+# A launcher that greps for a package name would be guessing; a launcher that tests this path is reading a
+# statement the image makes about itself. Do not remove it, and do not create it in any image that has not
+# actually completed the download step below.
+#
+# Bake: Actions -> "Boltz image bake (DockerHub)" -> Run workflow. Touches no GPU and rents nothing.
+# Consumed by: research/modalities/fusion_cofold_run.py (rung `R13-b`), and available to any co-fold lane.
+FROM pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    BOLTZ_CACHE=/opt/boltz/cache
+
+# Everything the co-fold pipeline apt-installs on the billing host today.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        git curl wget ca-certificates tar gzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# ⚠ PINNED, and pinned to the SAME spec the two existing co-fold lanes use — `nrv04_vast_launch.BOLTZ_SPEC`
+# is `boltz==2.2.1`. A baked image that floats while the lanes pin would make "same predictor" untrue across
+# providers, which is the parity argument CLAUDE.md §6 makes for the ternary image.
+ARG BOLTZ_SPEC=boltz==2.2.1
+RUN pip install --no-cache-dir "${BOLTZ_SPEC}" \
+        cuequivariance-torch cuequivariance-ops-torch-cu12 \
+        awscli boto3
+
+# The weights + CCD, fetched HERE (free CI runner) instead of there (billed GPU). Boltz downloads into
+# $BOLTZ_CACHE on first use; doing it at build time is the whole point of this image.
+# ⛔ A TRUNCATED CCD IS NOT A COSMETIC FAULT — CLAUDE.md §6 records six seeds failing at 7.2 s each on a
+# missing cysteine. So the fetch is followed by a size assertion and the BAKED marker is written only if it
+# passes: an image that silently carries a partial cache is worse than one that carries none.
+RUN mkdir -p "${BOLTZ_CACHE}" \
+ && python -c "from boltz.main import download_boltz2; from pathlib import Path; import os; download_boltz2(Path(os.environ['BOLTZ_CACHE']))" \
+ && python - <<'PY'
+import os, sys, pathlib
+cache = pathlib.Path(os.environ["BOLTZ_CACHE"])
+total = sum(p.stat().st_size for p in cache.rglob("*") if p.is_file())
+files = sum(1 for p in cache.rglob("*") if p.is_file())
+print("[bake] boltz cache: %d files, %.2f GB" % (files, total / 1e9))
+# A real Boltz-2 cache is multiple GB. Anything much smaller means the download was truncated or silently
+# skipped, and a silently-skipped download is exactly what a BAKED marker must never certify.
+if total < 1_000_000_000:
+    sys.exit("[bake] REFUSING to mark this image BAKED: cache is %.2f GB, which is not a complete "
+             "Boltz-2 download." % (total / 1e9))
+PY
+RUN mkdir -p /opt/boltz && date -u +%FT%TZ > /opt/boltz/BAKED \
+ && echo "boltz weights + CCD baked into ${BOLTZ_CACHE}" >> /opt/boltz/BAKED
+
+# The image supplies the ENV; the checked-out repo supplies the CODE. A launcher MUST mount
+# research/modalities (CLAUDE.md §6) or it silently runs whatever was baked here.
+WORKDIR /work

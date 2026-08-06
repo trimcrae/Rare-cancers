@@ -7,7 +7,11 @@ name: Fetch literature
 #   * `query`        -> Europe PMC search + open-access full text, scripts/fetch-paper.mjs sync
 #   * `targets_file` -> an explicit {name: url} corpus, scripts/lit_fetch_urls.py
 # The header claimed the first for months while the workflow ran only the second, so a dispatch
-# carrying a query searched for nothing and reported success. The fetched corpus is published to the
+# carrying a query searched for nothing and reported success. Wired up 2026-08-05; ASSERTED
+# 2026-08-06 (scripts/lit_query_assert.py + the `expect_pmids` known-positive control), because a
+# wired search that matches nothing is still a green run with no retrieval behind it.
+# A query-only dispatch now runs the query path ONLY — see the guard on the URL-fetch step.
+# The fetched corpus is published to the
 # `literature-cache` branch, which Pages never serves (pages.yml only copies
 # index.html, 404.html, assets/, data/, cancers/). A Claude session then does
 # `git fetch origin literature-cache` and extracts cited data into data/cancers/.
@@ -34,6 +38,10 @@ on:
         description: "replace (default) or extend — how targets_file combines with built-in TARGETS"
         required: false
         default: "replace"
+      expect_pmids:
+        description: "Known-positive control: PMID(s) the query MUST return, comma/space separated. Missing -> the run FAILS."
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -69,7 +77,28 @@ jobs:
           QUERY: ${{ inputs.query }}
         run: node scripts/fetch-paper.mjs sync "$QUERY"
 
+      # ⛔ AND A WIRED-UP SEARCH THAT RETURNS NOTHING STILL REPORTS SUCCESS (added 2026-08-06).
+      # Wiring the step in was necessary and not sufficient: `sync` writes an _index.json and exits 0
+      # whether the API returned 400 records or 0, so "the workflow is green" was still not evidence
+      # that anything was retrieved. This step asserts the retrieval — non-empty, and containing the
+      # known-positive PMID(s) the caller names — so the ASSERTION is what the log carries, not a
+      # description of the wiring. (Same lesson as tests/test_fleet_armed.py's exempt-lane wiring
+      # test: a property asserted in prose about a value a caller passes is a hope, not a property.)
+      - name: Assert the query path actually searched (non-empty + known-positive control)
+        if: ${{ inputs.query != '' }}
+        env:
+          LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
+        run: python3 scripts/lit_query_assert.py
+
+      # ⛔ RUNNING BOTH PATHS INTO ONE DIRECTORY IS THE MISLABELLED-RECORD BUG WEARING A NEW HAT.
+      # `lit_fetch_urls.py` falls back to its BUILT-IN FEP-methodology TARGETS when no targets_file is
+      # given, and both paths write into .cache/literature, which the publish step copies wholesale
+      # into literature/<slug>/. So before this guard, a query-only dispatch published its Europe PMC
+      # corpus INTERLEAVED with 25 files about lomap, cinnabar and Schrödinger cycle-closure patents —
+      # the same contamination the publish step's slug guard below was written to prevent, arriving
+      # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
+        if: ${{ inputs.targets_file != '' || inputs.query == '' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
           LIT_TARGETS_MODE: ${{ inputs.targets_mode }}

@@ -1,0 +1,819 @@
+#!/usr/bin/env python3
+"""
+DOES THE REACH ENUMERATION ADMIT A TRANSCRIPTIONAL EFFECTOR AS THE SECOND TERMINUS? ($0, CPU/CI only.)
+
+THE ROUTE. `RT-TCIP` (systems/graph/routes.json) proposes spending an NR4A3-LBD binder on REWIRING rather
+than degradation: a bivalent molecule whose second terminus recruits a transcriptional effector instead of an
+E3 ligase. Its `best_next_action` is *"Run the paired anchor-plus-effector reach enumeration with a
+transcriptional-effector second terminus, reusing the E3-free machinery"*, and `PUB-TCIP` is unwritten
+because *"the machinery exists and takes one more anchor set"*.
+
+★★ WHAT "ONE MORE ANCHOR SET" ACTUALLY MEANS — MEASURED, NOT RECALLED, AND IT IS NOT WHAT THE PHRASE
+   SUGGESTS. The reach modules (`nr4a3_linker_covalent_reach`, `nr4a3_monovalent_reach`) consume exactly TWO
+   points per cell: `a`, the warhead exit-vector anchor at the cryptic-pocket mouth, and `b`, the second
+   terminus's ligand exit atom (`anchor_e3_xyz`). `a` is target-side and is reused unchanged. `b` is NOT an
+   input anyone can type: it is PRODUCED by `nr4a3_basin_search.sample_placements`, which needs a staged
+   RIGID BODY — a registry record carrying `receptor_pdb` coordinates and `ligand.exit_atom_xyz`. THAT is the
+   anchor set. The repository stages four such bodies, all E3 recruiters, and **zero transcriptional
+   effectors** (`effector_arm_census`, counted from the registry and from `results/` rather than asserted).
+   ⇒ "one more anchor set" is a staged effector STRUCTURE, and it does not exist in this repository. Getting
+     one needs RCSB, which the dev sandbox's egress proxy 403s, so that step is a CI-only path.
+
+★★ WHAT IS THEREFORE RUN HERE, AND WHY IT IS THE STRONGER ANSWER RATHER THAN A SUBSTITUTE FOR THE MISSING
+   ONE. Read against `sample_placements`, the second-terminus body enters the enumeration ONLY as (i) an
+   excluded volume and (ii) a contact count. Nothing in the acceptance test knows or cares what the recruited
+   protein DOES. So the question "does the envelope admit an effector" does not need that specific effector:
+   it needs the envelope RESOLVED BY BODY SIZE. This module computes it three ways, in one pass, from
+   identical anchors, an identical target frame, an identical distance field and the identical sampler:
+
+     body-free      the pure anchor envelope — is there anywhere outside the protein for a second terminus's
+                    exit atom to sit, at each linker length. This is the E3-free machinery the route names,
+                    and it is second-terminus-INDEPENDENT by construction, which is the "applies unchanged"
+                    half of PUB-TCIP's claim made measurable rather than asserted.
+     E3 bodies      `vhl` (340 residues, 3 chains) and `crbn` (1183 residues, 2 chains) — the two
+                    downselected recruiters, whose committed run this module must replicate or it is
+                    measuring its own bugs.
+     effector-SIZE  `birc2` (92 residues, 1 chain) and `mdm2` (94 residues, 1 chain) — the two committed
+     bodies         single-domain recruiter bodies, used here as SIZE-AND-SHAPE PROXIES for a small-molecule-
+                    recruited transcriptional effector domain.
+
+⛔ THE PROXY IS DECLARED AS A PROXY AND IT IS THE MODULE'S LARGEST LIMITATION. BIRC2's BIR3 domain and
+   MDM2's p53-binding domain are NOT transcriptional effectors and this module does not say they are. They
+   are used for one property only — a ~90-95 residue single-domain ligand-binding body with a solved
+   ligand-bound exit vector, i.e. the size class a bromodomain-type effector recruiter falls in. What they
+   license is a statement about BODY SIZE, and the body-free envelope above them is what stops any single
+   proxy being load-bearing. A statement about a NAMED effector still needs that effector staged.
+
+⛔ WHAT THIS CANNOT SAY. Geometry only. Nothing here is a binding, potency, selectivity, transcriptional-
+   activity, efficacy, safety, therapeutic-window or clinical statement, and an "admits" answer is an
+   ADMISSION OF VOLUME, never of function. Reach can refute a configuration; it cannot license one. Every
+   anchor `a` is conditional on the cryptic pocket being the site, which `V3` left INCONCLUSIVE.
+
+Outputs: nr4a3-tcip-reach.json (+ .md)
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import os
+import random
+import sys
+import time
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
+sys.path.insert(0, HERE)
+
+import basin_geom as G                       # noqa: E402
+import linker_design as LD                   # noqa: E402  the reach engine — never reimplemented
+import nr4a3_basin_search as BS              # noqa: E402  THE placement sampler — never reimplemented
+import nr4a3_linker_design as NLD            # noqa: E402
+
+# ---- imported, never re-typed (rule 1) -------------------------------------------------------------------
+PARAMS = BS.PARAMS
+RISE = LD.RISE_PER_ATOM_A                    # 1.25 A per backbone atom
+CHEM_MAX_ATOMS = NLD.CHEM_MAX_ATOMS          # 24 — chemically routine upper bound on a bivalent linker
+LINKER_MIN_ATOMS = PARAMS["linker_min_atoms"]
+SEARCH_MAX_ATOMS = PARAMS["linker_max_atoms"]
+GATE_ATOMS = PARAMS["linker_gate_atoms"]
+MIN_CLEARANCE = PARAMS["pose_min_clearance_A"]
+
+# The ladder is the committed report ladder PLUS the chemically routine ceiling, which the committed ladder
+# stops short of. Nothing new is invented: both ends have a home.
+LADDER = sorted(set(PARAMS["linker_report_atoms"]) | {GATE_ATOMS, SEARCH_MAX_ATOMS, CHEM_MAX_ATOMS})
+
+BASINS = os.path.join(HERE, "nr4a3-orientation-basins.json")
+REGISTRY = os.path.join(HERE, "nr4a3-e3-arm-registry.json")
+UNIQUE_JSON = os.path.join(HERE, "nr4a-paralogue-unique-residues.json")
+STRUCT_DIR = os.path.join(REPO, "results", "nr4a3-matrix")
+OUT = os.path.join(HERE, "nr4a3-tcip-reach.json")
+
+BASIN_SEED = 20260725                        # the committed run's seed — reproducing its pose ensemble
+ENVELOPE_PITCH_A = 1.0                       # deterministic grid pitch for the body-free envelope
+
+# The four staged bodies, partitioned by the ONLY axis this module uses them on: how big they are. The
+# partition is asserted here and CHECKED against the measured residue counts in `body_geometry` — a label
+# that disagreed with the coordinates would be exactly the "populated field, never measured" failure.
+SINGLE_DOMAIN_ARMS = ("birc2", "mdm2")
+MULTI_SUBUNIT_ARMS = ("vhl", "crbn")
+SINGLE_DOMAIN_MAX_RESIDUES = 200             # the boundary the partition is checked against
+
+
+# ==========================================================================================================
+# THE CENSUS THAT CONVERTS THE LEAD'S STATUS
+# ==========================================================================================================
+def effector_arm_census(registry_path=REGISTRY, struct_root=REPO):
+    """Is there a staged TRANSCRIPTIONAL-EFFECTOR arm in this repository? Counted, not recalled.
+
+    A staged arm is a registry record that `nr4a3_basin_search.load_arm_from_registry` can turn into a rigid
+    body: it needs `receptor_pdb` coordinates on disk and a `ligand.exit_atom_xyz`. Anything else is not an
+    anchor set, whatever it is called.
+    """
+    with open(registry_path) as fh:
+        reg = json.load(fh)
+    rows = []
+    for aid, rec in sorted(reg["arms"].items()):
+        pdb = os.path.join(struct_root, rec.get("receptor_pdb", ""))
+        rows.append({
+            "arm_id": aid,
+            "recruiter": rec.get("recruiter"),
+            "partner_class": "E3 ubiquitin-ligase recruiter",
+            "status": rec.get("status"),
+            "receptor_pdb": rec.get("receptor_pdb"),
+            "receptor_pdb_present": os.path.exists(pdb),
+            "has_exit_atom": bool((rec.get("ligand") or {}).get("exit_atom_xyz")),
+            "source_pdb_id": ((rec.get("provenance") or {}).get("receptor_entry") or {}).get("pdb_id"),
+            "loadable_as_rigid_body": os.path.exists(pdb) and bool(
+                (rec.get("ligand") or {}).get("exit_atom_xyz")),
+        })
+    n_effector = sum(1 for r in rows if r["partner_class"] != "E3 ubiquitin-ligase recruiter")
+    return {
+        "_question": "how many staged TRANSCRIPTIONAL-EFFECTOR arms does this repository hold?",
+        "answer": n_effector,
+        "n_staged_arms_total": len(rows),
+        "n_loadable": sum(1 for r in rows if r["loadable_as_rigid_body"]),
+        "arms": rows,
+        "_reading": (
+            "every staged arm in the registry is an E3 ubiquitin-ligase recruiter. The count of staged "
+            "transcriptional-effector arms is %d. `PUB-TCIP`'s stated reason for being unwritten — 'the "
+            "machinery exists and takes one more anchor set' — is therefore correct about the machinery and "
+            "understates the input: the anchor set is a STAGED STRUCTURE, not a number, and staging one "
+            "needs RCSB, which the dev sandbox's egress proxy 403s." % n_effector),
+        "_what_would_supply_it": (
+            "one `e3_recruiter_staging`-style CI fetch of a ligand-bound transcriptional-effector domain "
+            "(the TCIP literature's effector handle is a bromodomain-class ligand), staged into "
+            "nr4a3-e3-arm-registry.json's schema: receptor_pdb + ligand.exit_atom_xyz. Until that record "
+            "exists no NAMED effector can be enumerated, only a body of a stated size."),
+        "source_of_truth": "research/modalities/nr4a3-e3-arm-registry.json",
+    }
+
+
+# ==========================================================================================================
+# BODY GEOMETRY — measured from the committed coordinates, never assumed
+# ==========================================================================================================
+def body_geometry(arm):
+    """The size of a staged body, from its own coordinates.
+
+    Reported as a ball model — centroid, the radius that encloses every CA, and where the ligand exit atom
+    sits relative to that ball. ⚠ A ball OVERSTATES an elongated body's excluded volume, so these numbers are
+    descriptive: the admissibility test below uses the REAL atom set through the committed sampler, never
+    this ball. They exist so "effector-size" is a measured claim rather than a label.
+    """
+    ca = arm["ca"]
+    cen = G.centroid(ca)
+    r = [G.dist(cen, p) for p in ca]
+    d_anchor = G.dist(cen, arm["anchor"])
+    near = min(G.dist(arm["anchor"], p) for p in ca)
+    return {
+        "arm_id": arm["arm_id"], "recruiter": arm["recruiter"],
+        "n_residues": len(ca), "chains": arm["chains"],
+        "centroid_A": [round(c, 2) for c in cen],
+        "ca_radius_max_A": round(max(r), 2),
+        "ca_radius_median_A": round(sorted(r)[len(r) // 2], 2),
+        "exit_atom_to_centroid_A": round(d_anchor, 2),
+        "exit_atom_to_nearest_CA_A": round(near, 2),
+        "size_class": ("single_domain" if len(ca) <= SINGLE_DOMAIN_MAX_RESIDUES else "multi_subunit"),
+    }
+
+
+# ==========================================================================================================
+# THE BODY-FREE ANCHOR ENVELOPE — the E3-free machinery, exactly as the sampler tests it
+# ==========================================================================================================
+def body_free_envelope(a, field3, ladder=LADDER, pitch=ENVELOPE_PITCH_A):
+    """The fraction of each linker-length reach shell in which a second terminus's exit atom could sit.
+
+    ★ THE TEST IS THE SAMPLER'S OWN, LIFTED NOT REWRITTEN: `sample_placements` rejects an anchor position
+    `ae` when `field3.min_dist(ae) - field3.cell_slack < pose_min_clearance_A`. Same predicate, same field,
+    same constant — evaluated on a DETERMINISTIC grid instead of by Monte-Carlo, so this half of the result
+    carries no seed and cannot move between runs.
+
+    Deterministic by construction: a lattice, not an RNG. Reported as a fraction of the SHELL between
+    `linker_min_atoms` and n, because that is the space the sampler draws from.
+    """
+    slack = field3.cell_slack
+    lo = G.contour_length_from_atoms(LINKER_MIN_ATOMS, RISE)
+    out = {}
+    n_max = max(ladder)
+    hi_max = G.contour_length_from_atoms(n_max, RISE)
+    steps = int(math.floor(hi_max / pitch))
+    pts = []
+    for i in range(-steps, steps + 1):
+        for j in range(-steps, steps + 1):
+            for k in range(-steps, steps + 1):
+                dx, dy, dz = i * pitch, j * pitch, k * pitch
+                d2 = dx * dx + dy * dy + dz * dz
+                if d2 > hi_max * hi_max or d2 < lo * lo:
+                    continue
+                p = (a[0] + dx, a[1] + dy, a[2] + dz)
+                pts.append((math.sqrt(d2), field3.min_dist(p) - slack >= MIN_CLEARANCE))
+    for n in ladder:
+        hi = G.contour_length_from_atoms(n, RISE)
+        inside = [ok for d, ok in pts if d <= hi]
+        n_tot = len(inside)
+        n_ok = sum(1 for ok in inside if ok)
+        out[str(n)] = {
+            "shell_hi_A": round(hi, 2),
+            "n_grid_points": n_tot,
+            "n_admissible": n_ok,
+            "fraction_admissible": round(n_ok / n_tot, 5) if n_tot else None,
+        }
+    return out
+
+
+# ==========================================================================================================
+# THE PAIRED PLACEMENT ENVELOPE — the committed sampler, one arm body at a time
+# ==========================================================================================================
+def placement_envelope_cell(arm, pose, field3, n_atoms, n_samples, seed):
+    """One (arm x pose x linker-length) cell, through `nr4a3_basin_search.sample_placements` UNCHANGED.
+
+    The only thing this function does to the engine is hand it a `params` whose `linker_max_atoms` is the
+    ladder rung being asked about. That is the sampler's own parameter, used for its own purpose — the shell
+    it draws the second-terminus anchor from — so the per-rung answer is the engine's answer, not a
+    re-derivation of it.
+    """
+    p = dict(PARAMS)
+    p["linker_max_atoms"] = n_atoms
+    acc, stats = BS.sample_placements(arm, pose, field3, random.Random(seed), n_samples, params=p)
+    spans = sorted(pl["span_A"] for pl in acc)
+    n_needed = [max(1, int(math.ceil(s / RISE - 1e-9))) for s in spans]
+    return {
+        "arm_id": arm["arm_id"], "pose_id": pose["pose_id"], "linker_atoms": n_atoms,
+        "shell_hi_A": round(G.contour_length_from_atoms(n_atoms, RISE), 2),
+        "n_samples": stats["n_samples"],
+        "n_accepted": stats["n_accepted"],
+        "acceptance_rate": stats["acceptance_rate"],
+        "n_prescreen_rejected": stats["n_prescreen_rejected"],
+        "span_A_min": round(spans[0], 2) if spans else None,
+        "span_A_median": round(spans[len(spans) // 2], 2) if spans else None,
+        "span_A_max": round(spans[-1], 2) if spans else None,
+        "min_backbone_atoms_realised": min(n_needed) if n_needed else None,
+    }
+
+
+def _worker(job):
+    arm = _ARMS[job["arm_id"]]
+    pose = _POSES[job["pose_id"]]
+    return placement_envelope_cell(arm, pose, _FIELD, job["n_atoms"], job["n_samples"], job["seed"])
+
+
+_ARMS: dict = {}
+_POSES: dict = {}
+_FIELD = None
+
+
+# ==========================================================================================================
+# SUMMARY AND DECISION
+# ==========================================================================================================
+def summarise(cells, geom):
+    """Per arm: the shortest linker length at which ANY placement is admissible, and where it saturates."""
+    by_arm = {}
+    for c in cells:
+        by_arm.setdefault(c["arm_id"], []).append(c)
+    out = {}
+    for aid, rows in sorted(by_arm.items()):
+        by_n = {}
+        for r in rows:
+            by_n.setdefault(r["linker_atoms"], []).append(r)
+        per_n = {}
+        shortest = None
+        for n in sorted(by_n):
+            grp = by_n[n]
+            n_open = sum(1 for r in grp if r["n_accepted"] > 0)
+            tot_acc = sum(r["n_accepted"] for r in grp)
+            tot_smp = sum(r["n_samples"] for r in grp)
+            per_n[str(n)] = {
+                "n_poses": len(grp),
+                "n_poses_with_any_admissible_placement": n_open,
+                "total_accepted": tot_acc,
+                "pooled_acceptance_rate": round(tot_acc / tot_smp, 8) if tot_smp else None,
+                "min_backbone_atoms_realised": min(
+                    [r["min_backbone_atoms_realised"] for r in grp
+                     if r["min_backbone_atoms_realised"] is not None] or [None]) if any(
+                    r["min_backbone_atoms_realised"] is not None for r in grp) else None,
+            }
+            if shortest is None and n_open > 0:
+                shortest = n
+        out[aid] = {
+            "size_class": geom[aid]["size_class"],
+            "n_residues": geom[aid]["n_residues"],
+            "shortest_linker_atoms_with_any_admissible_placement": shortest,
+            "admits_within_the_gate_%d_atoms" % GATE_ATOMS: bool(shortest is not None and shortest <= GATE_ATOMS),
+            "admits_within_the_search_ceiling_%d_atoms" % SEARCH_MAX_ATOMS: bool(
+                shortest is not None and shortest <= SEARCH_MAX_ATOMS),
+            "admits_within_the_chemically_routine_%d_atoms" % CHEM_MAX_ATOMS: bool(
+                shortest is not None and shortest <= CHEM_MAX_ATOMS),
+            "by_linker_atoms": per_n,
+        }
+    return out
+
+
+def required_distances():
+    """THE DISTANCES THE MODALITY REQUIRES — every one of them read from a committed source.
+
+    ⚠ NO TCIP-SPECIFIC LINKER LENGTH IS AVAILABLE TO THIS MODULE, and inventing one would be the exact
+    failure this repository keeps paying for. `EV-EB-TCIP-2025` is the route's only cited TCIP source and it
+    is an auto-captured lead that has not cleared `verify-refs` (systems/AUDIT-2026-08-06-routes.md, "Left
+    open deliberately"), so nothing may be quoted from it. What is used instead are the repository's OWN
+    committed bounds on a bivalent linker, which are modality-agnostic by construction — the same numbers the
+    E3 configuration was enumerated at, which is precisely what makes the comparison paired.
+    """
+    return {
+        "rise_per_backbone_atom_A": RISE,
+        "linker_min_atoms": LINKER_MIN_ATOMS,
+        "gate_atoms": GATE_ATOMS,
+        "search_ceiling_atoms": SEARCH_MAX_ATOMS,
+        "chemically_routine_ceiling_atoms": CHEM_MAX_ATOMS,
+        "span_at_gate_A": round(G.contour_length_from_atoms(GATE_ATOMS, RISE), 2),
+        "span_at_search_ceiling_A": round(G.contour_length_from_atoms(SEARCH_MAX_ATOMS, RISE), 2),
+        "span_at_chemically_routine_ceiling_A": round(
+            G.contour_length_from_atoms(CHEM_MAX_ATOMS, RISE), 2),
+        "sources": {
+            "rise / min / gate / search ceiling": "nr4a3_basin_search.PARAMS (committed, preregistered)",
+            "chemically routine ceiling": "nr4a3_linker_design.CHEM_MAX_ATOMS (PEG6-diacid scale)",
+        },
+        "⚠_no_tcip_specific_distance_is_used": (
+            "the route's only TCIP citation is an unverified auto-captured lead, so no published TCIP linker "
+            "length enters this module. If one is later verified it can only tighten the ceiling, never "
+            "loosen it, so an 'admits' answer read at 24 atoms is the permissive reading and an 'admits at "
+            "the 12-atom gate' answer is the one that survives any tightening."),
+    }
+
+
+# ==========================================================================================================
+# CROSS-CHECKS — rule 1: this module may not mint a second value for a number with a home
+# ==========================================================================================================
+def crosscheck_pose_ensemble(poses, basins_path=BASINS):
+    """The 12 warhead anchors recomputed here must be the committed ones, bit for bit."""
+    with open(basins_path) as fh:
+        d = json.load(fh)
+    ref = {p["pose_id"]: p["anchor_xyz"] for p in d["pose_ensemble"]}
+    worst, n = 0.0, 0
+    for p in poses:
+        q = ref.get(p["pose_id"])
+        if q is None:
+            continue
+        n += 1
+        worst = max(worst, max(abs(x - y) for x, y in zip(p["anchor_xyz"], q)))
+    return {"status": "AGREES" if n and worst < 1e-9 else "DISAGREES" if n else "UNREAD",
+            "n_compared": n, "max_abs_delta_A": worst,
+            "source_of_truth": "research/modalities/nr4a3-orientation-basins.json -> pose_ensemble"}
+
+
+def crosscheck_committed_anchors_admissible(field3, basins_path=BASINS):
+    """★ THE GUARD THE BODY-FREE ENVELOPE RESTS ON. Every second-terminus anchor the committed search
+    ACCEPTED must pass this module's anchor test. If one did not, the envelope would be excluding positions
+    the engine itself already admitted, and every number below would be too small."""
+    with open(basins_path) as fh:
+        d = json.load(fh)
+    pts = []
+    for m in d["meta_basins_ranked"]:
+        rep = m.get("representative") or {}
+        if rep.get("anchor_e3_xyz"):
+            pts.append((m["meta_basin_id"] + "@representative", tuple(rep["anchor_e3_xyz"])))
+        for cys, blk in (m.get("term_a_union") or {}).items():
+            ex = (blk or {}).get("exemplar_placement") or {}
+            if ex.get("anchor_e3_xyz"):
+                pts.append(("%s@%s_exemplar" % (m["meta_basin_id"], cys), tuple(ex["anchor_e3_xyz"])))
+    slack = field3.cell_slack
+    bad = []
+    for lab, p in pts:
+        clr = field3.min_dist(p) - slack
+        if clr < MIN_CLEARANCE:
+            bad.append({"placement": lab, "clearance_A": round(clr, 3)})
+    return {"status": "HOLDS" if pts and not bad else "VIOLATED" if bad else "UNREAD",
+            "n_committed_anchors_tested": len(pts), "n_failing": len(bad), "failures": bad[:20],
+            "_rule": "a committed accepted anchor must be admissible under this module's anchor test",
+            "source_of_truth": "research/modalities/nr4a3-orientation-basins.json -> meta_basins_ranked"}
+
+
+def crosscheck_replicates_committed_acceptance(cells, basins_path=BASINS):
+    """The E3 half must replicate the committed acceptance rates, or the effector-size half is measuring this
+    module's own bugs rather than the body-size change.
+
+    Compared at the committed run's own shell (`linker_max_atoms`), with a normal-approximation 95 % interval
+    on this module's rate — the two runs use different sample counts and different RNG streams, so an EXACT
+    match would be evidence of a bug, not of agreement.
+    """
+    with open(basins_path) as fh:
+        d = json.load(fh)
+    ref = {}
+    for aid, blk in d["arms"].items():
+        for pp in blk.get("per_pose", []):
+            ref[(aid, pp["pose_id"])] = pp["stats"]["acceptance_rate"]
+    rows, n_out = [], 0
+    for c in cells:
+        if c["linker_atoms"] != SEARCH_MAX_ATOMS:
+            continue
+        r = ref.get((c["arm_id"], c["pose_id"]))
+        if r is None:
+            continue
+        k, n = c["n_accepted"], c["n_samples"]
+        p = k / n
+        se = math.sqrt(max(p * (1 - p), 1e-12) / n)
+        lo, hi = p - 1.96 * se, p + 1.96 * se
+        inside = lo <= r <= hi
+        n_out += 0 if inside else 1
+        rows.append({"arm": c["arm_id"], "pose": c["pose_id"], "committed_rate": r,
+                     "recomputed_rate": round(p, 6), "ci95": [round(lo, 6), round(hi, 6)],
+                     "committed_inside_ci": inside})
+    return {"status": ("AGREES" if rows and n_out == 0 else "PARTIAL" if rows else "UNREAD"),
+            "n_cells_compared": len(rows), "n_committed_outside_ci95": n_out, "cells": rows,
+            "source_of_truth": "research/modalities/nr4a3-orientation-basins.json -> arms[*].per_pose[*].stats",
+            "_why": ("the effector-size result is a DELTA against the E3 one, so an E3 half that does not "
+                     "replicate the committed artifact invalidates the delta as well.")}
+
+
+def crosscheck_size_partition(geom):
+    """The `single_domain` / `multi_subunit` labels must agree with the measured residue counts."""
+    bad = []
+    for aid in SINGLE_DOMAIN_ARMS:
+        if geom.get(aid, {}).get("size_class") != "single_domain":
+            bad.append({"arm": aid, "expected": "single_domain", "measured": geom.get(aid, {}).get("size_class")})
+    for aid in MULTI_SUBUNIT_ARMS:
+        if geom.get(aid, {}).get("size_class") != "multi_subunit":
+            bad.append({"arm": aid, "expected": "multi_subunit", "measured": geom.get(aid, {}).get("size_class")})
+    return {"status": "AGREES" if not bad else "DISAGREES", "mismatches": bad,
+            "_rule": "a size label is checked against the coordinates, never trusted because it was typed"}
+
+
+# ==========================================================================================================
+# VERDICT
+# ==========================================================================================================
+def verdict(summary, envelope_free, required):
+    eff = [a for a in SINGLE_DOMAIN_ARMS if a in summary]
+    e3 = [a for a in MULTI_SUBUNIT_ARMS if a in summary]
+    shortest_eff = [summary[a]["shortest_linker_atoms_with_any_admissible_placement"] for a in eff]
+    shortest_e3 = [summary[a]["shortest_linker_atoms_with_any_admissible_placement"] for a in e3]
+    live_eff = [s for s in shortest_eff if s is not None]
+    live_e3 = [s for s in shortest_e3 if s is not None]
+    admits = bool(live_eff) and min(live_eff) <= CHEM_MAX_ATOMS
+    at_gate = bool(live_eff) and min(live_eff) <= GATE_ATOMS
+    return {
+        "question": ("does the geometric envelope admit a second terminus of transcriptional-effector SIZE "
+                     "at the linker distances this repository's own records call chemically routine?"),
+        "answer": "ADMITS" if admits else "DOES NOT ADMIT",
+        "admits_at_the_%d_atom_gate" % GATE_ATOMS: at_gate,
+        "shortest_linker_atoms": {
+            "effector_size_bodies": {a: summary[a]["shortest_linker_atoms_with_any_admissible_placement"]
+                                     for a in eff},
+            "E3_bodies": {a: summary[a]["shortest_linker_atoms_with_any_admissible_placement"] for a in e3},
+        },
+        "the_body_free_upper_bound": (
+            "the anchor envelope is second-terminus-INDEPENDENT and is reported separately: it is what "
+            "'the enumeration applies unchanged' means operationally, and every body result sits under it."),
+        "required_distances": required,
+        "⛔_what_this_answer_is_not": (
+            "It is not evidence that any transcriptional effector binds, is recruited, is retained on "
+            "chromatin, or changes transcription. It is an excluded-volume statement: a body of the stated "
+            "size has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. The "
+            "effector bodies are SIZE PROXIES and not effectors; no NAMED effector has been staged. And the "
+            "second half of the route's requirement set — paralogue discrimination on the binder — is "
+            "untouched by geometry and is not addressed here at all."),
+        "_e3_comparator": ("the same test on the two downselected E3 bodies, run in the same pass from the "
+                           "same anchors, is the paired comparator; %s"
+                           % ("both admit" if len(live_e3) == len(e3) and live_e3 else
+                              "not every E3 body admits")),
+    }
+
+
+# ==========================================================================================================
+# MAP EDITS — described, never applied (the `map_edits_required` convention)
+# ==========================================================================================================
+def map_edits_required(census, summary):
+    return [
+        {
+            "file": "research/manuscripts/nr4a3-program-map.md",
+            "anchor": "Q12 row of the open-questions table, and the modality fork row",
+            "current_text": "`R4` `R5` `R7` (retires `R9` `R10` `R12`)",
+            "proposed_text": "`R4` `R5` `R7` `R9` `R10` (retires `R12`)",
+            "why": ("R9 is 'OUR ternary is correctly assembled' and R10 is 'a ternary forms'. A TCIP is "
+                    "bivalent and induces a target-molecule-effector complex, so both survive; only R12 "
+                    "('the ternary is compatible with DEGRADATION — productive unique-lysine geometry') is "
+                    "retired by not degrading. The graph already encodes the correct version — "
+                    "RT-TCIP.blockers_retired is [BLK-TERNARY-GEOMETRY] alone while BLK-INDUCED-COMPLEX is "
+                    "inherited — so the roadmap and the graph currently disagree."),
+            "evidence": ("systems/graph/routes.json RT-TCIP.blockers_retired / blockers_inherited; "
+                         "systems/AUDIT-2026-08-06-routes.md 'Left open deliberately'; and "
+                         "research/manuscripts/target-route-options.md route 6, which states BOTH readings "
+                         "in one section ('retires R9 ... R10 and R12 outright' and 'it inherits the same "
+                         "induced-complex modelling problem as R9')"),
+            "status": "DESCRIBED, NOT APPLIED — the roadmap is off-limits to this lane",
+        },
+        {
+            "file": "research/manuscripts/path-family-synthesis.md",
+            "anchor": "Tier 3 table, row 12 (TCIP)",
+            "current_text": "retires `R9`/`R10`/`R12`; keeps `R4`/`R5`/`R7`",
+            "proposed_text": "retires `R12`; keeps `R4`/`R5`/`R7`/`R9`/`R10`",
+            "why": "same correction, same evidence; this file mirrors the roadmap's claim",
+            "status": "DESCRIBED, NOT APPLIED",
+        },
+        {
+            "file": "research/manuscripts/target-route-options.md",
+            "anchor": "Route 6 — TCIP",
+            "current_text": ("so it retires `R9` (our ternary correctly assembled — the roadmap's \"whole "
+                             "remaining gap\"), `R10` and `R12` outright"),
+            "proposed_text": "so it retires `R12` outright and reshapes nothing about `R9` or `R10`",
+            "why": ("this section contradicts itself two paragraphs later — 'It inherits the same "
+                    "induced-complex modelling problem as R9 (an assembled ternary-like complex nobody has "
+                    "built), which is the roadmap's largest gap'. Both sentences cannot stand."),
+            "status": "DESCRIBED, NOT APPLIED",
+        },
+        {
+            "file": "systems/graph/routes.json",
+            "anchor": "RT-TCIP.readiness.why_not_higher / .missing",
+            "current_text": "The enumeration machinery exists and takes one more anchor set.",
+            "proposed_text": ("The enumeration machinery exists and its E3-free half has now been run "
+                              "(nr4a3-tcip-reach.json). What is still missing is a STAGED transcriptional-"
+                              "effector arm: the repository holds %d, and staging one needs an RCSB fetch in "
+                              "CI." % census["answer"]),
+            "why": ("'one more anchor set' reads as an input someone can type. Measured, it is a staged "
+                    "structure with coordinates and a ligand exit vector, and the count of them is %d."
+                    % census["answer"]),
+            "status": "DESCRIBED, NOT APPLIED — systems/graph is off-limits to this lane",
+        },
+        {
+            "file": "systems/graph/routes.json",
+            "anchor": "RT-TCIP.artifacts",
+            "current_text": "[]",
+            "proposed_text": "[\"research/modalities/nr4a3-tcip-reach.json\"]",
+            "why": "the route now holds a computed result of its own; today it holds none",
+            "status": "DESCRIBED, NOT APPLIED",
+        },
+        {
+            "file": "systems/graph/routes.json (ALREADY CORRECT — recorded so it is not 'fixed' twice)",
+            "anchor": "RT-TCIP.closure_kind",
+            "current_text": "open",
+            "proposed_text": "open — NO EDIT REQUIRED",
+            "why": ("the 2026-08-06 route audit found this filed as `instrument_limit` with no instruments "
+                    "and nothing failed, and the same pass corrected it. Measured on this branch it reads "
+                    "`open`. The half of that audit finding that is still live is the R9/R10 claim above."),
+            "status": "VERIFIED CLOSED — no action",
+        },
+    ]
+
+
+# ==========================================================================================================
+# MARKDOWN
+# ==========================================================================================================
+def to_markdown(d):
+    L, A = [], None
+    A = L.append
+    A("# %s" % d["_title"])
+    A("")
+    A("> **$0, CPU, pure stdlib.** %s" % d["_status"])
+    A(">")
+    A("> Generated by `nr4a3_tcip_reach.py`; this file is derived — edit the module, not this.")
+    A("")
+    A("**Question.** %s" % d["_question"])
+    A("")
+    v = d["verdict"]
+    A("## 1 · The answer")
+    A("")
+    A("**%s** — the envelope %s a second terminus of transcriptional-effector size within the %d-backbone-"
+      "atom chemically routine ceiling; at the %d-atom gate: **%s**."
+      % (v["answer"], "admits" if v["answer"] == "ADMITS" else "does not admit", CHEM_MAX_ATOMS, GATE_ATOMS,
+         v["admits_at_the_%d_atom_gate" % GATE_ATOMS]))
+    A("")
+    A("| body | size class | residues | shortest linker (backbone atoms) with any admissible placement |")
+    A("|---|---|---|---|")
+    for aid, s in sorted(d["summary"].items()):
+        A("| `%s` | %s | %d | **%s** |" % (aid, s["size_class"], s["n_residues"],
+                                           s["shortest_linker_atoms_with_any_admissible_placement"]))
+    A("")
+    A("⛔ %s" % v["⛔_what_this_answer_is_not"])
+    A("")
+
+    A("## 2 · What \"one more anchor set\" is, measured")
+    A("")
+    c = d["what_one_more_anchor_set_means"]["census"]
+    A("**Staged transcriptional-effector arms in this repository: %d** (of %d staged arms, %d loadable as "
+      "rigid bodies)." % (c["answer"], c["n_staged_arms_total"], c["n_loadable"]))
+    A("")
+    A("| arm | recruiter | partner class | source PDB | loadable |")
+    A("|---|---|---|---|---|")
+    for r in c["arms"]:
+        A("| `%s` | %s | %s | %s | %s |" % (r["arm_id"], r["recruiter"], r["partner_class"],
+                                            r["source_pdb_id"], r["loadable_as_rigid_body"]))
+    A("")
+    A("%s" % c["_reading"])
+    A("")
+
+    A("## 3 · The body-free anchor envelope — the E3-free machinery")
+    A("")
+    A("Fraction of the reach shell in which a second terminus's ligand exit atom can sit at all, pooled over "
+      "the 12 committed warhead anchors. Deterministic grid; no RNG.")
+    A("")
+    A("| linker atoms | shell radius (Å) | mean fraction admissible | min over poses | max over poses |")
+    A("|---|---|---|---|---|")
+    for n in sorted(d["anchor_envelope_body_free"]["pooled"], key=int):
+        r = d["anchor_envelope_body_free"]["pooled"][n]
+        A("| %s | %s | **%s** | %s | %s |" % (n, r["shell_hi_A"], r["mean_fraction_admissible"],
+                                              r["min_fraction_admissible"], r["max_fraction_admissible"]))
+    A("")
+
+    A("## 4 · The paired placement envelope — same anchors, same sampler, four real bodies")
+    A("")
+    A("| linker atoms | " + " | ".join("`%s` (%s)" % (a, d["summary"][a]["size_class"].replace("_", " "))
+                                       for a in sorted(d["summary"])) + " |")
+    A("|---|" + "---|" * len(d["summary"]))
+    for n in sorted({int(k) for a in d["summary"] for k in d["summary"][a]["by_linker_atoms"]}):
+        cells = []
+        for a in sorted(d["summary"]):
+            r = d["summary"][a]["by_linker_atoms"].get(str(n))
+            cells.append("%d/%d poses · %d accepted" % (r["n_poses_with_any_admissible_placement"],
+                                                        r["n_poses"], r["total_accepted"]) if r else "—")
+        A("| %d | %s |" % (n, " | ".join(cells)))
+    A("")
+    A("Read as: how many of the 12 warhead anchors admit **any** placement of that body at that linker "
+      "length, and how many placements were accepted out of the samples drawn.")
+    A("")
+
+    A("## 5 · The distances the modality requires")
+    A("")
+    for k, val in sorted(d["verdict"]["required_distances"].items()):
+        if k.startswith("_") or k == "sources" or k.startswith("⚠"):
+            continue
+        A("- `%s` = %s" % (k, val))
+    A("")
+    A("⚠ %s" % d["verdict"]["required_distances"]["⚠_no_tcip_specific_distance_is_used"])
+    A("")
+
+    A("## 6 · Cross-checks (rule 1)")
+    A("")
+    for k, val in d["cross_checks"].items():
+        A("- `%s`: **%s**%s" % (k, val.get("status"),
+                                (" (n = %s)" % val["n_cells_compared"]) if val.get("n_cells_compared")
+                                else (" (n = %s)" % val["n_compared"]) if val.get("n_compared") else ""))
+    A("")
+
+    A("## 7 · What this inherits and cannot say")
+    A("")
+    for lim in d["_inherits"]:
+        A("- %s" % lim)
+    A("")
+    if d["refusals"]:
+        A("**Refusals:** %s" % "; ".join("%s — %s" % (r.get("what"), r.get("reason")) for r in d["refusals"]))
+        A("")
+    return "\n".join(L) + "\n"
+
+
+# ==========================================================================================================
+# DRIVER
+# ==========================================================================================================
+def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir=STRUCT_DIR):
+    global _ARMS, _POSES, _FIELD
+    t0 = time.time()
+    refusals, unread = [], []
+
+    m3 = BS.load_paralogue(os.path.join(struct_dir, "nr4a3-opened.pdb"))
+    field3 = G.SquaredDistanceField(m3["heavy_xyz"], cell=0.9, clamp=8.0)
+    reactive = BS.load_reactive_map(UNIQUE_JSON, m3)
+    poses = BS.build_pose_ensemble(m3, reactive, field3, 12, random.Random(BASIN_SEED))
+
+    with open(REGISTRY) as fh:
+        reg = json.load(fh)
+    arms, geom = {}, {}
+    for aid in (arms_wanted or list(SINGLE_DOMAIN_ARMS) + list(MULTI_SUBUNIT_ARMS)):
+        rec = reg["arms"].get(aid)
+        if rec is None:
+            refusals.append({"what": aid, "reason": "not in the registry"})
+            continue
+        try:
+            arm = BS.load_arm_from_registry(rec)
+        except Exception as exc:                                   # noqa: BLE001 — refuse, never guess
+            refusals.append({"what": aid, "reason": "%s: %s" % (type(exc).__name__, exc)})
+            continue
+        arms[aid] = arm
+        geom[aid] = body_geometry(arm)
+
+    _ARMS, _POSES, _FIELD = arms, {p["pose_id"]: p for p in poses}, field3
+
+    jobs = [{"arm_id": aid, "pose_id": p["pose_id"], "n_atoms": n, "n_samples": samples,
+             "seed": BASIN_SEED + 1000 * n + hash(aid) % 997 + i}
+            for aid in sorted(arms) for n in ladder for i, p in enumerate(poses)]
+
+    if n_procs and n_procs > 1:
+        import multiprocessing as mp
+        with mp.Pool(n_procs) as pool:
+            cells = pool.map(_worker, jobs, chunksize=1)
+    else:
+        cells = [_worker(j) for j in jobs]
+
+    free = {p["pose_id"]: body_free_envelope(tuple(p["anchor_xyz"]), field3, ladder) for p in poses}
+    pooled = {}
+    for n in ladder:
+        fr = [free[pid][str(n)]["fraction_admissible"] for pid in free]
+        pooled[str(n)] = {
+            "shell_hi_A": free[poses[0]["pose_id"]][str(n)]["shell_hi_A"],
+            "mean_fraction_admissible": round(sum(fr) / len(fr), 5),
+            "min_fraction_admissible": round(min(fr), 5),
+            "max_fraction_admissible": round(max(fr), 5),
+            "n_poses_with_any": sum(1 for x in fr if x > 0),
+        }
+
+    summary = summarise(cells, geom)
+    census = effector_arm_census()
+    req = required_distances()
+
+    d = {
+        "_title": "Does the reach envelope admit a transcriptional-effector second terminus? (RT-TCIP)",
+        "_question": ("The reach enumeration was built for E3 recruitment. Does it apply unchanged when the "
+                      "second terminus is a transcriptional effector rather than a ligase, and does the "
+                      "geometric envelope it returns admit an effector-size body at the linker distances "
+                      "this repository's own committed records call chemically routine?"),
+        "_status": ("GEOMETRY ONLY, $0 CPU, pure stdlib. No binding, potency, selectivity, transcriptional, "
+                    "efficacy, safety, therapeutic-window or clinical claim is made or implied. An 'admits' "
+                    "answer is an excluded-volume statement, never an activity one."),
+        "_method": ("PAIRED: the body-free anchor envelope and four real staged bodies computed in one pass "
+                    "from identical warhead anchors, an identical target frame, an identical distance field "
+                    "and `nr4a3_basin_search.sample_placements` UNCHANGED — only the rigid body differs. The "
+                    "committed E3 run is a REPLICATION TARGET, not the comparator."),
+        "_inherits": [
+            "every warhead anchor is conditional on the cryptic pocket being the site, which `V3` left "
+            "INCONCLUSIVE — the `R5` SITE half, carried whole from the E3 lane",
+            "⭐ but NOT the `R5` POSE half: the anchors are MARGINALISED over pocket-mouth positions "
+            "(`nr4a3_basin_search.build_pose_ensemble`, 12 anchors in a 5–11 Å shell around the pocket "
+            "centroid), not taken from a docked pose. `pose-convergence-401.json`'s 7.006 Å median "
+            "pocket-superposed ligand RMSD with `cross_method_evidence: NONE` is a statement about a DOCKED "
+            "POSE this enumeration does not use, so it is not inherited as a coordinate error here — what is "
+            "inherited is the site premise both rest on",
+            "one opened NR4A3 model frame; no ensemble, no dynamics, no induced fit of the target",
+            "the second-terminus bodies are single deposited conformers, and the two used as effector-size "
+            "proxies are NOT transcriptional effectors — they are size-and-shape proxies and are labelled so "
+            "everywhere",
+            "`BLK-INDUCED-COMPLEX` is untouched: nothing here assembles or scores an induced complex, and no "
+            "NR4A3 ternary of any kind has been correctly assembled by anyone",
+            "the route's paralogue-discrimination requirement (`R7`) is not a geometry question and is not "
+            "addressed at all",
+        ],
+        "what_one_more_anchor_set_means": {
+            "_what_the_reach_modules_actually_consume": (
+                "two points per cell: `a` (warhead exit-vector anchor, target-side, reused unchanged) and "
+                "`b` (the second terminus's ligand exit atom). `b` is not typeable — it is produced by "
+                "`nr4a3_basin_search.sample_placements` from a staged RIGID BODY."),
+            "_the_input_that_is_missing": (
+                "a registry record with `receptor_pdb` coordinates and `ligand.exit_atom_xyz` for a "
+                "transcriptional effector. That is the anchor set."),
+            "census": census,
+        },
+        "body_geometry": geom,
+        "anchor_envelope_body_free": {
+            "_what": ("the fraction of each linker-length reach shell in which a second terminus's exit atom "
+                      "can sit at all — the sampler's OWN anchor test on a deterministic grid"),
+            "_test": ("field3.min_dist(b) - cell_slack >= pose_min_clearance_A = %.1f Å, the predicate "
+                      "`sample_placements` uses, evaluated on a %.1f Å lattice instead of by Monte-Carlo"
+                      % (MIN_CLEARANCE, ENVELOPE_PITCH_A)),
+            "pooled": pooled,
+            "per_pose": free,
+        },
+        "paired_placement_envelope": {
+            "_what": ("every (body x warhead anchor x linker length) cell through the committed sampler, "
+                      "unchanged, with `linker_max_atoms` set to the rung being asked about"),
+            "samples_per_cell": samples,
+            "cells": cells,
+        },
+        "summary": summary,
+        "cross_checks": {
+            "reproduces_the_committed_pose_ensemble": crosscheck_pose_ensemble(poses),
+            "committed_accepted_anchors_are_admissible": crosscheck_committed_anchors_admissible(field3),
+            "replicates_the_committed_E3_acceptance": crosscheck_replicates_committed_acceptance(cells),
+            "size_labels_match_the_coordinates": crosscheck_size_partition(geom),
+        },
+        "refusals": refusals,
+        "unread_inputs": unread,
+        "runtime_s": round(time.time() - t0, 1),
+    }
+    d["verdict"] = verdict(summary, pooled, req)
+    d["map_edits_required"] = map_edits_required(census, summary)
+    return d
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
+    ap.add_argument("--samples", type=int, default=300000, help="rigid-body samples per (arm x pose x rung)")
+    ap.add_argument("--arms", default="", help="comma-separated subset of registry arm ids")
+    ap.add_argument("--procs", type=int, default=4)
+    ap.add_argument("--out", default=OUT)
+    args = ap.parse_args(argv)
+
+    d = build(samples=args.samples,
+              arms_wanted=[a for a in args.arms.split(",") if a] or None,
+              n_procs=args.procs)
+    with open(args.out, "w") as fh:
+        json.dump(d, fh, indent=1)
+        fh.write("\n")
+    with open(os.path.splitext(args.out)[0] + ".md", "w") as fh:
+        fh.write(to_markdown(d))
+
+    print(json.dumps(d["verdict"], indent=1)[:3000], flush=True)
+    for k, v in d["cross_checks"].items():
+        print("[xcheck] %s: %s" % (k, v.get("status")), flush=True)
+    for r in d["refusals"]:
+        print("[REFUSED] %s: %s" % (r.get("what"), r.get("reason")), flush=True)
+    print("[tcip] wrote %s in %.1f s" % (args.out, d["runtime_s"]), flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

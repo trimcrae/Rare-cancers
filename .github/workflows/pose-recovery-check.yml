@@ -104,7 +104,24 @@ jobs:
           if [ ! -x ./bin/micromamba ]; then
             curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj bin/micromamba
           fi
-          ./bin/micromamba create -y -p "$RUNNER_TEMP/rdenv" -c conda-forge -c bioconda rdock
+          # ⛔ PINNED, AND THE PIN IS THE BUG FIX (measured 2026-08-06). `rdock`, unpinned, is
+          # SATISFIABLE BY TWO PACKAGES WITH DIFFERENT DATA LAYOUTS. bioconda carries
+          # `24.04.204_legacy` (binary self-reports rbdock v25.07-alpha), which installs its protocol
+          # files at `share/rDock/data/scripts/dock.prm` — the only path `rdock_tools()` probes — and
+          # `2013.1`, which installs them at `share/rdock-2013.1-1/data/scripts/dock.prm`. Measured by
+          # installing both prefixes side by side. When the solve returns 2013.1, `RBT_ROOT` resolves
+          # to `None`, `_stage_dock_prm` finds no `dock.prm`, and PART A returns
+          # `UNRUN — rDock's dock.prm protocol file is not readable under RBT_ROOT=None` with ZERO
+          # systems — while the workflow itself reports `success`. That is exactly what run
+          # 30826469202 (2026-08-03) committed, and the artifact it wrote overwrote a real result.
+          # ⚠ The pin is deliberately NOT accompanied by a widened `share/rdock*` probe: the two
+          # packages ship DIFFERENT stock protocols, and silently docking under whichever one the
+          # solver happened to supply is worse than an honest refusal.
+          ./bin/micromamba create -y -p "$RUNNER_TEMP/rdenv" -c conda-forge -c bioconda "rdock=24.04"
+          # Fail HERE, at install time, rather than 20 minutes later as a silent UNRUN.
+          test -f "$RUNNER_TEMP/rdenv/share/rDock/data/scripts/dock.prm" \
+            || { echo "rDock solve produced no share/rDock/data/scripts/dock.prm — refusing to run"; \
+                 find "$RUNNER_TEMP/rdenv/share" -maxdepth 1 -iname 'rdock*'; exit 1; }
           echo "RDOCK_ROOT=$RUNNER_TEMP/rdenv" >> "$GITHUB_ENV"
       - name: Tool census (so a missing tool is a named refusal, not a mystery)
         run: |

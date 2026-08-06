@@ -1,0 +1,2435 @@
+{
+  "_title": "Y419 as a second covalent handle — the ruler ruling, the drops, the chemistry and the chemoselectivity consequence",
+  "_status": "$0 CPU. Reagent-level enumeration finding. No GPU, no rental, no claim about binding, reactivity, degradation, efficacy, safety, a therapeutic window or clinical readiness, and no selectivity claim beyond the two-paralogue comparison set.",
+  "_serves": [
+    "path-family-synthesis.md §2 Tier-1 row 6 (the mandate)",
+    "roadmap §8 Route B",
+    "roadmap §10.1"
+  ],
+  "_one_fact_one_place": "M2's numbers are CITATIONS carrying `_from`; selectivity-mechanism-options.json owns them. The competitor census in `sufex_competitor_census` is a NEW fact and this file is its one home. `S1`'s window figures are citations to categorical-axis-audit.json.",
+  "_reads": {
+    "research/modalities/selectivity-mechanism-options.json": "M2 — the 11-class sweep, the rank, the handles and their RSA",
+    "results/nr4a3-matrix/nr4a3-opened.pdb": "the NR4A3 opened LBD model — distance reference",
+    "results/nr4a3-matrix/nr4a1-opened.pdb": "superposed into the NR4A3 frame",
+    "results/nr4a3-matrix/nr4a2-opened.pdb": "superposed into the NR4A3 frame",
+    "research/modalities/categorical-axis-audit.json": "S1's window verdict (cited, not re-homed)"
+  },
+  "_generated": {
+    "utc": "2026-08-06T18:47:12Z",
+    "et": "2026-08-06 2:47 PM ET",
+    "generator": "research/modalities/sufex_second_handle.py"
+  },
+  "the_reported_ruler": {
+    "_mandate": "path-family-synthesis.md §2 Tier-1 row 6: 'Take the threshold-free rank as the roadmap mandates and stop quoting both rulers as equals.'",
+    "THE_RULER": "the threshold-free RANK against NR4A1 Cys551",
+    "_why_this_one": "Not a preference. The roadmap's instrument table marks the alternative KNOWN-DEFECTIVE: `V17`'s EXPOSED_RSA = 0.25 cutoff FAILS its own positive control — NR4A1 Cys551, the NR4A family's one covalent site with literature support, reads RSA 0.165 on the state-matched opened model and 0 of 25 metadynamics frames — and the roadmap's own ruling is that what survives is a threshold-free RANK. A criterion with a demonstrated false negative on the only positive control the family has cannot be reported as co-equal with the ruler that replaced it.",
+    "_what_changes_in_practice": "Nothing about the numbers; everything about the sentence. Both readings stay computed and both stay in the artifact. What ends is the framing 'both readings are given, neither is chosen here' — the rank reading is THE reading, and the cutoff reading is carried as a SUPERSEDED cross-check, named as such, so it stays quotable as history and not as an alternative.",
+    "reference_site": "NR4A1 Cys551 (celastrol), RSA 0.165 on the state-matched opened model",
+    "reference_rsa": 0.165,
+    "_from_reference": "selectivity-mechanism-options.json -> measurements.M2.read_against_the_V17_positive_control_instead_of_the_cutoff.reference_rsa",
+    "Y419": {
+      "rsa": 0.221,
+      "rank_among_tetherable_unique_handles": 19,
+      "n_tetherable_unique_handles_ranked": 31,
+      "clears_the_reference": true,
+      "margin_over_reference_rsa": 0.056,
+      "clears_the_V17_cutoff": false,
+      "_from": "selectivity-mechanism-options.json -> measurements.M2 (rank list + lbd_unique_handles)"
+    },
+    "under_the_superseded_cutoff": {
+      "chemically_credible_set": [
+        "C397",
+        "C420",
+        "K518",
+        "K572",
+        "K592"
+      ],
+      "_reading": "NO new handle clears the cutoff at all — the set collapses to exactly the cysteines and lysines already committed. This is retained as a SUPERSEDED cross-check, not as a co-equal reading. Registering it is the point: a sweep that reports only what survives is a sweep nobody can grade.",
+      "_from": "selectivity-mechanism-options.json -> measurements.M2.chemically_credible_handles_under_the_V17_cutoff"
+    },
+    "NEW_handles_the_ruling_admits": [
+      "Y419 rsa=0.221"
+    ]
+  },
+  "explicitly_dropped": {
+    "_why_named": "Naming a dropped candidate is the difference between an enumeration and an advertisement. M398/M399 are the two handles this sweep found and refused.",
+    "dropped": [
+      {
+        "label": "M398",
+        "class": "M",
+        "residue_class": "Met thioether",
+        "chemistry": "oxaziridine (redox-activated)",
+        "chemistry_credibility_label": "precedented",
+        "rsa": 0.106,
+        "reference_rsa": 0.165,
+        "rank_among_tetherable_unique_handles": 23,
+        "n_tetherable_unique_handles_ranked": 31,
+        "clears_the_reference": false,
+        "clears_the_V17_cutoff": false,
+        "reach_class": "exit_vector",
+        "dist_to_cryptic_pocket_A": 11.74,
+        "VERDICT": "DROPPED — below the reference site on the ruler that binds, and below the cutoff on the superseded one. It fails on BOTH readings, so no choice of ruler rescues it.",
+        "_from": "selectivity-mechanism-options.json -> measurements.M2.lbd_unique_handles"
+      },
+      {
+        "label": "M399",
+        "class": "M",
+        "residue_class": "Met thioether",
+        "chemistry": "oxaziridine (redox-activated)",
+        "chemistry_credibility_label": "precedented",
+        "rsa": 0.051,
+        "reference_rsa": 0.165,
+        "rank_among_tetherable_unique_handles": 27,
+        "n_tetherable_unique_handles_ranked": 31,
+        "clears_the_reference": false,
+        "clears_the_V17_cutoff": false,
+        "reach_class": "in_pocket",
+        "dist_to_cryptic_pocket_A": 6.01,
+        "VERDICT": "DROPPED — below the reference site on the ruler that binds, and below the cutoff on the superseded one. It fails on BOTH readings, so no choice of ruler rescues it.",
+        "_from": "selectivity-mechanism-options.json -> measurements.M2.lbd_unique_handles"
+      }
+    ],
+    "not_carried_forward": [
+      "M398",
+      "M399"
+    ]
+  },
+  "literature_record": {
+    "_question": "Is 'SuFEx tyrosine' a real chemistry, and how routine is it?",
+    "_egress_state": "MEASURED 2026-08-06 in this session: europepmc.org and api.crossref.org failed CONNECT with 403 at the proxy; WebFetch returned HTTP 403 for pubmed.ncbi.nlm.nih.gov, nature.com, pmc.ncbi.nlm.nih.gov, europepmc.org, pubs.rsc.org and biorxiv.org. The repository's Europe PMC workflow was owned by another session and not used. Every entry below therefore carries a verification level, and none carries a figure that was not visible in a returned listing.",
+    "entries": [
+      {
+        "key": "chen_2016_jacs",
+        "title": "Arylfluorosulfates Inactivate Intracellular Lipid Binding Protein(s) through Chemoselective SuFEx Reaction with a Binding Site Tyr Residue",
+        "venue": "Journal of the American Chemical Society",
+        "doi": "10.1021/jacs.6b02960",
+        "pmid": "27191344",
+        "url": "https://pubs.acs.org/doi/10.1021/jacs.6b02960",
+        "what_it_establishes": "Aryl fluorosulfates engage a BINDING-SITE tyrosine in a protein chemoselectively via SuFEx. This is the anchor precedent for tyrosine-directed SuFEx on a folded protein.",
+        "what_it_does_NOT_establish": "It is a binding-site tyrosine inside a ligand pocket of an intracellular lipid binding protein. It says nothing about a surface/exit-vector tyrosine reached by a linker.",
+        "verification": "TITLE + VENUE + DOI + PMID read off returned search-result URLs. Full text and publisher abstract NOT retrieved (403 at every fetch path tried this session)."
+      },
+      {
+        "key": "hahm_2020_natchembiol",
+        "title": "Global targeting of functional tyrosines using sulfur-triazole exchange chemistry",
+        "venue": "Nature Chemical Biology",
+        "doi": "10.1038/s41589-019-0404-5",
+        "pmid": "31768034",
+        "url": "https://www.nature.com/articles/s41589-019-0404-5",
+        "what_it_establishes": "Sulfonyl-triazole (SuTEx) probes profile tyrosine sites at proteome scale in lysates and live cells, and tuning the leaving group improves chemoselectivity for tyrosine over other nucleophilic amino acids.",
+        "what_it_does_NOT_establish": "⛔ It is the source of the honest ceiling, not of a licence. The selectivity it reports is a FOLD ENRICHMENT for tyrosine over other nucleophiles, not exclusivity — i.e. the warhead labels other residue classes too, which is exactly what §4 counts.",
+        "verification": "TITLE + VENUE + DOI + PMID read off returned search-result URLs; the search listing's own summary quoted the fold-selectivity and site-count claims. Full text NOT retrieved (403). ⚠ The specific figures are therefore NOT re-homed here as numbers — only the direction of the claim is used."
+      },
+      {
+        "key": "martin_gago_olsen_2019_angew",
+        "title": "Arylfluorosulfate-Based Electrophiles for Covalent Protein Labeling: A New Addition to the Arsenal",
+        "venue": "Angewandte Chemie International Edition",
+        "doi": "10.1002/anie.201806037",
+        "pmid": "30024079",
+        "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/anie.201806037",
+        "what_it_establishes": "★ THE DECISIVE ONE FOR THIS LEAD. A review framing arylfluorosulfates as LATENT electrophiles that react on ACTIVATION in particular binding sites — the returned listing states the reaction requires a ligand-binding motif giving sufficient residence time AND a surrounding environment (basic residues) that lowers the pKa of the targeted nucleophile. It also states the residues addressed are context-specific Tyr and Lys, and also Ser.",
+        "what_it_does_NOT_establish": "It does not describe a general-purpose tyrosine warhead that works on any exposed tyrosine. The opposite: context is the mechanism.",
+        "verification": "TITLE + VENUE + DOI + PMID read off returned search-result URLs. Full text NOT retrieved (403 on both Wiley and the PMC mirror)."
+      },
+      {
+        "key": "wang_2018_jacs_fsy",
+        "title": "Genetically Encoding Fluorosulfate-l-tyrosine To React with Lysine, Histidine, and Tyrosine via SuFEx in Proteins in Vivo",
+        "venue": "Journal of the American Chemical Society",
+        "doi": "10.1021/jacs.8b01087",
+        "pmid": null,
+        "url": "https://pubs.acs.org/doi/10.1021/jacs.8b01087",
+        "what_it_establishes": "⛔ The cross-reactivity fact, in the title itself: a SuFEx aryl fluorosulfate reacts with proximal LYSINE, HISTIDINE and TYROSINE. The warhead's residue set is not {Tyr}.",
+        "what_it_does_NOT_establish": "It is a genetically encoded unnatural amino acid on a protein, not a small-molecule probe; the proximity regime differs. The residue promiscuity is the transferable part.",
+        "verification": "TITLE + VENUE + DOI read off returned search-result URLs. Full text NOT retrieved (403). PMID not seen in any returned URL, so none is recorded."
+      },
+      {
+        "key": "vhl_sulfonyl_fluoride_protacs_2024_jmedchem",
+        "title": "Structure-Guided Design and Optimization of Covalent VHL-Targeted Sulfonyl Fluoride PROTACs",
+        "venue": "Journal of Medicinal Chemistry",
+        "doi": null,
+        "pmid": null,
+        "url": "https://pubs.acs.org/jmcmar/article/67/6/4641/171752/Structure-Guided-Design-and-Optimization-of",
+        "what_it_establishes": "A SuFEx-class warhead HAS been carried inside a bifunctional degrader and driven degradation — so the construct class is not hypothetical.",
+        "what_it_does_NOT_establish": "⛔ THE COVALENT BOND IS ON THE E3 SIDE, NOT THE TARGET SIDE. The returned listing states the sulfonyl fluoride covalently binds VHL Ser110; the degrader's TARGET engagement (BRD4, AR) is non-covalent. This is NOT precedent for a linker-borne SuFEx warhead engaging a target-side tyrosine, which is what Route B would need.",
+        "verification": "TITLE + VENUE + volume/issue/page visible in the returned URL path (67/6/4641). DOI and PMID not seen in any returned URL, so none is recorded. Full text NOT retrieved (403 on the publisher page and on the bioRxiv preprint PDF)."
+      },
+      {
+        "key": "sufex_protac_p300_cbp_2025",
+        "title": "Construction of PROTAC molecules by the SuFEx reaction for inducing p300/CBP protein degradation",
+        "venue": "Bioorganic & Medicinal Chemistry (ScienceDirect listing)",
+        "doi": null,
+        "pmid": "40267748",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40267748/",
+        "what_it_establishes": "SuFEx used to BUILD degrader libraries.",
+        "what_it_does_NOT_establish": "⚠ Here SuFEx is a LINKER-CONSTRUCTION click reaction, not a protein-engaging warhead. Counting it as precedent for covalent target engagement would be a category error, and it is recorded here so nobody makes it.",
+        "verification": "TITLE + PMID read off the returned search-result URL; venue inferred from the ScienceDirect listing and marked as such. Full text NOT retrieved (403)."
+      }
+    ],
+    "★_verdict": "SuFEx tyrosine-targeting chemistry is REAL and PUBLISHED — the row's label 'precedented' SURVIVES contact with the literature and is not an overstatement. It is also NOT routine, and the specific way it is non-routine matters more than the label: the precedent set is BINDING-SITE tyrosines whose local environment lowers the phenol pKa and whose ligand gives the warhead residence time. Y419 is not that object. It is an EXIT-VECTOR residue at 11.4 A from the cryptic pocket, at RSA 0.221 on one static opened conformer, with no pKa, no measured microenvironment and no ligand residence time modelled anywhere in this repository. So the chemistry does not kill the lead — but it does not transfer to this site for free either, and the gap between 'this residue class is addressable' and 'this residue is addressable' is the whole of the remaining risk.",
+    "★_what_would_settle_it": "A bench experiment, and nothing in silico. No pKa predictor validated on ligand-directed SuFEx reactivity exists in this program, and building one is not a $0 job. The honest in-silico ceiling for Y419 is exactly where C397's is: a REACH-and-UNIQUENESS statement."
+  },
+  "sufex_competitor_census": {
+    "_what_this_measures": "How many reactive competitors each warhead class faces at or inside the target's own distance shell from the cryptic pocket, on the same three committed opened models `M2` used.",
+    "_what_this_is_NOT": "⛔ NOT the chemoselectivity window. The window is an interval in linker BACKBONE-ATOM counts from an E3 anchor and requires the placement/pendant enumeration in `nr4a3_linker_covalent_reach.py`, which has never been run for a non-cysteine warhead. This is a lower-bound diagnostic on the SIZE of that unrun problem.",
+    "_shell_definition_A": 11.4,
+    "_shell_is": "Y419's own dist_to_cryptic_pocket_A, cited from selectivity-mechanism-options.json -> measurements.M2.lbd_unique_handles",
+    "_reliability_rule": "Paralogue residues with post-fit deviation > 2.0 A after `superpose_paralogue` are counted as unreliable and excluded from the headline, never silently dropped.",
+    "superposition": {
+      "NR4A1": {
+        "n_ca_pairs": 244,
+        "global_all_pair_rmsd_A": 6.383,
+        "n_core": 203,
+        "core_fraction": 0.832,
+        "core_rmsd_A": 1.728,
+        "post_fit_deviation_A": {
+          "median": 1.74,
+          "p90": 8.21,
+          "max": 32.06
+        },
+        "_note": "Reported as global-vs-core deliberately. The global figure is dominated by a minority of terminal/loop positions that the two independently-built opened models genuinely place differently; the core figure is the one that says whether the fold-level frame is shared. Residues with a large post-fit deviation have UNRELIABLE positions in this frame and any claim about them is flagged accordingly."
+      },
+      "NR4A2": {
+        "n_ca_pairs": 249,
+        "global_all_pair_rmsd_A": 4.934,
+        "n_core": 206,
+        "core_fraction": 0.827,
+        "core_rmsd_A": 1.602,
+        "post_fit_deviation_A": {
+          "median": 1.55,
+          "p90": 5.92,
+          "max": 37.13
+        },
+        "_note": "Reported as global-vs-core deliberately. The global figure is dominated by a minority of terminal/loop positions that the two independently-built opened models genuinely place differently; the core figure is the one that says whether the fold-level frame is shared. Residues with a large post-fit deviation have UNRELIABLE positions in this frame and any claim about them is flagged accordingly."
+      }
+    },
+    "sufex_warhead": {
+      "warhead_class": "SuFEx (aryl fluorosulfate / sulfonyl fluoride / sulfonyl triazole)",
+      "residue_types_counted": [
+        "HIS",
+        "LYS",
+        "SER",
+        "THR",
+        "TYR"
+      ],
+      "n_reactive_atoms_all_three_models": 160,
+      "n_excluded_unreliable": 42,
+      "n_reliable": 118,
+      "n_at_or_inside_Y419_distance_shell": 45,
+      "by_protein_inside_shell": {
+        "NR4A1": 14,
+        "NR4A2": 12,
+        "NR4A3": 19
+      },
+      "by_residue_type_inside_shell": {
+        "HIS": 4,
+        "LYS": 9,
+        "SER": 22,
+        "THR": 5,
+        "TYR": 5
+      },
+      "nearest_10_inside_shell": [
+        {
+          "protein": "NR4A1",
+          "local_resid": 106,
+          "resname": "TYR",
+          "reactive_atom": "OH",
+          "dist_to_cryptic_pocket_A": 2.42,
+          "post_fit_deviation_A": 0.97,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A3",
+          "local_resid": 166,
+          "resname": "SER",
+          "reactive_atom": "OG",
+          "dist_to_cryptic_pocket_A": 2.8,
+          "post_fit_deviation_A": 0.0,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": 538
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 29,
+          "resname": "HIS",
+          "reactive_atom": "NE2",
+          "dist_to_cryptic_pocket_A": 2.93,
+          "post_fit_deviation_A": 0.81,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A3",
+          "local_resid": 37,
+          "resname": "SER",
+          "reactive_atom": "OG",
+          "dist_to_cryptic_pocket_A": 3.1,
+          "post_fit_deviation_A": 0.0,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": 409
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 158,
+          "resname": "SER",
+          "reactive_atom": "OG",
+          "dist_to_cryptic_pocket_A": 3.14,
+          "post_fit_deviation_A": 1.12,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A1",
+          "local_resid": 34,
+          "resname": "LYS",
+          "reactive_atom": "NZ",
+          "dist_to_cryptic_pocket_A": 3.25,
+          "post_fit_deviation_A": 1.26,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A1",
+          "local_resid": 160,
+          "resname": "SER",
+          "reactive_atom": "OG",
+          "dist_to_cryptic_pocket_A": 3.51,
+          "post_fit_deviation_A": 0.67,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A3",
+          "local_resid": 38,
+          "resname": "THR",
+          "reactive_atom": "OG1",
+          "dist_to_cryptic_pocket_A": 3.67,
+          "post_fit_deviation_A": 0.0,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": 410
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 110,
+          "resname": "TYR",
+          "reactive_atom": "OH",
+          "dist_to_cryptic_pocket_A": 3.71,
+          "post_fit_deviation_A": 0.84,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A1",
+          "local_resid": 119,
+          "resname": "SER",
+          "reactive_atom": "OG",
+          "dist_to_cryptic_pocket_A": 3.85,
+          "post_fit_deviation_A": 1.96,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        }
+      ]
+    },
+    "cysteine_warhead": {
+      "warhead_class": "cysteine-directed (acrylamide / chloroacetamide) — what S1's window WAS computed over",
+      "residue_types_counted": [
+        "CYS"
+      ],
+      "n_reactive_atoms_all_three_models": 18,
+      "n_excluded_unreliable": 4,
+      "n_reliable": 14,
+      "n_at_or_inside_Y419_distance_shell": 7,
+      "by_protein_inside_shell": {
+        "NR4A1": 1,
+        "NR4A2": 3,
+        "NR4A3": 3
+      },
+      "by_residue_type_inside_shell": {
+        "CYS": 7
+      },
+      "nearest_10_inside_shell": [
+        {
+          "protein": "NR4A3",
+          "local_resid": 124,
+          "resname": "CYS",
+          "reactive_atom": "SG",
+          "dist_to_cryptic_pocket_A": 4.31,
+          "post_fit_deviation_A": 0.0,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": 496
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 162,
+          "resname": "CYS",
+          "reactive_atom": "SG",
+          "dist_to_cryptic_pocket_A": 5.13,
+          "post_fit_deviation_A": 0.35,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A1",
+          "local_resid": 158,
+          "resname": "CYS",
+          "reactive_atom": "SG",
+          "dist_to_cryptic_pocket_A": 6.14,
+          "post_fit_deviation_A": 1.19,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A3",
+          "local_resid": 164,
+          "resname": "CYS",
+          "reactive_atom": "SG",
+          "dist_to_cryptic_pocket_A": 6.74,
+          "post_fit_deviation_A": 0.0,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": 536
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 223,
+          "resname": "CYS",
+          "reactive_atom": "SG",
+          "dist_to_cryptic_pocket_A": 8.43,
+          "post_fit_deviation_A": 1.22,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A3",
+          "local_resid": 222,
+          "resname": "CYS",
+          "reactive_atom": "SG",
+          "dist_to_cryptic_pocket_A": 9.51,
+          "post_fit_deviation_A": 0.0,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": 594
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 191,
+          "resname": "CYS",
+          "reactive_atom": "SG",
+          "dist_to_cryptic_pocket_A": 10.57,
+          "post_fit_deviation_A": 0.63,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        }
+      ]
+    },
+    "sufex_warhead_narrow_set_sensitivity": {
+      "warhead_class": "SuFEx, NARROW residue set (Tyr/Lys/His only) — the sensitivity check",
+      "residue_types_counted": [
+        "HIS",
+        "LYS",
+        "TYR"
+      ],
+      "n_reactive_atoms_all_three_models": 70,
+      "n_excluded_unreliable": 16,
+      "n_reliable": 54,
+      "n_at_or_inside_Y419_distance_shell": 18,
+      "by_protein_inside_shell": {
+        "NR4A1": 8,
+        "NR4A2": 5,
+        "NR4A3": 5
+      },
+      "by_residue_type_inside_shell": {
+        "HIS": 4,
+        "LYS": 9,
+        "TYR": 5
+      },
+      "nearest_10_inside_shell": [
+        {
+          "protein": "NR4A1",
+          "local_resid": 106,
+          "resname": "TYR",
+          "reactive_atom": "OH",
+          "dist_to_cryptic_pocket_A": 2.42,
+          "post_fit_deviation_A": 0.97,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 29,
+          "resname": "HIS",
+          "reactive_atom": "NE2",
+          "dist_to_cryptic_pocket_A": 2.93,
+          "post_fit_deviation_A": 0.81,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A1",
+          "local_resid": 34,
+          "resname": "LYS",
+          "reactive_atom": "NZ",
+          "dist_to_cryptic_pocket_A": 3.25,
+          "post_fit_deviation_A": 1.26,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 110,
+          "resname": "TYR",
+          "reactive_atom": "OH",
+          "dist_to_cryptic_pocket_A": 3.71,
+          "post_fit_deviation_A": 0.84,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A1",
+          "local_resid": 109,
+          "resname": "LYS",
+          "reactive_atom": "NZ",
+          "dist_to_cryptic_pocket_A": 4.97,
+          "post_fit_deviation_A": 1.17,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A2",
+          "local_resid": 195,
+          "resname": "HIS",
+          "reactive_atom": "NE2",
+          "dist_to_cryptic_pocket_A": 6.16,
+          "post_fit_deviation_A": 0.64,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A3",
+          "local_resid": 82,
+          "resname": "LYS",
+          "reactive_atom": "NZ",
+          "dist_to_cryptic_pocket_A": 6.84,
+          "post_fit_deviation_A": 0.0,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": 454
+        },
+        {
+          "protein": "NR4A3",
+          "local_resid": 197,
+          "resname": "HIS",
+          "reactive_atom": "NE2",
+          "dist_to_cryptic_pocket_A": 7.07,
+          "post_fit_deviation_A": 0.0,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": 569
+        },
+        {
+          "protein": "NR4A1",
+          "local_resid": 147,
+          "resname": "HIS",
+          "reactive_atom": "NE2",
+          "dist_to_cryptic_pocket_A": 7.46,
+          "post_fit_deviation_A": 1.93,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        },
+        {
+          "protein": "NR4A1",
+          "local_resid": 37,
+          "resname": "TYR",
+          "reactive_atom": "OH",
+          "dist_to_cryptic_pocket_A": 8.71,
+          "post_fit_deviation_A": 1.51,
+          "position_reliable_in_nr4a3_frame": true,
+          "uniprot_if_nr4a3": null
+        }
+      ]
+    },
+    "_why_ser_and_thr_are_in_the_headline_set": "A COMPETITOR is a residue the warhead can label, not a residue anyone would design against. `M2` grades Ser 'not a handle outside catalytic serines' — a statement about DESIGN INTENT — while `literature_record.vhl_sulfonyl_fluoride_protacs_2024_jmedchem` reports a sulfonyl fluoride PROTAC whose covalent bond is on VHL **Ser110**, a serine labelled in practice. Both are true and they are not the same question. The narrow set is reported beside the headline so the conclusion can be read either way — and it does not change the direction.",
+    "competitor_population_ratio_sufex_over_cysteine": 6.43,
+    "competitor_population_ratio_narrow_set_over_cysteine": 2.57,
+    "★_finding": "Inside Y419's own distance shell the SuFEx warhead faces 45 reactive competitors across the three models, against 7 for the cysteine warhead whose window `S1` actually computed — a factor of 6.43, and 2.57 even on the narrow Tyr/Lys/His set (18 competitors), so the direction does not depend on counting Ser/Thr. `S1`'s window is closed by a PARALOGUE cysteine in 30 of 30 graded cells under each convention with the SMALLER of these two populations. ⛔ Therefore the existing window may not be inherited by Y419 in either direction: it cannot be quoted as reassurance, and it cannot be quoted as a refutation. It has not been computed for this warhead.",
+    "_S1_window_citations": {
+      "closed_by_a_paralogue_cysteine": "30 of 30 graded cells, each convention — categorical-axis-audit.json -> window_verdict.★_the_correct_sentence",
+      "through_space_majority_closer": "NR4A1 C505 in 24 of 30 cells — a position NR4A3 SHARES (C536), so no reciprocal-uniqueness reading applies to it",
+      "corridor_majority_closer": "NR4A2 C534 in 23 of 30 cells — a position NR4A3 LACKS (S565)",
+      "competitor_set_is_cysteine_only": "nr4a3_linker_covalent_reach.cysteines_in reads atom 'SG' and no other reactive atom"
+    },
+    "rows_sufex": [
+      {
+        "protein": "NR4A1",
+        "local_resid": 31,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 1.08,
+        "post_fit_deviation_A": null,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 28,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 1.58,
+        "post_fit_deviation_A": 4.29,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 25,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 1.73,
+        "post_fit_deviation_A": 2.57,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 106,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 2.42,
+        "post_fit_deviation_A": 0.97,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 32,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 2.71,
+        "post_fit_deviation_A": 2.05,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 166,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 2.8,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 538
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 29,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 2.93,
+        "post_fit_deviation_A": 0.81,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 37,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 3.1,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 409
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 158,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 3.14,
+        "post_fit_deviation_A": 1.12,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 34,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 3.25,
+        "post_fit_deviation_A": 1.26,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 160,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 3.51,
+        "post_fit_deviation_A": 0.67,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 37,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 3.66,
+        "post_fit_deviation_A": 4.34,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 38,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 3.67,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 410
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 110,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 3.71,
+        "post_fit_deviation_A": 0.84,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 119,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 3.85,
+        "post_fit_deviation_A": 1.96,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 161,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 3.95,
+        "post_fit_deviation_A": 0.7,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 112,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 3.96,
+        "post_fit_deviation_A": 0.77,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 35,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 4.03,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 407
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 143,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 4.1,
+        "post_fit_deviation_A": 1.55,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 108,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 4.17,
+        "post_fit_deviation_A": 1.37,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 38,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 4.21,
+        "post_fit_deviation_A": 1.83,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 114,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 4.23,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 486
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 147,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 4.27,
+        "post_fit_deviation_A": 1.29,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 191,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 4.35,
+        "post_fit_deviation_A": 2.17,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 111,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 4.43,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 483
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 32,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 4.77,
+        "post_fit_deviation_A": null,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 109,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 4.97,
+        "post_fit_deviation_A": 1.17,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 149,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 5.06,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 521
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 208,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 5.26,
+        "post_fit_deviation_A": 7.46,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 76,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 5.63,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 448
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 195,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 6.16,
+        "post_fit_deviation_A": 0.64,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 72,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 6.31,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 444
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 66,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 6.74,
+        "post_fit_deviation_A": 2.91,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 82,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 6.84,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 454
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 70,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 6.97,
+        "post_fit_deviation_A": 3.44,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 197,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 7.07,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 569
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 147,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 7.46,
+        "post_fit_deviation_A": 1.93,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 116,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 7.57,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 488
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 78,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 7.84,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 450
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 80,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 8.39,
+        "post_fit_deviation_A": 2.41,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 169,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 8.45,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 541
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 37,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 8.71,
+        "post_fit_deviation_A": 1.51,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 207,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 8.98,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 579
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 72,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 9.12,
+        "post_fit_deviation_A": 2.07,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 118,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 9.32,
+        "post_fit_deviation_A": 1.94,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 44,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 9.34,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 416
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 114,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 9.53,
+        "post_fit_deviation_A": 1.35,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 120,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 9.6,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 492
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 148,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 9.65,
+        "post_fit_deviation_A": 1.58,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 23,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 9.71,
+        "post_fit_deviation_A": 1.06,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 76,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 9.77,
+        "post_fit_deviation_A": 1.95,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 215,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 9.86,
+        "post_fit_deviation_A": 0.46,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 193,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 10.42,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 565
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 145,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 10.58,
+        "post_fit_deviation_A": 1.3,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 19,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 10.75,
+        "post_fit_deviation_A": 1.48,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 20,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 10.83,
+        "post_fit_deviation_A": 2.43,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 41,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 10.84,
+        "post_fit_deviation_A": 3.58,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 211,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 11.24,
+        "post_fit_deviation_A": 0.85,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 47,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 11.4,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 419
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 20,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 11.57,
+        "post_fit_deviation_A": 1.49,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 170,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 11.89,
+        "post_fit_deviation_A": 1.51,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 200,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 11.95,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 572
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 45,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 12.05,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 417
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 148,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 12.13,
+        "post_fit_deviation_A": 2.16,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 210,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 12.18,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 582
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 191,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 12.47,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 563
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 211,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 12.6,
+        "post_fit_deviation_A": 1.99,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 154,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 12.63,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 526
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 172,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 12.68,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 544
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 138,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 12.88,
+        "post_fit_deviation_A": 0.85,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 146,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 13.44,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 518
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 38,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 13.46,
+        "post_fit_deviation_A": 2.26,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 144,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 13.48,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 516
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 128,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 13.7,
+        "post_fit_deviation_A": 2.7,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 166,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 13.84,
+        "post_fit_deviation_A": 2.62,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 68,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 14.04,
+        "post_fit_deviation_A": 2.35,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 124,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 14.13,
+        "post_fit_deviation_A": 1.78,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 142,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 14.31,
+        "post_fit_deviation_A": 0.68,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 64,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 14.54,
+        "post_fit_deviation_A": 2.97,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 210,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 14.62,
+        "post_fit_deviation_A": 2.83,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 70,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 14.71,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 442
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 248,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 14.71,
+        "post_fit_deviation_A": 8.69,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 42,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 14.75,
+        "post_fit_deviation_A": 3.95,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 186,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 14.86,
+        "post_fit_deviation_A": 0.97,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 209,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 14.91,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 581
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 197,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 14.92,
+        "post_fit_deviation_A": null,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 206,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 15.18,
+        "post_fit_deviation_A": 1.44,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 87,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 15.47,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 459
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 98,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 15.48,
+        "post_fit_deviation_A": 0.42,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 224,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 15.5,
+        "post_fit_deviation_A": 1.73,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 195,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 15.52,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 567
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 199,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 15.62,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 571
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 221,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 15.65,
+        "post_fit_deviation_A": 1.42,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 100,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 15.66,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 472
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 192,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 15.7,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 564
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 223,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 15.87,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 595
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 220,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 15.95,
+        "post_fit_deviation_A": 0.84,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 189,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 16.08,
+        "post_fit_deviation_A": 1.91,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 39,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 16.16,
+        "post_fit_deviation_A": 2.12,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 217,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 16.28,
+        "post_fit_deviation_A": 0.69,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 130,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 16.44,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 502
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 220,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 16.52,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 592
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 95,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 16.61,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 467
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 203,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 16.88,
+        "post_fit_deviation_A": null,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 193,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 16.95,
+        "post_fit_deviation_A": 1.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 50,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 17.1,
+        "post_fit_deviation_A": 2.15,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 94,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 17.47,
+        "post_fit_deviation_A": 1.77,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 187,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 17.57,
+        "post_fit_deviation_A": 1.02,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 13,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 17.58,
+        "post_fit_deviation_A": 9.15,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 189,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 18.68,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 561
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 89,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 18.94,
+        "post_fit_deviation_A": 1.98,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 247,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 19.17,
+        "post_fit_deviation_A": 1.71,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 169,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 19.56,
+        "post_fit_deviation_A": 1.81,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 64,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 20.04,
+        "post_fit_deviation_A": 0.82,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 50,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 20.06,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 422
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 60,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 20.08,
+        "post_fit_deviation_A": 1.62,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 91,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 20.14,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 463
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 61,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 20.54,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 433
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 243,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 20.57,
+        "post_fit_deviation_A": 3.74,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 66,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 20.72,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 438
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 246,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 21.63,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 618
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 59,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 22.11,
+        "post_fit_deviation_A": 1.69,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 53,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 22.27,
+        "post_fit_deviation_A": 1.25,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 251,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 22.65,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 623
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 242,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 22.86,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 614
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 16,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 23.23,
+        "post_fit_deviation_A": 2.31,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 173,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 23.29,
+        "post_fit_deviation_A": 1.24,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 21,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 23.31,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 393
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 175,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 23.5,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 547
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 228,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 24.19,
+        "post_fit_deviation_A": 1.68,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 252,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 24.5,
+        "post_fit_deviation_A": 2.43,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 84,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 24.58,
+        "post_fit_deviation_A": 2.06,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 232,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 24.82,
+        "post_fit_deviation_A": 1.69,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 230,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 24.85,
+        "post_fit_deviation_A": 1.54,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 231,
+        "resname": "TYR",
+        "reactive_atom": "OH",
+        "dist_to_cryptic_pocket_A": 25.01,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 603
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 234,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 25.07,
+        "post_fit_deviation_A": 1.31,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 181,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 25.27,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 553
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 233,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 25.52,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 605
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 239,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 25.56,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 611
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 7,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 25.56,
+        "post_fit_deviation_A": 25.26,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 179,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 25.98,
+        "post_fit_deviation_A": 0.9,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 57,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 26.25,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 429
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 57,
+        "resname": "THR",
+        "reactive_atom": "OG1",
+        "dist_to_cryptic_pocket_A": 26.56,
+        "post_fit_deviation_A": 1.43,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 178,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 26.89,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 550
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 5,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 26.91,
+        "post_fit_deviation_A": 30.18,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 47,
+        "resname": "HIS",
+        "reactive_atom": "NE2",
+        "dist_to_cryptic_pocket_A": 27.24,
+        "post_fit_deviation_A": 10.18,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 176,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 28.39,
+        "post_fit_deviation_A": 1.69,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 50,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 31.38,
+        "post_fit_deviation_A": null,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 18,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 31.76,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 390
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 13,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 32.7,
+        "post_fit_deviation_A": 5.63,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 4,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 34.73,
+        "post_fit_deviation_A": 30.91,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 15,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 37.24,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 387
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 8,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 47.24,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 380
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 7,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 47.43,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 379
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 8,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 48.62,
+        "post_fit_deviation_A": 14.42,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 7,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 49.46,
+        "post_fit_deviation_A": 15.19,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 5,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 52.45,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 377
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 5,
+        "resname": "LYS",
+        "reactive_atom": "NZ",
+        "dist_to_cryptic_pocket_A": 55.26,
+        "post_fit_deviation_A": 21.38,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 4,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 57.08,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 376
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 4,
+        "resname": "SER",
+        "reactive_atom": "OG",
+        "dist_to_cryptic_pocket_A": 58.56,
+        "post_fit_deviation_A": 25.43,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      }
+    ],
+    "rows_cysteine": [
+      {
+        "protein": "NR4A2",
+        "local_resid": 122,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 2.74,
+        "post_fit_deviation_A": 2.55,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 124,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 4.31,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 496
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 162,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 5.13,
+        "post_fit_deviation_A": 0.35,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 158,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 6.14,
+        "post_fit_deviation_A": 1.19,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 164,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 6.74,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 536
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 223,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 8.43,
+        "post_fit_deviation_A": 1.22,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 118,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 9.28,
+        "post_fit_deviation_A": 2.97,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 222,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 9.51,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 594
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 204,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 9.61,
+        "post_fit_deviation_A": null,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 191,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 10.57,
+        "post_fit_deviation_A": 0.63,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A2",
+        "local_resid": 132,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 11.47,
+        "post_fit_deviation_A": 2.22,
+        "position_reliable_in_nr4a3_frame": false,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 134,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 11.68,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 506
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 25,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 11.71,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 397
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 187,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 11.72,
+        "post_fit_deviation_A": 1.18,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 219,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 11.73,
+        "post_fit_deviation_A": 1.04,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A1",
+        "local_resid": 128,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 12.28,
+        "post_fit_deviation_A": 1.45,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": null
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 187,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 12.8,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 559
+      },
+      {
+        "protein": "NR4A3",
+        "local_resid": 48,
+        "resname": "CYS",
+        "reactive_atom": "SG",
+        "dist_to_cryptic_pocket_A": 18.34,
+        "post_fit_deviation_A": 0.0,
+        "position_reliable_in_nr4a3_frame": true,
+        "uniprot_if_nr4a3": 420
+      }
+    ]
+  },
+  "★_headline": "Route B's single point of failure is NOT purely a fact about the protein — the enumeration was narrower than the mechanism. Sweeping 11 reactive classes puts Y419, a paralogue-unique tyrosine at RSA 0.221 and 11.4 A from the cryptic pocket, at rank 19 of 31 tetherable unique handles — ABOVE the NR4A family's one literature-anchored covalent site on the ruler this program mandates. ⛔ AND IT IS A CANDIDATE, NOT REDUNDANCY. Three things stand between it and a second handle, all named: the SuFEx precedent is for BINDING-SITE tyrosines and Y419 is an exit-vector residue; the chemoselectivity window has never been computed for a non-cysteine warhead and the competitor population is 6.43x larger inside Y419's own shell; and Route B remains blocked upstream on `R5`, which a second handle does not touch.",
+  "⛔_limits": [
+    "REAGENT-LEVEL ONLY. Nothing here says an adduct forms. No phenol pKa, nucleophilicity, adduct stability or electrophile promiscuity is modelled anywhere in this repository.",
+    "Sequence uniqueness is exact; every geometric annotation is ONE static opened conformer, and the paralogue geometry additionally inherits the superposition's core/outlier split.",
+    "The competitor census is a distance-ordered LOWER-BOUND DIAGNOSTIC, not the backbone-atom window. It cannot say at which linker length a competitor arrives.",
+    "Chemistry credibility remains a LITERATURE LABEL. No citation in `literature_record` was read in full text — every publisher, PMC, Europe PMC and Crossref host returned 403 in this session, and each entry records that.",
+    "A second handle does not unblock Route B. `R5` — the site/pose question `V3` returned INCONCLUSIVE on — is upstream of every anchor here, Y419's included.",
+    "The comparison set is TWO paralogues. Nothing here is a proteome-wide statement of any kind."
+  ],
+  "map_edits_required": {
+    "_contract": "DESCRIBED, NEVER APPLIED. Every `current_text` is a byte-exact substring of nr4a3-program-map.md as it stood at generation time; verify with `grep -F`. An anchor that could not be resolved carries status ANCHOR_NOT_FOUND / ANCHOR_NOT_UNIQUE and NO proposed_text — a visible refusal, not a mis-targeted edit.",
+    "_locked_files_this_generator_must_not_touch": [
+      "research/manuscripts/nr4a3-program-map.md",
+      "research/manuscripts/path-family-synthesis.md",
+      "STRATEGY.md",
+      "CLAUDE.md",
+      "systems/graph/",
+      "systems/views/"
+    ],
+    "entries": [
+      {
+        "section": "§8 Route B — the heading clause",
+        "anchor": "BUT ONLY ON THE RULER THIS PAGE PERMITS, AND BOTH READINGS",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The clause says the axis is wider 'BUT ONLY ON THE RULER THIS PAGE PERMITS', which reads as a concession — as though the permitted ruler were the weaker of two. It is the only one this page permits BECAUSE the other is KNOWN-DEFECTIVE in its own instrument table. Stating that positively is the difference between a hedge and a ruling.",
+        "artifact": "research/modalities/sufex-second-handle.json",
+        "current_text": "⚠ **AND THE CATEGORICAL AXIS IS WIDER THAN C397 — BUT ONLY ON THE RULER THIS PAGE PERMITS, AND BOTH READINGS",
+        "proposed_text": "⚠ **AND THE CATEGORICAL AXIS IS WIDER THAN C397 — ON THE RULER THIS PAGE MANDATES, WHICH IS THE ONLY ONE IT PERMITS — AND BOTH READINGS"
+      },
+      {
+        "section": "§8 Route B — 'neither reading is chosen here'",
+        "anchor": "The sweep cuts both ways and neither reading is chosen here",
+        "kind": "amend",
+        "status": "OK",
+        "why": "⛔ THE MANDATE VIOLATION, in one sentence. path-family-synthesis.md §2 Tier-1 row 6 says 'take the threshold-free rank as the roadmap mandates and STOP QUOTING BOTH RULERS AS EQUALS'. 'Neither reading is chosen here' is precisely quoting them as equals, and it lets a reader pick the criterion this page's own instrument table marks KNOWN-DEFECTIVE. A superseded reading is registered, never offered.",
+        "artifact": "research/modalities/sufex-second-handle.json",
+        "current_text": "counts). **The sweep cuts both ways and neither reading is chosen here:**",
+        "proposed_text": "counts). **The sweep cuts both ways — and the reading that BINDS is the threshold-free RANK, per [`path-family-synthesis.md`](path-family-synthesis.md) §2 row 6. The cutoff reading is registered as SUPERSEDED, not offered as an alternative** ([`sufex-second-handle.json`](../modalities/sufex-second-handle.json) `the_reported_ruler`):"
+      },
+      {
+        "section": "§8 Route B — the superseded cutoff bullet",
+        "anchor": "the cysteines and lysines already committed.",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The bullet is correct and must stay — registering what the discredited ruler said is how a reader grades the sweep. What it lacks is the label that stops it being read as a live alternative.",
+        "artifact": "research/modalities/sufex-second-handle.json",
+        "current_text": "  the cysteines and lysines already committed.",
+        "proposed_text": "  the cysteines and lysines already committed. ⚠ **SUPERSEDED AS A RULER, RETAINED AS A CROSS-CHECK** — `V17` fails its own positive control ([§3.1 row `V17`](#31--the-instrument-table)), so this reading records what a criterion with a demonstrated false negative returns; it does not compete with the rank."
+      },
+      {
+        "section": "§8 Route B — Y419 bullet",
+        "anchor": "literature-anchored covalent site and the very false negative that discredited the cutoff.",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The bullet states the rank result without the rank position or the numbers behind it, and without the two limits that decide how much it is worth: the chemistry precedent is for BINDING-SITE tyrosines and Y419 is an exit-vector residue, and the chemoselectivity window has never been computed for a non-cysteine warhead.",
+        "artifact": "research/modalities/sufex-second-handle.json",
+        "current_text": "  literature-anchored covalent site and the very false negative that discredited the cutoff.",
+        "proposed_text": "  literature-anchored covalent site and the very false negative that discredited the cutoff. It ranks **19 of 31** tetherable unique handles at RSA **0.221**, against the reference site's **0.165**. ⛔ **Two limits travel with it and neither is optional.** **(a)** The SuFEx tyrosine precedent is for **binding-site** tyrosines whose local environment lowers the phenol pKa and whose ligand supplies residence time; Y419 is an **exit-vector** residue and no pKa, microenvironment or residence time is modelled anywhere here. **(b)** ⛔ **`S1`'s chemoselectivity window may not be inherited** — it is computed over **cysteines only**, and inside Y419's own distance shell a SuFEx warhead faces **45** reactive competitors against the cysteine warhead's **7** (**6.43×**). [`sufex-second-handle.json`](../modalities/sufex-second-handle.json) owns those counts. **This is a REAGENT-level statement**: a second candidate handle, not a second engagement claim, and it does **not** unblock `R5`"
+      },
+      {
+        "section": "§8 Route B — the M398/M399 drop",
+        "anchor": "point: a sweep that only reports what survives is a sweep nobody can grade.",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The drop is stated without its numbers, so a reader cannot check it. Rule 1: point at the artifact that owns them.",
+        "artifact": "research/modalities/sufex-second-handle.json",
+        "current_text": "  point: a sweep that only reports what survives is a sweep nobody can grade.",
+        "proposed_text": "  point: a sweep that only reports what survives is a sweep nobody can grade. The numbers: RSA **0.106** / **0.051** against the reference site's **0.165**, ranks **23** and **27** of **31** — [`sufex-second-handle.json`](../modalities/sufex-second-handle.json) `explicitly_dropped`."
+      },
+      {
+        "section": "§10.1 open rows — new row 30, appended after row 29",
+        "anchor": "| **29** | **The categorical axis's cross-system decoy null (`C02`)**",
+        "kind": "amend",
+        "status": "OK",
+        "why": "The second-handle question is on no ranked row. It is the difference between Route B having a single point of failure that is a FACT ABOUT THE PROTEIN and one that was an artefact of sweeping two residue classes — and the one thing that would settle how much Y419 is worth is a $0 CPU job (the non-cysteine chemoselectivity window) that has never been run.",
+        "artifact": "research/modalities/sufex-second-handle.json",
+        "current_text": "| **29** | **The categorical axis's cross-system decoy null (`C02`)** — unrelated close human paralogue pairs through the identical pipeline | `R8` `R15` | ✓ **complete 2026-08-03** | **—** ($0) | **$0 — CPU/CI (realized)** | ✅ **RAN, and the categorical GO now has a MEASURED background instead of an unmeasured one** — the shape whose absence cost the program `V20`. The design was frozen before any model was fetched (mode `plan` emits it with no results), and the harness reproduces the committed static verdict. ⛔ **WHAT IS STILL OPEN, and it is why this row is not simply closed:** the pre-registered pLDDT ≥ 70 trim (`C16`) keeps UniProt **427–570**, so the NR4A3 arm through this harness scores **C559 and not C397** — **no percentile may be quoted for the program's headline residue**, and ⛔ **the trim may not be widened after the fact.** The honest repair is a **separate** test with its own pre-registered trim, which is $0; the alternative is to state the background as a statement about the **screen** and stop implying it places NR4A3. ⭑ A second result came with it and is not bookkeeping: **half the ordered decoy pairs have no target-unique cysteine at all**. Numbers: [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json); design and pairs: [`categorical-decoy-null-plan.json`](../modalities/categorical-decoy-null-plan.json); the caveat's one home is [§3.4 fact 4](#34--four-instrument-facts-this-page-used-to-be-missing) | ⭑ **THE REPAIR IS DONE, 2026-08-03 ($0 CPU/CI): `C02-L` under a SECOND pre-registered scope (`C24`, the reference-anchored LBD window), which contains C397.** row-level n_graded=16, frac_exactly_zero=0.3125, NR4A3 percentile(s)=[0.3125, 0.3125]; cysteine-level n_graded=25, frac_exactly_zero=0.56, C397 percentile(s)=[0.56, 0.56]. ⛔ It is **not** a widening of `C16` and does **not** supersede this row's result — both runs stand and their rows are never pooled. Numbers: [`categorical-decoy-null-lbd.json`](../modalities/categorical-decoy-null-lbd.json); design and pairs: [`categorical-decoy-null-lbd-plan.json`](../modalities/categorical-decoy-null-lbd-plan.json)",
+        "proposed_text": "| **29** | **The categorical axis's cross-system decoy null (`C02`)** — unrelated close human paralogue pairs through the identical pipeline | `R8` `R15` | ✓ **complete 2026-08-03** | **—** ($0) | **$0 — CPU/CI (realized)** | ✅ **RAN, and the categorical GO now has a MEASURED background instead of an unmeasured one** — the shape whose absence cost the program `V20`. The design was frozen before any model was fetched (mode `plan` emits it with no results), and the harness reproduces the committed static verdict. ⛔ **WHAT IS STILL OPEN, and it is why this row is not simply closed:** the pre-registered pLDDT ≥ 70 trim (`C16`) keeps UniProt **427–570**, so the NR4A3 arm through this harness scores **C559 and not C397** — **no percentile may be quoted for the program's headline residue**, and ⛔ **the trim may not be widened after the fact.** The honest repair is a **separate** test with its own pre-registered trim, which is $0; the alternative is to state the background as a statement about the **screen** and stop implying it places NR4A3. ⭑ A second result came with it and is not bookkeeping: **half the ordered decoy pairs have no target-unique cysteine at all**. Numbers: [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json); design and pairs: [`categorical-decoy-null-plan.json`](../modalities/categorical-decoy-null-plan.json); the caveat's one home is [§3.4 fact 4](#34--four-instrument-facts-this-page-used-to-be-missing) | ⭑ **THE REPAIR IS DONE, 2026-08-03 ($0 CPU/CI): `C02-L` under a SECOND pre-registered scope (`C24`, the reference-anchored LBD window), which contains C397.** row-level n_graded=16, frac_exactly_zero=0.3125, NR4A3 percentile(s)=[0.3125, 0.3125]; cysteine-level n_graded=25, frac_exactly_zero=0.56, C397 percentile(s)=[0.56, 0.56]. ⛔ It is **not** a widening of `C16` and does **not** supersede this row's result — both runs stand and their rows are never pooled. Numbers: [`categorical-decoy-null-lbd.json`](../modalities/categorical-decoy-null-lbd.json); design and pairs: [`categorical-decoy-null-lbd-plan.json`](../modalities/categorical-decoy-null-lbd-plan.json)\n| **30** | **The non-cysteine chemoselectivity window — run the reach enumeration for a SuFEx warhead at Y419** | `R8` `R15` (Route B's single-point-of-failure hedge) | ○ **not started** | — ($0) | **$0** — CPU/CI | ⛔ **The window that decides the cysteine handle has never been computed for any other warhead.** `nr4a3_linker_covalent_reach.cysteines_in` reads atom `SG` and nothing else, so `S1`'s *closed by a paralogue cysteine in 30 of 30 graded cells* is a statement about a **cysteine-only** competitor set. Inside Y419's own distance shell a SuFEx warhead faces **45** reactive competitors (Tyr/Lys/His/Ser/Thr, all three models) against the cysteine warhead's **7** — **6.43×** the population, on the SMALLER of which the existing window already closes ([`sufex-second-handle.json`](../modalities/sufex-second-handle.json)). ★ **What it settles:** whether Y419 is a usable second handle or a handle whose window is shut before it opens — i.e. whether Route B's single point of failure is a fact about the protein or a gap in the enumeration. ⛔ **What it does NOT settle:** the chemistry. SuFEx tyrosine precedent is for **binding-site** tyrosines with a pKa-perturbing environment and ligand residence time; Y419 is an **exit-vector** residue, and closing that gap needs a bench ([`sufex-second-handle.json`](../modalities/sufex-second-handle.json) `literature_record`) |"
+      }
+    ],
+    "verification": {
+      "n_entries": 6,
+      "n_applicable": 6,
+      "n_unlocatable": 0,
+      "n_stale": 0,
+      "unlocatable_anchors": [],
+      "stale_anchors": [],
+      "verified_against": "research/manuscripts/nr4a3-program-map.md",
+      "_method": "each entry's current_text re-counted in the live map; exactly one occurrence = applicable. This is the `grep -F` check, run at generation time.",
+      "status": "ALL APPLICABLE"
+    }
+  }
+}

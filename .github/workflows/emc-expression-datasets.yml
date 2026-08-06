@@ -22,6 +22,27 @@ name: EMC expression datasets — part B of the ATR vulnerability assessment
 #                  SEPARATE mode because a series characterisation must never rewrite — or be
 #                  able to perturb — a committed grading artifact.
 #
+# ⭐ THIRD MODE, added 2026-08-06: `aso-junction`.
+#   It is here on the precedent the paragraph above sets in this file's own words — "the same $0
+#   NCBI-fetch capability and the same 'the sandbox cannot reach GEO' reason". This one reaches
+#   Ensembl rather than GEO; the egress proxy 403s both, and the job is the same shape: pure
+#   stdlib, CPU, minutes, one artifact. Standing up a second workflow for it would have put one
+#   capability in two homes (CLAUDE.md §1) and, because a NEW workflow file on a feature branch
+#   404s on dispatch, would also have been undispatchable until it reached `main`.
+#
+#   WHAT IT IS FOR. The route framing audit (`systems/AUDIT-2026-08-06-routes.md` X14) found the
+#   ChemRxiv-queued ASO design panel built on a seam this repo had already RETRACTED — NR4A3
+#   resuming at residue 361, which `fusion-neoantigen-retraction.json` grades SEAM_NOT_PRODUCED.
+#   The code was fixed the same day but the panel was never regenerated, because regeneration
+#   needs Ensembl. This mode is that regeneration.
+#
+#   ⛔ IT DOES NOT PUBLISH, AND THAT IS DELIBERATE. Everything it produces is printed between
+#   `===BEGIN <name>===` / `===END <name>===` markers and uploaded as a run artifact. A panel that
+#   has just been rebuilt on a corrected exon index is a thing a human should read BEFORE it lands
+#   next to the six files still carrying retraction banners — publishing it automatically would
+#   put a fresh unreviewed panel and a retracted one in the same directory with nothing to tell
+#   them apart, which is the failure this whole exercise is a correction for.
+#
 # $0 — a GitHub-hosted CPU runner, no GPU, no rental. Pure stdlib: no pip install at all.
 # The dev sandbox's egress proxy 403s NCBI/GEO/Europe PMC on CONNECT, which is the whole reason
 # this runs here (CLAUDE.md §6).
@@ -39,10 +60,20 @@ on:
           in `atr_hrd_sarcoma_series.py`. The two modes touch DIFFERENT artifacts and must not
           share a run: part B rewrites the 7 MB assessment artifact, and a series characterisation
           has no business perturbing a committed grading.
+          aso-junction = grade every declared EWSR1::NR4A3 exon pair at the mRNA level against
+          Ensembl and regenerate the ASO design panel for the ones that survive. Publishes
+          NOTHING — it prints and uploads, on purpose (see the header).
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series"]
+        options: ["part-b", "gse-series", "aso-junction"]
+      junctions:
+        description: >-
+          aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
+          against, e.g. "7:3,12:3". Each is designed only if the frame audit grades it EMITTABLE;
+          a refusal is recorded and reported, never silently skipped.
+        required: false
+        default: "7:3,12:3"
       series:
         description: "gse-series mode only: the GEO series accession to characterise."
         required: false
@@ -79,14 +110,23 @@ jobs:
       # A broken derive would otherwise be discovered only after the fetch had spent its time.
       - name: Unit tests (derive half, offline)
         timeout-minutes: 10
+        # ⚠ MODE-AWARE, and the aso-junction set is not optional. Both defects that produced the
+        # retracted seam were arithmetic over a committed exon index, and both would have been
+        # caught by an offline test. Running them before the Ensembl fetch means a reintroduced
+        # off-by-two fails in seconds rather than after a network round trip — and, more to the
+        # point, means no panel can be emitted by a build whose arithmetic is unproven.
         run: |
           python -m pip install --upgrade pip
           pip install pytest
-          python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py \
-                           research/modalities/tests/test_atr_hrd_sarcoma_series.py -q
+          if [ "${{ inputs.mode }}" = "aso-junction" ]; then
+            python -m pytest research/modalities/tests/test_junction_aso_seam.py -q
+          else
+            python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py \
+                             research/modalities/tests/test_atr_hrd_sarcoma_series.py -q
+          fi
 
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
-        if: inputs.mode != 'gse-series'
+        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -114,8 +154,84 @@ jobs:
         timeout-minutes: 45
         run: python research/modalities/atr_hrd_sarcoma_series.py --fetch-quant
 
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # aso-junction — the regeneration the route framing audit left owed
+      # ─────────────────────────────────────────────────────────────────────────────────────
+
+      # ⭐ THE AUDIT RUNS FIRST AND IT DESIGNS NOTHING. It grades every declared exon pair from the
+      # spliced cDNA: is the acceptor exon coding, where does NR4A3 resume, how many acceptor 5'UTR
+      # bases the fusion retains, is the chimeric ORF in frame, what the real mRNA seam is. This
+      # table is the instrument the lane never had — the old code emitted a panel with a junction
+      # LABEL and no graded offsets, so the wrong seam was invisible in the file depending on it.
+      - name: "ASO — grade every declared EWSR1::NR4A3 exon pair at the mRNA level (Ensembl)"
+        if: inputs.mode == 'aso-junction'
+        timeout-minutes: 20
+        run: |
+          set -o pipefail
+          python research/modalities/junction_aso.py --audit
+          echo "===BEGIN junction-mrna-frame-audit.json==="
+          cat research/modalities/junction-mrna-frame-audit.json
+          echo "===END junction-mrna-frame-audit.json==="
+
+      # A refusal is a RESULT and is reported as one. The loop never swallows an exception: an exon
+      # pair that cannot be built produces a recorded refusal carrying the exact reason, because
+      # "the panel is missing" and "the panel was refused, for this reason" are different facts and
+      # this lane has already been burned once by making them render alike.
+      - name: "ASO — regenerate the design panel for every junction the audit grades EMITTABLE"
+        if: inputs.mode == 'aso-junction'
+        timeout-minutes: 20
+        env:
+          JUNCTIONS: ${{ inputs.junctions || '7:3,12:3' }}
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess, sys
+          MOD = "research/modalities"
+          audit = json.load(open(f"{MOD}/junction-mrna-frame-audit.json"))
+          grade = {r["junction_label"]: r for r in audit["rows"]}
+          out = {"requested": [], "emitted": [], "refused": []}
+          for pair in os.environ["JUNCTIONS"].split(","):
+              e, n = (x.strip() for x in pair.strip().split(":"))
+              label = f"EWSR1_e{e}__NR4A3_e{n}"
+              row = grade.get(label)
+              out["requested"].append(label)
+              if row is None:
+                  out["refused"].append({"junction": label,
+                                         "why": "not in the declared breakpoint windows"})
+                  continue
+              if row.get("grade") != "EMITTABLE":
+                  out["refused"].append({"junction": label, "grade": row.get("grade"),
+                                         "why": row.get("why")})
+                  continue
+              env = dict(os.environ, FUSION_JUNCTION_MODE="real", EWSR1_EXON_END=e,
+                         NR4A3_EXON_START=n, OUT_SUFFIX=f"-e{e}n{n}")
+              r = subprocess.run([sys.executable, f"{MOD}/junction_aso.py"], env=env,
+                                 capture_output=True, text=True)
+              if r.returncode != 0:
+                  out["refused"].append({"junction": label, "grade": "BUILD_FAILED",
+                                         "why": r.stderr.strip()[-2000:]})
+                  continue
+              out["emitted"].append({"junction": label,
+                                     "file": f"junction-aso-designs-e{e}n{n}.json"})
+          json.dump(out, open(f"{MOD}/junction-aso-regen-manifest.json", "w"), indent=2)
+          print(json.dumps(out, indent=2))
+          PY
+          for f in research/modalities/junction-aso-designs-e*.json; do
+            echo "===BEGIN $(basename "$f")==="; cat "$f"; echo; echo "===END $(basename "$f")==="
+          done
+
+      - name: "ASO — upload every artifact this run produced"
+        if: always() && inputs.mode == 'aso-junction'
+        uses: actions/upload-artifact@v4
+        with:
+          name: aso-junction-regen
+          if-no-files-found: warn
+          path: |
+            research/modalities/junction-mrna-frame-audit.json
+            research/modalities/junction-aso-regen-manifest.json
+            research/modalities/junction-aso-designs-e*.json
+
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
-        if: always()
+        if: always() && inputs.mode != 'aso-junction'
         timeout-minutes: 10
         run: |
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
@@ -124,8 +240,11 @@ jobs:
             python research/modalities/emc_atr_vulnerability.py --check || echo "--check reported drift; non-blocking, but READ IT"
           fi
 
+      # ⛔ `aso-junction` IS EXCLUDED FROM PUBLISHING BY DESIGN, NOT BY OVERSIGHT. See the header:
+      # a freshly rebuilt panel must not land beside six files carrying retraction banners with
+      # nothing in the directory to tell a reader which is which.
       - name: Publish the artifact and the inputs cache to the branch this run was dispatched from
-        if: always() && github.ref_type == 'branch'
+        if: always() && github.ref_type == 'branch' && inputs.mode != 'aso-junction'
         timeout-minutes: 10
         env:
           BR: ${{ github.ref_name }}
@@ -174,8 +293,28 @@ jobs:
                 "| controls:", (ic.get("instrument_controls") or {}).get("state"))
           PY
 
+      - name: "Summary — aso-junction"
+        if: always() && inputs.mode == 'aso-junction'
+        run: |
+          python3 - <<'PY'
+          import json, os
+          MOD = "research/modalities"
+          a = json.load(open(f"{MOD}/junction-mrna-frame-audit.json"))
+          print("TRANSCRIPTS:", json.dumps(a["transcripts"]))
+          print("plausible NR4A3 resume range:", a["plausible_nr4a3_resume_range"])
+          print("grade counts:", json.dumps(a["grade_counts"]))
+          for r in a["rows"]:
+              print(f"  {r['junction_label']:<24} {r.get('grade'):<19} "
+                    f"resume_res={r.get('nr4a3_first_residue')} "
+                    f"acceptor_5utr_nt={r.get('nr4a3_acceptor_exon_5utr_nt_retained')} "
+                    f"in_frame={r.get('in_frame')} seam={r.get('junction_context_mRNA')}")
+          p = f"{MOD}/junction-aso-regen-manifest.json"
+          if os.path.exists(p):
+              print("REGEN:", json.dumps(json.load(open(p)), indent=2))
+          PY
+
       - name: "Summary — part-b"
-        if: always() && inputs.mode != 'gse-series'
+        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
         run: |
           python3 - <<'PY'
           import json

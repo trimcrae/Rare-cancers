@@ -1518,15 +1518,53 @@ def main():
     return doc
 
 
-def _carry_forward(doc):
-    """A single-mode run must never DELETE the half it did not run.
+def half_measurement_count(half, block):
+    """How many MEASUREMENTS a half actually carries. The unit of "did this half run at all".
 
-    ⛔ THE FAILURE THIS CLOSES, caught before it happened: `MODE=panel` builds a document with no
-    `part_a` key, and `_emit` overwrites the artifact — so a panel-only re-run would silently replace a
-    committed cross-method result with nothing, and the artifact would then say `cross_method_evidence:
-    NONE` again for a bookkeeping reason. Carrying the half forward is honest ONLY if it is labelled, so
-    each carried half is stamped with the run that actually produced it and the fact that this run did
-    not. ⚠ A carried half is not a fresh measurement and the stamp is what stops it reading as one."""
+    ⛔ A `_status` string is not the answer and must not be used as one: an UNRUN half is a fully
+    populated dict with every declaration, criterion and note in place — CLAUDE.md §4's "a populated
+    field is not a measured one". What only a real run can produce is a ROW WITH A NUMBER IN IT, so that
+    is what is counted: `part_a` systems that yielded a cross-method RMSD, `part_b` pairs that yielded a
+    gradeable result."""
+    if not isinstance(block, dict):
+        return 0
+    if half == "part_a":
+        return sum(1 for r in (block.get("systems") or [])
+                   if isinstance(r, dict) and r.get("cross_method_rmsd_A") is not None)
+    if half == "part_b":
+        n = ((block.get("rollup") or {}).get("n_gradeable")
+             if isinstance(block.get("rollup"), dict) else None)
+        if isinstance(n, int):
+            return n
+        return len(block.get("pairs") or [])
+    return 0
+
+
+def _carry_forward(doc):
+    """A run must never DELETE a measured half — whether by omitting it or by failing in place.
+
+    ⛔ FAILURE 1, caught before it happened: `MODE=panel` builds a document with no `part_a` key, and
+    `_emit` overwrites the artifact — so a panel-only re-run would silently replace a committed
+    cross-method result with nothing, and the artifact would then say `cross_method_evidence: NONE`
+    again for a bookkeeping reason. Carrying the half forward is honest ONLY if it is labelled, so each
+    carried half is stamped with the run that actually produced it and the fact that this run did not.
+    ⚠ A carried half is not a fresh measurement and the stamp is what stops it reading as one.
+
+    ⛔ FAILURE 2, AND IT DID HAPPEN — 2026-08-06, exactly the harm above through the one door this
+    function did not cover. The guard keyed on the half being ABSENT (`if half in doc: continue`), so it
+    could not see a half that was PRESENT AND EMPTY. CI run 30826469202 solved an unpinned `rdock` to
+    `2013.1`, whose data lives at `share/rdock-2013.1-1/` rather than the `share/rDock/` this module
+    probes; `RBT_ROOT` resolved to `None`, `_stage_dock_prm` found no protocol file, and `part_a` came
+    back a complete dict with `systems: []` and `_status: UNRUN`. It was present, so it was written —
+    over a measured six-system result — and the artifact went back to `cross_method_evidence: NONE`
+    while [nr4a3-program-map.md](../manuscripts/nr4a3-program-map.md) §5 `R5`, §3.1 `V22` and §10.1
+    row 4 went on quoting numbers (median 6.696 Å, centroid 2.071 Å) and pointing at
+    `verdict.what_would_resolve_R5`, a field the committed artifact no longer had.
+    ⇒ **AN UNRUN HALF NEVER OVERWRITES A MEASURED ONE.** It is recorded instead, in place, as a failed
+    attempt, so the failure is not lost either — a re-run that quietly reverted to the old numbers with
+    no trace would be its own fail-quiet defect. The workflow pin that stops the bad solve is in
+    `.github/workflows/pose-recovery-check.yml`; this is the guard that makes a future one non-fatal,
+    because the pin protects against the cause we know and this protects against the shape."""
     if not os.path.exists(OUT):
         return doc
     try:
@@ -1534,8 +1572,25 @@ def _carry_forward(doc):
     except Exception:                                         # noqa: BLE001
         return doc
     for half in ("part_a", "part_b"):
-        if half in doc or half not in prev:
+        if half not in prev:
             continue
+        attempt = None
+        if half in doc:
+            n_new = half_measurement_count(half, doc[half])
+            n_old = half_measurement_count(half, prev[half])
+            if n_new or not n_old:
+                continue                       # this run measured something, or there is nothing to lose
+            attempt = {
+                "_reads": "⛔ THIS RUN PRODUCED NO MEASUREMENT FOR THIS HALF AND WAS REFUSED THE WRITE. "
+                          "The measured half below is the earlier run's and stands; this block is the "
+                          "failed attempt, kept so the failure is visible rather than silently reverted.",
+                "_status": (doc[half] or {}).get("_status") if isinstance(doc[half], dict) else None,
+                "n_measurements_this_run": n_new,
+                "n_measurements_kept": n_old,
+                "attempted_by": doc.get("_provenance"),
+                "attempted_tooling": doc.get("tooling"),
+                "refusals": (doc[half] or {}).get("refusals") if isinstance(doc[half], dict) else None,
+            }
         carried = prev[half]
         if isinstance(carried, dict):
             carried = dict(carried)
@@ -1547,6 +1602,12 @@ def _carry_forward(doc):
                 "produced_at_status": prev.get("_status"),
                 "this_run_mode": doc.get("_mode"),
             }
+            if attempt is not None:
+                carried["_carried_forward"]["_reads"] = (
+                    "⛔ NOT MEASURED IN THIS RUN — AND THIS RUN TRIED AND FAILED. The half below is the "
+                    "earlier run's measured result, kept because an unrun half may not overwrite a "
+                    "measured one; `_superseded_attempt` is what this run actually produced.")
+                carried["_superseded_attempt"] = attempt
         doc[half] = carried
     return doc
 

@@ -519,3 +519,61 @@ def test_cavity_parser_reads_rdock_own_output_format():
     assert info["cavity_volume_A3"] == 1376.88
     assert info["total_volume_A3"] == 1376.88
     assert info["cavity_center"] == [-11.523, 11.084, -16.737]
+
+
+# ---------------------------------------------------- an UNRUN half may not overwrite a measured one
+
+def test_an_unrun_half_does_not_overwrite_a_measured_half(tmp_path, monkeypatch):
+    """⛔ THIS ONE ACTUALLY HAPPENED — 2026-08-06, and the test above could not catch it.
+
+    That test asserts the ABSENT case (`MODE=panel` builds a doc with no `part_a`). CI run 30826469202
+    hit the other door: an unpinned `rdock` solved to `2013.1`, whose data lives under
+    `share/rdock-2013.1-1/` and not the `share/rDock/` this module probes, so `RBT_ROOT` was `None`,
+    `_stage_dock_prm` found no protocol file, and `part_a` came back PRESENT — a complete dict carrying
+    every declaration and `systems: []`. Present meant written, and a measured six-system result was
+    replaced by an empty one while the roadmap went on quoting its numbers.
+
+    ⚠ The assertion deliberately does NOT read `_status`: an UNRUN half is fully populated, so a status
+    string is the thing a default can fill in. What is counted is a row with a number in it."""
+    art = tmp_path / "pose-second-method.json"
+    art.write_text(json.dumps({
+        "_status": "ok", "_provenance": {"where": "local reproduction"},
+        "part_a": {"systems": [{"id": "dock/x", "cross_method_rmsd_A": 6.5}],
+                   "cross_method_same_frame": {"n_systems": 1}}}))
+    monkeypatch.setattr(P, "OUT", str(art))
+    unrun = {"_mode": "cross", "_provenance": {"github_run_id": "30826469202"},
+             "tooling": {"RBT_ROOT": None},
+             "part_a": {"systems": [], "refusals": [],
+                        "_status": "UNRUN — rDock's dock.prm protocol file is not readable under "
+                                   "RBT_ROOT=None"}}
+    got = P._carry_forward(unrun)
+    assert got["part_a"]["systems"][0]["cross_method_rmsd_A"] == 6.5, \
+        "the measured half must survive an unrun re-run"
+    att = got["part_a"]["_superseded_attempt"]
+    assert att["n_measurements_this_run"] == 0 and att["n_measurements_kept"] == 1
+    assert att["attempted_by"]["github_run_id"] == "30826469202", \
+        "the failed attempt must be kept, not silently reverted"
+
+
+def test_a_measured_half_still_wins_over_an_older_measured_half(tmp_path, monkeypatch):
+    """⛔ THE GUARD MUST NOT BECOME A FREEZE. A run that measured something is this artifact's result,
+    even when the earlier run measured more — otherwise a shrinking panel could never be recorded."""
+    art = tmp_path / "pose-second-method.json"
+    art.write_text(json.dumps({
+        "_status": "ok",
+        "part_a": {"systems": [{"id": "a", "cross_method_rmsd_A": 6.5},
+                               {"id": "b", "cross_method_rmsd_A": 7.5}]}}))
+    monkeypatch.setattr(P, "OUT", str(art))
+    got = P._carry_forward({"_mode": "cross",
+                            "part_a": {"systems": [{"id": "a", "cross_method_rmsd_A": 3.1}]}})
+    assert len(got["part_a"]["systems"]) == 1 and got["part_a"]["systems"][0]["cross_method_rmsd_A"] == 3.1
+    assert "_superseded_attempt" not in got["part_a"]
+
+
+def test_half_measurement_count_counts_rows_with_numbers_not_status_strings():
+    assert P.half_measurement_count("part_a", {"systems": [], "_status": "ok"}) == 0
+    assert P.half_measurement_count("part_a", {"systems": [{"cross_method_rmsd_A": None}]}) == 0
+    assert P.half_measurement_count("part_a", {"systems": [{"cross_method_rmsd_A": 4.0}]}) == 1
+    assert P.half_measurement_count("part_b", {"rollup": {"n_gradeable": 0}, "pairs": [1, 2]}) == 0
+    assert P.half_measurement_count("part_b", {"rollup": {"n_gradeable": 3}}) == 3
+    assert P.half_measurement_count("part_a", None) == 0

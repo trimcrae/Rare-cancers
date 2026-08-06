@@ -1,0 +1,455 @@
+{
+ "_title": "C04-A — does the paralogue cryptic-pocket contrast carry ONE verdict or TWO? A $0 re-read of committed artifacts, split along RT-ASYMMETRIC's mandatory / best-effort axes",
+ "_status": "INSTRUMENT RE-READ. $0 CPU. No new compute of any kind. Nothing here is a claim about binding, reactivity, degradation, selectivity in vivo, efficacy or safety.",
+ "_what_this_measures": "Whether `paralogue-pocket-contrast.json`'s single pooled verdict is driven by one paralogue rather than both, whether the per-paralogue reading survives an honest small-n interrogation, and whether it survives the contested `C2` cavity-selection rule.",
+ "_adds_no_data": "Every input is a committed artifact. No fpocket run, no MD, no GPU, no rental. The source artifact is NOT modified.",
+ "_licenses": "A paralogue-matched conformational-selection RANKING statement with no free energy in it.",
+ "_ceilings_inherited": {
+  "_from": "research/modalities/paralogue-pocket-contrast.json -> _does_not_license",
+  "_binding": "these travel with every statement in this file, unchanged and unweakened",
+  "entries": [
+   "dG_open — a detection fraction is not an opening penalty and must never be reported as one.",
+   "Evidence of ABSENCE. At these ensemble sizes a paralogue that never opens is weak evidence; this supports a ranking, never a categorical exclusion.",
+   "Any statement about binding, reactivity, degradation, selectivity in vivo, efficacy or safety.",
+   "Anything about a cavity the paralogue may have ELSEWHERE. The site definition is NR4A3's Pocket-5 mapped by alignment, so a paralogue row of 0 means 'NR4A3's site did not open here', not 'this protein has no druggable cavity'."
+  ]
+ },
+ "_inputs": {
+  "contrast": "research/modalities/paralogue-pocket-contrast.json",
+  "accepted_candidates": "research/modalities/pocket-accepted-candidates.json",
+  "site_choice_audit": "research/modalities/r3-site-choice-audit.json",
+  "axis_assignment": "systems/views/L2-rt-asymmetric.md (generated from systems/graph)"
+ },
+ "_provenance_checks": {
+  "_why": "CLAUDE.md §4: a populated field is not a measured one. Both inputs are re-derived here rather than trusted, and a disagreement is a visible failure.",
+  "frozen_replicate_fracs_agree_between_the_two_artifacts": true,
+  "alternative_rule_summary_agrees_with_a_recount_from_per_frame": true,
+  "d_star_contrast": 0.53,
+  "d_star_accepted_candidates": 0.53,
+  "d_star_agrees": true,
+  "match_params_agree": true,
+  "n_refusals_contrast": 0,
+  "n_refusals_accepted_candidates": 0,
+  "status": "ALL CHECKS PASS"
+ },
+ "_the_defect_in_the_source_verdict": {
+  "source_verdict": "RANKED but replicate ranges OVERLAP",
+  "source_rule": "SEPARATED requires NR4A3's WORST release replicate to beat each paralogue's BEST. That is stricter than non-overlapping Wilson intervals and it is the honest bar, because the 75 pooled frames are 3 correlated replicas and the Wilson interval is anti-conservative.",
+  "mechanism": "`paralogue_pocket_contrast.build_map_edits` computes `sep = r3[0] > r1[1] and r3[0] > r2[1]` — ONE boolean over BOTH paralogues. The conjunction is false as soon as either paralogue fails, and the emitted verdict string names neither, so a reader cannot tell which one failed or whether both did.",
+  "why_it_matters": "RT-ASYMMETRIC holds NR4A1-sparing MANDATORY and NR4A2-sparing BEST-EFFORT, and its route record states that dropping the asymmetry lets a symmetric restatement back in. A conjoined verdict reports the best-effort axis's answer on the mandatory axis's behalf.",
+  "⚠_not_a_numerical_error": "no number in `paralogue-pocket-contrast.json` is wrong, and its rule is not loosened here. The reported numbers reproduce exactly; what is at issue is that one flag is emitted where the program's own route structure asks two questions."
+ },
+ "per_paralogue": {
+  "NR4A1": {
+   "rt_asymmetric_axis": "mandatory",
+   "nr4a3_replicates": [
+    0.56,
+    0.4,
+    0.8
+   ],
+   "paralogue_replicates": [
+    0.28,
+    0.32,
+    0.12
+   ],
+   "pooled_frac_ge_dstar": {
+    "NR4A3": 0.5866666666666667,
+    "NR4A1": 0.24
+   },
+   "verdict_under_the_frozen_rule": {
+    "verdict": "SEPARATED at replicate granularity",
+    "separated": true,
+    "ranked": true,
+    "rule": "SEPARATED requires NR4A3's WORST release replicate to beat this paralogue's BEST — `paralogue_pocket_contrast.build_map_edits`'s `sep`, per paralogue rather than conjoined. The rule is unchanged; only its scope is."
+   },
+   "exact_ranksum_permutation": {
+    "n_a": 3,
+    "n_b": 3,
+    "rank_sum_a": 15.0,
+    "n_permutations": 20,
+    "p_one_sided_a_greater": 0.05,
+    "p_one_sided_a_less": 1.0,
+    "p_two_sided": 0.1,
+    "p_one_sided_floor": 0.05,
+    "p_two_sided_floor": 0.1,
+    "achieved_the_design_floor": true,
+    "p_one_sided_holm_adjusted_over_2_paralogues": 0.1
+   },
+   "exact_mean_permutation": {
+    "observed_mean_difference": 0.346667,
+    "n_permutations": 20,
+    "p_one_sided_a_greater": 0.05,
+    "p_one_sided_floor": 0.05
+   },
+   "effect_size_cliffs_delta": {
+    "delta": 1.0,
+    "n_pairs": 9,
+    "n_a_gt_b": 9,
+    "n_a_lt_b": 0,
+    "n_ties": 0,
+    "magnitude": "large"
+   },
+   "cluster_bootstrap": {
+    "n_resamples": 729,
+    "n_distinct_per_arm": 27,
+    "mean_difference": 0.346667,
+    "percentile95": [
+     0.146667,
+     0.56
+    ],
+    "frac_of_resamples_with_difference_le_0": 0.0
+   },
+   "fragility_one_more_replicate": {
+    "nr4a3_worst_replicate": 0.4,
+    "paralogue_best_replicate": 0.32,
+    "margin": 0.08,
+    "nr4a3_replicate_sd": 0.201329,
+    "margin_in_units_of_nr4a3_replicate_sd": 0.3974,
+    "p_next_nr4a3_replicate_below_paralogue_max": 0.185,
+    "t_predictive95_for_a_4th_nr4a3_replicate": [
+     -0.4136,
+     1.5869
+    ],
+    "⚠_predictive_interval_exceeds_the_unit_interval": true,
+    "_model_note": "the predictive figures assume normality on 3 points; the margin-vs-SD ratio assumes nothing and is the one to quote."
+   },
+   "sensitivity_to_the_contested_C2_rule": {
+    "_what": "the SAME replicate-granularity rule, re-evaluated under the ordering that would prefer the most druggable ACCEPTED cavity. `C2` is registered ⚠ CONTESTED in the roadmap §3b.2 (the 10-residue site splits across two accepted cavities in the generation frame: Jaccard 0.21, centroids 9.853 Å apart).",
+    "_does_not_license": "a rule change, or quoting these fractions as the site. The frozen rule remains the rule; this measures what the choice costs.",
+    "nr4a3_replicates": [
+     0.6,
+     0.44,
+     0.8
+    ],
+    "paralogue_replicates": [
+     0.44,
+     0.36,
+     0.12
+    ],
+    "verdict": {
+     "verdict": "RANKED but replicate ranges OVERLAP",
+     "separated": false,
+     "ranked": true,
+     "rule": "SEPARATED requires NR4A3's WORST release replicate to beat this paralogue's BEST — `paralogue_pocket_contrast.build_map_edits`'s `sep`, per paralogue rather than conjoined. The rule is unchanged; only its scope is."
+    },
+    "margin": 0.0,
+    "exact_ranksum_permutation": {
+     "n_a": 3,
+     "n_b": 3,
+     "rank_sum_a": 14.5,
+     "n_permutations": 20,
+     "p_one_sided_a_greater": 0.1,
+     "p_one_sided_a_less": 1.0,
+     "p_two_sided": 0.2,
+     "p_one_sided_floor": 0.05,
+     "p_two_sided_floor": 0.1,
+     "achieved_the_design_floor": false
+    },
+    "survives_the_rule_change": false
+   },
+   "design_corrected_wilson_overlap": {
+    "_what": "does the DESIGN-EFFECT-CORRECTED pooled interval still separate? A third, independent reading of the same caution — it uses the pooled frames rather than the replicate ranks, so it can disagree with the permutation test.",
+    "NR4A3": [
+     0.3641,
+     0.7787
+    ],
+    "NR4A1": [
+     0.1421,
+     0.3758
+    ],
+    "overlap": true,
+    "gap": 0.0,
+    "overlap_width": 0.0117,
+    "uncorrected_would_have_said": {
+     "overlap": false,
+     "gap": 0.1259,
+     "overlap_width": 0.0
+    }
+   }
+  },
+  "NR4A2": {
+   "rt_asymmetric_axis": "best_effort",
+   "nr4a3_replicates": [
+    0.56,
+    0.4,
+    0.8
+   ],
+   "paralogue_replicates": [
+    0.44,
+    0.24,
+    0.16
+   ],
+   "pooled_frac_ge_dstar": {
+    "NR4A3": 0.5866666666666667,
+    "NR4A2": 0.28
+   },
+   "verdict_under_the_frozen_rule": {
+    "verdict": "RANKED but replicate ranges OVERLAP",
+    "separated": false,
+    "ranked": true,
+    "rule": "SEPARATED requires NR4A3's WORST release replicate to beat this paralogue's BEST — `paralogue_pocket_contrast.build_map_edits`'s `sep`, per paralogue rather than conjoined. The rule is unchanged; only its scope is."
+   },
+   "exact_ranksum_permutation": {
+    "n_a": 3,
+    "n_b": 3,
+    "rank_sum_a": 14.0,
+    "n_permutations": 20,
+    "p_one_sided_a_greater": 0.1,
+    "p_one_sided_a_less": 0.95,
+    "p_two_sided": 0.2,
+    "p_one_sided_floor": 0.05,
+    "p_two_sided_floor": 0.1,
+    "achieved_the_design_floor": false,
+    "p_one_sided_holm_adjusted_over_2_paralogues": 0.1
+   },
+   "exact_mean_permutation": {
+    "observed_mean_difference": 0.306667,
+    "n_permutations": 20,
+    "p_one_sided_a_greater": 0.1,
+    "p_one_sided_floor": 0.05
+   },
+   "effect_size_cliffs_delta": {
+    "delta": 0.777778,
+    "n_pairs": 9,
+    "n_a_gt_b": 8,
+    "n_a_lt_b": 1,
+    "n_ties": 0,
+    "magnitude": "large"
+   },
+   "cluster_bootstrap": {
+    "n_resamples": 729,
+    "n_distinct_per_arm": 27,
+    "mean_difference": 0.306667,
+    "percentile95": [
+     0.08,
+     0.533333
+    ],
+    "frac_of_resamples_with_difference_le_0": 0.001372
+   },
+   "fragility_one_more_replicate": {
+    "nr4a3_worst_replicate": 0.4,
+    "paralogue_best_replicate": 0.44,
+    "margin": -0.04,
+    "nr4a3_replicate_sd": 0.201329,
+    "margin_in_units_of_nr4a3_replicate_sd": -0.1987,
+    "p_next_nr4a3_replicate_below_paralogue_max": 0.2963,
+    "t_predictive95_for_a_4th_nr4a3_replicate": [
+     -0.4136,
+     1.5869
+    ],
+    "⚠_predictive_interval_exceeds_the_unit_interval": true,
+    "_model_note": "the predictive figures assume normality on 3 points; the margin-vs-SD ratio assumes nothing and is the one to quote."
+   },
+   "sensitivity_to_the_contested_C2_rule": {
+    "_what": "the SAME replicate-granularity rule, re-evaluated under the ordering that would prefer the most druggable ACCEPTED cavity. `C2` is registered ⚠ CONTESTED in the roadmap §3b.2 (the 10-residue site splits across two accepted cavities in the generation frame: Jaccard 0.21, centroids 9.853 Å apart).",
+    "_does_not_license": "a rule change, or quoting these fractions as the site. The frozen rule remains the rule; this measures what the choice costs.",
+    "nr4a3_replicates": [
+     0.6,
+     0.44,
+     0.8
+    ],
+    "paralogue_replicates": [
+     0.44,
+     0.24,
+     0.16
+    ],
+    "verdict": {
+     "verdict": "RANKED but replicate ranges OVERLAP",
+     "separated": false,
+     "ranked": true,
+     "rule": "SEPARATED requires NR4A3's WORST release replicate to beat this paralogue's BEST — `paralogue_pocket_contrast.build_map_edits`'s `sep`, per paralogue rather than conjoined. The rule is unchanged; only its scope is."
+    },
+    "margin": 0.0,
+    "exact_ranksum_permutation": {
+     "n_a": 3,
+     "n_b": 3,
+     "rank_sum_a": 14.5,
+     "n_permutations": 20,
+     "p_one_sided_a_greater": 0.1,
+     "p_one_sided_a_less": 1.0,
+     "p_two_sided": 0.2,
+     "p_one_sided_floor": 0.05,
+     "p_two_sided_floor": 0.1,
+     "achieved_the_design_floor": false
+    },
+    "survives_the_rule_change": false
+   },
+   "design_corrected_wilson_overlap": {
+    "_what": "does the DESIGN-EFFECT-CORRECTED pooled interval still separate? A third, independent reading of the same caution — it uses the pooled frames rather than the replicate ranks, so it can disagree with the permutation test.",
+    "NR4A3": [
+     0.3641,
+     0.7787
+    ],
+    "NR4A2": [
+     0.1502,
+     0.4612
+    ],
+    "overlap": true,
+    "gap": 0.0,
+    "overlap_width": 0.0971,
+    "uncorrected_would_have_said": {
+     "overlap": false,
+     "gap": 0.0833,
+     "overlap_width": 0.0
+    }
+   }
+  }
+ },
+ "small_n_interrogation": {
+  "_question": "does a 3-vs-3 'worst beats best' comparison support the word SEPARATED, or is it an artifact of small n?",
+  "n_replicates_per_species": 3,
+  "frames_per_replicate": 25,
+  "exact_test_design_ceiling": {
+   "n_permutations": 20,
+   "best_attainable_p_one_sided": 0.05,
+   "best_attainable_p_two_sided": 0.1,
+   "⚠": "at 3 vs 3 NO outcome can return p < 0.05 one-sided. 'worst beats best' IS complete separation, so the artifact's rule fires exactly when the exact test hits its floor — the rule is calibrated to the strongest evidence the design can produce, and it CANNOT produce more. A p of 0.05 here must be read as 'the design's ceiling', never as 'just significant'."
+  },
+  "multiplicity": {
+   "_what": "two paralogue comparisons were made from one dataset. Holm-adjusted one-sided p-values are carried on each `exact_ranksum_permutation` block.",
+   "holm_adjusted_one_sided": {
+    "NR4A1": 0.1,
+    "NR4A2": 0.1
+   },
+   "⚠": "with a per-test FLOOR of 0.05 and a family of two, NO outcome of this design can return a Holm-adjusted p below 0.10. So the NR4A1 result cannot clear α = 0.05 family-wise, and the honest statement is a RANKING with a stated effect size, not a significance claim.",
+   "_direction_was_prespecified": "one-sided is defensible because Route A's premise fixes the direction (NR4A3 opens more) before the data. The TWO-SIDED floor is 0.10, so even the cleanest possible outcome fails a two-sided 0.05 at this n."
+  },
+  "design_effect_measured": {
+   "_why": "the source artifact asserts the pooled Wilson interval is anti-conservative because the 75 frames are 3 correlated replicas. That is correct and was never quantified; here it is measured per species.",
+   "per_species": {
+    "NR4A3": {
+     "per_replicate_fracs": [
+      0.56,
+      0.4,
+      0.8
+     ],
+     "pooled_fraction": 0.586667,
+     "observed_between_replicate_variance": 0.04053333,
+     "binomial_variance_if_frames_independent": 0.00969956,
+     "design_effect": 4.1789,
+     "design_effect_used_for_correction": 4.1789,
+     "n_frames_total": 75,
+     "effective_n": 17.95,
+     "wilson95_uncorrected": [
+      0.4737,
+      0.6912
+     ],
+     "wilson95_design_corrected": [
+      0.3641,
+      0.7787
+     ]
+    },
+    "NR4A1": {
+     "per_replicate_fracs": [
+      0.28,
+      0.32,
+      0.12
+     ],
+     "pooled_fraction": 0.24,
+     "observed_between_replicate_variance": 0.0112,
+     "binomial_variance_if_frames_independent": 0.007296,
+     "design_effect": 1.5351,
+     "design_effect_used_for_correction": 1.5351,
+     "n_frames_total": 75,
+     "effective_n": 48.86,
+     "wilson95_uncorrected": [
+      0.1575,
+      0.3478
+     ],
+     "wilson95_design_corrected": [
+      0.1421,
+      0.3758
+     ]
+    },
+    "NR4A2": {
+     "per_replicate_fracs": [
+      0.44,
+      0.24,
+      0.16
+     ],
+     "pooled_fraction": 0.28,
+     "observed_between_replicate_variance": 0.0208,
+     "binomial_variance_if_frames_independent": 0.008064,
+     "design_effect": 2.5794,
+     "design_effect_used_for_correction": 2.5794,
+     "n_frames_total": 75,
+     "effective_n": 29.08,
+     "wilson95_uncorrected": [
+      0.191,
+      0.3904
+     ],
+     "wilson95_design_corrected": [
+      0.1502,
+      0.4612
+     ]
+    }
+   }
+  }
+ },
+ "verdict": {
+  "headline": "ASYMMETRIC AT THE FROZEN RULE, BUT THE MANDATORY SEPARATION DOES NOT SURVIVE THE CONTESTED C2 RULE — report the split verdict, do NOT report SEPARATED unqualified",
+  "lead_status": "LIVE BUT DEMOTED — the asymmetry is real, the word SEPARATED is not carryable",
+  "mandatory_axis_NR4A1": "SEPARATED at replicate granularity",
+  "best_effort_axis_NR4A2": "RANKED but replicate ranges OVERLAP",
+  "pooled_verdict_it_replaces": "RANKED but replicate ranges OVERLAP",
+  "the_pooled_verdict_is_driven_by": [
+   "NR4A2"
+  ],
+  "⛔_what_this_still_does_not_license": [
+   "an exclusion of NR4A1 — this is a RANKING on opening frequency and evidence of absence is not available at these ensemble sizes",
+   "ΔG_open, or any free-energy statement. A detection fraction is not an opening penalty.",
+   "reporting SEPARATED without the contested-`C2` sensitivity beside it",
+   "any statement about binding, reactivity, degradation, selectivity in vivo, efficacy or safety"
+  ]
+ },
+ "map_edits_required": {
+  "_what": "Roadmap edits this result requires. DESCRIBED, NOT APPLIED — this run does not touch `nr4a3-program-map.md`, `systems/graph/` or `systems/views/`.",
+  "_how_anchors_are_kept_live": "`current_text` is read out of the live map at generation time; a missing or ambiguous anchor yields a visible refusal instead of a mis-targeted edit.",
+  "_target_section": "§8 Route A",
+  "⛔_not_filed_in_section_6": "Nothing here closes or opens a route. A paralogue that opens less often is a RANKING, not an exclusion.",
+  "entries": [
+   {
+    "section": "§8 Route A",
+    "anchor": "### Route A — a warhead engaging paralogue-divergent pocket handles",
+    "kind": "amend",
+    "status": "OK",
+    "why": "Route A's premise is that the cryptic pocket is itself a paralogue discriminator. The measured contrast reports ONE pooled verdict over BOTH paralogues, and the program's own route structure (RT-ASYMMETRIC) does not treat them as one requirement: NR4A1-sparing is MANDATORY, NR4A2-sparing is BEST-EFFORT. Split along that axis the answers differ, and the pooled string names neither paralogue — so the mandatory axis's answer is currently unreadable from the map. ⚠ The split changes no number and loosens no rule; it removes one `and`.",
+    "artifact": "research/modalities/paralogue-pocket-asymmetric-read.json -> per_paralogue",
+    "current_text": "### Route A — a warhead engaging paralogue-divergent pocket handles · ○ **blocked, nothing running** · serves `R7`",
+    "proposed_text": "### Route A — a warhead engaging paralogue-divergent pocket handles · ○ **blocked, nothing running** · serves `R7`\n\n★ **Paralogue-matched cryptic-pocket contrast — and it is ASYMMETRIC, which one pooled verdict had hidden.** Under the source artifact's OWN rule (NR4A3's worst release replicate beats the paralogue's best), applied per paralogue rather than conjoined: **vs `NR4A1` (RT-ASYMMETRIC's MANDATORY axis) — SEPARATED at replicate granularity**, replicates [0.56, 0.4, 0.8] vs [0.28, 0.32, 0.12]; **vs `NR4A2` (BEST-EFFORT) — RANKED but replicate ranges OVERLAP**, [0.44, 0.24, 0.16]. The pooled *RANKED but replicate ranges OVERLAP* is driven by NR4A2 alone — [`paralogue-pocket-asymmetric-read.json`](../modalities/paralogue-pocket-asymmetric-read.json). ⚠ **Three ceilings travel with it and it may not be quoted without them:** at 3 vs 3 the exact permutation test's FLOOR is p = 0.05 one-sided, so the NR4A1 result sits AT the design's ceiling and cannot go past it; the margin is 0.08 against an NR4A3 replicate SD of 0.201329; and under the ⚠ CONTESTED `C2` ordering the separation does NOT survive (margin 0.0). ⚠ Still a CONFORMATIONAL-SELECTION ranking with no free energy in it — not `ΔG_open`, `R6` untouched, and never an exclusion."
+   },
+   {
+    "section": "§8 Route A — the C04 pooled verdict, if it has since been applied",
+    "anchor": "★ **Paralogue-matched cryptic-pocket contrast — measured",
+    "kind": "amend",
+    "status": "ANCHOR_NOT_FOUND",
+    "why": "If the earlier C04 edit has landed, its verdict line carries the pooled 'RANKED but replicate ranges OVERLAP' string, which is the symmetric restatement RT-ASYMMETRIC's route record calls a defect. It should be superseded in place rather than duplicated (rule 1), with the old string retained as superseded.",
+    "artifact": "research/modalities/paralogue-pocket-asymmetric-read.json -> per_paralogue",
+    "⚠": "This edit could not be targeted against the map as it stands. The FINDING is unaffected — apply it by hand at the named section, and see `why` and `artifact`."
+   }
+  ],
+  "verification": {
+   "n_entries": 2,
+   "n_applicable": 1,
+   "n_unlocatable": 1,
+   "n_stale": 0,
+   "unlocatable_anchors": [
+    "★ **Paralogue-matched cryptic-pocket contrast — measured"
+   ],
+   "stale_anchors": [],
+   "verified_against": "research/manuscripts/nr4a3-program-map.md",
+   "_method": "each entry's current_text re-counted in the live map; exactly one occurrence = applicable. This is the `grep -F` check, run at generation time.",
+   "status": "SOME ENTRIES COULD NOT BE TARGETED — see unlocatable_anchors / stale_anchors"
+  }
+ },
+ "_generated": {
+  "generator": "research/modalities/paralogue_pocket_asymmetric_read.py",
+  "reads_only": [
+   "research/modalities/paralogue-pocket-contrast.json",
+   "research/modalities/pocket-accepted-candidates.json",
+   "research/modalities/r3-site-choice-audit.json",
+   "systems/views/L2-rt-asymmetric.md (generated from systems/graph)"
+  ],
+  "writes": "research/modalities/paralogue-pocket-asymmetric-read.json"
+ }
+}

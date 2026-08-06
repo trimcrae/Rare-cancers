@@ -14,6 +14,73 @@ _backfilled: true
 ---
 # A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity that the NR4A3 degrader cannot reach
 
+> # ⛔⛔ RETRACTION — THE REAL-EXON HALF OF THIS MANUSCRIPT (2026-08-06)
+>
+> **NOT SUBMITTABLE IN ITS CURRENT STATE. Every design, GC value, off-target count, seam and
+> headline gapmer attributed below to a "real" EWSR1 exon-*n* :: NR4A3 exon-3 junction is
+> RETRACTED and must not be quoted.** The codon-space modelled half of the paper (§3a, §3a-bis,
+> §3a-ter, §3a-quater, the 390-breakpoint scan and the 200/8 screens) is **untouched by this** —
+> it never used the exon index. What falls is §3a-quinquies and every sentence that leans on it.
+>
+> **What went wrong, measured.** `junction_aso.py`'s `FUSION_JUNCTION_MODE=real` path indexed a
+> table keyed by **coding** exon with a **transcript** exon number. NR4A3 `ENST00000395097` has 8
+> transcript exons of which 1 and 2 carry no coding sequence, so the label "NR4A3 exon 3"
+> addressed the third *coding* exon. The committed seam `TTGTCCGTACAG` sits at **NR4A3 CDS nt
+> 1081**, i.e. NR4A3 resuming at **residue 361** — bit-for-bit the value
+> [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json) grades
+> **`SEAM_NOT_PRODUCED`**, against a corrected
+> `nr4a3_resume_range_across_plausible_breakpoints` of **[1, 1]** in
+> [`fusion-object-inventory.json`](../modalities/fusion-object-inventory.json). So those panels
+> describe a chimera missing NR4A3 residues 1–360 — AF1 and the first zinc finger of the C4 DBD,
+> which opens at C292 — that no plausible breakpoint in the declared windows produces.
+> Primary record: [`systems/AUDIT-2026-08-06-routes.md`](../../systems/AUDIT-2026-08-06-routes.md)
+> finding **X14**.
+>
+> **⚠ Why this manuscript could not catch it, and it is the transferable lesson.** The **EWSR1
+> side reproduced correctly throughout** (EWSR1 transcript exon 1 *is* coding, so rank equals
+> coding index there). The E7::N3 and E12::N3 panels therefore agreed with each other, and §3a-quinquies
+> read that agreement as corroboration — *"Both share the NR4A3 exon-3 right-side seam … **as
+> expected**."* **Two artifacts agreeing is not evidence when one defect produces both.**
+>
+> **⭐ A second reading, taken 2026-08-06, that the paper had already recorded without knowing it.**
+> §3a-quinquies flags E11::N3 as an unexplained no-output and offers *"most likely … our exon
+> indexing for EWSR1 exon 11 → NR4A3 exon 3 may not be in-frame as joined."* That guess was wrong
+> and the real cause is arithmetic. Under the defective index the chimeric CDS is in frame exactly
+> when the EWSR1 cut offset ≡ 1081 ≡ 1 (mod 3). Read off the committed exon audit
+> ([`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json)): e7 793, e9 1012, e10 1045,
+> e12 1294, e13 1417 are all ≡ 1 — and **e11 1164 ≡ 0**. The set of junctions the pipeline emitted
+> ({7, 9, 10, 12, 13}) and the single one it refused ({11}) are **exactly** what the off-by-two
+> predicts. The "integrity flag" was the defect announcing itself, and it was read as an exon-boundary
+> uncertainty for a month.
+>
+> **⛔ Three panels this manuscript cites have never existed.** §3a-quinquies claims a "full
+> recurrent-junction panel (now run, real, committed — 2026-07-03)" over
+> `junction-aso-offtarget-e{9,10,13}n3.json` and `junction-sirna-designs-e{7,9,10,12,13}n3.json`.
+> Searched 2026-08-06: **none of those filenames is present on `origin/main`, on
+> `origin/modalities-cache`, or in any commit reachable from this clone's refs.** Only the E7::N3
+> and E12::N3 files exist, and those six are the ones carrying `_RETRACTED_SEAM` banners. Every
+> quantitative statement sourced to E9/E10/E13 — the siRNA GC ranges, "a fully-clean 16-mer gapmer
+> appears at 1 of 5 junctions", and the gapmer+siRNA panel-coverage conclusion — therefore rests on
+> files nobody can read. They are withdrawn as unverifiable, independently of the seam defect.
+>
+> **What is owed, and its state.** `junction_aso.py` was corrected (twice — see the two-defect block
+> in that module) and the corrected real-exon mode is built and unit-tested. Regeneration needs a
+> live Ensembl read, which the dev sandbox's egress proxy refuses (measured 2026-08-06:
+> `CONNECT tunnel failed, response 403` to `rest.ensembl.org`), so it must run in CI —
+> `emc-expression-datasets.yml` `mode: aso-junction`. **Until that run lands, the corrected seam,
+> the corrected GC values and the corrected off-target load are UNKNOWN.** They are not "expected
+> to be similar"; the entire NR4A3 half of every oligo changes, and every oligo in this panel
+> spans the seam by construction, so **not one design survives**.
+>
+> **What survives the retraction** — narrower than the paper's current framing and stated at full
+> strength: the *rationale* (a breakpoint mRNA seam present only in the chimera) is a sequence
+> argument that does not depend on which exon pair is right; the codon-space screens and the
+> 390-breakpoint scan are unaffected; and `junction_breakpoint_scan.py` was never implicated,
+> because it deliberately refuses the exon→CDS mapping and works in codon space. ⚠ *Superseded,
+> retained: the earlier and broader claim that "the ASO lane is unaffected" by the 2026-08-03 exon
+> correction. That was true of `junction_breakpoint_scan.py` and false of the lane — the earlier
+> audit checked one of the lane's two modules and generalised.*
+
 > **In-silico design / feasibility draft (2026-06).** No wet lab; no molecule synthesized; **no new
 > GPU run was performed** — the real results cited here are CPU outputs: the committed gapmer designs
 > [`../modalities/junction-aso-designs.json`](../modalities/junction-aso-designs.json) (5 fusion-specific
@@ -33,12 +100,17 @@ _backfilled: true
 > full-transcriptome screen on the same favorable breakpoint
 > [`../modalities/aso-insilico-evaluation-bp200-8.json`](../modalities/aso-insilico-evaluation-bp200-8.json)
 > (4 of 5 gapmers with zero ≤1-mismatch off-targets; 5 of 5 with zero exact — vs 0 of 5 clean at the
-> canonical junction), and — closing the prior "only modelled breakpoints" gap — the **full pipeline run on
-> the real recurrent EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions** built exon-exact from Ensembl
-> ([`../modalities/aso-insilico-evaluation-e12n3.json`](../modalities/aso-insilico-evaluation-e12n3.json),
-> [`../modalities/junction-aso-offtarget-e7n3.json`](../modalities/junction-aso-offtarget-e7n3.json), etc.;
-> real junctions are 37–62% GC not 75–81%, and E7::N3 yields a gapmer predicted clean on both screens).
-> Together these show feasibility is
+> canonical junction).
+> ⛔ **The clause that stood here is RETRACTED** (see the retraction block above) and is retained
+> verbatim so it stays quotable as *withdrawn*, not as current: *"and — closing the prior 'only
+> modelled breakpoints' gap — the **full pipeline run on the real recurrent EWSR1 exon-12/exon-7 ::
+> NR4A3 exon-3 junctions** built exon-exact from Ensembl (`aso-insilico-evaluation-e12n3.json`,
+> `junction-aso-offtarget-e7n3.json`, etc.; real junctions are 37–62% GC not 75–81%, and E7::N3
+> yields a gapmer predicted clean on both screens)."* Those junctions were **not** exon-exact: they
+> resume NR4A3 at residue 361 against a corrected plausible range of [1, 1]. The "only modelled
+> breakpoints" gap the clause claimed to close is therefore **OPEN**, and the corrected GC figures
+> are UNKNOWN pending the CI regeneration.
+> The modelled-breakpoint results that remain show feasibility is
 > **breakpoint-conditional but breakpoint-selectable**: specificity and chemistry at the *canonical* modelled
 > junction are poor, but that is a property of that junction position — a clear majority of modelled
 > breakpoints yield clean, in-band, fusion-specific designs — not of the modality. **The fusion-selectivity rationale in one line:** the breakpoint mRNA seam is
@@ -408,7 +480,23 @@ breakpoint-favorability and gated by delivery.** That is a narrower and more def
 de-risked": the degrader's dominant risk (sparing wild-type NR4A3) differs in kind from the ASO's (delivery),
 and neither is strictly more de-risked overall.
 
-### 3a-quinquies. The REAL clinical junctions — EWSR1 e12 / e7 :: NR4A3 e3 (now run, real, committed)
+### 3a-quinquies. ⛔ RETRACTED — the "REAL clinical junctions" section (EWSR1 e12 / e7 :: NR4A3 e3)
+
+> ⛔⛔ **EVERYTHING IN THIS SECTION IS RETRACTED (2026-08-06). DO NOT QUOTE ANY DESIGN, SEQUENCE, GC
+> VALUE, OFF-TARGET COUNT OR CONCLUSION FROM IT.** The junctions it calls "real" and "exon-exact"
+> resume NR4A3 at **residue 361**, which
+> [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json) grades
+> `SEAM_NOT_PRODUCED` against a corrected plausible resume range of **[1, 1]**. The full reasoning,
+> the E11::N3 root cause and the three cited files that have never existed are in the retraction
+> block at the top of this document. The text is **retained rather than deleted** so that a reader
+> who has already quoted it can find it marked withdrawn — this repo's standing rule (CLAUDE.md §1:
+> corrections go in an appendix, superseded numbers are registered, never silently dropped).
+>
+> ⚠ **Do not repair this section by editing its numbers.** Not one of them survives: every oligo in
+> the panel spans the seam by construction, so every design changes when the NR4A3 half changes. It
+> is replaced wholesale by the corrected panel when `emc-expression-datasets.yml`
+> `mode: aso-junction` has run, and not before.
+
 The red-team's lead open gap was that every screen above ran on *modelled* breakpoints, never on the
 **actually recurrent** EWSR1::NR4A3 exon junctions. That gap is now closed. We built the real fusion CDS
 directly from Ensembl MANE/canonical exon structure (reusing the companion `fusion_breakpoints.gene_model`;

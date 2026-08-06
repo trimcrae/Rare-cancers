@@ -1,6 +1,6 @@
 {
  "_module": "pose_second_method",
- "_mode": "both",
+ "_mode": "cross",
  "_question": "Is the pose this program holds for denovo_401 supported by a SECOND method whose scoring is independent of the first \u2014 and on systems with a known answer, what does that second method recover under `C14`?",
  "_licenses": [
   "two methods with disjoint scoring agreeing on a placement, to a stated tolerance"
@@ -146,15 +146,15 @@
   "total": 16200
  },
  "_provenance": {
-  "github_run_id": "30826469202",
-  "github_ref": "claude/nr4a1-protac-positive-control-xnszjl",
-  "github_sha": "42b168234647f267e5c806ad57556629c0ae094d",
-  "where": "GitHub Actions"
+  "github_run_id": null,
+  "github_ref": null,
+  "github_sha": null,
+  "where": "local reproduction"
  },
  "tooling": {
-  "rdock_version": "Executable:\trbdock ($Id: //depot/dev/client3/rdock/2013.1/src/exe/rbdock.cxx#4 $)  Library:\tlibRbt.so/2013.1/901 2013/11/27",
+  "rdock_version": "Executable:\trbdock - v25.07-alpha  Library:\tlibRbt.so/25.07/alpha",
   "openbabel_version": "Open Babel 3.1.0 -- Nov 30 2023 -- 20:44:30",
-  "RBT_ROOT": null
+  "RBT_ROOT": "/tmp/claude-0/-home-user-Rare-cancers/07652fd2-8a93-51c3-afc9-077b8004e641/scratchpad/rdroot/share/rDock"
  },
  "part_a": {
   "_asks": "Do a scoring-independent method and the pipeline's own method put denovo_401 in the same place, in the same receptor frame?",
@@ -163,11 +163,240 @@
   "_C6": "\u26a0 `C6` (the receptor-frame selection criterion) is inherited by BOTH methods on the two metadynamics-opened receptors and by NEITHER on the four experimental 8XTT NMR conformers \u2014 it is a property of the receptor a pose was generated in, not of the engine that placed the ligand. So a cross-method agreement measured on an 8XTT conformer is free of `C6`; one measured on `dock/metad-opened/*` is not, and \u00a73b.2 records `C6` as CONTESTED.",
   "n_rdock_runs_per_system": 50,
   "rdock_seed": 20260803,
-  "systems": [],
-  "refusals": [],
-  "n_sources_readable": 6,
+  "systems": [
+   {
+    "id": "dock/metad-opened/v2",
+    "kind_first_method": "smina dock, top pose (nr4a3_warhead.dock_into)",
+    "receptor_provenance": "metadynamics-OPENED AF2 prediction",
+    "receptor": "results/nr4a3-denovo/-matrix-v2/nr4a3-opened.pdb",
+    "first_method_pose": "results/nr4a3-denovo/-matrix-v2/docked_nr4a3.sdf",
+    "first_method_score_kcalmol": -7.28137,
+    "inherits_C6": true,
+    "n_pocket5_mapped": 10,
+    "n_pocket5_source": 10,
+    "site_center": [
+     11.544,
+     10.282,
+     1.719
+    ],
+    "cavity": {
+     "n_cavities": 1,
+     "total_volume_A3": 1219.5,
+     "cavity_volume_A3": 1219.5,
+     "cavity_center": [
+      8.709,
+      10.575,
+      1.098
+     ],
+     "cavity_extent_A": [
+      19.0,
+      22.0,
+      21.0
+     ],
+     "elapsed_s": 6.7
+    },
+    "n_rdock_poses": 50,
+    "rdock_best_score": -30.2661,
+    "rdock_score_spread": {
+     "n": 50,
+     "min": -30.266,
+     "median": -13.87,
+     "max": 9.991,
+     "mean": -12.73
+    },
+    "rdock_elapsed_s": 86.5,
+    "best_pose_sd": "research/modalities/_pose_second_method_poses/cross_dock_metad-opened_v2.sd",
+    "cross_method_rmsd_A": 3.147,
+    "cross_method_band": "PARTIAL",
+    "cross_method_internal_conformer_rmsd_A": 1.422,
+    "cross_method_centroid_distance_A": 1.685,
+    "second_method_self_agreement_A": {
+     "n": 49,
+     "min": 0.346,
+     "median": 6.064,
+     "max": 7.059,
+     "mean": 4.532
+    },
+    "second_method_top_vs_runner_up_A": 1.324,
+    "rdock_pose_to_site_center_A": 0.844,
+    "first_method_pose_to_site_center_A": 1.59
+   },
+   {
+    "id": "dock/metad-opened/v2-statematch",
+    "kind_first_method": "smina dock, top pose (nr4a3_warhead.dock_into)",
+    "receptor_provenance": "metadynamics-OPENED AF2 prediction",
+    "receptor": "results/nr4a3-denovo/-matrix-v2-statematch/nr4a3-opened.pdb",
+    "first_method_pose": "results/nr4a3-denovo/-matrix-v2-statematch/docked_nr4a3.sdf",
+    "first_method_score_kcalmol": -7.83328,
+    "inherits_C6": true,
+    "n_pocket5_mapped": 10,
+    "n_pocket5_source": 10,
+    "site_center": [
+     4.189,
+     14.189,
+     -0.138
+    ],
+    "cavity": {
+     "n_cavities": 1,
+     "total_volume_A3": 1505.88,
+     "cavity_volume_A3": 1505.88,
+     "cavity_center": [
+      1.754,
+      13.268,
+      0.111
+     ],
+     "cavity_extent_A": [
+      21.5,
+      22.5,
+      21.5
+     ],
+     "elapsed_s": 8.9
+    },
+    "n_rdock_poses": 50,
+    "rdock_best_score": -23.9601,
+    "rdock_score_spread": {
+     "n": 50,
+     "min": -23.96,
+     "median": -5.931,
+     "max": 38.408,
+     "mean": -3.689
+    },
+    "rdock_elapsed_s": 100.6,
+    "best_pose_sd": "research/modalities/_pose_second_method_poses/cross_dock_metad-opened_v2-statematch.sd",
+    "cross_method_rmsd_A": 6.501,
+    "cross_method_band": "NOT RECOVERED",
+    "cross_method_internal_conformer_rmsd_A": 2.128,
+    "cross_method_centroid_distance_A": 1.37,
+    "second_method_self_agreement_A": {
+     "n": 49,
+     "min": 1.858,
+     "median": 5.761,
+     "max": 8.028,
+     "mean": 5.311
+    },
+    "second_method_top_vs_runner_up_A": 6.311,
+    "rdock_pose_to_site_center_A": 2.497,
+    "first_method_pose_to_site_center_A": 2.579
+   }
+  ],
+  "refusals": [
+   {
+    "id": "dock/8XTT-model2",
+    "stage": "numbering",
+    "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model2_nr4a3.pdb",
+    "evidence": "8XTT alignment failed: ModuleNotFoundError: No module named 'Bio'",
+    "kind": "smina dock, top pose (nr4a3_warhead.dock_into)"
+   },
+   {
+    "id": "dock/8XTT-model8",
+    "stage": "numbering",
+    "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model8_nr4a3.pdb",
+    "evidence": "8XTT alignment failed: ModuleNotFoundError: No module named 'Bio'",
+    "kind": "smina dock, top pose (nr4a3_warhead.dock_into)"
+   },
+   {
+    "id": "dock/8XTT-model20",
+    "stage": "numbering",
+    "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model20_nr4a3.pdb",
+    "evidence": "8XTT alignment failed: ModuleNotFoundError: No module named 'Bio'",
+    "kind": "smina dock, top pose (nr4a3_warhead.dock_into)"
+   },
+   {
+    "id": "dock/8XTT-model6",
+    "stage": "numbering",
+    "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model6_nr4a3.pdb",
+    "evidence": "8XTT alignment failed: ModuleNotFoundError: No module named 'Bio'",
+    "kind": "smina dock, top pose (nr4a3_warhead.dock_into)"
+   }
+  ],
+  "n_sources_readable": 2,
   "n_sources_known": 6,
-  "_status": "UNRUN \u2014 rDock's dock.prm protocol file is not readable under RBT_ROOT=None"
+  "_ligand": {
+   "label": "denovo_401",
+   "smiles": "COC[C@H](c1ccccc1)[C@@H]1CC[C@H](CC(C)(C)[C@@H](C)O)C1",
+   "_prepared": "a fresh ETKDGv3 conformer built from the census SMILES, NOT the smina pose \u2014 starting rDock from the pose it is being compared against would bias the comparison toward agreement."
+  },
+  "scale_reference": {
+   "length_A": 10.4,
+   "flip_rmsd_A": 6.84,
+   "random_reorient_mean_A": 5.11,
+   "n_random": 200,
+   "_note": "reference scales for reading the RMSD spread; none of these is a threshold"
+  },
+  "cross_method_same_frame": {
+   "_asks": "In each receptor's OWN frame \u2014 no superposition, nothing to fudge \u2014 how far is the second method's best pose from the first method's committed pose?",
+   "n_systems": 2,
+   "rmsd_A": {
+    "n": 2,
+    "min": 3.147,
+    "median": 4.824,
+    "max": 6.501,
+    "mean": 4.824
+   },
+   "centroid_distance_A": {
+    "n": 2,
+    "min": 1.37,
+    "median": 1.528,
+    "max": 1.685,
+    "mean": 1.528
+   },
+   "internal_conformer_rmsd_A": {
+    "n": 2,
+    "min": 1.422,
+    "median": 1.775,
+    "max": 2.128,
+    "mean": 1.775
+   },
+   "bands": {
+    "RECOVERED": 0,
+    "PARTIAL": 1,
+    "NOT RECOVERED": 1
+   },
+   "_reads": "counted in `C14`'s own words. \u26d4 RECOVERED here means 'the two methods placed it within the recovery line of each other', NOT that either placement is correct."
+  },
+  "orientation_or_location": {
+   "median_rmsd_A": 4.824,
+   "median_centroid_distance_A": 1.528,
+   "median_internal_conformer_rmsd_A": 1.775,
+   "molecule_length_A": 10.4,
+   "flip_rmsd_A": 6.84,
+   "random_reorient_mean_A": 5.11,
+   "_reads": "MIXED \u2014 1.53 A of the 4.82 A median RMSD is centroid separation; the rest is orientation and conformer. The conformer is NOT the explanation \u2014 median internal RMSD 1.77 A against a 4.82 A in-frame RMSD, so both methods found similar shapes and put them differently."
+  },
+  "within_second_method_spread": {
+   "_asks": "Does the SECOND method converge across receptor conformers any better than the first did? Same superposition (Pocket-5 Ca), same symmetry-corrected RMSD kernel.",
+   "_first_method_home": "research/modalities/pose-convergence-401.json \u2192 verdict.pocket_fit_ligand_rmsd_spread_A (not restated here)",
+   "n_systems": 2,
+   "n_pairs": 1,
+   "pairs": [
+    {
+     "a": "dock/metad-opened/v2",
+     "b": "dock/metad-opened/v2-statematch",
+     "n_fit_residues": 10,
+     "receptor_fit_rmsd_A": 0.763,
+     "ligand_rmsd_A": 4.658,
+     "band": "NOT RECOVERED",
+     "ligand_centroid_distance_A": 2.506,
+     "why": null
+    }
+   ],
+   "ligand_rmsd_A": {
+    "n": 1,
+    "min": 4.658,
+    "median": 4.658,
+    "max": 4.658,
+    "mean": 4.658
+   },
+   "ligand_centroid_distance_A": {
+    "n": 1,
+    "min": 2.506,
+    "median": 2.506,
+    "max": 2.506,
+    "mean": 2.506
+   },
+   "n_pairs_within_recovered_A": 0,
+   "n_pairs_within_partial_A": 0
+  }
  },
  "part_b": {
   "_asks": "On systems where the crystallographic answer IS known, what does a scoring-independent method recover \u2014 and does it agree with the first method?",
@@ -1621,15 +1850,26 @@
    },
    "_limitation": "\u26d4 A PAIR BELOW 1.00 A OF SITE Ca MOVEMENT IS A NEAR-RIGID RE-DOCK AND IS A WEAK TEST OF APO->HOLO TRANSFER. It must not be quoted as one, in either method. If no pair in this panel rearranges, the panel cannot answer whether either method survives induced fit, and that is a limitation of the TEST, not a caveat on a row.",
    "_construct_caveat": "\u26a0 AND WHERE `apo_and_holo_same_construct` IS FALSE THE NUMBER IS NOT PURE CONFORMATIONAL CHANGE \u2014 the two deposits are different engineered constructs, so the site-Ca RMSD contains whatever the substitution did as well."
+  },
+  "_carried_forward": {
+   "_reads": "\u26a0 NOT MEASURED IN THIS RUN. This half was produced by an earlier run and is carried so a single-mode re-run cannot delete it; treat it as that run's result, not this one's.",
+   "produced_by": {
+    "github_run_id": "30826469202",
+    "github_ref": "claude/nr4a1-protac-positive-control-xnszjl",
+    "github_sha": "42b168234647f267e5c806ad57556629c0ae094d",
+    "where": "GitHub Actions"
+   },
+   "produced_at_status": "ok",
+   "this_run_mode": "cross"
   }
  },
  "verdict": {
   "_asks": "Can `R5` be resolved now?",
   "second_method": "rDock",
-  "cross_method_evidence": "STILL NONE \u2014 the second method produced no comparable pose",
-  "part_a_n_systems": 0,
+  "cross_method_evidence": "PRESENT \u2014 2 system(s) carry a pose from two methods with disjoint scoring",
+  "part_a_n_systems": 2,
   "part_a_agreement_within_recovered_A": 0,
-  "part_a_median_inter_method_rmsd_A": null,
+  "part_a_median_inter_method_rmsd_A": 4.824,
   "part_b_n_gradeable": 0,
   "part_b_bands": {
    "blind_apo_pipeline_box": {
@@ -1661,9 +1901,43 @@
    "mean": null
   },
   "R5_resolved": false,
-  "outcome": "UNRUN",
-  "sentence": "The second method did not produce a comparable pose on any system, so `cross_method_evidence` is still NONE and `R5` is exactly where it was."
+  "outcome": "THE TWO METHODS DISAGREE",
+  "sentence": "0 of 2 system(s) agree within 2.00 A; the median inter-method disagreement is 4.824 A. \u26d4 A disagreement of this size between two methods with disjoint scoring means the pose this program holds is NOT attributable \u2014 and it is now attributable-to-nothing for a measured reason rather than for the absence of a second opinion.",
+  "what_this_does_not_license": [
+   "that the pose is correct \u2014 no experimental structure of this complex exists",
+   "that anything binds \u2014 `R4` still needs a bench and nothing here touches it",
+   "that any downstream free-energy or selectivity number inherits validity",
+   "that either method's search was exhaustive \u2014 the run counts are reported beside every number"
+  ],
+  "what_would_resolve_R5": [
+   {
+    "item": "a known answer IN REGIME with a real apo->holo rearrangement",
+    "why": "the panel's gradeable pairs are the test's own evidence about whether either method survives induced fit; a panel of near-rigid re-docks cannot answer it",
+    "measured_here": {
+     "n_gradeable": 0,
+     "n_with_large_rearrangement": 4,
+     "site_ca_rmsd_A": {
+      "n": 6,
+      "min": 0.142,
+      "median": 3.011,
+      "max": 6.46,
+      "mean": 3.197
+     }
+    },
+    "cost": "$0 \u2014 CPU/CI; it is a sourcing question, not a compute one"
+   },
+   {
+    "item": "a third method that is generative rather than a docking search (a co-fold with COMMITTED COORDINATES)",
+    "why": "both methods here place a ligand into a fixed receptor. A co-fold predicts the complex, so it fails differently again \u2014 and `pose-convergence-401.json` already records that the binary co-fold this program ran committed CONFIDENCE SCORES ONLY and no coordinates, which is why it could not enter the comparison",
+    "cost": "GPU \u2014 priced nowhere yet; the $0 half is committing coordinates from a run that already happened, if any survive"
+   },
+   {
+    "item": "a decision on `C6`",
+    "why": "two of the six systems inherit the contested frame-selection criterion; agreement measured in a frame whose selection datum does not reproduce inherits that dispute",
+    "cost": "$0 \u2014 but it is trimcrae's call, not an agent's (\u00a73b.2)"
+   }
+  ]
  },
  "_status": "ok",
- "_elapsed_s": 1062.2
+ "_elapsed_s": 203.9
 }

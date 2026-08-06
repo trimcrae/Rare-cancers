@@ -1,0 +1,602 @@
+{
+  "_title": "R13-b pre-launch \u2014 the two fusion co-fold constructs, re-cut to the corrected junction",
+  "_owner": "research/manuscripts/nr4a3-program-map.md \u2014 THE ORDERED PLAN, RUNG S, `R13-b`",
+  "_cost": "$0 \u2014 pure stdlib, no network, no rental. This artifact dispatches nothing.",
+  "_serves": "R13",
+  "_scope": "SEQUENCE ONLY. No structure, pose, reach, affinity, degradation quantity, selectivity, efficacy, safety, tolerability, therapeutic-window or clinical claim is made or implied.",
+  "\u26d4_PRE_REGISTERED_GATE_FOR_THE_RUN_THIS_PREPARES": "Written before the run because a null is the EXPECTED outcome. fusion_cofold.py's own prior is that the EWSR1 side is a prion-like IDR (mean pLDDT 38.8, 98% of residues < 50) and that a de-novo fusion junction carries NO cross-seam coevolution for an MSA-based predictor to use. ABSENCE OF AN ORDERED COMPOSITE INTERFACE IS THEREFORE A FEASIBILITY READ, NOT EVIDENCE THAT NO POCKET CAN FORM, AND MAY NOT BE REPORTED AS A REFUTATION. A GO is an interface cavity present in >=4 of 6 seeds on the `composite` construct that is ABSENT from both parent AlphaFold models; anything less is INDETERMINATE, a third outcome.",
+  "why_a_recut_was_owed": "finding X9 (systems/AUDIT-2026-08-06-routes.md) SETTLED that the fusion RETAINS NR4A3's AF-1: NR4A3 transcript exons 1-2 are non-coding, so 'exon 3' IS residue 1. fusion_cofold.py resumes at residue 2. The re-cut resumes at 1.",
+  "\u26d4_the_cut_is_not_single_valued": "OC-2 (systems/graph/integrity.json) is OPEN and its owner is R13. Two objects answer to 'the corrected junction' and their SEAMS DIFFER, which is the one thing a seam co-fold cannot be agnostic about. Both are built here; neither is a default; `--object` is required.",
+  "seed_plan": {
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "constructs_per_object": 2,
+    "models": 12,
+    "_matches": "scope-rung-cost.json rung R13-b `units` = 12 (construct x seed)"
+  },
+  "ews_seam_len": 120,
+  "dollar_ceiling": {
+    "plan_usd": 0.6639,
+    "band_usd": [
+      0.2747,
+      1.6733
+    ],
+    "units": 12,
+    "unit": "apo Boltz-2 co-fold model (construct x seed)",
+    "ceiling_usd_total": 1.6733,
+    "ceiling_usd_per_model": 0.139442,
+    "plan_usd_per_model": 0.055325,
+    "usd_per_ns": null,
+    "_why_no_usd_per_ns": "a co-fold is structure INFERENCE \u2014 it integrates no dynamics and produces no nanoseconds, so a $/ns here would have no denominator and would be a fabricated figure in the one column CLAUDE.md \u00a71 exists to make gradeable. Same refusal as selcal_board.py / inflight_board.unpriceable_usd_cell. This rung is gated on its DOLLAR ceiling only, and a refusal must say so.",
+    "which_ceiling_binds": "DOLLAR \u2014 the rate line has no denominator on this rung and does not apply. A refusal here must name the dollar ceiling and must not be reported as $/ns drift.",
+    "_source": "research/modalities/scope-rung-cost.json -> rungs -> R13-b (range_usd, units)"
+  },
+  "launch_path_check": {
+    "verdict": "BLOCKED",
+    "findings": [
+      {
+        "check": "a baked image carrying Boltz exists",
+        "got": [],
+        "want": "at least one Dockerfile.* naming boltz",
+        "ok": false,
+        "note": "Dockerfiles scanned: Dockerfile.bioemu, Dockerfile.mdjob, Dockerfile.nr4a3fep, Dockerfile.nr4ametad, Dockerfile.nrv04vast, Dockerfile.pmxfep, Dockerfile.protfep, Dockerfile.ternaryfep"
+      },
+      {
+        "check": "the repo's Vast co-fold lane does NOT build its environment on the billing host",
+        "got": {
+          "image": "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime",
+          "installs_on_host": true
+        },
+        "want": {
+          "installs_on_host": false
+        },
+        "ok": false,
+        "note": "nrv04_vast_launch._COFOLD_PIPELINE. CLAUDE.md \u00a76 records this exact shape as the 2026-08-01 violation: a rented 4090 running apt-get + pip install boltz + a ~3 GB fetch off stock pytorch/pytorch, before one second of science."
+      },
+      {
+        "check": "a Vast lane exists that runs fusion_cofold.py (rather than the ternary entry points)",
+        "got": "the only fusion_cofold launcher is .github/workflows/gpu-cofold-aws.yml (SageMaker); the Vast co-fold lane hard-codes TERNARY_SCRIPT and pip-installs on the host",
+        "want": "a Vast lane whose entry point is the fusion co-fold",
+        "ok": false,
+        "note": "CLAUDE.md \u00a76: production runs go on Vast. The plan's R13-b cell says Vast; the only wired path for this script is AWS SageMaker."
+      }
+    ],
+    "what_is_required_before_a_nod_can_be_acted_on": [
+      "Bake a Boltz image (a Dockerfile.boltz sibling + a bake workflow, the ternary-fep-bake.yml pattern) so the rented host PULLS instead of solving. CLAUDE.md \u00a76 gives the measured difference as ~15-25 min of solve against a ~2-4 min pull \u2014 on a rented GPU that is billed time, and three of four dead hosts on the 2026-08-01 lane died inside the fetch window.",
+      "Mount research/modalities into the container (-v \"$PWD/research/modalities:/work/research/modalities\") or the host silently runs the copy baked at build time.",
+      "Point a Vast lane at the committed YAMLs in research/modalities/fusion_cofold_inputs/<object>/ so the rented host fetches NO sequence: the cut is already done, verified and committed here."
+    ]
+  },
+  "gate": {
+    "status": "PASS",
+    "n_checks": 52,
+    "n_failed": 0,
+    "checks": [
+      {
+        "check": "NR4A3 UniProt cache is the canonical 626 aa",
+        "got": 626,
+        "want": 626,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1 UniProt cache is the canonical 656 aa",
+        "got": 656,
+        "want": 656,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "NR4A3 UniProt cache == Ensembl translation (R13-a cross-check)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1 UniProt cache == Ensembl translation (R13-a cross-check)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "NR4A3 residue 1 is the initiator methionine",
+        "got": "M",
+        "want": "M",
+        "ok": true,
+        "note": "X9: NR4A3 exon 3 begins at residue 1, so the fusion retains it"
+      },
+      {
+        "check": "NR4A3 C166 is a cysteine (the NR4A3-unique one outside every structure here)",
+        "got": "C",
+        "want": "C",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "NR4A3 C397 is a cysteine (inside the modelled LBD construct)",
+        "got": "C",
+        "want": "C",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "AF-1 ends at 260, read from the R13-a inventory",
+        "got": 260,
+        "want": 260,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "the folded core (DBD) starts at 261, read from the R13-a inventory",
+        "got": 261,
+        "want": 261,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "LBD is 373-626, read from the R13-a inventory",
+        "got": [
+          373,
+          626
+        ],
+        "want": [
+          373,
+          626
+        ],
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type1: 5' half == EWSR1(1-431) from the UniProt cache",
+        "got": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQSSFRQDHPSSMGVYGQESGGFSGPGENRSMSGPDNRGRGRGGFDRGGMSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFD",
+        "want": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQSSFRQDHPSSMGVYGQESGGFSGPGENRSMSGPDNRGRGRGGFDRGGMSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFD",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type1: 3' half == NR4A3(1-626) from the UniProt cache",
+        "got": "MPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+        "want": "MPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type1: length == 5' + junction + 3'",
+        "got": 1058,
+        "want": 1058,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type1: retains AF-1 (the X9 finding, read from the artifact)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type1: NR4A3 first residue retained == 1",
+        "got": 1,
+        "want": 1,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type1: the reported junction is in frame",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type2: 5' half == EWSR1(1-264) from the UniProt cache",
+        "got": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQ",
+        "want": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQ",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type2: 3' half == NR4A3(1-626) from the UniProt cache",
+        "got": "MPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+        "want": "MPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type2: length == 5' + junction + 3'",
+        "got": 949,
+        "want": 949,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type2: retains AF-1 (the X9 finding, read from the artifact)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type2: NR4A3 first residue retained == 1",
+        "got": 1,
+        "want": 1,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type2: the reported junction is in frame",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type5: 5' half == EWSR1(1-472) from the UniProt cache",
+        "got": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQSSFRQDHPSSMGVYGQESGGFSGPGENRSMSGPDNRGRGRGGFDRGGMSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFDGKDFQGSKLKVSLARKKPPMNSMRGGLPPREGRGMPPPLRG",
+        "want": "MASTDYSTYSQAAAQQGYSAYTAQPTQGYAQTTQAYGQQSYGTYGQPTDVSYTQAQTTATYGQTAYATSYGQPPTGYTTPTAPQAYSQPVQGYGTGAYDTTTATVTTTQASYAAQSAYGTQPAYPAYGQQPAATAPTRPQDGNKPTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQSSFRQDHPSSMGVYGQESGGFSGPGENRSMSGPDNRGRGRGGFDRGGMSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFDGKDFQGSKLKVSLARKKPPMNSMRGGLPPREGRGMPPPLRG",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type5: 3' half == NR4A3(1-626) from the UniProt cache",
+        "got": "MPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+        "want": "MPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLGLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type5: length == 5' + junction + 3'",
+        "got": 1099,
+        "want": 1099,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type5: retains AF-1 (the X9 finding, read from the artifact)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type5: NR4A3 first residue retained == 1",
+        "got": 1,
+        "want": 1,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "EWSR1_NR4A3_type5: the reported junction is in frame",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "R13-a gate reproduced its junction",
+        "got": "REPRODUCED",
+        "want": "REPRODUCED",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "R13-a gate junction string",
+        "got": "EWSR1(1-264)::NR4A3(1-626)",
+        "want": "EWSR1(1-264)::NR4A3(1-626)",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "e7e3_plan_literal/composite: the built chain is a contiguous slice of the full chimera",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": "composite is deliberately discontiguous \u2014 the AF-1 spacer is removed by design"
+      },
+      {
+        "check": "e7e3_plan_literal/composite: chain length == 5' window + junction + NR4A3 block",
+        "got": 486,
+        "want": 486,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "e7e3_plan_literal/composite: no non-standard residue letter",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "e7e3_plan_literal/seam: the built chain is a contiguous slice of the full chimera",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": "composite is deliberately discontiguous \u2014 the AF-1 spacer is removed by design"
+      },
+      {
+        "check": "e7e3_plan_literal/seam: chain length == 5' window + junction + NR4A3 block",
+        "got": 380,
+        "want": 380,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "e7e3_plan_literal/seam: no non-standard residue letter",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "e7e3_plan_literal/seam: begins the NR4A3 block at residue 1 (M) \u2014 AF-1 RETAINED",
+        "got": "M",
+        "want": "M",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "e7e3_plan_literal/seam: priced size band (~380 residues)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": "scope-rung-cost.json bases.cofold_per_model \u2014 SIZE upper-bound argument"
+      },
+      {
+        "check": "e7e3_plan_literal/composite: priced size band (~486 residues)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "e7e3_plan_literal/composite: NR4A3 block starts at the DBD",
+        "got": 261,
+        "want": 261,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "t1_reported_canonical/composite: the built chain is a contiguous slice of the full chimera",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": "composite is deliberately discontiguous \u2014 the AF-1 spacer is removed by design"
+      },
+      {
+        "check": "t1_reported_canonical/composite: chain length == 5' window + junction + NR4A3 block",
+        "got": 487,
+        "want": 487,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "t1_reported_canonical/composite: no non-standard residue letter",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "t1_reported_canonical/seam: the built chain is a contiguous slice of the full chimera",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": "composite is deliberately discontiguous \u2014 the AF-1 spacer is removed by design"
+      },
+      {
+        "check": "t1_reported_canonical/seam: chain length == 5' window + junction + NR4A3 block",
+        "got": 381,
+        "want": 381,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "t1_reported_canonical/seam: no non-standard residue letter",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "t1_reported_canonical/seam: begins the NR4A3 block at residue 1 (M) \u2014 AF-1 RETAINED",
+        "got": "M",
+        "want": "M",
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "t1_reported_canonical/seam: priced size band (~380 residues)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": "scope-rung-cost.json bases.cofold_per_model \u2014 SIZE upper-bound argument"
+      },
+      {
+        "check": "t1_reported_canonical/composite: priced size band (~486 residues)",
+        "got": true,
+        "want": true,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "t1_reported_canonical/composite: NR4A3 block starts at the DBD",
+        "got": 261,
+        "want": 261,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "OBJ-MODEL-E7E3's 5' cut is type 2's, verified against type 2's committed chimera",
+        "got": 264,
+        "want": 264,
+        "ok": true,
+        "note": ""
+      },
+      {
+        "check": "OBJ-MODEL-E7E3 omits type 2's 59 UTR-encoded residues (so it is NOT type 2)",
+        "got": 59,
+        "want": 59,
+        "ok": true,
+        "note": ""
+      }
+    ]
+  },
+  "objects": {
+    "t1_reported_canonical": {
+      "graph_object": "OBJ-FUS-T1",
+      "object_status": "reported",
+      "what": "reported EWSR1::NR4A3 type 1 (EWSR1 exon 12 :: NR4A3 exon 3) \u2014 the commonest reported transcript type, and the object the 2026-08-03 correction assigns the name 'canonical'",
+      "junction": "EWSR1(1-431) :: D :: NR4A3(1-626)",
+      "five_prime_residues_fully_encoded": 431,
+      "junction_encoded_residues": "D",
+      "full_chimera_len": 1058,
+      "full_chimera_sha256": "242a7b7805c708d3",
+      "verified_against": [
+        "EWSR1_NR4A3_type1"
+      ],
+      "constructs": {
+        "seam": {
+          "chain": "MSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFDDMPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLG",
+          "five_prime_range": [
+            312,
+            431
+          ],
+          "five_prime_len": 120,
+          "junction_encoded_residues": "D",
+          "nr4a3_range": [
+            1,
+            260
+          ],
+          "nr4a3_len": 260,
+          "block_boundary": 121,
+          "hypothesis": "true junction geometry (EWS-LC :: NR4A3 AF-1, which the fusion RETAINS) \u2014 does anything order AT the fused seam?",
+          "total_len": 381,
+          "sha256": "7b5f4a1c44d543c3"
+        },
+        "composite": {
+          "chain": "MSRGGRGGGRGGMGSAGERGGFNKPGGPMDEGPDLDLGPPVDPDEDSDNSAIYVQGLNDSVTLDDLADFFKQCGVVKMNKRTGQPMIHIYLDKETGKPKGDATVSYEDPPTAKAAVEWFDDLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+          "five_prime_range": [
+            312,
+            431
+          ],
+          "five_prime_len": 120,
+          "junction_encoded_residues": "D",
+          "nr4a3_range": [
+            261,
+            626
+          ],
+          "nr4a3_len": 366,
+          "block_boundary": 121,
+          "hypothesis": "generous upper bound \u2014 the disordered AF-1 spacer is DELIBERATELY removed so the EWS tail gets the best possible chance to pack onto the NR4A3 folded core",
+          "total_len": 487,
+          "sha256": "ae9d0c27825f152b"
+        }
+      }
+    },
+    "e7e3_plan_literal": {
+      "graph_object": "OBJ-MODEL-E7E3",
+      "object_status": "modelled_not_reported",
+      "what": "the modelled EWSR1 e7 :: NR4A3 e3 construct \u2014 the junction string the R13-a gate reproduced and the one `fusion_cofold.py` already models, but NOT a reported fusion type: it pairs type 2's 5' cut with type 1's 3' exon and omits type 2's 59 UTR-encoded residues",
+      "junction": "EWSR1(1-264) :: NR4A3(1-626)",
+      "five_prime_residues_fully_encoded": 264,
+      "junction_encoded_residues": "",
+      "full_chimera_len": 890,
+      "full_chimera_sha256": "4399e32fd1211eab",
+      "verified_against": [
+        "EWSR1_NR4A3_type2"
+      ],
+      "constructs": {
+        "seam": {
+          "chain": "PTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQMPCVQAQYSPSPPGSSYAAQTYSSEYTTEIMNPDYTKLTMDLGSTEITATATTSLPSISTFVEGYSSNYELKPSCVYQMQRPLIKVEEGRAPSYHHHHHHHHHHHHHHQQQHQQPSIPPASSPEDEVLPSTSMYFKQSPPSTPTTPAFPPQAGALWDEALPSAPGCIAPGPLLDPPMKAVPTVAGARFPLFHFKPSPPHPPAPSPAGGHHLGYDPTAAAALSLPLGAAAAAGSQAAALESHPYGLPLAKRAAPLAFPPLG",
+          "five_prime_range": [
+            145,
+            264
+          ],
+          "five_prime_len": 120,
+          "junction_encoded_residues": "",
+          "nr4a3_range": [
+            1,
+            260
+          ],
+          "nr4a3_len": 260,
+          "block_boundary": 120,
+          "hypothesis": "true junction geometry (EWS-LC :: NR4A3 AF-1, which the fusion RETAINS) \u2014 does anything order AT the fused seam?",
+          "total_len": 380,
+          "sha256": "b0a4a0323d694b45"
+        },
+        "composite": {
+          "chain": "PTETSQPQSSTGGYNQPSLGYGQSNYSYPQVPGSYPMQPVTAPPSYPPTSYSSTQPTSYDQSSYSQQNTYGQPSSYGQQSSYGQQSSYGQQPPTSYPPQTGSYSQAPSQYSQQSSSYGQQLTPSPTASSLLGESPSLPSPPSRSSSSGEGTCAVCGDNAACQHYGVRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLSVGMVKEVVRTDSLKGRRGRLPSKPKSPLQQEPSQPSPPSPPICMMNALVRALTDSTPRDLDYSRYCPTDQAAAGTDAEHVQQFYNLLTASIDVSRSWAEKIPGFTDLPKEDQTLLIESAFLELFVLRLSIRSNTAEDKFVFCNGLVLHRLQCLRGFGEWLDSIKDFSLNLQSLNLDIQALACLSALSMITERHGLKEPKRVEELCNKITSSLKDHQSKGQALEPTESKVLGALVELRKICTLGLQRIFYLKLEDLVSPPSIIDKLFLDTLPF",
+          "five_prime_range": [
+            145,
+            264
+          ],
+          "five_prime_len": 120,
+          "junction_encoded_residues": "",
+          "nr4a3_range": [
+            261,
+            626
+          ],
+          "nr4a3_len": 366,
+          "block_boundary": 120,
+          "hypothesis": "generous upper bound \u2014 the disordered AF-1 spacer is DELIBERATELY removed so the EWS tail gets the best possible chance to pack onto the NR4A3 folded core",
+          "total_len": 486,
+          "sha256": "5e01a8947eb0c289"
+        }
+      }
+    }
+  },
+  "yaml_written": [
+    "research/modalities/fusion_cofold_inputs/e7e3_plan_literal/composite.yaml",
+    "research/modalities/fusion_cofold_inputs/e7e3_plan_literal/seam.yaml",
+    "research/modalities/fusion_cofold_inputs/t1_reported_canonical/composite.yaml",
+    "research/modalities/fusion_cofold_inputs/t1_reported_canonical/seam.yaml"
+  ],
+  "map_edits_required": [
+    {
+      "file": "systems/graph/objects.json",
+      "section": "OBJ-NR4A3-AF1 -> notes",
+      "current_text": "This is the domain the fusion REPLACES with EWSR1's low-complexity region. Any ligand whose whole mechanism lives here cannot act on the chimera at any dose",
+      "proposed_text": "\u26d4 REFUTED 2026-08-06 by finding X9: the fusion RETAINS this domain. NR4A3 transcript exons 1-2 are non-coding, so 'NR4A3 exon 3' IS residue 1 and every reported EWSR1::NR4A3 type keeps AF-1, the DBD, the hinge and the LBD; EWSR1-LC is ADDITIVE, not a replacement. Superseded, retained: the swap framing and the 'cannot act on the chimera at any dose' closure.",
+      "why": "this object's notes still teach the refuted swap premise as fact, and it is the premise R13-b's constructs are being re-cut away from. X9 is settled and $0-reproducible (systems/AUDIT-2026-08-06-routes.md; research/modalities/fusion-object-inventory.json).",
+      "artifact": "research/modalities/fusion-cofold-constructs.json"
+    },
+    {
+      "file": "systems/graph/integrity.json",
+      "section": "open_conflicts -> OC-2",
+      "current_text": "'the canonical EMC fusion' names two incompatible objects, and one working module is built on the one that is not a reported fusion type.",
+      "proposed_text": "UNCHANGED as a conflict; ADD to `positions`: \"R13-b's pre-launch cut (fusion_cofold_recut.py) builds BOTH objects and defaults to NEITHER \u2014 `--object` is required. The two seams differ: OBJ-FUS-T1's is EWSR1(312-431) plus 1 junction-encoded residue(s); OBJ-MODEL-E7E3's is EWSR1(145-264) with none. The nod that authorises R13-b is therefore also the nod that resolves OC-2, and it cannot be taken silently.\"",
+      "why": "OC-2's `why_not_decided` says at least three modules would have to move together and the choice is not a navigation-layer call. It is now a launch-blocking choice with a named decision point, which is new information about the conflict.",
+      "artifact": "research/modalities/fusion-cofold-constructs.json"
+    },
+    {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "THE ORDERED PLAN -> RUNG S -> `R13-b`",
+      "current_text": "The `seam` and `composite` constructs of [`fusion_cofold.py`](../../research/modalities/fusion_cofold.py), re-cut to the corrected junction.",
+      "proposed_text": "The `seam` and `composite` constructs, re-cut to the corrected junction and committed as INPUTS by `fusion_cofold_recut.py` ([`fusion-cofold-constructs.json`](../modalities/fusion-cofold-constructs.json), $0, gate `PASS`) \u2014 so the rented host runs inference only and fetches no sequence. \u26d4 THE CUT IS NOT SINGLE-VALUED: OC-2 is open and the two candidate objects have DIFFERENT seams, so the nod must name the object as well as the spend.",
+      "why": "'the corrected junction' reads as one thing and is two. The cut is now done, verified and committed, and what remains for the nod is an object choice the plan does not state.",
+      "artifact": "research/modalities/fusion-cofold-constructs.json"
+    },
+    {
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "THE ORDERED PLAN -> RUNG S -> `R13-b`, the where-it-runs cell",
+      "current_text": "\u00b7 Vast, baked image.",
+      "proposed_text": "\u00b7 Vast \u2014 \u26d4 **NO BAKED BOLTZ IMAGE EXISTS.** `grep -l boltz research/compute/Dockerfile.*` returns nothing, and the repo's only Vast co-fold lane (`nrv04_vast_launch._COFOLD_PIPELINE`) still `apt-get`s and `pip install`s boltz + cuequivariance onto the BILLING host off stock `pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime` \u2014 the exact 2026-08-01 violation CLAUDE.md \u00a76 records. Bake one before launching.",
+      "why": "the rung's own where-it-runs cell asserts a capability the repo does not have. Measured 2026-08-06 by reading the Dockerfiles and the launcher, $0.",
+      "artifact": "research/modalities/fusion-cofold-constructs.json"
+    }
+  ],
+  "refusals": [
+    "$/ns is NOT reported for this rung and its absence is a refusal, not a gap: a co-fold integrates no dynamics, so there is no nanosecond denominator. R13-b is gated on its DOLLAR ceiling alone (scope-rung-cost.json rung R13-b `_why_no_usd_per_ns`), and any refusal must name which ceiling it hit.",
+    "No baked image carrying Boltz exists in this repo (measured 2026-08-06: `grep -l boltz research/compute/Dockerfile.*` returns nothing). Until one exists, R13-b cannot be launched in compliance with CLAUDE.md \u00a76 \u2014 the only Vast co-fold lane pip-installs onto the billing host.",
+    "The patient-level breakpoint is not pinned; EMC carries several reported types. Neither object here is 'the' junction of any particular patient, and the co-fold cannot make it one."
+  ]
+}
