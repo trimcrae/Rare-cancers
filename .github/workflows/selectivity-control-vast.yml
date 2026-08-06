@@ -205,6 +205,10 @@ jobs:
           # `selcal-collect.json` seven seconds after a `collect` tick, taking `landed: 5` back to `landed: 0`
           # with a three-hour-old timestamp, with nothing red anywhere. `publish_artifacts.sh` publishes only
           # what this run actually changed. See its header; see tests/test_publish_does_not_revert_*.py.
+          # ⛔ HEARTBEAT, NOT A RESULT — publishes only while there is something to supervise
+          # (trimcrae 2026-08-06; one home for the rule: research/modalities/fleet_armed.py).
+          # FAIL-ARMED: any doubt about the fleet publishes as before.
+          PUBLISH_HEARTBEAT_LANE="selcal-lane-tick" \
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "selcal ${MODE}: lane tick (CI)" \
             research/modalities/selcal-reference-selectivity.json \
@@ -293,6 +297,10 @@ jobs:
           # `selcal-collect.json` seven seconds after a `collect` tick, taking `landed: 5` back to `landed: 0`
           # with a three-hour-old timestamp, with nothing red anywhere. `publish_artifacts.sh` publishes only
           # what this run actually changed. See its header; see tests/test_publish_does_not_revert_*.py.
+          # ⛔ HEARTBEAT, NOT A RESULT — publishes only while there is something to supervise
+          # (trimcrae 2026-08-06; one home for the rule: research/modalities/fleet_armed.py).
+          # FAIL-ARMED: any doubt about the fleet publishes as before.
+          PUBLISH_HEARTBEAT_LANE="selcal-lane-tick" \
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "selcal ${MODE}: lane tick (CI)" \
             research/modalities/selcal-reference-selectivity.json \

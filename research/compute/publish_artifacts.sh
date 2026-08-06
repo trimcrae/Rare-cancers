@@ -68,6 +68,39 @@ BRANCH="${1:?usage: publish_artifacts.sh <branch> <message> <path>...}"; shift
 MSG="${1:?usage: publish_artifacts.sh <branch> <message> <path>...}"; shift
 TRIES="${PUBLISH_TRIES:-5}"
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# ★★ PUBLISH_HEARTBEAT_LANE — publish a NON-EVENT only while there is something to supervise
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# trimcrae, 2026-08-06: *"Why would we need supervision for tests that aren't running? That seems like a
+# terrible system."* MEASURED that day: 1,476 commits to `main` in 24 h, 1,438 CI ticks, 703 of them saying
+# in their own subject line that they did nothing — while the account held ZERO instances.
+#
+# ⛔ OPT-IN, AND NEVER THE DEFAULT. 40 workflows call this script and most publish RESULTS, which must land
+# whatever the fleet is doing. Only a lane whose artifact is a HEARTBEAT sets `PUBLISH_HEARTBEAT_LANE`; every
+# other caller is untouched by this block. Set it to the lane's name — `account-census` is exempt inside
+# `fleet_armed.py` because it is the surviving heartbeat that keeps "no commits at all" meaningful.
+#
+# ⚠ WHAT IS GATED IS THE COMMIT, NOT THE WORK. The lane has already run and already acted by the time it gets
+# here; a reap that needed to happen has happened. All that is skipped is recording that nothing occurred.
+#
+# ⚠ FAIL-ARMED. `fleet_armed.py` exits 10 for IDLE and 0 for ARMED, and anything else — a crash, a bad path,
+# an unreadable census — is treated as ARMED and publishes. Exit 10 is deliberately not 1 so a traceback can
+# never be read as "nothing to supervise".
+if [ -n "${PUBLISH_HEARTBEAT_LANE:-}" ]; then
+  python3 research/modalities/fleet_armed.py "$PUBLISH_HEARTBEAT_LANE" > /tmp/fleet_armed.json 2>&1
+  _armed_rc=$?
+  if [ "$_armed_rc" -eq 10 ]; then
+    echo "[publish] IDLE — nothing to supervise, so this heartbeat carries no information and is not committed."
+    echo "[publish] lane=$PUBLISH_HEARTBEAT_LANE  message would have been: $MSG"
+    cat /tmp/fleet_armed.json
+    exit 0
+  fi
+  if [ "$_armed_rc" -ne 0 ]; then
+    echo "::warning::fleet_armed.py exited $_armed_rc (neither 0=armed nor 10=idle) — publishing anyway"
+    cat /tmp/fleet_armed.json
+  fi
+fi
+
 git config user.name  "${PUBLISH_AUTHOR_NAME:-Claude}"
 git config user.email "${PUBLISH_AUTHOR_EMAIL:-noreply@anthropic.com}"
 

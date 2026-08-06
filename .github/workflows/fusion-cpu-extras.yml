@@ -1592,6 +1592,10 @@ jobs:
           # ticks of an 8-minute supervisor" (`retro_gate_reasons.__doc__`). Those ten NO HOST rows differ
           # only in their stamp; had a guard ever fired they would have collapsed to one and the outage
           # would have been invisible. The redundant-looking commit IS the mechanism.
+          # ⛔ HEARTBEAT, NOT A RESULT — publishes only while there is something to supervise
+          # (trimcrae 2026-08-06; one home for the rule: research/modalities/fleet_armed.py).
+          # FAIL-ARMED: any doubt about the fleet publishes as before.
+          PUBLISH_HEARTBEAT_LANE="nrv04-retro-board" \
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "NR-V04 retro: in-flight board fragment + gate record (CI)" \
             research/modalities/inflight-board.d/nrv04-retro.json \

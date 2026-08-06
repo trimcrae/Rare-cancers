@@ -347,6 +347,10 @@ jobs:
           # supervision alarm's staleness verdict. Note this also removes an `exit 0` on "nothing to
           # stage", which was that landmine already armed: a tick whose artifacts were all absent published
           # no heartbeat at all, and so read as a tick that never ran.
+          # ⛔ HEARTBEAT, NOT A RESULT — publishes only while there is something to supervise
+          # (trimcrae 2026-08-06; one home for the rule: research/modalities/fleet_armed.py).
+          # FAIL-ARMED: any doubt about the fleet publishes as before.
+          PUBLISH_HEARTBEAT_LANE="step1-fanout-autoscale" \
           bash research/compute/publish_artifacts.sh "$GIT_BRANCH" \
             "step1 fan-out autoscale tick ($(date -u +%FT%TZ))" \
             research/modalities/step1-fanout-progress.json \

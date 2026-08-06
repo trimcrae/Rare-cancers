@@ -538,6 +538,10 @@ jobs:
           # three-hour-old timestamp, with nothing red anywhere.
           # ⚠ NO PUBLISH_IF_CHANGED. This fragment IS the lane's heartbeat and the only input to
           # `_As of … STALE (> 15 min)`, so a tick that changed no bytes must still leave a dated commit.
+          # ⛔ HEARTBEAT, NOT A RESULT — publishes only while there is something to supervise
+          # (trimcrae 2026-08-06; one home for the rule: research/modalities/fleet_armed.py).
+          # FAIL-ARMED: any doubt about the fleet publishes as before.
+          PUBLISH_HEARTBEAT_LANE="gcp-s1f-rep-board" \
           bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
             "gcp s1f-rep lane: in-flight fragment (CI)" \
             research/modalities/inflight-board.d/gcp-s1f-rep.json \

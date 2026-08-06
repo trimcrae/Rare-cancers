@@ -290,6 +290,10 @@ jobs:
           # that silently failed to publish on three separate lanes: one conflict leaves the repo mid-rebase,
           # every retry dies on it, and the step reports SUCCESS. See research/compute/publish_artifacts.sh.
           BR="${{ github.event.inputs.branch || 'main' }}"
+          # ⛔ HEARTBEAT, NOT A RESULT — publishes only while there is something to supervise
+          # (trimcrae 2026-08-06; one home for the rule: research/modalities/fleet_armed.py).
+          # FAIL-ARMED: any doubt about the fleet publishes as before.
+          PUBLISH_HEARTBEAT_LANE="vast-account-reaper" \
           bash research/compute/publish_artifacts.sh "$BR" \
             "account reaper: ${{ steps.plan.outputs.verdict }} (${{ steps.plan.outputs.n_reap }} to reap) (CI)" \
             research/modalities/vast-account-reaper.json \

@@ -1,0 +1,122 @@
+"""The gate that lets an idle supervision lane stop committing non-events — and every way it must NOT fail.
+
+★ CONTEXT (2026-08-06). Eleven lanes were committing ~1,476 times a day, 703 of those saying in their own
+subject line that they had done nothing, while the account held zero instances. The churn was deliberate —
+the commit trail was the liveness channel — but the design had no OFF state, so it heartbeat identically
+whether or not there was a fleet.
+
+⛔ THE ASYMMETRY THAT DRIVES EVERY TEST HERE. Being wrongly ARMED costs a commit. Being wrongly IDLE means a
+supervision lane goes quiet over a fleet that is actually billing — the 2026-08-01 failure, where a watch
+loop had exited 24 minutes earlier and nothing said so while a host billed. So every ambiguous input must
+return ARMED, and the tests below are mostly about doubt, not about the happy path.
+"""
+from __future__ import annotations
+
+import json
+import os
+import sys
+from datetime import datetime, timedelta, timezone
+
+import pytest
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import fleet_armed as fa  # noqa: E402
+
+
+def _census(tmp_path, **over):
+    doc = {"n_instances": 0, "utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
+    doc.update(over)
+    p = tmp_path / "census.json"
+    p.write_text(json.dumps(doc), encoding="utf-8")
+    return str(p)
+
+
+# ───────────────────────── it must go idle only in the one safe case ─────────────────────────
+
+def test_zero_instances_and_a_fresh_census_is_the_only_idle_state(tmp_path):
+    st = fa.state(census_path=_census(tmp_path))
+    assert st["armed"] is False
+    assert "ZERO instances" in st["why"]
+
+
+def test_any_instance_at_all_arms_it(tmp_path):
+    st = fa.state(census_path=_census(tmp_path, n_instances=1))
+    assert st["armed"] is True, "one live instance is a fleet; supervision is not optional"
+
+
+# ───────────────────────── every form of doubt must FAIL ARMED ─────────────────────────
+
+def test_a_missing_census_fails_armed(tmp_path):
+    st = fa.state(census_path=str(tmp_path / "nope.json"))
+    assert st["armed"] is True and "FAIL-ARMED" in st["why"]
+
+
+def test_an_unreadable_census_fails_armed(tmp_path):
+    p = tmp_path / "bad.json"
+    p.write_text("{not json", encoding="utf-8")
+    st = fa.state(census_path=str(p))
+    assert st["armed"] is True and "FAIL-ARMED" in st["why"]
+
+
+def test_a_stale_census_fails_armed(tmp_path):
+    """⛔ THE SHARPEST ONE. A census saying zero from four hours ago is not evidence the account is empty —
+    it is evidence nobody has looked. An absent reading is not a reading of absence (CLAUDE.md §4), and this
+    is the exact shape of the 2026-08-01 incident: a lane's census was 16 minutes stale while its host
+    billed, and the staleness was reported as a status instead of as an unanswered question."""
+    old = (datetime.now(timezone.utc) - timedelta(seconds=fa.MAX_CENSUS_AGE_S + 600))
+    st = fa.state(census_path=_census(tmp_path, utc=old.strftime("%Y-%m-%dT%H:%M:%SZ")))
+    assert st["armed"] is True and "stale" in st["why"].lower()
+
+
+def test_a_census_with_no_instance_count_fails_armed(tmp_path):
+    st = fa.state(census_path=_census(tmp_path, n_instances=None))
+    assert st["armed"] is True and "FAIL-ARMED" in st["why"]
+
+
+def test_a_census_with_an_unparseable_timestamp_fails_armed(tmp_path):
+    st = fa.state(census_path=_census(tmp_path, utc="last Tuesday"))
+    assert st["armed"] is True and "FAIL-ARMED" in st["why"]
+
+
+def test_a_census_with_no_timestamp_at_all_fails_armed(tmp_path):
+    p = tmp_path / "c.json"
+    p.write_text(json.dumps({"n_instances": 0}), encoding="utf-8")
+    st = fa.state(census_path=str(p))
+    assert st["armed"] is True and "FAIL-ARMED" in st["why"]
+
+
+# ───────────────────────── the surviving heartbeat ─────────────────────────
+
+def test_the_census_lane_is_never_gated_by_its_own_reading(tmp_path):
+    """⭐ WHY ONE LANE STAYS NOISY ON PURPOSE. If every lane could go quiet, "no commits at all" would stop
+    being a signal and the 2026-08-01 lesson would be undone from the other direction. The lane that OWNS the
+    census is exempt: it is the thing that would discover a host appearing, so its heartbeat is the one that
+    still carries information when the fleet is empty."""
+    st = fa.state(lane=fa.CENSUS_LANE, census_path=_census(tmp_path))
+    assert st["armed"] is True
+    assert st["evidence"]["exempt"] is True
+
+
+# ───────────────────────── the exit contract the workflows depend on ─────────────────────────
+
+def test_the_idle_exit_code_cannot_be_confused_with_a_crash(tmp_path, monkeypatch, capsys):
+    """⛔ IDLE IS 10, NOT 1. Workflows branch on this exit code. If idle were 1, then a traceback — an
+    ImportError, a bad path, any crash — would exit 1 and be read as "nothing to supervise", turning every
+    failure of this module into silent unsupervision. That is the fail-quiet direction, so the two are kept
+    numerically apart."""
+    monkeypatch.setattr(fa, "CENSUS", _census(tmp_path))
+    assert fa.main([]) == 10
+    assert fa.main([fa.CENSUS_LANE]) == 0
+    assert json.loads(capsys.readouterr().out.split("}\n{")[0] + "}")["armed"] is False
+
+
+def test_the_live_census_path_is_the_account_level_one():
+    """A per-mode board filters to one mode's labels and structurally cannot see a host another lane holds.
+    Gating on one of those would be a lane-local belief — the thing this module exists to avoid."""
+    assert fa.CENSUS.endswith("ternary-vast-account-census.json")
+    if os.path.exists(fa.CENSUS):
+        with open(fa.CENSUS, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        assert "n_instances" in doc, "the census lost the field the gate reads"
+        assert "instances" in doc, "account-level census must enumerate, not just count"

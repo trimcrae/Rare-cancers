@@ -331,6 +331,10 @@ jobs:
           # nothing when it changed nothing is byte-identical to one that never ran, and CLAUDE.md §6 is
           # explicit that a cron does not supervise a billing fleet — so knowing it RAN is the point.
           BR="${{ github.event.inputs.fleet_branch || 'main' }}"
+          # ⛔ HEARTBEAT, NOT A RESULT — publishes only while there is something to supervise
+          # (trimcrae 2026-08-06; one home for the rule: research/modalities/fleet_armed.py).
+          # FAIL-ARMED: any doubt about the fleet publishes as before.
+          PUBLISH_HEARTBEAT_LANE="lane-staleness-watch" \
           bash research/compute/publish_artifacts.sh "$BR" \
             "lane staleness watch: census history + work ledger + alarm board (CI)" \
             research/modalities/lane-staleness-history.json \
