@@ -739,9 +739,13 @@ concrete.
 #### ⭐ Second, and it is the discriminating question: LBD or AF-1? — **LBD (strictly, `hinge+LBD`), verbatim**
 
 This matters more here than anywhere else in the memo, because **Tier 4 closes 6-mercaptopurine on exactly
-this axis**: 6-MP acts through the AF-1, and the fusion replaces NR4A3's AF-1 (1–260) with EWSR1's
-low-complexity region. If the published hits were also AF-1-borne, they would say nothing about the disease
-protein and route 5 would stay demoted *and* the monovalent framing would be dead. **They are not.** From
+this axis**: 6-MP acts through the AF-1. ⚠ *Superseded, retained: "and the fusion replaces NR4A3's AF-1
+(1–260) with EWSR1's low-complexity region."* **MEASURED FALSE 2026-08-06** — NR4A3 exons 1–2 are
+non-coding, so the fusion **RETAINS** the AF-1 and EWSR1-LC is additive; Tier 4 now closes 6-MP on
+**direction of effect** (it ENHANCES NR4A3, and the fusion is gain-of-function), not on domain loss. ⭐ **The
+question below is unaffected and is why it still matters**: if the published hits were also AF-1-borne they
+would speak to a module 6-MP already engages rather than to the LBD this route needs, and route 5 would stay
+demoted *and* the monovalent framing would be dead. **They are not.** From
 the paper's own Experimental Section:
 
 > *"the Gal4‐NOR‐1 fusion receptor plasmid **pFA‐CMV‐hNOR‐1‐LBD coding for the hinge region and LBD of the

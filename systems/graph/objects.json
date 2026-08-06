@@ -347,7 +347,7 @@
     "status": "domain",
     "definition": {
       "exon_level": null,
-      "residue_level": "delimited to residues 1–112 for SRC-2 recruitment; the repo measures the swapped stretch as NR4A3 1–260 ↔ EWSR1-LC 1–264",
+      "residue_level": "delimited to residues 1–112 for SRC-2 recruitment; the repo measures NR4A3 1–260 alongside EWSR1-LC 1–264. ⚠ Superseded, retained: 'the swapped stretch' — the measurement is real and unchanged, but the two stretches are NOT swapped; the fusion retains NR4A3 1–260 and prepends EWSR1-LC (2026-08-06).",
       "length_field": {
         "artifact": "ART-TARGET-ROUTE-CENSUS",
         "field": "/af1_to_lc_swap"
@@ -357,7 +357,7 @@
       ]
     },
     "distinct_from": [],
-    "notes": "This is the domain the fusion REPLACES with EWSR1's low-complexity region. Any ligand whose whole mechanism lives here cannot act on the chimera at any dose — which closes 6-MP and does NOT close LBD-directed modulation."
+    "notes": "⛔ THE FUSION RETAINS THIS DOMAIN — measured 2026-08-06. NR4A3 transcript exons 1-2 are entirely NON-CODING (nr4a3-exon-audit.json: coding_nt_in_exon 0; exon 3 carries first_protein_residue 1), so EWSR1(1-264)::NR4A3(1-626) retains the AF-1, DBD, hinge and LBD in all 9 DBD-retaining breakpoint windows, and EWSR1's low-complexity region is ADDITIVE rather than substitutive. ⚠ Superseded, retained: 'This is the domain the fusion REPLACES with EWSR1's low-complexity region. Any ligand whose whole mechanism lives here cannot act on the chimera at any dose — which closes 6-MP.' That premise is FALSE and no longer closes anything: RT-6MP is now closed on DIRECTION OF EFFECT (6-MP ENHANCES NR4A3 while the fusion is gain-of-function), closure_kind premise_false, per the 2026-08-06 route audit X9. The second half of the retracted sentence stands on its own grounds — this never closed LBD-directed modulation."
   },
   {
     "id": "OBJ-NR4A3-DBD",

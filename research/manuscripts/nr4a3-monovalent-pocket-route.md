@@ -140,8 +140,11 @@ as a resolution item rather than edited across four files in a route memo, and *
 
 ### 2.3 · The AF-1 question, asked for the first time — and the answer is not the one I expected
 
-**The question.** The disease protein is not NR4A3. It replaces NR4A3's own **AF-1** with EWSR1's
-low-complexity region — the swap is measured and owned by
+**The question.** The disease protein is not NR4A3. It carries EWSR1's low-complexity region **in addition
+to** NR4A3's own **AF-1**, which it RETAINS ⚠ *(superseded, retained: "It replaces NR4A3's own AF-1 with
+EWSR1's low-complexity region" — measured false 2026-08-06: NR4A3 exons 1–2 are non-coding, so the fusion
+retains AF-1, DBD, hinge and LBD, and the two lengths below are a real measurement of two stretches that are
+NOT swapped)* — the measurement is owned by
 [`target-route-options.md` check B](./target-route-options.md) → `target-route-census.json` `af1_to_lc_swap`
 — and the AF-1 is where NOR-1's only *approved-drug* pharmacology acts. The options memo's Tier 4 closes
 6-mercaptopurine for exactly that reason, on a verbatim primary source
@@ -161,9 +164,12 @@ A Gal4 hybrid construct fuses the receptor **LBD** to the GAL4 DNA-binding domai
 and DBD are **not present**. So the one published demonstration that occupying the NR4A3 LBD changes
 transcriptional output was made **in a construct that already lacks NR4A3's AF-1.**
 
-⭑ **Stated as the finding it is: the AF-1 deletion is not, by itself, a defeater for LBD-directed
+⭑ **Stated as the finding it is: AF-1 status is not, by itself, a defeater for LBD-directed
 modulation of this receptor, and the evidence for that was sitting in the repo unconnected to the
-question.** NOR-1 has two transactivation modules — an AF-1 that Wansa mapped, and an LBD-borne one that
+question.** ⚠ *Superseded, retained: "the AF-1 deletion is not, by itself, a defeater." The finding is
+unchanged and is now STRONGER, not weaker — it was established on a construct that LACKS the AF-1, and the
+fusion turns out to RETAIN one (2026-08-06), so the LBD-borne module is available in the chimera without
+having to argue past a deletion that does not occur.* NOR-1 has two transactivation modules — an AF-1 that Wansa mapped, and an LBD-borne one that
 Zaienne's compounds demonstrably repress with no AF-1 in the construct. **⛔ CORRECTED 2026-08-06 — the fusion does NOT delete the AF-1** (*superseded, retained: "the fusion deletes the first"*): NR4A3 transcript exons 1-2 are non-coding, so the chimera RETAINS AF-1, DBD, hinge and LBD. What is true is that the AF-1 becomes INTERNAL, preceded by EWSR1(1-264). The fusion retains the first and
 keeps the second.**
 

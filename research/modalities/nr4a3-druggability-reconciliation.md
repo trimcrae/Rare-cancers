@@ -107,8 +107,15 @@ itself, in its own introduction, for the two prior ligands: 6-MP *"was found to 
 activation function 1 (AF‐1) of NOR‐1 for activity and **does not bind to the ligand binding domain
 (LBD)**"*, whereas PGA2 *"weakly activates NOR‐1 **through direct interaction with its LBD**."*
 
-⇒ **NOR-1 carries two separable transactivation modules, and the fusion deletes only one of them.** The
-AF-1 deletion is therefore **not** by itself a defeater for LBD-directed modulation of EWSR1::NR4A3.
+⇒ **NOR-1 carries two separable transactivation modules, and the LBD-borne one is reachable in the chimera.**
+AF-1 status is therefore **not** by itself a defeater for LBD-directed modulation of EWSR1::NR4A3.
+⚠ *Superseded, retained: "the fusion deletes only one of them" / "The AF-1 deletion is therefore not by
+itself a defeater."* **MEASURED FALSE 2026-08-06:** NR4A3 transcript exons 1–2 are entirely non-coding
+([`nr4a3-exon-audit.json`](./nr4a3-exon-audit.json)), so `EWSR1(1-264)::NR4A3(1-626)` **RETAINS** the AF-1,
+DBD, hinge and LBD in all 9 DBD-retaining breakpoint windows and EWSR1-LC is **additive**. The fusion
+deletes NEITHER module. ⭐ **The conclusion is unaffected and strengthened:** it was established on a
+`hinge+LBD` construct that already lacks the AF-1, so it never depended on a deletion — and with the AF-1
+retained, the LBD-borne module is available without arguing past a loss that does not occur.
 
 ⚠ **Four limits travel with this, and the first is a correction of how the finding has been relayed.**
 
