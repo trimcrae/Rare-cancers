@@ -16,7 +16,7 @@ _backfilled: true
 
 **Date:** 2026-07-24. **Trigger:** `method-watch.md` "cheap generative conformational-ensemble model
 (BioEmu / AlphaFlow / …) **validated against known cryptic pockets**", action (a): *"re-grade the NR4A3 LBD
-cryptic-pocket ensemble at near-zero cost as a cross-check on the metadynamics."* Prompted by the BioEmu v1.4.0
+cryptic-pocket ensemble at near-zero cost as a cross-check on the metadynamics."* Prompted by the BioEmu v1.4.1
 release (Microsoft, 2026-07-20). Provider: **Vast.ai** (image `triskit23/bioemu`, RTX-4090).
 
 ## TL;DR

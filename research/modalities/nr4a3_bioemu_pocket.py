@@ -4,7 +4,7 @@ BioEmu cross-check scorer — run the EXACT harmonized orthosteric-pocket detect
 NR4A3 LBD conformational ensemble, so the fraction-of-frames-druggable is directly comparable to the
 metadynamics (0.68) and unbiased-release (pooled 0.587) numbers.
 
-WHY (method-watch trigger, 2026-07-20, BioEmu v1.4.0). The cheap-generative-conformational-ensemble trigger
+WHY (method-watch trigger, 2026-07-20, BioEmu v1.4.1). The cheap-generative-conformational-ensemble trigger
 row's action (a): "re-grade the NR4A3 LBD cryptic-pocket ensemble at near-zero cost as a cross-check on the
 metadynamics." BioEmu (Microsoft, Science 2025) emulates equilibrium ensembles from sequence on a single GPU
 in minutes — an ORTHOGONAL generator (learned, not physics-based enhanced sampling). If it independently opens

@@ -88,7 +88,10 @@ Adding a row here (breadth) beats over-optimizing an existing test (depth-past-s
 > **Read the latest auto-digest:**
 > `git fetch origin method-watch-cache`
 > `git show origin/method-watch-cache:research/method-watch-digest.md`
-> (or run `node scripts/method-watch.mjs` locally, hosts `www.ebi.ac.uk` + `api.github.com`).
+> (or run `node scripts/method-watch.mjs` locally, hosts `www.ebi.ac.uk`, `api.github.com` + `api.grants.gov`).
+> ⚠ *Superseded, retained: a two-host list. `api.grants.gov` was added by the 2026-07-22 funding watch this
+> same file documents below, and the host list was never updated — so a reader allow-listing from here would
+> have had the funding half fail silently.*
 
 **How to use it:** the digest surfaces newest papers / tool releases per capability. A hit is
 a *prompt to check this table*, not a decision. If a "🆕" line genuinely crosses a trigger
@@ -215,7 +218,7 @@ model swaps in cheaply.*
 ## Open follow-ups from digests (triage log)
 Hits that crossed (or are warming) a trigger. A new session should action or clear these.
 
-- **[2026-07-24] Cheap-ensemble-generator trigger FIRED — BioEmu v1.4.0 (Microsoft, released 2026-07-20) →
+- **[2026-07-24] Cheap-ensemble-generator trigger FIRED — BioEmu v1.4.1 (Microsoft, released 2026-07-20) →
   action (a) DONE.** Ran a near-zero-cost orthogonal cross-check of the NR4A3 LBD cryptic-pocket ensemble
   (`weekly newsletter` prompt). BioEmu (learned equilibrium-ensemble diffusion emulator) generated 64 samples of
   the apo LBD **from sequence alone**, HPacker side-chain reconstruction, then the **identical** harmonized
@@ -336,10 +339,19 @@ Hits that crossed (or are warming) a trigger. A new session should action or cle
   Boltz v2.2.1, Protenix v2.0.0; + a wave of fresh PROTAC-degrader papers). This crosses the
   *"open AF3-class ternary-complex prediction"* trigger → **model the NR4A3–PROTAC–E3 ternary
   complex** (degradability geometry / accessible-lysine check) with Boltz/Protenix. Status:
-  **pipeline BUILT, awaiting GPU** — `nr4a3_ternary.py` (CPU prep + CRBN+lenalidomide positive
-  control, validated in modalities-run CI) + `nr4a3_ternary_sagemaker.py` + `boltz_src/entry.py` +
-  `gpu-ternary-aws.yml` (dispatch-only). Runs the moment AWS GPU access lands; the real ternary
-  completes when a warhead SMILES exists (degrader experiment #2). See degrader spec point 3.
+  ✅ **FIRED AND GRADED — it is no longer waiting for anything.** `gpu-ternary-aws.yml` has 21 runs
+  and completed `success` on 2026-07-11 (×2) and 2026-07-24; `gpu-ternary-fep-vast.yml` was still
+  succeeding 2026-08-05. A warhead SMILES exists (rung `5b-T` ran from a recorded degrader SMILES).
+  ⛔ **And the result is a graded NEGATIVE, which is the part a "waiting" status hides:** `V12` sits in
+  `RT-DEGRADER`'s `disclosed_failing` set (target↔E3 DockQ 0.023–0.046, fnat 0.000), and rung `5b-T`'s
+  pre-registered three-arm gate returns **`NO-GO`** — deepened 2026-08-05 by the `V1` read over all 16
+  models per arm, which finds zero sequence-encoded discriminating contacts in zero of them.
+  One home for the state: [nr4a3-program-map.md](./manuscripts/nr4a3-program-map.md).
+  ⚠ *Superseded, retained: "pipeline BUILT, awaiting GPU … Runs the moment AWS GPU access lands; the
+  real ternary completes when a warhead SMILES exists." All three conditions were met weeks ago; the
+  row went on reading as a queued item while the work it describes had run and failed.*
+  Built from `nr4a3_ternary.py` (CPU prep + CRBN+lenalidomide positive control) +
+  `nr4a3_ternary_sagemaker.py` + `boltz_src/entry.py` + `gpu-ternary-aws.yml`. See degrader spec point 3.
 - **[2026-06-24] Degrader precedent in a sibling FET-fusion sarcoma — VERIFY BEFORE CITING.**
   Digest title only: *"Discovery and characterization of YSA64, a RBM39 degrader with in vivo
   efficacy and potent cellular activity in pediatric Ewing sarcoma A673"* (Europe PMC MED/42085934,
@@ -357,7 +369,9 @@ Hits that crossed (or are warming) a trigger. A new session should action or cle
 The state-of-the-art we can actually RUN (closed IsoDDE / "AlphaFold 4" is inaccessible, so it does not
 count). Captured so a future session doesn't re-derive it; the weekly newsletter keeps it current.
 - **Co-fold / structure (generation):** **Boltz-2** (MIT, open, affinity head — we already use it);
-  **Protenix** (ByteDance, v1 Feb 2026, **Apache-2.0**, claims >AF3 — benchmark vs Boltz);
+  **Protenix** (ByteDance, **v2.0.0, 2026-04-07**, **Apache-2.0**, claims >AF3 — benchmark vs Boltz);
+  ⚠ *Superseded, retained: "v1 Feb 2026". This sits in the section that claims to be KEPT CURRENT, and an
+  earlier dated entry above already said v2.0.0 — so the later-dated snapshot named the older version.*
   **Chai-1** (drug-opt, semi-open); **OpenFold3** (fully-open AF3 reimpl).
 - **Ternary / degrader (generation):** **DeepTernary** (open GNN, SOTA ternary structure — evaluate as a
   generation axis); **FKSFold** (glue-ternary diffusion). Both predict *structure*, not cooperativity ranking.

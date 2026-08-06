@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-NR4A3 LBD BioEmu cryptic-pocket cross-check — Vast.ai launcher (method-watch trigger, BioEmu v1.4.0, 2026-07-20).
+NR4A3 LBD BioEmu cryptic-pocket cross-check — Vast.ai launcher (method-watch trigger, BioEmu v1.4.1, 2026-07-20).
 
 Rents ONE Vast GPU instance (baked triskit23/bioemu image), which: pulls the repo tarball, samples a BioEmu
 equilibrium ensemble of the 254-residue NR4A3 LBD from sequence, reconstructs side chains (HPacker via
@@ -44,7 +44,7 @@ NR4A3_LBD_SEQ = (
 )
 CHIGNOLIN_SEQ = "GYDPETGTWG"  # BioEmu README smoke sequence
 
-# 24 GB Ada 4090 (BioEmu README benchmarked A100 80 GB, but v1.4.0's min-batch-1 lets 254 aa fit at small batch;
+# 24 GB Ada 4090 (BioEmu README benchmarked A100 80 GB, but v1.4.1's min-batch-1 lets 254 aa fit at small batch;
 # fall back to a100 via GPU=a100 if a real run OOMs). We are not racing (one-shot cross-check), interruptible is
 # fine — a preemption just re-runs from scratch (cheap, minutes) since a single ensemble isn't per-unit resumable.
 # min_cuda 13.0: the baked image's torch is cu130 (2.13.0+cu130), so the host DRIVER must support CUDA 13

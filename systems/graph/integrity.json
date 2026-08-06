@@ -52,20 +52,6 @@
       ],
       "why_not_decided": "The remedy is the merge itself, not a doc edit; editing the sentence to say something weaker would remove a true statement about the intended state. Logged so that if the merge is ever reverted, the claim is already registered as conditional on it.",
       "owner": "CLAUDE.md §7 — keep everything synced to `main`"
-    },
-    {
-      "id": "OC-4",
-      "what": "'Bangerter 2023' — the only ex-vivo EMC drug-sensitivity evidence in the repo — carries no PMID or DOI anywhere.",
-      "files": [
-        "research/IDEAS.md",
-        "research/manuscripts/repurposing-hypotheses.md"
-      ],
-      "positions": [
-        "It is cited as load-bearing evidence for the carfilzomib route ('best ex-vivo EMC evidence', 'only 1 of 17 drugs with high sensitivity across 2 patient-derived EMC models').",
-        "No canonical identifier is recorded, so it cannot be verified through `verify-refs` and is registered here with a search URL rather than an identifier."
-      ],
-      "why_not_decided": "Resolving it needs a literature fetch from a CI runner (the dev sandbox's proxy 403s PubMed/PMC), which is a separate job. Registering the gap is what stops it reading as a verified citation.",
-      "owner": "research/manuscripts/fact-check-log.md"
     }
   ],
   "resolved_conflicts": [
@@ -76,6 +62,13 @@
       "resolution_home": "research/modalities/nr4a3-druggability-reconciliation.md#5b",
       "guard": "research/modalities/tests/test_munck_attribution_retired.py",
       "what_this_registry_adds": "The structural half. EV-ZAIENNE-2022 lists every name the source travels under, including the retired one, so the two names can never again be read as two sources — and the E1/E3 invariants fail if any name resolves to two evidence items or if a source is cited under a name nothing registers."
+    },
+    {
+      "id": "OC-4",
+      "what": "⛔ SUPERSEDED, RETAINED: \"'Bangerter 2023' — the only ex-vivo EMC drug-sensitivity evidence in the repo — carries no PMID or DOI anywhere.\" It now carries PMID 36316541 / doi:10.1007/s13577-022-00818-x / PMC9813045.",
+      "resolved_on": "2026-08-05",
+      "resolution_home": "systems/graph/evidence.json → EV-BANGERTER-2023",
+      "what_this_registry_adds": "⭐ THE CITATION GAP WAS THE SMALLER HALF. Fetching the paper to close it also RETRACTED the claim the citation was supporting — this registry's own `positions` quoted it as 'only 1 of 17 drugs with high sensitivity across 2 patient-derived EMC models', and the primary text says the 40-drug panel (17 chemotherapies + 23 targeted) was screened on USZ20-EMC1 ALONE, with carfilzomib, doxorubicin and venetoclax then validated in both models — venetoclax showing NO monotherapy response. So an unverifiable citation was masking a misread of the study design, which is the argument for registering identifier gaps rather than tolerating them: the fetch that closes the gap is the same fetch that grades the claim."
     }
   ],
   "_closure_model": {
