@@ -366,6 +366,26 @@ When in doubt: do it and show it.
   lane is **exempt**, so idle still leaves one hourly commit trail and "no commits at all" stays a real
   signal; **(c)** **FAIL-ARMED** — a census that is missing, unreadable, stale or short a field publishes as
   before, and idle exits `10` rather than `1` so a traceback can never be read as "nothing to supervise".
+  - **★★ (b) WAS INERT FOR 8.9 HOURS AND THE EXEMPTION PROTECTED NOTHING (measured 2026-08-06, hours
+    after the rule above was written).** `fleet_armed.CENSUS_LANE` is `account-census`, and **no workflow
+    passed that name.** The repository's only writer of the account census — the `reps-diag` job in
+    `gpu-ternary-fep-vast.yml` — published it under `ternary-reps-forensic`, which IS gated. So on an
+    empty account the sequence was: write a fresh census → `fleet_armed` reads **that fresh census** →
+    `n_instances: 0` → IDLE → publish skipped → **the fresh census is discarded.** The committed copy
+    then aged past `account_orphan_alarm.py`'s 45-minute threshold, which suppresses **every lane
+    verdict** — so the account-keyed alarm printed `CENSUS-STALE`, `lanes: null`, `orphans: null`, and
+    the repository could not say whether any host was billing. That is precisely the 2026-08-01 failure
+    the alarm was built for, reintroduced by the guard meant to make silence meaningful.
+    **Measured:** last census commit `01:46Z`; at `10:31Z` a dispatched `reps-diag` wrote a fresh census,
+    reported `success`, and threw it away — the file on `main` still read `01:44:58Z`.
+    ⛔ **THE GATE WAS OBEYING ITS INPUT. THE DEFECT WAS A STRING** — documented in three places, wired to
+    a name nothing used, so the design read as safe while the one artifact it existed to protect was the
+    one being dropped. **A property asserted in prose about a value passed by a caller is not a
+    property; it is a hope.** The census now publishes in its own unconditional call under the exempt
+    lane and the forensic stays gated, and the WIRING is asserted rather than described —
+    `tests/test_fleet_armed.py::test_the_exempt_census_lane_is_actually_used_by_the_census_writer`
+    fails the build if any census writer stops using the exempt lane, or smuggles the census back into a
+    gated publish.
 - **★ WHEN YOU RETIRE A FEATURE, ASK WHAT PART OF IT IS NOT A FILE (measured 2026-08-06).** The
   patient-facing site was deleted on 2026-08-05 — HTML, assets, templates and the deploy workflow all gone,
   and `ls .github/workflows/ | grep -i page` returns nothing. **Pages kept building anyway: 52 of the last

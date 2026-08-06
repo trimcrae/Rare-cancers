@@ -146,3 +146,37 @@ def test_main_reads_the_census_it_is_pointed_at(tmp_path, monkeypatch):
 
     monkeypatch.setattr(fa, "CENSUS", _census(tmp_path))
     assert fa.main([]) == 10, "a fresh, empty census the module was pointed at must read as idle"
+
+
+def test_the_exempt_census_lane_is_actually_used_by_the_census_writer():
+    """⛔ IT WAS NOT, AND THE EXEMPTION WAS INERT FOR 8.9 HOURS (measured 2026-08-06).
+
+    `CENSUS_LANE` is exempt so that idle still leaves one commit trail and "no commits at all" stays a
+    real signal — CLAUDE.md §6(b), and this module's own docstring. **No workflow passed that name.**
+    The only writer of the account census published it under `ternary-reps-forensic`, which IS gated,
+    so on an empty account the fresh census was written, read, judged IDLE, and DISCARDED. The
+    committed copy aged past `account_orphan_alarm.py`'s 45-minute threshold, which suppresses every
+    lane verdict — leaving the account-keyed alarm unable to say whether any host was billing, which is
+    the exact 2026-08-01 failure that alarm exists to catch.
+
+    ⚠ THE GATE WAS OBEYING ITS INPUT. The defect was a STRING, and it read as safe in three documents.
+    So the wiring is asserted here rather than described: whoever writes the census must publish it
+    under the exempt lane.
+    """
+    repo = os.path.abspath(__file__)
+    for _ in range(4):                       # tests/ -> modalities/ -> research/ -> repo root
+        repo = os.path.dirname(repo)
+    wf = os.path.join(repo, ".github", "workflows")
+    writers = [f for f in sorted(os.listdir(wf)) if f.endswith(".yml")
+               and "ternary_reps_diag.py --census" in open(os.path.join(wf, f), encoding="utf-8").read()]
+    assert writers, "no workflow writes the account census — the gate's exemption protects nothing"
+    for f in writers:
+        body = open(os.path.join(wf, f), encoding="utf-8").read()
+        assert f'PUBLISH_HEARTBEAT_LANE="{fa.CENSUS_LANE}"' in body, (
+            f"{f} writes the account census but never publishes it under the exempt lane "
+            f"{fa.CENSUS_LANE!r} — an idle tick will discard the fresh census and blind every "
+            f"account-keyed alarm")
+        # ...and it must not be smuggled back into a gated publish alongside the forensic.
+        for line in body.splitlines():
+            if "ternary-vast-account-census.json" in line and "publish_artifacts.sh" in line:
+                raise AssertionError(f"{f}: the census is an argument to a gated publish — {line.strip()}")

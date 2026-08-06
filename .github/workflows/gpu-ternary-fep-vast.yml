@@ -2640,6 +2640,32 @@ jobs:
           # a forensic read of containers reports SOMETHING every tick even when no container exists,
           # so the content changes and the commit lands. What makes it a non-event is the empty
           # account, not the identical bytes. FAIL-ARMED. One home: research/modalities/fleet_armed.py
+          # ⛔⛔ THE ACCOUNT CENSUS PUBLISHES ON ITS OWN, UNDER THE EXEMPT LANE, AND NEVER INSIDE THE
+          # GATED CALL BELOW (measured 2026-08-06, 8.9 h after the gate landed).
+          #
+          # `fleet_armed.CENSUS_LANE` is `account-census` and is exempt precisely so idle still leaves one
+          # commit trail — CLAUDE.md §6(b). **No workflow passed that name.** This step, which is the ONLY
+          # writer of the account census in the repository, published it under `ternary-reps-forensic`,
+          # which IS gated. So on an empty account the sequence was: write a fresh census → fleet_armed
+          # reads that fresh census → n_instances 0 → IDLE → the publish is skipped → THE FRESH CENSUS IS
+          # DISCARDED. The committed copy then ages past 45 min and `account_orphan_alarm.py` suppresses
+          # every lane verdict, so the account keyed alarm can no longer say whether ANY host is billing.
+          #
+          # Measured: last census commit 01:46Z; at 10:31Z a dispatched reps-diag run wrote a fresh census,
+          # reported `success`, and threw it away — the file on `main` was still stamped 01:44:58Z.
+          #
+          # ⚠ THE GATE WAS DOING EXACTLY WHAT IT WAS TOLD. The bug is the lane NAME, and it is the worst
+          # kind: the exemption that keeps the last heartbeat alive was written, documented in three
+          # places, and wired to a string nothing used — so the design read as safe while the one artifact
+          # it was protecting was the one being dropped.
+          #
+          # $0 and unconditional by design: one small JSON, at most one commit per tick, and it is the
+          # reading every other lane's alarm is keyed on.
+          PUBLISH_HEARTBEAT_LANE="account-census" \
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "account census: what the Vast account holds (CI)" \
+            research/modalities/ternary-vast-account-census.json
+          # ...and the forensic, which IS a heartbeat when nothing is running, stays gated.
           PUBLISH_HEARTBEAT_LANE="ternary-reps-forensic" \
           PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "ternary replicate forensic: what the containers themselves said (CI)" \
@@ -2647,7 +2673,6 @@ jobs:
             research/modalities/ternary-reps-memory-trace.json \
             research/modalities/ternary-reps-stage-census.json \
             research/modalities/ternary-arm-iteration-rates.json \
-            research/modalities/ternary-vast-account-census.json \
             research/modalities/ternary-diag-*.json \
             research/modalities/setup-tax-*.json
       - name: Summary LAST
