@@ -482,7 +482,7 @@ The registry records **where** each figure lives, never the figure. The checker 
 - `RT-PANNR4A-EXVIVO` — It removes the selectivity requirement by changing the exposure regime; nothing is closed.
 - `RT-PPARG-DOWNSTREAM` — ⚠ Scoped: the DIRECTION is unresolved, not refuted — in EMC the fusion turns PPARG on, so an agonist may be redundant. An EMC expression read settles it either way.
 - `RT-PRAME-IMMTAC` — The one CTA whose surrogate expression came back favourable; its confirm is an ask, not a closure. 2026-08-05: the subtype/myxoid-proximity half of the supporting read was WITHDRAWN (n=1, disputed-identity line ACH-001519); only the relative ordering across the sarcoma panel survives, and this grade now rests on that alone.
-- `RT-TCIP` — Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.
+- `RT-TCIP` — Demoted for an UNRUN computation, not a failed one. ⭐ THE COMPUTATION HAS NOW RUN (2026-08-06, $0, ART-TCIP-REACH) and the route holds a computed result of its own. What it does NOT yet hold is a named effector: 0 transcriptional-effector bodies are staged. Superseded, retained: this note read only 'Demoted for an UNRUN computation' after the run had landed.
 - `RT-TRABECTEDIN` — An approved drug with a reported EMC disease-control series; nothing about it is closed.
 
 **`definitional`** — ⛔ **PERMANENT — never revivable**. a fact about what the objects ARE — e.g. a residue the paralogues SHARE cannot discriminate between them, or a ligand whose mechanism lives in a domain the disease deletes. NEVER revivable.

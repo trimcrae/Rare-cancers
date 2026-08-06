@@ -65,14 +65,16 @@ A transcriptional chemical inducer of proximity brings an effector to a DNA-boun
 
 ## Remaining unknowns
 
-- Whether the linker geometry works with a transcriptional effector as the second terminus — the enumeration was built for an E3 and has never been run for this configuration.
+- Whether the geometry holds for a NAMED transcriptional effector. The enumeration has now been run, but the repository stages 0 transcriptional-effector bodies — all 4 staged second-terminus bodies are E3 ligase recruiters, and the two used at effector size (birc2, mdm2) are explicit size-and-shape proxies.
+- Which interface floor a transcriptional CIP actually requires. The committed floor (min_contact_residues=12) is a DEGRADER'S parameter, and the result inverts across it, so the TCIP number must be reported at both floors (BLK-UNSIZED-REQUIREMENT).
 - Whether the paralogue selectivity requirement is any smaller here; it has not been sized.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The paired reach enumeration run with a transcriptional-effector second terminus | ⛔ none built | yes | — |
+| The paired reach enumeration run with an effector-size second terminus — ✅ DONE 2026-08-06, ART-TCIP-REACH | ⛔ none built | yes | — |
+| A staged transcriptional-effector body, so the result can name an effector rather than a size class — needs a deposited structure with a ligand exit vector, staged through an RCSB fetch in CI (RCSB is 403'd at the dev proxy) | ⛔ none built | yes | — |
 | A ternary geometry for the induced complex | ⛔ none built | **no** | BLK-INDUCED-COMPLEX |
 
 ## Blockers
@@ -112,7 +114,7 @@ The enumeration has now run and the route holds a computed result of its own, so
 
 `primary` · ○ `unwritten` · aimed at `preprint`
 
-**This route contributes:** The reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery — the run that has not happened yet.
+**This route contributes:** The reach enumeration with an effector-size second terminus, reusing machinery MEASURED to be E3-free (4 of 4 arms byte-identical with every E3-specific field stripped). Run 2026-08-06 (ART-TCIP-REACH). Its reportable finding is not the binary admit — which admits every body tested, including a 1183-residue CRBN-DDB1 assembly — but that the size penalty is a degrader's induced-interface floor rather than steric bulk: ablating the floor inverts the sign. It speaks about a SIZE CLASS, not a named effector.
 
 **The paper would claim:** The reach enumeration built for E3 recruitment applies unchanged when the second terminus is a transcriptional effector rather than a ligase — measured by a controlled reproduction, not read off the source — and the envelope it returns admits a second terminus of effector size at every rung of the committed linker ladder. The reportable finding is not that binary answer, which admits everything, but that the size penalty the pooled contrast shows is a degrader's induced-interface floor rather than steric bulk: ablating that floor inverts the sign.
 
@@ -122,11 +124,11 @@ The enumeration has now run and the route holds a computed result of its own, so
 
 **Recommendation: `pursue_now`**
 
-This is the cheapest promotion available anywhere in the options register: the machinery is built and needs one more input set. It was demoted for an UNRUN computation rather than a failed one, which is a reason to run it, not a reason to wait.
+The cheapest promotion in the options register, and it has now been taken: the enumeration ran 2026-08-06 at $0. What remains is likewise cheap — staging one deposited effector structure through CI — so the recommendation is unchanged for a different reason than before. Superseded, retained: 'the machinery is built and needs one more input set. It was demoted for an UNRUN computation.'
 
 | horizon | effect |
 |---|---|
-| Six months | None — the work is available now. |
+| Six months | None — the remaining step is a CI structure fetch, available now. |
 | Two years | Better induced-complex prediction would make the result interpretable rather than merely geometric. |
 | Cost trend | flat |
 | Automation outlook | Fully automatable; it is a $0 enumeration. |
@@ -141,7 +143,7 @@ This is the cheapest promotion available anywhere in the options register: the m
 
 ## Best next action
 
-Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery.
+Stage a transcriptional-effector second-terminus body (deposited structure + ligand exit atom) via an RCSB fetch in CI, then re-run the enumeration so the route can name an effector instead of a size class.
 
 *Cost:* $0
 

@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**16 endpoints for 40 routes · 13 with a document · 3 unwritten.**
+**16 endpoints for 40 routes · 14 with a document · 2 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -44,12 +44,12 @@ last_verified: 2026-08-06
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
 | **PUB-NEOANTIGEN**<br/>[Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal …](../../research/manuscripts/fusion-junction-neoantigen-paper.md) | ◐ `drafted` | `preprint` | 2 | — |
 | **PUB-REPURPOSING**<br/>[Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid ch…](../../research/manuscripts/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
-| **PUB-METHODS**<br/>*The failure record of a computation-only degrader program: what in-sili…* | ○ `unwritten` | `journal_submission` | 1 | Nothing blocks it. It carries no scientific blocker at all and is the only endpoint in the portfolio that is true regardless of how every other route … |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
 | **PUB-TCIP**<br/>*Transcriptional chemically-induced proximity on EWSR1::NR4A3: reach enu…* | ○ `unwritten` | `preprint` | 1 | Nothing scientific blocks the geometric result any longer — the paired enumeration RAN on 2026-08-06 at $0 (ART-TCIP-REACH), deterministically, with … |
 
@@ -171,6 +171,16 @@ If a public junction epitope were presented, the fraction of the patient populat
 |---|---|---|
 | [RT-VACCINE](L2-rt-vaccine.md) — Fusion-junction vaccine / HLA-coverage paper | `primary` | The population-coverage computation, which stands on its own as an eligibility ceiling even while the antigen above it is void. |
 
+### PUB-METHODS — The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish
+
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/degrader-methods-failure-record.md`](../../research/manuscripts/degrader-methods-failure-record.md)**
+
+A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures are the transferable result, because the field publishes almost none of them.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-METHODS-PAPER](L2-rt-methods-paper.md) — The honest methods paper on the degrader program's o | `primary` | The whole paper: the program's disclosed failures, each with the known-answer control that produced it. |
+
 ### PUB-MONOVALENT — The monovalent pocket-modulation route — a small molecule that only occupies the NR4A3 LBD
 
 **◐ `drafted` · aimed at `internal_note` · [`research/manuscripts/nr4a3-monovalent-pocket-route.md`](../../research/manuscripts/nr4a3-monovalent-pocket-route.md)**
@@ -249,18 +259,6 @@ A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a F
 |---|---|---|
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) — Synthetic-lethal / dependency partner (BRD9 / ncBAF  | `primary` | The BRD9/ncBAF dependency argument, and the data-bounded negative that follows from a transfer prior over one cell line. |
 
-### PUB-METHODS — The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish
-
-**○ `unwritten` · aimed at `journal_submission`**
-
-A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures are the transferable result, because the field publishes almost none of them.
-
-**Not written because:** Nothing blocks it. It carries no scientific blocker at all and is the only endpoint in the portfolio that is true regardless of how every other route resolves; it is finished when the writing stops.
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-METHODS-PAPER](L2-rt-methods-paper.md) — The honest methods paper on the degrader program's o | `primary` | The whole paper: the program's disclosed failures, each with the known-answer control that produced it. |
-
 ### PUB-PARKED-MODALITIES — Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for
 
 **○ `unwritten` · aimed at `preprint`**
@@ -292,7 +290,7 @@ The reach enumeration built for E3 recruitment applies unchanged when the second
 
 | route | role | what it contributes |
 |---|---|---|
-| [RT-TCIP](L2-rt-tcip.md) — TCIP — transcriptional chemically-induced proximity  | `primary` | The reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery — the run that has not happened yet. |
+| [RT-TCIP](L2-rt-tcip.md) — TCIP — transcriptional chemically-induced proximity  | `primary` | The reach enumeration with an effector-size second terminus, reusing machinery MEASURED to be E3-free (4 of 4 arms byte-identical with every E3-specific field stripped). Run 2026-08-06 (ART-TCIP-REACH). Its reportable finding is not the binary admit — which admits every body tested, including a 1183-residue CRBN-DDB1 assembly — but that the size penalty is a degrader's induced-interface floor rather than steric bulk: ablating the floor inverts the sign. It speaks about a SIZE CLASS, not a named effector. |
 
 ## Every route, and where it ends
 
@@ -320,7 +318,7 @@ The reach enumeration built for E3 recruitment applies unchanged when the second
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-VACCINE](L2-rt-vaccine.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-HLA-COVERAGE** ◐ | `preprint` | `primary` |
-| [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ○ | `journal_submission` | `primary` |
+| [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ◐ | `journal_submission` | `primary` |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-MONOVALENT** ◐ | `internal_note` | `primary` |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `primary` |
 | [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-NEOANTIGEN** ◐ | `preprint` | `contributing` |

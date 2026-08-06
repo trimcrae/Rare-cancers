@@ -992,12 +992,12 @@
       "TR-FE-CRYPTIC-POCKET",
       "TR-COFOLD-ASSEMBLY"
     ],
-    "closure_note": "Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.",
+    "closure_note": "Demoted for an UNRUN computation, not a failed one. ⭐ THE COMPUTATION HAS NOW RUN (2026-08-06, $0, ART-TCIP-REACH) and the route holds a computed result of its own. What it does NOT yet hold is a named effector: 0 transcriptional-effector bodies are staged. Superseded, retained: this note read only 'Demoted for an UNRUN computation' after the run had landed.",
     "strategy": "ST-PROXIMITY",
     "publication": {
       "endpoint": "PUB-TCIP",
       "role": "primary",
-      "contribution": "The reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery — the run that has not happened yet."
+      "contribution": "The reach enumeration with an effector-size second terminus, reusing machinery MEASURED to be E3-free (4 of 4 arms byte-identical with every E3-specific field stripped). Run 2026-08-06 (ART-TCIP-REACH). Its reportable finding is not the binary admit — which admits every body tested, including a 1183-residue CRBN-DDB1 assembly — but that the size penalty is a degrader's induced-interface floor rather than steric bulk: ablating the floor inverts the sign. It speaks about a SIZE CLASS, not a named effector."
     },
     "level": "L2",
     "kind": "route",
@@ -1018,12 +1018,18 @@
     "rationale": "A transcriptional chemical inducer of proximity brings an effector to a DNA-bound transcription factor rather than removing it. Because the fusion is itself a transcriptional driver, an effector that shuts down its output could work without the protein ever being degraded — which sidesteps the entire ubiquitin-transfer geometry problem.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "Whether the linker geometry works with a transcriptional effector as the second terminus — the enumeration was built for an E3 and has never been run for this configuration.",
+      "Whether the geometry holds for a NAMED transcriptional effector. The enumeration has now been run, but the repository stages 0 transcriptional-effector bodies — all 4 staged second-terminus bodies are E3 ligase recruiters, and the two used at effector size (birc2, mdm2) are explicit size-and-shape proxies.",
+      "Which interface floor a transcriptional CIP actually requires. The committed floor (min_contact_residues=12) is a DEGRADER'S parameter, and the result inverts across it, so the TCIP number must be reported at both floors (BLK-UNSIZED-REQUIREMENT).",
       "Whether the paralogue selectivity requirement is any smaller here; it has not been sized."
     ],
     "required_validation": [
       {
-        "what": "The paired reach enumeration run with a transcriptional-effector second terminus",
+        "what": "The paired reach enumeration run with an effector-size second terminus — ✅ DONE 2026-08-06, ART-TCIP-REACH",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A staged transcriptional-effector body, so the result can name an effector rather than a size class — needs a deposited structure with a ligand exit vector, staged through an RCSB fetch in CI (RCSB is 403'd at the dev proxy)",
         "feasible_today": true,
         "blocked_by": []
       },
@@ -1044,14 +1050,14 @@
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "This is the cheapest promotion available anywhere in the options register: the machinery is built and needs one more input set. It was demoted for an UNRUN computation rather than a failed one, which is a reason to run it, not a reason to wait.",
-      "six_month_delta": "None — the work is available now.",
+      "rationale": "The cheapest promotion in the options register, and it has now been taken: the enumeration ran 2026-08-06 at $0. What remains is likewise cheap — staging one deposited effector structure through CI — so the recommendation is unchanged for a different reason than before. Superseded, retained: 'the machinery is built and needs one more input set. It was demoted for an UNRUN computation.'",
+      "six_month_delta": "None — the remaining step is a CI structure fetch, available now.",
       "two_year_delta": "Better induced-complex prediction would make the result interpretable rather than merely geometric.",
       "cost_trend": "flat",
       "automation_outlook": "Fully automatable; it is a $0 enumeration."
     },
     "next": {
-      "best_next_action": "Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery.",
+      "best_next_action": "Stage a transcriptional-effector second-terminus body (deposited structure + ligand exit atom) via an RCSB fetch in CI, then re-run the enumeration so the route can name an effector instead of a size class.",
       "cost": "$0"
     }
   },
