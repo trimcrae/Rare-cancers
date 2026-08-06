@@ -8,11 +8,11 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-08-06T04:45:10Z",
+  "_generated_utc": "2026-08-06T04:45:43Z",
   "_generated_et": "12:45 AM ET Aug 6, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-08-06T05:33:10Z",
+  "_stale_after_utc": "2026-08-06T05:33:43Z",
   "_stale_after_et": "1:33 AM ET Aug 6, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
@@ -1901,7 +1901,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 13892 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 13893 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2362,9 +2362,18 @@
           "why": "advance lane step1-fanout out of IDLE-UNEXPECTED",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-08-06T04:45:43Z",
+          "et": "12:45 AM ET Aug 6, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "IDLE-UNEXPECTED|0a6f4dfd6d350671|step1-fanout-progress.json `_generated_utc`",
+          "why": "advance lane step1-fanout out of IDLE-UNEXPECTED",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 1,
+      "n_fruitless_attempts": 2,
       "retry_budget": 3,
       "auto_action": {
         "kind": "workflow_dispatch",
@@ -2384,7 +2393,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "NO HOSTS, 1 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 188 min (threshold 45 min; last: step1-fanout-progress.json `_generated_utc` at 9:36 PM ET Aug 5, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from finished. It is NOT finished. Som"
+        "NO HOSTS, 1 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 189 min (threshold 45 min; last: step1-fanout-progress.json `_generated_utc` at 9:36 PM ET Aug 5, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from finished. It is NOT finished. Som"
       ]
     },
     {
@@ -2939,7 +2948,7 @@
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (12:43 AM ET Aug 6, 2026) refreshed the artifact to 12:45 AM ET Aug 6, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (12:44 AM ET Aug 6, 2026) refreshed the artifact to 12:45 AM ET Aug 6, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
