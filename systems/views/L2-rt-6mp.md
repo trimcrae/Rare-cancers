@@ -77,19 +77,17 @@ flowchart LR
 
 **`internal_note`**
 
-Closed definitionally; the output is the reasoning, which is a useful worked example of why wild-type pharmacology does not transfer to a fusion.
+Closed on DIRECTION OF EFFECT, not definitionally: 6-MP enhances NR4A3 activity while the fusion is gain-of-function. The output is the reasoning, which is a useful worked example of why wild-type pharmacology does not transfer to a fusion — and, since the original AF-1-deletion premise was measured false (closure_kind premise_false, 2026-08-06 route audit X9), of how a closure can survive its own grounds being retracted.
 
 ## Where this route ends — the paper
 
-**[PUB-CLOSED-ROUTES](L3-publications.md)** — *Seven routes closed on argument rather than on experiment: the negative record of an EWSR1::NR4A3 route search* (unwritten)
+**[PUB-CLOSED-ROUTES](L3-publications.md)** — [Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search](../../research/manuscripts/closed-routes-negative-record.md)
 
-`contributing` · ○ `unwritten` · aimed at `preprint`
+`contributing` · ◐ `drafted` · aimed at `preprint`
 
 **This route contributes:** The worked example of wild-type pharmacology failing to transfer to a fusion, which is the single most reusable argument in the set.
 
 **The paper would claim:** A route can be closed rigorously without an experiment when the closure is definitional or is arithmetic over a fixed measured fact, and separating those permanent closures from the merely instrument-limited ones is what keeps a portfolio from re-litigating settled questions — with wild-type NR4A3 pharmacology failing to transfer to the chimera as the worked example.
-
-**It is not written because:** The closures themselves are complete and each is already recorded with its grounds in the route register; what has not been done is the writing that turns seven register entries into one argument a reader outside this repository can use.
 
 ## Strategic timing — the wait equation
 

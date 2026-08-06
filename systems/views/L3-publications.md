@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**16 endpoints for 40 routes · 12 with a document · 4 unwritten.**
+**16 endpoints for 40 routes · 13 with a document · 3 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -40,6 +40,7 @@ last_verified: 2026-08-06
 | **PUB-ASO**<br/>[A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 b…](../../research/manuscripts/fusion-junction-aso-paper.md) | ◐ `drafted` | `chemrxiv` | 2 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR…](../../research/manuscripts/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
+| **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
 | **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
@@ -48,7 +49,6 @@ last_verified: 2026-08-06
 | **PUB-REPURPOSING**<br/>[Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid ch…](../../research/manuscripts/repurposing-hypotheses.md) | ◐ `drafted` | `preprint` | 3 | — |
 | **PUB-SURFACE-TARGETS**<br/>[In-silico surface-antigen prioritisation for extraskeletal myxoid chond…](../../research/manuscripts/emc-surface-target-landscape.md) | ◐ `drafted` | `preprint` | 6 | — |
 | **PUB-SYNLETH**<br/>[Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comp…](../../research/manuscripts/degrader-vs-synthetic-lethal.md) | ◐ `drafted` | `internal_note` | 1 | — |
-| **PUB-CLOSED-ROUTES**<br/>*Seven routes closed on argument rather than on experiment: the negative…* | ○ `unwritten` | `preprint` | 7 | The closures themselves are complete and each is already recorded with its grounds in the route register; … |
 | **PUB-METHODS**<br/>*The failure record of a computation-only degrader program: what in-sili…* | ○ `unwritten` | `journal_submission` | 1 | Nothing blocks it. It carries no scientific blocker at all and is the only endpoint in the portfolio that is true regardless of how every other route … |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
 | **PUB-TCIP**<br/>*Transcriptional chemically-induced proximity on EWSR1::NR4A3: reach enu…* | ○ `unwritten` | `preprint` | 1 | Nothing scientific blocks the geometric result any longer — the paired enumeration RAN on 2026-08-06 at $0 (ART-TCIP-REACH), deterministically, with … |
@@ -110,6 +110,22 @@ Everything a group already running the FET-fusion DSB-recruitment assay would ha
 | route | role | what it contributes |
 |---|---|---|
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) — The ATR-inhibitor cell panel in EMC lines (the ask) | `primary` | The costed panel design, its controls and its kill criteria — the half of the ATR question that no computation can supply. |
+
+### PUB-CLOSED-ROUTES — Seven routes closed on argument rather than on experiment — the negative record of an EWSR1::NR4A3 route search
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/closed-routes-negative-record.md`](../../research/manuscripts/closed-routes-negative-record.md)**
+
+A route can be closed rigorously without an experiment when the closure is definitional or is arithmetic over a fixed measured fact, and separating those permanent closures from the merely instrument-limited ones is what keeps a portfolio from re-litigating settled questions — with wild-type NR4A3 pharmacology failing to transfer to the chimera as the worked example.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-6MP](L2-rt-6mp.md) — 6-mercaptopurine / AF-1 agonism of the fusion | `contributing` | The worked example of wild-type pharmacology failing to transfer to a fusion, which is the single most reusable argument in the set. |
+| [RT-DBD](L2-rt-dbd.md) — Target the DBD / DNA binding | `contributing` | The arithmetic-over-a-fixed-fact closure — the clearest case in the register of a route closed by measurement rather than by opinion. |
+| [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) — Target the EWSR1 half at the protein level | `contributing` | A definitional closure: the half of the fusion that is shared with normal cells cannot discriminate for the tumour. |
+| [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) — A ligand for the shared FET low-complexity half | `contributing` | The same definitional closure applied to the shared low-complexity region, which is what makes the pattern a class of argument rather than a one-off. |
+| [RT-HDAC-BET](L2-rt-hdac-bet.md) — HDAC / BET to lower fusion expression | `contributing` | A definitional closure on lowering expression of a driver whose expression is not the discriminating feature. |
+| [RT-RXR](L2-rt-rxr.md) — RXR-heterodimer modulation of the fusion | `contributing` | A closure resting on a published measurement rather than on argument, with the one observation that would reopen it named and scanned for. |
+| [RT-SYNPROMOTER](L2-rt-synpromoter.md) — Fusion-driven synthetic promoter → suicide gene | `contributing` | A closure resting on a premise about this fusion's binding specificity — reopenable on an EMC dataset, and so the paper's example of a closure that is not permanent. |
 
 ### PUB-DEGRADER — In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket
 
@@ -233,24 +249,6 @@ A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a F
 |---|---|---|
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) — Synthetic-lethal / dependency partner (BRD9 / ncBAF  | `primary` | The BRD9/ncBAF dependency argument, and the data-bounded negative that follows from a transfer prior over one cell line. |
 
-### PUB-CLOSED-ROUTES — Seven routes closed on argument rather than on experiment: the negative record of an EWSR1::NR4A3 route search
-
-**○ `unwritten` · aimed at `preprint`**
-
-A route can be closed rigorously without an experiment when the closure is definitional or is arithmetic over a fixed measured fact, and separating those permanent closures from the merely instrument-limited ones is what keeps a portfolio from re-litigating settled questions — with wild-type NR4A3 pharmacology failing to transfer to the chimera as the worked example.
-
-**Not written because:** The closures themselves are complete and each is already recorded with its grounds in the route register; what has not been done is the writing that turns seven register entries into one argument a reader outside this repository can use.
-
-| route | role | what it contributes |
-|---|---|---|
-| [RT-6MP](L2-rt-6mp.md) — 6-mercaptopurine / AF-1 agonism of the fusion | `contributing` | The worked example of wild-type pharmacology failing to transfer to a fusion, which is the single most reusable argument in the set. |
-| [RT-DBD](L2-rt-dbd.md) — Target the DBD / DNA binding | `contributing` | The arithmetic-over-a-fixed-fact closure — the clearest case in the register of a route closed by measurement rather than by opinion. |
-| [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) — Target the EWSR1 half at the protein level | `contributing` | A definitional closure: the half of the fusion that is shared with normal cells cannot discriminate for the tumour. |
-| [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) — A ligand for the shared FET low-complexity half | `contributing` | The same definitional closure applied to the shared low-complexity region, which is what makes the pattern a class of argument rather than a one-off. |
-| [RT-HDAC-BET](L2-rt-hdac-bet.md) — HDAC / BET to lower fusion expression | `contributing` | A definitional closure on lowering expression of a driver whose expression is not the discriminating feature. |
-| [RT-RXR](L2-rt-rxr.md) — RXR-heterodimer modulation of the fusion | `contributing` | A closure resting on a published measurement rather than on argument, with the one observation that would reopen it named and scanned for. |
-| [RT-SYNPROMOTER](L2-rt-synpromoter.md) — Fusion-driven synthetic promoter → suicide gene | `contributing` | A closure resting on a premise about this fusion's binding specificity — reopenable on an EMC dataset, and so the paper's example of a closure that is not permanent. |
-
 ### PUB-METHODS — The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish
 
 **○ `unwritten` · aimed at `journal_submission`**
@@ -307,13 +305,13 @@ The reach enumeration built for E3 recruitment applies unchanged when the second
 | [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◐ | `chemrxiv` | `contributing` |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-ATR** ◐ | `preprint` | `primary` |
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `experimental_proposal` | **PUB-ATR-PANEL-ASK** ◐ | `experimental_proposal` | `primary` |
-| [RT-6MP](L2-rt-6mp.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ○ | `preprint` | `contributing` |
-| [RT-DBD](L2-rt-dbd.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ○ | `preprint` | `contributing` |
-| [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ○ | `preprint` | `contributing` |
-| [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ○ | `preprint` | `contributing` |
-| [RT-HDAC-BET](L2-rt-hdac-bet.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ○ | `preprint` | `contributing` |
-| [RT-RXR](L2-rt-rxr.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ○ | `preprint` | `contributing` |
-| [RT-SYNPROMOTER](L2-rt-synpromoter.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `internal_note` | **PUB-CLOSED-ROUTES** ○ | `preprint` | `contributing` |
+| [RT-6MP](L2-rt-6mp.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
+| [RT-DBD](L2-rt-dbd.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
+| [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
+| [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) | [ST-FUSION-DIRECT](L1-st-fusion-direct.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
+| [RT-HDAC-BET](L2-rt-hdac-bet.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
+| [RT-RXR](L2-rt-rxr.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
+| [RT-SYNPROMOTER](L2-rt-synpromoter.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `internal_note` | **PUB-CLOSED-ROUTES** ◐ | `preprint` | `contributing` |
 | [RT-ASYMMETRIC](L2-rt-asymmetric.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `reproducible_workflow` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
 | [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
 | [RT-DEGRADER](L2-rt-degrader.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-DEGRADER** ◐ | `journal_submission` | `primary` |
