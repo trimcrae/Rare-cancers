@@ -18,7 +18,8 @@ last_verified: unverified
 [`nr4a3-tcip-reach.json`](./nr4a3-tcip-reach.json) (readout:
 [`nr4a3-tcip-reach.md`](./nr4a3-tcip-reach.md)), produced by
 [`nr4a3_tcip_reach.py`](./nr4a3_tcip_reach.py) at $0 on CPU.** This memo is the decision view over it and
-adds no measurement of its own.
+adds no measurement of its own. Presentation view (private artifact, generated from the same JSON):
+<https://claude.ai/code/artifact/5bef9b0b-9bdb-4180-884a-72d4164ca406>.
 
 ---
 
@@ -89,7 +90,7 @@ contact counts.** The acceptance test is E3-free — measured, not asserted.
 |---|---|
 | reproduces the committed 12-anchor pose ensemble | **AGREES** — 12/12, max Δ 0 Å |
 | every committed accepted `anchor_e3_xyz` is admissible here | **HOLDS** — 232 tested, 0 failing |
-| replicates the committed E3 acceptance rates | **AGREES** — 23 of 24 committed rates inside the recomputed 95 % interval, 1 outside against 1.20 expected by chance |
+| replicates the committed E3 acceptance rates | **AGREES** — 24 cells compared, **2 outside** the recomputed 95 % interval against **1.20 expected by chance** (P(≥2) = 0.34 under a 95 % interval). Graded against that expectation, never against zero — a 95 % interval that excluded nothing would be the surprising result |
 | size labels match the coordinates | **AGREES** |
 | acceptance test is E3-free | **HOLDS** |
 
@@ -98,17 +99,24 @@ contact counts.** The acceptance test is E3-free — measured, not asserted.
 ## 4 · ★★ The finding: the size penalty is a degrader's interface floor, not steric bulk
 
 Pooled by size class, the single-domain (effector-size) bodies accept **less** orientation space than the
-multi-subunit E3s at every rung — ratio **0.871–0.968**, intervals non-overlapping at 7 of 8 rungs, and
-**0.871 at the 12-atom gate**. Taken alone that reads as "an effector-size terminus is geometrically
+multi-subunit E3s at all 8 rungs — ratio **0.865–0.997**, intervals non-overlapping at 5 of 8 rungs, and
+**0.867 at the 12-atom gate**. Taken alone that reads as "an effector-size terminus is geometrically
 harder", which is the opposite of the intuition recorded in two route memos.
 
 **Two controls stop that reading, and both were run.**
 
 **(a) The contrast is smaller than the spread within a size class — at all 8 rungs.** `birc2` (92 res) and
-`mdm2` (94 res) are the same size and differ from each other by **1.03–1.44×**, while the classes differ by
-**1.03–1.15×**. `birc2` beats `crbn` at every rung despite being 13× smaller. ⇒ **body size is not the
-controlling variable; the individual body's shape and exit-vector geometry is.** The pooled ratio may not
-be reported as a size law.
+`mdm2` (94 res) are the same size and differ from each other by up to **1.43×**, while the classes differ
+by at most **1.16×**. `birc2` beats `crbn` at every rung despite being 13× smaller, and `mdm2` — the same
+size as `birc2` — sits at the bottom of the board. ⇒ **body size is not the controlling variable; the
+individual body's shape and exit-vector geometry is.** The pooled ratio may not be reported as a size law.
+
+⚠ **The direction of the pooled contrast is not robust either, and that is a measurement not a hedge.** An
+earlier run of the identical code put one rung *above* parity (1.007). The cause was a real defect — the
+per-cell seeds were built from `hash(arm_id)`, which Python salts per process, so the artifact did not
+reproduce between runs. Fixed to `zlib.crc32`, and **verified**: two full runs under `PYTHONHASHSEED=0` and
+`PYTHONHASHSEED=99` now produce byte-identical JSON. The committed numbers are from the deterministic run;
+the ~0.13-wide swing that defect produced is a fair estimate of how little the pooled ratio is worth.
 
 **(b) Ablating the interface floor INVERTS the sign.** `min_contact_residues = 12` is a
 **degrader-derived** parameter — the search's own comment is *"below this it is a tethered pair, not an
@@ -123,8 +131,8 @@ interface"*, and a PROTAC needs a cooperative target·E3 interface. Re-running t
 
 ⇒ **On clash alone the smaller body gets 25 % MORE orientation space** — exactly what the "smaller second
 terminus is a smaller problem" intuition predicts. The entire measured penalty is the induced-interface
-requirement, and it is monotone in the floor. Reproduced independently at two sample counts (0.894 at
-40 000/arm/pose, 0.896 at 30 000).
+requirement, and it is monotone in the floor. Reproduced independently at two sample counts and across
+the seed fix (0.894 at 40 000/arm/pose, 0.896 at 30 000) — this is the most stable number on the board.
 
 ⛔ **This does not settle which floor is right for a transcriptional CIP, and the module refuses to pick.**
 Whether a TCIP needs a 12-residue induced interface or only needs the two proteins co-localised is a
