@@ -237,6 +237,7 @@ def placement_envelope_cell(arm, pose, field3, n_atoms, n_samples, seed):
     acc, stats = BS.sample_placements(arm, pose, field3, random.Random(seed), n_samples, params=p)
     spans = sorted(pl["span_A"] for pl in acc)
     n_needed = [max(1, int(math.ceil(s / RISE - 1e-9))) for s in spans]
+    contacts = sorted(pl["n_contact"] for pl in acc)
     return {
         "arm_id": arm["arm_id"], "pose_id": pose["pose_id"], "linker_atoms": n_atoms,
         "shell_hi_A": round(G.contour_length_from_atoms(n_atoms, RISE), 2),
@@ -248,6 +249,9 @@ def placement_envelope_cell(arm, pose, field3, n_atoms, n_samples, seed):
         "span_A_median": round(spans[len(spans) // 2], 2) if spans else None,
         "span_A_max": round(spans[-1], 2) if spans else None,
         "min_backbone_atoms_realised": min(n_needed) if n_needed else None,
+        "median_backbone_atoms_realised": (n_needed[len(n_needed) // 2] if n_needed else None),
+        "n_contact_median": contacts[len(contacts) // 2] if contacts else None,
+        "n_contact_max": contacts[-1] if contacts else None,
     }
 
 
@@ -265,6 +269,68 @@ _FIELD = None
 # ==========================================================================================================
 # SUMMARY AND DECISION
 # ==========================================================================================================
+def wilson(k, n, z=1.96):
+    """Wilson 95 % interval on a proportion — the repo's standard for a pooled proportion (POLICY-evidence)."""
+    if not n:
+        return [None, None]
+    p = k / n
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * math.sqrt(max(p * (1 - p) / n + z * z / (4 * n * n), 0.0)) / d
+    return [round(c - h, 8), round(c + h, 8)]
+
+
+def paired_body_size_comparison(cells, free_pooled, geom):
+    """★★ THE DECISION QUANTITY, AND WHY THE BINARY ONE IS NOT IT.
+
+    "Does the envelope admit a body of effector size" is answered YES at every rung by every body tested,
+    which makes it a gate that cannot fail — exactly what the basin search's own parameter block warns about
+    at its sampling ceiling. What DOES discriminate is how much orientation space each body gets, and whether
+    dropping from a multi-subunit CRL to a single-domain effector-size body WIDENS it, NARROWS it, or leaves
+    it unchanged. Three readings, all of which can come back either way:
+
+      `acceptance_rate`     accepted placements per sample drawn from the shell — the size of the admissible
+                            orientation space, body included.
+      `body_cost`           acceptance divided by the BODY-FREE fraction of that shell, i.e. P(the body fits
+                            and makes an interface | its exit atom is somewhere it could sit). This is the
+                            body's own marginal cost, with the target's shape divided out.
+      `size_ratio`          pooled effector-size acceptance / pooled E3 acceptance, with Wilson intervals. A
+                            ratio whose interval contains 1 is a measurement of NO DIFFERENCE, and that is a
+                            result about the modality, not a failure to find one.
+    """
+    out = {}
+    for n in sorted({c["linker_atoms"] for c in cells}):
+        rung = [c for c in cells if c["linker_atoms"] == n]
+        free = free_pooled[str(n)]["mean_fraction_admissible"]
+        blk = {"shell_hi_A": free_pooled[str(n)]["shell_hi_A"],
+               "body_free_mean_fraction_admissible": free, "by_size_class": {}}
+        for cls, ids in (("single_domain", SINGLE_DOMAIN_ARMS), ("multi_subunit", MULTI_SUBUNIT_ARMS)):
+            grp = [c for c in rung if c["arm_id"] in ids]
+            k = sum(c["n_accepted"] for c in grp)
+            s = sum(c["n_samples"] for c in grp)
+            rate = k / s if s else None
+            blk["by_size_class"][cls] = {
+                "arms": sorted({c["arm_id"] for c in grp}),
+                "n_accepted": k, "n_samples": s,
+                "acceptance_rate": round(rate, 8) if rate is not None else None,
+                "acceptance_ci95": wilson(k, s),
+                "body_cost": round(rate / free, 6) if rate is not None and free else None,
+                "n_contact_median": (lambda v: v[len(v) // 2] if v else None)(
+                    sorted(c["n_contact_median"] for c in grp if c["n_contact_median"] is not None)),
+            }
+        a = blk["by_size_class"]["single_domain"]
+        b = blk["by_size_class"]["multi_subunit"]
+        blk["size_ratio_single_over_multi"] = (
+            round(a["acceptance_rate"] / b["acceptance_rate"], 3)
+            if a["acceptance_rate"] and b["acceptance_rate"] else None)
+        blk["intervals_overlap"] = bool(
+            a["acceptance_ci95"][0] is not None and b["acceptance_ci95"][0] is not None
+            and a["acceptance_ci95"][0] <= b["acceptance_ci95"][1]
+            and b["acceptance_ci95"][0] <= a["acceptance_ci95"][1])
+        out[str(n)] = blk
+    return out
+
+
 def summarise(cells, geom):
     """Per arm: the shortest linker length at which ANY placement is admissible, and where it saturates."""
     by_arm = {}
@@ -424,6 +490,46 @@ def crosscheck_replicates_committed_acceptance(cells, basins_path=BASINS):
                      "replicate the committed artifact invalidates the delta as well.")}
 
 
+def crosscheck_acceptance_is_e3_free(arms, poses, field3, n_samples=40000, seed=4242):
+    """★★ THE CLAIM `PUB-TCIP` RESTS ON, TURNED INTO A CONTROLLED EXPERIMENT INSTEAD OF A READING.
+
+    PUB-TCIP would claim *"the reach enumeration built for E3 recruitment applies unchanged when the second
+    terminus is a transcriptional effector rather than a ligase"*. Read against `sample_placements` that
+    looks true — the acceptance test is clearance, hard clash, soft-clash budget and contact count, none of
+    which mentions a ligase — but "I read the code and it looked E3-free" is a HYPOTHESIS, and this
+    repository's rule is that a mechanism claim needs the observation that discriminates.
+
+    So: run each arm twice from the same seed, once as staged and once with every E3-SPECIFIC field
+    (`ring`, `cullin`, `tanchor`, `transfer_anchor`, `crl`) removed. If the acceptance test consulted any of
+    them the two runs would differ. Byte-identical accepted counts and spans is the observation; anything
+    else refutes the claim and this module must say so.
+    """
+    rows, bad = [], []
+    for aid, arm in sorted(arms.items()):
+        stripped = dict(arm)
+        for k in ("ring", "cullin", "tanchor"):
+            stripped[k] = None
+        stripped["crl"] = None
+        stripped["transfer_anchor"] = None
+        a_acc, a_st = BS.sample_placements(arm, poses[0], field3, random.Random(seed), n_samples)
+        b_acc, b_st = BS.sample_placements(stripped, poses[0], field3, random.Random(seed), n_samples)
+        same = (a_st["n_accepted"] == b_st["n_accepted"]
+                and [round(p["span_A"], 9) for p in a_acc] == [round(p["span_A"], 9) for p in b_acc]
+                and [p["n_contact"] for p in a_acc] == [p["n_contact"] for p in b_acc])
+        rows.append({"arm": aid, "n_accepted_staged": a_st["n_accepted"],
+                     "n_accepted_e3_fields_stripped": b_st["n_accepted"], "identical": same})
+        if not same:
+            bad.append(aid)
+    return {
+        "status": "HOLDS" if rows and not bad else "REFUTED" if bad else "UNREAD",
+        "n_samples_per_run": n_samples, "arms_disagreeing": bad, "rows": rows,
+        "_claim_tested": ("the placement acceptance test is E3-free: removing every E3-specific field from "
+                          "the arm changes no accepted placement"),
+        "_why_this_is_not_a_code_reading": ("a mechanism read off source is a hypothesis; this is the "
+                                            "controlled reproduction that discriminates it"),
+    }
+
+
 def crosscheck_size_partition(geom):
     """The `single_domain` / `multi_subunit` labels must agree with the measured residue counts."""
     bad = []
@@ -440,7 +546,7 @@ def crosscheck_size_partition(geom):
 # ==========================================================================================================
 # VERDICT
 # ==========================================================================================================
-def verdict(summary, envelope_free, required):
+def verdict(summary, envelope_free, required, paired):
     eff = [a for a in SINGLE_DOMAIN_ARMS if a in summary]
     e3 = [a for a in MULTI_SUBUNIT_ARMS if a in summary]
     shortest_eff = [summary[a]["shortest_linker_atoms_with_any_admissible_placement"] for a in eff]
@@ -449,7 +555,29 @@ def verdict(summary, envelope_free, required):
     live_e3 = [s for s in shortest_e3 if s is not None]
     admits = bool(live_eff) and min(live_eff) <= CHEM_MAX_ATOMS
     at_gate = bool(live_eff) and min(live_eff) <= GATE_ATOMS
+    n_rungs = len(paired)
+    n_overlap = sum(1 for b in paired.values() if b["intervals_overlap"])
+    ratios = [b["size_ratio_single_over_multi"] for b in paired.values()
+              if b["size_ratio_single_over_multi"] is not None]
+    gate_blk = paired.get(str(GATE_ATOMS), {})
     return {
+        "★_the_size_axis": {
+            "_what": ("the paired comparison that can return either way: does a single-domain "
+                      "effector-size second terminus get MORE, LESS or the SAME admissible orientation "
+                      "space as a multi-subunit E3, from identical anchors in the same pass?"),
+            "n_rungs": n_rungs,
+            "n_rungs_where_the_95pct_intervals_overlap": n_overlap,
+            "size_ratio_single_over_multi_min": min(ratios) if ratios else None,
+            "size_ratio_single_over_multi_max": max(ratios) if ratios else None,
+            "at_the_%d_atom_gate" % GATE_ATOMS: {
+                "single_domain_acceptance": (gate_blk.get("by_size_class", {})
+                                             .get("single_domain", {}).get("acceptance_rate")),
+                "multi_subunit_acceptance": (gate_blk.get("by_size_class", {})
+                                             .get("multi_subunit", {}).get("acceptance_rate")),
+                "ratio": gate_blk.get("size_ratio_single_over_multi"),
+                "intervals_overlap": gate_blk.get("intervals_overlap"),
+            },
+        },
         "question": ("does the geometric envelope admit a second terminus of transcriptional-effector SIZE "
                      "at the linker distances this repository's own records call chemically routine?"),
         "answer": "ADMITS" if admits else "DOES NOT ADMIT",
@@ -462,6 +590,12 @@ def verdict(summary, envelope_free, required):
         "the_body_free_upper_bound": (
             "the anchor envelope is second-terminus-INDEPENDENT and is reported separately: it is what "
             "'the enumeration applies unchanged' means operationally, and every body result sits under it."),
+        "⚠_the_binary_answer_is_not_the_finding": (
+            "every body tested is admitted at every rung of the ladder, down to the shortest, so 'does the "
+            "envelope admit an effector' is a gate that cannot fail — the same warning the basin search's "
+            "own parameter block attaches to reading a reach gate at its sampling ceiling. The finding is "
+            "the SIZE AXIS above: what the enumeration measures when the second terminus changes from a "
+            "ligase to an effector-size body."),
         "required_distances": required,
         "⛔_what_this_answer_is_not": (
             "It is not evidence that any transcriptional effector binds, is recruited, is retained on "
@@ -480,12 +614,45 @@ def verdict(summary, envelope_free, required):
 # ==========================================================================================================
 # MAP EDITS — described, never applied (the `map_edits_required` convention)
 # ==========================================================================================================
+def _anchor_check(rel_path, needle):
+    """Anchor discipline (the `map_edits` convention): a described edit must name text that is ACTUALLY in
+    the live file. An entry that cannot be targeted says so rather than being silently wrong."""
+    p = os.path.join(REPO, rel_path)
+    if not os.path.exists(p):
+        return {"file_present": False, "current_text_found": False, "line": None}
+    with open(p) as fh:
+        lines = fh.read().split("\n")
+    for i, ln in enumerate(lines, 1):
+        if needle in ln:
+            return {"file_present": True, "current_text_found": True, "line": i}
+    return {"file_present": True, "current_text_found": False, "line": None}
+
+
 def map_edits_required(census, summary):
+    edits = _map_edits(census, summary)
+    for e in edits:
+        f = e["file"].split(" (")[0]
+        e["anchor_check"] = _anchor_check(f, e["current_text"]) if e.get("current_text") else None
+    return edits
+
+
+def _map_edits(census, summary):
     return [
         {
             "file": "research/manuscripts/nr4a3-program-map.md",
             "anchor": "Q12 row of the open-questions table, and the modality fork row",
             "current_text": "`R4` `R5` `R7` (retires `R9` `R10` `R12`)",
+            "evidence_r9_r10_are_not_retired": [
+                "R9 is 'OUR ternary is correctly assembled' (roadmap requirement table) — not "
+                "'our ternary WITH AN E3'; its instrument V2 is a general ternary generator",
+                "R10 is 'A ternary forms' — a TCIP is bivalent and induces a target·molecule·effector "
+                "complex, so a ternary is exactly what it needs",
+                "R12 is 'The ternary is compatible with DEGRADATION — productive unique-lysine geometry', "
+                "which is the only one a non-degrading modality removes",
+                "systems/graph/routes.json RT-TCIP: blockers_retired = [BLK-TERNARY-GEOMETRY] alone, "
+                "blockers_inherited includes BLK-INDUCED-COMPLEX, and required_validation carries "
+                "'A ternary geometry for the induced complex' as feasible_today=false",
+            ],
             "proposed_text": "`R4` `R5` `R7` `R9` `R10` (retires `R12`)",
             "why": ("R9 is 'OUR ternary is correctly assembled' and R10 is 'a ternary forms'. A TCIP is "
                     "bivalent and induces a target-molecule-effector complex, so both survive; only R12 "
@@ -509,14 +676,32 @@ def map_edits_required(census, summary):
             "status": "DESCRIBED, NOT APPLIED",
         },
         {
+            "file": "research/manuscripts/nr4a3-program-map.md",
+            "anchor": "THE MODALITY at C397 — the modality fork row",
+            "current_text": "Picking **TCIP** keeps `R4` `R5` `R7` and retires the same three.",
+            "proposed_text": ("Picking **TCIP** keeps `R4` `R5` `R7` `R9` `R10` and retires only `R12` — a "
+                              "TCIP is bivalent and still induces a ternary, so it retires the "
+                              "ubiquitin-transfer half and nothing else."),
+            "why": "same correction as the Q12 row; this row states it a second time by reference",
+            "status": "DESCRIBED, NOT APPLIED",
+        },
+        {
             "file": "research/manuscripts/target-route-options.md",
-            "anchor": "Route 6 — TCIP",
-            "current_text": ("so it retires `R9` (our ternary correctly assembled — the roadmap's \"whole "
-                             "remaining gap\"), `R10` and `R12` outright"),
-            "proposed_text": "so it retires `R12` outright and reshapes nothing about `R9` or `R10`",
+            "anchor": "§2 route register, row 6",
+            "current_text": "Keeps `R4` `R5` `R7`; **retires `R9` `R10` `R12`**",
+            "proposed_text": "Keeps `R4` `R5` `R7` `R9` `R10`; **retires `R12`**",
+            "why": "same correction; this is the register row the roadmap's Q12 points at",
+            "status": "DESCRIBED, NOT APPLIED",
+        },
+        {
+            "file": "research/manuscripts/target-route-options.md",
+            "anchor": "Route 6 — TCIP, prose",
+            "current_text": "so it retires `R9`",
+            "proposed_text": "so it retires `R12`, and `R9`/`R10` survive unchanged",
             "why": ("this section contradicts itself two paragraphs later — 'It inherits the same "
-                    "induced-complex modelling problem as R9 (an assembled ternary-like complex nobody has "
-                    "built), which is the roadmap's largest gap'. Both sentences cannot stand."),
+                    "induced-complex modelling problem as `R9` (an assembled ternary-like complex nobody has "
+                    "built), which is the roadmap's largest gap'. Both sentences cannot stand, and the "
+                    "second one is the one the graph agrees with."),
             "status": "DESCRIBED, NOT APPLIED",
         },
         {
@@ -629,6 +814,25 @@ def to_markdown(d):
       "length, and how many placements were accepted out of the samples drawn.")
     A("")
 
+    A("## 4b · ★ The size axis — the comparison that can return either way")
+    A("")
+    A("⚠ %s" % d["verdict"]["⚠_the_binary_answer_is_not_the_finding"])
+    A("")
+    A("| linker atoms | single-domain acceptance (95 % CI) | multi-subunit acceptance (95 % CI) | ratio "
+      "single/multi | intervals overlap | single-domain body cost | multi-subunit body cost |")
+    A("|---|---|---|---|---|---|---|")
+    for n in sorted(d["★_paired_body_size_comparison"], key=int):
+        b = d["★_paired_body_size_comparison"][n]
+        s, m = b["by_size_class"]["single_domain"], b["by_size_class"]["multi_subunit"]
+        A("| %s | %s [%s, %s] | %s [%s, %s] | **%s** | %s | %s | %s |"
+          % (n, s["acceptance_rate"], s["acceptance_ci95"][0], s["acceptance_ci95"][1],
+             m["acceptance_rate"], m["acceptance_ci95"][0], m["acceptance_ci95"][1],
+             b["size_ratio_single_over_multi"], b["intervals_overlap"], s["body_cost"], m["body_cost"]))
+    A("")
+    A("`body cost` = acceptance ÷ the body-free admissible fraction of the same shell — the body's own "
+      "marginal cost with the target's shape divided out.")
+    A("")
+
     A("## 5 · The distances the modality requires")
     A("")
     for k, val in sorted(d["verdict"]["required_distances"].items()):
@@ -713,6 +917,7 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
         }
 
     summary = summarise(cells, geom)
+    paired = paired_body_size_comparison(cells, pooled, geom)
     census = effector_arm_census()
     req = required_distances()
 
@@ -774,17 +979,19 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
             "cells": cells,
         },
         "summary": summary,
+        "★_paired_body_size_comparison": paired,
         "cross_checks": {
             "reproduces_the_committed_pose_ensemble": crosscheck_pose_ensemble(poses),
             "committed_accepted_anchors_are_admissible": crosscheck_committed_anchors_admissible(field3),
             "replicates_the_committed_E3_acceptance": crosscheck_replicates_committed_acceptance(cells),
             "size_labels_match_the_coordinates": crosscheck_size_partition(geom),
+            "acceptance_test_is_E3_free": crosscheck_acceptance_is_e3_free(arms, poses, field3),
         },
         "refusals": refusals,
         "unread_inputs": unread,
         "runtime_s": round(time.time() - t0, 1),
     }
-    d["verdict"] = verdict(summary, pooled, req)
+    d["verdict"] = verdict(summary, pooled, req, paired)
     d["map_edits_required"] = map_edits_required(census, summary)
     return d
 
@@ -795,7 +1002,30 @@ def main(argv=None):
     ap.add_argument("--arms", default="", help="comma-separated subset of registry arm ids")
     ap.add_argument("--procs", type=int, default=4)
     ap.add_argument("--out", default=OUT)
+    ap.add_argument("--only-e3-free-check", action="store_true",
+                    help="run ONLY the E3-free acceptance control and merge it into an existing --out")
     args = ap.parse_args(argv)
+
+    if args.only_e3_free_check:
+        m3 = BS.load_paralogue(os.path.join(STRUCT_DIR, "nr4a3-opened.pdb"))
+        field3 = G.SquaredDistanceField(m3["heavy_xyz"], cell=0.9, clamp=8.0)
+        reactive = BS.load_reactive_map(UNIQUE_JSON, m3)
+        poses = BS.build_pose_ensemble(m3, reactive, field3, 12, random.Random(BASIN_SEED))
+        with open(REGISTRY) as fh:
+            reg = json.load(fh)
+        arms = {aid: BS.load_arm_from_registry(reg["arms"][aid])
+                for aid in list(SINGLE_DOMAIN_ARMS) + list(MULTI_SUBUNIT_ARMS)}
+        res = crosscheck_acceptance_is_e3_free(arms, poses, field3)
+        with open(args.out) as fh:
+            d = json.load(fh)
+        d["cross_checks"]["acceptance_test_is_E3_free"] = res
+        with open(args.out, "w") as fh:
+            json.dump(d, fh, indent=1)
+            fh.write("\n")
+        with open(os.path.splitext(args.out)[0] + ".md", "w") as fh:
+            fh.write(to_markdown(d))
+        print(json.dumps(res, indent=1), flush=True)
+        return 0
 
     d = build(samples=args.samples,
               arms_wanted=[a for a in args.arms.split(",") if a] or None,

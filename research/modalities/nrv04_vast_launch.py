@@ -1457,8 +1457,19 @@ set -eo pipefail
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -q >/dev/null 2>&1 || true
 apt-get install -y -q --no-install-recommends git curl ca-certificates >/dev/null 2>&1 || true
-pip install --quiet awscli $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu12 || \
-  { echo "[cofold] pip install FAILED"; exit 3; }
+# ★★ PULL, DON'T SOLVE (CLAUDE.md §6 — never build an environment on a machine we are paying for). A baked
+# image STATES that it is baked, at /opt/boltz/BAKED (research/compute/Dockerfile.boltz, which refuses to
+# write that marker unless the ~3 GB weight cache is complete). Testing the marker is reading a statement
+# the image makes about itself; grepping for a package name would be guessing.
+# ⚠ On the stock pytorch image the marker is absent, so this is a NO-OP CHANGE until a baked image is
+# actually passed via COFOLD_IMAGE — deliberately, so it cannot alter a lane in flight.
+if [ -f /opt/boltz/BAKED ]; then
+  echo "[cofold] baked image: $(cat /opt/boltz/BAKED | head -1) — skipping the on-host environment build"
+else
+  echo "[cofold] ::warning:: NO BAKED BOLTZ IMAGE — solving the environment on a BILLING host. CLAUDE.md §6."
+  pip install --quiet awscli $BOLTZ_SPEC cuequivariance-torch cuequivariance-ops-torch-cu12 || \
+    { echo "[cofold] pip install FAILED"; exit 3; }
+fi
 AWS=$(command -v aws || echo /opt/conda/bin/aws)
 # Same reasoning as the MD lane: a mark that hides its own failure is worse than no mark. Preflight hard.
 mark() { echo "$1 $(date -u +%FT%TZ)" | $AWS s3 cp - "$RESULT_S3/phase.txt" || echo "[mark] WARN could not write phase '$1' to $RESULT_S3"; }

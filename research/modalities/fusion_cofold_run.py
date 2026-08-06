@@ -122,6 +122,23 @@ def run_unit(yaml_path, construct, seed, timeout_s):
     return rec
 
 
+def restore_from_object_store():
+    """Pull any already-finished units back down before planning, so a relaunch RESUMES.
+
+    ⛔ WITHOUT THIS THE SKIP LOGIC IS A LIE. `unit_done` reads the local disk, and a relaunch lands on a
+    FRESH host with an empty disk — so every unit would look unrun and be re-bought, while the finished ones
+    sat in S3. The lane's own jobspec carries `resume=False` for exactly that reason. Best-effort by design:
+    a failed restore must never stop a run, it only costs re-prediction.
+    """
+    dest = os.environ.get("RESULT_S3")
+    if not dest or not _which("aws"):
+        return {"attempted": False, "why": "no RESULT_S3 or no aws CLI on PATH"}
+    t0 = time.time()
+    p = subprocess.run(["aws", "s3", "sync", dest.rstrip("/") + "/", OUT_DIR, "--only-show-errors"])
+    return {"attempted": True, "from": dest, "returncode": p.returncode,
+            "wall_s": round(time.time() - t0, 1)}
+
+
 def write_state(state, path):
     with open(path, "w") as fh:
         json.dump(state, fh, indent=2)
@@ -138,6 +155,10 @@ def main():
                     default=int(os.environ.get("COFOLD_UNIT_TIMEOUT_S", "3600")))
     ap.add_argument("--dry-run", action="store_true",
                     help="print the unit plan and the environment report; run no inference, rent nothing")
+    # Accepted and ignored, on purpose. `nrv04_vast_launch._COFOLD_PIPELINE` invokes its entry point as
+    # `python "$TERNARY_SCRIPT" --run $TERNARY_EXTRA_ARGS`, so without this flag the existing Vast co-fold
+    # lane cannot drive this script at all and R13-b would need a whole new lane to say the same thing.
+    ap.add_argument("--run", action="store_true", help=argparse.SUPPRESS)
     args = ap.parse_args()
 
     obj_dir = os.path.join(INPUT_ROOT, args.object)
@@ -147,6 +168,7 @@ def main():
 
     yamls = {c: os.path.join(obj_dir, "%s.yaml" % c) for c in CONSTRUCTS}
     missing = [c for c, p in yamls.items() if not os.path.exists(p)]
+    restore = restore_from_object_store() if not args.dry_run else {"attempted": False, "why": "dry run"}
 
     state = {
         "_what": "R13-b apo co-fold — per-unit run record. Rewritten after EVERY unit so a preemption "
@@ -160,6 +182,7 @@ def main():
         "seeds": seeds,
         "n_units_planned": len(CONSTRUCTS) * len(seeds),
         "environment": environment_report(),
+        "resume_restore": restore,
         "units": [],
         "missing_inputs": missing,
     }

@@ -1,3 +1,18 @@
+---
+id: DOC-STERIC-CARRIER-AUDIT
+title: Does the steric design rule have a carrier — Tier-1 row 3 executed over the committed set
+level: L4
+kind: memo
+status: generated
+generator: research/modalities/steric_carrier_audit.py
+canonical_for: []
+purpose: "Answer whether anything committed already occupies the I484 or L534 denied lobe, separating 'not scorable' from 'scored and reached nothing'."
+scope: The committed pose sets and the committed construct set. No new compute; arithmetic over existing poses.
+audience: [maintainers, autonomous research agents]
+date: 2026-08-06
+last_verified: 2026-08-06
+---
+
 # Does the steric design rule have a **carrier**?
 
 *Tier-1 row 3 of [`path-family-synthesis.md`](../manuscripts/path-family-synthesis.md) §2, executed.*

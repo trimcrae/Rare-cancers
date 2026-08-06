@@ -56,7 +56,38 @@ produced the redundancy argument in §3.
 ⚠ **Every source below was read from a retrieved document, not from memory.** Provenance:
 
 - **The Europe PMC corpora already committed to the `literature-cache` branch** — `literature/extraskeletal-myxoid-chondrosarcoma/` (694 files, `_index.json` carrying **1,369 catalogued records**) and `literature/emc-post-degrader-options/`. Both were pulled by `.github/workflows/fetch-literature.yml` in earlier sessions and are readable from the sandbox with `git fetch origin literature-cache`, which is why this answer cost **$0 and needed no new run**.
-- **A fresh, on-point Europe PMC query** — PPARγ/TZD terms × NR4A3/chondrosarcoma terms — was dispatched to that workflow on 2026-08-06 (run `31126146908`, slug `pparg-direction-emc-2026-08-06`). ⛔ **It has not run.** GitHub Actions execution for this repository stalled repo-wide at **12:48 PM ET**: 39 runs queued, **0 in progress**, and the last run to reach a terminal state was created at 12:48:25 PM ET. The stall is account-wide and is not this lane's. **Nothing in this memo depends on that run**; it can only add the chondrosarcoma-TZD reports of §5.
+- **A fresh, on-point Europe PMC query** — PPARγ/TZD terms × NR4A3/chondrosarcoma terms — was dispatched to that workflow on 2026-08-06 (run `31126146908`, slug `pparg-direction-emc-2026-08-06`). ⛔ **It has not run.** GitHub Actions execution for this repository stalled repo-wide at **12:48 PM ET**: 39 runs queued, **0 in progress**, and the last run to reach a terminal state was created at 12:48:25 PM ET. The stall is account-wide and is not this lane's. **Nothing in this memo depends on that run**; it can only add the chondrosarcoma-TZD reports of §6.
+
+### 2a · The `query` path was verified before anything was trusted, and the check found a second bug
+
+CLAUDE.md §6 records that this workflow's Europe PMC `query` path was **decorative until 2026-08-05**
+— the header claimed it, `scripts/fetch-paper.mjs` implemented it, and the workflow never invoked it,
+so a dispatch carrying a query searched for nothing and reported success. A memo that leaned on it
+without checking would be repeating that failure, so it was checked at $0 against a **committed
+output**, not against the code:
+
+✅ **It works.** Run `31051158710` (2026-08-05, 6:03 PM ET — after the wiring fix) published
+`literature/bangerter-2023-emc-exvivo/`, which carries a real `_index.json` of **70 Europe PMC
+records, 61 with full text on disk**, whose first record is the query's known-positive target
+(Bangerter et al. 2023, PMID 36316541). A search that ran and returned the record it was aimed at is
+the discriminating observation; the green tick alone was not.
+
+⛔ **And the same artifact shows a second defect, measured rather than argued.** That directory also
+holds all **25 built-in FEP-methodology files** — `lomap_*`, `cinnabar_*`, `diffnet_*`, the
+Schrödinger cycle-closure patents — plus their `_manifest.json`, because the workflow ran **both**
+input paths into the same output directory: `scripts/lit_fetch_urls.py` falls back to its built-in
+`TARGETS` when no `targets_file` is given, and the publish step copies the directory wholesale. So a
+query-only dispatch published its Europe PMC corpus **interleaved with an unrelated corpus** — the
+same mislabelled-record harm the publish step's own slug guard was written to prevent, arriving from
+the other direction.
+
+**Fixed this session** (both in `.github/workflows/fetch-literature.yml`, which this pass owns):
+the URL-fetch step is now skipped when a query is given with no `targets_file`, and a new
+`scripts/lit_query_assert.py` step **fails the run** if the query path produced no index, an empty
+index, or an index missing the known-positive PMID(s) named in a new `expect_pmids` input — so the
+retrieval is **asserted** rather than described. ⚠ The dispatch above ran against `main`, which does
+not yet carry either change; the branch these landed on is not on `origin`, so `ref=<branch>`
+dispatch is not available until it is pushed.
 - **One source could not be read and is marked as such** — the pioglitazone + trabectedin myxoid-liposarcoma paper (§4, row 4). The literature cache holds a recorded **HTTP 403** for it, so this repository has never retrieved its text.
 
 ---

@@ -54,6 +54,7 @@ CLI:  python3 steric_carrier_audit.py            # write steric-carrier-audit.js
 """
 from __future__ import annotations
 
+import datetime as _dt
 import json
 import math
 import os
@@ -585,7 +586,12 @@ def build():
             "here. The canonical-library ruling is read from nr4a3-linker-library-canonical.json. This file "
             "owns exactly two new things: the frame-identity census and the per-atom lobe-occupancy "
             "predicate."),
-        "_generated": {"generator": "research/modalities/steric_carrier_audit.py"},
+        "_generated": {
+            "generator": "research/modalities/steric_carrier_audit.py",
+            # UTC date, so the emitted frontmatter's `date`/`last_verified` are a real generation
+            # stamp rather than a hand-typed one that drifts from the run that produced the numbers.
+            "date": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%d"),
+        },
         "⛔_control_imported_verbatim_from_the_rule": rule["⛔_control"],
         "⚠_inheritance": {
             "inherits_R3": False,
@@ -650,6 +656,26 @@ def build():
 def to_markdown(a):
     L = []
     W = L.append
+    # Frontmatter is EMITTED, never hand-added: systems_check `[D4]` requires purpose/scope/audience/
+    # freshness on every tracked document, and this memo is regenerated, so a hand-added block would be
+    # silently dropped on the next run and turn the build red again with no trace of why.
+    W("---")
+    W("id: DOC-STERIC-CARRIER-AUDIT")
+    W("title: Does the steric design rule have a carrier — Tier-1 row 3 executed over the committed set")
+    W("level: L4")
+    W("kind: memo")
+    W("status: generated")
+    W("generator: research/modalities/steric_carrier_audit.py")
+    W("canonical_for: []")
+    W("purpose: \"Answer whether anything committed already occupies the I484 or L534 denied lobe, "
+      "separating 'not scorable' from 'scored and reached nothing'.\"")
+    W("scope: The committed pose sets and the committed construct set. No new compute; arithmetic over "
+      "existing poses.")
+    W("audience: [maintainers, autonomous research agents]")
+    W("date: %s" % a["_generated"].get("date", ""))
+    W("last_verified: %s" % a["_generated"].get("date", ""))
+    W("---")
+    W("")
     W("# Does the steric design rule have a **carrier**?")
     W("")
     W("*Tier-1 row 3 of [`path-family-synthesis.md`](../manuscripts/path-family-synthesis.md) §2, executed.*")
