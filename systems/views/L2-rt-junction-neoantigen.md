@@ -29,6 +29,12 @@ flowchart LR
   RT_JUNCTION_NEOANTIGEN["✓ RT-JUNCTION-NEOANTIGEN"]:::fam
   BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
   BLK_ANTIGEN_COLD --> RT_JUNCTION_NEOANTIGEN
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_JUNCTION_NEOANTIGEN
+  TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
+  TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -43,7 +49,7 @@ flowchart LR
 
 ## Scientific rationale
 
-The junction is tumour-exclusive at the sequence level, so a peptide spanning it is a true neoantigen shared by every patient with this fusion. That would make one reagent serve the whole disease, which is the only economically plausible shape for an ultra-rare cancer.
+The junction is tumour-exclusive at the sequence level. ⚠ Whether ONE peptide is shared across breakpoints is UNSETTLED — the committed analysis found no pan-EMC epitope (the most-shared candidate appears in 2 of 7 junctions and is a weak binder) — and it was computed on seams the corrected exon index does not produce, so even that reading is void pending regeneration.
 
 ## Remaining unknowns
 
@@ -63,6 +69,7 @@ The junction is tumour-exclusive at the sequence level, so a peptide spanning it
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | *permanent* |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 
 ## Blockers this route RETIRES
 

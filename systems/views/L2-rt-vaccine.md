@@ -96,7 +96,7 @@ Parked on a property of the tumour and the junction rather than of the modality,
 | Automation outlook | The prediction half is automated; the immunogenicity question is not computational. |
 
 **Revisit when:**
-- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
+- **TECH-JUNCTION-PMHC** — A fusion-junction presentation or immunogenicity predictor validated ON FUSION JUNCTIONS, or a TCR/ImmTAC discovery platform demon *(expected 2029, basis `extrapolated`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 

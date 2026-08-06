@@ -103,7 +103,7 @@ Nothing can be built until a ligand for the shared low-complexity half exists, a
 | Automation outlook | Not automatable — the gap is chemical matter, not effort. |
 
 **Revisit when:**
-- **TECH-GLUE-DESIGN** — A validated prospective molecular-glue design method or glue-interface selectivity predictor, demonstrated on a neosubstrate inter *(expected 2027H2, basis `extrapolated`)*
+- **TECH-TERNARY-ALCHEMY** — A ternary alchemical free-energy method that PASSES the known-answer cooperativity control — recovering the reference value with t *(expected 2028, basis `extrapolated`)*
 - **TECH-COFOLD-ASSEMBLY** — A sequence-only co-folder evaluated on ternary ASSEMBLY — inter-chain accuracy on post-training-horizon induced complexes — rather *(expected 2027, basis `evidence_based`)*
 
 ## Claim ceiling — what this route may NOT be used to claim

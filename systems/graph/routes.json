@@ -1603,7 +1603,7 @@
     "rationale": "Trabectedin is approved for soft-tissue sarcoma and its mechanism — interfering with transcription-factor-driven programmes at the DNA minor groove — is a plausible fit for a disease whose entire biology is one aberrant transcription factor. There is a reported EMC responder. For an ultra-rare cancer with no targeted agent, an approved drug with a mechanistic story and a reported response is the shortest path that exists.",
     "supporting_evidence": [
       {
-        "ref": "EV-EMC-CLINICAL",
+        "ref": "ART-EMC-CLINICAL-REGISTRY",
         "what_it_supports": "a reported EMC response to an approved agent",
         "strength": "direct"
       }
@@ -1891,7 +1891,7 @@
       "CD276"
     ],
     "grade": {
-      "value": "Tier 3 — already red-teamed in this repo: not selective (BH q = 1.0)",
+      "value": "Tier 3 — already red-teamed in this repo. ⚠ THE TWO ANTIGENS FAIL DIFFERENTLY: B7-H3/CD276 is NOT selective (BH q = 1.0, enrichment 0.14); CD56/NCAM1 IS selective (q = 0.0, enrichment 1.74) and fails instead on the normal-tissue / immune window (NK cells), with a discontinued CD56 ADC precedent",
       "owner": {
         "file": "research/manuscripts/emc-surface-target-landscape.md",
         "anchor": null
@@ -1908,8 +1908,9 @@
       }
     ],
     "blockers_inherited": [
-      "BLK-NOT-FUSION-SELECTIVE",
-      "BLK-NO-EMC-DATA"
+      "BLK-ANTIGEN-COLD",
+      "BLK-NO-EMC-DATA",
+      "BLK-NOT-FUSION-SELECTIVE"
     ],
     "blockers_retired": [
       "BLK-PARALOGUE-DDG",
@@ -1945,7 +1946,7 @@
       "TR-EMC-EXPRESSION-DATASET",
       "TR-EMC-MODEL-ACCESS"
     ],
-    "closure_note": "The selectivity premise was MEASURED and failed on cell-line surrogates; real EMC tissue is what could change the measurement.",
+    "closure_note": "The selectivity premise was MEASURED and failed FOR B7-H3 (BH q = 1.0). ⚠ It did NOT fail for CD56 — NCAM1 returns q = 0.0 and is selectivity-significant; what fails there is the normal-tissue window (VITAL_OR_IMMUNE_LIABILITY, NK cells). Collapsing the two into one 'not selective' verdict was wrong for half this route.",
     "strategy": "ST-IMMUNO",
     "level": "L2",
     "kind": "route",
@@ -1961,7 +1962,7 @@
       "status": "parked",
       "maturity": "computed",
       "confidence": "moderate",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-06"
     },
     "rationale": "B7-H3 is a broadly expressed tumour antigen with clinical-stage agents already available, so a positive selectivity finding would have been immediately actionable.",
     "supporting_evidence": [
@@ -2013,7 +2014,7 @@
       "CAR-T for EMC"
     ],
     "grade": {
-      "value": "Hard but not closed — among surface modalities, ADC/FAPI-RLT likely beat CAR-T to a patient",
+      "value": "Hard but not closed — among surface modalities, the conjugate and radioligand forms carry the smaller build and regulatory burden; nothing here bears on efficacy in EMC",
       "owner": {
         "file": "research/manuscripts/car-t-strategies-emc.md",
         "anchor": null
@@ -2060,12 +2061,12 @@
         "why": "CAR-T is the modality; B7-H3 is one antigen it could use. The modality is blocked by the antigen search and by the cold myxoid stroma, not by the cell product"
       }
     ],
-    "closure_kind": "instrument_limit",
+    "closure_kind": "confound_in_the_system",
     "revival_trigger": [
       "TR-EMC-EXPRESSION-DATASET",
       "TR-EMC-MODEL-ACCESS"
     ],
-    "closure_note": "Blocked by the antigen search and the cold myxoid stroma, not by the cell product.",
+    "closure_note": "Blocked by the antigen search and the cold myxoid stroma, not by the cell product. ⚠ BLK-NOT-FUSION-SELECTIVE reads HERE as on-target/off-tumour — the antigen is shared with normal tissue — not as a paralogue margin; a CAR engages neither NR4A3 nor EWSR1.",
     "strategy": "ST-IMMUNO",
     "level": "L2",
     "kind": "route",
@@ -2101,7 +2102,7 @@
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "Blocked by the antigen search and the cold stroma rather than by the cell product. Among surface modalities, conjugates and radioligands would likely reach a patient first.",
+      "why_not_higher": "Blocked by the antigen search and the cold stroma rather than by the cell product. Among surface modalities, conjugates and radioligands carry a smaller build and regulatory burden — a statement about development effort, not about efficacy.",
       "missing": [
         "a selective surface antigen"
       ]
@@ -2248,7 +2249,8 @@
       }
     ],
     "blockers_inherited": [
-      "BLK-ANTIGEN-COLD"
+      "BLK-ANTIGEN-COLD",
+      "BLK-NO-EMC-DATA"
     ],
     "blockers_retired": [
       "BLK-PARALOGUE-DDG",
@@ -2311,7 +2313,7 @@
       "confidence": "low",
       "last_verified": "2026-08-05"
     },
-    "rationale": "The junction is tumour-exclusive at the sequence level, so a peptide spanning it is a true neoantigen shared by every patient with this fusion. That would make one reagent serve the whole disease, which is the only economically plausible shape for an ultra-rare cancer.",
+    "rationale": "The junction is tumour-exclusive at the sequence level. ⚠ Whether ONE peptide is shared across breakpoints is UNSETTLED — the committed analysis found no pan-EMC epitope (the most-shared candidate appears in 2 of 7 junctions and is a weak binder) — and it was computed on seams the corrected exon index does not produce, so even that reading is void pending regeneration.",
     "supporting_evidence": [],
     "remaining_unknowns": [
       "The predicted binders are VOID: they span seams that a corrected exon index says no reported junction produces. The result is unusable; the question is open.",
@@ -2459,7 +2461,7 @@
       "cost_trend": "flat",
       "automation_outlook": "The prediction half is automated; the immunogenicity question is not computational.",
       "revisit_trigger": [
-        "TECH-EMC-EXPRESSION-DATA"
+        "TECH-JUNCTION-PMHC"
       ]
     },
     "next": {
@@ -2582,7 +2584,7 @@
       "cost_trend": "flat",
       "automation_outlook": "Prediction is automated; the underlying biology is not.",
       "revisit_trigger": [
-        "TECH-EMC-EXPRESSION-DATA"
+        "TECH-JUNCTION-PMHC"
       ]
     },
     "next": {
@@ -2611,6 +2613,7 @@
       }
     ],
     "blockers_inherited": [
+      "BLK-ANTIGEN-COLD",
       "BLK-NO-EMC-DATA",
       "BLK-NOT-FUSION-SELECTIVE"
     ],
@@ -2645,7 +2648,7 @@
     ],
     "closure_kind": "open",
     "revival_trigger": [],
-    "closure_note": "The one CTA whose surrogate expression came back favourable; its confirm is an ask, not a closure.",
+    "closure_note": "The one CTA whose surrogate expression came back favourable; its confirm is an ask, not a closure. 2026-08-05: the subtype/myxoid-proximity half of the supporting read was WITHDRAWN (n=1, disputed-identity line ACH-001519); only the relative ordering across the sarcoma panel survives, and this grade now rests on that alone.",
     "strategy": "ST-IMMUNO",
     "level": "L2",
     "kind": "route",
@@ -2663,10 +2666,10 @@
       "confidence": "moderate",
       "last_verified": "2026-08-05"
     },
-    "rationale": "Unlike the junction neoantigen, this uses an antigen with an existing clinical-stage agent — so the reagent problem is already solved by someone else, and the only question is whether EMC expresses the antigen. That makes it the cheapest antigen-directed route to test.",
+    "rationale": "This uses an antigen with an existing clinical-stage agent, so the reagent problem is not ours to solve. ⚠ Whether EMC expresses AND PRESENTS the antigen is unanswered, and expression alone would not establish applicability — brenetafusp reads a specific peptide-HLA (SLLQHLIGL/HLA-A*02:01), and the agent is INVESTIGATIONAL, not approved. No efficacy, safety or eligibility claim is made for EMC.",
     "supporting_evidence": [
       {
-        "ref": "ART-SURFACE-EXPRESSION",
+        "ref": "ART-CTA-EXPRESSION",
         "what_it_supports": "surrogate expression came back favourable, unlike every other cancer-testis antigen examined",
         "strength": "surrogate"
       }
@@ -2686,7 +2689,7 @@
     ],
     "readiness": {
       "attainable_today": "experimental_proposal",
-      "why_not_higher": "The reagent exists clinically and the computational case is made, so what remains is a confirmation, not a discovery. That makes it a proposal rather than a paper.",
+      "why_not_higher": "The reagent exists clinically and an expression read on EMC tissue is owed; presentation on HLA-A*02:01 is a separate and unaddressed question. That makes it a proposal rather than a paper.",
       "missing": [
         "expression confirmation on EMC tissue"
       ],
@@ -2787,7 +2790,7 @@
     "rationale": "The synovial-sarcoma precedent shows the approach works in a translocation sarcoma, and porting an approved approach is far cheaper than inventing one.",
     "supporting_evidence": [
       {
-        "ref": "ART-SURFACE-EXPRESSION",
+        "ref": "ART-CTA-EXPRESSION",
         "what_it_supports": "EMC is cancer-testis-antigen-low on the available measured data",
         "strength": "surrogate"
       }
@@ -2835,7 +2838,7 @@
       "sunitinib + nivolumab"
     ],
     "grade": {
-      "value": "TOP NEAR-TERM LEAD (best EMC evidence)",
+      "value": "Landscape comparator — the only approved-drug combination with any reported EMC response",
       "owner": {
         "file": "research/manuscripts/immunotherapy-options-emc.md",
         "anchor": "#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead"
@@ -2848,6 +2851,7 @@
       }
     ],
     "blockers_inherited": [
+      "BLK-ANTIGEN-COLD",
       "BLK-NO-EMC-DATA"
     ],
     "blockers_retired": [
@@ -2878,17 +2882,17 @@
     "purpose": "Does the checkpoint-inhibitor plus anti-angiogenic combination have an EMC signal worth pursuing?",
     "state": {
       "work_state": "future",
-      "status": "ready",
+      "status": "delegated",
       "maturity": "concept",
       "confidence": "moderate",
       "last_verified": "2026-08-05"
     },
-    "rationale": "This carries the best actual EMC clinical signal on the board, and both components are approved drugs. For an ultra-rare disease with no targeted agent, an approved combination with a reported signal is the shortest path to a patient that exists.",
+    "rationale": "Both components are approved for OTHER indications, and one EMC partial responder is reported within a mixed-sarcoma phase-II. This route is the landscape COMPARATOR, not a contribution of this program. ⚠ No efficacy, safety, eligibility or clinical-readiness claim is made for EMC — this repo's own validated clinical registry records checkpoint inhibitors as NOT systematically active in EMC, with only isolated responses.",
     "supporting_evidence": [
       {
-        "ref": "EV-EMC-CLINICAL",
-        "what_it_supports": "the best reported EMC clinical signal among the routes examined",
-        "strength": "direct"
+        "ref": "ART-EMC-CLINICAL-REGISTRY",
+        "what_it_supports": "one reported EMC partial responder within a mixed-sarcoma phase-II; the combination's activity data come from OTHER sarcomas, and the multi-patient EMC evidence in the registry belongs to the TKI half alone",
+        "strength": "transferred"
       }
     ],
     "remaining_unknowns": [
@@ -2906,7 +2910,7 @@
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "This is clinical evidence synthesis, not computation, and this program's contribution to it is limited. It belongs in the landscape context of a paper rather than as a result of its own.",
+      "why_not_higher": "This is clinical evidence synthesis, not computation, and this program's contribution to it is limited. It belongs in the landscape context of a paper rather than as a result of its own. ⚠ 'ready' previously read as ready-as-a-treatment on a nivolumab+sunitinib route; it is ready only as a paragraph of a paper.",
       "missing": [
         "a larger clinical series"
       ]
@@ -2986,7 +2990,7 @@
     "rationale": "This carries the best ex-vivo EMC drug-sensitivity evidence in the repository — an actual measurement on actual EMC material, which is rarer than anything else in this family. An approved agent with an ex-vivo signal is a strong near-term lead by the standards available for this disease.",
     "supporting_evidence": [
       {
-        "ref": "EV-EMC-EXVIVO",
+        "ref": "EV-BANGERTER-2023",
         "what_it_supports": "ex-vivo drug sensitivity measured on EMC material",
         "strength": "direct"
       }
@@ -3351,7 +3355,7 @@
       "cost_trend": "flat",
       "automation_outlook": "Not automatable — the gap is chemical matter, not effort.",
       "revisit_trigger": [
-        "TECH-GLUE-DESIGN",
+        "TECH-TERNARY-ALCHEMY",
         "TECH-COFOLD-ASSEMBLY"
       ]
     },

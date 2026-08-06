@@ -98,7 +98,7 @@ Waits on a measured property of the junction. No modality improvement changes a 
 | Automation outlook | Prediction is automated; the underlying biology is not. |
 
 **Revisit when:**
-- **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
+- **TECH-JUNCTION-PMHC** — A fusion-junction presentation or immunogenicity predictor validated ON FUSION JUNCTIONS, or a TCR/ImmTAC discovery platform demon *(expected 2029, basis `extrapolated`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 

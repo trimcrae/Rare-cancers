@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 13 evidence items · 19 artifacts · 14 pinned claims.**
+**19 objects · 13 evidence items · 22 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -80,18 +80,21 @@ omitted, and why `[L5]` reports the count.
 | **ART-APO-POSE-SITE** | `research/modalities/apo-pose-site-in-regime.json` | `research/modalities/apo_pose_recovery.py` | `CLM-APO-SITE-IN-REGIME`, [RT-DEGRADER](L2-rt-degrader.md) |
 | **ART-ATR-VULNERABILITY** | `research/modalities/emc-atr-vulnerability.json` | `research/modalities/emc_atr_vulnerability.py` | [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-CONSTRUCT-DESIGNS** | `research/modalities/emc-fet-construct-designs.json` | `research/modalities/emc_fet_construct_designs.py` | `CLM-CONSTRUCT-FRAME`, `CLM-CONSTRUCT-TCF12`, `OBJ-FUS-T1`, `OBJ-FUS-T2`, `OBJ-FUS-T5`, `OBJ-FUS-TAF15`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
+| **ART-CTA-EXPRESSION** | `research/modalities/depmap-target-expression.json` | `research/modalities/depmap_target_expression.py` | [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md), [RT-TCRT-CTA](L2-rt-tcrt-cta.md) |
 | **ART-DDR-AXIS-SCAN** | `research/modalities/fet-ddr-axis-scan.json` | `research/modalities/fet_ddr_axis_scan.py` | `CLM-ATRI-GDSC`, `CLM-KO-SATURATION`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-DECOY-NULL-LBD** | `research/modalities/categorical-decoy-null-lbd.json` | `research/modalities/categorical_decoy_null.py` | `CLM-C397-DECOY-NULL`, [RT-COVALENT-PROBE](L2-rt-covalent-probe.md), [RT-DEGRADER](L2-rt-degrader.md) |
-| **ART-EMC-CLINICAL-REGISTRY** | `research/data/emc-clinical-registry.json` | `hand-curated from published literature; ingestion via scripts/fetch-paper.mjs + scripts/triage-literature.mjs` | ⚠ **nothing** |
+| **ART-EMC-CLINICAL-REGISTRY** | `research/data/emc-clinical-registry.json` | `hand-curated from published literature; ingestion via scripts/fetch-paper.mjs + scripts/triage-literature.mjs` | [RT-ICI-TKI](L2-rt-ici-tki.md), [RT-TRABECTEDIN](L2-rt-trabectedin.md) |
 | **ART-FUSION-OBJECT-INVENTORY** | `research/modalities/fusion-object-inventory.json` | `research/modalities/fusion_object_inventory.py` | `CLM-BREAKPOINT-FILTER`, `OBJ-EWSR1-WT`, `OBJ-NR4A3-WT`, [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) |
 | **ART-HLA-COVERAGE** | `research/modalities/hla-coverage.json` | `research/modalities/hla_coverage.py` | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md), [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md), [RT-TCRT-CTA](L2-rt-tcrt-cta.md), [RT-VACCINE](L2-rt-vaccine.md) |
 | **ART-IDR-CENSUS** | `research/modalities/emc-fet-idr-census.json` | `research/modalities/emc_fet_idr_census.py` | `CLM-IDR-COMPARATIVE`, `CLM-IDR-CONTROLS`, `CLM-IDR-EMC`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
+| **ART-JUNCTION-ASO-OFFTARGET** | `research/modalities/junction-aso-offtarget-e12n3.json` | `research/modalities/junction_aso_offtarget.py` | [RT-ASO](L2-rt-aso.md) |
 | **ART-MONOVALENT-REACH** | `research/modalities/nr4a3-monovalent-reach.json` | `research/modalities/nr4a3_monovalent_reach.py` | `CLM-MONOVALENT-CROSSCHECK`, `CLM-MONOVALENT-VERDICT`, [RT-MONOVALENT](L2-rt-monovalent.md) |
 | **ART-NR4A-PARALOGUE-DYNAMICS** | `research/modalities/nr4a-paralogue-dynamics.json` | `research/modalities/nr4a_paralogue_dynamics.py` | [LANE-13](registers/lanes.md) |
 | **ART-NRV04-RETRO-CRITERIA-AUDIT** | `research/modalities/nrv04-retro-criteria-audit.json` | `research/modalities/nrv04_retro_criteria_audit.py` | [LANE-8](registers/lanes.md) |
 | **ART-NRV04-RETRO-PRESPEND-AUDIT** | `research/modalities/nrv04-retro-prespend-audit.json` | `research/modalities/nrv04_retro_prespend_audit.py` | [LANE-8](registers/lanes.md) |
 | **ART-PUBLISHED-WARHEAD-REGISTRY** | `research/modalities/published-warhead-registry.json` | `—` | ⚠ **nothing** |
 | **ART-SELCAL-VERDICT** | `research/modalities/selcal-verdict.json` | `research/modalities/selcal_cofold_validate.py` | [LANE-22](registers/lanes.md) |
+| **ART-SURFACE-EXPRESSION** | `research/modalities/emc-surfaceome-scan.json` | `research/modalities/emc_surfaceome_scan.py` | [RT-B7H3](L2-rt-b7h3.md) |
 | **ART-TARGET-ROUTE-CENSUS** | `research/modalities/target-route-census.json` | `research/modalities/target_route_census.py` | `CLM-AF1-LC-SWAP`, `CLM-FUSION-MODEL-DISAGREEMENT`, `OBJ-NR4A3-AF1`, `OBJ-NR4A3-DBD`, [RT-6MP](L2-rt-6mp.md), [RT-ASYMMETRIC](L2-rt-asymmetric.md), [RT-DBD](L2-rt-dbd.md) |
 | **ART-VALB-PSERIES-CHEM** | `research/modalities/valb-pseries-chem.json` | `research/modalities/valb_pseries_chem.py` | [LANE-5](registers/lanes.md) |
 | **ART-VALB-TRIANGLE-CLOSURE** | `research/modalities/valb-triangle-closure.json` | `research/modalities/valb_triangle_closure.py` | [LANE-9](registers/lanes.md) |

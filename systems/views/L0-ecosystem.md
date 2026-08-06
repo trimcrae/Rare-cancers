@@ -106,13 +106,13 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 16 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 17 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 15 | 7 | *permanent — nothing* |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
+| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 8 | 1 | *permanent — nothing* |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | 7 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | 1 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
-| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 5 | 1 | *permanent — nothing* |
 | **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | 1 | `TECH-VECTOR-DELIVERY` |
 | **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | 3 | 2 | *an action we can take* |
@@ -136,9 +136,9 @@ Ordered by how much comes back if they land. Full register: [registers/technolog
 | 9 | **TECH-COFOLD-ASSEMBLY** | `partially_landed` | 2027 | `evidence_based` |
 | 7 | **TECH-CHEAP-ENSEMBLE** | `partially_landed` | 2027 | `evidence_based` |
 | 7 | **TECH-POSE-CONVERGENCE** | `absent` | 2028 | `extrapolated` |
+| 7 | **TECH-CLOUD-WET-LAB** | `early_signals` | 2029 | `extrapolated` |
 | 6 | **TECH-EXPOSURE-CRITERION** | `absent` | 2027H2 | `extrapolated` |
 | 6 | **TECH-VIRTUAL-CELL** | `early_signals` | 2028 | `extrapolated` |
-| 6 | **TECH-CLOUD-WET-LAB** | `early_signals` | 2029 | `extrapolated` |
 | 5 | **TECH-CHARGE-CHANGE-FEP** | `absent` | 2027 | `extrapolated` |
 
 ## Drill down

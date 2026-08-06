@@ -446,6 +446,81 @@ route RETIRES"* and *"✓ Already cleared by this route"*, crediting a permanent
 the program's central blocker. It now reads **"Blockers this route never FACES"**, because a closed route
 does not answer a blocker — its architecture never encounters one.
 
+## ST-IMMUNO — 9 routes, all 9 audited
+
+7 DEFECTIVE, 1 SOUND-WITH-NITS (RT-PANNR4A-EXVIVO). This family produced the audit's two **structural**
+fixes, both of which turned findings into build failures rather than prose.
+
+### X17 · ✅ FIXED — two new checker rules, which immediately caught 8 defects
+
+The audit kept finding the same two shapes by hand. Both are now enforced:
+
+**`[V4]` — `supporting_evidence[].ref` must resolve.** The `instruments.support` legality rule (`[V2]`)
+had a second, unguarded door: `supporting_evidence[].ref` takes the same id space and was resolved by
+nothing — it fed only the `cited_by` derivation, which treats an unknown id as an L5 row nobody cites.
+**Four refs resolved to nothing**, including `ART-SURFACE-EXPRESSION` (cited by three routes, the home
+of the repo's headline surface-antigen negative) and `EV-EMC-CLINICAL` (cited by two, at
+`strength: direct`). **A `direct` strength on an id that resolves to nothing cannot be audited by
+anyone**, and the build was green throughout.
+
+⚠ Fixing it exposed a second defect underneath: `ART-SURFACE-EXPRESSION` was **one id for two different
+artifacts** — the surfaceome selectivity screen (RT-B7H3) and the cancer-testis expression panel
+(RT-PRAME-IMMTAC, RT-TCRT-CTA). Split into `ART-SURFACE-EXPRESSION` and `ART-CTA-EXPRESSION`.
+
+**`[T7]` — a `revisit_trigger` must be able to move the route.** A trigger passes if it retires one of
+the route's blockers *or* the technology names the route in `unblocks.routes`. The second arm is
+deliberate: `TECH-JUNCTION-PMHC` has an empty `unblocks.blockers` **on purpose**, because what lands
+there changes whether a *permanent* blocker stays decisive without retiring it — the honest shape, and
+the check must not punish it. Caught all four X1 routes plus RT-PANNR4A-EXVIVO and RT-ANDGATE.
+
+⭐ **The X1 resolution came from the routes' own fields, and it was neither option I proposed.** I asked
+whether RT-VACCINE and RT-TCR-IMMTAC should drop their trigger or inherit `BLK-NO-EMC-DATA`. The auditor
+refused both: dropping it violates CONVENTIONS §4.1/§4.5 (a `parked` route must name a `TECH-*`), and
+adding the blocker would invent a data shortfall neither route claims — RT-VACCINE's own
+`automation_outlook` says *"the immunogenicity question is not computational."* The right answer was
+`TECH-JUNCTION-PMHC`, which **already existed, already named all three routes, and already declined to
+claim the blocker**. The technology claimed the routes; the routes never claimed it back.
+
+### X18 · ⛔ The claim ceiling is evaded by paraphrase, not by breach
+
+Three breaches, none of which any `lint_claims` rule could see, because R1–R5 match *phrases*:
+
+| route / file | the words | why it breaches |
+|---|---|---|
+| RT-ICI-TKI | *"an approved combination … is **the shortest path to a patient that exists**"* | clinical readiness, on real approved drugs, rendered one line above `state: ready` |
+| RT-PRAME-IMMTAC | *"the reagent problem is already solved by someone else, and **the only question is whether EMC expresses the antigen**"* | collapses efficacy, safety and window into an expression question — and brenetafusp is **investigational**, not approved |
+| `fusion-junction-neoantigen-paper.md` | *"**cannot, in principle, harm any normal cell**"* | a safety claim, and the only novelty test run compares against **two parent proteins**, never the proteome |
+
+⛔ **And the last one exposed a design flaw in the linter itself.** I widened `R2-proteome-wide` to
+catch *"absent from normal proteome"* and *"harm any normal cell"* — and the second still passed,
+because `\bcannot\b` is a **DISCLAIMER MARKER**. For a safety claim the negation *is* the assertion:
+*"cannot harm any normal cell"* is stronger than *"is safe"*, and the disclaimer detector read it as a
+scope-out. Meanwhile on the same two files the linter flagged three *hedges* as errors — including the
+literal disclaimer *"Ready to publish ≠ likely to cure."* **It was strict where it should have cleared
+and blind where it should have fired.** A keyword rule enforces the sentence someone thought of, not
+the claim.
+
+### X19 · ⛔ A grade that is factually wrong for half its own route
+
+`RT-B7H3`'s grade read *"not selective (BH q = 1.0)"*. Measured in `emc-surfaceome-scan.json`:
+
+| antigen | `enrichment_vs_rest` | `selectivity_q` | verdict |
+|---|---|---|---|
+| CD276 (B7-H3) | 0.14 | **1.0** | not selective ✔ grade correct |
+| NCAM1 (CD56) | **1.74** | **0.0** | **selective** — grade wrong |
+
+CD56 is the second antigen in the route's own `display_name`. It fails on a **different axis** — the
+normal-tissue / immune window (NK cells), with a discontinued CD56 ADC precedent. Collapsing two
+antigens into one "not selective" verdict was wrong for half the route.
+
+### X20 · The retraction stopped one hop short, again
+
+`hla-coverage.json` — RT-VACCINE's and RT-TCR-IMMTAC's only artifact — is computed from the retracted
+`fusion-breakpoint-neoantigens.json` (`hla_coverage.py:57`) and carried **no banner**, though the
+producer did and the roadmap had already written *"`hla-coverage` … inherits the defect without ever
+printing a seam."* Bannered. Same shape as X14: a retraction that reaches the producer and not the
+consumer.
+
 ## What nearly went wrong in the audit itself
 
 Recorded because the next audit will hit the same traps.

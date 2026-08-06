@@ -41,7 +41,7 @@ small-molecule track pursues an NR4A3-degrader that engages the **NR4A3 ligand-b
 selective for NR4A3 over its NR4A1/2 paralogues, but **not** selective for the fusion, because that LBD is
 shared with wild-type NR4A3. This paper pursues the orthogonal, immune-level **fusion-exclusive** axis: the
 handful of residues spanning the EWSR1→NR4A3 junction form a peptide present in no normal protein, so a
-T-cell response against it spares wild-type NR4A3 entirely and cannot, in principle, harm any normal cell.
+T-cell response against it spares wild-type NR4A3 and wild-type EWSR1 at the sequence level. ⚠ It does NOT follow that no normal cell is affected: the novelty test behind this compares the junction peptides against those two parent proteins only (`fusion_breakpoints.py:231`), never against the human proteome, and no safety claim is made or supported.
 We summarise the already-committed, reproducible evidence base for this approach and frame the clinical
 modalities it enables — personalised neoantigen vaccine, TCR-T, and soluble-TCR (ImmTAC)-style products —
 without performing or asserting any new computation. Breakpoint-resolved prediction (junctions derived from
@@ -83,8 +83,8 @@ levels:
    seam) nor in wild-type NR4A3 (which begins after it). A peptide drawn across that seam is therefore both
    **tumour-exclusive** (only fusion-positive cells make it) and **fusion-exclusive** (it is absent from the
    wild-type receptor the degrader cannot avoid). If such a peptide is presented on MHC, a T-cell response
-   against it is the **cleanest possible selectivity** for EMC: it spares wild-type NR4A3, EWSR1, and every
-   normal cell, and — because the fusion is the truncal, clonal driver present in every tumour cell and
+   against it is the **cleanest possible selectivity** for EMC: it spares wild-type NR4A3 and EWSR1 at the sequence level — ⚠ NOT every
+   normal cell, which no test here has assessed, and — because the fusion is the truncal, clonal driver present in every tumour cell and
    never subclonally lost — it cannot be escaped by antigen loss the way a passenger-mutation response can.
 
 This is the rationale for an *immune-level* fusion-unique approach as a complement to the small-molecule

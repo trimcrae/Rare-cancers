@@ -51,7 +51,7 @@ Trabectedin is approved for soft-tissue sarcoma and its mechanism — interferin
 
 | ref | supports | strength |
 |---|---|---|
-| `EV-EMC-CLINICAL` | a reported EMC response to an approved agent | `direct` |
+| `ART-EMC-CLINICAL-REGISTRY` | a reported EMC response to an approved agent | `direct` |
 
 ## Remaining unknowns
 

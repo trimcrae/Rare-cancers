@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/car-t-strategies-emc.md`](../../research/manuscripts/car-t-strategies-emc.md)): Hard but not closed — among surface modalities, ADC/FAPI-RLT likely beat CAR-T to a patient
+**Grade** (owned by [`research/manuscripts/car-t-strategies-emc.md`](../../research/manuscripts/car-t-strategies-emc.md)): Hard but not closed — among surface modalities, the conjugate and radioligand forms carry the smaller build and regulatory burden; nothing here bears on efficacy in EMC
 
 ## What has to land for this route to move
 
@@ -88,7 +88,7 @@ A surface target avoids the intracellular-antigen problem entirely and CAR-T is 
 
 **`internal_note`**
 
-Blocked by the antigen search and the cold stroma rather than by the cell product. Among surface modalities, conjugates and radioligands would likely reach a patient first.
+Blocked by the antigen search and the cold stroma rather than by the cell product. Among surface modalities, conjugates and radioligands carry a smaller build and regulatory burden — a statement about development effort, not about efficacy.
 
 **Missing:**
 - a selective surface antigen
@@ -119,7 +119,7 @@ Two independent blockers, both about the tumour rather than the modality, and ot
 
 ## Closure
 
-`instrument_limit` — Blocked by the antigen search and the cold myxoid stroma, not by the cell product.
+`confound_in_the_system` — Blocked by the antigen search and the cold myxoid stroma, not by the cell product. ⚠ BLK-NOT-FUSION-SELECTIVE reads HERE as on-target/off-tumour — the antigen is shared with normal tissue — not as a paralogue margin; a CAR engages neither NR4A3 nor EWSR1.
 
 ## Best next action
 

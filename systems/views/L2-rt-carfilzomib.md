@@ -51,7 +51,7 @@ This carries the best ex-vivo EMC drug-sensitivity evidence in the repository â€
 
 | ref | supports | strength |
 |---|---|---|
-| `EV-EMC-EXVIVO` | ex-vivo drug sensitivity measured on EMC material | `direct` |
+| `EV-BANGERTER-2023` | ex-vivo drug sensitivity measured on EMC material | `direct` |
 
 ## Remaining unknowns
 

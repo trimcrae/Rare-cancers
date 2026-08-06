@@ -1344,6 +1344,18 @@
           "classification": "unaffected",
           "why_unaffected": "A migration record: it says WHERE the object was ported and WHY the rich blocks stayed here. It reads no data from the line and grounds no EMC claim.",
           "correction_marker": "identity_disputed"
+        },
+        {
+          "file": "systems/graph/artifacts.json",
+          "use": "ART-CTA-EXPRESSION's register note, which names ACH-001519 in order to say that the n=1 'myxoid' value in the CTA panel is the disputed-identity line and is NOT EMC evidence",
+          "classification": "invalidated",
+          "correction_marker": "no value in it is EMC evidence"
+        },
+        {
+          "file": "systems/graph/routes.json",
+          "use": "RT-PRAME-IMMTAC.closure_note, recording that the subtype/myxoid-proximity half of its supporting read was WITHDRAWN because it rests on this line",
+          "classification": "invalidated",
+          "correction_marker": "disputed-identity line ACH-001519"
         }
       ],
       "distinct_from": [
@@ -2778,7 +2790,8 @@
           "route": "RT-TCIP",
           "axis": "how many termini the molecule has",
           "fails_on": [
-            "BLK-FUNCTIONAL-ACTIONABILITY"
+            "BLK-FUNCTIONAL-ACTIONABILITY",
+            "BLK-INDUCED-COMPLEX"
           ],
           "why": "monovalent is strictly cleaner on the ternary axis — no second protein at all — while TCIP still inherits the induced-complex problem. The monovalent reach result therefore does not transfer to TCIP and vice versa"
         },
@@ -3099,7 +3112,7 @@
         "CD276"
       ],
       "grade": {
-        "value": "Tier 3 — already red-teamed in this repo: not selective (BH q = 1.0)",
+        "value": "Tier 3 — already red-teamed in this repo. ⚠ THE TWO ANTIGENS FAIL DIFFERENTLY: B7-H3/CD276 is NOT selective (BH q = 1.0, enrichment 0.14); CD56/NCAM1 IS selective (q = 0.0, enrichment 1.74) and fails instead on the normal-tissue / immune window (NK cells), with a discontinued CD56 ADC precedent",
         "owner": {
           "file": "research/manuscripts/emc-surface-target-landscape.md",
           "anchor": null
@@ -3162,7 +3175,7 @@
         "CAR-T for EMC"
       ],
       "grade": {
-        "value": "Hard but not closed — among surface modalities, ADC/FAPI-RLT likely beat CAR-T to a patient",
+        "value": "Hard but not closed — among surface modalities, the conjugate and radioligand forms carry the smaller build and regulatory burden; nothing here bears on efficacy in EMC",
         "owner": {
           "file": "research/manuscripts/car-t-strategies-emc.md",
           "anchor": null
@@ -3197,7 +3210,7 @@
           "fails_on": [
             "BLK-ANTIGEN-COLD"
           ],
-          "why": "⚠ TWO DIFFERENT CAR-T ROUTES. This one treats EMC with a CAR against an EMC surface antigen. The pan-NR4A pole is a MANUFACTURING ADDITIVE applied ex vivo to the T cells, where the systemic-selectivity liability does not arise at all"
+          "why": "⚠ TWO DIFFERENT CAR-T ROUTES. This one directs a CAR against an EMC surface antigen. No treatment claim is made — no antigen here has been shown to be EMC-restricted, and nothing asserts efficacy. The pan-NR4A pole is a MANUFACTURING ADDITIVE applied ex vivo to the T cells, where the systemic-selectivity liability does not arise at all"
         },
         {
           "route": "RT-B7H3",
@@ -3209,7 +3222,7 @@
           "why": "CAR-T is the modality; B7-H3 is one antigen it could use. The modality is blocked by the antigen search and by the cold myxoid stroma, not by the cell product"
         }
       ],
-      "closure_kind": "instrument_limit",
+      "closure_kind": "confound_in_the_system",
       "revival_trigger": [
         "TR-EMC-EXPRESSION-DATASET",
         "TR-EMC-MODEL-ACCESS"
@@ -3584,7 +3597,7 @@
         "sunitinib + nivolumab"
       ],
       "grade": {
-        "value": "TOP NEAR-TERM LEAD (best EMC evidence)",
+        "value": "Landscape comparator — the only approved-drug combination with any reported EMC response",
         "owner": {
           "file": "research/manuscripts/immunotherapy-options-emc.md",
           "anchor": "#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead"
@@ -3953,7 +3966,7 @@
           "route": "RT-EWSR1-PROTEIN",
           "axis": "the same liability, arrived at from a different direction",
           "fails_on": [
-            "BLK-NO-WET-LAB"
+            "BLK-NOT-FUSION-SELECTIVE"
           ],
           "why": "a NEW route to this repo, proposed as a class-wide FET handle rather than as an EWSR1-specific one"
         }
@@ -3996,7 +4009,24 @@
       "artifacts": [
         "ART-TARGET-ROUTE-CENSUS"
       ],
-      "distinct_from": [],
+      "distinct_from": [
+        {
+          "route": "RT-EWSR1-PROTEIN",
+          "axis": "which protein the collateral damage lands on",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "the EWSR1 routes relocate onto wild-type EWSR1, an essential housekeeping protein, and close definitionally with nothing computed; this one stays on NR4A3 and closes on a COMPUTED paralogue-identity ordering"
+        },
+        {
+          "route": "RT-FET-LC-LIGAND",
+          "axis": "which protein the collateral damage lands on",
+          "fails_on": [
+            "BLK-NOT-FUSION-SELECTIVE"
+          ],
+          "why": "the shared FET low-complexity half is wild-type EWSR1 sequence by definition; the DBD is NR4A3's own, and what closes this route is that the zinc finger is MORE paralogue-identical than the LBD, not that it is shared with EWSR1"
+        }
+      ],
       "closure_kind": "arithmetic_over_fixed_fact",
       "revival_trigger": [],
       "closure_note": "The zinc-finger DBD is far more conserved between the paralogues than the LBD the program already targets. An arithmetic consequence of a fixed sequence fact — never revivable."
@@ -4204,7 +4234,7 @@
           "route": "RT-SYNPROMOTER",
           "axis": "what the fusion is sensed BY",
           "fails_on": [
-            "BLK-VECTOR-DELIVERY"
+            "BLK-NOT-FUSION-SELECTIVE"
           ],
           "why": "the ribozyme senses the fusion TRANSCRIPT by base-pairing; the synthetic promoter senses the fusion PROTEIN by DNA binding — and the second fails for an EMC-specific reason the first does not (EMC lacks a neomorphic DNA-binding element)"
         }

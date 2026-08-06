@@ -332,9 +332,26 @@ RULES = [
     ),
     Rule(
         "R2-proteome-wide",
-        r"\bproteome[- ]wide selectiv\w*\b|\bselective across the proteome\b",
+        # ⛔ WIDENED 2026-08-06 by the route framing audit. The rule matched one PHRASING of the claim
+        # rather than the claim, so three live documents asserted it in other words and passed clean:
+        #   "Highest — **absent from normal proteome**"          (fusion-selective-approaches-overview.md:62)
+        #   "cannot, in principle, **harm any normal cell**"      (fusion-junction-neoantigen-paper.md:44)
+        #   "it spares wild-type NR4A3, EWSR1, and **every normal cell**"                        (:85-86)
+        # What the repo actually computes is `fusion_breakpoints.py:231` — novelty against the TWO PARENT
+        # PROTEINS (`k not in ews["protein"] and k not in nr4["protein"]`) and nothing else. No
+        # proteome-wide search has ever been run here. "Absent from the normal proteome" and "cannot harm
+        # any normal cell" are the forbidden claim plus a safety claim, in words the old regex could not
+        # see.
+        # ⚠ THE LESSON IS ABOUT REGEX RULES GENERALLY: a keyword rule enforces the sentence someone
+        # thought of, not the claim. On the same two files the linter simultaneously flagged three HEDGES
+        # as errors — including the literal disclaimer "Ready to publish ≠ likely to cure" — so it was
+        # strict where it should have cleared and blind where it should have fired.
+        r"\bproteome[- ]wide selectiv\w*\b"
+        r"|\bselective across the proteome\b"
+        r"|\babsent from (?:the )?(?:normal|human) proteome\b",
         "ERROR",
-        "never imply proteome-wide selectivity (nothing here tests off-family targets)",
+        "never imply proteome-wide selectivity or normal-cell safety — the only novelty test in this "
+        "repo compares against the two PARENT proteins (fusion_breakpoints.py:231), never the proteome",
         "roadmap Never imply proteome-wide selectivity",
         clears_on="disclaimer",
     ),

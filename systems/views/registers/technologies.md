@@ -34,9 +34,9 @@ unlabelled forecast is indistinguishable from a measurement.
 | 9 | **TECH-COFOLD-ASSEMBLY** | `structure_prediction` | `partially_landed` | 2028 | **2027** | 2026H2 | `evidence_based` | `transformative` | yes |
 | 7 | **TECH-CHEAP-ENSEMBLE** | `conformational_ensemble` | `partially_landed` | 2028 | **2027** | 2026H2 | `evidence_based` | `large` | yes |
 | 7 | **TECH-POSE-CONVERGENCE** | `structure_prediction` | `absent` | 2030 | **2028** | 2027 | `extrapolated` | `large` | yes |
+| 7 | **TECH-CLOUD-WET-LAB** | `lab_automation` | `early_signals` | beyond-2031 | **2029** | 2027H2 | `extrapolated` | `transformative` | yes |
 | 6 | **TECH-EXPOSURE-CRITERION** | `free_energy_method` | `absent` | 2029 | **2027H2** | 2026H2 | `extrapolated` | `moderate` | yes |
 | 6 | **TECH-VIRTUAL-CELL** | `foundation_model_biology` | `early_signals` | 2030 | **2028** | 2027H1 | `extrapolated` | `transformative` | yes |
-| 6 | **TECH-CLOUD-WET-LAB** | `lab_automation` | `early_signals` | beyond-2031 | **2029** | 2027H2 | `extrapolated` | `transformative` | yes |
 | 5 | **TECH-CHARGE-CHANGE-FEP** | `free_energy_method` | `absent` | 2028 | **2027** | 2026H2 | `extrapolated` | `moderate` | yes |
 | 5 | **TECH-OBSERVED-CRL** | `structure_prediction` | `absent` | beyond-2031 | **2028** | 2027 | `speculative` | `moderate` | yes |
 | 4 | **TECH-VECTOR-DELIVERY** | `lab_automation` | `absent` | beyond-2031 | **2030** | 2028 | `speculative` | `large` | yes |
@@ -231,6 +231,36 @@ as coverage.
 
 *Scanned by:* `TRG-POSE-ORIENTATION-CONVERGENCE`
 
+### TECH-CLOUD-WET-LAB — fan-out 7
+
+**A remote robotic or cloud wet lab, rentable per experiment by an unaffiliated researcher, at a price and assay scope that covers EMC cell work**
+
+*Category:* `lab_automation` · *state:* `early_signals` · *confidence in that state:* `moderate`
+
+**Why it matters.** This is the only watched capability that could flip the program's FOUNDING CONSTRAINT — that no wet lab is available, so every step must be in-silico or publish-to-convince. It would make the wet-lab-gated experiments runnable by this program rather than by a hypothetical collaborator.
+
+**What the state assessment rests on:**
+- Cloud-lab services exist commercially.
+- ⚠ A cloud lab unlocks robotic EXECUTION, not the reagents or the biology. The EMC cell line remains a separate dependency, so this flips the execution gate and not automatically the material gate.
+
+**Unblocks.** blockers: BLK-NO-WET-LAB, BLK-FUNCTIONAL-ACTIONABILITY · routes: RT-ASO-ASK, RT-ATR-PANEL, RT-COVALENT-PROBE, RT-PANNR4A-EXVIVO · requirements: R4
+
+**Forecast.**
+
+| scenario | band | confidence | rationale |
+|---|---|---|---|
+| conservative | `beyond-2031` | moderate | Existing cloud labs are enterprise-contracted and chemistry-weighted. Solo-affordable per-experiment pricing WITH cell-based assay scope is a business-model change, not a technical one, and those are slow. |
+| expected | `2029` | low | Self-driving-lab research is expanding and autonomous agents create demand for per-experiment API access. Both push toward a solo-usable offering, but the material-sourcing gate remains separate. |
+| optimistic | `2027H2` | low | A single provider opening cell-based assays at per-run pricing would satisfy the EXECUTION half immediately. Agent-driven demand is a plausible forcing function. |
+
+*Basis:* `extrapolated` · *impact here:* `transformative` · *last reviewed:* 2026-08-05
+
+**What would move this.** A cloud-lab service publishing per-experiment pricing for cell-based assays with no institutional requirement.
+
+**⚠ Adoption note.** ⚠ This flips the EXECUTION gate, not automatically the MATERIAL gate. A cloud lab supplies robots and generic reagents, never the EMC cell line — which stays coupled to the model-access dependency. Reporting this as 'the wet-lab problem solved' would be wrong in exactly the way that matters.
+
+*Scanned by:* `TRG-CLOUD-WET-LAB`
+
 ### TECH-EXPOSURE-CRITERION — fan-out 6
 
 **A solvent-exposure or thiol-reactivity criterion that recovers the one NR4A-family covalent site with literature support as engageable on a state-matched opened model**
@@ -286,36 +316,6 @@ as coverage.
 **⚠ Adoption note.** This is the dependency where the brief's caution against defaulting to conservative assumptions bites hardest. Foundation-model progress in adjacent domains has repeatedly outrun conservative forecasts; the expected band reflects that, and is deliberately not the safe answer.
 
 *Scanned by:* `TRG-VIRTUAL-CELL-NO-LINE`
-
-### TECH-CLOUD-WET-LAB — fan-out 6
-
-**A remote robotic or cloud wet lab, rentable per experiment by an unaffiliated researcher, at a price and assay scope that covers EMC cell work**
-
-*Category:* `lab_automation` · *state:* `early_signals` · *confidence in that state:* `moderate`
-
-**Why it matters.** This is the only watched capability that could flip the program's FOUNDING CONSTRAINT — that no wet lab is available, so every step must be in-silico or publish-to-convince. It would make the wet-lab-gated experiments runnable by this program rather than by a hypothetical collaborator.
-
-**What the state assessment rests on:**
-- Cloud-lab services exist commercially.
-- ⚠ A cloud lab unlocks robotic EXECUTION, not the reagents or the biology. The EMC cell line remains a separate dependency, so this flips the execution gate and not automatically the material gate.
-
-**Unblocks.** blockers: BLK-NO-WET-LAB, BLK-FUNCTIONAL-ACTIONABILITY · routes: RT-ASO-ASK, RT-ATR-PANEL, RT-COVALENT-PROBE · requirements: R4
-
-**Forecast.**
-
-| scenario | band | confidence | rationale |
-|---|---|---|---|
-| conservative | `beyond-2031` | moderate | Existing cloud labs are enterprise-contracted and chemistry-weighted. Solo-affordable per-experiment pricing WITH cell-based assay scope is a business-model change, not a technical one, and those are slow. |
-| expected | `2029` | low | Self-driving-lab research is expanding and autonomous agents create demand for per-experiment API access. Both push toward a solo-usable offering, but the material-sourcing gate remains separate. |
-| optimistic | `2027H2` | low | A single provider opening cell-based assays at per-run pricing would satisfy the EXECUTION half immediately. Agent-driven demand is a plausible forcing function. |
-
-*Basis:* `extrapolated` · *impact here:* `transformative` · *last reviewed:* 2026-08-05
-
-**What would move this.** A cloud-lab service publishing per-experiment pricing for cell-based assays with no institutional requirement.
-
-**⚠ Adoption note.** ⚠ This flips the EXECUTION gate, not automatically the MATERIAL gate. A cloud lab supplies robots and generic reagents, never the EMC cell line — which stays coupled to the model-access dependency. Reporting this as 'the wet-lab problem solved' would be wrong in exactly the way that matters.
-
-*Scanned by:* `TRG-CLOUD-WET-LAB`
 
 ### TECH-CHARGE-CHANGE-FEP — fan-out 5
 

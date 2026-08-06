@@ -649,6 +649,69 @@ COVERAGE_GAPS = {
 }
 
 
+def check_supporting_evidence_refs(g, f):
+    """⭐ `supporting_evidence[].ref` must RESOLVE (added 2026-08-06 by the route framing audit).
+
+    ⛔ THE `instruments.support` LEGALITY RULE HAD A SECOND, UNGUARDED DOOR. `[V2]` polices which
+    instruments may appear in `instruments.support`, and across all 40 routes it found 0 illegal
+    entries -- the rule works. But `supporting_evidence[].ref` accepts the SAME id space and was
+    resolved by nothing: it fed only the `cited_by` derivation above, which treats an unknown id as an
+    L5 row that simply nobody cites.
+
+    What that permitted, measured on the day this was written: FOUR refs resolving to nothing at all --
+    `ART-SURFACE-EXPRESSION` (cited by three routes, and the home of the repo's headline surface-antigen
+    negative), `EV-EMC-CLINICAL` (cited by two, at `strength: direct`), `ART-JUNCTION-ASO-OFFTARGET`
+    and `EV-EMC-EXVIVO`. A `direct` strength on an id that resolves to nothing cannot be audited by
+    anyone, and the build stayed green at 0 ERROR the whole time.
+    """
+    known = set()
+    for coll in ("evidence", "artifacts", "objects", "instruments", "claims"):
+        known |= {row["id"] for row in g.get(coll, [])}
+    for r in g["routes"]:
+        for e in r.get("supporting_evidence") or []:
+            ref = e.get("ref")
+            if ref and ref not in known:
+                f.err("[V4]", f"{r['id']}.supporting_evidence names {ref}, which resolves to nothing "
+                              f"in evidence/artifacts/objects/instruments/claims. A strength label on "
+                              f"an unresolvable id cannot be audited")
+
+
+def check_revisit_trigger_reachability(g, f):
+    """⭐ A `revisit_trigger` must be able to MOVE the route (added 2026-08-06, route framing audit).
+
+    ARCHITECTURE §5.3: this field exists to convert *"let's wait"* from a feeling into a monitored
+    condition. Nothing checked that the condition, if it fired in full, would change anything.
+
+    ⛔ MEASURED: four routes waited on technologies that retire none of their blockers. The sharpest
+    were RT-VACCINE and RT-TCR-IMMTAC, which inherit ONLY `BLK-ANTIGEN-COLD` -- a
+    `fundamental_biological_limit`, permanent, retired by nothing -- while carrying a reopening
+    condition beside it. That is the conflation `taxonomy/blockers.md` forbids, and their own rendered
+    pages printed "No technology arrives to fix it" and "Revisit when: TECH-EMC-EXPRESSION-DATA (2029)"
+    sixty lines apart.
+
+    A trigger PASSES if it retires one of the route's own blockers, OR if the technology names the
+    route in `unblocks.routes`. The second arm is deliberate: `TECH-JUNCTION-PMHC` names three routes
+    and its `unblocks.blockers` is empty ON PURPOSE, because what lands there changes whether a
+    permanent blocker stays DECISIVE for them without retiring it. That is the honest shape for a
+    permanent blocker, and this check must not punish it.
+    """
+    techs = by_id(g["technologies"])
+    for r in g["routes"]:
+        inherited = set(r.get("blockers_inherited") or [])
+        for t in (r.get("timing") or {}).get("revisit_trigger") or []:
+            tech = techs.get(t)
+            if tech is None:
+                continue                      # [T*] owns unknown-id reporting
+            u = tech.get("unblocks") or {}
+            if set(u.get("blockers") or []) & inherited:
+                continue
+            if r["id"] in (u.get("routes") or []):
+                continue
+            f.err("[T7]", f"{r['id']} waits on {t}, which retires none of its blockers "
+                          f"({sorted(inherited) or 'none'}) and does not name it in unblocks.routes -- "
+                          f"the condition could fire in full and the route would still be blocked")
+
+
 def check_requirements(g, f):
     """The requirement register, and the coverage question it exists to answer.
 
@@ -1878,6 +1941,8 @@ def run_checks(g, f):
     check_code_citations(g, f)
     check_pointers(g, f)
     check_instrument_support(g, f)
+    check_supporting_evidence_refs(g, f)
+    check_revisit_trigger_reachability(g, f)
     check_compute_case(g, f)
     return f
 

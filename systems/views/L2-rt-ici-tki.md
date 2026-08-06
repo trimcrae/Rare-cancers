@@ -18,15 +18,17 @@ last_verified: 2026-08-05
 
 # RT-ICI-TKI — Checkpoint inhibitor + anti-angiogenic TKI combination
 
-**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ ready · concept · confidence moderate · verified 2026-08-05
+**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ delegated · concept · confidence moderate · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/immunotherapy-options-emc.md`](../../research/manuscripts/immunotherapy-options-emc.md#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead)): TOP NEAR-TERM LEAD (best EMC evidence)
+**Grade** (owned by [`research/manuscripts/immunotherapy-options-emc.md`](../../research/manuscripts/immunotherapy-options-emc.md#2-checkpoint-inhibitor--anti-angiogenic-tki-combination--real-emc-signal-new-lead)): Landscape comparator — the only approved-drug combination with any reported EMC response
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
   RT_ICI_TKI["○ RT-ICI-TKI"]:::fam
+  BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
+  BLK_ANTIGEN_COLD --> RT_ICI_TKI
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_ICI_TKI
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -41,17 +43,19 @@ flowchart LR
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
 
+⛔ **1 of these is permanent** (`BLK-ANTIGEN-COLD`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
+
 ✓ Already cleared by this route: `BLK-NOT-FUSION-SELECTIVE`, `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
 
 ## Scientific rationale
 
-This carries the best actual EMC clinical signal on the board, and both components are approved drugs. For an ultra-rare disease with no targeted agent, an approved combination with a reported signal is the shortest path to a patient that exists.
+Both components are approved for OTHER indications, and one EMC partial responder is reported within a mixed-sarcoma phase-II. This route is the landscape COMPARATOR, not a contribution of this program. ⚠ No efficacy, safety, eligibility or clinical-readiness claim is made for EMC — this repo's own validated clinical registry records checkpoint inhibitors as NOT systematically active in EMC, with only isolated responses.
 
 ## Supporting evidence
 
 | ref | supports | strength |
 |---|---|---|
-| `EV-EMC-CLINICAL` | the best reported EMC clinical signal among the routes examined | `direct` |
+| `ART-EMC-CLINICAL-REGISTRY` | one reported EMC partial responder within a mixed-sarcoma phase-II; the combination's activity data come from OTHER sarcomas, and the multi-patient EMC evidence in the registry belongs to the TKI half alone | `transferred` |
 
 ## Remaining unknowns
 
@@ -68,6 +72,7 @@ This carries the best actual EMC clinical signal on the board, and both componen
 
 | blocker | kind | what would retire it |
 |---|---|---|
+| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | *permanent* |
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 
 ## Blockers this route RETIRES
@@ -80,7 +85,7 @@ This carries the best actual EMC clinical signal on the board, and both componen
 
 **`internal_note`**
 
-This is clinical evidence synthesis, not computation, and this program's contribution to it is limited. It belongs in the landscape context of a paper rather than as a result of its own.
+This is clinical evidence synthesis, not computation, and this program's contribution to it is limited. It belongs in the landscape context of a paper rather than as a result of its own. ⚠ 'ready' previously read as ready-as-a-treatment on a nivolumab+sunitinib route; it is ready only as a paragraph of a paper.
 
 **Missing:**
 - a larger clinical series

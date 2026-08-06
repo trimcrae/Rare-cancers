@@ -55,7 +55,7 @@ The synovial-sarcoma precedent shows the approach works in a translocation sarco
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-SURFACE-EXPRESSION` | EMC is cancer-testis-antigen-low on the available measured data | `surrogate` |
+| `ART-CTA-EXPRESSION` | EMC is cancer-testis-antigen-low on the available measured data | `surrogate` |
 
 ## Remaining unknowns
 

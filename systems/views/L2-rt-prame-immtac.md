@@ -27,6 +27,8 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   RT_PRAME_IMMTAC["○ RT-PRAME-IMMTAC"]:::fam
+  BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
+  BLK_ANTIGEN_COLD --> RT_PRAME_IMMTAC
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_PRAME_IMMTAC
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -43,19 +45,19 @@ flowchart LR
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
 
-⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
+⛔ **2 of these are permanent** (`BLK-ANTIGEN-COLD`, `BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
 
 ✓ Already cleared by this route: `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
 
 ## Scientific rationale
 
-Unlike the junction neoantigen, this uses an antigen with an existing clinical-stage agent — so the reagent problem is already solved by someone else, and the only question is whether EMC expresses the antigen. That makes it the cheapest antigen-directed route to test.
+This uses an antigen with an existing clinical-stage agent, so the reagent problem is not ours to solve. ⚠ Whether EMC expresses AND PRESENTS the antigen is unanswered, and expression alone would not establish applicability — brenetafusp reads a specific peptide-HLA (SLLQHLIGL/HLA-A*02:01), and the agent is INVESTIGATIONAL, not approved. No efficacy, safety or eligibility claim is made for EMC.
 
 ## Supporting evidence
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-SURFACE-EXPRESSION` | surrogate expression came back favourable, unlike every other cancer-testis antigen examined | `surrogate` |
+| `ART-CTA-EXPRESSION` | surrogate expression came back favourable, unlike every other cancer-testis antigen examined | `surrogate` |
 
 ## Remaining unknowns
 
@@ -72,6 +74,7 @@ Unlike the junction neoantigen, this uses an antigen with an existing clinical-s
 
 | blocker | kind | what would retire it |
 |---|---|---|
+| **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | *permanent* |
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
 
@@ -91,7 +94,7 @@ Unlike the junction neoantigen, this uses an antigen with an existing clinical-s
 
 **`experimental_proposal`**
 
-The reagent exists clinically and the computational case is made, so what remains is a confirmation, not a discovery. That makes it a proposal rather than a paper.
+The reagent exists clinically and an expression read on EMC tissue is owed; presentation on HLA-A*02:01 is a separate and unaddressed question. That makes it a proposal rather than a paper.
 
 **Missing:**
 - expression confirmation on EMC tissue

@@ -55,8 +55,11 @@ flowchart LR
   ST_IMMUNO --> RT_VACCINE
 
   BLK_ANTIGEN_COLD[["BLK-ANTIGEN-COLD — EMC is antigen-cold, and the fusion ju…"]]:::perm
+  BLK_ANTIGEN_COLD --> RT_B7H3
   BLK_ANTIGEN_COLD --> RT_CART_SURFACE
+  BLK_ANTIGEN_COLD --> RT_ICI_TKI
   BLK_ANTIGEN_COLD --> RT_JUNCTION_NEOANTIGEN
+  BLK_ANTIGEN_COLD --> RT_PRAME_IMMTAC
   BLK_ANTIGEN_COLD --> RT_TCR_IMMTAC
   BLK_ANTIGEN_COLD --> RT_TCRT_CTA
   BLK_ANTIGEN_COLD --> RT_VACCINE
@@ -64,6 +67,7 @@ flowchart LR
   BLK_NO_EMC_DATA --> RT_B7H3
   BLK_NO_EMC_DATA --> RT_CART_SURFACE
   BLK_NO_EMC_DATA --> RT_ICI_TKI
+  BLK_NO_EMC_DATA --> RT_JUNCTION_NEOANTIGEN
   BLK_NO_EMC_DATA --> RT_PRAME_IMMTAC
   BLK_NO_EMC_DATA --> RT_TCRT_CTA
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
@@ -86,7 +90,7 @@ flowchart LR
 |---|---|---|---|---|
 | **[RT-B7H3](L2-rt-b7h3.md)**<br/>B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T | ✓ parked | computed | `internal_note` | Keep registered with the surrogate caveat attached to the negative. |
 | **[RT-CART-SURFACE](L2-rt-cart-surface.md)**<br/>CAR-T for EMC (surface-directed) | ✓ blocked | computed | `internal_note` | Keep registered. The antigen search re-runs automatically when EMC expression data lands. |
-| **[RT-ICI-TKI](L2-rt-ici-tki.md)**<br/>Checkpoint inhibitor + anti-angiogenic TKI combination | ○ ready | concept | `internal_note` | Keep as landscape context, cited and never overstated. It is the comparator, not a contribution. |
+| **[RT-ICI-TKI](L2-rt-ici-tki.md)**<br/>Checkpoint inhibitor + anti-angiogenic TKI combination | ○ delegated | concept | `internal_note` | Keep as landscape context, cited and never overstated. It is the comparator, not a contribution. |
 | **[RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md)**<br/>Fusion-junction neoantigen (the antigen, shared by three delivery routes) | ✓ blocked | computed | `internal_note` | Regenerate the junction-neoantigen predictions against the corrected exon index, then re-grade. Every predicte |
 | **[RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md)**<br/>Ex-vivo pan-NR4A pole (CAR-T manufacturing additive) | ✓ ready | computed | `preprint` | Use it more prominently as the argument that the family's chemistry has a use that does not depend on solving  |
 | **[RT-PRAME-IMMTAC](L2-rt-prame-immtac.md)**<br/>PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR | ○ blocked | computed | `experimental_proposal` | Include in the collaborator ask: an expression confirm on EMC tissue is small, and the therapeutic already exi |

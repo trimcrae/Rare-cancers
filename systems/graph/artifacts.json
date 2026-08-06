@@ -190,5 +190,26 @@
       "claude/emc-repository-systems-redesign-07a1h7"
     ],
     "note": "Owed and produced by LANE-8. The frozen-criteria degeneracy and power analysis that runs beside the pre-spend audit. ⭐ Registered 2026-08-05: [W5] caught it within minutes of LANE-8 being registered, which is the check working on its first unseen case."
+  },
+  {
+    "id": "ART-SURFACE-EXPRESSION",
+    "name": "EMC surfaceome expression + selectivity screen",
+    "path": "research/modalities/emc-surfaceome-scan.json",
+    "produced_by": "research/modalities/emc_surfaceome_scan.py",
+    "note": "⛔ REGISTERED 2026-08-06 by the route framing audit. RT-B7H3, RT-PRAME-IMMTAC and RT-TCRT-CTA all cited this id in `supporting_evidence` while it existed in NO register — `supporting_evidence[].ref` is existence-checked by nothing (audit X10), so the repo's headline surface-antigen negative had no traceable artifact. ⚠ Read the per-gene fields, not a summary: CD276 selectivity_q = 1.0 (NOT selective) but NCAM1 selectivity_q = 0.0, enrichment_vs_rest 1.74 (selective). CD56 fails on the normal-tissue/immune window, NOT on selectivity."
+  },
+  {
+    "id": "ART-CTA-EXPRESSION",
+    "name": "Cta Expression",
+    "path": "research/modalities/depmap-target-expression.json",
+    "produced_by": "research/modalities/depmap_target_expression.py",
+    "note": "⛔ SPLIT OUT 2026-08-06 by the route framing audit. RT-PRAME-IMMTAC and RT-TCRT-CTA cited ART-SURFACE-EXPRESSION for cancer-testis-antigen expression, while RT-B7H3 cited the SAME id for the surfaceome selectivity screen — one id for two different artifacts, which is rule 1's failure in miniature. This is the CTA read: PRAME sarcoma_frac_expressed 0.53 vs MAGEA4 0.07, CTAG1B 0.05. ⚠ 131 SARCOMA lines, ZERO EMC lines — 'EMC is CTA-low' is a CLASS read and may only be cited at strength `surrogate`. The n=1 'myxoid' value is the disputed-identity line ACH-001519; the artifact's own _identity_correction says no value in it is EMC evidence."
+  },
+  {
+    "id": "ART-JUNCTION-ASO-OFFTARGET",
+    "name": "Junction Aso Offtarget",
+    "path": "research/modalities/junction-aso-offtarget-e12n3.json",
+    "produced_by": "research/modalities/junction_aso_offtarget.py",
+    "note": "⛔ REGISTERED 2026-08-06 by the route framing audit; RT-ASO cited this id at strength `direct` while it resolved to nothing. ⚠ CARRIES ⛔_RETRACTED_SEAM — computed on the pre-correction exon index (NR4A3 resuming at residue 361 against a corrected range of [1,1]). Not quotable until regenerated."
   }
 ]
