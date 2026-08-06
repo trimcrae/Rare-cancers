@@ -40,8 +40,11 @@ _backfilled: true
 > deliver a candidate?** — and re-ranks on the axes the degrader program's failure record says matter. It does
 > **not** supersede the two axes here; it adds a third question (what produces a *testable* candidate now) and
 > its answer changes what to start next, not what to tell a patient. The two routes it introduced —
-> ATR-inhibitor synthetic lethality via EMC's FET rearrangement, and trabectedin + PPARγ — are now IN the
-> table below; it also closes two routes, recorded on the [board](../IDEAS.md) and in the roadmap's §6a register.
+> ATR-inhibitor synthetic lethality via EMC's FET rearrangement, and trabectedin + PPARγ — ⚠ **only the FIRST
+> is in the table below.** The table has separate pre-existing "Trabectedin (± RT / combo)" and "PPARG
+> modulation (TZDs)" rows; neither is the COMBINATION route (that memo's route 6, its Tier 2 rank 5), and a
+> combination is not the conjunction of two rows that each ignore the other. *Superseded, retained: "are now
+> IN the table below".* it also closes two routes, recorded on the [board](../IDEAS.md) and in the roadmap's §6a register.
 >
 > ⚠ **THAT MEMO'S RANKING WAS CORRECTED THE SAME DAY — quote its current tiers, not its first ones.** Its
 > original axis graded the wet-lab ask on **cheapness**, which assumes a collaborator with a bench that this
@@ -142,7 +145,10 @@ routes** (Axis B) but the **furthest from a patient** (Axis A). Collapsing both 
 made the old "Tier 1/2/3" labels inconsistent across documents. So we score every route on **both
 axes** and let the reader weight whichever they care about — a clinician seeking the next option
 leans on Axis A; a scientist or developer choosing where the field should invest leans on Axis B.
-*(This table mirrors the one in the active manuscript, `emc-treatment-roadmap.md` §3.)*
+*(This table and `emc-treatment-roadmap.md` §3 cover the same portfolio; ⚠ **they are no longer identical** —
+this one leads with an **ATR-inhibitor row** added 2026-08-03 that §3 does not contain. Where they differ on a
+route's grade, THIS file owns it. Superseded, retained: "This table **mirrors** the one in the active
+manuscript" — a mirror claim is checkable and this one stopped being true the day the ATR row landed.)*
 
 | Route | **Axis A — near-term readiness** | **Axis B — driver-directedness** |
 |---|---|---|
@@ -234,10 +240,17 @@ called out explicitly — *grouping is not a combined rank; read both axes off t
 > handles** (L406, T407, T410, R412, I484, I531, L534). So the warhead plan is **unchanged** from the
 > original: a borderline-druggable orthosteric pocket (0.495, just under the conventional 0.5 cutoff)
 > that *also* holds the selectivity — druggability and selectivity coincide here, the favourable case.
-> - The **make-or-break in-silico test stands:** per-frame fpocket druggability over the cryptic-pocket
->   MD/metadynamics — does breathing push the borderline 0.495 pocket **≥0.5** (cryptic opening, route
->   live) or collapse it (route weakened)? This is wired into `nr4a3_mdpocket.py` and is what the
->   metadynamics run reads out.
+> - ✅ **The make-or-break in-silico test RAN AND ANSWERED — breathing does push it open.** Per-frame
+>   fpocket druggability over the cryptic-pocket MD/metadynamics, harmonized re-read 2026-07-11
+>   ([`../modalities/nr4a3-pocket-reharmonize-summary.json`](../modalities/nr4a3-pocket-reharmonize-summary.json),
+>   D\* = 0.53): **metad 0.68**, release rep0/rep1/rep2 **0.56 / 0.40 / 0.80**, **pooled 44/75 = 0.587**,
+>   against the experimental 8XTT NMR ensemble at 0.15. So the borderline 0.495 static pocket is druggable in
+>   the majority of unbiased frames — cryptic opening, route live.
+>   ⚠ *Superseded, retained: "The make-or-break in-silico test **stands** … is what the metadynamics run reads
+>   out" — present tense for a test that ran on 2026-06-29 and was re-read on 2026-07-11.*
+>   ⛔ **What this does NOT settle, and must not be read as settling:** whether that state is reachable at
+>   equilibrium. That is Gate 3B, and it is **unresolved** — the single-trajectory ~0.6 kcal/mol estimate is
+>   withdrawn (three independent-seed replicas do not reconstruct a common F(Rg)).
 > - The small-molecule orthosteric warhead **remains the lead**; the de-novo protein binder and
 >   junction ASO stay as the pocket-independent backups they always were (not promoted to co-lead).
 - **CAR-T** (B7-H3 / CD56 ± TKI; armored / SynNotch-logic-gated / allogeneic). Same surface-target
@@ -274,6 +287,24 @@ called out explicitly — *grouping is not a combined rank; read both axes off t
 Almost every route is gated by the same thing: **EMC-specific data we can't generate experimentally.**
 The methodical response is to get as far as possible in-silico / from existing public data, and to
 make the residual the explicit subject of a publish-to-convince paper:
+
+> ⭐ **READ THE ★ ITEMS BELOW AS A COMPLETED-WORK REGISTER, NOT A TO-DO LIST (corrected 2026-08-06).**
+> ⚠ *Superseded, retained: this section and the "Generate new in-silico evidence" list below were written
+> as work still to be started, and stayed that way after five of them were built and run:*
+> - **surfaceome / target-expression screen** — BUILT and RUN: `emc_surfaceome_scan.py` →
+>   `emc-surfaceome-scan.json`, written up in
+>   [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md). ⛔ And it returned a NEGATIVE
+>   that this file now carries on its own rows: B7-H3/CD276 and FAP are **not** class-selective, BH q = 1.0.
+> - **public-data expression mining** — `depmap_target_expression.py`; two readable EMC series were found
+>   and used for the ATR assessment's part B.
+> - **fusion-addiction argument case** — built from DepMap (FLI1 in Ewing, −0.93 / 74% dependent).
+> - **de-novo warhead design** — the DiffSBDD campaign ran; its lead and the three 2026-08-03 results that
+>   refute the campaign's foundations are in
+>   [`../modalities/nr4a3-degrader-next-steps.md`](../modalities/nr4a3-degrader-next-steps.md).
+> - **AF3 of a fusion↔E3 interface** — the Boltz-2 CRBN ternary ran; rung `5b-T`'s gate returns `NO-GO`.
+>
+> **Each is kept below because the RATIONALE is still the right rationale.** What changed is that they are
+> answers now, and two of the answers are negatives — which is exactly what a to-do list cannot show.
 
 - **Target expression (B7-H3, CD56, FAP, PPARG):** mine **public proteomics/transcriptomics** —
   Human Protein Atlas, ProteomicsDB, and public sarcoma/EMC RNA-seq (GEO/SRA), plus the nearest
@@ -322,6 +353,12 @@ Mining DepMap 24Q4 with sarcoma lines as the EMC surrogate (pipeline validated o
 - **Publish-to-convince, now:** an EMC treatment-landscape / hypothesis paper built on this tracker —
   it makes the case for the clinical leads (TKI+ICI, trabectedin, carfilzomib) *and* the novel
   mechanism (NR4A3 degrader), with explicit decisive experiments for others to run. This is the
+  ⚠ *Superseded, retained, and it contradicted this file twice over: this passage called the landscape/
+  hypothesis paper "the **#1 deliverable** and the repo's reason to exist", while the Q1 list a few lines
+  below files the same paper as "**Next tier (not first)**". CLAUDE.md §5 names ONE deliverable — the
+  NR4A3 degrader paper + its SI — and `emc-post-degrader-options.md`'s Tier 1 rank 1 is the methods paper on
+  the degrader program's failure record, with the roadmap paper nowhere in Tier 1. The ordering of record is
+  that memo's Tier 1; this section describes a route's WRITE-UP, not the repo's priority.*
   #1 deliverable and the repo's reason to exist.
 - **Generate new in-silico evidence:** the NR4A3-degrader warhead design + the public-data expression
   calls + the surfaceome screen — the parts where *we* can move the needle, not just argue.
@@ -346,7 +383,11 @@ first*. The two priorities:
    favorability scan (the canonical junction is GC-rich/specificity-poor, but **62% of modelled breakpoints
    are favorable**) → a **gap-mismatch-resolved** off-target screen that finds **predicted-clean gapmers
    (2/5) at a favorable breakpoint** — plus a reusable specificity workflow that generalizes to any
-   recurrent-fusion ASO. **Delivery is its one remaining gate.** Rationale for elevating it over the
+   recurrent-fusion ASO. **Delivery is a stated limitation INSIDE the deliverable, not a gate on posting it.**
+   ⚠ *Superseded, retained: "Delivery is its one remaining gate." `emc-post-degrader-options.md` Tier 1
+   rank 2 says the opposite in terms — the delivery gate is stated honestly inside the deliverable rather
+   than being a precondition for having one, and the open GPU item is "an upgrade, not a gate on
+   posting". Treating it as a gate is what keeps a finished deliverable unposted.* Rationale for elevating it over the
    roadmap/program paper: it is a self-contained *result + method*, it is the highest-likelihood-of-working
    fusion-exclusive route, and it pairs naturally with the degrader (the degrader spares the paralogues; the
    ASO spares wild-type NR4A3 — the next selectivity tier). **Next tier (not first):** the
@@ -494,15 +535,14 @@ at `research/method-watch.md`. Reuses the repo's scheduled-probe pattern (`fetch
   — *virtual cell / perturbation prediction, AlphaFold3 / Boltz / Chai, RFdiffusion, de-novo binder
   design, cryptic pocket, in-silico oligo/nanoparticle tumour-DELIVERY prediction, NR4A3* — emitting
   a **digest** for the next agent/human to triage.
-- A **capability → action trigger table** (canonical copy in `research/method-watch.md`):
-
-  | When this capability becomes usable | …re-run this |
-  |---|---|
-  | virtual-cell predicts held-out knockdown phenotype | EMC fusion-dependence (the degrader make-or-break) |
-  | open AF3-class ternary-complex prediction | NR4A3–PROTAC–E3 degradability geometry |
-  | reliable structure-based generative + selectivity scoring | NR4A3 warhead design (using `nr4a-selectivity.json` handles) |
-  | in-silico oligo/nanoparticle tumour-delivery predictor | score the B7-H3-targeted junction-siRNA/AOC delivery → re-grade the ASO route (its gate) |
-  | improved perturbation/DepMap-transfer models | re-test synth-lethal / nominate new dependencies |
+- A **capability → action trigger table** — ⛔ **NOT REPRODUCED HERE.** One home:
+  [`research/method-watch.md`](../method-watch.md), whose table has **16 rows**.
+  ⚠ *Superseded, retained: a five-row copy of it lived here under the words "canonical copy in
+  `research/method-watch.md`" — naming the canonical home and then duplicating it anyway, which is rule 1's
+  exact failure. It had already gone stale in the way that matters: it recorded NEITHER of the two triggers
+  that have FIRED — the AF3-class ternary row (⚠ PARTIALLY FIRED 2026-07-13, with a DeepTernary adoption
+  decision behind it) and the cheap-ensemble row (✅ FIRED 2026-07-24, BioEmu). A duplicate of a watch list
+  that silently drops its fired entries is worse than no copy.*
 
 - **Keep pipelines modular** so a new model swaps in cheaply (structure step AF2→AF3/Boltz; design
   step already separated from scoring). Pin versions, document the upgrade path.
