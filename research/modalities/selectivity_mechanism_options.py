@@ -34,7 +34,11 @@ THE THREE STRUCTURAL LESSONS THE GRADING APPLIES (all from the roadmap's own rec
 WHAT IS MEASURED HERE (new facts; this file is their one home)
 --------------------------------------------------------------
   M1  Matched-ensemble transfer-zone lysine coverage, all three paralogues, like-for-like.
-  M2  A residue-class sweep for paralogue-unique reactive residues — 9 classes, not the 2 ever swept before.
+  M2  A residue-class sweep for paralogue-unique reactive residues — every class in `CLASS_CHEMISTRY`, not
+      the 2 ever swept before. ⚠ *Superseded, retained: "9 classes". `CLASS_CHEMISTRY` has held ELEVEN since
+      His and Trp were added, and every string M2 emits says 11; only this header still said 9. A count
+      typed into a docstring beside the dict that owns it is a second home by construction (rule 1), so it
+      now points at the dict instead of restating it.*
   M3  Steric-exclusion (negative-design) test at the 10 Pocket-5 lining positions, WITH its null.
   M4  The decisive control for M3: where the paralogue's own docking puts the same 13 molecules.
   M5  Pocket-opening comparison — do the paralogues reach the NR4A3 druggable CV at all?

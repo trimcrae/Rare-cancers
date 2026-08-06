@@ -508,6 +508,13 @@ design → gap-resolved BLAST → uncapped full-transcriptome eval — on the tw
 [`aso-insilico-evaluation-e12n3.json`](../modalities/aso-insilico-evaluation-e12n3.json), and the `-e7n3`
 counterparts). Both share the NR4A3 exon-3 right-side seam (`…|TTGTCCGTACAG`), as expected.
 
+> ⛔ **THIS IS THE SENTENCE THAT HID THE DEFECT, AND IT IS KEPT HERE FOR THAT REASON.** `TTGTCCGTACAG`
+> is NR4A3 CDS nt 1081–1092, i.e. the chimera resuming at residue 361. The two panels shared it
+> because **one defect produced both**, not because two independent constructions converged — and
+> "as expected" turned that shared error into apparent corroboration. The EWSR1 side, which *was*
+> correct, is what made the agreement look like a check. **Agreement between two artifacts is
+> evidence only when they can fail independently.**
+
 Two findings, one of them important and positive:
 
 - **The GC-rich "chemistry problem" was largely an artifact of the non-real reference junction.** At the
@@ -562,6 +569,17 @@ Three honest readings of the panel:
   recurrent set) is a to-verify, not a claim that e11:3 does not occur. [citation to verify] for the exact e11
   boundary.
 
+  > ⛔ **ROOT-CAUSED 2026-08-06, AND THE "most likely" ABOVE WAS WRONG.** Nothing about exon 11's
+  > boundary is uncertain. Under the defective index NR4A3 resumed at CDS nt 1081, so the chimeric CDS
+  > is in frame exactly when the EWSR1 cut offset ≡ 1081 ≡ 1 (mod 3). From the committed exon audit
+  > ([`nr4a3-exon-audit.json`](../modalities/nr4a3-exon-audit.json)): e7 793 ≡ 1, e9 1012 ≡ 1,
+  > e10 1045 ≡ 1, e12 1294 ≡ 1, e13 1417 ≡ 1 — **and e11 1164 ≡ 0.** The junctions the pipeline
+  > emitted and the one it refused are exactly what the off-by-two predicts, with no residual.
+  > **A self-check firing is a diagnostic, not a footnote.** This one was the only place the defect
+  > surfaced on its own, and it was recorded as an exon-boundary to-verify instead of being chased —
+  > the failure CLAUDE.md §4 exists to prevent ("if you catch yourself writing *most likely* about a
+  > failure, stop and go get the data"). The data was on disk the whole time and cost nothing to read.
+
 **Reading.** Run across the *real* recurrent seams, the route is **more feasible on chemistry** than the
 modelled reference implied (real junctions 37–62% GC, not 75–81%) but **less uniformly clean than E7::N3 alone
 suggested**: a fully-clean 16-mer gapmer appears at 1 of 5 junctions, off-target load (not GC) is the operative
@@ -570,6 +588,14 @@ carrying E10::N3 and the most-common E12::N3, gapmers carrying E7/E9. Honest bou
 validated (same gap-mismatch heuristic, §3a-quater; the GPU RNase-H1 experiment of §8 would firm it), these are
 the *canonical-transcript* exon junctions (a real patient's design must still come from their sequenced
 breakpoint), E11::N3 is unverified, and delivery (§3c) remains the dominant gate.
+
+> ⛔ **THIS "Reading" IS RETRACTED WITH THE SECTION.** Nothing in it stands: "real junctions
+> 37–62% GC", "a fully-clean 16-mer gapmer appears at 1 of 5 junctions", "gapmer + siRNA together
+> cover the panel", and the E7/E9/E10/E12/E13 attributions all derive from the retracted seam, and
+> three of the five junctions' files do not exist. ⚠ **The comparison it draws is the most
+> dangerous part** — it tells a reader the modelled-junction chemistry problem is an artifact of
+> the modelled position. That comparison is now unsupported in both directions: **the corrected
+> real-junction GC values are UNKNOWN.**
 
 ### 3b. What is specifiable now, without any GPU
 
@@ -797,11 +823,13 @@ public EMC-tumour microarray `GSE4303` — is done, §3c; author-held line data 
   hand-chosen thresholds, so 62% is an **upper bound on *designable* positions, not a real-patient breakpoint
   frequency**; (ii) "favorable" requires only that a triage-passing in-band design *exists* — and triage is
   **not** the off-target screen (the 200/8 worked example shows the scan's own in-band pick failing the BLAST
-  screen, §3a-ter/§3a-quater). Caveat (iii) — that the screens had only run on modelled positions — has now
-  been **addressed**: the full pipeline was run on the real EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions
-  (§3a-quinquies), which are more GC-favorable than the modelled grid and yield a predicted-clean gapmer at
-  E7::N3 (E12::N3 needs per-oligo selection). Every clinical design must still be re-derived from the
-  patient's *sequenced* fusion transcript.
+  screen, §3a-ter/§3a-quater). ⛔ **Caveat (iii) — that the screens had only run on modelled positions —
+  is OPEN, not addressed.** *Superseded, retained: "has now been **addressed**: the full pipeline was
+  run on the real EWSR1 exon-12/exon-7 :: NR4A3 exon-3 junctions (§3a-quinquies), which are more
+  GC-favorable than the modelled grid and yield a predicted-clean gapmer at E7::N3 (E12::N3 needs
+  per-oligo selection)."* Those runs used a seam graded `SEAM_NOT_PRODUCED`, so **every screen in this
+  manuscript has still only run on modelled positions.** Every clinical design must still be
+  re-derived from the patient's *sequenced* fusion transcript.
 - **Delivery unsolved.** No validated tumour-delivery route for EMC exists; §3c lists hypotheses only. This
   is the dominant risk for the whole modality.
 - **Knockdown, not knockout.** ASO/siRNA reduce transcript; they do not eliminate the gene or guarantee
@@ -939,6 +967,12 @@ To verify (do **not** treat as established until sourced):
 - Rank-order of recurrent EMC exon junctions (the commonly reported **EWSR1 exon-7/12 :: NR4A3 exon-3**
   fusion) — **[citation to verify]**; the in-repo companion ([`novel-modalities.md`](./novel-modalities.md)
   §3.3) resolves EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3 from Ensembl exon structure.
+  ⛔ **That companion is itself downstream of the retracted exon index.** The seven junctions it
+  resolved are the seven `fusion-neoantigen-retraction.json` grades — six `SEAM_NOT_PRODUCED`, one
+  `SEAM_RELABELLED`, **zero with a reproduced NR4A3 label**. What survives is only the *declared
+  window* (`fusion_breakpoints.EWSR1_EXON_WINDOW` / `NR4A3_EXON_WINDOW`), which is a literature input,
+  not a derived result. **So this line's citation flag is not optional bookkeeping: the exon rank-order
+  now has no in-repo support at all and rests entirely on the unfetched primary literature.**
 - Quantitative RNase-H1 tolerance of a single **gap-internal** mismatch (the basis of the "gap mismatch ⇒
   non-cleaving" heuristic used in §3a-quater) — **[citation to verify]**.
 - Specific non-EWSR1/FET recurrent-fusion cancers as platform extensions — **[citation to verify]** per indication.
@@ -968,19 +1002,25 @@ refreshed by GitHub Actions on the `modalities-cache` branch):
   **uncapped** full-RefSeq off-target + accessibility + siRNA-seed evaluation re-run on the same favorable
   breakpoint (4 of 5 gapmers with zero ≤1-mismatch off-targets), from
   [`aso_insilico.py`](../modalities/aso_insilico.py) (breakpoint-parameterised via env).
-- **Real clinical junctions — full recurrent panel (§3a-quinquies):**
-  `junction-aso-designs-{e7n3,e9n3,e10n3,e12n3,e13n3}.json`,
+- ⛔ **Real clinical junctions — RETRACTED, AND THREE FIFTHS OF IT NEVER EXISTED (§3a-quinquies).**
+  *Superseded, retained:* `junction-aso-designs-{e7n3,e9n3,e10n3,e12n3,e13n3}.json`,
   `junction-aso-offtarget-{e7n3,e9n3,e10n3,e12n3,e13n3}.json`,
-  `aso-insilico-evaluation-{e7n3,e9n3,e10n3,e12n3,e13n3}.json` — design + gap-resolved BLAST + uncapped eval on
-  the real EWSR1 exon-7/9/10/12/13 :: NR4A3 exon-3 junctions, built exon-exact from Ensembl MANE structure via
-  `FUSION_JUNCTION_MODE=real` in [`junction_aso.py`](../modalities/junction_aso.py) (reusing
-  [`fusion_breakpoints.py`](../modalities/fusion_breakpoints.py)`.gene_model`, self-checked
-  `translate(CDS)==protein`; e11:3 produced no output — in-frame check, flagged in §3a-quinquies). The designs
-  now carry the **`gap_specificity_margin`** (gap-level discriminator, §2a/§3b.1).
-- **siRNA on the real junctions:** `junction-sirna-designs-{e7n3,e9n3,e10n3,e12n3,e13n3}.json` — the
-  GC-tolerant route re-run per real junction via `FUSION_JUNCTION_MODE=real` in
-  [`junction_sirna.py`](../modalities/junction_sirna.py); 3/5 guides pass at E10::N3 and the most-common
-  E12::N3 (min GC 42.1%), 0/5 at E7/E9/E13 — the gapmer↔siRNA complementarity of §3a-quinquies.
+  `aso-insilico-evaluation-{e7n3,e9n3,e10n3,e12n3,e13n3}.json`,
+  `junction-sirna-designs-{e7n3,e9n3,e10n3,e12n3,e13n3}.json`, *and the claims attached to them (3/5
+  siRNA guides passing at E10::N3 and E12::N3 at min GC 42.1%, 0/5 at E7/E9/E13, and the gapmer↔siRNA
+  complementarity conclusion).*
+  **Measured 2026-08-06 — what is actually on disk:** exactly six files,
+  `junction-aso-designs-e{7,12}n3.json`, `junction-aso-offtarget-e{7,12}n3.json` and
+  `aso-insilico-evaluation-e{7,12}n3.json`, **all six carrying a `_RETRACTED_SEAM` banner.** The
+  `e9n3`, `e10n3` and `e13n3` variants and **every** exon-mode siRNA file are absent from
+  `origin/main`, from `origin/modalities-cache` and from every commit reachable in this clone.
+  A citation to a file that does not exist cannot be checked by a reader and must not appear in a
+  manuscript; these are withdrawn as unverifiable **independently of** the seam defect, which
+  separately retracts the two panels that do exist. The e11:3 no-output is root-caused in
+  §3a-quinquies and is not an exon-boundary uncertainty.
+  ⚠ *One thing here was never in doubt and is not withdrawn:* the `gap_specificity_margin`
+  gap-level discriminator (§2a/§3b.1) is a property of `junction_aso.design()` and is independent of
+  which seam it is given.
 - **EMC surfaceome scan (§3c):** [`emc-surfaceome-scan.json`](../modalities/emc-surfaceome-scan.json) (+ `.png`)
   from [`emc_surfaceome_scan.py`](../modalities/emc_surfaceome_scan.py) — unbiased UniProt surfaceome (2,820
   genes) ranked by expression across the EMC-surrogate translocation-sarcoma DepMap class; names a data-ranked

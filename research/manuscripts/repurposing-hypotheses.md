@@ -205,13 +205,13 @@ full detail, strongest evidence first:
 |---|---|---|
 | **Imatinib** — *KIT*-mutant subset (KIT) | **Clinical** — 1 patient, 3-yr stable disease | **No** — already reported |
 | **VEGFR-TKIs**: regorafenib, cabozantinib, lenvatinib, nintedanib, sorafenib, axitinib, vandetanib, tivozanib (angiogenesis) | **Clinical, class-level** — pazopanib/sunitinib are active in EMC; these specific agents are untested extensions | Partly |
-| **Zaltoprofen → pioglitazone** (PPARγ / lineage) | **In-vivo** — tumour-growth inhibition in a mouse EMC model via PPARγ | **Yes** |
+| **Zaltoprofen → pioglitazone** (PPARγ / lineage) | **In-vivo** — tumour-growth inhibition in a mouse EMC model via PPARγ. ⚠ **PPARγ DIRECTION — UNRESOLVED (2026-08-06)**; the in-vitro half of this result used a line whose EMC identity the curated record does not support — see the axis note below | **Yes** |
 | **Carfilzomib** ± doxorubicin / venetoclax (proteostasis) | **Ex-vivo** — only 1 of 17 drugs with high sensitivity across **2** patient-derived EMC models; carfilzomib+doxorubicin & +venetoclax synergy | **Yes** |
 | **Venetoclax** (BCL-2 / apoptosis) | **Ex-vivo** — sensitivity validated in the 2 EMC models | **Yes** |
 | **HDAC inhibitors**: romidepsin / panobinostat (epigenetic) | **Ex-vivo** — top hits of a 221-drug screen in a patient-derived EMC line | **Yes** |
 | **Brigatinib** (kinome screen hit) | **Ex-vivo** — same EMC-line screen; mechanism unknown | **Yes** |
 | **CDK4/6 inhibitors**: palbociclib (cell cycle) | **Genomic/IHC** — CDK4 IHC 100% + CDKN2A/2B loss (not yet functional) | **Yes** |
-| **Pioglitazone** (PPARγ agonist) | **Mechanistic** — direct agonism; rides the PPARγ axis above | **Yes** |
+| **Pioglitazone** (PPARγ agonist) | **Mechanistic** — direct agonism; rides the PPARγ axis above, whose *direction* is unresolved (axis note below) | **Yes** |
 | **NTRK inhibitors**: larotrectinib / entrectinib | **Mechanistic** — pan-Trk *expression*, not a fusion (weak) | **Yes** |
 | **NR4A3/NOR1-directed modulation** (fusion TF) | **Mechanistic** — drug the driver; no clinical-grade agent yet | **Yes** |
 | **BET (BRD4) / CDK7–9 inhibitors** (fusion transcription) | **Mechanistic** — analogy to other fusion sarcomas | **Yes** |
