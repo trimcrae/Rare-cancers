@@ -41,6 +41,14 @@ jobs:
         run: python3 research/manuscripts/lint_consistency.py
       - name: Manuscript language discipline
         run: python3 research/manuscripts/lint_claims.py
+      # ⛔ A LINE-NUMBER CITATION IS A CLAIM AND IT ROTS SILENTLY. `check_links` validates that a FILE and
+      # an ANCHOR exist; neither reaches inside a file to a LINE, so a citation that has drifted still
+      # resolves — it just points at a sentence that does not say what it is cited for. Measured
+      # 2026-08-06: all 39 of the roadmap's `:NNNN` citations into the paper and SI were stale, by a
+      # systematic +16 to +35 lines. Its own step, for the same reason as the two above: a red build
+      # should name the defect, and `--fix` is one command away.
+      - name: Roadmap line citations resolve to the sentence they quote
+        run: python3 research/manuscripts/line_citations.py
       # The EMC route registry's invariants. Same standalone-step reasoning as above, plus one it
       # does not share: this check reads artifacts AS THEY EXIST ON THE PUBLISH REF, not in the
       # working tree, because the failure it exists to catch is a document on `main` printing a
