@@ -79,6 +79,12 @@ A glue stabilises a protein–protein interface rather than tethering two ligand
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-DEGRADER](L2-rt-degrader.md) | how proximity is induced | `BLK-PARALOGUE-DDG`, `BLK-R4-BINDS` | a glue keeps the same ~1 kcal/mol paralogue claim with FEWER independent handles than a PROTAC — the registered reason it is watch-do-not-build rather than a cheaper degrader |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

@@ -5,7 +5,7 @@ level: L2
 kind: generated
 status: generated
 generator: systems/systems_check.py
-purpose: "Will someone with a bench run the decisive experiment: junction knockdown with wild-type sparing in an EMC line?"
+purpose: Can junction knockdown be shown to spare the wild-type parents, and does losing the fusion kill EMC cells? ⚠ The sparing half CANNOT be shown in an EMC line alone — EMC cells may express little wild-type NR4A3, so 'sparing' is unmeasurable where the wild-type transcript is near-absent.
 scope: Level 2 — one route.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
@@ -59,7 +59,8 @@ This is the single experiment that would convert the oligonucleotide route from 
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The experiment itself, run by someone with cells | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
+| Junction knockdown and the phenotype arm, in an EMC line — with a fusion-negative line as control (fusion-junction-aso-paper.md §4) | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| PARENTAL SPARING, in an engineered or isogenic fusion-positive model carrying abundant wild-type NR4A3 AND EWSR1, with single-parent-targeting ASOs as positive controls. A scrambled control tests sequence-independent toxicity, not discrimination (red-team F7) | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
@@ -68,14 +69,28 @@ This is the single experiment that would convert the oligonucleotide route from 
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-ASO](L2-rt-aso.md) | deliverable vs ask | `BLK-DELIVERY` | the paper is unaffected by this ask failing — the one ask in the portfolio whose failure costs its route nothing |
+
 ## Readiness — what this could become today
 
 **`experimental_proposal`**
 
-It is already a fully specified experimental proposal. What it lacks is a taker, and no amount of further specification produces one.
+It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-paper.md §4). What it lacks is a taker, and no amount of further specification produces one.
 
 **Missing:**
 - a collaborator with an EMC or FET-fusion line
+- an engineered or isogenic fusion-positive model expressing abundant wild-type NR4A3 and EWSR1 — an EMC line alone cannot carry the sparing claim
+- single-parent-targeting positive-control oligos
+
+**Experiment required:**
+- junction-spanning qPCR/RNA-seq plus fusion protein readout
+- allele- or exon-resolved wild-type EWSR1 and NR4A3 quantitation
+- viability/apoptosis for the phenotype arm
+- an engineered/isogenic fusion-positive model with abundant wild-type parents, plus single-parent-targeting positive-control oligos (red-team F7)
 
 ## Strategic timing — the wait equation
 
@@ -116,6 +131,6 @@ Send the ask alongside the preprint. The proposal is ready; the missing input is
 
 *L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
 
-**L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+**L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 [← ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · [← L0](L0-ecosystem.md)

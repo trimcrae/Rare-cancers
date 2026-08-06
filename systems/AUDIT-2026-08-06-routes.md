@@ -276,6 +276,168 @@ present.** The drift was real when written and is reconciled now. ⛔ **A drift 
 drift is not harmless caution** — it tells the next session that committed artifacts are unsafe to
 quote, and it spends the force of a ⛔ on a fixed condition, so the next real one reads as noise.
 
+## ST-FUSION-DIRECT — 3 routes, all 3 audited
+
+All three are `dead`/`closed`, so **check 10 (closure integrity) was the whole audit** — a closed route
+is the most expensive record to get wrong, because nothing revisits it.
+
+| route | verdict | most severe finding | status |
+|---|---|---|---|
+| RT-EWSR1-PROTEIN | **SOUND-WITH-NITS** — the first non-defective route in the audit | `closure_note` broader than what its own grade owner argued | ✅ fixed |
+| RT-FET-LC-LIGAND | DEFECTIVE | `definitional` closure with a load-bearing **empirical** step | ⚠ open for trimcrae |
+| RT-DBD | DEFECTIVE | permanent closure whose only blocker is **non-permanent** | ✅ fixed |
+
+### X11 · ⚠ OPEN for trimcrae — a permanent closure with an empirical step inside it
+
+`RT-FET-LC-LIGAND` is `closure_kind: definitional` — one of only two PERMANENT kinds, unfalsifiable by
+any future capability. Its closure decomposes into two steps and **only the first is definitional**:
+
+- **S1, definitional and airtight:** a ligand defined by the shared FET-LC feature engages wild-type
+  EWSR1, because the fusion's EWSR1 portion *is* wild-type EWSR1 sequence — present in all nine
+  surviving breakpoint windows, `K144` INVARIANT 9/9.
+- **S2, empirical, and it is what actually closes the route:** "binds wild-type EWSR1" does **not** close
+  routes here — `BLK-NOT-FUSION-SELECTIVE` is held by 9 routes, three of which are live. What separates
+  the closed from the live ones is whether the wild-type protein is *dispensable*, and that is a
+  **DepMap surrogate number** (EWSR1 gene effect ≈ −1.2 against NR4A1 0.5 % / NR4A2 0.3 %), on a page
+  that labels itself *"Surrogate evidence, not EMC data."* A trade over surrogate numbers is a
+  judgement, not a definition.
+
+⛔ **And the registry contradicts "essential ⇒ permanently dead" in principle:** `RT-CARFILZOMIB` is
+`status: ready` on a **pan-essential proteasome**, and `RT-RIPTAC` is `parked` rather than closed on a
+mechanism that *deliberately* poisons an essential protein.
+
+Applied: the two legs are now separated in `closure_note`, the surrogate is cited as surrogate, and the
+open question is stated in the record. **Not applied:** the ruling itself — either drop *"worse"* from
+the grade and keep `definitional` honest, or keep it and re-file the closure as non-permanent.
+Same shape as X9, and the same reason for leaving it: it is a scientific call.
+
+⭐ **A clean negative result worth keeping.** RT-FET-LC-LIGAND's auditor was asked whether X9's
+replaced/additive contradiction touches this closure. It does not, and the reasoning is worth
+recording: X9 concerns the **NR4A3** side (is AF1 deleted or retained), while this closure's only
+object-level premise concerns the **EWSR1** side (is the LC region present and wild-type). Under *both*
+readings of X9 the EWSR1 LC is present and identical to wild-type. ⚠ But the two do collide
+operationally: the contradicted X9 sentence lives at `emc-post-degrader-options.md:237`, **the same file
+that owns this route's grade** — so whoever repairs X9 will be editing this route's grade-owning
+document and must not let the sweep touch its §Route 15 text.
+
+### X12 · ✅ FIXED — a permanent closure resting on a non-permanent blocker
+
+`RT-DBD` is `closure_kind: arithmetic_over_fixed_fact` — never revivable — while its **only** blocker
+was `BLK-PARALOGUE-DDG`, kind `requires_better_simulation_accuracy`: Group C, non-permanent, and
+retired by `TECH-FE-CRYPTIC-POCKET`, the **highest-fan-out watch item in the portfolio**. A route filed
+as never revivable inheriting its sole blocker from a live watch item is the conflation
+`taxonomy/blockers.md` forbids, and the family's own limitation says such a route *"must never appear on
+a watch list."* Corroboration that it was the wrong blocker: `TECH-FE-CRYPTIC-POCKET.unblocks.routes`
+lists six routes and **deliberately omits RT-DBD**. Fixed by adding `BLK-NOT-FUSION-SELECTIVE`
+(permanent), so the permanent closure now rests on a permanent blocker.
+
+### X13 · ⛔ OPEN — a live manuscript proposes a route this family declares permanently closed
+
+`research/manuscripts/fusion-coactivator-ppi-paper.md` (`status: live`) proposed drugging the EWS-TAD
+and called it **"the fusion-unique EWS-TAD surface"**. That surface is the shared FET low-complexity
+region — the exact object `RT-FET-LC-LIGAND` declares permanently closed. Verified: the file mentions
+wild-type EWSR1 **zero times** (`grep -icE "wild-type EWSR1|WT EWSR1|endogenous EWSR1"` → 0), so its
+entire selectivity argument compares only against wild-type NR4A3 and never considers the endogenous
+protein carrying the identical domain.
+
+⛔ **The structural point is worse than the wording.** This route is registered as **no `RT-*` at all** —
+so no `distinct_from` edge, no blocker inheritance and no closure register reaches it. **A permanently
+closed idea was being actively written up in a live manuscript, and the closure register had no way to
+know.** The registry can only discipline what is registered in it.
+
+Corrected in the manuscript with the superseded text retained. **Left open:** whether to register the
+PPI route as an `RT-*` (which would give it a closure edge) — a scoping decision. ⚠ What survives the
+correction is narrower and genuinely open: the BAF-retargeting mechanism as biology, and the
+possibility that an interface *contact* is fusion-emergent even though the *surface* supplying it is
+not. Nothing has established that.
+
+## ST-NUCLEIC-ACID — 5 routes, all 5 audited
+
+All 5 DEFECTIVE, and this family produced the audit's most serious single finding.
+
+### X14 · ⛔⛔ BLOCKING — the ChemRxiv-queued ASO panel is built on a seam this repo RETRACTED
+
+`RT-ASO` is Tier 1 rank 2, `next.best_next_action: "Publish"`, and was recorded `work_state: complete` /
+`maturity: computed`. Its committed design panel was produced by `junction_aso.py`, which **never adopted
+the 2026-08-03 exon off-by-two correction**: line 135 indexed a *coding*-exon offset table with a
+*transcript* exon number, silently sliding to a neighbouring exon instead of raising.
+
+**Measured, not inferred** — I re-verified every step from the primary artifacts:
+
+| observation | value |
+|---|---|
+| committed seam `TTGTCCGTACAG` in the NR4A3 CDS | index **1081** |
+| ⇒ NR4A3 resumes at residue | **361** |
+| `fusion-neoantigen-retraction.json` grades `nr4_cds_nt: 1081` / `resumes_at_residue: 361` | **`SEAM_NOT_PRODUCED`** |
+| corrected `nr4a3_resume_range_across_plausible_breakpoints` | **`[1, 1]`** |
+
+So every design, GC value, cleavage count and the headline gapmer was computed against a chimera missing
+**NR4A3 residues 1–360** — AF1 and the first zinc finger — that **no plausible breakpoint produces**.
+
+⭐ **Why nothing caught it, and this is the transferable lesson.** The **EWSR1 side reproduced correctly
+throughout**. So the two junction panels agreed with each other, and the paper reads that agreement as
+confirmation: *"Both share the NR4A3 exon-3 right-side seam … **as expected**."* **Two artifacts agreeing
+is not evidence when one defect produces both.**
+
+⛔ **And three live documents, the binding roadmap among them, asserted the ASO lane was unaffected.** That
+claim was true of `junction_breakpoint_scan.py`, which deliberately refuses the exon→CDS mapping — and
+false of the lane, because `junction_aso.py`'s `FUSION_JUNCTION_MODE=real` path does the mapping with the
+defective arithmetic. **The audit checked one of the lane's two modules and generalised.**
+
+**Applied:** `junction_aso.py` now uses the repo's own `cut_offset`/`resume_offset` helpers, which *raise*
+on a non-coding exon; the six affected artifacts carry a `_RETRACTED_SEAM` banner; `RT-ASO` is
+`work_state: future` / `maturity: scoped` with the retraction as `remaining_unknowns[0]`; the three
+documents are narrowed with the superseded text retained; and the paper is now in `lint_claims`.
+⚠ **NOT regenerated — this is the required next step and it needs a network call to Ensembl, so it must
+run in CI (CLAUDE.md §6).** Until it does, no design, GC value, cleavage count or the headline gapmer may
+be quoted.
+
+### X15 · ✅ FIXED — a decision the repo deferred to "whoever owns the registry", taken
+
+Three vector-gated routes (RT-CRISPR-CAS13, RT-RIBOZYME, RT-SYNPROMOTER) pointed at
+`TR-OLIGO-TUMOUR-DELIVERY` — the **oligonucleotide** trigger, whose own text reads *"Delivery is the ASO
+route's one remaining gate."* `BLK-DELIVERY` and `BLK-VECTOR-DELIVERY` are separate blockers precisely
+because, as `taxonomy/blockers.md` puts it, *"merging them would let one arriving imply the other had"* —
+so an AOC or LNP platform landing would have read as reopening three routes that need a **vector**.
+
+`research/method-watch-triggers.json` had already **found this and deferred it**: *"the two files disagree
+about the grain, and whoever owns the registry should decide, not this file."* Nobody decided. Minted
+`TR-VECTOR-TUMOUR-DELIVERY`, repointed the three routes, and added the matching watch row to
+`method-watch.md` — which the map checker then verified, refusing my first attempt because I claimed a
+watch-list entry that did not yet exist.
+
+### Other ST-NUCLEIC-ACID fixes
+
+- **RT-RIBOZYME** — `rationale` claimed *"the cleanest possible coupling of tumour identity to tumour
+  death"* on a `maturity: concept` route with zero evidence. Same shape as RT-RIPTAC. Rewritten: the
+  coupling is to the junction **sequence**, the vector delivers indiscriminately, and no trans-splicing
+  specificity has been computed anywhere here.
+- **RT-ASO-ASK** — stated a version of the ask **its own red team refuted** (F7: sparing cannot be shown
+  in an EMC line, which may express little wild-type NR4A3). The paper carries the corrected design;
+  the graph record was the last document on the refuted form. Rewritten, and `experiment_required` added
+  — for an *ask* route, the pointer to the specification is the deliverable.
+- **RT-SYNPROMOTER** — X1's fourth instance, plus two missing blockers.
+- **RT-CRISPR-CAS13** — a `grade_pointer` at a document that never mentions the route (0 hits for
+  `cas13|cas9|nuclease|intron`); *"perfect discrimination"* qualified.
+
+### X16 · ✅ FIXED — `distinct_from` was checked by nothing and rendered nowhere
+
+`grep -c distinct_from systems/systems_check.py` → **0**. Rendered in **0** of 60 views. The field exists
+because *"one grade was applied to two routes that fail on OPPOSITE blockers"* — and for the portfolio's
+most confusable pairs, the architecture's own outputs could not tell a reader which route owned which
+claim. That is why so many `distinct_from` defects in this audit had survived: **nothing surfaced the
+field, so nobody read it.**
+
+Now rendered on all 40 route pages (32 have entries). ⭐ **It earned itself immediately:** the first
+regeneration turned the build red on a claim-ceiling breach that had been sitting in a
+`distinct_from.why` — *"This one **treats EMC** with a CAR against an EMC surface antigen"* — invisible to
+`lint_claims` for as long as the field went unrendered. Fixed in the same pass.
+
+Same commit also fixes the verb for closed routes: a `dead`/`closed` route's page said *"Blockers this
+route RETIRES"* and *"✓ Already cleared by this route"*, crediting a permanently-dead route with clearing
+the program's central blocker. It now reads **"Blockers this route never FACES"**, because a closed route
+does not answer a blocker — its architecture never encounters one.
+
 ## What nearly went wrong in the audit itself
 
 Recorded because the next audit will hit the same traps.

@@ -82,6 +82,13 @@ FET-fusion sarcomas as a class show replication-stress phenotypes that make them
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-R4-BINDS** — R4 — nothing is known to bind the cryptic pocket at all
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-ATR-PANEL](L2-rt-atr-panel.md) | deliverable vs ask | `BLK-CLASS-INHERITANCE` | the assessment produces a computed result whether or not one cell is ever plated; the panel is the experiment and this programme does not execute it. The corrected ranking SPLIT them for exactly this reason |
+| [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | where the dependency comes from | `BLK-NO-EMC-DATA` | both are called 'synthetic lethality' and they are not the same route: the ATR axis is inherited from a FET-family class argument, the BRD9/ncBAF axis was a DepMap transfer prior and came back negative |
+
 ## Readiness — what this could become today
 
 **`preprint`**

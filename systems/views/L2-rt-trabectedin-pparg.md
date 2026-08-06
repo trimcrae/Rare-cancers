@@ -78,6 +78,13 @@ Both components are approved, so a combination trial is unusually cheap to propo
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-R4-BINDS** — R4 — nothing is known to bind the cryptic pocket at all
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-TRABECTEDIN](L2-rt-trabectedin.md) | combination vs monotherapy | `BLK-NO-WET-LAB` | the board carried trabectedin and the PPARG axis as two separate rows for months and never joined them; joining them is what created THIS route, and the monotherapy row remains a distinct near-term lead with its own evidence |
+| [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | whether the agonist acts alone | `BLK-NO-EMC-DATA` | the downstream/TZD row is the agonist ALONE and carries an unresolved direction question that cuts AGAINST the naive version — in EMC the fusion turns PPARG on, so an agonist may be redundant. The combination's logic is promoter displacement unmasking a differentiation-competent receptor, which is a different argument |
+
 ## Readiness — what this could become today
 
 **`experimental_proposal`**

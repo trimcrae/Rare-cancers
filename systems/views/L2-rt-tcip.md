@@ -89,6 +89,14 @@ A transcriptional chemical inducer of proximity brings an effector to a DNA-boun
 
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-MONOVALENT](L2-rt-monovalent.md) | how many termini the molecule has | `BLK-INDUCED-COMPLEX`, `BLK-R4-BINDS` | a TCIP is still bivalent, so the reach result computed for the monovalent configuration DOES NOT TRANSFER to it — a different second terminus is a different enumeration, and running it is an open $0 item |
+| [RT-DEGRADER](L2-rt-degrader.md) | what the recruited partner does | `BLK-INDUCED-COMPLEX` | TCIP recruits a transcriptional effector rather than an E3, so it retires the ubiquitin-transfer geometry while keeping the induced-complex problem |
+| [RT-RIPTAC](L2-rt-riptac.md) | what the recruited partner does | `BLK-INDUCED-COMPLEX`, `BLK-R4-BINDS` | a TCIP recruits a transcriptional effector; a RIPTAC recruits an essential protein to poison it, which reinstates the full paralogue-selectivity requirement a TCIP can partly avoid |
+
 ## Readiness — what this could become today
 
 **`reproducible_workflow`**

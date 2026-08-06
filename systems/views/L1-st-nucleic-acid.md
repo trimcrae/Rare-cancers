@@ -35,7 +35,7 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   ST_NUCLEIC_ACID["ST-NUCLEIC-ACID"]:::fam
-  RT_ASO["✓ RT-ASO"]:::fam
+  RT_ASO["○ RT-ASO"]:::fam
   ST_NUCLEIC_ACID --> RT_ASO
   RT_ASO_ASK["○ RT-ASO-ASK"]:::fam
   ST_NUCLEIC_ACID --> RT_ASO_ASK
@@ -50,8 +50,11 @@ flowchart LR
   BLK_DELIVERY --> RT_ASO
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_ASO_ASK
+  BLK_NO_EMC_DATA --> RT_SYNPROMOTER
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
   BLK_NO_WET_LAB --> RT_ASO_ASK
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_SYNPROMOTER
   BLK_VECTOR_DELIVERY{{"BLK-VECTOR-DELIVERY — Vector delivery gene-therapy payloa…"}}:::blk
   BLK_VECTOR_DELIVERY --> RT_CRISPR_CAS13
   BLK_VECTOR_DELIVERY --> RT_RIBOZYME
@@ -70,7 +73,7 @@ flowchart LR
 
 | route | state | maturity | readiness today | next action |
 |---|---|---|---|---|
-| **[RT-ASO](L2-rt-aso.md)**<br/>Fusion-junction ASO / siRNA (the deliverable) | ✓ blocked | computed | `chemrxiv` | Publish the complete in-silico arc with delivery named as the gate, and keep the delivery watch running. |
+| **[RT-ASO](L2-rt-aso.md)**<br/>Fusion-junction ASO / siRNA (the deliverable) | ○ blocked | scoped | `chemrxiv` | Publish the complete in-silico arc with delivery named as the gate, and keep the delivery watch running. |
 | **[RT-ASO-ASK](L2-rt-aso-ask.md)**<br/>Junction knockdown + parental sparing in EMC lines (the ask behind the ASO) | ○ blocked | scoped | `experimental_proposal` | Send the ask alongside the preprint. The proposal is ready; the missing input is a person. |
 | **[RT-CRISPR-CAS13](L2-rt-crispr-cas13.md)**<br/>CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown | ○ parked | concept | `internal_note` | Keep registered. Watch vector delivery, not the nuclease. |
 | **[RT-RIBOZYME](L2-rt-ribozyme.md)**<br/>Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript | ○ parked | concept | `internal_note` | Keep registered at low priority. |

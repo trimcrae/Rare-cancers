@@ -24,7 +24,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 
 | route | family | attainable today | what is missing |
 |---|---|---|---|
-| [RT-ASO-ASK](L2-rt-aso-ask.md) | ST-NUCLEIC-ACID | `experimental_proposal` | a collaborator with an EMC or FET-fusion line |
+| [RT-ASO-ASK](L2-rt-aso-ask.md) | ST-NUCLEIC-ACID | `experimental_proposal` | a collaborator with an EMC or FET-fusion line; an engineered or isogenic fusion-positive model expressing abundant wild-type NR4A3 and EWSR1 — an EMC line alone cannot carry the sp |
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | ST-DEPENDENCY | `experimental_proposal` | a collaborator with an EMC line |
 | [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) | ST-IMMUNO | `experimental_proposal` | expression confirmation on EMC tissue |
 | [RT-SSTR2](L2-rt-sstr2.md) | ST-RADIOLIGAND | `experimental_proposal` | any expression measurement in EMC |

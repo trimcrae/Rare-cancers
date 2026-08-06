@@ -131,8 +131,24 @@ def build_parents_and_fusion():
         ews = fb.gene_model("EWSR1")
         nr4 = fb.gene_model("NR4A3")
         ews_cds, nr4_cds = ews["cds"], nr4["cds"]
-        p = ews["offsets"][e_end - 1]        # coding nt through end of EWSR1 exon e_end
-        q = nr4["offsets"][n_start - 2]      # coding nt before start of NR4A3 exon n_start
+        # ⛔ FIXED 2026-08-06 (route framing audit). These two lines indexed a CODING-exon offset
+        # table with a TRANSCRIPT exon number -- the exact off-by-two that `fusion_breakpoints.py`
+        # was corrected for on 2026-08-03, and whose safe helpers this module never adopted. It
+        # silently slid to a neighbouring exon instead of raising.
+        #
+        # ⭐ WHAT IT PRODUCED, MEASURED: the committed seam `TTGTCCGTACAG` sits at NR4A3 CDS nt 1081,
+        # i.e. NR4A3 resuming at residue 361 -- bit-for-bit the `nr4_cds_nt: 1081` /
+        # `nr4a3_resumes_at_residue: 361` that `fusion-neoantigen-retraction.json` grades
+        # SEAM_NOT_PRODUCED. The corrected inventory's resume range across every plausible
+        # breakpoint is [1, 1]. So every design below was computed against a chimera missing NR4A3
+        # residues 1-360 -- AF1 and the first zinc finger -- that no patient carries.
+        #
+        # ⚠ THE EWSR1 SIDE REPRODUCED CORRECTLY THE WHOLE TIME, which is why nothing caught it: the
+        # paper reads the shared right-side seam across two junctions as a CONFIRMATION ("as
+        # expected"). Two artifacts agreeing is not evidence when one defect produces both.
+        # `resume_offset`/`cut_offset` RAISE on a non-coding exon rather than sliding.
+        p = fb.cut_offset(ews, e_end)        # coding nt through end of EWSR1 exon e_end
+        q = fb.resume_offset(nr4, n_start)   # coding nt at which NR4A3 exon n_start begins
         left, right = ews_cds[:p], nr4_cds[q:]
         fusion = left + right
         if not fb.translate(fusion).endswith(nr4["protein"][-100:]):

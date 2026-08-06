@@ -32,8 +32,8 @@ What one screen has to carry is not the list — it is the **convergence**. Each
 
 ```mermaid
 flowchart LR
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 7 families"]]:::perm
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — 6 families"}}:::blk
-  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 6 families"]]:::perm
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 5 families"}}:::blk
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — 3 families"}}:::blk
   BLK_R4_BINDS{{"BLK-R4-BINDS — 2 families"}}:::blk
@@ -49,18 +49,19 @@ flowchart LR
   ST_RADIOLIGAND["ST-RADIOLIGAND ○ · 2 routes"]:::fam
   ST_DISSEMINATION["ST-DISSEMINATION ○ · 1 route"]:::fam
 
+  BLK_NOT_FUSION_SELECTIVE --> ST_FUSION_DIRECT
+  BLK_NOT_FUSION_SELECTIVE --> ST_IMMUNO
+  BLK_NOT_FUSION_SELECTIVE --> ST_NUCLEIC_ACID
+  BLK_NOT_FUSION_SELECTIVE --> ST_OCCUPANCY
+  BLK_NOT_FUSION_SELECTIVE --> ST_PROXIMITY
+  BLK_NOT_FUSION_SELECTIVE --> ST_RADIOLIGAND
+  BLK_NOT_FUSION_SELECTIVE --> ST_REPURPOSING
   BLK_NO_WET_LAB --> ST_DEPENDENCY
   BLK_NO_WET_LAB --> ST_NUCLEIC_ACID
   BLK_NO_WET_LAB --> ST_OCCUPANCY
   BLK_NO_WET_LAB --> ST_PROXIMITY
   BLK_NO_WET_LAB --> ST_RADIOLIGAND
   BLK_NO_WET_LAB --> ST_REPURPOSING
-  BLK_NOT_FUSION_SELECTIVE --> ST_FUSION_DIRECT
-  BLK_NOT_FUSION_SELECTIVE --> ST_IMMUNO
-  BLK_NOT_FUSION_SELECTIVE --> ST_OCCUPANCY
-  BLK_NOT_FUSION_SELECTIVE --> ST_PROXIMITY
-  BLK_NOT_FUSION_SELECTIVE --> ST_RADIOLIGAND
-  BLK_NOT_FUSION_SELECTIVE --> ST_REPURPOSING
   BLK_NO_EMC_DATA --> ST_DEPENDENCY
   BLK_NO_EMC_DATA --> ST_IMMUNO
   BLK_NO_EMC_DATA --> ST_NUCLEIC_ACID
@@ -105,8 +106,8 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 15 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 13 | 6 | *permanent — nothing* |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 16 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 15 | 7 | *permanent — nothing* |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | 7 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |

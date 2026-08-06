@@ -128,6 +128,7 @@ below, do the paired action and open the follow-up; otherwise no action.
 | better **induced-fit / conformational-ensemble docking or ML affinity** | re-score denovo_401 (and the de-novo pool) against the *dynamic* NR4A3 pocket instead of single/few frames — tightens the frame-dependent margin (+12.83 release vs +7.44 metad) |
 | **in-silico oligonucleotide/nanoparticle tumour-delivery** predictor (biodistribution / endosomal escape / PBPK / ML tumour-penetration) | score the **B7-H3-targeted junction-siRNA / AOC** delivery in-silico and **re-grade the ASO route feasibility** (delivery is the route's gate) |
 | **oligonucleotide tumour-delivery TECHNOLOGY / candidate** — an AOC/conjugate, tumour-penetrating-peptide, or ligand-targeted-LNP platform that reaches **non-hepatic solid tumours**, OR a **characterised EMC-enriched surface antigen** (the AOC's targeting arm) | **propose a concrete junction-oligo delivery *candidate*** (not just an in-silico test) and re-grade the ASO route's dominant gate — this is the watch for a real *way to do delivery*, distinct from the predictor row above |
+| **vector tumour-delivery TECHNOLOGY / candidate** — an AAV, lentiviral or non-viral **vector** platform with demonstrated biodistribution to a **non-hepatic solid tumour**, carrying a transcriptional or nuclease payload | re-grade the three **vector-gated** nucleic-acid routes (`RT-CRISPR-CAS13`, `RT-RIBOZYME`, `RT-SYNPROMOTER`). ⚠ **ADDED 2026-08-06 by the route framing audit, and it is a SPLIT, not a new idea:** all three were pointed at the **oligonucleotide** row above, so an AOC or LNP landing would have read as reopening a route that needs a vector. `BLK-DELIVERY` and `BLK-VECTOR-DELIVERY` are separate blockers precisely because the evidence clearing one need not clear the other |
 | calibrated **ASO off-target / RNase-H cleavage-activity** predictor | **retire the conservative "gap-mismatch ⇒ non-cleaving" heuristic** in the junction-ASO specificity screen (`fusion-junction-aso-paper.md` §3a-quater) and re-grade predicted specificity with a calibrated model |
 | improved **ASO/siRNA efficacy + target-site-accessibility** predictor | **re-rank the junction designs for potency** and replace the local-fold accessibility proxy (`fusion-junction-aso-paper.md` §3a-bis iii) |
 | new **patient-derived EMC / FET-fusion-sarcoma model** (cell line / organoid / PDX) | **enables the decisive wet-lab experiment** — junction-ASO knockdown + parental-sparing in EMC cells (`fusion-junction-aso-paper.md` §4) — and a fusion-dependence readout |
@@ -184,6 +185,9 @@ experiment is actually run.
 - **oligo tumour-delivery TECHNOLOGY / candidate** (AOC / antibody-oligonucleotide conjugate,
   tumour-penetrating peptide, ligand-targeted LNP for non-hepatic solid tumours; EMC-enriched
   surface antigen for a targeting arm) — the watch for a real *way to do delivery*, not a predictor
+- **vector tumour-delivery TECHNOLOGY / candidate** (AAV / lentiviral / non-viral vector reaching a
+  non-hepatic solid tumour with a transcriptional or nuclease payload) — split from the oligo row
+  2026-08-06; the three vector-gated routes need this one, not the oligonucleotide one
 - **ASO/gapmer off-target & RNase-H cleavage prediction** (ASO-paper next step: retire the
   gap-mismatch heuristic — §3a-quater)
 - **ASO/siRNA design, efficacy & target-accessibility prediction** (ASO-paper next step:

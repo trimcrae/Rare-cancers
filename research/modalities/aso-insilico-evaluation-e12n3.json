@@ -1,5 +1,6 @@
 {
-  "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome off-target screen + target-site accessibility + sequence liabilities. EVALUATION ONLY \u2014 hypotheses for wet-lab testing, not a validated drug. Does NOT address tumour delivery (the route's real bottleneck).",
+  "_RETRACTED_SEAM": "⛔ RETRACTED SEAM — DO NOT QUOTE (route framing audit, 2026-08-06). This artifact was produced by junction_aso.py BEFORE the 2026-08-03 exon off-by-two correction reached it. Its seam TTGTCCGTACAG sits at NR4A3 CDS nt 1081, i.e. NR4A3 resuming at residue 361 — bit-for-bit the value fusion-neoantigen-retraction.json grades SEAM_NOT_PRODUCED. The corrected resume range across every plausible breakpoint (fusion-object-inventory.json) is [1, 1], so this chimera is missing NR4A3 residues 1-360 (AF1 and the first zinc finger) and no patient carries it. Every design, GC value and cleavage count here is computed against that construct. The EWSR1 side reproduced correctly throughout, which is why the agreement between the e7n3 and e12n3 panels read as confirmation rather than as one shared defect. junction_aso.py was fixed in the same commit; REGENERATION NEEDS NETWORK (Ensembl) and must run in CI.",
+  "_note": "In-silico evaluation of EWSR1::NR4A3 junction gapmers: transcriptome off-target screen + target-site accessibility + sequence liabilities. EVALUATION ONLY — hypotheses for wet-lab testing, not a validated drug. Does NOT address tumour delivery (the route's real bottleneck).",
   "junction_label": "EWSR1_e12__NR4A3_e3",
   "breakpoint": {
     "mode": "real_exon_junction",
@@ -25,7 +26,7 @@
   },
   "n_candidates_zero_offtarget": 1,
   "n_candidates_fusion_specific_sirna_seed": 2,
-  "sirna_note": "For a dedicated siRNA, design the duplex so the junction falls inside the guide seed (g2-g8) \u2014 these gapmer-derived windows are evaluated as-is, so seed-straddling is reported, not enforced.",
+  "sirna_note": "For a dedicated siRNA, design the duplex so the junction falls inside the guide seed (g2-g8) — these gapmer-derived windows are evaluated as-is, so seed-straddling is reported, not enforced.",
   "ranking_key": "fewest gapmer off-targets > most accessible site > fusion-specific siRNA seed > lower RISC seed load > balanced junction > mid-GC > no G4 > fewer CpG",
   "top_designs": [
     {

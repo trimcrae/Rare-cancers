@@ -20,13 +20,15 @@ last_verified: 2026-08-05
 
 **Family:** [ST-FUSION-DIRECT](L1-st-fusion-direct.md) · **state:** ✕ closed · computed · confidence high · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-12--target-the-dbd--dna-binding)): ✕ down, on arithmetic — 92.8 % / 98.6 % paralogue identity
+**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-12--target-the-dbd--dna-binding)): ✕ down, on arithmetic — `zinc_finger_window` paralogue identity 92.8% / 98.6% against the LBD's 59.4% / 67.3%
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
   RT_DBD["✕ RT-DBD"]:::fam
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_DBD
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
   BLK_PARALOGUE_DDG --> RT_DBD
   TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
@@ -38,6 +40,8 @@ flowchart LR
 ```
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
 
 ## Scientific rationale
 
@@ -51,7 +55,15 @@ The zinc-finger DNA-binding domain is far more conserved between the paralogues 
 
 | blocker | kind | what would retire it |
 |---|---|---|
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | which protein the collateral damage lands on | `BLK-NOT-FUSION-SELECTIVE` | the EWSR1 routes relocate onto wild-type EWSR1, an essential housekeeping protein, and close definitionally with nothing computed; this one stays on NR4A3 and closes on a COMPUTED paralogue-identity ordering |
+| [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) | which protein the collateral damage lands on | `BLK-NOT-FUSION-SELECTIVE` | the shared FET low-complexity half is wild-type EWSR1 sequence by definition; the DBD is NR4A3's own, and what closes this route is that the zinc finger is MORE paralogue-identical than the LBD, not that it is shared with EWSR1 |
 
 ## Readiness — what this could become today
 

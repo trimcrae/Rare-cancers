@@ -57,6 +57,12 @@ NR4A factors drive T-cell exhaustion, and a manufacturing additive acts on cells
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-NOT-FUSION-SELECTIVE** — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-CART-SURFACE](L2-rt-cart-surface.md) | where the NR4A molecule acts | `BLK-NO-EMC-DATA` | it is not an EMC treatment route at all in the direct sense — it removes the selectivity requirement by changing the exposure regime, not by being cleverer about the pocket |
+
 ## Readiness — what this could become today
 
 **`preprint`**

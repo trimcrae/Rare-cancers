@@ -106,6 +106,15 @@ NR4A3 is a transcription factor with no orthosteric ligand, so occupancy-based i
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | `requires_authorization` | Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that would tell the program whether its central quantitative claim is measurable at all. |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-ANDGATE](L2-rt-andgate.md) | what the second arm detects | `BLK-TERNARY-GEOMETRY`, `BLK-PARALOGUE-DDG` | the AND-gate adds a fusion-vs-wild-type layer and LEAVES the paralogue layer exactly where it was — two orthogonal requirements, not one replaced |
+| [RT-GLUE](L2-rt-glue.md) | how proximity is induced | `BLK-PARALOGUE-DDG` | a glue faces the same discrimination with FEWER independent handles |
+| [RT-MONOVALENT](L2-rt-monovalent.md) | whether a degradation geometry is needed at all | `BLK-TERNARY-GEOMETRY` | the monovalent route deletes the ternary layer entirely; the degrader is defined by it |
+| [RT-TCIP](L2-rt-tcip.md) | what the recruited partner does | `BLK-TERNARY-GEOMETRY`, `BLK-PARALOGUE-CONTROL` | the degrader's second partner is an E3 and its verdict is a degradation event; TCIP's is a transcriptional effector and its verdict is a rewired output — the ubiquitin-transfer geometry does not apply to it |
+
 ## Readiness — what this could become today
 
 **`preprint`**

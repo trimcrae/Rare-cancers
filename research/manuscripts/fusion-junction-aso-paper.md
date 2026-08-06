@@ -808,7 +808,7 @@ on-demand: [`scripts/method-watch.mjs`](../../scripts/method-watch.mjs),
 
 - **ASO off-target / RNase-H cleavage-activity predictor** → retire the conservative "gap-mismatch ⇒
   non-cleaving" heuristic (§3a-quater) and re-grade predicted specificity with a calibrated model.
-- **ASO/siRNA efficacy + target-site-accessibility predictor** → re-rank the junction designs for potency
+- **ASO/siRNA potency + target-site-accessibility predictor** → re-rank the junction designs for potency
   and replace the local-fold accessibility proxy (§3a-bis iii).
 - **New patient-derived EMC / FET-fusion-sarcoma model** (cell line / organoid / PDX) → unblocks the
   decisive knockdown + parental-sparing experiment (§4) and a fusion-dependence readout.

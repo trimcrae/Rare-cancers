@@ -68,6 +68,12 @@ This is the experiment that converts the computed class argument into an EMC res
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-ATR-ASSESS](L2-rt-atr-assess.md) | deliverable vs ask | `BLK-NO-WET-LAB` | its value is entirely in an experiment this programme cannot cause; the assessment's value is not |
+
 ## Readiness — what this could become today
 
 **`experimental_proposal`**

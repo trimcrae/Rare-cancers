@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-ASO — Fusion-junction ASO / siRNA (the deliverable)
 
-**Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ✓ blocked · computed · confidence moderate · verified 2026-08-05
+**Family:** [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · **state:** ○ blocked · scoped · confidence moderate · verified 2026-08-06
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 1, rank 2 — DELIVERABLE
 
@@ -26,7 +26,7 @@ last_verified: 2026-08-05
 
 ```mermaid
 flowchart LR
-  RT_ASO["✓ RT-ASO"]:::fam
+  RT_ASO["○ RT-ASO"]:::fam
   BLK_DELIVERY{{"BLK-DELIVERY — Tumour delivery of an oligonucleotide or a…"}}:::blk
   BLK_DELIVERY --> RT_ASO
   TECH_OLIGO_DELIVERY(["TECH-OLIGO-DELIVERY<br/>expected 2029"]):::tech
@@ -43,7 +43,7 @@ flowchart LR
 
 ## Scientific rationale
 
-The breakpoint junction is a sequence that exists in no healthy cell. An oligonucleotide reads sequence rather than shape, so it discriminates perfectly where every protein-directed route has to fight a shared fold. This is the only genuinely fusion-selective route in the portfolio, and its in-silico arc is complete: design, off-target screen, breakpoint-favourability scan, and gap-mismatch-resolved candidates.
+The breakpoint junction is a sequence that exists in no healthy cell. An oligonucleotide reads sequence rather than shape, so it discriminates on SEQUENCE rather than shape — predicted, not demonstrated where every protein-directed route has to fight a shared fold. This is the fusion-selective route whose deliverable is finishable here (RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC and RT-RIBOZYME also retire the blocker), and its in-silico arc is complete: design, off-target screen, breakpoint-favourability scan, and gap-mismatch-resolved candidates.
 
 ## Supporting evidence
 
@@ -53,6 +53,7 @@ The breakpoint junction is a sequence that exists in no healthy cell. An oligonu
 
 ## Remaining unknowns
 
+- ⛔ THE COMMITTED DESIGN PANEL IS BUILT ON A RETRACTED SEAM. junction_aso.py carried the 2026-08-03 exon off-by-two until 2026-08-06; its seam resumes NR4A3 at residue 361 against a corrected range of [1, 1]. The code is fixed; the artifacts are bannered and NOT regenerated — regeneration needs Ensembl and must run in CI. No design, GC value, cleavage count or the headline gapmer may be quoted until it does.
 - How to deliver an oligonucleotide to a non-hepatic solid tumour — the one remaining gate, and it is engineering rather than biology.
 - Whether predicted specificity survives a calibrated cleavage model: the current screen uses a deliberately conservative gap-mismatch heuristic, so it may be over- or under-calling.
 - Whether the potency ranking holds — it rests on a local-fold accessibility proxy rather than a measured accessibility model.
@@ -63,6 +64,8 @@ The breakpoint junction is a sequence that exists in no healthy cell. An oligonu
 |---|---|---|---|
 | A delivery vehicle that reaches an EMC tumour | ⛔ none built | **no** | BLK-DELIVERY |
 | Junction knockdown with parental sparing in an EMC line | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| Regenerate the junction panel at the CORRECTED seam and re-derive every design (needs network — CI) | ⛔ none built | yes | — |
+| A calibrated gap-internal-mismatch RNase-H1 cleavage model, which would retire the conservative heuristic the specificity margin rests on (paper §8) | ⛔ none built | yes | — |
 
 ## Blockers
 
@@ -75,6 +78,13 @@ The breakpoint junction is a sequence that exists in no healthy cell. An oligonu
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-NOT-FUSION-SELECTIVE** — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-ASO-ASK](L2-rt-aso-ask.md) | deliverable vs ask | `BLK-NO-WET-LAB` | the manuscript is finished and needs nobody; the knockdown experiment needs a lab and has the portfolio's weakest taker. Grading them as one row is what the W1/W2/D correction exists to stop |
+| [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md) | delivery class | `BLK-DELIVERY` | an oligonucleotide's delivery problem has clinical precedent in solid tumours; a vector's is a different engineering problem with different precedents, and Cas13 additionally carries collateral activity |
 
 ## Readiness — what this could become today
 

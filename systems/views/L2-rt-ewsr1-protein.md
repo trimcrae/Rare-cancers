@@ -55,9 +55,17 @@ Registered so the idea, which recurs, has a permanent answer rather than being r
 |---|---|---|
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
 
-## Blockers this route RETIRES
+## Blockers this route never FACES
+
+*This route is closed. It does not answer these blockers — its architecture never encounters them, so nothing here is a hedge the portfolio can spend.*
 
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) | the same liability, arrived at from a different direction | `BLK-NOT-FUSION-SELECTIVE` | one targets EWSR1 as EWSR1; the other targets the FET low-complexity half as a shared class feature. Both land on wild-type EWSR1, so they share a blocker and are still separately registered because their entry points differ |
 
 ## Readiness — what this could become today
 
@@ -80,7 +88,7 @@ Permanently closed on a fact about the sequence. No future capability reopens it
 
 ## Closure
 
-`definitional` — The EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages an essential housekeeping protein BY CONSTRUCTION. No method changes what the sequence is.
+`definitional` — Definitional: the EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages wild-type EWSR1 BY CONSTRUCTION. Wild-type EWSR1 is additionally pan-essential (DepMap gene effect ~-1.2, depmap-insilico-findings.md) — but that is a SURROGATE cell-line read and is NOT the definitional leg; the closure stands without it. ⚠ Scoped: this closes targeting the EWSR1 half ON ITS OWN. It does NOT close RT-ANDGATE, whose logic requires both arms in cis, nor the junction routes RT-ASO / RT-JUNCTION-NEOANTIGEN, which act on a sequence wild-type EWSR1 does not have.
 
 ## Best next action
 
@@ -92,6 +100,8 @@ Nothing. Cite the closure when the idea resurfaces.
 
 *L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
 
-**L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+**L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-MODEL-E7E3](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 artifacts:** [ART-FUSION-OBJECT-INVENTORY](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-FUSION-DIRECT](L1-st-fusion-direct.md) · [← L0](L0-ecosystem.md)

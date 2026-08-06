@@ -74,6 +74,12 @@ EMC is a stroma-rich myxoid tumour, and a stromal target sidesteps the whole que
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-SSTR2](L2-rt-sstr2.md) | which radioligand target | `BLK-NOT-FUSION-SELECTIVE` | both are theranostics and they target different things — FAP is the myxoid STROMA, SSTR2 is EMC's own neuroendocrine differentiation |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

@@ -55,7 +55,9 @@ Registered with its refutation attached, because the idea recurs. Lowering expre
 |---|---|---|
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
 
-## Blockers this route RETIRES
+## Blockers this route never FACES
+
+*This route is closed. It does not answer these blockers — its architecture never encounters them, so nothing here is a hedge the portfolio can spend.*
 
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer

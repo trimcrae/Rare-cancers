@@ -34,6 +34,12 @@ Registered with its refutation. The reported mechanism acts through the AF-1 dom
 
 - Nothing is open. The mechanism's domain is absent from the fusion by construction, so no capability reopens it.
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-MONOVALENT](L2-rt-monovalent.md) | which domain the mechanism lives in | `BLK-NOT-FUSION-SELECTIVE` | ⚠ SCOPED SO IT IS NOT OVER-READ: this closes 6-MP, NOT LBD-directed modulation generally. The published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

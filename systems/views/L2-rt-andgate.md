@@ -74,6 +74,12 @@ Avidity turns two weak interactions into one strong one only when both partners 
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-DEGRADER](L2-rt-degrader.md) | what the second arm detects | `BLK-TERNARY-GEOMETRY` | ⚠ 'fusion-selective' is NOT automatically 'paralogue-free'. The AND-gate adds a fusion-vs-wild-type layer on top of the paralogue layer; arm 1 still carries the selectivity handles |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

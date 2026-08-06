@@ -69,6 +69,12 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-R4-BINDS** — R4 — nothing is known to bind the cryptic pocket at all
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | whether the agonist acts alone | `BLK-NO-EMC-DATA` | this row is the agonist alone and its direction (agonism vs antagonism vs redundancy) is unresolved; the combination row's argument runs through promoter displacement and does not depend on resolving it the same way |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

@@ -82,6 +82,12 @@ A RIPTAC does not degrade anything: it forms a complex that poisons an essential
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-TCIP](L2-rt-tcip.md) | what the recruited partner does | `BLK-PARALOGUE-DDG`, `BLK-R4-BINDS` | a RIPTAC poisons an essential protein and therefore needs the paralogue selectivity a TCIP's effector recruitment can partly avoid; it is strictly worse on both axes and is registered so it is not re-proposed as 'TCIP-like' |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

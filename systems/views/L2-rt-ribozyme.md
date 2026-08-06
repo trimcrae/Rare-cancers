@@ -43,7 +43,7 @@ flowchart LR
 
 ## Scientific rationale
 
-A ribozyme triggered by the fusion transcript would turn the driver into the thing that kills the cell — the cleanest possible coupling of tumour identity to tumour death.
+A trans-splicing ribozyme would sense the fusion transcript by base-pairing across the breakpoint junction — a sequence present in no healthy cell — and convert that sensing into expression of a suicide gene. ⚠ The coupling is to the junction SEQUENCE, not to tumour identity: the vector delivers indiscriminately, so any cell it reaches in which the ribozyme trans-splices off-target is killed by the same mechanism, and no trans-splicing specificity has been computed anywhere in this repo. No efficacy, safety or therapeutic window is asserted.
 
 ## Remaining unknowns
 
@@ -55,6 +55,7 @@ A ribozyme triggered by the fusion transcript would turn the driver into the thi
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | Vector delivery, and a modern demonstration of the technique | ⛔ none built | **no** | BLK-VECTOR-DELIVERY |
+| Trans-splicing specificity: that the ribozyme's binding arm engages the breakpoint junction and not other transcripts | ⛔ none built | **no** | BLK-VECTOR-DELIVERY |
 
 ## Blockers
 
@@ -67,6 +68,12 @@ A ribozyme triggered by the fusion transcript would turn the driver into the thi
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-NOT-FUSION-SELECTIVE** — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-SYNPROMOTER](L2-rt-synpromoter.md) | what the fusion is sensed BY | `BLK-NOT-FUSION-SELECTIVE` | the ribozyme senses the fusion TRANSCRIPT by base-pairing; the synthetic promoter senses the fusion PROTEIN by DNA binding — and the second fails for an EMC-specific reason the first does not (EMC lacks a neomorphic DNA-binding element) |
 
 ## Readiness — what this could become today
 

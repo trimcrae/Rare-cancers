@@ -45,6 +45,12 @@ flowchart LR
 
 Registered for the same reason as the row above. A ligand for the SHARED low-complexity half binds wild-type EWSR1 by the definition of 'shared'. It relocates the selectivity problem onto a protein that is more essential, not less.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-FUSION-OBJECT-INVENTORY` | the fusion's EWSR1 portion is wild-type EWSR1 sequence and the low-complexity region is present breakpoint-independently (K144 INVARIANT 9/9) | `direct` |
+
 ## Remaining unknowns
 
 - Nothing is open. A ligand for a SHARED region cannot discriminate between the things that share it; that is what 'shared' means, so no capability reopens it.
@@ -55,9 +61,17 @@ Registered for the same reason as the row above. A ligand for the SHARED low-com
 |---|---|---|
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
 
-## Blockers this route RETIRES
+## Blockers this route never FACES
+
+*This route is closed. It does not answer these blockers — its architecture never encounters them, so nothing here is a hedge the portfolio can spend.*
 
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | the same liability, arrived at from a different direction | `BLK-NOT-FUSION-SELECTIVE` | a NEW route to this repo, proposed as a class-wide FET handle rather than as an EWSR1-specific one |
 
 ## Readiness — what this could become today
 
@@ -80,7 +94,7 @@ Permanently closed. A shared region cannot discriminate between the things that 
 
 ## Closure
 
-`definitional` — A ligand for the SHARED FET low-complexity half binds wild-type EWSR1 by definition of 'shared'. Permanent for the same reason as the row above, reached from the other direction.
+`definitional` — Definitional on the shared-region leg: a ligand DEFINED by the shared FET low-complexity feature cannot discriminate among the things that share it, and the fusion's EWSR1 portion is wild-type EWSR1 sequence in all nine surviving breakpoint windows (ART-FUSION-OBJECT-INVENTORY). ⚠ THE COMPARATIVE IS NOT DEFINITIONAL: 'relocates somewhere WORSE' rests on a DepMap essentiality trade (EWSR1 gene effect ~-1.2 against NR4A1 0.5% / NR4A2 0.3% dependent) — a surrogate cell-line read, not a fact about the objects. The registry does not otherwise treat 'engages an essential protein' as fatal by construction: RT-CARFILZOMIB is `ready` on a pan-essential proteasome and RT-RIPTAC is parked rather than closed on a deliberately essential-protein mechanism. So the permanence rests on the first leg alone. ⚠ OPEN for trimcrae: whether 'worse' should be dropped from the grade, or the closure re-filed as non-permanent — see systems/AUDIT-2026-08-06-routes.md.
 
 ## Best next action
 
@@ -93,5 +107,7 @@ Nothing. Cite the closure.
 *L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
 
 **L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 artifacts:** [ART-FUSION-OBJECT-INVENTORY](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-FUSION-DIRECT](L1-st-fusion-direct.md) · [← L0](L0-ecosystem.md)

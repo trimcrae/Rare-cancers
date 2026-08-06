@@ -2346,7 +2346,8 @@
       },
       "objects": [
         "OBJ-FUS-T1",
-        "OBJ-NR4A3-WT"
+        "OBJ-NR4A3-WT",
+        "OBJ-EWSR1-WT"
       ],
       "evidence": [],
       "artifacts": [],
@@ -3895,10 +3896,13 @@
         "disclosed_failing": []
       },
       "objects": [
-        "OBJ-EWSR1-WT"
+        "OBJ-EWSR1-WT",
+        "OBJ-MODEL-E7E3"
       ],
       "evidence": [],
-      "artifacts": [],
+      "artifacts": [
+        "ART-FUSION-OBJECT-INVENTORY"
+      ],
       "distinct_from": [
         {
           "route": "RT-FET-LC-LIGAND",
@@ -3941,7 +3945,9 @@
         "OBJ-EWSR1-WT"
       ],
       "evidence": [],
-      "artifacts": [],
+      "artifacts": [
+        "ART-FUSION-OBJECT-INVENTORY"
+      ],
       "distinct_from": [
         {
           "route": "RT-EWSR1-PROTEIN",
@@ -3963,7 +3969,7 @@
         "target-route route 12"
       ],
       "grade": {
-        "value": "✕ down, on arithmetic — 92.8 % / 98.6 % paralogue identity",
+        "value": "✕ down, on arithmetic — `zinc_finger_window` paralogue identity 92.8% / 98.6% against the LBD's 59.4% / 67.3%",
         "owner": {
           "file": "research/manuscripts/target-route-options.md",
           "anchor": "#route-12--target-the-dbd--dna-binding"
@@ -4850,10 +4856,7 @@
       "why_this_string": "Delivery is the ASO route's one remaining gate and it is engineering rather than biology, so it is watched two ways: a delivery PREDICTOR to score a candidate in silico, and a delivery TECHNOLOGY to be that candidate.",
       "would_reopen": [
         "RT-ASO",
-        "RT-ASO-ASK",
-        "RT-CRISPR-CAS13",
-        "RT-RIBOZYME",
-        "RT-SYNPROMOTER"
+        "RT-ASO-ASK"
       ],
       "owner": {
         "file": "research/method-watch.md",
@@ -5081,6 +5084,26 @@
       "on_watch_list": false,
       "trigger_kind": "authorization",
       "scan_trigger": []
+    },
+    {
+      "id": "TR-VECTOR-TUMOUR-DELIVERY",
+      "trigger": "a VECTOR delivering a transcriptional or nuclease payload to a non-hepatic solid tumour — AAV, lentiviral, or a non-viral vector platform with demonstrated solid-tumour biodistribution",
+      "why_this_string": "Split from TR-OLIGO-TUMOUR-DELIVERY on 2026-08-06 by the route framing audit. The registry carries BLK-DELIVERY and BLK-VECTOR-DELIVERY as SEPARATE blockers precisely because the evidence clearing one need not clear the other, and taxonomy/blockers.md states the consequence: merging them would let one arriving imply the other had. Three vector-gated routes were pointed at the OLIGONUCLEOTIDE trigger, so an AOC or LNP platform landing would have read as reopening them. research/method-watch-triggers.json recorded this divergence and deferred it to 'whoever owns the registry'; this is that decision.",
+      "would_reopen": [
+        "RT-CRISPR-CAS13",
+        "RT-RIBOZYME",
+        "RT-SYNPROMOTER"
+      ],
+      "owner": {
+        "file": "research/method-watch.md",
+        "anchor": null
+      },
+      "on_watch_list": true,
+      "watch_list_evidence": "vector tumour-delivery TECHNOLOGY / candidate",
+      "trigger_kind": "external_capability",
+      "scan_trigger": [
+        "TRG-VECTOR-DELIVERY-SOLID-TUMOUR"
+      ]
     }
   ],
   "_scan_interop": {

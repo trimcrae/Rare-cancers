@@ -102,6 +102,15 @@ If the ligand-binding domain is a functional handle in the chimera, occupancy al
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-INDUCED-COMPLEX** — An induced ternary/bivalent complex is still required (a second protein must be placed)
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-COVALENT-PROBE](L2-rt-covalent-probe.md) | what the molecule has to DO once bound | `BLK-FUNCTIONAL-ACTIONABILITY`, `BLK-UNSIZED-REQUIREMENT` | ⭐ THE FAILURE-3 PAIR. This route adds a make-or-break no other LBD route carries — functional actionability of the LBD IN THE CHIMERA — which cannot be computed, cannot be bought, and is not covered by the delegated dTAG test. The probe framing is untouched by all of it |
+| [RT-TCIP](L2-rt-tcip.md) | how many termini the molecule has | `BLK-FUNCTIONAL-ACTIONABILITY`, `BLK-INDUCED-COMPLEX` | monovalent is strictly cleaner on the ternary axis — no second protein at all — while TCIP still inherits the induced-complex problem. The monovalent reach result therefore does not transfer to TCIP and vice versa |
+| [RT-6MP](L2-rt-6mp.md) | which domain the mechanism lives in | `BLK-FUNCTIONAL-ACTIONABILITY` | 6-MP is closed because it acts through the AF-1, the domain the disease deletes. That closure does NOT close LBD-directed modulation — the published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less |
+| [RT-DEGRADER](L2-rt-degrader.md) | whether a degradation geometry is needed at all | `BLK-FUNCTIONAL-ACTIONABILITY`, `BLK-UNSIZED-REQUIREMENT` | the degrader only has to BIND and be degraded; a monovalent modulator has to change what the chimera DOES, which is a make-or-break the degrader does not carry |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

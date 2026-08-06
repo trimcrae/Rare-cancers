@@ -76,6 +76,12 @@ A synthetic-lethal partner would be an ordinary, already-druggable protein that 
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-R4-BINDS** — R4 — nothing is known to bind the cryptic pocket at all
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-ATR-ASSESS](L2-rt-atr-assess.md) | where the dependency comes from | `BLK-NO-EMC-DATA` | 'synthetic lethality' names both. This one is a DepMap transfer prior that came back negative; the ATR route is a class inheritance from a published FET-family argument with its own structural precondition computed |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

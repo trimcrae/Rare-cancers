@@ -2360,8 +2360,36 @@ def render_l2(r, g):
             out.append(f"| **{b}** | `{row.get('kind','?')}` | {esc(outs)} |")
         out.append("")
     if r.get("blockers_retired"):
-        out += ["## Blockers this route RETIRES\n"] + \
+        # ⛔ "RETIRES" IS THE WRONG VERB FOR A DEAD ROUTE (2026-08-06 route audit). The schema glosses
+        # `blockers_retired` as "the portfolio's hedge against it, worth more than its own grade
+        # suggests" -- which cannot be true of a route that is `dead`/`closed` and can never be built.
+        # RT-EWSR1-PROTEIN's page credited a permanently-closed route with clearing the program's
+        # central blocker. A closed route does not RETIRE a blocker; it never FACES one.
+        dead = (r.get("state", {}).get("work_state") == "dead"
+                or r.get("state", {}).get("status") == "closed")
+        head = ("## Blockers this route never FACES\n" if dead
+                else "## Blockers this route RETIRES\n")
+        note = (["*This route is closed. It does not answer these blockers — its architecture never "
+                 "encounters them, so nothing here is a hedge the portfolio can spend.*\n"] if dead else [])
+        out += [head] + note + \
                [f"- **{b}** — {esc(bk.get(b,{}).get('name',''))}" for b in r["blockers_retired"]] + [""]
+
+    # ⭐ RENDER `distinct_from` (added 2026-08-06 by the route framing audit).
+    # The field exists because "one grade was applied to two routes that fail on OPPOSITE blockers"
+    # (research-object.schema.json). It was checked by nothing (`grep -c distinct_from
+    # systems_check.py` -> 0) and rendered in NO view -- so for the portfolio's most confusable
+    # pairs, the architecture's own outputs could not tell a reader which route owned which claim,
+    # and the disambiguation the registry carefully carried never reached anyone. Several audit
+    # findings were defects in this field that had survived precisely because nothing surfaced it.
+    if r.get("distinct_from"):
+        out += ["## Not to be confused with\n",
+                "| route | the axis it turns on | blockers the distinction turns on | why |",
+                "|---|---|---|---|"]
+        for d in r["distinct_from"]:
+            fo = ", ".join(f"`{b}`" for b in d.get("fails_on", [])) or "—"
+            out.append(f"| [{d['route']}](L2-{d['route'].lower()}.md) | {esc(d.get('axis','—'))} "
+                       f"| {fo} | {esc(d.get('why',''))} |")
+        out.append("")
 
     rd = r.get("readiness")
     if rd:

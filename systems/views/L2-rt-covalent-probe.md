@@ -90,6 +90,12 @@ A cysteine present in NR4A3 and absent from both paralogues would give categoric
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-FUNCTIONAL-ACTIONABILITY** — Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent activator?
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-MONOVALENT](L2-rt-monovalent.md) | what the molecule has to DO once bound | `BLK-NO-WET-LAB`, `BLK-R4-BINDS` | ⭐ THE FAILURE-3 PAIR. A probe needs only to BIND, so it inherits neither functional actionability nor a selectivity window; a monovalent DRUG needs the pocket to be a functional handle in the chimera and needs a selectivity requirement nobody has sized. Their in-silico halves fail on OPPOSITE things, so one demotion cannot cover both |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

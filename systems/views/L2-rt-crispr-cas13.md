@@ -43,7 +43,7 @@ flowchart LR
 
 ## Scientific rationale
 
-Sequence-programmable nucleases share the oligonucleotide route's perfect discrimination and add the possibility of permanent gene disruption. The RNA-targeting form avoids editing the genome at all.
+Sequence-programmable nucleases share the oligonucleotide route's sequence-level discrimination — reading sequence rather than shape and add the possibility of permanent gene disruption. The RNA-targeting form avoids editing the genome at all.
 
 ## Remaining unknowns
 
@@ -66,6 +66,12 @@ Sequence-programmable nucleases share the oligonucleotide route's perfect discri
 
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-ASO](L2-rt-aso.md) | delivery class | `BLK-VECTOR-DELIVERY` | an oligonucleotide's delivery problem and a vector's delivery problem are different engineering problems with different precedents — BLK-DELIVERY vs BLK-VECTOR-DELIVERY |
 
 ## Readiness — what this could become today
 

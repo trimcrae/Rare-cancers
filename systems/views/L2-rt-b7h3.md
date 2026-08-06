@@ -79,6 +79,13 @@ B7-H3 is a broadly expressed tumour antigen with clinical-stage agents already a
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-CART-SURFACE](L2-rt-cart-surface.md) | antigen vs modality | `BLK-NOT-FUSION-SELECTIVE` | B7-H3 is an ANTIGEN whose selectivity was measured and failed; CAR-T is a MODALITY that would use whichever antigen survives. Collapsing them hides that the modality is blocked by the antigen search, not by the cell product |
+| [RT-SSTR2](L2-rt-sstr2.md) | which antigen and how it was graded | `BLK-NOT-FUSION-SELECTIVE` | B7-H3's selectivity was MEASURED and failed (BH q = 1.0); SSTR2 is UNMEASURED in EMC. A measured negative and an unmeasured hope are not the same status |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

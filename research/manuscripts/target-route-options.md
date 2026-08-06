@@ -151,7 +151,7 @@ residue 361**. An off-by-two.
   NR4A3 exon 3 = **EWSR1(1–264) :: NR4A3(1–626)** — AF1, DBD, hinge and LBD all retained. That is
   `fusion_cofold.py`'s `EWS_CUT = 264` :: *"NR4A3 from residue 2"*, arrived at independently. **The model
   flagged as an unsourced assumption turns out to be the exon-correct one.**
-- ✅ **The ASO lane is unaffected and is now corroborated.**
+- ✅ **The ASO lane is unaffected and is now corroborated.** ⛔ **NARROWED 2026-08-06 — THIS WAS TRUE OF ONE MODULE, NOT OF THE LANE.** *Superseded, retained:* the unqualified *"the ASO lane is unaffected"*. The claim rested on `junction_breakpoint_scan.py` deliberately refusing the exon→CDS mapping — true of **that script**. `junction_aso.py`'s `FUSION_JUNCTION_MODE=real` path DID do the mapping, with the defective arithmetic, and produced the committed design panel the paper leads with: seam at NR4A3 CDS nt 1081, resuming at residue **361**, against a corrected range of **[1, 1]**. Code fixed and artifacts bannered 2026-08-06; regeneration needs Ensembl and must run in CI. See [`systems/AUDIT-2026-08-06-routes.md`](../../systems/AUDIT-2026-08-06-routes.md).
   [`junction_breakpoint_scan.py`](../modalities/junction_breakpoint_scan.py) deliberately refuses the exon
   mapping (*"we deliberately do NOT depend on a fragile exon→CDS coordinate mapping"*) and sweeps the
   NR4A3 resume over **codons 2–30** — which brackets the correct answer. The design decision that looked

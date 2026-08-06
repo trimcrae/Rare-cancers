@@ -70,6 +70,13 @@ The junction is tumour-exclusive at the sequence level, so a peptide spanning it
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-NOT-FUSION-SELECTIVE** — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-VACCINE](L2-rt-vaccine.md) | delivery of the same antigen | `BLK-ANTIGEN-COLD` | the antigen is one object; the vaccine, the TCR-T and the soluble TCR are three different products with different failure modes, and the board has graded them as one row |
+| [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md) | delivery of the same antigen | `BLK-ANTIGEN-COLD` | same antigen, engineered-cell or soluble-bispecific product rather than an immunisation |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

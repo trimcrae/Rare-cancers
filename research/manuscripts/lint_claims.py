@@ -114,6 +114,12 @@ DEFAULT_TARGETS = [
     # the next one land everywhere instead of everywhere-someone-remembered.
     "research/manuscripts/emc-treatment-strategy.md",
     "research/modalities/nr4a3-degrader-next-steps.md",
+    # ⛔ ADDED 2026-08-06 by the route framing audit. RT-ASO is Tier 1 rank 2 and its
+    # `next.best_next_action` is "Publish" — so this is the one manuscript actually queued to leave
+    # the building, and it was in neither this file's targets nor the view glob below. That is the
+    # outreach-emails lesson exactly: the outward-facing document needs the strictest check, not
+    # the loosest.
+    "research/manuscripts/fusion-junction-aso-paper.md",
 ]
 
 # ⛔ ADDED 2026-08-06 — THE THIRD TIME THIS EXACT HOLE HAS BEEN FOUND, AND THE LARGEST.

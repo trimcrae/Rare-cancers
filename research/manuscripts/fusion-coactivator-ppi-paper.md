@@ -250,8 +250,25 @@ coactivators in question are largely **pan-essential**:
 
 The selectivity window therefore depends entirely on **which side of the interface the molecule binds and
 how fusion-specific that contact is**:
-- Binding the **fusion-unique EWS-TAD surface / motif** (or gluing the fusion to a degradation machine via
-  that surface) **preserves** fusion selectivity — this is the design to aim for.
+- Binding the **EWS-TAD surface / motif** (or gluing the fusion to a degradation machine via
+  that surface) preserves selectivity **against wild-type NR4A3 and the two paralogues** — this is the design
+  to aim for on that axis.
+  ⛔ **BUT THE EWS-TAD IS NOT FUSION-UNIQUE, AND THIS PAGE PREVIOUSLY CALLED IT THAT.** *Superseded,
+  retained: "the **fusion-unique** EWS-TAD surface / motif … **preserves** fusion selectivity".* The
+  fusion's EWSR1 portion **is wild-type EWSR1 sequence** — `objects.json` defines every fusion object as
+  `EWSR1(1–431 / 1–264 / 1–472) :: NR4A3(…)`, and
+  [`fusion-object-inventory.md`](../modalities/fusion-object-inventory.md) records the low-complexity
+  residue K144 as **INVARIANT, 9/9** across every surviving breakpoint window. So an EWS-TAD binder engages
+  **endogenous EWSR1** in every cell in the body, and that liability is invisible to this document's entire
+  selectivity argument, which compares only against wild-type NR4A3. This is the object
+  [`RT-FET-LC-LIGAND`](../../systems/views/L2-rt-fet-lc-ligand.md) declares **permanently closed**
+  (`closure_kind: definitional`) — *a ligand for a SHARED region cannot discriminate between the things
+  that share it.* ⚠ What survives is the **BAF-retargeting mechanism as biology**, and the possibility that
+  an interface CONTACT is fusion-emergent even though the surface supplying it is not — that is a different
+  and much narrower claim than "fusion-unique", and nothing here has established it. Found by the
+  2026-08-06 route audit, which also found this route is registered as **no `RT-*` at all**, so no closure
+  register, blocker inheritance or `distinct_from` edge reaches it —
+  [`systems/AUDIT-2026-08-06-routes.md`](../../systems/AUDIT-2026-08-06-routes.md).
 - Binding the **coactivator's general interface** **forfeits** it — this is the failure mode, and it is the
   *easier* molecule to make, which is exactly why the risk is acute.
 
@@ -291,7 +308,8 @@ effective.
 ## 7. Broader indications: the EWS-LC ↔ BAF axis generalises across FET-fusion sarcomas
 
 The fusion-emergent contact this route targets is supplied by the **EWS / FET low-complexity transactivation
-domain**, which is **shared across the FET-fusion family** — EWS-FLI1 / EWS-ERG (Ewing sarcoma),
+domain**, which is **shared across the FET-fusion family — and with wild-type EWSR1 itself**, the point
+this section states and then does not carry into its selectivity argument — EWS-FLI1 / EWS-ERG (Ewing sarcoma),
 EWSR1::NR4A3 (EMC), and other EWSR1/FUS/TAF15 fusions. The BAF-retargeting mechanism was in fact first
 demonstrated for **EWS-FLI1 in Ewing sarcoma** (Boulay 2017), not for EMC. A blocker of the **EWS-TAD↔BAF**
 interface would, in principle, act on the *shared* fusion-emergent surface and therefore **generalise across

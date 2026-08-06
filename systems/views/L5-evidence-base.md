@@ -33,7 +33,7 @@ omitted, and why `[L5]` reports the count.
 
 | object | kind | status | cited by |
 |---|---|---|---|
-| **OBJ-EWSR1-WT**<br/>EWSR1 (wild type) | `wild_type_protein` | `wild_type` | [RT-6MP](L2-rt-6mp.md), [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) |
+| **OBJ-EWSR1-WT**<br/>EWSR1 (wild type) | `wild_type_protein` | `wild_type` | [RT-6MP](L2-rt-6mp.md), [RT-ASO-ASK](L2-rt-aso-ask.md), [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) |
 | **OBJ-FUS-FUSNR4A3**<br/>FUS::NR4A3 | `fusion_protein` | `reported_breakpoint_unpinned` | [INS-CONSTRUCT-DESIGNS](registers/instruments.md), [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **OBJ-FUS-T1**<br/>EWSR1::NR4A3 type 1 | `fusion_protein` | `reported` | [INS-CONSTRUCT-DESIGNS](registers/instruments.md), [RT-ANDGATE](L2-rt-andgate.md), [RT-ASO](L2-rt-aso.md), [RT-ASO-ASK](L2-rt-aso-ask.md), [RT-ATR-ASSESS](L2-rt-atr-assess.md), [RT-CRISPR-CAS13](L2-rt-crispr-cas13.md), [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md), [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md), [RT-RIBOZYME](L2-rt-ribozyme.md), [RT-SYNPROMOTER](L2-rt-synpromoter.md), [RT-TCIP](L2-rt-tcip.md), [RT-TRABECTEDIN](L2-rt-trabectedin.md), [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md), [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) |
 | **OBJ-FUS-T2**<br/>EWSR1::NR4A3 type 2 | `fusion_protein` | `reported` | [INS-CONSTRUCT-DESIGNS](registers/instruments.md), [RT-ASO](L2-rt-aso.md), [RT-ATR-ASSESS](L2-rt-atr-assess.md), [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) |
@@ -41,7 +41,7 @@ omitted, and why `[L5]` reports the count.
 | **OBJ-FUS-TAF15**<br/>TAF15::NR4A3 | `fusion_protein` | `reported` | [INS-CONSTRUCT-DESIGNS](registers/instruments.md), [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **OBJ-FUS-TCF12**<br/>TCF12::NR4A3 | `fusion_protein` | `reported_breakpoint_unpinned` | [INS-CONSTRUCT-DESIGNS](registers/instruments.md), [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **OBJ-LINE-HEMCSS**<br/>ACH-001519 / H-EMC-SS | `cell_line` | `identity_disputed` | [INS-GEO-SERIES-CHARACTERISE](registers/instruments.md) |
-| **OBJ-MODEL-E7E3**<br/>The modelled EWSR1 e7 :: NR4A3 e3 construct | `modelled_construct` | `modelled_not_reported` | [INS-FUSION-OBJECT-INVENTORY](registers/instruments.md), [RT-ATR-ASSESS](L2-rt-atr-assess.md), [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md), [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md), [RT-VACCINE](L2-rt-vaccine.md) |
+| **OBJ-MODEL-E7E3**<br/>The modelled EWSR1 e7 :: NR4A3 e3 construct | `modelled_construct` | `modelled_not_reported` | [INS-FUSION-OBJECT-INVENTORY](registers/instruments.md), [RT-ATR-ASSESS](L2-rt-atr-assess.md), [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md), [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md), [RT-VACCINE](L2-rt-vaccine.md) |
 | **OBJ-NR4A1-WT**<br/>NR4A1 / Nur77 | `wild_type_protein` | `wild_type` | [RT-ASYMMETRIC](L2-rt-asymmetric.md), [RT-DEGRADER](L2-rt-degrader.md), [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md), [RT-RXR](L2-rt-rxr.md) |
 | **OBJ-NR4A2-WT**<br/>NR4A2 / Nurr1 | `wild_type_protein` | `wild_type` | [RT-ASYMMETRIC](L2-rt-asymmetric.md), [RT-DEGRADER](L2-rt-degrader.md), [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md), [RT-RXR](L2-rt-rxr.md) |
 | **OBJ-NR4A3-AF1**<br/>NR4A3 AF-1 (N-terminal activation function) | `domain` | `domain` | [RT-6MP](L2-rt-6mp.md), [RT-MONOVALENT](L2-rt-monovalent.md) |
@@ -83,7 +83,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-DDR-AXIS-SCAN** | `research/modalities/fet-ddr-axis-scan.json` | `research/modalities/fet_ddr_axis_scan.py` | `CLM-ATRI-GDSC`, `CLM-KO-SATURATION`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-DECOY-NULL-LBD** | `research/modalities/categorical-decoy-null-lbd.json` | `research/modalities/categorical_decoy_null.py` | `CLM-C397-DECOY-NULL`, [RT-COVALENT-PROBE](L2-rt-covalent-probe.md), [RT-DEGRADER](L2-rt-degrader.md) |
 | **ART-EMC-CLINICAL-REGISTRY** | `research/data/emc-clinical-registry.json` | `hand-curated from published literature; ingestion via scripts/fetch-paper.mjs + scripts/triage-literature.mjs` | ⚠ **nothing** |
-| **ART-FUSION-OBJECT-INVENTORY** | `research/modalities/fusion-object-inventory.json` | `research/modalities/fusion_object_inventory.py` | `CLM-BREAKPOINT-FILTER`, `OBJ-EWSR1-WT`, `OBJ-NR4A3-WT` |
+| **ART-FUSION-OBJECT-INVENTORY** | `research/modalities/fusion-object-inventory.json` | `research/modalities/fusion_object_inventory.py` | `CLM-BREAKPOINT-FILTER`, `OBJ-EWSR1-WT`, `OBJ-NR4A3-WT`, [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md), [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) |
 | **ART-HLA-COVERAGE** | `research/modalities/hla-coverage.json` | `research/modalities/hla_coverage.py` | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md), [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md), [RT-TCRT-CTA](L2-rt-tcrt-cta.md), [RT-VACCINE](L2-rt-vaccine.md) |
 | **ART-IDR-CENSUS** | `research/modalities/emc-fet-idr-census.json` | `research/modalities/emc_fet_idr_census.py` | `CLM-IDR-COMPARATIVE`, `CLM-IDR-CONTROLS`, `CLM-IDR-EMC`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-MONOVALENT-REACH** | `research/modalities/nr4a3-monovalent-reach.json` | `research/modalities/nr4a3_monovalent_reach.py` | `CLM-MONOVALENT-CROSSCHECK`, `CLM-MONOVALENT-VERDICT`, [RT-MONOVALENT](L2-rt-monovalent.md) |

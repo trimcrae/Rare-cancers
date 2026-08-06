@@ -77,6 +77,13 @@ A surface target avoids the intracellular-antigen problem entirely and CAR-T is 
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md) | where the NR4A molecule acts | `BLK-ANTIGEN-COLD` | ⚠ TWO DIFFERENT CAR-T ROUTES. This one directs a CAR against an EMC surface antigen. No treatment claim is made — no antigen here has been shown to be EMC-restricted, and nothing asserts efficacy. The pan-NR4A pole is a MANUFACTURING ADDITIVE applied ex vivo to the T cells, where the systemic-selectivity liability does not arise at all |
+| [RT-B7H3](L2-rt-b7h3.md) | antigen vs modality | `BLK-ANTIGEN-COLD`, `BLK-NO-EMC-DATA` | CAR-T is the modality; B7-H3 is one antigen it could use. The modality is blocked by the antigen search and by the cold myxoid stroma, not by the cell product |
+
 ## Readiness — what this could become today
 
 **`internal_note`**

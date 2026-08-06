@@ -286,13 +286,13 @@
     },
     "purpose": "Can an RNase-H gapmer or siRNA against the EWSR1::NR4A3 breakpoint junction silence the chimera while sparing wild-type NR4A3?",
     "state": {
-      "work_state": "complete",
+      "work_state": "future",
       "status": "blocked",
-      "maturity": "computed",
+      "maturity": "scoped",
       "confidence": "moderate",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-06"
     },
-    "rationale": "The breakpoint junction is a sequence that exists in no healthy cell. An oligonucleotide reads sequence rather than shape, so it discriminates perfectly where every protein-directed route has to fight a shared fold. This is the only genuinely fusion-selective route in the portfolio, and its in-silico arc is complete: design, off-target screen, breakpoint-favourability scan, and gap-mismatch-resolved candidates.",
+    "rationale": "The breakpoint junction is a sequence that exists in no healthy cell. An oligonucleotide reads sequence rather than shape, so it discriminates on SEQUENCE rather than shape — predicted, not demonstrated where every protein-directed route has to fight a shared fold. This is the fusion-selective route whose deliverable is finishable here (RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC and RT-RIBOZYME also retire the blocker), and its in-silico arc is complete: design, off-target screen, breakpoint-favourability scan, and gap-mismatch-resolved candidates.",
     "supporting_evidence": [
       {
         "ref": "ART-JUNCTION-ASO-OFFTARGET",
@@ -301,6 +301,7 @@
       }
     ],
     "remaining_unknowns": [
+      "⛔ THE COMMITTED DESIGN PANEL IS BUILT ON A RETRACTED SEAM. junction_aso.py carried the 2026-08-03 exon off-by-two until 2026-08-06; its seam resumes NR4A3 at residue 361 against a corrected range of [1, 1]. The code is fixed; the artifacts are bannered and NOT regenerated — regeneration needs Ensembl and must run in CI. No design, GC value, cleavage count or the headline gapmer may be quoted until it does.",
       "How to deliver an oligonucleotide to a non-hepatic solid tumour — the one remaining gate, and it is engineering rather than biology.",
       "Whether predicted specificity survives a calibrated cleavage model: the current screen uses a deliberately conservative gap-mismatch heuristic, so it may be over- or under-calling.",
       "Whether the potency ranking holds — it rests on a local-fold accessibility proxy rather than a measured accessibility model."
@@ -319,6 +320,16 @@
         "blocked_by": [
           "BLK-NO-WET-LAB"
         ]
+      },
+      {
+        "what": "Regenerate the junction panel at the CORRECTED seam and re-derive every design (needs network — CI)",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A calibrated gap-internal-mismatch RNase-H1 cleavage model, which would retire the conservative heuristic the specificity margin rests on (paper §8)",
+        "feasible_today": true,
+        "blocked_by": []
       }
     ],
     "readiness": {
@@ -373,7 +384,8 @@
     },
     "objects": [
       "OBJ-FUS-T1",
-      "OBJ-NR4A3-WT"
+      "OBJ-NR4A3-WT",
+      "OBJ-EWSR1-WT"
     ],
     "evidence": [],
     "artifacts": [],
@@ -401,7 +413,7 @@
         "file": "systems/graph/routes.json"
       }
     },
-    "purpose": "Will someone with a bench run the decisive experiment: junction knockdown with wild-type sparing in an EMC line?",
+    "purpose": "Can junction knockdown be shown to spare the wild-type parents, and does losing the fusion kill EMC cells? ⚠ The sparing half CANNOT be shown in an EMC line alone — EMC cells may express little wild-type NR4A3, so 'sparing' is unmeasurable where the wild-type transcript is near-absent.",
     "state": {
       "work_state": "future",
       "status": "blocked",
@@ -416,19 +428,33 @@
     ],
     "required_validation": [
       {
-        "what": "The experiment itself, run by someone with cells",
+        "what": "Junction knockdown and the phenotype arm, in an EMC line — with a fusion-negative line as control (fusion-junction-aso-paper.md §4)",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-WET-LAB",
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
+        ]
+      },
+      {
+        "what": "PARENTAL SPARING, in an engineered or isogenic fusion-positive model carrying abundant wild-type NR4A3 AND EWSR1, with single-parent-targeting ASOs as positive controls. A scrambled control tests sequence-independent toxicity, not discrimination (red-team F7)",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
     "readiness": {
       "attainable_today": "experimental_proposal",
-      "why_not_higher": "It is already a fully specified experimental proposal. What it lacks is a taker, and no amount of further specification produces one.",
+      "why_not_higher": "It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-paper.md §4). What it lacks is a taker, and no amount of further specification produces one.",
       "missing": [
-        "a collaborator with an EMC or FET-fusion line"
+        "a collaborator with an EMC or FET-fusion line",
+        "an engineered or isogenic fusion-positive model expressing abundant wild-type NR4A3 and EWSR1 — an EMC line alone cannot carry the sparing claim",
+        "single-parent-targeting positive-control oligos"
+      ],
+      "experiment_required": [
+        "junction-spanning qPCR/RNA-seq plus fusion protein readout",
+        "allele- or exon-resolved wild-type EWSR1 and NR4A3 quantitation",
+        "viability/apoptosis for the phenotype arm",
+        "an engineered/isogenic fusion-positive model with abundant wild-type parents, plus single-parent-targeting positive-control oligos (red-team F7)"
       ]
     },
     "timing": {
@@ -2022,7 +2048,7 @@
         "fails_on": [
           "BLK-ANTIGEN-COLD"
         ],
-        "why": "⚠ TWO DIFFERENT CAR-T ROUTES. This one treats EMC with a CAR against an EMC surface antigen. The pan-NR4A pole is a MANUFACTURING ADDITIVE applied ex vivo to the T cells, where the systemic-selectivity liability does not arise at all"
+        "why": "⚠ TWO DIFFERENT CAR-T ROUTES. This one directs a CAR against an EMC surface antigen. No treatment claim is made — no antigen here has been shown to be EMC-restricted, and nothing asserts efficacy. The pan-NR4A pole is a MANUFACTURING ADDITIVE applied ex vivo to the T cells, where the systemic-selectivity liability does not arise at all"
       },
       {
         "route": "RT-B7H3",
@@ -3461,7 +3487,12 @@
         "anchor": "#route-11--target-the-ewsr1-half-at-the-protein-level"
       }
     },
-    "grade_pointers": [],
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/nr4a3-program-map.md",
+        "asserts_grade": false
+      }
+    ],
     "blockers_inherited": [
       "BLK-NOT-FUSION-SELECTIVE"
     ],
@@ -3473,10 +3504,13 @@
       "disclosed_failing": []
     },
     "objects": [
-      "OBJ-EWSR1-WT"
+      "OBJ-EWSR1-WT",
+      "OBJ-MODEL-E7E3"
     ],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-FUSION-OBJECT-INVENTORY"
+    ],
     "distinct_from": [
       {
         "route": "RT-FET-LC-LIGAND",
@@ -3489,7 +3523,7 @@
     ],
     "closure_kind": "definitional",
     "revival_trigger": [],
-    "closure_note": "The EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages an essential housekeeping protein BY CONSTRUCTION. No method changes what the sequence is.",
+    "closure_note": "Definitional: the EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages wild-type EWSR1 BY CONSTRUCTION. Wild-type EWSR1 is additionally pan-essential (DepMap gene effect ~-1.2, depmap-insilico-findings.md) — but that is a SURROGATE cell-line read and is NOT the definitional leg; the closure stands without it. ⚠ Scoped: this closes targeting the EWSR1 half ON ITS OWN. It does NOT close RT-ANDGATE, whose logic requires both arms in cis, nor the junction routes RT-ASO / RT-JUNCTION-NEOANTIGEN, which act on a sequence wild-type EWSR1 does not have.",
     "strategy": "ST-FUSION-DIRECT",
     "level": "L2",
     "kind": "route",
@@ -3555,20 +3589,22 @@
       "OBJ-EWSR1-WT"
     ],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-FUSION-OBJECT-INVENTORY"
+    ],
     "distinct_from": [
       {
         "route": "RT-EWSR1-PROTEIN",
         "axis": "the same liability, arrived at from a different direction",
         "fails_on": [
-          "BLK-NO-WET-LAB"
+          "BLK-NOT-FUSION-SELECTIVE"
         ],
         "why": "a NEW route to this repo, proposed as a class-wide FET handle rather than as an EWSR1-specific one"
       }
     ],
     "closure_kind": "definitional",
     "revival_trigger": [],
-    "closure_note": "A ligand for the SHARED FET low-complexity half binds wild-type EWSR1 by definition of 'shared'. Permanent for the same reason as the row above, reached from the other direction.",
+    "closure_note": "Definitional on the shared-region leg: a ligand DEFINED by the shared FET low-complexity feature cannot discriminate among the things that share it, and the fusion's EWSR1 portion is wild-type EWSR1 sequence in all nine surviving breakpoint windows (ART-FUSION-OBJECT-INVENTORY). ⚠ THE COMPARATIVE IS NOT DEFINITIONAL: 'relocates somewhere WORSE' rests on a DepMap essentiality trade (EWSR1 gene effect ~-1.2 against NR4A1 0.5% / NR4A2 0.3% dependent) — a surrogate cell-line read, not a fact about the objects. The registry does not otherwise treat 'engages an essential protein' as fatal by construction: RT-CARFILZOMIB is `ready` on a pan-essential proteasome and RT-RIPTAC is parked rather than closed on a deliberately essential-protein mechanism. So the permanence rests on the first leg alone. ⚠ OPEN for trimcrae: whether 'worse' should be dropped from the grade, or the closure re-filed as non-permanent — see systems/AUDIT-2026-08-06-routes.md.",
     "strategy": "ST-FUSION-DIRECT",
     "level": "L2",
     "kind": "route",
@@ -3587,7 +3623,13 @@
       "last_verified": "2026-08-05"
     },
     "rationale": "Registered for the same reason as the row above. A ligand for the SHARED low-complexity half binds wild-type EWSR1 by the definition of 'shared'. It relocates the selectivity problem onto a protein that is more essential, not less.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-FUSION-OBJECT-INVENTORY",
+        "what_it_supports": "the fusion's EWSR1 portion is wild-type EWSR1 sequence and the low-complexity region is present breakpoint-independently (K144 INVARIANT 9/9)",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
       "Nothing is open. A ligand for a SHARED region cannot discriminate between the things that share it; that is what 'shared' means, so no capability reopens it."
     ],
@@ -3613,7 +3655,7 @@
       "target-route route 12"
     ],
     "grade": {
-      "value": "✕ down, on arithmetic — 92.8 % / 98.6 % paralogue identity",
+      "value": "✕ down, on arithmetic — `zinc_finger_window` paralogue identity 92.8% / 98.6% against the LBD's 59.4% / 67.3%",
       "owner": {
         "file": "research/manuscripts/target-route-options.md",
         "anchor": "#route-12--target-the-dbd--dna-binding"
@@ -3622,10 +3664,11 @@
     "grade_pointers": [
       {
         "file": "research/manuscripts/emc-post-degrader-options.md",
-        "asserts_grade": false
+        "asserts_grade": true
       }
     ],
     "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE",
       "BLK-PARALOGUE-DDG"
     ],
     "blockers_retired": [],
@@ -3640,7 +3683,24 @@
     "artifacts": [
       "ART-TARGET-ROUTE-CENSUS"
     ],
-    "distinct_from": [],
+    "distinct_from": [
+      {
+        "route": "RT-EWSR1-PROTEIN",
+        "axis": "which protein the collateral damage lands on",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "the EWSR1 routes relocate onto wild-type EWSR1, an essential housekeeping protein, and close definitionally with nothing computed; this one stays on NR4A3 and closes on a COMPUTED paralogue-identity ordering"
+      },
+      {
+        "route": "RT-FET-LC-LIGAND",
+        "axis": "which protein the collateral damage lands on",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "the shared FET low-complexity half is wild-type EWSR1 sequence by definition; the DBD is NR4A3's own, and what closes this route is that the zinc finger is MORE paralogue-identical than the LBD, not that it is shared with EWSR1"
+      }
+    ],
     "closure_kind": "arithmetic_over_fixed_fact",
     "revival_trigger": [],
     "closure_note": "The zinc-finger DBD is far more conserved between the paralogues than the LBD the program already targets. An arithmetic consequence of a fixed sequence fact — never revivable.",
@@ -3898,12 +3958,7 @@
         "anchor": "#routes-813--why-each-sits-in-tier-3|route9"
       }
     },
-    "grade_pointers": [
-      {
-        "file": "research/manuscripts/novel-modalities.md",
-        "asserts_grade": false
-      }
-    ],
+    "grade_pointers": [],
     "blockers_inherited": [
       "BLK-VECTOR-DELIVERY"
     ],
@@ -3932,7 +3987,7 @@
     ],
     "closure_kind": "instrument_limit",
     "revival_trigger": [
-      "TR-OLIGO-TUMOUR-DELIVERY"
+      "TR-VECTOR-TUMOUR-DELIVERY"
     ],
     "closure_note": "Vector delivery, plus Cas13 collateral activity.",
     "strategy": "ST-NUCLEIC-ACID",
@@ -3952,7 +4007,7 @@
       "confidence": "low",
       "last_verified": "2026-08-05"
     },
-    "rationale": "Sequence-programmable nucleases share the oligonucleotide route's perfect discrimination and add the possibility of permanent gene disruption. The RNA-targeting form avoids editing the genome at all.",
+    "rationale": "Sequence-programmable nucleases share the oligonucleotide route's sequence-level discrimination — reading sequence rather than shape and add the possibility of permanent gene disruption. The RNA-targeting form avoids editing the genome at all.",
     "supporting_evidence": [],
     "remaining_unknowns": [
       "How to deliver a vector to a solid tumour at therapeutic coverage.",
@@ -4095,14 +4150,14 @@
         "route": "RT-SYNPROMOTER",
         "axis": "what the fusion is sensed BY",
         "fails_on": [
-          "BLK-VECTOR-DELIVERY"
+          "BLK-NOT-FUSION-SELECTIVE"
         ],
         "why": "the ribozyme senses the fusion TRANSCRIPT by base-pairing; the synthetic promoter senses the fusion PROTEIN by DNA binding — and the second fails for an EMC-specific reason the first does not (EMC lacks a neomorphic DNA-binding element)"
       }
     ],
     "closure_kind": "instrument_limit",
     "revival_trigger": [
-      "TR-OLIGO-TUMOUR-DELIVERY"
+      "TR-VECTOR-TUMOUR-DELIVERY"
     ],
     "closure_note": "Vector delivery, and a technique with no modern solid-tumour clinical footing.",
     "strategy": "ST-NUCLEIC-ACID",
@@ -4122,7 +4177,7 @@
       "confidence": "low",
       "last_verified": "2026-08-05"
     },
-    "rationale": "A ribozyme triggered by the fusion transcript would turn the driver into the thing that kills the cell — the cleanest possible coupling of tumour identity to tumour death.",
+    "rationale": "A trans-splicing ribozyme would sense the fusion transcript by base-pairing across the breakpoint junction — a sequence present in no healthy cell — and convert that sensing into expression of a suicide gene. ⚠ The coupling is to the junction SEQUENCE, not to tumour identity: the vector delivers indiscriminately, so any cell it reaches in which the ribozyme trans-splices off-target is killed by the same mechanism, and no trans-splicing specificity has been computed anywhere in this repo. No efficacy, safety or therapeutic window is asserted.",
     "supporting_evidence": [],
     "remaining_unknowns": [
       "Vector delivery, as above.",
@@ -4131,6 +4186,13 @@
     "required_validation": [
       {
         "what": "Vector delivery, and a modern demonstration of the technique",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-VECTOR-DELIVERY"
+        ]
+      },
+      {
+        "what": "Trans-splicing specificity: that the ribozyme's binding arm engages the breakpoint junction and not other transcripts",
         "feasible_today": false,
         "blocked_by": [
           "BLK-VECTOR-DELIVERY"
@@ -4176,6 +4238,8 @@
     },
     "grade_pointers": [],
     "blockers_inherited": [
+      "BLK-NO-EMC-DATA",
+      "BLK-NOT-FUSION-SELECTIVE",
       "BLK-VECTOR-DELIVERY"
     ],
     "blockers_retired": [
@@ -4204,7 +4268,7 @@
     ],
     "closure_kind": "premise_false",
     "revival_trigger": [
-      "TR-OLIGO-TUMOUR-DELIVERY"
+      "TR-VECTOR-TUMOUR-DELIVERY"
     ],
     "closure_note": "⭐ EMC lacks the neomorphic DNA-binding element the technique depends on — a measured premise about EMC's fusion, and the reason it fails is itself a computed EMC result worth publishing.",
     "strategy": "ST-NUCLEIC-ACID",
@@ -4254,6 +4318,7 @@
       "cost_trend": "flat",
       "automation_outlook": "Not applicable.",
       "revisit_trigger": [
+        "TECH-VECTOR-DELIVERY",
         "TECH-EMC-EXPRESSION-DATA"
       ]
     },

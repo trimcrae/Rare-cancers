@@ -42,8 +42,7 @@ flowchart LR
   ST_FUSION_DIRECT --> RT_FET_LC_LIGAND
 
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
-  BLK_NOT_FUSION_SELECTIVE --> RT_EWSR1_PROTEIN
-  BLK_NOT_FUSION_SELECTIVE --> RT_FET_LC_LIGAND
+  BLK_NOT_FUSION_SELECTIVE --> ST_FUSION_DIRECT
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
   BLK_PARALOGUE_DDG --> RT_DBD
   classDef fam stroke-width:2px;
@@ -52,7 +51,7 @@ flowchart LR
   classDef tech stroke-width:1px,stroke-dasharray:4 3;
 ```
 
-**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
+**Reading it.** 1 blocker point at the FAMILY node: every route here inherits it, so the family stands or falls as a unit on that. The rest point at individual routes.
 
 *What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
 
@@ -63,6 +62,14 @@ flowchart LR
 | **[RT-DBD](L2-rt-dbd.md)**<br/>Target the DBD / DNA binding | ✕ closed | computed | `internal_note` | Nothing. Cite the closure. |
 | **[RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md)**<br/>Target the EWSR1 half at the protein level | ✕ closed | scoped | `internal_note` | Nothing. Cite the closure when the idea resurfaces. |
 | **[RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md)**<br/>A ligand for the shared FET low-complexity half | ✕ closed | scoped | `internal_note` | Nothing. Cite the closure. |
+
+## Family-level bets — blockers EVERY route here inherits
+
+If one of these is never retired, the whole family is dead. That is a different risk from any
+single route failing, and it is only visible at this level.
+
+- **BLK-NOT-FUSION-SELECTIVE** (`fundamental_biological_limit`) — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)
+
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-PARALOGUE-DDG** (`requires_better_simulation_accuracy`) — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
