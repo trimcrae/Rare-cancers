@@ -326,12 +326,54 @@ def test_plan_render_round_trips(graph):
 
 
 def test_plan_item_count_and_markers_are_unchanged(graph):
-    """The migration gate. A different count is a failed move, not a new plan."""
-    items = [b for b in (graph.get("plan") or {}).get("blocks", []) if b["kind"] == "item"]
+    """The migration gate. A different COUNT is a failed move, not a new plan.
+
+    ⚠ THE MARKER DISTRIBUTION IS NO LONGER FROZEN, AND FREEZING IT WAS A MISTAKE (corrected 2026-08-06).
+    This test asserted the exact Counter from the migration moment — `{"x": 17, "~": 3, " ": 15, "–": 1,
+    "!": 2}`. That is the plan's LIVE STATE, not a property of the move: the instant a rung lands and its
+    marker goes to `x`, a test whose stated purpose is "the move was lossless" goes red for a reason that
+    has nothing to do with the move. A guard that fires on ordinary progress gets edited every time it
+    fires, and a guard that gets edited routinely stops being read. (It fired here on eight markers
+    corrected against the roadmap, which owns a gate's verdict — every one of them a real advance.)
+
+    What actually belongs to the migration, and is kept: the item COUNT (items neither lost nor invented)
+    and the marker VOCABULARY (a stray glyph means a mangled parse). Losslessness itself is proven
+    elsewhere and more strictly — `systems/extract_plan.py` refuses to write unless re-rendering
+    reproduces the original text byte for byte.
+    """
     from collections import Counter
+    items = [b for b in (graph.get("plan") or {}).get("blocks", []) if b["kind"] == "item"]
     assert len(items) == 38, f"expected 38 plan items, found {len(items)}"
-    assert dict(Counter(b["marker"] for b in items)) == \
-        {"x": 17, "~": 3, " ": 15, "–": 1, "!": 2}
+    seen = Counter(b["marker"] for b in items)
+    assert set(seen) <= {"x", "~", " ", "–", "!"}, (
+        f"unknown plan marker(s) {sorted(set(seen) - {'x', '~', ' ', '–', '!'})} — the vocabulary is "
+        f"x/~/space/en-dash/! and anything else is a mangled parse, not a new state"
+    )
+
+
+def test_every_plan_item_text_ends_in_a_newline(graph):
+    """⛔ A STRIPPED TRAILING NEWLINE MERGES TWO PLAN ITEMS INTO ONE LINE, AND THE MERGE IS SILENT.
+
+    ★ MEASURED 2026-08-06. Eight plan markers were corrected against the roadmap with
+    `item["text"].rstrip() + note`. Every item's text carries a trailing `\\n` that the renderer relies on
+    to end the bullet, so `.rstrip()` removed it and each edited item rendered CONCATENATED with the one
+    after it. The victim was `R14-b` — an owed, money-gated item — which vanished from the work ledger's
+    board entirely while still existing in the graph.
+
+    ⚠ NOTHING CAUGHT IT AT THE TIME: the JSON stayed valid, `systems_check --check` stayed at 0 ERROR, the
+    view regenerated without complaint, and the item count stayed 38 because no item was DELETED — only
+    made invisible to the parser. It surfaced because `test_work_ledger_reads_the_generated_plan` had just
+    been changed to derive the owed count from the graph instead of comparing it to a frozen 20; the
+    derived form disagreed 12 vs 13 the first time it ran. The frozen version would have passed.
+
+    This test is the cheap direct check for the same failure, so it does not depend on the ledger.
+    """
+    items = [b for b in (graph.get("plan") or {}).get("blocks", []) if b["kind"] == "item"]
+    bad = [b["text"][:60] for b in items if not b["text"].endswith("\n")]
+    assert not bad, (
+        "plan item text must end with a newline — the renderer uses it to end the bullet, so an item "
+        "without one silently swallows the next item into its own line:\n  " + "\n  ".join(bad)
+    )
 
 
 def test_the_skipped_marker_is_an_en_dash(graph):
@@ -362,9 +404,17 @@ def test_plan_and_spine_notations_share_one_file():
         f"spine values not a subset of the plan's: {sorted(set(spine_cum) - set(plan_cum))}"
 
 
-def test_work_ledger_reads_the_generated_plan():
+def test_work_ledger_reads_the_generated_plan(graph):
     """The parser follows the plan. A parser left watching the old location goes green on a file
-    that no longer holds what it parses — the exact failure parser_guard exists to prevent."""
+    that no longer holds what it parses — the exact failure parser_guard exists to prevent.
+
+    ⚠ THE OWED COUNT IS DERIVED FROM THE GRAPH, NOT FROZEN (corrected 2026-08-06). This asserted
+    `len(got) == 20`, which was the number of not-done items on the day the plan moved. It is live
+    state: every rung that lands lowers it, so a test about WHERE THE PARSER LOOKS went red because
+    WORK GOT DONE. Comparing the parser's count to the graph's own count of not-done items is
+    strictly stronger — it catches a parser that silently drops or double-counts items, which a
+    hardcoded 20 never could once the true number moved away from 20.
+    """
     sys.path.insert(0, os.path.join(REPO, "research", "modalities"))
     import work_ledger as wl
     assert wl.DEFAULT_PLAN_DOC.endswith(os.path.join("systems", "views", "plan.md"))
@@ -372,7 +422,14 @@ def test_work_ledger_reads_the_generated_plan():
     text = open(wl.DEFAULT_PLAN_DOC, encoding="utf-8").read()
     got, how = wl.scan_plan_items(text, None)
     assert not how.startswith("NOT SCANNED"), how
-    assert len(got) == 20, f"expected 20 owed items, got {len(got)}"
+
+    items = [b for b in (graph.get("plan") or {}).get("blocks", []) if b["kind"] == "item"]
+    owed = [b for b in items if b["marker"] not in ("x", "–")]
+    assert len(got) == len(owed), (
+        f"the ledger parsed {len(got)} owed item(s) from the view but the graph holds {len(owed)} "
+        f"not-done item(s) ({len(items)} total). The parser and the model must agree on what is owed; "
+        f"a gap means the renderer and the scanner disagree about the marker vocabulary."
+    )
 
 
 def test_the_plan_is_linted_wherever_it_lives():

@@ -244,7 +244,7 @@ which sat far outside the window in the bivalent configuration.
 
 ⚠ **And a second margin is lost before any paralogue is considered.** The bivalent counter-test's finding
 was that the window is closed by a *paralogue* cysteine rather than by one of NR4A3's own conserved ones —
-i.e. the intra-NR4A3 margin was the easy half ([roadmap branch 1b](./nr4a3-program-map.md#branch-1b--computed-not-reconciled-to-its-artifact)).
+i.e. the intra-NR4A3 margin was the easy half ([roadmap branch 1b](./nr4a3-program-map.md#branch-1b--computed-and-reconciled-to-its-artifact-2026-08-03)).
 Monovalently it is not: the median intra-NR4A3 window falls by most of its width. The route loses margin on
 **both** axes at once.
 
@@ -433,7 +433,7 @@ route board should carry the distinction rather than the hope.**
 | **Boulay G, et al.** *Cancer-specific retargeting of BAF complexes by a prion-like domain.* **Cell** 2017. doi:10.1016/j.cell.2017.07.036 | the EWSR1 low-complexity region is an independently-acting transactivation/chromatin module (§2.3) | [`degrader-vs-synthetic-lethal.md`](./degrader-vs-synthetic-lethal.md) |
 | **Nabet B, et al.** *The dTAG system for immediate and target-specific protein degradation.* **Nat Chem Biol** 2018. doi:10.1038/s41589-018-0021-8 | the delegated fusion-dependence test, and why it does not serve this route (§2.3) | [`target-route-options.md`](./target-route-options.md) references |
 | NR4A3 vs EWSR1 domain swap; per-domain paralogue identities | §2.3, §4 | [`target-route-options.md`](./target-route-options.md) check B and finding 1 → `target-route-census.json` — **not recomputed here** |
-| The bivalent linker-borne covalent reach result and its noise bound | §3 — the replication target and the comparator | [`nr4a3-linker-covalent-reach.json`](../modalities/nr4a3-linker-covalent-reach.json); [roadmap branch 1b](./nr4a3-program-map.md#branch-1b--computed-not-reconciled-to-its-artifact) |
+| The bivalent linker-borne covalent reach result and its noise bound | §3 — the replication target and the comparator | [`nr4a3-linker-covalent-reach.json`](../modalities/nr4a3-linker-covalent-reach.json); [roadmap branch 1b](./nr4a3-program-map.md#branch-1b--computed-and-reconciled-to-its-artifact-2026-08-03) |
 
 ---
 
