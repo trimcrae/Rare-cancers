@@ -9,7 +9,7 @@ purpose: See the document body; purpose was not stated separately when frontmatt
 scope: Scope not separately declared. Inferred kind `manuscript` from its location under research/manuscripts/.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05
-last_verified: unverified
+last_verified: 2026-08-06
 _backfilled: true
 ---
 # NR4A3 degrader — the program roadmap
