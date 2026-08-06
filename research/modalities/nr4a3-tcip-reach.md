@@ -66,14 +66,14 @@ Fraction of the reach shell in which a second terminus's ligand exit atom can si
 
 | linker atoms | `birc2` (single domain) | `crbn` (multi subunit) | `mdm2` (single domain) | `vhl` (multi subunit) |
 |---|---|---|---|---|
-| 6 | 12/12 poses · 1449 accepted | 12/12 poses · 1337 accepted | 12/12 poses · 1084 accepted | 12/12 poses · 1281 accepted |
-| 8 | 12/12 poses · 1620 accepted | 12/12 poses · 1531 accepted | 12/12 poses · 1123 accepted | 12/12 poses · 1533 accepted |
-| 10 | 12/12 poses · 1694 accepted | 12/12 poses · 1503 accepted | 12/12 poses · 1239 accepted | 12/12 poses · 1693 accepted |
-| 12 | 12/12 poses · 1713 accepted | 12/12 poses · 1523 accepted | 12/12 poses · 1242 accepted | 12/12 poses · 1869 accepted |
-| 14 | 12/12 poses · 1850 accepted | 12/12 poses · 1583 accepted | 12/12 poses · 1318 accepted | 12/12 poses · 2035 accepted |
-| 16 | 12/12 poses · 1849 accepted | 12/12 poses · 1634 accepted | 12/12 poses · 1433 accepted | 12/12 poses · 2107 accepted |
-| 20 | 12/12 poses · 2004 accepted | 12/12 poses · 1762 accepted | 12/12 poses · 1837 accepted | 12/12 poses · 2362 accepted |
-| 24 | 12/12 poses · 2138 accepted | 12/12 poses · 2103 accepted | 12/12 poses · 2208 accepted | 12/12 poses · 2537 accepted |
+| 6 | 12/12 poses · 1519 accepted | 12/12 poses · 1330 accepted | 12/12 poses · 1088 accepted | 12/12 poses · 1258 accepted |
+| 8 | 12/12 poses · 1600 accepted | 12/12 poses · 1494 accepted | 12/12 poses · 1102 accepted | 12/12 poses · 1461 accepted |
+| 10 | 12/12 poses · 1742 accepted | 12/12 poses · 1502 accepted | 12/12 poses · 1239 accepted | 12/12 poses · 1674 accepted |
+| 12 | 12/12 poses · 1770 accepted | 12/12 poses · 1569 accepted | 12/12 poses · 1316 accepted | 12/12 poses · 1808 accepted |
+| 14 | 12/12 poses · 1851 accepted | 12/12 poses · 1537 accepted | 12/12 poses · 1326 accepted | 12/12 poses · 2055 accepted |
+| 16 | 12/12 poses · 1895 accepted | 12/12 poses · 1711 accepted | 12/12 poses · 1487 accepted | 12/12 poses · 2182 accepted |
+| 20 | 12/12 poses · 1987 accepted | 12/12 poses · 1785 accepted | 12/12 poses · 1841 accepted | 12/12 poses · 2288 accepted |
+| 24 | 12/12 poses · 2270 accepted | 12/12 poses · 2072 accepted | 12/12 poses · 2187 accepted | 12/12 poses · 2600 accepted |
 
 Read as: how many of the 12 warhead anchors admit **any** placement of that body at that linker length, and how many placements were accepted out of the samples drawn.
 
@@ -83,14 +83,14 @@ Read as: how many of the 12 warhead anchors admit **any** placement of that body
 
 | linker atoms | single-domain acceptance (95 % CI) | multi-subunit acceptance (95 % CI) | ratio single/multi | intervals overlap | single-domain body cost | multi-subunit body cost |
 |---|---|---|---|---|---|---|
-| 6 | 0.00070361 [0.00067675, 0.00073154] | 0.00072722 [0.0006999, 0.00075561] | **0.968** | True | 0.001794 | 0.001855 |
-| 8 | 0.00076194 [0.00073397, 0.00079099] | 0.00085111 [0.00082152, 0.00088177] | **0.895** | False | 0.001771 | 0.001979 |
-| 10 | 0.00081472 [0.00078578, 0.00084473] | 0.00088778 [0.00085754, 0.00091908] | **0.918** | False | 0.001753 | 0.00191 |
-| 12 | 0.00082083 [0.00079178, 0.00085095] | 0.00094222 [0.00091106, 0.00097445] | **0.871** | False | 0.001664 | 0.00191 |
-| 14 | 0.00088 [0.0008499, 0.00091117] | 0.001005 [0.0009728, 0.00103827] | **0.876** | False | 0.00169 | 0.00193 |
-| 16 | 0.00091167 [0.00088102, 0.00094338] | 0.00103917 [0.00100641, 0.00107299] | **0.877** | False | 0.001669 | 0.001903 |
-| 20 | 0.00106694 [0.00103375, 0.00110121] | 0.00114556 [0.00111114, 0.00118104] | **0.931** | False | 0.001769 | 0.0019 |
-| 24 | 0.00120722 [0.00117188, 0.00124363] | 0.00128889 [0.00125235, 0.00132649] | **0.937** | False | 0.001816 | 0.001939 |
+| 6 | 0.00072417 [0.00069691, 0.00075249] | 0.00071889 [0.00069173, 0.00074711] | **1.007** | True | 0.001847 | 0.001833 |
+| 8 | 0.00075056 [0.00072279, 0.00077938] | 0.00082083 [0.00079178, 0.00085095] | **0.914** | False | 0.001745 | 0.001908 |
+| 10 | 0.00082806 [0.00079887, 0.00085831] | 0.00088222 [0.00085208, 0.00091343] | **0.939** | True | 0.001781 | 0.001898 |
+| 12 | 0.00085722 [0.00082752, 0.00088799] | 0.00093806 [0.00090696, 0.00097022] | **0.914** | False | 0.001737 | 0.001901 |
+| 14 | 0.0008825 [0.00085235, 0.00091371] | 0.00099778 [0.00096569, 0.00103093] | **0.884** | False | 0.001694 | 0.001916 |
+| 16 | 0.00093944 [0.00090833, 0.00097163] | 0.00108139 [0.00104797, 0.00111588] | **0.869** | False | 0.00172 | 0.00198 |
+| 20 | 0.00106333 [0.00103019, 0.00109754] | 0.00113139 [0.00109719, 0.00116665] | **0.94** | True | 0.001763 | 0.001876 |
+| 24 | 0.00123806 [0.00120226, 0.00127492] | 0.00129778 [0.00126112, 0.0013355] | **0.954** | True | 0.001863 | 0.001953 |
 
 `body cost` = acceptance ÷ the body-free admissible fraction of the same shell — the body's own marginal cost with the target's shape divided out.
 
@@ -100,14 +100,14 @@ the between-class contrast is systematic in DIRECTION — the single-domain pool
 
 | linker atoms | `birc2` (92 res) | `crbn` (1183 res) | `mdm2` (94 res) | `vhl` (340 res) | within-class spread (single / multi) | between-class contrast | within > between |
 |---|---|---|---|---|---|---|---|
-| 6 | 0.000805 | 0.00074278 | 0.00060222 | 0.00071167 | 1.337 / 1.044 | 1.034 | **True** |
-| 8 | 0.0009 | 0.00085056 | 0.00062389 | 0.00085167 | 1.443 / 1.001 | 1.117 | **True** |
-| 10 | 0.00094111 | 0.000835 | 0.00068833 | 0.00094056 | 1.367 / 1.126 | 1.09 | **True** |
-| 12 | 0.00095167 | 0.00084611 | 0.00069 | 0.00103833 | 1.379 / 1.227 | 1.148 | **True** |
-| 14 | 0.00102778 | 0.00087944 | 0.00073222 | 0.00113056 | 1.404 / 1.286 | 1.142 | **True** |
-| 16 | 0.00102722 | 0.00090778 | 0.00079611 | 0.00117056 | 1.29 / 1.289 | 1.14 | **True** |
-| 20 | 0.00111333 | 0.00097889 | 0.00102056 | 0.00131222 | 1.091 / 1.341 | 1.074 | **True** |
-| 24 | 0.00118778 | 0.00116833 | 0.00122667 | 0.00140944 | 1.033 / 1.206 | 1.068 | **True** |
+| 6 | 0.00084389 | 0.00073889 | 0.00060444 | 0.00069889 | 1.396 / 1.057 | 1.007 | **True** |
+| 8 | 0.00088889 | 0.00083 | 0.00061222 | 0.00081167 | 1.452 / 1.023 | 1.094 | **True** |
+| 10 | 0.00096778 | 0.00083444 | 0.00068833 | 0.00093 | 1.406 / 1.115 | 1.065 | **True** |
+| 12 | 0.00098333 | 0.00087167 | 0.00073111 | 0.00100444 | 1.345 / 1.152 | 1.094 | **True** |
+| 14 | 0.00102833 | 0.00085389 | 0.00073667 | 0.00114167 | 1.396 / 1.337 | 1.131 | **True** |
+| 16 | 0.00105278 | 0.00095056 | 0.00082611 | 0.00121222 | 1.274 / 1.275 | 1.151 | **True** |
+| 20 | 0.00110389 | 0.00099167 | 0.00102278 | 0.00127111 | 1.079 / 1.282 | 1.064 | **True** |
+| 24 | 0.00126111 | 0.00115111 | 0.001215 | 0.00144444 | 1.038 / 1.255 | 1.048 | **True** |
 
 ### 4d · ★★ Root cause — the interface floor, ablated
 

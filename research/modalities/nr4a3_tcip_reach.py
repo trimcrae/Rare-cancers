@@ -61,6 +61,7 @@ import os
 import random
 import sys
 import time
+import zlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -690,13 +691,22 @@ def verdict(summary, envelope_free, required, paired, ablation=None):
             "★_n_rungs_where_the_WITHIN_class_spread_exceeds_the_BETWEEN_class_contrast": sum(
                 1 for b in paired.values() if b.get("within_class_spread_exceeds_between_class_contrast")),
             "★_root_cause": (ablation or {}).get("★_reading"),
+            # ⚠ DERIVED, NOT TYPED. An earlier version of this string asserted "the single-domain pool is
+            #   lower at EVERY rung". That was true of one run and false of the next — the direction at the
+            #   shortest rung is inside the noise. A hand-written summary of a sampled result is a number
+            #   with no home, so the count is computed here and the sentence is built from it.
             "★_reading": (
-                "the between-class contrast is systematic in DIRECTION — the single-domain pool is lower at "
-                "every rung — but it is NOT larger than the spread between two bodies of the SAME size, so "
-                "it may not be reported as a size law. Two ~90-residue single-domain bodies differ from "
-                "each other by more than the classes differ from each other, which says the controlling "
-                "variable is the individual body's shape and exit-vector geometry rather than how big it "
-                "is. `per_arm_acceptance_rate` at each rung is where that is visible."),
+                "the single-domain pool accepts LESS than the multi-subunit pool at %d of %d rungs and MORE "
+                "at %d, and the contrast is NOT larger than the spread between two bodies of the SAME size "
+                "at %d of %d rungs — so it may not be reported as a size law. Two ~90-residue single-domain "
+                "bodies differ from each other by more than the classes differ from each other, which says "
+                "the controlling variable is the individual body's shape and exit-vector geometry rather "
+                "than how big it is. `per_arm_acceptance_rate` at each rung is where that is visible."
+                % (sum(1 for r in ratios if r < 1.0), len(ratios),
+                   sum(1 for r in ratios if r >= 1.0),
+                   sum(1 for b in paired.values()
+                       if b.get("within_class_spread_exceeds_between_class_contrast")),
+                   n_rungs)),
             "at_the_%d_atom_gate" % GATE_ATOMS: {
                 "single_domain_acceptance": (gate_blk.get("by_size_class", {})
                                              .get("single_domain", {}).get("acceptance_rate")),
@@ -1083,8 +1093,18 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
 
     _ARMS, _POSES, _FIELD = arms, {p["pose_id"]: p for p in poses}, field3
 
+    # ⛔ THE SEED MUST NOT COME FROM `hash()`. Python salts `hash(str)` per PROCESS unless PYTHONHASHSEED is
+    #   set, so `hash(aid)` made every cell's seed depend on which interpreter happened to run it — a
+    #   sampled artifact that does not reproduce between runs, which is exactly what this lane's own
+    #   `ball_grid` docstring refuses ("a sampled reach answer that moved between runs would be unusable as
+    #   a gate"). Caught by comparing two full runs: the pooled size ratio moved 0.871 -> 0.869 and the
+    #   12-atom-gate ratio 0.871 -> 0.914 with no code change. `zlib.crc32` is a fixed function of the
+    #   bytes and is stable across processes, versions and platforms.
+    def _arm_salt(name):
+        return zlib.crc32(name.encode("utf-8")) % 997
+
     jobs = [{"arm_id": aid, "pose_id": p["pose_id"], "n_atoms": n, "n_samples": samples,
-             "seed": BASIN_SEED + 1000 * n + hash(aid) % 997 + i}
+             "seed": BASIN_SEED + 1000 * n + _arm_salt(aid) + i}
             for aid in sorted(arms) for n in ladder for i, p in enumerate(poses)]
 
     if n_procs and n_procs > 1:

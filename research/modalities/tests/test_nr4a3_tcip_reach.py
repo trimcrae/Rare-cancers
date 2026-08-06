@@ -208,3 +208,38 @@ def test_a_ratio_whose_intervals_overlap_is_reported_as_overlapping():
     out = T.paired_body_size_comparison(cells, free, {})
     assert out["12"]["intervals_overlap"] is True
     assert out["12"]["size_ratio_single_over_multi"] == pytest.approx(100 / 101, rel=1e-3)
+
+
+# ---------------------------------------------------------------------------------------------------------
+# 8 · the sampled result must reproduce between processes
+# ---------------------------------------------------------------------------------------------------------
+def test_the_per_cell_seed_does_not_depend_on_pythons_hash_randomisation():
+    """⛔ REGRESSION GUARD. The job seeds were once built from `hash(arm_id)`, which Python salts per
+    PROCESS unless PYTHONHASHSEED is set — so two full runs of the same code produced different numbers
+    (the pooled size ratio moved 0.871 -> 0.869 and the gate ratio 0.871 -> 0.914 with no edit in between).
+    A sampled artifact that does not reproduce is not an artifact. This test runs the seed derivation in a
+    SEPARATE interpreter with a different hash salt and requires the same answer."""
+    import subprocess
+    import textwrap
+    prog = textwrap.dedent(
+        """
+        import os, sys
+        sys.path.insert(0, %r)
+        import nr4a3_tcip_reach as T
+        import zlib
+        print([zlib.crc32(a.encode('utf-8')) %% 997
+               for a in sorted(list(T.SINGLE_DOMAIN_ARMS) + list(T.MULTI_SUBUNIT_ARMS))])
+        """ % HERE)
+    outs = set()
+    for salt in ("0", "1", "12345"):
+        env = dict(os.environ, PYTHONHASHSEED=salt)
+        outs.add(subprocess.run([sys.executable, "-c", prog], capture_output=True, text=True,
+                                env=env, check=True).stdout.strip())
+    assert len(outs) == 1, outs
+    # ...and the module must not have gone back to `hash()`. ⚠ Checked on CODE lines only: the incident is
+    # narrated in a comment right above the fix, so a whole-file substring search matches the warning and
+    # fails on the very text that documents it — a guard that fires on its own documentation.
+    code = [ln.split("#", 1)[0] for ln in
+            open(os.path.join(HERE, "nr4a3_tcip_reach.py")).read().split("\n")]
+    assert not any("hash(aid)" in ln for ln in code)
+    assert any("zlib.crc32" in ln for ln in code)
