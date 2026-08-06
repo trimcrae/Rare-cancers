@@ -8337,6 +8337,7 @@
    "size_ratio_single_over_multi_min": 0.871,
    "size_ratio_single_over_multi_max": 0.968,
    "\u2605_n_rungs_where_the_WITHIN_class_spread_exceeds_the_BETWEEN_class_contrast": 8,
+   "\u2605_root_cause": "at the committed floor the single-domain pool accepts 0.896\u00d7 the multi-subunit pool; with the interface floor removed it accepts 1.254\u00d7. The sign INVERTS, so the single-domain penalty is entirely the interface floor and not steric bulk: on clash alone the smaller body gets MORE orientation space, exactly as the 'one fewer/smaller terminus is a smaller problem' intuition says. The committed floor is a DEGRADER'S requirement, so a TCIP read at that floor is being charged for an induced interface nobody has shown the modality needs.",
    "\u2605_reading": "the between-class contrast is systematic in DIRECTION \u2014 the single-domain pool is lower at every rung \u2014 but it is NOT larger than the spread between two bodies of the SAME size, so it may not be reported as a size law. Two ~90-residue single-domain bodies differ from each other by more than the classes differ from each other, which says the controlling variable is the individual body's shape and exit-vector geometry rather than how big it is. `per_arm_acceptance_rate` at each rung is where that is visible.",
    "at_the_12_atom_gate": {
     "single_domain_acceptance": 0.00082083,
@@ -8490,5 +8491,127 @@
     "line": 138
    }
   }
- ]
+ ],
+ "\u2605_interface_floor_ablation": {
+  "_what": "the same cells at the same linker length with ONLY the sampler's interface floor changed \u2014 floor 0 is the pure steric question (clearance + clash), the committed floor adds the degrader's induced-interface requirement",
+  "linker_atoms": 12,
+  "samples_per_arm_pose": 30000,
+  "committed_floor": 12,
+  "by_floor": {
+   "12": {
+    "min_contact_residues": 12,
+    "per_arm": {
+     "birc2": {
+      "n_accepted": 330,
+      "n_samples": 360000,
+      "acceptance_rate": 0.00091667
+     },
+     "crbn": {
+      "n_accepted": 282,
+      "n_samples": 360000,
+      "acceptance_rate": 0.00078333
+     },
+     "mdm2": {
+      "n_accepted": 253,
+      "n_samples": 360000,
+      "acceptance_rate": 0.00070278
+     },
+     "vhl": {
+      "n_accepted": 369,
+      "n_samples": 360000,
+      "acceptance_rate": 0.001025
+     }
+    },
+    "single_domain_acceptance": 0.00080972,
+    "single_domain_ci95": [
+     0.00074663,
+     0.00087814
+    ],
+    "multi_subunit_acceptance": 0.00090417,
+    "multi_subunit_ci95": [
+     0.00083735,
+     0.00097631
+    ],
+    "ratio_single_over_multi": 0.896
+   },
+   "6": {
+    "min_contact_residues": 6,
+    "per_arm": {
+     "birc2": {
+      "n_accepted": 3424,
+      "n_samples": 360000,
+      "acceptance_rate": 0.00951111
+     },
+     "crbn": {
+      "n_accepted": 2411,
+      "n_samples": 360000,
+      "acceptance_rate": 0.00669722
+     },
+     "mdm2": {
+      "n_accepted": 2891,
+      "n_samples": 360000,
+      "acceptance_rate": 0.00803056
+     },
+     "vhl": {
+      "n_accepted": 3221,
+      "n_samples": 360000,
+      "acceptance_rate": 0.00894722
+     }
+    },
+    "single_domain_acceptance": 0.00877083,
+    "single_domain_ci95": [
+     0.00855806,
+     0.00898885
+    ],
+    "multi_subunit_acceptance": 0.00782222,
+    "multi_subunit_ci95": [
+     0.00762134,
+     0.00802836
+    ],
+    "ratio_single_over_multi": 1.121
+   },
+   "0": {
+    "min_contact_residues": 0,
+    "per_arm": {
+     "birc2": {
+      "n_accepted": 33232,
+      "n_samples": 360000,
+      "acceptance_rate": 0.09231111
+     },
+     "crbn": {
+      "n_accepted": 16992,
+      "n_samples": 360000,
+      "acceptance_rate": 0.0472
+     },
+     "mdm2": {
+      "n_accepted": 24425,
+      "n_samples": 360000,
+      "acceptance_rate": 0.06784722
+     },
+     "vhl": {
+      "n_accepted": 28998,
+      "n_samples": 360000,
+      "acceptance_rate": 0.08055
+     }
+    },
+    "single_domain_acceptance": 0.08007917,
+    "single_domain_ci95": [
+     0.07945447,
+     0.08070835
+    ],
+    "multi_subunit_acceptance": 0.063875,
+    "multi_subunit_ci95": [
+     0.06331249,
+     0.06444217
+    ],
+    "ratio_single_over_multi": 1.254
+   }
+  },
+  "ratio_at_the_committed_floor": 0.896,
+  "ratio_with_no_interface_floor": 1.254,
+  "\u2605_the_sign_inverts": true,
+  "\u2605_reading": "at the committed floor the single-domain pool accepts 0.896\u00d7 the multi-subunit pool; with the interface floor removed it accepts 1.254\u00d7. The sign INVERTS, so the single-domain penalty is entirely the interface floor and not steric bulk: on clash alone the smaller body gets MORE orientation space, exactly as the 'one fewer/smaller terminus is a smaller problem' intuition says. The committed floor is a DEGRADER'S requirement, so a TCIP read at that floor is being charged for an induced interface nobody has shown the modality needs.",
+  "\u26d4_what_this_does_not_settle": "which floor is right for a transcriptional CIP. This module measures the answer at both and refuses to pick \u2014 `BLK-UNSIZED-REQUIREMENT` is the route's own record that nobody has written the specification down, and an interface floor is exactly that kind of unwritten requirement.",
+  "source_of_the_committed_floor": "nr4a3_basin_search.PARAMS['min_contact_residues']"
+ }
 }

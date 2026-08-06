@@ -109,6 +109,20 @@ the between-class contrast is systematic in DIRECTION — the single-domain pool
 | 20 | 0.00111333 | 0.00097889 | 0.00102056 | 0.00131222 | 1.091 / 1.341 | 1.074 | **True** |
 | 24 | 0.00118778 | 0.00116833 | 0.00122667 | 0.00140944 | 1.033 / 1.206 | 1.068 | **True** |
 
+### 4d · ★★ Root cause — the interface floor, ablated
+
+the same cells at the same linker length with ONLY the sampler's interface floor changed — floor 0 is the pure steric question (clearance + clash), the committed floor adds the degrader's induced-interface requirement
+
+| `min_contact_residues` | single-domain acceptance | multi-subunit acceptance | ratio |
+|---|---|---|---|
+| 12 (committed) | 0.00080972 | 0.00090417 | **0.896** |
+| 6 | 0.00877083 | 0.00782222 | **1.121** |
+| 0 | 0.08007917 | 0.063875 | **1.254** |
+
+**at the committed floor the single-domain pool accepts 0.896× the multi-subunit pool; with the interface floor removed it accepts 1.254×. The sign INVERTS, so the single-domain penalty is entirely the interface floor and not steric bulk: on clash alone the smaller body gets MORE orientation space, exactly as the 'one fewer/smaller terminus is a smaller problem' intuition says. The committed floor is a DEGRADER'S requirement, so a TCIP read at that floor is being charged for an induced interface nobody has shown the modality needs.**
+
+⛔ which floor is right for a transcriptional CIP. This module measures the answer at both and refuses to pick — `BLK-UNSIZED-REQUIREMENT` is the route's own record that nobody has written the specification down, and an interface floor is exactly that kind of unwritten requirement.
+
 ## 5 · The distances the modality requires
 
 - `chemically_routine_ceiling_atoms` = 24

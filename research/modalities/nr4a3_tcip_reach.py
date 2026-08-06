@@ -664,7 +664,7 @@ def crosscheck_size_partition(geom):
 # ==========================================================================================================
 # VERDICT
 # ==========================================================================================================
-def verdict(summary, envelope_free, required, paired):
+def verdict(summary, envelope_free, required, paired, ablation=None):
     eff = [a for a in SINGLE_DOMAIN_ARMS if a in summary]
     e3 = [a for a in MULTI_SUBUNIT_ARMS if a in summary]
     shortest_eff = [summary[a]["shortest_linker_atoms_with_any_admissible_placement"] for a in eff]
@@ -689,6 +689,7 @@ def verdict(summary, envelope_free, required, paired):
             "size_ratio_single_over_multi_max": max(ratios) if ratios else None,
             "★_n_rungs_where_the_WITHIN_class_spread_exceeds_the_BETWEEN_class_contrast": sum(
                 1 for b in paired.values() if b.get("within_class_spread_exceeds_between_class_contrast")),
+            "★_root_cause": (ablation or {}).get("★_reading"),
             "★_reading": (
                 "the between-class contrast is systematic in DIRECTION — the single-domain pool is lower at "
                 "every rung — but it is NOT larger than the spread between two bodies of the SAME size, so "
@@ -1053,7 +1054,8 @@ def to_markdown(d):
 # ==========================================================================================================
 # DRIVER
 # ==========================================================================================================
-def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir=STRUCT_DIR):
+def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir=STRUCT_DIR,
+          ablation_samples=30000):
     global _ARMS, _POSES, _FIELD
     t0 = time.time()
     refusals, unread = [], []
@@ -1106,6 +1108,10 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
 
     summary = summarise(cells, geom)
     paired = paired_body_size_comparison(cells, pooled, geom)
+    # ★ THE ROOT-CAUSE CONTROL RUNS INSIDE THE BUILD, NOT AS A SEPARATE PASS MERGED IN AFTERWARDS. An
+    #   artifact assembled from two commands is an artifact no single command reproduces, and this
+    #   repository has already paid for one of those.
+    ablation = interface_floor_ablation(arms, poses, field3, n_samples=ablation_samples)
     census = effector_arm_census()
     req = required_distances()
 
@@ -1168,6 +1174,7 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
         },
         "summary": summary,
         "★_paired_body_size_comparison": paired,
+        "★_interface_floor_ablation": ablation,
         "cross_checks": {
             "reproduces_the_committed_pose_ensemble": crosscheck_pose_ensemble(poses),
             "committed_accepted_anchors_are_admissible": crosscheck_committed_anchors_admissible(field3),
@@ -1179,7 +1186,7 @@ def build(samples=300000, arms_wanted=None, ladder=LADDER, n_procs=4, struct_dir
         "unread_inputs": unread,
         "runtime_s": round(time.time() - t0, 1),
     }
-    d["verdict"] = verdict(summary, pooled, req, paired)
+    d["verdict"] = verdict(summary, pooled, req, paired, ablation)
     d["map_edits_required"] = map_edits_required(census, summary)
     return d
 
@@ -1218,7 +1225,8 @@ def main(argv=None):
         census = effector_arm_census()
         d["what_one_more_anchor_set_means"]["census"] = census
         d["verdict"] = verdict(d["summary"], pooled, required_distances(),
-                               d["★_paired_body_size_comparison"])
+                               d["★_paired_body_size_comparison"],
+                               d.get("★_interface_floor_ablation"))
         d["map_edits_required"] = map_edits_required(census, d["summary"])
         with open(args.out, "w") as fh:
             json.dump(d, fh, indent=1)
