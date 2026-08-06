@@ -58,7 +58,7 @@ than surfacing as a traceback inside a large suite.
 | `[L5]` | a pinned claim resting on an artifact in no register · (as a warning) an L5 row nothing above it cites — *"no orphaned knowledge"*, made falsifiable |
 | `lint_consistency.py` | the same number typed in two places, or a superseded value quoted without its marker |
 | `lint_claims.py` | claim language the program has not earned |
-| `emc_systems_map_check.py` | a broken pointer, an evidence item under two names, an object under two definitions, a figure quoted from a stub |
+| `emc_systems_map_check.py` | a broken pointer, an evidence item under two names, an object under two definitions, a figure quoted from a stub · **`O4`: any tracked file naming a disputed-identity object without classifying the use** as invalidated / survives_relabelled / unaffected. ⛔ **This was CI-only until 2026-08-06 and the gap turned `main` red** — a new generated view rendered the disputed cell line, preflight passed, the merge landed, and CI caught it. It is now **gate 3 of preflight**. ⚠ *When a check goes into `tests.yml`, the question is not "does CI run it" but "would a session that only ran preflight have seen it" — and gates 2 and 3 are the two that enforce provenance and medical integrity rather than tidiness.* |
 | `lint_optional_input_guards.py` · `lint_derived_thresholds.py` | a CI guard that silently switches itself off, and a threshold typed as a multiple of a correctable denominator |
 
 ---

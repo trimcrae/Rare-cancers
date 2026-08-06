@@ -1719,3 +1719,20 @@ def test_backfill_emits_yaml_a_real_parser_accepts():
     for s in ["Protocol: systematic review & meta-analysis", "** decision memo", "plain title",
               "trailing colon:", "#hash start", "- dash start", "a | pipe", "yes"]:
         assert yaml.load(f"k: {bf.y(s)}", Loader=yaml.BaseLoader) == {"k": s}, s
+
+
+def test_preflight_runs_the_medical_integrity_guard():
+    """⛔ IT DID NOT, AND THE GAP TURNED `main` RED (2026-08-06).
+
+    `emc_systems_map_check.py` is the sibling of `systems_check.py` — same shape, same regenerate-and-
+    diff discipline, pure stdlib, ~2 s — and it was CI-only while its sibling was a preflight gate. A
+    session could run preflight, read `PREFLIGHT OK`, merge, and only then learn that a newly generated
+    view named a cell line whose identity is disputed, which `O4` requires every tracked file to
+    classify. A green local gate that skips a medical-integrity check is worse than no local gate,
+    because it is trusted.
+    """
+    with open(os.path.join(REPO, "scripts", "preflight.sh"), encoding="utf-8") as fh:
+        sh = fh.read()
+    assert "emc_systems_map_check.py --check" in sh
+    gates = re.findall(r'^\s*echo "== (.+?) =="', sh, re.M)
+    assert any("EMC systems map" in gname for gname in gates), gates

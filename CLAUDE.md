@@ -657,13 +657,24 @@ When in doubt: do it and show it.
   `sourceId`/`primaryRef`, primary vs secondary) and a fixed pooling method (crude denominator-weighted
   proportions + Wilson 95% CIs, non-overlapping cohorts only). Read **[systems/POLICY-evidence.md](./systems/POLICY-evidence.md)** before
   touching `registry`.
-- **Before committing:** `./scripts/preflight.sh` must pass. **Five gates, in this order:** (1) the consistency
-  linter, (2) `systems/systems_check.py --check`, (3) `systems/parser_guard.py`, (4) the registry evidence
-  contract (`validate-registry.mjs`), (5) the modalities tests. Its exit code cannot be masked.
+- **Before committing:** `./scripts/preflight.sh` must pass. **Six gates, in this order:** (1) the consistency
+  linter, (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
+  (4) `systems/parser_guard.py`, (5) the registry evidence contract (`validate-registry.mjs`), (6) the
+  modalities tests. Its exit code cannot be masked. **Do not re-type an ordinal from memory** — `[P1]`
+  derives it from the script and fails the build on any document that disagrees.
   ⚠ **`lint_claims.py` is NOT in preflight** — it runs only in CI, so a green preflight does not mean the
   language rules passed. *Superseded, retained: "It runs the registry evidence contract
   (`validate-registry.mjs`), the doc linters and the modalities tests" — written before gates 2 and 3 existed,
-  and "the doc linters" plural was never true of this script.*
+  and "the doc linters" plural was never true of this script. And: **"Five gates"**, which listed the map
+  check nowhere.*
+  - **★★ A GREEN PREFLIGHT THAT SKIPS A MEDICAL-INTEGRITY GUARD IS WORSE THAN NO PREFLIGHT (measured
+    2026-08-06, and it turned `main` red).** Gate 3 was **CI-only** until that day, so a session could run
+    this script, read `PREFLIGHT OK`, merge, and only then learn that a newly-generated view named a cell
+    line whose identity is **disputed** — `O4` requires every tracked file naming it to classify the use as
+    invalidated / survives_relabelled / unaffected, and it fired in CI and nowhere else. The gap was not
+    tidiness: gates 2 and 3 are the two checks that enforce **provenance and medical integrity**, and one
+    of them was invisible locally while the other was trusted. ⚠ **When you add a check to `tests.yml`, the
+    question is not "does CI run it" but "would a session that only ran preflight have seen it".**
 - **★★ THE ARCHITECTURE IS [`systems/`](./systems/) — READ
   [`systems/views/L0-ecosystem.md`](./systems/views/L0-ecosystem.md) FOR THE WHOLE LANDSCAPE IN ONE SCREEN.**
   `systems/graph/*.json` is the source of truth for every strategy family, route, blocker, technology
@@ -678,7 +689,7 @@ When in doubt: do it and show it.
   clinical registry, now [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
   — read by `research/meta/meta-analysis.mjs` and `research/hypotheses/enumerate-drugs.mjs`, both of which build
   the path from segments, so **searching for the DIRECTORY name finds neither; searching for the filename finds
-  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 4 of preflight's 5**.
+  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 5 of preflight's 6**.
   **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).
   ⚠ *Superseded, retained: "both via segment-built paths a text search will not find … which is gate 2 of
   preflight." The first over-stated the problem — `grep emc-clinical-registry` returns both readers at once,

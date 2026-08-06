@@ -71,6 +71,22 @@ else
   echo "   FAILED -- rerun 'python3 systems/systems_check.py --check' to see why"; rc=1
 fi
 
+# ⛔ ADDED 2026-08-06, AND IT COST A RED `main` TO NOTICE. This is the SIBLING registry of the gate
+# above -- same shape, same "regenerate the view and diff it" discipline, pure stdlib, ~2 s -- and it
+# was CI-only while its sibling was here. So a session could run this script, see PREFLIGHT OK, merge,
+# and turn `main` red: a new generated view named a cell line whose identity is DISPUTED, and O4 (which
+# requires every tracked file naming it to classify the use) fired in CI and nowhere else.
+#
+# ⚠ The gap was invisible in the worst way: the check that was missing is one of the two that enforce
+# MEDICAL INTEGRITY rather than tidiness. A local gate that is green while the strongest evidentiary
+# guard in the repository has not run is worse than no local gate, because it is trusted.
+echo "== EMC systems map (disputed identities, claim artifacts, view drift) =="
+if python3 research/manuscripts/emc_systems_map_check.py --check >/dev/null 2>&1; then
+  echo "   OK"
+else
+  echo "   FAILED -- rerun 'python3 research/manuscripts/emc_systems_map_check.py --check' to see why"; rc=1
+fi
+
 echo "== parser guard (every registered parser can still find its input) =="
 if python3 systems/parser_guard.py >/dev/null 2>&1; then
   echo "   OK"

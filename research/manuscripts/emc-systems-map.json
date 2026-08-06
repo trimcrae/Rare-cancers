@@ -1332,6 +1332,13 @@
           "correction_marker": "identity_disputed"
         },
         {
+          "file": "systems/views/L5-evidence-base.md",
+          "use": "the generated L5 evidence-base view — one row of the objects table, rendering this object's id, kind, `status: identity_disputed` and the instrument that characterises it",
+          "classification": "unaffected",
+          "why_unaffected": "Generated from systems/graph/objects.json by systems_check.py and never hand-edited, exactly as systems/views/registers/instruments.md is — it inherits that row's classification. It is an INDEX: it renders the object's registered status and who cites it, and asserts nothing that depends on what the line actually is. The one thing it does render about identity is the dispute itself, which is why the marker below appears in the file at all.",
+          "correction_marker": "identity_disputed"
+        },
+        {
           "file": "systems/MIGRATION.md",
           "use": "§3.10 — the record of porting this object and its instrument into the graph during the merge",
           "classification": "unaffected",
