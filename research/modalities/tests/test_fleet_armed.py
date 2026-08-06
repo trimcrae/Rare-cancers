@@ -120,3 +120,29 @@ def test_the_live_census_path_is_the_account_level_one():
             doc = json.load(fh)
         assert "n_instances" in doc, "the census lost the field the gate reads"
         assert "instances" in doc, "account-level census must enumerate, not just count"
+
+
+def test_main_reads_the_census_it_is_pointed_at(tmp_path, monkeypatch):
+    """⛔ IT DID NOT, AND THE TEST ABOVE WAS MEASURING THE WALL CLOCK (fixed 2026-08-06).
+
+    `state(lane=None, census_path=CENSUS, ...)` bound the default at IMPORT, so
+    `monkeypatch.setattr(fa, "CENSUS", tmp)` could not reach it. `main()` passes no `census_path`, so
+    the exit-contract test silently read the REAL committed census and passed only while that file was
+    younger than MAX_CENSUS_AGE_S. It went red at 511 minutes, on a commit that touched nothing in this
+    directory.
+
+    ⚠ THE HARM IS THE MISDIRECTION, NOT THE RED. What the test actually measured — whether the live
+    census is fresh — is already measured by the account-census alarms, which were reporting
+    CENSUS-STALE at the time. A clock-dependent assertion in a module about *exit codes* sends whoever
+    receives the failure hunting in the wrong file, and the real signal was already elsewhere.
+
+    This pins the seam directly: point the module at a fixture and it must read the fixture.
+    """
+    monkeypatch.setattr(fa, "CENSUS", _census(tmp_path, n_instances=7))
+    st = fa.state()
+    assert st["evidence"].get("n_instances") == 7, \
+        f"state() read something other than the census it was pointed at: {st}"
+    assert fa.main([]) == 0
+
+    monkeypatch.setattr(fa, "CENSUS", _census(tmp_path))
+    assert fa.main([]) == 10, "a fresh, empty census the module was pointed at must read as idle"

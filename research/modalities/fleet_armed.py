@@ -82,8 +82,23 @@ def _age_seconds(doc, now=None):
     return (now - t).total_seconds()
 
 
-def state(lane=None, census_path=CENSUS, now=None):
-    """{'armed': bool, 'why': str, 'evidence': {...}} — ARMED means "commit as usual"."""
+def state(lane=None, census_path=None, now=None):
+    """{'armed': bool, 'why': str, 'evidence': {...}} — ARMED means "commit as usual".
+
+    ⛔ `census_path` RESOLVES AT CALL TIME, AND THE DEFAULT USED TO BIND AT IMPORT (fixed 2026-08-06).
+    It read `census_path=CENSUS`, and a Python default argument is evaluated ONCE when the module is
+    imported — so `monkeypatch.setattr(fa, "CENSUS", tmp)` rebound the module attribute and could not
+    reach this signature. `main()` passes no `census_path`, so the test that asserts main's exit
+    contract was silently reading the **real committed census** instead of its fixture, and therefore
+    passed only while that file happened to be younger than MAX_CENSUS_AGE_S.
+
+    ⚠ THAT IS WHAT IT DID. It turned `main` red at 511 minutes: a clock-dependent test wearing the
+    costume of an exit-code assertion, and the thing it actually measured — live repo state — is
+    already measured by the account-census alarms, which were reporting `CENSUS-STALE` at the time.
+    A test whose pass depends on the wall clock is a test that will fail on an unrelated commit and
+    send whoever gets it hunting in the wrong file.
+    """
+    census_path = CENSUS if census_path is None else census_path
     if lane == CENSUS_LANE:
         return {"armed": True, "why": "this lane owns the census reading and is never gated by it — it is "
                                       "the surviving heartbeat that keeps silence interpretable",
