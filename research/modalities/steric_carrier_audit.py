@@ -564,24 +564,34 @@ def build():
             "fraction_occupying": _r(n_occ / len(all_in_frame), 3) if all_in_frame else None,
             "post_fit_deviation_A": lobe.get("post_fit_deviation_A"),
         }
+    biggest_lobe = max(per_position, key=lambda u: per_position[u]["lobe_volume_A3"] or 0.0)
     occupancy_vs_volume = {
         "_why_this_block_exists": (
-            "⚠ OCCUPANCY IS VOLUME-SENSITIVE AND THE CONTRAST IS THEREFORE CONFOUNDED. A larger denied lobe "
-            "is easier for any molecule to place an atom in, and the two design targets are several times "
-            "larger than the null class's largest lobe (%s A^3 at %s). So the pooled signal-minus-null "
-            "occupancy gap is NOT purely a class effect — part of it is lobe size. This block puts every "
-            "position's occupancy rate next to its measured volume so the reader can grade that directly, "
-            "and it is the reason this audit does not present occupancy as a selectivity statistic."
-            % (rule["null_volume_ceiling_A3"], rule["null_volume_ceiling_at"])),
-        "★_the_one_row_that_settles_it": (
-            "position 406 is in the SIGNAL class and has a lobe of %s A^3 — smaller than the null ceiling. "
-            "If occupancy tracked class it would still be occupied at a signal-class rate; if it tracks "
-            "volume it will not be. Its measured fraction is %s, against %s at the null ceiling position "
-            "%s. Read those two numbers before quoting the pooled gap."
-            % (rule["denied_lobes"]["406"].get("volume_A3"),
+            "⚠ THE POOLED SIGNAL-MINUS-NULL OCCUPANCY GAP IS NOT A PURE CLASS EFFECT, AND THIS BLOCK IS HOW "
+            "A READER SEES THAT WITHOUT BEING TOLD. Every position's occupancy rate is printed beside its "
+            "MEASURED lobe volume and its post-fit superposition deviation, because occupancy depends on "
+            "both how much denied space a position offers and where that space sits relative to where "
+            "molecules were docked. Neither of those is the position's class."),
+        "★_what_the_table_actually_shows": (
+            "TWO rows kill the simple readings at once. **(a)** Volume alone does not drive it: position %s "
+            "has the LARGEST lobe in the set (%s A^3) and is occupied by %s of the in-frame molecules — its "
+            "denied space is real and nothing is in it. **(b)** Class alone does not drive it either: "
+            "position 406 IS in the signal class, and at %s A^3 it is occupied by %s, BELOW the conserved "
+            "null-ceiling position %s at %s. So the entire pooled gap is carried by 484 and 534, exactly the "
+            "two positions the rule's volume bar already selected — this audit reproduces that narrowing on "
+            "MOLECULES, where the rule had shown it on GRID VOLUME. It is a second, independent line to the "
+            "same 'two vectors, not three' conclusion, and it is NOT extra evidence that the mechanism "
+            "confers selectivity."
+            % (biggest_lobe, per_position[biggest_lobe]["lobe_volume_A3"],
+               per_position[biggest_lobe]["fraction_occupying"],
+               rule["denied_lobes"]["406"].get("volume_A3"),
                per_position["406"]["fraction_occupying"],
-               per_position[str(rule["null_volume_ceiling_at"])]["fraction_occupying"],
-               rule["null_volume_ceiling_at"])),
+               rule["null_volume_ceiling_at"],
+               per_position[str(rule["null_volume_ceiling_at"])]["fraction_occupying"])),
+        "⛔_so_do_not_quote_the_pooled_gap_alone": (
+            "a single signal-minus-null number averages a position occupied by every molecule (534) with one "
+            "occupied by a minority (406) and one occupied by none (412 is not even in the signal class). "
+            "Quote the per-position table, or quote the two design targets by name."),
         "by_position": per_position,
     }
 
@@ -796,11 +806,13 @@ def to_markdown(a):
           % (r["pose_source"], r["reading"], r["signal_minus_null"],
              r["occupancy_signal_minus_null"], r["n_heavy_atoms_in_484"], r["n_heavy_atoms_in_534"]))
     W("")
-    W("## 4 · The confound: occupancy tracks lobe VOLUME as well as class")
+    W("## 4 · Per-position occupancy against measured lobe volume — read this before the pooled gap")
     W("")
     W(a["occupancy_vs_lobe_volume"]["_why_this_block_exists"])
     W("")
-    W(a["occupancy_vs_lobe_volume"]["★_the_one_row_that_settles_it"])
+    W(a["occupancy_vs_lobe_volume"]["★_what_the_table_actually_shows"])
+    W("")
+    W(a["occupancy_vs_lobe_volume"]["⛔_so_do_not_quote_the_pooled_gap_alone"])
     W("")
     W("| position | class | design target | lobe volume (Å³) | fraction of in-frame molecules occupying |")
     W("|---|---|---|---|---|")

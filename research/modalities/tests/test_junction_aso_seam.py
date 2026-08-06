@@ -138,6 +138,27 @@ def test_cds_concatenation_would_have_refused_the_two_junctions_the_paper_leads_
 
 
 @pytest.mark.committed_artifact
+def test_the_e11_no_output_the_paper_flagged_is_the_off_by_two_announcing_itself():
+    """⭐ THE DEFECT'S ONE SPONTANEOUS SYMPTOM, ROOT-CAUSED.
+
+    `fusion-junction-aso-paper.md` §3a-quinquies records E11::N3 as an unexplained no-output and guesses
+    *"most likely … our exon indexing for EWSR1 exon 11 → NR4A3 exon 3 may not be in-frame as joined."*
+    Under the defective index NR4A3 resumed at CDS nt 1081, so the chimeric CDS is in frame exactly when
+    the EWSR1 cut ≡ 1081 (mod 3). That predicts, with no residual, that {7, 9, 10, 12, 13} emit and {11}
+    refuses — which is precisely the set of panels the paper claims and the single one it flags.
+
+    The test is here rather than in a comment because it is the evidence that the guess was wrong, and
+    because a self-check firing is a diagnostic: this one was read as an exon-boundary to-verify for a
+    month while the arithmetic that explains it sat in a committed artifact costing nothing to read.
+    """
+    ews = _model_from_committed_audit("EWSR1")
+    emitted = {e for e in fb.EWSR1_EXON_WINDOW
+               if fb.cut_offset(ews, e) % 3 == RETRACTED_CDS_NT % 3}
+    assert {7, 9, 10, 12, 13} <= emitted
+    assert 11 not in emitted
+
+
+@pytest.mark.committed_artifact
 def test_e7_and_e12_share_a_phase_so_one_utr_length_settles_both():
     """The chimeric ORF is in frame iff (cut + U) mod 3 == 0, where U = acceptor-exon 5'UTR nt retained.
     e7 and e12 are both phase 1, so a single U ≡ 2 (mod 3) puts BOTH in frame. That is a PREDICTION the

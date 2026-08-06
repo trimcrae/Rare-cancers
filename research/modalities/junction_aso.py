@@ -467,9 +467,23 @@ def audit_window():
                             f"corrected plausible range [{lo}, {hi}]")
             elif not j["in_frame"]:
                 j["grade"] = "OUT_OF_FRAME"
-                j["why"] = (f"(EWSR1 coding nt {j['ewsr1_coding_nt_through_cut']} + acceptor 5'UTR "
-                            f"{j['nr4a3_acceptor_exon_5utr_nt_retained']}) mod 3 = "
-                            f"{j['frame_sum_mod3']}")
+                # ⚠ TWO DIFFERENT FAILURES WEAR THIS GRADE AND THEY MUST NOT RENDER ALIKE.
+                # frame_sum_mod3 != 0 is a REGISTER mismatch: the donor cut and the acceptor exon's
+                # 5' phase do not compose. frame_sum_mod3 == 0 with the C-terminus still missing is
+                # a PREMATURE STOP — the register is right and something in the read-through
+                # terminates translation before NR4A3's own C-terminus. The second is a biological
+                # statement about that exon pair; the first is arithmetic. Collapsing them would
+                # reproduce, in the replacement, the exact ambiguity that let the e11 self-check be
+                # written off as an exon-boundary to-verify.
+                j["why"] = (
+                    (f"frame register mismatch: (EWSR1 coding nt "
+                     f"{j['ewsr1_coding_nt_through_cut']} + acceptor 5'UTR "
+                     f"{j['nr4a3_acceptor_exon_5utr_nt_retained']}) mod 3 = {j['frame_sum_mod3']}, "
+                     "must be 0")
+                    if j["frame_sum_mod3"] else
+                    (f"frame register is correct (mod 3 = 0) but the NR4A3 C-terminus is not "
+                     f"reached — a stop codon terminates the chimeric ORF after "
+                     f"{j['chimeric_protein_length']} aa"))
             else:
                 j["grade"], j["why"] = "EMITTABLE", "in frame, resume residue inside the corrected range"
             rows.append(j)
