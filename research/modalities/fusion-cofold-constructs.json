@@ -41,30 +41,47 @@
     "verdict": "BLOCKED",
     "findings": [
       {
-        "check": "a baked image carrying Boltz exists",
-        "got": [],
+        "check": "a Dockerfile for a Boltz image exists in this repo",
+        "got": [
+          "Dockerfile.boltz"
+        ],
         "want": "at least one Dockerfile.* naming boltz",
+        "ok": true,
+        "note": "Dockerfiles scanned: Dockerfile.bioemu, Dockerfile.boltz, Dockerfile.mdjob, Dockerfile.nr4a3fep, Dockerfile.nr4ametad, Dockerfile.nrv04vast, Dockerfile.pmxfep, Dockerfile.protfep, Dockerfile.ternaryfep"
+      },
+      {
+        "check": "that image has actually been BAKED AND PUSHED to Docker Hub",
+        "got": {
+          "bake_workflow_present": true,
+          "registry_read": "REFUSED \u2014 the dev sandbox cannot reach registry-1.docker.io, and 'a Dockerfile exists' is NOT evidence that an image was pushed"
+        },
+        "want": "docker.io/triskit23/boltz:latest resolvable, with /opt/boltz/BAKED inside it",
         "ok": false,
-        "note": "Dockerfiles scanned: Dockerfile.bioemu, Dockerfile.mdjob, Dockerfile.nr4a3fep, Dockerfile.nr4ametad, Dockerfile.nrv04vast, Dockerfile.pmxfep, Dockerfile.protfep, Dockerfile.ternaryfep"
+        "note": "\u26d4 A FILE'S PRESENCE IS NOT PROVENANCE (CLAUDE.md \u00a74b). This stays FAIL until the bake workflow has run and its verify step has printed the marker. Renting against an image that was never pushed means the job never starts \u2014 cheap, but it is still a launch that cannot be made from this state."
       },
       {
         "check": "the repo's Vast co-fold lane does NOT build its environment on the billing host",
         "got": {
-          "image": "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime",
-          "installs_on_host": true
+          "default_image": "pytorch/pytorch:2.4.0-cuda12.4-cudnn9-runtime",
+          "installs_on_host": false,
+          "guarded_by_baked_marker": true
         },
         "want": {
           "installs_on_host": false
         },
-        "ok": false,
+        "ok": true,
         "note": "nrv04_vast_launch._COFOLD_PIPELINE. CLAUDE.md \u00a76 records this exact shape as the 2026-08-01 violation: a rented 4090 running apt-get + pip install boltz + a ~3 GB fetch off stock pytorch/pytorch, before one second of science."
       },
       {
-        "check": "a Vast lane exists that runs fusion_cofold.py (rather than the ternary entry points)",
-        "got": "the only fusion_cofold launcher is .github/workflows/gpu-cofold-aws.yml (SageMaker); the Vast co-fold lane hard-codes TERNARY_SCRIPT and pip-installs on the host",
-        "want": "a Vast lane whose entry point is the fusion co-fold",
-        "ok": false,
-        "note": "CLAUDE.md \u00a76: production runs go on Vast. The plan's R13-b cell says Vast; the only wired path for this script is AWS SageMaker."
+        "check": "a Vast-drivable entry point exists that consumes the COMMITTED inputs (no runtime fetch)",
+        "got": {
+          "fusion_cofold_run.py": true,
+          "driven_by": "nrv04_vast_launch cofold mode via TERNARY_SCRIPT=fusion_cofold_run.py",
+          "legacy_path": ".github/workflows/gpu-cofold-aws.yml runs fusion_cofold.py on SageMaker and resolves two AlphaFold PDBs at runtime ON the host"
+        },
+        "want": "an entry point that fetches nothing and resumes from the object store",
+        "ok": true,
+        "note": "CLAUDE.md \u00a76: production runs go on Vast. The plan's R13-b cell says Vast; before this the only wired path for the fusion co-fold was AWS SageMaker."
       }
     ],
     "what_is_required_before_a_nod_can_be_acted_on": [

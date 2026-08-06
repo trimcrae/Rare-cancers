@@ -46,7 +46,9 @@ prioritised menu of **14 candidates** spanning the angiogenic, *NR4A3*-transcrip
 PPARγ/lineage, cell-cycle, epigenetic, apoptotic and immune axes. We deliberately separate the
 **best-evidenced** option — imatinib, which has direct EMC clinical evidence but is **not novel**
 and applies only to the ~4% *KIT*-mutant minority — from the **most promising genuinely novel
-leads**, which are preclinical: PPARγ agonism (in-vivo EMC-model data) and the proteasome/BCL-2
+leads**, which are preclinical: PPARγ agonism (in-vivo EMC-model data — though the *direction* of the
+PPARγ effect in EMC is unresolved in the primary literature, and that in-vivo result's in-vitro half
+used a line whose EMC identity the curated record does not support; §3) and the proteasome/BCL-2
 inhibitors carfilzomib and venetoclax (validated across two patient-derived EMC models). In EMC
 the evidence and novelty of a candidate are essentially anti-correlated, and naming that gap — not
 proposing a cure — is part of the contribution. The graph foundation model, by contrast, diverged
@@ -257,12 +259,16 @@ short form, with its citations:
 - ✅ **T1: the fusion can transactivate a response element in the *PPARG* promoter** — band-shift plus
   transient transfection (Filion et al. 2009). *Caveat carried by the source: a heterologous reporter
   in transfected cells, not an endogenous EMC readout.*
-- ⛔ **NOT settled — which direction of intervention follows.** The two primary EMC expression studies
-  proposed **opposite** directions from the same observation. Subramanian et al. 2005, verbatim:
+- ⛔ **NOT settled — which direction of intervention follows.** The two EMC expression studies that
+  report *PPARG* proposed **opposite** directions from the same observation. Subramanian et al. 2005, verbatim:
   *"Small molecule inhibitors for PPARG exist and PPARG could be a potential therapeutic target for
   EMC."* Filion et al. 2009, verbatim: *"the direct up-regulation of PPARG by EWSR1/NR4A3 demonstrated
   here provides a rationale for studies of these agents"* — meaning PPARγ **agonists**. Both are
-  proposals in discussion sections; neither is backed by an EMC functional experiment.
+  proposals in discussion sections; neither is backed by an EMC functional experiment. ⚠ The two are
+  **not evenly matched**: Filion et al. note, of the earlier cohort, that it *"used samples in which
+  the diagnosis of EMC was not independently confirmed by testing for EWS/NR4A3 or other related but
+  less common EMC-specific gene fusions"*, whereas their own three cases were verified fusion-positive
+  by RT-PCR. That is an asymmetry in evidence quality, not a resolution.
 - ★ **Only one functional experiment has ever tested the direction, and it favours agonism** — the
   zaltoprofen result (Higuchi et al. 2023). ⚠ **Its in-vitro work used H-EMC-SS**, the line
   Cellosaurus annotates, citing a primary source, as not harbouring an *EWSR1* fusion. The paper is
@@ -346,8 +352,8 @@ consequence of EMC's rarity. Either way it is a reminder that no single method i
 here. Fourth, biomarker-restricted candidates (notably imatinib) apply only to a
 molecularly-defined minority and must not be generalised. Fifth, **one axis carries an unresolved
 direction of effect and we say so rather than choosing a sign**: the two primary EMC expression
-studies proposed opposite pharmacological directions on the PPARγ axis from the same over-expression
-observation (Subramanian et al. 2005; Filion et al. 2009), the single functional experiment bearing
+studies that report *PPARG* proposed opposite pharmacological directions on that axis from the same
+over-expression observation (Subramanian et al. 2005; Filion et al. 2009), the single functional experiment bearing
 on it used a cell line whose EMC identity the curated record does not support (Higuchi et al. 2023),
 and PPARγ transcriptional output has never been measured in EMC tissue — so the PPARγ candidates are
 presented as an axis worth testing, not as a direction we can state (§3, "The PPARγ axis").
@@ -439,7 +445,7 @@ PMID/PMCID.
 15. The Drug–Gene Interaction Database (DGIdb). https://dgidb.org (Freshour SL, et al. *Nucleic Acids Res.* 2021; doi:10.1093/nar/gkaa1084).
 16. CURE ID — FDA / NCATS treatment registry. https://cure.ncats.io.
 17. Giner F, et al. Extraskeletal myxoid chondrosarcoma: p53 and Ki-67 offer prognostic value for clinical outcome — an immunohistochemical and molecular analysis of 31 cases. *Virchows Arch.* 2023. doi:10.1007/s00428-022-03453-x. PMID 36376703.
-18. Subramanian S, West RB, Marinelli RJ, et al. The gene expression profile of extraskeletal myxoid chondrosarcoma. *J Pathol.* 2005. doi:10.1002/path.1792. PMID 15920699. *(Abstract retrieved via Europe PMC; the article is not open access and its full text has not been read here — every statement attributed to it above is quoted from the abstract.)*
+18. Subramanian S, West RB, Marinelli RJ, et al. The gene expression profile of extraskeletal myxoid chondrosarcoma. *J Pathol.* 2005;206:433–444. doi:10.1002/path.1792. PMID 15920699. *(Abstract retrieved via Europe PMC; the article is not open access and its full text has not been read here — every statement attributed to it above is quoted from the abstract.)*
 19. Filion C, Motoi T, Olshen A, et al. The EWSR1/NR4A3 fusion protein of extraskeletal myxoid chondrosarcoma activates the PPARG nuclear receptor gene. *J Pathol.* 2009;217(1):83–93. doi:10.1002/path.2445. PMID 18855877. PMC4429309. *(Full text retrieved and read.)*
 
 *Author lists marked "et al." and any reference lacking volume/page detail must be completed to full journal style before submission; do not infer co-authors. The Kim et al. 2016 author list above is from the corpus record for PMID 26310886.*

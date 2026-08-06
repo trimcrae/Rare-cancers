@@ -346,10 +346,23 @@ def launch_path_check():
         except OSError:
             pass
     findings.append({
-        "check": "a baked image carrying Boltz exists",
+        "check": "a Dockerfile for a Boltz image exists in this repo",
         "got": with_boltz, "want": "at least one Dockerfile.* naming boltz",
         "ok": bool(with_boltz),
         "note": "Dockerfiles scanned: %s" % ", ".join(dockerfiles),
+    })
+    bake_wf = os.path.join(REPO, ".github", "workflows", "boltz-bake.yml")
+    findings.append({
+        "check": "that image has actually been BAKED AND PUSHED to Docker Hub",
+        "got": {"bake_workflow_present": os.path.exists(bake_wf),
+                "registry_read": "REFUSED — the dev sandbox cannot reach registry-1.docker.io, and "
+                                 "'a Dockerfile exists' is NOT evidence that an image was pushed"},
+        "want": "docker.io/triskit23/boltz:latest resolvable, with /opt/boltz/BAKED inside it",
+        "ok": False,
+        "note": "⛔ A FILE'S PRESENCE IS NOT PROVENANCE (CLAUDE.md §4b). This stays FAIL until the bake "
+                "workflow has run and its verify step has printed the marker. Renting against an image "
+                "that was never pushed means the job never starts — cheap, but it is still a launch that "
+                "cannot be made from this state.",
     })
 
     builds_on_host = False
@@ -358,7 +371,10 @@ def launch_path_check():
         with open(VAST_LAUNCH, errors="replace") as fh:
             src = fh.read()
         seg = src.split("_COFOLD_PIPELINE", 1)[-1].split("def build_cofold_jobspec", 1)[0]
-        builds_on_host = ("pip install" in seg) or ("apt-get install" in seg)
+        # An install that is GUARDED by the baked-image marker is not an install on the billing host — it is
+        # a fallback for the un-baked case, which is the only case it can still fire in.
+        guarded = "/opt/boltz/BAKED" in seg
+        builds_on_host = (("pip install" in seg) or ("apt-get install" in seg)) and not guarded
         for line in src.splitlines():
             if line.startswith("COFOLD_IMAGE"):
                 image = line.split("or", 1)[-1].strip().strip('"')
@@ -366,7 +382,8 @@ def launch_path_check():
         pass
     findings.append({
         "check": "the repo's Vast co-fold lane does NOT build its environment on the billing host",
-        "got": {"image": image, "installs_on_host": builds_on_host},
+        "got": {"default_image": image, "installs_on_host": builds_on_host,
+                "guarded_by_baked_marker": guarded},
         "want": {"installs_on_host": False},
         "ok": not builds_on_host,
         "note": "nrv04_vast_launch._COFOLD_PIPELINE. CLAUDE.md §6 records this exact shape as the "
@@ -374,14 +391,18 @@ def launch_path_check():
                 "off stock pytorch/pytorch, before one second of science.",
     })
 
+    entry = os.path.join(HERE, "fusion_cofold_run.py")
+    has_entry = os.path.exists(entry)
     findings.append({
-        "check": "a Vast lane exists that runs fusion_cofold.py (rather than the ternary entry points)",
-        "got": "the only fusion_cofold launcher is .github/workflows/gpu-cofold-aws.yml (SageMaker); the "
-               "Vast co-fold lane hard-codes TERNARY_SCRIPT and pip-installs on the host",
-        "want": "a Vast lane whose entry point is the fusion co-fold",
-        "ok": False,
-        "note": "CLAUDE.md §6: production runs go on Vast. The plan's R13-b cell says Vast; the only "
-                "wired path for this script is AWS SageMaker.",
+        "check": "a Vast-drivable entry point exists that consumes the COMMITTED inputs (no runtime fetch)",
+        "got": {"fusion_cofold_run.py": has_entry,
+                "driven_by": "nrv04_vast_launch cofold mode via TERNARY_SCRIPT=fusion_cofold_run.py",
+                "legacy_path": ".github/workflows/gpu-cofold-aws.yml runs fusion_cofold.py on SageMaker and "
+                               "resolves two AlphaFold PDBs at runtime ON the host"},
+        "want": "an entry point that fetches nothing and resumes from the object store",
+        "ok": has_entry,
+        "note": "CLAUDE.md §6: production runs go on Vast. The plan's R13-b cell says Vast; before this "
+                "the only wired path for the fusion co-fold was AWS SageMaker.",
     })
 
     return {

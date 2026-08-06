@@ -310,6 +310,12 @@ def _carrier_robustness(readings):
 
 
 def _score_one(title, coords, geometry, nr4a3_heavy, clash, targets):
+    """One molecule: M3's clash score with its null, plus lobe occupancy with ITS null.
+
+    ⚠ `targets` is the rule's `design_targets`, read from the artifact and passed in rather than hard-coded,
+    so that a future re-measurement that changes which positions qualify changes this audit too. Occupancy
+    itself is computed at EVERY Pocket-5 position because the null is not optional.
+    """
     pts = [(c[0], c[1], c[2]) for c in coords if c[3] != "H"]
     rec = RULE.score_pose(pts, geometry, clash)
     rec.pop("_reading", None)
@@ -318,9 +324,10 @@ def _score_one(title, coords, geometry, nr4a3_heavy, clash, targets):
     occ = lobe_occupancy(pts, geometry, nr4a3_heavy, clash, sorted(geometry))
     rec["lobe_occupancy"] = occ
     rec["occupancy_with_its_null"] = occupancy_by_class(occ, geometry)
+    rec["reaches_design_target_lobe"] = {str(u): occ[str(u)]["reaches_the_lobe"] for u in targets}
     rec["reaches_I484_lobe"] = occ["484"]["reaches_the_lobe"]
     rec["reaches_L534_lobe"] = occ["534"]["reaches_the_lobe"]
-    rec["reaches_either_lobe"] = bool(rec["reaches_I484_lobe"] or rec["reaches_L534_lobe"])
+    rec["reaches_either_lobe"] = any(rec["reaches_design_target_lobe"].values())
     return rec
 
 
@@ -539,6 +546,45 @@ def build():
 
     pooled_all = _pooled_occupancy([r for b in scored_sources for r in b["molecules"]])
 
+    # ★ THE CONFOUND, PUT ON THE PAGE RATHER THAN LEFT FOR A REVIEWER. Occupancy is a volume-sensitive
+    # statistic: a bigger denied lobe is easier for any molecule to land an atom in, so part of the
+    # signal-minus-null gap is simply that the two design-target lobes are several times larger than the
+    # null class's largest. Reporting the per-position occupancy rate BESIDE that position's measured lobe
+    # volume is what lets a reader see it; hiding it behind a pooled difference would not.
+    all_in_frame = [r for b in scored_sources for r in b["molecules"]]
+    per_position = {}
+    for u in sorted(geometry):
+        lobe = rule["denied_lobes"][str(u)]
+        n_occ = sum(r["lobe_occupancy"][str(u)]["reaches_the_lobe"] for r in all_in_frame)
+        per_position[str(u)] = {
+            "class": geometry[u]["class"],
+            "is_a_design_target": u in targets,
+            "lobe_volume_A3": lobe.get("volume_A3"),
+            "n_molecules_occupying": n_occ,
+            "fraction_occupying": _r(n_occ / len(all_in_frame), 3) if all_in_frame else None,
+            "post_fit_deviation_A": lobe.get("post_fit_deviation_A"),
+        }
+    occupancy_vs_volume = {
+        "_why_this_block_exists": (
+            "⚠ OCCUPANCY IS VOLUME-SENSITIVE AND THE CONTRAST IS THEREFORE CONFOUNDED. A larger denied lobe "
+            "is easier for any molecule to place an atom in, and the two design targets are several times "
+            "larger than the null class's largest lobe (%s A^3 at %s). So the pooled signal-minus-null "
+            "occupancy gap is NOT purely a class effect — part of it is lobe size. This block puts every "
+            "position's occupancy rate next to its measured volume so the reader can grade that directly, "
+            "and it is the reason this audit does not present occupancy as a selectivity statistic."
+            % (rule["null_volume_ceiling_A3"], rule["null_volume_ceiling_at"])),
+        "★_the_one_row_that_settles_it": (
+            "position 406 is in the SIGNAL class and has a lobe of %s A^3 — smaller than the null ceiling. "
+            "If occupancy tracked class it would still be occupied at a signal-class rate; if it tracks "
+            "volume it will not be. Its measured fraction is %s, against %s at the null ceiling position "
+            "%s. Read those two numbers before quoting the pooled gap."
+            % (rule["denied_lobes"]["406"].get("volume_A3"),
+               per_position["406"]["fraction_occupying"],
+               per_position[str(rule["null_volume_ceiling_at"])]["fraction_occupying"],
+               rule["null_volume_ceiling_at"])),
+        "by_position": per_position,
+    }
+
     verdict = {
         "the_question": ("does the steric design rule have a CARRIER — does anything committed already "
                          "occupy the I484 or L534 denied lobe?"),
@@ -617,6 +663,7 @@ def build():
             "lobe_volume_A3": {str(u): rule["denied_lobes"][str(u)]["volume_A3"] for u in targets},
         },
         "pose_source_census": census,
+        "occupancy_vs_lobe_volume": occupancy_vs_volume,
         "scored_in_frame": scored_sources,
         "scored_after_transfer": transferred,
         "constructs": constructs,
@@ -627,6 +674,10 @@ def build():
             "rigid transfer, in the same single superposition, at the same 3.0 A radius.",
             "A pose that reaches a lobe is a pose that reaches a lobe. Nothing here says the molecule is "
             "synthesisable, potent, selective, a degrader, or a candidate for anything.",
+            "OCCUPANCY IS VOLUME-SENSITIVE. A larger denied lobe is easier to land an atom in, so the "
+            "signal-minus-null occupancy gap is confounded with lobe size — see occupancy_vs_lobe_volume "
+            "before quoting it. This is why occupancy is reported as a carrier question, never as a "
+            "selectivity statistic.",
             "The transferred rows carry an extra CA superposition performed in this file; that superposition's "
             "core RMSD, core fraction and post-fit deviation are reported per source and must be quoted with "
             "them.",
@@ -745,9 +796,53 @@ def to_markdown(a):
           % (r["pose_source"], r["reading"], r["signal_minus_null"],
              r["occupancy_signal_minus_null"], r["n_heavy_atoms_in_484"], r["n_heavy_atoms_in_534"]))
     W("")
-    W("## 4 · What is still missing")
+    W("## 4 · The confound: occupancy tracks lobe VOLUME as well as class")
+    W("")
+    W(a["occupancy_vs_lobe_volume"]["_why_this_block_exists"])
+    W("")
+    W(a["occupancy_vs_lobe_volume"]["★_the_one_row_that_settles_it"])
+    W("")
+    W("| position | class | design target | lobe volume (Å³) | fraction of in-frame molecules occupying |")
+    W("|---|---|---|---|---|")
+    for u, r in a["occupancy_vs_lobe_volume"]["by_position"].items():
+        W("| %s | %s | %s | %s | %s |" % (u, r["class"], "✅" if r["is_a_design_target"] else "—",
+                                          r["lobe_volume_A3"], r["fraction_occupying"]))
+    W("")
+    W("## 5 · The frame census — what was considered, and what could be scored as arithmetic")
+    W("")
+    W("⚠ Frame identity is decided **atom by atom against the rule's own receptor**, never by a path that "
+      "looks right. A pose from another opened conformer would score without complaint.")
+    W("")
+    W("| source | receptor identical to the rule frame? | poses | scored as |")
+    W("|---|---|---|---|")
+    for c in a["pose_source_census"]:
+        how = ("arithmetic (in frame)" if c.get("identical_to_rule_frame") and c.get("poses_present")
+               else ("transferred by superposition" if c.get("poses_present") else "not present"))
+        W("| %s | %s | %s | %s |" % (c["source"], "✅ yes" if c.get("identical_to_rule_frame") else "no",
+                                     c.get("n_poses", "—"), how))
+    W("")
+    W("Transferred sources carry the superposition that moved them, and it is not free — core RMSD "
+      + ", ".join("%s Å (%s)" % (t["superposition"]["core_rmsd_A"], t["source"].split(" (")[0])
+                  for t in a["scored_after_transfer"] if "8XTT" in t["source"])
+      + " for the experimental-conformer legs. Those rows are weaker than the in-frame rows and are never "
+        "pooled with them.")
+    W("")
+    W("## 6 · What is still missing")
     W("")
     W(a["constructs"]["what_it_would_take"])
+    W("")
+    W("For orientation only — **no reach model is applied and this licenses nothing** — the constructs' one "
+      "committed anchor, C397 SG, sits %s Å from the I484 lobe centroid and %s Å from the L534 lobe centroid "
+      "in the same frame."
+      % (a["anchor_orientation"]["distance_to_lobe_centroid_A"]["484"],
+         a["anchor_orientation"]["distance_to_lobe_centroid_A"]["534"]))
+    W("")
+    W("## 7 · Roadmap edits — DESCRIBED, NOT APPLIED")
+    W("")
+    W("This file edits no roadmap, graph or view. A human applies these.")
+    W("")
+    for t in a["map_edits_required"]["targets"]:
+        W("- **%s** — %s" % (t["where"], t["edit"]))
     W("")
     return "\n".join(L) + "\n"
 

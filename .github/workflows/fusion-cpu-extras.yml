@@ -1478,6 +1478,13 @@ jobs:
       # research/compute/provider-deviation-2026-07-24.md). COFOLD_OUTPUT_PREFIX must be FRESH.
       COFOLD: ${{ (github.event.inputs.vast_launch_mode == 'cofold' || github.event.inputs.vast_launch_mode == 'cofold_dry') && '1' || '0' }}
       COFOLD_OUTPUT_PREFIX: ${{ github.event.inputs.cofold_output_prefix }}
+      # ★ THE BAKED CO-FOLD IMAGE — a repository VARIABLE, not a dispatch input, because this workflow is at
+      # GitHub's hard 25-input cap and the 26th does not fail, it silently EMPTIES every `-f` value
+      # (tests/test_workflow_input_cap.py caught exactly that). Unset -> nrv04_vast_launch.COFOLD_IMAGE
+      # falls back to the stock pytorch base and the pipeline solves the environment on the billing host,
+      # which CLAUDE.md §6 forbids — so set it to `triskit23/boltz:latest` once "Boltz image bake" has run.
+      # The pipeline itself tests /opt/boltz/BAKED, so a wrong value degrades to today's behaviour, loudly.
+      COFOLD_IMAGE: ${{ vars.COFOLD_IMAGE }}
       TERNARY_SCRIPT: ${{ github.event.inputs.ternary_script }}
       TERNARY_EXTRA_ARGS: ${{ github.event.inputs.ternary_extra_args }}
       SEEDS: ${{ github.event.inputs.seeds }}

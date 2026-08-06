@@ -53,21 +53,18 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "$DOCKERHUB_USER" --password-stdin
 
-      - name: Pin check — the baked spec must equal the launcher's
+      # ★ A BAKED IMAGE THAT FLOATS AWAY FROM THE LANE'S PIN MAKES "the same predictor on either provider"
+      # UNTRUE — the parity argument CLAUDE.md §6 makes for the ternary image. So the spec is READ from the
+      # launcher rather than remembered, and a disagreement fails the bake instead of shipping quietly.
+      - name: Pin check — the baked spec must equal nrv04_vast_launch.BOLTZ_SPEC
+        env:
+          GOT: ${{ github.event.inputs.boltz_spec }}
         run: |
           set -euo pipefail
-          WANT=$(python3 - <<'PY'
-import re
-src = open("research/modalities/nrv04_vast_launch.py").read()
-m = re.search(r'BOLTZ_SPEC\s*=\s*os\.environ\.get\("BOLTZ_SPEC"\)\s*or\s*"([^"]+)"', src)
-print(m.group(1) if m else "")
-PY
-)
-          GOT="${{ github.event.inputs.boltz_spec }}"
+          WANT=$(python3 -c 'import re,sys; s=open("research/modalities/nrv04_vast_launch.py").read(); m=re.search(r"BOLTZ_SPEC\s*=\s*os\.environ\.get\(\"BOLTZ_SPEC\"\)\s*or\s*\"([^\"]+)\"", s); print(m.group(1) if m else "")')
           echo "launcher pins: '$WANT' | this bake: '$GOT'"
           if [ -n "$WANT" ] && [ "$WANT" != "$GOT" ]; then
-            echo "::error::the bake spec and nrv04_vast_launch.BOLTZ_SPEC disagree — a baked image that "\
-                 "floats away from the lane's pin makes 'same predictor across providers' untrue."
+            echo "::error::bake spec '$GOT' != nrv04_vast_launch.BOLTZ_SPEC '$WANT' — a baked image that floats away from the lane's pin makes 'same predictor across providers' untrue."
             exit 1
           fi
 

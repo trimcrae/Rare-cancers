@@ -74,5 +74,11 @@ def test_the_launch_path_check_reads_the_real_repo_and_does_not_assert_a_capabil
     lp = fc.launch_path_check()
     assert lp["verdict"] in ("READY", "BLOCKED")
     names = {f["check"] for f in lp["findings"]}
-    assert any("baked image carrying Boltz" in n for n in names)
+    assert any("Dockerfile for a Boltz image" in n for n in names)
     assert any("billing host" in n for n in names)
+    # ⛔ THE ONE THAT MATTERS: a Dockerfile in the tree must never be allowed to satisfy "a baked image
+    # exists". A file's presence is not provenance (CLAUDE.md §4b), and the registry is unreadable from
+    # here, so the pushed-image finding must stay FAIL until a bake run says otherwise.
+    pushed = [f for f in lp["findings"] if "BAKED AND PUSHED" in f["check"]]
+    assert len(pushed) == 1 and pushed[0]["ok"] is False
+    assert lp["verdict"] == "BLOCKED"

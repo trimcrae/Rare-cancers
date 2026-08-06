@@ -203,6 +203,122 @@
    "n_poses": 1
   }
  ],
+ "occupancy_vs_lobe_volume": {
+  "_why_this_block_exists": "⚠ OCCUPANCY IS VOLUME-SENSITIVE AND THE CONTRAST IS THEREFORE CONFOUNDED. A larger denied lobe is easier for any molecule to place an atom in, and the two design targets are several times larger than the null class's largest lobe (11.78 A^3 at 481). So the pooled signal-minus-null occupancy gap is NOT purely a class effect — part of it is lobe size. This block puts every position's occupancy rate next to its measured volume so the reader can grade that directly, and it is the reason this audit does not present occupancy as a selectivity statistic.",
+  "★_the_one_row_that_settles_it": "position 406 is in the SIGNAL class and has a lobe of 2.69 A^3 — smaller than the null ceiling. If occupancy tracked class it would still be occupied at a signal-class rate; if it tracks volume it will not be. Its measured fraction is 0.37, against 0.457 at the null ceiling position 481. Read those two numbers before quoting the pooled gap.",
+  "by_position": {
+   "406": {
+    "class": "unique_and_both_bulkier",
+    "is_a_design_target": false,
+    "lobe_volume_A3": 2.69,
+    "n_molecules_occupying": 17,
+    "fraction_occupying": 0.37,
+    "post_fit_deviation_A": {
+     "NR4A1": 2.57,
+     "NR4A2": 0.81
+    }
+   },
+   "407": {
+    "class": "unique_not_bulkier",
+    "is_a_design_target": false,
+    "lobe_volume_A3": 0.58,
+    "n_molecules_occupying": 0,
+    "fraction_occupying": 0.0,
+    "post_fit_deviation_A": {
+     "NR4A1": 2.07,
+     "NR4A2": 1.07
+    }
+   },
+   "410": {
+    "class": "unique_not_bulkier",
+    "is_a_design_target": false,
+    "lobe_volume_A3": 0.0,
+    "n_molecules_occupying": 0,
+    "fraction_occupying": 0.0,
+    "post_fit_deviation_A": {
+     "NR4A1": 2.54,
+     "NR4A2": 2.11
+    }
+   },
+   "411": {
+    "class": "conserved_or_shared",
+    "is_a_design_target": false,
+    "lobe_volume_A3": 0.19,
+    "n_molecules_occupying": 0,
+    "fraction_occupying": 0.0,
+    "post_fit_deviation_A": {
+     "NR4A1": 2.27,
+     "NR4A2": 1.55
+    }
+   },
+   "412": {
+    "class": "unique_not_bulkier",
+    "is_a_design_target": false,
+    "lobe_volume_A3": 68.8,
+    "n_molecules_occupying": 0,
+    "fraction_occupying": 0.0,
+    "post_fit_deviation_A": {
+     "NR4A1": 5.83,
+     "NR4A2": 4.34
+    }
+   },
+   "481": {
+    "class": "conserved_or_shared",
+    "is_a_design_target": false,
+    "lobe_volume_A3": 11.78,
+    "n_molecules_occupying": 21,
+    "fraction_occupying": 0.457,
+    "post_fit_deviation_A": {
+     "NR4A1": 1.42,
+     "NR4A2": 1.51
+    }
+   },
+   "484": {
+    "class": "unique_and_both_bulkier",
+    "is_a_design_target": true,
+    "lobe_volume_A3": 51.9,
+    "n_molecules_occupying": 43,
+    "fraction_occupying": 0.935,
+    "post_fit_deviation_A": {
+     "NR4A1": 0.97,
+     "NR4A2": 0.84
+    }
+   },
+   "485": {
+    "class": "conserved_or_shared",
+    "is_a_design_target": false,
+    "lobe_volume_A3": 0.77,
+    "n_molecules_occupying": 0,
+    "fraction_occupying": 0.0,
+    "post_fit_deviation_A": {
+     "NR4A1": 0.57,
+     "NR4A2": 0.96
+    }
+   },
+   "531": {
+    "class": "conserved_or_shared",
+    "is_a_design_target": false,
+    "lobe_volume_A3": 3.01,
+    "n_molecules_occupying": 2,
+    "fraction_occupying": 0.043,
+    "post_fit_deviation_A": {
+     "NR4A1": 1.16,
+     "NR4A2": 1.57
+    }
+   },
+   "534": {
+    "class": "unique_and_both_bulkier",
+    "is_a_design_target": true,
+    "lobe_volume_A3": 60.74,
+    "n_molecules_occupying": 46,
+    "fraction_occupying": 1.0,
+    "post_fit_deviation_A": {
+     "NR4A1": 1.25,
+     "NR4A2": 0.87
+    }
+   }
+  }
+ },
  "scored_in_frame": [
   {
    "source": "selectivity-matrix (the rule's own worked example)",
@@ -375,6 +491,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -529,6 +649,10 @@
       "occupancy_signal_minus_null": 0.75,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -679,6 +803,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -834,6 +962,10 @@
       "occupancy_signal_minus_null": 1.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -988,6 +1120,10 @@
       "occupancy_signal_minus_null": 1.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -1140,6 +1276,10 @@
       "occupancy_null_rate": 0.25,
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -1295,6 +1435,10 @@
       "occupancy_signal_minus_null": 0.75,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -1448,6 +1592,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -1603,6 +1751,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -1754,6 +1906,10 @@
       "occupancy_signal_minus_null": 0.75,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -1903,6 +2059,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -2054,6 +2214,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -2208,6 +2372,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 1.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -2383,6 +2551,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -2535,6 +2707,10 @@
       "occupancy_null_rate": 0.25,
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -2690,6 +2866,10 @@
       "occupancy_signal_minus_null": 0.75,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -2843,6 +3023,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -2992,6 +3176,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -3146,6 +3334,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -3299,6 +3491,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -3449,6 +3645,10 @@
       "occupancy_null_rate": 0.25,
       "occupancy_signal_minus_null": 0.75,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -3603,6 +3803,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -3754,6 +3958,10 @@
       "occupancy_signal_minus_null": 1.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -3903,6 +4111,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -4078,6 +4290,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -4228,6 +4444,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -4382,6 +4602,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -4532,6 +4756,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -4686,6 +4914,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -4837,6 +5069,10 @@
       "occupancy_signal_minus_null": 1.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -4986,6 +5222,10 @@
       "occupancy_null_rate": 0.25,
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -5140,6 +5380,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -5293,6 +5537,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -5442,6 +5690,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -5597,6 +5849,10 @@
       "occupancy_signal_minus_null": 1.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -5746,6 +6002,10 @@
       "occupancy_null_rate": 0.25,
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -5900,6 +6160,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -6050,6 +6314,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 1.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -6204,6 +6472,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -6354,6 +6626,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 1.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -6506,6 +6782,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -6660,6 +6940,10 @@
       "occupancy_signal_minus_null": 0.75,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -6813,6 +7097,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -6962,6 +7250,10 @@
       "occupancy_null_rate": 0.25,
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -7114,6 +7406,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -7264,6 +7560,10 @@
       "occupancy_null_rate": 0.25,
       "occupancy_signal_minus_null": 0.75,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -7455,6 +7755,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -7604,6 +7908,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -7752,6 +8060,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -7905,6 +8217,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -8053,6 +8369,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -8206,6 +8526,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -8358,6 +8682,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -8507,6 +8835,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -8655,6 +8987,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -8808,6 +9144,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -8956,6 +9296,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -9106,6 +9450,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -9254,6 +9602,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -9404,6 +9756,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -9552,6 +9908,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -9702,6 +10062,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -9850,6 +10214,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -10000,6 +10368,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -10149,6 +10521,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -10297,6 +10673,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -10486,6 +10866,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -10634,6 +11018,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -10784,6 +11172,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -10932,6 +11324,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -11082,6 +11478,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -11230,6 +11630,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -11380,6 +11784,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -11528,6 +11936,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -11681,6 +12093,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -11829,6 +12245,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -11979,6 +12399,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -12127,6 +12551,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -12277,6 +12705,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -12421,6 +12853,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -12571,6 +13007,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -12719,6 +13159,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -12869,6 +13313,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -13017,6 +13465,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -13167,6 +13619,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -13315,6 +13771,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -13504,6 +13964,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -13652,6 +14116,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -13802,6 +14270,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -13950,6 +14422,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -14100,6 +14576,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -14248,6 +14728,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -14398,6 +14882,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -14546,6 +15034,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -14699,6 +15191,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -14847,6 +15343,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -14997,6 +15497,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -15146,6 +15650,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -15294,6 +15802,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -15447,6 +15959,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -15597,6 +16113,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -15745,6 +16265,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -15895,6 +16419,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -16043,6 +16571,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -16193,6 +16725,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -16341,6 +16877,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -16491,6 +17031,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -16640,6 +17184,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -16784,6 +17332,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -16934,6 +17486,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -17082,6 +17638,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -17232,6 +17792,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -17380,6 +17944,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -17530,6 +18098,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -17678,6 +18250,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -17828,6 +18404,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -17972,6 +18552,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -18125,6 +18709,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -18273,6 +18861,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -18423,6 +19015,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -18567,6 +19163,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -18716,6 +19316,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -18867,6 +19471,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -19015,6 +19623,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -19165,6 +19777,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -19313,6 +19929,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -19463,6 +20083,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -19611,6 +20235,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -19761,6 +20389,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -19909,6 +20541,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -20060,6 +20696,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -20208,6 +20848,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -20358,6 +21002,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -20506,6 +21154,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -20656,6 +21308,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -20804,6 +21460,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -20954,6 +21614,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -21102,6 +21766,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -21252,6 +21920,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -21400,6 +22072,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -21550,6 +22226,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -21694,6 +22374,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -21844,6 +22528,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -21992,6 +22680,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -22181,6 +22873,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -22329,6 +23025,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -22479,6 +23179,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -22627,6 +23331,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -22777,6 +23485,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -22925,6 +23637,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -23075,6 +23791,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -23223,6 +23943,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -23373,6 +24097,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -23521,6 +24249,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -23674,6 +24406,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
      "reaches_either_lobe": true
@@ -23822,6 +24558,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -23972,6 +24712,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -24121,6 +24865,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -24269,6 +25017,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -24422,6 +25174,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -24570,6 +25326,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -24720,6 +25480,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -24869,6 +25633,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -25017,6 +25785,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -25170,6 +25942,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -25319,6 +26095,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -25467,6 +26247,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -25620,6 +26404,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -25769,6 +26557,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -25917,6 +26709,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -26071,6 +26867,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -26219,6 +27019,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -26372,6 +27176,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -26516,6 +27324,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": false
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": false,
@@ -26669,6 +27481,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -26817,6 +27633,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -26970,6 +27790,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
      "reaches_either_lobe": true
@@ -27118,6 +27942,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -27268,6 +28096,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -27416,6 +28248,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -27566,6 +28402,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
      "reaches_either_lobe": true
@@ -27714,6 +28554,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -27864,6 +28708,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -28008,6 +28856,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -28158,6 +29010,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -28306,6 +29162,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -28459,6 +29319,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -28603,6 +29467,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -28753,6 +29621,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -28901,6 +29773,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -29051,6 +29927,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -29199,6 +30079,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -29349,6 +30233,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -29497,6 +30385,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -29647,6 +30539,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -29796,6 +30692,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -29944,6 +30844,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -30133,6 +31037,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -30281,6 +31189,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -30435,6 +31347,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -30583,6 +31499,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -30733,6 +31653,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -30881,6 +31805,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -31031,6 +31959,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -31180,6 +32112,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -31324,6 +32260,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": false
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": false,
@@ -31477,6 +32417,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -31626,6 +32570,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -31774,6 +32722,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -31927,6 +32879,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -32075,6 +33031,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -32229,6 +33189,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -32377,6 +33341,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -32527,6 +33495,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -32676,6 +33648,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -32820,6 +33796,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -32969,6 +33949,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -33158,6 +34142,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -33306,6 +34294,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -33460,6 +34452,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -33609,6 +34605,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -33753,6 +34753,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.0,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": false
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": false,
@@ -33903,6 +34907,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -34051,6 +35059,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -34204,6 +35216,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -34348,6 +35364,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -34498,6 +35518,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -34646,6 +35670,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -34835,6 +35863,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
      "reaches_either_lobe": true
@@ -34983,6 +36015,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -35133,6 +36169,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -35281,6 +36321,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -35431,6 +36475,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -35580,6 +36628,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -35728,6 +36780,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -35917,6 +36973,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -36069,6 +37129,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -36217,6 +37281,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -36367,6 +37435,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -36515,6 +37587,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -36666,6 +37742,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -36814,6 +37894,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -36964,6 +38048,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -37113,6 +38201,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -37266,6 +38358,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -37414,6 +38510,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -37564,6 +38664,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -37713,6 +38817,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
+     },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -37861,6 +38969,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -38014,6 +39126,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -38163,6 +39279,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -38311,6 +39431,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -38464,6 +39588,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -38613,6 +39741,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -38757,6 +39889,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
@@ -38906,6 +40042,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -39059,6 +40199,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -39207,6 +40351,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -39357,6 +40505,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -39505,6 +40657,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -39655,6 +40811,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -39804,6 +40964,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -39952,6 +41116,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -40105,6 +41273,10 @@
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -40255,6 +41427,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -40403,6 +41579,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -40553,6 +41733,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -40701,6 +41885,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": false,
+      "534": true
      },
      "reaches_I484_lobe": false,
      "reaches_L534_lobe": true,
@@ -40890,6 +42078,10 @@
       "occupancy_signal_minus_null": 0.333,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": false
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": false,
      "reaches_either_lobe": true
@@ -41078,6 +42270,10 @@
       "occupancy_null_rate": 0.0,
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -41270,6 +42466,10 @@
       "occupancy_signal_minus_null": 0.667,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
      },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
+     },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
      "reaches_either_lobe": true
@@ -41457,6 +42657,10 @@
       "occupancy_null_rate": 0.25,
       "occupancy_signal_minus_null": 0.417,
       "_reading": "the fraction of positions in each class at which this molecule places >=1 heavy atom inside that position's denied volume. ACCEPT on the DIFFERENCE, never on the signal — the null is this molecule's own false-positive rate under the same superposition."
+     },
+     "reaches_design_target_lobe": {
+      "484": true,
+      "534": true
      },
      "reaches_I484_lobe": true,
      "reaches_L534_lobe": true,
@@ -41662,6 +42866,7 @@
   "The 13 molecules are the committed selectivity-matrix library, not the carried candidate.",
   "The per-atom lobe-occupancy predicate inherits every limit of the lobe itself: it is the same rigid transfer, in the same single superposition, at the same 3.0 A radius.",
   "A pose that reaches a lobe is a pose that reaches a lobe. Nothing here says the molecule is synthesisable, potent, selective, a degrader, or a candidate for anything.",
+  "OCCUPANCY IS VOLUME-SENSITIVE. A larger denied lobe is easier to land an atom in, so the signal-minus-null occupancy gap is confounded with lobe size — see occupancy_vs_lobe_volume before quoting it. This is why occupancy is reported as a carrier question, never as a selectivity statistic.",
   "The transferred rows carry an extra CA superposition performed in this file; that superposition's core RMSD, core fraction and post-fit deviation are reported per source and must be quoted with them."
  ],
  "map_edits_required": {

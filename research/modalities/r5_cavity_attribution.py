@@ -210,8 +210,85 @@ def measure():
         doc["systems"].append(row)
 
     doc["rollup"] = _rollup(doc["systems"], cavdef)
+    doc["map_edits_required"] = build_map_edits(doc, second)
     doc["_status"] = "ok"
     return doc
+
+
+def build_map_edits(doc, second):
+    """The roadmap edits this result requires — DESCRIBED, NEVER APPLIED.
+
+    Same anchor discipline as `paralogue_pocket_contrast.build_map_edits`: every `current_text` is read
+    out of the LIVE map, so an entry that cannot be targeted says so rather than being silently wrong.
+    ⛔ Nothing here edits the roadmap. `nr4a3-program-map.md` is trimcrae's, and a session that rewrites
+    the plan to match its own result is the outcome-selection defect this repo keeps guarding against."""
+    import map_edits as ME
+    text = ME.load_map()
+    roll = doc.get("rollup") or {}
+    cm = ((second.get("part_a") or {}).get("cross_method_same_frame") or {})
+    med = (cm.get("rmsd_A") or {}).get("median")
+    n_sys = cm.get("n_systems")
+    bands = cm.get("bands") or {}
+    art = "research/modalities/r5-cross-method-cavity-attribution.json → rollup"
+
+    gradeable = roll.get("n_gradeable") or 0
+    same = roll.get("n_same_cavity") or 0
+    diff = roll.get("n_different_cavity") or 0
+    calls = roll.get("first_method_cavity_calls") or {}
+    frozen = roll.get("cavity_chosen_by_the_frozen_rule")
+    cavity_line = (
+        "⭑ **AND THE CAVITY THE TWO METHODS CHOSE IS NOW MEASURED, WHICH THE ORIENTATION READING "
+        "ASSUMED (2026-08-06, $0).** R3 measured this site SPLIT across two real cavities 9.853 Å apart, "
+        "and BOTH lie inside the 12.0 Å sphere both engines search — so a small centroid separation "
+        "could not by itself establish a shared location. Measured on discriminating lining contacts "
+        "(shared residues dropped): **%d of %d gradeable system(s) same cavity, %d different**, and the "
+        "FIRST method's own calls across the census are %s against a frozen-rule site of pocket %s "
+        "— [`r5-cross-method-cavity-attribution.json`](../modalities/r5-cross-method-cavity-attribution.json). "
+        "⛔ A cavity call is a geometry statement: it makes no pose correct and nothing binds either "
+        "cavity." % (same, gradeable, diff, json.dumps(calls, sort_keys=True), frozen))
+
+    prov_line = (
+        "⚠ **THE ARTIFACT THIS ROW POINTS AT WAS EMPTY WHEN THIS WAS WRITTEN, AND THE ROW'S NUMBERS HAD "
+        "NO HOME (measured 2026-08-06).** `pose-second-method.json` on `main` carried "
+        "`outcome: UNRUN`, zero systems and no `verdict.what_would_resolve_R5` — the field this row "
+        "links to. Root cause: the workflow installed an UNPINNED `rdock`, bioconda satisfied it with "
+        "`2013.1`, whose protocol files live at `share/rdock-2013.1-1/` and not the `share/rDock/` the "
+        "module probes, so `RBT_ROOT` resolved to `None` and PART A returned UNRUN — and an UNRUN half "
+        "was written over a measured one. ✅ Both closed: the version is pinned in "
+        "`pose-recovery-check.yml`, `pose_second_method._carry_forward` now refuses to let an unrun half "
+        "overwrite a measured one, and the run was reproduced from the committed inputs "
+        "(**pose-for-pose coordinate-identical** to the 2026-08-03 poses under "
+        "`_pose_second_method_poses/`), so the numbers in this row are re-derived rather than recalled.")
+
+    entries = [
+        ME.edit(text, "§5 row R5", "| **R5** | **The binding pose is right.** Node `PS`",
+                "The row already records that the two methods DISAGREE. What it could not say is WHICH "
+                "cavity each was in — and R3 had measured the site split across two, both inside the "
+                "search sphere, which is what makes 'orientation, not location' an assumption rather "
+                "than a reading.",
+                art, ME.append_after_line(cavity_line)),
+        ME.edit(text, "§10.1 row 4",
+                "| **4** | **Re-run the pose known-answer test with SITE and DOCKING separated**",
+                "Same finding, on the row that owns the ordering. It does not change the row's rank — "
+                "`R5` is still the biggest unblocker — but it changes what a reader of this row learns "
+                "about the disagreement.",
+                art, ME.append_after_line(cavity_line)),
+        ME.edit(text, "§3.1 row V22", "| **V22** | **The scoring-independent second pose method**",
+                "⛔ PROVENANCE, NOT A NEW RESULT. This row's numbers (median %s Å over %s systems, "
+                "bands %s) were quotable from prose only — the artifact they name did not carry them. "
+                "That is precisely the failure CLAUDE.md §7 records as branch drift, arriving through a "
+                "different door." % (med, n_sys, json.dumps(bands, sort_keys=True)),
+                "research/modalities/pose-second-method.json → part_a.cross_method_same_frame",
+                ME.append_after_line(prov_line)),
+    ]
+    return {
+        "_reads": "⛔ DESCRIBED, NEVER APPLIED. Every `current_text` was read from the live map at run "
+                  "time; an entry whose `status` is not `OK` could not be targeted and must be applied "
+                  "by hand at the named section.",
+        "_map": "research/manuscripts/nr4a3-program-map.md",
+        "entries": entries,
+        "verify": ME.verify(entries, text) if hasattr(ME, "verify") else None,
+    }
 
 
 def _rollup(rows, cavdef):

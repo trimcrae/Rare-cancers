@@ -20,10 +20,10 @@ last_verified: 2026-08-06
 # The direction of the PPARγ effect in EMC — agonism, antagonism, or neither
 
 **One sentence.** The direction is **NOT resolved by the published literature — and the reason is not
-that nobody looked.** It was looked at twice, in the two primary expression studies of EMC that
-exist, and **those two papers read the same observation in opposite therapeutic directions**; the
-only functional experiment that has ever tested the direction was run in a cell line this repository
-had already recorded, on 2026-08-05, as not carrying the hallmark fusion on the curated record.
+that nobody looked.** It was looked at twice, in the two EMC expression studies that report *PPARG*,
+and **those two papers read the same observation in opposite therapeutic directions**; the only
+functional experiment that has ever tested the direction was run in a cell line this repository had
+already recorded, on 2026-08-05, as not carrying the hallmark fusion on the curated record.
 
 **Second sentence, and it is the one that changes a route.** The premise both route records have been
 carrying — *"in EMC the fusion turns PPARG on, so an agonist may be redundant"* — **is an inference
@@ -56,7 +56,7 @@ produced the redundancy argument in §3.
 ⚠ **Every source below was read from a retrieved document, not from memory.** Provenance:
 
 - **The Europe PMC corpora already committed to the `literature-cache` branch** — `literature/extraskeletal-myxoid-chondrosarcoma/` (694 files, `_index.json` carrying **1,369 catalogued records**) and `literature/emc-post-degrader-options/`. Both were pulled by `.github/workflows/fetch-literature.yml` in earlier sessions and are readable from the sandbox with `git fetch origin literature-cache`, which is why this answer cost **$0 and needed no new run**.
-- **A fresh, on-point Europe PMC query** — PPARγ/TZD terms × NR4A3/chondrosarcoma terms — was dispatched to that workflow on 2026-08-06 (run `31126146908`, slug `pparg-direction-emc-2026-08-06`). ⛔ **It has not run.** GitHub Actions execution for this repository stalled repo-wide at **12:48 PM ET**: 39 runs queued, **0 in progress**, and the last run to reach a terminal state was created at 12:48:25 PM ET. The stall is account-wide and is not this lane's. **Nothing in this memo depends on that run**; it can only add the chondrosarcoma-TZD reports of §6.
+- **A fresh, on-point Europe PMC query** — PPARγ/TZD terms × NR4A3/chondrosarcoma terms — was dispatched to that workflow on 2026-08-06 (run `31126146908`, slug `pparg-direction-emc-2026-08-06`). ⛔ **It has not run, and the reason is not this lane.** GitHub Actions execution for this repository is stalled **repo-wide**. Measured at 2:56 PM ET on 2026-08-06 via the public Actions API: **38 runs queued, 0 in progress**, the oldest queued since 12:49 PM ET, and the newest run to reach any terminal state was created at **12:55 PM ET**. A concurrency cap would show N runs executing; **zero executing with dozens queued is an account-level stop**, not contention, and it is outside this pass's control. **Nothing in this memo depends on that run**; it can only add the chondrosarcoma-TZD reports of §6.
 
 ### 2a · The `query` path was verified before anything was trusted, and the check found a second bug
 
@@ -123,13 +123,13 @@ Finding 3 is that the experiment which eventually ran did not clear that conditi
 
 ---
 
-## 4 · Finding 2 — the two primary EMC expression studies point in opposite directions
+## 4 · Finding 2 — the two EMC expression studies that report *PPARG* point in opposite directions
 
 The observation is concordant. The therapeutic reading is not.
 
 | # | source | what it measured | what it proposed | tier |
 |---|---|---|---|---|
-| 1 | **Subramanian S, West RB, Marinelli RJ, et al.** *The gene expression profile of extraskeletal myxoid chondrosarcoma.* J Pathol 2005. doi:10.1002/path.1792, PMID 15920699 *(abstract retrieved; not open access)* | 10 EMCs vs 26 other sarcomas, 42,000-spot cDNA microarrays | ⛔ **ANTAGONISM.** Verbatim: *"High levels of expression of PPARG and the gene encoding its interacting protein, PPARGC1A, in most EMCs suggest activation of lipid metabolism pathways in this tumour. **Small molecule inhibitors for PPARG exist and PPARG could be a potential therapeutic target for EMC.**"* | **T0** — a proposal in a discussion; no functional experiment |
+| 1 | **Subramanian S, West RB, Marinelli RJ, et al.** *The gene expression profile of extraskeletal myxoid chondrosarcoma.* J Pathol 2005;206:433–444. doi:10.1002/path.1792, PMID 15920699 *(abstract retrieved; not open access. Full citation taken from Filion 2009's reference 31, whose text was read.)* | 10 EMCs vs 26 other sarcomas, 42,000-spot cDNA microarrays | ⛔ **ANTAGONISM.** Verbatim: *"High levels of expression of PPARG and the gene encoding its interacting protein, PPARGC1A, in most EMCs suggest activation of lipid metabolism pathways in this tumour. **Small molecule inhibitors for PPARG exist and PPARG could be a potential therapeutic target for EMC.**"* | **T0** — a proposal in a discussion; no functional experiment |
 | 2 | **Filion C, Motoi T, Olshen A, et al.** *The EWSR1/NR4A3 fusion protein of EMC activates the PPARG nuclear receptor gene.* J Pathol 2009;217(1):83–93. doi:10.1002/path.2445, PMID 18855877, PMC4429309 *(full text retrieved)* | 3 fusion-positive EMCs (fusion transcript verified by RT-PCR in the source) vs 137 other sarcomas; PPARγ Western blot / IHC; PPARG-promoter response element by band-shift + transient transfection | ★ **AGONISM.** Verbatim quote in §3 | **T0** for the direction; **T1** for claims A and B, which are experimental |
 | 3 | **Higuchi T, Takeuchi A, Munesue S, et al.** *A nonsteroidal anti-inflammatory drug, zaltoprofen, inhibits the growth of extraskeletal chondrosarcoma cells by inducing PPARγ, p21, p27, and p53.* Cell Cycle 2023. doi:10.1080/15384101.2023.2166195, PMID 36636023, PMC10054153 *(abstract retrieved; not open access — full text NOT read)* | zaltoprofen → PPARγ mRNA + protein induction, via Krox20 / C/EBPβ / C/EBPα, in **H-EMC-SS** cells; p21/p27/p53 up; growth inhibition in vitro; *"inhibited tumor growth, induced tumor cell apoptosis … in a mouse model of extraskeletal myxoid chondrosarcoma"* | ★ **AGONISM** — the **only functional test of the direction that exists** | **T1**, and see Finding 3 for why it is T1-with-an-asterisk |
 | 4 | pioglitazone + trabectedin in **myxoid liposarcoma**, *Clin Cancer Res* 2019;25:7565 | — | ⚠ **NOT EMC, and NOT RETRIEVED.** The literature cache records **HTTP 403** for this URL, so its text has never been read in this repository. It is a *different fusion* (FUS::DDIT3) in a *different disease*; it is analogy, not EMC evidence | **T0 by analogy**, and unverified at the text level |
@@ -137,6 +137,17 @@ The observation is concordant. The therapeutic reading is not.
 ★ **This is the actual state of the question: it has been asked twice and answered inconsistently,
 from the same underlying observation, by two independent groups.** That is a materially different
 finding from "nobody has spent an hour on it", which is how the route board has described it.
+
+⚠ **And the two are not evenly matched, which is what tips the balance rather than settles it.**
+Filion et al. criticise the cohort behind the antagonism proposal, by name and in their introduction
+— verbatim: the earlier profiling study *"used samples in which the diagnosis of EMC was not
+independently confirmed by testing for EWS/NR4A3 or other related but less common EMC-specific gene
+fusions"* (their reference 31 **is** Subramanian et al. 2005). Filion's own three cases *were* verified
+fusion-positive by RT-PCR. So the antagonism proposal rests on a molecularly-unconfirmed cohort **and** on
+no functional experiment, while the agonism proposal rests on a fusion-confirmed cohort **and** has
+one functional experiment behind it. ⛔ **That is an asymmetry in evidence quality, not a resolution**
+— an over-expression finding can be right in a cohort whose diagnosis was made histologically, and
+neither paper tested either drug in EMC.
 
 Two further readings from the retrieved text, both bearing on the sign:
 
@@ -173,15 +184,15 @@ Three consequences, and the middle one is the load-bearing one:
 
 - ✅ **Settled (T1):** PPARG is over-expressed in EMC relative to other sarcomas — **two independent cohorts, concordant** (10 EMCs, Subramanian 2005; 3 fusion-positive EMCs, Filion 2009), with protein-level corroboration by Western blot / IHC in the second.
 - ✅ **Settled (T1):** the fusion can transactivate through a response element in the *PPARG* promoter — band-shift plus transient transfection (Filion 2009). ⚠ Heterologous reporter in transfected cells, not an endogenous EMC readout.
-- ⚠ **Not settled (the question):** which direction of pharmacological intervention follows. **Published proposals exist for both signs**, each in a discussion section with no EMC functional experiment behind it (Subramanian 2005 → inhibitors; Filion 2009 → agonists).
+- ⚠ **Not settled (the question):** which direction of pharmacological intervention follows. **Published proposals exist for both signs**, each in a discussion section with no EMC functional experiment behind it (Subramanian 2005 → inhibitors; Filion 2009 → agonists), and they are not evenly matched on cohort quality (§4).
 - ★ **The tie-break, such as it is:** exactly **one** functional experiment has ever tested the direction, and it points to **agonism** (Higuchi 2023) — carrying the model-identity caveat of §5. Nothing anywhere tests the antagonism direction in EMC or an EMC model.
 - ⛔ **Never measured, by anyone:** PPARγ **transcriptional output** in EMC. Every EMC reading is of receptor *abundance* (transcript, protein, IHC). No published work reports a PPARγ target-gene signature, a ligand-occupancy readout, or a receptor-activity assay in EMC tissue. **That, not "an EMC expression dataset", is the measurement the redundancy argument actually turns on** — abundance is already measured, twice, concordantly.
 
 **So the honest one-liner for any document that needs one:**
 
 > In EMC the *PPARG* gene is over-expressed and the EWSR1::NR4A3 fusion can drive its promoter, but
-> the useful **direction** of pharmacological intervention is unresolved: the two primary EMC
-> expression studies proposed opposite directions from the same observation, and the single
+> the useful **direction** of pharmacological intervention is unresolved: the two EMC expression
+> studies that report *PPARG* proposed opposite directions from the same observation, and the single
 > functional experiment favouring agonism was performed in a cell line whose EMC identity the curated
 > record does not support.
 
@@ -236,7 +247,7 @@ read-only here). **Nothing below has been applied.**
 
 | # | target | current text | proposed change | basis |
 |---|---|---|---|---|
-| **1** | `systems/graph/routes.json` → `RT-PPARG-DOWNSTREAM` → `remaining_unknowns[0]` | *"The direction is unresolved rather than refuted: in EMC the fusion appears to turn PPARγ on, so an agonist may be redundant. Nobody has read the direction in EMC tissue."* | Replace with: *"The direction is unresolved rather than refuted, and the reason is not absence of study: the two primary EMC expression studies proposed OPPOSITE directions from the same observation (Subramanian 2005 → PPARG inhibitors; Filion 2009 → PPARG agonists), and the single functional test favouring agonism was run in H-EMC-SS (`OBJ-LINE-HEMCSS`, identity disputed). ⚠ The redundancy clause is WITHDRAWN — it is not in the source it cited, and Filion et al. argue the opposite in their own discussion."* | this memo §3, §4 |
+| **1** | `systems/graph/routes.json` → `RT-PPARG-DOWNSTREAM` → `remaining_unknowns[0]` | *"The direction is unresolved rather than refuted: in EMC the fusion appears to turn PPARγ on, so an agonist may be redundant. Nobody has read the direction in EMC tissue."* | Replace with: *"The direction is unresolved rather than refuted, and the reason is not absence of study: the two EMC expression studies that report PPARG proposed OPPOSITE directions from the same observation (Subramanian 2005 → PPARG inhibitors; Filion 2009 → PPARG agonists), and the single functional test favouring agonism was run in H-EMC-SS (`OBJ-LINE-HEMCSS`, identity disputed). ⚠ The redundancy clause is WITHDRAWN — it is not in the source it cited, and Filion et al. argue the opposite in their own discussion."* | this memo §3, §4 |
 | **2** | `systems/graph/routes.json` → `RT-PPARG-DOWNSTREAM` → `required_validation` row 1 | *"A literature read of the PPARγ-axis direction in EMC … via the Europe PMC CI lane — feasible today"* | Mark **DONE 2026-08-06**, artifact `research/manuscripts/pparg-direction-emc.md`; add a new open row: *"A PPARγ TARGET-GENE (activity) readout in EMC — blocked by `BLK-NO-EMC-DATA`"*, and re-scope the existing expression row from abundance to activity, since abundance is measured | §6 |
 | **3** | `systems/graph/routes.json` → `RT-TRABECTEDIN-PPARG` → `readiness.missing` | *["the direction of the PPARγ effect in EMC"]* | Replace with: *["the direction stated at T1 with a model-identity caveat — see `pparg-direction-emc.md`; what remains missing is a PPARγ ACTIVITY readout in EMC, not an abundance one"]*. Consider `timing.recommendation` `wait` → `pursue_now` for the write-up half; the wet-lab ask stays behind `BLK-NO-WET-LAB` | §7 |
 | **4** | `systems/graph/routes.json` → both routes → `remaining_unknowns` | — | Add: *"The in-vivo evidence for agonism (Higuchi 2023) uses H-EMC-SS; whether the MOUSE experiment used that line is UNREAD — the paper is not open access and its full text has not been retrieved."* | §5 point 2 |
