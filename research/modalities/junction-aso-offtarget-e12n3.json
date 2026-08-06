@@ -1,4 +1,5 @@
 {
+  "_RETRACTED_SEAM": "⛔ RETRACTED SEAM — DO NOT QUOTE (route framing audit, 2026-08-06). This artifact was produced by junction_aso.py BEFORE the 2026-08-03 exon off-by-two correction reached it. Its seam TTGTCCGTACAG sits at NR4A3 CDS nt 1081, i.e. NR4A3 resuming at residue 361 — bit-for-bit the value fusion-neoantigen-retraction.json grades SEAM_NOT_PRODUCED. The corrected resume range across every plausible breakpoint (fusion-object-inventory.json) is [1, 1], so this chimera is missing NR4A3 residues 1-360 (AF1 and the first zinc finger) and no patient carries it. Every design, GC value and cleavage count here is computed against that construct. The EWSR1 side reproduced correctly throughout, which is why the agreement between the e7n3 and e12n3 panels read as confirmation rather than as one shared defect. junction_aso.py was fixed in the same commit; REGENERATION NEEDS NETWORK (Ensembl) and must run in CI.",
   "junction_label": "EWSR1_e12__NR4A3_e3",
   "breakpoint": {
     "mode": "real_exon_junction",
