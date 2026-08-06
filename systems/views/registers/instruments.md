@@ -65,28 +65,28 @@ last_verified: 2026-08-05
 
 | id | cited as SUPPORT by | disclosed failing on | characterises |
 |---|---|---|---|
-| **V1** | RT-DEGRADER | — | — |
+| **V1** | RT-DEGRADER, RT-METHODS-PAPER | — | — |
 | **V2** | RT-DEGRADER | RT-AF3-INTERFACE | — |
-| **V3** | — | RT-COVALENT-PROBE, RT-MONOVALENT | — |
+| **V3** | — | RT-COVALENT-PROBE, RT-METHODS-PAPER, RT-MONOVALENT | — |
 | **V4** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
 | **V5** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
-| **V6** | RT-DEGRADER | — | — |
+| **V6** | RT-DEGRADER, RT-METHODS-PAPER | — | — |
 | **V7** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
-| **V8** | RT-DEGRADER | — | — |
-| **V9** | — | — | — |
-| **V10** | — | — | — |
+| **V8** | RT-DEGRADER, RT-METHODS-PAPER | — | — |
+| **V9** | — | RT-METHODS-PAPER | — |
+| **V10** | RT-METHODS-PAPER | — | — |
 | **V11** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
 | **V12** | — | RT-AF3-INTERFACE, RT-DEGRADER, RT-METHODS-PAPER | — |
 | **V13** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
-| **V14** | — | RT-DEGRADER | — |
-| **V15** | — | RT-DEGRADER | — |
-| **V16** | — | — | — |
+| **V14** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
+| **V15** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
+| **V16** | — | RT-METHODS-PAPER | — |
 | **V17** | — | RT-COVALENT-PROBE, RT-DEGRADER, RT-METHODS-PAPER, RT-MONOVALENT | — |
 | **V18** | — | RT-UBIQ-SELECTIVE | — |
-| **V19** | — | — | — |
+| **V19** | — | RT-METHODS-PAPER | — |
 | **V20** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
 | **V21** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
-| **V22** | — | — | — |
+| **V22** | — | RT-METHODS-PAPER | — |
 | **INS-IDR-CENSUS** | RT-ATR-ASSESS | — | — |
 | **INS-CONSTRUCT-DESIGNS** | RT-ATR-ASSESS | — | `OBJ-FUS-T1`, `OBJ-FUS-T2`, `OBJ-FUS-T5`, `OBJ-FUS-TAF15`, `OBJ-FUS-FUSNR4A3`, `OBJ-FUS-TCF12` |
 | **INS-FUSION-OBJECT-INVENTORY** | — | — | `OBJ-MODEL-E7E3` |
@@ -95,7 +95,7 @@ last_verified: 2026-08-05
 | **INS-DEPMAP-KO** | — | RT-ATR-ASSESS | — |
 | **INS-FUSION-COFOLD** | — | — | — |
 | **INS-HLA-COVERAGE** | — | RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE | — |
-| **INS-GEO-SERIES-CHARACTERISE** | — | — | `OBJ-LINE-HEMCSS` |
+| **INS-GEO-SERIES-CHARACTERISE** | RT-ATR-ASSESS | — | `OBJ-LINE-HEMCSS` |
 
 ## Scope notes
 

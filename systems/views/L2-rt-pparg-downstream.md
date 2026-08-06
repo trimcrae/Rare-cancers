@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-PPARG-DOWNSTREAM — PPARG downstream-effector (repurpose TZDs)
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ blocked · concept · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-5--downstream-of-the-fusion-pparg-and-the-transactivated-nodes)): ★ keep; direction unresolved
+**Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-5--downstream-of-the-fusion-pparg-and-the-transactivated-nodes)): ★ keep, unblock cheaply
 
 ## What has to land for this route to move
 
@@ -55,6 +55,7 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
+| A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) and of TZD-in-sarcoma reports, via the Europe PMC CI lane | ⛔ none built | yes | — |
 | An EMC expression readout of the PPARγ axis | ⛔ none built | **no** | BLK-NO-EMC-DATA |
 
 ## Blockers
@@ -74,6 +75,7 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
 | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | whether the agonist acts alone | `BLK-NO-EMC-DATA` | this row is the agonist alone and its direction (agonism vs antagonism vs redundancy) is unresolved; the combination row's argument runs through promoter displacement and does not depend on resolving it the same way |
+| [RT-RXR](L2-rt-rxr.md) | which receptor's dimer is being modulated | `BLK-NO-EMC-DATA` | RT-RXR closes an NR4A3:RXR dimer that does not form; this route is about PPARγ:RXR biology DOWNSTREAM of the fusion, a different dimer and not closed by it |
 
 ## Readiness — what this could become today
 
@@ -86,7 +88,7 @@ Its central premise is directionally unresolved. Publishing a repurposing hypoth
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `wait`**
+**Recommendation: `pursue_now`**
 
 One cheap measurement settles it, and no amount of reasoning substitutes for the sign of an effect. Working further on a hypothesis whose direction is unknown is effort that a single dataset would render moot.
 
@@ -108,13 +110,9 @@ One cheap measurement settles it, and no amount of reasoning substitutes for the
 - Several routes here rest on a direction of effect that has never been read in EMC tissue; an expression readout would settle them cheaply and does not exist.
 - A repurposing hypothesis is a hypothesis. Nothing here asserts efficacy in EMC.
 
-## Closure
-
-`premise_false` — ⚠ Scoped: the DIRECTION is unresolved, not refuted — in EMC the fusion turns PPARG on, so an agonist may be redundant. An EMC expression read settles it either way.
-
 ## Best next action
 
-Keep with the direction flagged as unresolved — the premise is scoped as unresolved, NOT refuted, and those must not be conflated.
+Run the Europe PMC literature pull for the PPARγ-axis direction — $0 CI, and it is the actual blocker. The record previously filed this behind a 2029 expression-data forecast.
 
 *Cost:* $0
 

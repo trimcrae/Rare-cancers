@@ -48,6 +48,7 @@ flowchart LR
   BLK_CLASS_INHERITANCE --> RT_ATR_ASSESS
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
   BLK_NO_WET_LAB --> RT_ATR_PANEL
+  BLK_NO_WET_LAB --> RT_SYNLETH_DEP
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;

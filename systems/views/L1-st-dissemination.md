@@ -51,7 +51,7 @@ flowchart LR
 
 | route | state | maturity | readiness today | next action |
 |---|---|---|---|---|
-| **[RT-METHODS-PAPER](L2-rt-methods-paper.md)**<br/>The honest methods paper on the degrader program's own failure record | ○ ready | scoped | `journal_submission` | Write it. Nothing blocks it, and it is the only row on the board that is true regardless of how every other ro |
+| **[RT-METHODS-PAPER](L2-rt-methods-paper.md)**<br/>The honest methods paper on the degrader program's own failure record | ○ ready | scoped | `journal_submission` | Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here. |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-NO-WET-LAB** (`requires_external_collaboration`) — No wet lab and no collaborator — an ask needs a self-interested taker before its size matters

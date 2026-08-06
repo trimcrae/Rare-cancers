@@ -84,6 +84,7 @@ Both components are approved, so a combination trial is unusually cheap to propo
 |---|---|---|---|
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | combination vs monotherapy | `BLK-NO-WET-LAB` | the board carried trabectedin and the PPARG axis as two separate rows for months and never joined them; joining them is what created THIS route, and the monotherapy row remains a distinct near-term lead with its own evidence |
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | whether the agonist acts alone | `BLK-NO-EMC-DATA` | the downstream/TZD row is the agonist ALONE and carries an unresolved direction question that cuts AGAINST the naive version — in EMC the fusion turns PPARG on, so an agonist may be redundant. The combination's logic is promoter displacement unmasking a differentiation-competent receptor, which is a different argument |
+| [RT-RXR](L2-rt-rxr.md) | which receptor's dimer is being modulated | `BLK-NO-EMC-DATA` | same scoping — the closed dimer is NR4A3:RXR, not the PPARγ:RXR axis this route's agonist half acts on |
 
 ## Readiness — what this could become today
 

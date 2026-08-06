@@ -41,13 +41,14 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 | blocker | kind | routes held | routes that retire it | what would retire it |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 17 | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 15 | 7 | **permanent — nothing** |
+| **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 18 | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 14 | 8 | **permanent — nothing** |
 | **BLK-PARALOGUE-DDG**<br/>The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT) | `requires_better_simulation_accuracy` | 9 | 24 | `TECH-FE-CRYPTIC-POCKET` |
+| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 9 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-R4-BINDS**<br/>R4 — nothing is known to bind the cryptic pocket at all | `requires_wet_lab` | 8 | 4 | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-ANTIGEN-COLD**<br/>EMC is antigen-cold, and the fusion junction is a weak peptide-HLA | `fundamental_biological_limit` | 8 | 0 | **permanent — nothing** |
-| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 7 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-TERNARY-GEOMETRY**<br/>Ternary geometry — assembly, E3, exit vector, ubiquitin transfer | `requires_better_structure_prediction` | 5 | 24 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
+| **BLK-CLASS-INHERITANCE**<br/>Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenot | `insufficient_data` | 4 | 0 | `TECH-VIRTUAL-CELL` |
 | **BLK-VECTOR-DELIVERY**<br/>Vector delivery (gene-therapy payload into a solid tumour) | `requires_future_technology` | 3 | 0 | `TECH-VECTOR-DELIVERY` |
 | **BLK-INDUCED-COMPLEX**<br/>An induced ternary/bivalent complex is still required (a second protein must be placed) | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-UNSIZED-REQUIREMENT**<br/>Nobody has stated how much selectivity the route would need, so 'the requirement is smalle | `scientific_uncertainty` | 3 | 0 | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nob… |
@@ -56,7 +57,6 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | **BLK-PARALOGUE-CONTROL**<br/>The paralogue-discrimination positive control (NR-V04) is discordant | `no_known_assay` | 1 | 0 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
 | **BLK-FUNCTIONAL-ACTIONABILITY**<br/>Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent act | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-DELIVERY**<br/>Tumour delivery of an oligonucleotide or a vector | `requires_future_technology` | 1 | 0 | `TECH-OLIGO-DELIVERY` |
-| **BLK-CLASS-INHERITANCE**<br/>Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenot | `insufficient_data` | 1 | 0 | `TECH-VIRTUAL-CELL` |
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED**<br/>The program's only binary selectivity known-answer control is built and staged and has nev | `requires_authorization` | 1 | 0 | Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that… |
 
 ## Detail
@@ -67,7 +67,7 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 - **kind:** `insufficient_data`
 - **a statement about:** data availability — the repo-wide rate-limiter, not any one route
-- **held by (17):** RT-ASO-ASK, RT-ATR-ASSESS, RT-ATR-PANEL, RT-B7H3, RT-CARFILZOMIB, RT-CART-SURFACE, RT-FAP-RLT, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PPARG-DOWNSTREAM, RT-PRAME-IMMTAC, RT-SSTR2, RT-SYNLETH-DEP, RT-SYNPROMOTER, RT-TCRT-CTA, RT-TRABECTEDIN, RT-TRABECTEDIN-PPARG
+- **held by (18):** RT-6MP, RT-ASO-ASK, RT-ATR-ASSESS, RT-ATR-PANEL, RT-B7H3, RT-CARFILZOMIB, RT-CART-SURFACE, RT-FAP-RLT, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PPARG-DOWNSTREAM, RT-PRAME-IMMTAC, RT-SSTR2, RT-SYNLETH-DEP, RT-SYNPROMOTER, RT-TCRT-CTA, RT-TRABECTEDIN, RT-TRABECTEDIN-PPARG
 - **retired by route (0):** —
 - **retired by technology:** TECH-EMC-EXPRESSION-DATA, TECH-VIRTUAL-CELL
 - **owner:** `research/IDEAS.mdNone`
@@ -78,8 +78,8 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 - **kind:** `fundamental_biological_limit` · **PERMANENT**
 - **a statement about:** what the molecule can and cannot tell apart
-- **held by (15):** RT-B7H3, RT-CART-SURFACE, RT-COVALENT-PROBE, RT-DBD, RT-DEGRADER, RT-EWSR1-PROTEIN, RT-FAP-RLT, RT-FET-LC-LIGAND, RT-GLUE, RT-HDAC-BET, RT-MONOVALENT, RT-PRAME-IMMTAC, RT-RIPTAC, RT-SYNPROMOTER, RT-UBIQ-SELECTIVE
-- **retired by route (7):** RT-ASO, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PANNR4A-EXVIVO, RT-RIBOZYME, RT-SSTR2, RT-TCR-IMMTAC
+- **held by (14):** RT-6MP, RT-B7H3, RT-CART-SURFACE, RT-COVALENT-PROBE, RT-DBD, RT-DEGRADER, RT-EWSR1-PROTEIN, RT-FET-LC-LIGAND, RT-GLUE, RT-MONOVALENT, RT-PRAME-IMMTAC, RT-RIPTAC, RT-SYNPROMOTER, RT-UBIQ-SELECTIVE
+- **retired by route (8):** RT-ASO, RT-FAP-RLT, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PANNR4A-EXVIVO, RT-RIBOZYME, RT-SSTR2, RT-TCR-IMMTAC
 - **owner:** `research/manuscripts/target-route-options.md#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it`
 
 ### BLK-PARALOGUE-DDG
@@ -92,6 +92,17 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by route (24):** RT-ASO, RT-ATR-ASSESS, RT-B7H3, RT-CARFILZOMIB, RT-CART-SURFACE, RT-CRISPR-CAS13, RT-EWSR1-PROTEIN, RT-FAP-RLT, RT-FET-LC-LIGAND, RT-HDAC-BET, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PANNR4A-EXVIVO, RT-PPARG-DOWNSTREAM, RT-PRAME-IMMTAC, RT-RIBOZYME, RT-SSTR2, RT-SYNLETH-DEP, RT-SYNPROMOTER, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-TRABECTEDIN, RT-TRABECTEDIN-PPARG, RT-VACCINE
 - **retired by technology:** TECH-FE-CRYPTIC-POCKET
 - **owner:** `research/manuscripts/nr4a3-program-map.md#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged`
+
+### BLK-NO-WET-LAB
+
+**No wet lab and no collaborator — an ask needs a self-interested taker before its size matters**
+
+- **kind:** `requires_external_collaboration`
+- **a statement about:** the operating regime, not any route's science
+- **held by (9):** RT-ASO-ASK, RT-ATR-PANEL, RT-COVALENT-PROBE, RT-FAP-RLT, RT-RIPTAC, RT-SSTR2, RT-SYNLETH-DEP, RT-TCIP, RT-TRABECTEDIN-PPARG
+- **retired by route (1):** RT-METHODS-PAPER
+- **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
+- **owner:** `research/manuscripts/what-a-civilian-can-buy.mdNone`
 
 ### BLK-R4-BINDS
 
@@ -114,17 +125,6 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by route (0):** —
 - **owner:** `research/manuscripts/immunotherapy-options-emc.mdNone`
 
-### BLK-NO-WET-LAB
-
-**No wet lab and no collaborator — an ask needs a self-interested taker before its size matters**
-
-- **kind:** `requires_external_collaboration`
-- **a statement about:** the operating regime, not any route's science
-- **held by (7):** RT-ASO-ASK, RT-ATR-PANEL, RT-COVALENT-PROBE, RT-RIPTAC, RT-SSTR2, RT-TCIP, RT-TRABECTEDIN-PPARG
-- **retired by route (1):** RT-METHODS-PAPER
-- **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
-- **owner:** `research/manuscripts/what-a-civilian-can-buy.mdNone`
-
 ### BLK-TERNARY-GEOMETRY
 
 **Ternary geometry — assembly, E3, exit vector, ubiquitin transfer**
@@ -135,6 +135,18 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by route (24):** RT-ASO, RT-ATR-ASSESS, RT-B7H3, RT-CARFILZOMIB, RT-CART-SURFACE, RT-COVALENT-PROBE, RT-CRISPR-CAS13, RT-FAP-RLT, RT-HDAC-BET, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-MONOVALENT, RT-PPARG-DOWNSTREAM, RT-PRAME-IMMTAC, RT-RIBOZYME, RT-SSTR2, RT-SYNLETH-DEP, RT-SYNPROMOTER, RT-TCIP, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-TRABECTEDIN, RT-TRABECTEDIN-PPARG, RT-VACCINE
 - **retired by technology:** TECH-COFOLD-ASSEMBLY, TECH-E3-RECRUITER-STRUCTURE, TECH-OBSERVED-CRL
 - **owner:** `research/manuscripts/nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language`
+
+### BLK-CLASS-INHERITANCE
+
+**Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenotype**
+
+- **kind:** `insufficient_data`
+- **a statement about:** the strength of a transfer argument
+- **held by (4):** RT-ATR-ASSESS, RT-FAP-RLT, RT-HDAC-BET, RT-SSTR2
+- **retired by route (0):** —
+- **retired by technology:** TECH-VIRTUAL-CELL
+- **⭐ retired by an action we can take:** State plainly, wherever the transfer argument is used, that no NR4A3 fusion has been tested for the phenotype. The blocker cannot be retired by us, but its misreading can. $0.
+- **owner:** `research/manuscripts/emc-post-degrader-options.md#route-1---atr-inhibitor-synthetic-lethality-emc-inherits-a-class-vulnerability-it-has-never-been-tested-for`
 
 ### BLK-VECTOR-DELIVERY
 
@@ -224,18 +236,6 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by route (0):** —
 - **retired by technology:** TECH-OLIGO-DELIVERY
 - **owner:** `research/manuscripts/fusion-junction-aso-paper.mdNone`
-
-### BLK-CLASS-INHERITANCE
-
-**Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenotype**
-
-- **kind:** `insufficient_data`
-- **a statement about:** the strength of a transfer argument
-- **held by (1):** RT-ATR-ASSESS
-- **retired by route (0):** —
-- **retired by technology:** TECH-VIRTUAL-CELL
-- **⭐ retired by an action we can take:** State plainly, wherever the transfer argument is used, that no NR4A3 fusion has been tested for the phenotype. The blocker cannot be retired by us, but its misreading can. $0.
-- **owner:** `research/manuscripts/emc-post-degrader-options.md#route-1---atr-inhibitor-synthetic-lethality-emc-inherits-a-class-vulnerability-it-has-never-been-tested-for`
 
 ### BLK-SELECTIVITY-CONTROL-UNAUTHORIZED
 

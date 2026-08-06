@@ -294,7 +294,7 @@ make the residual the explicit subject of a publish-to-convince paper:
 > - **surfaceome / target-expression screen** — BUILT and RUN: `emc_surfaceome_scan.py` →
 >   `emc-surfaceome-scan.json`, written up in
 >   [`emc-surface-target-landscape.md`](./emc-surface-target-landscape.md). ⛔ And it returned a NEGATIVE
->   that this file now carries on its own rows: B7-H3/CD276 and FAP are **not** class-selective, BH q = 1.0.
+>   that this file now carries on its own rows: B7-H3/CD276 is **not** class-selective (BH q = 1.0). ⛔ **CORRECTED 2026-08-06 (route framing audit): the q = 1.0 belongs to CD276 ALONE.** *Superseded, retained: "B7-H3/CD276 and FAP are not class-selective, BH q = 1.0."* FAP's measured value is **selectivity_q = 0.1555** (`emc-surfaceome-scan.json`; enrichment 0.02, `selectivity_significant: false`) — also not significant, but a different number. The source this line paraphrases (`emc-surface-target-landscape.md:127`) reads "not for B7-H3/CD276 (BH q = 1.0), EGFR or FAP" — the parenthetical is scoped to CD276 and was distributed across three genes in transit. ⚠ And the inference does not transfer to FAP at all: the screen is DepMap tumour-cell monoculture with **no CAF compartment**, so it cannot see the stroma a FAP route targets (`emc-treatment-roadmap.md:367-369`).
 > - **public-data expression mining** — `depmap_target_expression.py`; two readable EMC series were found
 >   and used for the ATR assessment's part B.
 > - **fusion-addiction argument case** — built from DepMap (FLI1 in Ewing, −0.93 / 74% dependent).

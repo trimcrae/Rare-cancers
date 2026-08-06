@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-TRABECTEDIN — Trabectedin (± RT or combination)
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ ready · concept · confidence moderate · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-05
 
 **Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): NEAR-TERM LEAD — approved, mechanism-fit
 
@@ -45,18 +45,19 @@ flowchart LR
 
 ## Scientific rationale
 
-Trabectedin is approved for soft-tissue sarcoma and its mechanism — interfering with transcription-factor-driven programmes at the DNA minor groove — is a plausible fit for a disease whose entire biology is one aberrant transcription factor. There is a reported EMC responder. For an ultra-rare cancer with no targeted agent, an approved drug with a mechanistic story and a reported response is the shortest path that exists.
+Trabectedin is approved and used in sarcoma, and this repo's clinical registry records DISEASE CONTROL in EMC — n=5, secondary provenance, median PFS ~12.5 months, mostly stable disease, with NO response rate recorded. ⚠ The single 'impressive response' in the literature is a RADIOTHERAPY + trabectedin case, so it does not support this route, whose alias is trabectedin MONOTHERAPY. No efficacy, safety, eligibility or clinical-readiness claim is made for EMC.
 
 ## Supporting evidence
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-EMC-CLINICAL-REGISTRY` | a reported EMC response to an approved agent | `direct` |
+| `ART-EMC-CLINICAL-REGISTRY` | a 5-patient SECONDARY-provenance series reporting disease control (median PFS ~12.5 months, mostly stable disease); no response rate is recorded, and the registry's own intro says cytotoxic chemotherapy mainly stabilises disease | `transferred` |
 
 ## Remaining unknowns
 
 - Whether the mechanistic fit is real or a post-hoc story fitted to a single response.
 - How the agent interacts with the fusion's specific programme, which has never been measured in EMC.
+- The '± RT' half of this route is unaddressed, and the only impressive-response case is an RT COMBINATION — the registry records radiotherapy in localized EMC as `contested` and adjuvant chemotherapy as `consensus-against`.
 
 ## Required validation
 
@@ -79,7 +80,9 @@ Trabectedin is approved for soft-tissue sarcoma and its mechanism — interferin
 
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
-| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | combination vs monotherapy | `BLK-NO-EMC-DATA` | monotherapy rests on a reported EMC responder and a mechanism fit; the combination rests additionally on a published result in a sibling sarcoma and on the fusion→PPARG axis |
+| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | combination vs monotherapy | `BLK-NO-EMC-DATA` | monotherapy rests on a disease-control series, NOT on the RT-combination responder case and a mechanism fit; the combination rests additionally on a published result in a sibling sarcoma and on the fusion→PPARG axis |
+| [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | unbiased screen hit vs mechanism-fit argument | `BLK-NO-EMC-DATA` | trabectedin is argued from mechanism fit plus a clinical disease-control series; carfilzomib is an empirical ex-vivo screen hit with no fusion rationale |
+| [RT-HDAC-BET](L2-rt-hdac-bet.md) | whether the closure is about molecular selectivity or about clinical activity | `BLK-CLASS-INHERITANCE` | this route stays live because its claim is clinical activity; RT-HDAC-BET is closed only on the fusion-SELECTIVITY claim, and both are chromatin-acting and neither is molecularly fusion-selective |
 
 ## Readiness — what this could become today
 

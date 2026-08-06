@@ -107,7 +107,12 @@ DEFAULT_TARGETS = [
     # venetoclax showed no monotherapy response at all). The retraction reached IDEAS.md and
     # repurposing-hypotheses.md and stopped there, because nothing linted the third file.
     # Alongside it: B7-H3 and FAP framed as gated only on an IHC, with the repo's own computed
-    # selectivity screen recording BH q = 1.0 for both; and a "full control battery" for denovo_401 that
+    # selectivity screen recording BH q = 1.0 for CD276. ⛔ CORRECTED 2026-08-06: this comment said
+    # "for both", and that was itself the transcription error it was describing -- FAP's measured
+    # value is selectivity_q = 0.1555, not 1.0. The wrong number then propagated OUT of this file:
+    # the route framing audit's own prompt inherited "q = 1.0 for both" from here and had to be
+    # corrected by the subagent that opened the artifact. A linter's documentation is read as fact.
+    # And a "full control battery" for denovo_401 that
     # this repo records as failing the metadynamics-frame decoy null.
     #
     # ⚠ A RETRACTION THAT REACHES SOME OF ITS COPIES IS NOT A RETRACTION. Adding these two is what makes

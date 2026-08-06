@@ -164,7 +164,7 @@ transcriptional output was made **in a construct that already lacks NR4A3's AF-1
 ⭑ **Stated as the finding it is: the AF-1 deletion is not, by itself, a defeater for LBD-directed
 modulation of this receptor, and the evidence for that was sitting in the repo unconnected to the
 question.** NOR-1 has two transactivation modules — an AF-1 that Wansa mapped, and an LBD-borne one that
-Zaienne's compounds demonstrably repress with no AF-1 in the construct. **The fusion deletes the first and
+Zaienne's compounds demonstrably repress with no AF-1 in the construct. **⛔ CORRECTED 2026-08-06 — the fusion does NOT delete the AF-1** (*superseded, retained: "the fusion deletes the first"*): NR4A3 transcript exons 1-2 are non-coding, so the chimera RETAINS AF-1, DBD, hinge and LBD. What is true is that the AF-1 becomes INTERNAL, preceded by EWSR1(1-264). The fusion retains the first and
 keeps the second.**
 
 ⚠ **What this does NOT answer, and it is the real crux.** A Gal4-LBD chimera has **no competing

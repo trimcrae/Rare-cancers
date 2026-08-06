@@ -33,6 +33,12 @@ flowchart LR
   TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
   TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
   TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_SYNLETH_DEP
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -51,24 +57,25 @@ A synthetic-lethal partner would be an ordinary, already-druggable protein that 
 
 | ref | supports | strength |
 |---|---|---|
-| `INS-DEPMAP-KO` | the dependency transfer prior, which came back negative on the available data | `transferred` |
+| `ART-DEPMAP-SARCOMA-DEP` | the ncBAF/BRD9 dependency transfer prior, negative on the available data (BRD9 sarcoma_mean 0.105, selectivity -0.016) — computed over 91 sarcoma lines, NONE of them EMC | `transferred` |
 
 ## Remaining unknowns
 
-- Whether the negative reflects EMC biology or the sample size: there is one EMC model in public dependency data, with no knockout screen data.
+- NO EMC model is in public dependency data. The one DepMap model labelled EMC (ACH-001519 / H-EMC-SS) has no CRISPR data AND its identity is disputed on the curated record, so the transfer prior rests on 91 sarcoma lines none of which is EMC — a stronger bound than 'n = 1'.
 - Whether a chromatin-complex dependency exists that the transfer prior could not see.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| An EMC-specific dependency screen | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| An EMC-specific dependency screen | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Blockers this route RETIRES
 
@@ -106,6 +113,7 @@ This is the family most starved by the data blocker and the one that would benef
 
 **Revisit when:**
 - **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
+- **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 - **TECH-VIRTUAL-CELL** — A virtual-cell or perturbation model that predicts held-out knockdown phenotype in a cell type it was not trained on *(expected 2028, basis `extrapolated`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
@@ -125,5 +133,11 @@ This is the family most starved by the data blocker and the one that would benef
 Keep parked on data with the transfer-prior negative stated as data-bounded, not as a biological finding.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 artifacts:** [ART-DEPMAP-SARCOMA-DEP](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-DEPENDENCY](L1-st-dependency.md) · [← L0](L0-ecosystem.md)

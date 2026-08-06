@@ -51,18 +51,16 @@ This carries the best ex-vivo EMC drug-sensitivity evidence in the repository �
 
 | ref | supports | strength |
 |---|---|---|
-| `EV-BANGERTER-2023` | ex-vivo drug sensitivity measured on EMC material | `direct` |
+| `EV-BANGERTER-2023` | ex-vivo drug sensitivity measured on EMC material: carfilzomib high sensitivity VALIDATED IN BOTH USZ20-EMC1 and USZ22-EMC2 (triplicate 6-point dose-response). ⚠ Scope: the 40-drug discovery panel ran on USZ20-EMC1 ALONE, and venetoclax showed NO monotherapy response — it enters only through combination additivity/synergy. | `direct` |
 
 ## Remaining unknowns
 
 - Whether ex-vivo sensitivity transfers to clinical benefit, which it frequently does not.
-- The provenance of the underlying evidence needs firming — it is the repository's only ex-vivo EMC result and its citation has been flagged as incomplete.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| Confirmation of the ex-vivo result and a firm primary citation | ⛔ none built | yes | — |
 | A clinical series | ⛔ none built | **no** | BLK-NO-EMC-DATA |
 
 ## Blockers
@@ -76,20 +74,23 @@ This carries the best ex-vivo EMC drug-sensitivity evidence in the repository �
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-TRABECTEDIN](L2-rt-trabectedin.md) | unbiased screen hit vs mechanism-fit argument | `BLK-NO-EMC-DATA` | carfilzomib is an empirical ex-vivo hit with NO fusion rationale; trabectedin is argued from mechanism fit and a clinical series. Same family, same status, same blocker, opposite kinds of support |
+
 ## Readiness — what this could become today
 
 **`internal_note`**
 
-Its single supporting result currently lacks a resolvable primary identifier, and an uncitable result cannot carry a published claim however good it looks.
-
-**Missing:**
-- a resolvable primary citation for the ex-vivo evidence
+The evidence is ex-vivo on n=2 patient-derived models with no in-vivo and no clinical data in EMC. That is the ceiling — not a citation gap; the primary identifier was resolved 2026-08-05 (PMID 36316541 / PMC9813045, integrity.json OC-4).
 
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**
 
-The blocking item is a citation lookup, not a capability — and it gates the only ex-vivo EMC evidence the repository holds. Leaving the program's best measured EMC result uncitable is a defect worth fixing before anything else in this family.
+The ex-vivo result is committed and its citation resolved. What is missing is in-vivo or clinical evidence in EMC, which this program cannot generate.
 
 | horizon | effect |
 |---|---|
@@ -108,7 +109,7 @@ The blocking item is a citation lookup, not a capability — and it gates the on
 
 ## Best next action
 
-Resolve the primary citation for the ex-vivo EMC drug-sensitivity evidence. It is the only ex-vivo EMC result here and it currently carries no resolvable identifier.
+Treat as landscape context; the ex-vivo result is banked and needs no further lookup.
 
 *Cost:* $0
 

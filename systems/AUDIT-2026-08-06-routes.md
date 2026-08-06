@@ -546,6 +546,237 @@ it read as ready-as-a-treatment. That one is fixed (`→ delegated`).
 what the board is *for*, not defects to patch. Flagged rather than swept: a status a reader can
 misread as clinical readiness is exactly what this audit exists to surface.
 
+## ST-REPURPOSING — 7 routes, all 7 audited
+
+6 DEFECTIVE, 1 SOUND-WITH-NITS (RT-RXR). This family settled X9.
+
+### X9 · ✅ SETTLED — the fusion RETAINS the AF-1, and the repo knew a day before the closure was written
+
+The crux was whether "NR4A3 exon 3" is compatible with "NR4A3(1–626)". **It is — measured, $0:**
+
+| exon | coding nt | first residue |
+|---|---:|---|
+| 1 | **0** | — |
+| 2 | **0** | — |
+| 3 | 951 | **1** |
+
+`utr5_len: 699`; `first_transcript_exon_is_coding: false`; all four self-checks true. **NR4A3
+transcript exons 1–2 are entirely non-coding, so "exon 3" IS residue 1.** The exon-level and
+residue-level definitions of `OBJ-FUS-T1` were never in conflict. `EWSR1(1–264)::NR4A3(1–626)`
+retains AF-1, DBD, hinge and LBD — and does so in **all 9 DBD-retaining breakpoint windows**.
+EWSR1-LC is **additive**.
+
+⛔ **The repo had already resolved this on 2026-08-02 — the day BEFORE the closure was written — and
+recorded it in the very artifact the closure cites.** `target-route-census.json` →
+`fusion_model_disagreement.resolution`: *"NR4A3 exon 3 begins at residue 1 … the chimera retains the
+AF1, the DBD, the hinge and the LBD."* The closure cited **check B** of that table (lysine/cysteine
+*counts*) instead of **check C** two rows below, which resolved the junction the other way.
+
+**What was done, and what deliberately was not.** `RT-6MP` moves `definitional` → `premise_false`
+with a minted, watched revival trigger. It is **still closed** — reopening is a scientific call, not
+an audit action — but the ground has changed, and the new ground is *stronger* than the old one:
+
+⭐ **Direction of effect, which the record never stated.** 6-MP **enhances** NR4A3 activity
+(`published-warhead-registry.json`), and the fusion is a transcriptionally active **gain-of-function**
+oncoprotein. So 6-MP is a candidate **agonist of the oncoprotein** — a better argument for closing
+the route than the one on file. It rests on a prior, not a demonstration (no direct
+loss-of-function experiment in any EMC cell line exists), which is exactly why it is `premise_false`
+and not `definitional`. *"cannot act on the chimera at any dose"* is deleted everywhere.
+
+⚠ **The genuinely open question the correction creates, now in `remaining_unknowns`:** in the chimera
+the AF-1 is **internal** — preceded by EWSR1(1–264) and neighboured by a strong independent
+activation domain. Whether an internalised AF-1 stays SRC-2-competent and 6-MP-responsive is
+untested.
+
+⛔ **And the taxonomy was teaching the refuted case as canonical.** `integrity.json`'s definition of
+`definitional` used *"a ligand whose mechanism lives in a domain the disease deletes"* as its worked
+example — i.e. RT-6MP. Replaced; the paralogue-shared-residue example beside it holds.
+
+### X22 · ⛔ A false clinical claim in a generated candidate ranking
+
+`build-candidates.mjs` (and therefore `candidates.json`) asserted *"Venetoclax sensitivity was
+identified and **validated** … **across two** patient-derived EMC ex vivo models"*, carrying
+`evidenceTier: T1-preclinical-or-analog`, `rank: 8`. The primary text says the opposite — I read it
+from the literature cache: *"**no response to venetoclax as a monotherapy** in the validation."* What
+is supported is **combination-only** activity. Corrected in the generator (editing the JSON alone
+would be overwritten) and regenerated.
+
+### X23 · Two routes filed as blocked on things that were already free or already done
+
+- **RT-CARFILZOMIB** carried **five** fields demanding a primary citation — `remaining_unknowns`,
+  `required_validation`, `readiness.missing`, `why_not_higher`, `best_next_action` — for a lookup
+  **completed on 2026-08-05** (`integrity.json` OC-4 resolved; PMID 36316541). The route's own
+  `last_verified` is that same date. It was directing the next session to redo finished work.
+  ✅ The repoint to `EV-BANGERTER-2023` was verified correct against the primary text, and
+  `strength: direct` **survives for carfilzomib** — high sensitivity was validated in *both* models.
+  The scope caveat that was missing is now carried: the 40-drug discovery panel ran on USZ20-EMC1
+  **alone**, and venetoclax enters only through combination additivity.
+- **RT-PPARG-DOWNSTREAM** was filed behind a **2029** expression-data forecast, when its own grade
+  owner says *"it is a literature question, not a compute question. **$0 test** … in CI."* Added as
+  `feasible_today: true`; `wait` → `pursue_now`.
+
+### X24 · The same artifact, permanent on one route and revivable on another
+
+`RT-HDAC-BET` was `definitional` on `depmap-sarcoma-dependency.json` (BET/CDK pan-essential, no
+selectivity window) — a **sarcoma-wide transfer prior, not EMC data**. `RT-SYNLETH-DEP` rests on the
+**same artifact and the same sentence** and is `premise_false` with two triggers. One artifact cannot
+be a permanent definitional fact on one route and a revivable measured premise on another. Re-filed.
+
+Its grade also claimed *"not an EMC result"* — false: the repo holds a **fact-checked** EMC ex-vivo
+result for the class (Iwata 2025, 221-drug screen in a patient-derived EMC line, hits including
+panobinostat and romidepsin). Re-scoped to *"not a fusion-SELECTIVITY result"*, with the
+non-selective-activity question named as explicitly **not** closed.
+
+### RT-TRABECTEDIN — a monotherapy route citing a combination case
+
+`strength: direct` for *"a reported EMC response"*. The registry records **disease control**: n=5,
+**secondary** provenance, median PFS ~12.5 months, *"mostly stable disease"*, **no ORR field**, and
+its own intro says cytotoxic chemotherapy *"mainly stabilises disease"*. The single "impressive
+response" in the literature is a **radiotherapy + trabectedin** case — cited by a route whose alias
+is `trabectedin monotherapy`. Same shape as the Bangerter over-read: a combination result read as a
+monotherapy result. → `transferred`, confidence `low`, RT confound stated.
+
+### ⭐ RT-RXR — SOUND, and its auditor did the $0 check nobody had
+
+`TECH-RXR-HETERODIMER-REPORT` asserted *"The published negative stands unchanged"* — an assertion
+with **no reading behind it**, while a 2025 primary paper on that exact question sat unreferenced in
+`lit-targets-emc-post-degrader.json`. Read: Yu et al., now eLife 106861 — it studies **Nurr1–RXRα and
+Nur77–RXRγ only**, i.e. the two paralogues that *do* heterodimerise. **The negative stands, and it is
+now a reading rather than an assumption.** The closure's `premise_false` filing is correct and was
+not touched.
+
+## ST-RADIOLIGAND — 2 routes · ST-DISSEMINATION — 1 route
+
+### X25 · ⛔ A fabricated figure — and my own prompt was carrying it
+
+`emc-treatment-strategy.md:297` asserted *"B7-H3/CD276 **and FAP** are not class-selective, **BH q = 1.0**."*
+**FAP's measured value is `selectivity_q = 0.1555`** (`emc-surfaceome-scan.json`; enrichment 0.02,
+`selectivity_significant: false`). The source it paraphrases reads *"not for B7-H3/CD276 (BH q = 1.0),
+EGFR or FAP"* — **the parenthetical is scoped to CD276 and was distributed across three genes in
+transit.** That is a fabricated statistic under the golden rule, and it sat in a file CLAUDE.md §5
+names as required reading.
+
+⭐ **The instructive part: the error had already escaped into tooling, and into this audit.**
+`lint_claims.py`'s own header recorded *"the repo's own computed selectivity screen recording BH q = 1.0
+for **both**"* — so the linter's documentation carried the same transcription error it was written to
+catch. **I inherited it from there into the audit prompt**, told the subagent q = 1.0 held for FAP, and
+the subagent opened the artifact and corrected me. Both sites fixed. **A linter's documentation is read
+as fact.**
+
+⚠ And the inference does not transfer to FAP at all: the screen is DepMap tumour-cell **monoculture
+with no CAF compartment**, so it cannot see the stroma a FAP route targets. Applying a stroma-blind
+instrument to a stromal target and concluding the target is unselective is an absent reading treated as
+a reading of absence.
+
+### Other ST-RADIOLIGAND fixes
+
+- **RT-FAP-RLT** carried `BLK-NOT-FUSION-SELECTIVE`, whose registered meaning is *"engages the wild-type
+  protein (NR4A3 LBD, or EWSR1's low-complexity half)"* — **a FAP ligand engages neither.** Its sibling
+  RT-SSTR2, structurally identical, filed the same blocker as *retired*. Both cannot be right; moved to
+  retired to match. `BLK-NO-WET-LAB` was missing on a route whose validation is a clinical readout.
+- **RT-SSTR2** presented `confidence: unknown` as though nothing were known, when its normal-tissue
+  window is already computed as `ENHANCED_BROAD`. Crossfire does not make a broadly-expressed normal
+  antigen safer — it widens the irradiated field. Now stated.
+
+### ⭐ RT-METHODS-PAPER — the 40th route, and the only one with genuinely zero blockers
+
+Verified rather than assumed: computing the union of `blockers_inherited` + every
+`required_validation[].blocked_by` across all 40 routes, **this is the only route whose union is
+empty.** The zero is a real property, not an omission.
+
+Its citation of V5/V7/V21 — three instruments whose controls **failed** — at `strength: direct` is
+**legitimate**, and legibly so: each `what_it_supports` states the *failure* as its proposition. Do not
+"fix" these.
+
+Two things did stop it being writable as-is, both now fixed:
+- **The instrument list contradicted its own thesis.** A paper claiming a *complete* record listed 9 of
+  22 instruments on no stated rule, and **omitted the passes** — including `V1`, whose known-answer
+  pass beside its "not yet" on our own system is exactly the honest half. `support` now carries
+  V1/V6/V8/V10; `disclosed_failing` 9 → 16.
+- **"Nothing blocks it. Write it."** appeared in three places unqualified, while the binding roadmap
+  reserves the *framing* choice (P1 vs P6) to trimcrae. The record's own `why_not_higher` already had
+  the qualifier — *"no **scientific** blocker"* — and the other three had dropped it.
+
+One real $0 prerequisite is now recorded where it printed "—": the MM-GBSA decoy null's primary run
+output lives in S3, not in a committed JSON, and it is the **headline evidence of the recommended
+framing**.
+
+## ST-DEPENDENCY — 3 routes
+
+### X26 · ⛔ An instrument cited for a scan it never ran
+
+`RT-SYNLETH-DEP`'s only `supporting_evidence` cited `INS-DEPMAP-KO` — *"DepMap CRISPR-knockout
+dependency scan of **the ATR axis**"*. Its module's gene panel is ATR/ATM/DDR/CONTEXT and contains
+**no BRD9, no BICRA, no ncBAF gene at all** (verified: 1 incidental hit in the whole file). The
+route's BRD9 result lives in a different artifact entirely. **Two scans, two panels, one cited for the
+other's result** — and `strength: transferred` was honest, so the label gave no warning.
+
+⛔ **Worse, that artifact had no `ART-*` id at all** — so X24's ruling (that the same artifact is filed
+`premise_false` on RT-SYNLETH-DEP and could not be `definitional` on RT-HDAC-BET) rested on a **prose
+assertion about a file the graph could not name.** Registered as `ART-DEPMAP-SARCOMA-DEP`; the closure
+is now checkable rather than asserted.
+
+⭐ **And registering it corrected the bound.** The family limitation read *"one EMC model in public
+dependency data … bounded by a sample size of one."* The artifact's own note says EMC **has no DepMap
+line**, and the prior was computed over **91 sarcoma lines, none of them EMC**. The honest bound is not
+n = 1 — it is **no EMC observation at all**, which is stronger. The "one EMC model" phrasing is also the exact description `OBJ-LINE-HEMCSS.may_not_ground` forbids:
+that model is **ACH-001519 / H-EMC-SS**, whose **identity is disputed** on the curated record (Cellosaurus
+CVCL_1238, *"does not harbor a gene fusion involving EWSR1"*) — so it is named here only to record that it
+grounds nothing.
+
+### X27 · ⚠ OPEN for trimcrae — the two wet-lab asks spend the same relationship
+
+`RT-ATR-PANEL` and `RT-ASO-ASK` both address **the same two groups** (USZ Zurich, NCC Japan), both
+`pursue_now`, both `$0`. `BLK-NO-WET-LAB` is `requires_external_collaboration` — **the scarce input is
+a relationship, not money** — and the repo says so outright: *"the cell-line repositories exclude
+individuals by published policy rather than by price."* **Two $0 asks to one relationship are not
+independent: a declined first ask prices the second.** `$0 · $0` is arithmetic over the wrong resource.
+
+Eleven routes sit behind `TR-EMC-MODEL-ACCESS`, and ready-to-send outreach exists for a third set.
+**No ordering existed anywhere.** Now recorded on both routes; the ordering itself is an
+outward-facing call and is trimcrae's.
+
+Also: `RT-ATR-ASSESS` had not absorbed **its own graded result** — tier **WEAK**, all three positive
+predicates false, 1 of 4 mechanism tests passing, and the ATM-signalling predictor at ρ = −0.090, the
+**wrong sign** — while carrying `confidence: moderate` and a `Tier 1 DELIVERABLE` grade. And
+`RT-ATR-PANEL` claimed *"a costed design"* when no cost exists anywhere in its prereg.
+
+## The audit in one table
+
+| family | routes | SOUND | DEFECTIVE |
+|---|---:|---:|---:|
+| ST-PROXIMITY | 7 | 0 | 7 |
+| ST-OCCUPANCY | 3 | 0 | 3 |
+| ST-FUSION-DIRECT | 3 | 1 | 2 |
+| ST-NUCLEIC-ACID | 5 | 0 | 5 |
+| ST-IMMUNO | 9 | 1 | 8 |
+| ST-REPURPOSING | 7 | 1 | 6 |
+| ST-DEPENDENCY | 3 | 0 | 3 |
+| ST-RADIOLIGAND | 2 | 1 | 1 |
+| ST-DISSEMINATION | 1 | 1 | 0 |
+| **total** | **40** | **5** | **35** |
+
+`systems_check --check`: **0 ERROR before, 0 ERROR after.** None of the 35 was a schema defect.
+
+### What the checker gained
+
+Three rules now fail the build on shapes this audit had to find by hand — `[V4]`
+(`supporting_evidence[].ref` must resolve), `[T7]` (a `revisit_trigger` must be able to move the
+route), and `closure_note`/`rationale` added to `SHARED_ROUTE_FIELDS` so a closure argument cannot
+diverge silently between the graph and its mirror. Plus `distinct_from` is rendered for the first
+time, and `R2-proteome-wide` now catches *"absent from normal proteome"*.
+
+### What is left open for trimcrae, deliberately
+
+1. **RT-6MP** — reopen, or keep it closed on direction-of-effect? The premise it was closed on is
+   refuted; the new ground is stronger but rests on a prior. (X9)
+2. **RT-FET-LC-LIGAND** — drop *"worse"* from the grade and keep `definitional` honest, or keep it and
+   re-file as non-permanent? (X11)
+3. **`ready`** — one vocabulary value doing two jobs on 4 routes. (X21)
+4. **The outreach ordering** — which ask spends the one relationship first. (X27)
+5. **The ASO regeneration** — needs Ensembl, so it must run in CI, and nothing may be quoted from that
+   panel until it does. (X14)
+
 ## What nearly went wrong in the audit itself
 
 Recorded because the next audit will hit the same traps.

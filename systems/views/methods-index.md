@@ -26,28 +26,28 @@ the routes cleanly; method cuts across them, so it gets this view.
 
 | instrument | control state | routes served | technology that would improve it |
 |---|---|---|---|
-| **V1** Structural selectivity descriptor (selcal_interface_signature) | `passes` | RT-DEGRADER | — |
+| **V1** Structural selectivity descriptor (selcal_interface_signature) | `passes` | RT-DEGRADER, RT-METHODS-PAPER | — |
 | **V2** Ternary generator given both sites (assembly route) | `passes` | RT-AF3-INTERFACE, RT-DEGRADER | — |
-| **V3** Ligand pose prediction (dock + MM-GBSA) | `inconclusive` | RT-COVALENT-PROBE, RT-MONOVALENT | `TECH-POSE-CONVERGENCE` |
+| **V3** Ligand pose prediction (dock + MM-GBSA) | `inconclusive` | RT-COVALENT-PROBE, RT-METHODS-PAPER, RT-MONOVALENT | `TECH-POSE-CONVERGENCE` |
 | **V4** Selectivity free energy (ABFE) — the selectivity known-answer test | `none` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-FE-CRYPTIC-POCKET` |
 | **V5** Alchemical ternary cooperativity (valB_mini ΔΔG_coop) | `fails` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-CHARGE-CHANGE-FEP`, `TECH-TERNARY-ALCHEMY` |
-| **V6** Relative FEP (OpenFE, the congeneric lane) | `passes` | RT-DEGRADER | `TECH-CHARGE-CHANGE-FEP`, `TECH-ATOM-MAPPER` |
+| **V6** Relative FEP (OpenFE, the congeneric lane) | `passes` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-CHARGE-CHANGE-FEP`, `TECH-ATOM-MAPPER` |
 | **V7** ABFE engine, absolute | `fails` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-FE-CRYPTIC-POCKET` |
-| **V8** ABFE engine, hydration | `passes` | RT-DEGRADER | — |
-| **V9** λ-overlap diagnostic on the standing ABFE block | `none` | — | `TECH-FE-CRYPTIC-POCKET` |
-| **V10** Interface-mutation physics (pmx/GROMACS) | `passes` | — | — |
+| **V8** ABFE engine, hydration | `passes` | RT-DEGRADER, RT-METHODS-PAPER | — |
+| **V9** λ-overlap diagnostic on the standing ABFE block | `none` | RT-METHODS-PAPER | `TECH-FE-CRYPTIC-POCKET` |
+| **V10** Interface-mutation physics (pmx/GROMACS) | `passes` | RT-METHODS-PAPER | — |
 | **V11** Interface-stability endpoint (E1) | `fails` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-E1-POWERED` |
 | **V12** Sequence-only co-folding (Boltz-2 ternary) | `fails` | RT-AF3-INTERFACE, RT-DEGRADER, RT-METHODS-PAPER | `TECH-COFOLD-ASSEMBLY` |
 | **V13** Cryptic-opening free-energy profile (metadynamics F(Rg)) | `fails` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-CHEAP-ENSEMBLE` |
-| **V14** BioEmu unbiased ensemble cross-check | `none` | RT-DEGRADER | `TECH-CHEAP-ENSEMBLE` |
-| **V15** PocketMiner + four permutation nulls | `mixed` | RT-DEGRADER | — |
-| **V16** The causal matched-pair test S (RUNG 5a-KS) | `none` | — | — |
+| **V14** BioEmu unbiased ensemble cross-check | `none` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-CHEAP-ENSEMBLE` |
+| **V15** PocketMiner + four permutation nulls | `mixed` | RT-DEGRADER, RT-METHODS-PAPER | — |
+| **V16** The causal matched-pair test S (RUNG 5a-KS) | `none` | RT-METHODS-PAPER | — |
 | **V17** The exposure criterion EXPOSED_RSA = 0.25 | `fails` | RT-COVALENT-PROBE, RT-DEGRADER, RT-METHODS-PAPER, RT-MONOVALENT | `TECH-EXPOSURE-CRITERION` |
 | **V18** The transfer-zone lysine-identity term | `none` | RT-UBIQ-SELECTIVE | `TECH-OBSERVED-CRL` |
-| **V19** The generation-matched null (winner's-curse / generative confound) | `mixed` | — | — |
+| **V19** The generation-matched null (winner's-curse / generative confound) | `mixed` | RT-METHODS-PAPER | — |
 | **V20** Single-snapshot MM-GBSA margin > 0 as a selectivity verdict | `fails` | RT-DEGRADER, RT-METHODS-PAPER | — |
 | **V21** The anti-target docking panel (antitarget_dock) | `fails` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-ANTITARGET-PROTOCOL` |
-| **V22** The scoring-independent second pose method (rDock) | `none` | — | `TECH-POSE-CONVERGENCE` |
+| **V22** The scoring-independent second pose method (rDock) | `none` | RT-METHODS-PAPER | `TECH-POSE-CONVERGENCE` |
 | **INS-IDR-CENSUS** FET N-terminal IDR / RGG retention census | `passes` | RT-ATR-ASSESS | — |
 | **INS-CONSTRUCT-DESIGNS** Transcript-level fusion construct designer (frame computed at the nucl | `passes` | RT-ATR-ASSESS | — |
 | **INS-FUSION-OBJECT-INVENTORY** Fusion object sequence inventory + breakpoint enumeration | `passes` | — | — |
@@ -56,6 +56,6 @@ the routes cleanly; method cuts across them, so it gets this view.
 | **INS-DEPMAP-KO** DepMap CRISPR-knockout dependency scan of the ATR axis | `fails` | RT-ATR-ASSESS | — |
 | **INS-FUSION-COFOLD** Fusion protein-level co-folding model | `none` | — | — |
 | **INS-HLA-COVERAGE** HLA population-coverage calculator | `none` | RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC, RT-TCRT-CTA, RT-VACCINE | `TECH-JUNCTION-PMHC` |
-| **INS-GEO-SERIES-CHARACTERISE** Sample-level GEO series characterisation + disease-label corroboration | `passes` | — | — |
+| **INS-GEO-SERIES-CHARACTERISE** Sample-level GEO series characterisation + disease-label corroboration | `passes` | RT-ATR-ASSESS | — |
 
 [← L0](L0-ecosystem.md)

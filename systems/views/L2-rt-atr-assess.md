@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-ATR-ASSESS — The in-silico ATR vulnerability assessment (the computed half)
 
-**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ ready · computed · confidence moderate · verified 2026-08-05
+**Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ ready · computed · confidence low · verified 2026-08-06
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 1, rank 3 — DELIVERABLE
 
@@ -57,11 +57,13 @@ FET-fusion sarcomas as a class show replication-stress phenotypes that make them
 |---|---|---|
 | `INS-IDR-CENSUS` | the low-complexity-region features the class argument rests on | `class_inherited` |
 | `INS-DDR-AXIS-SCAN` | the replication-stress axis assembled for EMC from class-level evidence | `class_inherited` |
+| `ART-ATR-VULNERABILITY` | the four-part graded assessment — tier WEAK, with 1 of 4 pre-registered mechanism tests passing and the ATM-signalling predictor at rho -0.090, the WRONG SIGN | `class_inherited` |
 
 ## Remaining unknowns
 
 - Whether the class vulnerability transfers: no NR4A3 fusion has ever been tested for the phenotype.
 - Whether the computed features predict drug sensitivity, which is a step nobody has validated for this class.
+- The assessment's own grading is tier WEAK: all three positive predicates false, part verdicts GENERIC_ONLY / INSTRUMENT_STILL_BLIND / SENSITIVITY_DOES_NOT_TRACK_MECHANISM. Its computed support is WEAKER than when the Tier 1 rank 3 grade was written.
 
 ## Required validation
 
@@ -86,7 +88,7 @@ FET-fusion sarcomas as a class show replication-stress phenotypes that make them
 
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
-| [RT-ATR-PANEL](L2-rt-atr-panel.md) | deliverable vs ask | `BLK-CLASS-INHERITANCE` | the assessment produces a computed result whether or not one cell is ever plated; the panel is the experiment and this programme does not execute it. The corrected ranking SPLIT them for exactly this reason |
+| [RT-ATR-PANEL](L2-rt-atr-panel.md) | deliverable vs ask | `BLK-NO-WET-LAB` | the assessment produces a computed result whether or not one cell is ever plated; the panel is the experiment and this programme does not execute it. The corrected ranking SPLIT them for exactly this reason |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | where the dependency comes from | `BLK-NO-EMC-DATA` | both are called 'synthetic lethality' and they are not the same route: the ATR axis is inherited from a FET-family class argument, the BRD9/ncBAF axis was a DepMap transfer prior and came back negative |
 
 ## Readiness — what this could become today
@@ -136,6 +138,7 @@ Publish the assessment with the class-inheritance limit stated inside it, and pa
 |---|---|---|
 | [INS-CONSTRUCT-DESIGNS](registers/instruments.md) — Transcript-level fusion construct designer (frame computed at the nucl | support | `passes` |
 | [INS-DDR-AXIS-SCAN](registers/instruments.md) — ATRi/PARPi sensitivity re-cut by FET status (GDSC2) | support | `passes` |
+| [INS-GEO-SERIES-CHARACTERISE](registers/instruments.md) — Sample-level GEO series characterisation + disease-label corroboration | support | `passes` |
 | [INS-IDR-CENSUS](registers/instruments.md) — FET N-terminal IDR / RGG retention census | support | `passes` |
 | [INS-DEPMAP-KO](registers/instruments.md) — DepMap CRISPR-knockout dependency scan of the ATR axis | **disclosed failing** | `fails` |
 

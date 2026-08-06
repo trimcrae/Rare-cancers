@@ -39,19 +39,19 @@ flowchart LR
   RT_SSTR2["○ RT-SSTR2"]:::fam
   ST_RADIOLIGAND --> RT_SSTR2
 
+  BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — Class inheritance, not an EMC mea…"}}:::blk
+  BLK_CLASS_INHERITANCE --> ST_RADIOLIGAND
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> ST_RADIOLIGAND
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
-  BLK_NO_WET_LAB --> RT_SSTR2
-  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
-  BLK_NOT_FUSION_SELECTIVE --> RT_FAP_RLT
+  BLK_NO_WET_LAB --> ST_RADIOLIGAND
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
   classDef tech stroke-width:1px,stroke-dasharray:4 3;
 ```
 
-**Reading it.** 1 blocker point at the FAMILY node: every route here inherits it, so the family stands or falls as a unit on that. The rest point at individual routes.
+**Reading it.** 3 blockers point at the FAMILY node: every route here inherits them, so the family stands or falls as a unit on that. The rest point at individual routes.
 
 *What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
 
@@ -67,7 +67,9 @@ flowchart LR
 If one of these is never retired, the whole family is dead. That is a different risk from any
 single route failing, and it is only visible at this level.
 
+- **BLK-CLASS-INHERITANCE** (`insufficient_data`) — Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenotype
 - **BLK-NO-EMC-DATA** (`insufficient_data`) — EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)
+- **BLK-NO-WET-LAB** (`requires_external_collaboration`) — No wet lab and no collaborator — an ask needs a self-interested taker before its size matters
 
 ## What this family buys the portfolio — blockers it RETIRES
 

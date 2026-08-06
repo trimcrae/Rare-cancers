@@ -766,8 +766,13 @@ LEGACY = os.path.join(REPO, "research", "manuscripts", "emc-systems-map.json")
 
 # The fields the legacy registry and the graph BOTH carry. The graph adds lifecycle, readiness and
 # timing on top; those are new and have no legacy counterpart to disagree with.
-SHARED_ROUTE_FIELDS = ["display_name", "grade", "closure_kind", "blockers_retired",
-                       "objects", "evidence", "artifacts"]
+# ⛔ `closure_note` AND `rationale` ADDED 2026-08-06 (route framing audit). They were outside this list,
+# so the legacy mirror could carry a DIFFERENT closure argument from the graph indefinitely and CI could
+# not see it. That is not hypothetical: RT-6MP's closure_note carried a premise the repo had measured
+# FALSE, and the mirror's copy of it was unpoliced. A closure argument is exactly the kind of fact that
+# must not have two homes -- it is what a reader consults to decide whether a route is really dead.
+SHARED_ROUTE_FIELDS = ["display_name", "grade", "closure_kind", "closure_note", "rationale",
+                       "blockers_retired", "objects", "evidence", "artifacts"]
 
 
 def check_legacy_agreement(g, f):

@@ -66,6 +66,7 @@ Registered so the idea, which recurs, has a permanent answer rather than being r
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
 | [RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md) | the same liability, arrived at from a different direction | `BLK-NOT-FUSION-SELECTIVE` | one targets EWSR1 as EWSR1; the other targets the FET low-complexity half as a shared class feature. Both land on wild-type EWSR1, so they share a blocker and are still separately registered because their entry points differ |
+| [RT-DBD](L2-rt-dbd.md) | which protein the collateral damage lands on | `BLK-NOT-FUSION-SELECTIVE` | this route relocates onto wild-type EWSR1, an essential housekeeping protein, and closes definitionally with nothing computed; RT-DBD stays on NR4A3 and closes on a computed paralogue-identity ordering |
 
 ## Readiness — what this could become today
 

@@ -47,7 +47,7 @@ This program has accumulated something genuinely uncommon: a complete record of 
 |---|---|---|
 | `V5` | a ternary free-energy method failing a known-answer control on sign, systematically | `direct` |
 | `V7` | an absolute free-energy engine missing a benchmark by more than the margin it is used to compute | `direct` |
-| `V21` | an anti-target panel failing to recover its own cognate ligands | `direct` |
+| `V21` | an anti-target panel that recovers only 7 of its own 10 cognate crystallographic ligands and is therefore unreadable | `direct` |
 
 ## Remaining unknowns
 
@@ -68,6 +68,9 @@ This program has accumulated something genuinely uncommon: a complete record of 
 **`journal_submission`**
 
 Nothing blocks it. It is the only route in the portfolio with no scientific blocker at all — it is finished when the writing stops.
+
+**Missing:**
+- the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-options.md §2.1)
 
 ## Strategic timing — the wait equation
 
@@ -91,7 +94,7 @@ It has no blockers, it does not get cheaper or easier by waiting, and it is the 
 
 ## Best next action
 
-Write it. Nothing blocks it, and it is the only row on the board that is true regardless of how every other row resolves.
+Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here.
 
 *Cost:* $0
 
@@ -101,14 +104,25 @@ Write it. Nothing blocks it, and it is the only row on the board that is true re
 
 | L4 instrument | cited as | known-answer control |
 |---|---|---|
+| [V1](registers/instruments.md) — Structural selectivity descriptor (selcal_interface_signature) | support | `passes` |
+| [V6](registers/instruments.md) — Relative FEP (OpenFE, the congeneric lane) | support | `passes` |
+| [V8](registers/instruments.md) — ABFE engine, hydration | support | `passes` |
+| [V10](registers/instruments.md) — Interface-mutation physics (pmx/GROMACS) | support | `passes` |
+| [V3](registers/instruments.md) — Ligand pose prediction (dock + MM-GBSA) | **disclosed failing** | `inconclusive` |
 | [V4](registers/instruments.md) — Selectivity free energy (ABFE) — the selectivity known-answer test | **disclosed failing** | `none` |
 | [V5](registers/instruments.md) — Alchemical ternary cooperativity (valB_mini ΔΔG_coop) | **disclosed failing** | `fails` |
 | [V7](registers/instruments.md) — ABFE engine, absolute | **disclosed failing** | `fails` |
+| [V9](registers/instruments.md) — λ-overlap diagnostic on the standing ABFE block | **disclosed failing** | `none` |
 | [V11](registers/instruments.md) — Interface-stability endpoint (E1) | **disclosed failing** | `fails` |
 | [V12](registers/instruments.md) — Sequence-only co-folding (Boltz-2 ternary) | **disclosed failing** | `fails` |
 | [V13](registers/instruments.md) — Cryptic-opening free-energy profile (metadynamics F(Rg)) | **disclosed failing** | `fails` |
+| [V14](registers/instruments.md) — BioEmu unbiased ensemble cross-check | **disclosed failing** | `none` |
+| [V15](registers/instruments.md) — PocketMiner + four permutation nulls | **disclosed failing** | `mixed` |
+| [V16](registers/instruments.md) — The causal matched-pair test S (RUNG 5a-KS) | **disclosed failing** | `none` |
 | [V17](registers/instruments.md) — The exposure criterion EXPOSED_RSA = 0.25 | **disclosed failing** | `fails` |
+| [V19](registers/instruments.md) — The generation-matched null (winner's-curse / generative confound) | **disclosed failing** | `mixed` |
 | [V20](registers/instruments.md) — Single-snapshot MM-GBSA margin > 0 as a selectivity verdict | **disclosed failing** | `fails` |
 | [V21](registers/instruments.md) — The anti-target docking panel (antitarget_dock) | **disclosed failing** | `fails` |
+| [V22](registers/instruments.md) — The scoring-independent second pose method (rDock) | **disclosed failing** | `none` |
 
 [← ST-DISSEMINATION](L1-st-dissemination.md) · [← L0](L0-ecosystem.md)

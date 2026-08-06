@@ -18,21 +18,54 @@ last_verified: 2026-08-05
 
 # RT-6MP — 6-mercaptopurine / AF-1 agonism of the fusion
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · scoped · confidence high · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · scoped · confidence moderate · verified 2026-08-06
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): ✕ CLOSED 2026-08-03 — 6-MP acts through the AF-1, the domain the fusion replaces
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): ✕ closed on DIRECTION OF EFFECT (6-MP enhances NR4A3; the fusion is gain-of-function) and on non-selectivity — NOT on the refuted 'domain the fusion replaces'
 
 ## What has to land for this route to move
 
-*This route inherits no blocker and retires none — there is no dependency structure to draw. Its state is decided by the evidence on this page alone.*
+```mermaid
+flowchart LR
+  RT_6MP["✓ RT-6MP"]:::fam
+  BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
+  BLK_NO_EMC_DATA --> RT_6MP
+  TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
+  TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_6MP
+  classDef fam stroke-width:2px;
+  classDef blk stroke-width:2px;
+  classDef perm stroke-width:4px;
+  classDef tech stroke-width:1px,stroke-dasharray:4 3;
+```
+
+**Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
 
 ## Scientific rationale
 
-Registered with its refutation. The reported mechanism acts through the AF-1 domain — and the fusion REPLACES the AF-1 with EWSR1's low-complexity region. A ligand whose entire mechanism lives in a domain the disease deletes cannot act on the disease protein.
+6-MP is the one approved drug that activates NR4A3, acting through the AF-1 rather than the LBD. ⚠ The AF-1 IS RETAINED in the chimera — the fusion does not delete it — so the original closure reasoning does not hold. What closes the route is that 6-MP ENHANCES NR4A3 activity while the fusion is a gain-of-function oncoprotein, and that it cannot distinguish the chimera from wild-type NR4A3. No efficacy, safety or clinical-readiness claim is made.
 
 ## Remaining unknowns
 
-- Nothing is open. The mechanism's domain is absent from the fusion by construction, so no capability reopens it.
+- Whether an INTERNALISED AF-1 — preceded by EWSR1(1-264) and neighboured by a strong independent activation domain — remains SRC-2-competent and 6-MP-responsive. Untested; this is the AF-1 analogue of BLK-FUNCTIONAL-ACTIONABILITY and it is a bench question.
+- Whether 6-MP's direction of effect on the FUSION matches its direction on wild-type NR4A3. No direct loss-of-function experiment in any EMC cell line exists.
+
+## Required validation
+
+| what | instrument | feasible today | blocked by |
+|---|---|---|---|
+| A primary measurement of 6-MP's direction of effect on the EWSR1::NR4A3 fusion, not on wild-type NR4A3 | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+
+## Blockers
+
+| blocker | kind | what would retire it |
+|---|---|---|
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 
 ## Not to be confused with
 
@@ -50,7 +83,7 @@ Closed definitionally; the output is the reasoning, which is a useful worked exa
 
 **Recommendation: `closed`**
 
-Permanently closed. The domain the mechanism needs is the domain the fusion replaces.
+Closed on direction of effect, not on domain loss. Only a primary measurement showing 6-MP suppresses rather than enhances fusion output, or that an internalised AF-1 behaves differently, would reopen it.
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -62,7 +95,7 @@ Permanently closed. The domain the mechanism needs is the domain the fusion repl
 
 ## Closure
 
-`definitional` — 6-MP acts through the AF-1, and the fusion REPLACES the AF-1 with EWSR1's low-complexity region. A ligand whose whole mechanism lives in a domain the disease deletes cannot act on the chimera at any dose. ⚠ Scoped: this closes 6-MP, NOT LBD-directed modulation.
+`premise_false` — ⛔ THE ORIGINAL CLOSURE PREMISE IS REFUTED (route framing audit, 2026-08-06). It read: 'NOR-1 residues 1-112 sit inside the 1-260 stretch the fusion REPLACES with EWSR1-LC — a ligand whose mechanism lives in a domain the disease DELETES cannot act on the chimera at any dose.' MEASURED: NR4A3 transcript exons 1 and 2 are entirely NON-CODING (coding_nt_in_exon: 0; utr5_len 699; first_transcript_exon_is_coding false), so 'NR4A3 exon 3' IS residue 1 and EWSR1(1-264)::NR4A3(1-626) RETAINS the AF1, DBD, hinge and LBD. AF1 is present in all 9 DBD-retaining breakpoint windows. EWSR1-LC is ADDITIVE, not a replacement. ⚠ The repo had already resolved this on 2026-08-02 — one day BEFORE this closure was written — in target-route-census.json `fusion_model_disagreement.resolution`, the same artifact the closure cites; the closure cited check B (lysine/cysteine COUNTS) instead of check C (the junction resolution).  WHAT NOW CLOSES IT, and it is NOT definitional: (1) 6-MP is not fusion-selective — retention is precisely what makes that bite, since an AF-1 present in the chimera is identically present in wild-type NR4A3; (2) ⭐ DIRECTION OF EFFECT, the strongest surviving objection and one the record never made: 6-MP ENHANCES NR4A3 activity (published-warhead-registry.json), and the fusion is a transcriptionally active GAIN-of-function oncoprotein, so 6-MP is a candidate AGONIST of the oncoprotein. That is a stronger argument than the one on file — but it rests on a prior, not a demonstration (no direct loss-of-function experiment in any EMC cell line exists), so it is premise_false, not definitional. ⚠ Scoped: this closes 6-MP, NOT LBD-directed modulation.  ⚠ OPEN FOR TRIMCRAE: whether to re-close on direction-of-effect (as filed here, mirroring RT-RXR) or to REOPEN as `parked` pending the genuinely open question the correction creates — in the chimera the AF-1 is INTERNAL, preceded by EWSR1(1-264) and neighboured by a strong independent activation domain, and whether an internalised AF-1 stays SRC-2-competent and 6-MP-responsive is untested. That is a scientific call, not an audit action.
 
 ## Best next action
 
@@ -74,7 +107,7 @@ Nothing. Cite the closure — it is the clearest example in the register of wild
 
 *L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
 
-**L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-AF1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+**L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-AF1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 **L5 evidence:** [EV-WANSA-2003](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 

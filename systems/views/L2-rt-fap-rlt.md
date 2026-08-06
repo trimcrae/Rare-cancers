@@ -27,14 +27,22 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   RT_FAP_RLT["○ RT-FAP-RLT"]:::fam
+  BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — Class inheritance, not an EMC mea…"}}:::blk
+  BLK_CLASS_INHERITANCE --> RT_FAP_RLT
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_CLASS_INHERITANCE
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_FAP_RLT
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
   TECH_EMC_EXPRESSION_DATA -.-> BLK_NO_EMC_DATA
   TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
   TECH_VIRTUAL_CELL -.-> BLK_NO_EMC_DATA
-  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
-  BLK_NOT_FUSION_SELECTIVE --> RT_FAP_RLT
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_FAP_RLT
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -43,34 +51,35 @@ flowchart LR
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
 
-⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
-
-✓ Already cleared by this route: `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
+✓ Already cleared by this route: `BLK-NOT-FUSION-SELECTIVE`, `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
 
 ## Scientific rationale
 
-EMC is a stroma-rich myxoid tumour, and a stromal target sidesteps the whole question of what the tumour cells themselves express. That is an unusual advantage in a disease where the cellular antigen search has repeatedly come back empty.
+EMC is a stroma-rich myxoid tumour, and a stromal target RELOCATES the question — from what the tumour cells express, to whether stromal delivery reaches them, which is remaining_unknown 2 and is unanswered in a disease where the cellular antigen search has repeatedly come back empty.
 
 ## Remaining unknowns
 
-- Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured.
+- Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured. ⚠ The surfaceome screen (ART-SURFACE-EXPRESSION) does return FAP selectivity_q = 0.1555 / myxoid 0.0 — but it is DepMap tumour-cell MONOCULTURE with no CAF compartment, so it cannot see the stroma this route targets and does not answer the question.
 - Whether a stromal-targeted radioligand delivers enough dose to the tumour cells.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| An expression or imaging readout on EMC tissue | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| An expression or imaging readout on EMC tissue | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
+| Bystander/crossfire dose from FAP-positive stroma to tumour cells, and a tumour-to-normal uptake ratio | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
+| **BLK-CLASS-INHERITANCE** | `insufficient_data` | `TECH-VIRTUAL-CELL` |
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Blockers this route RETIRES
 
+- **BLK-NOT-FUSION-SELECTIVE** — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 
@@ -78,7 +87,7 @@ EMC is a stroma-rich myxoid tumour, and a stromal target sidesteps the whole que
 
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
-| [RT-SSTR2](L2-rt-sstr2.md) | which radioligand target | `BLK-NOT-FUSION-SELECTIVE` | both are theranostics and they target different things — FAP is the myxoid STROMA, SSTR2 is EMC's own neuroendocrine differentiation |
+| [RT-SSTR2](L2-rt-sstr2.md) | which radioligand target | `BLK-NO-EMC-DATA` | both are theranostics and they target different things — FAP is the myxoid STROMA, SSTR2 is EMC's own neuroendocrine differentiation |
 
 ## Readiness — what this could become today
 

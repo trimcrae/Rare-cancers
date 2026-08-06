@@ -32,9 +32,10 @@ What one screen has to carry is not the list — it is the **convergence**. Each
 
 ```mermaid
 flowchart LR
-  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 7 families"]]:::perm
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — 6 families"}}:::blk
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — 6 families"]]:::perm
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — 5 families"}}:::blk
+  BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — 3 families"}}:::blk
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — 3 families"}}:::blk
   BLK_R4_BINDS{{"BLK-R4-BINDS — 2 families"}}:::blk
   BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — 2 families"}}:::blk
@@ -49,24 +50,26 @@ flowchart LR
   ST_RADIOLIGAND["ST-RADIOLIGAND ○ · 2 routes"]:::fam
   ST_DISSEMINATION["ST-DISSEMINATION ○ · 1 route"]:::fam
 
-  BLK_NOT_FUSION_SELECTIVE --> ST_FUSION_DIRECT
-  BLK_NOT_FUSION_SELECTIVE --> ST_IMMUNO
-  BLK_NOT_FUSION_SELECTIVE --> ST_NUCLEIC_ACID
-  BLK_NOT_FUSION_SELECTIVE --> ST_OCCUPANCY
-  BLK_NOT_FUSION_SELECTIVE --> ST_PROXIMITY
-  BLK_NOT_FUSION_SELECTIVE --> ST_RADIOLIGAND
-  BLK_NOT_FUSION_SELECTIVE --> ST_REPURPOSING
   BLK_NO_WET_LAB --> ST_DEPENDENCY
   BLK_NO_WET_LAB --> ST_NUCLEIC_ACID
   BLK_NO_WET_LAB --> ST_OCCUPANCY
   BLK_NO_WET_LAB --> ST_PROXIMITY
   BLK_NO_WET_LAB --> ST_RADIOLIGAND
   BLK_NO_WET_LAB --> ST_REPURPOSING
+  BLK_NOT_FUSION_SELECTIVE --> ST_FUSION_DIRECT
+  BLK_NOT_FUSION_SELECTIVE --> ST_IMMUNO
+  BLK_NOT_FUSION_SELECTIVE --> ST_NUCLEIC_ACID
+  BLK_NOT_FUSION_SELECTIVE --> ST_OCCUPANCY
+  BLK_NOT_FUSION_SELECTIVE --> ST_PROXIMITY
+  BLK_NOT_FUSION_SELECTIVE --> ST_REPURPOSING
   BLK_NO_EMC_DATA --> ST_DEPENDENCY
   BLK_NO_EMC_DATA --> ST_IMMUNO
   BLK_NO_EMC_DATA --> ST_NUCLEIC_ACID
   BLK_NO_EMC_DATA --> ST_RADIOLIGAND
   BLK_NO_EMC_DATA --> ST_REPURPOSING
+  BLK_CLASS_INHERITANCE --> ST_DEPENDENCY
+  BLK_CLASS_INHERITANCE --> ST_RADIOLIGAND
+  BLK_CLASS_INHERITANCE --> ST_REPURPOSING
   BLK_PARALOGUE_DDG --> ST_FUSION_DIRECT
   BLK_PARALOGUE_DDG --> ST_OCCUPANCY
   BLK_PARALOGUE_DDG --> ST_PROXIMITY
@@ -82,7 +85,7 @@ flowchart LR
 
 **Reading it.** A hexagon is a blocker with a named way out; a double-walled box is a **permanent** one — a fact about the biology that no technology retires. An arrow means *holds down*.
 
-⚠ **11 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 17 would render the portfolio as a hairball and bury the 6 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
+⚠ **10 further blocker(s) are NOT drawn here**, because each holds down exactly one family and belongs on that family's page. Drawing all 17 would render the portfolio as a hairball and bury the 7 that shape it. Every one of them is in [registers/blockers.md](registers/blockers.md).
 
 ## The landscape
 
@@ -106,13 +109,14 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 17 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 15 | 7 | *permanent — nothing* |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 18 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 9 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 8 | 1 | *permanent — nothing* |
-| **BLK-NO-WET-LAB** | `requires_external_collaboration` | 7 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | 1 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
+| **BLK-CLASS-INHERITANCE** | `insufficient_data` | 4 | 3 | `TECH-VIRTUAL-CELL` |
 | **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | 1 | `TECH-VECTOR-DELIVERY` |
 | **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | 3 | 2 | *an action we can take* |
@@ -121,7 +125,6 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 | **BLK-PARALOGUE-CONTROL** | `no_known_assay` | 1 | 1 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
 | **BLK-FUNCTIONAL-ACTIONABILITY** | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-DELIVERY** | `requires_future_technology` | 1 | 1 | `TECH-OLIGO-DELIVERY` |
-| **BLK-CLASS-INHERITANCE** | `insufficient_data` | 1 | 1 | `TECH-VIRTUAL-CELL` |
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | `requires_authorization` | 1 | 1 | *an action we can take* |
 
 ## Highest-leverage things to wait for

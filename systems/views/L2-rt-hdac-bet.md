@@ -18,17 +18,19 @@ last_verified: 2026-08-05
 
 # RT-HDAC-BET — HDAC / BET to lower fusion expression
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ closed · concept · confidence high · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · concept · confidence high · verified 2026-08-06
 
-**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — not fusion-selective; a class effect, not an EMC result
+**Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — not fusion-selective; a class effect, not a fusion-SELECTIVITY result
 
 ## What has to land for this route to move
 
 ```mermaid
 flowchart LR
-  RT_HDAC_BET["○ RT-HDAC-BET"]:::fam
-  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
-  BLK_NOT_FUSION_SELECTIVE --> RT_HDAC_BET
+  RT_HDAC_BET["✓ RT-HDAC-BET"]:::fam
+  BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — Class inheritance, not an EMC mea…"}}:::blk
+  BLK_CLASS_INHERITANCE --> RT_HDAC_BET
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_CLASS_INHERITANCE
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -36,8 +38,6 @@ flowchart LR
 ```
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
-
-⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
 
 ✓ Already cleared by this route: `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
 
@@ -47,20 +47,25 @@ Registered with its refutation attached, because the idea recurs. Lowering expre
 
 ## Remaining unknowns
 
-- Nothing is open on selectivity. A class effect on expression is definitionally not fusion-selective, so no capability makes it so.
+- Whether the class has non-selective activity in EMC. NOT closed by this route: Iwata 2025's 221-drug screen in a patient-derived EMC line returned panobinostat and romidepsin among its top hits, and candidates.json carries the open question of PDX/in-vivo activity. This closure covers fusion selectivity only.
+- No NR4A3 fusion has been tested for the phenotype — the transfer argument rests on sarcoma-wide DepMap.
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
-| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
+| **BLK-CLASS-INHERITANCE** | `insufficient_data` | `TECH-VIRTUAL-CELL` |
 
-## Blockers this route never FACES
-
-*This route is closed. It does not answer these blockers — its architecture never encounters them, so nothing here is a hedge the portfolio can spend.*
+## Blockers this route RETIRES
 
 - **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-TRABECTEDIN](L2-rt-trabectedin.md) | whether the closure is about molecular selectivity or about clinical activity | `BLK-CLASS-INHERITANCE` | trabectedin is also a chromatin-acting drug that is not molecularly fusion-selective, and it stays live because its claim is clinical activity; this route is closed only on the SELECTIVITY claim |
 
 ## Readiness — what this could become today
 
@@ -70,9 +75,12 @@ Closed on a definitional argument; the output is the reasoning.
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `closed`**
+**Recommendation: `monitor`**
 
-Permanently closed as a FUSION-SELECTIVE route. It remains an ordinary non-selective cytotoxic option, which is a different claim and belongs to clinical practice rather than to this program.
+Any non-selective cytotoxic use of these classes is a different claim and is outside this program's scope; nothing here asserts activity in EMC. No HDAC or BET inhibitor is approved in sarcoma, and no BET inhibitor is approved at all.
+
+**Revisit when:**
+- **TECH-VIRTUAL-CELL** — A virtual-cell or perturbation model that predicts held-out knockdown phenotype in a cell type it was not trained on *(expected 2028, basis `extrapolated`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 
@@ -84,7 +92,7 @@ Permanently closed as a FUSION-SELECTIVE route. It remains an ordinary non-selec
 
 ## Closure
 
-`definitional` — A class effect on fusion EXPRESSION is not fusion-selective by construction — the mechanism does not distinguish the chimera from anything else the class regulates.
+`premise_false` — A class effect on fusion EXPRESSION is not fusion-SELECTIVE. ⛔ RE-FILED 2026-08-06 (route framing audit): this was `definitional`, but it names no fact about an object — it rests on a MEASUREMENT, `depmap-sarcoma-dependency.json` (BET/CDK pan-essential, no selectivity window), which is a sarcoma-wide TRANSFER PRIOR and not EMC data. The identical artifact and the identical sentence are filed `premise_false` and revivable on RT-SYNLETH-DEP. One artifact cannot be a permanent definitional fact on one route and a revivable measured premise on another. ⚠ Scoped: this closes the FUSION-SELECTIVITY claim, not non-selective activity — the repo holds a fact-checked EMC ex-vivo result for the class (Iwata 2025, 221-drug screen in a patient-derived EMC line: panobinostat, romidepsin, brigatinib).
 
 ## Best next action
 

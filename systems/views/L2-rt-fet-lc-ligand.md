@@ -72,6 +72,7 @@ Registered for the same reason as the row above. A ligand for the SHARED low-com
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
 | [RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md) | the same liability, arrived at from a different direction | `BLK-NOT-FUSION-SELECTIVE` | a NEW route to this repo, proposed as a class-wide FET handle rather than as an EWSR1-specific one |
+| [RT-DBD](L2-rt-dbd.md) | which protein the collateral damage lands on | `BLK-NOT-FUSION-SELECTIVE` | this route's handle is the shared FET low-complexity half, which is wild-type EWSR1 sequence by definition; RT-DBD's is NR4A3's own zinc finger, closed because it is MORE paralogue-identical than the LBD |
 
 ## Readiness — what this could become today
 

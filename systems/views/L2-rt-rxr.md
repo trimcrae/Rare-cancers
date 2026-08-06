@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-RXR — RXR-heterodimer modulation of the fusion
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · computed · confidence high · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · scoped · confidence high · verified 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): ✕ CLOSED 2026-08-03 — NR4A3 does not heterodimerise with RXR
 
@@ -30,6 +30,12 @@ last_verified: 2026-08-05
 
 Registered with its closing measurement. Nuclear receptors commonly act as RXR heterodimers, which would give a well-precedented pharmacological handle — but the published evidence is that this receptor does not form a permissive heterodimer with RXR.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `EV-ZETTERSTROM-1996` | NOR-1/NR4A3 is unable to form heterodimers with RXR, measured on the receptor itself — the published primary negative the closure rests on. ⚠ Measured on WILD-TYPE NOR-1; the transfer to the chimera holds because the LBD is byte-identical in both and the fusion alters only the N-terminal region. | `direct` |
+
 ## Remaining unknowns
 
 - Whether the published negative is correct. It is a direct measurement, so only a contradicting primary measurement of the same fact reopens this — no method advance does.
@@ -38,7 +44,14 @@ Registered with its closing measurement. Nuclear receptors commonly act as RXR h
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A primary measurement contradicting the published negative | ⛔ none built | **no** | — |
+| A primary measurement contradicting the published negative | ⛔ none built | **no** | BLK-NO-WET-LAB |
+
+## Not to be confused with
+
+| route | the axis it turns on | blockers the distinction turns on | why |
+|---|---|---|---|
+| [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | which receptor's dimer is being modulated | `BLK-NO-EMC-DATA` | this closes an NR4A3:RXR dimer that does not form. It says NOTHING about PPARγ:RXR biology downstream of the fusion, which is a different dimer and a live route |
+| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | which receptor's dimer is being modulated | `BLK-NO-EMC-DATA` | same scoping — the closed dimer is NR4A3:RXR, not the PPARγ:RXR axis this route's agonist half acts on |
 
 ## Readiness — what this could become today
 
@@ -80,5 +93,7 @@ Nothing. The scan carries the one observation that would reopen it.
 **L5 objects:** [OBJ-NR4A1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A2-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 **L5 evidence:** [EV-ZETTERSTROM-1996](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+
+**L5 artifacts:** [ART-TARGET-ROUTE-CENSUS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)

@@ -74,6 +74,7 @@ This is the single experiment that would convert the oligonucleotide route from 
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
 | [RT-ASO](L2-rt-aso.md) | deliverable vs ask | `BLK-DELIVERY` | the paper is unaffected by this ask failing — the one ask in the portfolio whose failure costs its route nothing |
+| [RT-ATR-PANEL](L2-rt-atr-panel.md) | which ask spends the one relationship | `BLK-NO-WET-LAB` | ⚠ THIS ASK AND RT-ASO-ASK SPEND THE SAME SCARCE INPUT. Both address the same two model-holding groups (USZ Zurich and NCC Japan), both are `pursue_now` at `$0`, and BLK-NO-WET-LAB is `requires_external_collaboration` — the scarce resource is a RELATIONSHIP, not money. Two $0 asks to one relationship are not independent: a declined first ask prices the second. Eleven routes sit behind TR-EMC-MODEL-ACCESS. The ordering is trimcrae's outward-facing call and is recorded nowhere. |
 
 ## Readiness — what this could become today
 

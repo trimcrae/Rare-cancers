@@ -397,6 +397,14 @@
           "BLK-DELIVERY"
         ],
         "why": "the paper is unaffected by this ask failing — the one ask in the portfolio whose failure costs its route nothing"
+      },
+      {
+        "route": "RT-ATR-PANEL",
+        "axis": "which ask spends the one relationship",
+        "fails_on": [
+          "BLK-NO-WET-LAB"
+        ],
+        "why": "⚠ THIS ASK AND RT-ASO-ASK SPEND THE SAME SCARCE INPUT. Both address the same two model-holding groups (USZ Zurich and NCC Japan), both are `pursue_now` at `$0`, and BLK-NO-WET-LAB is `requires_external_collaboration` — the scarce resource is a RELATIONSHIP, not money. Two $0 asks to one relationship are not independent: a declined first ask prices the second. Eleven routes sit behind TR-EMC-MODEL-ACCESS. The ordering is trimcrae's outward-facing call and is recorded nowhere."
       }
     ],
     "closure_kind": "authorization",
@@ -502,17 +510,29 @@
       "BLK-NO-WET-LAB"
     ],
     "instruments": {
-      "support": [],
+      "support": [
+        "V1",
+        "V6",
+        "V8",
+        "V10"
+      ],
       "disclosed_failing": [
+        "V3",
         "V4",
         "V5",
         "V7",
+        "V9",
         "V11",
         "V12",
         "V13",
+        "V14",
+        "V15",
+        "V16",
         "V17",
+        "V19",
         "V20",
-        "V21"
+        "V21",
+        "V22"
       ]
     },
     "objects": [],
@@ -521,7 +541,7 @@
     "distinct_from": [],
     "closure_kind": "open",
     "revival_trigger": [],
-    "closure_note": "Nothing blocks it; it is finished when we stop typing.",
+    "closure_note": "No SCIENTIFIC blocker; it is finished when we stop typing. ⚠ Which framing the single deliverable takes (P1 vs P6) is an OPEN decision owned by trimcrae — the roadmap reserves it explicitly and this record does not decide it.",
     "strategy": "ST-DISSEMINATION",
     "level": "L2",
     "kind": "route",
@@ -553,7 +573,7 @@
       },
       {
         "ref": "V21",
-        "what_it_supports": "an anti-target panel failing to recover its own cognate ligands",
+        "what_it_supports": "an anti-target panel that recovers only 7 of its own 10 cognate crystallographic ligands and is therefore unreadable",
         "strength": "direct"
       }
     ],
@@ -569,7 +589,10 @@
     ],
     "readiness": {
       "attainable_today": "journal_submission",
-      "why_not_higher": "Nothing blocks it. It is the only route in the portfolio with no scientific blocker at all — it is finished when the writing stops."
+      "why_not_higher": "Nothing blocks it. It is the only route in the portfolio with no scientific blocker at all — it is finished when the writing stops.",
+      "missing": [
+        "the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-options.md §2.1)"
+      ]
     },
     "timing": {
       "recommendation": "pursue_now",
@@ -580,7 +603,7 @@
       "automation_outlook": "Drafting is largely automatable; the judgement about what a failure means is not."
     },
     "next": {
-      "best_next_action": "Write it. Nothing blocks it, and it is the only row on the board that is true regardless of how every other row resolves.",
+      "best_next_action": "Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here.",
       "cost": "$0"
     }
   },
@@ -601,7 +624,7 @@
     "grade_pointers": [
       {
         "file": "research/IDEAS.md",
-        "asserts_grade": false
+        "asserts_grade": true
       }
     ],
     "blockers_inherited": [
@@ -617,7 +640,8 @@
       "support": [
         "INS-IDR-CENSUS",
         "INS-DDR-AXIS-SCAN",
-        "INS-CONSTRUCT-DESIGNS"
+        "INS-CONSTRUCT-DESIGNS",
+        "INS-GEO-SERIES-CHARACTERISE"
       ],
       "disclosed_failing": [
         "INS-DEPMAP-KO"
@@ -646,7 +670,7 @@
         "route": "RT-ATR-PANEL",
         "axis": "deliverable vs ask",
         "fails_on": [
-          "BLK-CLASS-INHERITANCE"
+          "BLK-NO-WET-LAB"
         ],
         "why": "the assessment produces a computed result whether or not one cell is ever plated; the panel is the experiment and this programme does not execute it. The corrected ranking SPLIT them for exactly this reason"
       },
@@ -676,8 +700,8 @@
       "work_state": "complete",
       "status": "ready",
       "maturity": "computed",
-      "confidence": "moderate",
-      "last_verified": "2026-08-05"
+      "confidence": "low",
+      "last_verified": "2026-08-06"
     },
     "rationale": "FET-fusion sarcomas as a class show replication-stress phenotypes that make them sensitive to inhibitors of the associated checkpoint kinase. If EMC inherits that, an existing clinical-stage drug class becomes relevant without any new chemistry. The computational half — assembling the class argument and the supporting molecular features — is complete.",
     "supporting_evidence": [
@@ -690,11 +714,17 @@
         "ref": "INS-DDR-AXIS-SCAN",
         "what_it_supports": "the replication-stress axis assembled for EMC from class-level evidence",
         "strength": "class_inherited"
+      },
+      {
+        "ref": "ART-ATR-VULNERABILITY",
+        "what_it_supports": "the four-part graded assessment — tier WEAK, with 1 of 4 pre-registered mechanism tests passing and the ATM-signalling predictor at rho -0.090, the WRONG SIGN",
+        "strength": "class_inherited"
       }
     ],
     "remaining_unknowns": [
       "Whether the class vulnerability transfers: no NR4A3 fusion has ever been tested for the phenotype.",
-      "Whether the computed features predict drug sensitivity, which is a step nobody has validated for this class."
+      "Whether the computed features predict drug sensitivity, which is a step nobody has validated for this class.",
+      "The assessment's own grading is tier WEAK: all three positive predicates false, part verdicts GENERIC_ONLY / INSTRUMENT_STILL_BLIND / SENSITIVITY_DOES_NOT_TRACK_MECHANISM. Its computed support is WEAKER than when the Tier 1 rank 3 grade was written."
     ],
     "required_validation": [
       {
@@ -746,7 +776,7 @@
     "grade_pointers": [
       {
         "file": "research/IDEAS.md",
-        "asserts_grade": false
+        "asserts_grade": true
       }
     ],
     "blockers_inherited": [
@@ -771,6 +801,14 @@
           "BLK-NO-WET-LAB"
         ],
         "why": "its value is entirely in an experiment this programme cannot cause; the assessment's value is not"
+      },
+      {
+        "route": "RT-ASO-ASK",
+        "axis": "which ask spends the one relationship",
+        "fails_on": [
+          "BLK-NO-WET-LAB"
+        ],
+        "why": "⚠ THIS ASK AND RT-ASO-ASK SPEND THE SAME SCARCE INPUT. Both address the same two model-holding groups (USZ Zurich and NCC Japan), both are `pursue_now` at `$0`, and BLK-NO-WET-LAB is `requires_external_collaboration` — the scarce resource is a RELATIONSHIP, not money. Two $0 asks to one relationship are not independent: a declined first ask prices the second. Eleven routes sit behind TR-EMC-MODEL-ACCESS. The ordering is trimcrae's outward-facing call and is recorded nowhere."
       }
     ],
     "closure_kind": "authorization",
@@ -812,7 +850,7 @@
     ],
     "readiness": {
       "attainable_today": "experimental_proposal",
-      "why_not_higher": "It is already a complete experimental proposal with a costed design. What it lacks is a person with cells.",
+      "why_not_higher": "a complete, specified experimental proposal (emc-atri-prereg.md) — UNCOSTED. What it lacks is a person with cells.",
       "missing": [
         "a collaborator with an EMC line"
       ],
@@ -822,7 +860,7 @@
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The best-matched ask on the board: small, cheap for the taker, publishable for both sides. Asking costs nothing and the proposal is already written.",
+      "rationale": "The best-matched ask on the board: small, cheap for the taker, publishable for both sides. Asking costs nothing and the proposal is already written. ⚠ THIS ASK AND RT-ASO-ASK SPEND THE SAME SCARCE INPUT. Both address the same two model-holding groups (USZ Zurich and NCC Japan), both are `pursue_now` at `$0`, and BLK-NO-WET-LAB is `requires_external_collaboration` — the scarce resource is a RELATIONSHIP, not money. Two $0 asks to one relationship are not independent: a declined first ask prices the second. Eleven routes sit behind TR-EMC-MODEL-ACCESS. The ordering is trimcrae's outward-facing call and is recorded nowhere.",
       "six_month_delta": "Only through whoever reads the assessment.",
       "two_year_delta": "A solo-affordable cloud lab would remove the need for a taker — though not for the cell line.",
       "cost_trend": "falling",
@@ -1219,7 +1257,7 @@
         "fails_on": [
           "BLK-FUNCTIONAL-ACTIONABILITY"
         ],
-        "why": "6-MP is closed because it acts through the AF-1, the domain the disease deletes. That closure does NOT close LBD-directed modulation — the published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less"
+        "why": "6-MP is closed because it acts through the AF-1, the AF-1, which the chimera RETAINS (premise corrected 2026-08-06). That closure does NOT close LBD-directed modulation — the published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less"
       },
       {
         "route": "RT-DEGRADER",
@@ -1462,6 +1500,14 @@
           "BLK-NO-EMC-DATA"
         ],
         "why": "the downstream/TZD row is the agonist ALONE and carries an unresolved direction question that cuts AGAINST the naive version — in EMC the fusion turns PPARG on, so an agonist may be redundant. The combination's logic is promoter displacement unmasking a differentiation-competent receptor, which is a different argument"
+      },
+      {
+        "route": "RT-RXR",
+        "axis": "which receptor's dimer is being modulated",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "same scoping — the closed dimer is NR4A3:RXR, not the PPARγ:RXR axis this route's agonist half acts on"
       }
     ],
     "closure_kind": "authorization",
@@ -1577,12 +1623,28 @@
         "fails_on": [
           "BLK-NO-EMC-DATA"
         ],
-        "why": "monotherapy rests on a reported EMC responder and a mechanism fit; the combination rests additionally on a published result in a sibling sarcoma and on the fusion→PPARG axis"
+        "why": "monotherapy rests on a disease-control series, NOT on the RT-combination responder case and a mechanism fit; the combination rests additionally on a published result in a sibling sarcoma and on the fusion→PPARG axis"
+      },
+      {
+        "route": "RT-CARFILZOMIB",
+        "axis": "unbiased screen hit vs mechanism-fit argument",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "trabectedin is argued from mechanism fit plus a clinical disease-control series; carfilzomib is an empirical ex-vivo screen hit with no fusion rationale"
+      },
+      {
+        "route": "RT-HDAC-BET",
+        "axis": "whether the closure is about molecular selectivity or about clinical activity",
+        "fails_on": [
+          "BLK-CLASS-INHERITANCE"
+        ],
+        "why": "this route stays live because its claim is clinical activity; RT-HDAC-BET is closed only on the fusion-SELECTIVITY claim, and both are chromatin-acting and neither is molecularly fusion-selective"
       }
     ],
     "closure_kind": "open",
     "revival_trigger": [],
-    "closure_note": "An approved drug with a reported EMC responder; nothing about it is closed.",
+    "closure_note": "An approved drug with a reported EMC disease-control series; nothing about it is closed.",
     "strategy": "ST-REPURPOSING",
     "level": "L2",
     "kind": "route",
@@ -1597,20 +1659,21 @@
       "work_state": "future",
       "status": "ready",
       "maturity": "concept",
-      "confidence": "moderate",
+      "confidence": "low",
       "last_verified": "2026-08-05"
     },
-    "rationale": "Trabectedin is approved for soft-tissue sarcoma and its mechanism — interfering with transcription-factor-driven programmes at the DNA minor groove — is a plausible fit for a disease whose entire biology is one aberrant transcription factor. There is a reported EMC responder. For an ultra-rare cancer with no targeted agent, an approved drug with a mechanistic story and a reported response is the shortest path that exists.",
+    "rationale": "Trabectedin is approved and used in sarcoma, and this repo's clinical registry records DISEASE CONTROL in EMC — n=5, secondary provenance, median PFS ~12.5 months, mostly stable disease, with NO response rate recorded. ⚠ The single 'impressive response' in the literature is a RADIOTHERAPY + trabectedin case, so it does not support this route, whose alias is trabectedin MONOTHERAPY. No efficacy, safety, eligibility or clinical-readiness claim is made for EMC.",
     "supporting_evidence": [
       {
         "ref": "ART-EMC-CLINICAL-REGISTRY",
-        "what_it_supports": "a reported EMC response to an approved agent",
-        "strength": "direct"
+        "what_it_supports": "a 5-patient SECONDARY-provenance series reporting disease control (median PFS ~12.5 months, mostly stable disease); no response rate is recorded, and the registry's own intro says cytotoxic chemotherapy mainly stabilises disease",
+        "strength": "transferred"
       }
     ],
     "remaining_unknowns": [
       "Whether the mechanistic fit is real or a post-hoc story fitted to a single response.",
-      "How the agent interacts with the fusion's specific programme, which has never been measured in EMC."
+      "How the agent interacts with the fusion's specific programme, which has never been measured in EMC.",
+      "The '± RT' half of this route is unaddressed, and the only impressive-response case is an RT COMBINATION — the registry records radiotherapy in localized EMC as `contested` and adjuvant chemotherapy as `consensus-against`."
     ],
     "required_validation": [
       {
@@ -1653,7 +1716,7 @@
       "downstream nodes the fusion transactivates"
     ],
     "grade": {
-      "value": "★ keep; direction unresolved",
+      "value": "★ keep, unblock cheaply",
       "owner": {
         "file": "research/manuscripts/target-route-options.md",
         "anchor": "#route-5--downstream-of-the-fusion-pparg-and-the-transactivated-nodes"
@@ -1692,9 +1755,17 @@
           "BLK-NO-EMC-DATA"
         ],
         "why": "this row is the agonist alone and its direction (agonism vs antagonism vs redundancy) is unresolved; the combination row's argument runs through promoter displacement and does not depend on resolving it the same way"
+      },
+      {
+        "route": "RT-RXR",
+        "axis": "which receptor's dimer is being modulated",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "RT-RXR closes an NR4A3:RXR dimer that does not form; this route is about PPARγ:RXR biology DOWNSTREAM of the fusion, a different dimer and not closed by it"
       }
     ],
-    "closure_kind": "premise_false",
+    "closure_kind": "open",
     "revival_trigger": [
       "TR-EMC-EXPRESSION-DATASET"
     ],
@@ -1712,7 +1783,7 @@
     "state": {
       "work_state": "complete",
       "status": "blocked",
-      "maturity": "computed",
+      "maturity": "concept",
       "confidence": "low",
       "last_verified": "2026-08-05"
     },
@@ -1722,6 +1793,11 @@
       "The direction is unresolved rather than refuted: in EMC the fusion appears to turn PPARγ on, so an agonist may be redundant. Nobody has read the direction in EMC tissue."
     ],
     "required_validation": [
+      {
+        "what": "A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) and of TZD-in-sarcoma reports, via the Europe PMC CI lane",
+        "feasible_today": true,
+        "blocked_by": []
+      },
       {
         "what": "An EMC expression readout of the PPARγ axis",
         "feasible_today": false,
@@ -1738,7 +1814,7 @@
       ]
     },
     "timing": {
-      "recommendation": "wait",
+      "recommendation": "pursue_now",
       "rationale": "One cheap measurement settles it, and no amount of reasoning substitutes for the sign of an effect. Working further on a hypothesis whose direction is unknown is effort that a single dataset would render moot.",
       "six_month_delta": "None unless data lands.",
       "two_year_delta": "Settled either way by an EMC dataset.",
@@ -1749,7 +1825,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Keep with the direction flagged as unresolved — the premise is scoped as unresolved, NOT refuted, and those must not be conflated.",
+      "best_next_action": "Run the Europe PMC literature pull for the PPARγ-axis direction — $0 CI, and it is the actual blocker. The record previously filed this behind a 2029 expression-data forecast.",
       "cost": "$0",
       "blocked_on": [
         "BLK-NO-EMC-DATA"
@@ -1782,8 +1858,9 @@
       }
     ],
     "blockers_inherited": [
-      "BLK-NO-WET-LAB",
-      "BLK-NO-EMC-DATA"
+      "BLK-CLASS-INHERITANCE",
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [
       "BLK-PARALOGUE-DDG",
@@ -1810,7 +1887,7 @@
         "route": "RT-FAP-RLT",
         "axis": "which radioligand target",
         "fails_on": [
-          "BLK-NO-WET-LAB"
+          "BLK-NO-EMC-DATA"
         ],
         "why": "SSTR2 follows EMC's own neuroendocrine differentiation and its ask needs a clinician with an EMC patient; FAP targets the myxoid STROMA and its ask is an expression/avidity confirm"
       }
@@ -1841,7 +1918,8 @@
     "supporting_evidence": [],
     "remaining_unknowns": [
       "Whether EMC expresses the receptor at all — this has never been measured.",
-      "Whether expression is high enough for therapeutic rather than merely diagnostic use."
+      "Whether expression is high enough for therapeutic rather than merely diagnostic use.",
+      "SSTR2's normal-tissue window is ALREADY computed as ENHANCED_BROAD (emc-surface-normal-window.json), so a positive EMC scan does not settle the route — tumour-to-normal uptake ratio and dosimetry remain. Crossfire does not make a broadly-expressed normal antigen safer; it widens the irradiated field."
     ],
     "required_validation": [
       {
@@ -1849,6 +1927,13 @@
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-EMC-DATA",
+          "BLK-NO-WET-LAB"
+        ]
+      },
+      {
+        "what": "Tumour-to-normal uptake ratio and dosimetry on an SSTR2-avid EMC lesion",
+        "feasible_today": false,
+        "blocked_by": [
           "BLK-NO-WET-LAB"
         ]
       }
@@ -1864,7 +1949,7 @@
       ]
     },
     "timing": {
-      "recommendation": "pursue_now",
+      "recommendation": "monitor",
       "rationale": "The cheapest possible negative in the entire portfolio: one scan settles it. A cheap decisive negative is worth having now, because it removes a row from the board permanently at almost no cost.",
       "six_month_delta": "None on our side.",
       "two_year_delta": "An EMC dataset would answer it without anyone scanning.",
@@ -2966,7 +3051,16 @@
       "EV-BANGERTER-2023"
     ],
     "artifacts": [],
-    "distinct_from": [],
+    "distinct_from": [
+      {
+        "route": "RT-TRABECTEDIN",
+        "axis": "unbiased screen hit vs mechanism-fit argument",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "carfilzomib is an empirical ex-vivo hit with NO fusion rationale; trabectedin is argued from mechanism fit and a clinical series. Same family, same status, same blocker, opposite kinds of support"
+      }
+    ],
     "closure_kind": "open",
     "revival_trigger": [],
     "closure_note": "Best ex-vivo EMC evidence; nothing closed.",
@@ -2991,20 +3085,14 @@
     "supporting_evidence": [
       {
         "ref": "EV-BANGERTER-2023",
-        "what_it_supports": "ex-vivo drug sensitivity measured on EMC material",
+        "what_it_supports": "ex-vivo drug sensitivity measured on EMC material: carfilzomib high sensitivity VALIDATED IN BOTH USZ20-EMC1 and USZ22-EMC2 (triplicate 6-point dose-response). ⚠ Scope: the 40-drug discovery panel ran on USZ20-EMC1 ALONE, and venetoclax showed NO monotherapy response — it enters only through combination additivity/synergy.",
         "strength": "direct"
       }
     ],
     "remaining_unknowns": [
-      "Whether ex-vivo sensitivity transfers to clinical benefit, which it frequently does not.",
-      "The provenance of the underlying evidence needs firming — it is the repository's only ex-vivo EMC result and its citation has been flagged as incomplete."
+      "Whether ex-vivo sensitivity transfers to clinical benefit, which it frequently does not."
     ],
     "required_validation": [
-      {
-        "what": "Confirmation of the ex-vivo result and a firm primary citation",
-        "feasible_today": true,
-        "blocked_by": []
-      },
       {
         "what": "A clinical series",
         "feasible_today": false,
@@ -3015,21 +3103,19 @@
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "Its single supporting result currently lacks a resolvable primary identifier, and an uncitable result cannot carry a published claim however good it looks.",
-      "missing": [
-        "a resolvable primary citation for the ex-vivo evidence"
-      ]
+      "why_not_higher": "The evidence is ex-vivo on n=2 patient-derived models with no in-vivo and no clinical data in EMC. That is the ceiling — not a citation gap; the primary identifier was resolved 2026-08-05 (PMID 36316541 / PMC9813045, integrity.json OC-4).",
+      "missing": []
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The blocking item is a citation lookup, not a capability — and it gates the only ex-vivo EMC evidence the repository holds. Leaving the program's best measured EMC result uncitable is a defect worth fixing before anything else in this family.",
+      "rationale": "The ex-vivo result is committed and its citation resolved. What is missing is in-vivo or clinical evidence in EMC, which this program cannot generate.",
       "six_month_delta": "None.",
       "two_year_delta": "None on the citation; a clinical series would change the route.",
       "cost_trend": "flat",
       "automation_outlook": "The literature lookup is automatable and is already wired."
     },
     "next": {
-      "best_next_action": "Resolve the primary citation for the ex-vivo EMC drug-sensitivity evidence. It is the only ex-vivo EMC result here and it currently carries no resolvable identifier.",
+      "best_next_action": "Treat as landscape context; the ex-vivo result is banked and needs no further lookup.",
       "cost": "$0"
     }
   },
@@ -3050,14 +3136,16 @@
     "grade_pointers": [
       {
         "file": "research/IDEAS.md",
-        "asserts_grade": false
+        "asserts_grade": true
       }
     ],
     "blockers_inherited": [
+      "BLK-CLASS-INHERITANCE",
       "BLK-NO-EMC-DATA",
-      "BLK-NOT-FUSION-SELECTIVE"
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [
+      "BLK-NOT-FUSION-SELECTIVE",
       "BLK-PARALOGUE-DDG",
       "BLK-TERNARY-GEOMETRY"
     ],
@@ -3073,7 +3161,7 @@
         "route": "RT-SSTR2",
         "axis": "which radioligand target",
         "fails_on": [
-          "BLK-NOT-FUSION-SELECTIVE"
+          "BLK-NO-EMC-DATA"
         ],
         "why": "both are theranostics and they target different things — FAP is the myxoid STROMA, SSTR2 is EMC's own neuroendocrine differentiation"
       }
@@ -3098,10 +3186,10 @@
       "confidence": "unknown",
       "last_verified": "2026-08-05"
     },
-    "rationale": "EMC is a stroma-rich myxoid tumour, and a stromal target sidesteps the whole question of what the tumour cells themselves express. That is an unusual advantage in a disease where the cellular antigen search has repeatedly come back empty.",
+    "rationale": "EMC is a stroma-rich myxoid tumour, and a stromal target RELOCATES the question — from what the tumour cells express, to whether stromal delivery reaches them, which is remaining_unknown 2 and is unanswered in a disease where the cellular antigen search has repeatedly come back empty.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured.",
+      "Whether the stromal target is present in EMC's particular myxoid matrix — this has never been measured. ⚠ The surfaceome screen (ART-SURFACE-EXPRESSION) does return FAP selectivity_q = 0.1555 / myxoid 0.0 — but it is DepMap tumour-cell MONOCULTURE with no CAF compartment, so it cannot see the stroma this route targets and does not answer the question.",
       "Whether a stromal-targeted radioligand delivers enough dose to the tumour cells."
     ],
     "required_validation": [
@@ -3109,7 +3197,16 @@
         "what": "An expression or imaging readout on EMC tissue",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-EMC-DATA",
+          "BLK-NO-WET-LAB"
+        ]
+      },
+      {
+        "what": "Bystander/crossfire dose from FAP-positive stroma to tumour cells, and a tumour-to-normal uptake ratio",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA",
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -3157,11 +3254,12 @@
       },
       {
         "file": "research/IDEAS.md",
-        "asserts_grade": false
+        "asserts_grade": true
       }
     ],
     "blockers_inherited": [
-      "BLK-NO-EMC-DATA"
+      "BLK-NO-EMC-DATA",
+      "BLK-NO-WET-LAB"
     ],
     "blockers_retired": [
       "BLK-PARALOGUE-DDG",
@@ -3174,7 +3272,9 @@
     },
     "objects": [],
     "evidence": [],
-    "artifacts": [],
+    "artifacts": [
+      "ART-DEPMAP-SARCOMA-DEP"
+    ],
     "distinct_from": [
       {
         "route": "RT-ATR-ASSESS",
@@ -3211,13 +3311,13 @@
     "rationale": "A synthetic-lethal partner would be an ordinary, already-druggable protein that is only essential because the fusion is present. That removes both the undruggability problem and the selectivity problem at once, and it is the cleanest theoretical escape from everything blocking the lead family.",
     "supporting_evidence": [
       {
-        "ref": "INS-DEPMAP-KO",
-        "what_it_supports": "the dependency transfer prior, which came back negative on the available data",
+        "ref": "ART-DEPMAP-SARCOMA-DEP",
+        "what_it_supports": "the ncBAF/BRD9 dependency transfer prior, negative on the available data (BRD9 sarcoma_mean 0.105, selectivity -0.016) — computed over 91 sarcoma lines, NONE of them EMC",
         "strength": "transferred"
       }
     ],
     "remaining_unknowns": [
-      "Whether the negative reflects EMC biology or the sample size: there is one EMC model in public dependency data, with no knockout screen data.",
+      "NO EMC model is in public dependency data. The one DepMap model labelled EMC (ACH-001519 / H-EMC-SS) has no CRISPR data AND its identity is disputed on the curated record, so the transfer prior rests on 91 sarcoma lines none of which is EMC — a stronger bound than 'n = 1'.",
       "Whether a chromatin-complex dependency exists that the transfer prior could not see."
     ],
     "required_validation": [
@@ -3225,7 +3325,8 @@
         "what": "An EMC-specific dependency screen",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-EMC-DATA",
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -3245,6 +3346,7 @@
       "automation_outlook": "High — the screen re-runs automatically once data exists.",
       "revisit_trigger": [
         "TECH-EMC-EXPRESSION-DATA",
+        "TECH-EMC-MODEL-ACCESS",
         "TECH-VIRTUAL-CELL"
       ]
     },
@@ -3523,6 +3625,14 @@
           "BLK-NOT-FUSION-SELECTIVE"
         ],
         "why": "one targets EWSR1 as EWSR1; the other targets the FET low-complexity half as a shared class feature. Both land on wild-type EWSR1, so they share a blocker and are still separately registered because their entry points differ"
+      },
+      {
+        "route": "RT-DBD",
+        "axis": "which protein the collateral damage lands on",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "this route relocates onto wild-type EWSR1, an essential housekeeping protein, and closes definitionally with nothing computed; RT-DBD stays on NR4A3 and closes on a computed paralogue-identity ordering"
       }
     ],
     "closure_kind": "definitional",
@@ -3604,6 +3714,14 @@
           "BLK-NOT-FUSION-SELECTIVE"
         ],
         "why": "a NEW route to this repo, proposed as a class-wide FET handle rather than as an EWSR1-specific one"
+      },
+      {
+        "route": "RT-DBD",
+        "axis": "which protein the collateral damage lands on",
+        "fails_on": [
+          "BLK-NOT-FUSION-SELECTIVE"
+        ],
+        "why": "this route's handle is the shared FET low-complexity half, which is wild-type EWSR1 sequence by definition; RT-DBD's is NR4A3's own zinc finger, closed because it is MORE paralogue-identical than the LBD"
       }
     ],
     "closure_kind": "definitional",
@@ -4056,7 +4174,7 @@
       "post-degrader route 11"
     ],
     "grade": {
-      "value": "Tier 3 — not fusion-selective; a class effect, not an EMC result",
+      "value": "Tier 3 — not fusion-selective; a class effect, not a fusion-SELECTIVITY result",
       "owner": {
         "file": "research/manuscripts/emc-post-degrader-options.md",
         "anchor": "#routes-813--why-each-sits-in-tier-3|route11"
@@ -4064,7 +4182,7 @@
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-NOT-FUSION-SELECTIVE"
+      "BLK-CLASS-INHERITANCE"
     ],
     "blockers_retired": [
       "BLK-PARALOGUE-DDG",
@@ -4077,10 +4195,21 @@
     "objects": [],
     "evidence": [],
     "artifacts": [],
-    "distinct_from": [],
-    "closure_kind": "definitional",
-    "revival_trigger": [],
-    "closure_note": "A class effect on fusion EXPRESSION is not fusion-selective by construction — the mechanism does not distinguish the chimera from anything else the class regulates.",
+    "distinct_from": [
+      {
+        "route": "RT-TRABECTEDIN",
+        "axis": "whether the closure is about molecular selectivity or about clinical activity",
+        "fails_on": [
+          "BLK-CLASS-INHERITANCE"
+        ],
+        "why": "trabectedin is also a chromatin-acting drug that is not molecularly fusion-selective, and it stays live because its claim is clinical activity; this route is closed only on the SELECTIVITY claim"
+      }
+    ],
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-EMC-MODEL-ACCESS"
+    ],
+    "closure_note": "A class effect on fusion EXPRESSION is not fusion-SELECTIVE. ⛔ RE-FILED 2026-08-06 (route framing audit): this was `definitional`, but it names no fact about an object — it rests on a MEASUREMENT, `depmap-sarcoma-dependency.json` (BET/CDK pan-essential, no selectivity window), which is a sarcoma-wide TRANSFER PRIOR and not EMC data. The identical artifact and the identical sentence are filed `premise_false` and revivable on RT-SYNLETH-DEP. One artifact cannot be a permanent definitional fact on one route and a revivable measured premise on another. ⚠ Scoped: this closes the FUSION-SELECTIVITY claim, not non-selective activity — the repo holds a fact-checked EMC ex-vivo result for the class (Iwata 2025, 221-drug screen in a patient-derived EMC line: panobinostat, romidepsin, brigatinib).",
     "strategy": "ST-REPURPOSING",
     "level": "L2",
     "kind": "route",
@@ -4092,16 +4221,17 @@
     },
     "purpose": "Could an epigenetic agent lower fusion expression?",
     "state": {
-      "work_state": "future",
-      "status": "closed",
+      "work_state": "complete",
+      "status": "parked",
       "maturity": "concept",
       "confidence": "high",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-06"
     },
     "rationale": "Registered with its refutation attached, because the idea recurs. Lowering expression of a fusion via a broad epigenetic mechanism is not fusion-selective by construction: the mechanism does not distinguish the chimera from anything else the drug class affects.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "Nothing is open on selectivity. A class effect on expression is definitionally not fusion-selective, so no capability makes it so."
+      "Whether the class has non-selective activity in EMC. NOT closed by this route: Iwata 2025's 221-drug screen in a patient-derived EMC line returned panobinostat and romidepsin among its top hits, and candidates.json carries the open question of PDX/in-vivo activity. This closure covers fusion selectivity only.",
+      "No NR4A3 fusion has been tested for the phenotype — the transfer argument rests on sarcoma-wide DepMap."
     ],
     "required_validation": [],
     "readiness": {
@@ -4109,9 +4239,11 @@
       "why_not_higher": "Closed on a definitional argument; the output is the reasoning."
     },
     "timing": {
-      "recommendation": "closed",
-      "rationale": "Permanently closed as a FUSION-SELECTIVE route. It remains an ordinary non-selective cytotoxic option, which is a different claim and belongs to clinical practice rather than to this program.",
-      "revisit_trigger": []
+      "recommendation": "monitor",
+      "rationale": "Any non-selective cytotoxic use of these classes is a different claim and is outside this program's scope; nothing here asserts activity in EMC. No HDAC or BET inhibitor is approved in sarcoma, and no BET inhibitor is approved at all.",
+      "revisit_trigger": [
+        "TECH-VIRTUAL-CELL"
+      ]
     },
     "next": {
       "best_next_action": "Nothing. Cite the closure when the idea resurfaces.",
@@ -4364,8 +4496,27 @@
     "evidence": [
       "EV-ZETTERSTROM-1996"
     ],
-    "artifacts": [],
-    "distinct_from": [],
+    "artifacts": [
+      "ART-TARGET-ROUTE-CENSUS"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-PPARG-DOWNSTREAM",
+        "axis": "which receptor's dimer is being modulated",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "this closes an NR4A3:RXR dimer that does not form. It says NOTHING about PPARγ:RXR biology downstream of the fusion, which is a different dimer and a live route"
+      },
+      {
+        "route": "RT-TRABECTEDIN-PPARG",
+        "axis": "which receptor's dimer is being modulated",
+        "fails_on": [
+          "BLK-NO-EMC-DATA"
+        ],
+        "why": "same scoping — the closed dimer is NR4A3:RXR, not the PPARγ:RXR axis this route's agonist half acts on"
+      }
+    ],
     "closure_note": "Closed on the receptor's own measured biology. Not definitional — it rests on a published measurement, so a contradicting primary measurement is the only thing that reopens it, and no method advance does.",
     "closure_kind": "premise_false",
     "revival_trigger": [
@@ -4384,12 +4535,18 @@
     "state": {
       "work_state": "complete",
       "status": "closed",
-      "maturity": "computed",
+      "maturity": "scoped",
       "confidence": "high",
       "last_verified": "2026-08-05"
     },
     "rationale": "Registered with its closing measurement. Nuclear receptors commonly act as RXR heterodimers, which would give a well-precedented pharmacological handle — but the published evidence is that this receptor does not form a permissive heterodimer with RXR.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "EV-ZETTERSTROM-1996",
+        "what_it_supports": "NOR-1/NR4A3 is unable to form heterodimers with RXR, measured on the receptor itself — the published primary negative the closure rests on. ⚠ Measured on WILD-TYPE NOR-1; the transfer to the chimera holds because the LBD is byte-identical in both and the fusion alters only the N-terminal region.",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
       "Whether the published negative is correct. It is a direct measurement, so only a contradicting primary measurement of the same fact reopens this — no method advance does."
     ],
@@ -4397,7 +4554,9 @@
       {
         "what": "A primary measurement contradicting the published negative",
         "feasible_today": false,
-        "blocked_by": []
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
       }
     ],
     "readiness": {
@@ -4423,7 +4582,7 @@
       "Tier 4 closed — 6-MP"
     ],
     "grade": {
-      "value": "✕ CLOSED 2026-08-03 — 6-MP acts through the AF-1, the domain the fusion replaces",
+      "value": "✕ closed on DIRECTION OF EFFECT (6-MP enhances NR4A3; the fusion is gain-of-function) and on non-selectivity — NOT on the refuted 'domain the fusion replaces'",
       "owner": {
         "file": "research/manuscripts/emc-post-degrader-options.md",
         "anchor": "#2--the-ranked-list|tier4-6mp"
@@ -4435,7 +4594,10 @@
         "asserts_grade": false
       }
     ],
-    "blockers_inherited": [],
+    "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-NO-EMC-DATA"
+    ],
     "blockers_retired": [],
     "instruments": {
       "support": [],
@@ -4443,7 +4605,8 @@
     },
     "objects": [
       "OBJ-NR4A3-AF1",
-      "OBJ-EWSR1-WT"
+      "OBJ-EWSR1-WT",
+      "OBJ-FUS-T1"
     ],
     "evidence": [
       "EV-WANSA-2003"
@@ -4461,9 +4624,11 @@
         "why": "⚠ SCOPED SO IT IS NOT OVER-READ: this closes 6-MP, NOT LBD-directed modulation generally. The published LBD-borne functional result was read out on a Gal4-NOR-1-LBD construct that is itself AF-1-less"
       }
     ],
-    "closure_note": "6-MP acts through the AF-1, and the fusion REPLACES the AF-1 with EWSR1's low-complexity region. A ligand whose whole mechanism lives in a domain the disease deletes cannot act on the chimera at any dose. ⚠ Scoped: this closes 6-MP, NOT LBD-directed modulation.",
-    "closure_kind": "definitional",
-    "revival_trigger": [],
+    "closure_note": "⛔ THE ORIGINAL CLOSURE PREMISE IS REFUTED (route framing audit, 2026-08-06). It read: 'NOR-1 residues 1-112 sit inside the 1-260 stretch the fusion REPLACES with EWSR1-LC — a ligand whose mechanism lives in a domain the disease DELETES cannot act on the chimera at any dose.' MEASURED: NR4A3 transcript exons 1 and 2 are entirely NON-CODING (coding_nt_in_exon: 0; utr5_len 699; first_transcript_exon_is_coding false), so 'NR4A3 exon 3' IS residue 1 and EWSR1(1-264)::NR4A3(1-626) RETAINS the AF1, DBD, hinge and LBD. AF1 is present in all 9 DBD-retaining breakpoint windows. EWSR1-LC is ADDITIVE, not a replacement. ⚠ The repo had already resolved this on 2026-08-02 — one day BEFORE this closure was written — in target-route-census.json `fusion_model_disagreement.resolution`, the same artifact the closure cites; the closure cited check B (lysine/cysteine COUNTS) instead of check C (the junction resolution).\n\nWHAT NOW CLOSES IT, and it is NOT definitional: (1) 6-MP is not fusion-selective — retention is precisely what makes that bite, since an AF-1 present in the chimera is identically present in wild-type NR4A3; (2) ⭐ DIRECTION OF EFFECT, the strongest surviving objection and one the record never made: 6-MP ENHANCES NR4A3 activity (published-warhead-registry.json), and the fusion is a transcriptionally active GAIN-of-function oncoprotein, so 6-MP is a candidate AGONIST of the oncoprotein. That is a stronger argument than the one on file — but it rests on a prior, not a demonstration (no direct loss-of-function experiment in any EMC cell line exists), so it is premise_false, not definitional. ⚠ Scoped: this closes 6-MP, NOT LBD-directed modulation.\n\n⚠ OPEN FOR TRIMCRAE: whether to re-close on direction-of-effect (as filed here, mirroring RT-RXR) or to REOPEN as `parked` pending the genuinely open question the correction creates — in the chimera the AF-1 is INTERNAL, preceded by EWSR1(1-264) and neighboured by a strong independent activation domain, and whether an internalised AF-1 stays SRC-2-competent and 6-MP-responsive is untested. That is a scientific call, not an audit action.",
+    "closure_kind": "premise_false",
+    "revival_trigger": [
+      "TR-NR4A3-DIRECTION-OF-EFFECT"
+    ],
     "strategy": "ST-REPURPOSING",
     "level": "L2",
     "kind": "route",
@@ -4478,22 +4643,31 @@
       "work_state": "complete",
       "status": "closed",
       "maturity": "scoped",
-      "confidence": "high",
-      "last_verified": "2026-08-05"
+      "confidence": "moderate",
+      "last_verified": "2026-08-06"
     },
-    "rationale": "Registered with its refutation. The reported mechanism acts through the AF-1 domain — and the fusion REPLACES the AF-1 with EWSR1's low-complexity region. A ligand whose entire mechanism lives in a domain the disease deletes cannot act on the disease protein.",
+    "rationale": "6-MP is the one approved drug that activates NR4A3, acting through the AF-1 rather than the LBD. ⚠ The AF-1 IS RETAINED in the chimera — the fusion does not delete it — so the original closure reasoning does not hold. What closes the route is that 6-MP ENHANCES NR4A3 activity while the fusion is a gain-of-function oncoprotein, and that it cannot distinguish the chimera from wild-type NR4A3. No efficacy, safety or clinical-readiness claim is made.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "Nothing is open. The mechanism's domain is absent from the fusion by construction, so no capability reopens it."
+      "Whether an INTERNALISED AF-1 — preceded by EWSR1(1-264) and neighboured by a strong independent activation domain — remains SRC-2-competent and 6-MP-responsive. Untested; this is the AF-1 analogue of BLK-FUNCTIONAL-ACTIONABILITY and it is a bench question.",
+      "Whether 6-MP's direction of effect on the FUSION matches its direction on wild-type NR4A3. No direct loss-of-function experiment in any EMC cell line exists."
     ],
-    "required_validation": [],
+    "required_validation": [
+      {
+        "what": "A primary measurement of 6-MP's direction of effect on the EWSR1::NR4A3 fusion, not on wild-type NR4A3",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
     "readiness": {
       "attainable_today": "internal_note",
       "why_not_higher": "Closed definitionally; the output is the reasoning, which is a useful worked example of why wild-type pharmacology does not transfer to a fusion."
     },
     "timing": {
       "recommendation": "closed",
-      "rationale": "Permanently closed. The domain the mechanism needs is the domain the fusion replaces.",
+      "rationale": "Closed on direction of effect, not on domain loss. Only a primary measurement showing 6-MP suppresses rather than enhances fusion output, or that an internalised AF-1 behaves differently, would reopen it.",
       "revisit_trigger": []
     },
     "next": {

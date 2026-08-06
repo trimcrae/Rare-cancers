@@ -73,12 +73,13 @@ This is the experiment that converts the computed class argument into an EMC res
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | deliverable vs ask | `BLK-NO-WET-LAB` | its value is entirely in an experiment this programme cannot cause; the assessment's value is not |
+| [RT-ASO-ASK](L2-rt-aso-ask.md) | which ask spends the one relationship | `BLK-NO-WET-LAB` | ⚠ THIS ASK AND RT-ASO-ASK SPEND THE SAME SCARCE INPUT. Both address the same two model-holding groups (USZ Zurich and NCC Japan), both are `pursue_now` at `$0`, and BLK-NO-WET-LAB is `requires_external_collaboration` — the scarce resource is a RELATIONSHIP, not money. Two $0 asks to one relationship are not independent: a declined first ask prices the second. Eleven routes sit behind TR-EMC-MODEL-ACCESS. The ordering is trimcrae's outward-facing call and is recorded nowhere. |
 
 ## Readiness — what this could become today
 
 **`experimental_proposal`**
 
-It is already a complete experimental proposal with a costed design. What it lacks is a person with cells.
+a complete, specified experimental proposal (emc-atri-prereg.md) — UNCOSTED. What it lacks is a person with cells.
 
 **Missing:**
 - a collaborator with an EMC line
@@ -90,7 +91,7 @@ It is already a complete experimental proposal with a costed design. What it lac
 
 **Recommendation: `pursue_now`**
 
-The best-matched ask on the board: small, cheap for the taker, publishable for both sides. Asking costs nothing and the proposal is already written.
+The best-matched ask on the board: small, cheap for the taker, publishable for both sides. Asking costs nothing and the proposal is already written. ⚠ THIS ASK AND RT-ASO-ASK SPEND THE SAME SCARCE INPUT. Both address the same two model-holding groups (USZ Zurich and NCC Japan), both are `pursue_now` at `$0`, and BLK-NO-WET-LAB is `requires_external_collaboration` — the scarce resource is a RELATIONSHIP, not money. Two $0 asks to one relationship are not independent: a declined first ask prices the second. Eleven routes sit behind TR-EMC-MODEL-ACCESS. The ordering is trimcrae's outward-facing call and is recorded nowhere.
 
 | horizon | effect |
 |---|---|

@@ -27,6 +27,10 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   RT_SSTR2["○ RT-SSTR2"]:::fam
+  BLK_CLASS_INHERITANCE{{"BLK-CLASS-INHERITANCE — Class inheritance, not an EMC mea…"}}:::blk
+  BLK_CLASS_INHERITANCE --> RT_SSTR2
+  TECH_VIRTUAL_CELL(["TECH-VIRTUAL-CELL<br/>expected 2028"]):::tech
+  TECH_VIRTUAL_CELL -.-> BLK_CLASS_INHERITANCE
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_SSTR2
   TECH_EMC_EXPRESSION_DATA(["TECH-EMC-EXPRESSION-DATA<br/>expected 2029"]):::tech
@@ -57,19 +61,22 @@ A theranostic gives imaging and therapy from one vector, and the imaging half is
 
 - Whether EMC expresses the receptor at all — this has never been measured.
 - Whether expression is high enough for therapeutic rather than merely diagnostic use.
+- SSTR2's normal-tissue window is ALREADY computed as ENHANCED_BROAD (emc-surface-normal-window.json), so a positive EMC scan does not settle the route — tumour-to-normal uptake ratio and dosimetry remain. Crossfire does not make a broadly-expressed normal antigen safer; it widens the irradiated field.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | A receptor imaging scan in an EMC patient, or an expression readout on EMC tissue | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
+| Tumour-to-normal uptake ratio and dosimetry on an SSTR2-avid EMC lesion | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
 | blocker | kind | what would retire it |
 |---|---|---|
-| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-CLASS-INHERITANCE** | `insufficient_data` | `TECH-VIRTUAL-CELL` |
 | **BLK-NO-EMC-DATA** | `insufficient_data` | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 
 ## Blockers this route RETIRES
 
@@ -82,7 +89,7 @@ A theranostic gives imaging and therapy from one vector, and the imaging half is
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
 | [RT-B7H3](L2-rt-b7h3.md) | which antigen and how it was graded | `BLK-NO-EMC-DATA` | SSTR2 is UNMEASURED in EMC; B7-H3 was MEASURED and came back not selective (BH q = 1.0). 'Surface-target route' names both and they failed differently |
-| [RT-FAP-RLT](L2-rt-fap-rlt.md) | which radioligand target | `BLK-NO-WET-LAB` | SSTR2 follows EMC's own neuroendocrine differentiation and its ask needs a clinician with an EMC patient; FAP targets the myxoid STROMA and its ask is an expression/avidity confirm |
+| [RT-FAP-RLT](L2-rt-fap-rlt.md) | which radioligand target | `BLK-NO-EMC-DATA` | SSTR2 follows EMC's own neuroendocrine differentiation and its ask needs a clinician with an EMC patient; FAP targets the myxoid STROMA and its ask is an expression/avidity confirm |
 
 ## Readiness — what this could become today
 
@@ -98,7 +105,7 @@ It is a well-formed cheap ask with an unknown answer. There is no computation th
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
 The cheapest possible negative in the entire portfolio: one scan settles it. A cheap decisive negative is worth having now, because it removes a row from the board permanently at almost no cost.
 

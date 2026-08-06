@@ -82,7 +82,7 @@ already-demonstrated ligandability likely lives," which is a stronger, experimen
 
 ### 5a. ⭐ WHAT DOMAIN DID THE PUBLISHED HITS ACT ON? — the construct, quoted verbatim (2026-08-03)
 
-**Why this section exists.** The EMC fusion **replaces NR4A3's AF-1 (residues 1–260)** with EWSR1's
+**Why this section exists.** The EMC fusion **replaces NR4A3's AF-1 (residues 1–260)** with EWSR1's ⛔ **PREMISE CORRECTED 2026-08-06 (route framing audit).** *Superseded, retained: the fusion "replaces"/"deletes" NR4A3's AF-1.* **MEASURED:** NR4A3 transcript exons 1-2 are entirely NON-CODING, so "NR4A3 exon 3" IS residue 1 and `EWSR1(1-264)::NR4A3(1-626)` **RETAINS** the AF-1, DBD, hinge and LBD — in all 9 DBD-retaining breakpoint windows. EWSR1-LC is **additive**. RT-6MP is now closed on DIRECTION OF EFFECT (6-MP enhances NR4A3; the fusion is gain-of-function), `closure_kind: premise_false`, not `definitional`. See [`systems/AUDIT-2026-08-06-routes.md`](../../systems/AUDIT-2026-08-06-routes.md) X9.
 low-complexity region, and the only *approved-drug* NOR-1 pharmacology — 6-mercaptopurine — acts through
 that AF-1 and **not** the LBD ([Wansa et al., *J Biol Chem* 2003;278(27):24776–90, PMID
 12709428](https://pubmed.ncbi.nlm.nih.gov/12709428/); the closure is owned by

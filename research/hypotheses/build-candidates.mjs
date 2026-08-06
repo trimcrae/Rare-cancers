@@ -164,10 +164,10 @@ const CANDIDATES = [
 
   { id: "venetoclax-bcl2", drug: "Venetoclax", drugClass: "BCL-2 inhibitor (BH3-mimetic)", regulatoryStatus: "FDA/EMA-approved (CLL, AML)", notTriedInEmc: true,
     mechanism: "Inhibits anti-apoptotic BCL-2 to lower the apoptotic threshold.",
-    emcVulnerability: { claim: "Patient-derived EMC ex vivo models are sensitive to venetoclax, implying an apoptotic vulnerability.", sourceId: "emcModels2023" },
+    emcVulnerability: { claim: "Patient-derived EMC ex vivo models show venetoclax activity ONLY IN COMBINATION — the primary text records no monotherapy response in the validation. Any apoptotic-vulnerability inference rests on combination additivity/synergy, not on single-agent sensitivity.", sourceId: "emcModels2023" },
     supportingEvidence: [
-      { claim: "Venetoclax sensitivity was identified and validated (with doxorubicin and carfilzomib, including synergies) across two patient-derived EMC ex vivo models.", context: "EMC (ex vivo)", sourceId: "emcModels2023" } ],
-    rationale: "An approved BH3-mimetic with validated activity in two independent EMC models; a rational, biomarker-testable (BCL-2) repurposing lead, especially in combination.",
+      { claim: "Venetoclax showed NO monotherapy response in the EMC validation (Bangerter 2023: \"no response to venetoclax as a monotherapy in the validation\"). What is supported is COMBINATION activity only — dose-dependent additive and synergistic effects with carfilzomib and doxorubicin, synergistic in USZ20-EMC1 and additive in USZ22-EMC2. Corrected 2026-08-06 by the route framing audit; the prior wording claimed monotherapy sensitivity 'validated across two models', which the primary text refutes.", context: "EMC (ex vivo)", sourceId: "emcModels2023" } ],
+    rationale: "An approved BH3-mimetic with COMBINATION-ONLY activity in EMC ex vivo models — no monotherapy response was observed, and the 40-drug discovery panel ran on USZ20-EMC1 alone; a biomarker-testable (BCL-2) repurposing lead, especially in combination.",
     evidenceTier: "T1-preclinical-or-analog", speculationLevel: "moderate",
     keyRisks: "Ex vivo only; BCL-2 dependence not yet confirmed in vivo; tumour-lysis/cytopenia risks.",
     openQuestions: ["Does venetoclax (alone or with anthracycline) show activity in EMC in vivo?"],
