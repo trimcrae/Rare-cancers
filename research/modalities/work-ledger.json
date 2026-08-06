@@ -8,20 +8,20 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-08-06T01:37:34Z",
-  "_generated_et": "9:37 PM ET Aug 5, 2026",
+  "_generated_utc": "2026-08-06T04:45:10Z",
+  "_generated_et": "12:45 AM ET Aug 6, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-08-06T02:25:34Z",
-  "_stale_after_et": "10:25 PM ET Aug 5, 2026",
+  "_stale_after_utc": "2026-08-06T05:33:10Z",
+  "_stale_after_et": "1:33 AM ET Aug 6, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
       "scanner": "plan_items",
       "ran": true,
-      "found": 20,
+      "found": 13,
       "error": null,
-      "how": "scanned nr4a3-program-map.md lines 3876-4849 for `[ ]`/`[~]`/`[!]` items; `[x]` and `[\u2013]` are not owed and are skipped"
+      "how": "scanned plan.md lines 30-1003 for `[ ]`/`[~]`/`[!]` items; `[x]` and `[\u2013]` are not owed and are skipped"
     },
     {
       "scanner": "fanout_units",
@@ -55,72 +55,6 @@
   "_scanner_coverage_is_the_claim": "a category with no scanner is invisible, and invisible looks exactly like healthy. What is and is NOT scanned is listed in work_ledger.py's module docstring; the SCANNERS tuple is the machine copy and the tests assert they agree.",
   "entries": [
     {
-      "id": "plan:validation-b-mini-all-binding-graded-cooperativity-edge-8-8-3-2-22-cum",
-      "scanner": "plan_items",
-      "what": "[RUNG 2] Validation B-mini \u2014 all-binding graded cooperativity edge \u2014 ~$8.8 ($3.2\u201322) \u00b7 Cum. ~$13. The Wurz",
-      "owner": null,
-      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "blocked",
-      "evidence_fingerprint": "~",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
-      "last_evidence_what": "roadmap ORDERED PLAN marker `[~]` (in progress)",
-      "next_evidence_due_utc": null,
-      "next_evidence_due_et": null,
-      "blocked_by": [
-        "gate text in the plan item: blocked by",
-        "gate text in the plan item: rung heading: RUNG 2 \u2014 cheap precision + cheap probes *(only if Rung 1 = GO)*"
-      ],
-      "attempts": [],
-      "n_fruitless_attempts": 0,
-      "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
-      "hosts_points_at": null,
-      "cost_points_at": null,
-      "price_points_at": null,
-      "blocked_cause": "external-gate",
-      "board_group": "plan",
-      "first_seen_utc": "2026-07-28T00:25:47Z",
-      "unreadable": null,
-      "notes": [
-        "rung: RUNG 2 \u2014 cheap precision + cheap probes *(only if Rung 1 = GO)*"
-      ]
-    },
-    {
-      "id": "plan:rung-2b-4-fs-adoption-matched-re-calibration-4-4-1-6-11-cum-17-propose",
-      "scanner": "plan_items",
-      "what": "[RUNG 2] Rung 2b \u2014 4 fs adoption + matched re-calibration \u2014 ~$4.4 ($1.6\u201311) \u00b7 Cum. ~$17 \u00b7 PROPOSED, needs a",
-      "owner": null,
-      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "blocked",
-      "evidence_fingerprint": " ",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
-      "last_evidence_what": "roadmap ORDERED PLAN marker `[ ]` (pending)",
-      "next_evidence_due_utc": null,
-      "next_evidence_due_et": null,
-      "blocked_by": [
-        "gate text in the plan item: **go/no-go:**",
-        "gate text in the plan item: rung heading: RUNG 2 \u2014 cheap precision + cheap probes *(only if Rung 1 = GO)*"
-      ],
-      "attempts": [],
-      "n_fruitless_attempts": 0,
-      "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
-      "hosts_points_at": null,
-      "cost_points_at": null,
-      "price_points_at": null,
-      "blocked_cause": "external-gate",
-      "board_group": "plan",
-      "first_seen_utc": "2026-07-28T00:25:47Z",
-      "unreadable": null,
-      "notes": [
-        "rung: RUNG 2 \u2014 cheap precision + cheap probes *(only if Rung 1 = GO)*"
-      ]
-    },
-    {
       "id": "plan:validation-b-full-component-calibration-cube-22-5-6-67-cum-40-module-3",
       "scanner": "plan_items",
       "what": "[RUNG 3] Validation B-full \u2014 component-calibration cube \u2014 ~$22.5 ($6\u201367) \u00b7 Cum. ~$40. \u2605 Module 3",
@@ -151,71 +85,6 @@
       "unreadable": null,
       "notes": [
         "rung: RUNG 3 \u2014 expand the benchmarks *(only if Rung 2 probes look promising)*"
-      ]
-    },
-    {
-      "id": "plan:nr-v04-covalent-feasibility-panel-result-under-correction-its-go-does-",
-      "scanner": "plan_items",
-      "what": "[RUNG 3] NR-V04 covalent feasibility panel \u2014 \u26a0 RESULT UNDER CORRECTION; ITS GO DOES NOT STAND \u2014",
-      "owner": null,
-      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "blocked",
-      "evidence_fingerprint": "!",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
-      "last_evidence_what": "roadmap ORDERED PLAN marker `[!]` (result under correction)",
-      "next_evidence_due_utc": null,
-      "next_evidence_due_et": null,
-      "blocked_by": [
-        "gate text in the plan item: only if",
-        "gate text in the plan item: rung heading: RUNG 3 \u2014 expand the benchmarks *(only if Rung 2 probes look promising)*"
-      ],
-      "attempts": [],
-      "n_fruitless_attempts": 0,
-      "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
-      "hosts_points_at": null,
-      "cost_points_at": null,
-      "price_points_at": null,
-      "blocked_cause": "external-gate",
-      "board_group": "plan",
-      "first_seen_utc": "2026-07-28T00:25:47Z",
-      "unreadable": null,
-      "notes": [
-        "rung: RUNG 3 \u2014 expand the benchmarks *(only if Rung 2 probes look promising)*"
-      ]
-    },
-    {
-      "id": "plan:step-1-fan-out-cmpd19-congeneric-map-36-15-80-19-rbfe-edges-13-7-ref-g",
-      "scanner": "plan_items",
-      "what": "[RUNG 4] Step 1 fan-out \u2014 cmpd19 congeneric map \u2014 ~$36 ($15\u201380; \u224819 RBFE edges \u00d7 ~13.7 ref GPU-h) \u00b7",
-      "owner": null,
-      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "blocked",
-      "evidence_fingerprint": "~",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
-      "last_evidence_what": "roadmap ORDERED PLAN marker `[~]` (in progress)",
-      "next_evidence_due_utc": null,
-      "next_evidence_due_et": null,
-      "blocked_by": [
-        "gate text in the plan item: **gate:**"
-      ],
-      "attempts": [],
-      "n_fruitless_attempts": 0,
-      "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
-      "hosts_points_at": null,
-      "cost_points_at": null,
-      "price_points_at": null,
-      "blocked_cause": "external-gate",
-      "board_group": "plan",
-      "first_seen_utc": "2026-07-28T00:25:47Z",
-      "unreadable": null,
-      "notes": [
-        "rung: RUNG 4 \u2014 warhead map, differential atlas, retrospective gate"
       ]
     },
     {
@@ -313,71 +182,6 @@
       ]
     },
     {
-      "id": "plan:nr-v04-retrospective-preregistered-holdout-21-4-8-67-cum-104-full-ense",
-      "scanner": "plan_items",
-      "what": "[RUNG 4] NR-V04 retrospective \u2014 preregistered holdout \u2014 ~$21 ($4.8\u201367) \u00b7 Cum. ~$104. Full ensembles",
-      "owner": null,
-      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "blocked",
-      "evidence_fingerprint": " ",
-      "last_evidence_utc": "2026-07-28T00:25:47Z",
-      "last_evidence_et": "8:25 PM ET Jul 27, 2026",
-      "last_evidence_what": "roadmap ORDERED PLAN marker `[ ]` (pending)",
-      "next_evidence_due_utc": null,
-      "next_evidence_due_et": null,
-      "blocked_by": [
-        "gate text in the plan item: **go/no-go:**"
-      ],
-      "attempts": [],
-      "n_fruitless_attempts": 0,
-      "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
-      "hosts_points_at": null,
-      "cost_points_at": null,
-      "price_points_at": null,
-      "blocked_cause": "external-gate",
-      "board_group": "plan",
-      "first_seen_utc": "2026-07-28T00:25:47Z",
-      "unreadable": null,
-      "notes": [
-        "rung: RUNG 4 \u2014 warhead map, differential atlas, retrospective gate"
-      ]
-    },
-    {
-      "id": "plan:5a-ks-wedge-confirmation-pilot-first-kill-switch-causal-result-23-3-1-",
-      "scanner": "plan_items",
-      "what": "[RUNG 5] 5a-KS \u00b7 Wedge confirmation \u2014 pilot-first KILL-SWITCH + causal RESULT \u2014 ~$23 ($3.1\u201397) \u00b7 Cum. ~$152.",
-      "owner": null,
-      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "blocked",
-      "evidence_fingerprint": "~",
-      "last_evidence_utc": "2026-07-31T01:23:06Z",
-      "last_evidence_et": "9:23 PM ET Jul 30, 2026",
-      "last_evidence_what": "roadmap ORDERED PLAN marker `[~]` (in progress)",
-      "next_evidence_due_utc": null,
-      "next_evidence_due_et": null,
-      "blocked_by": [
-        "gate text in the plan item: only if",
-        "gate text in the plan item: rung heading: RUNG 5 \u2014 mechanism-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*"
-      ],
-      "attempts": [],
-      "n_fruitless_attempts": 0,
-      "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "this item names a gate in prose, and a prose gate is not machine-readable. It is recorded BLOCKED with the gate's own words so a reader can action it, and is never auto-dispatched \u2014 under-dispatching is the safe direction when the alternative is an unauthorised rental.",
-      "hosts_points_at": null,
-      "cost_points_at": null,
-      "price_points_at": null,
-      "blocked_cause": "external-gate",
-      "board_group": "plan",
-      "first_seen_utc": "2026-07-31T01:23:06Z",
-      "unreadable": null,
-      "notes": [
-        "rung: RUNG 5 \u2014 mechanism-first prospective ladder *(the flagship, gated mid-ladder by the causal kill-switch)*"
-      ]
-    },
-    {
       "id": "plan:5c-explicit-ternary-ensemble-refinement-21-1-9-85-endpoint-md-24-200-l",
       "scanner": "plan_items",
       "what": "[RUNG 5] 5c \u00b7 Explicit ternary-ensemble refinement \u2014 ~$21 ($1.9\u201385; endpoint MD, 24\u2013~200 legs at ~1.38 ref",
@@ -466,36 +270,6 @@
       "blocked_cause": null,
       "board_group": "plan",
       "first_seen_utc": "2026-08-03T01:07:23Z",
-      "unreadable": null,
-      "notes": [
-        "rung: RUNG S \u2014 the two SCOPE rungs (`R13`, `R14`): claim-ceiling conditions, deliberately OFF the `Cum.` chain"
-      ]
-    },
-    {
-      "id": "plan:r14-a2-repair-the-anti-target-receptor-preparation-then-re-run-the-sel",
-      "scanner": "plan_items",
-      "what": "[RUNG S] R14-a2 \u00b7 REPAIR the anti-target receptor PREPARATION, then re-run the self-control \u2014 $0 (0.0 ref-GPU-h) \u00b7 needs no nod \u00b7 CI/CPU. Serves R14. \u2b51 Created",
-      "owner": null,
-      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
-      "state": "open",
-      "evidence_fingerprint": " ",
-      "last_evidence_utc": "2026-08-03T11:31:51Z",
-      "last_evidence_et": "7:31 AM ET Aug 3, 2026",
-      "last_evidence_what": "roadmap ORDERED PLAN marker `[ ]` (pending)",
-      "next_evidence_due_utc": null,
-      "next_evidence_due_et": null,
-      "blocked_by": [],
-      "attempts": [],
-      "n_fruitless_attempts": 0,
-      "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "no ORDERED PLAN item maps to a dispatchable workflow: the plan names science, not CI. This entry is recorded UNOWNED and stays on the board until its marker reaches `[x]` \u2014 the ledger does not invent a dispatch it cannot justify.",
-      "hosts_points_at": null,
-      "cost_points_at": null,
-      "price_points_at": null,
-      "blocked_cause": null,
-      "board_group": "plan",
-      "first_seen_utc": "2026-08-03T11:31:51Z",
       "unreadable": null,
       "notes": [
         "rung: RUNG S \u2014 the two SCOPE rungs (`R13`, `R14`): claim-ceiling conditions, deliberately OFF the `Cum.` chain"
@@ -2127,7 +1901,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 13705 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 13892 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2157,7 +1931,7 @@
       "first_seen_utc": "2026-07-30T08:11:17Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 13694 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 13882 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2514,16 +2288,16 @@
     {
       "id": "lane:step1-fanout",
       "scanner": "lanes",
-      "what": "Step 1 congeneric RBFE fan-out (Vast) \u2014 IDLE-WITHIN-GRACE",
+      "what": "Step 1 congeneric RBFE fan-out (Vast) \u2014 IDLE-UNEXPECTED",
       "owner": "step1-fanout-autoscale.yml",
       "owner_note": null,
-      "state": "dispatched",
-      "evidence_fingerprint": "IDLE-WITHIN-GRACE|0a6f4dfd6d350671|step1-fanout-progress.json `_generated_utc`",
-      "last_evidence_utc": "2026-08-05T10:31:37Z",
-      "last_evidence_et": "6:31 AM ET Aug 5, 2026",
+      "state": "open",
+      "evidence_fingerprint": "IDLE-UNEXPECTED|0a6f4dfd6d350671|step1-fanout-progress.json `_generated_utc`",
+      "last_evidence_utc": "2026-08-06T01:36:44Z",
+      "last_evidence_et": "9:36 PM ET Aug 5, 2026",
       "last_evidence_what": "step1-fanout-progress.json `_generated_utc`",
-      "next_evidence_due_utc": "2026-08-05T11:16:37Z",
-      "next_evidence_due_et": "7:16 AM ET Aug 5, 2026",
+      "next_evidence_due_utc": "2026-08-06T02:21:44Z",
+      "next_evidence_due_et": "10:21 PM ET Aug 5, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -2579,12 +2353,29 @@
           "why": "advance lane step1-fanout out of ADVANCING",
           "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
           "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
+        },
+        {
+          "utc": "2026-08-06T04:45:10Z",
+          "et": "12:45 AM ET Aug 6, 2026",
+          "action": "workflow_dispatch step1-fanout-autoscale.yml {}",
+          "fingerprint_at_dispatch": "IDLE-UNEXPECTED|0a6f4dfd6d350671|step1-fanout-progress.json `_generated_utc`",
+          "why": "advance lane step1-fanout out of IDLE-UNEXPECTED",
+          "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+          "result": "dispatch requested \u2014 the outcome is whether the fingerprint moves, not what the dispatch returned. An error's own explanation has been wrong before; the census is the only thing that adjudicates this."
         }
       ],
-      "n_fruitless_attempts": 0,
+      "n_fruitless_attempts": 1,
       "retry_budget": 3,
-      "auto_action": null,
-      "auto_action_why_none": "already dispatched and still inside the acknowledgement window",
+      "auto_action": {
+        "kind": "workflow_dispatch",
+        "workflow": "step1-fanout-autoscale.yml",
+        "ref": "main",
+        "inputs": {},
+        "why": "advance lane step1-fanout out of IDLE-UNEXPECTED",
+        "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+        "what": "one supervision tick of the step-1 congeneric RBFE fan-out: collect, nudge, place"
+      },
+      "auto_action_why_none": null,
       "hosts_points_at": "step1-fanout-progress.json:instances",
       "cost_points_at": "step1-fanout-progress.json:realised_usd_so_far",
       "price_points_at": "step1-fanout-market-hold.json",
@@ -2593,7 +2384,7 @@
       "first_seen_utc": "2026-07-28T00:25:47Z",
       "unreadable": null,
       "notes": [
-        "no hosts and 1 unit(s) unfinished, but the last evidence is only 1 min old (grace 45 min) \u2014 a hand-off in progress looks like this."
+        "NO HOSTS, 1 unit(s) unfinished, NO price hold and NO parked reason \u2014 and nothing has happened for 188 min (threshold 45 min; last: step1-fanout-progress.json `_generated_utc` at 9:36 PM ET Aug 5, 2026). This is the closure-triangle shape: a lane with no live instance at all, which every liveness check reads as 'nothing to watch' and which is indistinguishable from finished. It is NOT finished. Som"
       ]
     },
     {
@@ -3070,24 +2861,33 @@
       ]
     }
   ],
-  "_dispatch_plan": [],
+  "_dispatch_plan": [
+    {
+      "kind": "workflow_dispatch",
+      "workflow": "step1-fanout-autoscale.yml",
+      "ref": "main",
+      "inputs": {},
+      "why": "advance lane step1-fanout out of IDLE-UNEXPECTED",
+      "gated_by": "congeneric_fanout.unit_ceiling_components (the per-unit dollar ceiling AND the absolute buy line) inside the placer, plus relaunch_market_gate for every single-host rental",
+      "what": "one supervision tick of the step-1 congeneric RBFE fan-out: collect, nudge, place",
+      "serves": [
+        "lane:step1-fanout"
+      ],
+      "why_each": [
+        "lane:step1-fanout: advance lane step1-fanout out of IDLE-UNEXPECTED"
+      ]
+    }
+  ],
   "_dispatch_plan_is_a_request": "this module NEVER shells out. The workflow executes these with `gh workflow run`; each names a workflow and no price.",
   "n_by_state": {
-    "blocked": 20,
+    "blocked": 14,
     "open": 14,
-    "done": 25,
-    "dispatched": 1
+    "done": 25
   },
   "blocked": [
-    "plan:validation-b-mini-all-binding-graded-cooperativity-edge-8-8-3-2-22-cum",
-    "plan:rung-2b-4-fs-adoption-matched-re-calibration-4-4-1-6-11-cum-17-propose",
     "plan:validation-b-full-component-calibration-cube-22-5-6-67-cum-40-module-3",
-    "plan:nr-v04-covalent-feasibility-panel-result-under-correction-its-go-does-",
-    "plan:step-1-fan-out-cmpd19-congeneric-map-36-15-80-19-rbfe-edges-13-7-ref-g",
     "plan:step-1-fan-out-replicates-on-the-open-cycle-the-map-s-two-open-caveats",
     "plan:the-generation-matched-null-s-generative-arm-control-c-the-one-that-ad",
-    "plan:nr-v04-retrospective-preregistered-holdout-21-4-8-67-cum-104-full-ense",
-    "plan:5a-ks-wedge-confirmation-pilot-first-kill-switch-causal-result-23-3-1-",
     "plan:5c-explicit-ternary-ensemble-refinement-21-1-9-85-endpoint-md-24-200-l",
     "plan:5d-local-ternary-fep-21-3-1-87-3-6-ternary-comparisons-cum-169-alchemy",
     "plan:r14-b-matched-ar-mr-cryptic-pocket-ensembles-the-0-detector-3-41-1-10-",
@@ -3101,20 +2901,13 @@
     "rung:post_submit"
   ],
   "unowned": [
-    "plan:validation-b-mini-all-binding-graded-cooperativity-edge-8-8-3-2-22-cum",
-    "plan:rung-2b-4-fs-adoption-matched-re-calibration-4-4-1-6-11-cum-17-propose",
     "plan:validation-b-full-component-calibration-cube-22-5-6-67-cum-40-module-3",
-    "plan:nr-v04-covalent-feasibility-panel-result-under-correction-its-go-does-",
-    "plan:step-1-fan-out-cmpd19-congeneric-map-36-15-80-19-rbfe-edges-13-7-ref-g",
     "plan:step-1-fan-out-replicates-on-the-open-cycle-the-map-s-two-open-caveats",
     "plan:the-generation-matched-null-s-generative-arm-control-c-the-one-that-ad",
     "plan:nr-v04-retrospective-preregistered-holdout-held-2026-07-25-it-could-no",
-    "plan:nr-v04-retrospective-preregistered-holdout-21-4-8-67-cum-104-full-ense",
-    "plan:5a-ks-wedge-confirmation-pilot-first-kill-switch-causal-result-23-3-1-",
     "plan:5c-explicit-ternary-ensemble-refinement-21-1-9-85-endpoint-md-24-200-l",
     "plan:5d-local-ternary-fep-21-3-1-87-3-6-ternary-comparisons-cum-169-alchemy",
     "plan:r13-b-apo-co-fold-of-the-two-corrected-fusion-constructs-0-66-0-28-1-6",
-    "plan:r14-a2-repair-the-anti-target-receptor-preparation-then-re-run-the-sel",
     "plan:r14-b-matched-ar-mr-cryptic-pocket-ensembles-the-0-detector-3-41-1-10-",
     "plan:g-open-per-paralogue-120-300-only-to-make-affinity-selectivity-uncondi",
     "plan:conditional-abfe-pose-plausibility-80-200-raw-values-t4l-discrepancy-s",
@@ -3136,17 +2929,17 @@
     "rung:genmatched_null_generative_arm"
   ],
   "_self": {
-    "now_et": "9:37 PM ET Aug 5, 2026",
-    "generated_et": "9:37 PM ET Aug 5, 2026",
-    "stale_after_et": "10:25 PM ET Aug 5, 2026",
+    "now_et": "12:45 AM ET Aug 6, 2026",
+    "generated_et": "12:45 AM ET Aug 6, 2026",
+    "stale_after_et": "1:33 AM ET Aug 6, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 10:25 PM ET Aug 5, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 1:33 AM ET Aug 6, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (9:29 PM ET Aug 5, 2026) refreshed the artifact to 9:37 PM ET Aug 5, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (12:43 AM ET Aug 6, 2026) refreshed the artifact to 12:45 AM ET Aug 6, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
