@@ -27,6 +27,21 @@ flagged.
 Examples:
   python patient_neoepitopes.py --junction-seq "SSSYGQQ|IVRTDSLDLR" --hla "A*11:01,B*08:01"
   python patient_neoepitopes.py --ewsr1-exon 7 --nr4a3-exon 3 --hla "A*02:01,B*07:02" --out demo.json
+
+⚠ READ THE EXON FLAGS BEFORE COPYING THAT LINE (route framing audit, 2026-08-06).
+`--ewsr1-exon` / `--nr4a3-exon` are **CODING**-exon ranks, and the arithmetic below
+(`offsets[e-1]` / `offsets[n-2]`) is correct for that reading. But "EWSR1 e7 :: NR4A3 e3" is how
+this repo names the reported fusion types by their **TRANSCRIPT** exons, and the example above
+passes those labels straight in. Where a leading exon is non-coding the two numbering schemes
+differ, so the example silently specifies a different junction from the one its name implies.
+
+⛔ THIS IS THE SAME CONFUSION THAT PRODUCED THE 2026-08-03 OFF-BY-TWO — a coding-exon offset table
+indexed with a transcript exon number, sliding to a neighbour instead of raising. There it reached
+committed artifacts (see `fusion-neoantigen-retraction.json`, and `junction_aso.py`, fixed
+2026-08-06). Here the INTERFACE is right and only the example is misleading — which is why nothing
+caught it: a correct function with a wrong worked example fails no test and lints clean.
+`fusion_breakpoints.resume_offset`/`cut_offset` are the canonical raising helpers; this module is
+deliberately pure-stdlib and standalone, so it cannot import them.
 """
 
 import argparse

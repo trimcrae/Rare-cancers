@@ -379,6 +379,14 @@ throughout**. So the two junction panels agreed with each other, and the paper r
 confirmation: *"Both share the NR4A3 exon-3 right-side seam … **as expected**."* **Two artifacts agreeing
 is not evidence when one defect produces both.**
 
+⭐ **The sharpest part: the repo already knew how to handle this, and did it — for the other lane.**
+`fusion-breakpoint-neoantigens.json` and `fusion-neoantigen-predictions.json` both carry a
+`⛔_RETRACTED_SEAMS` banner, and `fusion-neoantigen-retraction.json` reads *"RETRACTED — DO NOT QUOTE ANY
+PEPTIDE."* The neoantigen lane's retraction hygiene is exemplary. **The ASO lane runs the same defective
+module and got none of it.** So this is not a repo that lacked the discipline; it is a retraction that
+reached one consumer of a shared defect and not the other — the same shape as
+`lint_claims.py`'s own note that *"a retraction that reaches some of its copies is not a retraction."*
+
 ⛔ **And three live documents, the binding roadmap among them, asserted the ASO lane was unaffected.** That
 claim was true of `junction_breakpoint_scan.py`, which deliberately refuses the exon→CDS mapping — and
 false of the lane, because `junction_aso.py`'s `FUSION_JUNCTION_MODE=real` path does the mapping with the
@@ -449,10 +457,16 @@ Recorded because the next audit will hit the same traps.
 2. **A `distinct_from` completeness matrix is not a finding.** The schema says *"objects this one is
    routinely confused with"* — not exhaustive. Most routes are undistinguished from most siblings by
    design.
-3. **My first `revisit_trigger` sweep used a field that does not exist** (`technologies.retires`; the
+3. **A third module looked like it carried the same off-by-two, and does not.** `patient_neoepitopes.py`
+   has the identical `offsets[n_exon - 2]` pattern — but its CLI declares those flags as **coding**-exon
+   ranks, for which the arithmetic is right. What IS wrong is narrower and easy to miss: its own worked
+   example passes `--nr4a3-exon 3`, the repo's *transcript*-exon name for the canonical fusion, into a
+   coding-exon parameter. **A correct function with a wrong worked example fails no test and lints
+   clean.** Documented in place rather than "fixed".
+4. **My first `revisit_trigger` sweep used a field that does not exist** (`technologies.retires`; the
    real one is `unblocks.blockers`) and reported 29 false positives before I checked. Re-run
    correctly, it found 4 real ones.
-4. **A "required" field can be satisfied by an empty array.** The closed routes carry
+5. **A "required" field can be satisfied by an empty array.** The closed routes carry
    `revisit_trigger: []` — schema-valid and honest. Truthiness and presence are different questions.
 
 The common shape: **every one was a mechanical result that looked like a finding until it was checked
