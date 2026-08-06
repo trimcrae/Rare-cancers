@@ -42,21 +42,21 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 | blocker | kind | routes held | routes that retire it | what would retire it |
 |---|---|---:|---:|---|
 | **BLK-NO-EMC-DATA**<br/>EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRIS | `insufficient_data` | 15 | 0 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 9 | 7 | **permanent — nothing** |
+| **BLK-NOT-FUSION-SELECTIVE**<br/>The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half) | `fundamental_biological_limit` | 12 | 7 | **permanent — nothing** |
+| **BLK-R4-BINDS**<br/>R4 — nothing is known to bind the cryptic pocket at all | `requires_wet_lab` | 8 | 4 | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-PARALOGUE-DDG**<br/>The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT) | `requires_better_simulation_accuracy` | 7 | 25 | `TECH-FE-CRYPTIC-POCKET` |
-| **BLK-R4-BINDS**<br/>R4 — nothing is known to bind the cryptic pocket at all | `requires_wet_lab` | 7 | 4 | `TECH-EMC-MODEL-ACCESS` |
-| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 6 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NO-WET-LAB**<br/>No wet lab and no collaborator — an ask needs a self-interested taker before its size matt | `requires_external_collaboration` | 7 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-TERNARY-GEOMETRY**<br/>Ternary geometry — assembly, E3, exit vector, ubiquitin transfer | `requires_better_structure_prediction` | 5 | 24 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 | **BLK-ANTIGEN-COLD**<br/>EMC is antigen-cold, and the fusion junction is a weak peptide-HLA | `fundamental_biological_limit` | 5 | 0 | **permanent — nothing** |
 | **BLK-VECTOR-DELIVERY**<br/>Vector delivery (gene-therapy payload into a solid tumour) | `requires_future_technology` | 3 | 0 | `TECH-VECTOR-DELIVERY` |
+| **BLK-INDUCED-COMPLEX**<br/>An induced ternary/bivalent complex is still required (a second protein must be placed) | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-REACH-CATEGORICAL**<br/>The categorical (covalent) window at C397 does not survive the E3-arm-free reach enumerati | `scientific_uncertainty` | 2 | 0 | `TECH-EXPOSURE-CRITERION` |
-| **BLK-INDUCED-COMPLEX**<br/>An induced ternary/bivalent complex is still required (a second protein must be placed) | `requires_better_structure_prediction` | 2 | 1 | `TECH-COFOLD-ASSEMBLY` |
+| **BLK-UNSIZED-REQUIREMENT**<br/>Nobody has stated how much selectivity the route would need, so 'the requirement is smalle | `scientific_uncertainty` | 2 | 0 | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nob… |
 | **BLK-ENDPOINT-MD**<br/>Endpoint-MD selectivity readout (E1) returns null | `no_known_assay` | 1 | 0 | `TECH-E1-POWERED` |
 | **BLK-PARALOGUE-CONTROL**<br/>The paralogue-discrimination positive control (NR-V04) is discordant | `no_known_assay` | 1 | 0 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
 | **BLK-FUNCTIONAL-ACTIONABILITY**<br/>Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent act | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-DELIVERY**<br/>Tumour delivery of an oligonucleotide or a vector | `requires_future_technology` | 1 | 0 | `TECH-OLIGO-DELIVERY` |
 | **BLK-CLASS-INHERITANCE**<br/>Class inheritance, not an EMC measurement — no NR4A3 fusion has been tested for the phenot | `insufficient_data` | 1 | 0 | `TECH-VIRTUAL-CELL` |
-| **BLK-UNSIZED-REQUIREMENT**<br/>Nobody has stated how much selectivity the route would need, so 'the requirement is smalle | `scientific_uncertainty` | 1 | 0 | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nob… |
 | **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED**<br/>The program's only binary selectivity known-answer control is built and staged and has nev | `requires_authorization` | 1 | 0 | Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that… |
 
 ## Detail
@@ -78,9 +78,20 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 
 - **kind:** `fundamental_biological_limit` · **PERMANENT**
 - **a statement about:** what the molecule can and cannot tell apart
-- **held by (9):** RT-B7H3, RT-CART-SURFACE, RT-DEGRADER, RT-EWSR1-PROTEIN, RT-FAP-RLT, RT-FET-LC-LIGAND, RT-HDAC-BET, RT-MONOVALENT, RT-PRAME-IMMTAC
+- **held by (12):** RT-B7H3, RT-CART-SURFACE, RT-DEGRADER, RT-EWSR1-PROTEIN, RT-FAP-RLT, RT-FET-LC-LIGAND, RT-GLUE, RT-HDAC-BET, RT-MONOVALENT, RT-PRAME-IMMTAC, RT-RIPTAC, RT-UBIQ-SELECTIVE
 - **retired by route (7):** RT-ASO, RT-ICI-TKI, RT-JUNCTION-NEOANTIGEN, RT-PANNR4A-EXVIVO, RT-RIBOZYME, RT-SSTR2, RT-TCR-IMMTAC
 - **owner:** `research/manuscripts/target-route-options.md#3--what-genuinely-sidesteps-the-paralogue-problem-and-what-merely-relocates-it`
+
+### BLK-R4-BINDS
+
+**R4 — nothing is known to bind the cryptic pocket at all**
+
+- **kind:** `requires_wet_lab`
+- **a statement about:** an unanswered requirement that needs a bench
+- **held by (8):** RT-ANDGATE, RT-COVALENT-PROBE, RT-DEGRADER, RT-GLUE, RT-MONOVALENT, RT-RIPTAC, RT-TCIP, RT-UBIQ-SELECTIVE
+- **retired by route (4):** RT-ATR-ASSESS, RT-PPARG-DOWNSTREAM, RT-SYNLETH-DEP, RT-TRABECTEDIN-PPARG
+- **retired by technology:** TECH-EMC-MODEL-ACCESS
+- **owner:** `research/manuscripts/nr4a3-program-map.md#32--the-rv-coverage-matrix--where-the-holes-are`
 
 ### BLK-PARALOGUE-DDG
 
@@ -93,24 +104,13 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-FE-CRYPTIC-POCKET
 - **owner:** `research/manuscripts/nr4a3-program-map.md#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged`
 
-### BLK-R4-BINDS
-
-**R4 — nothing is known to bind the cryptic pocket at all**
-
-- **kind:** `requires_wet_lab`
-- **a statement about:** an unanswered requirement that needs a bench
-- **held by (7):** RT-ANDGATE, RT-COVALENT-PROBE, RT-DEGRADER, RT-GLUE, RT-MONOVALENT, RT-RIPTAC, RT-TCIP
-- **retired by route (4):** RT-ATR-ASSESS, RT-PPARG-DOWNSTREAM, RT-SYNLETH-DEP, RT-TRABECTEDIN-PPARG
-- **retired by technology:** TECH-EMC-MODEL-ACCESS
-- **owner:** `research/manuscripts/nr4a3-program-map.md#32--the-rv-coverage-matrix--where-the-holes-are`
-
 ### BLK-NO-WET-LAB
 
 **No wet lab and no collaborator — an ask needs a self-interested taker before its size matters**
 
 - **kind:** `requires_external_collaboration`
 - **a statement about:** the operating regime, not any route's science
-- **held by (6):** RT-ASO-ASK, RT-ATR-PANEL, RT-COVALENT-PROBE, RT-SSTR2, RT-TCIP, RT-TRABECTEDIN-PPARG
+- **held by (7):** RT-ASO-ASK, RT-ATR-PANEL, RT-COVALENT-PROBE, RT-RIPTAC, RT-SSTR2, RT-TCIP, RT-TRABECTEDIN-PPARG
 - **retired by route (1):** RT-METHODS-PAPER
 - **retired by technology:** TECH-CLOUD-WET-LAB, TECH-EMC-MODEL-ACCESS
 - **owner:** `research/manuscripts/what-a-civilian-can-buy.mdNone`
@@ -147,6 +147,17 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-VECTOR-DELIVERY
 - **owner:** `research/manuscripts/emc-post-degrader-options.md#routes-813--why-each-sits-in-tier-3`
 
+### BLK-INDUCED-COMPLEX
+
+**An induced ternary/bivalent complex is still required (a second protein must be placed)**
+
+- **kind:** `requires_better_structure_prediction`
+- **a statement about:** the same generation problem as the degrader, with a different second terminus
+- **held by (3):** RT-AF3-INTERFACE, RT-RIPTAC, RT-TCIP
+- **retired by route (1):** RT-MONOVALENT
+- **retired by technology:** TECH-COFOLD-ASSEMBLY
+- **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#1--the-route-stated-precisely--and-the-split-that-decides-it`
+
 ### BLK-REACH-CATEGORICAL
 
 **The categorical (covalent) window at C397 does not survive the E3-arm-free reach enumeration on the conservative convention**
@@ -159,16 +170,16 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **⭐ retired by an action we can take:** Re-run the reach enumeration under a criterion that passes its own positive control, and report the result as a rank rather than a verdict until one exists. $0.
 - **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#3--the-0-test-built-run-and-it-came-back-against-the-route`
 
-### BLK-INDUCED-COMPLEX
+### BLK-UNSIZED-REQUIREMENT
 
-**An induced ternary/bivalent complex is still required (a second protein must be placed)**
+**Nobody has stated how much selectivity the route would need, so 'the requirement is smaller' is not a claim this repo can make**
 
-- **kind:** `requires_better_structure_prediction`
-- **a statement about:** the same generation problem as the degrader, with a different second terminus
-- **held by (2):** RT-RIPTAC, RT-TCIP
-- **retired by route (1):** RT-MONOVALENT
-- **retired by technology:** TECH-COFOLD-ASSEMBLY
-- **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#1--the-route-stated-precisely--and-the-split-that-decides-it`
+- **kind:** `scientific_uncertainty`
+- **a statement about:** an absent specification, not a measured shortfall
+- **held by (2):** RT-MONOVALENT, RT-TCIP
+- **retired by route (0):** —
+- **⭐ retired by an action we can take:** State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0.
+- **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#4--effect-on-the-paralogue-requirement--reshapes-into-a-requirement-of-unquantified-size`
 
 ### BLK-ENDPOINT-MD
 
@@ -225,17 +236,6 @@ Typed with [`taxonomy/blockers.md`](../../taxonomy/blockers.md). The kinds are *
 - **retired by technology:** TECH-VIRTUAL-CELL
 - **⭐ retired by an action we can take:** State plainly, wherever the transfer argument is used, that no NR4A3 fusion has been tested for the phenotype. The blocker cannot be retired by us, but its misreading can. $0.
 - **owner:** `research/manuscripts/emc-post-degrader-options.md#route-1---atr-inhibitor-synthetic-lethality-emc-inherits-a-class-vulnerability-it-has-never-been-tested-for`
-
-### BLK-UNSIZED-REQUIREMENT
-
-**Nobody has stated how much selectivity the route would need, so 'the requirement is smaller' is not a claim this repo can make**
-
-- **kind:** `scientific_uncertainty`
-- **a statement about:** an absent specification, not a measured shortfall
-- **held by (1):** RT-MONOVALENT
-- **retired by route (0):** —
-- **⭐ retired by an action we can take:** State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0.
-- **owner:** `research/manuscripts/nr4a3-monovalent-pocket-route.md#4--effect-on-the-paralogue-requirement--reshapes-into-a-requirement-of-unquantified-size`
 
 ### BLK-SELECTIVITY-CONTROL-UNAUTHORIZED
 

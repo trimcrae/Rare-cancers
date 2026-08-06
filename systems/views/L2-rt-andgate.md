@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-ANDGATE — AND-gate bivalent degrader (avidity coincidence detection)
 
-**Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ parked · concept · confidence low · verified 2026-08-05
+**Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/fusion-selective-andgate-degrader-paper.md`](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md)): ⏸ hold — arm-2 chemistry does not exist
 
@@ -26,7 +26,7 @@ last_verified: 2026-08-05
 
 ```mermaid
 flowchart LR
-  RT_ANDGATE["○ RT-ANDGATE"]:::fam
+  RT_ANDGATE["✓ RT-ANDGATE"]:::fam
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
   BLK_PARALOGUE_DDG --> RT_ANDGATE
   TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech

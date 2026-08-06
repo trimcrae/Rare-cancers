@@ -442,6 +442,7 @@ The registry records **where** each figure lives, never the figure. The checker 
 | `RT-METHODS-PAPER` The honest methods paper on the degrader program's own failure record | open | no | — | — |
 | `RT-PANNR4A-EXVIVO` Ex-vivo pan-NR4A pole (CAR-T manufacturing additive) | open | no | — | — |
 | `RT-PRAME-IMMTAC` PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR | open | no | — | — |
+| `RT-TCIP` TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3 | open | no | `TR-TCIP-LINKER-ENUMERATION`, `TR-FE-CRYPTIC-POCKET` | `RT-TCIP`, `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC` |
 | `RT-TRABECTEDIN` Trabectedin (± RT or combination) | open | no | — | — |
 | `V1` Structural selectivity descriptor (selcal_interface_signature) | open | no | — | — |
 | `V15` PocketMiner + four permutation nulls | open | no | — | — |
@@ -457,6 +458,7 @@ The registry records **where** each figure lives, never the figure. The checker 
 - `RT-METHODS-PAPER` — Nothing blocks it; it is finished when we stop typing.
 - `RT-PANNR4A-EXVIVO` — It removes the selectivity requirement by changing the exposure regime; nothing is closed.
 - `RT-PRAME-IMMTAC` — The one CTA whose surrogate expression came back favourable; its confirm is an ask, not a closure.
+- `RT-TCIP` — Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.
 - `RT-TRABECTEDIN` — An approved drug with a reported EMC responder; nothing about it is closed.
 
 **`definitional`** — ⛔ **PERMANENT — never revivable**. a fact about what the objects ARE — e.g. a residue the paralogues SHARE cannot discriminate between them, or a ligand whose mechanism lives in a domain the disease deletes. NEVER revivable.
@@ -530,7 +532,6 @@ The registry records **where** each figure lives, never the figure. The checker 
 | `RT-MONOVALENT` Monovalent LBD pocket modulation — a molecule that only OCCUPIES the N | instrument_limit | no | `TR-FE-CRYPTIC-POCKET`, `TR-EXPOSURE-CRITERION-RECOVERS-C551`, `TR-POSE-METHODS-CONVERGE` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP`, `V17`, `R8`, `R15`, `RT-COVALENT-PROBE`, `V3`, `V22`, `R5` |
 | `RT-RIBOZYME` Trans-splicing ribozyme → suicide gene, triggered by the fusion transc | instrument_limit | no | `TR-OLIGO-TUMOUR-DELIVERY` | `RT-ASO`, `RT-ASO-ASK`, `RT-CRISPR-CAS13`, `RT-RIBOZYME`, `RT-SYNPROMOTER` |
 | `RT-RIPTAC` RIPTAC — bind the tumour protein, poison an essential one | instrument_limit | no | `TR-FE-CRYPTIC-POCKET` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
-| `RT-TCIP` TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3 | instrument_limit | no | `TR-TCIP-LINKER-ENUMERATION`, `TR-FE-CRYPTIC-POCKET` | `RT-TCIP`, `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC` |
 | `RT-UBIQ-SELECTIVE` Fusion-selective ubiquitination — discriminate at the transfer step | instrument_limit | no | `TR-OBSERVED-CRL-GEOMETRY` | `V18`, `R12`, `RT-UBIQ-SELECTIVE`, `RT-DEGRADER` |
 | `V10` Interface-mutation physics (pmx/GROMACS) | instrument_limit | no | `TR-FE-CRYPTIC-POCKET` | `V4`, `V7`, `V9`, `R7`, `RT-DEGRADER`, `RT-MONOVALENT`, `RT-GLUE`, `RT-ANDGATE`, `RT-RIPTAC`, `RT-TCIP` |
 | `V11` Interface-stability endpoint (E1) | instrument_limit | no | `TR-E1-POWERED-SYSTEM` | `V11`, `R11`, `RT-DEGRADER` |
@@ -559,7 +560,6 @@ The registry records **where** each figure lives, never the figure. The checker 
 - `RT-MONOVALENT` — ⚠ Its covalent sub-form's negative rests on a geometry computed with an exposure cutoff that fails its own control and a site question left INCONCLUSIVE — so the result can refute the route and cannot make the closure permanent. Its functional-actionability blocker is separate and needs a bench.
 - `RT-RIBOZYME` — Vector delivery, and a technique with no modern solid-tumour clinical footing.
 - `RT-RIPTAC` — It needs the paralogue selectivity the program cannot measure, plus a med-chem campaign.
-- `RT-TCIP` — Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.
 - `RT-UBIQ-SELECTIVE` — ⚠ GRADED ⏸ NOT ✕, on the register's own caveat that this is a route closed by measurements that already exist rather than a proof of impossibility. The geometry does not reach FROM AN E3 ANCHORED AT THE CRYPTIC POCKET; a different anchor re-opens the measurement.
 
 **`authorization`** — revivable. waiting on a person, not on nature.

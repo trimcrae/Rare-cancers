@@ -17,7 +17,7 @@
     "grade_pointers": [
       {
         "file": "research/IDEAS.md",
-        "asserts_grade": false
+        "asserts_grade": true
       },
       {
         "file": "research/manuscripts/emc-treatment-strategy.md",
@@ -48,6 +48,8 @@
         "V11",
         "V12",
         "V13",
+        "V14",
+        "V15",
         "V17",
         "V20",
         "V21"
@@ -110,7 +112,7 @@
       "TR-TERNARY-ALCHEMY-PASSES-VALB",
       "TR-ABFE-AUTHORIZATION"
     ],
-    "closure_note": "⭐ NOT closed — but every one of its four blocking failures is an INSTRUMENT LIMIT rather than a fact about the target, which is the options memo's organising finding restated as a field. Filing it beside a definitional impossibility would lose exactly that.",
+    "closure_note": "⭐ NOT closed — and the distinction matters per blocker, not in bulk. Every one of the four METHOD FAILURES on the scoreboard is an INSTRUMENT LIMIT rather than a fact about the target, which is the options memo's organising finding restated as a field. But two of the seven blockers this route inherits are not instrument limits: BLK-NOT-FUSION-SELECTIVE is permanent — the LBD IS wild-type NR4A3 sequence, a fact about the objects — and BLK-R4-BINDS needs a bench. Filing the route beside a definitional impossibility would lose the first point; letting the note read across all seven would lose the second.",
     "strategy": "ST-PROXIMITY",
     "level": "L2",
     "kind": "route",
@@ -122,12 +124,11 @@
     },
     "purpose": "Can a bifunctional molecule recruit an E3 ligase to NR4A3 and degrade it selectively over NR4A1 and NR4A2?",
     "state": {
-      "work_state": "in_work",
+      "work_state": "future",
       "status": "blocked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-05",
-      "running_job": "the degrader program's open compute lanes — see the ordered plan in the roadmap"
+      "last_verified": "2026-08-05"
     },
     "rationale": "NR4A3 is a transcription factor with no orthosteric ligand, so occupancy-based inhibition has nothing to bind. Degradation only needs the protein to be ENGAGED, not inhibited, and a cryptic pocket that opens under dynamics gives something to engage. Selectivity over the two paralogues is the whole problem: they share the ligand-binding domain fold, so discrimination has to come from a small free-energy difference, from a residue only NR4A3 has, or from the ternary complex's shape.",
     "supporting_evidence": [
@@ -138,7 +139,7 @@
       },
       {
         "ref": "V14",
-        "what_it_supports": "an independent sequence-only ensemble method detects the same site, unbiased",
+        "what_it_supports": "an independent sequence-only ensemble method detects the same site, unbiased — an instrument with no known-answer control on this system",
         "strength": "direct"
       },
       {
@@ -165,7 +166,7 @@
       {
         "what": "A correctly assembled ternary for THIS system, not a rebuilt known one",
         "instrument": "V2",
-        "feasible_today": true,
+        "feasible_today": false,
         "blocked_by": [
           "BLK-TERNARY-GEOMETRY"
         ]
@@ -840,10 +841,11 @@
       }
     ],
     "blockers_inherited": [
-      "BLK-R4-BINDS",
       "BLK-INDUCED-COMPLEX",
+      "BLK-NO-WET-LAB",
       "BLK-PARALOGUE-DDG",
-      "BLK-NO-WET-LAB"
+      "BLK-R4-BINDS",
+      "BLK-UNSIZED-REQUIREMENT"
     ],
     "blockers_retired": [
       "BLK-TERNARY-GEOMETRY"
@@ -888,10 +890,11 @@
         "why": "a TCIP recruits a transcriptional effector; a RIPTAC recruits an essential protein to poison it, which reinstates the full paralogue-selectivity requirement a TCIP can partly avoid"
       }
     ],
-    "closure_kind": "instrument_limit",
+    "closure_kind": "open",
     "revival_trigger": [
       "TR-TCIP-LINKER-ENUMERATION",
-      "TR-FE-CRYPTIC-POCKET"
+      "TR-FE-CRYPTIC-POCKET",
+      "TR-COFOLD-ASSEMBLY"
     ],
     "closure_note": "Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.",
     "strategy": "ST-PROXIMITY",
@@ -3227,7 +3230,7 @@
     "grade_pointers": [
       {
         "file": "research/manuscripts/target-route-options.md",
-        "asserts_grade": false
+        "asserts_grade": true
       }
     ],
     "blockers_inherited": [
@@ -3273,9 +3276,9 @@
     },
     "purpose": "Can a bivalent degrader require BOTH halves of the fusion to be present, so that it acts only in tumour cells?",
     "state": {
-      "work_state": "future",
+      "work_state": "complete",
       "status": "parked",
-      "maturity": "concept",
+      "maturity": "computed",
       "confidence": "low",
       "last_verified": "2026-08-05"
     },
@@ -3343,9 +3346,10 @@
       }
     ],
     "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE",
       "BLK-PARALOGUE-DDG",
-      "BLK-TERNARY-GEOMETRY",
-      "BLK-R4-BINDS"
+      "BLK-R4-BINDS",
+      "BLK-TERNARY-GEOMETRY"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -3421,7 +3425,9 @@
       "cost_trend": "flat",
       "automation_outlook": "A prospective design method would make this largely automatable, which is exactly why it is worth watching.",
       "revisit_trigger": [
-        "TECH-GLUE-DESIGN"
+        "TECH-GLUE-DESIGN",
+        "TECH-FE-CRYPTIC-POCKET",
+        "TECH-COFOLD-ASSEMBLY"
       ]
     },
     "next": {
@@ -3677,6 +3683,8 @@
     },
     "grade_pointers": [],
     "blockers_inherited": [
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-R4-BINDS",
       "BLK-TERNARY-GEOMETRY"
     ],
     "blockers_retired": [],
@@ -3773,8 +3781,10 @@
     },
     "grade_pointers": [],
     "blockers_inherited": [
-      "BLK-PARALOGUE-DDG",
       "BLK-INDUCED-COMPLEX",
+      "BLK-NO-WET-LAB",
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-PARALOGUE-DDG",
       "BLK-R4-BINDS"
     ],
     "blockers_retired": [],
@@ -3812,7 +3822,7 @@
         "file": "systems/graph/routes.json"
       }
     },
-    "purpose": "Can a bifunctional molecule bind NR4A3 and hold an essential protein hostage, killing only cells that express the fusion?",
+    "purpose": "Can a bifunctional molecule bind NR4A3 and hold an essential protein hostage — a question the route cannot answer favourably while its only handle is the ligand-binding domain the paralogues share?",
     "state": {
       "work_state": "future",
       "status": "parked",
@@ -3820,7 +3830,7 @@
       "confidence": "low",
       "last_verified": "2026-08-05"
     },
-    "rationale": "A RIPTAC does not degrade anything: it forms a complex that poisons an essential protein, so the cell dies only where the tumour protein is present. It converts a selectivity problem into a lethality problem, which is attractive because partial selectivity still gives a therapeutic effect.",
+    "rationale": "A RIPTAC does not degrade anything: it forms a complex that poisons an essential protein. It converts a selectivity problem into a lethality problem rather than removing it — and on this target that conversion is unfavourable, because the bound protein is the NR4A3 ligand-binding domain, which wild-type NR4A3 and both paralogues also carry. Any engagement outside the tumour is cytotoxic by the same mechanism, so partial selectivity is a liability here rather than a tolerance. No efficacy, safety or therapeutic window is asserted.",
     "supporting_evidence": [],
     "remaining_unknowns": [
       "Whether the paralogue selectivity this needs is achievable — it needs the same margin the program cannot measure.",
@@ -3847,11 +3857,13 @@
       "recommendation": "monitor",
       "rationale": "Strictly dominated by the induced-proximity routes: it needs everything they need plus a medicinal-chemistry campaign. There is no state of the world where this is the right next thing while they are still blocked.",
       "six_month_delta": "None.",
-      "two_year_delta": "Only via the same free-energy advance that unblocks the whole family.",
+      "two_year_delta": "None. The free-energy advance alone does not reopen it — the induced complex and the unanswered binding question stand behind it.",
       "cost_trend": "flat",
       "automation_outlook": "The chemistry half is not automatable at this program's scale.",
       "revisit_trigger": [
-        "TECH-FE-CRYPTIC-POCKET"
+        "TECH-FE-CRYPTIC-POCKET",
+        "TECH-COFOLD-ASSEMBLY",
+        "TECH-EMC-MODEL-ACCESS"
       ]
     },
     "next": {
@@ -4422,6 +4434,7 @@
     },
     "grade_pointers": [],
     "blockers_inherited": [
+      "BLK-INDUCED-COMPLEX",
       "BLK-TERNARY-GEOMETRY"
     ],
     "blockers_retired": [],

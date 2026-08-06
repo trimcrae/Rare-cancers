@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-DEGRADER — NR4A3-LBD PROTAC degrader
 
-**Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ◐ blocked · computed · confidence low · verified 2026-08-05
+**Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ blocked · computed · confidence low · verified 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/nr4a3-program-map.md`](../../research/manuscripts/nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language)): LEADING driver-directed route; the program's north star — and the route whose four blocking failures reorganise every other row
 
@@ -26,7 +26,7 @@ last_verified: 2026-08-05
 
 ```mermaid
 flowchart LR
-  RT_DEGRADER["◐ RT-DEGRADER"]:::fam
+  RT_DEGRADER["○ RT-DEGRADER"]:::fam
   BLK_ENDPOINT_MD{{"BLK-ENDPOINT-MD — Endpoint-MD selectivity readout E1 retu…"}}:::blk
   BLK_ENDPOINT_MD --> RT_DEGRADER
   TECH_E1_POWERED(["TECH-E1-POWERED<br/>expected 2029"]):::tech
@@ -76,7 +76,7 @@ NR4A3 is a transcription factor with no orthosteric ligand, so occupancy-based i
 | ref | supports | strength |
 |---|---|---|
 | `V13` | a cryptic pocket opens in biased dynamics, though the two-state mechanism gate failed as registered | `direct` |
-| `V14` | an independent sequence-only ensemble method detects the same site, unbiased | `direct` |
+| `V14` | an independent sequence-only ensemble method detects the same site, unbiased — an instrument with no known-answer control on this system | `direct` |
 | `V15` | an independent cryptic-site predictor agrees, on four of five permutation nulls | `direct` |
 
 ## Remaining unknowns
@@ -91,7 +91,7 @@ NR4A3 is a transcription factor with no orthosteric ligand, so occupancy-based i
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | An engine that recovers a known SELECTIVITY answer before any selectivity number is believed | V4 | yes | BLK-SELECTIVITY-CONTROL-UNAUTHORIZED |
-| A correctly assembled ternary for THIS system, not a rebuilt known one | V2 | yes | BLK-TERNARY-GEOMETRY |
+| A correctly assembled ternary for THIS system, not a rebuilt known one | V2 | **no** | BLK-TERNARY-GEOMETRY |
 | Experimental evidence that something binds the opened site | ⛔ none built | **no** | BLK-R4-BINDS |
 
 ## Blockers
@@ -145,7 +145,7 @@ The cheapest decisive item is a decision, not a capability, and the paper is pub
 
 ## Closure
 
-`instrument_limit` — ⭐ NOT closed — but every one of its four blocking failures is an INSTRUMENT LIMIT rather than a fact about the target, which is the options memo's organising finding restated as a field. Filing it beside a definitional impossibility would lose exactly that.
+`instrument_limit` — ⭐ NOT closed — and the distinction matters per blocker, not in bulk. Every one of the four METHOD FAILURES on the scoreboard is an INSTRUMENT LIMIT rather than a fact about the target, which is the options memo's organising finding restated as a field. But two of the seven blockers this route inherits are not instrument limits: BLK-NOT-FUSION-SELECTIVE is permanent — the LBD IS wild-type NR4A3 sequence, a fact about the objects — and BLK-R4-BINDS needs a bench. Filing the route beside a definitional impossibility would lose the first point; letting the note read across all seven would lose the second.
 
 ## Best next action
 
@@ -169,6 +169,8 @@ Ask for the decision on the binary selectivity control. It is the highest-levera
 | [V11](registers/instruments.md) — Interface-stability endpoint (E1) | **disclosed failing** | `fails` |
 | [V12](registers/instruments.md) — Sequence-only co-folding (Boltz-2 ternary) | **disclosed failing** | `fails` |
 | [V13](registers/instruments.md) — Cryptic-opening free-energy profile (metadynamics F(Rg)) | **disclosed failing** | `fails` |
+| [V14](registers/instruments.md) — BioEmu unbiased ensemble cross-check | **disclosed failing** | `none` |
+| [V15](registers/instruments.md) — PocketMiner + four permutation nulls | **disclosed failing** | `mixed` |
 | [V17](registers/instruments.md) — The exposure criterion EXPOSED_RSA = 0.25 | **disclosed failing** | `fails` |
 | [V20](registers/instruments.md) — Single-snapshot MM-GBSA margin > 0 as a selectivity verdict | **disclosed failing** | `fails` |
 | [V21](registers/instruments.md) — The anti-target docking panel (antitarget_dock) | **disclosed failing** | `fails` |

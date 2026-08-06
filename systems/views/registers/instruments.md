@@ -78,8 +78,8 @@ last_verified: 2026-08-05
 | **V11** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
 | **V12** | — | RT-AF3-INTERFACE, RT-DEGRADER, RT-METHODS-PAPER | — |
 | **V13** | — | RT-DEGRADER, RT-METHODS-PAPER | — |
-| **V14** | — | — | — |
-| **V15** | — | — | — |
+| **V14** | — | RT-DEGRADER | — |
+| **V15** | — | RT-DEGRADER | — |
 | **V16** | — | — | — |
 | **V17** | — | RT-COVALENT-PROBE, RT-DEGRADER, RT-METHODS-PAPER, RT-MONOVALENT | — |
 | **V18** | — | RT-UBIQ-SELECTIVE | — |

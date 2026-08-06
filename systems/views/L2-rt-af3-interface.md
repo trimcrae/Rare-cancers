@@ -27,6 +27,10 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   RT_AF3_INTERFACE["○ RT-AF3-INTERFACE"]:::fam
+  BLK_INDUCED_COMPLEX{{"BLK-INDUCED-COMPLEX — An induced ternary/bivalent complex…"}}:::blk
+  BLK_INDUCED_COMPLEX --> RT_AF3_INTERFACE
+  TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
+  TECH_COFOLD_ASSEMBLY -.-> BLK_INDUCED_COMPLEX
   BLK_TERNARY_GEOMETRY{{"BLK-TERNARY-GEOMETRY — Ternary geometry — assembly, E3, e…"}}:::blk
   BLK_TERNARY_GEOMETRY --> RT_AF3_INTERFACE
   TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
@@ -61,6 +65,7 @@ Rather than designing an induced complex, ask a structure predictor to find one.
 
 | blocker | kind | what would retire it |
 |---|---|---|
+| **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY` |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 
 ## Readiness — what this could become today

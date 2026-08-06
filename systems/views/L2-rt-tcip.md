@@ -45,6 +45,8 @@ flowchart LR
   BLK_R4_BINDS --> RT_TCIP
   TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
   TECH_EMC_MODEL_ACCESS -.-> BLK_R4_BINDS
+  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_UNSIZED_REQUIREMENT --> RT_TCIP
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -52,6 +54,8 @@ flowchart LR
 ```
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
+
+⚠ **1 blocker here has no technology named at all** (`BLK-UNSIZED-REQUIREMENT`) — not *waiting*, **unaddressed**. A blocker with no named way out is the most expensive kind, because nothing is being watched for it.
 
 ✓ Already cleared by this route: `BLK-TERNARY-GEOMETRY`.
 
@@ -75,10 +79,11 @@ A transcriptional chemical inducer of proximity brings an effector to a DNA-boun
 
 | blocker | kind | what would retire it |
 |---|---|---|
-| **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY` |
-| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
+| **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
+| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0. |
 
 ## Blockers this route RETIRES
 
@@ -113,10 +118,6 @@ This is the cheapest promotion available anywhere in the options register: the m
 - No molecule in this family has been shown to bind NR4A3 at all — the pocket every route here depends on has no known ligand of any kind.
 - No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.
 - Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
-
-## Closure
-
-`instrument_limit` — Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.
 
 ## Best next action
 

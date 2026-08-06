@@ -49,6 +49,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import glob
 import json
 import os
 import re
@@ -114,6 +115,32 @@ DEFAULT_TARGETS = [
     "research/manuscripts/emc-treatment-strategy.md",
     "research/modalities/nr4a3-degrader-next-steps.md",
 ]
+
+# ⛔ ADDED 2026-08-06 — THE THIRD TIME THIS EXACT HOLE HAS BEEN FOUND, AND THE LARGEST.
+# `systems/views/plan.md` was added when THE ORDERED PLAN moved out of the roadmap, because the move
+# silently dropped ~1,580 lines from the linted set. The SAME migration moved the OTHER half — the
+# whole route portfolio — into `systems/`, and only the plan was carried across. So L0, the 9 L1
+# family pages and all 40 L2 route pages were unlinted: every word of scientific framing for every
+# therapeutic route this program holds, including `rationale`, `grade.value` and `closure_note`,
+# unenforced against R1-R5.
+#
+# ⭐ THAT IS THE PORTFOLIO'S OUTWARD FACE. L0-ecosystem.md is what an external reviewer is pointed at
+# first, and the L2 pages carry CLINICAL framing for repurposing and immunotherapy routes — the same
+# risk class as the two files added earlier today, at 50x the surface area.
+#
+# ⚠ GLOBBED, NOT LISTED. A hand-typed list of 50 paths would leave the next new route outside the
+# linter by default, which is this failure mode reproduced rather than fixed: coverage must follow
+# the model, not a list someone remembers to extend. Generated from `systems/graph/*.json` by
+# `systems_check.py --write-views`, so linting the views transitively lints the registry prose that
+# produced them.
+#
+# Measured when added: 0 ERROR, 9 WARN across the 50 files, every WARN a benign R4 use (a `TECH-*`
+# name containing "A validated prospective ... method"; "a step nobody has validated"). Pure coverage
+# gain -- adding it cost no rewriting, which is precisely why it should not have waited.
+DEFAULT_TARGETS += sorted(
+    os.path.relpath(p, REPO)
+    for p in glob.glob(os.path.join(REPO, "systems", "views", "L[012]-*.md"))
+)
 
 # ---------------------------------------------------------------------------
 # Disclaimer detection

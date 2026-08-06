@@ -39,8 +39,8 @@ the routes cleanly; method cuts across them, so it gets this view.
 | **V11** Interface-stability endpoint (E1) | `fails` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-E1-POWERED` |
 | **V12** Sequence-only co-folding (Boltz-2 ternary) | `fails` | RT-AF3-INTERFACE, RT-DEGRADER, RT-METHODS-PAPER | `TECH-COFOLD-ASSEMBLY` |
 | **V13** Cryptic-opening free-energy profile (metadynamics F(Rg)) | `fails` | RT-DEGRADER, RT-METHODS-PAPER | `TECH-CHEAP-ENSEMBLE` |
-| **V14** BioEmu unbiased ensemble cross-check | `none` | — | `TECH-CHEAP-ENSEMBLE` |
-| **V15** PocketMiner + four permutation nulls | `mixed` | — | — |
+| **V14** BioEmu unbiased ensemble cross-check | `none` | RT-DEGRADER | `TECH-CHEAP-ENSEMBLE` |
+| **V15** PocketMiner + four permutation nulls | `mixed` | RT-DEGRADER | — |
 | **V16** The causal matched-pair test S (RUNG 5a-KS) | `none` | — | — |
 | **V17** The exposure criterion EXPOSED_RSA = 0.25 | `fails` | RT-COVALENT-PROBE, RT-DEGRADER, RT-METHODS-PAPER, RT-MONOVALENT | `TECH-EXPOSURE-CRITERION` |
 | **V18** The transfer-zone lysine-identity term | `none` | RT-UBIQ-SELECTIVE | `TECH-OBSERVED-CRL` |

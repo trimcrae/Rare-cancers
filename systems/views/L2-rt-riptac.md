@@ -5,7 +5,7 @@ level: L2
 kind: generated
 status: generated
 generator: systems/systems_check.py
-purpose: Can a bifunctional molecule bind NR4A3 and hold an essential protein hostage, killing only cells that express the fusion?
+purpose: Can a bifunctional molecule bind NR4A3 and hold an essential protein hostage — a question the route cannot answer favourably while its only handle is the ligand-binding domain the paralogues share?
 scope: Level 2 — one route.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
@@ -31,6 +31,14 @@ flowchart LR
   BLK_INDUCED_COMPLEX --> RT_RIPTAC
   TECH_COFOLD_ASSEMBLY(["TECH-COFOLD-ASSEMBLY<br/>expected 2027"]):::tech
   TECH_COFOLD_ASSEMBLY -.-> BLK_INDUCED_COMPLEX
+  BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_RIPTAC
+  TECH_CLOUD_WET_LAB(["TECH-CLOUD-WET-LAB<br/>expected 2029"]):::tech
+  TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
+  TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
+  TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_RIPTAC
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
   BLK_PARALOGUE_DDG --> RT_RIPTAC
   TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
@@ -47,9 +55,11 @@ flowchart LR
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
 
+⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
+
 ## Scientific rationale
 
-A RIPTAC does not degrade anything: it forms a complex that poisons an essential protein, so the cell dies only where the tumour protein is present. It converts a selectivity problem into a lethality problem, which is attractive because partial selectivity still gives a therapeutic effect.
+A RIPTAC does not degrade anything: it forms a complex that poisons an essential protein. It converts a selectivity problem into a lethality problem rather than removing it — and on this target that conversion is unfavourable, because the bound protein is the NR4A3 ligand-binding domain, which wild-type NR4A3 and both paralogues also carry. Any engagement outside the tumour is cytotoxic by the same mechanism, so partial selectivity is a liability here rather than a tolerance. No efficacy, safety or therapeutic window is asserted.
 
 ## Remaining unknowns
 
@@ -66,8 +76,10 @@ A RIPTAC does not degrade anything: it forms a complex that poisons an essential
 
 | blocker | kind | what would retire it |
 |---|---|---|
-| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY` |
+| **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
+| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
 
 ## Readiness — what this could become today
@@ -89,12 +101,14 @@ Strictly dominated by the induced-proximity routes: it needs everything they nee
 | horizon | effect |
 |---|---|
 | Six months | None. |
-| Two years | Only via the same free-energy advance that unblocks the whole family. |
+| Two years | None. The free-energy advance alone does not reopen it — the induced complex and the unanswered binding question stand behind it. |
 | Cost trend | flat |
 | Automation outlook | The chemistry half is not automatable at this program's scale. |
 
 **Revisit when:**
 - **TECH-FE-CRYPTIC-POCKET** — A binding free-energy method — alchemical or ML — with a published known-answer validation on cryptic or induced-fit pockets, repr *(expected 2028, basis `extrapolated`)*
+- **TECH-COFOLD-ASSEMBLY** — A sequence-only co-folder evaluated on ternary ASSEMBLY — inter-chain accuracy on post-training-horizon induced complexes — rather *(expected 2027, basis `evidence_based`)*
+- **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 
 ## Claim ceiling — what this route may NOT be used to claim
 

@@ -37,9 +37,9 @@ flowchart LR
   ST_PROXIMITY["ST-PROXIMITY"]:::fam
   RT_AF3_INTERFACE["○ RT-AF3-INTERFACE"]:::fam
   ST_PROXIMITY --> RT_AF3_INTERFACE
-  RT_ANDGATE["○ RT-ANDGATE"]:::fam
+  RT_ANDGATE["✓ RT-ANDGATE"]:::fam
   ST_PROXIMITY --> RT_ANDGATE
-  RT_DEGRADER["◐ RT-DEGRADER"]:::fam
+  RT_DEGRADER["○ RT-DEGRADER"]:::fam
   ST_PROXIMITY --> RT_DEGRADER
   RT_GLUE["○ RT-GLUE"]:::fam
   ST_PROXIMITY --> RT_GLUE
@@ -53,12 +53,17 @@ flowchart LR
   BLK_ENDPOINT_MD{{"BLK-ENDPOINT-MD — Endpoint-MD selectivity readout E1 retu…"}}:::blk
   BLK_ENDPOINT_MD --> RT_DEGRADER
   BLK_INDUCED_COMPLEX{{"BLK-INDUCED-COMPLEX — An induced ternary/bivalent complex…"}}:::blk
+  BLK_INDUCED_COMPLEX --> RT_AF3_INTERFACE
   BLK_INDUCED_COMPLEX --> RT_RIPTAC
   BLK_INDUCED_COMPLEX --> RT_TCIP
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
+  BLK_NO_WET_LAB --> RT_RIPTAC
   BLK_NO_WET_LAB --> RT_TCIP
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
   BLK_NOT_FUSION_SELECTIVE --> RT_DEGRADER
+  BLK_NOT_FUSION_SELECTIVE --> RT_GLUE
+  BLK_NOT_FUSION_SELECTIVE --> RT_RIPTAC
+  BLK_NOT_FUSION_SELECTIVE --> RT_UBIQ_SELECTIVE
   BLK_PARALOGUE_CONTROL{{"BLK-PARALOGUE-CONTROL — The paralogue-discrimination posi…"}}:::blk
   BLK_PARALOGUE_CONTROL --> RT_DEGRADER
   BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
@@ -73,6 +78,7 @@ flowchart LR
   BLK_R4_BINDS --> RT_GLUE
   BLK_R4_BINDS --> RT_RIPTAC
   BLK_R4_BINDS --> RT_TCIP
+  BLK_R4_BINDS --> RT_UBIQ_SELECTIVE
   BLK_SELECTIVITY_CONTROL_UNAUTHORIZED{{"BLK-SELECTIVITY-CONTROL-UNAUTHORIZED — The program's only…"}}:::blk
   BLK_SELECTIVITY_CONTROL_UNAUTHORIZED --> RT_DEGRADER
   BLK_TERNARY_GEOMETRY{{"BLK-TERNARY-GEOMETRY — Ternary geometry — assembly, E3, e…"}}:::blk
@@ -81,6 +87,8 @@ flowchart LR
   BLK_TERNARY_GEOMETRY --> RT_DEGRADER
   BLK_TERNARY_GEOMETRY --> RT_GLUE
   BLK_TERNARY_GEOMETRY --> RT_UBIQ_SELECTIVE
+  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_UNSIZED_REQUIREMENT --> RT_TCIP
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -96,8 +104,8 @@ flowchart LR
 | route | state | maturity | readiness today | next action |
 |---|---|---|---|---|
 | **[RT-AF3-INTERFACE](L2-rt-af3-interface.md)**<br/>AF3 on a druggable interface | ○ parked | concept | `internal_note` | Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In- |
-| **[RT-ANDGATE](L2-rt-andgate.md)**<br/>AND-gate bivalent degrader (avidity coincidence detection) | ○ parked | concept | `internal_note` | Keep as a registered design option; do not build. Its value is that it names what a second arm would buy, so t |
-| **[RT-DEGRADER](L2-rt-degrader.md)**<br/>NR4A3-LBD PROTAC degrader | ◐ blocked | computed | `preprint` | Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio |
+| **[RT-ANDGATE](L2-rt-andgate.md)**<br/>AND-gate bivalent degrader (avidity coincidence detection) | ✓ parked | computed | `internal_note` | Keep as a registered design option; do not build. Its value is that it names what a second arm would buy, so t |
+| **[RT-DEGRADER](L2-rt-degrader.md)**<br/>NR4A3-LBD PROTAC degrader | ○ blocked | computed | `preprint` | Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio |
 | **[RT-GLUE](L2-rt-glue.md)**<br/>Molecular glue instead of a PROTAC | ○ parked | concept | `internal_note` | Watch for a prospectively validated glue design method. Nothing to build until one exists. |
 | **[RT-RIPTAC](L2-rt-riptac.md)**<br/>RIPTAC — bind the tumour protein, poison an essential one | ○ parked | concept | `internal_note` | Keep registered. Do not build while the routes it is dominated by are still blocked. |
 | **[RT-TCIP](L2-rt-tcip.md)**<br/>TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3 | ○ blocked | scoped | `reproducible_workflow` | Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing |
