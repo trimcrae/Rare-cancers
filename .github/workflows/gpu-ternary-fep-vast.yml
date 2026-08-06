@@ -2636,6 +2636,11 @@ jobs:
           # ⛔ ONE HOME FOR THE PUBLISH. The hand-rolled `git pull --rebase` this replaces wedges on a
           # conflict: the repo is left mid-rebase, every retry dies on the first one's wreckage, and the
           # step ends GREEN having published nothing. See research/compute/publish_artifacts.sh.
+          # ⛔ HEARTBEAT, NOT A RESULT (2026-08-06). `PUBLISH_IF_CHANGED` alone is not enough here:
+          # a forensic read of containers reports SOMETHING every tick even when no container exists,
+          # so the content changes and the commit lands. What makes it a non-event is the empty
+          # account, not the identical bytes. FAIL-ARMED. One home: research/modalities/fleet_armed.py
+          PUBLISH_HEARTBEAT_LANE="ternary-reps-forensic" \
           PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "ternary replicate forensic: what the containers themselves said (CI)" \
             research/modalities/ternary-reps-diag.json \
