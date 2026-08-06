@@ -92,6 +92,27 @@ DEFAULT_TARGETS = [
     # ⭐ THE OUTWARD-FACING DOCUMENT NEEDS THE STRICTEST CHECK, NOT THE LOOSEST. A stale claim in the
     # manuscript is caught by review; a stale claim in an email is caught by the recipient.
     "research/manuscripts/nr4a3-degrader-outreach-emails.md",
+    # ⛔ ADDED 2026-08-06 — THE SAME HOLE AS THE OUTREACH EMAILS, IN THE TWO FILES CLAUDE.md ITSELF
+    # SENDS EVERY SESSION TO READ. §5 names `emc-treatment-strategy.md` as required reading before
+    # resuming treatment-research work, and §6 names `nr4a3-degrader-next-steps.md` as the single home
+    # of the checkpoint/upload rule. Neither was in this file's targets NOR `lint_consistency.py`'s, so
+    # both were unlinted on language AND on pinned numbers — the strictly worse version of the outreach
+    # gap above, because those two carry CLINICAL claims.
+    #
+    # ⭐ WHAT WAS ACTUALLY SITTING THERE, found by a verification read rather than by CI:
+    # `emc-treatment-strategy.md` still carried "the only 1 of 17 drugs with high sensitivity across two
+    # patient-derived EMC models" — a reading of Bangerter 2023 that this repo RETRACTED thirteen hours
+    # earlier in `bea2424a4` after fetching the paper (the 40-drug panel ran on USZ20-EMC1 ALONE, and
+    # venetoclax showed no monotherapy response at all). The retraction reached IDEAS.md and
+    # repurposing-hypotheses.md and stopped there, because nothing linted the third file.
+    # Alongside it: B7-H3 and FAP framed as gated only on an IHC, with the repo's own computed
+    # selectivity screen recording BH q = 1.0 for both; and a "full control battery" for denovo_401 that
+    # this repo records as failing the metadynamics-frame decoy null.
+    #
+    # ⚠ A RETRACTION THAT REACHES SOME OF ITS COPIES IS NOT A RETRACTION. Adding these two is what makes
+    # the next one land everywhere instead of everywhere-someone-remembered.
+    "research/manuscripts/emc-treatment-strategy.md",
+    "research/modalities/nr4a3-degrader-next-steps.md",
 ]
 
 # ---------------------------------------------------------------------------

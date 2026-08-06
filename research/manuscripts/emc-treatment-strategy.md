@@ -150,9 +150,9 @@ leans on Axis A; a scientist or developer choosing where the field should invest
 | Anti-angiogenic TKI + checkpoint inhibitor | **Now** — approved; real EMC responder | **Generic** — anti-angiogenic + checkpoint; disease-agnostic |
 | Trabectedin (± RT / combo) | **Now** — approved; reported EMC responder | **Targeted (indirect)** — displaces the fusion TF from promoters (mechanism-fit), not fusion-selective |
 | Carfilzomib + anthracycline (± venetoclax) | **Now** — approved; best *ex-vivo* EMC evidence | **Generic** — proteasome inhibitor; empirical ex-vivo hit, no fusion rationale |
-| B7-H3 (CD276) ADC / bispecific | **Confirm-gated** — needs EMC B7-H3 IHC | **Targeted (indirect)** — surface antigen (not the fusion); fastest such route |
+| B7-H3 (CD276) ADC / bispecific | ⛔ **Confirm-gated — and the gate is no longer one IHC.** This repo's own computed screen finds B7-H3/CD276 **NOT significantly selective across the translocation-sarcoma class, BH q = 1.0** ([emc-surface-target-landscape.md §3.2](./emc-surface-target-landscape.md)). ⚠ *Superseded, retained: "needs EMC B7-H3 IHC" / "fastest such route"* | **Targeted (indirect)** — surface antigen (not the fusion), and expression ≠ selectivity |
 | PRAME ImmTAC / cell therapy | **Confirm-gated** — needs EMC PRAME IHC | **Targeted (indirect)** — cancer-testis antigen; basket access via brenetafusp |
-| FAP radioligand therapy | **Confirm-gated** — needs EMC FAP-PET | **Targeted (indirect)** — stromal target; theranostic (tracer = diagnostic) |
+| FAP radioligand therapy | ⛔ **Confirm-gated — and FAP is likewise NOT class-selective** in the same screen ([emc-surface-target-landscape.md](./emc-surface-target-landscape.md):127, alongside B7-H3 and EGFR). ⚠ *Superseded, retained: "needs EMC FAP-PET"* — a PET scan still cannot make a non-selective target selective | **Targeted (indirect)** — stromal target; theranostic (tracer = diagnostic) |
 | **NR4A3 degrader (PROTAC)** | **To build** — no selective warhead yet; no EMC validation | **Driver-directed** — degrades the EWSR1::NR4A3 fusion oncoprotein. *Flagship.* |
 | **Fusion-junction ASO / siRNA** | **To build** — tumour delivery unsolved | **Driver-directed** — silences the fusion transcript, junction-specific. *Flagship.* |
 | B7-H3 / CD56 CAR-T | **To build** — harder than the ADC | **Targeted (indirect)** — surface antigen; higher bar than the ADC |
@@ -181,8 +181,19 @@ called out explicitly — *grouping is not a combined rank; read both axes off t
    transcription factors from promoters (proven in myxoid liposarcoma), and EMC has a reported
    impressive responder. *(emerging-modalities-scan-emc.md §1)*
 - **Carfilzomib ± anthracycline (± venetoclax)** — *best ex-vivo EMC evidence of anything here.*
-   The only 1 of 17 drugs with high sensitivity across **two patient-derived EMC models**, with
-   carfilzomib+doxorubicin / +venetoclax synergy (Bangerter et al. 2023). Approved drugs; the play
+   Of **17 chemotherapeutics** inside a **40-drug** panel, carfilzomib was the **only** compound
+   showing high sensitivity — ⚠ **that screen ran on `USZ20-EMC1` ALONE**; carfilzomib, doxorubicin
+   and venetoclax were then validated in **both** patient-derived models (`USZ20-EMC1`,
+   `USZ22-EMC2`), where **venetoclax showed NO monotherapy response** and earns its place through
+   additive/synergistic combination effects only (Bangerter et al. 2023, Hum Cell;
+   PMID 36316541, doi:10.1007/s13577-022-00818-x).
+   ⛔ *Superseded, retained: "The only 1 of 17 drugs with high sensitivity across **two patient-derived
+   EMC models**, with carfilzomib+doxorubicin / +venetoclax synergy." That conflated a SINGLE-model
+   40-drug screen with the two-model validation step, and read venetoclax as a sensitivity hit when
+   the paper reports it has none as a monotherapy. Corrected in `IDEAS.md` and
+   `repurposing-hypotheses.md` on 2026-08-05 after the paper was fetched and read
+   (`bea2424a4`); it did not reach this file for a further day because nothing linted this file —
+   now fixed in `lint_claims.DEFAULT_TARGETS`.* Approved drugs; the play
    is a combination arm on EMC's existing **anthracycline (doxorubicin)** backbone. Already in the
    repurposing track — see `repurposing-hypotheses.md` (the unbiased-screen tier). *Carried here so
    the portfolio isn't wrong by omission.*

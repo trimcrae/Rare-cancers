@@ -56,7 +56,7 @@ anything. Last updated 2026-06-26.
 > "converges" = reproducible *relative* ΔG on modeled druggable conformers, no crystal pose to match);
 > **(2)** verify we can **replicate the patented NR4A1 degrader's selectivity in-silico** — the retrospective
 > **NR-V04** functional control (the GATE); **(3)** **design + ternary-test degraders on the cmpd19 anchor — a
-> selective hit is the win** (only after the gate passes). Steps 1 & 2 are parallel; 3 gates on both. RBFE is
+> predicted selective candidate is the win** (only after the gate passes). Steps 1 & 2 are parallel; 3 gates on both. RBFE is
 > KEPT as the warhead input; **denovo_401 → side comparator only**; the ABFE λ-repair / replicates / T4L
 > benchmark are shelved. Much of the ABFE/denovo_401 detail below is now **historical context**, not the active
 > plan. Canonical calendar: [`../manuscripts/degrader-paper-schedule.json`](../manuscripts/degrader-paper-schedule.json);
@@ -311,7 +311,7 @@ Ran the multi-snapshot de-noising tier on `denovo_401` (run 28469414513, report 
 | candidate | single-snapshot | **multi-snapshot mean ± SD** | NR4A3 ΔG | NR4A1 ΔG | NR4A2 ΔG | margin − SD | verdict |
 |-----------|-----------------|------------------------------|----------|----------|----------|-------------|---------|
 | **denovo_401** | +13.92 | **+12.83 ± 2.98** | **−38.18** | −22.98 | −25.35 | **+9.85** | **confirmed_selective** |
-**This is the breakthrough.** Where denovo_393 *collapsed* under the identical tier (+18.34 → −2.95 ± 3.65),
+**This is the sharpest contrast the tier produced.** Where denovo_393 *collapsed* under the identical tier (+18.34 → −2.95 ± 3.65),
 denovo_401 *holds*: the multi-snapshot margin (+12.83) is barely below its single-snapshot value, the SD (2.98)
 is small (vs the 4–6 that buried 393/780), and **margin − SD = +9.85 ≫ 0** — the FEP-worthy bar is cleanly met.
 NR4A3 binding is strong and favorable (−38.18 kcal/mol) with both paralogues ~13–15 kcal/mol weaker. So the
@@ -554,7 +554,7 @@ dependent steps below must be dispatched as each upstream job lands (verify via 
   output_prefix=nr4a3-denovo-v2` (the funnel now demotes non-developable, so clean candidates rank top).
   **NEXT once it lands: dock `gpu-denovo-dock-aws.yml denovo_prefix=nr4a3-denovo-v2 developable_only=1
   output_prefix=nr4a3-denovo-matrix-v2` → MM-GBSA → `nr4a3-denovo-mmgbsa-v2`**; goal = a clean AND
-  NR4A3-selective hit (the existing pool had none). Re-screen with `report-denovo-aws.yml denovo_prefix=nr4a3-denovo-v2`.
+  predicted NR4A3-selective candidate (the existing pool had none). Re-screen with `report-denovo-aws.yml denovo_prefix=nr4a3-denovo-v2`.
 - **Tier 3 #6/#7 — READY FOLLOW-UPS (gated on a clean selective lead).** #7 ensemble docking over the druggable
   release sub-ensemble (primary+alt1+alt3 from `nr4a3-release-druggable`) instead of one frame — a receptor-set
   change in `nr4a3_matrix.py::_use_release_receptor`. #6 multi-snapshot / MD-relaxed MM-GBSA + per-residue
@@ -682,7 +682,7 @@ fails, weakening the route).** Then update paper §2.2/§5, the reconciliation G
 
 **To launch (from a session with GitHub Actions access):** dispatch **`gpu-warhead-aws.yml`** on `main`
 (defaults are fine): `input_prefix=nr4a3-metad`, `output_prefix=nr4a3-warhead`, `region=us-east-2`,
-`git_ref=main`. It is CPU work (< 6 h), so the GitHub wrapper's `wait=True` is safe.
+`git_ref=main`. It is CPU work (< 6 h), so the GitHub wrapper's `wait=True` will not hit the job timeout.
 
 **What it does:** (1) extracts the most-druggable OPENED conformer from the 30 ns trajectory
 (`s3://<bucket>/nr4a3-metad/nr4a3-lbd-metad.dcd`) — designs against the open 0.93 pocket, not the
