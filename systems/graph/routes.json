@@ -1539,7 +1539,9 @@
     ],
     "evidence": [
       "EV-FILION-2009",
-      "EV-PIOGLITAZONE-TRABECTEDIN-2019"
+      "EV-PIOGLITAZONE-TRABECTEDIN-2019",
+      "EV-SUBRAMANIAN-2005",
+      "EV-HIGUCHI-2023"
     ],
     "artifacts": [],
     "distinct_from": [
@@ -1599,8 +1601,9 @@
     "rationale": "Both components are approved, so a combination trial is unusually cheap to propose. The rationale is that the fusion engages PPARγ signalling, so an agonist might either cooperate with or antagonise the transcriptional interference trabectedin provides.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "The DIRECTION of the PPARγ effect in EMC is unresolved — if the fusion already turns PPARγ on, an agonist may be redundant or harmful.",
-      "Whether the combination has any EMC-specific rationale beyond both drugs being available."
+      "The DIRECTION of the PPARγ effect in EMC is unresolved — ⚠ but the redundancy clause ('if the fusion already turns PPARγ on, an agonist may be redundant or harmful') is WITHDRAWN: it is not in the source it cited, and Filion et al. propose agonists in their own discussion. Two primary studies answered the question in OPPOSITE directions; one functional experiment favours agonism, in a disputed-identity line. research/manuscripts/pparg-direction-emc.md",
+      "Whether the combination has any EMC-specific rationale beyond both drugs being available.",
+      "The in-vivo evidence for agonism (Higuchi 2023) uses H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed); whether the MOUSE experiment used that line is UNREAD — the paper is not open access and its full text has not been retrieved."
     ],
     "required_validation": [
       {
@@ -1622,7 +1625,7 @@
       "attainable_today": "experimental_proposal",
       "why_not_higher": "The ask is well formed and both drugs are approved, but the direction of the PPARγ effect is unresolved — proposing a combination whose direction is unknown is a thin deliverable.",
       "missing": [
-        "the direction of the PPARγ effect in EMC"
+        "a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md"
       ]
     },
     "timing": {
@@ -1812,7 +1815,9 @@
       "OBJ-FUS-T1"
     ],
     "evidence": [
-      "EV-FILION-2009"
+      "EV-FILION-2009",
+      "EV-SUBRAMANIAN-2005",
+      "EV-HIGUCHI-2023"
     ],
     "artifacts": [],
     "distinct_from": [
@@ -1863,16 +1868,17 @@
     "rationale": "If the fusion drives its phenotype partly through PPARγ signalling, then an approved agent acting on that axis reaches the driver's output without touching the driver. Repurposing a well-characterised drug class is far cheaper than any new modality.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "The direction is unresolved rather than refuted: in EMC the fusion appears to turn PPARγ on, so an agonist may be redundant. Nobody has read the direction in EMC tissue."
+      "The direction is unresolved rather than refuted, and the reason is NOT absence of study: the two EMC expression studies that report PPARG proposed OPPOSITE directions from the same observation (Subramanian 2005 → PPARG inhibitors; Filion 2009 → PPARG agonists), and the single functional test favouring agonism was run in H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed). ⚠ The redundancy clause is WITHDRAWN — it is not in the source it cited, and Filion et al. argue the opposite in their own discussion. One home: research/manuscripts/pparg-direction-emc.md",
+      "The in-vivo evidence for agonism (Higuchi 2023) uses H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed); whether the MOUSE experiment used that line is UNREAD — the paper is not open access and its full text has not been retrieved."
     ],
     "required_validation": [
       {
-        "what": "A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) and of TZD-in-sarcoma reports, via the Europe PMC CI lane",
+        "what": "A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) via the Europe PMC CI lane — ✅ DONE 2026-08-06, research/manuscripts/pparg-direction-emc.md: UNRESOLVED, leaning agonism, tier T1 with a model-identity caveat",
         "feasible_today": true,
         "blocked_by": []
       },
       {
-        "what": "An EMC expression readout of the PPARγ axis",
+        "what": "A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-EMC-DATA"
@@ -1883,7 +1889,7 @@
       "attainable_today": "internal_note",
       "why_not_higher": "Its central premise is directionally unresolved. Publishing a repurposing hypothesis whose sign is unknown would be exactly the over-claim the language rules exist to prevent.",
       "missing": [
-        "a directional read of the PPARγ axis in EMC"
+        "a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md"
       ]
     },
     "timing": {
@@ -1898,7 +1904,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Run the Europe PMC literature pull for the PPARγ-axis direction — $0 CI, and it is the actual blocker. The record previously filed this behind a 2029 expression-data forecast.",
+      "best_next_action": "The literature half is CLOSED (research/manuscripts/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.",
       "cost": "$0",
       "blocked_on": [
         "BLK-NO-EMC-DATA"

@@ -169,13 +169,15 @@
       "pmcid": "PMC4429309"
     },
     "citation": "Filion C et al. (2009) — the EWSR1::NR4A3 fusion transactivates a PPARG-promoter response element.",
-    "what_it_supports": "That the fusion is a functional transcriptional driver acting through its DNA-binding domain; the fusion→PPARG axis both PPARG routes rest on; the DBD filter in fusion_object_inventory.py.",
+    "what_it_supports": "That the fusion is a functional transcriptional driver acting through its DNA-binding domain; the fusion→PPARG axis both PPARG routes rest on; the DBD filter in fusion_object_inventory.py. ⚠ IT SUPPORTS THE AXIS, NOT A DIRECTION. The paper's own discussion proposes PPARγ AGONISTS; it has been cited in this repository for the OPPOSITE (an agonist-redundancy argument) and must not be again. One home: research/manuscripts/pparg-direction-emc.md §3.",
     "aliases": [
       "Filion 2009",
       "Filion 2009, PMC4429309",
       "Filion et al."
     ],
-    "misattributed_as": [],
+    "misattributed_as": [
+      "the source of the agonist-redundancy argument"
+    ],
     "cited_in": [
       {
         "file": "research/IDEAS.md",
@@ -389,6 +391,49 @@
       {
         "file": "research/manuscripts/repurposing-hypotheses.md",
         "as": "Bangerter",
+        "role": "assertion"
+      }
+    ]
+  },
+  {
+    "id": "EV-SUBRAMANIAN-2005",
+    "canonical": {
+      "pmid": "15920699",
+      "doi": "10.1002/path.1792"
+    },
+    "citation": "Subramanian S et al. (2005) — expression profiling of EMC; PPARG/PPARGC1A over-expression, and the PPARγ-INHIBITOR proposal.",
+    "what_it_supports": "The independent EMC cohort (10 EMCs) showing PPARG over-expression relative to other sarcomas — one of the two concordant abundance cohorts. ⚠ Its discussion proposes PPARγ INHIBITORS, i.e. the OPPOSITE direction to EV-FILION-2009, from the same class of observation. Neither proposal has an EMC functional experiment behind it. One home: research/manuscripts/pparg-direction-emc.md §4.",
+    "aliases": [
+      "Subramanian 2005",
+      "Subramanian et al."
+    ],
+    "misattributed_as": [],
+    "cited_in": [
+      {
+        "file": "research/manuscripts/pparg-direction-emc.md",
+        "as": "Subramanian 2005",
+        "role": "assertion"
+      }
+    ]
+  },
+  {
+    "id": "EV-HIGUCHI-2023",
+    "canonical": {
+      "pmid": "36636023",
+      "pmcid": "PMC10054153",
+      "doi": "10.1080/15384101.2023.2166195"
+    },
+    "citation": "Higuchi T et al. (2023) — the only functional test of the PPARγ intervention direction in an EMC model.",
+    "what_it_supports": "The single functional experiment anywhere testing the DIRECTION of PPARγ intervention in EMC; it favours AGONISM. ⛔ Carries a model-identity caveat: it uses H-EMC-SS (OBJ-LINE-HEMCSS), identity disputed — the curated record does not support its EMC identity. ⚠ Whether the MOUSE experiment used that line is UNREAD — not open access, full text not retrieved. One home: research/manuscripts/pparg-direction-emc.md §5.",
+    "aliases": [
+      "Higuchi 2023",
+      "Higuchi et al."
+    ],
+    "misattributed_as": [],
+    "cited_in": [
+      {
+        "file": "research/manuscripts/pparg-direction-emc.md",
+        "as": "Higuchi 2023",
         "role": "assertion"
       }
     ]

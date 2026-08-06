@@ -49,14 +49,15 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 
 ## Remaining unknowns
 
-- The direction is unresolved rather than refuted: in EMC the fusion appears to turn PPARγ on, so an agonist may be redundant. Nobody has read the direction in EMC tissue.
+- The direction is unresolved rather than refuted, and the reason is NOT absence of study: the two EMC expression studies that report PPARG proposed OPPOSITE directions from the same observation (Subramanian 2005 → PPARG inhibitors; Filion 2009 → PPARG agonists), and the single functional test favouring agonism was run in H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed). ⚠ The redundancy clause is WITHDRAWN — it is not in the source it cited, and Filion et al. argue the opposite in their own discussion. One home: research/manuscripts/pparg-direction-emc.md
+- The in-vivo evidence for agonism (Higuchi 2023) uses H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed); whether the MOUSE experiment used that line is UNREAD — the paper is not open access and its full text has not been retrieved.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) and of TZD-in-sarcoma reports, via the Europe PMC CI lane | ⛔ none built | yes | — |
-| An EMC expression readout of the PPARγ axis | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) via the Europe PMC CI lane — ✅ DONE 2026-08-06, research/manuscripts/pparg-direction-emc.md: UNRESOLVED, leaning agonism, tier T1 with a model-identity caveat | ⛔ none built | yes | — |
+| A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone | ⛔ none built | **no** | BLK-NO-EMC-DATA |
 
 ## Blockers
 
@@ -84,7 +85,7 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 Its central premise is directionally unresolved. Publishing a repurposing hypothesis whose sign is unknown would be exactly the over-claim the language rules exist to prevent.
 
 **Missing:**
-- a directional read of the PPARγ axis in EMC
+- a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md
 
 ## Where this route ends — the paper
 
@@ -122,7 +123,7 @@ One cheap measurement settles it, and no amount of reasoning substitutes for the
 
 ## Best next action
 
-Run the Europe PMC literature pull for the PPARγ-axis direction — $0 CI, and it is the actual blocker. The record previously filed this behind a 2029 expression-data forecast.
+The literature half is CLOSED (research/manuscripts/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.
 
 *Cost:* $0
 
@@ -132,6 +133,6 @@ Run the Europe PMC literature pull for the PPARγ-axis direction — $0 CI, and 
 
 **L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
-**L5 evidence:** [EV-FILION-2009](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+**L5 evidence:** [EV-FILION-2009](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-HIGUCHI-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-SUBRAMANIAN-2005](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)

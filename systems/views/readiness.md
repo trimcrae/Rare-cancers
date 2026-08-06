@@ -28,7 +28,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | ST-DEPENDENCY | `experimental_proposal` | a collaborator with an EMC line |
 | [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) | ST-IMMUNO | `experimental_proposal` | expression confirmation on EMC tissue |
 | [RT-SSTR2](L2-rt-sstr2.md) | ST-RADIOLIGAND | `experimental_proposal` | any expression measurement in EMC |
-| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | ST-REPURPOSING | `experimental_proposal` | the direction of the PPARγ effect in EMC |
+| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | ST-REPURPOSING | `experimental_proposal` | a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md |
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | ST-DISSEMINATION | `journal_submission` | the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-o |
 | [RT-ASO](L2-rt-aso.md) | ST-NUCLEIC-ACID | `chemrxiv` | a named delivery candidate |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | ST-DEPENDENCY | `preprint` | an EMC-specific measurement |
@@ -53,7 +53,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | ST-IMMUNO | `internal_note` | a larger clinical series |
 | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md) | ST-IMMUNO | `internal_note` | regenerated predictions against the corrected exon index |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | ST-OCCUPANCY | `internal_note` | a functional readout; a sized selectivity requirement |
-| [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a directional read of the PPARγ axis in EMC |
+| [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md |
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |
 | [RT-RXR](L2-rt-rxr.md) | ST-REPURPOSING | `internal_note` | — |

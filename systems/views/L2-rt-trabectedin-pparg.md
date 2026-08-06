@@ -55,8 +55,9 @@ Both components are approved, so a combination trial is unusually cheap to propo
 
 ## Remaining unknowns
 
-- The DIRECTION of the PPARγ effect in EMC is unresolved — if the fusion already turns PPARγ on, an agonist may be redundant or harmful.
+- The DIRECTION of the PPARγ effect in EMC is unresolved — ⚠ but the redundancy clause ('if the fusion already turns PPARγ on, an agonist may be redundant or harmful') is WITHDRAWN: it is not in the source it cited, and Filion et al. propose agonists in their own discussion. Two primary studies answered the question in OPPOSITE directions; one functional experiment favours agonism, in a disputed-identity line. research/manuscripts/pparg-direction-emc.md
 - Whether the combination has any EMC-specific rationale beyond both drugs being available.
+- The in-vivo evidence for agonism (Higuchi 2023) uses H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed); whether the MOUSE experiment used that line is UNREAD — the paper is not open access and its full text has not been retrieved.
 
 ## Required validation
 
@@ -93,7 +94,7 @@ Both components are approved, so a combination trial is unusually cheap to propo
 The ask is well formed and both drugs are approved, but the direction of the PPARγ effect is unresolved — proposing a combination whose direction is unknown is a thin deliverable.
 
 **Missing:**
-- the direction of the PPARγ effect in EMC
+- a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/pparg-direction-emc.md
 
 ## Where this route ends — the paper
 
@@ -145,6 +146,6 @@ Hold the ask until the PPARγ direction can be stated. Re-grade automatically wh
 
 **L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
-**L5 evidence:** [EV-FILION-2009](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-PIOGLITAZONE-TRABECTEDIN-2019](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+**L5 evidence:** [EV-FILION-2009](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-HIGUCHI-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-PIOGLITAZONE-TRABECTEDIN-2019](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-SUBRAMANIAN-2005](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)

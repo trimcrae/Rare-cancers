@@ -1380,6 +1380,27 @@
           "use": "The PPARgamma lead's evidence line. The menu grades PPARgamma agonism as its top novel candidate on 'in-vivo EMC' evidence, which is Higuchi 2023 -- whose in-vitro half used this line. Section 3 'The PPARgamma axis' and section 5 now carry that, and the candidate/leads tables point at it.",
           "classification": "survives_relabelled",
           "correction_marker": "PPARγ DIRECTION — UNRESOLVED (2026-08-06)"
+        },
+        {
+          "file": "systems/graph/evidence.json",
+          "use": "EV-HIGUCHI-2023 — the only functional test of the PPARγ intervention DIRECTION; the register names the model it used",
+          "classification": "unaffected",
+          "why_unaffected": "The use is the CAVEAT ITSELF, not a claim resting on the line. Verified, not assumed: no direction, dependency or expression NUMBER in these records is read off this model. The only claim that leans on the experiment run in it — that PPARγ AGONISM is favoured — is capped at T1-with-a-model-identity-caveat in pparg-direction-emc.md §5 and is nowhere asserted as an EMC result; the routes' own missing-item is a PPARγ ACTIVITY readout, which this line cannot supply. ⚠ Whether the Higuchi 2023 MOUSE arm used this line is UNREAD (not open access).",
+          "correction_marker": "identity disputed"
+        },
+        {
+          "file": "systems/views/L2-rt-pparg-downstream.md",
+          "use": "generated route view — renders the remaining_unknowns caveat naming the line behind the agonism-favouring experiment",
+          "classification": "unaffected",
+          "why_unaffected": "The use is the CAVEAT ITSELF, not a claim resting on the line. Verified, not assumed: no direction, dependency or expression NUMBER in these records is read off this model. The only claim that leans on the experiment run in it — that PPARγ AGONISM is favoured — is capped at T1-with-a-model-identity-caveat in pparg-direction-emc.md §5 and is nowhere asserted as an EMC result; the routes' own missing-item is a PPARγ ACTIVITY readout, which this line cannot supply. ⚠ Whether the Higuchi 2023 MOUSE arm used this line is UNREAD (not open access).",
+          "correction_marker": "identity disputed"
+        },
+        {
+          "file": "systems/views/L2-rt-trabectedin-pparg.md",
+          "use": "generated route view — same caveat on the Higuchi 2023 in-vivo evidence",
+          "classification": "unaffected",
+          "why_unaffected": "The use is the CAVEAT ITSELF, not a claim resting on the line. Verified, not assumed: no direction, dependency or expression NUMBER in these records is read off this model. The only claim that leans on the experiment run in it — that PPARγ AGONISM is favoured — is capped at T1-with-a-model-identity-caveat in pparg-direction-emc.md §5 and is nowhere asserted as an EMC result; the routes' own missing-item is a PPARγ ACTIVITY readout, which this line cannot supply. ⚠ Whether the Higuchi 2023 MOUSE arm used this line is UNREAD (not open access).",
+          "correction_marker": "identity disputed"
         }
       ],
       "distinct_from": [
@@ -2956,7 +2977,9 @@
       ],
       "evidence": [
         "EV-FILION-2009",
-        "EV-PIOGLITAZONE-TRABECTEDIN-2019"
+        "EV-PIOGLITAZONE-TRABECTEDIN-2019",
+        "EV-SUBRAMANIAN-2005",
+        "EV-HIGUCHI-2023"
       ],
       "artifacts": [],
       "distinct_from": [
@@ -3094,7 +3117,9 @@
         "OBJ-FUS-T1"
       ],
       "evidence": [
-        "EV-FILION-2009"
+        "EV-FILION-2009",
+        "EV-SUBRAMANIAN-2005",
+        "EV-HIGUCHI-2023"
       ],
       "artifacts": [],
       "distinct_from": [
