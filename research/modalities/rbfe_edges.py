@@ -38,7 +38,19 @@ SMILES = {
 #   cryptic NR4A3 pocket under-samples reorganization MORE, so the true NR4A3 binding is likely ≥ this favourable.
 #   The SELECTIVITY ΔΔG is OFFSET-FREE and is the load-bearing anchor; never quote a raw engine absolute as
 #   "doesn't bind". See paper §4 + nr4a3-abfe-calibration.json "go_forward_rule".
-ANCHOR_401_ABFE = {"nr4a3": -4.5, "nr4a1": 2.4, "nr4a2": 1.0}      # offset-corrected converged r1
+#
+# ⛔⛔ THE OFFSET-CORRECTED FRAMING ABOVE IS RETIRED — REVIEWER MANDATORY CHANGE 3 (2026-07-15), AND THIS
+# MODULE IS THE SECOND HOME THE RETIREMENT DID NOT REACH (found 2026-08-06 by a verification read).
+# `nr4a3-degrader-reviewer-revisions-2026-07-15.md`: *do NOT use T4L·benzene as a transferable offset
+# correction … do not call NR4A values "offset-corrected"*. Paper §2.8: *do not treat +7.1 as a subtractable
+# constant.* `degrader-paper-schedule.json` files the whole transferable-offset framing as RETIRED.
+# ⚠ `ANCHOR_401_ABFE` IS KEPT AND STILL USED, because RBFE needs SOME absolute to ride to convert its ΔΔG —
+# but it is a CONVENTION, not a measurement, and nothing may quote it as a binding free energy.
+# `ANCHOR_401_ABFE_RAW` is the measured pair. ⚠ `ANCHOR_401_SELECTIVITY_DDG` below is REPLICATE 1 ALONE; the
+# three-replicate result (paper §2.8) is −4.76 ± 2.03 vs NR4A1 (95% CI SPANS ZERO) and −4.98 ± 0.68 vs NR4A2,
+# and the ABFE block is HELD on a soft-core-tail λ-overlap defect on every leg. Do not quote −6.9/−5.5 as the
+# program's selectivity.
+ANCHOR_401_ABFE = {"nr4a3": -4.5, "nr4a1": 2.4, "nr4a2": 1.0}      # CONVENTION for the RBFE ride, not a measurement
 ANCHOR_401_ABFE_RAW = {"nr4a3": 2.6, "nr4a1": 9.5, "nr4a2": 8.1}   # raw engine (add +7.1 offset)
 ANCHOR_401_SELECTIVITY_DDG = {"nr4a1": -6.9, "nr4a2": -5.5}        # offset-FREE (NR4A3 − paralogue); load-bearing
 ABFE_ENGINE_OFFSET = 7.1                                            # under-binding, from T4L·benzene calibration

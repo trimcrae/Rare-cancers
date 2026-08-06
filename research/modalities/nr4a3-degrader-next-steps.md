@@ -247,13 +247,22 @@ even worse. **denovo_401 remains the strongest MM-GBSA binder found across the e
 **⚠ Reconcile with the converged 401 FEP (merged from main, same day):** the "401 is a poor binder" premise that
 motivated this search was an **engine-calibration artifact** — the converged r1 ABFE + the +7.1 kcal/mol
 under-binding engine offset (`nr4a3-abfe-calibration.json`, T4L·benzene zero) put 401 at a **favourable
-~−4.5 kcal/mol** (offset-corrected), selective (ΔΔG −6.9/−5.5). So lo_m0_NCCO is a genuine **lead-optimization**
+~−4.5 kcal/mol** (offset-corrected), selective (ΔΔG −6.9/−5.5).
+⛔ **BOTH HALVES OF THAT SENTENCE ARE RETIRED — reviewer mandatory change 3.** The reviewer verdict
+(`nr4a3-degrader-reviewer-revisions-2026-07-15.md`) is explicit: *do NOT use T4L·benzene as a transferable
+offset correction, and do not call NR4A values "offset-corrected"*; paper §2.8 adds *do not treat +7.1 as a
+subtractable constant*. **Report the RAW ΔG only.** And the ΔΔG figures here are **replicate 1 alone** — the
+three-replicate result in paper §2.8 is ΔΔG(3−1) **−4.76 ± 2.03 (95% CI spans zero — NOT resolved)** and
+ΔΔG(3−2) **−4.98 ± 0.68**, with the whole ABFE block deliberately HELD on a systematic soft-core-tail
+λ-overlap defect affecting every leg. ⚠ *Superseded, retained: the offset-corrected values and the single-
+replicate −6.9/−5.5 as "the" selectivity.* So lo_m0_NCCO is a genuine **lead-optimization**
 (tighter + still selective), not a rescue of a non-binder. The lead-opt result stands; only the framing shifts.
 RBFE anchor updated accordingly (`rbfe_edges.ANCHOR_401_ABFE`).
 
 **★ UPDATE 2026-07-09 (ABFE lead-opt cross-check — it's a TIE, not a "beat"; the header above is the MM-GBSA-era claim).**
 Ran the full ABFE on `lo_m0_NCCO` through the *same* engine/frame/Boresch scheme as 401 (single replicate, 1 ns/window,
-n_iter=1000; tag `nr4a3-abfe-lo-m0-ncco`). Raw ΔG_bind(NR4A3) = **+2.85 ± 0.28** → offset-corrected ≈ **−4.3**;
+n_iter=1000; tag `nr4a3-abfe-lo-m0-ncco`). Raw ΔG_bind(NR4A3) = **+2.85 ± 0.28** ⚠ *(superseded, retained:
+"→ offset-corrected ≈ −4.3" — the offset correction is retired, see above; the raw value is the reportable one)*;
 ΔG_bind(NR4A1) = **+9.57 ± 0.32**; ΔG_bind(NR4A2) = **+8.27 ± 0.50**; ΔΔG(NR4A3 − NR4A1) = **−6.7**, ΔΔG(NR4A3 − NR4A2) =
 **−5.4** kcal/mol (both favour NR4A3). **ALL FOUR legs done (2026-07-09→10, ~04:00 UTC); full reduce run.** Every axis is
 **within noise of 401** (+2.6 / +9.5 / +8.1; ΔΔG −6.9 / −5.5): **FEP does NOT confirm the MM-GBSA-predicted ~+5.5 kcal
@@ -347,7 +356,9 @@ Two controls the paper had flagged as pending (caveat 7 / §2.6) were run and fo
 - **Remaining gates:** selectivity FEP (the one quantitative tier left; frame-dependence best fixed by ensemble
   scoring first) — **no longer skipped** (regime updated 2026-07-01).
 
-## 🔴 RED-TEAM MITIGATION PROGRAM (2026-07-01, trimcrae authorized autonomous GPU) — IN PROGRESS
+## 🔴 RED-TEAM MITIGATION PROGRAM (2026-07-01, trimcrae authorized autonomous GPU) — ✅ COMPLETE 2026-07-01
+⚠ *Superseded, retained: "— IN PROGRESS". This heading contradicted the "**PROGRAM COMPLETE (2026-07-01)**"
+line inside its own section for over a month.*
 **★ North star (trimcrae 2026-07-01):** produce **the state of the art of what in-silico testing can do for an
 NR4A3-selective degrader.** Every warranted run below serves that; the preprint documents the SOTA in-silico case.
 **Authorization:** trimcrae, 2026-07-01: *"Do the GPU runs that are warranted to strengthen the claims. Merge
@@ -362,7 +373,10 @@ Processing/MM-GBSA/dock jobs: just run them and report.
 **⛔ FEP CARVE-OUT (trimcrae 2026-07-01): do NOT start any FEP job without checking with the user first** — they
 expect GPU-setup changes are needed for it. This is the ONE exception to the autonomous-GPU authorization above.
 FEP is "no longer skipped" (it's the SOTA gate) but it is **gated on an explicit user go-ahead**, not auto-dispatched.
-**FEP HARNESS BUILT (2026-07-01, spot + parallel + early-stop; NOT yet run) — the GPU-setup change trimcrae asked
+**FEP HARNESS BUILT (2026-07-01, spot + parallel + early-stop) — ✅ IT HAS SINCE RUN: four ABFE legs landed
+2026-07-09/10 and the paper §2.8 reports a THREE-REPLICATE result. ⚠ *Superseded, retained: "NOT yet run" and
+the "GATED on trimcrae go-ahead; do NOT auto-start" framing below — both were true on 2026-07-01 and neither
+has been for a month.* — the GPU-setup change trimcrae asked
 for.** Full design: [`nr4a3-fep-plan.md`](./nr4a3-fep-plan.md). Spot Training jobs (Processing can't do spot),
 fanned out one per (receptor×leg×λ-window) shard, continuous-checkpoint spot resume, **pilot-first two-pass +
 central early-stop monitor** that `StopTrainingJob`s the whole fleet if the pilot ΔΔG is confidently
@@ -550,7 +564,8 @@ dependent steps below must be dispatched as each upstream job lands (verify via 
   denovo_0} (+denovo_67 rescued). **Only denovo_111 is NR4A3-favoured in BOTH states** — the rest flip. Layered
   on the decoy non-specificity (#2), this confirms the single-snapshot verdict is unstable + non-specific; even
   denovo_111 is not above the ~39–58 % decoy null. Reinforces: a controlled multi-snapshot/FEP tier is required.
-- **Tier 2 #4 (re-generate with the filter in-loop) — RUNNING.** `gpu-denovo-aws.yml n_samples=500
+- **Tier 2 #4 (re-generate with the filter in-loop) — ✅ DONE 2026-06-30** ("Mine v2 — DONE", below).
+  ⚠ *Superseded, retained: "RUNNING".* `gpu-denovo-aws.yml n_samples=500
   output_prefix=nr4a3-denovo-v2` (the funnel now demotes non-developable, so clean candidates rank top).
   **NEXT once it lands: dock `gpu-denovo-dock-aws.yml denovo_prefix=nr4a3-denovo-v2 developable_only=1
   output_prefix=nr4a3-denovo-matrix-v2` → MM-GBSA → `nr4a3-denovo-mmgbsa-v2`**; goal = a clean AND
@@ -619,8 +634,9 @@ v2 (500 gen, top-20) → 1 above-null (denovo_401); v3 (1000 gen, top-20) → 0 
 under the +13.12 bar). Scaling generation didn't help because we under-sample each pool. **Fix: raise TOP_N
 (dock the full developable set, ~60–110 for 1000 gens) so the decoy-calibrated MM-GBSA can find the buried
 above-null hits.** Dock is CPU (cheap, overlaps the g5 generation); MM-GBSA on ~60 cands = ~2–3 h g5 (~$3–4).
-- **v3-deep dock RUNNING** (`top_n=60` → `nr4a3-denovo-matrix-v3deep`); then MM-GBSA → rank vs decoy bar.
-- **v4 generation RUNNING** (`nr4a3-denovo-v4`, n=1000) — dock it deep too (top_n=60), not top-20.
+- **v3-deep dock ✅ LANDED** (`top_n=60` → `nr4a3-denovo-matrix-v3deep`, the v3deep-ms2 block below).
+- **v4 generation ✅ LANDED** (`nr4a3-denovo-v4`, n=1000; v4-deep returned **0 above-null**).
+  ⚠ *Superseded, retained: both rows read "RUNNING".*
 - **Also deepen v2** (top_n=60) — cheap, may surface more siblings of denovo_401.
 - Better still (next build): rank the developable set by a **selectivity-aware prior** before docking (e.g.
   divergent-handle-contact count from the generated pose) instead of `denovo_promise`, so the docked subset is
@@ -703,7 +719,8 @@ voided selectivity (paralogue docks failed on a residue-renumbering bug — the 
 renumbered 1..254, not the AF2 406..534); fixed by passing the opened conformer's actual resSeqs (`box_res`)
 into `map_pocket_to_paralogue`, plus fail-loud guards (`selectivity_evaluated`, `paralogue_pocket_residues_mapped`).
 These margins are still **opened-NR4A3-vs-STATIC-paralogue = confounded upper bounds** on selectivity —
-the family metad (in flight) is the fix.
+the family metad (✅ landed — all three `*-metad` ensembles are in S3 and the matrix is complete) is the fix.
+⚠ *Superseded, retained: "(in flight)".*
 
 **FAMILY-WIDE MATRIX — build steps once `nr4a1-metad` + `nr4a2-metad` land in S3:**
 1. **State-matched warhead matrix** — extend `nr4a3_warhead.py` to dock the library into each paralogue's
@@ -809,8 +826,19 @@ the family metad (in flight) is the fix.
        `.github/workflows/release-druggable-aws.yml`. Reuses the `nr4a3-release-pocket` per-frame
        druggability to pick candidates, then re-runs fpocket on each chosen frame to CONFIRM + read the
        docking box. Output `s3://<bucket>/nr4a3-release-druggable/` (manifest + 4 receptor PDBs + plot).
-       **Result:** **primary = rep0 frame 95, Rg 0.7367 (≈ target 0.737), confirmed druggability 0.667**
-       (in the 0.53–0.68 drug-bound band). Druggable **sub-ensemble = primary + alt1 (0.536) + alt3
+       **Result:** primary = rep0 frame 95.
+       ⛔ **THIS FRAME FAILS ITS OWN SUBMISSION GATE UNDER THE HARMONIZED DETECTOR, AND THAT IS THE
+       HEADLINE — `R3` is ✕ REFUTED (2026-08-03).** The exact generation receptor
+       (`nr4a3-release-druggable.pdb` = release rep0 frame 95) re-scored under the harmonized,
+       score-independent orthosteric-site definition gives **druggability 0.259 against D\* = 0.53** →
+       `verdict: GATE_A_FAIL_BELOW_DSTAR` ([`r3-generation-frame-harmonized.json`](./r3-generation-frame-harmonized.json)).
+       Its measured CV Rg is **0.7612 nm**, not 0.7367 — and Rg is the frame-SELECTION criterion (`C6`,
+       ⚠ CONTESTED), never a druggability label.
+       ⚠ *Superseded, retained: "Rg 0.7367 (≈ target 0.737), confirmed druggability 0.667 (in the 0.53–0.68
+       drug-bound band)." The 0.667 is stored in that same artifact as `_prior_manifest_score` — a
+       PRE-HARMONIZED value written 2026-06-29, before the harmonized tracker froze. Everything generated
+       into this receptor inherits the failure; a candidate cannot be better than the pocket it was designed
+       into.* Druggable **sub-ensemble = primary + alt1 (0.536) + alt3
        (0.642)**, spanning Rg 0.737–0.764. **alt2 (frame 41) DROPPED:** reused-summary 0.558 but confirmed
        **0.001** on re-extraction (single-frame fpocket / fpocket-build fragility — the reason the driver
        re-confirms). Driver hardened to confirm-filter the sub-ensemble (`druggable_subensemble`,
@@ -978,7 +1006,11 @@ the family metad (in flight) is the fix.
   reload); a per-iteration-checkpointed lane loses ~5–9 min to a preemption and should set a lower
   `VAST_BID_FLOOR_MULT` per lane rather than inherit it. Full analysis: [step1-fanout-lane.md](./step1-fanout-lane.md) §6.
 - **🛑 NEVER PRICE ONE SYSTEM OFF ANOTHER SYSTEM'S PER-ITERATION RATE (2026-07-24, cost 4× on step1_fanout).**
-  The `step1_fanout` estimate ($12–26, realized ~$91–101) used a rate measured on the **public TYK2** edge as if
+  The `step1_fanout` estimate ($12–26, realized ~$91–101 — ⚠ *both figures are SUPERSEDED and neither is the
+  band today: the fan-out of record is **~$36 ($15–80)** for 19 edges. The estimate was stale on both axes (a
+  TYK2 rate and one cheap host's $0.122/hr), and the "realized" figure was what bidding ×1.5 on a min_bid-ranked
+  offer cost, not the market. They are kept because the LESSON is the estimate's provenance, not its value*)
+  used a rate measured on the **public TYK2** edge as if
   it were the NR4A3 rate. Same card, same windows, same ps/iteration — **498 ns/day vs 190 ns/day**. The caveat
   was written in the same file three lines below the number and was propagated past anyway, because the bolded
   **MEASURED** label conferred authority the caveat had already withdrawn. **If a rate was measured on a
@@ -1262,7 +1294,9 @@ the family metad (in flight) is the fix.
       frame). Run B (low-energy druggable 0.717) is **metastable by Rg** (held 5 ns, frac-near-seed 1.00). But
       it settled at ~0.755 (≈ closed ref), so the decisive question — is the metastable state still
       *druggable*? — is being answered by the running mdpocket job (+ a triplicate). See the Release-run entry
-      above. **Still gates FEP + de-novo: do NOT launch until the druggability check resolves.**
+      above. ⚠ *Superseded, retained: "**Still gates FEP + de-novo: do NOT launch until the druggability
+      check resolves.**" It RESOLVED 2026-06-29, POSITIVE — recorded earlier in this same file — and FEP
+      then ran. The hold outlived its own resolution by five weeks.*
 - [x] Harden the metad submitter against interruption — DONE 2026-06-27: 20 h MaxRuntime ceiling +
       continuous S3 checkpoint upload (resumable). The 6 h GitHub-wrapper cancellation is now harmless.
 - [x] Opened-frame handle-facing confirmation — **DONE** (CONFIRMED 2026-06-26, run 28249776934; mean
