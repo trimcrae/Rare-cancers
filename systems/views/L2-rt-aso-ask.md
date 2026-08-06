@@ -77,6 +77,16 @@ It is already a fully specified experimental proposal. What it lacks is a taker,
 **Missing:**
 - a collaborator with an EMC or FET-fusion line
 
+## Where this route ends — the paper
+
+**[PUB-ASO](L3-publications.md)** — [A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity](../../research/manuscripts/fusion-junction-aso-paper.md)
+
+`contributing` · ◐ `drafted` · aimed at `chemrxiv`
+
+**This route contributes:** The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench.
+
+**The paper would claim:** The EWSR1::NR4A3 breakpoint junction is the one truly tumour-exclusive feature of this disease at the RNA level, an oligonucleotide can be designed to read it rather than a shape, and transcriptome-wide specificity screening finds no competing match — with delivery named as the outstanding gate rather than assumed away.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

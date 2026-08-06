@@ -60,11 +60,11 @@ flowchart LR
 
 ## Routes
 
-| route | state | maturity | readiness today | next action |
-|---|---|---|---|---|
-| **[RT-ATR-ASSESS](L2-rt-atr-assess.md)**<br/>The in-silico ATR vulnerability assessment (the computed half) | ✓ ready | computed | `preprint` | Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask. |
-| **[RT-ATR-PANEL](L2-rt-atr-panel.md)**<br/>The ATR-inhibitor cell panel in EMC lines (the ask) | ○ blocked | scoped | `experimental_proposal` | Send the ask with the assessment. It is the strongest taker-fit in the portfolio. |
-| **[RT-SYNLETH-DEP](L2-rt-synleth-dep.md)**<br/>Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BAF) | ✓ parked | computed | `internal_note` | Keep parked on data with the transfer-prior negative stated as data-bounded, not as a biological finding. |
+| route | state | maturity | readiness today | ends in | next action |
+|---|---|---|---|---|---|
+| **[RT-ATR-ASSESS](L2-rt-atr-assess.md)**<br/>The in-silico ATR vulnerability assessment (the computed half) | ✓ ready | computed | `preprint` | [PUB-ATR](L3-publications.md) ◐ *primary* | Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask. |
+| **[RT-ATR-PANEL](L2-rt-atr-panel.md)**<br/>The ATR-inhibitor cell panel in EMC lines (the ask) | ○ blocked | scoped | `experimental_proposal` | [PUB-ATR-PANEL-ASK](L3-publications.md) ◐ *primary* | Send the ask with the assessment. It is the strongest taker-fit in the portfolio. |
+| **[RT-SYNLETH-DEP](L2-rt-synleth-dep.md)**<br/>Synthetic-lethal / dependency partner (BRD9 / ncBAF via EWSR1-prion→BAF) | ✓ parked | computed | `internal_note` | [PUB-SYNLETH](L3-publications.md) ◐ *primary* | Keep parked on data with the transfer-prior negative stated as data-bounded, not as a biological finding. |
 
 ## Family-level bets — blockers EVERY route here inherits
 

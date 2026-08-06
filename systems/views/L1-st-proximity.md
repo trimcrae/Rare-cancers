@@ -20,9 +20,9 @@ last_verified: 2026-08-05
 
 **Thesis.** The NR4A3 ligand-binding domain does not need to be inhibited, only ENGAGED, because the therapeutic effect comes from what the molecule recruits rather than from what it blocks. This converts an undruggable transcription factor into a tractable target, at the price of needing a second binding site, a linker geometry and a productive assembly.
 
-**Portfolio role:** `lead` · **state:** ◐ blocked · computed · confidence low
+**Portfolio role:** `hedge` · **state:** ◐ blocked · computed · confidence low
 
-> This is the program's north star and the family that has absorbed most of its effort. It is also the family whose failures reorganise every other row in the portfolio.
+> The family that has absorbed most of this program's effort, and the one whose failures reorganise every other row in the portfolio. ⚠ NO LONGER THE PORTFOLIO'S LEAD (trimcrae, 2026-08-06). Superseded, retained: "This is the program's north star and the family that has absorbed most of its effort." The path was taken and it ran into enough blockers — no ligand of any kind for the pocket, no correctly assembled ternary complex, and a required selectivity margin larger than the instruments meant to resolve it can resolve — that it no longer earns a privileged position over the rest of the board. ⛔ THAT IS A DEMOTION OF ITS STANDING, NOT OF ITS EVIDENCE: every result here stands exactly as it was measured, and the effort spent is precisely why this family's limits are the best-characterised in the portfolio.
 
 ## What this family may NOT be used to claim
 
@@ -93,15 +93,15 @@ flowchart LR
 
 ## Routes
 
-| route | state | maturity | readiness today | next action |
-|---|---|---|---|---|
-| **[RT-AF3-INTERFACE](L2-rt-af3-interface.md)**<br/>AF3 on a druggable interface | ○ parked | concept | `internal_note` | Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In- |
-| **[RT-ANDGATE](L2-rt-andgate.md)**<br/>AND-gate bivalent degrader (avidity coincidence detection) | ○ parked | concept | `internal_note` | Keep as a registered design option; do not build. Its value is that it names what a second arm would buy, so t |
-| **[RT-DEGRADER](L2-rt-degrader.md)**<br/>NR4A3-LBD PROTAC degrader | ◐ blocked | computed | `preprint` | Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio |
-| **[RT-GLUE](L2-rt-glue.md)**<br/>Molecular glue instead of a PROTAC | ○ parked | concept | `internal_note` | Watch for a prospectively validated glue design method. Nothing to build until one exists. |
-| **[RT-RIPTAC](L2-rt-riptac.md)**<br/>RIPTAC — bind the tumour protein, poison an essential one | ○ parked | concept | `internal_note` | Keep registered. Do not build while the routes it is dominated by are still blocked. |
-| **[RT-TCIP](L2-rt-tcip.md)**<br/>TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3 | ○ blocked | scoped | `reproducible_workflow` | Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing |
-| **[RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md)**<br/>Fusion-selective ubiquitination — discriminate at the transfer step | ✓ parked | computed | `internal_note` | Keep the categorical inventory as a disclosed-limitation supplement. Do not restate it as a degradation-geomet |
+| route | state | maturity | readiness today | ends in | next action |
+|---|---|---|---|---|---|
+| **[RT-AF3-INTERFACE](L2-rt-af3-interface.md)**<br/>AF3 on a druggable interface | ○ parked | concept | `internal_note` | [PUB-PARKED-MODALITIES](L3-publications.md) ○ *contributing* | Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In- |
+| **[RT-ANDGATE](L2-rt-andgate.md)**<br/>AND-gate bivalent degrader (avidity coincidence detection) | ○ parked | concept | `internal_note` | [PUB-ANDGATE](L3-publications.md) ◐ *primary* | Keep as a registered design option; do not build. Its value is that it names what a second arm would buy, so t |
+| **[RT-DEGRADER](L2-rt-degrader.md)**<br/>NR4A3-LBD PROTAC degrader | ◐ blocked | computed | `preprint` | [PUB-DEGRADER](L3-publications.md) ◐ *primary* | Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio |
+| **[RT-GLUE](L2-rt-glue.md)**<br/>Molecular glue instead of a PROTAC | ○ parked | concept | `internal_note` | [PUB-PARKED-MODALITIES](L3-publications.md) ○ *contributing* | Watch for a prospectively validated glue design method. Nothing to build until one exists. |
+| **[RT-RIPTAC](L2-rt-riptac.md)**<br/>RIPTAC — bind the tumour protein, poison an essential one | ○ parked | concept | `internal_note` | [PUB-PARKED-MODALITIES](L3-publications.md) ○ *contributing* | Keep registered. Do not build while the routes it is dominated by are still blocked. |
+| **[RT-TCIP](L2-rt-tcip.md)**<br/>TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3 | ○ blocked | scoped | `reproducible_workflow` | [PUB-TCIP](L3-publications.md) ○ *primary* | Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing |
+| **[RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md)**<br/>Fusion-selective ubiquitination — discriminate at the transfer step | ✓ parked | computed | `internal_note` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | Keep the categorical inventory as a disclosed-limitation supplement. Do not restate it as a degradation-geomet |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-TERNARY-GEOMETRY** (`requires_better_structure_prediction`) — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer

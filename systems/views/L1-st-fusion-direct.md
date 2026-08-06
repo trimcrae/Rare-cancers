@@ -58,11 +58,11 @@ flowchart LR
 
 ## Routes
 
-| route | state | maturity | readiness today | next action |
-|---|---|---|---|---|
-| **[RT-DBD](L2-rt-dbd.md)**<br/>Target the DBD / DNA binding | ✕ closed | computed | `internal_note` | Nothing. Cite the closure. |
-| **[RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md)**<br/>Target the EWSR1 half at the protein level | ✕ closed | scoped | `internal_note` | Nothing. Cite the closure when the idea resurfaces. |
-| **[RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md)**<br/>A ligand for the shared FET low-complexity half | ✕ closed | scoped | `internal_note` | Nothing. Cite the closure. |
+| route | state | maturity | readiness today | ends in | next action |
+|---|---|---|---|---|---|
+| **[RT-DBD](L2-rt-dbd.md)**<br/>Target the DBD / DNA binding | ✕ closed | computed | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ○ *contributing* | Nothing. Cite the closure. |
+| **[RT-EWSR1-PROTEIN](L2-rt-ewsr1-protein.md)**<br/>Target the EWSR1 half at the protein level | ✕ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ○ *contributing* | Nothing. Cite the closure when the idea resurfaces. |
+| **[RT-FET-LC-LIGAND](L2-rt-fet-lc-ligand.md)**<br/>A ligand for the shared FET low-complexity half | ✕ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ○ *contributing* | Nothing. Cite the closure. |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-PARALOGUE-DDG** (`requires_better_simulation_accuracy`) — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)

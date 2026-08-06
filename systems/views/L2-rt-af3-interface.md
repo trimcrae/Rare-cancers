@@ -72,6 +72,18 @@ This is a method waiting on a method. There is nothing to report until a co-fold
 **Missing:**
 - a co-folder validated on assembly
 
+## Where this route ends — the paper
+
+**[PUB-PARKED-MODALITIES](L3-publications.md)** — *Five modalities parked on a capability that does not exist yet: what would have to land, and how it is being watched for* (unwritten)
+
+`contributing` · ○ `unwritten` · aimed at `preprint`
+
+**This route contributes:** A method waiting on a method, with the benchmark that would end the wait stated precisely: inter-chain accuracy on post-training-horizon structures.
+
+**The paper would claim:** For each parked modality there is a single named capability — a glue design method with a prospective track record, a co-folder benchmarked on assembly, a solid-tumour vector — whose arrival would make the route computable, and stating that capability with its scan trigger converts an indefinite park into a monitored condition.
+
+**It is not written because:** Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. It is worth writing only once at least one of the watched capabilities lands; until then the scan triggers carry the work.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

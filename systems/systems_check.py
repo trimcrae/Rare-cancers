@@ -43,6 +43,14 @@ COLLECTIONS = [
     # Prose is not queryable: that is how an artifact belonging to a lane which CLOSED on 2026-07-30
     # was read as a gap to fill on 2026-08-05, at a cost of 88.5 minutes of CI.
     "lanes",
+    # ⭐ PUBLICATIONS — the endpoint every route is actually for. ARCHITECTURE §3 keeps L3 and L4 as
+    # DOCUMENTS on the grounds that copying a file's title into JSON makes a second home for a fact the
+    # file owns, and that reasoning still holds: a row with a `document` copies nothing and the renderer
+    # reads the title back out of the file's frontmatter. What it did not cover is a paper that DOES NOT
+    # EXIST YET. An unwritten publication has no file, so it has no other home — and leaving it
+    # unmodelled made "this route has no endpoint" and "this route's endpoint is not written yet"
+    # render identically, across a portfolio where the second is the common case.
+    "publications",
 ]
 
 # A blocker of this kind is a fact about what the objects ARE. It is not waiting on anything,
@@ -407,7 +415,8 @@ def check_schemas(g, f):
     # ⛔ `requirements` AND `instruments` WERE THE UNSCHEMA'D PAIR UNTIL 2026-08-05, and that is not a
     # coincidence — it is where the untyped relation between them lived. `instrument.serves` held
     # "R13" beside "the ATR route's structural precondition" and nothing could tell them apart.
-    for coll, key in [("lanes", "lane"), ("requirements", "requirement"), ("instruments", "instrument")]:
+    for coll, key in [("lanes", "lane"), ("requirements", "requirement"), ("instruments", "instrument"),
+                      ("publications", "publication")]:
         doc = mv.docs[f"{key}.schema.json"]
         for row in g[coll]:
             for msg in mv.validate(row, doc["$defs"][key], doc):
@@ -453,6 +462,80 @@ def check_hierarchy(g, f):
                           f"only-in-family={sorted(listed-actual)} only-in-routes={sorted(actual-listed)}")
         if not actual:
             f.err("[H3]", f"{s['id']} has no routes -- an empty family is a category, not a strategy")
+
+
+def check_publications(g, f):
+    """Every route ends in a paper, every paper is claimed by a route, and neither may be implied.
+
+    ⭐ WHY THIS IS AN INVARIANT AND NOT A REPORT. This program has no wet lab and no clinic, so the
+    published record is the ONLY channel by which any route reaches a patient. That makes the endpoint
+    a structural property of a route rather than a nicety — and until 2026-08-06 the model carried it
+    for no route at all. `readiness.attainable_today` came closest and answers a different question:
+    it says what FORM this route could reach today, never WHICH paper it lands in or what that paper
+    would assert. So a route could be fully specified, correctly blocked, honestly graded — and silent
+    about what it was for.
+
+    ⚠ THE INVERSE ORPHAN IS REPORTED, NOT ERRORED. An L3 document no publication row claims is usually
+    a memo, a red-team or a plan rather than an endpoint, so warning on it would train the reader to
+    ignore this check. It is an INFO with a count, which is what makes it visible without being noise.
+    """
+    pubs = by_id(g["publications"])
+    claimed = defaultdict(list)
+    for r in g["routes"]:
+        p = r.get("publication") or {}
+        end = p.get("endpoint")
+        if end not in pubs:
+            f.err("[B1]", f"{r['id']} names publication endpoint {end!r}, which is not in the register")
+            continue
+        claimed[end].append(r["id"])
+
+    for p in g["publications"]:
+        if not claimed.get(p["id"]):
+            f.err("[B2]", f"{p['id']} is claimed by no route — a paper nothing is trying to reach is "
+                          f"either an endpoint that lost its route or a route that was never modelled")
+        comp = p.get("companion_of")
+        if comp and comp not in pubs:
+            f.err("[B3]", f"{p['id']}.companion_of names unknown publication {comp}")
+
+        # ⛔ A `document` MUST BE A PUBLICATION, NOT MERELY A FILE. check_pointers already proves the
+        # path exists; that is a weaker statement than it looks, because every memo, plan and red-team
+        # in research/manuscripts/ would also pass it. The frontmatter level is what distinguishes a
+        # deliverable from a note ABOUT a deliverable, and pointing an endpoint at the second is the
+        # exact confusion this register was added to stop.
+        doc = p.get("document")
+        if doc and doc.get("file"):
+            full = os.path.join(REPO, doc["file"])
+            if os.path.exists(full):
+                with open(full, encoding="utf-8", errors="ignore") as fh:
+                    fmv = _yaml_frontmatter(fh.read())[0] or {}
+                if fmv.get("level") != "L3":
+                    f.err("[B4]", f"{p['id']}.document points at {doc['file']}, which declares "
+                                  f"level {fmv.get('level')!r} rather than L3 — an endpoint must be a "
+                                  f"publication, not a memo about one")
+
+    # ⭐ THE ONE ACTIONABLE PAIRING: a route nothing is blocking, whose paper nobody has written. It is
+    # the only combination in this register where the missing input is neither a capability, a
+    # measurement nor a person — it is the writing, and naming that separately is the whole reason
+    # `why_not_written` distinguishes "blocked" from "unstarted".
+    for r in g["routes"]:
+        end = (r.get("publication") or {}).get("endpoint")
+        p = pubs.get(end)
+        if p and p["state"] in ("unwritten", "outlined") and r.get("state", {}).get("status") == "ready":
+            f.warn("[B5]", f"{r['id']} is ready and its endpoint {end} is {p['state']} — nothing "
+                           f"blocks this paper except writing it")
+
+    written = [p for p in g["publications"] if p["state"] != "unwritten"]
+    f.info("[B6]", f"{len(g['publications'])} publication endpoint(s) for {len(g['routes'])} routes: "
+                   f"{len(written)} with a document, {len(g['publications']) - len(written)} unwritten")
+
+    pointed = {(p.get("document") or {}).get("file") for p in g["publications"]}
+    l3 = [rel for rel, text in _walk_md(DOC_SKIP)
+          if (_yaml_frontmatter(text)[0] or {}).get("level") == "L3"]
+    unclaimed = sorted(set(l3) - pointed)
+    if unclaimed:
+        f.info("[B7]", f"{len(unclaimed)} document(s) declare level L3 and are the endpoint of no "
+                       f"route — expected, most are memos, plans and red-teams rather than "
+                       f"deliverables: {', '.join(os.path.basename(x) for x in unclaimed[:4])}…")
 
 
 def check_blockers(g, f):
@@ -1861,6 +1944,7 @@ def run_checks(g, f):
     check_legacy_agreement(g, f)
     check_ids_unique(g, f)
     check_hierarchy(g, f)
+    check_publications(g, f)
     check_blockers(g, f)
     check_requirements(g, f)
     check_lanes(g, f)
@@ -2198,6 +2282,27 @@ def render_l0(g):
                    f"| {ss['n_routes']} | {gly} {s['state']['status']} · {s['state']['maturity']} "
                    f"| {s['portfolio_role']} |")
 
+    out += ["", "## Where the portfolio ends\n",
+            "Every route above ends in a paper. With no wet lab and no clinic, the published record is"
+            " the only channel by which any of this reaches a patient — so an endpoint is a property"
+            " of a route rather than an afterthought, and one that cannot be named is an activity"
+            " rather than an option. Full register, with what each paper would claim:"
+            " [L3-publications.md](L3-publications.md).\n",
+            "⚠ **This counts DELIVERABLES, not progress.** `drafted` means a file exists and says"
+            " nothing about whether the science in it holds — that is the route pages and their"
+            " instruments.\n",
+            "| state | endpoints | routes feeding them |", "|---|---:|---:|"]
+    pub_routes = defaultdict(int)
+    for r in g["routes"]:
+        pub_routes[r["publication"]["endpoint"]] += 1
+    by_state = defaultdict(list)
+    for p in g["publications"]:
+        by_state[p["state"]].append(p)
+    for state in [s for s in PUB_GLYPH if by_state.get(s)]:
+        rows = by_state[state]
+        out.append(f"| {PUB_GLYPH[state]} `{state}` | {len(rows)} "
+                   f"| {sum(pub_routes[p['id']] for p in rows)} |")
+
     out += ["", "## What holds the portfolio down\n",
             "A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.\n",
             "⚠ **Ranked by ROUTES held — a different axis from the diagram above**, which ranks by families"
@@ -2228,11 +2333,18 @@ def render_l0(g):
     out += ["", "## Drill down\n",
             "- **L1** — a strategy family: `L1-<family>.md`",
             "- **L2** — a single route: `L2-<route>.md`",
-            "- **L3 · L4** — publications and the experiments that feed them are DOCUMENTS. They declare "
-            "their level in their own frontmatter rather than being copied into the graph, so their "
-            "count is reported by `systems_check --check` (`[D11]`) and is deliberately NOT pinned in "
-            "any committed file — pinning it would turn every new memo into a red build. The "
-            "instruments that produce their evidence ARE modelled: "
+            "- **L3** — [publications](L3-publications.md): the endpoint every route is FOR, written "
+            "or not. ⚠ *Superseded, retained: “**L3 · L4** — publications and the experiments that "
+            "feed them are DOCUMENTS”, on the grounds that copying a file's title into the graph "
+            "makes a second home for it. That reasoning holds and is why a written endpoint still "
+            "carries no title here — but it covered only papers that EXIST, and an unwritten one has "
+            "no file to be a document in. Under it, a route with no endpoint and a route whose paper "
+            "is not written yet rendered identically, across a portfolio where the second is the "
+            "common case.*",
+            "- **L4** — the experiments that feed them are still DOCUMENTS, declaring their level in "
+            "their own frontmatter, so their count is reported by `systems_check --check` (`[D11]`) "
+            "and is deliberately NOT pinned in any committed file — pinning it would turn every new "
+            "memo into a red build. The instruments that produce their evidence ARE modelled: "
             "[registers/instruments.md](registers/instruments.md).",
             "- **L5** — [the evidence base](L5-evidence-base.md): every object, citation, artifact and "
             "pinned claim, each showing what rests on it",
@@ -2271,15 +2383,21 @@ def render_l1(s, g):
 
     out += ["## Is this family blocked as a unit, or route by route?\n"]
     out += diagram_l1(s, g)
-    out += ["## Routes\n", "| route | state | maturity | readiness today | next action |", "|---|---|---|---|---|"]
+    out += ["## Routes\n",
+            "| route | state | maturity | readiness today | ends in | next action |",
+            "|---|---|---|---|---|---|"]
+    pk = by_id(g["publications"])
     for rid in s["routes"]:
         r = rt[rid]
         st = r.get("state", {})
         rd = (r.get("readiness") or {}).get("attainable_today", "—")
         na = (r.get("next") or {}).get("best_next_action", "—")
+        pr = r["publication"]
+        p = pk[pr["endpoint"]]
         out.append(f"| **[{rid}](L2-{route_slug(rid)}.md)**<br/>{esc(r.get('display_name', r.get('title','')))} "
                    f"| {GLYPH.get(st.get('work_state'),'?')} {st.get('status','—')} | {st.get('maturity','—')} "
-                   f"| `{rd}` | {esc(na[:110])} |")
+                   f"| `{rd}` | [{pr['endpoint']}](L3-publications.md) "
+                   f"{PUB_GLYPH[p['state']]} *{pr['role']}* | {esc(na[:110])} |")
 
     if s.get("shared_blockers"):
         out += ["", "## Family-level bets — blockers EVERY route here inherits\n",
@@ -2374,6 +2492,25 @@ def render_l2(r, g):
             if rd.get(key):
                 out += [f"**{label}:**"] + [f"- {x}" for x in rd[key]] + [""]
 
+    # ⭐ IMMEDIATELY AFTER READINESS, BECAUSE THE TWO ARE ONLY USEFUL TOGETHER. `readiness` says what
+    # FORM this route could reach today; the endpoint says which paper it lands in and what that paper
+    # would assert. Either alone is half an answer — a route can be preprint-ready and still have no
+    # paper, and a paper can be named with no route ready to fill it.
+    pr = r.get("publication")
+    if pr:
+        p = by_id(g["publications"])[pr["endpoint"]]
+        title, path = _pub_title(p)
+        out += ["## Where this route ends — the paper\n",
+                f"**[{pr['endpoint']}](L3-publications.md)** — "
+                + (f"[{esc(title)}]({os.path.relpath(os.path.join(REPO, path), VIEWS)})" if path
+                   else f"*{esc(title)}* (unwritten)") + "\n",
+                f"`{pr['role']}` · {PUB_GLYPH[p['state']]} `{p['state']}` · aimed at "
+                f"`{p['target_venue']}`\n",
+                f"**This route contributes:** {pr['contribution']}\n",
+                f"**The paper would claim:** {p['what_it_would_claim']}\n"]
+        if p.get("why_not_written"):
+            out.append(f"**It is not written because:** {p['why_not_written']}\n")
+
     tm = r.get("timing")
     if tm:
         out += ["## Strategic timing — the wait equation\n",
@@ -2457,6 +2594,154 @@ def _l2_trace_down(r, g):
         if ids:
             out.append(f"**L5 {kind}:** " + ", ".join(l5_link(kind, x) for x in ids) + "\n")
     return out
+
+
+#: How much of a paper exists. ⚠ NOT a quality grade — `drafted` says a file exists and nothing about
+#: whether the science in it is publishable. That second question is `target_venue` read against each
+#: route's own `readiness.attainable_today`, and conflating the two would let "we wrote it down" pass
+#: for "it is ready".
+PUB_GLYPH = {"unwritten": "○", "outlined": "◔", "drafted": "◐", "complete_unposted": "◕", "posted": "●"}
+
+
+def _pub_title(p):
+    """The paper's name — READ BACK from its own frontmatter, never copied into the graph.
+
+    ⭐ THIS IS WHY ARCHITECTURE §3'S ASYMMETRY SURVIVES THE ADDITION OF THIS COLLECTION. The rule was
+    never "publications are not modelled"; it was "do not create a second home for a fact the file
+    already owns". A row with a `document` therefore carries no title at all and the schema forbids one
+    — the renderer opens the file. A row with no document carries `working_title`, because an unwritten
+    paper has no file to own its name and the alternative is an endpoint nobody can refer to.
+
+    ⚠ THE COST IS DELIBERATE AND IS THE POINT: renaming a manuscript now turns the view-drift check red
+    until someone regenerates, which is the same contract every other generated value here operates
+    under. A title that could drift without failing the build is precisely the kind this repository has
+    had to correct by hand.
+    """
+    doc = p.get("document")
+    if not doc:
+        return p["working_title"], None
+    full = os.path.join(REPO, doc["file"])
+    if os.path.exists(full):
+        with open(full, encoding="utf-8", errors="ignore") as fh:
+            fmv = _yaml_frontmatter(fh.read())[0] or {}
+        if fmv.get("title"):
+            return fmv["title"], doc["file"]
+    return f"({os.path.basename(doc['file'])} — no title in its frontmatter)", doc["file"]
+
+
+def render_publications(g):
+    """L3 — the endpoint every route is for, including the ones nobody has written.
+
+    ⛔ THE VIEW EXISTS BECAUSE THE COUNT IS THE FINDING. Read route by route, "this one has no paper
+    yet" is an unremarkable line on a page. Gathered, it is the portfolio's actual shape, and it is
+    not visible at any other level.
+    """
+    # Most-written first, then by id. ⚠ NOT a ranking — a `posted` paper is not "ahead of" an
+    # unwritten one when the unwritten one is the only row nothing is blocking. Order here is for
+    # reading; what to do next is the plan's job.
+    pubs = sorted(g["publications"], key=lambda p: (-list(PUB_GLYPH).index(p["state"]), p["id"]))
+    rt = by_id(g["routes"])
+    claimed = defaultdict(list)
+    for r in g["routes"]:
+        claimed[r["publication"]["endpoint"]].append(r["id"])
+    n_written = sum(1 for p in g["publications"] if p["state"] != "unwritten")
+    out = [fm(id="DOC-VIEW-L3", title="L3 — publications: where every route ends",
+              level="L3", kind="generated", status="generated",
+              generator="systems/systems_check.py",
+              purpose="The terminal deliverable of every route, written or not — what each paper "
+                      "would claim, which routes feed it, and what is missing from the unwritten ones.",
+              scope="Level 3. One row per publication endpoint; the science behind each row is on "
+                    "the route pages.",
+              audience=["maintainers", "autonomous research agents", "external reviewers"],
+              date="2026-08-06", last_verified="2026-08-06"),
+           BANNER,
+           "# L3 — publications: where every route ends\n",
+           "> **Every route in this portfolio ends in a paper.** With no wet lab and no clinic, the "
+           "published\n> record is the only channel by which any of this work reaches a patient — so "
+           "the endpoint is a\n> property of a route, not an afterthought, and a route that cannot "
+           "name one is an activity\n> rather than an option.\n>\n"
+           "> **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** "
+           "A claim\n> below is what the paper would ESTABLISH, at the weight its instruments actually "
+           "support.\n",
+           f"**{len(g['publications'])} endpoints for {len(g['routes'])} routes · "
+           f"{n_written} with a document · {len(g['publications']) - n_written} unwritten.**\n",
+           "⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** "
+           "L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3]"
+           "(../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title "
+           "into JSON creates a second home for a fact the file owns. That reasoning is intact — a row "
+           "with a document carries no title and this page reads it back out of the file. What it did "
+           "not cover is a paper that **does not exist yet**: it has no file, so it has no other home, "
+           "and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint "
+           "is not written yet”* look identical.\n",
+           "## The endpoints\n",
+           "*A `—` in the last column means a document exists. It does **not** mean the paper is "
+           "finished or that the science in it holds — that question belongs to the route pages and "
+           "their instruments, and this page is careful not to answer it by implication.*\n",
+           "| endpoint | state | aimed at | routes | what is still missing |",
+           "|---|---|---|---:|---|"]
+    for p in pubs:
+        title, path = _pub_title(p)
+        short = title if len(title) <= 72 else title[:71] + "…"
+        link = f"[{esc(short)}]({os.path.relpath(os.path.join(REPO, path), VIEWS)})" if path \
+            else f"*{esc(short)}*"
+        gap = p.get("why_not_written") or "—"
+        out.append(f"| **{p['id']}**<br/>{link} | {PUB_GLYPH[p['state']]} `{p['state']}` "
+                   f"| `{p['target_venue']}` | {len(claimed[p['id']])} | {esc(_clip(gap, 150))} |")
+
+    out += ["", "## What each one would claim\n",
+            "*One statement per endpoint, written so a reader can disagree with it. If this sentence "
+            "cannot be written, there is no endpoint — there is an activity.*\n"]
+    for p in pubs:
+        title, path = _pub_title(p)
+        out.append(f"### {p['id']} — {esc(title)}\n")
+        bits = [f"{PUB_GLYPH[p['state']]} `{p['state']}`", f"aimed at `{p['target_venue']}`"]
+        if path:
+            bits.append(f"[`{path}`]({os.path.relpath(os.path.join(REPO, path), VIEWS)})")
+        if p.get("companion_of"):
+            bits.append(f"ships with **{p['companion_of']}**")
+        out += ["**" + " · ".join(bits) + "**\n", p["what_it_would_claim"], ""]
+        if p.get("why_not_written"):
+            out += [f"**Not written because:** {p['why_not_written']}\n"]
+        if p.get("blocked_by"):
+            bk = by_id(g["blockers"])
+            out += ["**Blocks on the PAPER** — deliberately not the same set its routes inherit, "
+                    "because a route can be blocked on a capability while its paper is publishable "
+                    "today as an honest negative:\n"] + \
+                   [f"- **{b}** (`{bk.get(b, {}).get('kind', '?')}`) — {esc(bk.get(b, {}).get('name', ''))}"
+                    for b in p["blocked_by"]] + [""]
+        out += ["| route | role | what it contributes |", "|---|---|---|"]
+        for rid in sorted(claimed[p["id"]]):
+            r, pr = rt[rid], rt[rid]["publication"]
+            out.append(f"| [{rid}](L2-{route_slug(rid)}.md) — {esc((r.get('display_name') or '')[:52])} "
+                       f"| `{pr['role']}` | {esc(pr['contribution'])} |")
+        out.append("")
+
+    out += ["## Every route, and where it ends\n",
+            "*The same edges from the other end. `readiness` is what the ROUTE could become today; "
+            "`aimed at` is what its PAPER is for — and the gap between the two columns is the honest "
+            "statement of what is left to do.*\n",
+            "| route | family | readiness today | endpoint | aimed at | role |",
+            "|---|---|---|---|---|---|"]
+    pk = by_id(g["publications"])
+    for r in sorted(g["routes"], key=lambda x: (x["publication"]["endpoint"], x["id"])):
+        pr, p = r["publication"], pk[r["publication"]["endpoint"]]
+        out.append(f"| [{r['id']}](L2-{route_slug(r['id'])}.md) "
+                   f"| [{r['strategy']}](L1-{r['strategy'].lower()}.md) "
+                   f"| `{(r.get('readiness') or {}).get('attainable_today', '—')}` "
+                   f"| **{p['id']}** {PUB_GLYPH[p['state']]} | `{p['target_venue']}` | `{pr['role']}` |")
+
+    out += ["", "## What this page deliberately leaves out\n",
+            "- **Whether the science is any good.** `drafted` means a file exists. It says nothing "
+            "about whether the draft holds up — that is the route pages, their instruments, and "
+            "whether those instruments recovered a known answer.",
+            "- **Every other L3 document.** Only a document that IS a route's endpoint appears here. "
+            "Memos, plans, red-teams and outreach packages also declare `level: L3` and are not "
+            "deliverables; `systems_check --check` reports their count as `[B7]` rather than listing "
+            "them, because warning on them would train the reader to ignore the check.",
+            "- **Order.** Nothing on this page ranks the endpoints. What to do next is "
+            "[the plan](plan.md).",
+            "", "[← L0](L0-ecosystem.md)\n"]
+    return "\n".join(out)
 
 
 def render_lanes(g):
@@ -3141,6 +3426,7 @@ def render_plan(g):
 
 def all_views(g):
     v = {"L0-ecosystem.md": render_l0(g),
+         "L3-publications.md": render_publications(g),
          "L5-evidence-base.md": render_evidence_base(g),
          "registers/lanes.md": render_lanes(g),
          "registers/blockers.md": render_blockers(g),

@@ -85,6 +85,16 @@ Its single supporting result currently lacks a resolvable primary identifier, an
 **Missing:**
 - a resolvable primary citation for the ex-vivo evidence
 
+## Where this route ends — the paper
+
+**[PUB-REPURPOSING](L3-publications.md)** — [Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma](../../research/manuscripts/repurposing-hypotheses.md)
+
+`primary` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The proteasome-inhibitor hypothesis and the ex-vivo EMC evidence behind it — the only ex-vivo EMC result in the portfolio, and currently the paper's weakest citation.
+
+**The paper would claim:** Existing agents not yet reported in EMC can be mapped to EMC's molecular and microenvironmental axes by three independent methods, each candidate graded by an explicit evidence tier — a hypothesis-generating menu that asserts no efficacy for any agent it names.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

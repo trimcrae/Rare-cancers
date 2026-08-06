@@ -88,6 +88,16 @@ Downgraded on a measurement rather than on reasoning, which is the useful kind o
 **Missing:**
 - a real EMC expression series
 
+## Where this route ends — the paper
+
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma](../../research/manuscripts/emc-surface-target-landscape.md)
+
+`contributing` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The cancer-testis antigen arm ported from synovial sarcoma, downgraded on a measurement rather than on an argument.
+
+**The paper would claim:** Surface and stromal antigens can be prioritised for EMC in silico from one cell line and a translocation-sarcoma comparison set, and every resulting negative is bounded by that surrogate basis rather than by an EMC tissue measurement — which is the honest limit of a search run without the disease's own expression data.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

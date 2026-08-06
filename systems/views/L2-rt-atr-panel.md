@@ -80,6 +80,16 @@ It is already a complete experimental proposal with a costed design. What it lac
 **Experiment required:**
 - a checkpoint-kinase inhibitor dose-response panel in EMC lines
 
+## Where this route ends — the paper
+
+**[PUB-ATR-PANEL-ASK](L3-publications.md)** — [The EMC arm, pre-built — a collaborator package for the FET / ATM / ATR laser-microirradiation assay](../../research/manuscripts/emc-atr-collaborator-package.md)
+
+`primary` · ◐ `drafted` · aimed at `experimental_proposal`
+
+**This route contributes:** The costed panel design, its controls and its kill criteria — the half of the ATR question that no computation can supply.
+
+**The paper would claim:** Everything a group already running the FET-fusion DSB-recruitment assay would have to derive in order to add EMC as a fourth partner class is pre-built — constructs, controls, predicted outcomes and kill criteria fixed in advance — so the marginal cost of testing the assessment's prediction is the bench time and nothing else.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

@@ -94,6 +94,16 @@ It is computationally complete on its own axis, and its limit — that this is c
 **Experiment required:**
 - a checkpoint-kinase inhibitor sensitivity panel in EMC lines
 
+## Where this route ends — the paper
+
+**[PUB-ATR](L3-publications.md)** — [The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/emc-atr-vulnerability-assessment.md)
+
+`primary` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The computed assessment itself, and the class-inheritance limit stated inside it rather than in a caveat section.
+
+**The paper would claim:** A replication-stress vulnerability can be assessed for EMC by inheritance from its FET-fusion class, and the assessment states inside itself that class inheritance is not an EMC measurement — which is what makes it an assessment rather than a finding.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

@@ -9,7 +9,7 @@
   "type": "object",
   "required": [
     "id", "title", "level", "kind", "purpose", "state", "provenance",
-    "strategy", "rationale", "supporting_evidence", "remaining_unknowns",
+    "strategy", "publication", "rationale", "supporting_evidence", "remaining_unknowns",
     "required_validation", "readiness", "timing"
   ],
   "additionalProperties": true,
@@ -23,6 +23,11 @@
       "type": "string",
       "pattern": "^ST-[A-Z0-9-]+$",
       "description": "Exactly one L1 family. Every route lands in exactly one; the checker enforces both directions, so a family that lists a route the route does not claim is an error."
+    },
+
+    "publication": {
+      "$ref": "publication.schema.json#/$defs/route_endpoint",
+      "description": "REQUIRED on every route, including closed and parked ones. ⭐ THE END GOAL OF EVERY ROUTE HERE IS A PAPER — this program has no wet lab and no clinic, so the only way any of this reaches a patient is by moving the published record. A route with no endpoint is therefore not an early-stage option, it is an activity, and until 2026-08-06 the model could not tell those apart: it recorded what each route WAS and what BLOCKED it, and nothing recorded what it was FOR. ⚠ A CLOSED ROUTE IS NOT EXEMPT and this is the point rather than a formality — a definitional closure is a publishable negative, and the field publishes almost none of them, so the routes with the least remaining science can carry the most transferable writing."
     },
 
     "grade": {

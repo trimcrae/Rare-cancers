@@ -79,6 +79,16 @@ The current predictions cannot be published because they span junctions that do 
 **Missing:**
 - regenerated predictions against the corrected exon index
 
+## Where this route ends — the paper
+
+**[PUB-NEOANTIGEN](L3-publications.md)** — [Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunot](../../research/manuscripts/fusion-junction-neoantigen-paper.md)
+
+`primary` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The junction peptide and its presentation predictions, which must be regenerated against the corrected exon index before any of them can be reported.
+
+**The paper would claim:** The fusion junction produces a peptide sequence that is absent from the normal proteome, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

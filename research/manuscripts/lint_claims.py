@@ -76,6 +76,13 @@ DEFAULT_TARGETS = [
     # is not a reading of absence" failure in linter form. The plan is what the next session steers by,
     # so it is linted wherever it lives.
     "systems/views/plan.md",
+    # ⭐ ADDED 2026-08-06 WITH THE PUBLICATION REGISTER, and it is the highest-risk generated page in
+    # the model for exactly one reason: every row on it is a sentence beginning "what this paper would
+    # claim". That is the single grammatical construction most likely to slide from "this work would
+    # ESTABLISH X" into "X works" — and unlike the manuscript, these sentences are authored in JSON,
+    # where no reviewer reads them in prose form. The generated view is where they become readable, so
+    # it is where they are linted.
+    "systems/views/L3-publications.md",
     # ⛔ ADDED 2026-08-05 — THE ONE DOCUMENT WRITTEN TO LEAVE THE BUILDING WAS THE ONE DOCUMENT NOTHING
     # LINTED. `nr4a3-degrader-outreach-emails.md` is six ready-to-send emails to named external groups,
     # carrying manuscript-grade claims, and it was in neither this file's targets nor

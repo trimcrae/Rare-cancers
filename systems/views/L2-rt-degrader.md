@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ◐ blocked · computed · confidence low · verified 2026-08-05
 
-**Grade** (owned by [`research/manuscripts/nr4a3-program-map.md`](../../research/manuscripts/nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language)): LEADING driver-directed route; the program's north star — and the route whose four blocking failures reorganise every other row
+**Grade** (owned by [`research/manuscripts/nr4a3-program-map.md`](../../research/manuscripts/nr4a3-program-map.md#-where-we-are--the-scoreboard-in-plain-language)): The most-worked driver-directed route, and the one whose four blocking failures reorganise every other row. ⚠ NO LONGER THE PROGRAM'S NORTH STAR (trimcrae, 2026-08-06) — the path was taken and it hit enough blockers that it holds no privileged position over the rest of the portfolio; superseded, retained: "LEADING driver-directed route; the program's north star". Its evidence is unchanged and its limits are the best-characterised here, which is what the effort bought.
 
 ## What has to land for this route to move
 
@@ -121,6 +121,16 @@ The computational arc is complete enough to describe honestly, but every selecti
 
 **Experiment required:**
 - a binding assay against the opened site
+
+## Where this route ends — the paper
+
+**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/nr4a3-degrader-paper.md)
+
+`primary` · ◐ `drafted` · aimed at `journal_submission`
+
+**This route contributes:** The cryptic-pocket search, the designed paralogue-favoured ligand, and the margin arithmetic on which the paper's central negative rests.
+
+**The paper would claim:** A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue-favoured ligand designed into it by computation alone — and the selectivity margin that design would need is larger than the instruments used to predict it can currently resolve, which is reported as the result rather than worked around.
 
 ## Strategic timing — the wait equation
 

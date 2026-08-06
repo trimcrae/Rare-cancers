@@ -250,12 +250,29 @@ When in doubt: do it and show it.
   prices here** — this file carried a ladder total three times and it was stale every time. Superseded plan
   framings (atlas-anchor, Track A/B, the three-step spine, orientation-first) are in
   [STRATEGY.md → Appendix B](./STRATEGY.md#appendix-b--superseded-strategy-framings).
-- **★ NORTH STAR (trimcrae, 2026-07-01):** the **state of the art of what in-silico can do for an NR4A3-selective
-  degrader** — the most complete, rigorous, honest computational characterization achievable with **no wet lab**,
-  every result at its true weight. The paper documents *that*, not a ship-when-adequate minimum. The program is
-  ≈70–80% of repo effort; the broader EMC route portfolio ([IDEAS.md](./research/IDEAS.md),
-  [emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md)) is support beneath it — read
-  those before resuming any treatment-research work so you don't re-litigate settled calls.
+- **★ NORTH STAR (trimcrae, 2026-07-01; RESCOPED 2026-08-06):** the **state of the art of what in-silico can do
+  to move the treatment science for EMC** — the most complete, rigorous, honest computational characterization
+  achievable with **no wet lab**, every result at its true weight, **across the whole route portfolio**. Read
+  [IDEAS.md](./research/IDEAS.md) and
+  [emc-treatment-strategy.md](./research/manuscripts/emc-treatment-strategy.md) before resuming any
+  treatment-research work so you don't re-litigate settled calls.
+  - **⛔ THE DEGRADER IS NOT THE NORTH STAR AND GETS NO SPECIAL TREATMENT (trimcrae, 2026-08-06: *"We went down
+    that path and ran into enough blockers that it no longer has special treatment."*).** ⚠ *Superseded,
+    retained: "what in-silico can do for an **NR4A3-selective degrader**", and "The program is **≈70–80% of repo
+    effort**; the broader EMC route portfolio … is **support beneath it**"* —
+    [STRATEGY.md → Appendix B](./STRATEGY.md#appendix-b--superseded-strategy-framings). **This demotes a
+    STANDING, not a RESULT:** nothing measured is withdrawn, and that route's limits are the best-characterised
+    on the board precisely because of the effort. What ends is its claim on the front of the plan — it is one
+    route of forty, ranked on the same axes as the rest, and **no strategy family holds `portfolio_role: lead`
+    at all**, which is an honest state and not a slot to fill.
+  - **★★ EVERY ROUTE'S END GOAL IS A PAPER (trimcrae, 2026-08-06).** No wet lab, no clinic — so the published
+    record is the *only* channel by which any of this reaches a patient. A route that cannot name the paper it
+    is for is an **activity, not an option**. The paper need not be written; the endpoint, the one sentence it
+    would put into the field's record, and an honest statement of what is missing must all exist. One home for
+    the mapping, generated and CI-checked:
+    [`systems/views/L3-publications.md`](./systems/views/L3-publications.md) — **do not restate the endpoint
+    list here.** ⛔ **A closed route is not exempt**: a definitional closure is a publishable negative, and the
+    field publishes almost none of them.
 - **★★ "STATE OF THE ART" = BREADTH-FIRST, STANDARD-DEPTH (trimcrae, 2026-07-05 — codified to stop it drifting
   into "spend $1000s for a marginal CI").** Apply before every GPU spend:
   - **A new TECHNIQUE that adds a new axis of evidence** (structure predictor, pose/complex method,
@@ -279,8 +296,13 @@ When in doubt: do it and show it.
   in-silico. **GPU spend is not a gate on paper quality**: run the warranted experiments — including expensive
   ones — to strengthen or honestly refute the claims, and post only once that work is folded in. Cost is a reason
   to sequence and right-size, not to skip a decision-relevant run.
-  **SINGLE DELIVERABLE:** [nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md) + its SI
-  **is** both the ChemRxiv preprint and the JCIM submission. `nr4a3-degrader-preprint.md` and
+  **ONE FILE PER DELIVERABLE:** [nr4a3-degrader-paper.md](./research/manuscripts/nr4a3-degrader-paper.md) + its
+  SI **is** both the ChemRxiv preprint and the JCIM submission **for the degrader route**. ⚠ *Superseded,
+  retained: **"SINGLE DELIVERABLE"**, unqualified — the anti-duplication rule it protects is live and unchanged,
+  but as written it also said this repository has ONE deliverable, and it has
+  [sixteen publication endpoints](./systems/views/L3-publications.md) covering all forty routes. Reading an
+  anti-duplication rule as a portfolio statement is how every other route's paper became invisible.*
+  `nr4a3-degrader-preprint.md` and
   `nr4a3-degrader-preprint-si.md` are retired stubs — a
   parallel condensed draft drifted out of sync and self-contradicted; **don't recreate one.** ⚠ *Superseded,
   retained: "`nr4a3-degrader-preprint*.md` are retired stubs" — that glob also swept in

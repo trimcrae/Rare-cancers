@@ -49,9 +49,9 @@ flowchart LR
 
 ## Routes
 
-| route | state | maturity | readiness today | next action |
-|---|---|---|---|---|
-| **[RT-METHODS-PAPER](L2-rt-methods-paper.md)**<br/>The honest methods paper on the degrader program's own failure record | ○ ready | scoped | `journal_submission` | Write it. Nothing blocks it, and it is the only row on the board that is true regardless of how every other ro |
+| route | state | maturity | readiness today | ends in | next action |
+|---|---|---|---|---|---|
+| **[RT-METHODS-PAPER](L2-rt-methods-paper.md)**<br/>The honest methods paper on the degrader program's own failure record | ○ ready | scoped | `journal_submission` | [PUB-METHODS](L3-publications.md) ○ *primary* | Write it. Nothing blocks it, and it is the only row on the board that is true regardless of how every other ro |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-NO-WET-LAB** (`requires_external_collaboration`) — No wet lab and no collaborator — an ask needs a self-interested taker before its size matters

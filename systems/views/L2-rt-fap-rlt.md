@@ -83,6 +83,16 @@ Entirely unmeasured in EMC. The rationale is a plausible inference from the tumo
 **Missing:**
 - any measurement in EMC
 
+## Where this route ends — the paper
+
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma](../../research/manuscripts/emc-surface-target-landscape.md)
+
+`contributing` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The stromal arm, which is the only row on the list that does not require the fusion biology to be solved and is also the least measured.
+
+**The paper would claim:** Surface and stromal antigens can be prioritised for EMC in silico from one cell line and a translocation-sarcoma comparison set, and every resulting negative is bounded by that surrogate basis rather than by an EMC tissue measurement — which is the honest limit of a search run without the disease's own expression data.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

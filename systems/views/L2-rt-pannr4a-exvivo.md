@@ -66,6 +66,16 @@ It is already a pole of the lead manuscript. Its constraint is that no cellular 
 **Missing:**
 - a cellular persistence readout
 
+## Where this route ends — the paper
+
+**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/nr4a3-degrader-paper.md)
+
+`contributing` · ◐ `drafted` · aimed at `journal_submission`
+
+**This route contributes:** The ex-vivo pole — the argument that this family's chemistry has a use that does not depend on solving paralogue selectivity. Without it the paper carries only the blocked application.
+
+**The paper would claim:** A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue-favoured ligand designed into it by computation alone — and the selectivity margin that design would need is larger than the instruments used to predict it can currently resolve, which is reported as the result rather than worked around.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

@@ -78,6 +78,16 @@ Its central premise is directionally unresolved. Publishing a repurposing hypoth
 **Missing:**
 - a directional read of the PPARγ axis in EMC
 
+## Where this route ends — the paper
+
+**[PUB-REPURPOSING](L3-publications.md)** — [Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma](../../research/manuscripts/repurposing-hypotheses.md)
+
+`contributing` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The downstream-effector axis, carried with its direction flagged unresolved — scoped as unresolved and NOT refuted, which the paper must not conflate.
+
+**The paper would claim:** Existing agents not yet reported in EMC can be mapped to EMC's molecular and microenvironmental axes by three independent methods, each candidate graded by an explicit evidence tier — a hypothesis-generating menu that asserts no efficacy for any agent it names.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `wait`**

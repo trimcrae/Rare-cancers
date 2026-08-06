@@ -76,6 +76,16 @@ Parked on immunogenicity, and its antigen input inherits the void prediction abo
 **Missing:**
 - an immunogenicity argument
 
+## Where this route ends — the paper
+
+**[PUB-HLA-COVERAGE](L3-publications.md)** — [Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r](../../research/manuscripts/hla-coverage-emc.md)
+
+`primary` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The population-coverage computation, which stands on its own as an eligibility ceiling even while the antigen above it is void.
+
+**The paper would claim:** If a public junction epitope were presented, the fraction of the patient population whose HLA alleles could see it is computable from reference allele frequencies — an eligibility ceiling that constrains every junction-directed immunotherapy route and is reusable independently of whether the epitope itself survives.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

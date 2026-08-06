@@ -418,10 +418,30 @@ grade.**
 
 *Color, not plan. Everything here has one home in an appendix and is linked, never restated.*
 
-★ **NORTH STAR (trimcrae, 2026-07-01):** the **state of the art of what in-silico can do for an
-NR4A3-selective degrader** — the most complete, rigorous, honest computational characterization achievable
-with **no wet lab**, every result at its true weight. The paper documents *that*, not a ship-when-adequate
-minimum.
+★ **NORTH STAR (trimcrae, 2026-07-01; RESCOPED 2026-08-06):** the **state of the art of what in-silico can
+do to move the treatment science for EMC** — the most complete, rigorous, honest computational
+characterization achievable with **no wet lab**, every result at its true weight, **across the whole route
+portfolio rather than any one route**.
+
+★ **AND THE END GOAL OF EVERY ROUTE IS A PAPER (trimcrae, 2026-08-06).** With no wet lab and no clinic, the
+published record is the *only* channel by which any of this reaches a patient — so a route's terminus is a
+publication, and one that cannot name the paper it is for is an **activity**, not an option. The paper need
+not be written yet; what must exist is the endpoint, the one sentence it would put into the field's record,
+and an honest statement of what is missing. All 40 are enumerated with those three things in
+[`systems/views/L3-publications.md`](../../systems/views/L3-publications.md), which is generated from the
+model and is the one home for the mapping. ⛔ **A CLOSED ROUTE IS NOT EXEMPT** — a definitional closure is a
+publishable negative, and the field publishes almost none of them.
+
+⚠ **THE DEGRADER IS NO LONGER THE NORTH STAR, AND THAT IS THE RESCOPE (trimcrae, 2026-08-06:
+*"We went down that path and ran into enough blockers that it no longer has special treatment."*).**
+**Superseded, retained:** *"the state of the art of what in-silico can do for an **NR4A3-selective
+degrader**"*, and with it the **≈70–80 % of repo effort** framing under which every other route was "support
+beneath it" — [STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings).
+⛔ **THIS DEMOTES A STANDING, NOT A RESULT.** Nothing measured on the degrader route changes, no number is
+withdrawn, and the effort is exactly why that route's limits are the best-characterised on the board — which
+is itself publishable and is [`PUB-METHODS`](../../systems/views/L3-publications.md). What ends is its claim
+on the front of the plan: it is now one route among forty, graded on the same axes as the rest, and a
+proposal is ranked by what it would put in the record rather than by which family it belongs to.
 
 ★ **THE THESIS** ([§Program and thesis](#program-and-thesis)): close-paralogue
 degrader selectivity is created at the **induced target–E3 interface** and in differential lysine geometry —
@@ -445,8 +465,14 @@ a reason to sequence and right-size, not to skip a decision-relevant run. Breadt
 technique that adds an axis of evidence is a default YES; deepening a test past its field standard is a
 default NO.
 
-★ **SINGLE DELIVERABLE:** [nr4a3-degrader-paper.md](nr4a3-degrader-paper.md) + its SI **is** both the ChemRxiv
-preprint and the JCIM submission. Language discipline —
+★ **ONE FILE PER DELIVERABLE:** [nr4a3-degrader-paper.md](nr4a3-degrader-paper.md) + its SI **is** both the
+ChemRxiv preprint and the JCIM submission *for the degrader route* — there is no second condensed draft of it,
+ever. ⚠ *Superseded, retained: **"SINGLE DELIVERABLE"**, unqualified. The rule it was protecting is real and
+unchanged (a parallel condensed draft drifted out of sync and self-contradicted), but as written it also said
+the repository has ONE deliverable, and it does not: there are
+**[16 publication endpoints](../../systems/views/L3-publications.md)** covering all 40 routes, 12 of them
+already carrying a document. Reading the anti-duplication rule as a portfolio statement is exactly how every
+other route's paper became invisible.* Language discipline —
 [§Honest scope](#honest-scope-and-language-discipline-apply-everywhere-including-the-manuscript),
 CI-enforced by [`lint_claims.py`](lint_claims.py) over the paper, the SI **and this page**.
 
@@ -461,13 +487,22 @@ capability X lands", not dead; completed work is worth re-grading as methods imp
 
 *★ **THE ONE HOME** for the thesis and, in [`MECHANISM-FIRST`](#mechanism-first-is-the-search-order-the-thesis-above-is-unchanged) below, for the margin arithmetic (required vs resolvable vs achieved). [§1](#1--the-thesis-the-north-star-and-the-operating-regime) is the one-paragraph version and carries none of the figures. `tests/test_selectivity_margin_model.py` asserts the derivation.*
 
-The goal is the **state of the art of what in-silico methods can do for an NR4A3-selective degrader** — a
-complete, rigorous, honest computational characterization for extraskeletal myxoid chondrosarcoma (EMC, driven by
-the **EWSR1::NR4A3** fusion), pursued with **no wet lab**. Every result is reported at its true weight; the
-deliverable is a preprint + journal submission (ChemRxiv/JCIM) plus targeted outreach, not a ship-when-adequate
-minimum. This program is ≈70–80% of repo effort; the broader EMC route portfolio (fusion-junction ASO and other
-routes as support/backup) is context beneath it — see
+The goal is the **state of the art of what in-silico methods can do to move the treatment science** for
+extraskeletal myxoid chondrosarcoma (EMC, driven by the **EWSR1::NR4A3** fusion) — a complete, rigorous,
+honest computational characterization pursued with **no wet lab**. Every result is reported at its true
+weight, and **every route's terminus is a publication**: a preprint or journal submission plus targeted
+outreach, not a ship-when-adequate minimum. The degrader route is the most-worked one on the board and this
+section is its thesis; **it is not the portfolio's centre and the rest is not support beneath it** — the
+full set of routes and the paper each one ends in is
+[`systems/views/L3-publications.md`](../../systems/views/L3-publications.md), with the landscape at
+[`L0-ecosystem.md`](../../systems/views/L0-ecosystem.md), and the route-level narrative in
 [emc-treatment-strategy.md](emc-treatment-strategy.md) and [IDEAS.md](../IDEAS.md).
+
+⚠ *Superseded, retained: **"the state of the art of what in-silico methods can do for an NR4A3-selective
+degrader"**, and **"This program is ≈70–80% of repo effort; the broader EMC route portfolio … is context
+beneath it."** Retired 2026-08-06 with the north-star rescope above; both remain quotable as descriptions of
+what the program WAS, and the effort share in particular is a historical measurement rather than a target
+that was missed.* Full framing: [STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings).
 
 **Thesis.** Paralogue selectivity, where achievable, emerges **jointly** from a modest binary warhead preference,
 ternary cooperativity, and ubiquitination-compatible geometry — not from binary pocket selectivity alone. Close-

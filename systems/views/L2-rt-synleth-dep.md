@@ -85,6 +85,16 @@ Parked on DATA rather than on ideas. A negative derived from a transfer prior ov
 **Missing:**
 - EMC-specific functional-genomics data
 
+## Where this route ends — the paper
+
+**[PUB-SYNLETH](L3-publications.md)** — [Degrader vs. synthetic-lethal for EWSR1::NR4A3 EMC — a feasibility comparison](../../research/manuscripts/degrader-vs-synthetic-lethal.md)
+
+`primary` · ◐ `drafted` · aimed at `internal_note`
+
+**This route contributes:** The BRD9/ncBAF dependency argument, and the data-bounded negative that follows from a transfer prior over one cell line.
+
+**The paper would claim:** A BRD9/ncBAF dependency is the best-motivated synthetic-lethal candidate for a FET fusion, and the negative recorded here is bounded by a transfer prior over a single cell line — a statement about the available data, not about the biology.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `wait`**

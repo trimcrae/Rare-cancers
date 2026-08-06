@@ -95,7 +95,7 @@ standard fields (§5).
 | **L0** | What is the complete EMC research landscape? | ecosystem | one generated view | [views/L0-ecosystem.md](./views/L0-ecosystem.md) |
 | **L1** | What families of therapeutic strategy exist, and how is each doing? | strategy family — `ST-*` | graph object | `views/L1-<family>.md` |
 | **L2** | What individual approaches sit inside a family? | route / approach — `RT-*` | graph object | `views/L2-<route>.md` |
-| **L3** | What are we actually writing and publishing? | publication | **a DOCUMENT declaring `level: L3`** | `research/manuscripts/` |
+| **L3** | What are we actually writing and publishing — and what is every route FOR? | publication — `PUB-*` | **graph object, pointing at a document when one exists** (§3.3) | [views/L3-publications.md](./views/L3-publications.md) |
 | **L4** | What experiments produce the evidence, and with what? | experiment — a document declaring `level: L4`; instrument — `V*` / `INS-*` | document + graph object | [views/registers/instruments.md](./views/registers/instruments.md) |
 | **L5** | What does any of it actually rest on? | assumption · evidence · artifact · claim — `OBJ-*` `EV-*` `ART-*` `CLM-*` | graph object | [views/L5-evidence-base.md](./views/L5-evidence-base.md) |
 
@@ -108,11 +108,16 @@ that defines the architecture, and it survived because a hand-typed number in pr
 The live census is emitted by `systems_check --check` as `[D11]` on every run, and the graph counts are
 printed in the header of each generated view.
 
-⭐ **L3 AND L4 ARE DOCUMENTS, NOT GRAPH ROWS — a deliberate asymmetry.** A publication and an experiment
-write-up ARE prose; copying their titles into JSON would create a second home for a fact whose first home
-is the file itself, and it would go stale the moment a memo is renamed. So they declare their level in
-their own frontmatter, that frontmatter is schema-validated (`[D11]`, §7), and the count is reported
-rather than pinned — pinning it would make writing a new memo a red build.
+⭐ **L4 IS DOCUMENTS, NOT GRAPH ROWS — a deliberate asymmetry.** An experiment write-up IS prose; copying
+its title into JSON would create a second home for a fact whose first home is the file itself, and it would
+go stale the moment a memo is renamed. So it declares its level in its own frontmatter, that frontmatter is
+schema-validated (`[D11]`, §7), and the count is reported rather than pinned — pinning it would make writing
+a new memo a red build.
+
+⚠ *Superseded, retained: **"L3 AND L4 ARE DOCUMENTS, NOT GRAPH ROWS"**, which covered publications too. The
+reasoning above is intact and still governs — a `PUB-*` row with a document carries **no title at all**, the
+schema forbids one, and the generated view reads it back out of the file's frontmatter. What the reasoning
+did not cover is a paper that **does not exist yet**. See §3.3.*
 
 ### 3.0 · ⭐ The downward half of the hierarchy, and why it was missing
 
@@ -196,6 +201,53 @@ good are they" view without paying the duplication cost.
 
 Every one of the forty routes lands in exactly one family, and the checker enforces both directions.
 
+⚠ **NO FAMILY CARRIES `portfolio_role: lead`, AND THAT IS A FINDING (2026-08-06).** `ST-PROXIMITY` held it
+until the degrader path was worked far enough to hit its blockers; it is now `hedge` like most of the board,
+and nothing was promoted in its place because nothing has earned it. The enum keeps `lead` so a future
+promotion is expressible. A portfolio with no lead is an honest state; inventing one to fill the slot would
+be the over-claim the vocabulary exists to prevent.
+
+### 3.3 · ⭐ Why publications became graph rows, when L4 did not
+
+**Added 2026-08-06, on a ruling that is about the program rather than about the model:** *the end goal of
+every one of these routes is a paper.* With no wet lab and no clinic, the published record is the **only**
+channel by which any of this work reaches a patient — so a route's terminus is a publication, and a route
+that cannot name the paper it is for is an **activity**, not an option.
+
+The model could not express that. It recorded what each route WAS, what BLOCKED it and what it RESTED on,
+and nothing recorded what it was **for**. `readiness.attainable_today` came closest and answers a different
+question: it says what FORM a route could reach today, never which paper it lands in or what that paper
+would assert.
+
+⛔ **The blocking objection was the §3 asymmetry above, and the resolution is that the asymmetry was never
+about publications — it was about TITLES.** "Do not copy a file's title into JSON" is a rule about
+duplication, and it is obeyed exactly: a `PUB-*` row with a `document` carries no title, the schema
+**forbids** one, and [`views/L3-publications.md`](./views/L3-publications.md) reads it back out of the
+file's frontmatter at render time. What the rule could not cover is a paper that **does not exist yet**: it
+has no file, so there is nothing for the row to duplicate and nowhere else for its name to live. Under the
+old reading those papers were simply absent — which made *"this route has no endpoint"* and *"this route's
+endpoint is not written yet"* render identically, across a portfolio where the second is the common case
+and the first should be impossible.
+
+So the collection carries what only it can carry, and nothing else:
+
+| field | why it is here and not in the document |
+|---|---|
+| `state` | How much of the paper exists — `unwritten` through `posted`. ⚠ **Not a quality grade:** `drafted` says a file exists and nothing about whether the science in it holds. |
+| `what_it_would_claim` | ⭐ **The field that makes an unwritten paper real.** If the one sentence the paper would put into the field's record cannot be written, there is no endpoint. Linted by `lint_claims.py` like the manuscript — these sentences are authored in JSON, where no reviewer reads them as prose. |
+| `why_not_written` | What is actually missing: a result, a decision, a person, or **only the writing**. That last one is a legitimate answer and the most actionable state on the board. |
+| `blocked_by` | Blockers on the **paper**, deliberately not inherited from its routes — a route can be blocked on a capability while its paper is publishable today as an honest negative, and that gap is the portfolio's main source of publishable work. |
+
+A route's own `publication` field is the edge: `endpoint`, `role` (`primary` / `contributing` / `context`)
+and what it contributes. `check_publications` fails the build on a route with no endpoint, an endpoint no
+route claims, or a `document` whose frontmatter does not declare `level: L3` — because every memo, plan and
+red-team in `research/manuscripts/` would pass a mere file-exists check, and pointing an endpoint at a note
+*about* a deliverable is the confusion the register was added to stop.
+
+⚠ **A CLOSED ROUTE IS NOT EXEMPT**, and that is the point rather than a formality. A definitional closure is
+a publishable negative and the field publishes almost none of them, so the routes with the least remaining
+science can carry the most transferable writing.
+
 ---
 
 ## 4 · The L0 view
@@ -229,11 +281,11 @@ graph TD
   L0 --> DEP["ST-DEPENDENCY<br/>synthetic lethality · 3"]
   L0 --> DIS["ST-DISSEMINATION<br/>methods paper · 1"]
 
-  PROX --> RTD["RT-DEGRADER<br/>the program's north star"]
+  PROX --> RTD["RT-DEGRADER<br/>most-worked route"]
   NUC --> RTA["RT-ASO<br/>fusion-exclusive deliverable"]
   DEP --> RTATR["RT-ATR-ASSESS<br/>computed deliverable"]
 
-  RTD --> PUB["L3 · publications"]
+  RTD --> PUB["L3 · publications<br/>EVERY route ends in one"]
   RTA --> PUB
   RTATR --> PUB
   PUB --> EXP["L4 · experiments &amp; instruments<br/>R* requirements · V* instruments"]
@@ -332,7 +384,8 @@ Every `RT-*` additionally carries the lifecycle the brief requires, with closed 
 
 `status` · `rationale` · `supporting_evidence[]` · `confidence` · `remaining_unknowns[]` ·
 `required_validation[]` · `dependencies[]` · `blockers[]` · `maturity` · `next_milestone` ·
-`best_next_action` · `readiness` · `timing`.
+`best_next_action` · `readiness` · `timing` · **`publication`** (§3.3 — the endpoint, required on every
+route including the closed ones).
 
 A route missing any of these fails the checker. Free-text status is not accepted — the audit found roughly
 nineteen distinct status strings in use, including three in one file, which is why the vocabulary is now

@@ -77,6 +77,16 @@ The weak-junction peptide-HLA is a measured property of this junction, not of th
 **Missing:**
 - a stronger presented epitope
 
+## Where this route ends — the paper
+
+**[PUB-NEOANTIGEN](L3-publications.md)** — [Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunot](../../research/manuscripts/fusion-junction-neoantigen-paper.md)
+
+`contributing` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The receptor-side delivery option for the junction epitope, and the measured weakness of the junction peptide-HLA that bounds it — a property of this junction rather than of the modality.
+
+**The paper would claim:** The fusion junction produces a peptide sequence that is absent from the normal proteome, and whether any allele presents it is a prediction that must be regenerated against a corrected exon index before it can be reported at all.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

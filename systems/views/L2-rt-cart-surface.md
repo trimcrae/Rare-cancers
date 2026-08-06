@@ -86,6 +86,16 @@ Blocked by the antigen search and the cold stroma rather than by the cell produc
 **Missing:**
 - a selective surface antigen
 
+## Where this route ends — the paper
+
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma](../../research/manuscripts/emc-surface-target-landscape.md)
+
+`contributing` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The cell-product reading of the same ranking, and the finding that the constraint is the antigen and the stroma rather than the CAR.
+
+**The paper would claim:** Surface and stromal antigens can be prioritised for EMC in silico from one cell line and a translocation-sarcoma comparison set, and every resulting negative is bounded by that surrogate basis rather than by an EMC tissue measurement — which is the honest limit of a search run without the disease's own expression data.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**
