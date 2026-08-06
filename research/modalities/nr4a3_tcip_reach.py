@@ -529,6 +529,85 @@ def crosscheck_replicates_committed_acceptance(cells, basins_path=BASINS):
                      "replicate the committed artifact invalidates the delta as well.")}
 
 
+def interface_floor_ablation(arms, poses, field3, n_atoms=None, floors=None, n_samples=30000, seed=777):
+    """★★ THE ROOT CAUSE OF THE SIZE CONTRAST, MEASURED BY A CONTROLLED REPRODUCTION RATHER THAN EXPLAINED.
+
+    The pooled single-domain pool accepts LESS than the multi-subunit pool at every rung. There is an obvious
+    story — a smaller body cannot put as many residues within contact distance, so it fails the sampler's
+    `min_contact_residues` floor more often — and this repository's rule is that an obvious story is a
+    HYPOTHESIS until an observation discriminates it. The observation that does: re-run the identical cells
+    with the floor lowered, changing nothing else. If the floor is the cause, the contrast must move with it;
+    if the cause were steric bulk, lowering an INTERFACE requirement could not touch it.
+
+    ⚠ WHY THIS IS DECISION-RELEVANT AND NOT HOUSEKEEPING. `min_contact_residues = 12` is a DEGRADER-derived
+    parameter — the basin search's own comment is "below this it is a tethered pair, not an interface", and a
+    PROTAC needs a cooperative target·E3 interface for the ternary to be productive. Whether a
+    transcriptional CIP needs the same induced interface, or only needs the two proteins co-localised, is a
+    question this repository has never asked. If the ablation moves the answer, then the TCIP result at the
+    committed floor is a result about a DEGRADER'S interface requirement applied to a non-degrading modality,
+    and it must be reported at both settings rather than at the inherited one alone.
+    """
+    n_atoms = GATE_ATOMS if n_atoms is None else n_atoms
+    floors = (PARAMS["min_contact_residues"], 6, 0) if floors is None else floors
+    rows = {}
+    for floor in floors:
+        per_arm = {}
+        for aid, arm in sorted(arms.items()):
+            k = s = 0
+            for i, p in enumerate(poses):
+                pr = dict(PARAMS)
+                pr["linker_max_atoms"] = n_atoms
+                pr["min_contact_residues"] = floor
+                _, st = BS.sample_placements(arm, p, field3, random.Random(seed + i), n_samples, params=pr)
+                k += st["n_accepted"]
+                s += st["n_samples"]
+            per_arm[aid] = {"n_accepted": k, "n_samples": s, "acceptance_rate": round(k / s, 8)}
+        def pool(ids):
+            k = sum(per_arm[a]["n_accepted"] for a in ids if a in per_arm)
+            s = sum(per_arm[a]["n_samples"] for a in ids if a in per_arm)
+            return (k / s if s else None), wilson(k, s)
+        sd, sd_ci = pool(SINGLE_DOMAIN_ARMS)
+        ms, ms_ci = pool(MULTI_SUBUNIT_ARMS)
+        rows[str(floor)] = {
+            "min_contact_residues": floor, "per_arm": per_arm,
+            "single_domain_acceptance": round(sd, 8) if sd else None, "single_domain_ci95": sd_ci,
+            "multi_subunit_acceptance": round(ms, 8) if ms else None, "multi_subunit_ci95": ms_ci,
+            "ratio_single_over_multi": round(sd / ms, 3) if sd and ms else None,
+        }
+    committed = rows[str(PARAMS["min_contact_residues"])]["ratio_single_over_multi"]
+    steric = rows["0"]["ratio_single_over_multi"] if "0" in rows else None
+    inverts = bool(committed is not None and steric is not None
+                   and (committed - 1.0) * (steric - 1.0) < 0)
+    return {
+        "_what": ("the same cells at the same linker length with ONLY the sampler's interface floor "
+                  "changed — floor 0 is the pure steric question (clearance + clash), the committed floor "
+                  "adds the degrader's induced-interface requirement"),
+        "linker_atoms": n_atoms, "samples_per_arm_pose": n_samples,
+        "committed_floor": PARAMS["min_contact_residues"],
+        "by_floor": rows,
+        "ratio_at_the_committed_floor": committed,
+        "ratio_with_no_interface_floor": steric,
+        "★_the_sign_inverts": inverts,
+        "★_reading": (
+            "at the committed floor the single-domain pool accepts %s× the multi-subunit pool; with the "
+            "interface floor removed it accepts %s×. %s" % (
+                committed, steric,
+                ("The sign INVERTS, so the single-domain penalty is entirely the interface floor and not "
+                 "steric bulk: on clash alone the smaller body gets MORE orientation space, exactly as the "
+                 "'one fewer/smaller terminus is a smaller problem' intuition says. The committed floor is "
+                 "a DEGRADER'S requirement, so a TCIP read at that floor is being charged for an induced "
+                 "interface nobody has shown the modality needs."
+                 if inverts else
+                 "The sign does NOT invert, so the contrast survives removing the interface requirement and "
+                 "is not an artefact of a degrader-derived parameter."))),
+        "⛔_what_this_does_not_settle": (
+            "which floor is right for a transcriptional CIP. This module measures the answer at both and "
+            "refuses to pick — `BLK-UNSIZED-REQUIREMENT` is the route's own record that nobody has written "
+            "the specification down, and an interface floor is exactly that kind of unwritten requirement."),
+        "source_of_the_committed_floor": "nr4a3_basin_search.PARAMS['min_contact_residues']",
+    }
+
+
 def crosscheck_acceptance_is_e3_free(arms, poses, field3, n_samples=40000, seed=4242):
     """★★ THE CLAIM `PUB-TCIP` RESTS ON, TURNED INTO A CONTROLLED EXPERIMENT INSTEAD OF A READING.
 
@@ -922,6 +1001,26 @@ def to_markdown(d):
              b.get("within_class_spread_exceeds_between_class_contrast")))
     A("")
 
+    ab = d.get("★_interface_floor_ablation")
+    if ab:
+        A("### 4d · ★★ Root cause — the interface floor, ablated")
+        A("")
+        A("%s" % ab["_what"])
+        A("")
+        A("| `min_contact_residues` | single-domain acceptance | multi-subunit acceptance | ratio |")
+        A("|---|---|---|---|")
+        for f in sorted(ab["by_floor"], key=lambda k: -int(k)):
+            r = ab["by_floor"][f]
+            A("| %s%s | %s | %s | **%s** |"
+              % (f, " (committed)" if int(f) == ab["committed_floor"] else "",
+                 r["single_domain_acceptance"], r["multi_subunit_acceptance"],
+                 r["ratio_single_over_multi"]))
+        A("")
+        A("**%s**" % ab["★_reading"])
+        A("")
+        A("⛔ %s" % ab["⛔_what_this_does_not_settle"])
+        A("")
+
     A("## 5 · The distances the modality requires")
     A("")
     for k, val in sorted(d["verdict"]["required_distances"].items()):
@@ -1093,6 +1192,9 @@ def main(argv=None):
     ap.add_argument("--out", default=OUT)
     ap.add_argument("--only-e3-free-check", action="store_true",
                     help="run ONLY the E3-free acceptance control and merge it into an existing --out")
+    ap.add_argument("--only-interface-ablation", action="store_true",
+                    help="run ONLY the interface-floor ablation and merge it into an existing --out")
+    ap.add_argument("--ablation-samples", type=int, default=30000)
     ap.add_argument("--refresh-derived", action="store_true",
                     help="recompute the DERIVED blocks (summaries, comparisons, cross-check readings, map "
                          "edits, verdict, markdown) from the sampled cells already stored in --out. No "
@@ -1126,6 +1228,28 @@ def main(argv=None):
         for k, v in d["cross_checks"].items():
             print("[xcheck] %s: %s" % (k, v.get("status")), flush=True)
         print("[tcip] refreshed derived blocks in %s from %d stored cells" % (args.out, len(cells)))
+        return 0
+
+    if args.only_interface_ablation:
+        m3 = BS.load_paralogue(os.path.join(STRUCT_DIR, "nr4a3-opened.pdb"))
+        field3 = G.SquaredDistanceField(m3["heavy_xyz"], cell=0.9, clamp=8.0)
+        reactive = BS.load_reactive_map(UNIQUE_JSON, m3)
+        poses = BS.build_pose_ensemble(m3, reactive, field3, 12, random.Random(BASIN_SEED))
+        with open(REGISTRY) as fh:
+            reg = json.load(fh)
+        arms = {aid: BS.load_arm_from_registry(reg["arms"][aid])
+                for aid in list(SINGLE_DOMAIN_ARMS) + list(MULTI_SUBUNIT_ARMS)}
+        res = interface_floor_ablation(arms, poses, field3, n_samples=args.ablation_samples)
+        with open(args.out) as fh:
+            d = json.load(fh)
+        d["★_interface_floor_ablation"] = res
+        d["verdict"]["★_the_size_axis"]["★_root_cause"] = res["★_reading"]
+        with open(args.out, "w") as fh:
+            json.dump(d, fh, indent=1)
+            fh.write("\n")
+        with open(os.path.splitext(args.out)[0] + ".md", "w") as fh:
+            fh.write(to_markdown(d))
+        print(json.dumps({k: v for k, v in res.items() if k != "by_floor"}, indent=1), flush=True)
         return 0
 
     if args.only_e3_free_check:
