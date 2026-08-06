@@ -381,11 +381,36 @@ When in doubt: do it and show it.
     ⛔ **THE GATE WAS OBEYING ITS INPUT. THE DEFECT WAS A STRING** — documented in three places, wired to
     a name nothing used, so the design read as safe while the one artifact it existed to protect was the
     one being dropped. **A property asserted in prose about a value passed by a caller is not a
-    property; it is a hope.** The census now publishes in its own unconditional call under the exempt
-    lane and the forensic stays gated, and the WIRING is asserted rather than described —
+    property; it is a hope.** The census now publishes in its own call under the exempt lane and the
+    forensic stays gated, and the WIRING is asserted rather than described —
     `tests/test_fleet_armed.py::test_the_exempt_census_lane_is_actually_used_by_the_census_writer`
     fails the build if any census writer stops using the exempt lane, or smuggles the census back into a
     gated publish.
+  - **★★ "EXEMPT" MEANS EXEMPT FROM THE FLEET GATE, NOT FROM ALL JUDGEMENT — SEPARATE THE READING FROM
+    THE COMMIT (trimcrae, 2026-08-06: *"Why do we even need the census to be always on?"*).** It does
+    not, and the fix above over-corrected — ⚠ *superseded, retained: "its own **unconditional** call".*
+    Two things were being conflated, and only one of them is unconditional:
+    **THE READING must be** — it is the ONLY detector of a host our own launch records do not know
+    about, one left by a lane that died or from an earlier session. **You cannot gate it on "did we
+    launch something", because the case it catches is precisely "a host exists that our launch records
+    missed"** — which is why the account-keyed alarm is account-keyed.
+    **THE COMMIT need not be.** A commit saying *"still zero"* carries no information — the original
+    complaint, and correct. What it carries is **proof the detector is alive**, needed once per
+    staleness window, not once per tick. ⛔ **And that proof cannot be dropped either:** *"stale census
+    whose last reading was zero"* would have to read as fine, which makes a **dead detector
+    indistinguishable from one that keeps reading zero** — the fail-quiet direction, the same failure in
+    a new costume. So the lane commits on `n > 0`, on a failed read, or when the **published** copy is
+    about to age past the alarm's window (`CENSUS_KEEPALIVE_S` = 30 min against the alarm's 45), and is
+    otherwise silent.
+    ⚠ **And the published copy, never the working-tree one** — by the time the gate runs, the tree
+    already holds this tick's fresh reading, so its age is ~0 every time and the question always answers
+    "no". ⛔ **The first implementation of that lookup resolved `git show HEAD:<path>` against
+    `research/` instead of the repo root, so every lookup failed — and because the failure is
+    FAIL-ARMED, the lane published on every tick exactly as before. A broken guard that no-ops into the
+    previous behaviour produces NO SYMPTOM, and every keep-alive test missed it because they all
+    monkeypatched the seam.** `test_the_committed_census_lookup_works_against_the_real_repo` exercises
+    the real function against the real checkout for that reason. **Mock the thing under test and you
+    test the mock.**
 - **★ WHEN YOU RETIRE A FEATURE, ASK WHAT PART OF IT IS NOT A FILE (measured 2026-08-06).** The
   patient-facing site was deleted on 2026-08-05 — HTML, assets, templates and the deploy workflow all gone,
   and `ls .github/workflows/ | grep -i page` returns nothing. **Pages kept building anyway: 52 of the last

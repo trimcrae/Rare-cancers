@@ -32,6 +32,11 @@ def _census(tmp_path, **over):
     return str(p)
 
 
+def _stamp(offset_s):
+    """An ISO stamp `offset_s` seconds from now — negative for the past."""
+    return (datetime.now(timezone.utc) + timedelta(seconds=offset_s)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 # ───────────────────────── it must go idle only in the one safe case ─────────────────────────
 
 def test_zero_instances_and_a_fresh_census_is_the_only_idle_state(tmp_path):
@@ -88,14 +93,59 @@ def test_a_census_with_no_timestamp_at_all_fails_armed(tmp_path):
 
 # ───────────────────────── the surviving heartbeat ─────────────────────────
 
-def test_the_census_lane_is_never_gated_by_its_own_reading(tmp_path):
-    """⭐ WHY ONE LANE STAYS NOISY ON PURPOSE. If every lane could go quiet, "no commits at all" would stop
-    being a signal and the 2026-08-01 lesson would be undone from the other direction. The lane that OWNS the
-    census is exempt: it is the thing that would discover a host appearing, so its heartbeat is the one that
-    still carries information when the fleet is empty."""
+def test_the_census_lane_is_never_silenced_by_doubt(tmp_path):
+    """⭐ WHY ONE LANE STAYS NOISIER THAN THE REST. If every lane could go quiet, "no commits at all" would
+    stop being a signal and the 2026-08-01 lesson would be undone from the other direction.
+
+    ⚠ SUPERSEDED, RETAINED: this asserted `evidence["exempt"] is True` — a BLANKET exemption, under which
+    the census lane committed on every tick no matter what it found. trimcrae, 2026-08-06: *"Why do we
+    even need the census to be always on?"* It does not. What must be unconditional is the READING (the
+    only detector of a host our launch records do not know about); what the COMMIT has to carry is proof
+    the detector is alive, which is needed once per staleness window, not once per tick.
+
+    ⛔ WHAT DID NOT CHANGE, AND IS WHAT THIS TEST NOW PINS: every form of doubt still arms. Here the
+    committed copy cannot be read (a tmp census is in no git tree), and that must publish.
+    """
     st = fa.state(lane=fa.CENSUS_LANE, census_path=_census(tmp_path))
-    assert st["armed"] is True
-    assert st["evidence"]["exempt"] is True
+    assert st["armed"] is True and "FAIL-ARMED" in st["why"]
+
+
+def _published(monkeypatch, doc):
+    monkeypatch.setattr(fa, "_committed_census", lambda path: (doc, None))
+
+
+def test_the_census_lane_goes_quiet_only_on_zero_and_a_fresh_published_copy(tmp_path, monkeypatch):
+    """The one silent case, and it is narrow: nothing to report AND the last report is still fresh."""
+    _published(monkeypatch, {"n_instances": 0, "utc": _stamp(-5 * 60)})
+    st = fa.state(lane=fa.CENSUS_LANE, census_path=_census(tmp_path))
+    assert st["armed"] is False, st
+    assert "changes nothing" in st["why"]
+
+
+def test_the_census_lane_commits_before_its_published_copy_can_go_stale(tmp_path, monkeypatch):
+    """⛔ THE PROOF-OF-LIFE CLAUSE, AND WHY IT CANNOT BE DROPPED. Without it, "stale census whose last
+    reading was zero" would have to be read as fine — making a DEAD detector indistinguishable from one
+    that keeps reading zero. That is the fail-quiet direction. The keep-alive sits BELOW the alarm's own
+    staleness threshold so this lane can never be the reason the alarm fires."""
+    from account_orphan_alarm import DEFAULT_CENSUS_STALE_MIN
+    assert fa.CENSUS_KEEPALIVE_S < DEFAULT_CENSUS_STALE_MIN * 60, \
+        "the keep-alive must fire BEFORE the alarm calls the census stale, or it buys nothing"
+    _published(monkeypatch, {"n_instances": 0, "utc": _stamp(-(fa.CENSUS_KEEPALIVE_S + 120))})
+    st = fa.state(lane=fa.CENSUS_LANE, census_path=_census(tmp_path))
+    assert st["armed"] is True and "keep-alive" in st["why"]
+
+
+def test_a_non_empty_account_is_a_result_and_always_publishes(tmp_path, monkeypatch):
+    """n > 0 is not a heartbeat at all — it is the reading every other lane's alarm is keyed on."""
+    _published(monkeypatch, {"n_instances": 0, "utc": _stamp(-60)})
+    st = fa.state(lane=fa.CENSUS_LANE, census_path=_census(tmp_path, n_instances=2))
+    assert st["armed"] is True and "RESULT" in st["why"]
+
+
+def test_the_census_lane_arms_when_the_published_copy_has_no_readable_age(tmp_path, monkeypatch):
+    _published(monkeypatch, {"n_instances": 0, "utc": "last Tuesday"})
+    st = fa.state(lane=fa.CENSUS_LANE, census_path=_census(tmp_path))
+    assert st["armed"] is True and "FAIL-ARMED" in st["why"]
 
 
 # ───────────────────────── the exit contract the workflows depend on ─────────────────────────
@@ -180,3 +230,21 @@ def test_the_exempt_census_lane_is_actually_used_by_the_census_writer():
         for line in body.splitlines():
             if "ternary-vast-account-census.json" in line and "publish_artifacts.sh" in line:
                 raise AssertionError(f"{f}: the census is an argument to a gated publish — {line.strip()}")
+
+
+def test_the_committed_census_lookup_works_against_the_real_repo():
+    """⛔ THE TEST THE MOCKS COULD NOT WRITE (2026-08-06).
+
+    Every keep-alive test above monkeypatches `_committed_census`, so none of them could see that the
+    real one was resolving `git show HEAD:<path>` against `research/` instead of the repository ROOT.
+    Git resolves that path from the root unless it is written `./…`, so every lookup failed — and
+    because the failure is FAIL-ARMED, the lane simply published on every tick exactly as it had
+    before. **A broken guard that no-ops into the previous behaviour produces no symptom at all.**
+
+    So this one calls the real function against the real checkout. It asserts the LOOKUP, never the
+    contents: what the census says is live state and would make this clock-dependent, which is the
+    other defect fixed the same day.
+    """
+    doc, err = fa._committed_census(fa.CENSUS)
+    assert err is None, f"the committed census could not be read from HEAD: {err}"
+    assert isinstance(doc, dict) and "n_instances" in doc, doc

@@ -2659,8 +2659,13 @@ jobs:
           # places, and wired to a string nothing used — so the design read as safe while the one artifact
           # it was protecting was the one being dropped.
           #
-          # $0 and unconditional by design: one small JSON, at most one commit per tick, and it is the
-          # reading every other lane's alarm is keyed on.
+          # ⚠ THE LANE IS EXEMPT FROM THE FLEET GATE, NOT FROM ALL JUDGEMENT (trimcrae, 2026-08-06:
+          # *"Why do we even need the census to be always on?"*). It does not. The first fix here read
+          # "$0 and unconditional by design" and that over-corrected: what must be unconditional is the
+          # READING above, which is the only detector of a host our launch records do not know about.
+          # This COMMIT is gated on whether it carries anything — a non-empty account, a failed read, or a
+          # published copy about to age past the alarm's own staleness window. Otherwise it stays silent.
+          # The rule and its keep-alive live in fleet_armed.CENSUS_LANE, not here.
           PUBLISH_HEARTBEAT_LANE="account-census" \
           PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "account census: what the Vast account holds (CI)" \

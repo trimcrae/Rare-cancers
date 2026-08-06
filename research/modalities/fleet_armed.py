@@ -55,9 +55,32 @@ CENSUS = os.path.join(HERE, "ternary-vast-account-census.json")
 #: an absent reading — and an absent reading is not a reading of absence (CLAUDE.md §4).
 MAX_CENSUS_AGE_S = 3 * 3600
 
-#: The lane that produces the census. It must NEVER gate itself on the census: it is the thing that would
-#: discover a host appearing, and it is the heartbeat that keeps "no commits at all" meaningful.
+#: The lane that produces the census. It must NEVER gate itself on the census READING: it is the thing that
+#: would discover a host appearing, and it is the heartbeat that keeps "no commits at all" meaningful.
 CENSUS_LANE = "account-census"
+
+#: ★★ HOW OFTEN THE CENSUS LANE MUST COMMIT — and why the answer is not "every tick" (trimcrae,
+#: 2026-08-06: *"Why do we even need the census to be always on?"*).
+#:
+#: It does not, and the first fix over-corrected. Two things were being conflated:
+#:
+#:   THE READING must be unconditional. It is the ONLY detector of a host our own launch records do not
+#:   know about — one left by a lane that died, or from an earlier session. That is exactly the 2026-08-01
+#:   incident, and it is why the account-keyed alarm exists at all. You cannot gate it on "did we launch
+#:   something", because the case it catches is precisely "a host exists that our launch records missed".
+#:
+#:   THE COMMIT does not. A commit saying "still zero" carries no information — trimcrae's original
+#:   complaint, and correct. What it carries is PROOF THE DETECTOR IS ALIVE, and that proof is only needed
+#:   often enough that the alarm can tell a live detector from a dead one.
+#:
+#: ⛔ AND YOU CANNOT DROP THE PROOF ENTIRELY. "Stale census whose last reading was zero" would have to be
+#: read as fine — which makes a DEAD DETECTOR indistinguishable from a detector saying zero. That is the
+#: fail-quiet direction, and it is the same failure in a new costume.
+#:
+#: So the census commits when it says something (n > 0), when it could not be read, or when the committed
+#: copy is about to age past the alarm's own staleness window — and is otherwise silent. 30 min against the
+#: alarm's 45: it can never be the reason the alarm fires, with room for a missed tick.
+CENSUS_KEEPALIVE_S = 30 * 60
 
 
 def _read_census(path=CENSUS):
@@ -82,6 +105,73 @@ def _age_seconds(doc, now=None):
     return (now - t).total_seconds()
 
 
+def _committed_census(path):
+    """The census as it exists ON THE BRANCH, not in the working tree.
+
+    ⚠ THE DISTINCTION IS THE WHOLE MECHANISM. By the time the publish gate runs, the working-tree copy has
+    already been overwritten with THIS TICK's fresh reading, so its age is ~0 every time and asking it
+    'are we about to go stale?' always answers no. The question is about the copy other lanes can SEE,
+    which is the committed one.
+    """
+    import subprocess
+    try:
+        # ⚠ REPO-ROOT-RELATIVE, NOT CWD-RELATIVE. `git show HEAD:<path>` resolves from the repository
+        # ROOT unless the path is written `./…`. The first version anchored on `research/` and every
+        # lookup failed — silently harmless, because the failure is FAIL-ARMED, and therefore invisible:
+        # the keep-alive simply never engaged and the lane published on every tick exactly as before.
+        # A guard that no-ops into the old behaviour is the hardest kind to notice, which is why
+        # `test_the_committed_census_lookup_works_against_the_real_repo` exercises the REAL function
+        # rather than the mock the rest of these tests use.
+        root = os.path.dirname(os.path.dirname(HERE))
+        rel = os.path.relpath(path, root)
+        out = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=root,
+                             capture_output=True, timeout=30)
+        if out.returncode != 0:
+            return None, "the committed census could not be read from HEAD"
+        return json.loads(out.stdout.decode("utf-8")), None
+    except Exception as e:                                          # noqa: BLE001 — FAIL-ARMED on anything
+        return None, f"the committed census could not be read: {e}"
+
+
+def _census_lane_state(census_path, now=None):
+    """The census lane: commit when it SAYS something, or when its published copy is about to go stale.
+
+    ⛔ FAIL-ARMED IN EVERY DOUBT, and there are four of them: the fresh reading is unreadable, it has no
+    integer count, the committed copy cannot be read, or the committed copy has no readable age. Being
+    wrongly armed costs one small commit. Being wrongly silent means the account-level detector goes
+    quiet while a host bills — the thing this whole module is downstream of.
+    """
+    fresh, err = _read_census(census_path)
+    if err:
+        return {"armed": True, "why": f"FAIL-ARMED — {err}. The account reading is the one thing that must "
+                                      f"never be silently skipped", "evidence": {"error": err}}
+    n = fresh.get("n_instances")
+    if not isinstance(n, int):
+        return {"armed": True, "why": "FAIL-ARMED — the fresh census carries no integer `n_instances`",
+                "evidence": {"n_instances": n}}
+    if n > 0:
+        return {"armed": True, "why": f"the account holds {n} instance(s) — this reading is a RESULT, not a "
+                                      f"heartbeat", "evidence": {"n_instances": n}}
+
+    published, perr = _committed_census(census_path)
+    if perr:
+        return {"armed": True, "why": f"FAIL-ARMED — {perr}, so whether the published copy is about to go "
+                                      f"stale is unknown", "evidence": {"error": perr, "n_instances": 0}}
+    age = _age_seconds(published, now)
+    if age is None:
+        return {"armed": True, "why": "FAIL-ARMED — the published census has no readable `utc`, so its age "
+                                      "is unknown", "evidence": {"utc": published.get("utc")}}
+    if age >= CENSUS_KEEPALIVE_S:
+        return {"armed": True, "why": f"the published census is {int(age // 60)} min old (keep-alive "
+                                      f"{CENSUS_KEEPALIVE_S // 60} min) — committing so a DEAD detector "
+                                      f"stays distinguishable from one that keeps reading zero",
+                "evidence": {"published_age_s": int(age), "n_instances": 0}}
+    return {"armed": False, "why": f"the account holds ZERO instances and the published census is only "
+                                   f"{int(age // 60)} min old — this reading changes nothing and proves "
+                                   f"nothing that the last one did not",
+            "evidence": {"published_age_s": int(age), "n_instances": 0}}
+
+
 def state(lane=None, census_path=None, now=None):
     """{'armed': bool, 'why': str, 'evidence': {...}} — ARMED means "commit as usual".
 
@@ -100,9 +190,7 @@ def state(lane=None, census_path=None, now=None):
     """
     census_path = CENSUS if census_path is None else census_path
     if lane == CENSUS_LANE:
-        return {"armed": True, "why": "this lane owns the census reading and is never gated by it — it is "
-                                      "the surviving heartbeat that keeps silence interpretable",
-                "evidence": {"lane": lane, "exempt": True}}
+        return _census_lane_state(census_path, now)
 
     doc, err = _read_census(census_path)
     if err:
