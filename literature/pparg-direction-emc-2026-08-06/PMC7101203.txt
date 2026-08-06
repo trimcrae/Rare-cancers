@@ -1,0 +1,95 @@
+Med Sci MonitMed. Sci. Monit1959medscimon9609063Medical Science MonitorMedical Science Monitor : International Medical Journal of Experimental and Clinical Research1234-10101643-3750International Scientific Information, Inc.PMC7101203PMC7101203.1710120371012033218058610.12659/MSM.9221079221071Lab/In Vitro ResearchIdentification of Hub Genes in High-Grade Serous Ovarian Cancer Using Weighted Gene Co-Expression Network Analysis
+WuMeijing SunYue WuJing LiuGuoyan Department of Gynecology and Obstetrics, Tianjin Medical University General Hospital, Tianjin, P.R. ChinaCorresponding Author: Guoyan Liu, e-mail: liuguoyan211@126.comAStudy Design
+BData Collection
+CStatistical Analysis
+DData Interpretation
+EManuscript Preparation
+FLiterature Search
+GFunds Collection
+20201732020123202026350698e922107-1e922107-21121220193012020170320203003202019032026© Med Sci Monit, 20202020https://creativecommons.org/licenses/by-nc-nd/4.0/This work is licensed under Creative Common Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)
+
+## Background
+High-grade serous ovarian cancer (HGSOC) is the most malignant gynecologic tumor. This study reveals biomarkers related to HGSOC incidence and progression using the bioinformatics method.
+
+## Material/Methods
+Five gene expression profiles were downloaded from GEO. Differentially-expressed genes (DEGs) in HGSOC and normal ovarian tissue samples were screened using limma and the function of DEGs was annotated by KEGG and GO analysis using clusterProfiler. A co-expression network utilizing the WGCNA package was established to define several hub genes from the key module. Furthermore, survival analysis was performed, followed by expression validation with datasets from TCGA and GTEx. Finally, we used single-gene GSEA to detect the function of prognostic hub genes.
+
+## Results
+Out of the 1874 DEGs detected from 114 HGSOC versus 49 normal tissue samples, 956 were upregulated and 919 were downregulated. The functional annotation indicated that upregulated DEGs were mostly enriched in cell cycle, whereas the downregulated DEGs were enriched in the MAPK or Ras signaling pathway. Two modules significantly associated with HGSOC were excavated through WGCNA. After survival analysis and expression validation of hub genes, we found that 2 upregulated genes (MAD2L1 and PKD2) and 3 downregulated genes (DOCK5, FANCD2 and TBRG1) were positively correlated with HGSOC prognosis. GSEA for single-hub genes revealed that MAD2L1 and PKD2 were associated with proliferation, while DOCK5, FANCD2, and TBRG1 were associated with immune response.
+
+## Conclusions
+We found that FANCD2, PKD2, TBRG1, and DOCK5 had prognostic value and could be used as potential biomarkers for HGSOC treatment.
+
+## MeSH Keywords
+Computational BiologyOvarian NeoplasmsSurvival Analysispmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-ND
+
+## Background
+Ovarian cancer has a high mortality rate, which ranks first among gynecologic malignant tumors. Most deaths (70%) of patients presented with advanced-staged, high-grade serous ovarian cancer (HGSOC) due to the lack of specific symptoms at the early stage [ ]. Therefore, it is of great significance to study the potential prognostic biomarkers related to the development of HGSOC.
+In recent years, bioinformatics-assisted analyses of expression profile have been widely used to detect the biomarkers of human diseases [ ]. Weighted gene co-expression network analysis (WGCNA) is a biological approach to determine highly synergistic gene sets and to identify the association between gene modules and phenotype of samples [ ]. WGCNA has been comprehensively utilized in multiple cancer-associated studies to determine hub genes that could be associated with respective traits, such as pancreatic carcinoma [ ], colon cancer [ ], and ovarian cancer [ – ]. However, few previous studies have focused on HGSOC.
+To identify potential biomarkers for specific diagnosis and therapy targets in HGSOC, WGCNA was performed to discover the hub genes that play an essential role in the development of HGSOC.
+
+## Material and Methods
+
+## Data collection
+Five gene expression profiles were downloaded from the Gene Expression Omnibus (GEO) (http://www.ncbi.nlm.nih.gov/geo/). Datasets GSE18520 [ ], GSE27651 [ ], GSE54388 [ ], GSE10971 [ ] and GSE14001 [ ] are listed in , with a sample size of 114 for HGSOC and 49 normal tissue samples. All samples were processed using the Affymetrix human genome U133 plus 2.0 array. Genomic and clinical data were obtained from The Cancer Genome Atlas (TCGA) (https://cancergenome.nih.gov/) and GTEx (https://gtexportal.org/home/) [ ] using the TCGAbiolinks package (Version 2.14.0; https://github.com/BioinformaticsFMRP/TCGAbiolinks) [ ]. The RNA expression profiles were sampled from 363 high-grade serous ovarian cancer and 108 normal tissues.
+
+## Research design and data preprocessing
+The research design is shown in a flowchart ( ). The raw data from 5 datasets were chosen for integrated analysis using the affy package (Version 3.8; http://bioconductor.org/packages/release/bioc/html/affy.html) [ ]. The batch effect of datasets was removed using the SVA package (Version 3.8; http://bioconductor.org/packages/release/bioc/html/sva.html) with its combat function ( ) [ ].
+
+## Differential gene expression analysis
+We detected the DEGs between HGSOC and normal ovarian tissue samples using the limma package (Version 3.30.0; http://www.bioconductor.org/packages/release/bioc/html/limma.html) [ ]. A false discovery rate (FDR) <0.05 and |log2FC|>1 were set as the criteria value. The expression intensity and direction of DEGs were represented using the pheatmap package (Version 1.0.12, https://cran.r-project.org/web/packages/pheatmap).
+
+## Function enrichment analyses
+Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway analyses of DEGs were conducted using the clusterProfiler package (Version 6.8; http://www.bioconductor.org/packages/release/bioc/html/clusterProfiler.html) [ ] to predict their underlying molecular functions. A p value of <0.05 was considered statistically significant.
+
+## Weighted gene co-expression network analysis (WGCNA)
+We utilized the WGCNA package (Version 1.67; https://cran.r-project.org/web/packages/WGCNA/index.html) to construct a co-expression network for DEGs. To identify key modules, soft-thresholding power was set as β=9 (scale-free R2=0.84), and cut height was set as 0.25 ( ). We then explored the biological function of the modules that had the highest correlation with traits through GO and KEGG pathway analyses, and hub genes in a module were selected with |MM|>0.85 and |GS|>0.3.
+
+## Survival analysis and expression validation of hub genes
+Survival analysis was performed for hub genes using the survival package (Version 2.43.3; https://cran.r-project.org/package=survival) and survminer package (Version 0.4.3; https://cran.r-project.org/package=survminer). The Kaplan-Meier curves were plotted by the expression profiles from TCGA, which were divided into 2 groups based on a certain gene’s cutoff value as determined by survminer. The hub gene expression levels between HGSOC and normal tissue samples were also validated.
+
+## Gene set enrichment analysis (GSEA)
+GSEA analysis of each hub gene with the TCGA-OV dataset was performed. The HGSOC samples (n=363) were divided into 2 groups according to the median expression value of each hub gene (high vs. low). A p value of <0.05 was considered as statistically significant. The “h.all.v6.2.entrez.gmt” were selected as reference gene sets, which were downloaded from the Molecular Signature Database (MSigDB, http://software.broadinstitute.org/gsea/msigdb).
+
+## Results
+
+## Differential expression analysis
+We screened 1874 DEGs, including 919 downregulated and 956 upregulated genes, between HGSOC samples and normal tissue samples. The expression changes of DEGs were represented by a heatmap ( ), which showed that the samples were divided into 2 clusters.
+
+## Function enrichment for DEGs
+The potential biological functions of the upregulated and downregulated differentially-expressed genes were annotated by clusterProfiler R package. The KEGG pathway analysis revealed that the upregulated genes were mainly involved in regulation of cell cycle, DNA replication, and biosynthesis of amino acids, while the downregulated genes were mainly linked to the Ras signaling pathway, complement and coagulation cascades, and the MAPK and JAK-STAT signaling pathways ( and ). Furthermore, we performed GO enrichment analysis, the biological progress of which was in line with the KEGG enrichment results. Chromosome segregation and mitotic nuclear division were indicated for the upregulated genes, while morphogenesis of an epithelium and collagen-containing extracellular matrix were indicated for the downregulated genes ( and ).
+
+## Co-expression modules construction
+To construct co-expression modules and find the key modules related to HGSOC, the expression profiles of 1874 DEGs were assessed with the WGCNA package. Hierarchical clustering analysis is presented in . Then, the highly related genes were put into modules. The MED threshold was set as 0.25, and 6 modules were excavated ( ). The genes that did not belong to any module were collected in the gray module, and were not used in any subsequent analysis. The other 5 modules are shown in blue, turquoise, yellow, brown, and green, respectively ( ). Among the 5 modules, the turquoise and blue modules had remarkable relevance for tumor progression ( ).
+Moreover, intramodular analysis for GS and MM resulted in the identification of genes in the turquoise module, which were negatively correlated with HGSOC (correlation=0.75 and p<9.5e–155) and genes in the blue module revealed a highly positive correlation with HGSOC (correlation=0.7 and p<3.2e–118), as shown in .
+The heatmap was plotted to show all genes ( ). To quantify co-expression similarity of the 5 modules, we calculated the connectivity of eigengenes. Positively correlated eigengenes were grouped together, with 2 of 5 modules were classified into one cluster and 3 into another. The heatmap of the adjacencies is also presented ( ).
+There were 76 hub genes from the turquoise module and 76 hub genes from the blue module selected, with a threshold module membership (MM) >0.85 and gene significance (GS) >0.3 ( ).
+The turquoise and blue modules were analyzed by STRING database, with a combined score >0.7 and were visualized by Cytoscape software ( ).
+To investigate the potential functions of the genes within the 2 modules (turquoise and blue), we performed GO and KEGG pathway analyses, and showed the most significant GO terms and KEGG pathways in . This analysis revealed that genes in the blue module were mainly enriched in cell cycle and DNA replication, while genes in the turquoise module played their roles in different signal pathways.
+
+## Validation of hub genes
+Analyzing the results of WGCNA, we found that the turquoise and blue modules had the highest association with HGSOC. Accordingly, we hypothesized that the genes in the turquoise module might act as tumor suppressors and genes in the blue module might act as tumor promoters. Survival analyses were performed among the 152 hub genes selected from the 2 modules. We found that MAD2L1 and FANCD2 in the blue module and PKD2, TBRG1, and DOCK5 in the turquoise module were consistent with our speculation. Survival curves showed that higher expression of MAD2L1 and FANCD2 was significantly associated with poor prognosis of patients, as was the lower expression of PKD2, TBRG1, and DOCK5 ( ). Finally, we used gene profiles downloaded from TCGA and GTEx to validate the expression of these genes, and the results were similar to the expression exhibited by GEO ( ).
+
+## Potential function of hub genes through GSEA
+To better understand the potential biological functions of MAD2L1, FANCD2, PKD2, TBRG1, and DOCK5 in HGSOC, we performed GSEA based on the TCGA-OV dataset. As shown in , genes in higher-expression groups of MAD2L1 and FANCD2 were all involved in “E2F TARGETS” and “G2M CHECKPOINT” of the cell cycle, which indicated that these 2 upregulated genes are closely associated with tumor proliferation, whereas “TNFA SIGNALING VIA NFKB”, “interferon gamma RESPONSE” and “inflammatory response” were enriched in the PKD2, TBRG1, and DOCK5 high-expression groups, which indicated these downregulated genes are involved in immune response ( ).
+
+## Discussion
+With the purpose of identifying the molecular mechanism of HGSOC and to investigate potential biomarkers for better detection and therapy, we integrated the gene expression profiles of GSE54388, GSE27651, GSE10971, GSE18520, and GSE14001, which contained 114 samples of HGSOC tissue and 49 samples of normal tissue.
+We identified 1874 DEGs that were correlated with HGSOC, and the cutoff criteria were p<0.05 and |logFC|≥1. In KEGG analysis, the upregulated genes were predominantly involved in cell cycle and DNA replication, while the downregulated genes were highly involved in Ras signaling, complement and coagulation cascades, and MAPK signaling pathways. The GO analysis supported the previous enrichment analysis, which both help to understand the role of DEGs in HGSOC.
+WGCNA analysis was used to select co-expression modules related to the development of HGSOC, and 2 modules (blue and turquoise) were found to have the highest correlation with HGSOC. We showed the Protein–Protein Interactions (PPI) network and also performed GO and KEGG analyses for genes in the 2 modules. The results indicated that genes in the blue module were enriched in cell cycle and DNA replication, while genes in the turquoise module were involved in different signaling pathways. After filtering with MM and GS value, we detected 152 hub genes from the 2 modules. Five genes – MAD2L1 and FANCD2 in the blue module and PKD2, TBRG1, and DOCK5 in the turquoise module – were excavated after survival analysis and expression validation with datasets downloaded from TCGA, and were found to have prognostic value for HGSOC. Among these 5 hub genes, MAD2L1 and FANCD2 are associated with ovarian cancer.
+As a component of the mitotic checkpoint, high levels of MAD2L1 are related to increased cellular proliferation, migration, and metastasis, which can lead to shorter survival in various cancers [ – ]. However, in ovarian cancer, the role of MAD2L1 did not agree with previous findings that patients with lower MAD2L1 levels were less sensitive to paclitaxel and had shorter progression-free survival (PFS) and overall survival (OS) [ , ]. This discrepancy might have been caused by our analysis, ignoring the mutations of p53 and BRCA1, which are known regulators of MAD2L1 and are commonly mutated in HGSOC [ , ].
+High FANCD2 levels have been shown to be associated with poor prognosis in many types of cancer [ – ], as well as in ovarian cancer [ ]. FANCD2 overexpression can stabilize the replication fork, and create BRCA1/2 mutant tumor resistance towards PARP1/2 inhibitor treatments [ ]. The results indicated that FANCD2 expression can influence cancer sensitivity to PARP1/2 inhibitors and thus could be used as a potential target of therapy.
+To further explore the biological functions of the 5 selected hub genes, we conducted single-gene GSEA. “E2F TARGETS” and “G2M CHECKPOINT” were enriched in the high-expression groups of MAD2L1 and FANCD2, indicating their contribution to HGSOC proliferation. In the high-expression groups of PKD2, TBRG1, and DOCK5, immune-related signals, such as “TNFA SIGNALING VIA NFKB”, “INTERFERON GAMMA RESPONSE” and “INFLAMMATORY RESPONSE” were enriched, indicating the activity of immune response.
+
+## Conclusions
+We identified several DEGs and meaningful gene modules in HGSOC. Four valuable hub genes (FANCD2, PKD2, TBRG1, and DOCK5) were strongly dysregulated in HGSOC tissues. GSEA further suggested that FANCD2 is associated with tumor proliferation, while PKD2, TBRG1, and DOCK5 influence immune response. More work is needed to fully reveal their individual contributions towards the pathogenesis of HGSOC and to validate their value as prognostic biomarkers.
+Limitations of this study include the lack of analysis for detailed clinical classification of HGSOC, such as grade, stage, lymph node metastasis, and prognosis. In future research, we will explore hub genes and their potential function based on this clinical information in detail.
+
+## Supplementary Data
+ Supplementary Figure 1Samples clustering of 5 datasets after removing the batch effects.
+Supplementary Figure 2Soft-thresholding power determination in WGCNA. (A) Analysis of the scale-free fit index for different soft-thresholding powers. (B) Mean connectivity for various soft-thresholding powers. (C) Histogram of connectivity distribution when β=9. (D) Check scale-free topology when β=9.
+Supplementary Figure 3Heatmap of the top 200 DEGs based on the value of |logFC|. High or low expression is shown as a red or blue strip, respectively. The experimental group was labelled HGSOC, while the control group was named Nor.
+ 
+Conflict of interest
+None.
+Source of support: This work was supported by a grant from the National Natural Science Foundation of China (grant number 81472761 to GL)

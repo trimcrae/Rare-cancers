@@ -1,0 +1,179 @@
+1324worldjgastrooncoWorld Journal of Gastrointestinal OncologyWorld J Gastrointest OncolBaishideng Publishing Group IncPMC1133404611334046113340463917117710.4251/wjgo.v16.i8.3635Curcumin for gastric cancer: Mechanism prediction via network pharmacology, docking, and in vitro experiments
+YangPeng-Hui WeiYa-Nan XiaoBi-Juan LiSi-Yi LiXin-Long YangLiang-Jun PanHua-Feng ChenGeng-Xin 1The Second School of Clinical Medicine, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China2The Second School of Clinical Medicine, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China3Science and Technology Innovation Center, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China4Department of Traditional Chinese Medicine, The People's Hospital of Longhua, Shenzhen 518109, Guangdong Province, China5Science and Technology Innovation Center, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China6Department of Gastroenterology, Tongde Hospital of Zhejiang Province, Hangzhou 310012, Zhejiang Province, China7Science and Technology Innovation Center, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China8Centre for Translational Medicine, The Second Affiliated Hospital of Guangzhou University of Chinese Medicine, Guangzhou 510120, Guangdong Province, China. gxchen@gzucm.edu.cn✉Author contributions: All authors contributed to the conceptualization and composition of this manuscript; Yang PH, Wei YN and Xiao BJ wrote the paper; Li SY, Li XL and Yang LJ assisted in data collection and analysis; Chen GX and Pan HF contributed to the study design; Chen GX made critical revisions to this paper; All authors have reviewed and approved the final version of the manuscript.
+Supported by the National Nature Science Foundation of China, No. 81273735 and No. 82174319; the Natural Science Foundation of Guangdong Province, China, No. 2021A1515010961; the Key-Area Research and Development Program of Guangdong Province, China, No. 2020B1111100011; and the China Postdoctoral Science Foundation, China, No. 2023M740859.
+Corresponding author: Geng-Xin Chen, MD, Chief Doctor, Centre for Translational Medicine, The Second Affiliated Hospital of Guangzhou University of Chinese Medicine, No. 111 Dade Road, Guangzhou 510120, Guangdong Province, China. gxchen@gzucm.edu.cn
+158202416836353635–36502182024©The Author(s) 2024. Published by Baishideng Publishing Group Inc. All rights reserved.This article is an open-access article that was selected by an in-house editor and fully peer-reviewed by external reviewers. It is distributed in accordance with the Creative Commons Attribution NonCommercial (CC BY-NC 4.0) license, which permits others to distribute, remix, adapt, build upon this work non-commercially, and license their derivative works on different terms, provided the original work is properly cited and the use is non-commercial.
+
+## Abstract
+
+## BACKGROUND
+Curcumin originates from the natural herb turmeric, and its antitumor effects have been known about for a long time. However, the mechanism by which curcumin affects gastric cancer (GC) has not been elucidated.
+
+## AIM
+To elucidate the potential mechanisms of curcumin in the treatment of GC.
+
+## METHODS
+Network pharmacological approaches were used to perform network analysis of Curcumin. We first analyzed Lipinski’s Rule of Five for the use of Curcumin. Curcumin latent targets were predicted using the PharmMapper, SwissTargetPrediction and DrugBank network databases. GC disease targets were mined through the GeneCard, OMIM, DrugBank and TTD network databases. Then, GO enrichment, KEGG enrichment, protein-protein interaction (PPI), and overall survival analyses were performed. The results were further verified through molecular docking, differential expression analysis and cell experiments.
+
+## RESULTS
+We identified a total of 48 curcumin-related genes with 31 overlapping GC-related targets. The intersection targets between curcumin and GC have been enriched in 81 GO biological processes and 22 significant pathways. Following PPI analysis, 6 hub targets were identified, namely, estrogen receptor 1 (ESR1), epidermal growth factor receptor (EGFR), cytochrome P450 family 3 subfamily A member 4 (CYP3A4), mitogen-activated protein kinase 14 (MAPK14), cytochrome P450 family 1 subfamily A member 2 (CYP1A2), and cytochrome p450 family 2 subfamily B member 6 (CYP2B6). These factors are correlated with decreased survival rates among patients diagnosed with GC. Molecular docking analysis further substantiated the strong binding interactions between Curcumin and the hub target genes. The experimental findings demonstrated that curcumin not only effectively inhibits the growth of BGC-823 cells but also suppresses their proliferation. mRNA levels of hub targets CYP3A4, MAPK14, CYP1A2, and CYP2B6 in BGC-823 cells were significantly increased in each dose group.
+
+## CONCLUSION
+Curcumin can play an anti-GC role through a variety of targets, pathways and biological processes.
+
+Keywords: Curcumin, Gastric cancer, Network pharmacology, Molecular docking, Survival analysis
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Apr 15; Revised 2024 May 24; Accepted 2024 Jun 18; Issue date 2024 Aug 15.
+
+Core Tip: This study aimed to elucidate the therapeutic mechanisms of curcumin in gastric cancer (GC). Through network pharmacology, core targets correlating to poor survival in patients with GC were identified, including estrogen receptor 1 (ESR1), epidermal growth factor receptor (EGFR), cytochrome P450 family 3 subfamily A member 4 (CYP3A4), mitogen-activated protein kinase 14 (MAPK14), cytochrome P450 family 1 subfamily A member 2 (CYP1A2), and cytochrome p450 family 2 subfamily B member 6 (CYP2B6). Molecular docking confirmed the favorable interactions of curcumin with pivotal target genes. In vitro experiments validated the regulatory effects of curcumin on GC cells through these targets. The therapeutic efficacy of curcumin involves multitarget, multipathway, and multibiological processes, offering new insights into its clinical application in GC treatment.
+
+## INTRODUCTION
+Gastric cancer (GC) poses a significant threat to human health, with the highest incidence rates observed in East Asia, particularly in China where it ranks third among all cancer incidences, thus constituting a significant public health concern[ , ]. Despite ongoing advancements in treatment modalities for GC, the treatment prospects for patients with advanced GC remain unsatisfactory due to primary or acquired drug resistance and the limited availability of effective treatment methods. However, 5-year survival rate for individuals diagnosed with GC is below 20%[ ]. Therefore, the demand for new agents, especially drugs extracted from natural resources, continues to increase.
+Natural products are treasures from the natural world, serving not only as treatments for various ailments but also as crucial reservoirs for synthesizing therapeutic drugs[ ]. Curcumin, a bioactive phytochemical compound belonging to the Zingiberaceae family, is naturally abundant in the rhizomes of turmeric plants and is notably rich in phenol (diferuloylmethane)[ ]. Prior research has indicated that the primary physiological activity of curcumin lies in its anti-inflammatory and antioxidative effects; thus, curcumin exerts an efficient antimutational effect and plays a significant role in anti-inflammatory and antitumor treatment[ , ]. In addition, accumulating evidence has shown that curcumin can not only induce tumor apoptosis by regulating cyclin kinases and their inhibitors through the p53-dependent signaling pathway but also regulate several transcription factors, including the STAT protein, NF-κB protein, and multiple signaling pathways, to inhibit tumor vascular formation[ , ]. However, the mechanism by which curcumin affects GC has not been fully revealed.
+Network pharmacology has become a powerful means to understand the potential action of traditional Chinese medicine in cancer treatment. To better explore the therapeutic potential of curcumin in treating GC, we employed a network pharmacology approach to investigate its mechanisms of action.
+
+## MATERIALS AND METHODS
+
+## Drug similarity
+Lipinski's Rule of Five (RO5) is a set of guidelines used to assess the potential suitability of oral drugs by assessing drug likeness. Including the molecular weight (MW), hydrophobicity (XLogP3), polar surface area, rotatable bonds, H-bond acceptors, and H-bond donors. To explore curcumin’s similarity, the SMILES database (COC1=C(C=CC(=C1)C=CC(=O)CC(=O)C=CC2=CC(=C(C=C2)O)OC)O) was uploaded to the SwissADME network tool to evaluate the physicochemical properties, pharmacokinetics, drug similarity, and chemical friendliness of the drug, which was subsequently screened by referring to the default parameters[ , ].
+
+## Prediction of the molecular targets of curcumin
+Identifying drug component targets is indispensable in drug discovery, facilitated by unique technologies that pinpoint the genes and proteins associated with the drug. To ensure the comprehensive collection of curcumin, the PharmMapper, Swiss TargetPrediction and DrugBank databases were used for prediction[ , ]. According to the Swiss TargetPrediction database, a correlation value ≥ 0.7 was selected as the molecular target of curcumin. To standardize the gene symbols and facilitate subsequent data sorting, the predicted curcumin targets were sent to UniProt database unified gene symbol after the molecular targets were obtained.
+
+## Prediction of GC target genes
+To comprehensively enrich the disease-related targets, we collected GC targets from various public databases, namely, the GeneCard database, the Online Mendelian Inheritance in Man (OMIM) database, the DrugBank database and the TTD database. Notably, targets with a score greater than 10 in the GeneCards database were selected as genes related to GC. We then integrated the disease targets of the four databases and represented each target with the gene symbol uniformly. Eventually, the targets related to the pathogenesis of GC were identified[ ].
+
+## Cross-sectional relationships between molecular targets and disease targets
+The target genes of curcumin and GC were introduced into the Weishengxin online mapping tool to identify the putative intersection genes of the drug molecule and the disease target.
+
+## Protein interaction network for turmeric and GC intersection-PPIs
+The obtained curcumin-related genes and GC-related genes were integrated and then analyzed using the STRING database. Settings were adjusted to "Homo sapiens" and an interaction score of "≥ 0.4". After obtaining the protein interaction TSV format file, the data were imported to Cytoscape (version Cytoscape_v3.7.2) software for analysis via network visual processing, and subsequently, the curcumin-GC target visual network was successfully constructed.
+
+## Selection of hub targets
+We obtained the connection score between targets through the cythubba tool downloaded from Cytoscape (version Cytoscape_v3.7.2), and then, the hub targets were obtained by Maximal Clique Centrality (MCC) score screening. The network was visualized to obtain the length of the hub target network.
+
+## KEGG and GO analysis
+After integrating the hub targets, KEGG and GO analyses were performed on these targets using the DAVID database, proceeded with data mining and visual analysis of the impact of curcumin on GC.
+
+## Overall survival analysis of patients stratified by hub gene expression
+Prognosis holds significant evaluative value in cancer treatment. The prognostic significance of hub targets in GC patients was assessed using the Kaplan-Meier plotter[ ]. In the GC dataset, GC patients were divided into high and low expression groups. Hazard ratios, logarithmic rank P values, and their corresponding 95%CI were computed. Comparative analysis was performed using Kaplan-Meier survival curves.
+
+## Molecular docking verification
+To further ascertain the relationship and mechanism of the interaction of candidate proteins with curcumin, through molecular docking, we can effectively evaluate the binding affinity between curcumin and hub targets. Firstly, the three-dimensional structure of the small molecule was obtained and subjected to energy minimization, followed by saving it in mol2 format. Subsequently, the optimized small molecule was loaded into AutodockTools-1.5.6 for hydrogenation, charge calculation, and charge distribution. After configuring the rotatable bonds, the file was saved in "pdbqt" format. Next, the protein structure corresponding to the provided PDB ID was retrieved from the PDB database. Using PyMOL 2.3.0 software, water molecules and native ligands were removed from the protein crystal structure, which was then loaded into AutoDockTools (v1.5.6) for hydrogenation. Following this, the charge, distribution, and specific atom types of the protein were computed, and the data were saved in "pdbqt" format. Finally, molecular docking simulations were conducted using AutoDock Vina 1.1.2.
+
+## Differential expression analysis
+The expression levels of estrogen receptor 1 (ESR1), epidermal growth factor receptor (EGFR), cytochrome P450 family 3 subfamily A member 4 (CYP3A4), mitogen-activated protein kinase 14 (MAPK14), cytochrome P450 family 1 subfamily A member 2 (CYP1A2), and cytochrome p450 family 2 subfamily B member 6 (CYP2B6) genes in GC and normal tissues were analyzed using UALCAN (http://ualcan.path.uab.edu/). Utilizing the TCGA database, UALCAN was employed to study the expression levels of these hub targets in clinical tissue samples.
+
+## Analysis of the ability of curcumin to inhibit the proliferation of BGC-823 GC cells
+Curcumin was dissolved in 0.1% DMSO (manufactured by Sigma) and subsequently diluted in culture medium to prepare solutions with final concentrations of 0, 10, 20, 40, and 80 µmol/L. Log-phase BGC cells were seeded at a density of 2 × 106 cells per well in 6-well plates. GC BGC cells were subjected to treatment with varying concentrations of each concentration of curcumin as described above in five parallel wells and cultured for 24 hours and 48 hours. Following that, a certain amount of CCK8 was added to each well in a 96-well plate, and the plate was placed in a 37 °C incubator in the dark for 1.5 hours. Absorbance values were measured at a wavelength of 472 nm using a microplate reader, and data were statistically analyzed to calculate the cell survival rate.
+
+## Expression of hub targets in curcumin-treated BGC-823 cells measured by qRT-PCR
+The logarithmic growth phase BGC-823 cells were grouped and treated with curcumin solutions at final concentrations of 0, 10, 20, 40, and 80 µmol/L. After 24 hours of incubation, cells from each group were harvested, and RNA was extracted and quantified. Subsequently, reverse transcription and RT-qPCR were performed. The primer sequences are listed in Table . A summary of all databases utilized in this study is provided in Table .
+ 
+
+## RESULTS
+
+## Molecular properties of curcumin
+Our results showed that the MW was less than five hundred; the numbers of hydrogen bond donors and receptors were less than 5 and 10, respectively; the number of rotating bonds was not more than ten; and the lipid-water distribution coefficient was less than 5. The results revealed that the nature of curcumin conforms to Lipinski's RO5, which strongly indicates that it has good drug class properties (Table ).
+ 
+
+## Building a molecular drug target and disease target database
+Drugs can usually be combined with multiple targets, namely, multiple pharmacological agents or drugs. Thus, the present study predicted the latent targets of curcumin. After the target data were merged, forty-eight replicates of curcumin were saved. The genes associated with GC were then retrieved from the GeneCard, OMIM, Drugbank, and TTD databases. Subsequently, 1508 GC targets were obtained after eliminating redundant data from the above database, by integrating the targets of curcumin and GC, we identified 31 common targets as potential targets for curcumin in the treatment of GC (Figure ).
+ 
+
+## A composite target network was established
+To explore the connections between the potential targets and curcumin, we constructed a composite target network. The network, comprising curcumin and the potential targets, included 32 nodes and 31 edges, as depicted in Figure .
+ 
+
+## Visualization and integration of protein interaction networks
+To better understand proteins within cells at a systemic level, through STRING database, we constructed a PPI network consisting of thirty-one targets related to curcumin (Figure ). Based on the topological analysis of the PPI network, the color varied from yellow to red as the score increased, with ESR1 being the deepest and greatest (MCC score = 732). On the basis of the calculations of the cythubba data, six targets, namely, ESR1, EGFR, CYP3A4, MAPK14, CYP1A2, and CYP2B6, were selected as hub targets based on PPI topological analysis, indicating that they may have significant potential impact on the development of GC, as illustrated in Figure .
+ 
+
+## GO analysis
+To better analyze the potential biological processes and cellular molecular mechanisms of curcumin in the treatment of GC, we performed GO analysis on 31 potential targets of curcumin for GC treatment. Based on the analysis results, we found that the potential targets were enriched in 81 GO biological processes, including 18 cell component terms, 42 molecular function terms, and the first 20 biological processes, first 5 cellular components, and first 10 molecular functions are presented in Figure . As shown in Figure , the first 20 biological process terms were significantly associated with "GO:0007165" (GO:0007165), "Negative regulation of apoptotic processes" (GO:0043066), and "Foreign Body Metabolic Process" (GO:0006805). The first 5 cell component terms were significantly associated with the visible sites of action according to GO:0005737 and GO:0005634. The first 10 molecular function terms were significantly associated with "protein binding" (GO:0005515), "ATP binding" (GO:0005524), and "enzyme binding" (GO:0019899). The findings showed that potential targets regulate cell signal transduction, proliferation, apoptosis, phosphorylation, oxidative stress, and metabolism.
+ 
+
+## KEGG analysis
+For a deeper comprehending of pharmacological mechanisms underlying efficacy of curcumin in GC, we performed a KEGG pathway analysis of these thirty-one targets via the DAVID database. The results showed that 31 targets were associated with 46 pathways. Combined with the pathogenesis and gene count of GC (gene count ≥ 3), GC-independent pathways such as the prolactin signaling pathway (KEGG: Hsa04917), tuberculosis (KEGG: Hsa05152), and pancreatic cancer (KEGG: Hsa05212) were eliminated. Finally, ten significant enrichment approaches may be the main approaches for GC treatment (as shown in Table ). A pathway enrichment diagram was then generated by mapping the targets through bioinformatics tools (Figure ). The aforementioned results indicate that curcumin plays a therapeutic role through FOXO and other signaling pathways that affect cancer.
+ 
+
+## Survival analysis
+Using the Kaplan-Meier plot database for survival analysis of the hub targets, we have observed high expression of targets (including ESR1, EGFR, CYP3A4, MAPK14, CYP1A2, and CYP2B6) was linked to poor survival in GC patients, as shown in Figure .
+ 
+
+## Molecular docking
+Through molecular docking verification analysis, curcumin was found to be stable in docking with the hub targets ESR1, EGFR, CYP3A4, MAPK14, CYP1A2, and CYP2B6, and the binding energy was low (Table ). Further examination of results revealed that curcumin exhibited strong binding affinity to CYP1A2, forming hydrogen bonds at Arg108 (A) and Arg456 (A) with lengths of 3.15 Å and 3.15 Å, respectively, and the binding energy was -9.5 kcal/mol. Curcumin has a good binding effect on CYP2B6, forming hydrogen bonds at Arg98 (A) with lengths of 2.95 Å and 2.96 Å, and the binding energy was -9.3 kcal/mol. There was good interaction between curcumin and CYP3A4 only through hydrophobic interactions, and the binding energy was -8.4 kcal/mol. Curcumin has good binding affinity for MAPK14, forming a hydrogen bond at Lys53 (A) with a length of 3.22 Å, and the binding energy was -7.9 kcal/mol. Curcumin has good binding with EGFR, forming a hydrogen bond at Lys745 (A) with a length of 3.31 Å, and the binding energy was -7.8 kcal/mol. Curcumin exhibited strong binding affinity to ESR1, forming hydrogen bonds with Ala307 (A), Gly366 (A) and Ser305 (A), with lengths of 2.82 Å, 3.06 Å, 2.95 Å and 3.47 Å, respectively. The binding energy was -6.3 kcal/mol (Figure ).
+ 
+
+## Differential hub genes expression analysis
+According to the TCGA database, grouping 415 GC tissue samples and 34 normal tissue samples, and analyzing their differential gene expression levels. We found that the levels of expression of EGFR, CYP3A4, MAPK14 and CYP2B6 varied significantly between GC and normal tissues (P < 0.05), while the expression levels of ESR1 and CYP1A2 were not significantly different (Figure ).
+ 
+
+## Curcumin inhibits the proliferation of BGC-823 cells
+Figure shows that following treatment with curcumin for 24 hours and 48 hours, compared with that after treatment with 0 μmol/L curcumin, cell growth was significantly inhibited after treatment with 10, 20, 40, 80 μmol/L curcumin. At the same time, the higher the concentration of curcumin was, the more obvious was the inhibition of cell growth. Statistical significance was observed when the concentration of curcumin was greater than or equal to 20 μmol/L (P < 0.001).
+ 
+
+## Effect of curcumin on hub targets expression in BGC-823 cells
+The experimental results revealed a significant increase in the mRNA expression levels of CYP3A4, MAPK14, CYP1A2, and CYP2B6 in BGC-823 cells treated with curcumin compared to the 0 μmol/L curcumin group (P < 0.05, 0.01, 0.001; Figure ). Statistical analysis revealed a significant reduction in the mRNA levels of EGFR when the concentration of curcumin reached or exceeded 40 μmol/L (P < 0.01, 0.001). After intervention with a certain concentration of curcumin, significant differences were observed in the mRNA levels of hub target genes across all groups, except for ESR1.
+ 
+
+## DISCUSSION
+Curcumin as diketone compound derived from rhizome of some plants in the Zingiberaceae and Araceae. It possesses a diverse array of biological functions, including anti-inflammatory, antitumor and antioxidant effects[ ]. Its anticancer effects primarily stem from its ability to negatively regulate multiple transcription factors and inhibit cellular proliferation, through eliminating stasis cancer cells at various phases of cell cycle or inducing their apoptosis[ ]. Curcumin has been proven to be capable of treating GC by inhibiting cell proliferation, inducing apoptosis, and reducing chemotherapy resistance. Thus, the use of curcumin is a novel and promising treatment strategy for controlling progression of GC cells[ ]. However, the specific molecular pathways through which curcumin treats GC have not been completely elucidated. Our current study used a network pharmacology approach and conducted a series of experiments, including drug similarity evaluation, target identification, GO and KEGG analysis, PPI analysis, gene survival analysis, molecular docking and experimental validation, to systematically analyze the molecular basis of curcumin's effects on GC treatment. Based on the RO5 parameters, curcumin demonstrates favorable pharmaceutically favorable characteristics, indicating it has broad prospects for pharmaceutical applications.
+Fifteen GC targets were selected, referring to 81 biological processes, 18 cell components and 42 molecular functions. These biological processes mainly involve signal transduction, apoptosis, cell metabolism, proliferation, oxidative stress, and the cell cycle; cell components mainly involve the cytoplasm, nucleus, mitochondria, and cell membrane; molecular functions mainly involve protein binding, protein kinase activity, ATP binding, and enzyme binding. An essential characteristic of cancer cells involves aberrant alterations in both proliferation and apoptosis. Therefore, a promising strategy for treating GC is to regulate the balance between GC cell proliferation and apoptosis. Multiple research findings suggest that manipulating apoptosis holds potential as an effective strategy for cancer treatment. Interruption of orderly apoptosis leads to the overgrowth of malignant cells[ ]. Studies have shown that curcumin can significantly activate the activity of Caspase-3 and cleaved PARP to induce apoptosis in GC cells[ ]. Furthermore, curcumin can significantly reduce the proliferative capacity of tumors by blocking the cell cycle progression[ ]. The rising prominence of metabolomics has led to heightened interest among researchers in understanding the association between metabolic regulation and cancer. Impairment of mitochondrial metabolic reactions leads to the production of reactive species, such as ROS, which are known to instigate oxidative stress and provoke cellular damage, thereby disrupting normal physiological functions. Prolonged elevation of ROS levels can induce the activation of oncogenes, genetic mutations, or chromosomal abnormalities[ , ].
+Curcumin exerts its effects through multiple mechanisms of action, thus, we analyzed KEGG pathways. The results indicated that curcumin prevents GC occurrence in a variety of ways. According to pathway analysis, the pathways most highly enriched in GC therapy with curcumin were correlated with the FOXO, P450 metabolic, GnRH, Toll receptor, cell cycle and epithelial cell signaling pathway. FOXO has been found to play a significant role in numerous cell processes, including proliferation, apoptosis, differentiation, stress reactions, and metabolic reactions[ ]. Cytochrome P450 (CYP450) is a supergene family that activates carcinogens mainly through epoxidation, lightness, decalkylation, oxidation, and reduction[ ]. Toll-like receptors (TLRs) can be used to specifically identify a variety of bacteria, viruses and other pathogenic microorganisms[ ]. Recent research suggests a close association between Helicobacter pylori (H. pylori) infection-related gastric diseases and TLRs, with the expression of TLRs in gastric mucosal epithelial cells being altered upon infection occurrence[ ]. In summary, our study's findings indicate that curcumin could be a potent candidate for treating GC via multiple pathways. Despite this, further research is necessary to elucidate the precise mechanisms through which curcumin influences these pathways. This will not only enhance our understanding of curcumin's therapeutic potential but also provide insights into novel targets for the treatment of related conditions.
+To elucidate the importance of this curcumin target, we constructed a PPI network. Through this network, we identified the first six hub targets, namely, ESR1, EGFR, CYP3A4, MAPK14, CYP1A2, and CYP2B6. Survival analysis indicates that elevated levels of these genes are associated with poorer prognostic outcomes. To investigate the interaction mechanisms between curcumin and the six central molecules, we employed molecular docking methods. The results showed that curcumin has large binding sites for ESR1, EGFR, CYP3A4, MAPK14, CYP1A2 and CYP2B6, with high binding scores, indicating good affinity for curcumin.
+The genetic polymorphism of CYP1A2 not only contributes to a certain extent to the increased risk of GC but particularly enhances the likelihood of developing GC in patients with H. pylori infection[ ]. In addition, CYP1A2 is a lipid metabolism-related gene. The biological process of lipid metabolism plays a dual role in regulating proliferation and migration of tumor cells, while also modulating the recruitment and function of tumor-infiltrating immune cells, thereby altering the immune microenvironment[ ]. The genetic polymorphisms of various CYP450 enzymes have been thoroughly investigated for their roles in modulating the processes of cancer development[ ]. Among these, CYP3A4 is widely expressed in hepatocellular carcinoma, breast cancer, lung cancer, prostate cancer, and GC[ , ]. Additionally, microarray analysis has detected that enhanced expression of CYP3A4 correlates closely with the therapeutic response of metastatic GC to chemotherapy[ ]. The expression of ESR1 is associated with fine T staging but has no significant correlation with N staging, suggesting that the estrogen receptor may promote local invasion of GC without affecting its lymph node metastasis mechanism. Estrogen receptor expression may be associated with age, sex, and other factors that promote the development of GC[ ]. MAPK14 is one of four p38 MAPKs. Passos et al[ ] reported that the activation of the MAPK14/TGF signaling pathway leads to enhanced ROS activation, which participates in aging caused by DNA damage or telomere dysfunction[ , ]. Research has demonstrated that MAPK14 exhibits high expression levels in tumor tissue and in radiotherapy-resistant GC cell lines. High MAPK14 expression mediates radiotherapy resistance in GC by inhibiting apoptosis and affecting the redistribution of the cell cycle. Furthermore, MAPK14 may serve as a predictive marker for radiation sensitivity in patients with advanced GC[ ]. CYP is a carcinogen activator enzyme that includes CYP3A4, CYP1A2 and CYP2B6, and the activities of these enzymes have the potential to activate the carcinogen, increasing cancer risk[ ]. The pathogenesis of various cancers is closely associated with EGFR. Through the regulation of biological processes such as cell proliferation, survival, and metastasis, EGFR exerts a profound influence on tumor development and progression[ ]. Preclinical study data indicate that EGFR is capable of sustaining tumor growth and development[ ]. EGFR overexpression or constitutive activation is common in tumor cells and is associated with their proliferation, migration, and invasion, making EGFR an important target for anticancer therapy[ ].
+In this study, we have used CCK-8 to verify that significant inhibitory effect of curcumin on the proliferation of BGC-823 cells, and a qRT-PCR assay was used to verify that curcumin markedly influenced the hub targets CYP3A4, MAPK14, CYP1A2, and CYP2B6 at the gene level, as determined by network pharmacology. The effect of curcumin on EGFR expression exhibits dose-dependency, and curcumin slightly promoted the expression of ESR1. In summary, ESR1, EGFR, CYP3A4, MAPK14, CYP1A2, and CYP2B6 play key roles in the pathogenesis of GC, indicating that curcumin could have a strong therapeutic effect on GC through these target genes. However, further biological experimental validation is required to determine the exact mechanism of curcumin in GC treatment.
+
+## CONCLUSION
+Curcumin, a compound extracted from certain plants, exhibits anti-inflammatory, antitumor, and antioxidant properties, making it a potential treatment for GC. Its anticancer mechanisms involve transcriptional regulation, arrest of the cell cycle, and induction of apoptosis. Despite the efficacy of curcumin in inhibiting cell proliferation and inducing apoptosis, the precise underlying molecular mechanisms remain elusive. Notably, we discuss the cancer risk for polymorphisms of CYP1A2 and the function of CYP450 enzymes. Biological validation demonstrated the inhibitory effect of curcumin on BGC-823 cell proliferation and its impact on hub target gene expression. In summary, curcumin holds promise for GC treatment through the modulation of key molecular targets, warranting further experimental validation. Our current study provides new insight into the mechanism of action of curcumin against GC.
+
+## ACKNOWLEDGEMENTS
+The authors would like to thank all the authors for their contributions to this article.
+
+## Footnotes
+
+Institutional animal care and use committee statement: The study did not involve any human or animal experiments, and the data is derived from cells or tissues experiments and databases. BGC-823 cell line used in the study was purchased from Guangzhou Jennio Biotech Co., Ltd, China.
+
+Conflict-of-interest statement: The authors declare that there are no conflicts of interest regarding the publication of this paper. The authors affirm that this research is conducted in an unbiased manner and that the findings and conclusions presented are solely based on scientific merit.
+
+Provenance and peer review: Unsolicited article; Externally peer reviewed.
+
+Peer-review model: Single blind
+
+Specialty type: Oncology
+
+Country of origin: China
+
+Peer-review report’s classification
+
+Scientific Quality: Grade C
+
+Novelty: Grade C
+
+Creativity or Innovation: Grade C
+
+Scientific Significance: Grade C
+
+P-Reviewer: Venkatesan N S-Editor: Li L L-Editor: A P-Editor: Zheng XM
+
+## Contributor Information
+Peng-Hui Yang, The Second School of Clinical Medicine, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China.
+Ya-Nan Wei, The Second School of Clinical Medicine, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China.
+Bi-Juan Xiao, Science and Technology Innovation Center, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China.
+Si-Yi Li, Department of Traditional Chinese Medicine, The People's Hospital of Longhua, Shenzhen 518109, Guangdong Province, China.
+Xin-Long Li, Science and Technology Innovation Center, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China.
+Liang-Jun Yang, Department of Gastroenterology, Tongde Hospital of Zhejiang Province, Hangzhou 310012, Zhejiang Province, China.
+Hua-Feng Pan, Science and Technology Innovation Center, Guangzhou University of Chinese Medicine, Guangzhou 510006, Guangdong Province, China.
+Geng-Xin Chen, Centre for Translational Medicine, The Second Affiliated Hospital of Guangzhou University of Chinese Medicine, Guangzhou 510120, Guangdong Province, China. gxchen@gzucm.edu.cn.
+
+## Data sharing statement
+No additional data are available.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+No additional data are available.

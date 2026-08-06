@@ -1,0 +1,79 @@
+BMC BioinformaticsBMC Bioinformatics13bmcbioiBMC Bioinformatics1471-2105BMCPMC4836156PMC4836156.1483615648361562709135710.1186/s12859-016-1002-010021SoftwareChemiRs: a web application for microRNAs and chemicals
+SuEmily Chia-Yuemilysu@tmu.edu.tw ]. Environmental chemicals have been shown to play a critical role in the etiology of many human diseases [ ]. Studies have also demonstrated the link between specific miRNAs and aspects of pathogenesis [ ]. The fact that a miRNA may regulate hundreds of targets and one gene might be regulated by more than one miRNAs makes the underlying mechanism of miRNA pathogenicity more complex. Many miRNA targets have been computationally predicted, but only a limited number of these were experimentally validated. Although a variety of miRNA target prediction methods are available, resulting lists of candidate target genes identified by these methods often do not overlap and thus show inconsistency. Hence, finding a functional miRNA target is still a challenging task [ ]. Some integration methods and tools for comprehensive analysis of miRNA target prediction have been developed, such as miRGen [ ], miRWalk [ ], starBase [ ], and ComiR [ ]. However, it is rarely seen the consolidation and comparison of miRNA target prediction methods with chemicals, diseases, pathways and Gene Ontology (GO) related applications. Thus, it is crucial to develop the bioinformatics tools for more accurate prediction as it is equally important to validate the predicted target genes experimentally [ ]. In this study, we develop a ChemiRs web server, in which various miRNA prediction methods and biological databases are integrated and relations between miRNAs, chemicals, genes, diseases and pathways are analyzed. First, we manually retrieved the associations of miRNAs and chemicals from biomedical literature, and downloaded toxicogenomics data from the comparative toxicogenomic database (CTD; http://ctd.mdibl.org) [ ]. Then, our method integrated the latest versions of publicly available miRNA target prediction methods and curated databases, including DIANA-microT [ , ], miRanda [ ], miRDB [ ], RNAhybrid [ ], PicTar [ ], PITA [ ], RNA22 [ ], TargetScan [ ], miRWalk [ ], miRecords [ ], miR2Disease [ ], and miRBase [ , ]. A set of experimentally validated target genes integrated from the miRecords and mirTarBase [ ] servers is also integrated in the ChemiRs server. In addition, information from KEGG [ ], REACTOME [ ], and Gene Ontology [ ] databases were organized into ChemiRs manually. The logical restriction was also designed to compare different miRNA target prediction methods easily using R (http://www.r-project.org) for statistics.
+
+## Implementation
+The workflow of ChemiRs server is illustrated in Fig.  . Given different types of query inputs from the users, ChemiRs server extracts relevant search results from various prediction methods and databases. Then, the results are shown in an interactive viewer and available as downloadable files. Next, the data sources, implementation and components of ChemiRs are described as follows. 
+
+## Input
+To access ChemiRs web server, a user has to choose a search function from main menu for one or more searches as query processing. In the ‘Search by miRNA’ module, the user directly selects a miRNA of interest from a dropdown list of human miRNAs. For the other search modules (i.e., search by gene, genelist, chemical, disease and pathway), the user can submit a query keyword of interest to search for related topics. A graphical control checkbox permits the user to make multiple choices of both the search databases and topics of interest. Detailed descriptions of the inputs are given by scrollable tabboxes, checkboxes, radio buttons or type text. Then, the ChemiRs server processes the user query, generates the intersection of search results, and calculates the statistical significance level with p-value.
+
+## Output
+The search results of target genes and related associations with chemicals, diseases, pathways and GO terms are shown in the ChemiRs server. The output results are presented to the user via both an interactive viewer and downloadable files.
+
+## Interactive viewer
+Query results are shown in a tabbox and automatically made scrollable when the sum of their width exceeds the container width size. The listbox component can automatically generate checkboxes or radio buttons for selecting list items by user selected attributes. Checkboxes allow multiple selections to be made, unlike the radio buttons. It is easy to obtain results immediately with sorting functionalities built in the grid and listbox components.
+
+## Downloadable files
+The results can also be downloaded as comma-separated value (CSV) files, which can be easily imported into Microsoft Excel. The CSV files include all features calculated by ChemiRs. In addition, a related reference represented by the Pubmed ID is also provided. Multiple query results can also be easily integrated and exported as report documents in PDF format.
+
+## Data sources
+Schema of the client-server architecture of ChemiRs is shown in Fig.  . ChemiRs incorporated miRNA target prediction methods and curated databases, including DIANA-microT, miRanda, miRDB, RNAhybrid, PicTar, PITA, RNA22, TargetScan, miRWalk, miRecords, miR2Disease and miRBase as shown in Table  . Data from the latest versions of all dependent databases are collected and integrated into a relational database in the ChemiRs server. A set of experimentally validated target genes integrated from the miRecords and mirTarBase servers is also integrated in the ChemiRs server. In addition, biological information from CTD, KEGG, REACTOME and Gene Ontology databases were manually curated into ChemiRs. The information is stored in a remote PostgreSQL server which is accessed through a Java Model-View-Controller (MVC) web service design. MyBatis library is used to connect to databases, and data can be retrieved by clients in both text and PDF formats. 
+
+## Results and discussion
+
+## Data statistics in ChemiRs
+The data statistics of ChemiRs are described in Table  . All data were organized in ChemiRs. 
+
+## Case studies
+The aim of ChemiRs web server is to provide integrated and comprehensive miRNA target prediction analysis via flexible search functions, including search by miRNAs, gene lists, chemicals, genes, diseases and pathways. Next, case study examples by six different search methods are described in the following sections.
+
+## Search by a miRNA
+As an example, we applied ChemiRs to analyze the hsa-let-7a-5p miRNA. We selected the miRNA ‘hsa-let-7a-5p’ in ‘Search by miRNA’ module and chose ‘pictar(5way),’ ‘PITA,’ ‘RNA22,’ and ‘TargetScan’ as miRNA target prediction methods; ‘4 minimum predicted methods’ as restrictions; and ‘Targets,’ ‘Chemicals,’ ‘Diseases,’ ‘Pathways,’ and ‘GO terms’ as the output functions, respectively. This example can be referred by clicking ‘Tip#2 logical analysis’ on the start page of ChemiRs. As shown in Fig.  , a PDF report including top ten results can be easily downloaded. We checked ‘target genes,’ the top ten ‘related chemicals,’ ‘related diseases,’ ‘related pathways,’ and ‘related GO terms’ returned by ChemiRs, which were sorted according to their significance of activity changes denoted by -log(p-value). The p-value represents the probability of a random intersection of two different gene sets, and the p-value calculations are based on hypergeometric distribution. The probability to randomly obtain an intersection of certain size between user’s set and a network/pathway follows hypergeometric distribution. The lower the p-value, the higher is the non-randomness of finding such intersection. By taking log of p-value, the higher the -log(p-value), the higher is the non-randomness. Generally, when p-value is considered as 0.05, the -log(p-value) greater than 2.995 denotes statistically significant. As shown in Fig.  , our system identified 37 miRNAs within the intersection of the 4-way Venn diagram. Notably, the top one related pathway, ‘Bladder cancer,’ has already been reported to be associated with the hsa-let-7a miRNA in biomedical literature [ ]. This demonstrates that our proposed method is able to identify important features that correspond well with biological insights. 
+
+## Search by a gene list
+We applied ChemiRs to analyze a gene list data reported by Naciff et al. [ ], in which the gene set was selected according to expression changes induced by Bisphenol A (BPA) and 17alpha-ethynyl estradiol in human Ishikawa cells. We downloaded the gene list with 76 genes in Table 6 [ ] under the accession number GSE17624. We used the 76 genes gene symbols as input in ChemiRs by choosing ‘Search by gene list’ module, and ‘miRNAs,’ ‘Chemicals,’ ‘Diseases,’ ‘Pathways,’ and ‘GO terms’ as the output functions; all ten methods as miRNA target prediction methods; and ‘5 minimum predicted methods’ as restrictions, respectively.
+We analyzed the top ten related chemicals returned by ChemiRs, which were sorted according to their significance of activity changes (i.e., −log(p-value)). Interestingly, we found that these chemicals have already been well-known to be associated with estrogens or Endocrine Disrupting Chemicals (EDCs). In fact, many industrially made estrogenic compounds and other EDCs are potential risk factors of cancer. Moreover, estrogen and progesterone receptor status have already been reported to be associated with breast cancer [ ]. For example, BPA was linked to breast cancer tumor growth [ ]. It is expected that other chemicals might also be involved in ‘Pathways in cancer’ returned by ChemiRs, and these chemicals might be potential candidates for further investigation.
+
+## Search by a chemical
+Here, we exemplify the application of ChemiRs to search by chemicals. We applied ChemiRs to analyze diethylhexyl phthalate (DEHP) by submitting ‘DEHP’ in ‘Search by chemical’ module. After pressing the ‘Refresh’ button, we clicked the Medical Subject Heading (MeSH) ID ‘D004051, Diethylhexyl Phthalate’ and chose ‘None’ as the filter; ‘miRNAs,’ ‘Genes,’ ‘Diseases,’ ‘Pathways,’ and ‘GO terms’ as the output functions; all ten methods as miRNA target prediction methods, and ‘10 minimum predicted methods’ as restrictions, respectively. As shown in Fig.  , the results can be easily downloaded as CSV files. 
+We checked ‘Candidate miRNAs,’ the top ten ‘related genes,’ ‘related diseases,’ ‘related pathways,’ and ‘related GO terms’ returned by ChemiRs, which were sorted according to their significance of activity changes (i.e., −log(p-value)). The 93 related human genes and their associated references are listed in Table  . The top one related pathway is ‘Pathways in cancer,’ and the top one related disease is ‘Brest-Ovarian Cancer, Familiar, Susceptibility To, 1; BROVCA1 (OMIM: 604370).’ DEHP is converted by intestinal lipases to mono-(2-ethylhexyl) phthalate (MEHP), which is then preferentially absorbed [ ]. It has already been reported that exposure to the parent compound of the phthalate metabolite MEHP might be associated with breast cancer [ ]. 
+
+## Search by a gene
+We applied ChemiRs to analyze the CXCR4 gene using ‘Search by gene’ module. After pressing the ‘Refresh’ button, we clicked ‘CXCR4,’ chose all output system functions, and pressed the ‘Query’ button. All the ‘related miRNAs,’ ‘related chemicals,’ ‘related diseases,’ ‘related pathways,’ and ‘related GO terms’ will be returned by ChemiRs.
+
+## Search by a disease
+We applied ChemiRs to analyze Schizophrenia in ‘Search by disease’ module. We used ‘Schizophrenia’ as query and pressed the ‘Refresh’ button. A simple tree data model is used to represent a disease tree, and we pressed the light blue line’MeSH: D012559 Schizophrenia.’ All disease annotations included ‘MeSH Heading’ (i.e., controlled term in the MeSH thesaurus), ‘Tree Number’ (i.e., tree number of the MeSH term), ‘Scope Note’ (i.e., the scope notes that define the subject heading), and ‘MeSH Tree Structures’ (i.e., tree structure of the MeSH term) will be returned by ChemiRs.
+
+## Search by a pathway
+We applied ChemiRs to analyze a cell cycle pathway using ‘Search by pathway’ module. We entered ‘cell cycle’ and pressed the ‘Refresh’ button, then five relevant pathways are listed. After we pressed the light blue line ‘KEGG: 04110 Cell cycle,’ all the hsa04110 pathway information will be returned.
+
+## Future extensions
+In the future, we will continuously develop and enhance the interactive analysis module and adjust the web service for better user-experience. An automatic update will also be carried out monthly to keep pace with the latest database versions. It is also planned to incorporate more applications for gene expression data and allow users to customize their own visualization.
+
+## Conclusion
+The ChemiRs web server integrates and compares ten miRNA target prediction methods of interest. The server provides comprehensive features to facilitate both experimental and computational target predictions. In addition, ChemiRs incorporates flexible search modules including (i) search by miRNA, (ii) search by gene, (iii) search by gene list, (iv) search by chemical, (v) search by disease and (vi) search by pathway. Moreover, ChemiRs can make predictions for Homo sapiens miRNAs of interest, and also allow fast search of query results for multiple miRNA selection and logical restriction, which can be easily integrated and exported as report documents in PDF format. The service is unique in that it integrates a large number of miRNA target prediction methods, experiment results, genes, chemicals, diseases and GO terms with instant and visualization functionalities.
+
+## Availability and requirements
+Home page: http://omics.biol.ntnu.edu.tw
+Tip: http://omics.biol.ntnu.edu.tw: Welcome
+Demo: http://omics.biol.ntnu.edu.tw: Video
+Tutorial: http://omics.biol.ntnu.edu.tw: Help
+Operating system(s): Both portal and clients are platform independent.
+Programming language: JAVA, JavaScript
+Any restrictions to use by non-academics: None
+
+## Abbreviations
+BPAbisphenol A
+DEHPdiethylhexyl phthalate
+GOgene ontology
+MEHPmono-(2-ethylhexyl) phthalate
+MeSHmedical subject heading
+miRNAmicroRNA
+MVCModel-View-Controller
+Competing interests
+The authors declare that they have no competing interests.
+Authors’ contributions
+SS and YCT initiated the study; YSC, YCT and JL implemented the system; SS, BCH and SLU tested the software; ECYS and SS wrote the manuscript. All the authors read and approved the final manuscript.
+
+## Acknowledgements
+We thank the NTNU BISBE Lab for supporting computational resources for this work.

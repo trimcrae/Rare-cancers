@@ -1,0 +1,1023 @@
+SOURCE URL: https://www.biorxiv.org/content/10.1101/2022.03.23.485409.full.pdf
+FINAL URL: https://www.biorxiv.org/content/10.1101/2022.03.23.485409v1.full.pdf
+HTTP: 200
+CONTENT-TYPE: application/pdf
+======================================================================
+ 1 
+ 
+PRMT5 as a Novel Druggable Vulnerability for EWSR1-ATF1-driven Clear Cell 
+Sarcoma 
+ 
+ 
+Bingbing X. Li,1,* Larry L. David, 1, 2 Lara E. Davis2, 3 and Xiangshu Xiao1, 2, * 
+ 
+1Department of Chemical Physiology and Biochemistry, 2Knight Cancer Institute, 
+3Division of Hematology and Medical Oncology, Department of Medicine, Oregon 
+Health & Science University, 3181 SW Sam Jackson Park Rd, Portland, OR97239, USA 
+ 
+*To whom correspondence should be addressed: lib@ohsu.edu; xiaoxi@ohsu.edu. 
+ 
+ 
+Disclosure: B. X. L. and X. X. are named inventors on a US Provisional patent 
+application on the use of PRMT5 inhibitors (# 63/208,655). All the other authors have 
+nothing to disclose. 
+  
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 2 
+Abstract. 
+Clear cell sarcoma of soft tissue (CCSST) is an ultra-rare sarcoma with poor prognosis 
+presently with no cure. It is characterized by a balanced t(12;22) (q13;q12) 
+chromosomal translocation, resulting in a fusion of the Ewing’s sarcoma gene EWSR1 
+with activating transcription factor 1 (ATF1) to give an oncogene EWSR1-ATF1. Unlike 
+normal ATF1, whose transcription activity is dependent on phosphorylation, EWSR1-
+ATF1 is constitutively active to drive ATF1-dependent gene transcription to cause 
+tumorigenesis. No EWSR1-ATF1-targeted therapies have been identified due to the 
+challenges in targeting intracellular transcription factors. To identify potential druggable 
+targets for CCSST, we show that protein arginine methyltransferase 5 (PRMT5) is a 
+novel enzyme in enhancing EWSR1-ATF1-mediated gene transcription to sustain 
+CCSST cell proliferation. Genetic silencing of PRMT5 in CCSST cells resulted in 
+severely impaired cell proliferation and EWSR1-ATF1-driven transcription. Furthermore, 
+the clinical-stage PRMT5 inhibitor JNJ-64619178 potently and efficaciously inhibited 
+CCSST cell growth in vitro and in vivo. These results provide new insights into PRMT5 
+as a transcription regulator and warrant JNJ-64619178 for further clinical development 
+to treat CCSST patients. 
+ 
+  
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 3 
+Introduction 
+ Clear cell sarcoma of soft tissue (CCSST), first described in 1965,1 is an ultra-
+rare but aggressive soft tissue sarcoma that most often develops in the lower extremity 
+close to tendons and aponeuroses of adolescents and young adults.1-3 The standard 
+treatment for localized disease is to perform wide surgical resection or whole limb 
+amputation. However, up to 85% of the patients develop the recurrence and eventual 
+metastasis.1, 4 The 10-year overall survival rate is only ~35% and the 5-year survival 
+rate is only ~20% for metastatic disease.5-8 Since most of the patients are adolescents 
+and young adults, the overall life years lost due to CCSST are more substantial. CCSST 
+is notorious for its insensitivity to existing chemotherapies or radiation therapy. No 
+targeted therapies exist for CCSST.  
+The hallmark of CCSST is characterized by a balanced t(12;22) (q13;q12) 
+chromosomal translocation, which results in a gene fusion between the Ewing’s 
+sarcoma gene EWSR1 and activating transcription factor 1 (ATF1) to give an oncogene 
+EWSR1-ATF1.9-11 EWSR1 is known as an RNA-binding protein.12 ATF1 is a member of 
+the cAMP-responsive element (CRE) binding protein (CREB) family transcription 
+factor.13, 14 The gene fusion retains the C-terminal basic leucine-zipper (bZIP) DNA-
+binding domain of ATF1. The CREB family of transcription factors requires 
+phosphorylation at Ser133 of CREB1 or Ser63 of ATF1 by protein Ser/Thr kinases 
+including cAMP-regulated protein kinase A (PKA) in order to be transcriptionally 
+active.15 However, in the case of EWSR1-ATF1 fusion, the transcription activation 
+domain present in EWSR1 renders it constitutively active in driving CREB1/ATF1-
+depenent gene transcription through its bZIP domain independent of phosphorylation.16  
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 4 
+Genetic mouse modeling studies have established that expression of EWSR1-
+ATF1 is sufficient to drive the development of CCSST in mice, resembling human 
+pathologies.17-19 Besides the initial discovery of type 1 EWSR1-ATF1 fusion in CCSST 
+patients, 6 other types of EWSR1-ATF1 fusion and EWSR1-CREB1 have also been 
+reported in CCSST patients.20 Furthermore, these gene fusions have been observed in 
+other CCS-like disease pathologies in other parts of the body including gastrointestinal 
+tract and other abdominal surfaces.4 Together, the identification of EWSR1-ATF1 and 
+EWSR1-CREB1 fusions underscores the critical role of constitutive CREB1/ATF1-
+mediated gene transcription in the development of CCSST and other CCS-like cancers 
+that lack effective therapies. However, it is unclear how EWSR1-ATF1 can activate 
+CREB1/ATF1-dependent gene transcription without phosphorylation. Lack of this 
+mechanistic understanding inhibits our capability to identify novel therapeutics for these 
+sarcomas. In this paper, we describe the identification of protein arginine 
+methyltransferase 5 (PRMT5) as a new EWSR1-ATF1 binding co-activator to stimulate 
+its transcription activity. We further employed genetic and chemical means to inhibit 
+PRMT5 to demonstrate that PRMT5 is a novel druggable vulnerability in EWSR1-ATF1-
+driven CCSST. 
+ 
+Results 
+ 
+EWSR1-ATF1 is intrinsically disordered but constitutively active in driving 
+CREB1/ATF1-mediated gene transcription. The most common fusion between 
+EWSR1 and ATF1 generates EWSR1(2-325)-ATF1(66-271) fusion containing N-
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 5 
+terminal portion of EWSR1 and C-terminal portion of ATF1 with its intact bZIP DNA-
+binding domain.21 Genetic studies have provided compelling evidence that the growth 
+and survival of CCSST cells are critically dependent on the continuous expression of 
+EWSR1-ATF1 and its transcription activity.17, 22 As a fusion protein between an RNA-
+binding protein EWSR1 and a transcription factor ATF1, the major portion of EWSR1-
+ATF1 fusion protein is predicted to be intrinsically disordered. Indeed, when the fusion 
+protein sequence was analyzed by PONDR (Predictor of Natural Disordered Regions) 
+algorithm,23 the majority of the EWSR1 region is found to be disordered (Figure 1A). As 
+expected, the bZIP domain in the C-terminal portion of ATF1 is ordered. Consistent with 
+this prediction, the artificial intelligent (AI) algorithm AlphaFold24 also predicts that 
+EWSR1 portion is unstructured while a good fraction of ATF1 including the bZIP domain 
+is structured (Figure 1B). Even within the structured region of ATF1, no obvious small 
+molecule binding sites can be readily identified (Figure S1A). As a consequence, direct 
+targeting of EWSR1-ATF1 by small molecules is challenging and no direct small 
+molecule inhibitors of EWSR1-ATF1 have been developed.  
+ Despite EWSR1-ATF1 is largely disordered, it has been reported that it functions 
+as a constitutively active transcription factor.16 To confirm this, we created the in-frame 
+Flag-tagged fusion between EWSR1(2-325) and ATF1(66-271) (Figure S1B). When 
+EWSR1-ATF1 was expressed along with our previously described CREB1/ATF1 
+transcription reporter plasmid (CRE-RLuc) in HEK 293T cells,25 we found that the 
+exogenously expressed EWSR1-ATF1 is transcriptionally active in driving 
+CREB1/ATF1-depedent gene transcription (Figure 1C). Furthermore, this transcription 
+activity is independent of phosphorylation as adding PKA activator forskolin (Fsk) did 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 6 
+not further enhance its transcription activity (Figure 1D). These results support that 
+EWSR1-ATF1 is constitutively active in driving CREB1/ATF1-dependent gene 
+transcription. 
+ 
+ 
+Figure 1. EWSR1-ATF1 is intrinsically disordered and constitutively active in driving 
+CREB1/ATF1-dependent gene transcription. (A) EWSR1-ATF1 is an intrinsically 
+disordered protein. The PONDR score was calculated using online PONDR server at 
+http://www.pondr.com. (B) Cartoon presentation of AlphaFold predicted structures of 
+EWSR1(2-325) (left) and ATF1(66-271) (right). The N- and C-termini are labeled. (C) 
+EWSR1-ATF1 is constitutively active. HEK 293T cells were transfected with an empty 
+vector or EWSR1-ATF1 along with CREB1 transcription reporter plasmid CRE-RLuc. 
+EWSR1 ATF1
+amino acid residue #
+A
+ C
+ D
+N
+C
+N C
+EWSR1 ATF1
+B
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 7 
+Then the renilla luciferase activity was measured and normalized to the protein content. 
+(D) EWSR1-ATF1’s transcription activity is independent of phosphorylation. HEK 293T 
+cells were transfected with EWSR1-ATF1 along with CREB1 transcription reporter 
+plasmid CRE-RLuc. The cells were treated with different concentration of forskolin (Fsk) 
+for 5 h before the renilla luciferase activity was measured, which was further normalized 
+to the protein content. * P < 0.05. 
+ 
+EWSR1-ATF1 interacts with PRMT5. Since EWSR1-ATF1 has been established as 
+the genetic driver for CCSST development and maintenance, targeting this driver 
+represents a potentially promising approach to develop effective therapeutics. However, 
+the intrinsically disordered nature of EWSR1-ATF1 has created challenges in 
+developing direct small molecule inhibitors to inhibit its transcription activity as potential 
+therapeutics. To circumvent this intrinsic challenge, we sought to identify critical proteins 
+that would interact with EWSR1-ATF1 to support its constitutive transcription activity 
+and hypothesized that these proteins might serve as potential drug targets for CCSST. 
+Therefore, we expressed Flag-tagged EWSR1-ATF1 in HEK 293T cells. To identify the 
+proteins that would interact with EWSR1-ATF1, the expressed EWSR1-ATF1 was 
+subjected to immunoprecipitation by anti-Flag (M2) followed by mass spectrometry (IP-
+MS) analysis (Figure 2A). An IgG control pulldown was also included. This analysis 
+identified 157 proteins that presented higher abundance in the anti-Flag sample (Table 
+S1). Gene ontology (GO) analysis of these 157 proteins in the biological processes 
+using g:Profiler26 revealed that many processes involving RNA molecules are enriched 
+(Table S2). The top 15 biological processes enriched are shown in Figure 2B, which 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 8 
+include both RNA catabolic and metabolic processes. Among these processes, the 
+mRNA metabolic process contains protein arginine methyltransferase 5 (PRMT5) that 
+has been recently become a druggable target.27 Various PRMT5 inhibitors have been 
+developed and at least 5 of them are in Phase 1/2 clinical trials for different 
+malignancies.28 Additionally, PRMT5 is one of only 6 proteins (PPM1B, KIF11, PRMT5, 
+ACTR3, HBB, PTGES3) that interact with EWSR1-ATF1 specifically and have 3 or more 
+unique peptide identifications (Figure 2C, Figure S2 and Table S1). Furthermore, while 
+PRMT5 has not previously been shown to interact with EWSR1-ATF1, it was reported 
+that PRMT5 could function as a transcription co-activator for CREB1 in hepatocytes to 
+enhance CREB1-mediated gene transcription.29 For these reasons, we focused our 
+investigation into PRMT5 as a putative critical target for EWSR1-ATF1-driven CCSST. 
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 9 
+ 
+Figure 2. EWSR1-ATF1 interacts with PRMT5. (A) A schematic diagram of IP-MS/MS 
+to identify proteins that interact with EWSR1-ATF1. (B) Top 15 enriched biological 
+processes by GO analysis of the 167 proteins interacting with EWSR1-ATF1 using 
+g:Profiler. The enriched biological processes were rank ordered by adjusted P values. 
+See Table S2 for the full list. (C) Identification of PRMT5 to interact with EWSR1-ATF1. 
+HEK 293T cells were transfected with Flag-tagged EWSR1-ATF1. Then the lysates 
+were prepared for co-immunoprecipitation (co-IP) using either IgG or anti-Flag (M2). 
+The eluted proteins were analyzed by LC-MS/MS. The identified peptides 
+corresponding to PRMT5 are shown (from M2 IP). No peptides corresponding to 
+PRMT5 were identified in the IgG immune complex. (D) Validation of the interaction 
+HEK293T cells transfected with
+ Flag-tagged EWSR1-ATF1
+IgG M2
+1) bind with 
+Protein A/G 
+beads
+2) wash
+3) elution
+4) trypsin
+5) alkylation
+6) LC-MS/MS
+m/z
+intensity
+A
+R.DLNCVPEIADTLGAVAK.Q
+K.AAILPTSIFLTNK.K
+R.GPLVNASLR.A
+19 35
+228 240
+369 377
+C
+CREB1
+CBP
+PRMT5
+GAPDH
+Flag-EWS-ATF1
+input IgG M2
+IP
+D
+PRMT5
+B
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 10 
+between EWSR1-ATF1 and PRMT5. Flag-tagged EWS-ATF1 was expressed in HEK 
+293T cells and the lysates were processed in the same way as in (A). The bound 
+proteins were analyzed by Western blot using indicated antibodies. 
+ 
+ 
+PRMT5 is a type II protein arginine methyltransferase leading to symmetric 
+arginine dimethylation of both histone and non-histone proteins to regulate a diverse 
+range of activities including gene transcription, RNA splicing and DNA repair.30 To 
+confirm the proteomics findings, we expressed Flag-tagged EWSR1-ATF1 in HEK 293T 
+cells and immunoprecipitated the cell lysates using anti-Flag antibody (M2). Then the 
+bound proteins were analyzed by Western blot. Indeed, strong PRMT5 signal was 
+detected in the M2 immunoprecipitate, but not in the control IgG immunoprecipitate 
+(Figure 2D). CREB1 can form a heterodimer with the C-terminal domain of ATF1 
+through its bZIP domain that is retained in EWSR1-ATF1. Indeed, CREB1 was detected 
+in the M2 immune complex (Figure 2D). Conflicting reports exist to show that EWSR1-
+ATF1 constitutively interacts with CREB-binding protein (CBP) to support its constitutive 
+transcription activity.31, 32 In our co-IP analysis, the constitutive interaction between 
+EWSR1-ATF1 and CBP was not detected. As a control, GAPDH was not detected in 
+either of the immune complexes (Figure 2B). Together, these results demonstrate that 
+EWSR1-ATF1 interacts with PRMT5 in the cells to possibly function as a transcription 
+co-activator to support EWSR1-ATF1-mediated gene transcription.  
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 11 
+PRMT5 is critical for EWSR1-ATF1-mediated gene transcription. The results 
+presented above suggest that PRMT5 might be a potential transcription co-activator for 
+EWSR1-ATF1. To test if PRMT5 is bound to the gene promoter region of EWSR1-ATF1 
+target gene c-Fos22 in CCSST cells, chromatin immunoprecipitation (ChIP) was 
+performed in CCSST cell line DTC-1. After the cells were crosslinked with 
+formaldehyde, they were subjected to ChIP analysis using IgG, anti-CREB1 or anti-
+PRMT5. CREB1 forms a heterodimer with EWSR1-ATF1 (Figure 2D) and served as a 
+positive control for the ChIP assay. Indeed, the CRE site in the c-Fos promoter region is 
+occupied by CREB1 (Figure 3A). Importantly, this site is also occupied by PRMT5 
+(Figure 3A), suggesting that PRMT5 may enhance EWSR1-ATF1’s transcription activity 
+by binding to the promoter region of its target genes.  
+ 
+ 
+B C
+A
+FD E
+GAPDH
+PRMT5
+shCTRL
+shRNA1
+shRNA2
+GAPDH
+PRMT5
+shCTRL
+shRNA1
+shRNA2
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 12 
+Figure 3. PRMT5 is critical for EWSR1-ATF1-mediated gene transcription. (A) PRMT5 
+is bound to the c-Fos promoter in DTC-1 cells. DTC-1 cells were subjected to ChIP 
+assay protocol as described in the Methods. The enriched DNA by individual antibodies 
+was analyzed by qPCR analysis. (B) The expression of PRMT5 was silenced using two 
+different shRNA constructs in SU-CCS-1 cells. (C) The expression of c-Fos was 
+reduced with shPRMT5. SU-CCS-1 cells were transduced with indicated lentiviruses 
+expressing different shRNA constructs. The total RNA was collected for qRT-PCR 
+analysis. (D) Silencing PRMT5 expression in DTC-1 cells using shRNA. DTC-1 cells 
+were transduced with lentiviruses expressing indicated shRNA constructs. The lysates 
+were prepared for Western blot analysis using indicated antibodies. (E) Silencing 
+PRMT5 expression in DTC-1 cells decreased mRNA level of c-Fos. The cells 
+transduced with shRNA lentiviruses were processed for qRT-PCR analysis for 
+quantification of c-Fos transcript. (F) EWSR1-ATF1-driven CRE-RLuc expression is 
+reduced by shPRMT5. DTC-1 cells were transduced with lentiviruses expressing CRE-
+RLuc along with lentiviruses expressing indicated shRNA. Then the renilla luciferase 
+activity was quantified and normalized to protein concentration under each condition. * 
+P < 0.05. 
+ 
+To investigate if PRMT5 is required for sustained transcription of c-Fos in CCSST 
+cells, its expression was silenced in SU-CCS-1 cells using two different shRNA 
+constructs. Both of these constructs efficiently knocked down the expression of PRMT5 
+(Figure 3B). When the expression of PRMT5 was reduced, the expression of EWSR1-
+ATF1’s target gene c-Fos was also significantly reduced, as assessed by quantitative 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 13 
+reverse transcription-polymerase chain reaction (qRT-PCR) analysis (Figure 3C), 
+suggesting that PRMT5 is critical for enhancing EWSR1-ATF1’s transcription activity. 
+Similar knocking down results were also obtained in another CCSST cell line DTC-1 
+(Figure 3D-E). We further evaluated PRMT5’s role in supporting in EWSR1-ATF1-
+mediated gene transcription using a CREB1/ATF1 transcription reporter assay in DTC-1 
+cells. The cells were transduced with a lentivirus containing renilla luciferase reporter 
+gene under the control of three tandem copies of CRE that could bind EWSR1-ATF1.25 
+Upon PRMT5 knockdown by two different shRNAs, the CREB1/ATF1 transcription 
+reporter activity was significantly reduced (Figure 3F). These evaluations of the 
+transcription reporter and endogenous gene expression in CCSST cells showed that 
+PRMT5 is critical for the constitutive EWSR1-ATF1-driven transcription. 
+ 
+ 
+PRMT5 inhibition leads to CCSST cell growth inhibition. Because EWSR1-ATF1-
+driven transcription is critical for sustained CCSST cell proliferation, we investigated if 
+silencing the expression of PRMT5 would impact CCSST cellular proliferation. To this 
+end, the expression of PRMT5 was silenced in both SU-CCS-1 and DTC-1 cells using 
+two independent shRNA constructs. Upon PRMT5 knockdown (Figure 3B and 3D), the 
+proliferation of both SU-CCS-1 and DTC-1 cells was significantly impaired (Figure 4A), 
+suggesting that PRMT5 is critical for the proliferation of CCSST cells.  
+ 
+Given the potentially important role of PRMT5 in CCSST cells and druggability of 
+PRMT5,27 we investigated the potential efficacy of PRMT5 inhibitors in inhibiting CCSST 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 14 
+cell growth. We selected 3 highly potent and selective PRMT5 inhibitors representing 
+two different modes of inhibition of PRMT5 to assess their efficacy in CCSST models. 
+GSK591 and GSK3326595 bind at the protein substrate binding pocket33, 34 while JNJ-
+64619178 binds simultaneously to the S-adenosyl methionine (SAM)- and protein 
+substrate-binding pockets (Figure 4B and Figure S3).35 The inhibitors were tested in 3 
+different CCSST cell lines: SU-CCS-1, DTC-1 and CCS292. The cells were incubated 
+with different PRMT5 inhibitors for either 3 days or 6 days. Then the viable cells were 
+quantified using the MTT reagent and the GI50 values were calculated, which are the 
+concentrations needed to inhibit the cell growth by 50%.36 As shown in Figure 4C and 
+Figure S4A-C, different PRMT5 inhibitors showed differential sensitivity profiles in the 
+panel of CCSST cell lines. GSK591 and GSK3326595 were only weakly active in DTC-
+1 and SU-CCS-1 cells with GI50s in the high µM concentration range although its activity 
+in CCS292 cells was much more potent. On the other hand, JNJ-64619178 displayed 
+more potent activities in both DTC-1 and SU-CCS-1 cells with GI50 = 377 and 347 nM, 
+respectively, during a 3-day incubation period. Thus, JNJ-64619178 was further 
+evaluated in a 6-day treatment protocol. Upon this extended exposure, JNJ-64619178 
+showed dramatically improved activity with GI50 = 41.0, 438.5, and 4.4 nM in DTC-1, 
+SU-CCS-1 and CCS292 cells, respectively (Figure 4C and Figure S4D). While all the 
+three inhibitors are highly potent in inhibiting the methyltransferase activity of PRMT5,33-
+35 the differential sensitivity profile among the different PRMT5 inhibitors in CCSST cells 
+suggest that the different binding modes of these inhibitors can uniquely modulate 
+EWSR1-ATF1-mediated gene transcription. 
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 15 
+JNJ-64619178’s potent growth inhibitory activity in CCSST cells prompted us to 
+further test its capability to inhibit EWSR1-ATF1-mediated gene transcription. In the 
+CREB1/ATF1 transcription reporter assay in DTC-1 cells, JNJ-64619178 displayed an 
+IC50 of 422 nM (Figure 4D). Consistent with the low potency of GSK compounds in 
+inhibiting CCSST cell growth, neither of these two substrate-competitive inhibitors 
+significantly inhibited EWSR1-ATF1’s transcription activity (Figure 4E), further 
+emphasizing the unique mechanism of action of JNJ-64619178 in CCSST cells. 
+Altogether, these results support a critical role of PRMT5 in enhancing EWSR1-ATF1’s 
+transcription activity for sustained cell growth in CCSST cells and suggest that PRMT5 
+is a potential novel druggable vulnerability in CCSST cells. 
+ 
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 16 
+ 
+Figure 4. Inhibition of PRMT5 leads to impaired CCSST cell growth. (A) Silencing 
+PRMT5 expression resulted in reduced cellular proliferation in DTC-1 (left) and SU-
+CCS-1 (right) cells. The cells were transduced with indicated shRNA constructs. After 3 
+days, the cell growth was analyzed by the MTT reagent over a period of 8 days. (B) 
+Chemical structures of PRMT5 inhibitors to be used in this paper. Their apparent 
+inhibition constants Ki are shown and from published references. (C) Summary of the 
+A
+N
+H
+N N
+H
+O
+OH
+N
+N N
+H
+N N
+H
+O
+OH
+N
+N
+O
+N
+HO OH
+N
+N
+N
+Br
+H2N
+NH2
+B
+C
+D
+GSK591 GSK595 JNJ178
+DTC-1
+SU-CCS-1
+CCS292
+6132.5±2104.6
+3373.3±2261.5
+438.6±241.1
+25988.3±2533.7
+16057.4±11862.5
+99.0±81.9
+377.1±57.0
+346.7±368.6
+1258.2±645.7
+JNJ178 
+(6-day)
+41.0±28.5
+438.5±419.5
+4.4±1.7
+cmpd
+cell line
+SU-CCS-1DTC-1
+E
+GSK591
+(Ki = 2.8 nM)
+GSK3326595
+(Ki = 3.1 nM)
+JNJ-64619178
+(Ki = 0.77 nM)
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 17 
+GI50s (nM) of 3 different PRMT5 inhibitors in 3 different CCSST cell lines. The cells were 
+treated with different concentrations of the indicated compounds for either 3 days or 6 
+days (as indicated). Then the remaining viable cells were quantified by the MTT 
+reagent. The values represent the mean ± SD of at least 2 independent experiments 
+performed in triplicates. See Figure S4 for their respective dose-response curves. (D) 
+JNJ-64619178 inhibited EWSR1-ATF1-mediated gene transcription in DTC-1 cells. 
+DCT-1 cells with CRE-RLuc reporter integration were treated with different 
+concentrations of JNJ-64619178 for 24 h. Then the remaining renilla luciferase activity 
+was measured and normalized to protein content in each well. (E) GSK591 and 
+GSK3326595 did not inhibit EWSR1-ATF1-mediated gene transcription in DTC-1. DTC-
+1 cells with CRE-RLuc were treated with different concentrations of GSK compounds for 
+24 h. Then the remaining renilla luciferase activity was measured and normalized for 
+protein content in each well. * P < 0.05. 
+ 
+ 
+JNJ-64619178 inhibits EWSR1-ATF1-mediated gene transcription and CCSST 
+tumor growth in vivo. The results presented above strongly suggest that JNJ-
+64619178 may represent a novel therapeutic agent for the deadly CCSST. We first 
+examined if JNJ-64619178 could downregulate the expression of endogenous EWSR1-
+ATF1’s target gene in SU-CCS-1 cells. When the cells were treated with JNJ-
+64619178, we observed that JNJ-64619178 dose-dependently inhibited transcription of 
+c-Fos (Figure 5A). JNJ-64619178 treatment in DTC-1 cells caused a similar decrease in 
+the mRNA level of c-Fos (Figure 5B). Decreased transcription of c-Fos by JNJ-
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 18 
+64619178 in SU-CCS-1 and DTC-1 cells led to a decrease of c-Fos protein abundance 
+(Figure 5C). Taken together, these results showed that JNJ-64619178 potently inhibited 
+EWSR1-ATF1-mediated gene transcription in CCSST cells leading to impaired CCSST 
+cell growth. 
+ 
+ Encouraged by the promising activities seen with JNJ-64619178 in vitro in 
+inhibiting EWSR1-ATF1-mediated gene transcription and inhibiting CCSST cell growth, 
+we further investigated its anti-cancer efficacy in an in vivo xenograft model. SU-CCS-1 
+cells were injected subcutaneously into immunodeficient mice (female:male=1:1). When 
+the tumor was well-established and reached a size of ~100 mm3, the mice were 
+randomized to receive either vehicle or JNJ-64619178 at 10 mg/kg by intraperitoneal 
+injection. The daily treatment was lasted for 5 weeks and the tumor volumes were 
+measured 2-3 times a week. As shown in Figure 5D, this tumor grew very aggressively 
+when the mice were treated with a vehicle solution. On the other hand, when the mice 
+were treated with JNJ-64619178, the tumor growth was essentially completely inhibited. 
+While the tumors in the vehicle group grew 5-25-fold, the tumors in the treated group 
+were either only slowly growing or regressed in this aggressive xenograft (Figure 5E). 
+During the entire course of treatment period, no change of body weight (Figure 5F) or 
+other toxicity was observed, consistent with its safety profile observed in other models.35 
+These results support that the PRMT5 inhibitor JNJ-64619178 represents a potential 
+treatment option for CCSST. 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 19 
+ 
+D
+B
+F
+C
+cFos
+GAPDH
+0              0.1          0.5           1
+JNJ-64619178 (µM)
+0          0.1          0.5           1
+DTC-1 SU-CCS-1
+JNJ-64619178  (µM)
+cFos
+GAPDH
+E
+A
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 20 
+ 
+Figure 5. JNJ-64619178 inhibited EWSR1-ATF1-mediated gene transcription and 
+displayed anti-CCSST activity in vitro and in vivo. (A) JNJ-64619178 inhibited c-Fos 
+transcription in SU-CCS-1 cells. The cells were treated with different concentrations of 
+JNJ-64619178 for 24 h. Then the total RNA was isolated and converted into cDNA. The 
+relative c-Fos transcript level was quantified by qRT-PCR using 18S as a reference 
+gene. (B) JNJ-64619178 decreased c-Fos mRNA level in DTC-1 cells. The cells were 
+treated with JNJ-64619178 for 12 h. Then the total RNA was isolated and the relative c-
+Fos mRNA level was analyzed by qRT-PCR using 18S as the reference gene. (C) JNJ-
+64619178 decreased c-Fos protein level in SU-CCS-1 and DTC-1 cells. The cells were 
+treated with different concentrations of JNJ-64619178 for 24 h. Then the whole cell 
+lysates were prepared for Western blot analyses using indicated antibodies. (D) JNJ-
+64619178 efficaciously inhibited SU-CCS-1 tumor growth in vivo. SU-CCS-1 cells were 
+implanted subcutaneously in athymic nude mice (male:female = 1:1). When the tumor 
+sizes reached an average of ~100 mm3, the mice were randomized to be treated with 
+either vehicle or JNJ-64619178 at 10 mg/kg (QDX5 weeks). The tumor volume was 
+measured 2-3 times per week. (E) Waterfall plot of the tumor volume change at the end 
+of treatment in (D). (F) JNJ-64619178 treatment in mice did not change the body 
+weights. The body weights of the treated mice in (D) were measured 2-3 times per 
+week. * P < 0.05. 
+ 
+ 
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 21 
+ 
+Discussion 
+ CCSST remains a deadly disease with no cures. While the driver oncogene 
+EWSR1-ATF1 has been clearly identified, the disordered nature of EWSR1-ATF1 has 
+made it recalcitrant for direct targeting using cell-permeable small molecules with 
+appropriate drug-like properties. Due to its rare nature, it has been largely neglected to 
+develop novel therapies. No standard systemic therapies exist. No targeted therapies 
+have been identified as effective treatments for CCSST. No validated druggable targets 
+have been identified for EWSR1-ATF1-driven CCSST. Previous studies have suggested 
+that receptor tyrosine kinase c-Met might be a potential target for CCSST.37 However, c-
+Met has not been shown to modulate EWSR1-ATF1-driven gene transcription, the 
+driver of CCSST.37 Furthermore, clinical studies using c-Met inhibitor crizotinib failed to 
+produce meaningful benefits to CCS patients.38 Here, we identified PRMT5 as a critical 
+protein to interact with EWSR1-ATF1 to enhance EWSR1-ATF1-mediated gene 
+transcription and supporting CCSST cell growth, lending support that PRMT5 is a novel 
+druggable target for EWSR1-ATF1-driven CCSST. Genetic silencing of PRMT5 robustly 
+inhibited CCSST tumor cell growth and EWSR1-ATF1-driven gene transcription. By 
+targeting PRMT5 using different inhibitors, we further identified JNJ-64619178 as a 
+potential novel treatment option for CCSST. Interestingly, we found that the PRMT5 
+inhibitors based on GSK591 are not effective in inhibiting EWSR1-ATF1-mediated gene 
+transcription, suggesting that JNJ-64619178 can uniquely impact the EWSR1-ATF1-
+PRMT5 complex at the gene promoter region to inhibit its transcription activity. It would 
+be intriguing to investigate if the recently disclosed PRMT5 inhibitor PF-06939999 that 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 22 
+is SAM-competitive39 has effect on EWSR1-ATF1-mediated gene transcription. Our 
+results provide new insights into the role of PRMT5 as a transcription regulator. The 
+different PRMT5 inhibitors with different modes of inhibition will be useful in further our 
+understanding of PRMT5’s functions. Since the clinical development of JNJ-64619178 
+for other oncology indications is ongoing (clinical trial #: NCT03573310), the results 
+presented here provide compelling evidence to further clinically evaluate this PRMT5 
+inhibitor for EWSR1-ATF1-driven and deadly CCSST and other CCS-like malignancies.  
+  
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 23 
+ 
+Materials and Methods. 
+ 
+Plasmids and antibodies. The CREB1/ATF1 reporter construct CRE-RLuc was 
+reported previously by us.25 Flag-tagged EWSR1-ATF1 expression vector was 
+generated by In-Fusion® Snap Assembly Master Mix (Takara) to fuse EWSR1 (2-325) 
+in-frame with ATF1 (66-271) into pEGFP-N3 (Clontech). The EWSR1 (2-325) and ATF1 
+(66-271) fragments were PCR amplified from their respective open reading frames 
+obtained from DNASU plasmid repository (Arizona State University). Lentiviral construct 
+CRE-RLuc was prepared by gene synthesis followed by subcloning into pLJM1 vector 
+(Addgene). All lentiviral shPRMT5 plasmids were purchased from Millipore Sigma. The 
+lentiviral packaging vectors (pMD2.G and pMDLg/pRRE) were from Addgene. The 
+following antibodies were used: anti-Flag (M2) (Sigma), anti-PRMT5 (Santa Cruz 
+Biotechnology and Millipore), anti-GAPDH (Santa Cruz Biotechnology), anti-CREB1 
+(Cell Signaling Technology), anti-c-Fos (Cell Signaling Technology), anti-CBP (Santa 
+Cruz Biotechnology).  
+ 
+Cell lines. HEK293T and SU-CCS-1 were obtained from ATCC (Manassas, Virginia). 
+DTC-1 was a kind gift from Prof. Torsten Nielsen (University of British Columbia). CCS-
+292 was a generous gift from Prof. Charles Keller (Children’s Cancer Therapy 
+Development Institute). The cells were maintained in Dulbecco's Modified Eagle 
+Medium (DMEM, Life Technologies) supplemented with 10% fetal bovine serum 
+(Hyclone) and non-essential amino acids (Life Technologies). Mycoplasma 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 24 
+contamination was tested regularly with MycoDect Mycoplasma Detection Kit 
+(ALSTEM). All the cell lines have been authenticated using STR profiling. 
+ 
+ 
+Chemicals. GSK591 and GSK3326595 were obtained MedChemExpress LLC 
+(Junction, NJ). JNJ-64619178 was obtained from ChiralStar Inc (Parsippany, NJ). For in 
+vitro assays, the drugs were dissolved in DMSO as stock solutions. For in vivo 
+treatment, JNJ-64619178 was dissolved in 1% N-methyl-2-pyrrolidone (NMP), 5% 
+DMSO and 5% Tween-80 in ddI H2O. 
+ 
+Lentivirus preparation and transduction. The lentiviruses were prepared and used in 
+a similar way as previously described.40 Briefly, lentiviruses expressing CRE-RLuc or 
+indicated shRNA were prepared from HEK 293T cells by co-transfecting lentiviral 
+expression plasmids along with packaging vectors using the calcium-phosphate method 
+(TakaRa). DTC-1 cells were transduced with lentiviruses expressing CRE-RLuc. After 
+puromycin selection, the cells were used directly for reporter assays.  
+ 
+shRNA silencing. SU-CCS-1 and DTC-1 cells were transduced with indicated 
+lentiviruses expressing shCTRL or shPRMT5 for 24 h, when fresh media were added 
+for another 48 h. Then the cells were used for the following experiments: cell growth 
+assay by MTT, whole cell lysates for Western Blot and total RNA for qRT-PCR assays. 
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 25 
+qRT-PCR. The cells were treated with indicated drugs. Then the cells were collected 
+using the cell lysis buffer provided in NucleoSpin RNA (Takara). The total RNA was 
+isolated following the manufacturer’s instructions. First strand cDNA was synthesized 
+with PrimeScript 1st strand cDNA synthesis kit (Takara). Quantitative PCR reactions 
+were performed using TB Green™ Advantage® qPCR Premix (Takara) in 
+QuantStudioTM 7300 (Life Technologies). The 2-DDCt method was used to determine the 
+relative expression level. The following primers were used: 18S: 5′- 
+GGATGTAAAGGATGGAAAATACA-3′ (forward), 5′- 
+TCCAGGTCTTCACGGAGCTTGTT-3′ (reverse); c-Fos: 5′-
+GGAGGAGGGAGCTGACTGAT-3′ (forward), 5′- GAGCTGCCAGGATGAACTCT-3′ 
+(reverse). 
+ 
+Transcription reporter assay. For transient transfections, HEK 293T cells were 
+transfected with CRE-RLuc along with Flag-EWSR1-ATF1 using Lipofectamine2000® 
+(Life Technologies) following manufacturer’s instructions. Twenty-four hours post 
+transfection, the cells were lysed using Renilla luciferase lysis buffer and the renilla 
+luciferase activity was measured using Renilla luciferase assay system (Promega) in 
+FB12 single tube luminometer (Berthold). For reporter assay in DTC-1 cells with stable 
+CRE-RLuc integration, the cells were treated with indicated drugs at different 
+concentrations for 24 h. The remaining renilla luciferase activity was measured as 
+above. All the luciferase activity was normalized to protein concentration in each well 
+and expressed as RLuc/µg protein. 
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 26 
+IP-MS and IP-Western blot. HEK 293T cells were transfected with Flag-EWSR1-ATF1 
+using Lipofectamine2000® (Life Technologies). Twenty-four hours post transfection, the 
+cells were harvested and washed twice with cold PBS. Then the cell pellets were lysed 
+in lysis buffer A (50 mM Tris, 5 mM EDTA, 150 mM NaCl, 1 mM DTT, 0.5% Nonidet P-
+40, pH 8.0) supplemented with protease inhibitor cocktail (Roche) and 1 mM PMSF. 
+The cell lysates were pre-cleared with 1 µg mouse IgG (Rockland Immunochemicals) 
+and protein A/G agarose beads (Pierce) for 1 h at 4 oC with tumbling. The pre-cleared 
+lysates were then incubated with either mouse IgG or M2 for overnight at 4 oC. Then 
+protein A/G agarose bead slurry was added to precipitate the immune complexes for 1 h 
+at 4 oC. The bound immune complex was washed with lysis buffer A (3x) and the bound 
+proteins were eluted from the beads using 1%SDS in PBS. The eluted proteins were 
+analyzed by protein LC-MS/MS or Western blot. 
+ 
+Protein LC-MS/MS. Immunoprecipitated proteins from above were dried by vacuum 
+centrifugation. They were then redissolved in 20 µL of 1x SDS-PAGE sample buffer, 
+applied to wells of a NuPAGE 10% Bis-Tris SDS-PAGE gel (NP0301BOX), 
+electrophoresed for 6 min at 200 V, and stained for 30 min with Imperial Blue protein 
+stain (catalog no. 24615; Thermo Scientific). The gel was then rinsed in water and the 
+entire top 1 cm of each lane containing proteins was excised, cut into 1 mm pieces, 
+reduced/alkylated, and digested with trypsin for one hour at 50 °C in the presence of 
+0.01% ProteaseMax detergent using the method recommended from the manufacturer 
+(Promega). Recovered peptides were then filtered using 0.22 µm Millipore Ultrafree-CL 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 27 
+centrifugal filters. The filtrate was dried by vacuum centrifugation and then redissolved 
+in 20 µl of 5% formic acid in preparation for mass spectrometric analysis. 
+ 
+Each digest was then chromatographically separated using a Dionex RSLC UHPLC 
+system and delivered to a Q-Exactive HF mass spectrometer (Thermo Scientific) using 
+electrospray ionization with a Nano Flex Ion Spray Source fitted with a 20 µm stainless 
+steel nano-bore emitter spray tip and 1.0 kV source voltage. Xcalibur version 4.0 was 
+used to control the system. Samples were applied at 10 µl/min to a Symmetry C18 trap 
+cartridge (Waters) for 5 min, then switched onto a 75 µm x 250 mm NanoAcquity BEH 
+130 C18 column with 1.7 µm particles (Waters) using mobile phases water (A) and 
+acetonitrile (B) containing 0.1% formic acid, 7.5-30% acetonitrile gradient over 60 min, 
+and 300 nL/min flow rate. Survey mass spectra were acquired over m/z 375−1400 at 
+120,000 resolution (m/z 200) and data-dependent acquisition selected the top 10 most 
+abundant precursor ions for tandem mass spectrometry by HCD fragmentation using an 
+isolation width of 1.2 m/z, normalized collision energy of 30, and a resolution of 30,000. 
+Dynamic exclusion was set to auto, charge state for MS/MS +2 to +7, maximum ion 
+time 100 ms, minimum AGC target of 3 x 106 in MS1 mode and 5 x 103 in MS2 mode.  
+ 
+Comet (v. 2016.01, rev. 2)41 was used to search 29,088 MS2 Spectra against a UniProt 
+FASTA protein database (downloaded from www.uniprot.org November 2018) 
+containing 21,080 canonical Homo sapiens sequences. An additional 179 common 
+contaminant sequences were added, and sequence-reversed decoy entries of all 
+sequences were concatenated to estimate error thresholds. The database processing 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 28 
+used python scripts available at https://github.com/pwilmart/fasta_utilities.git and Comet 
+results processing used the PAW pipeline42 from 
+https://github.com/pwilmart/PAW_pipeline.git. Comet searches for all samples was 
+performed with trypsin enzyme specificity with monoisotopic parent ion mass tolerance 
+set to 1.25 Da and monoisotopic fragment ion mass tolerance of 1.0005 Da. A static 
+modification of +57.02146 Da added to all cysteine residues and a variable modification 
+of +15.9949 Da on methionine residues. Comet scores were used to compute linear 
+discriminant function scores,42, 43 and discriminant score histograms were created for 
+2+, 3+, and 4+ peptide charge states. Separate histograms were created for target 
+matches and for decoy matches for all peptides of seven amino acids or longer. The 
+score distributions of decoy matches were used to estimate peptide false discovery 
+rates (FDR) and set score thresholds at 2% FDR for each peptide class (10,335 peptide 
+spectrum matches passed thresholds). Protein inference used basic parsimony 
+principles and protein identifications required a minimum of 2 distinct peptide 
+identifications per sample. Following filtering of common contaminants, this resulted in 
+the identification of 540 proteins with one decoy protein match. The list of identified 
+proteins is shown in Supplementary Table 1. The list of potential EWSR1-ATF1 
+interacting proteins was further filtered to consider only proteins having at least 3 unique 
+peptides in the anti-Flag antibody group and 0 unique peptides in the IgG group, 
+resulting in the identification of 6 proteins.  
+ 
+Western blot. The cells were treated with indicated drugs for different periods of time. 
+Then the cells were harvested by scraping and washed with cold PBS twice. The cell 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 29 
+pellets were lysed in lysis buffer A supplemented with 8 M urea. The protein 
+concentration of the samples was determined using BCA assay kit (Pierce) and equal 
+amount of proteins was loaded onto 4-20% SDS-PAGE gel (Bio-Rad) for Western blot 
+analysis using indicated antibodies. 
+ 
+ChIP assay. The ChIP assay was performed using EZ ChIP Chromatin 
+Immunoprecipitation kit (Millipore) following manufacturer’s instructions. Briefly, DTC-1 
+cells were crosslinked with 1% formaldehyde. Then the cells were lysed using provided 
+SDS lysis buffer. The chromatin was sheared by sonication using FB120 probe 
+sonicator (Fisher Scientific). The sheared chromatin was pre-cleared using mouse IgG 
+and protein A/G bead slurry. The pre-cleared chromatin was then immunoprecipitated 
+using IgG, anti-CREB1 or anti-PRMT5 along with protein A/G bead slurry. After 
+extensive washes with Low Salt Immune Complex Wash Buffer, High Salt Immune 
+Complex Wash Buffer, LiCl Immune Complex Wash Buffer and TE Buffer, the bound 
+chromatin was eluted using 1% SDS in NaHCO3. The eluted chromatin was then 
+reverse crosslinked and the resulting DNA was purified for qPCR analysis. The primers 
+for c-Fos promoter were 5′- GGCCCACGAGACCTCTGAGACA-3′ (forward) and 5′- 
+GCCTTGGCGCGTGTCCTAATCT-3′ (reverse). 
+ 
+MTT assay. The cells were plated in 96-well plates and were treated with indicated 
+drugs at different concentrations for either 3 or 6 days. At the end of the treatment, the 
+number of remaining viable cells was quantified using MTT reagent (Sigma, 0.5 
+mg/mL). The reduced purple formazan was dissolved in DMSO and absorbance values 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 30 
+at 570 nm were obtained from an i3 multimode plate reader (Molecular Devices). The 
+percent of growth is defined as 100 × (Atreated – Ainitial)/(Acontrol – Ainitial), where Atreated 
+represents absorbance in wells treated with a compound, Ainitial represents the 
+absorbance at time 0, and Acontrol denotes media-treated cells.36 The GI50 was derived 
+from non-linear regression analysis of the percent of growth–concentration curve in 
+Prism 8.0. 
+ 
+SU-CCS-1 xenograft assay. The use of animals was approved by OHSU Institutional 
+Animal Care and Use Committee (IACUC). SU-CCS-1 cells were prepared as a 1:1 
+mixture in Hank’s Buffered Saline (HBS) and Matrigel (Corning). The 6-week-old 
+athymic nude mice (Jax mice, female:male =1:1) were injected with 10 million cells 
+subcutaneously to allow tumor intake. When the average tumor size reached ~100 
+mm3, the mice were randomized to be treated with either vehicle or JNJ-64619178 at 
+10 mg/kg once a day for 5 weeks (QDx5 weeks). The tumor volumes and body weights 
+were measured 2-3 times per week. The tumors were measured in two dimensions 
+using a digital caliper, and the tumor volume was expressed in mm3 using the formula V 
+= 0.5*a*b2, where a and b represent the long and short diameters of the tumor, 
+respectively.  
+ 
+Statistical analysis. Student t-tests were used for calculating statistics, where a P 
+value of less than 0.05 indicates significance. These tests were performed in Microsoft 
+Excel (v 16.54). 
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 31 
+Acknowledgements. This work was made possible through financial supports provided 
+from the National Institutes of Health R21CA220061 (XX), R01CA245964 (BL) and 
+R01GM122820 (XX), Elsa U. Pardee Foundation, Oregon Health & Science University 
+Technology Transfer Office, Oregon Health & Science University School of Medicine. 
+We thank OHSU Massive Parallel DNA Sequencing Core for authenticating the cell 
+lines. The proteomic analysis was partially supported by NIH grants P30EY010572 (LL) 
+and P30CA069533 (LL). 
+ 
+ 
+  
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 32 
+References: 
+ 
+ 
+1. Enzinger, F. M. Clear-cell Sarcoma of tendons and aponeuroses. An analysis of 
+21 cases. Cancer 1965, 18, 1163-74. 
+2. Mavrogenis, A.; Bianchi, G.; Stavropoulos, N.; Papagelopoulos, P.; Ruggieri, P. 
+Clinicopathological features, diagnosis and treatment of clear cell sarcoma/melanoma of 
+soft parts. Hippokratia 2013, 17 (4), 298-302. 
+3. Chung, E. B.; Enzinger, F. M. Malignant melanoma of soft parts. A reassessment 
+of clear cell sarcoma. Am. J. Surg. Pathol. 1983, 7 (5), 405-13. 
+4. Hocar, O.; Le Cesne, A.; Berissi, S.; Terrier, P.; Bonvalot, S.; Vanel, D.; Auperin, 
+A.; Le Pechoux, C.; Bui, B.; Coindre, J. M.; Robert, C. Clear cell sarcoma (malignant 
+melanoma) of soft parts: a clinicopathologic study of 52 cases. Dermatol Res Pract 
+2012, 2012, 984096. 
+5. Deenik, W.; Mooi, W. J.; Rutgers, E. J.; Peterse, J. L.; Hart, A. A.; Kroon, B. B. 
+Clear cell sarcoma (malignant melanoma) of soft parts: A clinicopathologic study of 30 
+cases. Cancer 1999, 86 (6), 969-75. 
+6. Kawai, A.; Hosono, A.; Nakayama, R.; Matsumine, A.; Matsumoto, S.; Ueda, T.; 
+Tsuchiya, H.; Beppu, Y.; Morioka, H.; Yabe, H. Clear cell sarcoma of tendons and 
+aponeuroses: a study of 75 patients. Cancer 2007, 109 (1), 109-16. 
+7. Eckardt, J. J.; Pritchard, D. J.; Soule, E. H. Clear cell sarcoma. A 
+clinicopathologic study of 27 cases. Cancer 1983, 52 (8), 1482-8. 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 33 
+8. Cornillie, J.; van Cann, T.; Wozniak, A.; Hompes, D.; Schoffski, P. Biology and 
+management of clear cell sarcoma: state of the art and future perspectives. Expert Rev. 
+Anticancer Ther. 2016, 16, 839-845. 
+9. Zucman, J.; Delattre, O.; Desmaze, C.; Epstein, A. L.; Stenman, G.; Speleman, 
+F.; Fletchers, C. D. M.; Aurias, A.; Thomas, G. EWS and ATF-1 gene fusion induced by 
+T(12,22) translocation in malignant melanoma of soft parts. Nat. Genet. 1993, 4 (4), 
+341-345. 
+10. Langezaal, S. M.; Graadt van Roggen, J. F.; Cleton-Jansen, A. M.; Baelde, J. J.; 
+Hogendoorn, P. C. Malignant melanoma is genetically distinct from clear cell sarcoma of 
+tendons and aponeurosis (malignant melanoma of soft parts). Br. J. Cancer 2001, 84 
+(4), 535-8. 
+11. Panagopoulos, I.; Mertens, F.; Debiec-Rychter, M.; Isaksson, M.; Limon, J.; 
+Kardas, I.; Domanski, H. A.; Sciot, R.; Perek, D.; Crnalic, S.; Larsson, O.; Mandahl, N. 
+Molecular genetic characterization of the EWS/ATF1 fusion gene in clear cell sarcoma 
+of tendons and aponeuroses. Int. J. Cancer 2002, 99 (4), 560-7. 
+12. Ohno, T.; Ouchida, M.; Lee, L.; Gatalica, Z.; Rao, V. N.; Reddy, E. S. The EWS 
+gene, involved in Ewing family of tumors, malignant melanoma of soft parts and 
+desmoplastic small round cell tumors, codes for an RNA binding protein with novel 
+regulatory domains. Oncogene 1994, 9 (10), 3087-97. 
+13. Shaywitz, A. J.; Greenberg, M. E. CREB: A stimulus-induced transcription factor 
+activated by a diverse array of extracellular signals. Annu. Rev. Biochem. 1999, 68, 
+821-861. 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 34 
+14. Xiao, X.; Li, B. X.; Mitton, B.; Ikeda, A.; Sakamoto, K. M. Targeting CREB for 
+Cancer Therapy: Friend or Foe. Curr. Cancer Drug Targets 2010, 10, 384-391. 
+15. Gonzalez, G. A.; Montminy, M. R. Cyclic AMP stimulates somatostatin gene 
+transcription by phosphorylation of CREB at serine 133. Cell 1989, 59 (4), 675-80. 
+16. Feng, L.; Lee, K. A. A repetitive element containing a critical tyrosine residue is 
+required for transcriptional activation by the EWS/ATF1 oncogene. Oncogene 2001, 20 
+(31), 4161-8. 
+17. Yamada, K.; Ohno, T.; Aoki, H.; Semi, K.; Watanabe, A.; Moritake, H.; Shiozawa, 
+S.; Kunisada, T.; Kobayashi, Y.; Toguchida, J.; Shimizu, K.; Hara, A.; Yamada, Y. 
+EWS/ATF1 expression induces sarcomas from neural crest-derived cells in mice. J. 
+Clin. Invest. 2013, 123 (2), 600-10. 
+18. Straessler, K. M.; Jones, K. B.; Hu, H.; Jin, H.; van de Rijn, M.; Capecchi, M. R. 
+Modeling clear cell sarcomagenesis in the mouse: cell of origin differentiation state 
+impacts tumor characteristics. Cancer Cell 2013, 23 (2), 215-27. 
+19. Panza, E.; Ozenberger, B. B.; Straessler, K. M.; Barrott, J. J.; Li, L.; Wang, Y.; 
+Xie, M.; Boulet, A.; Titen, S. W.; Mason, C. C.; Lazar, A. J.; Ding, L.; Capecchi, M. R.; 
+Jones, K. B. The clear cell sarcoma functional genomic landscape. J. Clin. Invest. 2021, 
+131 (15). 
+20. Wang, W. L.; Mayordomo, E.; Zhang, W.; Hernandez, V. S.; Tuvin, D.; Garcia, L.; 
+Lev, D. C.; Lazar, A. J.; Lopez-Terrada, D. Detection and characterization of 
+EWSR1/ATF1 and EWSR1/CREB1 chimeric transcripts in clear cell sarcoma 
+(melanoma of soft parts). Mod. Pathol. 2009, 22 (9), 1201-9. 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 35 
+21. Hisaoka, M.; Ishida, T.; Kuo, T. T.; Matsuyama, A.; Imamura, T.; Nishida, K.; 
+Kuroda, H.; Inayama, Y.; Oshiro, H.; Kobayashi, H.; Nakajima, T.; Fukuda, T.; Ae, K.; 
+Hashimoto, H. Clear cell sarcoma of soft tissue: a clinicopathologic, 
+immunohistochemical, and molecular analysis of 33 cases. Am. J. Surg. Pathol. 2008, 
+32 (3), 452-60. 
+22. Davis, I. J.; Kim, J. J.; Ozsolak, F.; Widlund, H. R.; Rozenblatt-Rosen, O.; 
+Granter, S. R.; Du, J.; Fletcher, J. A.; Denny, C. T.; Lessnick, S. L.; Linehan, W. M.; 
+Kung, A. L.; Fisher, D. E. Oncogenic MITF dysregulation in clear cell sarcoma: defining 
+the MiT family of human cancers. Cancer Cell 2006, 9 (6), 473-84. 
+23. Romero, P.; Obradovic, Z.; Li, X.; Garner, E. C.; Brown, C. J.; Dunker, A. K. 
+Sequence complexity of disordered protein. Proteins 2001, 42 (1), 38-48. 
+24. Jumper, J.; Evans, R.; Pritzel, A.; Green, T.; Figurnov, M.; Ronneberger, O.; 
+Tunyasuvunakool, K.; Bates, R.; Žídek, A.; Potapenko, A.; Bridgland, A.; Meyer, C.; 
+Kohl, S. A. A.; Ballard, A. J.; Cowie, A.; Romera-Paredes, B.; Nikolov, S.; Jain, R.; 
+Adler, J.; Back, T.; Petersen, S.; Reiman, D.; Clancy, E.; Zielinski, M.; Steinegger, M.; 
+Pacholska, M.; Berghammer, T.; Bodenstein, S.; Silver, D.; Vinyals, O.; Senior, A. W.; 
+Kavukcuoglu, K.; Kohli, P.; Hassabis, D. Highly accurate protein structure prediction 
+with AlphaFold. Nature 2021, 596 (7873), 583-589. 
+25. Li, B. X.; Xiao, X. Discovery of a Small-Molecule Inhibitor of the KIX-KID 
+Interaction. Chembiochem 2009, 10, 2721-2724. 
+26. Raudvere, U.; Kolberg, L.; Kuzmin, I.; Arak, T.; Adler, P.; Peterson, H.; Vilo, J. 
+g:Profiler: a web server for functional enrichment analysis and conversions of gene lists 
+(2019 update). Nucleic Acids Res. 2019, 47 (W1), W191-w198. 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 36 
+27. Wang, Y.; Hu, W.; Yuan, Y. Protein Arginine Methyltransferase 5 (PRMT5) as an 
+Anticancer Target and Its Inhibitor Discovery. J. Med. Chem. 2018, 61 (21), 9429-9441. 
+28. Chen, Y.; Shao, X.; Zhao, X.; Ji, Y.; Liu, X.; Li, P.; Zhang, M.; Wang, Q. Targeting 
+protein arginine methyltransferase 5 in cancers: Roles, inhibitors and mechanisms. 
+Biomed. Pharmacother. 2021, 144, 112252. 
+29. Tsai, W. W.; Niessen, S.; Goebel, N.; Yates, J. R., 3rd; Guccione, E.; Montminy, 
+M. PRMT5 modulates the metabolic response to fasting signals. Proc. Natl. Acad. Sci. 
+U. S. A. 2013, 110 (22), 8870-5. 
+30. Hwang, J. W.; Cho, Y.; Bae, G. U.; Kim, S. N.; Kim, Y. K. Protein arginine 
+methyltransferases: promising targets for cancer therapy. Exp. Mol. Med. 2021, 53 (5), 
+788-808. 
+31. Araya, N.; Hirota, K.; Shimamoto, Y.; Miyagishi, M.; Yoshida, E.; Ishida, J.; 
+Kaneko, S.; Kaneko, M.; Nakajima, T.; Fukamizu, A. Cooperative interaction of EWS 
+with CREB-binding protein selectively activates hepatocyte nuclear factor 4-mediated 
+transcription. J. Biol. Chem. 2003, 278 (7), 5427-32. 
+32. Rossow, K. L.; Janknecht, R. The Ewing's sarcoma gene product functions as a 
+transcriptional activator. Cancer Res. 2001, 61 (6), 2690-5. 
+33. Chan-Penebre, E.; Kuplast, K. G.; Majer, C. R.; Boriack-Sjodin, P. A.; Wigle, T. 
+J.; Johnston, L. D.; Rioux, N.; Munchhof, M. J.; Jin, L.; Jacques, S. L.; West, K. A.; 
+Lingaraj, T.; Stickland, K.; Ribich, S. A.; Raimondi, A.; Scott, M. P.; Waters, N. J.; 
+Pollock, R. M.; Smith, J. J.; Barbash, O.; Pappalardi, M.; Ho, T. F.; Nurse, K.; Oza, K. 
+P.; Gallagher, K. T.; Kruger, R.; Moyer, M. P.; Copeland, R. A.; Chesworth, R.; Duncan, 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 37 
+K. W. A selective inhibitor of PRMT5 with in vivo and in vitro potency in MCL models. 
+Nat. Chem. Biol. 2015, 11 (6), 432-7. 
+34. Duncan, K. W.; Rioux, N.; Boriack-Sjodin, P. A.; Munchhof, M. J.; Reiter, L. A.; 
+Majer, C. R.; Jin, L.; Johnston, L. D.; Chan-Penebre, E.; Kuplast, K. G.; Porter Scott, M.; 
+Pollock, R. M.; Waters, N. J.; Smith, J. J.; Moyer, M. P.; Copeland, R. A.; Chesworth, R. 
+Structure and Property Guided Design in the Identification of PRMT5 Tool Compound 
+EPZ015666. ACS Med. Chem. Lett. 2016, 7 (2), 162-6. 
+35. Brehmer, D.; Beke, L.; Wu, T.; Millar, H. J.; Moy, C.; Sun, W.; Mannens, G.; 
+Pande, V.; Boeckx, A.; van Heerde, E.; Nys, T.; Gustin, E. M.; Verbist, B.; Zhou, L.; Fan, 
+Y.; Bhargava, V.; Safabakhsh, P.; Vinken, P.; Verhulst, T.; Gilbert, A.; Rai, S.; Graubert, 
+T. A.; Pastore, F.; Fiore, D.; Gu, J.; Johnson, A.; Philippar, U.; Morschhäuser, B.; 
+Walker, D.; De Lange, D.; Keersmaekers, V.; Viellevoye, M.; Diels, G.; Schepens, W.; 
+Thuring, J. W.; Meerpoel, L.; Packman, K.; Lorenzi, M. V.; Laquerre, S. Discovery and 
+Pharmacological Characterization of JNJ-64619178, a Novel Small Molecule Inhibitor of 
+PRMT5 with Potent Anti-Tumor Activity. Mol. Cancer Ther. 2021. 
+36. Xie, F.; Li, B. X.; Kassenbrock, A.; Xue, C.; Wang, X.; Qian, D. Z.; Sears, R. C.; 
+Xiao, X. Identification of a Potent Inhibitor of CREB-Mediated Gene Transcription with 
+Efficacious in Vivo Anticancer Activity. J. Med. Chem. 2015, 58 (12), 5075-5087. 
+37. Davis, I. J.; McFadden, A. W.; Zhang, Y.; Coxon, A.; Burgess, T. L.; Wagner, A. 
+J.; Fisher, D. E. Identification of the receptor tyrosine kinase c-Met and its ligand, 
+hepatocyte growth factor, as therapeutic targets in clear cell sarcoma. Cancer Res. 
+2010, 70 (2), 639-45. 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 38 
+38. Schöffski, P.; Wozniak, A.; Stacchiotti, S.; Rutkowski, P.; Blay, J. Y.; Lindner, L. 
+H.; Strauss, S. J.; Anthoney, A.; Duffaud, F.; Richter, S.; Grünwald, V.; Leahy, M. G.; 
+Reichardt, P.; Sufliarsky, J.; van der Graaf, W. T.; Sciot, R.; Debiec-Rychter, M.; van 
+Cann, T.; Marréaud, S.; Lia, M.; Raveloarivahy, T.; Collette, L.; Bauer, S. Activity and 
+safety of crizotinib in patients with advanced clear-cell sarcoma with MET alterations: 
+European Organization for Research and Treatment of Cancer phase II trial 90101 
+'CREATE'. Ann. Oncol. 2017, 28 (12), 3000-3008. 
+39. Jensen-Pergakes, K.; Tatlock, J.; Maegley, K. A.; McAlpine, I. J.; McTigue, M. A.; 
+Xie, T.; Dillon, C. P.; Wang, Y.; Yamazaki, S.; Spiegel, N.; Shi, M.; Nemeth, A.; Miller, 
+N.; Hendrickson, E.; Lam, H.; Sherrill, J.; Chung, C. Y.; McMillan, E. A.; Bryant, S. K.; 
+Palde, P.; Braganza, J.; Brooun, A.; Deng, Y. L.; Goshtasbi, V.; Kephart, S. E.; Kumpf, 
+R. A.; Liu, W.; Patman, R. L.; Rui, E.; Scales, S.; Tran-Dube, M.; Wang, F.; Wythes, M.; 
+Paul, T. A. SAM Competitive PRMT5 Inhibitor PF-06939999 Demonstrates Antitumor 
+Activity in Splicing Dysregulated NSCLC with Decreased Liability of Drug Resistance. 
+Mol. Cancer Ther. 2021. 
+40. Li, B. X.; Chen, J.; Chao, B.; Zheng, Y.; Xiao, X. A Lamin-Binding Ligand Inhibits 
+Homologous Recombination Repair of DNA Double-Strand Breaks. ACS Central 
+Science 2018, 4 (9), 1201-1210. 
+41. Eng, J. K.; Jahan, T. A.; Hoopmann, M. R. Comet: an open-source MS/MS 
+sequence database search tool. Proteomics 2013, 13 (1), 22-4. 
+42. Wilmarth, P. A.; Riviere, M. A.; David, L. L. Techniques for accurate protein 
+identification in shotgun proteomic studies of human, mouse, bovine, and chicken 
+lenses. J. Ocul. Biol. Dis. Infor. 2009, 2 (4), 223-234. 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
+
+ 39 
+43. Keller, A.; Nesvizhskii, A. I.; Kolker, E.; Aebersold, R. Empirical statistical model 
+to estimate the accuracy of peptide identifications made by MS/MS and database 
+search. Anal. Chem. 2002, 74 (20), 5383-92. 
+ 
+(which was not certified by peer review) is the author/funder. All rights reserved. No reuse allowed without permission. 
+The copyright holder for this preprintthis version posted March 23, 2022. ; https://doi.org/10.1101/2022.03.23.485409doi: bioRxiv preprint 
