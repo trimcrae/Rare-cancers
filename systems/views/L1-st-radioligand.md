@@ -57,10 +57,10 @@ flowchart LR
 
 ## Routes
 
-| route | state | maturity | readiness today | next action |
-|---|---|---|---|---|
-| **[RT-FAP-RLT](L2-rt-fap-rlt.md)**<br/>FAP-targeted radioligand therapy (FAPI-RLT) | ○ blocked | concept | `internal_note` | Keep registered for automatic re-grade when EMC expression data lands. |
-| **[RT-SSTR2](L2-rt-sstr2.md)**<br/>SSTR2 / neuroendocrine theranostic | ○ blocked | concept | `experimental_proposal` | Keep on the ask list. Frame it as a cheap decisive negative rather than as a promising lead — that is the hone |
+| route | state | maturity | readiness today | ends in | next action |
+|---|---|---|---|---|---|
+| **[RT-FAP-RLT](L2-rt-fap-rlt.md)**<br/>FAP-targeted radioligand therapy (FAPI-RLT) | ○ blocked | concept | `internal_note` | [PUB-SURFACE-TARGETS](L3-publications.md) ◐ *contributing* | Keep registered for automatic re-grade when EMC expression data lands. |
+| **[RT-SSTR2](L2-rt-sstr2.md)**<br/>SSTR2 / neuroendocrine theranostic | ○ blocked | concept | `experimental_proposal` | [PUB-SURFACE-TARGETS](L3-publications.md) ◐ *contributing* | Keep on the ask list. Frame it as a cheap decisive negative rather than as a promising lead — that is the hone |
 
 ## Family-level bets — blockers EVERY route here inherits
 

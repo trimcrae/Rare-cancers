@@ -80,6 +80,18 @@ Registered for the same reason as the row above. A ligand for the SHARED low-com
 
 Closed on the same definitional grounds as the EWSR1 protein route.
 
+## Where this route ends — the paper
+
+**[PUB-CLOSED-ROUTES](L3-publications.md)** — *Seven routes closed on argument rather than on experiment: the negative record of an EWSR1::NR4A3 route search* (unwritten)
+
+`contributing` · ○ `unwritten` · aimed at `preprint`
+
+**This route contributes:** The same definitional closure applied to the shared low-complexity region, which is what makes the pattern a class of argument rather than a one-off.
+
+**The paper would claim:** A route can be closed rigorously without an experiment when the closure is definitional or is arithmetic over a fixed measured fact, and separating those permanent closures from the merely instrument-limited ones is what keeps a portfolio from re-litigating settled questions — with wild-type NR4A3 pharmacology failing to transfer to the chimera as the worked example.
+
+**It is not written because:** The closures themselves are complete and each is already recorded with its grounds in the route register; what has not been done is the writing that turns seven register entries into one argument a reader outside this repository can use.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `closed`**

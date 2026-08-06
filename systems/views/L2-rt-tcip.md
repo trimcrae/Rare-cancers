@@ -106,6 +106,18 @@ The enumeration machinery exists and takes one more anchor set. Until it has run
 **Missing:**
 - the enumeration run for this configuration
 
+## Where this route ends — the paper
+
+**[PUB-TCIP](L3-publications.md)** — *Transcriptional chemically-induced proximity on EWSR1::NR4A3: reach enumeration for an effector second terminus* (unwritten)
+
+`primary` · ○ `unwritten` · aimed at `preprint`
+
+**This route contributes:** The reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery — the run that has not happened yet.
+
+**The paper would claim:** The reach enumeration built for E3 recruitment applies unchanged when the second terminus is a transcriptional effector rather than a ligase, and the geometric envelope it returns either does or does not admit an effector at the distances the modality requires.
+
+**It is not written because:** The paired anchor-plus-effector enumeration has not been run for this configuration, so there is no result to report. The machinery exists and takes one more anchor set.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

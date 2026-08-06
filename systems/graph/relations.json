@@ -339,6 +339,36 @@
       "sysml": "domain",
       "asserted": true,
       "why": "Milestone precedence. Scheduling, not entailment."
+    },
+    {
+      "key": "publication",
+      "on": [
+        "routes"
+      ],
+      "to": "publications",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "Where this route's work ends up — the paper it is FOR. ⛔ `satisfy` was the tempting stereotype and is refused for the same reason it is refused everywhere else in this register: a route is an OPTION, not an implementation, and calling it a satisfier of its publication would assert a readiness the language discipline forbids. The relation is asserted at the ROUTE end because a paper commonly gathers several routes and the split between them is a property of the route's own work, not of the paper."
+    },
+    {
+      "key": "blocked_by",
+      "on": [
+        "publications"
+      ],
+      "to": "blockers",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "⚠ DELIBERATELY NOT the same set as the routes' `blockers_inherited`, and the difference is the portfolio's main source of publishable work: a route can be blocked on a capability while its paper is publishable TODAY as an honest negative. Inheriting the route's blockers onto its endpoint would erase exactly that distinction and make every blocked route look like an unwritable paper."
+    },
+    {
+      "key": "companion_of",
+      "on": [
+        "publications"
+      ],
+      "to": "publications",
+      "sysml": "domain",
+      "asserted": true,
+      "why": "A deliverable that ships WITH another rather than alone — an experimental proposal sent alongside the preprint that motivates it. Recorded rather than merged, because the two have different readers and different states: the package can be complete while the paper it accompanies is still drafted."
     }
   ]
 }

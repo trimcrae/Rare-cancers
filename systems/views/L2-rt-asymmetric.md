@@ -72,6 +72,16 @@ Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, 
 
 It is a reframing rather than a result. Its value is that it changes what the other routes are trying to achieve, and that belongs inside them rather than in a paper of its own.
 
+## Where this route ends — the paper
+
+**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/nr4a3-degrader-paper.md)
+
+`contributing` · ◐ `drafted` · aimed at `journal_submission`
+
+**This route contributes:** The reframing that separates the two paralogue-sparing requirements instead of treating them as one. Every selectivity statement in the paper is sized against it, so dropping it lets a symmetric restatement back in.
+
+**The paper would claim:** A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue-favoured ligand designed into it by computation alone — and the selectivity margin that design would need is larger than the instruments used to predict it can currently resolve, which is reported as the result rather than worked around.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

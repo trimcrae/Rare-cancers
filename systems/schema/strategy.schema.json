@@ -23,7 +23,7 @@
 
     "portfolio_role": {
       "enum": ["lead", "hedge", "cheap_option", "closed_but_informative", "dissemination"],
-      "description": "Why this family is in the portfolio at all. `hedge` matters most: a family whose value is that it retires a blocker the lead family cannot is worth keeping even when every route in it grades below the lead."
+      "description": "Why this family is in the portfolio at all. `hedge` matters most: a family whose value is that it retires a blocker the others cannot is worth keeping even when every route in it grades below the best-worked one. ⚠ `lead` IS CURRENTLY CARRIED BY NO FAMILY, AND THAT IS A FINDING RATHER THAN AN OMISSION (trimcrae, 2026-08-06): ST-PROXIMITY held it until the degrader path was taken far enough to hit its blockers, and nothing was promoted in its place because nothing has earned it. The value stays in the enum so a future promotion is expressible — but a portfolio with no lead is a real and honest state, and inventing one to fill the slot would be the over-claim this vocabulary exists to prevent. Superseded, retained: this description's earlier phrasing 'a blocker the LEAD FAMILY cannot' and 'below the LEAD', which silently assumed a lead exists."
     },
 
     "routes": {

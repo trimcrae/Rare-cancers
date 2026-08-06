@@ -1736,3 +1736,136 @@ def test_preflight_runs_the_medical_integrity_guard():
     assert "emc_systems_map_check.py --check" in sh
     gates = re.findall(r'^\s*echo "== (.+?) =="', sh, re.M)
     assert any("EMC systems map" in gname for gname in gates), gates
+
+
+# ── publications: the endpoint every route is for ──────────────────────────────
+#
+# ⭐ THE RULING THESE GUARD (trimcrae, 2026-08-06): *the end goal of every one of these routes is a
+# paper.* With no wet lab and no clinic the published record is the only channel to a patient, so an
+# endpoint is a structural property of a route — and the model carried it for no route at all until
+# this collection existed. Each test below is the assertion form of a sentence in ARCHITECTURE §3.3,
+# because a property asserted in prose about data nobody checks is a hope, not a property.
+
+
+def test_every_route_names_a_publication_endpoint_that_exists(graph):
+    """A route with no endpoint is an activity, not an option — including the closed ones.
+
+    ⚠ CLOSED ROUTES ARE THE POINT, NOT AN EDGE CASE. A definitional closure is a publishable negative
+    and the field publishes almost none of them, so the rows with the least remaining science can
+    carry the most transferable writing. Exempting them would have removed seven of forty.
+    """
+    pubs = {p["id"] for p in graph["publications"]}
+    for r in graph["routes"]:
+        end = r["publication"]["endpoint"]
+        assert end in pubs, f"{r['id']} -> {end}"
+
+
+def test_no_publication_is_orphaned(graph):
+    """A paper nothing is trying to reach is an endpoint that lost its route, or a route never modelled."""
+    claimed = {r["publication"]["endpoint"] for r in graph["routes"]}
+    assert {p["id"] for p in graph["publications"]} == claimed
+
+
+def test_an_unwritten_paper_still_says_what_it_would_claim(graph):
+    """⭐ THE FIELD THAT MAKES AN UNWRITTEN PAPER REAL, and the reason this is a graph row at all.
+
+    Modelling an endpoint that has no file buys nothing if the row is just a name. What it has to
+    carry is the sentence the paper would put into the field's record — if that cannot be written,
+    there is no endpoint — plus an honest statement of what is missing.
+    """
+    for p in graph["publications"]:
+        assert len(p["what_it_would_claim"]) >= 40, p["id"]
+        if p["state"] in ("unwritten", "outlined"):
+            assert p.get("why_not_written"), p["id"]
+            assert not p.get("document"), f"{p['id']} is unwritten and points at a document"
+
+
+def test_a_written_endpoint_carries_no_title_of_its_own(graph):
+    """⛔ THE ASYMMETRY IN ARCHITECTURE §3 SURVIVES THIS COLLECTION, and this is where it is enforced.
+
+    The rule was never "publications are not modelled"; it was "do not create a second home for a
+    fact the file owns". So a row WITH a document has no title and the view reads the file's
+    frontmatter; a row WITHOUT one has `working_title`, because an unwritten paper has no file to own
+    its name. Both directions are asserted — a title beside a document would be the duplication, and
+    a missing one on an unwritten row would be an endpoint nobody can refer to.
+    """
+    for p in graph["publications"]:
+        if p.get("document"):
+            assert "working_title" not in p, p["id"]
+        else:
+            assert p.get("working_title"), p["id"]
+
+
+def test_an_endpoint_document_is_a_publication_not_a_memo_about_one(graph):
+    """A file-exists check is far weaker than it looks: every memo, plan and red-team would pass it.
+
+    `research/manuscripts/` holds ~60 documents declaring `level: L3`, and only a minority are
+    deliverables. The frontmatter level is what separates a paper from a note ABOUT a paper, and
+    pointing an endpoint at the second is the confusion this register was added to stop.
+    """
+    for p in graph["publications"]:
+        doc = p.get("document")
+        if not doc:
+            continue
+        path = os.path.join(REPO, doc["file"])
+        assert os.path.exists(path), doc["file"]
+        with open(path, encoding="utf-8") as fh:
+            fmv = sc._yaml_frontmatter(fh.read())[0] or {}
+        assert fmv.get("level") == "L3", f"{p['id']} -> {doc['file']} is level {fmv.get('level')!r}"
+
+
+def test_the_checker_catches_a_route_pointed_at_a_nonexistent_paper(graph):
+    """The guard must FAIL on the defect, not merely pass on the current data.
+
+    A check that has never been seen to go red is indistinguishable from one that cannot.
+    """
+    g = copy.deepcopy(graph)
+    g["routes"][0]["publication"]["endpoint"] = "PUB-DOES-NOT-EXIST"
+    f = sc.Findings()
+    sc.check_publications(g, f)
+    assert any("[B1]" in e for e in f.errors), f.errors
+
+
+def test_the_checker_catches_a_paper_no_route_claims(graph):
+    g = copy.deepcopy(graph)
+    g["publications"].append({"id": "PUB-ORPHAN", "level": "L3", "kind": "publication",
+                              "state": "unwritten", "target_venue": "preprint",
+                              "working_title": "a paper nothing points at",
+                              "what_it_would_claim": "x" * 41,
+                              "why_not_written": "it exists only in this test"})
+    f = sc.Findings()
+    sc.check_publications(g, f)
+    assert any("[B2]" in e for e in f.errors), f.errors
+
+
+def test_the_degrader_is_no_longer_the_north_star(graph):
+    """⛔ trimcrae, 2026-08-06: the degrader path hit enough blockers that it gets no special treatment.
+
+    Two things had to move together and neither is cosmetic: the route's own grade stopped calling
+    itself the north star, and NO strategy family carries `portfolio_role: lead` any more. The second
+    is the one worth pinning — the tempting fix was to promote another family into the empty slot,
+    and a portfolio with no lead is the honest state. Leaving `lead` unclaimed is a finding.
+
+    ⚠ THIS TEST GUARDS A STANDING, NOT A RESULT. Nothing here asserts anything about the degrader
+    route's evidence, which is unchanged and is why its limits are the best-characterised on the board.
+    """
+    val = next(r for r in graph["routes"] if r["id"] == "RT-DEGRADER")["grade"]["value"].lower()
+    assert "no longer the program's north star" in val
+    # ⚠ NOT a bare `"north star" not in val`. The retirement itself has to NAME the retired framing —
+    # that is the superseded-retained discipline — so the phrase legitimately appears twice. What must
+    # never appear again is an UNNEGATED occurrence, which is what this loop actually checks.
+    for m in re.finditer("north star", val):
+        prefix = val[max(0, m.start() - 70):m.start()]
+        assert "no longer" in prefix or "superseded, retained" in prefix, val[:m.end()]
+    assert [s["id"] for s in graph["strategies"] if s["portfolio_role"] == "lead"] == []
+
+
+def test_the_publication_view_is_linted_for_claim_language(graph):
+    """Every row on that page is a sentence beginning "what this paper would claim".
+
+    That is the construction most likely to slide from "this work would ESTABLISH X" into "X works",
+    and unlike the manuscript these sentences are authored in JSON where nobody reads them as prose.
+    The generated view is where they become readable, so it is where they are linted.
+    """
+    with open(os.path.join(REPO, "research", "manuscripts", "lint_claims.py"), encoding="utf-8") as fh:
+        assert "systems/views/L3-publications.md" in fh.read()

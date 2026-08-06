@@ -71,6 +71,18 @@ The zinc-finger DNA-binding domain is far more conserved between the paralogues 
 
 Closed by arithmetic over a fixed measured fact.
 
+## Where this route ends — the paper
+
+**[PUB-CLOSED-ROUTES](L3-publications.md)** — *Seven routes closed on argument rather than on experiment: the negative record of an EWSR1::NR4A3 route search* (unwritten)
+
+`contributing` · ○ `unwritten` · aimed at `preprint`
+
+**This route contributes:** The arithmetic-over-a-fixed-fact closure — the clearest case in the register of a route closed by measurement rather than by opinion.
+
+**The paper would claim:** A route can be closed rigorously without an experiment when the closure is definitional or is arithmetic over a fixed measured fact, and separating those permanent closures from the merely instrument-limited ones is what keeps a portfolio from re-litigating settled questions — with wild-type NR4A3 pharmacology failing to transfer to the chimera as the worked example.
+
+**It is not written because:** The closures themselves are complete and each is already recorded with its grounds in the route register; what has not been done is the writing that turns seven register entries into one argument a reader outside this repository can use.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `closed`**

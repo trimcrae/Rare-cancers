@@ -14,8 +14,13 @@ _backfilled: true
 ---
 # In-silico completeness ledger — NR4A3-selective degrader
 
-> **Why this doc exists.** The North Star is *the state of the art of what in-silico testing can do for an
-> NR4A3-selective degrader* (CLAUDE.md, 2026-07-01). We were finding gaps **reactively** — the red-team
+> **Why this doc exists.** The North Star ([CLAUDE.md §5](../../CLAUDE.md), which owns it — do not restate it
+> here) asks for *the state of the art of what in-silico testing can do*, and this ledger is the completeness
+> map for **the degrader route's** share of that. ⚠ *Superseded, retained: this line read "the state of the
+> art of what in-silico testing can do **for an NR4A3-selective degrader** (CLAUDE.md, 2026-07-01)" — which
+> was the North Star until it was rescoped portfolio-wide on 2026-08-06 and the degrader lost its privileged
+> position. The ledger's own scope is unchanged; what changed is that it is one route's ledger rather than
+> the program's.* We were finding gaps **reactively** — the red-team
 > surfaced F1–F20; the user caught that the safety argument rested on DepMap alone (2026-07-02). A
 > SOTA claim needs a **proactive completeness map**: every stage a leading degrader-discovery group
 > would compute with no wet lab, graded honestly against what we actually have. This is that map. It is a

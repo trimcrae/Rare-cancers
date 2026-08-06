@@ -102,6 +102,16 @@ The reagent exists clinically and an expression read on EMC tissue is owed; pres
 **Experiment required:**
 - immunohistochemistry or expression readout on EMC tissue
 
+## Where this route ends — the paper
+
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma](../../research/manuscripts/emc-surface-target-landscape.md)
+
+`contributing` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The one antigen on the list whose therapeutic already exists clinically, which turns its row from a discovery into a check.
+
+**The paper would claim:** Surface and stromal antigens can be prioritised for EMC in silico from one cell line and a translocation-sarcoma comparison set, and every resulting negative is bounded by that surrogate basis rather than by an EMC tissue measurement — which is the honest limit of a search run without the disease's own expression data.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

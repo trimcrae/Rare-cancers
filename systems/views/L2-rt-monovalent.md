@@ -124,6 +124,16 @@ Its central premise — that occupancy does something — has never been tested 
 **Experiment required:**
 - a reporter assay for the domain's function inside the chimera
 
+## Where this route ends — the paper
+
+**[PUB-MONOVALENT](L3-publications.md)** — [The monovalent pocket-modulation route — a small molecule that only occupies the NR4A3 LBD](../../research/manuscripts/nr4a3-monovalent-pocket-route.md)
+
+`primary` · ◐ `drafted` · aimed at `internal_note`
+
+**This route contributes:** The whole memo: that occupancy without recruitment is a separate question nobody has asked, and what a sized selectivity requirement for it would have to look like.
+
+**The paper would claim:** Occupancy of the NR4A3 pocket without recruitment is a distinct route from degradation, and the question of whether occupancy alone changes the fusion's behaviour has never been asked by anyone — so the route is untested rather than refuted.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

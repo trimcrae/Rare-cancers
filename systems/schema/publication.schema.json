@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/publication.schema.json",
+  "title": "A PUBLICATION (L3) — the terminal deliverable a route is trying to reach",
+  "_role": "Every route's end goal is a paper. Without this collection the model could say what a route WAS and what BLOCKED it, and could not say what it was FOR -- the endpoint existed only for routes lucky enough to already have a file, and vanished for the ones that had not been written yet. That asymmetry made an unwritten paper indistinguishable from no paper at all, which is the state most of the portfolio is actually in.",
+  "_prose": "systems/ARCHITECTURE.md §3.3",
+
+  "_why_this_is_a_graph_row_and_L4_is_not": "ARCHITECTURE §3 keeps L3/L4 as DOCUMENTS on the grounds that copying a file's title into JSON creates a second home for a fact the file already owns. That reasoning is intact and is why `title` is absent here whenever `document` is set -- the row POINTS at the file and the renderer reads the title back out of its frontmatter. What the reasoning did not cover is a paper that does not exist yet: an unwritten publication has no file, so it has no other home, and leaving it unmodelled is what made 'no endpoint' and 'endpoint not yet written' render identically.",
+
+  "$defs": {
+    "publication": {
+      "type": "object",
+      "required": ["id", "level", "kind", "state", "target_venue", "what_it_would_claim"],
+      "additionalProperties": false,
+      "properties": {
+        "id":    { "type": "string", "pattern": "^PUB-[A-Z0-9-]+$" },
+        "level": { "const": "L3" },
+        "kind":  { "const": "publication" },
+
+        "state": {
+          "enum": ["unwritten", "outlined", "drafted", "complete_unposted", "posted"],
+          "description": "⛔ NO VAGUE STATES. The question this answers is 'how much of this paper exists?', and it is deliberately NOT a quality grade -- `drafted` says a draft file exists, never that the draft is good. Whether the science is publishable is `target_venue` against each route's own `readiness.attainable_today`, which is a different question with a different owner."
+        },
+
+        "target_venue": {
+          "enum": ["internal_note", "reproducible_workflow", "preprint", "chemrxiv",
+                   "journal_submission", "experimental_proposal"],
+          "description": "The form this deliverable is AIMED at. Same closed vocabulary as `route.readiness.attainable_today` on purpose: the two are meant to be compared, and a route whose readiness sits below its endpoint's venue is the honest statement of the gap. Ordered but NOT a ladder -- an experimental_proposal is a different output from a journal submission, not a lesser one."
+        },
+
+        "document": {
+          "type": ["object", "null"],
+          "required": ["file"],
+          "additionalProperties": false,
+          "description": "The file, when one exists. NULL is the whole point of this collection: a paper nobody has started still has an endpoint, a claim and a reason it is unwritten. The file's own frontmatter owns its title -- nothing here copies it -- and check_pointers verifies the path exists.",
+          "properties": {
+            "file":   { "type": "string" },
+            "anchor": { "type": ["string", "null"] }
+          }
+        },
+
+        "working_title": {
+          "type": "string",
+          "minLength": 10,
+          "description": "REQUIRED when `document` is null and FORBIDDEN when it is not. An unwritten paper needs a handle a human can talk about; a written one already has one in its frontmatter, and a second copy here would be the one-fact-two-homes bug."
+        },
+
+        "what_it_would_claim": {
+          "type": "string",
+          "minLength": 40,
+          "description": "REQUIRED on every row, written so a reader can disagree with it. ⭐ THIS IS THE FIELD THAT MAKES AN UNWRITTEN PAPER REAL: if the one sentence the paper would put into the field's record cannot be stated, there is no endpoint -- there is an activity. It is a statement of what the work would ESTABLISH, never a claim of efficacy, safety, a therapeutic window or clinical readiness, and lint_claims.py binds the generated view exactly as it binds the manuscript."
+        },
+
+        "why_not_written": {
+          "type": "string",
+          "minLength": 20,
+          "description": "REQUIRED while `state` is `unwritten` or `outlined`. Names what is actually missing -- a result, a decision, a person, or only the writing. 'Only the writing' is a legitimate and important answer: it distinguishes a paper that is blocked from one that is merely unstarted, and the portfolio contains both."
+        },
+
+        "blocked_by": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^BLK-[A-Z0-9-]+$" },
+          "description": "Blockers that hold up the PAPER rather than the science. Usually a subset of what its routes inherit: a route can be blocked on a capability while its paper is publishable as an honest negative, and that difference is the portfolio's main source of publishable work."
+        },
+
+        "companion_of": {
+          "type": "string",
+          "pattern": "^PUB-[A-Z0-9-]+$",
+          "description": "A deliverable that ships WITH another rather than alone -- an experimental proposal sent alongside the preprint that motivates it. Records the pairing without merging two things that have different readers."
+        }
+      },
+
+      "allOf": [
+        {
+          "if":   { "properties": { "document": { "type": "null" } }, "required": ["document"] },
+          "then": { "required": ["working_title"] }
+        },
+        {
+          "if":   { "not": { "required": ["document"] } },
+          "then": { "required": ["working_title"] }
+        },
+        {
+          "if":   { "properties": { "document": { "type": "object" } }, "required": ["document"] },
+          "then": { "not": { "required": ["working_title"] } }
+        },
+        {
+          "if":   { "properties": { "state": { "enum": ["unwritten", "outlined"] } } },
+          "then": { "required": ["why_not_written"] }
+        },
+        {
+          "if":   { "properties": { "state": { "enum": ["drafted", "complete_unposted", "posted"] } } },
+          "then": { "required": ["document"],
+                    "properties": { "document": { "type": "object" } } }
+        }
+      ]
+    },
+
+    "route_endpoint": {
+      "type": "object",
+      "required": ["endpoint", "role", "contribution"],
+      "additionalProperties": false,
+      "description": "A route's `publication` field — where this route's work ends up. Exactly one endpoint per route: a route whose output is split across two papers has not been analysed, it has been described.",
+      "properties": {
+        "endpoint": { "type": "string", "pattern": "^PUB-[A-Z0-9-]+$" },
+        "role": {
+          "enum": ["primary", "contributing", "context"],
+          "description": "`primary` — the paper is ABOUT this route. `contributing` — the route supplies a section, a control, a supplement or a disclosed limitation. `context` — the route is cited to establish the landscape and is explicitly NOT this program's contribution. The third exists because two routes here are clinical-evidence synthesis whose own registers say so, and promoting them to contributions would overstate what was done."
+        },
+        "contribution": {
+          "type": "string",
+          "minLength": 20,
+          "description": "What THIS route puts into that paper. Not a restatement of the route's purpose — the question is what the paper loses if this route is dropped."
+        }
+      }
+    }
+  }
+}

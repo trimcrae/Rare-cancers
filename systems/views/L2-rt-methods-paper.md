@@ -72,6 +72,18 @@ Nothing blocks it. It is the only route in the portfolio with no scientific bloc
 **Missing:**
 - the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-options.md §2.1)
 
+## Where this route ends — the paper
+
+**[PUB-METHODS](L3-publications.md)** — *The failure record of a computation-only degrader program: what in-silico selectivity prediction could and could not establish* (unwritten)
+
+`primary` · ○ `unwritten` · aimed at `journal_submission`
+
+**This route contributes:** The whole paper: the program's disclosed failures, each with the known-answer control that produced it.
+
+**The paper would claim:** A computation-only program can state, with its instruments' known-answer controls attached, exactly which of its selectivity claims its methods were able to support and which they were not — and the disclosed failures are the transferable result, because the field publishes almost none of them.
+
+**It is not written because:** Nothing blocks it. It carries no scientific blocker at all and is the only endpoint in the portfolio that is true regardless of how every other route resolves; it is finished when the writing stops.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

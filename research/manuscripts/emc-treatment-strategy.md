@@ -428,12 +428,23 @@ first*. The two priorities:
 
 ### Operating regime (2026-07-01, trimcrae; UPDATED — make the paper as strong as in-silico allows *before* preprinting)
 This is the governing regime for *how* the work reaches impact. Do not re-scope it upward.
-- **★ NORTH STAR (2026-07-01, trimcrae):** the goal of this program is to **produce the state of the art of what
-  in-silico testing can do for an NR4A3-selective degrader** — the most complete, rigorous, honest computational
-  characterization achievable without a wet lab (druggability of the cryptic pocket → selective warhead design →
-  paralogue-selectivity controls → ternary/degradation geometry → the affinity-grade FEP tier), each result
-  stated at its true weight. That is the deliverable the preprint documents. "As good as it can be before
-  preprinting" means *state-of-the-art in-silico*, not merely "enough to post."
+- **★ NORTH STAR (2026-07-01, trimcrae; RESCOPED 2026-08-06):** the goal is to **produce the state of the art of
+  what in-silico testing can do to move the treatment science for EMC** — the most complete, rigorous, honest
+  computational characterization achievable without a wet lab, each result stated at its true weight, **across
+  the whole route portfolio**. "As good as it can be before preprinting" means *state-of-the-art in-silico*, not
+  merely "enough to post."
+  - ⚠ **Superseded, retained: "*…for an NR4A3-selective degrader* — … (druggability of the cryptic pocket →
+    selective warhead design → paralogue-selectivity controls → ternary/degradation geometry → the
+    affinity-grade FEP tier)… That is the deliverable the preprint documents."** Retired 2026-08-06
+    (trimcrae: *"We went down that path and ran into enough blockers that it no longer has special
+    treatment"*). That arrow chain is still the honest description of the **degrader route's** own arc and of
+    where it stopped; what it is no longer is the program's definition. Full framing:
+    [STRATEGY.md Appendix B](../../STRATEGY.md#appendix-b--superseded-strategy-framings).
+  - **★★ AND THE TERMINUS OF EVERY ROUTE ON THIS PAGE IS A PAPER, WRITTEN OR NOT.** With no wet lab and no
+    clinic, the published record is the only channel to a patient, so "the deliverable" is not one preprint —
+    it is one endpoint per route, each with the sentence it would put into the field's record and an honest
+    statement of what is missing. One home:
+    [`systems/views/L3-publications.md`](../../systems/views/L3-publications.md).
 - **Scale = one independent researcher, no wet lab.** **A self-funded wet-lab program ($5–25k assays/synthesis)
   is OFF the table** — that is a *funded collaborator/foundation's* budget, never the solo researcher's. Do not
   propose wet-lab work as a next step. **The one hard constraint is "no wet lab," NOT a GPU-dollar ceiling.**

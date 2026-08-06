@@ -89,6 +89,16 @@ There is no second arm, so there is nothing to compute and nothing to report bey
 **Missing:**
 - arm-2 chemistry
 
+## Where this route ends — the paper
+
+**[PUB-ANDGATE](L3-publications.md)** — [A coincidence-detection ("AND-gate") bivalent degrader for protein-level fusion-exclusivity in EWSR1::NR4A3 extraskeleta](../../research/manuscripts/fusion-selective-andgate-degrader-paper.md)
+
+`primary` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The coincidence-detection design and the statement of exactly what does not exist for it to be built.
+
+**The paper would claim:** Coincidence detection across both halves of the fusion is a design that would convert a paralogue-selectivity problem into an avidity problem — and it names precisely what does not exist for it to be built, which is a ligand for the EWSR1 half.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

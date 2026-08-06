@@ -98,6 +98,16 @@ The computational arc is complete and the delivery gate is stated honestly as a 
 **Experiment required:**
 - junction knockdown plus parental sparing in an EMC or FET-fusion line
 
+## Where this route ends — the paper
+
+**[PUB-ASO](L3-publications.md)** — [A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity](../../research/manuscripts/fusion-junction-aso-paper.md)
+
+`primary` · ◐ `drafted` · aimed at `chemrxiv`
+
+**This route contributes:** The junction design, the transcriptome-wide specificity screen, and delivery stated as the outstanding gate rather than assumed away.
+
+**The paper would claim:** The EWSR1::NR4A3 breakpoint junction is the one truly tumour-exclusive feature of this disease at the RNA level, an oligonucleotide can be designed to read it rather than a shape, and transcriptome-wide specificity screening finds no competing match — with delivery named as the outstanding gate rather than assumed away.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `pursue_now`**

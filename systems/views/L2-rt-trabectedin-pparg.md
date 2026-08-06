@@ -95,6 +95,16 @@ The ask is well formed and both drugs are approved, but the direction of the PPA
 **Missing:**
 - the direction of the PPARγ effect in EMC
 
+## Where this route ends — the paper
+
+**[PUB-REPURPOSING](L3-publications.md)** — [Mechanism-based drug-repurposing hypotheses for extraskeletal myxoid chondrosarcoma](../../research/manuscripts/repurposing-hypotheses.md)
+
+`contributing` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The all-approved combination arm, held behind the same unresolved PPARγ direction that bounds the row above it.
+
+**The paper would claim:** Existing agents not yet reported in EMC can be mapped to EMC's molecular and microenvironmental axes by three independent methods, each candidate graded by an explicit evidence tier — a hypothesis-generating menu that asserts no efficacy for any agent it names.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `wait`**

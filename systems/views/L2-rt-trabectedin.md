@@ -93,6 +93,16 @@ This is clinical-evidence synthesis rather than a computational contribution. It
 **Missing:**
 - a larger clinical series
 
+## Where this route ends — the paper
+
+**[PUB-EMC-PROGRAM](L3-publications.md)** — [Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3](../../research/manuscripts/emc-treatment-roadmap.md)
+
+`context` · ◐ `drafted` · aimed at `journal_submission`
+
+**This route contributes:** Cited to establish current care and the categorical gap. Explicitly not this program's contribution — it is clinical-evidence synthesis, and a single response must not be overstated.
+
+**The paper would claim:** The gap in EMC care is categorical rather than a matter of degree — nothing in clinical use addresses the driver — and a computation-only program can enumerate the driver-directed routes, state a falsifiable kill criterion for each, and place the borrowed standard-of-care agents as context rather than as its own contribution.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

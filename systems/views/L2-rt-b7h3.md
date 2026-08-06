@@ -98,6 +98,16 @@ The negative was measured on surrogates, so it is as provisional as a positive w
 **Missing:**
 - a tissue-level measurement
 
+## Where this route ends — the paper
+
+**[PUB-SURFACE-TARGETS](L3-publications.md)** — [In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma](../../research/manuscripts/emc-surface-target-landscape.md)
+
+`primary` · ◐ `drafted` · aimed at `preprint`
+
+**This route contributes:** The prioritised surface-antigen ranking and the surrogate basis that bounds its negatives.
+
+**The paper would claim:** Surface and stromal antigens can be prioritised for EMC in silico from one cell line and a translocation-sarcoma comparison set, and every resulting negative is bounded by that surrogate basis rather than by an EMC tissue measurement — which is the honest limit of a search run without the disease's own expression data.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

@@ -89,6 +89,16 @@ No degradation-geometry claim may rest on a composed assembly, so the computed r
 **Missing:**
 - an observed transfer geometry
 
+## Where this route ends — the paper
+
+**[PUB-DEGRADER](L3-publications.md)** — [In silico design of a paralogue-favoured ligand for a cryptic NR4A3 pocket](../../research/manuscripts/nr4a3-degrader-paper.md)
+
+`contributing` · ◐ `drafted` · aimed at `journal_submission`
+
+**This route contributes:** The categorical lysine inventory, carried as a disclosed-limitation supplement because no degradation-geometry claim may rest on a composed assembly.
+
+**The paper would claim:** A cryptic pocket on the NR4A3 ligand-binding domain can be found and a paralogue-favoured ligand designed into it by computation alone — and the selectivity margin that design would need is larger than the instruments used to predict it can currently resolve, which is reported as the result rather than worked around.
+
 ## Strategic timing — the wait equation
 
 **Recommendation: `monitor`**

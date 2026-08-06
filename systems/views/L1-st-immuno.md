@@ -86,17 +86,17 @@ flowchart LR
 
 ## Routes
 
-| route | state | maturity | readiness today | next action |
-|---|---|---|---|---|
-| **[RT-B7H3](L2-rt-b7h3.md)**<br/>B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T | ✓ parked | computed | `internal_note` | Keep registered with the surrogate caveat attached to the negative. |
-| **[RT-CART-SURFACE](L2-rt-cart-surface.md)**<br/>CAR-T for EMC (surface-directed) | ✓ blocked | computed | `internal_note` | Keep registered. The antigen search re-runs automatically when EMC expression data lands. |
-| **[RT-ICI-TKI](L2-rt-ici-tki.md)**<br/>Checkpoint inhibitor + anti-angiogenic TKI combination | ○ delegated | concept | `internal_note` | Keep as landscape context, cited and never overstated. It is the comparator, not a contribution. |
-| **[RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md)**<br/>Fusion-junction neoantigen (the antigen, shared by three delivery routes) | ✓ blocked | computed | `internal_note` | Regenerate the junction-neoantigen predictions against the corrected exon index, then re-grade. Every predicte |
-| **[RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md)**<br/>Ex-vivo pan-NR4A pole (CAR-T manufacturing additive) | ✓ ready | computed | `preprint` | Use it more prominently as the argument that the family's chemistry has a use that does not depend on solving  |
-| **[RT-PRAME-IMMTAC](L2-rt-prame-immtac.md)**<br/>PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR | ○ blocked | computed | `experimental_proposal` | Include in the collaborator ask: an expression confirm on EMC tissue is small, and the therapeutic already exi |
-| **[RT-TCR-IMMTAC](L2-rt-tcr-immtac.md)**<br/>Fusion-junction TCR-T / soluble-TCR (ImmTAC) against the junction peptide-HLA | ○ parked | concept | `internal_note` | Keep registered. Re-grade after the neoantigen predictions are regenerated. |
-| **[RT-TCRT-CTA](L2-rt-tcrt-cta.md)**<br/>TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcoma port) | ✓ parked | computed | `internal_note` | Keep registered for automatic re-grade when EMC expression data lands. |
-| **[RT-VACCINE](L2-rt-vaccine.md)**<br/>Fusion-junction vaccine / HLA-coverage paper | ✓ parked | computed | `internal_note` | Keep the HLA-coverage output as a reusable input to eligibility analysis. Do not advance the vaccine while the |
+| route | state | maturity | readiness today | ends in | next action |
+|---|---|---|---|---|---|
+| **[RT-B7H3](L2-rt-b7h3.md)**<br/>B7-H3 (CD276) / CD56 → ADC, bispecific or CAR-T | ✓ parked | computed | `internal_note` | [PUB-SURFACE-TARGETS](L3-publications.md) ◐ *primary* | Keep registered with the surrogate caveat attached to the negative. |
+| **[RT-CART-SURFACE](L2-rt-cart-surface.md)**<br/>CAR-T for EMC (surface-directed) | ✓ blocked | computed | `internal_note` | [PUB-SURFACE-TARGETS](L3-publications.md) ◐ *contributing* | Keep registered. The antigen search re-runs automatically when EMC expression data lands. |
+| **[RT-ICI-TKI](L2-rt-ici-tki.md)**<br/>Checkpoint inhibitor + anti-angiogenic TKI combination | ○ delegated | concept | `internal_note` | [PUB-EMC-PROGRAM](L3-publications.md) ◐ *context* | Keep as landscape context, cited and never overstated. It is the comparator, not a contribution. |
+| **[RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md)**<br/>Fusion-junction neoantigen (the antigen, shared by three delivery routes) | ✓ blocked | computed | `internal_note` | [PUB-NEOANTIGEN](L3-publications.md) ◐ *primary* | Regenerate the junction-neoantigen predictions against the corrected exon index, then re-grade. Every predicte |
+| **[RT-PANNR4A-EXVIVO](L2-rt-pannr4a-exvivo.md)**<br/>Ex-vivo pan-NR4A pole (CAR-T manufacturing additive) | ✓ ready | computed | `preprint` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | Use it more prominently as the argument that the family's chemistry has a use that does not depend on solving  |
+| **[RT-PRAME-IMMTAC](L2-rt-prame-immtac.md)**<br/>PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR | ○ blocked | computed | `experimental_proposal` | [PUB-SURFACE-TARGETS](L3-publications.md) ◐ *contributing* | Include in the collaborator ask: an expression confirm on EMC tissue is small, and the therapeutic already exi |
+| **[RT-TCR-IMMTAC](L2-rt-tcr-immtac.md)**<br/>Fusion-junction TCR-T / soluble-TCR (ImmTAC) against the junction peptide-HLA | ○ parked | concept | `internal_note` | [PUB-NEOANTIGEN](L3-publications.md) ◐ *contributing* | Keep registered. Re-grade after the neoantigen predictions are regenerated. |
+| **[RT-TCRT-CTA](L2-rt-tcrt-cta.md)**<br/>TCR-T / engineered T cells vs a cancer-testis antigen (synovial-sarcoma port) | ✓ parked | computed | `internal_note` | [PUB-SURFACE-TARGETS](L3-publications.md) ◐ *contributing* | Keep registered for automatic re-grade when EMC expression data lands. |
+| **[RT-VACCINE](L2-rt-vaccine.md)**<br/>Fusion-junction vaccine / HLA-coverage paper | ✓ parked | computed | `internal_note` | [PUB-HLA-COVERAGE](L3-publications.md) ◐ *primary* | Keep the HLA-coverage output as a reusable input to eligibility analysis. Do not advance the vaccine while the |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-NOT-FUSION-SELECTIVE** (`fundamental_biological_limit`) — The route also engages the wild-type protein (NR4A3 LBD, or EWSR1's low-complexity half)

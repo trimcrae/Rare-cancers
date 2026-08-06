@@ -91,7 +91,7 @@ flowchart LR
 
 | family | thesis | routes | state | role |
 |---|---|---:|---|---|
-| **[ST-PROXIMITY](L1-st-proximity.md)**<br/>Induced-proximity therapeutics | The NR4A3 ligand-binding domain does not need to be inhibited, only ENGAGED, because the therapeutic effect comes from what the molecule recruits rath… | 7 | ◐ blocked · computed | lead |
+| **[ST-PROXIMITY](L1-st-proximity.md)**<br/>Induced-proximity therapeutics | The NR4A3 ligand-binding domain does not need to be inhibited, only ENGAGED, because the therapeutic effect comes from what the molecule recruits rath… | 7 | ◐ blocked · computed | hedge |
 | **[ST-OCCUPANCY](L1-st-occupancy.md)**<br/>Direct small-molecule engagement of the NR4A3 ligand-binding domain | If the ligand-binding domain is a functional handle in the chimera, then occupying it is enough, and the entire ternary-assembly problem disappears. T… | 3 | ○ blocked · scoped | hedge |
 | **[ST-FUSION-DIRECT](L1-st-fusion-direct.md)**<br/>Targeting the fusion protein's other domains | The fusion has more than one surface. If a different domain is more tractable or more selective, the paralogue problem might be sidestepped rather tha… | 3 | ✕ closed · scoped | closed_but_informative |
 | **[ST-NUCLEIC-ACID](L1-st-nucleic-acid.md)**<br/>Nucleic-acid and genetic therapeutics | The junction is the only truly tumour-exclusive feature of this disease. A molecule that reads sequence rather than shape can discriminate perfectly, … | 5 | ✓ blocked · computed | hedge |
@@ -100,6 +100,17 @@ flowchart LR
 | **[ST-RADIOLIGAND](L1-st-radioligand.md)**<br/>Radioligand and theranostic approaches | A radioligand does not need the target to be a driver, only to be present and accessible. That decouples the therapy entirely from the fusion biology … | 2 | ○ blocked · concept | cheap_option |
 | **[ST-DEPENDENCY](L1-st-dependency.md)**<br/>Synthetic lethality and dependency | You do not have to drug the driver if the driver has made something else indispensable. A synthetic-lethal partner can be an ordinary, already-druggab… | 3 | ✓ blocked · computed | hedge |
 | **[ST-DISSEMINATION](L1-st-dissemination.md)**<br/>Methods and publication as an outcome in itself | A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodolo… | 1 | ○ ready · scoped | dissemination |
+
+## Where the portfolio ends
+
+Every route above ends in a paper. With no wet lab and no clinic, the published record is the only channel by which any of this reaches a patient — so an endpoint is a property of a route rather than an afterthought, and one that cannot be named is an activity rather than an option. Full register, with what each paper would claim: [L3-publications.md](L3-publications.md).
+
+⚠ **This counts DELIVERABLES, not progress.** `drafted` means a file exists and says nothing about whether the science in it holds — that is the route pages and their instruments.
+
+| state | endpoints | routes feeding them |
+|---|---:|---:|
+| ○ `unwritten` | 4 | 14 |
+| ◐ `drafted` | 12 | 26 |
 
 ## What holds the portfolio down
 
@@ -148,7 +159,8 @@ Ordered by how much comes back if they land. Full register: [registers/technolog
 
 - **L1** — a strategy family: `L1-<family>.md`
 - **L2** — a single route: `L2-<route>.md`
-- **L3 · L4** — publications and the experiments that feed them are DOCUMENTS. They declare their level in their own frontmatter rather than being copied into the graph, so their count is reported by `systems_check --check` (`[D11]`) and is deliberately NOT pinned in any committed file — pinning it would turn every new memo into a red build. The instruments that produce their evidence ARE modelled: [registers/instruments.md](registers/instruments.md).
+- **L3** — [publications](L3-publications.md): the endpoint every route is FOR, written or not. ⚠ *Superseded, retained: “**L3 · L4** — publications and the experiments that feed them are DOCUMENTS”, on the grounds that copying a file's title into the graph makes a second home for it. That reasoning holds and is why a written endpoint still carries no title here — but it covered only papers that EXIST, and an unwritten one has no file to be a document in. Under it, a route with no endpoint and a route whose paper is not written yet rendered identically, across a portfolio where the second is the common case.*
+- **L4** — the experiments that feed them are still DOCUMENTS, declaring their level in their own frontmatter, so their count is reported by `systems_check --check` (`[D11]`) and is deliberately NOT pinned in any committed file — pinning it would turn every new memo into a red build. The instruments that produce their evidence ARE modelled: [registers/instruments.md](registers/instruments.md).
 - **L5** — [the evidence base](L5-evidence-base.md): every object, citation, artifact and pinned claim, each showing what rests on it
 - **Registers** — [lanes](registers/lanes.md) *(executed work and how it ended)* · [blockers](registers/blockers.md) · [technologies](registers/technologies.md) · [instruments](registers/instruments.md)
 - **Cross-cutting** — [methods index](methods-index.md) · [readiness](readiness.md) · [requirements](registers/requirements.md)

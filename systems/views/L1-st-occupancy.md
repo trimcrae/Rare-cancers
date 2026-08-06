@@ -72,11 +72,11 @@ flowchart LR
 
 ## Routes
 
-| route | state | maturity | readiness today | next action |
-|---|---|---|---|---|
-| **[RT-ASYMMETRIC](L2-rt-asymmetric.md)**<br/>Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort | ✓ ready | computed | `reproducible_workflow` | Ensure the asymmetry is carried in every selectivity statement across the model rather than asserted once — a  |
-| **[RT-COVALENT-PROBE](L2-rt-covalent-probe.md)**<br/>Covalent probe at C397 — as a REAGENT, not a drug | ✓ blocked | computed | `internal_note` | Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re- |
-| **[RT-MONOVALENT](L2-rt-monovalent.md)**<br/>Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD | ○ blocked | computed | `internal_note` | Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what  |
+| route | state | maturity | readiness today | ends in | next action |
+|---|---|---|---|---|---|
+| **[RT-ASYMMETRIC](L2-rt-asymmetric.md)**<br/>Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort | ✓ ready | computed | `reproducible_workflow` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | Ensure the asymmetry is carried in every selectivity statement across the model rather than asserted once — a  |
+| **[RT-COVALENT-PROBE](L2-rt-covalent-probe.md)**<br/>Covalent probe at C397 — as a REAGENT, not a drug | ✓ blocked | computed | `internal_note` | [PUB-DEGRADER](L3-publications.md) ◐ *contributing* | Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re- |
+| **[RT-MONOVALENT](L2-rt-monovalent.md)**<br/>Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD | ○ blocked | computed | `internal_note` | [PUB-MONOVALENT](L3-publications.md) ◐ *primary* | Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what  |
 
 ## Family-level bets — blockers EVERY route here inherits
 
