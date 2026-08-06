@@ -284,8 +284,14 @@ a real, committed result, not hidden.
 > → NR4A3 exon 3; [`novel-modalities.md`](./novel-modalities.md) §3.3), whereas "NR4A3 from codon 2" retains
 > almost the entire NR4A3 CDS — so the *modelled* junction seam is not the seam of the commonly reported
 > EWSR1 exon-7/12 :: NR4A3 exon-3 fusion ([citation to verify] for the rank-order of recurrent exon
-> junctions). The full pipeline **has since been run on those real exon-3 junctions** (§3a-quinquies), which
-> turn out to be far more GC-favorable than this modelled reference. The practical upshot
+> junctions).
+> ⛔ *Superseded, retained: "The full pipeline **has since been run on those real exon-3 junctions**
+> (§3a-quinquies), which turn out to be far more GC-favorable than this modelled reference."* It was
+> run on a seam graded `SEAM_NOT_PRODUCED`, and the corrected comparison is **UNKNOWN** until the CI
+> regeneration lands. ⚠ Note what this does to the paragraph's own argument: the sentence above still
+> stands — the modelled codon-2 seam is **not** the seam of the exon-3 fusion — but this manuscript
+> no longer has *any* computed exon-3 seam to contrast it with. The gap is named, not filled.
+> The practical upshot
 > is unchanged — every clinical design must be re-derived from the patient's **sequenced** fusion transcript
 > (§3b) — but the reader should not read "canonical" as "the breakpoint patients actually carry." The five
 > sequences are design hypotheses on a modelled seam, not a drug.
@@ -361,7 +367,10 @@ single property hurts three things at once: (i) gapmer chemistry (75–81% GC), 
 and (iii) predicted specificity (many gap-spanning off-targets). This is a property of **this junction
 sequence**, not of the ASO/siRNA modality. Crucially, real patients carry **≥7 distinct in-frame
 breakpoints** (the companion neoantigen work: EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3;
-[`novel-modalities.md`](./novel-modalities.md) §3.3), some of which are likely more favorable. The
+[`novel-modalities.md`](./novel-modalities.md) §3.3 — ⛔ **that enumeration is retracted**; see §3b.4 and
+[`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json). Breakpoint
+heterogeneity in EMC is a literature fact and is not in doubt; the specific seven-junction resolution is),
+some of which are likely more favorable. The
 conclusion is therefore that ASO/siRNA feasibility is **breakpoint-conditional**: designs must be re-run on
 the patient's *sequenced* breakpoint, and junction sequence-favorability (GC content, complexity,
 off-target load) becomes a **patient/breakpoint selection criterion**. This tempers but does not overturn
@@ -407,7 +416,10 @@ breakpoint-conditional concern in the route's favor**:
 1. **These are MODELLED breakpoint positions** — a codon-space sensitivity sweep, not exon-exact clinical
    breakpoints. The 62% is a property of the swept grid, **not** a claim about how often real patients carry
    a favorable breakpoint; the companion exon work (EWSR1 exons 7/9/10/11/12/13 → predominantly NR4A3 exon 3;
-   [`novel-modalities.md`](./novel-modalities.md) §3.3) is bracketed in codon space here, not mapped exon-exact.
+   [`novel-modalities.md`](./novel-modalities.md) §3.3 — enumeration retracted, §3b.4) is bracketed in codon
+   space here, not mapped exon-exact. ⭐ **That refusal to map is why this scan survives the retraction
+   intact**, and it is the one place in the lane where declining to be precise turned out to be the correct
+   engineering call rather than conservatism.
 2. **"Favorable" = passes a GC/complexity/parent-substring TRIAGE**, not the full transcriptome BLAST
    off-target screen of §3a-bis(i). A breakpoint chosen as favorable still owes that BLAST screen before any
    specificity claim.
@@ -635,7 +647,14 @@ this draft:
    19-mer siRNA guides have now been generated (asymmetry/end-stability/run filters); at this breakpoint 0
    of 5 pass (min GC 73.7%), so the GC-tolerant route does not rescue this junction. Seed off-target
    counting against the transcriptome remains specifiable for any breakpoint that yields in-window-GC guides.
-4. **Breakpoint heterogeneity → a per-patient panel.** Because EMC breakpoints vary by exon usage (the
+4. **Breakpoint heterogeneity → a per-patient panel.** ⛔ *The "7 distinct in-frame junctions" citation
+   below is RETRACTED at source:* [`fusion-neoantigen-retraction.json`](../modalities/fusion-neoantigen-retraction.json)
+   grades all seven — six `SEAM_NOT_PRODUCED`, one `SEAM_RELABELLED`, **zero with a reproduced NR4A3
+   label**. ⚠ **The paragraph's own conclusion is unaffected and is *strengthened*, which is why it is
+   kept:** designs are breakpoint-conditional and the deliverable is a panel keyed to a *sequenced*
+   breakpoint. That was true when the exon enumeration was thought sound and is more obviously true now
+   that it is not. What is withdrawn is the specific enumeration, not the argument it was used to
+   illustrate. *Superseded, retained:* Because EMC breakpoints vary by exon usage (the
    companion neoantigen work resolved *7 distinct in-frame junctions* across EWSR1 exons 7/9/10/11/12/13 →
    predominantly NR4A3 exon 3; see [`novel-modalities.md`](./novel-modalities.md) §3.3), the ASO sequence
    is **breakpoint-conditional**. The deployable artifact is therefore not one oligo but a *panel*:

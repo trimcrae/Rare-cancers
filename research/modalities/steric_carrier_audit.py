@@ -859,16 +859,37 @@ def to_markdown(a):
     return "\n".join(L) + "\n"
 
 
+def _without_generation_stamp(obj):
+    """The artifact minus its generation DATE, which is the one field that legitimately differs between two
+    correct runs.
+
+    ⚠ WHY THIS EXISTS, AND IT IS NOT CONVENIENCE. `_generated.date` is a real UTC stamp of the run that
+    produced the numbers, so a byte-for-byte `--check` would go red on the first day after generation and
+    print *"artifact does not reproduce from source"* — a message that reads as a SCIENCE failure and would
+    send whoever saw it hunting a geometry bug that does not exist. A check that cries wolf about a
+    timestamp is worse than no check, because the next real disagreement gets the same shrug. So the check
+    compares everything the run MEASURED and deliberately excludes the one field it STAMPED, and says so
+    when it passes.
+    """
+    out = json.loads(json.dumps(obj, ensure_ascii=False))
+    out.get("_generated", {}).pop("date", None)
+    return json.dumps(out, indent=1, sort_keys=False, ensure_ascii=False)
+
+
 def main(argv):
     art = build()
     txt = json.dumps(art, indent=1, sort_keys=False, ensure_ascii=False)
     md = to_markdown(art)
     if "--check" in argv and os.path.exists(OUT_JSON):
-        old = open(OUT_JSON).read()
-        if old.strip() != txt.strip():
+        with open(OUT_JSON) as fh:
+            old = json.load(fh)
+        if _without_generation_stamp(old) != _without_generation_stamp(art):
             print("[steric-carrier-audit] ⛔ artifact does not reproduce from source", file=sys.stderr)
             return 1
-        print("[steric-carrier-audit] ✅ reproduces")
+        same_day = old.get("_generated", {}).get("date") == art.get("_generated", {}).get("date")
+        print("[steric-carrier-audit] ✅ reproduces (every measured field; `_generated.date` excluded%s)"
+              % ("" if same_day else " — committed stamp %s, this run %s"
+                 % (old.get("_generated", {}).get("date"), art.get("_generated", {}).get("date"))))
         return 0
     with open(OUT_JSON, "w") as fh:
         fh.write(txt + "\n")

@@ -1,0 +1,362 @@
+{
+ "_module": "r5_cavity_attribution",
+ "_question": "For each receptor, do the two independent pose methods contact the SAME sub-cavity of R3's split site \u2014 or different ones?",
+ "_why_it_matters": "`pose-second-method.json` reads the cross-method disagreement as ORIENTATION rather than LOCATION, from small centroid separations. That reading assumes one pocket. R3 measured two, 9.853 \u00c5 apart, and BOTH lie inside the 12.0 \u00c5 search sphere both engines were given \u2014 so the assumption has to be checked, not inherited.",
+ "_does_not_license": [
+  "that either pose is correct \u2014 no experimental structure of this complex exists",
+  "that anything binds either cavity \u2014 `R4` still needs a bench",
+  "that one cavity is the site \u2014 that is `C2`'s frozen rule and this module never touches it",
+  "reading a contact count as an affinity, a score or a preference"
+ ],
+ "_contact_cutoff_A": 4.0,
+ "_contact_cutoff_source": "pose_convergence_401.contact_a() \u2192 nr4a3_warhead.handle_contacts default \u2014 the pipeline's own, defined nowhere here",
+ "_second_method_source": {
+  "artifact": "research/modalities/pose-second-method.json",
+  "provenance": {
+   "github_run_id": null,
+   "github_ref": null,
+   "github_sha": null,
+   "where": "local reproduction"
+  },
+  "tooling": {
+   "rdock_version": "Executable:\trbdock - v25.07-alpha  Library:\tlibRbt.so/25.07/alpha",
+   "openbabel_version": "Open Babel 3.1.0 -- Nov 30 2023 -- 20:44:30",
+   "RBT_ROOT": "/tmp/claude-0/-home-user-Rare-cancers/07652fd2-8a93-51c3-afc9-077b8004e641/scratchpad/rdroot/share/rDock"
+  },
+  "n_systems": 6
+ },
+ "cavity_definitions": {
+  "_read_from": "r3-site-choice-audit.json \u2192 question_A_which_cavity_is_the_site",
+  "chosen_by_the_frozen_rule": {
+   "pocket": 1,
+   "druggability": 0.259
+  },
+  "reference_lining_labels": [
+   "LEU406",
+   "THR407",
+   "THR410",
+   "PRO411",
+   "ARG412",
+   "ARG481",
+   "ILE484",
+   "ARG485",
+   "ILE531",
+   "LEU534"
+  ],
+  "cavities": [
+   {
+    "pocket": 1,
+    "lining_labels": [
+     "ASN400",
+     "VAL403",
+     "ARG404",
+     "LEU406",
+     "THR407",
+     "THR410",
+     "PRO411",
+     "ARG412",
+     "ARG481",
+     "ARG485",
+     "ILE531"
+    ],
+    "lining_resseq": [
+     400,
+     403,
+     404,
+     406,
+     407,
+     410,
+     411,
+     412,
+     481,
+     485,
+     531
+    ],
+    "druggability": 0.259,
+    "centroid_dist_to_reference_ang": 3.478,
+    "gate_a_verdict_if_this_were_the_site": "GATE_A_FAIL_BELOW_DSTAR"
+   },
+   {
+    "pocket": 2,
+    "lining_labels": [
+     "LEU406",
+     "LEU480",
+     "ARG481",
+     "ILE484",
+     "ARG485",
+     "LEU524",
+     "GLN525",
+     "ASN528",
+     "LEU529",
+     "ILE531",
+     "LEU534",
+     "SER538"
+    ],
+    "lining_resseq": [
+     406,
+     480,
+     481,
+     484,
+     485,
+     524,
+     525,
+     528,
+     529,
+     531,
+     534,
+     538
+    ],
+    "druggability": 0.667,
+    "centroid_dist_to_reference_ang": 7.562,
+    "gate_a_verdict_if_this_were_the_site": "GATE_A_PASS"
+   }
+  ],
+  "separation": {
+   "pairwise_jaccard": 0.2105,
+   "centroid_separation_ang": 9.853,
+   "n_shared_residues": 4,
+   "relationship": "OVERLAPPING_SUBPOCKETS"
+  },
+  "_faces": {
+   "1": "the helix-3 face",
+   "2": "the helix-11/12 face"
+  }
+ },
+ "discriminating_residues": {
+  "1": [
+   400,
+   403,
+   404,
+   407,
+   410,
+   411,
+   412
+  ],
+  "2": [
+   480,
+   484,
+   524,
+   525,
+   528,
+   529,
+   534,
+   538
+  ],
+  "_shared_dropped": [
+   406,
+   481,
+   485,
+   531
+  ]
+ },
+ "systems": [
+  {
+   "id": "dock/metad-opened/v2",
+   "receptor_provenance": "metadynamics-OPENED AF2 prediction",
+   "receptor": "results/nr4a3-denovo/-matrix-v2/nr4a3-opened.pdb",
+   "first_method": {
+    "engine": "smina (top pose)",
+    "contacts": [
+     406,
+     407,
+     410,
+     411,
+     412,
+     480,
+     481,
+     484,
+     485,
+     531,
+     534,
+     535,
+     538
+    ],
+    "cavity": "AMBIGUOUS",
+    "_why": "equal discriminating contact counts \u2014 not broken by a tiebreak, because a tiebreak would invent the answer",
+    "counts": {
+     "1": 4,
+     "2": 4
+    }
+   },
+   "second_method": {
+    "engine": "rDock",
+    "pose_file": "research/modalities/_pose_second_method_poses/cross_dock_metad-opened_v2.sd",
+    "contacts": [
+     403,
+     406,
+     407,
+     410,
+     411,
+     412,
+     480,
+     481,
+     484,
+     485,
+     531,
+     534,
+     535,
+     538
+    ],
+    "cavity": 1,
+    "counts": {
+     "1": 5,
+     "2": 4
+    },
+    "margin": 1
+   },
+   "contact_jaccard_between_methods": 0.9286,
+   "cross_method_rmsd_A": 3.147,
+   "cross_method_band": "PARTIAL",
+   "cross_method_centroid_distance_A": 1.685,
+   "same_cavity": null
+  },
+  {
+   "id": "dock/metad-opened/v2-statematch",
+   "receptor_provenance": "metadynamics-OPENED AF2 prediction",
+   "receptor": "results/nr4a3-denovo/-matrix-v2-statematch/nr4a3-opened.pdb",
+   "first_method": {
+    "engine": "smina (top pose)",
+    "contacts": [
+     402,
+     406,
+     451,
+     477,
+     480,
+     481,
+     484,
+     485,
+     535,
+     538
+    ],
+    "cavity": 2,
+    "counts": {
+     "1": 0,
+     "2": 3
+    },
+    "margin": 3
+   },
+   "second_method": {
+    "engine": "rDock",
+    "pose_file": "research/modalities/_pose_second_method_poses/cross_dock_metad-opened_v2-statematch.sd",
+    "contacts": [
+     406,
+     410,
+     451,
+     481,
+     484,
+     485,
+     495,
+     496,
+     535,
+     538
+    ],
+    "cavity": 2,
+    "counts": {
+     "1": 1,
+     "2": 2
+    },
+    "margin": 1
+   },
+   "contact_jaccard_between_methods": 0.5385,
+   "cross_method_rmsd_A": 6.501,
+   "cross_method_band": "NOT RECOVERED",
+   "cross_method_centroid_distance_A": 1.37,
+   "same_cavity": true
+  }
+ ],
+ "refusals": [
+  {
+   "id": "dock/8XTT-model2",
+   "stage": "numbering",
+   "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model2_nr4a3.pdb",
+   "evidence": "8XTT alignment failed: ModuleNotFoundError: No module named 'Bio'",
+   "kind": "smina dock, top pose (nr4a3_warhead.dock_into)"
+  },
+  {
+   "id": "dock/8XTT-model8",
+   "stage": "numbering",
+   "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model8_nr4a3.pdb",
+   "evidence": "8XTT alignment failed: ModuleNotFoundError: No module named 'Bio'",
+   "kind": "smina dock, top pose (nr4a3_warhead.dock_into)"
+  },
+  {
+   "id": "dock/8XTT-model20",
+   "stage": "numbering",
+   "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model20_nr4a3.pdb",
+   "evidence": "8XTT alignment failed: ModuleNotFoundError: No module named 'Bio'",
+   "kind": "smina dock, top pose (nr4a3_warhead.dock_into)"
+  },
+  {
+   "id": "dock/8XTT-model6",
+   "stage": "numbering",
+   "path": "/home/user/Rare-cancers/research/modalities/_pose_convergence_inputs/8xtt_model6_nr4a3.pdb",
+   "evidence": "8XTT alignment failed: ModuleNotFoundError: No module named 'Bio'",
+   "kind": "smina dock, top pose (nr4a3_warhead.dock_into)"
+  }
+ ],
+ "rollup": {
+  "n_systems": 2,
+  "n_gradeable": 1,
+  "n_same_cavity": 1,
+  "n_different_cavity": 0,
+  "first_method_cavity_calls": {
+   "AMBIGUOUS": 1,
+   "2": 1
+  },
+  "second_method_cavity_calls": {
+   "1": 1,
+   "2": 1
+  },
+  "cavity_chosen_by_the_frozen_rule": 1,
+  "_ungradeable_is_not_agreement": "a system whose call is AMBIGUOUS or UNREAD is excluded from the denominator, never scored as agreement",
+  "_reads": "The two engines are in the SAME sub-cavity on 1 of 1 gradeable system(s). The cross-method disagreement recorded in `pose-second-method.json` is therefore about ORIENTATION WITHIN one cavity, not about which cavity \u2014 which is what that artifact's centroid reading assumed, now checked rather than inherited. \u26d4 It does not make either pose correct."
+ },
+ "map_edits_required": {
+  "_reads": "\u26d4 DESCRIBED, NEVER APPLIED. Every `current_text` was read from the live map at run time; an entry whose `status` is not `OK` could not be targeted and must be applied by hand at the named section.",
+  "_map": "research/manuscripts/nr4a3-program-map.md",
+  "entries": [
+   {
+    "section": "\u00a75 row R5",
+    "anchor": "| **R5** | **The binding pose is right.** Node `PS`",
+    "kind": "amend",
+    "status": "OK",
+    "why": "The row already records that the two methods DISAGREE. What it could not say is WHICH cavity each was in \u2014 and R3 had measured the site split across two, both inside the search sphere, which is what makes 'orientation, not location' an assumption rather than a reading.",
+    "artifact": "research/modalities/r5-cross-method-cavity-attribution.json \u2192 rollup",
+    "current_text": "| **R5** | **The binding pose is right.** Node `PS` | \u25cb future (re-run) | \u2014 | `V3` \u2014 **INCONCLUSIVE**, and \u26d4 **WORSE ON BOTH HALVES AS OF 2026-08-03** \u00b7 `V22` \u2014 the scoring-independent second method, and it **DISAGREES** (see the blocker cell) | **unresolved, and this row understated it.** The docking works; the pipeline's **site selection** missed on 6 of 6 pairs, so the pose's weight rests on the site being right and `V3` could not check that. \u26d4 **Two results landed 2026-08-03 and both go against the row.** *(a)* Re-asked **in regime** \u2014 on the three proteins the pipeline actually transfers Pocket-5 onto \u2014 the site question is answered **0 of 14 gradeable pairs, by TWO independent transfer routes** (sequence and Pocket-5 structure), while an fpocket-chosen box finds it in 11; so the miss is the **transfer**, not the docking, and it is no longer an n = 6 observation ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json) \u2192 `site_panel_in_regime`; it is a **site supplement and changes no pre-registered verdict**). *(b)* `denovo_401`'s pose is **not a singular object**: 6 poses, 15 pairs, pocket-superposed median RMSD on a molecule whose end-for-end flip costs less ([`pose-convergence-401.json`](../modalities/pose-convergence-401.json)), and `cross_method_evidence` is **NONE** \u2014 every pose this program holds is the same method's top pose. \u21d2 **every pose-conditional claim must be stated as marginalised over poses, not as \"the predicted pose\"** \u2014 and stated against `C14`, since \"agrees\" here means the 2.0 \u00c5 line and **1 of 15** pairs meets it | \u2b51 **THE BLOCKER IS NOW NAMED DIFFERENTLY, AND THAT IS THE 2026-08-03 CHANGE.** It was *\"no second opinion exists\"*; a second opinion now exists (`V22`, rDock \u2014 disjoint scoring, disjoint search, disjoint typing) and it **disagrees**: **0 of 6** system(s) inside `C14`'s **RECOVERED** band (\u2264 2.00 \u00c5), 1 **PARTIAL**, 5 **NOT RECOVERED**, median **6.696 \u00c5**, with the disagreement carried by ORIENTATION (median centroid separation **2.071 \u00c5**) rather than by location. \u26d4 So `R5` is still \u2715 unresolved, but for a measured reason. What would move it is listed, with costs, in [`pose-second-method.json`](../modalities/pose-second-method.json) \u2192 `verdict.what_would_resolve_R5`; the cheapest item on it is **$0** and is a SOURCING question (a known answer in regime whose site actually rearranges), not a compute one.",
+    "proposed_text": "| **R5** | **The binding pose is right.** Node `PS` | \u25cb future (re-run) | \u2014 | `V3` \u2014 **INCONCLUSIVE**, and \u26d4 **WORSE ON BOTH HALVES AS OF 2026-08-03** \u00b7 `V22` \u2014 the scoring-independent second method, and it **DISAGREES** (see the blocker cell) | **unresolved, and this row understated it.** The docking works; the pipeline's **site selection** missed on 6 of 6 pairs, so the pose's weight rests on the site being right and `V3` could not check that. \u26d4 **Two results landed 2026-08-03 and both go against the row.** *(a)* Re-asked **in regime** \u2014 on the three proteins the pipeline actually transfers Pocket-5 onto \u2014 the site question is answered **0 of 14 gradeable pairs, by TWO independent transfer routes** (sequence and Pocket-5 structure), while an fpocket-chosen box finds it in 11; so the miss is the **transfer**, not the docking, and it is no longer an n = 6 observation ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json) \u2192 `site_panel_in_regime`; it is a **site supplement and changes no pre-registered verdict**). *(b)* `denovo_401`'s pose is **not a singular object**: 6 poses, 15 pairs, pocket-superposed median RMSD on a molecule whose end-for-end flip costs less ([`pose-convergence-401.json`](../modalities/pose-convergence-401.json)), and `cross_method_evidence` is **NONE** \u2014 every pose this program holds is the same method's top pose. \u21d2 **every pose-conditional claim must be stated as marginalised over poses, not as \"the predicted pose\"** \u2014 and stated against `C14`, since \"agrees\" here means the 2.0 \u00c5 line and **1 of 15** pairs meets it | \u2b51 **THE BLOCKER IS NOW NAMED DIFFERENTLY, AND THAT IS THE 2026-08-03 CHANGE.** It was *\"no second opinion exists\"*; a second opinion now exists (`V22`, rDock \u2014 disjoint scoring, disjoint search, disjoint typing) and it **disagrees**: **0 of 6** system(s) inside `C14`'s **RECOVERED** band (\u2264 2.00 \u00c5), 1 **PARTIAL**, 5 **NOT RECOVERED**, median **6.696 \u00c5**, with the disagreement carried by ORIENTATION (median centroid separation **2.071 \u00c5**) rather than by location. \u26d4 So `R5` is still \u2715 unresolved, but for a measured reason. What would move it is listed, with costs, in [`pose-second-method.json`](../modalities/pose-second-method.json) \u2192 `verdict.what_would_resolve_R5`; the cheapest item on it is **$0** and is a SOURCING question (a known answer in regime whose site actually rearranges), not a compute one.\n\u2b51 **AND THE CAVITY THE TWO METHODS CHOSE IS NOW MEASURED, WHICH THE ORIENTATION READING ASSUMED (2026-08-06, $0).** R3 measured this site SPLIT across two real cavities 9.853 \u00c5 apart, and BOTH lie inside the 12.0 \u00c5 sphere both engines search \u2014 so a small centroid separation could not by itself establish a shared location. Measured on discriminating lining contacts (shared residues dropped): **1 of 1 gradeable system(s) same cavity, 0 different**, and the FIRST method's own calls across the census are {\"2\": 1, \"AMBIGUOUS\": 1} against a frozen-rule site of pocket 1 \u2014 [`r5-cross-method-cavity-attribution.json`](../modalities/r5-cross-method-cavity-attribution.json). \u26d4 A cavity call is a geometry statement: it makes no pose correct and nothing binds either cavity."
+   },
+   {
+    "section": "\u00a710.1 row 4",
+    "anchor": "| **4** | **Re-run the pose known-answer test with SITE and DOCKING separated**",
+    "kind": "amend",
+    "status": "OK",
+    "why": "Same finding, on the row that owns the ordering. It does not change the row's rank \u2014 `R5` is still the biggest unblocker \u2014 but it changes what a reader of this row learns about the disagreement.",
+    "artifact": "research/modalities/r5-cross-method-cavity-attribution.json \u2192 rollup",
+    "current_text": "| **4** | **Re-run the pose known-answer test with SITE and DOCKING separated** \u2014 \u26d4 **and, from the other side, run a SECOND INDEPENDENT POSE METHOD** | `V3` \u2192 `R5` | \u25cb (the test \u2713 ran, INCONCLUSIVE) \u2014 \u26d4 **and two $0 results on 2026-08-03 made the row worse** | \u2014 | cheap CPU/CI | `R5`, and every anchor Route B's geometry depends on. The docking is fine; the pipeline's **site selection** missed on 6 of 6 pairs, so the primary arm measured the site. \u26d4 **The SITE half is now answered in regime and the answer is 0 of 14** \u2014 over every gradeable apo/holo pair on the three proteins the pipeline actually transfers Pocket-5 onto, the **sequence** transfer and the **Pocket-5 structure** transfer each score zero while an fpocket-chosen box finds the ligand in **11**. Two independent routes, both zero ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json); a **site supplement** \u2014 it emits no RMSD and changes no pre-registered verdict). \u26d4 **And the POSE half is worse than unresolved: it is not a singular object.** Six committed poses, 15 pairs, a pocket-superposed median RMSD larger than the cost of flipping the molecule end-for-end, **1 of 15** pairs within 2 \u00c5, a docking-score spread too narrow to have chosen among them, and **7 pairs whose receptors superpose within 1 \u00c5 still spanning the full range**. \u26d4 `cross_method_evidence` is **NONE** \u2014 every pose this program holds is the same method's top pose, so the disagreement cannot currently be attributed to anything ([`pose-convergence-401.json`](../modalities/pose-convergence-401.json)). \u21d2 **this row now unblocks more than any other on the list**, and until it lands every pose-conditional claim must be stated as **marginalised over poses** | \u2705 **AND THE SECOND METHOD HAS NOW RUN \u2014 2026-08-03, $0, free CPU. `cross_method_evidence` is no longer NONE.** The engine is **rDock** (`rbcavity` + `rbdock`, stock three-stage protocol), chosen because it is independent WHERE IT COUNTS: it shares with smina no scoring term, no search algorithm, no atom typing and no source code \u2014 a genetic-algorithm \u2192 Monte-Carlo \u2192 Simplex search under a directional-polar + weighted-SASA-desolvation function, against Vina's Monte-Carlo/BFGS search under gauss/repulsion/hydrophobic terms. \u26d4 **It is NOT the `V14` mistake repeated:** that instrument was orthogonal in its SAMPLING and shared the whole `C1`\u2013`C5` detector chain, so a shared item moved both numbers together. Here the artifact states, PER ARM, which `C*` items are shared \u2014 `C14` and `C15` always (they are the yardstick both are graded by, not an instrument), `C5` only in the site-matched arm, `C4` only in the fpocket arm, and **nothing at all** in the arm where rDock finds its own cavity. \u26d4 **THE ANSWER IS DISAGREEMENT, AND IT IS INFORMATIVE.** On the same six systems, in each receptor's own frame with no superposition: **0 of 6** system(s) inside `C14`'s **RECOVERED** band (\u2264 2.00 \u00c5), 1 **PARTIAL**, 5 **NOT RECOVERED**, over a 3.147\u20139.816 \u00c5 range with median **6.696 \u00c5**. \u2b51 **The disagreement is ORIENTATION, NOT LOCATION** \u2014 median centroid separation **2.071 \u00c5** against a median RMSD that is \u2248 this molecule's own measured cost of being turned end-for-end in place (**6.84 \u00c5**, molecule length 10.40 \u00c5), and median internal-conformer RMSD **1.394 \u00c5**, so both engines find the same shape and the same pocket and put it in differently. \u2b51 **AND THE SECOND METHOD DOES NOT CONVERGE ACROSS RECEPTOR CONFORMERS EITHER** \u2014 0 of 15 cross-conformer pairs inside 2.00 \u00c5, median **7.385 \u00c5** (4.453\u201312.845), measured with the same Pocket-5 C\u03b1 superposition the first method's spread uses. \u21d2 **the non-convergence is a property of the SYSTEM, not of one scoring function**, which is exactly the attribution `pose-convergence-401.json` could not make. \u26a0 **The known-answer half did not run in this pass** \u2014 the panel arm is `MODE=panel` of the same module and needs the RCSB fetch, so it is recorded UNRUN rather than absent.  \u26d4 **WHAT THIS LICENSES: nothing about correctness.** Two methods with disjoint scoring disagreeing means the pose is not method-independent; two agreeing would have meant only that, and a convergent wrong answer is still wrong. One home for every number: [`pose-second-method.json`](../modalities/pose-second-method.json); the poses themselves are committed under `_pose_second_method_poses/`. \u21d2 **`R5` is NOT resolved, and the reason has changed again: it is no longer *\"there is no second opinion\"* but *\"the second opinion disagrees, in the direction of orientation\"*.**",
+    "proposed_text": "| **4** | **Re-run the pose known-answer test with SITE and DOCKING separated** \u2014 \u26d4 **and, from the other side, run a SECOND INDEPENDENT POSE METHOD** | `V3` \u2192 `R5` | \u25cb (the test \u2713 ran, INCONCLUSIVE) \u2014 \u26d4 **and two $0 results on 2026-08-03 made the row worse** | \u2014 | cheap CPU/CI | `R5`, and every anchor Route B's geometry depends on. The docking is fine; the pipeline's **site selection** missed on 6 of 6 pairs, so the primary arm measured the site. \u26d4 **The SITE half is now answered in regime and the answer is 0 of 14** \u2014 over every gradeable apo/holo pair on the three proteins the pipeline actually transfers Pocket-5 onto, the **sequence** transfer and the **Pocket-5 structure** transfer each score zero while an fpocket-chosen box finds the ligand in **11**. Two independent routes, both zero ([`apo-pose-site-in-regime.json`](../modalities/apo-pose-site-in-regime.json); a **site supplement** \u2014 it emits no RMSD and changes no pre-registered verdict). \u26d4 **And the POSE half is worse than unresolved: it is not a singular object.** Six committed poses, 15 pairs, a pocket-superposed median RMSD larger than the cost of flipping the molecule end-for-end, **1 of 15** pairs within 2 \u00c5, a docking-score spread too narrow to have chosen among them, and **7 pairs whose receptors superpose within 1 \u00c5 still spanning the full range**. \u26d4 `cross_method_evidence` is **NONE** \u2014 every pose this program holds is the same method's top pose, so the disagreement cannot currently be attributed to anything ([`pose-convergence-401.json`](../modalities/pose-convergence-401.json)). \u21d2 **this row now unblocks more than any other on the list**, and until it lands every pose-conditional claim must be stated as **marginalised over poses** | \u2705 **AND THE SECOND METHOD HAS NOW RUN \u2014 2026-08-03, $0, free CPU. `cross_method_evidence` is no longer NONE.** The engine is **rDock** (`rbcavity` + `rbdock`, stock three-stage protocol), chosen because it is independent WHERE IT COUNTS: it shares with smina no scoring term, no search algorithm, no atom typing and no source code \u2014 a genetic-algorithm \u2192 Monte-Carlo \u2192 Simplex search under a directional-polar + weighted-SASA-desolvation function, against Vina's Monte-Carlo/BFGS search under gauss/repulsion/hydrophobic terms. \u26d4 **It is NOT the `V14` mistake repeated:** that instrument was orthogonal in its SAMPLING and shared the whole `C1`\u2013`C5` detector chain, so a shared item moved both numbers together. Here the artifact states, PER ARM, which `C*` items are shared \u2014 `C14` and `C15` always (they are the yardstick both are graded by, not an instrument), `C5` only in the site-matched arm, `C4` only in the fpocket arm, and **nothing at all** in the arm where rDock finds its own cavity. \u26d4 **THE ANSWER IS DISAGREEMENT, AND IT IS INFORMATIVE.** On the same six systems, in each receptor's own frame with no superposition: **0 of 6** system(s) inside `C14`'s **RECOVERED** band (\u2264 2.00 \u00c5), 1 **PARTIAL**, 5 **NOT RECOVERED**, over a 3.147\u20139.816 \u00c5 range with median **6.696 \u00c5**. \u2b51 **The disagreement is ORIENTATION, NOT LOCATION** \u2014 median centroid separation **2.071 \u00c5** against a median RMSD that is \u2248 this molecule's own measured cost of being turned end-for-end in place (**6.84 \u00c5**, molecule length 10.40 \u00c5), and median internal-conformer RMSD **1.394 \u00c5**, so both engines find the same shape and the same pocket and put it in differently. \u2b51 **AND THE SECOND METHOD DOES NOT CONVERGE ACROSS RECEPTOR CONFORMERS EITHER** \u2014 0 of 15 cross-conformer pairs inside 2.00 \u00c5, median **7.385 \u00c5** (4.453\u201312.845), measured with the same Pocket-5 C\u03b1 superposition the first method's spread uses. \u21d2 **the non-convergence is a property of the SYSTEM, not of one scoring function**, which is exactly the attribution `pose-convergence-401.json` could not make. \u26a0 **The known-answer half did not run in this pass** \u2014 the panel arm is `MODE=panel` of the same module and needs the RCSB fetch, so it is recorded UNRUN rather than absent.  \u26d4 **WHAT THIS LICENSES: nothing about correctness.** Two methods with disjoint scoring disagreeing means the pose is not method-independent; two agreeing would have meant only that, and a convergent wrong answer is still wrong. One home for every number: [`pose-second-method.json`](../modalities/pose-second-method.json); the poses themselves are committed under `_pose_second_method_poses/`. \u21d2 **`R5` is NOT resolved, and the reason has changed again: it is no longer *\"there is no second opinion\"* but *\"the second opinion disagrees, in the direction of orientation\"*.**\n\u2b51 **AND THE CAVITY THE TWO METHODS CHOSE IS NOW MEASURED, WHICH THE ORIENTATION READING ASSUMED (2026-08-06, $0).** R3 measured this site SPLIT across two real cavities 9.853 \u00c5 apart, and BOTH lie inside the 12.0 \u00c5 sphere both engines search \u2014 so a small centroid separation could not by itself establish a shared location. Measured on discriminating lining contacts (shared residues dropped): **1 of 1 gradeable system(s) same cavity, 0 different**, and the FIRST method's own calls across the census are {\"2\": 1, \"AMBIGUOUS\": 1} against a frozen-rule site of pocket 1 \u2014 [`r5-cross-method-cavity-attribution.json`](../modalities/r5-cross-method-cavity-attribution.json). \u26d4 A cavity call is a geometry statement: it makes no pose correct and nothing binds either cavity."
+   },
+   {
+    "section": "\u00a73.1 row V22",
+    "anchor": "| **V22** | **The scoring-independent second pose method**",
+    "kind": "amend",
+    "status": "OK",
+    "why": "\u26d4 PROVENANCE, NOT A NEW RESULT. This row's numbers (median 6.696 \u00c5 over 6 systems, bands {\"NOT RECOVERED\": 5, \"PARTIAL\": 1, \"RECOVERED\": 0}) were quotable from prose only \u2014 the artifact they name did not carry them. That is precisely the failure CLAUDE.md \u00a77 records as branch drift, arriving through a different door.",
+    "artifact": "research/modalities/pose-second-method.json \u2192 part_a.cross_method_same_frame",
+    "current_text": "| **V22** | **The scoring-independent second pose method** (`pose_second_method` \u2014 rDock `rbcavity`+`rbdock`, stock three-stage protocol) \u2014 \u2b51 **NEW ROW 2026-08-03: `V3` had no independent comparator at all, which is why its INCONCLUSIVE could not be attributed** | \u26d4 **none of its own on this system** \u2014 it is run BESIDE `V3` on the same six receptors and on `V3`'s own known-answer panel, at the same boxes and graded by the same `score_pose`, so the comparison IS the test | **0 of 6** system(s) inside `C14`'s **RECOVERED** band (\u2264 2.00 \u00c5), 1 **PARTIAL**, 5 **NOT RECOVERED**; median inter-method RMSD **6.696 \u00c5** at a median centroid separation of only **2.071 \u00c5** | \u26a0 **agreement would not have meant correctness and disagreement does not mean either method is wrong.** \u26d4 It shares `C14`/`C15` with `V3` BY DESIGN (the yardstick, not the instrument) and `C5` in its site-matched arm; the arm that shares no site configuration is `receptor_wide_own_cavity`. It is a docking search like `V3`, so a shared receptor-conformer error survives both | \u2713 **ran 2026-08-03 \u2014 the two methods DISAGREE** | `R5` |",
+    "proposed_text": "| **V22** | **The scoring-independent second pose method** (`pose_second_method` \u2014 rDock `rbcavity`+`rbdock`, stock three-stage protocol) \u2014 \u2b51 **NEW ROW 2026-08-03: `V3` had no independent comparator at all, which is why its INCONCLUSIVE could not be attributed** | \u26d4 **none of its own on this system** \u2014 it is run BESIDE `V3` on the same six receptors and on `V3`'s own known-answer panel, at the same boxes and graded by the same `score_pose`, so the comparison IS the test | **0 of 6** system(s) inside `C14`'s **RECOVERED** band (\u2264 2.00 \u00c5), 1 **PARTIAL**, 5 **NOT RECOVERED**; median inter-method RMSD **6.696 \u00c5** at a median centroid separation of only **2.071 \u00c5** | \u26a0 **agreement would not have meant correctness and disagreement does not mean either method is wrong.** \u26d4 It shares `C14`/`C15` with `V3` BY DESIGN (the yardstick, not the instrument) and `C5` in its site-matched arm; the arm that shares no site configuration is `receptor_wide_own_cavity`. It is a docking search like `V3`, so a shared receptor-conformer error survives both | \u2713 **ran 2026-08-03 \u2014 the two methods DISAGREE** | `R5` |\n\u26a0 **THE ARTIFACT THIS ROW POINTS AT WAS EMPTY WHEN THIS WAS WRITTEN, AND THE ROW'S NUMBERS HAD NO HOME (measured 2026-08-06).** `pose-second-method.json` on `main` carried `outcome: UNRUN`, zero systems and no `verdict.what_would_resolve_R5` \u2014 the field this row links to. Root cause: the workflow installed an UNPINNED `rdock`, bioconda satisfied it with `2013.1`, whose protocol files live at `share/rdock-2013.1-1/` and not the `share/rDock/` the module probes, so `RBT_ROOT` resolved to `None` and PART A returned UNRUN \u2014 and an UNRUN half was written over a measured one. \u2705 Both closed: the version is pinned in `pose-recovery-check.yml`, `pose_second_method._carry_forward` now refuses to let an unrun half overwrite a measured one, and the run was reproduced from the committed inputs (**pose-for-pose coordinate-identical** to the 2026-08-03 poses under `_pose_second_method_poses/`), so the numbers in this row are re-derived rather than recalled."
+   }
+  ],
+  "verify": {
+   "n_entries": 3,
+   "n_applicable": 3,
+   "n_unlocatable": 0,
+   "n_stale": 0,
+   "unlocatable_anchors": [],
+   "stale_anchors": [],
+   "verified_against": "research/manuscripts/nr4a3-program-map.md",
+   "_method": "each entry's current_text re-counted in the live map; exactly one occurrence = applicable. This is the `grep -F` check, run at generation time.",
+   "status": "ALL APPLICABLE"
+  }
+ },
+ "_status": "ok"
+}

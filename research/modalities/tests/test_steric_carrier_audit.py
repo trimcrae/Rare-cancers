@@ -157,3 +157,19 @@ def test_roadmap_edits_are_described_not_applied(art):
 def test_the_design_targets_are_read_from_the_rule_not_hard_coded():
     src = open(A.__file__).read()
     assert 'rule["design_targets"]' in src, "the two vectors must come from the rule's artifact"
+
+
+# ── 4 · the reproducibility check must not cry wolf about a timestamp, nor go quiet about a number ───────
+def test_the_check_ignores_the_generation_date_and_nothing_else(art):
+    """⚠ `_generated.date` is a real UTC stamp, so a byte-for-byte `--check` would go red the day after
+    generation and print 'artifact does not reproduce from source' — a message that reads as a science
+    failure. Verified in BOTH directions, because a check that ignores too much is the worse bug."""
+    import copy
+    other_day = copy.deepcopy(art)
+    other_day["_generated"]["date"] = "1999-12-31"
+    assert A._without_generation_stamp(other_day) == A._without_generation_stamp(art)
+
+    changed = copy.deepcopy(art)
+    changed["verdict"]["answer_for_the_committed_POSE_sets"]["n_reaching_the_I484_lobe"] = 999
+    assert A._without_generation_stamp(changed) != A._without_generation_stamp(art), (
+        "a changed measurement slipped past the reproducibility check")
