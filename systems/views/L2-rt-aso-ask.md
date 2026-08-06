@@ -94,6 +94,14 @@ The proposal is written and the cost to ask is zero. An ask that is never made h
 - **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 - **TECH-CLOUD-WET-LAB** — A remote robotic or cloud wet lab, rentable per experiment by an unaffiliated researcher, at a price and assay scope that covers E *(expected 2029, basis `extrapolated`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- Delivery of an oligonucleotide to a non-hepatic solid tumour has no validated solution, and this is not solvable in silico today.
+- Predicted specificity rests in part on a conservative heuristic rather than a calibrated cleavage-activity model.
+- The vector-delivered sub-routes carry a second, distinct delivery problem that must not be conflated with the oligonucleotide one.
+
 ## Closure
 
 `authorization` — Not refuted — waiting on a person with a bench.
@@ -103,5 +111,11 @@ The proposal is written and the cost to ask is zero. An ask that is never made h
 Send the ask alongside the preprint. The proposal is ready; the missing input is a person.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 [← ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · [← L0](L0-ecosystem.md)

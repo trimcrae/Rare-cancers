@@ -53,8 +53,8 @@ Each axis claim must be cited (or flagged `needs-verification`).
 - **Include:** drugs that already exist (approved anywhere, or investigational with
   human safety data) whose mechanism plausibly engages an EMC vulnerability **and
   that have not been reported in EMC** (`notTriedInEmc: true`).
-- **Exclude:** current EMC standard/known-active agents (they belong in the patient
-  page's `treatments`/`emergingTreatments`, not here); pure de-novo molecules with
+- **Exclude:** current EMC standard/known-active agents (they belong in the clinical
+  registry's `treatments`/`emergingTreatments`, not here); pure de-novo molecules with
   no existing drug; anything requiring fabricated mechanism.
 
 ## 3. Evidence tiers (how speculative)
@@ -110,12 +110,29 @@ if it is general/textbook knowledge not yet pinned to a fetched source. A candid
 may be **catalogued** with unverified claims, but they are tracked and must be
 resolved (or removed) before that candidate appears in any manuscript.
 
-## 5. The graduation rule (firewall to the patient page)
+## 5. The graduation rule (firewall to the clinical registry)
 
-A candidate may move to the patient-facing `emergingTreatments` **only** when it
-reaches **T3 (real EMC clinical evidence)** *and* is reviewed by a clinician.
-T0–T2 candidates stay in `research/` and never appear as patient-facing options.
-This is the bright line that keeps hypotheses from being mistaken for treatments.
+A candidate may move into the `emergingTreatments` block of
+[`research/data/emc-clinical-registry.json`](../data/emc-clinical-registry.json)
+**only** when it reaches **T3 (real EMC clinical evidence)** *and* is reviewed by
+a clinician. T0–T2 candidates stay in `research/hypotheses/` and never enter the
+registry. This is the bright line that keeps hypotheses from being mistaken for
+treatments.
+
+⚠ **The destination changed on 2026-08-05 and the rule did not.** *Superseded,
+retained: "A candidate may move to the patient-facing `emergingTreatments` … T0–T2
+candidates stay in `research/` and never appear as patient-facing options."* The
+patient-facing site was retired and deleted; `emergingTreatments` was never site
+tooling and survives as a block of the clinical registry, still read by
+[`enumerate-drugs.mjs`](./enumerate-drugs.mjs) and still validated by
+`scripts/validate-registry.mjs` (gate 4 of preflight). So the graduation target is
+a **data file**, not a page.
+
+⛔ **Losing the page did not weaken this rule — it changed who the reader is.** The
+firewall was written against a frightened patient mistaking a mechanism for an
+option. The registry is now cited by the manuscript meta-analysis, so an
+ungraduated candidate leaking into it would be laundered into a *publication*
+instead. That is a slower failure and a harder one to retract.
 
 ## 6. What a good candidate entry contains
 

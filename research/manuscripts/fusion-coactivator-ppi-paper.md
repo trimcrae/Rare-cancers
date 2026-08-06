@@ -1,6 +1,6 @@
 ---
 id: DOC-FUSION-COACTIVATOR-PPI-PAPER
-title: Blocking the fusion-emergent coactivator interactions of EWSR1::NR4A3: a fusion-selective protein-protein-interaction st
+title: "Blocking the fusion-emergent coactivator interactions of EWSR1::NR4A3: a fusion-selective protein-protein-interaction st"
 level: L3
 kind: manuscript
 status: live

@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-DRUGGABILITY-PREREG
-title: Pre-registration: NR4A3 orthosteric-pocket druggability (falsification criteria)
+title: "Pre-registration: NR4A3 orthosteric-pocket druggability (falsification criteria)"
 level: L4
 kind: prereg
 status: immutable

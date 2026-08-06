@@ -82,10 +82,33 @@ It has no blockers, it does not get cheaper or easier by waiting, and it is the 
 | Cost trend | flat |
 | Automation outlook | Drafting is largely automatable; the judgement about what a failure means is not. |
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-DISSEMINATION](L1-st-dissemination.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- A methods paper documents what was done and what failed. It makes no claim about whether any route would work.
+- The failure record's value depends on it being complete and honest, including the results that went against the program's own thesis.
+
 ## Best next action
 
 Write it. Nothing blocks it, and it is the only row on the board that is true regardless of how every other row resolves.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+| L4 instrument | cited as | known-answer control |
+|---|---|---|
+| [V4](registers/instruments.md) — Selectivity free energy (ABFE) — the selectivity known-answer test | **disclosed failing** | `none` |
+| [V5](registers/instruments.md) — Alchemical ternary cooperativity (valB_mini ΔΔG_coop) | **disclosed failing** | `fails` |
+| [V7](registers/instruments.md) — ABFE engine, absolute | **disclosed failing** | `fails` |
+| [V11](registers/instruments.md) — Interface-stability endpoint (E1) | **disclosed failing** | `fails` |
+| [V12](registers/instruments.md) — Sequence-only co-folding (Boltz-2 ternary) | **disclosed failing** | `fails` |
+| [V13](registers/instruments.md) — Cryptic-opening free-energy profile (metadynamics F(Rg)) | **disclosed failing** | `fails` |
+| [V17](registers/instruments.md) — The exposure criterion EXPOSED_RSA = 0.25 | **disclosed failing** | `fails` |
+| [V20](registers/instruments.md) — Single-snapshot MM-GBSA margin > 0 as a selectivity verdict | **disclosed failing** | `fails` |
+| [V21](registers/instruments.md) — The anti-target docking panel (antitarget_dock) | **disclosed failing** | `fails` |
 
 [← ST-DISSEMINATION](L1-st-dissemination.md) · [← L0](L0-ecosystem.md)

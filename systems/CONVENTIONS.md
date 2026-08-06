@@ -274,8 +274,8 @@ computed.
 ---
 id: DOC-<SLUG>
 title: <one line>
-level: L0|L1|L2|L3|L4|L5|—
-kind: architecture|convention|policy|manuscript|prereg|memo|register|runbook|generated|historical
+level: L0|L1|L2|L3|L4|L5|cross-cutting|—
+kind: architecture|convention|policy|manuscript|prereg|memo|register|runbook|generated|historical|index|incident
 status: live|generated|historical|superseded|immutable
 canonical_for: [<concepts this file owns; empty if it owns none>]
 purpose: <what question this document answers>
@@ -291,6 +291,22 @@ related: [<DOC- ids>]
 
 `canonical_for` is the load-bearing field: it is how a reader finds the owner of a fact, and how the checker
 detects two documents claiming the same concept.
+
+⛔ **THIS TEMPLATE IS NOT THE CONTRACT — [`schema/document.schema.json`](schema/document.schema.json) IS,
+and `[D12]` fails the build if the two disagree.** *Superseded, retained: the template above listed ten
+`kind` values and omitted `index` — which nine live documents already used — and omitted `cross-cutting`
+from `level`, which nine more used. Nothing caught it because until 2026-08-06 **nothing validated any
+document against the schema at all**: it was loaded, checked to be well-formed, and applied to nothing,
+while `check_documents` enforced a shorter hardcoded key list that never looked at `level` or `kind`.
+An author following the canonical convention document would have picked a wrong value for a common case.*
+Frontmatter is now parsed with a **real YAML parser** and validated against the schema (`[D11]`) — which
+on its first run found 24 files whose frontmatter was not valid YAML, all of them reading as fine to the
+line splitter that had been the only thing to ever look at them.
+
+**Two fields have no place in the template because you should never type them:** `_backfilled: "true"`
+means this frontmatter was written by [`backfill_frontmatter.py`](backfill_frontmatter.py) from the
+document's banner and path rather than by someone who read it, and it travels with
+`last_verified: unverified`. Clear both together, and only after actually reading the document.
 
 ### 6.0 · ⛔ Ticking a plan item happens in JSON, not in Markdown
 

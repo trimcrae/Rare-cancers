@@ -1,6 +1,7 @@
 ---
 id: DOC-AGENTS
 title: How to maintain this repository
+level: —
 kind: runbook
 status: live
 canonical_for: [medical integrity rules, literature ingestion, figure standards, human-in-the-loop rules]

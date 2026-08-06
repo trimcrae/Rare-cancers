@@ -1,6 +1,6 @@
 ---
 id: DOC-FUSION-JUNCTION-ASO-PAPER
-title: A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity 
+title: "A fusion-selective antisense oligonucleotide against the EWSR1::NR4A3 breakpoint junction: RNA-level fusion-exclusivity"
 level: L3
 kind: manuscript
 status: live

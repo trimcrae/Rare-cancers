@@ -1,6 +1,6 @@
 ---
 id: DOC-EMC-SURFACE-TARGET-LANDSCAPE
-title: In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma
+title: "In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma"
 level: L3
 kind: manuscript
 status: live

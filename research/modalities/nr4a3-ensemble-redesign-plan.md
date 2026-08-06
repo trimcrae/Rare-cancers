@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-ENSEMBLE-REDESIGN-PLAN
-title: NR4A3 selective degrader — ensemble-robust redesign: live implementation ledger
+title: "NR4A3 selective degrader — ensemble-robust redesign: live implementation ledger"
 level: L4
 kind: memo
 status: live

@@ -1,6 +1,7 @@
 ---
 id: DOC-README
 title: EMC treatment-advancement research platform
+level: —
 kind: index
 status: live
 canonical_for: []
@@ -28,6 +29,7 @@ last_verified: 2026-08-05
 | Why the repository is shaped this way | [`systems/ARCHITECTURE.md`](./systems/ARCHITECTURE.md) |
 | What an identifier, glyph or status means | [`systems/CONVENTIONS.md`](./systems/CONVENTIONS.md) |
 | Why work is stalled, and what would unstall it | [blocker taxonomy](./systems/taxonomy/blockers.md) · [technology taxonomy](./systems/taxonomy/technology.md) |
+| **What any of it actually rests on** | [`systems/views/L5-evidence-base.md`](./systems/views/L5-evidence-base.md) — every object, citation, artifact and pinned claim, each showing what rests on it |
 | The degrader program — the #1 deliverable | [`research/manuscripts/nr4a3-program-map.md`](./research/manuscripts/nr4a3-program-map.md): requirements, instruments, gates, the ordered plan, the spend ladder |
 | The broader route portfolio as a decision record | [`research/manuscripts/emc-treatment-strategy.md`](./research/manuscripts/emc-treatment-strategy.md) |
 | Standing rules for agents working here | [`CLAUDE.md`](./CLAUDE.md) |
@@ -61,7 +63,13 @@ python3 systems/systems_check.py --write-views    # regenerate systems/views/** 
 python3 systems/parser_guard.py                   # every registered parser can still find its input
 ```
 
-The model layer has no dependencies and no build step — pure stdlib Python and plain JSON. Keep it that way.
+The model layer has no build step: plain JSON in, Markdown out. It needs **`jsonschema` and `pyyaml`**,
+and both are deliberate — the schemas are written against the JSON Schema standard and the frontmatter
+against YAML, so validating either with a hand-rolled parser means silently accepting whatever that parser
+does not implement. ⚠ *Superseded, retained: "no dependencies … pure stdlib Python and plain JSON. **Keep
+it that way.**" It was already false — `systems_check.py` hard-exits without `jsonschema` — and the
+instruction was the harmful part: it told the next reader to preserve a constraint the checker had
+deliberately dropped, for the reason set out in `SchemaSet`'s docstring.*
 
 ## Retired
 
@@ -70,7 +78,7 @@ The repository formerly contained a patient-facing static site (GitHub Pages, on
 deploy workflow. Two things survived because they were never site tooling: the cited EMC clinical registry
 ([`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)), which the
 manuscript meta-analysis and the repurposing gap analysis both read, and its evidence-contract validator
-(`scripts/validate-registry.mjs`), which is gate 2 of preflight. Full accounting:
+(`scripts/validate-registry.mjs`), which is gate 4 of preflight. Full accounting:
 [`systems/MIGRATION.md`](./systems/MIGRATION.md).
 
 > **Not medical advice.** Any clinical content here is educational information drawn from published

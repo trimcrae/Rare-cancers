@@ -1,6 +1,6 @@
 ---
 id: DOC-TERNARY-LANE-GUARD-AUDIT-2026-07-25
-title: Ternary-lane audit: guards, keys and fallbacks that report success while measuring nothing
+title: "Ternary-lane audit: guards, keys and fallbacks that report success while measuring nothing"
 level: L4
 kind: memo
 status: live

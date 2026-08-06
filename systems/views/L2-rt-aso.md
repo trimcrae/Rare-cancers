@@ -101,10 +101,24 @@ The computation is done and publishing is what recruits the collaborator this ro
 | Cost trend | flat |
 | Automation outlook | The design and screening halves are already automated; delivery is not a computational problem at all. |
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- Delivery of an oligonucleotide to a non-hepatic solid tumour has no validated solution, and this is not solvable in silico today.
+- Predicted specificity rests in part on a conservative heuristic rather than a calibrated cleavage-activity model.
+- The vector-delivered sub-routes carry a second, distinct delivery problem that must not be conflated with the oligonucleotide one.
+
 ## Best next action
 
 Publish the complete in-silico arc with delivery named as the gate, and keep the delivery watch running.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-FUS-T2](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 [← ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · [← L0](L0-ecosystem.md)

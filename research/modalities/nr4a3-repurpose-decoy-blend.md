@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-REPURPOSE-DECOY-BLEND
-title: Repurposing screen ↔ decoy-null: provenance and seamless blend
+title: "Repurposing screen ↔ decoy-null: provenance and seamless blend"
 level: L4
 kind: memo
 status: live

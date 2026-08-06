@@ -105,6 +105,13 @@ The cheapest possible negative in the entire portfolio: one scan settles it. A c
 **Revisit when:**
 - **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-RADIOLIGAND](L1-st-radioligand.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- Target expression in EMC is unmeasured; the case is currently inherited from neuroendocrine and stromal biology rather than observed in this disease.
+- A radioligand target is not a driver, so nothing here would be evidence about the fusion.
+
 ## Closure
 
 `authorization` — Not refuted — a negative scan still kills it cheaply, and it stays on the ask list.

@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-DEGRADER-STRATEGY-TERNARY-FIRST
-title: NR4A3 degrader — strategy redirection: ternary-selectivity-first, chemotype-anchored
+title: "NR4A3 degrader — strategy redirection: ternary-selectivity-first, chemotype-anchored"
 level: L3
 kind: manuscript
 status: live

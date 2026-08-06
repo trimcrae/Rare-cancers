@@ -61,9 +61,14 @@ cands.forEach((c, i) => {
   if (!c.emcVulnerability) errors.push(`${cw} missing emcVulnerability`);
   else checkClaim(c.emcVulnerability, `${cw}.emcVulnerability`);
   (c.supportingEvidence || []).forEach((e, k) => checkClaim(e, `${cw}.supportingEvidence[${k}]`));
-  // a graduated (T3) candidate would belong on the patient page; flag for review
+  // A graduated (T3) candidate is eligible for the cited clinical registry's `emergingTreatments`
+  // block -- METHODOLOGY.md section 5. It is a WARN, never an automatic move: graduation requires a
+  // clinician, and the registry is read by the manuscript meta-analysis, so a candidate that slipped
+  // in would be laundered into a publication rather than merely displayed.
+  // (Superseded, retained: this said "belong on the patient page". That page was retired and deleted
+  // on 2026-08-05; `emergingTreatments` was never site tooling and stayed.)
   if (c.evidenceTier === "T3-emc-clinical-evidence")
-    warns.push(`${cw} is T3 — eligible to graduate to the patient page (needs clinician review)`);
+    warns.push(`${cw} is T3 — eligible to graduate into the clinical registry's emergingTreatments (needs clinician review)`);
 });
 
 for (const w of warns) console.warn("WARN  " + w);

@@ -72,6 +72,14 @@ Closed on a definitional argument; the output is the reasoning.
 
 Permanently closed as a FUSION-SELECTIVE route. It remains an ordinary non-selective cytotoxic option, which is a different claim and belongs to clinical practice rather than to this program.
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-REPURPOSING](L1-st-repurposing.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- EMC is nearly absent from public functional-genomics data, so mechanism fit is argued from class membership rather than measured in this disease.
+- Several routes here rest on a direction of effect that has never been read in EMC tissue; an expression readout would settle them cheaply and does not exist.
+- A repurposing hypothesis is a hypothesis. Nothing here asserts efficacy in EMC.
+
 ## Closure
 
 `definitional` — A class effect on fusion EXPRESSION is not fusion-selective by construction — the mechanism does not distinguish the chimera from anything else the class regulates.

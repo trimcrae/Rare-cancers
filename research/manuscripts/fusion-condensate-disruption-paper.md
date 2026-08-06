@@ -1,6 +1,6 @@
 ---
 id: DOC-FUSION-CONDENSATE-DISRUPTION-PAPER
-title: Disrupting the fusion's condensate: an EWS-low-complexity-domain phase-separation strategy as a fusion-selective route i
+title: "Disrupting the fusion's condensate: an EWS-low-complexity-domain phase-separation strategy as a fusion-selective route i"
 level: L3
 kind: manuscript
 status: live

@@ -1,6 +1,6 @@
 ---
 id: DOC-META-ANALYSIS
-title: Pooled outcomes of extraskeletal myxoid chondrosarcoma: a reproducible systematic review and meta-analysis
+title: "Pooled outcomes of extraskeletal myxoid chondrosarcoma: a reproducible systematic review and meta-analysis"
 level: L3
 kind: manuscript
 status: live
@@ -95,8 +95,8 @@ planned and **not yet complete** — see Limitations.
 **Pooling.** For the manuscript we pool logit-transformed proportions by random effects
 (DerSimonian–Laird), reporting I² and τ² heterogeneity with per-study forest **tables**
 (`research/meta/meta-analysis.mjs`); a 0.5 continuity correction is applied only to 0%/100%
-cells. A crude denominator-weighted proportion with a Wilson 95% CI is reported alongside and
-powers the interactive patient-facing filter. A registry's disjoint strata are counted once.
+cells. A crude denominator-weighted proportion with a Wilson 95% CI is reported alongside as the
+conservative floor. A registry's disjoint strata are counted once.
 Pre-specified sensitivity analyses are **leave-one-out**, **registry-only vs all-series**, and
 **era-stratification** by diagnosis-period midpoint. Time-anchored survival (5/10/15-year) is
 summarised per study rather than pooled, given differing follow-up and censoring. Per the

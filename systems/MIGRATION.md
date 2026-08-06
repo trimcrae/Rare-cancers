@@ -52,6 +52,67 @@ related: [DOC-ARCHITECTURE, DOC-CONVENTIONS, DOC-TAX-BLOCKERS, DOC-TAX-TECHNOLOG
 | **4** | Documentation consolidation, archive, rewrite the canonical set | ◐ **partly done** — see §2.2 | yes |
 | **5** | Technology register, forecasts, roadmap, maintenance, scan wiring | ✅ **done** — see §2.3 | no |
 | **6** | *Optional, separately reviewed* — repository hygiene | ○ not started | yes |
+| **7** | Close the hierarchy downward; enforce the document contract | ✅ **done** — see §2.4 | no |
+
+### 2.4 · Phase 7 — the audit of Phases 0–5, and the four things it found
+
+**Run 2026-08-06, against the brief rather than against the plan.** The phases above were checked by
+re-reading what the brief asked for and measuring the repository against it, rather than by re-reading
+what the earlier phases said they had done. Everything found has the same shape — **a rule that was
+written down and enforced by nothing, so it had already drifted and nobody could tell.**
+
+**(a) The hierarchy only went one way.** ARCHITECTURE.md §3.0 has the full account. In short: every L2
+page linked UP and none linked DOWN, all 40 routes carried the edges in the graph the whole time, and
+`CLM-*` — the register that pins a sentence in a file to a JSON pointer, which is what *"no orphaned
+knowledge"* actually means here — appeared in **zero** generated views. Closed by
+[`views/L5-evidence-base.md`](./views/L5-evidence-base.md), a *"what this route rests on"* section on
+every L2 page, and `[L5]`, which reports the rows nothing cites.
+
+**(b) The document contract was enforced by nothing.** `schema/document.schema.json` was loaded by
+`SchemaSet`, verified to be a well-formed schema, and **applied to no collection**, while
+`check_documents` enforced a shorter hardcoded key list that never looked at `level` or `kind` — the
+field that places a document in the six-level hierarchy, accepted unread. Two homes for one contract,
+already disagreeing four ways: `_backfilled` (141 files), `superseded_in_part`, `history_only` and
+`frozen` — **the last two read by the checker itself** — were absent from the schema while
+`additionalProperties: false` would have rejected all of them; `last_verified: unverified`, the honest
+value 126 documents carry and which `[D5]` reports on by name, was forbidden by the date pattern; and
+CONVENTIONS.md's authoring template offered 10 of the 12 `kind` values, omitting `index`, which 9 live
+documents use. Now wired up as `[D11]`, with `[D12]` comparing the template to the schema.
+
+⭐ **And wiring it up immediately found something the line splitter could not.** `_frontmatter` is a
+`str.partition(":")` loop: it cannot fail. Under it, **24 of 181 documents carried frontmatter that is
+not valid YAML** — 23 with an unquoted colon (`title: Protocol: systematic review …`) and two with a
+`purpose` beginning `**`, a YAML alias token, salvaged from bolded prose by the backfill. All 24 read
+as fine. The premise of the whole frontmatter layer is that agents which did not write this repository
+can read it, and `yaml.safe_load` failed on 13 % of the corpus. Re-quoted; the two garbled `purpose`
+values were rewritten by hand rather than quoted into permanence.
+
+**(c) ARCHITECTURE.md §3 typed counts, and they were fiction.** The hierarchy table carried an `~n`
+column naming `PUB-*` (~15) and `EXP-*` (~60) — **id prefixes that existed in no collection at all**,
+appearing only as example strings inside `research-object.schema.json` — and `~400` at L5 against an
+actual 65 graph rows. Rule 1's exact failure mode, in the document that defines the architecture,
+surviving because a hand-typed number in prose is checked by nothing. The column is gone; the census is
+emitted live by `[D11]` and deliberately pinned nowhere, because pinning it would make writing a new
+memo a red build.
+
+**(d) Phase 2's sweep stopped at the repository root.** §3.2's *"Rewritten"* table covers `README.md`,
+`AGENTS.md`, `CONTRIBUTING.md` and the evidence contract — and **eleven research-layer files still
+routed to the deleted patient page**, including a `live` policy document that is `canonical_for` the
+treatment-advice firewall, a **mermaid node inside a manuscript figure**, a present-tense claim in
+`meta-analysis.md` that a computed figure *"powers the interactive patient-facing filter"*, and the
+warning text of `validate-research.mjs`. Full list in §3.2b.
+
+⚠ **The rule that would have caught it: when you retire a feature, the sweep is not done at the
+boundary of the feature's own directory.** What survived was not site tooling — it was the research
+layer's description of the *firewall into* the site, which is exactly the part with no reason to live
+under the site's path.
+
+**(e) Two documents told the reader to preserve a constraint the code had dropped.** `README.md` and
+`CONTRIBUTING.md` said *"pure stdlib Python … keep it that way"* after `systems_check.py` had been
+changed to hard-exit without `jsonschema` — for reasons its own `SchemaSet` docstring sets out at
+length. A stale fact is one problem; a stale **instruction** is worse, because the next reader follows it.
+And *"gate 2 of preflight"* survived in three documents after CLAUDE.md corrected itself to gate 4 and
+wrote down why the wrong ordinal is harmful. Now derived from `preflight.sh`'s real gate order by `[P1]`.
 
 ### 2.1 · Phase 3 — what landed, and what deliberately did not
 
@@ -262,6 +323,32 @@ Rows are added as each phase lands. `status` values: **moved** (content relocate
 | `CONTRIBUTING.md` | Was ~100 % site. Rewritten as how to add a research object to the model. |
 | `METHODOLOGY.md` → [`systems/POLICY-evidence.md`](./POLICY-evidence.md) | Reframed from *"the most dangerous part of the site"* to the repository's evidence contract, which is what it always was — five of its six sections are what the manuscript's meta-analysis assumes and does not re-check. §2 now states plainly that **two pooling methods exist and are not interchangeable**. ✅ **Moved 2026-08-05.** See §3.5 — the move was held back deliberately, and the reason it was worth holding back turned out not to be the one recorded here. |
 | `CLAUDE.md` | Site block replaced with a pointer to `systems/`. The old *"the site is shelved — keep it working"* line is retained as superseded, because it is the instruction this phase reverses. |
+
+### 3.2b · ⚠ The eleven the sweep missed (Phase 7, 2026-08-06)
+
+**The table above stops at the repository root, and the framing is why.** Phase 2 asked *"which files
+are site tooling?"* — a question whose answer is bounded by the site's own paths. It should have asked
+*"which files DESCRIBE the site?"*, and the difference is the research layer's account of the
+**firewall into** it, which by construction lives nowhere near the site.
+
+⛔ **The destination was never deleted, which is what made these easy to miss and important to fix
+rather than delete.** `emergingTreatments` was a block of the clinical registry, not a page: the page
+that rendered it is gone, the block is still there, still read by `enumerate-drugs.mjs` and still
+validated by `validate-registry.mjs`. So the graduation rule still binds — its target is a data file
+now, and **its downstream reader changed from a patient to the manuscript meta-analysis**, which makes
+an ungraduated candidate a slower and less retractable failure than the one the rule was written for.
+
+| file | what it said | now |
+|---|---|---|
+| `research/hypotheses/METHODOLOGY.md` §5 | `live`, and `canonical_for` **the treatment-advice firewall** — routed graduating candidates to *"the patient-facing `emergingTreatments`"* | Retitled *"firewall to the clinical registry"*, target named as the registry file, old text retained as superseded, and the changed-reader hazard stated |
+| `research/hypotheses/METHODOLOGY.md` §2, §7 | exclusion criterion and CURE ID note both cited *"the patient page"* | Registry |
+| `research/README.md` | *"Nothing in `research/` is served on the patient site"* under **Non-negotiable rules** | Rewritten to the registry, superseded line retained |
+| `research/manuscripts/meta-analysis.md` | *"…is reported alongside and **powers the interactive patient-facing filter**"* — present tense, in a manuscript, about a deleted artifact | *"…alongside as the conservative floor"* |
+| `research/manuscripts/repurposing-hypotheses.md` | a **mermaid figure node** reading `Patient page`, plus two prose pointers | Node now `Cited clinical registry (emergingTreatments)` |
+| `research/hypotheses/txgnn-emc-findings.md` | *"No TxGNN hit is promoted to the candidate catalog or the patient page"* | Registry |
+| `research/hypotheses/enumerate-drugs.mjs` | comment sourcing known-EMC drugs *"(from the patient page)"* | Registry — and the code was already reading the registry, so the comment was the only wrong part |
+| `research/hypotheses/build-candidates.mjs` + `candidates.json` | the `T3` tier definition and the emitted `disclaimer`, both naming the page; field `patientPageEligible` | Both retargeted; field renamed `registryEligible` after verifying nothing reads it. JSON regenerated by its own generator, which reproduced it with exactly these two changes |
+| `scripts/validate-research.mjs` | the WARN a T3 candidate prints: *"eligible to graduate to the patient page"* | Registry, with the changed-reader hazard in the comment |
 
 ### 3.3 · The requirement register (Phase 3, 2026-08-05)
 

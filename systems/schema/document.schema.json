@@ -2,12 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/trimcrae/Rare-cancers/systems/schema/document.schema.json",
   "title": "Document — the YAML frontmatter every Markdown file carries",
-  "_role": "Every .md file in the repository validates against this. The register of all documents is systems/graph/documents.json, built by scanning frontmatter; the frontmatter is the source, the register is derived.",
+  "_role": "Every .md file in the repository validates against this, enforced by systems_check.py `check_document_frontmatter` ([D11]). There is no derived document register: the frontmatter IS the register, read by walking the tree, so there is nothing that can fall out of step with it.",
   "_why": [
     "Filesystem dates carry NO information in this repository -- the history is a squashed import and every file reports the same date -- so freshness has to be declared and enforced rather than computed.",
     "Roughly seventy of 189 markdown files were one-off session reports, indistinguishable from durable references by their path. `kind` + `status` is what tells them apart.",
     "The repository already wrote all of this -- role banners, status lines, supersession markers, generated-file banners -- in four incompatible informal conventions, none machine-readable. This captures what was already being written."
   ],
+  "_superseded_role": "SUPERSEDED, RETAINED (2026-08-06). This field previously read: 'Every .md file in the repository validates against this. The register of all documents is systems/graph/documents.json, built by scanning frontmatter; the frontmatter is the source, the register is derived.' BOTH HALVES WERE FALSE and had been since the schema was written. `systems/graph/documents.json` never existed, and NO file validated against this schema -- it was loaded by SchemaSet, checked to be a well-formed schema, and then applied to nothing. What actually enforced frontmatter was a hardcoded key list inside check_documents that omitted `level` and `kind` entirely. So the contract had two homes and they had ALREADY DRIFTED in four measured ways: `_backfilled` (141 files), `superseded_in_part`, `history_only` and `frozen` -- the last two READ BY THE CHECKER ITSELF -- were absent here while `additionalProperties: false` would have rejected every one of them; `last_verified: unverified`, the deliberately-honest value 126 documents carry and which check_documents reports on by name, was forbidden by the date pattern; and CONVENTIONS.md's authoring template listed 10 of the 12 `kind` values, omitting `index`, which 9 live documents use. A schema that validates nothing cannot notice that it has gone wrong.",
 
   "type": "object",
   "required": ["id", "title", "kind", "status", "purpose", "scope", "audience", "date", "last_verified"],
@@ -48,13 +49,32 @@
     "superseded_by":{ "type": "string", "description": "REQUIRED when status is `superseded`. A superseded document with no successor is a dead end wearing a redirect." },
 
     "date":          { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "description": "When authored." },
-    "last_verified": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
-                       "description": "When someone last checked the content is STILL TRUE -- not when it was last edited. The distinction is the point: an edited-but-unverified document is exactly as stale as an untouched one." },
+    "last_verified": {
+      "anyOf": [
+        { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        { "const": "unverified" }
+      ],
+      "description": "When someone last checked the content is STILL TRUE -- not when it was last edited. The distinction is the point: an edited-but-unverified document is exactly as stale as an untouched one. ⛔ `unverified` IS A LEGITIMATE VALUE AND NOT A HOLE: the bulk backfill read none of these documents, and stamping them with its own run date would have claimed a verification nobody performed, in the one field whose entire job is to say how stale something is. check_documents reports the count as [D5] and it is meant to fall. Forbidding it here -- which this schema did until 2026-08-06 -- would have forced exactly the dishonest stamp."
+    },
 
     "related":   { "type": "array", "items": { "type": "string" } },
+    "aliases":   { "type": "array", "items": { "type": "string" },
+                   "description": "Other names this document has been cited under, so a reader who arrives with a stale name still lands here." },
     "generator": { "type": "string", "description": "REQUIRED when status is `generated`: the module that renders it." },
     "owns_ids":  { "type": "array", "items": { "type": "string" },
-                   "description": "Model object ids whose owner{file} points at this document. Derived; used to catch a document being archived while it still owns a fact." }
+                   "description": "Model object ids whose owner{file} points at this document. Derived; used to catch a document being archived while it still owns a fact." },
+
+    "superseded_in_part": { "type": "string",
+                            "description": "A document that is PARTLY superseded is not `superseded` -- it is still live and still the owner of everything the successor did not take. Naming the successor here says which part moved without retiring the whole file." },
+
+    "history_only": { "type": "string", "enum": ["true", "false", "yes", "no"],
+                      "description": "READ BY check_documents [D8]. A `historical`/`superseded` document that something still DEPENDS on is normally a defect -- but a correction register has to stay reachable to do its job. This declares that the combination is deliberate." },
+
+    "frozen": { "type": "string", "enum": ["true", "false", "yes", "no"],
+                "description": "READ BY check_documents [D10]. `false` marks a preregistration that is still a DRAFT, so it may not carry `immutable` -- the repository's strongest evidentiary claim is that a prereg was written before the result, and a draft wearing that status is the one thing that could erode it." },
+
+    "_backfilled": { "type": "string", "enum": ["true", "false"],
+                     "description": "This frontmatter was written by systems/backfill_frontmatter.py from the document's own banner and path, NOT by someone who read the document. It is the honest provenance of `purpose` and `scope` on 141 files, and it travels with `last_verified: unverified`. Clear it when a human verifies the document." }
   },
 
   "allOf": [

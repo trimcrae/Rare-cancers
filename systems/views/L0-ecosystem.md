@@ -141,6 +141,8 @@ Ordered by how much comes back if they land. Full register: [registers/technolog
 
 - **L1** — a strategy family: `L1-<family>.md`
 - **L2** — a single route: `L2-<route>.md`
+- **L3 · L4** — publications and the experiments that feed them are DOCUMENTS. They declare their level in their own frontmatter rather than being copied into the graph, so their count is reported by `systems_check --check` (`[D11]`) and is deliberately NOT pinned in any committed file — pinning it would turn every new memo into a red build. The instruments that produce their evidence ARE modelled: [registers/instruments.md](registers/instruments.md).
+- **L5** — [the evidence base](L5-evidence-base.md): every object, citation, artifact and pinned claim, each showing what rests on it
 - **Registers** — [lanes](registers/lanes.md) *(executed work and how it ended)* · [blockers](registers/blockers.md) · [technologies](registers/technologies.md) · [instruments](registers/instruments.md)
 - **Cross-cutting** — [methods index](methods-index.md) · [readiness](readiness.md) · [requirements](registers/requirements.md)
 - **Multi-year** — [the roadmap](roadmap-5yr.md): scientific, technology, AI-capability and lab-capability milestones, and when blocked work becomes revisitable

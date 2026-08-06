@@ -71,6 +71,13 @@ It is a closed route. Its only output is the reasoning that closes it, which bel
 
 Permanently closed on a fact about the sequence. No future capability reopens it, and it must appear on no watch list.
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-FUSION-DIRECT](L1-st-fusion-direct.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- The closures here are definitional or arithmetic over a fixed fact. They may carry no revival trigger and must never appear on a watch list.
+- That a route is closed says nothing about whether the disease can be treated — only that this surface is not the way.
+
 ## Closure
 
 `definitional` — The EWSR1 half of the fusion IS wild-type EWSR1 sequence, so a ligand for it engages an essential housekeeping protein BY CONSTRUCTION. No method changes what the sequence is.
@@ -80,5 +87,11 @@ Permanently closed on a fact about the sequence. No future capability reopens it
 Nothing. Cite the closure when the idea resurfaces.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 [← ST-FUSION-DIRECT](L1-st-fusion-direct.md) · [← L0](L0-ecosystem.md)

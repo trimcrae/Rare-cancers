@@ -1546,3 +1546,176 @@ def test_a_dead_code_pointer_still_fires_after_the_external_allowance(graph):
     finally:
         if os.path.exists(probe):
             os.remove(probe)
+
+
+# ───────── the document contract, the hierarchy's bottom, and the ordinal ─────────
+#
+# Added 2026-08-06. Three defects, one shape: a rule that was WRITTEN DOWN and enforced by nothing,
+# so it drifted from what the repository actually did and nobody could tell.
+
+
+def test_every_document_frontmatter_is_valid_yaml():
+    """⛔ THE HAND-ROLLED PARSER CANNOT FAIL, WHICH IS WHY 24 FILES GOT IN.
+
+    `_frontmatter` partitions on the first `:` and returns a dict no matter what it was handed. Under
+    it, 23 documents carried `title: Protocol: systematic review …` — an unquoted colon, which is not
+    valid YAML — and two carried a `purpose` beginning `**`, a YAML alias token, salvaged from bolded
+    prose by the backfill. Every one read as fine. The whole premise of the frontmatter is that agents
+    which did not write this repository can read it; a `yaml.safe_load` failed on 13 % of the corpus.
+    """
+    bad = []
+    for rel, text in sc._walk_md(sc.DOC_SKIP):
+        fmv, err = sc._yaml_frontmatter(text)
+        if err:
+            bad.append(f"{rel}: {err}")
+    assert bad == [], "\n".join(bad)
+
+
+def test_the_document_schema_is_actually_applied(graph):
+    """⭐ IT WAS NOT, FOR THE WHOLE OF ITS EXISTENCE.
+
+    `document.schema.json` was loaded by SchemaSet, checked to be a well-formed schema, and applied to
+    no collection — while `check_documents` enforced a shorter hardcoded key list that never looked at
+    `level` or `kind`. Two homes for one contract; four measured disagreements by the time anyone
+    joined them up. This test fails if the wiring is ever removed.
+    """
+    f = sc.Findings()
+    sc.check_document_frontmatter(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+    assert any("[D11]" in i and "hierarchy census" in i for i in f.infos), \
+        "the census must be REPORTED — it is what replaced the fabricated `~n` column in ARCHITECTURE.md"
+
+
+def test_a_document_declaring_an_unknown_level_fails(tmp_path, graph):
+    """`level` is the field that places a document in the six-level hierarchy, and it was unread."""
+    probe = os.path.join(REPO, "research", "d11-probe-DELETEME.md")
+    head = ("id: DOC-D11-PROBE\ntitle: probe document\nkind: memo\nstatus: live\n"
+            "canonical_for: []\npurpose: probe the level enum is enforced\n"
+            "scope: A throwaway probe file; it covers nothing.\naudience: [maintainers]\n"
+            "date: 2026-08-06\n"
+            "last_verified: unverified\n")
+    try:
+        with open(probe, "w", encoding="utf-8") as fh:
+            fh.write(f"---\n{head}level: L9\n---\n\nbody\n")
+        f = sc.Findings()
+        sc.check_document_frontmatter(graph, f)
+        assert any("d11-probe" in e and "L9" in e for e in f.errors), \
+            f"an out-of-enum level must fail: {f.errors}"
+
+        # ...and a legal one must not.
+        with open(probe, "w", encoding="utf-8") as fh:
+            fh.write(f"---\n{head}level: L4\n---\n\nbody\n")
+        f = sc.Findings()
+        sc.check_document_frontmatter(graph, f)
+        assert not any("d11-probe" in e for e in f.errors), "\n".join(f.errors)
+    finally:
+        if os.path.exists(probe):
+            os.remove(probe)
+
+
+def test_the_authoring_template_offers_what_the_schema_accepts(graph):
+    """CONVENTIONS.md listed 10 of 12 `kind` values, omitting `index` — which 9 live documents use.
+
+    An author or agent following the canonical convention document would have picked a wrong value for
+    a common case. The enum has one home now (the schema) and `[D12]` compares them.
+    """
+    f = sc.Findings()
+    sc.check_conventions_template(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_unverified_is_a_legal_freshness_value():
+    """⛔ THE SCHEMA FORBADE THE ONE VALUE 126 DOCUMENTS HONESTLY CARRY.
+
+    `last_verified: unverified` says nobody has confirmed the content is still true. Stamping those
+    files with a backfill's run date would have claimed a verification nobody performed, in the one
+    field whose entire job is to report staleness — so the checker reports the count and the schema
+    now admits the value. Had the schema been wired up while still demanding a date, the pressure
+    would have been to write the dishonest stamp.
+    """
+    props = sc.SchemaSet(sc.SCHEMA).docs["document.schema.json"]["properties"]
+    assert {"const": "unverified"} in props["last_verified"]["anyOf"]
+
+
+def test_every_level_links_down_as_well_as_up(graph):
+    """⭐ THE HIERARCHY WAS ONE-WAY. Every L2 page linked UP and none linked DOWN.
+
+    All 40 routes carried `instruments`, `objects`, `evidence` and `artifacts` in the graph; the L2
+    renderer emitted none of them, so 32 of 40 route pages named no L5 item and `CLM-*` appeared in
+    zero generated views. This asserts the down-link exists for every route that has one to make.
+    """
+    views = sc.all_views(graph)
+    assert "L5-evidence-base.md" in views, "L5 must have a view — it is the bottom of the hierarchy"
+    missing = []
+    for r in graph["routes"]:
+        has_edges = any(r.get(k) for k in ("objects", "evidence", "artifacts")) or \
+            any((r.get("instruments") or {}).get(k) for k in ("support", "disclosed_failing"))
+        if not has_edges:
+            continue
+        body = views[f"L2-{sc.route_slug(r['id'])}.md"]
+        if "L5-evidence-base.md" not in body:
+            missing.append(r["id"])
+    assert missing == [], f"route pages with L4/L5 edges but no link down: {missing}"
+
+
+def test_l5_rows_show_who_rests_on_them(graph):
+    """`cited_by` is DERIVED from the edges other objects already assert, never written at L5.
+
+    A second asserted home for the same edge is rule 1's failure mode; inverting it cannot disagree.
+    """
+    deg = next(r for r in graph["routes"] if r["id"] == "RT-DEGRADER")
+    for oid in deg["objects"]:
+        row = next(o for o in graph["objects"] if o["id"] == oid)
+        assert "RT-DEGRADER" in row["cited_by"], f"{oid} does not know the degrader rests on it"
+
+
+def test_a_claim_must_pin_to_an_artifact_that_exists(graph):
+    """A sentence pinned to nothing is unfalsifiable — the finest grain of traceability, checked."""
+    f = sc.Findings()
+    sc.check_evidence_base(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_the_preflight_gate_ordinal_agrees_with_preflight(graph):
+    """*"gate N of preflight"* had four homes; one was right and three said 2.
+
+    CLAUDE.md carries the correction in its own text — "it sends a reader to the wrong gate when
+    preflight fails" — and fixed only itself. The ordinal is now read from `preflight.sh`.
+    """
+    f = sc.Findings()
+    sc.check_preflight_gate_ordinal(graph, f)
+    assert f.errors == [], "\n".join(f.errors)
+
+
+def test_every_route_page_states_a_claim_ceiling(graph):
+    """⚠ THE CEILING EXISTED ONE LEVEL ABOVE AND ONE BELOW THE PAGE ANYONE READS.
+
+    ARCHITECTURE.md §5 calls `limitations` one of the three fields carrying most of the weight and said
+    it had been "promoted … to every object". Measured 2026-08-06: 9 of 9 strategies carried it, 16 of
+    16 requirements carried `claim_ceiling`, and **0 of 40 routes carried anything at all.**
+
+    ⛔ THE FIX IS INHERITANCE, NOT AUTHORSHIP. Forty fresh route-level ceilings would be forty invented
+    scientific limits — the one thing this repository must never do. A family limitation binds every
+    route inside it by construction, so the existing sentence is surfaced, attributed.
+    """
+    views = sc.all_views(graph)
+    for r in graph["routes"]:
+        assert r["limitations_inherited"], f"{r['id']} inherits no claim ceiling from {r['strategy']}"
+        body = views[f"L2-{sc.route_slug(r['id'])}.md"]
+        assert "Claim ceiling" in body, f"{r['id']}'s page does not state what it may not be used to claim"
+
+
+def test_the_inherited_ceiling_is_never_a_second_assertion(graph):
+    """It must be the family's own sentence, verbatim. A paraphrase would be a second home for it."""
+    fam = {s["id"]: s.get("limitations") or [] for s in graph["strategies"]}
+    for r in graph["routes"]:
+        assert r["limitations_inherited"] == fam[r["strategy"]]
+
+
+def test_backfill_emits_yaml_a_real_parser_accepts():
+    """The generator that produced the 24 invalid files must not be able to produce a 25th."""
+    import backfill_frontmatter as bf
+    import yaml
+    for s in ["Protocol: systematic review & meta-analysis", "** decision memo", "plain title",
+              "trailing colon:", "#hash start", "- dash start", "a | pipe", "yes"]:
+        assert yaml.load(f"k: {bf.y(s)}", Loader=yaml.BaseLoader) == {"k": s}, s

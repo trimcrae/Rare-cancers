@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-DEGRADER-SELECTIVITY-ARCHITECTURE
-title: Selectivity architecture of an NR4A3 degrader: binder vs ternary, and whether to select at all
+title: "Selectivity architecture of an NR4A3 degrader: binder vs ternary, and whether to select at all"
 level: L3
 kind: manuscript
 status: live

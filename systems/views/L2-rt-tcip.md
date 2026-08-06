@@ -106,6 +106,14 @@ This is the cheapest promotion available anywhere in the options register: the m
 | Cost trend | flat |
 | Automation outlook | Fully automatable; it is a $0 enumeration. |
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-PROXIMITY](L1-st-proximity.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- No molecule in this family has been shown to bind NR4A3 at all — the pocket every route here depends on has no known ligand of any kind.
+- No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.
+- Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
+
 ## Closure
 
 `instrument_limit` — Demoted for an UNRUN computation, not a failed one — which is why it is the cheapest promotion in the memo.
@@ -115,5 +123,13 @@ This is the cheapest promotion available anywhere in the options register: the m
 Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-LBD-MODELLED](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 evidence:** [EV-EB-TCIP-2025](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-PROXIMITY](L1-st-proximity.md) · [← L0](L0-ecosystem.md)

@@ -112,6 +112,14 @@ The blocking criterion is small enough to BUILD rather than wait for — a react
 **Revisit when:**
 - **TECH-EXPOSURE-CRITERION** — A solvent-exposure or thiol-reactivity criterion that recovers the one NR4A-family covalent site with literature support as engage *(expected 2027H2, basis `extrapolated`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-OCCUPANCY](L1-st-occupancy.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- Whether the ligand-binding domain is a functional handle in the fusion — whose other end is a strong independent activator — has never been tested by anyone.
+- Nobody has stated how much paralogue selectivity this family would need, so 'the requirement is smaller here' is not a claim this repository can make.
+- The covalent sub-form's negative result rests on an exposure criterion that fails its own positive control, so it is a rank and not a verdict.
+
 ## Closure
 
 `instrument_limit` — Its in-silico half is not publishable BECAUSE its exposure instrument fails its own positive control — an instrument limit, not a statement about C397.
@@ -121,5 +129,18 @@ The blocking criterion is small enough to BUILD rather than wait for — a react
 Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+| L4 instrument | cited as | known-answer control |
+|---|---|---|
+| [V3](registers/instruments.md) — Ligand pose prediction (dock + MM-GBSA) | **disclosed failing** | `inconclusive` |
+| [V17](registers/instruments.md) — The exposure criterion EXPOSED_RSA = 0.25 | **disclosed failing** | `fails` |
+
+**L5 objects:** [OBJ-NR4A3-LBD-CATALOGUE](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-LBD-MODELLED](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-RES-C397](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-RES-NR4A1-C551](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 artifacts:** [ART-DECOY-NULL-LBD](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-OCCUPANCY](L1-st-occupancy.md) · [← L0](L0-ecosystem.md)

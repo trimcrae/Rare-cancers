@@ -55,6 +55,14 @@ Closed on the receptor's own measured biology. It is `premise_false` and not `de
 **Revisit when:**
 - **TECH-RXR-HETERODIMER-REPORT** — A primary report of NR4A3 forming a permissive or ligand-modulable heterodimer with RXR in cells, contradicting the published nega *(expected beyond-2031, basis `speculative`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-REPURPOSING](L1-st-repurposing.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- EMC is nearly absent from public functional-genomics data, so mechanism fit is argued from class membership rather than measured in this disease.
+- Several routes here rest on a direction of effect that has never been read in EMC tissue; an expression readout would settle them cheaply and does not exist.
+- A repurposing hypothesis is a hypothesis. Nothing here asserts efficacy in EMC.
+
 ## Closure
 
 `premise_false` — Closed on the receptor's own measured biology. Not definitional — it rests on a published measurement, so a contradicting primary measurement is the only thing that reopens it, and no method advance does.
@@ -64,5 +72,13 @@ Closed on the receptor's own measured biology. It is `premise_false` and not `de
 Nothing. The scan carries the one observation that would reopen it.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-NR4A1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A2-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 evidence:** [EV-ZETTERSTROM-1996](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)

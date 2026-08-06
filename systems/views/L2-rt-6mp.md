@@ -46,6 +46,14 @@ Closed definitionally; the output is the reasoning, which is a useful worked exa
 
 Permanently closed. The domain the mechanism needs is the domain the fusion replaces.
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-REPURPOSING](L1-st-repurposing.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- EMC is nearly absent from public functional-genomics data, so mechanism fit is argued from class membership rather than measured in this disease.
+- Several routes here rest on a direction of effect that has never been read in EMC tissue; an expression readout would settle them cheaply and does not exist.
+- A repurposing hypothesis is a hypothesis. Nothing here asserts efficacy in EMC.
+
 ## Closure
 
 `definitional` — 6-MP acts through the AF-1, and the fusion REPLACES the AF-1 with EWSR1's low-complexity region. A ligand whose whole mechanism lives in a domain the disease deletes cannot act on the chimera at any dose. ⚠ Scoped: this closes 6-MP, NOT LBD-directed modulation.
@@ -55,5 +63,15 @@ Permanently closed. The domain the mechanism needs is the domain the fusion repl
 Nothing. Cite the closure — it is the clearest example in the register of wild-type pharmacology failing to transfer.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-AF1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 evidence:** [EV-WANSA-2003](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+
+**L5 artifacts:** [ART-TARGET-ROUTE-CENSUS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)

@@ -88,6 +88,14 @@ This is a method rather than a strategy, and it is registered so that a co-folde
 **Revisit when:**
 - **TECH-COFOLD-ASSEMBLY** — A sequence-only co-folder evaluated on ternary ASSEMBLY — inter-chain accuracy on post-training-horizon induced complexes — rather *(expected 2027, basis `evidence_based`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-PROXIMITY](L1-st-proximity.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- No molecule in this family has been shown to bind NR4A3 at all — the pocket every route here depends on has no known ligand of any kind.
+- No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.
+- Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
+
 ## Closure
 
 `instrument_limit` — A method, not a route — it is waiting on a co-folder that assembles ternaries.
@@ -97,5 +105,14 @@ This is a method rather than a strategy, and it is registered so that a co-folde
 Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In-horizon results are memorisation-permitting and move nothing.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+| L4 instrument | cited as | known-answer control |
+|---|---|---|
+| [V2](registers/instruments.md) — Ternary generator given both sites (assembly route) | **disclosed failing** | `passes` |
+| [V12](registers/instruments.md) — Sequence-only co-folding (Boltz-2 ternary) | **disclosed failing** | `fails` |
 
 [← ST-PROXIMITY](L1-st-proximity.md) · [← L0](L0-ecosystem.md)

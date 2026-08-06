@@ -97,6 +97,14 @@ The best-matched ask on the board: small, cheap for the taker, publishable for b
 - **TECH-EMC-MODEL-ACCESS** — Access to a patient-derived EMC model through a collaborator, or through a solo-affordable cloud or robotic wet-lab service with E *(expected 2029, basis `speculative`)*
 - **TECH-CLOUD-WET-LAB** — A remote robotic or cloud wet lab, rentable per experiment by an unaffiliated researcher, at a price and assay scope that covers E *(expected 2029, basis `extrapolated`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-DEPENDENCY](L1-st-dependency.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- The dependency transfer prior came back negative on the available data — a measured premise, revivable only by EMC-specific data.
+- One route rests on class inheritance: no NR4A3 fusion has been tested for the phenotype it assumes.
+- There is one EMC model in public dependency data, with no CRISPR data, so this family's in-silico half is bounded by a sample size of one.
+
 ## Closure
 
 `authorization` — Best taker in the portfolio and still not something this programme executes.
@@ -106,5 +114,11 @@ The best-matched ask on the board: small, cheap for the taker, publishable for b
 Send the ask with the assessment. It is the strongest taker-fit in the portfolio.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 evidence:** [EV-FET-ATR-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-DEPENDENCY](L1-st-dependency.md) · [← L0](L0-ecosystem.md)

@@ -135,6 +135,14 @@ The cheapest decisive item is a decision, not a capability, and the paper is pub
 | Cost trend | falling |
 | Automation outlook | Lane orchestration is already automated; the scientific judgement about what a failed control means is not. |
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-PROXIMITY](L1-st-proximity.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- No molecule in this family has been shown to bind NR4A3 at all — the pocket every route here depends on has no known ligand of any kind.
+- No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.
+- Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
+
 ## Closure
 
 `instrument_limit` — ⭐ NOT closed — but every one of its four blocking failures is an INSTRUMENT LIMIT rather than a fact about the target, which is the options memo's organising finding restated as a field. Filing it beside a definitional impossibility would lose exactly that.
@@ -144,5 +152,31 @@ The cheapest decisive item is a decision, not a capability, and the paper is pub
 Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio and it costs a conversation.
 
 *Cost:* $0 to ask; the run itself points at the pricing home
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+| L4 instrument | cited as | known-answer control |
+|---|---|---|
+| [V1](registers/instruments.md) — Structural selectivity descriptor (selcal_interface_signature) | support | `passes` |
+| [V2](registers/instruments.md) — Ternary generator given both sites (assembly route) | support | `passes` |
+| [V6](registers/instruments.md) — Relative FEP (OpenFE, the congeneric lane) | support | `passes` |
+| [V8](registers/instruments.md) — ABFE engine, hydration | support | `passes` |
+| [V4](registers/instruments.md) — Selectivity free energy (ABFE) — the selectivity known-answer test | **disclosed failing** | `none` |
+| [V5](registers/instruments.md) — Alchemical ternary cooperativity (valB_mini ΔΔG_coop) | **disclosed failing** | `fails` |
+| [V7](registers/instruments.md) — ABFE engine, absolute | **disclosed failing** | `fails` |
+| [V11](registers/instruments.md) — Interface-stability endpoint (E1) | **disclosed failing** | `fails` |
+| [V12](registers/instruments.md) — Sequence-only co-folding (Boltz-2 ternary) | **disclosed failing** | `fails` |
+| [V13](registers/instruments.md) — Cryptic-opening free-energy profile (metadynamics F(Rg)) | **disclosed failing** | `fails` |
+| [V17](registers/instruments.md) — The exposure criterion EXPOSED_RSA = 0.25 | **disclosed failing** | `fails` |
+| [V20](registers/instruments.md) — Single-snapshot MM-GBSA margin > 0 as a selectivity verdict | **disclosed failing** | `fails` |
+| [V21](registers/instruments.md) — The anti-target docking panel (antitarget_dock) | **disclosed failing** | `fails` |
+
+**L5 objects:** [OBJ-NR4A1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A2-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-LBD-MODELLED](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-RES-C397](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 evidence:** [EV-ZAIENNE-2022](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+
+**L5 artifacts:** [ART-APO-POSE-SITE](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-DECOY-NULL-LBD](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-PROXIMITY](L1-st-proximity.md) · [← L0](L0-ecosystem.md)

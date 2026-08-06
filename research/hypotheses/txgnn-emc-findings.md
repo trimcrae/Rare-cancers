@@ -84,7 +84,7 @@ model as **non-corroboratory** for these leads, **without** ascribing a cause we
 
 ## What we do with it (firewall)
 
-- **No TxGNN hit is promoted** to the candidate catalog or the patient page — they fail
+- **No TxGNN hit is promoted** to the candidate catalogue or the clinical registry — they fail
   the mechanism requirement (METHODOLOGY §1) and the firewall (§5).
 - This belongs in the manuscript **Methods/Limitations** as a three-way *triangulation*:
   mechanism curation and target enumeration agree on oncology leads; the graph-ML

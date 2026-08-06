@@ -102,6 +102,14 @@ This is the family most starved by the data blocker and the one that would benef
 - **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 - **TECH-VIRTUAL-CELL** — A virtual-cell or perturbation model that predicts held-out knockdown phenotype in a cell type it was not trained on *(expected 2028, basis `extrapolated`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-DEPENDENCY](L1-st-dependency.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- The dependency transfer prior came back negative on the available data — a measured premise, revivable only by EMC-specific data.
+- One route rests on class inheritance: no NR4A3 fusion has been tested for the phenotype it assumes.
+- There is one EMC model in public dependency data, with no CRISPR data, so this family's in-silico half is bounded by a sample size of one.
+
 ## Closure
 
 `premise_false` — The DepMap transfer prior came back negative — a measured premise, revivable only by EMC-specific data, which is why it is parked on data and not on ideas.

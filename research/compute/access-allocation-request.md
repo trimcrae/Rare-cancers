@@ -1,6 +1,6 @@
 ---
 id: DOC-ACCESS-ALLOCATION-REQUEST
-title: Draft: ACCESS free-compute allocation request (GPU hours for the NR4A3 degrader in-silico program)
+title: "Draft: ACCESS free-compute allocation request (GPU hours for the NR4A3 degrader in-silico program)"
 level: —
 kind: runbook
 status: live

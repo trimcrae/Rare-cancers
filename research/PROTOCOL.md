@@ -1,6 +1,6 @@
 ---
 id: DOC-PROTOCOL
-title: Protocol: systematic review & meta-analysis of EMC outcomes
+title: "Protocol: systematic review & meta-analysis of EMC outcomes"
 level: —
 kind: index
 status: live

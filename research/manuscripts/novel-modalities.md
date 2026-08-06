@@ -1,6 +1,6 @@
 ---
 id: DOC-NOVEL-MODALITIES
-title: Computational routes to treatment for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma: structure-guided modalities and 
+title: "Computational routes to treatment for EWSR1::NR4A3 extraskeletal myxoid chondrosarcoma: structure-guided modalities and"
 level: L3
 kind: manuscript
 status: live

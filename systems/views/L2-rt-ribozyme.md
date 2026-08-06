@@ -94,6 +94,14 @@ The weaker of the two suicide-gene routes: it carries the same delivery gate plu
 **Revisit when:**
 - **TECH-VECTOR-DELIVERY** — A gene-therapy vector that reaches a solid tumour at therapeutic coverage *(expected 2030, basis `speculative`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- Delivery of an oligonucleotide to a non-hepatic solid tumour has no validated solution, and this is not solvable in silico today.
+- Predicted specificity rests in part on a conservative heuristic rather than a calibrated cleavage-activity model.
+- The vector-delivered sub-routes carry a second, distinct delivery problem that must not be conflated with the oligonucleotide one.
+
 ## Closure
 
 `instrument_limit` — Vector delivery, and a technique with no modern solid-tumour clinical footing.
@@ -103,5 +111,11 @@ The weaker of the two suicide-gene routes: it carries the same delivery gate plu
 Keep registered at low priority.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 [← ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) · [← L0](L0-ecosystem.md)

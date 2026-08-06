@@ -113,6 +113,34 @@ ROLE_BANNER = re.compile(r"^>\s*\*\*Role:\s*(.+?)\.?\*\*", re.M)
 H1 = re.compile(r"^#\s+(.+)$", re.M)
 
 
+def y(s: str) -> str:
+    """A free-text value emitted so that a REAL YAML parser accepts it.
+
+    ⛔ THIS WAS MISSING AND IT COST 24 FILES. The first run of this script wrote every scalar bare,
+    so an H1 like `Protocol: systematic review & meta-analysis of EMC outcomes` became
+    `title: Protocol: systematic review …` — invalid YAML — and two `purpose` values salvaged from
+    bolded prose began with `**`, a YAML alias token. Nothing noticed for a day, because the only
+    thing that ever read frontmatter was a `str.partition(":")` loop that cannot fail. They were
+    found the moment `systems_check` started parsing frontmatter with pyyaml ([D11]).
+
+    ⚠ The test is *"does a parser accept it"*, not *"does it look like it needs quoting"* — a
+    hand-written list of dangerous characters is the same class of guess that produced the bug.
+    """
+    try:
+        import yaml
+    except ImportError:                                            # pragma: no cover - env only
+        raise SystemExit("backfill_frontmatter needs `pyyaml` to prove what it writes is parseable.\n"
+                         "    pip install pyyaml\n"
+                         "⛔ No fallback: emitting unvalidated scalars is the original defect.")
+    s = str(s)
+    try:
+        if yaml.load(f"k: {s}", Loader=yaml.BaseLoader) == {"k": s}:
+            return s
+    except Exception:                                              # noqa: BLE001 - any YAML error
+        pass
+    return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
 def _slugify(text: str) -> str:
     return re.sub(r"[^A-Za-z0-9]+", "-", text).strip("-").upper()
 
@@ -196,6 +224,7 @@ def build(rel: str, text: str, all_rels=None) -> str:
     kind, status, level, needs_review = classify(rel, head)
 
     m = H1.search(text)
+    # (see `y()` — every free-text scalar below goes through it)
     title = (m.group(1) if m else os.path.basename(rel)).strip()
     title = re.sub(r"[`*⛔⚠★⭐🗺📊✅❌⏱️🔄]", "", title).strip()[:120] or os.path.basename(rel)
 
@@ -213,13 +242,13 @@ def build(rel: str, text: str, all_rels=None) -> str:
 
     lines = ["---",
              f"id: {slug(rel, all_rels)}",
-             f"title: {title}",
+             f"title: {y(title)}",
              f"level: {level}",
              f"kind: {kind}",
              f"status: {status}",
              "canonical_for: []",
-             f"purpose: {purpose}",
-             f"scope: {scope}",
+             f"purpose: {y(purpose)}",
+             f"scope: {y(scope)}",
              f"audience: [{', '.join(aud)}]",
              "date: 2026-08-05",
              "last_verified: unverified",

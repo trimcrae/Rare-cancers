@@ -1,11 +1,11 @@
 ---
 id: DOC-NR4A3-DEGRADER-BROADER-INDICATIONS
-title: Beyond EMC: what else could a selective NR4A3 degrader treat?
+title: "Beyond EMC: what else could a selective NR4A3 degrader treat?"
 level: L3
 kind: manuscript
 status: live
 canonical_for: []
-purpose: ** the
+purpose: What else besides EMC would benefit from removing NR4A3 while sparing NR4A1 and NR4A2 — the indication stack that justifies the degrader paper's target-centric framing.
 scope: As stated in the document's own role banner.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05

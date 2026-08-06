@@ -29,7 +29,7 @@ const DGIDB = "https://dgidb.org/api/graphql";
 
 const norm = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
-// Drugs already used/tried in EMC (from the patient page) — these are deliberately
+// Drugs already used/tried in EMC (from the cited clinical registry) — these are deliberately
 // kept OUT of the repurposing catalog (METHODOLOGY §2), so a gap analysis against the
 // catalog alone would wrongly flag them as "novel". Collect their names to exclude.
 function knownEmcDrugNames(patient) {

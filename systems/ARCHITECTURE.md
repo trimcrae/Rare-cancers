@@ -90,14 +90,45 @@ second mechanism.
 Six zoom levels. Every level links cleanly up and down; every object at every level carries the same
 standard fields (§5).
 
-| level | question it answers | object | id | ~n |
+| level | question it answers | object | how it is modelled | where to look |
 |---|---|---|---|---|
-| **L0** | What is the complete EMC research landscape? | ecosystem | — | 1 |
-| **L1** | What families of therapeutic strategy exist, and how is each doing? | strategy family | `ST-*` | 9 |
-| **L2** | What individual approaches sit inside a family? | route / approach | `RT-*` | 40 |
-| **L3** | What are we actually writing and publishing? | publication | `PUB-*` | ~15 |
-| **L4** | What experiments and instruments produce the evidence? | experiment / instrument | `EXP-*`, `V*` | ~60 |
-| **L5** | What does any of it actually rest on? | assumption · evidence · script · dataset · output | `C*` `EV-*` `ART-*` `CLM-*` `OBJ-*` | ~400 |
+| **L0** | What is the complete EMC research landscape? | ecosystem | one generated view | [views/L0-ecosystem.md](./views/L0-ecosystem.md) |
+| **L1** | What families of therapeutic strategy exist, and how is each doing? | strategy family — `ST-*` | graph object | `views/L1-<family>.md` |
+| **L2** | What individual approaches sit inside a family? | route / approach — `RT-*` | graph object | `views/L2-<route>.md` |
+| **L3** | What are we actually writing and publishing? | publication | **a DOCUMENT declaring `level: L3`** | `research/manuscripts/` |
+| **L4** | What experiments produce the evidence, and with what? | experiment — a document declaring `level: L4`; instrument — `V*` / `INS-*` | document + graph object | [views/registers/instruments.md](./views/registers/instruments.md) |
+| **L5** | What does any of it actually rest on? | assumption · evidence · artifact · claim — `OBJ-*` `EV-*` `ART-*` `CLM-*` | graph object | [views/L5-evidence-base.md](./views/L5-evidence-base.md) |
+
+⛔ **NO COUNTS ARE TYPED IN THIS TABLE, AND THE OMISSION IS THE POINT.** *Superseded, retained: an `~n`
+column reading **`PUB-*` ~15**, **`EXP-*`, `V*` ~60** and **`C*` … ~400**. Measured 2026-08-06: **`PUB-*`
+and `EXP-*` existed in no collection at all** — both appeared only as example strings inside
+`research-object.schema.json` — and the three counts were wrong by factors of five, two and six against
+what the repository actually held. It was the exact defect rule 1 exists to stop, sitting in the document
+that defines the architecture, and it survived because a hand-typed number in prose is checked by nothing.*
+The live census is emitted by `systems_check --check` as `[D11]` on every run, and the graph counts are
+printed in the header of each generated view.
+
+⭐ **L3 AND L4 ARE DOCUMENTS, NOT GRAPH ROWS — a deliberate asymmetry.** A publication and an experiment
+write-up ARE prose; copying their titles into JSON would create a second home for a fact whose first home
+is the file itself, and it would go stale the moment a memo is renamed. So they declare their level in
+their own frontmatter, that frontmatter is schema-validated (`[D11]`, §7), and the count is reported
+rather than pinned — pinning it would make writing a new memo a red build.
+
+### 3.0 · ⭐ The downward half of the hierarchy, and why it was missing
+
+**Added 2026-08-06.** "Every level links cleanly up and down" was half true for nine months. Every `L2`
+page linked UP — `← family`, `← L0` — and **nothing linked DOWN.** All 40 routes carried `instruments`,
+`objects`, `evidence` and `artifacts` in the graph the whole time; `render_l2` rendered none of them, so
+32 of 40 route pages named no L5 item at all, `CLM-*` — the register that pins one sentence in one file
+to one JSON pointer, which is what *"no orphaned knowledge"* actually cashes out as — appeared in **zero**
+generated views, and `OBJ-*` appeared only inside the instruments register.
+
+A reader following the hierarchy from L0 therefore ran out of pages one level early and had to open the
+JSON by hand — which is precisely the re-derivation this model exists to end. Two additions close it, and
+neither asserts anything new: [`views/L5-evidence-base.md`](./views/L5-evidence-base.md) inverts the edges
+the routes already assert so every L5 row shows what rests on it, and every L2 page gains a *"what this
+route rests on"* section linking into it. `[L5]` then reports the rows nothing cites — an orphan is not
+automatically a defect, but an *invisible* orphan is.
 
 **Cross-cutting registers — deliberately not levels**, because each one is referenced from several levels at
 once and duplicating it per family would be the same one-fact-many-places bug in a new costume:
@@ -262,12 +293,38 @@ Full JSON Schema: [`schema/research-object.schema.json`](schema/research-object.
 Three of those fields carry most of the weight and each exists because of a specific past failure:
 
 - **`limitations` (the claim ceiling)** — an object may state what it may *not* be used to claim. This is the
-  existing invariant that a result can never be stronger than the instrument underneath it, promoted from
-  the requirement register to every object.
+  existing invariant that a result can never be stronger than the instrument underneath it, raised from
+  the requirement register to the object model.
 - **`assumptions` → `C*`** — a result that is correct given a frozen choice, where a defensible alternative
-  choice would reverse it, is a different thing from a robust result. The configuration register already
-  records this for the degrader program; the schema makes it universal.
+  choice would reverse it, is a different thing from a robust result. The configuration register records
+  this for the degrader program; the schema reserves the field so any object can carry it.
 - **`provenance.owner`** — the file that owns the fact. Anything else showing it is generated or is a defect.
+
+### 5.0 · ⚠ Where the claim ceiling actually is, measured
+
+*Superseded, retained: the two sentences above previously read **"promoted from the requirement register
+to every object"** and **"the schema makes it universal."*** Measured 2026-08-06, the first was false and
+the second described a reservation as an accomplishment:
+
+| level | claim ceiling | coverage |
+|---|---|---|
+| L1 strategy family | `limitations[]` | **9 of 9** — asserted, rich, and the source of the inheritance below |
+| L2 route | `limitations[]` | **0 of 40** authored · **40 of 40 inherited** from their family since 2026-08-06 |
+| L4 requirement | `claim_ceiling` | **16 of 16** |
+| L4 instrument | `scope_note` / `inherits_limits_from` | 7 with a scope note; usability computed transitively (§6.5) |
+| any | `assumptions[] → C*` | **0** — the field is reserved and nothing populates it |
+
+⛔ **The inheritance is DERIVED, and deliberately not authored.** Writing forty fresh route-level
+ceilings would mean inventing scientific limits nobody stated, which is the one thing this repository
+must never do. A family limitation binds every route inside it by construction — that is what makes it a
+family limitation — so the existing sentence is surfaced on each route page, attributed to the family
+that asserts it. A route needing a ceiling its family does not have must still write one, and the
+`limitations[]` field is there for exactly that.
+
+⚠ **`assumptions[] → C*` is an open gap, recorded rather than quietly dropped.** The configuration
+register (`C166`, `C397`, `C551`) exists and is referenced from `objects.json`, but no object carries the
+structured *"here is the frozen choice, and here is what breaks if it is wrong"* field this section
+describes. Filling it is real work on real content, not a rename, so it is named here as outstanding.
 
 ### 5.1 · Route lifecycle — no vague states
 

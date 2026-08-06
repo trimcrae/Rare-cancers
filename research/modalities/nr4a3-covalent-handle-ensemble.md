@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-COVALENT-HANDLE-ENSEMBLE
-title: NR4A3-unique cysteines: accessibility across the experimental ensemble, with NR4A1 Cys551 (the NR-V04 site) as the posit
+title: "NR4A3-unique cysteines: accessibility across the experimental ensemble, with NR4A1 Cys551 (the NR-V04 site) as the posit"
 level: L4
 kind: memo
 status: live

@@ -65,6 +65,13 @@ Closed by arithmetic over a fixed measured fact.
 
 Permanently closed. The closure is arithmetic over a sequence identity that does not change.
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-FUSION-DIRECT](L1-st-fusion-direct.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- The closures here are definitional or arithmetic over a fixed fact. They may carry no revival trigger and must never appear on a watch list.
+- That a route is closed says nothing about whether the disease can be treated — only that this surface is not the way.
+
 ## Closure
 
 `arithmetic_over_fixed_fact` — The zinc-finger DBD is far more conserved between the paralogues than the LBD the program already targets. An arithmetic consequence of a fixed sequence fact — never revivable.
@@ -74,5 +81,13 @@ Permanently closed. The closure is arithmetic over a sequence identity that does
 Nothing. Cite the closure.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-NR4A3-DBD](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 artifacts:** [ART-TARGET-ROUTE-CENSUS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-FUSION-DIRECT](L1-st-fusion-direct.md) · [← L0](L0-ecosystem.md)

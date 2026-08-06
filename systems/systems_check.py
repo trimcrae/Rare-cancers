@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The EMC systems model — invariant checker and view generator. ($0, pure stdlib)
+"""The EMC systems model — invariant checker and view generator. ($0; needs `jsonschema` + `pyyaml`)
 
     python3 systems/systems_check.py --check         run every invariant; fail red
     python3 systems/systems_check.py --write-views   regenerate systems/views/**
@@ -326,6 +326,67 @@ def derive(g):
             "n_parked": sum(1 for x in st if x == "parked"),
             "n_closed": sum(1 for x in st if x == "closed"),
         }
+
+    # ⭐ THE CLAIM CEILING REACHES THE PAGE A READER IS ACTUALLY ON (2026-08-06).
+    #
+    # ARCHITECTURE.md §5 calls `limitations` — "what this object may NOT be used to claim" — one of the
+    # three fields carrying most of the weight, and said it was "promoted from the requirement register
+    # to EVERY object". Measured: 9 of 9 strategies carry it, 16 of 16 requirements carry
+    # `claim_ceiling`, and **0 of 40 routes carry anything.** The ceiling existed one level above and
+    # one level below the page anyone reads.
+    #
+    # ⛔ IT IS INHERITED, NOT AUTHORED. Writing 40 fresh route-level ceilings would be inventing
+    # scientific limits nobody stated — the one thing this repository must never do. A family's
+    # limitation binds every route in it by construction (that is what makes it a family limitation),
+    # so the honest move is to surface the existing sentence, attributed, on every route beneath it.
+    # A route needing a ceiling its family does not have still has to state it by hand.
+    sl = {s["id"]: s.get("limitations") or [] for s in strategies}
+    for r in routes:
+        r["limitations_inherited"] = list(sl.get(r.get("strategy"), []))
+
+    # ⭐ L5 → UP. THE HIERARCHY WAS ONE-WAY UNTIL 2026-08-06 AND THAT IS THE DIRECTION THAT MATTERED.
+    # Every L2 view linked UP (`← family`, `← L0`) and NOTHING linked DOWN. Measured before this ran:
+    # all 40 routes carry `objects[]`, `evidence[]` and `artifacts[]`, `render_l2` rendered NONE of
+    # them, and `CLM-*` — the register whose entire job is "this document's sentence rests on that
+    # field of that artifact" — appeared in ZERO generated views. So the level every traceability
+    # claim bottoms out in was reachable only by opening the JSON.
+    #
+    # The fix is a derivation, not a second register: `cited_by` is computed from the SAME edges the
+    # routes already assert, so it cannot disagree with them, and an L5 row nothing cites becomes
+    # visible instead of merely absent (`[L5]`).
+    l5_cited = defaultdict(set)
+    for r in routes:
+        for key in ("objects", "evidence", "artifacts"):
+            for x in r.get(key) or []:
+                l5_cited[x].add(r["id"])
+        for e in r.get("supporting_evidence") or []:
+            if e.get("ref"):
+                l5_cited[e["ref"]].add(r["id"])
+    for i in g["instruments"]:
+        for x in i.get("characterises") or []:
+            l5_cited[x].add(i["id"])
+    # ⚠ A LANE NAMES ITS OUTPUT BY FILENAME, THE ARTIFACT REGISTER BY `ART-*` ID. Joining them on the
+    # id would silently match nothing and report every artifact orphaned — so the join is on the
+    # register's own `path` basename, which is the only field the two vocabularies share.
+    by_basename = {os.path.basename(a.get("path", "")): a["id"] for a in g["artifacts"] if a.get("path")}
+    for ln in g["lanes"]:
+        for x in ln.get("produces") or []:
+            name = x.get("artifact") if isinstance(x, dict) else x
+            aid = by_basename.get(os.path.basename(name or ""))
+            if aid:
+                l5_cited[aid].add(ln["id"])
+    for c in g["claims"]:
+        if c.get("artifact"):
+            l5_cited[c["artifact"]].add(c["id"])
+    for o in g["objects"]:
+        for p in (o.get("definition") or {}).get("provenance") or []:
+            l5_cited[p].add(o["id"])
+        lf = (o.get("definition") or {}).get("length_field") or {}
+        if lf.get("artifact"):
+            l5_cited[lf["artifact"]].add(o["id"])
+    for coll in ("objects", "evidence", "artifacts", "claims"):
+        for row in g[coll]:
+            row["cited_by"] = sorted(l5_cited.get(row["id"], set()))
     return g
 
 
@@ -996,6 +1057,204 @@ def _is_transient(rel_root):
     return bool(TRANSIENT_DIRS & set(rel_root.split("/")))
 
 
+def _yaml_frontmatter(text):
+    """The frontmatter as a REAL YAML parser sees it, or an exception message.
+
+    ⛔ WHY A REAL PARSER, AND WHY IT MATTERS MORE HERE THAN ANYWHERE ELSE. `_frontmatter` below is a
+    line splitter: it partitions on the first `:` and never fails. Under it, 24 of 181 documents held
+    frontmatter that **is not valid YAML** — `title: Protocol: systematic review & meta-analysis of EMC
+    outcomes` (an unquoted colon) in 23 of them, and a `purpose` beginning `**` in two — and every one
+    of them read as fine. The whole point of the frontmatter is that this repository is machine-readable
+    by agents that did not write it; an agent reaching for `yaml.safe_load` hit an error on 13 % of the
+    corpus. This is the same defect the JSON Schema validator had one level up, in the same week: a
+    hand-rolled parser accepting what the standard one rejects, and reporting success.
+
+    ⚠ `BaseLoader`, deliberately: it leaves every scalar a STRING. The default loader turns
+    `date: 2026-08-05` into a `datetime.date` and `frozen: false` into a bool, and the schema — which
+    describes the file's TEXT — would then fail on its own valid documents.
+    """
+    m = FM_RE.match(text)
+    if m is None:
+        return None, None
+    try:
+        import yaml
+    except ImportError as e:                                       # pragma: no cover - env only
+        raise SystemExit(
+            "systems_check needs `pyyaml` to read document frontmatter as YAML.\n"
+            "    pip install pyyaml\n"
+            "⛔ There is no fallback to the line splitter on purpose: it cannot fail, so it would "
+            "report every malformed file as valid — which is exactly how 24 of them got committed. "
+            "(%s)" % e)
+    try:
+        v = yaml.load(m.group(1), Loader=yaml.BaseLoader)
+    except Exception as e:                                          # noqa: BLE001 - any YAML error
+        return None, str(e).splitlines()[0]
+    if not isinstance(v, dict):
+        return None, "frontmatter is not a mapping"
+    return v, None
+
+
+def check_document_frontmatter(g, f):
+    """⭐ THE DOCUMENT CONTRACT, ENFORCED FROM ITS ONE HOME (added 2026-08-06).
+
+    `schema/document.schema.json` described this contract from the day it was written and **nothing
+    validated anything against it.** It was loaded by `SchemaSet`, verified to be a well-formed schema,
+    and then applied to no collection — while `check_documents` enforced a hardcoded key list that
+    omitted `level` and `kind` entirely. Two homes for one contract, which is rule 1's exact failure
+    mode, and it had already drifted four ways (recorded in the schema's `_superseded_role`).
+
+    ⛔ `level` IS THE ONE THAT MATTERS. The architecture's whole claim is a six-level hierarchy, and
+    the field that places a document in it was accepted unread — any string, or absent.
+    """
+    mv = SchemaSet(SCHEMA)
+    schema = mv.docs["document.schema.json"]
+    levels, kinds, unparsed = defaultdict(int), defaultdict(int), 0
+    for rel, text in _walk_md(DOC_SKIP):
+        fmv, err = _yaml_frontmatter(text)
+        if fmv is None and err is None:
+            continue                       # no frontmatter at all — [D4]'s finding, not this one
+        if err:
+            unparsed += 1
+            f.err("[D11]", f"{rel} frontmatter is not valid YAML — {err}. It reads as fine to a line "
+                           f"splitter and fails for every agent using a real parser.")
+            continue
+        for msg in mv.validate(fmv, schema, schema):
+            f.err("[D11]", f"{rel} {msg}")
+        levels[fmv.get("level", "«absent»")] += 1
+        kinds[fmv.get("kind", "«absent»")] += 1
+    # ⭐ REPORTED, NEVER PINNED. The L3/L4 populations are documents, so the count moves whenever a memo
+    # is written. Committing it to a file would make an unrelated new document a red build; leaving it
+    # unstated is how ARCHITECTURE.md came to carry `~15` against an actual 76. So it is emitted here,
+    # live, and every document pointing at the hierarchy points at this rather than at a typed number.
+    f.info("[D11]", "hierarchy census (documents, by declared `level`): "
+                    + " · ".join(f"{k} {v}" for k, v in sorted(levels.items()))
+                    + f" — and {len(g['strategies'])} L1 strategies, {len(g['routes'])} L2 routes, "
+                      f"{len(g['instruments'])} L4 instruments, "
+                      f"{sum(len(g[c]) for c in ('objects', 'evidence', 'artifacts', 'claims'))} "
+                      f"L5 items in the graph")
+
+
+#: Documents that name the registry validator's position in `preflight.sh`. One fact, four homes — so
+#: the ordinal is READ from the script rather than trusted in any of them.
+GATE_ORDINAL_DOCS = ("README.md", "CONTRIBUTING.md", "systems/POLICY-evidence.md", "CLAUDE.md")
+
+
+def check_preflight_gate_ordinal(g, f):
+    """*"…which is gate N of preflight"* must agree with the order `preflight.sh` actually runs.
+
+    ⚠ THIS IS NOT PEDANTRY AND THE REPOSITORY HAS ALREADY PAID FOR IT. CLAUDE.md carries the correction
+    in its own text — *"which is worse than vague: it sends a reader to the wrong gate when preflight
+    fails"* — and fixed itself. The other three documents saying the same thing were not updated, so a
+    fact with four homes had one right and three wrong, all of them confidently phrased.
+
+    ⛔ IT IS DERIVED, NEVER COMPARED TO A CONSTANT HERE. The number lives in `preflight.sh`'s gate order
+    and nowhere else; adding, removing or reordering a gate re-derives it and this check tells you which
+    sentences to move.
+    """
+    sh = os.path.join(REPO, "scripts", "preflight.sh")
+    if not os.path.exists(sh):
+        f.err("[P1]", "scripts/preflight.sh is missing — it is the pre-commit gate the docs point at")
+        return
+    with open(sh, encoding="utf-8") as fh:
+        gates = re.findall(r'^\s*echo "== (.+?) =="', fh.read(), re.M)
+    idx = next((i + 1 for i, gname in enumerate(gates) if "validate" in gname), None)
+    if idx is None:
+        f.err("[P1]", "no gate in preflight.sh matches the registry validator — the documents that "
+                      "name its position have nothing to be checked against")
+        return
+    want = re.compile(rf"gate {idx} of (?:preflight|`?scripts/preflight\.sh`?)|"
+                      rf"gate {idx} of preflight's {len(gates)}")
+    for rel in GATE_ORDINAL_DOCS:
+        path = os.path.join(REPO, rel)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+        for m in re.finditer(r"gate (\d+) of (?:preflight|`?scripts/preflight\.sh`?)", text):
+            # ⚠ A *superseded, retained* line is quoting the OLD ordinal on purpose. The repository's
+            # correction convention requires the wrong value to stay quotable, so a line that says it is
+            # superseded is cleared rather than flagged — otherwise the convention and the check fight.
+            line = text[text.rfind("\n", 0, m.start()) + 1:text.find("\n", m.end())]
+            ctx = text[max(0, m.start() - 400):m.end()]
+            if "uperseded" in line or "uperseded" in ctx.rsplit("⚠", 1)[-1]:
+                continue
+            if int(m.group(1)) != idx:
+                f.err("[P1]", f"{rel} says `{m.group(0)}` but the registry validator is gate {idx} of "
+                              f"{len(gates)} in scripts/preflight.sh — a wrong ordinal sends a reader "
+                              f"to the wrong gate at exactly the moment preflight has failed")
+        if not want.search(text) and "preflight" in text and "validate-registry" in text:
+            f.warn("[P1]", f"{rel} names `validate-registry.mjs` and `preflight` but never says which "
+                           f"gate it is — the ordinal is what a reader needs when preflight fails")
+
+
+def check_evidence_base(g, f):
+    """L5 rows nothing above them rests on — *"no orphaned knowledge"*, made checkable.
+
+    ⚠ AN ORPHAN IS NOT AUTOMATICALLY A DEFECT, so this WARNS rather than erring. An object can be
+    registered ahead of the work that will cite it, and an evidence item can be recorded precisely
+    because it was MISattributed and needs a home. What is a defect is the orphan being invisible:
+    before the L5 view existed, `CLM-*` appeared in no generated document at all, so a claim pinned to
+    an artifact nobody produces looked exactly like one pinned to an artifact everybody uses.
+
+    ⛔ `claims` IS DELIBERATELY EXCLUDED FROM THE ORPHAN COUNT. A claim is a LEAF — it is the thing
+    that rests on an artifact, not a thing others rest on — so an empty `cited_by` is its normal state
+    and warning on it would train a reader to ignore this check. What IS checked is the other end: the
+    artifact a claim names must exist, because a claim pinned to nothing is unfalsifiable.
+    """
+    art = {a["id"] for a in g["artifacts"]}
+    for c in g["claims"]:
+        if c.get("artifact") and c["artifact"] not in art:
+            f.err("[L5]", f"{c['id']} pins a sentence in `{c.get('document','?')}` to artifact "
+                          f"{c['artifact']}, which is in no register — the claim cannot be checked "
+                          f"against anything")
+    for coll, what in [("objects", "object"), ("evidence", "evidence item"), ("artifacts", "artifact")]:
+        orph = [r["id"] for r in g[coll] if not r.get("cited_by")]
+        if orph:
+            f.warn("[L5]", f"{plural(len(orph), what)} at L5 {'is' if len(orph) == 1 else 'are'} cited "
+                           f"by no route, instrument, lane or claim — reachable in "
+                           f"[the evidence base](views/L5-evidence-base.md) but by no path DOWN the "
+                           f"hierarchy: {', '.join(sorted(orph))}")
+
+
+def check_conventions_template(g, f):
+    """The authoring template in CONVENTIONS.md must offer the enums the schema will accept.
+
+    ⚠ NOT COSMETIC, AND IT HAD ALREADY FAILED. The template listed 10 of the schema's 12 `kind` values
+    — omitting `index`, which nine live documents use. An author or agent following the canonical
+    convention document would have picked a wrong value for a real, common case, and nothing checked
+    the template because nothing checked documents at all.
+    """
+    path = os.path.join(HERE, "CONVENTIONS.md")
+    if not os.path.exists(path):
+        f.err("[D12]", "systems/CONVENTIONS.md is missing — the authoring template has no home")
+        return
+    with open(path, encoding="utf-8") as fh:
+        text = fh.read()
+    # ⚠ THE TEMPLATE, NOT THE FILE'S OWN FRONTMATTER. CONVENTIONS.md is itself a document, so it opens
+    # with `kind: convention` — and a bare `^kind:` search finds that line, compares one real value
+    # against a 12-value enum and reports a disagreement that is not one. The template is the fenced
+    # block containing the `DOC-<SLUG>` placeholder.
+    block = re.search(r"```ya?ml\n(.*?)```", text, re.S)
+    template = block.group(1) if block and "DOC-<SLUG>" in block.group(1) else None
+    if template is None:
+        f.err("[D12]", "systems/CONVENTIONS.md has no fenced frontmatter template (a ```yaml block "
+                       "containing `id: DOC-<SLUG>`) — there is nothing for an author to copy")
+        return
+    props = SchemaSet(SCHEMA).docs["document.schema.json"]["properties"]
+    for key in ("level", "kind", "status"):
+        want = props[key].get("enum") or props[key]["anyOf"][1]["enum"]
+        m = re.search(rf"^{key}: (\S.*)$", template, re.M)
+        if not m:
+            f.err("[D12]", f"CONVENTIONS.md's frontmatter template has no `{key}:` line, so an author "
+                           f"following it cannot know what the schema will accept")
+            continue
+        got = [x.strip() for x in m.group(1).split("|")]
+        if got != list(want):
+            f.err("[D12]", f"CONVENTIONS.md's template offers `{key}: {'|'.join(got)}` but "
+                           f"document.schema.json accepts {'|'.join(want)} — the enum has two homes "
+                           f"and they disagree. The schema wins; fix the template.")
+
+
 def check_documents(g, f):
     """Every hand-written Markdown file declares purpose, scope, audience, status and freshness.
 
@@ -1007,7 +1266,10 @@ def check_documents(g, f):
     in the one field whose entire job is to say how stale something is. The count below is meant to
     fall as people read them, and it is reported rather than hidden.
     """
-    allowed_status = {"live", "generated", "historical", "superseded", "immutable"}
+    # ⚠ READ FROM THE SCHEMA, NOT RETYPED. This set used to be a literal here and a second literal in
+    # document.schema.json, with nothing comparing them — two homes for one closed vocabulary, in the
+    # checker whose job is to stop exactly that.
+    allowed_status = set(SchemaSet(SCHEMA).docs["document.schema.json"]["properties"]["status"]["enum"])
     retired = {"historical", "superseded"}
     # ⚠ TWO SOURCES, REPORTED SEPARATELY. A refusal that does not name which dependency it hit is
     # unactionable: "it is a pinned figure target" and "CLAUDE.md tells agents to read it" have
@@ -1607,6 +1869,10 @@ def run_checks(g, f):
     check_scan_interop(g, f)
     check_doc_ids(g, f)
     check_documents(g, f)
+    check_document_frontmatter(g, f)
+    check_conventions_template(g, f)
+    check_preflight_gate_ordinal(g, f)
+    check_evidence_base(g, f)
     check_links(g, f)
     check_artifacts(g, f)
     check_code_citations(g, f)
@@ -1962,6 +2228,14 @@ def render_l0(g):
     out += ["", "## Drill down\n",
             "- **L1** — a strategy family: `L1-<family>.md`",
             "- **L2** — a single route: `L2-<route>.md`",
+            "- **L3 · L4** — publications and the experiments that feed them are DOCUMENTS. They declare "
+            "their level in their own frontmatter rather than being copied into the graph, so their "
+            "count is reported by `systems_check --check` (`[D11]`) and is deliberately NOT pinned in "
+            "any committed file — pinning it would turn every new memo into a red build. The "
+            "instruments that produce their evidence ARE modelled: "
+            "[registers/instruments.md](registers/instruments.md).",
+            "- **L5** — [the evidence base](L5-evidence-base.md): every object, citation, artifact and "
+            "pinned claim, each showing what rests on it",
             "- **Registers** — [lanes](registers/lanes.md) *(executed work and how it ended)* · "
             "[blockers](registers/blockers.md) · [technologies](registers/technologies.md) · "
             "[instruments](registers/instruments.md)",
@@ -2128,13 +2402,61 @@ def render_l2(r, g):
                 f"- **Decision criteria (fixed before the run):** {cc['decision_criteria']}",
                 f"- **Reasoning already exhausted:** {', '.join(cc['reasoning_exhausted'])}", ""]
 
+    lim = r.get("limitations_inherited") or []
+    own = r.get("limitations") or []
+    if lim or own:
+        out += ["## Claim ceiling — what this route may NOT be used to claim\n"]
+        if own:
+            out += [f"- {x}" for x in own] + [""]
+        if lim:
+            out += [f"*Inherited from [{r['strategy']}](L1-{r['strategy'].lower()}.md), which is where "
+                    f"these are asserted — a family limitation binds every route inside it.*\n"] + \
+                   [f"- {x}" for x in lim] + [""]
     if r.get("closure_kind") and r["closure_kind"] != "open":
         out += ["## Closure\n", f"`{r['closure_kind']}` — {esc(r.get('closure_note',''))}\n"]
     nx = r.get("next", {})
     if nx.get("best_next_action"):
         out += ["## Best next action\n", nx["best_next_action"], "", f"*Cost:* {nx.get('cost','—')}\n"]
+    out += _l2_trace_down(r, g)
     out.append(f"[← {r['strategy']}](L1-{r['strategy'].lower()}.md) · [← L0](L0-ecosystem.md)\n")
     return "\n".join(out)
+
+
+def _l2_trace_down(r, g):
+    """⭐ THE DOWNWARD HALF OF THE HIERARCHY, ADDED 2026-08-06.
+
+    Every route page linked UP and none linked DOWN, while all 40 routes carried `instruments`,
+    `objects`, `evidence` and `artifacts` in JSON that no view rendered. `required_validation` named
+    instruments as bare text — unlinked, and only the ones a validation row happened to mention — so
+    the L4 and L5 layers under a route were reachable only by opening the graph.
+
+    ⛔ THE SUPPORT/DISCLOSED-FAILING SPLIT IS KEPT, NOT FLATTENED. It is the distinction the whole
+    instrument register exists to preserve: an instrument a route cites AND DISCLOSES AS FAILING is
+    honesty, and merging it into one "instruments" list would read as support.
+    """
+    ins = r.get("instruments") or {}
+    sup = sorted(ins.get("support") or [], key=natkey)
+    fail = sorted(ins.get("disclosed_failing") or [], key=natkey)
+    objs, evs, arts = sorted(r.get("objects") or []), sorted(r.get("evidence") or []), \
+        sorted(r.get("artifacts") or [])
+    if not any([sup, fail, objs, evs, arts]):
+        return []
+    inst = by_id(g["instruments"])
+    out = ["## What this route rests on — drill down\n",
+           "*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this "
+           "route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*\n"]
+    if sup or fail:
+        out += ["| L4 instrument | cited as | known-answer control |", "|---|---|---|"]
+        for iid, how in [(i, "support") for i in sup] + [(i, "**disclosed failing**") for i in fail]:
+            row = inst.get(iid, {})
+            ctl = (row.get("known_answer_control") or {}).get("state", "—")
+            out.append(f"| [{iid}](registers/instruments.md) — {esc(row.get('name','')[:70])} "
+                       f"| {how} | `{ctl}` |")
+        out.append("")
+    for kind, ids in [("objects", objs), ("evidence", evs), ("artifacts", arts)]:
+        if ids:
+            out.append(f"**L5 {kind}:** " + ", ".join(l5_link(kind, x) for x in ids) + "\n")
+    return out
 
 
 def render_lanes(g):
@@ -2369,6 +2691,118 @@ def render_instruments(g):
                 "> written as prose turned out to be a paraphrase of an edge the model already carried.\n"]
         out += [f"- **{i['id']}** — {esc(i['scope_note'])}" for i in scoped]
     out.append("\n[← L0](../L0-ecosystem.md)\n")
+    return "\n".join(out)
+
+
+#: The L5 section headings, in one place: the view renders them and the L2 pages link INTO them, so a
+#: reworded heading must move both ends at once or `[K0]` fails on the dangling anchor.
+L5_SECTIONS = {
+    "objects":   "Objects — the biological and molecular entities the program reasons about",
+    "evidence":  "Evidence — the literature this program cites",
+    "artifacts": "Artifacts — the files a claim can be checked against",
+    "claims":    "Claims — a document's sentence pinned to the field that has to support it",
+}
+
+
+def l5_link(kind, label=None):
+    return f"[{label or kind}](L5-evidence-base.md#{slugify(L5_SECTIONS[kind])})"
+
+
+def natkey(s):
+    """`V4` before `V11`. Lexicographic order puts V11 first, which reads as a shuffled list.
+
+    Still totally ordered and still deterministic — which is what the view-drift check needs.
+    """
+    return [int(p) if p.isdigit() else p for p in re.split(r"(\d+)", s)]
+
+
+def _cited_by_cell(row, g):
+    """Who points at this L5 item — the UP link, rendered as links where a target page exists.
+
+    ⚠ Paths are relative to `systems/views/`, which is where the only caller renders.
+    """
+    rt = {r["id"] for r in g["routes"]}
+    inst = {i["id"] for i in g["instruments"]}
+    out = []
+    for c in row.get("cited_by", []):
+        if c in rt:
+            out.append(f"[{c}](L2-{route_slug(c)}.md)")
+        elif c in inst:
+            out.append(f"[{c}](registers/instruments.md)")
+        elif c.startswith("LANE-"):
+            out.append(f"[{c}](registers/lanes.md)")
+        else:
+            out.append(f"`{c}`")
+    return ", ".join(out) or "⚠ **nothing**"
+
+
+def render_evidence_base(g):
+    """L5 — the level every traceability claim bottoms out in, and the one that had no view.
+
+    ⭐ WHY THIS EXISTS. The architecture's central promise is that every level links cleanly UP and
+    DOWN. Until 2026-08-06 the downward half did not exist below L2: `CLM-*` appeared in no generated
+    view at all, `OBJ-*` only inside the instruments register, and `EV-*` in 3 of 40 route pages —
+    while all 40 routes carried the edges in JSON the whole time. A reader who followed the hierarchy
+    to its bottom ran out of pages one level early and had to open the graph by hand.
+
+    ⛔ IT ASSERTS NOTHING. Every row is an edge some other object already asserts, inverted. The one
+    thing this view adds is the ABSENCE: an L5 row nothing cites is rendered as such rather than being
+    invisible, which is what `[L5]` then reports.
+    """
+    out = [fm(id="DOC-VIEW-L5", title="L5 — the evidence base: what everything above rests on",
+              level="L5", kind="generated", status="generated",
+              generator="systems/systems_check.py",
+              purpose="Every modelled object, citation, artifact and pinned claim, and which route, instrument or lane rests on it.",
+              scope="Level 5 only — assumptions, evidence, artifacts and claims. It asserts nothing of its own.",
+              audience=["maintainers", "autonomous research agents", "external reviewers"],
+              date="2026-08-06", last_verified="2026-08-06"),
+           BANNER, "# L5 — the evidence base\n",
+           "> **The bottom of the hierarchy.** L0 asks what the landscape is; this asks what any of it",
+           "> actually rests on. Every row's **cited by** column is the link back UP — computed from the",
+           "> edges the routes, instruments, lanes and claims already assert, never written here, so it",
+           "> cannot disagree with them.\n",
+           "⚠ **A row citing nothing is not necessarily dead** — it may be registered ahead of the work",
+           "that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than",
+           "omitted, and why `[L5]` reports the count.\n",
+           f"**{len(g['objects'])} objects · {len(g['evidence'])} evidence items · "
+           f"{len(g['artifacts'])} artifacts · {len(g['claims'])} pinned claims.**\n",
+           f"## {L5_SECTIONS['objects']}\n",
+           "| object | kind | status | cited by |", "|---|---|---|---|"]
+    for o in sorted(g["objects"], key=lambda x: x["id"]):
+        out.append(f"| **{o['id']}**<br/>{esc(o.get('display_name',''))} | `{o.get('kind','—')}` "
+                   f"| `{o.get('status','—')}` | {_cited_by_cell(o, g)} |")
+
+    out += ["", f"## {L5_SECTIONS['evidence']}\n",
+            "⚠ **`misattributed_as` is load-bearing.** Several of these have been cited under a wrong name"
+            " in this repository's own history; the alias is kept so a future reader who meets the wrong"
+            " name still lands here.\n",
+            "| id | citation | what it supports | cited by |", "|---|---|---|---|"]
+    for e in sorted(g["evidence"], key=lambda x: x["id"]):
+        can = e.get("canonical") or {}
+        ref = can.get("pmid") and f"PMID {can['pmid']}" or can.get("doi") or "—"
+        out.append(f"| **{e['id']}**<br/>{ref} | {esc(e.get('citation','')[:150])} "
+                   f"| {esc((e.get('what_it_supports') or '')[:170])} | {_cited_by_cell(e, g)} |")
+
+    out += ["", f"## {L5_SECTIONS['artifacts']}\n",
+            "| artifact | path | produced by | cited by |", "|---|---|---|---|"]
+    for a in sorted(g["artifacts"], key=lambda x: x["id"]):
+        out.append(f"| **{a['id']}** | `{esc(a.get('path','—'))}` | `{esc(a.get('produced_by') or '—')}` "
+                   f"| {_cited_by_cell(a, g)} |")
+
+    out += ["", f"## {L5_SECTIONS['claims']}\n",
+            "⭐ **This is the finest grain of traceability the model carries** and the one the brief's"
+            " *\"no orphaned knowledge\"* actually cashes out as: not *\"this paper cites that paper\"*"
+            " but *\"this sentence, in this file, rests on this JSON pointer in this artifact\"*.\n",
+            "| claim | document · locator | rests on | field |", "|---|---|---|---|"]
+    for c in sorted(g["claims"], key=lambda x: x["id"]):
+        art = c.get("artifact")
+        out.append(f"| **{c['id']}** | `{esc(c.get('document','—'))}`<br/>{esc(c.get('locator','—'))} "
+                   f"| {'**' + art + '**' if art else '—'} | `{esc(c.get('field','—'))}` |")
+
+    out += ["", "## Where this sits\n",
+            "[← L0](L0-ecosystem.md) · L2 route pages link down to the rows above · "
+            "registers: [instruments](registers/instruments.md) · [lanes](registers/lanes.md) · "
+            "[requirements](registers/requirements.md)", ""]
     return "\n".join(out)
 
 
@@ -2707,6 +3141,7 @@ def render_plan(g):
 
 def all_views(g):
     v = {"L0-ecosystem.md": render_l0(g),
+         "L5-evidence-base.md": render_evidence_base(g),
          "registers/lanes.md": render_lanes(g),
          "registers/blockers.md": render_blockers(g),
          "registers/technologies.md": render_technologies(g),

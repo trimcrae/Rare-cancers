@@ -1,6 +1,7 @@
 ---
 id: DOC-CONTRIBUTING
 title: Contributing
+level: —
 kind: runbook
 status: live
 canonical_for: [how to add a research object, contribution rules]
@@ -86,7 +87,7 @@ and is governed by [systems/POLICY-evidence.md](./systems/POLICY-evidence.md), w
 pooled with what, how to represent disagreement, and how to handle data age.
 
 ```bash
-node scripts/validate-registry.mjs      # the evidence contract; also gate 2 of preflight
+node scripts/validate-registry.mjs      # the evidence contract; also gate 4 of preflight
 ```
 
 ⚠ **Two pooling methods exist and are not interchangeable** — crude denominator-weighted proportions with
@@ -103,6 +104,9 @@ says which is which and why quoting one where the other is meant is a real error
 
 - Plain, precise language. Define jargon once, then use it consistently.
 - State limitations in the same place as the result, not in a separate caveats section.
-- Keep the model layer dependency-free — pure stdlib Python and plain JSON.
+- Keep the model layer's dependencies to the two standards it validates against — `jsonschema` for the
+  schemas, `pyyaml` for the frontmatter. ⚠ *Superseded, retained: "Keep the model layer dependency-free —
+  pure stdlib Python and plain JSON." Both parsers were hand-rolled once and both silently accepted what
+  they did not implement; the rule now is the opposite one.*
 - Prefer adding a check over adding a convention. A convention that is not enforced decays; this
   repository has the receipts.

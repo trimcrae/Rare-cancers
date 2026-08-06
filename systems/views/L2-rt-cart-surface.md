@@ -102,6 +102,14 @@ Two independent blockers, both about the tumour rather than the modality, and ot
 **Revisit when:**
 - **TECH-EMC-EXPRESSION-DATA** — A fetchable public EMC RNA-seq or proteomics deposit beyond the single existing model, enabling a target-regulon readout and per-a *(expected 2029, basis `speculative`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-IMMUNO](L1-st-immuno.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- EMC is antigen-cold and the fusion junction is a weak peptide-HLA — a property of this tumour and this junction, not of any modality here.
+- Surface-antigen selectivity was measured on cell-line surrogates rather than on EMC tissue, so the negatives are as provisional as the positives would have been.
+- One route's predicted binders span junction seams that a corrected exon index says do not exist; that result is void and the question is open.
+
 ## Closure
 
 `instrument_limit` — Blocked by the antigen search and the cold myxoid stroma, not by the cell product.

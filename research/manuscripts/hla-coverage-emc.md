@@ -1,6 +1,6 @@
 ---
 id: DOC-HLA-COVERAGE-EMC
-title: Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r
+title: "Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r"
 level: L3
 kind: manuscript
 status: live

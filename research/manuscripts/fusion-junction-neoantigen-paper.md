@@ -1,6 +1,6 @@
 ---
 id: DOC-FUSION-JUNCTION-NEOANTIGEN-PAPER
-title: Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunot
+title: "Targeting the EWSR1::NR4A3 fusion-junction neoantigen in extraskeletal myxoid chondrosarcoma: a fusion-exclusive immunot"
 level: L3
 kind: manuscript
 status: live

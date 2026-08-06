@@ -1,6 +1,6 @@
 ---
 id: DOC-CLINICAL-BRIEF-EMC-NEOANTIGEN
-title: Clinical brief: a personalised fusion-neoantigen route to treatment in EMC
+title: "Clinical brief: a personalised fusion-neoantigen route to treatment in EMC"
 level: L3
 kind: manuscript
 status: live

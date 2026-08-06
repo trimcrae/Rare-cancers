@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-ENSEMBLE-REDESIGN-BRIEF
-title: Agent brief: ensemble-robust NR4A3 ligand redesign
+title: "Agent brief: ensemble-robust NR4A3 ligand redesign"
 level: L4
 kind: memo
 status: live

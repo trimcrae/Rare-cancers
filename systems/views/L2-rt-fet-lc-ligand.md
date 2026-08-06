@@ -71,6 +71,13 @@ Closed on the same definitional grounds as the EWSR1 protein route.
 
 Permanently closed. A shared region cannot discriminate between the things that share it — that is what 'shared' means.
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-FUSION-DIRECT](L1-st-fusion-direct.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- The closures here are definitional or arithmetic over a fixed fact. They may carry no revival trigger and must never appear on a watch list.
+- That a route is closed says nothing about whether the disease can be treated — only that this surface is not the way.
+
 ## Closure
 
 `definitional` — A ligand for the SHARED FET low-complexity half binds wild-type EWSR1 by definition of 'shared'. Permanent for the same reason as the row above, reached from the other direction.
@@ -80,5 +87,11 @@ Permanently closed. A shared region cannot discriminate between the things that 
 Nothing. Cite the closure.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 objects:** [OBJ-EWSR1-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 [← ST-FUSION-DIRECT](L1-st-fusion-direct.md) · [← L0](L0-ecosystem.md)

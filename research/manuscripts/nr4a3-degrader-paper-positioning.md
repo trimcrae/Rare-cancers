@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-DEGRADER-PAPER-POSITIONING
-title: Positioning: lead with the NR4A3 degrader, not EMC
+title: "Positioning: lead with the NR4A3 degrader, not EMC"
 level: L3
 kind: manuscript
 status: live

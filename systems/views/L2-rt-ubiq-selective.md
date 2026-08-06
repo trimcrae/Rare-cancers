@@ -95,6 +95,14 @@ The blocking fact is about the geometry's PROVENANCE, not about sampling or effo
 **Revisit when:**
 - **TECH-OBSERVED-CRL** — An OBSERVED rather than COMPOSED ubiquitin-ligase RING and E2-ubiquitin geometry — a deposited full-assembly structure replacing a *(expected 2028, basis `speculative`)*
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-PROXIMITY](L1-st-proximity.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- No molecule in this family has been shown to bind NR4A3 at all — the pocket every route here depends on has no known ligand of any kind.
+- No NR4A3 ternary complex has been correctly assembled by anyone, so every geometry claim in this family is a prediction from an instrument that has never been pointed at this system.
+- Nothing in this family asserts efficacy, safety, a therapeutic window or clinical readiness.
+
 ## Closure
 
 `instrument_limit` — ⚠ GRADED ⏸ NOT ✕, on the register's own caveat that this is a route closed by measurements that already exist rather than a proof of impossibility. The geometry does not reach FROM AN E3 ANCHORED AT THE CRYPTIC POCKET; a different anchor re-opens the measurement.
@@ -104,5 +112,15 @@ The blocking fact is about the geometry's PROVENANCE, not about sampling or effo
 Keep the categorical inventory as a disclosed-limitation supplement. Do not restate it as a degradation-geometry claim.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+| L4 instrument | cited as | known-answer control |
+|---|---|---|
+| [V18](registers/instruments.md) — The transfer-zone lysine-identity term | **disclosed failing** | `none` |
+
+**L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 [← ST-PROXIMITY](L1-st-proximity.md) · [← L0](L0-ecosystem.md)

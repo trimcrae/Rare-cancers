@@ -30,7 +30,7 @@ const CITES = {
 
 // sub-scores: each 0-3 (see scoring rubric). composite = sum (max 18).
 const CANDIDATES = [
-  { id: "imatinib-kit-subset", drug: "Imatinib (and other KIT inhibitors)", drugClass: "KIT/ABL tyrosine kinase inhibitor", regulatoryStatus: "FDA/EMA-approved (CML, GIST, DFSP)", notTriedInEmc: false, subsetRestricted: true, patientPageEligible: "T3 — eligible for emergingTreatments pending clinician review",
+  { id: "imatinib-kit-subset", drug: "Imatinib (and other KIT inhibitors)", drugClass: "KIT/ABL tyrosine kinase inhibitor", regulatoryStatus: "FDA/EMA-approved (CML, GIST, DFSP)", notTriedInEmc: false, subsetRestricted: true, registryEligible: "T3 — eligible for emergingTreatments pending clinician review",
     enumeratedAgents: ["dasatinib", "nilotinib", "ponatinib", "masitinib", "midostaurin", "quizartinib", "ripretinib"],
     enumerationProvenance: "Systematic DGIdb enumeration (target-drug-matrix.json) lists these approved KIT inhibitors as alternatives for the KIT-mutant subset; choice should match the specific KIT mutation's drug sensitivity, not just KIT positivity.",
     mechanism: "Inhibits KIT receptor tyrosine kinase signalling; exon-11 KIT mutations are the most imatinib-sensitive class in GIST.",
@@ -245,12 +245,12 @@ const doc = {
   disease: "extraskeletal myxoid chondrosarcoma",
   diseaseSlug: "emc",
   landscapeNote: "EMC has a genomically QUIET landscape: clinical NGS of metastatic EMC found no recurrent clinically-actionable mutations (CDKN2A/2B copy loss noted), and the KIT mutation is a rare (~5%) exception. Repurposing should therefore target the NR4A3 fusion / lineage biology (angiogenesis, PPARγ, transcription/epigenetics, apoptosis) and lean on unbiased patient-derived-model drug screens, rather than expecting actionable driver mutations.",
-  disclaimer: "RESEARCH HYPOTHESES ONLY. These are mechanistic ideas and prioritization scores for investigation - not treatments, not medical advice, and not endorsed for clinical use. None of these drugs is known to work in EMC. Not for the patient-facing site. See research/hypotheses/METHODOLOGY.md.",
+  disclaimer: "RESEARCH HYPOTHESES ONLY. These are mechanistic ideas and prioritization scores for investigation - not treatments, not medical advice, and not endorsed for clinical use. None of these drugs is known to work in EMC. Not for the cited clinical registry, and not for any patient-facing use. See research/hypotheses/METHODOLOGY.md.",
   tiers: {
     "T0-mechanistic": "Mechanistic rationale only; no EMC or close-analog data.",
     "T1-preclinical-or-analog": "Preclinical signal (in vitro/in vivo/screen) or strong analogy in a related fusion-driven sarcoma.",
     "T2-emc-case-signal": "Case report(s)/molecular signal in EMC.",
-    "T3-emc-clinical-evidence": "Prospective or substantial clinical evidence in EMC (eligible to graduate to the patient page after clinician review).",
+    "T3-emc-clinical-evidence": "Prospective or substantial clinical evidence in EMC (eligible to graduate into the clinical registry's emergingTreatments after clinician review).",
   },
   scoring: {
     method: "Each candidate is scored 0-3 on six criteria; composite priorityScore = sum (max 18). A transparent triage heuristic ONLY, NOT a probability of success and NOT a discovery ranking: it sums evidence with novelty/safety/availability, which floats already-known drugs to the top. Read candidates by evidenceType x novelty (these orthogonal fields), not by priorityScore.",

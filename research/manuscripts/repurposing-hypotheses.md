@@ -160,7 +160,7 @@ flowchart TD
   B["Target→drug enumeration<br/>(DGIdb, reproducible)"] --> D
   C["Graph foundation model<br/>(TxGNN, zero-shot)"] -. "diverged — reported as a limitation;<br/>no hit promoted" .-> N["not used as a source"]
   D --> F{"Firewall"}
-  F -- "T3 + clinician review only" --> P["Patient page"]
+  F -- "T3 + clinician review only" --> P["Cited clinical registry<br/>(emergingTreatments)"]
   D --> M["Manuscript & path-to-testing<br/>(n-of-1 · basket · model validation · CURE ID)"]
 ```
 
@@ -265,8 +265,8 @@ is the only candidate at T3 (direct EMC clinical evidence: a *KIT* exon-11–mut
 3 years of disease stabilisation; Jennings et al. 2021). It is approved, well-characterised,
 and biomarker-defined. The realistic route is **molecular pre-screening** (NGS for *KIT*
 mutations) followed by an **expanded-access / n-of-1** trial in the small, mutation-defined
-minority who qualify — not general use. This is the single most actionable lead and is flagged as eligible for the
-patient-facing page pending clinician review.
+minority who qualify — not general use. This is the single most actionable lead and is the only candidate
+flagged as eligible to graduate into the cited clinical registry, pending clinician review.
 
 **Tranche 2 — shelf-ready class extension.** The VEGFR-TKI extension (regorafenib,
 cabozantinib, lenvatinib, and the enumeration-surfaced nintedanib, sorafenib, axitinib,
@@ -312,7 +312,8 @@ molecularly-defined minority and must not be generalised.
 Ethically, the chief risk is **false hope**: a plausible-sounding mechanism can be mistaken by
 a frightened patient for an available treatment. We address this structurally — a strict
 firewall keeps T0–T2 hypotheses out of all patient-facing material, and only a candidate that
-reaches real EMC clinical evidence (T3) may migrate, and then only after clinician review. Any
+reaches real EMC clinical evidence (T3) may migrate into the project's cited clinical registry,
+and then only after clinician review. Any
 clinical step (expanded access, n-of-1, trial) requires sarcoma-specialist judgement and,
 where applicable, formal ethics oversight and informed consent. Every clinical and biological
 claim in the underlying catalogue is cited to a primary source; remaining textbook/analogy

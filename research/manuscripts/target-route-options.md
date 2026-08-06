@@ -5,7 +5,7 @@ level: L3
 kind: manuscript
 status: live
 canonical_for: []
-purpose: ** decision memo. It asks the question the program has never asked:
+purpose: Must the molecule be NR4A-paralogue-selective at all, and if so against what? Ranks every route by its effect on the selectivity requirement rather than by novelty.
 scope: As stated in the document's own role banner.
 audience: [maintainers, external reviewers, autonomous research agents]
 date: 2026-08-05

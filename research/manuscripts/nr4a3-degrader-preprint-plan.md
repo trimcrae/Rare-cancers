@@ -1,6 +1,6 @@
 ---
 id: DOC-NR4A3-DEGRADER-PREPRINT-PLAN
-title: NR4A3-degrader paper → preprint: conversion plan & checklist
+title: "NR4A3-degrader paper → preprint: conversion plan & checklist"
 level: L3
 kind: manuscript
 status: live

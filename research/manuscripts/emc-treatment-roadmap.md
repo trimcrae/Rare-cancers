@@ -1,6 +1,6 @@
 ---
 id: DOC-EMC-TREATMENT-ROADMAP
-title: Attacking an "undruggable" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3
+title: "Attacking an \"undruggable\" fusion oncoprotein by computation alone: a driver-directed treatment program for EWSR1::NR4A3"
 level: L3
 kind: manuscript
 status: live

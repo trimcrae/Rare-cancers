@@ -107,10 +107,35 @@ Complete, honest, and does not need the cell panel to be worth publishing. Its v
 | Cost trend | flat |
 | Automation outlook | The assessment is automated; the panel is not. |
 
+## Claim ceiling — what this route may NOT be used to claim
+
+*Inherited from [ST-DEPENDENCY](L1-st-dependency.md), which is where these are asserted — a family limitation binds every route inside it.*
+
+- The dependency transfer prior came back negative on the available data — a measured premise, revivable only by EMC-specific data.
+- One route rests on class inheritance: no NR4A3 fusion has been tested for the phenotype it assumes.
+- There is one EMC model in public dependency data, with no CRISPR data, so this family's in-silico half is bounded by a sample size of one.
+
 ## Best next action
 
 Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+| L4 instrument | cited as | known-answer control |
+|---|---|---|
+| [INS-CONSTRUCT-DESIGNS](registers/instruments.md) — Transcript-level fusion construct designer (frame computed at the nucl | support | `passes` |
+| [INS-DDR-AXIS-SCAN](registers/instruments.md) — ATRi/PARPi sensitivity re-cut by FET status (GDSC2) | support | `passes` |
+| [INS-IDR-CENSUS](registers/instruments.md) — FET N-terminal IDR / RGG retention census | support | `passes` |
+| [INS-DEPMAP-KO](registers/instruments.md) — DepMap CRISPR-knockout dependency scan of the ATR axis | **disclosed failing** | `fails` |
+
+**L5 objects:** [OBJ-FUS-FUSNR4A3](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-FUS-T2](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-FUS-T5](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-FUS-TAF15](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-FUS-TCF12](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-MODEL-E7E3](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 evidence:** [EV-FET-ATR-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+
+**L5 artifacts:** [ART-ATR-VULNERABILITY](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-CONSTRUCT-DESIGNS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-DDR-AXIS-SCAN](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-IDR-CENSUS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-DEPENDENCY](L1-st-dependency.md) · [← L0](L0-ecosystem.md)

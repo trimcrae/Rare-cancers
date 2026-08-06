@@ -71,10 +71,15 @@ research/
 
 ## Non-negotiable rules
 
-- **Firewall.** Nothing in `research/` is served on the patient site, and no
-  hypothesis (Tier T0–T2, see hypotheses/METHODOLOGY.md) may appear on the
-  patient-facing page. Only a candidate that reaches **real EMC clinical evidence
-  (T3)** can migrate to `emergingTreatments`, and only after clinician review.
+- **Firewall.** No hypothesis (Tier T0–T2, see
+  [hypotheses/METHODOLOGY.md](./hypotheses/METHODOLOGY.md) §5) may enter the cited
+  clinical registry. Only a candidate that reaches **real EMC clinical evidence
+  (T3)** can migrate to its `emergingTreatments` block, and only after clinician
+  review. ⚠ *Superseded, retained: "Nothing in `research/` is served on the patient
+  site … may appear on the patient-facing page." The site was retired and deleted on
+  2026-08-05; the registry it fed is research evidence and stayed. The firewall's
+  destination moved from a page to a data file — the rule is unchanged, and its
+  downstream reader is now the manuscript meta-analysis rather than a patient.*
 - **Hypotheses are hypotheses.** Every mechanistic claim is cited or explicitly
   flagged `needs-verification`. Nothing here is medical advice, a recommendation,
   or a statement that any drug works in EMC. It does not.
