@@ -152,3 +152,202 @@ poses ran in a **dev-sandbox scratch prefix**, not in CI — its `Rbt.Parameter_
 path. The CI lane for this instrument had, at that point, never succeeded. That is why the numbers lived
 only in the roadmap's prose.
 
+
+**The result, in each receptor's own frame — no superposition, nothing to fudge.** All six systems, all
+numbers from [`pose-second-method.json`](../modalities/pose-second-method.json) → `part_a`:
+
+| receptor | receptor provenance | inter-method RMSD (Å) | `C14` band | centroid separation (Å) | internal conformer RMSD (Å) |
+|---|---|---|---|---|---|
+| `dock/metad-opened/v2` | metadynamics-opened AF2 | **3.147** | PARTIAL | 1.685 | 1.422 |
+| `dock/metad-opened/v2-statematch` | metadynamics-opened AF2 | **6.501** | NOT RECOVERED | 1.370 | 2.128 |
+| `dock/8XTT-model2` | experimental apo NMR | **9.816** | NOT RECOVERED | 7.500 | 1.628 |
+| `dock/8XTT-model8` | experimental apo NMR | **6.787** | NOT RECOVERED | 1.116 | 1.355 |
+| `dock/8XTT-model20` | experimental apo NMR | **7.231** | NOT RECOVERED | 2.457 | 1.367 |
+| `dock/8XTT-model6` | experimental apo NMR | **6.605** | NOT RECOVERED | 6.416 | 0.898 |
+| **spread (n = 6)** | | **3.147 – 9.816, median 6.696** | **0 RECOVERED · 1 PARTIAL · 5 NOT RECOVERED** | median 2.071 | median 1.394 |
+
+⭑ **Read those against the scales that make an RMSD interpretable**, all measured on this molecule and
+recomputed at run time rather than quoted:
+
+- the molecule is **10.4 Å** long;
+- turning it **end-for-end in place** costs **6.84 Å**;
+- a **uniformly random reorientation** in place averages **5.11 Å** (n = 200).
+
+⛔ **The median inter-method disagreement, 6.696 Å, is ~98 % of the end-for-end flip and 1.31× the random
+reorientation.** Not one of the six pairs reaches `C14`'s 2.0 Å RECOVERED line; five of six do not reach
+the 4.0 Å PARTIAL line either.
+
+**The conformer is not the explanation.** Median internal-conformer RMSD is **1.394 Å** against a
+6.696 Å in-frame RMSD — both engines find a similar molecular shape and put it in differently.
+
+**And the second method does not converge across receptor conformers either.** Measured with the same
+Pocket-5 Cα superposition and the same symmetry-corrected kernel the first method's spread uses:
+**0 of 15 pairs** inside 2.0 Å, **0 of 15** inside 4.0 Å, range **4.453 – 12.845 Å**, median **7.385 Å**
+(`part_a.within_second_method_spread`). ⇒ **the non-convergence is a property of the SYSTEM, not of one
+scoring function** — which is precisely the attribution
+[`pose-convergence-401.json`](../modalities/pose-convergence-401.json) said it could not make.
+
+---
+
+## 4 · ⭑ Which cavity did each method actually choose?
+
+This is the question neither existing artifact could answer, and it is the one R3 made unavoidable.
+
+**Why it had to be asked.** `pose-second-method.json` reads its own result as *"same location, different
+orientation"* — the median centroid separation, 2.071 Å, is small beside a 6.696 Å RMSD. **That reading
+presumes one pocket.** [`r3-site-choice-audit.json`](../modalities/r3-site-choice-audit.json) measured
+**two**: the prespecified site is split across two accepted cavities sharing 4 residues, pairwise
+Jaccard **0.21**, centroids **9.853 Å** apart — *further than the frozen gate's own 8.0 Å ceiling*.
+Pocket 1 is the helix-3 face; pocket 2 is the helix-11/12 face. **Both lie inside the 12.0 Å sphere both
+engines search** (their centroids sit 3.478 Å and 7.562 Å from the reference centroid), so neither
+engine was ever asked to choose, and a ~2 Å centroid shift cannot by itself establish a shared pocket.
+
+**How it is measured.** On **discriminating lining contacts only** — residues that line exactly one
+cavity. The 4 residues lining both are dropped, because counting them would let the overlap between the
+two cavities decide which cavity a pose is in. The contact cutoff and kernel are the pipeline's own
+(`pose_convergence_401.contact_a` / `.contacts`), and the cavity definitions are read out of the R3
+audit rather than typed. A tie, or no discriminating contact, is **AMBIGUOUS and is never broken**.
+
+| receptor | first method (smina) | second method (rDock) | same cavity? |
+|---|---|---|---|
+| `dock/metad-opened/v2` | **AMBIGUOUS** (4 – 4) | pocket 1 (margin 1) | not gradeable |
+| `dock/metad-opened/v2-statematch` | pocket **2** (margin 3) | pocket **2** (margin 1) | ✅ yes |
+| `dock/8XTT-model2` | pocket **2** (margin 4) | pocket **1** (margin 1) | ⛔ **no** |
+| `dock/8XTT-model8` | pocket **2** (margin 4) | pocket **2** (margin 2) | ✅ yes |
+| `dock/8XTT-model20` | pocket **2** (margin 3) | pocket **2** (margin 6) | ✅ yes |
+| `dock/8XTT-model6` | pocket **2** (margin 1) | pocket **2** (margin 1) | ✅ yes |
+
+**Two readings, and the second is the bigger one.**
+
+1. **The orientation reading mostly survives, but not universally: 4 of 5 gradeable systems are in the
+   same cavity, 1 is not.** The one that is not — `8XTT-model2` — is also the pair with the largest RMSD
+   (9.816 Å) and the largest centroid separation (7.500 Å), so it is internally consistent rather than
+   anomalous. ⚠ **The cavity call is therefore receptor-conformer dependent**, and a blanket
+   "orientation, not location" across the census overstates it.
+2. ⭑ **THE POSE THIS PROGRAM HOLDS IS NOT IN THE CAVITY THE FROZEN SITE RULE SCORED.** The first method
+   puts `denovo_401` in **pocket 2 on 5 of 6 receptors** (the sixth is a 4–4 tie); the frozen
+   `pocket_tracking.match_pocket` ordering selected **pocket 1** as the site. The R3 audit records that
+   pocket 1 scores druggability **0.259** and returns `GATE_A_FAIL_BELOW_DSTAR`, while pocket 2 scores
+   **0.667** and would return `GATE_A_PASS`. ⛔ **These are two different questions being answered about
+   two different cavities, and nothing until now put them side by side.**
+
+⚠ **Honest limits on this section, stated at full strength.** The margins are thin — six of the eleven
+calls rest on a margin of 1 or 2 discriminating contacts — and a contact count is a coarse instrument.
+A cavity call is a **geometry** statement: it makes no pose correct, and **nothing here says anything
+binds either cavity**; `R4` is untouched and still needs a bench. And this measures which cavity the
+poses *are in*, never which cavity is *the site* — that is `C2`'s frozen rule, which this work does not
+touch, re-tune, or ask to be re-tuned.
+
+---
+
+## 5 · So: is *"the predicted pose"* an object this program is entitled to?
+
+⛔ **NO. `R5` is DEAD as a source of a singular pose, and it is now dead for a measured reason.**
+
+The pre-registered falsifier asked whether independent methods disagree *as widely as the six existing
+poses*. They do:
+
+| | median pairwise RMSD | pairs within 2.0 Å |
+|---|---|---|
+| first method, across six receptor conformers | 7.006 Å ([`pose-convergence-401.json`](../modalities/pose-convergence-401.json)) | 1 of 15 |
+| second method, across the same six | 7.385 Å | 0 of 15 |
+| **between the two methods, in the same frame** | **6.696 Å** | **0 of 6** |
+
+Three independent ways of asking, one answer. **⇒ Every pose-conditional claim must be stated as
+marginalised over poses, never as "the predicted pose."**
+
+⛔ **AND THE SYMMETRIC HONESTY, WHICH MATTERS AS MUCH:** this does **not** show the pose is wrong, that
+either engine failed, or that nothing occupies this site. Both methods are handed the same receptor
+conformer and could share its error; a convergent answer would have shown only convergence. What has
+been removed is the *entitlement to singularity*, not any measured quantity.
+
+**What `R5` is now blocked on** is listed with costs in
+[`pose-second-method.json`](../modalities/pose-second-method.json) → `verdict.what_would_resolve_R5`.
+⚠ The cheapest item is **$0 and is a SOURCING question, not a compute one**: a known answer *in regime*
+with a real apo→holo rearrangement. The panel's own numbers say why it is not answered yet —
+**0 gradeable pairs** today, against **4** systems whose site does rearrange (site Cα RMSD median
+3.011 Å, max 6.460 Å).
+
+---
+
+## 6 · What was NOT done, and what it would cost
+
+**The optional GPU half of the mandate — a co-fold — was not authorized and was not run.** It is worth
+stating what it would and would not add, because the evidence to judge that already exists at $0:
+
+- A co-fold is genuinely a **third axis**: it predicts the complex rather than placing a ligand into a
+  fixed receptor, so it fails differently from *both* docking searches and does not inherit the shared
+  receptor conformer.
+- ⛔ **But this program already ran one, and it reports itself as being in its unreliable regime on this
+  exact system.** [`nr4a3-binary-cofold-result.json`](../modalities/nr4a3-binary-cofold-result.json)
+  records NR4A3 `protein_ligand_pair_iptm` **0.233** against a CRBN+lenalidomide control at **0.778**,
+  with a confident protein fold (`protein_chain_ptm` 0.909) and an unconfident ligand placement. Its own
+  honest interpretation names the reason: no ligand-bound NR4A structures exist in the training data.
+- ⚠ **And its coordinates were never committed**, which is why
+  [`pose-convergence-401.json`](../modalities/pose-convergence-401.json) lists it under `known_absent`
+  and could not include it. **The $0 half of that item is recovering coordinates from the run that
+  already happened, if any survive** — that is worth doing before any new spend.
+
+⇒ **Read: a fresh GPU co-fold would most likely return a third non-attributable placement at low
+confidence, which changes no verdict.** The decision-relevant spend is the **$0 sourcing** item above,
+not a co-fold.
+
+---
+
+## 7 · Roadmap edits — DESCRIBED, NEVER APPLIED
+
+Three edits are required and **none was applied.** They are generated, with each `current_text` read out
+of the live map at run time, in
+[`r5-cross-method-cavity-attribution.json`](../modalities/r5-cross-method-cavity-attribution.json) →
+`map_edits_required`; all three anchors resolve uniquely (`status: ALL APPLICABLE`). They target §5 row
+`R5`, §10.1 row 4 and §3.1 row `V22`. ⛔ `nr4a3-program-map.md` is trimcrae's; a session that rewrites
+the plan to match its own result is the outcome-selection defect this repo keeps guarding against.
+
+⚠ **`pose-convergence-401.json` is a landed record and was NOT edited**, so its
+`cross_method_evidence: NONE` still reads as written. That statement was true of the census it measured
+and is now superseded by this work; it is corrected by pointing at it, not by rewriting it.
+The same applies to [`path-family-synthesis.md`](path-family-synthesis.md) §2 row 2, whose mandate this
+document discharges.
+
+---
+
+## 8 · How much weight the median can carry — stated plainly
+
+**n = 6, and every one of the six is a real measurement.** The median is **6.696 Å** over six systems,
+and its stability is not a matter of opinion here: **the whole distribution reproduces the 2026-08-03
+run figure for figure** — same range (3.147 – 9.816 Å), same median, same centroid median (2.071 Å),
+same internal-conformer median (1.394 Å), same bands (0 / 1 / 5). ⚠ *Superseded, retained: an interim
+median of **4.824 Å** over **2** systems, reported mid-run. That was not a smaller sample of the same
+thing — it was a run in which `biopython` was absent, so all four 8XTT receptors returned the named
+refusal `8XTT alignment failed: ModuleNotFoundError` before any docking. **An absent reading is not a
+reading of absence**; the two metadynamics systems that did run are the two most similar receptors in
+the census, and reading their median as the census median would have understated the disagreement by
+1.9 Å.*
+
+⛔ **But the number that bounds what any of this licenses is a different one: the known-answer panel has
+`n_gradeable: 0`.** Twelve apo→holo pairs were attempted and **none** produced a gradeable result — two
+excluded by the panel's own pre-registered rule `R2b`, ten with no ceiling computed at all, because the
+panel arm needs a structure fetch this pass did not have. ⇒ **Neither engine has been graded against a
+crystallographic answer in this regime.** So the honest reading of 6.696 Å is:
+
+- ✅ it supports **"the two methods disagree, and the pose is not method-independent"** — that is a
+  statement about the two methods, and six systems measured three ways all say it;
+- ⛔ it does **not** support **"and here is which one is right"**, and no amount of extra receptor
+  conformers would make it, because the missing thing is a **known answer**, not more samples.
+
+⚠ **And the panel's own numbers say why that gap is not merely bookkeeping.** Four of the six systems
+whose site rearrangement could be measured show a **large** apo→holo rearrangement (site Cα RMSD median
+**3.011 Å**, max **6.460 Å**). A panel of near-rigid re-docks could not answer whether either engine
+survives induced fit even if it were gradeable — which is exactly why
+`verdict.what_would_resolve_R5`'s cheapest item is a **sourcing** question at **$0**, not a compute one.
+
+⚠ **One provenance defect found in the same pass and closed.** `_carry_forward` stamped a carried half
+with the *previous run's* provenance — correct on the first carry, wrong on every one after, because the
+previous run may itself have been a carrier. Two single-mode re-runs were enough to make a half produced
+in CI read as `where: local reproduction`. An already-carried half now keeps its **original** producer
+and counts the hops (`n_carries`, `last_carried_by`); held by
+`tests/test_pose_second_method.py::test_a_twice_carried_half_still_names_the_run_that_measured_it`.
+⚠ **The `part_b` block in the current artifact was carried twice before that fix**, so its
+`_carried_forward.produced_by` names the carrying run rather than the producing one. It is left as it
+stands rather than hand-edited — an artifact repaired by hand is an artifact whose provenance is a
+claim — and the next `MODE=panel` run will replace it with a measured half.

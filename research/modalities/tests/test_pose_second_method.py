@@ -577,3 +577,27 @@ def test_half_measurement_count_counts_rows_with_numbers_not_status_strings():
     assert P.half_measurement_count("part_b", {"rollup": {"n_gradeable": 0}, "pairs": [1, 2]}) == 0
     assert P.half_measurement_count("part_b", {"rollup": {"n_gradeable": 3}}) == 3
     assert P.half_measurement_count("part_a", None) == 0
+
+
+def test_a_twice_carried_half_still_names_the_run_that_measured_it(tmp_path, monkeypatch):
+    """⛔ PROVENANCE MUST NOT DRIFT ACROSS CARRIES (measured 2026-08-06 on the live artifact).
+
+    `_carry_forward` stamped `produced_by = prev["_provenance"]` — right on the first carry, wrong on
+    every one after, because the previous run may itself have been a carrier. Two single-mode re-runs
+    were enough to make a half produced in CI read as `where: local reproduction`. A provenance field
+    that drifts is worse than none: it reads as an answer."""
+    art = tmp_path / "pose-second-method.json"
+    art.write_text(json.dumps({
+        "_status": "ok",
+        "_provenance": {"where": "local reproduction", "github_run_id": None},
+        "part_b": {"rollup": {"n_gradeable": 4},
+                   "_carried_forward": {"produced_by": {"where": "GitHub Actions",
+                                                        "github_run_id": "30826469202"},
+                                        "produced_at_status": "ok", "n_carries": 1}}}))
+    monkeypatch.setattr(P, "OUT", str(art))
+    got = P._carry_forward({"_mode": "cross", "part_a": {"systems": []}})
+    cf = got["part_b"]["_carried_forward"]
+    assert cf["produced_by"]["github_run_id"] == "30826469202", \
+        "the ORIGINAL producer must survive the second carry"
+    assert cf["n_carries"] == 2
+    assert cf["last_carried_by"]["where"] == "local reproduction"

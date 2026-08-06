@@ -1594,13 +1594,23 @@ def _carry_forward(doc):
         carried = prev[half]
         if isinstance(carried, dict):
             carried = dict(carried)
+            # ⛔ PROVENANCE MUST NAME THE RUN THAT MEASURED IT, NOT THE LAST RUN THAT CARRIED IT
+            # (measured 2026-08-06). `prev["_provenance"]` is the PREVIOUS run's — correct on the first
+            # carry and wrong on every one after it, because the previous run may itself have been a
+            # carrier. Two single-mode re-runs were enough to make a half produced in CI read as
+            # `where: local reproduction`. So an already-carried half keeps its ORIGINAL producer and
+            # counts the hops instead; a provenance field that drifts is worse than none, because it
+            # reads as an answer.
+            prior = carried.get("_carried_forward") or {}
             carried["_carried_forward"] = {
                 "_reads": "⚠ NOT MEASURED IN THIS RUN. This half was produced by an earlier run and is "
                           "carried so a single-mode re-run cannot delete it; treat it as that run's "
                           "result, not this one's.",
-                "produced_by": prev.get("_provenance"),
-                "produced_at_status": prev.get("_status"),
+                "produced_by": prior.get("produced_by", prev.get("_provenance")),
+                "produced_at_status": prior.get("produced_at_status", prev.get("_status")),
                 "this_run_mode": doc.get("_mode"),
+                "n_carries": int(prior.get("n_carries") or 0) + 1,
+                "last_carried_by": prev.get("_provenance"),
             }
             if attempt is not None:
                 carried["_carried_forward"]["_reads"] = (
