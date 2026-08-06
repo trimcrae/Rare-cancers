@@ -50,7 +50,7 @@ drives the recommendation in §3.
 **Why it's attractive.**
 - **Nuclear receptors are now a *proven* degradable class.** **Vepdegestrant (ARV-471), an
   estrogen-receptor PROTAC, became the first FDA-approved PROTAC in 2025** (VEPPANU; phase-3
-  VERITAC-2). The first-ever approved degrader targets a nuclear receptor — the same superfamily
+  VERITAC-2). That first FDA-approved PROTAC targets a nuclear receptor — the same superfamily
   as NR4A3. [precedent]
 - **A ligandable handle exists in principle.** NR4A LBDs have a **collapsed orthosteric pocket**
   filled with bulky hydrophobic side chains (why they're "orphan"), consistent with our

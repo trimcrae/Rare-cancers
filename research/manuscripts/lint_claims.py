@@ -160,6 +160,40 @@ DEFAULT_TARGETS += sorted(
     for p in glob.glob(os.path.join(REPO, "systems", "views", "L[012]-*.md"))
 )
 
+# ⭐ AND EVERY MANUSCRIPT A PUBLICATION ENDPOINT POINTS AT — same principle as the block above,
+# applied to the half of the corpus that was still a hand-list (added 2026-08-06).
+#
+# ⛔ WHY, MEASURED. Two new manuscripts were written on 2026-08-06 for endpoints `PUB-CLOSED-ROUTES`
+# and `PUB-METHODS`. Both were clean -- but only because each was checked by an EXPLICIT single-file
+# run. Neither appeared in the 23-entry hand-list, so a bare `lint_claims.py` never opened them, and
+# a full-corpus run reporting "0 ERROR across 59 files" was silent about both. **That is the exact
+# shape this file's own docstring calls the design brief: a check that does not cover the file still
+# reads as enforced.** The comment above already states the principle -- "coverage must follow the
+# model, not a list someone remembers to extend" -- and then the manuscripts did not follow it.
+#
+# `document.file` is the model's own pointer from an endpoint to its manuscript, so a paper cannot
+# be drafted without becoming linted in the same commit: `systems_check`'s [B4] requires the target
+# exist and declare `level: L3`, which means this glob cannot silently resolve to nothing.
+# Deduplicated against the hand-list, which stays because it also covers prose that no endpoint
+# claims (the roadmap, the SI, outreach).
+def _publication_documents():
+    path = os.path.join(REPO, "systems", "graph", "publications.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (OSError, ValueError):
+        return []          # the model is systems_check's to police, not this linter's
+    rows = data if isinstance(data, list) else data.get("publications", [])
+    out = []
+    for row in rows:
+        f = (row.get("document") or {}).get("file")
+        if f and os.path.exists(os.path.join(REPO, f)):
+            out.append(f)
+    return out
+
+
+DEFAULT_TARGETS += sorted(set(_publication_documents()) - set(DEFAULT_TARGETS))
+
 # ---------------------------------------------------------------------------
 # Disclaimer detection
 # ---------------------------------------------------------------------------
@@ -591,6 +625,44 @@ def _is_substitution_lhs(sent, match_end):
     return bool(_SUBSTITUTION_LHS_RE.match(sent[match_end:match_end + 72]))
 
 
+# ★★ A REGULATED WORD INSIDE A PROPER NOUN IS A NAME, NOT A CLAIM (added 2026-08-06, when
+# publication-endpoint coverage first opened `repurposing-hypotheses.md` to this linter).
+#
+# R2-treats-cures fired twice on **CURE ID**, the FDA/NCATS public registry of real-world
+# off-label drug use, in the two sentences that say to CONTRIBUTE cases to it:
+#
+#   "...contributing real-world off-label experiences to public registries such as
+#    **CURE ID** (FDA/NCATS) so that isolated n-of-1 outcomes become collective evidence."   (:333)
+#   "...the FDA/NCATS CURE ID registry;"  — an acknowledgements line                          (:420)
+#
+# Naming a registry is not asserting that anything is cured, so this is the docstring's
+# false-positive class exactly, and it is the same principle `is_skippable` already applies to
+# a reference TITLE containing a regulated word ("...the del(5q) therapeutic window.").
+#
+# ⛔ DELIBERATELY THE NARROWEST POSSIBLE FORM, because CLAUDE.md §1's standing rule is "fix the
+# doc, don't loosen the pattern" — the other three findings in this batch were fixed in prose,
+# and only this one could not be, because the registry's name is not ours to reword.
+#   (1) It matches the WHOLE PROPER NOUN ("CURE ID"), never the bare regulated word. A rule
+#       match clears only if it lies entirely INSIDE one of these spans.
+#   (2) It is CASE-SENSITIVE — the one place in this file that is. The registry is styled
+#       CURE ID everywhere it appears in this repo, so "cure id"/"a cure, id..." never clears.
+#   (3) It is a fixed list of names, not a pattern over English, so it cannot grow a hole:
+#       "cures", "cured", "treats" and every lowercase "cure" are untouched, and a sentence
+#       claiming a cure is still an ERROR even when it also mentions CURE ID.
+PROPER_NOUNS = [
+    r"CURE ID",           # FDA / NCATS registry of real-world off-label use
+]
+PROPER_NOUN_RE = re.compile("|".join(PROPER_NOUNS))   # NOT re.IGNORECASE — see (2) above
+
+
+def _inside_proper_noun(sent, match_start, match_end):
+    """True if the match falls wholly inside a known proper noun. Pure."""
+    return any(
+        pm.start() <= match_start and match_end <= pm.end()
+        for pm in PROPER_NOUN_RE.finditer(sent)
+    )
+
+
 def lint_file(path):
     findings = []
     with open(path, "r", encoding="utf-8") as fh:
@@ -601,19 +673,39 @@ def lint_file(path):
             has_disclaimer = bool(DISCLAIMER_RE.search(sent))
             has_hedge = has_disclaimer or bool(HEDGE_RE.search(sent))
             for rule in RULES:
-                m = rule.re.search(sent)
-                if not m:
-                    continue
-                # Applies to EVERY rule, before `clears_on` is consulted: naming a phrase as
-                # the LHS of a mandated substitution states the rule, it never asserts the
-                # claim. See `_SUBSTITUTION_LHS_RE`.
-                if _is_substitution_lhs(sent, m.end()):
+                # ⛔ EVERY match in the sentence, not just the first (fixed 2026-08-06 while the
+                # `PROPER_NOUNS` exception above was being added). This loop used to be
+                # `m = rule.re.search(sent)`, so a sentence was judged on its FIRST hit alone and
+                # any per-match clearing threw the rest of the sentence away with it. That was
+                # survivable while the only per-match clearing was `_is_substitution_lhs` (whose
+                # arrow syntax ends the clause), and it stopped being survivable the moment a
+                # NAME could clear a match: the adversarial sentence
+                #     "We contributed to CURE ID, and our degrader cures EMC."
+                # cleared on "CURE" and never looked at "cures" — a real violation masked by a
+                # registry name earlier in the same sentence. A per-match exception is only as
+                # narrow as the scan it sits in.
+                # Reporting is unchanged: the FIRST surviving match becomes the finding, so a
+                # sentence still yields at most one finding per rule.
+                m = None
+                for cand in rule.re.finditer(sent):
+                    # Applies to EVERY rule, before `clears_on` is consulted: naming a phrase as
+                    # the LHS of a mandated substitution states the rule, it never asserts the
+                    # claim. See `_SUBSTITUTION_LHS_RE`.
+                    if _is_substitution_lhs(sent, cand.end()):
+                        continue
+                    # Also before `clears_on`: a regulated word that is part of a proper noun is
+                    # a NAME. See `PROPER_NOUNS` -- whole-name, case-sensitive, fixed list.
+                    if _inside_proper_noun(sent, cand.start(), cand.end()):
+                        continue
+                    if rule.clears_on == "local_negation" and _locally_negated(sent, cand.start()):
+                        continue
+                    m = cand
+                    break
+                if m is None:
                     continue
                 if rule.clears_on == "disclaimer" and has_disclaimer:
                     continue
                 if rule.clears_on == "hedge" and has_hedge:
-                    continue
-                if rule.clears_on == "local_negation" and _locally_negated(sent, m.start()):
                     continue
                 if rule.context_re is not None and not rule.context_re.search(sent):
                     continue

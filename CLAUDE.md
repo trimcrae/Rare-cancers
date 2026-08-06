@@ -36,6 +36,49 @@ does not belong is the plan's own state.*
 
 ---
 
+## 0 · WHAT TO WORK ON — LIVE PATHS FIRST
+
+**★★ PURSUE ROUTES THAT COULD STILL PRODUCE A RESULT. DO NOT DEFAULT TO DOCUMENTING DEAD ONES
+(trimcrae, 2026-08-06: *"We need to be pursuing live paths. That's the fundamental goal of the whole repo …
+prioritizing actual results. Not publishing negatives."*).** This is first because it is the question every
+session answers before it answers any other, and because a session that gets it wrong can spend an entire
+day being rigorous about nothing that matters.
+
+**The test, applied before starting ANY task:** *does this advance a route that could still produce a
+result?* If yes, it outranks every finished-negative and every documentation item on the board. **If you
+cannot find live work, SAY SO EXPLICITLY** — "no live $0 work is available, here is why" is a report
+trimcrae can act on; silently falling back to writing up closed routes is not, because it looks identical
+to progress.
+
+- **⛔ A NEGATIVE IS A BYPRODUCT, NEVER THE OBJECTIVE.** Write one when a route is genuinely closed, when a
+  live path is blocked on something only trimcrae or the outside world can supply, or when the writing is
+  small next to what is live. **Never in preference to work that could still move a route.** Publishing is
+  how a result reaches a patient; it is not a substitute for having one.
+- **⛔ BEWARE THE AXIS THAT RANKS FINISHED THINGS FIRST.**
+  [`emc-post-degrader-options.md`](./research/manuscripts/emc-post-degrader-options.md) grades routes partly
+  on **Axis D — *what do we hold if the experiment never happens?*** That axis is real and was added for a
+  good reason, but it **structurally promotes completed negatives over live leads**, because a finished
+  write-up always scores full marks on it and a live lead never does. **Read Axis D as a tiebreaker, never
+  as the work queue.** *(Measured 2026-08-06: a session took that ranking at face value and put four
+  parallel agents on a failure-record paper, a closed-route paper and two housekeeping sweeps — with the
+  ASO panel retracted, the neoantigen predictions carrying `⛔_RETRACTED_SEAMS` and the TCIP route one $0
+  CI fetch from naming an effector. Zero of four were on a live path, and it took trimcrae asking to catch
+  it.)*
+- **⛔ "BLOCKED" IS A CLAIM THAT NEEDS EVIDENCE, AND IT IS USUALLY WRONG.** Most rows that read blocked are
+  blocked on a **$0 CI fetch, a regeneration, or a staging step** — not on money, not on a wet lab, and not
+  on a capability that does not exist. §6 says the sandbox is not your execution limit; §4 says a free
+  observation is never "watching". **Before accepting any route as blocked, check what it is ACTUALLY
+  waiting on** — the answer has repeatedly been something free that nobody had done.
+- **This does NOT retire "every route's end goal is a paper" (§5), and the two are easy to confuse.** That
+  rule is a **test of whether a route is a real option** — a route that cannot name the paper it is for is
+  an activity, not an option. It has never meant that *writing* the paper is the work. Keep it as the test
+  it is. ⚠ *Superseded, retained: the reading of §5 under which "a closed route is not exempt — a
+  definitional closure is a publishable negative" made negative-writing a standing task. Closures are still
+  worth publishing and the field still publishes almost none of them; what changes is that they wait behind
+  anything live.*
+
+---
+
 ## 1 · Writing and reporting
 
 - **📏 ONE FACT, ONE PLACE — AND WHEN YOU CORRECT A NUMBER, REGISTER THE OLD ONE (trimcrae, 2026-07-25, after a
@@ -273,6 +316,11 @@ When in doubt: do it and show it.
     [`systems/views/L3-publications.md`](./systems/views/L3-publications.md) — **do not restate the endpoint
     list here.** ⛔ **A closed route is not exempt**: a definitional closure is a publishable negative, and the
     field publishes almost none of them.
+    ⚠ **THIS IS A TEST, NOT A WORK QUEUE — READ [§0](#0--what-to-work-on--live-paths-first)
+    WITH IT (trimcrae, 2026-08-06).** "Name the paper" exists to catch a route that is an activity rather than
+    an option. It has never meant that writing papers is the work, and a session that reads it that way ends
+    up documenting dead routes while live ones sit one free step from a result. **Negatives wait behind
+    anything live.**
 - **★★ "STATE OF THE ART" = BREADTH-FIRST, STANDARD-DEPTH (trimcrae, 2026-07-05 — codified to stop it drifting
   into "spend $1000s for a marginal CI").** Apply before every GPU spend:
   - **A new TECHNIQUE that adds a new axis of evidence** (structure predictor, pose/complex method,

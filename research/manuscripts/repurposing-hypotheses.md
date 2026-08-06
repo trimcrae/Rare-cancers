@@ -220,7 +220,7 @@ full detail, strongest evidence first:
 | **mRNA-vaccine + checkpoint inhibitor** (immune) | **Mechanistic** — cold-microenvironment hypothesis; no EMC data | **Yes** |
 
 The structure is the point: **evidence strength and novelty pull in opposite directions.** The
-*only* clinically-evidenced option (imatinib) is the *only* non-novel one and treats a ~4%
+*only* clinically-evidenced option (imatinib) is the *only* non-novel one and applies to a ~4%
 minority; every genuinely novel hypothesis is preclinical, and the "novel + clinical" cell is
 **empty** — there is no new drug with EMC clinical evidence (see the map). The actionable leads are
 therefore the *novel* candidates with the strongest *functional* EMC evidence (in-vivo, then

@@ -98,7 +98,7 @@ biology off it fails a checker rather than a reader.
 
 ---
 
-**Keywords:** extraskeletal myxoid chondrosarcoma; EWSR1::NR4A3; surfaceome; therapeutic window; antibody–drug
+**Keywords:** extraskeletal myxoid chondrosarcoma; EWSR1::NR4A3; surfaceome; normal-tissue window; antibody–drug
 conjugate; CAR-T; radioligand therapy; SSTR2; neuroendocrine differentiation.
 
 ---
