@@ -139,9 +139,22 @@ status **UPDATED 2026-06-29, now mixed/cautiously-positive after a corrected tes
   **did NOT collapse — it is metastable by Rg** (held 5 ns, frac-near-seed 1.00, mean |drift| 0.042 nm).
 - **Druggability of that metastable state — RESOLVED 2026-06-29, POSITIVE (as a breathing/cryptic site):**
   mdpocket on the unbiased release trajectory gives `max 0.842, mean 0.262, frac≥0.5 = 0.24, frac≥0.53 = 0.20`
-  (static 0.495) — druggable in **~24% of unbiased frames** (clears the pre-reg ≥5%@0.53 bar, with NO bias).
-  So **Gate 3 is now cautiously PASSED as an induced-fit / conformational-selection target** (a dynamic
-  pocket druggable ~¼ of the time), NOT a static always-open pocket. **Metastability CONFIRMED 3/3** (triplicate
+  (static 0.495) — which **CLEARS** the pre-registered ≥5% @ 0.53 bar with no bias.
+  ⭐ **THE HARMONIZED RE-READ (2026-07-11) SUPERSEDES THOSE FRACTIONS, AND IT MOVES THEM UP, NOT DOWN.**
+  Under the pinned, score-independent detector ([`nr4a3-pocket-reharmonize-summary.json`](./nr4a3-pocket-reharmonize-summary.json),
+  D\* = 0.53): release rep0 **0.56**, rep1 **0.40**, rep2 **0.80**, **pooled 44/75 = 0.587**; metad 0.68;
+  the experimental 8XTT NMR ensemble 0.15. ⚠ *Superseded, retained: "druggable in **~24% of unbiased
+  frames**" and "a dynamic pocket druggable ~¼ of the time". `lint_claims.py`'s own header names a "~24 %"
+  pocket fraction as belonging to NEITHER the pre-harmonized (0.20/0.16/0.28) nor the current
+  (0.56/0.40/0.80) measurement — it is a number with no home on either side of the re-read.*
+  ⛔ **AND `Gate 3` IS NOT "CAUTIOUSLY PASSED" — its accessibility half is WITHDRAWN.** ⚠ *Superseded,
+  retained: "So **Gate 3 is now cautiously PASSED as an induced-fit / conformational-selection target**."*
+  The roadmap's `R2` records the ~0.6 kcal/mol single-trajectory accessibility estimate as **withdrawn** —
+  three independent-seed replicas do not reconstruct a common F(Rg) — and files *"Reading Gate 3B off a
+  single biased F(Rg) profile"* in its ✕ DEAD register; `nr4a3-metad-crossreplica.json` states plainly that
+  **Gate 3B (equilibrium accessibility) is unresolved**, and the paper §2.2 withdrew it. What survives is
+  the DRUGGABILITY half above, which is a different question from whether the state is reachable at
+  equilibrium. The pocket is not a static always-open pocket. **Metastability CONFIRMED 3/3** (triplicate
   replicas all held 5 ns, mean |drift| 0.025 nm). Do **not** restate "Gate 3 FAILS" — the corrected
   (right-frame) test reversed it. The 0.931/0.751 opened-frame druggability is the
 **orthosteric Pocket-5** metric (commensurate with the static 0.495) but is a **biased-MD-frame peak over
