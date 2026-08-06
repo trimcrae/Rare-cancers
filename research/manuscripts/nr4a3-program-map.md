@@ -618,9 +618,16 @@ something like *we passed n gates*, or *we failed x gate and need to make y reme
 deliverable done*" — internal shorthand like "term (a) went 7 → 0" is **not** a headline, it is the evidence
 underneath one.*
 
-**As of 2026-08-02 3:30 AM ET · 7 gates passed · 4 failed · 1 DELIVERED BUT NOT GRADED
-(the Step 1 fan-out map; ⚠ and one of its three cycles does not close) · 4 deliverables done and 1 PARTIAL ·
+**As of 2026-08-06 · 7 gates passed · 7 failed · 1 RAN AND ANSWERED (`DISCORDANT`) · 1 DELIVERED BUT NOT GRADED
+(the Step 1 fan-out map; ⚠ and one of its three cycles does not close) · 3 deliverables done and 1 PARTIAL ·
 NOTHING BILLING on Vast · realised spend $84.49 machine-ledgered.**
+⚠ *Superseded, retained: "As of 2026-08-02 3:30 AM ET · 7 gates passed · **4 failed** · … **4 deliverables
+done** and 1 PARTIAL." Three things were wrong at once and all three are the same failure — a headline typed
+rather than counted. (a) The table below showed only THREE failed rows, because the SMARCA2/4 gate had a
+section heading of its own and no row here. (b) The deliverables table has four rows: three DONE and one
+PARTIAL, never four done. (c) Three further gates landed on 2026-08-03 — `5b-T` `NO-GO`, `R3` `GATE_A_FAIL`,
+`R14-a` self-control FAIL — each recorded elsewhere on this page and none of them on this board, so the
+scoreboard understated the failure record by four while reading as current.*
 
 > ### ⛔ THE ONE HOME FOR "WHICH CONTROLS FAILED" — READ THIS BEFORE COUNTING NULLS
 >
@@ -703,6 +710,10 @@ hand-carried total that stood while the fan-out lane alone had realised twenty t
 | RUNG 3 | **NR-V04 covalent feasibility** | **FAILED** | inputs never placed the warhead near its target site. **Remediation:** covalent legs **retired**, panel re-scoped to non-covalent. **~$6–8 not spent** |
 | RUNG 4 | **NR-V04 retrospective** | **RAN, AND ANSWERED: Arm E / R1 completed 16/16 and the frozen gate emitted `DISCORDANT`** | The one home for the result is [`nrv04-retro-verdict.json`](../modalities/nrv04-retro-verdict.json); its three preregistered secondaries are [`nrv04-retro-secondaries.json`](../modalities/nrv04-retro-secondaries.json), and both are written up in the paper §2.12 / SI §S12. **What the rung buys is now known and it is a negative:** the retrospective **was** the positive control for paralogue-selectivity detection and it did not resolve, so no selectivity claim in the paper may lean on it. ⚠ **SUPERSEDED, retained — this row previously read "FAILED (blocked) … HELD pending re-check … no verdict stands".** That was true of the 2026-07-31 state and is not true now: the two bugs were fixed and one arm retired *before* the panel ran, and the hold-breach it describes (17 inadmissible smoke legs, $0.75, Appendix A row 57) was withdrawn in full and is a different event from the 16 real legs that later landed. **~$23 of the rung still not spent** |
 | RUNG 4 · Step 1 fan-out | **19 congeneric RBFE edges** (LANE 17/21) | **COMPLETE — the lane closed itself at 9:24 PM ET Jul 29 (`pending=0`, `live=0`, every unit carrying a `ddg.json` or on the blocked list). The MAP is delivered; the GATE on what it means is a separate judgement and is NOT claimed here** | **18 edges complete of the 18 computable**, in a 19-edge map, for **$73.79** against a derived authorisation ceiling of $74.91 · **1 edge permanently BLOCKED** (`cw_bio_nmethyl_amide` — no mapper reaches the 20-atom provable floor, measured identical at t20 and t300, so more search time cannot fix it; and the one map that does reach 19 gets there only by mapping a carbon onto a hydrogen, which is the degenerate correspondence the floor exists to reject) · **the edge that was held on a FIXED DEFECT has since LANDED** (`cw_bio_primary_amide`, +0.935 ± 0.500 kcal/mol — two atoms of the staged hybrid system sat at exactly the same coordinates carrying a gradient 7.7e11 times the largest force on any other atom in the box; finite, so the CPU minimiser survived it and every GPU did not. Displacing one by 0.01 A removed it and changed nothing else to six significant figures. It burned 25 rentals on 7 cards before anyone counted the attempts; the de-degenerated geometry reached the execution hosts and the edge computed) · **15 of the 18 are anchor-rooted** and are the only ones readable as tighter-or-weaker than cmpd19; the other 3 join two analogues and close cycles. **The honest denominator is 18 computable edges of a 19-edge map**, derived in `step1-fanout-map.json` (`n_computable`), never typed — and the ranked table is built from that file's `ranking` field, which is restricted to anchor-rooted edges for the reason recorded in the paper's Appendix A · ⚠ **AND ONE OF THE THREE CYCLES DOES NOT CLOSE — a MAP-QUALITY caveat that was landed with the map and had reached no document until 2026-07-30.** `cycle_exitvector_aniline` **R = −0.726** and `cycle_exitvector_ether` **R = −0.756** are inside the ±1.0 tolerance (`C22`); **`cycle_3carbonyl` sums to R = +1.307 → VIOLATION**. The artifact's own rule is that an open cycle means at least one of its edges is unconverged or mis-mapped, so **the three edges of that loop** (`cw_ms_free_acid` +0.136, `cw_bio_primary_amide` +0.935, `cw_ms_free_acid → cw_bio_primary_amide` +2.106) **carry that reservation wherever they are quoted**. R is a property of the loop and does NOT name the guilty edge; at one replicate per edge it also cannot be separated from three unlucky single draws, which is the same want-of-replicates limit as everywhere else on this lane. Numbers live once, in `step1-fanout-map.json` → `cycle_closure` |
+| GATE | **SMARCA2/4 sensitivity control** | **FAILED — NULL on an adequately-powered design (2026-08-02 10:42 PM ET)** | the known-answer control the selectivity read rests on does not fire. ⚠ *Added to this table 2026-08-06: it had its own section heading above and NO ROW HERE, while §0.7 calls this table the one home for every gate's verdict sentence — so the headline counted a failure the table could not show.* |
+| RUNG 5b-T | **ternary rebuild, pre-registered three-arm gate** | **`NO-GO` (2026-08-03)** | the assembly-route ternaries do not discriminate. ⛔ **Deepened 2026-08-05** by the `V1` read over all 16 models per arm: ZERO sequence-encoded discriminating contacts in ZERO of them ([`nr4a3-5bt-signature.json`](../modalities/nr4a3-5bt-signature.json) → `sentence_replicated`) |
+| R3 | **generation-frame druggability (Gate A)** | **FAILED — `GATE_A_FAIL_BELOW_DSTAR` (2026-08-03)** | the exact receptor the de-novo campaign generated into scores **0.259 against D\* = 0.53** under the harmonized detector ([`r3-generation-frame-harmonized.json`](../modalities/r3-generation-frame-harmonized.json)). A candidate cannot be better than the pocket it was designed into |
+| R14-a | **anti-target panel self-control** (`V21`) | **FAILED on 3 of 10 receptors (2026-08-03)** — `panel_readable: false` | the off-target panel cannot currently grade anything; the repair ran and did **not** restore readability |
 
 | deliverable | status |
 |---|---|
@@ -943,7 +954,7 @@ run" to "has been run and is NULL".
 
 *★ **A LANDED GATE.** Registers: instrument `V11`, requirement `R11`. ⚠ **This heading's slug is load-bearing** — it is the target of the repo's only non-Appendix-A anchor link (`nr4a-repanel-prereg-DRAFT.md:9`) and must not change.*
 
-⚠ **CORRECTION, 2026-08-02 — THE TIMESTAMP IN THE HEADING ABOVE IS WRONG BY A CALENDAR DAY, AND THE HEADING IS DELIBERATELY NOT EDITED.** The verdict's own record is `selcal-verdict.json` `utc: "2026-08-01T02:43:16Z"`, i.e. **2026-08-01 10:43 PM ET**. Root cause, read from the data rather than guessed: **the clock face was converted and the calendar date was not** — `02:43 Z → 10:43 PM` is the correct 12-hour conversion, but the date must roll back from 08-02 to 08-01 and did not (the minute is also off by one). The heading keeps the incorrect stamp because changing it changes the slug the anchor link above depends on. **Superseded, retained: `2026-08-02 10:42 PM ET` as this gate's time.**
+⚠ **CORRECTION, 2026-08-02 — THE TIMESTAMP IN THE HEADING ABOVE IS WRONG BY A CALENDAR DAY, AND THE HEADING IS DELIBERATELY NOT EDITED.** The verdict's own record is `selcal-verdict.json` `utc: "2026-08-02T02:43:16Z"`, i.e. **2026-08-01 10:43 PM ET**. Root cause, read from the data rather than guessed: **the clock face was converted and the calendar date was not** — `02:43 Z → 10:43 PM` is the correct 12-hour conversion, but the date must roll back from 08-02 to 08-01 and did not (the minute is also off by one). The heading keeps the incorrect stamp because changing it changes the slug the anchor link above depends on. **Superseded, retained: `2026-08-02 10:42 PM ET` as this gate's time.**
 
 **The headline, in the required form: a gate FAILED, and the remediation is that there is none to buy — step 3
 is not purchased and the paper's language changes instead.**
@@ -1012,7 +1023,7 @@ could not be re-narrated after the fact, and it is machine-carried by `selcal_ga
    measurement rather than a property of the scorer** — each objection answered by running it, not by
    argument. **(a) Does anything score HIGH through this harness?** DeepTernary, a dedicated SE(3)-equivariant
    ternary generator, on `6HAX_B_A_FWZ` — a VHL/SMARCA2 PROTAC ternary supplied as complete unbound inputs in
-   its own released benchmark — reaches **DockQ 0.618 (CAPRI "Medium"), median 0.438 over 16 scored poses,
+   its own released benchmark — reaches **DockQ 0.618 (CAPRI "Medium"), median **0.4143** over 16 scored poses,
    best iRMSD 1.21 Å**, from the same DockQ 2.1.3 build
    ([`selcal-deepternary-poscontrol.json`](../modalities/selcal-deepternary-poscontrol.json)).
    ⛔ 2018 deposit, inside the model's 2023-10-14 horizon, therefore memorisation-permitting **by
@@ -4167,7 +4178,7 @@ line number is kept only where it names a *paper* line.
 
 5. ⛔ **The gate-failed header is stamped ~7 hours in the future** —
    [`## ❌ GATE FAILED … (2026-08-02 10:42 PM ET)`](#-gate-failed--the-smarca24-sensitivity-control-returns-null-on-an-adequately-powered-design-2026-08-02-1042-pm-et),
-   against `selcal-verdict.json`'s `utc: "2026-08-01T02:43:16Z"`-derived truth. **Root cause,
+   against `selcal-verdict.json`'s `utc: "2026-08-02T02:43:16Z"`-derived truth. **Root cause,
    read from the data rather than guessed: the clock face was converted and the calendar date was not.**
    `02:43 Z → 10:43 PM` is the correct 12-hour conversion, but the date must roll back from 08-02 to 08-01
    and did not (the minute is also off by one). ⛔ **The heading itself is NOT corrected**, because its slug is
@@ -4188,7 +4199,7 @@ line number is kept only where it names a *paper* line.
    tally now carries that correction with the old line retained. ⚠ **Superseded, retained:** *"pmx is now
    authorized … so `:546` is stale on that arm."* The ABFE arm's half of the finding stands.
 8. **[§The SMARCA2/4 gate record](#-gate-failed--the-smarca24-sensitivity-control-returns-null-on-an-adequately-powered-design-2026-08-02-1042-pm-et)
-   quotes a DeepTernary median its own artifact no longer holds** — `median 0.438` against
+   quotes a DeepTernary median its own artifact no longer holds** — `median 0.438` (now corrected to 0.4143) against
    `selcal-deepternary-poscontrol.json`'s `median_DockQ 0.4143` (recomputed from the 16 poses: 0.4087).
 9. ✅ **CLOSED BY THIS MERGE. STRATEGY.md's banner said *"three selectivity results came to be withdrawn"***;
    [§3.3](#33--the-pattern--rewritten-because-the-version-this-page-carried-was-false) shows the count is at
@@ -4351,7 +4362,7 @@ consequence still owed** — that consequence is not this page's to discharge):
 
 ## 13 · The deliverable's FRAMING — an open question, with a register and no decision
 
-★ **Added 2026-08-03, and deliberately left OPEN.** [§5's operating regime](#5--where-each-requirement-stands)
+★ **Added 2026-08-03, and deliberately left OPEN.** [§1's operating regime](#1--the-thesis-the-north-star-and-the-operating-regime)
 names a **single deliverable** — [the paper](nr4a3-degrader-paper.md) + its SI — and this page has never
 carried the question of *what that paper is about* as a question at all. It is one, it is trimcrae's, and
 until 2026-08-03 nothing enumerated the alternatives. Seven framings, graded on six columns (does its central
