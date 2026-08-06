@@ -191,7 +191,7 @@ this memo exists to fill.
 | **3** | **Fusion-junction ASO / siRNA** (already priority paper 2) | ⛔ **REMOVES it entirely** — base-pairing at a sequence neither paralogue has | ★★ already the plan; nothing here changes it | — (its gate is delivery, not selectivity) |
 | **4** | **Ex-vivo pan-NR4A pole** (CAR-T manufacturing additive) | ⛔ **REMOVES it** — the systemic liability that motivates selectivity does not arise | ★ already in the paper as pole 2; under-used as an *argument* | — (readout already committed, `nr4a3-pan-readout.json`) |
 | **5** | **Downstream nodes the fusion transactivates** (PPARG / TZDs) | ⛔ **REMOVES it** — different target | ★ keep; direction unresolved | resolve agonism-vs-antagonism from published EMC + TZD-in-sarcoma data |
-| **6** | **TCIP / transcriptional chemical-induced proximity** (co-opt the fusion, don't degrade it) | **RESHAPES.** Keeps `R4` `R5` `R7`; **retires `R9` `R10` `R12`** | ★ new row — belongs on the board | grade the mechanism against the failure record; verify the auto-captured citation through `verify-refs` |
+| **6** | **TCIP / transcriptional chemical-induced proximity** (co-opt the fusion, don't degrade it) | **RESHAPES.** Keeps `R4` `R5` `R7` `R9` `R10`; **retires `R12`** | ★ new row — belongs on the board | grade the mechanism against the failure record; verify the auto-captured citation through `verify-refs` |
 | **7** | **Junction neoantigen** (vaccine / TCR-T / soluble TCR) | ⛔ **REMOVES it** — peptide identity is categorical | ○ drafted — and now carrying a **correction owed** | ⛔ **already run:** its 26 predicted binders span seams that do not exist. Regenerate `fusion-breakpoint-neoantigens.json` against the corrected exon index |
 | **8** | **AND-gate bivalent degrader** (avidity coincidence detection) | **NEUTRAL** — a second, independent axis; arm 1 still carries the paralogue handles | ⏸ hold — arm-2 chemistry does not exist | — (already computed; nothing free left) |
 | **9** | **Synthetic-lethal / dependency partner** | ⛔ **REMOVES it** — different target | ⏸ parked on data, not on ideas | ⛔ **2026-08-05:** the DepMap line labelled EMC (**ACH-001519 / H-EMC-SS**) has no CRISPR data *and* is recorded as not fusion-positive ([Amendment 1](./emc-surface-target-landscape.md)), so the park now waits on a **patient-derived** model, not on a DepMap release. *(Superseded, retained: "check whether the one EMC line in DepMap (**ACH-001519 / H-EMC-SS**) has gained CRISPR data since 24Q4")* |
@@ -489,10 +489,19 @@ has been sitting there since 2026-07-13 without one.
 
 **What it changes about the requirement set, which is the interesting part.** A TCIP still needs an
 NR4A3-LBD binder, so `R4` (something binds), `R5` (the pose) and `R7` (paralogue selectivity of the
-binder) all survive unchanged. But it needs **no E3, no ternary with a ubiquitin ligase, no productive
-lysine and no transfer geometry** — so it retires `R9` (our ternary correctly assembled — the roadmap's
-*"whole remaining gap"*), `R10` and `R12` outright. Those three are, between them, the block behind rows
-1, 18, 21 and 22 of the roadmap's ordered list.
+binder) all survive unchanged. It needs **no E3, no productive lysine and no transfer geometry** — so it
+retires **`R12`** (the ternary is compatible with DEGRADATION — productive unique-lysine geometry), and
+**`R9` and `R10` survive unchanged**: a TCIP is bivalent, so it still induces a target·molecule·effector
+complex, and "a ternary forms" (`R10`) and "OUR ternary is correctly assembled" (`R9`) are exactly what
+that requires. `R9` is the roadmap's *"whole remaining gap"* and this route does **not** escape it.
+⚠ *Superseded, retained: "it needs no ternary with a ubiquitin ligase … so it retires `R9`, `R10` and
+`R12` outright. Those three are, between them, the block behind rows 1, 18, 21 and 22 of the roadmap's
+ordered list."* Two paragraphs below, this same section already said the opposite — *"It inherits the
+same induced-complex modelling problem as `R9`"* — so the file contradicted itself, and the surviving
+sentence is the one the model agrees with (`RT-TCIP.blockers_inherited` includes `BLK-INDUCED-COMPLEX`).
+Corrected 2026-08-06 from [`nr4a3-tcip-reach.json`](../modalities/nr4a3-tcip-reach.json) →
+`map_edits_required`. The retired requirement is one, not three, so the claim that it unblocks four
+roadmap rows does not follow from it and is withdrawn with the sentence that made it.
 
 **Effect on the requirement: RESHAPES** — same paralogue discrimination on the binder, far fewer
 downstream requirements riding on it. And there is a genuine *effective* fusion-selectivity argument:
