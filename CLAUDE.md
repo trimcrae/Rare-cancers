@@ -351,6 +351,30 @@ When in doubt: do it and show it.
   historical figures; it is true only of the live reading, which is what the rule is actually about.*);
   **(3)** while any fleet
   is billing, **you** are the supervisor — dispatch the tick yourself on the cadence the work needs.
+- **★★ A SUPERVISOR WITH NOTHING TO SUPERVISE MUST NOT HEARTBEAT (trimcrae, 2026-08-06: *"Why would we need
+  supervision for tests that aren't running? That seems like a terrible system"*).** Measured that day:
+  **1,476 commits to `main` in 24 h, 1,438 of them CI ticks, 703 saying in their own subject line that they
+  did nothing**, while the account census read `n_instances: 0`. The churn was DELIBERATE — the commit trail
+  was chosen as the liveness channel because a `git diff --quiet` guard had once frozen three lanes'
+  artifact dates and made healthy reapers look stopped — but the design had no **OFF** state, so it
+  heartbeat identically whether or not a fleet existed. **Proof-of-life for a watchman guarding nothing is
+  worth nothing:** a reaper that dies over an empty account costs $0, which is exactly when you do not need
+  to hear from it. One home: [`fleet_armed.py`](./research/modalities/fleet_armed.py), opted into per lane
+  via `PUBLISH_HEARTBEAT_LANE` in [`publish_artifacts.sh`](./research/compute/publish_artifacts.sh).
+  Three properties, all load-bearing: **(a)** what is gated is the **COMMIT, never the work** — every cron
+  still fires and every lane still ACTS, so a reap that needs to happen still happens; **(b)** the census
+  lane is **exempt**, so idle still leaves one hourly commit trail and "no commits at all" stays a real
+  signal; **(c)** **FAIL-ARMED** — a census that is missing, unreadable, stale or short a field publishes as
+  before, and idle exits `10` rather than `1` so a traceback can never be read as "nothing to supervise".
+- **★ WHEN YOU RETIRE A FEATURE, ASK WHAT PART OF IT IS NOT A FILE (measured 2026-08-06).** The
+  patient-facing site was deleted on 2026-08-05 — HTML, assets, templates and the deploy workflow all gone,
+  and `ls .github/workflows/ | grep -i page` returns nothing. **Pages kept building anyway: 52 of the last
+  100 Actions runs repo-wide.** GitHub Pages has two independent switches and only one is a file; the other
+  is the repository **setting** (Settings → Pages → Source), which lives in no branch and survives every
+  commit. Its runs carry `path=dynamic/pages/…` — the `dynamic/` prefix is the tell that no workflow file
+  produced them. ⛔ **A retirement sweep that greps the repo can only find the half of a feature that lives
+  in the repo**; Pages, branch protection, Actions permissions, secrets and environments are invisible to
+  every checker here. Accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md) → Phase 2 (a).
 - **Self-wake = a BACKGROUND-BASH POLLER, not cron** (verified 2026-06-30; a sibling session ran 48 h this way).
   Launch the loop with `run_in_background: true`; its exit delivers a `<task-notification>` that re-invokes you —
   that completion *is* the wake-up, with no user message. Poll the public Actions API (no auth for a public repo,

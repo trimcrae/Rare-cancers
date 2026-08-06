@@ -154,6 +154,22 @@ task, so it is surfaced rather than resolved.
 does not cover the site paths, so a commit that deletes the files while leaving the workflow triggers a build
 that fails at the copy step — permanently red `main`, for a site nobody wants.
 
+> ⛔ **AND THAT WAS ONLY HALF THE SWITCH — MEASURED 2026-08-06, a day after the retirement.** Deleting the
+> workflow file did **not** stop Pages: **52 of the last 100 Actions runs repo-wide were
+> `pages build and deployment`**, still firing on every push, most cancelled by the next commit before
+> finishing. GitHub Pages has TWO independent switches and this plan only ever named one:
+> 1. the **workflow file** — deleted correctly, and `ls .github/workflows/ | grep -i page` returns nothing;
+> 2. the **repository-level Pages setting** (Settings → Pages → Source), which is not a file, lives in no
+>    branch, and therefore survives any commit. Its runs carry `path=dynamic/pages/pages-build-deployment`
+>    — the `dynamic/` prefix is the tell that no workflow file produced them.
+>
+> ⭐ **THE GENERAL LESSON, WHICH IS WHY THIS IS RECORDED RATHER THAN JUST FIXED:** a retirement sweep that
+> greps the repository can only find the half of a feature that lives IN the repository. Anything held in
+> GitHub's own settings — Pages, branch protection, Actions permissions, secrets, environments — is invisible
+> to every checker this repo has, including `[K1]`, `parser_guard` and the link checkers. **When retiring a
+> feature, ask what part of it is not a file.** Closed by trimcrae in Settings → Pages (Source → None);
+> nothing in the repo could have closed it.
+
 **(b) The clinical dataset has two research consumers that no text search will find.** Both build the path
 segment by segment, so the directory name never appears as a literal string:
 
