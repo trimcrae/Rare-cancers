@@ -434,6 +434,17 @@ jobs:
           HOLDFILE=research/modalities/ternary-vast-market-hold.json
           LEDGER=research/modalities/ternary-vast-launch-attempts.json
           git add "$HOLDFILE" "$LEDGER"
+          # ⛔ HEARTBEAT, NOT A RESULT (2026-08-06). A market snapshot saying NOTHING-TO-LAUNCH over an
+          # EMPTY ACCOUNT records a non-event; 703 such commits landed in one day. Skip the publish while
+          # there is nothing to supervise. FAIL-ARMED — any doubt publishes as before, and idle is exit 10
+          # so a traceback can never read as "nothing to supervise".
+          # One home for the rule: research/modalities/fleet_armed.py
+          python3 research/modalities/fleet_armed.py tvast-market > /tmp/armed-tvast-market.json 2>&1; _ARMED=$?
+          if [ "$_ARMED" -eq 10 ]; then
+            echo "[gate] IDLE — nothing to supervise; this snapshot is not committed."
+            cat /tmp/armed-tvast-market.json
+          else
+          if [ "$_ARMED" -ne 0 ]; then echo "::warning::fleet_armed exited $_ARMED — publishing anyway"; fi
           if ! git diff --cached --quiet; then
             cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
             case "$RC" in 0) WORD=CLEAR;; 3) WORD=NOTHING-TO-LAUNCH;; 4) WORD=BLOCKED;; *) WORD=HOLD;; esac
@@ -450,6 +461,7 @@ jobs:
               git add "$HOLDFILE" "$LEDGER"
               if git diff --cached --quiet; then break; fi
             done
+            fi
           fi
           echo "market-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
 
@@ -1043,6 +1055,17 @@ jobs:
           HOLDFILE=research/modalities/valb-triangle-market-hold.json
           LEDGER=research/modalities/ternary-vast-launch-attempts.json
           git add "$HOLDFILE" "$LEDGER"
+          # ⛔ HEARTBEAT, NOT A RESULT (2026-08-06). A market snapshot saying NOTHING-TO-LAUNCH over an
+          # EMPTY ACCOUNT records a non-event; 703 such commits landed in one day. Skip the publish while
+          # there is nothing to supervise. FAIL-ARMED — any doubt publishes as before, and idle is exit 10
+          # so a traceback can never read as "nothing to supervise".
+          # One home for the rule: research/modalities/fleet_armed.py
+          python3 research/modalities/fleet_armed.py valb-market > /tmp/armed-valb-market.json 2>&1; _ARMED=$?
+          if [ "$_ARMED" -eq 10 ]; then
+            echo "[gate] IDLE — nothing to supervise; this snapshot is not committed."
+            cat /tmp/armed-valb-market.json
+          else
+          if [ "$_ARMED" -ne 0 ]; then echo "::warning::fleet_armed exited $_ARMED — publishing anyway"; fi
           if ! git diff --cached --quiet; then
             cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
             # The commit subject is the only part of this that survives into `git log`, so it carries the
@@ -1060,6 +1083,7 @@ jobs:
               git add "$HOLDFILE" "$LEDGER"
               if git diff --cached --quiet; then break; fi
             done
+            fi
           fi
           echo "triangle-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
           if [ "$RC" = 0 ]; then
@@ -1182,6 +1206,17 @@ jobs:
           HOLDFILE=research/modalities/5aks-market-hold.json
           LEDGER=research/modalities/ternary-vast-launch-attempts.json
           git add "$HOLDFILE" "$LEDGER"
+          # ⛔ HEARTBEAT, NOT A RESULT (2026-08-06). A market snapshot saying NOTHING-TO-LAUNCH over an
+          # EMPTY ACCOUNT records a non-event; 703 such commits landed in one day. Skip the publish while
+          # there is nothing to supervise. FAIL-ARMED — any doubt publishes as before, and idle is exit 10
+          # so a traceback can never read as "nothing to supervise".
+          # One home for the rule: research/modalities/fleet_armed.py
+          python3 research/modalities/fleet_armed.py 5aks-market > /tmp/armed-5aks-market.json 2>&1; _ARMED=$?
+          if [ "$_ARMED" -eq 10 ]; then
+            echo "[gate] IDLE — nothing to supervise; this snapshot is not committed."
+            cat /tmp/armed-5aks-market.json
+          else
+          if [ "$_ARMED" -ne 0 ]; then echo "::warning::fleet_armed exited $_ARMED — publishing anyway"; fi
           if ! git diff --cached --quiet; then
             cp "$LEDGER" /tmp/ledger-ours.json; cp "$HOLDFILE" /tmp/hold-ours.json
             case "$RC" in 0) WORD=CLEAR;; 3) WORD=NOTHING-TO-LAUNCH;; 4) WORD=BLOCKED;; *) WORD=HOLD;; esac
@@ -1196,6 +1231,7 @@ jobs:
               git add "$HOLDFILE" "$LEDGER"
               if git diff --cached --quiet; then break; fi
             done
+            fi
           fi
           echo "5aks-gate exit=$RC (0 = clear to rent, 1 = hold on price, 3 = nothing needs a host, 4 = withheld by the failure breaker)"
           if [ "$RC" = 0 ]; then
