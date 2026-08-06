@@ -972,7 +972,7 @@
     "grade_pointers": [
       {
         "file": "research/manuscripts/target-route-options.md",
-        "asserts_grade": false
+        "asserts_grade": true
       },
       {
         "file": "research/manuscripts/nr4a3-monovalent-pocket-route.md",
@@ -981,11 +981,12 @@
     ],
     "blockers_inherited": [
       "BLK-NO-WET-LAB",
+      "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-PARALOGUE-DDG",
       "BLK-R4-BINDS",
       "BLK-REACH-CATEGORICAL"
     ],
     "blockers_retired": [
-      "BLK-PARALOGUE-DDG",
       "BLK-TERNARY-GEOMETRY",
       "BLK-FUNCTIONAL-ACTIONABILITY"
     ],
@@ -1000,9 +1001,12 @@
       "OBJ-RES-C397",
       "OBJ-NR4A3-LBD-MODELLED",
       "OBJ-NR4A3-LBD-CATALOGUE",
-      "OBJ-RES-NR4A1-C551"
+      "OBJ-RES-NR4A1-C551",
+      "OBJ-NR4A3-WT"
     ],
-    "evidence": [],
+    "evidence": [
+      "EV-ZAIENNE-2022"
+    ],
     "artifacts": [
       "ART-DECOY-NULL-LBD"
     ],
@@ -1023,7 +1027,7 @@
       "TR-POSE-METHODS-CONVERGE",
       "TR-EMC-MODEL-ACCESS"
     ],
-    "closure_note": "Its in-silico half is not publishable BECAUSE its exposure instrument fails its own positive control — an instrument limit, not a statement about C397.",
+    "closure_note": "Demoted on FOUR things, not one, and only the first is an instrument limit: the exposure instrument (V17) fails its own positive control; no thiol pKa, intrinsic electrophile reactivity, adduct stability or chemoproteomic selectivity is computed anywhere in this repo — which is $0 in-silico work nobody has done; the site is unassigned; and the source campaign used no purified protein and made no biophysical binding measurement, so there is no published precedent to copy.",
     "strategy": "ST-OCCUPANCY",
     "level": "L2",
     "kind": "route",
@@ -1041,14 +1045,8 @@
       "confidence": "low",
       "last_verified": "2026-08-05"
     },
-    "rationale": "A cysteine present in NR4A3 and absent from both paralogues would give categorical rather than thermodynamic discrimination: the bond either forms or it does not. As a chemical probe rather than a therapeutic, it would let someone test whether engaging this domain does anything at all — which is the question the whole occupancy family rests on.",
-    "supporting_evidence": [
-      {
-        "ref": "V17",
-        "what_it_supports": "a threshold-free RANK of cysteine accessibility across the family — and nothing stronger, because the criterion fails its own positive control",
-        "strength": "direct"
-      }
-    ],
+    "rationale": "A cysteine present in NR4A3 and absent from both paralogues would give categorical rather than thermodynamic discrimination: the bond either forms or it does not. As a chemical probe rather than a therapeutic, it would let someone test whether ANYTHING BINDS the opened pocket — requirement R4, the program's one un-buyable requirement. It does NOT report function: an intact-mass adduct readout shows engagement, not that engagement does anything.",
+    "supporting_evidence": [],
     "remaining_unknowns": [
       "Whether the target cysteine is actually engageable: the exposure criterion that says it is fails on the one family member with literature support.",
       "Whether the reach geometry survives a criterion that passes its control — the current negative may be an artifact of the failing one."
@@ -1057,7 +1055,7 @@
       {
         "what": "An exposure or reactivity criterion that recovers the known covalent site",
         "instrument": "V17",
-        "feasible_today": false,
+        "feasible_today": true,
         "blocked_by": [
           "BLK-REACH-CATEGORICAL"
         ]
@@ -1114,12 +1112,17 @@
     "grade_pointers": [
       {
         "file": "research/IDEAS.md",
-        "asserts_grade": false
+        "asserts_grade": true
+      },
+      {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "asserts_grade": true
       }
     ],
     "blockers_inherited": [
       "BLK-FUNCTIONAL-ACTIONABILITY",
       "BLK-NOT-FUSION-SELECTIVE",
+      "BLK-PARALOGUE-DDG",
       "BLK-R4-BINDS",
       "BLK-REACH-CATEGORICAL",
       "BLK-UNSIZED-REQUIREMENT"
@@ -1179,7 +1182,8 @@
         "route": "RT-TCIP",
         "axis": "how many termini the molecule has",
         "fails_on": [
-          "BLK-FUNCTIONAL-ACTIONABILITY"
+          "BLK-FUNCTIONAL-ACTIONABILITY",
+          "BLK-INDUCED-COMPLEX"
         ],
         "why": "monovalent is strictly cleaner on the ternary axis — no second protein at all — while TCIP still inherits the induced-complex problem. The monovalent reach result therefore does not transfer to TCIP and vice versa"
       },
@@ -1221,12 +1225,18 @@
     "state": {
       "work_state": "future",
       "status": "blocked",
-      "maturity": "scoped",
+      "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-06"
     },
     "rationale": "If the ligand-binding domain is a functional handle in the chimera, occupancy alone is enough and the entire ternary problem disappears. This is the cheapest possible version of the program, and it is registered explicitly as a DOWNGRADE of what the covalent-probe framing implies about a monovalent drug — the probe is a reagent, not evidence that occupancy is therapeutic.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "EV-ZAIENNE-2022",
+        "what_it_supports": "LBD-borne functional modulation of NOR-1, read out on an AF-1-less Gal4 hinge+LBD construct — on the WILD-TYPE receptor, not the fusion, and at an undefined site rather than the cryptic pocket",
+        "strength": "transferred"
+      }
+    ],
     "remaining_unknowns": [
       "Whether the ligand-binding domain is functionally actionable in the fusion, whose other end is a strong independent activator. Nobody has run that assay.",
       "How much paralogue selectivity this route would actually need — the requirement has never been sized.",
@@ -1261,7 +1271,7 @@
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "One of its two blockers is retired by writing something down: nobody has stated how much selectivity this route would need, and until someone does, the route cannot be shown to meet or miss it. That is free and it is a prerequisite for grading the route at all.",
+      "rationale": "One of the two blockers unique to this route is retired by writing something down: nobody has stated how much selectivity this route would need, and until someone does, the route cannot be shown to meet or miss it. That is free and it is a prerequisite for grading the route at all.",
       "six_month_delta": "None on the biology; the specification work is available now.",
       "two_year_delta": "Depends entirely on whether a functional readout becomes reachable.",
       "cost_trend": "flat",
@@ -1292,7 +1302,7 @@
     "grade_pointers": [
       {
         "file": "research/manuscripts/nr4a3-program-map.md",
-        "asserts_grade": false
+        "asserts_grade": true
       },
       {
         "file": "research/IDEAS.md",
@@ -1300,7 +1310,8 @@
       }
     ],
     "blockers_inherited": [
-      "BLK-PARALOGUE-DDG"
+      "BLK-PARALOGUE-DDG",
+      "BLK-UNSIZED-REQUIREMENT"
     ],
     "blockers_retired": [],
     "instruments": {
@@ -1335,12 +1346,14 @@
       "status": "ready",
       "maturity": "computed",
       "confidence": "high",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-06"
     },
-    "rationale": "Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, and they are not. NR4A1 has a named anti-target genotype making its sparing a hard constraint; NR4A2 sparing is unbounded in both directions. Recognising the asymmetry changes the design brief, because a molecule only has to win decisively against one of them.",
+    "rationale": "Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, and they are not — but the asymmetry is NOT that one of them is unbounded. Both constraints are MOLECULAR. NR4A1 has a named anti-target genotype; NR4A2 is bounded too (MGI complete-penetrance neonatal lethality, PMID 9092472/9608532), and across 51 HPA tissues it co-expresses with NR4A3 in 47, is dominant in 0 and unbuffered in 0 — so tissue distribution cannot separate target from anti-target and the residual cannot be carried as an exposure question. What survives is a difference in KIND: NR4A1's bound comes from a combination genotype, NR4A2's from complete developmental loss. ⚠ A germline knockout bounds DEVELOPMENTAL, COMPLETE, LIFELONG loss; a degrader is ADULT, TRANSIENT and INCOMPLETE, so a KO phenotype sets the ceiling of concern and never the expected effect of a molecule.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "How much NR4A2 engagement is actually acceptable — the bound is unstated in both directions."
+      "How much ADULT, transient, incomplete NR4A2 loss is acceptable — the germline bound does not speak to that regime, and no source read bounds it.",
+      "Whether the exposure half can be reopened at all: it would need single-cell or region-resolved expression, because bulk tissue averages dilute a small nucleus and the dopaminergic liability lives in one.",
+      "Whether NR4A1-sparing is achievable by any mechanism this program has built — the covalent direction cannot invert, and the steric inverse fires at 0.96x its own null against the forward direction's 5.34x."
     ],
     "required_validation": [
       {

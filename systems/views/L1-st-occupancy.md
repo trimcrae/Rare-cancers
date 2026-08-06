@@ -42,14 +42,15 @@ flowchart LR
   RT_MONOVALENT["○ RT-MONOVALENT"]:::fam
   ST_OCCUPANCY --> RT_MONOVALENT
 
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> ST_OCCUPANCY
   BLK_FUNCTIONAL_ACTIONABILITY{{"BLK-FUNCTIONAL-ACTIONABILITY — Is the LBD a FUNCTIONAL ha…"}}:::blk
   BLK_FUNCTIONAL_ACTIONABILITY --> RT_MONOVALENT
   BLK_NO_WET_LAB{{"BLK-NO-WET-LAB — No wet lab and no collaborator — an ask…"}}:::blk
   BLK_NO_WET_LAB --> RT_COVALENT_PROBE
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_COVALENT_PROBE
   BLK_NOT_FUSION_SELECTIVE --> RT_MONOVALENT
-  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
-  BLK_PARALOGUE_DDG --> RT_ASYMMETRIC
   BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
   BLK_R4_BINDS --> RT_COVALENT_PROBE
   BLK_R4_BINDS --> RT_MONOVALENT
@@ -57,6 +58,7 @@ flowchart LR
   BLK_REACH_CATEGORICAL --> RT_COVALENT_PROBE
   BLK_REACH_CATEGORICAL --> RT_MONOVALENT
   BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_UNSIZED_REQUIREMENT --> RT_ASYMMETRIC
   BLK_UNSIZED_REQUIREMENT --> RT_MONOVALENT
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
@@ -64,7 +66,7 @@ flowchart LR
   classDef tech stroke-width:1px,stroke-dasharray:4 3;
 ```
 
-**Reading it.** ⭐ **No blocker points at the family node**, and that is the finding: the routes here are *not* held down by one shared thing. They are blocked individually, for different reasons — so retiring any one blocker frees some routes and not others, and there is no single unlock for the family.
+**Reading it.** 1 blocker point at the FAMILY node: every route here inherits it, so the family stands or falls as a unit on that. The rest point at individual routes.
 
 *What this family RETIRES for the portfolio is listed below rather than drawn — it is a property of the family, not an edge between these nodes.*
 
@@ -74,12 +76,19 @@ flowchart LR
 |---|---|---|---|---|
 | **[RT-ASYMMETRIC](L2-rt-asymmetric.md)**<br/>Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort | ✓ ready | computed | `reproducible_workflow` | Ensure the asymmetry is carried in every selectivity statement across the model rather than asserted once — a  |
 | **[RT-COVALENT-PROBE](L2-rt-covalent-probe.md)**<br/>Covalent probe at C397 — as a REAGENT, not a drug | ✓ blocked | computed | `internal_note` | Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re- |
-| **[RT-MONOVALENT](L2-rt-monovalent.md)**<br/>Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD | ○ blocked | scoped | `internal_note` | Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what  |
+| **[RT-MONOVALENT](L2-rt-monovalent.md)**<br/>Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD | ○ blocked | computed | `internal_note` | Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what  |
+
+## Family-level bets — blockers EVERY route here inherits
+
+If one of these is never retired, the whole family is dead. That is a different risk from any
+single route failing, and it is only visible at this level.
+
+- **BLK-PARALOGUE-DDG** (`requires_better_simulation_accuracy`) — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
+
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-FUNCTIONAL-ACTIONABILITY** (`requires_wet_lab`) — Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent activator?
 - **BLK-INDUCED-COMPLEX** (`requires_better_structure_prediction`) — An induced ternary/bivalent complex is still required (a second protein must be placed)
-- **BLK-PARALOGUE-DDG** (`requires_better_simulation_accuracy`) — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** (`requires_better_structure_prediction`) — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 
 ## Best next action

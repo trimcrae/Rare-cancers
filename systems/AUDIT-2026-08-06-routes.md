@@ -145,6 +145,37 @@ consults when setting a status, so as written it teaches that a correct row is a
 a correct row gets "fixed" into a wrong one. **Do not "fix" RT-RXR**; it is the cleanest-reasoned
 closure in the registry.
 
+### X10 · ⛔ OPEN, MAJOR — the `support` legality rule has a second door, and it is unguarded
+
+`instruments.support` is legality-checked: an instrument whose known-answer control failed, or that has
+none, may not appear there. Across all 40 routes, **0 illegal entries** — the rule works.
+
+But `supporting_evidence[].ref` accepts the **same instrument ids** and is checked by nothing. Measured
+across all 40: **9 citations of control-failed or control-free instruments**, eight of them at
+`strength: direct`.
+
+| route | instrument | control | strength | verdict |
+|---|---|---|---|---|
+| RT-METHODS-PAPER | V5, V7, V21 | `fails` ×3 | `direct` | ✅ **legitimate** — this route's thesis IS the failure record; the failures are the result |
+| RT-SYNLETH-DEP | INS-DEPMAP-KO | `fails` | `transferred` | ✅ honestly labelled |
+| RT-DEGRADER | V13, V14, V15 | `fails`/`none`/`mixed` | `direct` | ⚠ the lead route's whole evidentiary base is three uncontrolled instruments |
+| RT-COVALENT-PROBE | V17 | `fails` | `direct` | ✅ fixed — entry removed |
+| RT-UBIQ-SELECTIVE | V18 | `none` | `direct` | ⚠ open |
+
+⛔ **The fix is not "delete them"** — RT-METHODS-PAPER *needs* them, and deleting would destroy the one
+route whose deliverable is the honest failure record. The defect is that `strength`'s enum
+(`direct`/`transferred`/`class_inherited`/`surrogate`) is about **provenance distance**, and has no value
+meaning *"this instrument has no valid control."* So a reader sees `direct` and reads "validated", when
+the right reading is "measured on this system by an instrument that failed its own positive control" —
+a different and much weaker claim. CONVENTIONS §5 invariant 2 states the rule in prose; nothing
+implements it on this field.
+
+⚠ Related, found in the same sweep: `route.schema.json` says `supporting_evidence` *"may be empty ONLY
+for a route at maturity `concept`, **and the checker enforces that**"*. **Nothing implements it** —
+`concept` appears nowhere in `systems_check.py`. **11 routes at `maturity: computed` carry an empty
+`supporting_evidence`.** A schema that describes an enforcement that does not exist is the same
+two-homes failure `check_document_frontmatter` was written to close, one collection over.
+
 ## ST-PROXIMITY — 7 routes, all 7 audited
 
 **Every one returned DEFECTIVE.** Not one was a schema problem.
@@ -183,6 +214,67 @@ roadmap and three other documents and so belongs in one deliberate commit; the R
 inversion, which has propagated to `technologies.json`; and the unverified-citation flag on
 `EV-EB-TCIP-2025` (DOI absent from `verify-refs.yml` and from `fact-check-log.md`, while the graph
 quotes it verbatim with no `provenance_flag`).
+
+## ST-OCCUPANCY — 3 routes, all 3 audited
+
+**All 3 DEFECTIVE.** The family's own limitation — *"nobody has stated how much paralogue selectivity
+this family would need, so 'the requirement is smaller here' is not a claim this repository can make"* —
+was breached by all three, each in a different way.
+
+| route | most severe finding | status |
+|---|---|---|
+| RT-ASYMMETRIC | rested on a premise the repo **retired three days before the route's own `last_verified`** | ✅ fixed |
+| RT-MONOVALENT | `BLK-PARALOGUE-DDG` named by its own `sub_forms` and absent from `blockers_inherited` | ✅ fixed |
+| RT-COVALENT-PROBE | `BLK-PARALOGUE-DDG` in `blockers_retired`, **unearned** — the one route acting on the very pocket the blocker is about | ✅ fixed |
+
+### RT-ASYMMETRIC — the retired exposure lever
+
+`rationale` and `remaining_unknowns` both said NR4A2 sparing is *"unbounded in both directions"*, so
+*"a molecule only has to win decisively against one of them."* `nr4a2-sparing-bound.json` returns
+`decision: "BOUNDED"` — MGI complete-penetrance neonatal lethality (PMID 9092472/9608532), and across
+51 HPA tissues NR4A2 co-expresses with NR4A3 in **47**, is dominant in **0**, unbuffered in **0**. The
+roadmap had already restated the brief in its harder form; the route record was the last live document
+still on the retired lever, and its `last_verified: 2026-08-05` **post-dates the 2026-08-03 result**.
+
+Rewritten to the measured form: both constraints molecular, the asymmetry a difference in *kind* (a
+combination genotype vs complete developmental loss), and carrying the caveat the source artifact names
+`caveat_that_must_travel_with_any_result` — a germline knockout bounds developmental, complete,
+lifelong loss, while a degrader is adult, transient and incomplete, so **a KO phenotype sets the
+ceiling of concern and never the expected effect of a molecule.** That clause was in the paper and not
+in the graph.
+
+### RT-MONOVALENT — the `sub_forms` ruling
+
+The only route of 40 using `sub_forms`, a field **no checker covers** (X3). The open question was
+whether a route must carry the union of its sub-forms' blockers. **Ruled (b), a gap** — the decisive
+argument being internal: the route already applies the **union** rule to the covalent sub-form's
+blocker (`BLK-REACH-CATEGORICAL`, which the memo says has *no bearing* on the non-covalent form) while
+applying **intersection** to the non-covalent form's. Two rules at once, and the asymmetry is the whole
+defect. Its own grade owner settles it: *"The two sub-forms fail on opposite blockers, so there is no
+version that clears both."*
+
+⚠ Consequence beyond one row: the generated view renders `sub_forms` **nowhere**, so the split the memo
+calls *"the memo's organizing fact"* is invisible in every generated output — and the board showed the
+portfolio's only LBD-directed small-molecule route as escaping the program's central selectivity
+blocker.
+
+### A published error in the legacy mirror
+
+`emc-systems-map.json` cited `INS-MONOVALENT-REACH` as `instruments.support` — the exact mis-filing
+the graph fixed and pinned a test against — and `emc-systems-map.md` **printed** *"cited as SUPPORT by
+RT-MONOVALENT"* under a heading reading *"Citing one as support is a checker failure."* Neither checker
+could see it: `[L3]`'s `SHARED_ROUTE_FIELDS` omits `instruments`, and the map's own `I1` reads only
+`known_answer_control.state` (`passes`), while the usability that condemns it is computed transitively
+through `inherits_limits_from` (V3 inconclusive, V17 fails). Fixed.
+
+### Stale branch-drift warnings, corrected on the same pass
+
+`path-family-synthesis.md` warned in five places that artifacts were `main`-only or branch-only,
+including *"the largest result on this page is absent from the branch these registers were written
+on."* Re-measured with `git cat-file -e` against both refs: **all five are on both, ten of ten
+present.** The drift was real when written and is reconciled now. ⛔ **A drift warning that outlives its
+drift is not harmless caution** — it tells the next session that committed artifacts are unsafe to
+quote, and it spends the force of a ⛔ on a fixed condition, so the next real one reads as noise.
 
 ## What nearly went wrong in the audit itself
 

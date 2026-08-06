@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-MONOVALENT — Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD
 
-**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · scoped · confidence low · verified 2026-08-05
+**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · computed · confidence low · verified 2026-08-06
 
 **Grade** (owned by [`research/manuscripts/nr4a3-monovalent-pocket-route.md`](../../research/manuscripts/nr4a3-monovalent-pocket-route.md#7--grade-against-the-failure-record)): REGISTERED, NOT PROMOTED — and specifically a DOWNGRADE of what the probe framing implies about a monovalent drug
 
@@ -35,6 +35,10 @@ flowchart LR
   TECH_EMC_MODEL_ACCESS -.-> BLK_FUNCTIONAL_ACTIONABILITY
   BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
   BLK_NOT_FUSION_SELECTIVE --> RT_MONOVALENT
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_MONOVALENT
+  TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
+  TECH_FE_CRYPTIC_POCKET -.-> BLK_PARALOGUE_DDG
   BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
   BLK_R4_BINDS --> RT_MONOVALENT
   TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
@@ -63,6 +67,12 @@ flowchart LR
 
 If the ligand-binding domain is a functional handle in the chimera, occupancy alone is enough and the entire ternary problem disappears. This is the cheapest possible version of the program, and it is registered explicitly as a DOWNGRADE of what the covalent-probe framing implies about a monovalent drug — the probe is a reagent, not evidence that occupancy is therapeutic.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `EV-ZAIENNE-2022` | LBD-borne functional modulation of NOR-1, read out on an AF-1-less Gal4 hinge+LBD construct — on the WILD-TYPE receptor, not the fusion, and at an undefined site rather than the cryptic pocket | `transferred` |
+
 ## Remaining unknowns
 
 - Whether the ligand-binding domain is functionally actionable in the fusion, whose other end is a strong independent activator. Nobody has run that assay.
@@ -82,6 +92,7 @@ If the ligand-binding domain is a functional handle in the chimera, occupancy al
 |---|---|---|
 | **BLK-FUNCTIONAL-ACTIONABILITY** | `requires_wet_lab` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
+| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-REACH-CATEGORICAL** | `scientific_uncertainty` | `TECH-EXPOSURE-CRITERION` |
 | **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0. |
@@ -108,7 +119,7 @@ Its central premise — that occupancy does something — has never been tested 
 
 **Recommendation: `pursue_now`**
 
-One of its two blockers is retired by writing something down: nobody has stated how much selectivity this route would need, and until someone does, the route cannot be shown to meet or miss it. That is free and it is a prerequisite for grading the route at all.
+One of the two blockers unique to this route is retired by writing something down: nobody has stated how much selectivity this route would need, and until someone does, the route cannot be shown to meet or miss it. That is free and it is a prerequisite for grading the route at all.
 
 | horizon | effect |
 |---|---|

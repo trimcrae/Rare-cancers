@@ -106,16 +106,16 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
 | **BLK-NO-EMC-DATA** | `insufficient_data` | 15 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
-| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 12 | 6 | *permanent — nothing* |
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 13 | 6 | *permanent — nothing* |
+| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | 8 | 2 | `TECH-EMC-MODEL-ACCESS` |
-| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 7 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | 7 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | 5 | 1 | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 | **BLK-ANTIGEN-COLD** | `fundamental_biological_limit` | 5 | 1 | *permanent — nothing* |
 | **BLK-VECTOR-DELIVERY** | `requires_future_technology` | 3 | 1 | `TECH-VECTOR-DELIVERY` |
 | **BLK-INDUCED-COMPLEX** | `requires_better_structure_prediction` | 3 | 1 | `TECH-COFOLD-ASSEMBLY` |
+| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | 3 | 2 | *an action we can take* |
 | **BLK-REACH-CATEGORICAL** | `scientific_uncertainty` | 2 | 1 | `TECH-EXPOSURE-CRITERION` |
-| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | 2 | 2 | *an action we can take* |
 | **BLK-ENDPOINT-MD** | `no_known_assay` | 1 | 1 | `TECH-E1-POWERED` |
 | **BLK-PARALOGUE-CONTROL** | `no_known_assay` | 1 | 1 | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
 | **BLK-FUNCTIONAL-ACTIONABILITY** | `requires_wet_lab` | 1 | 1 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |

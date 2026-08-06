@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-ASYMMETRIC — Asymmetric selectivity — NR4A1-sparing mandatory, NR4A2-sparing best-effort
 
-**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ✓ ready · computed · confidence high · verified 2026-08-05
+**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ✓ ready · computed · confidence high · verified 2026-08-06
 
 **Grade** (owned by [`research/manuscripts/target-route-options.md`](../../research/manuscripts/target-route-options.md#route-1--asymmetric-selectivity-nr4a1-sparing-mandatory-nr4a2-sparing-best-effort--pk)): ★★ adopt now — free, and it changes the design brief
 
@@ -31,6 +31,8 @@ flowchart LR
   BLK_PARALOGUE_DDG --> RT_ASYMMETRIC
   TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
   TECH_FE_CRYPTIC_POCKET -.-> BLK_PARALOGUE_DDG
+  BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — Nobody has stated how much sele…"}}:::blk
+  BLK_UNSIZED_REQUIREMENT --> RT_ASYMMETRIC
   classDef fam stroke-width:2px;
   classDef blk stroke-width:2px;
   classDef perm stroke-width:4px;
@@ -39,13 +41,17 @@ flowchart LR
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
 
+⚠ **1 blocker here has no technology named at all** (`BLK-UNSIZED-REQUIREMENT`) — not *waiting*, **unaddressed**. A blocker with no named way out is the most expensive kind, because nothing is being watched for it.
+
 ## Scientific rationale
 
-Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, and they are not. NR4A1 has a named anti-target genotype making its sparing a hard constraint; NR4A2 sparing is unbounded in both directions. Recognising the asymmetry changes the design brief, because a molecule only has to win decisively against one of them.
+Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, and they are not — but the asymmetry is NOT that one of them is unbounded. Both constraints are MOLECULAR. NR4A1 has a named anti-target genotype; NR4A2 is bounded too (MGI complete-penetrance neonatal lethality, PMID 9092472/9608532), and across 51 HPA tissues it co-expresses with NR4A3 in 47, is dominant in 0 and unbuffered in 0 — so tissue distribution cannot separate target from anti-target and the residual cannot be carried as an exposure question. What survives is a difference in KIND: NR4A1's bound comes from a combination genotype, NR4A2's from complete developmental loss. ⚠ A germline knockout bounds DEVELOPMENTAL, COMPLETE, LIFELONG loss; a degrader is ADULT, TRANSIENT and INCOMPLETE, so a KO phenotype sets the ceiling of concern and never the expected effect of a molecule.
 
 ## Remaining unknowns
 
-- How much NR4A2 engagement is actually acceptable — the bound is unstated in both directions.
+- How much ADULT, transient, incomplete NR4A2 loss is acceptable — the germline bound does not speak to that regime, and no source read bounds it.
+- Whether the exposure half can be reopened at all: it would need single-cell or region-resolved expression, because bulk tissue averages dilute a small nucleus and the dopaminergic liability lives in one.
+- Whether NR4A1-sparing is achievable by any mechanism this program has built — the covalent direction cannot invert, and the steric inverse fires at 0.96x its own null against the forward direction's 5.34x.
 
 ## Required validation
 
@@ -58,6 +64,7 @@ Sparing NR4A1 and sparing NR4A2 have been treated as one symmetric requirement, 
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
+| **BLK-UNSIZED-REQUIREMENT** | `scientific_uncertainty` | State the selectivity requirement the route would have to meet, with its basis. This is reasoning, not a capability: nobody has written the specification down, so nothing can be shown to meet or miss it. $0. |
 
 ## Readiness — what this could become today
 

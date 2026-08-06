@@ -33,6 +33,12 @@ flowchart LR
   TECH_CLOUD_WET_LAB -.-> BLK_NO_WET_LAB
   TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
   TECH_EMC_MODEL_ACCESS -.-> BLK_NO_WET_LAB
+  BLK_NOT_FUSION_SELECTIVE[["BLK-NOT-FUSION-SELECTIVE — The route also engages the wil…"]]:::perm
+  BLK_NOT_FUSION_SELECTIVE --> RT_COVALENT_PROBE
+  BLK_PARALOGUE_DDG{{"BLK-PARALOGUE-DDG — The paralogue ΔΔG margin — selectivit…"}}:::blk
+  BLK_PARALOGUE_DDG --> RT_COVALENT_PROBE
+  TECH_FE_CRYPTIC_POCKET(["TECH-FE-CRYPTIC-POCKET<br/>expected 2028"]):::tech
+  TECH_FE_CRYPTIC_POCKET -.-> BLK_PARALOGUE_DDG
   BLK_R4_BINDS{{"BLK-R4-BINDS — R4 — nothing is known to bind the cryptic…"}}:::blk
   BLK_R4_BINDS --> RT_COVALENT_PROBE
   TECH_EMC_MODEL_ACCESS(["TECH-EMC-MODEL-ACCESS<br/>expected 2029"]):::tech
@@ -49,17 +55,13 @@ flowchart LR
 
 **Reading it.** A solid arrow is what holds this route down today. A dashed arrow is a capability that WOULD retire a blocker — dashed because it has not landed, and the date beside it is a forecast, not a schedule.
 
-✓ Already cleared by this route: `BLK-FUNCTIONAL-ACTIONABILITY`, `BLK-PARALOGUE-DDG`, `BLK-TERNARY-GEOMETRY`.
+⛔ **1 of these is permanent** (`BLK-NOT-FUSION-SELECTIVE`) — a fact about the biology, drawn double-walled, with no way out by definition. No technology arrives to fix it.
+
+✓ Already cleared by this route: `BLK-FUNCTIONAL-ACTIONABILITY`, `BLK-TERNARY-GEOMETRY`.
 
 ## Scientific rationale
 
-A cysteine present in NR4A3 and absent from both paralogues would give categorical rather than thermodynamic discrimination: the bond either forms or it does not. As a chemical probe rather than a therapeutic, it would let someone test whether engaging this domain does anything at all — which is the question the whole occupancy family rests on.
-
-## Supporting evidence
-
-| ref | supports | strength |
-|---|---|---|
-| `V17` | a threshold-free RANK of cysteine accessibility across the family — and nothing stronger, because the criterion fails its own positive control | `direct` |
+A cysteine present in NR4A3 and absent from both paralogues would give categorical rather than thermodynamic discrimination: the bond either forms or it does not. As a chemical probe rather than a therapeutic, it would let someone test whether ANYTHING BINDS the opened pocket — requirement R4, the program's one un-buyable requirement. It does NOT report function: an intact-mass adduct readout shows engagement, not that engagement does anything.
 
 ## Remaining unknowns
 
@@ -70,7 +72,7 @@ A cysteine present in NR4A3 and absent from both paralogues would give categoric
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| An exposure or reactivity criterion that recovers the known covalent site | V17 | **no** | BLK-REACH-CATEGORICAL |
+| An exposure or reactivity criterion that recovers the known covalent site | V17 | yes | BLK-REACH-CATEGORICAL |
 | Chemical synthesis and a binding assay | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
@@ -78,12 +80,13 @@ A cysteine present in NR4A3 and absent from both paralogues would give categoric
 | blocker | kind | what would retire it |
 |---|---|---|
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |
+| **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | *permanent* |
+| **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
 | **BLK-REACH-CATEGORICAL** | `scientific_uncertainty` | `TECH-EXPOSURE-CRITERION` |
 
 ## Blockers this route RETIRES
 
-- **BLK-PARALOGUE-DDG** — The paralogue ΔΔG margin — selectivity that reduces to exp(−ΔΔG/RT)
 - **BLK-TERNARY-GEOMETRY** — Ternary geometry — assembly, E3, exit vector, ubiquitin transfer
 - **BLK-FUNCTIONAL-ACTIONABILITY** — Is the LBD a FUNCTIONAL handle in the chimera, whose other end is a strong independent activator?
 
@@ -122,7 +125,7 @@ The blocking criterion is small enough to BUILD rather than wait for — a react
 
 ## Closure
 
-`instrument_limit` — Its in-silico half is not publishable BECAUSE its exposure instrument fails its own positive control — an instrument limit, not a statement about C397.
+`instrument_limit` — Demoted on FOUR things, not one, and only the first is an instrument limit: the exposure instrument (V17) fails its own positive control; no thiol pKa, intrinsic electrophile reactivity, adduct stability or chemoproteomic selectivity is computed anywhere in this repo — which is $0 in-silico work nobody has done; the site is unassigned; and the source campaign used no purified protein and made no biophysical binding measurement, so there is no published precedent to copy.
 
 ## Best next action
 
@@ -139,7 +142,9 @@ Build a reactivity-weighted accessibility criterion and calibrate it against the
 | [V3](registers/instruments.md) — Ligand pose prediction (dock + MM-GBSA) | **disclosed failing** | `inconclusive` |
 | [V17](registers/instruments.md) — The exposure criterion EXPOSED_RSA = 0.25 | **disclosed failing** | `fails` |
 
-**L5 objects:** [OBJ-NR4A3-LBD-CATALOGUE](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-LBD-MODELLED](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-RES-C397](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-RES-NR4A1-C551](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+**L5 objects:** [OBJ-NR4A3-LBD-CATALOGUE](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-LBD-MODELLED](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-WT](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-RES-C397](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-RES-NR4A1-C551](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 evidence:** [EV-ZAIENNE-2022](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 **L5 artifacts:** [ART-DECOY-NULL-LBD](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
