@@ -1,0 +1,2031 @@
+{
+  "_title": "Transcriptional-effector second-terminus arm registry for the TCIP reach enumeration",
+  "_question": "does this repository hold a staged rigid body for a NAMED transcriptional effector, so the reach enumeration can speak about an effector rather than a size class?",
+  "_method": "RCSB discovery by UniProt accession (never by a remembered PDB ID), composition re-verified against the same accession after download, the rigid body DERIVED from the chains the chosen ligand actually contacts, and the exit vector derived by nr4a3_e3_stage.pick_ligand against that body.",
+  "_limits": [
+    "One deposited conformer per effector. No ensemble, no dynamics, no induced fit.",
+    "The body is the LIGAND-BINDING UNIT, not the full-length protein: a BTB domain is not BCL6 and a bromodomain is not BRD4. Everything outside the deposited construct is absent from the excluded volume, so the admitted space is an UPPER bound on what the full protein would allow.",
+    "Nothing here is evidence that any of these effectors binds NR4A3, is recruited by any molecule, is retained on chromatin, or changes transcription. It is input staging: an excluded volume and one atom's coordinates.",
+    "The citation that motivates the CHOICE of effector (10.1021/jacs.5c05634) has not cleared this repository's `verify-refs` gate. It supplies no number to any result \u2014 only the reason a protein was chosen."
+  ],
+  "staged_at_utc": "2026-08-06T23:26:38Z",
+  "arms": {
+    "bcl6": {
+      "arm_id": "bcl6",
+      "recruiter": "BCL6",
+      "crl": null,
+      "partner_class": "transcriptional effector",
+      "effector_role": "transcriptional repressor (BTB/POZ zinc-finger); the BTB domain is the corepressor-recruiting module and carries the ligandable lateral groove",
+      "chemical_handle": "BTB lateral-groove ligands of the BI-3802 / BI-3812 series",
+      "evidence_for_choosing_this_effector": {
+        "doi": "10.1021/jacs.5c05634",
+        "pmc": "PMC12851799",
+        "quote_recruits": "recruits FKBP12(F36V)-tagged EWSR1::FLI1 to DNA sites bound by the transcriptional regulator BCL6",
+        "quote_ligand": "BAK-04-212, a bivalent molecule comprised of OAP and BI3812",
+        "quote_why_chosen": "known chemical matter, validated exit vector, and assay availability",
+        "cached_fulltext": "literature-cache:literature/emc-post-degrader-options/tcip_ewsfli1_jacs_pmc.txt",
+        "\u26a0_citation_gate": "EV-EB-TCIP-2025 has NOT cleared this repository's `verify-refs` gate. It is cited here as the reason an effector was CHOSEN \u2014 a staging decision \u2014 and supplies no number to any result."
+      },
+      "status": "OK",
+      "provenance": {
+        "discovery": {
+          "method": "RCSB search by UniProt accession; NO PDB ID is supplied by this script",
+          "accession": "P41182",
+          "n_entries_returned": 25,
+          "entries_returned": [
+            "7LWE",
+            "7RV1",
+            "7OKL",
+            "7LWF",
+            "7RV4",
+            "7RV8",
+            "7RUY",
+            "7RV2",
+            "1R29",
+            "7LWG",
+            "7RUW",
+            "7RUX",
+            "7OKG",
+            "7LZR",
+            "7RV3",
+            "5N20",
+            "7ZWX",
+            "6EW6",
+            "6XZZ",
+            "7ZWO",
+            "7ZWZ",
+            "6TOK",
+            "7OKJ",
+            "6XYX",
+            "7Q7S"
+          ]
+        },
+        "receptor_entry": {
+          "pdb_id": "7LWG",
+          "title": "Crystal structure of the BCL6 BTB domain in complex with OICR-12694",
+          "resolution_A": 1.3,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "P41182": [
+              "A",
+              "B"
+            ]
+          }
+        }
+      },
+      "rejected": [
+        {
+          "pdb": "7LWE",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 21
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7RV1",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 34
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7OKL",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 28
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7LWF",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 17
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7RV4",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 37
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7RV8",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 39
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7RUY",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 25
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7RV2",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 35
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "1R29",
+          "reason": "no bound ligand >= 12 heavy atoms in contact (<= 4.5 A) with this protein itself"
+        },
+        {
+          "pdb": "7RUW",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 21
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7RUX",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 24
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7OKG",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 27
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7RV3",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 26
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "5N20",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 20
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7ZWX",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 22
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "6EW6",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 15
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "6XZZ",
+          "reason": "no bound ligand >= 12 heavy atoms in contact (<= 4.5 A) with this protein itself"
+        },
+        {
+          "pdb": "7ZWO",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 17
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7ZWZ",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 27
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "6TOK",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 24
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "7OKJ",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 24
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        },
+        {
+          "pdb": "6XYX",
+          "reason": "no bound ligand >= 12 heavy atoms in contact (<= 4.5 A) with this protein itself"
+        },
+        {
+          "pdb": "7Q7S",
+          "reason": "body selection: not enough chains of this accession to build the declared ligand-binding unit",
+          "body_evidence": {
+            "ligand_atom_contacts_per_chain": {
+              "A": 25
+            },
+            "chains_the_ligand_touches": [
+              "A"
+            ],
+            "declared_max_body_chains": 2,
+            "candidate_partner_chains": [],
+            "ok": false,
+            "reason": "not enough chains of this accession to build the declared ligand-binding unit"
+          }
+        }
+      ],
+      "ring": null,
+      "intact_assembly": null,
+      "_not_an_E3": "This arm is NOT a ubiquitin-ligase recruiter. It carries no RING, no cullin and no transfer anchor, and nothing about ubiquitin transfer may be read off it. `nr4a3_tcip_reach` measures that the acceptance test ignores those fields.",
+      "candidates_considered": [
+        {
+          "pdb_id": "7LWG",
+          "resolution_A": 1.3,
+          "title": "Crystal structure of the BCL6 BTB domain in complex with OICR-12694",
+          "method": "X-ray",
+          "body_chains": [
+            "A",
+            "B"
+          ],
+          "n_chains_the_ligand_spans": 2,
+          "ligand_het": "YN7",
+          "ligand_n_heavy": 45,
+          "exit_atom": "C29",
+          "exit_atom_exposure_A": 5.44
+        },
+        {
+          "pdb_id": "7LZR",
+          "resolution_A": 1.34,
+          "title": "Crystal structure of the BCL6 BTB domain in complex with OICR-10256",
+          "method": "X-ray",
+          "body_chains": [
+            "A",
+            "B"
+          ],
+          "n_chains_the_ligand_spans": 3,
+          "ligand_het": "YJJ",
+          "ligand_n_heavy": 38,
+          "exit_atom": "C35",
+          "exit_atom_exposure_A": 3.88
+        }
+      ],
+      "receptor_pdb": "results/nr4a3-effector-arms/bcl6-receptor.pdb",
+      "ligand": {
+        "het_code": "YN7",
+        "chain": "A",
+        "resid": 201,
+        "n_heavy": 45,
+        "n_heavy_on_e3_side": 45,
+        "is_protac_ternary": false,
+        "atoms": [
+          {
+            "name": "C11",
+            "elem": "C",
+            "xyz": [
+              14.593,
+              0.343,
+              -36.499
+            ],
+            "d_e3_A": 3.5,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C13",
+            "elem": "C",
+            "xyz": [
+              14.676,
+              -0.013,
+              -37.861
+            ],
+            "d_e3_A": 4.42,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C02",
+            "elem": "C",
+            "xyz": [
+              11.713,
+              -2.523,
+              -40.613
+            ],
+            "d_e3_A": 3.18,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C04",
+            "elem": "C",
+            "xyz": [
+              11.806,
+              -3.226,
+              -39.257
+            ],
+            "d_e3_A": 3.69,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C05",
+            "elem": "C",
+            "xyz": [
+              12.355,
+              -2.91,
+              -38.005
+            ],
+            "d_e3_A": 3.56,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C06",
+            "elem": "C",
+            "xyz": [
+              13.085,
+              -1.8,
+              -37.534
+            ],
+            "d_e3_A": 3.58,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C07",
+            "elem": "C",
+            "xyz": [
+              13.032,
+              -1.41,
+              -36.178
+            ],
+            "d_e3_A": 3.89,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C09",
+            "elem": "C",
+            "xyz": [
+              13.752,
+              -0.376,
+              -35.664
+            ],
+            "d_e3_A": 3.67,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C14",
+            "elem": "C",
+            "xyz": [
+              15.557,
+              0.775,
+              -38.858
+            ],
+            "d_e3_A": 3.6,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C17",
+            "elem": "C",
+            "xyz": [
+              13.922,
+              -1.079,
+              -38.356
+            ],
+            "d_e3_A": 3.72,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C18",
+            "elem": "C",
+            "xyz": [
+              12.104,
+              -4.022,
+              -37.17
+            ],
+            "d_e3_A": 3.22,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C20",
+            "elem": "C",
+            "xyz": [
+              10.991,
+              -6.23,
+              -37.337
+            ],
+            "d_e3_A": 3.05,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C21",
+            "elem": "C",
+            "xyz": [
+              9.562,
+              -6.281,
+              -36.957
+            ],
+            "d_e3_A": 3.55,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C23",
+            "elem": "C",
+            "xyz": [
+              7.981,
+              -7.829,
+              -35.741
+            ],
+            "d_e3_A": 3.37,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C24",
+            "elem": "C",
+            "xyz": [
+              6.907,
+              -7.719,
+              -36.663
+            ],
+            "d_e3_A": 3.83,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C25",
+            "elem": "C",
+            "xyz": [
+              5.677,
+              -8.177,
+              -36.205
+            ],
+            "d_e3_A": 3.66,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C27",
+            "elem": "C",
+            "xyz": [
+              4.747,
+              -7.708,
+              -38.517
+            ],
+            "d_e3_A": 4.32,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C28",
+            "elem": "C",
+            "xyz": [
+              5.441,
+              -8.851,
+              -39.317
+            ],
+            "d_e3_A": 3.19,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C29",
+            "elem": "C",
+            "xyz": [
+              3.449,
+              -7.336,
+              -39.204
+            ],
+            "d_e3_A": 5.44,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C31",
+            "elem": "C",
+            "xyz": [
+              1.327,
+              -7.917,
+              -39.582
+            ],
+            "d_e3_A": 5.33,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C32",
+            "elem": "C",
+            "xyz": [
+              2.148,
+              -8.389,
+              -37.605
+            ],
+            "d_e3_A": 3.88,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C33",
+            "elem": "C",
+            "xyz": [
+              3.311,
+              -8.743,
+              -36.743
+            ],
+            "d_e3_A": 3.88,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C35",
+            "elem": "C",
+            "xyz": [
+              6.514,
+              -8.821,
+              -34.198
+            ],
+            "d_e3_A": 3.28,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C37",
+            "elem": "C",
+            "xyz": [
+              7.806,
+              -8.421,
+              -34.517
+            ],
+            "d_e3_A": 3.34,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C40",
+            "elem": "C",
+            "xyz": [
+              11.211,
+              -4.526,
+              -39.083
+            ],
+            "d_e3_A": 3.51,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C41",
+            "elem": "C",
+            "xyz": [
+              10.399,
+              -4.614,
+              -41.383
+            ],
+            "d_e3_A": 3.43,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C42",
+            "elem": "C",
+            "xyz": [
+              9.819,
+              -5.032,
+              -42.486
+            ],
+            "d_e3_A": 3.74,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C43",
+            "elem": "C",
+            "xyz": [
+              9.795,
+              -3.678,
+              -43.451
+            ],
+            "d_e3_A": 4.19,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C44",
+            "elem": "C",
+            "xyz": [
+              10.719,
+              -2.85,
+              -43.048
+            ],
+            "d_e3_A": 3.5,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "F08",
+            "elem": "F",
+            "xyz": [
+              12.206,
+              -2.073,
+              -35.304
+            ],
+            "d_e3_A": 2.93,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "F10",
+            "elem": "F",
+            "xyz": [
+              13.653,
+              -0.075,
+              -34.35
+            ],
+            "d_e3_A": 3.09,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "F36",
+            "elem": "F",
+            "xyz": [
+              6.31,
+              -9.397,
+              -33.018
+            ],
+            "d_e3_A": 3.2,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N01",
+            "elem": "N",
+            "xyz": [
+              11.019,
+              -3.263,
+              -41.581
+            ],
+            "d_e3_A": 3.0,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N16",
+            "elem": "N",
+            "xyz": [
+              16.244,
+              1.875,
+              -38.343
+            ],
+            "d_e3_A": 3.43,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N19",
+            "elem": "N",
+            "xyz": [
+              11.416,
+              -4.938,
+              -37.886
+            ],
+            "d_e3_A": 3.55,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N22",
+            "elem": "N",
+            "xyz": [
+              9.329,
+              -7.435,
+              -36.18
+            ],
+            "d_e3_A": 2.91,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N26",
+            "elem": "N",
+            "xyz": [
+              4.56,
+              -8.084,
+              -37.12
+            ],
+            "d_e3_A": 4.11,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N30",
+            "elem": "N",
+            "xyz": [
+              2.428,
+              -8.21,
+              -38.914
+            ],
+            "d_e3_A": 4.93,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N34",
+            "elem": "N",
+            "xyz": [
+              5.501,
+              -8.723,
+              -35.031
+            ],
+            "d_e3_A": 3.49,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N45",
+            "elem": "N",
+            "xyz": [
+              10.51,
+              -5.262,
+              -40.153
+            ],
+            "d_e3_A": 3.16,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O03",
+            "elem": "O",
+            "xyz": [
+              12.149,
+              -1.485,
+              -40.849
+            ],
+            "d_e3_A": 2.92,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O12",
+            "elem": "O",
+            "xyz": [
+              15.328,
+              1.392,
+              -35.883
+            ],
+            "d_e3_A": 2.7,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O15",
+            "elem": "O",
+            "xyz": [
+              15.589,
+              0.512,
+              -39.964
+            ],
+            "d_e3_A": 2.97,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O39",
+            "elem": "O",
+            "xyz": [
+              8.772,
+              -5.492,
+              -37.256
+            ],
+            "d_e3_A": 3.66,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "CL38",
+            "elem": "CL",
+            "xyz": [
+              9.184,
+              -8.647,
+              -33.401
+            ],
+            "d_e3_A": 3.45,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          }
+        ],
+        "exit_atom_name": "C29",
+        "exit_atom_xyz": [
+          3.449,
+          -7.336,
+          -39.204
+        ],
+        "exit_atom_dist_to_receptor_A": 5.44,
+        "exit_atom_dist_to_other_protein_A": null,
+        "ligand_min_dist_to_recruiter_A": 2.7,
+        "e3_moiety_centroid": [
+          9.746599999999999,
+          -4.637066666666666,
+          -37.85033333333334
+        ],
+        "ligand_centroid": [
+          9.746600000000003,
+          -4.637066666666666,
+          -37.85033333333334
+        ],
+        "_derivation": "ligand atoms split by which protein each is closer to; the exit vector is the E3-side atom furthest from the recruiter (exact distances, no grid clamp)."
+      },
+      "assembly_copy": {
+        "selected_chains": [
+          "A",
+          "B"
+        ],
+        "selection": {
+          "ligand_atom_contacts_per_chain": {
+            "A": 38,
+            "B": 20
+          },
+          "chains_the_ligand_touches": [
+            "A",
+            "B"
+          ],
+          "declared_max_body_chains": 2,
+          "ok": true,
+          "selection_rule": "chains the ligand itself contacts",
+          "n_chains_the_ligand_spans": 2,
+          "selected": [
+            "A",
+            "B"
+          ],
+          "completed_through_interface": false
+        }
+      },
+      "n_residues_written": 243,
+      "n_atoms_written": 1950,
+      "self_check": {
+        "arm_id": "bcl6",
+        "ok": true,
+        "n_residues_loaded": 243,
+        "chains_loaded": [
+          "A",
+          "B"
+        ],
+        "exit_atom_is_a_deposited_ligand_atom": true,
+        "exit_atom_to_nearest_ligand_atom_A": 0.0,
+        "exit_atom_to_nearest_body_CA_A": 8.87,
+        "ring_is_absent": true,
+        "transfer_anchor_is_absent": true,
+        "_reading": "the staged record loads as a rigid body through the SAME consumer the reach enumeration uses, and its anchor is an atom of the deposited ligand rather than a typed number"
+      }
+    },
+    "brd4_bd1": {
+      "arm_id": "brd4_bd1",
+      "recruiter": "BRD4",
+      "crl": null,
+      "partner_class": "transcriptional effector",
+      "effector_role": "BET-family transcriptional co-activator / acetyl-lysine reader; bromodomain 1 is the ligandable module",
+      "chemical_handle": "acetyl-lysine-competitive bromodomain ligands of the JQ1 / I-BET series",
+      "evidence_for_choosing_this_effector": {
+        "role_in_the_TCIP_series": "BRD4 is the transcriptional co-activator half of the original TCIP bivalent series that EB-TCIP descends from",
+        "\u26a0": "staged as a SECOND transcriptional-effector body so a single body's shape cannot be mistaken for an effector-class result. No claim is made that BRD4 is the right effector for NR4A3."
+      },
+      "status": "OK",
+      "provenance": {
+        "discovery": {
+          "method": "RCSB search by UniProt accession; NO PDB ID is supplied by this script",
+          "accession": "O60885",
+          "n_entries_returned": 25,
+          "entries_returned": [
+            "4QB3",
+            "6FO5",
+            "7Z9W",
+            "4ZC9",
+            "9P34",
+            "6I7Y",
+            "7ZAJ",
+            "8YMG",
+            "8YMI",
+            "9P33",
+            "8YMF",
+            "7Z9Y",
+            "7ZA8",
+            "7ZE6",
+            "8YMH",
+            "5EI4",
+            "6YQN",
+            "7RN2",
+            "7ZA9",
+            "4Z1S",
+            "7ZA7",
+            "6XUZ",
+            "6YQO",
+            "7ZAD",
+            "6ZED"
+          ]
+        },
+        "receptor_entry": {
+          "pdb_id": "4ZC9",
+          "title": "Crystal Structure of the BRD4a/DB-2-190 complex",
+          "resolution_A": 0.99,
+          "method": "X-ray",
+          "chains_by_accession": {
+            "O60885": [
+              "A"
+            ]
+          }
+        }
+      },
+      "rejected": [
+        {
+          "pdb": "7Z9W",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/7Z9W.pdb"
+        },
+        {
+          "pdb": "9P34",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/9P34.pdb"
+        },
+        {
+          "pdb": "7ZAJ",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/7ZAJ.pdb"
+        },
+        {
+          "pdb": "8YMG",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/8YMG.pdb"
+        },
+        {
+          "pdb": "8YMI",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/8YMI.pdb"
+        },
+        {
+          "pdb": "9P33",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/9P33.pdb"
+        },
+        {
+          "pdb": "8YMF",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/8YMF.pdb"
+        },
+        {
+          "pdb": "7Z9Y",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/7Z9Y.pdb"
+        },
+        {
+          "pdb": "7ZA8",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/7ZA8.pdb"
+        },
+        {
+          "pdb": "7ZE6",
+          "reason": "no bound ligand >= 12 heavy atoms in contact (<= 4.5 A) with this protein itself"
+        },
+        {
+          "pdb": "8YMH",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/8YMH.pdb"
+        },
+        {
+          "pdb": "7ZA9",
+          "reason": "404 (no such resource): https://files.rcsb.org/download/7ZA9.pdb"
+        }
+      ],
+      "ring": null,
+      "intact_assembly": null,
+      "_not_an_E3": "This arm is NOT a ubiquitin-ligase recruiter. It carries no RING, no cullin and no transfer anchor, and nothing about ubiquitin transfer may be read off it. `nr4a3_tcip_reach` measures that the acceptance test ignores those fields.",
+      "candidates_considered": [
+        {
+          "pdb_id": "4ZC9",
+          "resolution_A": 0.99,
+          "title": "Crystal Structure of the BRD4a/DB-2-190 complex",
+          "method": "X-ray",
+          "body_chains": [
+            "A"
+          ],
+          "n_chains_the_ligand_spans": 1,
+          "ligand_het": "4MW",
+          "ligand_n_heavy": 55,
+          "exit_atom": "O2",
+          "exit_atom_exposure_A": 13.65
+        },
+        {
+          "pdb_id": "6I7Y",
+          "resolution_A": 1.0,
+          "title": "Crystal Structure of the first bromodomain of BRD4 in complex with RT56",
+          "method": "X-ray",
+          "body_chains": [
+            "A"
+          ],
+          "n_chains_the_ligand_spans": 1,
+          "ligand_het": "H7E",
+          "ligand_n_heavy": 44,
+          "exit_atom": "C15",
+          "exit_atom_exposure_A": 9.88
+        },
+        {
+          "pdb_id": "6FO5",
+          "resolution_A": 0.95,
+          "title": "FIRST DOMAIN OF HUMAN BROMODOMAIN BRD4 IN COMPLEX WITH INHIBITOR #17",
+          "method": "X-ray",
+          "body_chains": [
+            "A"
+          ],
+          "n_chains_the_ligand_spans": 1,
+          "ligand_het": "DZH",
+          "ligand_n_heavy": 37,
+          "exit_atom": "O3",
+          "exit_atom_exposure_A": 4.92
+        },
+        {
+          "pdb_id": "7RN2",
+          "resolution_A": 1.05,
+          "title": "Crystal structure of the first bromodomain of human BRD4 in complex with SJ001010551-2",
+          "method": "X-ray",
+          "body_chains": [
+            "A"
+          ],
+          "n_chains_the_ligand_spans": 1,
+          "ligand_het": "5ZQ",
+          "ligand_n_heavy": 34,
+          "exit_atom": "C20",
+          "exit_atom_exposure_A": 7.12
+        },
+        {
+          "pdb_id": "4Z1S",
+          "resolution_A": 1.06,
+          "title": "Crystal structure of the first bromodomain of human BRD4 with benzotriazolo-diazepine scaffold",
+          "method": "X-ray",
+          "body_chains": [
+            "A"
+          ],
+          "n_chains_the_ligand_spans": 1,
+          "ligand_het": "559",
+          "ligand_n_heavy": 30,
+          "exit_atom": "CAN",
+          "exit_atom_exposure_A": 4.25
+        },
+        {
+          "pdb_id": "5EI4",
+          "resolution_A": 1.05,
+          "title": "First domain of human bromodomain BRD4 in complex with inhibitor 8-(5-Amino-1H-[1,2,4]triazol-3-ylsulfanylmethyl)-3-(4-chlorobenzyl)-7-ethyl-3,7-dihydropurine-2,6-dione",
+          "method": "X-ray",
+          "body_chains": [
+            "A"
+          ],
+          "n_chains_the_ligand_spans": 1,
+          "ligand_het": "5NV",
+          "ligand_n_heavy": 29,
+          "exit_atom": "CAH",
+          "exit_atom_exposure_A": 4.68
+        },
+        {
+          "pdb_id": "6YQN",
+          "resolution_A": 1.05,
+          "title": "Crystal structure of the first bromodomain of human BRD4 in complex with the dual inhibitor TW9",
+          "method": "X-ray",
+          "body_chains": [
+            "A"
+          ],
+          "n_chains_the_ligand_spans": 1,
+          "ligand_het": "P8T",
+          "ligand_n_heavy": 27,
+          "exit_atom": "C24",
+          "exit_atom_exposure_A": 4.11
+        },
+        {
+          "pdb_id": "4QB3",
+          "resolution_A": 0.94,
+          "title": "Crystal structure of the first bromodomain of human BRD4 in complex with Olinone",
+          "method": "X-ray",
+          "body_chains": [
+            "A"
+          ],
+          "n_chains_the_ligand_spans": 1,
+          "ligand_het": "30M",
+          "ligand_n_heavy": 22,
+          "exit_atom": "N1",
+          "exit_atom_exposure_A": 4.65
+        }
+      ],
+      "receptor_pdb": "results/nr4a3-effector-arms/brd4_bd1-receptor.pdb",
+      "ligand": {
+        "het_code": "4MW",
+        "chain": "A",
+        "resid": 4000,
+        "n_heavy": 55,
+        "n_heavy_on_e3_side": 55,
+        "is_protac_ternary": false,
+        "atoms": [
+          {
+            "name": "O6",
+            "elem": "O",
+            "xyz": [
+              -11.688,
+              -8.67,
+              2.989
+            ],
+            "d_e3_A": 3.69,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C19",
+            "elem": "C",
+            "xyz": [
+              -12.647,
+              -7.92,
+              3.186
+            ],
+            "d_e3_A": 3.78,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C20",
+            "elem": "C",
+            "xyz": [
+              -12.982,
+              -6.743,
+              2.284
+            ],
+            "d_e3_A": 3.38,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C21",
+            "elem": "C",
+            "xyz": [
+              -11.737,
+              -6.335,
+              1.497
+            ],
+            "d_e3_A": 4.17,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C35",
+            "elem": "C",
+            "xyz": [
+              -12.031,
+              -5.281,
+              0.501
+            ],
+            "d_e3_A": 4.16,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N6",
+            "elem": "N",
+            "xyz": [
+              -13.123,
+              -4.561,
+              0.301
+            ],
+            "d_e3_A": 3.12,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N7",
+            "elem": "N",
+            "xyz": [
+              -12.854,
+              -3.652,
+              -0.681
+            ],
+            "d_e3_A": 3.63,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C36",
+            "elem": "C",
+            "xyz": [
+              -11.6,
+              -3.805,
+              -1.102
+            ],
+            "d_e3_A": 3.92,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C37",
+            "elem": "C",
+            "xyz": [
+              -10.92,
+              -3.002,
+              -2.143
+            ],
+            "d_e3_A": 3.65,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N5",
+            "elem": "N",
+            "xyz": [
+              -11.042,
+              -4.846,
+              -0.367
+            ],
+            "d_e3_A": 4.04,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C30",
+            "elem": "C",
+            "xyz": [
+              -9.758,
+              -5.429,
+              -0.433
+            ],
+            "d_e3_A": 4.1,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "S",
+            "elem": "S",
+            "xyz": [
+              -8.983,
+              -5.67,
+              -1.946
+            ],
+            "d_e3_A": 3.44,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C31",
+            "elem": "C",
+            "xyz": [
+              -7.635,
+              -6.431,
+              -1.174
+            ],
+            "d_e3_A": 3.64,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C32",
+            "elem": "C",
+            "xyz": [
+              -6.483,
+              -6.894,
+              -1.996
+            ],
+            "d_e3_A": 4.12,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C33",
+            "elem": "C",
+            "xyz": [
+              -7.786,
+              -6.508,
+              0.186
+            ],
+            "d_e3_A": 3.82,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C34",
+            "elem": "C",
+            "xyz": [
+              -6.833,
+              -7.182,
+              1.093
+            ],
+            "d_e3_A": 3.87,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C29",
+            "elem": "C",
+            "xyz": [
+              -9.024,
+              -5.9,
+              0.63
+            ],
+            "d_e3_A": 4.11,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C22",
+            "elem": "C",
+            "xyz": [
+              -9.476,
+              -5.686,
+              2.024
+            ],
+            "d_e3_A": 4.18,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C23",
+            "elem": "C",
+            "xyz": [
+              -8.507,
+              -5.106,
+              2.998
+            ],
+            "d_e3_A": 3.98,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C28",
+            "elem": "C",
+            "xyz": [
+              -7.49,
+              -4.299,
+              2.539
+            ],
+            "d_e3_A": 3.52,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C27",
+            "elem": "C",
+            "xyz": [
+              -6.674,
+              -3.588,
+              3.427
+            ],
+            "d_e3_A": 3.69,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C26",
+            "elem": "C",
+            "xyz": [
+              -6.892,
+              -3.731,
+              4.787
+            ],
+            "d_e3_A": 4.14,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "CL",
+            "elem": "CL",
+            "xyz": [
+              -5.847,
+              -2.906,
+              5.9
+            ],
+            "d_e3_A": 3.65,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C25",
+            "elem": "C",
+            "xyz": [
+              -7.894,
+              -4.543,
+              5.268
+            ],
+            "d_e3_A": 4.26,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C24",
+            "elem": "C",
+            "xyz": [
+              -8.704,
+              -5.234,
+              4.375
+            ],
+            "d_e3_A": 4.04,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N4",
+            "elem": "N",
+            "xyz": [
+              -10.724,
+              -5.76,
+              2.431
+            ],
+            "d_e3_A": 4.13,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N3",
+            "elem": "N",
+            "xyz": [
+              -13.495,
+              -8.094,
+              4.244
+            ],
+            "d_e3_A": 3.84,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C18",
+            "elem": "C",
+            "xyz": [
+              -13.306,
+              -9.197,
+              5.215
+            ],
+            "d_e3_A": 3.86,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C17",
+            "elem": "C",
+            "xyz": [
+              -14.245,
+              -9.055,
+              6.449
+            ],
+            "d_e3_A": 4.89,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C16",
+            "elem": "C",
+            "xyz": [
+              -14.306,
+              -10.344,
+              7.293
+            ],
+            "d_e3_A": 5.34,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C15",
+            "elem": "C",
+            "xyz": [
+              -15.023,
+              -10.117,
+              8.655
+            ],
+            "d_e3_A": 6.76,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N2",
+            "elem": "N",
+            "xyz": [
+              -16.026,
+              -11.169,
+              8.968
+            ],
+            "d_e3_A": 7.17,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C",
+            "elem": "C",
+            "xyz": [
+              -15.826,
+              -12.204,
+              9.888
+            ],
+            "d_e3_A": 8.1,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O",
+            "elem": "O",
+            "xyz": [
+              -14.787,
+              -12.336,
+              10.528
+            ],
+            "d_e3_A": 8.61,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C1",
+            "elem": "C",
+            "xyz": [
+              -16.991,
+              -13.204,
+              10.084
+            ],
+            "d_e3_A": 8.68,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O1",
+            "elem": "O",
+            "xyz": [
+              -16.595,
+              -14.088,
+              11.166
+            ],
+            "d_e3_A": 9.12,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C2",
+            "elem": "C",
+            "xyz": [
+              -17.547,
+              -14.532,
+              12.09
+            ],
+            "d_e3_A": 10.13,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C13",
+            "elem": "C",
+            "xyz": [
+              -17.431,
+              -15.743,
+              12.774
+            ],
+            "d_e3_A": 10.37,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C6",
+            "elem": "C",
+            "xyz": [
+              -18.39,
+              -16.085,
+              13.758
+            ],
+            "d_e3_A": 11.61,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C5",
+            "elem": "C",
+            "xyz": [
+              -19.449,
+              -15.277,
+              14.061
+            ],
+            "d_e3_A": 12.52,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C4",
+            "elem": "C",
+            "xyz": [
+              -19.567,
+              -14.069,
+              13.357
+            ],
+            "d_e3_A": 11.62,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C3",
+            "elem": "C",
+            "xyz": [
+              -18.645,
+              -13.7,
+              12.398
+            ],
+            "d_e3_A": 10.79,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C14",
+            "elem": "C",
+            "xyz": [
+              -16.442,
+              -16.854,
+              12.694
+            ],
+            "d_e3_A": 9.77,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O5",
+            "elem": "O",
+            "xyz": [
+              -15.461,
+              -16.982,
+              11.996
+            ],
+            "d_e3_A": 8.79,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N",
+            "elem": "N",
+            "xyz": [
+              -16.863,
+              -17.838,
+              13.662
+            ],
+            "d_e3_A": 10.79,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C7",
+            "elem": "C",
+            "xyz": [
+              -18.05,
+              -17.405,
+              14.344
+            ],
+            "d_e3_A": 11.88,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O4",
+            "elem": "O",
+            "xyz": [
+              -18.62,
+              -18.009,
+              15.226
+            ],
+            "d_e3_A": 12.92,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C8",
+            "elem": "C",
+            "xyz": [
+              -16.128,
+              -19.099,
+              13.881
+            ],
+            "d_e3_A": 10.85,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C12",
+            "elem": "C",
+            "xyz": [
+              -15.097,
+              -18.897,
+              14.996
+            ],
+            "d_e3_A": 11.67,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C11",
+            "elem": "C",
+            "xyz": [
+              -14.294,
+              -20.175,
+              15.13
+            ],
+            "d_e3_A": 11.89,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C10",
+            "elem": "C",
+            "xyz": [
+              -15.187,
+              -21.286,
+              15.588
+            ],
+            "d_e3_A": 12.73,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O2",
+            "elem": "O",
+            "xyz": [
+              -14.818,
+              -22.183,
+              16.333
+            ],
+            "d_e3_A": 13.65,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "N1",
+            "elem": "N",
+            "xyz": [
+              -16.519,
+              -21.269,
+              15.133
+            ],
+            "d_e3_A": 12.59,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "C9",
+            "elem": "C",
+            "xyz": [
+              -17.057,
+              -20.268,
+              14.294
+            ],
+            "d_e3_A": 11.74,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          },
+          {
+            "name": "O3",
+            "elem": "O",
+            "xyz": [
+              -18.217,
+              -20.376,
+              13.918
+            ],
+            "d_e3_A": 11.87,
+            "d_other_protein_A": null,
+            "on_e3_side": true
+          }
+        ],
+        "exit_atom_name": "O2",
+        "exit_atom_xyz": [
+          -14.818,
+          -22.183,
+          16.333
+        ],
+        "exit_atom_dist_to_receptor_A": 13.65,
+        "exit_atom_dist_to_other_protein_A": null,
+        "ligand_min_dist_to_recruiter_A": 3.12,
+        "e3_moiety_centroid": [
+          -13.158472727272725,
+          -10.718854545454544,
+          6.994490909090907
+        ],
+        "ligand_centroid": [
+          -13.158472727272727,
+          -10.718854545454546,
+          6.99449090909091
+        ],
+        "_derivation": "ligand atoms split by which protein each is closer to; the exit vector is the E3-side atom furthest from the recruiter (exact distances, no grid clamp)."
+      },
+      "assembly_copy": {
+        "selected_chains": [
+          "A"
+        ],
+        "selection": {
+          "ligand_atom_contacts_per_chain": {
+            "A": 28
+          },
+          "chains_the_ligand_touches": [
+            "A"
+          ],
+          "declared_max_body_chains": 1,
+          "ok": true,
+          "selection_rule": "chains the ligand itself contacts",
+          "n_chains_the_ligand_spans": 1,
+          "selected": [
+            "A"
+          ],
+          "completed_through_interface": false
+        }
+      },
+      "n_residues_written": 127,
+      "n_atoms_written": 1059,
+      "self_check": {
+        "arm_id": "brd4_bd1",
+        "ok": true,
+        "n_residues_loaded": 127,
+        "chains_loaded": [
+          "A"
+        ],
+        "exit_atom_is_a_deposited_ligand_atom": true,
+        "exit_atom_to_nearest_ligand_atom_A": 0.0,
+        "exit_atom_to_nearest_body_CA_A": 17.27,
+        "ring_is_absent": true,
+        "transfer_anchor_is_absent": true,
+        "_reading": "the staged record loads as a rigid body through the SAME consumer the reach enumeration uses, and its anchor is an atom of the deposited ligand rather than a typed number"
+      }
+    }
+  },
+  "log": [
+    "[effstage] bcl6: RCSB returned 25 entries for accession P41182 (best resolution first): ['7LWE', '7RV1', '7OKL', '7LWF', '7RV4', '7RV8', '7RUY', '7RV2', '1R29', '7LWG', '7RUW', '7RUX']",
+    "[effstage] bcl6: PASSED 7LWG (1.3 A) body ['A', 'B'] ligand YN7 n_heavy=45 spans 2 chain(s) exit atom C29 exposure 5.44 A",
+    "[effstage] bcl6: PASSED 7LZR (1.34 A) body ['A', 'B'] ligand YJJ n_heavy=38 spans 3 chain(s) exit atom C35 exposure 3.88 A",
+    "[effstage] bcl6: CHOSE 7LWG -> results/nr4a3-effector-arms/bcl6-receptor.pdb (243 residues, 1950 atoms); exit atom C29 at [3.449, -7.336, -39.204]",
+    "[effstage] bcl6: self-check OK \u2014 243 residues, chains ['A', 'B'], exit atom sits 0.0 A from the nearest deposited ligand atom and 8.87 A from the nearest body CA",
+    "[effstage] brd4_bd1: RCSB returned 25 entries for accession O60885 (best resolution first): ['4QB3', '6FO5', '7Z9W', '4ZC9', '9P34', '6I7Y', '7ZAJ', '8YMG', '8YMI', '9P33', '8YMF', '7Z9Y']",
+    "[effstage] brd4_bd1: PASSED 4QB3 (0.94 A) body ['A'] ligand 30M n_heavy=22 spans 1 chain(s) exit atom N1 exposure 4.65 A",
+    "[effstage] brd4_bd1: PASSED 6FO5 (0.95 A) body ['A'] ligand DZH n_heavy=37 spans 1 chain(s) exit atom O3 exposure 4.92 A",
+    "[effstage] brd4_bd1: PASSED 4ZC9 (0.99 A) body ['A'] ligand 4MW n_heavy=55 spans 1 chain(s) exit atom O2 exposure 13.65 A",
+    "[effstage] brd4_bd1: PASSED 6I7Y (1.0 A) body ['A'] ligand H7E n_heavy=44 spans 1 chain(s) exit atom C15 exposure 9.88 A",
+    "[effstage] brd4_bd1: PASSED 5EI4 (1.05 A) body ['A'] ligand 5NV n_heavy=29 spans 1 chain(s) exit atom CAH exposure 4.68 A",
+    "[effstage] brd4_bd1: PASSED 6YQN (1.05 A) body ['A'] ligand P8T n_heavy=27 spans 1 chain(s) exit atom C24 exposure 4.11 A",
+    "[effstage] brd4_bd1: PASSED 7RN2 (1.05 A) body ['A'] ligand 5ZQ n_heavy=34 spans 1 chain(s) exit atom C20 exposure 7.12 A",
+    "[effstage] brd4_bd1: PASSED 4Z1S (1.06 A) body ['A'] ligand 559 n_heavy=30 spans 1 chain(s) exit atom CAN exposure 4.25 A",
+    "[effstage] brd4_bd1: CHOSE 4ZC9 -> results/nr4a3-effector-arms/brd4_bd1-receptor.pdb (127 residues, 1059 atoms); exit atom O2 at [-14.818, -22.183, 16.333]",
+    "[effstage] brd4_bd1: self-check OK \u2014 127 residues, chains ['A'], exit atom sits 0.0 A from the nearest deposited ligand atom and 17.27 A from the nearest body CA"
+  ]
+}
