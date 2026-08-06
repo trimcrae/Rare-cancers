@@ -955,7 +955,9 @@
     "evidence": [
       "EV-EB-TCIP-2025"
     ],
-    "artifacts": [],
+    "artifacts": [
+      "ART-TCIP-REACH"
+    ],
     "distinct_from": [
       {
         "route": "RT-MONOVALENT",
@@ -1011,7 +1013,7 @@
       "status": "blocked",
       "maturity": "scoped",
       "confidence": "low",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-06"
     },
     "rationale": "A transcriptional chemical inducer of proximity brings an effector to a DNA-bound transcription factor rather than removing it. Because the fusion is itself a transcriptional driver, an effector that shuts down its output could work without the protein ever being degraded — which sidesteps the entire ubiquitin-transfer geometry problem.",
     "supporting_evidence": [],
@@ -1034,10 +1036,10 @@
       }
     ],
     "readiness": {
-      "attainable_today": "reproducible_workflow",
-      "why_not_higher": "The enumeration machinery exists and takes one more anchor set. Until it has run there is no result to report.",
+      "attainable_today": "preprint",
+      "why_not_higher": "The enumeration has now run and the route holds a computed result of its own, so the geometric half of PUB-TCIP is reportable. What it cannot yet name is an effector: the second-terminus bodies staged in this repository are all E3 ligase recruiters, and the two used at effector size are size-and-shape proxies. A statement about a named transcriptional effector still needs that effector staged from a deposited structure, which is a CI-only RCSB fetch.",
       "missing": [
-        "the enumeration run for this configuration"
+        "a staged transcriptional-effector body, so the result can name an effector rather than a size class"
       ]
     },
     "timing": {

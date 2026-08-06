@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-TCIP — TCIP — transcriptional chemically-induced proximity on EWSR1::NR4A3
 
-**Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ blocked · scoped · confidence low · verified 2026-08-05
+**Family:** [ST-PROXIMITY](L1-st-proximity.md) · **state:** ○ blocked · scoped · confidence low · verified 2026-08-06
 
 **Grade** (owned by [`research/manuscripts/emc-post-degrader-options.md`](../../research/manuscripts/emc-post-degrader-options.md)): Tier 3 — demoted from Tier 2; the cheapest promotion available in the memo
 
@@ -99,12 +99,12 @@ A transcriptional chemical inducer of proximity brings an effector to a DNA-boun
 
 ## Readiness — what this could become today
 
-**`reproducible_workflow`**
+**`preprint`**
 
-The enumeration machinery exists and takes one more anchor set. Until it has run there is no result to report.
+The enumeration has now run and the route holds a computed result of its own, so the geometric half of PUB-TCIP is reportable. What it cannot yet name is an effector: the second-terminus bodies staged in this repository are all E3 ligase recruiters, and the two used at effector size are size-and-shape proxies. A statement about a named transcriptional effector still needs that effector staged from a deposited structure, which is a CI-only RCSB fetch.
 
 **Missing:**
-- the enumeration run for this configuration
+- a staged transcriptional-effector body, so the result can name an effector rather than a size class
 
 ## Where this route ends — the paper
 
@@ -114,9 +114,9 @@ The enumeration machinery exists and takes one more anchor set. Until it has run
 
 **This route contributes:** The reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery — the run that has not happened yet.
 
-**The paper would claim:** The reach enumeration built for E3 recruitment applies unchanged when the second terminus is a transcriptional effector rather than a ligase, and the geometric envelope it returns either does or does not admit an effector at the distances the modality requires.
+**The paper would claim:** The reach enumeration built for E3 recruitment applies unchanged when the second terminus is a transcriptional effector rather than a ligase — measured by a controlled reproduction, not read off the source — and the envelope it returns admits a second terminus of effector size at every rung of the committed linker ladder. The reportable finding is not that binary answer, which admits everything, but that the size penalty the pooled contrast shows is a degrader's induced-interface floor rather than steric bulk: ablating that floor inverts the sign.
 
-**It is not written because:** The paired anchor-plus-effector enumeration has not been run for this configuration, so there is no result to report. The machinery exists and takes one more anchor set.
+**It is not written because:** Nothing scientific blocks the geometric result any longer — the paired enumeration RAN on 2026-08-06 at $0 (ART-TCIP-REACH), deterministically, with its E3-free property measured. Two things stand between it and a posted preprint, and neither is the run: no transcriptional-effector body is staged in this repository, so the result speaks about a size class and not a named effector; and the route's only TCIP citation has not cleared verify-refs, which cannot be dispatched for it as the workflow is committed.
 
 ## Strategic timing — the wait equation
 
@@ -152,5 +152,7 @@ Run the paired anchor-plus-effector reach enumeration with a transcriptional-eff
 **L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about), [OBJ-NR4A3-LBD-MODELLED](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 **L5 evidence:** [EV-EB-TCIP-2025](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+
+**L5 artifacts:** [ART-TCIP-REACH](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-PROXIMITY](L1-st-proximity.md) · [← L0](L0-ecosystem.md)

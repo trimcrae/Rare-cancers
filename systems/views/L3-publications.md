@@ -51,7 +51,7 @@ last_verified: 2026-08-06
 | **PUB-CLOSED-ROUTES**<br/>*Seven routes closed on argument rather than on experiment: the negative…* | ○ `unwritten` | `preprint` | 7 | The closures themselves are complete and each is already recorded with its grounds in the route register; … |
 | **PUB-METHODS**<br/>*The failure record of a computation-only degrader program: what in-sili…* | ○ `unwritten` | `journal_submission` | 1 | Nothing blocks it. It carries no scientific blocker at all and is the only endpoint in the portfolio that is true regardless of how every other route … |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
-| **PUB-TCIP**<br/>*Transcriptional chemically-induced proximity on EWSR1::NR4A3: reach enu…* | ○ `unwritten` | `preprint` | 1 | The paired anchor-plus-effector enumeration has not been run for this configuration, so there is no result to report. … |
+| **PUB-TCIP**<br/>*Transcriptional chemically-induced proximity on EWSR1::NR4A3: reach enu…* | ○ `unwritten` | `preprint` | 1 | Nothing scientific blocks the geometric result any longer — the paired enumeration RAN on 2026-08-06 at $0 (ART-TCIP-REACH), deterministically, with … |
 
 ## What each one would claim
 
@@ -288,9 +288,9 @@ For each parked modality there is a single named capability — a glue design me
 
 **○ `unwritten` · aimed at `preprint`**
 
-The reach enumeration built for E3 recruitment applies unchanged when the second terminus is a transcriptional effector rather than a ligase, and the geometric envelope it returns either does or does not admit an effector at the distances the modality requires.
+The reach enumeration built for E3 recruitment applies unchanged when the second terminus is a transcriptional effector rather than a ligase — measured by a controlled reproduction, not read off the source — and the envelope it returns admits a second terminus of effector size at every rung of the committed linker ladder. The reportable finding is not that binary answer, which admits everything, but that the size penalty the pooled contrast shows is a degrader's induced-interface floor rather than steric bulk: ablating that floor inverts the sign.
 
-**Not written because:** The paired anchor-plus-effector enumeration has not been run for this configuration, so there is no result to report. The machinery exists and takes one more anchor set.
+**Not written because:** Nothing scientific blocks the geometric result any longer — the paired enumeration RAN on 2026-08-06 at $0 (ART-TCIP-REACH), deterministically, with its E3-free property measured. Two things stand between it and a posted preprint, and neither is the run: no transcriptional-effector body is staged in this repository, so the result speaks about a size class and not a named effector; and the route's only TCIP citation has not cleared verify-refs, which cannot be dispatched for it as the workflow is committed.
 
 | route | role | what it contributes |
 |---|---|---|
@@ -341,7 +341,7 @@ The reach enumeration built for E3 recruitment applies unchanged when the second
 | [RT-SSTR2](L2-rt-sstr2.md) | [ST-RADIOLIGAND](L1-st-radioligand.md) | `experimental_proposal` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
 | [RT-TCRT-CTA](L2-rt-tcrt-cta.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-SURFACE-TARGETS** ◐ | `preprint` | `contributing` |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-SYNLETH** ◐ | `internal_note` | `primary` |
-| [RT-TCIP](L2-rt-tcip.md) | [ST-PROXIMITY](L1-st-proximity.md) | `reproducible_workflow` | **PUB-TCIP** ○ | `preprint` | `primary` |
+| [RT-TCIP](L2-rt-tcip.md) | [ST-PROXIMITY](L1-st-proximity.md) | `preprint` | **PUB-TCIP** ○ | `preprint` | `primary` |
 
 ## What this page deliberately leaves out
 

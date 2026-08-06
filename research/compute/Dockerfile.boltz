@@ -1,3 +1,11 @@
+# syntax=docker/dockerfile:1
+# ⚠ THE LINE ABOVE IS LOAD-BEARING AND MUST STAY FIRST. This file's cache-size assertion is written as a
+# HEREDOC (`python - <<'PY'`), which only the dockerfile:1.4+ frontend parses; an older frontend reads the
+# body as instructions and dies on `unknown instruction: IMPORT`. `boltz-bake.yml` builds with a plain
+# `docker build`, so without this directive the parse depends on whichever frontend the runner happens to
+# bundle — exactly the silent-environment-drift this image exists to remove. Added 2026-08-06 after
+# `test_dockerfile_hygiene` flagged the heredoc body; the test now understands heredocs, and this pins the
+# syntax that makes them legal rather than relying on the builder's default.
 # Baked Boltz-2 co-folding image — `triskit23/boltz`.
 #
 # ⛔ WHY THIS FILE EXISTS. CLAUDE.md §6: NEVER BUILD AN ENVIRONMENT ON A MACHINE WE ARE PAYING FOR. The repo's
