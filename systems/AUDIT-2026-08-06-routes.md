@@ -521,6 +521,31 @@ producer did and the roadmap had already written *"`hla-coverage` … inherits t
 printing a seam."* Bannered. Same shape as X14: a retraction that reaches the producer and not the
 consumer.
 
+### X21 · ⚠ OPEN for trimcrae — `ready` is being used for two different things
+
+CONVENTIONS §4.1: `ready` = *"nothing blocks it; not yet started"*; `blocked` = *"at least one open
+`BLK-*`"*. Measured across all 40:
+
+| `ready` route | open blockers |
+|---|---|
+| RT-METHODS-PAPER | none ✔ |
+| RT-PANNR4A-EXVIVO | none ✔ |
+| RT-ATR-ASSESS | BLK-CLASS-INHERITANCE, BLK-NO-EMC-DATA |
+| RT-ASYMMETRIC | BLK-PARALOGUE-DDG, BLK-UNSIZED-REQUIREMENT |
+| RT-TRABECTEDIN | BLK-NO-EMC-DATA |
+| RT-CARFILZOMIB | BLK-NO-EMC-DATA |
+
+**4 of 6 contradict the vocabulary literally.** Two readings are in play and the register does not
+distinguish them: *"ready as a paragraph of a paper"* (true of all four) and *"ready as a thing to
+do"* (false — each holds an open blocker). On RT-ICI-TKI that ambiguity was actively dangerous — the
+view printed `state: ready` one line under *"TOP NEAR-TERM LEAD"* on a nivolumab+sunitinib route, so
+it read as ready-as-a-treatment. That one is fixed (`→ delegated`).
+
+⚠ **Not fixed for the other four, deliberately.** Either the vocabulary gains a value for
+"deliverable is finishable, route is not", or four statuses change — and both are decisions about
+what the board is *for*, not defects to patch. Flagged rather than swept: a status a reader can
+misread as clinical readiness is exactly what this audit exists to surface.
+
 ## What nearly went wrong in the audit itself
 
 Recorded because the next audit will hit the same traps.
