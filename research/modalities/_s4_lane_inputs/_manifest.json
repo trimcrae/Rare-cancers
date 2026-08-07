@@ -1,6 +1,6 @@
 {
  "_what": "raw network reads for section 4 of emc-unexplored-treatment-lanes.md; NO derivation",
- "_fetched_at_utc": "2026-08-07T11:59:12Z",
+ "_fetched_at_utc": "2026-08-07T12:03:01Z",
  "series": "GSE11185",
  "samples_discovered": [
   "GSM281775",
@@ -58,11 +58,24 @@
    "stored_bytes": 1503127
   },
   {
-   "name": "GPL570.annot.txt",
-   "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL570&targ=self&form=text&view=full",
+   "name": "GPL570_id2gene.json",
+   "url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPLnnn/GPL570/annot/GPL570.annot.gz",
    "http": 200,
-   "error": "response exceeded 83886080 bytes \u2014 REFUSED, not truncated",
-   "bytes": 0
+   "error": null,
+   "bytes": 5259580,
+   "path": "_s4_lane_inputs/GPL570_id2gene.json.gz",
+   "stored_bytes": 1040882,
+   "n_probes_parsed": 54675,
+   "raw_gz_bytes": 8471521
+  },
+  {
+   "name": "PMID18680143.epmc.json",
+   "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:18680143&resultType=core&format=json",
+   "http": 200,
+   "error": null,
+   "bytes": 7826,
+   "path": "_s4_lane_inputs/PMID18680143.epmc.json",
+   "stored_bytes": 7826
   },
   {
    "name": "7WNH.pdb",
@@ -81,6 +94,15 @@
    "bytes": 1049193,
    "path": "_s4_lane_inputs/1OVL.pdb.gz",
    "stored_bytes": 243415
+  },
+  {
+   "name": "8XTT.pdb",
+   "url": "https://files.rcsb.org/download/8XTT.pdb",
+   "http": 200,
+   "error": null,
+   "bytes": 6399243,
+   "path": "_s4_lane_inputs/8XTT.pdb.gz",
+   "stored_bytes": 1318644
   }
  ],
  "_reading_discipline": "a row with http != 200 or bytes == 0 is a READ FAILURE, not evidence that the record is empty (CLAUDE.md \u00a74)"
