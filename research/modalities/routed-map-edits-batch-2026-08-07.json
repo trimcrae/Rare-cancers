@@ -1,0 +1,81 @@
+{
+ "_what": "verbatim verification that every routed roadmap edit still applies to the map AS IT STANDS RIGHT NOW. Exact substring matching only.",
+ "map": "research/manuscripts/nr4a3-program-map.md",
+ "map_bytes": 596044,
+ "artifacts": [
+  {
+   "artifact": "v18-lysine-reference-precheck.json",
+   "edits": [
+    {
+     "section": "\u00a710.1a row Q7",
+     "why": "the row is the open question; the precheck answers it and the answer needs a home on the row rather than only in an artifact",
+     "artifact": "research/modalities/v18-lysine-reference-precheck.json:verdict.decision",
+     "status": "APPLIES",
+     "ok": true,
+     "detail": "anchor and current_text are both present exactly once in the live map"
+    },
+    {
+     "section": "\u00a73.1 row `V18`",
+     "why": "'none exists' as an unchecked row and 'none exists, and here is the search that establishes it' are different epistemic states, and only the second is citable",
+     "artifact": "research/modalities/v18-lysine-reference-precheck.json:verdict",
+     "status": "NEEDS_NEW_SECTION",
+     "detail": "the `V18` row of the instrument table in \u00a73.1, whose known-answer column reads that none exists. That column entry should now point at this precheck rather than assert an unchecked absence \u2014 the finding is the same, its EVIDENTIAL STATUS is what changed.",
+     "ok": true
+    }
+   ],
+   "n_edits": 2,
+   "n_applies": 1,
+   "n_needs_new_section": 1
+  },
+  {
+   "artifact": "row27-ddddg-precheck-status.json",
+   "edits": [
+    {
+     "section": "\u00a710.1 row 27",
+     "why": "the row asserts a badge-versus-reality discrepancy in prose; this makes it a reading that can be re-taken for $0 instead of a claim that ages",
+     "artifact": "research/modalities/row27-ddddg-precheck-status.json:badge_forensic.summary",
+     "status": "APPLIES",
+     "ok": true,
+     "detail": "anchor and current_text are both present exactly once in the live map"
+    },
+    {
+     "section": "\u00a710.1 row 27",
+     "why": "the row's stated next action ('dispatch it properly') has now been done and cannot succeed; leaving that as the next action sends the next session to re-run a job that has already been measured not to fit",
+     "artifact": "research/modalities/row27-ddddg-precheck-status.json:timeout_verdict",
+     "status": "NEEDS_NEW_SECTION",
+     "detail": "row 27's `state` and `next action` columns. The row's diagnosis \u2014 every dispatch passed `task=row26` so the jobs never ran \u2014 is TRUE of the three green runs and is NOT the binding blocker. This edit adds the second one.",
+     "ok": true
+    },
+    {
+     "section": "\u00a710.1 row 27",
+     "why": "'a benchmark exists' reads like 'a benchmark that could settle our question exists' and they are different findings",
+     "artifact": "research/modalities/row27-ddddg-precheck-status.json:regime_test",
+     "status": "NEEDS_NEW_SECTION",
+     "detail": "beside row 27, as a second sentence of its `next action` column: the row asks only whether a known answer can be BOUGHT, and never asks whether a bought one would be USABLE. The regime arithmetic is committed in three other modules and is re-derived every time it is needed.",
+     "ok": true
+    }
+   ],
+   "n_edits": 3,
+   "n_applies": 1,
+   "n_needs_new_section": 2
+  },
+  {
+   "artifact": "tcip-citation-gate.json",
+   "edits": [
+    {
+     "section": "\u00a710.1a row Q12",
+     "why": "the row asserts the gate is open; it is closed, and a row that overstates a blocker stops work that is actually permitted",
+     "artifact": "research/modalities/tcip-citation-gate.json:gate_status",
+     "status": "APPLIES",
+     "ok": true,
+     "detail": "anchor and current_text are both present exactly once in the live map"
+    }
+   ],
+   "n_edits": 1,
+   "n_applies": 1,
+   "n_needs_new_section": 0
+  }
+ ],
+ "n_not_applicable": 0,
+ "verdict": "ALL EDITS APPLY"
+}
