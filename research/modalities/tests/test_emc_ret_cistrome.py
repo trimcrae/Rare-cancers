@@ -486,6 +486,32 @@ def test_a_peakset_key_is_scoped_by_build_so_one_build_cannot_overwrite_the_othe
     assert "SRX1@hg19" in got and "SRX1@hg38" in got
 
 
+def test_one_experiment_on_two_builds_is_counted_once_as_an_experiment():
+    """⛔ A PEAK SET IS NOT AN EXPERIMENT. ChIP-Atlas reprocesses each SRX per genome build, so the
+    same reads appear twice. Quoting the peak-set count would read as independent replication."""
+    c = M._synthetic_cache(ret_peak=True, control_peak=True)
+    c["genes"]["hg19"] = dict(c["genes"]["hg38"])
+    only = c["peaksets"].pop("SYNTH")
+    for build in ("hg38", "hg19"):
+        c["peaksets"][f"SRX_ONE@{build}"] = dict(only, genome=build)
+    s = M.derive(c)["part_2_intersection"]["ret_summary"]
+    assert s["n_peaksets"] == 2
+    assert s["⛔ n_distinct_experiments"] == 1
+    assert s["n_distinct_experiments_with_a_RET_promoter_peak"] == 1
+    assert s["_experiments_with_a_RET_promoter_peak"] == ["SRX_ONE"]
+
+
+def test_the_headline_quotes_the_experiment_count_not_the_peakset_count():
+    c = M._synthetic_cache(ret_peak=True, control_peak=True)
+    c["genes"]["hg19"] = dict(c["genes"]["hg38"])
+    only = c["peaksets"].pop("SYNTH")
+    for build in ("hg38", "hg19"):
+        c["peaksets"][f"SRX_ONE@{build}"] = dict(only, genome=build)
+    v = M.derive(c)["verdict"]
+    assert "1 OF 1 PUBLIC ChIP-seq EXPERIMENTS" in v["headline"]
+    assert "2 of 2 peak sets" in v["headline"]
+
+
 def test_a_429_is_retryable_and_a_404_is_not():
     """A 429 is 'ask again later'; treating it as an answer is what silently disabled the
     independent second source for the genome build."""

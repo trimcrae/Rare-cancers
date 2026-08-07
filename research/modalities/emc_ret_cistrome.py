@@ -1673,7 +1673,28 @@ def _ret_summary(per_set):
     def _ok(rs):
         return sum(1 for r in rs if r["positive_control"] == "A KNOWN POSITIVE IS RECOVERED")
 
+    # ⛔ A PEAK SET IS NOT AN EXPERIMENT. ChIP-Atlas reprocesses each SRX against every genome build
+    # it supports, so `SRX1653203@hg19` and `SRX1653203@hg38` are ONE experiment counted twice.
+    # Reporting "4 of 76 peak sets carry a RET peak" when it is two experiments seen on two builds
+    # would inflate the denominator AND the numerator and read as independent replication when it
+    # is the same reads aligned twice. Both counts are emitted, and the per-experiment one is the
+    # one a sentence should quote.
+    def _srx(r):
+        return str(r["peakset"]).split("@", 1)[0]
+
+    distinct = {_srx(r) for r in rows}
+    distinct_hit = {_srx(r) for r in rows if (r["RET_promoter_window_peaks"] or 0) > 0}
+    distinct_ok = {_srx(r) for r in rows
+                   if r["positive_control"] == "A KNOWN POSITIVE IS RECOVERED"}
+
     return {"rows": rows, "n_peaksets": len(rows),
+            "⛔ n_distinct_experiments": len(distinct),
+            "n_distinct_experiments_with_a_RET_promoter_peak": len(distinct_hit),
+            "n_distinct_experiments_whose_null_is_interpretable": len(distinct_ok),
+            "_experiments_with_a_RET_promoter_peak": sorted(distinct_hit),
+            "_why_two_counts": "ChIP-Atlas reprocesses each SRX against every genome build it "
+                               "supports, so one experiment can appear as two peak sets. Quote "
+                               "the EXPERIMENT count; the peak-set count is bookkeeping.",
             "n_with_a_RET_promoter_peak": _hit(rows),
             "n_peaksets_whose_null_is_interpretable": _ok(rows),
             # ⛔ HUMAN AND MOUSE ARE COUNTED SEPARATELY AND NEVER POOLED. A mouse Ret peak carries
@@ -1829,9 +1850,13 @@ def _verdict(art):
         f"mouse ORTHOLOGUE peak sets: {mou.get('n_peaksets', 0)} "
         f"({mou.get('n_with_a_Ret_promoter_peak', 0)} with a Ret promoter-window peak). "
         f"⛔ The two are never pooled.")
+    n_exp = s.get("⛔ n_distinct_experiments") or s.get("n_peaksets")
+    n_exp_pos = s.get("n_distinct_experiments_with_a_RET_promoter_peak", n_pos)
     if n_pos > 0:
-        headline = (f"MEASURED NR4A OCCUPANCY AT THE RET LOCUS IN {n_pos} OF "
-                    f"{s['n_peaksets']} PUBLIC PEAK SETS.")
+        headline = (f"MEASURED NR4A OCCUPANCY AT THE RET LOCUS IN {n_exp_pos} OF {n_exp} "
+                    f"PUBLIC ChIP-seq EXPERIMENTS ({n_pos} of {s['n_peaksets']} peak sets — "
+                    f"ChIP-Atlas reprocesses one experiment per genome build, so the EXPERIMENT "
+                    f"count is the one to quote).")
         strength = ("⭐ A PRIOR, NOT A DEMONSTRATION. The protein assayed is WILD-TYPE NR4A in a "
                     "cell type that is not EMC. It is the strongest form the question can take "
                     "at $0 — measured occupancy by the protein whose DNA-binding domain the "
