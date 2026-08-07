@@ -1,0 +1,236 @@
+{
+ "_title": "Q10 — the TCIP interface-floor ablation predicts the inhibitor configuration gains admissible space. Does it hold, and does it rescue the route?",
+ "_status": "$0 CPU, pure stdlib, NO NEW GEOMETRY. Every atom count is read from the committed artifacts and both configurations go through ONE reader, so a difference cannot be an artefact of two different readers. Nothing here is a claim about reactivity, potency, proteome-wide selectivity, efficacy, safety, a therapeutic window or clinical readiness.",
+ "⭑_the_stale_row_this_pass_corrects": {
+  "what_the_board_says": "roadmap §10.1a Q10 — 'the enumeration has never been run in that configuration'; path-family-synthesis.md §3 row 10 — 'unchanged and still under-run'.",
+  "what_is_committed": "nr4a3-monovalent-reach.json + nr4a3_monovalent_reach.py, written 2026-08-06 at 7:12 AM ET.",
+  "the_committed_answer": "WORSE",
+  "its_headline": "Removing the E3 arm does NOT rescue the categorical axis, and on the conservative convention it destroys it outright. Corridor: of the 37 bivalent cells that had an open family-wide window at C397, **0** retain one when the E3 arm is removed, and **0** gain one — a complete, one-directional collapse. Through-space (an upper bound on reachability, which scores buried sulfurs as reachable): 24 of 48 retained and 8 gained, so the permissive rule reads MIXED. The intuition that one fewer terminus is 'a strictly smaller search problem' is true about REACH and irrelevant to SELECTIVITY: dropping the |p-b| term shortens every competitor's chain as well as the target's, and it removes the geometric constraint that was ORDERING them.",
+  "⛔": "the free observation was available the whole time. A row that says 'never run' about an artifact sitting on the same branch is an unanswered question wearing the costume of a status."
+ },
+ "the_prediction": {
+  "_from": {
+   "_source": "nr4a3-tcip-reach.json -> ★_interface_floor_ablation",
+   "linker_atoms": 12,
+   "committed_floor": 12,
+   "ratio_by_floor": {
+    "12": 0.896,
+    "6": 1.121,
+    "0": 1.254
+   },
+   "ratio_at_the_committed_floor": 0.896,
+   "ratio_with_no_interface_floor": 1.254,
+   "the_sign_inverts": true,
+   "⛔_what_it_does_not_settle": "which floor is right for a transcriptional CIP. This module measures the answer at both and refuses to pick — `BLK-UNSIZED-REQUIREMENT` is the route's own record that nobody has written the specification down, and an interface floor is exactly that kind of unwritten requirement."
+  },
+  "_as_extrapolated_to_this_configuration": "an inhibitor has neither an E3 arm nor an induced interface, so it sits at floor 0 with no second body — the configuration the ablation says gains orientation space.",
+  "⚠_it_crosses_two_instruments": "the ablation measures a SECOND BODY's orientation acceptance; the reach enumeration measures a backbone-atom window over cysteines. Testing it on one axis only would conflate 'the prediction held' with 'the route is rescued'."
+ },
+ "★_axis_A_admissible_space": {
+  "_question": "does removing the E3 arm ADMIT cells the bivalent configuration refused? This is the axis the interface-floor ablation is about.",
+  "admissibility_filter": {
+   "_source": "nr4a3-linker-covalent-reach.json -> ensembles.placement_admissibility",
+   "n_cells": 200,
+   "n_refused_because_the_E3_ANCHOR_IS_BURIED": 5,
+   "n_refused_because_the_WARHEAD_ANCHOR_HAS_NO_ROOM": 31,
+   "⭑_retired_by_removing_the_E3_arm": 5,
+   "⛔_NOT_retired": 31,
+   "⛔_why": "a monovalent molecule still needs room at the warhead, so the warhead-anchor refusal survives the configuration change untouched. Counting both as 'gained' would overstate the prediction by the larger term.",
+   "fraction_of_cells_gained": 0.025
+  },
+  "paired_transitions": {
+   "through_space": {
+    "closed_to_open": 8,
+    "open_to_closed": 24,
+    "open_to_open": 24,
+    "closed_to_closed": 4,
+    "n_paired": 60,
+    "net_change_in_open_cells": -16
+   },
+   "corridor": {
+    "closed_to_open": 0,
+    "open_to_closed": 37,
+    "open_to_open": 0,
+    "closed_to_closed": 23,
+    "n_paired": 60,
+    "net_change_in_open_cells": -37
+   }
+  },
+  "⭐_prediction_holds_on_this_axis": true,
+  "_reading": "THE PREDICTION HOLDS ON ITS OWN AXIS, AND THE GAIN IS SMALL AND MEASURED. Removing the E3 arm retires exactly the E3-anchor-buried refusal — 5 of 200 ensemble cells — while the warhead-anchor refusal (31 cells) survives untouched. On the decision quantity, 8 cells gain a window under the permissive convention and 0 under the conservative one."
+ },
+ "★_axis_B_the_selectivity_window": {
+  "corridor": {
+   "monovalent": {
+    "n_cells": 30,
+    "n_open_window": 0,
+    "margin_atoms": {
+     "n": 30,
+     "min": -7,
+     "median": -2.0,
+     "max": 0,
+     "mean": -2.6333
+    },
+    "rank_of_target": {
+     "n": 30,
+     "min": 1,
+     "median": 3.0,
+     "max": 6,
+     "mean": 3.0
+    },
+    "n_target_first": 2,
+    "n_target_not_first": 28,
+    "n_margin_positive": 0,
+    "n_margin_non_positive": 30
+   },
+   "bivalent": {
+    "n_cells": 60,
+    "n_open_window": 37,
+    "margin_atoms": {
+     "n": 60,
+     "min": -7,
+     "median": 3.0,
+     "max": 7,
+     "mean": 2.15
+    },
+    "rank_of_target": {
+     "n": 60,
+     "min": 1,
+     "median": 1.0,
+     "max": 4,
+     "mean": 1.3167
+    },
+    "n_target_first": 47,
+    "n_target_not_first": 13,
+    "n_margin_positive": 38,
+    "n_margin_non_positive": 22
+   },
+   "delta": {
+    "median_margin_atoms": -5.0,
+    "median_rank_of_target": 2.0,
+    "open_window_rate_monovalent": 0.0,
+    "open_window_rate_bivalent": 0.6167
+   }
+  },
+  "through_space": {
+   "monovalent": {
+    "n_cells": 30,
+    "n_open_window": 11,
+    "margin_atoms": {
+     "n": 30,
+     "min": -3,
+     "median": 0.0,
+     "max": 2,
+     "mean": -0.6
+    },
+    "rank_of_target": {
+     "n": 30,
+     "min": 1,
+     "median": 1.0,
+     "max": 5,
+     "mean": 2.1
+    },
+    "n_target_first": 18,
+    "n_target_not_first": 12,
+    "n_margin_positive": 11,
+    "n_margin_non_positive": 19
+   },
+   "bivalent": {
+    "n_cells": 60,
+    "n_open_window": 48,
+    "margin_atoms": {
+     "n": 60,
+     "min": 0,
+     "median": 3.0,
+     "max": 7,
+     "mean": 3.0833
+    },
+    "rank_of_target": {
+     "n": 60,
+     "min": 1,
+     "median": 1.0,
+     "max": 1,
+     "mean": 1.0
+    },
+    "n_target_first": 60,
+    "n_target_not_first": 0,
+    "n_margin_positive": 57,
+    "n_margin_non_positive": 3
+   },
+   "delta": {
+    "median_margin_atoms": -3.0,
+    "median_rank_of_target": 0.0,
+    "open_window_rate_monovalent": 0.3667,
+    "open_window_rate_bivalent": 0.8
+   }
+  }
+ },
+ "★_the_discriminator_test": {
+  "_what": "a pure COST preserves margin and rank; a DISCRIMINATOR degrades both. This is the observation that separates them.",
+  "by_convention": {
+   "corridor": {
+    "target_requirement_median_bivalent": null,
+    "median_margin_bivalent": 3.0,
+    "median_margin_monovalent": -2.0,
+    "median_rank_bivalent": 1.0,
+    "median_rank_monovalent": 3.0,
+    "target_first_rate_bivalent": 0.7833,
+    "target_first_rate_monovalent": 0.0667,
+    "margin_degraded": true,
+    "rank_degraded": true
+   },
+   "through_space": {
+    "target_requirement_median_bivalent": null,
+    "median_margin_bivalent": 3.0,
+    "median_margin_monovalent": 0.0,
+    "median_rank_bivalent": 1.0,
+    "median_rank_monovalent": 1.0,
+    "target_first_rate_bivalent": 1.0,
+    "target_first_rate_monovalent": 0.6,
+    "margin_degraded": true,
+    "rank_degraded": false
+   }
+  },
+  "conventions_where_BOTH_margin_and_rank_degrade": [
+   "corridor"
+  ],
+  "⭐_verdict": "THE E3 TERM WAS A DISCRIMINATOR, NOT ONLY A COST — margin and rank both degrade on corridor. The interface-floor ablation's mechanism (a filter that, once removed, admits more) does NOT transfer to this axis, because what is removed here is not a filter but the term that was ORDERING the cysteines."
+ },
+ "_pose_marginalisation": {
+  "rule": "every quantity is reported as a distribution over cells with its full range, and every verdict is the marginal. No statement is made about a vector or a pose.",
+  "why": "R5 is unresolved and got worse on 2026-08-06 — the second pose method DISAGREES with the first (0 of 6 systems within 2.00 A, median 6.696 A).",
+  "evidence": {
+   "read": true,
+   "R5_resolved": false,
+   "outcome": "THE TWO METHODS DISAGREE",
+   "cross_method_evidence": "PRESENT — 6 system(s) carry a pose from two methods with disjoint scoring",
+   "_source": "research/modalities/pose-second-method.json"
+  },
+  "⛔": "both configurations descend from the same docked pose family, so the COMPARISON is internally matched even though neither side is pose-resolved. That is what makes a paired delta readable where an absolute number would not be — and it is also the limit: a pose that moved would move both sides, not cancel."
+ },
+ "★_verdict": {
+  "headline": "THE PREDICTION HOLDS ON THE AXIS IT IS ABOUT AND DOES NOT RESCUE THE ROUTE. Axis A (admissible space, the ablation's own axis): removing the E3 arm retires the E3-anchor-buried refusal — 5 of 200 ensemble cells — and 8 of 60 paired cells gain a window under the permissive convention. Axis B (the selectivity window, the quantity Q10 was closed on): the conservative convention goes from 37 of 60 open cells to 0 of 30, a complete one-directional collapse, and the committed monovalent verdict is 'WORSE'. ⛔ THE TWO ARE NOT IN CONFLICT AND THE ABLATION NEVER PREDICTED THE SECOND.",
+  "prediction_holds_on_axis_A": true,
+  "prediction_rescues_the_route": false,
+  "★_why_both_are_true": "an interface FLOOR and the |p-b| LENGTH TERM do different work. The floor is a FILTER on a second body's orientations — remove it and more orientations qualify, which is exactly what the ablation measured. The |p-b| term is a per-cysteine DISCRIMINATOR inside the length arithmetic: it penalises each cysteine by a different amount, so removing it removes the ordering along with the cost. THE E3 TERM WAS A DISCRIMINATOR, NOT ONLY A COST — margin and rank both degrade on corridor. The interface-floor ablation's mechanism (a filter that, once removed, admits more) does NOT transfer to this axis, because what is removed here is not a filter but the term that was ORDERING the cysteines.",
+  "⭑_what_Q10_now_holds": "the 30-of-30 chemoselectivity closure SURVIVES the removal of the E3 arm — which is the falsifier §10.1a wrote for this row, resolved in the direction that closes it. The counter-result was never an artefact of the E3 constraint, and the mechanism that looked like it might reopen the row acts on a different quantity."
+ },
+ "★_what_picking_this_configuration_costs": {
+  "_source": "roadmap §10.1b — THE MODALITY at C397",
+  "retires": [
+   "R9 — OUR ternary is correctly assembled",
+   "R10 — a ternary forms",
+   "R12 — compatible with DEGRADATION (productive unique-lysine geometry)"
+  ],
+  "⚠_do_not_confuse_this_with_the_TCIP_row": "§10.1b was corrected on 2026-08-06 so that a TCIP retires ONLY R12 — a TCIP is bivalent and still induces a ternary. That correction does NOT apply here: a monovalent inhibitor induces no ternary at all, so R9 and R10 go with R12. The two ⚖ ALTERNATIVES in the same set have different terms, and reading one row's correction onto the other is exactly the drift that correction was fixing.",
+  "loses": "the degradation mechanism — the program's stated reason for choosing degradation over inhibition. An inhibitor must carry occupancy-driven pharmacology instead, which this repository has measured nothing about.",
+  "gains": "one fewer terminus to satisfy, and the E3-anchor admissibility refusal is retired.",
+  "⛔": "these are a route's TERMS, not a recommendation. §10.1b records this as an ⚖ ALTERNATIVE and the choice is trimcrae's."
+ },
+ "⛔_what_this_does_not_license": [
+  "any claim that a monovalent covalent probe at C397 is selective — the window question is answered against it on the conservative convention",
+  "any claim that a NON-covalent monovalent pocket modulator is refuted. It has no cysteine to reach and is untouched by this measurement — the monovalent artifact says so itself.",
+  "reactivity, thiol pKa, adduct stability, potency, proteome-wide selectivity, efficacy, safety, a therapeutic window or clinical readiness",
+  "a pose-specific or vector-specific reading of any number here"
+ ]
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""C02 — THE CROSS-SYSTEM DECOY NULL FOR THE CATEGORICAL COVALENT AXIS.
+"""IC-2 — THE CROSS-SYSTEM DECOY NULL FOR THE CATEGORICAL COVALENT AXIS.
 
 THE PROBLEM THIS EXISTS TO FIX
 ------------------------------
@@ -448,7 +448,7 @@ SCOPES = {
     "plddt": {
         "slug": "",
         "configuration_id": "C16",
-        "label": "largest contiguous pLDDT >= 70 run, min 120 residues (the committed C02 run)",
+        "label": "largest contiguous pLDDT >= 70 run, min 120 residues (the committed IC-2 run)",
         "prereg": lambda: PREREG,
         "max_pairs": PREREG["pair_formation"]["max_pairs"],
     },
@@ -1201,10 +1201,10 @@ def mode_plan(args):
     os.makedirs(CACHE, exist_ok=True)
     uni = universe()
     sc = SCOPES[SCOPE]
-    title = ("C02 — cross-system decoy null for the categorical covalent axis: PRE-REGISTRATION"
+    title = ("IC-2 — cross-system decoy null for the categorical covalent axis: PRE-REGISTRATION"
              if SCOPE == "plddt" else
-             "C02-L — cross-system decoy null over the REFERENCE-ANCHORED LBD WINDOW: PRE-REGISTRATION. "
-             "A SECOND, INDEPENDENT scope, not a widening of C02's")
+             "IC-2-L — cross-system decoy null over the REFERENCE-ANCHORED LBD WINDOW: PRE-REGISTRATION. "
+             "A SECOND, INDEPENDENT scope, not a widening of IC-2's")
     plan = {
         "_title": title,
         "_status": "PRE-REGISTRATION ONLY. No structure has been fetched and no statistic computed at the "
@@ -1346,9 +1346,9 @@ def mode_pairs(args):
 
     plan = json.load(open(PLAN)) if os.path.exists(PLAN) else {"preregistration": prereg}
     plan.update({
-        "_title": ("C02 — cross-system decoy null: PRE-REGISTRATION + the selected pair plan (still no "
+        "_title": ("IC-2 — cross-system decoy null: PRE-REGISTRATION + the selected pair plan (still no "
                    "statistic computed)" if SCOPE == "plddt" else
-                   "C02-L — cross-system decoy null over the reference-anchored LBD window: "
+                   "IC-2-L — cross-system decoy null over the reference-anchored LBD window: "
                    "PRE-REGISTRATION + the selected pair plan (still no statistic computed)"),
         "_generated": _stamp(),
         "nr4a3_reference_identities": ref_pairs,
@@ -1479,7 +1479,7 @@ def mode_selfcheck(args):
     t = B.load_paralogue(PD.STATIC_MODEL["NR4A3"])
     anchors, _pa, params, _nap, n_poses, _c = sample_anchors(
         t, pocket_local, NATIVE_REGISTRY, PREREG["placements"]["n_poses"], seed, n_samples)
-    out = {"_what": "the C02 driver re-run on the committed opened models + committed Pocket-5, against the "
+    out = {"_what": "the IC-2 driver re-run on the committed opened models + committed Pocket-5, against the "
                     "committed static verdict",
            "n_placements": len(anchors), "n_poses": n_poses, "samples_per_arm_pose": n_samples,
            "rows": {}}
@@ -1959,10 +1959,10 @@ def mode_reduce(args):
     }
     sc = SCOPES[SCOPE]
     res = {
-        "_title": ("C02 — cross-system decoy null for the categorical covalent axis" if SCOPE == "plddt"
-                   else "C02-L — cross-system decoy null for the categorical covalent axis, over the "
+        "_title": ("IC-2 — cross-system decoy null for the categorical covalent axis" if SCOPE == "plddt"
+                   else "IC-2-L — cross-system decoy null for the categorical covalent axis, over the "
                         "REFERENCE-ANCHORED LBD WINDOW (`C24`). A SECOND, INDEPENDENTLY PRE-REGISTERED "
-                        "scope — NOT a widening of C02's"),
+                        "scope — NOT a widening of IC-2's"),
         "_status": "INSTRUMENT CALIBRATION. $0 CPU/CI. Nothing here is a claim about binding, reactivity, "
                    "degradation, efficacy or safety.",
         "_reading": "This calibrates the SCREEN, not NR4A3. It converts 'the categorical gate fired' into "
@@ -2213,7 +2213,7 @@ def build_map_edits(res):
 
 
 def _map_edits_plddt(ME, text, res, g):
-    """`C16`'s edit set — the one the committed C02 run emitted. Unchanged."""
+    """`C16`'s edit set — the one the committed IC-2 run emitted. Unchanged."""
     verdict, summary = g["verdict"], g["summary"]
     art = "research/modalities/categorical-decoy-null.json -> results.background_at_gate_12 / " \
           "results.nr4a3_harness_matched"
@@ -2255,7 +2255,7 @@ def _map_edits_plddt(ME, text, res, g):
                 "failure, and what it needs is more pairs, which is $0.",
                 art,
                 ME.append_after_line(
-                    "| **C02** | **Cross-system decoy null for the categorical axis** — unrelated close "
+                    "| **IC-2** | **Cross-system decoy null for the categorical axis** — unrelated close "
                     "human paralogue pairs through the identical pipeline | `R8` `R15` | ✓ **complete** | "
                     "— ($0) | **$0** — CPU/CI | ✅ **RAN.** Verdict **" + verdict + "**. " + summary +
                     ". Numbers: [`categorical-decoy-null.json`](../modalities/categorical-decoy-null.json); "
@@ -2408,15 +2408,15 @@ def _map_edits_lbd(ME, text, res, g):
                     f"{link}, {c397_line}")),
 
         # ---- §10.1 row 29 and Q2: the ranked rows this job belongs to ------------------------------------
-        ME.edit(text, "§10.1 row 29 — the C02 row",
-                "| **29** | **The categorical axis's cross-system decoy null (`C02`)**",
+        ME.edit(text, "§10.1 row 29 — the IC-2 row",
+                "| **29** | **The categorical axis's cross-system decoy null (`IC-2`)**",
                 "Row 29 records the C397 gap as WHAT IS STILL OPEN and names the repair. The repair is now "
                 "done, so the row must say so — §10.3's own lesson is that a caveat with nowhere to go is "
                 "how work gets silently dropped, and a repair with nowhere to land is the same defect "
                 "inverted.",
                 art,
                 ME.append_to_line(
-                    f" ⭑ **THE REPAIR IS DONE, 2026-08-03 ($0 CPU/CI): `C02-L` under a SECOND "
+                    f" ⭑ **THE REPAIR IS DONE, 2026-08-03 ($0 CPU/CI): `IC-2-L` under a SECOND "
                     f"pre-registered scope (`C24`, the reference-anchored LBD window), which contains C397.** "
                     f"{both}. ⛔ It is **not** a widening of `C16` and does **not** supersede this row's "
                     f"result — both runs stand and their rows are never pooled. Numbers: {link}; design and "
@@ -2478,7 +2478,7 @@ def main(argv=None):
     #   over the other scope's artifact. That is the one mistake here that would produce a wrong file with
     #   no error at all, so the default is deliberately None and filled in after `set_scope`.
     ap.add_argument("--scope", default=os.environ.get("DECOY_SCOPE", "plddt"), choices=sorted(SCOPES),
-                    help="plddt = the committed C02 run (C16). lbd = the reference-anchored LBD window "
+                    help="plddt = the committed IC-2 run (C16). lbd = the reference-anchored LBD window "
                          "(C24), a SECOND pre-registered scope, never a widening of the first.")
     ap.add_argument("--out", default=None)
     args = ap.parse_args(argv)

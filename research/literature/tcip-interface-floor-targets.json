@@ -1,0 +1,38 @@
+{
+  "_readme": "CI-only fetch corpus for BLK-TCIP-INTERFACE-FLOOR (lane: retire-or-escalate, 2026-08-07). Two jobs in one dispatch. (1) The Supporting Information of the route's motivating source EV-EB-TCIP-2025 (10.1021/jacs.5c05634, PMC12851799) - named in the cached main text as NIHMS2124316-supplement-Supporting_Information.pdf (10.8 MB), and recorded by the blocker as 'the one place left to look before this escalates to requires_wet_lab'. Several host paths are tried because none is verifiable from the dev sandbox (pmc.ncbi.nlm.nih.gov, pubs.acs.org and www.ebi.ac.uk all 403 at the egress proxy on CONNECT). (2) mmCIF coordinates of candidate INDUCED complexes, so the induced-interface size can be MEASURED from deposited coordinates under nr4a3_basin_search.PARAMS' own contact definition rather than read out of prose. mmCIF is used rather than PDB on purpose: lit_fetch_urls.py runs fetched text through strip_html(), which collapses runs of spaces and so destroys the fixed-column PDB record layout, while mmCIF is whitespace-delimited by construction and survives it. EVERY entry id below is a CANDIDATE ONLY - each one is verified downstream from its own _struct.title / _entity.pdbx_description, and any that is not what the name here claims is dropped rather than assumed.",
+  "_si_note": "The SI is the deciding fetch for task 1. A 403/404 on one host is not evidence about the document; only a fetched body is.",
+
+  "tcip_si_pmc_instance": "https://pmc.ncbi.nlm.nih.gov/articles/instance/12851799/bin/NIHMS2124316-supplement-Supporting_Information.pdf",
+  "tcip_si_pmc_articles": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12851799/bin/NIHMS2124316-supplement-Supporting_Information.pdf",
+  "tcip_si_europepmc": "https://europepmc.org/articles/PMC12851799/bin/NIHMS2124316-supplement-Supporting_Information.pdf",
+  "tcip_si_acs": "https://pubs.acs.org/doi/suppl/10.1021/jacs.5c05634/suppl_file/ja5c05634_si_001.pdf",
+  "tcip_si_epmc_supplementary_zip": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC12851799/supplementaryFiles",
+  "tcip_pmc_landing_recheck": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12851799/",
+
+  "_class_A_note": "CANDIDATE chemically-induced TRANSCRIPTIONAL-proximity complexes: a small molecule creates or stabilises a protein-protein interface whose readout is transcription. Includes ligand-induced nuclear-receptor / coactivator-NR-box complexes, which are the best-resolved induced transcriptional interfaces that exist, and the classical CID dimerisers used to drive transcription.",
+  "cif_2PRG": "https://files.rcsb.org/download/2PRG.cif",
+  "cif_1GWR": "https://files.rcsb.org/download/1GWR.cif",
+  "cif_3ERD": "https://files.rcsb.org/download/3ERD.cif",
+  "cif_3DZY": "https://files.rcsb.org/download/3DZY.cif",
+  "cif_1FM9": "https://files.rcsb.org/download/1FM9.cif",
+  "cif_1FAP": "https://files.rcsb.org/download/1FAP.cif",
+  "cif_3FAP": "https://files.rcsb.org/download/3FAP.cif",
+  "cif_4DRI": "https://files.rcsb.org/download/4DRI.cif",
+  "cif_3KDJ": "https://files.rcsb.org/download/3KDJ.cif",
+  "cif_3JRQ": "https://files.rcsb.org/download/3JRQ.cif",
+  "cif_2ZSH": "https://files.rcsb.org/download/2ZSH.cif",
+  "cif_2P1Q": "https://files.rcsb.org/download/2P1Q.cif",
+
+  "_class_B_note": "CANDIDATE degrader / molecular-glue induced ternaries - the modality the floor of 12 was inherited FROM. These calibrate what the sampler's contact count reads on a real cooperative degrader interface.",
+  "cif_5T35": "https://files.rcsb.org/download/5T35.cif",
+  "cif_6BN7": "https://files.rcsb.org/download/6BN7.cif",
+  "cif_6BOY": "https://files.rcsb.org/download/6BOY.cif",
+  "cif_6HAX": "https://files.rcsb.org/download/6HAX.cif",
+  "cif_6SIS": "https://files.rcsb.org/download/6SIS.cif",
+  "cif_5FQD": "https://files.rcsb.org/download/5FQD.cif",
+  "cif_6H0F": "https://files.rcsb.org/download/6H0F.cif",
+  "cif_7Q2J": "https://files.rcsb.org/download/7Q2J.cif",
+
+  "_class_C_note": "The staged TCIP effector body, refetched as mmCIF so it is measured by the same parser as everything else.",
+  "cif_7LWG": "https://files.rcsb.org/download/7LWG.cif"
+}

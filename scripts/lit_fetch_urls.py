@@ -63,6 +63,24 @@ TARGETS = {
 }
 
 
+def _looks_structured(ctype: str, data: bytes) -> bool:
+    """Is this a JSON/XML payload that must reach disk byte-for-byte?
+
+    ⚠ CONTENT-TYPE IS CHECKED FIRST BUT IS NOT TRUSTED ALONE. Several of the endpoints this repo
+    fetches serve JSON under `text/plain`, and one serves it with no Content-Type at all, so a
+    header-only test would send exactly those through the stripper — the case it exists to prevent.
+    The sniff is a first-non-space-byte check, which is what actually decides whether `json.loads`
+    will be run on the other end.
+    """
+    c = (ctype or "").lower()
+    if "json" in c or "xml" in c:
+        return True
+    if "html" in c:
+        return False
+    head = data[:512].lstrip()[:1]
+    return head in (b"{", b"[", b"<") and not data[:512].lstrip().lower().startswith(b"<!doctype html")
+
+
 def strip_html(raw: str) -> str:
     raw = re.sub(r"(?is)<(script|style|noscript|svg)[^>]*>.*?</\1>", " ", raw)
     raw = re.sub(r"(?is)<br\s*/?>", "\n", raw)
@@ -120,6 +138,36 @@ def fetch(name: str, url: str) -> dict:
 
     if "pdf" in ctype.lower() or data[:5] == b"%PDF-":
         text = pdf_to_text(data)
+    elif _looks_structured(ctype, data):
+        # ⛔ NEVER RUN THE HTML STRIPPER OVER JSON/XML. `strip_html` deletes everything from a `<`
+        # to the next `>`, and ClinicalTrials.gov emits LITERAL angle brackets inside free-text
+        # eligibility criteria — "PLT < 100,000/mcL", "prednisone > 10 mg daily". Each `<` opens a
+        # span that closes at the next `>`, wherever that is, so the stripper swallows every
+        # structural key in between.
+        #
+        # ⚠ SUPERSEDED, RETAINED: this comment first said the trigger was HTML-ESCAPED brackets
+        # (`&lt;`/`&gt;`). That was wrong and the synthetic written from it did not reproduce the
+        # defect — modules survived. The real record settles it: 0 literal `<` and 13 orphaned
+        # literal `>` remain in the damaged file, which is the stripper's own footprint. The story
+        # was corrected against the artifact rather than kept because it sounded right.
+        #
+        # Measured 2026-08-07 on the 13-study fetch this repo used to verify trial status. One mode
+        # is LOUD (10 records simply stopped parsing). The other is SILENT: NCT05836571 came back as
+        # well-formed JSON keeping `statusModule`, `descriptionModule` and `contactsLocationsModule`
+        # while `conditionsModule`, `designModule` and `eligibilityModule` VANISHED — and the
+        # eligibility *content* survived, orphaned, because only the key fell inside an eaten span.
+        # Nothing errored. A reader gets a clean parse of a document missing exactly the fields it
+        # was fetched for, with fragments of them still present.
+        #
+        # ⚠ THAT IS THE WORST FAILURE SHAPE THIS REPO HAS A RULE FOR: a populated field is not a
+        # measured one, and here the damage removes fields rather than corrupting them, so every
+        # `in` check silently answers "absent" instead of raising. Detection alone is not enough —
+        # a lane that fetches eligibility text and is told "undamaged sentences only" still cannot
+        # read the sentence. The transport must stop destroying it.
+        #
+        # The corpora this repo fetches are DELIBERATELY API endpoints returning JSON/XML rather
+        # than article pages, so this path is the common case, not the exception.
+        text = data.decode("utf-8", errors="replace")
     else:
         text = strip_html(data.decode("utf-8", errors="replace"))
 
@@ -140,12 +188,37 @@ def resolve_targets() -> dict:
     change what every future run fetches). LIT_TARGETS_MODE=extend appends instead of replacing.
     """
     path = os.environ.get("LIT_TARGETS_FILE", "").strip()
-    if not path:
+    inline = os.environ.get("LIT_TARGETS_JSON", "").strip()
+    if not path and not inline:
         return TARGETS
-    with open(path, "r", encoding="utf-8") as fh:
-        extra = json.load(fh)
-    if not isinstance(extra, dict) or not all(isinstance(v, str) for v in extra.values()):
-        raise SystemExit(f"{path}: expected a flat JSON object of name -> url")
+
+    extra: dict = {}
+    if path:
+        with open(path, "r", encoding="utf-8") as fh:
+            extra.update(json.load(fh))
+    if inline:
+        # ⛔ WHY AN INLINE CORPUS EXISTS AT ALL (added 2026-08-07, from a measured cap).
+        # `LIT_TARGETS_FILE` names a path INSIDE THE CHECKED-OUT REF, so fetching a URL that is
+        # not already committed requires committing and pushing a corpus file first. An agent
+        # working in an isolated worktree under a no-push constraint therefore could not verify
+        # ANY arbitrary URL, and the consequence was not hypothetical: the FAP lane had to file
+        # every one of its clinicaltrials.gov facts as `[search]` rather than `[API]`, because
+        # the proxy denies that host locally and no CI path could reach it either. That caps
+        # every trial claim in the portfolio at unverified — including the trial-eligibility
+        # lane, which is the one item on the board with a direct patient consequence.
+        # ⚠ A registry status is exactly the class of fact that must never be quoted from a
+        # search snippet: it changes without notice, and a stale "recruiting" is the one error
+        # here that could actually mislead someone about their own options.
+        parsed = json.loads(inline)
+        if not isinstance(parsed, dict):
+            raise SystemExit("LIT_TARGETS_JSON: expected a flat JSON object of name -> url")
+        # Inline layers OVER a file when both are given, so a dispatch can override one entry of
+        # a committed corpus without forking the whole file. Stated because a silent precedence
+        # rule between two sources of the same thing is how a run fetches something nobody meant.
+        extra.update(parsed)
+
+    if not all(isinstance(v, str) for v in extra.values()):
+        raise SystemExit("targets: expected a flat JSON object of name -> url")
     # Underscore-prefixed keys are documentation, not targets. Corpus files in this repo
     # carry a "_readme" line saying what the corpus is for and under what constraints it
     # was fetched; that is worth keeping, so the convention is honoured rather than banned.

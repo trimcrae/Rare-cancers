@@ -1,0 +1,4632 @@
+{
+ "_title": "GSE11185 \u2014 'Differences between NOR1 and EWS/NOR1', read for the first time",
+ "_question": "emc-unexplored-treatment-lanes.md \u00a74: the direct wild-type-versus-fusion experiment, in this repository's GEO census, never opened.",
+ "_status": "$0, CPU, pure stdlib. NOT an EMC tissue measurement, NOT a patient measurement, and no efficacy, safety, therapeutic-window or clinical claim is made or implied.",
+ "_inputs": {
+  "_dir": "_s4_lane_inputs",
+  "_fetched_by": "s4_lane_inputs_fetch.py on a GitHub Actions runner (CLAUDE.md \u00a76)",
+  "_manifest": "_s4_lane_inputs/_manifest.json"
+ },
+ "characterisation": {
+  "_what": "what this series IS, read from its own records, before any value is used for anything (CLAUDE.md \u00a76)",
+  "series": "GSE11185",
+  "title": "Differences between NOR1 and EWS/NOR1",
+  "summary": [
+   "To examine the differences between NOR1 and its fusion gene product EWS/NOR1, we compared the gene expression profiles of NOR1- and EWS/NOR1-overexpressing 293 cells.",
+   "Keywords: gene comparison"
+  ],
+  "overall_design": "We established 293-tet-On clones stably transfected NOR1- or EWS/NOR1-expressing plasmid. Total RNA was collected from the clones cultured with or without doxycycline.",
+  "submission_date": "Apr 16 2008",
+  "public_date": "Public on Dec 10 2008",
+  "pubmed_id": "18680143",
+  "contributors": [
+   "Naganari,,Ohkura",
+   "Yuko,,Nagamura",
+   "Toshihiko,,Tsukada"
+  ],
+  "platform": "GPL570",
+  "n_samples_declared": 4,
+  "n_samples_read": 4,
+  "samples_not_read": [],
+  "design_cells": {
+   "fusion|minus_dox": [
+    "GSM281777"
+   ],
+   "fusion|plus_dox": [
+    "GSM281778"
+   ],
+   "wild_type|minus_dox": [
+    "GSM281775"
+   ],
+   "wild_type|plus_dox": [
+    "GSM281776"
+   ]
+  },
+  "n_samples_per_design_cell": [
+   1
+  ],
+  "\u2605_replication": "1 sample(s) per design cell. With n = 1 there is NO within-cell variance, so no confidence interval, no p-value and no differential-expression statistic can be computed from this series, and this module emits none.",
+  "\u2605_what_the_arms_actually_are": "HEK293 tet-On stable clones carrying a doxycycline-inducible NOR1 or EWS/NOR1 expression plasmid, each read once at 24 h with and without doxycycline. NOT EMC tissue, NOT an EMC cell line, NOT the endogenous NR4A3 locus, and NOT the fusion's native (partner-supplied) promoter. It is a transactivation assay in an epithelial-origin line.",
+  "\u2605_what_the_record_does_NOT_contain": [
+   "the construct boundaries \u2014 which EWS exon is joined to which NOR1 exon is stated NOWHERE in the series or sample records, and the paper is not open access, so the fusion's exact protein sequence is UNRESOLVED from everything reachable at $0",
+   "any replicate, biological or technical",
+   "any raw CEL-level QC beyond the deposited GCOS calls (the CEL tar is a supplementary file this run did not fetch)",
+   "any independent corroboration that each clone expresses the construct its title claims \u2014 which is why the induction check below is run as an INSTRUMENT CONTROL before anything else"
+  ],
+  "value_type": "MAS5/GCOS signal with ABS_CALL and detection p-value per probe \u2014 a per-array scaled intensity, not a log ratio and not RMA",
+  "platform_annotation": {
+   "platform": "GPL570",
+   "source_url": "https://ftp.ncbi.nlm.nih.gov/geo/platforms/GPLnnn/GPL570/annot/GPL570.annot.gz",
+   "n_probes": 54675,
+   "n_probes_with_gene_symbol": 45118,
+   "probe_symbol_mapping_fraction": 0.8252,
+   "columns_seen": [
+    "ID",
+    "Gene title",
+    "Gene symbol",
+    "Gene ID",
+    "UniGene title",
+    "UniGene symbol",
+    "UniGene ID",
+    "Nucleotide Title",
+    "GI",
+    "GenBank Accession",
+    "Platform_CLONEID",
+    "Platform_ORF",
+    "Platform_SPOTID",
+    "Chromosome location",
+    "Chromosome annotation",
+    "GO:Function",
+    "GO:Process",
+    "GO:Component",
+    "GO:Function ID",
+    "GO:Process ID",
+    "GO:Component ID"
+   ]
+  },
+  "row_count_consistent_across_samples": true,
+  "rows_parsed_per_sample": [
+   54675
+  ],
+  "samples": [
+   {
+    "gsm": "GSM281775",
+    "title": "293-tet-On-NOR1 without doxycycline",
+    "source_name": "293-tet-On-NOR1 cells, doxycycline untreated",
+    "characteristics": [
+     "293-tet-On-NOR1 cells were cultured without doxycycline for 24 hours."
+    ],
+    "treatment_protocol": "without doxycycline",
+    "description": "To identify genes affected by NOR1 overexpression, we compared expression profiles between NOR1-induced 293-tet-On cells and its control cells.",
+    "platform": "GPL570",
+    "declared_row_count": 54675,
+    "value_column_label": null,
+    "arm": "wild_type",
+    "arm_matched_on": "NOR1",
+    "dox": "minus_dox",
+    "table_columns": [
+     "ID_REF",
+     "VALUE",
+     "ABS_CALL",
+     "DETECTION P-VALUE"
+    ],
+    "n_rows_parsed": 54675,
+    "n_values": 54675,
+    "value_median": 23.3,
+    "value_q1": 5.9,
+    "value_q3": 154.8,
+    "value_max": 17474.0,
+    "detection_calls": {
+     "P": 25839,
+     "A": 28083,
+     "M": 753
+    },
+    "frac_present": 0.4726
+   },
+   {
+    "gsm": "GSM281776",
+    "title": "293-tet-On-NOR1 with doxycycline",
+    "source_name": "293-tet-On-NOR1 cells, doxycycline treated",
+    "characteristics": [
+     "293-tet-On-NOR1 cells were cultured with doxycycline for 24 hours."
+    ],
+    "treatment_protocol": "with doxycycline",
+    "description": "To identify genes affected by NOR1 overexpression, we compared expression profiles between NOR1-induced 293-tet-On cells and its control cells.",
+    "platform": "GPL570",
+    "declared_row_count": 54675,
+    "value_column_label": null,
+    "arm": "wild_type",
+    "arm_matched_on": "NOR1",
+    "dox": "plus_dox",
+    "table_columns": [
+     "ID_REF",
+     "VALUE",
+     "ABS_CALL",
+     "DETECTION P-VALUE"
+    ],
+    "n_rows_parsed": 54675,
+    "n_values": 54675,
+    "value_median": 24.9,
+    "value_q1": 6.3,
+    "value_q3": 163.1,
+    "value_max": 17273.4,
+    "detection_calls": {
+     "P": 26168,
+     "M": 753,
+     "A": 27754
+    },
+    "frac_present": 0.4786
+   },
+   {
+    "gsm": "GSM281777",
+    "title": "293-tet-On-EWS/NOR1 without doxycycline",
+    "source_name": "293-tet-On-EWS/NOR1 cells, doxycycline untreated",
+    "characteristics": [
+     "293-tet-On-EWS/NOR1 cells were cultured without doxycycline for 24 hours."
+    ],
+    "treatment_protocol": "without doxycycline",
+    "description": "To identify genes affected by EWS/NOR1 overexpression, we compared expression profiles between EWS/NOR1-induced 293-tet-On cells and its control cells.",
+    "platform": "GPL570",
+    "declared_row_count": 54675,
+    "value_column_label": null,
+    "arm": "fusion",
+    "arm_matched_on": "EWS/NOR1",
+    "dox": "minus_dox",
+    "table_columns": [
+     "ID_REF",
+     "VALUE",
+     "ABS_CALL",
+     "DETECTION P-VALUE"
+    ],
+    "n_rows_parsed": 54675,
+    "n_values": 54675,
+    "value_median": 19.7,
+    "value_q1": 5.1,
+    "value_q3": 136.3,
+    "value_max": 17941.4,
+    "detection_calls": {
+     "P": 25587,
+     "A": 28365,
+     "M": 723
+    },
+    "frac_present": 0.468
+   },
+   {
+    "gsm": "GSM281778",
+    "title": "293-tet-On-EWS/NOR1 with doxycycline",
+    "source_name": "293-tet-On-EWS/NOR1 cells, doxycycline treated",
+    "characteristics": [
+     "293-tet-On-EWS/NOR1 cells were cultured with doxycycline for 24 hours."
+    ],
+    "treatment_protocol": "with doxycycline",
+    "description": "To identify genes affected by EWS/NOR1 overexpression, we compared expression profiles between EWS/NOR1-induced 293-tet-On cells and its control cells.",
+    "platform": "GPL570",
+    "declared_row_count": 54675,
+    "value_column_label": null,
+    "arm": "fusion",
+    "arm_matched_on": "EWS/NOR1",
+    "dox": "plus_dox",
+    "table_columns": [
+     "ID_REF",
+     "VALUE",
+     "ABS_CALL",
+     "DETECTION P-VALUE"
+    ],
+    "n_rows_parsed": 54675,
+    "n_values": 54675,
+    "value_median": 23.4,
+    "value_q1": 6.2,
+    "value_q3": 148.1,
+    "value_max": 17317.6,
+    "detection_calls": {
+     "P": 25761,
+     "A": 28170,
+     "M": 744
+    },
+    "frac_present": 0.4712
+   }
+  ]
+ },
+ "instrument_controls": {
+  "_what": "controls run BEFORE the result is read; one of them fails and the failure is the point",
+  "NR4A3": [
+   {
+    "probe": "207978_s_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      8.8,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      10.7,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      15.5,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      22.9,
+      "A"
+     ]
+    }
+   },
+   {
+    "probe": "209959_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      27.8,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      18.1,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      4.7,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      4.1,
+      "A"
+     ]
+    }
+   },
+   {
+    "probe": "216979_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      7.3,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      12.0,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      15.2,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      11.1,
+      "A"
+     ]
+    }
+   }
+  ],
+  "EWSR1": [
+   {
+    "probe": "209214_s_at",
+    "wt_log2fc": 0.014,
+    "fusion_log2fc": -0.239,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      2638.4,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      2655.0,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      2917.4,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      3148.9,
+      "P"
+     ]
+    }
+   },
+   {
+    "probe": "210011_s_at",
+    "wt_log2fc": 0.034,
+    "fusion_log2fc": -0.16,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      735.4,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      781.6,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      744.5,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      814.5,
+      "P"
+     ]
+    }
+   },
+   {
+    "probe": "210012_s_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": -0.007,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      31.1,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      30.5,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      26.4,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      35.0,
+      "P"
+     ]
+    }
+   },
+   {
+    "probe": "229966_at",
+    "wt_log2fc": 0.005,
+    "fusion_log2fc": 0.082,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      79.7,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      100.2,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      66.1,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      70.9,
+      "P"
+     ]
+    }
+   }
+  ],
+  "PARP1": [
+   {
+    "probe": "208644_at",
+    "wt_log2fc": -0.381,
+    "fusion_log2fc": -0.144,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      3231.5,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      3473.3,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      3159.9,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      2593.0,
+      "P"
+     ]
+    }
+   }
+  ],
+  "NR4A1": [
+   {
+    "probe": "202340_x_at",
+    "wt_log2fc": -0.301,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      6.0,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      6.0,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      45.1,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      10.9,
+      "A"
+     ]
+    }
+   },
+   {
+    "probe": "210226_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      21.4,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      6.8,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      5.7,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      32.6,
+      "A"
+     ]
+    }
+   },
+   {
+    "probe": "211143_x_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      6.0,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      15.0,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      18.0,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      3.9,
+      "A"
+     ]
+    }
+   }
+  ],
+  "NR4A2": [
+   {
+    "probe": "204621_s_at",
+    "wt_log2fc": -0.691,
+    "fusion_log2fc": -0.684,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      49.7,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      35.2,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      59.1,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      32.9,
+      "A"
+     ]
+    }
+   },
+   {
+    "probe": "204622_x_at",
+    "wt_log2fc": -0.521,
+    "fusion_log2fc": -1.161,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      98.1,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      52.1,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      113.2,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      84.3,
+      "P"
+     ]
+    }
+   },
+   {
+    "probe": "216248_s_at",
+    "wt_log2fc": -0.608,
+    "fusion_log2fc": -1.295,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      81.0,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      39.2,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      92.3,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      64.7,
+      "P"
+     ]
+    }
+   }
+  ],
+  "\u2605_construct_expression_check": {
+   "question": "does any probe in the record report that the NOR1 / EWS-NOR1 construct was induced?",
+   "n_nr4a3_probesets": 3,
+   "n_nr4a3_probesets_present_on_all_four_arrays": 0,
+   "answer": "NO \u2014 every NR4A3 probeset is ABSENT-called on every array",
+   "status": "CONTROL_UNAVAILABLE",
+   "\u26a0": "an ABSENT call is a statement that the collector could not READ this transcript. It is not a measurement that the transcript is absent, and it is certainly not a measurement that the construct was not induced (CLAUDE.md \u00a74)."
+  },
+  "\u2605_multi_probeset_concordance": {
+   "wild_type": {
+    "n_genes_with_2plus_probesets_each_moving_2x": 69,
+    "n_sign_concordant": 69,
+    "frac_concordant": 1.0
+   },
+   "fusion": {
+    "n_genes_with_2plus_probesets_each_moving_2x": 65,
+    "n_sign_concordant": 65,
+    "frac_concordant": 1.0
+   },
+   "_what": "for genes carrying two or more INDEPENDENT probesets, do the probesets agree on the direction of the dox response? Noise has no reason to.",
+   "_n_genes_with_2plus_probesets": 10924
+  },
+  "_affx_spike_in_stability": {
+   "n_affx_probes": 62,
+   "median_abs_log2fc": 0.1447,
+   "p95_abs_log2fc": 0.4255,
+   "p95_as_fold": 1.343,
+   "_why": "AFFX control probes should not respond to doxycycline. Their spread is this experiment's own floor on what a fold change means with n = 1 \u2014 a gene moving less than this is inside the technical noise of the pair."
+  },
+  "\u2605_no_vector_only_control_exists_in_this_series": "the design has two clones and two dox states and no vector-only tet-On clone, so a response shared by both clones is CONSTRUCT-driven OR DOXYCYCLINE-driven and this series cannot separate them. Only the construct-SPECIFIC responses are immune to that confound."
+ },
+ "read": {
+  "status": "OK",
+  "cells": {
+   "wild_type|minus_dox": "GSM281775",
+   "wild_type|plus_dox": "GSM281776",
+   "fusion|minus_dox": "GSM281777",
+   "fusion|plus_dox": "GSM281778"
+  },
+  "n_probes_common_to_all_four": 54675,
+  "n_probes_present_called_on_all_four": 22207,
+  "normalisation": {
+   "_method": "per-array median scaling to the geometric-mean median of the four arrays",
+   "array_medians": {
+    "wild_type|minus_dox": 23.3,
+    "wild_type|plus_dox": 24.9,
+    "fusion|minus_dox": 19.7,
+    "fusion|plus_dox": 23.4
+   },
+   "scaling_factors": {
+    "wild_type|minus_dox": 0.97601,
+    "wild_type|plus_dox": 0.91329,
+    "fusion|minus_dox": 1.15436,
+    "fusion|plus_dox": 0.97184
+   },
+   "largest_pairwise_scaling_ratio": 1.264,
+   "noise_floor_used": 35.722,
+   "noise_floor_method": "95th percentile of every scaled value the instrument called ABSENT, across all four arrays \u2014 DERIVED from the data, not typed",
+   "absent_call_percentiles": {
+    "0.5": 6.21,
+    "0.75": 13.97,
+    "0.9": 25.05,
+    "0.95": 35.72,
+    "0.99": 72.15
+   },
+   "\u26a0_floor_sensitivity": [
+    {
+     "floor": 13.97,
+     "n_up_wild_type": 1086,
+     "n_up_fusion": 889,
+     "n_up_both": 113,
+     "_detection_gate_applied": false
+    },
+    {
+     "floor": 35.72,
+     "n_up_wild_type": 418,
+     "n_up_fusion": 269,
+     "n_up_both": 34,
+     "_detection_gate_applied": false
+    },
+    {
+     "floor": 50.0,
+     "n_up_wild_type": 333,
+     "n_up_fusion": 207,
+     "n_up_both": 28,
+     "_detection_gate_applied": false
+    },
+    {
+     "floor": 100.0,
+     "n_up_wild_type": 196,
+     "n_up_fusion": 121,
+     "n_up_both": 15,
+     "_detection_gate_applied": false
+    }
+   ],
+   "\u26a0_how_to_read_the_sweep": "counts move several-fold with the floor and NOTHING about the data changed. The headline uses the derived p95 floor AND the per-probe detection gate; the sweep rows have the gate OFF, so they are deliberately the pessimistic view of how much the choice can move a count."
+  },
+  "induction_response": {
+   "_what": "+dox vs -dox WITHIN each clone; the clone baseline cancels. This is the only contrast the design supports \u2014 see the characterisation.",
+   "at_2x": {
+    "threshold_fold": 2.0,
+    "n_up_wild_type": 398,
+    "n_up_fusion": 256,
+    "n_up_both": 33,
+    "n_up_expected_both_by_chance": 1.86,
+    "overlap_enrichment_over_chance": 17.71,
+    "jaccard_of_up_sets": 0.0531,
+    "frac_of_wild_type_set_shared": 0.0829,
+    "frac_of_fusion_set_shared": 0.1289,
+    "n_down_wild_type": 178,
+    "n_down_fusion": 229,
+    "n_down_both": 45
+   },
+   "at_4x": {
+    "threshold_fold": 4.0,
+    "n_up_wild_type": 22,
+    "n_up_fusion": 41,
+    "n_up_both": 2,
+    "n_up_expected_both_by_chance": 0.02,
+    "overlap_enrichment_over_chance": 121.23,
+    "jaccard_of_up_sets": 0.0328,
+    "frac_of_wild_type_set_shared": 0.0909,
+    "frac_of_fusion_set_shared": 0.0488,
+    "n_down_wild_type": 1,
+    "n_down_fusion": 5,
+    "n_down_both": 0
+   },
+   "\u2605_correlation_of_induction_magnitude": {
+    "_on": "every probe the instrument calls PRESENT on all four arrays \u2014 an UNBIASED set, chosen without reference to either fold change",
+    "n": 22207,
+    "pearson_r": 0.2536,
+    "spearman_rho": 0.2322,
+    "\u26d4_no_p_value": "n = 1 array per cell. This is a descriptive statistic over probes of ONE pair of fold-change vectors; it has no sampling distribution here, the probes are not independent, and no p-value is emitted.",
+    "\u26d4_selection_artifact_do_not_read_as_a_finding": {
+     "_what": "the same correlation computed over the UNION of the two selected up-sets, which is how this module first computed it",
+     "n": 621,
+     "pearson_r": -0.5206,
+     "spearman_rho": -0.5653,
+     "_why_it_is_wrong": "a probe enters that union by being high in ONE of the two vectors; conditioning on the maximum of a noisy pair induces negative correlation between them. The sign flips relative to the unbiased set above, which is the tell."
+    }
+   }
+  }
+ },
+ "top_divergent_probes": {
+  "most_wild_type_biased": [
+   {
+    "probe": "227214_at",
+    "symbol": "GOPC",
+    "wt_log2fc": 3.959,
+    "fusion_log2fc": 0.02,
+    "delta_fusion_minus_wt": -3.939
+   },
+   {
+    "probe": "210587_at",
+    "symbol": "INHBE",
+    "wt_log2fc": 3.207,
+    "fusion_log2fc": 0.274,
+    "delta_fusion_minus_wt": -2.933
+   },
+   {
+    "probe": "223774_at",
+    "symbol": "SNORA16A///SNORA61///SNORA44///SNHG12",
+    "wt_log2fc": 3.494,
+    "fusion_log2fc": 0.901,
+    "delta_fusion_minus_wt": -2.593
+   },
+   {
+    "probe": "202887_s_at",
+    "symbol": "DDIT4",
+    "wt_log2fc": 1.802,
+    "fusion_log2fc": -0.685,
+    "delta_fusion_minus_wt": -2.486
+   },
+   {
+    "probe": "224489_at",
+    "symbol": "LOC101929774",
+    "wt_log2fc": 2.074,
+    "fusion_log2fc": -0.302,
+    "delta_fusion_minus_wt": -2.376
+   },
+   {
+    "probe": "230142_s_at",
+    "symbol": "CIRBP",
+    "wt_log2fc": 2.215,
+    "fusion_log2fc": -0.113,
+    "delta_fusion_minus_wt": -2.328
+   },
+   {
+    "probe": "227301_at",
+    "symbol": "CCT6P1///CCT6P3",
+    "wt_log2fc": 2.32,
+    "fusion_log2fc": 0.034,
+    "delta_fusion_minus_wt": -2.286
+   },
+   {
+    "probe": "215009_s_at",
+    "symbol": "THAP9-AS1",
+    "wt_log2fc": 1.844,
+    "fusion_log2fc": -0.35,
+    "delta_fusion_minus_wt": -2.195
+   },
+   {
+    "probe": "1554014_at",
+    "symbol": "CHD2",
+    "wt_log2fc": 1.606,
+    "fusion_log2fc": -0.563,
+    "delta_fusion_minus_wt": -2.169
+   },
+   {
+    "probe": "1552575_a_at",
+    "symbol": "C6orf141",
+    "wt_log2fc": 1.057,
+    "fusion_log2fc": -1.071,
+    "delta_fusion_minus_wt": -2.128
+   },
+   {
+    "probe": "229211_at",
+    "symbol": "DUSP28",
+    "wt_log2fc": 1.49,
+    "fusion_log2fc": -0.632,
+    "delta_fusion_minus_wt": -2.122
+   },
+   {
+    "probe": "207219_at",
+    "symbol": "ZFP69B",
+    "wt_log2fc": 2.087,
+    "fusion_log2fc": 0.0,
+    "delta_fusion_minus_wt": -2.087
+   },
+   {
+    "probe": "1569974_x_at",
+    "symbol": "SEPT7P2",
+    "wt_log2fc": 1.814,
+    "fusion_log2fc": -0.263,
+    "delta_fusion_minus_wt": -2.077
+   },
+   {
+    "probe": "225220_at",
+    "symbol": "SNHG8///SNORA24",
+    "wt_log2fc": 1.998,
+    "fusion_log2fc": -0.074,
+    "delta_fusion_minus_wt": -2.072
+   },
+   {
+    "probe": "223773_s_at",
+    "symbol": "SNORA16A///SNORA61///SNORA44///SNHG12",
+    "wt_log2fc": 2.802,
+    "fusion_log2fc": 0.743,
+    "delta_fusion_minus_wt": -2.059
+   },
+   {
+    "probe": "207046_at",
+    "symbol": "HIST2H4B///HIST4H4///HIST2H4A///HIST1H4L///HIST1H4E///HIST1H4B///HIST1H4H///HIST1H4C///HIST1H4J///HIST1H4K///HIST1H4F///HIST1H4D///HIST1H4A///HIST1H4I",
+    "wt_log2fc": 1.712,
+    "fusion_log2fc": -0.323,
+    "delta_fusion_minus_wt": -2.035
+   },
+   {
+    "probe": "227943_at",
+    "symbol": "",
+    "wt_log2fc": 1.751,
+    "fusion_log2fc": -0.28,
+    "delta_fusion_minus_wt": -2.031
+   },
+   {
+    "probe": "1555743_s_at",
+    "symbol": "ERVH-6",
+    "wt_log2fc": 2.31,
+    "fusion_log2fc": 0.294,
+    "delta_fusion_minus_wt": -2.016
+   },
+   {
+    "probe": "1568900_a_at",
+    "symbol": "ZNF568",
+    "wt_log2fc": 1.362,
+    "fusion_log2fc": -0.636,
+    "delta_fusion_minus_wt": -1.998
+   },
+   {
+    "probe": "226693_at",
+    "symbol": "SDHAP2///LINC00969///SDHAP1",
+    "wt_log2fc": 1.766,
+    "fusion_log2fc": -0.184,
+    "delta_fusion_minus_wt": -1.95
+   },
+   {
+    "probe": "222921_s_at",
+    "symbol": "HEY2",
+    "wt_log2fc": 1.389,
+    "fusion_log2fc": -0.552,
+    "delta_fusion_minus_wt": -1.942
+   },
+   {
+    "probe": "213471_at",
+    "symbol": "NPHP4",
+    "wt_log2fc": 1.724,
+    "fusion_log2fc": -0.205,
+    "delta_fusion_minus_wt": -1.929
+   },
+   {
+    "probe": "1554919_s_at",
+    "symbol": "CFAP69",
+    "wt_log2fc": 1.089,
+    "fusion_log2fc": -0.839,
+    "delta_fusion_minus_wt": -1.928
+   },
+   {
+    "probe": "1562386_s_at",
+    "symbol": "ZNF501",
+    "wt_log2fc": 1.639,
+    "fusion_log2fc": -0.281,
+    "delta_fusion_minus_wt": -1.92
+   },
+   {
+    "probe": "208118_x_at",
+    "symbol": "LOC101060604///SMG1P3///SLC7A5P2///SLC7A5P1",
+    "wt_log2fc": 1.949,
+    "fusion_log2fc": 0.03,
+    "delta_fusion_minus_wt": -1.92
+   }
+  ],
+  "most_fusion_biased": [
+   {
+    "probe": "216030_s_at",
+    "symbol": "SEMG2",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 3.445,
+    "delta_fusion_minus_wt": 3.445
+   },
+   {
+    "probe": "206442_at",
+    "symbol": "SEMG1",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 3.347,
+    "delta_fusion_minus_wt": 3.347
+   },
+   {
+    "probe": "226847_at",
+    "symbol": "FST",
+    "wt_log2fc": 0.652,
+    "fusion_log2fc": 3.883,
+    "delta_fusion_minus_wt": 3.231
+   },
+   {
+    "probe": "202363_at",
+    "symbol": "SPOCK1",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 3.027,
+    "delta_fusion_minus_wt": 3.027
+   },
+   {
+    "probe": "211719_x_at",
+    "symbol": "FN1",
+    "wt_log2fc": -0.324,
+    "fusion_log2fc": 2.702,
+    "delta_fusion_minus_wt": 3.026
+   },
+   {
+    "probe": "203037_s_at",
+    "symbol": "MTSS1",
+    "wt_log2fc": -0.174,
+    "fusion_log2fc": 2.775,
+    "delta_fusion_minus_wt": 2.949
+   },
+   {
+    "probe": "231930_at",
+    "symbol": "LOC643923///ELMOD1",
+    "wt_log2fc": 0.262,
+    "fusion_log2fc": 3.195,
+    "delta_fusion_minus_wt": 2.933
+   },
+   {
+    "probe": "212464_s_at",
+    "symbol": "FN1",
+    "wt_log2fc": -0.05,
+    "fusion_log2fc": 2.769,
+    "delta_fusion_minus_wt": 2.819
+   },
+   {
+    "probe": "204948_s_at",
+    "symbol": "FST",
+    "wt_log2fc": 0.167,
+    "fusion_log2fc": 2.872,
+    "delta_fusion_minus_wt": 2.705
+   },
+   {
+    "probe": "215294_s_at",
+    "symbol": "SMARCA1",
+    "wt_log2fc": -0.119,
+    "fusion_log2fc": 2.577,
+    "delta_fusion_minus_wt": 2.696
+   },
+   {
+    "probe": "204381_at",
+    "symbol": "LRP3",
+    "wt_log2fc": -1.526,
+    "fusion_log2fc": 1.149,
+    "delta_fusion_minus_wt": 2.675
+   },
+   {
+    "probe": "203874_s_at",
+    "symbol": "SMARCA1",
+    "wt_log2fc": -0.063,
+    "fusion_log2fc": 2.58,
+    "delta_fusion_minus_wt": 2.644
+   },
+   {
+    "probe": "204271_s_at",
+    "symbol": "EDNRB",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 2.642,
+    "delta_fusion_minus_wt": 2.642
+   },
+   {
+    "probe": "228170_at",
+    "symbol": "OLIG1",
+    "wt_log2fc": 0.34,
+    "fusion_log2fc": 2.866,
+    "delta_fusion_minus_wt": 2.526
+   },
+   {
+    "probe": "232136_s_at",
+    "symbol": "CTTNBP2",
+    "wt_log2fc": -0.043,
+    "fusion_log2fc": 2.452,
+    "delta_fusion_minus_wt": 2.495
+   },
+   {
+    "probe": "205551_at",
+    "symbol": "SV2B",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 2.349,
+    "delta_fusion_minus_wt": 2.349
+   },
+   {
+    "probe": "203875_at",
+    "symbol": "SMARCA1",
+    "wt_log2fc": -0.198,
+    "fusion_log2fc": 2.135,
+    "delta_fusion_minus_wt": 2.333
+   },
+   {
+    "probe": "219737_s_at",
+    "symbol": "PCDH9",
+    "wt_log2fc": -0.432,
+    "fusion_log2fc": 1.863,
+    "delta_fusion_minus_wt": 2.295
+   },
+   {
+    "probe": "209301_at",
+    "symbol": "CA2",
+    "wt_log2fc": -1.019,
+    "fusion_log2fc": 1.259,
+    "delta_fusion_minus_wt": 2.277
+   },
+   {
+    "probe": "209278_s_at",
+    "symbol": "TFPI2",
+    "wt_log2fc": -0.579,
+    "fusion_log2fc": 1.694,
+    "delta_fusion_minus_wt": 2.273
+   },
+   {
+    "probe": "204602_at",
+    "symbol": "DKK1",
+    "wt_log2fc": 0.127,
+    "fusion_log2fc": 2.383,
+    "delta_fusion_minus_wt": 2.256
+   },
+   {
+    "probe": "226415_at",
+    "symbol": "VAT1L",
+    "wt_log2fc": -0.066,
+    "fusion_log2fc": 2.166,
+    "delta_fusion_minus_wt": 2.232
+   },
+   {
+    "probe": "230319_at",
+    "symbol": "",
+    "wt_log2fc": 0.343,
+    "fusion_log2fc": 2.566,
+    "delta_fusion_minus_wt": 2.224
+   },
+   {
+    "probe": "227048_at",
+    "symbol": "LAMA1",
+    "wt_log2fc": -0.586,
+    "fusion_log2fc": 1.602,
+    "delta_fusion_minus_wt": 2.189
+   },
+   {
+    "probe": "221911_at",
+    "symbol": "ETV1",
+    "wt_log2fc": -0.359,
+    "fusion_log2fc": 1.823,
+    "delta_fusion_minus_wt": 2.182
+   }
+  ]
+ },
+ "decision_relevant_panel": {
+  "_what": "genes this repository's other lanes already turn on, read out of this experiment",
+  "_panel_declared_from": "emc-unexplored-treatment-lanes.md \u00a74 read list + the CS/GAG and matrisome modules named in its \u00a73.6 and \u00a76 \u2014 declared before the values were seen",
+  "\u26d4_status": "HYPOTHESIS-GENERATING. HEK293 overexpression, n = 1, no vector-only control. A gene moving here is a reason to look at it in EMC, never a finding about EMC.",
+  "genes": {
+   "FN1": {
+    "n_probesets": 7,
+    "n_present_on_all_four_arrays": 4,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "1558199_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        9.2,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        17.6,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        14.5,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        11.2,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "210495_x_at",
+      "wt_log2fc": 0.232,
+      "fusion_log2fc": 2.348,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        185.9,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1124.0,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        244.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        307.2,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "211719_x_at",
+      "wt_log2fc": -0.324,
+      "fusion_log2fc": 2.702,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        149.1,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1152.8,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        287.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        245.4,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "212464_s_at",
+      "wt_log2fc": -0.05,
+      "fusion_log2fc": 2.769,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        146.9,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1189.2,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        194.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        200.7,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "214701_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        14.7,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        27.5,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        4.7,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        7.8,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "214702_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        5.0,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        4.6,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        2.1,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        3.4,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "216442_x_at",
+      "wt_log2fc": 0.584,
+      "fusion_log2fc": 2.737,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        126.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1000.0,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        166.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        265.9,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.232,
+     -0.324,
+     -0.05,
+     0.584
+    ],
+    "fusion_log2fc_over_detected": [
+     2.348,
+     2.702,
+     2.769,
+     2.737
+    ]
+   },
+   "FST": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "204948_s_at",
+      "wt_log2fc": 0.167,
+      "fusion_log2fc": 2.872,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        69.5,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        604.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        78.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        93.6,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "207345_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 1.264,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        28.8,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        88.3,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        24.0,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        26.0,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "226847_at",
+      "wt_log2fc": 0.652,
+      "fusion_log2fc": 3.883,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        35.5,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        622.1,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        55.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        93.0,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.167,
+     0.652
+    ],
+    "fusion_log2fc_over_detected": [
+     2.872,
+     3.883
+    ]
+   },
+   "SMARCA1": {
+    "n_probesets": 4,
+    "n_present_on_all_four_arrays": 3,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "203873_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.002,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        3.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        36.8,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        18.9,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        17.8,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "203874_s_at",
+      "wt_log2fc": -0.063,
+      "fusion_log2fc": 2.58,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        178.1,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1265.1,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        360.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        368.9,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "203875_at",
+      "wt_log2fc": -0.198,
+      "fusion_log2fc": 2.135,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        245.7,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1281.6,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        390.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        363.3,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "215294_s_at",
+      "wt_log2fc": -0.119,
+      "fusion_log2fc": 2.577,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        128.0,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        907.2,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        240.2,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        236.3,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.063,
+     -0.198,
+     -0.119
+    ],
+    "fusion_log2fc_over_detected": [
+     2.58,
+     2.135,
+     2.577
+    ]
+   },
+   "ACTA2": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "200974_at",
+      "wt_log2fc": 1.888,
+      "fusion_log2fc": 1.582,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        222.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        790.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        335.1,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        1325.5,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "215787_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        2.6,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        9.4,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        9.6,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        0.7,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "243140_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        3.4,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        15.2,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        5.8,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        12.6,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     1.888
+    ],
+    "fusion_log2fc_over_detected": [
+     1.582
+    ]
+   },
+   "VCAN": {
+    "n_probesets": 5,
+    "n_present_on_all_four_arrays": 5,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "204619_s_at",
+      "wt_log2fc": -0.952,
+      "fusion_log2fc": 0.112,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        244.6,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        314.1,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        239.9,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        132.5,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "204620_s_at",
+      "wt_log2fc": -0.675,
+      "fusion_log2fc": 0.072,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        548.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        684.5,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        370.8,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        248.2,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "211571_s_at",
+      "wt_log2fc": -1.406,
+      "fusion_log2fc": -0.077,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        221.9,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        249.9,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        165.1,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        66.6,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "215646_s_at",
+      "wt_log2fc": -0.756,
+      "fusion_log2fc": 0.149,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        256.2,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        337.5,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        192.9,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        122.1,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "221731_x_at",
+      "wt_log2fc": -1.073,
+      "fusion_log2fc": 0.19,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        549.8,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        744.9,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        507.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        257.8,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.952,
+     -0.675,
+     -1.406,
+     -0.756,
+     -1.073
+    ],
+    "fusion_log2fc_over_detected": [
+     0.112,
+     0.072,
+     -0.077,
+     0.149,
+     0.19
+    ]
+   },
+   "CHST11": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 3,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "219634_at",
+      "wt_log2fc": 0.183,
+      "fusion_log2fc": 0.64,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        94.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        174.5,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        112.1,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        136.0,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "226368_at",
+      "wt_log2fc": -0.042,
+      "fusion_log2fc": 0.841,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        61.0,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        129.8,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        84.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        87.2,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "226372_at",
+      "wt_log2fc": 0.464,
+      "fusion_log2fc": 1.535,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        58.2,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        200.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        68.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        101.3,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.183,
+     -0.042,
+     0.464
+    ],
+    "fusion_log2fc_over_detected": [
+     0.64,
+     0.841,
+     1.535
+    ]
+   },
+   "CHST3": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "208252_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        6.4,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        11.9,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        2.2,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        2.2,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "209834_at",
+      "wt_log2fc": -1.035,
+      "fusion_log2fc": -0.017,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        55.2,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        64.8,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        122.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        64.0,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "32094_at",
+      "wt_log2fc": -1.072,
+      "fusion_log2fc": -0.789,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        71.7,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        49.3,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        116.3,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        59.1,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -1.072
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.789
+    ]
+   },
+   "CHSY1": {
+    "n_probesets": 1,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "203044_at",
+      "wt_log2fc": -0.434,
+      "fusion_log2fc": -0.536,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        1272.0,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1042.0,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        1202.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        951.1,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.434
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.536
+    ]
+   },
+   "UST": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "205138_s_at",
+      "wt_log2fc": 0.761,
+      "fusion_log2fc": 0.111,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        26.1,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        39.7,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        29.2,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        66.3,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "205139_s_at",
+      "wt_log2fc": 0.187,
+      "fusion_log2fc": 0.017,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        194.6,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        233.9,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        262.5,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        319.4,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.187
+    ],
+    "fusion_log2fc_over_detected": [
+     0.017
+    ]
+   },
+   "XYLT1": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 0,
+    "status": "NOT_DETECTED_ON_ANY_ARRAY",
+    "probesets": [
+     {
+      "probe": "213725_x_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        10.4,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        18.5,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        11.0,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        9.4,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "232574_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        0.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        2.0,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        1.2,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        1.4,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [],
+    "fusion_log2fc_over_detected": []
+   },
+   "PAPSS1": {
+    "n_probesets": 1,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "209043_at",
+      "wt_log2fc": -0.408,
+      "fusion_log2fc": -0.161,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        804.8,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        854.8,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        970.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        781.6,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.408
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.161
+    ]
+   },
+   "PAPSS2": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 3,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "203058_s_at",
+      "wt_log2fc": -0.542,
+      "fusion_log2fc": -0.296,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        478.4,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        462.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        666.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        489.1,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "203059_s_at",
+      "wt_log2fc": -0.029,
+      "fusion_log2fc": -0.264,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        176.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        174.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        167.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        175.6,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "203060_s_at",
+      "wt_log2fc": -0.366,
+      "fusion_log2fc": -0.352,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        1089.2,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1014.0,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        1231.2,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        1021.0,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.542,
+     -0.029,
+     -0.366
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.296,
+     -0.264,
+     -0.352
+    ]
+   },
+   "HAS2": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "206432_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.111,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        20.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        39.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        19.2,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        25.4,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "230372_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.32,
+      "detected_wt": false,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        16.7,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        45.9,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        17.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        18.1,
+        "M"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.0
+    ],
+    "fusion_log2fc_over_detected": [
+     0.111
+    ]
+   },
+   "ACAN": {
+    "n_probesets": 4,
+    "n_present_on_all_four_arrays": 0,
+    "status": "NOT_DETECTED_ON_ANY_ARRAY",
+    "probesets": [
+     {
+      "probe": "1554950_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        3.2,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        18.7,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        21.9,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        3.8,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "205679_x_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        23.8,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        15.6,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        19.4,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        9.7,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "207692_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        5.5,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        26.1,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        21.7,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        25.2,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "217161_x_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        15.7,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        19.5,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        3.9,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        6.4,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [],
+    "fusion_log2fc_over_detected": []
+   },
+   "CSPG4": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 0,
+    "status": "NOT_DETECTED_ON_ANY_ARRAY",
+    "probesets": [
+     {
+      "probe": "204736_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        0.4,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        3.0,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        1.5,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        1.3,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "214297_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        9.6,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        4.7,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        1.4,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        6.5,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [],
+    "fusion_log2fc_over_detected": []
+   },
+   "CD44": {
+    "n_probesets": 13,
+    "n_present_on_all_four_arrays": 4,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "1557905_s_at",
+      "wt_log2fc": -0.805,
+      "fusion_log2fc": -1.29,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        97.4,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        47.3,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        67.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        41.4,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "1565868_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        17.4,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        11.3,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        8.3,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        13.7,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "204489_s_at",
+      "wt_log2fc": -0.261,
+      "fusion_log2fc": -0.929,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        169.0,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        105.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        143.1,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        127.6,
+        "M"
+       ]
+      }
+     },
+     {
+      "probe": "204490_s_at",
+      "wt_log2fc": -0.767,
+      "fusion_log2fc": -0.718,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        81.4,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        58.8,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        73.1,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        45.9,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "209835_x_at",
+      "wt_log2fc": -0.718,
+      "fusion_log2fc": -0.343,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        51.9,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        48.6,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        60.2,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        34.9,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "210916_s_at",
+      "wt_log2fc": -0.59,
+      "fusion_log2fc": -0.811,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        54.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        24.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        55.1,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        7.4,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "212014_x_at",
+      "wt_log2fc": -0.397,
+      "fusion_log2fc": -0.663,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        49.0,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        32.1,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        48.2,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        36.2,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "212063_at",
+      "wt_log2fc": -1.054,
+      "fusion_log2fc": -1.253,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        437.0,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        217.8,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        322.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        165.7,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "216056_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        1.3,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        10.7,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        2.8,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        7.2,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "217523_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        3.2,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        6.2,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        10.8,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        1.8,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "229221_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        14.1,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        7.6,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        8.9,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        8.7,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "234411_x_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        7.2,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        0.5,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        0.5,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        0.6,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "234418_x_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        0.3,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        0.8,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        0.4,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        0.4,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.767,
+     -0.718,
+     -0.397,
+     -1.054
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.718,
+     -0.343,
+     -0.663,
+     -1.253
+    ]
+   },
+   "COL1A1": {
+    "n_probesets": 5,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "1556499_s_at",
+      "wt_log2fc": -0.309,
+      "fusion_log2fc": -0.211,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        91.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        93.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        149.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        128.5,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "202310_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        5.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        11.2,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        4.6,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        1.3,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "202311_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        8.1,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        7.5,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        18.7,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        12.7,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "202312_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        3.0,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        2.8,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        2.2,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        2.8,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "217430_x_at",
+      "wt_log2fc": 0.617,
+      "fusion_log2fc": 0.058,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        105.0,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        129.8,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        85.9,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        140.8,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.309,
+     0.617
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.211,
+     0.058
+    ]
+   },
+   "COL2A1": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "213492_at",
+      "wt_log2fc": -0.71,
+      "fusion_log2fc": -0.418,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        153.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        136.3,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        265.1,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        173.2,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "217404_s_at",
+      "wt_log2fc": -1.145,
+      "fusion_log2fc": -0.066,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        32.4,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        23.2,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        92.9,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        44.9,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.71
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.418
+    ]
+   },
+   "LOX": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "204298_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.382,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        30.7,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        47.9,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        33.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        38.1,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "213640_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        0.6,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        18.2,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        6.3,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        2.6,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "215446_s_at",
+      "wt_log2fc": 0.018,
+      "fusion_log2fc": 0.297,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        60.8,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        88.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        86.3,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        93.4,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.0,
+     0.018
+    ],
+    "fusion_log2fc_over_detected": [
+     0.382,
+     0.297
+    ]
+   },
+   "LOXL2": {
+    "n_probesets": 4,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "202997_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        0.7,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        1.3,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        0.9,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        1.0,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "202998_s_at",
+      "wt_log2fc": -0.046,
+      "fusion_log2fc": 0.739,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        34.5,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        68.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        80.1,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        82.9,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "202999_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        1.2,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        1.9,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        15.3,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        20.5,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "228808_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        6.6,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        1.1,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        20.9,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        17.3,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.046
+    ],
+    "fusion_log2fc_over_detected": [
+     0.739
+    ]
+   },
+   "CITED2": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "207980_s_at",
+      "wt_log2fc": 1.14,
+      "fusion_log2fc": 1.138,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        373.9,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        977.1,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        412.6,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        971.7,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "209357_at",
+      "wt_log2fc": 1.374,
+      "fusion_log2fc": 0.933,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        673.7,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        1527.6,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        647.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        1792.5,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "227287_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        0.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        3.6,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        4.9,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        4.0,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     1.14,
+     1.374
+    ],
+    "fusion_log2fc_over_detected": [
+     1.138,
+     0.933
+    ]
+   },
+   "STC2": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "203438_at",
+      "wt_log2fc": 1.949,
+      "fusion_log2fc": 0.612,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        129.8,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        235.6,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        158.5,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        654.1,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "203439_s_at",
+      "wt_log2fc": 1.006,
+      "fusion_log2fc": 0.635,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        48.1,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        88.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        74.9,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        160.8,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     1.949,
+     1.006
+    ],
+    "fusion_log2fc_over_detected": [
+     0.612,
+     0.635
+    ]
+   },
+   "CTH": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "206085_s_at",
+      "wt_log2fc": 2.774,
+      "fusion_log2fc": 0.946,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        103.2,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        236.2,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        120.3,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        879.5,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "217127_at",
+      "wt_log2fc": 2.862,
+      "fusion_log2fc": 1.068,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        217.8,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        542.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        269.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        2092.6,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     2.774,
+     2.862
+    ],
+    "fusion_log2fc_over_detected": [
+     0.946,
+     1.068
+    ]
+   },
+   "SLC7A11": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "207528_s_at",
+      "wt_log2fc": 0.933,
+      "fusion_log2fc": 0.233,
+      "detected_wt": true,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        28.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        43.2,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        25.5,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        74.7,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "209921_at",
+      "wt_log2fc": 1.839,
+      "fusion_log2fc": 0.885,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        133.1,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        292.0,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        135.9,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        519.6,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "217678_at",
+      "wt_log2fc": 2.603,
+      "fusion_log2fc": 1.028,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        76.1,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        184.3,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        62.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        405.2,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     1.839,
+     2.603
+    ],
+    "fusion_log2fc_over_detected": [
+     0.885,
+     1.028
+    ]
+   },
+   "INHBE": {
+    "n_probesets": 1,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "210587_at",
+      "wt_log2fc": 3.207,
+      "fusion_log2fc": 0.274,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        34.6,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        49.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        40.5,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        399.8,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     3.207
+    ],
+    "fusion_log2fc_over_detected": [
+     0.274
+    ]
+   },
+   "PPARG": {
+    "n_probesets": 1,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "208510_s_at",
+      "wt_log2fc": 0.222,
+      "fusion_log2fc": 0.253,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        115.4,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        163.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        126.8,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        158.1,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.222
+    ],
+    "fusion_log2fc_over_detected": [
+     0.253
+    ]
+   },
+   "ASS1": {
+    "n_probesets": 1,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "207076_s_at",
+      "wt_log2fc": -0.236,
+      "fusion_log2fc": -0.17,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        383.6,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        405.1,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        719.3,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        652.5,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.236
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.17
+    ]
+   },
+   "DLL3": {
+    "n_probesets": 4,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "219537_x_at",
+      "wt_log2fc": -0.567,
+      "fusion_log2fc": -0.23,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        149.7,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        151.6,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        148.5,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        107.1,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "222898_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        2.7,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        2.6,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        4.2,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        3.8,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "229755_x_at",
+      "wt_log2fc": -0.259,
+      "fusion_log2fc": -0.132,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        33.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        22.1,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        43.8,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        31.6,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "230568_x_at",
+      "wt_log2fc": 0.104,
+      "fusion_log2fc": -0.161,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        34.6,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        33.2,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        43.7,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        50.2,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.567
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.23
+    ]
+   },
+   "ASCL1": {
+    "n_probesets": 4,
+    "n_present_on_all_four_arrays": 0,
+    "status": "NOT_DETECTED_ON_ANY_ARRAY",
+    "probesets": [
+     {
+      "probe": "209985_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        5.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        7.3,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        1.3,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        8.2,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "209987_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        2.7,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        4.9,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        1.6,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        3.5,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "209988_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        8.8,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        4.9,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        4.6,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        17.4,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "213768_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        14.2,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        10.4,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        3.1,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        4.4,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [],
+    "fusion_log2fc_over_detected": []
+   },
+   "INSM1": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "206502_s_at",
+      "wt_log2fc": 0.047,
+      "fusion_log2fc": 1.221,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        30.2,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        85.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        47.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        51.9,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "231558_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        12.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        19.4,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        11.0,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        2.1,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.047
+    ],
+    "fusion_log2fc_over_detected": [
+     1.221
+    ]
+   },
+   "HES1": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "203393_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        1.8,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        3.3,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        9.6,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        6.1,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "203394_s_at",
+      "wt_log2fc": -0.62,
+      "fusion_log2fc": -1.007,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        590.7,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        349.1,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        748.6,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        520.4,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "203395_s_at",
+      "wt_log2fc": -0.473,
+      "fusion_log2fc": -1.053,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        470.6,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        269.4,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        526.7,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        405.4,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.62,
+     -0.473
+    ],
+    "fusion_log2fc_over_detected": [
+     -1.007,
+     -1.053
+    ]
+   },
+   "NR2F1": {
+    "n_probesets": 1,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "209505_at",
+      "wt_log2fc": 0.492,
+      "fusion_log2fc": -0.128,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        304.0,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        330.5,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        285.2,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        428.5,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.492
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.128
+    ]
+   },
+   "SERPINE1": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 0,
+    "status": "NOT_DETECTED_ON_ANY_ARRAY",
+    "probesets": [
+     {
+      "probe": "1568765_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        0.7,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        1.1,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        2.4,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        1.6,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "202627_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        10.6,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        14.3,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        20.5,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        10.8,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "202628_s_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        17.9,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        8.4,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        20.2,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        2.4,
+        "A"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [],
+    "fusion_log2fc_over_detected": []
+   },
+   "MMP2": {
+    "n_probesets": 3,
+    "n_present_on_all_four_arrays": 1,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "1566677_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        1.0,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        1.0,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        4.1,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        0.5,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "1566678_at",
+      "wt_log2fc": 0.0,
+      "fusion_log2fc": 0.0,
+      "detected_wt": false,
+      "detected_fu": false,
+      "present_on_all_four_arrays": false,
+      "raw_values": {
+       "fusion|minus_dox": [
+        20.2,
+        "A"
+       ],
+       "fusion|plus_dox": [
+        13.4,
+        "A"
+       ],
+       "wild_type|minus_dox": [
+        25.1,
+        "A"
+       ],
+       "wild_type|plus_dox": [
+        24.6,
+        "A"
+       ]
+      }
+     },
+     {
+      "probe": "201069_at",
+      "wt_log2fc": 0.356,
+      "fusion_log2fc": 0.0,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        27.3,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        28.7,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        52.0,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        71.1,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     0.356
+    ],
+    "fusion_log2fc_over_detected": [
+     0.0
+    ]
+   },
+   "SOX9": {
+    "n_probesets": 2,
+    "n_present_on_all_four_arrays": 2,
+    "status": "READABLE",
+    "probesets": [
+     {
+      "probe": "202935_s_at",
+      "wt_log2fc": -0.015,
+      "fusion_log2fc": -0.269,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        85.5,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        84.3,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        116.6,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        123.3,
+        "P"
+       ]
+      }
+     },
+     {
+      "probe": "202936_s_at",
+      "wt_log2fc": -0.023,
+      "fusion_log2fc": 0.223,
+      "detected_wt": true,
+      "detected_fu": true,
+      "present_on_all_four_arrays": true,
+      "raw_values": {
+       "fusion|minus_dox": [
+        101.2,
+        "P"
+       ],
+       "fusion|plus_dox": [
+        140.3,
+        "P"
+       ],
+       "wild_type|minus_dox": [
+        155.4,
+        "P"
+       ],
+       "wild_type|plus_dox": [
+        163.4,
+        "P"
+       ]
+      }
+     }
+    ],
+    "wt_log2fc_over_detected": [
+     -0.015,
+     -0.023
+    ],
+    "fusion_log2fc_over_detected": [
+     -0.269,
+     0.223
+    ]
+   }
+  }
+ },
+ "af1_premise_bearing": {
+  "_the_premise": "RETIRED 2026-08-06: 'the fusion REPLACES/DELETES NR4A3's AF-1 (residues 1-260) with EWSR1's low-complexity region'. MEASURED false \u2014 NR4A3 transcript exons 1-2 are entirely non-coding, so NR4A3 exon 3 IS residue 1 and EWSR1(1-264)::NR4A3(1-626) RETAINS AF-1, DBD, hinge and LBD. It had been asserted in five live places (systems/AUDIT-2026-08-06-routes.md X9).",
+  "does_this_dataset_speak_to_it": "NO \u2014 not directly, and the reason is structural, not a shortfall",
+  "why_not": [
+   "an expression array measures TRANSCRIPT ABUNDANCE. The premise is about which PROTEIN RESIDUES the chimera contains. No probe-level intensity can locate a translation start.",
+   "the construct boundaries are in NEITHER the series record NOR any sample record, and the paper is not open access \u2014 so this experiment's own 'EWS/NOR1' is, from everything reachable at $0, a construct of UNSPECIFIED exon composition.",
+   "these are plasmid cDNAs, so the transcripts are not the native mRNAs and their 5' and 3' ends are set by the vector, not by NR4A3's exon structure."
+  ],
+  "the_functional_corollary_and_why_it_does_not_rescue_the_test": "the premise was never only a sequence claim \u2014 it carried a FUNCTIONAL corollary, that a mechanism living in NOR-1's AF-1 'cannot act on the chimera at any dose'. That corollary predicts the two constructs should drive SUBSTANTIALLY DIFFERENT target programs, and this dataset measures exactly that comparison. \u26d4 IT STILL DOES NOT DISCRIMINATE, and the reason is worth writing down rather than leaving as a hope: the measured pattern is a real shared core (17.71x above chance) sitting inside two largely construct-specific responses (8% / 13% shared). BOTH hypotheses predict exactly that shape. A chimera that RETAINED the AF-1 would share targets and diverge in output through the added EWSR1 domain; a chimera that had LOST the AF-1 would share targets through its retained DBD and diverge in output through the missing module. The observation is the same either way, so it carries no evidential weight on this question in either direction.",
+  "\u2605_what_WOULD_have_settled_it_from_this_experiment_and_is_absent": [
+   "the plasmid construct boundaries, in any record \u2014 absent from GEO and behind a paywall in the paper",
+   "a 5'-directed probe or any sequencing read across the fusion junction \u2014 GeneChip probesets are 3'-biased and no NR4A3 probeset is even detected here",
+   "the CEL-level data would not help either: the same probesets, the same 3' bias"
+  ],
+  "the_measurement": {
+   "at_2x": {
+    "threshold_fold": 2.0,
+    "n_up_wild_type": 398,
+    "n_up_fusion": 256,
+    "n_up_both": 33,
+    "n_up_expected_both_by_chance": 1.86,
+    "overlap_enrichment_over_chance": 17.71,
+    "jaccard_of_up_sets": 0.0531,
+    "frac_of_wild_type_set_shared": 0.0829,
+    "frac_of_fusion_set_shared": 0.1289,
+    "n_down_wild_type": 178,
+    "n_down_fusion": 229,
+    "n_down_both": 45
+   },
+   "correlation": {
+    "_on": "every probe the instrument calls PRESENT on all four arrays \u2014 an UNBIASED set, chosen without reference to either fold change",
+    "n": 22207,
+    "pearson_r": 0.2536,
+    "spearman_rho": 0.2322,
+    "\u26d4_no_p_value": "n = 1 array per cell. This is a descriptive statistic over probes of ONE pair of fold-change vectors; it has no sampling distribution here, the probes are not independent, and no p-value is emitted."
+   }
+  },
+  "nr4a3_probes": [
+   {
+    "probe": "207978_s_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      8.8,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      10.7,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      15.5,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      22.9,
+      "A"
+     ]
+    }
+   },
+   {
+    "probe": "209959_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      27.8,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      18.1,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      4.7,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      4.1,
+      "A"
+     ]
+    }
+   },
+   {
+    "probe": "216979_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": 0.0,
+    "detected_wt": false,
+    "detected_fu": false,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      7.3,
+      "A"
+     ],
+     "fusion|plus_dox": [
+      12.0,
+      "A"
+     ],
+     "wild_type|minus_dox": [
+      15.2,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      11.1,
+      "A"
+     ]
+    }
+   }
+  ],
+  "ewsr1_probes": [
+   {
+    "probe": "209214_s_at",
+    "wt_log2fc": 0.014,
+    "fusion_log2fc": -0.239,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      2638.4,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      2655.0,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      2917.4,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      3148.9,
+      "P"
+     ]
+    }
+   },
+   {
+    "probe": "210011_s_at",
+    "wt_log2fc": 0.034,
+    "fusion_log2fc": -0.16,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      735.4,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      781.6,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      744.5,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      814.5,
+      "P"
+     ]
+    }
+   },
+   {
+    "probe": "210012_s_at",
+    "wt_log2fc": 0.0,
+    "fusion_log2fc": -0.007,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": false,
+    "raw_values": {
+     "fusion|minus_dox": [
+      31.1,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      30.5,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      26.4,
+      "A"
+     ],
+     "wild_type|plus_dox": [
+      35.0,
+      "P"
+     ]
+    }
+   },
+   {
+    "probe": "229966_at",
+    "wt_log2fc": 0.005,
+    "fusion_log2fc": 0.082,
+    "detected_wt": true,
+    "detected_fu": true,
+    "present_on_all_four_arrays": true,
+    "raw_values": {
+     "fusion|minus_dox": [
+      79.7,
+      "P"
+     ],
+     "fusion|plus_dox": [
+      100.2,
+      "P"
+     ],
+     "wild_type|minus_dox": [
+      66.1,
+      "P"
+     ],
+     "wild_type|plus_dox": [
+      70.9,
+      "P"
+     ]
+    }
+   }
+  ],
+  "\u2605_the_answer_stated_plainly": "GSE11185 does NOT speak to the AF-1 premise, in either direction. The correction stands on what it already stood on \u2014 NR4A3's exon structure (`nr4a3-exon-audit.json`) \u2014 and this dataset neither strengthens nor weakens it. Recording that is the point: the premise was asserted in five live places for months, and the value of opening this series is partly in establishing which free evidence CANNOT be recruited to the question, so nobody recruits it later."
+ },
+ "the_papers_own_conclusion": {
+  "citation": "Ohkura N, Nagamura Y, Tsukada T. 2008. Differential transactivation by orphan nuclear receptor NOR1 and its fusion gene product EWS/NOR1: possible involvement of poly(ADP-ribose) polymerase I, PARP-1. Journal of cellular biochemistry;2008.",
+  "pmid": "18680143",
+  "doi": "10.1002/jcb.21876",
+  "is_open_access": "N",
+  "verification_level": "[API] Europe PMC record \u2014 abstract only, the full text is paywalled",
+  "abstract": "In extraskeletal myxoid chondrosarcoma, a chromosomal translocation creates a gene fusion between EWS and an orphan nuclear receptor, NOR1. The resulting fusion protein EWS/NOR1 has been believed to lead to malignant transformation by functioning as a transactivator for NOR1-target genes. By comparing the gene expression profiles of NOR1- and EWS/NOR1-overexpressing cells, we found that they largely shared up-regulated genes, but no significant correlation was observed with respect to the transactivation levels of each gene. In addition, the proteins associated with NOR1 and EWS/NOR1 were mostly the same in these cells. The results suggest that these proteins differentially transactivate overlapping target genes through a similar transcriptional machinery. To clarify the mechanisms underlying the transcriptional divergence between NOR1 and EWS/NOR1, we searched for alternatively associated proteins, and identified poly(ADP-ribose) polymerase I (PARP-1) as an NOR1-specific binding protein. Consistent with its binding properties, PARP-1 acted as a transcriptional repressor of NOR1, but not EWS/NOR1, in a luciferase reporter assay employing PARP-1(-/-) fibroblasts. Interestingly, suppressive activity of PARP-1 was observed in a DNA response element-specific manner, and in a subtype-specific manner toward the NR4A family (Nur77, Nurr1, and NOR1), suggesting that PARP-1 plays a role in the diversity of transcriptional regulation mediated by the NR4A family in normal cells. Altogether, our findings suggest that NOR1 and EWS/NOR1 regulate overlapping target genes differently by utilizing associated proteins, including PARP-1; and that EWS/NOR1 may acquire oncogenic activities by avoiding (or gaining) transcription factor-specific modulation by the associated proteins."
+ },
+ "verdict": {
+  "answer_1_is_the_series_readable": "YES",
+  "answer_2_what_it_is": "4 arrays on GPL570: 2 HEK293 tet-On clones x (+/- doxycycline, 24 h), n = 1 per cell, 54675 probes each, MAS5/GCOS signal. Not EMC, not an EMC cell line, not the endogenous locus, no vector-only control.",
+  "\u26d4_answer_3_the_construct_expression_control_IS_NOT_AVAILABLE": "all 3 NR4A3 probesets are ABSENT-called on all four arrays, so no probe in the deposited record reports whether either construct was induced. The alternative that the induction simply did not happen is EXCLUDED by a different measurement, not by assertion: 69/69 (wild-type) and 65/65 (fusion) genes carrying two or more independent probesets that each move >= 2x are sign-CONCORDANT, against an AFFX technical floor of 1.343x at p95. Something transcriptional happened in both clones on doxycycline. That it was the CONSTRUCT rather than doxycycline cannot be shown from this series, because it contains no vector-only clone.",
+  "\u2605_answer_4_what_differs_between_wild_type_and_fusion": "The two responses OVERLAP FAR ABOVE CHANCE BUT THE OVERLAP IS A MINORITY OF EACH. At >= 2x: 398 probes up in the wild-type-NOR1 clone, 256 in the EWS/NOR1 clone, 33 shared \u2014 17.71x more than the 1.86 expected by chance, yet only 8% of the wild-type set and 13% of the fusion set (Jaccard 0.0531). Across every probe the instrument calls present on all four arrays (n = 22207, an unbiased set) the two fold-change vectors correlate WEAKLY: Pearson 0.2536, Spearman 0.2322. So the answer is BOTH \u2014 a real shared core, and a majority of each construct's response that the other does not reproduce, with poorly-related magnitudes where they do.",
+  "answer_4b_against_the_depositors_own_abstract": "the abstract states the two constructs 'largely shared up-regulated genes, but no significant correlation was observed with respect to the transactivation levels of each gene' [API]. Read independently from the deposited values, the SECOND clause reproduces (Spearman 0.2322 on an unbiased probe set) and the FIRST is stronger than what these values support: sharing is 17.71x above chance but covers 8% / 13% of the two sets, not most of them. Reported as a partial non-reproduction rather than as agreement.",
+  "\u26a0_answer_4c_a_number_this_module_got_wrong_first_time": "the same correlation computed over the UNION of the two selected up-sets is -0.5206 (Pearson), i.e. STRONGLY NEGATIVE, and that is a selection artifact \u2014 conditioning on the maximum of a noisy pair anticorrelates it. It is kept in the artifact, labelled, because the next session that computes the obvious thing will get it again.",
+  "\u2605_answer_4d_the_construct_specific_signal_worth_following": "the largest fusion-specific, dox-driven responses in this system form a coherent ECM module that the wild-type clone does not reproduce: FN1 (4 probesets present on all four arrays, fusion log2FC (2.348, 2.769) vs wild-type (-0.324, 0.584)), FST (2, (2.872, 3.883) vs (0.167, 0.652)), SMARCA1 (3, (2.135, 2.58) vs (-0.198, -0.063)), and VCAN \u2014 the chondroitin-sulfate proteoglycan of the myxoid matrix \u2014 is DIFFERENTIALLY held: it falls in the wild-type clone on induction and does not in the fusion clone (5 probesets, fusion (-0.077, 0.19) vs wild-type (-1.406, -0.675)), consistently across all five. The wild-type clone's own largest responses are an amino-acid-stress module instead (CTH, SLC7A11, STC2, INHBE). \u26d4 HYPOTHESIS-GENERATING: HEK293, n = 1, no vector-only control.",
+  "answer_5_bearing_on_the_retired_AF_1_premise": "NO \u2014 not directly, and the reason is structural, not a shortfall",
+  "\u26d4_ceiling": [
+   "n = 1 per design cell. No p-value, no confidence interval, and none is emitted anywhere in this artifact.",
+   "NO VECTOR-ONLY CONTROL. Any response shared by both clones is construct-driven OR doxycycline-driven and this series cannot separate them.",
+   "The construct-expression control is UNAVAILABLE \u2014 no NR4A3 probeset is detected on any array.",
+   "The between-clone axis is confounded with clone identity; only the within-clone induction contrast is used, and even that rests on one array per state.",
+   "HEK293 overexpression of a plasmid cDNA is a transactivation assay. It is not EMC, and the fusion's native (partner-supplied) promoter \u2014 the pharmacologically interesting handle in this disease \u2014 is absent from the system by construction.",
+   "The construct boundaries are absent from every record reachable at $0, so 'EWS/NOR1' here is of unspecified exon composition and may not be the junction this repository models.",
+   "Counts move several-fold with the noise floor; see `read.normalisation.\u26a0_floor_sensitivity`."
+  ],
+  "_what_it_licenses": "a citable, first-party read of the one direct wild-type-vs-fusion expression comparison that exists, at its true weight. It supports a sentence about the fusion sharing a real but minority core of wild-type NOR1's induced repertoire while diverging over most of it; it supports naming FN1/VCAN/FST/SMARCA1 as fusion-specific leads WORTH TESTING; and it supports nothing at all about EMC tissue, efficacy or treatment."
+ }
+}

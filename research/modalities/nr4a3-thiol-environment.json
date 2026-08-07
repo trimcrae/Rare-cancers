@@ -1,0 +1,613 @@
+{
+ "_title": "`C12` — thiol environment determinants for C397, and the $0 known-answer precheck (roadmap §10.1a `Q9`)",
+ "_status": "$0 CPU + network reads. No GPU, no rental. ⛔ NO pKa IS COMPUTED OR REPORTED HERE. Nothing here is a claim about binding, reactivity as a measured quantity, adduct formation, degradation, efficacy, safety, a therapeutic window or clinical readiness, and nothing here implies proteome-wide selectivity.",
+ "_serves": [
+  "S1 (the one axis of it that is currently a LABEL rather than a quantity)",
+  "R8"
+ ],
+ "⛔⛔_what_this_can_never_license": "A favourable thiol pKa is NOT evidence that a covalent bond forms. Reactivity is necessary and never sufficient: adduct formation in a cell additionally requires delivery to the site, residence time, an attack geometry, survival against a proteome of competing nucleophiles, and a tolerated concentration. None of that is modelled here, and none of it would be modelled by a pKa either. ⛔ This applies to every downstream use of this artifact, including a future run that does compute a pKa.",
+ "⛔_the_handle_is_still_a_LABEL": "Everywhere this program calls C397 a covalent handle, that is a CATEGORICAL sequence/geometry statement — a paralogue-unique cysteine within tether reach — and NOT a measured reactivity. This file does not change that. It reports the structural determinants a reactivity would depend on; it does not report a reactivity.",
+ "_generated_utc": "2026-08-07T12:58:33Z",
+ "_method": {
+  "structures": "the matched opened LBD models already in the repo, one static conformer each",
+  "model_uniprot_offsets": "DERIVED by exact substring match (nr4a_reciprocal_census.model_offset)",
+  "hbond_criterion": "heavy-atom N/O donor within 4.0 A of SG. ⚠ DISTANCE ONLY — no angle, because the model's hydrogens come from the preparation rather than from an experiment.",
+  "charge_shell_A": 8.0,
+  "neighbour_shell_A": 6.0,
+  "cationic_atoms": [
+   "ARG:NE",
+   "ARG:NH1",
+   "ARG:NH2",
+   "HIS:ND1",
+   "HIS:NE2",
+   "LYS:NZ"
+  ],
+  "anionic_atoms": [
+   "ASP:OD1",
+   "ASP:OD2",
+   "GLU:OE1",
+   "GLU:OE2"
+  ]
+ },
+ "★_part_A_known_answer_precheck": {
+  "sources": [
+   {
+    "id": "pkad_webserver",
+    "what": "a curated database of EXPERIMENTALLY MEASURED protein pKa values (wild type + mutants)",
+    "url": "http://compbio.clemson.edu/pkad",
+    "discovered_via": "web search → the database publication's availability statement",
+    "http_status": 403,
+    "bytes": 0,
+    "error": "HTTPError 403",
+    "status": "UNREACHABLE"
+   },
+   {
+    "id": "pkad_webserver_https",
+    "what": "the same database over https",
+    "url": "https://compbio.clemson.edu/pkad/",
+    "discovered_via": "web search → the database publication's availability statement",
+    "http_status": null,
+    "bytes": 0,
+    "error": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>",
+    "status": "UNREACHABLE"
+   },
+   {
+    "id": "pkad_article_oa",
+    "what": "the database's open-access article record, which states the per-residue-type entry counts",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6389863/",
+    "discovered_via": "web search",
+    "http_status": null,
+    "bytes": 0,
+    "error": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>",
+    "status": "UNREACHABLE"
+   }
+  ],
+  "n_reachable_in_this_run": 0,
+  "verdict": "REFERENCE_DATABASE_EXISTS_BUT_UNREAD",
+  "⚠": "`UNREACHABLE` is a statement about THIS RUN'S NETWORK, never about the database. An absent reading is not a reading of absence — route these through CI before concluding anything from their silence."
+ },
+ "★_part_B_determinants": {
+  "n_cysteines_in_comparison_set": 18,
+  "C397": {
+   "protein": "NR4A3",
+   "uniprot_resnum": 397,
+   "label": "C397",
+   "local_resid": 25,
+   "rsa": 0.395,
+   "exposed_by_atlas_rule": true,
+   "sg_heavy_neighbours_within_6A": 23,
+   "n_hbond_capable_donors_within_4A_of_SG": 4,
+   "hbond_donor_atoms": [
+    "ASN400:N",
+    "ASN400:ND2",
+    "ASN400:OD1",
+    "MET398:N"
+   ],
+   "nearest_cationic_group_A": 7.38,
+   "nearest_cationic_group": "LYS572:NZ",
+   "nearest_anionic_group_A": 7.71,
+   "nearest_anionic_group": "ASP568:OD1",
+   "n_cationic_groups_within_8A": 1,
+   "n_anionic_groups_within_8A": 1,
+   "net_formal_charge_within_8A": 0
+  },
+  "ranks": {
+   "solvent_exposure": {
+    "field": "rsa",
+    "higher_value_argues_for_lower_pKa": true,
+    "n_ranked": 18,
+    "ranking_best_first": [
+     "NR4A3 C397",
+     "NR4A3 C420",
+     "NR4A1 C551",
+     "NR4A1 C465",
+     "NR4A2 C534",
+     "NR4A3 C559",
+     "NR4A3 C594",
+     "NR4A2 C566",
+     "NR4A1 C475",
+     "NR4A3 C506",
+     "NR4A2 C465",
+     "NR4A2 C475",
+     "NR4A1 C505",
+     "NR4A1 C534",
+     "NR4A1 C566",
+     "NR4A2 C505",
+     "NR4A3 C496",
+     "NR4A3 C536"
+    ],
+    "C397_rank": 1,
+    "C397_value": 0.395
+   },
+   "hbond_donors_to_SG": {
+    "field": "n_hbond_capable_donors_within_4A_of_SG",
+    "higher_value_argues_for_lower_pKa": true,
+    "n_ranked": 18,
+    "ranking_best_first": [
+     "NR4A3 C397",
+     "NR4A1 C465",
+     "NR4A1 C534",
+     "NR4A3 C420",
+     "NR4A3 C559",
+     "NR4A3 C594",
+     "NR4A1 C475",
+     "NR4A1 C505",
+     "NR4A1 C551",
+     "NR4A1 C566",
+     "NR4A2 C475",
+     "NR4A2 C505",
+     "NR4A2 C534",
+     "NR4A2 C566",
+     "NR4A3 C506",
+     "NR4A3 C536",
+     "NR4A2 C465",
+     "NR4A3 C496"
+    ],
+    "C397_rank": 1,
+    "C397_value": 4
+   },
+   "net_positive_charge_8A": {
+    "field": "net_formal_charge_within_8A",
+    "higher_value_argues_for_lower_pKa": true,
+    "n_ranked": 18,
+    "ranking_best_first": [
+     "NR4A2 C465",
+     "NR4A1 C566",
+     "NR4A3 C496",
+     "NR4A1 C505",
+     "NR4A1 C551",
+     "NR4A2 C505",
+     "NR4A3 C420",
+     "NR4A3 C506",
+     "NR4A2 C534",
+     "NR4A1 C465",
+     "NR4A1 C475",
+     "NR4A1 C534",
+     "NR4A2 C475",
+     "NR4A3 C397",
+     "NR4A3 C536",
+     "NR4A3 C594",
+     "NR4A2 C566",
+     "NR4A3 C559"
+    ],
+    "C397_rank": 14,
+    "C397_value": 0
+   },
+   "proximity_to_cation": {
+    "field": "nearest_cationic_group_A",
+    "higher_value_argues_for_lower_pKa": false,
+    "n_ranked": 18,
+    "ranking_best_first": [
+     "NR4A2 C465",
+     "NR4A1 C566",
+     "NR4A3 C496",
+     "NR4A1 C551",
+     "NR4A3 C420",
+     "NR4A1 C465",
+     "NR4A3 C506",
+     "NR4A2 C505",
+     "NR4A3 C594",
+     "NR4A2 C534",
+     "NR4A1 C505",
+     "NR4A3 C397",
+     "NR4A2 C475",
+     "NR4A1 C475",
+     "NR4A3 C559",
+     "NR4A3 C536",
+     "NR4A1 C534",
+     "NR4A2 C566"
+    ],
+    "C397_rank": 12,
+    "C397_value": 7.38
+   }
+  },
+  "★_reading": "Four determinants, ranked independently across every cysteine of the three proteins. C397 sits in the top third on ['hbond_donors_to_SG', 'solvent_exposure'] and in the bottom third on ['net_positive_charge_8A']. ⛔ They are NOT combined, and a reader must not combine them: weights would need calibration and the known-answer precheck has not delivered any. Where they disagree, the disagreement IS the finding — it is what 'weakly calibrated on buried cysteines' looks like before a predictor is even involved."
+ },
+ "★_internal_control_the_family_s_one_literature_anchored_covalent_site": {
+  "_what": "NR4A1 C551 is the only NR4A cysteine with a covalent precedent in the literature, and it is `V17`'s demonstrated FALSE NEGATIVE — the geometric cutoff calls it buried. Its position on these determinants is therefore the closest thing to a control this read has, and it is free.",
+  "row": {
+   "protein": "NR4A1",
+   "uniprot_resnum": 551,
+   "label": "C551",
+   "local_resid": 204,
+   "rsa": 0.165,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 23,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "LEU552:N"
+   ],
+   "nearest_cationic_group_A": 6.52,
+   "nearest_cationic_group": "ARG554:NH1",
+   "nearest_anionic_group_A": 9.66,
+   "nearest_anionic_group": "GLU545:OE1",
+   "n_cationic_groups_within_8A": 2,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 2
+  },
+  "rank_on_each_determinant": {
+   "solvent_exposure": 3,
+   "hbond_donors_to_SG": 9,
+   "net_positive_charge_8A": 5,
+   "proximity_to_cation": 4
+  },
+  "⚠_what_this_is_and_is_not": "⭑ It is a CONSISTENCY check that passed: the site's RSA here reproduces the value the widened-enumeration artifact quotes as its reference, computed by a different script, so the geometry pipeline agrees with itself across two independent readers. ⛔ It is NOT a known-answer test. n = 1, the outcome variable is a literature LABEL rather than a measured pKa or reactivity, and a rank on a determinant is not a prediction. A real known-answer test is what part A is a precheck for, and part A has not returned."
+ },
+ "rows": [
+  {
+   "protein": "NR4A1",
+   "uniprot_resnum": 465,
+   "label": "C465",
+   "local_resid": 118,
+   "rsa": 0.138,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 36,
+   "n_hbond_capable_donors_within_4A_of_SG": 3,
+   "hbond_donor_atoms": [
+    "LEU409:O",
+    "SER413:N",
+    "SER413:OG"
+   ],
+   "nearest_cationic_group_A": 6.83,
+   "nearest_cationic_group": "ARG454:NH2",
+   "nearest_anionic_group_A": 7.93,
+   "nearest_anionic_group": "ASP383:OD1",
+   "n_cationic_groups_within_8A": 1,
+   "n_anionic_groups_within_8A": 1,
+   "net_formal_charge_within_8A": 0
+  },
+  {
+   "protein": "NR4A1",
+   "uniprot_resnum": 475,
+   "label": "C475",
+   "local_resid": 128,
+   "rsa": 0.024,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 40,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "HIS471:O"
+   ],
+   "nearest_cationic_group_A": 8.28,
+   "nearest_cationic_group": "HIS471:ND1",
+   "nearest_anionic_group_A": 8.22,
+   "nearest_anionic_group": "ASP402:OD1",
+   "n_cationic_groups_within_8A": 0,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 0
+  },
+  {
+   "protein": "NR4A1",
+   "uniprot_resnum": 505,
+   "label": "C505",
+   "local_resid": 158,
+   "rsa": 0.0,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 42,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "PRO501:O"
+   ],
+   "nearest_cationic_group_A": 7.25,
+   "nearest_cationic_group": "HIS538:ND1",
+   "nearest_anionic_group_A": 10.37,
+   "nearest_anionic_group": "GLU537:OE1",
+   "n_cationic_groups_within_8A": 2,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 2
+  },
+  {
+   "protein": "NR4A1",
+   "uniprot_resnum": 534,
+   "label": "C534",
+   "local_resid": 187,
+   "rsa": 0.0,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 48,
+   "n_hbond_capable_donors_within_4A_of_SG": 3,
+   "hbond_donor_atoms": [
+    "ARG530:O",
+    "LEU365:N",
+    "PRO361:O"
+   ],
+   "nearest_cationic_group_A": 8.97,
+   "nearest_cationic_group": "ARG530:NE",
+   "nearest_anionic_group_A": 8.48,
+   "nearest_anionic_group": "GLU537:OE2",
+   "n_cationic_groups_within_8A": 0,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 0
+  },
+  {
+   "protein": "NR4A1",
+   "uniprot_resnum": 551,
+   "label": "C551",
+   "local_resid": 204,
+   "rsa": 0.165,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 23,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "LEU552:N"
+   ],
+   "nearest_cationic_group_A": 6.52,
+   "nearest_cationic_group": "ARG554:NH1",
+   "nearest_anionic_group_A": 9.66,
+   "nearest_anionic_group": "GLU545:OE1",
+   "n_cationic_groups_within_8A": 2,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 2
+  },
+  {
+   "protein": "NR4A1",
+   "uniprot_resnum": 566,
+   "label": "C566",
+   "local_resid": 219,
+   "rsa": 0.0,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 36,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "GLU445:N"
+   ],
+   "nearest_cationic_group_A": 5.24,
+   "nearest_cationic_group": "ARG563:NH1",
+   "nearest_anionic_group_A": 5.01,
+   "nearest_anionic_group": "GLU445:OE1",
+   "n_cationic_groups_within_8A": 5,
+   "n_anionic_groups_within_8A": 2,
+   "net_formal_charge_within_8A": 3
+  },
+  {
+   "protein": "NR4A2",
+   "uniprot_resnum": 465,
+   "label": "C465",
+   "local_resid": 122,
+   "rsa": 0.011,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 34,
+   "n_hbond_capable_donors_within_4A_of_SG": 0,
+   "hbond_donor_atoms": [],
+   "nearest_cationic_group_A": 4.08,
+   "nearest_cationic_group": "ARG450:NH1",
+   "nearest_anionic_group_A": 12.07,
+   "nearest_anionic_group": "GLU415:OE2",
+   "n_cationic_groups_within_8A": 6,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 6
+  },
+  {
+   "protein": "NR4A2",
+   "uniprot_resnum": 475,
+   "label": "C475",
+   "local_resid": 132,
+   "rsa": 0.005,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 42,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "HIS471:O"
+   ],
+   "nearest_cationic_group_A": 8.15,
+   "nearest_cationic_group": "HIS471:ND1",
+   "nearest_anionic_group_A": 8.74,
+   "nearest_anionic_group": "ASP484:OD1",
+   "n_cationic_groups_within_8A": 0,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 0
+  },
+  {
+   "protein": "NR4A2",
+   "uniprot_resnum": 505,
+   "label": "C505",
+   "local_resid": 162,
+   "rsa": 0.0,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 35,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "SER501:O"
+   ],
+   "nearest_cationic_group_A": 6.88,
+   "nearest_cationic_group": "HIS538:NE2",
+   "nearest_anionic_group_A": 8.41,
+   "nearest_anionic_group": "ASP499:OD2",
+   "n_cationic_groups_within_8A": 2,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 2
+  },
+  {
+   "protein": "NR4A2",
+   "uniprot_resnum": 534,
+   "label": "C534",
+   "local_resid": 191,
+   "rsa": 0.12,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 26,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "LEU535:N"
+   ],
+   "nearest_cationic_group_A": 7.14,
+   "nearest_cationic_group": "HIS538:ND1",
+   "nearest_anionic_group_A": 6.66,
+   "nearest_anionic_group": "ASP537:OD1",
+   "n_cationic_groups_within_8A": 2,
+   "n_anionic_groups_within_8A": 1,
+   "net_formal_charge_within_8A": 1
+  },
+  {
+   "protein": "NR4A2",
+   "uniprot_resnum": 566,
+   "label": "C566",
+   "local_resid": 223,
+   "rsa": 0.025,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 42,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "LEU562:O"
+   ],
+   "nearest_cationic_group_A": 9.05,
+   "nearest_cationic_group": "ARG515:NH1",
+   "nearest_anionic_group_A": 6.27,
+   "nearest_anionic_group": "GLU445:OE2",
+   "n_cationic_groups_within_8A": 0,
+   "n_anionic_groups_within_8A": 2,
+   "net_formal_charge_within_8A": -2
+  },
+  {
+   "protein": "NR4A3",
+   "uniprot_resnum": 397,
+   "label": "C397",
+   "local_resid": 25,
+   "rsa": 0.395,
+   "exposed_by_atlas_rule": true,
+   "sg_heavy_neighbours_within_6A": 23,
+   "n_hbond_capable_donors_within_4A_of_SG": 4,
+   "hbond_donor_atoms": [
+    "ASN400:N",
+    "ASN400:ND2",
+    "ASN400:OD1",
+    "MET398:N"
+   ],
+   "nearest_cationic_group_A": 7.38,
+   "nearest_cationic_group": "LYS572:NZ",
+   "nearest_anionic_group_A": 7.71,
+   "nearest_anionic_group": "ASP568:OD1",
+   "n_cationic_groups_within_8A": 1,
+   "n_anionic_groups_within_8A": 1,
+   "net_formal_charge_within_8A": 0
+  },
+  {
+   "protein": "NR4A3",
+   "uniprot_resnum": 420,
+   "label": "C420",
+   "local_resid": 48,
+   "rsa": 0.311,
+   "exposed_by_atlas_rule": true,
+   "sg_heavy_neighbours_within_6A": 17,
+   "n_hbond_capable_donors_within_4A_of_SG": 3,
+   "hbond_donor_atoms": [
+    "PRO421:N",
+    "THR422:N",
+    "THR422:OG1"
+   ],
+   "nearest_cationic_group_A": 6.82,
+   "nearest_cationic_group": "HIS502:ND1",
+   "nearest_anionic_group_A": 9.27,
+   "nearest_anionic_group": "ASP423:OD2",
+   "n_cationic_groups_within_8A": 2,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 2
+  },
+  {
+   "protein": "NR4A3",
+   "uniprot_resnum": 496,
+   "label": "C496",
+   "local_resid": 124,
+   "rsa": 0.0,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 37,
+   "n_hbond_capable_donors_within_4A_of_SG": 0,
+   "hbond_donor_atoms": [],
+   "nearest_cationic_group_A": 5.66,
+   "nearest_cationic_group": "ARG481:NE",
+   "nearest_anionic_group_A": 10.64,
+   "nearest_anionic_group": "ASP446:OD2",
+   "n_cationic_groups_within_8A": 3,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 3
+  },
+  {
+   "protein": "NR4A3",
+   "uniprot_resnum": 506,
+   "label": "C506",
+   "local_resid": 134,
+   "rsa": 0.024,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 44,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "HIS502:O"
+   ],
+   "nearest_cationic_group_A": 6.85,
+   "nearest_cationic_group": "HIS502:NE2",
+   "nearest_anionic_group_A": 9.53,
+   "nearest_anionic_group": "ASP491:OD1",
+   "n_cationic_groups_within_8A": 2,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 2
+  },
+  {
+   "protein": "NR4A3",
+   "uniprot_resnum": 536,
+   "label": "C536",
+   "local_resid": 164,
+   "rsa": 0.0,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 34,
+   "n_hbond_capable_donors_within_4A_of_SG": 1,
+   "hbond_donor_atoms": [
+    "ILE562:O"
+   ],
+   "nearest_cationic_group_A": 8.47,
+   "nearest_cationic_group": "HIS569:NE2",
+   "nearest_anionic_group_A": 9.34,
+   "nearest_anionic_group": "GLU580:OE2",
+   "n_cationic_groups_within_8A": 0,
+   "n_anionic_groups_within_8A": 0,
+   "net_formal_charge_within_8A": 0
+  },
+  {
+   "protein": "NR4A3",
+   "uniprot_resnum": 559,
+   "label": "C559",
+   "local_resid": 187,
+   "rsa": 0.095,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 38,
+   "n_hbond_capable_donors_within_4A_of_SG": 2,
+   "hbond_donor_atoms": [
+    "ILE543:O",
+    "VAL555:O"
+   ],
+   "nearest_cationic_group_A": 8.4,
+   "nearest_cationic_group": "ARG591:NH2",
+   "nearest_anionic_group_A": 6.01,
+   "nearest_anionic_group": "GLU556:OE2",
+   "n_cationic_groups_within_8A": 0,
+   "n_anionic_groups_within_8A": 2,
+   "net_formal_charge_within_8A": -2
+  },
+  {
+   "protein": "NR4A3",
+   "uniprot_resnum": 594,
+   "label": "C594",
+   "local_resid": 222,
+   "rsa": 0.063,
+   "exposed_by_atlas_rule": false,
+   "sg_heavy_neighbours_within_6A": 41,
+   "n_hbond_capable_donors_within_4A_of_SG": 2,
+   "hbond_donor_atoms": [
+    "LEU475:O",
+    "LEU590:O"
+   ],
+   "nearest_cationic_group_A": 6.88,
+   "nearest_cationic_group": "ARG591:NE",
+   "nearest_anionic_group_A": 5.8,
+   "nearest_anionic_group": "GLU476:OE1",
+   "n_cationic_groups_within_8A": 1,
+   "n_anionic_groups_within_8A": 2,
+   "net_formal_charge_within_8A": -1
+  }
+ ],
+ "⛔_limits": [
+  "NO pKa IS REPORTED. These are the determinants a pKa depends on, not a pKa, and they do not combine into one.",
+  "ONE static opened conformer per protein. A thiol's electrostatic environment is dynamic and a single frame cannot see it — the same limit every other single-frame reading in this program carries.",
+  "Ranks are WITHIN the three-protein comparison set. A rank of 1 means 'first among these cysteines', never 'reactive'.",
+  "H-bond contacts are heavy-atom distances with no angular criterion, so they overcount.",
+  "The known-answer set for a cysteine-pKa predictor is small by the database's own account, and until part A reads it, no predictor output may be quoted anywhere in this repository.",
+  "Nothing here is a proteome-wide statement of any kind."
+ ]
+}

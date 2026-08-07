@@ -1,0 +1,326 @@
+{
+ "_title": "Q4 / S6 — the linker-length design principle, STATED AT THE 12-ATOM GATE AND ONLY THERE",
+ "_status": "A STATEMENT OVER COMMITTED DATA. $0 CPU, pure stdlib, no new compute — every figure is read from nr4a-paralogue-dynamics.json. Nothing here is a claim about reactivity, potency, proteome-wide selectivity, efficacy, safety, a therapeutic window or clinical readiness. Length sets a geometric discrimination; discrimination is not selectivity.",
+ "_what_was_missing": "not the data — S6's own cheapest decisive test reads '$0, already computed and committed'. What was missing was the STATEMENT, in a form whose gate travels with it so tightly that quoting it outside the gate is not possible by accident.",
+ "gate_atoms": 12,
+ "_gate_source": "nr4a-paralogue-dynamics.json -> categorical_verdict.gate_atoms",
+ "★_the_principle": {
+  "status": "STATED",
+  "requested_atoms": 12,
+  "gate_atoms": 12,
+  "at_the_gate": true,
+  "reach_and_exposure_agree_here": true,
+  "statement": "LINKER-LENGTH DESIGN PRINCIPLE, AT THE 12-BACKBONE-ATOM CATEGORICAL GATE AND ONLY THERE. Prefer the shortest backbone that reaches C397. Over 3 independently-computed scopes and 73,867 enumerated placements, P(a paralogue cysteine is also reached | an NR4A3-unique one is) is 0.000–0.003 at 12 backbone atoms, and it climbs monotonically with length (12 atoms 0.000–0.003 · 14 atoms 0.009–0.032 · 16 atoms 0.054–0.133 · 20 atoms 0.263–0.383). Length is therefore not merely a tractability axis: it is the variable that sets the geometric discrimination. ⛔ THE GATE IS PART OF THE PRINCIPLE, NOT A CAVEAT ON IT. At 12 atoms the result holds ON REACH ALONE — the reach-only band (0.000–0.003) and the exposure-filtered band (0.000–0.000) agree, so nothing here rests on V17. Above the gate they diverge and the entire length dependence moves into cysteines V17 calls buried, so the 16- and 20-atom columns are NOT a selectivity statement and this principle may not be quoted at them. ⛔ WHAT IT LICENSES: a design preference and a publishable negative (C420 and C559 are not usable at routine length). WHAT IT DOES NOT: any claim about the chemoselectivity WINDOW being NR4A3-limited — the window is closed by a PARALOGUE cysteine in 30 of 30 graded cells — and no claim about reactivity, potency, proteome-wide selectivity, efficacy, safety, a therapeutic window or clinical readiness. Discrimination is geometry; it is not selectivity.",
+  "_marginalisation": "over 73,867 enumerated placements and three conformer ensembles. This is a statement about LENGTH, not about a pose, a basin or an exit vector, and it may not be re-specialised to one — R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A)."
+ },
+ "★_refused_above_the_gate": {
+  "14": {
+   "status": "REFUSED",
+   "requested_atoms": 14,
+   "gate_atoms": 12,
+   "reason": "ABOVE THE GATE. At 14 backbone atoms the reach-only band is 0.009–0.032 while the exposure-filtered band is 0.000–0.000 — 0.8% of the reach signal survives the exposure filter, so the length dependence at this length lives in cysteines V17 calls buried. V17's false negative is that it calls the family's one literature-anchored covalent site (NR4A1 Cys551 / celastrol) buried, so a selectivity statement here inherits a known false negative.",
+   "statement": null,
+   "⛔": "This module emits NO selectivity statement above the gate. Reporting the reach-only band here as a design principle is the specific misuse Q4 exists to prevent."
+  },
+  "16": {
+   "status": "REFUSED",
+   "requested_atoms": 16,
+   "gate_atoms": 12,
+   "reason": "ABOVE THE GATE. At 16 backbone atoms the reach-only band is 0.054–0.133 while the exposure-filtered band is 0.000–0.002 — 1.3% of the reach signal survives the exposure filter, so the length dependence at this length lives in cysteines V17 calls buried. V17's false negative is that it calls the family's one literature-anchored covalent site (NR4A1 Cys551 / celastrol) buried, so a selectivity statement here inherits a known false negative.",
+   "statement": null,
+   "⛔": "This module emits NO selectivity statement above the gate. Reporting the reach-only band here as a design principle is the specific misuse Q4 exists to prevent."
+  },
+  "20": {
+   "status": "REFUSED",
+   "requested_atoms": 20,
+   "gate_atoms": 12,
+   "reason": "ABOVE THE GATE. At 20 backbone atoms the reach-only band is 0.263–0.383 while the exposure-filtered band is 0.000–0.002 — 0.5% of the reach signal survives the exposure filter, so the length dependence at this length lives in cysteines V17 calls buried. V17's false negative is that it calls the family's one literature-anchored covalent site (NR4A1 Cys551 / celastrol) buried, so a selectivity statement here inherits a known false negative.",
+   "statement": null,
+   "⛔": "This module emits NO selectivity statement above the gate. Reporting the reach-only band here as a design principle is the specific misuse Q4 exists to prevent."
+  }
+ },
+ "the_length_dependence": {
+  "_source": "nr4a-paralogue-dynamics.json -> categorical_verdict.by_scope[*].by_linker_atoms",
+  "_quantity": "P(a paralogue cysteine is also reached | an NR4A3-unique one is), by scope",
+  "n_placements": 73867,
+  "scopes": [
+   "metad_biased",
+   "static_opened_model",
+   "unbiased_release"
+  ],
+  "by_length": [
+   {
+    "n_backbone_atoms": 12,
+    "reach_only_by_scope": {
+     "static_opened_model": 0.0,
+     "unbiased_release": 0.00124,
+     "metad_biased": 0.0029
+    },
+    "reach_only_band": [
+     0.0,
+     0.0029
+    ],
+    "exposure_filtered_by_scope": {
+     "static_opened_model": 0.0,
+     "unbiased_release": 0.0,
+     "metad_biased": 0.0
+    },
+    "exposure_filtered_band": [
+     0.0,
+     0.0
+    ],
+    "P_categorical_given_exposed_by_scope": {
+     "static_opened_model": 1.0,
+     "unbiased_release": 1.0,
+     "metad_biased": 1.0
+    },
+    "P_categorical_given_exposed_band": [
+     1.0,
+     1.0
+    ],
+    "reach_and_exposure_agree": false,
+    "_scopes": [
+     "metad_biased",
+     "static_opened_model",
+     "unbiased_release"
+    ]
+   },
+   {
+    "n_backbone_atoms": 14,
+    "reach_only_by_scope": {
+     "static_opened_model": 0.00885,
+     "unbiased_release": 0.03169,
+     "metad_biased": 0.02587
+    },
+    "reach_only_band": [
+     0.00885,
+     0.03169
+    ],
+    "exposure_filtered_by_scope": {
+     "static_opened_model": 0.0,
+     "unbiased_release": 0.0,
+     "metad_biased": 0.00024
+    },
+    "exposure_filtered_band": [
+     0.0,
+     0.00024
+    ],
+    "P_categorical_given_exposed_by_scope": {
+     "static_opened_model": 1.0,
+     "unbiased_release": 1.0,
+     "metad_biased": 0.99976
+    },
+    "P_categorical_given_exposed_band": [
+     0.99976,
+     1.0
+    ],
+    "reach_and_exposure_agree": false,
+    "_scopes": [
+     "metad_biased",
+     "static_opened_model",
+     "unbiased_release"
+    ]
+   },
+   {
+    "n_backbone_atoms": 16,
+    "reach_only_by_scope": {
+     "static_opened_model": 0.05444,
+     "unbiased_release": 0.13331,
+     "metad_biased": 0.12564
+    },
+    "reach_only_band": [
+     0.05444,
+     0.13331
+    ],
+    "exposure_filtered_by_scope": {
+     "static_opened_model": 0.0,
+     "unbiased_release": 0.0,
+     "metad_biased": 0.0017
+    },
+    "exposure_filtered_band": [
+     0.0,
+     0.0017
+    ],
+    "P_categorical_given_exposed_by_scope": {
+     "static_opened_model": 1.0,
+     "unbiased_release": 1.0,
+     "metad_biased": 0.9983
+    },
+    "P_categorical_given_exposed_band": [
+     0.9983,
+     1.0
+    ],
+    "reach_and_exposure_agree": false,
+    "_scopes": [
+     "metad_biased",
+     "static_opened_model",
+     "unbiased_release"
+    ]
+   },
+   {
+    "n_backbone_atoms": 20,
+    "reach_only_by_scope": {
+     "static_opened_model": 0.2633,
+     "unbiased_release": 0.38254,
+     "metad_biased": 0.37477
+    },
+    "reach_only_band": [
+     0.2633,
+     0.38254
+    ],
+    "exposure_filtered_by_scope": {
+     "static_opened_model": 0.0,
+     "unbiased_release": 0.0,
+     "metad_biased": 0.00195
+    },
+    "exposure_filtered_band": [
+     0.0,
+     0.00195
+    ],
+    "P_categorical_given_exposed_by_scope": {
+     "static_opened_model": 1.0,
+     "unbiased_release": 1.0,
+     "metad_biased": 0.99805
+    },
+    "P_categorical_given_exposed_band": [
+     0.99805,
+     1.0
+    ],
+    "reach_and_exposure_agree": false,
+    "_scopes": [
+     "metad_biased",
+     "static_opened_model",
+     "unbiased_release"
+    ]
+   }
+  ]
+ },
+ "★_why_only_at_the_gate": {
+  "_what": "how much of the reach-only signal survives the V17 exposure filter, by length",
+  "_reading": "at the gate the two rulers agree, so the statement is V17-free. Above it they diverge and the length dependence moves entirely into residues the discredited cutoff calls buried — which is S6's own 'would NOT license' clause, measured.",
+  "⛔_correction_to_S6s_phrasing": "S6 writes 'P(categorical | exposed) is 1.000 at EVERY length'. MEASURED, per scope, over every length: metad_biased 0.998–1.000; static_opened_model 1.000–1.000; unbiased_release 1.000–1.000. The scopes where it is exactly 1.0 are static_opened_model, unbiased_release; where it is not, metad_biased (min 0.99805). The correction does not weaken the argument — a ruler that low still sees almost nothing — but a principle whose whole point is that a number must be stated at its gate may not itself round a number past where it holds.",
+  "P_categorical_given_exposed_by_scope_over_all_lengths": {
+   "static_opened_model": [
+    1.0,
+    1.0
+   ],
+   "unbiased_release": [
+    1.0,
+    1.0
+   ],
+   "metad_biased": [
+    0.99805,
+    1.0
+   ]
+  },
+  "by_length": [
+   {
+    "n_backbone_atoms": 12,
+    "reach_only_max": 0.0029,
+    "exposure_filtered_max": 0.0,
+    "fraction_of_the_reach_signal_surviving_the_exposure_filter": 0.0,
+    "P_categorical_given_exposed_band": [
+     1.0,
+     1.0
+    ],
+    "P_categorical_given_exposed_is_exactly_1_in_every_scope": true
+   },
+   {
+    "n_backbone_atoms": 14,
+    "reach_only_max": 0.03169,
+    "exposure_filtered_max": 0.00024,
+    "fraction_of_the_reach_signal_surviving_the_exposure_filter": 0.007573,
+    "P_categorical_given_exposed_band": [
+     0.99976,
+     1.0
+    ],
+    "P_categorical_given_exposed_is_exactly_1_in_every_scope": false
+   },
+   {
+    "n_backbone_atoms": 16,
+    "reach_only_max": 0.13331,
+    "exposure_filtered_max": 0.0017,
+    "fraction_of_the_reach_signal_surviving_the_exposure_filter": 0.012752,
+    "P_categorical_given_exposed_band": [
+     0.9983,
+     1.0
+    ],
+    "P_categorical_given_exposed_is_exactly_1_in_every_scope": false
+   },
+   {
+    "n_backbone_atoms": 20,
+    "reach_only_max": 0.38254,
+    "exposure_filtered_max": 0.00195,
+    "fraction_of_the_reach_signal_surviving_the_exposure_filter": 0.005098,
+    "P_categorical_given_exposed_band": [
+     0.99805,
+     1.0
+    ],
+    "P_categorical_given_exposed_is_exactly_1_in_every_scope": false
+   }
+  ]
+ },
+ "★_composition_with_Q3": {
+  "read": true,
+  "_source": "nr4a3-antihandle-constraint.json -> ★_length_frontier",
+  "gate_atoms": 12,
+  "at_the_gate": {
+   "n_backbone_atoms": 12,
+   "is_the_categorical_gate": true,
+   "n_cells": 120,
+   "n_cells_admitting_an_antihandle": 7,
+   "n_cells_admitting_a_shared_position_cysteine": 7,
+   "n_cells_where_C397_ITSELF_is_reached": 35,
+   "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 28,
+   "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+   "antihandles_witnessed": [
+    "NR4A1 C534",
+    "NR4A2 C534"
+   ]
+  },
+  "shortest_committed_construct_atoms": 14,
+  "shortest_committed_construct_is_above_the_gate": true,
+  "design_target_column_peaks_at": {
+   "n_backbone_atoms": 16,
+   "n_cells": 38,
+   "is_the_categorical_gate": false
+  },
+  "_reading": "the anti-handle LIABILITY (Q3) and the categorical length dependence (Q4) are both monotone in the SAME variable and both minimised at short length. They are independent measurements — one is reciprocal-uniqueness geometry, the other is conditional reach probability — so their agreement is evidence, not tautology. ⛔ And no committed construct sits at the gate.",
+  "⛔_but_they_do_not_agree_about_everything": "MEASURED, AND IT REFINES THE LINE ABOVE. Q3's DESIGN-TARGET column — cells reaching C397 while admitting no anti-handle — is not monotone and peaks ABOVE the gate, because engagement and liability grow at different rates. ⛔ That does not license the longer length: above the gate the categorical statement inherits V17's false negative and principle() refuses to emit it, so those extra cells are reach without a statable discrimination. The gate is set by what can be SAID, not by what can be reached — and a composition claim that hid this disagreement would be the drift Q4 exists to stop."
+ },
+ "_pose_marginalisation": {
+  "rule": "the principle is a statement about LENGTH marginalised over 73,867 placements and three conformer ensembles. It names no pose, basin or exit vector and may not be re-specialised to one.",
+  "why": "R5 is unresolved and got worse on 2026-08-06 — the second pose method DISAGREES.",
+  "evidence": {
+   "read": true,
+   "R5_resolved": false,
+   "outcome": "THE TWO METHODS DISAGREE",
+   "_source": "research/modalities/pose-second-method.json"
+  },
+  "⭑": "this is what makes S6 pose-robust in a way S3 is not: S3 scores a docked pose, S6 averages over the placement distribution. The inheritance is real but it is weaker here, and saying so is the honest form."
+ },
+ "★_the_quotation_guard": {
+  "_what": "linker_length_principle.quotation_guard(text) — finds every above-gate band quoted in a document and reports whether the V17 disclosure travels with it.",
+  "_why": "a rule nobody can check is a rule that has already been broken somewhere. This is the third of the three mechanisms that make 'only there' enforceable; the other two are principle()'s refusal and the gate being embedded in the statement text.",
+  "above_gate_bands_it_looks_for": {
+   "14": [
+    "0.009",
+    "0.032"
+   ],
+   "16": [
+    "0.054",
+    "0.133"
+   ],
+   "20": [
+    "0.263",
+    "0.383"
+   ]
+  }
+ },
+ "⛔_what_this_does_not_license": [
+  "the 16- and 20-atom columns as a SELECTIVITY statement — that is the whole point of the gate",
+  "any claim that the chemoselectivity WINDOW is NR4A3-limited. It is closed by a PARALOGUE cysteine in 30 of 30 graded cells, and in 24 of 30 through-space cells by NR4A1 C505, a position NR4A3 SHARES (C536)",
+  "reactivity, thiol pKa, adduct stability, potency, proteome-wide selectivity, efficacy, safety, a therapeutic window or clinical readiness",
+  "a pose-specific or vector-specific reading of the same numbers"
+ ]
+}

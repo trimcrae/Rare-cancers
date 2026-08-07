@@ -1,0 +1,213 @@
+{
+ "_title": "NR2F1 dormancy agonism as a repoint of the orphan-NR-LBD stack — and why its headline claim does not survive retrieval",
+ "_status": "live",
+ "_lane": "emc-unexplored-treatment-lanes.md §3.11 (ranked #11)",
+ "_cost": "$0 — CPU/CI only. Two Europe PMC retrievals on a GitHub-hosted runner plus reads of committed artifacts. No GPU, no rental, nothing dispatched to a paid provider.",
+ "_generated": "2026-08-07",
+ "⛔_scope": "A literature and instrument-fit assessment. It runs no docking, predicts no binding, measures nothing. It asserts no efficacy, safety, therapeutic window or clinical readiness for EMC or any other disease.",
+
+ "headline": "⛔ THE CLAIM THAT MAKES §3.11 WORTH RANKING #11 IS FALSE AS MEASURED, AND IT WAS FREE TO CHECK. §3.11 says NR2F1 has 'something NR4A3 never had: a published agonist to calibrate against, i.e. the known-answer control the flagship lacked.' Retrieved primary sources say otherwise, three ways: (1) there is NO experimental structure of NR2F1 or its LBD — the J Exp Med paper that reports the agonist says so in its own words — so there is no apo, no holo and no apo→holo pair to recover; (2) the agonist C26 was DISCOVERED by AutoDock+eHiTS docking into a MODELLER homology model built on RXRα at ~40% identity, its only pose is a model, and no binding constant to NR2F1 protein is reported anywhere — so 'recovering' it would recover another docking program's output, which is circular by construction; (3) the repository's OWN committed screen puts NR2F1 at 0.216 overall identity to NR4A3 with `mapping_confidence: low (distant homology)` and FOUR of the ten Pocket-5 positions mapping to a gap. ⭐ AND THE FAILURE IS THE SAME SHAPE AS THE FLAGSHIP'S: the only NR2F-family crystal structure (NR2F2, 3CJW) is autorepressed with the pocket collapsed, and its drug-sized cavity exists only in a model built by straightening helix α10 — the identical cryptic-pocket-must-be-modelled-open problem as Pocket-5, one homology step further away. ⭐ WHAT SURVIVES IS THE DISEASE-FIT ARGUMENT, which is untouched by any of this and is the memo's real contribution.",
+
+ "verdict": {
+  "capability_transfer_claim": "REFUTED",
+  "disease_fit_claim": "UNTOUCHED — and it is the part worth keeping",
+  "route_state": "not a live instrument route; a live BIOLOGY question pending one $0 expression read",
+  "⛔_what_this_closes": "The specific proposal to repoint the docking / pocket-detection / FEP stack onto NR2F1 IN ORDER TO OBTAIN A KNOWN-ANSWER CONTROL. That control cannot be built from the current published record, and a run that looked like it passed would certify nothing — which is worse than not running it.",
+  "⛔_what_this_does_NOT_close": [
+   "NR2F1 dormancy biology in EMC. Nothing here bears on whether NR2F1 is expressed in EMC or whether dormancy maintenance is the right endpoint for this disease.",
+   "C26 as a compound. Its cellular and in-vivo evidence is real and is not re-graded here; what is graded is its usability as a computational KNOWN ANSWER, which is a different question.",
+   "The general idea of borrowing a known-answer control from a better-instrumented receptor. That idea is sound; NR2F1 is simply the wrong donor."
+  ]
+ },
+
+ "evidence": {
+  "corpora": [
+   {"slug": "nr2f-lbd-structure", "branch": "literature-cache",
+    "n_records_returned": 580, "n_fulltext_on_disk": 286,
+    "query": "(NR2F1 OR NR2F2 OR NR2F6 OR \"COUP-TF\") AND (\"ligand-binding domain\" OR \"ligand binding domain\" OR \"crystal structure\")",
+    "actions_run_id": 31175683322},
+   {"slug": "nr2f1-agonist", "branch": "literature-cache",
+    "n_records_returned": 1225, "n_fulltext_on_disk": 866,
+    "query": "NR2F1 AND (agonist OR ligand OR \"small molecule\")",
+    "actions_run_id": 31175763521}
+  ],
+  "⚠_two_corpora_were_retrieved_and_lost_to_a_push_race_and_the_control_still_passed": {
+   "what": "`nr2f1-dormancy` (query `(NR2F1 OR \"COUP-TFI\") AND (dormancy OR dormant OR quiescence)`, known-positive control PMID 25636082) and `pgr-nr4a3-tamoxifen` (control PMID 36103645) both RETRIEVED successfully and then failed to publish.",
+   "diagnosis": "NOT a control failure — MEASURED per-step, not inferred. The four failed runs in this window that carried a `query` (jobs 92857308958, 92857086537, 92857044504, 92857035802) were read from the jobs API step-by-step: in ALL FOUR, `Assert the query path actually searched (non-empty + known-positive control)` has `conclusion: success`, and the ONLY step with `conclusion: failure` is `Publish corpus to literature-cache branch`, with `! [rejected] literature-cache -> literature-cache (fetch first)`. The assert step runs BEFORE the publish step, so a control failure would have stopped the job earlier and never reached a push. ⭐ Both known-positive controls therefore PASSED: Europe PMC returned the exact PMIDs those queries were told to find.",
+   "cause": "sixteen fetch-literature runs were dispatched within ~80 seconds at ~7:50 AM ET on 2026-08-07 by several parallel research sweeps, all pushing to the single shared `literature-cache` ref, whose publish step has no fetch-rebase-retry. Of the fourteen this session tracked to completion, EIGHT failed and every failure inspected failed on that same push rejection. Known repository failure mode, not specific to this lane.",
+   "⛔_impact_on_this_file": "NONE of the findings below rest on either lost corpus. PMID 36103645 was read in full from the `nr4a3-fusion-partners` corpus, which did publish; PMID 25636082 is used only for its identity, which the retrieved index record supplies.",
+   "the_fix_if_someone_wants_it": "give the publish step the same fetch-rebase-retry loop the lane-probe step already has (`fetch-literature.yml` retries 3× there and not here), or a per-slug ref. $0 — a workflow edit."
+  },
+  "why_ci": "the dev sandbox egress proxy blocks Europe PMC and RCSB on CONNECT — MEASURED 2026-08-07, HTTP 000 from this sandbox to both `data.rcsb.org` and `www.ebi.ac.uk`, and WebFetch returns EGRESS_BLOCKED for the same host. Routed out per CLAUDE.md §6.",
+
+  "F1_no_experimental_nr2f1_structure": {
+   "finding": "No experimental structure of NR2F1 or its ligand-binding domain exists. Its only solved domain is the DNA-binding domain.",
+   "sources": [
+    {"pmid": "34812843", "pmcid": "PMC8614154", "journal": "J Exp Med", "year": 2022,
+     "title": "An NR2F1-specific agonist suppresses metastasis by inducing cancer cell dormancy",
+     "quote": "There is no available crystal structure of NR2F1 or its LBD. We aimed to build a structural model based on homologous proteins of known structure, among which the most similar to NR2F1 is NR2F2. However, the available NR2F2 structure is in the autorepressed conformation, in which the agonist-binding site is occluded. Hence, we built a model of NR2F1 LBD using as template the structure of RA receptor α (RXRα) in complex with 9-cis-RA (PDB accession no. 1FM6, ∼40% sequence identify to NR2F1 over the LBD)."},
+    {"pmcid": "PMC9024734", "year": 2022, "kind": "review",
+     "quote": "an in silico prediction of the NR2F1 3D protein structure remains partially elusive to date, with the DBD being the only domain to have been resolved as yet (PDB entry: 2EBL). To overcome the lack of NR2F1 LBD structure, and thanks to the high similarity with its homolog NR2F2, the 3D structure of the latter is currently used as an alternative (PDB entry: 3CJW)"},
+    {"pmcid": "PMC10955615", "year": 2024,
+     "quote": "Since no experimental structure of NR2F1 dimers was available, we used PIPER to run unbiased protein–protein rigid‐body docking simulations."}
+   ],
+   "consequence": "⛔ There is no NR2F1 apo→holo pair, so NR2F1 CANNOT supply the top item on `pose-second-method.json` → `verdict.what_would_resolve_R5` — 'a known answer IN REGIME with a real apo→holo rearrangement', whose own cost field reads '$0 — CPU/CI; it is a sourcing question, not a compute one'. That is the specific hole §3.11 reads as if it fills, and it does not fill it.",
+   "⚠_residual_check_not_taken": {
+    "what": "A direct RCSB query for every deposited structure of UniProt P10589 (NR2F1) and P24468 (NR2F2), which would settle this against the database rather than against three papers.",
+    "why_not_taken": "RCSB is blocked from this sandbox (measured above) and no workflow already on `main` accepts a free-text RCSB query as a dispatch input, so taking it requires pushing new code to a branch — which this session was instructed not to do.",
+    "cost_when_taken": "$0 — one unauthenticated GET.",
+    "how": "`https://search.rcsb.org/rcsbsearch/v2/query` filtered on `rcsb_polymer_entity_container_identifiers.reference_sequence_identifiers.database_accession = P10589`, or reuse `antitarget_selfcontrol.RESOLVE_RULES`, which already resolves a UniProt accession to PDB entries by live RCSB query and was used for exactly this purpose on 2026-08-03 for MR/NR3C2.",
+    "⚠_how_much_this_moves": "Little, and it must not be used to defer the verdict. The latest of the three sources is 2024 and all three are consistent; a 2025–2026 deposition would change F1 but would leave F2 (no measured binding constant for C26) and F3 (NR2F1 is out of regime) exactly as they are, and the verdict rests on all three."
+  }
+  },
+
+  "F2_c26_is_not_a_known_answer": {
+   "finding": "C26 is a real compound with real cellular and in-vivo evidence, and it is NOT a known answer for a pose- or affinity-predicting instrument. Its provenance is the same class of instrument that would be under test, and no measured receptor-binding constant exists.",
+   "source": {"pmid": "34812843", "pmcid": "PMC8614154"},
+   "how_it_was_found": {
+    "receptor": "MODELLER v9.10 homology model of NR2F1 LBD on RXRα/9-cis-RA (PDB 1FM6), ~40% identity",
+    "grid": "centred on the position of 9-cis-RA in the RXRα structure",
+    "library": "110,000 drug-like small molecules (ChemBridge)",
+    "programs": "AutoDock 4 (release 4.2.3) and eHiTS",
+    "funnel": "top 50 by each program + top 50 by summed rank → 150 → visual inspection → 67 tested → 1 selected (C26)",
+    "quote": "AutoDock and eHiTS programs were used to screen a library of 110,000 drug-like compounds."
+   },
+   "what_was_measured": [
+    "RARE-luciferase reporter in HEK293T with NR2F1 overexpression: C26 induces 2.4-fold, 'comparable to 100 nM all-trans retinoic acid'",
+    "NR2F1 cis-regulatory-element luciferase in D-HEp3 cells: 1.7-fold and 1.9-fold at 0.5 and 1 µM",
+    "CRISPR-Cas9 NR2F1 knockout with two gRNAs abolishes the reporter effect — 'the effect of C26 is completely abrogated in NR2F1 knockout cell lines'",
+    "TR-FRET coactivator assay: C26 does not activate RXRα at 5–10× the working concentration",
+    "qPCR in CAM tumours: 2.3-fold increase in NR2F1 mRNA; NR2F1+ cells rise from ~4% to 42%"
+   ],
+   "⛔_what_was_NOT_measured": [
+    "Any direct binding of C26 to NR2F1 protein. No Kd, no SPR, no ITC, no thermal shift, no radioligand displacement appears anywhere in the retrieved text. Target engagement is INFERRED from the knockout-dependence of a cellular effect, which is a genetic control on the pathway, not a measurement on the receptor.",
+    "Any experimental structure of the complex. The only depiction of the pose is a model: 'A model of NR2F1 in complex with C26, generated using the methods described above, shows that C26 interacts with mostly hydrophobic residues in the binding pocket.'"
+   ],
+   "authors_own_statement_of_the_gap": "It is possible that a crystal structure of NR2F1 LBD, which as of now has not been solved yet, may yield more potent and selective agonists.",
+   "⚠_the_mechanism_is_transcriptional_at_the_measured_layer": "C26's proximal reported readout is AUTO-INDUCTION of its own receptor — NR2F1 mRNA up 2.3-fold, NR2F1-positive cells 4% → 42%. Whatever the initiating event, the quantity that was measured is receptor abundance, not receptor occupancy. An instrument that predicts occupancy has nothing here to be graded against.",
+   "consequence": "⛔ Pointing this repository's docking stack at NR2F1 and 'recovering' C26 would recover AutoDock/eHiTS's answer on a MODELLER model. A pass would be circular by construction and would satisfy no part of the roadmap §3.1 standard, while LOOKING like a passing known-answer row. That is the dangerous half: a green result that certifies nothing is worse than an absent one, and this repository has already had to withdraw at least four selectivity results."
+  },
+
+  "F3_nr2f1_is_out_of_regime_and_the_repo_already_measured_it": {
+   "finding": "The repository's own committed superfamily screen places NR2F1 far outside the regime the LBD stack is built for, and flags its own pocket mapping as low-confidence with four gapped positions.",
+   "artifact": "research/modalities/nr4a-superfamily-selectivity.json → ranking",
+   "rows": [
+    {"gene": "NR2F1", "accession": "P10589", "overall_identity": 0.216, "pocket_identity": 0.2,
+     "mapping_confidence": "low (distant homology)",
+     "pocket5_positions_mapping_to_a_gap": [412, 481, 484, 485], "n_gapped_of_10": 4},
+    {"gene": "NR2F2", "accession": "P24468", "overall_identity": 0.222, "pocket_identity": 0.2,
+     "mapping_confidence": "low (distant homology)", "n_gapped_of_10": 3},
+    {"gene": "NR2F6", "accession": "P10588", "overall_identity": 0.206, "pocket_identity": 0.2,
+     "mapping_confidence": "low (distant homology)", "n_gapped_of_10": 3},
+    {"gene": "NR4A2", "accession": "P43354", "overall_identity": 0.58, "pocket_identity": 0.4,
+     "mapping_confidence": "ok", "note": "the comparator the stack IS built for"},
+    {"gene": "NR4A1", "accession": "P22736", "overall_identity": 0.508, "pocket_identity": 0.3,
+     "mapping_confidence": "ok", "note": "the comparator the stack IS built for"}
+   ],
+   "regime_definition": "research/modalities/apo-pose-site-in-regime.json → `_regime` = [P22736, P43354, Q92570] — 'every apo/holo pair on a protein the pipeline actually transfers Pocket-5 onto'. NR2F1 is not in it.",
+   "consequence": "§3.11's 'the capability transfer is exact' is true of the ENGINEERING and false of the SCIENCE. The receptor-agnostic parts (model fetch, fpocket, a docking harness) do repoint for almost nothing. But the site-selection half of V3 — the half that is measured FAILING, 0 of 14 by two independent routes — IS the Pocket-5 transfer, and there is nothing on NR2F1 to transfer onto: four of the ten Pocket-5 positions have no NR2F1 residue at all."
+  },
+
+  "F4_the_paralogue_problem_is_harder_not_equal": {
+   "finding": "§3.11 warns that NR2F1 'inherits the risk that sank the flagship — paralogue selectivity in a nuclear-receptor LBD (here NR2F2/NR2F6)'. Measured, it is worse than inherited: it is a strictly harder instance.",
+   "source": {"pmcid": "PMC10955615", "year": 2024,
+              "quote": "obtained by homology modeling using the crystal structure of human NR2F2 LBD as a template (PDB entry 3CJW, resolution 1.48 Å (Kruse et al.), which shares 96% sequence identity with that of NR2F1"},
+   "contrast": "The flagship's HARD comparator, NR4A1, differs from NR4A3 at all 7 divergent Pocket-5 lining residues, 5 of them engageable (roadmap §8 Route A). A 96%-identical LBD pair offers fewer handles than the pair the program already could not separate.",
+   "⚠_units_differ_and_must_not_be_merged": "96% is an LBD-wide identity reported by a third party; the repository's 0.58 / 0.508 are its own global BLOSUM62 alignment identities to NR4A3, and the 7-of-7 divergence count is a Pocket-5 lining-residue count. Three different measurements. They are placed side by side to show the DIRECTION, and no ratio between them is computed here."
+  },
+
+  "F5_the_same_cryptic_pocket_failure_one_step_further_out": {
+   "finding": "⭐ The reason NR2F1 cannot de-risk the instrument is that the NR2F family reproduces the instrument's exact blind spot. The only NR2F-family crystal structure is autorepressed with the ligand pocket collapsed, and its drug-sized cavity exists only in a model.",
+   "source": {"pmid": "18798693", "pmcid": "PMC2535662", "journal": "PLoS Biology", "year": 2008,
+              "citation": "Kruse SW et al. Identification of COUP-TFII Orphan Nuclear Receptor as a Retinoic Acid–Activated Receptor. PLoS Biol 2008. doi:10.1371/journal.pbio.0060227 (PMID 18798693, PMC2535662).",
+              "⚠_citation_scope": "journal, year, DOI, PMID and PMCID are all read off the retrieved record header. ⛔ Volume/issue/page were NOT in the retrieved text and are deliberately omitted rather than reconstructed from the DOI — a citation detail that was inferred is a fabricated citation detail.",
+              "pdb": "3CJW (NR2F2 / COUP-TFII LBD, 1.48 Å, ligand-free)"},
+   "quotes": [
+    "The ligand-binding pocket of the apo-COUP-TFII structure is packed tightly with hydrophobic residues that leave little space for the binding of small molecules due to the kink of helix α10.",
+    "However, a sizeable cavity (∼600–700 Å3) for ligand binding was created when we built an active model of the COUP-TFII where helix α10 is straightened.",
+    "Full dose curves reveal the potency (EC50) of retinoid acids around 10–30 μM ... Although the concentrations of RAs required for activation of COUP-TFII are 10–100 times higher than the physiological levels"
+   ],
+   "reading": "The one NR2F-family ligand pair with a real crystal structure behind the receptor is 9-cis-/all-trans-retinoic acid on NR2F2 at 10–30 µM — a low-affinity ligand the authors themselves say is 'unlikely to be the physiological' one, and the structure that exists is the LIGAND-FREE one. So even the best-instrumented member of this family offers a collapsed apo structure and a micromolar ligand with no complex. ⛔ Every route into this family runs through a pocket that has to be modelled open, which is the same class of assumption Pocket-5 is, and both papers that opened it did so computationally (Kruse by straightening α10; Khalil by abandoning NR2F2 for RXRα at 40% identity)."
+  }
+ },
+
+ "what_the_repo_could_reuse_without_new_compute": {
+  "_reading": "Real and worth recording, because it is the half of §3.11 that is true — and it is separable from the known-answer claim that is not.",
+  "already_carries_NR2F1_today": [
+   {"asset": "research/modalities/categorical_decoy_null.py + categorical-decoy-null-lbd.json",
+    "state": "NR2F1 (P10589) is ALREADY IN THE UNIVERSE and already scored — 45,119 placements, 12 poses, and graded pair rows against NR2F6 and RXRA (both returned UNDERPOWERED_too_few_conditioning_events, n=8, at C220 with rsa 0.0462).",
+    "cost_to_reuse": "$0 — it has already run."},
+   {"asset": "the AlphaFold DB fetch path (`categorical_decoy_null.py fetch`)",
+    "state": "receptor-agnostic, keyed on UniProt accession, runs on a plain GitHub runner",
+    "cost_to_reuse": "$0 — CI"},
+   {"asset": "research/modalities/antitarget_prep.py + antitarget_dock.py",
+    "state": "panel-manifest driven ({name, pdb_id, ligand_resname}); adding a receptor is a data edit plus a CI run",
+    "⛔_but": "V21, the anti-target docking panel, FAILS its own known-answer test (7 of 10 targets recover their cognate ligand; CYP3A4, PXR and PPARG miss) and `panel_readable: false`. Nothing read through this harness is readable today, on NR2F1 or anything else.",
+    "cost_to_reuse": "$0 — CI"},
+   {"asset": "research/modalities/fpocket_lib.py",
+    "state": "receptor-agnostic pocket grading; it is also the ONLY site-selection route that worked in regime (11 of 14 vs 0 and 0 for the two transfer routes)",
+    "cost_to_reuse": "$0 — CI"}
+  ],
+  "a_public_nr2f1_lbd_model_exists_and_is_free": {
+   "what": "PMC10955615 (2024) deposits its NR2F1 LBD models — both auto-repressed (homology-modelled on 3CJW) and active (homology-modelled on RXRα 1FM6) — plus docked homodimers and NR2F1/NR2F2 and NR2F1/RXRα heterodimers.",
+   "where": "https://zenodo.org/records/10551664",
+   "cost": "$0 — one CI fetch",
+   "⚠": "It is a MODEL of a model. Using it does not create a known answer; it removes the excuse that no coordinates exist. Any result computed on it inherits the 40%-identity template and must say so inline."
+  }
+ },
+
+ "what_a_passing_nr2f1_known_answer_test_would_and_would_not_license_for_NR4A3": {
+  "_why_this_section_exists": "The task that produced this file asked for it explicitly, and the roadmap's claim-ceiling rule (§2.3) makes it binding rather than rhetorical: 'A requirement may never be claimed above the validation status of the instrument that produces it', and §3.1 states that a PASS 'means the instrument recovered *that* known answer. It never means the instrument supports the claim the graph points it at.'",
+  "⛔_precondition_that_currently_fails": "No such test can be CONSTRUCTED from the published record. There is no experimental NR2F1 structure and no measured C26 binding constant, so there is no answer to be known. Everything below is conditional on a future deposition or measurement that does not exist today.",
+  "would_license": [
+   "Exactly one sentence, and only if an NR2F1 (or NR2F2) receptor–ligand complex is ever determined experimentally and this pipeline recovers it: 'this docking protocol recovered a ligand pose in an orphan nuclear-receptor ligand-binding domain outside the NR4A family, at <X> Å against the pre-registered criterion C14.'",
+   "A new instrument row in §3.1 with its own scope column — serving a new requirement belonging to a new route, not any existing R."
+  ],
+  "would_NOT_license": [
+   {"claim": "Raising the claim ceiling on any NR4A3 requirement (R5, R7, R8, R11, R12, R14).",
+    "why": "§2.3 sets a requirement's ceiling from the weakest V in its `served by` column. A pass on a DIFFERENT receptor does not appear in that column and cannot raise it. A control on another target is not transitive to this one."},
+   {"claim": "Repairing or reinterpreting V3's measured site-selection failure.",
+    "why": "V3's site arm is 0 of 14 by two independent transfer routes over the in-regime set {P22736, P43354, Q92570}. The failing object is the PARALOGUE→Pocket-5 TRANSFER. NR2F1 sits at 0.216 identity with 4 of 10 Pocket-5 positions gapped, so there is no transfer onto it to test. An out-of-regime pass measures the docking search, which was never the part that missed."},
+   {"claim": "Discharging the paralogue requirement in R7 / R11 / R12.",
+    "why": "that requirement is NR4A1/NR4A2 discrimination — a property of the NR4A pocket, not of the docking protocol. §2.4 makes NR4A1 a HARD constraint on the strength of a named combination genotype. No result on NR2F1 touches it."},
+   {"claim": "Retiring BLK-PARALOGUE-CONTROL or any other blocker on the degrader route.",
+    "why": "a blocker is retired by evidence about the object it blocks."},
+   {"claim": "Treating NR2F1 as an anti-target reading for an NR4A3 ligand.",
+    "why": "that would require the anti-target panel, and V21 fails its own cognate-ligand self-control with `panel_readable: false`. ⛔ A failing target may not be dropped and no band may be lowered to admit a new one."}
+  ],
+  "the_one_thing_it_WOULD_do_that_is_worth_something": "It would be a second, independent, out-of-family data point on whether this docking protocol survives INDUCED FIT — which is the question `pose-second-method.json` names as the cheapest unresolved item on R5. ⛔ But only if the sourced pair carries a REAL apo→holo rearrangement, and the in-regime measurement is that 0 of the gradeable pairs did (`n_gradeable: 0`, `n_with_large_rearrangement: 4`). NR2F1 has no apo structure at all, so it cannot supply the pair, and that is the whole reason this lane does not deliver what §3.11 says it delivers."
+ },
+
+ "the_disease_fit_argument_which_survives_intact": {
+  "_reading": "⭐ This is the part of §3.11 worth keeping, and none of F1–F5 bears on it. It is a claim about which ENDPOINT matches EMC, not about which instrument can be calibrated.",
+  "argument": "EMC is indolent with late distant recurrence, overwhelmingly pulmonary, over many years, with long survival. A therapy that holds disseminated cells asleep and never shrinks a tumour is worth little in most cancers and is unusually well matched to this natural history. Dormancy maintenance is therefore closer to EMC's real clinical endpoint than tumour shrinkage is.",
+  "corroborating_retrieved_quote": {"pmcid": "PMC9489176",
+   "quote": "The tumor has local recurrence and metastasis rates between 29%-48% and 40%-50%, respectively. Despite this, the survival rate at 10 years is 65%-70%, which often belies the indolent nature of the disease even when metastatic."},
+  "nr2f1_dormancy_master_regulator": {"pmid": "25636082", "pmcid": "PMC4313575", "year": 2015,
+   "title": "NR2F1 controls tumour cell dormancy via SOX9- and RARβ-driven quiescence programmes.",
+   "retrieval_state": "⚠ METADATA RETRIEVED, FULL TEXT NOT READ HERE. The record was returned by the Europe PMC query and its PMID, PMCID, year and title are as §3.11 states; the C26 paper (PMC8614154) restates its finding in its own introduction. No claim in this file rests on its internal numbers.",
+   "quote_from_the_2022_paper_restating_it": "When up-regulated, NR2F1 induces expression of a dormancy gene signature, including the transcription factors SOX9 and retinoic acid (RA) receptor β (RARβ). These factors activate expression of cyclin-dependent kinase (CDK) inhibitors p27 and p16, which leads to G0/G1 cell cycle arrest and cell quiescence."},
+  "⛔_precondition_this_all_hangs_on": {
+   "what": "Is NR2F1 expressed in EMC at all?",
+   "state": "PENDING — a separate agent is dispatching the `emc-expression-datasets.yml` read that includes NR2F1 against GSE24369 (6 EMC vs 29 comparators) and GSE4303 (10 EMC). ⛔ THIS SESSION DELIBERATELY DID NOT DISPATCH A COMPETING RUN; the slot is left.",
+   "what_the_read_settles": "One binary, and it is the gate on everything above. NR2F1 ABSENT or floor-level in EMC ⇒ the disease-fit argument has no target in this disease and §3.11 closes completely. NR2F1 PRESENT ⇒ the disease-fit argument survives as a real biology question — and it still does NOT revive the capability-transfer claim, which F1–F5 refute independently of any expression value.",
+   "⚠_what_the_read_cannot_settle": "Expression is not dependency and not druggability. A present-but-unmeasured NR2F1 says the endpoint is conceivable in EMC; it says nothing about whether agonising it does anything, and nothing about whether any instrument here could grade a compound that tried."
+  }
+ },
+
+ "what_would_change_this_verdict": [
+  {"item": "An experimentally determined structure of NR2F1 or NR2F2 LBD WITH A LIGAND BOUND.",
+   "moves": "F1 and F5, and it is the only thing that could make a genuine known-answer test constructible in this family.",
+   "cost": "$0 to detect — a single RCSB query, or a `method-watch.md` trigger.",
+   "action": "register it as a watch trigger rather than a task; it is somebody else's experiment."},
+  {"item": "A measured binding constant for C26 (or any compound) against purified NR2F1 LBD.",
+   "moves": "F2 in part — it would make C26 a known answer for an AFFINITY instrument even without a structure. ⛔ It would still not make it a known answer for a POSE instrument.",
+   "cost": "$0 to search for; the measurement is a wet-lab experiment this program cannot do."},
+  {"item": "The pending NR2F1 expression read in EMC.",
+   "moves": "the disease-fit argument only — in either direction, and decisively in the negative direction.",
+   "cost": "$0 — already dispatched by another agent."}
+ ],
+
+ "map_edits_required": [],
+ "_why_map_edits_is_empty_here": "Every edit this lane owes is routed through research/manuscripts/nr2f1-hormone-lane-map-edits.json, which is the single file the map's owner applies. Nothing here changes a requirement, gate, price, rung or claim ceiling — a refuted capability-transfer PROPOSAL amends no register — so the roadmap owes exactly one pointer edit and no new instrument row. Adding a V row for an instrument that was never pointed at anything would be a fabricated register entry."
+}

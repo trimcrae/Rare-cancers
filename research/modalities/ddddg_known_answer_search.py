@@ -1013,13 +1013,41 @@ def run_c01b(out_path=OUT_C01B, offline=False, tp=None):
                                "separate bromodomain-domain constructs, and the arm identity of each "
                                "is printed so a domain mismatch is visible rather than averaged away.")
 
+    # ⛔ PER-TARGET CHECKPOINT, ADDED 2026-08-07 BECAUSE THIS LOOP IS WHY C01b NEVER FINISHED.
+    # Measured: three dispatches died at the job's 120-minute ceiling -- 7215 s TWICE, to the second.
+    # Two independent runs landing on the identical second is a timeout, not an operator, and the
+    # Actions API reports all of them as `cancelled`, so only the comparison against the declared
+    # ceiling reveals it. The whole cost is this loop: one ChEMBL activities fetch per target, with
+    # nothing written until every target returns, so a run that died at 119 minutes delivered NOTHING
+    # and the next dispatch started again from target 1. Three attempts, zero cumulative progress.
+    #
+    # That is precisely the failure CLAUDE.md §6's checkpoint rule exists to prevent -- "never
+    # guess-and-lose", checkpoint after EACH unit of work, and treat the partial checkpoint as the
+    # deliverable on a timeout. c01a below was built that way; c01b was not, and the header comment
+    # above c01a advertising the property made it easy to assume both had it.
+    # ⚠ The checkpoint was only half the defect: c01a DID write one and nothing ever RESTORED it, so
+    # its staging bought nothing either. The cache step in the workflow is the other half; neither
+    # works alone.
+    #
+    # A cached read must be indistinguishable from a fresh one, so `ok` is stored WITH the rows --
+    # replaying a target whose fetch had failed as though it had succeeded would turn a transport
+    # failure into a measured empty result, which is the one error this file's gate cannot survive
+    # (`read_ok` false is what makes the verdict UNDETERMINED rather than STOP).
     acts, read_ok = {}, True
     _log("c01b: %d ChEMBL targets resolved by accession" % len(targets))
     for t in targets:
-        _log("c01b: fetching activities for %s (%s)" % (t["target_chembl_id"], t["pref_name"]))
-        rows, ok = chembl_activities(tp, t["target_chembl_id"])
+        tid = t["target_chembl_id"]
+        cached = _load("c01b_acts_%s.json" % tid)
+        if cached is not None:
+            _log("c01b: resuming %s from checkpoint (%d rows)" % (tid, len(cached["rows"])))
+            acts[tid] = cached["rows"]
+            read_ok = read_ok and cached["ok"]
+            continue
+        _log("c01b: fetching activities for %s (%s)" % (tid, t["pref_name"]))
+        rows, ok = chembl_activities(tp, tid)
+        _save("c01b_acts_%s.json" % tid, {"rows": rows, "ok": ok})
         read_ok = read_ok and ok
-        acts[t["target_chembl_id"]] = rows
+        acts[tid] = rows
     all_rows = [r for rows in acts.values() for r in rows]
     doc["n_activity_rows"] = len(all_rows)
     doc["targets_scanned"] = [{"target_chembl_id": t["target_chembl_id"],
@@ -1479,14 +1507,14 @@ def c01_map_edits(doc, which="C01a"):
     }, {
         "section": "3.1 (the instrument table)",
         "anchor": None,
-        "where": ("a new row in §3.1's instrument table for the ligand-side ΔΔΔG candidate (C01), "
+        "where": ("a new row in §3.1's instrument table for the ligand-side ΔΔΔG candidate (IC-1), "
                   "whose known-answer column now has a MEASURED value instead of "
                   "`candidate_unverified`. There is no existing row to anchor to because the "
                   "instrument has never been given a `V` number — roadmap §0.8 says an OPTIONS "
                   "register may not mint one, so the row has to be added by the map's owner."),
         "current_text": None,
         "proposed_text": (
-            "| `C01` (unnumbered) | ligand-side selectivity RBFE, ΔΔΔG between two proteins for a "
+            "| `IC-1` (unnumbered) | ligand-side selectivity RBFE, ΔΔΔG between two proteins for a "
             "matched congeneric ligand pair | **known answer: %s** — %s | ⛔ **the instrument itself "
             "is unvalidated; a benchmark existing is not a benchmark passed** |" % (dec, headline)),
         "why": ("§3 is where an instrument's known-answer STATE lives, and a `STOP_NO_REFERENCE` is "

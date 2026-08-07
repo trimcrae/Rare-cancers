@@ -1,6 +1,6 @@
 ---
 id: DOC-CATEGORICAL-DECOY-NULL
-title: C02 — the cross-system decoy null for the categorical covalent axis
+title: IC-2 — the cross-system decoy null for the categorical covalent axis
 level: L4
 kind: memo
 status: live
@@ -12,7 +12,7 @@ date: 2026-08-05
 last_verified: unverified
 _backfilled: true
 ---
-# C02 — the cross-system decoy null for the categorical covalent axis
+# IC-2 — the cross-system decoy null for the categorical covalent axis
 
 > **$0 CPU/CI. No GPU, no rental.** Nothing here is a claim about binding, reactivity, degradation,
 > selectivity in vivo, efficacy, safety, a therapeutic window or clinical readiness.
@@ -167,4 +167,4 @@ verdict uses.
 *Produced by [`categorical_decoy_null.py`](./categorical_decoy_null.py) via
 [`.github/workflows/categorical-decoy-null.yml`](../../.github/workflows/categorical-decoy-null.yml).
 Driver logic is unit-tested in [`tests/test_categorical_decoy_null.py`](./tests/test_categorical_decoy_null.py).
-Candidate `C02` in [`instrument-options.md`](./instrument-options.md).*
+Candidate `IC-2` in [`instrument-options.md`](./instrument-options.md).*

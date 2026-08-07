@@ -43,6 +43,37 @@ name: EMC expression datasets — part B of the ATR vulnerability assessment
 #   put a fresh unreviewed panel and a retracted one in the same directory with nothing to tell
 #   them apart, which is the failure this whole exercise is a correction for.
 #
+# ⭐ FOURTH MODE, added 2026-08-07: `panels`.
+#   Same precedent, same reasons, third time: the same $0 NCBI-fetch capability, the same "the
+#   sandbox cannot reach GEO", and a NEW workflow file on a feature branch cannot be dispatched
+#   until it reaches `main` (CLAUDE.md §6). Standing one up would have put one capability in two
+#   homes (CLAUDE.md §1).
+#
+#   WHAT IT IS FOR. `research/manuscripts/emc-unexplored-treatment-lanes.md` §4 records that SIX
+#   treatment lanes resolve on ONE dispatch against the two readable EMC series — ASS1 (arginine
+#   auxotrophy), the CS/GAG + PAPS module (oncofetal chondroitin sulfate, CSPG4), a PPARγ
+#   TARGET-GENE signature (the receptor-ACTIVITY readout `pparg-direction-emc.md` §6 names as the
+#   one measurement nobody has ever made), the DLL3/ASCL1/NEUROD1/INSM1/HES1 neuroendocrine panel,
+#   a published hypoxia metagene, and NR2F1. This mode is that dispatch.
+#
+#   ⚠ IT IS A SEPARATE MODE AND A SEPARATE ARTIFACT FOR THE SAME REASON `gse-series` IS. Part B's
+#   inputs cache holds per-sample values only for the genes its MSigDB/Reactome concepts happen to
+#   contain, so almost none of the six reads' genes are in it — and a panel read has no business
+#   being able to perturb a committed grading artifact. `emc_expression_panels.py` writes
+#   `emc-expression-panels.json` + `-inputs.json` and touches nothing part B owns.
+#
+#   ✅ IT DOES PUBLISH, unlike `aso-junction` immediately above, and the difference is not
+#   inconsistency. That mode withholds because a freshly rebuilt panel would land beside six files
+#   carrying retraction banners with nothing to tell them apart. This mode writes a NEW artifact
+#   under a NEW name that nothing has ever cited, so there is no file it can be confused with — and
+#   three other lanes are waiting on reads 2, 3 and 6, which they cannot consume from a run
+#   artifact that expires.
+#
+#   ⛔ AND IT CARRIES ITS OWN HONESTY GUARDS, because six lanes will be read off it. Every gene
+#   row says whether the READ COULD BE TAKEN, separately from what it said — a gene with no probe
+#   is `readable: false`, never "not expressed" (CLAUDE.md §4) — and the offline tests that run
+#   BEFORE the fetch assert exactly that, over the whole serialised artifact.
+#
 # $0 — a GitHub-hosted CPU runner, no GPU, no rental. Pure stdlib: no pip install at all.
 # The dev sandbox's egress proxy 403s NCBI/GEO/Europe PMC on CONNECT, which is the whole reason
 # this runs here (CLAUDE.md §6).
@@ -63,10 +94,13 @@ on:
           aso-junction = grade every declared EWSR1::NR4A3 exon pair at the mRNA level against
           Ensembl and regenerate the ASO design panel for the ones that survive. Publishes
           NOTHING — it prints and uploads, on purpose (see the header).
+          panels = the six targeted gene/panel reads in the two READABLE EMC series (ASS1;
+          CS/GAG+PAPS; a PPARγ TARGET-GENE signature; DLL3/ASCL1/NEUROD1/INSM1/HES1; a published
+          hypoxia metagene; NR2F1). Writes its OWN artifact and cannot perturb part B's.
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction"]
+        options: ["part-b", "gse-series", "aso-junction", "panels"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -80,9 +114,13 @@ on:
         default: "GSE299349"
       acc_bridge_budget_s:
         description: >-
-          part-b mode only. Seconds of TOTAL budget for the EST accession->symbol bridge
+          part-b AND panels modes. Seconds of TOTAL budget for the EST accession->symbol bridge
           (GSE4303 only). Lower it to get the readable-series answer fast; the bridge is the
-          expensive, failure-prone half and none of the other series need it.
+          expensive, failure-prone half and none of the other series need it. ⚠ In `panels` mode
+          it is the ONLY thing standing between the run and a GPL3290 read whose genes are
+          unreadable for a transport reason rather than an array reason — so a run that comes back
+          with a low measured mapping rate on GPL3290 should be re-dispatched with a HIGHER budget
+          before anything is concluded from it.
         required: false
         default: "1500"
 
@@ -120,13 +158,22 @@ jobs:
           pip install pytest
           if [ "${{ inputs.mode }}" = "aso-junction" ]; then
             python -m pytest research/modalities/tests/test_junction_aso_seam.py -q
+          elif [ "${{ inputs.mode }}" = "panels" ]; then
+            # ⛔ NOT OPTIONAL, for the same reason the aso-junction set is not. Six lanes will be
+            # read off this artifact, and the two ways it could lie — an absent reading rendering
+            # as absence, and a thin panel rendering like a covered one — are both assertable
+            # offline. Failing here costs seconds; failing after the GEO fetch costs the run.
+            python -m pytest research/modalities/tests/test_emc_expression_panels.py -q
           else
             python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py \
                              research/modalities/tests/test_atr_hrd_sarcoma_series.py -q
           fi
 
+      # ⚠ THE NEGATIVE FORM IS DELIBERATE AND MUST STAY. An empty `inputs.mode` — a dispatch that
+      # sends no inputs at all — has to fall through to part B, which is what this file has always
+      # done. `== 'part-b'` would silently turn that dispatch into a no-op that reports success.
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
-        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
+        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -230,8 +277,46 @@ jobs:
             research/modalities/junction-aso-regen-manifest.json
             research/modalities/junction-aso-designs-e*.json
 
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # panels — the six reads §4 of emc-unexplored-treatment-lanes.md turns on
+      # ─────────────────────────────────────────────────────────────────────────────────────
+
+      # ⭐ ONE FETCH, TWO NAMED MATRIX FILES, AND NOTHING PART B OWNS. The module names
+      # GSE24369/GPL6244 and GSE4303-GPL3290 explicitly rather than re-running part B's search,
+      # because both have already been CHARACTERISED — their probe mapping rates have their one
+      # home in emc-atr-vulnerability.json, and this run reports its own MEASURED rate against
+      # that prior so a silently-degraded annotation cannot pass as a biological reading.
+      - name: "Panels — six targeted reads in the two readable EMC series"
+        if: inputs.mode == 'panels'
+        timeout-minutes: 90
+        env:
+          # ⚠ Must stay comfortably BELOW `timeout-minutes` above, for the reason part B's copy of
+          # this comment gives: a step that times out returns NOTHING, so the cheap GPL6244 read
+          # would be destroyed by the expensive GPL3290 bridge. GPL6244 is fetched FIRST in
+          # `TARGETS` order for the same reason.
+          EMC_ACC_BRIDGE_BUDGET_S: ${{ inputs.acc_bridge_budget_s || '1500' }}
+        run: python research/modalities/emc_expression_panels.py --fetch
+
+      - name: "Panels — reproduce check (the derive half must be offline-reproducible)"
+        if: always() && inputs.mode == 'panels'
+        timeout-minutes: 10
+        run: |
+          python research/modalities/emc_expression_panels.py --check \
+            || echo "--check reported drift; non-blocking, but READ IT"
+
+      # Belt and braces: the run artifact survives even if the publish step below cannot push.
+      - name: "Panels — upload the artifact and its inputs cache"
+        if: always() && inputs.mode == 'panels'
+        uses: actions/upload-artifact@v4
+        with:
+          name: emc-expression-panels
+          if-no-files-found: warn
+          path: |
+            research/modalities/emc-expression-panels.json
+            research/modalities/emc-expression-panels-inputs.json
+
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
-        if: always() && inputs.mode != 'aso-junction'
+        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
         timeout-minutes: 10
         run: |
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
@@ -243,6 +328,8 @@ jobs:
       # ⛔ `aso-junction` IS EXCLUDED FROM PUBLISHING BY DESIGN, NOT BY OVERSIGHT. See the header:
       # a freshly rebuilt panel must not land beside six files carrying retraction banners with
       # nothing in the directory to tell a reader which is which.
+      # ✅ `panels` IS INCLUDED, also by design, and the header says why: it writes a new artifact
+      # under a new name nothing has cited, and three lanes are waiting to consume it.
       - name: Publish the artifact and the inputs cache to the branch this run was dispatched from
         if: always() && github.ref_type == 'branch' && inputs.mode != 'aso-junction'
         timeout-minutes: 10
@@ -260,7 +347,11 @@ jobs:
         # render alike.
         run: |
           set -e
-          if [ "${{ inputs.mode }}" = "gse-series" ]; then
+          if [ "${{ inputs.mode }}" = "panels" ]; then
+            MSG="EMC expression panels: six targeted reads in the two readable series (CI)"
+            PATHS="research/modalities/emc-expression-panels.json
+                   research/modalities/emc-expression-panels-inputs.json"
+          elif [ "${{ inputs.mode }}" = "gse-series" ]; then
             MSG="GEO series ${{ inputs.series || 'GSE299349' }}: sample-level characterisation (CI)"
             PATHS="research/modalities/atr-hrd-sarcoma-series.json
                    research/modalities/atr-hrd-sarcoma-series-inputs.json
@@ -313,8 +404,62 @@ jobs:
               print("REGEN:", json.dumps(json.load(open(p)), indent=2))
           PY
 
+      # ⭐ THE CONTROL BLOCK IS PRINTED FIRST AND IN FULL, ON PURPOSE. Six lanes will be read off
+      # this artifact, and the only thing that makes any of them quotable is that the instrument
+      # reproduced ENO3 — a reading already committed in emc-atr-vulnerability.json from these
+      # same two matrices. A summary that led with the six results would invite reading them
+      # before the thing that licenses them.
+      - name: "Summary — panels"
+        if: always() && inputs.mode == 'panels'
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/emc-expression-panels.json"))
+          for mf, p in d["platforms"].items():
+              if p.get("_status") != "read":
+                  print(f"{mf}: NOT READ — {p.get('_status')}")
+                  continue
+              r = p["probe_mapping_rate"] or {}
+              print(f"{mf} [{p['platform']}] n={p['n_samples']} EMC={p['n_EMC']} "
+                    f"comp={p['n_comparator']} probe_rate={r.get('probe_level_rate')} "
+                    f"acc_rate={r.get('accession_resolution_rate')} "
+                    f"(prior acc {r.get('prior_accession_resolution_rate')}) — {r.get('reading')}")
+              print(f"    classes: {p['class_counts']}")
+              print(f"    genes measured: {p['n_wanted_genes_measured']}"
+                    f"/{p['n_wanted_genes_requested']}  | values: {p['value_kind'][:60]}")
+          print()
+          print("=== INSTRUMENT CONTROLS — READ BEFORE ANYTHING ELSE ===")
+          for g, per in d["reads"]["control"]["gene_readability"].items():
+              for mf, r in per.items():
+                  print(f"  {g:<7} {mf[:30]:<32} {r['verdict']}")
+          print()
+          print("=== THE SIX READS ===")
+          for k, v in d["reads"].items():
+              if k == "control":
+                  continue
+              rv = v["readability_verdict"]
+              print(f"{k}: {rv['state']} — {rv['n_scored_units']} scored / "
+                    f"{rv['n_unscored_units']} unscored")
+          print()
+          print("=== SIGNATURE SETS RESOLVED ===")
+          for slot, s in d["signature_scores"].items():
+              if not s.get("resolved"):
+                  print(f"  {slot:<30} ⛔ NOT RETRIEVED")
+                  continue
+              print(f"  {slot:<30} {str(s.get('matched_term_verbatim'))[:60]} "
+                    f"(n={s.get('n_genes')})")
+              for mf, p in (s.get("per_platform") or {}).items():
+                  print(f"      {mf[:30]:<32} {str(p.get('verdict'))[:150]}")
+          print()
+          print("=== HEADLINE GENES ===")
+          for g in ("ASS1", "NR2F1", "NR2F2", "CSPG4", "CHST11", "CHST12", "CHST14", "CHST3",
+                    "PAPSS1", "PAPSS2", "DLL3", "ASCL1", "NEUROD1", "INSM1", "HES1", "PPARG"):
+              for mf, r in (d["gene_reads"].get(g) or {}).items():
+                  print(f"  {g:<8} {mf[:30]:<32} {r.get('verdict')}")
+          PY
+
       - name: "Summary — part-b"
-        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
+        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
         run: |
           python3 - <<'PY'
           import json
