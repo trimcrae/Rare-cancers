@@ -47,10 +47,17 @@ permissions:
   contents: write
 
 concurrency:
-  # Per-branch group. Nine parallel research sweeps dispatch this file at once; a single shared
+  # Per-CORPUS group. Nine parallel research sweeps dispatch this file at once; a single shared
   # group serialises them and (when a sibling's copy sets cancel-in-progress) kills queued runs
   # outright — measured 2026-08-07, two runs on this branch cancelled while merely pending.
-  group: fetch-literature-${{ github.ref_name }}
+  #
+  # ⚠ KEYING ON `github.ref_name` DOES NOT SEPARATE THEM, and that was the first fix attempted:
+  # the sweeps all run on ONE shared branch, so every dispatch lands in the same per-branch group
+  # and the contention is unchanged. What is actually distinct per sweep is the CORPUS it fetches,
+  # which is also exactly the right granularity — two dispatches of the SAME corpus genuinely
+  # should serialise (they publish to the same literature/<slug>/ directory), and two dispatches
+  # of DIFFERENT corpora have no reason to. Superseded, retained: `group: fetch-literature-${{ github.ref_name }}`.
+  group: fetch-literature-${{ github.ref_name }}-${{ inputs.slug || inputs.targets_file || inputs.query || 'default' }}
   cancel-in-progress: false
 
 jobs:
