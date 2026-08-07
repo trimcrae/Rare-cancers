@@ -116,9 +116,14 @@ def test_regeneration_check_restores_the_environment_it_borrowed(monkeypatch):
     later call in the same process — the class of bug junction_aso's own env block records."""
     monkeypatch.setenv("FUSION_JUNCTION_MODE", "sentinel")
     monkeypatch.delenv("EWSR1_EXON_END", raising=False)
+    before = dict(ja._TX_CACHE)
     hi.regeneration_check()
     assert os.environ["FUSION_JUNCTION_MODE"] == "sentinel"
     assert "EWSR1_EXON_END" not in os.environ
+    # module state too, not only the env — a populated transcript cache would silently change
+    # what every later caller in this process reads
+    assert dict(ja._TX_CACHE) == before
+    assert ja.LAST_JUNCTION is None or isinstance(ja.LAST_JUNCTION, dict)
 
 
 def test_screen_applicability_names_the_assumption_that_survives_and_the_ones_that_do_not():

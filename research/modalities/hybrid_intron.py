@@ -276,7 +276,11 @@ def regeneration_check():
     """
     saved = {k: os.environ.get(k) for k in
              ("FUSION_JUNCTION_MODE", "EWSR1_EXON_END", "NR4A3_EXON_START", "TRANSCRIPT_SOURCE")}
-    saved_globals = (ja.EWSR1_full, ja.NR4A3_full, ja.LAST_JUNCTION)
+    # ⛔ RESTORE THE MODULE STATE THIS BORROWS, NOT JUST THE ENV. `_TX_CACHE` is included
+    # deliberately: leaving it populated would make every later caller in the same process silently
+    # reuse models this function fetched under ITS choice of source, which is the same
+    # cross-consumer leak the env restore below exists to prevent, one layer down.
+    saved_globals = (ja.EWSR1_full, ja.NR4A3_full, ja.LAST_JUNCTION, dict(ja._TX_CACHE))
     rows = {}
     try:
         os.environ["FUSION_JUNCTION_MODE"] = "real"
@@ -306,6 +310,8 @@ def regeneration_check():
                 os.environ[k] = v
         ja.EWSR1_full, ja.NR4A3_full = saved_globals[0], saved_globals[1]
         ja.LAST_JUNCTION = saved_globals[2]
+        ja._TX_CACHE.clear()
+        ja._TX_CACHE.update(saved_globals[3])
     return {"_what": ("both committed exon-junction design panels rebuilt from the committed "
                       "transcript cache and compared design-for-design"),
             "panels": rows,
