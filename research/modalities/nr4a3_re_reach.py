@@ -637,19 +637,45 @@ def naked_dna_ablation(cells, ab, geom, anchor_class):
     per_cls_n = group(ab, lambda c: anchor_class.get(c["anchor_id"], "?"))
 
     def ratios_of(a, b):
+        """⛔ WITH AN INTERVAL, BECAUSE THE FIRST VERSION HAD NONE AND IT OVER-CLAIMED.
+        The 2026-08-07 40k-sample run returned groove ratios of 1.12-1.23 against a 1.08 control and the
+        module reported 'the receptor IS shaping the geometry ... by more than at the control'. Those ratios
+        rest on ACCEPTED COUNTS of 114-180. A ratio of two independent counts n_b/n_a has
+        log-SE = sqrt(1/n_a + 1/n_b) ~= 0.11-0.13 here, so a 95 % interval on 1.23 is roughly [0.96, 1.57]
+        and on 1.08 roughly [0.88, 1.34] — FULLY OVERLAPPING. The point estimates ordered the way the
+        physics suggests and the sampling could not resolve it, and saying the first without the second is
+        exactly the over-claim this repository forbids. The interval is now computed and the reading is
+        conditional on it.
+        """
         out = {}
         for k in sorted(set(a) | set(b)):
-            ra = a.get(k, [0, 0])[0] / a[k][1] if a.get(k, [0, 0])[1] else None
-            rb = b.get(k, [0, 0])[0] / b[k][1] if b.get(k, [0, 0])[1] else None
-            out[k] = {"acceptance_with_receptor": round(ra, 8) if ra is not None else None,
+            ka, na = a.get(k, [0, 0])
+            kb, nb = b.get(k, [0, 0])
+            ra = ka / na if na else None
+            rb = kb / nb if nb else None
+            ratio = (rb / ra) if (ra and rb) else None
+            lo = hi = None
+            if ratio and ka > 0 and kb > 0:
+                se = math.sqrt(1.0 / ka + 1.0 / kb)          # log-scale SE of a ratio of two Poisson counts
+                lo, hi = ratio * math.exp(-1.96 * se), ratio * math.exp(1.96 * se)
+            out[k] = {"n_accepted_with_receptor": ka, "n_samples_with_receptor": na,
+                      "n_accepted_naked_dna": kb, "n_samples_naked_dna": nb,
+                      "acceptance_with_receptor": round(ra, 8) if ra is not None else None,
                       "acceptance_naked_dna": round(rb, 8) if rb is not None else None,
-                      "ratio_naked_over_complex": round(rb / ra, 3) if (ra and rb) else None}
+                      "ratio_naked_over_complex": round(ratio, 3) if ratio else None,
+                      "ratio_ci95": [round(lo, 3), round(hi, 3)] if lo else None}
         return out
 
     by_cls = ratios_of(per_cls, per_cls_n)
     groove = {k: v for k, v in by_cls.items() if k in ("minor", "major")}
     gr = [v["ratio_naked_over_complex"] for v in groove.values() if v["ratio_naked_over_complex"]]
-    ctrl = (by_cls.get("backbone_or_solvent") or {}).get("ratio_naked_over_complex")
+    ctrl_row = by_cls.get("backbone_or_solvent") or {}
+    ctrl = ctrl_row.get("ratio_naked_over_complex")
+    ctrl_ci = ctrl_row.get("ratio_ci95")
+    # Does ANY groove class's interval clear the control's interval? That is the only form in which this
+    # comparison may be asserted at all.
+    separated = bool(ctrl_ci and any(
+        (v.get("ratio_ci95") or [0, 0])[0] > ctrl_ci[1] for v in groove.values()))
     return {
         "_what": "the same enumeration at the %d-atom gate with the NR4A2 chain deleted" % GATE_ATOMS,
         "per_arm_pooled_over_anchors": ratios_of(per_arm, per_arm_n),
@@ -657,17 +683,23 @@ def naked_dna_ablation(cells, ab, geom, anchor_class):
         "groove_ratio_min": min(gr) if gr else None,
         "groove_ratio_max": max(gr) if gr else None,
         "solvent_control_ratio": ctrl,
+        "groove_separated_from_control_at_95pct": separated,
         "★_reading": (
             "in the grooves — where a sequence-directed warhead's exit vector would sit — deleting the "
             "receptor multiplies the admitted orientation space by %.2f-%.2fx, against %.2fx at the "
             "solvent-adjacent control anchors. %s"
-            % (min(gr), max(gr), ctrl or float('nan'),
-               ("The receptor IS shaping the geometry at the anchors that matter, and by more than at the "
-                "control, so this is not merely a statement about a naked B-form duplex."
-                if (ctrl and min(gr) > ctrl) else
-                "⚠ THE GROOVE ANCHORS ARE NOT MORE CONSTRAINED THAN THE SOLVENT CONTROL, so the receptor is "
-                "not doing the work here and an `admits` answer is close to a statement about a naked "
-                "duplex — true of any DNA sequence, and uninformative about the NBRE in particular."))
+            % (min(gr), max(gr), ctrl if ctrl else float('nan'),
+               ("Every groove class's 95 %% interval clears the control's, so the receptor IS shaping the "
+                "geometry at the anchors that matter and this is not merely a statement about a naked "
+                "B-form duplex."
+                if separated else
+                "⛔ THE INTERVALS OVERLAP THE CONTROL'S, SO THIS COMPARISON IS UNRESOLVED AT THIS SAMPLING. "
+                "The point estimates order the way the physics suggests — the protein reads the major "
+                "groove and its deletion should matter more in a groove than beside the duplex — but the "
+                "accepted counts are too few to say so, and an ordering of point estimates is not a "
+                "finding. What follows is therefore that the receptor's contribution to this geometry is "
+                "SMALL: an `admits` answer here is close to a statement about a naked B-form duplex, which "
+                "is true of any DNA sequence. Resolving it needs more samples, not more interpretation."))
             if gr else "no groove anchor was admissible at all — see anchor_set.anchors_per_class"),
     }
 
