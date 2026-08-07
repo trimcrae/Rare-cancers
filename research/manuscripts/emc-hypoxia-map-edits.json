@@ -1,0 +1,48 @@
+{
+  "_what": "PROPOSED edits to files this session is not permitted to hand-edit — the roadmap and systems/graph/*. Emitted as verbatim anchor+current_text+proposed_text so they can be verified against the LIVE documents before anyone applies them (research/manuscripts/verify_map_edit_anchors.py research/manuscripts/emc-hypoxia-map-edits.json).",
+  "_rule": "⛔ DO NOT APPLY BLIND. Every edit here must re-verify anchor×1 and current_text×1 against BOTH origin/main and the working tree at the moment it is applied. Nine edits from an earlier audit failed to apply because the documents moved underneath them; that is the whole reason this format exists.",
+  "_why_these_are_proposals_and_not_commits": "The session that produced them was instructed not to hand-edit nr4a3-program-map.md or systems/graph/*. The measurement they describe IS committed — research/modalities/emc-hypoxia-confounds.json and research/manuscripts/emc-hypoxia-reading.md — so nothing is lost if these are never applied; what is lost is the route being VISIBLE in the graph, which is the §5 'every route's end goal is a paper' test.",
+  "generated": "2026-08-07",
+  "verified_against": ["origin/main", "WORKTREE"],
+  "n_edits": 3,
+  "map_edits_required": [
+    {
+      "id": "H1",
+      "serves": "make the EMC tissue-biology reading visible in section 12, which is where findings that belong to other documents are recorded",
+      "file": "research/manuscripts/nr4a3-program-map.md",
+      "section": "§12 · Findings that belong to other documents",
+      "anchor": "## 12 · Findings that belong to other documents",
+      "current_text": "**For the manuscript** (do not read these as roadmap states):",
+      "proposed_text": "⭐ **2026-08-07 — a measured EMC-TISSUE finding, which is a category this list did not previously carry.** Six published hypoxia signatures are positive in EMC tumour tissue on both readable series, and the confound audit of that reading — comparator composition, two-colour reference pool, proliferation, vascularity, a necrosis proxy, signature multiplicity, two resampling nulls — is [`emc-hypoxia-reading.md`](emc-hypoxia-reading.md) over [`emc-hypoxia-confounds.json`](../modalities/emc-hypoxia-confounds.json). **It belongs on this list rather than in the roadmap proper because it is not a degrader-route dependency**; it is the first time this repository measured EMC's own biology rather than reasoning about its fusion, and the roadmap should know it exists without owning its grade. Two things a roadmap reader needs from it: the reading is **one observation per platform, not six** (the six per-sample scores correlate r = 0.66–0.96), and the genome-wide random-gene-set null is **NOT TAKEN**, which is the open falsifier most likely to fire.\n\n**For the manuscript** (do not read these as roadmap states):",
+      "why": "a measured, EMC-specific result with a therapeutic direction attached is exactly the kind of finding §12 exists to stop being silently dropped, and it has no other home in a file that carries the degrader route's dependency graph",
+      "artifact": "research/modalities/emc-hypoxia-confounds.json"
+    },
+    {
+      "id": "H2",
+      "serves": "register the publication endpoint, so the route is not invisible to the §5 'name the paper' test",
+      "file": "systems/graph/publications.json",
+      "section": "the publications array",
+      "anchor": "\"id\": \"PUB-PARKED-MODALITIES\"",
+      "current_text": "\"id\": \"PUB-PARKED-MODALITIES\"",
+      "proposed_text": "APPEND a new object to the array (do not modify PUB-PARKED-MODALITIES; the anchor only locates the end of the list):\n{\n \"id\": \"PUB-EMC-TISSUE-HYPOXIA\",\n \"level\": \"L3\",\n \"kind\": \"publication\",\n \"state\": \"drafted\",\n \"target_venue\": \"preprint\",\n \"document\": {\"file\": \"research/manuscripts/emc-hypoxia-reading.md\"},\n \"what_it_would_claim\": \"Extraskeletal myxoid chondrosarcoma tumours carry a hypoxia-associated, glycolysis-weighted transcriptional programme and an abundant but comparatively under-sulfated chondroitin-sulfate matrix, in the only two publicly readable EMC expression series — reported with its confound audit as the result, including that the two platforms disagree in strength and that six 'independent' signatures are one observation per platform.\",\n \"blocked_by\": []\n}",
+      "why": "40 routes are registered and none is EMC tissue biology; a route with a measured result and no publication endpoint is invisible to the test CLAUDE.md §5 uses to tell an option from an activity",
+      "artifact": "research/manuscripts/emc-hypoxia-reading.md"
+    },
+    {
+      "id": "H3",
+      "serves": "register the route itself so the publication endpoint has something to hang from",
+      "file": "systems/graph/routes.json",
+      "section": "the routes array",
+      "anchor": "\"id\": \"RT-DEGRADER\"",
+      "current_text": "\"id\": \"RT-DEGRADER\"",
+      "proposed_text": "APPEND a new object to the array (do not modify RT-DEGRADER; the anchor only locates the schema exemplar):\n{\n \"id\": \"RT-EMC-TISSUE-HYPOXIA\",\n \"display_name\": \"EMC tissue hypoxia / matrix expression reading\",\n \"aliases\": [\"the hypoxia reading\", \"EMC tissue biology\"],\n \"grade\": {\n  \"value\": \"MEASURED AND AUDITED, DIRECTION POSITIVE, STRENGTH PLATFORM-DEPENDENT. Six published hypoxia signatures positive in EMC tumour tissue on both readable series; the comparator-composition, reference-pool and necrosis-proxy confounds were tested and do not explain it, proliferation is a partial confound on one platform only, and the six signatures are near-parallel measurements of one axis rather than six tests. On the 10-tumour series all six clear an exact permutation p<=0.003 and survive leave-one-out; on the 6-tumour series two of six clear an uncorrected 0.05 and none survives leave-one-out at |t|>=2. The genome-wide random-gene-set null is NOT TAKEN and is the open falsifier most likely to fire. Not evidence about any agent.\",\n  \"owner\": {\"file\": \"research/manuscripts/emc-hypoxia-reading.md\", \"anchor\": \"#2--the-confounds-and-which-ones-the-data-can-actually-address\"}\n },\n \"grade_pointers\": [],\n \"blockers_inherited\": [],\n \"publication\": \"PUB-EMC-TISSUE-HYPOXIA\"\n}",
+      "why": "the reading is a route in the portfolio sense — it has an endpoint, a measured result, a stated ceiling and named falsifiers — and it is absent from a graph that CLAUDE.md §7 calls the source of truth for every route",
+      "artifact": "research/modalities/emc-hypoxia-confounds.json"
+    }
+  ],
+  "_schema_caveats_for_whoever_applies_H2_H3": [
+    "systems/views/* is GENERATED — after applying H2/H3, run `python3 systems/systems_check.py --write-views` rather than editing any view by hand.",
+    "The route/publication schemas were read off RT-DEGRADER and PUB-DEGRADER in the live files on 2026-08-07. If systems_check rejects a field, the schema moved and the proposed object needs re-reading against the live exemplar — do not delete the failing field to make the build pass.",
+    "H2 and H3 are APPEND operations. Their `current_text` is an existing id string used purely as a locator, so the anchor check proves the file and the schema exemplar are still where this proposal thinks they are; it does NOT mean that line should be edited."
+  ]
+}

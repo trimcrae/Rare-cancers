@@ -132,6 +132,14 @@ DEFAULT_TARGETS = [
     # outreach-emails lesson exactly: the outward-facing document needs the strictest check, not
     # the loosest.
     "research/manuscripts/fusion-junction-aso-paper.md",
+    # ⛔ ADDED 2026-08-07, in the same commit that created it. `emc-hypoxia-reading.md` names three
+    # DRUG CLASSES off a tissue-expression reading, which is the exact shape this linter exists for:
+    # a measured observation whose mechanism suggests an intervention, written by an agent who has
+    # just spent a session finding the observation and is therefore at maximum risk of writing it
+    # one notch too strong. It is also the first EMC TISSUE-BIOLOGY memo here — the reason the ASO
+    # paper was added (the outward-facing document needs the strictest check) applies before a
+    # document is outward-facing, not after.
+    "research/manuscripts/emc-hypoxia-reading.md",
 ]
 
 # ⛔ ADDED 2026-08-06 — THE THIRD TIME THIS EXACT HOLE HAS BEEN FOUND, AND THE LARGEST.

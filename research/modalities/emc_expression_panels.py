@@ -823,9 +823,19 @@ def _wanted_genes(sig):
     return want
 
 
-def _read_target(target, want):
+def _read_target(target, want, sym_diag=None):
     """Fetch ONE named series-matrix file, map probes to symbols, and reduce to the per-sample
     values of every wanted gene, plus each gene's within-sample percentile against the whole array.
+
+    ⚠ `sym_diag` — an already-computed `(sym, diag)` from `_gpl_symbols(platform)`, if the CALLER
+    already had to build one. Added 2026-08-07 after the hypoxia-confound background fetch called
+    `_gpl_symbols` itself (to learn the platform's symbol universe before it could sample from it)
+    and then called this function, which called it AGAIN — two full platform-table downloads and
+    parses per platform, on the one platform (GPL3290) whose bridge is the expensive half of the
+    whole job. Default None preserves every existing call site exactly.
+    ⛔ It is `(sym, diag)`, not `sym` alone, because the diagnostic is what makes a degraded
+    annotation visible; accepting the map without the diagnostic would let a caller quietly supply a
+    mapping whose provenance this function then could not report.
 
     ⭐ THE PERCENTILE IS THE FIELD A DEFAULT CANNOT FILL IN. A z-score against the array mean could
     be computed from summary statistics; a percentile requires the full distribution of that
@@ -854,7 +864,12 @@ def _read_target(target, want):
     rec["platform"] = plat
     rec["platform_expected"] = target["platform_expected"]
     rec["platform_matches_expected"] = (plat == target["platform_expected"])
-    sym, diag = _gpl_symbols(plat)
+    sym, diag = sym_diag if sym_diag is not None else _gpl_symbols(plat)
+    if sym_diag is not None:
+        diag = dict(diag, _supplied_by_caller=(
+            "this mapping was built by the CALLER and handed in, not fetched here — see "
+            "`_read_target`'s `sym_diag`. It is the same `_gpl_symbols` output; what is saved is a "
+            "second download and parse of the platform table, not a step of the science."))
     rec["probe_symbol_mapping"] = diag
     n_s = len(samples)
     rec["n_samples"] = n_s

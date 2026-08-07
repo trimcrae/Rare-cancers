@@ -230,7 +230,7 @@ def test_a_group_below_the_minimum_n_gets_no_contrast():
 #  the control — those are asserted explicitly below, so a read being DELETED still fails.
 SIX_READS_AND_THE_CONTROL = {
     "control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
-    "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1"}
+    "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1", "read_7_RET"}
 
 
 def _declared_read_ids():
@@ -240,6 +240,10 @@ def _declared_read_ids():
 def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
     assert SIX_READS_AND_THE_CONTROL <= set(res["reads"]), "a read was DELETED"
     assert set(res["reads"]) == _declared_read_ids()
+def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
+    assert set(res["reads"]) == {
+        "control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
+        "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1", "read_7_RET"}
     for k, v in res["reads"].items():
         if k == "control":
             continue
@@ -255,6 +259,10 @@ def test_every_panel_and_every_slot_declares_the_read_it_belongs_to():
         assert p["read_id"] in ids, name
         # A read_id must be unique to one panel, or two panels would silently merge.
         assert sum(1 for q in M.PANELS.values() if q["read_id"] == p["read_id"]) == 1, name
+    ids = {"control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
+           "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1", "read_7_RET"}
+    for name, p in M.PANELS.items():
+        assert p["read_id"] in ids, name
     for name, s in M.SIGNATURE_SLOTS.items():
         assert s["read_id"] in ids, name
 

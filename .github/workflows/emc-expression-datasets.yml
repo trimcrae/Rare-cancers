@@ -149,7 +149,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif", "hypoxia-confounds"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -157,6 +157,17 @@ on:
           a refusal is recorded and reported, never silently skipped.
         required: false
         default: "7:3,12:3"
+      skip_null_background:
+        description: >-
+          hypoxia-confounds mode only: "true" skips the ~25-minute genome-wide null background
+          fetch and runs only the clinical retrieval + re-derive. Use when the background artifact
+          is already committed and correct and only the retrieval needs re-running — the two halves
+          hit different hosts and fail for unrelated reasons. Default false, so forgetting it costs
+          time rather than silently leaving the null unfetched.
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
       series:
         description: "gse-series mode only: the GEO series accession to characterise."
         required: false
@@ -217,6 +228,36 @@ jobs:
         with:
           python-version: "3.11"
 
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # ⛔ THE PART-B GUARD, COMPUTED ONCE. IT WAS A RESTATED LIST TWICE AND THAT COST A RUN.
+      #
+      # Part B's step and its summary were each gated on a hand-written exclusion list —
+      # `mode != 'gse-series' && mode != 'aso-junction' && mode != 'panels'` — so EVERY new mode
+      # had to be added to both, and the fourth one was not. Measured 2026-08-07, run 31199787306:
+      # a `hypoxia-confounds` dispatch started the 75-minute PART B step, which rewrites the 7 MB
+      # committed grading artifact this file's own header says a new mode must not be able to
+      # perturb. It was cancelled at step 5 of 23. The mode list was correct in three places and
+      # stale in two, which is precisely what a restated list always does (CLAUDE.md §1).
+      #
+      # ⚠ THE NEGATIVE FORM IS STILL DELIBERATE AND IS PRESERVED HERE, not replaced. A dispatch
+      # that sends NO inputs at all must fall through to part B, which is what this file has
+      # always done; `== 'part-b'` would silently turn that dispatch into a no-op reporting
+      # success. So the predicate is still "mode is not one of the named non-part-b modes" — it is
+      # now written ONCE, and `test_emc_expression_datasets_workflow.py` fails the build if any
+      # step goes back to restating the list.
+      - name: "Resolve the part-B guard once (see the comment — a restated list already cost a run)"
+        id: guard
+        env:
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -euo pipefail
+          case "${MODE:-}" in
+            gse-series|aso-junction|panels|hypoxia-confounds) PART_B=false ;;
+            *)                                               PART_B=true  ;;
+          esac
+          echo "part_b=${PART_B}" >> "$GITHUB_OUTPUT"
+          echo "mode='${MODE:-}' (empty falls through to part-b) -> part_b=${PART_B}"
+
       # The derive half must be exercisable with no network, so it is tested before the fetch.
       # A broken derive would otherwise be discovered only after the fetch had spent its time.
       - name: Unit tests (derive half, offline)
@@ -258,6 +299,12 @@ jobs:
             # constructs a KNOWN set-specific signal on the same offset and asserts it does not.
             # A build whose null calibration is broken must not be able to emit an artifact.
             python -m pytest research/modalities/tests/test_nr4a3_fusion_targets.py -q
+          elif [ "${{ inputs.mode }}" = "hypoxia-confounds" ]; then
+            # ⛔ THE MERGE GUARD IS THE ONE THAT MATTERS HERE. This mode fetches a SECOND cache of
+            # the same two matrices and the audit reads both; if they could disagree silently,
+            # every merged score would be a blend of two experiments. The test asserts they cannot,
+            # and it costs seconds against a fetch that costs the run.
+            python -m pytest research/modalities/tests/test_emc_hypoxia_confounds.py -q
           else
             python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py \
                              research/modalities/tests/test_atr_hrd_sarcoma_series.py -q
@@ -295,6 +342,11 @@ jobs:
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
         if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'fusion-targets'
         if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
+      # The guard is `steps.guard.outputs.part_b`, resolved once at the top of this job. The reason
+      # it is not `inputs.mode == 'part-b'`, and the run a restated list already cost, are both
+      # recorded there — do not re-inline the list here.
+      - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
+        if: steps.guard.outputs.part_b == 'true'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -504,6 +556,70 @@ jobs:
         if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
         if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'fusion-targets'
         if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
+      # hypoxia-confounds — the two NETWORKED halves of the confound audit
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      #
+      # ⭐ WHY THIS IS A MODE AND NOT A RE-RUN OF `panels`. The audit is a RE-ANALYSIS of the panels
+      # inputs cache and runs offline at $0; it is already derived and committed before this ever
+      # fires. Exactly two of its readings need the network, and both are reported as ABSENT
+      # READINGS until they are taken rather than being quietly skipped:
+      #   (a) the genome-wide null background. The cached want list is ~a third hypoxia-signature
+      #       membership, so a "random" draw from it is not random and the null it produces is
+      #       biased toward the observed value. Only a draw from the platform's whole mapped-symbol
+      #       universe answers "is a set of this size unusual" cleanly.
+      #   (b) the clinical record for the three drug classes the reading points at. CLAUDE.md's
+      #       golden rule is that nothing clinical may be stated uncited, and the sarcoma history
+      #       of hypoxia-directed therapy is the single most important context for the whole
+      #       reading — so it is RETRIEVED, never recalled.
+      # It re-runs `panels`' fetch of the same two matrices under a different want list. That is
+      # deliberate duplication of a $0 CPU fetch, and it buys the merge integrity check: two
+      # independent parses of the same matrix that must agree gene-for-gene.
+      # ⚠ SKIPPABLE, because the two halves fail for unrelated reasons and only one of them is
+      # expensive. Run 31200194935: the background fetch succeeded and every ClinicalTrials.gov
+      # query returned HTTP 400 (a v1 `fields=` list sent to the v2 endpoint). Re-running the
+      # retrieval should not cost another ~25 minutes of GEO fetching for an artifact that is
+      # already correct and already committed — and a re-run that DOES redo it would overwrite a
+      # good artifact to fix a different one.
+      # ⛔ The skip is opt-IN and the background is the default, so forgetting the flag costs time
+      # rather than silently leaving the null unfetched.
+      - name: "Hypoxia confounds — genome-wide null background"
+        if: inputs.mode == 'hypoxia-confounds' && inputs.skip_null_background != 'true'
+        timeout-minutes: 90
+        env:
+          # Same reason as every other copy of this line in this file: a step that times out
+          # returns NOTHING, so the budget must stay comfortably below `timeout-minutes`.
+          EMC_ACC_BRIDGE_BUDGET_S: ${{ inputs.acc_bridge_budget_s || '1500' }}
+        run: python research/modalities/emc_hypoxia_confounds.py --fetch-background
+
+      # ⚠ SEPARATE STEP, ON PURPOSE. The background fetch is the expensive, failure-prone half (the
+      # EST accession bridge); the clinical retrieval is minutes and hits entirely different hosts.
+      # `if: always()` so a background failure cannot also destroy the retrieval — the two absent
+      # readings are independent and must be closeable independently.
+      - name: "Hypoxia confounds — clinical status of the three drug classes"
+        if: always() && inputs.mode == 'hypoxia-confounds'
+        timeout-minutes: 20
+        run: python research/modalities/emc_hypoxia_confounds.py --fetch-therapeutic-status
+
+      - name: "Hypoxia confounds — re-derive the audit with whatever landed"
+        if: always() && inputs.mode == 'hypoxia-confounds'
+        timeout-minutes: 20
+        run: |
+          python research/modalities/emc_hypoxia_confounds.py
+          python -m pytest research/modalities/tests/test_emc_hypoxia_confounds.py -q
+
+      - name: "Hypoxia confounds — upload"
+        if: always() && inputs.mode == 'hypoxia-confounds'
+        uses: actions/upload-artifact@v4
+        with:
+          name: emc-hypoxia-confounds
+          if-no-files-found: warn
+          path: |
+            research/modalities/emc-hypoxia-confounds.json
+            research/modalities/emc-hypoxia-null-background.json
+            research/modalities/emc-hypoxia-therapeutic-status.json
+
+      - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
+        if: always() && steps.guard.outputs.part_b == 'true'
         timeout-minutes: 10
         run: |
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
@@ -550,6 +666,15 @@ jobs:
             MSG="NR4A3/fusion direct-target set scored in the two readable EMC series (CI)"
             PATHS="research/modalities/nr4a3-fusion-targets.json
                    research/modalities/nr4a3-fusion-targets-inputs.json"
+          if [ "${{ inputs.mode }}" = "panels" ]; then
+            MSG="EMC expression panels: six targeted reads in the two readable series (CI)"
+            PATHS="research/modalities/emc-expression-panels.json
+                   research/modalities/emc-expression-panels-inputs.json"
+          elif [ "${{ inputs.mode }}" = "hypoxia-confounds" ]; then
+            MSG="EMC hypoxia confound audit: genome-wide null + retrieved clinical status (CI)"
+            PATHS="research/modalities/emc-hypoxia-confounds.json
+                   research/modalities/emc-hypoxia-null-background.json
+                   research/modalities/emc-hypoxia-therapeutic-status.json"
           elif [ "${{ inputs.mode }}" = "gse-series" ]; then
             MSG="GEO series ${{ inputs.series || 'GSE299349' }}: sample-level characterisation (CI)"
             PATHS="research/modalities/atr-hrd-sarcoma-series.json
@@ -809,6 +934,8 @@ jobs:
         if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
              && inputs.mode != 'fusion-targets'
         if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
+      - name: "Summary — part-b"
+        if: always() && steps.guard.outputs.part_b == 'true'
         run: |
           python3 - <<'PY'
           import json
