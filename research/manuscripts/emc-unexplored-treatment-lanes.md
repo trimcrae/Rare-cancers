@@ -440,17 +440,43 @@ Plus, each independent and $0:
 
 Collected here rather than buried, because several touch live route grades.
 
-1. ⚠ **`RT-ICI-TKI`'s evidence is out of date.** The portfolio describes an EMC *partial responder* from
-   IMMUNOSARC I. **IMMUNOSARC II ran a dedicated EMC phase 2 cohort**, reported at ASCO 2025
-   (*J Clin Oncol* 2025;43(16_suppl):11513): sunitinib + nivolumab, primary endpoint 6-month PFS,
-   success threshold ≥15 of 22. **The effect size could not be retrieved** (ascopubs 403s; not indexed
-   in Europe PMC) and is `[unverified]`. This is the newest prospective EMC systemic-therapy datapoint
-   in existence. Separately, IMMUNOSARC I enrolled **4 EMC patients (4/52)** and selected EMC
-   deliberately for antiangiogenic sensitivity (**PMID 33203665** **[FT]**).
-2. ⚠ **The trabectedin row overstates its own denominator.** The 12.5-month median PFS comes from a
-   randomised phase 2 sub-analysis in which **5 subjects with EMCS *or* MCS** received trabectedin —
-   not 5 EMC patients — and **the single objective response was in an MCS patient** (**PMID 27418251**
-   **[FT]**). Worth attaching that composition to the registry row.
+1. ✅ **CLOSED 2026-08-07 — `RT-ICI-TKI`'s evidence is out of date, and the missing effect size has now
+   been RETRIEVED.** IMMUNOSARC II's dedicated EMC phase 2 cohort (*J Clin Oncol* 2025;43(16_suppl):11513,
+   NCT03277924): **24 accrued May 2020–July 2024 at 9 centres in Spain, Italy and the UK; 23 evaluable;
+   16/23 progression-free at 6 months (reported as 77%); median PFS 13.2 mo (95% CI 5.7–20.7); 12-month
+   OS 90% (95% CI 77–100); best response 2 PR, 18 SD, 2 PD.** Prior antiangiogenic exposure (6/23) was
+   associated with shorter median PFS (7 vs 13 mo, p = 0.11) and significantly shorter OS (28 mo vs not
+   reached, p = 0.038).
+   ⚠ *Superseded, retained: "**The effect size could not be retrieved** (ascopubs 403s; not indexed in
+   Europe PMC) and is `[unverified]`."* **Both halves of that were true and the conclusion did not
+   follow.** ascopubs returns 403 on `/doi/`, `/doi/full/` and `/doi/abs/`, `doi.org` inherits the 403 by
+   redirect, and Europe PMC returns `hitCount: 0` for the DOI — but **Crossref, Semantic Scholar and
+   OpenAlex each serve the publisher-deposited abstract in full**, and the first two agree token-for-token
+   apart from one HTML entity. The search had stopped at the two obvious doors. Every route and its HTTP
+   code is recorded as a measurement in
+   [`emc-systemic-therapy-pooling.json`](./emc-systemic-therapy-pooling.json) → `retrieval_provenance`.
+   ⚠ **It remains a CONFERENCE ABSTRACT and it carries two unreconciled arithmetic inconsistencies:** the
+   primary endpoint is stated as both 77% and 16/23 (= 69.6%), and the best-response counts sum to 22
+   rather than the 23 evaluable patients (the printed percentages 9/82/9% are consistent only with a
+   denominator of 22). No full paper is indexed — the same master trial's bone-sarcoma (**PMID 39540661**)
+   and clear-cell-sarcoma (**PMID 41836677**) cohorts have them — and ClinicalTrials.gov has no posted
+   results for NCT03277924 (`hasResults: false`). Separately, IMMUNOSARC I enrolled **4 EMC patients
+   (4/52)** and selected EMC deliberately for antiangiogenic sensitivity (**PMID 33203665** **[FT]**);
+   ⚠ **IMMUNOSARC I and II are stage 1 and stage 2 of the same registration**, so its mixed-histology
+   48% 6-month PFS must never be pooled with the EMC cohort's.
+2. ✅ **CLOSED 2026-08-07, AND THE CORRECTION IS LARGER THAN IT LOOKED.** ⚠ *Superseded, retained: "the
+   trabectedin row **overstates its own denominator** … 5 subjects with EMCS *or* MCS … not 5 EMC
+   patients" — right in direction, and it stopped one step short, because it read only the abstract.*
+   **The full text states the split in its Methods — "we adopted TWO EMCS subjects and three MCS
+   subjects" — and Table 2 labels every subject individually.** So the EMC denominator is **2**, not "5"
+   and not "unstated": both EMC subjects had **stable disease**, with PFS **13.0** and **7.4** months and
+   OS **26.4** and **10.4** months. ⭐ **And the arm's headline number lands on an MCS patient:**
+   the published **12.5 months (95% CI 7.4–NR)** is the arm's Kaplan–Meier median over all five subjects,
+   and Table 2's five individual values are 13.0, 7.4, 22.2, 7.5, 12.5 — so it coincides with subject 5's
+   own PFS, also mesenchymal chondrosarcoma. Either way it is a property of the mixed arm and not of its
+   EMC patients, and the arm's single objective response was also an MCS patient (**PMID 27418251** **[FT]**). Attached to the
+   registry row 2026-08-07, with the superseded values registered in
+   `treatments.systemicEvidenceCorrections`.
 3. ⚠ **`RT-FAP-RLT` is graded `concept` on 2022 data.** Four 2025–26 items supersede that (§3.4).
 4. ⚠ **`CD248`/endosialin reads `enrichment +2.29, selectivity_q = 0.0, selectivity_significant: true`
    in the repo's own surfaceome scan and appears in no prose.** One of the few significant hits in that

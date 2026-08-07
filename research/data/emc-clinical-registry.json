@@ -254,12 +254,17 @@
     "treatmentResponse": [
       {
         "therapy": "Pazopanib (post-anthracycline, advanced disease)",
-        "result": "ORR ~18%, median PFS ~19 months; responses concentrated in EWSR1::NR4A3-positive disease",
+        "result": "4 of 22 evaluable patients had a RECIST objective response (18%); median PFS 19 months (95% CI 11-27). A prespecified exploratory analysis suggested longer PFS in EWSR1::NR4A3-positive disease; that is exploratory in 22 patients and does not support selecting patients by fusion partner.",
         "url": "https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(19)30319-5/abstract"
       },
       {
+        "therapy": "Sunitinib + nivolumab (advanced disease)",
+        "result": "IMMUNOSARC II EMC cohort, 23 evaluable: 16/23 progression-free at 6 months (reported as 77%), median PFS 13.2 months (95% CI 5.7-20.7), 2 partial responses. Conference abstract only.",
+        "url": "https://doi.org/10.1200/JCO.2025.43.16_suppl.11513"
+      },
+      {
         "therapy": "Trabectedin (advanced disease)",
-        "result": "Disease control with median PFS ~12.5 months in a phase 2 sub-analysis",
+        "result": "The trabectedin arm of that phase 2 sub-analysis contained TWO EMC patients and three mesenchymal chondrosarcoma patients. Both EMC patients had stable disease, with PFS of 13.0 and 7.4 months. The arm's often-quoted 12.5-month median PFS is the Kaplan-Meier median over all five subjects and coincides with one mesenchymal chondrosarcoma patient's own PFS; the arm's single objective response was also in a mesenchymal chondrosarcoma patient. No objective response to trabectedin has been reported in an EMC patient.",
         "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4946242/"
       }
     ]
@@ -864,6 +869,129 @@
         "accessed": "2026-06-20",
         "verified": true
       },
+      "immunosarc2emc2025": {
+        "short": "Hindi 2025 (ASCO abstract)",
+        "type": "conference-abstract",
+        "title": "Phase II of sunitinib plus nivolumab in extraskeletal myxoid chondrosarcoma: Results from the GEIS, ISG, and UCL IMMUNOSARC II Study.",
+        "authors": "Hindi N, Palmerini E, Carrasco-Garcia I, Gonzalez-Billalabeitia E, Valverde C, Strauss SJ, Ibrahim T, Sebio A, Diaz-Beveridge R, Martinez-Trufero J, Stacchiotti S, Collini P, Tirabosco R, Ramos R, Gutierrez A, Moura D, Martin-Broto J.",
+        "journal": "Journal of Clinical Oncology",
+        "year": 2025,
+        "volume": "43",
+        "issue": "16_suppl",
+        "page": "11513",
+        "doi": "10.1200/JCO.2025.43.16_suppl.11513",
+        "url": "https://doi.org/10.1200/JCO.2025.43.16_suppl.11513",
+        "license": "publisher (abstract text via Crossref and Semantic Scholar APIs)",
+        "openAccess": false,
+        "design": "phase 2 histology-specific cohort within the IMMUNOSARC II master trial",
+        "registration": "NCT03277924",
+        "n": 24,
+        "population": "adults with advanced, progressing, measurable, centrally confirmed EMC; 9 centres in Spain, Italy and the UK",
+        "studyPeriod": [2020, 2024],
+        "accessed": "2026-08-07",
+        "retrievalNote": "ascopubs.org returned HTTP 403 on /doi/, /doi/full/ and /doi/abs/, and https://doi.org/ returned 403 by redirect; Europe PMC returns hitCount 0 for this DOI and PubMed indexes no IMMUNOSARC EMC record. The abstract text was retrieved independently from api.crossref.org (JATS) and api.semanticscholar.org (Graph API) and the two agree token-for-token apart from one HTML entity. ClinicalTrials.gov has no posted results for NCT03277924 (hasResults: false).",
+        "verified": true
+      },
+      "stacchiotti2019pazopanib": {
+        "short": "Stacchiotti 2019",
+        "type": "journal-article",
+        "title": "Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial.",
+        "authors": "Stacchiotti S, Ferrari S, Redondo A, Hindi N, Palmerini E, Vaz Salgado MA, Frezza AM, Casali PG, Gutierrez A, Lopez-Pousa A, Grignani G, Italiano A, LeCesne A, Dumont S, Blay JY, Penel N, Bernabeu D, et al.",
+        "journal": "The Lancet Oncology",
+        "year": 2019,
+        "pmid": "31331701",
+        "doi": "10.1016/S1470-2045(19)30319-5",
+        "url": "https://europepmc.org/article/MED/31331701",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "single-arm, open-label, multicentre phase 2 trial",
+        "registration": "NCT02066285",
+        "n": 26,
+        "population": "adults with NR4A3-translocated metastatic or unresectable EMC with RECIST progression in the previous 6 months; 11 sites of the Spanish, Italian and French sarcoma groups",
+        "studyPeriod": [2014, 2017],
+        "accessed": "2026-08-07",
+        "verified": true
+      },
+      "morioka2016trabectedin": {
+        "short": "Morioka 2016",
+        "type": "journal-article",
+        "title": "Results of sub-analysis of a phase 2 study on trabectedin treatment for extraskeletal myxoid chondrosarcoma and mesenchymal chondrosarcoma.",
+        "authors": "Morioka H, Takahashi S, Araki N, Sugiura H, Ueda T, Takahashi M, Yonemoto T, Hiraga H, Hiruma T, Kunisada T, Matsumine A, Susa M, Nakayama R, Nishimoto K, Kikuta K, Horiuchi K, Kawai A.",
+        "journal": "BMC Cancer",
+        "year": 2016,
+        "pmid": "27418251",
+        "pmcid": "PMC4946242",
+        "doi": "10.1186/s12885-016-2511-y",
+        "url": "https://europepmc.org/article/MED/27418251",
+        "license": "CC-BY-4.0",
+        "openAccess": true,
+        "design": "sub-analysis of a randomised phase 2 trial (trabectedin vs best supportive care) in translocation-related sarcoma",
+        "registration": "JapicCTI-121850",
+        "n": 5,
+        "population": "subjects with EMCS OR mesenchymal chondrosarcoma allocated to trabectedin; the EMC share of the 5 is not stated",
+        "accessed": "2026-08-07",
+        "verified": true
+      },
+      "martinbroto2020immunosarc1": {
+        "short": "Martin-Broto 2020 (IMMUNOSARC I)",
+        "type": "journal-article",
+        "title": "Nivolumab and sunitinib combination in advanced soft tissue sarcomas: a multicenter, single-arm, phase Ib/II trial.",
+        "authors": "Martin-Broto J, Hindi N, Grignani G, Martinez-Trufero J, Redondo A, Valverde C, Stacchiotti S, Lopez-Pousa A, D'Ambrosio L, Gutierrez A, et al.",
+        "journal": "Journal for ImmunoTherapy of Cancer",
+        "year": 2020,
+        "pmid": "33203665",
+        "pmcid": "PMC7674086",
+        "doi": "10.1136/jitc-2020-001561",
+        "url": "https://europepmc.org/article/MED/33203665",
+        "license": "CC-BY-NC-4.0",
+        "openAccess": true,
+        "design": "single-arm phase Ib/II trial, mixed soft-tissue-sarcoma histologies (stage 1 of the same registration as the IMMUNOSARC II EMC cohort)",
+        "registration": "NCT03277924",
+        "n": 68,
+        "population": "adults with selected subtypes of advanced soft tissue sarcoma",
+        "studyPeriod": [2017, 2019],
+        "accessed": "2026-08-07",
+        "verified": true
+      },
+      "stacchiotti2014sunitinib": {
+        "short": "Stacchiotti 2014 (sunitinib)",
+        "type": "journal-article",
+        "title": "Activity of sunitinib in extraskeletal myxoid chondrosarcoma.",
+        "authors": "Stacchiotti S, Pantaleo MA, Astolfi A, Dagrada GP, Negri T, Dei Tos AP, et al.",
+        "journal": "European Journal of Cancer",
+        "year": 2014,
+        "pmid": "24703573",
+        "doi": "10.1016/j.ejca.2014.03.013",
+        "url": "https://europepmc.org/article/MED/24703573",
+        "license": "publisher (abstract via Europe PMC)",
+        "openAccess": false,
+        "design": "retrospective series of consecutive patients on named-patient use",
+        "n": 10,
+        "population": "progressive metastatic translocated EMC treated with sunitinib 37.5 mg/day from July 2011",
+        "accessed": "2026-08-07",
+        "retrievalNote": "Identified 2026-08-07 by following reference 13 of Chiusole 2020's full text, then confirmed directly against its own Europe PMC record. Before that this study had no identifier anywhere in this repository, and the registry row carrying its numbers pointed at a review whose full text does not contain the word 'sunitinib'.",
+        "verified": true
+      },
+      "stacchiotti2013anthracycline": {
+        "short": "Stacchiotti 2013 (anthracycline)",
+        "type": "journal-article",
+        "title": "Anthracycline-based chemotherapy in extraskeletal myxoid chondrosarcoma: a retrospective study.",
+        "authors": "Stacchiotti S, Dagrada GP, Sanfilippo R, Negri T, Vittimberga I, Ferrari S, et al.",
+        "journal": "Clinical Sarcoma Research",
+        "year": 2013,
+        "pmid": "24345066",
+        "pmcid": "PMC3879193",
+        "doi": "10.1186/2045-3329-3-16",
+        "url": "https://europepmc.org/article/MED/24345066",
+        "license": "open access (BMC)",
+        "openAccess": true,
+        "design": "retrospective series, central pathology review with molecular confirmation in every case",
+        "n": 11,
+        "population": "EMC treated from 2001 within the Italian Rare Cancer Network with anthracycline-based chemotherapy; all metastatic, 10 of 11 front-line",
+        "accessed": "2026-08-07",
+        "retrievalNote": "Identified 2026-08-07 by following reference 12 of Chiusole 2020's full text, then confirmed directly against its own Europe PMC record.",
+        "verified": true
+      },
       "china2016": {
         "short": "China series 2016",
         "type": "journal-article",
@@ -985,70 +1113,158 @@
       }
     ],
     "disclaimer": "Drug names and sequencing reflect published evidence and guidelines at the time of review and may be out of date. Availability differs by country. Always defer to your treating sarcoma team.",
-    "systemicEvidenceIntro": "Reported response rate (ORR) and median progression-free survival from small published studies of advanced/metastatic EMC. Educational, not a recommendation; anti-angiogenic TKIs are the most consistently active class, and most cytotoxic chemotherapy mainly stabilises disease.",
+    "systemicEvidenceIntro": "Reported response rate (ORR) and median progression-free survival from small published studies of advanced/metastatic EMC. Educational, not a recommendation. Read `n` with `nBasis`: several published EMC figures are computed on a population that is not EMC (a mixed EMCS/MCS arm, an all-chondrosarcoma cohort, an all-soft-tissue-sarcoma trial), and quoting them as EMC results is the single commonest error in this literature. Pooled synthesis, exclusions and intervals: research/manuscripts/emc-systemic-therapy-pooling.json.",
+    "systemicEvidenceCorrections": {
+      "date": "2026-08-07",
+      "how": "Every row below was re-checked against the source it cites, retrieved through a GitHub Actions runner (the dev sandbox egress proxy 403s Europe PMC, eutils and ascopubs). Superseded values are registered here rather than dropped, per CLAUDE.md rule 1.2.",
+      "superseded": [
+        {
+          "row": "Pazopanib (VEGFR TKI)",
+          "was": "n: 26, orr: 18",
+          "now": "n: 22 (orrEvents 4), nStarted 26",
+          "why": "26 is the number who started pazopanib. The trial's own response denominator is 22: 'Of these, 23 met the eligibility criteria for the modified intention-to-treat analysis... 22 patients (one patient died before the primary analysis) were evaluable for the primary endpoint: four (18% [95% CI 1-36]) had a RECIST objective response' (PMID 31331701). The review's account gives the same denominator implicitly: 4 responses + 16 stable + 2 progressive = 22."
+        },
+        {
+          "row": "Sunitinib (VEGFR TKI) - source attribution",
+          "was": "sourceId: remiszewski2025, provenance: secondary, primaryRef: 'sunitinib retrospective series'",
+          "now": "sourceId: stacchiotti2014sunitinib (PMID 24703573, doi 10.1016/j.ejca.2014.03.013)",
+          "why": "The cited review (PMC12504171) contains the string 'sunitinib' ZERO times in its full text, so the figures could not have been read there. The real study was found by following reference 13 of Chiusole 2020's full text and was then confirmed directly against its own Europe PMC record: Stacchiotti S et al., 'Activity of sunitinib in extraskeletal myxoid chondrosarcoma', Eur J Cancer 2014;50:1657-64. Until this was traced, the most striking systemic-therapy result in EMC sat in this repository with no identifier at all."
+        },
+        {
+          "row": "Sunitinib (VEGFR TKI) - the response figures",
+          "was": "n: 10, orr: 60",
+          "now": "UNCHANGED - n: 10, orrEvents: 6, orr: 60",
+          "why": "Confirmed correct against the primary: 'Six patients had a Response Evaluation Criteria in Solid Tumours (RECIST) partial response (PR), two were stable, two progressed' in 10 consecutively treated patients (PMID 24703573). Recorded here because the attribution above was wrong and a reader could reasonably assume the numbers were too - they were not."
+        },
+        {
+          "row": "Sunitinib (VEGFR TKI) - the median PFS",
+          "was": "medianPfsMonths: 8.5",
+          "now": "WITHDRAWN; medianPfs: 'not reached'",
+          "why": "8.5 months is that study's median FOLLOW-UP, not its median progression-free survival. Its own words: 'At a median follow-up of 8.5 months (range 2-28), no secondary resistance was detected. Median progression free survival (PFS) has not been reached.' A follow-up duration had been carried here as a progression-free survival, which understates the regimen by an unknown amount."
+        },
+        {
+          "row": "Apatinib (VEGFR TKI)",
+          "was": "n: 33, orr: 18, medianPfsMonths: 12.4 presented as EMC evidence",
+          "now": "same figures, explicitly labelled nBasis: all-chondrosarcoma; nEmc: 3",
+          "why": "'There were 20/33 (60.0%) conventional chondrosarcomas (grades 2-3), 5/33 (15.2%) dedifferentiated, 4/33 (12.1%) mesenchymal, 3/33 (9.1%) extraskeletal myxoid chondrosarcoma, and 1/33 (3.1%) clear-cell... The objective response rate was 6/33 (18.2%)' (PMID 32547189). Only 3 of the 33 patients had EMC and their individual responses are not separately reported."
+        },
+        {
+          "row": "Trabectedin",
+          "was": "n: 5, medianPfsMonths: 12.5, 'Small series; 100% 6-month progression-free; mostly stable disease.'",
+          "now": "n: 2 EMC patients, orrEvents: 0; the 12.5-month median PFS is withdrawn as an EMC figure",
+          "why": "The abstract's 'five subjects with EMCS and MCS' has been read across this literature as five EMC patients. The FULL TEXT states the split in its Methods: 'we adopted TWO EMCS subjects and three MCS subjects who had been allocated to the trabectedin group', and Table 2 labels every subject individually. The single objective response was subject 3, a mesenchymal chondrosarcoma patient, so the EMC-specific objective response count is 0 of 2; both EMC subjects had stable disease. AND THE HEADLINE FIGURE LANDS ON AN MCS PATIENT: the published 12.5 months (95% CI 7.4 to not reached) is the arm's Kaplan-Meier median over all five subjects, and Table 2's five individual PFS values are 13.0, 7.4, 22.2, 7.5 and 12.5 - so it coincides with subject 5's own value, also mesenchymal chondrosarcoma. Either way it is a property of the mixed arm, not of its EMC patients, whose values are 13.0 and 7.4 months."
+        },
+        {
+          "row": "Anthracycline ± ifosfamide",
+          "was": "medianPfsMonths: 5.2, on a row sourced to chiusole2020",
+          "now": "medianPfsMonths removed from this row; 5.2 months belongs to Drilon 2008",
+          "why": "Chiusole 2020 (PMID 32612944) reports no median PFS for its chemotherapy patients anywhere in its abstract, full text or tables. 5.2 months is Drilon 2008's figure: 'The median time to disease progression while receiving chemotherapy was 5.2 months' (PMID 18951519). Two different retrospective chemotherapy series had been merged into one row - Chiusole's denominator with Drilon's time-to-event."
+        },
+        {
+          "row": "Anthracycline-based chemo (1st-line) - source attribution",
+          "was": "sourceId: remiszewski2025, provenance: secondary, primaryRef: 'Stacchiotti et al. (Italian Rare Cancer Network)'",
+          "now": "sourceId: stacchiotti2013anthracycline (PMID 24345066, PMC3879193, doi 10.1186/2045-3329-3-16)",
+          "why": "The primary was traced through reference 12 of Chiusole 2020's full text and confirmed against its own Europe PMC record. The figures themselves were correct and are unchanged: 11 patients enrolled, 'Ten patients are evaluable for response. Overall, best response according to RECIST was: partial response (PR) = 4 (40 %), stable disease (SD) = 3, progressive disease (PD) = 3 cases. Median PFS was 8 (range 2-10) months.' The old primaryRef was also right about the network - the paper says 'treated as from 2001 within the Italian Rare Cancer Network (RCN)' - even though the phrase appears nowhere in the review that was cited for it."
+        },
+        {
+          "row": "Immune checkpoint inhibitors",
+          "was": "'Not systematically active in EMC; only isolated responses (e.g. interferon-alpha) reported.'",
+          "now": "superseded by a dedicated prospective EMC cohort - see the sunitinib + nivolumab row",
+          "why": "IMMUNOSARC II ran a phase 2 EMC-specific cohort of a PD-1 inhibitor combined with a VEGFR TKI, reported at ASCO 2025. The claim that immunotherapy has not been systematically evaluated in EMC was true when written and is no longer."
+        }
+      ]
+    },
     "systemicEvidence": [
       {
+        "agent": "Sunitinib + nivolumab (VEGFR TKI + PD-1)",
+        "n": 23,
+        "nBasis": "response-evaluable patients with EMC (24 accrued, 23 evaluable)",
+        "orrEvents": 2,
+        "orr": 9,
+        "medianPfsMonths": 13.2,
+        "medianPfsCi": [5.7, 20.7],
+        "result": "Phase 2 EMC cohort of the IMMUNOSARC II master trial (GEIS/ISG/UCL, NCT03277924), accrued May 2020-July 2024 at 9 centres in Spain, Italy and the UK. Primary endpoint 6-month PFS: 16/23 progression-free (reported as 77%). Best response 2 partial responses, 18 stable, 2 progressive. 12-month OS 90% (95% CI 77-100). CONFERENCE ABSTRACT - no full paper is indexed and ClinicalTrials.gov has no posted results.",
+        "sourceId": "immunosarc2emc2025",
+        "provenance": "primary",
+        "evidenceTier": "conference-abstract",
+        "caveat": "The abstract states its primary endpoint as both 77% and 16/23 (= 69.6%), and its best-response counts sum to 22 rather than the 23 patients it says were evaluable. Both are unreconciled in the only published version of these results."
+      },
+      {
         "agent": "Pazopanib (VEGFR TKI)",
-        "n": 26,
+        "n": 22,
+        "nBasis": "patients evaluable for the primary endpoint (26 started, 23 modified ITT)",
+        "nStarted": 26,
+        "orrEvents": 4,
         "orr": 18,
         "medianPfsMonths": 19,
-        "result": "Phase 2; 24-mo OS 90%; better with EWSR1::NR4A3 fusion.",
-        "sourceId": "remiszewski2025",
-        "provenance": "secondary",
-        "primaryRef": "Stacchiotti et al., Lancet Oncol 2019 (NCT02066285)"
+        "medianPfsCi": [11, 27],
+        "result": "Single-arm phase 2 (NCT02066285), Spanish/Italian/French sarcoma groups, accrued 2014-2017, central molecular confirmation of NR4A3 translocation. 4 objective responses, 16 stable, 2 progressive. 24-month OS 90%; exploratory signal of greater benefit with EWSR1::NR4A3.",
+        "sourceId": "stacchiotti2019pazopanib",
+        "provenance": "primary"
       },
       {
         "agent": "Sunitinib (VEGFR TKI)",
         "n": 10,
+        "nBasis": "consecutively treated patients with progressive metastatic translocated EMC",
+        "orrEvents": 6,
         "orr": 60,
-        "medianPfsMonths": 8.5,
-        "result": "Retrospective; partial responses in NR4A3-positive EMC.",
-        "sourceId": "remiszewski2025",
-        "provenance": "secondary",
-        "primaryRef": "sunitinib retrospective series"
+        "medianPfs": "not reached",
+        "medianFollowupMonths": 8.5,
+        "result": "Retrospective consecutive series on named-patient use from July 2011: 6 RECIST partial responses, 2 stable, 2 progressive. Median PFS was NOT REACHED at a median follow-up of 8.5 months (range 2-28). All responding cases carried EWSR1::NR4A3 and both refractory cases carried TAF15::NR4A3; among putative sunitinib targets only RET was expressed and activated. This is the highest response rate recorded for any regimen in EMC, from 10 patients without central radiology review.",
+        "sourceId": "stacchiotti2014sunitinib",
+        "provenance": "primary",
+        "caveat": "No protocol, no central radiology review, n=10. The fusion-partner association is an exploratory observation in 10 patients and does not support selecting patients by fusion partner."
       },
       {
         "agent": "Apatinib (VEGFR TKI)",
-        "n": 33,
-        "orr": 18,
-        "medianPfsMonths": 12.4,
-        "result": "Two-center; across chondrosarcoma subtypes (3 EMC).",
+        "n": 3,
+        "nBasis": "the EMC subgroup of a 33-patient all-chondrosarcoma cohort",
+        "orrEvents": 1,
+        "orr": 33,
+        "cohortWideN": 33,
+        "cohortWideOrr": 18,
+        "cohortWideMedianPfsMonths": 12.4,
+        "result": "Two-centre retrospective study of 33 unresectable chondrosarcomas of five subtypes. The EMC subgroup is reported separately in the full text: 1 response in 3 patients. The often-quoted 18.2% response rate and 12.4-month median PFS describe the whole chondrosarcoma cohort and are NOT EMC figures.",
         "sourceId": "apatinib2020",
         "provenance": "primary"
       },
       {
         "agent": "Anthracycline-based chemo (1st-line)",
         "n": 10,
+        "nBasis": "evaluable for response of 11 enrolled; central pathology review and molecular confirmation in every case",
+        "orrEvents": 4,
         "orr": 40,
         "medianPfsMonths": 8,
-        "result": "Molecularly confirmed series; mostly disease stabilisation.",
-        "sourceId": "remiszewski2025",
-        "provenance": "secondary",
-        "primaryRef": "Stacchiotti et al. (Italian Rare Cancer Network)"
+        "medianPfsRange": [2, 10],
+        "result": "Retrospective series treated from 2001 within the Italian Rare Cancer Network; all 11 metastatic, 10/11 front-line, 10/11 anthracycline combined with ifosfamide. Best response by RECIST: 4 partial responses, 3 stable, 3 progressive. Median PFS 8 months (range 2-10).",
+        "sourceId": "stacchiotti2013anthracycline",
+        "provenance": "primary"
       },
       {
         "agent": "Anthracycline ± ifosfamide",
         "n": 20,
-        "medianPfsMonths": 5.2,
-        "result": "Two-institution; clinical benefit ~50% but short PFS.",
+        "nBasis": "EMC patients who received first-line chemotherapy for metastatic disease",
+        "result": "Two-institution retrospective series (Istituto Oncologico Veneto and Gustave Roussy, 1980-2018). Disease-control rate by regimen: first line overall 50% of 20, anthracycline-based 60% of 11, oral cyclophosphamide 25% of 4, other 50% of 5; second line overall 46.1% of 14, anthracycline rechallenge 0% of 3, trabectedin 66% of 3, pazopanib 100% of 1. These are disease-control RATES, not response counts, and the source does not separate objective responses from clinical benefit - so no {events, denom} pair can be extracted. The authors conclude chemotherapy did not impact survival in unselected patients and that its apparent negative association is confounded by indication.",
         "sourceId": "chiusole2020",
         "provenance": "primary"
       },
       {
         "agent": "Trabectedin",
-        "n": 5,
-        "medianPfsMonths": 12.5,
-        "result": "Small series; 100% 6-month progression-free; mostly stable disease.",
-        "sourceId": "remiszewski2025",
-        "provenance": "secondary",
-        "primaryRef": "Morioka et al."
+        "n": 2,
+        "nBasis": "the EMC subjects of a 5-subject trabectedin arm that also contained 3 mesenchymal chondrosarcoma patients",
+        "orrEvents": 0,
+        "orr": 0,
+        "armWideMedianPfsMonths": 12.5,
+        "result": "Sub-analysis of a randomised phase 2 trial in translocation-related sarcoma (JapicCTI-121850), central radiology review. The full text's Methods state the split - two EMC subjects and three mesenchymal chondrosarcoma subjects - and Table 2 gives each individually. Both EMC subjects had stable disease, with PFS of 13.0 and 7.4 months and overall survival of 26.4 and 10.4 months. The arm's single objective response was a mesenchymal chondrosarcoma patient. The arm-wide median PFS of 12.5 months is numerically the individual PFS of that arm's subject 5, who also has mesenchymal chondrosarcoma; it is not an EMC figure.",
+        "sourceId": "morioka2016trabectedin",
+        "provenance": "primary"
       },
       {
         "agent": "Immune checkpoint inhibitors",
-        "result": "Not systematically active in EMC; only isolated responses (e.g. interferon-alpha) reported.",
+        "result": "A PD-1 inhibitor has now been tested in a dedicated prospective EMC cohort, in combination with a VEGFR TKI - see the sunitinib + nivolumab row. No single-agent checkpoint inhibitor cohort in EMC has been located; isolated responses to interferon-alpha are reported in case reports.",
         "sourceId": "remiszewski2025",
         "provenance": "secondary",
-        "primaryRef": "various reports"
+        "primaryRef": "case reports; and IMMUNOSARC II EMC cohort for the combination"
       }
     ]
   },
