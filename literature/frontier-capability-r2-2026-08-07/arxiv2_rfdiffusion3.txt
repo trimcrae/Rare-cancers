@@ -1,0 +1,67 @@
+SOURCE URL: http://export.arxiv.org/api/query?search_query=all%3A%22RFdiffusion3%22+OR+all%3A%22RFdiffusion+3%22&max_results=15
+FINAL URL: https://export.arxiv.org/api/query?search_query=all%3A%22RFdiffusion3%22+OR+all%3A%22RFdiffusion+3%22&max_results=15
+HTTP: 200
+CONTENT-TYPE: application/atom+xml; charset=utf-8
+======================================================================
+https://arxiv.org/api/KNJnTupYB7H0RoWTH89+uCUfGwo 
+ arXiv Query: search_query=all:"RFdiffusion3" OR all:"RFdiffusion 3"&id_list=&start=0&max_results=15 
+ 2026-08-07T00:41:37Z 
+ 
+ 15 
+ 3 
+ 0 
+ 
+ http://arxiv.org/abs/2606.19377v1 
+ Emyx: Fast and efficient all-atom protein generation 
+ 2026-06-12T09:46:38Z 
+
+ Computational enzyme design requires generating proteins that scaffold catalytic residues and ligands, a task that demands both geometric accuracy and structural diversity from the underlying generative model. Current all-atom generators inherit expensive architectures from structure prediction, leading to high training costs and limited sample diversity. We argue that much of this complexity is unnecessary for generators, which condition on sparse geometric constraints rather than rich co-evolutionary signals. Emyx is a 140M-parameter conditional flow matching model that concentrates capacity within standard transformer blocks, replacing heavy embedding stacks with lightweight conditional representations and sparse connectivity. We additionally derive an exact reparametrisation of the flow matching interpolant into the EDM noise-level framework, bridging flow matching training efficiency with state-of-the-art sampling methods designed for diffusion models without retraining. Despite being the smallest model, Emyx outperforms both Proteína-Complexa and RFdiffusion3 against the AME enzyme design benchmark across success rate under strict evaluation requiring both global fold recovery and catalytic geometry accuracy, structural novelty, scaffold diversity, and geometric validity, while training in just $682$ GPU-hours, roughly $4\times$ less than RFdiffusion3. 
+
+ 2026-06-12T09:46:38Z 
+
+ Nicholas J. Williams 
+
+ Ward Haddadin 
+
+ Matteo P. Ferla 
+
+ Constantin Schneider 
+
+ Nicholas B. Woodall 
+
+ Ruby Sedgwick 
+
+ Christian D. Madsen 
+
+ Andrew L. Hopkins 
+
+ Edward O. Pyzer-Knapp 
+
+ http://arxiv.org/abs/2606.10080v1 
+ VFUSE: Virulent Feature Understanding with Sparse autoEncoders 
+ 2026-06-08T18:54:31Z 
+
+ Generative models have shown remarkable progress in a variety of domains such as protein design, but such power enables the opaque generation of hazardous proteins. In this work, we introduce VFUSE (Virulent Feature Understanding with Sparse autoEncoders), a mechanistic interpretability approach that trains SAEs on diffusion-transformer activations to audit protein models for hazard-aware features. We apply VFUSE to RoseTTAFold3 and RFDiffusion3, popular open-weight models for protein folding and synthesis. We find that for certain blocks, linear probes detect hazardous designs significantly better when fit in the SAE latent space over the original model's representations: improving interpretability without sacrificing model performance. Furthermore, we identify monosemantic features from the SAE that fire only on hazardous designs at up to AUROC $0.84$ ($q < 10^{-13}$). To our knowledge this is the first SAE trained on an all-atom diffusion model and the first feature-level virulence audit of a protein design model, paving the way towards safe and interpretable protein design. 
+
+ 2026-06-08T18:54:31Z 
+
+ Michael Yu 
+
+ Matthew L. Olson 
+
+ http://arxiv.org/abs/2607.05439v1 
+ Design-CP: Context Parallelism for Design of Protein Nanoparticles 
+ 2026-07-03T15:50:24Z 
+
+ Many all-atom generative protein models can in principle design large multimeric complexes by jointly modelling all chains, but their quadratic token- and atom-pair representations quickly exceed single-GPU memory as the number of chains and residues modelled grows. We introduce Design-CP, two context-parallel (CP) inference strategies for RFdiffusion 3 (1D row-sharding and 2D grid sharding with ring attention) that distribute the quadratic activations across a multi-GPU mesh while preserving pretrained weights. We characterise their scaling when sampling icosahedral assemblies, showing that the maximum feasible asymmetric subunit (ASU) size grows with the expected square-root trend in GPU count and that 2D sharding achieves better wall-clock scaling. Moreover, we show how strong point-group symmetry constraints make CP usable out of the box for end-to-end, all-atom design of icosahedral nanoparticles, yielding favourable in silico structural and interface metrics. Finally, we demonstrate octahedral nanoparticle design on a small cluster of workstation-grade 16GB GPUs, illustrating how Design-CP can be a practical path towards democratising large-assembly protein design. 
+
+ 2026-07-03T15:50:24Z 
+ Accepted at the 2026 Workshop on Generative and Agentic AI for Biology (ICML 2026) 
+
+ Lorenzo Tarricone 
+
+ Helen E. Eisenach 
+
+ Aiko Muraishi 
+
+ Charlotte M. Deane

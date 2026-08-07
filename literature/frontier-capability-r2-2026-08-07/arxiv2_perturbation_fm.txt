@@ -1,0 +1,919 @@
+SOURCE URL: http://export.arxiv.org/api/query?search_query=abs%3A%22perturbation%22+AND+abs%3A%22foundation+model%22&max_results=40&sortBy=submittedDate&sortOrder=descending
+FINAL URL: https://export.arxiv.org/api/query?search_query=abs%3A%22perturbation%22+AND+abs%3A%22foundation+model%22&max_results=40&sortBy=submittedDate&sortOrder=descending
+HTTP: 200
+CONTENT-TYPE: application/atom+xml; charset=utf-8
+======================================================================
+https://arxiv.org/api/yD99OjiiBv2l9djzA4F47MBy290 
+ arXiv Query: search_query=abs:"perturbation" AND abs:"foundation model"&id_list=&start=0&max_results=40 
+ 2026-08-07T00:41:37Z 
+ 
+ 40 
+ 257 
+ 0 
+ 
+ http://arxiv.org/abs/2608.02961v1 
+ Scaling an Autoregressive Transformer for Single-Cell Generation 
+ 2026-08-03T23:54:30Z 
+
+ We study a self-supervised generation task for single-cell gene expression vectors: given a set of vectors from a cell type, we aim to generate additional gene expression vectors of that cell type. For this task we characterize both the biological fidelity of the generated gene expression vectors and the scaling behavior of the pretraining loss. The model is a causal transformer paired with a learned quantized VAE tokenizer, trained with a cross-entropy loss. To evaluate the model, we condition it on held-out gene expression vectors of a cell type and generate vectors of gene expression, comparing the resulting distribution over gene expression vectors to the ground truth distribution of that cell type. We study the scaling properties of the proposed architecture by varying the number of trained parameters and the amount of training data. To our knowledge, we find the first jointly-fit two-exponent scaling law and compute-optimal frontier for a single-cell foundation model. Finally, we discuss how this pretrained model could be finetuned for perturbation response prediction. 
+
+ 2026-08-03T23:54:30Z 
+
+ Aleksandr Sharipov 
+
+ Yusif Mukhtarov 
+
+ Igor Molybog 
+
+ http://arxiv.org/abs/2608.00976v1 
+ Location-Aware Fine-Grained Representation Learning for Medical Vision Foundation Models 
+ 2026-08-02T03:59:07Z 
+
+ Fine-grained visual representations are essential for medical image analysis, particularly when diagnostically relevant evidence is subtle and spatially localized. Modern transformer-based medical vision encoders must therefore learn patch-level representations that are both clinically meaningful and spatially consistent. Without these properties, large vision-language models (LVLMs) operate on an ambiguous visual foundation, limiting their ability to generate clinically reliable and spatially grounded responses. However, existing training strategies for medical vision encoders rarely achieve both objectives. Image-text alignment provides clinically meaningful supervision primarily at the image level, leaving the spatial localization of diagnostic evidence weakly constrained. In contrast, self-supervised learning promotes spatial consistency but lacks the semantic supervision needed to distinguish visually similar yet clinically distinct regions. To address this gap, we present LoFi, a medical vision foundation model built on location-aware fine-grained representation learning. LoFi trains a vision encoder with a lightweight large language model under grounding and grounded captioning objectives. Because these objectives require predicting location from clinical text and vice versa, spatial consistency emerges without any explicit patch-level regularization. To enable training at scale, we construct MedG, a large-scale medical grounding dataset of 4.48M image-text-box triplets curated from 84 datasets spanning 7 modalities. Across phrase grounding, visual question answering, and region-based organ classification under perturbations, LoFi consistently outperforms general-purpose and medical vision foundation models as well as state-of-the-art LVLMs. Code is available at https://github.com/myeongkyunkang/lofi-medg. 
+ 
+ 2026-08-02T03:59:07Z 
+
+ Myeongkyun Kang 
+
+ Yanting Yang 
+
+ Xiaoxiao Li 
+
+ http://arxiv.org/abs/2607.28423v1 
+ Negative controls reveal volume-driven confounding in radiomics and imaging foundation model features 
+ 2026-07-30T16:02:49Z 
+
+ Radiomics and imaging foundation models promise non-invasive biomarkers of tumour biology, yet predictive signatures may reflect tumour volume or acquisition artifacts rather than meaningful image structure. We introduce READII-2-ROQC, an open-source framework that uses volume-preserving negative controls to assess whether radiomic and deep imaging features capture independent spatial signals. READII-2-ROQC generates voxel-perturbed images across tumour, background and whole-image regions using configurable randomization strategies, then compares feature behaviour and model performance between original and control images. Applied to three public cancer imaging cohorts, the framework processed 3,552 tumour volumes and extracted PyRadiomics and foundation-model features from original images and nine matched controls. Reproducing published survival and HPV-status signatures, we show that multiple models retain performance after spatial structure is destroyed, revealing volume-driven or contextual confounding, whereas others show perturbation-sensitive signal. READII-2-ROQC provides a scalable quality-control strategy for developing interpretable, biologically grounded imaging biomarkers and reproducible radiomics workflows. 
+
+ 2026-07-30T16:02:49Z 
+ 22 pages (including supplementary), 6 figures, 2 supplementary tables, 5 supplementary figures 
+
+ Katy L. Scott 
+
+ Sejin Kim 
+
+ Joshua Siraj 
+
+ Caryn Geady 
+
+ Matthew Boccalon 
+
+ Mattea Welch 
+
+ Mogtaba Alim 
+
+ Andrew J. Hope 
+
+ Benjamin Haibe-Kains 
+
+ http://arxiv.org/abs/2607.22035v1 
+ DCS: A Unified Conditional Sensitivity Framework for Cross-Modal Copyright Infringement Detection 
+ 2026-07-24T07:00:44Z 
+
+ Currently, most foundation models can reproduce or strongly depend on copyrighted training content, but output similarity alone is insufficient for infringement detection, because similar outputs may also arise from public-domain concepts, common stylistic conventions, or ordinary statistical generalization.
+ In this paper, we develops a unified post-hoc detection framework that treats copyright infringement evidence as a counterfactual conditional distribution shift: a protected target is suspicious when the model's behavior under aligned conditions would change measurably if that target were included in, or removed from, the training process.
+ We formalize this view through conditional differential privacy and introduce Dual-Branch Conditional Sensitivity (DCS), an operational statistic that measures the observable gap between two locally perturbed model states. Specifically, the proposed DCS framework creates a learning branch and an unlearning branch around the deployed model, connects their displacement to the unavailable counterfactual retraining effect through influence-function analysis, and bounds the observable sensitivity by the counterfactual privacy-budget surrogate, local curvature, training-set scale, and perturbation step size. To distinguish target-specific memorization from generic fine-tuning instability, we further define a calibrated detection statistic that subtracts the sensitivity measured under orthogonal conditions.
+ The DCS framework is instantiated for ridge-regularized linear regression, conditional diffusion models, autoregressive language models, and multimodal models. These instantiations show how the same principle can be evaluated through prediction gaps, image-embedding divergence, token-distribution or entropy shifts, and cross-modal representation changes. 
+ 
+ 2026-07-24T07:00:44Z 
+
+ Xiafeng Man 
+
+ http://arxiv.org/abs/2607.20778v1 
+ Toward Mechanistic Interpretability of an AI Foundation Model Fine-Tuned for Atmospheric Chemistry 
+ 2026-07-22T23:00:02Z 
+
+ Weather forecasting foundation models (FMs) are increasingly fine-tuned to predict air quality, offering fast global pollution forecasts at lower computational cost than conventional chemical transport models. These FMs are typically trained on reanalysis data and generate forecasts through autoregressive rollout. They do not explicitly represent governing physical or chemical processes. Therefore, high forecast skill does not reveal whether a model has learned physical mechanisms or exploits statistical regularities in its training data. Here, we present the first study of what a FM fine-tuned for atmospheric chemistry has learned by examining Microsoft's Aurora model. We impose controlled chemical perturbations on its forecasts and test them against known photochemical relationships. We then examine the internal representations that generate these forecasts. We find that Aurora captures a first-order ozone response to reactive nitrogen but does not enforce the chemical constraints that a process-based model encodes. It generates chemically inconsistent combinations of related species and relaxes localized emission features such as wildfire plumes toward background. Internally, its representations remain largely organized around the meteorology inherited during pretraining, with little structure specific to chemistry. Using sparse autoencoders, we identify internal components that causally control the chemical forecast but do not map cleanly onto individual atmospheric processes. This work provides a framework for testing whether AI forecasting systems learn atmospheric chemistry from reanalysis data. As these models are increasingly positioned to inform environmental policy decisions, we argue that composition forecasts should also be judged by their internal mechanisms rather than by benchmark skill alone. 
+
+ 2026-07-22T23:00:02Z 
+
+ Jason Y. Hu 
+
+ Ivan Higuera-Mendieta 
+
+ Patrick Obin Sturm 
+
+ Makoto M. Kelp 
+
+ http://arxiv.org/abs/2607.20584v1 
+ HistoFID- Calibrating Frechet-distance evaluation across pathology foundation models 
+ 2026-07-22T12:29:21Z 
+
+ The Frechet Inception Distance (FID) compares two image sets by fitting a Gaussian to the features of a fixed network and measuring the distance between the two Gaussians. In digital pathology the Inception network is routinely replaced by a histology foundation model, on the assumption that a domain encoder gives a more meaningful score. We show that this choice changes the result. For one fixed pair of tile sets, the raw Frechet distance varies about thirty-fold across six common encoders, and the ordering does not follow embedding dimension, so a raw score cannot be read without naming the encoder. Using a held-out in-house cohort (about 500,000 H&E and immunohistochemistry tiles from 2,119 slides) and a public TCGA BRCA cohort (100 slides), we benchmark Inception-v3, Phikon-v2, CONCH, UNI2-h, Virchow2 and Prov-GigaPath across within-cohort baselines, cross-cohort drift, controlled perturbations, compression, stain normalization, and two generative models. Expressing each distance as a ratio to the encoder's own within-cohort floor restores comparability, cutting the across-encoder coefficient of variation by about 89% within cohort and 58% across cohorts. The encoders separate into a sensitive group (CONCH, Phikon-v2, Inception-v3) and an invariant group (UNI2-h, Virchow2, Prov-GigaPath), and this split decides which generative model is judged more realistic, so the encoder can change the conclusion of a generative evaluation. At the slide level, an attention-pooling encoder registers per-slide composition that a pooled patch distance cannot see, raising the distance about 320-fold on matched cohorts. Using the same protocol we evaluate TuroCompress, a proprietary pathology codec, which reaches the highest reconstruction fidelity at the smallest file size among codecs tested. We release the normalization protocol, the per-encoder perturbation panel, and the feature extracts. 
+ 
+ 2026-07-22T12:29:21Z 
+
+ Swapnil Bhat 
+
+ Devansh Lalwani 
+
+ Maulik Shah 
+
+ Sheena Alphones 
+
+ Rimlee Dutta 
+
+ Nikita Mulchandani 
+
+ Roshani Gala 
+
+ Jay Mehta 
+
+ http://arxiv.org/abs/2607.19324v1 
+ InstructMixup: Instruction-Guided Salient Patch Editing for Robust Data Augmentation 
+ 2026-07-21T17:44:55Z 
+
+ In image and video technologies, data augmentation is widely used to improve the generalization of deep visual models, and mixup-based strategies that interpolate between samples have become the dominant approach. However, computing informative mixing regions adds substantial overhead, and blending content across different images frequently disrupts the semantic integrity of the resulting sample. We propose \our{}, a data augmentation method that constructs challenging yet label-consistent training samples entirely within a single visual sample. \our{} first extracts multi-scale salient patches from the sample using a lightweight saliency detector, refines each patch with an instruction-guided generative model, and blends the edited patch back into the non-salient regions of the same sample; because the generative edits are computed once and cached offline, this step adds negligible training cost. To further diversify the learned representation, \our{} injects self-similar fractal structure into the same salient regions at an adaptive ratio, so each training sample carries both fractal and non-fractal structure. We derive a second-order approximation of the resulting vicinal risk, showing that the method simultaneously enforces invariance to the generative edit and suppresses curvature along the perturbed salient directions, and we verify both predictions empirically. We evaluate on small to large backbones for instance Convolutional Neural Networks (CNNs), Vision Transformers (ViTs) and Vision-Language Foundational Models (VLMs) across seven benchmarks covering coarse- and fine-grained classification, robustness to corruption and occlusion, calibration, and transfer and self-supervised learning, InstructMixup outperforms nine competing augmentation methods, surpassing the strongest baseline across all benchmarks. 
+ 
+ 2026-07-21T17:44:55Z 
+
+ Khawar Islam 
+
+ Arif Mahmood 
+
+ Xin Jin 
+
+ Naveed Akhtar 
+
+ http://arxiv.org/abs/2607.22712v2 
+ scMIR: a vision-language foundation model for single-cell light microscopy image representation 
+ 2026-07-28T02:14:54Z 
+
+ Single-cell light microscopy images have become an important data source for characterizing cell phenotypes, but their complexity and heterogeneity pose challenges to high-throughput automated analysis. Existing representation learning methods mostly rely on task-oriented modeling, which is limited by specific datasets and predefined tasks, making them difficult to generalize across different cell types and microscopy modalities, and experimental conditions. Although general-purpose methods have improved the generalization ability of image representation in recent years, their limited utilization of experimental background and biological context information still poses challenges in complex phenotypic analysis. Here, we propose scMIR, a vision-language foundation model for single-cell light microscopy image representation. By synergistically combining self-supervised image reconstruction with text-guided cross-modal alignment, scMIR can simultaneously encode morphological and biological semantic information in a unified representation space. scMIR is pre-trained on 207,957 image-text pairs, covering various cell types, microscopy modalities, and perturbation conditions. scMIR outperforms existing general models and task-oriented methods as systematically evaluated on various complex tasks using 16 benchmark datasets, including cell classification, clustering, phenotype inference, and batch effect correction tasks. Furthermore, scMIR shows a strong generalization ability across various tasks without requiring task-specific fine-tuning. With its unique advantages, we envision scMIR may promote the standardization and automation of high-throughput phenotyping workflows through supporting various downstream analysis tasks. 
+
+ 2026-07-21T01:59:07Z 
+
+ Yifan Shang 
+
+ Jiahui Tan 
+
+ Xiangxiang Zeng 
+
+ Renjie Zhou 
+
+ http://arxiv.org/abs/2607.18567v1 
+ Attacking Graph Foundation Models Through Their Shared Representation 
+ 2026-07-20T23:03:26Z 
+
+ A graph foundation model generalizes across graph domains by mapping every input into one shared representation before any task reasoning. We call this map the alignment layer, the component that separates a graph foundation model from a graph neural network, and we show it is a distinct attack surface that prior work has not studied. We attack it at inference time, with no access to training, on six public models spanning spectral tokenizers, text embedding spaces, and a discrete codebook. A directed representation-space perturbation collapses every model, but at a budget comparable to the representation norm a plain graph network also needs, with one exception: OpenGraph, whose spectral tokenizer collapses at a fifth of that budget, an alignment-specific fragility a plain network does not share and which a same-representation control traces to the tokenizer rather than the decoder. A realizable input-space attack that edits edges, features, or text removes at least half the correct predictions on three of the six models at peak. How much of this fragility an input-access attacker realizes tracks how directly the decoder reads the representation, and not the clean accuracy a task leaves; we measure this carrier gain structurally from the decoder's local Lipschitz sensitivity, and report clean-accuracy headroom as a within-model ordering heuristic that does not survive on realizable attacks. 
+
+ 2026-07-20T23:03:26Z 
+
+ Pankaj Kumar 
+
+ Subhankar Mishra 
+
+ http://arxiv.org/abs/2607.17511v1 
+ Lightweight Wrappers for Adapting Time Series Foundation Models to Regional Drought Forecasting 
+ 2026-07-20T03:36:15Z 
+
+ Large \emph{Time Series Foundation Models} (TSFMs) demonstrate strong zero-shot forecasting capabilities across diverse domains. However, their application to regional climate forecasting faces practical challenges: model weights are often proprietary, local training records are limited, and computational budgets are constrained, making traditional fine-tuning approaches infeasible. To address these constraints, we introduce a lightweight, black-box adaptation framework (requiring no access to backbone parameters and no backbone fine-tuning) that enhances frozen TSFMs at inference time through two plug-and-play wrappers: \textbf{SMR\textsuperscript{2}} (Stationarity aware multi-resolution Residual), which decomposes the input into multi-resolution temporal views, learns stride specific residual corrections that capture regional dynamics, then adaptively ensembles them into a single forecast, and \textbf{MBB} (Moving Block Bootstrap), which preserves temporal dependencies through block resampling and ensembles over temporally coherent residual perturbations to stabilize the point forecast. Both wrappers instantiate the same bagging style principle: they build diverse views of the input or its residuals, forecast each with the same frozen backbone, and aggregate, so all adaptation comes from inference time ensembling rather than any weight update. Evaluated on one month ahead Standardized Precipitation Evapotranspiration Index (SPEI) prediction across multiple sites in South Australia, our framework consistently improves forecasting performance across several backbone models, demonstrating up to 26\% mean squared error (MSE) reduction over the corresponding frozen backbone while enabling practical deployment in resource constrained regional forecasting systems. 
+ 
+ 2026-07-20T03:36:15Z 
+ 12 Pages, KDD2026 Accpeted Paper(Poster) 
+
+ Wentao Gao 
+
+ Jiuyong Li 
+
+ Lin Liu 
+
+ Thuc Duy Le 
+
+ Jixue Liu 
+
+ Yanchang Zhao 
+
+ Yun Chen 
+
+ http://arxiv.org/abs/2607.17227v1 
+ Harmonised benchmarking of foundation models for single-cell and spatial transcriptomics reveals context-dependent generalisation 
+ 2026-07-19T12:29:35Z 
+
+ Single-cell and spatial foundation models promise transferable biological representations, yet their generality remains largely untested across modalities, biological domains and analytical tasks. We benchmarked six representative models, Nicheformer, CellPLM, scGPT-spatial, GenePT, scELMo and Novae, using a harmonised framework spanning scRNA-seq, spatial transcriptomics and Perturb-seq. We evaluated zero-shot and continually pretrained clustering, supervised annotation, marker-gene concordance and perturbation prediction. Model performance was strongly conditional: expression-trained cell-level transformers best resolved many cell-identity tasks, spatial and graph-aware models better preserved tissue architecture, and language-derived gene embeddings were competitive for selected perturbation-response metrics. No model dominated across tasks, and rankings shifted with modality, preprocessing, tokenisation, biological prior, domain shift and metric choice. This benchmark provides practical guidance for model selection and argues that future models should be judged by biological generalisation, interpretability and perturbation-grounded validity, not by scale or leaderboard performance alone. 
+
+ 2026-07-19T12:29:35Z 
+
+ Sally Chen 
+
+ Roxana Zahedi 
+
+ Lucy Chhuo 
+
+ Ricky Nguyen 
+
+ Marjan BaghGolshani 
+
+ Amin Beheshti 
+
+ Mark Grosser 
+
+ Min Yang 
+
+ Nona Farbehi 
+
+ Nigel Lovell 
+
+ Ahmadreza Argha 
+
+ Fatemeh Vafaee 
+
+ Youqiong Ye 
+
+ Hamid Alinejad-Rokny 
+
+ http://arxiv.org/abs/2607.15275v1 
+ RoboTTT: Context Scaling for Robot Policies 
+ 2026-07-16T17:59:06Z 
+
+ Recent robot foundation models operate with single-step or short-history visuomotor context. We introduce Test-Time-Training Robot Policies (RoboTTT), a robot model and training recipe that scale visuomotor context to 8K timesteps, three orders of magnitude beyond state-of-the-art policies, without growing inference latency. At this context length, we unlock new robot capabilities: one-shot in-context imitation from human video demonstrations, on-the-fly policy improvement, robustness to perturbations, and stronger performance on multi-stage, long-horizon tasks. We also observe, for the first time, steady gains in closed-loop performance as pretraining context length scales. At its core, RoboTTT integrates Test-Time Training into robot foundation models such as Vision-Language-Action policies, yielding a sequence model whose recurrent state consists of fast weights, parameters updated by gradient descent during both training and inference, compressing histories into weight space and retrieving contextual information for long-context conditioning. To scale training context length, the recipe combines sequence action forcing with truncated backpropagation through time. On challenging real-robot manipulation tasks, RoboTTT improves overall performance by 87% over the single-step context baseline and fully completes a five-minute, ten-stage assembly task, which no baseline ever does. RoboTTT trained with 8K-timestep context outperforms the same model pretrained with 1K timesteps by 62%, suggesting context length as a new scaling axis for robot foundation models. Videos are available at https://research.nvidia.com/labs/gear/robottt/ 
+
+ 2026-07-16T17:59:06Z 
+ Project website: http://research.nvidia.com/labs/gear/robottt/ 
+
+ Yunfan Jiang 
+
+ Yevgen Chebotar 
+
+ Ruijie Zheng 
+
+ Fengyuan Hu 
+
+ Yunhao Ge 
+
+ Jimmy Wu 
+
+ Tianyuan Dai 
+
+ Scott Reed 
+
+ Li Fei-Fei 
+
+ Yuke Zhu 
+
+ Linxi "Jim" Fan 
+
+ http://arxiv.org/abs/2607.10655v1 
+ Artificial Foveated Perception for Mitigating Shortcut Learning in Robotic Foundation Models 
+ 2026-07-12T08:42:36Z 
+
+ Robotic foundation models have recently made substantial progress in multi-task capability, cross-embodiment transfer, and language-conditioned control. Yet robust deployment across diverse real-world settings remains difficult, in part because policies often fail to distinguish causally relevant visual structure from spurious scene-level correlations. We identify this failure mode as shortcut learning: the tendency to exploit predictive but non-causal correlations in the training distribution rather than the task-relevant visual evidence that determines successful action. Although shortcut learning has been extensively studied in computer vision and broader machine learning, its role in robotic foundation models remains comparatively underexplored. We propose Artificial Foveated Perception (AFP), a lightweight, policy-agnostic module that takes the same vision and language inputs as Vision-Language-Action and World Action Model pipelines and predicts task-conditioned masks over relevant objects, the robot, and other action-critical regions. We use these masks primarily as an auxiliary grounding signal during fine-tuning, aligning policy attention with task-relevant regions while leaving the core architecture unchanged. After fine-tuning, the policy executes on the original observation stream without requiring AFP in the control loop. We evaluate AFP across state-of-the-art robotic foundation models and show that foveated perception reduces fine-tuning time, suppresses overfitting, and improves generalization under environmental perturbations. Ablations over mask quality and grounding-loss design further show that these gains arise from directing policy learning toward task-relevant visual evidence. These results suggest that task-conditioned foveated perception is a practical mechanism for making robotic foundation models more robust, data-efficient, and scalable. 
+ 
+ 2026-07-12T08:42:36Z 
+
+ Xiatao Sun 
+
+ Yuan Zhuang 
+
+ Mateo Sanchez Lopez Negrete 
+
+ Matei-Victor Coldea 
+
+ Chen Liang 
+
+ Haoyang Zhang 
+
+ Che Liu 
+
+ Ziyao Zeng 
+
+ Shawn Li 
+
+ Qian Wang 
+
+ Fei Miao 
+
+ Daniel Rakita 
+
+ http://arxiv.org/abs/2607.07287v2 
+ TouchWorld: A Predictive and Reactive Tactile Foundation Model for Dexterous Manipulation 
+ 2026-07-09T14:55:30Z 
+
+ Dexterous manipulation in everyday environments requires both anticipation and reaction: a robot must predict how contact should evolve while rapidly correcting local errors caused by slip, misalignment, unstable grasping, or force mismatch. Vision and language provide semantic and geometric guidance, but they cannot reliably reveal hidden contact states such as force, slip, and contact stability. Although tactile sensing exposes these physical cues, most existing policies treat touch as a low-frequency observation stream within a monolithic action model, coupling slow task reasoning, action generation, and fast contact feedback in a single loop. We introduce TouchWorld, a predictive-and-reactive tactile foundation model for dexterous manipulation. TouchWorld uses a hierarchical policy that separates vision-language subtask planning, tactile world-model prediction, visuo-tactile goal-conditioned action generation, and high-frequency tactile residual refinement. A High-Level Planning Layer produces executable subtasks and predicts tactile subgoals; a Visuo-Tactile Goal-Conditioned Policy generates nominal action chunks; and a Tactile-Conditioned Refinement Policy performs online residual correction using recent tactile and proprioceptive feedback. By using touch as both a predictive contact reference and a fast feedback signal, TouchWorld preserves the semantic generalization of vision-language-action policies while improving local contact adaptation. Across six long-horizon and contact-rich dexterous manipulation tasks, TouchWorld achieves 65.0% success in the clean setting and 53.7% success under human perturbations, outperforming the strongest baseline by 15.7 and 18.5 percentage points, respectively. 
+ 
+ 2026-07-08T11:28:13Z 
+
+ Jianyi Zhou 
+
+ Feiyang Hong 
+
+ Yunhao Li 
+
+ Yicheng Zhao 
+
+ Yongjue Cen 
+
+ Zirui Liu 
+
+ Jiakang Huang 
+
+ Zirui Chen 
+
+ Ruiyang Zhang 
+
+ Weizhuo Zhu 
+
+ Xuhua Song 
+
+ Shuo Yang 
+
+ http://arxiv.org/abs/2607.05774v1 
+ AI-Augmented Statistical Network Estimation with Proxy Gene Embeddings 
+ 2026-07-07T02:58:42Z 
+
+ Gene--gene networks are often observed only on a restricted target set, while modern biomedical foundation models provide proxy gene embeddings over substantially larger gene universes. To leverage externally learned representations to improve latent-structure recovery in partially observed target networks, we propose \emph{Proxy-Latent Assisted Network Estimation} (PLANE), an adaptively weighted joint network--embedding latent variable model. PLANE combines the two sources of information through the common latent positions of the target network and proxy embeddings. Under mild rank conditions, the target network enables the identification of latent positions and loading of all nodes up to an orthogonal rotation. We show that zero-order optimality analyses sharply control the weighted reconstruction loss, but are insufficient to identify the optimal weighting. To understand the network and embedding information trade-off for latent-factor recovery, we analyze blockwise Gram-normalized gradient descent and prove deterministic contraction of aligned, curvature-weighted errors up to an explicit statistical tolerance. We then specialize the weighted statistical error bound to derive the target-block error bound, yielding an optimal, data-adaptive choice of the network embedding weights. Simulations and single-cell perturbation analyses show that informative proxy embeddings improve latent recovery, network reconstruction, and imputation beyond the observed target network. 
+ 
+ 2026-07-07T02:58:42Z 
+
+ Yan Chen 
+
+ Weijing Tang 
+
+ Jin-Hong Du 
+
+ http://arxiv.org/abs/2607.04401v1 
+ The Good, the Bad, and the Brittle: Benchmarking Robustness and Generalisation of Histopathology Foundation Models 
+ 2026-07-05T16:49:09Z 
+
+ How robust and generalisable are pathology foundation models and have their scaling limites been reached? We benchmarked twelve pathology foundation models (PFMs) and ResNet baselines using our Robustness Evaluation and Enhancement Toolbox (REET) across eleven clinically realistic perturbations and a dissimilarity-driven Non-Redundant K-fold validation (NR-Kfold) protocol. We introduce a Perturbation Performance Index (PPI) to summarise accuracy trends under controlled perturbation sweeps and analyse robustness scaling with parameter count. We show that PFMs consistently outperform CNNs in both robustness and domain generalisation, yet model scaling shows diminishing returns: mid-sized models such (UNI2/Virchow-2 etc.) achieve comparable or greater resilience than larger systems. NR-Kfold analysis further reveals systematic accuracy loss and increased variability when training-test similarity is broken, underscoring the need for explicit distribution-shift evaluation. These findings suggest that the next generation of pathology foundation models must prioritise data quality, multimodality information and domain alignment over parameter count to achieve genuine clinical reliability. 
+
+ 2026-07-05T16:49:09Z 
+
+ Dhyey Yajnik 
+
+ Amina Asif 
+
+ Fayyaz Minhas 
+
+ http://arxiv.org/abs/2607.01804v1 
+ VLA-Corrector: Lightweight Detect-and-Correct Inference for Adaptive Action Horizon 
+ 2026-07-02T07:18:53Z 
+
+ Vision-Language-Action (VLA) foundation models have recently achieved strong progress in embodied intelligence. To reduce policy-call frequency while preserving temporal coherence, most generative policies adopt an action chunk mechanism, executing multiple future actions in an open-loop manner under a fixed action horizon. However, this "predict-then-blindly-execute" paradigm sacrifices closed-loop reactivity: in contact-rich physical interactions, even small local perturbations can rapidly amplify within the open-loop blind spot, leading to compounding errors and ultimately task failure. To address this limitation, we propose VLA-Corrector, a lightweight corrective inference framework for action-chunked VLA policies. Without modifying the backbone policy weights, VLA-Corrector introduces a lightweight Latent-space Vision Monitor (LVM) that continuously compares predicted and actual visual feature evolution, enabling online detection of visual dynamics deviations. Once persistent deviation is detected, the system triggers a truncation event, discards the remaining stale actions, and invokes corrective replanning via Online Gradient Guidance (OGG). The detect-and-correct mechanism of VLA-Corrector naturally induces an event-triggered adaptive action horizon: it preserves long-horizon execution when the current chunk remains reliable, and invokes short-horizon corrective replanning when execution begins to drift. In doing so, VLA-Corrector mitigates the trade-off imposed by static horizons between execution robustness and policy-call frequency. It can be integrated into different VLA models without further retraining the VLA backbone, interrupting compounding errors while preserving much of the efficiency benefit of action chunking and substantially improving robustness in long-horizon, contact-rich robotic manipulation tasks. 
+ 
+ 2026-07-02T07:18:53Z 
+ 22 pages, 14 figures 
+
+ Yi Pan 
+
+ Miao Pan 
+
+ Qi Lu 
+
+ Jiaming Huang 
+
+ Man Zhang 
+
+ Siteng Huang 
+
+ Xin Li 
+
+ Jie Zhang 
+
+ Yongliang Shen 
+
+ Xuhong Zhang 
+
+ Wenqi Zhang 
+
+ http://arxiv.org/abs/2607.00573v2 
+ BrainFIBRE: A Foundation Model via Information Decomposition for Brain Microstructure 
+ 2026-07-19T08:18:26Z 
+
+ Diffusion MRI probes brain microstructure with particular sensitivity to early cerebrovascular and neurodegenerative changes. Neurite Orientation Dispersion and Density Imaging (NODDI) decomposes the diffusion signal into three biophysically interpretable maps: neurite density index (NDI), orientation dispersion index (ODI), and free water fraction (FWF), capturing neurite packing, fiber coherence, and extracellular fluid. These 3D maps offer a rich substrate for transferable microstructural representations, yet integrating them is challenging: standard representation learning struggles to disentangle the unique information in each map from their shared and synergistic interactions. We present BrainFIBRE, the first foundation model for brain microstructure, pretrained on NODDI-derived maps from 55,592 UK Biobank participants. We propose Self-supervised Partial Information Decomposition (SPID), which extends PID-guided multimodal learning to the self-supervised regime for the first time. A novel Counterfactual Candidate Construction (CCC) paradigm perturbs inter-modality alignment through modality dropping and swapping, providing the contrastive signal for a Mixture-of-Experts architecture to disentangle unique, synergistic, and redundant information without any downstream label. On both Caucasian and Asian cohorts, BrainFIBRE achieves state-of-the-art performance across diverse tasks predicting age, sex, cerebrovascular and neurodegenerative markers, and cognition, while yielding neurobiologically interpretable representations that reveal task- and cohort-specific interaction patterns. BrainFIBRE establishes a versatile foundation for neuroimaging analysis at the microstructural level. 
+ 
+ 2026-07-01T07:59:05Z 
+ ECCV 2026. Author name corrected in V2 
+
+ Zijian Dong 
+
+ Yi Lin 
+
+ Fang Ji 
+
+ Jianxiong Zhou 
+
+ Kwun Kei Ng 
+
+ Juan Helen Zhou 
+
+ http://arxiv.org/abs/2606.30362v2 
+ ReactiveBFM: Reactive Closed-Loop Motion Planning Towards Universal Humanoid Whole-Body Control 
+ 2026-07-19T19:31:30Z 
+
+ While current Behavior Foundation Models (BFMs) provide robust control priors for humanoids, they only execute pre-defined reference motions. As a result, they are vulnerable to environmental shifts and incapable of reactive whole-body coordination. Naively cascading them with generative motion planners fails to achieve true reactivity, as inevitable tracking discrepancies induce fatal cumulative exposure bias. To bridge this gap, we propose ReactiveBFM, a real-time closed-loop planning-control framework. At its core, we effectively mitigate exposure bias via a scheduled prefix sampling curriculum, forcing the generative planner to actively learn error-recovery behaviors from imperfect physical states rather than ground-truth trajectories. Systematically, to reconcile the severe latency mismatch between auto-regressive planning and high-frequency tracking, we introduce an asynchronous replanning mechanism. Combined with trajectory chunking to temporally ensemble spatial references, our system guarantees spatio-temporally fluid execution without physical jitter. Deployed on the Unitree G1 humanoid, ReactiveBFM demonstrates unprecedented physical agility across a vast repertoire of text-conditioned closed-loop motions. Notably, ReactiveBFM achieves zero-shot moving target reaching, showcasing intricate whole-body coordination and on-the-fly replanning. In sim-to-sim benchmarking under severe perturbations, ReactiveBFM achieves a 93.1% success rate, significantly outperforming cascaded open-loop baselines by 28.6%. 
+
+ 2026-06-29T14:27:27Z 
+ Project page: https://xiao-chen.tech/reactivebfm/ 
+
+ Xiao Chen 
+
+ Weishuai Zeng 
+
+ Xiaojie Niu 
+
+ Zirui Wang 
+
+ Jianan Li 
+
+ Huayi Wang 
+
+ Furui Xu 
+
+ Jiahe Chen 
+
+ Weixiang Zhong 
+
+ Lihe Ding 
+
+ Kailin Li 
+
+ Jiangmiao Pang 
+
+ Tai Wang 
+
+ Tianfan Xue 
+
+ Jingbo Wang 
+
+ http://arxiv.org/abs/2606.29901v1 
+ Semi-Supervised Sound Event Detection with Conditional Mixup and Embedding-Level Contrastive Loss 
+ 2026-06-29T07:35:58Z 
+
+ Sound event detection (SED) is a core module for acoustic environmental analysis, yet its performance is often limited by scarce labeled data. Recent systems leverage large pretrained audio foundation models, but effective fine-tuning remains challenging because labeled data are limited while unlabeled data are abundant. A previous work, ATST-SED, addressed this problem with a pseudo-label based semi-supervised fine-tuning framework. In this work, we further improve the framework by adopting an embedding-level self-supervised contrastive loss inspired by ATST-Frame pretraining. This contrastive objective better exploits unlabeled data during fine-tuning. One challenge is that mixup serves different roles in the two objectives: pseudo-label learning uses composition mixup, while contrastive learning treats mixup as a perturbation. To resolve this mismatch, we propose conditional mixup, which combines composition mixup and perturbation mixup in one semi-supervised framework and defines the corresponding embedding-level contrastive losses. The resulting model achieves 0.645 PSDS1 and 0.822 PSDS2 on the DESED validation set, establishing a new state of the art. 
+
+ 2026-06-29T07:35:58Z 
+ 6 pages; accepted by SMC 2026 
+
+ Nian Shao 
+
+ Xian Li 
+
+ Xiaofei Li 
+
+ http://arxiv.org/abs/2606.28465v1 
+ SVC-Probe: A Framework for Evaluating Perturbation Generalization in Spatial Foundation-Model Embeddings 
+ 2026-06-26T13:46:36Z 
+
+ This work examines perturbation generalization in spatial foundation-model embeddings derived from fluorescence microscopy images. Although these models can discriminate drug conditions accurately, it remains unclear whether the learned representations reflect patterns consistent with expected perturbation axes that transfer across drugs. We introduce SVC-Probe, a perturbation-aware framework that combines Subcellular Embedding Atlas Stability, Mondrian Neighborhood Graphs, and a Foundation Model Perturbation Probe to assess embedding stability, neighborhood rewiring, and centroid prediction under drug treatment. Applied to the CM4AI MDA-MB-468 chemical-perturbation atlas comprising 462 antibody labels and SubCell 1536-dimensional embeddings, SVC-Probe demonstrates that 98.6% three-way condition accuracy does not correlate with reliable cross-drug prediction, with cosine similarity diminishing from 0.944 in-domain to 0.30 under leave-one-drug-out evaluation, constituting a two-drug stress test rather than a general benchmark. Null calibration indicates that raw residual-turnover coupling is largely influenced by generic embedding structure, whereas a drug-specific signal emerges under vorinostat and is consistent with chromatin-related reorganization. In contrast, the paclitaxel axis is not robustly reconstructed, likely due to sparse coverage of microtubule-associated proteins. Together, these results introduce and demonstrate a reusable diagnostic framework for stress-testing spatial virtual-cell representations and indicate that perturbation generalization may serve as a stricter and more informative benchmark than baseline condition discrimination. 
+
+ 2026-06-26T13:46:36Z 
+ 7 
+ 
+ CIBB 2026 
+ 
+ Jake Y. Chen 
+
+ Huu Phong Nguyen 
+
+ Fuad Al Abir 
+
+ Ehsan Saghapour 
+
+ http://arxiv.org/abs/2606.26423v2 
+ CoStream: Composing Simple Behaviors for Generalizable Complex Manipulation 
+ 2026-06-26T20:07:20Z 
+
+ Long-horizon, contact-rich complex manipulation tasks, such as seating a GPU into a PCIe slot, demand both millimeter high precision and out-of-the-box generalization to new tasks. Existing paradigms struggle to satisfy both: classical pipelines use brittle, task-specific interfaces to achieve high-precision control but require costly pipeline redesigns to adapt to new tasks, whereas monolithic end-to-end policies provide better generalization but lack high precision on complex, out-of-distribution tasks unless retrained with new data. Both paradigms share an implicit assumption: once a manipulation capability is acquired, it must be deployed as a rigid pipeline or monolithic whole, rather than being freely decomposed and recomposed. In this paper, we show that complex manipulation capabilities can emerge naturally from the composition of simple, independent behaviors. Rather than deploying a monolithic policy or a rigid pipeline, we propose CoStream, a framework orchestrating foundation models and diverse sensing modalities into multiple composable core behaviors: a semantic behavior extracting spatial constraints via foundation models; a predictive behavior forecasting trajectories by tracking keypoints in imagined videos; and a reactive behavior providing high-frequency tactile and force corrections. On a shared $SE(3)$ interface, these outputs compose by right-multiplication into a single pose command at each control step, executed by a compliant controller. We demonstrate CoStream on 8 real-world tasks spanning everyday manipulation and precision assembly, with the strongest gains in contact-rich assembly and object transfer, and show robust recovery from manual perturbations during execution. Website: https://costream-simple.github.io 
+
+ 2026-06-24T22:25:19Z 
+ Website: https://costream-simple.github.io 
+
+ Haonan Chen 
+
+ Yuxiang Ma 
+
+ Stephen Tian 
+
+ Xiaoshen Han 
+
+ Wenlong Huang 
+
+ Feiyang Wu 
+
+ Yunzhu Li 
+
+ Jiajun Wu 
+
+ Edward H. Adelson 
+
+ Yilun Du 
+
+ http://arxiv.org/abs/2606.26403v1 
+ ProfileFoundry: A Synthetic Person-Object Substrate for Privacy, Memory, and Tool-Use Evaluation in LLM Agent 
+ 2026-06-24T21:43:36Z 
+
+ Foundation-model research increasingly needs data about people: user state, personal histories, relationships, contact-like fields, documents, and longitudinal updates. Real user data is difficult to share, perturb, audit, or redistribute responsibly, while independently generated fake fields rarely preserve the cross-field and temporal consistency needed for controlled evaluation. We present PROFILEFOUNDRY, a deterministic generator and fixed reference release of 100,000 adult synthetic Person Objects across eight locales. Each object combines a typed current snapshot, household, family, and employer links, snapshot-aligned events, normalized relational views, and generation provenance. The release contains 709,228 events, 40,338 households, 52,491 employers, and 518,564 directed relationship edges. We report evidence in separate categories: selected population-marginal comparisons, per-object invariant checks, release-wide referential and temporal closure, and coincidence/provenance screens. PROFILEFOUNDRY is not a population-fidelity model, a rendered-text corpus, or a formal privacy mechanism. Instead, it is a responsible synthetic source layer for constructing downstream foundation-model evaluations involving memory, privacy, document understanding, record linkage, and agent state while keeping the synthetic person behind each artifact inspectable 
+ 
+ 2026-06-24T21:43:36Z 
+
+ Sriram Selvam 
+
+ Anneswa Ghosh 
+
+ http://arxiv.org/abs/2606.26361v1 
+ Does Aurora Encode Atmospheric Structure? Latent Regime Analysis and Attribution 
+ 2026-06-24T20:18:12Z 
+
+ ML foundation models are able to emulate atmospheric dynamics accurately and efficiently but operate as opaque ``black boxes''. We investigate the internal representations of the Aurora model using spatially pooled PCA and layer-wise relevance propagation (LRP). We find evidence that Aurora's latent space is primarily organized by seasonal cycles, whereas extreme storm events do not form a linearly separable cluster. LRP indicates that the model attends to features consistent with the 3D vertical structure of the Great Storm of 1987. Perturbation tests show masking relevant regions degrades forecasts $3.31\times$ more than random masking. These findings suggest that Aurora learns meteorological coherence and vertical structure without explicit instruction. 
+
+ 2026-06-24T20:18:12Z 
+ Accepted at the FM4Science and Sci4DL workshops at ICLR 2026 
+
+ Emma Kasteleyn 
+
+ Ana Lucic 
+
+ http://arxiv.org/abs/2606.25328v1 
+ Supervised Post-training of Speech Foundation Models for Robust Adaptation in Speech Deepfake Detection 
+ 2026-06-24T02:49:17Z 
+
+ Large speech foundation models have shown strong potential for speech deepfake detection, but direct fine-tuning is limited by a mismatch between self-supervised pre-training objectives and spoof-specific artifacts. To address this, we propose a mix-frame post-training strategy to create localized spoof-oriented perturbations and use frame-level supervision to encourage the SSL model to learn local inconsistencies that are critical for robust spoof detection. On ASVspoof5, we achieve state-of-the-art EER 4.50% for a single model without data augmentation. On ASVspoof2021 LA/DF, it further achieves only 0.16\% absolute EER gap between LA and DF, indicating strong and balanced robustness across distinct distortion conditions. These results show that supervised post-training provides an effective and practical way to adapt speech foundation models for robust deepfake detection. 
+
+ 2026-06-24T02:49:17Z 
+
+ Zihan Pan 
+
+ Sailor Hardik 
+
+ Jinyang Wu 
+
+ http://arxiv.org/abs/2606.24995v1 
+ Are Tabular Foundation Models Robust to Realistic Query Distribution Shifts in Microbiome Data? 
+ 2026-06-23T15:52:35Z 
+
+ Tabular foundation models (TFMs) achieve strong performance on microbiome abundance data, yet their robustness under realistic distribution shift remains poorly characterized. We introduce a benchmark that evaluates the robustness of TFMs to biologically inspired perturbations across six gut microbiome datasets spanning four disease contexts. In this in-context learning setting, models receive unperturbed support sets as context and are evaluated on perturbed query samples. To isolate robustness beyond "shortcut" features, we preserve the most discriminative taxa and apply three controlled perturbation strategies: (i) removal of high-abundance (uninformative) taxa, (ii) sparsification via increased zero-inflation, and (iii) zero-imputation via spurious non-zero injections. Our results show that protecting discriminative features is insufficient to guarantee stability under support-query shift: across datasets, all perturbations degrade model performance, with zero-imputation consistently the most harmful, indicating that corrupting global feature structure can break generalization even when key taxa are retained. Sparsification disproportionately affects TFMs relative to a classical random forest baseline, suggesting greater sensitivity to zero-inflation-type shifts. The code is publicly available at: https://github.com/UMMISCO/metagenomics-fm/. 
+
+ 2026-06-23T15:52:35Z 
+
+ Giulia Perciballi 
+
+ Ahmad Fall 
+
+ Federica Granese 
+
+ Edi Prifti 
+
+ Jean-Daniel Zucker 
+
+ http://arxiv.org/abs/2606.23336v1 
+ WaveDetect: Robust Framework for Machine-Generated Text Detection via Wavelet Transform 
+ 2026-06-22T13:42:36Z 
+
+ As Large Language Models asymptotically approach human-level fluency in natural language generation, solely relying on surface-level semantic artifacts for detecting LLM-generated texts has become increasingly precarious. Existing detectors often falter when facing three critical challenges: adversarial perturbations, cross-domain shifts, and the rapid temporal evolution of the foundation model. To address these issues, we propose \wavedetect, a novel framework that reformulates text detection as a signal processing task within the time-frequency domain. Unlike previous methods that analyze static token probability distributions, \wavedetect models the generated output as a probability signal, upon which a differentiable Continuous Wavelet Transform is applied to convert them into learnable spectral representations. This process reveals the intrinsic ``spectral fingerprints'' in machine-generated texts--patterns that remain invisible in time domain. Comprehensive evaluations on three well-curated datasets (RAID, EvoBench, and Domain-Shift) show that our method achieves a new state-of-the-art. It not only achieves superior accuracy but also exhibits remarkable robustness against sophisticated attacks, generalization across out-of-distribution topics and unseen evolving LLMs. Our results validate the efficacy of spectral analysis as a promising paradigm for LLM-generated texts detection. 
+ 
+ 2026-06-22T13:42:36Z 
+
+ Zhichen Liu 
+
+ Kaitong Qin 
+
+ Linhan He 
+
+ Yang Xu 
+
+ http://arxiv.org/abs/2606.22234v1 
+ Fine-Tuned Machine-Learned Interatomic Potentials for Structural and Vibrational Properties of Twisted 2D Materials 
+ 2026-06-20T21:29:02Z 
+
+ Twisted van der Waals bilayers form moiré superlattices whose structural and vibrational properties are highly sensitive to variations in local stacking registry and the degree of atomic reconstruction, yet accurate atomistic modeling of these systems at the DFT level remains computationally prohibitive at small twist angles. We investigate machine-learned interatomic potentials for moiré systems, using twisted bilayer graphene, \textit{h}-BN, and MoS$_2$ as representative materials spanning a broad spectrum of mechanical compliance and atomic reconstruction behavior. We show that fine-tuning universal atomistic foundation models is essential to achieve DFT accuracy for layered materials, as broadly trained foundation models prove insufficient for resolving the subtle interlayer energetics that govern atomic reconstruction. Through local strain tensor analysis and the phonon band unfolding technique, our fine-tuned MACE model reveals a consistent reconstruction-induced strain landscape in all three materials, with extended low-energy stacking domains separated by narrow soliton lines where deformation concentrates. The system progressively optimizes the local stacking registry within each domain, giving rise to a spatially structured deformation field whose amplitude scales with the mechanical compliance of the material and can be further tuned by external perturbation. The obtained results of both atomic reconstructed structures and moiré phonon spectra present a good agreement with the reported experiments, thereby demonstrating the accuracy and efficiency of our methodology in modeling of these large scale nanomaterials. 
+
+ 2026-06-20T21:29:02Z 
+ 35 pages, 14 figures, Supplementary Materials 
+
+ Viet-Anh Tran 
+
+ Viet-Hung Nguyen 
+
+ Wei Chen 
+
+ Gian-Marco Rignanese 
+
+ Jean-Christophe Charlier 
+
+ http://arxiv.org/abs/2606.21109v1 
+ Chem2Gen-Bench: Benchmarking Chemical-to-Genetic Translation in Perturbation Response Space 
+ 2026-06-19T05:26:39Z 
+
+ Virtual-cell and perturbation models are increasingly used to predict cellular responses for biomedical discovery, but chemical and genetic perturbations are not automatically interchangeable. Existing evaluations often study chemical response prediction or genetic perturbation prediction separately, leaving target-matched chemical-to-genetic translation under-tested. We introduce Chem2Gen-Bench, a benchmark comprising 260,084 chemical and 1,099,045 genetic perturbation profiles organized into cell-target contexts, and evaluate pairwise alignment, retrieval, protocol covariate associations, feature spaces, and foundation-model embeddings. Across matched contexts, translation fidelity is measurable but heterogeneous; background adjustment increases the association between pairwise similarity and retrieval success, while paired tests show lower mean retrieval success after adjustment under the evaluated settings. In a target-matched K562 audit, the evaluated foundation-model embeddings did not consistently improve over gene-delta baselines. Chem2Gen-Bench provides an auditable framework for testing when chemical and genetic perturbations align around shared targets and when representation gains are supported by matched perturbation evidence. 
+
+ 2026-06-19T05:26:39Z 
+
+ Yuxiang Lin 
+
+ Ying Chen 
+
+ http://arxiv.org/abs/2606.17846v2 
+ Qwen-RobotManip Technical Report: Alignment Unlocks Scale for Robotic Manipulation Foundation Models 
+ 2026-06-17T17:06:39Z 
+
+ Foundation models in language and multimodality achieve strong generalization by aligning heterogeneous data under a unified formulation and training at scale. In this report, we investigate whether this scaling recipe can be applied to robotic manipulation to achieve genuine generalization. This is challenging because, unlike text, manipulation data is heterogeneous by nature, expensive to collect, and narrow in diversity, making alignment and scale simultaneously difficult. We present Qwen-RobotManip, a generalizable Vision-Language-Action foundation model built on Qwen-VL. Qwen-RobotManip introduces a unified alignment framework across the representation, motion, and behavioral dimensions of manipulation, making large-scale multi-source training coherent rather than conflicting. This alignment capability in turn enables Qwen-RobotManip to absorb manipulation data at a scale that prior training regimes could not sustain. A human-to-robot synthesis pipeline converts egocentric hand demonstrations into robot trajectories across 15 platforms, and a rigorous curation pipeline harmonizes heterogeneous datasets. Using only open-source datasets and human videos without proprietary data collection, Qwen-RobotManip constructs a ~38,100-hour pretraining corpus and exhibits emergent generalization capabilities, including zero-shot instruction following, robustness to perturbations, reactive error recovery, and cross-embodiment transfer. We find that standard benchmarks fail to capture pretraining quality and instead adopt OOD settings including RoboCasa365, LIBERO-Plus, EBench, RoboTwin-Clean2Rand, RoboTwin-IF, and RoboTwin-XE. Qwen-RobotManip substantially outperforms prior state-of-the-art models, including $π$0.5, across all OOD settings, ranks 1st in RoboChallenge with a 20% relative improvement, and is validated on real-robot platforms including AgileX ALOHA, Franka, UR, and ARX. 
+
+ 2026-06-16T12:14:39Z 
+ 44 pages 
+
+ Haoqi Yuan 
+
+ Zhixuan Liang 
+
+ Anzhe Chen 
+
+ Ye Wang 
+
+ Haoyang Li 
+
+ Pei Lin 
+
+ Yiyang Huang 
+
+ Zixing Lei 
+
+ Tong Zhang 
+
+ Jiazhao Zhang 
+
+ Jie Zhang 
+
+ Jingyang Fan 
+
+ Gengze Zhou 
+
+ Qihang Peng 
+
+ Chenxu Lv 
+
+ Xiaoyue Chen 
+
+ An Yang 
+
+ Fei Huang 
+
+ Junyang Lin 
+
+ Dayiheng Liu 
+
+ Jingren Zhou 
+
+ Chenfei Wu 
+
+ Xiong-Hui Chen 
+
+ http://arxiv.org/abs/2606.13709v1 
+ LoMC: Localized Multidirectional Correction for Refusal Suppression in Routed Foundation Models 
+ 2026-06-10T08:02:25Z 
+
+ We study controlled post-training refusal suppression in routed MoE and hybrid-MoE foundation models, aiming to increase non-refusal target-response behavior while preserving general capability under a compact intervention footprint. Existing broad direction-based edits can perturb general-purpose computation, whereas support-only expert edits often lack sufficient capacity to correct heterogeneous refusal representations. To address this limitation, we introduce Localized Multidirectional Correction (LoMC), a support-gated intervention framework that follows a support-then-correction execution order: it first identifies a compact edit support, then aggregates prototype correction directions into layer-wise correction directions, and finally applies rank-one layer-wise correction only within the selected support. By using the edit support as a structural gating constraint, LoMC increases correction capacity without expanding the intervention scope. Experiments on text-only and multimodal safety benchmarks across four routed backbones show that LoMC substantially improves non-refusal target-response behavior while maintaining general capability under a compact intervention footprint. 
+
+ 2026-06-10T08:02:25Z 
+
+ Yan Hong 
+
+ Kedong Xiu 
+
+ Wei Li 
+
+ Jun Lan 
+
+ Huijia Zhu 
+
+ Shuheng Zhou 
+
+ Zhongcai Lyu 
+
+ Weiqiang Wang 
+
+ Jianfu Zhang 
+
+ http://arxiv.org/abs/2606.11606v1 
+ Frozen Foundation-Model Embeddings Discard Small-Lesion Signal in Chest Radiography: Implications for Pre-Deployment Evaluation 
+ 2026-06-10T03:06:32Z 
+
+ Frozen vision-transformer (ViT) foundation-model embeddings increasingly serve as the substrate for downstream chest-radiography (CXR) pipelines, yet where small-scale, low-contrast signal is retained or lost in the frozen forward pass has not been systematically quantified across architectures, pretraining domains, and objectives. We probed five frozen ViTs (RAD-DINO, DINOv2-B/14, DINOv3 ViT-7B, BiomedCLIP, MedSigLIP) and a frozen DINO-pretrained ResNet-50 architectural control across three large CXR cohorts (NIH-CXR14, MIMIC-CXR, Emory-CXR; aggregate pool n=492,724) and ChestX-Det10 (n=3,543; 1,462 small-lesion bounding boxes across Calcification, Nodule, Mass). Each model was evaluated with a small-scale-perturbation panel and a region-aware bounding-box-stratified probe on real lesions, comparing three pooling modes from the same forward pass: classification token (CLS), patch-mean (mean over all final-layer patch tokens), and bounding-box-restricted patch-local. On the perturbation panel, CLS embeddings sat at the chance floor (area under the ROC curve [AUC] 0.500-0.524); patch-mean was indistinguishable from CLS on iso-blur and reticular-fine cells but rose with CLS on larger directional-blur footprints, while disease AUC on globally decided tasks ranged 0.642-0.913. Patch-local probes recovered AUC ~1.0 from the same forward pass (per-model mean improvement +0.412 to +0.488); the ResNet-50 control reproduced the chance floor. On ChestX-Det10, image-level CLS classification showed within-class small-versus-large stratum gaps up to +0.243 AUC; bounding-box-level patch-local pooling on the same forward pass recovered AUC >= 0.899 on every (model x class) cell. Frozen ViT embeddings silently suppress small-scale signal at the global-aggregation step; the signal is recoverable from patch tokens conditional on a region of interest. 
+ 
+ 2026-06-10T03:06:32Z 
+
+ Raajitha Muthyala 
+
+ Zhenan Yin 
+
+ Alekhya Jilla 
+
+ Frank Li 
+
+ Theo Dapamede 
+
+ Bardia Khosravi 
+
+ Mohammadreza Chavoshi 
+
+ Judy Gichoya 
+
+ Saptarshi Purkayastha 
+
+ http://arxiv.org/abs/2606.07036v1 
+ STREAM: Stochastic Riemannian Flow Matching with Anisotropic Decoder for Digital Histopathology Image Generation 
+ 2026-06-05T08:26:44Z 
+
+ Synthetic histopathology image generation addresses critical challenges in computational pathology, including patient privacy and the growing need for large-scale training data for foundation models. Latent diffusion models have dominated the image generation domain, with recent works emphasizing that the choice of latent space is critical to the quality of generated images. Existing state-of-the-art generative models in histopathology use pretrained Vision Foundation Models (VFMs) as conditioning signals, and we observe that this leads to "conditioning collapse," where the conditioning signal dominates the latent space and lowers the quality and diversity of generated samples. Therefore, we instead use pretrained histopathology VFMs as the latent space itself, leveraging their patch-token features that encode rich semantic information. We empirically show that these features are $\ell_2$-normalized and lie on the unit hypersphere $\mathcal{S}^{d-1}$ with strong angular dominance and intrinsic curvature, making them naturally suited for a Riemannian formulation. We therefore present STREAM, the first framework to apply Riemannian flow matching in the pathology domain. STREAM consists of two stages: 1) a bridge-type stochastic perturbation that establishes per-token rectifiability on $\mathcal{S}^{d-1}$ for training a Diffusion Transformer (DiT) in latent space, and 2) a novel anisotropic decoder that allocates robustness to low-energy directions of the velocity-field Jacobian while preserving fidelity along its high-energy directions. Together, STREAM achieves state-of-the-art reconstruction and generation performance on breast and colorectal cancer datasets. The code will be publicly released upon acceptance. 
+
+ 2026-06-05T08:26:44Z 
+ 27 pages, 7 figures 
+
+ Won June Cho 
+
+ Daeky Jeong 
+
+ Hyeongyeol Lim 
+
+ Hongjun Yoon 
+
+ http://arxiv.org/abs/2606.06918v1 
+ DRIFT: From Robustness Gaps to Invariance Manifolds for AI-Generated Image Detection 
+ 2026-06-05T05:32:57Z 
+
+ The rapid evolution of generative image models challenges existing AI-generated image detectors, particularly in open-world settings with unseen generators. Recent training-free approaches measure robustness gaps in frozen vision foundation models (VFMs), detecting fakes via perturbation-induced embedding drift. However, these methods rely on fixed invariance geometry inherited from pretraining and lack principled adaptation to the detection task. We instead formulate AI-generated image detection as learning a structured invariance manifold of real images under one-class supervision. Building upon a frozen VFM, we introduce lightweight projection heads that decompose representation space into complementary robust and fragile subspaces. The robust subspace is explicitly trained to suppress variations induced by physically plausible imaging transformations, approximating tangent directions of a real-image manifold, while the fragile subspace retains sensitivity to edit-like perturbations. A structured ordering margin enforces hierarchical separation between physical invariance and edit-induced variability, enabling detection as a margin-violation test relative to the learned manifold. At inference, multi-scale patch-wise drift under both transformation families yields a dual-channel invariance signature and interpretable localization. Extensive experiments demonstrate strong open-world generalization across unseen generators and resolutions, consistently outperforming training-free robustness-based baselines while providing interpretable invariance-violation maps. 
+ 
+ 2026-06-05T05:32:57Z 
+ Submitted to ECCV 2026 
+
+ Abhishek Ameta 
+
+ Sayan Banerjee 
+
+ Shreyas Pandith 
+
+ Harshit 
+
+ Ankita Chatterjee 
+
+ Akshay Janardan Bankar 
+
+ Amit Satish Unde 
+
+ http://arxiv.org/abs/2606.05925v1 
+ Towards World Models in Biomedical Research 
+ 2026-06-04T09:28:54Z 
+
+ A central goal of biomedicine is to understand, predict and ultimately control the dynamic mechanisms by which biological systems respond to perturbations, disease progression and therapeutic intervention. Although foundation models and large language models have accelerated biomedical data interpretation, most current systems remain focused on static pattern recognition rather than prospective simulation of biological futures. Here we propose biomedical world models as a paradigm for AI-driven discovery. These models learn latent representations of molecular, cellular, tissue and clinical states, together with intervention-conditioned dynamics that allow future trajectories to be simulated before actions are taken. We discuss how biomedical world models could function as data engines, environment simulators and scientific planning substrates across applications including virtual cells, organoids, virtual patients and surgical simulation. We outline the data infrastructure, evaluation benchmarks, safety constraints and governance frameworks required. Biomedical world models may provide a foundation for simulation-guided, closed-loop and experimentally actionable biomedical discovery. 
+ 
+ 2026-06-04T09:28:54Z 
+
+ Guangyu Wang 
+
+ Jingkun Yue 
+
+ Siqi Zhang 
+
+ Yu Liu 
+
+ Xiaoyu Wang 
+
+ Mingyuan Meng 
+
+ Changwei Ji 
+
+ Zongbo Han 
+
+ Yulin Wang 
+
+ Yang Yue 
+
+ Frank Fu 
+
+ Ting Chen 
+
+ Song Wu 
+
+ Ziwei Liu 
+
+ Jiangning Song 
+
+ Ming Li 
+
+ Gao Huang 
+
+ Xiaohong Liu 
+
+ Athanasios Vasilakos 
+
+ Xingcai Zhang 
+
+ Ping Zhang 
+
+ Yong Li 
+
+ http://arxiv.org/abs/2606.05688v1 
+ Value-and-Structure Alignment for Routing-Consistent Quantization of Mixture-of-Experts Models 
+ 2026-06-04T04:13:05Z 
+
+ Mixture-of-Experts (MoE) models scale foundation models efficiently by activating only a subset of experts for each token, but their large number of expert parameters still makes quantization essential for practical deployment. Unlike dense models, however, MoE models are sensitive to routing instability: small quantization-induced perturbations can change the top-$k$ expert selection, altering the computation path and degrading model quality. We propose Value-and-Structure Routing Alignment for Quantization (VSRAQ), a MoE-specific post-training quantization objective that preserves pre-quantization expert-selection behavior under quantization. VSRAQ combines two complementary objectives that jointly preserve expert-selection behavior: value alignment, which matches routing-relevant logits or scores, and structure alignment, which preserves expert ordering and top-$k$ decision boundaries. By maintaining routing consistency, VSRAQ reduces quantization-induced degradation without introducing any inference-time overhead and can be integrated into existing quantization frameworks. Experiments on recent MoE foundation models show that VSRAQ improves expert-selection consistency and consistently outperforms reconstruction-only and router-aware baselines. 
+
+ 2026-06-04T04:13:05Z 
+ 8 pages, 1 figure 
+
+ Hancheol Park 
+
+ Geonho Lee 
+
+ Tairen Piao 
+
+ Tae-Ho Kim 
+
+ http://arxiv.org/abs/2606.05127v1 
+ Non-covalent Interactions at cm$^{-1}$ Accuracy: Data Efficient Physics-Informed Distillation for Machine Learning Interatomic Potentials 
+ 2026-06-03T17:31:32Z 
+
+ Foundation models in atomistic machine learning encode interaction physics across diverse atomic environments, but whether that structure can be transferred when building specialist potentials at quantum-chemical accuracy remains open. Here we show that knowledge distillation from a pretrained universal machine-learning interatomic potential (MLIP), followed by coupled-cluster fine-tuning with single and double excitations and perturbative triples [CCSD(T)], transfers not only low-cost labels but a physically meaningful prior on interaction length scales, anisotropy, and the repulsive-dispersive balance, which CCSD(T) data then sharpens to quantum-chemical accuracy. For He--benzene, fine-tuning with 30% of the CCSD(T) data outperforms direct training using the full 80%; a 60% reduction in the high-fidelity compute budget. A symmetry-adapted perturbation theory (SAPT)-informed adaptive short-range/long-range architecture further lowers the validation MAE from 0.75 1/cm to 0.49 1/cm. Across a circumarene series of polycyclic aromatic hydrocarbons (PAHs), swapping the MLIP teacher under an otherwise identical pipeline changes the coronene error by an order of magnitude while leaving the larger PAHs stable, direct evidence that distillation transfers physical structure, not labels alone. Together, these results identify the choice of pretrained teacher as a primary design axis for data-efficient quantum-chemical-accuracy potentials, alongside architecture and training protocol. 
+ 
+ 2026-06-03T17:31:32Z 
+ 10 pages, 5 figures plus supplemental material. For associated data and code repository see: https://github.com/DelMaestroGroup/papers-code-mlip-distillation-sapt 
+
+ Yulin Shen 
+
+ Shahzad Akram 
+
+ Louis Primeau 
+
+ Gen Zu 
+
+ Konstantinos D. Vogiatzis 
+
+ Yang Zhang 
+
+ Adrian Del Maestro 
+
+ http://arxiv.org/abs/2606.07660v1 
+ Need We Teach Foundation Models What is a Generative Image? Gradient-Free Generative Artifact Detection via Analytic Spectral Adaptation 
+ 2026-06-03T13:04:23Z 
+
+ Adapting foundation models to detect generative artifacts via gradient-based updates compromises their intrinsic representations. Under optimization on limited samples, models overfit to local domain shortcuts. Fine-tuning massive weights on specialized data introduces erroneous inductive biases, inducing a measurable $\mathcal{L}_2$ norm perturbation in the high-dimensional feature space -- a phenomenon we formalize as anchor drift. Amplified by nonlinear activations, this drift impairs zero-shot forgery detection across unseen domains.We propose a gradient-free methodology reframing detection from binary classification to an out-of-distribution (OOD) anomaly measurement problem. Treating a frozen foundation model as a stable coordinate system, we establish an absolute natural anchor on the real visual manifold by analytically decoupling statistical and semantic deviations, derived from attention-weighted spatial moments and orthogonal projection of perceptual inconsistencies. Evaluated in an extreme zero-shot setting (trained on face forgeries, tested on universal Text-to-Image generations), our method significantly outperforms gradient-optimized paradigms. Backpropagation-free forward passes and linear solvers enable hardware-agnostic, edge-deployable calibration with minimal latency. Furthermore, the Sherman-Morrison formula unlocks instantaneous online learning against novel attacks and enables privacy-preserving federated collaboration via covariance delta transmission. 
+
+ 2026-06-03T13:04:23Z 
+
+ Qiaoyu Chen 
+
+ Bing Zhang 
+
+ http://arxiv.org/abs/2606.01470v1 
+ Emergent Transfer of a Physics Foundation Model from Simulation to Laboratory Turbulence 
+ 2026-05-31T22:07:38Z 
+
+ Whether physics foundation models can be usefully deployed on laboratory experiments remains an open question for scientific machine learning (ML). We test this question on the Rayleigh-Taylor instability (RTI), a ubiquitous and demanding fluid instability seen from tabletop flows to supernova explosions, in which small perturbations at a density interface grow into chaotic, multiscale mixing as a lighter fluid accelerates into a heavier one. Standard ML models struggle with RTI, and despite over a century of theoretical, numerical, and experimental work, it carries an unresolved discrepancy between simulation and experiment: the late-time mixing growth rate, $α$, measured in most laboratory experiments ($\sim$ 0.06-0.07), is roughly three times the value from idealized direct numerical simulations (DNS, $\sim$ 0.02). The gap's origin remains debated. These properties make RTI a stringent test for a question that matters well beyond RTI: can foundation models trained only on simulations generalise to sparse, messy, and noisy laboratory settings? We finetune Walrus, a foundation model for continuum dynamics, on three or fewer DNS realizations and recover key RTI physics over long rollouts. Applied zero-shot to sliding-barrier laboratory data, the finetuned model leaves the DNS-like regime and enters the observed growth band, having never seen a single experimental sample. These results provide independent, data-driven evidence that initial conditions play a crucial role in the longstanding sim-experiment gap in $α$. The model also generalises zero-shot to stable stratification, a buoyancy regime absent from training, correctly slowing mixing-layer growth. Together, our results show that foundation models can generalise well beyond their training data, predicting laboratory behavior and unseen physical regimes, opening new ways to probe longstanding simulation-experiment gaps. 
+
+ 2026-05-31T22:07:38Z 
+
+ Payel Mukhopadhyay 
+
+ Stefan S. Nixon 
+
+ Romain Watteaux 
+
+ Michael McCabe 
+
+ Alberto Bietti 
+
+ Kyunghyun Cho 
+
+ Cristiana Diaconu 
+
+ Irina Espejo Morales 
+
+ David Fouhey 
+
+ Siavash Golkar 
+
+ Tom Hehir 
+
+ Shirley Ho 
+
+ Jake Kovalic 
+
+ Geraud Krawezik 
+
+ Francois Lanusse 
+
+ Tanya Marwah 
+
+ Rudy Morel 
+
+ Mariel Pettee 
+
+ Helen Qu 
+
+ Jeff Shen 
+
+ Hadi Sotoudeh 
+
+ Stuart B. Dalziel 
+
+ Miles Cranmer 
+
+ http://arxiv.org/abs/2606.01157v1 
+ HiTokSR: A Coarse-to-Fine Tokenizer with Hierarchical Codebooks for High-Fidelity Real-World Image Super-Resolution 
+ 2026-05-31T11:02:58Z 
+
+ Vector-quantized (VQ) generative models have shown promising results in real-world image super-resolution (Real-ISR). However, existing methods typically rely on a monolithic latent space that entangles low-frequency structures with high-frequency textures. This entanglement forces a single codebook to capture a combinatorially complex set of structure-texture pairings, which constrains representational capacity and limits codebook utilization. To address this issue, we present HiTokSR, a hierarchical token prediction framework. Instead of using a single codebook, HiTokSR partitions the latent space along the channel dimension into frequency-aware groups, quantizing each with an independent sub-codebook. This coarse-to-fine design disentangles global structures from fine details, enhancing combinatorial expressiveness while circumventing the optimization instability of high-dimensional nearest-neighbor lookups. To further improve semantic consistency, our generator integrates priors from a vision foundation model via adaptive feature modulation, multi-scale class tokens, and a representation alignment loss. Additionally, we introduce an index-level perturbation strategy during decoder fine-tuning to bridge the train-test discrepancy in discrete token prediction. Extensive experiments on real-world benchmarks demonstrate that HiTokSR achieves state-of-the-art performance in both perceptual quality and reconstruction fidelity. 
+ 
+ 2026-05-31T11:02:58Z 
+
+ Mingxi Li

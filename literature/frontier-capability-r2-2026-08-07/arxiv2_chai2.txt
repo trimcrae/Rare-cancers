@@ -1,0 +1,73 @@
+SOURCE URL: http://export.arxiv.org/api/query?search_query=all%3A%22antibody+design%22+AND+all%3A%22zero-shot%22&max_results=25&sortBy=submittedDate&sortOrder=descending
+FINAL URL: https://export.arxiv.org/api/query?search_query=all%3A%22antibody+design%22+AND+all%3A%22zero-shot%22&max_results=25&sortBy=submittedDate&sortOrder=descending
+HTTP: 200
+CONTENT-TYPE: application/atom+xml; charset=utf-8
+======================================================================
+https://arxiv.org/api/Dy74DkhSQo203NDGI+m2joiK/r8 
+ arXiv Query: search_query=all:"antibody design" AND all:"zero-shot"&id_list=&start=0&max_results=25 
+ 2026-08-07T00:41:37Z 
+ 
+ 25 
+ 3 
+ 0 
+ 
+ http://arxiv.org/abs/2512.17815v1 
+ Structure-Aware Antibody Design with Affinity-Optimized Inverse Folding 
+ 2025-12-19T17:20:05Z 
+
+ Motivation: The clinical efficacy of antibody therapeutics critically depends on high-affinity target engagement, yet laboratory affinity-maturation campaigns are slow and costly. In computational settings, most protein language models (PLMs) are not trained to favor high-affinity antibodies, and existing preference optimization approaches introduce substantial computational overhead without clear affinity gains. Therefore, this work proposes SimBinder-IF, which converts the inverse folding model ESM-IF into an antibody sequence generator by freezing its structure encoder and training only its decoder to prefer experimentally stronger binders through preference optimization.
+ Results: On the 11-assay AbBiBench benchmark, SimBinder-IF achieves a 55 percent relative improvement in mean Spearman correlation between log-likelihood scores and experimentally measured binding affinity compared to vanilla ESM-IF (from 0.264 to 0.410). In zero-shot generalization across four unseen antigen-antibody complexes, the correlation improves by 156 percent (from 0.115 to 0.294). SimBinder-IF also outperforms baselines in top-10 precision for ten-fold or greater affinity improvements. A case study redesigning antibody F045-092 for A/California/04/2009 (pdmH1N1) shows that SimBinder-IF proposes variants with substantially lower predicted binding free energy changes than ESM-IF (mean Delta Delta G -75.16 vs -46.57). Notably, SimBinder-IF trains only about 18 percent of the parameters of the full ESM-IF model, highlighting its parameter efficiency for high-affinity antibody generation. 
+
+ 2025-12-19T17:20:05Z 
+
+ Xinyan Zhao 
+
+ Yi-Ching Tang 
+
+ Rivaaj Monsia 
+
+ Victor J. Cantu 
+
+ Ashwin Kumar Ramesh 
+
+ Xiaozhong Liu 
+
+ Zhiqiang An 
+
+ Xiaoqian Jiang 
+
+ Yejin Kim 
+
+ http://arxiv.org/abs/2405.03370v1 
+ AntiFold: Improved antibody structure-based design using inverse folding 
+ 2024-05-06T11:23:47Z 
+
+ The design and optimization of antibodies requires an intricate balance across multiple properties. Protein inverse folding models, capable of generating diverse sequences folding into the same structure, are promising tools for maintaining structural integrity during antibody design. Here, we present AntiFold, an antibody-specific inverse folding model, fine-tuned from ESM-IF1 on solved and predicted antibody structures. AntiFold outperforms existing inverse folding tools on sequence recovery across complementarity-determining regions, with designed sequences showing high structural similarity to their solved counterpart. It additionally achieves stronger correlations when predicting antibody-antigen binding affinity in a zero-shot manner, while performance is augmented further when including antigen information. AntiFold assigns low probabilities to mutations that disrupt antigen binding, synergizing with protein language model residue probabilities, and demonstrates promise for guiding antibody optimization while retaining structure-related properties. AntiFold is freely available under the BSD 3-Clause as a web server at https://opig.stats.ox.ac.uk/webapps/antifold/ and and pip installable package at https://github.com/oxpig/AntiFold 
+
+ 2024-05-06T11:23:47Z 
+
+ Magnus Haraldson Høie 
+
+ Alissa Hummer 
+
+ Tobias H. Olsen 
+
+ Broncio Aguilar-Sanjuan 
+
+ Morten Nielsen 
+
+ Charlotte M. Deane 
+
+ http://arxiv.org/abs/2312.05273v1 
+ Evaluating Zero-Shot Scoring for In Vitro Antibody Binding Prediction with Experimental Validation 
+ 2023-12-07T23:34:03Z 
+
+ The success of therapeutic antibodies relies on their ability to selectively bind antigens. AI-based antibody design protocols have shown promise in generating epitope-specific designs. Many of these protocols use an inverse folding step to generate diverse sequences given a backbone structure. Due to prohibitive screening costs, it is key to identify candidate sequences likely to bind in vitro. Here, we compare the efficacy of 8 common scoring paradigms based on open-source models to classify antibody designs as binders or non-binders. We evaluate these approaches on a novel surface plasmon resonance (SPR) dataset, spanning 5 antigens. Our results show that existing methods struggle to detect binders, and performance is highly variable across antigens. We find that metrics computed on flexibly docked antibody-antigen complexes are more robust, and ensembles scores are more consistent than individual metrics. We provide experimental insight to analyze current scoring techniques, highlighting that the development of robust, zero-shot filters is an important research gap. 
+
+ 2023-12-07T23:34:03Z 
+
+ Divya Nori 
+
+ Simon V. Mathis 
+
+ Amir Shanehsazzadeh
