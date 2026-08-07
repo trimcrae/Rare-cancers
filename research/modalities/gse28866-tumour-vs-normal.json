@@ -19,19 +19,158 @@
     {
       "id": "normalized_36048_peaks",
       "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE28nnn/GSE28866/suppl/GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz",
-      "status": "UNREACHABLE",
-      "error": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+      "status": "READ",
+      "bytes_read": 3000000,
+      "gzip_note": null,
+      "separator": "tab",
+      "n_header_fields": 100,
+      "header_first20": [
+        "peak",
+        "hg18_coords",
+        "classification",
+        "gene_id",
+        "gene_symbol",
+        "peak_exon_gene_symbol",
+        "differentially_expressed_cancer_type",
+        "Breast_STT5463",
+        "Breast_STT5474",
+        "Breast_STT5477",
+        "Breast_STT5572",
+        "Breast_STT5575",
+        "Breast_STT5581",
+        "HNSCC_STT5542",
+        "HNSCC_STT5535",
+        "HNSCC_STT5544",
+        "HNSCC_STT5545",
+        "HNSCC_STT5546",
+        "Lung_SCC_STT5547",
+        "Lung_SCC_STT5548"
+      ],
+      "columns": {
+        "annotation_columns": [
+          "peak",
+          "gene_id",
+          "gene_symbol",
+          "peak_exon_gene_symbol"
+        ],
+        "sample_columns_n": 96,
+        "sample_columns_first10": [
+          "hg18_coords",
+          "classification",
+          "differentially_expressed_cancer_type",
+          "Breast_STT5463",
+          "Breast_STT5474",
+          "Breast_STT5477",
+          "Breast_STT5572",
+          "Breast_STT5575",
+          "Breast_STT5581",
+          "HNSCC_STT5542"
+        ],
+        "gsm_named_columns_n": 0,
+        "symbol_like_columns": [
+          "gene_id",
+          "gene_symbol",
+          "peak_exon_gene_symbol"
+        ]
+      },
+      "first_data_row_first8": [
+        "1",
+        "chr1:554492-554531_+",
+        "ref_known_Gencode_nc",
+        "AK026901",
+        "",
+        "",
+        "",
+        "0"
+      ],
+      "emc_gsms_found_in_header": [],
+      "emc_gsms_missing_from_header": [
+        "GSM715466",
+        "GSM715467",
+        "GSM715470",
+        "GSM715472"
+      ]
     },
     {
       "id": "raw_counts_54511_peaks",
       "url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE28nnn/GSE28866/suppl/GSE28866_raw_counts_54511_peaks_cancer_and_normal.txt.gz",
-      "status": "UNREACHABLE",
-      "error": "URLError: <urlopen error Tunnel connection failed: 403 Forbidden>"
+      "status": "READ",
+      "bytes_read": 3000000,
+      "gzip_note": null,
+      "separator": "tab",
+      "n_header_fields": 94,
+      "header_first20": [
+        "peak_number__hg18_coords",
+        "Breast_STT5463",
+        "Breast_STT5474",
+        "Breast_STT5477",
+        "Breast_STT5572",
+        "Breast_STT5575",
+        "Breast_STT5581",
+        "HNSCC_STT5542",
+        "HNSCC_STT5535",
+        "HNSCC_STT5544",
+        "HNSCC_STT5545",
+        "HNSCC_STT5546",
+        "Lung_SCC_STT5547",
+        "Lung_SCC_STT5548",
+        "PUC_STT5549",
+        "PUC_STT5550",
+        "NPC_STT5551",
+        "NPC_STT5552",
+        "NPC_STT5553",
+        "Lung_STT5554"
+      ],
+      "columns": {
+        "annotation_columns": [
+          "peak_number__hg18_coords"
+        ],
+        "sample_columns_n": 93,
+        "sample_columns_first10": [
+          "Breast_STT5463",
+          "Breast_STT5474",
+          "Breast_STT5477",
+          "Breast_STT5572",
+          "Breast_STT5575",
+          "Breast_STT5581",
+          "HNSCC_STT5542",
+          "HNSCC_STT5535",
+          "HNSCC_STT5544",
+          "HNSCC_STT5545"
+        ],
+        "gsm_named_columns_n": 0,
+        "symbol_like_columns": []
+      },
+      "first_data_row_first8": [
+        "1__chr1:554492-554531_+",
+        "0",
+        "66",
+        "35",
+        "26",
+        "26",
+        "9",
+        "3"
+      ],
+      "emc_gsms_found_in_header": [],
+      "emc_gsms_missing_from_header": [
+        "GSM715466",
+        "GSM715467",
+        "GSM715470",
+        "GSM715472"
+      ]
     }
   ],
   "verdict": {
-    "answer": "UNREACHABLE",
-    "_reading": "Neither peak table could be fetched. This is a statement about the network from this runner, NOT about the deposit's contents, and it must not be recorded as 'no gene symbols'."
+    "answer": "GENE_INDEXED",
+    "symbol_columns": {
+      "normalized_36048_peaks": [
+        "gene_id",
+        "gene_symbol",
+        "peak_exon_gene_symbol"
+      ]
+    },
+    "_reading": "A symbol-like column exists, so a tumour-vs-normal EMC read on named genes is a parse rather than a coordinate-mapping project. ⛔ It is still n = 4 against an unmatched normal-tissue panel.",
+    "_next": "Extract WANTED against the EMC columns vs the 27 normal libraries."
   },
   "_genes_this_would_answer_for": [
     "ALCAM",
