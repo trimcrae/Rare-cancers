@@ -13,7 +13,7 @@
     "how_to_tell_absent_from_zero": "read `readable`. NEVER infer absence from a missing key or a null score.",
     "read_the_control_first": "reads.control \u2014 if the instrument did not reproduce ENO3, nothing below it should be quoted."
   },
-  "generated_utc": "2026-08-07T13:21:40+00:00",
+  "generated_utc": "2026-08-07T14:10:07+00:00",
   "signature_sets": {
     "pparg_chip_chea": {
       "read_id": "read_3_PPARG_ACTIVITY",
@@ -39,6 +39,10 @@
         "PPARG 23326641 ChIP-Seq C3H10T1-2 Mouse"
       ],
       "n_matching_terms": 6,
+      "species_of_the_source_experiment": {
+        "species": "mouse",
+        "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+      },
       "selection_rule": "prefix match on 'pparg'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
       "library": "ChEA_2022",
       "citation": "ChEA \u2014 transcription-factor target sets from published ChIP-X experiments; each term carries its own source PMID in the term string (Lachmann et al., Bioinformatics 2010), served via Enrichr (Kuleshov et al., NAR 2016)",
@@ -54,7 +58,9 @@
           "library_key": "encode_chea",
           "needle": "pparg",
           "error": "no term matched",
-          "n_terms_excluded": 1
+          "n_terms_excluded": 1,
+          "require_any": [],
+          "require_suffix": null
         }
       ],
       "unresolved": "\u26a0 NOT RETRIEVED. This slot scored nothing. An absent set is an absent READING \u2014 it says nothing about the biology it names."
@@ -78,22 +84,26 @@
         "PPARG human"
       ],
       "n_matching_terms": 1,
+      "species_of_the_source_experiment": {
+        "species": "human",
+        "caveat": null
+      },
       "selection_rule": "prefix match on 'ppargh'; preferred a term containing ['human']; 2 terms excluded by ['ppargc']",
       "library": "TRRUST_Transcription_Factors_2019",
       "citation": "TRRUST v2 \u2014 a manually curated transcriptional regulatory network mined from the literature (Han et al., Nucleic Acids Research 2018), served via Enrichr",
       "n_genes": 66,
       "provenance": "Enrichr library TRRUST_Transcription_Factors_2019, term matched verbatim, fetched at run time"
     },
-    "pparg_perturbation_response": {
+    "pparg_perturbation_KO_DOWN": {
       "read_id": "read_3_PPARG_ACTIVITY",
       "role": "pparg_target_set",
-      "what": "Genes whose expression MOVES when PPARG is perturbed. \u26a0 The Enrichr term name carries its own direction (up/down) and its own GEO accession; both are recorded verbatim, and the direction must be read off the term rather than assumed.",
+      "what": "Genes DOWN when PPARG is knocked out / deficient \u2014 PPAR\u03b3-DEPENDENT genes. High in EMC is the reading consistent with an engaged receptor.",
       "candidates_tried": [
         {
           "library_key": "tf_perturb",
           "needle": "pparg",
           "ok": true,
-          "n_terms_matched": 20,
+          "n_terms_matched": 2,
           "n_terms_excluded": 0
         }
       ],
@@ -101,23 +111,82 @@
       "matched_term_verbatim": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN",
       "all_matching_terms_verbatim": [
         "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN",
-        "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
-        "PPARG KO MOUSE GSE24292 CREEDSID GENE 3012 DOWN",
-        "PPARG KO MOUSE GSE24292 CREEDSID GENE 3012 UP",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 DOWN",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2732 DOWN",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2732 UP",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2733 DOWN",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2733 UP",
-        "PPARG OE MOUSE GSE2192 CREEDSID GENE 861 DOWN",
-        "PPARG OE MOUSE GSE2192 CREEDSID GENE 861 UP"
+        "PPARG KO MOUSE GSE24292 CREEDSID GENE 3012 DOWN"
       ],
-      "n_matching_terms": 20,
-      "selection_rule": "prefix match on 'pparg'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+      "n_matching_terms": 2,
+      "species_of_the_source_experiment": {
+        "species": "mouse",
+        "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+      },
+      "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['deficiency', 'ko']; REQUIRED suffix 'down'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
       "library": "TF_Perturbations_Followed_by_Expression",
       "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "n_genes": 206,
+      "provenance": "Enrichr library TF_Perturbations_Followed_by_Expression, term matched verbatim, fetched at run time"
+    },
+    "pparg_perturbation_OE_UP": {
+      "read_id": "read_3_PPARG_ACTIVITY",
+      "role": "pparg_target_set",
+      "what": "Genes UP when PPARG is over-expressed \u2014 an independently constructed set with the same expected direction as KO_DOWN.",
+      "candidates_tried": [
+        {
+          "library_key": "tf_perturb",
+          "needle": "pparg",
+          "ok": true,
+          "n_terms_matched": 7,
+          "n_terms_excluded": 0
+        }
+      ],
+      "resolved_set": "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
+      "matched_term_verbatim": "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
+      "all_matching_terms_verbatim": [
+        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
+        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2732 UP",
+        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2733 UP",
+        "PPARG OE MOUSE GSE2192 CREEDSID GENE 861 UP",
+        "PPARG OE MOUSE GSE2192 CREEDSID GENE 862 UP",
+        "PPARG OE MOUSE GSE2192 CREEDSID GENE 863 UP",
+        "PPARG OE MOUSE GSE2192 CREEDSID GENE 865 UP"
+      ],
+      "n_matching_terms": 7,
+      "species_of_the_source_experiment": {
+        "species": "mouse",
+        "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+      },
+      "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['oe']; REQUIRED suffix 'up'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+      "library": "TF_Perturbations_Followed_by_Expression",
+      "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
+      "n_genes": 269,
+      "provenance": "Enrichr library TF_Perturbations_Followed_by_Expression, term matched verbatim, fetched at run time"
+    },
+    "pparg_perturbation_KO_UP_CONTROL": {
+      "read_id": "read_3_PPARG_ACTIVITY",
+      "role": "directional_control_NOT_a_target_set",
+      "what": "\u26d4 THE FALSIFIER. Genes UP when PPARG is knocked out \u2014 the arm that should NOT track the other two. If it moves with them, the contrast is not measuring PPAR\u03b3 output and read 3 must not be quoted.",
+      "candidates_tried": [
+        {
+          "library_key": "tf_perturb",
+          "needle": "pparg",
+          "ok": true,
+          "n_terms_matched": 2,
+          "n_terms_excluded": 0
+        }
+      ],
+      "resolved_set": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
+      "matched_term_verbatim": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
+      "all_matching_terms_verbatim": [
+        "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
+        "PPARG KO MOUSE GSE24292 CREEDSID GENE 3012 UP"
+      ],
+      "n_matching_terms": 2,
+      "species_of_the_source_experiment": {
+        "species": "mouse",
+        "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+      },
+      "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['deficiency', 'ko']; REQUIRED suffix 'up'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+      "library": "TF_Perturbations_Followed_by_Expression",
+      "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
+      "n_genes": 246,
       "provenance": "Enrichr library TF_Perturbations_Followed_by_Expression, term matched verbatim, fetched at run time"
     },
     "adipogenesis_process_proxy": {
@@ -139,6 +208,10 @@
         "Adipogenesis"
       ],
       "n_matching_terms": 1,
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "selection_rule": "prefix match on 'adipogenesis'; no preference applied \u2014 first alphabetically",
       "library": "MSigDB_Hallmark_2020",
       "citation": "MSigDB Hallmark collection \u2014 Liberzon et al., Cell Systems 2015, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
@@ -234,6 +307,10 @@
         "Regulation of Cellular Response to Hypoxia (GO:1900037)"
       ],
       "n_matching_terms": 3,
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "selection_rule": "substring match on 'responsetohypoxia'; no preference applied \u2014 first alphabetically",
       "library": "GO_Biological_Process_2025",
       "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
@@ -259,6 +336,10 @@
         "Hypoxia"
       ],
       "n_matching_terms": 1,
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "selection_rule": "prefix match on 'hypoxia'; no preference applied \u2014 first alphabetically",
       "library": "MSigDB_Hallmark_2020",
       "citation": "MSigDB Hallmark collection \u2014 Liberzon et al., Cell Systems 2015, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
@@ -284,6 +365,10 @@
         "Chondroitin Sulfate Biosynthesis"
       ],
       "n_matching_terms": 1,
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "selection_rule": "prefix match on 'chondroitinsulfatebiosynthesis'; no preference applied \u2014 first alphabetically",
       "library": "Reactome_Pathways_2024",
       "citation": "Reactome \u2014 Milacic et al., Nucleic Acids Research 2024, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
@@ -299,13 +384,17 @@
           "library_key": "gobp",
           "needle": "chondroitinsulfatebiosyntheticprocess",
           "error": "no term matched",
-          "n_terms_excluded": 0
+          "n_terms_excluded": 0,
+          "require_any": [],
+          "require_suffix": null
         },
         {
           "library_key": "gobp",
           "needle": "chondroitinsulfatemetabolicprocess",
           "error": "no term matched",
-          "n_terms_excluded": 0
+          "n_terms_excluded": 0,
+          "require_any": [],
+          "require_suffix": null
         },
         {
           "library_key": "gobp",
@@ -321,6 +410,10 @@
         "Glycosaminoglycan Biosynthetic Process (GO:0006024)"
       ],
       "n_matching_terms": 1,
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "selection_rule": "prefix match on 'glycosaminoglycanbiosyntheticprocess'; no preference applied \u2014 first alphabetically",
       "library": "GO_Biological_Process_2025",
       "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
@@ -336,7 +429,9 @@
           "library_key": "gobp",
           "needle": "argininebiosyntheticprocess",
           "error": "no term matched",
-          "n_terms_excluded": 0
+          "n_terms_excluded": 0,
+          "require_any": [],
+          "require_suffix": null
         },
         {
           "library_key": "gobp",
@@ -352,6 +447,10 @@
         "Arginine Metabolic Process (GO:0006525)"
       ],
       "n_matching_terms": 1,
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "selection_rule": "prefix match on 'argininemetabolicprocess'; no preference applied \u2014 first alphabetically",
       "library": "GO_Biological_Process_2025",
       "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
@@ -367,7 +466,9 @@
           "library_key": "gobp",
           "needle": "neuroendocrinecelldifferentiation",
           "error": "no term matched",
-          "n_terms_excluded": 0
+          "n_terms_excluded": 0,
+          "require_any": [],
+          "require_suffix": null
         },
         {
           "library_key": "gobp",
@@ -383,6 +484,10 @@
         "Regulation of Neurotransmitter Secretion (GO:0046928)"
       ],
       "n_matching_terms": 1,
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "selection_rule": "prefix match on 'regulationofneurotransmittersecretion'; no preference applied \u2014 first alphabetically",
       "library": "GO_Biological_Process_2025",
       "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
@@ -479,7 +584,7 @@
         "citation": "TRRUST v2 \u2014 a manually curated transcriptional regulatory network mined from the literature (Han et al., Nucleic Acids Research 2018), served via Enrichr"
       }
     },
-    "n_slots_resolved": 14,
+    "n_slots_resolved": 16,
     "slots_unresolved": [
       "pparg_consensus_encode_chea"
     ]
@@ -493,11 +598,11 @@
       "why_this_platform": "6 EMC tumours against 29 comparator sarcomas on one Affymetrix Gene ST array, and the comparator arm is itself FET-rearranged (LGFMS is FUS::CREB3L2).",
       "n_samples": 42,
       "n_probes": 28459,
-      "n_probes_mapped_to_a_symbol": 20232,
+      "n_probes_mapped_to_a_symbol": 20117,
       "probe_mapping_rate": {
-        "probe_level_rate": 0.7109,
+        "probe_level_rate": 0.7069,
         "_probe_level_rate_means": "fraction of the probes ON THIS MATRIX that carry a gene symbol. This is the number that governs whether a given gene is readable, and it is NOT the figure the prior records \u2014 see below.",
-        "accession_resolution_rate": 0.983,
+        "accession_resolution_rate": 0.962,
         "_accession_resolution_rate_means": "fraction of the platform's distinct GenBank accessions that resolved to a symbol. This IS the quantity `emc-atr-vulnerability.json` records, so it is the only one comparable to the prior.",
         "prior_accession_resolution_rate": 0.932,
         "prior_source": "emc-atr-vulnerability.json -> part_b_emc_tumour_signature.series_readability.GSE24369.probe_mapping_rate_per_platform.GPL6244",
@@ -506,11 +611,11 @@
           "n_accessions_resolved_by_curated_dictionary": 6830,
           "n_accessions_resolved_by_unigene_archive": 51071,
           "n_accessions_newly_queried": 4303,
-          "n_accessions_resolved_total": 61139
+          "n_accessions_resolved_total": 59856
         },
-        "abs_difference_vs_prior": 0.051,
+        "abs_difference_vs_prior": 0.03,
         "direction_vs_prior": "more accessions resolved than the prior run",
-        "reading": "\u26a0 MOVED UP by more than 5 points against the prior, COMPARED LIKE FOR LIKE \u2014 MORE accessions resolved this run than last. Not a failure, but not nothing: a wider bridge changes WHICH genes are readable, so a gene readable here and unreadable in the prior run is explained by this line and not by the biology."
+        "reading": "consistent with the prior characterisation"
       },
       "probe_mapping_diagnostic": {
         "platform": "GPL6244",
@@ -721,10 +826,14 @@
         "n_accessions_newly_queried": 4303,
         "ncbi_n_accessions_queried": 4303,
         "ncbi_route": "esearch(accession[ACCN]) -> nuccore UID; esummary(nuccore) -> caption so the UID can be tied back to its accession; elink(nuccore->gene); esummary(gene) -> symbol",
-        "ncbi_accessions_resolved_to_a_uid": 4303,
         "ncbi_errors": [
           {
-            "endpoint": "elink.fcgi",
+            "endpoint": "esummary.fcgi",
+            "attempt": 0,
+            "error": "HTTP Error 502: Bad Gateway"
+          },
+          {
+            "endpoint": "esummary.fcgi",
             "attempt": 0,
             "error": "HTTP Error 502: Bad Gateway"
           },
@@ -741,27 +850,24 @@
           {
             "endpoint": "elink.fcgi",
             "attempt": 0,
-            "error": "HTTP Error 502: Bad Gateway"
-          },
-          {
-            "endpoint": "elink.fcgi",
-            "attempt": 0,
             "error": "IncompleteRead(0 bytes read)"
           },
           {
             "endpoint": "elink.fcgi",
-            "attempt": 1,
+            "attempt": 0,
             "error": "IncompleteRead(0 bytes read)"
           }
         ],
-        "ncbi_accessions_linked_to_a_gene": 3240,
-        "ncbi_genes_named": 2726,
-        "ncbi_mapped": 3238,
+        "ncbi_accessions_resolved_to_a_uid": 4303,
+        "ncbi_budget_exhausted_in_elink_at": 3400,
+        "ncbi_accessions_linked_to_a_gene": 1957,
+        "ncbi_genes_named": 1708,
+        "ncbi_mapped": 1955,
         "ncbi_n_accessions_answered": 4303,
-        "ncbi_elapsed_s": 815.8,
-        "n_accessions_resolved_total": 61139,
-        "accession_resolution_rate": 0.983,
-        "n_mapped": 20646,
+        "ncbi_elapsed_s": 917.9,
+        "n_accessions_resolved_total": 59856,
+        "accession_resolution_rate": 0.962,
+        "n_mapped": 20529,
         "source_used": "acc.cgi?acc=GPL6244&targ=self&form=text&view=full + accession->symbol resolution"
       },
       "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)",
@@ -1025,8 +1131,8 @@
           "annotation": "Skeletal muscle pooled RNA 2 | soft tissue | sample type: pooled RNA | tissue: Skeletal muscle"
         }
       ],
-      "n_wanted_genes_measured": 1141,
-      "n_wanted_genes_requested": 1215
+      "n_wanted_genes_measured": 1532,
+      "n_wanted_genes_requested": 1636
     },
     "GSE4303-GPL3290_series_matrix.txt.gz": {
       "_status": "read",
@@ -1036,7 +1142,7 @@
       "why_this_platform": "10 EMC tumours against 3 DFSP and 3 GIST on the same two-colour cDNA print run. Probes carry EST accessions only, so the read depends on the accession->symbol bridge.",
       "n_samples": 16,
       "n_probes": 43008,
-      "n_probes_mapped_to_a_symbol": 27206,
+      "n_probes_mapped_to_a_symbol": 27205,
       "probe_mapping_rate": {
         "probe_level_rate": 0.6326,
         "_probe_level_rate_means": "fraction of the probes ON THIS MATRIX that carry a gene symbol. This is the number that governs whether a given gene is readable, and it is NOT the figure the prior records \u2014 see below.",
@@ -1049,7 +1155,7 @@
           "n_accessions_resolved_by_curated_dictionary": 630,
           "n_accessions_resolved_by_unigene_archive": 37279,
           "n_accessions_newly_queried": 27271,
-          "n_accessions_resolved_total": 37923
+          "n_accessions_resolved_total": 37922
         },
         "abs_difference_vs_prior": 0.0,
         "direction_vs_prior": "identical to the prior run",
@@ -1222,48 +1328,48 @@
         "n_accessions_newly_queried": 27271,
         "ncbi_n_accessions_queried": 27271,
         "ncbi_route": "esearch(accession[ACCN]) -> nuccore UID; esummary(nuccore) -> caption so the UID can be tied back to its accession; elink(nuccore->gene); esummary(gene) -> symbol",
-        "ncbi_accessions_resolved_to_a_uid": 27270,
         "ncbi_errors": [
           {
+            "endpoint": "esummary.fcgi",
+            "attempt": 0,
+            "error": "IncompleteRead(69632 bytes read)"
+          },
+          {
             "endpoint": "elink.fcgi",
             "attempt": 0,
+            "error": "IncompleteRead(0 bytes read)"
+          },
+          {
+            "endpoint": "elink.fcgi",
+            "attempt": 1,
+            "error": "IncompleteRead(0 bytes read)"
+          },
+          {
+            "endpoint": "elink.fcgi",
+            "attempt": 2,
             "error": "HTTP Error 502: Bad Gateway"
           },
           {
             "endpoint": "elink.fcgi",
             "attempt": 0,
-            "error": "HTTP Error 502: Bad Gateway"
+            "error": "IncompleteRead(0 bytes read)"
           },
           {
             "endpoint": "elink.fcgi",
             "attempt": 0,
-            "error": "HTTP Error 502: Bad Gateway"
-          },
-          {
-            "endpoint": "elink.fcgi",
-            "attempt": 0,
-            "error": "HTTP Error 502: Bad Gateway"
-          },
-          {
-            "endpoint": "elink.fcgi",
-            "attempt": 0,
-            "error": "HTTP Error 502: Bad Gateway"
-          },
-          {
-            "endpoint": "elink.fcgi",
-            "attempt": 0,
-            "error": "HTTP Error 502: Bad Gateway"
+            "error": "IncompleteRead(0 bytes read)"
           }
         ],
-        "ncbi_budget_exhausted_in_elink_at": 4700,
-        "ncbi_accessions_linked_to_a_gene": 14,
-        "ncbi_genes_named": 13,
-        "ncbi_mapped": 14,
+        "ncbi_accessions_resolved_to_a_uid": 27270,
+        "ncbi_budget_exhausted_in_elink_at": 4200,
+        "ncbi_accessions_linked_to_a_gene": 13,
+        "ncbi_genes_named": 12,
+        "ncbi_mapped": 13,
         "ncbi_n_accessions_answered": 27271,
-        "ncbi_elapsed_s": 910.4,
-        "n_accessions_resolved_total": 37923,
+        "ncbi_elapsed_s": 911.4,
+        "n_accessions_resolved_total": 37922,
         "accession_resolution_rate": 0.582,
-        "n_mapped": 27206,
+        "n_mapped": 27205,
         "source_used": "acc.cgi?acc=GPL3290&targ=self&form=text&view=full + accession->symbol resolution"
       },
       "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE \u2014 an absolute level is NOT interpretable; only the between-group contrast is)",
@@ -1376,8 +1482,8 @@
           "annotation": "STT2528(2)-Myxoid Chondrosarcoma | CRH-mRNA | STT2528(2)-Myxoid Chondrosarcoma | CRH-mRNA | STT2528(2)-Myxoid Chondrosarcoma"
         }
       ],
-      "n_wanted_genes_measured": 1039,
-      "n_wanted_genes_requested": 1215
+      "n_wanted_genes_measured": 1384,
+      "n_wanted_genes_requested": 1636
     }
   },
   "gene_reads": {
@@ -7275,7 +7381,7 @@
         "readable": false,
         "platform": "GPL6244",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL6244 maps to the symbol B3GALT6. The platform's probe->symbol mapping covers 20232 of 28459 probes (rate 0.7109), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL6244 maps to the symbol B3GALT6. The platform's probe->symbol mapping covers 20117 of 28459 probes (rate 0.7069), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether B3GALT6 is expressed in EMC."
       },
       "GSE4303-GPL3290_series_matrix.txt.gz": {
@@ -9380,7 +9486,7 @@
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol BNIP3. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol BNIP3. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether BNIP3 is expressed in EMC."
       }
     },
@@ -18050,7 +18156,7 @@
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol CHSY3. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol CHSY3. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether CHSY3 is expressed in EMC."
       }
     },
@@ -18334,7 +18440,7 @@
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol CIDEC. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol CIDEC. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether CIDEC is expressed in EMC."
       }
     },
@@ -23230,7 +23336,7 @@
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol EGLN1. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol EGLN1. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether EGLN1 is expressed in EMC."
       }
     },
@@ -27716,7 +27822,7 @@
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol HAS1. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol HAS1. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether HAS1 is expressed in EMC."
       }
     },
@@ -35140,7 +35246,7 @@
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol NANOG. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol NANOG. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether NANOG is expressed in EMC."
       }
     },
@@ -36685,7 +36791,7 @@
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol NEUROD1. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol NEUROD1. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether NEUROD1 is expressed in EMC."
       }
     },
@@ -36694,14 +36800,14 @@
         "readable": false,
         "platform": "GPL6244",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL6244 maps to the symbol NG2. The platform's probe->symbol mapping covers 20232 of 28459 probes (rate 0.7109), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL6244 maps to the symbol NG2. The platform's probe->symbol mapping covers 20117 of 28459 probes (rate 0.7069), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether NG2 is expressed in EMC."
       },
       "GSE4303-GPL3290_series_matrix.txt.gz": {
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol NG2. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol NG2. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether NG2 is expressed in EMC."
       }
     },
@@ -38390,14 +38496,14 @@
         "readable": false,
         "platform": "GPL6244",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL6244 maps to the symbol NR2F1. The platform's probe->symbol mapping covers 20232 of 28459 probes (rate 0.7109), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL6244 maps to the symbol NR2F1. The platform's probe->symbol mapping covers 20117 of 28459 probes (rate 0.7069), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether NR2F1 is expressed in EMC."
       },
       "GSE4303-GPL3290_series_matrix.txt.gz": {
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol NR2F1. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol NR2F1. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether NR2F1 is expressed in EMC."
       }
     },
@@ -55636,7 +55742,7 @@
         "readable": false,
         "platform": "GPL6244",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL6244 maps to the symbol XYLT1. The platform's probe->symbol mapping covers 20232 of 28459 probes (rate 0.7109), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL6244 maps to the symbol XYLT1. The platform's probe->symbol mapping covers 20117 of 28459 probes (rate 0.7069), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether XYLT1 is expressed in EMC."
       },
       "GSE4303-GPL3290_series_matrix.txt.gz": {
@@ -56064,7 +56170,7 @@
         "readable": false,
         "platform": "GPL3290",
         "n_probes_mapping": 0,
-        "why_not_readable": "No probe on GPL3290 maps to the symbol XYLT2. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+        "why_not_readable": "No probe on GPL3290 maps to the symbol XYLT2. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
         "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether XYLT2 is expressed in EMC."
       }
     },
@@ -58129,6 +58235,10 @@
         "PPARG 23326641 ChIP-Seq C3H10T1-2 Mouse"
       ],
       "selection_rule": "prefix match on 'pparg'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+      "species_of_the_source_experiment": {
+        "species": "mouse",
+        "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+      },
       "library": "ChEA_2022",
       "citation": "ChEA \u2014 transcription-factor target sets from published ChIP-X experiments; each term carries its own source PMID in the term string (Lachmann et al., Bioinformatics 2010), served via Enrichr (Kuleshov et al., NAR 2016)",
       "provenance": "Enrichr library ChEA_2022, term matched verbatim, fetched at run time",
@@ -58334,16 +58444,16 @@
             "SERTAD2"
           ],
           "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
-          "EMC_mean_score": 0.5969,
-          "comparator_mean_score": 0.5174,
+          "EMC_mean_score": 0.6022,
+          "comparator_mean_score": 0.5219,
           "score": {
-            "t": 3.633,
+            "t": 3.715,
             "df": 6.4,
-            "mean_a": 0.5969,
-            "mean_b": 0.5174,
-            "delta_a_minus_b": 0.0796
+            "mean_a": 0.6022,
+            "mean_b": 0.5219,
+            "delta_a_minus_b": 0.0803
           },
-          "verdict": "HIGHER in EMC by 0.0796 SD units (t=3.633, df=6.4, n_EMC=6, n_comparator=29, 188/191 genes readable). \u26a0 Uncorrected for multiple testing."
+          "verdict": "HIGHER in EMC by 0.0803 SD units (t=3.715, df=6.4, n_EMC=6, n_comparator=29, 188/191 genes readable). \u26a0 Uncorrected for multiple testing."
         },
         "GSE4303-GPL3290_series_matrix.txt.gz": {
           "n_genes_requested": 191,
@@ -58568,7 +58678,9 @@
           "library_key": "encode_chea",
           "needle": "pparg",
           "error": "no term matched",
-          "n_terms_excluded": 1
+          "n_terms_excluded": 1,
+          "require_any": [],
+          "require_suffix": null
         }
       ],
       "verdict": "\u26d4 SET NOT RETRIEVED \u2014 scored nothing. An absent set is an absent reading; it says nothing about the biology it names."
@@ -58584,6 +58696,10 @@
         "PPARG human"
       ],
       "selection_rule": "prefix match on 'ppargh'; preferred a term containing ['human']; 2 terms excluded by ['ppargc']",
+      "species_of_the_source_experiment": {
+        "species": "human",
+        "caveat": null
+      },
       "library": "TRRUST_Transcription_Factors_2019",
       "citation": "TRRUST v2 \u2014 a manually curated transcriptional regulatory network mined from the literature (Han et al., Nucleic Acids Research 2018), served via Enrichr",
       "provenance": "Enrichr library TRRUST_Transcription_Factors_2019, term matched verbatim, fetched at run time",
@@ -58763,28 +58879,22 @@
         }
       }
     },
-    "pparg_perturbation_response": {
+    "pparg_perturbation_KO_DOWN": {
       "read_id": "read_3_PPARG_ACTIVITY",
       "role": "pparg_target_set",
       "resolved": true,
-      "what": "Genes whose expression MOVES when PPARG is perturbed. \u26a0 The Enrichr term name carries its own direction (up/down) and its own GEO accession; both are recorded verbatim, and the direction must be read off the term rather than assumed.",
+      "what": "Genes DOWN when PPARG is knocked out / deficient \u2014 PPAR\u03b3-DEPENDENT genes. High in EMC is the reading consistent with an engaged receptor.",
       "resolved_set": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN",
       "matched_term_verbatim": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN",
       "all_matching_terms_verbatim": [
         "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN",
-        "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
-        "PPARG KO MOUSE GSE24292 CREEDSID GENE 3012 DOWN",
-        "PPARG KO MOUSE GSE24292 CREEDSID GENE 3012 UP",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 DOWN",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2732 DOWN",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2732 UP",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2733 DOWN",
-        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2733 UP",
-        "PPARG OE MOUSE GSE2192 CREEDSID GENE 861 DOWN",
-        "PPARG OE MOUSE GSE2192 CREEDSID GENE 861 UP"
+        "PPARG KO MOUSE GSE24292 CREEDSID GENE 3012 DOWN"
       ],
-      "selection_rule": "prefix match on 'pparg'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+      "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['deficiency', 'ko']; REQUIRED suffix 'down'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+      "species_of_the_source_experiment": {
+        "species": "mouse",
+        "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+      },
       "library": "TF_Perturbations_Followed_by_Expression",
       "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "provenance": "Enrichr library TF_Perturbations_Followed_by_Expression, term matched verbatim, fetched at run time",
@@ -59244,6 +59354,1167 @@
         }
       }
     },
+    "pparg_perturbation_OE_UP": {
+      "read_id": "read_3_PPARG_ACTIVITY",
+      "role": "pparg_target_set",
+      "resolved": true,
+      "what": "Genes UP when PPARG is over-expressed \u2014 an independently constructed set with the same expected direction as KO_DOWN.",
+      "resolved_set": "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
+      "matched_term_verbatim": "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
+      "all_matching_terms_verbatim": [
+        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
+        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2732 UP",
+        "PPARG OE MOUSE GSE10192 CREEDSID GENE 2733 UP",
+        "PPARG OE MOUSE GSE2192 CREEDSID GENE 861 UP",
+        "PPARG OE MOUSE GSE2192 CREEDSID GENE 862 UP",
+        "PPARG OE MOUSE GSE2192 CREEDSID GENE 863 UP",
+        "PPARG OE MOUSE GSE2192 CREEDSID GENE 865 UP"
+      ],
+      "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['oe']; REQUIRED suffix 'up'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+      "species_of_the_source_experiment": {
+        "species": "mouse",
+        "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+      },
+      "library": "TF_Perturbations_Followed_by_Expression",
+      "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
+      "provenance": "Enrichr library TF_Perturbations_Followed_by_Expression, term matched verbatim, fetched at run time",
+      "n_genes": 269,
+      "per_platform": {
+        "GSE24369_series_matrix.txt.gz": {
+          "n_genes_requested": 269,
+          "n_genes_readable": 250,
+          "coverage": 0.929,
+          "genes_readable": [
+            "A4GALT",
+            "ABHD3",
+            "ABHD6",
+            "ABI3BP",
+            "ACAA2",
+            "ACADM",
+            "ACOT1",
+            "ACOT7",
+            "ACSBG1",
+            "ACTA1",
+            "ACTG2",
+            "ACTR3B",
+            "ACY3",
+            "ACYP2",
+            "ADAM8",
+            "ADCY7",
+            "ADH1A",
+            "ADIPOQ",
+            "AFF3",
+            "AGT",
+            "ALCAM",
+            "ANGPT1",
+            "ANGPTL4",
+            "AOC3",
+            "AQP1",
+            "ARHGAP18",
+            "ARHGAP44",
+            "ASPN",
+            "ASTN1",
+            "ATOH8",
+            "BDNF",
+            "BHLHB9",
+            "BNIP3",
+            "CALML4",
+            "CAPN6",
+            "CAV1",
+            "CCDC136",
+            "CCL17",
+            "CCNF",
+            "CD151",
+            "CD24",
+            "CD244",
+            "CDC42EP2",
+            "CDHR1",
+            "CDK2AP2",
+            "CDSN",
+            "CEBPA",
+            "CHST1",
+            "CHST7",
+            "CLDN1",
+            "CLDN15",
+            "COL3A1",
+            "COMP",
+            "CSAD",
+            "CSRP2",
+            "CTNNAL1",
+            "CXCR4",
+            "CXXC5",
+            "DCAF10",
+            "DDAH1",
+            "DDIT4L",
+            "DGAT2",
+            "DIO3OS",
+            "DMP1",
+            "DPEP1",
+            "DUSP22",
+            "EBF3",
+            "ECHDC2",
+            "ENPEP",
+            "EPAS1",
+            "EPHX2",
+            "EYA4",
+            "FABP4",
+            "FAH",
+            "FAM117A",
+            "FETUB",
+            "FGFRL1",
+            "FHL1",
+            "FHOD3",
+            "FILIP1L",
+            "FOXA1",
+            "FOXC1",
+            "FOXRED2",
+            "FRZB",
+            "G0S2",
+            "GALE",
+            "GALNT18",
+            "GAS2",
+            "GGH",
+            "GJB4",
+            "GLUL",
+            "GMDS",
+            "GPD1L",
+            "GPER1",
+            "GPRIN3",
+            "GPSM2",
+            "GRK5",
+            "GZMB",
+            "HDAC6",
+            "HOXC13",
+            "HRCT1",
+            "HSD11B1",
+            "HSDL2",
+            "HSPA1A",
+            "HSPA1B",
+            "ID3",
+            "IFT74",
+            "IGF1",
+            "IGF2BP2",
+            "IL1RN",
+            "IRAK2",
+            "ITIH2",
+            "ITM2A",
+            "KANK3",
+            "KIF16B",
+            "KLF4",
+            "KNG1",
+            "LIMS2",
+            "LPL",
+            "LRP5",
+            "LRRN3",
+            "LURAP1L",
+            "MAN1C1",
+            "MAP3K5",
+            "MAPKAPK3",
+            "MCAM",
+            "MEST",
+            "MFAP3L",
+            "MFAP5",
+            "MGP",
+            "MGST2",
+            "MGST3",
+            "MKNK2",
+            "MME",
+            "MMP3",
+            "MMS22L",
+            "MRGPRF",
+            "MRPS6",
+            "MSRA",
+            "MSX2",
+            "MTUS1",
+            "MVB12B",
+            "MYL1",
+            "NAALAD2",
+            "NECAP2",
+            "NET1",
+            "NIPAL1",
+            "NIPSNAP1",
+            "NOV",
+            "NPNT",
+            "NR1H3",
+            "NR3C2",
+            "NRN1",
+            "OCIAD2",
+            "OGFOD3",
+            "ORM1",
+            "OTOR",
+            "PAPPA",
+            "PAQR4",
+            "PARP16",
+            "PDE3B",
+            "PEX10",
+            "PGD",
+            "PGF",
+            "PHF13",
+            "PINK1",
+            "PKIA",
+            "PKP2",
+            "PLA2G7",
+            "PLIN2",
+            "PLIN4",
+            "PNPO",
+            "PPARG",
+            "PPM1L",
+            "PPP1R13B",
+            "PPP1R3C",
+            "PRDM16",
+            "PRELP",
+            "PRKAG2",
+            "PROCR",
+            "PTGFR",
+            "PTGS1",
+            "PTN",
+            "PTPN3",
+            "RAB39B",
+            "RAB9A",
+            "RABGAP1L",
+            "RAP1GAP2",
+            "RARRES2",
+            "RASSF6",
+            "REEP6",
+            "RGCC",
+            "RGS4",
+            "ROM1",
+            "RSPO2",
+            "RSPO3",
+            "RTKN2",
+            "RTN2",
+            "S100A1",
+            "S100A3",
+            "SBSN",
+            "SEMA3C",
+            "SEPT6",
+            "SERTAD4",
+            "SGMS2",
+            "SH3YL1",
+            "SHROOM4",
+            "SIRT1",
+            "SLC12A7",
+            "SLC18B1",
+            "SLC22A2",
+            "SLPI",
+            "SMAD6",
+            "SMOC2",
+            "SNAI2",
+            "SORBS1",
+            "SORCS2",
+            "SPARCL1",
+            "SRSF4",
+            "ST6GAL1",
+            "SULF2",
+            "SUOX",
+            "SYNE3",
+            "TAGLN",
+            "TCF7L1",
+            "TDRD7",
+            "TESK2",
+            "THBS2",
+            "TLE1",
+            "TMEM134",
+            "TMEM37",
+            "TMEM53",
+            "TMEM86A",
+            "TNFAIP8L1",
+            "TNFRSF21",
+            "TNFSF11",
+            "TNS1",
+            "TPM2",
+            "TRIM32",
+            "TRMT61B",
+            "TSPAN12",
+            "TSPAN5",
+            "TTYH3",
+            "TWF2",
+            "UCP2",
+            "UPP1",
+            "VAMP5",
+            "VNN1",
+            "ZC2HC1A",
+            "ZFPM2"
+          ],
+          "genes_not_readable": [
+            "ADGRF5",
+            "ADGRG6",
+            "CALHM5",
+            "CAVIN2",
+            "CENPS",
+            "CISD3",
+            "CRYBG1",
+            "DUSP27",
+            "ELFN1",
+            "FMN1",
+            "GVINP1",
+            "MCUB",
+            "NR2F1",
+            "P3H2",
+            "PRR5",
+            "RTN4RL1",
+            "TLCD2",
+            "TMPRSS11F",
+            "TRA"
+          ],
+          "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+          "EMC_mean_score": 0.405,
+          "comparator_mean_score": 0.4288,
+          "score": {
+            "t": -1.03,
+            "df": 6.9,
+            "mean_a": 0.405,
+            "mean_b": 0.4288,
+            "delta_a_minus_b": -0.0238
+          },
+          "verdict": "LOWER in EMC by 0.0238 SD units (t=-1.03, df=6.9, n_EMC=6, n_comparator=29, 250/269 genes readable). \u26a0 Uncorrected for multiple testing."
+        },
+        "GSE4303-GPL3290_series_matrix.txt.gz": {
+          "n_genes_requested": 269,
+          "n_genes_readable": 230,
+          "coverage": 0.855,
+          "genes_readable": [
+            "ABHD3",
+            "ABHD6",
+            "ABI3BP",
+            "ACAA2",
+            "ACADM",
+            "ACOT1",
+            "ACOT7",
+            "ACSBG1",
+            "ACTA1",
+            "ACTG2",
+            "ACTR3B",
+            "ACY3",
+            "ACYP2",
+            "ADAM8",
+            "ADCY7",
+            "ADGRF5",
+            "ADIPOQ",
+            "AFF3",
+            "AGT",
+            "ALCAM",
+            "ANGPT1",
+            "ANGPTL4",
+            "AOC3",
+            "AQP1",
+            "ARHGAP18",
+            "ARHGAP44",
+            "ASPN",
+            "ASTN1",
+            "ATOH8",
+            "BDNF",
+            "BHLHB9",
+            "CAPN6",
+            "CAV1",
+            "CCNF",
+            "CD151",
+            "CD24",
+            "CDC42EP2",
+            "CDHR1",
+            "CDK2AP2",
+            "CDSN",
+            "CEBPA",
+            "CHST1",
+            "CHST7",
+            "CISD3",
+            "CLDN1",
+            "CLDN15",
+            "COL3A1",
+            "COMP",
+            "CSAD",
+            "CSRP2",
+            "CTNNAL1",
+            "CXCR4",
+            "CXXC5",
+            "DCAF10",
+            "DDAH1",
+            "DDIT4L",
+            "DGAT2",
+            "DIO3OS",
+            "DMP1",
+            "DPEP1",
+            "DUSP22",
+            "DUSP27",
+            "EBF3",
+            "ECHDC2",
+            "ELFN1",
+            "ENPEP",
+            "EPAS1",
+            "EPHX2",
+            "EYA4",
+            "FABP4",
+            "FAH",
+            "FAM117A",
+            "FETUB",
+            "FGFRL1",
+            "FHL1",
+            "FHOD3",
+            "FILIP1L",
+            "FMN1",
+            "FOXA1",
+            "FOXC1",
+            "FRZB",
+            "G0S2",
+            "GALE",
+            "GAS2",
+            "GGH",
+            "GLUL",
+            "GMDS",
+            "GPD1L",
+            "GPRIN3",
+            "GPSM2",
+            "GRK5",
+            "GZMB",
+            "HDAC6",
+            "HRCT1",
+            "HSD11B1",
+            "HSDL2",
+            "HSPA1A",
+            "ID3",
+            "IFT74",
+            "IGF1",
+            "IGF2BP2",
+            "IL1RN",
+            "IRAK2",
+            "ITIH2",
+            "ITM2A",
+            "KANK3",
+            "KIF16B",
+            "KLF4",
+            "KNG1",
+            "LPL",
+            "LRP5",
+            "LRRN3",
+            "LURAP1L",
+            "MAN1C1",
+            "MAP3K5",
+            "MAPKAPK3",
+            "MCAM",
+            "MEST",
+            "MFAP3L",
+            "MFAP5",
+            "MGP",
+            "MGST2",
+            "MGST3",
+            "MKNK2",
+            "MME",
+            "MMS22L",
+            "MRGPRF",
+            "MRPS6",
+            "MSRA",
+            "MSX2",
+            "MTUS1",
+            "MVB12B",
+            "MYL1",
+            "NAALAD2",
+            "NET1",
+            "NIPAL1",
+            "NIPSNAP1",
+            "NOV",
+            "NPNT",
+            "NR1H3",
+            "NR3C2",
+            "NRN1",
+            "OCIAD2",
+            "OGFOD3",
+            "OTOR",
+            "PAPPA",
+            "PARP16",
+            "PDE3B",
+            "PGD",
+            "PGF",
+            "PHF13",
+            "PINK1",
+            "PKIA",
+            "PKP2",
+            "PLA2G7",
+            "PLIN2",
+            "PLIN4",
+            "PNPO",
+            "PPARG",
+            "PPM1L",
+            "PPP1R13B",
+            "PRDM16",
+            "PRELP",
+            "PRKAG2",
+            "PROCR",
+            "PRR5",
+            "PTGS1",
+            "PTN",
+            "PTPN3",
+            "RAB39B",
+            "RAB9A",
+            "RABGAP1L",
+            "RAP1GAP2",
+            "RARRES2",
+            "RASSF6",
+            "REEP6",
+            "RGCC",
+            "RGS4",
+            "ROM1",
+            "RSPO3",
+            "RTKN2",
+            "RTN2",
+            "S100A1",
+            "S100A3",
+            "SEMA3C",
+            "SEPT6",
+            "SERTAD4",
+            "SH3YL1",
+            "SHROOM4",
+            "SIRT1",
+            "SLC12A7",
+            "SLC18B1",
+            "SLC22A2",
+            "SLPI",
+            "SMAD6",
+            "SMOC2",
+            "SNAI2",
+            "SORBS1",
+            "SORCS2",
+            "SPARCL1",
+            "SRSF4",
+            "ST6GAL1",
+            "SUOX",
+            "TAGLN",
+            "TCF7L1",
+            "TDRD7",
+            "TESK2",
+            "THBS2",
+            "TLCD2",
+            "TLE1",
+            "TMEM134",
+            "TMEM37",
+            "TMEM53",
+            "TMEM86A",
+            "TNFAIP8L1",
+            "TNFRSF21",
+            "TNFSF11",
+            "TNS1",
+            "TPM2",
+            "TRIM32",
+            "TRMT61B",
+            "TSPAN12",
+            "TSPAN5",
+            "TTYH3",
+            "TWF2",
+            "UCP2",
+            "UPP1",
+            "VAMP5",
+            "VNN1",
+            "ZFPM2"
+          ],
+          "genes_not_readable": [
+            "A4GALT",
+            "ADGRG6",
+            "ADH1A",
+            "BNIP3",
+            "CALHM5",
+            "CALML4",
+            "CAVIN2",
+            "CCDC136",
+            "CCL17",
+            "CD244",
+            "CENPS",
+            "CRYBG1",
+            "FOXRED2",
+            "GALNT18",
+            "GJB4",
+            "GPER1",
+            "GVINP1",
+            "HOXC13",
+            "HSPA1B",
+            "LIMS2",
+            "MCUB",
+            "MMP3",
+            "NECAP2",
+            "NR2F1",
+            "ORM1",
+            "P3H2",
+            "PAQR4",
+            "PEX10",
+            "PPP1R3C",
+            "PTGFR",
+            "RSPO2",
+            "RTN4RL1",
+            "SBSN",
+            "SGMS2",
+            "SULF2",
+            "SYNE3",
+            "TMPRSS11F",
+            "TRA",
+            "ZC2HC1A"
+          ],
+          "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+          "EMC_mean_score": 0.1231,
+          "comparator_mean_score": 0.1251,
+          "score": {
+            "t": -0.049,
+            "df": 11.4,
+            "mean_a": 0.1231,
+            "mean_b": 0.1251,
+            "delta_a_minus_b": -0.002
+          },
+          "verdict": "LOWER in EMC by 0.002 SD units (t=-0.049, df=11.4, n_EMC=10, n_comparator=6, 230/269 genes readable). \u26a0 Uncorrected for multiple testing."
+        }
+      }
+    },
+    "pparg_perturbation_KO_UP_CONTROL": {
+      "read_id": "read_3_PPARG_ACTIVITY",
+      "role": "directional_control_NOT_a_target_set",
+      "resolved": true,
+      "what": "\u26d4 THE FALSIFIER. Genes UP when PPARG is knocked out \u2014 the arm that should NOT track the other two. If it moves with them, the contrast is not measuring PPAR\u03b3 output and read 3 must not be quoted.",
+      "resolved_set": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
+      "matched_term_verbatim": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
+      "all_matching_terms_verbatim": [
+        "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
+        "PPARG KO MOUSE GSE24292 CREEDSID GENE 3012 UP"
+      ],
+      "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['deficiency', 'ko']; REQUIRED suffix 'up'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+      "species_of_the_source_experiment": {
+        "species": "mouse",
+        "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+      },
+      "library": "TF_Perturbations_Followed_by_Expression",
+      "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
+      "provenance": "Enrichr library TF_Perturbations_Followed_by_Expression, term matched verbatim, fetched at run time",
+      "n_genes": 246,
+      "per_platform": {
+        "GSE24369_series_matrix.txt.gz": {
+          "n_genes_requested": 246,
+          "n_genes_readable": 231,
+          "coverage": 0.939,
+          "genes_readable": [
+            "ADAM18",
+            "ADAM8",
+            "ADAMTS1",
+            "ADAMTS4",
+            "ADM",
+            "AIF1",
+            "ALOX5AP",
+            "ANXA8",
+            "APOA1",
+            "APOA4",
+            "APOBEC1",
+            "AQP4",
+            "AQP8",
+            "AREG",
+            "ATF3",
+            "ATP12A",
+            "B3GALT5",
+            "B3GNT5",
+            "B3GNT7",
+            "BCL2L15",
+            "BHMT2",
+            "BLNK",
+            "C3AR1",
+            "CAPG",
+            "CCL11",
+            "CCL2",
+            "CCL20",
+            "CCL7",
+            "CCL8",
+            "CCNA2",
+            "CCR1",
+            "CD14",
+            "CD38",
+            "CDC6",
+            "CDCA5",
+            "CDK1",
+            "CDKN3",
+            "CFI",
+            "CFP",
+            "CH25H",
+            "CHRDL2",
+            "CHST4",
+            "CKS1B",
+            "CLEC10A",
+            "CLEC4D",
+            "CLEC4E",
+            "CLEC7A",
+            "CP",
+            "CTPS1",
+            "CXCL1",
+            "CXCL10",
+            "CXCL13",
+            "CXCL2",
+            "CXCL3",
+            "CXCL5",
+            "CXCL9",
+            "CYBB",
+            "CYTH4",
+            "DAPP1",
+            "DDX3Y",
+            "DEPDC1",
+            "DNPH1",
+            "DUOXA2",
+            "EGR1",
+            "EMB",
+            "EME1",
+            "EREG",
+            "F13A1",
+            "FAM111A",
+            "FCER1G",
+            "FGD6",
+            "FGF7",
+            "FOXM1",
+            "FPR2",
+            "FUT2",
+            "GAS2L3",
+            "GBP2",
+            "GBP3",
+            "GCH1",
+            "GEM",
+            "GNA14",
+            "GPR171",
+            "GPRC5A",
+            "GPX2",
+            "GREM1",
+            "H19",
+            "HCLS1",
+            "HIF1A",
+            "HK2",
+            "HOXB13",
+            "HSD3B2",
+            "HSPA1A",
+            "HSPH1",
+            "ICAM1",
+            "IFI44",
+            "IFIT2",
+            "IFITM1",
+            "IGSF6",
+            "IL11",
+            "IL18",
+            "IL18BP",
+            "IL1B",
+            "IL1R2",
+            "IL1RL1",
+            "IL1RN",
+            "IL22",
+            "IL33",
+            "IL6",
+            "INSL5",
+            "ISG15",
+            "ISYNA1",
+            "ITGAM",
+            "ITGB2",
+            "ITGB8",
+            "JUNB",
+            "KCNE4",
+            "KIF20A",
+            "LAMA1",
+            "LCN2",
+            "LCP1",
+            "LGI2",
+            "LGMN",
+            "LILRB4",
+            "LRG1",
+            "LY6D",
+            "LY86",
+            "LY96",
+            "MAFF",
+            "MAL",
+            "MAP3K8",
+            "MCM4",
+            "MELK",
+            "MFSD2A",
+            "MKI67",
+            "MMP10",
+            "MMP12",
+            "MMP13",
+            "MMP3",
+            "MSL3",
+            "MYL7",
+            "NCAPH",
+            "NFIL3",
+            "NLRC5",
+            "NLRX1",
+            "NR4A1",
+            "NTN5",
+            "NUF2",
+            "OLFML2B",
+            "P2RY10",
+            "PDPN",
+            "PILRA",
+            "PLA1A",
+            "PLA2G2A",
+            "PLA2G2D",
+            "PLA2G5",
+            "PLK1",
+            "PLOD3",
+            "PNPLA7",
+            "PRC1",
+            "PRDM1",
+            "PRPS2",
+            "PRSS27",
+            "PSAT1",
+            "PTGS2",
+            "PTK6",
+            "PTX3",
+            "PYHIN1",
+            "RAB32",
+            "RAD51",
+            "RAMP3",
+            "RBP1",
+            "RDH16",
+            "REG3A",
+            "RERG",
+            "RETNLB",
+            "RIPK3",
+            "RPS9",
+            "RRM2",
+            "S100A14",
+            "S100A8",
+            "S100A9",
+            "SAA1",
+            "SAA2",
+            "SAA3P",
+            "SELP",
+            "SELPLG",
+            "SERPINA10",
+            "SERPINE1",
+            "SERPINE2",
+            "SH3BP2",
+            "SHCBP1",
+            "SLAMF8",
+            "SLC15A3",
+            "SLC1A1",
+            "SLC40A1",
+            "SLC5A9",
+            "SLC6A14",
+            "SLC7A5",
+            "SMPDL3B",
+            "SNAPC1",
+            "SOCS3",
+            "SPATA5L1",
+            "SPDL1",
+            "SPI1",
+            "SPRR1A",
+            "SRGN",
+            "ST6GALNAC6",
+            "STAT1",
+            "STEAP1",
+            "STEAP2",
+            "STOM",
+            "TAT",
+            "THBS1",
+            "THBS4",
+            "THEMIS2",
+            "TIFA",
+            "TIMP1",
+            "TRIM10",
+            "TRIM15",
+            "TYROBP",
+            "UBD",
+            "UBE2T",
+            "UNC5CL",
+            "UPP1",
+            "UQCR10",
+            "USP18",
+            "UTP20",
+            "VARS",
+            "WFDC12",
+            "ZBP1",
+            "ZWILCH"
+          ],
+          "genes_not_readable": [
+            "ACOD1",
+            "CALHM6",
+            "CEMIP",
+            "CENPE",
+            "CSF2RBP1",
+            "ECSCR",
+            "GBP7",
+            "HOXA9",
+            "LILRB1",
+            "LST1",
+            "MCUB",
+            "PLET1",
+            "SELENON",
+            "SGO1",
+            "TMEM173"
+          ],
+          "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+          "EMC_mean_score": 0.0781,
+          "comparator_mean_score": 0.1319,
+          "score": {
+            "t": -0.936,
+            "df": 7.2,
+            "mean_a": 0.0781,
+            "mean_b": 0.1319,
+            "delta_a_minus_b": -0.0538
+          },
+          "verdict": "LOWER in EMC by 0.0538 SD units (t=-0.936, df=7.2, n_EMC=6, n_comparator=29, 231/246 genes readable). \u26a0 Uncorrected for multiple testing."
+        },
+        "GSE4303-GPL3290_series_matrix.txt.gz": {
+          "n_genes_requested": 246,
+          "n_genes_readable": 196,
+          "coverage": 0.797,
+          "genes_readable": [
+            "ADAM18",
+            "ADAM8",
+            "ADAMTS1",
+            "ADM",
+            "AIF1",
+            "ALOX5AP",
+            "APOA1",
+            "APOA4",
+            "APOBEC1",
+            "AQP4",
+            "AREG",
+            "ATF3",
+            "B3GALT5",
+            "B3GNT5",
+            "B3GNT7",
+            "BCL2L15",
+            "BHMT2",
+            "BLNK",
+            "C3AR1",
+            "CAPG",
+            "CCL11",
+            "CCL2",
+            "CCL20",
+            "CCL7",
+            "CCNA2",
+            "CCR1",
+            "CD14",
+            "CD38",
+            "CDC6",
+            "CDCA5",
+            "CDK1",
+            "CDKN3",
+            "CENPE",
+            "CFI",
+            "CFP",
+            "CH25H",
+            "CHRDL2",
+            "CKS1B",
+            "CLEC10A",
+            "CP",
+            "CTPS1",
+            "CXCL1",
+            "CXCL10",
+            "CXCL13",
+            "CXCL2",
+            "CXCL3",
+            "CXCL9",
+            "CYBB",
+            "CYTH4",
+            "DAPP1",
+            "DDX3Y",
+            "DEPDC1",
+            "DNPH1",
+            "DUOXA2",
+            "ECSCR",
+            "EGR1",
+            "EMB",
+            "EREG",
+            "F13A1",
+            "FAM111A",
+            "FCER1G",
+            "FGD6",
+            "FGF7",
+            "FOXM1",
+            "FPR2",
+            "GAS2L3",
+            "GBP2",
+            "GBP3",
+            "GCH1",
+            "GEM",
+            "GNA14",
+            "GPRC5A",
+            "GPX2",
+            "GREM1",
+            "H19",
+            "HCLS1",
+            "HIF1A",
+            "HK2",
+            "HOXB13",
+            "HSPA1A",
+            "HSPH1",
+            "IFIT2",
+            "IFITM1",
+            "IGSF6",
+            "IL11",
+            "IL18",
+            "IL18BP",
+            "IL1B",
+            "IL1R2",
+            "IL1RL1",
+            "IL1RN",
+            "IL33",
+            "IL6",
+            "ISG15",
+            "ISYNA1",
+            "ITGAM",
+            "ITGB2",
+            "ITGB8",
+            "JUNB",
+            "LAMA1",
+            "LCN2",
+            "LCP1",
+            "LGI2",
+            "LGMN",
+            "LILRB4",
+            "LST1",
+            "LY6D",
+            "LY86",
+            "LY96",
+            "MAFF",
+            "MAL",
+            "MCM4",
+            "MELK",
+            "MFSD2A",
+            "MKI67",
+            "MMP10",
+            "MMP13",
+            "MSL3",
+            "MYL7",
+            "NCAPH",
+            "NFIL3",
+            "NLRC5",
+            "NR4A1",
+            "NUF2",
+            "OLFML2B",
+            "P2RY10",
+            "PDPN",
+            "PILRA",
+            "PLA1A",
+            "PLA2G2A",
+            "PLA2G5",
+            "PLK1",
+            "PLOD3",
+            "PRC1",
+            "PRPS2",
+            "PSAT1",
+            "PTGS2",
+            "PTK6",
+            "RAB32",
+            "RAD51",
+            "RAMP3",
+            "RBP1",
+            "RDH16",
+            "REG3A",
+            "RERG",
+            "RETNLB",
+            "RIPK3",
+            "RPS9",
+            "RRM2",
+            "S100A8",
+            "S100A9",
+            "SAA1",
+            "SAA2",
+            "SELP",
+            "SELPLG",
+            "SERPINE1",
+            "SERPINE2",
+            "SH3BP2",
+            "SHCBP1",
+            "SLAMF8",
+            "SLC15A3",
+            "SLC1A1",
+            "SLC40A1",
+            "SLC5A9",
+            "SLC7A5",
+            "SMPDL3B",
+            "SNAPC1",
+            "SOCS3",
+            "SPATA5L1",
+            "SPDL1",
+            "SPI1",
+            "SPRR1A",
+            "SRGN",
+            "ST6GALNAC6",
+            "STAT1",
+            "STEAP1",
+            "STEAP2",
+            "STOM",
+            "THBS1",
+            "THBS4",
+            "THEMIS2",
+            "TIFA",
+            "TIMP1",
+            "TMEM173",
+            "TRIM10",
+            "TRIM15",
+            "TYROBP",
+            "UBD",
+            "UBE2T",
+            "UNC5CL",
+            "UPP1",
+            "UQCR10",
+            "USP18",
+            "UTP20",
+            "VARS",
+            "ZWILCH"
+          ],
+          "genes_not_readable": [
+            "ACOD1",
+            "ADAMTS4",
+            "ANXA8",
+            "AQP8",
+            "ATP12A",
+            "CALHM6",
+            "CCL8",
+            "CEMIP",
+            "CHST4",
+            "CLEC4D",
+            "CLEC4E",
+            "CLEC7A",
+            "CSF2RBP1",
+            "CXCL5",
+            "EME1",
+            "FUT2",
+            "GBP7",
+            "GPR171",
+            "HOXA9",
+            "HSD3B2",
+            "ICAM1",
+            "IFI44",
+            "IL22",
+            "INSL5",
+            "KCNE4",
+            "KIF20A",
+            "LILRB1",
+            "LRG1",
+            "MAP3K8",
+            "MCUB",
+            "MMP12",
+            "MMP3",
+            "NLRX1",
+            "NTN5",
+            "PLA2G2D",
+            "PLET1",
+            "PNPLA7",
+            "PRDM1",
+            "PRSS27",
+            "PTX3",
+            "PYHIN1",
+            "S100A14",
+            "SAA3P",
+            "SELENON",
+            "SERPINA10",
+            "SGO1",
+            "SLC6A14",
+            "TAT",
+            "WFDC12",
+            "ZBP1"
+          ],
+          "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+          "EMC_mean_score": -0.506,
+          "comparator_mean_score": -0.3943,
+          "score": {
+            "t": -0.911,
+            "df": 6.4,
+            "mean_a": -0.506,
+            "mean_b": -0.3943,
+            "delta_a_minus_b": -0.1118
+          },
+          "verdict": "LOWER in EMC by 0.1118 SD units (t=-0.911, df=6.4, n_EMC=10, n_comparator=6, 196/246 genes readable). \u26a0 Uncorrected for multiple testing."
+        }
+      }
+    },
     "adipogenesis_process_proxy": {
       "read_id": "read_3_PPARG_ACTIVITY",
       "role": "process_proxy_NOT_a_target_set",
@@ -59255,6 +60526,10 @@
         "Adipogenesis"
       ],
       "selection_rule": "prefix match on 'adipogenesis'; no preference applied \u2014 first alphabetically",
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "library": "MSigDB_Hallmark_2020",
       "citation": "MSigDB Hallmark collection \u2014 Liberzon et al., Cell Systems 2015, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "provenance": "Enrichr library MSigDB_Hallmark_2020, term matched verbatim, fetched at run time",
@@ -59469,16 +60744,16 @@
             "SQOR"
           ],
           "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
-          "EMC_mean_score": 0.8392,
-          "comparator_mean_score": 0.7919,
+          "EMC_mean_score": 0.8386,
+          "comparator_mean_score": 0.7913,
           "score": {
-            "t": 2.114,
+            "t": 2.112,
             "df": 6.9,
-            "mean_a": 0.8392,
-            "mean_b": 0.7919,
-            "delta_a_minus_b": 0.0473
+            "mean_a": 0.8386,
+            "mean_b": 0.7913,
+            "delta_a_minus_b": 0.0474
           },
-          "verdict": "HIGHER in EMC by 0.0473 SD units (t=2.114, df=6.9, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
+          "verdict": "HIGHER in EMC by 0.0474 SD units (t=2.112, df=6.9, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
         },
         "GSE4303-GPL3290_series_matrix.txt.gz": {
           "n_genes_requested": 200,
@@ -59711,6 +60986,7 @@
       "matched_term_verbatim": "BUFFA_HYPOXIA_METAGENE",
       "all_matching_terms_verbatim": null,
       "selection_rule": null,
+      "species_of_the_source_experiment": null,
       "library": null,
       "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
       "provenance": "MSigDB download_geneset.jsp, fetched at run time",
@@ -59867,6 +61143,7 @@
       "matched_term_verbatim": "WINTER_HYPOXIA_METAGENE",
       "all_matching_terms_verbatim": null,
       "selection_rule": null,
+      "species_of_the_source_experiment": null,
       "library": null,
       "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
       "provenance": "MSigDB download_geneset.jsp, fetched at run time",
@@ -60124,13 +61401,13 @@
             "ZNRD2"
           ],
           "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
-          "EMC_mean_score": 0.9622,
-          "comparator_mean_score": 0.8986,
+          "EMC_mean_score": 0.9644,
+          "comparator_mean_score": 0.901,
           "score": {
             "t": 0.84,
             "df": 5.2,
-            "mean_a": 0.9622,
-            "mean_b": 0.8986,
+            "mean_a": 0.9644,
+            "mean_b": 0.901,
             "delta_a_minus_b": 0.0635
           },
           "verdict": "HIGHER in EMC by 0.0635 SD units (t=0.84, df=5.2, n_EMC=6, n_comparator=29, 232/243 genes readable). \u26a0 Uncorrected for multiple testing."
@@ -60409,6 +61686,7 @@
       "matched_term_verbatim": "HARRIS_HYPOXIA",
       "all_matching_terms_verbatim": null,
       "selection_rule": null,
+      "species_of_the_source_experiment": null,
       "library": null,
       "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
       "provenance": "MSigDB download_geneset.jsp, fetched at run time",
@@ -60627,6 +61905,7 @@
       "matched_term_verbatim": "ELVIDGE_HYPOXIA_UP",
       "all_matching_terms_verbatim": null,
       "selection_rule": null,
+      "species_of_the_source_experiment": null,
       "library": null,
       "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
       "provenance": "MSigDB download_geneset.jsp, fetched at run time",
@@ -60814,16 +62093,16 @@
             "ZNF654"
           ],
           "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
-          "EMC_mean_score": 0.932,
-          "comparator_mean_score": 0.8329,
+          "EMC_mean_score": 0.9312,
+          "comparator_mean_score": 0.8317,
           "score": {
-            "t": 1.229,
+            "t": 1.235,
             "df": 5.2,
-            "mean_a": 0.932,
-            "mean_b": 0.8329,
-            "delta_a_minus_b": 0.0991
+            "mean_a": 0.9312,
+            "mean_b": 0.8317,
+            "delta_a_minus_b": 0.0995
           },
-          "verdict": "HIGHER in EMC by 0.0991 SD units (t=1.229, df=5.2, n_EMC=6, n_comparator=29, 159/173 genes readable). \u26a0 Uncorrected for multiple testing."
+          "verdict": "HIGHER in EMC by 0.0995 SD units (t=1.235, df=5.2, n_EMC=6, n_comparator=29, 159/173 genes readable). \u26a0 Uncorrected for multiple testing."
         },
         "GSE4303-GPL3290_series_matrix.txt.gz": {
           "n_genes_requested": 173,
@@ -61033,6 +62312,10 @@
         "Regulation of Cellular Response to Hypoxia (GO:1900037)"
       ],
       "selection_rule": "substring match on 'responsetohypoxia'; no preference applied \u2014 first alphabetically",
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "library": "GO_Biological_Process_2025",
       "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "provenance": "Enrichr library GO_Biological_Process_2025, term matched verbatim, fetched at run time",
@@ -61124,16 +62407,16 @@
             "TIGAR"
           ],
           "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
-          "EMC_mean_score": 0.7872,
-          "comparator_mean_score": 0.6985,
+          "EMC_mean_score": 0.7859,
+          "comparator_mean_score": 0.6973,
           "score": {
-            "t": 2.444,
-            "df": 5.5,
-            "mean_a": 0.7872,
-            "mean_b": 0.6985,
+            "t": 2.453,
+            "df": 5.6,
+            "mean_a": 0.7859,
+            "mean_b": 0.6973,
             "delta_a_minus_b": 0.0886
           },
-          "verdict": "HIGHER in EMC by 0.0886 SD units (t=2.444, df=5.5, n_EMC=6, n_comparator=29, 73/77 genes readable). \u26a0 Uncorrected for multiple testing."
+          "verdict": "HIGHER in EMC by 0.0886 SD units (t=2.453, df=5.6, n_EMC=6, n_comparator=29, 73/77 genes readable). \u26a0 Uncorrected for multiple testing."
         },
         "GSE4303-GPL3290_series_matrix.txt.gz": {
           "n_genes_requested": 77,
@@ -61245,6 +62528,10 @@
         "Hypoxia"
       ],
       "selection_rule": "prefix match on 'hypoxia'; no preference applied \u2014 first alphabetically",
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "library": "MSigDB_Hallmark_2020",
       "citation": "MSigDB Hallmark collection \u2014 Liberzon et al., Cell Systems 2015, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "provenance": "Enrichr library MSigDB_Hallmark_2020, term matched verbatim, fetched at run time",
@@ -61459,16 +62746,16 @@
             "STBD1"
           ],
           "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
-          "EMC_mean_score": 0.9012,
-          "comparator_mean_score": 0.8001,
+          "EMC_mean_score": 0.9005,
+          "comparator_mean_score": 0.7991,
           "score": {
-            "t": 1.358,
+            "t": 1.364,
             "df": 5.3,
-            "mean_a": 0.9012,
-            "mean_b": 0.8001,
-            "delta_a_minus_b": 0.1011
+            "mean_a": 0.9005,
+            "mean_b": 0.7991,
+            "delta_a_minus_b": 0.1014
           },
-          "verdict": "HIGHER in EMC by 0.1011 SD units (t=1.358, df=5.3, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
+          "verdict": "HIGHER in EMC by 0.1014 SD units (t=1.364, df=5.3, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
         },
         "GSE4303-GPL3290_series_matrix.txt.gz": {
           "n_genes_requested": 200,
@@ -61703,6 +62990,10 @@
         "Chondroitin Sulfate Biosynthesis"
       ],
       "selection_rule": "prefix match on 'chondroitinsulfatebiosynthesis'; no preference applied \u2014 first alphabetically",
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "library": "Reactome_Pathways_2024",
       "citation": "Reactome \u2014 Milacic et al., Nucleic Acids Research 2024, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "provenance": "Enrichr library Reactome_Pathways_2024, term matched verbatim, fetched at run time",
@@ -61800,6 +63091,10 @@
         "Glycosaminoglycan Biosynthetic Process (GO:0006024)"
       ],
       "selection_rule": "prefix match on 'glycosaminoglycanbiosyntheticprocess'; no preference applied \u2014 first alphabetically",
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "library": "GO_Biological_Process_2025",
       "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "provenance": "Enrichr library GO_Biological_Process_2025, term matched verbatim, fetched at run time",
@@ -61807,8 +63102,8 @@
       "per_platform": {
         "GSE24369_series_matrix.txt.gz": {
           "n_genes_requested": 25,
-          "n_genes_readable": 22,
-          "coverage": 0.88,
+          "n_genes_readable": 21,
+          "coverage": 0.84,
           "genes_readable": [
             "B3GAT1",
             "B3GAT2",
@@ -61829,26 +63124,26 @@
             "HS3ST3A1",
             "HS3ST3B1",
             "IL1B",
-            "PXYLP1",
             "UGDH",
             "XYLT2"
           ],
           "genes_not_readable": [
             "B3GALT6",
             "CEMIP",
+            "PXYLP1",
             "XYLT1"
           ],
           "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
-          "EMC_mean_score": 0.5488,
-          "comparator_mean_score": 0.6142,
+          "EMC_mean_score": 0.5688,
+          "comparator_mean_score": 0.6047,
           "score": {
-            "t": -0.755,
+            "t": -0.396,
             "df": 5.3,
-            "mean_a": 0.5488,
-            "mean_b": 0.6142,
-            "delta_a_minus_b": -0.0654
+            "mean_a": 0.5688,
+            "mean_b": 0.6047,
+            "delta_a_minus_b": -0.036
           },
-          "verdict": "LOWER in EMC by 0.0654 SD units (t=-0.755, df=5.3, n_EMC=6, n_comparator=29, 22/25 genes readable). \u26a0 Uncorrected for multiple testing."
+          "verdict": "LOWER in EMC by 0.036 SD units (t=-0.396, df=5.3, n_EMC=6, n_comparator=29, 21/25 genes readable). \u26a0 Uncorrected for multiple testing."
         },
         "GSE4303-GPL3290_series_matrix.txt.gz": {
           "n_genes_requested": 25,
@@ -61908,6 +63203,10 @@
         "Arginine Metabolic Process (GO:0006525)"
       ],
       "selection_rule": "prefix match on 'argininemetabolicprocess'; no preference applied \u2014 first alphabetically",
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "library": "GO_Biological_Process_2025",
       "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "provenance": "Enrichr library GO_Biological_Process_2025, term matched verbatim, fetched at run time",
@@ -61987,6 +63286,10 @@
         "Regulation of Neurotransmitter Secretion (GO:0046928)"
       ],
       "selection_rule": "prefix match on 'regulationofneurotransmittersecretion'; no preference applied \u2014 first alphabetically",
+      "species_of_the_source_experiment": {
+        "species": "not stated in the term",
+        "caveat": null
+      },
       "library": "GO_Biological_Process_2025",
       "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
       "provenance": "Enrichr library GO_Biological_Process_2025, term matched verbatim, fetched at run time",
@@ -62042,16 +63345,16 @@
             "TSPOAP1"
           ],
           "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
-          "EMC_mean_score": 0.2463,
-          "comparator_mean_score": 0.3676,
+          "EMC_mean_score": 0.2462,
+          "comparator_mean_score": 0.3665,
           "score": {
-            "t": -6.558,
-            "df": 12.5,
-            "mean_a": 0.2463,
-            "mean_b": 0.3676,
-            "delta_a_minus_b": -0.1213
+            "t": -6.516,
+            "df": 12.6,
+            "mean_a": 0.2462,
+            "mean_b": 0.3665,
+            "delta_a_minus_b": -0.1203
           },
-          "verdict": "LOWER in EMC by 0.1213 SD units (t=-6.558, df=12.5, n_EMC=6, n_comparator=29, 38/41 genes readable). \u26a0 Uncorrected for multiple testing."
+          "verdict": "LOWER in EMC by 0.1203 SD units (t=-6.516, df=12.6, n_EMC=6, n_comparator=29, 38/41 genes readable). \u26a0 Uncorrected for multiple testing."
         },
         "GSE4303-GPL3290_series_matrix.txt.gz": {
           "n_genes_requested": 41,
@@ -62520,6 +63823,10 @@
           "resolved_set": "Arginine Metabolic Process (GO:0006525)",
           "matched_term_verbatim": "Arginine Metabolic Process (GO:0006525)",
           "selection_rule": "prefix match on 'argininemetabolicprocess'; no preference applied \u2014 first alphabetically",
+          "species_of_the_source_experiment": {
+            "species": "not stated in the term",
+            "caveat": null
+          },
           "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
           "n_genes": 11,
           "per_platform": {
@@ -63419,6 +64726,10 @@
           "resolved_set": "Chondroitin Sulfate Biosynthesis",
           "matched_term_verbatim": "Chondroitin Sulfate Biosynthesis",
           "selection_rule": "prefix match on 'chondroitinsulfatebiosynthesis'; no preference applied \u2014 first alphabetically",
+          "species_of_the_source_experiment": {
+            "species": "not stated in the term",
+            "caveat": null
+          },
           "citation": "Reactome \u2014 Milacic et al., Nucleic Acids Research 2024, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
           "n_genes": 20,
           "per_platform": {
@@ -63461,23 +64772,27 @@
           "resolved_set": "Glycosaminoglycan Biosynthetic Process (GO:0006024)",
           "matched_term_verbatim": "Glycosaminoglycan Biosynthetic Process (GO:0006024)",
           "selection_rule": "prefix match on 'glycosaminoglycanbiosyntheticprocess'; no preference applied \u2014 first alphabetically",
+          "species_of_the_source_experiment": {
+            "species": "not stated in the term",
+            "caveat": null
+          },
           "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
           "n_genes": 25,
           "per_platform": {
             "GSE24369_series_matrix.txt.gz": {
-              "coverage": 0.88,
-              "n_genes_readable": 22,
+              "coverage": 0.84,
+              "n_genes_readable": 21,
               "n_genes_requested": 25,
-              "EMC_mean_score": 0.5488,
-              "comparator_mean_score": 0.6142,
+              "EMC_mean_score": 0.5688,
+              "comparator_mean_score": 0.6047,
               "score": {
-                "t": -0.755,
+                "t": -0.396,
                 "df": 5.3,
-                "mean_a": 0.5488,
-                "mean_b": 0.6142,
-                "delta_a_minus_b": -0.0654
+                "mean_a": 0.5688,
+                "mean_b": 0.6047,
+                "delta_a_minus_b": -0.036
               },
-              "verdict": "LOWER in EMC by 0.0654 SD units (t=-0.755, df=5.3, n_EMC=6, n_comparator=29, 22/25 genes readable). \u26a0 Uncorrected for multiple testing."
+              "verdict": "LOWER in EMC by 0.036 SD units (t=-0.396, df=5.3, n_EMC=6, n_comparator=29, 21/25 genes readable). \u26a0 Uncorrected for multiple testing."
             },
             "GSE4303-GPL3290_series_matrix.txt.gz": {
               "coverage": 0.88,
@@ -64319,6 +65634,10 @@
           "resolved_set": "PPARG 19300518 ChIP-PET 3T3-L1 Mouse",
           "matched_term_verbatim": "PPARG 19300518 ChIP-PET 3T3-L1 Mouse",
           "selection_rule": "prefix match on 'pparg'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+          "species_of_the_source_experiment": {
+            "species": "mouse",
+            "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+          },
           "citation": "ChEA \u2014 transcription-factor target sets from published ChIP-X experiments; each term carries its own source PMID in the term string (Lachmann et al., Bioinformatics 2010), served via Enrichr (Kuleshov et al., NAR 2016)",
           "n_genes": 191,
           "per_platform": {
@@ -64326,16 +65645,16 @@
               "coverage": 0.984,
               "n_genes_readable": 188,
               "n_genes_requested": 191,
-              "EMC_mean_score": 0.5969,
-              "comparator_mean_score": 0.5174,
+              "EMC_mean_score": 0.6022,
+              "comparator_mean_score": 0.5219,
               "score": {
-                "t": 3.633,
+                "t": 3.715,
                 "df": 6.4,
-                "mean_a": 0.5969,
-                "mean_b": 0.5174,
-                "delta_a_minus_b": 0.0796
+                "mean_a": 0.6022,
+                "mean_b": 0.5219,
+                "delta_a_minus_b": 0.0803
               },
-              "verdict": "HIGHER in EMC by 0.0796 SD units (t=3.633, df=6.4, n_EMC=6, n_comparator=29, 188/191 genes readable). \u26a0 Uncorrected for multiple testing."
+              "verdict": "HIGHER in EMC by 0.0803 SD units (t=3.715, df=6.4, n_EMC=6, n_comparator=29, 188/191 genes readable). \u26a0 Uncorrected for multiple testing."
             },
             "GSE4303-GPL3290_series_matrix.txt.gz": {
               "coverage": 0.885,
@@ -64361,6 +65680,7 @@
           "resolved_set": null,
           "matched_term_verbatim": null,
           "selection_rule": null,
+          "species_of_the_source_experiment": null,
           "citation": null,
           "n_genes": null,
           "per_platform": {},
@@ -64372,6 +65692,10 @@
           "resolved_set": "PPARG human",
           "matched_term_verbatim": "PPARG human",
           "selection_rule": "prefix match on 'ppargh'; preferred a term containing ['human']; 2 terms excluded by ['ppargc']",
+          "species_of_the_source_experiment": {
+            "species": "human",
+            "caveat": null
+          },
           "citation": "TRRUST v2 \u2014 a manually curated transcriptional regulatory network mined from the literature (Han et al., Nucleic Acids Research 2018), served via Enrichr",
           "n_genes": 66,
           "per_platform": {
@@ -64408,12 +65732,16 @@
           },
           "verdict": null
         },
-        "pparg_perturbation_response": {
+        "pparg_perturbation_KO_DOWN": {
           "resolved": true,
           "role": "pparg_target_set",
           "resolved_set": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN",
           "matched_term_verbatim": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN",
-          "selection_rule": "prefix match on 'pparg'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+          "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['deficiency', 'ko']; REQUIRED suffix 'down'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+          "species_of_the_source_experiment": {
+            "species": "mouse",
+            "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+          },
           "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
           "n_genes": 206,
           "per_platform": {
@@ -64450,12 +65778,108 @@
           },
           "verdict": null
         },
+        "pparg_perturbation_OE_UP": {
+          "resolved": true,
+          "role": "pparg_target_set",
+          "resolved_set": "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
+          "matched_term_verbatim": "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP",
+          "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['oe']; REQUIRED suffix 'up'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+          "species_of_the_source_experiment": {
+            "species": "mouse",
+            "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+          },
+          "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
+          "n_genes": 269,
+          "per_platform": {
+            "GSE24369_series_matrix.txt.gz": {
+              "coverage": 0.929,
+              "n_genes_readable": 250,
+              "n_genes_requested": 269,
+              "EMC_mean_score": 0.405,
+              "comparator_mean_score": 0.4288,
+              "score": {
+                "t": -1.03,
+                "df": 6.9,
+                "mean_a": 0.405,
+                "mean_b": 0.4288,
+                "delta_a_minus_b": -0.0238
+              },
+              "verdict": "LOWER in EMC by 0.0238 SD units (t=-1.03, df=6.9, n_EMC=6, n_comparator=29, 250/269 genes readable). \u26a0 Uncorrected for multiple testing."
+            },
+            "GSE4303-GPL3290_series_matrix.txt.gz": {
+              "coverage": 0.855,
+              "n_genes_readable": 230,
+              "n_genes_requested": 269,
+              "EMC_mean_score": 0.1231,
+              "comparator_mean_score": 0.1251,
+              "score": {
+                "t": -0.049,
+                "df": 11.4,
+                "mean_a": 0.1231,
+                "mean_b": 0.1251,
+                "delta_a_minus_b": -0.002
+              },
+              "verdict": "LOWER in EMC by 0.002 SD units (t=-0.049, df=11.4, n_EMC=10, n_comparator=6, 230/269 genes readable). \u26a0 Uncorrected for multiple testing."
+            }
+          },
+          "verdict": null
+        },
+        "pparg_perturbation_KO_UP_CONTROL": {
+          "resolved": true,
+          "role": "directional_control_NOT_a_target_set",
+          "resolved_set": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
+          "matched_term_verbatim": "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP",
+          "selection_rule": "prefix match on 'pparg'; REQUIRED any of ['deficiency', 'ko']; REQUIRED suffix 'up'; no preference applied \u2014 first alphabetically; 0 terms excluded by ['ppargc']",
+          "species_of_the_source_experiment": {
+            "species": "mouse",
+            "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+          },
+          "citation": "TF perturbation followed by expression profiling \u2014 genes that MOVE when the factor is knocked out / knocked down / over-expressed, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
+          "n_genes": 246,
+          "per_platform": {
+            "GSE24369_series_matrix.txt.gz": {
+              "coverage": 0.939,
+              "n_genes_readable": 231,
+              "n_genes_requested": 246,
+              "EMC_mean_score": 0.0781,
+              "comparator_mean_score": 0.1319,
+              "score": {
+                "t": -0.936,
+                "df": 7.2,
+                "mean_a": 0.0781,
+                "mean_b": 0.1319,
+                "delta_a_minus_b": -0.0538
+              },
+              "verdict": "LOWER in EMC by 0.0538 SD units (t=-0.936, df=7.2, n_EMC=6, n_comparator=29, 231/246 genes readable). \u26a0 Uncorrected for multiple testing."
+            },
+            "GSE4303-GPL3290_series_matrix.txt.gz": {
+              "coverage": 0.797,
+              "n_genes_readable": 196,
+              "n_genes_requested": 246,
+              "EMC_mean_score": -0.506,
+              "comparator_mean_score": -0.3943,
+              "score": {
+                "t": -0.911,
+                "df": 6.4,
+                "mean_a": -0.506,
+                "mean_b": -0.3943,
+                "delta_a_minus_b": -0.1118
+              },
+              "verdict": "LOWER in EMC by 0.1118 SD units (t=-0.911, df=6.4, n_EMC=10, n_comparator=6, 196/246 genes readable). \u26a0 Uncorrected for multiple testing."
+            }
+          },
+          "verdict": null
+        },
         "adipogenesis_process_proxy": {
           "resolved": true,
           "role": "process_proxy_NOT_a_target_set",
           "resolved_set": "Adipogenesis",
           "matched_term_verbatim": "Adipogenesis",
           "selection_rule": "prefix match on 'adipogenesis'; no preference applied \u2014 first alphabetically",
+          "species_of_the_source_experiment": {
+            "species": "not stated in the term",
+            "caveat": null
+          },
           "citation": "MSigDB Hallmark collection \u2014 Liberzon et al., Cell Systems 2015, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
           "n_genes": 200,
           "per_platform": {
@@ -64463,16 +65887,16 @@
               "coverage": 0.945,
               "n_genes_readable": 189,
               "n_genes_requested": 200,
-              "EMC_mean_score": 0.8392,
-              "comparator_mean_score": 0.7919,
+              "EMC_mean_score": 0.8386,
+              "comparator_mean_score": 0.7913,
               "score": {
-                "t": 2.114,
+                "t": 2.112,
                 "df": 6.9,
-                "mean_a": 0.8392,
-                "mean_b": 0.7919,
-                "delta_a_minus_b": 0.0473
+                "mean_a": 0.8386,
+                "mean_b": 0.7913,
+                "delta_a_minus_b": 0.0474
               },
-              "verdict": "HIGHER in EMC by 0.0473 SD units (t=2.114, df=6.9, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
+              "verdict": "HIGHER in EMC by 0.0474 SD units (t=2.112, df=6.9, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
             },
             "GSE4303-GPL3290_series_matrix.txt.gz": {
               "coverage": 0.88,
@@ -64491,6 +65915,34 @@
             }
           },
           "verdict": null
+        }
+      },
+      "how_to_read_the_arms": "\u26d4 CHECK THE CONTROL ARM BEFORE QUOTING ANYTHING. `pparg_perturbation_KO_DOWN` (PPAR\u03b3-dependent genes) and `pparg_perturbation_OE_UP` are expected to move TOGETHER if the receptor is transcriptionally engaged. `pparg_perturbation_KO_UP_CONTROL` is expected NOT to. If all three move the same way, the contrast is measuring something the sets share rather than PPAR\u03b3 output, and read 3 must not be quoted.",
+      "species_of_each_set": {
+        "pparg_chip_chea": {
+          "species": "mouse",
+          "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+        },
+        "pparg_consensus_encode_chea": null,
+        "pparg_curated_trrust": {
+          "species": "human",
+          "caveat": null
+        },
+        "pparg_perturbation_KO_DOWN": {
+          "species": "mouse",
+          "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+        },
+        "pparg_perturbation_OE_UP": {
+          "species": "mouse",
+          "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+        },
+        "pparg_perturbation_KO_UP_CONTROL": {
+          "species": "mouse",
+          "caveat": "\u26a0 THE SOURCE EXPERIMENT IS MOUSE, NOT HUMAN. The gene symbols are applied to human tumour transcripts by name, which is an ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, and any sentence quoting this set must carry the bound."
+        },
+        "adipogenesis_process_proxy": {
+          "species": "not stated in the term",
+          "caveat": null
         }
       },
       "abundance_is_not_the_read": "\u26d4 `PPARG` and `PPARGC1A` appear ONLY as interpretive context and are marked `is_the_read: false`. PPARG ABUNDANCE in EMC is already measured twice, concordantly (Subramanian 2005, n=10; Filion 2009, n=3 fusion-verified), and its one home is `research/manuscripts/pparg-direction-emc.md` \u00a76. Re-reporting abundance as if it were new would be the second copy of a settled fact. The MISSING measurement, named in that memo as the one thing nobody has ever done, is receptor ACTIVITY.",
@@ -64591,7 +66043,7 @@
           "GSE24369_series_matrix.txt.gz",
           "GSE4303-GPL3290_series_matrix.txt.gz"
         ],
-        "n_scored_units": 12,
+        "n_scored_units": 16,
         "n_unscored_units": 1,
         "scored_units": [
           "adipogenesis_process_proxy@GSE24369_series_matrix.txt.gz",
@@ -64600,8 +66052,12 @@
           "pparg_chip_chea@GSE4303-GPL3290_series_matrix.txt.gz",
           "pparg_curated_trrust@GSE24369_series_matrix.txt.gz",
           "pparg_curated_trrust@GSE4303-GPL3290_series_matrix.txt.gz",
-          "pparg_perturbation_response@GSE24369_series_matrix.txt.gz",
-          "pparg_perturbation_response@GSE4303-GPL3290_series_matrix.txt.gz",
+          "pparg_perturbation_KO_DOWN@GSE24369_series_matrix.txt.gz",
+          "pparg_perturbation_KO_DOWN@GSE4303-GPL3290_series_matrix.txt.gz",
+          "pparg_perturbation_KO_UP_CONTROL@GSE24369_series_matrix.txt.gz",
+          "pparg_perturbation_KO_UP_CONTROL@GSE4303-GPL3290_series_matrix.txt.gz",
+          "pparg_perturbation_OE_UP@GSE24369_series_matrix.txt.gz",
+          "pparg_perturbation_OE_UP@GSE4303-GPL3290_series_matrix.txt.gz",
           "pparg_target_activity.abundance_context_NOT_the_read@GSE24369_series_matrix.txt.gz",
           "pparg_target_activity.abundance_context_NOT_the_read@GSE4303-GPL3290_series_matrix.txt.gz",
           "pparg_target_activity.pparg_canonical_direct_targets_curated@GSE24369_series_matrix.txt.gz",
@@ -64815,6 +66271,10 @@
           "resolved_set": "Regulation of Neurotransmitter Secretion (GO:0046928)",
           "matched_term_verbatim": "Regulation of Neurotransmitter Secretion (GO:0046928)",
           "selection_rule": "prefix match on 'regulationofneurotransmittersecretion'; no preference applied \u2014 first alphabetically",
+          "species_of_the_source_experiment": {
+            "species": "not stated in the term",
+            "caveat": null
+          },
           "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
           "n_genes": 41,
           "per_platform": {
@@ -64822,16 +66282,16 @@
               "coverage": 0.927,
               "n_genes_readable": 38,
               "n_genes_requested": 41,
-              "EMC_mean_score": 0.2463,
-              "comparator_mean_score": 0.3676,
+              "EMC_mean_score": 0.2462,
+              "comparator_mean_score": 0.3665,
               "score": {
-                "t": -6.558,
-                "df": 12.5,
-                "mean_a": 0.2463,
-                "mean_b": 0.3676,
-                "delta_a_minus_b": -0.1213
+                "t": -6.516,
+                "df": 12.6,
+                "mean_a": 0.2462,
+                "mean_b": 0.3665,
+                "delta_a_minus_b": -0.1203
               },
-              "verdict": "LOWER in EMC by 0.1213 SD units (t=-6.558, df=12.5, n_EMC=6, n_comparator=29, 38/41 genes readable). \u26a0 Uncorrected for multiple testing."
+              "verdict": "LOWER in EMC by 0.1203 SD units (t=-6.516, df=12.6, n_EMC=6, n_comparator=29, 38/41 genes readable). \u26a0 Uncorrected for multiple testing."
             },
             "GSE4303-GPL3290_series_matrix.txt.gz": {
               "coverage": 0.805,
@@ -65139,6 +66599,7 @@
           "resolved_set": "BUFFA_HYPOXIA_METAGENE",
           "matched_term_verbatim": "BUFFA_HYPOXIA_METAGENE",
           "selection_rule": null,
+          "species_of_the_source_experiment": null,
           "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
           "n_genes": 50,
           "per_platform": {
@@ -65181,6 +66642,7 @@
           "resolved_set": "WINTER_HYPOXIA_METAGENE",
           "matched_term_verbatim": "WINTER_HYPOXIA_METAGENE",
           "selection_rule": null,
+          "species_of_the_source_experiment": null,
           "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
           "n_genes": 243,
           "per_platform": {
@@ -65188,13 +66650,13 @@
               "coverage": 0.955,
               "n_genes_readable": 232,
               "n_genes_requested": 243,
-              "EMC_mean_score": 0.9622,
-              "comparator_mean_score": 0.8986,
+              "EMC_mean_score": 0.9644,
+              "comparator_mean_score": 0.901,
               "score": {
                 "t": 0.84,
                 "df": 5.2,
-                "mean_a": 0.9622,
-                "mean_b": 0.8986,
+                "mean_a": 0.9644,
+                "mean_b": 0.901,
                 "delta_a_minus_b": 0.0635
               },
               "verdict": "HIGHER in EMC by 0.0635 SD units (t=0.84, df=5.2, n_EMC=6, n_comparator=29, 232/243 genes readable). \u26a0 Uncorrected for multiple testing."
@@ -65223,6 +66685,7 @@
           "resolved_set": "HARRIS_HYPOXIA",
           "matched_term_verbatim": "HARRIS_HYPOXIA",
           "selection_rule": null,
+          "species_of_the_source_experiment": null,
           "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
           "n_genes": 81,
           "per_platform": {
@@ -65265,6 +66728,7 @@
           "resolved_set": "ELVIDGE_HYPOXIA_UP",
           "matched_term_verbatim": "ELVIDGE_HYPOXIA_UP",
           "selection_rule": null,
+          "species_of_the_source_experiment": null,
           "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
           "n_genes": 173,
           "per_platform": {
@@ -65272,16 +66736,16 @@
               "coverage": 0.919,
               "n_genes_readable": 159,
               "n_genes_requested": 173,
-              "EMC_mean_score": 0.932,
-              "comparator_mean_score": 0.8329,
+              "EMC_mean_score": 0.9312,
+              "comparator_mean_score": 0.8317,
               "score": {
-                "t": 1.229,
+                "t": 1.235,
                 "df": 5.2,
-                "mean_a": 0.932,
-                "mean_b": 0.8329,
-                "delta_a_minus_b": 0.0991
+                "mean_a": 0.9312,
+                "mean_b": 0.8317,
+                "delta_a_minus_b": 0.0995
               },
-              "verdict": "HIGHER in EMC by 0.0991 SD units (t=1.229, df=5.2, n_EMC=6, n_comparator=29, 159/173 genes readable). \u26a0 Uncorrected for multiple testing."
+              "verdict": "HIGHER in EMC by 0.0995 SD units (t=1.235, df=5.2, n_EMC=6, n_comparator=29, 159/173 genes readable). \u26a0 Uncorrected for multiple testing."
             },
             "GSE4303-GPL3290_series_matrix.txt.gz": {
               "coverage": 0.867,
@@ -65307,6 +66771,10 @@
           "resolved_set": "Cellular Response to Hypoxia (GO:0071456)",
           "matched_term_verbatim": "Cellular Response to Hypoxia (GO:0071456)",
           "selection_rule": "substring match on 'responsetohypoxia'; no preference applied \u2014 first alphabetically",
+          "species_of_the_source_experiment": {
+            "species": "not stated in the term",
+            "caveat": null
+          },
           "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
           "n_genes": 77,
           "per_platform": {
@@ -65314,16 +66782,16 @@
               "coverage": 0.948,
               "n_genes_readable": 73,
               "n_genes_requested": 77,
-              "EMC_mean_score": 0.7872,
-              "comparator_mean_score": 0.6985,
+              "EMC_mean_score": 0.7859,
+              "comparator_mean_score": 0.6973,
               "score": {
-                "t": 2.444,
-                "df": 5.5,
-                "mean_a": 0.7872,
-                "mean_b": 0.6985,
+                "t": 2.453,
+                "df": 5.6,
+                "mean_a": 0.7859,
+                "mean_b": 0.6973,
                 "delta_a_minus_b": 0.0886
               },
-              "verdict": "HIGHER in EMC by 0.0886 SD units (t=2.444, df=5.5, n_EMC=6, n_comparator=29, 73/77 genes readable). \u26a0 Uncorrected for multiple testing."
+              "verdict": "HIGHER in EMC by 0.0886 SD units (t=2.453, df=5.6, n_EMC=6, n_comparator=29, 73/77 genes readable). \u26a0 Uncorrected for multiple testing."
             },
             "GSE4303-GPL3290_series_matrix.txt.gz": {
               "coverage": 0.87,
@@ -65349,6 +66817,10 @@
           "resolved_set": "Hypoxia",
           "matched_term_verbatim": "Hypoxia",
           "selection_rule": "prefix match on 'hypoxia'; no preference applied \u2014 first alphabetically",
+          "species_of_the_source_experiment": {
+            "species": "not stated in the term",
+            "caveat": null
+          },
           "citation": "MSigDB Hallmark collection \u2014 Liberzon et al., Cell Systems 2015, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
           "n_genes": 200,
           "per_platform": {
@@ -65356,16 +66828,16 @@
               "coverage": 0.945,
               "n_genes_readable": 189,
               "n_genes_requested": 200,
-              "EMC_mean_score": 0.9012,
-              "comparator_mean_score": 0.8001,
+              "EMC_mean_score": 0.9005,
+              "comparator_mean_score": 0.7991,
               "score": {
-                "t": 1.358,
+                "t": 1.364,
                 "df": 5.3,
-                "mean_a": 0.9012,
-                "mean_b": 0.8001,
-                "delta_a_minus_b": 0.1011
+                "mean_a": 0.9005,
+                "mean_b": 0.7991,
+                "delta_a_minus_b": 0.1014
               },
-              "verdict": "HIGHER in EMC by 0.1011 SD units (t=1.358, df=5.3, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
+              "verdict": "HIGHER in EMC by 0.1014 SD units (t=1.364, df=5.3, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
             },
             "GSE4303-GPL3290_series_matrix.txt.gz": {
               "coverage": 0.875,
@@ -65580,14 +67052,14 @@
           "readable": false,
           "platform": "GPL6244",
           "n_probes_mapping": 0,
-          "why_not_readable": "No probe on GPL6244 maps to the symbol NR2F1. The platform's probe->symbol mapping covers 20232 of 28459 probes (rate 0.7109), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+          "why_not_readable": "No probe on GPL6244 maps to the symbol NR2F1. The platform's probe->symbol mapping covers 20117 of 28459 probes (rate 0.7069), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
           "verdict": "\u26d4 NOT READABLE on GPL6244 \u2014 the read could not be taken. This says NOTHING about whether NR2F1 is expressed in EMC."
         },
         "GSE4303-GPL3290_series_matrix.txt.gz": {
           "readable": false,
           "platform": "GPL3290",
           "n_probes_mapping": 0,
-          "why_not_readable": "No probe on GPL3290 maps to the symbol NR2F1. The platform's probe->symbol mapping covers 27206 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
+          "why_not_readable": "No probe on GPL3290 maps to the symbol NR2F1. The platform's probe->symbol mapping covers 27205 of 43008 probes (rate 0.6326), so a symbol can be missing because the array carries no probe for it OR because that probe's identifier did not resolve to a symbol.",
           "verdict": "\u26d4 NOT READABLE on GPL3290 \u2014 the read could not be taken. This says NOTHING about whether NR2F1 is expressed in EMC."
         }
       },
