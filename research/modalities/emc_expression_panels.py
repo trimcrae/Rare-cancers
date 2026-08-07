@@ -1563,6 +1563,15 @@ def _assemble_reads(res):
                  "⛔ THE TWO PLATFORMS DISAGREE ON CSPG4 AND THIS MODULE DOES NOT RESOLVE IT BY "
                  "PICKING ONE. Both readings are reported in full below and in "
                  "gene_reads.CSPG4."),
+             "⚠_the_precise_shape_of_the_disagreement_read_the_state_not_this_label": (
+                 "The `state` field below is authoritative and this block's name is not. The "
+                 "measured shape is ONE PLATFORM MOVED AND THE OTHER DID NOT — a strong "
+                 "elevation on GPL6244 against no detectable difference on GPL3290 — which is "
+                 "NOT the same as the two platforms reading opposite signs. 'Up here, silent "
+                 "there' and 'up here, down there' license different next steps, and calling "
+                 "both 'discordant' erases the difference. The classifier distinguishes them "
+                 "(`MOVED_ON_ONE_FLAT_ON_THE_OTHER` vs `DISCORDANT_OPPOSITE_SIGNS`); this "
+                 "sentence exists so the prose cannot drift away from what the classifier said."),
              "cross_platform": _cross_platform_verdict(res, "CSPG4"),
              "why_it_matters": (
                  "CSPG4 is one of the two carrier proteoglycans the founding oncofetal-CS paper "
@@ -1630,6 +1639,42 @@ def _assemble_reads(res):
                  "⛔ NOT A DECIDER: choosing the platform with the larger n, the newer array, or "
                  "the answer that suits the route. All three were available and none is evidence.",
              ],
+         },
+         "instrument_disagreement_with_the_depmap_surfaceome_scan": {
+             "_what": ("⭐ THE TWO INSTRUMENTS INVERT ON THE TWO GENES THAT MATTER MOST, AND THAT "
+                       "IS RECORDED HERE RATHER THAN RESOLVED. `emc_surfaceome_scan.py`'s "
+                       "per-gene rows have their one home in emc-surfaceome-scan.json -> "
+                       "actionable_antigens; the EMC-tissue rows are in "
+                       "cross_platform_board.per_gene. Read both before quoting either."),
+             "genes_where_they_point_opposite_ways": {
+                 "CD248": "the scan's ONLY selectivity-significant antigen among these; the EMC "
+                          "tissue read has it LOWER in EMC on the one platform that can read it.",
+                 "ALCAM": "the scan scored it and REJECTED it (not selectivity-significant); the "
+                          "EMC tissue read has it higher in EMC on BOTH platforms.",
+                 "CD44": "the scan's most strongly negative row among these; the EMC tissue read "
+                         "has it higher in EMC on BOTH platforms.",
+             },
+             "⛔_this_is_not_yet_a_contradiction_and_four_things_could_produce_it": [
+                 "DIFFERENT QUESTIONS, and this one alone is enough. The scan asks 'is this gene "
+                 "higher in SARCOMA LINES than in OTHER CANCER LINEAGES?'. This read asks 'is it "
+                 "higher in EMC than in OTHER SARCOMAS?'. Those are different contrasts, so "
+                 "opposite answers are not even inconsistent.",
+                 "DIFFERENT POPULATIONS. The scan contains no verified EWSR1::NR4A3 line "
+                 "(surfaceome-instrument-limits.json), so it holds no EMC observation at all; "
+                 "this read is EMC tumours.",
+                 "DIFFERENT COMPARTMENTS. Monoculture is tumour cells only; bulk archival tissue "
+                 "adds stroma, vasculature, immune infiltrate and matrix. A gene carried by any "
+                 "of those moves here and cannot move there — the L1/L2 limit, in the direction "
+                 "it predicts.",
+                 "DIFFERENT MEASUREMENT. RNA-seq TPM in cultured lines versus array intensity in "
+                 "archival tissue on two decade-old platforms.",
+             ],
+             "⛔_what_this_module_refuses_to_do": (
+                 "Pick a winner. Nothing in either artifact discriminates the four explanations "
+                 "above, and choosing the instrument whose answer suits a route is not evidence "
+                 "(CLAUDE.md §4). What WOULD discriminate them: a single-cell or spatial EMC "
+                 "dataset, which separates the tumour-cell compartment from the stromal one and "
+                 "so tests the third explanation directly. None is in hand."),
          },
          "⛔_what_no_reading_here_can_establish": (
              "Protein presence, surface localisation, surface DENSITY, tumour-cell versus "

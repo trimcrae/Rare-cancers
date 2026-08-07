@@ -107082,6 +107082,7 @@
       },
       "CSPG4_platform_discordance": {
         "_the_finding": "\u26d4 THE TWO PLATFORMS DISAGREE ON CSPG4 AND THIS MODULE DOES NOT RESOLVE IT BY PICKING ONE. Both readings are reported in full below and in gene_reads.CSPG4.",
+        "\u26a0_the_precise_shape_of_the_disagreement_read_the_state_not_this_label": "The `state` field below is authoritative and this block's name is not. The measured shape is ONE PLATFORM MOVED AND THE OTHER DID NOT \u2014 a strong elevation on GPL6244 against no detectable difference on GPL3290 \u2014 which is NOT the same as the two platforms reading opposite signs. 'Up here, silent there' and 'up here, down there' license different next steps, and calling both 'discordant' erases the difference. The classifier distinguishes them (`MOVED_ON_ONE_FLAT_ON_THE_OTHER` vs `DISCORDANT_OPPOSITE_SIGNS`); this sentence exists so the prose cannot drift away from what the classifier said.",
         "cross_platform": {
           "gene": "CSPG4",
           "state": "MOVED_ON_ONE_FLAT_ON_THE_OTHER",
@@ -107139,11 +107140,32 @@
           "SAMPLE COMPOSITION. Both are bulk archival tissue with unmeasured tumour-cell content; a pericyte-associated antigen tracks vascular content."
         ],
         "what_would_actually_decide_it": [
-          "A THIRD, INDEPENDENT EMC SERIES on a different platform. This is the direct decider and it is a $0 CI fetch IF such a series exists \u2014 the repository has characterised only two readable EMC series so far, so the first step is a GEO search, not a re-analysis.",
+          {
+            "decider": "A THIRD, INDEPENDENT EMC SERIES. This is the direct tie-breaker, and it is NOT hypothetical.",
+            "\u2b50_a_third_series_exists_and_the_reason_it_is_unread_is_measured": "GSE28866 carries 4 EMC samples against 27 normal/reference samples (emc-atr-vulnerability.json -> part_b_emc_tumour_signature.series_readability.GSE28866). It is graded unreadable, and the DIAGNOSTIC for that grade \u2014 not an inference \u2014 is in the inputs cache: its series matrix reports `n_probes: 0` across 99 samples on GPL10999, and the platform annotation fetch returned `HTTP Error 404` for `GPL10999.annot.gz`. GPL10999 is a sequencing platform, and a GEO series matrix for a sequencing platform carries sample metadata with no expression table; the processed data lives in the series' SUPPLEMENTARY files, which this instrument never looks at.",
+            "\u26d4_so_the_grade_is_about_the_file_format_not_the_data": "'Unreadable' here means THIS READER could not parse THAT file. It is not a finding that GSE28866 holds no usable expression data, and it must never be quoted as one (CLAUDE.md \u00a74).",
+            "\u2b50_and_its_comparator_arm_is_the_axis_everything_else_is_missing": "Its 27 comparators are classed `normal_or_reference`, not other sarcomas. Every contrast in read 7 is EMC-vs-SARCOMA, which cannot speak to on-target/off-tumour toxicity; a tumour-vs-NORMAL arm in an EMC series is the one measurement that could, and no artifact in this repository holds it.",
+            "the_next_step_and_its_cost": "$0. Characterise GSE28866's SUPPLEMENTARY files in CI (`emc-expression-datasets.yml mode=gse-series series=GSE28866`) and establish whether a processed count matrix exists and carries CSPG4 and CD248. \u26a0 Until that returns, whether the data is usable is UNKNOWN \u2014 this entry records a lead with its evidence, not a result. n=4 EMC would in any case be descriptive."
+          },
           "PER-SAMPLE COMPARATOR-ARM DECOMPOSITION on GPL3290: score CSPG4 in EMC vs DFSP and vs GIST SEPARATELY (n=3 each). If DFSP alone carries the high comparator value, the discordance is the comparator arm and not EMC. \u26a0 n=3 per arm is descriptive only. Computable from the per-sample values already in this artifact, at no additional fetch cost.",
           "PROBE-LEVEL INSPECTION: both platforms map exactly one probe to CSPG4, so there is no within-platform probe disagreement to appeal to; the question is whether the two probes interrogate the same region, which is a GPL annotation read.",
           "\u26d4 NOT A DECIDER: choosing the platform with the larger n, the newer array, or the answer that suits the route. All three were available and none is evidence."
         ]
+      },
+      "instrument_disagreement_with_the_depmap_surfaceome_scan": {
+        "_what": "\u2b50 THE TWO INSTRUMENTS INVERT ON THE TWO GENES THAT MATTER MOST, AND THAT IS RECORDED HERE RATHER THAN RESOLVED. `emc_surfaceome_scan.py`'s per-gene rows have their one home in emc-surfaceome-scan.json -> actionable_antigens; the EMC-tissue rows are in cross_platform_board.per_gene. Read both before quoting either.",
+        "genes_where_they_point_opposite_ways": {
+          "CD248": "the scan's ONLY selectivity-significant antigen among these; the EMC tissue read has it LOWER in EMC on the one platform that can read it.",
+          "ALCAM": "the scan scored it and REJECTED it (not selectivity-significant); the EMC tissue read has it higher in EMC on BOTH platforms.",
+          "CD44": "the scan's most strongly negative row among these; the EMC tissue read has it higher in EMC on BOTH platforms."
+        },
+        "\u26d4_this_is_not_yet_a_contradiction_and_four_things_could_produce_it": [
+          "DIFFERENT QUESTIONS, and this one alone is enough. The scan asks 'is this gene higher in SARCOMA LINES than in OTHER CANCER LINEAGES?'. This read asks 'is it higher in EMC than in OTHER SARCOMAS?'. Those are different contrasts, so opposite answers are not even inconsistent.",
+          "DIFFERENT POPULATIONS. The scan contains no verified EWSR1::NR4A3 line (surfaceome-instrument-limits.json), so it holds no EMC observation at all; this read is EMC tumours.",
+          "DIFFERENT COMPARTMENTS. Monoculture is tumour cells only; bulk archival tissue adds stroma, vasculature, immune infiltrate and matrix. A gene carried by any of those moves here and cannot move there \u2014 the L1/L2 limit, in the direction it predicts.",
+          "DIFFERENT MEASUREMENT. RNA-seq TPM in cultured lines versus array intensity in archival tissue on two decade-old platforms."
+        ],
+        "\u26d4_what_this_module_refuses_to_do": "Pick a winner. Nothing in either artifact discriminates the four explanations above, and choosing the instrument whose answer suits a route is not evidence (CLAUDE.md \u00a74). What WOULD discriminate them: a single-cell or spatial EMC dataset, which separates the tumour-cell compartment from the stromal one and so tests the third explanation directly. None is in hand."
       },
       "\u26d4_what_no_reading_here_can_establish": "Protein presence, surface localisation, surface DENSITY, tumour-cell versus stromal origin, tumour restriction against normal tissue, or the existence of a therapeutic window. A high transcript reading is a reason to stain; it is not an antigen call, and it is not evidence that any agent directed at that antigen binds, works, is selective or is safe in EMC.",
       "the_missing_axis_and_where_it_lives": {
