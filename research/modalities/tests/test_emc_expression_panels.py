@@ -638,6 +638,24 @@ def test_PRAME_is_declared_not_a_surface_antigen_where_a_reader_would_see_it(res
     assert {"B2M", "TAP1", "HLA-A"} <= set(groups)
 
 
+def test_the_third_series_lead_carries_its_diagnostic_and_is_not_stated_as_a_result(res):
+    """⛔ A SERIES GRADED UNREADABLE IS A STATEMENT ABOUT A FILE, NOT ABOUT ITS DATA. GSE28866 is
+    the only characterised EMC series with a normal-tissue comparator arm, and it is graded
+    unreadable because its series matrix carries `n_probes: 0` — a property of how GEO packages
+    sequencing platforms, not evidence that the series is empty. Writing it as 'no third series
+    exists' would close the one route to the tumour-vs-normal axis on a parsing failure."""
+    deciders = res["reads"]["read_7_SURFACE_ANTIGEN"]["CSPG4_platform_discordance"][
+        "what_would_actually_decide_it"]
+    third = next(d for d in deciders if isinstance(d, dict))
+    key = "⭐_a_third_series_exists_and_the_reason_it_is_unread_is_measured"
+    assert "GSE28866" in third[key]
+    assert "n_probes: 0" in third[key], "the diagnostic must be quoted, not summarised"
+    assert "404" in third[key]
+    assert "not a finding" in third["⛔_so_the_grade_is_about_the_file_format_not_the_data"]
+    # and the lead must say it is a lead
+    assert "UNKNOWN" in third["the_next_step_and_its_cost"]
+
+
 def test_every_route_named_address_is_in_the_board(res):
     board = res["reads"]["read_7_SURFACE_ANTIGEN"]["cross_platform_board"]["per_gene"]
     for g in M.PANELS["surface_antigen"]["groups"]["route_named_addresses"]:

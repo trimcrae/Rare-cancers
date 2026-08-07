@@ -1586,10 +1586,38 @@ def _assemble_reads(res):
                  "tumour-cell content; a pericyte-associated antigen tracks vascular content.",
              ],
              "what_would_actually_decide_it": [
-                 "A THIRD, INDEPENDENT EMC SERIES on a different platform. This is the direct "
-                 "decider and it is a $0 CI fetch IF such a series exists — the repository has "
-                 "characterised only two readable EMC series so far, so the first step is a GEO "
-                 "search, not a re-analysis.",
+                 {
+                     "decider": "A THIRD, INDEPENDENT EMC SERIES. This is the direct tie-breaker, "
+                               "and it is NOT hypothetical.",
+                     "⭐_a_third_series_exists_and_the_reason_it_is_unread_is_measured": (
+                         "GSE28866 carries 4 EMC samples against 27 normal/reference samples "
+                         "(emc-atr-vulnerability.json -> part_b_emc_tumour_signature."
+                         "series_readability.GSE28866). It is graded unreadable, and the "
+                         "DIAGNOSTIC for that grade — not an inference — is in the inputs cache: "
+                         "its series matrix reports `n_probes: 0` across 99 samples on GPL10999, "
+                         "and the platform annotation fetch returned `HTTP Error 404` for "
+                         "`GPL10999.annot.gz`. GPL10999 is a sequencing platform, and a GEO "
+                         "series matrix for a sequencing platform carries sample metadata with "
+                         "no expression table; the processed data lives in the series' "
+                         "SUPPLEMENTARY files, which this instrument never looks at."),
+                     "⛔_so_the_grade_is_about_the_file_format_not_the_data": (
+                         "'Unreadable' here means THIS READER could not parse THAT file. It is "
+                         "not a finding that GSE28866 holds no usable expression data, and it "
+                         "must never be quoted as one (CLAUDE.md §4)."),
+                     "⭐_and_its_comparator_arm_is_the_axis_everything_else_is_missing": (
+                         "Its 27 comparators are classed `normal_or_reference`, not other "
+                         "sarcomas. Every contrast in read 7 is EMC-vs-SARCOMA, which cannot "
+                         "speak to on-target/off-tumour toxicity; a tumour-vs-NORMAL arm in an "
+                         "EMC series is the one measurement that could, and no artifact in this "
+                         "repository holds it."),
+                     "the_next_step_and_its_cost": (
+                         "$0. Characterise GSE28866's SUPPLEMENTARY files in CI "
+                         "(`emc-expression-datasets.yml mode=gse-series series=GSE28866`) and "
+                         "establish whether a processed count matrix exists and carries CSPG4 "
+                         "and CD248. ⚠ Until that returns, whether the data is usable is UNKNOWN "
+                         "— this entry records a lead with its evidence, not a result. n=4 EMC "
+                         "would in any case be descriptive."),
+                 },
                  "PER-SAMPLE COMPARATOR-ARM DECOMPOSITION on GPL3290: score CSPG4 in EMC vs DFSP "
                  "and vs GIST SEPARATELY (n=3 each). If DFSP alone carries the high comparator "
                  "value, the discordance is the comparator arm and not EMC. ⚠ n=3 per arm is "
