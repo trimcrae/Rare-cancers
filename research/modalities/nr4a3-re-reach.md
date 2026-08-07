@@ -44,8 +44,8 @@ last_verified: unverified
 
 ## What actually carries information
 
-- in the grooves — where a sequence-directed warhead's exit vector would sit — deleting the receptor multiplies the admitted orientation space by 1.12-1.23x, against 1.08x at the solvent-adjacent control anchors. The receptor IS shaping the geometry at the anchors that matter, and by more than at the control, so this is not merely a statement about a naked B-form duplex.
-- the committed floor is what most of the refusal is: dropping it multiplies admission 152.1x. The floor is a DEGRADER's requirement and is kept in the headline; a route that does not need an induced interface should be read at the clash-only number.
+- in the grooves — where a sequence-directed warhead's exit vector would sit — deleting the receptor multiplies the admitted orientation space by 1.18-1.21x, against 1.12x at the solvent-adjacent control anchors. ⛔ THE INTERVALS OVERLAP THE CONTROL'S, SO THIS COMPARISON IS UNRESOLVED AT THIS SAMPLING. The point estimates order the way the physics suggests — the protein reads the major groove and its deletion should matter more in a groove than beside the duplex — but the accepted counts are too few to say so, and an ordering of point estimates is not a finding. What follows is therefore that the receptor's contribution to this geometry is SMALL: an `admits` answer here is close to a statement about a naked B-form duplex, which is true of any DNA sequence. Resolving it needs more samples, not more interpretation.
+- the committed floor is what most of the refusal is: dropping it multiplies admission 155.8x. The floor is a DEGRADER's requirement and is kept in the headline; a route that does not need an induced interface should be read at the clash-only number.
 
 ## What this does not touch
 
