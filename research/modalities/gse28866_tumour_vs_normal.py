@@ -140,13 +140,23 @@ def _groups(sample_cols):
     `differentially_expressed_cancer_type`) sit among the sample columns because the header gives
     them no distinguishing shape. They are dropped by name, and dropping them is what turns 96
     into the 93 the series arithmetic requires.
+
+    ⛔ AND THE DROP IS BY SHAPE AS WELL AS BY NAME, BECAUSE THIS FUNCTION HAS TWO CALLERS THAT HAND
+    IT DIFFERENT THINGS. `main` passes the 96 columns `_classify_columns` called samples; `_extract`
+    passes the raw 100-field header, which additionally carries `peak`, `gene_id`, `gene_symbol` and
+    `peak_exon_gene_symbol`. A name-only drop therefore returned 93 libraries for one caller and 97
+    for the other — same function, same file, two different groupings, and only one of them could be
+    right. Every one of the 93 real libraries carries `STT` in its name and none of the seven
+    annotation columns does, so requiring `STT` makes the derivation independent of which caller is
+    asking. The two-sided count check below still guards it; this removes a way for the two callers
+    to disagree silently.
     """
     ann = {"hg18_coords", "classification", "differentially_expressed_cancer_type"}
     # ⚠ STRIP \r FIRST. One column ends `..._Adult_normal_breast\r` — the table carries Windows line
     # endings, so the final field of the header keeps its carriage return. Matching `$` against it
     # silently drops that library, which on a 27-library arm is a 3.7 % loss nobody would notice.
     libs = [c.strip().strip('"') for c in sample_cols]
-    libs = [c for c in libs if c not in ann]
+    libs = [c for c in libs if c not in ann and "STT" in c.upper()]
     # ⛔ NORMALS ARE NAMED `STT####_<Adult|Fetal>_normal_<tissue>`, NOT a bare `STT####`. My first
     # pattern assumed the bare form, matched ZERO normals, and the two-sided count check below
     # REFUSED to emit a contrast rather than proceeding on a broken grouping. That refusal is the
@@ -163,6 +173,69 @@ def _groups(sample_cols):
             "technical_replicate_columns": reps,
             "normal_tissues": sorted({c.lower().split("_normal_")[-1] for c in normal}),
             "matches_series_description": len(tumour) == 66 and len(normal) == 27}
+
+
+def _extract(data, wanted):
+    """Per-gene EMC vs normal vs other-sarcoma from the normalized table. Median of peaks per gene.
+
+    ⛔ WHAT THIS CONTRAST CAN AND CANNOT SETTLE, stated here because the panel's COMPOSITION decides
+    it and no amount of arithmetic downstream can repair it. The 27 normals are bowel, breast, colon,
+    kidney, lung and uterus — visceral organs. NONE is soft tissue, and only uterus carries much
+    mesenchyme at all (myometrium), inside a whole-organ library dominated by other compartments.
+    ⇒ A gene high in EMC against THESE normals is NOT thereby shown to be EMC-specific rather than
+    mesenchymal-lineage-specific: the comparator has almost no mesenchymal tissue in it, so the
+    lineage confound survives in a new costume. What this arm DOES give is a normal-ORGAN exposure
+    reading, which is the on-target/off-tumour question, and that is worth having on its own terms.
+    The sarcoma arm here (DDLPS, ESS, EWS, GIST, LMS, MLPS, SS) replicates the existing
+    EMC-vs-sarcoma contrast on a third cohort and a different technology, which is robustness rather
+    than a new axis.
+    """
+    rows, err = [], None
+    with gzip.GzipFile(fileobj=io.BytesIO(data)) as fh:
+        header = fh.readline().decode("utf-8", "replace").rstrip("\r\n").split("\t")
+        idx = {c.strip().strip('"'): i for i, c in enumerate(header)}
+        sym_i = idx.get("gene_symbol")
+        groups = _groups([c.strip().strip('"') for c in header])
+        emc_i = [idx[c] for c in groups["emc_columns"] if c in idx]
+        nrm_i = [idx[c] for c in groups["normal_columns"] if c in idx]
+        sar = [c for c in header if any(c.startswith(p + "_STT") for p in
+               ("DDLPS", "ESS", "EWS", "GIST", "LMS", "MLPS", "SS"))]
+        sar_i = [idx[c] for c in sar if c in idx]
+        want = {w.upper() for w in wanted}
+        per = {}
+        for line in fh:
+            f = line.decode("utf-8", "replace").rstrip("\r\n").split("\t")
+            if sym_i is None or sym_i >= len(f):
+                continue
+            g = f[sym_i].strip().strip('"').upper()
+            if g not in want:
+                continue
+            def vals(ix):
+                out = []
+                for i in ix:
+                    if i < len(f):
+                        try:
+                            out.append(float(f[i]))
+                        except ValueError:
+                            pass
+                return out
+            per.setdefault(g, []).append((vals(emc_i), vals(nrm_i), vals(sar_i)))
+    def med(xs):
+        xs = sorted(xs)
+        return None if not xs else (xs[len(xs)//2] if len(xs) % 2 else
+                                    (xs[len(xs)//2-1]+xs[len(xs)//2])/2)
+    out = {}
+    for g, peaks in per.items():
+        e = [med(p[0]) for p in peaks if p[0]]
+        n = [med(p[1]) for p in peaks if p[1]]
+        s = [med(p[2]) for p in peaks if p[2]]
+        out[g] = {"n_peaks": len(peaks), "emc_median": med([x for x in e if x is not None]),
+                  "normal_median": med([x for x in n if x is not None]),
+                  "sarcoma_median": med([x for x in s if x is not None]),
+                  "_n_emc_libs": len(emc_i), "_n_normal_libs": len(nrm_i),
+                  "_n_sarcoma_libs": len(sar_i)}
+    missing = sorted(want - set(out))
+    return out, missing, groups
 
 
 def main(argv=None):
@@ -187,6 +260,12 @@ def main(argv=None):
         "sources": [],
     }
 
+    # ⛔ THE HEADER READ AND THE EXTRACTION MUST SHARE ONE FETCH, AND THE PREVIOUS REVISION SHARED
+    # NOTHING. `_groups` and `_extract` were both committed and `main` called NEITHER, so the artifact
+    # kept reporting a header read while the commit message claimed a grouping — a function's
+    # PRESENCE in a module is not evidence it ran, which is the same class as a populated field that
+    # was never measured. Keeping the normalized bytes here is what lets both actually execute.
+    fetched = {}
     for name, url in (("normalized_36048_peaks", NORMALIZED), ("raw_counts_54511_peaks", RAW)):
         data, err = _fetch(url, max_bytes=None if name.startswith("normalized") else 3_000_000)
         rec = {"id": name, "url": url}
@@ -219,6 +298,8 @@ def main(argv=None):
             s: [f for f in fields if s in f] for s in EMC_SPECIMENS}
         rec["n_emc_columns_resolved"] = sum(
             1 for v in rec["emc_columns_by_specimen"].values() if v)
+        rec["grouping"] = _groups(rec["columns"]["sample_columns"])
+        fetched[name] = data
         doc["sources"].append(rec)
 
     read = [s for s in doc["sources"] if s.get("status") == "READ"]
@@ -251,14 +332,67 @@ def main(argv=None):
                       "gene-level number from this deposit until it is."),
         }
     doc["_genes_this_would_answer_for"] = WANTED
+
+    # ⛔ THE EXTRACTION IS GATED ON THE GROUPING, NOT ON THE FETCH SUCCEEDING. The first grouping
+    # attempt matched 57 tumours and ZERO normals; had the extraction been gated on "did the file
+    # download", it would have emitted per-gene EMC-vs-nothing values with a populated
+    # `normal_median: null` that a later reader would have taken for a measured absence. A contrast
+    # whose comparator arm is empty is not a weak contrast, it is not a contrast.
+    nrm = next((s for s in doc["sources"] if s["id"] == "normalized_36048_peaks"), None)
+    grp = (nrm or {}).get("grouping") or {}
+    if doc["verdict"].get("answer") == "GENE_INDEXED" and grp.get("matches_series_description") \
+            and fetched.get("normalized_36048_peaks"):
+        try:
+            per_gene, missing, _ = _extract(fetched["normalized_36048_peaks"], WANTED)
+            doc["per_gene"] = {
+                "_contrast": ("Median across a gene's 3SEQ peaks, then median across libraries in "
+                              "each arm. EMC n=4; normals n=27 (bowel/breast/colon/kidney/lung/"
+                              "uterus); other sarcomas = DDLPS, ESS, EWS, GIST, LMS, MLPS, SS."),
+                "_what_the_normal_arm_cannot_settle": (
+                    "The normals are visceral organs with almost no soft tissue in them, so a gene "
+                    "high in EMC against THIS panel is not thereby shown to be EMC-specific rather "
+                    "than mesenchymal-lineage-specific. The normal arm is a normal-ORGAN EXPOSURE "
+                    "reading — the on-target/off-tumour axis — and the sarcoma arm is the lineage "
+                    "axis. Do not read either as the other."),
+                "_ties_to_technical_replicates": grp.get("technical_replicate_columns"),
+                "values": per_gene,
+                "genes_with_no_peak_in_this_deposit": missing,
+            }
+        except Exception as exc:                                      # noqa: BLE001
+            # An extraction failure is a FACT about the parse, never an absent gene.
+            doc["per_gene"] = {"error": "%s: %s" % (type(exc).__name__, exc)}
+    else:
+        doc["per_gene"] = {"skipped_because": {
+            "verdict": doc["verdict"].get("answer"),
+            "grouping_matches_series_description": grp.get("matches_series_description"),
+            "normalized_bytes": len(fetched.get("normalized_36048_peaks") or b""),
+        }}
+
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(doc, fh, indent=2, ensure_ascii=False)
         fh.write("\n")
     print(json.dumps(doc["verdict"], indent=2, ensure_ascii=False))
     for s in doc["sources"]:
-        print("%-26s %-12s fields=%s symbols=%s emc_found=%s" % (
+        print("%-26s %-12s fields=%s symbols=%s emc_found=%s grouping=%s" % (
             s["id"], s.get("status"), s.get("n_header_fields"),
-            s.get("columns", {}).get("symbol_like_columns"), s.get("emc_gsms_found_in_header")))
+            s.get("columns", {}).get("symbol_like_columns"), s.get("emc_gsms_found_in_header"),
+            {k: s.get("grouping", {}).get(k) for k in
+             ("n_tumour", "n_normal", "n_emc", "matches_series_description")}))
+    vals = (doc.get("per_gene") or {}).get("values") or {}
+    if vals:
+        print("\n%-8s %8s %8s %8s  %s" % ("gene", "EMC", "normal", "sarcoma", "peaks"))
+        for g in sorted(vals):
+            v = vals[g]
+            print("%-8s %8s %8s %8s  %s" % (
+                g,
+                "-" if v["emc_median"] is None else "%.3f" % v["emc_median"],
+                "-" if v["normal_median"] is None else "%.3f" % v["normal_median"],
+                "-" if v["sarcoma_median"] is None else "%.3f" % v["sarcoma_median"],
+                v["n_peaks"]))
+        print("no peak in deposit: %s"
+              % (doc["per_gene"].get("genes_with_no_peak_in_this_deposit") or "none"))
+    else:
+        print("\nper_gene: %s" % json.dumps(doc.get("per_gene"), ensure_ascii=False))
     return 0
 
 
