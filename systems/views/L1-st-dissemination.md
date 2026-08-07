@@ -6,7 +6,7 @@ kind: generated
 status: generated
 generator: systems/systems_check.py
 purpose: What can this program contribute even if no route reaches a patient — and what is the honest publishable content of a failure record?
-scope: Level 1. 1 routes.
+scope: Level 1. 3 routes.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
 last_verified: 2026-08-05
@@ -34,6 +34,10 @@ last_verified: 2026-08-05
 ```mermaid
 flowchart LR
   ST_DISSEMINATION["ST-DISSEMINATION"]:::fam
+  RT_ENDPOINT_CHOICE["✓ RT-ENDPOINT-CHOICE"]:::fam
+  ST_DISSEMINATION --> RT_ENDPOINT_CHOICE
+  RT_FUSION_OUTPUT["✓ RT-FUSION-OUTPUT"]:::fam
+  ST_DISSEMINATION --> RT_FUSION_OUTPUT
   RT_METHODS_PAPER["○ RT-METHODS-PAPER"]:::fam
   ST_DISSEMINATION --> RT_METHODS_PAPER
 
@@ -51,6 +55,8 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
+| **[RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md)**<br/>Reframe the endpoint advanced-EMC systemic therapy is judged on | ✓ ready | computed | `journal_submission` | [PUB-ENDPOINT](L3-publications.md) ◐ *primary* | Review the manuscript for external posting. Nothing else in the route is unrun. |
+| **[RT-FUSION-OUTPUT](L2-rt-fusion-output.md)**<br/>The fusion's transcriptional output, read in EMC tissue | ✓ active | validated_in_silico | `preprint` | [PUB-FUSION-OUTPUT](L3-publications.md) ◐ *primary* | Run an NBRE motif scan over the promoter regions of the class-A and Filion-Table-1 genes against a size- and G |
 | **[RT-METHODS-PAPER](L2-rt-methods-paper.md)**<br/>The honest methods paper on the degrader program's own failure record | ○ ready | scoped | `journal_submission` | [PUB-METHODS](L3-publications.md) ◐ *primary* | Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here. |
 ## What this family buys the portfolio — blockers it RETIRES
 
