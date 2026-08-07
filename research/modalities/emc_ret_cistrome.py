@@ -2221,11 +2221,17 @@ def report(art):
     L = []
     b = art.get("part_0_genome_build") or {}
     L.append("**Genome build** — nothing lifted over; each build fetched from its own service.\n")
+    dropped = {x["build"] for x in
+               (art.get("⛔ builds_discarded_for_assembly_mismatch") or {}).get("builds", [])}
     L.append("| build | species | expected assembly | assembly returned | RET span (1-based) |")
     L.append("|---|---|---|---|---|")
     for build, r in (b.get("per_build") or {}).items():
         g = r.get("RET_ensembl") or {}
-        span = f"{g.get('chrom') or '—'}:{g.get('start') or '—'}–{g.get('end') or '—'}"
+        # ⛔ A DISCARDED BUILD MUST NOT PRINT A SPAN. `per_build` is populated at fetch time, so
+        # the coordinates are still in the record even after `derive` refuses to use them —
+        # rendering them in a table is exactly how a discarded reading gets quoted as a live one.
+        span = ("⛔ **DISCARDED — coordinates not used**" if build in dropped else
+                f"{g.get('chrom') or '—'}:{g.get('start') or '—'}–{g.get('end') or '—'}")
         L.append(f"| `{build}` | {r.get('species')} | {r.get('ensembl_assembly_expected')} | "
                  f"{g.get('assembly_name') or '—'} | {span} |")
     off = b.get("chr10_offset_hg19_minus_hg38_at_RET_start")
