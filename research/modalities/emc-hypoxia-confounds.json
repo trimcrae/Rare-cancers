@@ -1,0 +1,4922 @@
+{
+ "_execution_model": "$0 \u2014 CPU, pure stdlib, no network in the derive path.",
+ "_framing": "A CONFOUND AUDIT OF ONE EXPRESSION READING. Every number here is a re-analysis of transcript levels in archival EMC tumour material on two array platforms (n=6 and n=10 tumours). It is NOT evidence of efficacy, selectivity, safety, a therapeutic window or clinical readiness for any agent named anywhere in this file, and it cannot become that evidence from public expression data. A hypoxia metagene is a transcriptional shadow of hypoxia, not an oxygen measurement, and it has never been calibrated in EMC or in any myxoid sarcoma.",
+ "_limits": [
+  "n = 6 tumours (GPL6244) and n = 10 tumours (GPL3290), on two array platforms of different generations and different value kinds. Uncorrected for multiple testing throughout.",
+  "GPL3290 is a two-colour cDNA print run: every value is a log-ratio against a reference pool, so absolute levels are not interpretable and only the between-group contrast is.",
+  "The two comparator arms are different tumours, which is the point of C1 and also its limit: neither arm was designed as a control for the other.",
+  "Bulk archival tissue. Every score is a mixture over tumour, stroma, vessel and immune compartments, and no deconvolution was attempted.",
+  "The curated contrast sets (glycolysis, vessel, myeloid, matrix, proliferation) are repo-written pathway lists, NOT published signatures. They carry interpretive weight only; the published hypoxia sets carry the statistical weight.",
+  "The cached-universe random-gene-set null is biased conservative; the genome-wide null is the unbiased one and is reported only when it has actually been fetched.",
+  "No p-value is exact except where a permutation is marked `exact`; `_welch` reports t and df only because there is no scipy in this lane."
+ ],
+ "_source_inputs_generated_utc": "2026-08-07T14:10:07+00:00",
+ "_this_is_a_reanalysis_not_a_measurement": "every per-sample value comes from `emc-expression-panels-inputs.json` and every reduction is the one `emc_expression_panels.py` uses. The headline six-signature t-statistics have their one home in `emc-expression-panels.json` and are NOT restated here as new; this file stratifies and perturbs them.",
+ "_what": "A confound audit of the EMC hypoxia expression reading, plus the fusion-vs-tissue question and the matrix reading that sits beside it.",
+ "_what_this_cannot_conclude": [
+  "\u26d4 That EMC tissue is hypoxic. A metagene is a transcriptional shadow; no oxygen was measured, no pimonidazole was stained, and no hypoxia signature has ever been calibrated in EMC or in any myxoid sarcoma.",
+  "\u26d4 That any hypoxia-activated prodrug, HIF-pathway agent or carbonic-anhydrase-IX-directed agent has activity, selectivity, safety or a therapeutic window in EMC. Nothing in an expression re-analysis can reach that, and no dose, schedule or combination follows.",
+  "\u26d4 That the fusion does or does not drive the glycolytic programme. The within-EMC test here is n=6 and n=10 with a probe-placement caveat on NR4A3; it can only say which way the available evidence leans.",
+  "\u26d4 Anything radiobiological. No \u03b1/\u03b2, BED, fractionation or radioresistance statement follows from a transcript reading.",
+  "\u26d4 That the comparator sarcomas are normoxic. Every contrast here is EMC against other sarcomas, so a positive reading means `more than these tumours`, never `hypoxic in absolute terms`."
+ ],
+ "cross_platform": {
+  "C7_signature_independence": {
+   "_question": "Is `all six hypoxia signatures are positive` six independent confirmations, or one observation reported six times?",
+   "_why_it_matters": "the multiplicity of a claim is the strength a reader assigns it. Six correlated readouts of one axis are ONE observation.",
+   "core_genes_in_at_least_4_of_6_sets": [
+    "ADM",
+    "AK4",
+    "BHLHE40",
+    "BNIP3",
+    "BNIP3L",
+    "CA9",
+    "CCNG2",
+    "CITED2",
+    "DDIT4",
+    "ENO1",
+    "FOS",
+    "GAPDH",
+    "HILPDA",
+    "HK2",
+    "IGFBP3",
+    "JUN",
+    "LDHA",
+    "MIF",
+    "NDRG1",
+    "P4HA1",
+    "PDGFB",
+    "PFKP",
+    "PGK1",
+    "PLAUR",
+    "SLC2A1",
+    "VEGFA"
+   ],
+   "how_to_read_the_two_together": "Different gene lists whose per-sample scores are highly correlated are near-parallel measurements of ONE underlying axis. Where that holds, `all six positive` must be reported as one observation per platform, not six \u2014 and the effective multiplicity is closer to the number of PLATFORMS than to the number of signatures.",
+   "membership_jaccard": {
+    "hypoxia_buffa": {
+     "hypoxia_buffa": 1.0,
+     "hypoxia_elvidge": 0.0619,
+     "hypoxia_gobp_response": 0.0496,
+     "hypoxia_hallmark": 0.0684,
+     "hypoxia_harris": 0.1102,
+     "hypoxia_winter": 0.0733
+    },
+    "hypoxia_elvidge": {
+     "hypoxia_buffa": 0.0619,
+     "hypoxia_elvidge": 1.0,
+     "hypoxia_gobp_response": 0.046,
+     "hypoxia_hallmark": 0.2687,
+     "hypoxia_harris": 0.0809,
+     "hypoxia_winter": 0.1304
+    },
+    "hypoxia_gobp_response": {
+     "hypoxia_buffa": 0.0496,
+     "hypoxia_elvidge": 0.046,
+     "hypoxia_gobp_response": 1.0,
+     "hypoxia_hallmark": 0.0375,
+     "hypoxia_harris": 0.0533,
+     "hypoxia_winter": 0.0423
+    },
+    "hypoxia_hallmark": {
+     "hypoxia_buffa": 0.0684,
+     "hypoxia_elvidge": 0.2687,
+     "hypoxia_gobp_response": 0.0375,
+     "hypoxia_hallmark": 1.0,
+     "hypoxia_harris": 0.1564,
+     "hypoxia_winter": 0.1973
+    },
+    "hypoxia_harris": {
+     "hypoxia_buffa": 0.1102,
+     "hypoxia_elvidge": 0.0809,
+     "hypoxia_gobp_response": 0.0533,
+     "hypoxia_hallmark": 0.1564,
+     "hypoxia_harris": 1.0,
+     "hypoxia_winter": 0.2756
+    },
+    "hypoxia_winter": {
+     "hypoxia_buffa": 0.0733,
+     "hypoxia_elvidge": 0.1304,
+     "hypoxia_gobp_response": 0.0423,
+     "hypoxia_hallmark": 0.1973,
+     "hypoxia_harris": 0.2756,
+     "hypoxia_winter": 1.0
+    }
+   },
+   "membership_note": "LOW pairwise Jaccard means the six sets are largely DIFFERENT gene lists \u2014 they are not six copies of one list. That is the argument FOR treating them as distinct, and it is the argument the score correlation below overturns.",
+   "n_genes_in_exactly_one_set": 377,
+   "score_correlation_per_platform": {
+    "GPL3290": {
+     "hypoxia_buffa": {
+      "hypoxia_buffa": 1.0,
+      "hypoxia_elvidge": 0.7338,
+      "hypoxia_gobp_response": 0.8126,
+      "hypoxia_hallmark": 0.8177,
+      "hypoxia_harris": 0.7884,
+      "hypoxia_winter": 0.7692
+     },
+     "hypoxia_elvidge": {
+      "hypoxia_buffa": 0.7338,
+      "hypoxia_elvidge": 1.0,
+      "hypoxia_gobp_response": 0.9212,
+      "hypoxia_hallmark": 0.9559,
+      "hypoxia_harris": 0.9095,
+      "hypoxia_winter": 0.9188
+     },
+     "hypoxia_gobp_response": {
+      "hypoxia_buffa": 0.8126,
+      "hypoxia_elvidge": 0.9212,
+      "hypoxia_gobp_response": 1.0,
+      "hypoxia_hallmark": 0.9604,
+      "hypoxia_harris": 0.8636,
+      "hypoxia_winter": 0.87
+     },
+     "hypoxia_hallmark": {
+      "hypoxia_buffa": 0.8177,
+      "hypoxia_elvidge": 0.9559,
+      "hypoxia_gobp_response": 0.9604,
+      "hypoxia_hallmark": 1.0,
+      "hypoxia_harris": 0.9179,
+      "hypoxia_winter": 0.9489
+     },
+     "hypoxia_harris": {
+      "hypoxia_buffa": 0.7884,
+      "hypoxia_elvidge": 0.9095,
+      "hypoxia_gobp_response": 0.8636,
+      "hypoxia_hallmark": 0.9179,
+      "hypoxia_harris": 1.0,
+      "hypoxia_winter": 0.9434
+     },
+     "hypoxia_winter": {
+      "hypoxia_buffa": 0.7692,
+      "hypoxia_elvidge": 0.9188,
+      "hypoxia_gobp_response": 0.87,
+      "hypoxia_hallmark": 0.9489,
+      "hypoxia_harris": 0.9434,
+      "hypoxia_winter": 1.0
+     }
+    },
+    "GPL6244": {
+     "hypoxia_buffa": {
+      "hypoxia_buffa": 1.0,
+      "hypoxia_elvidge": 0.8023,
+      "hypoxia_gobp_response": 0.659,
+      "hypoxia_hallmark": 0.7458,
+      "hypoxia_harris": 0.7107,
+      "hypoxia_winter": 0.7965
+     },
+     "hypoxia_elvidge": {
+      "hypoxia_buffa": 0.8023,
+      "hypoxia_elvidge": 1.0,
+      "hypoxia_gobp_response": 0.8011,
+      "hypoxia_hallmark": 0.9517,
+      "hypoxia_harris": 0.8415,
+      "hypoxia_winter": 0.9273
+     },
+     "hypoxia_gobp_response": {
+      "hypoxia_buffa": 0.659,
+      "hypoxia_elvidge": 0.8011,
+      "hypoxia_gobp_response": 1.0,
+      "hypoxia_hallmark": 0.8006,
+      "hypoxia_harris": 0.6738,
+      "hypoxia_winter": 0.7697
+     },
+     "hypoxia_hallmark": {
+      "hypoxia_buffa": 0.7458,
+      "hypoxia_elvidge": 0.9517,
+      "hypoxia_gobp_response": 0.8006,
+      "hypoxia_hallmark": 1.0,
+      "hypoxia_harris": 0.9025,
+      "hypoxia_winter": 0.9357
+     },
+     "hypoxia_harris": {
+      "hypoxia_buffa": 0.7107,
+      "hypoxia_elvidge": 0.8415,
+      "hypoxia_gobp_response": 0.6738,
+      "hypoxia_hallmark": 0.9025,
+      "hypoxia_harris": 1.0,
+      "hypoxia_winter": 0.9538
+     },
+     "hypoxia_winter": {
+      "hypoxia_buffa": 0.7965,
+      "hypoxia_elvidge": 0.9273,
+      "hypoxia_gobp_response": 0.7697,
+      "hypoxia_hallmark": 0.9357,
+      "hypoxia_harris": 0.9538,
+      "hypoxia_winter": 1.0
+     }
+    }
+   },
+   "union_n_genes": 546
+  },
+  "direction_consistency": {
+   "_naive_sign_test": "if the cells were independent, k of k in one direction would be 2^-k. THEY ARE NOT INDEPENDENT \u2014 see C7_signature_independence: the six per-platform scores correlate r\u22480.66\u20130.96, so the effective number of independent observations is closer to the number of PLATFORMS than to the number of cells. Reporting the naive sign test would be the single easiest way to over-sell this reading, which is why the arithmetic is named and refused here rather than computed.",
+   "cells": [
+    {
+     "platform": "GPL6244",
+     "signature": "hypoxia_buffa",
+     "t": 2.01
+    },
+    {
+     "platform": "GPL6244",
+     "signature": "hypoxia_elvidge",
+     "t": 1.235
+    },
+    {
+     "platform": "GPL6244",
+     "signature": "hypoxia_gobp_response",
+     "t": 2.453
+    },
+    {
+     "platform": "GPL6244",
+     "signature": "hypoxia_hallmark",
+     "t": 1.364
+    },
+    {
+     "platform": "GPL6244",
+     "signature": "hypoxia_harris",
+     "t": 0.681
+    },
+    {
+     "platform": "GPL6244",
+     "signature": "hypoxia_winter",
+     "t": 0.84
+    },
+    {
+     "platform": "GPL3290",
+     "signature": "hypoxia_buffa",
+     "t": 4.127
+    },
+    {
+     "platform": "GPL3290",
+     "signature": "hypoxia_elvidge",
+     "t": 3.438
+    },
+    {
+     "platform": "GPL3290",
+     "signature": "hypoxia_gobp_response",
+     "t": 4.599
+    },
+    {
+     "platform": "GPL3290",
+     "signature": "hypoxia_hallmark",
+     "t": 5.135
+    },
+    {
+     "platform": "GPL3290",
+     "signature": "hypoxia_harris",
+     "t": 3.828
+    },
+    {
+     "platform": "GPL3290",
+     "signature": "hypoxia_winter",
+     "t": 3.793
+    }
+   ],
+   "n_cells": 12,
+   "n_positive": 12
+  }
+ },
+ "generated_utc": "2026-08-07T16:51:26+00:00",
+ "hypoxia_signature_sets_audited": {
+  "hypoxia_buffa": {
+   "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
+   "library": null,
+   "n_genes": 50,
+   "provenance": "MSigDB download_geneset.jsp, fetched at run time",
+   "resolved_set": "BUFFA_HYPOXIA_METAGENE"
+  },
+  "hypoxia_elvidge": {
+   "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
+   "library": null,
+   "n_genes": 173,
+   "provenance": "MSigDB download_geneset.jsp, fetched at run time",
+   "resolved_set": "ELVIDGE_HYPOXIA_UP"
+  },
+  "hypoxia_gobp_response": {
+   "citation": "Gene Ontology biological process \u2014 Ashburner et al., Nature Genetics 2000, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
+   "library": "GO_Biological_Process_2025",
+   "n_genes": 77,
+   "provenance": "Enrichr library GO_Biological_Process_2025, term matched verbatim, fetched at run time",
+   "resolved_set": "Cellular Response to Hypoxia (GO:0071456)"
+  },
+  "hypoxia_hallmark": {
+   "citation": "MSigDB Hallmark collection \u2014 Liberzon et al., Cell Systems 2015, served via Enrichr (Kuleshov et al., Nucleic Acids Research 2016)",
+   "library": "MSigDB_Hallmark_2020",
+   "n_genes": 200,
+   "provenance": "Enrichr library MSigDB_Hallmark_2020, term matched verbatim, fetched at run time",
+   "resolved_set": "Hypoxia"
+  },
+  "hypoxia_harris": {
+   "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
+   "library": null,
+   "n_genes": 81,
+   "provenance": "MSigDB download_geneset.jsp, fetched at run time",
+   "resolved_set": "HARRIS_HYPOXIA"
+  },
+  "hypoxia_winter": {
+   "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
+   "library": null,
+   "n_genes": 243,
+   "provenance": "MSigDB download_geneset.jsp, fetched at run time",
+   "resolved_set": "WINTER_HYPOXIA_METAGENE"
+  }
+ },
+ "platforms": {
+  "GSE24369_series_matrix.txt.gz": {
+   "C1_C2_comparator_composition_and_reference_pool": {
+    "_classes_excluded_from_both_arms": {
+     "unclassified": 7
+    },
+    "_method": "The identical score is recomputed with the comparator arm restricted to ONE class at a time. Nothing about the EMC arm or the reduction changes.",
+    "_question": "Is the hypoxia contrast a property of EMC, or of which tumours happen to sit in the comparator arm?",
+    "_why_excluded": "the panels module excludes `unclassified` and `normal_or_reference` from BOTH arms. On GPL6244 that removes five solitary fibrous tumours and two POOLED SKELETAL MUSCLE RNA samples \u2014 the latter would be a severe confound in a comparator arm, and they are not in one.",
+    "_why_it_matters": "The two series' comparator arms have opposite myxoid composition. If a myxoid, hypocellular matrix produces a hypoxia signature for physical rather than oncogenic reasons, the contrast should shrink against myxoid comparators and grow against cellular ones.",
+    "comparator_classes": {
+     "LGFMS": {
+      "in_pooled_comparator_arm": true,
+      "myxoid": true,
+      "n": 17,
+      "why": "low-grade FIBROMYXOID sarcoma \u2014 alternating fibrous and myxoid zones are definitional; also FET-rearranged (FUS::CREB3L2), so it is a lineage as well as a matrix control"
+     },
+     "desmoid_fibromatosis": {
+      "in_pooled_comparator_arm": true,
+      "myxoid": false,
+      "n": 6,
+      "why": "collagen-rich, not myxoid \u2014 but ALSO hypocellular and paucivascular, so it controls the matrix-abundance half of the physical hypothesis while failing to control the cellularity half. It is the closest thing to a non-myxoid comparator in either series and it is not a clean one."
+     },
+     "fibrosarcoma": {
+      "in_pooled_comparator_arm": true,
+      "myxoid": true,
+      "n": 6,
+      "why": "the six samples in this class are titled `Myxofibrosarcoma`, a myxoid-stroma sarcoma. \u26a0 The class LABEL is the panels module's bucket name, not the sample title; the titles are carried verbatim in `emc-expression-panels.json` -> platforms -> sample_annotations_verbatim and are what this classification reads."
+     }
+    },
+    "per_signature": {
+     "hypoxia_buffa": {
+      "by_comparator_class": {
+       "LGFMS": {
+        "delta_a_minus_b": 0.2201,
+        "df": 5.5,
+        "mean_a": 1.0073,
+        "mean_b": 0.7871,
+        "n_a": 6,
+        "n_b": 17,
+        "t": 2.13
+       },
+       "desmoid_fibromatosis": {
+        "delta_a_minus_b": 0.2421,
+        "df": 5.4,
+        "mean_a": 1.0073,
+        "mean_b": 0.7652,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 2.358
+       },
+       "fibrosarcoma": {
+        "delta_a_minus_b": 0.1307,
+        "df": 8.0,
+        "mean_a": 1.0073,
+        "mean_b": 0.8765,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 1.122
+       }
+      },
+      "n_genes_readable": 49,
+      "n_genes_requested": 50,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.2062,
+       "df": 5.4,
+       "mean_a": 1.0073,
+       "mean_b": 0.8011,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 2.01
+      },
+      "vs_myxoid_comparators_pooled": {
+       "classes": [
+        "LGFMS",
+        "fibrosarcoma"
+       ],
+       "delta_a_minus_b": 0.1968,
+       "df": 5.6,
+       "mean_a": 1.0073,
+       "mean_b": 0.8105,
+       "n": 23,
+       "n_a": 6,
+       "n_b": 23,
+       "t": 1.902
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "desmoid_fibromatosis"
+       ],
+       "delta_a_minus_b": 0.2421,
+       "df": 5.4,
+       "mean_a": 1.0073,
+       "mean_b": 0.7652,
+       "n": 6,
+       "n_a": 6,
+       "n_b": 6,
+       "t": 2.358
+      }
+     },
+     "hypoxia_elvidge": {
+      "by_comparator_class": {
+       "LGFMS": {
+        "delta_a_minus_b": 0.1137,
+        "df": 5.3,
+        "mean_a": 0.9312,
+        "mean_b": 0.8174,
+        "n_a": 6,
+        "n_b": 17,
+        "t": 1.405
+       },
+       "desmoid_fibromatosis": {
+        "delta_a_minus_b": 0.0944,
+        "df": 5.2,
+        "mean_a": 0.9312,
+        "mean_b": 0.8368,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 1.174
+       },
+       "fibrosarcoma": {
+        "delta_a_minus_b": 0.0643,
+        "df": 6.8,
+        "mean_a": 0.9312,
+        "mean_b": 0.8669,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 0.74
+       }
+      },
+      "n_genes_readable": 159,
+      "n_genes_requested": 173,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.0995,
+       "df": 5.2,
+       "mean_a": 0.9312,
+       "mean_b": 0.8317,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 1.235
+      },
+      "vs_myxoid_comparators_pooled": {
+       "classes": [
+        "LGFMS",
+        "fibrosarcoma"
+       ],
+       "delta_a_minus_b": 0.1008,
+       "df": 5.3,
+       "mean_a": 0.9312,
+       "mean_b": 0.8303,
+       "n": 23,
+       "n_a": 6,
+       "n_b": 23,
+       "t": 1.245
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "desmoid_fibromatosis"
+       ],
+       "delta_a_minus_b": 0.0944,
+       "df": 5.2,
+       "mean_a": 0.9312,
+       "mean_b": 0.8368,
+       "n": 6,
+       "n_a": 6,
+       "n_b": 6,
+       "t": 1.174
+      }
+     },
+     "hypoxia_gobp_response": {
+      "by_comparator_class": {
+       "LGFMS": {
+        "delta_a_minus_b": 0.0938,
+        "df": 5.9,
+        "mean_a": 0.7859,
+        "mean_b": 0.6921,
+        "n_a": 6,
+        "n_b": 17,
+        "t": 2.555
+       },
+       "desmoid_fibromatosis": {
+        "delta_a_minus_b": 0.0712,
+        "df": 5.9,
+        "mean_a": 0.7859,
+        "mean_b": 0.7147,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 1.934
+       },
+       "fibrosarcoma": {
+        "delta_a_minus_b": 0.0915,
+        "df": 9.1,
+        "mean_a": 0.7859,
+        "mean_b": 0.6944,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 2.111
+       }
+      },
+      "n_genes_readable": 73,
+      "n_genes_requested": 77,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.0886,
+       "df": 5.6,
+       "mean_a": 0.7859,
+       "mean_b": 0.6973,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 2.453
+      },
+      "vs_myxoid_comparators_pooled": {
+       "classes": [
+        "LGFMS",
+        "fibrosarcoma"
+       ],
+       "delta_a_minus_b": 0.0932,
+       "df": 5.8,
+       "mean_a": 0.7859,
+       "mean_b": 0.6927,
+       "n": 23,
+       "n_a": 6,
+       "n_b": 23,
+       "t": 2.55
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "desmoid_fibromatosis"
+       ],
+       "delta_a_minus_b": 0.0712,
+       "df": 5.9,
+       "mean_a": 0.7859,
+       "mean_b": 0.7147,
+       "n": 6,
+       "n_a": 6,
+       "n_b": 6,
+       "t": 1.934
+      }
+     },
+     "hypoxia_hallmark": {
+      "by_comparator_class": {
+       "LGFMS": {
+        "delta_a_minus_b": 0.0957,
+        "df": 5.5,
+        "mean_a": 0.9005,
+        "mean_b": 0.8048,
+        "n_a": 6,
+        "n_b": 17,
+        "t": 1.276
+       },
+       "desmoid_fibromatosis": {
+        "delta_a_minus_b": 0.132,
+        "df": 5.3,
+        "mean_a": 0.9005,
+        "mean_b": 0.7684,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 1.778
+       },
+       "fibrosarcoma": {
+        "delta_a_minus_b": 0.0869,
+        "df": 7.8,
+        "mean_a": 0.9005,
+        "mean_b": 0.8136,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 1.04
+       }
+      },
+      "n_genes_readable": 189,
+      "n_genes_requested": 200,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.1014,
+       "df": 5.3,
+       "mean_a": 0.9005,
+       "mean_b": 0.7991,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 1.364
+      },
+      "vs_myxoid_comparators_pooled": {
+       "classes": [
+        "LGFMS",
+        "fibrosarcoma"
+       ],
+       "delta_a_minus_b": 0.0934,
+       "df": 5.5,
+       "mean_a": 0.9005,
+       "mean_b": 0.8071,
+       "n": 23,
+       "n_a": 6,
+       "n_b": 23,
+       "t": 1.248
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "desmoid_fibromatosis"
+       ],
+       "delta_a_minus_b": 0.132,
+       "df": 5.3,
+       "mean_a": 0.9005,
+       "mean_b": 0.7684,
+       "n": 6,
+       "n_a": 6,
+       "n_b": 6,
+       "t": 1.778
+      }
+     },
+     "hypoxia_harris": {
+      "by_comparator_class": {
+       "LGFMS": {
+        "delta_a_minus_b": 0.043,
+        "df": 5.4,
+        "mean_a": 1.0069,
+        "mean_b": 0.9638,
+        "n_a": 6,
+        "n_b": 17,
+        "t": 0.474
+       },
+       "desmoid_fibromatosis": {
+        "delta_a_minus_b": 0.1286,
+        "df": 5.1,
+        "mean_a": 1.0069,
+        "mean_b": 0.8783,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 1.44
+       },
+       "fibrosarcoma": {
+        "delta_a_minus_b": 0.0471,
+        "df": 8.4,
+        "mean_a": 1.0069,
+        "mean_b": 0.9597,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 0.448
+       }
+      },
+      "n_genes_readable": 80,
+      "n_genes_requested": 81,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.0616,
+       "df": 5.4,
+       "mean_a": 1.0069,
+       "mean_b": 0.9453,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.681
+      },
+      "vs_myxoid_comparators_pooled": {
+       "classes": [
+        "LGFMS",
+        "fibrosarcoma"
+       ],
+       "delta_a_minus_b": 0.0441,
+       "df": 5.5,
+       "mean_a": 1.0069,
+       "mean_b": 0.9628,
+       "n": 23,
+       "n_a": 6,
+       "n_b": 23,
+       "t": 0.485
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "desmoid_fibromatosis"
+       ],
+       "delta_a_minus_b": 0.1286,
+       "df": 5.1,
+       "mean_a": 1.0069,
+       "mean_b": 0.8783,
+       "n": 6,
+       "n_a": 6,
+       "n_b": 6,
+       "t": 1.44
+      }
+     },
+     "hypoxia_winter": {
+      "by_comparator_class": {
+       "LGFMS": {
+        "delta_a_minus_b": 0.0658,
+        "df": 5.3,
+        "mean_a": 0.9644,
+        "mean_b": 0.8986,
+        "n_a": 6,
+        "n_b": 17,
+        "t": 0.867
+       },
+       "desmoid_fibromatosis": {
+        "delta_a_minus_b": 0.0824,
+        "df": 5.1,
+        "mean_a": 0.9644,
+        "mean_b": 0.882,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 1.099
+       },
+       "fibrosarcoma": {
+        "delta_a_minus_b": 0.0378,
+        "df": 7.6,
+        "mean_a": 0.9644,
+        "mean_b": 0.9266,
+        "n_a": 6,
+        "n_b": 6,
+        "t": 0.447
+       }
+      },
+      "n_genes_readable": 232,
+      "n_genes_requested": 243,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.0635,
+       "df": 5.2,
+       "mean_a": 0.9644,
+       "mean_b": 0.901,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.84
+      },
+      "vs_myxoid_comparators_pooled": {
+       "classes": [
+        "LGFMS",
+        "fibrosarcoma"
+       ],
+       "delta_a_minus_b": 0.0585,
+       "df": 5.4,
+       "mean_a": 0.9644,
+       "mean_b": 0.9059,
+       "n": 23,
+       "n_a": 6,
+       "n_b": 23,
+       "t": 0.77
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "desmoid_fibromatosis"
+       ],
+       "delta_a_minus_b": 0.0824,
+       "df": 5.1,
+       "mean_a": 0.9644,
+       "mean_b": 0.882,
+       "n": 6,
+       "n_a": 6,
+       "n_b": 6,
+       "t": 1.099
+      }
+     }
+    },
+    "reference_pool_strata": {
+     "_question": "On a two-colour array every value is a ratio against a reference pool. Are both arms ratioed against the SAME pool?",
+     "_read_from": "the verbatim GEO sample annotation, never from the class label",
+     "tokens_seen": {
+      "None": {
+       "means": "unrecognised token",
+       "n": 42
+      }
+     },
+     "verdict": "NOT APPLICABLE OR NOT READABLE \u2014 a single reference token, or none, is present in the annotations of this series. \u26a0 That is a statement about the ANNOTATION, not a certificate that one pool was used."
+    }
+   },
+   "C3_C6_biological_confounds": {
+    "_method": "each candidate confound is scored the same way, contrasted between the same two arms, and correlated with the reference hypoxia score across the classified samples. \u26a0 A correlation across samples that SPAN the two arms is inflated by the group difference itself and is not evidence of a within-tumour relationship.",
+    "_question": "Does anything other than tissue oxygenation move with the hypoxia score?",
+    "_reference_score": "hypoxia_buffa \u2014 the smallest published set, so the least likely to absorb an unrelated programme by sheer breadth",
+    "candidates": {
+     "angiogenic_ligands": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.044,
+       "df": 6.1,
+       "mean_a": 0.5667,
+       "mean_b": 0.5227,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.404
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 35,
+       "r": 0.4114
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 6,
+       "r": 0.8433
+      },
+      "genes_not_readable": [],
+      "genes_readable": [
+       "ANGPT1",
+       "ANGPT2",
+       "PGF",
+       "VEGFA"
+      ],
+      "label": "angiogenic_ligands",
+      "n_genes_readable": 4,
+      "n_genes_requested": 4,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.044 SD units (t=0.404, df=6.1, n_EMC=6, n_comparator=29, 4/4 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "the HIF-driven ligands. Scored SEPARATELY from the endothelial proxy precisely because they are downstream of the thing being tested."
+     },
+     "glycolysis": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.3305,
+       "df": 5.7,
+       "mean_a": 1.1389,
+       "mean_b": 0.8085,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 3.776
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 35,
+       "r": 0.8295
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 6,
+       "r": 0.9419
+      },
+      "genes_not_readable": [
+       "ADPGK",
+       "BPGM",
+       "HK3",
+       "HKDC1",
+       "PFKFB2",
+       "PFKM",
+       "SLC16A3"
+      ],
+      "genes_readable": [
+       "ALDOA",
+       "ALDOB",
+       "ALDOC",
+       "ENO1",
+       "ENO2",
+       "ENO3",
+       "GAPDH",
+       "GAPDHS",
+       "GPI",
+       "HK1",
+       "HK2",
+       "LDHA",
+       "LDHB",
+       "LDHC",
+       "PDK1",
+       "PDK3",
+       "PFKFB1",
+       "PFKFB3",
+       "PFKFB4",
+       "PFKL",
+       "PFKP",
+       "PGAM1",
+       "PGAM2",
+       "PGK1",
+       "PKLR",
+       "PKM",
+       "SLC16A1",
+       "SLC2A1",
+       "SLC2A3",
+       "TPI1"
+      ],
+      "label": "glycolysis",
+      "n_genes_readable": 30,
+      "n_genes_requested": 37,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.3305 SD units (t=3.776, df=5.7, n_EMC=6, n_comparator=29, 30/37 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "the glycolytic programme. Hypoxia drives glycolysis, so this is not an independent confound \u2014 it is scored to locate WHERE inside the signature the signal lives."
+     },
+     "hif_machinery": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.0489,
+       "df": 8.2,
+       "mean_a": 1.0151,
+       "mean_b": 0.9662,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 1.453
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 35,
+       "r": 0.3699
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 6,
+       "r": 0.749
+      },
+      "genes_not_readable": [],
+      "genes_readable": [
+       "ARNT",
+       "EGLN1",
+       "EGLN2",
+       "EGLN3",
+       "EPAS1",
+       "HIF1A",
+       "HIF1AN",
+       "VHL"
+      ],
+      "label": "hif_machinery",
+      "n_genes_readable": 8,
+      "n_genes_requested": 8,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.0489 SD units (t=1.453, df=8.2, n_EMC=6, n_comparator=29, 8/8 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "\u26a0 HIF1\u03b1 is regulated by oxygen-dependent DEGRADATION, not by transcription, so a flat HIF1A transcript is the EXPECTED reading under real hypoxia and carries almost no information either way. Reported so that its absence from the argument is visible."
+     },
+     "matrix_cs_gag": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.0017,
+       "df": 6.8,
+       "mean_a": 0.8984,
+       "mean_b": 0.9001,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -0.031
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 35,
+       "r": 0.1536
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 6,
+       "r": 0.7728
+      },
+      "genes_not_readable": [
+       "B3GALT6",
+       "XYLT1"
+      ],
+      "genes_readable": [
+       "ACAN",
+       "B3GAT3",
+       "B4GALT7",
+       "BCAN",
+       "BGN",
+       "CD44",
+       "CHPF",
+       "CHPF2",
+       "CHSY1",
+       "CHSY3",
+       "CSGALNACT1",
+       "CSGALNACT2",
+       "CSPG4",
+       "CSPG5",
+       "DCN",
+       "HAS1",
+       "HAS2",
+       "HAS3",
+       "NCAN",
+       "SRGN",
+       "VCAN",
+       "XYLT2"
+      ],
+      "label": "matrix_cs_gag",
+      "n_genes_readable": 22,
+      "n_genes_requested": 24,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.0017 SD units (t=-0.031, df=6.8, n_EMC=6, n_comparator=29, 22/24 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "chondroitin-sulfate proteoglycan and GAG machinery \u2014 a proxy for how much myxoid matrix is in the block. If matrix content is FLAT between the arms while hypoxia is up, the physical-matrix explanation loses its mechanism."
+     },
+     "myeloid_infiltrate_necrosis_proxy": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.3682,
+       "df": 8.9,
+       "mean_a": -0.136,
+       "mean_b": 0.2322,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -3.524
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 35,
+       "r": 0.0913
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 6,
+       "r": -0.1736
+      },
+      "genes_not_readable": [
+       "CD68",
+       "CSF1R",
+       "FCGR3A",
+       "MRC1",
+       "PTPRC"
+      ],
+      "genes_readable": [
+       "AIF1",
+       "CD14",
+       "ITGAM",
+       "S100A8",
+       "S100A9",
+       "TYROBP"
+      ],
+      "label": "myeloid_infiltrate_necrosis_proxy",
+      "n_genes_readable": 6,
+      "n_genes_requested": 11,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.3682 SD units (t=-3.524, df=8.9, n_EMC=6, n_comparator=29, 6/11 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "there is no transcript marker of necrosis; necrotic tumour recruits myeloid cells, so LOW myeloid transcript is evidence AGAINST a necrosis-driven signature. High would not have been proof of one \u2014 only one direction of this test is informative."
+     },
+     "proliferation": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.2108,
+       "df": 7.2,
+       "mean_a": 0.1274,
+       "mean_b": -0.0834,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.793
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 35,
+       "r": 0.596
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 6,
+       "r": 0.6092
+      },
+      "genes_not_readable": [
+       "AURKA",
+       "BIRC5",
+       "CCNB1",
+       "PCNA",
+       "TYMS"
+      ],
+      "genes_readable": [
+       "MKI67",
+       "RRM2",
+       "TOP2A"
+      ],
+      "label": "proliferation",
+      "n_genes_readable": 3,
+      "n_genes_requested": 8,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.2108 SD units (t=0.793, df=7.2, n_EMC=6, n_comparator=29, 3/8 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "EMC is slow-cycling. If proliferation is FLAT between the arms it cannot drive the contrast; if it is up, it is a live alternative because proliferating tissue outgrows its blood supply."
+     },
+     "vessel_endothelial": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.5844,
+       "df": 5.6,
+       "mean_a": 0.0985,
+       "mean_b": 0.6829,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -3.646
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 35,
+       "r": -0.4788
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 6,
+       "r": -0.5908
+      },
+      "genes_not_readable": [
+       "CDH5",
+       "EMCN",
+       "ESAM",
+       "PECAM1",
+       "ROBO4",
+       "TIE1",
+       "VWF"
+      ],
+      "genes_readable": [
+       "CLDN5",
+       "FLT1",
+       "KDR",
+       "TEK"
+      ],
+      "label": "vessel_endothelial",
+      "n_genes_readable": 4,
+      "n_genes_requested": 11,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.5844 SD units (t=-3.646, df=5.6, n_EMC=6, n_comparator=29, 4/11 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "endothelium-restricted transcripts, a proxy for how much vessel is in the block. DOWN in EMC would be the tissue-intrinsic (hypovascular) explanation. \u26a0 Deliberately excludes VEGFA/ANGPT2, which are HIF-driven and would make this a copy of the hypoxia read."
+     }
+    }
+   },
+   "C8_C9_C10_resampling": {
+    "C10_random_gene_set_null_GENOME_WIDE": {
+     "_status": "NOT TAKEN",
+     "_why_it_matters": "the cached-universe null above is drawn from a gene list assembled for these reads and is therefore biased against the signal. Only a background drawn from the platform's whole mapped-symbol universe answers `is a set of this size unusual` cleanly.",
+     "verdict": "\u26d4 THE GENOME-WIDE NULL HAS NOT BEEN FETCHED. `emc-hypoxia-null-background.json` is absent or does not carry this series, so the unbiased null could not be computed. \u26a0 This is an ABSENT READING, not a reading of absence \u2014 it does not mean the signature passed or failed. Take it with `emc_hypoxia_confounds.py --fetch-background` in CI."
+    },
+    "per_signature": {
+     "hypoxia_buffa": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.1315,
+       "fraction_of_universe_that_is_signature_membership": 0.3329,
+       "n_at_or_above_observed": 263,
+       "n_draws": 2000,
+       "set_size": 49,
+       "universe_size": 1532
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": 20260807,
+       "exact": false,
+       "n_at_or_above_observed": 296,
+       "n_permutations": 20000,
+       "observed_t": 2.01,
+       "one_sided_p": 0.0148
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": false,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 2.266
+        },
+        {
+         "dropped_index": 7,
+         "t": 1.472
+        },
+        {
+         "dropped_index": 8,
+         "t": 1.604
+        },
+        {
+         "dropped_index": 9,
+         "t": 1.492
+        },
+        {
+         "dropped_index": 10,
+         "t": 1.438
+        },
+        {
+         "dropped_index": 11,
+         "t": 3.181
+        }
+       ],
+       "t_max": 3.181,
+       "t_min": 1.438
+      },
+      "n_genes_readable": 49,
+      "observed": {
+       "delta_a_minus_b": 0.2062,
+       "df": 5.4,
+       "mean_a": 1.0073,
+       "mean_b": 0.8011,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 2.01
+      }
+     },
+     "hypoxia_elvidge": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.133,
+       "fraction_of_universe_that_is_signature_membership": 0.3329,
+       "n_at_or_above_observed": 266,
+       "n_draws": 2000,
+       "set_size": 159,
+       "universe_size": 1532
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": 20260807,
+       "exact": false,
+       "n_at_or_above_observed": 1832,
+       "n_permutations": 20000,
+       "observed_t": 1.235,
+       "one_sided_p": 0.0916
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": false,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 1.524
+        },
+        {
+         "dropped_index": 7,
+         "t": 0.953
+        },
+        {
+         "dropped_index": 8,
+         "t": 0.843
+        },
+        {
+         "dropped_index": 9,
+         "t": 0.792
+        },
+        {
+         "dropped_index": 10,
+         "t": 0.678
+        },
+        {
+         "dropped_index": 11,
+         "t": 2.366
+        }
+       ],
+       "t_max": 2.366,
+       "t_min": 0.678
+      },
+      "n_genes_readable": 159,
+      "observed": {
+       "delta_a_minus_b": 0.0995,
+       "df": 5.2,
+       "mean_a": 0.9312,
+       "mean_b": 0.8317,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 1.235
+      }
+     },
+     "hypoxia_gobp_response": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.063,
+       "fraction_of_universe_that_is_signature_membership": 0.3329,
+       "n_at_or_above_observed": 126,
+       "n_draws": 2000,
+       "set_size": 73,
+       "universe_size": 1532
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": 20260807,
+       "exact": false,
+       "n_at_or_above_observed": 82,
+       "n_permutations": 20000,
+       "observed_t": 2.453,
+       "one_sided_p": 0.0041
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": false,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 2.586
+        },
+        {
+         "dropped_index": 7,
+         "t": 2.331
+        },
+        {
+         "dropped_index": 8,
+         "t": 1.904
+        },
+        {
+         "dropped_index": 9,
+         "t": 1.885
+        },
+        {
+         "dropped_index": 10,
+         "t": 2.178
+        },
+        {
+         "dropped_index": 11,
+         "t": 2.776
+        }
+       ],
+       "t_max": 2.776,
+       "t_min": 1.885
+      },
+      "n_genes_readable": 73,
+      "observed": {
+       "delta_a_minus_b": 0.0886,
+       "df": 5.6,
+       "mean_a": 0.7859,
+       "mean_b": 0.6973,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 2.453
+      }
+     },
+     "hypoxia_hallmark": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.083,
+       "fraction_of_universe_that_is_signature_membership": 0.3329,
+       "n_at_or_above_observed": 166,
+       "n_draws": 2000,
+       "set_size": 189,
+       "universe_size": 1532
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": 20260807,
+       "exact": false,
+       "n_at_or_above_observed": 1488,
+       "n_permutations": 20000,
+       "observed_t": 1.364,
+       "one_sided_p": 0.0744
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": false,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 1.826
+        },
+        {
+         "dropped_index": 7,
+         "t": 1.105
+        },
+        {
+         "dropped_index": 8,
+         "t": 0.891
+        },
+        {
+         "dropped_index": 9,
+         "t": 0.894
+        },
+        {
+         "dropped_index": 10,
+         "t": 0.832
+        },
+        {
+         "dropped_index": 11,
+         "t": 2.197
+        }
+       ],
+       "t_max": 2.197,
+       "t_min": 0.832
+      },
+      "n_genes_readable": 189,
+      "observed": {
+       "delta_a_minus_b": 0.1014,
+       "df": 5.3,
+       "mean_a": 0.9005,
+       "mean_b": 0.7991,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 1.364
+      }
+     },
+     "hypoxia_harris": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.34,
+       "fraction_of_universe_that_is_signature_membership": 0.3329,
+       "n_at_or_above_observed": 680,
+       "n_draws": 2000,
+       "set_size": 80,
+       "universe_size": 1532
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": 20260807,
+       "exact": false,
+       "n_at_or_above_observed": 4813,
+       "n_permutations": 20000,
+       "observed_t": 0.681,
+       "one_sided_p": 0.24065
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": false,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 1.011
+        },
+        {
+         "dropped_index": 7,
+         "t": 0.614
+        },
+        {
+         "dropped_index": 8,
+         "t": 0.272
+        },
+        {
+         "dropped_index": 9,
+         "t": 0.25
+        },
+        {
+         "dropped_index": 10,
+         "t": 0.237
+        },
+        {
+         "dropped_index": 11,
+         "t": 1.603
+        }
+       ],
+       "t_max": 1.603,
+       "t_min": 0.237
+      },
+      "n_genes_readable": 80,
+      "observed": {
+       "delta_a_minus_b": 0.0616,
+       "df": 5.4,
+       "mean_a": 1.0069,
+       "mean_b": 0.9453,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.681
+      }
+     },
+     "hypoxia_winter": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.2035,
+       "fraction_of_universe_that_is_signature_membership": 0.3329,
+       "n_at_or_above_observed": 407,
+       "n_draws": 2000,
+       "set_size": 232,
+       "universe_size": 1532
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": 20260807,
+       "exact": false,
+       "n_at_or_above_observed": 3732,
+       "n_permutations": 20000,
+       "observed_t": 0.84,
+       "one_sided_p": 0.1866
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": false,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 1.26
+        },
+        {
+         "dropped_index": 7,
+         "t": 0.728
+        },
+        {
+         "dropped_index": 8,
+         "t": 0.462
+        },
+        {
+         "dropped_index": 9,
+         "t": 0.394
+        },
+        {
+         "dropped_index": 10,
+         "t": 0.325
+        },
+        {
+         "dropped_index": 11,
+         "t": 1.628
+        }
+       ],
+       "t_max": 1.628,
+       "t_min": 0.325
+      },
+      "n_genes_readable": 232,
+      "observed": {
+       "delta_a_minus_b": 0.0635,
+       "df": 5.2,
+       "mean_a": 0.9644,
+       "mean_b": 0.901,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.84
+      }
+     }
+    }
+   },
+   "_value_kinds_are_not_comparable_across_platforms": "\u26d4 AN EFFECT SIZE ON ONE PLATFORM MAY NOT BE COMPARED WITH ONE ON THE OTHER. GPL6244 carries single-channel intensities and GPL3290 carries two-colour log-ratios against a reference pool; a within-sample z has a different scale on each, so `d` is comparable WITHIN a platform and meaningless ACROSS them. Only the DIRECTION of a contrast and its per-platform resampling p travel between them, and any sentence comparing the two platforms' magnitudes is a bug.",
+   "fusion_vs_tissue": {
+    "_question": "Is the hypoxia reading downstream of the fusion, or a property of the tissue?",
+    "_why_the_question_is_sharp": "EWSR1::NR4A3 is a transcriptional driver, and its one published direct transactivation target in the literature this repository cites is ENO3 \u2014 a glycolytic enzyme (PMID 26310886, quoted from `emc_expression_panels.PANELS.instrument_controls.expected.ENO3`, which is its home here). A fusion that drives glycolytic genes and a tumour that is genuinely hypoxic produce the SAME hypoxia metagene score, because every published hypoxia signature is substantially glycolytic.",
+    "decomposition_glycolytic_vs_rest": {
+     "hypoxia_buffa": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.2062,
+        "df": 5.4,
+        "mean_a": 1.0073,
+        "mean_b": 0.8011,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 2.01
+       },
+       "n_readable": 49,
+       "verdict": "HIGHER in EMC by 0.2062 SD units (t=2.01, df=5.4, n_EMC=6, n_comparator=29, 49/50 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 0.4182,
+        "df": 5.6,
+        "mean_a": 1.9099,
+        "mean_b": 1.4917,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 3.25
+       },
+       "n_readable": 11,
+       "verdict": "HIGHER in EMC by 0.4182 SD units (t=3.25, df=5.6, n_EMC=6, n_comparator=29, 11/11 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.1448,
+        "df": 5.4,
+        "mean_a": 0.746,
+        "mean_b": 0.6012,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 1.489
+       },
+       "n_readable": 38,
+       "verdict": "HIGHER in EMC by 0.1448 SD units (t=1.489, df=5.4, n_EMC=6, n_comparator=29, 38/39 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_elvidge": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.0995,
+        "df": 5.2,
+        "mean_a": 0.9312,
+        "mean_b": 0.8317,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 1.235
+       },
+       "n_readable": 159,
+       "verdict": "HIGHER in EMC by 0.0995 SD units (t=1.235, df=5.2, n_EMC=6, n_comparator=29, 159/173 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 0.5003,
+        "df": 5.6,
+        "mean_a": 1.3165,
+        "mean_b": 0.8162,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 2.936
+       },
+       "n_readable": 8,
+       "verdict": "HIGHER in EMC by 0.5003 SD units (t=2.936, df=5.6, n_EMC=6, n_comparator=29, 8/8 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.0783,
+        "df": 5.2,
+        "mean_a": 0.9107,
+        "mean_b": 0.8325,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 1.023
+       },
+       "n_readable": 151,
+       "verdict": "HIGHER in EMC by 0.0783 SD units (t=1.023, df=5.2, n_EMC=6, n_comparator=29, 151/165 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_gobp_response": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.0886,
+        "df": 5.6,
+        "mean_a": 0.7859,
+        "mean_b": 0.6973,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 2.453
+       },
+       "n_readable": 73,
+       "verdict": "HIGHER in EMC by 0.0886 SD units (t=2.453, df=5.6, n_EMC=6, n_comparator=29, 73/77 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": null,
+       "n_readable": 2,
+       "verdict": "\u26d4 UNDERPOWERED \u2014 2/2 genes readable; the floor is 3. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.0823,
+        "df": 5.6,
+        "mean_a": 0.7668,
+        "mean_b": 0.6845,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 2.352
+       },
+       "n_readable": 71,
+       "verdict": "HIGHER in EMC by 0.0823 SD units (t=2.352, df=5.6, n_EMC=6, n_comparator=29, 71/75 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_hallmark": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.1014,
+        "df": 5.3,
+        "mean_a": 0.9005,
+        "mean_b": 0.7991,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 1.364
+       },
+       "n_readable": 189,
+       "verdict": "HIGHER in EMC by 0.1014 SD units (t=1.364, df=5.3, n_EMC=6, n_comparator=29, 189/200 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 0.3278,
+        "df": 5.9,
+        "mean_a": 1.1353,
+        "mean_b": 0.8076,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 3.598
+       },
+       "n_readable": 24,
+       "verdict": "HIGHER in EMC by 0.3278 SD units (t=3.598, df=5.9, n_EMC=6, n_comparator=29, 24/24 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.0685,
+        "df": 5.3,
+        "mean_a": 0.8663,
+        "mean_b": 0.7978,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 0.943
+       },
+       "n_readable": 165,
+       "verdict": "HIGHER in EMC by 0.0685 SD units (t=0.943, df=5.3, n_EMC=6, n_comparator=29, 165/176 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_harris": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.0616,
+        "df": 5.4,
+        "mean_a": 1.0069,
+        "mean_b": 0.9453,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 0.681
+       },
+       "n_readable": 80,
+       "verdict": "HIGHER in EMC by 0.0616 SD units (t=0.681, df=5.4, n_EMC=6, n_comparator=29, 80/81 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 0.2761,
+        "df": 5.7,
+        "mean_a": 1.8598,
+        "mean_b": 1.5837,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 2.17
+       },
+       "n_readable": 12,
+       "verdict": "HIGHER in EMC by 0.2761 SD units (t=2.17, df=5.7, n_EMC=6, n_comparator=29, 12/12 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.0237,
+        "df": 5.3,
+        "mean_a": 0.8563,
+        "mean_b": 0.8326,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 0.277
+       },
+       "n_readable": 68,
+       "verdict": "HIGHER in EMC by 0.0237 SD units (t=0.277, df=5.3, n_EMC=6, n_comparator=29, 68/69 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_winter": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.0635,
+        "df": 5.2,
+        "mean_a": 0.9644,
+        "mean_b": 0.901,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 0.84
+       },
+       "n_readable": 232,
+       "verdict": "HIGHER in EMC by 0.0635 SD units (t=0.84, df=5.2, n_EMC=6, n_comparator=29, 232/243 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 0.3571,
+        "df": 5.8,
+        "mean_a": 1.4557,
+        "mean_b": 1.0985,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 3.826
+       },
+       "n_readable": 22,
+       "verdict": "HIGHER in EMC by 0.3571 SD units (t=3.826, df=5.8, n_EMC=6, n_comparator=29, 22/22 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.0327,
+        "df": 5.2,
+        "mean_a": 0.913,
+        "mean_b": 0.8803,
+        "n_a": 6,
+        "n_b": 29,
+        "t": 0.441
+       },
+       "n_readable": 210,
+       "verdict": "HIGHER in EMC by 0.0327 SD units (t=0.441, df=5.2, n_EMC=6, n_comparator=29, 210/221 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     }
+    },
+    "discriminators": {
+     "CA9_the_oxygen_specific_readout": {
+      "EMC_mean_array_percentile": 0.7315,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.3451,
+       "df": 5.4,
+       "mean_a": 0.6449,
+       "mean_b": 0.2998,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 2.642
+      },
+      "_circularity_guard": "CA9 sits inside several of the sets, so its correlation with a score containing it is partly self-correlation. The correlation below is against the reference score with CA9 REMOVED.",
+      "_percentile_means": "where CA9 sits in this sample's own distribution over all probes. On a two-colour log-ratio platform a percentile is a rank against the array, not an absolute expression level.",
+      "_why_CA9": "carbonic anhydrase IX is among the most hypoxia-restricted HIF1 targets in normal tissue and has no recognised fusion-independent driver here, so it is the single readout least explainable by a transcriptional driver that happens to hit glycolysis.",
+      "is_a_member_of_signature_sets": [
+       "hypoxia_buffa",
+       "hypoxia_elvidge",
+       "hypoxia_harris",
+       "hypoxia_winter"
+      ],
+      "within_EMC_correlation_with_hypoxia_score_CA9_removed": {
+       "n": 6,
+       "r": 0.5262
+      }
+     },
+     "glycolysis_curated": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.3305,
+       "df": 5.7,
+       "mean_a": 1.1389,
+       "mean_b": 0.8085,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 3.776
+      },
+      "genes_not_readable": [
+       "ADPGK",
+       "BPGM",
+       "HK3",
+       "HKDC1",
+       "PFKFB2",
+       "PFKM",
+       "SLC16A3"
+      ],
+      "genes_readable": [
+       "ALDOA",
+       "ALDOB",
+       "ALDOC",
+       "ENO1",
+       "ENO2",
+       "ENO3",
+       "GAPDH",
+       "GAPDHS",
+       "GPI",
+       "HK1",
+       "HK2",
+       "LDHA",
+       "LDHB",
+       "LDHC",
+       "PDK1",
+       "PDK3",
+       "PFKFB1",
+       "PFKFB3",
+       "PFKFB4",
+       "PFKL",
+       "PFKP",
+       "PGAM1",
+       "PGAM2",
+       "PGK1",
+       "PKLR",
+       "PKM",
+       "SLC16A1",
+       "SLC2A1",
+       "SLC2A3",
+       "TPI1"
+      ],
+      "label": "glycolysis_curated",
+      "n_genes_readable": 30,
+      "n_genes_requested": 37,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.3305 SD units (t=3.776, df=5.7, n_EMC=6, n_comparator=29, 30/37 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "why_this_variant": "the full curated programme"
+     },
+     "glycolysis_minus_ENO3": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.314,
+       "df": 5.6,
+       "mean_a": 1.1623,
+       "mean_b": 0.8483,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 3.244
+      },
+      "genes_not_readable": [
+       "ADPGK",
+       "BPGM",
+       "HK3",
+       "HKDC1",
+       "PFKFB2",
+       "PFKM",
+       "SLC16A3"
+      ],
+      "genes_readable": [
+       "ALDOA",
+       "ALDOB",
+       "ALDOC",
+       "ENO1",
+       "ENO2",
+       "GAPDH",
+       "GAPDHS",
+       "GPI",
+       "HK1",
+       "HK2",
+       "LDHA",
+       "LDHB",
+       "LDHC",
+       "PDK1",
+       "PDK3",
+       "PFKFB1",
+       "PFKFB3",
+       "PFKFB4",
+       "PFKL",
+       "PFKP",
+       "PGAM1",
+       "PGAM2",
+       "PGK1",
+       "PKLR",
+       "PKM",
+       "SLC16A1",
+       "SLC2A1",
+       "SLC2A3",
+       "TPI1"
+      ],
+      "label": "glycolysis_minus_ENO3",
+      "n_genes_readable": 29,
+      "n_genes_requested": 36,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.314 SD units (t=3.244, df=5.6, n_EMC=6, n_comparator=29, 29/36 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "why_this_variant": "ENO3 removed \u2014 the published direct fusion target"
+     },
+     "glycolysis_minus_all_enolases": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.2979,
+       "df": 5.6,
+       "mean_a": 1.0894,
+       "mean_b": 0.7915,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 3.298
+      },
+      "genes_not_readable": [
+       "ADPGK",
+       "BPGM",
+       "HK3",
+       "HKDC1",
+       "PFKFB2",
+       "PFKM",
+       "SLC16A3"
+      ],
+      "genes_readable": [
+       "ALDOA",
+       "ALDOB",
+       "ALDOC",
+       "GAPDH",
+       "GAPDHS",
+       "GPI",
+       "HK1",
+       "HK2",
+       "LDHA",
+       "LDHB",
+       "LDHC",
+       "PDK1",
+       "PDK3",
+       "PFKFB1",
+       "PFKFB3",
+       "PFKFB4",
+       "PFKL",
+       "PFKP",
+       "PGAM1",
+       "PGAM2",
+       "PGK1",
+       "PKLR",
+       "PKM",
+       "SLC16A1",
+       "SLC2A1",
+       "SLC2A3",
+       "TPI1"
+      ],
+      "label": "glycolysis_minus_all_enolases",
+      "n_genes_readable": 27,
+      "n_genes_requested": 34,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.2979 SD units (t=3.298, df=5.6, n_EMC=6, n_comparator=29, 27/34 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "why_this_variant": "every enolase removed, so no enolase can carry it"
+     },
+     "within_EMC_fusion_output_vs_hypoxia": {
+      "_question": "Within EMC tumours only, do the tumours with more fusion output have more hypoxia score?",
+      "_the_limit": "n is 6 and 10 tumours; NR4A3 probe placement on a 3'-biased or EST-annotated array may sit in the region the fusion REPLACES rather than the one it retains, so a null NR4A3 correlation has a probe explanation as well as a biological one.",
+      "_the_prediction": "if the programme is fusion-driven, hypoxia score should rise with NR4A3 and with ENO3 across EMC tumours. A null or negative correlation is evidence against fusion-drive.",
+      "_why_this_is_the_discriminating_test": "a between-arm difference cannot separate `the fusion drives it` from `the tissue is like that`, because every EMC carries the fusion AND the myxoid tissue. Within the EMC arm the disease is held constant and only the DEGREE of fusion output varies.",
+      "genes": {
+       "ENO3": {
+        "EMC_vs_comparator": {
+         "delta_a_minus_b": 0.8074,
+         "df": 5.5,
+         "mean_a": 0.4613,
+         "mean_b": -0.3461,
+         "n_a": 6,
+         "n_b": 29,
+         "t": 3.607
+        },
+        "across_classified_samples": {
+         "n": 35,
+         "r": 0.1136
+        },
+        "n_probes_mapping": 1,
+        "n_samples_with_no_value": 0,
+        "readable": true,
+        "within_EMC_correlation_with_hypoxia_score": {
+         "n": 6,
+         "r": -0.9144
+        }
+       },
+       "NR4A3": {
+        "EMC_vs_comparator": {
+         "delta_a_minus_b": 0.7415,
+         "df": 7.2,
+         "mean_a": 0.7222,
+         "mean_b": -0.0193,
+         "n_a": 6,
+         "n_b": 29,
+         "t": 4.663
+        },
+        "across_classified_samples": {
+         "n": 35,
+         "r": 0.4548
+        },
+        "n_probes_mapping": 1,
+        "n_samples_with_no_value": 0,
+        "readable": true,
+        "within_EMC_correlation_with_hypoxia_score": {
+         "n": 6,
+         "r": -0.2809
+        }
+       }
+      }
+     }
+    }
+   },
+   "gene_cache_provenance": {
+    "_why": "no background cache for this series",
+    "merged": false
+   },
+   "matrix_reading": {
+    "_question": "What does a very high VCAN alongside a DOWN sulfate-donor module mean for EMC's myxoid stroma, and what does it rule out?",
+    "_the_tension": "VCAN (versican) is a large chondroitin-sulfate proteoglycan and it is at or near the top of the array in EMC. PAPS is the UNIVERSAL sulfate donor: every sulfotransferase in the cell, on any substrate, takes its sulfate from PAPS. A core protein at the ceiling with the donor module DOWN cannot be read as `EMC is making more sulfated chondroitin sulfate`.",
+    "_what_it_cannot_settle": "\u26d4 A SULFATION PATTERN HAS NO GENE. Transcript levels of sulfotransferases and of the PAPS module are a proxy for the CAPACITY to sulfate, never a measurement of the sulfation state of anything. Nothing here says which CS epitopes are present on EMC tissue; only a stain, a binding assay or a glycomics measurement can say that. Intracellular PAPS concentration is set by flux and by sulfate availability as much as by synthase transcript, so a low PAPSS2 read is not a measurement of low PAPS.",
+    "modules": {
+     "cs_proteoglycan_core_and_gag_machinery": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.0017,
+       "df": 6.8,
+       "mean_a": 0.8984,
+       "mean_b": 0.9001,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -0.031
+      },
+      "genes_not_readable": [
+       "B3GALT6",
+       "XYLT1"
+      ],
+      "genes_readable": [
+       "ACAN",
+       "B3GAT3",
+       "B4GALT7",
+       "BCAN",
+       "BGN",
+       "CD44",
+       "CHPF",
+       "CHPF2",
+       "CHSY1",
+       "CHSY3",
+       "CSGALNACT1",
+       "CSGALNACT2",
+       "CSPG4",
+       "CSPG5",
+       "DCN",
+       "HAS1",
+       "HAS2",
+       "HAS3",
+       "NCAN",
+       "SRGN",
+       "VCAN",
+       "XYLT2"
+      ],
+      "label": "cs_proteoglycan_core_and_gag_machinery",
+      "n_genes_readable": 22,
+      "n_genes_requested": 24,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.0017 SD units (t=-0.031, df=6.8, n_EMC=6, n_comparator=29, 22/24 genes readable). \u26a0 Uncorrected for multiple testing."
+     },
+     "cs_sulfotransferases": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.015,
+       "df": 6.3,
+       "mean_a": 0.6551,
+       "mean_b": 0.6401,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.287
+      },
+      "genes_not_readable": [],
+      "genes_readable": [
+       "CHST11",
+       "CHST12",
+       "CHST13",
+       "CHST14",
+       "CHST15",
+       "CHST3",
+       "CHST7",
+       "UST"
+      ],
+      "label": "cs_sulfotransferases",
+      "n_genes_readable": 8,
+      "n_genes_requested": 8,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.015 SD units (t=0.287, df=6.3, n_EMC=6, n_comparator=29, 8/8 genes readable). \u26a0 Uncorrected for multiple testing."
+     },
+     "paps_module_the_universal_sulfate_donor": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.3096,
+       "df": 5.5,
+       "mean_a": 0.6416,
+       "mean_b": 0.9512,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -2.234
+      },
+      "genes_not_readable": [],
+      "genes_readable": [
+       "BPNT1",
+       "PAPSS1",
+       "PAPSS2",
+       "SLC35B2",
+       "SLC35B3"
+      ],
+      "label": "paps_module_the_universal_sulfate_donor",
+      "n_genes_readable": 5,
+      "n_genes_requested": 5,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.3096 SD units (t=-2.234, df=5.5, n_EMC=6, n_comparator=29, 5/5 genes readable). \u26a0 Uncorrected for multiple testing."
+     }
+    },
+    "per_gene": {
+     "ACAN": {
+      "EMC_mean_array_percentile": 0.8216,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.0884,
+       "df": 15.6,
+       "mean_a": 0.9276,
+       "mean_b": 0.8391,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.529
+      },
+      "readable": true
+     },
+     "B3GALT6": {
+      "readable": false,
+      "verdict": "no probe maps to this symbol on this platform \u2014 the read could not be taken. NOT a statement that the gene is unexpressed."
+     },
+     "B3GAT3": {
+      "EMC_mean_array_percentile": 0.7069,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.106,
+       "df": 8.3,
+       "mean_a": 0.5709,
+       "mean_b": 0.465,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.818
+      },
+      "readable": true
+     },
+     "B4GALT7": {
+      "EMC_mean_array_percentile": 0.6711,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.0697,
+       "df": 6.8,
+       "mean_a": 0.4557,
+       "mean_b": 0.386,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 1.256
+      },
+      "readable": true
+     },
+     "BCAN": {
+      "EMC_mean_array_percentile": 0.486,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.0417,
+       "df": 6.0,
+       "mean_a": 0.0095,
+       "mean_b": 0.0512,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -0.718
+      },
+      "readable": true
+     },
+     "BGN": {
+      "EMC_mean_array_percentile": 0.9945,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.3997,
+       "df": 28.9,
+       "mean_a": 2.6217,
+       "mean_b": 2.222,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 4.137
+      },
+      "readable": true
+     },
+     "BPNT1": {
+      "EMC_mean_array_percentile": 0.6943,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.1319,
+       "df": 6.4,
+       "mean_a": 0.5276,
+       "mean_b": 0.3956,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 1.434
+      },
+      "readable": true
+     },
+     "CD44": {
+      "EMC_mean_array_percentile": 0.9954,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.7112,
+       "df": 16.9,
+       "mean_a": 2.6823,
+       "mean_b": 1.971,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 7.859
+      },
+      "readable": true
+     },
+     "CHPF": {
+      "EMC_mean_array_percentile": 0.8143,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.0156,
+       "df": 18.7,
+       "mean_a": 0.8692,
+       "mean_b": 0.8849,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -0.208
+      },
+      "readable": true
+     },
+     "CHPF2": {
+      "EMC_mean_array_percentile": 0.7861,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.1591,
+       "df": 6.5,
+       "mean_a": 0.8046,
+       "mean_b": 0.9637,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -1.342
+      },
+      "readable": true
+     },
+     "CHST11": {
+      "EMC_mean_array_percentile": 0.7629,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.0063,
+       "df": 7.4,
+       "mean_a": 0.7113,
+       "mean_b": 0.7049,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.066
+      },
+      "readable": true
+     },
+     "CHST12": {
+      "EMC_mean_array_percentile": 0.8669,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.1307,
+       "df": 6.2,
+       "mean_a": 1.0844,
+       "mean_b": 0.9537,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 1.755
+      },
+      "readable": true
+     },
+     "CHST13": {
+      "EMC_mean_array_percentile": 0.5339,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.0719,
+       "df": 13.0,
+       "mean_a": 0.1247,
+       "mean_b": 0.1966,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -2.226
+      },
+      "readable": true
+     },
+     "CHST14": {
+      "EMC_mean_array_percentile": 0.7677,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.2141,
+       "df": 13.0,
+       "mean_a": 0.7138,
+       "mean_b": 0.928,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -5.067
+      },
+      "readable": true
+     },
+     "CHST15": {
+      "EMC_mean_array_percentile": 0.5709,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.7054,
+       "df": 7.6,
+       "mean_a": 0.2188,
+       "mean_b": 0.9242,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -6.904
+      },
+      "readable": true
+     },
+     "CHST3": {
+      "EMC_mean_array_percentile": 0.7615,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.1919,
+       "df": 5.7,
+       "mean_a": 0.7153,
+       "mean_b": 0.5234,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 2.02
+      },
+      "readable": true
+     },
+     "CHST7": {
+      "EMC_mean_array_percentile": 0.5513,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.1328,
+       "df": 12.9,
+       "mean_a": 0.1642,
+       "mean_b": 0.297,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -3.452
+      },
+      "readable": true
+     },
+     "CHSY1": {
+      "EMC_mean_array_percentile": 0.9082,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.2171,
+       "df": 9.7,
+       "mean_a": 1.2938,
+       "mean_b": 1.5109,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -2.391
+      },
+      "readable": true
+     },
+     "CHSY3": {
+      "EMC_mean_array_percentile": 0.2729,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.6878,
+       "df": 12.4,
+       "mean_a": -0.5854,
+       "mean_b": 0.1024,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -4.762
+      },
+      "readable": true
+     },
+     "CSGALNACT1": {
+      "EMC_mean_array_percentile": 0.6625,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.0847,
+       "df": 12.5,
+       "mean_a": 0.4327,
+       "mean_b": 0.5173,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -0.776
+      },
+      "readable": true
+     },
+     "CSGALNACT2": {
+      "EMC_mean_array_percentile": 0.9619,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.2528,
+       "df": 6.3,
+       "mean_a": 1.7754,
+       "mean_b": 1.5227,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 2.283
+      },
+      "readable": true
+     },
+     "CSPG4": {
+      "EMC_mean_array_percentile": 0.8055,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.8852,
+       "df": 7.7,
+       "mean_a": 0.8599,
+       "mean_b": -0.0253,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 7.419
+      },
+      "readable": true
+     },
+     "CSPG5": {
+      "EMC_mean_array_percentile": 0.3053,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.0594,
+       "df": 22.4,
+       "mean_a": -0.4556,
+       "mean_b": -0.3962,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -2.3
+      },
+      "readable": true
+     },
+     "DCN": {
+      "EMC_mean_array_percentile": 0.865,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -1.3011,
+       "df": 5.4,
+       "mean_a": 1.4747,
+       "mean_b": 2.7759,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -3.288
+      },
+      "readable": true
+     },
+     "HAS1": {
+      "EMC_mean_array_percentile": 0.5946,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.009,
+       "df": 7.4,
+       "mean_a": 0.2786,
+       "mean_b": 0.2876,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -0.081
+      },
+      "readable": true
+     },
+     "HAS2": {
+      "EMC_mean_array_percentile": 0.7238,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.1569,
+       "df": 5.7,
+       "mean_a": 1.0695,
+       "mean_b": 1.2265,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -0.292
+      },
+      "readable": true
+     },
+     "HAS3": {
+      "EMC_mean_array_percentile": 0.4947,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.0413,
+       "df": 6.2,
+       "mean_a": 0.0353,
+       "mean_b": -0.0059,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.678
+      },
+      "readable": true
+     },
+     "NCAN": {
+      "EMC_mean_array_percentile": 0.4514,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.001,
+       "df": 6.1,
+       "mean_a": -0.0701,
+       "mean_b": -0.0711,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.027
+      },
+      "readable": true
+     },
+     "PAPSS1": {
+      "EMC_mean_array_percentile": 0.8385,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.0698,
+       "df": 7.8,
+       "mean_a": 0.9699,
+       "mean_b": 1.0396,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -0.747
+      },
+      "readable": true
+     },
+     "PAPSS2": {
+      "EMC_mean_array_percentile": 0.6861,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -1.4241,
+       "df": 5.9,
+       "mean_a": 0.6843,
+       "mean_b": 2.1084,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -3.937
+      },
+      "readable": true
+     },
+     "SLC35B2": {
+      "EMC_mean_array_percentile": 0.7373,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.056,
+       "df": 5.5,
+       "mean_a": 0.6533,
+       "mean_b": 0.5973,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.515
+      },
+      "readable": true
+     },
+     "SLC35B3": {
+      "EMC_mean_array_percentile": 0.6297,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.242,
+       "df": 7.4,
+       "mean_a": 0.3729,
+       "mean_b": 0.615,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -1.989
+      },
+      "readable": true
+     },
+     "SRGN": {
+      "EMC_mean_array_percentile": 0.8482,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.4936,
+       "df": 6.1,
+       "mean_a": 1.1576,
+       "mean_b": 1.6512,
+       "n_a": 6,
+       "n_b": 29,
+       "t": -1.917
+      },
+      "readable": true
+     },
+     "UST": {
+      "EMC_mean_array_percentile": 0.9088,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.915,
+       "df": 6.6,
+       "mean_a": 1.508,
+       "mean_b": 0.593,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 3.294
+      },
+      "readable": true
+     },
+     "VCAN": {
+      "EMC_mean_array_percentile": 0.9973,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.629,
+       "df": 14.6,
+       "mean_a": 2.9308,
+       "mean_b": 2.3018,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 3.937
+      },
+      "readable": true
+     },
+     "XYLT1": {
+      "readable": false,
+      "verdict": "no probe maps to this symbol on this platform \u2014 the read could not be taken. NOT a statement that the gene is unexpressed."
+     },
+     "XYLT2": {
+      "EMC_mean_array_percentile": 0.7347,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.0041,
+       "df": 6.7,
+       "mean_a": 0.626,
+       "mean_b": 0.6219,
+       "n_a": 6,
+       "n_b": 29,
+       "t": 0.065
+      },
+      "readable": true
+     }
+    }
+   },
+   "n_EMC": 6,
+   "n_comparator": 29,
+   "n_genes_readable_in_this_cache": 1532,
+   "platform": "GPL6244",
+   "series": "GSE24369",
+   "value_kind": "single-channel intensity (an absolute level is interpretable only relative to this array's own probe distribution)"
+  },
+  "GSE4303-GPL3290_series_matrix.txt.gz": {
+   "C1_C2_comparator_composition_and_reference_pool": {
+    "_method": "The identical score is recomputed with the comparator arm restricted to ONE class at a time. Nothing about the EMC arm or the reduction changes.",
+    "_question": "Is the hypoxia contrast a property of EMC, or of which tumours happen to sit in the comparator arm?",
+    "_why_it_matters": "The two series' comparator arms have opposite myxoid composition. If a myxoid, hypocellular matrix produces a hypoxia signature for physical rather than oncogenic reasons, the contrast should shrink against myxoid comparators and grow against cellular ones.",
+    "comparator_classes": {
+     "DFSP": {
+      "in_pooled_comparator_arm": true,
+      "myxoid": false,
+      "n": 3,
+      "why": "dermatofibrosarcoma protuberans \u2014 cellular storiform spindle-cell tumour, not myxoid"
+     },
+     "GIST": {
+      "in_pooled_comparator_arm": true,
+      "myxoid": false,
+      "n": 3,
+      "why": "gastrointestinal stromal tumour \u2014 cellular, not myxoid"
+     }
+    },
+    "per_signature": {
+     "hypoxia_buffa": {
+      "by_comparator_class": {
+       "DFSP": {
+        "delta_a_minus_b": 0.6094,
+        "df": 5.4,
+        "mean_a": -0.2424,
+        "mean_b": -0.8518,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.702
+       },
+       "GIST": {
+        "delta_a_minus_b": 0.4711,
+        "df": 8.4,
+        "mean_a": -0.2424,
+        "mean_b": -0.7135,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.401
+       }
+      },
+      "n_genes_readable": 45,
+      "n_genes_requested": 50,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.5403,
+       "df": 13.9,
+       "mean_a": -0.2424,
+       "mean_b": -0.7827,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 4.127
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "DFSP",
+        "GIST"
+       ],
+       "delta_a_minus_b": 0.5403,
+       "df": 13.9,
+       "mean_a": -0.2424,
+       "mean_b": -0.7827,
+       "n": 6,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 4.127
+      }
+     },
+     "hypoxia_elvidge": {
+      "by_comparator_class": {
+       "DFSP": {
+        "delta_a_minus_b": 0.199,
+        "df": 7.0,
+        "mean_a": 0.0668,
+        "mean_b": -0.1322,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 2.45
+       },
+       "GIST": {
+        "delta_a_minus_b": 0.3895,
+        "df": 4.2,
+        "mean_a": 0.0668,
+        "mean_b": -0.3227,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.798
+       }
+      },
+      "n_genes_readable": 150,
+      "n_genes_requested": 173,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.2942,
+       "df": 12.5,
+       "mean_a": 0.0668,
+       "mean_b": -0.2275,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.438
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "DFSP",
+        "GIST"
+       ],
+       "delta_a_minus_b": 0.2942,
+       "df": 12.5,
+       "mean_a": 0.0668,
+       "mean_b": -0.2275,
+       "n": 6,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.438
+      }
+     },
+     "hypoxia_gobp_response": {
+      "by_comparator_class": {
+       "DFSP": {
+        "delta_a_minus_b": 0.1782,
+        "df": 6.4,
+        "mean_a": 0.1084,
+        "mean_b": -0.0698,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.533
+       },
+       "GIST": {
+        "delta_a_minus_b": 0.2832,
+        "df": 4.4,
+        "mean_a": 0.1084,
+        "mean_b": -0.1749,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 4.748
+       }
+      },
+      "n_genes_readable": 67,
+      "n_genes_requested": 77,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.2307,
+       "df": 12.8,
+       "mean_a": 0.1084,
+       "mean_b": -0.1223,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 4.599
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "DFSP",
+        "GIST"
+       ],
+       "delta_a_minus_b": 0.2307,
+       "df": 12.8,
+       "mean_a": 0.1084,
+       "mean_b": -0.1223,
+       "n": 6,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 4.599
+      }
+     },
+     "hypoxia_hallmark": {
+      "by_comparator_class": {
+       "DFSP": {
+        "delta_a_minus_b": 0.3293,
+        "df": 6.2,
+        "mean_a": 0.0922,
+        "mean_b": -0.2371,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 4.272
+       },
+       "GIST": {
+        "delta_a_minus_b": 0.3956,
+        "df": 4.0,
+        "mean_a": 0.0922,
+        "mean_b": -0.3034,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 4.088
+       }
+      },
+      "n_genes_readable": 175,
+      "n_genes_requested": 200,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.3624,
+       "df": 13.7,
+       "mean_a": 0.0922,
+       "mean_b": -0.2703,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 5.135
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "DFSP",
+        "GIST"
+       ],
+       "delta_a_minus_b": 0.3624,
+       "df": 13.7,
+       "mean_a": 0.0922,
+       "mean_b": -0.2703,
+       "n": 6,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 5.135
+      }
+     },
+     "hypoxia_harris": {
+      "by_comparator_class": {
+       "DFSP": {
+        "delta_a_minus_b": 0.3138,
+        "df": 3.3,
+        "mean_a": -0.0745,
+        "mean_b": -0.3883,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 2.362
+       },
+       "GIST": {
+        "delta_a_minus_b": 0.3678,
+        "df": 5.7,
+        "mean_a": -0.0745,
+        "mean_b": -0.4423,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.851
+       }
+      },
+      "n_genes_readable": 73,
+      "n_genes_requested": 81,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.3408,
+       "df": 13.0,
+       "mean_a": -0.0745,
+       "mean_b": -0.4153,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.828
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "DFSP",
+        "GIST"
+       ],
+       "delta_a_minus_b": 0.3408,
+       "df": 13.0,
+       "mean_a": -0.0745,
+       "mean_b": -0.4153,
+       "n": 6,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.828
+      }
+     },
+     "hypoxia_winter": {
+      "by_comparator_class": {
+       "DFSP": {
+        "delta_a_minus_b": 0.2555,
+        "df": 3.5,
+        "mean_a": -0.0364,
+        "mean_b": -0.2918,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 2.845
+       },
+       "GIST": {
+        "delta_a_minus_b": 0.2289,
+        "df": 4.2,
+        "mean_a": -0.0364,
+        "mean_b": -0.2653,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 2.934
+       }
+      },
+      "n_genes_readable": 220,
+      "n_genes_requested": 243,
+      "pooled_comparator": {
+       "delta_a_minus_b": 0.2422,
+       "df": 12.8,
+       "mean_a": -0.0364,
+       "mean_b": -0.2786,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.793
+      },
+      "vs_non_myxoid_comparators_pooled": {
+       "classes": [
+        "DFSP",
+        "GIST"
+       ],
+       "delta_a_minus_b": 0.2422,
+       "df": 12.8,
+       "mean_a": -0.0364,
+       "mean_b": -0.2786,
+       "n": 6,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.793
+      }
+     }
+    },
+    "reference_pool_strata": {
+     "_question": "On a two-colour array every value is a ratio against a reference pool. Are both arms ratioed against the SAME pool?",
+     "_read_from": "the verbatim GEO sample annotation, never from the class label",
+     "_the_test": "recompute the contrast against the POOL-MATCHED comparators alone. If the signal is a reference-pool artefact it must die here.",
+     "emc_arm_tokens": [
+      "CRH"
+     ],
+     "n_comparators_on_a_different_pool": 3,
+     "n_comparators_on_the_same_pool_as_EMC": 3,
+     "per_signature_pool_matched_only": {
+      "hypoxia_buffa": {
+       "pool_matched_comparators_only": {
+        "delta_a_minus_b": 0.6094,
+        "df": 5.4,
+        "mean_a": -0.2424,
+        "mean_b": -0.8518,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.702
+       },
+       "pool_mismatched_comparators_only": {
+        "delta_a_minus_b": 0.4711,
+        "df": 8.4,
+        "mean_a": -0.2424,
+        "mean_b": -0.7135,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.401
+       }
+      },
+      "hypoxia_elvidge": {
+       "pool_matched_comparators_only": {
+        "delta_a_minus_b": 0.199,
+        "df": 7.0,
+        "mean_a": 0.0668,
+        "mean_b": -0.1322,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 2.45
+       },
+       "pool_mismatched_comparators_only": {
+        "delta_a_minus_b": 0.3895,
+        "df": 4.2,
+        "mean_a": 0.0668,
+        "mean_b": -0.3227,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.798
+       }
+      },
+      "hypoxia_gobp_response": {
+       "pool_matched_comparators_only": {
+        "delta_a_minus_b": 0.1782,
+        "df": 6.4,
+        "mean_a": 0.1084,
+        "mean_b": -0.0698,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.533
+       },
+       "pool_mismatched_comparators_only": {
+        "delta_a_minus_b": 0.2832,
+        "df": 4.4,
+        "mean_a": 0.1084,
+        "mean_b": -0.1749,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 4.748
+       }
+      },
+      "hypoxia_hallmark": {
+       "pool_matched_comparators_only": {
+        "delta_a_minus_b": 0.3293,
+        "df": 6.2,
+        "mean_a": 0.0922,
+        "mean_b": -0.2371,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 4.272
+       },
+       "pool_mismatched_comparators_only": {
+        "delta_a_minus_b": 0.3956,
+        "df": 4.0,
+        "mean_a": 0.0922,
+        "mean_b": -0.3034,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 4.088
+       }
+      },
+      "hypoxia_harris": {
+       "pool_matched_comparators_only": {
+        "delta_a_minus_b": 0.3138,
+        "df": 3.3,
+        "mean_a": -0.0745,
+        "mean_b": -0.3883,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 2.362
+       },
+       "pool_mismatched_comparators_only": {
+        "delta_a_minus_b": 0.3678,
+        "df": 5.7,
+        "mean_a": -0.0745,
+        "mean_b": -0.4423,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 3.851
+       }
+      },
+      "hypoxia_winter": {
+       "pool_matched_comparators_only": {
+        "delta_a_minus_b": 0.2555,
+        "df": 3.5,
+        "mean_a": -0.0364,
+        "mean_b": -0.2918,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 2.845
+       },
+       "pool_mismatched_comparators_only": {
+        "delta_a_minus_b": 0.2289,
+        "df": 4.2,
+        "mean_a": -0.0364,
+        "mean_b": -0.2653,
+        "n_a": 10,
+        "n_b": 3,
+        "t": 2.934
+       }
+      }
+     },
+     "tokens_seen": {
+      "CRH": {
+       "means": "the CRH reference pool (EMC samples are annotated `CRH-mRNA`, DFSP samples `CRH`)",
+       "n": 13
+      },
+      "UHR": {
+       "means": "Universal Human Reference \u2014 a DIFFERENT pool, carried only by the three GIST samples",
+       "n": 3
+      }
+     }
+    }
+   },
+   "C3_C6_biological_confounds": {
+    "_method": "each candidate confound is scored the same way, contrasted between the same two arms, and correlated with the reference hypoxia score across the classified samples. \u26a0 A correlation across samples that SPAN the two arms is inflated by the group difference itself and is not evidence of a within-tumour relationship.",
+    "_question": "Does anything other than tissue oxygenation move with the hypoxia score?",
+    "_reference_score": "hypoxia_buffa \u2014 the smallest published set, so the least likely to absorb an unrelated programme by sheer breadth",
+    "candidates": {
+     "angiogenic_ligands": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.7365,
+       "df": 8.1,
+       "mean_a": 0.2093,
+       "mean_b": -0.5271,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.205
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 16,
+       "r": 0.4983
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 10,
+       "r": 0.0269
+      },
+      "genes_not_readable": [],
+      "genes_readable": [
+       "ANGPT1",
+       "ANGPT2",
+       "PGF",
+       "VEGFA"
+      ],
+      "label": "angiogenic_ligands",
+      "n_genes_readable": 4,
+      "n_genes_requested": 4,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.7365 SD units (t=3.205, df=8.1, n_EMC=10, n_comparator=6, 4/4 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "the HIF-driven ligands. Scored SEPARATELY from the endothelial proxy precisely because they are downstream of the thing being tested."
+     },
+     "glycolysis": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.9554,
+       "df": 13.7,
+       "mean_a": 0.0136,
+       "mean_b": -0.9418,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 6.951
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 16,
+       "r": 0.9345
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 10,
+       "r": 0.9567
+      },
+      "genes_not_readable": [
+       "ADPGK",
+       "BPGM",
+       "GAPDHS",
+       "HK1",
+       "HK3",
+       "HKDC1",
+       "PFKFB2",
+       "PFKM",
+       "PGAM2",
+       "PKM",
+       "SLC16A3"
+      ],
+      "genes_readable": [
+       "ALDOA",
+       "ALDOB",
+       "ALDOC",
+       "ENO1",
+       "ENO2",
+       "ENO3",
+       "GAPDH",
+       "GPI",
+       "HK2",
+       "LDHA",
+       "LDHB",
+       "LDHC",
+       "PDK1",
+       "PDK3",
+       "PFKFB1",
+       "PFKFB3",
+       "PFKFB4",
+       "PFKL",
+       "PFKP",
+       "PGAM1",
+       "PGK1",
+       "PKLR",
+       "SLC16A1",
+       "SLC2A1",
+       "SLC2A3",
+       "TPI1"
+      ],
+      "label": "glycolysis",
+      "n_genes_readable": 26,
+      "n_genes_requested": 37,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.9554 SD units (t=6.951, df=13.7, n_EMC=10, n_comparator=6, 26/37 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "the glycolytic programme. Hypoxia drives glycolysis, so this is not an independent confound \u2014 it is scored to locate WHERE inside the signature the signal lives."
+     },
+     "hif_machinery": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.1319,
+       "df": 7.7,
+       "mean_a": 0.2362,
+       "mean_b": 0.1044,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 0.899
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 16,
+       "r": 0.2001
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 10,
+       "r": 0.2978
+      },
+      "genes_not_readable": [
+       "EGLN1"
+      ],
+      "genes_readable": [
+       "ARNT",
+       "EGLN2",
+       "EGLN3",
+       "EPAS1",
+       "HIF1A",
+       "HIF1AN",
+       "VHL"
+      ],
+      "label": "hif_machinery",
+      "n_genes_readable": 7,
+      "n_genes_requested": 8,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.1319 SD units (t=0.899, df=7.7, n_EMC=10, n_comparator=6, 7/8 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "\u26a0 HIF1\u03b1 is regulated by oxygen-dependent DEGRADATION, not by transcription, so a flat HIF1A transcript is the EXPECTED reading under real hypoxia and carries almost no information either way. Reported so that its absence from the argument is visible."
+     },
+     "matrix_cs_gag": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.3962,
+       "df": 8.7,
+       "mean_a": 0.3029,
+       "mean_b": -0.0933,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.11
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 16,
+       "r": 0.3169
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 10,
+       "r": -0.3383
+      },
+      "genes_not_readable": [
+       "CHSY3",
+       "HAS1",
+       "XYLT2"
+      ],
+      "genes_readable": [
+       "ACAN",
+       "B3GALT6",
+       "B3GAT3",
+       "B4GALT7",
+       "BCAN",
+       "BGN",
+       "CD44",
+       "CHPF",
+       "CHPF2",
+       "CHSY1",
+       "CSGALNACT1",
+       "CSGALNACT2",
+       "CSPG4",
+       "CSPG5",
+       "DCN",
+       "HAS2",
+       "HAS3",
+       "NCAN",
+       "SRGN",
+       "VCAN",
+       "XYLT1"
+      ],
+      "label": "matrix_cs_gag",
+      "n_genes_readable": 21,
+      "n_genes_requested": 24,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.3962 SD units (t=3.11, df=8.7, n_EMC=10, n_comparator=6, 21/24 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "chondroitin-sulfate proteoglycan and GAG machinery \u2014 a proxy for how much myxoid matrix is in the block. If matrix content is FLAT between the arms while hypoxia is up, the physical-matrix explanation loses its mechanism."
+     },
+     "myeloid_infiltrate_necrosis_proxy": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.7833,
+       "df": 5.9,
+       "mean_a": -0.7465,
+       "mean_b": 0.0368,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -1.472
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 16,
+       "r": -0.3136
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 10,
+       "r": -0.6377
+      },
+      "genes_not_readable": [
+       "CD68",
+       "CSF1R",
+       "FCGR3A",
+       "MRC1",
+       "PTPRC"
+      ],
+      "genes_readable": [
+       "AIF1",
+       "CD14",
+       "ITGAM",
+       "S100A8",
+       "S100A9",
+       "TYROBP"
+      ],
+      "label": "myeloid_infiltrate_necrosis_proxy",
+      "n_genes_readable": 6,
+      "n_genes_requested": 11,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.7833 SD units (t=-1.472, df=5.9, n_EMC=10, n_comparator=6, 6/11 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "there is no transcript marker of necrosis; necrotic tumour recruits myeloid cells, so LOW myeloid transcript is evidence AGAINST a necrosis-driven signature. High would not have been proof of one \u2014 only one direction of this test is informative."
+     },
+     "proliferation": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.3793,
+       "df": 6.3,
+       "mean_a": -1.3265,
+       "mean_b": -1.7058,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 1.504
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 16,
+       "r": 0.4746
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 10,
+       "r": 0.6644
+      },
+      "genes_not_readable": [
+       "AURKA",
+       "BIRC5",
+       "CCNB1",
+       "PCNA",
+       "TYMS"
+      ],
+      "genes_readable": [
+       "MKI67",
+       "RRM2",
+       "TOP2A"
+      ],
+      "label": "proliferation",
+      "n_genes_readable": 3,
+      "n_genes_requested": 8,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.3793 SD units (t=1.504, df=6.3, n_EMC=10, n_comparator=6, 3/8 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "EMC is slow-cycling. If proliferation is FLAT between the arms it cannot drive the contrast; if it is up, it is a live alternative because proliferating tissue outgrows its blood supply."
+     },
+     "vessel_endothelial": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.2331,
+       "df": 7.8,
+       "mean_a": 0.1751,
+       "mean_b": 0.4081,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -1.23
+      },
+      "correlation_with_hypoxia_score_across_classified_samples": {
+       "n": 16,
+       "r": -0.4166
+      },
+      "correlation_within_the_EMC_arm_only": {
+       "_caveat": "within-arm n is 6 or 10; a correlation on that n is a direction, not an estimate, and its sign is what is worth reading.",
+       "n": 10,
+       "r": -0.0876
+      },
+      "genes_not_readable": [
+       "CDH5",
+       "EMCN",
+       "ESAM",
+       "PECAM1",
+       "ROBO4",
+       "TIE1",
+       "VWF"
+      ],
+      "genes_readable": [
+       "CLDN5",
+       "FLT1",
+       "KDR",
+       "TEK"
+      ],
+      "label": "vessel_endothelial",
+      "n_genes_readable": 4,
+      "n_genes_requested": 11,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.2331 SD units (t=-1.23, df=7.8, n_EMC=10, n_comparator=6, 4/11 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "what_this_reading_would_mean": "endothelium-restricted transcripts, a proxy for how much vessel is in the block. DOWN in EMC would be the tissue-intrinsic (hypovascular) explanation. \u26a0 Deliberately excludes VEGFA/ANGPT2, which are HIF-driven and would make this a copy of the hypoxia read."
+     }
+    }
+   },
+   "C8_C9_C10_resampling": {
+    "C10_random_gene_set_null_GENOME_WIDE": {
+     "_status": "NOT TAKEN",
+     "_why_it_matters": "the cached-universe null above is drawn from a gene list assembled for these reads and is therefore biased against the signal. Only a background drawn from the platform's whole mapped-symbol universe answers `is a set of this size unusual` cleanly.",
+     "verdict": "\u26d4 THE GENOME-WIDE NULL HAS NOT BEEN FETCHED. `emc-hypoxia-null-background.json` is absent or does not carry this series, so the unbiased null could not be computed. \u26a0 This is an ABSENT READING, not a reading of absence \u2014 it does not mean the signature passed or failed. Take it with `emc_hypoxia_confounds.py --fetch-background` in CI."
+    },
+    "per_signature": {
+     "hypoxia_buffa": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.084,
+       "fraction_of_universe_that_is_signature_membership": 0.3425,
+       "n_at_or_above_observed": 168,
+       "n_draws": 2000,
+       "set_size": 45,
+       "universe_size": 1384
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": null,
+       "exact": true,
+       "n_at_or_above_observed": 9,
+       "n_permutations": 8008,
+       "observed_t": 4.127,
+       "one_sided_p": 0.00112
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": true,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 3.935
+        },
+        {
+         "dropped_index": 7,
+         "t": 3.798
+        },
+        {
+         "dropped_index": 8,
+         "t": 3.732
+        },
+        {
+         "dropped_index": 9,
+         "t": 4.625
+        },
+        {
+         "dropped_index": 10,
+         "t": 4.066
+        },
+        {
+         "dropped_index": 11,
+         "t": 3.78
+        },
+        {
+         "dropped_index": 12,
+         "t": 4.407
+        },
+        {
+         "dropped_index": 13,
+         "t": 3.873
+        },
+        {
+         "dropped_index": 14,
+         "t": 4.005
+        },
+        {
+         "dropped_index": 15,
+         "t": 3.723
+        }
+       ],
+       "t_max": 4.625,
+       "t_min": 3.723
+      },
+      "n_genes_readable": 45,
+      "observed": {
+       "delta_a_minus_b": 0.5403,
+       "df": 13.9,
+       "mean_a": -0.2424,
+       "mean_b": -0.7827,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 4.127
+      }
+     },
+     "hypoxia_elvidge": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.205,
+       "fraction_of_universe_that_is_signature_membership": 0.3425,
+       "n_at_or_above_observed": 410,
+       "n_draws": 2000,
+       "set_size": 150,
+       "universe_size": 1384
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": null,
+       "exact": true,
+       "n_at_or_above_observed": 23,
+       "n_permutations": 8008,
+       "observed_t": 3.438,
+       "one_sided_p": 0.00287
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": true,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 3.177
+        },
+        {
+         "dropped_index": 7,
+         "t": 3.685
+        },
+        {
+         "dropped_index": 8,
+         "t": 3.181
+        },
+        {
+         "dropped_index": 9,
+         "t": 3.421
+        },
+        {
+         "dropped_index": 10,
+         "t": 3.679
+        },
+        {
+         "dropped_index": 11,
+         "t": 3.307
+        },
+        {
+         "dropped_index": 12,
+         "t": 3.65
+        },
+        {
+         "dropped_index": 13,
+         "t": 3.145
+        },
+        {
+         "dropped_index": 14,
+         "t": 3.157
+        },
+        {
+         "dropped_index": 15,
+         "t": 3.128
+        }
+       ],
+       "t_max": 3.685,
+       "t_min": 3.128
+      },
+      "n_genes_readable": 150,
+      "observed": {
+       "delta_a_minus_b": 0.2942,
+       "df": 12.5,
+       "mean_a": 0.0668,
+       "mean_b": -0.2275,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.438
+      }
+     },
+     "hypoxia_gobp_response": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.0685,
+       "fraction_of_universe_that_is_signature_membership": 0.3425,
+       "n_at_or_above_observed": 137,
+       "n_draws": 2000,
+       "set_size": 67,
+       "universe_size": 1384
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": null,
+       "exact": true,
+       "n_at_or_above_observed": 3,
+       "n_permutations": 8008,
+       "observed_t": 4.599,
+       "one_sided_p": 0.00037
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": true,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 4.302
+        },
+        {
+         "dropped_index": 7,
+         "t": 4.469
+        },
+        {
+         "dropped_index": 8,
+         "t": 4.259
+        },
+        {
+         "dropped_index": 9,
+         "t": 5.41
+        },
+        {
+         "dropped_index": 10,
+         "t": 4.601
+        },
+        {
+         "dropped_index": 11,
+         "t": 4.374
+        },
+        {
+         "dropped_index": 12,
+         "t": 4.628
+        },
+        {
+         "dropped_index": 13,
+         "t": 4.249
+        },
+        {
+         "dropped_index": 14,
+         "t": 4.367
+        },
+        {
+         "dropped_index": 15,
+         "t": 4.247
+        }
+       ],
+       "t_max": 5.41,
+       "t_min": 4.247
+      },
+      "n_genes_readable": 67,
+      "observed": {
+       "delta_a_minus_b": 0.2307,
+       "df": 12.8,
+       "mean_a": 0.1084,
+       "mean_b": -0.1223,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 4.599
+      }
+     },
+     "hypoxia_hallmark": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.043,
+       "fraction_of_universe_that_is_signature_membership": 0.3425,
+       "n_at_or_above_observed": 86,
+       "n_draws": 2000,
+       "set_size": 175,
+       "universe_size": 1384
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": null,
+       "exact": true,
+       "n_at_or_above_observed": 1,
+       "n_permutations": 8008,
+       "observed_t": 5.135,
+       "one_sided_p": 0.00012
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": true,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 4.721
+        },
+        {
+         "dropped_index": 7,
+         "t": 5.229
+        },
+        {
+         "dropped_index": 8,
+         "t": 4.725
+        },
+        {
+         "dropped_index": 9,
+         "t": 5.26
+        },
+        {
+         "dropped_index": 10,
+         "t": 5.305
+        },
+        {
+         "dropped_index": 11,
+         "t": 4.892
+        },
+        {
+         "dropped_index": 12,
+         "t": 5.295
+        },
+        {
+         "dropped_index": 13,
+         "t": 4.725
+        },
+        {
+         "dropped_index": 14,
+         "t": 4.965
+        },
+        {
+         "dropped_index": 15,
+         "t": 4.73
+        }
+       ],
+       "t_max": 5.305,
+       "t_min": 4.721
+      },
+      "n_genes_readable": 175,
+      "observed": {
+       "delta_a_minus_b": 0.3624,
+       "df": 13.7,
+       "mean_a": 0.0922,
+       "mean_b": -0.2703,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 5.135
+      }
+     },
+     "hypoxia_harris": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.1395,
+       "fraction_of_universe_that_is_signature_membership": 0.3425,
+       "n_at_or_above_observed": 279,
+       "n_draws": 2000,
+       "set_size": 73,
+       "universe_size": 1384
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": null,
+       "exact": true,
+       "n_at_or_above_observed": 12,
+       "n_permutations": 8008,
+       "observed_t": 3.828,
+       "one_sided_p": 0.0015
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": true,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 3.51
+        },
+        {
+         "dropped_index": 7,
+         "t": 3.729
+        },
+        {
+         "dropped_index": 8,
+         "t": 3.622
+        },
+        {
+         "dropped_index": 9,
+         "t": 3.854
+        },
+        {
+         "dropped_index": 10,
+         "t": 3.79
+        },
+        {
+         "dropped_index": 11,
+         "t": 3.88
+        },
+        {
+         "dropped_index": 12,
+         "t": 4.167
+        },
+        {
+         "dropped_index": 13,
+         "t": 3.573
+        },
+        {
+         "dropped_index": 14,
+         "t": 3.517
+        },
+        {
+         "dropped_index": 15,
+         "t": 3.633
+        }
+       ],
+       "t_max": 4.167,
+       "t_min": 3.51
+      },
+      "n_genes_readable": 73,
+      "observed": {
+       "delta_a_minus_b": 0.3408,
+       "df": 13.0,
+       "mean_a": -0.0745,
+       "mean_b": -0.4153,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.828
+      }
+     },
+     "hypoxia_winter": {
+      "C10_random_gene_set_null_CACHED_UNIVERSE": {
+       "_seed": 20260807,
+       "_the_universe_is_biased": "\u26a0 CONSERVATIVE, NOT NEUTRAL. The universe is the panels module's 1,636-gene want list, which was assembled FOR these reads, so a large fraction of it is itself hypoxia-signature membership. A random draw from it therefore contains hypoxia genes and the null is inflated toward the observed value. Read this fraction as an UPPER BOUND on the p-value, not as the p-value.",
+       "fraction_of_random_sets_reaching_observed_t": 0.161,
+       "fraction_of_universe_that_is_signature_membership": 0.3425,
+       "n_at_or_above_observed": 322,
+       "n_draws": 2000,
+       "set_size": 220,
+       "universe_size": 1384
+      },
+      "C8_label_permutation_null": {
+       "_p_means": "the fraction of arm relabellings that reach the observed t or better. It is UNCORRECTED for the number of signatures tested.",
+       "_seed": null,
+       "exact": true,
+       "n_at_or_above_observed": 11,
+       "n_permutations": 8008,
+       "observed_t": 3.793,
+       "one_sided_p": 0.00137
+      },
+      "C9_leave_one_EMC_out": {
+       "_why": "with n_EMC of 6 or 10, one tumour can carry a contrast. A reading that only survives with every sample present is a reading about one sample.",
+       "all_at_or_above_2": true,
+       "all_same_sign_as_full": true,
+       "per_drop": [
+        {
+         "dropped_index": 6,
+         "t": 3.473
+        },
+        {
+         "dropped_index": 7,
+         "t": 3.983
+        },
+        {
+         "dropped_index": 8,
+         "t": 3.66
+        },
+        {
+         "dropped_index": 9,
+         "t": 3.772
+        },
+        {
+         "dropped_index": 10,
+         "t": 3.951
+        },
+        {
+         "dropped_index": 11,
+         "t": 3.558
+        },
+        {
+         "dropped_index": 12,
+         "t": 4.03
+        },
+        {
+         "dropped_index": 13,
+         "t": 3.509
+        },
+        {
+         "dropped_index": 14,
+         "t": 3.513
+        },
+        {
+         "dropped_index": 15,
+         "t": 3.5
+        }
+       ],
+       "t_max": 4.03,
+       "t_min": 3.473
+      },
+      "n_genes_readable": 220,
+      "observed": {
+       "delta_a_minus_b": 0.2422,
+       "df": 12.8,
+       "mean_a": -0.0364,
+       "mean_b": -0.2786,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.793
+      }
+     }
+    }
+   },
+   "_value_kinds_are_not_comparable_across_platforms": "\u26d4 AN EFFECT SIZE ON ONE PLATFORM MAY NOT BE COMPARED WITH ONE ON THE OTHER. GPL6244 carries single-channel intensities and GPL3290 carries two-colour log-ratios against a reference pool; a within-sample z has a different scale on each, so `d` is comparable WITHIN a platform and meaningless ACROSS them. Only the DIRECTION of a contrast and its per-platform resampling p travel between them, and any sentence comparing the two platforms' magnitudes is a bug.",
+   "fusion_vs_tissue": {
+    "_question": "Is the hypoxia reading downstream of the fusion, or a property of the tissue?",
+    "_why_the_question_is_sharp": "EWSR1::NR4A3 is a transcriptional driver, and its one published direct transactivation target in the literature this repository cites is ENO3 \u2014 a glycolytic enzyme (PMID 26310886, quoted from `emc_expression_panels.PANELS.instrument_controls.expected.ENO3`, which is its home here). A fusion that drives glycolytic genes and a tumour that is genuinely hypoxic produce the SAME hypoxia metagene score, because every published hypoxia signature is substantially glycolytic.",
+    "decomposition_glycolytic_vs_rest": {
+     "hypoxia_buffa": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.5403,
+        "df": 13.9,
+        "mean_a": -0.2424,
+        "mean_b": -0.7827,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 4.127
+       },
+       "n_readable": 45,
+       "verdict": "HIGHER in EMC by 0.5403 SD units (t=4.127, df=13.9, n_EMC=10, n_comparator=6, 45/50 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 0.919,
+        "df": 13.8,
+        "mean_a": -0.1529,
+        "mean_b": -1.072,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 4.606
+       },
+       "n_readable": 11,
+       "verdict": "HIGHER in EMC by 0.919 SD units (t=4.606, df=13.8, n_EMC=10, n_comparator=6, 11/11 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.4108,
+        "df": 13.8,
+        "mean_a": -0.2724,
+        "mean_b": -0.6832,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 3.282
+       },
+       "n_readable": 34,
+       "verdict": "HIGHER in EMC by 0.4108 SD units (t=3.282, df=13.8, n_EMC=10, n_comparator=6, 34/39 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_elvidge": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.2942,
+        "df": 12.5,
+        "mean_a": 0.0668,
+        "mean_b": -0.2275,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 3.438
+       },
+       "n_readable": 150,
+       "verdict": "HIGHER in EMC by 0.2942 SD units (t=3.438, df=12.5, n_EMC=10, n_comparator=6, 150/173 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 1.1,
+        "df": 13.4,
+        "mean_a": 0.0001,
+        "mean_b": -1.1,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 5.305
+       },
+       "n_readable": 8,
+       "verdict": "HIGHER in EMC by 1.1 SD units (t=5.305, df=13.4, n_EMC=10, n_comparator=6, 8/8 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.2484,
+        "df": 10.7,
+        "mean_a": 0.0704,
+        "mean_b": -0.1779,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 2.809
+       },
+       "n_readable": 142,
+       "verdict": "HIGHER in EMC by 0.2484 SD units (t=2.809, df=10.7, n_EMC=10, n_comparator=6, 142/165 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_gobp_response": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.2307,
+        "df": 12.8,
+        "mean_a": 0.1084,
+        "mean_b": -0.1223,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 4.599
+       },
+       "n_readable": 67,
+       "verdict": "HIGHER in EMC by 0.2307 SD units (t=4.599, df=12.8, n_EMC=10, n_comparator=6, 67/77 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": null,
+       "n_readable": 2,
+       "verdict": "\u26d4 UNDERPOWERED \u2014 2/2 genes readable; the floor is 3. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.2281,
+        "df": 11.4,
+        "mean_a": 0.1184,
+        "mean_b": -0.1097,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 4.037
+       },
+       "n_readable": 65,
+       "verdict": "HIGHER in EMC by 0.2281 SD units (t=4.037, df=11.4, n_EMC=10, n_comparator=6, 65/75 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_hallmark": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.3624,
+        "df": 13.7,
+        "mean_a": 0.0922,
+        "mean_b": -0.2703,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 5.135
+       },
+       "n_readable": 175,
+       "verdict": "HIGHER in EMC by 0.3624 SD units (t=5.135, df=13.7, n_EMC=10, n_comparator=6, 175/200 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 1.0753,
+        "df": 14.0,
+        "mean_a": 0.0887,
+        "mean_b": -0.9866,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 7.181
+       },
+       "n_readable": 21,
+       "verdict": "HIGHER in EMC by 1.0753 SD units (t=7.181, df=14.0, n_EMC=10, n_comparator=6, 21/24 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.2628,
+        "df": 10.9,
+        "mean_a": 0.0921,
+        "mean_b": -0.1707,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 3.552
+       },
+       "n_readable": 154,
+       "verdict": "HIGHER in EMC by 0.2628 SD units (t=3.552, df=10.9, n_EMC=10, n_comparator=6, 154/176 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_harris": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.3408,
+        "df": 13.0,
+        "mean_a": -0.0745,
+        "mean_b": -0.4153,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 3.828
+       },
+       "n_readable": 73,
+       "verdict": "HIGHER in EMC by 0.3408 SD units (t=3.828, df=13.0, n_EMC=10, n_comparator=6, 73/81 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 0.8692,
+        "df": 14.0,
+        "mean_a": -0.2506,
+        "mean_b": -1.1198,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 5.214
+       },
+       "n_readable": 10,
+       "verdict": "HIGHER in EMC by 0.8692 SD units (t=5.214, df=14.0, n_EMC=10, n_comparator=6, 10/12 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.2527,
+        "df": 10.5,
+        "mean_a": -0.0456,
+        "mean_b": -0.2982,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 2.651
+       },
+       "n_readable": 63,
+       "verdict": "HIGHER in EMC by 0.2527 SD units (t=2.651, df=10.5, n_EMC=10, n_comparator=6, 63/69 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     },
+     "hypoxia_winter": {
+      "_how_to_read": "If the glycolytic members carry a much larger effect than the remainder, the signature is reporting a glycolytic programme. If the REMAINDER is still positive on its own, the reading is broader than glycolysis and a purely metabolic explanation does not cover it. Both can be true at once and here both are.",
+      "full_set": {
+       "contrast": {
+        "delta_a_minus_b": 0.2422,
+        "df": 12.8,
+        "mean_a": -0.0364,
+        "mean_b": -0.2786,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 3.793
+       },
+       "n_readable": 220,
+       "verdict": "HIGHER in EMC by 0.2422 SD units (t=3.793, df=12.8, n_EMC=10, n_comparator=6, 220/243 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "glycolytic_members": {
+       "contrast": {
+        "delta_a_minus_b": 0.9273,
+        "df": 14.0,
+        "mean_a": 0.044,
+        "mean_b": -0.8833,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 6.982
+       },
+       "n_readable": 20,
+       "verdict": "HIGHER in EMC by 0.9273 SD units (t=6.982, df=14.0, n_EMC=10, n_comparator=6, 20/22 genes readable). \u26a0 Uncorrected for multiple testing."
+      },
+      "non_glycolytic_remainder": {
+       "contrast": {
+        "delta_a_minus_b": 0.1728,
+        "df": 11.3,
+        "mean_a": -0.0451,
+        "mean_b": -0.2179,
+        "n_a": 10,
+        "n_b": 6,
+        "t": 2.62
+       },
+       "n_readable": 200,
+       "verdict": "HIGHER in EMC by 0.1728 SD units (t=2.62, df=11.3, n_EMC=10, n_comparator=6, 200/221 genes readable). \u26a0 Uncorrected for multiple testing."
+      }
+     }
+    },
+    "discriminators": {
+     "CA9_the_oxygen_specific_readout": {
+      "EMC_mean_array_percentile": 0.6971,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 3.2851,
+       "df": 10.1,
+       "mean_a": 0.8608,
+       "mean_b": -2.4243,
+       "n_a": 10,
+       "n_b": 5,
+       "t": 5.004
+      },
+      "_circularity_guard": "CA9 sits inside several of the sets, so its correlation with a score containing it is partly self-correlation. The correlation below is against the reference score with CA9 REMOVED.",
+      "_percentile_means": "where CA9 sits in this sample's own distribution over all probes. On a two-colour log-ratio platform a percentile is a rank against the array, not an absolute expression level.",
+      "_why_CA9": "carbonic anhydrase IX is among the most hypoxia-restricted HIF1 targets in normal tissue and has no recognised fusion-independent driver here, so it is the single readout least explainable by a transcriptional driver that happens to hit glycolysis.",
+      "is_a_member_of_signature_sets": [
+       "hypoxia_buffa",
+       "hypoxia_elvidge",
+       "hypoxia_harris",
+       "hypoxia_winter"
+      ],
+      "within_EMC_correlation_with_hypoxia_score_CA9_removed": {
+       "n": 10,
+       "r": 0.8941
+      }
+     },
+     "glycolysis_curated": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.9554,
+       "df": 13.7,
+       "mean_a": 0.0136,
+       "mean_b": -0.9418,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 6.951
+      },
+      "genes_not_readable": [
+       "ADPGK",
+       "BPGM",
+       "GAPDHS",
+       "HK1",
+       "HK3",
+       "HKDC1",
+       "PFKFB2",
+       "PFKM",
+       "PGAM2",
+       "PKM",
+       "SLC16A3"
+      ],
+      "genes_readable": [
+       "ALDOA",
+       "ALDOB",
+       "ALDOC",
+       "ENO1",
+       "ENO2",
+       "ENO3",
+       "GAPDH",
+       "GPI",
+       "HK2",
+       "LDHA",
+       "LDHB",
+       "LDHC",
+       "PDK1",
+       "PDK3",
+       "PFKFB1",
+       "PFKFB3",
+       "PFKFB4",
+       "PFKL",
+       "PFKP",
+       "PGAM1",
+       "PGK1",
+       "PKLR",
+       "SLC16A1",
+       "SLC2A1",
+       "SLC2A3",
+       "TPI1"
+      ],
+      "label": "glycolysis_curated",
+      "n_genes_readable": 26,
+      "n_genes_requested": 37,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.9554 SD units (t=6.951, df=13.7, n_EMC=10, n_comparator=6, 26/37 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "why_this_variant": "the full curated programme"
+     },
+     "glycolysis_minus_ENO3": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.8363,
+       "df": 14.0,
+       "mean_a": -0.0836,
+       "mean_b": -0.9199,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 5.822
+      },
+      "genes_not_readable": [
+       "ADPGK",
+       "BPGM",
+       "GAPDHS",
+       "HK1",
+       "HK3",
+       "HKDC1",
+       "PFKFB2",
+       "PFKM",
+       "PGAM2",
+       "PKM",
+       "SLC16A3"
+      ],
+      "genes_readable": [
+       "ALDOA",
+       "ALDOB",
+       "ALDOC",
+       "ENO1",
+       "ENO2",
+       "GAPDH",
+       "GPI",
+       "HK2",
+       "LDHA",
+       "LDHB",
+       "LDHC",
+       "PDK1",
+       "PDK3",
+       "PFKFB1",
+       "PFKFB3",
+       "PFKFB4",
+       "PFKL",
+       "PFKP",
+       "PGAM1",
+       "PGK1",
+       "PKLR",
+       "SLC16A1",
+       "SLC2A1",
+       "SLC2A3",
+       "TPI1"
+      ],
+      "label": "glycolysis_minus_ENO3",
+      "n_genes_readable": 25,
+      "n_genes_requested": 36,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.8363 SD units (t=5.822, df=14.0, n_EMC=10, n_comparator=6, 25/36 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "why_this_variant": "ENO3 removed \u2014 the published direct fusion target"
+     },
+     "glycolysis_minus_all_enolases": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.7476,
+       "df": 14.0,
+       "mean_a": -0.1165,
+       "mean_b": -0.8641,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 5.743
+      },
+      "genes_not_readable": [
+       "ADPGK",
+       "BPGM",
+       "GAPDHS",
+       "HK1",
+       "HK3",
+       "HKDC1",
+       "PFKFB2",
+       "PFKM",
+       "PGAM2",
+       "PKM",
+       "SLC16A3"
+      ],
+      "genes_readable": [
+       "ALDOA",
+       "ALDOB",
+       "ALDOC",
+       "GAPDH",
+       "GPI",
+       "HK2",
+       "LDHA",
+       "LDHB",
+       "LDHC",
+       "PDK1",
+       "PDK3",
+       "PFKFB1",
+       "PFKFB3",
+       "PFKFB4",
+       "PFKL",
+       "PFKP",
+       "PGAM1",
+       "PGK1",
+       "PKLR",
+       "SLC16A1",
+       "SLC2A1",
+       "SLC2A3",
+       "TPI1"
+      ],
+      "label": "glycolysis_minus_all_enolases",
+      "n_genes_readable": 23,
+      "n_genes_requested": 34,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.7476 SD units (t=5.743, df=14.0, n_EMC=10, n_comparator=6, 23/34 genes readable). \u26a0 Uncorrected for multiple testing.",
+      "why_this_variant": "every enolase removed, so no enolase can carry it"
+     },
+     "within_EMC_fusion_output_vs_hypoxia": {
+      "_question": "Within EMC tumours only, do the tumours with more fusion output have more hypoxia score?",
+      "_the_limit": "n is 6 and 10 tumours; NR4A3 probe placement on a 3'-biased or EST-annotated array may sit in the region the fusion REPLACES rather than the one it retains, so a null NR4A3 correlation has a probe explanation as well as a biological one.",
+      "_the_prediction": "if the programme is fusion-driven, hypoxia score should rise with NR4A3 and with ENO3 across EMC tumours. A null or negative correlation is evidence against fusion-drive.",
+      "_why_this_is_the_discriminating_test": "a between-arm difference cannot separate `the fusion drives it` from `the tissue is like that`, because every EMC carries the fusion AND the myxoid tissue. Within the EMC arm the disease is held constant and only the DEGREE of fusion output varies.",
+      "genes": {
+       "ENO3": {
+        "EMC_vs_comparator": {
+         "delta_a_minus_b": 3.8113,
+         "df": 8.5,
+         "mean_a": 2.4029,
+         "mean_b": -1.4083,
+         "n_a": 10,
+         "n_b": 6,
+         "t": 13.222
+        },
+        "across_classified_samples": {
+         "n": 16,
+         "r": 0.7449
+        },
+        "n_probes_mapping": 1,
+        "n_samples_with_no_value": 0,
+        "readable": true,
+        "within_EMC_correlation_with_hypoxia_score": {
+         "n": 10,
+         "r": 0.8368
+        }
+       },
+       "NR4A3": {
+        "EMC_vs_comparator": null,
+        "across_classified_samples": {
+         "n": 11,
+         "r": -0.0577
+        },
+        "n_probes_mapping": 1,
+        "n_samples_with_no_value": 5,
+        "readable": true,
+        "within_EMC_correlation_with_hypoxia_score": {
+         "n": 9,
+         "r": -0.4018
+        }
+       }
+      }
+     }
+    }
+   },
+   "gene_cache_provenance": {
+    "_why": "no background cache for this series",
+    "merged": false
+   },
+   "matrix_reading": {
+    "_question": "What does a very high VCAN alongside a DOWN sulfate-donor module mean for EMC's myxoid stroma, and what does it rule out?",
+    "_the_tension": "VCAN (versican) is a large chondroitin-sulfate proteoglycan and it is at or near the top of the array in EMC. PAPS is the UNIVERSAL sulfate donor: every sulfotransferase in the cell, on any substrate, takes its sulfate from PAPS. A core protein at the ceiling with the donor module DOWN cannot be read as `EMC is making more sulfated chondroitin sulfate`.",
+    "_what_it_cannot_settle": "\u26d4 A SULFATION PATTERN HAS NO GENE. Transcript levels of sulfotransferases and of the PAPS module are a proxy for the CAPACITY to sulfate, never a measurement of the sulfation state of anything. Nothing here says which CS epitopes are present on EMC tissue; only a stain, a binding assay or a glycomics measurement can say that. Intracellular PAPS concentration is set by flux and by sulfate availability as much as by synthase transcript, so a low PAPSS2 read is not a measurement of low PAPS.",
+    "modules": {
+     "cs_proteoglycan_core_and_gag_machinery": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": 0.3962,
+       "df": 8.7,
+       "mean_a": 0.3029,
+       "mean_b": -0.0933,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.11
+      },
+      "genes_not_readable": [
+       "CHSY3",
+       "HAS1",
+       "XYLT2"
+      ],
+      "genes_readable": [
+       "ACAN",
+       "B3GALT6",
+       "B3GAT3",
+       "B4GALT7",
+       "BCAN",
+       "BGN",
+       "CD44",
+       "CHPF",
+       "CHPF2",
+       "CHSY1",
+       "CSGALNACT1",
+       "CSGALNACT2",
+       "CSPG4",
+       "CSPG5",
+       "DCN",
+       "HAS2",
+       "HAS3",
+       "NCAN",
+       "SRGN",
+       "VCAN",
+       "XYLT1"
+      ],
+      "label": "cs_proteoglycan_core_and_gag_machinery",
+      "n_genes_readable": 21,
+      "n_genes_requested": 24,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "HIGHER in EMC by 0.3962 SD units (t=3.11, df=8.7, n_EMC=10, n_comparator=6, 21/24 genes readable). \u26a0 Uncorrected for multiple testing."
+     },
+     "cs_sulfotransferases": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.0043,
+       "df": 13.3,
+       "mean_a": 0.1563,
+       "mean_b": 0.1606,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -0.031
+      },
+      "genes_not_readable": [],
+      "genes_readable": [
+       "CHST11",
+       "CHST12",
+       "CHST13",
+       "CHST14",
+       "CHST15",
+       "CHST3",
+       "CHST7",
+       "UST"
+      ],
+      "label": "cs_sulfotransferases",
+      "n_genes_readable": 8,
+      "n_genes_requested": 8,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.0043 SD units (t=-0.031, df=13.3, n_EMC=10, n_comparator=6, 8/8 genes readable). \u26a0 Uncorrected for multiple testing."
+     },
+     "paps_module_the_universal_sulfate_donor": {
+      "_not_readable_means": "no probe on this platform maps to the symbol. It is NOT a statement that the gene is unexpressed.",
+      "contrast": {
+       "delta_a_minus_b": -0.1616,
+       "df": 13.6,
+       "mean_a": 0.0774,
+       "mean_b": 0.2391,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -2.113
+      },
+      "genes_not_readable": [],
+      "genes_readable": [
+       "BPNT1",
+       "PAPSS1",
+       "PAPSS2",
+       "SLC35B2",
+       "SLC35B3"
+      ],
+      "label": "paps_module_the_universal_sulfate_donor",
+      "n_genes_readable": 5,
+      "n_genes_requested": 5,
+      "provenance": "\u26a0 REPO-CURATED pathway-membership list. This is NOT a published gene set or signature. Any statement resting on it must say so.",
+      "verdict": "LOWER in EMC by 0.1616 SD units (t=-2.113, df=13.6, n_EMC=10, n_comparator=6, 5/5 genes readable). \u26a0 Uncorrected for multiple testing."
+     }
+    },
+    "per_gene": {
+     "ACAN": {
+      "EMC_mean_array_percentile": 0.7553,
+      "EMC_vs_comparator": null,
+      "readable": true
+     },
+     "B3GALT6": {
+      "EMC_mean_array_percentile": 0.5534,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.222,
+       "df": 7.6,
+       "mean_a": 0.1665,
+       "mean_b": -0.0555,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 1.383
+      },
+      "readable": true
+     },
+     "B3GAT3": {
+      "EMC_mean_array_percentile": 0.6249,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.0148,
+       "df": 12.4,
+       "mean_a": 0.2993,
+       "mean_b": 0.2845,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 0.08
+      },
+      "readable": true
+     },
+     "B4GALT7": {
+      "EMC_mean_array_percentile": 0.752,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.5921,
+       "df": 13.6,
+       "mean_a": 0.6295,
+       "mean_b": 0.0374,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 4.687
+      },
+      "readable": true
+     },
+     "BCAN": {
+      "EMC_mean_array_percentile": 0.2698,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.739,
+       "df": 12.2,
+       "mean_a": -0.786,
+       "mean_b": -0.0471,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -1.79
+      },
+      "readable": true
+     },
+     "BGN": {
+      "EMC_mean_array_percentile": 0.9922,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 1.7332,
+       "df": 5.8,
+       "mean_a": 2.7793,
+       "mean_b": 1.0461,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.874
+      },
+      "readable": true
+     },
+     "BPNT1": {
+      "EMC_mean_array_percentile": 0.589,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.468,
+       "df": 14.0,
+       "mean_a": 0.2326,
+       "mean_b": -0.2355,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 2.908
+      },
+      "readable": true
+     },
+     "CD44": {
+      "EMC_mean_array_percentile": 0.4486,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.7066,
+       "df": 13.0,
+       "mean_a": -0.0859,
+       "mean_b": -0.7925,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.042
+      },
+      "readable": true
+     },
+     "CHPF": {
+      "EMC_mean_array_percentile": 0.394,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.1939,
+       "df": 11.2,
+       "mean_a": -0.1924,
+       "mean_b": 0.0015,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -1.234
+      },
+      "readable": true
+     },
+     "CHPF2": {
+      "EMC_mean_array_percentile": 0.5558,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.2817,
+       "df": 13.9,
+       "mean_a": 0.1225,
+       "mean_b": 0.4042,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -1.196
+      },
+      "readable": true
+     },
+     "CHST11": {
+      "EMC_mean_array_percentile": 0.4138,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.2349,
+       "df": 9.0,
+       "mean_a": -0.2232,
+       "mean_b": 0.0117,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -0.503
+      },
+      "readable": true
+     },
+     "CHST12": {
+      "EMC_mean_array_percentile": 0.6381,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.3267,
+       "df": 10.6,
+       "mean_a": 0.397,
+       "mean_b": 0.0703,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 1.879
+      },
+      "readable": true
+     },
+     "CHST13": {
+      "EMC_mean_array_percentile": 0.5345,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.4329,
+       "df": 12.5,
+       "mean_a": 0.1465,
+       "mean_b": -0.2865,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 1.15
+      },
+      "readable": true
+     },
+     "CHST14": {
+      "EMC_mean_array_percentile": 0.574,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.3331,
+       "df": 13.2,
+       "mean_a": 0.2173,
+       "mean_b": -0.1158,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 2.102
+      },
+      "readable": true
+     },
+     "CHST15": {
+      "EMC_mean_array_percentile": 0.3146,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -1.107,
+       "df": 6.4,
+       "mean_a": -0.4207,
+       "mean_b": 0.6863,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -2.821
+      },
+      "readable": true
+     },
+     "CHST3": {
+      "EMC_mean_array_percentile": 0.6207,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.6315,
+       "df": 12.9,
+       "mean_a": 0.4561,
+       "mean_b": 1.0876,
+       "n_a": 9,
+       "n_b": 6,
+       "t": -1.471
+      },
+      "readable": true
+     },
+     "CHST7": {
+      "EMC_mean_array_percentile": 0.2039,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.5309,
+       "df": 4.9,
+       "mean_a": -0.7784,
+       "mean_b": -0.2474,
+       "n_a": 5,
+       "n_b": 3,
+       "t": -2.556
+      },
+      "readable": true
+     },
+     "CHSY1": {
+      "EMC_mean_array_percentile": 0.7614,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.8869,
+       "df": 6.8,
+       "mean_a": 0.6691,
+       "mean_b": -0.2178,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 3.154
+      },
+      "readable": true
+     },
+     "CHSY3": {
+      "readable": false,
+      "verdict": "no probe maps to this symbol on this platform \u2014 the read could not be taken. NOT a statement that the gene is unexpressed."
+     },
+     "CSGALNACT1": {
+      "EMC_mean_array_percentile": 0.6058,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.3473,
+       "df": 13.5,
+       "mean_a": 0.3498,
+       "mean_b": 0.0025,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 1.271
+      },
+      "readable": true
+     },
+     "CSGALNACT2": {
+      "EMC_mean_array_percentile": 0.8249,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.7082,
+       "df": 5.9,
+       "mean_a": 0.8347,
+       "mean_b": 0.1265,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 2.308
+      },
+      "readable": true
+     },
+     "CSPG4": {
+      "EMC_mean_array_percentile": 0.749,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.1893,
+       "df": 10.1,
+       "mean_a": 0.8983,
+       "mean_b": 1.0876,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -0.403
+      },
+      "readable": true
+     },
+     "CSPG5": {
+      "EMC_mean_array_percentile": 0.6876,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 1.1438,
+       "df": 6.3,
+       "mean_a": 0.6771,
+       "mean_b": -0.4666,
+       "n_a": 10,
+       "n_b": 3,
+       "t": 2.927
+      },
+      "readable": true
+     },
+     "DCN": {
+      "EMC_mean_array_percentile": 0.2686,
+      "EMC_vs_comparator": null,
+      "readable": true
+     },
+     "HAS1": {
+      "readable": false,
+      "verdict": "no probe maps to this symbol on this platform \u2014 the read could not be taken. NOT a statement that the gene is unexpressed."
+     },
+     "HAS2": {
+      "EMC_mean_array_percentile": 0.1317,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.6595,
+       "df": 7.4,
+       "mean_a": -1.2903,
+       "mean_b": -1.9498,
+       "n_a": 9,
+       "n_b": 6,
+       "t": 1.096
+      },
+      "readable": true
+     },
+     "HAS3": {
+      "EMC_mean_array_percentile": 0.4928,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 1.5077,
+       "df": 9.7,
+       "mean_a": 0.039,
+       "mean_b": -1.4687,
+       "n_a": 7,
+       "n_b": 5,
+       "t": 2.573
+      },
+      "readable": true
+     },
+     "NCAN": {
+      "EMC_mean_array_percentile": 0.2377,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.3038,
+       "df": 9.9,
+       "mean_a": -0.7573,
+       "mean_b": -0.4536,
+       "n_a": 8,
+       "n_b": 4,
+       "t": -1.074
+      },
+      "readable": true
+     },
+     "PAPSS1": {
+      "EMC_mean_array_percentile": 0.7354,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.2872,
+       "df": 11.3,
+       "mean_a": 0.563,
+       "mean_b": 0.2758,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 2.255
+      },
+      "readable": true
+     },
+     "PAPSS2": {
+      "EMC_mean_array_percentile": 0.3967,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.8875,
+       "df": 5.4,
+       "mean_a": -0.1567,
+       "mean_b": 0.7308,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -3.119
+      },
+      "readable": true
+     },
+     "SLC35B2": {
+      "EMC_mean_array_percentile": 0.4576,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 0.1447,
+       "df": 10.8,
+       "mean_a": -0.0515,
+       "mean_b": -0.1963,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 0.839
+      },
+      "readable": true
+     },
+     "SLC35B3": {
+      "EMC_mean_array_percentile": 0.3826,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.8206,
+       "df": 12.3,
+       "mean_a": -0.2001,
+       "mean_b": 0.6205,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -6.372
+      },
+      "readable": true
+     },
+     "SRGN": {
+      "EMC_mean_array_percentile": 0.0424,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -1.1416,
+       "df": 5.4,
+       "mean_a": -1.9768,
+       "mean_b": -0.8352,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -1.417
+      },
+      "readable": true
+     },
+     "UST": {
+      "EMC_mean_array_percentile": 0.7278,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 1.0673,
+       "df": 12.0,
+       "mean_a": 0.9668,
+       "mean_b": -0.1005,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 2.082
+      },
+      "readable": true
+     },
+     "VCAN": {
+      "EMC_mean_array_percentile": 0.975,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": 1.5606,
+       "df": 11.4,
+       "mean_a": 2.7976,
+       "mean_b": 1.2371,
+       "n_a": 10,
+       "n_b": 6,
+       "t": 4.762
+      },
+      "readable": true
+     },
+     "XYLT1": {
+      "EMC_mean_array_percentile": 0.5151,
+      "EMC_vs_comparator": {
+       "delta_a_minus_b": -0.0469,
+       "df": 13.8,
+       "mean_a": 0.0336,
+       "mean_b": 0.0805,
+       "n_a": 10,
+       "n_b": 6,
+       "t": -0.211
+      },
+      "readable": true
+     },
+     "XYLT2": {
+      "readable": false,
+      "verdict": "no probe maps to this symbol on this platform \u2014 the read could not be taken. NOT a statement that the gene is unexpressed."
+     }
+    }
+   },
+   "n_EMC": 10,
+   "n_comparator": 6,
+   "n_genes_readable_in_this_cache": 1384,
+   "platform": "GPL3290",
+   "series": "GSE4303",
+   "value_kind": "two-colour log-ratio vs a reference pool (RELATIVE \u2014 an absolute level is NOT interpretable; only the between-group contrast is)"
+  }
+ },
+ "therapeutic_hooks": {
+  "_status": "NOT RETRIEVED",
+  "_the_general_prior": "\u26a0 HYPOXIA-DIRECTED THERAPY HAS A LONG NEGATIVE TRACK RECORD IN SOLID TUMOURS, INCLUDING SARCOMA, and that prior dominates a single expression reading. The retrieved record below is the evidence for that sentence; where retrieval failed, the sentence stands on the retrieval that succeeded and says which.",
+  "_what_a_hypoxia_reading_licenses": "a hypothesis about tissue state that is worth stating in the literature BECAUSE it is EMC-specific and measured, and that names three drug classes as things somebody could ask about. That is the entire licence.",
+  "_what_it_does_not_license": "\u26d4 Nothing about activity, selectivity, safety, a therapeutic window or clinical readiness for any agent in any of these classes in EMC. A transcriptional shadow of hypoxia in 16 archival tumours is not a patient-selection biomarker, is not a companion diagnostic, and does not support giving anyone anything.",
+  "classes": {
+   "carbonic_anhydrase_ix_directed": {
+    "status": "NOT RETRIEVED",
+    "the_prior_that_matters": "\u26a0 SURFACE PROTEIN, NOT TRANSCRIPT. An address for an antibody, a radioligand or a CAR is a SURFACE-protein question. A CA9 transcript reading is not a measurement of surface CA-IX density on EMC cells and cannot become one.",
+    "why_a_hypoxia_reading_points_here": "CA-IX is among the most hypoxia-restricted proteins in normal tissue, which is what makes it an address rather than only a marker."
+   },
+   "hif_pathway": {
+    "status": "NOT RETRIEVED",
+    "the_prior_that_matters": "\u26a0 ISOFORM. The approved agent in this class is HIF-2\u03b1-selective, and HIF-2\u03b1 is EPAS1. Whether EPAS1 moves in this data is a measured question and it is answered in `C3_C6_biological_confounds.candidates.hif_machinery` and in the per-gene rows \u2014 a class hook that ignores which isoform is elevated is not a hook.",
+    "why_a_hypoxia_reading_points_here": "HIF is the transcription factor the signature is a shadow of."
+   },
+   "hypoxia_activated_prodrug": {
+    "status": "NOT RETRIEVED",
+    "the_prior_that_matters": "\u26a0 THE SARCOMA HISTORY IS THE FIRST THING A READER MUST SEE, not a footnote. Retrieve the soft-tissue-sarcoma trials of this class and report their outcome before any mechanism sentence.",
+    "why_a_hypoxia_reading_points_here": "a hypoxia-activated prodrug is reduced to its cytotoxic form only under low oxygen, so its entire rationale is the tissue state this reading is about."
+   }
+  },
+  "verdict": "\u26d4 THE CLINICAL STATUS OF THESE CLASSES HAS NOT BEEN RETRIEVED IN THIS RUN. `emc-hypoxia-therapeutic-status.json` is absent, so no class carries a status here. \u26a0 This is an ABSENT READING, not a reading of absence: it does not mean nothing has been tried, and no sentence anywhere may state a class's status from memory while this says NOT RETRIEVED. Take it with `emc_hypoxia_confounds.py --fetch-therapeutic-status` in CI."
+ }
+}
