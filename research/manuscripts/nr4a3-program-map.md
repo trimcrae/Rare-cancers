@@ -692,10 +692,29 @@ scoreboard understated the failure record by four while reading as current.*
 > design condition (two seeds per arm) was met.
 >
 > **What IS bad, and it is #1–#3 together, not #4.** After three attempts there is **no working positive
-> control** for selectivity detection, and no fourth candidate is staged. That is why every
+> control** for selectivity detection. That is why every
 > paralogue-selectivity statement in the paper is an **unvalidated prediction** — and it is also what makes
 > #4 uninformative *about the method*: an uncalibrated instrument returning zero cannot distinguish "there
 > is no wedge effect" from "this method cannot resolve the wedge effect".
+>
+> ⛔ **BUT A FOURTH CANDIDATE *IS* STAGED, AND THIS BLOCK SAID IT WAS NOT (corrected 2026-08-07).**
+> ⚠ *Superseded, retained: "and no fourth candidate is staged."* **[`V4`](#31--the-instrument-table) — the
+> CREBBP vs BRD4(1) / SGC-CBP30 selectivity known-answer test, ΔΔG ≈ 2.2 kcal/mol — is BUILT AND STAGED
+> with no `result` key, never completed, and NOT AUTHORIZED.** It is
+> [§10.1 row 2](#101--open-rows-ordered-by-what-unblocks-the-most) — the second-highest open row on this
+> page's own ordering — registered as `BLK-SELECTIVITY-CONTROL-UNAUTHORIZED`, whose `statement_about` reads
+> *"a decision, not a capability and not the target — nothing failed and nothing is missing."*
+> **Two documents in one repository said opposite things about whether a path to a selectivity control
+> exists, and this is the one a reader reaches first.**
+> ⚠ **AND THE CORRECTION CHANGES NOTHING ABOUT THE CLAIM CEILING, which is why the rest of this block
+> stands unedited.** `V4` is a **BINARY** control: even a clean pass *"would not discharge §4's
+> paralogue/ternary statement"*. It settles whether the ENGINE can recover a known selectivity answer at
+> all — not whether the paralogue margin is real. So every paralogue-selectivity statement remains an
+> unvalidated prediction either way; what was wrong was the claim that nothing could be done about it.
+> ⛔ It carries **no price and no rung** — deriving one is $0 reasoning, and until that exists there is no
+> answerable authorization question to put to trimcrae. *(Phrased this way deliberately: the obvious
+> wording collides with a pinned superseded string belonging to the protein-mutation wedge, which is a
+> different item — `lint_consistency` rule `S-wedge_unpriced_as_live_status` catches it.)*
 >
 > ⚠ **#1 AND #2 ARE DIFFERENT INSTRUMENTS** and neither invalidates the other's numbers: #1 is alchemical
 > ternary FEP, #2 is endpoint-MD E1. They fail differently too — one gets a known answer BACKWARDS, the
