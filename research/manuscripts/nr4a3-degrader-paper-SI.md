@@ -393,6 +393,14 @@ sub-kcal difference that ABFE declines to confirm. `denovo_401` therefore **rema
 `lo_m0_NCCO` leg ran at the workflow-default **1 ns/window, n_iter = 1000** — half `denovo_401`'s 2 ns/window sampling — is a
 single replicate, and required the robust MBAR solver on marginal window overlap; sampling-matched, its absolute would be expected
 only to *fall toward or below* `denovo_401`'s, not rise above it, so the "no improvement over 401" reading is the conservative one.)
+⛔ **And a caveat that cuts across the comparison rather than across one leg: both legs were started from a
+single docked pose each, and the two molecules were docked independently.** A paired comparison inherits
+the pose condition of both sides, so this tie is not marginalised over poses and a pose difference between
+the two legs cannot be excluded from it — which matters more here than elsewhere, because the molecules
+differ by one substituent and a pose difference is exactly what could masquerade as a chemistry difference.
+The pose condition and its grading are in
+[`../modalities/pose-conditionality-census.json`](../modalities/pose-conditionality-census.json) (main
+text §2.8).
 
 ## S6. Safety and tolerability rationale — stated at its true (limited) weight
 
