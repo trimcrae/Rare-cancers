@@ -181,6 +181,30 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, indent=2, sort_keys=False) + "\n", encoding="utf-8")
     print(f"\nwrote {OUT} ({OUT.stat().st_size} bytes); {errors} query error(s)")
+
+    # ⛔ THE FILE IS NOT THE DELIVERY CHANNEL, AND TWICE IT DELIVERED NOTHING (measured 2026-08-07).
+    # Run 31134790934 lost the whole retrieval to a push race; run 31134956018 was refused
+    # ("refusing to allow a GitHub App to create or update workflow ... without `workflows`
+    # permission") because pushing a NEW ref carries the workflow file with it, and its artifact
+    # then sat on blob.core.windows.net, which the dev sandbox's egress proxy 403s on CONNECT.
+    # Three storage paths, three different failures, one cause: the reader could not reach any of
+    # them. The JOB LOG is the one channel that is readable from here, so the digest goes there —
+    # printed, not stored. Cheap, and it cannot be lost to a permission or a race.
+    top_n = int(os.environ.get("LANE_PROBE_DIGEST_N", "4"))
+    print("\n===BEGIN LANE-PROBE-DIGEST===")
+    for key, q in queries:
+        rec = out["queries"].get(key, {})
+        if "error" in rec:
+            print(f"## {key}\tERROR\t{rec['error']}")
+            continue
+        print(f"## {key}\thits={rec.get('hit_count')}\tq={q}")
+        for r in (rec.get("top") or [])[:top_n]:
+            print("   - PMID:{pmid} | {year} | {journal} | {title} | doi:{doi} | cited:{cited_by}".format(
+                pmid=r.get("pmid") or "-", year=r.get("year") or "-",
+                journal=(r.get("journal") or "-")[:38],
+                title=(r.get("title") or "-")[:105],
+                doi=r.get("doi") or "-", cited_by=r.get("cited_by")))
+    print("===END LANE-PROBE-DIGEST===")
     return 1 if errors == len(queries) else 0
 
 

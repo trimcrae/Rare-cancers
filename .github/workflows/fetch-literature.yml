@@ -103,12 +103,19 @@ jobs:
       # A read-only citation index has no reason to contend for a shared ref at all, so it gets
       # its own run-scoped ref, which cannot collide with anything by construction. Uploaded as a
       # run artifact too, with if: always(), so a push failure can never again be total loss.
-      - name: Publish lane probe to a run-scoped ref
+      # ⛔ A RUN-SCOPED REF IS REFUSED, AND THE REASON IS NOT ABOUT THIS FILE'S CONTENT (2026-08-07).
+      # Pushing a NEW branch carries the whole tree, INCLUDING .github/workflows/fetch-literature.yml,
+      # and the Actions token has no `workflows` scope -> "refusing to allow a GitHub App to create or
+      # update workflow ... without `workflows` permission". Pushing to an EXISTING branch whose copy
+      # of the workflow is already identical is fine, because nothing about a workflow changes.
+      # So the ref push is best-effort (|| true) and the DIGEST IN THE JOB LOG is the real channel;
+      # the artifact upload below is the second. Never let this step's failure discard the retrieval.
+      - name: Publish lane probe to the triggering branch (best effort)
         if: ${{ always() && inputs.slug == 'lane-probe' }}
+        continue-on-error: true
         env:
-          PROBE_REF: lane-probe/${{ github.run_id }}
+          TARGET_REF: ${{ github.ref_name }}
         run: |
-          set -e
           [ -f research/literature/lane-probe-metabolism-strategy.json ] || {
             echo "::error::lane probe produced no artifact"; exit 1; }
           git config user.name "github-actions[bot]"
@@ -116,8 +123,11 @@ jobs:
           git add research/literature/lane-probe-metabolism-strategy.json
           git diff --cached --quiet && { echo "no change"; exit 0; }
           git commit -q -m "lane probe: Europe PMC citation index for the metabolism/strategy sweep"
-          git push origin "HEAD:refs/heads/$PROBE_REF"
-          echo "published to $PROBE_REF"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::ref push failed; the digest in this log and the artifact are the record"
 
       - name: Keep lane probe as a run artifact
         if: ${{ always() && inputs.slug == 'lane-probe' }}
