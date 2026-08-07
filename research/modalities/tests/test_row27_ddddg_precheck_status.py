@@ -162,12 +162,34 @@ def test_a_short_cancelled_run_is_not_called_a_timeout():
     assert v["per_job"]["c01b"]["reached_its_own_timeout"] is False
 
 
-def test_the_checkpoint_durability_gap_is_measured_from_the_real_workflow():
-    """⛔ Checkpoints written and never restored is why the timeout is terminal, not annoying."""
+def test_the_checkpoint_durability_finding_is_discharged_and_stays_discharged():
+    """✅ DISCHARGED 2026-08-07 — and this assertion is now the guard against it regressing.
+
+    ⚠ THE ASSERTION FLIPPED, IT WAS NOT DELETED. Its previous form required
+    `has_restore_step is False`, and said in its own message that adding a restore DISCHARGES the
+    finding and that the module should be updated rather than the assertion removed. That is what
+    happened: checkpoints written and never restored is what made the timeout terminal, so the fix
+    was a cache step keyed to resume ACROSS dispatches, plus per-target checkpointing inside
+    `run_c01b`, which had none at all.
+
+    ⛔ WHY `restore_survives_across_dispatches` IS ASSERTED SEPARATELY. A cache whose key is unique
+    per run and which declares no `restore-keys` hits only on a re-run of the SAME run — for this
+    defect that is indistinguishable from no restore, because the case that matters is the NEXT
+    dispatch after a timeout. A bare "a cache step exists" check would pass on a fix that changes
+    nothing, which is the shape of guard this repository has been bitten by repeatedly.
+    """
     c = r27.checkpoint_durability()
     assert c["error"] is None, c["error"]
     assert c["writes_checkpoints"] is True
-    assert c["has_restore_step"] is False, (
-        "if a restore step has been added, this finding is DISCHARGED — update the module rather "
-        "than deleting the assertion")
-    assert "restarts at stage 1" in c["verdict"]
+    assert c["has_restore_step"] is True, "the checkpoint restore was removed — the timeout is terminal again"
+    assert c["restore_survives_across_dispatches"] is True, (
+        "a restore step exists but without `restore-keys` it hits only on a re-run of the same run, "
+        "which leaves the original defect intact for the case that matters")
+    assert "Superseded, retained" in c["verdict"], "the discharged finding must keep its evidence"
+
+
+def test_the_row_is_not_reported_as_closed_merely_because_it_can_now_resume():
+    """⛔ Resuming is not finishing. A search-shaped null over an unfinished scan is an ABSENT
+    reading, and the gate must stay UNDETERMINED until a run reports coverage."""
+    c = r27.checkpoint_durability()
+    assert "is NOT closed" in c["_consequence_for_the_row"]

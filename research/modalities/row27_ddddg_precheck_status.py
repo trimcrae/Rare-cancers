@@ -164,19 +164,48 @@ def checkpoint_durability(path=WORKFLOW_FILE):
         out["error"] = "%s: %s" % (type(e).__name__, e)
         return out
     out["writes_checkpoints"] = "_ddddg_ckpt" in text
+    # ⚠ THE RESTORE MUST WORK ACROSS DISPATCHES, NOT ONLY WITHIN ONE RUN. An `actions/cache` whose
+    # key is unique per run and which declares no `restore-keys` hits only on a re-run of that same
+    # run, which is indistinguishable from no restore at all for this defect. So the presence of a
+    # cache step is necessary and not sufficient, and this reads the prefix key too.
     out["has_restore_step"] = bool(re.search(r"download-artifact|actions/cache", text))
-    out["verdict"] = (
-        "⛔ CHECKPOINTS ARE WRITTEN AND NEVER RESTORED. The job writes per-stage checkpoints and "
-        "uploads them only as a post-hoc run artifact; nothing reads them back at the start of the "
-        "next run, and `_ddddg_ckpt/` is committed on no ref. So a timeout loses the whole scan and "
-        "the next dispatch restarts at stage 1 — the exact loss CLAUDE.md §6's checkpoint rule "
-        "exists to prevent."
-        if out["writes_checkpoints"] and not out["has_restore_step"] else
-        "checkpoint handling looks complete; re-read before relying on this")
-    out["_consequence_for_the_row"] = (
-        "row 27 cannot be closed by dispatching. Its next action is to make the search survive: "
-        "restore the checkpoint at job start, raise the timeout, or shard the scan. All three are "
-        "engineering, which costs nothing.")
+    out["restore_survives_across_dispatches"] = bool(
+        out["has_restore_step"] and re.search(r"restore-keys", text))
+    if out["writes_checkpoints"] and not out["has_restore_step"]:
+        out["verdict"] = (
+            "⛔ CHECKPOINTS ARE WRITTEN AND NEVER RESTORED. The job writes per-stage checkpoints and "
+            "uploads them only as a post-hoc run artifact; nothing reads them back at the start of the "
+            "next run, and `_ddddg_ckpt/` is committed on no ref. So a timeout loses the whole scan and "
+            "the next dispatch restarts at stage 1 — the exact loss CLAUDE.md §6's checkpoint rule "
+            "exists to prevent.")
+        out["_consequence_for_the_row"] = (
+            "row 27 cannot be closed by dispatching. Its next action is to make the search survive: "
+            "restore the checkpoint at job start, raise the timeout, or shard the scan. All three are "
+            "engineering, which costs nothing.")
+    elif out["writes_checkpoints"] and not out["restore_survives_across_dispatches"]:
+        out["verdict"] = (
+            "⚠ A RESTORE STEP EXISTS BUT MAY NOT SURVIVE A NEW DISPATCH. Without `restore-keys` a "
+            "run-scoped cache key hits only on a re-run of the same run, which leaves the original "
+            "defect intact for the case that matters. Read the key before relying on this.")
+        out["_consequence_for_the_row"] = (
+            "treat row 27 as still structurally blocked until the prefix key is confirmed.")
+    else:
+        # ✅ DISCHARGED 2026-08-07. Recorded rather than deleted, per the finding's own instruction:
+        # the measurement that produced it (c01b at 7215 s TWICE to the second; c01a at 355.2 min
+        # against a 350-minute ceiling) is what justified the fix, and a discharged finding whose
+        # evidence is erased cannot be re-checked if the fix is ever reverted.
+        out["verdict"] = (
+            "✅ CHECKPOINTS ARE WRITTEN AND RESTORED, and the restore carries `restore-keys` so it "
+            "resumes across DISPATCHES rather than only across re-runs of one run. ⚠ Superseded, "
+            "retained: '⛔ CHECKPOINTS ARE WRITTEN AND NEVER RESTORED … the next dispatch restarts at "
+            "stage 1.' That was true when measured — three c01b dispatches died at the 120-minute "
+            "ceiling with zero cumulative progress — and the fix is the cache step plus per-target "
+            "checkpointing inside `run_c01b`, which had no checkpointing at all.")
+        out["_consequence_for_the_row"] = (
+            "row 27 can now accumulate across dispatches, so a dispatch is worth taking again. ⛔ It "
+            "is NOT closed: an accumulating search still has to finish, and until one run reports "
+            "coverage the gate reads UNDETERMINED, because a search-shaped null over an unfinished "
+            "scan is an absent reading and not a reading of absence.")
     return out
 
 
