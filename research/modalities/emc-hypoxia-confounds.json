@@ -277,7 +277,7 @@
    "n_positive": 12
   }
  },
- "generated_utc": "2026-08-07T17:42:10+00:00",
+ "generated_utc": "2026-08-07T17:49:15+00:00",
  "hypoxia_signature_sets_audited": {
   "hypoxia_buffa": {
    "citation": "MSigDB \u2014 Liberzon et al., Cell Systems 2015; the set's own primary source is named in its MSigDB record",
@@ -5441,8 +5441,8 @@
  },
  "therapeutic_hooks": {
   "_full_record": "emc-hypoxia-therapeutic-status.json \u2014 the verbatim retrieval, which is its one home; the summary below never adds a fact it does not carry.",
-  "_retrieved_utc": "2026-08-07T17:27:37+00:00",
-  "_status": "PARTIAL \u2014 literature retrieved, trial registry NOT retrieved",
+  "_retrieved_utc": "2026-08-07T17:47:34+00:00",
+  "_status": "RETRIEVED",
   "_the_general_prior": "\u26a0 HYPOXIA-DIRECTED THERAPY HAS A LONG NEGATIVE TRACK RECORD IN SOLID TUMOURS, INCLUDING SARCOMA, and that prior dominates a single expression reading. The retrieved record below is the evidence for that sentence; where retrieval failed, the sentence stands on the retrieval that succeeded and says which.",
   "_what_a_hypoxia_reading_licenses": "a hypothesis about tissue state that is worth stating in the literature BECAUSE it is EMC-specific and measured, and that names three drug classes as things somebody could ask about. That is the entire licence.",
   "_what_it_does_not_license": "\u26d4 Nothing about activity, selectivity, safety, a therapeutic window or clinical readiness for any agent in any of these classes in EMC. A transcriptional shadow of hypoxia in 16 archival tumours is not a patient-selection biomarker, is not a companion diagnostic, and does not support giving anyone anything.",
@@ -5457,17 +5457,66 @@
     },
     "the_prior_that_matters": "\u26a0 SURFACE PROTEIN, NOT TRANSCRIPT. An address for an antibody, a radioligand or a CAR is a SURFACE-protein question. A CA9 transcript reading is not a measurement of surface CA-IX density on EMC cells and cannot become one.",
     "trial_registry": {
-     "_status": "NOT RETRIEVED",
-     "agents_whose_query_failed": [
-      "CA9 CAR-T",
-      "DTP348",
-      "SLC-0111",
-      "carbonic anhydrase IX inhibitor",
-      "girentuximab"
-     ],
-     "n_agents_queried": 5,
-     "n_agents_whose_query_failed": 5,
-     "verdict": "\u26d4 EVERY registry query for this class FAILED. NO COUNT IS EMITTED \u2014 not a zero, not a phase table. \u26a0 This is an ABSENT READING: it does not mean no trial exists, and no sentence anywhere may say a class has no trials on the strength of this row. The per-agent errors are in `emc-hypoxia-therapeutic-status.json`."
+     "_partial_means": null,
+     "_status": "RETRIEVED",
+     "agents_whose_query_failed": null,
+     "n_registered_studies_returned": 30,
+     "n_sarcoma_indexed_trials": 1,
+     "phase_counts": {
+      "EARLY_PHASE1": 1,
+      "NA": 1,
+      "PHASE1": 12,
+      "PHASE2": 11,
+      "PHASE3": 6
+     },
+     "sarcoma_indexed_trials": {
+      "girentuximab": [
+       {
+        "conditions": [
+         "Clear Cell Renal Cell Carcinoma",
+         "Sarcomatoid Renal Cell Carcinoma",
+         "Stage II Renal Cell Cancer",
+         "Stage III Renal Cell Cancer",
+         "Stage IV Renal Cell Cancer"
+        ],
+        "nct": "NCT06447103",
+        "phase": [
+         "PHASE2"
+        ],
+        "sponsor": "Jonsson Comprehensive Cancer Center",
+        "start": "2024-08-06",
+        "status": "RECRUITING",
+        "title": "An Investigational Scan (89Zr-DFO-GmAb PET/CT) Compared to Contrast-Enhanced CT for the Detection of Recurrent Clear Cell Renal Cell Cancer After Surgery Comparing Carbonic Anhydra",
+        "why_stopped": null
+       }
+      ]
+     },
+     "trials_with_a_recorded_why_stopped": [
+      {
+       "agent": "DTP348",
+       "nct": "NCT02216669",
+       "status": "WITHDRAWN",
+       "why_stopped": "No financial agreement"
+      },
+      {
+       "agent": "SLC-0111",
+       "nct": "NCT03450018",
+       "status": "TERMINATED",
+       "why_stopped": "Changing treatment landscape: The availability of nab-paclitaxel with gemcitabine in the second-line setting has changed the feasibility of further recruitment and potential long-term development oppo"
+      },
+      {
+       "agent": "girentuximab",
+       "nct": "NCT05563272",
+       "status": "TERMINATED",
+       "why_stopped": "Indication scouting for TLX250-CDx will continue in theranostic studies, with a therapeutic component in the study design."
+      },
+      {
+       "agent": "girentuximab",
+       "nct": "NCT01762592",
+       "status": "WITHDRAWN",
+       "why_stopped": "new sponsor"
+      }
+     ]
     },
     "why_a_hypoxia_reading_points_here": "CA-IX is among the most hypoxia-restricted proteins in normal tissue, which is what makes it an address rather than only a marker."
    },
@@ -5483,19 +5532,43 @@
     },
     "the_prior_that_matters": "\u26a0 ISOFORM. The approved agent in this class is HIF-2\u03b1-selective, and HIF-2\u03b1 is EPAS1. Whether EPAS1 moves in this data is a measured question and it is answered in `C3_C6_biological_confounds.candidates.hif_machinery` and in the per-gene rows \u2014 a class hook that ignores which isoform is elevated is not a hook.",
     "trial_registry": {
-     "_status": "NOT RETRIEVED",
-     "agents_whose_query_failed": [
-      "ARO-HIF2",
-      "EZN-2968",
-      "MK-6482",
-      "PT2385",
-      "PT2977",
-      "belzutifan",
-      "topotecan HIF"
-     ],
-     "n_agents_queried": 7,
-     "n_agents_whose_query_failed": 7,
-     "verdict": "\u26d4 EVERY registry query for this class FAILED. NO COUNT IS EMITTED \u2014 not a zero, not a phase table. \u26a0 This is an ABSENT READING: it does not mean no trial exists, and no sentence anywhere may say a class has no trials on the strength of this row. The per-agent errors are in `emc-hypoxia-therapeutic-status.json`."
+     "_partial_means": null,
+     "_status": "RETRIEVED",
+     "agents_whose_query_failed": null,
+     "n_registered_studies_returned": 109,
+     "n_sarcoma_indexed_trials": 0,
+     "phase_counts": {
+      "PHASE1": 51,
+      "PHASE2": 43,
+      "PHASE3": 24
+     },
+     "sarcoma_indexed_trials": {},
+     "trials_with_a_recorded_why_stopped": [
+      {
+       "agent": "MK-6482",
+       "nct": "NCT06554730",
+       "status": "WITHDRAWN",
+       "why_stopped": "Study is registered /active on RWD Catalogues (https://catalogues.ema.europa.eu) - Please refer to EU PAS number: EUPAS108114"
+      },
+      {
+       "agent": "belzutifan",
+       "nct": "NCT06554730",
+       "status": "WITHDRAWN",
+       "why_stopped": "Study is registered /active on RWD Catalogues (https://catalogues.ema.europa.eu) - Please refer to EU PAS number: EUPAS108114"
+      },
+      {
+       "agent": "belzutifan",
+       "nct": "NCT05574712",
+       "status": "WITHDRAWN",
+       "why_stopped": "Principal Investigator has decided not to activate this trial."
+      },
+      {
+       "agent": "belzutifan",
+       "nct": "NCT07377526",
+       "status": "SUSPENDED",
+       "why_stopped": "PI Request"
+      }
+     ]
     },
     "why_a_hypoxia_reading_points_here": "HIF is the transcription factor the signature is a shadow of."
    },
@@ -5513,30 +5586,400 @@
     },
     "the_prior_that_matters": "\u26a0 THE SARCOMA HISTORY IS THE FIRST THING A READER MUST SEE, not a footnote. Retrieve the soft-tissue-sarcoma trials of this class and report their outcome before any mechanism sentence.",
     "trial_registry": {
-     "_status": "NOT RETRIEVED",
-     "agents_whose_query_failed": [
-      "AQ4N",
-      "CP-506",
-      "PR-104",
-      "TH-302",
-      "apaziquone",
-      "banoxantrone",
-      "evofosfamide",
-      "tarloxotinib",
-      "tirapazamine"
-     ],
-     "n_agents_queried": 9,
-     "n_agents_whose_query_failed": 9,
-     "verdict": "\u26d4 EVERY registry query for this class FAILED. NO COUNT IS EMITTED \u2014 not a zero, not a phase table. \u26a0 This is an ABSENT READING: it does not mean no trial exists, and no sentence anywhere may say a class has no trials on the strength of this row. The per-agent errors are in `emc-hypoxia-therapeutic-status.json`."
+     "_partial_means": null,
+     "_status": "RETRIEVED",
+     "agents_whose_query_failed": null,
+     "n_registered_studies_returned": 109,
+     "n_sarcoma_indexed_trials": 9,
+     "phase_counts": {
+      "NA": 2,
+      "PHASE1": 54,
+      "PHASE2": 53,
+      "PHASE3": 17
+     },
+     "sarcoma_indexed_trials": {
+      "TH-302": [
+       {
+        "conditions": [
+         "Soft Tissue Sarcoma"
+        ],
+        "nct": "NCT02255110",
+        "phase": [
+         "PHASE2"
+        ],
+        "sponsor": "Merck KGaA, Darmstadt, Germany",
+        "start": "2014-12-10",
+        "status": "TERMINATED",
+        "title": "A Japanese Trial of TH-302 in Subjects With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+        "why_stopped": "Sponsor's decision due to negative result of Phase 3 study TH-CR-406/SARC021"
+       },
+       {
+        "conditions": [
+         "Soft Tissue Sarcoma"
+        ],
+        "nct": "NCT01440088",
+        "phase": [
+         "PHASE3"
+        ],
+        "sponsor": "Threshold Pharmaceuticals",
+        "start": "2011-09",
+        "status": "COMPLETED",
+        "title": "A Trial of TH-302 in Combination With Doxorubicin Versus Doxorubicin Alone to Treat Patients With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+        "why_stopped": null
+       },
+       {
+        "conditions": [
+         "Soft Tissue Sarcoma"
+        ],
+        "nct": "NCT02712567",
+        "phase": null,
+        "sponsor": "Sarcoma Alliance for Research through Collaboration",
+        "start": null,
+        "status": "NO_LONGER_AVAILABLE",
+        "title": "SARC021C: A Continuation Study of TH-CR-406/SARC021",
+        "why_stopped": null
+       },
+       {
+        "conditions": [
+         "Soft Tissue Sarcoma"
+        ],
+        "nct": "NCT00742963",
+        "phase": [
+         "PHASE1",
+         "PHASE2"
+        ],
+        "sponsor": "ImmunoGenesis",
+        "start": "2008-08",
+        "status": "COMPLETED",
+        "title": "Dose-Escalation Study of TH-302 in Combination With Doxorubicin to Treat Patients With Advanced Soft Tissue Sarcoma",
+        "why_stopped": null
+       }
+      ],
+      "evofosfamide": [
+       {
+        "conditions": [
+         "Soft Tissue Sarcoma"
+        ],
+        "nct": "NCT02255110",
+        "phase": [
+         "PHASE2"
+        ],
+        "sponsor": "Merck KGaA, Darmstadt, Germany",
+        "start": "2014-12-10",
+        "status": "TERMINATED",
+        "title": "A Japanese Trial of TH-302 in Subjects With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+        "why_stopped": "Sponsor's decision due to negative result of Phase 3 study TH-CR-406/SARC021"
+       },
+       {
+        "conditions": [
+         "Soft Tissue Sarcoma"
+        ],
+        "nct": "NCT01440088",
+        "phase": [
+         "PHASE3"
+        ],
+        "sponsor": "Threshold Pharmaceuticals",
+        "start": "2011-09",
+        "status": "COMPLETED",
+        "title": "A Trial of TH-302 in Combination With Doxorubicin Versus Doxorubicin Alone to Treat Patients With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+        "why_stopped": null
+       },
+       {
+        "conditions": [
+         "Soft Tissue Sarcoma"
+        ],
+        "nct": "NCT02712567",
+        "phase": null,
+        "sponsor": "Sarcoma Alliance for Research through Collaboration",
+        "start": null,
+        "status": "NO_LONGER_AVAILABLE",
+        "title": "SARC021C: A Continuation Study of TH-CR-406/SARC021",
+        "why_stopped": null
+       },
+       {
+        "conditions": [
+         "Soft Tissue Sarcoma"
+        ],
+        "nct": "NCT00742963",
+        "phase": [
+         "PHASE1",
+         "PHASE2"
+        ],
+        "sponsor": "ImmunoGenesis",
+        "start": "2008-08",
+        "status": "COMPLETED",
+        "title": "Dose-Escalation Study of TH-302 in Combination With Doxorubicin to Treat Patients With Advanced Soft Tissue Sarcoma",
+        "why_stopped": null
+       }
+      ],
+      "tirapazamine": [
+       {
+        "conditions": [
+         "Alveolar Childhood Rhabdomyosarcoma",
+         "Embryonal Childhood Rhabdomyosarcoma",
+         "Embryonal-botryoid Childhood Rhabdomyosarcoma",
+         "Previously Treated Childhood Rhabdomyosarcoma",
+         "Recurrent Childhood Rhabdomyosarcoma"
+        ],
+        "nct": "NCT00025363",
+        "phase": [
+         "PHASE2"
+        ],
+        "sponsor": "National Cancer Institute (NCI)",
+        "start": "2001-11",
+        "status": "COMPLETED",
+        "title": "Comparison of Chemotherapy Regimens in Treating Children With Relapsed or Progressive Rhabdomyosarcoma",
+        "why_stopped": null
+       }
+      ]
+     },
+     "trials_with_a_recorded_why_stopped": [
+      {
+       "agent": "PR-104",
+       "nct": "NCT00862134",
+       "status": "TERMINATED",
+       "why_stopped": "Interim analysis indicated low probability of clinically significant result"
+      },
+      {
+       "agent": "PR-104",
+       "nct": "NCT00544674",
+       "status": "TERMINATED",
+       "why_stopped": "Terminated early due to discovery of new mechanism of activation."
+      },
+      {
+       "agent": "PR-104",
+       "nct": "NCT00862082",
+       "status": "TERMINATED",
+       "why_stopped": "PR104 plus sorafenib was poorly tolerated in patients with advanced HCC"
+      },
+      {
+       "agent": "TH-302",
+       "nct": "NCT02047500",
+       "status": "TERMINATED",
+       "why_stopped": "The trial has been terminated earlier following the company decision to discontinue the clinical development of Evofosfamide"
+      },
+      {
+       "agent": "TH-302",
+       "nct": "NCT02093962",
+       "status": "TERMINATED",
+       "why_stopped": "At the interim analysis, the futility boundary was not met and the study was stopped due to insufficient efficacy."
+      },
+      {
+       "agent": "TH-302",
+       "nct": "NCT02255110",
+       "status": "TERMINATED",
+       "why_stopped": "Sponsor's decision due to negative result of Phase 3 study TH-CR-406/SARC021"
+      },
+      {
+       "agent": "TH-302",
+       "nct": "NCT02598687",
+       "status": "WITHDRAWN",
+       "why_stopped": "2 Phase 3 trials didn't meet their primary endpoint, so further development and testing of TH-302 is uncertain"
+      },
+      {
+       "agent": "TH-302",
+       "nct": "NCT02496832",
+       "status": "WITHDRAWN",
+       "why_stopped": "Study was never initiated"
+      },
+      {
+       "agent": "TH-302",
+       "nct": "NCT01864538",
+       "status": "TERMINATED",
+       "why_stopped": "Lack of enrollment"
+      },
+      {
+       "agent": "apaziquone",
+       "nct": "NCT01469221",
+       "status": "TERMINATED",
+       "why_stopped": "Business reason"
+      },
+      {
+       "agent": "apaziquone",
+       "nct": "NCT03224182",
+       "status": "TERMINATED",
+       "why_stopped": "Suspended development"
+      },
+      {
+       "agent": "apaziquone",
+       "nct": "NCT01410565",
+       "status": "TERMINATED",
+       "why_stopped": "Business reason"
+      },
+      {
+       "agent": "apaziquone",
+       "nct": "NCT01475266",
+       "status": "TERMINATED",
+       "why_stopped": "Sponsor's decision"
+      },
+      {
+       "agent": "evofosfamide",
+       "nct": "NCT02047500",
+       "status": "TERMINATED",
+       "why_stopped": "The trial has been terminated earlier following the company decision to discontinue the clinical development of Evofosfamide"
+      },
+      {
+       "agent": "evofosfamide",
+       "nct": "NCT02093962",
+       "status": "TERMINATED",
+       "why_stopped": "At the interim analysis, the futility boundary was not met and the study was stopped due to insufficient efficacy."
+      },
+      {
+       "agent": "evofosfamide",
+       "nct": "NCT02255110",
+       "status": "TERMINATED",
+       "why_stopped": "Sponsor's decision due to negative result of Phase 3 study TH-CR-406/SARC021"
+      },
+      {
+       "agent": "evofosfamide",
+       "nct": "NCT02598687",
+       "status": "WITHDRAWN",
+       "why_stopped": "2 Phase 3 trials didn't meet their primary endpoint, so further development and testing of TH-302 is uncertain"
+      },
+      {
+       "agent": "evofosfamide",
+       "nct": "NCT02496832",
+       "status": "WITHDRAWN",
+       "why_stopped": "Study was never initiated"
+      },
+      {
+       "agent": "evofosfamide",
+       "nct": "NCT01864538",
+       "status": "TERMINATED",
+       "why_stopped": "Lack of enrollment"
+      },
+      {
+       "agent": "tarloxotinib",
+       "nct": "NCT02454842",
+       "status": "TERMINATED",
+       "why_stopped": "Lack of efficacy"
+      }
+     ]
     },
     "why_a_hypoxia_reading_points_here": "a hypoxia-activated prodrug is reduced to its cytotoxic form only under low oxygen, so its entire rationale is the tissue state this reading is about."
    }
   },
   "every_registered_EMC_trial": {
-   "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,Interventions&query.cond=extraskeletal%20myxoid%20chondrosarcoma",
-   "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,Interventions&query.cond=extraskeletal%20myxoid%20chondrosarcoma",
-   "_what_this_is_not": "a failed retrieval, NOT a finding that no EMC trial exists."
-  },
-  "verdict": "\u26a0 The PubMed half of this retrieval succeeded and the ClinicalTrials.gov half did not, for every class. So this file can say what has been WRITTEN ABOUT and cannot say what has been REGISTERED, and the difference matters most for exactly the sentence a reader wants: whether a class's trials stopped, and why."
+   "_n_total_reported": 23,
+   "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.cond=extraskeletal%20myxoid%20chondrosarcoma",
+   "_why_asked": "so the claim `no trial of any of these classes exists in EMC` is a retrieved statement rather than an assumption",
+   "studies": [
+    {
+     "nct": "NCT03277924",
+     "status": "COMPLETED",
+     "title": "Trial of Sunitinib and/or Nivolumab Plus Chemotherapy in Advanced Soft Tissue and Bone Sarcomas"
+    },
+    {
+     "nct": "NCT01659203",
+     "status": "RECRUITING",
+     "title": "Proton or Photon RT for Retroperitoneal Sarcomas"
+    },
+    {
+     "nct": "NCT00003718",
+     "status": "UNKNOWN",
+     "title": "Temozolomide in Treating Patients With Advanced Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT00720174",
+     "status": "COMPLETED",
+     "title": "Cixutumumab and Doxorubicin Hydrochloride in Treating Patients With Unresectable, Locally Advanced, or Metastatic Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT06526897",
+     "status": "NOT_YET_RECRUITING",
+     "title": "Evaluation of Chest CT Versus Chest X-Ray for Lung Surveillance After Curative-Intent Resection of High-Risk Truncal-Extremity Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT07734805",
+     "status": "ACTIVE_NOT_RECRUITING",
+     "title": "Radiological Diagnosis of Pediatric Neck Swellings"
+    },
+    {
+     "nct": "NCT01532687",
+     "status": "COMPLETED",
+     "title": "Gemcitabine With or Without Pazopanib in Treating Patients With Refractory Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT00423618",
+     "status": "COMPLETED",
+     "title": "Randomised Trial of Volume of Post-operative Radiotherapy Given to Adult Patients With eXtremity Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT00740597",
+     "status": "TERMINATED",
+     "title": "Intensity-Modulated Radiation Therapy in Treating Patients Undergoing Surgery for Stage IB, Stage II, or Stage III Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT00589121",
+     "status": "COMPLETED",
+     "title": "Image-Guided Radiation Therapy in Treating Patients With Primary Soft Tissue Sarcoma of the Shoulder, Arm, Hip, or Leg"
+    },
+    {
+     "nct": "NCT00900211",
+     "status": "UNKNOWN",
+     "title": "Tissue Sample Collection From Patients With Soft Tissue Sarcoma of the Arms, Hands, Legs, or Feet Treated on Clinial Trial CRUK-VORTEX"
+    },
+    {
+     "nct": "NCT05836571",
+     "status": "ACTIVE_NOT_RECRUITING",
+     "title": "Testing Ipilimumab and Nivolumab Combination With or Without Cabozantinib in People >= 18 Years Old With Advanced Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT01154452",
+     "status": "COMPLETED",
+     "title": "Vismodegib and Gamma-Secretase/Notch Signalling Pathway Inhibitor RO4929097 in Treating Patients With Advanced or Metastatic Sarcoma"
+    },
+    {
+     "nct": "NCT01189253",
+     "status": "TERMINATED",
+     "title": "Doxorubicin Hydrochloride or Trabectedin in Treating Patients With Previously Untreated Advanced or Metastatic Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT00474994",
+     "status": "COMPLETED",
+     "title": "Sunitinib in Treating Patients With Metastatic, Locally Advanced, or Locally Recurrent Sarcomas"
+    },
+    {
+     "nct": "NCT03600649",
+     "status": "UNKNOWN",
+     "title": "Clinical Trial of SP-2577 (Seclidemstat) in Patients With Relapsed or Refractory Ewing or Ewing-related Sarcomas"
+    },
+    {
+     "nct": "NCT06239272",
+     "status": "RECRUITING",
+     "title": "NRSTS2021, A Risk Adapted Study Evaluating Maintenance Pazopanib, Limited Margin, Dose-Escalated Radiation Therapy and Selinexor in Non-Rhabdomyosarcoma Soft Tissue Sarcoma (NRSTS)"
+    },
+    {
+     "nct": "NCT05355753",
+     "status": "TERMINATED",
+     "title": "A Study to Assess the Safety and Tolerability of CFT8634 in Locally Advanced or Metastatic SMARCB1-Perturbed Cancers, Including Synovial Sarcoma and SMARCB1-Null Tumors"
+    },
+    {
+     "nct": "NCT02066285",
+     "status": "COMPLETED",
+     "title": "Trial of Pazopanib in Patients With Solitary Fibrous Tumor and Extraskeletal Myxoid Chondrosarcoma"
+    },
+    {
+     "nct": "NCT05266196",
+     "status": "UNKNOWN",
+     "title": "A Rollover Protocol to Allow for Continued Access to the LSD1 Inhibitor Seclidemstat (SP-2577)"
+    },
+    {
+     "nct": "NCT00112463",
+     "status": "COMPLETED",
+     "title": "Depsipeptide (Romidepsin) in Treating Patients With Metastatic or Unresectable Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT00346164",
+     "status": "COMPLETED",
+     "title": "Observation, Radiation Therapy, Combination Chemotherapy, and/or Surgery in Treating Young Patients With Soft Tissue Sarcoma"
+    },
+    {
+     "nct": "NCT02180867",
+     "status": "COMPLETED",
+     "title": "Radiation Therapy With or Without Combination Chemotherapy or Pazopanib Before Surgery in Treating Patients With Newly Diagnosed Non-rhabdomyosarcoma Soft Tissue Sarcomas That Can "
+    }
+   ]
+  }
  }
 }
