@@ -45,6 +45,32 @@ GENES = {
     "DLL3": "ENSG00000090932", "GPC3": "ENSG00000147257", "B2M": "ENSG00000166710",
     "CD3E": "ENSG00000198851",
 }
+
+# ⭐ EXTENSION 2026-08-07 — the antigens `emc_expression_panels.py` read 7 measures in EMC TUMOUR
+# tissue, which this shortlist did not cover. The pairing is the whole point of a surface-antigen
+# route and neither half is worth anything alone: read 7 answers "is it up in EMC vs other
+# sarcomas", and ONLY this file answers "is it restricted in normal tissue", which is the axis that
+# kills surface antigens. An antigen measured in one and not the other cannot be graded at all.
+#
+# ⛔ SEARCHED BY SYMBOL, WITH THE RETURNED RECORD'S SYMBOL ASSERTED (see `main`). The dict above
+# carries Ensembl IDs; these do not, because writing an Ensembl ID from memory is precisely the
+# "populated field that is not a measured one" failure (CLAUDE.md §4) — a wrong-but-plausible ID
+# returns a real HPA record for the WRONG GENE and every downstream verdict reads as normal. HPA's
+# search accepts a gene symbol, and the response carries the gene symbol back, so the match is
+# CHECKED rather than assumed; a mismatch is recorded as `_status: symbol mismatch` and scores
+# nothing.
+GENES_BY_SYMBOL = [
+    # the route-named addresses read 7 measures (those not already above)
+    "CD248", "CSPG4", "PRAME", "MSLN", "L1CAM", "ALPP", "ALPPL2", "CDH17",
+    # the stromal/matrix compartment the monoculture surfaceome scan is blind to (L1/L2)
+    "LRRC15", "PDGFRB", "ANTXR1", "TNC", "MMP14", "POSTN", "THY1",
+    # further ofCS carrier proteoglycans (the L4 coverage correction)
+    "CD44", "VCAN", "SDC1", "GPC1",
+    # HLA-restricted addresses + the presentation machinery they depend on
+    "MAGEA4", "CTAG1B", "TAP1",
+    # further cell-surface addresses named on the sarcoma CAR/ADC board
+    "ROR1", "ROR2", "CD70", "IGF1R", "ALCAM", "EPHA2",
+]
 CONTROLS_RESTRICTED = {"DLL3", "GPC3"}
 CONTROLS_BROAD = {"B2M"}
 CONTROLS_IMMUNE_DANGER = {"CD3E"}   # must NOT come out RESTRICTED
@@ -110,18 +136,76 @@ def classify(spec, dist, specific_tpm, blood_spec, blood_tpm):
     return {"window": window, **liabilities}
 
 
+def _symbol_of(rec):
+    return str(_field(rec, "Gene", "g") or "").strip()
+
+
+def _drift(out):
+    """⛔ THIS SCRIPT REWRITES ITS ARTIFACT WHOLESALE, so a re-run silently replaces every
+    committed verdict with a fresh one. HPA is a living resource; a window that moved from
+    RESTRICTED to BROAD_LIABILITY between runs is a decision-relevant event, and the previous
+    version of this file had no way to say one had happened. CLAUDE.md §1: a corrected number is
+    registered, never silently dropped. So the committed artifact is read BEFORE it is overwritten
+    and every changed verdict is recorded beside the new one."""
+    if not os.path.exists(OUT):
+        return {"_status": "no previous artifact — first run, nothing to compare"}
+    try:
+        prev = (json.load(open(OUT)) or {}).get("antigens") or {}
+    except Exception as exc:  # noqa: BLE001
+        return {"_status": f"previous artifact unreadable ({str(exc)[:120]}) — no comparison made",
+                "_meaning": "⛔ An absent comparison, NOT a finding of no drift."}
+    changed, added = {}, []
+    for g, rec in out.items():
+        old = prev.get(g)
+        if old is None:
+            added.append(g)
+            continue
+        if old.get("window") != rec.get("window"):
+            changed[g] = {"was": old.get("window"), "now": rec.get("window"),
+                          "was_rna_tissue_specificity": old.get("rna_tissue_specificity"),
+                          "now_rna_tissue_specificity": rec.get("rna_tissue_specificity")}
+    return {"n_previously_recorded": len(prev), "n_now": len(out),
+            "newly_added_this_run": sorted(added),
+            "windows_that_changed": changed,
+            "dropped_from_this_run": sorted(set(prev) - set(out)),
+            "_meaning": ("`windows_that_changed` non-empty means HPA's classification moved for a "
+                         "gene this repository has already reasoned about. Read it before quoting "
+                         "any window verdict; it is not noise.")}
+
+
 def main():
     out = {}
-    for g, ensg in GENES.items():
+    queries = [(g, ensg, ensg) for g, ensg in GENES.items()]
+    queries += [(g, None, g) for g in GENES_BY_SYMBOL if g not in GENES]
+    for g, ensg, search in queries:
         url = (f"https://www.proteinatlas.org/api/search_download.php?"
-               f"search={ensg}&format=json&compress=no&"
+               f"search={search}&format=json&compress=no&"
                f"columns=g,eg,rnats,rnatd,rnatss,scl,rnabcs,rnabcss")
         data = _get_json(url)
         rec = data[0] if isinstance(data, list) and data else None
         if not rec:
-            out[g] = {"ensembl": ensg, "_status": "no HPA record"}
+            out[g] = {"ensembl": ensg, "searched_as": search, "_status": "no HPA record",
+                      "_meaning": ("⛔ AN ABSENT READING, NOT A READING OF ABSENCE. HPA returned "
+                                   "no record for this search; that says nothing about the gene's "
+                                   "normal-tissue distribution.")}
             time.sleep(0.3)
             continue
+        # ⛔ A RECORD THAT LOOKS PLAUSIBLE IS MORE DANGEROUS THAN NO RECORD (CLAUDE.md §4). A
+        # symbol search can return a paralogue, a synonym holder or a neighbouring locus, and its
+        # verdict would render identically to the right gene's. So the returned symbol is checked
+        # against the one asked for, and a mismatch scores NOTHING rather than scoring the wrong
+        # gene. `plasma_membrane_confirmed: true` on the wrong protein is the exact shape of a
+        # populated field that is not a measured one.
+        got = _symbol_of(rec)
+        if got.upper() != g.upper():
+            out[g] = {"ensembl": ensg, "searched_as": search, "hpa_returned_symbol": got,
+                      "_status": "symbol mismatch — record DISCARDED, nothing scored",
+                      "_meaning": ("⛔ The HPA record returned for this search is a different "
+                                   "gene, so no window verdict exists for the gene asked for. "
+                                   "This is an instrument statement, never a biological one.")}
+            time.sleep(0.3)
+            continue
+        ensg = ensg or _field(rec, "Ensembl", "eg")
         spec = _field(rec, "RNA tissue specificity", "rnats")
         dist = _field(rec, "RNA tissue distribution", "rnatd")
         specific_tpm = _field(rec, "RNA tissue specific nTPM", "rnatss")
@@ -131,6 +215,8 @@ def main():
         verdict = classify(spec, dist, specific_tpm, blood_spec, blood_tpm)
         out[g] = {
             "ensembl": ensg,
+            "searched_as": search,
+            "hpa_returned_symbol": got,
             "rna_tissue_specificity": spec,
             "rna_tissue_distribution": dist,
             "rna_tissue_specific_nTPM": specific_tpm,
@@ -177,6 +263,18 @@ def main():
         "liability_antigens": liabilities,
         "broad_liability": broad,
         "antigens": out,
+        "_drift_vs_previous_artifact": _drift(out),
+        "_pairs_with": {
+            "emc_tumour_expression": (
+                "research/modalities/emc-expression-panels.json -> "
+                "reads.read_7_SURFACE_ANTIGEN.cross_platform_board — the EMC-tumour half. "
+                "⛔ NEITHER HALF IS A TARGET CALL ON ITS OWN: up-in-EMC without a normal-tissue "
+                "window is an antigen with no window, and RESTRICTED here without an EMC "
+                "measurement is a window around nothing."),
+            "instrument_limits": (
+                "research/modalities/surfaceome-instrument-limits.json — why the DepMap "
+                "monoculture scan could not see the stromal antigens or CSPG4."),
+        },
     }
     json.dump(result, open(OUT, "w"), indent=2)
     print("wrote", OUT, file=sys.stderr)

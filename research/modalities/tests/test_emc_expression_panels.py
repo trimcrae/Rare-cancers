@@ -90,6 +90,15 @@ def _inputs():
     # platform B: only ONE of the 4-O sulfotransferases maps, so its panel must go UNDERPOWERED
     b_genes = {panel_genes[0]: _gene(n_emc, n_comp, 2.0, 0.0)}
     b_genes["ASS1"] = _gene(n_emc, n_comp, -1.0, 0.5)
+
+    # --- read 7's cross-platform board: one gene planted in each state that must be
+    # distinguishable. CD248 up on both; CSPG4 up on A and DOWN on B (the real 2026-08-07
+    # discordance, reproduced in miniature); CD276 readable on A only; PRAME on neither.
+    a_genes["CD248"] = _gene(n_emc, n_comp, 2.0, 0.0)
+    b_genes["CD248"] = _gene(n_emc, n_comp, 2.0, 0.0)
+    a_genes["CSPG4"] = _gene(n_emc, n_comp, 2.0, 0.0)
+    b_genes["CSPG4"] = _gene(n_emc, n_comp, 0.0, 2.0)
+    a_genes["CD276"] = _gene(n_emc, n_comp, 1.0, 0.95)
     return {
         "_generated_utc": "2026-01-01T00:00:00+00:00",
         "signature_sets": {
@@ -223,10 +232,15 @@ def test_a_group_below_the_minimum_n_gets_no_contrast():
 # ---------------------------------------------------------------------------------------------
 # 3 — THE READS, THEIR IDENTITY AND THEIR READABILITY VERDICT
 # ---------------------------------------------------------------------------------------------
-def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
-    assert set(res["reads"]) == {
-        "control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
-        "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1"}
+def test_every_read_declared_in_PANELS_is_actually_assembled_and_addressable(res):
+    """⛔ DERIVED, NEVER TYPED (CLAUDE.md §1). A hand-listed set of read ids was the previous
+    version of this assertion, and it is exactly the copy that goes stale the moment a read is
+    added: `PANELS` would gain a member, `_assemble_reads` could silently not, and a typed list
+    would have to be edited in two files to notice. The set of reads has ONE home — `PANELS` —
+    and this test asserts the assembler agrees with it."""
+    declared = {p["read_id"] for p in M.PANELS.values()}
+    assert set(res["reads"]) == declared, (
+        "PANELS and _assemble_reads disagree about which reads exist")
     for k, v in res["reads"].items():
         if k == "control":
             continue
@@ -236,8 +250,7 @@ def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
 
 
 def test_every_panel_and_every_slot_declares_the_read_it_belongs_to():
-    ids = {"control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
-           "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1"}
+    ids = {p["read_id"] for p in M.PANELS.values()}
     for name, p in M.PANELS.items():
         assert p["read_id"] in ids, name
     for name, s in M.SIGNATURE_SLOTS.items():
@@ -551,6 +564,84 @@ def test_the_named_matrix_files_are_the_ones_that_series_actually_publishes():
         # and it must be one the prior run graded READABLE, or this module is reading a platform
         # that has already been measured not to carry a contrast
         assert t["matrix_file"] in readability[t["gse"]]["readable_platforms"], t["matrix_file"]
+
+
+# ---------------------------------------------------------------------------------------------
+# 6 — READ 7's CROSS-PLATFORM BOARD
+#
+# ⛔ WHAT IS PINNED HERE is the one way a surface-antigen board can do real damage: rendering an
+# antigen nobody measured the same as an antigen that was measured and came back low. Five routes
+# are blocked on "any measurement in EMC", so a row that reads as a measurement when it is not one
+# would close a live route on nothing (CLAUDE.md §4 — an absent reading is not a reading of
+# absence). The second guard is the discordance: two platforms disagreeing must not be silently
+# resolved by whichever one the module happens to iterate first.
+# ---------------------------------------------------------------------------------------------
+def test_an_antigen_up_on_both_platforms_is_the_only_state_called_a_lead(res):
+    board = res["reads"]["read_7_SURFACE_ANTIGEN"]["cross_platform_board"]
+    assert board["per_gene"]["CD248"]["state"] == "CONCORDANT_UP_ON_BOTH"
+    assert "CD248" in board["by_state"]["CONCORDANT_UP_ON_BOTH"]
+    for mf, p in board["per_gene"]["CD248"]["per_platform"].items():
+        assert p["readable"] is True and p["t"] is not None
+
+
+def test_two_platforms_disagreeing_in_sign_is_reported_as_discordant_not_resolved(res):
+    row = res["reads"]["read_7_SURFACE_ANTIGEN"]["cross_platform_board"]["per_gene"]["CSPG4"]
+    assert row["state"] == "DISCORDANT_OPPOSITE_SIGNS"
+    # BOTH readings survive into the artifact — neither platform is dropped
+    ts = sorted(p["t"] for p in row["per_platform"].values())
+    assert ts[0] < 0 < ts[-1], "a discordant gene must keep both signs"
+    disc = res["reads"]["read_7_SURFACE_ANTIGEN"]["CSPG4_platform_discordance"]
+    assert disc["cross_platform"]["state"] == "DISCORDANT_OPPOSITE_SIGNS"
+    assert disc["what_would_actually_decide_it"]
+
+
+def test_an_antigen_read_on_one_platform_only_is_an_instrument_statement(res):
+    board = res["reads"]["read_7_SURFACE_ANTIGEN"]["cross_platform_board"]
+    row = board["per_gene"]["CD276"]
+    assert row["state"] == "READABLE_ON_ONE_PLATFORM_ONLY"
+    assert row["platforms_readable"] == ["A_series_matrix.txt.gz"]
+    assert "not a low reading" in row["_meaning"]["READABLE_ON_ONE_PLATFORM_ONLY"]
+
+
+def test_an_unmeasured_antigen_never_renders_as_a_measured_negative(res):
+    board = res["reads"]["read_7_SURFACE_ANTIGEN"]["cross_platform_board"]
+    row = board["per_gene"]["PRAME"]
+    assert row["state"] == "NOT_READABLE_ON_EITHER_PLATFORM"
+    assert row["platforms_with_a_contrast"] == []
+    for p in row["per_platform"].values():
+        assert p["readable"] is False
+        low = str(p["verdict"]).lower()
+        for forbidden in ("is not expressed", "is absent", "no expression", "not present in emc"):
+            assert forbidden not in low
+    assert "never a biological" in row["_meaning"]["NOT_READABLE_ON_EITHER_PLATFORM"].lower()
+
+
+def test_the_board_refuses_the_four_over_claims_a_surface_antigen_invites(res):
+    entry = res["reads"]["read_7_SURFACE_ANTIGEN"]
+    cannot = entry["what_it_cannot_settle"].lower()
+    for must in ("not protein", "not surface localisation", "not tumour-restricted",
+                 "not deconvolved"):
+        assert must in cannot, must
+    # the missing axis is named WITH the artifact that holds it, not left as a caveat
+    assert "emc-surface-normal-window.json" in entry["the_missing_axis_and_where_it_lives"][
+        "artifact"]
+
+
+def test_PRAME_is_declared_not_a_surface_antigen_where_a_reader_would_see_it(res):
+    """PRAME is an ImmTAC address reached through HLA class I, not through the cell surface. A
+    board that lists it beside CD276 without saying so invites exactly the wrong modality."""
+    ann = res["reads"]["read_7_SURFACE_ANTIGEN"]["group_annotations"]
+    assert "PRAME IS NOT A SURFACE ANTIGEN" in ann[
+        "hla_presented_intracellular_antigens_NOT_surface"]
+    # and the presentation machinery is measured, so a PRAME number can never stand alone
+    groups = M.PANELS["surface_antigen"]["groups"]["antigen_presentation_precondition"]
+    assert {"B2M", "TAP1", "HLA-A"} <= set(groups)
+
+
+def test_every_route_named_address_is_in_the_board(res):
+    board = res["reads"]["read_7_SURFACE_ANTIGEN"]["cross_platform_board"]["per_gene"]
+    for g in M.PANELS["surface_antigen"]["groups"]["route_named_addresses"]:
+        assert g in board, f"{g} is named by a blocked route but is not on the board"
 
 
 if __name__ == "__main__":

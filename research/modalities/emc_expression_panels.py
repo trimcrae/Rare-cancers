@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 """
-Six targeted expression reads in the two READABLE EMC series — one CI dispatch, six lanes settled.
+Targeted expression reads in the two READABLE EMC series — one CI dispatch, several lanes settled.
 
 ⭐ WHY THIS EXISTS, AND WHY IT IS NOT `emc_atr_vulnerability.py --refresh-part-b`.
 Part B of the ATR assessment reads CONCEPT scores over MSigDB/Reactome/GO gene sets, and its inputs
 cache therefore holds per-sample values only for the genes those sets happen to contain. Every one
-of the six reads below asks for genes that are NOT in those sets — `ASS1`, `NR2F1`, `CSPG4`, the
+of the reads below asks for genes that are NOT in those sets — `ASS1`, `NR2F1`, `CSPG4`, the
 chondroitin-sulfate sulfotransferases, `DLL3`/`ASCL1`/`NEUROD1`/`INSM1`, a PPARγ TARGET-gene set,
-a published hypoxia metagene. Reading them needs a fresh fetch with a different `want` list, and it
-must NOT be able to perturb the committed ATR grading artifact (CLAUDE.md §1: one fact, one home).
-So: its own module, its own artifact, its own workflow mode.
+a published hypoxia metagene, the candidate surface antigens. Reading them needs a fresh fetch with
+a different `want` list, and it must NOT be able to perturb the committed ATR grading artifact
+(CLAUDE.md §1: one fact, one home). So: its own module, its own artifact, its own workflow mode.
 
-⛔ THE SIX READS, AND THE ONE RULE THAT GOVERNS ALL OF THEM.
+⛔ THE READS, AND THE ONE RULE THAT GOVERNS ALL OF THEM.
     1. `ASS1`                      — arginine auxotrophy / ADI-PEG20. One binary answer.
     2. CS/GAG biosynthesis + PAPS  — oncofetal chondroitin sulfate, CSPG4, substrate reduction,
                                      chondroitinase.
@@ -21,6 +21,19 @@ So: its own module, its own artifact, its own workflow mode.
     4. NE panel                    — `DLL3`, `ASCL1`, `NEUROD1`, `INSM1`, `HES1`.
     5. Hypoxia metagene            — Buffa / Winter, whichever the fetch resolves.
     6. `NR2F1`                     — the precondition for the dormancy lane.
+    7. SURFACE-ANTIGEN panel       — added 2026-08-07. The therapeutic addresses five blocked
+                                     routes name, plus the two coverage corrections recorded in
+                                     `surfaceome-instrument-limits.json`. ⭐ The reason this read
+                                     is not redundant with `emc_surfaceome_scan.py`: that scan
+                                     ranks tumour-cell MONOCULTURE mRNA, so it structurally cannot
+                                     see a stromal antigen (L1/L2) and never held a per-gene row
+                                     for CSPG4 at all (L4). Bulk archival tumour tissue contains
+                                     the compartment monoculture does not.
+
+⛔ THE COUNT OF READS IS NOT A CONSTANT IN THIS FILE. `PANELS` and `_assemble_reads` are the two
+places a read is defined, and `research/modalities/tests/test_emc_expression_panels.py` asserts
+they agree. A number typed into a docstring or a workflow description is a copy (CLAUDE.md §1);
+where one appears below it names WHICH read, not how many there are.
 
 ⛔⛔ THE RULE (CLAUDE.md §4). **AN ABSENT READING IS NOT A READING OF ABSENCE.** A gene with no probe
 mapping to it on a platform is reported `readable: false` with the reason, and the verdict sentence
@@ -323,6 +336,111 @@ PANELS = {
                                  "agonist binds it in this context, and anything at all about "
                                  "paralogue selectivity — which is the risk that sank the "
                                  "flagship lane and is not measurable from expression.",
+    },
+    "surface_antigen": {
+        "read_id": "read_7_SURFACE_ANTIGEN",
+        "question": "Which candidate surface / therapeutic-address antigens are READABLE in EMC "
+                    "tumour tissue on these two platforms, and which of them are higher in EMC "
+                    "than in the comparator sarcomas on BOTH?",
+        "provenance": CURATED + " The antigen membership is assembled from the therapeutic "
+                                "addresses the repository's own blocked routes NAME "
+                                "(systems/graph — RT-CART-SURFACE, RT-B7H3, RT-PRAME-IMMTAC, "
+                                "RT-SSTR2, RT-FAP-RLT, RT-TCRT-CTA) plus the two coverage "
+                                "corrections recorded in surfaceome-instrument-limits.json (L2 "
+                                "stromal, L4 CSPG4). It is NOT a published surfaceome and it is "
+                                "NOT exhaustive.",
+        "why_this_read_exists": (
+            "⭐ THE EXISTING SURFACEOME SCAN CANNOT ANSWER THIS, AND ITS LIMITS ARE MEASURED, NOT "
+            "ASSERTED — research/modalities/surfaceome-instrument-limits.json. That instrument "
+            "ranks DepMap tumour-cell MONOCULTURE mRNA in 45–76 sarcoma lines, none of which is a "
+            "verified EWSR1::NR4A3 line, so: (L1) no stromal/CAF compartment exists in it at all; "
+            "(L2) an antigen carried ONLY by stroma reads at the floor, demonstrated with LRRC15 "
+            "at frac_expressed 0.0; (L4) CSPG4 has no per-gene row in any committed artifact of "
+            "that instrument, so its absence there is a COVERAGE GAP and not a negative. THIS "
+            "read is bulk ARCHIVAL TUMOUR TISSUE, which contains the stroma and matrix that "
+            "monoculture does not — so it is the instrument that can see the class the other one "
+            "structurally could not. ⚠ The same property is the confound: a stromal antigen "
+            "reading high in bulk tissue may be reporting the stroma's presence, not the tumour "
+            "cell's, and this read cannot deconvolve them."),
+        "groups": {
+            # The exact addresses the blocked routes name. Every one of these routes records
+            # `missing: ["any measurement in EMC"]` or a phrasing of it.
+            "route_named_addresses": ["CD276", "SSTR2", "PRAME", "FAP", "CD248", "CSPG4",
+                                      "MSLN", "L1CAM", "GPC3", "ALPP", "CDH17"],
+            # L2/L1 correction: the compartment DepMap monoculture cannot contain.
+            "stromal_and_matrix_antigens": ["FAP", "CD248", "LRRC15", "PDGFRB", "PDGFRA",
+                                            "ANTXR1", "TNC", "MMP14", "POSTN", "THY1", "FN1",
+                                            "COL11A1", "ACTA2"],
+            # L4 correction: the ofCS carrier repertoire, of which the earlier seed held CD44 only.
+            "ofcs_carrier_proteoglycans": ["CSPG4", "CD44", "VCAN", "ACAN", "BCAN", "NCAN",
+                                           "SDC1", "SDC2", "SDC4", "GPC1", "GPC3", "GPC6",
+                                           "BGN", "DCN", "SRGN", "CSPG5", "HSPG2", "LUM"],
+            "sarcoma_cell_surface_addresses": ["CD276", "EGFR", "ERBB2", "IGF1R", "ROR1", "ROR2",
+                                               "CD70", "NECTIN4", "TACSTD2", "EPCAM", "PTK7",
+                                               "GPC2", "FOLH1", "FOLR1", "CEACAM5", "DLK1",
+                                               "MUC16", "ALCAM", "CD24", "CD99", "MET", "AXL",
+                                               "EPHA2", "EPHB4", "MCAM", "CDH11", "FGFR1",
+                                               "KIT", "NCAM1", "DLL3"],
+            "somatostatin_receptor_family": ["SSTR1", "SSTR2", "SSTR3", "SSTR4", "SSTR5"],
+            "alkaline_phosphatase_family": ["ALPP", "ALPPL2", "ALPL", "ALPI"],
+            "glycan_antigen_synthases_NOT_the_antigen": ["B4GALNT1", "ST8SIA1", "ST3GAL5",
+                                                         "B3GALT4", "FUT4"],
+            "hla_presented_intracellular_antigens_NOT_surface": ["PRAME", "MAGEA1", "MAGEA3",
+                                                                 "MAGEA4", "MAGEA10", "CTAG1B",
+                                                                 "CTAG2", "SSX1", "SSX2",
+                                                                 "MAGEC2"],
+            "antigen_presentation_precondition": ["B2M", "HLA-A", "HLA-B", "HLA-C", "TAP1",
+                                                  "TAP2", "TAPBP", "NLRC5", "PSMB8", "PSMB9",
+                                                  "CIITA", "ERAP1"],
+        },
+        "group_annotations": {
+            "route_named_addresses": "The eleven addresses named by the blocked routes. ⚠ MSLN, "
+                                     "CDH17, GPC3, ALPP, EPCAM and CEACAM5 are EPITHELIAL "
+                                     "antigens and EMC is a mesenchymal tumour, so a HIGH reading "
+                                     "on any of them is first a probe question and only then a "
+                                     "biological one — they double as a specificity check on the "
+                                     "instrument.",
+            "hla_presented_intracellular_antigens_NOT_surface": (
+                "⛔ PRAME IS NOT A SURFACE ANTIGEN. It is an intracellular protein whose peptides "
+                "are presented on HLA class I; the ImmTAC/TCR-T modality reaches it through the "
+                "HLA complex, not through the cell surface. So a PRAME transcript reading is "
+                "necessary and nowhere near sufficient, and it is worthless without the "
+                "presentation group below. The same is true of every MAGE/CTAG/SSX member here."),
+            "antigen_presentation_precondition": (
+                "⛔ THE PRECONDITION FOR EVERY HLA-RESTRICTED ROUTE. An ImmTAC or a TCR-T reaches "
+                "its target only through surface HLA class I; B2M loss, TAP defects or NLRC5/"
+                "CIITA silencing remove the address regardless of how high the antigen "
+                "transcript reads. This group is measured so read 7 cannot report a PRAME number "
+                "without the machinery that would have to present it."),
+            "glycan_antigen_synthases_NOT_the_antigen": (
+                "⛔ A GLYCAN HAS NO GENE — the L3 limit, restated where it can fire. GD2 is a "
+                "glycolipid; B4GALNT1/ST8SIA1 are the enzymes that could make it. Their "
+                "transcript levels are a proxy for CAPACITY and are never a measurement of the "
+                "epitope. Identical reasoning to the ofCS sulfation module in read 2."),
+            "stromal_and_matrix_antigens": (
+                "The class the monoculture surfaceome scan is structurally blind to (L1/L2). "
+                "⚠ FN1 is listed for the fibronectin-EDB address, and a GENE-LEVEL read CANNOT "
+                "resolve it: EDB is an alternatively-spliced EXON of FN1, so an FN1 transcript "
+                "number says nothing about whether the EDB isoform is present. Recorded as a "
+                "known non-answer rather than omitted."),
+        },
+        "direction_that_supports_the_lane": "an antigen READABLE and HIGHER in EMC than in the "
+                                            "comparator sarcomas on BOTH platforms. A "
+                                            "single-platform elevation is a lead, not a result — "
+                                            "the two series have different comparator arms.",
+        "what_it_cannot_settle": (
+            "⛔ FOUR THINGS, AND EVERY ONE OF THEM IS LOAD-BEARING FOR A SURFACE-ANTIGEN ROUTE. "
+            "(1) NOT PROTEIN. This is mRNA on a decade-old array; transcript-to-protein "
+            "correlation for membrane proteins is modest and unmeasured here. (2) NOT SURFACE "
+            "LOCALISATION. A transcript says nothing about whether the protein reaches the plasma "
+            "membrane, at what density, or whether the epitope a binder needs is exposed. "
+            "(3) NOT TUMOUR-RESTRICTED — and this is the one that kills surface antigens. The "
+            "contrast here is EMC vs OTHER SARCOMAS. It is not tumour-vs-normal, so nothing here "
+            "speaks to on-target/off-tumour toxicity or a therapeutic window; the normal-tissue "
+            "axis has its own home in emc-surface-normal-window.json (HPA) and must be read "
+            "beside this. (4) NOT DECONVOLVED. Bulk archival tissue mixes tumour cells, CAFs, "
+            "endothelium, immune infiltrate and matrix, so a stromal or pericyte antigen can read "
+            "high because the compartment is present, not because the tumour cell carries it."),
     },
 }
 
@@ -1027,8 +1145,9 @@ def _score_gene_list(genes, tgt, emc, comp, min_genes, min_cov, what):
 def derive(inp):
     sig = inp.get("signature_sets") or {}
     res = {
-        "_what": "Six targeted expression reads in the two readable EMC series — the single CI "
-                 "dispatch that section 4 of emc-unexplored-treatment-lanes.md turns on.",
+        "_what": "Targeted expression reads in the two readable EMC series — the single CI "
+                 "dispatch that section 4 of emc-unexplored-treatment-lanes.md turns on, plus "
+                 "(2026-08-07) the surface-antigen read that five blocked routes turn on.",
         "_framing": FRAMING,
         "_execution_model": "$0. Public GEO series matrices on a GitHub-hosted CPU runner. No GPU, "
                             "no rental, no wet lab.",
@@ -1050,6 +1169,15 @@ def derive(inp):
             "read_3_PPARG_ACTIVITY": "reads.read_3_PPARG_ACTIVITY  (detail: "
                                      "panels.pparg_target_activity, signature_scores.pparg_*)",
             "read_6_NR2F1": "reads.read_6_NR2F1  (detail: gene_reads.NR2F1)",
+            "read_7_SURFACE_ANTIGEN": (
+                "reads.read_7_SURFACE_ANTIGEN  (headline table: "
+                "reads.read_7_SURFACE_ANTIGEN.cross_platform_board.by_state; per-gene detail: "
+                "…cross_platform_board.per_gene.<SYMBOL>). Consumed by RT-CART-SURFACE, RT-B7H3, "
+                "RT-PRAME-IMMTAC, RT-SSTR2, RT-FAP-RLT and RT-TCRT-CTA, every one of which "
+                "records a blocker phrased as 'a measurement in EMC'. ⛔ A consumer MUST read "
+                "`state` before any number: NOT_READABLE_ON_EITHER_PLATFORM is an instrument "
+                "statement and is never a biological negative, and no state in this board is a "
+                "protein, surface-localisation, tumour-restriction or safety claim."),
             "every_gene": "gene_reads.<SYMBOL>.<matrix_file> — carries `readable`, "
                           "`n_probes_mapping`, `probe_ids`, per-sample values, `array_percentile`, "
                           "the Welch contrast and a verdict sentence.",
@@ -1160,7 +1288,14 @@ def derive(inp):
         "window in EMC. No agent has been given to an EMC patient on the basis of anything here.",
         "That a gene with no probe is unexpressed. It was not read.",
         "That a transcript reading is a protein reading. Every therapeutic address named here — "
-        "CSPG4, DLL3, the oncofetal CS epitope, NR2F1 — is a protein or a glycan question.",
+        "CSPG4, DLL3, CD248, CD276, SSTR2, the oncofetal CS epitope, NR2F1 — is a protein or a "
+        "glycan question.",
+        "⛔ That any antigen in read 7 is on the cell SURFACE, at a usable density, on the TUMOUR "
+        "cell rather than the stroma, or RESTRICTED relative to normal tissue. Every contrast in "
+        "this artifact is EMC versus other SARCOMAS. The tumour-vs-normal axis — the one that "
+        "decides whether a surface antigen has a therapeutic window at all — is not measured "
+        "anywhere in this file; its home is emc-surface-normal-window.json, and even there it is "
+        "a normal-tissue RNA prior rather than a safety statement.",
         "That n = 6 and n = 10 archival tumours on two decade-old array platforms, uncorrected "
         "for multiple testing, settle anything at the level of a population.",
         "Anything about a patient.",
@@ -1204,6 +1339,92 @@ def _readability_of(res, genes):
                            "mean_array_percentile"),
                        "verdict": r.get("verdict")} for mf, r in rec.items()}
     return out
+
+
+def _cross_platform_verdict(res, gene):
+    """⭐ THE ONE FIELD READ 7 EXISTS TO PRODUCE: does this antigen survive on BOTH platforms?
+
+    ⛔ THE CLASSES ARE DELIBERATELY ASYMMETRIC, because the two ways to be wrong are not symmetric.
+    `NOT_READABLE_*` and `READABLE_ON_ONE_PLATFORM_ONLY` are statements about the INSTRUMENT and
+    are never biological negatives (CLAUDE.md §4). `DISCORDANT` is a real disagreement that this
+    module refuses to resolve by choosing a platform — the two series have different comparator
+    arms and different physics (single-channel vs two-colour log-ratio), so either could be the
+    right answer and neither reading is discarded.
+    """
+    reads = res["gene_reads"].get(gene) or {}
+    per = {}
+    for mf, r in reads.items():
+        if not r.get("readable"):
+            per[mf] = {"readable": False, "why_not_readable": r.get("why_not_readable"),
+                       "verdict": r.get("verdict")}
+            continue
+        w = r.get("welch_EMC_vs_comparator") or {}
+        per[mf] = {"readable": True, "platform": r.get("platform"),
+                   "n_probes_mapping": r.get("n_probes_mapping"),
+                   "probe_ids": r.get("probe_ids"),
+                   "value_kind": r.get("value_kind"),
+                   "EMC_mean_array_percentile": (r.get("EMC") or {}).get("mean_array_percentile"),
+                   "delta_a_minus_b": w.get("delta_a_minus_b"), "t": w.get("t"), "df": w.get("df"),
+                   "verdict": r.get("verdict")}
+    readable = [mf for mf, p in per.items() if p.get("readable")]
+    scored = [mf for mf in readable if per[mf].get("t") is not None]
+    if not per:
+        state = "NO_PLATFORM_WAS_READ"
+    elif not readable:
+        state = "NOT_READABLE_ON_EITHER_PLATFORM"
+    elif len(scored) < len(per):
+        state = "READABLE_ON_ONE_PLATFORM_ONLY" if scored else "READABLE_BUT_NO_CONTRAST"
+    else:
+        ts = [per[mf]["t"] for mf in scored]
+        up = [t for t in ts if t >= 2]
+        down = [t for t in ts if t <= -2]
+        if len(up) == len(ts):
+            state = "CONCORDANT_UP_ON_BOTH"
+        elif len(down) == len(ts):
+            state = "CONCORDANT_DOWN_ON_BOTH"
+        elif up and down:
+            state = "DISCORDANT_OPPOSITE_SIGNS"
+        elif up or down:
+            state = "MOVED_ON_ONE_FLAT_ON_THE_OTHER"
+        else:
+            state = "FLAT_ON_BOTH"
+    return {
+        "gene": gene, "state": state,
+        "platforms_readable": readable, "platforms_with_a_contrast": scored,
+        "per_platform": per,
+        "_meaning": {
+            "CONCORDANT_UP_ON_BOTH": "|t| >= 2 and positive on every platform that produced a "
+                                     "contrast. The only state this read treats as a lead.",
+            "MOVED_ON_ONE_FLAT_ON_THE_OTHER": "one platform moved, the other did not. NOT a "
+                                              "replication — the comparator arms differ.",
+            "DISCORDANT_OPPOSITE_SIGNS": "the two platforms disagree in SIGN. This module reports "
+                                         "both and picks neither.",
+            "READABLE_ON_ONE_PLATFORM_ONLY": "an INSTRUMENT statement. The gene was not read on "
+                                             "the other platform; that is not a low reading.",
+            "NOT_READABLE_ON_EITHER_PLATFORM": "⛔ AN INSTRUMENT STATEMENT AND NEVER A BIOLOGICAL "
+                                               "ONE. No probe mapped to this symbol. It does NOT "
+                                               "mean the gene is unexpressed in EMC.",
+        },
+    }
+
+
+def _surface_board(res):
+    """Every gene in the surface panel, sorted into the states above — the read's headline table."""
+    genes = sorted({g for gs in PANELS["surface_antigen"]["groups"].values() for g in gs})
+    rows = {g: _cross_platform_verdict(res, g) for g in genes}
+    by_state = {}
+    for g, r in rows.items():
+        by_state.setdefault(r["state"], []).append(g)
+    return {
+        "_how_to_read": (
+            "⛔ START WITH `by_state.NOT_READABLE_ON_EITHER_PLATFORM`. Those genes were NOT "
+            "MEASURED; nothing in this artifact licenses a sentence about their expression in "
+            "EMC. Then `CONCORDANT_UP_ON_BOTH`, which is the only state that is a lead. Every "
+            "other state is explicitly weaker and says so."),
+        "n_genes": len(rows),
+        "by_state": {k: sorted(v) for k, v in sorted(by_state.items())},
+        "per_gene": rows,
+    }
 
 
 def _slot_summary(res, read_id):
@@ -1303,6 +1524,101 @@ def _assemble_reads(res):
         res, "read_6_NR2F1", "nr2f1_dormancy",
         {"the_precondition": res["gene_reads"].get("NR2F1") or {},
          "paralogues": _readability_of(res, ["NR2F2", "NR2F6"])})
+    R["read_7_SURFACE_ANTIGEN"] = _read_entry(
+        res, "read_7_SURFACE_ANTIGEN", "surface_antigen",
+        {"why_this_read_exists": PANELS["surface_antigen"]["why_this_read_exists"],
+         "group_annotations": PANELS["surface_antigen"]["group_annotations"],
+         "cross_platform_board": _surface_board(res),
+         "the_route_named_addresses": _readability_of(
+             res, PANELS["surface_antigen"]["groups"]["route_named_addresses"]),
+         "CD248_followup": {
+             "why_it_is_singled_out": (
+                 "⭐ CD248 (endosialin / TEM1) is one of the few genes the repository's OWN "
+                 "DepMap surfaceome scan calls selectivity-significant in the sarcoma class, and "
+                 "it appears in no prose anywhere in this repository. Those DepMap numbers have "
+                 "ONE home and are not re-typed here (CLAUDE.md §1): "
+                 "surfaceome-instrument-limits.json -> limits.L2_stromal_floor_demonstrated."
+                 "genes.CD248 and its `counter_reading_that_narrows_the_limit`. This field asks "
+                 "the different question that scan could not: does CD248 read up in ACTUAL EMC "
+                 "TUMOUR TISSUE?"),
+             "⛔_the_two_readings_are_not_the_same_measurement": (
+                 "The DepMap reading is EMC-surrogate sarcoma CELL LINES in monoculture vs other "
+                 "cancer lineages. This reading is EMC TUMOUR TISSUE vs comparator sarcoma "
+                 "tissue. They can agree, disagree, or both be right — a pericyte/CAF antigen "
+                 "reading up in bulk tissue may be reporting the stromal compartment, which is "
+                 "precisely the compartment monoculture does not contain."),
+             "emc_tumour_read": res["gene_reads"].get("CD248") or {},
+             "cross_platform": _cross_platform_verdict(res, "CD248"),
+             "stromal_context_genes": _readability_of(res, ["FAP", "LRRC15", "PDGFRB", "PDGFRA",
+                                                            "THY1", "ACTA2", "POSTN"]),
+             "what_a_high_reading_would_and_would_not_license": (
+                 "WOULD: name CD248 as the first EMC-measured candidate surface address the "
+                 "repository holds, and make a normal-tissue window read and an IHC/scRNA "
+                 "follow-up the next steps. WOULD NOT: establish protein, surface density, "
+                 "tumour-cell (as against stromal) origin, tumour restriction, or that any "
+                 "CD248-directed agent binds, works or is safe in EMC."),
+         },
+         "CSPG4_platform_discordance": {
+             "_the_finding": (
+                 "⛔ THE TWO PLATFORMS DISAGREE ON CSPG4 AND THIS MODULE DOES NOT RESOLVE IT BY "
+                 "PICKING ONE. Both readings are reported in full below and in "
+                 "gene_reads.CSPG4."),
+             "cross_platform": _cross_platform_verdict(res, "CSPG4"),
+             "why_it_matters": (
+                 "CSPG4 is one of the two carrier proteoglycans the founding oncofetal-CS paper "
+                 "NAMES, and the earlier surfaceome seed held only the other one (CD44) — "
+                 "surfaceome-instrument-limits.json -> limits.L4_cspg4_coverage_gap. So this is "
+                 "the first per-gene CSPG4 number in an actual EMC series that this repository "
+                 "holds."),
+             "candidate_explanations_none_of_them_settled_here": [
+                 "DIFFERENT COMPARATOR ARMS. GSE24369's comparators are LGFMS / desmoid "
+                 "fibromatosis / fibrosarcoma; GSE4303-GPL3290's are DFSP and GIST. DFSP is a "
+                 "dermal fibroblastic tumour and CSPG4/MCSP is a well-known melanocytic and "
+                 "pericytic antigen, so a high comparator arm on GPL3290 would flatten the "
+                 "contrast without EMC having moved at all.",
+                 "DIFFERENT PHYSICS. GPL3290 is a two-colour log-ratio against a reference pool; "
+                 "GPL6244 is single-channel intensity. A ratio against a pool compresses a gene "
+                 "the pool also expresses.",
+                 "PROBE IDENTITY. GPL3290's probes carry EST accessions only, so its single "
+                 "CSPG4 probe reaches the symbol through the accession bridge and may not "
+                 "interrogate the same transcript region as the GPL6244 probe.",
+                 "SAMPLE COMPOSITION. Both are bulk archival tissue with unmeasured "
+                 "tumour-cell content; a pericyte-associated antigen tracks vascular content.",
+             ],
+             "what_would_actually_decide_it": [
+                 "A THIRD, INDEPENDENT EMC SERIES on a different platform. This is the direct "
+                 "decider and it is a $0 CI fetch IF such a series exists — the repository has "
+                 "characterised only two readable EMC series so far, so the first step is a GEO "
+                 "search, not a re-analysis.",
+                 "PER-SAMPLE COMPARATOR-ARM DECOMPOSITION on GPL3290: score CSPG4 in EMC vs DFSP "
+                 "and vs GIST SEPARATELY (n=3 each). If DFSP alone carries the high comparator "
+                 "value, the discordance is the comparator arm and not EMC. ⚠ n=3 per arm is "
+                 "descriptive only. Computable from the per-sample values already in this "
+                 "artifact, at no additional fetch cost.",
+                 "PROBE-LEVEL INSPECTION: both platforms map exactly one probe to CSPG4, so "
+                 "there is no within-platform probe disagreement to appeal to; the question is "
+                 "whether the two probes interrogate the same region, which is a GPL annotation "
+                 "read.",
+                 "⛔ NOT A DECIDER: choosing the platform with the larger n, the newer array, or "
+                 "the answer that suits the route. All three were available and none is evidence.",
+             ],
+         },
+         "⛔_what_no_reading_here_can_establish": (
+             "Protein presence, surface localisation, surface DENSITY, tumour-cell versus "
+             "stromal origin, tumour restriction against normal tissue, or the existence of a "
+             "therapeutic window. A high transcript reading is a reason to stain; it is not an "
+             "antigen call, and it is not evidence that any agent directed at that antigen "
+             "binds, works, is selective or is safe in EMC."),
+         "the_missing_axis_and_where_it_lives": {
+             "axis": "tumour-vs-NORMAL tissue. Every contrast in this read is EMC vs other "
+                     "SARCOMAS, which cannot speak to on-target/off-tumour toxicity.",
+             "artifact": "research/modalities/emc-surface-normal-window.json (Human Protein "
+                         "Atlas RNA tissue + blood-cell specificity, with DLL3/GPC3/B2M/CD3E as "
+                         "self-validating controls).",
+             "⚠_it_is_a_prior_not_a_guarantee": "HPA RNA is bulk NORMAL tissue and mRNA is not "
+                                                "surface protein, so RESTRICTED there is a window "
+                                                "prior and never a safety statement.",
+         }})
 
     for k, v in R.items():
         if k == "control":
@@ -1372,6 +1688,18 @@ def _summarise(res):
     for g in ("ASS1", "CSPG4", "CHST11", "NR2F1", "DLL3", "ASCL1", "INSM1", "PPARG"):
         for mf, r in (res["gene_reads"].get(g) or {}).items():
             lines.append(f"  {g:<7} {mf[:30]:<32} {str(r.get('verdict'))[:170]}")
+    board = ((res["reads"].get("read_7_SURFACE_ANTIGEN") or {}).get("cross_platform_board") or {})
+    if board:
+        lines.append("")
+        lines.append(f"SURFACE-ANTIGEN BOARD ({board.get('n_genes')} genes) — state: genes")
+        for state, genes in (board.get("by_state") or {}).items():
+            lines.append(f"  {state:<34} ({len(genes):>2}) {', '.join(genes)}")
+        lines.append("")
+        lines.append("  ⛔ NOT_READABLE_* is an INSTRUMENT statement, never a biological negative.")
+        for g in ("CD248", "CSPG4", "CD276", "SSTR2", "FAP", "PRAME", "B2M"):
+            row = (board.get("per_gene") or {}).get(g) or {}
+            for mf, p in (row.get("per_platform") or {}).items():
+                lines.append(f"  {g:<7} {mf[:30]:<32} {str(p.get('verdict'))[:150]}")
     return "\n".join(lines)
 
 
