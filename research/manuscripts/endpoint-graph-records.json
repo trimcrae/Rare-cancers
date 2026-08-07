@@ -1,0 +1,205 @@
+{
+ "_what_this_is": "PROPOSED systems-graph records for the EMC response-endpoint work. NOT applied. Four agents were writing to systems/graph/*.json in parallel on 2026-08-07, so these are staged here for a single serialised merge rather than written directly, which would have collided.",
+ "_authored": "2026-08-07",
+ "_authored_by": "the session that wrote research/manuscripts/emc-response-endpoint-paper.md",
+ "_why_this_route_did_not_exist": "The endpoint argument lived only as a passage inside research/manuscripts/emc-post-degrader-options.md, so the model held no route for it and therefore no publication endpoint. CLAUDE.md section 5 ('every route's end goal is a paper') tests whether a route is a real option; the inverse hole is the one this fills - a real deliverable with no route at all was invisible to the portfolio, which is how it reached 2026-08-07 unwritten while being the cheapest live paper on the board.",
+ "_how_to_apply": {
+  "1_routes": "Append `route` below to systems/graph/routes.json (a JSON array of route objects).",
+  "2_publications": "Append `publication` below to systems/graph/publications.json (a JSON array).",
+  "3_artifacts": "Append `artifact` below to systems/graph/artifacts.json (a JSON array).",
+  "4_regenerate": "python3 systems/systems_check.py --write-views  (systems/views/** is generated; a hand-edit fails the build)",
+  "5_verify": "./scripts/preflight.sh  and  python3 research/manuscripts/lint_claims.py",
+  "6_note_on_linting": "Once `publication.document.file` points at the manuscript, lint_claims.py picks it up automatically through _publication_documents() - no hand-list edit is needed, and that is deliberate per that file's own comment.",
+  "7_strategy_backlink": "ST-DISSEMINATION's record carries no `routes` array, so no reciprocal edit is needed there. Re-check that before applying: the route schema says the checker enforces family membership in both directions, and if a `routes` array has since been added to strategies.json this id must go in it."
+ },
+
+ "route": {
+  "id": "RT-ENDPOINT-CHOICE",
+  "display_name": "Reframe the endpoint advanced-EMC systemic therapy is judged on",
+  "aliases": [
+   "the endpoint paper",
+   "objective response is the wrong endpoint for EMC",
+   "response-vs-disease-control discordance"
+  ],
+  "level": "L2",
+  "kind": "route",
+  "title": "Reframe the endpoint advanced-EMC systemic therapy is judged on",
+  "purpose": "Is the objective-response rate a fit summary of systemic-therapy outcomes in an indolent ultra-rare sarcoma, and what does the published record lose by using it?",
+  "provenance": {
+   "owner": {
+    "file": "systems/graph/routes.json"
+   }
+  },
+  "grade": {
+   "value": "DELIVERABLE, complete. The manuscript exists, every figure in it is derived by a committed producer with a --check reproduction mode, and no measurement, spend, capability or third party gates it. Its ceiling is stated inside it: it is an argument about MEASUREMENT and cannot become evidence that any agent works.",
+   "owner": {
+    "file": "research/manuscripts/emc-response-endpoint-paper.md",
+    "anchor": null
+   }
+  },
+  "grade_pointers": [
+   {
+    "file": "research/manuscripts/emc-post-degrader-options.md",
+    "asserts_grade": false
+   }
+  ],
+  "strategy": "ST-DISSEMINATION",
+  "state": {
+   "work_state": "complete",
+   "status": "ready",
+   "maturity": "computed",
+   "confidence": "moderate",
+   "last_verified": "2026-08-07"
+  },
+  "rationale": "EMC is indolent: this repository's own pooled reading of its outcome cohorts puts distant metastasis far above disease-specific death, over follow-up windows in which most patients are alive. An endpoint that records only tumour shrinkage therefore has almost no category to put this disease's observations into. Read over the identical 47 patients ever evaluated for response inside a prospective EMC trial, objective response is 12.8 percent and disease control is 89.4 percent - and the entire 76.6-point gap is 36 patients whose best response was stable disease. That gap is a fact about two endpoints on one dataset, not evidence about any drug, and the route's own strongest objection is that stable disease in an indolent tumour may be natural history. What survives that objection unaltered is the arithmetic: at the pooled response rate a 20-patient single-arm trial expects 2.6 responses and has a 6.5 percent chance of seeing none at all (29 percent at the interval's lower bound), so a zero in that regime is uninterpretable rather than negative. Alongside it sits a reporting finding with a trivial remedy - of the 9 published EMC systemic-therapy cohorts, 7 report extractable objective-response counts and 1 reports a 6-month progression-free count, so the endpoint the field's own trials migrated to is the one it reports least completely.",
+  "supporting_evidence": [
+   {
+    "ref": "ART-EMC-ENDPOINT-DISCORDANCE",
+    "what_it_supports": "the two endpoints computed over the identical 47-patient denominator, the 36 discordant stable-disease patients derived two independent ways, the reporting-completeness census, and the small-trial binomial arithmetic - all reproducible offline via --check",
+    "strength": "direct"
+   },
+   {
+    "ref": "ART-EMC-CLINICAL-REGISTRY",
+    "what_it_supports": "the cited EMC clinical evidence base the counts ultimately rest on, under the evidence contract enforced as a preflight gate",
+    "strength": "direct"
+   }
+  ],
+  "remaining_unknowns": [
+   "The rate of spontaneous stabilisation after documented progression in untreated advanced EMC. It is unpublished, it is what would calibrate the disease-control reading, and no randomised no-treatment arm in an ultra-rare indolent sarcoma is a realistic ask.",
+   "Whether the two European prospective cohorts share patients - the IMMUNOSARC II abstract records 6 of 23 with a prior antiangiogenic and no patient-level data is published, so the independence of the pooled interval cannot be sized.",
+   "What the IMMUNOSARC II full paper would do to 23 of the 47 pooled patients; it does not exist, and the abstract carries two unreconciled arithmetic inconsistencies.",
+   "Whether any journal would accept an endpoint-methodology argument in an ultra-rare disease as publishable on its own, given that its denominator is 47 patients worldwide."
+  ],
+  "required_validation": [
+   {
+    "what": "That the two endpoints are computed over the identical patient set - if they are not, the comparison is between populations and the route's central claim is void",
+    "feasible_today": true,
+    "blocked_by": []
+   },
+   {
+    "what": "That the re-derived pooled proportions agree with the artifact that owns them, so the discordance figures are provably about the same object",
+    "feasible_today": true,
+    "blocked_by": []
+   },
+   {
+    "what": "A comparator that would separate treatment effect from natural history in the disease-control reading - a randomised no-treatment arm, or an observational within-patient design such as growth-modulation index or time to next treatment",
+    "feasible_today": false,
+    "blocked_by": [
+     "BLK-NO-EMC-DATA"
+    ]
+   }
+  ],
+  "readiness": {
+   "attainable_today": "journal_submission",
+   "missing": [],
+   "evidence_required": [],
+   "experiment_required": []
+  },
+  "timing": {
+   "recommendation": "pursue_now",
+   "rationale": "Nothing gates it - no measurement, no spend, no capability, no third party. It was unwritten only because no route modelled it, and the argument's value is highest before the next EMC cohort reports, because its concrete ask is a four-cell best-response table that a trial in design can still print and a trial already published cannot.",
+   "six_month_delta": "Little. The IMMUNOSARC II full paper could land and would replace 23 of 47 pooled patients with peer-reviewed counts; the paper already brackets the numerical effect at 1.7 percentage points.",
+   "two_year_delta": "Small on the arithmetic, potentially large on the confound: an observational growth-rate or time-to-next-treatment analysis in a sarcoma registry would supply the within-patient comparator this literature lacks.",
+   "cost_trend": "flat",
+   "automation_outlook": "The derivation and its reproduction check are already automated. The judgement about what stable disease means in an indolent tumour is not, and is the part that carries the paper."
+  },
+  "blockers_inherited": [],
+  "blockers_retired": [
+   "BLK-NO-WET-LAB"
+  ],
+  "instruments": {
+   "support": [],
+   "disclosed_failing": []
+  },
+  "objects": [],
+  "evidence": [],
+  "artifacts": [
+   "ART-EMC-ENDPOINT-DISCORDANCE"
+  ],
+  "distinct_from": [
+   {
+    "route": "RT-ICI-TKI",
+    "axis": "what is being asked about the same trials",
+    "fails_on": [],
+    "why": "RT-ICI-TKI cites those cohorts to size the CLINICAL landscape and is explicitly not this program's contribution; this route re-reads the same cohorts to ask whether the summary statistic the field quotes from them is fit for the disease. Same patients, different question, and neither answers the other's"
+   },
+   {
+    "route": "RT-METHODS-PAPER",
+    "axis": "whose methods are under examination",
+    "fails_on": [],
+    "why": "the methods paper reports THIS program's own in-silico instruments failing their known-answer controls; this route reports a measurement convention in the published CLINICAL literature. Both are ST-DISSEMINATION deliverables and neither supplies the other's content"
+   }
+  ],
+  "limitations": [
+   "It is an argument about measurement. It asserts no efficacy, potency, dose, safety, therapeutic window or clinical readiness for any agent, and makes no treatment recommendation, including a negative one.",
+   "It does not claim disease control is the correct endpoint instead. At 89.4 percent that endpoint is near its ceiling, it has no comparator in this disease, and an unknown share of the stable diseases would have been stable untreated.",
+   "Every pooled denominator is under 60 patients worldwide, ever. One contributing cohort is 2 patients. The width of the intervals is a finding, not a provisional estimate awaiting a larger series.",
+   "No randomised evidence exists for any systemic therapy in EMC; the one randomised dataset that touches the disease had a control arm containing no EMC patients at all.",
+   "Best response is not duration. The route measures neither how long control lasted nor what any patient's outcome was."
+  ],
+  "closure_kind": "open",
+  "revival_trigger": [],
+  "closure_note": "No scientific blocker. The route is complete as a deliverable and its one open scientific question - the untreated stabilisation rate - is a limit ON the interpretation rather than a gate on the paper, which states it as its own strongest counter-argument rather than waiting for it.",
+  "publication": {
+   "endpoint": "PUB-ENDPOINT",
+   "role": "primary",
+   "contribution": "The whole paper: the two endpoints on one denominator, the 36 discordant patients, the reporting-completeness census, the small-trial arithmetic, and the limitations section that states the natural-history confound at full strength."
+  },
+  "next": {
+   "best_next_action": "Review the manuscript for external posting. Nothing else in the route is unrun.",
+   "cost": "$0",
+   "blocked_on": []
+  }
+ },
+
+ "publication": {
+  "id": "PUB-ENDPOINT",
+  "level": "L3",
+  "kind": "publication",
+  "state": "drafted",
+  "target_venue": "journal_submission",
+  "document": {
+   "file": "research/manuscripts/emc-response-endpoint-paper.md",
+   "anchor": null
+  },
+  "what_it_would_claim": "Summarising systemic therapy in an indolent ultra-rare sarcoma by its objective-response rate discards most of what its own trials recorded - over the identical 47 patients ever evaluated in a prospective EMC trial, response is 12.8 percent and disease control 89.4 percent, and the whole 76.6-point gap is 36 patients with stable disease - while at achievable sample sizes a response-rate readout returns a result that is uninterpretable rather than negative a substantial fraction of the time. It does NOT claim disease control is the right endpoint instead, and asserts no efficacy for any agent: the confound it cannot remove is that stable disease in an indolent tumour may be natural history, and it states that objection at full strength rather than deflecting it.",
+  "blocked_by": []
+ },
+
+ "artifact": {
+  "id": "ART-EMC-ENDPOINT-DISCORDANCE",
+  "path": "research/manuscripts/emc-endpoint-discordance.json",
+  "produced_by": "research/manuscripts/emc_endpoint_discordance.py (stdlib only, CPU, $0; --check re-derives and refuses to write on any drift)",
+  "published_to": [
+   "main"
+  ],
+  "note": "Arithmetic over the integer counts owned by research/manuscripts/emc-systemic-therapy-pooling.json: the objective-response and disease-control readings on one denominator, the discordant stable-disease count derived two independent ways and asserted equal, a reporting-completeness census of the published EMC systemic-therapy literature, the binomial arithmetic of each endpoint at achievable trial sizes, and a DETECTOR for one discrepancy between two committed fields of the source file (its summary says both modern EMC trials chose a 6-month progression-free primary endpoint; its own verbatim quote of the 2019 pazopanib trial says that trial's primary endpoint was objective response). It re-derives the source's pooled proportions as a PARITY CHECK only and is not a second home for them."
+ },
+
+ "_second_correction_owed_elsewhere": {
+  "file": "research/manuscripts/emc-systemic-therapy-pooling.json",
+  "field": "citations.apatinib2020.short",
+  "superseded_wording": "Liu 2020 (apatinib)",
+  "correct_statement": "The first author is XIE L, not Liu. research/data/emc-clinical-registry.json - the repository's citation home - records the full author list as 'Xie L, Xu J, Sun X, Liu K, Li X, He F, Liu X, Gu J, Lv Z, Yang R, Tang X, Yan T, Li D, Yang Y, Dong S, Sun K, Shen D, Guo W.' Liu X is the seventh author. The short label should read 'Xie 2020 (apatinib)'.",
+  "how_it_was_found": "Cross-checking every author string in the new manuscript against the registry's `authors` fields rather than writing any of them from memory. Ten of the eleven matched the registry exactly; this one did not, and the manuscript had inherited the wrong first author from the pooling file's short label before the check.",
+  "why_it_matters": "A wrong first author is how a citation stops resolving for a reader who searches by name, and a short label is exactly the field that gets copied forward into prose. It changes no count and no conclusion.",
+  "why_not_fixed_here": "Same reason as below: that file owns the field and four agents were writing to the shared branch."
+ },
+
+ "_correction_owed_elsewhere": {
+  "file": "research/manuscripts/emc-systemic-therapy-pooling.json",
+  "field": "findings_no_source_states",
+  "superseded_wording": "which is why both modern trials chose 6-month PFS rather than response rate as their primary endpoint",
+  "correct_statement": "The 2019 pazopanib trial's primary endpoint was the RECIST objective-response rate (its own verbatim quote in that same file: '22 patients (one patient died before the primary analysis) were evaluable for the primary endpoint: four (18% [95% CI 1-36]) had a RECIST objective response', PMID 31331701). The 2025 IMMUNOSARC II EMC cohort's primary endpoint was the 6-month progression-free rate (NCT03277924). The two modern prospective EMC trials chose DIFFERENT primary endpoints, six years apart.",
+  "why_not_fixed_here": "That file owns the sentence and its producer emc_systemic_therapy_pooling.py would have to be edited to change it; four agents were writing in parallel on the shared branch, so the correction is staged rather than applied. It is detected rather than retyped by emc_endpoint_discordance.D5_primary_endpoint_correction, which reports `source_appears_corrected` once the wording changes, so this note cannot rot into a stale instruction.",
+  "why_it_matters": "It is not a defect in the endpoint argument - it strengthens it. A field that had already settled on a progression-free endpoint would need no endpoint argument; what the record shows is an undocumented migration between 2019 and 2025, which is exactly the condition in which the older endpoint keeps being quoted as the disease's verdict."
+ },
+
+ "_also_not_applied": {
+  "file": "research/manuscripts/pinned-figures.json",
+  "what": "research/manuscripts/emc-response-endpoint-paper.md is not registered in `targets`, so lint_consistency.py does not cross-check its figures against the rest of the corpus.",
+  "why_not": "pinned-figures.json is a shared registry and four agents were writing to the branch concurrently; a one-line append there is the kind of edit that produces a silent merge conflict in a file whose whole purpose is catching silent drift.",
+  "mitigation_in_place": "Every figure in the manuscript is derived by emc_endpoint_discordance.py, whose --check mode reproduces the committed artifact exactly, and whose parity block fails if the upstream pooled proportions move. That covers drift between the paper's source data and the paper; it does NOT cover a figure copied into a third document.",
+  "recommended": "Append the manuscript to pinned-figures.json -> targets in the merge commit that applies these records."
+ }
+}
