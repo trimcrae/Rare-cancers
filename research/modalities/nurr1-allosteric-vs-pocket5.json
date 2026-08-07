@@ -1,0 +1,1013 @@
+{
+ "_title": "The published Nurr1 H1/H5/H7/H8 allosteric pocket vs NR4A3 Pocket-5 \u2014 a geometry comparison",
+ "_question": "emc-unexplored-treatment-lanes.md \u00a74: does the vidofludimus site on Nurr1 correspond to the site this repository's FEP/degrader lane targets on NR4A3?",
+ "_status": "GEOMETRY ONLY, $0 CPU, pure stdlib. No binding, affinity, potency, selectivity, efficacy, safety, therapeutic-window or clinical claim is made or implied.",
+ "_cost": "$0 \u2014 committed sequences, committed 8XTT conformers, a CI-cached full text. No GPU.",
+ "source": {
+  "citation": "Lopez-Garcia U, Vietor J, Marschner JA, Heering J, Morozov V, Wein T, Merk D. Structural and mechanistic profiling of Nurr1 modulation by vidofludimus enables structure-guided ligand design. Commun Chem 2025;8:159.",
+  "doi": "10.1038/s42004-025-01553-8",
+  "pmc": "PMC12095788",
+  "verification_level": "[FT] full text read",
+  "retrieved_through": "GitHub Actions runner; committed at literature-cache:literature/nr4a-ligand-chemistry/PMC12095788.txt",
+  "site_label_in_the_paper": "site 4",
+  "site_description_quote": "an allosteric surface pocket lined by helices 1, 5, 7, and 8, and distant from the canonical activation function in helix 12",
+  "numbering": "UniProt P43354 (Nurr1/NR4A2 canonical, 598 aa)"
+ },
+ "paper_numbering_check": {
+  "_what": "every residue identity the paper names, checked against the cached UniProt P43354 sequence \u2014 is the paper numbering the canonical isoform?",
+  "n_checked": 16,
+  "n_ok": 16,
+  "status": "OK",
+  "checks": [
+   {
+    "residue": "H372",
+    "in_P43354": "H",
+    "ok": true
+   },
+   {
+    "residue": "V373",
+    "in_P43354": "V",
+    "ok": true
+   },
+   {
+    "residue": "M379",
+    "in_P43354": "M",
+    "ok": true
+   },
+   {
+    "residue": "R450",
+    "in_P43354": "R",
+    "ok": true
+   },
+   {
+    "residue": "R454",
+    "in_P43354": "R",
+    "ok": true
+   },
+   {
+    "residue": "N456",
+    "in_P43354": "N",
+    "ok": true
+   },
+   {
+    "residue": "S490",
+    "in_P43354": "S",
+    "ok": true
+   },
+   {
+    "residue": "N497",
+    "in_P43354": "N",
+    "ok": true
+   },
+   {
+    "residue": "I500",
+    "in_P43354": "I",
+    "ok": true
+   },
+   {
+    "residue": "C566",
+    "in_P43354": "C",
+    "ok": true
+   },
+   {
+    "residue": "L444",
+    "in_P43354": "L",
+    "ok": true
+   },
+   {
+    "residue": "E481",
+    "in_P43354": "E",
+    "ok": true
+   },
+   {
+    "residue": "I506",
+    "in_P43354": "I",
+    "ok": true
+   },
+   {
+    "residue": "L559",
+    "in_P43354": "L",
+    "ok": true
+   },
+   {
+    "residue": "L570",
+    "in_P43354": "L",
+    "ok": true
+   },
+   {
+    "residue": "Q571",
+    "in_P43354": "Q",
+    "ok": true
+   }
+  ],
+  "_reading": "16 of 16 residue identities named in the paper match P43354 exactly, so the paper's numbering IS the canonical Nurr1 isoform and the alignment below is being run in the right frame."
+ },
+ "site_definition": {
+  "_what": "the published site 4, residue by residue, each with the sentence that names it",
+  "n_residues": 9,
+  "n_mutagenesis_anchored": 4,
+  "n_model_contact_only": 5,
+  "residues": [
+   {
+    "nr4a2_resnum": 372,
+    "nr4a2_aa": "H",
+    "linear_gap_nw": {
+     "aa": "L",
+     "resnum": 406
+    },
+    "affine_blosum62": {
+     "aa": "L",
+     "resnum": 406
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": 406,
+    "mapped_nr4a3_aa": "L",
+    "identical_residue_type": false,
+    "why_unmapped": null,
+    "evidence_class": "mutagenesis",
+    "source_quote": "I500F and H372F (both site 4), in contrast, had a more consistent impact on Nurr1 modulation"
+   },
+   {
+    "nr4a2_resnum": 373,
+    "nr4a2_aa": "V",
+    "linear_gap_nw": {
+     "aa": "T",
+     "resnum": 407
+    },
+    "affine_blosum62": {
+     "aa": "T",
+     "resnum": 407
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": 407,
+    "mapped_nr4a3_aa": "T",
+    "identical_residue_type": false,
+    "why_unmapped": null,
+    "evidence_class": "mutagenesis",
+    "source_quote": "We employed the double mutations I500W/M379W and I500W/V373W introducing bulky side chains to block the binding site"
+   },
+   {
+    "nr4a2_resnum": 379,
+    "nr4a2_aa": "M",
+    "linear_gap_nw": {
+     "aa": "-",
+     "resnum": null
+    },
+    "affine_blosum62": {
+     "aa": "-",
+     "resnum": null
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": null,
+    "mapped_nr4a3_aa": null,
+    "identical_residue_type": false,
+    "why_unmapped": "aligns to a gap \u2014 NR4A2 has no NR4A3 counterpart at this position",
+    "evidence_class": "mutagenesis",
+    "source_quote": "We employed the double mutations I500W/M379W and I500W/V373W introducing bulky side chains to block the binding site"
+   },
+   {
+    "nr4a2_resnum": 450,
+    "nr4a2_aa": "R",
+    "linear_gap_nw": {
+     "aa": "R",
+     "resnum": 481
+    },
+    "affine_blosum62": {
+     "aa": "R",
+     "resnum": 481
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": 481,
+    "mapped_nr4a3_aa": "R",
+    "identical_residue_type": true,
+    "why_unmapped": null,
+    "evidence_class": "model_contact",
+    "source_quote": "expose the carboxylate towards a triad of basic side chains (His372, Arg450 and Arg454)"
+   },
+   {
+    "nr4a2_resnum": 454,
+    "nr4a2_aa": "R",
+    "linear_gap_nw": {
+     "aa": "R",
+     "resnum": 485
+    },
+    "affine_blosum62": {
+     "aa": "R",
+     "resnum": 485
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": 485,
+    "mapped_nr4a3_aa": "R",
+    "identical_residue_type": true,
+    "why_unmapped": null,
+    "evidence_class": "model_contact",
+    "source_quote": "expose the carboxylate towards a triad of basic side chains (His372, Arg450 and Arg454)"
+   },
+   {
+    "nr4a2_resnum": 456,
+    "nr4a2_aa": "N",
+    "linear_gap_nw": {
+     "aa": "N",
+     "resnum": 487
+    },
+    "affine_blosum62": {
+     "aa": "N",
+     "resnum": 487
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": 487,
+    "mapped_nr4a3_aa": "N",
+    "identical_residue_type": true,
+    "why_unmapped": null,
+    "evidence_class": "model_contact",
+    "source_quote": "terminal methoxyphenyl residue of vidofludimus bound between Asn456 and Asn497"
+   },
+   {
+    "nr4a2_resnum": 490,
+    "nr4a2_aa": "S",
+    "linear_gap_nw": {
+     "aa": "S",
+     "resnum": 521
+    },
+    "affine_blosum62": {
+     "aa": "S",
+     "resnum": 521
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": 521,
+    "mapped_nr4a3_aa": "S",
+    "identical_residue_type": true,
+    "why_unmapped": null,
+    "evidence_class": "model_contact",
+    "source_quote": "stable orientation of the methoxy group towards Ser490"
+   },
+   {
+    "nr4a2_resnum": 497,
+    "nr4a2_aa": "N",
+    "linear_gap_nw": {
+     "aa": "N",
+     "resnum": 528
+    },
+    "affine_blosum62": {
+     "aa": "N",
+     "resnum": 528
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": 528,
+    "mapped_nr4a3_aa": "N",
+    "identical_residue_type": true,
+    "why_unmapped": null,
+    "evidence_class": "model_contact",
+    "source_quote": "terminal methoxyphenyl residue of vidofludimus bound between Asn456 and Asn497"
+   },
+   {
+    "nr4a2_resnum": 500,
+    "nr4a2_aa": "I",
+    "linear_gap_nw": {
+     "aa": "I",
+     "resnum": 531
+    },
+    "affine_blosum62": {
+     "aa": "I",
+     "resnum": 531
+    },
+    "aligners_agree": true,
+    "mapped_nr4a3_resnum": 531,
+    "mapped_nr4a3_aa": "I",
+    "identical_residue_type": true,
+    "why_unmapped": null,
+    "evidence_class": "mutagenesis",
+    "source_quote": "Introduction of aromatic residues in the central part of the pocket (I500F, I500W) enhanced agonist potency"
+   }
+  ],
+  "also_quoted": {
+   "379": "several hydrophobic ligand-protein contacts and H-bonds involving His372 and the backbone of Met379"
+  }
+ },
+ "pocket5_definition": {
+  "_source": "nr4a3_8xtt_benchmark.POCKET5 \u2014 imported, never re-typed (CLAUDE.md rule 1)",
+  "residues_uniprot_Q92570": [
+   406,
+   407,
+   410,
+   411,
+   412,
+   481,
+   484,
+   485,
+   531,
+   534
+  ],
+  "repository_label": "`orthosteric` \u2014 e.g. nr4a3-degrader-paper.md: 'the NR4A3 orthosteric pocket (Pocket 5, residues 406-534, carrying all 7 selectivity handles)'"
+ },
+ "mapping": {
+  "_method": "two independent aligners over the cached UniProt canonical sequences; a position counts only where they agree",
+  "n_site4_residues": 9,
+  "n_mapped": 8,
+  "n_unmapped": 1,
+  "unmapped_nr4a2_resnums": [
+   379
+  ],
+  "mapped_nr4a3_resnums": [
+   406,
+   407,
+   481,
+   485,
+   487,
+   521,
+   528,
+   531
+  ],
+  "all_mapped_positions_aligner_agreed": true,
+  "n_identical_residue_type": 6
+ },
+ "structure_frame": {
+  "pdb": "8XTT (the only NR4A3 PDB entry; apo solution NMR, LBD)",
+  "conformers_used": [
+   "8xtt_model20_nr4a3.pdb",
+   "8xtt_model2_nr4a3.pdb",
+   "8xtt_model6_nr4a3.pdb",
+   "8xtt_model8_nr4a3.pdb"
+  ],
+  "n_conformers_used": 4,
+  "uniprot_minus_author_offset": 378,
+  "offset_source": "results/nr4a3-8xtt-benchmark/nr4a3-8xtt-benchmark.json",
+  "\u26a0_conformer_selection": "these are the conformers COMMITTED to this repository (_pose_convergence_inputs/), selected for a pose-convergence study \u2014 NOT a random draw from the deposited ensemble, and not all of it. The spread below is therefore a consistency check, not the ensemble distribution."
+ },
+ "comparison_full_site": {
+  "per_conformer": [
+   {
+    "conformer": "8xtt_model20_nr4a3.pdb",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.654,
+     11.069,
+     -17.363
+    ],
+    "site4_centroid_A": [
+     -6.255,
+     14.181,
+     -17.243
+    ],
+    "centroid_dist_ang": 4.61,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "8xtt_model2_nr4a3.pdb",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -10.467,
+     10.995,
+     -17.377
+    ],
+    "site4_centroid_A": [
+     -6.467,
+     14.127,
+     -17.324
+    ],
+    "centroid_dist_ang": 5.08,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "8xtt_model6_nr4a3.pdb",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.332,
+     10.775,
+     -17.453
+    ],
+    "site4_centroid_A": [
+     -6.007,
+     13.956,
+     -17.373
+    ],
+    "centroid_dist_ang": 4.602,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "8xtt_model8_nr4a3.pdb",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.777,
+     11.0,
+     -17.146
+    ],
+    "site4_centroid_A": [
+     -6.196,
+     14.322,
+     -17.142
+    ],
+    "centroid_dist_ang": 4.884,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   }
+  ],
+  "n_conformers_ok": 4,
+  "n_accepted_by_frozen_gate": 4,
+  "centroid_dist_ang_min": 4.602,
+  "centroid_dist_ang_max": 5.08,
+  "centroid_dist_ang_median": 4.884,
+  "n_overlap": 5,
+  "overlapping_residues_uniprot": [
+   406,
+   407,
+   481,
+   485,
+   531
+  ],
+  "jaccard": 0.3846,
+  "frac_recovered": 0.5
+ },
+ "\u2605_comparison_over_the_full_deposited_ensemble": {
+  "status": "OK",
+  "source": "_s4_lane_inputs/8XTT.pdb.gz",
+  "n_models_in_file": 20,
+  "n_models_usable": 20,
+  "n_accepted_by_frozen_gate": 20,
+  "centroid_dist_ang_min": 4.602,
+  "centroid_dist_ang_median": 4.835,
+  "centroid_dist_ang_max": 5.091,
+  "per_conformer": [
+   {
+    "conformer": "model_1",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.696,
+     10.81,
+     -17.62
+    ],
+    "site4_centroid_A": [
+     -6.218,
+     13.972,
+     -17.294
+    ],
+    "centroid_dist_ang": 4.712,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_2",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -10.467,
+     10.995,
+     -17.377
+    ],
+    "site4_centroid_A": [
+     -6.467,
+     14.127,
+     -17.324
+    ],
+    "centroid_dist_ang": 5.08,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_3",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.968,
+     10.751,
+     -17.464
+    ],
+    "site4_centroid_A": [
+     -6.395,
+     13.971,
+     -17.246
+    ],
+    "centroid_dist_ang": 4.814,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_4",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.919,
+     10.59,
+     -17.019
+    ],
+    "site4_centroid_A": [
+     -5.972,
+     13.805,
+     -17.05
+    ],
+    "centroid_dist_ang": 5.091,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_5",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -10.21,
+     11.102,
+     -17.388
+    ],
+    "site4_centroid_A": [
+     -6.464,
+     14.09,
+     -17.239
+    ],
+    "centroid_dist_ang": 4.794,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_6",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.332,
+     10.775,
+     -17.453
+    ],
+    "site4_centroid_A": [
+     -6.007,
+     13.956,
+     -17.373
+    ],
+    "centroid_dist_ang": 4.602,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_7",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -10.012,
+     10.949,
+     -17.375
+    ],
+    "site4_centroid_A": [
+     -6.35,
+     14.089,
+     -17.259
+    ],
+    "centroid_dist_ang": 4.826,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_8",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.777,
+     11.0,
+     -17.146
+    ],
+    "site4_centroid_A": [
+     -6.196,
+     14.322,
+     -17.142
+    ],
+    "centroid_dist_ang": 4.884,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_9",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.826,
+     11.088,
+     -17.336
+    ],
+    "site4_centroid_A": [
+     -6.357,
+     14.292,
+     -17.262
+    ],
+    "centroid_dist_ang": 4.723,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_10",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.777,
+     10.808,
+     -17.585
+    ],
+    "site4_centroid_A": [
+     -6.122,
+     14.009,
+     -17.395
+    ],
+    "centroid_dist_ang": 4.862,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_11",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -10.109,
+     10.849,
+     -17.55
+    ],
+    "site4_centroid_A": [
+     -6.142,
+     13.992,
+     -17.267
+    ],
+    "centroid_dist_ang": 5.069,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_12",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.468,
+     11.001,
+     -17.471
+    ],
+    "site4_centroid_A": [
+     -6.08,
+     14.146,
+     -17.31
+    ],
+    "centroid_dist_ang": 4.625,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_13",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.579,
+     10.63,
+     -17.264
+    ],
+    "site4_centroid_A": [
+     -6.09,
+     13.963,
+     -17.122
+    ],
+    "centroid_dist_ang": 4.827,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_14",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.787,
+     10.848,
+     -17.421
+    ],
+    "site4_centroid_A": [
+     -6.18,
+     14.02,
+     -17.121
+    ],
+    "centroid_dist_ang": 4.813,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_15",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.752,
+     10.976,
+     -17.321
+    ],
+    "site4_centroid_A": [
+     -6.035,
+     14.067,
+     -17.227
+    ],
+    "centroid_dist_ang": 4.835,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_16",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.954,
+     10.986,
+     -17.154
+    ],
+    "site4_centroid_A": [
+     -6.175,
+     14.107,
+     -17.268
+    ],
+    "centroid_dist_ang": 4.902,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_17",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.913,
+     10.98,
+     -17.443
+    ],
+    "site4_centroid_A": [
+     -6.279,
+     14.17,
+     -17.21
+    ],
+    "centroid_dist_ang": 4.842,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_18",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -10.14,
+     10.807,
+     -17.56
+    ],
+    "site4_centroid_A": [
+     -6.373,
+     13.984,
+     -17.453
+    ],
+    "centroid_dist_ang": 4.929,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_19",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.694,
+     10.591,
+     -17.575
+    ],
+    "site4_centroid_A": [
+     -6.079,
+     13.902,
+     -17.34
+    ],
+    "centroid_dist_ang": 4.908,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   },
+   {
+    "conformer": "model_20",
+    "status": "OK",
+    "pocket5_centroid_A": [
+     -9.654,
+     11.069,
+     -17.363
+    ],
+    "site4_centroid_A": [
+     -6.255,
+     14.181,
+     -17.243
+    ],
+    "centroid_dist_ang": 4.61,
+    "n_overlap": 5,
+    "jaccard": 0.3846,
+    "frac_recovered": 0.5,
+    "accepted_by_frozen_gate": true
+   }
+  ],
+  "_why_this_matters": "the four conformers under _pose_convergence_inputs/ were SELECTED for a pose-convergence study. A spread across them is a consistency check; a spread across the deposited ensemble is the distribution."
+ },
+ "comparison_mutagenesis_anchored_only": {
+  "_what": "the four residues whose mutation MEASURABLY changes vidofludimus activity, on their own \u2014 the docking/MD contacts removed",
+  "nr4a2_resnums": [
+   372,
+   373,
+   379,
+   500
+  ],
+  "mapped_nr4a3_resnums": [
+   406,
+   407,
+   531
+  ],
+  "n_overlap": 3,
+  "jaccard": 0.3,
+  "frac_recovered": 0.3
+ },
+ "control_other_epitopes_from_the_same_paper": {
+  "_what": "the same paper's OTHER mutant sites, mapped by the identical pipeline. If these also 'matched' Pocket-5, the match would be an artifact of the mapping rather than a finding about site 4.",
+  "sites": {
+   "site_2_examples": {
+    "nr4a2_resnums": [
+     481,
+     571
+    ],
+    "mapped_nr4a3_resnums": [
+     512,
+     599
+    ],
+    "n_overlap_with_pocket5": 0,
+    "jaccard": 0.0,
+    "frac_recovered": 0.0,
+    "centroid_dist_ang_on_first_conformer": 24.294,
+    "accepted_by_frozen_gate": false
+   },
+   "site_3_examples": {
+    "nr4a2_resnums": [
+     506,
+     559
+    ],
+    "mapped_nr4a3_resnums": [
+     537,
+     587
+    ],
+    "n_overlap_with_pocket5": 0,
+    "jaccard": 0.0,
+    "frac_recovered": 0.0,
+    "centroid_dist_ang_on_first_conformer": 14.838,
+    "accepted_by_frozen_gate": false
+   },
+   "unassigned_in_text": {
+    "nr4a2_resnums": [
+     444,
+     566,
+     570
+    ],
+    "mapped_nr4a3_resnums": [
+     475,
+     594,
+     598
+    ],
+    "n_overlap_with_pocket5": 0,
+    "jaccard": 0.0,
+    "frac_recovered": 0.0,
+    "centroid_dist_ang_on_first_conformer": 19.305,
+    "accepted_by_frozen_gate": false
+   }
+  }
+ },
+ "burial": {
+  "conformer": "8xtt_model20_nr4a3.pdb",
+  "pocket5": {
+   "n_residues_found": 10,
+   "n_residues_requested": 10,
+   "mean_residue_sasa_A2": 63.6,
+   "mean_rsa": 0.2998,
+   "min_rsa": 0.0752,
+   "max_rsa": 0.5874,
+   "n_residues_rsa_ge_0_25": 5
+  },
+  "site4_mapped": {
+   "n_residues_found": 8,
+   "n_residues_requested": 8,
+   "mean_residue_sasa_A2": 58.87,
+   "mean_rsa": 0.2912,
+   "min_rsa": 0.0,
+   "max_rsa": 0.6582,
+   "n_residues_rsa_ge_0_25": 4
+  },
+  "_method": "nr4a_differential_atlas.shrake_rupley + residue_rsa (Tien max-ASA), per-residue, on the heavy atoms of one conformer",
+  "_limits": [
+   "one NMR conformer of an apo LBD; a cryptic pocket's burial is conformer-dependent and this is a single frame",
+   "RSA is descriptive here. It is not the criterion for anything and no threshold in this repository is being applied to it."
+  ]
+ },
+ "frozen_gate": {
+  "thresholds": {
+   "jaccard_min": 0.25,
+   "frac_recovered_min": 0.3,
+   "centroid_max_ang": 8.0
+  },
+  "source": "pocket_tracking (frozen 2026-07-11)",
+  "\u26a0_reused_out_of_its_original_question": "these thresholds were frozen to decide WHICH fpocket cavity in a frame is the reference site. Applying them to two independently-defined residue sets is a reuse, declared here so it is visible; the raw metrics are reported so a reader can apply their own."
+ },
+ "source_quote_verification": {
+  "n_quotes": 11,
+  "n_found_verbatim": 11,
+  "status": "OK",
+  "quotes": [
+   {
+    "resnum": 372,
+    "quote": "I500F and H372F (both site 4), in contrast, had a more consistent impact on Nurr1 modulation",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 373,
+    "quote": "We employed the double mutations I500W/M379W and I500W/V373W introducing bulky side chains to block the binding site",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 379,
+    "quote": "We employed the double mutations I500W/M379W and I500W/V373W introducing bulky side chains to block the binding site",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 450,
+    "quote": "expose the carboxylate towards a triad of basic side chains (His372, Arg450 and Arg454)",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 454,
+    "quote": "expose the carboxylate towards a triad of basic side chains (His372, Arg450 and Arg454)",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 456,
+    "quote": "terminal methoxyphenyl residue of vidofludimus bound between Asn456 and Asn497",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 490,
+    "quote": "stable orientation of the methoxy group towards Ser490",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 497,
+    "quote": "terminal methoxyphenyl residue of vidofludimus bound between Asn456 and Asn497",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 500,
+    "quote": "Introduction of aromatic residues in the central part of the pocket (I500F, I500W) enhanced agonist potency",
+    "found_verbatim": true
+   },
+   {
+    "resnum": 379,
+    "quote": "several hydrophobic ligand-protein contacts and H-bonds involving His372 and the backbone of Met379",
+    "found_verbatim": true
+   },
+   {
+    "resnum": null,
+    "quote": "an allosteric surface pocket lined by helices 1, 5, 7, and 8, and distant from the canonical activation function in helix 12",
+    "found_verbatim": true
+   }
+  ],
+  "verified_bytes": 48463,
+  "git_blob_sha1_of_the_verified_text": "b542818379d6aedada98ab9600d4b081a65bbaef",
+  "expected_at": "literature-cache:literature/nr4a-ligand-chemistry/PMC12095788.txt \u2014 check with `git ls-tree origin/literature-cache -- literature/nr4a-ligand-chemistry/PMC12095788.txt`",
+  "_why_not_a_path": "a path says nothing about WHICH bytes cleared the check; the blob id is checkable by anyone against the branch, forever"
+ },
+ "verdict": {
+  "answer": "MATCH",
+  "\u2605_on_the_full_deposited_ensemble": "20 of 20 deposited 8XTT conformers accept, centroid distance 4.602\u20135.091 \u00c5 (median 4.835). This is the DISTRIBUTION, not a consistency check over hand-selected frames.",
+  "_in_the_repositorys_own_vocabulary": "n_overlap 5, jaccard 0.3846, frac_recovered 0.5, centroid_dist 4.602-5.08 A over 4 conformers; the frozen composite gate (jaccard >= 0.25 OR frac_recovered >= 0.30) AND centroid <= 8.0 A accepts on 4 of 4.",
+  "\u2605_a_LABEL_TENSION_THIS_SURFACES_AND_DOES_NOT_RESOLVE": "the two groups call this region opposite things. The paper calls site 4 an ALLOSTERIC SURFACE pocket, 'distant from the canonical activation function in helix 12', and says the canonical NR4A pocket is occluded by bulky hydrophobic residues. This repository calls Pocket-5 'the NR4A3 ORTHOSTERIC pocket' (nr4a3-degrader-paper.md \u00a72). If they are the same region \u2014 and by residue overlap and centroid distance they are \u2014 then at most one label is right. \u26d4 THIS MODULE DOES NOT SETTLE IT and must not be read as doing so: it measures the property the labels disagree about (burial, `burial`) and finds Pocket-5's lining 0.2998 exposed on average with 5 of 10 residues at RSA >= 0.25 on the conformer measured, which is not a decisive reading either way on one apo NMR frame. \u2605 It is surfaced because the naming affects how every downstream claim about this site reads to an external reviewer, and because nothing in this repository had ever compared the two vocabularies.",
+  "control_sites_that_also_clear_the_gate": [],
+  "\u2605_the_control_is_what_makes_this_readable": "the same paper's other three epitopes, mapped by the IDENTICAL pipeline, land 24.294, 14.838, 19.305 A from the Pocket-5 centroid with n_overlap 0 and are refused by the gate. So the match is a property of site 4, not of the mapping.",
+  "\u2605_mutagenesis_anchored_subset": "3 of the 4 functionally-anchored residues are mappable, and 3 of those 3 ARE Pocket-5 lining residues ([406, 407, 531]). The match does not rest on the docking/MD contacts.",
+  "\u26d4_what_this_does_not_say": [
+   "NOTHING here says vidofludimus binds NR4A3. The paralogue LBDs are 65.5 % identical (the paper's own BLAST figure) and 3 of the 9 site-4 positions do NOT carry the same residue type in NR4A3 (2 differ, 1 has no NR4A3 counterpart at all) \u2014 which is where a selectivity argument would START, not end.",
+   "NOTHING here is an affinity, potency, selectivity, efficacy, safety, therapeutic-window or clinical-readiness claim, and a residue-set overlap can never become one.",
+   "The published site is a MODEL (mutagenesis + docking + MD), not a co-crystal. A comparison cannot be stronger than the object it compares against.",
+   "Pocket-5's own status is unsettled in this repository: `V3` left the cryptic-pocket question INCONCLUSIVE, and this comparison does not touch it.",
+   "8XTT is an APO solution-NMR ensemble of an isolated LBD construct. Neither site is OPEN in it; both are residue sets projected onto a closed structure, and Pocket-5's opening is the very thing `V13` failed to demonstrate as a two-state process.",
+   "\u26a0 A NUMBER COLLISION A READER WILL HIT: NR4A2 E481 is one of the paper's SITE-2 mutants and NR4A3 R481 is a Pocket-5 lining residue. They are different positions in different proteins and the alignment maps NR4A2 481 to NR4A3 512, nowhere near Pocket-5. Nothing here reads one as the other."
+  ],
+  "_what_it_does_license": "one thing: the FEP lane has a named, published, clinical-stage chemical series (vidofludimus and the paper's analog 1) whose reported site corresponds \u2014 by residue overlap and centroid distance on the only NR4A3 structure that exists \u2014 to the site this repository already targets. That is a STARTING POINT with SAR attached, not a result."
+ }
+}
