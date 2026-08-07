@@ -223,10 +223,23 @@ def test_a_group_below_the_minimum_n_gets_no_contrast():
 # ---------------------------------------------------------------------------------------------
 # 3 — THE READS, THEIR IDENTITY AND THEIR READABILITY VERDICT
 # ---------------------------------------------------------------------------------------------
+#  ⛔ THE EXPECTED SET IS DERIVED FROM `PANELS`, NOT RE-TYPED (CLAUDE.md §1). A literal list here
+#  is a second copy of the read registry, and the first thing that happened when a seventh read
+#  was added (read_7_RET, the cistrome lane's abundance half) was that the copy went stale and
+#  failed the build for no scientific reason. What must NOT be derived is the historic SIX plus
+#  the control — those are asserted explicitly below, so a read being DELETED still fails.
+SIX_READS_AND_THE_CONTROL = {
+    "control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
+    "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1"}
+
+
+def _declared_read_ids():
+    return {p["read_id"] for p in M.PANELS.values()}
+
+
 def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
-    assert set(res["reads"]) == {
-        "control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
-        "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1"}
+    assert SIX_READS_AND_THE_CONTROL <= set(res["reads"]), "a read was DELETED"
+    assert set(res["reads"]) == _declared_read_ids()
     for k, v in res["reads"].items():
         if k == "control":
             continue
@@ -236,10 +249,12 @@ def test_all_six_reads_plus_the_control_are_present_and_addressable(res):
 
 
 def test_every_panel_and_every_slot_declares_the_read_it_belongs_to():
-    ids = {"control", "read_1_ASS1", "read_2_CS_GAG_PAPS", "read_3_PPARG_ACTIVITY",
-           "read_4_NE_STATE", "read_5_HYPOXIA", "read_6_NR2F1"}
+    ids = _declared_read_ids()
+    assert SIX_READS_AND_THE_CONTROL <= ids, "a read was DELETED from PANELS"
     for name, p in M.PANELS.items():
         assert p["read_id"] in ids, name
+        # A read_id must be unique to one panel, or two panels would silently merge.
+        assert sum(1 for q in M.PANELS.values() if q["read_id"] == p["read_id"]) == 1, name
     for name, s in M.SIGNATURE_SLOTS.items():
         assert s["read_id"] in ids, name
 

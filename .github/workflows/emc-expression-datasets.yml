@@ -74,6 +74,45 @@ name: EMC expression datasets — part B of the ATR vulnerability assessment
 #   is `readable: false`, never "not expressed" (CLAUDE.md §4) — and the offline tests that run
 #   BEFORE the fetch assert exactly that, over the whole serialised artifact.
 #
+# ⭐ FIFTH MODE, added 2026-08-07: `ret-cistrome`.
+#   Same precedent, same reasons, fourth time — the same $0 fetch capability against hosts the
+#   dev sandbox's proxy 403s (measured this session: chip-atlas.dbcls.jp, remap.univ-amu.fr,
+#   eutils.ncbi.nlm.nih.gov all return curl exit 56 from the sandbox), and a NEW workflow file on
+#   a feature branch cannot be dispatched until it reaches `main` (CLAUDE.md §6).
+#
+#   WHAT IT IS FOR. `research/modalities/emc-ret-lane.md` §2d found that NO `EWSR1::NR4A3`
+#   cistrome exists anywhere, and that WILD-TYPE NR4A3 ChIP-seq does — including one human
+#   dataset carrying all three paralogues in the same cells. Intersecting those peaks with the
+#   RET locus substitutes MEASURED OCCUPANCY for the NBRE motif string the lane was originally
+#   given, and carries a paralogue-overlap read this repository has only ever argued from domain
+#   sequence identity. That memo lists it as next step 1, cheapest first, and it was blocked on
+#   exactly one branch push plus one dispatch.
+#
+#   ⛔ IT PUBLISHES, on the same test `panels` passes: it writes NEW artifacts under NEW names
+#   (`emc-ret-cistrome.json` + `-inputs.json`) that nothing has ever cited, so there is no file
+#   it can be confused with, and it cannot perturb `emc-ret-target-scan.json` — the sibling motif
+#   scan — which owns a different question and is allowed to disagree with it.
+#
+#   ⛔ AND IT CARRIES A GENOME-BUILD GUARD, because this lane has already been burned twice by a
+#   coordinate convention that produced a plausible-looking artifact. RET is on chr10, where
+#   GRCh37 and GRCh38 differ by a large constant: a build mix-up does not throw, it silently
+#   reports another locus. `--selftest` runs BEFORE the fetch and asserts the interval algebra,
+#   the strand-aware window, the cross-build refusal, and that an empty cache can never emit a
+#   biological verdict. Failing there costs seconds; failing after the fetch costs the run.
+#
+# ⭐ SIXTH MODE, added 2026-08-07: `ret-motif`.
+#   The SIBLING of `ret-cistrome`, and it is a separate mode because it answers a DIFFERENT
+#   question. `emc_ret_target_scan.py` asks whether RET's regulatory window carries an NBRE
+#   octamer more often than a dinucleotide-preserving null and than a 200-gene background panel —
+#   a SEQUENCE question. The cistrome mode asks whether anyone has MEASURED an NR4A protein
+#   sitting there. The two are allowed to disagree; neither supersedes the other, and they write
+#   different artifacts so neither can overwrite the other's answer.
+#
+#   ⛔ IT WAS BLOCKED ON A BRANCH PUSH AND NOTHING ELSE. `emc-ret-lane.md` §5 records the whole
+#   chain: Ensembl REST answers 403 to CONNECT from the dev sandbox, CLAUDE.md §6's remedy is a
+#   runner, a dispatch runs the code on the ref it is dispatched against — and the agent that
+#   built the scanner was told not to push, so no ref carried the file. That is now closed.
+#
 # $0 — a GitHub-hosted CPU runner, no GPU, no rental. Pure stdlib: no pip install at all.
 # The dev sandbox's egress proxy 403s NCBI/GEO/Europe PMC on CONNECT, which is the whole reason
 # this runs here (CLAUDE.md §6).
@@ -100,10 +139,17 @@ on:
           fusion-targets = score the published EWSR1::NR4A3 / NR4A3 direct-target set in the two
           readable EMC series against a SIZE-MATCHED EMPIRICAL NULL on the same platform
           (`nr4a3_fusion_targets.py` -> nr4a3-fusion-targets.json). Its own artifact; touches
-          nothing part B or the panels lane owns.        required: false
+          nothing part B or the panels lane owns.
+          ret-cistrome = retrieve every public NR4A1/NR4A2/NR4A3 ChIP-seq peak set reachable at
+          $0, characterise each BEFORE using it, and intersect it with the RET locus on a stated
+          genome build, with the paralogue overlap. Writes its OWN artifact.
+          ret-motif = the SIBLING instrument: emc_ret_target_scan.py --fetch, the NBRE/NurRE motif
+          scan against two nulls plus the RET expression read. A sequence question, not an
+          occupancy one; the two are allowed to disagree and neither supersedes the other.        required: false
+        required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets", "ret-cistrome", "ret-motif"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -126,12 +172,36 @@ on:
           before anything is concluded from it.
         required: false
         default: "1500"
+      cistrome_budget_s:
+        description: >-
+          ret-cistrome mode only. Seconds of TOTAL network budget. ChIP-Atlas's experiment list is
+          hundreds of MB and is streamed rather than held, so the budget is what stops one slow
+          catalogue destroying the retrievals that already succeeded. Every endpoint that runs out
+          of budget is RECORDED as `budget_exhausted`, never as "not found".
+        required: false
+        default: "3000"
 
 permissions:
   contents: write
 
+# ⛔ THE GROUP IS KEYED ON THE MODE, AND THAT IS A BUG FIX, NOT TIDINESS (measured 2026-08-07).
+# It used to be keyed on the ref alone. `cancel-in-progress: false` does NOT mean "queue them
+# all": GitHub keeps at most ONE pending run per group and CANCELS the older pending one when a
+# new one arrives. Measured that day, on this workflow: a `panels` run was created 17:04:48Z,
+# never started a job (`jobs: []`), and flipped to `cancelled` at 17:11:10Z — three seconds after
+# an unrelated `ret-motif` dispatch entered the same group. Nothing failed and nothing said so;
+# a dispatched-and-silently-dropped run is indistinguishable from one that ran, which is the
+# exact shape CLAUDE.md §4 is written about.
+#
+# The modes touch DIFFERENT artifacts by design (each mode's header says so), so they were never
+# in genuine contention — only the group name put them there. Keyed on the mode:
+#   * two runs of the SAME mode still serialize, which is the contention that is real: two
+#     `part-b` runs would fetch GEO minutes apart and fight over one 7 MB artifact;
+#   * different modes now run concurrently, and their concurrent publishes are safe because they
+#     go through `publish_artifacts.sh` — the repo's own primitive, which exists precisely because
+#     a hand-rolled `git pull --rebase` + push lost artifacts on three separate lanes.
 concurrency:
-  group: emc-expression-datasets-${{ github.ref_name }}
+  group: emc-expression-datasets-${{ github.ref_name }}-${{ inputs.mode }}
   cancel-in-progress: false
 
 jobs:
@@ -161,6 +231,20 @@ jobs:
           pip install pytest
           if [ "${{ inputs.mode }}" = "aso-junction" ]; then
             python -m pytest research/modalities/tests/test_junction_aso_seam.py -q
+          elif [ "${{ inputs.mode }}" = "ret-cistrome" ]; then
+            # ⛔ NOT OPTIONAL. Two of the three ways this module could lie are pure arithmetic and
+            # are assertable with no network: a half-open/inclusive off-by-one, and a cross-build
+            # intersection that would silently report another locus on chr10. The third — an
+            # empty cache emitting a biological verdict — is the failure CLAUDE.md §4 exists for.
+            # All three are covered here and run BEFORE one byte is fetched.
+            python research/modalities/emc_ret_cistrome.py --selftest
+            python -m pytest research/modalities/tests/test_emc_ret_cistrome.py -q
+          elif [ "${{ inputs.mode }}" = "ret-motif" ]; then
+            # Same reasoning as ret-cistrome: the motif engine's nulls, its p convention and its
+            # sample classifier are all assertable with no network, and its own selftest already
+            # caught two real defects (emc-ret-lane.md §5). Run both before the fetch.
+            python research/modalities/emc_ret_target_scan.py --selftest
+            python -m pytest research/modalities/tests/test_emc_ret_target_scan.py -q
           elif [ "${{ inputs.mode }}" = "panels" ]; then
             # ⛔ NOT OPTIONAL, for the same reason the aso-junction set is not. Six lanes will be
             # read off this artifact, and the two ways it could lie — an absent reading rendering
@@ -210,6 +294,7 @@ jobs:
 
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
         if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'fusion-targets'
+        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -351,9 +436,74 @@ jobs:
             research/modalities/emc-expression-panels.json
             research/modalities/emc-expression-panels-inputs.json
 
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # ret-cistrome — measured NR4A occupancy at the RET locus
+      # ─────────────────────────────────────────────────────────────────────────────────────
+
+      # ⭐ ONE STEP, EVERY CATALOGUE, EVERY ATTEMPT RECORDED. The module never raises on a dead
+      # endpoint: a 404 from ChIP-Atlas and a 404 from ReMap are READINGS about those catalogues
+      # and are written into the artifact with their status codes. "We did not look" and "we
+      # looked and it is not there" are different facts and this lane keeps them different.
+      - name: "RET cistrome — retrieve, characterise, intersect"
+        if: inputs.mode == 'ret-cistrome'
+        timeout-minutes: 90
+        env:
+          # ⚠ Must stay comfortably BELOW `timeout-minutes`. A step that times out returns
+          # NOTHING — the peak sets already retrieved would be lost with it — so the module's own
+          # budget stops one slow catalogue destroying the retrievals that succeeded, and records
+          # `budget_exhausted` rather than letting it read as "not found".
+          RET_CISTROME_BUDGET_S: ${{ inputs.cistrome_budget_s || '3000' }}
+        run: python research/modalities/emc_ret_cistrome.py --fetch
+
+      - name: "RET cistrome — reproduce check (the derive half must be offline-reproducible)"
+        if: always() && inputs.mode == 'ret-cistrome'
+        timeout-minutes: 10
+        run: |
+          python research/modalities/emc_ret_cistrome.py --check \
+            || echo "--check reported drift; non-blocking, but READ IT"
+
+      - name: "RET cistrome — upload the artifact and its inputs cache"
+        if: always() && inputs.mode == 'ret-cistrome'
+        uses: actions/upload-artifact@v4
+        with:
+          name: emc-ret-cistrome
+          if-no-files-found: warn
+          path: |
+            research/modalities/emc-ret-cistrome.json
+            research/modalities/emc-ret-cistrome-inputs.json
+
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # ret-motif — the sibling sequence instrument (emc-ret-lane.md §6, next step 2)
+      # ─────────────────────────────────────────────────────────────────────────────────────
+
+      - name: "RET motif — NBRE/NurRE scan against two nulls, plus the RET expression read"
+        if: inputs.mode == 'ret-motif'
+        timeout-minutes: 60
+        env:
+          EMC_ACC_BRIDGE_BUDGET_S: ${{ inputs.acc_bridge_budget_s || '1500' }}
+        run: python research/modalities/emc_ret_target_scan.py --fetch
+
+      - name: "RET motif — reproduce check"
+        if: always() && inputs.mode == 'ret-motif'
+        timeout-minutes: 10
+        run: |
+          python research/modalities/emc_ret_target_scan.py --check \
+            || echo "--check reported drift; non-blocking, but READ IT"
+
+      - name: "RET motif — upload"
+        if: always() && inputs.mode == 'ret-motif'
+        uses: actions/upload-artifact@v4
+        with:
+          name: emc-ret-target-scan
+          if-no-files-found: warn
+          path: |
+            research/modalities/emc-ret-target-scan.json
+            research/modalities/emc-ret-target-scan-inputs.json
+
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
         if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
         if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'fusion-targets'
+        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
         timeout-minutes: 10
         run: |
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
@@ -384,8 +534,16 @@ jobs:
         # render alike.
         run: |
           set -e
-          if [ "${{ inputs.mode }}" = "panels" ]; then
-            MSG="EMC expression panels: six targeted reads in the two readable series (CI)"
+          if [ "${{ inputs.mode }}" = "ret-cistrome" ]; then
+            MSG="RET cistrome: NR4A1/2/3 ChIP-seq occupancy at the RET locus (CI)"
+            PATHS="research/modalities/emc-ret-cistrome.json
+                   research/modalities/emc-ret-cistrome-inputs.json"
+          elif [ "${{ inputs.mode }}" = "ret-motif" ]; then
+            MSG="RET motif scan + expression read: emc_ret_target_scan parts 1 and 2 (CI)"
+            PATHS="research/modalities/emc-ret-target-scan.json
+                   research/modalities/emc-ret-target-scan-inputs.json"
+          elif [ "${{ inputs.mode }}" = "panels" ]; then
+            MSG="EMC expression panels: seven targeted reads in the two readable series (CI)"
             PATHS="research/modalities/emc-expression-panels.json
                    research/modalities/emc-expression-panels-inputs.json"
           if [ "${{ inputs.mode }}" = "fusion-targets" ]; then
@@ -499,6 +657,94 @@ jobs:
                   print(f"  {g:<8} {mf[:30]:<32} {r.get('verdict')}")
           PY
 
+      # ⭐ THE BUILD AND THE POSITIVE CONTROLS PRINT BEFORE THE RESULT, ON PURPOSE. A RET peak
+      # count read without knowing (a) which genome build the locus was taken on and (b) whether
+      # the peak set recovers a locus a published chromatin experiment already placed NR4A3 at, is
+      # a number nobody can grade — and a null from an instrument that recovers no positive
+      # control is not a negative at all.
+      - name: "Summary — ret-cistrome"
+        if: always() && inputs.mode == 'ret-cistrome'
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/emc-ret-cistrome.json"))
+          b = d.get("part_0_genome_build") or {}
+          print("=== GENOME BUILD — READ THIS FIRST ===")
+          for build, r in (b.get("per_build") or {}).items():
+              g = r.get("RET_ensembl") or {}
+              print(f"  {build}: expected {r.get('ensembl_assembly_expected')} | RET "
+                    f"{g.get('chrom')}:{g.get('start')}-{g.get('end')} strand {g.get('strand')} "
+                    f"| assembly returned {g.get('assembly_name')} | {r.get('_status')}")
+          print("  chr10 hg19-hg38 offset at RET start:",
+                b.get("chr10_offset_hg19_minus_hg38_at_RET_start"))
+          print("  two sources agree within 50 kb on every build:",
+                b.get("RET_two_sources_agree_within_50kb_on_every_build"))
+          p1 = d.get("part_1_datasets") or {}
+          ca = p1.get("chip_atlas") or {}
+          print()
+          print("=== DATASETS FOUND (characterised before use) ===")
+          print("  ChIP-Atlas:", ca.get("_status"), "| searched",
+                ca.get("n_experiments_searched"), "experiments | matching",
+                ca.get("n_matching"))
+          for k, v in sorted((ca.get("by_antigen_and_genome") or {}).items()):
+              print(f"    {k}: {len(v)} experiment(s) — {v[:8]}")
+          geo = p1.get("geo") or {}
+          print("  GEO:", geo.get("_status"), "| series", geo.get("n_series"))
+          for acc, s in sorted((geo.get("series") or {}).items())[:20]:
+              print(f"    {acc} [{s.get('taxon')}] n={s.get('n_samples')} {s.get('gdsType')} "
+                    f"— {str(s.get('title'))[:90]}")
+          for pmcid, r in (p1.get("paper_data_availability") or {}).get("papers", {}).items():
+              fa = (r.get("fulltext_accession_scan") or {}).get("accessions_found")
+              xr = ((r.get("europepmc") or {}).get("db_cross_references"))
+              print(f"    {pmcid}: fulltext accessions {fa} | EuropePMC xrefs {xr}")
+          print()
+          print("=== POSITIVE CONTROLS, THEN RET ===")
+          p2 = d.get("part_2_intersection") or {}
+          print("  part 2:", p2.get("_status"))
+          for r in ((p2.get("ret_summary") or {}).get("rows") or []):
+              print(f"  {str(r['peakset'])[:26]:<28} {str(r['antigen']):<6} "
+                    f"{str(r['genome']):<5} peaks={r['n_peaks_total']:<7} "
+                    f"RET_prom={r['RET_promoter_window_peaks']} "
+                    f"RET_body={r['RET_genebody_window_peaks']} "
+                    f"nearest={r['RET_nearest_peak_to_tss_bp']} "
+                    f"p_vs_bg={r['empirical_p_vs_background']} | {r['positive_control']} "
+                    f"| {str(r['cell_type'])[:40]}")
+          rs = p2.get("ret_summary") or {}
+          print("  peaksets:", rs.get("n_peaksets"),
+                "| with a RET promoter peak:", rs.get("n_with_a_RET_promoter_peak"),
+                "| whose null is interpretable:",
+                rs.get("n_peaksets_whose_null_is_interpretable"))
+          p3 = d.get("part_3_paralogue_overlap") or {}
+          print()
+          print("=== PARALOGUE OVERLAP ===")
+          print("  state:", p3.get("state"))
+          for ag, r in (p3.get("at_RET") or {}).items():
+              print(f"    {ag}: {r.get('n_peaksets')} peakset(s), any RET promoter peak: "
+                    f"{r.get('any_promoter_peak_at_RET')}")
+          for k, v in (p3.get("genome_wide_pairwise_sharing") or {}).items():
+              print(f"    {k}: {json.dumps(v)[:220]}")
+          print()
+          print("=== VERDICT ===")
+          print(json.dumps(d.get("verdict"), indent=1))
+          PY
+
+      - name: "Summary — ret-motif"
+        if: always() && inputs.mode == 'ret-motif'
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/emc-ret-target-scan.json"))
+          p1 = d.get("part_1_nbre_scan") or {}
+          print("PART 1 (motif):", p1.get("_status"), "| windows read:", p1.get("n_windows_read"),
+                "of", p1.get("n_windows_requested"))
+          print("  verdict:", json.dumps(p1.get("verdict"))[:900])
+          for g, r in sorted((p1.get("per_gene") or {}).items())[:20]:
+              print(f"   {g:<8} {json.dumps(r)[:200]}")
+          p2 = d.get("part_2_expression") or {}
+          print("PART 2 (expression):", p2.get("_status"))
+          print("  verdict:", json.dumps(p2.get("verdict"))[:900])
+          PY
+
       - name: "Summary — part-b"
         if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
       # ⭐ THE CONTROLS PRINT FIRST AND THE RAW DELTAS PRINT LAST. A reader who stops after two
@@ -562,6 +808,7 @@ jobs:
       - name: "Summary — part-b"
         if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
              && inputs.mode != 'fusion-targets'
+        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels' && inputs.mode != 'ret-cistrome' && inputs.mode != 'ret-motif'
         run: |
           python3 - <<'PY'
           import json

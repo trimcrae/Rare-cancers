@@ -1,0 +1,58 @@
+{
+ "_what": "Routed edits implied by the 2026-08-07 RET cistrome pass. NOT APPLIED. Every entry is a verbatim anchor + current_text + proposed_text against a live file, checkable with `python3 research/manuscripts/verify_map_edit_anchors.py research/modalities/emc-ret-cistrome-map-edits.json` before anything is touched.",
+ "_rule": "⛔ EVERY EDIT HERE CHANGES A STATUS AND POINTS AT A RESULT; NONE RESTATES ONE. The reading itself has exactly one home — `emc-ret-cistrome.json`, rendered in `emc-ret-cistrome.md` (CLAUDE.md §1). An edit that copied a peak count into a second document would be the bug this repository has been cleaning up all week.",
+ "_do_not_apply_blind": "The applier must (1) re-run the anchor checker, because these documents are edited by other sessions in parallel; (2) read `emc-ret-cistrome.md` §6 first, because the status words below are only true if the verdict there is; (3) apply E1-E4 of `emc-ret-map-edits.json` FIRST — that file corrects §3.1 of the lanes memo, and this one assumes those corrections are in place.",
+ "generated": "2026-08-07",
+ "_apply_order": [
+  "emc-ret-map-edits.json E1-E4 (the prior pass's corrections to emc-unexplored-treatment-lanes.md §3.1)",
+  "then C1, C2, C3 here (emc-ret-lane.md §6 — the ordered next steps and the falsifier row)",
+  "then the graph amendment, which SUPERSEDES the RT-RET record proposed in emc-ret-map-edits.json rather than adding a second one"
+ ],
+ "_verified_against": "origin/main AND the working tree — 3 of 3 anchors matched exactly once on BOTH refs. ⚠ Re-verify before applying: this repository takes on the order of a thousand commits a day and these anchors were checked at 2026-08-07 1:22 PM ET. ⚠ Superseded, retained: an earlier draft of this line asserted that `emc-ret-lane.md` exists only on this feature branch and would report FILE ABSENT on origin/main. That was true when the file was written and FALSE ten minutes later — the parent branch was merged to main in between, and the checker said so. It is kept because it is the exact failure this whole file exists to prevent: a provenance claim that was true when typed.",
+ "n_edits": 3,
+ "map_edits_required": [
+  {
+   "id": "C1",
+   "file": "research/modalities/emc-ret-lane.md",
+   "section": "§6 · The grade — 'The ordered next steps, cheapest first', item 1",
+   "anchor": "1. **$0 — pull the published wild-type NR4A3 ChIP-seq peak sets and intersect them with *RET*\n   (§2d).**",
+   "current_text": "1. **$0 — pull the published wild-type NR4A3 ChIP-seq peak sets and intersect them with *RET*\n   (§2d).** This now outranks the motif scan, because it substitutes measured occupancy for a\n   sequence string, and it carries the paralogue-overlap read for free. **The Schwann-cell dataset\n   can be pulled today — GSA `CRA032324` — and needs nothing further.** The cDC2 three-paralogue\n   dataset, which is the more valuable of the two, needs **one prior $0 retrieval**: its accession\n   is absent from the PMC rendering, so it has to come from a GEO/ArrayExpress search or the Wiley\n   supplement.",
+   "proposed_text": "1. ✅ **DONE 2026-08-07 — $0. The wild-type NR4A ChIP-seq retrieval and the *RET* intersection\n   ran, on a stated genome build, with the paralogue read.** One home for what it found:\n   [`emc-ret-cistrome.md`](./emc-ret-cistrome.md) and\n   [`emc-ret-cistrome.json`](./emc-ret-cistrome.json). ⛔ **Read §0 of that memo before quoting\n   any of it**: every peak set reachable at $0 is WILD-TYPE NR4A in a cell type that is not EMC,\n   so a peak at *RET* is a prior and never a demonstration, and no peak is weak evidence because\n   the locus may be closed in the cells assayed. *Superseded, retained: the sentence that stood\n   here, including \"**The Schwann-cell dataset can be pulled today — GSA `CRA032324` — and needs\n   nothing further**\" — GSA archives RAW READS, so alignment and peak calling stand between that\n   accession and a peak set, and that is an instrument limit rather than a retrieval step. What\n   was actually reachable, by which route, and with what HTTP status, is recorded per endpoint in\n   `emc-ret-cistrome.json` → `part_1_datasets._retrieval_attempts`.*",
+   "why": "the step is done; the sentence describing it as pending would otherwise keep sending sessions to re-do it, and its one factual claim about GSA (\"needs nothing further\") is wrong in a way that matters — it makes a raw-read archive look like a peak-set download."
+  },
+  {
+   "id": "C2",
+   "file": "research/modalities/emc-ret-lane.md",
+   "section": "§6 · The grade — 'The ordered next steps, cheapest first', item 2",
+   "anchor": "2. **$0 — push the branch and dispatch the fetch.**",
+   "current_text": "2. **$0 — push the branch and dispatch the fetch.** Parts 1 and 2 both land in one ~10-minute CPU\n   run. Still worth doing — the motif scan is the *prioritisation* layer under the ChIP read, and\n   the expression half answers the falsifier's reachable clause. This is the only item blocked on\n   something this repository controls.",
+   "proposed_text": "2. ✅ **DONE 2026-08-07 — $0. The branch was pushed and both halves were dispatched.** The motif\n   scan and its expression read run as `emc-expression-datasets.yml mode=ret-motif`; the RET\n   abundance / ligand-module / NR4A-target-set read runs as `mode=panels` → `read_7_RET` in\n   [`emc-expression-panels.json`](./emc-expression-panels.json). *Superseded, retained: \"This is\n   the only item blocked on something this repository controls\" — it was, and it no longer is.*\n   ⚠ The motif scan remains the **prioritisation** layer and not an instrument that can establish\n   a target gene; §2a of this memo is the one home of that limit and the cistrome pass does not\n   change it.",
+   "why": "the block was one push and one dispatch, both now done. Leaving it as the standing blocker would misattribute the lane's state — exactly the failure the roadmap exists to prevent."
+  },
+  {
+   "id": "C3",
+   "file": "research/modalities/emc-ret-lane.md",
+   "section": "§6 · The grade — the falsifier row of the grade table",
+   "anchor": "| **Has the falsifier fired?** |",
+   "current_text": "| **Has the falsifier fired?** | **No.** Neither clause was measured. Recorded as `NOT_RUN`, not as a negative |",
+   "proposed_text": "| **Has the falsifier fired?** | **Still no, and the reason has changed for one clause.** §3.1's falsifier is a conjunction — *no NBRE at RET* **plus** *evidence that RET phosphorylation tracks stromal rather than tumour content*. The second clause remains **not measurable at $0 anywhere**: no phospho-RET dataset for EMC exists in any source reached. The first clause now has TWO instruments pointed at it rather than none — the NBRE scan (`emc-ret-target-scan.json`) and, independently, measured NR4A occupancy (`emc-ret-cistrome.json`). ⛔ Read both at their true strength in [`emc-ret-cistrome.md`](./emc-ret-cistrome.md) §6 before recording the falsifier as fired or not fired; an absent reading is not a reading of absence, and a null from a peak set that recovers no positive control is not a negative at all |",
+   "why": "the row said NOT_RUN, which was true and is no longer. It must not be replaced with a bare verdict either: the honest state is per-clause, and the memo is where the reading lives."
+  }
+ ],
+ "proposed_graph_addition": {
+  "_status": "PROPOSED, NOT APPLIED. ⛔ This SUPERSEDES the `RT-RET` record proposed in `emc-ret-map-edits.json` rather than adding a second one — two candidate records for one route id is precisely the two-homes failure CLAUDE.md rule 1 forbids. The applier applies one of them, and it should be this one, because it is the later reading.",
+  "_what_the_applier_must_also_do": [
+   "`[H2]`: the strategy family must list the route and the route must claim the family — both sides, or systems_check fails.",
+   "re-generate the views (`python3 systems/systems_check.py --write-views`); a hand-edit under systems/views/ fails the build.",
+   "give the route a publication endpoint in `systems/graph/publications.json`, because CLAUDE.md §5 requires every route to name the paper it is for.",
+   "fill `evidence` and `remaining_unknowns` from `emc-ret-cistrome.json` and `emc-ret-activation-bar.json` at the moment of applying — NOT from this file, which is a proposal and will age."
+  ],
+  "_the_one_sentence_this_route_would_put_into_the_field_s_record": "⛔ NOT RESTATED HERE. Its one home is `emc-ret-cistrome.md` §6, the row 'Is it publishable?' — copying it into a route record is how a sentence acquires two versions and then two meanings. Read it there and paste it at the moment of applying.",
+  "_do_not_infer_a_recommendation": "⛔ Nothing in this record asserts efficacy, safety, selectivity, a therapeutic window or clinical readiness for any RET-directed agent in EMC, and nothing recommends giving one to any patient. No EMC patient has received a selective RET inhibitor."
+ },
+ "_not_proposed_and_why": {
+  "research/manuscripts/nr4a3-program-map.md": "no edit is proposed, for the reason `emc-ret-map-edits.json` already gives and which was re-verified here: grepping that 4,503-line roadmap for `RET`, `selpercatinib`, `pralsetinib`, `cistrome` and `ChIP-seq` returns nothing on this subject. It is the degrader program's dependency graph; RET is a portfolio route, and inserting it there would restate a fact whose home is `systems/graph/routes.json`.",
+  "research/manuscripts/emc-unexplored-treatment-lanes.md": "§3.1's corrections are E1-E4 of `emc-ret-map-edits.json` and are not duplicated here. This pass adds no new correction to that memo beyond what the cistrome memo records.",
+  "systems/views/*": "generated. A hand-edit fails the build."
+ }
+}

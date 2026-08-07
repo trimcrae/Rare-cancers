@@ -324,6 +324,61 @@ PANELS = {
                                  "paralogue selectivity — which is the risk that sank the "
                                  "flagship lane and is not measurable from expression.",
     },
+    # -----------------------------------------------------------------------------------------
+    # READ 7 — added 2026-08-07 for the RET cistrome lane.
+    #
+    # ⭐ WHY IT IS HERE RATHER THAN IN A SEVENTH MODULE. This module already reads 137 genes from
+    # these two matrices in one dispatch and its ENO3 control reproduces a committed value; a
+    # second module would be a second copy of the whole GEO fetch (CLAUDE.md §1) for the sake of
+    # eleven symbols.
+    #
+    # ⛔ WHAT THIS READ IS FOR, PRECISELY. `emc-ret-lane.md` §3 establishes that the ONLY report
+    # of RET *activation* in EMC is one sentence in a paywalled 2014 abstract over "a limited set
+    # of samples" of an n = 10 series, with no numerator and no denominator, and that RET in EMC
+    # has never been given the blinded-TMA test that decided MET in clear cell sarcoma (PMID
+    # 34885165: MET protein 82 %, phospho-MET 4 %). ⛔ NOTHING IN A TRANSCRIPT READ CAN CLOSE
+    # THAT GAP — mRNA abundance is the measurement whose insufficiency is the whole point of the
+    # MET guard. What this read CAN do, and the only thing it is quoted for:
+    #   (a) corroborate or fail to corroborate PMID 28423517's RET-abundance finding in an
+    #       INDEPENDENT series and, for the first time, in a second one (GSE4303/GPL3290);
+    #   (b) say whether RET's own LIGAND/CO-RECEPTOR module is present at all — the clear cell
+    #       sarcoma study failed on ligand absence (HGF 16 %) as much as on phospho-absence, so a
+    #       tumour with abundant receptor and no ligand is the same shape of negative;
+    #   (c) put RET beside the cistrome lane's target-gene controls (ENO3 already in the control
+    #       panel, SEMA3C added here) so an occupancy reading and an abundance reading are on the
+    #       same tumours.
+    # -----------------------------------------------------------------------------------------
+    "ret_axis": {
+        "read_id": "read_7_RET",
+        "question": "Is RET readable and elevated in EMC in BOTH readable series — and is the "
+                    "GDNF-family ligand/co-receptor module that would be needed to engage it "
+                    "present at all?",
+        "provenance": CURATED + " The GDNF-family membership (four ligands, four GFRα "
+                                "co-receptors) is textbook receptor biology; the reads that "
+                                "carry weight are the single genes RET, GDNF and GFRA1.",
+        "primary_gene": "RET",
+        "groups": {
+            "the_read": ["RET"],
+            "gdnf_family_ligands": ["GDNF", "NRTN", "ARTN", "PSPN"],
+            "gfra_co_receptors": ["GFRA1", "GFRA2", "GFRA3", "GFRA4"],
+            "alternative_hypothesis_the_vegfr_attribution": ["VEGFA", "KDR", "FLT1", "FLT4",
+                                                             "PDGFRA", "PDGFRB", "KIT"],
+            "downstream_nodes_the_ccs_tma_stained": ["MAPK1", "MAPK3", "AKT1", "RPS6", "GAB1"],
+            "published_nr4a3_target_genes_for_the_cistrome_lane": ["SEMA3C", "ENO3"],
+        },
+        "direction_that_supports_the_lane": "RET UP in EMC in both series, with at least one "
+                                            "GDNF-family ligand and GFRA1 readable and present",
+        "what_it_cannot_settle": (
+            "⛔ ACTIVATION. This is mRNA abundance. The bar RET in EMC has never been given is a "
+            "blinded phospho-RET / ligand / downstream-node tissue microarray with a stated "
+            "denominator (the instrument that decided MET in clear cell sarcoma, PMID 34885165), "
+            "and no expression series can substitute for it — `emc-ret-lane.md` §3 is the one "
+            "home of that finding and this read does not move it. It also cannot separate "
+            "tumour-cell RET from stromal or entrapped-nerve RET in a hypocellular, matrix-rich "
+            "tumour, which is the RET lane's own falsifier. And it asserts nothing about whether "
+            "selpercatinib, pralsetinib or any RET-directed agent binds, works or is safe in "
+            "EMC — no EMC patient has ever received one."),
+    },
 }
 
 # ---------------------------------------------------------------------------------------------
@@ -440,6 +495,82 @@ SIGNATURE_SLOTS = {
                 "these same two matrices, so it is the one axis on which this module can be "
                 "checked against a committed independent read.",
         "enrichr": [("hallmark", "adipogenesis")],
+    },
+    # --- read 7: THE NR4A TARGET-GENE PROGRAM, AND WHETHER *RET* IS IN IT -----------------------
+    #
+    # ⭐ WHY THESE ARE HERE. The RET cistrome lane (`emc_ret_cistrome.py`) asks whether NR4A3
+    # OCCUPIES the RET locus. These slots ask a DIFFERENT and partly better question from a
+    # completely independent instrument class: is *RET* in a published NR4A3 target-gene set —
+    # and, for the perturbation arms, **does RET MOVE when NR4A3 is perturbed**? Occupancy without
+    # a functional readout is what made the ENO3 precedent need luciferase on top of ChIP
+    # (PMID 26310886); a perturbation set is the cheap shadow of that missing experiment.
+    # Concordance ACROSS instrument classes is an argument; one set's membership is not.
+    #
+    # ⚠ AND THEY ARE SCORED ACROSS EMC vs COMPARATOR SARCOMAS, which is a second use of the same
+    # fetch: if the fusion drives a recognisable NR4A3 program, an NR4A3 target set should read UP
+    # in EMC against other sarcomas. That is an INSTRUMENT check on the whole lane — an NR4A3
+    # target program that is NOT up in the disease defined by an NR4A3 fusion would say the sets
+    # do not transfer to this context, and would discipline every membership claim below.
+    #
+    # ⛔ ALL THREE PARALOGUES ARE FETCHED, for the same reason the cistrome module reads all
+    # three: "RET is an NR4A3 target" means something different if RET is in the NR4A1 and NR4A2
+    # sets too. `exclude` carries `nr4a` off the front of nothing here — the three symbols share
+    # no prefix with each other under `_norm` — but each slot still hard-requires its own symbol.
+    "nr4a3_targets_chea": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "NR4A3 target genes from published ChIP-X experiments (ChEA). The matched term "
+                "carries the source experiment's own PMID in its name, so the provenance of a "
+                "membership call is checkable.",
+        "enrichr": [("chea", "nr4a3")], "prefer": ["human"],
+    },
+    "nr4a3_targets_encode_chea": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "NR4A3 consensus targets from ENCODE + ChEA ChIP-X.",
+        "enrichr": [("encode_chea", "nr4a3")], "prefer": ["human"],
+    },
+    "nr4a3_targets_trrust": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "NR4A3 targets from TRRUST v2, a manually curated literature-mined regulatory "
+                "network — an instrument class independent of both ChIP and perturbation.",
+        "enrichr": [("trrust", "nr4a3")], "prefer": ["human"],
+    },
+    "nr4a3_perturbation_KD_DOWN": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "⭐ THE FUNCTIONAL ARM. Genes DOWN when NR4A3 is knocked down / out — i.e. genes "
+                "that DEPEND on NR4A3. If RET is in this set, RET abundance responds to NR4A3 "
+                "loss, which occupancy alone cannot show.",
+        "enrichr": [("tf_perturb", "nr4a3")],
+        "require_any": ["knockdown", "kd", "deficiency", "ko"], "require_suffix": "down",
+    },
+    "nr4a3_perturbation_OE_UP": {
+        "read_id": "read_7_RET", "role": "nr4a3_target_set",
+        "what": "Genes UP when NR4A3 is over-expressed — independently constructed, same expected "
+                "direction as KD_DOWN, so agreement between them is worth more than either alone. "
+                "⭐ And it is the arm closest to EMC's own biology: the disease-defining event is "
+                "NR4A3 sequence placed under a partner's promoter, i.e. over-expression.",
+        "enrichr": [("tf_perturb", "nr4a3")],
+        "require_any": ["oe", "overexpression"], "require_suffix": "up",
+    },
+    "nr4a3_perturbation_KD_UP_CONTROL": {
+        "read_id": "read_7_RET", "role": "directional_control_NOT_a_target_set",
+        "what": "⛔ THE FALSIFIER, on the pattern read 3 already uses. Genes UP when NR4A3 is "
+                "removed — the arm that should NOT track the other two. If it moves with them, "
+                "the contrast is measuring something the sets share rather than NR4A3 output, and "
+                "no membership call below may be quoted.",
+        "enrichr": [("tf_perturb", "nr4a3")],
+        "require_any": ["knockdown", "kd", "deficiency", "ko"], "require_suffix": "up",
+    },
+    "nr4a1_targets_chea": {
+        "read_id": "read_7_RET", "role": "paralogue_target_set",
+        "what": "NR4A1 targets from ChEA — the paralogue arm. A gene in ALL THREE paralogues' "
+                "target sets is a family target, not an NR4A3 target, and that distinction is the "
+                "whole of this repository's selectivity problem.",
+        "enrichr": [("chea", "nr4a1")], "prefer": ["human"],
+    },
+    "nr4a2_targets_chea": {
+        "read_id": "read_7_RET", "role": "paralogue_target_set",
+        "what": "NR4A2 targets from ChEA — the third paralogue arm.",
+        "enrichr": [("chea", "nr4a2")], "prefer": ["human"],
     },
     # --- read 5: HYPOXIA ------------------------------------------------------------------------
     "hypoxia_buffa": {
@@ -1050,6 +1181,10 @@ def derive(inp):
             "read_3_PPARG_ACTIVITY": "reads.read_3_PPARG_ACTIVITY  (detail: "
                                      "panels.pparg_target_activity, signature_scores.pparg_*)",
             "read_6_NR2F1": "reads.read_6_NR2F1  (detail: gene_reads.NR2F1)",
+            "read_7_RET": "reads.read_7_RET  (detail: gene_reads.RET). Consumed by the RET "
+                          "cistrome lane — emc_ret_cistrome.py / emc-ret-cistrome.json — which "
+                          "asks the OCCUPANCY half of the same question. ⛔ Abundance is not "
+                          "activation; `emc-ret-lane.md` §3 owns that finding.",
             "every_gene": "gene_reads.<SYMBOL>.<matrix_file> — carries `readable`, "
                           "`n_probes_mapping`, `probe_ids`, per-sample values, `array_percentile`, "
                           "the Welch contrast and a verdict sentence.",
@@ -1154,6 +1289,7 @@ def derive(inp):
                              for mf, (tgt, classes, emc, comp) in live.items()},
         }
 
+    res["target_set_membership"] = _target_set_membership(sig)
     res["reads"] = _assemble_reads(res)
     res["_what_this_cannot_conclude"] = [
         "That any agent named in this file works, is safe, is selective, or has a therapeutic "
@@ -1235,6 +1371,70 @@ def _panel_summary(res, pname):
                        for g, d in (p.get("groups") or {}).items()}}
 
 
+# The genes whose membership in an NR4A target set is a RESULT rather than context.
+MEMBERSHIP_PROBES = ["RET", "ENO3", "SEMA3C", "PPARG", "GDNF", "GFRA1", "VEGFA", "KDR"]
+
+
+def _target_set_membership(sig):
+    """Is *RET* a member of each retrieved NR4A target-gene set?
+
+    ⭐ A DIFFERENT INSTRUMENT CLASS FROM THE CISTROME MODULE, ON PURPOSE. `emc_ret_cistrome.py`
+    asks whether NR4A3 OCCUPIES the RET locus in somebody's ChIP-seq. This asks whether RET is in
+    a published NR4A3 target set — and for the perturbation arms, whether RET MOVES when NR4A3 is
+    perturbed, which occupancy alone cannot show and which is the readout the ENO3 precedent
+    needed luciferase for (PMID 26310886). Two instrument classes agreeing is an argument.
+
+    ⛔ MEMBERSHIP IS A CITATION, NOT A MEASUREMENT MADE HERE. Every row carries the VERBATIM
+    matched term (which, for ChEA, embeds the source experiment's own PMID) so a reader can go to
+    the experiment rather than to this file. And a set that did not resolve is `resolved: false`
+    with `member: null` — NEVER `member: false`, because "the set was not retrieved" and "RET is
+    not in the set" are different facts and this repository has been burned by exactly that
+    conflation (CLAUDE.md §4).
+    """
+    out = {
+        "_what": "Membership of RET (and of the lane's controls) in every retrieved NR4A "
+                 "target-gene set, by paralogue and by instrument class.",
+        "⛔ _member_null_is_not_member_false": (
+            "`member: null` means the SET WAS NOT RETRIEVED. It is an absent reading and says "
+            "nothing about whether the gene is a target."),
+        "⚠ _what_membership_is_not": (
+            "an NR4A3 target set is somebody else's experiment in somebody else's cell type, "
+            "almost always wild-type NR4A3 rather than EWSR1::NR4A3. Membership is a PRIOR of "
+            "the same kind a ChIP peak is, and non-membership is weak — most sets are small, "
+            "thresholded and cell-type specific."),
+        "per_slot": {}, "by_gene": {},
+    }
+    slots = (sig or {}).get("slots") or {}
+    for slot, rec in slots.items():
+        if rec.get("read_id") != "read_7_RET":
+            continue
+        genes = rec.get("genes")
+        row = {"role": rec.get("role"), "what": rec.get("what"),
+               "resolved": bool(genes),
+               "matched_term_verbatim": rec.get("matched_term_verbatim"),
+               "library": rec.get("library"), "citation": rec.get("citation"),
+               "species_of_the_source_experiment": rec.get("species_of_the_source_experiment"),
+               "n_genes": rec.get("n_genes")}
+        upper = {str(g).upper() for g in (genes or [])}
+        row["membership"] = {g: (g in upper if genes else None) for g in MEMBERSHIP_PROBES}
+        out["per_slot"][slot] = row
+    for g in MEMBERSHIP_PROBES:
+        hits = sorted(s for s, r in out["per_slot"].items()
+                      if r["resolved"] and r["membership"].get(g))
+        unresolved = sorted(s for s, r in out["per_slot"].items() if not r["resolved"])
+        out["by_gene"][g] = {
+            "in_sets": hits, "n_sets_containing_it": len(hits),
+            "n_sets_resolved": sum(1 for r in out["per_slot"].values() if r["resolved"]),
+            "sets_not_retrieved": unresolved,
+            "verdict": (f"present in {len(hits)} retrieved NR4A target set(s): "
+                        f"{', '.join(hits)}" if hits else
+                        "not present in any RETRIEVED NR4A target set. ⚠ ABSENT from those sets "
+                        "is not absence of regulation — these sets are thresholded, cell-type "
+                        "specific, and mostly wild-type NR4A3 rather than the fusion."),
+        }
+    return out
+
+
 def _read_entry(res, read_id, panel_key, extra=None):
     panel = PANELS[panel_key]
     entry = {"read_id": read_id,
@@ -1303,6 +1503,35 @@ def _assemble_reads(res):
         res, "read_6_NR2F1", "nr2f1_dormancy",
         {"the_precondition": res["gene_reads"].get("NR2F1") or {},
          "paralogues": _readability_of(res, ["NR2F2", "NR2F6"])})
+    R["read_7_RET"] = _read_entry(
+        res, "read_7_RET", "ret_axis",
+        {"the_receptor": res["gene_reads"].get("RET") or {},
+         "the_ligand_module": _readability_of(res, ["GDNF", "NRTN", "ARTN", "PSPN"]),
+         "the_co_receptors": _readability_of(res, ["GFRA1", "GFRA2", "GFRA3", "GFRA4"]),
+         "the_alternative_hypothesis": _readability_of(res, ["VEGFA", "KDR", "PDGFRB", "KIT"]),
+         "published_nr4a3_targets": _readability_of(res, ["SEMA3C", "ENO3"]),
+         "is_RET_in_a_published_NR4A_target_set": (res.get("target_set_membership") or {})
+         .get("by_gene", {}).get("RET"),
+         "target_set_membership_all_genes": res.get("target_set_membership"),
+         "⭐ how_to_read_the_two_instruments_together": (
+             "OCCUPANCY (emc-ret-cistrome.json) and MEMBERSHIP/PERTURBATION (here) are "
+             "independent instrument classes and the interesting cases are the disagreements. "
+             "Both positive is the strongest reading available at $0. Occupancy without "
+             "perturbation response is a bound site with no demonstrated output — which is "
+             "exactly why the ENO3 precedent needed luciferase on top of ChIP (PMID 26310886). "
+             "Perturbation response without occupancy is consistent with an indirect effect. "
+             "⛔ Neither, in any combination, is evidence about EWSR1::NR4A3 in an EMC tumour."),
+         "⛔ what_a_high_RET_reading_is_not": (
+             "it is not activation, and the distinction is the entire content of the "
+             "methodological guard this lane carries. PMID 34885165 measured MET protein in 82 % "
+             "of clear cell sarcomas and phospho-MET in 4 % of the same blinded 32-case array; "
+             "abundance and activation came apart by a factor of twenty in the disease this lane "
+             "uses as its comparator. RET in EMC has never been measured that way "
+             "(`emc-ret-lane.md` §3)."),
+         "⚠ what_a_high_RET_reading_also_cannot_separate": (
+             "tumour RET from stromal or entrapped peripheral-nerve RET. EMC is hypocellular and "
+             "matrix-rich (PMC6766969), RET is a nerve-lineage receptor, and these are BULK "
+             "arrays — so cellular origin is unresolvable here by construction.")})
 
     for k, v in R.items():
         if k == "control":
