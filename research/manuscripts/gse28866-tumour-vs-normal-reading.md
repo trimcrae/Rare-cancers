@@ -127,6 +127,33 @@ axes. **RET** (3.5× normal, 3.7× sarcoma) and **VCAN** (3.3× / 2.0×) also cl
 places it on the broad-liability list — so its normal-tissue behaviour beyond these six organs is
 unaddressed here. What it earns is a place in the surface-antigen lane's next pass, not a claim.
 
+### ⚠ 5b · And the cross-cohort check demotes it the same hour it was raised
+
+CSPG4 is already carried by the CS-GAG read, so the two array cohorts could be consulted immediately at
+$0 rather than being left as a promise. **They disagree.** Difference in mean z, EMC minus comparator
+(one home: `emc-expression-panels.json` → `gene_reads`):
+
+| gene | GPL6244 (6 EMC / 29 comp) | GPL3290 (10 EMC / 6 comp) | 3SEQ vs other sarcomas |
+|---|---|---|---|
+| **ENO3** | **+0.807** | **+3.811** | **2.0×** |
+| **VCAN** | +0.629 | +1.561 | 2.0× |
+| **CSPG4** | +0.885 | **−0.189** | 2.5× |
+
+⇒ **CSPG4 replicates in two of three cohorts and reverses in the third.** Its 3SEQ magnitude is real
+and it is still the largest absolute row in that deposit; what it does not have is cross-platform
+agreement, which is the property that makes ENO3 quotable. ⚠ The GPL3290 comparator arm is **n = 6**
+with an unusually high CSPG4 mean, so the disagreement may be that cohort's comparator composition
+rather than EMC — which is a reason to hold the row open, not to discard the disagreement.
+
+⭐ **VCAN clears all three**, but on a saturated background: EMC sits at the 99.7th/97.5th array
+percentile and the comparators at the 97.8th/91.2nd, so the separation is small on top of a signal that
+is high everywhere. A matrix proteoglycan being abundant in a myxoid tumour is expected, and expected
+is not the same as discriminating.
+
+⛔ **ENO3 is the only row in this panel with three-cohort, three-platform agreement and a large
+effect** — which is a statement about concordance, not about any therapeutic property, and ENO3 is an
+intracellular enzyme rather than a surface address.
+
 ✅ **And the panel's negatives are informative in the same breath:** GPC3, MSLN, L1CAM and CDH17 all read
 **lower in EMC than in normal tissue**, which is what a working assay should say about antigens with no
 reason to be there.
