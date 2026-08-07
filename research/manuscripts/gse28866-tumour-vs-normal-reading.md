@@ -2,7 +2,7 @@
 id: DOC-GSE28866-READING
 title: What GSE28866 says — the first EMC-vs-normal-tissue expression contrast in this repository
 level: L3
-kind: reading
+kind: memo
 status: live
 canonical_for:
   - the interpretation of `gse28866-tumour-vs-normal.json`
