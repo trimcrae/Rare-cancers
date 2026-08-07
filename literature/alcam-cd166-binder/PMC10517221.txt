@@ -1,0 +1,190 @@
+1991clintransmedClinical and Translational MedicineClin Transl MedWileyPMC1051722110517221105172213774046310.1002/ctm2.1329Uncovering therapeutic opportunities in the clinical development of antibody‐drug conjugates
+Nieto‐JiménezCristina SanvicenteAdrián Díaz‐TejeiroCristina MorenoVíctor lopez de SáAlfonso CalvoEmiliano Martínez‐LópezJoaquín Pérez‐SeguraPedro OcañaAlberto 
+1
+Experimental Therapeutics Unit, Hospital Clínico San Carlos (HCSC) Instituto de investigación sanitaria San Carlos (IdISSC), Madrid, Spain
+2
+Facultad Ciencias Químicas, Universidad Complutense, Madrid, Spain
+3
+START Madrid‐FJD, Hospital Fundación Jiménez Díaz, Madrid, Spain
+4
+Hospital Universitario 12 de Octubre‐Centro Nacional de Investigaciones Oncológicas (H12O‐CNIO) Haematological Malignancies Clinical Research Unit, Spanish National Cancer Research Centre, Madrid, Spain
+5
+Department of Hematology, Hospital Universitario 12 de Octubre‐Universidad Complutense, Instituto de Investigación Sanitaria Hospital 12 de Octubre (imas12), Madrid, Spain
+6
+Breast cancer, Centro de Investigación Biomédica en Red en Oncología (CIBERONC), Madrid, Spain*
+
+Correspondence
+, Cristina Nieto‐Jiménez and Alberto Ocaña, Experimental therapeutics unit, Hospital Clínico San Carlos (HCSC) Instituto de investigación sanitaria San Carlos (IdISSC), 28040, Madrid, Spain. Email: cnietoj@salud.madrid.org; alberto.ocana@salud.madrid.org
+
+✉Corresponding author.
+2292023139e1329e13292492023© 2023 The Authors. Clinical and Translational Medicine published by John Wiley & Sons Australia, Ltd on behalf of Shanghai Institute of Clinical Bioinformatics.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Introduction
+Antibody‐drug conjugates (ADCs) are a family of therapeutic agents that have demonstrated clinical activity in several indications.
+
+## Material and methods
+In this article, we performed a deep analysis of their clinical landscape matched with public genomic human datasets from tumour antigen targets (TATs), to identify empty areas for clinical development.
+
+## Results
+We observed that TATs used in haematological malignancies were more specific than the ones developed in solid cancers. Those included CD19, CD22, CD30, CD33 and CD79b. In solid tumours, we identified TATs, with approved ADCs, widely expressed in non‐explored niche indications like Enfortumab vedotin (anti‐Nectin4) in lung or cervical cancer; Tisotumab vedotin (anti‐TF) in glioblastoma or pancreatic cancer; and Sacituzumab govitecan (anti‐TROP2) in pancreatic, gastric, thyroid or endometrial cancer, among others. Similarly, niche indications for ADCs in clinical development included targets for CD71, PSMA, PTK7 or CD74, in tumours like breast, lung, stomach or colon. Some of these TATs were essential for the survival of tumour cells like CD71, PSMA and PTK7.
+
+## Conclusions
+In summary, our study opens the door for further evaluation of ADCs in several indications not explored before.
+
+Keywords: ADC, clinical approach, new therapies, targeted therapy
+
+• Most ongoing Antibody‐drug conjugates (ADCs) have a classical structure, with a minority of them with specific formats
+• ADCs against TAAs of haematological malignancies are more specific than those for solid tumours.
+• Niche indications for ADCs included targets for CD71, PSMA, PTK7 or CD74, in breast, lung, stomach or colon cancer.
+• Some of these TAAs are essential genes like CD71, PSMA and PTK7
+• This study opens the door for further evaluation of ADCs in non‐explored indications.
+
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2023 Jun 28; Received 2023 Mar 3; Accepted 2023 Jul 6; Collection date 2023 Sep.
+
+1.
+
+## INTRODUCTION
+Identification of novel druggable vulnerabilities in cancer is a major challenge. Classical approaches aimed to test different chemical entities for antitumoral activity, what has been called hit to lead, and in a second step, lead to hit, to refine its chemical structure. More recently, the discovery of novel genomic alterations leads to the identification of compounds able to inhibit a specific target protein. , For both of these strategies successful examples can be described demonstrating an improvement in clinical outcome. On the other hand, both approaches are unable to discriminate tumoral cells from non‐transformed ones, if the target is ubiquitously expressed. Moreover, some have shown a narrow therapeutic index with an inadequate safety profile. , , 
+
+The use of monoclonal antibodies to guide the delivery of active but toxic compounds have demonstrated to be beneficial for patients, with the first approval of antibody‐drug conjugates (ADCs) developed for lymphoma and breast tumours. , At this moment, there are 11 ADCs approved and many others in clinical development. 
+
+The successful development of ADCs depends on the correct use of the combination of three structural components, including the design of the antibody against a specific tumour target, the use of a suitable linker, and the selection of an appropriate payload (the cytotoxic component of ADC). , , Regarding the selection of a specific monoclonal antibody, beyond the concrete designing of the antibody itself or the use of specific formats and structures, the identification of a target only expressed within the tumour is key to demonstrating activity with reduced on‐target and off‐tumour toxicity. In this context, the best‐case scenario will be the use of an antibody against a tumour‐associated target (TAT) only expressed in the tumour where the selected payload demonstrated the highest antitumoral activity. 
+
+Approved ADCs have demonstrated significant clinical efficacy in increasing time‐to‐event endpoints, like progression‐free survival (PFS) or overall survival (OS) in particular indications, where there is a clear presence of the TAT, as is the case for those targeting HER2 like trastuzumab emtansine and trastuzumab deruxtecan. , , However, a deep evaluation of target expression among all tumour types with the aim of identifying potential clinical options for development has not been performed.
+In this article, we evaluate the current development process of ADCs in solid and hematologic malignancies with a special focus on the presence of niche areas for clinical development.
+
+2.
+
+## MATERIAL AND METHODS
+2.1.
+
+## Identification and classification of ADC
+By using ClinicalTrials.gov (https://www.clinicaltrials.gov/) we performed a search that included private and public‐funded clinical studies. We specified the term “cancer” in the search field “Disease”, and “Antibody‐drug conjugate” in the field “Other terms”. We found 357 clinical trials in this search (22 April 2022). Ten clinical trials were deleted as included compounds to detect and track cancer.
+The search was completed including ADCs approved, therefore adding 20 additional clinical trials related to these approved agents. In addition, we added three clinical trials related to ADCs with selective payload. In summary, a total of 370 clinical trials were included in the analysis.
+
+2.2.
+
+## Evaluation of the expression and dependence of ADC targets
+Using publicly available datasets (Gene Expression Profiling Interactive Analysis; http://gepia2.cancer‐pku.cn/ using TCGA) (last accessed in July 2022) we analyzed the expression (in transcripts per million, TPM) of these targets in the tumoral and non‐transformed (normal) tissue of all cancer types. We selected those whose TPM was equal to or greater than 32, a value considered medium/high in terms of gene expression. 
+
+With the expression data, we calculate the Fold Change between the tumour and normal tissue [(TPM tumour tissue‐TPM normal tissue)/TPM normal tissue]. A Fold Change of 1 means that tumour tissue has twice the expression of normal tissue.
+To study the expression by cancer subtypes, also public datasets were interrogated (Gene Expression Database of Normal and Tumor tissues; http://gent2.appex.kr/gent2/) (last accessed in July 2022). Data obtained were normalized by MAS5 and represented by log 2 of the Fold Change to simplify the representation. 
+
+The effect on cell viability of target inhibition or suppression was studied using the DepMap portal software tool (https://depmap.org/portal/) (last accessed in July 2022). This tool is used to analyze whether a target is essential for several tumour cell line types (common essential) or for a specific group (strongly selective).
+From the score provided by DepMap (Chronos, for CRISPR and DEMETER2, for siRNA), we selected a mean −0.7 score as an arbitrary threshold to choose those genes whose inhibition was closer to being essential. We focused only on those tumours with the highest incidence (Cancer Today‐ WHO; https://gco.iarc.fr/today/home, last accessed June 2022) including breast, colon, lung, gastric and prostate cancer and tumours for which ADCs have been approved. In the case of haematological tumours, non‐Hodgkin's lymphoma is ranked eleventh and leukaemia thirteenth (last accessed June 2023), so they have not been included in this analysis.
+
+3.
+
+## RESULTS
+3.1.
+
+## A snapshot of the current clinical development stage of ADCs
+Following our research criteria, as described in material and methods, 370 clinical trials (Table ) were selected and classified into the following subgroups: 213 were reported as active, including those not yet recruiting and currently recruiting; 90 were described as completed; 40 were terminated for several reasons including strategic considerations, lack of efficacy or sponsor prioritization, 15 withdrawn; three were no longer available; one was suspended, and one was available for enrollment only by invitation. Finally, seven of the studies have an “unknown” status (Figure  ). The clinical efficacy data of approved ADCs including indications and the corresponding study is displayed in Table .
+ Using those studies as a main source, we identified 123 ADCs. Of these, 115 ADCs had a classical structure (antibody‐linker‐chemotherapy); five had a chemical targeted agent payload (selective inhibitor); two were probody ADCs (designed to remain inactive until proteolytically activated in the tumour microenvironment) and one was a bispecific ADC (antibodies with two binding sites directed at two different antigens) (Figure  ). The ADCs with a chemical targeted agent payload included ABBV‐155, HDP‐101, BDC‐1001, SBT6050 and NJH395; the probodies included CX‐2029 and CX‐2009 and the bispecific ADC termed M1231 was designed against EGFR/MUC1 (Figure  ; Table ). Regarding the tumour antigen target (TAT), most of them were designed against HER2, cMET, TROP2 or BCMA, among others (Figure  ). Eleven ADCs were FDA‐approved and 112 were at this moment in clinical development (Figure  ). Within these clinical trials, 18 studies were terminated before completion, for different reasons, being the most frequent the lack of clinical efficacy or strategic considerations (Table ).
+Among those approved, the most frequent targets included CD33, CD30, HER2, CD22, CD79, Nectin‐4, Trop‐2, CD19, Tissue factor and Folate receptor‐α (FRα); and the majority had a MMAE payload (36%), followed by calicheamicin (18%) (Figure  ). Finally, most of the ADCs had a cleavable linker (91%) compared with those wearing a non‐cleavable one (9%). Among the cleavable ones, those with a protease cleavable linker were the most frequent ones (70%) (Figure  ).
+
+3.2.
+
+## TATs are highly specific in haematological malignancies
+ADCs targeting BCMA are approved in Multiple Myeloma, CD19 in Diffuse large B cell lymphoma (DLBCL) and CD22 in Acute B Lymphoblastic Leukemia (B‐ALL) (Table  ). Using genomic data (Table ) to evaluate the expression of TATs, as described in the material and methods section, we observed that, TATs expressed in haematological malignancies were highly specific and not expressed in normal tissue or other different tumour types (Figure  ). Only one exception was identified involving the presence at a genomic level of CD22 in normal ovarian tissue (Figure  ).
+ We observed that some of the described targets and approved ADCs in the mentioned indications, including CD19, CD22, CD30, CD33 and CD79b, were also present in other haematological tumours (Figure  ). In line with this observation, ADCs against these targets are under clinical evaluation in other haematological tumour types (Table ).
+Table  shows a summary of the ADCs approved for the treatment of haematological tumours, including their target, linker and payload, as well as the main approved indication. As can be seen in Figure  , CD79B is also highly expressed in myeloma, which suggests that acting on this receptor would be a reasonable therapeutic opportunity that is not currently in clinical evaluation (Table  and Table ).
+
+3.3.
+
+## Mapping TATs in solid tumours to identify niche areas for clinical development
+Next, we used genomic data to evaluate the presence of the TAT for approved ADC, in different indications including solid tumours, diffuse large B cell lymphoma and acute myeloid leukaemia. Highlighted in red, in Figure  , we can observe those indications for which the target is overexpressed in tumour tissue with a statistically significant difference. TROP2 is overexpressed in several tumour types including bladder, cervix, lung, ovarian, pancreas, prostate, stomach and thyroid. Of note, high expression is also observed in normal tissues including oesophagus tissue and skin (Figure  ). Side effects associated with the drug Sacituzumab govitecan have been reported including itching, rash, alopecia, mucosal inflammation and coughing among others, that could be related to the presence of the target in those mentioned tissues. In the case of TATs for breast cancer, we observed that ERBB2 was exclusively expressed in the so‐called HER2‐positive breast cancer, due to the presence of an amplified gene (Figure  ). However, for TROP2, a significant presence was also observed in luminal and HER2‐positive tumours (Figure  ). In a similar way, among tumours for which TATs were highly expressed, we found some indications where these ADCs were not under clinical evaluation. Figure  summarizes some of the data including options for clinical development such as the use of Enfortumab vedotin (Nectin‐4) in cervical and lung cancer; Tisotumab vedotin (TF) in glioblastoma and pancreatic cancer; or Sacituzumab govitecan (TROP2) in cervical, pancreatic, gastric, thyroid, and endometrial cancer. In line with this, Sacituzumab govitecan has recently received US FDA approval in ER‐positive breast cancer (Figure  ).
+ 
+3.4.
+
+## Some TATs are common essential genes
+We next evaluated if some of the evaluated TATs played an oncogenic role, being targets themselves. In this context, the anti‐tumour effect of the ADC will not be only produced by the action of the payload, but through the inactivation of the oncogenic action of the membrane receptor. To do this, we used a bioinformatics approach, as described in the material and methods section. We identified three targets CD71, PSMA and PTK7 that were commonly essential. This means that their down‐regulation would affect tumour cell proliferation (Figure  ). In a less significant manner, we identified as “strongly selective” the following targets: AXL, CD117, CD46, CD74, CD79b, MET, DPEP3, EGFR, ERBB2, ERBB3, FGFR2, FGFR3, FLT3, FRα, GUCY2C, IGF‐1R, LIV‐1, NaPi2b, SLAMF7, SLC44A4 and SLITRK6 (Figure  ). We also analyzed the score for deletion (CRISPR) of each target in the tumours for which they were evaluated (Figure ). We did not observe a high dependence in these tumours, except for CD71, in haematological tumours (Figure ). Commonly essential and strongly selective genes belonged principally to the receptor tyrosine kinase and immune function, as can be seen in Figure  . We observed that CD71 is one of the most essential targets in breast, colon and gastric tumours (Figure  ). Other common essential targets include EGFR in prostate cancer (Figure  ).
+ 
+3.5.
+
+## Expression of common essential genes in most prevalent tumours
+The expression of the identified common essential TATs was evaluated using genomic data in the five more prevalent tumours including breast (BRCA), colorectal (COAD), lung (LUAD), prostate (PRAD) and gastric (STAD). A significant upregulation compared with normal tissue was observed for CD74 for breast, colorectal and gastric tumours and CD71 for breast, lung or stomach as can be seen in Figure  . In addition, PTK7 and SLC44A4 showed high expression in breast and colon tumours (Figure  ). To complete the analysis, we studied those genes that had a Fold Change (FC) greater than 1.5 with 32 TPM (Figure  ). Genes identified in breast cancer included ERBB3, LIV‐1 and SLC44A4; in colorectal cancer CD71, PTK7 and SLC44A4; in lung cancer SLC44A4; in prostate cancer LIV‐1 and PSMA; and finally in stomach cancer CD71 and CD74 (Figure  ).
+As in our previous analysis, we matched if some of these indications were not clinically exploited. Thus, ADCs directed against SLC44A4 could potentially be evaluated in breast cancer; CD71, PTK7 and SLC44A4 in colorectal cancer; SLC44A4 in lung cancer; LIV‐1 in prostate cancer, and finally CD71 and CD74 in gastric cancer. This data suggests potential opportunities for development in the described indications (Figure ).
+
+4.
+
+## DISCUSSION
+In the present study, we evaluate the current clinical development of ADCs in solid tumours and some haematological malignancies. By extracting the data of the ongoing clinical studies, we aimed to have a snapshot of the current development to improve the clinical development of these agents.
+We first observed that most of the ADCs in development were based on a classical antibody structure and only a minority included nanobodies or bispecific formats. This clearly shows the limitations that these types of formats can display at the production and manufacturing level, and explain why clinical implementation is gradual. When analyzing TATs, we observed that most of them included well‐known targets such as HER2, cMET, TROP2 or BCMA. This data highlights the clear bottleneck that represents for this family of compounds the identification of novel targets, and the clear opportunity that represents the discovery of new surfaceome proteins. Most used payloads and linkers included MMAE and cleavable linkers, respectively. Of note, old targets like CD20 have hardly been implemented as ADCs. A potential reason could be the lack of differentiation compared with new competitor ADCs in the same indication.
+When evaluating TATs, we observed a high specificity of the target in haematological malignancies compared with normal tissue, and some haematological indications shared the expression of the target. In this context, some opportunities for development could be exploited like targeting CD79b in multiple myeloma. In contrast, TATs in solid tumours were widely present in several indications and in normal tissue demonstrating a lack of specificity. For instance, TROP2 is overexpressed in several tumour types including bladder, cervix, lung, ovarian, pancreas, prostate, stomach and thyroid, but also in normal tissues including oesophagus tissue and skin, which suggests a potential narrow therapeutic index. When evaluating opportunities for development in indications with expression of the TAT, we identified several scenarios not exploited like Enfortumab vedotin, anti‐Nectin4, in cervical and lung cancer, Tisotumab vedotin, anti‐TF, in glioblastoma and pancreatic cancer, or Sacituzumab govitecan, anti‐TROP2, in cervical, pancreatic, gastric, thyroid and endometrial cancer. To the best of our knowledge, none of these opportunities is under clinical evaluation.
+Of note, we identified that some of the TATs selected were also oncogenic proteins that if downregulated could have an antitumor role. To do so, we used a standard bioinformatics approach as described elsewhere. , Examples included CD71, PSMA and PTK7. We also identified that ADCs against CD71, PTK7, CD74, SLC44A4 and LIV‐1 were not under evaluation in breast, colorectal, prostate and gastric cancer, which suggests potential opportunities for evaluation. A further step will be the identification of indications to evaluate combinations including those with novel immunotherapies where relevant preclinical data has been reported. , , 
+
+Among important aspects to take into consideration and that could influence ADC activity, we can refer to some of the following: the oncogenic role of the receptor, antibody binding, internalization of the receptor, recycling, linker cleavage, lysosomal processing, payload diffusion through the lysosomal and cellular membranes, or the particular antitumor activity to the payload in specific cancers. In this context, spatial tumour heterogeneity and drug penetration are key concepts, particularly for this kind of compound, that depend on the presence of the target, in addition to their very high molecular weight. , ADCs with a cleavage linker and with adequate physico‐chemical properties of the payload can have a much better bystander effect and potentially overcome some of these problems.
+The main limitation of this study is related to the evaluation of the targets at a transcriptomic level without including protein data. Of note, the lack of datasets of protein expression with reliable information for the evaluated genes made this objective unrealistic.
+
+5.
+
+## CONCLUSIONS
+In the current article, we describe novel opportunities for drug development of approved and under clinical evaluation ADCs. For instance, agents against some overexpressed targets such as CD71, PTK7, CD74 and SLC44A4 could be evaluated in some conditions such as breast, colon and gastric cancer. In summary, we provide a snapshot of the current landscape of ADCs in cancer providing information about potential new options to exploit clinically.
+
+## CONFLICT OF INTEREST STATEMENT
+The authors declare no conflict of interest.
+
+## Supporting information
+
+Figure S1 (A) DepMap scoring of previously identified targets for various cell lines. Here, we analyze dependence on the tumours for which they have been tested in clinical trials. (B) Summary table of genes that are highly expressed in tumour tissue compared to normal tissue. We represent the payload, tumours for which it is evaluated in clinical trials and tumours for which it should be evaluated.
+Click here for additional data file.
+
+Table S1 Clinical trials of all currently evaluated ADCs.
+Click here for additional data file.
+
+Table S2 Efficacy of approved ADCs.
+Click here for additional data file.
+
+Table S3 Summary table of clinical trials that were terminated prematurely.
+Click here for additional data file.
+
+Table S4 Number of samples for each tumour and normal tissue that have been genomically analyzed (TCGA and GTEx)
+Click here for additional data file.
+
+Table S5 ADCs targeting haematological tumours.
+Click here for additional data file.
+
+## ACKNOWLEDGEMENTS
+These results have been supported by Instituto de Salud Carlos III (PI19/00808), ACEPAIN, Diputación de Albacete, CIBERONC and CRIS Cancer Foundation (to Alberto Ocaña). The work carried out in our laboratories receives support from the European Community through the regional development funding program (FEDER).
+Thanks to my family Raquel Páez, Mateo, Pablo, Rodrigo and Ines Ocana Páez, for their continuous support.
+
+Nieto‐Jiménez C, Sanvicente A, Díaz‐Tejeiro C, et al. Uncovering therapeutic opportunities in the clinical development of antibody‐drug conjugates. Clin Transl Med. 2023;13:e1329. 10.1002/ctm2.1329
+
+## Contributor Information
+Cristina Nieto‐Jiménez, Email: cnietoj@salud.madrid.org.
+Alberto Ocaña, Email: alberto.ocana@salud.madrid.org.
+
+## DATA AVAILABILITY STATEMENT
+All data generated or analyzed during this study are included in this published article (and its supplementary information files).
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1 (A) DepMap scoring of previously identified targets for various cell lines. Here, we analyze dependence on the tumours for which they have been tested in clinical trials. (B) Summary table of genes that are highly expressed in tumour tissue compared to normal tissue. We represent the payload, tumours for which it is evaluated in clinical trials and tumours for which it should be evaluated.
+Click here for additional data file.
+
+Table S1 Clinical trials of all currently evaluated ADCs.
+Click here for additional data file.
+
+Table S2 Efficacy of approved ADCs.
+Click here for additional data file.
+
+Table S3 Summary table of clinical trials that were terminated prematurely.
+Click here for additional data file.
+
+Table S4 Number of samples for each tumour and normal tissue that have been genomically analyzed (TCGA and GTEx)
+Click here for additional data file.
+
+Table S5 ADCs targeting haematological tumours.
+Click here for additional data file.
+
+## Data Availability Statement
+All data generated or analyzed during this study are included in this published article (and its supplementary information files).

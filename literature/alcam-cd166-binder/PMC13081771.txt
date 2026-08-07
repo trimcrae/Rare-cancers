@@ -1,0 +1,148 @@
+pmcPM RPM R379blackwellopenPMRJPm & R1934-14821934-1563pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC13081771PMC13081771.113081771130817714123073510.1002/pmrj.70029PMRJ700291Original ArticleOriginal ArticleGenetically predicted KIR2DS4 mediate the association between gut microbe K10 and osteoporosis fractures: A mediation Mendelian randomization study
+KIR2DS4 Mediates Gut Microbe K10‐Osteoporosis Fracture LinkWang et al.WangQiongMMedhttps://orcid.org/0009-0004-0021-2457Joantcm@163.com KuangQingMMed2111689799@qq.com ChenChengMMed751760466@qq.com WangBinruMMedhttps://orcid.org/0009-0006-4585-5864799710838@qq.com XiangWeiMMed1172288684@qq.com LiXinmingMMedhttps://orcid.org/0009-0005-0250-7424 ttklxm@163.comMouJianjiaoMMedhttps://orcid.org/0009-0004-3717-786X 173930434@qq.com
+
+1
+
+Department of Pain Treatment
+Suining Central Hospital
+Suining
+China
+
+2
+
+Rehabilitation Medicine Department
+Suining Central Hospital
+Suining
+China
+
+*
+Correspondence
+
+Xinming Li. Department of Pain Treatment, Suining Central Hospital. 127 Desheng West Road, Chuanshan, Suining, Sichuan, 629000, China.
+Email: ttklxm@163.com
+
+Jianjiao Mou. Rehabilitation Medicine Department, Suining Central Hospital. 515 Tiangong South Road, Chuanshan, Suining, Sichuan, 629000, China.
+Email: 173930434@qq.com
+
+131120254202618451164710.1002/pmrj.v18.4426442
+1972025
+1892024
+0182025
+150420261604202616042026© 2025 The Author(s). PM&R published by Wiley Periodicals LLC on behalf of American Academy of Physical Medicine and Rehabilitation.https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+
+## Background
+Osteoporosis fractures pose a significant public health concern, leading to substantial morbidity and mortality rates. The emerging evidence on the potential link between gut microbiota, proteins, and osteoporosis fractures suggests a complex relationship that warrants further investigation.
+
+## Objective
+To investigate the bidirectional relationships between gut microbiota, proteins, and osteoporosis fractures.
+
+## Design
+We leveraged genome‐wide association study (GWAS) data to perform two‐sample and reverse Mendelian randomization analyses.
+
+## Setting
+This mediation Mendelian randomization analysis utilized publicly available GWAS summary statistics from the NHGRI‐EBI Catalog and the FinnGen consortium.
+
+## Participants
+Analyses were based on genetic associations estimated from large cohorts including up to 5959 individuals for gut microbiota, 619 for plasma proteomics (Olink), and 1822 Finnish biobank participants for fracture outcomes (FinnGen).
+
+## Interventions
+Not applicable.
+
+## Main Outcome Measurements
+The causal relationship between gut microbiota and osteoporotic fractures, along with the mediating role of proteomics in this relationship.
+
+## Results
+Our Mendelian randomization analysis identified 12 gut microbes and 194 proteins with potential causal effects on osteoporosis fractures. Notably, the gut microbial strain K10 was found to reduce the risk of osteoporosis fractures, whereas the KIR2DS4 protein was associated with an increased risk of osteoporosis fractures. Mediation analysis indicated that KIR2DS4 may mediate the effect of K10 on fracture risk. We observed no evidence of reverse causality in our analyses, which supports the validity of our findings.
+
+## Conclusion
+This study provides compelling evidence supporting the causal involvement of specific gut microbiota and proteins in susceptibility to osteoporosis fractures. The identification of KIR2DS4 as a mediator in the K10–osteoporosis fractures relationship highlights a potential therapeutic target for osteoporosis management. These findings have significant implications for our understanding of the pathogenesis of osteoporosis, underscoring the importance of gut microbiota and protein metabolism in disease susceptibility.
+
+Sichuan Provincial Administration of Traditional Chinese Medicine10.13039/501100016350
+2024MS398 
+
+## 
+Data information
+
+This study analyzed disaggregated intestinal microbiome data from the FINRISK 2002 prospective cohort, comprising 5959 European adults aged 25–74 years. The participants were stratified by gender, region, and age and underwent comprehensive phenotyping, including genotyping, fecal metagenomic measurements, diet assessment, antibiotic use tracking, and health follow‐up. The taxonomic analysis was based on the Genome Taxonomy Database release 89 database and identified 2801 common bacterial groups present in >25% of individuals. These groups were then screened for genome‐wide association analysis (GWAS). To control for potential confounding factors, the analysis adjusted for age, gender, genotyping batches, and the top 10 genetic principal components. To ensure robust results, several data preprocessing steps were taken. Compositional bias was eliminated using central log‐ratio conversion. The absence of sequencing depth and alpha diversity was verified. Genetic similarity was controlled using a linear mixing model and conditional score to reduce false positives. The analysis identified 471 taxa (p < 5.0 × 10–8) that account for 17% of all taxa, including representatives from 11 phyla (mainly Firmicutes and Bacteroidetes), 19 classes (such as Clostridia), 24 orders (mainly Clostridia and Bacteroidetes), 62 families (such as Trichomidae), 146 genera (such as Bifidobacterium and Faecalis), and 209 species (such as Akkermansia muciniphila). These findings illustrate the taxonomic depth and functional diversity of the intestinal ecosystem.
+The proteomics GWAS data used in our study were obtained from the Olink platform within the Finnish database R10 (DF10). The dataset consisted of 619 samples, with a total of 2925 proteins quantified as of April 24, 2024. This comprehensive dataset enabled high‐throughput profiling of protein expression, allowing for the identification of protein biomarkers associated with various genetic variants and disease endpoints.
+The osteoporosis fracture GWAS data (osteoporosis with pathological fracture) originates from the FinnGen (r10). The dataset comprised 1822 cases and 311,210 controls, with a predominantly female sample (50%–55%) and a smaller proportion of males (45%–50%). The majority of the sample was >40 years old, with a significant portion being >50 years old.
+
+## 
+Data extraction
+
+In our MR analysis, we employed the two‐sample MR package to rigorously filter and clean the data by removing missing values and outliers. To identify suitable IVs, we selected SNVs that are strongly associated with the exposure, using a p value threshold of <1 × 10–5 based on previous studies. To ensure the independence of the selected SNVs, we applied a linkage disequilibrium criterion, excluding SNVs within a genetic distance of 10,000 kb and having a correlation coefficient (r
+2 > .001). This step is essential to prevent multicollinearity and ensure that each SNV contributes independently to the analysis. For reverse MR analysis, we selected SNVs associated with osteoporosis fractures using the same p value threshold of <1 × 10–5. To maintain the independence of these SNVs, we applied the same linkage disequilibrium criteria as before (10,000 kb, r
+2 > .001). To further ensure that our IVs are strong and reliable, we calculated the F‐statistic for each selected SNV. F = (R
+2 (n – k – 1))/((1 – R
+2) K), where n is the sample size, k is the number of IVs, and R
+2 is the proportion of variance in the exposure explained by the SNVs. We excluded those with an F‐statistic <10, as they may be considered weak IVs. 
+
+## 
+Statistical analysis
+
+All statistical analyses and data visualization were conducted using R software version 4.1.1 (https://www.r-project.org/).
+We employed a range of methods to investigate the potential causal relationships between gut microbiota and osteoporosis fractures, as well as between proteomics and osteoporosis fractures. We initially used the inverse variance weighting (IVW) method to analyze these associations. IVW assumes a strong correlation between the IVs and the exposure, as well as independence of IVs from confounding factors affecting the exposure–outcome relationship. Under these assumptions, IVW provides the most accurate assessment of causal effect. In addition to IVW, we employed other methods to corroborate our findings. These included MR‐Egger regression, weighted median estimator, weighted mode, and simple mode. The magnitude of the causal effect was represented by the odds ratio (OR) and 95% confidence interval (CI). To ensure the reliability of our results, we assessed the consistency of β values obtained from IVW with those from other methods. We also excluded IVs exhibiting heterogeneity, pleiotropy, or significant influence from a single SNV. 
+
+We evaluated statistical heterogeneity among SNVs using the Cochran Q test. A p value >.05 indicated no significant heterogeneity. To assess horizontal pleiotropy in SNVs, we used the MR‐Egger regression intercept test, where a nonsignificant intercept term suggested the absence of pleiotropy. We also employed the MR‐PRESSO method to identify potential outliers among IVs by calculating the sum of squares of global and SNV‐specific residuals. Outliers with a p value <.05 were excluded, and MR analysis was performed. To further assess data robustness, we conducted leave‐one‐out sensitivity analysis.
+Finally, to investigate possible bidirectional associations, we conducted a reverse MR analysis, considering osteoporosis fracture as the exposure factor and gut microbiota as the outcome.
+
+## 
+Mediation analyses link gut microbiota–proteomics–osteoporosis fracture
+
+Following the identification of significant associations between gut microbiota, proteomics, and osteoporosis fractures using two‐sample MR analysis, we subjected these relationships to further examination. To ensure the validity of our findings, we excluded exposure–mediator combinations characterized by pleiotropy, heterogeneity, and beta inconsistency. We selected pairs exhibiting the most significant p values for subsequent mediation analysis. These pairs were identified through a thorough evaluation of the data, ensuring that only the most robust associations were considered. The following steps were conducted. (1) We calculated the total effect (β) representing the effect value of gut microbiota—osteoporosis fracture. (2) To assess reverse causation, we conducted a bidirectional MR analysis with osteoporotic fracture as exposure and gut microbiota as outcome. This analysis revealed no significant association (p > .05), suggesting that bone fracture status is unlikely to causally influence gut microbiota composition. The results of the bidirectional MR analysis satisfied the temporal precedence criterion in mediation analysis, where the exposure (gut microbiota) must precede the outcome (fractures) in the causal pathway. This strengthens the robustness of our primary forward MR findings. (3) We determined the effect values for gut microbiota–proteomics (β1) and proteomic–osteoporosis fracture (β2). The mediating effect was calculated as “β1 × β2”, and the direct effect was calculated as “β – β1 × β2”.
+
+## RESULTS
+
+## 
+Genetic causality and correlation between gut microbiota and osteoporosis fracture
+
+Using IVW analysis, we investigated the causal relationship between gut microbiota and osteoporosis fractures. Our results identified 12 gut microbiota species with significant causal effects, distributed across multiple taxonomic levels. These bacterial species are spread across five phyla, five classes, six orders, seven families, and five genera (Table  ). Notably, four of the species were unclassified at the genus level. Four bacterial species demonstrated a negative association with osteoporosis fractures, and eight showed a positive association (Table  and Figures  and ). Of these, Bacteroides faecis had the most substantial influence on the risk of osteoporosis fracture, with an OR of 1.460 (95% CI: 1.180–1.810; p = .001).
+ To further investigate the relationship between osteoporotic fractures and gut microbiota, we conducted a reverse MR analysis. Our findings indicated no evidence of reverse causality between osteoporotic fractures and 12 specific types of gut microbiota (Table  ).
+ 
+
+## 
+Genetic causality and correlation between proteomics and osteoporosis fracture
+
+Using the IVW method, we conducted a two‐sample MR analysis to investigate the causal relationship between 2925 proteins and osteoporosis fractures. This analysis revealed that 194 proteins were causally associated with osteoporosis fractures. To further elucidate these relationships, we identified a subset of 15 proteins exhibiting the strongest associations with osteoporosis fractures based on their p values (Table  and Figure  ). Among these top‐associated proteins, MICB_MICA demonstrated the most substantial influence on osteoporosis fracture risk, with an OR of 1.050 (95% CI: 1.040–1.100; p < .001).
+ 
+
+## 
+Genetic causality and correlation between gut microbiota and proteomics
+
+This analysis aimed to identify causal relationships between specific gut microbial species and protein variants that contribute to osteoporotic fractures. Our results revealed 95 causal relationships between gut microbial–protein pairs (Table  ). The most significant causal relationship was found between the gut microbe K10 and the protein KIR2DS4 (OR: 0.36; 95% CI: 0.21–0.61; p = .000133). This suggests that the presence of K10 may have a protective effect against osteoporotic fractures, potentially through its interaction with KIR2DS4.
+ 
+
+## 
+Genetically predicted KIR2DS4 mediate the association between gut microbe K10 and osteoporosis fracture
+
+Our mediation analysis, as illustrated in Figure  , revealed that gut microbe K10 has a protective effect against osteoporosis fractures (OR: 0.68; 95% CI: 0.49–0.94; p = .021). Conversely, protein KIR2DS4 was identified as a risk factor for osteoporosis fracture (OR: 1.06; 95% CI: 1.03–1.09; p = .000767). We calculated the total effect of gut microbiota on osteoporosis fractures, which was −0.3877185. The mediated effect, accounting for 14.9% of the total effect, was −0.05782353. Notably, this suggests that K10's inhibitory action on KIR2DS4 can effectively mitigate the risk of osteoporosis fractures. Breaking down the effects further, we found that the direct effect of gut microbiota on osteoporosis fractures was −0.3298949, while the mediated effect accounted for 14.9% of this total. This indicates that K10's interaction with KIR2DS4 plays a significant role in reducing the risk of osteoporosis fractures.
+ 
+
+## DISCUSSION
+The human gut microbiome is a complex, dynamic ecosystem that plays a vital role in maintaining host health. This intricate microbial community is involved in various physiological processes, including nutrient metabolism, immune system modulation, and barrier function maintenance. Moreover, an imbalance of the gut flora has been linked to numerous systemic diseases, affecting multiple bodily systems, such as the endocrine, nervous, cardiovascular, and immune systems, among others. Our study aimed to identify gut microbiota that are causally associated with osteoporosis fractures using MR analysis. We observed a significant inverse correlation between four specific gut microbes and osteoporosis fractures, indicating a potential protective effect against these fractures. Conversely, eight other gut microbes exhibited a positive correlation with osteoporosis fracture risks, suggesting a possible detrimental role in the development of these conditions. Mediation analysis revealed that KIR2DS4 contributed approximately 14.9% to the total effect of K10 on osteoporosis fractures, highlighting its potential as a key mediator in this relationship.
+Gut microbiota play a crucial role in bone health and the development of osteoporosis. The mechanisms involved are multifaceted, involving various pathways that affect bone formation, resorption, and remodeling. Metabolites produced by gut microbes, such as SCFAs, promote bone formation or inhibit bone resorption. Gut microbiota affects calcium absorption efficiency and the bone remodeling process through bile acid metabolism pathway changes. Imbalance of intestinal microorganisms leads to abnormal immune system activation, releasing proinflammatory cytokines that accelerate osteoclast activity and promote bone loss. Metabolites produced by gut microbes are transmitted to the central nervous system through the gut–brain axis, influencing the regulation of bone metabolism by the hypothalamic–pituitary axis. There are also direct effects of specific bacterial groups on bone mineral density. Akkermansia and Clostridiales DTU089: High abundance is associated with decreased bone mineral density in the radius and tibia cortex. Lachnospiraceae NK4A136 and Faecalibacterium: High abundance is associated with increased bone mineral density in the tibial cortex, suggesting a potential beneficial effect on bone health. Our findings revealed that K10 has a protective effect against osteoporosis fractures. K10 are commonly found in the mammalian gut, closely related to host health, and actively involved in cellulose fermentation, leading to increased production of SCFAs and improved intestinal calcium absorption. 
+
+Proteins play a crucial role in the development and progression of osteoporosis. The bone organic matrix is primarily composed of Type I collagen, which accounts for >90% of its content. The synthesis of this protein depends on hydroxyproline and lysine. A study using tandem mass tag proteomics identified 75 differentially expressed proteins in human bone tissue, with 53 downregulated and 22 upregulated. IGF‐1 promotes bone growth and increases calcium absorption when produced in response to adequate protein supply. Kynurenine can reduce osteoblast metabolism and number, promoting the formation of osteoporosis. Denosumab, a monoclonal antibody targeting the RANKL protein, effectively inhibits osteoclast differentiation and activation by blocking the RANKL/RANK signaling pathway. Denosumab (Prolia) has been clinically demonstrated to increase bone mineral density in postmenopausal women with osteoporosis. Our MR analysis identified 194 proteins associated with osteoporotic fractures from a total of 2925 proteins. The results suggest that KIR2DS4 is significantly positively associated with the risk of osteoporotic fracture. KIR2DS4 is a member of the cell‐killing immunoglobulin‐like receptor family, which plays a crucial role in regulating immune responses. KIR2DS4 may lower the activation threshold of natural killer cells by recognizing specific human leukocyte antigen‐C ligands, thereby triggering increased release of interleukin‐17 and promoting osteoclast generation, thus contributing to osteoporosis.
+The regulation of protein levels in the body is mediated by gut microbes. This study investigates the relationship between intestinal microbial imbalance, abnormal protein levels, and osteoporosis pathogenesis using mediated MR analysis. K10 is found to inhibit the occurrence of osteoporotic fractures by inhibiting KIR2DS4 activity. The proportion of KIR2DS4 in the K10–osteoporotic fracture relationship was 14.9%, highlighting its significant mediating role. The study provides a theoretical basis for developing interventions based on K10, including regulating KIR2DS4 activity through dietary interventions or probiotic supplementation to enhance rehabilitation effects such as improving bone density and reducing fracture risk.
+This study has several advantages. First, it used data from various large‐scale databases, such as the FINRISK and FinnGen projects in Finland, and proteomics data from the Olink platform. These datasets are of high quality and are representative, encompassing multiple biological levels of variability and providing a rich foundation for comprehensive analysis. Second, diverse statistical methods, including IVW, MR‐Egger regression, and MR‐PRESSO, were employed to assess and validate causality. The Cochran Q test and MR‐Egger regression intercept test were also used to confirm the robustness of the results. Third, through mediation analysis, this study elucidated the pathway by which gut microbiota (K10) influences osteoporosis fractures via specific proteins (KIR2DS4). This analytical approach provides novel insights into understanding causality in complex biological systems and aids in identifying potential therapeutic targets.
+This study, although comprehensive, has certain limitations that should be acknowledged. First, the data used in this study were primarily sourced from the FINRISK and FinnGen projects in Finland, which limits the generalizability of our findings to other ethnic or geographic regions. Second, the proteomic data obtained from the Olink platform have limited protein coverage, potentially overlooking key proteins associated with osteoporosis fractures. Third, although MR studies can provide evidence for causal relationships, they do not carry the same weight as experimental studies. Therefore, further experimental research is needed to confirm and clarify the observed associations.
+
+## CONCLUSION
+This study has made significant progress in elucidating the relationship between gut microbiota and osteoporosis fractures through the use of bidirectional MR analysis. The findings suggest that K10 may mitigate the incidence of osteoporosis fractures by suppressing the expression of KIR2DS4, providing new insights into the mechanisms underlying this complex relationship. However, further research is needed to fully understand the intricate interplay among gut microbiota, proteome, and osteoporosis fractures, accounting for potential confounding factors such as diet, lifestyle, and medications. We anticipate that this study will serve as a catalyst for further exploration in this field, ultimately yielding novel ideas and approaches for preventing and treating patients with osteoporosis fractures.
+
+## FUNDING INFORMATION
+This study was supported by the Sichuan Provincial Administration of Traditional Chinese Medicine (A randomized controlled study of postoperative residual pain after vertebroplasty for osteoporotic vertebral compression fractures treated with Fu's Subcutaneous Needling based on the theory of the tightened muscle) (grant number 2024MS398).
+
+## DISCLOSURE
+The authors declare that they have no competing interests.
+
+## GUARANTOR OF THE ARTICLE
+All authors had full access to all the data in the study and take responsibility for the integrity of the data and the accuracy of the data analysis.
+
+## ACKNOWLEDGMENTS
+We express our gratitude to the FinnGen consortium and FINRISK 2002 (FR02) cohort study for publicly sharing their invaluable GWAS data.
+
+## DATA AVAILABILITY STATEMENT
+The gut microbial taxa data exhibiting genome‐wide significant associations can be accessed publicly through the National Human Genome Research Institute‐European Bioinformatics Institute GWAS Catalog (https://www.ebi.ac.uk/gwas/). The metagenomic data obtained from the FINRISK2002 samples can be accessed through the European Genome, Phenome Archive (study ID.EGAS00001005020). The proteomics GWAS data used in our study were obtained from the Olink platform within the Finnish database R10 (DF10). This dataset included proteomic quantification from 619 samples, encompassing a total of 2925 proteins (as of 24 April 2024). Olink proteomic data were used for high‐throughput profiling of protein expression, enabling comprehensive analysis of protein biomarkers associated with various genetic variants and disease endpoints within the DF10 dataset. The osteoporosis fracture GWAS data (osteoporosis with pathological fracture) originates from the FINNGEN (https://r10.finngen.fi/). Data sources include hospital records, discharge summaries, and medication records, providing comprehensive diagnostic and treatment information.

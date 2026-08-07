@@ -1,0 +1,316 @@
+pmcEMBO JEMBO J78emboj8208664EMBJThe EMBO Journal0261-41891460-2075Nature Publishing GroupPMC8521297PMC8521297.1852129785212973448737510.15252/embj.2021108614EMBJ20211086141ArticleArticlesSingle‐cell transcriptomics of suprachiasmatic nuclei reveal a Prokineticin‐driven circadian network
+Emma L Morris et al
+MorrisEmma Lhttps://orcid.org/0000-0003-2251-6967 PattonAndrew Phttps://orcid.org/0000-0003-2666-4254 CheshamJohanna Ehttps://orcid.org/0000-0002-8981-2667 CrispAlastair AdamsonAntonyhttps://orcid.org/0000-0002-5408-0013 HastingsMichael Hhttps://orcid.org/0000-0001-8576-6651 mha@mrc-lmb.cam.ac.uk
+
+1
+
+Division of Neurobiology
+MRC Laboratory of Molecular Biology
+Cambridge
+UK
+
+2
+
+The Genome Editing Unit
+Faculty of Biology, Medicine and Health
+University of Manchester
+Manchester
+UK
+
+*
+Corresponding author (lead contact). Tel: +44 1223267045; E‐mail: mha@mrc-lmb.cam.ac.uk
+
+069202118102021402039203210.1002/embj.v40.20e108614
+0582021
+3042021
+0982021
+060920212910202130052026© 2021 MRC Laboratory of Molecular Biology Published under the terms of the CC BY 4.0 licensehttps://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Circadian rhythms in mammals are governed by the hypothalamic suprachiasmatic nucleus (SCN), in which 20,000 clock cells are connected together into a powerful time‐keeping network. In the absence of network‐level cellular interactions, the SCN fails as a clock. The topology and specific roles of its distinct cell populations (nodes) that direct network functions are, however, not understood. To characterise its component cells and network structure, we conducted single‐cell sequencing of SCN organotypic slices and identified eleven distinct neuronal sub‐populations across circadian day and night. We defined neuropeptidergic signalling axes between these nodes, and built neuropeptide‐specific network topologies. This revealed their temporal plasticity, being up‐regulated in circadian day. Through intersectional genetics and real‐time imaging, we interrogated the contribution of the Prok2‐ProkR2 neuropeptidergic axis to network‐wide time‐keeping. We showed that Prok2‐ProkR2 signalling acts as a key regulator of SCN period and rhythmicity and contributes to defining the network‐level properties that underpin robust circadian co‐ordination. These results highlight the diverse and distinct contributions of neuropeptide‐modulated communication of temporal information across the SCN.
+
+Eleven distinct neuronal sub‐populations constitute the central circadian clock in the mammalian hypothalamus, and integrate temporal information via diverse and distinct contributions of neuropeptide‐modulated communication. 
+
+neural networkneuropeptidesProkineticin receptor 2Prokineticin2single‐cell transcriptomics
+
+## Subject Categories
+NeuroscienceSignal TransductionUKRI|Medical Research Council (MRC)
+10.13039/501100000265MC_U105170643UKRI|Biotechnology and Biological Sciences Research Council (BBSRC)
+10.13039/501100000268BB/R016658/1 To obtain a global view of their circadian time‐dependent changes, transcriptomes of all 17,363 SCN neurons were combined and the graph‐based clustering algorithm was set to identify two clusters. This yielded a clear‐cut separation of two transcriptionally distinct clusters (Fig  ). Back‐reference to cell‐specific barcodes revealed that the two clusters represented either circadian daytime or night‐time samples. Thus, circadian time influences the transcriptional state of SCN neurons to such a degree that the pooled cells segregated almost perfectly (98.8% cluster coverage) into those collected at day or night. We next asked which were the main circadian day‐/night‐defining genes by using a negative binomial exact test (CellRanger in‐built algorithm, multiple testing corrected using Benjamin–Hochberg) (Fig  ). Known circadian genes such as Rasd1, which regulates SCN responsiveness to photic and non‐photic cues (Cheng et al, , ), and the E3 ligase Pam, which is involved in Rev‐Erba degradation (Yin et al, ), were significantly up‐regulated at night. In contrast, day‐distinguishing SCN genes included Nr1d1 (encoding Rev‐Erba), Dbp and Rasl11b whose expression is known to peak during early subjective day (Yamaguchi et al, ; Gerstner et al, ). In addition, genes involved in the gating of SCN network signalling such as Rgs16 (Doi et al, ) and Dusp4 (Hamnett et al, ) were notably up‐regulated in the daytime. Overall, gene ontology identified highly significant up‐regulation of genes associated with synaptic function (including GABA and dopamine) and cell contacts in circadian day, whilst circadian night was characterised by protein degradation and loss of neuropeptide transport (Appendix Fig ). The most significantly daytime up‐regulated gene (> 5‐fold enriched) was Prok2, which encodes the neuropeptide Prokineticin (Prok)2.
+ To identify SCN neuronal sub‐populations, we used unsupervised graph‐based clustering of the transcriptomes of the 7,931 daytime SCN neurons. This identified eight clusters for which three marker genes, chosen from the top 12 most up‐regulated genes per cluster, were used as cluster labels: Groups A (Gem
++/Ppp1r17
++/Anxa5
++), B (Vip
++/C1ql3
++/Calb2
++), C (Grp
++/Synpr
++/Cd24a
++), D (Prok2
++/Avp
++/Nms
++), E (Cck
++/ProkR2
++/Nsmf
++), F (Mef2c
++/Peg10
++/Pcdh11x
++), G (Gadd45a
++/Hspa1a
++/Cck
++) and H (Vipr2
++/Lbh
++/Gas7
++) (Fig  ). For all three sequencing runs, the algorithm consistently found the same marker genes defining the same eight groups. Thus, neuropeptidergic identity based on ligand and/or receptor expression was a commonly distinguishing feature across the sequenced neuronal cell types, and was accompanied by distinct, cluster‐defined transcriptional programmes (or states). Similarly, clustering of the 9,432 circadian night SCN neurons identified eight distinct sub‐populations. Three of these showed strong similarity to daytime Groups A, B and C, whilst two showed partial similarity with CT7.5 Groups D and E, and likely represent the same sub‐populations. Nevertheless, three clusters had transcriptional profiles not evident in circadian day and so were named Groups I, J and K. In the absence of neurogenesis, we interpret these as distinct, newly adopted states of the cells identified as Groups F, G and H in daytime samples. Marker genes for all eight night‐time sub‐populations were identified: Groups A‐C as for CT7.5, Groups D (Igfbp5
++/Ptp4a1
++/Hmgb3
++), E (Aip
++/Pkib
++/Dlk1
++), I (Chodl
++/Peg10
++/Avp
++), J (Sncb
++/Nrxn3
++/Syt1
++) and K (Alcam
++/Synpr
++/Npy
++). Moreover, due to their cluster‐specific enrichment, the expression counts of the eight genes, Prok2 and ProkR2, Vip and Vipr2, Avp and Avpr1a, and Grp and Grpr, provided a common point of comparison between each of the eight individual circadian daytime and/or night‐time 5 clusters (Fig  ). Cells positively expressing > 90% of the overall expression range of these genes were highlighted within the t‐SNE plot (Fig  ), from which contrasting expression patterns and levels clearly illustrate their circadian modulation.
+ 
+
+## Topology of SCN neuropeptidergic signalling axes
+To gain insight into the neuropeptidergic topology of the SCN, a Venn diagram summarised the degree of overlap between the ligand‐ and receptor‐expressing cells across these four signalling axes (Fig  ), using circadian daytime scRNASeq data when the axes were most pronounced. The Vip
++ and Vipr2
++ populations were distinct from each other, with limited capacity for autocrine signalling. In contrast, the Avp
++ and Avpr1a
++ populations (Avpr1b was not expressed at detectable levels) showed some overlap and, thus, autocrine potential. A limited capacity for VIP‐to‐VPAC2/AVP‐to‐AVPR1A serial signalling arose from co‐expression of Vipr2 and Avp. In the Grp‐Grpr axis, the ligand and receptor populations were clearly segregated. Grp
++ cells were a sub‐population of Vip
++ cells, but their efferent (likely paracrine) targets diverged because of limited co‐expression of Grpr and Vipr2. The organisation of Prok2‐mediated signalling exhibited a limited capacity for autocrine signalling, the Prok2‐ and ProkR2‐expressing populations being distinct: only 10% of Prok2
++ cells co‐expressed ProkR2, and 7% of ProkR2
++ cells also expressed Prok2 (Fig  ). Moreover, the Prok2‐to‐ProkR2 axis had only limited overlap with the other three axes: co‐expression with Grp/Grpr was < 1%, and Vip 3%. Of ProkR2 cells, 18% co‐expressed Vipr2, indicative of some convergence in Prok2‐ and VIP‐mediated signalling. The major overlap between axes, however, was principally because of co‐expression of Avp in 51% of Prok2
++ cells (Fig  ). These pathways are, nevertheless, divergent as there was little overlap between target cells expressing ProkR2 and Avpr1a. These overlapping sub‐populations were cross‐validated by in situ hybridisation (Fig  , , , , ).
+ Having identified SCN neuronal populations and their putative circuit‐based relationships, we then sought to quantify the degree of neuropeptidergic signalling between them by exploiting the transcriptional profiles of SCN cells collected in circadian day or night. The strength of intra‐SCN communication used by each neuropeptide ligand‐receptor pair was inferred from the expression level of each gene of interest in each cluster. More specifically, the average cellular count of the neuropeptide gene expression across one cluster was multiplied with the average cellular count of the corresponding neuropeptide receptor gene expression in another cluster (Zingg et al, ; Bentley et al, ). For example, the strength of Prok2‐dependent signalling from Group A to Group B was represented as the product of the average cellular count of Prok2 in Group A and ProkR2 in Group B, and scaled to its respective overall expression range. The strength and directionality of Prok2, VIP and AVP signalling between SCN sub‐populations at circadian day (Fig  , see Fig for the unscaled maps) formalises the Venn diagram (Fig  ). The overall degree of connectivity within each inferred signalling network is further quantified as the sum of the edge (connection) weights (Fig  , sigma values). The distinct topology inferred for the signalling axes VIP‐VPAC2 and AVP‐AVPR1A shows segregated inter‐nodal signalling: VIP and AVP axes have separate source nodes, VIP projects across the SCN network to nodes including those expressing AVP/AVPR1A (Group A), and whilst AVP can signal between its source nodes (Groups A, F and D), VIP does not. The neuropeptidergic network could therefore be viewed topologically as clusters capable of secreting peptides acting as source or “distributor” nodes signalling to their interacting partners capable of receiving and interpreting peptidergic signals as “integrator” nodes (Sporns et al, ; Rubinov & Sporns, ). Importantly, network topology of Prok2, VIP and AVP signalling was also examined at circadian night (Fig  ) and revealed a marked shift as all neuropeptide source clusters were poorly defined. Most strikingly, Prok2‐ProkR2 signalling was dismantled at night when compared to its prominence during the circadian day. Thus, Prok2 signalling within the SCN exhibited strong potential for regulating network‐wide functions in a time‐dependent manner.
+ 
+
+## Circadian properties of SCN Prok2+ and ProkR2+ cells
+ScRNASeq highlighted the Prok2
++‐ProkR2
++ cellular axis as a central, circadian‐regulated component of SCN circuit topology. To explore its function, we designed and validated adeno‐associated viral (AAV) vectors to express Cre‐recombinase under the Prok2 or ProkR2 regulatory sequences: AAV1:pProk2. Cre.T2A.mCherry and AAV1:pProkR2. Cre.T2A. Venus (Fig ). Intersectional use of the Cre‐lox system thereby allowed us to express reporters of circadian function and manipulate the cell‐autonomous TTFL of Prok2
++ and ProkR2
++ cells in a specific, conditional manner. The AAVs readily transfected SCN slices, expressing fluorescence with appropriate cellular distribution and abundance (Fig D). Approximately 265 ± 39 Prok2
++ cells and 317 ± 36 ProkR2
++ cells were identified in each slice (n = 10). These relative proportions (84% Prok2/ProkR2) accord with the daytime scRNASeq data, i.e. 77% (683/886) Prok2. Similarly, in dual‐transfected SCN the AAVs revealed a low degree of co‐expression: only 10% of mCherry‐labelled Prok2
++ cells emitted ProkR2
++‐driven Venus fluorescence, whilst 9% of ProkR2
++ Venus‐labelled cells expressed mCherry‐fluorescence (scRNASeq: 10% and 7%, respectively). Dual in situ hybridisation also showed limited overlap: 11 ± 1% of Prok2 cells expressed ProkR2‐signal and 9.6 ± 1% of ProkR2 cells co‐emitted Prok2 signal. Finally, AAV vectors were injected stereotaxically into the SCN region of mice and confocal microscopy revealed expression of the mCherry and Venus reporters in and around the SCN. Immunostaining for endogenous Prok2 and ProkR2 immuno‐reactivity (‐ir) confirmed Cre‐expressing cellular identity: pProk2. Cre‐targetted cells showed cytosolic Prok2‐ir, whilst pProkR2. Cre cells showed membrane‐localised ProkR2‐ir (Fig  ). The newly developed pProk2. Cre and pProkR2. Cre vectors therefore targeted Prok2
++ and ProkR2
++ SCN cells, respectively, to provide efficient and specific genetic access.
+We then used the AAVs to monitor TTFL function in Prok2
++ and ProkR2
++ SCN cells. Wild‐type organotypic SCN slices were transfected with a Cre‐conditional Cry1 transcriptional reporter (pCry.DIO. Luc) (Patton et al, ) and subsequently with pProk2. Cre.T2A.mCherry or pProkR2. Cre.T2A. Venus for its cell‐specific activation. In both cases, as recombination released pCry1‐driven luciferase, baseline bioluminescent signal rose (Fig  ) and within a few days a clear circadian rhythm of bioluminescence developed (Fig  ). The TTFL ensemble periods and amplitudes of Prok2
++ and ProkR2
++ SCN cells were equivalent (Fig  D). Thus, both Prok2
++ and ProkR2
++ SCN cells exhibit clear TTFL circadian activity. We then used CCD recording to monitor the TTFL activity of individual Prok2Cry1‐luc cells and ProkR2Cry1‐luc cells across the SCN and revealed tight coupling of cellular rhythms within each sub‐population (Fig  ), whose significant Rayleigh distributions did not differ between each other (Fig  ).
+ To phase‐map the TTFL rhythms in Prok2
++ and ProkR2
++ cells, we combined bioluminescent recording with fluorescent recording of intra‐cellular calcium levels ([Ca2+]i), such that the circadian peak of [Ca2+]i could be used as a phase reference (Brancaccio et al, ). This was reported by AAV‐expressed synapsin‐GCaMP6f in pProk2. Cre.T2A.mCherry slices and synapsin‐jRCaMP1a in SCN expressing pProkR2. Cre.T2A. Venus. Prior recordings against whole‐field Per2::Luciferase phase‐mapped the peaks of GCaMP and jRCaMP as CT8.1 and CT7.2, respectively (Fig  ), allowing the Cry1‐luc and [Ca2+]i oscillations to be aligned in each SCN (Figs  and ). The periods of Prok2
++ and ProkR2
++ cells were comparable with their respective slice periods, as reported by G/jRCaMP traces. Phase registration with the peak of the respective GCaMP/RCaMP traces revealed a difference, however, in the peak time of Cry1‐luc rhythms. Prok2Cry1‐luc cells peaked at CT11.9 ± 0.2 h, whereas ProkR2Cry1‐luc cells peaked later at CT12.5 ± 0.1 h. The difference of ˜0.6 h was significant (P = 0.007) (Fig  ) and parallels previous phase‐mapping of the VIP‐VPAC2 axis in which the TTFL of ligand‐secreting cells was phase advanced relative to the TTFL of their receptor‐expressing targets (Patton et al, ).
+
+## Control of SCN circadian function by Prok2 and the Prok2
++‐ProkR2
++ cellular axis
+Given that both Prok2
++ and ProkR2
++ cells express clear TTFL rhythms, with Prok2
++ cells phase‐leading, and Prok2 being a clock‐controlled gene, we asked whether Prok2 relays circadian information to ProkR2
++ cells. We first tested the effect of exogenous Prok2 on the SCN network‐level oscillation, generating a phase‐response curve for Per2::Luciferase bioluminescence rhythms in slices treated with 10 µM Prok2 (n = 51) or vehicle (n = 28) (Appendix Fig ). Treatment with 10 µM VIP (n = 6) between CT9‐12 provided a positive control (Hamnett et al, ). Exogenous Prok2 had no systematic phase‐shifting effect across circadian time (Fig  ). In comparison, at CT9‐12 VIP reliably phase‐delayed the ongoing oscillation (Fig  ). We then questioned whether Prok2 application had other actions on the Per2‐reported TTFL. VIP increased the baseline of Per2::Luciferase at CT9‐12 (Fig  ) (Hamnett et al, ), whereas Prok2 did not (Fig  ) (Appendix Fig ). Nevertheless, administration of VIP or Prok2 between CT9 and CT12 reduced the amplitude of Per2‐driven bioluminescence (Fig  ). We then tested other phases and found that Prok2 treatment between CT12 and CT18 significantly increased the Per2::Luciferase baseline (Fig  ) and Prok2 decreased the amplitude of Per2::Luciferase between CT18‐24 (in addition to CT6‐12) (Fig  ). Thus, although not capable of re‐phasing the ensemble oscillation, exogenous Prok2 had an overall effect on the waveform of the Per2::Luciferase rhythm, increasing baseline and suppressing amplitude. We then asked whether blocking endogenous Prok2 signalling would perturb ongoing Per2::Luciferase oscillations (Fig  ). Treatment of SCN slices with a Prok1R/Prok2R antagonist (ProkR2A, 10 µM) at various time‐points across the day revealed a particularly sensitive phase between CT20 and CT23 in which the subsequent peak of Per2‐driven bioluminescence was significantly suppressed (Fig  ) (Appendix Fig ). Treatment at other phases did not affect Per2 levels. In addition, blocking ProkR2 between CT20 and CT23 significantly lengthened the period of the SCN ensemble rhythm (0.3 ± 0.06 h) compared to vehicle application (0 ± 0.1 h) (Fig  ), an effect reversed by washout of ProkR2A (Fig  ). Impeding Prok2‐mediated activation of ProkR2
++ SCN cells therefore had phase‐dependent, network‐level effects on SCN circadian function: acute Per2 suppression and a lengthening of the ensemble period, highlighting an ongoing circadian role for endogenous Prok2 in the SCN.
+ We then focussed on the cellular elements of the signalling axis and asked whether Prok2
++ and/or ProkR2
++ SCN cells can direct other emergent properties. We first used genetic complementation of short period (˜22 h) Cry1‐null SCN by AAV‐mediated conditional expression of Cre‐dependent Cry1 (pCry1‐DIO‐Cry1::EGFP). If Prok2
++ and/or ProkR2
++ SCN cells are period‐setting nodes of the SCN network, Cry1 complementation targeted to them should lengthen both their cell‐autonomous period and also the period of the entire SCN network. Cry1 complementation in Prok2
++ cells alone significantly lengthened Per2‐reported TTFL period from 22.1 ± 0.2 h to 24.3 ± 0.5 h (Fig  ) (Fig  ). Additional expression of Cry1 in ProkR2
++ cells had no further effect (period = 24.4 ± 0.5 h). Cry1 expression in ProkR2
++ cells, alone, was equally effective, slowing ensemble period from 22 ± 0.1 h to 23.1 ± 0.2 h (Figs  and ). Again, additional expression in Prok2
++ cells had no significant effect (24.7 ± 0.5 h). The ultimate periods in the two treatment cohorts of double‐complemented SCN were not significantly different (Fig  ). Similarly, the rate of effect did not differ with the order of population‐specific Cry1 expression (Fig  ). Importantly, the sinusoidal profile of Per2‐driven bioluminescence was not distorted as period lengthened, indicating that all cells in the slice adopted the longer period and maintained a stable phase relationship.
+ Thus, both Prok2
++ and ProkR2
++ SCN cells are able to act as period‐setting nodes within the SCN circuit, imposing their cell‐autonomous period on the network. But to what extent are they able, individually or in combination, to drive the SCN oscillator when they alone contain a functional cell‐autonomous TTFL? To address this, we conditionally expressed Cry1 in either Prok2
++ or ProkR2
++ cells in arrhythmic SCN lacking both Cry1 and Cry2 (Patton et al, ). Cre‐conditional expression of Cry1 to activate the TTFL in either Prok2
++ or ProkR2
++ cells alone was insufficient for reliable initiation of network‐level SCN rhythms (Figs and ). When the cell‐autonomous TTFL was complemented in both Prok2
++ and ProkR2
++ cells by additional transduction, however, robust de novo SCN rhythms were initiated. Importantly, the period of these rhythms was ≥ 27 h, characteristic of a Cry1‐driven, Cry2‐null mouse or SCN (van der Horst et al, ; Anand et al, ) and comparable to that observed in pan‐neuronally driven expression of Cry1 (Brancaccio et al, ). Neither the ultimate period nor the ensemble amplitude differed depending on the order of sub‐population restoration (Fig  D). Goodness‐of‐fit values measured from Per2::Luciferase traces were used to quantify the quality of the rhythms before viral transfection, and after each of the three possible (single and dual) transfection conditions. There was no significant improvement of rhythm quality when only one population was targeted, but a significant oscillation occurred when both populations had been targeted (Fig  ). These results show that, together, Prok2
++ and ProkR2
++ SCN cells are able to initiate network rhythms if they are the only cell‐autonomous oscillators within the SCN.
+ We then asked whether the spatio‐temporal pattern of Per2::Luciferase bioluminescence initiated by complementation of Prok2
++/ProkR2
++ cells, and which reflects intercellular coupling, mirrored that seen in WT SCN or in Vip
++/Vipr2
++ complemented Cry‐null slices (Patton et al, ). CCD recordings showed that the order in which the Prok2/ProkR2 axis was activated did not affect the pattern of circuit‐level oscillation; neither the ensemble slice period nor the degree of synchronicity (as determined by the coupling of bioluminescence phases observed) differed between dual‐transduced cohorts (Fig ). We then constructed SCN‐wide maps of the local strength of oscillation and its phase. This showed that the cell‐specific expression of Cry1 in Prok2
++/ProkR2
++ cells did not initiate rhythms in the entire SCN network. Rather, local rhythmicity was evident in 69 ± 5% of the SCN (Fig  ). Furthermore, in contrast to the regionally specific phase‐clusters of Per2::Luciferase activation observed in WT SCN and in Cry‐null SCN complemented in Vip
++ and Vipr2
++ cells, CCD recordings revealed a more temporally homogeneous phase‐locking of bioluminescence following joint complementation of Prok2
++and ProkR2
++ cells (Fig  ). Thus, whereas the VIP/VPAC2 signalling axis engages the entire (98 ± 0.8%) SCN network (Patton et al, ), acting as a distributor node, the Prok2/ProkR2 axis engages only ˜70% (Fig  ) and it also fails to establish the phase‐distribution characteristic of WT and Vip
++/Vipr2
++‐complemented SCN. This reveals the Prok2/ProkR2 signalling axis as an integrator node and highlights the distinct roles and mechanisms for the VIP/VPAC2 and Prok2/ProkR2 signalling axes in directing ensemble SCN rhythms (Fig  ).
+
+## Discussion
+SCN cellular coupling determines the properties of its network‐level oscillation and the circadian cues that are broadcast to control organismal behaviour and physiology. We used scRNASeq to identify the individual cellular components of the circuit, define its network topology and show how that topology is modified across circadian time. We thereby revealed that Prok2
++ and ProkR2
++ cells are circadian‐regulated nodes, able to determine SCN ensemble period and initiate circadian oscillations in an otherwise circadian‐incompetent network. Complementing these findings, endogenous Prok2/ProkR2 signalling tunes the period and amplitude of circuit oscillations. These results extend understanding of SCN network topology and the contribution of defined SCN neuropeptidergic populations to the powerful time‐keeping properties of the SCN.
+In contrast to the cerebral cortex or cerebellum, which present repeating modules of cellular identity and organisation, the hypothalamus is a neurochemically and structurally diverse collection of distinct nuclei. Transcriptomic analysis of single cells therefore offers a powerful way to explore its organisation (Moffitt et al, ; Mickelsen et al, ). Although the SCN is nested within the hypothalamus, meta‐analysis of whole‐tissue transcriptomes has identified its distinctiveness (Brown et al, ), with the SCN featuring less synaptic and more dense‐core vesicle signalling, consistent with the importance of neuropeptidergic nodes. Indeed, single‐cell transcriptomic analysis of 87 candidate genes revealed the substantial heterogeneity of transcriptionally assigned source or target clusters for paracrine and autocrine signalling (Park et al, ). More extensive unbiased scRNASeq applied to SCN cells obtained from tissue sections analysed 62,083 cells across varying CT points, although only 3,718 cells were deemed putative SCN cells (Wen et al, ). Nevertheless, five SCN subtypes were identified with cluster‐specific marker genes, including Avp, Grp, Vip, Cck and C1ql3 and SCN‐enriched genes Prok2, Rasl11b, Nr1d1, Rgs16 and Rasd1 exhibited strong circadian expression in serial tissue samples. Our dataset of 17,363 sequenced SCN neurons significantly expands these initial findings, providing a deep transcriptional characterisation of eleven SCN neuronal cell groups, and identifying 817 (274 up‐regulated at day, 543 at night) circadian‐regulated genes in the autonomously oscillating organotypic slice.
+The principal aim of our transcriptomic analysis was to reveal topological features of the SCN network. In the conventional ventral “core” and dorsal “shell” model, signalling by VIP is considered strongly directional, from core to shell (Maywood et al, ; Colwell, ; Patton et al, ) whereas autocrine AVP signalling is distributed across the shell (Yamaguchi et al, ; Mieda et al, , ; Ono et al, ). The identification of eleven distinct SCN neuronal populations by scRNASeq allowed us to expand this binary model by adapting approaches used successfully in C. elegans and mouse neocortex (Zingg et al, ; Bentley et al, ) to infer relationships between cellular nodes, as conferred by neuropeptide ligand and receptor expression. Four inter‐nested neuropeptidergic signalling axes were identified, with complex interactions beyond the linear core‐shell model. There were clear examples of divergence, with VIP/GRP cells addressing separate Vipr2
++ and Grpr
++ targets, and convergence via cellular co‐expression of ProkR2 and Vipr2. Based on these findings and in situ hybridisation analysis [this study and (Wen et al, )], we have identified Vip
++ cells as a paracrine source cluster whose topological arrangement represents a distributing node, whereas the Avp
++ and Prok2
++ clusters can be seen to act as integrating nodes of the SCN network (Fig  ). Furthermore, comparison of cells from subjective day and night‐time showed how this multiplexed network is dramatically reconfigured across the circadian cycle. It is transcriptionally disassembled in circadian night, co‐incident with neuronal inactivation, and restored for the neurally active day phase. This temporal control of network topology reveals an additional level of sophistication to the SCN pacemaker, and indirectly highlights the importance of nocturnal, astrocytically mediated signalling in stabilising and progressing time‐keeping by the SCN network at night (Brancaccio et al, , ).
+The most pronounced circadian change of network configuration was seen for the Prok2/ProkR2 axis. Prok2 has four E‐box elements that drive its circadian transcription (Cheng et al, ) (Cheng et al, ) (Masumoto et al, ) and recombinant Prok2 can induce locomotor activity in rats (Cheng et al, ), whilst genomic ablation of Prok2 in mice attenuates clock‐controlled behaviour and physiology, including glucocorticoid signalling and body temperature rhythms, (Li et al, ) and mis‐expression of Prok2 disrupts behavioural rhythms (Li et al, ). Moreover ProkR2‐/‐ mice lose precise timing of nocturnal locomotor activity onset (Prosser et al, ; Jethwa et al, ) and Prok2‐/‐ mice show altered circadian and homeostatic regulation of sleep and disrupted post‐deprivation recovery sleep (Hu et al, ). Given that SCN TTFL rhythms of ProkR2‐/‐ mice appeared normal, these findings placed Prok2 signalling downstream of the SCN clock, as a key output, and argued against any intrinsic network role. Our identification of the Prok2/ProkR2 axis as a pacemaker within the SCN now raises the possibility that at least some of these consequences of global mutation arise from loss of SCN precision. Indeed, Prok2 can suppress GABAergic function in SCN slices in circadian daytime by reducing the amplitude of mini‐inhibitory post‐synaptic currents, disinhibiting the firing rate of SCN cells (Ren et al, ). This highlights the potential for circuit‐level Prok2‐ProkR2 signalling within the SCN, which we confirmed by showing that exogenous Prok2 increased the baseline level of Per2‐driven bioluminescence, likely reflective of decreased GABAergic tone and thus disinhibited neuronal firing. In contrast, blocking ProkR2 damped the subsequent peak of Per2 expression in circadian day, an effect consistent with increased GABAergic tone, which would attenuate the circadian up‐swing in firing rate and thus activation of cAMP/Ca2+ responsive elements, damping Per2 expression (Colwell, ; Brancaccio et al, ). The absence of effect at other phases is possibly because firing rate and CRE activation are spontaneously declining and GABA tone is already high. The strict temporal control of Prok2 expression would further support phase‐dependence of this regulation. ProkR2 blockade also caused a modest lengthening of SCN period, an effect seen in Prok2‐null mice (Li et al, ), which may again reflect sustained enhancement of GABAergic tone and consequent attenuation of activity‐induced Per2 (Colwell, ). Conditional knockout of Prok2/ProkR2 in the SCN would therefore be expected to enhance GABAergic tone, possibly reducing neuronal firing rate and attenuating Prok2‐dependent and Prok2‐independent output signals, weakening circadian co‐ordination and making the circadian system more prone to environmental disruption.
+Given that Prok2R is expressed widely in areas innervated by SCN Prok2
++ cells (e.g. PVN, medial thalamus and DMN), the newly developed AAVs offer the means for more refined analyses to parse out local and distal effects of Prok2 signalling in both the SCN and its targets. For example, can conditional activation or silencing of these pathways initiate, suppress or otherwise re‐programme circadian behaviour? Importantly, our scRNASeq data show that the Prok2/ProkR2 axis is distinct from the retinorecipient VIP/GRP cells (only 6% of Vip and 3% of Grp
++ SCN neurons co‐express Prok2) and this may explain why Prok2 signalling is not involved in phase‐entrainment of the SCN. Its transcriptional regulation by retinal input (Cheng et al, ) is likely mediated indirectly via VIP‐mediated signalling (Hamnett et al,
+ ). This provides a clear distinction between the Prok2/ProkR2 and VIP/VPAC2 axes (Hamnett et al, ; Patton et al, ).
+This distinction was further emphasised by our analysis of pacemaking. Using AAV‐mediated intersection, we demonstrated the role of the distinct Prok2
++ and ProkR2
++ cell populations as pacemaking nodes. The unitary profile of Per2::Luciferase bioluminescence confirmed that all Cry1‐deficient SCN cells had adopted the new period and phase, even though the majority did not express Cry1, highlighting the intrinsic pace‐setting role of both populations. The independent actions and absence of additivity with dual transfection are consistent with ProkR2
++ cells being the ultimate effectors, but subject to afferent regulation by Prok2
++ cells as indirect effectors. This is in contrast to Vip
++ and Vipr2
++ cells, which individually had only a minor or no effect at all, respectively, on SCN period, and only when the cell‐autonomous clocks of Vip
++ and Vipr2
++ cells were slowed together did the SCN ensemble period also slow (Patton et al, ). Thus, the Prok2/ProkR2 and VIP/VPAC2 cellular axes are transcriptionally distinct (only 3.5% of all SCN neurons co‐express Vip or Vipr2 with either Prok2 or ProkR2) and functionally separable pace‐setting nodes within the SCN network: even though they are of comparable abundance (Prok2/ProkR2 represent 19%, VIP/VPAC2 17% of daytime SCN neurons), the Prok2 axis appears the more potent in controlling ensemble period.
+As a final test of the potential pacemaking role of Prok2
++ and ProkR2
++ cells, we expressed Cry1 in them, individually and together, in arrhythmic Cry1/2‐null SCN. Pan‐neuronal expression of Cry1 in Cry‐null SCN can initiate circadian oscillations with a characteristically long period (Edwards et al, ; Maywood et al, ; Brancaccio et al, ), and this was mirrored in our dataset. The Prok2
++ and ProkR2
++ cells, as a unit, exhibited pacemaking properties that matched those of the combined Vip
++ and Vipr2
++ cellular unit (Patton et al, ). CCD imaging revealed an interesting difference, however, because oscillatory behaviour was apparent in only ˜70% of the SCN with circadian‐competent Prok2
++/ProkR2
++ cells. This is significantly above their relative abundance (19% Prok2
++/ProkR2
++) but appreciably less than the widespread initiation of rhythms (98%) following the combined activation of Vip
++ and Vipr2
++ cells. A second contrast was in the circuit‐wide phase relationships. Activated Vip
++/Vipr2
++ cells established a network rhythm in which SCN sub‐regions showed temporally defined, phase‐dispersed activation (Patton et al, ). In contrast, when TTFL rhythmicity was established in Prok2
++/ProkR2
++ cells, the SCN‐wide oscillatory cells were tightly phase‐clustered. This emphasises a functional difference between the neurochemical signals broadcast by the respective cell groups, and has echoes in the contrasting roles of GABA and VIP in sculpting the phase‐distribution across the SCN during re‐entrainment to photoschedules (Evans et al, ). The closer phasing of Prok2
++ cells and ProkR2
++ cells compared to the Vip
++ and Vipr2
++ cellular pair (0.6 h versus 1.7 h) may underly this difference in phase‐control across the “driven” circuit: Prok2 signalling mediating robustness and tight coupling as an “integrator” hub, whilst the VIP‐mediated distributor hub determines cellular and ensemble phases.
+In conclusion, the current results reveal the cellular nodes of the SCN circuit and provide a framework to understand its topology, a feature that is subject to transcriptional assembly/disassembly across circadian time. They also underline Prok2
++/ProkR2
++ cells as a neurochemically, topologically and functionally distinct cellular axis that is able to determine the emergent properties of the SCN, but is nevertheless different from the far better characterised Vip
++/Vipr2
++ axis. In extrapolating topological organisational principles of the SCN, we highlight a structure consisting of divergent “distributor” VIP/VPAC2 and GRP/GRPR nodes, and “integrator” Prok2/ProkR2 and AVP/AVPR1A nodes, which is further supported by our functional observations of VIP/VPAC2 and Prok2/ProkR2 signalling axes differentially routing SCN network communication. When compared to each other, the Prok2/ProkR2 populations appear more powerful in setting ensemble period, yet VIP/VPAC2‐initiated network‐wide SCN rhythms stereotypically show organised sequential phase activation that Prok2/ProkR2‐initiated SCN lack. We propose that this inter‐nested, multi‐layered network structure is the origin of the remarkable time‐keeping power of the SCN. Future work in functionally annotating additional cellular nodes identified by our transcriptomic study will aid in further unravelling how information flows through this uniquely effective time‐keeping nucleus. This analysis may also increase our understanding of network principles shared across domains that computationally shape emergent properties of cellular circuits.
+
+## Materials and Methods
+
+## Reagents and Tools table
+
+ 
+
+## Methods and Protocols
+
+## Experimental model and subject details
+
+## Mice
+All experiments were performed on healthy mice, with normal immune status, housed in a specific pathogen free (SPF) unit (Ares Facility, Babraham Institute Campus, Cambridge, UK). Experimental subjects were not involved in any previous test or drug treatment. For scRNASeq and ex vivo SCN slice experiments, both female and male pups were used. Pups were maintained in a 12:12 light‐dark cycle together with their mothers before being sacrificed at P10‐12. SCN material used for scRNASeq at CT15.5 came from pups housed in a reversed 12:12 lighting schedule. Food and water were provided ad libitum. All animal work was conducted and licensed in accordance with the Code of Practice for the Housing and Care of Animals Bred, Supplied or Used for Scientific Purposes under A(SP)A and the EU Directive 2010/63/EU, and with local ethical approval (MRC‐LMB AWERB). PER2::LUC mice (allele: B6.129S6‐Per2tm1Jt/J) were a gift from J.S. Takahashi (UT Southwestern, US). Cryptochrome‐null mice were derived from founders provided by G van der Horst (Erasmus University Medical Centre, Rotterdam, NL). All lines were maintained on a C57BL/6J background with required genotypes bred in‐house by inter‐crossing the lines.
+
+## Experimental design
+All ex vivo experiments were performed on at least five animals. scRNASeq experiments were performed on five independent cohorts of mice. Number of experimental replicates (n) is indicated in figure legend and text and refers to the number of animals used independently treated in each experimental condition. Animals were selected in an unblended manner, but no specific randomisation strategy was used. Statistical computations were not performed to determine the optimal sample size for experiments. Data from all the experiments were included in the analysis, with the only exclusion of SCN slices being those that died for unrelated technical reasons (e.g. inadequate seal of the glass cover on petri dishes).
+
+## SCN explant culture, bioluminescence and fluorescence imaging
+Brains were retrieved from mouse pups at P10‐12 and cut into 300‐µm‐thick slices using a McIlwain Tissue Chopper. The slices were examined under a bright‐light microscope to sort those containing optimal SCN preparations and trimmed accordingly. Trimmed SCN slice preparations were transferred to Millipore membrane filters (Millipore, USA) and placed inside 35‐mm‐diameter dishes with culture medium containing: 50% v/v Eagle’s basal medium (Sigma, USA), 25% v/v EBSS (Gibco, USA), 25% v/v heat inactivated horse serum (Invitrogen, USA), 5 mg/ml D‐Glucose (Fisher, USA), 1% glutamax (Invitrogen, USA), 100 nM MK801 (Sigma, USA) and 3 mM MgCl2 and 0.05 mM APV (Sigma, USA).
+For real‐time bioluminescent recordings of PER2 expression, organotypic SCN slices were transferred to 35‐mm‐diameter dishes with air medium solution containing: 8.3 mg/ml DMEM (Sigma, USA), 0.35 mg/mK NaHCO3 (Fisher, USA), 5 mg/ml d‐glucose (Fisher, USA), 0.01 M HEPES (Sigma, USA) and 100 µM luciferin (Promega, USA). Dishes were air‐sealed by lining the rim with silicon grease. Photomultiplier tubes (PMTs) were used to detect luciferase‐emitted photons.
+Single SCN cells were isolated for transcriptional profiling by proteolytic enzymatic digestion of pooled organotypic SCN slices using the Worthington Papain dissociation kit (Lorne Laboratories, UK). Sterile procedures were maintained throughout the manufacturer’s protocol. Each of 16‐20 SCN slices that were pooled per sequencing run into a single sample were first imaged on an EVOS microscope to ensure healthy sample tissue. The slices were gently removed from their membrane supports, pooled into one Falcon tube and incubated in 1 mM l‐cysteine/0.5 mM EDTA activated papain solution (Worthington) under constant agitation for 90 min. Dissociated cells were centrifuged at 300 g for 5 min at room temperature and dual‐filtered through an ovomucoid gradient (Worthington) and a 40‐µm strainer (Corning, UK) to avoid doublets.
+
+## ScRNASeq
+scRNASeq libraries were prepared using the Chromium Single Cell Controller (10× Genomics, Pleasanton, CA). Both biochemical and bioinformatic quality control measures were performed to ensure that the average size and cDNA concentration satisfied quality thresholds and that the spread of the sequenced reads across genes was even across single cells (i.e. a normal distribution of genes with at least one UMI tag). Cells were treated following the manufacturer’s protocols using 10× Genomics ChromiumTM Single Cell 3′ Library and Gel Bead Kit v2 (120267) and ChromiumTM Single Cell A Chip Kit (1000009). SCN cells, diluted in 0.04% BSA‐nuclease‐free water, reverse transcription master mix and partitioning oil, were loaded on a single cell chip and run on the Chromium Controller to obtain a target cell recovery rate of 8,000 cells. Reverse transcription was performed within the droplets at 53°C for 45 min. cDNA was amplified for 12 cycles total on a Bio‐Rad C1000 Touch thermocycler. A qualitative analysis of the amplified cDNA was run on the Agilent TapeStation High Sensitivity D1000 ScreenTape to determine the average size and cDNA concentration. cDNA was fragmented using the proprietary fragmentation enzyme blend for 5 min at 32°C, followed by end repair and A‐tailing at 65°C for 30 min. Sequencing adaptors were ligated to the cDNA at 20°C for 15 min. Final libraries were sequenced on one flow cell of an Illumina HiSeq 4000 (Illumina, San Diego) with a read length of 26 bp for read 1 (cell barcode and unique molecule identifier (UMI) and i7 index read (sample barcode)) and 98 bp for read 2 (RNA read) to yield approximately 340 million reads per sample (across the runs sequencing at CT7.5 our depth was 83,220 ± 15,783 reads/cell, mean ± SEM, and across those at CT15.5, we obtained 43,231 ± 14,291 reads/cell). To ensure high‐quality data were taken for further analysis, only genes expressed in three or more cells, and cells with at least 100 detected genes, were retained in the dataset. A verification step in Seurat was performed to ensure all mitochondrial transcript‐expressing cells were removed from the dataset during Cell‐ranger processing.
+
+## AAV particles design and production
+Plasmids encoding for Cry1‐Flex‐Cry1‐Luc and Cry1‐Flex‐Cry1::EGFP were produced in‐house as described in (Brancaccio et al, ). Briefly, the Cry1 promoter was PCR‐amplified from mCry‐Cry1::EGFP and cloned into pAAV‐EF1a‐DIO‐Chr2(H113R)‐EYFP‐HGHpA (Addgene 20298) by using MluI and EcoRI sites. AAV‐pCry1‐DIO‐ChR2‐YFP was then used to produce both mCry1‐Luc and mCry1‐Cry1::EGFP. Plasmids were packaged into AAVs by Penn Vector Core (University of Pennsylvania). Plasmids encoding AAV1.pProk2. Cre.T2A.mCherry and AAV1.pProkR2. Cre.T2A. Venus were designed by A. A. For the pProk2 promoter sequence, a 400‐bp region upstream of the gene encompassing histone post‐translational modifications and brain‐associated DNase hypersensitive regions was incorporated. For the pProkR2 promoter sequence, the upstream brain‐associated DNase hypersensitive sites corresponding to its untranslated exon 1 were contracted with the conserved first coding exon untranslated regions. Plasmids were constructed and packaged into AAVs by VectorBuilder (vectorbuilder.com), details, maps and plasmids available at Addgene (addgene.org): AAV1.pProk2. Cre.T2A.mCherry Plasmid #169013 and AAV1.pProkR2. Cre.T2A. Venus Plasmid #169014.
+
+## AAV transduction of SCN slices
+SCN organotypic slices from P10‐12 mice were obtained, cultured and transduced as previously described (Brancaccio et al, ). The calcium reporter AAVs pSyn‐NES.jRCaMP1a.WPRE.SV40 (Addgene viral prep 100848‐AAV1; http://n2t.net/addgene:100848; RRID:Addgene_100848) and pSyn‐GCaMP6f.WPRE.SV40 (Addgene viral prep 100837‐AAV1; http://n2t.net/addgene:100837; RRID:Addgene_100837) were gifts from Douglas Kim & GENIE project and purchased from Addgene as AAV serotype 1.
+For AAV transduction, slices were briefly taken out from the PMT tubes and immediately returned for PMT recording, with no medium change. Dynamic changes in PER2::LUC signal were recorded in real‐time for > 7 days; no further treatment was performed. No phenotype was generally observed during the first 4 days post‐transduction, consistent with time required for AAV infection cycle (Edwards et al, ). After that, a phenotype became evident and was assessed from day 4 to day 8 post‐transduction. Transduction efficiency was verified at the end of the experiment by assessing number of mCherry+ or Venus+ cells/SCN area.
+
+## Drug treatments
+Recombinant Prok2 was purchased from Sigma Aldrich (#SRP3146) and PKRA7 antagonist was purchased from Tocris Bioscience (#6238). Prok2 and PKRA7 were diluted in air medium containing no luciferin, VIP was diluted in HEPES‐buffered medium and air medium without luciferin was used as vehicle controls. For washout, slices were transferred to fresh medium containing luciferin. SCN slices were kept in standard culture medium (DMEM based with 5% serum and glutamax supplement 1× (Life Technologies).
+
+## Immunofluorescence on SCN slices
+Antiserum for immunofluorescence on SCN slices: anti‐rabbit Prok2 (Abcam, #ab76747), anti‐rabbit ProkR2 (Alomone, #APR‐042); secondary antibodies: goat anti‐rabbit conjugated with Alexa 488; goat anti‐rabbit conjugated with Alexa 568 (Life Technologies). Targeting rates and co‐localisation analysis of antisera with fluorescently labelled AAVs of co‐transduced SCN slices were manually performed on single confocal planes (ImageJ, USA) (Schindelin et al, ).
+
+## Multiplexed long‐term live‐imaging
+Multiplexed bioluminescence/fluorescence imaging was performed as previously described (Brancaccio et al, ), using the LV200 system (Olympus Microscopy, UK). Briefly, SCN explants were sealed into 35 mm dishes with glass bottoms (Mattek, Slovakia) and transferred to the heated stage of an LV200 microscope system equipped with an EM‐CCD camera (Hamamatsu, Japan). For combined bioluminescence and fluorescence, images were taken at a time resolution of 30 min. Fluorescence exposure was 100 ms, and bioluminescence signal was acquired over 29.5 min.
+
+## Immunohistochemistry
+Brains were retrieved from 4% PFA perfused adult mice and left in 4% PFA for a further 4 h before cryopreservation in 20% sucrose (in 0.1 M PBS). Fixed brains were trimmed and aligned on a freezing microtome stage, sectioning the brain rostral to caudal at 40‐µm intervals. SCN sections were washed twice in PBS, before incubating for 15 min in 50 mM glycine solution. Sections were then pre‐blocked in 3% Triton X‐100, 5% normal goat serum prepared in PBS solution for 60 min and subsequently blocked in 0.3% Triton X‐100, 1% BSA, 5% normal goat serum in PBS solution for a further 60 min. Sections were incubated for 24 h in primary antibody, washed twice in 0.1% Triton X‐100, 0.3% BSA–PBS solution and incubated for 2 h with secondary antisera at room temperature. The immunostained brain sections were mounted on slides (Superfrost, Fisher, USA) using Vectashield with DAPI (Vectalabs) to support fluorophore signal retention.
+
+## In situ hybridisation of tissue sections
+Brains dissected from 7‐month‐old C57BL/6 mice were embedded in OCT medium and frozen at −80°C. 14‐µm sections were prepared for RNAscope (ACD Inc.) in situ hybridisations (ISH). SCN sections on slides were submerged in 4% pre‐chilled PFA for 30 min and subjected to dehydration using an ethanol series of 50, 70 and 100% ethanol solutions with slides being immersed for 5 min in each solution. A hydrophobic barrier around the tissue section was created using the ImmEdge hydrophobic barrier pen (ACD Inc.) to localised applied solution to the sample. RNAScope Protease IV was topically applied to each section and incubated for 30 min at room temperature. C1‐, C2‐ and C3‐conjugated RNAscope probes were applied in a 50:1:1 ratio to detect Prok2 (#447941), Avp (#401391/#401391‐C2), ProkR2 (#498431‐C3), Vipr2 (#465391‐C2) and Avpr1a (#418061‐C2).
+
+## Confocal imaging
+ISH imaging was carried out using a Zeiss 710 confocal microscope with spectral detector using a 40×/1.1NA oil objective. Alexa 488 was stimulated with a 488 nm laser, and 546 was stimulated with a 561 laser. For detection of single transcripts of weakly expressed genes, imaging was performed with a 63×/1.1NA long oil immersion objective (Zeiss LD C‐Apochromat). Spectral unmixing was performed using Zeiss ZEN software.
+
+## Quantification and statistical information
+
+## scRNASeq
+Base calls were converted to reads with the software Cell Ranger (10× Genomics; version 2.1) mkfastq. These reads were then aligned against the mouse reference (GENCODE Mouse Release 26 (GRCm38)) using the Cell Ranger 2.1.0 pipeline (an implementation of STAR v2.7.0, 10× Genomics) with SC3Pv2 chemistry and 5,000 expected cells per sample (Dobin et al, ). Cell barcodes representative of quality cells were delineated from barcodes of apoptotic cells or background RNA based on a threshold of having at least 200 unique transcripts profiled, < 10,000 total transcripts and less than 10% of their transcriptome of mitochondrial origin. Potential multiplets were classified as outside three median absolute deviations (MADs) for percentage mitochondrial content, number of genes and number of UMIs and removed. UMIs from each cell barcode were retained for all downstream analysis. Raw UMI counts were normalised with a scale factor of 10,000 UMIs per cell and subsequently natural log transformed.
+Clustering of cells based on transcriptome similarities was performed by either graph‐based clustering or k‐means clustering methods (Cell Loupe Browser, 10× Genomics).
+
+## PMT recordings
+Data analyses of period, amplitude and goodness‐of‐fit (GOF) were performed manually or by using the FFT‐NLLS function of the online BioDare suite (Moore et al, ; Zielinski et al, ) (https://www.biodare.ed.ac.uk) (Courtesy of Prof. Andrew Millar, University of Edinburgh). For phase maps, a threshold was applied to the bulk‐emitted signal to remove extra‐SCN signals present in organotypic slices. A continuous grid of ROIs (custom Fiji plugin) was overlaid, and signals extracted from ROIs considered of SCN origin were detrended and smoothed using a 2.5‐h moving average. The ROI signals were then analysed using the BioDare FFT‐NLLS algorithm. ROIs were considered initiated if they passed two tests: (i) the period of the fit was between 23.5 and 34.5 h, and (ii) the relative amplitude error (RAE) of the fit was < 0.3. Continuous phase maps and maps of initiated versus non‐initiated ROIs were generated from BioDare output data in RStudio using the ggplot2, scales and RColorBrewer packages. For comparison across different SCN slices, one‐way ANOVA with Sidak’s multiple comparisons test or two‐way ANOVA with Tukey’s multiple comparisons test in GraphPad Prism 8 (GraphPad) were used to assess statistical significance. Phase coherence was assessed by applying a Rayleigh test to ROI data. Circular Rayleigh plots to illustrate this dispersal were generated using the R package circular (version 0.4‐93, R package “circular”: Circular Statistics, https://r‐forge.r‐project.org/projects/circular) in R (version 3.6.1, courtesy of R Foundation for Statistical Computing, Vienna, Austria, http://www.R‐project.org) and RStudio (version 1.2.1335, courtesy of RStudio Team, Boston, MA. http://www.rstudio.com). Rayleigh vectors were plotted on top of phase distributions in GraphPad Prism 8 (GraphPad).
+
+## Author contributions
+ELM and MHH designed research; AA designed and provided AAV reagents; ELM performed and analysed research except for LV200 recordings, which were performed and analysed by AP and mouse stereotaxic injections performed by JEC; APP contributed to project discussions; and AC guided analysis of scRNASeq data. ELM and MHH wrote the paper.
+
+## Conflict of interest
+The authors declare that they have no conflict of interest.
+
+## Supporting information
+Appendix
+Click here for additional data file.
+Expanded View Figures PDF
+Click here for additional data file.
+Source Data for Expanded View and Appendix
+Click here for additional data file.
+Source Data for Figure 1
+Click here for additional data file.
+Source Data for Figure 2
+Click here for additional data file.
+Source Data for Figure 3
+Click here for additional data file.
+Source Data for Figure 4
+Click here for additional data file.
+Source Data for Figure 5
+Click here for additional data file.
+Source Data for Figure 6
+Click here for additional data file.
+Source Data for Figure 7
+Click here for additional data file.
+Source Data for Figure 8
+Click here for additional data file.
+Source Data for Figure 9
+Click here for additional data file.
+
+## Acknowledgements
+We thank LMB Biological Services Group and Ares staff for mouse breeding and handling. We also thank Cambridge Genomics Services, who performed 10× Genomics sequencing. UK Medical Research Council UK (core funding MC_U105170643) and Biotechnology and Biological Sciences Research Council (project grant BB/R016658/1) supported this work.
+
+## Data availability
+The datasets and computer code produced in this study are available in the following databases: 
+ScRNASeq data: NCBI Gene Expression Omnibus with the accession number: GSE167927 (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE167927).
+Codes used to analyse scRNASeq data are publicly available from 10× Genomics at “https://support.10xgenomics.com/single‐cell‐gene‐expression/software/overview/welcome.”
+Viral reagents generated in this study have been deposited with Addgene, AAV1.pProk2.Cre.T2A.mCherry Plasmid #169013 and AAV1.pProkR2.Cre.T2A.Venus Plasmid #169014.
+
+ Reviewer Report

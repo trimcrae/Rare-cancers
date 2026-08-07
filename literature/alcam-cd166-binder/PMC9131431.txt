@@ -1,0 +1,260 @@
+pmcAdv Sci (Weinh)Adv Sci (Weinh)2933advsci101664569ADVSAdvanced Science2198-3844WileyPMC9131431PMC9131431.1913143191314313532258410.1002/advs.202105530ADVS37951Research ArticleResearch ArticlesSingle‐Cell RNA‐seq Reveals a Developmental Hierarchy Super‐Imposed Over Subclonal Evolution in the Cellular Ecosystem of Prostate Cancer
+GeGuangzhe HanYang ZhangJianye LiXinxin LiuXiaodan GongYanqing LeiZhentao WangJie ZhuWeijie XuYangyang PengYiji DengJianhua ZhangBao LiXuesong pineneedle@sina.comZhouLiqun zhoulqmail@sina.comHeHuiying huiyinghe@bjmu.edu.cnCiWeiminhttps://orcid.org/0000-0002-4111-5360 ciwm@big.ac.cn
+
+1
+
+Key Laboratory of Genomics and Precision Medicine
+Beijing Institute of Genomics
+China National Center for Bioinformation
+Chinese Academy of Sciences
+Beijing
+100101
+China
+
+2
+
+Department of Pathology
+School of Basic Medical Sciences
+Third Hospital
+Peking University Health Science Center
+Beijing
+100191
+China
+
+3
+
+Department of Urology
+Peking University First Hospital
+Beijing
+100034
+China
+
+4
+
+University of Chinese Academy of Sciences
+Beijing
+100049
+China
+
+5
+
+Institute of Urology
+Peking University
+Beijing
+100034
+China
+
+6
+
+National Urological Cancer Center
+Beijing
+100034
+China
+
+7
+
+Department of Urology
+Beijing Aerospace Center Hospital
+Beijing
+100049
+China
+
+8
+
+Department of Urology
+Peking Union Medical College Hospital
+Beijing
+100730
+China
+
+9
+
+Institute for Stem cell and Regeneration
+Chinese Academy of Sciences
+Beijing
+100101
+China
+
+*E‐mail: pineneedle@sina.com, zhoulqmail@sina.com, huiyinghe@bjmu.edu.cn, ciwm@big.ac.cn
+
+24320225202291540842310.1002/advs.v9.152105530
+2222022
+30112021
+240320222605202227082024© 2022 The Authors. Advanced Science published by Wiley‐VCH GmbHhttps://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Prostate cancer (PCa) is a complex disease. An ongoing accumulation of mutations results in increased genetic diversity, with the tumor acquiring distinct subclones. However, non‐genetic intra‐tumoral heterogeneity, the cellular differentiation state and the interplay between subclonal evolution and transcriptional heterogeneity are poorly understood. Here, the authors perform single‐cell RNA sequencing from 14 untreated PCa patients. They create an extensive cell atlas of the PCa patients and mapped developmental states onto tumor subclonal evolution. They identify distinct subclones across PCa patients and then stratify tumor cells into four transcriptional subtypes, EMT‐like (subtype 0), luminal A‐like (subtype 1), luminal B/C‐like (subtype 2), and basal‐like (subtype 3). These subtypes are hierarchically organized into stem cell‐like and differentiated status. Strikingly, multiple subclones within a single primary tumor present with distinct combinations of preferential subtypes. In addition, subclones show different communication strengths with other cell types within the tumor ecosystem, which may modulate the distinct transcriptional subtypes of the subclones. Notably, by integrating TCGA data, they discover that both tumor cell transcriptional heterogeneity and cellular ecosystem diversity correlate with features of a poor prognosis. Collectively, their study provides the analysis of subclonal and transcriptional heterogeneity and its implication for patient prognosis.
+
+During tumor evolution, distinct tumor subclones acquire preferential transcriptional subtypes which show different cellular differentiated status. In addition, these subtypes or subclones have close communication with each other or other stromal or immune cells within the tumor ecosystem. These transcriptional heterogeneity and also tumor ecosystem diversity are correlated with patient prognosis.
+ 
+
+cellular ecosystemepithelial‐to‐mesenchymal transitionprostate cancersubtypetranscriptional heterogeneitytumor subcloneCAS Strategic Priority Research ProgramXDA16010102National Key R&D Program of China2018YFC20001002019YFA0110900CAS
+10.13039/100006296QYZDB‐SSW‐SMC039National Natural Science Foundation of China
+10.13039/50110000180982173061CAS
+10.13039/100006296202044Fundamental Research Funds for the Central Universities
+10.13039/501100012226Special Projects for Strengthening Basic Research of Peking UniversityBMU2019JC001 
+2.2
+
+## Tumor Subclones have Preferential Tumor Subtypes in Prostate Cancer
+Next, we sought to investigate the genomic and transcriptional heterogeneity in prostate cancer cells. We first distinguished 20 681 malignant cells and 2802 normal prostate epithelial cells based on large‐scale chromosomal copy number variations (CNVs) in each cell inferred by inferCNV (Figure  and Figure , Supporting Information). Then, we confirmed this classification by calculating an epithelial score with epithelial marker genes, EPCAM, KRT5, KRT8, and CDH1 (Figure  ). The epithelial score in cancer cells was much higher than that in normal prostate epithelial cells or other stromal cells, which reflected the accuracy of our approach (Figure  ). Then, we performed an analysis of transcriptional heterogeneity within tumor cells. Unsupervised clustering revealed 4 different tumor subtypes (0, 1, 2, and 3) in all tumor cells across 14 patients (Figure  , and Figure and Table , Supporting Information). The aggregated expression score for marker genes in epithelial cells, EMT (epithelial‐to‐mesenchymal transition), luminal A/B/C, and basal cells was analyzed for all subtypes. Subtype 0 had a much lower epithelial score and a much higher EMT score, indicating an “EMT‐like” phenotype (Figure  ). Subtype 1 had a high signal for “luminal A‐like” cells, subtype 2 had a high signal for both “luminal B‐like” and “luminal C‐like” cells, and subtype 3 had a high signal for “basal‐like” cells (Figure  ). To confirm our findings, we analyzed the tumor cells from published PCa scRNA‐seq dataset[
+ 
+] (Figure  ). We found that 14# and 15# have high expression of EMT signature genes corresponding to our subtype 0. Other tumor cells highly expressed the luminal A and C signature genes although not the luminal B and basal genes. In addition, we also re‐clustered the tumor cells with more subpopulations. The new subpopulations were consistent with our defined 4 tumor subtypes (Figure , Supporting Information). Thus, we used these 4 tumor subtypes to the following analysis. Next, we inferred the tumor subclonal structure in each patient based on the CNV profiles from inferCNV results (Figure  ). We aimed to determine whether a specific tumor subclone in one patient tended to have a specific tumor subtype. The results suggested that almost all patients had predominately one or two tumor subtypes within their tumor subclones (Figure  ). These results indicated that during tumor subclonal evolution preferential orientation of transcriptional heterogeneity occurred in different tumor subclones.
+ 
+2.3
+
+## The Intra‐Tumoral Cell Cycle and Developmental Heterogeneity Within Different Tumor Subtypes and Subclones
+Intra‐tumoral heterogeneity that has been observed among malignant glioma cells[
+ 
+] can reflect the cell cycle program, as actively cycling cells upregulate a large number of associated genes. We first assessed the cell proliferation status using cell cycle‐associated G1/S and G2/M gene sets (Figure  , and Figures and , Supporting Information). We found that only a small proportion of tumor cells proliferated, which is consistent with clinical observations in a published paper[
+ 
+] (Figure  ). Then, we assessed the proliferation fractions in tumor subtypes and subclones. The results suggested that subtype 0, had a higher proliferation rate than the other 3 subtypes (Figure  ). We also found great heterogeneity in the cell proliferation status among different subclones and different patients (Figure  ). The subclones with preferential subtype 0 phenotype had many more proliferating cells than other subclones within one representative patient (Figure  ).
+ Moreover, other common patterns of variability are primarily correlated with epithelial developmental cell types, such as basal and luminal cells. Thus, we used Monocle to perform differentiation trajectory analysis in cancer cells. The pseudotime results showed that developmental hierarchy started with subtype 2 and 3 and progressing towards subtype 1 (Figure  ). These results indicated that tumor cells in subtype 2 and 3 have a much lower differentiation status compared with those in subtype 1, which showed the high similarities with luminal A differentiated epithelial cells. Indeed, differential gene expression analysis attributed the three co‐expressed gene clusters to the three subtypes 1, 2, and 3, concordant with the pseudotime states (Figures and , Supporting Information). Strikingly, subtype 0, EMT‐like cells, distributed along different axes of the pseudotime plot, which have a spectrum of transitions states along the epithelial–mesenchymal axis (Figure  ). Consistently, pathway analysis by gene set variation analysis (GSVA) revealed that the EMT, TGFβ, and hypoxia pathways were enriched in cells from subtype 0 (Figure , Supporting Information). Furthermore, GSVA analysis also identified shared enriched pathways between subtype 0 and other subtypes (Figure , Supporting Information). Strikingly, in recent years, an increasing number of terms have accrued to describe cell plasticity along the epithelial–mesenchymal axis, such as partial EMT[
+ 
+] and hybrid E/M[
+ 
+] states for the ability of cells to switch freely between these various states with enhancing stemness and metastatic capacity.[
+ 
+] These results are consistent with the observations that subtype 1 has a lower stemness genescore whereas subtype 0, 2, and 3 have a higher stemness genescore (Figure  ). Consistent with the above mentioned results (Figure  ), during tumor evolution, preferential orientation of transcriptional heterogeneity occurred in different tumor subclones (Figure  ). Collectively, these results indicate that tumor cells acquire cell cycle and developmental heterogeneity during subclonal evolution.
+
+2.4
+
+## Expression Program Varys among Heterogeneous Developmental Subtypes
+To explore the potential molecular basis driving the distinct developmental subtypes, we next used single‐cell regulatory network inference and clustering (SCENIC) to identify the underlying regulatory network in each tumor subtype. As expected each tumor subtype was driven by relevant TFs,[
+ 
+] including NUAK1, SNAI1, and ZEB1 for the EMT‐like subtype 0 cells; AR, FOXA1 for the differentiated luminal A‐like subtype 1 cells; SOX9, IRF6 for the luminal B/C‐like luminal progenitor subtype 2 cells; and SOX2, SNAI2 for the basal‐like subtype 3 cells (Figure  ). Consistently, up‐regulating the known markers of each corresponding subtype by relevant TFs as key regulators were also identified in each subtype, including ZEB1 by NUAK1 for subtype 0; KLK3 by AR for subtype 1; TACSTD2 by SOX9 for subtype 2; and KRT15 by SNAI2 for subtype 3 (Figure  ). Moreover, the expression of representative markers and relevant TFs for each subtype were also significantly correlated in the TCGA PCa cohort (Figure , Supporting Information). More importantly, the heterogeneous developmental subtypes of tumor cells were also confirmed by immunohistochemistry assay in sections from patients’ samples. We detected tumor areas expressing EMT marker, tumor areas expressing epithelial markers for each subtype (Figure  ). Thus, these analyses showed a heterogeneous expression program within different developmental subtypes in PCa.
+ 
+2.5
+
+## The Cell Plasticity in Malignant Cells May Be Associated with Tumor Microenvironmental Cues
+Microenvironmental cues such as soluble factors (growth factors and cytokines) or intercellular communication network may drive the cell plasticity of subclones or subtypes. Thus, we applied CellChat,[
+ 
+] a tool that is able to quantitatively infer and analyze intercellular communication networks among ligands, receptors, and their cofactors from scRNA‐seq data. We found that endothelial cells, T cells, macrophages, and fibroblasts were the dominant communication hubs (Figure  ). Moreover, the MK (Midkine), MIF (macrophage migration inhibitory factor), and VISFATIN/nicotinamide phosphoribosyltransferase (NAMPT) signalling pathways were the pathways with the most interactions (Figure  ).
+ To evaluate whether intra‐tumoral subclones shaping their developmental subtypes through communications with other spatially colocalized cell populations in tumor ecosystem, tumor cells were separately evaluated as subclones or subtypes. Strikingly, the subclone with dominant subtype 0 phenotype had weaker communication strength both within tumor cells and with other cell populations (Figures and , Supporting Information). These results were consistent with the knowledge that the plasticity of EMT including the loss of strong cell–cell contacts, cell polarity, and immobility. Since the proportion of tumor cell with subtype 0 phenotype showed inter‐tumor heterogeneity, we next validated the generality of this observation in all other patients. As shown in Figure  , we confirmed the finding in four representative patients with varying amount of subtype 0 tumor cells. Then, we investigated the communication strength between different subtypes and other stromal cell types among MK and MIF signalling pathways which are activated in PCa patients.[
+ , 
+] We found clearly different communication strength among these cells (Figure  and Figure , Supporting Information). We further investigated the communication strength within tumor subclones and also found the significant difference in MK and MIF signalling pathways (Figure  and Figure , Supporting Information). Collectively, these results indicated that the different stromal cell types can differentially interact with different tumor subtypes/subclones in patients and may thus explain different tumor behaviors.
+
+2.6
+
+## Both Tumor Cell Transcriptomic Heterogeneity and Cellular Ecosystem Diversity Correlate with Features of a Poor Prognosis
+Given that the role of tumor microenvironmental cues in shaping tumor cell plasticity, we next evaluated whether both intra‐tumoral cellular ecosystem heterogeneity and tumor cell transcriptomic heterogeneity may drive disease progression. We established two computational scores to quantify different aspects of tumor heterogeneity. Tumor cell transcriptomic heterogeneity describes the composition of tumor cell transcriptional subtypes within a tumor. Cellular ecosystem diversity quantifies the diversity of co‐existing tumor cells and other cell types within the tumor ecosystem.
+First, we used CIBERSORTx to deconvolute the compositions of 4 tumor transcriptional subtypes in the TCGA cohort based on our scRNA‐seq datasets. We calculated the fraction of each subtype in prostate cancer patients from the TCGA dataset. Unsupervised clustering analysis revealed two clusters (Figure  ). Cluster 1 had a much higher proportion of subtype 0 malignant cells and cluster 2 had a much higher proportion of subtypes 1, 2, and 3. The progression‐free survival of the patients in cluster 1 was significantly poorer than that of patients in cluster 2, which indicates that transcriptional subtype 0 was associated with a worse prognosis (Figure  and Figure , Supporting Information).
+ Considering the extensive interaction among different cell types in the tumor microenvironment, we hypothesized that tumor cellular ecosystem diversity may affect the heterogeneity of tumor subtypes. Thus, we calculated Shannon's diversity index (SHDI) to assess the correlation of tumor subtype heterogeneity and cellular diversity of the tumor ecosystem. We found a positive correlation (according to Shannon's diversity index [SHDI]) between tumor subtype heterogeneity and cellular diversity in the tumor ecosystem (Figure  and Figure , Supporting Information). This result indicated that the cellular complexity of the tumor ecosystem may shape the components of tumor subtypes through cell communication and thus affect patient survival.
+Moreover, we speculated that the tumor ecosystem may also have some underlying patterns to govern patient survival. Therefore, we performed unsupervised clustering analysis using CIBERSORTx‐inferred cellular diversity in the tumor ecosystem and identified two clusters, Div‐High and Div‐Low. Div‐High had greater cellular diversity than Div‐Low (Figure  ). Furthermore, compared to the Div‐Low group, the Div‐High group had significantly fewer epithelial cells but significantly more endothelial cells, B cells, macrophages, fibroblasts, and neutrophils (Figure  ). Strikingly, the progression‐free survival of the patients in the Div‐High group was significantly poorer than that of the patients in the Div‐Low group, which indicates that higher tumor cellular ecosystem diversity was also associated with a worse prognosis in the TCGA dataset (Figure  ). Consistent with these findings, a poor outcome was also predicted by the lower proportion of epithelial cells and the higher proportions of endothelial cells, macrophages, neutrophils, and undefined cells (Figure , Supporting Information). The proportion of other cell types within the tumor ecosystem was not associated with the clinical outcome (Figure , Supporting Information). Overall, both higher proportion of subtype 0 tumor cells and the higher cellular diversity of the tumor ecosystem were associated with a poorer outcome.
+
+3
+
+## Discussion
+PCa is a clinically heterogeneous disease. Many attempts have been made to unravel intra‐tumoral genetic heterogeneity in PCa.[
+ , , 
+] However, it became clear that non‐genetic transcriptional heterogeneity may also play important role in cancer evolution.[
+ , , 
+] Therefore, understanding how those tightly interconnected genetic and non‐genetic mechanisms lead to the establishment of evolving heterogeneous PCa is of clinical significance. In addition to cell proliferation states and expression programs, copy number aberrations can be inferred from scRNA‐seq data. scRNA‐seq analysis provides a viable strategy to map developmental states onto tumor subclonal evolutions, which may help to understand collective behavior and regulatory mechanisms within a tumor ecosystem.[
+ 
+] In this study, we comprehensively characterized the intra‐tumoral heterogeneity in 14 untreated prostate cancer patients by scRNA‐seq technology. We identified genetic evolving subclones of tumor cells by inferCNV in all patients. Strikingly, our analysis revealed four transcriptional subtypes, EMT‐like (subtype 0), luminal A‐like differentiated cells (subtype 1), luminal B/C progenitor‐like cells (subtype 2), and basal‐like cells (subtype 3). Every tumor contained malignant cells corresponding to four transcriptional states at various extents. We confirmed our “EMT‐like” and “Luminal A‐ and B/C‐like” subtypes using scRNA‐seq dataset from a recently published paper,[
+ 
+] although they didn't find the “basal‐like” subtype in their dataset. This may be due to the different patient cohort because we indeed identified the basal gene highly‐expressed tumor cells in prostate cancer tissue. In addition, we found that genetic distinct subclones presented with preferential developmental subtypes. This phenomenon is consistent with a previous study in human oligodendroglioma which CNV subclones differed in relative distribution of different tumor cell subpopulations.[
+ 
+] These results suggested that non‐genetic developmental heterogeneity may super‐impose over subclonal evolution in PCa. Thus, we provided evidences at single‐cell level that PCa tumor cells displayed significant non‐genetic plasticity, supporting that transcriptional heterogeneity may also play important role in cancer progression, adaptation, and evolution within tumor ecosystem.
+Further supporting this notion, subtype 0 cells showed the plasticity along the epithelial–mesenchymal axis. It has been showed that cells moving forward and reversibly on the epithelial–mesenchymal axis, enabling them to adapt to and appropriate new environments during tumor progression.[
+ , 
+] Indeed, the subclone with dominant subtype 0 phenotype had weaker communication strength both within tumor cells and with other cell populations, suggesting loss of strong cell–cell contacts enabling subclones gaining mesenchymal phenotype to adapt to changing microenvironment. Furthermore, CellChat analysis enables the identification of key intercellular communication pathways, such as MK and MIF signalling pathways in PCa patients. Notably, these highly communicated signalling pathways have been reported to be activated as novel biomarkers and therapeutic targets in PCa.[
+ , , 
+] This result suggests that scRNA sequencing approaches could indeed be used to address the phenotypic heterogeneity of cancer cell populations and may be of crucial importance in designing personalized therapeutic approaches.
+Moreover, it was reported that cells in an intermediate state along the epithelial–mesenchymal axis are plastic, invasive, and highly metastatic.[
+ 
+] Whereas with limited number of cases and insufficient follow‐up period in current cohort, we further validated the role of tumor cell transcriptional plasticity in patients’ outcome in TCGA cohorts. Given that the role of tumor microenvironmental cues in shaping tumor cell plasticity, indeed we identified both a higher proportion of subtype 0 tumor cells and the higher cellular diversity of the tumor ecosystem were associated with a poorer outcome (Figure  ). Limitations of the current study include the low sample size to produce conclusive evidence of intercellular communication for the tumor phenotype. Further study combing high‐resolution spatial scRNA‐seq and genetic manipulation of genes and pathways of interest will precisely map key regulatory nodes in shaping tumor phenotype and facilitate the development of effective therapies to successfully induce non‐genetic cellular differentiation.
+ The present study demonstrated that non‐genetic transcriptional heterogeneity existed in PCa patients and during tumor evolution, distinct subclones acquired preferential transcriptional subtypes. These transcriptional subtypes hierarchically organized into stem cell‐like and differentiated status and one subtype presented with transitions states along the epithelial–mesenchymal axis. In addition, subtypes/subclones showed different communication strengths with other stromal cell types within the tumor ecosystem. Finally, patients with higher proportion of “EMT‐like” subtype or higher cellular diversity of tumor ecosystem were correlated with a poorer outcome.
+
+4
+
+## Experimental Section
+
+## Sample Collection and Dissection
+A total of 14 surgically resected tissue samples were collected from patients with prostate cancer, and the pathological type was prostatic acinar adenocarcinoma. No endocrine therapy was conducted on any patients before surgery. The tissue samples were digested into single‐cell suspensions and then cell capture and cDNA synthesis were carried out on a 10× Genomics platform. Transcriptome sequencing was performed on a NovaSeq 6000 platform after meeting all quality controls. The study was approved by the Peking University Third Hospital Medical Science Research Ethics Committee (No. IRB00006761‐M2021324).
+
+## Processing Single‐Cell RNA‐seq Data
+Raw data generated with the 10× Genomics platform were aligned to the GRCh38 reference genome using Cell Ranger software (v4.0.2)[
+ 
+] to obtain the UMI matrix, which was further imported into R (v4.0.3) and processed with the Seurat package (v3.2.1). Cells with a detected gene number <200 or >5000 or a high mitochondrial transcript ratio (>15%) were excluded. After normalization and scaling, the batch effect between patients was then removed using the mutual nearest neighbor algorithm in Seurat. The batch‐corrected matrix was used for further analysis and visualization. The top 2000 highly variable genes were extracted to perform principal component analysis (PCA), and the top 30 principal components (PCs) were used for cluster analysis. Cell type were annotated by the SingleR package (v1.2.4) and then checked manually.
+
+## Identification of Marker Genes and Enrichment Analysis
+To identify differentially expressed marker genes for each cell type, the FindAllMarkers function in Seurat was used under default parameters. Marker genes were selected as those with adjusted p values less than 0.05, average logFC larger than 0.25, and percentage of cells with expression higher than 0.25. Gene enrichment analysis was performed for marker genes of each cell type with Metascape (https://metascape.org/). The marker genes or signature genes for cell types were as follows:[
+ , , , , 
+] epithelial cells (EPCAM, KRT5, KRT8 and CDH1), B cells (CD19, MS4A1, CD79A, CD79B, BLNK), endothelial cells (CDH5,PECAM1,VWF, ENG,SELE), neutrophils (CD55, PCGR2A), nature killer cells (KLRB1, KLRC1, KLRD1, KLRF1, KLRK1, NCAM1), T cells (CD2, CD3D, CD3E, CD3G), macrophages (APOE, C1QA, C1QB), fibroblasts (DCN, TNFAIP6, APOD, FBLN1, FGF2, PTGDS, RSPO3, MYH11, GJA4, RGS5, MT1A), and undefined cells (STMN1, HMGB2, TYMS, UBE2C, PCLAF).
+
+## Inference of Copy Number and Identification of Cancer Cells and Subtypes
+Copy number analysis was performed with the R package inferCNV (v1.0.6) under default parameters. To identify tumor cells from epithelial cells, the authors followed the recently published approach by Ashley Maynard et al.[
+ 
+] Briefly, 500 non‐malignant cells, including macrophages, endothelial cells, and T cells, were randomly selected as a normal reference, and another 300 non‐malignant cells (as spike‐in cells) were randomly selected together with epithelial cells for CNV inference and hierarchical clustering as described. Then, the dendrogram was cut at the highest point at which all the spike‐in controls belonged to one cluster. The epithelial cells that clustered together with normal spike‐in controls were identified as “normal epithelial cells”, whereas the remaining cells were identified as “tumor cells”. Then, tumor cells were run with inferCNV again to infer CNV and tumor subclones. The tumor cells were re‐clustered with the Seurat package (resolution = 0.12), each subcluster was defined as a transcriptional subtype. The marker genes or signature genes for cell types or subtypes were referred:[
+ , , , 
+] epithelial cells (EPCAM, KRT5, KRT8, CDH1), luminal A cells (MSMB, KLK2, KLK3, NPY), luminal B cells (SLC14A1, MEG3, FHL2, KRT23), luminal C cells (TACSTD2, PSCA, KRT4, PIGR), basal cells (KRT5, KRT15, TP63), EMT genes (TWIST1, CDH2, CDH11, FN1, VIM, SNAI1, ZEB1, ZEB2, DCN), and stemness genes (ALDH1A1, CD44, PROM1, NANOG, KIT, NES, KLF4, CD55, ALCAM, NOTCH4, WNT7A, PDPN).
+
+## Developmental Pseudotime Analysis
+All tumor cell expression data were used for single‐cell pseudotime analysis using the Monocle (v2.16.0) package[
+ 
+] under default parameters. Highly variable genes were selected by the built‐in DispersionTable function of Monocle.
+
+## Cell Cycle Analysis
+Based on the 43 G1S genes and 54 G2M genes defined in the previous study,[
+ 
+] the authors calculated the G1S scores and G2M scores for each malignant tumor cell with the CellCycleScoring function in Seurat. They defined a cell as cycle‐active as long as one score was greater than 0.1.
+
+## Transcription Factor Analysis
+To explore the dominant transcription factor in different subclones, the authors applied SCENIC with the SCENIC package (v1.2.1)[
+ 
+] in R. First, they inferred potential targets of each TF based on their co‐expression function indicated by GENIE3. Then, potential direct binding targets were selected according to DNA motif analysis and compared with the reference motif database downloaded from RcisTarget (https://resources.aertslab.org/cistarget/). The regulon activity of each cell was analyzed via the AUCell function. Each cell was scored for regulon activity using the function AddModuleScore in Seurat, and final visualization was implemented with the featurePlot function in Seurat.
+
+## Cell‐Cell Communication Analysis
+To enable a comprehensive analysis of cell–cell communication molecules, the authors applied cell–cell communication analysis based on CellChat (v1.0.0).[
+ 
+] The ligand and receptor genes expressed by each cell were projected into a manually selected reference communication network and the probability of communication in each pathway was inferred by gene expression. They statistically analyzed the communication probability between subclones and other non‐malignant cells as well as the communication between different subclones. Histograms were implemented with the ggplot2 package (v3.3.2) in R.
+
+## Information Entropy of Transcriptional Subtypes and the Tumor Ecosystem
+An online tool[
+ 
+] (https://cibersortx.stanford.edu/) was used to construct the cell‐type‐specific signature matrix according to the top 200 marker genes of each cell type, and then the constructed signature matrix was used to infer the fractions of different cell types and transcriptional subtypes. Bulk expression data from the TCGA PRAD project were downloaded from the GDC data portal (https://portal.gdc.cancer.gov/) and all 495 patients were included in the analysis. For each patient, the information entropy contained in its expression data was calculated by using the following formula:
+
+(1)
+HX=−∑i∈Xpi∗logpi
+where p represents the fraction of cell type i in the patient, and X represents the collection of all cell types or transcriptional subtypes.
+Notably, to calculate the information entropy of the ecosystem, the authors calculated the fraction of all epithelial cells (malignant and non‐malignant) as a whole; to calculate the information entropy of the transcriptional subtype, the fraction of each transcriptional subtype in all tumor cells was calculated. Then, the correlation analysis of information entropy between transcriptional subtypes and the ecosystem was performed in R (v4.0.3), and further visualization was implemented with the pheatmap (v1.0.12) and ggplot2 (v3.3.2) packages.
+
+## Clinical Correlation Analysis in TCGA RNA‐seq Data
+As described above, the authors obtained the fractions of various cell types in the tumor ecosystem of patients in the PRAD project through the CIBERSORTx online tool.[
+ 
+] All 495 patients were divided into two groups by hierarchical clustering for the proportion of all cell types according to the results of CIBERSORTx or by the median cell proportion for each cell type. Progression‐free survival (PFS) was used as a clinical endpoint, and the KM curve was plotted using the survminer (v0.4.8) package.
+
+## Immunohistochemistry (IHC)
+Primary antibodies included ZEB1(21544‐1‐AP, Proteintech, 1:50), KLK3(ZM‐0218, ZSGB‐BIO), TACSTD2(ab214488, Abcam, 1:500), and KRT15(ab52816, Abcam, 1:200). Formalin‐fixed and paraffin‐embedded tissue sections (5 µm) were deparaffinized and rehydrated. Antigen retrieval was carried out using 10 mm sodium citrate (pH 6.0). Endogenous peroxidase activity was blocked with 0.3% hydrogen peroxide for10 min and 5% BSA in PBS for 1 h. Slides were incubated overnight at 4 °C with a primary antibody, which was followed by incubation with an HRP‐linked secondary antibody (PV‐9001, ORIGENE) at room temperature (30 min). Diaminobenzidine (DAB) was used as chromogen, and the sections were counterstained with haematoxylin. Representative fields were selected from these slides.
+
+## Data Availability
+Data have been deposited in the Genome Sequence Archive for Human (GSA‐Human) under accession HRA000823[
+ , 
+] (https://ngdc.cncb.ac.cn/gsa‐human/s/Bv7gBES8). For survival analysis, bulk RNA‐seq data from the following studies were used: TCGA (495 samples, http://firebrowse. org/?cohort = PRAD).[
+ , 
+] All other data supporting the findings of this study are available from the corresponding author on reasonable request.
+
+## Statistical Analysis
+All statistical analyses of scRNA‐seq data were performed using the Cell Ranger software, Seurat, SingleR, Metascape website, inferCNV, Monocle, SCENIC, CellChat, CIBERSORTx online tool, survival, survminer, and GSVA. Visualization of data was made using R packages ggplot2 and pheatmap. The data in Figures  , , and  were presented as median with interquartile range (IQR). The chi‐squared test was used to reveal the statistical difference in Figure  and two‐tailed t‐test was used to reveal the statistical difference in Figures  and  . Correlations were identified by Pearson's or Spearman's correlation test in Figure  , and Figures and , Supporting Information. Log‐rank test was performed in Kaplan–Meier survival analysis in Figure  and Figure , Supporting Information. A p‐value or q‐value less than 0.05 was considered as significant difference. All statistical analyses were conducted in R4.0.3.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Author Contributions
+G.G., Y.H., J.Z., and X.L. contributed equally to this work. W.C., H.H., L.Z., X.L. conceived the study. G.G., Y.H., J.Z., and X.L. designed the experiments. G.G., Y.H., J.Z., X.L., X.L., Y.G., Z.L., J.W., W.Z., Y.X., Y.P., J.D., and B.Z. performed the experiments and analyzed the data. W.C., G.G., Y.H., and J.Z. wrote the paper.
+
+## Supporting information
+Supporting Information
+Click here for additional data file.
+Supplemental Video 1
+Click here for additional data file.
+Supplemental Video 2
+Click here for additional data file.
+Supplemental Video 3
+Click here for additional data file.
+
+## Acknowledgements
+G.G, Y.H., J.Z., and X.L. contributed equally to this work. This work was supported by grants from the CAS Strategic Priority Research Program (XDA16010102 to W.C.), the National Key R&D Program of China (2018YFC2000100, 2019YFA0110900 to W.C.), CAS grant QYZDB‐SSW‐SMC039 (W.C.), the National Natural Science Foundation of China (82173061 to W.C.), the specialized research assistant program, CAS (202044 to X.L.), and the Fundamental Research Funds for the Central Universities: Special Projects for Strengthening Basic Research of Peking University (BMU2019JC001 to H.H).
+
+## Data Availability Statement
+The data that support the findings of this study are available from the corresponding author upon reasonable request.

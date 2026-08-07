@@ -1,0 +1,1215 @@
+822acssdACS NanoACS NanoPMC1292292512922925129810134164174810.1021/acsnano.5c05047NIHMS2147272Prototyping
+Minimal Extracellular Vesicle Mimetics
+Using Cell-Free Synthesis
+HensonTanner ArizziAlessandra MeyerConary WangDavid LoweNeona M WangYongheng AnandaKeerthana CarneyRandy P WangAijun TanCheemeng 
+†
+Department
+of Biomedical Engineering, University of
+California Davis, Davis, California
+95616, United States
+
+‡
+Center
+for Bioengineering in Medicine, University
+of California, Davis School of Medicine, Sacramento, California
+95817, United States
+
+§
+Institute
+for Pediatric Regenerative Medicine (IPRM), Shriners Children’s Northern California, Sacramento, California
+95817, United States
+*
+Email: aawang@ucdavis.edu.
+*
+Email: cmtan@ucdavis.edu.
+52202620973857385–74001332026© 2026 The Authors. Published by American Chemical SocietyThis article is licensed under CC-BY-NC-ND 4.0
+
+## Abstract
+The many surface
+proteins on extracellular vesicles (EVs) allow
+them to target recipient cells and modulate cellular responses. Despite
+their importance, relating surface protein and EV function is challenging
+due to surface protein heterogeneity. Here, we create a bottom-up,
+cell-free protein-synthesis platform to engineer artificial nanovesicles
+(ANVs) that display different EV surface protein domains. The platform
+is termed VESSEL (Vesicle Engineering Systems using Synthetic Expression and Loading). The surface proteins are selected based on proteomics data
+of native EVs from placental mesenchymal stem cells (PMSCs). To create
+VESSEL, we establish a protein anchor based on the bacteria membrane
+protein Aquaporin-Z. This anchor allows the flexible and cell-free
+protein synthesis of 39 different EV surface protein domains, each
+anchoring into more than 108 ANVs per μL. Furthermore,
+we measure the ANVs using high-fidelity assays, including single-ANV
+flow cytometry, super-resolution imaging, and vesicle-based ELISA.
+Next, we show the impact of each EV surface protein on cellular uptake.
+Specifically, we find that certain EV surface protein domains govern
+ANV uptake into HEK293FT cells, explaining the variable observations
+in the field. We discovered new proteins, such as CADM1 and NPTN,
+that mediate high-efficiency cellular uptake. Additionally, five proteins
+were selected for our neuroprotection assay, where three proteins
+were significant in increasing SH-SY5Y neurite growth. Our work demonstrates
+a high-throughput cell-free synthesis platform for studying surface
+proteins of EVs. It enables the systematic interrogation of EV’s
+function as “signalosomes” and facilitates the designing
+of well-defined EV mimetics to mediate cellular function.
+Keywords: Cell-Free Protein Synthesis, Nanovesicle, Protein
+Anchor, Neuroprotection, Cellular Uptake
+
+ 
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Mar 24; Accepted 2026 Jan 21; Revised 2026 Jan 17; Collection date 2026 Mar 10.
+
+1.
+
+## Introduction
+Although extracellular vesicle (EV) surface proteins have been
+recognized as key mediators of function, their heterogeneous expression
+and lack of scalable engineering approaches have hindered precise
+functional studies.
+−
+
+ EV surface proteins perform functions that were once thought to
+be solely due to the cargo, such as neuroprotection, immunomodulation,
+and tissue repair.
+−
+
+ Previously, we showed that when surface galectin-1 (GAL-1) is blocked
+using a neutralizing antibody, neuroprotective function of native
+EVs derived from placental mesenchymal stem cells (PMSCs) is decreased,
+indicating the neuroprotective function is mediated by the protein
+present on the EV membrane. In terms
+of therapeutic applications, previous work has modified EVs by introducing
+new proteins to the vesicle surface including CD9, CD63, LAMP-2B,
+and tLyp-1.
+−
+
+ However, native EVs are known to be heterogeneous
+in the proteins present on a single EV.
+,
+ As a result,
+it is unclear which surface proteins are therapeutically relevant
+or essential for which functions. For instance, CD9 was thought to
+enhance EV uptake into cells. However,
+Tognoli et al. recently showed that CD9 and CD63, another common EV
+surface protein, are not needed for cell uptake.
+,
+ The difficulty in dissecting the specific functions of individual
+EV proteins has significantly hindered EV research and applications.
+,
+
+One method of studying EV-protein function is by knocking
+it down
+in the parent cell or inhibiting it through peptides or antibodies.
+,,
+ This effectively blocks the proteins’
+ability to interact with the targets, generating a loss of function.
+An alternate method is the addition of the protein to native EVs or
+the synthesis of defined EVs. Native EV protein addition is typically
+done through modification of the parent cell. Such work, however, still utilizes native EVs with high protein
+heterogeneity. To overcome this challenge, defined or synthetic EVs
+could be created from the bottom up with well-defined protein composition. For instance, Staufer et al. generated water-in-oil
+liposomes and attached recombinant proteins to the liposome surface
+through HIS tag binding. However, synthetic
+EVs primarily utilize recombinant proteins, which can be expensive
+or difficult to scale up to study the many surface proteins of native
+EVs.
+,−
+
+ To accelerate the study
+of EV surface proteins, a scalable and rapid method is critically
+needed to generate synthetic EVs with defined surface proteins.
+To this end, cell-free protein synthesis is a potential approach
+that uses cellular machinery to generate proteins without cells. Surface
+proteins can be synthesized in the presence of liposomes, allowing
+cotranslational insertion into the lipid bilayers. This approach can simplify the study of EV surface proteins,
+because the proteins can be generated and inserted into the synthetic
+vesicles in one step. This has direct benefits over other protein
+conjugation methods, as in theory multiple different protein variants
+can be made in parallel, greatly increasing the output. Tremendous
+work has used cell-free systems to synthesize membrane proteins on
+supported lipid bilayers and giant unilamellar liposomes,
+−
+
+ but few have focused on the size range of natural EVs (diameter
+∼ 100 nm). Nomura et al. used
+commercial wheat germ cell-free systems to display Apo Cytochrome
+B5 on large proteo-liposomes, but produced vesicles in the micrometer
+range. The cell-free approach benefits
+from the ease and speed at which different proteins can be generated
+and tested on a liposome membrane; however, testing these proteins
+at a different size range does not provide translatable function association
+between the artificial nanovesicles (ANVs) and native EVs. Additionally,
+cell-free protein display is hindered by the reaction condition optimization
+required for every protein tested.
+,
+ This can decrease
+the scalability of cell-free protein expression and reduce its advantage
+for parallel, multiprotein studies. To harness the potential of cell-free
+protein expression to create ANVs, a plug-and-play solution that functionalizes
+vesicles in the correct size range must be generated.
+Here,
+we create a modular platform that integrates E. coli cell-free protein synthesis and liposomes to study EV surface proteins.
+Our study utilizes the cell-free protein synthesis machinery outside
+of the liposome, thereby utilizing an outside-in generation approach.
+This approach allows for unimpeded access to the membrane. Furthermore,
+as the soluble protein domain is designed at the C-terminal, the synthesized
+protein is biased to be displayed in our desired form – anchor
+domain in membrane, with surface proteins at the outside of the liposomes.
+We use a new protein anchor to display the extracellular domain of
+select proteins on well-defined liposomes. To focus our study on the
+protein interactions, our platform utilizes a simple membrane composition
+to disregard charge, native lipid composition, and other biophysical
+properties. The simplistic membrane resulted in defined ANVs that
+mimic the size of native EVs, reduce protein heterogeneity down to
+a single protein, and solely focus on the protein function. The anchor
+protein allows a single synthesis condition to generate different
+ANVs. Our work enables the largest-scale study of EV surface proteins
+to date: > 39 proteins found on native PMSC EVs. All 39 protein-ANV
+functions are tested through HEK293FT cell uptake as a proof of concept.
+Additionally, some ANVs are tested for uptake and neuroprotective
+capabilities in a well-established neuroprotection model using SH-SY5Y
+neuroblastoma cells. Our platform can rapidly prototype ANVs with
+defined surface proteins for downstream therapeutic work.
+
+2.
+
+## Results
+2.1.
+
+## Established Artificial Nanovesicles and Cell-Free
+Protein Synthesis Systems
+We created the VESSEL (Vesicle Engineering Systems using Synthetic Expression and Loading) system
+as a platform to simplify the study of EV protein function by reducing
+heterogeneity to just a single species of displayed protein. VESSEL
+allows researchers to take native EV proteomics data, determine key
+EV membrane or soluble proteins of interest, generate them rapidly
+through cell-free protein synthesis, and perform functional tests
+on these EV mimetics, termed artificial nanovesicles (ANVs) ( A). To generate ANVs,
+a vesicle chassis that mimics the sizing of native EVs was needed.
+We generated small liposomes through sonication, as their speed of
+generation and fully customizable composition were important for this
+study. We utilized two different liposome compositions, one containing
+99.85% DOPC and 0.15% CY5 PE, and the other containing 98.85% POPC,
+0.15% CY5 PE, and 1% biotinylated PE. DOPC and POPC were selected
+for their biocompatibility and previous use in studies to mimic eukaryotic
+membranes (see Section ).
+−
+
+ CY5 PE lipids
+were used for detection for filtering, normalization, and uptake studies,
+while the biotinylated PE lipids were utilized for strep-tag attachment.
+POPC lipids were used with biotinylated PE to provide better tail
+length matching. While there is a recent interest in the role of lipids
+in EV function, we kept our compositions simple to focus on the role
+of the displayed protein.
+
+ Thin film hydration and sonication were used to create synthetic
+vesicles. Our nanoparticle tracking analysis (NTA) showed the size
+of the DOPC vesicles, in which the majority fall within the 50–150
+nm diameter that is seen with native EVs (see ) ( B). We used
+NTA and dynamic light scattering (DLS) to measure the size, zeta potential,
+and polydispersity index (PDI) of these DOPC vesicles in their native
+form, after cell-free mixture addition and protein generation and
+then after SEC and Amicon filtering (Figure S1). Using NTA, we observed that the size of our liposomes increased
+upon addition of the cell-free system but did not further increase
+upon addition of a protein to the ANV surface. The liposome size also
+increased after filtering, but there was no significant difference
+in the liposome size after the addition of a membrane protein. Across
+all tested conditions, the liposome size was consistently within the
+50–150 nm range observed for native EVs. This size range is
+slightly increased when analyzed using DLS. However, there was no
+significant difference between the native liposomes and their cell-free
+modified and filtered counterparts. Using DLS, we measured the PDI
+and found no significant difference among the samples. The PDI range
+was 0.3 to 0.4. Our ANV falls within a PDI range generally considered
+moderately polydisperse and aligns with the reported PDI of other
+native EVs.
+−
+
+ Finally, the zeta potential was investigated. We
+observed a decrease in the zeta potential across all of our samples
+after cell-free modification. The zeta potential observed after cell-free
+modification agrees with other reported zeta potential values for
+native EVs.
+,
+ This decrease in zeta potential
+is likely due to both the displayed protein on the surface as well
+as the formation of a potential protein corona from our cell-free
+system. The effect of this protein corona is accounted for throughout
+this work by adding cell-free and liposome conditions as the standard
+control. Additionally, we did not observe any hindrance to protein
+display from this potential corona. We also did not observe any effect
+on cell viability (Figure S2). Circularity
+was validated through super-resolution microscopy, where our DOPC
+vesicles were imaged with a circular phenotype (see Section ) ( C). Cryo-EM was used to validate the circularity and lamellarity
+of our formed vesicles (see Section ) ( D). While circularity
+was achieved, some vesicles were multilamellar in nature (Figure S3). The multilamellar particles did not
+affect our subsequent studies due to our outside-in protein generation,
+meaning that cell-free synthesized proteins were localized to the
+outer membranes. Altogether, our ANVs retained the native EV size
+range, despite their multilamellar nature.
+
+With the size and circularity confirmed, we next tackled the
+filtering
+and purification procedures of the VESSEL platform. These steps maintained
+each protein bound to the surface of the vesicles by removing any
+nonbound proteins. Size exclusion chromatography (SEC) was used to
+capture the 50–150 nm vesicles while removing any free proteins
+(see Section ). Amicon filtration was utilized
+to reconcentrate the vesicles for in vitro tests.
+To confirm vesicle elution, an elution profile was performed using
+plate reader analysis of the DOPC–CY5 positive liposomes ( E). Plate reader
+analysis showed that the vesicles elute between 1000 and 1500 μL
+of PBS. This 500 μL amount was then filtered through a 100 kDa
+Amicon filter to reconcentrate the ANVs. This method generated double-filtered
+vesicles, with SEC removing free proteins and Amicon removing proteins
+smaller than 100 kDa.
+To enable rapid protein synthesis, we
+used our custom cell-free
+protein synthesis system. Our cell-free
+system can synthesize proteins as large as 159 kDa, which cannot be
+achieved using chemical peptide synthesis.
+,
+ In this system, one bacteria strain (BL21-DE3 star) was grown and
+sonicated to harvest the intracellular machinery needed for protein
+synthesis (see Section ). The machinery
+was mixed with a plasmid coding for the protein of interest. In a
+< 6-h reaction, this protein was synthesized without cells ( F). Before adding
+the protein to vesicles, we first benchmarked our cell-free system.
+We generated GFP with two different whole cell extract (WCE) batches
+and utilized plate reader analysis to quantify the protein concentration,
+which was around 0.4 mg mL–1 ( G).
+
+2.2.
+
+## Aquaporin-Z Provides Robust
+Cotranslational
+Insertion into ANV
+With both a platform to generate liposomes
+that mimic native EVs physical characteristics and a platform to synthesize
+proteins without the need for cells, we integrated these to display
+proteins on ANVs. Synthesizing full-length membrane proteins in a
+cell-free system is challenging, as each protein can require a unique
+salt condition that is needed for synthesis and folding. We circumvented
+this problem through two different modifications of the protein design.
+The first was the elimination of the transmembrane domain and the
+replacement of it with an experimentally determined universal membrane
+anchor. In replacing the transmembrane domain, this design removes
+the trial and error of having proteins self-inserting into the membrane
+by utilizing a standardized domain (see Section ). The second change is to use only the extracellular domain
+of the EV protein. There have been several studies that show membrane
+proteins can retain their function after isolating the extracellular
+domain.
+−
+
+ To simplify the attachment of our proteins to our
+ANVs, we used only the extracellular domain because these domains
+dictate EV-protein interaction in cell uptake and targeting. To ensure the correct functional domain of the
+protein is used, only single-pass membrane proteins were utilized
+for this study, except three tetraspanins (CD9, CD63 and CD81) and
+two soluble proteins (HGF and GAL-1). These two modifications both
+standardized the plasmid assembly and eliminated the complex chemical
+conditions for cotranslation insertion.
+For the universal protein
+anchor, we tested three different anchors to find the most compatible
+solution. The first was the transmembrane domain of Transferrin, a
+human blood protein (Figure S4). The second was Aquaporin-Z (AQP-Z), an E. coli water channel protein which has previously been
+used within cell-free protein synthesis liposome display (Figure S5).
+−
+
+ Both proteins allowed
+cotranslational insertion. As the protein was being synthesized, it
+was inserted and folded into the liposome membrane. Utilizing self-inserting
+membrane domains provided a robust anchor as no other proteins or
+material was needed for anchoring. The third method was strep-tag,
+which worked by generating strep-tagged proteins binding to streptavidin,
+which then bound to biotinylated lipids on the liposome surface (Figure S6). The
+strep-tag anchor system worked by attaching the protein after they
+were generated and did not rely on transmembrane protein folding and
+cotranslational insertion ( A).
+ To validate the insertion and
+robustness of each anchor, each anchor
+was generated with the second extracellular domain of CD9, filtered
+through SEC and Amicon filtration, and then a Western blot was performed
+(see Section ) ( B). The 6X HIS tag at the C terminus of CD9
+was the target for all tests. Both Transferrin and Aquaporin-Z showed
+strong bands on the blot, while the strep-tag signal was lost (Figure S7). The strep tag signal loss was likely
+due to the need for multiple binding partners, leading to a significantly
+lower robust protein display. Quantification of these Western blots
+showed that Aquaporin-Z and Transferrin had significant display of
+11 and 15 μg mL–1 of protein respectively
+( C). To further
+validate the ANVs, we performed ELISA quantification, where Transferrin
+and Aquaporin-Z once again showed significant protein display when
+compared to the normalized control; Strep-tag once again had no signal
+(see Section ) ( D) (Figure S8).
+Next, single nanoparticle flow cytometry was performed for a larger
+population analysis using a FITC anti6x HIS tag antibody (see Section ) (Figures S9–S10). Transferrin and Aquaporin-Z resulted in around 45–50% of
+the total liposome population featuring detectable amounts of displayed
+protein ( E).
+Finally, super-resolution microscopy was utilized to quantify the
+total number of proteins displayed per vesicle (see Section ). All ANV variants showed detectable amounts
+of displayed protein ( F) (Figure S11). Next, we determined
+whether there were any differences between our membrane anchors in
+terms of detected protein display. We used the ONI super resolution
+Nanoimager to image single-molecule localizations of the proteins. We used the images to compare localizations
+of our membrane anchors (by Alexa488-HIS antibody) and lipids (CY5-DOPC/CY5-POPC-Biotinyl).
+To examine sample loading, we analyzed only CY5 signals and did not
+observe any differences among our samples ( G). Next, we colocalized Alexa488 and CY5.
+Once again, Transferrin and Aquaporin-Z showed statistically significant
+differences when compared to the negative controls. Both membrane
+anchors had an average of 40–50 higher localizations than the
+controls and Strep-Tag. Of the three membrane anchors, we proceeded
+with Aquaporin-Z due to its amount of vesicle display and the robustness
+of protein display after filtering.
+
+2.3.
+
+## VESSEL
+Allows for Scaling Out of Protein-ANV
+Variants
+To demonstrate the modularity of our platform, we
+utilized PMSC EV proteomics data and selected the top 140 proteins
+based on their abundance. From this list,
+single-pass transmembrane proteins were selected, and each extracellular
+domain of the proteins was isolated. Golden gate synthesis was utilized
+to construct all the plasmids (see Section ). Golden gate, coupled with the anchor-protein approach, allowed
+for the rapid and flexible creation of ANV that displays any protein
+domains of interest without the size limitation chemical-based protein
+synthesis methods have ( A).
+ We generated 39 different protein-ANVs
+and examined them for display
+efficacy. (see Section ). All proteins,
+except for TM154, were classified into 4 generalized categories based
+on annotated protein function (Supplementary Table 1). TM154 was left uncategorized due to its unknown function
+in the literature. To validate the robust display of the proteins
+on ANV, we performed a custom ELISA on filtered ANV (see Section ) ( B). 38 of 39 ANVs were statistically significant for protein
+display when compared to the cell-free only control. One exception
+was CLMP-ANV, which showed a significantly lower display percentage.
+With a more sensitive method like single nanoparticle flow cytometry,
+all 39 ANV variants showed statistically significant display percentages
+(see Section ) ( C). All ANV variants featured detectable
+protein on 45–65% of the total liposome population, except
+for CLMP-ANV, which had only around 20% display on ANV. Using Aquaporin-Z
+as a membrane anchor and tagging extracellular domains of proteins
+to Aquaporin-Z allowed for the quick expansion of tested proteins.
+These proteins, except for CLMP-ANV, are expressed similarly on the
+surface of liposomes. Therefore, this platform can be applied to a
+library of EV proteins while retaining a similar percentage of vesicles
+with surface expression of the proteins.
+
+2.4.
+
+## VESSEL
+Enables Systematic Study of Extracellular
+Vesicle Protein Function in HEK293FT Uptake Assays
+With the
+construction of all 39 protein-ANVs using our VESSEL platform, we
+proceeded to test the protein function. With a wide range of vesicles,
+all spanning a minimum of 4 different functional groupings, there
+was no one assay that could encompass all protein functions. Ultimately,
+we decided to investigate uptake into HEK293FT cells (see Sections , ). Extracellular
+vesicle uptake into cells is relatively low, and modifying the uptake
+effectiveness of these vesicles is a well-studied field. HEK293FT was selected for its availability,
+ease of cultivation, and its widespread use within extracellular vesicle
+studies. VESSEL provides a clear benefit
+within this niche as the protein–protein interactions that
+facilitate EV uptake can be characterized systematically, and new
+protein targets for native EV uptake can be discovered.
+Our
+model of EV uptake involved taking the 39 ANV variants, dosing them
+into cultures of HEK293FT cells, and after a 4 h incubation, imaging
+the cells using confocal microscopy and detaching cells for cell-based
+flow cytometry (see Section ) ( A). In our confocal
+microscopy, we visualized CY5-positive ANV variant uptake into HEK293FT
+cells, especially in LAMP1-ANV ( B). This imaging was performed for all doses and proteins
+that were tested (Figures S12–16). The doses tested were 20,000, 4000, and 2000 ANV/cell, denoted
+as high, medium, and low, respectively. For whole population analysis,
+the HEK293FT cells were trypsinized, and cell-based flow cytometry
+was performed ( C). All uptake flow cytometry data shown was placed through multiple
+gates, removing the debris, doublet cells, and dead cells, resulting
+in uptake data for single, alive cells (Figures S17–18). Of all 39 proteins, 32 of them were at least
+statistically significant for uptake percentage, with a majority being
+statistically significant for both uptake and geometric mean at the
+medium (4000 ANV/Cell) dose. The 7 proteins not statistically significant
+were CD9-ANV, JAM1-ANV, CD81-ANV, GAL-1-ANV, SHPS1-ANV, BASI-ANV and
+AMGO2-ANV (Supplementary Table 2). CD9-ANV,
+JAM1-ANV, CD81-ANV and GAL-1-ANV have the lowest uptake of all proteins
+tested. SHPS1-ANV, BASI-ANV and AMGO2-ANV, while having higher uptake
+than several proteins, have high variability in their function. One
+notable protein that was not statistically significant was CD9-ANV,
+with a just 10% uptake. This provides supporting evidence that CD9
+does not play a major role in the HEK293FT vesicle uptake. CD81-ANV,
+another tetraspanin, had a low uptake of just 15%. Due to these two
+proteins in similar classes having such low uptake, CD9 can be ruled
+out as a protein that mediates HEK293FT uptake. This data corroborates
+with the claim made by Tognoli et al., which utilized a HEK293FT model
+to study EV uptake, and found that CD9 is not essential for EV Uptake. At the medium dose, all proteins covered the
+entire range of uptake effectiveness, from LAMP1-ANV which was taken
+up into 82.73% of HEK293FT cells, to CD9-ANV with only 10.05% of cellular
+uptake. The results highlight the power of VESSEL, in eliminating
+combinational effects or other surface features, and the pure EV protein
+effect on uptake can be quantified.
+ VESSEL additionally benefits from the fact that it is a bottom-up
+synthetic platform, allowing for customization. We tested this customization
+by reducing the plasmid concentration in the cell-free reactions to
+half (0.5X) and a quarter (0.25X) of its initial concentration (see
+Section ). We validated this with 2 proteins,
+ITM2C and CADM1, and first performed single nanoparticle flow cytometry
+(see Section ) ( D). Both proteins showed a decrease in displayed
+protein percentage as the plasmid concentration decreased to half
+(0.5X) and a quarter (0.25X) of the original concentration. Both the
+half (0.5X) and quarter (0.25X) concentrations have a significantly
+lower percentage of protein display than the standard (1X) condition.
+CADM1-ANV seems to follow a linear decrease in the percentage of protein
+display, while ITM2C-ANV display percentage decreases initially but
+remains at the same level with 0.25X plasmid concentration. This result
+hints at some plasmids/proteins being more robust to lowering plasmid
+amounts than others. However, further experiments will be needed to
+explore the nonuniform effects. These ANV variants with lower plasmid
+concentrations were further tested on HEK293FT uptake ( D). All vesicles were dosed
+at the same vesicle concentration (12,000 ANV/Cell). Therefore, the
+only difference in uptake is due to the change in the amount of protein
+display. We observed that both proteins followed a relatively linear
+decrease in uptake percentage, decreasing from ∼80% to just
+∼40–60%. This result demonstrates the power of VESSEL
+in modulating protein display on ANV to regulate its uptake into cells.
+To further examine the differences in HEK293FT uptake across proteins,
+we examined all samples across the three doses that were tested (Figures S19–20). This approach addresses
+a key concern in the EV field regarding proper dose control of EVs. All samples were normalized to their 20,000
+ANV/cell condition, and the decreasing fold change across the 4000
+and 2000 ANV/cell conditions was examined ( E–G). The dose–response curves
+allowed for all 39 proteins to be classified into three groups based
+on their effectiveness for HEK293FT uptake. “Robust-uptake”
+proteins are those that maintain high uptake across the dosing curve,
+maintaining a convex curve overall. “Standard-uptake”
+are proteins that show decreased uptake linearly with the dosing amount.
+Finally, “sensitive-uptake” are proteins whose uptake
+effectiveness drops sharply with decreasing dosing amount. AMGO2-ANV
+is classified as a “sensitive-uptake” protein due to
+its high variability. While 32 of the total 39 proteins were statistically
+significant, we consider only “robust-uptake” and “standard-uptake”
+proteins to be beneficial for uptake due to the stable uptake trends
+despite the dosing strategy. While 14 proteins from the “sensitive-uptake”
+category were statistically significant, the sharp decrease of uptake
+across the dosing amount means these “sensitive-uptake”
+proteins are unlikely viable for future EV uptake studies.
+Here,
+we discovered 5 “robust-uptake” proteins and
+13 “standard-uptake” proteins. LAMP1-ANV, CADM1-ANV,
+NPTN-ANV, GGT1-ANV and ITM2C-ANV are the 5 “robust-uptake”
+proteins, with consistently high uptake across all the doses. These
+proteins are prime candidates for enhancing synthetic or native vesicle
+uptake into HEK293FT cells and can be studied further for potent uptake
+into other cell lines. The 13 “standard-uptake” proteins,
+such as CD166-ANV, MMP14-ANV, and IGSF8-ANV, still maintained a relatively
+high uptake profile across the doses. In contrast to literature data,
+VESSEL enables a systematic dosing study of 39 proteins, of which
+18 of the proteins are viable for increasing the level of HEK293FT
+uptake. Our work also addresses a main controversy in the field regarding
+the proper controls for dosing nanovesicles and their impact on functional
+outcomes. To take this work a step further,
+we performed HEK293FT uptake using native EVs while blocking three
+“robust-uptake” proteins (Figure S21). The three proteins, LAMP1, CADM1, and NPTN, were blocked
+using antibody blocking to the EV surface, and two different EV lines,
+PMSC 795 and PMSC 808, were utilized (Section , ). We found that all three antibodies
+had significant display and blocking of these proteins using single
+nanoparticle flow cytometry. Furthermore, we found that when NPTN
+was blocked on PMSC 795 EVs, there was a significant decrease in vesicle
+uptake into HEK293FT cells. Additionally, when PMSC 808 EVs were blocked,
+both with single proteins and combinatorially, we found that CADM1
+and NPTN + CADM1 resulted in significantly lower HEK293FT uptake.
+Two of the three “robust-uptake” proteins had translatable
+function when tested on native PMSC EVs, apart from LAMP1. While the
+lack of translated function of LAMP1 could be due to potential protein
+density differences between our ANV platform and the native material,
+or LAMP1 could work combinatorially with another protein on native
+EV membranes, we did not find the protein effective for mediating
+uptake in our native EV model. VESSEL can help nominate EV proteins
+for functional testing. We show that 2/3 uptake-associated proteins
+had an effect on native EVs. This approach provides a complementary
+pathway for protein studies, and in the case of NPTN and CADM1, has
+provided translatable function for two proteins that were relatively
+unstudied for their cell-uptake function.
+Next, we examined
+the correlation between the size, net charge
+of proteins, and cell uptake percentage ( H). We observed a charge-independent uptake
+pattern, as there are both positively and negatively charged proteins
+on both ends of the uptake spectrum (Supplementary Table 2). LAMP1-ANV, the protein with the highest uptake efficiency,
+has a net positive charge; CADM1-ANV, another robust-uptake protein,
+has a net negative charge. Additionally, we see EFNB2-ANV, a protein
+with a similar net charge to LAMP1-ANV (3.25 vs 4.37), showing poor
+uptake into HEK293FT cells (Figure S22).
+The size of the protein domain does not show any correlation with
+cell uptake percentage. Some proteins, like SHPS1-ANV and BASI-ANV
+(66.99 and 61.78 kDa, respectively), have a similar size to LAMP1-ANV
+(67.83 kDa), but show a statistically significant difference in HEK293FT
+uptake percentage. Finally, we compared the uptake efficiencies to
+the ANV display percentages shown in to determine if protein display efficiency/density
+affects HEK293FT uptake (Figure S23). We
+did not observe a correlation between the display and uptake effectiveness.
+For example, PDPN had high display but was in the “sensitive-uptake”
+group, while CLMP had low display but was at the top of the “standard-uptake”
+group. This indicates that the observed function from our ANV is based
+mainly on the protein domain function without strong correlation with
+charge, size, or display density.
+Next, we determined whether
+the results uncovered new insights
+into the proteins ( H) (see Section ). CADM1 is a protein
+associated with cell adhesion, and is commonly used as a biomarker
+for cancer.
+,
+ Its role on the EV surface, however,
+is currently unknown, with only one publication hinting at its potential
+role in the adhesion of EVs to cellular membranes. Here, we show, at least for HEK293FT cells, that CADM1
+is a potent facilitator of cellular uptake, showing one of the highest
+uptake percentages across all doses. Next, we investigated NPTN, a
+protein that facilitates the formation of excitatory synapses.
+,
+ This protein, like CADM1, has not been associated with cellular
+uptake but was the second-best performing protein from our tested
+proteins. Based on the discoveries, the VESSEL platform has successfully
+isolated proteins from proteomics data and validated them for uptake
+into HEK293FT cells. Cellular uptake of EVs is a wide studied field,
+Williams et al. conducted a study investigating 28 different cell
+lines. HEK293T, a similar cell line to
+HEK293FT, had an average uptake profile.
+,
+ This indicates that HEK293FT is an ideal testing cell line; however,
+we wish to investigate other cell lines for function. VESSEL can be
+applied to any EV and cell studies, allowing validation or hypothesis
+testing of EV proteins.
+Finally, we performed a cholesterol
+study to observe the effect
+of cholesterol on HEK293FT uptake as well as the protein display on
+the liposomes (Figure S24). Three proteins
+were tested, ITM2C, ATI1B, and GAL-1, chosen from the three uptake
+groups “robust-uptake”, “standard-uptake”
+and “sensitive-uptake”, respectively. Starting with
+the protein display on the liposome surface, ITM2C and GAL-1 had no
+significant difference in display, while ATI1B had significantly higher
+protein display with the 40% cholesterol formulation. For ANV uptake
+into HEK293FT cells, we observed a protein-dependent response. ITM2C-ANV
+exhibited a significant decrease in uptake at the 40% cholesterol
+formulation across all three doses. However, ITM2C-ANV with 20% cholesterol
+did not affect uptake significantly. ATI1B-ANV, however, at the 20%
+and 40% cholesterol formulations, exhibited decreased uptake at all
+doses, apart from the low dose, where only the 20% condition was affected.
+Finally, GAL-1-ANV had no significant decrease in HEK293FT uptake
+with the addition of cholesterol at any dose. Ultimately, this cholesterol
+screen suggested that cholesterol had a minimal impact on protein
+display on the ANV. However, it can affect protein-ANV uptake. This
+result is expected, as the role of cholesterol in nanoparticle uptake
+has been stated. Our platform may be
+used to study such compounding factors in the future.
+
+2.5.
+
+## VESSEL Allows Systematic Evaluation of EV
+Protein Function in Neuronal Healing and Uptake Assays
+VESSEL
+is versatile in enabling a systematic investigation into the functions
+of the displayed proteins. We conducted an SH-SY5Y neuroprotection
+healing assay, in which staurosporine was added to an SH-SY5Y culture,
+causing cytotoxicity (see Sections , ). VESSEL ANVs were then added to examine any
+neuroprotective effects ( A). We examined 5 EV proteins: CD166-ANV, PDPN-ANV,
+AMGO2-ANV, GAL-1-ANV, and HGF-ANV. CD166 has been found to promote
+neurite extension, and additionally axon growth. PDPN has been found to be upregulated in several different
+tumors, including brain cancer. Finally,
+AMGO2 is required for the survival of cerebellar granule neurons,
+indicating potential benefit to neuroprotection. The other 2 proteins, GAL-1 and HGF, were selected for
+their demonstrated neuroprotective ability.
+,
+ VESSEL allows us to single out proteins that have previously demonstrated
+or suggested benefits for neuroprotection, which, in turn, can help
+to inform therapeutic applications.
+ Our metric for neuroprotection is the growth of
+SH-SY5Y projections
+following standard methods used in the field (see Sections , ). Calcein-AM staining was performed for all samples. There
+were significant differences between the no-protein control, and CD166-ANV,
+PDPN-ANV, and AMGO2-ANV ( B). Representative images of all samples show that
+PBS only, cell-free-ANV, and HGF-ANV decreased the amount of SH-SY5Y
+growth, while the other proteins induced SH-SY5Y growth (Figure S25). This observation is further exemplified
+when we applied an imaging mask that converted the images to skeletonized
+projections (Figure S26). This conversion
+allowed us to quantify the total length of the SH-SY5Y branches, and
+to quantitatively compare the samples to one another. We found that
+when compared to negative controls CD166-ANV, PDPN-ANV, and AMGO2-ANV
+all exhibited significant neuroprotection of our SH-SY5Y cultures
+( C). For CD166,
+while most of its function in literature is attributed to cell-adhesion
+and cancer cell invasion, it has been shown to play a role in neurite
+formation.
+,
+ Our study agrees with this known
+CD166 function. PDPN, another protein associated with cancer, has
+more prior data showing its relationship to brain development. Our results corroborate that knowledge by showing
+PDPN-ANV has neuroprotection functions. Finally, AMGO2, also denoted
+as AMIGO2 in the literature, was confirmed to play a role in neuroprotection
+in the mouse hippocampus region. Here, our data supports that evidence. GAL-1 and HGF, both proteins that have been
+previously described as neuroprotective, did not show consistent results
+in our study.
+,
+ The discrepancy suggests a few
+possibilities: the protein’s role in neuroprotection may require
+other proteins, or the tethering of these soluble proteins to ANV
+surface does not recapitulate their natural forms and functions. Due
+to both proteins are naturally soluble, further studies may be needed.
+We additionally performed the same uptake study following the same
+methods as the HEK293FT cells. Six proteins were tested, two from
+each of the uptake groups (“robust-uptake”, “standard-uptake”,
+and “sensitive-uptake”). When comparing the flow cytometry
+analysis of the 6 proteins on ANV, only MMP14-ANV and PDPN-ANV were
+statistically significant for uptake (see Section ) ( D). All the other proteins, including LAMP1-ANV and CADM1-ANV, which
+showed “robust-uptake” with HEK293FT cells, had significantly
+lower uptake at the medium dose with SH-SY5Y cells. When comparing
+all 6 protein-ANVs across the three doses, every protein-ANV follows
+the “sensitive-uptake” trend ( E). The discrepancy of uptake level between
+cell types has previously been reported by Williams et al. They studied the uptake of EVs in relation to
+the surface glycans. Of the 28 cell-lines
+tested, SH-SY5Y was ranked in the lowest 3 cell-lines for extracellular
+vesicle uptake, and was much lower ranked than HEK293FT. Therefore, our observed uptake trend of the
+ANVs behaving differently for different cell types was consistent
+with the literature. Still, finding differences in the uptake percentage
+and the potential uptake advantage of MMP14-ANV and PDPN-ANV could
+point to new ways to engineer EVs. These experiments demonstrate the
+power of VESSEL for enabling the systematic study of EV protein functions,
+especially without interference from other proteins or EV cargo.
+
+3.
+
+## Conclusions
+Our platform, VESSEL, enables
+the generation and testing of protein-ANV
+variants, allowing for new discoveries for EV-protein function. We
+showed that Aquaporin-Z, along with the human blood protein domain
+Transferrin, provides robust insertion and anchoring of cell-free
+generated protein extracellular domains into liposomes, generating
+ANVs. This platform was scaled up and successfully produced 39 different
+protein-ANV variants, all of which had a significant display of protein.
+These variants were tested through HEK293FT uptake and SH-SY5Y neuroprotection,
+in which new discoveries were made. All 39 variants were tested for
+HEK293FT uptake. With each protein, we observed different results
+of uptake. For instance, CADM1 has not been referenced as a protein
+that facilitated vesicle uptake; therefore, we are excited to demonstrate
+its effectiveness. We also showed that the uptake effectiveness of
+our ANVs was not correlated to the charge or size of each protein,
+indicating that specific protein interactions likely facilitated the
+vesicle uptake. Additionally, to demonstrate the use of VESSEL, we
+applied this model to SH-SY5Y neuroprotection, in which 3 of the 5
+protein-ANVs were significant for neurite outgrowth and repair.
+In addition, we observed a lack of effective ANV uptake into SH-SY5Y
+cells. While prior studies have shown that SH-SY5Y has relatively
+low vesicle uptake, this was still surprising as CADM1-ANV and other
+previously effective proteins lacked uptake effectiveness. We, however,
+see this as validation for why a platform such as VESSEL could offer
+insights into the extracellular vesicle field. VESSEL can produce
+specific protein-ANV for functional analysis or binding characterization
+and can inform EV studies on useful surface proteins. Once an effective
+protein for a target function has been validated, it can then be upregulated
+or synthetically added to the surface of native EVs. In the future,
+the field could expand the number of proteins tested for cell uptake
+as well as investigate other therapeutically relevant cell lines.
+Additionally, the kinetic timeline for cellular uptake could be expanded
+to multiple days instead of hours. These studies could investigate
+how EV proteins affect vesicle elimination/clearance.
+A limitation
+of the VESSEL platform in its current form is the
+use of single-pass transmembrane proteins. Our method, with anchoring
+an extracellular domain using Aquaporin-Z, allowed for rapid scaling
+up due to insertion and display being consistent across proteins.
+This method, however, limits the number of proteins that can be studied
+as only single-pass transmembrane proteins can be used with functional
+certainty. However, we note that this work also tested a small number
+of multipass membrane proteins, CD9, CD63, and CD81. It has been previously
+reported that only the second extracellular domain is needed for these
+proteins to be functional, which we used in this study. Therefore, VESSEL can also be used to isolate
+extracellular domains of proteins, attach them to vesicles, and test
+these domains for function. Our previous work, MEMPLEX, which generated
+full-length membrane proteins through high-throughput droplet printing,
+could be combined with VESSEL to further study EV proteins. This combination will enable systematic comparison
+of surface protein display vs native membrane proteins on a bottom-up
+platform. Additionally, this platform can be used to further test
+the two large soluble proteins of GAL-1 and HGF to verify their roles
+in neuroprotection. However, the studies will require tremendous effort
+to properly compare protein structure and functions as well as an
+expansive list of proteins to reach definite mechanistic and generalizable
+conclusions. Finally, there has been a large focus in the synthetic
+biology field on utilizing cell-free systems that provide post-translational
+modifications, such as Chinese Hamster Ovary cells.
+−
+
+ Our E. coli-derived cell-free system lacks these post-translational
+modifications. Our system still produced >39 ANVs and provided
+interesting
+insight into previously low-researched proteins, something that can
+only be achieved with knockout models with great expense and a large
+amount of time. We, however, understand that these modifications could
+impact EV uptake into cells. Future work could test different cell-free
+systems, including those from mammalian cells, to examine how EV proteins
+are affected in both their function and surface display. Additionally,
+future work could test HGF and GAL-1 with a mammalian cell-free system
+to investigate if the soluble forms are better generated and if the
+reported function is recapitulated.
+In conclusion, this work
+provides a platform in which any protein
+can be cloned, generated, displayed on ANV, and then tested for function
+in a rapid manner. This bottom-up approach allows researchers to isolate
+the protein of interest while maintaining the physical characteristics
+of the native extracellular vesicle for testing. We aim to take this
+platform further and study combinatorial effects of these proteins
+in the future to enhance the VESSEL platform’s application.
+We expect this platform to enable a deeper understanding of EV protein
+interactions and help in resolving existing debates in the field of
+EV, such as the effect of EV surface proteins versus cargo and stoichiometry
+requirement of various biomolecules on EV for specific functions.
+Furthermore, we anticipate further use of this platform to enhance
+both synthetic and native EVs as therapeutics.
+
+4.
+
+## Methods
+4.1.
+
+## Cell Culture
+Human
+Embryonic Kidney
+Cells 293 FT (HEK293FT) were cultured using Millipore-Sigma Dulbecco’s
+Modified Eagle’s Medium (DMEM) (11965-092, Life Technologies)
+with 10% Thomas Scientific LLC fetal bovine serum (FBS) (35-010-CV,
+Corning) and 100U mL–1 penicillin/streptomycin (15140122,
+Thermofisher). SH-SY5Y cells were cultured using Dulbecco’s
+Modified Eagle Medium, 5% fetal bovine serum, and 100U mL–1 penicillin/streptomycin. PMSC cells were cultured using Dulbecco’s
+Modified Eagle Medium, 5% fetal bovine serum, 100U mL–1 penicillin/streptomycin, 20 ng mL–1 recombinant
+human fibroblast growth factor (FGF) (3718FB01M, R&D systems)
+and 20 ng mL–1 recombinant human epidermal growth
+factor (EGF) (AF-100-15-500UG, PeproTech). All cells were grown to
+confluency using a spectrum of 25 cm2 and 75 cm2 tissue culture treated flasks (972-95727-ZI, 972-95730-P5, Spectrum).
+All cells were cultured at 37 °C, 5% CO2 in a humidity
+pan incubator. HEK293FT and SH-SY5Y cells were passaged to collagen
+coated glass bottom 24 well plates for uptake and neuroprotection
+assays (P24-1.5P, Cellvis). Collagen well coating was performed by
+incubating 0.02 mM collagen at room temperature for 1 h, the collagen
+was removed and the well washed 3 times with DI water then a 30 min
+incubation in the cell culture hood ultraviolet light with the lid
+off (50302, Ibidi).
+
+4.2.
+
+## Liposome and PMSC Extracellular
+Vesicle Preparation
+For the liposomes used with Transferrin
+and Aquaporin-Z, 18:1 (Δ9-Cis)
+PC (DOPC) (850375P-1g, Avanti Polar) and 18:1 Cy5 PE (850-483, Avanti
+Polar) were used in a mole fraction of 99.85% and 0.15% respectively.
+For Liposomes used with strep-tag, 16:0–18:1 PC (POPC) (850457C-25
+mg, Avanti Polar), 18:1 Cy5 PE and 16:0 Biotinyl PE (870277P-25 mg,
+Avanti Polar) were used in a mole fraction of 98.85%, 0.15%, and 1%
+respectively.
+To generate liposomes, all lipids were mixed in
+a glass vial and dried to form a thin lipid film using a nitrogen
+gas stream. The thin lipid film was transferred to a vacuum chamber
+and desiccated for a minimum of 3 h. These films were then resuspended
+using 500 μL of liposome buffer (0.5 M HEPES-KOH, 0.012 M magnesium
+glutamate, 0.18 M potassium glutamate, 2% PEG 8000, 0.0592 M potassium
+phosphate monobasic (BDH9268, VWR) (see Supplementary Table 3) and sonicated using a probe sonicator for 1250 J (50%
+Amplitude, 10 s on, 10 s off) (Qsonica Q125). The liposomes were centrifuged
+at 10,000g for 3 min, and the bottom 450 μL
+was taken and stored at 4 °C to be used for downstream experiments.
+To isolate EVs, exosome free FBS was prepared by spinning FBS at
+112,700g using a Beckman Coulter L7 Ultracentrifuge
+with a SW28 rotor. The FBS was spun for 16 h at 4 °C and was
+stored at −20 °C. PMSC 795 and 808 were seeded in 5-layer
+flasks (353144, Corning Life Sciences) at passage 4 at a cell density
+of 20,000 cells cm–2. These cells were passaged
+using the media outlined in M.1., however, the exosome free FBS replaced
+the normal FBS. After 48 h, the conditioned media was collected, centrifuged
+at 300g for 10 min at 4 °C, then the supernatant
+was transferred, and centrifuged at 2000g for 20
+min at 4 °C. The supernatant, except for the bottom 1 mL to prevent
+debris contamination, was transferred to a 0.2 μm filter and
+vacuum filtered. Here, 25 mL of the filtered media was transferred
+to a thick-wall polypropylene tube (355642, Beckman Coulter) and centrifuged
+at 8812g using the L7 ultracentrifuge for 30 min
+at 4 °C. The supernatant was filtered through a 0.22 μm
+filter and centrifuged for 90 min at 112,700g. The
+supernatant was discarded, and the pellet was washed with PBS and
+centrifuged again at 112,700g for 90 min at 4 °C.
+The pellet was resuspended in triple filtered PBS and aliquoted. These
+underwent NTA and were stored at −80 °C (see Section ).
+
+4.3.
+
+## Whole Cell Extract Preparation
+BL21-DE3
+Star bacteria were grown in 300 mL of 2X YT (31g L–1) (Y2377-250G, Sigma-Aldrich) at 37 °C at 250 rpm on a large
+shaking incubator (Thermofisher MaxQ 4000, 19 mm orbit). These bacteria
+were grown until an optical density 600 (OD600) of 0.05–0.15
+was achieved, and then 120 μL of 1 M Isopropyl β-D-1-thiogalactopyranoside
+(IPTG) (11411446001, Sigma-Aldrich) was added to the flask. The E. coli was incubated until an OD600 of 0.9–1.0 was
+achieved, in which they were removed from the flask and transferred
+to a chilled 300 mL bottle and centrifuged at 4000g, 4 °C for 10 min. The supernatant was removed, and 20 mL of
+sonication buffer was added (0.01 M tris acetate (C993H97, Thomas
+Scientific), 0.014 M magnesium acetate (0131–500G, Amersco),
+0.06 M potassium gluconate (AC229322500, Acros Organics)). The pellet
+was resuspended, and the sample was centrifuged again. The supernatant
+was removed, 20 mL of sonication buffer was added, and the cells
+were resuspended and transferred to a weighed 50 mL conical (EP0030122178,
+Sigma-Aldrich). The E. coli was centrifuged for 10
+min, the supernatant was removed, and the sample was centrifuged once
+more for 5 min to remove all remaining supernatant. The tube was weighed
+to determine cell pellet mass, and sonication buffer with 2 mM DTT
+(97061-340, VWR) is added to the cell pellet to achieve a concentration
+of 1g mL–1. The E. coli was resuspended,
+500 μL was added to 1.5 mL Eppendorf tubes and sonicated using
+a probe sonicator at 50% amplitude, 10 s on and 10 s off (Qsonica
+Q125) until 1000 J was achieved. The E. coli was
+centrifuged at 12,000g for 20 min at 4 °C. The
+supernatant is collected and stored at −80 °C.
+
+4.4.
+
+## Supplemental Buffer Preparation
+Supplemental
+buffer was generated according to Supplemental Table 3.
+
+4.5.
+
+## Plasmid Generation and
+Purification
+Golden gate synthesis was utilized for the plasmid
+generation. Gene
+fragments were ordered using Twist Bioscience and assembled into the
+PTU backbone using BsaI-HFv2 (E1601L, New England Bioscience). The
+generated plasmids were transformed into NEB 5-alpha Competent E. coli (C2987H, New England Biolabs). Transformation was
+performed by incubating 10 ng of the plasmid with 10 μL of
+competent NEB 5-alpha E. coli for 30 min on ice.
+The cells underwent a 42 °C heat shock for 30 s, placed back
+on ice for 5 min then resuspended in 2x YT media and incubated at
+37 °C for 1 h. The cells were centrifuged at 3000g for 5 min to pellet them for concentration, then these cells were
+plated on 2x YT agar plates (31 g L–1 2x YT, 16
+g L–1 agar) (A1672, Millipore Spectrum) and grown
+at 37 °C overnight. Colonies were then picked and grown in 2x
+YT media, and then a miniprep was performed using the manufacturer’s
+protocol (27104, Qiagen).
+
+4.6.
+
+## Synthesis of Artificial
+Nanovesicles
+Whole cell extract, Supplemental buffer, plasmid,
+and liposomes were
+thawed on ice. Five μL of Supplemental buffer, 2.7 μL
+of whole cell extract, 2.2 μL of liposomes, and 10 ng μL–1 of plasmid were mixed into a 1.5 mL centrifuge tube
+on ice. The sample was flicked mixed 20 times, then centrifuged using
+a benchtop centrifuge. The samples were incubated at 30 °C, shaking
+at 300 rpm overnight.
+
+4.7.
+
+## Artificial Nanovesicle
+Filtering Methods
+35 nm size exclusion chromatography (ICS-35,
+IZON) columns were
+rinsed using 6 mL of 0.22 μm filtered PBS. ANVs were resuspended
+to a total volume of 150 μL in PBS, then added to the column.
+850 μL of PBS was added to the column and discarded, and then
+500 μL of PBS was added and collected. The 500 μL filtered
+vesicles were added to a 0.5 mL, 100 kDa Amicon filter (UFC5100, Sigma-Aldrich)
+and centrifuged at 14,000g for 15 min. The filter
+was flipped and placed in a fresh collection tube and centrifuged
+at 1000g for 4 min. ANVs are then either used for
+direct analysis or normalized for cell-based assays (see Section ).
+
+4.8.
+
+## Normalization Strategy
+for Artificial Nanovesicles
+Vesicles are normalized by loading
+2 μL of filtered ANVs
+into 18 μL of 0.22 μm filtered PBS onto a 384 well black
+microreader plate (757-11401-CS, Thermofisher). The plate is analyzed
+using a microplate reader (Biotek Synergy H1) for fluorescence detecting
+Cy5 (Excitation: 639 nm, Emission: 669 nm). Fluorescence values are
+then normalized to an experimentally determined fluorescence (224.58
+A.U. for this work). All normalization dilutions are done using PBS.
+To determine the specific ANV/cell number values, ANV samples after
+normalization underwent NTA to determine the ANV concentration at
+the fluorescence normalization value.
+
+4.9.
+
+## Western
+Blotting
+ANV samples were
+mixed with an equal volume of Western blot buffer (95% V/V 2X laemmli
+buffer and 5% V/V β-mercaptoethanol) (1610737, 1610710, Bio-Rad).
+The samples were incubated at 37 °C for 10 min using a heat block,
+then centrifuged at 6800g for 30 s to account for
+evaporation. 4–20% Mini-PROTEAN TGX precast gels (4561095,
+Biorad) were loaded into the SDS-Page gel electrophoresis rig (1658004,
+Biorad) and the tank was filled with 1X Tris/Glycine/SDS buffer (1610732,
+Biorad). Ten μL of the sample was loaded to each well, and the
+SDS was run at a constant 200 V until the dye ran off the gel. The
+gels were removed from the cassette and loaded into the Trans-Blot
+Turbo Transfer System (1704150EDU, Biorad) with a PVDF (1704272, Biorad)
+membrane according to manufacturer instructions. The membrane was
+removed from the transfer system, rinsed with DI water, and then incubated
+with ponceau (89167-800, VWR) for 5 min on a rotating shaker to confirm
+protein transfer. The membrane was rinsed with DI water until all
+ponceau was removed, then incubated in TBST buffer (1X Tris Buffered
+Saline, 0.1% Tween 20) (J640-4L, VWR) (M147 −1L, AMRESCO) for
+5 min to remove band staining. The membrane was blocked for 1 h at
+room temperature using blocking buffer (TBST and 5% blotting grade
+blocker) (1706404XTU, Biorad) on a rotating shaker. A 1:1000 dilution
+of 6X-HIS Tag Monoclonal antibody (HIS.H8) (MA1-21315, Thermofisher)
+in blocking buffer was created, and 10 mL was added to the blot. The
+membrane was incubated overnight at 4 °C on a rotating shaker.
+The antibody was removed, and the blot was rinsed using TBST for
+5 min on a rotating shaker 3 times at room temperature. The membrane
+was blocked using blocking buffer for 1 h at room temperature using
+a rotating shaker. A secondary antibody solution was generated using
+blocking buffer and a 1:25,000 dilution of goat antimouse IgG antibody
+horseradish peroxidase conjugate (31430, Pierce Thermo Scientific).
+The blot was incubated with 10 mL of the secondary antibody solution
+and incubated at room temperature on a rotating shaker for 1 h. For
+analysis, the blot was rinsed once with TBST and incubated with Clarity
+Western ECL Substrate (1705061, Biorad) while wrapped in plastic wrap
+for 5 min in the dark. The Western blot was analyzed by using a gel
+imager (Syngene PXi) for chemiluminescence. Quantification was performed
+by using ImageJ.
+
+4.10.
+
+## Flow Cytometry
+ANV samples were
+generated using the protocols described above. These samples were
+mixed with an equal volume of 3% Bovine Serum Albumin (BSA) (A4503,
+Millipore Sigma), 60 μg mL–1 antibody solution
+(6X- HIS Tag Monoclonal Antibody FITC, AB1206, Abcam) for a final
+concentration of 1.5% BSA and 30 μg mL-1 antibody. The samples
+were incubated on ice for 2.5 h, and then flow cytometry was performed.
+The Beckman Coulter CytoFLEX was utilized and configured to primarily
+trigger the Cy5 ANV fluorescence. Fluorescence-triggering allows
+for single particle analysis as it circumvents scatter sensitivity
+limitations, as well as, reduces machine/buffer noise while increasing
+specificity for labeled particles (Figure S27).
+
+4.11.
+
+## Super
+Resolution Microscopy
+Artificial
+CY5 nanovesicle samples were generated using the protocols above.
+4.5 μL of the sample was mixed with a solution of 2% BSA, 30
+μg mL–1 anti-HIS Alexa488 antibody (MA1–21315-A488,
+Invitrogen) for a final concentration of 1% and 15 μg mL–1 antibody. The solution was incubated for 2.5 h at
+4 °C in the dark, filtered using an Amicon 100 kDa 0.5 mL filter
+(UFC5100, Sigma-Aldrich) then was sandwiched between a glass slide
+and a #1 coverslip and imaged using an ONI super resolution microscope
+(see Section ).
+
+4.12.
+
+## Nanoparticle
+Tracking Analysis and Dynamic
+Light Scattering
+NTA was performed by using the PMX-230 Zetaview
+Twin Laser. Machine calibration was performed using fluorescent polystyrene
+YG-488 100 nm beads at a 1:250,000 dilution (120-0102, Particle Metrix).
+Liposome samples were diluted to a concentration of 108 particles mL–1 in Milliq water. Eleven positions
+were taken per sample and averaged for the final liposome size and
+concentration. Analysis was performed using zetaview software.
+Dynamic light scattering was performed using the Malvern zeta sizer
+ZS (633 nm laser with a 173° backscatter). Liposome samples were
+diluted to a concentration of 108 particles mL–1 in Milliq water. Analysis was performed using Malvern zeta sizer
+software.
+
+4.13.
+
+## Cryo-Electron Microscopy
+Quantifoil
+Holey Carbon Film copper grids (658–300-CU-100, Ted Pella)
+were incubated with 4 μL of liposome samples on the carbon
+side of the grid for 2 min. During this incubation time, the grids
+were loaded onto a Leica EM GP2 Plunge Freezer. After the incubation
+period was complete, the grid was blotted for 6s then flash frozen.
+Grids were stored in liquid nitrogen until imaged. Imaging of the
+grids was performed on the ThermoFisher Glacios at 11kx magnification.
+
+4.14.
+
+## ELISA Protocol
+96 well high binding
+plates (655061, Greiner) were coated with 100 μL of 1 μg
+mL–1 rabbit anti 6x HIS antibody (600–500ABBOMAX,
+Thermofisher) in 1X PBS and was added and incubated overnight on a
+nutating shaker. The antibody solution was removed by aspiration of
+the wells and blocking buffer (PBS with 1% Bovine Serum Albumin) was
+added for 2 h. All incubations were done on the nutating shaker at
+room temperature. The blocking buffer was removed by aspiration and
+200 μL of wash buffer (PBS with 0.1% BSA and 0.05% Tween 20)
+was added and removed by aspiration 3X times. Filtered VESSEL samples
+were added and incubated at room temperature for 3 h.
+For ELISA
+data shown in , the sample was removed, and each well was washed three times using
+200 μL of wash buffer. 200 μL of PBS was added to each
+well, and the plate was measured using a plate reader (Biotek Synergy
+H1) for fluorescence with an excitation of 639 nm and an emission
+of 663 nm (Figure S8).
+For ELISA
+data shown in , the sample was then removed, and each well was washed
+3 times with wash buffer. A 100 μL solution of 1 μg mL–1 mouse anti-6X HIS Tag antibody (MA1–21315,
+ThermoFisher) in 1X PBS was added and incubated for 2 h. The antibody
+solution was removed, the wells washed 3X times and a 1:25000 dilution
+of goat antimouse IgG antibody horseradish peroxidase conjugate (31430,
+ThermoFisher) was added to the wells and incubated for 1 h. This solution
+was removed, and the wells were washed three times more times. 1-step
+TMB ELISA substrate solution (34022, Thermofisher) was added to the
+wells and incubated for 30 min at room temperature. ELISA stop solution
+(SS03, ThermoFisher) was added and the ELISA was analyzed using a
+microplate reader (Biotek Synergy H1) for absorbance at 370 nm (Figure S8).
+
+4.15.
+
+## HEK293FT
+and SH-SY5Y Uptake
+ANV
+samples were generated, filtered, and normalized by using the protocols
+above. HEK293FT and SH-SY5Y cells were cultured and passaged onto
+collagen coated 24 well glass bottom plates (P24–1.5P, Cellvis)
+at a density of 50,000 cells/well. Twenty-four h after passaging,
+the ANV samples are added to the wells at three densities (20,000
+ANV/cell, 4,000 ANV/cell, 2000 ANV/cell). Baseline imaging was performed
+using the Cytation C10 confocal microscope (Brightfield 6 ms, CY5
+500 ms). The cells were then incubated for 4 h at 37 °C, 5% CO2 and then imaged again. The media per well was collected,
+and each well received an ice-cold trypsin treatment for 5 min at
+37 °C. The cells were then scraped off the well, and the trypsin/cell
+mixture was added to the media and centrifuged at 300g for 5 min. The supernatant was removed, and the cell pellet was
+resuspended with 250 μL of PBS. Samples were stored on ice while
+flow cytometry was being performed. To assess cell viability, each
+sample received 0.5 μL of 150 μg mL–1 DAPI added right before the sample was run. Due to DAPI’s
+low cell permeability, cells that are DAPI positive with this short
+incubation time have a disrupted membrane, indicating cell death.
+These dead cells are then removed through flow cytometry gating from
+the living non-DAPI positive population (Figure S17).
+For PMSC extracellular vesicle uptake, PMSC EV
+were incubated overnight with 2 μM cell-trace far red (C34572,
+Thermofisher) at 30 °C at 300 rpm on a rotating shaker. These
+PMSC EVs then were filtered using size exclusion chromatography and
+Amicon filtration to remove the free cell-trace far red (see Section ). NTA was performed to determine the concentration
+of the EVs and were normalized to 4.667E11 EVs per mL. These EVs were
+aliquoted to 1.5 μL and the respective antibodies were added
+to each aliquot; LAMP1 (53-1079-42, Thermofisher), NPTN (NBP2-97104AF488,
+Novus Biologicals), and CADM1 (75-120-FL490, Thermofisher). All antibodies
+were added for a final concentration of 120 μg per mL. NPTN
+and CADM1 antibodies were incubated at room temperature for 2.5 h.
+LAMP1 was incubated at 37 °C for 2.5 h. Any combinations that
+included LAMP1 were incubated at 37 °C for 2.5 h, while any combinations
+that did not include LAMP1 were incubated at room temperature for
+2.5 h. After incubation, all aliquots received PBS to match the volume
+to the all-antibody condition. After PBS addition, 3 uL of each aliquot,
+totaling 2.33E8 EVs, was added to a well of HEK293FT cells that were
+cultured following the same protocol as above. All subsequent incubation,
+cell capture, and cell viability tests were performed the same as
+above.
+
+4.16.
+
+## SH-SY5Y Neuroprotection
+ANV samples
+were generated, filtered, and normalized using the protocols above.
+SH-SY5Y cells were cultured and passaged onto Costar 48 well TC treated
+plates (3548, Corning) at a density of 100,000 cells/well. Cells were
+only cultured in the center 24 wells. 120 h after passaging, each
+well received 0.5 μM staurosporine (9953S, Cell Signaling Technologies)
+and was incubated at 37 °C, 5% CO2 for 4 h. After the incubation,
+the staurosporine medium was removed, and fresh medium was added to
+each well. ANVs were added to each well at 3 concentrations (20,000
+ANV/cell, 4000 ANV/cell, 2000 ANV/cell). After 4 h, uptake imaging
+was performed using Cytation C10. The cells incubated for 5 days
+at 37 °C, 5% CO2, after which the media was removed
+and a 200 μL solution of PBS and 2 μM of Calcein-AM (564061,
+BD Biosciences) was added. The stained cells were imaged using the
+Carl Zeiss Axio Observer D1 inverted microscope and were analyzed
+using the in-house image processing and skeletonization (see Section ).
+
+4.17.
+
+## Image Processing and Skeletonization
+for
+Quantification of Neuronal Process Length
+This workflow used
+Python 3.9.20, OpenCV 4.10.0, NumPy 1.26.4, and scikit-image. It began
+by loading each grayscale image with OpenCV and applying a binary
+threshold at a pixel intensity value of 50. Pixels above 50 nm became
+white (255). Pixels below 50 became black (0). This produced a binary
+mask that isolated the branch structures. The skeletonize function
+from skimage.morphology reduced each branch structure to a single-pixel-wide
+line. Using measure.label with connectivity = 2 identified individual
+skeletonized branches. The measure.regionprops function computed each
+region’s perimeter. These perimeter values served as proxies
+for the branch lengths. Summing all of the perimeters yielded the
+total branch length for each image. This process ran automatically
+on all images in a specified directory. The script recorded file names
+and total branch lengths. The data were organized into a Pandas DataFrame
+and exported to an Excel file. Consider experimenting with different
+threshold values to see whether it affects the accuracy of process
+length measurements.
+
+4.18.
+
+## Code Availability
+The code used
+for neuronal branch length quantification is available on GitHub: github.com/BioChemML/NeuronBranchQuant.
+
+4.19.
+
+## Literature Search for Protein Relevance
+Google Scholar was used ( H). Quotations were used to ensure that exact keywords
+were searched for. For example, for CD9, “CD9” AND “Vesicle
+uptake” was searched as this would provide publications that
+specifically mention CD9 and vesicle uptake. Citations were not included
+in the search values provided.
+
+## Supplementary Material
+
+## Acknowledgments
+We thank the members of Carney, Wang, and Tan Lab for providing
+feedback on the study. The research is supported by R01EB034279 (C.
+Tan and A. Wang), R01NS131538 (A. Wang), R01EB033389 (R. Carney and
+A. Wang), R01NS115860 (A. Wang), R35GM142788 (C. Tan), National Defense
+Science & Engineering Graduate (NDSEG) Fellowship Program (T.
+Henson), eMCB T32 (A. Arizzi). The authors wish to acknowledge the
+support of the UC Davis Comprehensive Cancer Center Flow Cytometry
+Shared Resource, supported by the National Cancer Institute of the
+National Institutes of Health under award number P30CA093373. This
+project was assisted by the University of California Davis Biological
+Electron Microscopy (BioEM) Facility, which is supported by user fees,
+the Department of Molecular and Cellular Biology, the College of Biosciences,
+the Office of Research and the Provost’s Office. The Technical
+Director, F. Guo, is supported by discretionary funds provided by
+MCB. The K3 and DED detectors were purchased from funding support
+provided by the Department of Molecular and Cellular Biology, College
+of Biological Sciences and grant support provided by R00-GM080249
+(J. Al-Bassam). All figure graphics were Created in BioRender. T.
+Henson (2025). All of the figure graphics can be accessed through
+the following links: : https://BioRender.com/y78x365; : https://BioRender.com/lvon1lr; : https://BioRender.com/7q9xskd; : https://BioRender.com/w6759tu; : https://BioRender.com/jmps8v0; TOC/Graphical Abstract: https://BioRender.com/2d6wzl4; Supplemental Figure 8: https://BioRender.com/7qq9e9d.
+
+The Supporting
+Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acsnano.5c05047.
+Full sized confocal images,
+flow cytometry gating examples
+and example plots, full Western blot images, plasmid maps and materials
+and methods (PDF)
+
+The authors
+declare no
+competing financial interest.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials

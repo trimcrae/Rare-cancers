@@ -1,0 +1,139 @@
+4139disconDiscover OncologyDiscov OncolSpringerPMC1203314212033142120331424028599410.1007/s12672-025-02394-6In silico-based analysis and in vitro experiments identify SIGMAR1 as a potential marker of putative lung cancer stem cells
+HorieTetsuhiro KuwanoAyane SakamotoTakuya NakamuraYuka YamaguchiKayoko TanidaIkuhiro OsawaSatoshi YasumotoKazuo IshigakiYasuhito 1Medical Research Institute, Kanazawa Medical University, Kahoku, Ishikawa 920-0293 Japan 2Department of Pharmacy, Kanazawa Medical University Hospital, Kahoku, Ishikawa 920-0293 Japan 3Genome Biotechnology Laboratory, Kanazawa Institute of Technology, Hakusan, Ishikawa 924-0838 Japan 4Department of Medical Oncology, Kanazawa Medical University, Kahoku, Ishikawa 920-0293 Japan ✉Corresponding author.
+2642025166206202742025© The Author(s) 2025Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+
+## Background
+Lung cancer is the leading cause of cancer-related mortality worldwide; however, despite the development and clinical application of various drugs, the prognosis remains poor. One reason for this is the high rate of recurrence and metastasis. The cancer stem cell (CSC) theory has been proposed to explain their root cause, and removal of CSCs is necessary to cure cancer completely; however, detailed profiles of lung CSCs have not been clarified. Here, we used single-cell RNA sequencing (scRNA-seq) data to identify novel markers for lung CSCs and validated their expression and function in vitro.
+
+## Methods
+A549-derived tumorspheres were used as a model for lung CSCs. To identify genes upregulated in CSC-like cells, we reanalyzed two publicly available scRNA-seq datasets from human lung cancer tissues. Additionally, trajectory analysis was performed to examine changes in candidate gene expression during CSC differentiation. The role of these candidate genes in CSC regulation was further investigated through functional assays.
+
+## Results
+Tumorspheres exhibited increased expression of well-established CSC markers. scRNA-seq analysis suggested that SIGMAR1 expression was significantly upregulated in CSC-like cells and decreased with differentiation. Furthermore, siRNA-mediated SIGMAR1 knockdown suppressed tumorsphere self-renewal capacity and reduced CSC marker expression.
+
+## Conclusions
+We propose that SIGMAR1 serves as a potential functional marker of CSCs and plays a crucial role in regulating self-renewal capacity. Targeting SIGMAR1 may provide a novel therapeutic strategy for preventing metastasis and recurrence—major clinical challenges in lung cancer treatment. Future studies should investigate the underlying mechanisms by which SIGMAR1 modulates CSC properties.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1007/s12672-025-02394-6.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Dec 4; Accepted 2025 Apr 15; Collection date 2025 Dec.
+
+## Background
+Lung cancer was the most commonly diagnosed cancer in 2022, accounting for approximately 12% of all cancers worldwide. Furthermore, lung cancer was also shown to be the leading cause of cancer death (approximately 19% of all cancers) [ ]. Lung cancer is classified into two main types: small cell lung cancer and non-small cell lung cancer (NSCLC) (accounting for approximately 15% and 85%, respectively), the latter of which is further divided into adenocarcinoma (LUAD), squamous cell carcinoma, and large cell carcinoma [ ].
+Many patients with lung cancer who have undergone surgery experience recurrence within a few years, and metastases to other organs such as the bone, brain, and liver are also frequently observed [ , ]. Recently, the “cancer stem cell (CSC) theory” has been proposed to explain cancer recurrence, metastasis, and treatment resistance [ ]. Similar to normal stem cells (e.g., hematopoietic stem cells and mesenchymal stem cells), CSC-like cells are present in some cancers, such as leukemia, osteosarcoma, and glioblastoma, and have the ability to continue supplying cancer cells through self-renewal and differentiation [ – ]. Lung CSCs also exist in lung tumors, and several markers of lung CSCs have been proposed, including CD44, ALCAM (CD166), EPCAM (CD326), and MYC. Many studies have suggested that CSCs are resistant to conventional therapies, which may be due to their quiescence, increased ability to scavenge reactive oxygen species, and enhanced drug efflux capacity via transporters, including ATP-binding cassette transporters [ , ]. Therefore, even if the tumor temporarily regresses when treatments remove cancer cells, it is expected to recur and/or metastasize as surviving CSCs supply cancer cells again. From the viewpoint of achieving a complete cure for cancer, eliminating CSCs may be important; however, as the mechanism through which the function of CSCs is maintained is not well understood, clarification of the biological characteristics of CSCs is anticipated to contribute significantly to the development of novel therapeutic agents targeting CSCs.
+A549 cells, which are widely used as a representative model for lung cancer cells, are known to have the characteristics of NSCLC (especially LUAD) [ , ]. A549 cells form tumorspheres and exhibit stem cell properties, including high CSC marker expression and enhanced self-renewal capacity, making them valuable models for lung CSC research [ – ].
+In recent years, genomic and transcriptomic analyses using microarrays and next-generation sequencing have been performed by researchers worldwide in an attempt to reveal novel genetic mutations and therapeutic targets. Previously, bulk analysis of whole tumor tissues has been conducted, but such an analysis can yield incorrect cancer cell-specific gene expression patterns because cancer tissues are composed of heterogeneous cell populations, including cancer cells, immune cells, endothelial cells, fibroblasts, etc. [ , ]. Single-cell RNA sequencing (scRNA-seq) has facilitated the analysis and capture of the precise gene expression patterns of cancer cells at the single-cell level. Although several research groups have performed scRNA-seq analyses of human lung cancer tissues, there are no previous reports of detailed analyses of lung CSCs using scRNA-seq [ , ]. In this study, we combined two scRNA-seq datasets from human NSCLC tissues and found that sigma non-opioid intracellular receptor 1 (SIGMAR1) was highly expressed in lung CSC-like cells. In vitro experiments demonstrated that SIGMAR1 is highly expressed in A549-derived tumorspheres and may play a crucial role in self-renewal. These findings suggest that SIGMAR1 is a potential novel functional marker for lung CSCs.
+
+## Methods
+
+## Cell culture
+Human non-small cell lung cancer A549 cells were purchased from American Type Culture Collection (Cat. #CCL-185). Adherent culture of the A549 cells was performed in Roswell Park Memorial Institute 1640 (RPMI-1640) supplemented with 10% fetal bovine serum (FBS) and 1% penicillin/streptomycin. To generate tumorspheres, A549 cells were seeded into ultra-low attachment multiple well plates (Corning) and cultured in Dulbecco’s Modified Eagle Medium (D-MEM)/Ham’s F-12 medium supplemented with 20 ng/mL epidermal growth factor (EGF), 10 ng/mL basic fibroblast growth factor (bFGF), B-27 Supplement (Gibco), and 1% penicillin/streptomycin. The cells were maintained at 37 °C in 5% CO2. The cell morphology was photographed using the ECLIPSE Ts2 microscope (Nikon).
+
+## Flow cytometry
+Cells were washed with phosphate–buffered saline (PBS) and detached from the culture plates by the application of Trypsin–EDTA solution (FUJIFILM Wako Pure Chemicals). The detached cells were resuspended in Cell Staining Buffer (BioLegend) with Human TruStain FcX (BioLegend) for Fc receptor blocking, followed by incubation with an antibody cocktail. The stained cells were resuspended in Cell Staining Buffer and analyzed using the BD FACSCanto II (BD Biosciences). Details of the antibodies used are included in Supplementary Table 1.
+
+## Bioinformatics
+The raw counts and annotation data of the scRNA-seq were downloaded from the Gene Expression Omnibus database (accession numbers: GSE131907 and GSE148071) [ , ]. These data were analyzed using the Seurat (v5) package in R. Raw count data were normalized by the SCTransform method and integrated using the IntegrateLayers (method = HarmonyIntegration) function. To identify CSC-like cells, single-sample gene set enrichment analysis (ssGSEA) was performed using the GSVA package, and clustering and visualization were conducted using the ComplexHeatmap package. To calculate the stemness score, we performed ssGSEA on a gene set obtained from a previous report [ ]. The stemness score was calculated using a gene set comprising 109 stem cell-related genes identified through expression profiling, literature review, and other sources. Trajectory analysis was conducted using the Monocle3 package [ ], with batch effects corrected using the align_cds function [ ]. The root node was determined based on the stemness score.
+Survival analysis of patients with lung adenocarcinoma listed in the Cancer Genome Atlas database (TCGA-LUAD) was performed using Gene Expression Profiling Interactive Analysis (http://gepia.cancer-pku.cn/).
+
+## Quantitative polymerase chain reaction (qPCR)
+Total RNA was extracted using the RNeasy Mini Kit (QIAGEN) and cDNA was synthesized using the SuperScript III First-Strand Synthesis System (Thermo Fisher Scientific) with oligo(dT) primers. qPCR was performed using the KAPA SYBR Fast qPCR Kit (Kapa Biosystems) and the QuantStudio 12K Flex or QuantStudio 3 Real-Time PCR System (Thermo Fisher Scientific). The GAPDH gene was used as a loading control. The sequences of the primers used are presented in Supplementary Table 2.
+
+## Immunoblotting
+The cells were lysed in RIPA buffer (Thermo Fisher Scientific) containing a protease inhibitor cocktail (Roche). The cell lysates were subjected to SDS-PAGE and transferred to PVDF membranes (Millipore). The membranes were blocked by immersion in EveryBlot Blocking Buffer (Bio-rad) for 5 min at room temperature and incubated at 4°C (overnight) or room temperature (2 h) with a primary antibody diluted in the blocking buffer. The membranes were then washed and incubated for 1 h at room temperature with the appropriate secondary antibody. The blots were developed by the application of ECL Prime Western Blotting Detection Reagents (Cytiva), and chemiluminescence was detected by FUSION FX7 (Vilber Lourmat). For stripping, the PVDF membranes were treated with the Stripping Solution (FUJIFILM Wako Pure Chemicals) for 10 min at room temperature. Protein levels were quantified using ImageJ. Details of the antibodies used are presented in Supplementary Table 3.
+
+## siRNA-mediated SIGMAR1 knockdown
+The day after cell seeding, the medium was replaced with antibiotic-free medium. Subsequently, siRNAs (siControl: #4,390,843, siSIGMAR1(#1): #s20088, siSIGMAR1(#2): #s20087, all purchased from Thermo Fisher Scientific) and Lipofectamine RNAiMAX (Thermo Fisher Scientific) were diluted in Opti-MEM (Thermo Fisher Scientific), mixed, and incubated at room temperature for 5 min. After 48 h of transfection, the cells were used for further experiments. Cell viability and the number of live cells were assessed using the trypan blue exclusion assay with the TC20 Automated Cell Counter (Bio-rad).
+
+## Spheroid formation assay
+siRNA-transfected cells were detached using StemPro Accutase Cell Dissociation Reagent (Gibco) and resuspended in the spheroid culture medium containing 1.5% methyl cellulose (R&D Systems). The cells were then seeded into ultra-low attachment 96-well plates (Corning) and cultured for 10 days. The size of spheroids larger than 100 µm2 was measured using the ImageJ.
+
+## Statistical analysis
+Data are presented as the mean ± standard deviation. Statistical analysis was performed using R. We used Student’s t-test or Wilcoxon’s rank-sum test (scRNA-seq analysis) for two-group comparisons and one-way analysis of variance followed by Dunnett test for comparisons among three groups. For survival analysis, we performed a log-rank test. P values of < 0.05 were considered statistically significant.
+
+## Results
+
+## Characterization of A549-derived tumorspheres
+Previous studies have reported that A549-derived tumorspheres acquire CSC-like properties [ – ]. In this study, we generated tumorspheres and utilized them as a model for lung CSCs (Fig.  a, b). Flow cytometric analysis demonstrated a significant increase in the expression of CD44 and ALCAM, both representative CSC markers, in the tumorspheres compared with adherent cells (Fig.  c, d). Additionally, SOX2, NANOG, and PROM1—key CSC markers—exhibited significantly elevated mRNA expression in the tumorspheres (Fig.  e). These results suggest that A549-derived tumorspheres are considered putative CSCs. Therefore, they were used as a model for lung CSCs in this study.
+ 
+
+## Identification of CSC-like cells using scRNA-seq datasets
+To identify candidate marker genes of lung CSCs, we reanalyzed two sets of scRNA-seq data: the first was the dataset reported by Kim et al. (GSE131907) [ ]. Since A549 cells are known to lack EGFR mutations [ ], we focused on tumor cells from 9 out of 15 NSCLC patients with wild-type EGFR, extracting a total of 9,869 tumor cells for analysis (Fig.  a). ssGSEA was then performed to identify CSC-like cells among the tumor cells. We classified the cells into stemness-high (StemHigh) and stemness-low (StemLow) cells based on 10 gene sets related to stem/progenitor cells in the Molecular Signatures Database (MSigDB) (Fig.  b). Gene expression analysis revealed that the expression of MYC, ALCAM, EPCAM, and CD44, typical CSC markers, was significantly upregulated in StemHigh cells (Fig.  c). To further validate the clustering results, we calculated the stemness score at the single-cell level and observed a significantly higher score in StemHigh cells (Fig.  d) [ ].
+ A similar technique was used to analyze other scRNA-seq data from patients with NSCLC (GSE148071) [ ]. The clustering of 2,522 tumor cells from 6 NSCLC patients (all harboring wild-type EGFR gene) using ssGSEA revealed a significant upregulation of multiple CSC markers and elevated stemness scores in StemHigh cells (Fig. S1a–d).
+On the basis of these results, we confirmed the successful extraction of CSC-like cells (StemHigh cells) using two different scRNA-seq datasets.
+
+## SIGMAR1 is commonly highly expressed in StemHigh cells in two scRNA-seq datasets
+For each of the scRNA-seq datasets, we searched for genes that were more highly expressed in StemHigh cells compared with StemLow cells, identifying 209 and 207 genes in the GSE131907 and GSE148071 datasets, respectively. 15 genes (BIRC5, C11orf24, CDKN2A, CENPW, COPRS, CTNNAL1, EREG, GLRX5, KPNA2, NPM3, PHLDA1, S100A4, SIGMAR1, UBE2C, and UBE2T) were upregulated in both datasets (Fig.  a, b). Survival analysis of the TCGA dataset revealed that patients with lung cancer and high SIGMAR1 expression had a poor prognosis (Fig.  c). These results suggest that SIGMAR1 may be a marker of lung CSCs and prognosis.
+ 
+
+## The expression of SIGMAR1 decreases with differentiation
+To investigate how SIGMAR1 expression changed as cancer cells differentiated, a trajectory analysis was performed on the GSE131907 dataset. Analysis using Monocle3 revealed that certain StemHigh populations served as the origins of differentiation trajectories, which ultimately led to StemLow populations (Fig.  a–c). Notably, cells expressing SIGMAR1 were highly enriched in these originating populations (Fig.  d). Furthermore, as pseudotime progressed, SIGMAR1 expression decreased significantly, mirroring the downregulation of the CSC markers ALCAM and MYC (Fig.  e, f). Consequently, we suggest that SIGMAR1 expression may be associated with CSC differentiation.
+ 
+
+## SIGMAR1 expression is significantly higher in A549-derived tumorspheres
+To validate the results of the bioinformatic analysis, we performed in vitro experiments using A549-derived tumorspheres; compared with adherent cells, SIGMAR1 mRNA expression was significantly elevated in tumorspheres (Fig.  a). Furthermore, the protein expression of the SIGMAR1, as well as that of CD44, was significantly increased in tumorspheres (Fig.  b, c).
+ 
+
+## SIGMAR1 knockdown does not affect proliferation or survival of adherent cells
+Finally, we performed gene silencing with siRNA to investigate whether SIGMAR1 affects the CSC functions. In this study, we tested two different siSIGMAR1s to minimize off-target effects. Both siRNAs significantly suppressed SIGMAR1 protein expression (Fig.  a, b). However, no significant differences were observed in the number of cells or viability (Fig.  c, d).
+ 
+
+## Knockdown of SIGMAR1 reduces self-renewal capacity and CSC marker expression
+To assess self-renewal capacity, we performed a spheroid formation assay. siRNA-transfected adherent cells were detached and cultured to form tumorspheres (Fig.  a). SIGMAR1-knockdown cells formed significantly smaller tumorspheres, suggesting that SIGMAR1 plays a crucial role in self-renewal properties (Fig.  b, 7c).
+ Moreover, when siRNA-transfected A549 cells were cultured in a spheroid culture medium for 7 days, SIGMAR1-knockdown tumorspheres exhibited a significant reduction in SIGMAR1 mRNA expression. Additionally, the mRNA levels of CSC-associated markers, including ALCAM, MYC, and ALDH1A1, were markedly decreased compared with those in control tumorspheres (Fig.  a–d).
+ Our in silico and in vitro analyses indicate that SIGMAR1 expression is upregulated in putative lung CSC cells and plays a key role in regulating CSC function, particularly self-renewal capacity (Fig.  a, b).
+ 
+
+## Discussion
+In this study, we used A549-derived tumorspheres, which lack EGFR mutations, as a lung CSC model [ , ]. Additionally, the GSE148071 scRNA-seq dataset analyzed in this study contains sequencing data exclusively from NSCLC patients with wild-type EGFR. Therefore, we specifically analyzed lung cancer cells from patients with wild-type EGFR.
+Although previous studies have investigated lung CSC biomarkers in EGFR mutation-positive lung cancer, to our knowledge, this is the first study to focus on lung CSCs in NSCLC patients with wild-type EGFR. Furthermore, this study is unique in its integrated analysis of multiple scRNA-seq datasets to identify novel lung CSC markers [ ]. We defined CSC-like StemHigh cells by ssGSEA using several gene sets. Similar methods have been reported previously, and the elevated expression of representative CSC markers suggested that CSC-like cells could be successfully extracted using this method [ , , ]. Our findings indicate that SIGMAR1 is functionally active in A549-derived tumorspheres; however, further studies using other lung cancer cell lines are required to determine whether SIGMAR1 expression and function are altered in different tumor models. It would be interesting to confirm whether SIGMAR1 expression is also elevated in lung CSCs collected from tumor tissues from human biopsies.
+The human SIGMAR1 protein consists of 233 amino acids and is ubiquitously expressed throughout the body [ ]. SIGMAR1 is known to localize mitochondria-associated endoplasmic reticulum (ER) membranes and has been reported to be involved in chaperone proteins, the regulation of ion channels, autophagy, mitochondrial morphology and function, lipid metabolism, and ER stress responses [ , ]. CSCs are linked to abnormal Ca2+ signaling and lipid metabolism, ER stress, and autophagy; therefore, in CSCs, SIGMAR1 may contribute to the maintenance of stemness by regulating these functions [ – ]. Interestingly, long-term administration of cisplatin results in the enrichment of CSCs, which has been attributed to aberrant Ca2+ homeostasis [ ]. In addition, Chagas et al. recently reported that SIGMAR1 controls the therapeutic effect of cisplatin on oral cancer via the regulation of PD-L1 expression [ ]. Given these reports, it is possible that SIGMAR1 also contributes to the emergence of cisplatin-induced CSCs.
+Regarding the role of SIGMAR1 in lung tissue, Sigmar1 global knockout mice exhibit pathological changes in alveolar structure, increased inflammation, and fibrosis, suggesting that SIGMAR1 is important for lung homeostasis [ ]. In the field of oncology, SIGMAR1 has been associated with oral, prostate, breast, lower-grade glioma, colorectal, and bladder cancers and has been shown to regulate cancer cell growth and migration by impacting cell functions such as redox reactions and Ca2+ homeostasis [ , – ]. Notably, in lung cancer, SIGMAR1 agonists (PRE084, cocaine) are reported to promote tumor formation, but this effect is inhibited by the application of a SIGMAR1 antagonist (BD1047) [ ]. These results may be due to the effects of SIGMAR1 in both CSCs and cancer cells. Moreover, other selective SIGMAR1 antagonists, such as S1RA and NE100, have been developed and are considered promising candidates for novel anticancer therapies targeting lung CSCs [ , ].
+Despite the significance of our findings, several limitations must be acknowledged.
+First, we used tumorspheres as a model for putative CSCs. Although these tumorspheres exhibit high CSC marker expression and tumorigenic potential [ ], alternative methods such as side population assay and Aldefluor assay are also widely employed for CSCs isolation [ , ]. Future studies should verify whether CSCs identified by these alternative methods similarly exhibit high SIGMAR1 expression and activity.
+Second, we evaluated self-renewal capacity using a spheroid formation assay, a well-established approach for assessing CSC properties. CSCs typically maintain their ability to self-renew when passaged continuously in vitro. While previous studies have reported that A549-derived tumorspheres exhibit this property [ ], our study did not directly confirm it. Thus, further investigations are required to determine whether SIGMAR1 plays a direct role in CSC self-renewal.
+Third, we assessed SIGMAR1 function in tumorspheres through siRNA-mediated knockdown. Although siRNA-mediated gene silencing is effective for short-term functional analyses, it is not suitable for long-term studies due to its transient nature. Therefore, future research should utilize CRISPR/Cas9 or shRNA-based approaches to achieve stable SIGMAR1 suppression in cancer cells for a more comprehensive functional analysis.
+Finally, and most critically, we did not perform an in vivo assay. While our in vitro assays demonstrated that SIGMAR1 knockdown led to reduced CSC marker expression and decreased self-renew capacity, tumorigenicity—a defining CSC characteristic—can only be confirmed in vivo. Thus, future studies should incorporate xenograft assays using immunodeficient mice to validate our findings in a physiological context.
+This study provides the first evidence that SIGMAR1 regulates the in vitro stemness of tumorspheres. Our findings suggest that targeting SIGMAR1 may facilitate CSC elimination, thereby enhancing lung cancer treatment outcomes. Further detailed in vivo and in vitro investigations are essential to elucidate the mechanisms by which SIGMAR1 regulates CSC stemness, which will be critical for the development of future therapeutic strategies.
+
+## Supplementary Information
+
+Additional file 1 (DOCX 14319 KB)
+
+## Acknowledgements
+The super-computing resource was provided by Human Genome Center, the Institute of Medical Science, the University of Tokyo. The images of multi-well plate (Fig.  a, b) and super-computing system (Fig.  a) are from TogoTV (© 2016 DBCLS TogoTV, CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/deed.ja).
+
+## Author contributions
+T.H., K.Yasumoto and Y.I. conceptualized the study. T.H. and A.K. acquired the data. T.S., Y.N., K.Yamaguchi, I.T. and S.O. interpreted the data. T.H. and Y.I. drafted the manuscript. All authors approved the submitted manuscript.
+
+## Funding
+This work was supported by JSPS KAKENHI (grant numbers: JP22K20726 and JP22K19390) and a research grant from the Hokkoku Cancer Foundation.
+
+## Availability of data and materials
+The scRNA-seq data analyzed in this study have been deposited at the Gene Expression Omnibus database (GSE131907 and GSE148071), and survival data are available on GEPIA database. Other data are available from the corresponding author on reasonable request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher's Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Additional file 1 (DOCX 14319 KB)
+
+## Data Availability Statement
+The scRNA-seq data analyzed in this study have been deposited at the Gene Expression Omnibus database (GSE131907 and GSE148071), and survival data are available on GEPIA database. Other data are available from the corresponding author on reasonable request.

@@ -1,0 +1,627 @@
+3686acsomegaACS OmegaACS OmegaAmerican Chemical SocietyPMC8412952841295284129523449793010.1021/acsomega.1c03248Combined Analysis of Surface Protein Profile and microRNA
+Expression Profile of Exosomes Derived from Brain Microvascular Endothelial
+Cells in Early Cerebral Ischemia
+YangDexin LiZongyang GaoGuoqing LiXiaofeng LiaoZijun WangYachao LiWeiping ZhangYuan LiuWenlan †Department
+of Neurosurgery, Shenzhen Key Laboratory of Neurosurgery, Shenzhen Second People’s Hospital/The First
+Affiliated Hospital of Shenzhen University, Shenzhen 518035, China‡The
+Central Laboratory, Shenzhen Second People’s
+Hospital/The First Affiliated Hospital of Shenzhen University, Shenzhen 518035, China§Department
+of General Medicine, The Central Hospital
+of Wulanchabu City, Wulanchabu 012000, China∥Department
+of Pathophysiology, Baotou Medical College, Baotou 014060, China*Email: zhangyuan2019@email.szu.edu.cn.
+*Email: wlliu@szu.edu.cn.
+18820216342241022410–22421792021© 2021 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Endothelial cell
+damage is an important pathological basis for
+the deterioration of acute ischemia stroke. Our previous studies have
+been exploring the mechanism of blood–brain barrier (BBB) endothelial
+cell injury in the early stage of cerebral ischemia. Exosomes act
+as an important intercellular player in neurovascular communication.
+However, the characteristic of exosomes derived from BBB endothelial
+cells in early ischemic stroke is poorly understood. We exposed cultured
+brain microvascular endothelial cells (bEnd.3) to 3 h oxygen glucose
+deprivation (OGD) to mimic early cerebral ischemia in vitro and compared
+miRome and surface protein contents of exosomes derived from bEnd.3
+cells by miRNA sequencing and the proximity barcoding assay (PBA).
+A total of 346 differentially miRNA (159 upregulated and 187 downregulated)
+were identified via miRNA-Seq in bEnd.3 cells after exposure to OGD
+for 3 h. Moreover, Gene Ontology (GO) and KEGG pathway analyses showed
+that cell proliferation- and angiogenesis-associated miRNAs were significantly
+affected. The abnormal changes in top eight miRNAs were further verified
+by a quantitative polymerase chain reaction (qPCR). PBA experiments
+showed that the numbers of exosomes carrying the following proteins
+increased significantly under ischemia, including bFGF, CD146, EPHA2,
+ABCB5, and ITGB2. These proteins were related to angiogenesis, cell
+proliferation, and cell inflammation. The network analysis combining
+PBA data with miRNA-Seq data showed that 79 miRNAs were related to
+24 membrane proteins and predicted that there were surface proteins
+associated with a variety of miRNA molecules, such as ITGA9, XIAP,
+ADAM1, ITGA2, ITGA3, PDPN, and ITGB1. Meanwhile, there were miRNAs
+related to various surface proteins including miR-410-3p, miR-378b,
+and miR-1960. Taken together, our data demonstrated for the first
+time the changes of exosomal miRNAs and surface protein profiles derived
+from ischemic microvascular endothelial cells, which may provide new
+therapeutic targets for BBB protection in ischemic stroke.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Jun 27; Accepted 2021 Aug 5; Collection date 2021 Aug 31.
+
+1.
+
+## Introduction
+Acute ischemic stroke
+is a serious threat to human health with
+high morbidity and high mortality. Tissue-type
+plasminogen activator (tPA) is the only approved drug for ischemic
+stroke by the US Food and Drug Administration (FDA). Severe cerebral
+edema and dangerous cerebral hemorrhage are the two potentially fatal
+neurovascular complications in tPA thrombolytic therapy, of which
+blood–brain barrier (BBB) injury is the common pathological
+basis. Brain capillary endothelial cells
+are one of the key structural components of the BBB, which could not
+only maintain the normal barrier function of the BBB but also sense
+ischemic injury. Dysfunction of the BBB
+endothelial cells has been extensively studied, which leads to the
+high permeability of the BBB, vasogenic edema, and vasospasm and thus
+aggravates ischemic brain damage. However,
+how the BBB endothelial cells sense ischemic injury and interact with
+surrounding cells consisting of the neurovascular unit, such as pericytes,
+astrocytes, and neurons, remains to be explored.
+Exosomes are
+small membrane-coated extracellular vesicles with
+a diameter of 30–100 nm secreted by a variety of cells. They
+contain various molecular constituents including protein and RNAs
+from maternal cells and can act as a medium bridging intercellular
+communication. Accumulating evidence has
+shown that exosomes can provide a novel way to alleviate ischemic
+brain damage through improving angiogenesis, inhibiting cell apoptosis,
+and decreasing inflammation. Exosomes
+derived from both neuronal and non-neuronal cells could improve neuron
+growth and promote axon regeneration of injured neurons. Neural stem cell-derived exosomes can improve
+nerve function damage and reduce brain edema after stroke. Astrocyte-derived exosomes inhibit neuronal apoptosis
+and glial scar formation and improve nerve plasticity and nerve function. In previous studies, ischemia-induced intercellular
+exosome communication is mostly concentrated on neurons and astrocytes;
+however, there are few reports on the characteristic profile of exosomes
+in the brain microvascular endothelial cells after early ischemia
+and exosome-mediated signal transmission between endothelial cells
+and other cells in the brain.
+MiRNAs are emerging as key players
+in the pathogenesis of stroke
+and have been implicated in the regulation of cell death, cell metabolism, inflammatory, and angiogenic processes. Growing therapeutic potential of
+specific miRNAs, such as miR-15a/16-1, miR-126, miR-223, and miR-124, has been identified
+in the treatment of stroke. Exosome surface membranes proteins derived
+from parent cells reflect the physiological, pathological, and functional
+status of the cells from which they are derived and can be used as
+disease biomarkers in the future. However, these exosome surface protein
+markers may not be detectable because of their low abundance. Recently,
+Wu et al. reported a new single exosome analysis technique with high
+sensitivity and good specificity that can identify the surface protein
+composition of a single exosome through antibody DNA conjugates and
+next-generation sequencing and thus expand the heterogeneity research
+of exosomes. 
+In this study, we
+used in vitro oxygen glucose deprivation (OGD)
+models to mimic ischemia and investigated the contents in miRNAs and
+membrane surface proteins associated with exosomes purified from conditioned
+media (CM) of ischemic bEnd.3 cells using the miRNA sequence and proximity
+barcoding assay (PBA), respectively, and analyzed the correlation
+between miRNA and surface proteins. This is a study to identify the
+characteristics of exosomes derived from brain microvascular endothelial
+cells in early ischemia, moreover, to conduct a preliminary integrative
+analysis between exosome miRNA and membrane surface proteins in the
+ischemic condition.
+
+2.
+
+## Results
+2.1.
+
+## Characterization
+of Exosomes Derived from
+Mice Brain Microvascular Endothelial Cells
+To determine the
+properties of brain microvascular endothelial cell-derived exosomes
+under the ischemic condition, we assessed the characterization of
+exosomes isolated from bEnd.3 cells exposed to 3 h OGD. We used ultracentrifugation
+or ExoQuick-TC total exosomes kits to isolate exosomes from cell media
+of bEnd.3 cells. Exosomes were identified by transmission electron
+microscopy (TEM), nanoparticle tracking analysis (NTA), and western
+blotting. First, we demonstrated that bEnd.3 cells generated exosome-enriched
+particles with a mean diameter of 118.4 ± 9.4 nm in the control
+group versus 132.6 ± 10.1 nm in the OGD group ( A) using a dynamic light scattering
+analysis system (NTA-based exosome detection system). The TEM image
+showed that exosomes were present as small membrane vesicles with
+the typical nanoparticle size range ( B). In addition, the exosomes were found
+to express exosomal markers including CD9, CD63, and Alix by western
+blotting ( C).
+These results indicated that the particles isolated from CM of bEnd.3
+cells were verified to be exosomes.
+ 
+2.2.
+
+## Quantitative
+Exosome miRNA Profiling
+To study the effect of exposure to
+OGD on the noncoding RNA profile
+of exosomes derived from bEnd.3 cells, we conducted NGS experiments
+with triplicate biological replicates extracted from OGD-treated bEnd.3
+cells and control cells. The extracted RNAs sized between 17 and 70
+nt were used to construct small RNA cDNA libraries. The libraries
+were sequenced on the Illumina HiSeq. 2500 platform. By comparing
+the filtered reads with the authoritative miRNA/rRNA/tRNA/snRNA/snoRNA
+database, we obtained functional categorization profiling of the miRNA
+sequences, and the miRNAs of the control group and the OGD group were
+7.33 ± 2.30 and 6.00 ± 1.00%, respectively ( A). The majority of reads ≥19
+nt corresponded to mature miRNAs. The obtained miRNA sequences were
+compared with publicly available data on the miRDeep2 and miRBase
+V21 database. For each miRNA sequence-based profile, the expression
+level of miRNAs was estimated by the number of sequence reads. After
+quartile normalization, we identified 159 upregulated and 187 downregulated
+miRNAs (|log 2(Fold Change)| ≥ 1 and P < 0.05) ( B,C). The top ten significantly differentially expressed miRNAs between
+control and OGD groups are listed in . Consequently, the target gene prediction
+and enrichment analysis of differential miRNAs between control bEnd.3-derived
+and OGD-treated bEnd.3-derived exosomes were performed. To characterize
+the predominant pathways, KEGG pathway enrichment analysis was executed
+to compare the specific miRNA targets to the whole reference gene
+background. Thirty signal pathways showing the most statistical difference
+were selected in our KEGG analysis data ( D). Among these 30 pathways, metabolic pathways,
+PI3K-Akt signaling pathway, mitogen-activated protein kinase (MAPK)
+signaling pathway, Wnt signaling pathway, focal adhesion, mammalian
+target of rapamycin (mTOR), forkhead box O (FoxO), endocytosis, calcium
+signaling pathway, and protein cyclic guanosine monophosphate-kinase
+G (cGMP-PKG) signaling pathways may contribute to endothelial cell
+survival, cell metabolism, and exosomal transportation.
+ Next, we used the GO approach to analyze the enrichment
+of candidate
+target genes. The top ten significant terms of three GO categories,
+including biological process, cellular component, and molecular function,
+were presented ( A). Based on the correlation between miRNA and mRNA, we performed
+coexpression network analysis to screen the important miRNAs involved
+in endothelial cells injury induced by OGD. The result of network
+analysis indicated that miRNAs with high degrees were miR-379-5p,
+miR-122-5p, miR-494-3p, miR-412-5p, miR-369-3p, miR-409-3p, miR-214-3p,
+and miR-127-3p ( B). These top eight miRNAs were all downregulated in bEnd.3 cells
+subjected to OGD treatment, and of note, miR-412-5p and miR-379-5p
+were located in the core position of the network. Moreover, we found
+that miR-412-5p and miR-379-5p shared a common target gene Slco3a1,
+and miR-494-3p and miR-369-3p had a common target gene Elovl5 ( B).
+ To validate the inspection result, we performed
+a quantitative
+real-time polymerase chain reaction (qRT-PCR), and the data showed
+that these miRNAs were indeed downregulated in the OGD group compared
+with the control group ( ). These results indicated that the miRNAs enriched in the
+exosomes of brain microvascular endothelial cells may participate
+in the modulation of cell survival, proliferation, and angiogenesis
+under ischemic conditions.
+ 
+2.3.
+
+## Profiling of Surface Proteins of Exosomes
+by PBA
+Special membrane proteins on the surface of exosomes
+can be used as specific markers for the separation of exosomes; however,
+their potential significance as a disease biomarker is ignorable in
+view of the limitations of single exosomal feature detection. Therefore,
+we applied PBA to investigate the profiling of cell surface proteins
+of bEnd.3 cell-derived exosomes and examined whether exosomes from
+OGD-treated cells have distinct surface protein patterns compared
+with nonischemic cells. To test this, we performed dimensional reduction
+of individual exosomes from two groups based on their surface protein
+compositions using T-distributed Stochastic Neighbor Embedding (t-SNE)
+analysis. The results showed that OGD
+treatment significantly changed the distribution of exosomal surface
+proteins compared with the nonischemic control group ( A). As shown in B, there were 11751 exosomes
+expressing only one surface protein in the control group, while there
+were 25820 such exosomes (∼1.2-fold increase) in the OGD group.
+We also compared the numbers of the exosomes expressing two surface
+proteins and three surface proteins between the OGD-treated group
+and the control group, and the results are shown in B. There were 6518 exosomes
+expressing two proteins and 858 exosomes expressing three proteins
+recorded in the OGD-treated group compared with 1872 two-protein exosomes
+and 223 three-protein exosomes recorded in the control group. These
+data indicated that OGD significantly increased the number of exosomes
+secreted by bEND3 cells. By comparing the surface protein profiles
+of the two groups, the pyramid diagrams of the U1 pattern (one-protein
+exosome), U2 pattern (two-protein exosome), and U3 pattern (three-protein
+exosome) are presented, as shown in C–E. For one-protein exosomes, significant
+differences were observed in 21 proteins between the control group
+and OGD group, including UPA, TROP2, SURVIVIN, N-CADHERIN, MUC4, MUC1,
+MCP-1, LMP1, ITGB1, ITGB2, ITGAX, ITGAM, ITGAE, ITGA2B, ITGA2, IL-8,
+EGF, CD146, ANNEXIN, ALDH1, and ABCB5 ( C). As shown in D, there were 28 combinations in the U2 pattern,
+for which the numbers of two-protein exosomes in the OGD group were
+significantly higher than those in the control group. There were five
+combinations in the U3 pattern showing significant difference between
+the OGD group and the control group, CD146, FGFBASIC, ITGB2 (P = 0.01952); CD146, FGFBASIC, EPHA2 (P = 0.02313); CD146, CD340, CD166 (P = 0.03024);
+ABCB5, FGFBASIC, ITGB2 (P = 0.03024); and ABCB5,
+FGFBASIC, EPHA2 (P = 0.00011) ( E). Of note, the exosomes with more surface
+proteins identified were better distinguished, and these differential
+surface proteins were related to cell proliferation and angiogenesis,
+which might act as exosomal markers for endothelial cells challenged
+by ischemia.
+ 
+2.4.
+
+## Correlation between Exosomes miRNAs and Surface
+Proteins
+The exosomes have been shown to regulate cell growth,
+cell migration, and cell-to-cell communication through the cargos
+they carry including proteins, mRNA, miRNA, and other signal molecules;
+however, it remains unknown whether there is a potential correlation
+between miRNAs and surface proteins in exosomes. To investigate the
+relationship between miRNAs and membrane proteins of exosomes derived
+from OGD-treated endothelial cells, we performed integrated analyses.
+As shown in , there were 79 miRNAs closely related to 24 membrane proteins. Combining
+with miRNA sequencing data analysis (especially the top eight miRNAs),
+we found that miR-379-5p was associated with ITGAX and miR-494-3p
+and miR-409-3p were related to ADAM10. There were several other surface
+proteins associated with a variety of miRNA molecules, such as ITGA9,
+XIAP, ADAM1, ITGA2, ITGA3, PDPN, and ITGB1 in OGD-treated endothelial
+cells. Meanwhile, several miRNAs were relevant to surface proteins
+including miR-410-3p, miR-378b, and miR-1960. These results clearly
+indicated that OGD treatment enhanced the correlation between miRNA
+expression and surface proteins of exosomes derived from brain microvascular
+cells, in which miRNAs might regulate the distribution of exosomal
+surface proteins, while the surface proteins possibly contributed
+to the miRNA sorting process.
+ 
+
+3.
+
+## Discussion
+The BBB is composed of endothelial cells, pericytes, astrocytes,
+tight junctions, and the basement membrane. Accumulating evidence shows that injury of BBB endothelial cells
+is a major cause of postischemic reperfusion-associated hemorrhagic
+complications. Our previous study has
+shown that endothelial cell injury plays an important role in BBB
+dysfunction in the early stage of ischemia. However, the exosomes derived from endothelial cells involved in
+the cellular response to OGD have not been fully addressed. In this
+study, we performed the first investigation of mapping the miRNA expression
+profile and surface protein profile of the exosomes derived from ischemic
+brain microvascular endothelial cells using integrated miRNome and
+surface membrane proteomic analyses. The major findings are as follows:
+(1) OGD promotes the release of exosomes in endothelial cells, and
+significant differences of exosomal miRNome and surface proteomics
+are observed between OGD-treated cells and the control cells; (2)
+the exosomal miRNAs and surface proteins identified in OGD-treated
+endothelial cells are closely associated with angiogenesis, cell proliferation,
+and cell inflammation; and (3) there is a clear correlation between
+miRNAs and surface proteins identified in the exosomes isolated from
+ischemic brain microvascular endothelial cells. These data indicate
+that the exosomal miRNAs and surface proteins may serve as new biomarkers
+for brain microvascular endothelial cell damage in ischemic stroke.
+The exosomes are involved in the transmission of information between
+BBB cell components and the regulation of BBB integrity by delivering
+functional proteins, mRNA transcription products, and miRNAs to recipient
+cells. There is evidence that exosomes
+can act as sensors for neuroinflammation. Gao et al. found that endothelial colony-forming cell (ECFC)-generated
+exosomes played a positive role in BBB integrity in mice after traumatic
+brain injury. Exosomes are also secreted
+and transferred between glia and neurons in the nervous system, exerting
+extensive effects on nerve activation, development, and regeneration. More recently, miR-132 was reported to be transported
+from neurons to cerebral vascular endothelial cells by releasing exosomes
+and regulating the integrity of cerebral blood vessels. In this study, we used the nanoparticle tracking
+method to investigate whether OGD affects exosome size and concentration.
+Although we did not find significant differences in the size and concentration
+of exosomes between control and OGD-treated endothelial cells, the
+numbers of exosomes were significantly increased after OGD treatment,
+which is consistent with a previous report in which the vascular endothelial
+cells showed increased exosome secretion in response to hypoxia. Using quantitative approaches to analyze exosomal
+miRNA contents, we further demonstrated that the exosomes derived
+from OGD-treated bEnd.3 cells were clearly distinguishable from the
+exosomes isolated from control cells. We further analyzed the eight
+miRNAs that were most significantly affected by OGD treatment and
+found that these miRNAs regulate a variety of functions, including
+cell proliferation and migration (miRNA-122-5p and miR-409-3p), vascular structure formation (miR-412-5p), nerve fiber regeneration (miR-379-5p), cell apoptosis (miR-494-3p), and cell adhesion (miR-127-3p). 
+The exosomes from different sources can be distinguished by
+identifying
+their surface protein combinations. Haqqani et al. found that the
+exosomes derived from human brain microvascular endothelial cells
+contained at least 1179 proteins, including 60 marker proteins, such
+as Alix, TSG101, CD81, and CD9. Currently,
+the exosomal proteins are analyzed as a whole, while few studies have
+been carried out to analyze the characteristics of the surface proteins
+in a single exosome, in which the heterogeneity of exosomes would
+be largely ignored. In our study, the type and number of surface proteins
+on every single exosome were resolved by the PBA technique, which
+helped to classify exosomes into different subgroups. By comparing
+the surface protein profiles identified in the exosomes between control
+and OGD-exposed exosomes, we observed significant increases in a bunch
+of surface proteins in the exosomes derived from OGD-treated endothelial
+cells, such as FGFBASIC, CD146, EPHA2, ABCB5, and ITGB2. These proteins
+have been shown to promote angiogenesis, such as FGFBASIC, CD146, SURVIVIN, TROP2, and EGF, cell proliferation, such as EPHA2 and N-CADHERIN, or inflammation regulation, such as MCP-1 and IL-8. Our data that OGD treatment
+induces an increase in the numbers of exosomes carrying proangiogenic
+surface proteins, such as CD146, FGFBASIC, and ITGB2 or CD146, FGFBASIC,
+and EPHA2 suggest that OGD may activate the endothelial cells a compensatory
+mechanism to promote the establishment of microcirculation through
+cell-to-cell communication in endothelial cells in response to ischemic
+stimuli. Our data also raise an important possibility that the specific
+surface protein combinations identified in exosomes may serve as biomarkers
+for evaluating the ischemic status of brain microvascular endothelial
+cells.
+Emerging evidence has shown that the miRNAs are not randomly
+integrated
+into exosomes but rather through a sorting mechanism to guide specific
+miRNAs into exosomes. The sorting mechanism
+for exosomal miRNA is associated with proteins that act as an assembly
+protein to participate in exosomal miRNA composition, such as AGO2
+and GW182. In other words, there are
+certain proteins that deliberatively control the sorting process of
+exosomal miRNA. Here, our data show that OGD enhances the association
+of a variety of miRNA molecules with surface proteins identified in
+the exosomes derived brain endothelial cells, such as miR-410-3p (associated
+with ITGA2 and ADAM1), miR-378b (associated with ITGA2 and CD36),
+and miR-1960 (associated with ITGB8 and ITGA9). However, in view of
+the limitations of the PBA technique, which can only be qualitative
+but not quantitative, it is uncertain that the presence of membrane
+surface proteins might promote the aggregation of miRNAs or it needs
+to reach a certain expression threshold to achieve this effect, which
+needs to be further investigated in future studies. In turn, it also
+remains to be determined whether the exosomal miRNAs contribute to
+the localization of specific proteins to the exosomal membrane in
+future studies.
+
+4.
+
+## Conclusions
+In conclusion,
+our present study has demonstrated that ischemia
+in vitro promotes the release of exosomes and the changes of exosomal
+miRNA and surface protein profiles in brain microvascular endothelial
+cells, and these changes may represent a compensatory mechanism to
+promote angiogenesis, cell proliferation, and inflammatory regulation.
+Moreover, there is a clear correlation between these exosomal miRNAs
+and surface proteins. Screening and identifying the types and characteristics
+of the exosomes secreted by ischemic endothelial cells may provide
+a new way to evaluate the functional status of cerebrovascular endothelial
+cells in ischemic stroke.
+
+5.
+
+## Experimental Section
+5.1.
+
+## Cell Culture
+Mouse brain microvascular
+endothelial cells (bEnd.3, American Type Culture Collection, Manassas,
+VA) were cultured in 75 cm2 flasks. The bEnd.3 cells were
+grown in Dulbecco’s modified Eagle’s medium (DMEM) (Gibco,
+Carlsbad, CA) containing 10% fetal bovine serum (FBS) (Gibco, Carlsbad,
+CA) and 1% penicillin/streptomycin at 37 °C in a humidified incubator
+gassed with 5% CO2/95% air. The cells were subcultured
+and allowed to grow to confluence before exposure to OGD treatment.
+
+5.2.
+
+## Oxygen Glucose Deprivation Model
+To mimic
+the ischemic condition in vitro, the bEnd.3 cells were exposed
+to OGD as described previously. In brief,
+bEnd.3 were seeded on Nunc cell culture dishes, then incubated in
+glucose-free medium (Gibco, Carlsbad, CA), and subsequently moved
+into a humidified airtight chamber (Billups-Rothberg Inc., Del Mar,
+CA) equilibrated with 95% N2 and 5% CO2 for
+15 min. The chamber was then sealed and kept at 37 °C for 2 h.
+The oxygen concentration was controlled below 0.2% by an oxygen analyzer
+(Sable Systems, Las Vegas, NV). The medium of OGD treatment was FBS-free,
+and the medium of the control group was exosome-depleted FBS (Obio
+Technology Corp. Ltd., Shanghai, CN). After OGD treatment, the conditioned
+medium was collected to isolate exosomes for further analysis.
+
+5.3.
+
+## Exosome Isolation from Cell Culture Supernatants
+Exosomes
+were isolated from bEnd.3 culture supernatants by ultracentrifugation
+or the Total Exosome Isolation (from cell culture media) kit (Thermo
+Fisher Scientific, Waltham, MA) according to the manufacturer’s
+protocol. In brief, conditioned media (CM) were collected from 80
+to 90% confluent bEnd.3 in sterile conditions and filtered using a
+filter unit (Millipore, Billerica, MA) with a 0.22 μm membrane
+to remove intact cells and debris. The CM was then ultracentrifuged
+at 120 000g for 2 h at 4 °C using an
+ultrahigh-speed centrifuge (Beckman, Brea, CA). The resulting pellets
+were washed with cold phosphate-buffered saline (PBS) and then ultracentrifuged
+one more time as above. Finally, the collected pellets were resuspended
+in PBS and immediately stored at −80 °C until subsequent
+usage.
+
+5.4.
+
+## Nanoparticle Tracking Analysis
+Nanoparticle
+tracking analysis (NTA) was performed by a NanoSight LM 10 instrument
+(Malvern Instruments Ltd., U.K.) following the manufacturer’s
+instructions. Briefly, 1 mL of sample was drawn and then slowly injected
+into the sample pool, \the laser module was put back on the base,
+and then the probe of the OMEGA thermometer was put into the copper
+hole of the laser module panel. The focal lengths of the appropriate
+Screen Gain and Camera Level were adjusted. The measurements were
+performed by selecting the appropriate measurement method and measurement
+parameters. NTA acquisition settings were optimized between sample
+readings.
+
+5.5.
+
+## Transmission Electron Microscopy
+The collected exosome pellet was diluted in 30 μL of PBS and
+kept at −20 °C until transmission electron microscopy
+(TEM) analysis. Each 10 μL droplet of aspirate samples was placed
+on the copper mesh, allowed to settle for 1 min, and then rinsed by
+PBS. Phosphotungstic acid (10 μL) on the copper mesh was absorbed
+and precipitated for 1 min. The floating liquid was absorbed by filter
+paper and kept at room temperature for 2 min. The preparation was
+examined using a transmission electron microscope (JEM-1200EX, Japan
+Electronics Corporation, Japan).
+
+5.6.
+
+## Western
+Blotting
+Total proteins were
+extracted from the cultured cells using RIPA lysis buffer. The protein
+concentration was detected by the BCA Protein Assay reagent kit (Thermo
+Fisher Scientific, Waltham, MA). The cell protein samples were separated
+by sodium dodecyl sulfate-polyacrylamide gel electrophoresis (SDS-PAGE)
+in 10% polyacrylamide gels and transferred to polyvinylidene difluoride
+membranes. Then, nonspecific binding was blocked by 5% nonfat milk
+in trisbuffered saline with Tween-20 (P9416; Sigma-Aldrich) for 1
+h at room temperature. Membranes were incubated with primary antibodies,
+including anti-CD63 (ab108950; Abcam), anti-Alix (ab117600; Abcam),
+and anti-CD81 (ab79559; Abcam), for overnight at 4 °C. Membranes
+were incubated with horseradish peroxidase (HRP)-conjugated secondary
+antibodies for 1 h at 25 °C before incubating with the enhanced
+chemiluminescence (ECL) reagent (Thermo-Pierce, Rockford, IL). The
+protein levels were quantitated after normalization to β-actin.
+
+5.7.
+
+## Exosome miRNA Sequencing and Construction
+of Libraries
+Total RNA from exosomes was used for miRNA sequencing.
+Library preparation and miRNA sequencing were performed by Ribobio
+(Guangzhou, China). Briefly, the total RNA of the sample or the purified
+sRNA fragments that were connected the 3′ end and the 5′
+end successively were then reverse-transcribed to cDNA for PCR amplification.
+Afterward, the target fragment library was recovered by gel cutting,
+the qualified library was sequenced using the Illumina HiSeq. 2500
+platform, and only small RNAs ranging from 18 to 30 nt were used for
+library construction.
+
+5.8.
+
+## Real-Time Quantitative
+PCR Analysis
+To validate the miRNA sequencing data, quantitative
+real-time polymerase
+chain reaction (qRT-PCR) analysis was performed using RNA obtained
+from the control group (n = 3) and the OGD group
+(n = 3). Total RNA was purified from bEnd.3 cells
+with Trizol reagent (Invitrogen). Real-time PCR was performed using
+the TaqMan miRNA assay kit protocol on an ABI7500 fast real-time PCR
+machine. The expression levels of miRNAs were measured in terms of
+the threshold cycle value and normalized to the U6 level as an internal
+control. The specific primers were purchased from GeneCopoeia Biotechnology
+(Guangzhou, China). The primer information is listed as follows: miR-379-5p
+(Cat Number: MmiRQP0476), miR-122-5p (Cat Number: MmiRQP0056), miR-494-3p
+(Cat Number: MmiRQP0536), miR-412-5p (Cat Number: MmiRQP3186), miR-369-3p
+(Cat Number: MmiRQP0454), miR-409-3p (Cat Number: MmiRQP0484), miR-214-3p
+(Cat Number: MmiRQP0320), and miR-127-3p (Cat Number: MmiRQP0111).
+
+5.9.
+
+## Proximity Barcoding Assay
+Profiling
+surface proteins on individual exosomes were detected by the proximity
+barcoding assay (PBA) as described previously. Briefly, 240 cell surface protein antibodies conjugated
+with DNA sequence coding tags (antibody tags) were used to recognize
+all exosome surface proteins in CM samples. The same single exosome-specific
+DNA coding sequence (exosome tag) was added to all antibody tags on
+the same exosome through the proximity coding reaction. All encoded
+sequences are amplified by PCR to obtain the exosome tag–antibody
+tag DNA sequence, and then, the sample tag–exosome tag–antibody
+tag DNA sequence was obtained using the sample tag (sample tag) primer
+to continue the amplification. According to the Illumina sequencing
+technology requirements, the DNA fragment library was established,
+DNA testing was performed with Illumina NextSeq. 500 and Illumina
+NextSeq FC-404-2005 kits, and the read DNA sequence information was
+the sample tag–exosome tag–antibody tag DNA sequence.
+The composition of individual exosome surface proteins was identified
+and quantified; thereby, the classification of all individual exosomes
+was analyzed.
+
+5.10.
+
+## Statistical Analysis
+The data of
+statistical analysis was analyzed using SPSS 20.0 software. All values
+were presented as mean ± standard error (SEM). Differences between
+groups were compared by either an unpaired Student’s t-test or one-way ANOVA followed by Tukey’s posthoc
+test for P values. The numbers of exosomes with given
+combinations of proteins were calculated using the Fisher test at
+a confidence level of 0.05, and related operations were implemented
+using R script. The t-SNE algorithm used was included in the R package
+Rtsne. The network of miRNAs and surface proteins was constructed
+using Cytoscape software (version 3.8.0). P <
+0.05 was considered to be statistically significant.
+
+## Acknowledgments
+Y.Z. and W.L. received funding from the National
+Natural Science
+Foundation of China (Grant Nos. 81873747 and 81760227); Y.Z. received
+funding from the Natural Science Foundation of Guangdong Province
+(Grant No. 2019A1515010311) and Guangdong Medical Science and Technology
+Research Funds (Grant No. A2019417); Y.Z. and W.L. received funding
+from the Science and Technology Innovation Commission of Shenzhen
+Municipality (Grant Nos. GJHZ20190820115001765 and JCYJ20180507184656626);
+and Y.Z., W.L., and W.L. received funding from the Guangdong Innovation
+Platform of Translational Research for Cerebrovascular Diseases.
+
+## Glossary
+
+## Abbreviations
+ABCB5ABC subfamily B member 5
+ADAM1fertilin α
+ALDH1aldehyde dehydrogenase
+1
+BBBblood–brain
+barrier
+cGMP-PKGprotein cyclic guanosine monophosphate-kinase G
+CMconditioned media
+DMEMDulbecco’s modified Eagle’s
+medium
+ECLelectrochemiluminescence
+EGFepidermal growth
+factor
+Elovl5fatty
+acid elongase 5
+FBSfetal bovine serum
+FoxOforkhead box O
+IL-8interleukin-8
+ITGAXintegrin αX
+ITGAMintegrin αM
+ITGAEintegrin αE
+ITGA2Bintegrin α 2B
+ITGA2integrin α2
+ITGB1integrin β1
+ITGB2integrin β2
+ITGB8integrin β8
+ITGA9integrin α9
+LMP1latent membrane protein 1
+MAPKmitogen-activated protein kinase
+MCP-1monocyte chemoattractant
+protein-1
+mTORmammalian
+target of rapamycin
+MUC4mucin-4
+MUC1mucin-1
+NTAnanoparticle
+tracking analysis
+OGDoxygen glucose deprivation
+PBAproximity barcoding assay
+Slco3a1solute carrier organic anion transporter family
+member 3A1
+TEMtransmission
+electron microscopy
+tPAtissue-type plasminogen activator
+TROP2tumor-associated calcium signal transducer
+2
+UPAulipristal
+acetate
+
+## Author Contributions
+⊥ D.Y., Z.L., and G.G. contributed equally to this
+work.
+
+## Author Contributions
+This work
+was performed and accomplished by all authors. D.Y., Z.L., G.G., X.L.,
+and Y.W. contributed to the execution of the research project. Z.L.
+and W.L. contributed to data analysis. Y.Z. and W.L. participated
+in experimental design and manuscript preparation. All authors approved
+the final manuscript.
+
+The authors declare no
+competing financial interest.
+
+## References

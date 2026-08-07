@@ -1,0 +1,455 @@
+3345hepHepatology CommunicationsHepatol CommunWolters Kluwer HealthPMC9592797959279795927973601777610.1002/hep4.2038A missense mutation in the proprotein convertase gene furinb causes hepatic cystogenesis during liver development in zebrafish
+EllisJillian L EvasonKimberley J ZhangChangwen FourmanMakenzie N LiuJiandong NinovNikolay DelousMarion VanhollebekeBenoit FiddesIan OtisJessica P HouvrasYariv FarberSteven A XuXiaolei LinXueying StainierDidier Y R YinChunyue 
+1
+Division of Gastroenterology, Hepatology, and Nutrition, Cincinnati Children's Hospital Medical Center, Cincinnati, Ohio, USA
+2
+Department of Biochemistry and Biophysics, Program in Developmental and Stem Cell Biology, Liver Center and Diabetes Center, University of California, San Francisco, San Francisco, California, USA
+3
+Huntsman Cancer Institute and Department of Pathology, University of Utah, Salt Lake City, Utah, USA
+4
+McAllister Heart Institute, Department of Pathology and Laboratory Medicine, School of Medicine, The University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA
+5
+Center for Regenerative Therapies TU Dresden, Dresden, Germany
+6
+Paul Langerhans Institute Dresden of the Helmholtz Center Munich at the University Hospital Carl Gustav Carus of TU Dresden, German Center for Diabetes Research, Dresden, Germany
+7
+Equipe GENDEV, Centre de Recherche en Neurosciences de Lyon, Inserm U1028, CNRS UMR5292, Universite Lyon 1, Universite St Etienne, Lyon, France
+8
+Laboratory of Neurovascular Signaling, Department of Molecular Biology, ULB Neuroscience Institute, Universite Libre de Bruxelles, Gosselies, Belgium
+9
+Department of Embryology, Carnegie Institution for Science, Baltimore, Maryland, USA
+10
+Department of Biology, Johns Hopkins University, Baltimore, Maryland, USA
+11
+Department of Molecular and Cellular Biology and Biochemistry, Brown University, Providence, Rhode Island, USA
+12
+Weill Cornell Medical College and New York Presbyterian Hospital, New York, New York, USA
+13
+Department of Biochemistry and Molecular Biology, Department of Cardiovascular Medicine, Mayo Clinic, Rochester, Minnesota, USA
+14
+Department of Developmental Genetics, Max Planck Institute for Heart and Lung Research, Bad Nauheim, Germany
+15
+Division of Developmental Biology, Cincinnati Children's Hospital Medical Center, Cincinnati, Ohio, USA*
+
+Correspondence
+, 
+Chunyue Yin, Division of Gastroenterology, Hepatology and Nutrition, Cincinnati Children's Hospital Medical Center, 3333 Burnet Ave., Cincinnati, OH 45229, USA. 
+Email: chunyue.yin@cchmc.org
+
+✉Corresponding author.
+268202261130833083–309726102022© 2022 The Authors. Hepatology Communications published by Wiley Periodicals LLC on behalf of American Association for the Study of Liver Diseases.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.
+
+## Abstract
+Hepatic cysts are fluid‐filled lesions in the liver that are estimated to occur in 5% of the population. They may cause hepatomegaly and abdominal pain. Progression to secondary fibrosis, cirrhosis, or cholangiocarcinoma can lead to morbidity and mortality. Previous studies of patients and rodent models have associated hepatic cyst formation with increased proliferation and fluid secretion in cholangiocytes, which are partially due to impaired primary cilia. Congenital hepatic cysts are thought to originate from faulty bile duct development, but the underlying mechanisms are not fully understood. In a forward genetic screen, we identified a zebrafish mutant that developed hepatic cysts during larval stages. The cyst formation was not due to changes in biliary cell proliferation, bile secretion, or impairment of primary cilia. Instead, time‐lapse live imaging data showed that the mutant biliary cells failed to form interconnecting bile ducts because of defects in motility and protrusive activity. Accordingly, immunostaining revealed a disorganized actin and microtubule cytoskeleton in the mutant biliary cells. By whole‐genome sequencing, we determined that the cystic phenotype in the mutant was caused by a missense mutation in the furinb gene, which encodes a proprotein convertase. The mutation altered Furinb localization and caused endoplasmic reticulum (ER) stress. The cystic phenotype could be suppressed by treatment with the ER stress inhibitor 4‐phenylbutyric acid and exacerbated by treatment with the ER stress inducer tunicamycin. The mutant liver also exhibited increased mammalian target of rapamycin (mTOR) signaling. Treatment with mTOR inhibitors halted cyst formation at least partially through reducing ER stress. Conclusion: Our study has established a vertebrate model for studying hepatic cystogenesis and illustrated the contribution of ER stress in the disease pathogenesis.
+
+In a forward genetic screen, we identified the first zebrafish genetic mutant that develops hepatic cysts during liver development. Cystogenesis in these animals is due to a missense mutation in the furinb gene. The mutation alters Furinb protein expression that subsequently induces endoplasmic reticulum stress to impair biliary cell behaviors.
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2022 May 28; Received 2022 Mar 7; Accepted 2022 Jun 17; Collection date 2022 Nov.
+
+## INTRODUCTION
+Cystic hepatic lesions, which are characterized by progressive formation of multiple fluid‐filled cysts throughout the liver, affect up to 15%–18% of the population in the United States.[
+ 
+] Some patients develop hepatomegaly that compresses neighboring organs and causes discomfort. Cyst hemorrhage, infection or rupture, and progression to secondary fibrosis, cirrhosis, or cholangiocarcinoma may lead to significant morbidity and mortality.[
+ 
+] Traditional treatment for symptomatic hepatic cysts includes physical removal or emptying of cysts.[
+ 
+] Somatostatin analogues are used to treat patients with severe disease, but the treatment is chronic, costly, and the benefits are modest.[
+ 
+] Liver transplantation remains the only definitive treatment.[
+ 
+]
+
+Cyst formation has been associated with cellular defects within the cholangiocytes, including hyperproliferation, enhanced fluid secretion, changes in matrix‐cell interactions, and disruption in cell adhesion and polarity (reviewed by Fabris et al.[
+ 
+]). Meanwhile, congenital hepatic cysts that initiate in the fetal liver may result from faulty biliary development independent of cholangiocyte hyperproliferation.[
+ , 
+] Cholangiocytes possess primary cilia that serve as mechanosensors, osmosensors, and chemosensors.[
+ 
+] Malformation and dysfunction of primary cilia result in cholangiocyte hyperproliferation and alter their fluid secretion and bile absorption, all of which contribute to cyst formation and growth. Genetic studies have linked mutations in ciliary genes to inherited polycystic liver disease (PLD). Mutations in PKD1 and PKD2, which encode the ciliary‐associated proteins polycystin‐1 (PC1) and PC2, respectively, cause autosomal dominant polycystic kidney disease (ADPKD) that often manifests with liver cysts.[
+ , 
+] Mutations in PKHD1, which encodes a primary cilium protein fibrocystin, are associated with autosomal recessive polycystic kidney disease (ARPKD).[
+ 
+] Isolated polycystic liver diseases have been linked to mutations in genes including Protein kinase C substrate 80K‐H (PRKCSH), SEC63 homolog, protein translocation regulator (SEC63), LDL receptor related protein 5 (LRP5), SEC61 translocon subunit beta (SEC61B), ALG8 α‐1,3‐glucosyltransferase (ALG8), Glucosidase II α subunit (GANAB), and ALG9 α‐1,2‐mannosyltransferase (ALG9) (reviewed by Masyuk et al.[11]). Except for LRP5, all of these genes encode proteins located in the endoplasmic reticulum (ER). Mutations in the known disease genes account for only 50% of clinical cases of PLD,[
+ 
+] leaving the door open for finding additional genes and mechanisms in hepatic cystogenesis.
+Zebrafish have been used to study biliary development and disease, including PLD.[
+ 
+] Zebrafish injected with morpholinos targeting sec63, prkcsh, and polycystic kidney disease 1a (pkd1a) exhibit ultrastructural features of hepatic cyst formation.[
+ 
+]
+sec63 mutants have excessive ER stress in the liver.[
+ 
+] However, no genetic mutant with hepatic cysts has been reported in zebrafish.
+In a forward genetic screen, we identified a zebrafish mutant that develops hepatic cysts at larval stages. Hepatic cystogenesis in the mutant is not driven by cholangiocyte hyperproliferation or defects in the primary cilium, but rather by failure to make interconnecting bile ducts during liver development. We determined that a missense mutation in the furinb gene, which encodes a proprotein convertase, is responsible for the biliary phenotypes. The mutation leads to mislocalization of Furinb and ER stress. Treatment with ER stress inhibitor or mammalian target of rapamycin (mTOR) inhibitors partially suppressed cyst formation in the mutants.
+
+## EXPERIMENTAL PROCEDURES
+
+## Zebrafish
+Wild‐type (WT), furinb
+
+s741+/−
+, furinb
+
+ci204+/−
+, muc2.2
+
+ci205+/−
+, pkd1a
+
+zf1067+/−
+, pkd1b
+
+zf1070+/−
+,[
+ 
+]
+Tg(EPV.Tp1‐Mmu.Hbb:EGFP)
+
+um14
+
+/Tg(Tp1:GFP), Tg(EPV.Tp1‐Mmu.Hbb:hist2h2l‐mCherry)
+
+s939
+
+/Tg(Tp1:H2B‐mCherry),[
+ 
+]
+Tg(mpeg1:YFP)
+
+w200Tg
+, and Tg(EPV.Tp1‐Mmu.Hbb:mCherry‐CAAX)
+
+s733
+
+/Tg(Tp1:ras‐mCherry) zebrafish were raised and maintained under standard laboratory conditions in accordance with the Guide for the Care and Use of Laboratory Animals (National Institutes of Health publication 86–23, revised 1985) and approved by the Institutional Animal Care and Use Committee at the Cincinnati Children's Hospital Medical Center. Animals of both genders were studied.
+
+## Whole‐genome sequencing and genotyping
+Whole‐genome sequencing was conducted at the University of California, San Francisco Genomics Core as described.[
+ 
+] Sequencing was performed on pools of 50 s741 mutants and 50 phenotypically WT siblings based on the bile duct phenotypes, as revealed by Tg(Tp1:GFP) transgene expression. Genomic DNA was prepared using the DNeasy blood and tissue kit (Qiagen) and sequenced on the Illumina HiSeq 2000. Data were analyzed using SNPtrack (http://genetics.bwh.harvard.edu/snptrack/). s741 mutation was genotyped by polymerase chain reaction (PCR) on genomic DNAs using the following primers: forward 5′‐TTCTGTCGGAGGACCAAACT −3′ and reverse 5′‐ACACACACACACCCACTGGT −3′. The 499 bp PCR product was cut with restriction enzyme Bsp1286I (New England BioLabs). The mutant product was cut into 211 bp and 288 bp fragments, while the WT product remained uncut at 499 bp.
+
+## Immunofluorescence
+Immunofluorescence staining on whole‐mount larvae and 150‐μm vibratome sections was performed as described.[
+ 
+] Primary and secondary antibodies are listed in Table  . The samples were imaged on a Nikon A1Rsi inverted confocal microscope (Nikon Instruments). Imaging processing and quantification were conducted using Imaris software (Bitplane).
+
+## 
+BODIPY feeding assay
+At 121 h post fertilization (hpf), WT and s741 mutant larvae were incubated with 6.4 μmol/L BODIPY FL C5 (Invitrogen) for 7 h as described.[
+ 
+] Animals were imaged live on a confocal microscope to assess fluorescence in the gallbladder and liver.
+
+## Time‐lapse live imaging
+At 80 hpf, three WT and three s741 mutant larvae expressing Tg(Tp1:GFP) were mounted in 1% low‐melting agarose in a customized imaging chamber filled with 80 ml egg water containing 0.01% Tricaine (Sigma Aldrich). The chamber was maintained at 28°C for the duration of the time lapses. The 40‐μm Z‐stacks of epifluorescent images of the livers were collected at 8‐min intervals for 14 h on a Nikon A1R Multiphoton upright confocal microscope using a ×20 water objective lens.
+
+## Genetic mosaic analysis by cell transplantation
+Cell transplantation was performed at the blastoderm stage as described.[
+ 
+] To target the donor cells to the endoderm, 200 pg of casanova/sox32 messenger RNA (mRNA) was injected into the donor embryos at the one‐cell stage. The donors were genotyped by PCR immediately following transplantation.
+
+## Chemical treatments
+All the chemicals used in the drug treatment are listed in Table  . The larvae expressing Tg(Tp1:GFP) were treated with 0.05% DMSO or various chemicals in egg water in the dark from 72 hpf to 120 hpf. Their genotypes were determined by PCR.
+
+## Furinb construct design and microinjection
+To rescue s741 phenotypes using WT furinb mRNA, a full‐length furinb complementary DNA (cDNA) was amplified by PCR from WT total cDNA and inserted into the RNA synthesis plasmid pCS2+. Sense RNA was synthesized using the Ambion mMessage mMachine T7 transcription kit (Invitrogen). A total of 20–50 pg of capped furinb RNA was injected into the yolk of embryos from s741 heterozygotes incrosses at the 1–4 cell stage. The injected larvae were fixed in 4% paraformaldehyde at 96 hpf and genotyped by PCR.
+The Tg(Tp1:wt‐furinb‐EGFP), Tg(Tp1:s741‐furinb‐EGFP), Tg(fabp10a:wt‐furinb‐GFP), and Tg(fabp10a:s741‐furinb‐EGFP) transgenic constructs were generated using the multisite gateway‐based Tol2kit.[
+ 
+]
+
+## Statistical analysis
+Two‐tailed Student's t test and one‐way analysis of variance with a Tukey's post‐hoc test were performed using GraphPad Prism (GraphPad Software).
+
+## RESULTS
+
+## A forward genetic screen identifies a zebrafish mutant with hepatic nodules
+To identify regulators of intrahepatic bile duct development, we carried out an N‐ethyl‐N‐nitrosourea chemical mutagenesis screen using the Tg(EPV.Tp1‐Mmu.Hbb:EGFP)
+
+um14
+
+/Tg(Tp1:GFP) transgenic zebrafish that express green fluorescent protein (GFP) under the control of a Notch‐responsive element. This transgene marks intrahepatic bile ducts and pancreatic ducts.[
+ , 
+] Of the 100 F2 families screened, we isolated two recessive mutations, with one causing ductopenia and the other forming biliary nodules. s741 mutants exhibited pericardial edema and degenerative pharyngeal arches (Figure  ), accompanied by 100% lethality by 1 week of age. In the liver, although the Tg(Tp1:GFP)+ biliary cells in WT larvae formed a rudimental intrahepatic biliary ductal network by 96 hpf (Figure  ), the s741 mutant biliary cells clustered in nodules (Figure  ). Histological staining showed that the mutant livers displayed a disorganized architecture with variations in hepatocyte size and loss of the orderly arrangement of regularly spaced hepatocytes (Figure  ). There were scattered round to ovoid cyst‐like spaces in the mutant liver (Figure  , arrows).
+ 
+
+## The intrahepatic biliary cells in s741 mutants form cysts that retained bile fluids
+To examine the bile flow in s741 mutants, we administered fluorescent lipid analog BODIPY‐FL C5:0 from 120 hpf to 128 hpf (Figure  ). BODIPY C5:0 is absorbed by the liver and secreted with bile salts by the hepatocytes, allowing real‐time tracking of bile secretion and flow.[
+ 
+] In WT, BODIPY fluorescence was detected within the intrahepatic bile ducts marked by Tg(Tp1:ras‐mCherry) expression (Figure  ). In contrast, BODIPY fluorescence was retained within the nodules lined by the biliary cells in the mutants (Figure  ), indicating that these nodules are fluid‐filled cysts. In WT, bile is transported through the network of intrahepatic bile ducts and drained into the gallbladder, as reflected by the strong fluorescence in the gallbladder (Figure  ). While the gallbladder still formed in s741 mutants (Figure  ), it was not filled with BODIPY (Figure  ), suggesting that bile fluids were retained in the liver. Outside of the liver, we found cysts in the mutant pancreas, but not in the pronephric ducts (Figure  ).
+ In zebrafish, hepatocytes excrete bile fluids into the bile ducts through bile canaliculi on the apical membrane.[
+ 
+] At 120 hpf, the bile canaliculi in s741 mutants were shorter and dilated compared with WT, as revealed by the expression of bile canalicular transporter BSEP (bile salt export pump) (Figure  ). We performed transmission electron microscopy (TEM) on the WT and mutant livers at 96 hpf, before the initiation of bile excretion in zebrafish.[
+ 
+] The WT bile canaliculus contained tightly packed actin microvilli (Figure  , asterisk). The actin microvilli in the mutant canaliculus were sparse and disorganized (Figure  , asterisk). These observations imply that bile canalicular development was impaired in s741 mutants independent of bile flow, consistent with the notion that biliary and bile canalicular development is highly coordinated.[
+ 
+]
+
+## A missense mutation in furinb is responsible for the mutant liver phenotype
+To isolate the molecular lesion responsible for the s741 mutant phenotype, we scanned the genome for linkage to the phenotype using bulk segregant analyses and mapped the mutation to linkage group 25. We then performed whole‐genome sequencing analyses.[
+ 
+] Log‐likelihood analysis revealed a 1.4‐Mb interval, and none of the SNPs identified within the interval resulted in the gain of a new stop codon. Homozygosity scoring analysis showed two peaks within this interval (Figure  ). The first peak was located in an area where no sequence reads were returned for the mutant pool, suggestive of a deletion. The deletion covered the first 15 exons of the transcript ENSDART00000112246 that corresponds to the gene mucin2.2/muc2.2. The second peak was located near the transcript of the gene furinb and contained three non‐synonymous single‐nucleotide polymorphisms (SNPs). We generated cDNAs from 50 mutants and 50 phenotypically WT siblings, then amplified and sequenced the open reading frames of muc2.2 and furinb. All of the mutants were homozygous for the deletion in muc2.2 and one of the three non‐synonymous SNPs in furinb, whereas the unaffected siblings were WT or heterozygous for these mutations (Figure  ; data not shown). We also sequenced the open reading frames of an additional 18 genes within the interval. There was no correlation between the presence of the non‐synonymous or splice variants in these genes and the mutant phenotypes (data not shown).
+ To determine which mutation was responsible for the cystic phenotype in s741 mutants, we first performed reverse‐transcription PCR and found that muc2.2 expression was absent in the livers of WT or s741 mutant larvae at 96 hpf (Figure  A). We generated a muc2.2 mutant allele that resembles the deletion found in s741 mutants by CRISPR/Cas9 genome editing (Figure  B). The mutants did not have obvious bile duct phenotypes at 96 hpf (Figure S ). These two results implicate that the muc2.2 mutation unlikely accounts for the s741 mutant phenotypes.
+
+furinb is one of the zebrafish orthologs of the mammalian Furin gene that encodes an endoprotease belonging to a family of proprotein convertases.[
+ 
+] The missense mutation found in s741 mutants causes a valine to alanine amino acid change at the C‐terminus of the Furinb protein (p.V822A) (Figure  ). Whole‐mount in situ hybridization revealed that furinb transcript is expressed in the digestive organs in zebrafish larvae (Figure  ). Quantitative real‐time PCR (PCR) showed that the s741 mutant livers had comparable expression of furinb as WT at 96 hpf (Figure  ). Injection of WT furinb mRNA significantly reduced the number of hepatic cysts in s741 mutants, confirming that the missense mutation in the furinb gene contributes to the cystic phenotype (Figure  ). To test whether Furinb is required for bile duct development, we generated furinb null mutants by CRISPR/Cas9 genome editing. The furinb
+
+ci204
+ mutant harbors a 17‐bp deletion in exon 2, leading to a premature stop codon (Figure  A). The resulting protein is predicted to truncate at the beginning of the propeptide domain (Figure  B). furinb
+
+ci204
+ mutants did not show bile duct phenotypes at 96 hpf (Figure  ). We crossed s741 heterozygotes with furinb
+
+ci204
+ heterozygotes. The compound heterozygous progenies did not form hepatic cysts, but showed clustering of the biliary cells (Figure  ), suggesting that the s741 mutant allele is likely neomorphic.
+
+## The furinb missense mutation impairs bile duct development in a cell‐autonomous manner
+To determine whether the cystic phenotype seen in s741 mutants was due to aberrant Furinb function within the biliary cells or their environment, we performed genetic mosaic analyses. We transplanted cells from the dorsolateral margin of the WT donor embryos into the blastodermal margin of the s741 mutant host embryos at 40% epiboly and harvested the hosts at 100 hpf (Figure  ). The WT donor cells formed bile ducts with normal appearance in the mutant host liver (Figure  ). Conversely, when we transplanted the s741 mutant cells into the WT host embryos, the mutant cells still formed cysts in the WT liver (Figure  ). As a second approach, we generated Tg(Tp1:wt‐furinb‐GFP) and Tg(Tp1:s741‐furinb‐GFP) transgene constructs that drove the fusion protein expression specifically in the biliary cells. We injected the constructs into WT or furinb
+
+ci204
+ knockout mutants at 1–4 cell stage and examined the bile ducts at 120 hpf by Anxa4 immunostaining. The injection resulted in mosaic and transient expression of the transgene. Expression of s741 mutant Furinb in the biliary cells promoted cystogenesis in both WT and furinb
+
+ci204
+ mutants (Figure  ). Taken together, the mutant Furinb protein acts within the biliary cells to drive cyst formation.
+ 
+
+## The biliary cells in s741 mutants fail to undergo proper morphogenesis to make bile ducts
+To identify the morphogenic events that led to hepatic cyst formation in s741 mutants, we performed time‐course analyses by tracking the Tg(Tp1:GFP)+ biliary cells in WT and mutant larvae that were harvested at various time points during liver development. At 65 hpf, the biliary cells in WT and s741 mutant livers displayed similar appearance (Figure  ). At 78 hpf, the WT biliary cells interconnected to form a rudimental intrahepatic biliary network (Figure  ). In the mutant, some cells formed connecting ducts (Figure  , arrows), whereas the others were clustered in isolated nodules (Figure  , arrowheads). The differences in the organization of biliary cells between WT and mutant were further amplified at 100 hpf (Figure  ).
+ To characterize the cellular behaviors of biliary cells in real time, we conducted time‐lapse live imaging between 80 hpf and 90 hpf. In WT (Figure  ; Video  ), the Tg(Tp1:GFP)+ biliary cells were seen in clusters at the beginning of the time lapse. Over the next approximately 10 hours, individual biliary cells migrated away from each other and at the same time sent out protrusions that interconnected to form bile ducts (Figure  , arrowheads and asterisk[20]). In the mutant, the biliary cells showed little motility throughout the imaging time period (Video  ). Instead of extending new protrusions to make bile ducts, some cells even retracted the pre‐existing connections (Figure  , arrowheads and asterisk), leading to nodule formation.
+In mammals, hyperproliferation and apoptosis of cholangiocytes contribute to hepatic cystogenesis.[
+ 
+] To evaluate the proliferation of biliary cells, we incubated WT and mutant larvae with the replication marker 5‐ethynyl‐2′‐deoxyuridine (EdU) from 80 hpf to 96 hpf. The percentages of biliary cells that incorporated EdU were comparable between the WT and mutant cells (Figure  A). We only detected sporadic apoptotic cells in WT and mutant livers at 96 hpf by terminal deoxynucleotidyl transferase–mediated deoxyuridine triphosphate nick‐end labeling (TUNEL) assay (Figure  B–E). Therefore, dysregulated proliferation or apoptosis does not account for cyst formation in s741 mutants.
+
+## Distribution of the actin and microtubule cytoskeleton is altered in s741 mutant biliary cells
+The defects in cell motility and protrusive activity prompted us to examine the actin and microtubule cytoskeleton in s741 mutant biliary cells. Phalloidin staining showed that in WT liver, F‐actin was located at the cell periphery and enriched in the bile canaliculi (Figure  '). There appeared to be an excessive accumulation of F‐actin in the mutant biliary cells compared with WT (Figure  '). Immunostaining with an anti‐acetylated tubulin antibody also revealed an ectopic accumulation of stabilized microtubules in the mutant biliary cells (Figure  ').
+In mammals, hepatic cystogenesis has been associated with defects in the primary cilium. We used an anti‐ADP ribosylation factor like GTPase 13B/Arl13b antibody to specifically mark the primary cilia[
+ 
+] and an anti‐γ‐tubulin antibody to label the basal bodies.[
+ 
+] We detected primary cilia and associated basal bodies in the mesenchymal cells in WT and mutant livers (Figure  ', arrowheads and inserts). However, Arl13b staining was absent in the WT and mutant biliary cells (Figure  '). Inactivation of cilia protein PC1 is responsible for ADPKD in humans.[
+ 
+] We obtained zebrafish pkd1a single mutants and pkd1a;pkd1b compound mutants. Although they develop pronephric cysts at larval stages,[
+ 
+] they did not form hepatic cysts (Figure  ). These results suggest that hepatic cystogenesis in s741 mutants is not related to the impairment of primary cilia.
+
+## The s741 missense mutation alters Furinb localization and triggers inflammation and unfolded protein response
+To uncover the molecular mechanisms underlying the cystic phenotype in s741 mutants, we performed global transcriptomic analysis on the livers of WT and s741 mutants at 100 hpf. Gene‐set enrichment analysis revealed down‐regulation of metabolism pathways in the mutant livers (Figure  ), indictive of compromised liver function. Genes involved in unfolded protein response (UPR) were up‐regulated in the mutants (Figure  ). TEM analysis also revealed dilatation of the ER lumen in the mutant hepatocytes and biliary cells, supporting the presence of ER stress (Figure  '). In s741 mutants, the missense mutation in furinb leads to a valine to alanine substitution in the cytosolic domain, which is known to control the trafficking of Furin protein in mammalian cells.[
+ 
+] As Furinb‐specific antibody was not available, we used transgenic constructs to express either WT or s741 mutant Furinb‐GFP fusion protein in the biliary cells. We injected the constructs into WT embryos at 1–4 cell stage and performed live imaging of their livers at 120 hpf. Although the WT Furinb‐GFP fusion protein was expressed along the intrahepatic bile ducts (Figure  ), the mutant Furinb‐GFP fusion protein was localized in cytoplasmic puncta within the biliary cells (Figure  ). We generated transgenic constructs to express WT or s741 mutant Furinb‐GFP fusion protein specifically in the hepatocytes and found that the mutant protein was also mislocalized (Figure  ). Mislocalization of s741 mutant Furinb is consistent with the increase in ER stress in these animals.
+ To determine whether increased ER stress contributed to the cystic phenotype, we treated the mutants and their WT and heterozygous siblings with the ER stress inhibitor 4‐phenylbutyric acid (4‐PBA), the ER stress inducer tunicamycin (TM), or both chemicals from 72 hpf to 120 hpf (Figure  ). Although 4‐PBA treatment did not affect bile duct morphology in WT and s741 heterozygous larvae, TM caused clustering of the biliary cells and dilatation of the bile ducts (Figure  ). Meanwhile, inhibition of ER stress by 4‐PBA significantly reduced the number of hepatic cysts in s741 mutants. Exacerbated ER stress induced by TM increased the number of hepatic cysts in the mutants (Figure  ), and such an increase was suppressed by dual treatment with 4‐PBA and TM. Therefore, ER stress contributes to cyst formation in s741 mutants.
+RNA‐sequencing (RNA‐seq) analysis also revealed increased inflammation in the mutant liver (Figure  ). Consistently, we detected a more than 5‐fold increase in the number of Tg(mpeg1:YFP)+ macrophages in the mutant livers compared with WT at 120 hpf (Figure  A,C,F).[
+ 
+] However, at 96 hpf, when the cystic phenotype first became evident in the mutants, the numbers of macrophages were comparable between WT and mutants (Figure  E). We reason that macrophages do not contribute to the initiation of cystogenesis but may play a role in the progression of bile duct injury in the mutants.
+
+## Treatment with the mTOR inhibitor rapamycin partially rescues the cystic phenotype in s741 mutants
+To seek signaling pathways that can be targeted to suppress hepatic cystogenesis, we focused on mTOR signaling. It was up‐regulated in the mutant liver as revealed by RNA‐seq (Figure  ) and has been shown to mediate both ER stress and inflammation.[
+ 
+] We treated the mutants and their WT siblings with DMSO or 5 μmol/L mTOR inhibitor rapamycin from 72 hpf to 120 hpf and examined the morphology of the intrahepatic bile ducts. Rapamycin treatment did not significantly change the total number of biliary cells in WT (p = 0.9903) or s741 mutants (p = 0.6595). Meanwhile, it reduced the number of hepatic cysts in the mutants compared with the DMSO‐treated control (Figure  ). Treatment with 10 μmol/L A769662, which suppresses mTOR by activating its upstream negative regulator AMP‐activated protein kinase, also reduced cyst numbers in the mutants (Figure  ). Rapamycin is a potent inducer of autophagy.[
+ 
+] However, treatment with 2% trehalose, which is an mTOR‐independent autophagy inducer,[
+ 
+] did not decrease the number of hepatic cysts in the mutants, suggesting that rapamycin does not suppress hepatic cystogenesis by inducing autophagy. By quantitative real‐time PCR, we found that the hepatic expression of UPR effector genes, including heat shock protein family A (Hsp70) member 5 hspa5/bip, Dnaj (Hsp40) homolog, subfamily C, member 3a (dnajc3a), ER degradation enhancing α‐
+mannosidase like protein 1 (edem1), and heat shock protein 90 β family member 1 (grp94), was significantly increased in s741 mutants compared with WT (Figure  ). Such increases were reversed by rapamycin treatment (Figure  ). Rapamycin treatment also reduced the expression of pro‐inflammatory genes and the number of macrophages in the mutant livers (Figure  B,D,F,G). Taken together, rapamycin partially suppressed hepatic cystogenesis in s741 mutants, which coincided with the reduction in ER stress and inflammation.
+ 
+
+## DISCUSSION
+Using forward genetics, we identified the first zebrafish genetic mutant that forms hepatic cysts. Hepatic cystogenesis in s741 mutants is independent of cholangiocyte hyperproliferation or ciliopathies. Instead, changes in the actin and microtubule cytoskeleton perturb the protrusive behaviors of the biliary cells and prevent them from forming interconnecting bile ducts. We attribute the morphogenetic defects to the mislocalization of proprotein convertase Furinb caused by a missense mutation in the C‐terminus and the subsequent induction of ER stress. Hepatic cystogenesis was partially suppressed by treatment with the ER stress inhibitor 4‐PBA. Transcriptomic analysis revealed an increase of mammalian target of rapamycin complex 1 (mTORC1) signaling in s741 mutants. Treatment with mTOR inhibitors ameliorated cyst formation in the mutants, at least partially by reducing ER stress.
+In human and rodent, congenital hepatic cystogenesis is thought to originate from ductal plate malformation during embryogenesis.[
+ , 
+] Our study provides another example of defective bile duct development initiating hepatic cyst formation. In zebrafish, suppression of Notch signaling by injecting jagged2/3 morpholinos resulted in cysts in the liver.[
+ 
+] The cells compromising the cysts were biliary‐hepatocyte hybrid cells, reflecting defective biliary differentiation due to Notch suppression. In contrast, s741 mutants did not have decreased Notch signaling in the liver (data not shown). The cysts in s741 mutants were lined by biliary cells. They had reduced motility and protrusive activity and formed isolated nodules rather than interconnecting bile ducts. The impaired biliary cell behaviors were due to changes in the actin and microtubule cytoskeleton. Disorganized actin cytoskeleton has also been observed in cystic PKD1‐null kidney epithelial cells derived from patients with ADPKD.[
+ 
+] Both PC1 and PC2 interact directly with actin cytoskeleton molecules and mediate actin cytoskeleton organization and directional cell migration in vitro.[
+ , , 
+] ARPKD human kidney tissue has excessive acetylated tubulin.[
+ 
+] Treatment of microtubule‐specific agents colchicine, vinblastine, and Taxol inhibits renal cyst development in vitro.[
+ 
+] It will be interesting to investigate to what extent changes in actin and microtubules contribute to human PLDs. Disruption of actin and microtubules may also alter trafficking and localization of the channel and transporter proteins in biliary cells to enhance cyst formation.
+PLDs have been linked to defects in the structure or function of primary cilia in cholangiocytes.[
+ 
+] Our study suggests that ciliopathy may not cause hepatic cystogenesis in zebrafish during development. We failed to detect primary cilia in the biliary cells in larval zebrafish by immunostaining or TEM. Despite the development of renal cysts as seen in patients with ADPKD,[
+ 
+]
+pkd1 mutant larvae did not form liver cysts. It is noteworthy that pkd1 mutant zebrafish are premature lethal. Whether primary cilia play a role in cholangiocyte physiology in adult zebrafish remains to be determined.
+We revealed that a missense mutation in furinb underlies the cystic phenotypes in s741 mutants. Furin is a proprotein convertase that functions to cleave latent precursor proteins and converts them to their active state.[
+ 
+] It cycles between the trans‐golgi network, cell surface, and endosomes to cleave distinct substrates depending on where it is located.[
+ 
+] The mutant Furinb‐GFP fusion protein is mislocalized in the biliary cells. Transforming growth factor β1, integrins, and Notch1 receptor are known FURIN substrates that also mediate bile duct development.[
+ , 
+] Our transcriptomic analyses did not detect statistically significant changes in these pathways, likely due to compensation from other proprotein convertases. However, we cannot exclude the possibility that fine‐tuning of multiple pathways collectively contributes to the cystic phenotype.
+We demonstrated that the mislocalized Furinb protein triggered ER stress in s741 mutant biliary cells. In the future, we will investigate whether the mutant Furinb protein accumulates in the ER. Elevated ER stress has been observed in the liver tissue from patients with PLD and rats with polycystic kidney disease (PCK), as well as in primary cultures of human and rat cystic cholangiocytes. Chronic treatment of PCK rats with 4‐PBA decreased the volumes of liver cysts.[
+ 
+] It is noteworthy that the isolated PLD genes PRKCSH, SEC63, ALG8, ALG9, SEC61B, GANAB, and the ADPKD gene DnaJ heat shock protein family (Hsp40) member B11 all encode ER proteins (reviewed by Masyuk et al.[11]). It has been speculated that mutations in these genes lead to cystogenesis by affecting posttranslational modulation of PC1.[
+ 
+] We propose an alternative hypothesis that mutations in the ER‐associated genes may cause a broad perturbation of protein folding, maturation and trafficking, which provokes ER stress. The resulting impairment in cholangiocyte physiology and behaviors underlies cyst formation. ER stress has been connected to cytoskeleton dynamics in vitro. Tunicamycin treatment impaired epithelial sheet migration.[
+ 
+] The ER stress sensor Inositol‐requiring transmembrane kinase/endoribonuclease 1α directly interacts with filamin A and mediates cytoskeleton remodeling and cell migration.[
+ 
+] Whether similar mechanisms occur in biliary cell remains to be determined.
+We detected an augmentation of the mTORC1 pathway in s741 mutants and showed that chemical inhibition of mTORC1 partially suppressed cyst formation. In patients with ADPKD and ARPKD, the epithelium lining of the hepatic cysts exhibits a markedly increase in mTOR activation.[
+ , 
+] In Pkd2‐knockout mice, rapamycin decreases liver cystic area and cholangiocyte proliferation through inhibition of insulin‐like growth factor signaling and vascular endothelial growth factor secretion.[
+ 
+] We showed that rapamycin can also suppress cyst formation by reducing ER stress and inflammation,[
+ 
+] but not by inducing autophagy. Evidence from different pathological conditions has shown that mTORC1 operates both upstream and downstream of UPR signals, which can either enhance or antagonize the anabolic function of mTORC1.[
+ 
+] The bidirectional crosstalk between ER stress and mTOR likely exists in biliary cells during cystogenesis. Clinical trials testing the efficacy of mTOR inhibitor treatment in PKD yielded conflicting results.[
+ 
+] Our results shed light on the mechanisms underlying rapamycin's action on cystogenesis and reveal additional therapeutic targets to improve treatment.
+Our study provides an excellent example of how forward genetic screen elucidates biological phenomena that cannot be captured by knockout animals. Furin‐null mice die between E10.5‐E11.5 due to heart malformation and failure of axial rotation.[
+ 
+]
+furinb knockout zebrafish and liver‐specific knockout of Furin in mice[
+ , 
+] do not cause obvious liver injury. The s741 mutation is a neomorphic allele that only causes cysts in the homozygous mutant or when it is overexpressed in WT by transgene. Given that mutations in the known disease genes only account for 50% of clinical cases of PLD,[
+ 
+] forward genetic screen in model organisms remains a powerful tool to discover genes and mechanisms for hepatic cystogenesis.
+
+## FUNDING INFORMATION
+Supported by National Institutes of Health (NIH) (R00 AA020514, R01 DK117266‐01A1, and P30 DK078392); a Trustee Award from the Cincinnati Children's Research Foundation; the Peter and Tommy Colucci Research Award for PFIC from the Center for Undiagnosed and Rare Liver Disease at Cincinnati Children's Research Foundation; a Pilot/Feasibility grant from the University of California, San Francisco Liver Center; NIH/National Cancer Institute (K08 CA172288 and R01 CA222570); Damon Runyon Cancer Research Foundation (DRG‐109‐10); and an Arnold W. Strauss Fellow Award.
+
+## CONFLICT OF INTEREST
+Nothing to report.
+
+## Supporting information
+
+Figure S1
+s741 mutants develop cysts in the pancreas but not in the pronephric ducts. (A,B) Confocal three‐dimensional projections of wild‐type (WT) and s741 mutant zebrafish expressing Tg(Tp1:GFP [green fluorescent protein]). White arrows point to the pancreatic ducts. s741 mutants form Tg(Tp1:GFP)+ nodules in the pancreas; ventral views; anterior is to the top. (C,D) Confocal single plane images showing vibratome sections of WT and s741 mutant zebrafish stained with phalloidin (purple) for F‐actin and acetylated‐tubulin antibody (red) for stabilized microtubules. White arrows mark the pronephric ducts. The mutant pronephric ducts do not appear to contain cysts. Serial sections through the entire length of the pronephric ducts were examined in five WT and five mutant larvae. Transverse sections; dorsal is to the top. In (A)–(B), 10 WT and 10 mutants were examined, and all showed the representative phenotypes. Scale bars: 70 μm (A,B); 50 μm (C,D). Abbreviation: hpf, hours post fertilization
+Click here for additional data file.
+
+Figure S2 The muc2.2 deletion mutation unlikely contributes to the formation of hepatic cysts in s741 mutants. (A) Reverse‐transcription polymerase chain reaction (PCR) to detect muc2.2 transcript expression in the complementary DNAs (cDNAs) prepared from WT adult male testis, pooled WT, s741 heterozygous, and homozygous mutant larvae at 96 hpf, and pooled livers from WT, s741 heterozygous, and homozygous mutant larvae at 104 hpf. The housekeeping gene eef1a1l1 was used as the loading control. (B) Diagram of the region on Linkage Group (LG) 25, which contains the muc2.2 and furinb genes. Their coding regions are highlighted in red. The muc2.2 deletion found in s741 mutants is marked with the black box. The two CRISPR target sites are labeled in orange. (C,D) Confocal three‐dimensional projections of WT and muc2.2
+
+ci205
+ CRISPR mutant larvae at 96 hpf. Tg(Tp1:GFP) expression labels the intrahepatic bile ducts. Ventral views; anterior is on the top. Twenty WT and 20 mutants were examined, and all exhibited the representative phenotypes. Scale bar: 30 μm
+Click here for additional data file.
+
+Figure S3 Generation of furinb
+
+ci204
+ mutants by CRISPR/Cas9 genome‐editing technology. (A) Schematic representation of the zebrafish furinb locus along with the CRISPR target site, PAM motif, and WT and indel sequences. (B) Putative domain diagram of Furinb protein in WT and furinb
+
+ci204
+ mutant. The predicted changes in CRISPR mutant protein are shown. (C,D) Whole‐mount in situ hybridization detected an evident reduction of furinb messenger RNA (mRNA) expression in furinb
+
+ci204
+ mutant (D) compared with WT (C). NBT/BCIP staining was stopped immediately after the transcript signal became apparent in some larvae. The larvae with positive signal (20 of 25) and those without (5 of 20) were genotyped by PCR. The positive larvae were either WT or furinb
+
+ci204+/−
+ heterozygotes, and the negative larvae were all furinb
+
+ci205−/−
+ homozygotes. Abbreviations: cd, cytoplasmic domain; Cys‐RR, cysteine‐rich region; pro, pro‐domain; Sp, signal peptide; Tm, transmembrane domain
+Click here for additional data file.
+
+Figure S4 Dysregulation of biliary cell proliferation or apoptosis does not cause hepatic cyst formation in s741 mutants. (A) Percentages (mean ± SEM) of Tg(Tp1:GFP)+ intrahepatic biliary cells that incorporated proliferation marker 5‐ethynyl‐2′‐deoxyuridine (EdU) between 80 and 120 hpf. Statistical significance was calculated by two‐tailed Student’s t test. Each dot represents an individual liver. (B–E) Confocal three‐dimensional projections of WT and s741 mutant zebrafish stained by terminal deoxynucleotidyl transferase–mediated deoxyuridine triphosphate nick‐end labeling (TUNEL) assay. (B,C) TUNEL labeling (red) that marked apoptotic cells and 4′,6‐diamidino‐2‐phenylindole (DAPI; blue) that stained nuclei. (D,E) The same fish as shown in (B) and (C) but with Tg(Tp1:GFP) expression (green) labeling the intrahepatic biliary cells. In both WT and mutants, substantial numbers of TUNEL‐positive cells can be seen in the pharyngeal arches; however, only one or two apoptotic cells are seen in the livers (outlined by the dashed lines). Five WT and five mutant fish were examined and all showed sparse TUNEL‐positive cells in their livers. Ventral views; anterior is to the top. Scale bars: 50 μm (B–E)
+Click here for additional data file.
+
+Figure S5 The intrahepatic biliary cells in zebrafish pkd1 mutant larvae do not form cysts. (A–D) Confocal three‐dimensional projections of livers in WT (A), pkd1a (B), and pkd1b (C) single mutants, and pkd1a;pkd1b compound homozygous mutants (D). The biliary marker Alcam showed that none of the mutants had biliary nodules as seen in s741 mutants at 120 hpf. The genotype of the fish was determined as described.[
+ 
+] Ten fish per genotype were examined. Ventral views; anterior is to the top. Scale bar: 30 μm
+Click here for additional data file.
+
+Figure S6
+s741‐Furinb‐GFP fusion protein was mislocalized in the hepatocytes. WT embryos were injected with either Tg(fabp10a:WT‐furinb‐GFP) (A) or Tg(fabp10a:s741‐furinb‐GFP) (B) transgenic construct at 1–4 cell stage, and fixed at 120 hpf. These transgenes express WT or mutant‐furinb‐GFP fusion protein specifically in the hepatocytes.[
+ 
+] As revealed by confocal imaging, Tg(fabp10a:wt‐furinb‐GFP) expression was enriched in the focal area near the nuclei of the hepatocytes. (A) In addition, there was modest GFP expression throughout the cytoplasm. (B) The high GFP expression area in the hepatocytes of fish injected with Tg(fabp10a:s741‐furinb‐GFP) expression was expanded. Meanwhile, there was lower expression of GFP throughout the cytoplasm than seen in the hepatocytes expressing wt‐Furinb‐GFP. Confocal 3D projections, ventral view, and anterior are shown on the top. Twenty‐five WT fish injected with wt‐Furinb and 25 WT fish injected with mutant‐Furinb transgene constructs were examined, and about 80% of them showed the representative expression pattern of the furinb‐GFP fusion protein. Scale bar: 8 μm
+Click here for additional data file.
+
+Figure S7 Tunicamycin (TM) treatment affected the morphology of intrahepatic bile ducts in WT and s741 heterozygous larvae and exacerbated cyst formation in s741 homozygous mutants. (A–F) Confocal 3D projections of 120 hpf larvae expressing Tg(Tp1:GFP). The biliary cells in the DMSO‐treated control WT and heterozygous larvae were mostly separated from one another while interconnecting via cellular protrusions to form bile ducts. In the TM‐treated WT and heterozygous larvae, the biliary cells appeared to be clustered, and the bile ducts were dilated. The numbers of larvae examined are shown in Figure  
+
+Click here for additional data file.
+
+Figure S8 Rapamycin treatment decreases inflammatory responses in s741 mutants. (A–D) Confocal three‐dimensional projections of WT and s741 mutant livers after DMSO or 5 μmol/L rapamycin treatment from 72 to 120 hpf. The intrahepatic biliary cells are marked by Tg(Tp1:ras‐mCherry) expression. Macrophages are labeled by Tg(mpeg1:YFP) expression. Ventral views; anterior is on the top. Scale bar: 50 μm. (E) Number of macrophages (mean ± SEM) in WT and s741 mutant livers at 96 hpf. (F) Number of macrophages (mean ± SEM) in WT and s741 mutant livers at 120 hpf right after DMSO or rapamycin treatment. In (E) and (F), each point represents an individual liver. (G) Quantitative PCR analyses show the hepatic expression of pro‐inflammatory genes in WT and s741 mutants after DMSO or rapamycin treatment from 72 to 120 hpf. Triplicates were performed. The results are represented as relative expression levels that are normalized to the housekeeping gene eef1a1l1 (mean ± SEM). tnfrsf1a, TNF receptor superfamily member 1A; mmp13a, matrix metallopeptidase 13a; mmp9, matrix metallopeptidase 9; il1b, interleukin 1 beta; il11a, interleukin 11a; il11b, interleukin 11b. Statistical significance in (E)–(G) was calculated by one‐way analysis of variance and Tukey’s post‐hoc test. *p < 0.05; **p < 0.01; ***p < 0.001; ****p < 0.0001
+Click here for additional data file.
+
+Table S1 Primary and secondary antibodies used in the study
+Table S2 Chemical compounds used in the study
+Table S3 Quantitative PCR primers
+Click here for additional data file.
+
+Video S1 Supporting information
+Click here for additional data file.
+
+Video S2 Supporting information
+Click here for additional data file.
+
+Appendix S1 Supporting information
+Click here for additional data file.
+
+## ACKNOWLEDGMENT
+The authors thank Dr. Matthew Kofron at CCHMC Confocal Imaging Core for assistance with confocal imaging and post analyses, Drs. Stacey Huppert and Jorge Bezerra for discussions, Drs Adam Miller, Breanne Harty, and Kelly Monk for technical advice on whole genome sequencing, Dr. Zhaoxia Sun for the Arl13b antibody, Drs Jacek Topczewski and Lindsey Barske for examining the mutant jaw phenotypes, Ms. Jessica Webster at the CCHMC EM core for assistance with TEM, and Mr. Bryan Donnelly for advice on biochemical assays. They also acknowledge CCHMC Veterinary Services for fish care, and Ryan Stefancik, Allison Ross, Zenab Saeed, and Hannah Nartker for research assistance.
+
+Ellis JL, Evason KJ, Zhang C, Fourman MN, Liu J, Ninov N, et al. A missense mutation in the proprotein convertase gene furinb causes hepatic cystogenesis during liver development in zebrafish. Hepatol Commun. 2022;6:3083–3097. 10.1002/hep4.2038
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1
+s741 mutants develop cysts in the pancreas but not in the pronephric ducts. (A,B) Confocal three‐dimensional projections of wild‐type (WT) and s741 mutant zebrafish expressing Tg(Tp1:GFP [green fluorescent protein]). White arrows point to the pancreatic ducts. s741 mutants form Tg(Tp1:GFP)+ nodules in the pancreas; ventral views; anterior is to the top. (C,D) Confocal single plane images showing vibratome sections of WT and s741 mutant zebrafish stained with phalloidin (purple) for F‐actin and acetylated‐tubulin antibody (red) for stabilized microtubules. White arrows mark the pronephric ducts. The mutant pronephric ducts do not appear to contain cysts. Serial sections through the entire length of the pronephric ducts were examined in five WT and five mutant larvae. Transverse sections; dorsal is to the top. In (A)–(B), 10 WT and 10 mutants were examined, and all showed the representative phenotypes. Scale bars: 70 μm (A,B); 50 μm (C,D). Abbreviation: hpf, hours post fertilization
+Click here for additional data file.
+
+Figure S2 The muc2.2 deletion mutation unlikely contributes to the formation of hepatic cysts in s741 mutants. (A) Reverse‐transcription polymerase chain reaction (PCR) to detect muc2.2 transcript expression in the complementary DNAs (cDNAs) prepared from WT adult male testis, pooled WT, s741 heterozygous, and homozygous mutant larvae at 96 hpf, and pooled livers from WT, s741 heterozygous, and homozygous mutant larvae at 104 hpf. The housekeeping gene eef1a1l1 was used as the loading control. (B) Diagram of the region on Linkage Group (LG) 25, which contains the muc2.2 and furinb genes. Their coding regions are highlighted in red. The muc2.2 deletion found in s741 mutants is marked with the black box. The two CRISPR target sites are labeled in orange. (C,D) Confocal three‐dimensional projections of WT and muc2.2
+
+ci205
+ CRISPR mutant larvae at 96 hpf. Tg(Tp1:GFP) expression labels the intrahepatic bile ducts. Ventral views; anterior is on the top. Twenty WT and 20 mutants were examined, and all exhibited the representative phenotypes. Scale bar: 30 μm
+Click here for additional data file.
+
+Figure S3 Generation of furinb
+
+ci204
+ mutants by CRISPR/Cas9 genome‐editing technology. (A) Schematic representation of the zebrafish furinb locus along with the CRISPR target site, PAM motif, and WT and indel sequences. (B) Putative domain diagram of Furinb protein in WT and furinb
+
+ci204
+ mutant. The predicted changes in CRISPR mutant protein are shown. (C,D) Whole‐mount in situ hybridization detected an evident reduction of furinb messenger RNA (mRNA) expression in furinb
+
+ci204
+ mutant (D) compared with WT (C). NBT/BCIP staining was stopped immediately after the transcript signal became apparent in some larvae. The larvae with positive signal (20 of 25) and those without (5 of 20) were genotyped by PCR. The positive larvae were either WT or furinb
+
+ci204+/−
+ heterozygotes, and the negative larvae were all furinb
+
+ci205−/−
+ homozygotes. Abbreviations: cd, cytoplasmic domain; Cys‐RR, cysteine‐rich region; pro, pro‐domain; Sp, signal peptide; Tm, transmembrane domain
+Click here for additional data file.
+
+Figure S4 Dysregulation of biliary cell proliferation or apoptosis does not cause hepatic cyst formation in s741 mutants. (A) Percentages (mean ± SEM) of Tg(Tp1:GFP)+ intrahepatic biliary cells that incorporated proliferation marker 5‐ethynyl‐2′‐deoxyuridine (EdU) between 80 and 120 hpf. Statistical significance was calculated by two‐tailed Student’s t test. Each dot represents an individual liver. (B–E) Confocal three‐dimensional projections of WT and s741 mutant zebrafish stained by terminal deoxynucleotidyl transferase–mediated deoxyuridine triphosphate nick‐end labeling (TUNEL) assay. (B,C) TUNEL labeling (red) that marked apoptotic cells and 4′,6‐diamidino‐2‐phenylindole (DAPI; blue) that stained nuclei. (D,E) The same fish as shown in (B) and (C) but with Tg(Tp1:GFP) expression (green) labeling the intrahepatic biliary cells. In both WT and mutants, substantial numbers of TUNEL‐positive cells can be seen in the pharyngeal arches; however, only one or two apoptotic cells are seen in the livers (outlined by the dashed lines). Five WT and five mutant fish were examined and all showed sparse TUNEL‐positive cells in their livers. Ventral views; anterior is to the top. Scale bars: 50 μm (B–E)
+Click here for additional data file.
+
+Figure S5 The intrahepatic biliary cells in zebrafish pkd1 mutant larvae do not form cysts. (A–D) Confocal three‐dimensional projections of livers in WT (A), pkd1a (B), and pkd1b (C) single mutants, and pkd1a;pkd1b compound homozygous mutants (D). The biliary marker Alcam showed that none of the mutants had biliary nodules as seen in s741 mutants at 120 hpf. The genotype of the fish was determined as described.[
+ 
+] Ten fish per genotype were examined. Ventral views; anterior is to the top. Scale bar: 30 μm
+Click here for additional data file.
+
+Figure S6
+s741‐Furinb‐GFP fusion protein was mislocalized in the hepatocytes. WT embryos were injected with either Tg(fabp10a:WT‐furinb‐GFP) (A) or Tg(fabp10a:s741‐furinb‐GFP) (B) transgenic construct at 1–4 cell stage, and fixed at 120 hpf. These transgenes express WT or mutant‐furinb‐GFP fusion protein specifically in the hepatocytes.[
+ 
+] As revealed by confocal imaging, Tg(fabp10a:wt‐furinb‐GFP) expression was enriched in the focal area near the nuclei of the hepatocytes. (A) In addition, there was modest GFP expression throughout the cytoplasm. (B) The high GFP expression area in the hepatocytes of fish injected with Tg(fabp10a:s741‐furinb‐GFP) expression was expanded. Meanwhile, there was lower expression of GFP throughout the cytoplasm than seen in the hepatocytes expressing wt‐Furinb‐GFP. Confocal 3D projections, ventral view, and anterior are shown on the top. Twenty‐five WT fish injected with wt‐Furinb and 25 WT fish injected with mutant‐Furinb transgene constructs were examined, and about 80% of them showed the representative expression pattern of the furinb‐GFP fusion protein. Scale bar: 8 μm
+Click here for additional data file.
+
+Figure S7 Tunicamycin (TM) treatment affected the morphology of intrahepatic bile ducts in WT and s741 heterozygous larvae and exacerbated cyst formation in s741 homozygous mutants. (A–F) Confocal 3D projections of 120 hpf larvae expressing Tg(Tp1:GFP). The biliary cells in the DMSO‐treated control WT and heterozygous larvae were mostly separated from one another while interconnecting via cellular protrusions to form bile ducts. In the TM‐treated WT and heterozygous larvae, the biliary cells appeared to be clustered, and the bile ducts were dilated. The numbers of larvae examined are shown in Figure  
+
+Click here for additional data file.
+
+Figure S8 Rapamycin treatment decreases inflammatory responses in s741 mutants. (A–D) Confocal three‐dimensional projections of WT and s741 mutant livers after DMSO or 5 μmol/L rapamycin treatment from 72 to 120 hpf. The intrahepatic biliary cells are marked by Tg(Tp1:ras‐mCherry) expression. Macrophages are labeled by Tg(mpeg1:YFP) expression. Ventral views; anterior is on the top. Scale bar: 50 μm. (E) Number of macrophages (mean ± SEM) in WT and s741 mutant livers at 96 hpf. (F) Number of macrophages (mean ± SEM) in WT and s741 mutant livers at 120 hpf right after DMSO or rapamycin treatment. In (E) and (F), each point represents an individual liver. (G) Quantitative PCR analyses show the hepatic expression of pro‐inflammatory genes in WT and s741 mutants after DMSO or rapamycin treatment from 72 to 120 hpf. Triplicates were performed. The results are represented as relative expression levels that are normalized to the housekeeping gene eef1a1l1 (mean ± SEM). tnfrsf1a, TNF receptor superfamily member 1A; mmp13a, matrix metallopeptidase 13a; mmp9, matrix metallopeptidase 9; il1b, interleukin 1 beta; il11a, interleukin 11a; il11b, interleukin 11b. Statistical significance in (E)–(G) was calculated by one‐way analysis of variance and Tukey’s post‐hoc test. *p < 0.05; **p < 0.01; ***p < 0.001; ****p < 0.0001
+Click here for additional data file.
+
+Table S1 Primary and secondary antibodies used in the study
+Table S2 Chemical compounds used in the study
+Table S3 Quantitative PCR primers
+Click here for additional data file.
+
+Video S1 Supporting information
+Click here for additional data file.
+
+Video S2 Supporting information
+Click here for additional data file.
+
+Appendix S1 Supporting information
+Click here for additional data file.

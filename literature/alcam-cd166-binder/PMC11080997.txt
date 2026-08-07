@@ -1,0 +1,641 @@
+pmcAcc Chem ResAcc Chem Res822acssdarAccounts of Chemical Research0001-48421520-4898pmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC11080997PMC11080997.111080997110809973859004910.1021/acs.accounts.4c000751ArticleAccelerated
+Development of a COVID-19 Lateral Flow
+Test in an Academic Setting: Lessons Learned
+https://orcid.org/0000-0001-5891-6415KourentziKaterina BrosamerKristen VuBinh https://orcid.org/0000-0002-0900-6148WillsonRichard C. †William
+A. Brookshire Department of Chemical and Biomolecular Engineering, University of Houston, Houston, Texas 77004, United States‡Department
+of Biomedical Engineering, University of
+Houston, Houston, Texas 77004, United States§Department
+of Biology and Biochemistry, University
+of Houston, Houston, Texas 77004, United States∥Escuela
+de Medicina y Ciencias de Salud, Tecnológico
+de Monterrey, 64849 Monterrey, Nuevo León, México*Email: ekourentzi@uh.edu.*Email: willson@uh.edu.09042024070520245794620221372138301022024290320242603202409042025090420251005202409042025© 2024 The Authors. Published by American Chemical Society2024The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Conspectus
+ 
+The COVID-19 pandemic further demonstrated the
+need for usable,
+reliable, and cost-effective point-of-care diagnostics that can be
+broadly deployed, ideally for self-testing at home. Antigen tests
+using more-detectable reporter labels (usually at the cost of reader
+complexity) achieve better diagnostic sensitivity, supporting the
+value of higher-analytical-sensitivity reporter technologies in lateral
+flow.
+We developed a new approach to simple, inexpensive lateral
+flow
+assays (LFAs) of great sensitivity, based on the glow stick peroxyoxalate
+chemistry widely used in emergency settings and in children’s
+toys. At the peak of the COVID-19 pandemic, we had the opportunity
+to participate in the pandemic-driven NIH Rapid Acceleration of Diagnostics
+(RADx) initiative aiming to develop a deployable lateral flow diagnostic
+for SARS-CoV-2 nucleoprotein based on our novel glow stick-inspired
+light-emitting reporter technology. During this project, we screened
+more than 250 antibody pairs for analytical sensitivity and specificity
+directly in LFA format, using recombinant nucleoprotein and then gamma-irradiated
+virions spiked into negative nasal swab extracts. Membranes and other
+LFA materials and swabs and extraction reagent components also were
+screened and selected. Optimization of conjugate preparation and spraying
+as well as pretreatment/conditioning of the sample pad led to the
+final optimized LFA strip. Technology development also included optimization
+of excitation liquid enclosed in disposable droppers, design of a
+custom cartridge and smartphone-based reader, and app development,
+even a prototype reader usable with any mobile phone. Excellent preclinical
+performance was first demonstrated with contrived samples and then
+with leftover clinical samples. Moving beyond traditional academic
+focus areas, we were able to establish a quality management system
+(QMS), produce large numbers of customized LFA cassettes by contract
+injection molding, build in-house facilities to assemble and store
+thousands of complete tests for verification and validation and usability
+studies, and source kitting/packaging services and quality standard
+reagents and build partnerships for clinical translation, regulatory
+guidance, scale up, and market deployment. We were not able to bring
+this early stage technology to the point of commercialization within
+the limited time and resources available, but we did achieve strong
+proof-of-concept and advance translational aspects of the platform
+including initial high-performance LFAs, reading by the iPhone app
+using only a $2 plastic dark box with no lens, and convenient, usable
+excitation liquid packaging in droppers manufacturable in very large
+numbers.
+In this Account, we aim to provide a concise overview
+of our 18-month
+sprint toward the practical development of a deployable antigen lateral
+flow assay under pandemic conditions and the challenges and successes
+experienced by our team. We highlight what it takes to coach a technically
+savvy but commercially inexperienced academic team through the accelerated
+translation of an early stage technology into a useful product. Finally,
+we provide a guided tutorial and workflow to empower others interested
+in the rapid development of translatable LFAs.
+
+National Institute of Allergy and Infectious Diseases10.13039/1000000601R61AI174294-01Tondu CorporationNANAPoint Of Care Technology Research Network10.13039/100027236U54EB015408Consortia for Improving Medicine with Innovation and Technology10.13039/100008503NAUniversity of Houston10.13039/10000714400180943University of Houston10.13039/100007144000180936pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9ar4c00075document-id-new-14ar4c00075ccc-price
+
+## Key References
+BrosamerK.; KourentziK.; WillsonR. C.; VuB. V.Glowstick-Inspired Smartphone-Readable Reporters
+for Sensitive, Multiplexed Lateral Flow Immunoassays
+. Commun. Eng.2023, 2 ( (1), ), 3110.1038/s44172-023-00075-238586601
+PMC10955955. Demonstrated a novel LFA platform
+using the shelf-stable, inexpensive chemistry of glow sticks to chemically
+excite standard fluorescent nanoparticle reporters. Emitted light
+is readable in color multiplex by an unmodified smartphone camera
+and achieves fluorescent-reporter levels of sensitivity.
+PatersonA. S.; RajaB.; MandadiV.; TownsendB.; LeeM.; BuellA.; VuB.; BrgochJ.; WillsonR. C.A Low-Cost
+Smartphone-Based Platform for Highly Sensitive Point-of-Care Testing
+with Persistent Luminescent Phosphors
+. Lab
+Chip2017, 17 ( (6), ), 1051–105910.1039/C6LC01167E28154873
+PMC5476460. Demonstrated a simple,
+low-cost smartphone-based detection platform for highly sensitive
+luminescence imaging readout of point-of-care tests using persistent
+luminescent phosphors as reporters.
+LeiR.; VuB.; KourentziK.; SoomroS.; DanthanarayanaA. N.; BrgochJ.; NadimpalliS.; PetriM.; MohanC.; WillsonR. C.A Novel Technology for Home
+Monitoring of Lupus Nephritis That Tracks the Pathogenic Urine Biomarker
+ALCAM
+. Front. Immunol.2022, 13, 104474310.3389/fimmu.2022.104474336569940
+PMC9780296. Demonstrated a prototype device
+to noninvasively assess lupus nephritis activity at the point of care
+or even at home: a highly sensitive LFA coupled with smartphone-based
+imaging to detect lupus nephritis-specific biomarkers in urine.
+
+1
+
+## Introduction
+The COVID-19 pandemic
+emphasized the urgent need for user-centered,
+reliable, and cost-effective point-of-care diagnostics that can be
+broadly deployed, ideally for self-testing at home. The Willson laboratory
+at the University of Houston focuses on the development of sensitive,
+translatable analytical methods for point-of-care diagnostics, especially
+tests using novel reporter technologies readable by a smartphone,
+and had developed an early proof-of-principle of novel LFA technologies
+potentially applicable to this need. − 
+The COVID-19 pandemic led to the NIH Rapid Acceleration of
+Diagnostics
+(RADx) initiative to provide (milestone-based) incentives to technology
+developers to rapidly de-risk their technologies (which started at
+varied technology readiness levels ) and
+move to translation and commercialization to increase U.S. testing
+capacity and more effectively manage the pandemic. A central element
+of this program was NIH-provided access to expert consultants to help
+address the scientific, technological, clinical, regulatory, and commercialization
+needs of each developer. Moreover, RADx served as a direct conduit
+to FDA, accelerating tests’ regulatory approvals. Clip Health,
+a previous Willson laboratory spinoff based on phosphorescent nanoparticles, was selected for the RADx program and achieved
+FDA EUA for their antigen LFA. The Willson UH laboratory was selected
+for the RADx program to de-risk a new approach to simple, inexpensive
+lateral flow assays (LFAs) of very great sensitivity, inspired by
+the glow sticks widely used in emergency settings and in children’s
+toys (as recently described ).
+In
+this Account, we provide a narrative of our 18-month sprint
+toward the practical development of a deployable antigen LFA under
+pandemic conditions and the challenges and successes experienced by
+our team. We provide a guided workflow to empower others interested
+in the rapid development of translatable diagnostics. We also discuss
+various translational specifics (usually considered only after typical
+academic assay development) that we, a technically savvy but commercially
+inexperienced academic team, had to navigate to translate our early
+stage technology to a useful product. Finally, we discuss the lessons
+learned. We were not able to bring this early stage technology to
+the point of commercialization within the limited time and resources
+available, but we did achieve strong proof-of-concept and advanced
+translational aspects of the platform, including initial high-performance
+Glow LFAs, read by an iPhone using only a $2 plastic dark box with
+no lens, and convenient excitation liquid packaging.
+
+2
+
+## Glow LFA: From Inception to a Manufacturable
+Product
+Antigen tests using more-detectable reporter labels
+(usually at
+the cost of reader complexity) achieve better clinical sensitivity,
+supporting the value of higher-analytical-sensitivity reporter technologies
+in lateral flow. Many of the most-sensitive diagnostic platforms use
+light-emitting labels. Unfortunately, most LFA formats of sufficient
+sensitivity are poorly suited for widespread home self-testing, including
+organic fluorophores, − europium chelates, , up-converting phosphors, − and quantum dots − that offer high analytical sensitivity but require a complex apparatus
+for excitation/detection , and/or are unstable,
+photobleachable, or require narrow excitation/emission wavelengths. Enzyme-based chemiluminescent LFAs can provide
+ultrasensitive analysis but require often-unstable
+reporter substrates.
+Inspired by the underlying technology of
+inexpensive, shelf-stable
+glow sticks, we have introduced chemi-excited
+“glow” LFA reporters—fluorescent nanoparticles
+chemically excited to emit light—that can be readily imaged
+using a smartphone camera. When standard
+plastic glow sticks are bent, an inner glass ampule is broken, releasing
+3% hydrogen peroxide + cosolvent that reacts with a diphenyl oxalate
+such as bis-2,4,6-(trichlorophenyl)-oxalate (TCPO) stored outside
+the ampule, producing the unstable 1,2-dioxetanedione intermediate
+(a strained cyclic dimer of CO2; ). , When this highly reactive
+intermediate collides with certain fluorescent dyes (included in one
+of the liquids in a glow stick), energy is transferred to the dye
+and chemically excites it. The emission wavelength depends on the
+dye used, making it possible to excite glow sticks (and fluorescent
+LFA reporter particles; ) to emit in a variety of colors using the same activating
+chemicals for color-multiplex assays.
+ Our novel chemi-excited LFA format can achieve
+fluorescent-LFA
+sensitivity without the use of expensive fluorescence optics or any
+component which is slow or costly to manufacture. The Glow LFA workflow
+is identical to a gold nanoparticle LFA until the last step when (shelf-stable)
+excitation reagents (∼50 μL) are dispensed onto the LFA
+using a disposable dropper containing stable (crushable) glass ampules
+like those in a glow stick ( or from a storage blister on the cassette). Early
+in the pandemic, when the need for widespread affordable testing became
+urgent, it became clear that the Glow technology potentially could
+be the basis of a clinically valuable diagnostic, for which the instructions
+for use are shown in .
+ 
+3
+
+## Development of the SARS-CoV-2 Glow LFA Prototype
+To translate a proof-of-concept Glow LFA prototype to a readily
+deployable COVID-19 POC diagnostic under time pressure, we followed
+a parallel rather than a sequential approach, in which all parts were
+worked on simultaneously given the constraints of an academic environment
+(e.g., limited personnel, funds, instrumentation) along with those
+imposed by the pandemic (e.g., supply chain shortages, meeting restrictions,
+and laboratory operating constraints). We will discuss the major technical
+activities performed in the development of the translatable Glow LFA
+( ).
+ 3.1
+
+## Antibody Screening
+The performance
+of immunoassays depends critically upon the antibodies used, and thus,
+antibody screening is a key part of any immunoassay development. We
+screen antibodies in (dynamic) LFA rather than equilibrium-based ELISA
+(which often is not reliably predictive of LFA performance). Antibodies
+may compete for closely adjacent or even overlapping epitopes and
+may not be able to bind simultaneously to the analyte. Additionally,
+conformational changes induced in the analyte by detection antibodies
+may modify the affinity of (downstream) capture antibodies. Antibodies
+are immobilized either through passive adsorption on the nitrocellulose
+membrane (for capture antibodies on the test line) or via covalent
+conjugation onto reporter particles (for detection antibodies), targeting
+distinct surface functionalities. The specific immobilization method
+will differentially impact the conformation, orientation, and presentation
+of each antibody, ultimately affecting the preservation of active
+conformation and steric accessibility of antigen-binding sites. Thus,
+it is difficult to predict a priori the performance
+of various antibodies, complicating the rational selection of antibodies
+and forcing LFA developers to use a trial-and-error approach.
+We acquired anti-SARS-CoV-2 nucleoprotein antibodies based on vendor
+reputation, consultant recommendations, and immediate availability.
+ELISA screening data and EC50 values were available for some of these,
+but no detailed binding or epitope mapping
+data were available at that time. (A later study provided epitope
+mapping of 17 antibodies used in 11 EUA’d antigen tests as
+well as their susceptibility to mutational escape. ) As new antibodies became commercially available, additional
+screening rounds were performed. We primarily screened monoclonal
+antibodies for their long-term reproducible supply. Overall, more
+than 250 antibody pairs were screened for binding to SARS-CoV-2 nucleoprotein
+(ACRO Biosystems, NUN-C5227; expressed in HEK293 cells and originally
+evaluated by Cate et al. ). We used 3-mm-wide
+half-strip LFA strips encompassing only the nitrocellulose membrane
+and the absorbent pad. This format is frequently used for the initial
+LFA development. Others have developed a robotic-assisted platform
+for the efficient antibody screening on LFA strips. , The nucleoprotein is a highly conserved and abundantly expressed
+structural protein and the target of most FDA-cleared antigen tests.
+Antibodies were conjugated to commercial 200 nm blue fluorescent carboxylated
+particles (excitation 365 nm/emission 415 nm, ThermoFisher Fluorospheres
+F8805) using EDC/NHS conjugation chemistry after we tested a variety of particles and confirmed their compatibility
+with Glow chemi-excitation. The same antibodies were also printed
+onto nitrocellulose (using the BioJet dispensers of a Biodot XYZ3060
+system). Protein A (Arista, AGPTA-0101) was printed on the control
+lines. Candidate antibody pairs were first screened at 0 ng/mL and
+a high concentration (10 ng/mL) of the nucleoprotein. The strips were
+imaged with a CoolSNAP K4 CCD in a FluorChem SP gel cabinet (Alpha
+Innotech Corp., San Leandro CA) controlled by Micro-Manager software
+(https://micro-manager.org/). Antibodies were ranked based on the image brightness of the test
+line of the positive and negative tests ( ). Antibody pairs were eliminated if high
+nonspecific binding (bright test line at 0 ng/mL) or low binding (no
+test line or a dim test line at 10 ng/mL) occurred. Top-performing
+pairs were tested again at 1, 0.5, and finally at 0.25 ng/mL of nucleoprotein.
+Initial screening was performed in buffer but later in a pooled nasal
+swab extract (a clinically relevant matrix). The top-performing antibody
+pair was finally chosen based on the presence of a bright test line
+signal at 0.25 ng/mL nucleoprotein and low nonspecific binding at
+0 ng/mL nucleoprotein. The chosen pair was ExonBio, NP_3E6, detection
+antibody covalently conjugated via EDC-NHS chemistry to carboxylated
+particles (Thermo F8805) and ExonBio, NP_12E6, capture antibody immobilized
+on a strip.
+ 
+3.2
+
+## Transition to the Complete LFA Strip
+The development of a complete LFA strip requires the optimization
+of sample and conjugate release pads and the development of conditions
+for spraying and drying the conjugated reporter particles onto the
+conjugate release pad. Multiple conjugate diluents were screened by
+spotting the particles onto a commonly used fiberglass conjugate release
+pad (Ahlstrom, #8964; also used in the final product) and identifying/optimizing
+components and concentrations to ensure good release and flow of the
+reporter particles, a strong positive signal, and low nonspecific
+binding using a basic LFA running buffer (also used in antibody screening;
+the composition was based on our previous experience and expert advice):
+1× PBS (pH 7.4), 0.5% BSA (blocking agent to limit nonspecific
+binding between antibodies), 0.5% Tween-20 (surfactant to prevent
+particles from sticking), and 0.3% PEG3350 (polymer to prevent particle
+aggregation). The composition of the best-performing conjugate diluent
+was identified as 50 mM Tris, 1% casein (Sigma, C5679; blocking agent),
+10% sucrose (Sigma, S9378), and 5% trehalose (Sigma, T9531) (the sugars
+are typically used to maintain protein stability and aid rehydration ), pH 8.5. Particles were transferred to the
+diluent and sprayed at (an optimized concentration of) 0.15% solids
+onto conjugate pads using the AirJet dispenser of a Biodot XYZ3060
+system and left to completely dry (overnight, room temperature, <20%
+RH; low humidity is important here) before LFA assembly.
+The
+next step was testing with the appropriate sample matrix for intended
+use. While saliva was identified as the most desirable sample type
+in WHO’s early target product profiles for COVID-19 diagnostics, based on the advice of our RADx team we early
+on decided to focus on the nasal swab extract to reduce complexity
+and build upon accumulated prior knowledge. The transfer of analyte
+from the nasal swab to the LFA requires the use of an extraction/running
+buffer that extracts the virions from the nasal swab, lyses them to
+liberate the nucleoprotein analyte, adjusts sample pH to optimize
+antibody binding, minimizes nonspecific binding, dilutes matrix interferents,
+and controls liquid flow. Using analyte spiked in nasal swab extract,
+we screened nitrocellulose membranes for maximum sensitivity while
+keeping the assay time below 15 min; the Sartorius CN140 membrane
+was chosen. Various sample pads were screened with spiked nasal swab
+extract for rapid absorption of the liquid sample and consistent flow
+distribution to the conjugate pad; cotton Ahlstrom 222 was chosen
+(cotton also achieves some filtration of the viscous nasal swab extract).
+All materials chosen are compatible with large-scale reel-to-reel
+manufacturing of LFA strips. As suggested by our translation consultants,
+some components of the LFA buffer were dried down on the sample pad
+to reduce extraction reagent complexity, improve reagent stability,
+and simplify manufacturing. In summary, prior to LFA assembly, the
+sample pad was pretreated with 100 mM sodium phosphate buffer, 100
+mM NaCl, 1% BSA (Sigma A7906), 1% polyvinylpyrrolidone (Sigma, PVP-40)
+and 0.5% poly(acrylic acid) (Sigma, 323667; polymers to minimize particle
+aggregation), and 0.5% TERGITOL (Sigma, NP40S; nonionic surfactant
+used in immunoassays; may inactivate SARS CoV-2 ), pH 7.2. Treated sample pads were dried in a forced air
+convection oven at 50 °C for at least 1 h and then stored at
+room temperature at RH < 20% at least overnight before LFA assembly.
+To simplify delivery of the glow excitation liquid, we incorporated
+into the extraction/running buffer the hydrogen peroxide (H2O2, one of the components of the glow excitation liquid,
+see the next section). Formulations were tested using pooled, postdiagnostic
+PCR, leftover positive nasal swab extracts donated by local clinics
+and clinical laboratories. The optimized LFA buffer (500 μL
+in extraction tubes with dropper tips in the final test kit) was 100
+mM sodium phosphate buffer, 100 mM NaCl, 0.5% IGEPAL CA-630 (Sigma,
+I8896; nonionic surfactant that enables virus lysis), 0.25% TERGITOL,
+0.03% EMPIGEN BB (lauryl betaine; Sigma, 30326; amphoteric surfactant
+that enables virus lysis), 2.5% v/v H2O2, pH
+7.4. There were careful discussions of the potential toxicity of IGEPAL
+if a child were to drink the extraction buffer in a home test setting;
+the amount used was deemed to be safe. Given the accelerated timeline,
+we performed a focused/limited screening and optimization of specific
+components and concentrations in order to achieve design freeze within
+the available time rather than an exhaustive exploration of all available
+materials.
+
+3.3
+
+## Glow Excitation Liquid
+Glow technology
+(aka the peroxyoxalate chemistry of common glow sticks) requires that
+separately stored oxalate dissolved in an organic solvent and hydrogen
+peroxide in a cosolvent be mixed to form the activating intermediate
+dioxetane that chemically excites nearby fluorophores, leading to
+light emission. Thus, optimization of the formulation, packaging,
+and application of the glow liquid was key in the development of a
+deployable Glow LFA. As we recently reported, we screened various oxalate solvents and cosolvents to minimize
+toxicity and odor (http://www.thegoodscentscompany.com) and maximize glow signal
+strength and stability. In the initial prototype, the glow excitation
+liquids (component A: 15 mM TCPO dissolved in 33.3% butyl benzoate
+and 66.6% tributyl citrate; component B: 45 mL of tert-butanol, 5
+mL of 30% H2O2 (3% final), and 1 mM tetrabutylammonium
+hydrogen sulfate) are stored in two glass ampules in a plastic dropper
+and activated by bending to break the ampules like a glow stick ( A,B). After the ampules
+are broken and mixed, the resulting excitation reagent is most active
+for only ca. 10 min, which is inconvenient for a practical multiple-testing
+workflow. We achieved stability (>8 h) of open droppers by formulating
+peroxide into the LFA buffer (see below) and storing only the oxalate
+solution in an ampule in the dropper ( C). The dropper tip size was iteratively
+optimized for consistent application of excitation liquid to the strip
+(ensuring a uniform liquid layer and avoiding any air pockets), and
+we demonstrated assay tolerance of substantial variation in the number
+of drops added (9–14 work equivalently).
+
+3.4
+
+## Glow LFA Performance
+During prototype
+development, we evaluated the analytical sensitivity of the Glow LFA
+prototype with commercial SARS-CoV-2 recombinant nucleoprotein (preliminary
+LoD was estimated at 62 pg/mL; A) and gamma-irradiated SARS-CoV-2 virus (BEI, NR-52287)
+spiked in nasal swab extracts self-collected by laboratory members
+(asymptomatic and negative by EUA’d LFA for COVID-19; UH IRB:
+STUDY00002547). The preliminary LoD was estimated at 280 TCID50/mL
+of the gamma-irradiated SARS-CoV-2 virus in the pooled nasal swab
+extract ( B).
+The analyte concentration of 280 TCID50/mL was further tested in five
+replicates to confirm the LoD ( C). We adapted the Yale SalivaDirect PCR assay, which circumvents RNA extraction, and performed
+RT-PCR in house directly on nasal swab extracts to benchmark serially
+diluted pooled samples during LFA optimization and to check occasional
+fresh nasal specimens. There is no general consensus on the required
+analytical sensitivity to ensure clinical utility, but our Glow LFA
+was described by RADx as being (at that time) “the second most
+sensitive LFA” in the program, with the most sensitive being
+a commercial test based on the glow-in-the-dark nanophosphors previously
+developed in the Willson laboratory, with a reported LoD of 82 TCID50/mL. , 
+ Clinical sensitivity was further evaluated by testing
+55 leftover,
+deidentified clinical samples (Supporting Information, SI2; 40 positive and 15 negative) purchased from LabCorp (collected
+as part of routine clinical care during 2020 and 2021 and provided
+along with cycle threshold value (Ct) values but with no information
+on infection status), the only samples readily available without establishing
+a de novo prospective collection protocol. These
+samples were supplied in liquid form, requiring modification of the
+dry swab extraction-based Glow LFA testing protocol. We developed
+a modified extraction protocol for these samples, mixing a 100 μL
+liquid sample with 25 μL of a 5× concentrated LFA extraction/running
+buffer. The Glow LFA correctly identified 100% of the samples with
+high viral loads (Ct < 25; Ct is inversely related to the viral
+load) and overall 91% of the positive samples with Ct < 30, the
+latter of which is considered to be the threshold for infectivity, above which patients are considered noninfectious
+because there is such a low viral load in the sample ( D). All negative clinical samples
+were correctly identified (see SI2). Cross-reactivity
+studies were not required at this stage. To formally establish the
+cutoff, receiver operating characteristic (ROC) curve analysis needs
+to be performed. ROC curve analysis portrays the trade-off between
+specificity (false positive calls; type I error) and sensitivity (false
+negative calls; type II error). The 2021 FDA EUA guideline required
+antigen tests to demonstrate a minimum sensitivity of ≥80%,
+and previous studies in symptomatic people reported LFA sensitivities
+of around 85%. High specificity (>90%) has been reported for rapid
+COVID-19 antigen tests.
+As COVID-19 became common in our area,
+we regretted not having
+established a general consent-and-test-upon-diagnosis protocol. However,
+we collaborated with a local hospital for specimen collection from
+hospitalized patients by a healthcare provider under an IRB protocol.
+Despite our promising results, we later realized that samples taken
+from inpatients who required nasal cannulas for oxygenation (drying
+the inside of the nose) were not representative of nasal swab samples
+typically collected in clinics or drive-through testing locations,
+which are the intended settings for our test. The two sample types
+showed significant differences in flow that ultimately affected the
+test performance.
+
+3.5
+
+## Development of a Custom Glow LFA Cassette
+and Smartphone Reader
+The initial development of Glow LFA
+was based on imaging multiple strips with a Samsung Note 8 and a 3D-printed
+dark box (coordinates available at https://www.thingiverse.com/thing:6462440). Images were taken using the built-in Samsung camera Pro mode and
+analyzed using in-house-developed software (written in Python 3.6; deposited at https://github.com/willsonlab/LFA-Image-Analysis). We eventually developed an inexpensive (materials cost $0.96)
+3D-printed, single-test LFA reader attachment (coordinates deposited
+at https://www.thingiverse.com/willsonlab/designs) for the iPhone XR to position the Glow LFA cassette and provide
+a light-tight imaging environment for reading without interference
+from ambient light. Initially, we incorporated a plano-convex macrolens
+to improve LFA imaging by allowing close-up focus, more efficient
+light collection, and sharper imaging. Although macrolenses are generally
+inexpensive ($10 each in quantities of 50), time pressure and the
+cost limitations of the intended use case suggested removal of the
+lens. We confirmed that the analysis app could work with the no-lens
+Glow images without sacrificing the sensitivity of the test. The shape
+of the first version of the attachment ( A) proved to be not very user-friendly, as
+it required the user to apply extra pressure to insert the phone into
+the attachment without being able to easily assess whether the phone
+was fully inserted into the reader. The second optimized version of
+the attachment ( B) requires only placing the phone onto it, and it holds the phone
+level. The reader attachment can easily be customized for a variety
+of phones, and the iPhone XR reader can be molded in large numbers
+for less than $1 each.
+ In parallel, we designed a custom, black, Glow-centric
+LFA cassette
+( C,D), an activity
+not usually included in an academic project, with the expert help
+of Symbient. The cassette includes many engineered features (e.g.,
+offset pressure bars centered between overlapped sections of the strip
+to hold strip components together, round-on-hex interlocks to prevent
+assembly problems, sample well seals, and a raised support surface
+under the nitrocellulose membrane) and not only provides housing for
+the LFA strip but also enhances test performance by regulating sample
+application and flow, imaging, and result interpretation. While there
+are many off-the-shelf, inexpensive cassettes available, LFA performance
+can be substantially improved by optimizing cassette design for the
+specific strip, especially its thickness at critical overlap points.
+This was an iterative process, with SLA 3D-printed reusable prototypes
+used for functional testing with actual strips. Points of interest
+included sample containment or leakage, strip flooding, consistent
+flow, and even development of test and control lines. We also customized
+the design of the outer surface of the cassette for slip-resistance
+and enhanced grip. Finally, the cassette was injection molded by Kanani
+Biologicals in thousands with a custom-made 8-cavity mold using black
+high-impact polystyrene (HIPS). To ensure proper closure and avoid
+under- or overcompression, cassettes were closed using a commercial
+automatic assembly roller (KinBio).
+We also developed an iOS
+software app for LFA image analysis and
+result call-out in native Swift to access the AVFoundation framework,
+allowing full control of camera settings (focus, ISO, and exposure).
+Images are captured in RAW format, and the signal is averaged across
+the strip into a 1-D profile to compensate for any hot or dead pixels
+and line nonuniformity. Ten images are taken, and profiles are then
+averaged to reduce acquisition noise. The total analysis time is <20
+s. The app can detect excessive background, defective activation (by
+the summed intensity of test and control lines), and outdated or incompatible
+materials by QR code reading, light leakage background by intensities
+at the two ends of the window, and a mispositioned/inverted cassette
+by image analysis. Most modern digital phone cameras have a similar
+spectral response, but the sensitivity varies considerably among models.
+We have successfully tested our assay with Samsung and iPhone cameras,
+which account for more than 75% of the US market (https://www.statista.com/statistics/620805/smartphone-sales-market-share-in-the-us-by-vendor/). These phones allow us to access RAW-format image data and lock
+down the exposure, ISO, and focus settings.
+We also have begun
+to develop a free-standing agnostic reader with
+a low cost of parts and the ability to communicate with most smartphones
+by Bluetooth and/or Wi-Fi to obviate any effects of OS updates by
+phone manufacturers and to reduce the cost of equipment exposed to
+potentially hazardous samples.
+
+4
+
+## Other Translational Issues
+For real-world
+impact, a technology needs to reach a readiness
+and maturity level beyond that typically reached in an academic laboratory
+to ensure manufacturability at scale, extraordinarily high reproducibility,
+and the potential for successful commercialization and widespread
+adoption. Point of care tests and especially home tests must be developed
+under tight economic constraints with considerable attention to manufacturing
+cost and scalability. These considerations must be addressed very
+early in the development process, as small details can greatly affect
+manufacturability.
+Narrowing the intended use case and understanding
+the intended
+end users are essential for successful test deployment. We engaged
+external marketing consultants to estimate the potential addressable
+market opportunity and target market segmentation to assess the competitive
+landscape to direct final product configuration based on the voice
+of the customer (VOC) and to develop a commercial plan including identifying
+possible test distributors.
+We identified potential commercial
+partners for test manufacture,
+kitting/packaging, and regulatory-compliant reagent preparation. In
+parallel, we initiated accelerated stability studies for the preliminary
+determination of the shelf life of the various test components (reagents
+and LFA strip). To assess the robustness of the test, we performed
+initial flex studies to assess test performance in the presence of
+common potential use errors (e.g., varied number of drops of sample
+applied or improper application of the Glow reagent). Nevertheless,
+to evaluate the reliability and user-friendliness of a point-of-care
+(POC) test, formal, thorough flex studies should be conducted under
+conditions simulating potential user-error sources and environmental
+stresses.
+It was essential to initiate a quality management
+system (QMS;
+we used the cloud-based software Greenlight Guru) as early as possible,
+formally documenting processes, procedures, and staff responsibilities
+to ensure that the test device consistently met the user and regulatory
+(FDA) requirements and performance criteria. We had weekly meetings
+with quality consultants (Rook Quality Systems) who guided us in the
+development of design inputs that addressed the intended use and user
+need, systematic identification of possible risks, failure modes and
+effects analysis (FMEA) and associated severity scoring, and implementation
+of the appropriate design controls and risk mitigation strategies.
+A traceability matrix tabulated the user needs, design inputs, design
+outputs, design verification, and design validation processes for
+both the Glow device and the Glow app. Detailed work instructions
+(WI) for all reagents and the LFA strip were drafted, and all critical
+suppliers/vendors were surveyed as part of risk management. A design
+history file (DHF) was finally initiated.
+We faced significant
+pandemic-induced delays and supply chain issues,
+most notably for swabs, extraction tubes, and nitrocellulose membranes.
+We evaluated a variety of swabs on the basis of availability, interacted
+with a variety of international vendors with complex shipping logistics
+to source the appropriate extraction tube with a filter dropper tip
+for the sample, and placed large-volume open orders for nitrocellulose
+membranes to ensure future supply.
+Usability , is of paramount importance in
+the intended use and was assessed throughout the project, initially
+by naive users (undergraduate and graduate students in our academic
+laboratory) and later by a group of medical students at the UH Medical
+School experienced with COVID-19 rapid tests. We provided participants
+with detailed test instructions and surveys to assess the usability
+of the Glow app and the overall workflow. Each group provided useful
+feedback, and improvements were integrated into the next prototype.
+Finally, high-level feedback was provided by the Georgia Tech HomeLab
+(RADx sponsored). Application of the Glow reagent using the dropper
+was the most error-prone step. We are currently working on more user-friendly
+Glow reagent packaging (e.g., new blister-based cassette design, D,E).
+ 
+5
+
+## Conclusions and Future Outlook
+We were
+not able to bring our early stage Glow technology to the
+point of commercialization within the limited time and resources available,
+but we achieved strong proof-of-concept and advanced translational
+aspects of the Glow platform including initial high-performance Glow
+LFAs, reading by iPhone using only a $2 plastic dark box with no lens,
+convenient excitation liquid packaging, user friendliness, and manufacturability.
+The current lull before the seemingly inevitable emergence of pathogen
+X is an appropriate time to assess and share our experience, and we
+hope to help empower others interested in the rapid development of
+translatable LFAs and other diagnostics.
+
+## Supporting Information Available
+The Supporting
+Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acs.accounts.4c00075.List of all anti-SARS-CoV-2 nucleoprotein antibodies
+tested; LFA testing of clinical samples; and Glow Rapid Antigen Test—Instructions
+for Use (PDF)
+
+## Supplementary Material
+ar4c00075_si_001.pdf
+
+The authors
+declare the following competing financial interest(s): B.V. and R.C.W.
+are named inventors of IP, which could relate to the subject of this
+Account.
+Katerina Kourentzi is a Research Associate Professor
+of Chemical and Biomolecular Engineering at the University of Houston.
+Her research is focused on the translation of molecular recognition
+fundamentals into the development of point-of-care diagnostics.
+Kristen Brosamer received her
+Ph.D. in Biomedical
+Engineering from the University of Houston in December 2022. She was
+then a postdoctoral associate in the Department of Chemical and Biomolecular
+Engineering at the University of Houston. She is currently a Clinical
+Research Associate at Meridian Bioscience.
+Binh Vu is a Research Assistant Professor of Chemical
+and Biomolecular Engineering at the University of Houston. His research
+is centered on bringing low-cost diagnostic technologies to underserved
+communities without sacrificing the sensitivity of laboratory-based
+assays.
+Richard C. Willson is the Huffington-Woestemeyer Professor
+of Chemical and Biomolecular Engineering and Biology and Biochemistry
+at the University of Houston. His work is focused on the development
+and translation of novel diagnostics, PAT, and purification technologies.
+
+## Acknowledgments
+We thank Willson laboratory personnel
+for their unwavering
+help and support during this extraordinary time. We thank Jeff Bauer,
+Nolan Bauer, Katelyn Davis, David Walker, Stephen Spann, our RADx
+project team (Thomas Pribyl, Peter d’Entremont, Emily Kennedy,
+and Bonolo Mathekga), the ACME team, and all of the RADx-supported
+expert consultants for their guidance during this adventure. We thank
+Gabriela Del Bianco, Gloria Heresi, and Konstantinos Boukas at McGovern
+Medical School, UT Health, for developing the IRB protocol, collection
+of clinical samples, and their guidance. We gratefully acknowledge
+Scott Weaver and Nehad Saada at University of Texas Medical Branch
+at Galveston, Scott Jones at Community Laboratories, LLC (San Antonio,
+TX), and Phillip Gibbs at Clinical Lab Consulting, LLC for advice
+and for deidentified clinical samples used in preliminary studies.
+We thank Steve Spann and his staff at the College of Medicine, University
+of Houston for their valuable feedback on usability. We gratefully
+acknowledge financial support from Tondu Corporation, the University
+of Houston “Grants to Enhance Research on COVID-19 and the
+Pandemic” Program (grant nos. 000180936 and 00180943), and
+NIH (grant 1R61AI174294-01) and the personal guidance and support
+of Joe Tondu. We also gratefully acknowledge financial support from
+CIMIT through the POCTRN program supported by the RADx Tech program.

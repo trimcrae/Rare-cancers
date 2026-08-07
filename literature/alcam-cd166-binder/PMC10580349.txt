@@ -1,0 +1,137 @@
+pmcCNS Neurosci TherCNS Neurosci Ther3640cnsneurosciCNSCNS Neuroscience & Therapeutics1755-59301755-5949WileyPMC10580349PMC10580349.110580349105803493719441310.1111/cns.14269CNS14269CNSNT-2023-030.R21Original ArticleOriginal Articles
+scRNA‐seq and proteomics reveal the distinction of M2‐like macrophages between primary and recurrent malignant glioma and its critical role in the recurrence
+You et al.YouGuiting ZhengZhenyu HuangYulong LiuGuifen LuoWei HuangJianhuang ZhuoLongjin TangBinghua LiuShunyi LinCaihouhttps://orcid.org/0000-0001-6715-5806 grouplin@fjmu.edu.cn
+
+1
+
+Department of Neurosurgery
+Fujian Medical University Union Hospital
+Fuzhou
+China
+
+2
+
+Fujian Medical University
+Fuzhou
+China
+
+3
+
+Department of Gynaecology, Fujian Provincial Maternity and Children's Hospital
+Affiliated Hospital of Fujian Medical University
+Fuzhou
+China
+
+4
+
+Department of Neurosurgery
+Affiliated Hospital of Putian University
+Putian
+China
+
+5
+
+Pingtan Comprehensive Experimental Area Hospital
+Fuzhou
+China
+
+*
+Correspondence
+
+Caihou Lin, Department of Neurosurgery, Fujian Medical University Union Hospital, Fuzhou, China.
+Email: grouplin@fjmu.edu.cn
+
+1752023112023291144744310.1002/cns.v29.1133913405
+0252023
+0912023
+0352023
+170520231810202326012024© 2023 The Authors. CNS Neuroscience & Therapeutics published by John Wiley & Sons Ltd.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Aims
+Tumor‐associated macrophages (TAMs) in the immune microenvironment play an important role in the increased drug resistance and recurrence of malignant glioma, but the mechanism remains incompletely inventoried. The focus of this study was to investigate the distinctions of M2‐like TAMs in the immune microenvironment between primary and recurrent malignant glioma and its influence in the recurrence.
+
+## Methods
+We employed single‐cell RNA sequencing to construct a single‐cell atlas for a total of 23,010 individual cells from 6 patients with primary or recurrent malignant glioma and identified 5 cell types, including TAMs and malignant cells. Immunohistochemical techniques and proteomics analysis were performed to investigate the role of intercellular interaction between malignant cells and TAMs in the recurrence of malignant glioma.
+
+## Results
+Six subgroups of TAMs were annotated and M2‐like TAMs were found to increase in recurrent malignant glioma significantly. A pseudotime trajectory and a dynamic gene expression profiling during the recurrence of malignant glioma were reconstructed. Up‐regulation of several cancer pathways and intercellular interaction‐related genes are associated with the recurrence of malignant glioma. Moreover, the M2‐like TAMs can activate the PI3K/Akt/HIF‐1α/CA9 pathway in the malignant glioma cells via SPP1‐CD44‐mediated intercellular interaction. Interestingly, high expression of CA9 can trigger the immunosuppressive response in the malignant glioma, thus promoting the degree of malignancy and drug resistance.
+
+## Conclusion
+Our study uncovers the distinction of M2‐like TAMs between primary and recurrent glioma, which offers unparalleled insights into the immune microenvironment of primary and recurrent malignant glioma.
+
+Intercellular interaction between M2‐like TAMs and malignant cells was revealed. PI3K/Akt/HIF‐1α/CA9 activation promotes the recurrence of malignant glioma. 
+
+immune microenvironmentintercellular interactionrecurrent malignant gliomasingle‐cell RNA sequencingtumor‐associated macrophagesExcellent Young Scholars Cultivation Project of Fujian Medical University Union Hospital2022XH039Joint Funds for the Innovation of Science and Technology, Fujian Province2018Y9024Natural Science Foundation of Fujian Province
+10.13039/5011000033922021J01760 Following by removing batch effects among multiple samples, we use the Seurat software suite to perform dimensionality reduction and unsupervised cell clustering (Figure  ). Distinct cell populations were identified based on the variably expressed genes (Figure  ). After data visualization and cell annotation by t‐SNE, the results demonstrated that cells in the microenvironment of malignant glioma mainly included malignant cells, TAMs, T cells, endothelial cells, and neutrophils (Figure  ; Figure  ). These cell types were present in all 6 samples (Figure  ).
+Among immune cells, T cells and neutrophils accounted for a low proportion in each sample, while TAMs accounted for a high proportion (Figure  ). In addition, three clusters of TAMs were sorted in our experiments, suggesting heterogeneity of TAMs in malignant glioma. We also conducted correlation analysis on all 18 clusters of cells (Figure  ). We found a strong correlation between the cell clusters annotated as malignant cells, whereas a weak correlation between the cell clusters annotated as T cells and neutrophils. Among the cell clusters annotated as TAMs, C0 and C10 also presented a low intensity of correlation with the malignant cells, which consolidated the accuracy of cell annotation to a certain extent (Figure  ). Interestingly, the result indicated a strong correlation of C11 and C16 with malignant cells, which may result from cell interactions in the microenvironment (Figure  ).
+
+3.2
+
+## Annotation of multiple TAMs subgroups in the immune microenvironment of malignant glioma
+From the single‐cell map in Figure  and the histogram in Figure  , TAMs account for a large proportion of immune cells in the microenvironment of malignant glioma, and a high degree of heterogeneity was found among the TAMs clusters. To further explore the immune microenvironment of malignant glioma, a total of six subgroups (0–5 subgroups) were derived by re‐clustering analysis, as can be seen from Figure  . After analyzing the expression of differential genes in different cell subgroups, subgroup 0 was defined as M1‐like TAMs (IL‐1β, CCL4, CCL3L3) (Figure  ; Figure  ). , Compared with other subgroups, M1‐like TAMs exhibited significantly high expression of some inflammatory factors, suggesting that they had strong antigen‐killing and pro‐inflammatory effects (Figure  ). Subgroup 1 was defined as activated microglia (P2RY12, TMEM119, SALL1) (Figure  ; Figure  ). , , Subgroup 2 was defined as M2‐like TAMs (CD163, MRC1, F13A1) (Figure  ; Figure  ). , 
+
+ Subgroups 3–5 could not be defined as the TAMs subgroups classified in the past, so we annotated them as the TAMs subgroup with high expression of a particular gene according to the differentially expressed genes and gene‐related characteristics. Although different levels of GPNMB were expressed in different subgroups of TAMs, the highest level of GPNMB expression was found in subgroup 3 (Figure  ). Hence we defined subgroup 3 as TAMs with high expression of GPNMB (GPNMBhi TAMs). The high upregulation of GPNMB expression in TAMs was associated with the poor prognosis of malignant glioma. Moreover, GPNMBhi TAMs also showed differential expression of immunosuppressant‐related genes LDHA and LGALS1, as well as the poor prognostic marker LGALS3 in malignant glioma (Figure  ; Figure  ). , , Likewise, we annotated subgroup 4 as PTNhi TAMs because of the high expression of pleiotrophin (PTN) in subgroup 4 (Figure  ). In addition, PTNhi TAMs showed a higher expression of differential genes such as TUBB2B, MARCKSL1, and C1orf61 than other TAM subgroups, which have a vital role in the formation and development of tumors (Figure  ). , , For subgroup 5, we defined it as TAMs related to cell cycle regulation according to its high expression of TOP2A, MKI67, CENPF, CENPE, and other differential genes relevant to cell proliferation and cell cycle regulation (Figure  ; Figure  ). , , 
+
+We then analyzed the distinctions of TAMs in the immune microenvironment between primary and recurrent malignant glioma. However, the proportion of M1‐like TAMs, activated microglia, GPNMBhi TAMs, PTNhi TAMs, and TAMs related to cell cycle regulation did not show consistent variation in the comparison of recurrent and primary malignant glioma (Figure  ). Notably, the increased proportion of M2‐like TAMs in recurrent malignant gliomas compared to primary malignant gliomas was specific and consistent (Figure  ). The result is consistent with previous studies: the proportion of M2 TAMs in recurrent malignant glioma is significantly higher than that in primary malignant glioma, , which greatly impedes the treatment of malignant glioma. However, the exact mechanism remains unclear.
+
+3.3
+
+## Landscape of malignant cells in the immune microenvironment of malignant glioma
+As shown in Figure  and Figure  , cells with high expression of BCAN, OLIG1, GFAP, PLP1 and OLIG2 were annotated as malignant cells. To check whether all of the malignant cells were malignant cells, copy number variations (CNV) were detected to infer large‐scale copy number alterations for each cell. The heatmap revealed that CNVs accumulated in malignant cells and showed significant heterogeneity in patients (Figure  ). Previous studies have reported that the gain of chromosome 7 and loss of chromosome 10 were the two most common genetic alterations in glioblastoma. However, not all malignant cells exhibited a significant gain of chromosome 7 and loss of chromosome 10 in our research. Such results may be caused by the fact that our samples were not composed exclusively of glioblastoma samples.
+ Further, we found 8 subgroups of malignant cells by re‐clustering analysis (Figure  ). Previous studies have recapitulated the cellular states of malignant cells in malignant glioma, including neural‐progenitor‐like (NPC‐like), oligodendrocyte‐progenitor‐like (OPC‐like), astrocyte‐like (AC‐like), and mesenchymal‐like (MES‐like). , , According to expression of differential genes, the subgroups of malignant cells were annotated as follows: (1) the MES‐like malignant cells with high expression of VIM; (2) the OPC‐like malignant cells characterized with high OLIG1, ALCAM and PLP1 expression; (3) the NPC‐like malignant cells highly expressing SOX4, SOX11 and DCX; (4) the malignant cells related to proliferation expressing the proliferation markers MKI67, CENPF, TOP2A (Figure  ). , , We found that markers of AC‐like cells (GFAP, S100B, SLC1A3) were widely expressed in each subgroup, so none of the subgroups was annotated as AC‐like malignant cells (Figure  ). Interestingly, we noticed that another mesenchymal marker CD44 was highly expressed only in clusters 0 and 4 but not in cluster 6 (Figure  ). Based on this, we defined cluster 0 and cluster 4 as CD44+ MES‐like malignant cells and cluster 6 as CD44− MES‐like.
+
+3.4
+
+## Dynamic gene expression profiles during recurrence of malignant glioma
+Pseudotime analysis was performed to generate the pseudotime trajectory of TAMs during the recurrence of malignant glioma. Distribution of TAMs from 6 patients was yielded in the pseudotime trajectory that can indicate the change of the immune microenvironment during the recurrence of malignant glioma (Figure  ; Figure  ). Along the pseudotime trajectory, the percentage of TAMs in the recurrent malignant glioma increased in the late‐stage cell population, which verified the reliability of the pseudotime analysis (Figure  ). The result indicated that most M1‐like TAMs, activated microglia, and M2‐like TAMs were mainly located at cell fate 1, while PTNhi TAMs were mainly located at the end of cell fate 2 (Figure  ). Noticeably, the M2‐like TAMs in the primary malignant glioma were mainly located at the early‐middle‐stage of the trajectory, while those in the recurrent malignant glioma were mainly located at the middle‐last‐stage (Figure  ). This difference did not appear in the other 5 subgroups, which confirmed that M2‐like TAMs are the key factor in the recurrence process of malignant glioma.
+ We analyzed the gene expression along the pseudotime trajectory and constructed dynamic gene expression profiles during the recurrence of malignant glioma (Figure  ). Kyoto Encyclopedia of Genes and Genomes (KEGG) analyses were performed to predict the biological roles and potential signaling pathways of these differentially expressed genes. Along the trajectory of cell fate 1, the expression of genes related to cytokine‐cytokine receptor interaction, chemokine signaling pathway, and HIF‐1 signaling pathway was upregulated, such as IL‐1B and CCL3 (Figure  ). Previous studies have shown that these pathways have a critical role in cancer development, , suggesting that TAMs in cell fate 1 are the chief culprit of the recurrence. Interestingly, we noticed that the expression of cytosol and protein binding‐related genes, such as secreted phosphoprotein 1 (SPP1), also increased or fluctuated in TAMs of cell fate 1, which indicated a strong intercellular interaction between TAMs and malignant cells (Figure  ). Previous studies have suggested that SPP1 can regulate metastasis and invasion of the tumor as a part of the extracellular matrix‐receptor interactions. A recent single‐cell study of glioma also revealed that SPP1/CD44‐mediated intercellular interaction between macrophages and cancer cells plays a critical role in glioma progression. Together, these results demonstrate the distribution of M2‐like TAMs on the pseudotime trajectory and the dynamic gene expression profiling during the recurrence of malignant glioma and indicate that the up‐regulation of several cancer pathways as well as the intercellular interaction‐related genes is associated with recurrence of malignant glioma.
+
+3.5
+
+## 
+PI3K/Akt pathway activated by the intercellular interaction promotes recurrence
+Cellular association analysis was performed to study the intercellular interaction between TAMs and malignant cells. Consistent with the result of pseudotime analysis, active interactions exist between malignant cells and different subgroups of TAMs (Figure  ).
+ We then investigated the intercellular interactions mediated by ligand‐receptor interactions. We observed that SPP1 expressed by TAMs could bind to the CD44 receptor on malignant cells (Figure  ). CD44 is a cell adhesion molecule that plays an important role in tumor progression and metastasis due to its binding to extracellular matrix components, including SPP1. Although all subgroups can affect malignant cells through SPP1‐CD44‐mediated intercellular interactions, the role of M2‐like TAMs in SPP1‐CD44‐mediated intercellular interactions is most likely a key factor in promoting recurrence progression, given that only the proportion of M2‐like TAMs is significantly increased in the immune microenvironment of recurrent malignant gliomas.
+Furthermore, the KEGG analysis was used for exploring the expression of differential genes in malignant cells affected by M2‐like TAMs. The result indicated that several cancer pathways, including PI3K/Akt and P53, were significantly up‐regulated (Figure  ). We found that the PI3K/Akt pathway‐associated genes were significantly expressed in each subgroup (Figure  ). Notably, recent studies have also suggested that CD44 can activate the PI3K/Akt pathway. 
+
+Taken together, our experimental results offered new insights into understanding the intercellular interaction between M2‐like TAMs and malignant cells.
+
+3.6
+
+## Activation of the PIK3/Akt/HIF‐1α/CA9 pathway in malignant cells can induce the immunosuppressive effect in the microenvironment
+Previous studies have revealed that PI3K/Akt pathway can regulate the downstream factor HIF‐1α. As shown in Figure  , the HIF‐1α pathway‐associated genes were highly expressed in the malignant cells. We performed the KEGG enrichment analysis to determine whether the HIF‐1α pathway can be activated in each subgroup of malignant cells. We found that the HIF‐1α pathway‐associated genes were highly expressed in each subgroup (Figure  ).
+ Furthermore, we used immunohistochemical techniques and proteomics analysis to study the effect of the PI3K/Akt pathway and its downstream factor HIF‐1α on recurrent malignant glioma. The results showed that the level of HIF‐1α was significantly increased in the tumor tissues of recurrent malignant glioma (Figure  ). Consistent with the immunohistochemical results, the data of the scRNA‐seq analysis also suggested that the level of HIF‐1α in each cell cluster in the microenvironment of recurrent malignant glioma was generally higher than that in primary malignant glioma (Figure  ). We then compared the HIF‐1α level of each cell type in the primary and recurrent malignant glioma. The results suggested that the increase of the HIF‐1α level in the microenvironment of recurrent malignant glioma was attributed to the malignant cells, TAMs, and endothelial cells (Figure  ). Notably, the expression level of HIF‐1α in neutrophils and T cells is not changed significantly (Figure  ).
+In further experiments, we knocked out HIF‐1α in the malignant cells to study how the change in the level of HIF‐1α influences the microenvironment of malignant glioma (Figure  ). Additionally, we performed proteomic and GO analysis to screen downstream differential proteins. The results suggested that carboxyanhydrase 9 (CA9) was the downstream protein of HIF‐1α and was related to the immune microenvironment of malignant glioma (Figure  ; Figure  ).
+Notably, CA9 is a typical protein that can catalyze carbon dioxide to synthesize bicarbonate and proton in cells, which allows tumor cells to maintain a neutral pH even in the acidified microenvironment. Thus the tumor cells obtained the ability to tolerate the acidic microenvironment and facilitate the progression of tumor invasion and metastasis. However, other cells cannot tolerate the acidified microenvironment. When the microenvironment is at low pH, antitumor effectors (such as T cells and NK cells) tend to be inactive, while immunosuppressive components (such as bone marrow cells and regulatory T cells) could be activated by acidity to promote tumor growth and block the antitumor immune response. 
+
+It is noted that malignant glioma cells can use CA9 to tolerate acidified microenvironment, while immune cells with tumor‐suppressive effects are useless for the tumor inhibition effects due to the acidic environment. The acidified microenvironment also leads to increased drug resistance of malignant glioma and a poor prognosis for the patients. The data based on the scRNA‐seq analysis also confirm the above statements. ScRNA‐seq analysis showed that the CA9 level significantly increased in the recurrent malignant glioma tumor cells compared with that in the primary malignant glioma (Figure  ). Unlike the tumor cells, there was no significant increase in the CA9 level in other cell types (Figure  ). In particular, we observed that the variation of CA9 expression differed in different malignant cell subgroups. In the recurrent samples, the expression of CA9 were remarkably elevated in CD44+ MES‐like subgroups and proliferation subgroup, which indicated an enhanced tolerance of acidified microenvironment (Figure  ). However, cluster 5–7 malignant cells were too few to perform a comparison of the CA9 expression in them. The high expression level of CA9 is responsible to trigger the immunosuppressive response in the malignant glioma, thus promoting the degree of malignancy and drug resistance of recurrent malignant glioma (Figure  ).
+
+4
+
+## DISCUSSION
+Although TAMs in the immune microenvironment play an important role in drug resistance and the recurrence of malignant glioma, the specific mechanism is still not fully understood. In this work, we performed experiments to systematically study the distinction of TAMs between primary and recurrent malignant glioma. Using the scRNA‐seq techniques, we have mapped the immune microenvironment of malignant glioma and classified all cells into five types. TAMs were analyzed in‐depth for identifying different subgroups and their potential influence on tumorigenesis and tumor growth. Moreover, according to the previous studies, malignant cells were derived and annotated as MES‐like malignant cells, OPC‐like malignant cells, NPC‐like malignant cells and malignant cells related to proliferation. , In this study, we have utilized the actual immune microenvironment of malignant glioma to circumvent the shortcomings of previous studies. The results provide a theoretical and experimental basis for analyzing the poor prognosis of recurrent malignant glioma.
+The focus of this study was to investigate the distinctions of M2‐like TAMs in the immune microenvironment between primary and recurrent malignant glioma and their influence on the evolution of malignant glioma. Interestingly, the proportion of M2‐like TAMs increased in the recurrent malignant glioma. Moreover, the dynamic gene expression profiles showed the increase of SPP1 in TAMs of cell fate 1 containing M1‐like TAMs, activated microglia, and M2‐like TAMs. Previous research has revealed a critical role of macrophage‐mediated SPP1/CD44 signaling in glioma progression. However, it primarily focused on the evolution of tumor cells and did not study the change of TAMs affected by the activation of SPP1/CD44 signaling. Considering its inadequacy, we explored the effect of SPP1‐CD44‐mediated intercellular interactions on downstream pathways and probed into how the TAMs change as well as their influence on the microenvironment of malignant glioma. Noteworthily, we found that the M2‐like TAMs indeed activate PIK3/Akt pathway in the malignant glioma cells via SPP1‐CD44‐mediated intercellular interactions, which promotes the growth and metastasis of tumor cells. This is responsible for the increased drug resistance, frequent relapse, and poor prognosis of recurrent malignant glioma. The intensive intercellular interactions between malignant cells and TAMs in our research also verified the forward feedback of the interplay between tumor cells and macrophages in promoting tumor progression. The mechanism of intercellular interactions we stated has successfully elucidated how the increased proportion of M2‐like TAMs in the immune microenvironment results in the difficulty of clinical treatment for patients with malignant glioma. It also provides new avenues for solving this challenging problem.
+Finally, we found that the activation of the PIK3/Akt pathway could further upregulate the downstream HIF‐1α/CA9 pathway, which was the key to the immunosuppressive effect in the microenvironment. Notably, the CA9 expression level remarkably elevated in CD44+ MES‐like subgroups and proliferation subgroup. The HIF‐1α/CA9 pathway provides a new therapeutic target for the treatment of malignant glioma. The inhibition of CA9 expression reduces the tolerance of the tumor cells towards an acidic environment and prevents the invasion and metastasis of malignant glioma. Moreover, it can reduce the acidification degree of the microenvironment and improve the tumor‐suppressive effect of immune cells. Previous studies have shown that tumor‐infiltrating immune cell‐associated long non‐coding RNA (lncRNAs) are also implicated in cancer immunity regulation and the lncRNA IGFL2‐AS1 can mediate the inhibition of HIF‐1α degradation thus increase CA9 expression. , , Therefore, intervention of CA9 expression through lncRNAs may be a novel research direction to inhibit the progression of malignant glioma.
+However, molecular features of tumor samples used in our study, such as IDH and 1p/19q status, may affect the states and proportion of malignant cell subgroups. Previous studies have associated the molecular features of glioma with clinical classification. Patients with glioma without IDH mutant or 1p/19q co‐deleted had worse outcomes. , , In addition, tumors with different IDH and 1p/19q status undergo distinct cell‐state changes at recurrence, which may interfere with the comparison of the microenvironment between primary gliomas and recurrent gliomas. Prior research has shown that IDH wild‐type gliomas had significantly higher levels of MES‐like malignant cells and M2 macrophage than IDH mutant gliomas. , , While in IDH mutant gliomas, tumors with 1p/19q co‐deletion exhibited significantly higher levels of NPC‐like malignant cells and M2‐related TAMs and lower levels of OPC‐like malignant cells than tumors without 1p/19q co‐deletion. Consequently, intercellular interactions between MES‐like malignant cells and M2‐like TAMs may contribute more to the recurrence of IDH wild‐type gliomas, which may further result in a more serious tumor‐suppressive effect of immune cells due to the increase of CA9 in the IDH wild‐type gliomas. Nevertheless, our study reveals broad differences of TAMs and their impact on malignant cells between primary gliomas and recurrent gliomas.
+In summary, we have constructed single‐cell maps to understand the distinctions of TAMs in the immune microenvironment between the primary and recurrent malignant glioma using scRNA‐seq techniques. By combining the results of differential gene enrichment analysis, we proposed the specific mechanisms of how M2‐like TAMs affect tumor cells and provided new insights into the mechanism of increased drug resistance and poor prognosis of recurrent malignant glioma. We demonstrated that M2‐like TAMs activate the PI3K/Akt/HIF‐1α/CA9 pathway in the malignant glioma cells via SPP1‐CD44‐mediated intercellular interaction to promote the recurrence of malignant glioma, which revealed the mechanism of increased drug resistance in recurrent malignant glioma to provide new targets for the drug development.
+
+## AUTHOR CONTRIBUTIONS
+
+Guiting You: Conceptualization, Formal analysis, Validation, Writing‐original draft. Zhenyu Zheng: Conceptualization, Formal analysis, Project administration, Writing‐original draft. Yulong Huang: Data curation, Methodology, Software, Visualization, Writing‐original draft. Guifen Liu: Data Curation, Supervision, Writing‐review and editing. Wei Luo: Methodology, Visualization. Jianhuang Huang: Resources, Methodology. Longjin Zhuo: Resources, Investigation. Binghua Tang: Formal analysis, Investigation. Shunyi Liu: Formal analysis, Investigation. Caihou Lin: Conceptualization, Methodology, Funding acquisition, Writing‐review and editing.
+
+## CONFLICT OF INTEREST STATEMENT
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Supporting information
+
+Appendix S1
+
+Click here for additional data file.
+
+## ACKNOWLEDGMENTS
+This work was supported by the grants from the Natural Science Foundation of Fujian Province (grant number 2021J01760), the Joint Funds for the Innovation of Science and Technology, Fujian Province (grant number 2018Y9024) and the Excellent Young Scholars Cultivation Project of Fujian Medical University Union Hospital (grant number 2022XH039).
+
+## DATA AVAILABILITY STATEMENT
+The data that support the findings of this study are openly available in CNSA at https://db.cngb.org/cnsa.

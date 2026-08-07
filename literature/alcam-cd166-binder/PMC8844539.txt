@@ -1,0 +1,641 @@
+pmcWellcome Open ResWellcome Open Res3196wopenres101696457Wellcome Open Research2398-502XThe Wellcome TrustPMC8844539PMC8844539.1884453988445393522421010.12688/wellcomeopenres.16834.11Research ArticleArticlesActivation of regulatory T cells triggers specific changes in glycosylation associated with Siglec-1-dependent inflammatory responses
+[version 1; peer review: 2 approved]
+WuGangConceptualizationData CurationFormal AnalysisInvestigationMethodologySoftwareVisualizationWriting – Original Draft PreparationWriting – Review & Editinghttps://orcid.org/0000-0002-4283-9213 MurugesanGavuthamiInvestigationWriting – Review & Editing NagalaManjulaInvestigationWriting – Review & Editing McCrawAlexInvestigationWriting – Review & Editing HaslamStuart M.Funding AcquisitionWriting – Review & Editing DellAnneFunding AcquisitionWriting – Review & Editing CrockerPaul R.ConceptualizationFunding AcquisitionProject AdministrationSupervisionWriting – Original Draft PreparationWriting – Review & Editinghttps://orcid.org/0000-0001-6230-0293 
+1Division of Cell Signalling and Immunology, School of Life Sciences, University of Dundee, Dundee, Scotland, DD1 5EH, UK
+2Department of Life Sciences, Imperial College London, London, SW7 2AZ, UK
+a
+p.r.crocker@dundee.ac.uk
+No competing interests were disclosed.
+162021202163748311341252021010620212402202221082024Copyright: © 2021 Wu G et al.2021https://creativecommons.org/licenses/by/4.0/This is an open access article distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+Background: Siglec-1 is a macrophage lectin-like receptor that mediates sialic acid-dependent cellular interactions. Its upregulation on macrophages in autoimmune disease was shown previously to promote inflammation through suppressing the expansion of regulatory T cells (Tregs). Here we investigate the molecular basis for Siglec-1 binding to Tregs using
+in vitro-induced cells as a model system.
+
+Methods: Glycosylation changes that affect Siglec‑1 binding were studied by comparing activated and resting Tregs using RNA-Seq, glycomics, proteomics and binding of selected antibodies and lectins. A proximity labelling and proteomics strategy was used to identify Siglec-1 counter-receptors expressed on activated Tregs.
+
+Results: Siglec-1 binding was strongly upregulated on activated Tregs, but lost under resting conditions. Glycomics revealed changes in N-glycans and glycolipids following Treg activation and we observed changes in expression of multiple ‘glycogenes’ that could lead to the observed increase in Siglec-1 binding. Proximity labelling of intact, living cells identified 49 glycoproteins expressed by activated Tregs that may function as Siglec-1 counter-receptors. These represent ~5% of the total membrane protein pool and were mainly related to T cell activation and proliferation. We demonstrate that several of these counter-receptors were upregulated following activation of Tregs and provide initial evidence that their altered glycosylation may also be important for Siglec-1 binding.
+
+Conclusions: We provide the first comprehensive analysis of glycan changes that occur in activated Tregs, leading to recognition by the macrophage lectin, Siglec-1 and suppression of Treg expansion. We furthermore provide insights into glycoprotein counter-receptors for Siglec-1 expressed by activated Tregs that are likely to be important for suppressing Treg expansion.
+
+Regulatory T cellmacrophageinflammationsialic acidglycomicsproteomicsWellcome Trust103744Biotechnology and Biological Sciences Research CouncilBB/K016164/1This work was supported by Wellcome Trust Investigator Award (103744) to P.R.C. Glycomics analysis was supported by the Biotechnology and Biological Sciences Research Council, grant number BB/K016164/1.
+The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionyespmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY
+
+## Introduction
+All mammalian cells are coated with a dense layer of glycans termed the glycocalyx
+
+ 
+. Despite the diverse structures and inherent complexity of these glycans, they are frequently capped with sialic acid moieties. Sialic acids can mediate a wide variety of functions
+
+ 
+, but an important feature is that they serve as ligands for a family of endogenous sialic acid binding lectins of the Ig superfamily known as Siglecs
+
+ 
+. The interaction between Siglecs and their ligands can regulate the functional activities of most cells of the immune system
+
+ ,
+ 
+. Siglec-1 (also known as sialoadhesin, Sn or CD169) is a macrophage-restricted Siglec that is well conserved across mammals
+
+ 
+. Under normal physiological conditions, it is highly expressed on macrophage subsets in secondary lymphoid tissues and its expression on other macrophages can be induced at sites of inflammation
+
+ ,
+ 
+. Siglec-1 appears to have evolved primarily as a cellular interaction molecule. It has an unusually large number of 17 Ig domains that are thought to project the sialic acid binding site away from the plasma membrane to promote interactions with sialic acid ligands presented on other cells
+
+ 
+. This is in striking contrast to other Siglecs, which have between two and seven Ig domains and are typically masked at the cell surface by interactions with sialic acids in
+cis
+
+ 
+.
+In addition to being displayed on cells of the host, the sialic acids recognised by Siglec-1 can be present on certain pathogens such as sialylated bacteria, protozoa and enveloped viruses and their recognition can lead to increased pathogen uptake by macrophages and enhanced host susceptibility (reviewed in
+ ). However, the predominant biological functions of Siglec-1 involve interactions with sialic acids of the host. For example, Siglec 1 can mediate sialic acid-dependent crosstalk between macrophages and various immune cells including neutrophils
+
+ 
+, dendritic cells
+
+ 
+, innate-like lymphocytes
+
+ 
+ and regulatory T cells
+
+ 
+.
+An important biological function of Siglec-1, discovered in studies of Siglec-1-deficient mice, is its role in promoting inflammatory responses during various autoimmune diseases of the nervous system
+
+ –
+ 
+. Mechanistically, this is likely to be due to Siglec-1-dependent suppression of Treg expansion. This was initially implied in studies of experimental autoimmune uveitis, which showed that Siglec-1 was a prominent marker on inflammatory macrophages at the peak phase of tissue damage
+
+ 
+. Siglec-1-deficient mice exhibited reduced disease severity and decreased proliferation and IFN-γ secretion by effector T cells. Direct evidence for an important cross-talk between Siglec-1 and Tregs was seen in a study of experimental autoimmune encephalomyelitis (EAE), which is a mouse model of multiple sclerosis
+
+ 
+. The EAE model revealed that Siglec-1-expressing macrophages are closely associated with activated CD4+Foxp3+ Tregs at sites of inflammation within the central nervous system. Siglec-1-deficient mice had increased numbers of Tregs and reduced levels of Th17 cells producing inflammatory cytokines, leading to attenuated disease severity
+
+ 
+. The Tregs isolated from diseased mice showed strong sialic acid-dependent binding to Siglec-1 and co-culture with macrophages suppressed their expansion in a Siglec-1-dependent manner. Similar results have been observed in a mouse model of neuronal ceroid lipofuscinoses, which showed that Siglec-1 negatively controls CD8+CD122+ regulatory T cells, and promotes neuroinflammation-related disease progression
+
+ 
+.
+A major gap in our understanding of how Siglecs modulate cellular functions in the immune system is the identification of endogenous ligands and counter-receptors on relevant cell populations. Here, the ligand is defined as the oligosaccharide structure recognised by Siglec-1 and the counter-receptor is the composite of the ligand(s) attached to an appropriate protein or lipid carrier
+
+ 
+. Using defined glycans, Siglec-1 has been found to prefer α2,3-linked Neu5Ac over α2,6- and α2,8-linked Neu5Ac
+
+ ,
+ 
+. Certain other types of sialic acid, including Neu5Gc and Neu5,9(Ac)
+2, were not recognised by Siglec-1
+
+ 
+. Like many membrane lectins, Siglec-1 exhibits low binding affinities for its glycan ligands, with Kd values in the millimolar range
+
+ 
+. Cell adhesion mediated by Siglec-1 therefore depends on the clustering of both Siglec-1 and its ligands on cell surfaces to obtain high avidity interactions. As a result, the molecular basis for Siglec-1 binding to Tregs is complex and determined by multiple factors. On the one hand it can be affected by global factors involved in the synthesis of glycan ligands, such as the production and transport of sugar donors and the expression of sialyltransferases and other glycosyl transferases. On the other hand, it can also be affected by specific factors, such as the expression and localisation of particular glycoprotein and glycolipid counter-receptors that carry the glycan ligands.
+The aim of this study was to investigate the global and specific factors that lead to Siglec-1 binding to activated Tregs using RNA-Seq, glycomics and proteomics. A proximity labeling strategy, combined with proteomics, was used to identify glycoprotein counter-receptors for Siglec-1 expressed by activated Tregs.
+
+## Keywords
+Regulatory T cell, macrophage, inflammation, sialic acid, glycomics, proteomics
+
+## Methods
+
+## Animals
+Forty C57BL/6J wildtype mice were used for the study. All efforts were made to ameliorate any suffering of animals. The mice were bred and maintained in the Biological Resource Unit at the University of Dundee under specific-pathogen-free conditions and procedures approved by the University of Dundee Ethical Committee and under the authorization of the UK Home Office Animals (Scientific Procedures) Act 1986. The project licence number was PB232D3BA. Mice were housed in same sex groups in individually ventilated cages. Housing conditions were: 12-h light, 12-h dark cycle, 21°C temperature and relative humidity of 45–60%. Mice were given standard diet RM3 (SDS Special Diet Services), had free access to autoclaved drinking water and autoclaved food ad libitum. Mice at the age of 16–24 weeks were humanely killed using a Schedule 1 method of gradual exposure to carbon dioxide and death was confirmed by cervical dislocation. The mouse gender was selected randomly for experiments.
+
+## Generation and culture of Tregs
+RPMI 1640 medium with L-glutamine (Gibco™), FBS (Gibco™), Penicillin-Streptomycin (Gibco™), 2-mercaptoethanol (Gibco™), functional grade anti-mouse CD28 (clone: 37.51, Cat# 16-0281-82, RRID: AB_468921, 1:500), functional grade anti- mouse IL-4 (clone: 11B11, Cat# 16-7041-81, RRID: AB_469208, 1:100), functional grade anti-mouse IFN-γ (clone: XMG1.2, Cat# 16-7311-81, RRID: AB_469242, 1:100) were from ThermoFisher, Loughborough, UK. Anti-mouse CD3 (clone: 145-2C11, Cat# 100302, RRID: AB_312667, 1:100 – 1:16 000) was from Biolegend, London, UK. Mouse CD4+ T Cell Isolation Kit (Cat# 130-104-454) was from Miltenyi Biotec Ltd., Surrey, UK. Mouse IL-2 and human TGF-β were from PeproTech, London, UK. TPP® 12-well plate was from Merck, Dorset, UK.
+Mouse T cells were isolated from spleen and lymph nodes using CD4+ T Cell Isolation Kits following the supplier’s protocol. Mouse iTregs were generated and grown in 12-well plates. The wells were coated with 1 ml PBS per well containing 10 μg/ml anti-CD3 for 2 hours at 37°C. The non-bound antibody was removed by washing the plate twice using PBS. The isolated cells were suspended at a concentration of 1-2 X 10
+6/ml in culture medium, which is RPMI 1640 with L-glutamine, 10% FBS, 100 U/ml Penicillin-Streptomycin, and 50 μM 2-mercaptoethanol. The cells were induced for 4–5 days at 1 ml of cell suspension per well with 2 μg/ml functional grade anti-CD28, 10 μg/ml functional grade anti-IL-4, 10 μg/ml functional grade anti-IFN-γ, 20 ng/ml IL-2 and 5 ng/ml TGF-β. Fresh culture medium, anti-CD28, anti-IL-4, anti-IFN-γ, IL-2, and TGF-β were supplemented when the cell culture medium became yellow. After induction, the cells were washed twice with culture medium. The cells were re-suspended at a concentration of 10
+6/ml in the culture medium and expanded for four days with 20 ng/ml IL-2 and 5 ng/ml TGF-β. Fresh culture medium, IL-2 and TGF- β were supplemented when the culture medium became yellow. To obtain activated Tregs, the expanded Tregs were suspended at a concentration of 10
+6/ml in culture medium with 20 ng/ml IL-2 and 5 ng/ml TGF-β, and were cultured at 1 ml cell suspension per well in 12-well plate pre-coated with different concentrations of anti-CD3 in PBS. The anti-CD3 concentration for activated Tregs for proximity labelling, proteomics and RNA-Seq was 0.125 μg/ml. Tregs were activated for three days for proximity labelling and protemics experiments, and for 36 hours for RNA-Seq experiments.
+
+## Flow cytometry
+Anti-mouse CD4-PE-Cy7 (clone: GK1.5, Cat# 25-0041-82, RRID: AB_469576, 1:100), anti-mouse Foxp3-APC (clone: FJK-16s, Cat# 17-5773-82, RRID: AB_469457, 1:100), anti-mouse PD-1-FITC (clone: J43, Cat# 11-9985-82, RRID: AB_465472, 1:50), anti-mouse MHC Class II-PE (clone: AF6-120.1, Cat# 12-5320-82, RRID: AB_2572619, 1:100), anti-mouse CD150-PE (clone: mShad150, Cat# 12-1502-82, RRID: AB_1548765, 1:200), Fixable Viability Dye eFluor™ 450, Foxp3 / Transcription Factor Staining Buffer Set, HyClone™ FetalClone™ II serum were from ThermoFisher, Loughborough, UK. Anti-mouse CD80-PE (clone: 16-10A1, Cat# 104707, RRID: AB_313128, 1:100), anti-mouse CD274-PE (clone: MIH7, Cat# 155403, RRID: AB_2728222, 1:50), anti-mouse CD18-PE (clone: M18/2, Cat# 101407, RRID: AB_312816, 1:50), anti-mouse CD11a-PE (clone: I21/7, Cat# 153103, RRID: AB_2716033, 1:100), anti-mouse CD48-PE (clone: HM48-1, Cat# 103405, RRID: AB_313020, 1:100), streptavidin-FITC, anti-Neu5Gc antibody (polyclonal, Cat# 146903, RRID:AB_2562884, 1:300), anti-chicken IgY (polyclonal, Cat# 410802, RRID:AB_2566570, 1:200) and NeuGc staining buffer set were from Biolegend, London, UK. FITC conjugated goat anti-human IgG Fc (polyclonal, Cat# AP113F, RRID: AB_11213109, 1:1 000) was from Merck, Dorset, UK. Biotinylated plant lectin MAL II and SNA were from Vector® Laboratories, Peterborough, UK. Mouse Siglec-1-human IgG Fc chimera, Siglec-E human IgG chimera and CD22-human IgG Fc chimera were expressed in the lab.
+Before staining antigens and glycans, cells were stained by Fixable Viability Dye eFluor™ 450 following the supplier’s instructions, and live cells were gated for flow cytometry analysis. All antigen and glycan ligands staining steps were carried out on ice. For staining Foxp3 and NeuGc, Foxp3 / Transcription Factor Staining Buffer Set and the buffer from anti-Neu5Gc antibody Kit were used as staining buffer and washing buffer, respectively. For the other staining experiments, 1% HyClone™ FetalClone™ II serum in PBS was used as staining buffer, antibody diluting buffer, washing buffer and cell storage buffer. Foxp3 staining and NeuGc staining were done according to the kit supplier’s instructions. For staining antigens, the cells were washed with staining buffer, stained on ice for 30 min, and washed for flow cytometry analysis. For staining Siglec-1 and CD22 glycan ligands, Siglec-1-human IgG Fc chimera and CD22-human IgG Fc chimera were mixed with FITC conjugated goat anti-human IgG Fc at a final concentration of 1 μg/ml and 3 μg/ml, respectively, in staining buffer, and incubated on ice for 30 min to prepare the pre-complex. The pre-complex was used as an antibody and followed antibody staining procedure to stain glycan ligands for flow cytometry analysis. Biotinylated MAL II and SNA were used as antibody and followed antibody staining procedure. The biotin was stained using streptavidin-FITC for flow cytometry detection. The flow cytometry data were analysed using FlowJo Version 10.0 (alternative data analysis and visualization tool:
+CytoExploreR). A Siglec-1-Fc non-sialic acid-binding mutant (SnR97A-Fc) was used as a negative control for Siglec binding experiments. The chicken IgY isotype in the anti-Neu5Gc antibody Kit was used as a negative control for NeuGc staining experiments. Streptavidin-FITC was used as a negative control for MAL II and SNA binding experiments. Raw data for flow cytometry analysis are available, see Underlying data
+
+ 
+.
+
+## Proximity labelling
+Protein A beads and µ columns were from Miltenyi Biotec Ltd., Surrey, UK. Tyramide-SS-biotin was from Iris Biotech GmbH, Marktredwitz, Germany. HRP-conjugated goat anti-human IgG Fc (Cat# ab97225, RRID: AB_10680850, 1:333) was from Abcam, Cambridge, UK. Catalase was from Merck, Dorset, UK. H
+2O
+2 was from VWR, Leicestershire, UK.
+Proximity labelling was done using activated Tregs induced from independent experiments, and the gap between these experiments was set no less than two weeks. All proximity labelling steps were carried out on ice. In-solution Siglec-1-HRP multimers were prepared by incubating Siglec-1-human IgG Fc chimera with HRP-conjugated goat anti-human IgG Fc at a final concentration of 1 μg/ml and 3 μg/ml in labelling buffer (1% HyClone™ FetalClone™ II serum in PBS) for 30 min. 5X10
+6 Tregs were washed twice with labelling buffer, mixed with 300 μl Siglec-1-HRP multimer and incubated for 30 min.
+For proximity labelling using on-bead Siglec-1-HRP multimer, 270 μl 10 μg/ml Siglec-1-human IgG Fc chimera was incubated with 30 μl Protein A nanobeads for 60 min. The non-bound material was removed by washing the beads on a µ column. The beads were eluted from the µ column using 300 μl labelling buffer, mixed with 5X10
+6 Tregs and incubated for 30 min. HRP-conjugated goat anti-human IgG Fc was added to the cells to a final concentration of 3 μg/ml and incubated for another 30 min.
+HRP substrate, Tyramide-SS-biotin and H
+2O
+2, were added to a final concentration of 95 μM and 0.01%, respectively. The sample was left on ice for 2 min and the reaction was quenched by washing three times with 3 ml 100 U/ml catalase in labelling buffer.
+
+## Glycomics and proteomics
+PNGase F (cloned from
+Flavobacterium meningosepticum and expressed by
+E.coli), CHAPS and DTT were from Roche, Welwyn Garden City, UK. Sep Pak C18 Cartridges were from Waters, London, UK. Slide A Lyzer ® dialysis cassettes (3.5 kDa molecular weight cut off), TMT10plex™ Isobaric Label Reagent Set, TCEP, TEAB were from ThermoFisher, Loughborough, UK. Protein DeglycosylationMix II Kit was from New England Biolabs, Hitchin, UK. LysC was from Alpha Laboratories Ltd, Eastleigh, UK. Trypsin was from Promega, Southampton. UK. Paramagnetic bead (SP3 bead) and other general chemical reagents were from Merck, Dorset, UK.
+Glycomic analysis of glycoproteins was done following the protocol published previously
+
+ 
+. Briefly, Tregs were homogenized by sonication in 25 mM Tris, 150 mM NaCl, 5 mM EDTA, and 1% CHAPS, pH 7.4, dialysed in dialysis cassettes, reduced by DTT, carboxymethylated by IAA, and digested by trypsin. N-glycans were removed from glycopeptides by PNGase F, which were then isolated by Sep Pak C18 Cartridges and permethylated for mass spectrometry analysis. Glycomic analysis of glycolipids was done following a previous protocol
+
+ 
+. Raw data for glycomics are available, see Underlying data
+
+ 
+. Glycomic data were analysed using Data Explorer
+TM version 4.6 from AB Sciex (alternative data analysis tool:
+MALDIquant).
+Proteomic sample preparation was done using paramagnetic bead (SP3 bead) technology following the protocol published previously
+
+ 
+. For histone ruler proteomics, the cells were lysed and sonicated in cell lysis buffer (4% SDS, 10 mM TCEP, 50 mM TEAB in H2O). The proteins were then alkylated using iodoacetamide, cleaned on SP3 beads, and digested to peptides using trypsin and LysC. The peptides were TMT labelled according to the supplier’s instructions, cleaned on SP3 beads, eluted and fractionated by high pH reversed phase chromatography for mass spectrometry analysis. For Siglec-1 counter-receptor identification and membrane proteomics, the biotinylated proteins were enriched and cleaned on streptavidin beads. The glycans were removed using Protein Deglycosylation Mix II under Non-Denaturing Reaction Conditions following the protocol from the supplier. The samples were cleaned on streptavidin beads, eluted using cell lysis buffer and processed using paramagnetic bead (SP3 bead) technology for label free proteomic analysis. Proteomics data are available via ProteomeXchange with identifiers
+PXD022259,
+PXD021737,
+PXD021693 and
+PXD021691.
+The proteomic raw data were imported to MaxQuant Version 1.6.2.3
+
+ 
+ to search protein FASTA files of mouse, human IgG Fc and HRP in Uniprot database. The LFQ intensities of proteins were used for downstream analysis
+
+ 
+ by Perseus Version 1.6.0.7
+
+ 
+ and R Version 3.6.3. The R scripts were uploaded to
+GitHub (see
+Code availability)
+
+ 
+. Gene Ontology Cellular Component analysis and glycosylation analysis were based on the reviewed mouse protein entries in Uniprot database. Siglec-1 counter-receptors were identified through four consecutive steps of data filtration. The log2-fold change of the proteins in each sample was first visualized by histogram, and the samples without a proximity labelling tail were excluded. After that, the rest of the data were visualized in a volcano plot and the data points with significant changes were selected. Then, proteins without predicted glycosylation sites or that were unlikely to be located on the plasma membrane were removed. Finally, the filtered proteins were mapped back to each of the histograms of log2 fold change and proteins found outside the ‘proximity labelling tail’ in any histogram were removed. For the identification of ‘total membrane proteins’, both total cell lysate and membrane enriched proteins from three biological replicates of activated Tregs were used for mass spectrometry analysis. Proteins identified in at least two of three biological replicates were selected for Gene Ontology Cellular Component analysis to identify cell membrane proteins.
+
+## RNA-Seq
+Total RNA from rested and activated regulatory T cells (four biological replicates) were extracted using Qiagen RNeasy Mini kit (#74106) according to the manufacturer’s instructions and quantified using the Qubit 2.0 Fluorometer (Thermo Fisher Scientific Inc, #Q32866) and the Qubit RNA BR assay kit (#Q10210). RNA sequencing libraries were prepared from 500 ng of each total-RNA sample using the NEBNEXT Ultra II Directional RNA Library Prep kit with Poly-A mRNA magnetic isolation (NEB #E7490) according to the manufacturer’s instructions.
+Poly-A containing mRNA molecules were purified using poly-T oligo attached magnetic beads. Following purification the mRNA was fragmented using divalent cations under elevated temperature and primed with random hexamers. Primed RNA fragments were reverse transcribed into first strand cDNA using reverse transcriptase and random primers. RNA templates were removed and a replacement strand synthesised incorporating dUTP in place of dTTP to generate ds cDNA. The incorporation of dUTP in second strand synthesis quenches the second strand during amplification as the polymerase used in the assay is not incorporated past this nucleotide. AMPure XP beads (Beckman Coulter, #A63881) were then used to separate the ds cDNA from the second strand reaction mix, providing blunt-ended cDNA. A single ‘A’ nucleotide was added to the 3’ ends of the blunt fragments to prevent them from ligating to another during the subsequent adapter ligation reaction, and a corresponding single ‘T’ nucleotide on the 3’ end of the adapter provided a complementary overhang for ligating the adapter to the fragment. Multiple indexing adapters were then ligated to the ends of the ds cDNA to prepare them for hybridisation onto a flow cell, before 11 cycles of PCR were used to selectively enrich those DNA fragments that had adapter molecules on both ends and amplify the amount of DNA in the library suitable for sequencing. After amplification libraries were purified using AMPure XP beads.
+Libraries were quantified using the Qubit dsDNA HS assay and assessed for quality and fragment size using the Agent Bioanalyser with the DNA HS kit (#5067-4626). RNA-Sequencing was carried out by The Genetics Core of Edinburgh Clinical Research Facility, University of Edinburgh using the NextSeq 500/550 High-Output v2 (150 cycle) Kit (# FC-404-2002) with a High Out v2.5 Flow Cell on the NextSeq 550 platform (Illumina Inc, #SY-415-1002). Eight libraries were combined in an equimolar pool based on the library quantification results and run across one High-Output Flow Cell. Sequencing resulted in paired-end reads 2 x 75 bp with a median of 50 million reads per sample. RNA-Seq data produced in this study are available via ArrayExpress with identifier
+E-MTAB-9657.
+The data were analysed by the Data Analysis Group, Division of Computational Biology, University of Dundee, using code which is available on
+GitHub (see
+Code availability)
+
+ 
+. The sequencing data were processed using a snakemake script in a conda environment. Reads were quality controlled using FastQC and MultiQC, mapped to GRCm38 assembly (Ensembl) of the mouse genome using STAR 2.6.1a (Dobin
+et al., 2013) and number of reads per gene was quantified in the same STAR run. Differentially expressed genes were quantified with edgeR v3.28.0 (Robinson, McCarthy, & Smyth, 2010). A Benjamini-Hochberg multiple test correction was applied to test P-values. The data reproducibility was tested using the distance matrix and clustering based on the read count per gene.
+
+## Glycoprotein isolation, glycosidase digestion, western blotting
+Cyanogen bromide-activated Agarose, neuraminidase (
+Vibrio cholerae), and HRP-conjugated rabbit anti-goat antibody (polyclonal, Cat# AP107P, RRID: AB_92420, 1:7 000) were from Merck, Dorset, UK. Anti-mouse PD-1 (clone: J43, Cat# 14-9985-82, RRID: AB_468664, used without dilution) and NuPAGE SDS-PAGE system were from ThermoFisher, Loughborough, UK. Goat anti-mouse PD-1 (polyclonal, Cat# AF1021, RRID: AB_354541, 1:5 000) and goat anti-mouse CD48 (polyclonal, Cat# AF3327, RRID: AB_664084, 1:15 000) were from R&D systems, Abingdon, UK. PNGase F (Cat# P0704S) was from New England Biolabs, Herts UK.
+For PD-1 analysis, anti-mouse PD-1 (RRID: AB_468664) was conjugated to cyanogen bromide-activated Agarose according to the supplier’s instructions. PD-1 from resting and activated Tregs was affinity purified using the anti-PD1 beads for glycosidase digestion and western blot analysis. PNGase F digestion was done according to the supplier’s instructions. Sialidase digestion was done in 50 mM sodium acetate, 4 mM calcium chloride, pH 5.5, at 37°C for 2 h. SDS-PAGE of PD-1 was carried out using the NuPAGE system, and the protein was transferred to PVDF membrane, blotted with goat anti-mouse PD-1 (RRID: AB_354541) and HRP-conjugated rabbit anti-goat antibody (RRID: AB_92420). CD48 was blotted with goat anti-mouse CD48 (RRID: AB_664084) and HRP-conjugated rabbit anti-goat antibody (RRID: AB_92420).
+
+## Results
+
+## Siglec-1 binding to Tregs depends completely on Treg activation
+FoxP3-positive CD4 Tregs are a small subset of the total pool of CD4 T cells but can be induced from FoxP3-negative CD4 T cells under defined culture conditions. In order to obtain a sufficient number of Tregs for RNA-Seq, glycomics and proteomics, CD4 T cells were isolated from mouse spleens and lymph nodes and induced to become Tregs as illustrated in
+ . After induction for 4 – 5 days, the proportion of Tregs increased from about 4% to about 90%, and the cell count increased 1- to 3-fold. After expansion for a further four days, the cell count increased another 2- to 3-fold, without affecting the proportion of Tregs (
+ ). Siglec-1 binding to these Tregs was analysed by flow cytometry. The freshly-induced and activated Tregs exhibited strong Siglec-1 binding (
+ ). When these cells were cultured under resting conditions in the absence of anti-CD3 antibody, Siglec-1 binding disappeared completely, but was fully restored when the cells were re-stimulated with anti-CD3 antibody (
+ ). Alternatively, when the freshly-induced Tregs were kept activated with anti-CD3, they continued to exhibit strong Siglec-1 binding until anti-CD3 was removed from the cell culture medium (
+ ). The extent of induction of Siglec-1 ligands on Tregs by anti-CD3 antibody and its kinetics were dose-dependent over a range of anti-CD3 concentrations (
+ ). These observations reveal that Siglec-1 binding to Tregs
+in vitro depends completely on Treg activation. This is consistent with previous
+in vivo studies showing that Siglec-1 bound only to activated, but not resting Tregs
+
+ ,
+ 
+.
+ 
+
+## Siglec-1 binding to activated Tregs is not due to a global change of sialylation
+The striking induction of Siglec-1 ligands on activated Tregs suggests that activation could be accompanied by global changes in glycan sialylation, as observed previously with CD4+ effector T cells
+
+ ,
+ 
+. These include increased expression of α2,3-linked sialic acids and a switch from the NeuGc to NeuAc form of sialic acid, both changes leading to increased binding of Siglec-1. To investigate this, we used plant lectins MAL II and SNA to probe the overall α2,3-linked and α2,6-linked sialylated glycans, respectively, and anti-NeuGc antibody to measure NeuGc levels on Tregs. However, unlike effector T cells, there were no obvious changes in either lectin or antibody binding upon Treg activation (
+ ).
+ Glycomics was used to directly examine the structures and relative quantities of Treg N-glycans and glycolipids. N-glycans showed an overall similar glycosylation and sialylation profile when resting and activated Tregs were compared (
+ ). A specific change was found at m/z 3026, which is a bi-antennary glycan with core fucose and two NeuGc sialic acids. Relative to the other glycans, this glycan had a decreased intensity when Tregs became activated. Gal-α-Gal terminal structures were specifically found on mono-sialylated core fucosylated glycans at m/z 2809 and m/z 2839. Relative to the other biantennary glycans, the two glycans had a minor increase upon Treg activation. For glycolipids, MS (
+ ) and MS/MS (
+Extended data Figures 1–8)
+
+ 
+ analyses showed different glycan profiles in resting and activated Tregs, with a trend of NeuGc switching to NeuAc upon activation. This can be seen by the higher proportions of NeuAc-containing glycans at m/z 1288, 1533 and 1649 versus their NeuGc-containing counterparts at m/z 1318, 1563 and 1709 in activated Tregs (
+ ). This was especially striking for the α2,3-sialylated GM1b structures at m/z 1288 (NeuAc) and m/z 1318 (NeuGc) (
+ ). These observations suggest that GM1b (NeuAc) is upregulated on activated Tregs where it could potentially serve as a ligand for Siglec-1.
+ 
+
+## RNA-Seq analysis does not indicate a global change of sialylation in activated Tregs
+RNA-Seq was used to profile the gene expression patterns, comparing resting and activated Tregs prepared from four independent biological replicates. The peak expression of Siglec-1 ligands was observed between 24 and 48 hours following Treg activation (
+ ). Therefore, we selected a 36 hour time point to isolate mRNA in order to maximise the chances of seeing clear changes in gene expression relevant to Siglec-1 ligand expression. The Pearson’s correlation coefficient for each pair of replicates is shown in the distance matrix in
+ , which shows good quality data with reproducible replicates and major changes between resting and activated Tregs. This is further illustrated by clustering and principle component analyses (
+ ). To focus on genes involved in glycosylation, we assembled a dataset of 263 genes including glycosyltransferases, glycosidases, enzymes involved in amino sugar and nucleotide sugar metabolism, and sugar transporters (
+Extended data Table 1)
+
+ 
+. Whilst, overall, these genes did not show a dramatic global log2 fold change there were many specific changes upon Treg activation (
+ ,
+Extended data Table 1)
+
+ 
+. Mapping of the data to KEGG pathways points to overall increased N-glycosylation in activated Tregs (
+Extended data Figure 9)
+
+ 
+ and increased O-glycosylation for proteins that depend on expression of
+Galnt3, a GalNAc transferase that initiates O-glycosylation on serine and threonine residues (
+Extended data Figure 10)
+
+ 
+.
+ The expression patterns of genes involved in Treg sialylation are shown in
+ . The sialyltransferases (STs) are a family of ~20 enzymes that transfer sialic acids to acceptor sugars in α2,3-, α2,6- and α2,8-glycosidic linkages
+
+ 
+. For α2,3-sialylation, the preferred linkage for Siglec-1, Treg activation was associated with decreased expression of
+St3gal1, St3gal2 and
+St3gal6, increased expression of
+St3gal5 and no change for
+St3gal3 and
+St3gal4 (
+ ). Similarly, for α2,6-sialylation, differential expression was observed, with a 5-fold decrease of
+St6gal1 and a 3-fold increase in expression of both
+St6galnac4 and
+St6galnac6 following activation (
+ ). The net effect of these alterations on overall α2,3 and α2,6 sialylation appears to be minimal as MALII and SNA staining for these respective linkages showed no changes on Treg activation, as described above (
+ ). For α2,8-sialylation,
+St8sia1 and
+St8sia4 were both decreased upon Treg activation, but expression of
+St8sia6 was slightly increased (
+ ). We also analysed genes involved in modifications of sialic acids including conversion of NeuAc to 9-O-acetyl NeuAc and Neu5Gc, neither of which is recognised by Siglec-1
+
+ 
+. 9-O-acetylation is controlled by Casd1 and Siae, which catalyse the addition or removal of acetyl groups to NeuAc, respectively
+
+ ,
+ 
+. Expression of both genes was reduced following Treg activation, suggesting no net change in levels of 9-O-acetyl NeuAc. (
+ ). Expression of
+Cmah, which is responsible for converting CMP-NeuAc to CMP-NeuGc
+
+ 
+, did not change significantly upon Treg activation. This is consistent with the anti-NeuGc Ab binding results shown above (
+ ), which showed no differences between resting and activated Tregs. Finally, we analysed expression of endogenous sialidases with the potential to remove sialic acids from the cell surface. Of the four sialidase genes
+
+ 
+, only
+Neu1 and
+Neu3 were expressed in Tregs. Expression of
+Neu1 increased slightly in activated Tregs while
+Neu3 did not change significantly (
+ ). In conclusion, the results of RNA-Seq revealed changes in expression of many genes that affect glycosylation of multiple proteins and lipids, but did not reveal specific changes predicted to have major effects on Siglec-1 recognition following Treg activation.
+ 
+
+## Identification of glycoprotein counter-receptors for Siglec-1
+A recently-described proximity labelling strategy
+
+ ,
+ 
+, coupled with quantitative proteomics, was used to identify Treg glycoproteins that could interact with Siglec-1. The experimental design is illustrated in
+ . It essentially involves preparation of Siglec-1-horse radish peroxidase (Sn-HRP) multimers (
+ ) that can bind to Tregs and, in the presence of tyramide-SS-biotin and H
+2O
+2, generate short-range biotin radicals that label neighbouring proteins (
+ ). Labelled proteins are then enriched with streptavidin and identified by quantitative proteomics (
+ ). To increase the chances of identifying diverse counter-receptors, two types of Siglec-1-HRP multimer were prepared, either in-solution, or attached to 50 nm microbeads (
+ ). Because of the potential for non-specific labelling and streptavidin binding, it was important to include similarly-prepared multimers of a non-binding negative control Siglec-1, (SnR97A) alongside the active Siglec-1. Proteins that were selectively enriched using the Sn-HRP complexes over the SnR97A-HRP complexes represent potential Siglec-1 counter-receptors (
+ ).
+ Three biological replicates of activated Tregs were prepared for independent proximity labelling experiments using both in-solution and on-bead multimers, resulting in six data sets. For each data set, the log2 fold change of each protein relative to its negative control was calculated and visualized according to its cellular compartmentalisation (
+ ). A subset of membrane proteins with higher log2 fold changes were observed in the histogram, resulting in a small but clear tail, which we describe as a ‘proximity labeling tail’. This tail was only found for membrane proteins but not for cytoplasmic, nuclear or other proteins and suggests that only certain membrane proteins were biotinylated and selectively enriched. Five out of the six data sets showed the proximity labelling tail (
+Extended data Figure 11)
+
+ 
+ and these were selected for statistical analysis using volcano plots (
+ ). A small subset of proteins was found to have significant log2 fold changes. As expected, these were mainly membrane proteins.
+ The glycosylated proteins from the significant hits on the volcano plot were selected for further data filtering; they were mapped back to the individual histogram of total membrane proteins (
+Extended data Figure 12)
+
+ 
+, and those which were outside the proximity labelling tail were filtered out. The final Siglec-1 counter-receptor list of 49 membrane proteins is shown in
+ . We successfully identified proteins that make up the Siglec-1-HRP multimer complex, namely HRP, human IgG Fc and Siglec-1, with gene names PRXC1A, IGHG1 and Siglec1, respectively. We also identified CD43, which was proposed previously to function as a counter-receptor for Siglec-1
+
+ 
+. These identifications serve as a proof-of-principle for the proximity labelling approach. Interestingly, Siglec-1 counter-receptors included a wide range of glycoproteins involved in a variety of functions, including the regulation of T cell activation and proliferation, such as CD80, CD200, CD69, CD150, PD-1 and PD-L1, adhesion molecules like CD166 and integrins, the IL-2 receptor (CD25) and transporters like the L-type amino acid transporter, 4F2 (
+Extended data Table 2)
+
+ 
+.
+ 
+
+## Characterization of Siglec-1 counter-receptors
+To determine the proportion of membrane proteins constituted by the 49 Siglec-1 counter-receptors, proteomics analyses were undertaken on activated Tregs. To maximise the number of membrane proteins identified, two approaches were used, either by performing proteomics of whole cell lysates or following cell surface biotinylation and enrichment of labelled proteins with streptavidin beads. This combined approach led to identification of 943 membrane proteins, suggesting that the 49 Siglec-1 counter-receptors comprise approximately 5% of the total membrane proteins on activated Tregs (
+ ).
+ We next asked whether the Siglec-1 counter-receptors were distributed amongst the more abundant membrane glycoproteins using both the RNA-Seq and proteomics datasets (
+ ). This revealed that Siglec-1 counter-receptors were distributed across the range of proteins from low to high abundancy, but were more enriched amongst the high abundancy proteins. To investigate whether Siglec-1 counter-receptors might be more heavily glycosylated than other membrane proteins, we compared 16 counter-receptors belonging to the Ig superfamily with 56 non-counter-receptors of the Ig superfamily identified by proteomics. The results showed that most of the counter-receptors had more than one predicted N-glycosylation site per Ig-like domain, while most of the non-counter-receptors had less than one site per domain (
+ ). This suggests that glycosylation density is an important determinant of functioning as a Siglec-1 counter-receptors, presumably by allowing them to mediate higher avidity binding to clustered Siglec-1. Next, we asked if the counter-receptors were upregulated on activated Tregs compared to resting cells. This was investigated at both the protein level using flow cytometry (
+ ) and at the mRNA level using RNA-Seq data (
+ ). Several proteins, including CD80, PD-1 and CD274 (PD-L1), showed increased protein expression in activated Tregs, which correlated with increased mRNA levels, but for about half of the counter-receptors, mRNA levels were either not changed or were decreased (
+ ).
+ As a first step to investigate glycosylation changes in Siglec-1 counter-receptors, we performed western blotting on CD48, as an example of a protein that did not change expression, and PD-1, as an example of a protein that is upregulated on activated Tregs. Compared to resting Tregs, both CD48 and PD-1 from activated Tregs displayed a more heterogeneous smear and increased molecular weight by SDS-PAGE, indicating increased glycosylation (
+ ). For PD-1, this was confirmed following treatment of affinity-purified PD-1 with PNGase F to remove N-glycans, which resulted in PD-1 from resting and activated Tregs migrating similarly by SDS-PAGE (
+ ). Finally, affinity-purified PD-1 from resting and activated Tregs was treated with sialidase, leading to increased migration by SDS-PAGE showing that it carries sialylated glycans with potential to be recognised by Siglec-1 (
+ ).
+
+## Discussion
+The major aim of this study was to obtain insights into the molecular basis of Siglec-1-dependent interactions of macrophages with Tregs and thus improve our understanding of how this lectin promotes inflammatory responses in certain autoimmune diseases. Consistent with
+in vivo and
+in vitro studies
+
+ ,
+ 
+, we found Siglec-1 binding to Tregs depended completely on Treg activation. Based on this finding, a key part of our strategy was to analyse glycosylation changes by performing side-by-side comparisons of resting and activated Tregs using a range of unbiased and targeted approaches. These included RNA-Seq, glycomics, proteomics and staining with lectins and anti-glycan antibodies. Furthermore, we used a recently-described proximity labelling strategy
+
+ ,
+ 
+ to identify membrane proteins on activated Tregs that could function as Siglec-1 counter-receptors. This comprehensive combined approach has provided a wealth of new information regarding glycomics changes and Siglec-1 recognition following Treg activation. Clear changes in glycosylation were observed for both N-glycans and glycolipids and many glycogenes were altered in expression following Treg activation. Although the precise mechanisms by which these changes lead to increased Siglec-1 binding remain to be determined, they are likely to involve complex protein- and lipid-dependent modification of sialylation at an individual carrier level. The identification of 49 Siglec-1 glycoprotein counter-receptors provides important clues as to how Siglec-1 can mediate adhesion and signalling to activated Tregs. These counter-receptors were dominated by adhesion and signalling glycoproteins mainly related to T cell activation and proliferation (
+ ,
+Extended data Table 2)
+
+ 
+. Importantly, several counter-receptors showed increased expression at the protein level and preliminary analyses showed increased glycosylation following Treg activation. The combined effect of all changes noted above could lead to increased Siglec-1 binding and signalling to activated Tregs.
+Although the focus of this study was on the lectin Siglec-1, there are many other endogenous lectins such as galectins and C-type lectins whose binding could be greatly affected by the glycosylation changes observed leading to altered Treg functions
+
+ 
+. The glycan remodelling of Tregs could also be important in intrinsic functions of these cells since it is well known that glycosylation has complex pleiotropic effects on cell function and behaviour
+
+ 
+.
+Previous studies with effector CD4 T cells have also demonstrated activation-dependent increases in Siglec-1 binding, and these were ascribed to a switch from NeuGc to NeuAc and increased α2,3-linked sialic acids following activation
+
+ ,
+ 
+. In the present study, we were unable to see obvious global changes in either of these parameters using anti-NeuGc antibody staining and MALII plant lectin that binds α2,3 linked sialic acids. The unaltered expression of NeuGc at the cell surface was consistent with RNA-Seq analysis of
+Cmah, which encodes the enzyme responsible for converting CMP-NeuAc to CMP-NeuGc, did not show a significant change of
+expression in resting and activated Tregs. It appears, therefore, that regulation of Siglec-1 ligand expression by Tregs is fundamentally different from effector CD4 T cells. However, glycomics analysis did identify minor changes in NeuGc capped glycans upon Treg activation. We also detected clear reductions in NeuGc expression in glycolipid analysis following activation, but as these gangliosides are likely to be relatively minor carriers of sialic acids compared to glycoproteins, their altered levels are probably not detectable with anti-NeuGc antibody and their impact on Siglec-1-dependent binding is unclear. Interestingly, a previous study has found that ST6Gal I showed 4-7 times higher affinity for CMP-NeuGc than CMP-NeuAc, while ST3Gal I showed no significant difference between them
+
+ 
+. This implies that sialyltransferases can have different activities towards CMP-NeuGc and CMP-NeuAc, which could lead to different incorporation of NeuGc and NeuAc to target glycans. It is possible that the specific changes of NeuGc capped glycans were due to altered sialyltransferase gene expression upon Treg activation.
+While there was no overall change in levels of α2,3-sialylation measured with MALII lectin in activated Tregs, RNA-Seq showed reduced expression of sialyltransferases
+St3gal1, 2 and
+6 and increased expression of
+St3gal5. These observations suggest that individual glycoconjugates that function as acceptors for these enzymes may differ significantly in α2,3 sialylation between resting and activated Tregs. For example, expression of
+St3gal6 has been associated with generation of the selectin ligand sialylLe
+x
+
+ 
+ and its reduced expression in activated Tregs could be important for modulating homing of these cells to inflamed sites. ST3Gal5 is also known as GM3 synthase, which converts lactosyl ceramide to GM3. GM3 can be further converted to α2,8-disialylated GD3 by ST8Sia1 (GD3 synthase). The increased expression of
+St3gal5 and decreased expression of
+St8sia1 suggests that GM3 is upregulated on activated Tregs where it could function as a ligand for Siglec-1. GM3 is known to be a dominant ligand for Siglec-1 interactions with retroviruses such as HIV and is able to mediate recognition and internalisation of viral particles by Siglec-1-expressing macrophages
+
+ ,
+ 
+. While future studies are required to investigate expression of GM3 following Treg activation and its potential role in Siglec-1 recognition, we were unable to detect GM3 in the glycolipid analysis. This may be due to the low level of
+St3Gal5 expression relative to other
+St3Gals, resulting in synthesis of GM3 at levels below our detection threshold.
+An important aim of this study was to identify glycoproteins on activated Tregs that could function as counter-receptors for Siglec-1 and mediate the biological effects, namely suppression of Treg expansion during autoimmune inflammatory responses. Although pull-down approaches are widely used to identify high affinity protein binding partners, these may not be reliable for identifying counter-receptors for lectins such as Siglec-1, which rely on high avidity interactions with clustered glycan ligands. Clustering could result from organisation of membrane glycoproteins and glycolipids within microdomains of the membrane, as well as through a high density of glycan ligands on individual glycoproteins. Pull-down approaches depend on detergents to lyse cells and solubilise membrane proteins. As such, they disrupt the organization and clustering of glycoproteins in the cell membrane that may be critical for Siglec-1 binding.
+Proximity labelling is a recently developed method, which has been used widely to study protein-protein interactions in living, intact cells
+
+ –
+ 
+. In general, this approach uses enzyme conjugates as baits that bind cellular target proteins. Addition of suitable substrates leads to the generation of highly reactive radicals that tag neighbouring proteins, which can then be enriched and identified by mass spectrometry. This method can also be used to identify Siglec counter-receptors by building Siglec-HRP multimers. We previously prepared in-solution Siglec-1-HRP multimers by mixing Siglec-1-huIgG-Fc fusion protein with HRP-conjugated polyclonal anti-huIgG-Fc and successfully identified glycophorin as a Siglec-1 counter-receptor on human erythrocytes
+
+ 
+. Another type of in-solution Siglec-HRP multimer was independently developed by another group, which identified CD22 counter-receptors on B cells and Siglec-15 counter-receptors on RAW264.7-derived osteoclasts
+
+ 
+. In this study, we used two types of multimer for proximity labeling: in-solution multimers and on-bead multimers (
+ ). Glycoproteins identified by both types of multimer were selected as Siglec-1 counter-receptors.
+An initial characterization of Siglec-1 counter-receptors revealed they represent 5% of the total membrane proteins and tend to be amongst the more abundantly expressed membrane glycoproteins. We did not see evidence for strong enrichment of any minor proteins, which might be expected if Siglec-1 had high affinity binding partners requiring protein-protein interactions as well as protein-glycan interactions. Although most lectins rely solely on high avidity glycan interactions for protein binding, P-selectin is an example of a lectin that can use additional, non-glycan interactions to mediate high affinity binding to P-selectin glycoprotein ligand-1
+
+ 
+. Consistent with a glycan-dependent, protein-independent mode of interaction to clustered glycans, Siglec-1 counter-receptors carry a higher density of predicted N-glycosylation sites than non-counter-receptors. O-glycosylation could also be important for Siglec-1 binding, especially for mucin-like proteins that contain a high density of O-glycans. Previously, using a pull-down approach, the mucin-like proteins, CD43 and Muc-1, were identified as Siglec-1 counter-receptors on a T cell line and breast cancer cells, respectively
+
+ ,
+ 
+. In the present study, we also identified CD43 as a Siglec-1 counter-receptor on activated Tregs, alongside 48 other glycoproteins. Unlike N-glycosylation, O-glycosylation does not have consensus sequences, making it more difficult to compare O-glycan densities on the counter-receptors versus non-counter-receptors.
+Identification of potential binding partners allowed us to ask if these were upregulated on activated Tregs, which could then help explain the increased binding of these cells to Siglec-1 compared to resting Tregs. Indeed, flow cytometry of several counter-receptors showed increased expression following Treg activation but there were clear exceptions such as CD48 whose expression remained unchanged. RNA-Seq data also indicated that the expression of many Siglec-1 counter-receptors was either unaltered or even reduced following Treg activation. Even if expression of counter-receptors is not changed, increased glycosylation and sialylation following activation could lead to enhanced Siglec-1 binding. In support of this possibility, KEGG pathway analysis of the RNA-Seq data indicated that Treg activation was accompanied by increased flux through the N-glycosylation pathway. In particular, activated Tregs had enhanced expression of several components of the oligosaccharyltransferase (OST) complex, which can be rate-limiting for N-glycosylation of proteins
+
+ 
+. Direct evidence for increased glycosylation of counter-receptors following Treg activation was seen for CD48 and PD-1, both of which showed an increase in apparent molecular weight and in the case of PD-1 this was shown to be sensitive to PNGase F that specifically cleaves N-glycans. Further work is required to investigate the glycosylation changes in more detail and determine if these lead to increased Siglec-1 binding for individual counter-receptors. Glycoprotemics is a powerful strategy that can map glycan structures to each glycosylation site of a glycoprotein
+
+ 
+. However, glycoproteomics requires relatively large amounts of purified target glycoproteins, which, for primary cells such as Tregs, is a major technical challenge
+
+ ,
+ 
+.
+The glycan-dependent interaction of Siglec-1 on macrophages with the set of counter-receptors expressed on Tregs could trigger a range of biological activities, with the net outcome being suppression of Treg expansion, as observed previously
+
+ 
+. The identification of CD25/IL-2 receptor could be relevant in this regard since Tregs do not produce IL-2 but they require IL-2 for survival and proliferation
+
+ 
+. Modulation of CD25 function via Siglec-1 binding could therefore affect Treg cell expansion under inflammatory conditions. Of particular interest from this perspective are regulatory receptors such as PD-1, which is an important immune-inhibitory receptor. It can be exploited by pathogens and cancer cells to escape T-cell–mediated immune responses
+
+ 
+. Antibodies targeting PD-1 and its ligands are used to treat human cancers in checkpoint immunotherapy
+
+ 
+. PD-1 also plays a vital role in the maintenance of peripheral tolerance by thwarting autoreactive T cells
+
+ 
+. Two PD-1 ligands have been identified: PD-L1 (CD274) and PD-L2 (CD273). The results of our proximity labeling studies suggests Siglec-1 could act as an additional PD-1 ligand. PD-1 is a heavily glycosylated protein; both mouse and human PD-1 contain a single Ig-like domain with four N-glycosylation sites
+
+ 
+. As shown in the present study, deglycosylated PD-1 has a molecular weight of about 30 kDa, which can increase up to 65 kDa when glycosylated. Interestingly, the involvement of Siglec-1 in PD-1 signalling has been reported previously
+
+ 
+. Human monocyte-derived dendritic cells treated with human rhinoviruses showed upregulated expression of PD-L1 and induced expression of Siglec-1. These dendritic cells had an inhibitory phenotype, which diminished their capacity to stimulate alloreactive T cells and induced a promiscuous and deep T cell anergy. The inhibitory phenotype of these dendritic cells could be reversed by blocking both PD-L1 and Siglec-1
+
+ 
+. In contrast to the function of PD-1 in effector T cells, PD-1 is important for Treg development and activity
+
+ 
+. The impact of Siglec-1 on PD-1 function in T cells is an important area for future studies.
+CD28 mediates the co-stimulatory signal for T cell activation through the well documented protein ligand CD80. A recent study has revealed that CD28 also exhibits a sialic acid binding activity, which binds to both 3-linked and 6-linked sialic acid
+
+ 
+. The binding of CD28 to sialic acid was found to block its interaction with CD80 and attenuate the co-stimulation. It is possible that the sialic acids on activated regulatory T cells can interact with both CD28
+in cis and Siglec-1
+in trans, resulting in two negative signals that suppress cell activation and proliferation. CD28 was not identified as a Siglec 1 counter-receptor in this study, suggesting that Siglec-1 and CD28 may bind to different glycoproteins on the cell surface.
+In conclusion, we provide the first comprehensive analysis of glycan changes in activated Tregs that lead to recognition by the macrophage lectin, Siglec-1. We furthermore provide insights into glycoprotein counter-receptors expressed by these cells that are likely to be important in mediating the biological functions of Siglec-1, by promoting inflammatory responses via suppression of Treg expansion during autoimmune disease of the nervous system.
+
+## Data availability
+
+## Underlying data
+ArrayExpress: RNA-Seq analysis of resting and activated mouse Tregs, accession number E-MTAB-9657:
+https://identifiers.org/arrayexpress:E-MTAB-9657.
+Mass spectrometry proteomics data are deposited to the ProteomeXchange Consortium via the PRIDE
+
+ 
+ partner repository, which contains the following data:
+Proteomic analysis of resting and activated Tregs. Accession number PXD022259;
+https://identifiers.org/pride.project:PXD022259.
+Proteomics of Treg membrane proteins. Accession number PXD021737;
+https://identifiers.org/pride.project:PXD021737.
+Proximity labeling of Siglec-1 counter-receptors on activated regulatory T cells using soluble Siglec-1-HRP multimers. Accession number PXD021693;
+https://identifiers.org/pride.project:PXD021693.
+Proximity labeling of Siglec-1 counter-receptors on activated regulatory T cells using Siglec-1-HRP multimers on nano-beads. Accession number PXD021691;
+https://identifiers.org/pride.project:PXD021691.
+Figshare: Activation of regulatory T cells triggers specific changes in glycosylation associated with Siglec-1-dependent inflammatory responses.
+https://doi.org/10.6084/m9.figshare.c.5327141.v7
+
+ 
+.
+This project contains the following underlying data:
+FCS files for the flow cytometry data in Figure 2 A
+FCS files for the flow cytometry data in Figure 2B
+FCS files for the flow cytometry data in Figure 3
+FCS files for the flow cytometry data in Figure 11 A
+Mzxml files for the mass spectra in Figure 4
+Mzxml files for the mass spectra in Figure 5
+Mzxml files for the mass spectra in extended data, Figure 1–8
+
+## Extended data
+Figshare: Extended data.
+https://doi.org/10.6084/m9.figshare.14130140
+
+ 
+.
+This project contains the following extended data:
+Figure 1 (PDF). This figure shows MS/MS analysis of the glycolipid glycan at m/z 1288 from rested Tregs. The fragmentation of the permethylated glycan provides strong evidence that it is a GM1b.
+Figure 2 (PDF). MS/MS analysis of the glycolipid glycan at m/z 1649 from resting Tregs. The fragmentation of the permethylated glycan provides strong evidence that it is GD1c with two NeuAc.GD1a could coexist as a non-dominant structure. Loss of methylated carboxyl group from sialic acid was detected at m/z 717.
+Figure 3 (PDF). MS/MS analysis of the glycolipid glycan at m/z 1679 from rested Tregs. The fragmentation of the permethylated glycan provides strong evidence that it is GD1c with 1 NeuAc and 1 NeuGc. Loss of methylated carboxyl group from sialic acid was detected at m/z 747.
+Figure 4 (PDF). MS/MS analysis of the glycolipid glycan at m/z 1709 from rested Tregs. The fragmentation of the permethylated glycan provides strong evidence that it is GD1c with 2 NeuGc. Loss of methylated carboxyl group from sialic acid was detected at m/z 777.
+Figure 5 (PDF). MS/MS analysis of the glycolipid glycan at m/z1288 from activatedTregs. The fragmentation of the permethylated glycan provides strong evidence that it is GM1b.
+Figure 6 (PDF). MS/MS analysis of the glycolipid glycan at m/z 1649 from activated Tregs. The fragmentation of the permethylated glycan provides strong evidence that the dominant structure is GD1c with 2 NeuAc. GD1a could coexist as a non-dominant structure. Loss of methylated carboxyl group from sialic acid wasdetected at m/z 7.
+Figure 7 (PDF). MS/MS analysis of the glycolipid glycan at m/z 1679 from activated Tregs. The fragmentation of the permethylated glycan provides strong evidence that it is GD1c with 1 NeuAc and 1 NeuGc. Loss of methylated carboxyl group from sialic acid was detected at m/z 747.
+Figure 8 (PDF). MS/MS analysis of the glycolipid glycan at m/z 1709 from rest Tregs. The fragmentation of the permethylated glycan provides strong evidence that it is GD1c with 2 NeuGc. Loss of methylated carboxyl group from sialic acid was detected at m/z 777.
+Figure 9 (PDF). Mapping RNA-Seq data to the N-glycosylation pathway. Glycosylation related genes that had normalized counts above 100 in activated cells and had significant log2 fold changes (p<0.05) were mapped to the KEGG pathway using Pathview. For the pathway node that corresponds to multiple genes, the gene that had the biggest change was used for the mapping and the change of individual genes were then manually listed. A) Mapping to N-glycosylation pathway. The genes involved in synthesizing and transferring the N-glycan precursor to glycosylation sites increased upon Treg activation. B) Manually listing of genes mapped to the OST node. Four of the 5 components in OST enzyme complex were increased in activated Tregs
+Figure 10 (PDF). Mapping RNA-Seq data to the O-glycosylation pathway. Glycosylation-related genes that had normalized counts above 100 in activated cells and had significant log2 fold changes (p<0.05) were mapped to the KEGG pathway using Pathview. For the pathway node, which corresponds to multiple genes, the gene that had the biggest change was used for the mapping and the change of individual genes were then manually listed. A) Mapping to the O-glycosylation pathway. One of the Galnts that mapped to node 2.4.1.41 showed a large increase upon Treg activation. B) Manual listing of genes that mapped to the node 2.4.1.41. Galnt3 was the only one that showed increased expression upon Treg activation. Galnt12 expression was unaltered and the other 6 Galnts showed decreased expression in activated Tregs.
+Figure 11 (PDF). Histogram of log2 fold changes of proteins in independent proximity labelling experiments and their negative controls. The proximity labelling tail was found in 5 of the 6 proximity labelling experiments as indicated.
+Figure 12 (PDF). The glycosylated proteins from the significant hits on the volcano plot were mapped back to the individual histogram of total membrane proteins. Each red dot on the histograms represents a significant hit on the volcano plot. The red dots outside the proximity labelling tail (on the left side of the blue doted vertical line in each histogram) were filtered out. The on-bead multimer proximity labelling of the second biological replicate did not have the proximity labelling tail and was not used for data filtration.
+Table 1 (XLSX). List of glycosylation-related genes and their expression levels in Tregs.
+Table 2 (XLSX). Properties of Siglec-1 counter-receptors expressed by activated Tregs.
+Data hosted with Figshare are available under the terms of the
+Creative Commons Zero “No rights reserved” data waiver (CC0 1.0 Public domain dedication).
+
+## Code availability
+Source code available from:
+https://github.com/fromgangwu/R-scrip-for-Treg-data-analysis.git
+
+Archived source code at time of publication:
+https://doi.org/10.5281/zenodo.4727476
+
+ 
+.
+License:
+MIT
+
+Source code available from:
+https://github.com/bartongroup/MG_GlycoTreg
+
+Archived source code at time of publication:
+https://doi.org/10.5281/zenodo.4726641
+
+ 
+.
+License:
+MIT
+
+## Acknowledgements
+We would like to thank the staff in our animal facility for their help in routine breeding and maintenance of mice. We thank the University of Dundee Proteomics Facility and the Flow Cytometry and Cell Sorting Facility at the University of Dundee for their assistance.
+ 10.21956/wellcomeopenres.18569.r48238Reviewer response for version 1
+WeiHongshan Refereehttps://orcid.org/0000-0001-8893-653X
+1Beijing Ditan Hospital, Capital Medical University, Beijing, China
+Competing interests: No competing interests were disclosed.
+1422022Copyright: © 2022 Wei H2022https://creativecommons.org/licenses/by/4.0/This is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Version 1recommendationapproveIn the present manuscript, “Activation of regulatory T cells triggers specific changes in glycosylation associated with Siglec-1-dependent inflammatory responses”, the authors systematically observed the glycosylation changes after Tregs activation induced by Siglec‑1 binding. To the best of my knowledge, this was a first work focus on glycosylation changes in activated Tregs, especially the changes of sialylation. Using glycomic, RNA-Seq, and quantitative proteomic analysis, Wu
+et al. firstly found that expression of multiple glycogenes were involved in Tregs activation and Siglec-1 upregulation. In this process, proteomics analysis demonstrated that 49 Siglec-1 counter-receptors related with Tregs regulation. For further elucidating the role of these counter-receptors in Tregs regulation, the authors also observed the expression and glycosylation of Siglec-1 with Western blot and cytometry analysis. The authors assume that glycosylation and glycoform changes in activated Tregs resulted in increasing bounding activity of Siglec-1, and suppression of Treg expansion.
+ This innovative study was a rigorous design, and with appropriate experimental methods. The writing is clearly expressed with appropriate logical level. Minor revision may be helpful for better understanding the logical conclusion.
+As one of the important results, a global change of sialylation in activated Tregs was not observed, although the Siglec-1 binding activity was significantly increased. This result is different from Naito-Matsui (2014) and Redelinghuys (2011) previous reports. Several methods were used to confirm this result, such as glycomic analysis (Fig.4,5), Lectin and antibody-labelling analysis (Fig.3). Since the difference between its results and provious reports was resulted in Tregs and effector T cells, the CD25 and CD69 should accordingly be evaluated, as Kidder
+et al. (2013
+
+ 
+) recently report.
+As Villanueva-Cabello
+et al. (2019
+
+ 
+) recently reported, not only were α2,3 and α2,6 linked sialic acids involved in Tregs activation, α2,8(polysialic acid) also complicated in this process. The 12E3-binding activity may be also evaluated, since the polysialic acid may be play an important role in orchestrating the CD4+T cells response.
+As a typical study in glycobiological nature, multi-lectin chips may be further illustrating the characteristic of the Tregs sialylation, before and after activation.
+
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Yes
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+protein glycosylation and liver disease
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.
+ 10.21956/wellcomeopenres.18569.r46375Reviewer response for version 1
+MariñoKarina Referee
+1Laboratory of Functional and Molecular Glycomics, Institute of Biology and Experimental Medicine, National Council for Scientific and Technical Research (IBYME-CONICET), Buenos Aires, Argentina
+Competing interests: No competing interests were disclosed.
+8112021Copyright: © 2021 Mariño K2021https://creativecommons.org/licenses/by/4.0/This is an open access peer review report distributed under the terms of the Creative Commons Attribution Licence, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.Version 1recommendationapproveIn this manuscript entitled “Activation of regulatory T cells triggers specific changes in glycosylation associated with Siglec-1-dependent inflammatory responses”, Wu
+et al. provide a comprehensive analysis of glycan changes that occur in activated iTregs, and its functional consequences with regards to interactions with the macrophage lectin, Siglec-1. Using in vitro-induced T reg cells (iTregs) as a model, the authors delve into the molecular basis for Siglec-1 binding to these cells and investigate the global and specific factors involved using a broad scope of methodologies (RNA-Seq, glycomics, and staining with lectins and anti-glycan antibodies). Moreover, they identify the counter-receptors for this lectin, which include a wide range of glycoproteins including CD43 (which was proposed previously to function as a counter-receptor for Siglec-1) but also others (i.e PD-1, adhesion molecules like CD166 and integrins). This was done by applying quantitative proteomics combined with proximity labeling, a methodology previously optimized by the authors in Siglec-1-erythrocyte interactions. 
+ The manuscript is clear, very well written and the results are solid, novel and interesting. Moreover, they are obtained by robust methodologies and discussed and interpreted in a very appropriate manner. The article is scientifically valid in its current form. The experimental design, including controls and methods, is adequate; results are presented accurately and the conclusions are justified and supported by the data. The revisions I will suggest are minor in nature, but I consider them as relevant for a better understanding of the results provided.
+ Further beyond the specific focus on Siglec-1 interactions with the iTreg glycome, and before going into the specifics of this work, this manuscript is highly valuable because it highlights the complexity of characterizing lectin-glycan interactions at a cellular level and exposes the need for complementary data based on different methodologies. 
+ Going specifically to the comments regarding this work:
+All experiments are performed with iTregs obtained in vitro. In all the manuscript the cells are described as Tregs, not iTregs, and I think this should be clarified. 
+In Figure 4, they show that N-glycans showed an overall similar glycosylation and sialylation profile when resting and activated iTregs were compared, with very particular changes (a decrease in a bi-antennary glycan with core fucose and two NeuGc sialic acids, and a minor increase in m/z 2809 and m/z 2839, two mono-sialylated core fucosylated biantennary glycans decorated with alpha-gal). 
+ The authors specifically show in this figure the changes in biantennary N-glycans. I understand they have analyzed the complete profile and only detected these few changes shown, with no alteration in other species (i.e. triantennary, tetrantennary)? Maybe this should be clarified in the legend or text. Extended data for N-glycomics relative to Figure 4 shows data for glycolipid analysis.
+Considering the different types of sialic acid linkage, have the authors analyzed the type of linkage in sialylated N-glycans (i.e. by treating with neuraminidases previous to the N-glycomics analysis)? If these experiments were not performed, then maybe the authors can briefly discuss potential differences in sialic acid linkages in the manuscript (which, for example, could reflect the decrease in St6Gal1 observed by RNAseq?).
+When performing RNA-Seq analysis, the authors assembled a specific list of 263 genes including glycosyltransferases, glycosidases, enzymes involved in amino sugar and nucleotide sugar metabolism, and sugar transporters, presented in Extended data Table 1, with corresponding results from average normalized count. 
+
+ In that sense;
+Have the authors analyzed the complete gene expression data by methods such as GSEA, to see if glycosylation pathways appear affected? As there is no mention of this, I assume the result was negative (this is a common issue with general analysis, as by analyzing all genes the differential expression of glycogenes is generally overviewed), but it would be really interesting as to compare results from the general gene pool with the changes they found when analyzing their specific list of genes. 
+Regarding those selected genes, could the authors provide a description on how those genes were selected? Taking into consideration databases ( i.e. Kyoto Encyclopedia of Genes and Genomes, Carbohydrate Active Enzymes, the Transport Classification Database)? Have they complied information form literature (i.e. Nairn
+et al., 2008
+
+ 
+). In this selected list of genes I could not find SLC17A5, a lysosomal sialic acid transporter.
+Extended Table 1: thinking about the non-specialized reader, it would be really useful if the authors could provide a schematic view of the expression of glycan-related genes by category. In that sense, they could present a) the table with the complete list of selected genes and a color code (or any type of division) showing their function (something similar to the supplementary table presented in Nairn
+et al., 2008
+
+ 
+), and maybe even highlighting in each section those relevant to the sialylation process; and b) the results in a separate heatmap.
+Regarding the p value, I would like to know if the values described in the Table correspond to pval or padj? Could the authors provide both?
+
+ Figure 9, extended data:
+ Legend: “Mapping RNA-Seq data to the N-glycosylation pathway. Glycosylation related genes which had normalized counts above 100 in activated cells and had significant log2 fold changes (p<0.05) were mapped to the KEGG pathway using Pathview. For the pathway node which corresponds to multiple genes, the gene which had the biggest change was used for the mapping and the change of individual genes were then manually listed. A) Mapping to N-glycosylation pathway. The genes involved in synthesizing and transferring the N-glycan precursor to glycosylation sites increased upon Treg activation. B) Manually listing of genes mapped to the OST node. Four of the 5 components in OST enzyme complex were increased in activated Tregs.”
+ To the best of my understanding, OST has more than five components. Are the authors only showing those with significant dysregulation? 
+ Finally, I think it would be useful to change the legend for panel B from “Manually listing of genes mapped to the OST node” to “Dysregulation of genes mapped to the OST node”
+ Figure 10, extended data: 
+ “B) Manual listing of genes that mapped to the node 2.4.1.41. Galnt3 was the only one which showed increased expression upon Treg activation.”
+ I would suggest changing this legend to: 
+ “Dysregulation of genes mapped to the node 2.4.1.41. Galnt3 was the only one which showed increased expression upon iTreg activation”
+Figure 7: maybe the authors could present the data in a heatmap? I believe that this change in the presentation of data could really benefit the manuscript.
+
+ Minor comment regarding Figure 7, Legend:
+ It reads:
+ “Normalized mRNA counts for genes involved in sialylation. Resting and activated Tregs from 4 biological replicates were analzyed by RNA-Seq. Genes involved in synthesis of (A) α2,3-linked sialic acid, (B) α2,6-linked sialic acid, (C) α2,8-linked sialic acid and (D) modification or removal of sialic acid are listed”.
+ It should read: 
+ “Normalized mRNA counts for genes involved in sialylation. Resting and activated Tregs from 4 biological replicates were analzyed by RNA-Seq. Genes involved in synthesis of (A) α2,3-linked sialic acid, (B) α2,6-linked sialic acid, (C) α2,8-linked sialic acid and (D) modification or removal of sialic acid are shown.”
+ Lastly, and after looking at the results, maybe the authors can consider changing the title of this section of the manuscript? Currently it states “RNAseq did not reveal specific changes predicted to have major effects on Siglec-1 recognition following Treg activation”, but the results show dysregulation of several enzymes related to sialylation and glycosylation. The authors later on discuss the effects of this dysregulation very well, postulating that it may affect specific glycoconjugates. 
+ By quantitative proteomics combined with proximity labelling, they identify a number of counter-receptors for Siglec-1 in iTregs, comprising approximately 5% of the total membrane proteins. They also show that most counter-receptors are heavily glycosylated and that glycosylation density is an important determinant of functioning as a Siglec-1 counter-receptors. 
+ Lastly, they show that independently of upregulation after activation, CD48 and PD-1 show increased glycosylation (Figure 11C,D). For PD-1, this was confirmed following treatment of affinity-purified PD-1 with PNGase F and sialidase.
+ Can the authors identify the sialidase used in these experiments? I could not find it in materials and methods. 
+ Lastly, they conclude that mechanisms mediating the increase of Siglec-1 binding in activated iTregs could involve complex protein- and lipid-dependent modification of sialylation at an individual carrier level. I believe this work is very valuable, considerably increases knowledge on Siglec-1-iTregs interactions, and points at the impact of Siglec-1 on PD-1 function in T cells as a very interesting area.
+Is the work clearly and accurately presented and does it cite the current literature?
+Yes
+If applicable, is the statistical analysis and its interpretation appropriate?
+Yes
+Are all the source data underlying the results available to ensure full reproducibility?
+Yes
+Is the study design appropriate and is the work technically sound?
+Yes
+Are the conclusions drawn adequately supported by the results?
+Yes
+Are sufficient details of methods and analysis provided to allow replication by others?
+Yes
+Reviewer Expertise:
+Glycobiology, Glycomics, lectin-glycan interactions
+I confirm that I have read this submission and believe that I have an appropriate level of expertise to confirm that it is of an acceptable scientific standard.

@@ -1,0 +1,266 @@
+379blackwellopenThe FASEB JournalFASEB JPMC1272120912721209127212094142779010.1096/fj.202503144RSingle‐Cell Multi‐Omics Reveals B2M‐Mediated Myeloid Reprogramming and Constructs a Predictive Model for Early Hepatocellular Carcinoma Recurrence
+TanZhenyao TangYezhen ChenBendong LvYongxue ZhangBozhi LiuKejun BuYang 
+1
+Department of Hepatobiliary Surgery, General Hospital of Ningxia Medical University, Yinchuan, China
+2
+School of Clinical Medicine, Ningxia Medical University, Yinchuan, China
+3
+School of Basic Medicine, Ningxia Medical University, Yinchuan, China*
+
+Correspondence:
+ 
+Kejun Liu (kejun_liu1994@163.com), 
+Yang Bu (boyang1976@163.com)
+
+✉Corresponding author.
+221220253924e71362e7136223122025© 2025 The Author(s). The FASEB Journal published by Wiley Periodicals LLC on behalf of Federation of American Societies for Experimental Biology.This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## ABSTRACT
+Early recurrence remains a major challenge in the management of hepatocellular carcinoma (HCC), yet its molecular mechanisms are not fully understood. In this study, we applied an integrative multi‐omics strategy at single‐cell resolution to explore potential drivers of early HCC recurrence (recurrence time < 2 years) and to develop a predictive framework. By combining single‐cell RNA sequencing, proteomics, transcriptomics, and clinical feature analysis, we identified 14 relapse‐associated proteins, including CD274, B2M, MYC, and CASP3, as candidate risk factors. Transcriptomic profiling suggested the enrichment of pathways such as MYC‐TARGETS‐V2 and INTERFERON‐GAMMA‐RESPONSE. Single‐cell analysis indicated reduced immune cell infiltration in recurrent tumors, with myeloid cells (particularly cDC2 and macrophages) showing B2M‐associated reprogramming characterized by HLA downregulation and altered GAS6/PROS1 signaling, consistent with tumor‐associated macrophage‐like phenotypes. A LASSO regression model based on cDC2 and macrophage signature genes demonstrated moderate predictive performance in both the training and validation cohorts (AUC > 0.65). Drug sensitivity analyses further suggested that vandetanib may have the potential to inhibit recurrence by targeting B2M‐related pathways. These findings provide evidence that B2M may contribute to remodeling of the immune microenvironment in recurrent HCC. Our integrative single‐cell multi‐omics approach highlights a possible mechanism of early recurrence and offers a preliminary predictive tool with therapeutic implications.
+Keywords: B2M, early recurrence, hepatocellular carcinoma, macrophages, predictors
+
+Single‐cell multi‐omics integration reveals that B2M‐mediated immune reprogramming drives early HCC recurrence by affecting myeloid cell activity.
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 Nov 29; Received 2025 Aug 29; Accepted 2025 Dec 8; Issue date 2025 Dec 31.
+
+1.
+
+## Introduction
+Hepatocellular carcinoma (HCC) is one of the most serious malignant tumors that threaten human health worldwide. According to the Global Cancer Statistics 2020 (GLOBOCAN), HCC ranks seventh in incidence among malignant tumors and fourth in cancer‐related mortality, imposing a substantial disease burden [ ]. Among the pathological types of primary liver cancer, HCC accounts for 85%–90% of cases, making it the most common clinical subtype [ ]. HCC exhibits high biological heterogeneity, with key pathological features such as tumor differentiation and microvascular invasion status closely associated with patient prognosis, significantly affecting the 5‐year overall survival (OS) and recurrence‐free survival (RFS) [ , , ]. Despite recent breakthroughs in HCC diagnosis and treatment technologies (including molecular targeted therapy, immune checkpoint inhibitors, and multimodal precision imaging), liver resection remains the most commonly used and potentially curative treatment for HCC. However, the high recurrence rate after surgery remains a core bottleneck, limiting the efficacy of treatment. Clinical studies have shown that the 5‐year recurrence rate in patients with HCC exceeds 70% after surgery [ , ]. Consequently, an exhaustive examination of the molecular mechanisms underlying early recurrence after HCC surgery, in conjunction with precise prediction and intervention of recurrence risk, holds significant clinical value for reducing patient mortality and improving long‐term survival outcomes.
+The mechanisms underlying the postoperative recurrence of HCC are complex and exhibit significant heterogeneity. The underlying mechanisms can be preliminarily identified based on the time to recurrence (TTR), which is defined as the interval from liver resection to the diagnosis of HCC recurrence. Currently, most studies define TTR < 2 years as early recurrence and TTR ≥ 2 years as late recurrence. Early recurrence is primarily attributed to residual micrometastases or circulating tumor cells from the primary tumor, which proliferate rapidly under the influence of postoperative immune microenvironment remodeling and the activation of oncogenic signaling pathways. Late recurrence is often driven by residual liver tissue in the context of chronic inflammation or cirrhosis, where genomic instability accumulates during repeated liver cell damage and regeneration, leading to the emergence of new tumors of polyclonal origin [ , ]. Clinical data show that early recurrent tumors often exhibit more aggressive biological behavior (such as higher AFP levels, larger tumor volume, and higher rates of extrahepatic metastasis), whereas patients with longer TTR have higher response rates to local therapy (such as radiofrequency ablation) and systemic therapy (such as targeted/immunotherapy) and an overall better prognosis [ , , , ]. Therefore, elucidating the molecular drivers of HCC recurrence is crucial for guiding the precise selection of post‐recurrence treatment strategies (e.g., local ablation, reoperation, or systemic therapy) and for prognostic stratification.
+Although clinical evidence has established that early recurrence is a core factor influencing the prognosis of patients with HCC, our current understanding of its molecular mechanisms remains limited. Existing studies have primarily focused on the association between traditional clinicopathological characteristics (such as tumor size, differentiation grade, and vascular invasion) and recurrence; however, systematic analyses of molecular‐level dynamic changes (including abnormal activation of key signaling pathways, tumor microenvironment (TME) remodeling, and immune escape mechanisms) remain scarce [ , ]. For example, the TME is a complex network of interactions among tumor cells, immune cells, stromal cells, and the extracellular matrix, which plays a key regulatory role in tumor development; however, its specific alterations and functions in early recurrence remain unclear [ ]. The rapid development of multi‐omics technologies, such as single‐cell omics, has provided novel insights into the mechanisms of HCC recurrence, enhancing the clinical value of early cancer screening, precision therapy (such as optimization of targeted and immunotherapy), and clinical value in prognosis assessment. However, its resolution limits the precise quantitative analysis of the functional clonality and evolutionary trajectories of different subclones [ , ]. Furthermore, existing studies are often limited to single‐omics analyses and lack the integration and validation of multidimensional data (such as single‐cell sequencing, proteomics, and transcriptomics), leading to a biased interpretation of recurrence mechanisms [ , , ]. The construction of an efficient recurrence prediction model based on multi‐omics data and screening for potential therapeutic targets remain key challenges for clinical translation.
+In this study, we used single‐cell multi‐omics technology to systematically integrate single‐cell sequencing with multi‐omics data for the first time, aiming to deeply analyze the molecular mechanisms of early recurrence in HCC and promote clinical translation from the following aspects: (1) analyzing the “cell‐molecule‐pathway” multi‐level regulatory network of early recurrence in HCC from the dimensions of cell subpopulations, molecular networks, and signaling pathways; (2) focusing on the functional reprogramming of key cell populations such as myeloid cells in the TME to reveal their core role in early recurrence; (3) developing recurrence prediction models based on marker genes of key cell populations (e.g., the cDC2 subpopulation of myeloid cells) to provide new tools for the precise identification of high‐risk recurrence patients in clinical settings; and (4) combining drug sensitivity analysis to screen for potential drugs that inhibit recurrence, providing experimental evidence for recurrence intervention. This study is expected to deepen the scientific understanding of the mechanisms underlying the early recurrence of HCC and provide theoretical support for the development of individualized recurrence monitoring strategies and targeted treatment plans in clinical practice.
+
+2.
+
+## Materials and Methods
+2.1.
+
+## Clinical Samples
+Paraffin‐embedded tissue samples and corresponding clinical data were collected from patients with HCC who underwent surgery at the General Hospital of Ningxia Medical University between 2010 and 2020. The inclusion criteria were as follows: postoperative pathological confirmation of HCC, no prior anticancer treatment, complete clinical data, and collection of both cancerous and adjacent normal liver tissue samples (> 2 cm from the tumor) from all patients. The exclusion criteria were the presence of other malignancies and comorbid cardiovascular or respiratory diseases. This study was approved by the Medical Research Ethics Review Committee of the General Hospital of Ningxia Medical University (No. KYLL‐2022‐0413). Written informed consent was obtained from all the patients.
+
+2.2.
+
+## Data Sources
+The single‐cell RNA sequencing (scRNA‐seq) dataset, proteomics, and gene expression profile data sources used in this study are listed in Table  . Primary (Group P, N = 12) and recurrent (Group R, N = 6) tumor samples were selected from these datasets for inclusion in this study. Using the R package Seurat (v5.5.0), single‐cell samples were integrated and clustered using SCTransform + Harmony (no data filtering was required because of the high quality of the sample data). The “FindVariableFeatures” function identified 3000 highly variable genes. Subsequently, the UMAP algorithm was used for data visualization, and the k‐nearest neighbor algorithm combined with the FindClusters function was used to identify cell clusters. Finally, the main cell types were identified using classical cell‐type markers.
+ Proteomic data from HCC blood samples and the Clinical Characteristics of patients were obtained from the supporting information (tables S1 [Standardized Proteomics] and S3 [Clinical Characteristics]) of the study by Hu et al. [ ]. To meet the analytical requirements of this project, the data were further screened, and patients who experienced tumor recurrence within 2 years post‐surgery and those who did not experience recurrence throughout the follow‐up period were included and labeled as the early recurrence group and the no recurrence group, respectively (Table  ). The processing standards for GEO datasets were as follows: based on the probe mapping relationships of the corresponding platform, probes were converted to gene symbols; if multiple probes corresponded to the same gene symbol, their average value was considered as the expression value of that gene.
+
+2.3.
+
+## Principal Component Analysis
+Principal component analysis (PCA) was performed on proteomic samples from 68 cases of early recurrence and 22 cases of no recurrence to observe the overall proteomic differences between early and no recurrence groups. PCA was performed using the prcomp function in R, and the results were visualized using the Factoextra package.
+
+2.4.
+
+## Differentially Expressed Genes and Functional Enrichment Analysis
+Based on the GSE14520 expression profile data, the limma package in R was used to screen for differentially expressed genes (DEGs) between the early and no recurrence groups (p < 0.05; |log2FC| > 0.2).
+
+2.5.
+
+## Gene Functional Enrichment Analysis
+Functional enrichment analysis of the DEGs was performed using the R clusterProfiler package.
+
+2.6.
+
+## 
+ssGSEA Enrichment Analysis
+ssGSEA enrichment analysis was performed using the R GSVA package based on hallmark gene sets to obtain the standardized enrichment scores. The Wilcoxon test was used to assess the differences between the early recurrence and no‐recurrence groups. Univariate Cox regression analysis was used to examine the correlation between enrichment scores and recurrence.
+
+2.7.
+
+## Construction of the PPI Network
+The gene‐protein dataset was uploaded to the STRING database to construct the PPI network (confidence score > 0.4). The PPI network was visualized using Cytoscape software (version 3.10.3). CentiScaPe was used to analyze the average values of the three centrality parameters (degree, betweenness, and eigenvector) in the PPI network. Nodes with centrality parameters that exceeded the average values of the three parameters were selected to construct the primary PPI network (Hub PPI).
+
+2.8.
+
+## Prediction of Protein Activity Based on Single‐Cell Data
+We used the metaVIPER strategy to predict protein activity based on single‐cell data. The analysis steps were as follows: First, based on the single‐cell data, we created a metacell file for the main cell types. ARACNe‐AP (https://github.com/califano‐lab/ARACNe‐AP) was used to reconstruct the gene regulatory network based on metacells. Finally, we used the meta‐VIPER method to infer protein activity from scRNA‐seq data of the main cell populations. Steps 1 and 3 were performed using the R Viper package.
+
+2.9.
+
+## Cell Function Annotation Markers
+NK cell exhaustion gene markers: ZNF683, LAG3, CST7, and ITGB1; T‐cell subset marker genes, including information on 11 T‐cell subsets; and immunogenic cell death pathway (ICD) genes were obtained from Garg et al. [ ]. Immune escape‐related marker genes, including TAA and MHC; 13 immune function scores, including APC co‐inhibition, APC co‐stimulation, CCR, checkpoint, cytolytic activity, HLA, inflammation‐promoting, MHC class I, parainflammation, T‐cell co‐inhibition, and T‐cell co‐stimulation; and type I IFN response and type II IFN response marker gene expression were derived from He et al. [ ].
+
+2.10.
+
+## Single‐Sample GSEA Enrichment Analysis
+For gene expression profile data, the R package GSVA (method selection ssGSEA) was used to enrich the related gene sets. For single‐cell data, we first used the AggregateExpression function to obtain the pseudo‐expression matrix of the sample and then calculated the enrichment score of the corresponding gene set.
+
+2.11.
+
+## Single‐Cell Deconvolution
+Based on the marker genes obtained from single cells of different cell populations, the R Bisque RNA package was used to evaluate the relative abundance of specific cells in the sample based on gene expression profile data.
+
+2.12.
+
+## Analysis of the Tumor Immune Microenvironment
+The R package was used to evaluate the immune score, stromal score, estimated score, tumor purity, and immune cell infiltration levels in the GSE14520 sample.
+
+2.13.
+
+## Trajectory Analysis
+Monocle2 was used with default parameters to infer the developmental trajectories of monocytes and macrophages. First, we exported the integrated gene expression matrix of specific cell types from Seurat to Monocle to construct a CellDataset. Second, the “setOrderingFilter” function sorts cells with variable genes identified by the “differentialGeneTest” function (cutoff value: q < 0.001). Finally, the “reduceDimension” function (DDRTree) was used for dimensionality reduction. The “plot‐cell‐trajectory” function was used to visualize cell differentiation trajectories. Trajectories typically include branches arising from differences in gene expression patterns. Branched expression analysis modeling (BEAM) is a statistical method used to identify genes that are regulated in a branch‐dependent manner.
+
+2.14.
+
+## Immunohistochemical Detection of B2M Expression in Liver Tissue From Patients With HCC and Patients With Early Recurrence of HCC
+
+HCC and adjacent tissue sections (5 μm) were dewaxed with xylene for 25 min, followed by hydration with ethanol at varying concentrations. The tissue was then incubated in 3% hydrogen peroxide in deionized water for 10 min to inactivate the endogenous peroxidases. The tissue was then rinsed again with PBS, and normal goat serum blocking solution was added. The mixture was then incubated at room temperature for 20 min. The mixture was then incubated with the primary antibody at 4°C overnight, followed by incubation at 37°C for 1 h the next day. The sections were then rinsed thrice with PBS for 5 min each, 100 μL of biotin‐labeled secondary antibody was added, and the sections were incubated at 37°C. After incubation for 1 h, the samples were rinsed thrice with PBS. The B2M protein was immersed in DAB for 10 min for staining. The reaction was terminated by rinsing with tap water for 10 min. The sections were dehydrated using anhydrous ethanol, cleared with xylene, mounted, and examined under a microscope. Three microscopic fields of view (200×) were selected per section, and the quantitative average optical density was analyzed using an Image‐Pro Plus image‐analysis system.
+
+2.15.
+
+## Flow Cytometry Analysis of PBMC After B2M Induction
+Peripheral blood mononuclear cells (PBMCs) were extracted and isolated from healthy individuals. After 24 h induction with B2M (MCE), B2M‐treated PBMCs were analyzed using flow cytometry. Fluorescently labeled antibodies, CD163‐FITC and CD206‐PI, were purchased from BD Bioscience. All flow cytometry analyses were performed using a Becton Dickinson FACSCalibur instrument, and the data were analyzed using FlowJo software.
+
+2.16.
+
+## Cell–Cell Interaction Analysis
+The R package CellChat was used to assess cell–cell interactions between different cell types in single‐cell data related to HCC recurrence. CellChat uses gene expression data as user input and simulates the probability of cell–cell communication by combining gene expression data with existing databases (comprising interactions between known signaling ligands, receptors, and their cofactors). We separately analyzed cell–cell interactions under different conditions. Normalized count data from each condition were used to create CellChat objects, and the recommended preprocessing functions were applied with default parameters to analyze individual datasets. CellChatDB.human was used as a database to infer cell–cell communication. All categories of ligand‐receptor interactions in the database were used for analysis.
+
+2.17.
+
+## Construction of an Early Recurrence Classification Model for HCC
+
+Based on the DEGs in TME cell subpopulations regulated by node proteins, hub genes were screened using the Random Forest (RF) and SVM‐RFE algorithms. The genes screened using the SVM‐RFE and RF methods were intersected to obtain the intersection hub genes, and a classification model was constructed using LASSO regression combined with a 5‐fold cross‐validation strategy. LASSO was implemented using the R package glmnet, RF using the R package randomForest, and SVM‐RFE using the R package caret.
+
+2.18.
+
+## Drug Sensitivity Analysis
+The R oncoPredict package was used to predict the drug sensitivity AUC values based on the CTRP and PRISM databases.
+
+2.19.
+
+## Statistical Analysis
+Continuous data were initially assessed for normality to determine the appropriate statistical analysis. The Shapiro–Wilk test was used to assess normality, and Levene's test was applied to check for variance homogeneity. For variables that did not meet the assumption of normality, data are reported as median [M] and interquartile range [IQR], and comparisons were performed using the Wilcoxon rank‐sum test. Categorical variables are presented as frequencies (percentages) and were compared using the chi‐square test or Fisher's exact test as appropriate. The Cox proportional hazards model was used to identify independent predictors of recurrence, and logistic regression analysis was used to determine the independent parameters of early recurrence. Statistical significance was set at p < 0.05. All data were analyzed using IBM SPSS (version 21.0; SPSS Inc., Chicago, IL, USA) and R Foundation Statistical Software (version 3.6.3).
+
+3.
+
+## Result
+3.1.
+
+## Clinical Study Identifies Risk Factors for Recurrence After Liver Resection for HCC
+
+This study included 443 patients with HCC who underwent surgery, including 202 in the early postoperative recurrence group (Table  ). Compared with patients without postoperative recurrence, patients with early postoperative recurrence showed significant differences in neutrophil, monocyte, and platelet counts (PLT), aspartate transaminase (AST), gamma‐glutamyl transpeptidase (GGT), fibrinogen (FIB), surgery time, tumor size, T‐stage, presence of ascites, and pleural effusion (p < 0.05).
+ 
+3.2.
+
+## Proteomics Identification of Key Proteins Associated With HCC Recurrence
+To further explore the mechanisms underlying early recurrence after HCC surgery, a comprehensive proteomic analysis of blood proteins from patients with HCC was performed. The findings revealed no significant differences in protein levels between the early recurrence and postoperative non‐recurrence groups after PCA (Figure  ). Wilcoxon statistical analysis (p < 0.05) identified proteins with significant differences between the groups, yielding 14 potential key protein factors in blood samples from patients with early recurrence of HCC (Figure  ). These included PGLYRP2, F12, LBP, C9, IGLV3‐16, AGT, LPA, ORM1, HSP90B1, ITIH1, IGHV3‐43, KLKB1, TGFBI, and IGFBP2. Further functional annotation using DAVID revealed that PGLYRP2, F12, LBP, C9, AGT, LPA, ORM1, HSP90B1, ITIH1, KLKB1, TGFBI, and IGFBP2 were enriched in the extracellular region, suggesting that alterations in cellular homeostasis promote tumor recurrence and that KLKB1, F12, and LPA were significantly enriched in TRYPSIN‐SER (Figure  ).
+ 
+3.3.
+
+## Transcriptome Analysis Identifies Key Pathway Features Associated With HCC Recurrence
+Based on the GSE14520 expression profile data, DEGs were identified between the early recurrence and no‐recurrence groups, yielding 252 upregulated genes and 299 downregulated genes (p < 0.05, logFC > |0.2|; Figure  ). The DEGs were subjected to GO‐BP functional enrichment analysis (Top 5), which revealed that the upregulated genes were enriched in rRNA processing, positive regulation of interferon‐alpha production, placenta development, interferon‐alpha production, and rRNA metabolic process; the downregulated genes were primarily enriched in organic acid metabolic process, carboxylic acid metabolic process, small molecule catabolic process, organic acid catabolic process, and carboxylic acid catabolic process (Figure  ), suggesting that tumor metabolic heterogeneity is a potential key factor contributing to early recurrence in HCC.
+ Additionally, the ssGSEA enrichment method was used to analyze the expression abundance of 50 hallmark gene sets in early recurrence samples of HCC (Figure  ). Intergroup difference analysis revealed that HALLMARK‐MYC‐TARGETS‐V2 and HALLMARK‐INTERFERON‐GAMMA‐RESPONSE exhibited significant differences in abundance (p < 0.01) (Figure  ). Further univariate Cox regression analysis indicated that HALLMARK‐MYC‐TARGETS‐V2 and HALLMARK‐INTERFERON‐GAMMA‐RESPONSE were significantly associated with DFS in patients with HCC (p < 0.01, Figure  );
+Additionally, significant differences in HALLMARK‐MYC‐TARGETS‐V2 abundance were observed between CLIP stages and different levels of AFP (Figure  ); higher CLIP stages were associated with higher HALLMARK‐MYC‐TARGETS‐V expression levels, and high AFP levels were associated with high HALLMARK‐MYC‐TARGETS‐V2 expression levels. Patients with high HALLMARK‐MYC‐TARGETS‐V2 expression were more likely to relapse, whereas those with high HALLMARK‐INTERFERON‐GAMMA‐RESPONSE expression were less likely to relapse (Figure  ).
+
+3.4.
+
+## 
+PPI Network Explores Key Mechanisms of HCC Recurrence
+Based on the key proteins and feature pathway genes associated with early recurrence after HCC surgery, we constructed a protein interaction network related to the early recurrence of HCC (confidence score greater than 0.4) and screened for hub proteins, namely CD274, IRF4, GZMA, CCL2, B2M, IRF7, MYD88, CD74, MYC, STAT3, CASP3, IL6, and CD86 (Figure  ). Functional enrichment annotation indicated that hub proteins were associated with the positive regulation of DNA‐templated transcription, protein binding, the nucleus, and glycoproteins (Figure  ).
+ 
+3.5.
+
+## Single‐Cell Data Analysis of the Landscapes in HCC Relapse
+To identify the key cells involved in HCC recurrence, we analyzed HCC recurrence scRNA‐seq data from the CNGBdb database, merged and batch‐corrected the data, and performed cell annotation. Six major cell clusters were identified: T and NK cells (CD3E, CXCR6), myeloid cells (C5AR1, LGALS2), hepatocytes (CYP3A7, DLK1), B cells (MS4A1, CD79A), and stromal cells (COL14A1, ADAMTS4) (Figure  ). The proportion of immune cell clusters, including T&NK cells, myeloid cells, and B cells, was lower in recurrent samples than in primary tumors (Figure  ), indicating that recurrent tumors exhibit immune escape and are less susceptible to immune surveillance. In addition, the expression of HLA genes in immune cells (T, NK, and myeloid cells) differed between recurrent and primary tumors (Figure  ). Enrichment analysis using ssGSEA revealed significant differences in immune and metabolism‐related pathways between immune cell populations, including T and NK and myeloid cells (Figure  ). The metaVIPER strategy was used to predict the protein activities of the tumor‐related clusters. In myeloid cells, the protein activities of the hub PPI genes showed significant differences, with CD274, B2M, MYC, and CASP3 showing enhanced activity (Figure  ).
+ 
+3.6.
+
+## Association Between Key TME Components Regulating Key Proteins and Immune Escape in Recurrent Tumors
+During tumor development, immunotoxic cells may undergo different states such as exhaustion, dysfunction, and senescence. Immune cells in these states are unable to mount effective immune responses, leading to immune tolerance and escape from tumor cells. To analyze the association between node proteins and tumor immune escape phenotypes, we first reclustered T and NK cells and identified five immune cell subpopulations: CD4+T, CD8+T, Treg, NK, and Proli.T (Figure  ). Due to the functional evolution and associated functional exhaustion of immune lymphocytes, we performed functional annotation of the cell subpopulations. CD8+T cells were further divided into CD8‐GZMK, CD8‐LEF1, CD8‐LAYN, CD8‐CX3CR1, and CD8‐SLC4A10 subcellular functional units; CD4+T cells were further subdivided into CD4‐CCR7, CD4‐GZMK, CD4‐CXCL13, and CD4‐CTLA4 subcellular functional units; and NK cells were further subdivided into NK‐ZNF683, NK‐FCGR3A, and NK‐NCAM1 subcellular functional units.
+ As shown in Figure  , analysis of the expression of key proteins B2M, MYC, and CASP3 in major cell populations (where the CD274 gene is absent in the expression data) revealed that high B2M expression inhibited lymphocyte abundance (B cells, T cells, and NK cells), high expression of MYC inhibited the abundance of myeloid cells and T and NK cells, and high expression of CASP3 significantly enriched the abundance of stromal cells. We further assessed the abundance of subcellular functional units in T and NK cells (Figure  ) and found that high expression of B2M inhibited the enrichment of CD4‐GZMK, CD8‐LAYN, NK‐ZNF683, and NK‐NCAM1 cell subpopulations, whereas CD8‐LAYN and NK‐ZNF683 served as exhausted subpopulations of CD8+T and NK cells, suggesting that high B2M expression inhibits the function of T and NK cells, leading to immune escape.
+To corroborate these findings, we examined the association between immune escape molecular profiles and the ICD pathway using core proteins (Figure  ). ICD genes were significantly enriched in the B2M and MYC low‐expression groups and the primary tumor subgroup, whereas the immune escape molecular profile was significantly enriched in the CASP3 low‐expression group.
+To elucidate the changes in the immune microenvironment during HCC recurrence, we analyzed the association between core proteins and immune, stromal, and estimated scores and tumor purity. B2M showed the highest association with these scores, followed by MYC, while the CASP3 gene was associated with stromal scores (Figure  ). Among the 13 immune function scores, only 9 functional units were enriched, and B2M was significantly associated with immune function, followed by MYC, whereas CASP3 showed a relatively low association (Figure  ).
+
+3.7.
+
+## Exploring the Differentiation Trajectories of Key Cell Types Associated With Recurrence Regulated by Node Proteins
+Based on an analysis of the clinical characteristics of patients with early recurrence after HCC surgery and changes in the TME components associated with HCC recurrence, we identified myeloid cells as the cell type associated with recurrence. Additionally, we identified B2M as the core protein involved in the regulation of TME components. To determine whether the key protein B2M is involved in regulating the differentiation trajectory of myeloid cells, the key cell population associated with recurrence, and its position in the differentiation trajectory, we first reclustered myeloid cells and identified four common myeloid cell subpopulations: macrophages, cDC2, monocytes, and cDC1/3 (Figure  ). B2M exhibited high expression levels in myeloid cells and showed group differences in cDC2 (Figure  ), indicating that B2M regulates the recurrence‐related myeloid cell subset of cDC2 cells.
+ We validated the differences in B2M expression in tumors and adjacent tissues of patients with HCC and those with early post‐surgery recurrence via immunohistochemistry. The results showed that B2M was highly expressed in monocytes within the tumor tissues of the early recurrence group (Figure  ). To further investigate the role of B2M in the immune modulation of recurrent tumors, we isolated PBMCs from healthy individuals. After B2M induction for 24 h, flow cytometry analysis revealed that B2M‐treated PBMCs significantly expressed CD206, a marker associated with tumor‐associated macrophages (TAMs). This finding suggests that B2M promotes monocyte differentiation toward a TAM‐like phenotype, which may contribute to immune escape in recurrent HCC (Figure  ).
+We then focused on observing the trend of B2M protein levels along the pseudo‐trajectory, which showed an upward trend (Figure  ), reaching the first peak in the early to mid‐stage of the pseudo‐trajectory timeline, and again showed an upward trend in the late stage of the pseudo‐trajectory timeline. cDC2 cells were concentrated in the early to mid‐stage, whereas macrophages were concentrated in the late stage, indicating that B2M simultaneously affects both macrophage and cDC2 cell populations, but the effect on cDC2 cells is more pronounced. Additionally, observing the expression trends of marker genes for three cell subtypes (macrophages, cDC2, monocytes, and cDC1/3) along the pseudo‐time axis, monocyte marker genes were more frequently observed at the front end of the pseudo‐time axis, macrophage/cDC2 marker genes appeared at the middle/late end of the pseudo‐time axis, and cDC2 cell cluster marker genes appeared at the front/middle end of the pseudo‐time axis (Figure  ). Functional enrichment analysis of the DEGs revealed distinct functional characteristics among the cell subtypes (Figure  ). The primary functions of cDC2 cells are leukocyte activation and cytoplasmic translation. Node 1 on the pseudo‐trajectory was critical for cDC2 cell differentiation. We performed BEAM analysis on Node 1 to identify genes associated with cDC2 cell differentiation (Figure  ).
+
+3.8.
+
+## Node Protein‐Regulated Differential Cell Communication Associated With Tumor Recurrence
+Using CellChat, we performed a comparative analysis of cell–cell interactions among cell types in primary and recurrent tumors and further examined the specific signaling pathways of cDC2 cells in recurrent tumors. The results showed that the overall number and intensity of cell–cell communications in recurrent tumors were significantly higher than those in primary tumors (Figure  ). Cell–cell communication between macrophages and hepatocytes was significantly weakened, and signals from hepatocytes to NK/T cells were significantly enhanced (Figure  ).
+ Additionally, when comparing the strengths of outgoing and incoming interactions in two‐dimensional space (Figure  ), primary tumor tissue macrophages, the dominant cell type, exhibited strong signals in both incoming and outgoing flows in the primary tumor tissue. In recurrent tumors, the signaling flows between macrophages and other cells undergo profound changes, with macrophages no longer occupying a dominant position. Immune lymphocytes (CD4/CD8/NK) also exhibited significant changes in the signaling pathways. Further identification of specific cellular communication pathways in primary and recurrent tumors revealed 22 distinct signaling pathways (Figure  ), among which SPP1, PTN, NOTCH, CD46, PDGF, and GAP were unique to primary tumors, whereas TNF, IFN‐II, CLDN, VISFATIN, EPHA, SELL, GAS, PROS, ADGRG, ALCAM, CD6, BTLA, CDH5, BAG, SLIT, and EPHB were specific to recurrent tumors.
+In addition, we observed changes in the input signaling pathways in cDC2 cells. In primary tumors, the signal reception intensity of cDC2 was relatively weak, whereas in recurrent tumors, GAS and PROS exhibited relatively strong myeloid cell‐specific signal reception patterns in cDC2. This signaling pattern was primarily influenced by the influx of matrix cell signals (Figure  ). Additionally, we found that macrophages were affected by the same cellular signaling pathways, indicating that cellular communication affects both mature myeloid cells (cDC2 and macrophages). cDC2 exhibited stronger signaling intensity because its pseudo‐trajectory time was relatively short, which is consistent with the intermediate peak in B2M gene expression observed over time.
+Additionally, B2M and the GSA/PROS signal receptor gene AXL were positively correlated with cDC2 cell expression in recurrent tumors and negatively correlated in primary tumors (Figure  ).
+
+3.9.
+
+## Construction of a Tumor Recurrence Prediction Model Based on Node Protein‐Related TME Patterns, Its Validation, and Efficacy Analysis
+Based on the above analysis, we found that the cell populations involved in the early recurrence of HCC and regulated by B2M included cDC2 and macrophages. Therefore, we constructed a risk classification model for early recurrence of HCC using specifically expressed cDC2 genes and macrophages. The specifically expressed genes in these cells were identified by intersecting “myeloid cell‐specific expressed genes” with “specifically expressed genes of cDC2/macrophages in the myeloid cell population” and using them as seed genes for the feature gene selection. The training set included GSE14520 and GSE76427, and TCGA was the test set.
+First, we obtained 20 and 11 important candidate genes using RF and SVV‐RFE, respectively (Figure  ), and the intersection of the two yielded eight seed genes (Figure  ), which were used in the LASSO regression to construct a classification model for early recurrence of HCC combined with the seven seed genes (Figure  ). In the training set, 5‐fold cross‐validation was used, with AUC values above 0.65 and AUC values of 0.58 in the TCGA and GSE76427 test sets (Figure  ).
+ 
+3.10.
+
+## Identification of Potential Drugs to Inhibit Recurrence of HCC
+
+A tumor recurrence prediction model was constructed based on node protein‐related TME patterns to obtain a tumor recurrence score for each patient in the training set. Patients were then divided into high‐ and low‐risk groups based on median values. Two different strategies were employed (targeting the high‐risk group and the group with high core protein expression) to identify potential candidate drugs for inhibiting tumor recurrence.
+Based on the predicted drug sensitivity AUC values, significant differences were observed within each group under the two strategies (p < 0.05), and Spearman's correlation was found to be negative. Considering the intersection of drugs from CTRP and PRISM that met the above conditions, we identified a highly credible potential drug, RITA, which inhibited HCC recurrence (Figure  ).
+ Additionally, in the high‐risk group, we screened for potential drugs targeting high‐risk groups based on the high‐expression core protein group, identifying five candidate drugs: VANDETANIB, GEFITINIB, SUNITINIB, BIRINAPANT, and BOSUTINIB. In the high‐risk group, we calculated the DEGs between high‐ and low‐expressing core protein B2M, identifying seven drug targets as DEGs (absolute logFC > 0.05, p < 0.05) (Figure  ). Among these seven drug targets, the gene STK24 showed a negative correlation with the highly expressed core protein B2M and a positive correlation with the low‐expressing core protein B2M (Figure  ).
+
+4.
+
+## Discussion
+In this study, we integrated clinical variables, serum proteomics, bulk transcriptomics, and single‐cell RNA sequencing to build a multi‐layered “clinical–molecular–cellular” framework for dissecting early recurrence after LR in HCC. Within this framework, we identified ANC and AMC as clinical predictors of recurrence and linked this systemic inflammatory phenotype to a B2M‐centered network in myeloid cells that coordinates immune escape, altered cell–cell communication, and myeloid differentiation. Single‐cell analyses further revealed B2M‐associated reprogramming of cDC2 and macrophage subsets, characterized by downregulation of HLA molecules and aberrant activation of the GAS6/PROS1–AXL axis in recurrent tumors. Based on these mechanistic insights, we constructed a LASSO‐based prediction model using cDC2/macrophage signature genes (AUC > 0.65 in the validation cohort) and identified vandetanib as a potential inhibitor of B2M‐related pathways. Together, these findings outline a myeloid‐focused view of early HCC recurrence and provide a mechanistic basis for refining postoperative risk stratification and exploring targeted therapeutic strategies.
+We collected 443 patients with HCC who underwent LR and found that those with early recurrence had markedly higher neutrophil counts and monocyte ratios. Neutrophils are key innate immune cells whose functional heterogeneity in the TME underlies both pro‐ and antitumor activities [ , ]. They can directly kill tumor cells and limit metastasis, but tumor‐associated neutrophils also promote VEGF‐mediated angiogenesis and enhance tumor cell migration and invasion, thereby accelerating tumor progression [ , ]. This duality is mirrored at the clinical level. Although some studies have reported that elevated neutrophil‐to‐lymphocyte ratio (NLR) may be a protective prognostic marker in patients with HCC [ , ], increasing evidence indicates that high NLR is more commonly associated with poor prognosis and increased recurrence risk, underscoring its value as an adverse prognostic factor [ , , ]. A recent study further integrated NLR with magnetic resonance diffusion parameters to build a nomogram that noninvasively predicts high Ki‐67 expression and recurrence in patients with HCC [ ]. Likewise, elevated MLR has been shown to identify patients at high risk of early recurrence after LR or TACE combined with RFA [ , ]. These findings are consistent with our observation that systemic myeloid skewing, reflected by high ANC and AMC, is closely linked to early postoperative recurrence.
+Additionally, based on the high ANC and AMC observed in patients with early recurrence, we hypothesized that specific circulating proteins drive abnormal neutrophil and monocyte activity by regulating immune cell proliferation, differentiation, and recruitment. At the proteomic level, Wilcoxon analysis identified 14 recurrence‐associated proteins, including inflammation‐related factors such as PGLYRP2, LBP, and C9, which were significantly upregulated. Their biological functions were highly consistent with the clinical hematologic profile. LBP participates in lipopolysaccharide‐mediated inflammatory responses by activating TLR4 on monocytes and promoting their recruitment from the bone marrow into the circulation [ , , ], providing a plausible explanation for the increased monocyte proportion. PGLYRP2, a liver‐enriched antimicrobial peptide whose expression can be induced by cytokines in fibroblasts and keratinocytes, activates TLR4 on chemotactic neutrophils and enhances their phagocytic function [ , ]. Taken together, these findings support a model in which abnormal activation of specific innate immune pathways, coupled with tumor immune escape, constitutes a core driver of early recurrence.
+At the transcriptomic level, DEGs derived from GSE14520 indicated that upregulated genes were enriched in rRNA processing, whereas downregulated genes were associated with tumor metabolism, highlighting the interplay between biosynthetic demand and metabolic reprogramming during recurrence. Hallmark analyses identified MYC‐related and interferon signaling pathways (HALLMARK‐MYC‐TARGETS‐V2 and HALLMARK‐INTERFERON‐GAMMA‐RESPONSE) as key modules differing between early recurrence and non‐recurrence. MYC is one of the most frequently activated oncogenes in human cancers; its overexpression accelerates cell‐cycle progression and sustains proliferative signaling by repressing cell‐cycle checkpoints such as p21/CDKN1A [ ]. Although MYC and MYCN have traditionally been associated with small cell lung cancer and neuroblastoma [ ], recent work in PDAC has shown that therapy‐induced recurrence can be driven by increased MYC copy number and drug resistance [ ], with ecDNA‐mediated MYC amplification acting as a central molecular basis of intratumoral heterogeneity [ ]. In HCC, c‐MYC amplification has been identified as an independent prognostic factor for DFS and OS after LR and as an early recurrence risk marker that can refine postoperative management [ , ]. IFN‐γ also exerts a dual role in tumor immunity: it enhances antitumor responses yet induces adaptive immune resistance through PD‐L1 upregulation, thereby facilitating immune escape [ , ]. A spatial scoring model incorporating SPON2 and related biomarkers has been used to predict HCC recurrence risk, implicating SPON2‐driven IFN‐γ secretion and NK‐cell recruitment at the invasive margin as key determinants of outcome [ ]. Our data further support IFN‐γ–related signatures as predictors of early postoperative recurrence, while underscoring the need to define quantitative thresholds that discriminate protective from deleterious IFN‐γ activity in the postoperative setting.
+Building on these observations, we integrated blood and tissue microenvironment data using PPI networks and projected key targets onto single‐cell maps to achieve spatial and cellular resolution. Recurrent tumor samples exhibited a reduced proportion of immune cells and pronounced downregulation of HLA genes, suggestive of an immune‐escaped phenotype that allows residual tumor cells to evade surveillance. Protein activity of hub PPI genes differed significantly in bone marrow‐derived cells, pointing to myeloid‐cell–mediated immune regulation as a central driver of early recurrence. Previous reviews have summarized the polarization continuum of monocyte‐derived macrophages and the diverse immunoregulatory functions of TAMs in solid tumors [ , ], underscoring the importance of myeloid cells in shaping the tumor immune microenvironment. Within this conceptual framework, our integration of clinical variables, serum proteomics, bulk transcriptomics, and single‐cell RNA sequencing provides complementary molecular and cellular resolution and supports the notion that B2M is a candidate microenvironmental regulator linking systemic inflammation with local immune escape and myeloid reprogramming in early recurrent HCC.
+In our study, immunohistochemistry demonstrated that B2M, the light‐chain component of MHC class I molecules, was predominantly expressed in monocytes/macrophages and was significantly higher in recurrent than in non‐recurrent HCC tissues. Flow cytometry confirmed that B2M stimulation induced CD206 expression in PBMCs, indicating that B2M directly promotes monocyte differentiation toward a TAM‐like phenotype. These results are in line with prior work showing that macrophages in the TME are prone to M2‐like polarization and that TAMs secrete cytokines, chemokines, and proteases that enhance angiogenesis, tumor progression, and immunosuppression [ ]. The concept of a polarization spectrum of monocyte‐derived macrophages, encompassing highly immunosuppressive M2‐like subsets such as M2d macrophages [ , ], further supports the idea that B2M may act upstream to shape this immunosuppressive landscape. Importantly, our single‐cell data complement these insights by showing that B2M overexpression is enriched in specific cDC2/macrophage subsets associated with early recurrence, thereby linking B2M to defined myeloid cell states rather than to bulk myeloid populations alone. Beyond its role in myeloid polarization, B2M is indispensable for antigen presentation to CD8+T cells; its downregulation in HCC cells destabilizes MHC I, allowing tumor cells to escape cytotoxic T‐cell–mediated clearance in the postoperative TME [ ]. Clinically, elevated serum B2M reflects a TNF‐α–driven inflammatory milieu that paradoxically promotes angiogenesis and metastasis while suppressing CD8+T‐cell activity [ , ], and such elevations have been correlated with a higher recurrence risk, supporting its utility as an auxiliary postoperative biomarker [ ]. Taken together, these data suggest that B2M may contribute to early HCC recurrence through two interconnected mechanisms: promoting TAM‐mediated immunosuppression via myeloid polarization and impairing antigen presentation and CD8+ T‐cell surveillance. These observations, considered alongside prior work on macrophage polarization and TAM biology [ , ], support further exploration of B2M‐centered pathways as potential targets for postoperative intervention.
+Reclustering analysis of myeloid cells revealed a time‐dependent increase in B2M expression within the cDC2 subpopulation. Cell–cell communication analysis using CellChat demonstrated that, in recurrent tumors, B2M expression in cDC2 cells was positively correlated with AXL expression in the GAS6/PROS1 signaling pathway, whereas this correlation was negative in primary tumors. These results suggest that B2M‐high cDC2/macrophage subsets involved in HCC recurrence are regulated by stromal GAS6/PROS1 signaling and that this pathway is molecularly interconnected with B2M. This provides evidence that B2M‐coregulated myeloid subpopulations exert a positive regulatory effect on early recurrence through aberrant engagement of GAS6/PROS1–AXL signaling. Drug‐repurposing analyses in the B2M high‐risk recurrence group identified vandetanib, a TKI approved for MTC and non‐small cell lung cancer that targets VEGFR, EGFR, and RET [ , ], as a potential inhibitor of this network. Although clinical evidence in HCC is currently lacking, our data suggest that vandetanib or related TKIs may merit further investigation in preclinical models of B2M‐driven recurrence.
+This study provides a multi‐layered preclinical framework for predicting early recurrence and informing therapeutic strategies in HCC, but several limitations should be acknowledged. First, the clinical cohort was derived from a single center and analyzed retrospectively, which may introduce selection bias and limit generalizability. Second, the predictive model was developed on publicly available transcriptomic data with internal validation only, and further confirmation in independent, prospectively collected cohorts is needed before broader clinical implementation. Finally, although we performed in vitro functional assays and in silico drug screening to explore B2M‐driven myeloid reprogramming and potential therapeutic agents, in vivo models and pharmacologic validation—considering liver function and underlying cirrhosis—will be required to substantiate these findings and support translation into postoperative intervention strategies.
+
+5.
+
+## Conclusion
+This study identified risk factors for HCC recurrence (ANC and AMC) using clinical feature analyses. Multi‐omics analysis revealed that B2M protein in myeloid cells drives early recurrence by regulating immune escape, cell communication, and differentiation pathways. A predictive model constructed based on key cell populations validated the central role of B2M, ultimately identifying potential inhibitory drugs (e.g., vandetanib). Integrating clinical indicators with molecular biomarkers (B2M, MYC pathway) can optimize recurrence risk stratification, enabling early warnings for high‐risk patients. Targeting B2M in myeloid cells or intervening in the GSA/PROS signaling pathway can reverse immune escape, and the identified drugs, such as vandetanib, provide new treatment directions for clinical practice. Clarifying the core role of myeloid cells in recurrence lays the foundation for developing immunomodulatory therapies.
+
+## Author Contributions
+Zhenyao Tan: data curation, validation, writing – original draft preparation. Yezhen Tang: software, writing – reviewing and editing. Bendong Chen, Yongxue Lv, and Bozhi Zhang: Visualization, Investigation. Yang Bu and Kejun Liu: methodology, software, revision, project administration, and supervision. All authors contributed to the article and approved the submitted version.
+
+## Funding
+This study was funded by the National Natural Science Foundation (81960533), Natural Science Foundation of Ningxia Hui Autonomous Region (2023AAC02073 and 2025AA030642), Central Guidance on Local Science and Technology Development Foundation of Ningxia Province (2024FRD05095), Ningxia Overseas Returnees' Innovation and Entrepreneurship Project (202246) and Key R&D Program of Ningxia Hui Autonomous Region for high‐level Talents Introduction (2024BEH04154).
+
+## Ethics Statement
+The Medical Ethics Committee of the General Hospital of Ningxia Medical University approved this study (Approval No. KYLL‐2022‐0413).
+
+## Consent
+All patients provided written informed consent for the publication of anonymized clinical data and any potentially identifiable images included in this study. Consent documentation confirms understanding that: Clinical details and images will be used solely for scientific purposes. No financial compensation will be provided for data/image usage.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Supporting information
+
+Figure S1: ssGSEA enrichment analysis of 50 hallmark gene sets in early recurrence samples of HCC.
+
+## Acknowledgments
+The authors have nothing to report.
+
+Tan Z., Tang Y., Chen B., et al., “Single‐Cell Multi‐Omics Reveals B2M‐Mediated Myeloid Reprogramming and Constructs a Predictive Model for Early Hepatocellular Carcinoma Recurrence,” The FASEB Journal
+39, no. 24 (2025): e71362, 10.1096/fj.202503144R.
+
+Zhenyao Tan and Yezhen Tang contributed equally to this work and share first authorship.
+
+## Contributor Information
+Kejun Liu, Email: kejun_liu1994@163.com.
+Yang Bu, Email: boyang1976@163.com.
+
+## Data Availability Statement
+The data used to support the findings of this study are available from the corresponding author upon request.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+Figure S1: ssGSEA enrichment analysis of 50 hallmark gene sets in early recurrence samples of HCC.
+
+## Data Availability Statement
+The data used to support the findings of this study are available from the corresponding author upon request.

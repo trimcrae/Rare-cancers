@@ -1,0 +1,254 @@
+1579scirepScientific ReportsSci RepNature Publishing GroupPMC1316833913168339131683394187227110.1038/s41598-026-45586-yComprehensive transcriptomic characterization of two melanoma cell lines with acquired dual resistance to BRAF and MEK inhibitors
+KujawaTomasz SimiczyjewAleksandra KotMagdalena GambinTomasz NowakDorota KobielaTomasz 1Department of Drug and Cosmetics Biotechnology, Warsaw University of Technology, Warsaw, Poland 2Department of Cell Pathology, Faculty of Biotechnology, The University of Wroclaw, Wroclaw, Poland 3The Institute of Computer Science, Warsaw University of Technology, Warsaw, Poland ✉Corresponding author.
+23320261614775147751452026© The Author(s) 2026Open Access This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by-nc-nd/4.0/.
+
+## Abstract
+Resistance to targeted therapy remains a major clinical challenge in the treatment of BRAF-mutant melanoma. To elucidate the molecular mechanisms underlying acquired resistance to dual BRAF and MEK inhibition, we performed transcriptomic profiling of two metastatic melanoma cell lines, Hs294T and WM9, that had become resistant to the combination of vemurafenib (a BRAF inhibitor) and cobimetinib (an MEK inhibitor). Resistant cell lines were derived through stepwise drug exposure until stable resistance was achieved in the presence of 0.4 µM vemurafenib and 0.4 µM cobimetinib. Total RNA was extracted and subjected to high-throughput sequencing using the KAPA Stranded mRNA-seq Kit and Illumina NovaSeq 6000 platform, yielding ~ 20 million paired-end reads per sample. Sequencing data were processed with standard RNA-seq pipelines, including read alignment (STAR), quantification (featureCounts), normalization, and differential expression analysis (DESeq2). Gene set enrichment analysis (GSEA) was performed using MSigDB collections. Transcription factors and kinases activity were inferred using the decoupleR package. All statistical analyses incorporated multiple-testing correction using the Benjamini-Hochberg method. Both resistant cell lines exhibited strong upregulation of extracellular matrix components, epithelial-mesenchymal transition (EMT) markers, and chemokine signaling genes, along with repression of melanocytic lineage markers. Inference of transcription factors and kinases activity uncovered line-specific regulatory rewiring, including activation of MYOCD, SMAD3, and TP53, and suppression of immune regulators such as RFX5 and RFXANK. WM9 cells exhibited broader transcriptional reprogramming and a more pronounced engagement of inflammatory and immune-related pathways. At the same time, Hs294T resistance was marked by a more restricted program focused on stromal remodeling and impaired antigen presentation. RNA-seq-based profiling of dual-resistant melanoma cell lines revealed distinct, context-specific transcriptional programs associated with acquired resistance. These findings complement prior characterization of the same models and highlight divergent adaptive strategies, providing a transcriptomic resource to inform follow-up in vitro testing of candidate combinations aimed at overcoming BRAF/MEK inhibitor resistance.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1038/s41598-026-45586-y.
+
+Keywords: melanoma, BRAF/MEK inhibitors, dual drug resistance, RNA-seq, transcriptional profiling, Hs294t, WM9
+
+Subject terms: Cancer, Cell biology, Computational biology and bioinformatics, Molecular biology, Oncology
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Aug 8; Accepted 2026 Mar 19; Collection date 2026.
+
+## Introduction
+Melanoma remains one of the most aggressive forms of skin cancer, with a rising global incidence over recent decades . Although advances in immunotherapy and targeted therapies have significantly improved patients’ outcomes, advanced-stage melanoma is still challenging to treat due to its heterogeneity and frequent development of drug resistance . In BRAF-mutant melanoma, targeted therapy based on simultaneously BRAF and MEK inhibitors, such as vemurafenib and cobimetinib, respectively, has become a cornerstone of patient treatment, offering significant survival benefits . However, despite initial clinical responses, resistance to these therapies almost invariably emerges, leading to disease progression . Understanding the molecular basis of resistance is thus critical for improving treatment durability.
+Resistance to BRAF or MEK inhibitors can arise through various mechanisms, including secondary mutations in target genes, compensatory pathways activation (e.g., PI3K/AKT), phenotypic switching, and changes in the tumor microenvironment . While many studies have explored resistance to single-agent therapy, fewer have focused on resistance to the clinically approved combination of BRAF and MEK inhibitors, despite this regimen being, next to immunotherapy, the current standard of care for BRAF V600E-mutant melanoma , . Importantly, resistance mechanisms under dual-drug pressure are likely more complex and multifactorial than those observed with monotherapy .
+Establishing cell lines resistant to both vemurafenib and cobimetinib is technically demanding and requires prolonged drug exposure. Nonetheless, such models provide physiologically relevant systems that better reflect the clinical evolution of resistance. They offer an opportunity to dissect adaptive processes and uncover vulnerabilities that emerge in the resistant state.
+In this study, we present a comprehensive transcriptomic characterization of two metastatic human melanoma cell lines - Hs294T and WM9 - that have acquired resistance to combined BRAF/MEK inhibition. These models were originally established and phenotypically characterized by Kot et al. and Simiczyjew et al. , including assessments of cell morphology, signaling pathways activation, cell proliferation, cytokine secretion, invasive and adhesive abilities, cytoskeleton organization and proteolytic activity. While these studies provided detailed functional and protein-level characterization, a transcriptome-wide characterization of resistance-associated changes in these models remains limited. Transcriptional profiling is essential, as it captures early and foundational regulatory shifts that precede or complement proteomic changes.
+Our goals are twofold: first, to characterize the major transcriptional alterations associated with resistance in each cell line, and second, to identify both shared and unique regulatory signatures that may reflect conserved or context-specific resistance mechanisms.
+
+## Methods
+
+## Development of Resistant Cell Models and RNA Preparation
+The protocol for generating resistant lines and culturing the cells was previously described by Kot et al. . Shortly, two metastatic melanoma cell lines: Hs294T (ATCC, American Type Culture Collection) and WM9 (Rockland Immunochemicals, Inc.) were used to derive drug-resistant variants. Resistance was induced by gradually increasing the concentrations of vemurafenib (a BRAF kinase inhibitor; Santa Cruz Biotechnology) and cobimetinib (a MEK kinase inhibitor; Selleck Chemicals LLC) in the culture medium. The final concentrations used were 0.4 µM for both vemurafenib and cobimetinib.
+In parallel, the control Hs294T and WM9 cells were incubated with increasing concentrations of the solvent for the inhibitors - dimethyl sulfoxide (DMSO; AppliChem GmbH). All melanoma cells were maintained in Dulbecco’s Modified Eagle Medium (DMEM; IITD PAN, Wrocław, Poland) containing 4.5 g/l glucose, 1.5 g/l NaHCO3, 2 mM glutamine (Thermo Fisher), an antibiotic-antimycotic solution (Thermo Fisher), and 10% fetal bovine serum (Thermo Fisher). Cells were passaged using 0.25% trypsin/0.05% EDTA solution (IITD PAN).
+Resistant cells were continuously cultured in DMEM containing 0.4 µM vemurafenib and 0.4 µM cobimetinib, while control cells received an equivalent concentration of DMSO. For RNA extraction, the culture medium was removed, and the cells were washed twice with 3–5 mL of PBS. After the final wash, 0.5 mL of TRIzol reagent (Thermo Fisher) was added, and the cells were scraped from the plate. The suspension was pipetted 12–15 times to ensure homogeneity and transferred to an RNase-free Eppendorf tube, which was labeled and stored at − 80 °C.
+Total RNA was extracted from both dual-resistant melanoma cell lines, as well as from their corresponding DMSO-treated control (sensitive) lines. Each group contained three biological replicates, resulting in six samples per cell line and twelve samples in total. RNA integrity and concentration were assessed using the Agilent 2100 Bioanalyzer (Agilent Technologies, Santa Clara, CA, USA), and only samples with an RNA integrity number (RIN) ≥ 8.0 were used for library preparation.
+From this point forward, control samples are denoted with the suffix _ctrl, and resistant samples with the suffix _res.
+
+## RNA-seq Data Generation
+Library preparation and RNA sequencing (RNA-seq) were performed at the Laboratory of Sequencing at the Nencki Institute of Experimental Biology, Polish Academy of Sciences (PAS), Warsaw, Poland, using the KAPA Stranded mRNAseq Kit and Illumina NovaSeq 6000 platform. Each sample was sequenced with 20 million paired-end reads.
+
+## RNA-seq Data Preprocessing
+To enhance sequencing depth and data quality, each sample was distributed across four sequencing lanes. The resulting FASTQ files from each lane were merged before downstream processing to generate a single, high-coverage dataset per biological replicate.
+The following preprocessing workflow was applied to the merged FASTQ files: (i) quality control of raw reads was performed using FastQC (v0.12.1), (ii) adapter trimming using fastp (v0.24.0) with default parameters. (iii) read alignment: cleaned reads were aligned to the human reference genome (GRCh38 Release 47) using the STAR aligner (v2.7.11b) . Post-alignment quality control was conducted using Qualimap (v2.3) . High-quality alignments were confirmed across all samples, ensuring suitability for downstream analyses. Aligned reads were counted together as fragments using featureCounts from the Subread package (v2.0.8) . Gene annotations were retrieved from the Ensembl database via the biomaRt package and mapped to Ensembl gene IDs (versioned). Low-abundance genes were filtered out using the filterByExpr() function from the edgeR package . Filtered gene expression matrix was normalized and transformed using the vst() function from the DESeq2 package .
+
+## Principal Component Analysis and Differential Gene Expression Analysis
+Principal Component Analysis was performed using the pca() function from the PCAtools package. Differential gene expression analysis (DGE) was performed using the DESeq() function from the DESeq2 package . Genes with an adjusted p-value (Benjamini–Hochberg FDR) < 0.05 and absolute log₂ fold change ≥ 2 were considered differentially expressed (DEGs).
+
+## Overrepresentation Analysis
+Over-representation analysis (ORA) was conducted to functionally characterize each differential gene expression (DGE) signature. The analysis was performed using the enrichGO() function from the clusterProfiler package , with Gene Ontology Biological Process (GO: BP) terms as the annotation source. Gene sets were filtered to include only those containing between 20 and 300 genes. Pairwise semantic similarity between enriched Gene Ontology (GO) terms was calculated using the pairwise_termsim() function from the clusterProfiler package, employing the Jaccard index as the similarity metric.
+
+## Gene Set Enrichment Analysis
+Gene set enrichment analysis (GSEA) was performed using a ranked list of all genes, where the ranking metric was calculated as:
+
+ 
+
+This approach integrates both the statistical significance and direction of gene expression changes to prioritize genes for enrichment testing. Gene sets were obtained from the MSigDB (v2024.1) database, including Hallmark pathways, Gene Ontology (GO), and KEGG canonical pathways. Gene Set Enrichment Analysis (GSEA) was performed using the gseGO() function for GO terms and the GSEA() function for Hallmark and KEGG gene sets, both from the clusterProfiler package. The following parameters were applied: minimum gene set size of 15, maximum gene set size of 500, p-value cutoff of 0.01, and 10,000 permutations.
+
+## Transcription Factor and Kinase Activity Inference
+Transcription factor and kinase activity inference was performed using the decoupleR package (v2.14.0) . Sample-level activities were estimated using the Univariate Linear Model (ULM), while contrast-level activities were computed using a multivariate linear model. In both cases, the minimum number of targets per source was set to 5. For transcription factor (TF) activity inference, human interaction data were obtained from the Collection of Transcriptional Regulatory Interactions (CollecTRI), accessed in July 2025 using the get_collectri() function. Kinase activity inference was based on kinase–substrate interactions retrieved from the OmniPath database via the kinaseextra() function from the OmnipathR package (v3.16.0), incorporating data from PhosphoPoint and PhosphoSite resources. The network was filtered to include only interactions with consistent directionality and annotated regulatory effects (i.e., either stimulation or inhibition). All interaction networks (TF and kinase) were filtered to retain only those source and target nodes present in the expression matrix.
+
+## Visualizations
+PCA visualizations were generated using the biplot(), screeplot(), and plotloadings() functions from the PCATools package. Dot plots were created with the dotplot() function from the enrichplot package. All other figures (including volcano plots and heatmaps) were produced using the ggplot2 package .
+
+## Results
+
+## Transcriptomic Separation Between Resistant and Control Samples
+To characterize the global transcriptional landscape associated with acquired resistance to vemurafenib and cobimetinib, we performed principal component analysis (PCA). This analysis revealed a clear separation between resistant and control samples along the first two principal components (Fig.  : A). Samples from both Hs294T_ctrl and WM9_ctrl cell lines formed a tight cluster, indicating that their baseline transcriptomic profiles are relatively similar. In contrast, samples from resistant cell lines clustered not only apart from their respective controls but also from each other, suggesting the involvement of distinct, cell-line–specific resistance mechanisms.
+ Several genes contributed strongly to the observed separation between sample groups (Fig.  : A, C). SOX10, a melanocytic lineage marker with a strong negative loading on PC1, separated both control groups (Hs294T_ctrl and WM9_ctrl) from their corresponding resistant samples, reflecting its shared downregulation in the resistant state. Multiple cytoskeleton- and ECM-related genes showed high positive PC1 loadings, most prominently FLNC (Filamin-C) but also collagens (COL1A1, COL1A2, COL9A3) and MYL9 (myosin light chain 9), together indicating coordinated cytoskeletal and matrix remodeling in resistant samples. The cell adhesion molecule THY1, a known stem cell marker, was among the key genes distinguishing WM9_res from WM9_ctrl. FAM20C, a Golgi-associated kinase with a strong positive loading on PC2, contributed to variation within the resistant groups, separating Hs294T_res from WM9_res.
+These findings suggest that, despite identical treatment conditions, Hs294T_res and WM9_res cell lines acquire resistance through divergent transcriptional programs. This observation is explored in subsequent differential expression and gene set enrichment analyses.
+
+## Cell Line-Specific Differential Expression Signatures
+To identify gene expression signatures associated with resistance to vemurafenib and cobimetinib, we conducted differential gene expression (DGE) analysis comparing resistant and control samples from both Hs294T and WM9 cell lines. In the Hs294T_res cells, 1,171 genes were upregulated, and 833 were downregulated compared to the control, for a total of 2,004 differentially expressed genes (DEGs) (Supplementary Data 1, worksheet ‘HS294T_all’). Similarly, in the WM9_res, we identified 1,346 upregulated and 958 downregulated genes in comparison to control cells, resulting in 2,304 DEGs (Supplementary Data 1, worksheet ‘WM9_all’). In both cell lines, the most strongly up- and downregulated genes reached absolute log₂ fold change (LFC) values greater than 14 (Fig.  : C). A total of 939 DEGs (28%) were shared between the two resistant cell lines (Supplementary Data 1, worksheet ‘shared_DEGs’), while 1,065 (32%) and 1,365 (41%) were unique to Hs294T_res and WM9_res, respectively (Supplementary Data 1, worksheets ‘DEGs_in_HS294T_only’ and ‘DEGs_in_WM9_only’ ) (Fig.  : A). Among the shared DEGs, the majority exhibited coordinated expression patterns. Specifically, 526 genes were consistently upregulated and 380 consistently downregulated in both resistant cell lines, suggesting the involvement of common regulatory mechanisms driving the resistance phenotype. A smaller subset of 33 genes displayed divergent regulation between the two lines, being upregulated in one and downregulated in the other (Fig.  : B). Among the genes exhibiting opposite regulation, several displayed particularly strong discordance in expression. Notably, CHRNA9, MYL9, and UCA1 showed the most substantial divergence, with log₂ fold change differences exceeding 12 units between the two resistant cell lines.
+ A notable similarity between Hs294T_res and WM9_res cells is the consistent upregulation of genes associated with cytoskeletal and extracellular matrix (ECM) remodeling. Strong induction of SERPIN family members (e.g., SERPINE1, SERPINB2) was observed in both resistant lines. FLNC (Filamin-C), which contributes to actin crosslinking and structural organization, was strongly upregulated in both resistant lines. Although actin-related remodeling dominates the transcriptional response associated with the invasive phenotype, the strong induction of tubulin genes (e.g., TUBA4A, TUBA3C, TUBB2B, TUBB2A) and related microtubule-associated genes (e.g., MAP2) suggests that resistance is accompanied by broader cytoskeletal reorganization involving both actin and tubulin networks. Similarly, COL1A2 in Hs294T_res and COL1A1 in WM9_res – encoding type I collagen subunits – were among the most highly induced genes, indicating a shared enhancement of ECM component expression. Increased collagen secretion in both resistant lines is also supported by our earlier analysis of conditioned media from resistant cells (data not shown).
+On the downregulated side, both resistant cell lines exhibited strong repression of SOX10, a transcription factor essential for melanocyte development and differentiation. B3GAT1, a glycosyltransferase crucial for the synthesis of the HNK-1 epitope, present on molecules involved in cell migration, was also markedly downregulated. This epitope is particularly important in neural crest cells, the embryonic precursors of melanocytes.
+Despite overarching similarities between the two resistant models, distinct transcriptional features were evident. In Hs294T_res cells, several thematic groups of genes exhibited strong upregulation (Supplementary Data 1, worksheet ‘DEGs_in_HS294T_only’). We observed strong induction of a smooth-muscle/contractile genes, including MYOCD, CARMN, ACTA2, ACTG2, CNN1, MYL7 and DES, indicating activation of a contractile cytoskeletal program in resistant cells. A subset of epithelial keratin genes – KRT75, KRT81, KRT5, KRT86, and KRT83 – also showed strong upregulation (logFC > 5), whereas KRT9 was among the most downregulated keratins (logFC = -6,92). Genes involved in xenobiotic metabolism and oxidative stress responses were increased, including GSTA1, GSTA2, UGT1A1, UGT1A10, CYP2S1, CYP4F11, CYP24A1, MT1E, SELENBP1 and SELENOP. The most upregulated transcript in Hs294T_res was KAZN-AS1, a poorly characterized long non-coding RNA positioned near KAZN, a gene involved in desmosomal adhesion.
+In contrast, the most highly upregulated genes in WM9_res cells formed a strong inflammatory/immune signature, with marked induction of IL6, IL36B, IL1B, CASP1, NLRP3, CXCL12, TNFAIP3 and NFKBIA, together with complement components (C3, C1RL), multiple HLA class I and II genes (HLA-A/B/C/F/G) and the checkpoint ligand PDCD1LG2 (Supplementary Data 1, worksheet ‘DEGs_in_WM9_only’ ). Elevated IL6 levels in conditioned medium from both resistant lines were also confirmed in our earlier analyses . Small heat-shock proteins were selectively induced in WM9_res cells, including HSPB8 and HSPB7, along with the co-chaperones DNAJB2 and DNAJB5. Additional strongly induced genes included THY1 (logFC = 12.18), a marker of cellular stemness and adhesion, and UCHL1 (logFC = 10.76), a deubiquitinating enzyme implicated in chemoresistance and tumor progression .
+To get insight into the biological processes underlying resistance-specific transcriptional programs, we performed over-representation analysis (ORA) of Gene Ontology Biological Process (GO: BP) terms for three distinct gene sets: (i) Hs294T_res-specific DEGs, (ii) WM9_res-specific DEGs, and (iii) DEGs shared between both resistant lines (Supplementary Data 2). Analysis of the shared DEGs revealed a convergence on fundamental biological processes such as extracellular matrix organization/remodeling, cell chemotaxis, and connective tissue development with fold enrichments ranging from 2.5 to 2.7 (Fig. : C). This suggests that activation of migratory, mesenchymal, and extracellular signaling programs constitutes a conserved, lineage-independent adaptation to dual BRAF/MEK inhibition. Our previous studies confirmed that both resistant cell lines exhibit significantly increased migratory and invasive capabilities . Beyond this shared core, each model exhibited distinct enrichment patterns. In Hs294T_res cells, additional processes related to the ERK1/2 cascade were enriched (Fig. : A). In contrast, WM9_res cells showed strong enrichment of immune-related pathways, including leukocyte migration, cellular response to interleukin-1, and antigen processing and presentation (Fig. : B). These immune signatures were accompanied by a pronounced activation of tumor-cell-intrinsic inflammatory and interferon pathways. Specifically, Hallmark GSEA demonstrated significant enrichment of TNFA signaling via NF-κB, interferon-γ response, interferon-α response, IL6–JAK–STAT3 signaling, and complement activation (Fig. ).
+ 
+
+## Distinct Transcriptional Regulators Drive Resistance in Hs294T and WM9 cells
+Regulatory programs associated with resistance in Hs294T and WM9 were further explored through transcription factor (TF) activity inference, assessed both at the individual sample level and through differential contrast analysis. This dual approach allowed us to capture TFs with high variability across biological replicates, as well as those most prominently activated or repressed in the resistant state. In total, 917 transcription factors and their 4,728 target genes were mapped from the expression matrix. Sample-level analysis revealed strong separation not only between resistant and control groups but also between the samples representing resistant Hs294T and WM9 cells (Fig.  : A). The latter separation was driven by marked activation of TFs such as JUN, NFkB1, RELA, TP53, TBX18, and RARB in WM9_res samples. Conversely, transcription factors including E2F1, MYC, and E2F4 were strongly suppressed in WM9_res cells but not in Hs294T_res, which suggests a shift away from proliferation toward inflammatory/stress-resilient states, consistent with NF-κB and JUN activation. Samples from both control cell lines exhibited relatively similar profiles and did not show such pronounced segregation.
+ Contrast-level analysis – which identifies regulators driving the overall transcriptional shift between resistant and control conditions – revealed that in Hs294T_res cells, MYOCD, TFE3, and JUNB were the most strongly upregulated transcription factors, whereas RFX5, RFXAP, and RFXANK were the most significantly downregulated (Fig.  : B). In WM9_res cells, differential analysis revealed robust activation of TP53, SMAD3, and NFKB1, alongside strong repression of RFXAP, RFXANK, and RFX5 (Fig.  : C).
+
+## Kinase Activity Inference Reveals Line-Specific Signaling Reprogramming
+The same approach used for transcription factor activity analysis was applied to infer changes in kinase signaling at the transcriptomic level. We identified 308 kinases and their 1,392 substrates within the expression matrix. Overall, the separation between Hs294T_res and WM9_res lines was less pronounced than that observed for transcription factors. Notably, SRC, ABL2, and GSK3β were strongly suppressed in resistant Hs294T cells but markedly activated in WM9_res cells (Fig.  : A). In contrast, inferred AKT2 activity was elevated in Hs294T_res cells but remained low or unchanged in WM9_res.
+ Contrast-level analysis further revealed that Hs294T_res cells displayed strong activation of ABL1, NLK, PRKCA, and MAPK14, while ABL2, PTK2B, and PKN1 showed markedly reduced inferred activity (Fig.  : B). Conversely, resistant WM9 samples were characterized by inhibition of CAMK2G, RAF1, PKN1, and PRKDC, whereas kinases such as RET, MAPK14, and SRC were notably upregulated (Fig.  : C).
+
+## GSEA Highlights Pathway-Level Differences Between Resistant Lines
+To gain functional insight into the transcriptional rewiring associated with drug resistance, we conducted Gene Set Enrichment Analysis (GSEA) using a custom ranking metric, which prioritizes genes based on both statistical significance and direction of expression change (Methods). Enrichment was assessed across multiple pathway databases, including Gene Ontology (GO: BP, GO: MF, GO: CC) and the Hallmark collection. Significantly enriched pathways were identified across all collections.
+Resistant WM9 cells exhibited a markedly higher number of significantly enriched pathways than Hs294T_res cells, with 517 terms identified in the GO: BP category alone, versus 121 in Hs294T_res. Similar trends were observed across other collections (GO: CC, GO: MF, and Hallmark), indicating a broader transcriptomic reprogramming in WM9_res cells. In contrast, the Hs294T_res cell line showed fewer enriched pathways overall, suggesting a more focused or constrained transcriptional response.
+Among the upregulated gene sets, both resistant models showed strong enrichment of pathways related to epithelial-mesenchymal transition (EMT) and the endoplasmic reticulum (ER) (Fig. ). This is consistent with our previous study, in which we reported elevated expression of EMT markers such as TGFβRI and TGFβRIII, along with reduced levels of SOX2 . In addition, we previously reported reduced levels of proteins involved in cell cycle regulation, which is consistent with our current transcriptomic analyses. Both resistant models exhibited downregulation of cell cycle–associated pathways, including E2F targets, as well as pathways related to biosynthesis, such as the small-subunit processome, ribonucleoprotein complex biogenesis, and preribosome assembly.
+ Although the two resistant lines overlap in several core biological themes, they also displayed distinct patterns of pathway regulation. In Hs294T_res cells, processes related to extracellular matrix organization and adhesion were significantly enriched, including integrin and fibronectin binding, and positive regulation of cell migration (Supplementary Data 3, worksheet ‘Hs294T_significant_pathways’). Cytoskeletal remodeling was also evident, reflected by enrichment of actin filament bundle formation and myofibril assembly, indicating coordinated reorganization of actin structures. In addition, a vesicle/lysosomal trafficking module was enriched, including terms such as platelet α-granule lumen and lysosomal lumen, both associated with regulated secretion and endolysosomal processing. In WM9_res cells, GSEA revealed pronounced enrichment of extracellular matrix and collagen-related pathways, including extracellular matrix and extracellular structure organization, collagen trimer and fibril organization, collagen metabolic and catabolic processes, and basement membrane formation (Supplementary Data 3, worksheet ‘WM9_significant_pathways’). This was accompanied by strong activation of immune and inflammatory programs, such as TNFα–NF-κB and IL6–JAK–STAT3 signaling, interferon-α and interferon-γ responses, inflammatory response, complement pathways, as well as extensive chemotaxis and leukocyte migration signatures encompassing myeloid cells, lymphocytes, and NK-cell–mediated cytotoxicity.
+
+## Discussion
+The transcriptomic analysis of two melanoma cell lines resistant to dual BRAF/MEK inhibition, Hs294T and WM9, reveals both shared and divergent molecular adaptations. Although both lines were subjected to the same therapeutic pressure, resistance emerged through distinct transcriptional trajectories.
+Resistant WM9 cells exhibited more extensive transcriptional reprogramming, characterized by a broader set of differentially expressed genes and enriched pathways. A prominent feature of the WM9_res phenotype was the activation of tumor–cell–intrinsic inflammatory and interferon signaling, accompanied by elevated expression of multiple SERPIN family members (e.g., SERPINE1, SERPINB2), which have been implicated in promoting cell survival . Moreover Wm9_res model showed marked activation of transcription factors such as JUN, NFkB1, RELA, TP53, TBX18, and RARB whereas proliferation-driving TFs including MYC and E2F family members were strongly suppressed – consistent with GSEA showing repression of cell-cycle and biosynthetic pathways. Together with activation of stress-related kinases (e.g., JNK) and increased expression of stemness-associated markers, these features support a model in which WM9 cells acquire resistance by disengaging from proliferative programs and adopt slow-cycling, inflammatory and stress-resilient states that favor survival under therapeutic pressure.
+One explanation of the TP53 upregulation in WM9_res cells is that BRAFV600E can physically bind to and inhibit p53 , but this suppression appears uncoupled in the resistant cells. WM9_res cells downregulate RAF1 (CRAF) and reduce MAPK dependency while activating stress-associated kinases (e.g., JNK) and inflammatory mediators such as NF-κB. Activation of these stress pathways is known to stabilize p53, providing a plausible mechanism for the elevated TP53 levels observed in WM9_res. Consistently, recent work shows that loss of p53 reduces NF-κB–mediated cytokine production and increases drug sensitivity . In turn, p53 activation can repress MYC and promote G₁ arrest, in agreement with our observations. Supporting this interpretation, Box et al. reported that combining MAPK inhibition with p53 activation (e.g., MDM2/MDM4 blockade) drives melanoma cells into cell-cycle arrest or apoptosis . Given RAF1’s role in promoting proliferation and survival through the canonical MAPK cascade , its downregulation in WM9_res may indicate a switch away from MAPK dependency toward alternative resistance/survival mechanisms, such as SRC/ABL2-driven pathways .
+Hs294T_res cells, in contrast exhibited a more restricted and specialized response. Their transcriptional program was dominated by cytoskeletal remodeling and upregulation of pathways linked to regulated secretion and endolysosomal processing. Unlike WM9_res, Hs294T_res did not strongly repress MYC/E2F activity, suggesting that these cells may retain higher proliferative potential. Hs294T_res also showed elevated inferred activity of AKT2, consistent with a shift toward a mesenchymal, stem-like, and plastic phenotype frequently associated with therapeutic resistance. Hs294T_res maintain a MAPK- and PI3K/AKT-leaning program (high AKT2 activity), that may continue to suppress p53, whereas WM9_res show strong p53 activation and disengagement from MAPK/AKT2 signaling.
+Interestingly, our previous study showed elevated AKT levels in both resistant lines . This may be because the antibody directed against phospho-AKT used in Western blot studies detected the active form of both AKT1 and AKT2 proteins, while AKT1-inferred activity was increased in both types of resistant cells. Both isoforms play a key role in promoting cell survival, motility, and the EMT process, often driving invasive and metastatic behavior in cancer cells . Notably, AKT isoforms can play distinct roles in melanoma adaptation, while AKT2 drives cell motility, invasive phenotypes, and therapy resistance , . The induction of AKT signaling upon MAPK pathway inhibition is a well-recognized mechanism of adaptive resistance. Parkman and colleagues have explored this phenomenon in the context of pharmacological inhibition of the PI3K/mTOR axis in MAPK inhibitor–resistant melanoma models . Their study demonstrated that dual PI3K/mTOR inhibition effectively reduced proliferation of melanoma cells in vitro and slowed tumor progression in vivo, including in models that had developed resistance to MAPK-targeted therapies.
+Despite their differences, the two resistant lines displayed several shared resistance features. Both showed strong upregulation of extracellular matrix components (COL1A1, COL1A2, and FLNC), and chemokine-associated genes such as ACKR3, alongside EMT-like signatures and strong downregulation of the melanocytic lineage factor SOX10. This is consistent with Capparelli et al. , who reported that reduced SOX10 is associated with decreased proliferation, induction of invasive/mesenchymal and extracellular matrix programs, and increased tolerance to BRAF/MEK inhibitors. Our previous analysis of HS294T and WM9 models showed that resistant cells differ markedly from their respective controls in cytoskeletal architecture: they exhibit a higher ratio of filamentous to monomeric actin, form more stress fibers and invadopodia (adhesive structures with proteolytic activity that support cell invasion), and display increased levels of β- and γ-actin, as well as nuclear accumulation of YAP/TAZ proteins indicative of increased actin cytoskeletal tension . The transcriptomic signatures observed here closely align with these earlier functional findings, including sustained ERK/AKT activation, spindle-like morphology (a hallmark of EMT-like states), and increased cytokine secretion . Together, these changes suggest a common resistance axis involving ECM remodeling, mesenchymal transition, and reduced lineage identity. Furthermore, we previously demonstrated that WM9 and Hs294T cells differ markedly in their susceptibility to developing resistance to BRAF/MEK inhibitors, a distinction that is also reflected in their respective transcriptomic profiles .
+Differences in resistant phenotypes across melanoma models have also been reported by Rambow et al. . In patient-derived xenografts treated with BRAFi+MEKi, the authors identified several drug-tolerant cell states – including “starved-like” (SMC), “pigmented,” “invasive,” and “neural crest stem cell–like” (NCSC) – each defined by distinct transcriptional programs. The resistant lines we generated exhibit markers that overlap with several of these states but do not fully match any single category. Both WM9_res and Hs294T_res express elevated MITF , a marker of the “pigmented” subpopulation. They also show increased AXL (data not shown) and SOX10 expression , features of the “invasive” state, although invasive cells typically have low MITF. Neither line matches the canonical NCSC profile (high SOX10, low MITF, low AXL). Nonetheless, both resistant models display elevated stem-like markers (CD24, NANOG, ALCAM), suggesting partial engagement of stemness programs described by Rambow et al.
+Finally, the divergent responses of WM9 and Hs294T likely reflect underlying interpatient heterogeneity, a major barrier to predicting resistance. Beyond the shared BRAFV600E mutation, WM9 carries a PTEN deletion, whereas Hs294T harbors a TERT promoter mutation – both of which can reshape signaling dependencies. PTEN status is particularly influential: PTEN-intact melanomas (like Hs294T) typically require robust PI3K–AKT signaling to survive MAPK inhibition and therefore upregulate this pathway under drug pressure , . Such tumors often display simultaneous hyperactivation of ERK and AKT driven by RTK (receptor tyrosine kinase) upregulation, and RTK blockade can restore drug sensitivity . By contrast, PTEN-deficient melanomas (like WM9) already show high basal PI3K–AKT activity and rely more heavily on ERK-centered resistance mechanisms. Zuo et al. further showed that AXL drives AKT-mediated resistance in PTEN-intact but not PTEN-deficient models , consistent with our observation that AXL was significantly induced only in Hs294T_res.
+To assess whether resistance-associated transcriptional programs identified in our WM9 and Hs294T bulk RNA-seq models extend to an independent system, we performed an external concordance analysis using a publicly available A375 BRAFi/MEKi double-resistant scRNA-seq dataset (GSE164897; vemurafenib + cobimetinib) . Gene-level comparisons showed directional agreement between A375 resistance markers and the extremes of the WM9/Hs294T ranked gene lists, and pathway-level comparisons indicated concordant directionality for a subset of shared Hallmark and GO Biological Process terms. Full results and summary statistics are provided in Supplementary Figure .
+A key limitation of this study is its in vitro nature and the restricted model panel comprising only two established melanoma cell lines (Hs294T and WM9) selected for resistance to combined BRAF/MEK inhibition. In addition, our transcriptomic profiling is based on bulk RNA-seq and therefore reflects an average resistant state within each culture; resistant populations may contain distinct sub-states that are not fully resolved by bulk measurements and could be more precisely characterized using single-cell RNA-seq in future work. Future studies should also expand transcriptomic profiling to a broader set of treatment-resistant melanoma models to better capture the diversity of resistance programs and enable more precise selection of therapeutic vulnerabilities associated with specific resistance states. Differences observed between WM9 and Hs294T are also likely to be more pronounced in vivo, where tumor cells are embedded within a complex microenvironment that includes fibroblasts and immune populations. Notably, WM9 exhibited more prominent inflammatory and immune-related pathway engagement, suggesting that drug response and resistance dynamics may depend more strongly on immune context in vivo. In contrast, Hs294T resistance was characterized by stromal remodeling and extracellular matrix–associated programs that are plausibly influenced by interactions with fibroblasts. Therefore, in vivo studies using these resistant lines would be valuable to establish how microenvironmental cues modulate the resistance mechanisms identified here and to refine therapeutic strategies aimed at overcoming BRAF/MEK inhibitor resistance.
+
+## Conclusions
+This study corroborates our previously reported functional findings and provides additional mechanistic insight by identifying upstream transcriptional and kinase regulators, that shape the resistant phenotype. It underscores the importance of multi-omic integration for a comprehensive understanding of resistance mechanisms and highlights the need for tailored therapeutic strategies that account for the distinct regulatory architectures of individual tumors.
+Importantly, our results suggest that several features of the resistant state, such as altered signaling programs, cellular plasticity, and stress-adaptive responses are detectable at the transcriptomic level and may precede overt phenotypic or proteomic changes. Thus, transcriptomic profiling serves not only as a complement to proteomic and functional analyses but also as an early and sensitive indicator of resistance-associated reprogramming. Finally, this work also serves as the foundation for a subsequent phase of the project, in which the derived transcriptional signatures will be used for in silico prediction of drug combinations capable of reversing the resistant phenotype.
+
+## Supplementary Information
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 2
+
+Supplementary Material 3
+
+Supplementary Material 1
+
+Supplementary Material 4
+
+## Acknowledgements
+Not applicable.
+
+## Abbreviations
+ABL2ABL Proto-Oncogene 2, Non-Receptor Tyrosine Kinase
+ACKR3Atypical Chemokine Receptor 3
+ACTA2Actin Alpha 2, Smooth Muscle
+ACTG2Actin Gamma 2, Smooth Muscle
+AKT2AKT Serine/Threonine Kinase 2
+ALCAMActivated Leukocyte Cell Adhesion Molecule
+APOEApolipoprotein E
+AXLAXL Receptor Tyrosine Kinase
+B3GAT1Beta-1,3-Glucuronyltransferase 1
+BRAFB-Raf proto-oncogene, serine/threonine kinase
+CARMNCardiac Mesoderm Enhancer-Associated Non-Coding RNA
+CASP1Caspase 1
+CCL2C-C Motif Chemokine Ligand 2
+CD74CD74 Molecule
+CHRNA9Cholinergic Receptor Nicotinic Alpha 9 Subunit
+CIITAClass II Major Histocompatibility Complex Transactivator
+CNN1Calponin 1
+COL1A2Collagen Type I Alpha 2 Chain
+CXCL12C-X-C Motif Chemokine Ligand 12
+CYP2S1Cytochrome P450 Family 2 Subfamily S Member 1
+DEGsDifferentially Expressed Genes
+DESDesmin
+DGEDifferential Gene Expression
+DNAJB2DnaJ Heat Shock Protein Family (Hsp40) Member B2
+E2FE2F Transcription Factor 2
+ECMExtracellular Matrix
+EGFEpidermal Growth Factor
+EGFREpidermal Growth Factor Receptor
+EMTEpithelial-Mesenchymal Transition
+EREndoplasmic Reticulum
+FAM20CFAM20C Golgi Associated Secretory Pathway Kinase
+FGF2Fibroblast Growth Factor 2
+FLNCFilamin-C
+FN1Fibronectin 1
+GO:BPGene Ontology Biological Process
+GO:CCGene Ontology Cellular Component
+GO:MFGene Ontology Molecular Function
+GSEAGene Set Enrichment Analysis
+GSTA1Glutathione S-Transferase Alpha 1
+HLA-AMajor Histocompatibility Complex, Class I, A
+HLA-DRAMajor Histocompatibility Complex, Class II, DR Alpha
+HSPB7Heat Shock Protein Family B (Small) Member 7
+ICAM1Intercellular Adhesion Molecule 1
+IL6Interleukin 6
+ITGA5Integrin Subunit Alpha 5
+JUNJun Proto-Oncogene
+KRT75Keratin 75
+LFC/logFCLog₂ Fold Change 
+MDM2MDM2 Proto-Oncogene
+MDM4MDM4 Regulator Of P53
+MEK/MAP2KMitogen-Activated Protein Kinase kinase
+MITFMelanocyte Inducing Transcription Factor
+MMP2Matrix Metallopeptidase 2
+MRDMinimal Residual Disease
+MSigDBMolecular Signatures Database
+MT1EMetallothionein 1E
+MYCMYC Proto-Oncogene, BHLH Transcription Factor
+MYL9Myosin Light Chain 9
+MYOCDMyocardin
+NANOGHomeobox Transcription Factor Nanog
+NCSCNeural Crest Stem Cell
+NESNormalized Enrichment Score 
+NFkB1Nuclear Factor Kappa B Subunit 1
+NLRP3NLR Family Pyrin Domain Containing 3
+SELENOPSelenoprotein P
+SERPINE1Serpin Family E Member 1
+SMCstarved-like Melanoma Cell
+SOX10SRY-Box Transcription Factor 10
+SRCSRC Proto-Oncogene, Non-Receptor Tyrosine Kinase
+STAT3Signal Transducer And Activator Of Transcription 3
+ORAOver-representation Analysis
+PAPPAPappalysin 1
+PCAPrincipal Component Analysis
+PDCD1LG2Programmed Cell Death 1 Ligand 2
+PDGFRBPlatelet Derived Growth Factor Receptor Beta
+PKN1Protein Kinase N1
+PPIProtein-Protein Interaction
+PTENPhosphatase And Tensin Homolog
+RAF1Raf-1 Proto-Oncogene, Serine/Threonine Kinase
+RARBRetinoic Acid Receptor Beta
+RASD2RASD Family Member 2
+RELARELA Proto-Oncogene
+RETRet Proto-Oncogene
+RFX5Regulatory Factor X5
+RFXAPRegulatory Factor X Associated Protein
+RNA-seqRNA sequencing
+SELENBP1Selenium Binding Protein 1
+TBX18T-Box Transcription Factor 18
+TERTTelomerase Reverse Transcriptase
+TFTranscription Factor
+THY1Thy-1 Cell Surface Antigen
+TP53Tumor Protein P53
+TUBA4ATubulin Alpha 4a
+UCHL1Ubiquitin C-Terminal Hydrolase L1
+UGT1A1UDP Glucuronosyltransferase Family 1 Member A1
+ULMUnivariate Linear Model 
+VGFVGF Nerve Growth Factor Inducible
+
+## Author contributions
+All authors contributed to the conception and design of the study. M.K. and A.S. performed the development of resistant cell models and RNA preparation. T. Kujawa conducted the preprocessing of raw data and all bioinformatic analyses. The first draft of the manuscript was written by T. Kujawa, and all authors provided critical feedback on earlier versions. All authors read and approved the final manuscript.
+
+## Funding
+This work was supported by the POSTDOC PW V project awarded to Tomasz Kobiela by the Warsaw University of Technology under the Excellence Initiative – Research University program (ID-UB). This research was partially funded by the National Science Centre, Poland, with a grant received by Aleksandra Simiczyjew (SONATA, 2020/39/D/NZ5/02330).
+
+## Data availability
+The datasets generated and analysed during the current study are available in the NCBI Gene Expression Omnibus (GEO) repository under the accession number GSE302561 ( https:/www.ncbi.nlm.nih.gov/geo/query/acc.cgi? acc=GSE302561 ).
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare no competing interests.
+
+## Footnotes
+Publisher’s note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplementary Material 2
+Supplementary Material 3
+Supplementary Material 1
+Supplementary Material 4
+
+## Data Availability Statement
+The datasets generated and analysed during the current study are available in the NCBI Gene Expression Omnibus (GEO) repository under the accession number GSE302561 ( https:/www.ncbi.nlm.nih.gov/geo/query/acc.cgi? acc=GSE302561 ).

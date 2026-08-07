@@ -1,0 +1,300 @@
+379blackwellopenInternational Journal of CancerInt J CancerPMC9539937953993795399373568943610.1002/ijc.34159Proteome profiling of enzalutamide‐resistant cell lines and serum analysis identified ALCAM as marker of resistance in castration‐resistant prostate cancer
+CsizmarikAnita KeresztesDávid NagyNikolett BrachtThilo SitekBarbara WitzkeKathrin PuhrMartin TornyiIlona LázárJózsef TakácsLászló KramerGero SevcencoSabina Maj‐HesAgnieszka JurányiZsolt HadaschikBoris NyirádyPéter SzarvasTibor 
+1
+Department of Urology, Semmelweis University, Budapest, Hungary
+2
+Medizinisches Proteom Center, Ruhr University Bochum, Bochum, Germany
+3
+Department of Anesthesia, Intensive Care Medicine and Pain Therapy, University Hospital Knappschaftskrankenhaus Bochum, Bochum, Germany
+4
+Center for Protein Diagnostics, Medical Proteome Analysis, Ruhr‐University Bochum, Bochum, Germany
+5
+Department of Urology, Medical University of Innsbruck, Innsbruck, Austria
+6
+Department of Human Genetics, University of Debrecen, Debrecen, Hungary
+7
+Biosystems International Kft, Debrecen, Hungary
+8
+Department of Urology, Medical University of Vienna, Vienna, Austria
+9
+Department of Radiobiology and Diagnostic Onco‐Cytogenetics, Center of Radiotherapy, National Institute of Oncology, Budapest, Hungary
+10
+Department of Urology, University Hospital Essen, University of Duisburg‐Essen, Essen, Germany*
+
+Correspondence
+, 
+Tibor Szarvas, Department of Urology, Semmelweis University, Üllői út 78/B. 1082 Budapest, Hungary. 
+Email: szarvas.tibor@med.semmelweis-univ.hu
+
+✉Corresponding author.
+2162022151814051405–141914102022© 2022 The Authors. International Journal of Cancer published by John Wiley & Sons Ltd on behalf of UICC.This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Enzalutamide (ENZA) is a frequently used therapy in metastatic castration‐resistant prostate cancer (mCRPC). Baseline or acquired resistance to ENZA have been observed, but the molecular mechanisms of resistance are poorly understood. We aimed to identify proteins involved in ENZA resistance and to find therapy‐predictive serum markers. We performed comparative proteome analyses on ENZA‐sensitive parental (LAPC4, DuCaP) and ‐resistant prostate cancer cell lines (LAPC4‐ENZA, DuCaP‐ENZA) using liquid chromatography tandem mass spectrometry (LC‐MS/MS). The top four most promising candidate markers were selected using bioinformatic approaches. Serum concentrations of selected markers (ALCAM, AGR2, NDRG1, IDH1) were measured in pretreatment samples of 72 ENZA‐treated mCRPC patients using ELISA. In addition, ALCAM serum levels were measured in 101 Abiraterone (ABI) and 100 Docetaxel (DOC)‐treated mCRPC patients' baseline samples. Results were correlated with clinical and follow‐up data. The functional role of ALCAM in ENZA resistance was assessed in vitro using siRNA. Our proteome analyses revealed 731 significantly differentially abundant proteins between ENZA‐sensitive and ‐resistant cells and our filtering methods identified four biomarker candidates. Serum analyses of these proteins revealed only ALCAM to be associated with poor patient survival. Furthermore, higher baseline ALCAM levels were associated with poor survival in ABI‐ but not in DOC‐treated patients. In LAPC4‐ENZA resistant cells, ALCAM silencing by siRNA knockdown resulted in significantly enhanced ENZA sensitivity. Our analyses revealed that ALCAM serum levels may help to identify ENZA‐ and ABI‐resistant patients and may thereby help to optimize future clinical decision‐making. Our functional analyses suggest the possible involvement of ALCAM in ENZA resistance.
+Keywords: ALCAM, biomarker, enzalutamide, prostate cancer, proteome analysis
+
+## What's new?
+Over the years, many new treatments have come on the market for metastatic castration‐resistant prostate cancer, including enzalutamide, an androgen receptor inhibitor with multiple mechanisms of action. Still, patients often develop resistance. Here, the authors used proteome analysis to identify proteins that contribute to enzalutamide resistance. By comparing protein expression in cells sensitive or resistant to enzalutamide, they created a list of 731 proteins of interest, which they later narrowed down to four potential biomarkers. Only ALCAM was associated with poor patient survival. Silencing ALCAM expression, they found, increased enzalutamide sensitivity.
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2022 May 19; Received 2021 Dec 15; Accepted 2022 May 23; Issue date 2022 Oct 15.
+
+## Abbreviations
+ABIabiraterone
+AGR2anterior gradient 2
+ALCAMactivated leukocyte cell adhesion molecule
+ARandrogen receptor
+ATMataxia‐telangiectasia
+BRCA1,2breast cancer type 1,2
+CRPCcastration‐resistant prostate cancer
+DHTdihydrotestosterone
+DMSOdimethylsulfoxide
+DOCdocetaxel
+ECOGEastern Cooperative Oncology Group
+ELISAenzyme linked immunosorbent assay
+ENZAenzalutamide
+GOgene ontology
+IDH1isocitrate dehydrogenase 1
+KDM1Blysine demethylase 1B
+KEGGKyoto Encyclopedia of Genes and Genomes
+LC‐MS/MSliquid chromatography tandem mass spectrometry
+LNlymph node
+MMP‐7matrix metalloproteinase 7
+MMRmismatch repair
+NDRG1N‐myc downstream‐regulated gene 1
+NEPCneuroendocrine prostate cancer
+NFMD/TBSTnonfat dry milk/Tris‐buffered saline with 0.1% Tween 20 detergent
+OSoverall survival
+PCprostate cancer
+PCWGprostate cancer working group
+RADradiation
+ROCreceiver operator characteristic
+RPEradical prostatectomy
+TCGAthe cancer genome atlas
+1.
+
+## INTRODUCTION
+In the last decade, the management of metastatic castration‐resistant prostate cancer (mCRPC) has significantly changed. Beside docetaxel (DOC) therapy, novel treatments became available for these patients including cabazitaxel, next‐generation androgen receptor (AR) inhibitors (abiraterone (ABI), , enzalutamide , ); immunotherapy (sipuleucel‐T) ; PARP‐inhibitors (olaparib, rucaparib , ), radiopharmaceuticals (radium‐223) and radioligand therapy. Despite the obvious benefits achieved with these therapies, mCRPC remains a lethal disease with a poor clinical outcome.
+Enzalutamide (ENZA) is a second‐generation androgen receptor inhibitor, which has multiple effects on androgen signaling, including inhibition of ligand binding to AR, blockade of AR nuclear translocation and prevention of AR binding to DNA. In phase III studies, ENZA treatment significantly prolonged overall and progression‐free survival of mCRPC patients in the pre‐ and postchemotherapy setting. , Unfortunately, many patients show intrinsic or develop acquired resistance to ENZA therapy.
+In recent years, different ENZA resistance mechanisms have been discovered, however the molecular background of these has still not been completely elucidated. One of the potential key mechanisms of ENZA resistance is associated with AR alterations, including AR amplification, AR point mutations and expression of constitutively active AR splice variants. , , In addition, non‐AR related resistance mechanisms have been shown to be involved in ENZA resistance. Elevated levels of neuroendocrine serum markers, such as chromogranin A and neuron‐specific enolase were independently associated with ENZA‐treated patients' shorter survival, while this correlation was less obvious in DOC‐treated patients. Additionally, several studies revealed correlations between DNA repair‐ (BRCA, ATM, MMR), Wnt‐pathway genes alterations and ENZA resistance. , , , Moreover, TP53 gene defect and RB1 loss were associated with resistance against next generation AR inhibitors. , We recently found that elevated baseline MMP‐7 levels are independently associated with resistance to ENZA therapy in CRPC patients. Despite promising results, none of these biomarkers have been incorporated in clinical decision‐making.
+In this study, our aim was to uncover the mechanisms and potential biomarkers for ENZA resistance. For this, we used a comparative proteome analysis to identify differentially expressed proteins between ENZA‐resistant vs ENZA‐sensitive parental cell lines. Then, significantly upregulated proteins in ENZA‐resistant cells were filtered by different methods to select the most promising candidates. Selected proteins were assessed in serum samples of ENZA‐treated mCRPC patients by using the ELISA method. Serum concentrations were correlated with clinicopathological and follow‐up data. As ALCAM (activated leukocyte cell adhesion molecule) was the only serum protein to be associated with survival in ENZA‐treated patients, its serum levels were determined also in ABI‐ and DOC‐treated mCRPC patients. Finally, in order to evaluate its functional involvement in ENZA resistance, we performed siRNA‐mediated ALCAM knockdown analyses in cell lines and determined its effect on ENZA sensitivity.
+
+2.
+
+## MATERIALS AND METHODS
+2.1.
+
+## Cell culture and reagents
+Enzalutamide sensitive LAPC4 (RRID:CVCL_4744), DuCaP (RRID:CVCL_2025) and resistant LAPC4‐ENZA and DuCaP‐ENZA PC cell lines were a gift from Dr. Martin Puhr. ENZA resistance has been developed by the dose escalation method as described by Hoefer et al. LAPC4 and DuCaP cells were grown in RPMI 1640 medium supplemented with 10% fetal bovine serum (Biowest, Nuaillé, France), 1% Glutamax (Thermo Fisher Scientific) and 1% penicillin/streptomycin (Lonza, Basel, Switzerland). LAPC4 were further supplemented with 1 nM dihydrotestosterone (DHT). All cells were maintained at 37°C in 5% CO2 with humidified atmosphere. Medium was changed every third day. The parental cell lines as well as the ENZA‐resistant subclones have recently been authenticated using short tandem repeat profiling (June 2021). All experiments were performed with mycoplasma‐free cells. ENZA (MedChemExpress) was dissolved in DMSO as a 100 mM stock solution and stored at −80°C.
+
+2.2.
+
+## Liquid chromatography tandem mass spectrometry (LC‐MS/MS) analysis
+Proteome analyses were performed using the LC‐MS/MS technique in order to identify differentially expressed proteins between ENZA‐sensitive (LAPC4, DuCaP) and ENZA‐resistant (LAPC4‐ENZA, DuCaP‐ENZA) cell lines. For the LC‐MS/MS analysis, six technical replicates for each cell lines were used. The significance of expression changes was tested by calculating an unpaired, Students' t test. Details on sample preparation, LC‐MS/MS and protein identification are described in Supplementary Materials and Methods.
+
+2.3.
+
+## Gene ontology and KEGG pathway analysis
+Gene Ontology (GO) biological process annotation and KEGG enrichment analysis was performed with using STRING (string-db.org). Proteins that were significantly up‐ and downregulated in ENZA‐resistant cells, respectively, were analyzed separately. The enriched ontologies (Biological Process) were filtered (observed gene count ≥25, false discovery rate ≤0.0001, strength ≥0.25, background gene count ≤3000) and manually reviewed to remove redundant and inapplicably terms.
+
+2.4.
+
+## Biomarker selection
+In ENZA‐resistant cells, proteins quantified by at least two unique peptides with significantly higher abundance than those of ENZA‐sensitive cells at t‐test P < .05 were considered as significantly differentially abundant (Figure  ). In order to identify the most promising proteins, we used three different approaches.
+First, in order to identify potentially secreted proteins, we used a workflow, which applies the combination of existing prediction programs (SignalP 4.1, SecretomeP 2.0, TargetP 1.1 and TMHMM 2.0) and databases (Uniprot, Human Protein Atlas, NCBI, ExoCarta).
+Second, we performed a cross‐reference analysis with a formerly published independent transcriptome dataset of ENZA‐sensitive and ‐resistant prostate cancer cell lines in order to identify an overlap with our list of upregulated proteins. 
+
+Third, we applied a pathway‐ and literature‐based selection method by scoring molecular interactions (number of edges) according to the STRING database. In addition, we considered the proteins' known oncological role according to literature as well as the availability of ELISA assays for later serum analyses.
+
+2.5.
+
+## Patient cohort and sample
+Pretreatment serum concentrations of selected proteins were measured in samples of 72 mCRPC patients who were treated with ENZA therapy as first or later line treatment between September 2013 and March 2016. As we found high baseline ALCAM levels to be associated with poor survival of ENZA‐treated patients, we measured ALCAM concentrations also in baseline serum samples of ABI‐ and DOC‐treated mCRPC patients. The ABI cohort included 101 mCRPC patients who underwent ABI therapy between November 2008 and May 2015. The DOC cohort included 100 mCRPC patients who received DOC chemotherapy between January 2013 and April 2019. Serum samples were collected directly before commencing ENZA, ABI and DOC treatment. In addition, for 64 ENZA‐, 39 ABI‐ and 44 DOC‐treated patients, serum samples at 3 months after initiation of therapy start were also available. Serum samples were collected at the Department of Urology at the Medical University of Vienna and at the Semmelweis University, Budapest. Blood samples were collected in 9 mL Vacuette tubes (Greiner Bio‐One GmbH, Frickenhausen, Germany) and centrifuged for 10 min at room temperature with an Eppendorf 5702R centrifuge at 1500g within 3 h of venepuncture. Serum samples were immediately aliquoted and stored on −80°C until analysis. The study was performed in accordance with the ethical standards of the Helsinki Declaration and was approved by the ethical boards of the hospitals (TUKEB 55/2014, ECS 1986/2017). PSA response was defined, according to the Prostate Cancer Clinical Trials Working Group Criteria (PCWG) II, as at least 50% PSA decline from baseline during therapy. 
+
+2.6.
+
+## Serum ELISA analyses
+ALCAM serum levels were quantified in 420 serum samples of 273 patients by using the DuoSet ELISA assay (R&D Systems, Minneapolis, MN) according to the manufacturer's instructions. Serum concentration of AGR2, IDH1 and NDRG1 were measured in 72 ENZA‐treated patients by using ELISA assays (AGR2: SEC285Hu, IDH1: SEH839Hu, Cloud Clone Corp, USA; NDRG1: OKEH02359, Aviva System Biology Corp, San Diego; respectively). Absorbance was measured at 450 nm by a Multiscan FC Microplate Photometer (Thermo Fisher Scientific, Darmstadt, Germany).
+
+2.7.
+
+## Western blot analysis
+For Western Blot analysis, cells were lysed in RIPA Lysis and Extraction Buffer (Thermo Fisher Scientific) containing 1:100 Halt Protease Inhibitor Cocktail (Thermo Fisher Scientific) and Halt Phosphatese Inhibitor Cocktail (Thermo Fisher Scientific) according to the manufacturer's instructions. A total of 20 μg protein per sample was loaded on bolt 4% to 12% Bis‐Tris Plus gels (Thermo Fisher Scientific) for electrophoresis separation. Then, gels were blotted onto nitrocellulose membrane (iBlot 2 Transfer Stacks, Thermo Fisher Scientific) using iBlot 2 Gel Transfer Device. Gel electrophoresis and transfer was performed according to the manufacturer's instructions. Membranes were incubated in 5% nonfat dry milk (NFDM)/Tris‐buffered saline with 0.1% Tween 20 detergent (TBST) for 1 h at room temperature. The following antibodies were used: anti‐ALCAM antibody (1:10.000; Abcam, ab109215) with goat anti‐rabbit secondary antibody (1:4.000; Abcam, ab6721); anti‐GAPDH antibody (1:8000; Abcam, ab8245) with goat anti‐mouse secondary antibody (1:6000, Abcam, ab6789). Antibody binding on the membrane were detected by SuperSignal West Pico Chemiluminescent Substrate Kit (Thermo Fisher Scientific) and visualized on iBright FL1000 Imaging System (Thermo Fisher Scientific). To quantify protein relative amounts we used ImageJ software. 
+
+2.8.
+
+## Viability assay
+Cell viability was detected by WST‐1 assay (Roche) according to the manufacturer's protocol. 3500 cells per well were seeded in 100 μL medium onto 96 well plate. On the next day, the medium was changed to fresh medium containing the indicated concentrations of ENZA. On day 3, the old medium was replaced by 100 μL of fresh medium containing the appropriate amounts of ENZA. Cells were maintained at 37°C in 5% CO2 with humidified atmosphere. On the day 6, 10 μL of WST‐1 solution was added into each well and cells were incubated for 4 h at 37°C with 5% CO2. Measurements were done in at least three independent biological experiments with three technical replicates.
+
+2.9.
+
+## 
+siRNA silencing
+As ALCAM was not detectable either in DuCaP or in DuCaP‐ENZA cell lines, siRNA‐mediated ALCAM silencing was only performed in LAPC4 and LAPC4‐ENZA cells. Cells were seeded in six well plate in 2 mL antibiotic‐free RPMI‐1640 medium, then transfected with 40 pmol siRNA using Lipofectamine RNAiMAX Transfection Reagent (Invitrogen, 13 778 150) and Opti‐MEM Reduced Serum Medium (Gibco). We used SMARTpool on‐target plus siRNA against ALCAM (Dharmacon, Lafayette, CO, Cat. No: L‐004574‐00‐0005) and nontargeting control pool on‐target plus siRNA (Dharmacon, D‐0018101005). Medium was changed 8 h after transfection. Gene silencing was monitored by Western blot.
+
+2.10.
+
+## 
+Real‐time quantitative PCR
+
+Details of RT‐qPCR are described in Supplementary Materials and Methods.
+
+2.11.
+
+## In silico analysis of ALCAM gene expression
+In silico analysis was performed by using TNMplot (http://www.tnmplot.com) and cBioPortal databases (https://www.cbioportal.org). TNMplot database were used to evaluate the expression of ALCAM in various cancers and to explore the ALCAM mRNA expression in normal, tumor and metastatic PC tissues. In order to analyze the correlation between ALCAM expression and clinicopathological data, we extracted mRNA expression data of 266 mCRPC patients and their genomic and clinical information from the TCGA using cBioPortal database. , 
+
+2.12.
+
+## Statistical analysis
+In the case of ELISAs, statistical analyses were done with the SPSS 26.0 (IBM, Chicago, Illinois) software. For independent group comparisons, the nonparametric two‐sided Wilcoxon rank sum test (Mann‐Whitney test) was used. Spearman's and Pearson's correlation were used for measure the degree of correlations between ALCAM serum levels and continuous clinical and laboratory parameters. Univariable survival analyses were done using both Kaplan‐Meier curves with log‐rank tests and univariable Cox regression analysis. For multivariable analysis, Cox proportional hazards regression modeling was used with parameters that were statistically significant in univariable analysis at P < .05. To determine the optimal cut‐off value with the highest sensitivity and specificity for the prediction of death within 24 months, we used the nonparametric receiver operating characteristics (ROC) curves in which the value for sensitivity is plotted against false‐positive rate (1‐specificity). The concentrations with the highest specificity and sensitivity values (Youden index) were defined as optimal cut‐offs. IC50 values were calculated by using GraphPad Prism 8 (GraphPad Software Inc., La Jolla, California). In all tests, P values <.05 were considered statistically significant.
+
+3.
+
+## RESULTS
+3.1.
+
+## Identification of proteins with differential expression between ENZA‐sensitive and ‐resistant PC cells
+LC‐MS/MS proteome analyses revealed 385 (LAPC4 vs LAPC4‐ENZA) and 346 (DuCaP vs DuCaP‐ENZA) significantly differentially abundant (either increased or decreased) proteins in cells (Figures  ,A and and Tables  and ). We focused on those proteins that were detected by at least two unique peptides and were significantly upregulated in ENZA‐resistant cells (Figure  ).
+ Using the first selection method, we identified five (AGR2, PFKP, APOD, ALCAM and DYNLT3) potentially secreted proteins.
+Based on cross‐reference analysis, we identified seven proteins (GALK2, PTGR1, SCIN, IDH1, AHCY, THOP1 and SF3B5).
+Our third, pathway‐ and literature‐based selection method identified four proteins (AGR2, RHOA, NDRG1 and ALCAM).
+Finally, identified targets were filtered by the availability of ELISA assays which selected four proteins (ALCAM, AGR2, IDH1 and NDRG1) for serum analyses.
+
+3.2.
+
+## 
+GO and KEGG pathway analysis
+GO analysis found the highest number of enriched categories for proteins upregulated in LAPC4 cells (Figure  ). However, the most significantly enriched ontologies were corresponding to those proteins downregulated in LAPC4. For DuCaP more enriched categories were correspond to upregulated proteins although the numbers of analyzed proteins were not much different between up‐ and downregulated fractions. Some categories were homogeneously enriched for several of the analyzed fractions, such as ontologies associated with the metabolism of nucleic acids or its chemical synonyms. Accordingly, processes associated with gene expression and RNA processing were also significantly enriched.
+Enrichment analysis of KEGG pathways resulted in complementary findings to GO analysis (Figure  ). Most enriched terms were found for proteins upregulated in LAPC4 (compared with downregulated ones for the gene ontology analysis). However, the most significant KEGG pathway was again found for proteins downregulated in LAPC4 (ie, Ribosome) and corresponded to processes associated to protein translation. Proteins upregulated in LAPC4 were associated with diverse metabolic pathways, such as carbon metabolism and amino acid metabolism. For DuCaP cells, metabolic pathways were enriched for both, up and downregulated proteins. Furthermore, upregulated proteins were enriched in pathways related to DNA replication and RNA processing, which was congruent with enriched gene ontologies.
+
+3.3.
+
+## Selected protein levels in patients' samples
+3.3.1.
+
+## Patients' characteristics
+The median age in the ENZA cohort was 73 years (range: 56‐89), the median pretreatment PSA value was 69.5 ng/mL. The primary end‐points of the analysis was overall survival (OS). 48 (66%) patients died during a median follow‐up period of 19 months. 1‐year survival was 65%, 2‐years survival was 43% (Table  ).
+ In the ABI cohort, the median patients age was 71 years (range: 54‐90), the median PSA value was 65.3 ng/mL. In this cohort 69 (68%) patients died during a median follow‐up period of 21 months (Table  ).
+The median age in DOC cohort was 70 years (range: 43‐86), the median PSA value was 88.8 ng/mL. Seventy‐eight (78%) of 100 DOC‐treated patients died during a median follow‐up time of 23 months (Table  ).
+
+3.3.2.
+
+## Correlations of clinicopathological parameters with serum levels
+We found no significant association between the assessed marker levels and patients' age, primary local therapy or PSA response (Tables  and and ). In the ENZA cohort, IDH1 levels were decreased in bone metastatic cases (P = .033), while AGR2 levels were lower in visceral metastatic patients (P = .010). NDRG1 serum levels were significantly lower in men who had no PSA response (P = .023). ALCAM serum levels were significantly higher in patients who had high baseline PSA, LDH, AP and CRP levels (P < .05), while it were significantly lower in patients responded with at least 30% PSA response to ENZA (P = .045; Table  ). In the ABI cohort, ALCAM levels were higher in patients who had pain (P = .013) and had high PSA, LDH and AP levels at baseline (P < .05; Tables  and ). In the DOC and ABI cohort, ALCAM serum levels were significantly higher in men with poor ECOG status (P = .015 and P = .007; respectively). In all three therapy groups, Pearson's and Spearman's correlation analyses revealed a significant correlation between baseline ALCAM and PSA levels (Pearson P < .001; Spearman P < .001; Table  ).
+ 
+3.3.3.
+
+## 
+ROC analysis
+For ROC analysis, OS were dichotomized at 24th month of survival. ROC analysis identified 146.6 ng/mL as an optimal cut‐off value with the highest sensitivity (58.8%) and specificity (68.4%) for ALCAM in ENZA cohort. In ABI cohort ROC method found the cut‐off value with the highest sensitivity (37.2%) and specificity (89.3%), which resulted 143.1 ng/mL as an optimal cut‐off. In the ENZA&ABI cohort ROC analysis identified 137.7 ng/mL as an optimal cut‐off value with the highest sensitivity (51.9%) and specificity (70.7%). In the DOC cohort, ROC method found 127.9 ng/mL as an optimal cut‐off value with the highest sensitivity (46.2%) and specificity (59.1%). These cut‐off values were further analyzed in subsequent survival analyses.
+
+3.3.4.
+
+## Survival analyses
+In the ENZA cohort, presence of bone or visceral metastases were associated with shorter OS (P = .004 and P = .047; respectively; Table  ). Patients who underwent second‐ or later‐line of ENZA therapy had significantly worse survival (P = .021; Table  ). High PSA and ALCAM pretreatment serum levels were significantly associated with shorter OS (P < .05; Table  ).
+ In the ABI cohort, higher ECOG status, high baseline PSA and ALCAM serum levels were significantly associated with worse survival (P < .005; Table  ).
+When combining the ENZA/ABI cohort, we found the presence of bone metastases, high PSA, LDH, AP, CRP, Hemoglobin and ALCAM pre‐treatment serum levels to be significantly associated with shorter OS (P ≤ .005; Table  ). In multivariable analysis, presence of bone metastases, high PSA, AP and ALCAM (>137.8 ng/mL) levels were independently associated with OS (P < .005; Table  ). In the ENZA&ABI first line treated subgroup, high baseline ALCAM levels were significantly associated with poor OS (Figure  ). Moreover, multivariable analysis identified high PSA and ALCAM (<131.9 ng/mL) levels as independent predictors of OS (P = .041 and P = .002; respectively; Table  ).
+ In the DOC cohort, ECOG status (>1) and high baseline PSA levels were associated with poor OS, while ALCAM showed no significant association with OS (Table  ).
+In the ENZA and ABI cohort, Kaplan‐Meier OS curves revealed that higher baseline ALCAM levels (>146.6 and >143.1 ng/mL by ROC cut‐off) are significantly associated with shorter OS (P = .002 and P < .001; respectively; Figure  ). Moreover, we combined pre‐treatment ALCAM and PSA serum levels and performed OS analysis by stratifying patients according to their received treatments (ENZA/ABI and DOC) in the whole cohort (n = 273). In addition, we performed subgroup analyses in first line treated patients and also in patients who received their last line of therapy. We found that in the low PSA and ALCAM levels group, ENZA/ABI‐treated men had a significant better OS compared with those who received DOC therapy regardless of treatment line (P ≤ .001; Figures  , and ).
+
+3.3.5.
+
+## Prognostic value of ALCAM levels changes during therapy
+ALCAM level changes were calculated at 3 months after treatment start and were dichotomized as any increase, at least 30% and 50% increase. We found that patients with at least 30% increase in their ALCAM levels at 3 months had a significant shorter OS (ENZA cohort HR: 2.842; 95% CI 1.226‐6.585; P = .011, ABI cohort HR: 2.710; 95% CI 1.114‐6.595; P = .022; DOC cohort HR: 2.224; 95% CI 1.062‐4.661; P = .030; respectively).
+
+3.4.
+
+## Protein level of ALCAM in cell lines
+Based on ELISA analyses, we selected ALCAM to assess its potential functional involvement in ENZA resistance. First, we compared ALCAM expressions between ENZA‐sensitive and ‐resistant cell lines at the protein level by Western‐blot. In line with our LC‐MS/MS data—which found 1.39‐fold higher expression of ALCAM in LAPC4‐ENZA cells (compared with LAPC4)—Western‐blot analysis found a 3.05‐fold upregulation of ALCAM (Figure  ,B).
+ 
+3.5.
+
+## Functional analyses of ALCAM in PC cell lines
+To investigate the functional role of ALCAM in ENZA resistance, we performed siRNA‐mediated knockdown analysis. The siRNA transfection successfully silenced expression of ALCAM in LAPC4‐ENZA and parental LAPC4 cells according to Western blot measurements (Figure  ).
+To examine ENZA treatment in ALCAM silenced cells, WST proliferation assay were performed with parental LAPC4 and LAPC4‐ENZA cell lines. We found that ALCAM knock‐down significantly enhanced ENZA‐sensitivity in LAPC4‐ENZA cells compared with the nontransfected cells (Figure  ), while in the parental LAPC4 cells no similar effect could be observed (Figure  ).
+
+3.6.
+
+## Effect of ALCAM knock‐down of expression of AR and their target genes in cell lines
+To determine the possible effect of ALCAM knock‐down to mRNA expression of AR and their target genes, PSA, FKBP5 and c‐myc were measured using RT‐qPCR. We found that AR, PSA, c‐myc and FKBP5 were significantly upregulated in ENZA resistant LAPC4 cells compared with parental/ENZA sensitive cell lines. ALCAM knock‐down did not significantly influenced AR, PSA and c‐myc gene expression levels, while FKBP5 expression decreased significantly (Figure  ).
+
+3.7.
+
+## Gene expression level of ALCAM and correlation with clinical data in databases
+Using the TNMplot database, we compared ALCAM gene expressions between normal and tumor tissues in several organs and found ALCAM expression to be significantly elevated in breast, lung, renal, thyroid and prostate cancers compared with corresponding nonmalignant tissues. Notably, we found the largest difference in ALCAM gene expression between normal and respective tumor tissues in prostate and breast cancers (Figure  ). In prostate cancer, the highest ALCAM expressions were found in metastatic cases (Figure  ). To investigate the correlation between ALCAM mRNA expression and clinicopathological and follow‐up data we applied the TCGA dataset by using cBioPortal. This analysis revealed no significant association between ALCAM expressions and survival of mCRPC patients. In addition, high ALCAM mRNA expression was significantly associated with higher AR gene expression but lower neuroendocrine (NEPC) gene expression scores and absence of small cell histological variants (Figure  ).
+
+4.
+
+## DISCUSSION
+Several mechanisms and signaling pathways have been found to be implicated in ENZA resistance of PC, for example, the alterations of the AR, transdifferentiation to neuroendocrine tumors, glucocorticoid receptor overexpression, DNA‐repair and PI3K pathway alterations. , , , , , , , Despite our increasing understanding of ENZA resistance, currently no markers predictive of ENZA resistance are available in clinical practice. Moreover, likely more than one molecular mechanism is involved in ENZA resistance. Therefore, our aim was to uncover proteins potentially involved in ENZA resistance and to test their value in the prediction of response to ENZA treatment when measured in serum samples of mCRPC patients. Using proteome analysis and applying three different hypothesis‐free selection methods, we identified 14 candidate ENZA‐resistant proteins. Four of the most promising proteins were determined in baseline serum samples of ENZA‐treated mCRPC patients.
+The first, “secreted protein” selection method identified ALCAM and Anterior gradient 2 (AGR2) proteins. AGR2 is a proto‐oncogene that plays a functional role in angiogenesis, cell migration, cell growth and differentiation. In different cancer types, high AGR2 expression was associated with poor patients' prognosis. The predictive value of AGR2 in PC was assessed for DOC and ENZA and revealed different roles for AGR2 between these therapies. Zhao et al showed that AGR2 is downregulated in DOC resistant cell lines and AGR2 silencing resulted in DOC resistance in PC3 cells, suggesting that AGR2 expressions are directly associated with DOC sensitivity. An opposite effect was observed for ENZA by Tang et al showing that inhibition of KDM1B caused AGR2 suppression which increased ENZA sensitivity of PC cells. Our present comparative proteome analysis showed conflicting results regarding the expression of AGR2; as it was strongly upregulated in LAPC4‐ENZA‐resistant cells, while it was significantly down regulated in DuCaP‐ENZA cell lines. In addition, our serum analyses did not reveal ARG2 as serum marker of ENZA resistance.
+The second “cross‐reference” analysis compared our proteome results with a published transcriptomics dataset. Qian et al performed an integrative analysis of expression data of ENZA‐ sensitive and ‐resistant PC cell lines. Comparing their upregulated gene list with our proteome dataset, nine matching proteins could be identified. Of these, we selected isocitrate dehydrogenase 1 (IDH1) for ELISA analysis. IDH1 is a metabolic enzyme, which converts isocitrate to 2‐oxoglutarate. According to the TCGA (The Cancer Genome Atlas) study in PC, IDH1 mutation carrier tumors represent a distinct molecular subclass of primary PCs. These mutations are enriched in early onset PCs and are associated with DNA hypermethylation. The role of IDH1 in ENZA resistance has not been evaluated yet. Our serum IDH1 analyses in ENZA‐treated CRPC patients revealed lower IDH1 levels in bone metastatic patients but showed no associations with OS.
+The third “pathway‐ and literature‐based” selection method identified NDRG1 and ALCAM proteins. N‐myc downstream regulated gene‐1 (NDRG1) plays a role in cell growth, differentiation, signal transduction and is known as a tumor suppressor in various types of cancer including PC. However, some studies suggested NDRG1 as a proto‐oncogene. In a gene expression analysis Zheng et al identified 12 hub genes including NDRG1 which are potentially associated with ENZA resistance, however its exact role in ENZA resistance has not been elucidated yet. In the present study, we found no correlation between NDRG1 serum levels and OS of ENZA‐treated patients.
+Activated leukocyte cell adhesion molecule (ALCAM), also called CD166 is a 100 to 105 kDa transmembrane glycoprotein which is a member of the immunoglobin superfamily. ALCAM is an adhesion molecule, which can bind to the CD6 receptor resulting in a heterophilic interaction or can form an ALCAM‐ALCAM homophilic dimer. It is involved in cell‐cell adhesion, angiogenesis, cell migration, invasion as well as therapy resistance and tumor progression. Recent studies reported that high tissue expressions of ALCAM are correlated with poor survival in pancreatic, bladder and colorectal cancer. , , In contrast, other studies found decreased ALCAM expression to be associated with worse prognosis. , In PC, Kristiansen et al found that ALCAM is upregulated in low‐grade tumors compared with high‐grade PC. In accordance, Minner et al showed that ALCAM overexpression was associated with favorable tumor stage and reduced risk of biochemical recurrence. In contrast, a more recent study of PC tissue samples revealed that high cytoplasmic ALCAM expression is associated with shorter PSA‐relapse‐free survival after radical prostatectomy and Hansen et al showed that ALCAM gene expression was elevated in metastatic PC patients and was associated with poor survival. In addition, Sanders et al determined the serum ALCAM levels in samples of 239 PC patients and found higher ALCAM levels to be associated with higher Gleason‐score, T‐stage and PSA levels suggesting an association between increasing serum ALCAM concentrations during prostate cancer progression.
+To address the molecular and clinical correlates of ALCAM in tissue samples, we conducted in silico analyses in published datasets comparing ALCAM mRNA levels between normal and tumor tissues in several organs and found the largest increase in prostate and breast cancers (Figure  ). In PC, the highest ALCAM expressions were found in metastatic cases (Figure  ). However, in mCRPC we found no significant association between ALCAM expressions and patients' survival. In addition, high ALCAM mRNA expression was significantly associated with higher AR but lower neuroendocrine (NEPC) gene expression scores and absence of small cell histological variants (Figure  ). This suggest that ALCAM is rather involved in the regulation of androgen signaling then in neuroendocrine differentiation. This notion may have clinical relevance suggesting that already established neuroendocrine serum markers such as chromogranin A and neuron‐specific enolase as covering different resistance mechanisms might be well combined with ALCAM for the prediction of ENZA and ABI treatment. On the other hand, the correlation of ALCAM expression with AR gene expression score seems to be in line with current observations made in triple negative breast cancer where high ALCAM tissue protein expressions were shown to be associated with higher AR protein expression. However, in our experiment ALCAM knock‐down did not consistently influenced the expression of AR regulated genes, suggesting that ALCAM is coregulated with these genes rather than being their regulator.
+The role of ALCAM in resistance to systemic therapy is poorly understood. Immunohistochemical analysis showed that tamoxifen resistant breast cancers have a higher ALCAM staining intensity compared with tamoxifen sensitive ones. Similar to our results, they showed that knockdown of ALCAM enhanced 4‐hydroxytestosterone induced cell death in tamoxifen resistant breast cancer cell line. Darvishi et al, in a further study described that ALCAM blockade resensitized resistant breast cancer cells to tamoxifen. The role of ALCAM in ENZA resistance of PC has not been revealed yet. In the present study, we found that higher pretreatment ALCAM levels are independently associated with shorter OS of ENZA‐treated CRPC patients and further increase of serum ALCAM concentrations at 3 months of treatment was associated with shorter OS. These data suggest ALCAM as a potential biomarker for therapy monitoring in CRPC.
+Our study has some potential limitations. First, as no ALCAM expression could be observed in DuCaP and DuCaP‐ENZA cell lines (by LC‐MS/MS and Western‐blot) siRNA mediated ALCAM silencing could only be performed in one cell line pair (LAPC4 and LAPC4‐ENZA). Second, we could only assess one cohort per treatment and could therefore not confirm our results in an independent validation cohort. As our serum analyses have been performed in a retrospective manner, selection bias between different treatment groups (eg, former local therapy, imbalanced numbers regarding therapy lines) may be present. Finally, as we did not assess other potential resistance markers (eg, AR‐V7) we cannot concurrently evaluate the prognostic value of serum ALCAM in this context.
+Taken together, serum ALCAM concentration is a potential serum marker of shorter survival in ENZA‐treated patients and ALCAM seems to be functionally involved in ENZA resistance. Our further analyses in serum samples of ABI and DOC‐treated patients revealed serum ALCAM as a predictor of OS in androgen signaling inhibitor‐treated (ABI and ENZA) men but not in DOC chemotherapy‐treated patients. This discriminately effect was even more obvious when ALCAM was combined with PSA (Figures  , and , ). Moreover, based on subgroup analyses ALCAM levels to be able to identify patients deriving benefit from ENZA&ABI treatment regardless to the treatment line. Therefore, serum ALCAM analysis may discriminate between ENZA/ABI and DOC responsive patients. Our results however, need to be confirmed in larger studies. According to results of our functional analyses, we assume that ALCAM might be mechanistically involved in ENZA resistance and may therefore serve as a potential target for PC therapy. Further analyses are warranted to understand the exact role of ALCAM in ENZA and ABI resistance.
+
+5.
+
+## CONCLUSION
+In summary, our analyses revealed, for the first time, that high pretreatment serum ALCAM levels are independently associated with poor survival in ENZA‐ and ABI but not in DOC‐treated CRPC patients. Therefore, ALCAM may help to identify ENZA‐ and ABI‐resistant patients and thereby help to optimize therapeutic decision‐making on type and timing of systemic therapy. However, this analysis has to be validated in larger independent patient cohort. Furthermore, our in vitro functional analyses showed that ALCAM gene silencing in ENZA‐resistant cells leads to enhanced ENZA sensitivity.
+
+## AUTHOR CONTRIBUTIONS
+The study reported in the paper has been performed by the authors, unless clearly specified in the text. Anita Csizmarik and Tibor Szarvas were the project administrator and wrote the original manuscript draft. Anita Csizmarik, Péter Nyirády, Boris Hadaschik and Tibor Szarvas concuptalized the study. Anita Csizmarik, Dávid Keresztes, Nikolett Nagy, Tibor Szarvas, József Lázár, Ilona Tornyi, László Takács, Gero Kramer, Sabina Sevcenco, Agnieszka Maj‐Hes. and Zsolt Jurányi conducted the data curation. Anita Csizmarik, Dávid Keresztes, Thilo Bracht, Barbara Sitek, Kathrin Witzke, Ilona Tornyi, József Lázár and László Takács contributed to the methodology. Anita Csizmarik, Dávid Keresztes, Thilo Bracht and Tibor Szarvas created the visualiziations. Dávid Keresztes, Nikolett Nagy, Thilo Bracht, Barbara Sitek, Kathrin Witzke, Martin Puhr, Ilona Tornyi, József Lázár, László Takács, Gero Kramer, Sabina Sevcenco, Agnieszka Maj‐Hes, Zsolt Jurányi, Boris Hadaschik, Péter Nyirády and Tibor Szarvas reviewed and edited the manuscript. Anita Csizmarik, Dávid Keresztes, Nikolett Nagy and Tibor Szarvas performed the formal analysis. Tibor Szarvas and Péter Nyirády supervised the project. Tibor Szarvas acquired funding.
+
+## FUNDING INFORMATION
+This study was supported by the National Research, Development and Innovation Office—NKFIH/FK 124431. Tibor Szarvas was supported by a János Bolyai Research Scholarship of the Hungarian Academy of Sciences. Supported by the ÚNKP‐21‐5‐SE‐3 and ÚNKP‐21‐3‐II‐SE‐13 New National Excellence Program of the Ministry for Innovation and Technology from the source of the National Research, Development and Innovation Fund. A part of this study was funded by P.U.R.E. (Protein Research Unit Ruhr within Europe), Ministry of Innovation, Science and Research of North‐Rhine Westphalia, Germany.
+
+## CONFLICT OF INTEREST
+Boris Hadaschik reported consulting fees from Bayer, Janssen, Novartis, BMS, AstraZeneca, MSD, Pfizer, Amgen and Astellas. The other authors declare no potential conflicts of interest.
+
+## ETHICS STATEMENT
+The study was performed in accordance with the ethical standards of the Helsinki Declaration and was approved by the ethical boards of the hospitals (TUKEB 55/2014, ECS 1986/2017). All patients signed consent to an institutional review board‐approved protocol before sample collection.
+
+## Supporting information
+
+APPENDIX S1 Supporting Information.
+Click here for additional data file.
+
+TABLE S1 Output dataset of LC‐MS/MS based proteome analysis of LAPC4 vs LAPC4‐ENZA cell lines.
+Click here for additional data file.
+
+TABLE S2 Output dataset of LC‐MS/MS based proteome analysis of DuCaP vs DuCaP‐ENZA cell lines.
+Click here for additional data file.
+
+TABLE S3 Association of baseline AGR2, IDH1 and NDRG1 levels with ENZA‐treated patients' clinicopathological parameters. Significant values are indicated in bold.
+Click here for additional data file.
+
+## ACKNOWLEDGMENT
+Open access funding enabled and organized by Projekt DEAL.
+
+Csizmarik A, Keresztes D, Nagy N, et al. Proteome profiling of enzalutamide‐resistant cell lines and serum analysis identified ALCAM as marker of resistance in castration‐resistant prostate cancer. Int J Cancer. 2022;151(8):1405‐1419. doi: 10.1002/ijc.34159
+
+Funding information János Bolyai Research Scholarship of the Hungarian Academy of Sciences; National Research, Development and Innovation Office, Grant/Award Number: NKFIH/FK 124431; New National Excellence Program of the Ministry for Innovation and Technology, Grant/Award Numbers: ÚNKP‐21‐3‐II‐SE‐13, ÚNKP‐21‐5‐SE‐3; Protein Research Unit Ruhr within Europe, Ministry of Innovation, Science and Research of North‐Rhine Westphalia, Germany
+
+## DATA AVAILABILITY STATEMENT
+The raw mass spectrometry data generated in this study have been deposited in the PRIDE database with accession number PXD031847 (http://www.ebi.ac.uk/pride). Other data that support the findings of this study are available from the corresponding author upon request.
+
+## REFERENCES
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+APPENDIX S1 Supporting Information.
+Click here for additional data file.
+
+TABLE S1 Output dataset of LC‐MS/MS based proteome analysis of LAPC4 vs LAPC4‐ENZA cell lines.
+Click here for additional data file.
+
+TABLE S2 Output dataset of LC‐MS/MS based proteome analysis of DuCaP vs DuCaP‐ENZA cell lines.
+Click here for additional data file.
+
+TABLE S3 Association of baseline AGR2, IDH1 and NDRG1 levels with ENZA‐treated patients' clinicopathological parameters. Significant values are indicated in bold.
+Click here for additional data file.
+
+## Data Availability Statement
+The raw mass spectrometry data generated in this study have been deposited in the PRIDE database with accession number PXD031847 (http://www.ebi.ac.uk/pride). Other data that support the findings of this study are available from the corresponding author upon request.

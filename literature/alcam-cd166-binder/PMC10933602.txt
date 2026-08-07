@@ -1,0 +1,293 @@
+2933advsciAdvanced ScienceAdv Sci (Weinh)WileyPMC1093360210933602109336023814535110.1002/advs.202304539Unbiased Single‐Cell Sequencing of Hematopoietic and Immune Cells from Aplastic Anemia Reveals the Contributors of Hematopoiesis Failure and Dysfunctional Immune Regulation
+GuoRongqun KongJingjing TangPing WangShuya SangLina LiuLiu GuoRong YanKetai QiMochu BianZhilei SongYongping JiangZhongxing LiYingmei 
+1
+Department of Hematology, The First Affiliated Hospital of Zhengzhou University, Zhengzhou, Henan, 450052, China
+2
+Academy of Medical Science, Henan Medical College of Zhengzhou University, Zhengzhou, Henan, 450052, China
+3
+Department of Blood Transfusion, The First Affiliated Hospital of Zhengzhou University, Zhengzhou, Henan, 450052, China*
+E‐mail: fccguorq@zzu.edu.cn; songyp@zzu.edu.cn; yingmeizzu@163.com; fccliym1@zzu.edu.cn
+
+✉Corresponding author.
+251220231110230453923045391432024© 2023 The Authors. Advanced Science published by Wiley‐VCH GmbHThis is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+Aplastic anemia (AA) is a bone marrow (BM) failure syndrome mediated by hyperactivated T‐cells with heterogeneous pathogenic factors. The onset of BM failure cannot be accurately determined in humans; therefore, exact pathogenesis remains unclear. In this study, a cellular atlas and microenvironment interactions is established using unbiased single‐cell RNA‐seq, along with multi‐omics analyses (mass cytometry, cytokine profiling, and oxidized fatty acid metabolomics). A new KIR+CD8+ regulatory T cells (Treg) subset is identified in patients with AA that engages in immune homeostasis. Conventional CD4+ T‐cells differentiate into highly differentiated T helper cells with type 2 cytokines (IL‐4, IL‐6, and IL‐13), GM‐SCF, and IL‐1β. Immunosuppressive homeostasis is impaired by enhanced apoptosis of activated Treg cells. Pathological Vδ1 cells dominated the main fraction of γδ T‐cells. The B/plasma, erythroid, and myeloid lineages also exhibit substantial pathological features. Interactions between TNFSF12‐TNFRSF12A, TNF‐TNFRSF1A, and granzyme‐gasdermin are associated with the cell death of hematopoietic stem/progenitor (HSPCs), Treg, and early erythroid cells. Ferroptosis, a major driver of HSPCs destruction, is identified in patients with AA. Furthermore, a case of twins with AA is reported to enhance the persuasiveness of the analysis. These results collectively constitute the cellular atlas and microenvironment interactions in patients with AA and provide novel insights into the development of new therapeutic opportunities.
+Keywords: aplastic anemia, ferroptosis, mass spectrometric analysis, oxidized fatty acids metabolome, scRNA‐seq
+
+Aplastic anemia (AA) is a bone marrow failure syndrome mediated by hyperactivated T‐cells with heterogeneous pathogenic factors. A cellular atlas and microenvironment interactions is established using unbiased single‐cell RNA sequencing (scRNA‐seq) with the help of multi‐omics analysis (mass spectrometric analysis, cytokine profile, and oxidized fatty acids metabolome), and provide novel insights into the development of new therapeutic opportunities.
+
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2023 Oct 24; Received 2023 Jul 5; Collection date 2024 Mar.
+
+1.
+
+## Introduction
+Aplastic anemia (AA) is a bone marrow failure (BMF) disease characterized by pancytopenia. Considerable evidence has indicated that patients with AA exhibit hyperactive T‐cell responses.[
+ 
+] Single‐cell RNA sequencing (scRNA‐seq) analyses confirmed abnormal T‐cell states in clinical samples.[
+ 
+] However, data from patients and animal models have suggested the existence of additional dysfunctional immune cell types.[
+ 
+] Therefore, an in‐depth investigation of the unbiased immune and hematopoietic cell types in vitro is required.
+Interferon (IFN)‐γ, IFN‐α, and IFN‐β exposure may deplete HSPCs or indirectly impair hematopoietic homeostasis through microenvironmental niche cells.[
+ 
+] Tumor necrosis factor‐alpha (TNF‐α) is a well‐known negative regulator of hematopoiesis, but its roles in AA are controversial.[
+ 
+] Lymphocyte infusion models in mice mirror many human observations; however, this type of AA mouse model is a graft‐versus‐host disease (GvHD) model. Activated CD8+ T, pathological TH17, TH1, and defective regulatory T cells (Treg)/regulatory B (Breg) cells contribute to immune dysregulation in acquired AA.[
+ , 
+] Natural killer (NK) cells have been identified as inhibitors of autologous CD8+ T‐cells, depending on the NKG2D (KLRK1)‐MICA axis, which is related to the disease state.[
+ 
+] γδ T‐cells can inhibit erythroid development in patients with acquired pure red cell AA.[
+ 
+] Although scRNA‐seq datasets of T‐cells, HSPCs, and NK cells have been provided,[
+ 
+] the AA comprehensive and unbiased immune landscape remains unclear.
+Here, we revealed the panoramic landscape of AA using multi‐omics (scRNA‐seq, mass cytometry (MC), cytokine profiling, and oxidized fatty acid (OFAs) metabolomics). We found that GM‐CSF, IL‐1β, IL‐4, IL‐6, CCL2, and IL‐13 levels were upregulated in the BM supernatant. Th0 cells are forced into a highly differentiated state, and CD4+ Treg‐mediated immune homeostasis is impaired with increased apoptotic activity through the FAS‐CASP8 axis. AA CD8+ T cells showed increased cytotoxicity and induced the apoptosis of target cells through FASLG. We also identified a unique CD8+ Treg subset with NK properties, and found the δ1/δ2 T cell skew was reversed. B cell lineages are important participants in the hyperactive immune response. Using ligand‐receptor (L‐R) interaction analyses, we found that missing erythropoietin receptor (EPOR)high early erythroid progenitors regulated immune homeostasis by providing abundant ligands, such as BAG6‐NCR3‐PS and NECTIN1‐CD96; however, late erythroid progenitors did not. Myeloid differentiation of AA is likely a result of GM‐CSF and IL‐4 driving pro‐inflammatory patterns. Dysregulation of iron homeostasis drives ferroptosis in HSPCs. Furthermore, the case of twins with AA presented with clinical features, scRNA‐seq, and MC analysis, which confirmed our results.
+
+2.
+
+## Results
+2.1.
+
+## Unbiased Single‐Cell Transcriptomic Landscape, Mass Cytometry Analyses, and Cytokine Profiling of AA
+We used scRNA‐seq analysis, a cytokine screening panel, MC analysis, and metabolomics to establish a multi‐omics profile to distinguish the BM niche and immune components (Figure
+ ). We merged 13 samples from nine patients with AA, four samples from three patients with paroxysmal nocturnal hemoglobinuria (PNH), and eight samples from four healthy donors (HDs). Approximately 14 clusters were identified (Figure  ; Figure , Supporting Information), that supported a phenotype of T cell accumulation in the BM niche of patients with AA (Figure  ; Figure , Supporting Information). Additionally, BM mononuclear cells (BMMCs) of patients with PNH did not contain excessive T‐cells. L‐R interaction analysis showed that stromal cell populations (endothelial cells and fibroblasts) are critical contributors to cell‐cell communication (Figure  ; Figure , Supporting Information), which maintains hematopoiesis or immune homeostasis mediated by collagens, laminins, CXCL chemokines, IL‐7, and CSF family cytokines. We also identified the cell fraction of peripheral blood mononuclear cells (PBMCs) or BMMCs from HDs and patients with AA using MC analysis (Figure  ; Figure , and Table , Supporting Information). Compared with HDs, the fractions of Tregs and plasmacytoid dendritic cells (pDCs) in AA BM were lower. The fractions of T‐cells, non‐classical monocytes (ncMono), and intermediate monocytes (iMono) increased, which is consistent with the hyperactivated immune response in patients with AA.
+ Cytokine mapping of the BM plasma showed that the concentrations of IL‐9, CCR5 ligands (CCL3/4/5), and PDGF‐BB were higher in the HD BM plasma than that in the AA BM plasma (Figure  ; Figure , Supporting Information). Part of AA samples had higher concentrations of GM‐CSF, IL‐1β, IL‐4, IL‐6, IL‐13, and CCL2 than those in HD BM plasma (Figure  ). TNF‐α and IFN‐γ were not significantly higher in BM of patients with AA compared with those in HD BM (Figure , Supporting Information). These biological differences may explain the paradoxical results observed at different stages of disease progression; thus, anti‐TNF therapies cannot become universal AA treatment.[
+ 
+]
+
+2.2.
+
+## Hyperactivation of Cytotoxic CD8+ T‐cells Potentially Triggers Cell Death of HSPCs via Apoptosis and Pyroptosis
+Reanalysis of subtle transcriptional shifts is essential for distinguishing different subpopulations.[
+ 
+] The CD8+ T‐cells were divided into nine subsets (Figure
+ ). We found a decreased frequency of resting CD8+ T‐cells in the PBMCs or BMMCs of patients with AA compared to that in HDs (Figure  ). Killer cell immunoglobulin‐like receptors (KIRs)‐expressing CD8+ (KIR+CD8+) T‐cells have been identified as novel regulatory CD8+ T‐cells that can suppress self‐reactive or otherwise pathogenic cells without affecting immune responses against pathogens.[
+ 
+] We also found this CD8+ T subset (Figure , Supporting Information) and identified that the frequency of KIR+CD8+ T‐cells was significantly higher in patients with AA than that in HDs (Figure  ). This tendency of increasing KIT+CD8+ T‐cells was also confirmed by flow cytometry (Figure  ; Figure , Supporting Information). KIR+CD8+ T‐cells showed cytotoxic features similar to those of other CD8+ effector T‐cells (Figure , Supporting Information). Gene Ontology (GO) analysis revealed that some differential genes were enriched in the biological processes of “natural killer cell‐mediated immunity” (Figure  ). Compared with CD8+ T‐cells from HDs, CD8+ T‐cells from patients with AA expressed higher levels of cytotoxic and cytokine genes (Figure  ). MC analysis also identified that AA CD8+ T‐cells mainly comprised effector cells (Figure  ; Figure , Supporting Information). FAS was upregulated in HSPCs of patients with AA (Figure  ). The upregulation of TNF and TNFSF12 in AA CD8+ T‐cells suggests that the TNF‐TNFR1 axis‐mediated cell death is involved in the destruction of HSPCs. MC analysis revealed that CD120a (TNFR1) and FAS were upregulated in the BM CD34+ HSPCs of the patients (Figure  ; Figure , Supporting Information). The upregulation of GSDME in AA HSPCs showed that activated CD8+ T‐cells secreted granzyme B and perforin, which triggered pyroptosis in HSPCs.[
+ 
+] As a downstream target of IFN signaling, TNFSF10 was decreased in the CD8+ T‐cells of patients with AA (Figure , Supporting Information). Consistent with this, IFN‐resting/activated CD8+ T‐cells were the major source of TNFSF10 (Figure , Supporting Information), indicating that defective IFN signaling may be involved in AA pathology. Meanwhile, the expression patterns of “decoy” receptors and death domain‐containing receptors indicate that hyperactivated CD8+ T‐cells may not induce cell death of HSPCs via TNFSF10‐triggered signal, as previously reported[
+ 
+] (Figure , Supporting Information).
+ BM CD8+ T‐cells from patients with AA expressed higher CXCR4 than those from HDs (Figure  ), as determined using flow cytometry at the protein level (Figure  ). Notably, AA PB CD8+ T‐cells upregulated CXCR4 mRNA but not protein level (Figure , Supporting Information). In addition, CD69 expression was upregulated in AA CD8+ T‐cells (Figure , Supporting Information). These results indicate that CD8+ T cell migration is dysfunctional in patients with AA. Altogether, we described CD8+ regulatory T‐cells and a novel mode of CD8+ T cell‐mediated destruction of HSPCs and Tregs in patients with AA (Figure  ; Figure , Supporting Information).
+
+2.3.
+
+## The Activated TH2‐State of Conventional CD4+ T‐cells is Primed, and the Suppressive Capacity of Tregs is Impaired by Increasing Sensitivity of Cell Death
+We extracted the data matrix of the CD4+ T cluster from the scRNA‐seq datasets of patients with AA and PNH, and HDs. Then, these CD4+ T‐cells were reanalyzed and Uniform Manifold Approximation and Projection (UMAP) was performed (Figure , Supporting Information). Differential gene expression from the scRNA‐seq data resolved CD4+ T‐cells into five clusters (Figure , Supporting Information). We used several gene sets to assess the direction of T helper cell (TH) polarization (Table , Supporting Information). The resting score of conventional CD4+ T (CD4+ Tconv) cells decreased in patients with AA and activated markers (IL2RA and TNF) were upregulated (Figure , Supporting Information). We also investigated whether differentiation and polarization of the resting states into TH1/TH2/TFH states were enhanced (Figure
+ ). MC analysis showed that BM TFH and TH1‐like TH17 cells could be regarded as pathological immune cells (Figure  ). TNFSF10 expression was downregulated in CD4+ Tconv cells (Figure , Supporting Information). Cytokine profile analysis has shown that the upregulation of IL‐4/13 in the BM plasma, which robustly supports the type 2 inflammation‐mediated TH2 pattern, is a hallmark of AA.
+ We sorted Treg cells from the BM of one HD for scRNA‐seq assay and merged this scRNA‐seq dataset with Tregs from patients with AA (Figure , Supporting Information). Treg cells were classified into four subsets (Figure , Supporting Information). The resting Treg subset expressed naïve/memory features but lacked effector and activated features (Figure , Supporting Information). Resting/activated states were identified using gene set enrichment analysis (GSEA) based on two Treg‐related genesets (GSE15659_RESTING_VS_ACTIVATED_TREG_DN and GSE15659_RESTING_VS_ACTIVATED_TREG_UP) (Figure  , Supporting Information). Compared with Tregs from HD BM, the resting Treg subset was decreased in patients with AA (Figure  ). The TH2 and TH17 signatures were increased in the Tregs of patients with AA, which was assessed by the upregulation of GATA3, LTB, IL6R, and PRDM1 (Figure , Supporting Information). Compared with Tregs in HD BM, Tregs from patients with AA expressed immune‐suppressive molecules (ITGAL, ICOS, CD247, and CTLA4) at low levels. AA Tregs expressed high levels of apoptosis‐related genes and low levels of anti‐apoptosis‐related genes at low levels (Figure  ). Several cell‐death‐related genesets have been used to assess apoptotic signaling in various Treg subsets. The resting Treg subset showed low levels of apoptotic signals, and the other three activated Treg subsets showed high levels of cell death signals (apoptosis, pyroptosis, and ferroptosis) (Figure  and Figure , Supporting Information), suggesting that the death of AA Tregs was easily triggered when sufficient extrinsic and intrinsic signals were present (Figure  and Figure , Supporting Information). To identify FAS‐mediated apoptosis of Treg, we cultured PBMC with FASLG protein supplementation (Figure  ). As shown in Figure  , the proportion of apoptotic Tregs increased after FASLG protein treatment. Notably, cytotoxic cells‐derived FASLG contributed to the apoptosis of Treg cells (Figure  ), indicating that the interruption of FAS‐mediated apoptosis is a potential target of AA.
+AA Tregs expressed several important transcription factors (FOS, JUN, JUNB, KLF6, ZFP36, and ZFP36L2) at low levels, but JAK1 expression was high. Transcripts of the migration genes CXCR4 and CD69 were downregulated in AA Tregs, whereas SELPLG was upregulated (Figure  ), suggesting that the immunosuppressive function and migration of Tregs derived from patients with AA were impaired.
+Collectively, our results demonstrate that patients with AA present impaired Tregs, leading to a hyperactivated T cell‐mediated autoimmune response. The activation of CD8+ T‐cells via FAS‐FASLG triggered Treg destruction with increased apoptotic sensitivity (Figure  ).
+
+2.4.
+
+## Pathological Vδ1 T‐cells were Increased in Patients with AA
+We extracted the data matrix of NK NKT, and γδ T‐cells by excluding CD4+ and CD8+ T‐cells from our scRNA‐seq datasets of patients with AA and PNH, and HDs. Three clusters were identified based on the expression levels of TRGC2, TRGC1, KLRF1, CD3E, CD247, NCAM1, KLRB1, FCGR3A, and KLRC2 (Figure  ; Figure , Supporting Information). The proportion of NK, NKT, and γδ T‐cells also changed in patients with AA, indicating these immune subsets are also involved in pathological states (Figure , Supporting Information). Based on a previous study,[
+ 
+] we used two gene lists (δ1 gene list and δ2 gene list) for evaluating the δ1/δ2 skewing. The module scores showed δ1‐like T‐cells were dominant in the patients with AA instead of δ2‐like T‐cells (Figure  ). We further analyzed the results using flow cytometry to identify the cell surface markers (Figure  ). We observed a significant decrease in the TCRvδ2+ subset in γδ T‐cells (Figure , Supporting Information). γδ T‐cells derived from patients with AA minimally expressed KLRC1 (NKG2A) with high levels of FASLG, TNF, chemokines, and cytotoxic genes (Figure  ), indicating the tendencies of cytotoxic activation. The MC analysis showed CD45RA+CD27− effectors increased in AA BM γδ T‐cells (Figure , Supporting Information). We also analyzed the fraction of NK and NKT subsets using MC analysis and found no obvious differences between the CD56hiCD16− subset and CD56intCD16+ subset in the AA and HD groups (Figure  ; Figure , Supporting Information). Altogether, we distinguished the pathological states of γδ T‐cells, providing novel views on targeting these cell types (Figure  ).
+ 
+2.5.
+
+## Increased Cell Death of B Lineages and Erythroid Progenitors, and Upregulated Pro‐Inflammatory Pattern of Myeloid Cells in Patients with AA
+The data matrix of B cells and plasma cells (PCs) was extracted from our scRNA‐seq datasets, and these cells were reclustered into six subsets (Figure
+ ; Figure , Supporting Information). AA‐derived BM B cells showed high apoptotic activity, with upregulated pro‐apoptotic genes (BID, BAD, BCL2L11, BBC3, and PMAIP1) and downregulated anti‐apoptotic genes (BCL2, MCL1, and BCL2L1). The expression of pyroptosis‐related genes (GSDMD, GSDME, CASP1, and CASP4) was increased in IGHA+/IGHG+ PCs. Proliferating PCs in the BM of patients with AA show a hallmark of FAS‐mediated apoptosis. MC analysis also identified the upregulation of FAS in the B cells of patients with AA as a notable characteristic. Increased cell death of B cell lineages in patients with AA was also identified using flow cytometry (Figure  ; Figure , Supporting Information). Compared with other B cell subsets, plasmablasts were more susceptible to FAS‐mediated apoptosis (Figure  ), which was consistent with our scRNA‐seq analysis (Figure  ). Furthermore, AA B cells may be involved in T cell‐mediated immunity via antigen presentation (Figure , Supporting Information).
+ We divided the BM erythroid lineages into four stages (stage‐1 (S1, MYC
+high
+MYB
+high; stage‐2 (S2), EPOR
+high
+TFRC
+high; stage‐3 (S3), SLC4A1
+high
+GYPA
+high; stage‐4 (S4), IFIT1B
+high
+NCOA4
+high) (Figure  ; Figure , Supporting Information). The proportion of early stages (S1/2) would have decreased in BM erythropoiesis of patients with AA. The terminal stage (S4) showed a significant increase in the proportion of erythroid lineages and expressed EPOR at very low levels (Figure , Supporting Information). Furthermore, early erythroid progenitors (S1/2) expressed FAS, TNFRSF1A, and TNFRSF12A at high levels (Figure  ), indicating that early progenitors were more sensitive to extrinsic apoptotic protein ligands (FASLG, TNF, and TNFSF12) than late progenitors (S3/4). Compared with the early progenitors of HDs, those from patients with AA upregulated the expression of FAS (Figure  ), suggesting that hyperactivated CD8+ T cell‐derived FASLG mediates the destruction of early progenitors with other ligands (TNF and TNFSF12). Notably, early progenitors (S1/2) showed a higher number and strength of interactions with T/NK cells than late progenitors (S3/4) (Figure , Supporting Information). Early progenitors provided abundant immune regulation‐related ligands, such as BAG6, NECTIN1, LGALS9, CDH1, and MIF. BAG6‐NCR3 (NKp30), NECTIN1‐CD96, LGALS9‐CD44/CD45, CDH1‐KLRG1/ITGAE/ITGB7, and MIF‐CD74/CXCR4/CD44 signaling were involved in the development and function of NK cells [
+ , 
+] (Figure , Supporting Information). The disappearance of early erythroid progenitors via CD8+ T cell‐mediated cell death may impair NK cell development and homeostasis (Figure  ). However, the mechanism of the erythroid‐NK interaction remains to be defined.
+We examined the main compartments of myeloid cells and pDC in our dataset to identify the variability between the AA and HD groups (Figure , Supporting Information). Three populations of cells were captured: monocyte/macrophages (Mono/Mac), dendritic cells (DCs), and neutrophils (Neu). We excluded residual Neu and compared the Mono/Mac and DC fractions (Figure , Supporting Information). Monocytes from patients with AA showed reprogrammed cytokine‐driven immune responses with upregulated IL17RA, JAK3, IL4R, IL2RG, IL10RA, IFNAR2, IFNAR1, IFNGR1, and S100 family members, but downregulated CCL8, CCL2, CXCL10, IL6R, IL6ST, IFNGR2, STAT1, STAT2, and TGFB1 (Figure  ). ZFP36‐family members were downregulated in AA monocytes (Figure  ). MC analysis showed that the frequencies of ncMono and iMono were higher in the AA BM group than in the HD group (Figure  ). The frequency of pDC in the BM of patients with AA is decreased, indicating that pDC may be involved in the pathological process of AA. Notably, TNFSF10 expression was also reduced in monocytes of patients with AA (Figure , Supporting Information). MRC1+CXCL12+ Mac mainly exists in the BM of patients with AA. Compared with IRF1+ Mac, this macrophage subpopulation showed an M1‐like pattern (IL1B and CCL3) (Figure  ). The DCs of patients with AA were driven into a pro‐inflammatory state with high expression of S100A family members, CD40, CD86, and IFNGR1, indicating an active DC‐priming T‐cell response (Figure  ). The interaction relationship between DC and other cell types showed that DC also provides abnormal immune signals via ALCAM‐CD6 and upregulate the expression levels of CD6 in T/NK cell subsets and ALCAM in DC subsets of patients with AA (Figure  ). DC‐derived LGALS9 and CD86 acted as immune checkpoints for dysfunctional immune responses (Figure , Supporting Information). Our data revealed that myeloid differentiation was impaired by exposure to excessive GM‐CSF, IL‐4, and other cytokines and that the pro‐inflammatory patterns contributed to autoimmune activities via the downregulation of some key genes (ZFP36 families, TNFSF10, and TGFB1) and upregulation of ALCAM and cytokines (IL1B, CXCL8, and CXCL12) (Figure  ).
+
+2.6.
+
+## Ferroptosis‐Driven Cell Death Contributed to Hematopoiesis Failure in Patients with AA
+Iron overload is a significant characteristic of patients with AA, and serum ferritin levels can be used as an index of iron levels.[
+ 
+] We measured the serum ferritin levels in patients with AA (Figure , Supporting Information) and confirmed the upregulation of iron levels. We found that HSPCs were more sensitive to ferroptosis than stromal cells and mature hematopoietic cells (Figure , Supporting Information). We extracted and reclustered HSPCs combined with lineage‐primed progenitor (Figure
+ ; Figure , Supporting Information). Combined with changes in other ferroptosis‐related genes (Figure , Supporting Information), the imbalance of GPX4 and NCOA4 among the various subpopulations suggested different sensitivities of ferroptosis in different subsets (Figure  ). GPX4 was highly expressed in HSPCs and progenitors (granulocyte progenitors (GPs), dendritic cell progenitors (DPs), monocyte progenitors (MoPs), and erythroid progenitors) of HD BM compared with that in AA samples (Figure  ). After receiving HSPCs from identical twin brothers, GPX4 expression was upregulated in various HSPCs and progenitor subsets.
+ The OFA levels are regarded as indicators of ferroptosis. OFA levels were increased in the BM plasma of patients with AA (Figure  ). Several OFAs, including 11(S)‐HETE, 19(20)‐DiHDPE(A), (±)8‐HDHA/HDoHE, (±)12‐HETE, 13‐HDHA/HDoHE, 16‐HDHA/HDoHE, 15‐keto‐PGE2, (±)18‐HETE, 3(14)‐DiHDPE(A), (±)4‐HDHA/HDoHE, 10‐HDHA/HDoHE, (±)7‐HDHA/HDoHE, and (±)11‐HDHA/HDoHE, were increased in AA BM plasma (Figure  ). As previously reported, ferroptosis leads to an increase in 11(S)‐HETE.[
+ 
+] Excess 15‐keto‐PGE2 induces ROS‐dependent cell death by reducing cellular glutathione levels and impairing the expression of solute carrier family seven member 11 (SLC7A11) and cystathionine gamma‐lyase (CTH).[
+ 
+] Principal component analysis (PCA) was applied to our OFA datasets, and a 3D scatter plot was used for visualization (Figure , Supporting Information). The distribution of HD samples was highly concentrated, whereas that of AA samples was discrete. A higher GSSG/Total GSH ratio was observed in the AA group than those in the HD PB‐derived plasma samples (Figure  ). AA CD34+ HSPCs showed higher ROS levels than that those in HD HSPCs; however, this phenomenon was not observed in CD3+ T‐cells, indicating that HSPCs lack antiferroptotic abilities (Figure  ; Figure , Supporting Information). Collectively, these results indicated that ferroptosis is a negative regulator of hematopoiesis in patients with AA (Figure  ).
+
+2.7.
+
+## Tracing Dynamic Changes of Immune Rebalancing and Cell‐Fate in Monozygotic Twins with AA Undergoing Reciprocal Hematopoietic Stem Cell Transplantation (HSCT)
+A 26‐year‐old proband (P4) of twins was diagnosed with AA and underwent HSCT for the HSPCs of the twin brother. After 4 years, the proband's twin brother (P3) was also diagnosed with AA. We examined the twins and their sisters for genetic mutations. We found a mutation site for transglutaminase 1 (TGM1) in the twins, but not in their sisters (Figure  ). However, there was no evidence for an association between mutated TGM1 and AA. The cured proband resolutely provided HSC to his brother. We investigated thriving BM hematopoiesis in his cured brother four weeks after HSCT (Figure  ). The hematocrit, reticulocyte, white blood cell (WBC), and absolute neutrophil count (ANC) indices showed that the proband's HSC recovered the hematopoiesis of his brother (Figure  ). This case report provides novel insights into the pathogenesis and treatment of AA. Fortunately, we obtained the twins' PBMC and BMMC scRNA‐seq datasets at different time points (Figure  ). Restoration of hematopoiesis was accompanied by resting CD8+ T‐cells. After HSCT, the proportion of T/NK cells decreased and the proportion of HSPCs increased (Figure  ). CD8+ T‐cells downregulated the expression of effector genes (Figure  ), indicating that newly colonized HSCs temporarily interacted with CD8+ T‐cells. TGFB1 is upregulated in CD8+ T‐cells. Dynamic changes in HSPCs and ferroptosis are shown in Figure  . Erythropoiesis was restored by day 24 or earlier (Figure  ). Early stages (S1/S2) of the erythroid lineage were supplemented to participate in erythropoiesis (Figure  ). MC analysis showed that the frequencies of CD8+CD45RA+CCR7− effector T, CD4+CD25−CXCR5+CCR4− TFH, CD4+CD25−CXCR5−CXCR3+CCR6+ TH1‐like TH17, and CD4+CD25−CXCR5−CXCR3−CCR6+ TH17 cells decreased after HSCT (Figure , Supporting Information). The frequencies of pDC and FAS−CD34+ HSPCs increased. This case of monozygotic twins with AA provided a novel insight into the theories of “seed‐soil‐worms” in AA pathogenesis. Cases of twins with AA have been reported in other studies,[
+ , 
+] however, these analyses were descriptive. We provided high‐resolution scRNA‐seq datasets of twins at different time points during treatment to illustrate the etiology of AA based on HSPC destruction, abnormal BM microenvironments, hyperactivated immune responses, or a combination of these.
+ 
+
+3.
+
+## Discussion
+Although AA is characterized by the destruction of HSPCs mediated by hyperactivated T‐cells,[
+ 
+] the heterogeneous pathology of AA presents challenges in eradicating pathogenic factors. Therefore, current treatment strategies may be more satisfactory.[
+ 
+] To delineate the cell atlas of BMMC and PBMC of patients with AA, we performed unbiased scRNA‐seq and aimed to investigate AA. The multiplex cytokine profile helped identify the extrinsic drivers of the immune responses. Notably, type 2 cytokines (IL‐4/6/10/13) combined with GM‐CSF and IL‐1β dominate the BM plasma samples, not IFN‐γ and TNF‐α. IL‐1β can enhance GM‐CSF production in TH1 and TH17, while GM‐CSF contributes to central nervous system inflammation.[
+ 
+] High IL‐4 and IL‐10 levels may contribute to the formation of autoantibody‐secreting plasma cells in patients with AA.[
+ , 
+] These results strongly suggest that activated CD4+ effectors (TH2 with TFH, and TH1‐like TH17) are crucial for the pathogenesis of AA, which is consistent with the results of previous studies.[
+ , 
+]
+
+The depletion of Vδ2 T‐cells and increased cytotoxicity are unique features in AA, consistent with acquired chronic pure red cell aplasia.[
+ 
+] FASLG expression is upregulated in CD8+ T‐cells during cell activation.[
+ 
+] FASLG inhibits normal hematopoiesis in myelodysplastic syndrome marrow.[
+ 
+] Our results support the notion that FAS‐FALG signaling is a therapeutic target for AA. Targeting TNFSF12 (TWEAK)‐TNFRSF12A(FN14) is another potential therapeutic strategy,[
+ 
+] that may help to rescue HSPCs and Tregs. The expression of TNFSF10 mRNA was downregulated in almost all the cell types. Activated type I IFN signaling promotes TNFSF10 expression.[
+ 
+] Loss of IFN signaling may inhibit the expression of TNFSF10, which is consistent with our results regarding IFN‐response defects in patient‐derived cells. IFN‐response defects existed in all major lineages, including erythroid lineages, HSPCs, T/NK cells, myeloid cells, and B/plasma cells (Figure , Supporting Information), indicating that the IFN‐response is vital for immune homeostasis. Tconv cells expressed TNFRSF10D at a higher level in HDs than in patients with AA, indicating that normal T‐cells resist TRAIL‐mediated apoptosis. With the downregulation of TNFSF10 in patients with AA, TNFRSF10D was also downregulated, indicating that TRAIL‐triggered stress was defective, and autoreactive T‐cells could not be suppressed by TRAIL‐mediated apoptosis. Abnormal CXCR4 expression in Tconv cells,[
+ 
+] and the loss of CXCR4 expression in Tregs contribute to the infiltration of autoactivated T‐cells into the BM and impaired BM residence of Tregs. There is a strong correlation between the proportion of KIR+CD8+ T‐cells and disease severity in several autoimmune (such as multiple sclerosis, celiac disease, systemic lupus erythematosus, and rheumatoid arthritis) and infectious diseases (COVID‐19).[
+ 
+] Additionally, ex vivo expansion and reinfusion of KIR+CD8+ T‐cells may be an effective strategy for treating autoimmune diseases, including AA.
+Iron overload is an adverse factor in patients with AA,[
+ 
+] which leads us to consider the relationship between dysfunctional iron homeostasis and ferroptosis. Our results identify ferroptosis as a critical driver of HSPCs destruction in patients with AA. GSTT1 null genotype (absence of both alleles) is associated with a significantly increased risk of AA,[
+ 
+] providing evidence of reactive oxygen‐induced ferroptosis in patients with AA. MYSM1 mutation, related to bone marrow failure syndrome 4 (OMIM #618 116), can drive ferroptosis in HSC.[
+ 
+]
+MYSM1 was widely expressed in different HSPC subsets (Figure , Supporting Information), and HD‐derived HSPC expressed higher levels of MYSM1 than their AA counterparts (Figure , Supporting Information), further confirming the role of ferroptosis in patients with AA. A previous report showed that excessive IL‐4/13 upregulated the expression of 12/15‐LOX,[
+ 
+] indicating that these cytokines may contribute to ferroptosis in HSPCs. Our study highlights that inhibiting ferroptosis using iron removal therapy may be useful for prolonging patient survival. Another mode of cell death, pyroptosis mediated by cytotoxic cells, is also highly likely to be involved in the disruption of hematopoiesis.
+Herein, we report the case of monozygotic twins with AA, providing novel insights into the pathogenesis of AA. After HSCT with HSPCs in the recovered proband, the proband's twin brother underwent hematopoietic reconstruction. With the reconstruction of hematopoiesis, the ferroptosis sensitivity of HSPCs in the proband's twin brother was downregulated, suggesting that the recovery of iron homeostasis with the restart of erythropoiesis is important for HSPCs survival. The case of monozygotic twins with AA prompts insights into the theories of “seed‐soil‐worms” in AA pathogenesis.
+Due to ethical limitations, we were unable to obtain sufficient BM samples from HDs, which may introduce potential bias to our findings. Further studies are necessary to increase the sample size. Although our study had many limitations, we provide a more comprehensive perspective on AA pathogenesis using unbiased scRNA‐seq and MC analyses. Trigger factors for AA remain poorly defined and can be controlled by regulating the immune network. In this study, we provided an unbiased atlas of hematopoiesis and immune regulation networks, to identify pathological immune subsets and possibilities for new strategies (Figure , Supporting Information). More fundamentally, our findings raise the question of whether manipulating context (collagen, laminin, arachidonic acid derivatives, ALCAM, GM‐CSF, IL1β, IL6, IL4, IL13, CCL2, PDGF‐BB, and FASLG), cell death (apoptosis, ferroptosis, and pyroptosis), innate immunity (monocytes, macrophages, DC, γδ T, and NK cells), or novel immune cell types (TH1‐like TH17 and KIR+CD8+ Treg) can be used as a strategy to weaken conventional T cell‐mediated hyperactivated immune response. We also reported many ignored factors, such as the TNFSF10, TNFSF12, and ZFP36 families, that offer opportunities for future clinical interventions.
+
+4.
+
+## Experimental Section
+
+## Clinical Samples and scRNA‐Seq
+Peripheral blood (PB) and BM were obtained from nine patients with AA, three patients with PNH, and four HDs (Table , Supporting Information), all recruited via the First Affiliated Hospital of Zhengzhou University (ZZU). Biospecimen collection protocols complied with the local guidelines and were approved by the Research and Clinical Trial Ethics Committee of the First Affiliated Hospital of ZZU (SS‐2018‐42, 2022‐KY‐0725, 2023‐KY‐0813, and 2023‐KY‐0830). The HD samples were obtained from donors of HSC collection who had no tumors, hematologic disorders, or other unfavorable factors after physical examination with routine blood examination, liver/kidney function tests, infectious disease screening, electrocardiographic examination, and color ultrasound examination. PB/BM samples from HDs and patients were collected in ethylenediaminetetraacetic acid (EDTA) anticoagulant tubes, and mononuclear cells (MNCs) were isolated using Ficoll‐Paque PLUS (Cat#17144003, Cytiva). A single‐cell suspension with 100 000 cells mL−1 concentration was prepared in PBS and loaded onto the microfluidic device. Libraries were constructed using the GEXSCOPER single‐Cell RNA‐Library Kit (Cat#5180012, Singleron). Individual libraries were sequenced on an Illumina HiSeq X. system, CeleScope (https://github.com/singleron‐RD/CeleScope) v1.9.0 pipeline, and Cutadapt (v1.17) was used to obtain gene expression matrices from raw reads. We then used STAR (v2.6.1a) to map the reads to the reference genome GRCh38 (ensemble version 92 annotation). The expression matrix files were generated by feature‐Counts (v2.0.1)
+
+## Analysis of scRNA‐Seq Datasets
+Seurat package was used for dimension reduction, cell clustering, and differential gene expression analyses. CellChat was used for cell communication.[
+ 
+]
+Clusterprofiler package was used to perform GO analysis of DEGs between different clusters.[
+ 
+]
+Fgsea package was used to perform GSE analysis of Treg clusters.[
+ 
+] These data sets can be downloaded from figshare (https://figshare.com/s/b1d863820afa167fe040).
+
+## scRNA‐Seq Analysis of all Cells from Patients with AA/PNH and Healthy Donors
+“CreateSeuratObject” function with the following criteria: one gene was expressed in at least three cells, and at least 200 genes were detected in one cell. The cells were then filtered with a gene‐expression number per cell between 200 and 10 000 and a mitochondrial percentage < 25. Further analyses, including normalization, scaling, cell clustering, and identification of marker genes, were performed using Seurat (version 4)[
+ 
+] (Table , Supporting Information). The “RunHarmony” function was used to remove batch effect based on the group.by.vars = “orig.ident”. Clusters were calculated using the FindClusters function with a resolution of 1.5 and visualized using the UMAP dimensional reduction method. The lineage features of the primary clusters were identified by marker genes (Mono: CD14 and FCGR3A; T/NK: CD3D, CD8A, and IL7R; B/Plasma: MS4A1, CD19, XBP1, and MZB1; Ery: GATA1, HBD, HBA1, and HBA2; Pro/pre‐B: IL7R, CD34, MS4A1, and CD19; Granulocytes: CEACAM8, CD177, S100A8, and S100A10; Erythroid progenitors: CD34, HOXA5, HOXA9, HOXA10, GATA1, HBD, HBA1, and HBA2; HSPCs: CD34,FLT3 HOXA5, HOXA9, and HOXA10; DC progenitors: CD34, HOXA5, HOXA9, HOXA10, FLT3, CD1C, CLEC10A, HLA‐DQA1, HLA‐DPB1, and HLA‐DRA; DC: CD1C, CLEC10A, HLA‐DQA1, HLA‐DPB1, and HLA‐DRA; pDC: JCHAIN, IL3RA, IRF8, and IRF7; Megakaryocyte: PPBP, PF4, and GATA2; EC/FB: APOE, VCAM1, DCN, COL1A2, and COL14A1) as presented in Figure (Supporting Information), and 45 small clusters were merged into 13 clusters based on lineage features (Figure  ; Figure , Supporting Information). Representative samples were visualized using split.by = “orig.ident”. A CellChat object was generated using createCellChat(object = SeuratObject@assays$RNA@data, meta = SeuratObject@meta.data, group.by = “CellType”). We used CellChatDB.human as the basis for the ligand‐receptor analysis. We followed the CellChat protocol to visualize cell communication.[
+ 
+] The AddModuleScore command from Seurat was used to calculate the average expression for each molecular subgroup (ferroptosis suppressor gene set [Table , Supporting Information] and ferroptosis driver gene set [Table ])[
+ , 
+] and the results were visualized in ViolinPlot and FeaturePlot.
+
+## scRNA‐Seq Analysis of CD8+ T‐cells
+We extracted CD8+ T‐cells by performing subset(Object, CD8A>0 | CD8B>0,slot = “counts”), and then reclustered these cells. Next, we removed clusters without features of CD8+ T‐cells, which expressing CD8A/CD8B but significantly presenting other lineage‐specific markers (CD4, FOXP3, TRGC2, TRGC1, NCAM1, CD14, CEACAM8, CD177, MS4A1, CD19, GATA1, HBD, HBA1, HBA2, CD1C, JCHAIN, PPBP, PF4, APOE, VCAM1, DCN, COL1A2, and COL14A1). We got 18 primary clusters by performing FindClusters(resolution = 1.5). The subpopulation features of the primary clusters were identified using marker genes (Proliferating CD8+ T: TYMS, MKI67, and TOP2A; MAIT: TRAV1‐2, KLRB1, SLC4A10, CEBPD, PDCD4, IFNGR1, RORA, CXCR4, TNFRSF25, DPP4, and CXCR6; Effector CD8+ T: GZMB, GZMH, CX3CR1, FCGR3A, FGFBP2, FCRL6, PRSS23, and FGR; Memory CD8+ T: IL7R, LEF1, PABPC1, LTB, TCF7, SELL, NELL2, GPR171, and FTH1; Effector‐memory CD8+ T: GZMB, GZMH, CX3CR1, FCGR3A, FGFBP2, FCRL6, PRSS23, FGR, IL7R, LEF1, PABPC1, LTB, TCF7, SELL, NELL2, GPR171, and FTH1; Naïve CD8+ T: LRRN3, MYC, CCR7, ACTN1, PASK, CD55, and PIM2; activated IFN CD8+ T: IFIT1, RSAD2, IFIT3, MX1, OAS1, ISG15, IFI44L, IFIT2, GZMB, GZMH, CX3CR1, FCGR3A, FGFBP2, FCRL6, PRSS23, and FGR; Resting IFN CD8+ T: IFIT1, RSAD2, IFIT3, MX1, OAS1, ISG15, IFI44L, IFIT2, LRRN3, MYC, CCR7, ACTN1, PASK, CD55, and PIM2; KIR+CD8+ T: KIR3DL1, KIR3DX1, KIR2DL1, KIR2DL4, KIR2DS4, KIR3DL2, and KIR2DL3). Small clusters were then merged into nine clusters based on lineage features (Figure  ; Figure , Supporting Information). We used the FindMarkers function to identify the differentially expressed genes. The cluster Profiler package was used to perform GO analysis of differential genes between the KIR+CD8+ T subset and effector CD8+ T subset.
+
+## scRNA‐Seq Analysis of CD4+ T‐cells
+We excluded CD8A/CD8B/TRDC‐expressing cells and reclustered the remaining cells. Next, we removed clusters without features of CD4+ T‐cells. The subpopulation features of the primary clusters were identified using marker genes (resting subset: SELL, LEF1, CD7, CCR7, PECAM1, and TCF7; Treg: FXOP3, IL2RA, IKZF2, and CTLA4; proliferating subset: TYMS and MKI67; effector subset: RORC, CCR6, IL23R, GATA3, CCR4, IL4R, PTGDR2, CXCR3, EOMES, RUNX3, PDCD1, TBX21, IFNG, ADGRG1, CX3CR1, GZMB, PRF1, GNLY, GZMK, TNF, BHLHE40, CCL5, and GZMA; IFN subset: IFIT3, IFI44L, ISG15, and MX1). Small clusters were merged into five based on lineage features (Figure , Supporting Information). Scores of TH subpopulation features (Table , Supporting Information) were calculated using the Seurat AddModuleScore function. We extracted CD4+ T‐cells from AABM, AAPB, HDBM, and HDPB and then merged them with those sorted from a scRNA‐seq dataset of healthy donor‐derived bone marrow CD3+CD4+CD8−CD127−/lowCD25+ Treg cells. The subpopulation features of the primary clusters were identified using marker genes (resting subset: SELL, LEF1, CD7, CCR7, and TCF7; Activated Treg: HLA‐DQB1, HLA‐DRB1, HLA‐DQA1, HLA‐DRB5, HLA‐DMA, HLA‐DRA, HLA‐DRB6, HLA‐C, HLA‐F, HLA‐A, and HLA‐B; MKI67+ Treg: MKI67 and TYMS). Small clusters were merged into four based on lineage features (Figure , Supporting Information). We used the fgsea package to assess the score of the interested pathway or gene sets.
+
+## scRNA‐Seq Analysis of NK/NKT/γδ T‐cells
+We extracted T/NK cells (Figure  ) and removed the clusters of conventional CD4+/CD8+ T‐cells and Treg cells. Clusters were calculated using the FindClusters function with a resolution of 2.5 and visualized using the UMAP dimensional reduction method. Lineage features of the primary clusters were identified using marker genes (TRGC2, TRGC1, KLRF1, CD3E, CD247, NCAM1, KLRB1, FCGR3A, and KLRC2). Small clusters were merged into three clusters based on their lineage features. The scores for interested δ1 and δ2 T features (Table , Supporting Information) were calculated using the Seurat AddModuleScore function.
+
+## scRNA‐Seq Analysis of B Cells
+We excluded CD3D/CD3E/CD3G/TRAC/CD8A/CD8B/TRDC‐expressing cells and reclustered the remaining cells. Next, we removed the other clusters without features of B and plasma cells. The lineage features of the primary clusters were identified using marker genes (naïve B cells: FCER2, TCL1A, and IL4R; intermediate B cells: FCER2, TCL1A, IL4R, CD27, AIM2, and TNFRSF13B; memory B cells: CD27, AIM2, and TNFRSF13B; Proliferating plasma cells: MKI67, TOP2A, MZB1, SDC1, and CD38; IGHA+ plasma cells: MZB1, SDC1, CD38, IGHA1, and IGHA2; IGHG+ plasma cells: MZB1, SDC1, CD38, IGHG1, IGHG2, IGHG3, and IGHG4). Small clusters were merged into three clusters based on their lineage features.
+
+## scRNA‐Seq Analysis of Erythroid Lineage
+HSPCs and erythroid lineages were extracted from all cells. We then removed other potential lineages. Representative samples were visualized using split.by = “orig.ident”. Next, we removed the HSC population and reclustered erythroid lineages. These erythroid lineages are divided into four stages. We extracted erythroid and NK/T lineages, and reclustered these cells. The cells were then divided into 12 clusters (Ery_S1/S2/S3/S4, γδ T, MAIT, NK, NKT, CD4+ Treg, CD4+ Tconv, CD8+ T, and proliferating T). We used the CellChat package to visualize the communication between erythroid lineages and immune cell types.
+
+## scRNA‐Seq Analysis of pDC and Myeloid Cells:
+We extracted pDC and myeloid cells from all cells. We then removed other potential lineages. The lineage features of the primary clusters were identified using marker genes (neutrophil: CXCR2, CXCR4, CEACAM8, CD177, and S100A12; monocytes: CD14 and FCGR3A; macrophages: C1QC, C1QB, and C1QA; DC: CLEC9A, ITGAE, ITGB7, CD74, FCER1A, HLA‐DRA, HLA‐DPB1, CD1C, HLA‐DQA1, and HLA‐DQB1; pDC: LRRC26, MYBL2, SHD, COL26A1, PACSIN1, KIRREL3, KRT5, KCNA5, and NLRP7). Clusters were extracted using the subset function. The DEGs of the different clusters were obtained using the FindMarkers function. Based on these DEGs, the clusterProfiler package was used for the GO analysis. We used the CellChat package to visualize cell communication between the pDC/myeloid and NK/T lineages.
+
+## scRNA‐Seq Analysis of HSPCs
+We extracted CD34high and CD34low populations, but not CD34− populations. We then reclustered the remaining cells and removed other clusters without progenitor features. The lineage features of the primary clusters were identified using marker genes, which are provided in Figure (Supporting Information).
+
+## Mass Spectrometry of OFAs Metabolic Profiles
+Plasma samples were isolated from BM by centrifugation at 400 × g for 10 min. Platelets were removed from BM plasma by centrifugation at 2000 × g for 15 min. These BM plasma samples were stored at −80 °C. These samples were thawed on ice, and 200 µl pure‐Methanol solution containing internal standard was added into 100 µl BM plasma. The mixture was vortexed for 5 min and precipitated at a low temperature (−20 °C) for 30 min to remove protein. And then, samples were centrifuged at 12 000 rpm for 10 min (4 °C), and all supernatant was collected and transferred. Repeat the extraction once and combine the supernatants. The eicosanoids in supernatants were extracted using Poly‐Sery MAX SPE columns (ANPEL). Before analysis, the eluent was dried under a vacuum and redissolved in 100 µl of methanol/water (1:1,v/v) for UPLC/MS/MS analysis. The sample extracts were analyzed using an LC‐ESI‐MS/MS system (UPLC, ExionLC AD; MS, QTRAP 6500+ System). The analytical conditions were as follows, HPLC: column, Waters ACQUITY UPLC HSS T3 C18 (100 mm × 2.1 mm i.d. 1.8 µm); solvent system, water with 0.04% acetic acid (A), acetonitrile with 0.04% acetic acid (B); The gradient was 0–2.0 min from 0.1% to 30%B; 2.0–4.0 min to 50% B; 4.0–5.5 min to 99% B, which was maintained for 1.5 min; and 6.0–7.0 min reduced to 0.1% B and maintained for 3.0 min. flow rate, 0.4 mL mi−1n; temperature, 40 °C; injection volume: 10 µl. Linear ion trap (LIT) and triple quadrupole (QQQ) scans were acquired on a triple quadrupole‐linear ion trap mass spectrometer (QTRAP), QTRAP 6500+ LC‐MS/MS System, equipped with an ESI Turbo Ion‐Spray interface, operating in negative ion mode and controlled by Analyst 1.6.3 software (Sciex). The ESI source operation parameters were: an ion source, ESI‐; source temperature 550 °C; ion spray voltage (IS) −4500 V; curtain gas (CUR) was set at 35 psi, respectively. Eicosanoids were analyzed using scheduled multiple reaction monitoring (MRM). Data acquisitions were performed using Analyst 1.6.3 software (Sciex). Multiquant 3.0.3 software (Sciex) was used to quantify all metabolites. Mass spectrometer parameters were used with further DP and CE optimization, including the declustering potentials (DP) and collision energies (CE) for individual MRM transitions. A specific set of MRM transitions were monitored for each period according to the metabolites eluted within this period. Data were analyzed using R software.
+
+## Mass Spectrometric Analysis
+Cells were washed with LunaStain cell staining buffer (Polaris Biology) and stained with 10 µl of Cisplatin reagent (Polaris Biology) at room temperature for 5 min. The cells were washed with LunaStain cell staining buffer (Polaris Biology) and stained with 5 µl of Fc block (Biolegend) for 10 min and the heavy metal‐labeled membrane antibody mixtures for 30 min at room temperature (Table , Supporting Information). Cells were washed twice with LunaStain cell staining buffer (Polaris Biology) and stained with Ir‐DNA intercalator reagent (Polaris Biology) for 10 min. After staining, cells were washed and adjusted to 1 million cells per milliliter in LunaAcq cell acquisition solution (Polaris Biology) with 20 µl of SureBits element calibration beads (Polaris Biology). Cell acquisition was performed using a mass cytometer at 300 events per second (StarionX1, Polaris Biology). After the acquisition, the mass cytometry data were normalized and converted into standard FSC 3.0 files (StarionX1, Polaris Biology). Manual gating was performed using FlowJo software (BD Biosciences). These data sets can be downloaded from figshare (https://figshare.com/s/3a164998e3d909adfd4e).
+
+## High‐Sensitivity Multiplex Cytokine Assays
+BM plasma samples with platelet removal were stored at −80 °C and thawed on ice. Some patients with AA (P13, P6, P15, P17, P20, P21, P22, P23, P24, P25, P27, P28, P29, P3, P30, P33, P34, P35, P36, P37, P38, P5, P42, P43, P44, P46, P9, P47, P48, P49, P50, P51, P52, P53, P54, and P55) and one healthy donor (HSCT donor, HD6) were treated with G‐CSF before BM collection (Table , Supporting Information). Multiplex assays were performed using the bead‐based immunoassay approach Bio‐Plex Pro Human Cytokine 27‐plex Assay (Bio‐Rad) on a Bio‐Plex 200 System (Bio‐Rad). The data were analyzed using R software, and the heatmap was calculated and visualized using log2 (raw data+1).
+
+## GSSG Detection and ROS Detection
+BM plasma samples with platelet removal were stored at −80 °C and thawed on ice. The GSSG and total GSH concentrations were measured using the GSH/GSSG Ratio Detection Assay Kit (Beyotime). The level of ROS in BM plasma with platelet removal was detected using a Reactive Oxygen Species Assay Kit (Beyotime) according to the manufacturer's instructions. Fresh PB and BM samples (< 1 h) were treated with ACK buffer to remove red blood cells and re‐suspended at 1 × 107 cells. The positive control cells were treated with Rosup (1:2000) for 20 min. Positive control and target samples were treated by DCFH‐DA (1:2000) at 37 °C for 30 min. The cells were washed, and Zombie NIR (BioLegend) was added to label the dead cells. 0.5 µl Biotin anti‐human CD34 antibody (BioLegend) was added to the washed cells and incubated for 30 min. 0.5 µl APC‐Streptavidin (BioLegend) and 1 µL PE anti‐human CD3 Antibody (BioLegend) were added to the washed cells and incubated for 15 min. The samples were washed, and analyzed using an Aria II.
+
+## Flow Cytometry (FCM) Analysis
+PB and BM samples from HDs and AA patients were collected in EDTA anticoagulant tubes and stored at 4 °C. PBMCs and BMMCs were isolated by density gradient centrifugation using Ficoll‐Paque PLUS within 24 h. PBMCs and BMMCs were blocked using FcR (CD16/32) Blocking Reagent (Miltenyi), and stained with the following antibodies/reagents: PE anti‐human CD158f (KIR2DL5) antibody (Biolegend), PE anti‐human CD158e1 (KIR3DL1, NKB1) antibody, PE mouse anti‐Human CD158a (BD Pharmingen), PE mouse anti‐human CD158b (BD Pharmingen), APC anti‐human TCRγ/δ (Biolegend), Biotin anti‐humanTCRvδ2 (Biolegend), APC/Cyanine7 streptavidin (Biolegend), human KIR3DL2/CD158k PE‐conjugated antibody (R&D), anti‐humanCD261(DR4)‐APC (Miltenyi), FITC anti‐human CD8a antibody (Biolegend), APC‐Cy7 anti‐human CD4 antibody (Biolegend), Percp‐Cy5.5 anti‐human CD25 antibody (Biolegend), PE‐Cy7 anti‐human CD127 antibody (eBioscience), PE/Cyanine7 Streptavidin (Biolegend), PerCP/Cyanine5.5 anti‐human CD19 (BioLegend), PE‐Cy7 anti‐human CD3 antibody (BioLegend), APC anti‐human TCRγ/δ antibody (BioLegend), and PE anti‐human CD184 (CXCR4) antibody (BioLegend). The cells were resuspended in 400 µl 0.1 µg mL−1 DAPI solution (Salarbio). Treg cells (CD8a−CD4+CD127−/lowCD25+) were sorted using an Arial II (BD Biosciences).
+
+## Detection of Apoptotic and Dead Cells
+PBMC samples were isolated from fresh peripheral blood samples of patients with AA and healthy donors within 2 h of collection (AA, n = 5; HD, n = 4). PBMCs were blocked with FcR (CD16/32) Blocking Reagent, and stained with PE anti‐human CD19 antibody (BD). The fluorogenic peptide Apotracker Green (BioLegend) and DAPI were used to detect apoptotic and dead cells. These samples were analyzed using an Aria II. Apoptotic and dead cells were defined as DAPI+ and Apotracker Green+ cells.
+Fresh PB samples from three HDs were collected in EDTA anticoagulant tubes, and PBMCs were isolated using Ficoll‐Paque PLUS. A single‐cell suspension with 1 000 000 cells mL−1 concentration was prepared in RPMI 10% human autogenous plasma. FASLG protein (100 ng mL−1) (novoprotein) was supplemented into the cell suspension at different time points (0, 12, and 22 h). After 24 hours, cells were stained with Treg‐related antibodies, Zombie NIR Fixable Viability Kit (Biolegend), and fluorogenic peptide Apotracker Green, and assessed for apoptosis by flow cytometry.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Author Contributions
+R.Q.G., Y.M.L., Z.X.J., and Y.P.S. performed conceptualization. R.Q.G., L.N.S., P.T., L.L., R.G., S.Y.W., K.T.Y.J.J.K., M.C.Q., and Z.L.B performed methodology. R.Q.G. and Y.M.L. performed investigation. R.Q.G. and Y.M.L. performed writing—original draft. R.Q.G. and Y.M.L. performed writing. All authors Reviewed and edited the manuscript. R.Q.G., Z.L.B., and S.Y.W. performed Funding acquisition. R.Q.G., L.N.S., P.T., and Y.M.L. performed Resources. R.Q.G., Y.P.S., Z.X.J., and Y.M.L. performed Supervision.
+
+## Supporting information
+Supporting Information
+Supplemental Table 1
+Supplemental Table 2
+Supplemental Table 3
+Supplemental Table 4
+Supplemental Table 5
+Supplemental Table 6
+Supplemental Table 7
+Supplemental Table 8
+
+## Acknowledgements
+The authors acknowledge the assistance from the Translational Medical Center at The First Affiliated Hospital of ZZU. This work received funding from the Qingyun Project Research Fund (QY012103). The authors thank Yuhan Wang, Dr. Shijia Wang, and Dr. Xinzhu Wang from Polaris Biology (Shanghai, China) for their help with MC assays and data analysis. This work was supported by the National Natural Science Foundation of China (82100240, R.Q.G.; 82170211, Z.L.B.; 32100698, ZL. Bian), the China Postdoctoral Science Foundation (2021M692929, R.Q.G.), the Key scientific research projects of colleges and universities in Henan Province (22A320016, R.Q.G.), the Postdoctoral Research Start‐up Funding of Henan Province (202001006, R.Q.G.), Joint Co‐construction Project of Henan Medical Science and Technology Research Plan (LHGJ20200280, R.Q.G.; LHGJ20220301, Z.L.B.), Provincial and Ministry Joint Co‐construction Project of Henan Medical Science and Technology Research Plan (SBGJ202103045, R.Q.G.), Postdoctoral Research Start‐up Funding of the First Affiliated Hospital of Zhengzhou University (R.Q.G.), Key Research and Development and Promotion Project of Henan province (212102310755, RQ. Guo), Science Fund Program of Henan for Distinguished Young Scholars (232300421049, R.Q.G.; 222300420068, Z.L.B.), Funding for Scientific Research and Innovation Team of The First Affiliated Hospital of Zhengzhou University, and National Natural Science Foundation of Henan Province (212300410269, S.Y.W.)
+
+Guo R., Kong J., Tang P., Wang S., Sang L., Liu L., Guo R., Yan K., Qi M., Bian Z., Song Y., Jiang Z., Li Y., Unbiased Single‐Cell Sequencing of Hematopoietic and Immune Cells from Aplastic Anemia Reveals the Contributors of Hematopoiesis Failure and Dysfunctional Immune Regulation. Adv. Sci.
+2024, 11, 2304539. 10.1002/advs.202304539
+
+## Contributor Information
+Rongqun Guo, Email: fccguorq@zzu.edu.cn.
+Yongping Song, Email: songyp@zzu.edu.cn.
+Zhongxing Jiang, Email: yingmeizzu@163.com.
+Yingmei Li, Email: fccliym1@zzu.edu.cn.
+
+## Data Availability Statement
+The data that support the findings of this study are available from the corresponding author upon reasonable request.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supporting Information
+Supplemental Table 1
+Supplemental Table 2
+Supplemental Table 3
+Supplemental Table 4
+Supplemental Table 5
+Supplemental Table 6
+Supplemental Table 7
+Supplemental Table 8
+
+## Data Availability Statement
+The data that support the findings of this study are available from the corresponding author upon reasonable request.

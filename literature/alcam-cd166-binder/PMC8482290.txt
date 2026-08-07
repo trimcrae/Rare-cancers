@@ -1,0 +1,247 @@
+pmcSTAR ProtocSTAR Protoc3946starprot101769501STAR Protocols2666-1667ElsevierPMC8482290PMC8482290.1848229084822903462222210.1016/j.xpro.2021.100864S2666-1667(21)00570-01008641ProtocolCombiFlow: Flow cytometry-based identification and characterization of genetically and functionally distinct AML subclones
+HoutsmaRoosr.houtsma@umcg.nl HogelingShanna M. SchuringaJan Jacobj.j.schuringa@umcg.nl 1Department of Hematology, University Medical Center Groningen, University of Groningen, Hanzeplein 1, 9713GZ Groningen, the Netherlands∗Corresponding author r.houtsma@umcg.nl∗∗Corresponding author j.j.schuringa@umcg.nl2Technical contact
+3Lead contact
+17122021279202124390287100864270920210610202108042026© 2021 The Author(s)2021https://creativecommons.org/licenses/by/4.0/This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).
+
+## Summary
+Many cancers, including leukemias, are dynamic oligoclonal diseases. Tools to identify and prospectively isolate genetically distinct clones for functional studies are needed. We describe our CombiFlow protocol, which is a combinatorial flow cytometry-based approach to identify and isolate such distinct clones. CombiFlow enables the visualization of clonal evolution during disease progression and the identification of potential relapse-inducing cells at minimal residual disease (MRD) time points. The protocol can be adapted to various research questions and allows functional studies on live sorted cell populations.
+For complete details on the use and execution of this protocol, please refer to .
+
+## Highlights
+•Subclones can be identified and sorted based on aberrant marker expression
+•Functional in vitro and in vivo studies can be performed on identified subclones
+•Combiflow can visualize the phenotype and track clonal evolution in AML
+
+## Graphical abstract
+ 
+Many cancers, including leukemias, are dynamic oligoclonal diseases. Tools to identify and prospectively isolate genetically distinct clones for functional studies are needed. We describe our CombiFlow protocol, which is a combinatorial flow cytometry-based approach to identify and isolate such distinct clones. CombiFlow enables the visualization of clonal evolution during disease progression and the identification of potential relapse-inducing cells at MRD time points. The protocol can be adapted to various research questions and allows functional studies on live sorted cell populations.
+
+## Subject areas
+CancerCell isolationFlow Cytometry/Mass CytometryStem Cellspmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY
+
+## Before you begin
+The protocol below describes the analysis of two diagnosis samples, a paired relapse sample, and a healthy control sample. The protocol may also be applied to the comparison of multiple diagnostic samples within a subgroup of AML or to longitudinally track disease progression by including data from MRD time points. Preparation consists of:1.Installation of the required R packages ( ) for the CombiFlow analysis
+2.Primer design for targeted sequencing.
+
+## Key resources table
+
+ 
+
+## Materials and equipment
+
+ 
+ 
+ 
+
+## Step-by-step method details
+
+## Thawing an AML sample
+
+Timing: 45 min–1 h
+
+AML samples (bone marrow or peripheral blood) stored in liquid nitrogen can be thawed and immediately stained with antibodies for the marker panel or cell sorting. The used thawing procedure, as previously described ( ; ), consists of the following steps:1.Thaw two tubes of 6 mL newborn calf serum (NCS)
+2.Collect the AML sample from the liquid nitrogen storage and quickly thaw the sample in a water bath kept at 37°C
+3.Transfer the AML sample to an NCS tube and centrifuge for 5 min at 450 g
+4.In the meantime, prepare NCS mix by adding 5 U/mL heparine, 4 μM MgSO4 and 20 U/mL DNAse I to the other NCS tube
+5.Resuspend the AML cell pellet in the pre-warmed NCS mix
+6.Incubate the cells at 37°C for 15 min
+7.Spin down cells and resuspend in PBS-mix (6 mL PBS + DNAse (5 U/mL) and MgSO4 (4 μM))
+8.Count the viable cells using Trypan Blue and continue with:a.Run the marker panel or
+b.Sorting of potential subclones
+
+CRITICAL: 30–50% of the AML cells will not survive the thawing process. To obtain a higher yield speed is essential in steps 2 and 3. Complete steps 2 and 3 within 15 minutes. If less than 50% viable cells are obtained, it can be considered to perform a Ficoll separation to remove deal cells.
+
+## Run the marker panel
+
+Timing: 4 h
+
+Plasma Membrane Protein marker expression data is acquired by flow cytometry that can be used as input for the following analyses: 1) Leukemic cells can be identified based on aberrant expression of one or more markers compared to the healthy control. 2) Aberrantly expressed plasma membrane protein marker expression can be used to identify and sort potential subclones. 3) Disease progression can be tracked by running the panel on longitudinal samples from individual patients.9.Cells are stained for markers CD34, CD38, CD45 and CD45RA, from now onwards called backbone stain. These markers are used as a basis to merge all measured plasma membrane protein markers together and are therefore present in every tube. More detailed explanation about this principle can be found in Merge the marker panel flow data. Addition of antibodies can be performed at 15°C–25°C. All stainings are carried out at 4°C in the dark.a.Label unstained and single stained control tubes
+b.Take 15 million viable mononuclear cells (MNCs) of the thawed AML sample and resuspend this in 320 μL PBS
+c.Add 2 μL of cell suspension to the unstained and single stained control tubes containing 98 μL PBS
+d.Add the backbone stain to the remaining cells:i.FcR blocking reagent 10 μL
+ii.CD34-APC 9 μL
+iii.CD38-FITC 9 μL
+iv.CD45-PECy7 3 μL
+v.CD45RA-BV421 3 μL
+
+10.Stain cells for 20 min at 4°C in the darka.Label tubes for the marker panel (1-36)
+b.Add PBS to the backbone-stained cells in a total volume of 100 μL ∗ number of markers
+c.Add 100 μL of backbone-stained cells to each of the labeled tubes. Resuspend in between so that all tubes have a similar amount of cells
+d.Add one PE-labeled plasma membrane protein marker antibody per tube. The volume of antibody per tube is indicated in the .
+e.Stain cells for 30 min at 4°C in the dark
+f.Wash cells with 2 mL of PBS per tube and centrifuge at 450 g for 5 min
+g.Remove PBS and resuspend cells in 100 μL fresh PBS
+
+11.Acquire expression data using a flow cytometer
+Note: The extra volume of backbone-stained cells will be approximately 300 μl. Keep this at 4°C until all PE-labeled marker panel antibodies have been added. It can serve as back-up if a pipetting mistake is made with the marker panel.
+Note: The steps described above have been optimized for staining of cells in FACS tubes. For staining of cells in a 96-well plate some adjustments may be needed in the protocol.
+Note: While we have used a backbone panel with antibodies against CD34, CD38, CD45 and CD45RA, other markers, or additional markers such as CD64 or CD117, can be included as backbone markers as well.
+Note: The percentage of viable, thawed cells when measuring the marker panel usually lies between 70-90%. The largest cell loss during the thawing procedure is cleaned by the DNase in the NCS mix and does not result in the accidental staining of large number of dead cells. If desired, PI (at 1 μg/mL) can be added to the backbone panel in order to discriminate viable cells. In case of limited patient material, for instance at follow-up time points, a prioritized list consisting of 15 markers can be used, indicated by an asterisk behind the antibody in the . The ranking of these markers was based on the number of times it was positive in a cohort of 87 AML samples and on literature describing the use of specific markers in AML.
+Note: We acquire flow data at the MacsQuant Analyzer 10. Other flow cytometers may also be used if the lasers are sufficient for the used fluorophores.
+Optional: Experiment can be paused here. Data analysis and the thawing of a second AML sample for sorting can be done on a different day.
+
+## Merge the marker panel flow data
+
+Timing: 30 min
+
+A limiting factor in flow cytometry is that the number of markers that can be measured per tube is limited due to availability of fluorochrome-labeled antibodies with distinct excitation and emission spectra and flow cytometers with multiple lasers. To circumvent this problem, we add a backbone of markers in each independent FACS tube. Additional to the backbone in each of the tubes an antibody against a specific plasma membrane marker is added, that can carry the same fluorochrome, in our case PE. Flow data acquired in separate tubes can be combined based on the expression of the backbone markers using Infinicyt™. With the recent development of full spectrum flow cytometers, such as the Cytek Aurora, more fluorochromes may be included to further increase the resolution and reduce analysis time.12.Gate the FCS files in FlowJoa.Export the cells of interest as new FCS files. Here, we make use of CD45+ cells of which 10.000 events were exported per FCS file. See for stepwise instructions
+
+13.Use Infinicyt™ to combine FlowJo™ exported FCS files into a merged file. See for stepwise instructionsa.Within the Infinicyt™ environment, select ‘Calculate data’ in the ‘Guided modules’ window
+b.Load all FCS files necessary for your analysis. For instance, when disease progression is monitored load all FCS files per patient for every time point
+c.Deselect parameters that can be excluded, such as the time parameter HDR-T
+d.Separate the PE parameter so that one row is created for every included marker
+e.Check for a potential merge warning. Check out troubleshooting – if this is the case
+f.Rename the rows that were created in step 13d by the corresponding plasma membrane protein marker name
+g.Check the “The selected populations were unequivocally identified” box and select calculate data
+h.Save the calculated data file before continuing to the analysis window
+i.Continue to the analysis window and save
+
+14.Export the merged FCS filea.For continuation of CombiFlow, see CombiFlow
+b.For identification of potential subclones, see Identification of potential subclones.
+ 
+
+Note: By making use of Infinicyt to separate the PE-labeled markers, the panel can be easily adapted. The number of markers can be increased, provided that a PE-labeled antibody is available.
+Note: Pay attention to the names of the markers and make sure these are consistent throughout analyses. This will avoid errors in the CombiFlow pipeline. Spaces are allowed but will be replaced by an underscore in the Combiflow analysis script.
+Note: Additional information on exporting FCS files can be found here: FCS file export from FlowJo. Additional explanations on the merging of FCS files and the APS plotting can be found in the Infinicyt documentation available on the Cytognos website.
+Note: Select which markers to include in the export if the merged file is used as input for CombiFlow, since here markers should match between included files.
+
+## Methods video S1. Export CD45+ cells as new FCS files, related to step 12
+
+## Methods video S2. Creating a merged FCS file with Infinicyt, related to step 13
+
+## Identification of potential subclones
+
+Timing: 30 min–1 h
+
+With the merged flow data from Merge the marker panel flow data marker expressions can be compared with marker expressions of a healthy donor. Aberrantly expressed markers can be selected and used for further analysis in the Infinicyt™ environment to identify potential subclones as depicted in . First, markers with aberrant expression are selected and used as input for the Principal Component analysis, which is used to identify the most discriminating marker ( A and B). Subpopulations can be sorted based on this marker and sequenced ( C). Based on the sequencing outcomes, a pedigree can be created that depicts the expected evolutionary track of the leukemic cells ( D).15.Prepare the data from the merged file for further analysisa.Export marker expression data per cell from the population of interest in the merged FCS file using FlowJo™
+b.Prepare a data file for the healthy control
+
+16.Run R script: “Marker panel – histograms” to plot plasma membrane protein marker expression data of a healthy control and the data of interest to find aberrantly expressed proteinsa.Save generated histogram plot as pdf
+
+17.Select plasma membrane protein markers that are aberrantly expressed in comparison to the healthy control using the previously generated histogram plots
+18.Open the analysis file, saved in step 13i, in the Infinicyt™ environment. See for stepwise instructionsa.If necessary: gate population of interest
+b.Check if Negative Visibility Configuration is selected for Automatic Negativity
+
+19.Perform a Principal Component analysisa.Plot an APS (Automated Population Separator) diagram (Ctrl+D)
+b.Deselect backbone markers and select aberrantly expressed markers (Right click: Diagram Configuration → Parameters Configuration)
+c.Obtain Principal Component values (Ctrl+I) and select most distinguishing markers
+d.Gate subpopulations and visualize in dot plots
+
+20.Export all graphs and individual subpopulations for use in Manuscript Figures or downstream analysis
+21.Determine a sorting strategy using the most distinguishing marker(s) in the merged FCS file using Flow Jo™a.Continue with Sorting of potential subclones
+
+Note: If more than one plasma membrane protein marker is needed to distinguish between potential subclones, it is necessary to check whether this marker is available with a different fluorophore than PE before continuing with Sorting of potential subclones. 
+ 
+
+## Methods video S3. Identification of potential subclones, related to steps 18 and 19
+
+## Sorting of potential subclones
+
+Timing: 4 h
+
+After determining the most distinguishing plasma membrane protein marker(s) to identify potential subclones using the merged FCS file and Infinicyt™. The potential clones can be sorted using the protocol below. This part is a continuation of Thawing an AML.22.To sort potential subclones AML cells need to be stained with part of the backbone markers and the most distinguishing plasma membrane protein markers (PMPs) that were determined by a Principal Component analysisa.Label tubes for unstained and single stained controls
+b.Resuspend all thawed AMLs cells in PBS-mix (10 × 106 cells/100 μL)
+c.Add 1 ul of cells to unstained and single stained controls containing 99 μL of PBS-mix
+d.Add staining to the remaining cells. Volume/100 μL.i.Fc block 3 μL
+ii.CD34-APC 3 μL
+iii.CD45-PECy7 1 μL
+iv.PMP marker 1-PE
+v.PMP marker 2 (optional)
+
+e.Stain cells for 20 min at 4°C
+
+23.In the meantime, prepare collection tubes containing medium with FCS
+24.Wash cells with PBS and resuspend them:a.For unstained/single cell tubes in ±300 μL PBS-mix
+b.For main tube in 1000 μL PBS-mix per 50 × 106 cells
+c.Add PI stain to the main tube at 1 μg/mL
+
+25.Sort subclones of interest. If the FACS sorter is clogged, check troubleshooting – for extra instructions
+26.Process sorted cells for downstream analysis e.g., targeted sequencing, RNA sequencing or culturing
+Note: This sorting protocol is optimized for the Beckman Coulter MoFlo Astrios and XDP at our FACS facility. Before starting sorting subclones it is advised to optimize the protocol for your FACS equipment. and 
+
+## CombiFlow
+
+Timing: 1 h
+
+The CombiFlow pipeline can be used to study the hematopoietic landscape of healthy and leukemic samples at diagnosis and longitudinally. Potential relapse-inducing populations can be identified at MRD time points and changes in clonal composition can be monitored based on marker expression data as depicted in and . The CombiFlow pipeline is based on an analysis workflow for CyTOF data ( ). Whereas in the described examples clusters are assigned to visualize differences between diagnosis, relapse and healthy ( ), it may also be used to visualize different cell types such as blasts, lymphocytes and mature myeloid cells.27.Data preparationa.Export population of interest from the merged FCS files using FlowJo™ and zip the files
+b.Create a metadata file
+c.Create a panel file
+
+28.Create a cluster file. The number of clusters can be adjusted based on the expected number of populations. If this is not known before running the analysis, a fixed number of clusters can be used. Here, 40 clusters were created per analysis to avoid missing out on smaller, more rare cell populations
+29.Clusters are formed using the FlowSOM algorithm ( ) and can be visualized for all samples or per sample using tSNE landscapes. These can be colored by marker expression to identify and visualize specific cell populations such as CD34+ cells or CD4+ lymphocytes
+30.Create a heatmap that depicts the transformed marker expression per cluster. This can be used to assign clusters to specific cell types
+31.Run the script until the step ‘Manual clustering per sample’a.Clusters can be assigned to a sample based on the cluster cell count per sample
+b.Create a sample file
+
+32.Visualize the newly assigned clusters for all samples combined or per sample
+33.A new heatmap can be created, which depicts the combined expression of all clusters assigned to one specific sample
+34.Continue running the script until the Principal Component analysis stepa.Select which markers and clusters to include in the Principal Component analysis. A Principal Component analysis can be performed for all included samples, but a comparison of diagnosis and relapse, without the healthy clusters, is also a possibility
+b.Run the Principal Component analysis to identify the most discriminating marker(s). 
+
+Optional: Clusters can be assigned to a sample but also cell type. In order to do so, create a file similar to the cluster and sample file but now assign each cluster to a cell type based on the expression data in the heatmap. For example, a cluster with small size, high CD45 and CD19 expression may be assigned to either lymphocytes or, more specifically, B cells.
+Note: Some clusters may have cells originating from both the leukemic and healthy sample. We opted to assign these cells to the healthy sample until the ratio Healthy/Leukemic cells fell below 1:8.
+Note: Uniform manifold approximation and projection (UMAP) visualization may be an alternative for the currently used tSNE plots. Implementation of UMAP into the CombiFlow pipeline is currently ongoing, as well as a more automated, machine-learning approach for the cluster assignments to reduce analysis time.
+ 
+
+## Expected outcomes
+With this protocol we generated marker expression profiles of 2 diagnosis samples, a paired relapse sample and a healthy control. Of the unpaired diagnosis sample we selected the plasma membrane protein markers that were aberrantly expressed in comparison to the expression levels in the healthy control ( A). Using the aberrantly expressed markers a Principal Component analysis was performed in the Infinicyt™ environment and the marker CD25 was identified as most distinguishing maker ( B). The diagnosis sample was sorted in two populations: CD34+CD25+ and CD34+CD25-, and cells were processed for further analysis. We isolated gDNA from both clones and performed targeted sequencing for the mutations DNMT3A G>A, RUNX1 dup. CCTA and FLT3-ITD. We found that DNTM3A and RUNX1 were present in both clones, but FLT3-ITD was only found in the CD25+ clone ( C). Based on these findings we can predict a possible evolutionary pattern of the clones found in this particular individual. Various downstream analyses were performed on the sorted subclones. RNA sequencing and GO analysis revealed enrichment of processes related to cell proliferation, mitochondrial activity and cytokine signaling in the FLT3-ITD clone, whereas the FLT-WT clone was enriched for processes related to chromatin organization and histone modification. By in vitro culture of the subclones followed by treatment with the FLT3 tyrosine kinase inhibitor AC-220, differences in sensitivity to AC-220 were found as only the FLT3-ITD subclone showed reduced cell counts and increased levels of apoptosis.
+The CombiFlow examples show one AML patient with diagnosis and relapse samples and a healthy control. In the forty clusters are visualized in total and per sample. Here it can be observed that the diagnosis and relapse differ based on their marker expression profiles. TruSight sequencing data was also available at diagnosis and relapse, variant allele frequencies at both time points are depicted in a fish plot ( A). Clonal evolution between diagnosis and relapse was observed as the BCOR mutation was no longer detected at relapse, whereas the mutations in KMT2A and CEBPA newly appeared. The size of the NPM1 mutated clone increased. These genetic differences between diagnosis and relapse were visualized in the tSNE landscape ( B), indicating that the markers used to create the landscape could separate cell clusters derived from the diagnosis and relapse sample. The healthy control clustered away from the AML samples. The Principal Component analysis reflected this separation and identified ITGA5, CD97 and IL1RAP as the top markers to distinguish between the AML and healthy cells ( C and 3D). CD47, CD99 and CLL1 differ between diagnosis and relapse and possibly within the healthy cells as well ( D).
+
+## Limitations
+A possible bottleneck is the merging of the flow data in Infinicyt™. This is sensitive to aberrations in expression of the backbone markers. It may lead to having to exclude one of the markers. Furthermore, it is possible that the subclone that was found is very small, so there are not enough cells left after sorting for further analysis. In addition, differences in mutational status are not always found in the sorted subclones, resulting in having to go back to the drawing board. Another limitation is that the number of events that can be included in the CombiFlow analysis is currently relatively low. This is due to a lack of computational power. By running the analysis on a cluster this may be circumvented and the number of events can be increased. Another issue that is commonly present when working with patient material is a low quantity of cells. For longitudinal studies this is mainly at MRD time points, when most of the cells are expected to be healthy but a small aberrant population may remain. A smaller marker panel may be used in these instances to reduce the amount of needed material. Markers may be selected based on their aberrant expression at diagnosis, yet this may exclude markers with a different-from-normal expression that arise following treatment. Lastly, we are currently working on automating the process by a machine-learning approach of creating and assigning clusters to a sample or cell type to reduce analysis time and remove potential user bias.
+
+## Troubleshooting
+
+## Problem 1
+A merge warning occurs (step 13).
+
+## Potential solution
+Exclude the FCS file that is listed first in the merge warning window or separate the backbone marker from the aberrant file from the rest similar to what is needed for the PE-labeled markers. A disadvantage of this is that the marker can no longer serve as a backbone marker and the calculate data step will take longer. Another possibility is to include more events in the ‘calculate data’ step. For example, instead of including only the blasts or CD45+ cells, include all viable cells. This will mainly help if cell numbers per file are relatively low.
+
+## Problem 2
+No subpopulations can be identified in the APS plot (step 19).
+
+## Potential solution:
+This is a possibility as some AMLs do not have clear subpopulations based on their marker expression profile. It may be that markers currently not included in the panel are capable of distinguishing subpopulations in the AML in question. Another option is that the highest ranking marker does have a larger range in expression than other markers but that lower ranked markers have a more bimodal expression pattern indicative of subpopulations. It is therefore, in these instances, recommended to deselect the one or two highest ranking parameters to see if the APS plot changes.
+
+## Problem 3
+Stickiness of AML cells result in clogging of FACS sorter (step 25).
+
+## Potential solution
+AML cells can be diluted further in PBS mix; the DNaseI in the mix breaks down free DNA. If this is not sufficient cells can be put through a 35 μm cell strainer.
+
+## Problem 4
+The sorted subpopulations do not differ in mutation status (step 26).
+
+## Potential solution
+It is possible that sorting an AML into subpopulations based on the highest ranking marker(s) in the PCA does not result in genetically distinct subclones. A potential solution may be to sort the AML again, except this time not based on the highest ranking but on the second or third ranking marker. Another explanation for the lack of difference in mutation status may be that the differences in marker expression are not due to genetic, but due to epigenetic or transcriptomic variation between the subpopulations. This will require more extensive analysis of the sorted subpopulations than NGS sequencing.
+
+## Problem 5
+Running the CombiFlow script results in an error (step 29)
+
+## Potential solution
+Check if the script refers to the correct files. The metadata file should contain the exact file names that are included in the zipped folder containing the FCS files. The markers included in the analysis should match between each FCS file and between the FCS files and the panel file. Lastly, the CombiFlow script can be used for different comparisons, e.g., AML versus healthy or tracking an AML patient longitudinally. This may affect the description of the condition, which should match between the metadata file and the script.
+
+## Resource availability
+
+## Lead contact
+Further information and requests for resources and reagents should be directed to and will be fulfilled by the lead contact, Prof Dr. J.J. Schuringa, j.j.schuringa@umcg.nl
+
+## Materials availability
+This study did not generate new unique reagents.
+
+ 
+
+## Data and code availability
+The videos and code generated and used in this study are available at https://github.com/rhoutsma/CombiFlow.
+
+## Acknowledgments
+Funding was provided by the Dutch Cancer Foundation to J.J.S. (11013). TruSight sequencing data at diagnosis and relapse were kindly provided by the Routine Diagnostics Department of the UMCG.
+
+## Author contributions
+S.M.H. and R.H. performed the experiments and optimized the data analysis pipelines. S.M.H., R.H., and J.J.S. analyzed data and wrote the manuscript.
+
+## Declaration of interests
+The authors declare no competing interests.
+
+Supplemental information can be found online at https://doi.org/10.1016/j.xpro.2021.100864.

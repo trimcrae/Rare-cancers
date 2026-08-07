@@ -1,0 +1,231 @@
+CPT Pharmacometrics Syst PharmacolCPT Pharmacometrics Syst Pharmacol2038cptpsp101580011PSP4CPT: Pharmacometrics & Systems Pharmacology2163-8306WileyPMC6765697PMC6765697.1676569767656973125096610.1002/psp4.12448PSP4124481ArticleResearchArticlesQuantitative Systems Pharmacology Model of a Masked, Tumor‐Activated Antibody
+PROBODY QSP ModelStroh et al.StrohMark mstroh@cytomx.comSagertJason BurkeJohn M. ApgarJoshua F. LinLin MillardBjorn L. Michael KavanaughW. 
+1
+CytomX Therapeutics, Inc.
+South San Francisco
+California
+USA
+
+2
+Applied BioMath
+Lincoln
+Massachusetts
+USA
+*Correspondence: Mark Stroh (mstroh@cytomx.com)2672019920198934289210.1002/psp4.v8.967668407220192952019010920193009201901102019© 2019 CytomX Therapeutics, Inc. CPT: Pharmacometrics & Systems Pharmacology published by Wiley Periodicals, Inc. on behalf of the American Society for Clinical Pharmacology and Therapeutics.https://creativecommons.org/licenses/by-nc-nd/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc-nd/4.0/ License, which permits use and distribution in any medium, provided the original work is properly cited, the use is non‐commercial and no modifications or adaptations are made.PROBODY therapeutics (Pb‐Tx) are protease‐activatable prodrugs of monoclonal antibodies (mAbs) designed to target tumors where protease activity is elevated while avoiding normal tissue. They are composed of a parental mAb, a mask that inhibits antibody binding to target, and a protease‐cleavable substrate between the mask and the mAb. We report a quantitative systems pharmacology model for the rational design and clinical translation of Pb‐Tx. The model adequately described monkey pharmacokinetic data following the administration of six anti‐CD166 Pb‐Tx of varying mask strength and substrate cleavability and captured the trend of decreasing Pb‐Tx systemic clearance with increasing mask strength. Projections to humans suggested both higher levels of Pb‐Tx in tumor relative to parental mAb and an optimal mask strength for maximizing tumor receptor–mediated uptake. Simulations further suggested the majority of circulating species in humans would be intact/masked Pb‐Tx, with no significant flux of cleaved/activated species from tumor to the systemic compartment.
+
+ To fully recognize the therapeutic benefit of Pb‐Tx, it becomes necessary to understand not only Pb‐Tx distribution following administration but also the distribution of its activated forms. The determinants of mAb distribution both in the systemic compartment , and in the tumor are well known. However, these events occur downstream of Pb‐Tx administration, distribution, and activation by proteases. The rational design of Pb‐Tx is a multidimensional problem at the level of the drug (e.g., mAb affinity, masking strength, and substrate stability) and the system (e.g., protease activity, receptor density, tumor perfusion rate, partition coefficient, and volume). A quantitative systems pharmacology (QSP) approach provides a means to capture and query our current understanding of how the properties of the drug and system interact to affect Pb‐Tx distribution. The aim of this investigation is to develop a QSP model for the rational design and clinical translation of Pb‐Tx that describes how different drug and system properties collectively impact pharmacokinetics (PK) and pharmacodynamics of Pb‐Tx (QSP Pb‐Tx model).
+The Pb‐Tx selected for this investigation was directed against activated leucocyte adhesion molecule (ALCAM or CD166). CD166 is a cell adhesion molecule highly expressed in multiple cancer types, making it an attractive target for therapy. However, its expression on many cell types in healthy tissue (including activated leukocytes, neurons, and epithelial and endothelial cells) is problematic for traditional mAb approaches. A Pb‐Tx approach is ideally suited for such targets, and a Pb‐Tx directed against CD166 and conjugated to the cytotoxin DM4 is currently under clinical investigation in a variety of different cancer indications (CX‐2009, ClinicalTrials.gov identifier NCT03149549).
+
+## Materials and Methods
+
+## PK study for anti‐CD166 Pb‐Tx in cynomolgus monkeys
+All animals were housed, maintained, and treated in accordance to standard ethical animal handling guidelines. The study was reviewed and approved by the Institutional Animal Care and Use Committee at Charles River Laboratories. Experimentally naive cynomolgus monkeys were randomly assigned to dosing groups (n = 2 per group) at Charles River Laboratories. The test articles were administered at 3, 5, and 10 mg/kg via intravenous (slow bolus) injection. Whole blood was obtained from each unanesthetized animal for up to 21 days postdose. Pb‐Tx and mAb concentrations in the cynomolgus monkey lithium heparin plasma samples were determined using sandwich‐based colorimetric enzyme‐linked immunosorbent assay methods.
+
+## QSP Pb‐Tx model construction
+A QSP model was developed based on known mechanisms of Pb‐Tx breathing, cleavage, first‐order plasma elimination, tissue and tumor biodistribution, receptor binding, and receptor and receptor–drug complex endocytosis.
+All models were implemented using KroneckerBio version 0.4. Simulation runs, parameter estimation, and parameter scans were performed using MATLAB version 2015b (Mathworks, Natick, MA). KroneckerBio is open‐source software and is maintained at https://github.com/kroneckerbio. The version of KroneckerBio used for these simulations was tested prior to use and is archived by Applied BioMath (Lincoln, MA).
+Kronecker describes the systems as a system of ordinary differential equations with the following form:dxdt=k+Ax+B(x⊗x)where k is a vector of zero‐order rate constants, A is an n by n matrix of first‐order rate constants, and B is an n by n matrix of second‐order rate constants. The values of these matrices are provided as model code in Supporting Information.
+
+## Calibration against cynomolgus monkey data
+The model was calibrated to PK data following administration of anti‐CD166 Pb‐Tx with varying mask and substrate characteristics. In addition to the parental anti‐CD166 mAb (mAb0,0), four Pb‐Tx derived from mAb0,0 with different substrates (designated as S1 and S2, respectively) and masks (designated M1 and M2, respectively) were investigated (designated as Pb‐TxM1,S1, Pb‐TxM2,S1, Pb‐TxM1,S2, and Pb‐TxM2,S2, respectively). In addition, one Pb‐Tx did not have a protease‐activating substrate and is designated as Pb‐TxM1,0. The estimation was done simultaneously for all six molecules assuming that the physiologic model parameters (plasma volume, target expression, etc.) and the parameters that describe the common molecular features (mono‐valent binding affinity of the open or cleaved Pb‐Tx, first‐order elimination rate, central to peripheral distribution rates) were constant across molecules. The parameters that describe the differences between the molecules governing mask strength and cleavage rate (i.e., K
+mask and k
+cleave, respectively; see ) were estimated as follows: First, the simulations were run over a range of parameter values for the parameters K
+mask and k
+cleave. The simulations were compared with the data, and the negative log likelihood function was computed. As described further in the Results, given the results of the parametric study of K
+mask and k
+cleave, K
+mask for M1 and M2 were first estimated while holding k
+cleave for S1 and S2 to a fixed value. The k
+cleave for S1 and S2 were then estimated by fixing K
+mask for M1 and M2 to the value of the previous step.
+
+## Results
+
+## QSP Pb‐Tx model construction
+The proposed QSP Pb‐Tx model captures events both at the (i) Pb‐Tx and the (ii) compartmental levels; at each level, the QSP Pb‐Tx model has both provisions that are unique to the Pb‐Tx and those that are shared with other mAb pharmacology models. The schematic for events at the Pb‐Tx level is provided in Figure 
+ 
+a. The Pb‐Tx is depicted first as an intact moiety with two masks, with subsequent successive stages of irreversible cleavage reactions characterized by a pseudo first‐order rate constant k
+cleave (1/second) that captures both the rate of substrate proteolysis and protease concentration. The first and second cleavage reactions generate the mono‐cleaved Pb‐Tx species and subsequently the dual‐cleaved, parental mAb, respectively. In addition, reversible “breathing” reactions that reflect mask binding and unbinding to the mAb are included for all but the dual‐cleaved parental mAb. Breathing reactions are expressed in terms of a ratio (K
+mask) of first‐order rate constants for mask closing (1/second) and opening (1/second). The intact Pb‐Tx species with both masks closed does not bind target; both the mono‐cleaved Pb‐Tx with one mask closed and intact Pb‐Tx with one mask open exhibit monovalent binding to target. The species on the diagonal of Figure 
+ 
+a are Pb‐Tx with combinations of breathing and/or cleavage reactions that result in both arms available for bivalent binding. The species of Figure 
+ 
+a distribute to plasma, peripheral, and tumor compartments as depicted in Figure 
+ 
+b. All free Pb‐Tx species are assumed to be eliminated from the plasma compartment at the same first‐order rate constant k
+el (1/second). Plasma Pb‐Tx species equilibrate with the peripheral compartment with intercompartment transport rate constants k
+12 (1/second) and k
+21 (1/second), respectively. Plasma Pb‐Tx species may further distribute to the tumor compartment with intercompartment transport rate constants k
+13 (1/second) and k
+31 (1/second), respectively; k
+13 (1/second) and k
+31 (1/second) are further derived from a plasma to tumor steady‐state Pb‐Tx concentration ratio (partition coefficient, p) and a plasma to tumor perfusion rate (Q (1/second)). Based on internal (data not shown) and human protein atlas data, model provisions were included for binding to target within the peripheral and tumor compartments. Within both peripheral and tumor compartments, monovalent and bivalent Pb‐Tx species bind target with forward rate k
+on1 (1/(nM*second)), and both k
+on1 and k
+on2 (1/(nM*second)), respectively, and reverse rate constant k
+off1 (1/second). The forward rate k
+on1 was assumed from the literature, and k
+on2 was estimated under the assumption that avidity is not influential. Target expression in both the periphery and tumor are governed by target synthesis and endocytosis rate constants k
+synR (nmol/second) and k
+endo (1/second), respectively, and can be further expressed as receptor per cell (see Table 
+ ). Additional details are provided in the .
+ 
+
+## Calibration against cynomolgus monkey data
+The QSP Pb‐Tx model was next calibrated to fit cynomolgus monkey PK data following administration of one mAb and five Pb‐Tx to cynomolgus monkeys. Dose levels investigated included 3, 5, and 10 mg/kg administered either as a single dose or as two doses administered 3 weeks apart.
+Parameter scans were conducted to compute the negative log likelihood of K
+mask and k
+cleave given the data for each molecule; parameters other than K
+mask and k
+cleave were set to the values in Table 
+ . The negative log likelihood following a parametric study of K
+mask and k
+cleave is provided in . From , a one‐sided lower bound could be determined for K
+mask for M1, and a two‐sided bound for K
+mask for M2 was observed. From , an upper bound on k
+cleave was identified from the marginal probability plot, but no lower bound could be determined (i.e., it could not be distinguished from zero). To get refined estimates of K
+mask as well as the upper bound of k
+cleave, K
+mask was estimated by fitting the model to the PK data while fixing k
+cleave for S1 and S2 to zero. The estimates of K
+mask for M1 and M2 were consistent with fluorescence‐activated cell sorting (FACS) binding data (see ) and were close to (but still above) the lower bound for M1 identified from marginal probability and similar to the isolated minima for M2, respectively. The one‐sided bound for K
+mask for M1 suggested that M1 was indistinguishable from a nonbinding molecule. For the parental antibody mAb0,0 (with no mask group), the marginal probability suggested that the mask strength had to be very low, which is consistent with the molecule not having a masking group. The K
+mask was then fixed to the value for M1 and M2 (as appropriate), and then the value of k
+cleave was searched to find the largest value that still gave an acceptable fit to the PK data for all simulations. The k
+cleave estimated for the parental antibody mAb0,0 was a one‐sided distribution with only very high rates being likely, consistent with mAb0,0 lacking a masking group. Because different substrates could not clearly be distinguished from the PK data, the value of k
+cleave for S1 and S2 was constrained to be equal. The marginal probabilities for the S1 and S2 substrates were indistinguishable from an uncleavable substrate; although a value of k
+cleave = 0 was consistent with the data, values of k
+cleave < 3e‐7 1/second still produced acceptable fits, and 3e‐7 1/second represented an upper bound on this value. This value of 3e‐7 1/second was carried forward as the likely maximum value for k
+cleave.
+
+Figure 
+ suggests an adequate fit of the QSP Pb‐Tx model to observed monkey PK data across the dose levels, mask strengths, and substrates entered into the evaluation. Most notably, across all dose levels, the observed data exhibited the hallmark evidence of target‐mediated drug disposition (TMDD) for the parental mAb0,0, which was captured by the QSP Pb‐Tx model. At the 3 mg/kg dose level, the observed data suggested decreased importance of TMDD in the disposition of the Pb‐Tx species overall, with evidence of TMDD minimized both for Pb‐Tx species with noncleavable substrate (Pb‐TxM1,0) and highest mask strength (Pb‐TxM1,S1 and Pb‐TxM1,S2). These overall trends were again evident at the 5 mg/kg and 10 mg/kg dose levels, where the contribution of TMDD was lessened for the Pb‐Tx species of successively higher mask strengths; with k
+cleave held fixed to the upper bound of 3e‐7 1/second, varying K
+mask alone was sufficient for the QSP Pb‐Tx model to capture trends overall.
+ 
+
+## Human QSP Pb‐Tx model
+Following calibration against monkey PK data, the QSP Pb‐Tx model was used to project human PK under a series of assumed values for the drug (e.g., K
+mask) and the tumor (e.g., Q and receptor concentration (R
+T (nmol))); fold increases in k
+cleave for the tumor relative to the systemic compartment was also varied to implicitly capture the effect of both drug (substrate stability) and tumor (protease activity) properties on PK. As described further in the Methods, elementary rate constants (e.g., kendo, k
+on1, k
+on2, k
+off) and normal tissue receptor concentration were assumed equal between monkey and human. Likewise, k
+cleave was assumed to have an upper bound of 3e‐7 1/second. The PK parameters k
+12, k
+21, and k
+el (1/second) were scaled using allometry, and k
+13 and k
+31 were derived using the corresponding expressions in Table 
+ . These and other parameter values used in human PK projection are likewise summarized in Table 
+ .
+ 
+Figure 
+ 
+a,b illustrates the model‐predicted PK profiles in plasma and periphery following a single 4.5 mg/kg dose of parental mAb and Pb‐Tx species of increasing K
+mask. In both compartments, the parental mAb exposure is reduced relative to total Pb‐Tx, with evidence of a monotonic decrease in the terminal elimination rate with increasing K
+mask. This observation is consistent with Figure 
+ 
+d, where model‐predicted uptake in the periphery trends lower overall with increasing K
+mask, suggesting decreased contribution of TMDD in the periphery to the overall Pb‐Tx clearance with increasing K
+mask. The tumor compartment (Figure 
+ 
+c) follows trends of increasing exposure and decreasing terminal elimination rate with increasing K
+mask, respectively. Figure 
+ 
+e suggests the relationship of increasing K
+mask on receptor‐mediated uptake in the tumor is not monotonic and instead may pass through an optimum. Following the multiple‐dose administration of 3 mg/kg of Pb‐Tx, from Figure 
+ the QSP Pb‐Tx model suggests that the intact Pb‐Tx comprises the majority of the total circulating species in the plasma.
+ 
+
+## Discussion
+The aim of this work was to integrate the effect of both Pb‐Tx and system properties for the rational design and clinical translation of Pb‐Tx directed against CD166. A fit‐for‐purpose approach was used to derive and inform the QSP model as a means to this end. The parameters from multiple in vitro and in vivo contexts were combined to inform the full parameter set. In instances where parameters were estimated, a stepwise approach was used because no single study was available to derive all estimated parameters. From Table 
+ , the parameters governing the cynomolgus PK that were not dependent on binding to target (e.g., k
+12, k
+21, and k
+el) were estimated as one common set across all data. The parameters governing the interaction of Pb‐Tx and mAb with target were either assumed (e.g., k
+on1, kendo), derived based on apparent in vitro binding affinity (e.g., k
+on2, k
+off1), or further estimated from available PK data (e.g., k
+synR, K
+mask, k
+cleave). To explore the possible effect of parameter uncertainty, simulations were conducted to evaluate if QSP model predictions were sensitive to selected parameters. This simulations‐based exercise suggested that QSP model predictions for monkey PK were relatively sensitive to K
+mask; however, k
+cleave was less influential for values up to 3e‐7 1/second. This provided a one‐sided bound for k
+cleave that would further provide a conservative estimate of the fraction of Pb‐Tx circulating as intact. Figure 
+ suggests that the model performance was adequate given the intended use of the model.
+The QSP Pb‐Tx model provides both proof of principle for the enhanced therapeutic window offered by the Pb‐Tx relative to the parental mAb as well as a platform to rationally maximize this window. At a given dose level in the monkey, observed data and model predictions were consistent in illustrating both reduced exposure of circulating levels of parental mAb relative to the Pb‐Tx and trending of increasing Pb‐Tx exposure with increasing K
+mask. The results in the monkey further suggest that molecules sharing elements such as a given substrate or mask could be described by a common estimate of k
+cleave and K
+mask, respectively. These results support both the validity of these model parameters as mechanistic and the decomposability of the substrate and mask as independent design elements for the Pb‐Tx. This finding implies that the masking strength (as captured through K
+mask) estimated for one Pb‐Tx with a particular mask adequately describes the mask strength of another Pb‐Tx with the same mask. The K
+mask estimates were consistent with the in vitro measurement determined by FACS. The K
+mask for M2 was estimated to be 57‐fold, and this was within approximately 2‐fold of the in vitro value estimate determined from FACS (120‐fold). The K
+mask for M1 was estimated to be 220‐fold, and this was similar to the FACS estimate of the 232‐fold. Moreover, although observed trends in monkey provide indirect evidence that circulating Pb‐Tx escape binding to a peripheral target, the consistency of these observations with predictions of the QSP Pb‐Tx model corroborate this mechanism for decreased clearance.
+Projections to human cancer patients depend both on a set of linked kinetic processes that govern the system and characteristics that modulate Pb‐Tx binding to the target. Starting first with systemic levels of Pb‐Tx, Figure 
+ 
+a suggests a decreased systemic clearance of Pb‐Tx relative to parental mAb; Figure 
+ 
+b,c in turn suggests correspondingly increased exposure of Pb‐Tx in the periphery and tumor, respectively, which equilibrate with circulating levels of Pb‐Tx. Furthermore, Figure 
+ 
+a suggests that predicted changes in Pb‐Tx exposure in plasma would trend with K
+mask in human cancer patients because of the decreased contribution of TMDD to the overall Pb‐Tx clearance with increasing K
+mask. Given the enhanced circulating levels of Pb‐Tx with increasing K
+mask, Figure 
+ 
+b,c suggests that model‐predicted Pb‐Tx levels in the periphery and tumor likewise increase with K
+mask. Key steps in the mechanism of action for antibody drug conjugates involve first binding of the antibody to its target antigen on the cell surface followed by internalization and processing of the antibody drug conjugate to release its cytotoxic payload. Accordingly, it is important to next consider the amount of Pb‐Tx undergoing receptor‐mediated uptake in peripheral and tumor tissues as this would be expected to be a determinant of the putative therapeutic window for a PROBODY drug conjugate. Although a contrast of Figure 
+ 
+d,e suggests higher amounts overall of Pb‐Tx undergoing receptor‐mediated uptake in the periphery relative to tumor, respectively, the Pb‐Tx uptake per gram would be expected to be far higher for the tumor (assuming approximately a 10‐mg tumor in a 70‐kg patient). The composite parameter k
+cleave captures both substrate stability and protease activity; because k
+cleave was not uniquely identifiable in our analysis, various fold changes in k
+cleave in the tumor relative to the periphery were considered for these simulations. Under the scenario of a 10‐fold increased k
+cleave in the tumor relative to the periphery, Figure 
+ 
+d suggests that receptor‐mediated uptake of Pb‐Tx in the periphery would decrease with increasing K
+mask, whereas Figure 
+ 
+e suggests that this relationship in the tumor would be concave‐down and pass through a maxima. The concave‐down relationship between the receptor‐mediated uptake in tumor and K
+mask reflects the tradeoff of elevated amounts of total Pb‐Tx in the tumor and decreased availability of species available for the binding target via breathing reactions that both come with high K
+mask.
+Projected levels of circulating Pb‐Tx suggest that intact Pb‐Tx comprises the majority of circulating species. This is consistent with preferential activation of Pb‐Tx by tumor‐associated proteases and the observation that the net flux of cleaved species from tumor over a range of assumed folds increased k
+cleave in the tumor relative to periphery remained at or near zero ( ). Because proteases are involved in several different diseases and conditions, it is possible that a Pb‐Tx designed for cancer might also be activated in a patient who has a coexisting condition that also involves significant protease activity. However, evidence suggests that protease activity in some common conditions may not significantly contribute to Pb‐Tx activation. The stability of Pb‐Tx in the collagen‐induced arthritis mouse model, the most commonly studied autoimmune model of rheumatoid arthritis, has suggested no increase of Pb‐Tx activation compared with that in healthy control mice (unpublished data).
+Depending on the intended use, this fit‐for‐purpose QSP Pb‐Tx model can be further refined both in terms of the model parameters and in terms of the structural model. Regarding the model parameters, informing k
+on1, k
+on2, and k
+off from a suitable in vitro assay could theoretically help to inform the QSP model. However, from Figure 
+ 
+a, the Pb‐Tx undergoes breathing and/or cleavage reactions that result in a combination of monovalent and bivalent species available for binding to target, complicating the estimation of these parameters from an in vitro assay. Similarly, the availability of robust estimates for k
+endo for CD166 in particular could help better inform the system‐specific components of the model. Likewise, although available binding data with different cell lines suggested similar apparent affinities (data not shown), a further exploration of the binding affinities across a greater range of known target densities would help to further evaluate the possible importance of avidity for this system. Regarding the structural model, there are opportunities for both greater parsimony and more fully mechanistic treatment depending on the intended further use of the model. For example, although the full TMDD model as invoked in the QSP Pb‐Tx model was well suited to the intended use of informing Pb‐Tx design (e.g., mAb affinity, masking strength, and substrate stability), a reduced TMDD model such as the rapid equilibrium approximation would be a more parsimonious option and possibly sufficient for a subset of applications. The parameters k
+13 and k
+31 in the QSP Pb‐Tx model were derived in part based on the assumed values of p
+ , and Q
+ , of 0.5 and 1e‐5 1/second, respectively (see Table 
+ ); this component of the QSP model could be modified to incorporate additional mechanistic information by explicitly using the Wittrup tumor equations, or alternatively k
+13 and k
+31 could likewise be parametrized using the Wittrup tumor equations. Lastly, additional information regarding substrate cleavage kinetics coupled with spatiotemporal protease activity data both across species and in normal and pathophysiological states could help to further refine the components of the model governing Pb‐Tx activation for a more fully mechanistic treatment.
+
+## Funding
+The study was funded by CytomX Therapeutics, Inc., South San Francisco, CA.
+
+## Conflict of Interest
+M.S., J.S., and W.M.K. are or were CytomX employees and own CytomX stock. J.M.B., J.F.A., L.L., and B.L.M. are Applied BioMath employees.
+
+## Author Contributions
+M.S., J.S., J.M.B., J.F.A., and W.M.K. wrote the manuscript. M.S., J.S., J.M.B., J.F.A., and W.M.K. designed the research. M.S., J.S., J.M.B., J.F.A., and W.M.K. performed the research. J.M.B., J.F.A., L.L., B.L.M., M.S., J.S., and W.M.K. analyzed the data.
+
+## Supporting information
+
+Figure S1. Parametric study of (a) mask and (b) substrate.
+Click here for additional data file.
+
+Figure S2. Model‐predicted net flux (nmol/second) of single and dual cleaved PROBODY therapeutics (Pb‐Tx) from central, peripheral and tumor compartments.
+Click here for additional data file.
+
+Model code.
+
+Click here for additional data file.
+
+## Acknowledgments
+PROBODY is a trademark of CytomX Therapeutics, Inc.

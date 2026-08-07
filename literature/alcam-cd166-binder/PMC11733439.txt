@@ -1,0 +1,326 @@
+pmcClin Transl MedClin Transl Med1991clintransmedCTM2Clinical and Translational Medicine2001-1326WileyPMC11733439PMC11733439.111733439117334393981062410.1002/ctm2.70172CTM2701721Research ArticleResearch ArticleSingle‐cell RNA‐sequencing and spatial transcriptomic analysis reveal a distinct population of APOE
+− cells yielding pathological lymph node metastasis in papillary thyroid cancer
+XIAO et al.XiaoGuohui XieRongli GuJianhua HuangYishu DingMin ShenDongjie YanJiqi YuanJianming YangQiong HeWen XiaoSiyu ChenHaizhen chz11011@rjh.com.cnXuDan stephanie.xud@hotmail.comWuJian wujian570@126.comFeiJian feijian@hotmail.com
+
+1
+
+Department of General Surgery
+Ruijin Hospital
+Shanghai Jiao Tong University School of Medicine
+Shanghai
+China
+
+2
+
+Department of General Surgery
+Ruijin Hospital Luwan Branch
+Shanghai Jiao Tong University School of Medicine
+Shanghai
+China
+
+3
+
+Department of Thyroid and Breast Surgery
+Punan Branch of Renji Hospital
+Shanghai Jiaotong University School of Medicine
+Shanghai
+China
+
+4
+
+Department of General Surgery
+Shanghai Changhang Hospital
+Shanghai
+China
+
+5
+
+Department of General Surgery
+Shanghai International Medical Center
+Shanghai
+China
+
+6
+
+Department of Emergency Medicine
+Ruijin Hospital
+Shanghai Jiao Tong University School of Medicine
+Shanghai
+China
+
+7
+
+Department of Pathology
+Punan Branch of Renji Hospital
+Jiaotong University School of Medicine
+Shanghai
+China
+
+8
+
+State Key Laboratory of Oncogenes and Related Genes
+Shanghai
+China
+
+9
+
+Institute of Translational Medicine
+Shanghai Jiao Tong University
+Shanghai
+China
+
+*
+Correspondence
+Haizhen Chen, Department of General Surgery, Ruijin Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai 200025, China. Email: chz11011@rjh.com.cn
+Dan Xu, Department of Emergency, Ruijin Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai 200025, China. Email: stephanie.xud@hotmail.com
+Jian Wu, Department of Pathology, Punan Branch of Renji Hospital, Jiaotong University School of Medicine, Shanghai 200025, China. Email: wujian570@126.com
+Jian Fei, Department of General Surgery, Ruijin Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai, China. Email: feijian@hotmail.com
+
+15120251202515147763610.1002/ctm2.v15.1e70172
+19122024
+08102024
+24122024
+150120251501202514022025© 2025 The Author(s). Clinical and Translational Medicine published by John Wiley & Sons Australia, Ltd on behalf of Shanghai Institute of Clinical Bioinformatics.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Background
+Thyroid cancer is one of the most common endocrine tumors worldwide, especially among women and the metastatic mechanism of papillary thyroid carcinoma remains poorly understood.
+
+## Methods
+Thyroid cancer tissue samples were obtained for single‐cell RNA‐sequencing and spatial transcriptomics, aiming to intratumoral and antimetastatic heterogeneity of advanced PTC. The functions of APOE in PTC cell proliferation and invasion were confirmed through in vivo and in vitro assays. Pseudotime analysis and CellChat were performed to explore the the molecular mechanisms of the APOE in PTC progression.
+
+## Results
+We identified a subpopulation of tumor cells with lower expression levels of APOE, associated with advanced stages of PTC and cervical metastasis. APOE overexpression significantly reduced tumor cell proliferation and invasion, both in vitro and in vivo, by activating the ABCA1‐LXR axis. APOE−
+ tumor cells may promote tumor growth by interacting with dendritic cells and CD4+ T cells via CD99‐ rather than CD6‐regulated signaling. We established a machine learning‐based scRNA‐seq data, 13‐gene signature predictive of lymph node metastasis.
+
+## Conclusions
+We identified a distinct APOE−
+ tumor cell population associated with cervical metastasis and poor prognosis. Our results and models have potential clinical, prognostic, and therapeutic implications for advanced PTC.
+
+## Key points
+
+A subpopulation of tumor cells with lower expression levels of APOE was strongly associated with more advanced stages and metastasis of PTC.
+
+APOE‐negative (APOE
+−) cellsoverall exhibited weaker interactions with immune cells.
+A machine‐learning bioinformatics model based on scRNA‐seq data of in‐situ thyroid cancer tissue was established to predict lymph node metastasis.
+
+We identified a subpopulation of tumor cells with lower expression levels of APOE in both mRNAs and proteins that were highly associated with more advanced stages and metastasis of PTC by integrating single‐cell sequencing and spatial transcriptome assays.
+ 
+
+APOE‐ABCA1‐LXR axislymph node metastasispapillary thyroid carcinomasingle‐cell RNA‐sequencing
+Natural Science Foundation of China
+10.13039/50110000180982100678Shanghai Municipal Science and Technology Commission
+10.13039/50110000339923ZR1440800Shanghai Municipal Health Commission
+10.13039/10001795020214Y0223Shanghai Huangpu District Health Commission2021QN032023GG012023XD02 We combined scRNA‐seq data from all samples, treating each sample as a separate batch, using a batch‐balanced k‐nearest neighbours algorithm. After stringent quality control, 144 746 cells were retained, with a median gene detection count of 1414 per cell. We visualized the cellular landscape using uniform manifold approximation and projection (UMAP), highlighting tissue, sample and patient origins (Figure  and Figure ). Notably, we observed substantial cellular diversity at both the sample and patient levels. To distinguish between tumour and normal cells, we assessed cellular ploidy using CopyKat and InferCNV algorithms on a randomly downsampled subset of the data (Figure  and Figure ). We annotated cell types based on marker gene expression (CD3D and CD3E for T cells, CD79A for B cells, LYZ and CD14 for myeloid cells, COL1A1 and COL1A2 for fibroblast cells, PECAM1 and CD34 for endothelial cells, and KRT18 and KRT19 for thyrocytes) (Figure  ), as described in a previous study. To isolate the heterogeneity specific to PTC, we generated a separate UMAP plot excluding the medullary thyroid carcinoma (MTC) case, as its tumour origin differs (Figure ). Interestingly, fibroblasts, thyrocytes and endothelial cells exhibited aneuploidy and a novel cellular state expressing both thyrocyte and fibroblast markers, termed ‘thy_fib.’. At the patient level, heterogeneity was primarily observed in tumour cells, as anticipated from previous studies. To further explore this, we plotted the number and proportions of different cell types (Figure ) and generated individual UMAP plots (Figure ).
+We performed transcriptomic profiling of the cohort to annotate the collected spatial transcriptomic data. A representative of a histological slide prepared for spatial transcriptomic analysis is depicted in Figure  . Employing SpaGCN, we identified distinct domains (Figure  ). Notably, we successfully delineated tumour regions exhibiting differential EPCAM expression, aligning with the expert pathologist's assessment (Figure  and Figure ).
+
+2.2
+
+## Lower APOE gene expression is associated with tumour cell metastasis
+Consistent with these findings, lower APOE expression was significantly associated with poorer overall survival in patients with PTC from The Cancer Genome Atlas (TCGA) database (n = 256, Figure  ). To further investigate the role of APOE in tumour progression, we performed sub‐clustering of tumour cells (Figure ) and pseudo‐time trajectory analysis using Monocle 3 (Figure  and Figure ). This analysis identified nine distinct cellular states based on their position along the trajectory (Figure ). When examining APOE expression across these 13 tumour subclusters (Figure ), we observed a striking correlation between lower APOE levels and later‐stage tumour cell states. This finding suggests that late‐stage tumour cells, characterized by lower APOE expression, may contribute more significantly to metastatic progression.
+ We partitioned tumour cells into two groups based on APOE expression, acknowledging that the zero‐inflation inherent to single‐cell data might introduce some degree of error. Our goal was to identify major trends. We identified differentially expressed genes (DEGs) between APOE
++ and APOE
+− tumour cells in both thyroid and lymph node samples (Figure ). Subsequently, we performed pathway enrichment analysis on these gene sets (Figure  ). In thyroid APOE
+− cells, enriched pathways were associated with enhanced metabolic processes, such as the respiratory electron transport chain and angiogenesis regulation. In contrast, lymph node APOE
+− cells exhibited enrichment in pathways related to protein synthesis, including peptide biosynthesis and protein targeting to the endoplasmic reticulum.
+We examined APOE expression in histological slides of lymph node tissues containing metastatic tumours. Employing a novel algorithm capable of super‐resolution analysis of tumour ecosystems, we first identified tumour cells based on the expression of EPCAM, TG, KRT18 and KRT19. This automated segmentation closely aligned with the tumour regions delineated by expert pathologists (Figure  ). Similarly, the main tumour edge was defined using these marker sets (Figure  ). Intriguingly, we observed a higher level of APOE expression within the core of the tumour compared to the tumour edge (Figure  ). This finding suggests that APOE‐expressing tumour cells may play a crucial role in facilitating lymph node metastasis.
+
+2.3
+
+## Overexpression of APOE inhibits tumour cell proliferation and invasion in vitro
+We further validated the role of APOE gene expression in PTC using scRNA‐seq data. We established APOE overexpression Hth‐7 and TPC‐1 cell lines via lentiviral transfection (Figure  ). To assess the impact of APOE overexpression on cellular behaviour, we performed CCK‐8 assays and colony formation assays. These experiments revealed a significant decrease in the proliferation of APOE‐overexpressing cells (Figure  ). Additionally, Matrigel invasion chamber assays suggested a substantial reduction in the invasive ability of these cells (Figure  ). These results collectively indicate a potential role for APOE gene expression in inhibiting PTC progression. To explore the underlying mechanisms, we conducted transcriptome sequencing analysis of APOE‐overexpressing Hth‐7 and TPC‐1 cell lines. This analysis identified 44 overlapping DEGs with an FDR‐adjusted p‐value < .05, |log2foldchange| > 1 and raw counts > 10 (Figure  ). Gene set enrichment analysis revealed that genes associated with the ‘Hallmark_TNFa_Signaling_via_NFKB’ pathway were positively correlated with APOE overexpression in both cell lines (Figure  ). This pathway is closely linked to immune responses and tumour progression. Notably, ABCA1, a gene previously reported as critical for APOE lipidation, was significantly upregulated in both APOE‐overexpressing cell lines (Figure  ). ABCA1, in conjunction with APOE, may contribute to the activation of the LXR transcription factor, thereby potentially restricting immunosuppression. These findings suggest a complex interplay between APOE, ABCA1 and LXR that may influence tumour immunity and progression.
+ Furthermore, KEGG pathway enrichment analysis revealed significant enrichment of metabolism‐related and immune‐related pathways in APOE‐overexpressing cells (Figure ). To gain deeper insights into potential metabolic changes, we performed an untargeted Liquid Chromatograph Mass Spectrometer (LC‐MS) metabolomics analysis. Metabolites were analysed for fold change between the groups, and a t‐test with criteria of VIP ≥ 1 and p < .05 was conducted to identify significant differences (Figure ). A one‐way ANOVA was utilized for statistical comparisons, followed by post‐hoc pairwise comparisons (Figure ). The volcano plot visualized the differential metabolites between the two groups (Figure ). Additionally, KEGG pathway analysis revealed significant enrichment of metabolites (Figure ). Collectively, these data suggest that APOE may influence the tumour microenvironment and progression through multiple pathways.
+
+2.4
+
+## In vivo validation of APOE function in tumour inhibition and large‐scale human validation
+Next, we sought to validate these findings in vivo. We utilized APOE‐overexpressing cells for subcutaneous xenograft experiments in athymic, female nude mice. Notably, APOE overexpression significantly inhibited the tumorigenicity of PTC cells in vivo. The tumour growth of APOE‐expressing cells was substantially slower compared to the control group (Figure  ), while these genetic modifications did not affect mouse body weight (Figure  ). We further performed immunohistochemical analysis to assess APOE and ABCA1 expression in tumour tissues. Our results demonstrated that APOE overexpression was accompanied by increased ABCA1 expression in tumour tissues (Figure  ).
+ To further validate the clinical relevance of APOE expression in metastatic PTC, we investigated APOE expression in a cohort of 41 patients with metastatic disease. Immunofluorescence staining revealed a significant decrease in co‐expression of APOE and CK19 in patients with lateral cervical LNM compared to those with central compartment LNMs (Figure  ). This suggests that patients with lateral cervical LNM exhibit lower APOE expression levels in tumour cells relative to normal cells. Considering the link between LXR and APOE, we administered intraperitoneal injections of the LXR‐agonist RGX‐104 to mice. Treatment with RGX‐104 resulted in a suppression of myeloid‐derived suppressor cells (MDSCs) and a concomitant increase in APOE expression (Figure  ). Collectively, these findings suggest a potential role for LXR in regulating APOE expression. Moreover, the observed inhibition of tumour growth in vitro and in vivo by APOE overexpression supports the hypothesis that APOE may play a tumour‐suppressive role.
+
+2.5
+
+## Ligand‐receptor pairs driving differential immune−tumour interactions associated with APOE expression profiles
+We sought to leverage the comprehensive profiling of immune cells in our cohort by performing a sub‐clustering of these cells (Figure  ). We used established markers to annotate immune cells into 10 distinct types (Figure  ): naïve CD4+ T cells, memory CD4+ T cells, CD8+ T cells, natural killer (NK) cells, B cells, plasma cells, plasmacytoid dendritic cells, dendritic cells (DCs), CD14+ monocytes and CD16+ monocytes. A comparative analysis of samples with different metastatic conditions, specifically central, central plus neck (CN) and healthy (none), revealed dramatic shifts in the abundance of certain immune cell types. Notably, the CN group exhibited a clear enrichment of both CD14+ and CD16+ monocytes, coupled with a depletion of CD8+ T cells (Figure ).
+ We further investigated the interaction between APOE
++/APOE
+− tumour cells with immune cells in lymph nodes. We found that APOE
+− cells stimulated the immune system to a lesser degree than APOE
++ cells, regardless of the normalization method employed (Figure  ). We identified several ligand‐receptor pairs that underlie this pattern (Figure  ), including the CD6‐ and F11R‐driven signalling pathway networks. Specifically, APOE
++ tumour cells were involved in the CD6‐driven network, along with immune cells (Figure  ). For F11R (JAM1), both APOE
++ and APOE
+− cells interacted with immune cells (Figure  ), with APOE
++ cells exhibiting stronger interactions. Interestingly, in contrast to APOE
++ cells, APOE
+− cells specifically interacted with immune cells, such as DCs, through a CD99‐driven network rather than the CD6‐driven network. To further explore the role of the CD99‐driven network in the interaction between APOE‐positive and APOE‐negative tumour cells and immune cells, we focused on these cell types at both the primary thyroid site and lymph node metastasis site (Figure ). Notably, in the APOE‐negative group, the ESAM and CD99 pathways exhibited strong interactions at both sites. Furthermore, the CD46 pathway, which is linked to immunosuppression, , showed stronger interactions between APOE‐negative tumour cells and immune cells, particularly at the lymph node metastasis site. Using CellTrek, we directly visualized the communication networks between APOE
+− and APOE
++ tumour cells and immune cells on histological slides. Strikingly, APOE
+− tumour cells exhibited minimal interaction with NK, B and T cells in both primary tumour tissues (Figure  ) and lymph nodes (Figure  ), while APOE
++ tumour cells strongly interacted with these cell types.
+To further confirm the association of APOE with a suppressive immune microenvironment, we generated APOE knockout mice using a CRISPR‐Cas9 system and verified the knockout by PCR (Figure ). We observed a decrease in mature DCs, NK cells and NKT cells in APOE
+−/− mice (Figure ). Additionally, the M1/M2 macrophage ratio was also reduced (Figure ). However, the numbers of CD4+ and CD8+ T cells did not differ significantly (Figure ). These spatial data suggest that APOE‐negative tumour cells may promote tumour growth and invasion by creating an immunosuppressive microenvironment.
+
+2.6
+
+## Machine learning‐based model predicts metastasis patterns
+Given the significant morbidity and mortality associated with metastatic thyroid cancer, early prediction of metastatic potential is crucial for improved patient outcomes. We leveraged our comprehensive single‐cell atlas to develop a predictive model capable of effectively classifying patients into high‐ and low‐risk groups for metastasis. We used only tumour cells to build a predictive model to distinguish between the two groups (Figure  ). These cells did not clearly differ in their patterns of metastasis in the latent space constructed by principal component analysis (PCA). While incorporating all genes into the model was theoretically possible, we aimed to simplify the model and facilitate the development of practical diagnostic assays by limiting the number of genes. To achieve this, we ranked genes based on their mutual information scores. We constructed random forest classifiers using varying numbers of top‐ranked genes and evaluated their performance. The model's performance plateaued after incorporating the top 13 genes with the highest mutual information scores (Figure  ). This 13‐gene model demonstrated excellent predictive power, with an area under the receiver operating characteristic curve (AUROC) of .929 (Figure  ). We visualized the expression patterns of these 13 genes in tumour cells from the high‐ and low‐risk metastasis groups (Figure  ), revealing distinct expression profiles between the two groups. Notably, nine of these 13 genes were upregulated in the APOE‐negative group, suggesting that their association with metastasis is not directly linked to APOE metabolism. To validate the model's clinical utility, we collected an additional 203 clinical samples obtained through surgery or biopsy and performed qPCR for the 13‐gene panel. Recognizing the potential differences between qPCR and scRNA‐seq data, we retrained the model separately for surgical and biopsy samples, using 70% of the data for training and the remaining 30% for validation. Both models exhibited excellent performance, with high scores for precision, recall and AUROC (Figure  ). Detailed patient information and diagnostic outcomes are presented in Table  .
+ In addition to the presence or absence of metastasis, the pattern of metastasis (central or CN) is also clinically significant. To address this, we employed a similar machine‐learning approach to distinguish between these two conditions. Consistently, only tumour cells were utilized to build the model (Figure ). We initially developed a model based on single‐cell data, incorporating 10 genes as features (Figure ). To further validate and refine the model, we collected additional clinical samples through biopsy. Unfortunately, we did not obtain a sufficient number of surgical samples for this purpose. Using qPCR data from the biopsy samples, we retrained the model and achieved satisfactory performance (Figure ). We are currently developing formal, rapid‐diagnostic approaches based on these trained models.
+
+3
+
+## MATERIALS AND METHODS
+3.1
+
+## Human participants
+A total of eight thyroid cancer patients were enrolled in this study. Fourteen samples were selected for single‐cell transcriptome sequencing, and eight samples were included for spatial sequencing. Among these patients, seven had papillary thyroid carcinoma, and one had medullary thyroid carcinoma. Detailed clinical information for these patients is provided in Table  . Tissue sections from 41 PTC surgical specimens were selected for immunofluorescence staining. Clinical information for these patients is available in Table  . A total of 203 thyroid cancer tissue DNA samples were obtained from punch biopsies of patients undergoing thyroidectomy. Clinical information for these patients is described in Table  . All human tissue samples used in this study were obtained with approval from the Human Ethics Committee of Ruijin Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai, China (2023LLSDN11).
+ 
+3.2
+
+## Haematoxylin and eosin staining
+Haematoxylin and eosin (H&E) staining was performed using standard protocols. Following deparaffinization and rehydration, sections were stained with haematoxylin solution for 5 min, followed by five consecutive washes with 1% acid ethanol (1% HCl in 70% ethanol). After rinsing with water, sections were stained with eosin for 3 min. Finally, the slides were dehydrated with a graded ethanol series and mounted with a coverslip. The stained slides were examined under a light microscope (Leica DM3000; Leica Microsystems).
+3.2.1
+
+## Tissue preparation and ST library construction
+We collected PTC tumour samples from Ruijin Hospital and subjected them to a rigorous preparation process prior to analysis with 10x Genomics’ Visium Spatial Transcriptomics platform. Initially, tissue samples were dissected into 4–5 mm3 pieces, cleaned and snap‐frozen in optimal cutting temperature (OCT) at −80°C. Subsequently, the samples were cryosectioned at a thickness of 10 µm and mounted onto ST arrays. Following dehydration with isopropanol and staining with H&E, the sections were imaged using a 3D HISTECH Pannoramic MIDI FL scanner at 40 × resolution. For library preparation, the Spatial Transcriptomics team employed slides featuring 55 µm diameter spots to capture mRNA from the tissue. During tissue optimization, sections were fixed and permeabilized on Visium Spatial Tissue Optimization Slides to bind mRNA to capture probes. Fluorescently labelled cDNA was synthesized and visualized to determine optimal permeabilization times. The mRNA‐captured cDNA was then spatially barcoded and sequenced, enabling precise mapping of gene expression back to its corresponding tissue location. This approach ensures a direct correlation between each gene expression spot and its source location within the tissue, crucial for understanding the spatial dynamics of gene activity within the tumour microenvironment.
+
+3.3
+
+## Spatial transcriptome and data analysis
+Spatial transcriptomic slides were printed with capture areas from four patients with lymph node metastatic thyroid cancer, the same patients from whom scRNA‐seq data was obtained. Gene expression information for these spatial transcriptomic slides was captured using the Visium Spatial Gene Expression platform (10x Genomics), employing spatially barcoded mRNA‐binding oligonucleotides, as per the manufacturer's instructions. Raw sequencing reads from the spatial transcriptomes were subjected to quality control and mapping. The demultiplexed clean reads were aligned against the UCSC human GRCh38 reference genome using Space Ranger (v. 1.3; 10x Genomics). After obtaining the single‐cell gene expression count matrix, we utilized Seurat v. 4.0 for downstream analysis on the R platform (v. 4.1.2; The R Foundation for Statistical Computing). In addition, we employed SpaGCN, a recently developed graph convolutional network, to differentiate spatial patterns and domains based on DEGs. In the SpaGCN analysis, the default mode was used to autonomously define domains within the spatial data. Super‐resolution tumour‐edge maps were generated using TESLA. Finally, integrated single‐cell and spatial data analyses were performed using CellTrek, a computational framework that facilitates the direct mapping of single cells to their spatial coordinates in tissue sections by integrating scRNA‐seq and spatial transcriptomic data. This integration enabled the generation of a cell−cell communication map. 
+
+3.3.1
+
+## Single‐cell sequencing experiments
+Collected PTC tumour tissues were processed into single‐cell suspensions for single‐cell RNA sequencing. Initially, tissues were washed thrice with cold Dulbecco's Phosphate‐Buffered Saline (DPBS, Gibco) following dissection, then incubated in a pre‐warmed digestion buffer containing 2 mg/mL collagenase I and II, .9 U dispase, trypsin and Dulbecco's Modified Eagle Medium (DMEM) at 37°C. The tissues were subsequently minced into smaller pieces and gently agitated on a 37°C heat block for 15 min. A small aliquot (10 µL) of the resulting suspension was examined under a microscope using a haemocytometer to assess cell dissociation. The cell suspension was then filtered through a 70‐µm cell strainer and washed with 5 mL DMEM. Cells were concentrated by centrifugation at 500 × g for 5 min at 4°C. The supernatant was discarded, and the cell pellet was resuspended in 50–100 µL DMEM supplemented with 10% DPBS. Cell density was adjusted to 700–1200 cells/µL prior to loading onto the 10x Genomics Chromium system. Gel Bead‐In‐EMulsions were formed, facilitating reverse transcription and barcode introduction. Following reverse transcription, first‐strand cDNA was isolated using magnetic beads. After quality control and quantification, the cDNA was used to construct a library with the 10 × Chromium Single Cell 5' Reagent Kits (v2, 10x Genomics) and sequenced on the Illumina NovaSeq platform.
+
+3.4
+
+## ScRNA‐seq analysis
+Single‐cell sequencing data were aligned and barcode‐demultiplexed using the Cell Ranger v. 3.0.2 vdj pipeline (10x Genomics). The data were filtered based on quality control criteria: cells with fewer than 800 detected genes, genes detected in fewer than 5 cells per dataset and cells with mitochondrial gene expression exceeding 10% of the total expression level were excluded. Potential doublets were removed by excluding cells with the top 5% of total transcript unique molecular identifiers (UMIs). Scrublet was also employed to further identify and remove doublets. All datasets were combined, and the top 2000 highly variable genes were selected. To account for technical variations, the total UMI counts and mitochondrial gene expression proportions were regressed out for each cell. The data was scaled, and PCA was performed to reduce dimensionality. Batch correction was applied using the BBKNN method with ‘donor’ as the batch key. These preprocessing steps were conducted using the Scanpy framework.
+Seurat was employed for downstream analysis. Initial clustering was performed using the FindClusters function with a resolution of .1 to identify major cell types. For subsequent sub‐clustering of immune cells, the resolution was set to .3. Known marker genes were utilized to annotate the clusters. CopyKat was employed to infer cell ploidy on a randomly down‐sampled dataset. To manage computational demands, cells were down‐sampled to 2000 cells per cluster before running this analysis. Default parameters were used for CopyKat (ngene.chr = 5, win.size = 25, KS.cut = .1). To validate CopyKatt results, we also applied the InferCNVsoftware. Using InferCNV version 1.12.0, we down‐sampled the data to select 7000 cells, ensuring equal representation of 1000 cells from each primary cell type. This process resulted in the retention of 26 428 features for subsequent analysis with InferCNV. Differential gene expression was determined using the FindMarkers or FindAllMarkers function with a fold‐change threshold of .25 and gene detection rate threshold (min.pct) set to .25. Only genes with an adjusted p‐value less than .05 were considered differentially expressed. Gene set enrichment analysis was conducted using databases incorporated in the enrich R package. Pseudo‐time analysis was performed using Monocle with default settings. The log fold change threshold was set to .5. Cell−cell interaction analysis was performed with the R package CellChat. 
+
+3.5
+
+## Immunofluorescence
+Standard immunostaining techniques were employed. Briefly, sections were permeabilized with .5% Triton X‐100 in phosphate‐buffered saline (PBS) for 10 min at room temperature and blocked with serum‐free protein‐blocking solution (Dako; Agilent Technologies) for 60 min. For colocalization staining, slides were sequentially incubated with primary antibodies. After incubation with the secondary antibody, sections were stained with 4',6‐diamidino‐2‐phenylindole (DAPI) for nuclear visualization. The sections were imaged using a confocal laser‐scanning fluorescence microscope (ZEISS). ImageJ software was used for quantitative analysis. The following antibodies were utilized: anti‐CK19 (MAB‐0829, MXB), anti‐APOE (Abcam Cat#ab51015) and anti‐Gr‐1 (Abcam Cat#ab238132).
+
+3.6
+
+## Cell culture and transfection
+Hth‐7 and TPC‐1 cell lines were purchased from Procell Company (BCRJ Cat# 0397, RRID:CVCL_6298). Cells were cultured in DMEM supplemented with 10% foetal bovine serum (FBS) and 1% penicillin‐streptomycin at 37°C in a 5% CO2 atmosphere. APOE overexpression control and lentiviral vectors were purchased from GenePharma. TPC‐1 and Hth‐7 cells were seeded in six‐well plates 24 h prior to transfection with viruses and transfection reagent (RNAi‐Mate, GenePharma). APOE‐overexpressing cell lines were selected and cultured in a medium containing 5 µg/mL puromycin.
+
+3.7
+
+## RNA isolation and qPCR
+Total cellular RNA was extracted using an RNA extraction kit (Takara Bio). The extracted RNA was reverse transcribed into cDNA using the Vazyme reverse transcription kit. The resulting cDNA was subjected to quantitative‐PCR (qPCR) using the SYBR Green kit (Vazyme). qPCR reactions were performed on a CFX96 Touch Real‐Time PCR Detection System (Bio‐Rad Laboratories, RRID:SCR_008426). The primers used for qPCR were as follows: βactin‐forward: 5′‐CATGTACGTTGCTATCCAGGC‐3′; βactin‐reverse: 5′‐CTCCTTAATGTCACGCACGAT‐3′. APOE‐forward: 5′‐ GTTGCTGGTCACATTCCTGG‐3′; APOE‐reverse: 5′‐GCAGGTAATCCCAAAAGCGAC‐3′. The relative expression levels were calculated using the 2‒ΔΔCt method.
+
+3.8
+
+## Cellular proliferative ability
+The TPC‐1 and Hth‐7 cells were seeded in 96‐well plates at a density of 2000 cells per well and incubated for 24 h. A CCK‐8 assay (Vazyme) was performed according to the manufacturer's instructions at 37°C in 5% CO2. The CCK‐8 reagent was added to each well and incubated for 2 h at 37°C. Optical density was measured at 450 nm using a SpectraMax 190 microplate reader (Molecular Devices).
+
+3.9
+
+## Colony formation assays
+We seeded 200 TPC‐1 and Hth‐7 cells per well into 6‐well plates and replaced the medium every 3–4 days. After a 2‐week incubation period, cells were fixed with 4% paraformaldehyde, washed three times with PBS and stained with .05% crystal violet for 30 min. The plates were then washed, and colonies containing more than 50 cells were photographed and counted.
+
+3.10
+
+## Transwell migration and invasion assays
+Transwell chambers (8‐µm pores; Corning) pre‐coated with Matrigel were employed for the invasion assay. Cells (2 × 105 cells/well) were cultured in the upper chamber in 200 µL of DMEM supplemented with 5% FBS. In the lower compartment, 700 µL of DMEM containing 20% FBS was added. After a 24‐h incubation period, cells were fixed with 4% paraformaldehyde, washed thrice with PBS and stained with .05% crystal violet for 30 min. Cells on the inner surface of the chamber were removed using sterilized cotton swabs. The cells were subsequently examined under a light microscope (Leica DM3000; Leica Microsystems). ImageJ software (ImageJ, RRID:SCR_003070) was utilized for quantification.
+3.10.1
+
+## Animals
+All mice were housed in specific pathogen‐free conditions and fed a standard chow diet. C57 mice were obtained from the Model Animal Research Center at Nanjing University, China. We generated APOE‐knockout mice using traditional CRISPR/Cas9 techniques. Briefly, we identified target sites for sgRNA using an online CRISPR design tool (http://zlab.bio/guide‐design‐resources) and designed sgRNA oligos targeting the APOE gene according to CRISPR/Cas9 system guidelines. In vitro synthesized RNA was then combined with Cas9 protein to form gRNA‐Cas9 complexes. Purified gRNA and Cas9 mRNA were injected into mouse zygotes. All animal procedures were approved by the Ethics Committee for Animal Experiments at Shanghai Jiao Tong University School of Medicine, ensuring adherence to ethical guidelines.
+
+3.11
+
+## Xenotransplantation model
+Female BALB/c nude mice, aged 3–4 weeks and weighing 13–15 g, were obtained from Shanghai Phenotek Laboratory Animal Co., Ltd. Tumour models were established by subcutaneously injecting1 × 10⁷TPC‐1 and Hth‐7 cells, suspended in Matrigel/PBS, into the left hind limbs of nude mice. Tumour size and mouse weight were monitored every 3–4 days. Tumour volume was calculated using the formula: .5 × length × width × width. After 2 weeks, mice were euthanized, and tumours were harvested, photographed and fixed with 4% paraformaldehyde. All animal studies were approved by the Animal Use Committee of Shanghai Jiao Tong University (SYXK 2018‐0027).
+
+3.12
+
+## Immunohistochemistry
+After dewaxing, samples were microwaved in ethylene diamine tetra acetic acid buffer and blocked for 60 min with a serum‐free protein‐blocking Solution (Agilent Technologies). Primary antibodies against APOE and ABCA1 (Abcam; 1:500 dilution) were applied to the sections and incubated overnight at 4°C. Subsequently, the tissues were incubated with secondary antibodies for 1 h at room temperature. The sections were then imaged using a confocal laser‐scanning fluorescence microscope (ZEISS). ImageJ software (RRID:SCR_003070) was employed for quantification.
+3.12.1
+
+## mRNA‐seq experiments and analysis
+Two cell lines, one with APOE overexpression and the other without, were harvested in triplicate for RNA extraction. Paired‐end sequencing libraries were prepared using the ABclonal mRNA‐seq Lib Prep Kit according to the manufacturer's protocol. Starting with 1 µg of total RNA, mRNA was isolated using oligo (dT) beads, fragmented and reverse transcribed into first‐strand cDNA using hexamer primers and Reverse Transcriptase (RNase H). Second‐strand cDNA synthesis followed. The resulting double‐stranded cDNA was subjected to adapter ligation and PCR amplification. The final library was purified and quality‐controlled using the Agilent Bioanalyzer 4150. Sequencing was performed on an Illumina NovaSeq6000 (or MGISEQ‐T7), generating 150 bp paired‐end reads.
+The initial processing pipeline involved cleaning raw fastq reads using custom Perlscripts. These scripts eliminated adapter sequences and discarded low‐quality reads with either a high proportion (over 60%) of bases having a low‐quality score (under 25) or a significant amount (more than 5%) of ‘N’ bases, which represent uncertain base information. The resulting clean reads were then aligned to a reference genome using Kallisto. To identify DEGs, DESeq2 software (http://bioconductor.org/packages/release/bioc/html/DESeq2.html) was employed. Genes with an absolute log2 fold change exceeding 1 and an adjusted p‐value less than .05 were deemed significantly differentially expressed. Finally, a well‐established gold standard pipeline was utilized for gene set enrichment analysis. 
+
+3.12.2
+
+## Sample preparation and LC‐MS/MS‐based metabolomics analysis
+Cell samples for metabolomics analysis were prepared as previously reported for LC‐MS. 
+
+Briefly, samples were fully ground under dry ice conditions, and the resulting mixture was concentrated to dryness via centrifugation. The sample was then reconstituted and centrifuged, and the supernatant was collected for LC‐MS/MS analysis. LC‐MS/MS was employed to monitor metabolite detection and quantification. The raw data underwent peak alignment, retention time correction and peak area extraction using the Compound Discovery program. Metabolite structures were identified based on accurate mass number matching (< 10 ppm) and second‐order spectrogram matching. R statistical software version 2.15.0 was utilized to perform multidimensional statistical analysis, including PCA, partial least squares‐discriminant analysis and orthogonal partial least squares‐discriminant analysis.
+
+3.12.3
+
+## Flow cytometry
+The spleens of C57BL/6 and APOE
+−/− mice were aseptically harvested, mechanically and enzymatically dissociated into single‐cell suspensions, and subjected to red blood cell lysis. Immune cell counts were determined using a cell counter. Following antibody staining, flow cytometry was employed to quantify mature DCs (CD45+CD11+CD80+CD86+), NK (CD11+CD3−NK1.1+), NKT (CD11+CD3+NK1.1+), M1 macrophage (CD45+CD11+CD86+), M2 macrophage (CD45+CD11+CD206+), CD4+T (CD45+CD3+CD4+) and CD8+T (CD45+CD3+CD8+). All antibodies were sourced from BD Biosciences.
+
+3.12.4
+
+## Machine learning and statistical analysis
+To develop a metastasis prediction model, we utilized thyroid tumour cells labelled as positive or negative based on patient phenotype. Gene expression served as features for prediction, with the feature space to the top 2000 highly variable genes and then ranked by mutual information with the labels using sklearn's SelectKBest function. A random forest classifier (100 trees, minimum three samples per leaf) was constructed, optimized by scanning feature numbers from 2 to 20 and assessed through five‐fold cross‐validation. Model performance was evaluated primarily using AUROC, along with recall and precision scores. The optimal model was selected based on the smallest feature set that achieved a performance plateau. A similar methodology was employed for training models for central or cervical metastasis, with distinct labelling based on patient phenotypes, excluding non‐metastatic samples. For in vivo and in vitro group comparisons, a Student's t‐test was performed. For TCGA survival analysis, Kaplan−Meier curves were computed and visualized to illustrate patient survival rates. Differences in survival across various categories were analysed using the log‐rank test. Additionally, univariate Cox proportional hazards regression was employed to evaluate the hazard ratios associated with each categorical variable.
+
+3.12.5
+
+## Quantitative PCR analysis of clinical samples for machine learning (ML)‐based prediction validation
+A total of 203 thyroid cancer patients who had undergone thyroid surgery and had complete pathological data were selected for this study, and their clinical information descriptions are provided in Table  . RNA was extracted from obtained by puncturing the thyroid cancer tissues, which were pathologically confirmed PTC tissues by a needle biopsy technique. The extracted RNA was subsequently reverse transcribed, followed by quantitative real‐time polymerase chain reaction (qRT‐PCR) to evaluate the accuracy of the machine learning models.
+
+4
+
+## DISCUSSION
+To our knowledge, this is the first scRNA‐seq analysis of metastatic PTC that integrates spatial information. By combining scRNA‐seq and spatial transcriptomics, we identified a group of thyroid cancer cells with relatively low APOE expression. According to the TCGA dataset, APOE expression was negatively correlated with overall survival. Our cell line experiments and nude mouse tumorigenicity assays further indicated that APOE overexpression inhibited tumour cell proliferation and migration. While APOE is primarily known for its role in lipid metabolism, recent studies have highlighted its involvement in cell proliferation, tumour angiogenesis and metastasis. , , , Consistent with our findings, two previous studies using TCGA data reported an association between low APOE expression and older age, advanced TM stage and shorter overall survival in PTC patients. , 
+APOE expression also varies among patients based on race, age, cancer stage, nodal metastases and histological subtype. , In our study, we identified APOE
+− tumour cells in 14 patients with advanced PTC at the single‐cell level and elucidated their role in a large tumour‐immune cell communication network. Overexpression of APOE in tumour cell lines reversed their proliferative phenotype in both cell and animal experiments. Additionally, we found that APOE overexpression influenced multiple pathways related to metabolic remodelling and immunity, which are crucial for tumorigenesis and cancer progression. Therefore, we propose that APOE expression can serve as a valuable biomarker for metastatic thyroid cancer.
+Although thyroid cancer is generally indolent, metastases to adjacent lymph nodes are common and can lead to a more advanced disease state. Lymphatic metastases primarily occur in the central region, followed by the lateral region, with cervical lymph node involvement being associated with a poorer prognosis. , , Compared to their counterparts in central compartment lymph nodes, thyroid cancer cells in cervical LNMs exhibited significantly lower APOE expression. A similar role of APOE expression has been identified in the metastases of melanoma cells and non‐small cell lung cancer. , , 
+APOE reportedly functions as a metastasis‐suppressive protein by inhibiting both the invasiveness of melanoma cells and the recruitment of endothelial cells, thus serving as a barrier to metastatic colonization. , An et al. also discovered a negative association between LNM and APOE staining intensity in small, preoperative biopsies of non‐small cell lung cancer patients. They further suggested that APOE might contribute to a metastasis‐inhibiting tumour microenvironment by modulating inflammatory factors and anticancer T cells.
+Our data further indicated that thyroid tumour cells with low APOE expression exhibited significantly decreased overall intercellular communication with immune cells, particularly NK and T cells. A separate bioinformatics analysis of APOE in PTC tissues revealed that genes co‐expressed with APOE were functionally enriched in adaptive immune response, cell chemotaxis and transcriptional misregulation. Moreover, APOE expression levels were correlated with tumour‐infiltrating immune cells and immune biomarkers in thyroid cancer. Regarding APOE’s role in immune modulation, Tavazoie et al. demonstrated that APOE, as a transcriptional target of liver X receptors (LXRs), can impair the survival and abundance of immunosuppressive MDSCs, both in vitro and in vivo. Conversely, APOE inactivation can impair immunity through MDSC accumulation. Our RNA‐seq data from APOE‐overexpressing thyroid cancer cell lines showed increased expression of ABCA1, a cofactor in LXR activation, suggesting that APOE overexpression may induce LXR, thereby potentially rescuing impaired immunity in tumours. By suppressing LXR, APOE may influence immunity by promoting MDSC accumulation in PTC. Consequently, LXR−APOE interactions could modulate the tumour microenvironment, potentially impacting immune cell composition.
+With the advantage of an integrated spatial transcriptome, we also discovered that thyroid tumour cells with low APOE expression interacted with DCs and CD4+ T cells via CD99‐regulated signalling but minimally interacted with the CD6 receptor. CD99 and CD6 are type I integral transmembrane glycoproteins broadly expressed in various cell types. CD99 isoforms have been reported to have opposing functions in mediating inflammation, T cell regulation, tumour cell invasion and migration. , , 
+CD6, in conjunction with its two known ligands (CD166 and CD318), is primarily responsible for adhesive contacts between T cells and antigen‐presenting cells, and subsequent proliferative and differentiative responses. , The observed discrepancies in CD99 and CD6 binding in APOE‐low thyroid tumour cells contribute to oncogenic functions, although the underlying mechanisms require further investigation. To explore the influence of APOE on immunity, we employed CRISPR/Cas9 gene editing technology. We found that while CD4+ and CD8+ T cell numbers remained unchanged, DC, NK and NKT cell abundance decreased in APOE‐knockout mice. Additionally, the proportion of peritoneal M1/M2 macrophages was attenuated in these mice.
+Meanwhile, some studies have drawn conclusions contrary to ours. , , , Huang et al. utilized the fat‐mass and obesity‐associated protein (FTO) to epigenetically inhibit APOE expression in PTC, leading to the inhibition of glycolytic metabolism via the IL‐T/JAK/STAT3 signalling pathway and subsequent suppression of tumour growth. Additionally, APOE has been reported to be overexpressed in several other malignancies, including bladder, breast and gastric cancer, , , and has been significantly correlated with tumour staging and LNM in pancreatic and endometrial cancer. , These discrepancies may be attributed to the existence of different APOE isoforms, as distinct isoforms could exert either protective or inhibitory effects on cancer development. , Further research is necessarily warranted to elucidate the specific impact of different APOE isoforms on thyroid cancer progression and metastasis. This conclusion is supported by evidence from other studies identified in our search. However, our study has not fully explored the precise molecular mechanisms underlying APOE’s influence on the tumour immune microenvironment. Future investigations are required to delve deeper into this impact. Simultaneously, probing the unique role of APOE in PTC is crucial for future clinical translation.
+We also developed a machine‐learning bioinformatics model based on scRNA‐seq data from in‐situ thyroid cancer tissues to establish a 13‐gene signature predictive of LNM. Our results were validated through qPCR, achieving a specificity and sensitivity of 90%. To our knowledge, only one previous machine learning‐based study has investigated molecular biomarkers of thyroid cancer progression, identifying a 25‐gene panel predictive of LNM with a sensitivity of 86% and a specificity of 62%. Compared to this previous study, our 13‐gene panel demonstrated improved predictive accuracy. Our panel was capable of predicting metastatic lymphadenopathy and even recurrence in patients with early‐stage, in‐situ thyroid cancer. This panel may aid oncologists in avoiding unnecessary fine‐needle aspiration and in determining appropriate subsequent treatment.
+
+5
+
+## CONCLUSION
+This study highlights the significance of APOE expression as a key characteristic of metastatic thyroid cancer. We observed a reduction in overall intercellular communication with immune cells, including DCs, NK cells and NKT cells, as well as a decrease in the proportion of peritoneal M1/M2 macrophages in APOE‐KO mice. LXR−APOE interactions can modulate the tumour microenvironment, potentially influencing immune cell composition. In summary, APOE promotes the proliferation, tumorigenic potential, migration and invasion capabilities of PTC cells by regulating the tumour immune microenvironment.
+
+## AUTHOR CONTRIBUTIONS
+Guohui Xiao wrote the main manuscript text. Rongli Xie, Jianhua Gu and Min Ding provided the study materials, reagents, patients, laboratory samples, animals, instrumentation, computing resources and other analysis tools. Yishu Huang performed experiments and analysis of the data. Dongjie Shen, Jiqi Yan and Jianming Yuan formulated the overarching research goals and aims. Qiong Yang and Wen He collected the specimens and patient clinical information. Siyu Xiao collated the data for analysis. Jian Wu provided pathological instructions. Jian Fei, Dan Xu and Haizhen Chen played the oversight and leadership responsibility for the research activity planning and execution, including mentorship external to the core team. All authors reviewed the manuscript.
+
+## CONFLICT OF INTEREST STATEMENT
+The authors declare no conflict of interest.
+
+## ETHICS APPROVAL AND CONSENT TO PARTICIPATE
+All human tissue samples obtained for this study were approved by the Human Ethics Committee of Ruijin Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai, China (2023LLSDN11).
+
+## CONSENT FOR PUBLICATION
+An exemption of signing an informed consent was given by the Ruijin Hospital committee given the retrospective study design.
+
+## Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+Supporting information
+
+## ACKNOWLEDGEMENTS
+This work was supported by the Natural Science Foundation of China (Grant Nos. 82100678), the Shanghai Municipal Science and Technology Commission (Grant Nos. 23ZR1440800), the Shanghai Municipal Health Commission (Grant Nos. 20214Y0223) and the Shanghai Huangpu District Health Commission (Grant Nos. 2021QN03, 2023GG01, and 2023XD02).
+
+## DATA AVAILABILITY STATEMENT
+The datasets generated and/or analysed during the current study are available in the Gene Expression Profiling Interactive Analysis 2 (GEPIA2) online tool (http://gepia2.cancer‐pku.cn) (Gene Expression Profiling Interactive Analysis, RRID:SCR_018294).  R code is available upon request. All scRNA‐seq data and ST data were uploaded to https://ngdc.cncb.ac.cn/gsa‐human/ with the project number: PRJCA021247.

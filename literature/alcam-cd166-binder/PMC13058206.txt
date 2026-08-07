@@ -1,0 +1,566 @@
+pmcTechnol Cancer Res TreatTechnol Cancer Res Treat3299tctTCTTechnology in Cancer Research & Treatment1533-03461533-0338SAGE PublicationsPMC13058206PMC13058206.113058206130582064194352210.1177/1533033826144043410.1177_153303382614404341Combination Strategies and Personalized Therapeutic Strategies for Cancer TreatmentReviewOutsmarting Metastatic Prostate Cancer: Integration of Imaging, Liquid Biopsies and Biomarkers With Artificial Intelligence
+HeJun-Xian https://orcid.org/0000-0003-2017-6575LiLuyuan ChenShuhong ChenRong-Jun ZhuangJia-Le LiuChang BurrowWesley ChangJonghoon TanzielaTanziela https://orcid.org/0000-0002-1605-8317BonfilR. Daniel WongNai-Kei 
+ and the most frequently diagnosed malignancy among men in the United States
+ 
+ and Europe. , Metastatic prostate cancer (mPCa), particularly in its castration-resistant form (CRPC), accounts for a large proportion of prostate cancer-related deaths. The primary risk factors for PCa include African ancestry,
+ 
+ and advancing age.
+ 
+ Additional contributors include genetic mutation,
+ 
+ family history,
+ 
+ smoking,
+ 
+ obesity and diets high in fat.
+ 
+ Although recent advances, such as androgen receptor (AR) targeted therapies, taxanes, radioligands, and PARP inhibitors have expanded therapeutic options, outcomes remain variable and unpredictable, largely due to the profound intra- and inter-tumor heterogeneity of the disease.
+Typical treatment pathway for PCa involves several stages: initial evaluation, confirmatory diagnosis, treatment selection, treatment intervention, and monitoring and prognosis. During initial evaluation, patients with suspected PCa routinely undergo rapid screening tests, including a digital rectal exam (DRE) and prostate specific antigen (PSA) test.
+ 
+ If uncertainty remains, additional diagnostic procedures are undertaken to confirm the disease. Commonly used approaches include imaging, tissue biopsy, liquid biopsy, genetic testing and patient stratification.
+ 
+ Imaging modalities consist of magnetic resonance imaging (MRI),
+ 
+ transrectal ultrasound (TRUS),
+ 
+ and positron emission computed tomography (PET), among others. Biopsy refers to the histological analysis of patient-derived tissue samples,
+ 
+ while liquid biopsy represents a non-invasive option that evaluates circulating biomarkers. Relevant biomarkers include molecular and cellular indicators as well as exosomes. - Patient monitoring enables real-time assessment of disease status, while prognosis ultimately enables evaluation of survival and mortality outcomes after treatment.
+In clinical settings, implementation of treatments for metastatic prostate cancer (mPCa) has long relied on established protocols, but these often struggle with tumor heterogeneity and resistance, limiting personalized care. As source of solutions, artificial intelligence (AI) is increasingly being integrated into clinical workflows, offering data-driven insights that augment human decision-making and enable more adaptive strategies. This transition from conventional clinical implementation to AI-enhanced approaches marks a pivotal evolution in oncology, promising greater precision and efficiency.
+AI refers to the creation of computational systems designed to carry out tasks that traditionally require human cognition, such as pattern recognition, learning, reasoning, and decision-making. Over the past decade, AI, particularly through machine learning (ML) and deep learning (DL) approaches, has demonstrated transformative potential in biomedical research by efficiently uncovering complex patterns within large-scale datasets, including imaging, genomics, and electronic health records. Within oncology, AI has markedly improved the precision and efficiency of cancer detection, prognosis, and treatment planning. - Specifically, for PCa, AI algorithms trained on multiparametric MRI and digitized pathology slides enhance tumor identification, automate Gleason scoring, and aid clinical decisions regarding active surveillance or therapeutic intervention. - Moreover, new AI applications are being used to forecast resistance to androgen receptor–targeted therapies and to delineate molecular profiles linked to aggressive disease states.
+ 
+ As AI technology continues to progress, its incorporation into clinical practice offers strong potential for more tailored and precise cancer management.
+Current pathology assessment in PCa faces several limitations. Major challenges include diagnostic subjectivity,
+ 
+ the labor-intensive nature of evaluation and a shortage of trained pathologists.
+ 
+ These issues highlight the need for AI-assisted diagnostic tools. AI encompasses a broad range of computational approaches, with machine learning and its subfield deep learning forming core components. Increasingly, AI has already shown strong potential in medicine, particularly in the analysis of medical images. , In PCa, applications include auto-segmentation, image registration, distinguishing benign from malignant lesions, tumor grading, and early diagnostic support in regulatory contexts. - Furthermore, AI-driven biomarker analysis has contributed to the discovery of novel biomarkers and has been applied to both diagnosis and prognosis of PCa. - Despite these advances, AI-assisted tools are not without limitations. Issues such as data standardization,
+ 
+ interpretability,
+ 
+ bias and fairness
+ 
+ and validation
+ 
+ remain unresolved and require continued investigation.
+In this review, we outline the characteristic features and overall pathology of PCa. In addition, we provide a discussion of current diagnostic approaches, including imaging and liquid biopsy techniques. We highlight the integration of AI in clinical decision-making, with particular emphasis on its applications in biomarker-based diagnosis, prognosis, and novel biomarker discovery. Lastly, we address the key challenges and future opportunities in this field while providing our perspectives on potential directions for advancing PCa research and management.
+
+## 1.1. Search Strategy
+Literature search was conducted in PubMed, Embase, Scopus, Web of Science, and Cochrane Library for studies published between January 2015 and December 2025. Search terms included “prostate cancer,” “artificial intelligence,” “medical imaging,” “liquid biopsy,” “biomarkers,” “multiparametric MRI,” “PET/CT,” “ultrasound,” “cell-free DNA,” and “circulating tumor cells.” Inclusion criteria were primary references of original research, systematic reviews, and meta-analyses reporting on AI integration with imaging or liquid biopsy in metastatic prostate cancer. Data extraction focused on sample size, validation status, and key limitations. Risk of bias was assessed by using QUADAS-AI and PROBAST tools. - 
+
+## 2. Current State of PCa Management
+
+## 2.1. Prevalence and Features of PCa
+PCa is the most frequently diagnosed noncutaneous malignancy and the second leading cause of cancer-related death among men in the United States.
+ 
+ Most PCa-related mortality arises from metastatic disease. Prognosis for localized PCa is excellent, with a 5-year survival rate of 99%. However, this rate declines sharply to approximately 30% in patients with distant metastases. , Once becoming metastatic, PCa frequently progresses to a castration-resistant or androgen-independent state, creating significant therapeutic challenges. Although a definitive cure for metastatic castration-resistant prostate cancer (mCRPC) has yet to be achieved, advances in prognostic markers, novel technologies, and therapeutic strategies are rapidly reshaping the treatment landscape.
+ 
+
+## 2.1.1. Heterogeneity
+Heterogeneity is one of the most common features of PCa. This disease hallmark of PCa arises from both inherent biological differences among individuals and differences in datasets. Age, race and geographic factors can contribute to the inherent heterogeneity of PCa, while differences in race can cause differences in PCa development. For example, FOXA1 mutations occur more frequently in Asian populations compared with European and American populations.
+ 
+ However, most of the studies are limited to populations in Western countries.
+ 
+ Multiple factors can cause heterogeneity of the PCa dataset, including staining variation,
+ 
+ artifacts
+ 
+ and imaging differences between scanners.
+ 
+ In contrast to conventional approaches, AI promises to offer the following technological capabilities. AI-based radiomics and machine learning can extract and quantify subvisual features of intratumoral heterogeneity that exceed human cognitive capacity in pathology practice.
+ 
+ Specifically, habitat-based imaging using AI can partition tumors into distinct subregions based on imaging characteristics, providing quantitative measures of heterogeneity that predict aggressive disease and treatment resistance. , These approaches generate information about cancer cell subpopulation heterogeneity and tissue microarchitecture using both explicit and implicit features.
+ 
+ AI software can track individual metastatic lesions across serial imaging timepoints to identify mixed responses where some lesions progress while others respond—a common clinical challenge in metastatic castration-resistant prostate cancer.
+ 
+ This automated analysis can detect oligo-progression suitable for directed radiotherapy or identify early widespread progression indicating need for treatment change, even when overall disease appears stable.
+ 
+ The ability to concisely assess disease status across multiple heterogeneous lesions addresses a critical gap in managing high-volume disease.
+ 
+
+AI algorithms applied to histopathology can predict molecular aberrations (BRCA, homologous recombination deficiency, mismatch repair deficiency) from H&E slides, typically achieving AUCs of 0.72-0.91
+ 
+. This allows pre-screening to identify which patients harbor targetable molecular alterations without requiring expensive molecular testing of all lesions, thereby addressing inter-tumoral molecular heterogeneity.
+ 
+ AI can also identify novel cancer-related genes and predict resistance patterns to antiandrogen therapy.
+ 
+ Advanced radiomic approaches are capable of modeling inter-lesion relationships within individual patients, creating network-based representations that capture how multiple heterogeneous lesions collectively define disease phenotype and prognosis.
+ 
+ This moves beyond single-lesion analysis to characterize the “entire” patient based on their constellation of heterogeneous “unit”.
+ 
+ AI models combining imaging, genomic, and clinical data enable tailored treatment strategies that account for heterogeneity by predicting which patients will benefit from specific therapies, optimal androgen deprivation therapy duration, and risk of progression. , Machine learning can identify cell line phenotypes resistant to therapy and detect novel targetable signaling pathways.
+ 
+
+## 2.1.2. PCa Development
+PCa development includes three stages: Initial stage, localized PCa and metastatic PCa. In the initial stage of PCa development, chronic inflammation is present, which later progresses to proliferative inflammatory atrophy (PIA), a benign precursor of prostatic intraepithelial neoplasia and PCa.
+ 
+ According to one study, chronic inflammation is a key feature in the development of many cancers, including PCa.
+ 
+ This process can induce epithelial hyperplasia and oxidative DNA damage in prostate epithelial cells.
+ 
+ PIA is hypothesized to result from regenerative proliferation of prostate epithelial cells following injury, a process mediated by inflammatory oxidants.
+ 
+
+AR plays a crucial role in the localized stage of PCa. As a ligand-dependent transcription factor, AR drives PCa development and progression. Upon binding with ligands (dihydrotestosterone, testosterone, or other androgens), AR translocates to the nucleus, dimerizes, and regulates the expression of various genes that promote cell proliferation or inhibit apoptosis. , As PCa advances, patients often develop obstructive urinary symptoms including difficulty urinating, a weak urine stream, or pain during urination.
+Metastatic PCa represents a more advanced and severe stage compared to localized disease, often characterized by a greater symptom burden and higher mortality. It commonly involves the axial skeleton but may also spread to the lungs, liver, pleura and adrenal glands.
+ 
+ Bone metastases, in particular, are frequently associated with significant pain.
+
+## 2.2. Diagnosis and Treatment
+Typical PCa treatment pathway includes initial evaluation, diagnosis, treatment planning, therapy administration, continued monitoring to guide prognosis.
+
+## 2.2.1. Diagnosis
+In initial evaluation, general practitioners (GPs) will obtain the medical history and perform relevant physical examinations on patients suspected of having PCa. The two most common assessments are DRE and PSA test. The DRE allows palpation of the prostate to detect abnormalities while PSA test measures the level of PSA, a protein produced by the prostate gland, in the blood. So far, PSA testing remains the most commonly used diagnostic test for PCa
+ 
+ and plays a crucial role in both diagnosis and prognosis for PCa. , In general, higher PSA levels are associated with an increased likelihood of PCa. The American Urological Association provides threshold guidelines for interpretation of PSA concentrations.
+ 
+
+However, higher PSA levels can also rise with non-malignant conditions, such as benign prostate hyperplasia, which becomes common with increased age in male. PSA levels can also be elevated following prostate inflammation, leading to false-positive cases where men with normal PSA levels are diagnosed with PCa and false-adverse cases where men with normal PSA levels still harbor cancer.
+ 
+ Therefore, PSA is not considered a PCa-specific biomarker.
+ 
+ To improve diagnostic accuracy, clinicians may consider PSA density (calculated by dividing the PSA level by prostate volume)
+ 
+ or using other ancillary tests such as the free-to-total PSA (fPSA) percentage, prostate health index (PHI), 4K score, etc.
+ 
+ Among these options, fPSA has demonstrated particular utility to increase diagnostic accuracy.
+ 
+ Importantly, advanced imaging is required to confirm PCa diagnosis. Commonly used imaging modalities include multiparametric MRI (mpMRI), transrectal ultrasound (TRUS), positron emission computed tomography (PET), among others. Findings from these evaluations are then reviewed by a clinical team to tailor treatment strategies collaboratively with the patient.
+ 
+
+## 2.2.2. Cancer Genetics
+Genome-wide association studies (GWAS) refer to a research method for uncovering genetic factors associated with complex diseases by analyzing large-scale population DNA samples.
+ 
+ In recent years, GWAS have been successfully applied to resolve genetic components of many complex human diseases, including PCa.
+ 
+ For example, SPOP, a gene that encodes a substrate-binding unit of a Cullin-based E3 ubiquitin ligase, along with TP53 and PTEN, is reported to be among the most frequently mutated genes identified in several studies of localized PCa.
+ 
+ In addition, most PSA-screened PCa in White patients have recurrent gene fusions, typically fusing the 5ʹ untranslated region of an androgen-regulated gene to nearly the entire coding sequence of an ETS-family transcription factor.
+ 
+ Genetic analysis of key PCa-associated biomarkers can aid in patient stratification based on PCa risks. For example, by using biopsy tissues, a cell-cycle progression score based on 31 genes can predict clinical progression and PCa-related mortality.
+ 
+
+## 2.2.3. Treatment
+Multiple treatment options exist for PCa. Active surveillance (AS) is suitable when immediate treatment does not offer additional benefits. Radiotherapy (RT) aims to kill cancer cells by carefully balancing radiation dose distribution, target volume and organ-at-risk considerations. Brachytherapy, another RT-based treatment, uses implanted radioactive sources in the prostate to localize therapeutic radiation.
+ 
+ Surgery is another effective approach, with prostatectomy being the most preferred curative option.
+ 
+
+Other treatment modalities are emerging at the clinic, which include cryotherapy, hormone therapy, chemotherapy and immunotherapy. Cryotherapy uses gas inserted through needles to freeze cancer cells, where AI shows potential in predicting optimal temperatures settings.
+ 
+ Continuous monitoring is also important for predicting prognosis with AI partaking the real-time monitoring and prognosis modeling. For postoperative prognosis following radical prostatectomy (RP), predicting the likelihood of biochemical recurrence (BCR) and selecting adjuvant therapies or other treatment options are critical considerations. , 
+For localized PCa, common treatment strategies include active AS, RP and RT. RP is considered the preferred strategy for low-risk PCa
+ 
+ with the primary goal of curing the disease while preserving continuance and sexual function. Among RT strategies, external beam radiotherapy (EBRT) is a standard curative treatment for men with low to intermediate-risk disease.
+ 
+ In a 5-year post-treatment follow-up study,
+ 
+ men treated with RP experienced worsened urinary incontinence compared to those who underwent EBRT, though both groups reported similar declines in sexual function due to erectile dysfunction.
+For metastatic PCa, androgen deprivation therapy (ADT) remains the standard of care. ADT has been shown to improve survival rate but is also associated with some adverse effects, including osteoporosis, loss of libido, sexual dysfunction, metabolic disturbances, and fatigue.
+ 
+ A combination therapy of taxanes and ADT has also been employed. Taxanes stabilize microtubules, preventing cancer cells from dividing, thereby promoting apoptosis. Docetaxel, a taxane chemotherapeutic agent that binds and stabilizes beta tubulin within microtubules, prevents depolymerization during mitosis and induces apoptosis.
+ 
+ Clinical studies have demonstrated that docetaxel improves overall survival in metastatic PCa.
+ 
+ However, resistance often develops, leading to disease progression.
+ 
+
+Apart from chemotherapy, androgen-signaling targeted inhibitors such as abiraterone acetate and enzalutamide have been utilized in metastatic PCa. - Immunotherapy and bone-targeted radiopharmaceutical agents provide additional options. Sipuleucel-T, for example, consists of autologous peripheral blood mononuclear cells activated ex vivo with a recombinant fusion protein comprising the prostate antigen, prostatic acid phosphatase and an immune cell activator.
+ 
+
+Gene-directed therapies are also available. BRCA2 is the most commonly mutated DNA repair gene in PCa and this underscores the potential benefit of poly(ADP-ribose) polymerase (PARP) inhibition and platinum-based chemotherapy.
+ 
+ Olaparib, a PARP1/2 inhibitor, already approved for advanced ovarian and breast cancers with germline BRCA1/2 mutations, has been considered in PCa management.
+ 
+ Despite these therapeutic advances, questions remain regarding optimal sequencing and combination of available treatments. More importantly, effective strategies of personalizing therapy to maximize benefit for individual patients are still lacking.
+
+## 2.2.4. Prognosis
+In terms of prognosis in PCa treatment, extensive studies indicate that the mortality rate for men treated with active surveillance is approximately 1% at 10 years. , Furthermore, research has revealed that combining enzalutamide with ADT significantly reduced radiographic disease progression or death by 61% compared with placebo plus ADT.
+ 
+ In addition, a study demonstrated the benefit of adding docetaxel to ADT for patients with hormone-sensitive prostate cancer (mHSPC), especially those with high-volume disease.
+ 
+ As for RP, a trial that randomly assigned 695 men with localized prostate cancer showed an overall mortality rate of 56% at 18 years for those treated with RP.
+ 
+ Finally, regarding the prognosis of radiotherapy (RT), a study that compared mortality rates between patients receiving hormonal treatment alone (3 months of total androgen blockade followed by flutamide) and those receiving the same hormonal treatment combined with radiotherapy showed that radiotherapy significantly improved 10-year overall mortality.
+ 
+
+ADT treatment, however, can lead to drug resistance. Metastatic PCa is divided into metastatic hormone-sensitive prostate cancer (mHSPC) and metastatic castration-resistant prostate cancer (mCRPC) based on their response to ADT.
+ 
+ Nearly all patients with mHSPC treated with ADT will eventually progress to the lethal stage of mCRPC. , The median survival for men with mCRPC is only 10 to 12 months in the absence of effective treatment strategies.
+ 
+
+## 2.3. Medical Imaging
+Magnetic resonance imaging (MRI) is an imaging technique that utilizes a combination of magnetic fields and radio waves to capture comprehensive images of organs and tissues. MRI plays an important role in diagnosis, and is a significant alternative method to TRUS guided biopsy for accurately excising target tissues. - However, MRI is subject to certain drawbacks. The resolution of MRI is important, but higher resolution comes at a higher cost. The need for higher quality imaging has provided an impetus for innovation, with AI tools being developed to enhance the resolution of MRI.
+To improve diagnostic accuracy, the application of multiparametric MRI (mpMRI) in diagnosis proves particularly relevant. Undergoing mpMRI before biopsy has been recommended by both the European Association of Urology (EAU) and the American College of Radiology (ACR). , The examination typically takes about 20 to 45 minutes, and afterwards, a radiologist assesses the prostate by performing anatomical measurements (dimensions and volumes), calculations of PSA density, and assessment of the MRI scans. The result is measured using the PI-RADS scale, the most used classification system for the interpretation and reporting of prostate MRI.
+ 
+ mpMRI comprises different types of images, including: T1W&T2W, Diffusion-weighted, Magnetic resonance spectroscopy (MRS). And Dynamic contrast-enhanced (DCE) MRI. Typically, T1W images and T2W images are used to visualize soft tissue anatomy, particularly water and fat content.
+ 
+ T1W images suffer from low zonal anatomy discrimination and post-biopsy artifacts.
+ 
+ In T2W images, PCa appears homogenous, hypointense, and ill-delineated , due to diminished water content.
+ 
+ Diffusion-weighted image contrast is generated by the random microscopic motion of water protons. In diffusion-weighted images, bright lesions are visible due to the dense collagen-rich tumor microenvironment. , Magnetic resonance spectroscopy (MRS) provides metabolic information, with PCa lesions exhibiting higher quantities of choline and lower levels of citrate due to the higher cell membrane turnover and density. , Dynamic contrast-enhanced (DCE) MRI is a technique that monitors the distribution of a gadolinium-based contrast agent for a period of time after the intravenous injection.
+ 
+ In DCE-MRI images, PCa appears to have earlier, faster, and more intensely enhancing areas due to the high density and increased permeability of angiogenic microvasculature.
+ 
+
+PET is primarily used for cancer staging, tracking the effects of radiotherapy, and the detection of metastases. The development of AI assisted tools focusing on PET scan assistance has been an unpopular option for PCa diagnosis, as PET is most often employed alongside CT images.
+ 
+ Transrectal Ultrasound (TRUS) was first introduced in 1968
+ 
+ and was primarily used for guiding systematic biopsy.
+ 
+ TRUS takes advantage of echoes: high-frequency sound waves generated by the transducer travel through the body and reflect back when they encounter an object, with the returning echoes providing information about the internal structures. Typically, an ultrasound probe is inserted into the rectum to obtain US images, while biopsy needles are simultaneously inserted into the prostate to retrieve the tissue samples.
+
+## 2.4. Artificial Intelligence (AI)’s Potential in PCa Applications
+Traditional diagnostics, including PSA, digital rectal exam, and TRUS-guided biopsies, lack specificity and fail to capture the dynamic molecular landscape of PCa. In recent years, technologies such as mpMRI, Prostate-Specific Membrane Antigen Positron Emission Tomography (PSMA-PET), liquid biopsies (cfDNA, CTCs), and gene signature panels (e.g., Decipher, Oncotype Dx) have improved risk stratification. However, the full potential of these technologies is limited by the complexity and volume of data they generate. Artificial Intelligence (AI) offers the capacity to analyze and integrate heterogeneous data, identify hidden patterns, and facilitate real-time clinical decision-making. In this review, we explore the roles and implications of AI in transforming the diagnostic and therapeutic landscape of metastatic prostate cancer.
+
+## 2.4.1. Theory
+Artificial intelligence (AI) encompasses an extremely diverse field of computational methods. Machine learning and, more specifically, deep learning have become two of the most prevalent forms of AI in the healthcare space. Machine learning strategies can be categorized into supervised learning, unsupervised learning and semi-supervised learning, while deep learning is a subfield of machine learning. Machine learning models are developed from direct data input and are then capable of performing discriminative and generative tasks. , , Data input to a supervised learning model is labeled, while in unsupervised learning models, unlabeled data is provided and the models find hidden patterns within the data. Semi-supervised learning is a combination of both supervised learning and unsupervised learning, wherein models are trained on small and labeled datasets, then tested on larger datasets. Within the field of machine learning, artificial neural networks (ANNs) represent one major approach, and deep learning is a specialized subfield of neural networks. ANNs are universal function approximator , that are capable of discriminative and generative tasks.
+ 
+ ANN systems consist of artificial neurons, also called hidden layers, with each layer transforming the input data into an output by multiplication with the weight matrix.
+ 
+ Deep learning is a more complex ANN architecture connected by multiple layers for extracting features.
+ 
+ Deep learning includes convolutional neural networks (CNNs), generative adversarial networks (GANs), transformers and so on. CNNs are a series of filter layers for image processing,
+ 
+ which consists of a convolution layer, pooling layer, and fully connected layer.
+
+## 2.4.2. Application
+AI displays immense potential in facilitating the entire PCa diagnostic pathway. AI application within this pathway is shown in . For now, human assessments in PCa treatment demand AI assisted tools due to inherent subjectivity, processing time and a shortage of human labor. Human assessment is inevitably susceptible to subjectivity, which causes low consistency of diagnostic and prognostic results. , It is vital to increase diagnostic accuracy as misdiagnosis can result in mistreatment. , Human assessment is time-consuming and laborious so there is a need of AI-assisted tools. Multiple AI-assisted analytic modalities have been explored in metastatic prostate cancer, ranging from mpMRI and PSMA PET/CT–based imaging tools to machine learning approaches applied to TRUS, cell-free DNA, and circulating tumor cells. However, these approaches vary substantially in validation maturity and face modality-specific limitations ( ). According to one study, each patient undergoes at least 12 needle biopsies, producing 15 million biopsy samples per year worldwide,
+ 
+ which places a significant burden on pathologists, worsening the already dwindling supply of pathologists available to evaluate these samples.
+ 
+ To aid human assessment, computer-aided design (CAD) algorithms have been developed since the 1990s.
+ 
+ Presently, AI demonstrates promising results in the medical field, especially through the analysis of medical images. - Several AI tools have gained approval from the US Food and Drug Administration.
+ 
+ With the advent of whole slide imaging (WSI) scanners - and digitalization of pathology laboratories, the future of AI in PCa treatment is promising.
+ 
+ 
+AI, such as machine learning/deep learning, has empowered substantial improvements in diagnostic accuracy and precision for CRPC through advanced image analysis and automated segmentation techniques. Deep learning algorithms applied to multiparametric MRI achieve area under the curve (AUC) values of 0.768-0.854 for predicting progression to CRPC, with multimodal fusion models combining radiomics and clinical features reaching accuracies up to 94.2%. - AI-powered automated segmentation of PSMA PET/CT imaging demonstrates 98% accuracy in identifying lymph node involvement and metastatic disease, with sensitivity ranging from 62-97%, while significantly reducing inter-reader variability and reporting time. , In digital pathology, AI systems provide automated Gleason grading with 97.7% sensitivity and 99.3% specificity on core biopsies, minimizing inter-observer variability and enabling consistent risk stratification. , These AI-based diagnostic tools not only enhance lesion detection and characterization but also reduce nonessential biopsies through high negative predictive values (97.5-98.0%) when configured for high-sensitivity rule-out, thereby decreasing overdiagnosis and improving workflow efficiency. , 
+Consistently, AI technologies are transforming treatment selection, therapeutic monitoring, and prognostic prediction in CRPC through integration of multimodal clinical, genomic, and imaging data. Machine learning-based decision support systems for optimal sequencing of CRPC agents achieve C-indices of 0.729-0.827 for predicting cancer-specific and overall mortality across first-, second-, and third-line treatments, enabling personalized visualization of survival outcomes for individual patients.
+ 
+ AI-enabled prognostic tools analyzing H tissue images successfully stratify patients by metastatic risk, with high-risk groups showing significantly shorter metastasis-free survival (hazard ratio 0.19-0.39 for treatment benefit), facilitating early treatment intensification decisions. , Automated volumetric tumor burden assessment using AI on PSMA PET/CT predicts survival after Lu-177-PSMA therapy with C-indices of 0.71, demonstrating significant differences in median overall survival between low-risk and high-risk groups (30.9 vs 7.9 months).
+ 
+ Furthermore, AI platforms like CURATE.AI enable dynamic dose optimization for combination therapies by continuously predicting optimal drug doses based on individual patient response profiles (R
+2
+=0.96 for dose-efficacy correlation), improving treatment tolerability while maintaining efficacy.
+ 
+ These AI-driven approaches have facilitated precision medicine by identifying genomic biomarkers (BRCA mutations, HRR defects, MSI-H/dMMR status) that predict treatment response to PARP inhibitors and immunotherapy, guiding selection of targeted therapies and improving clinical outcomes while restricting treatment-related toxicity. , 
+
+## 3. AI in Imaging for Metastatic Prostate Cancer
+AI has a wide range of applications in medical imaging. As shown in , AI demonstrates capabilities in assisting diagnosis with medical images. 
+
+## 3.1. Multiparametric MRI (mpMRI)
+AI-enhanced analysis of mpMRI has significantly improved the detection of clinically significant prostate lesions. A study revealed the potential in applications of AI algorithms for prostate gland segmentation, lesion identification, and classification using mpMRI and TRUS-Bx images.
+ 
+ AI can assist in several tasks on MRI images, including auto-segmentation, longitudinal comparison, lesion detection and classification, and PI-RADS scoring. Segmentation is required for accurate volume assessment. Deep learning approaches have shown more promising results, with DICE scores (a measurement of the overlap between the algorithm’s output and a ground truth) ranging from 80% to 90%. , According to the results, the Dice similarity coefficient was 87.12% for the entire prostate and 76.48% for the transition zone. In the prostate mpMRI longitudinal comparison process, it is necessary to review prior examinations and compare them to recent results, and AI-assisted comparisons can help identify subtle and tiny changes. AI can highlight suspicious areas on the images for lesion detection and classification tasks.
+ 
+ The results demonstrated that this AI system improved prostate cancer detection performance, achieving an area under the curve (AUC) of 0.93. In terms of PI-RADS scoring, one approach is to use a model to provide several components for radiologists, with the final decision made by the radiologists; the other approach is to train an algorithm to output the PI-RADS score directly.
+ 
+ Typically, the second type of algorithm outputs a pathology-based Gleason score instead of a PI-RADS score. For the 1,034 detected lesions, the kappa score between the AI system and the expert radiologist was moderate at 0.40. However, in 86 patients undergoing targeted biopsy, there was no significant difference in the detection rates of clinically significant cancer across any PI-RADS scores (P = 0.4–0.6).
+
+## 3.2. PET Imaging and Theranostics
+AI models have been applied to PSMA-PET/CT imaging for lesion detection and quantification. DL algorithms can distinguish bone metastases from benign degenerative changes and identify patterns predictive of treatment response. Theranostic applications, such as 177Lu-PSMA-617, are being paired with AI-driven models to optimize patient selection and monitor therapeutic efficacy.
+PET is mostly used for cancer staging, tracking the effects of radiotherapy, and the detection of metastases. The field of AI-assisted tools used alongside PET for the diagnostic approach to PCa has not become very relevant as PET is not the optimal choice for PCa diagnosis.
+ 
+ PET is often used alongside CT imaging and AI-assisted tools typically operate and train using PET/CT images. AI has been applied on PET/CT images for both auto-segmentation and prognosis prediction tasks. For example, CNNs have been applied to auto-segmentation tasks on 18F-choline (FCH) PET/CT scans obtained prior to radical prostatectomy (RP) in 45 patients with newly diagnosed PCa.
+ 
+ The mean weight (range) of the prostate specimens was 44 g (20–109 g), while the CNN-estimated volume was 62 mL (31–108 mL), with a mean difference of 13.5 g or mL (95% CI: 9.78–17.32). Additionally, researchers proposed a deep learning model for localization and identification of cancer sites by combining hand-crafted perfusion-based features with deep autoencoder-based features generated from a dynamic
+ 
+ C-choline-PET/CT image set.
+ 
+ This model achieved a detection performance AUC = 0.812 for the benchmark set of 12 cases. To predict disease progression, Aloni et al proposed a model based on the analysis of PET/CT images,
+ 
+ obtaining the best performance in discriminant analysis (DA) classification (Sensitivity 72%, Specificity 68%, and Accuracy 69%).
+
+## 3.3. Transrectal Ultrasound (TRUS) Imaging
+Transrectal Ultrasound (TRUS) provides detailed imaging of the prostate gland and the surrounding tissue.
+ 
+ TRUS can also be used to assess prostatic volume
+ 
+ and in the detection and staging of lesions.
+ 
+ It is highly recommended to use TRUS in suspicious areas,
+ 
+ as sonogram images help determine the location of the biopsy needles and the origin of the tissue samples.
+ 
+ Even though TRUS has achieved great success, it still has some drawbacks, such as limited results and a high false positive rate. About 30% of prostate malignancies are isoechoic , and benign hyperplasia and prostatitis also appear as hypoechoic lesions in greyscale TRUS.
+ 
+ One study proposed a deep learning model for real time auto-segmentation using TRUS images.
+ 
+ The model performance results demonstrated significant improvements in prostate segmentation compared with conventional automated techniques, achieving a median accuracy of 98% (95% CI: 95–99%), a Jaccard index of 0.93 (0.80–0.96), and a Hausdorff distance of 3.0 mm (1.3–8.7 mm). In addition, Zhu et al employed a deep convolutional neural network for image registration of 3-dimensional transperineal ultrasound prostate images.
+ 
+ As the results showed, convolutional neural network registration errors were smaller than 5 mm in 81% of the cases for 83 image pairs from 5 patients.
+Tumor hypoxia is linked with aggressive phenotypes and treatment resistance. By means of unsupervised clustering and curve fitting on DCE-MRI, AI can delineate tumor subregions (habitats) with distinct perfusion profiles. Interestingly, these subregions often correlate with genomic signatures of hypoxia (e.g., EPAS1, HIF3A).
+
+## 4. AI in Liquid Biopsy Interpretation
+Liquid biopsy technologies, such as the analysis of cell-free DNA (cf-DNA), circulating tumor cells (CTCs), and exosomes, have revolutionized the non-invasive monitoring of mPCa by providing real-time insights into tumor dynamics, genomic alterations, and therapeutic responses. However, the high-dimensional and noisy nature of these biomarker datasets often challenges traditional analytical methods, leading to limitations in sensitivity, specificity, and clinical interpretability. AI, through machine learning (ML) and deep learning (DL) algorithms, significantly enhances the interpretation of these biomarkers by automating feature extraction, identifying subtle patterns, and integrating multimodal data for more accurate predictions. The following sections discuss detailed specific AI applications in liquid biopsy components.
+
+## 4.1. Cell-free DNA (cfDNA)
+There is growing interest in the genomics and proteomics of PCa as gene mutations play a critical role in the development of PCa.
+ 
+ Numerous biomarkers have been identified - ; however, an ideal and comprehensive panel for PCa diagnosis and prognosis has yet to be established, necessitating further research. The discovery and validation of clinically significant novel biomarkers remain essential.
+ 
+
+Biomarkers play a central role in liquid biopsy, an approach for diagnosing tumors and monitoring tumor-associated molecules in biological fluids such as blood and urine.
+ 
+ For example, cell-free DNA (cfDNA), fragments that shed into the bloodstream, offers valuable insight into cancer-driver genes and mutation.
+ 
+ Clinical studies have shown that men with PCa exhibit significantly higher levels of cfDNA compared to healthy controls. , In addition, extracellular vesicles also offer diagnostic potential. Large extracellular vesicles (L-EVs) isolated from the plasma of PCa patients contain genes frequently mutated in metastatic PCa cancer cells including MYC, AKT1, PTK2, KLF10, and PTEN. Moreover, the DNA content of L-EVs is associated with the development of PCa.
+ 
+ According to a report in 2018, cfDNA concentrations decreased significantly in patients after paclitaxel chemotherapy, suggesting that cfDNA quantification could be leveraged as a non-invasive biomarker for monitoring therapeutic efficacy.
+ 
+ Such findings underscore the dual utility of cfDNA and EVs in both diagnosis and longitudinal disease management.
+
+## 4.2 Cellular Biomarkers in Cancer Stem Cells (CSCs)
+Cellular biomarkers attract growing interests as they provide insight into the pathogenesis and progression of PCa.
+ 
+ Tumor-associated cells in the blood through interactions with neutrophils, platelets, cancer-associated fibroblast (CAFs), and tumor-associated macrophages (TAMs) are particularly promising as biomarkers.
+ 
+ Among cellular biomarkers, the most widely studied are cancer stem cells (CSCs) and circulating tumor cells (CTCs).
+CSCs are self-renewing, tumor-proliferating cells within the cancer mass.
+ 
+ A recent study suggests that CTCs may contribute to resistance to conventional therapies, opening avenues for novel therapies for PCa.
+ 
+ Reported PCa stem cell biomarkers include integrins, CD44, CD133, CD166, and CD117.
+ 
+ CD177 is a cell surface protein used to recognize hematopoietic progenitor cells in bone marrow and has been linked to self-renewal capacity and cancer progression.
+ 
+
+CTCs show substantial potential for PCa diagnosis and prognosis. ACTC positivity has been identified as an adverse prognostic indicator and may aid early detection.
+ 
+ The CellSearch platform, which detects and enumerates CTCS via immunomagnetic capture followed by fluorescence imaging, has gained FDA approval.
+ 
+ With next-generation sequencing (NGS) and sensitive CTC assays, CTC analysis has become a sophisticated component of liquid biopsy workflows.
+ 
+
+## 5. AI and Biomarker-Driven Risk Stratification
+
+## 5.1. Tissue-Based Genomic Classifiers
+AI shows strong promise for predicting metastasis and prognosis based on biomarkers. One study built a prediction model combining CNNs and short-term memory neural networks.
+ 
+ Enabling the handling of three biological sequence problems: Prediction of subcellular localization, protein secondary structure and the binding of peptides to MHC Class II molecules. Another study identified a novel biomarker for PCa from proteomics by integrating supervised machine learning-based biomarker discovery with Boolean algebra-based signature derivation.
+ 
+ In addition, machine learning models leveraging amino acid metabolism-related genes have been used to predict Gleason score and link it to prognosis in prostate cacner.
+ 
+ A separate study developed a pathway-based model for predicting biochemical recurrence of PCa, enabling earlier risk stratification in patients.
+ 
+ Finally, Qiao et al analyzed PCa genomic data and identified MYLK as a novel, independent biomarker for BCR.
+ 
+
+## 5.2. Predictive Biomarker Discovery
+Biological phenotypes reflect underlying genomic sequences making gene analyses crucial in PCa diagnosis and prognosis. As illustrated in , AI models that leverage molecular, cellular, exosomal and genetic features for computation can support prognosis and facilitate biomarker discovery. Because biological sequence analysis is labor-intensive AI is well-suited for high-dimensional analysis of transcriptomic, proteomic, and metabolomic datasets. A review of machine learning models based on next-generation sequencing (NGS) data highlights both the scale of NGS data and the promise of AI for extracting clinically relevant signals.
+ 
+ For gene-sequence analysis one study used patient DNA sequences to classify cancer types with machine learning.
+ 
+ Another developed a transcriptome-wide gene-expression prediction model to identify genes137 associated with PCa.
+ 
+ Genes associated with PCa. A cross-cancer (CC) learning strategy further utilized breast cancer datasets to identify biomarkers for PCa due to the similarity between PCa and breast cancer DNA repair pathways.
+ 
+ This approach revealed that ADIRF, SLC2A5, C3orf86, and HSPA1B from breast cancer biomarkers could be applied as indicators for clinical diagnosis of PCa. The architecture of this cross-learning model is shown in . 
+Beyond genes, downstream products such as RNA, protein and metabolites also show strong potential as biomarkers. Li et al developed a deep learning model that distinguished PCa from benign prostate hyperplasia using 6 protein variables.
+ 
+ Another deep learning model analyzed expressed prostatic secretion (EPS) from urine based on proteomics distinguish PCa from benign prostatic hyperplasia (BPH)
+ 
+ by sema7A and SPARC as high-performing markers. Another study highlighted the potential of metabolites as biomarkers, identifying 25 metabolites that could distinguish PCa tissues from normal tissues.
+ 
+ Extending this line of work, researchers have applied convolutional neural network (CNN) to urine metabolomic data to identify metabolite-based biomarkers for PCa.
+ 
+
+## 6. Clinical Decision Support and Multimodal Integration
+AI is increasingly embedded across the prostate cancer (PCa) management because clinicians must synthesize data from medical images that often contain clinically relevant patterns not readily visible to the human eye.
+ 
+ Deep learning in particular excels at handling large, high-dimensional datasets.
+ 
+ Thus, AI shows promise in assisting the diagnosis and prognosis process. In 2019, Strom et al reported the validation of an AI guided liquid biopsy approach underscoring AI’s potential in diagnostics. , 
+Collectively, these advances position AI to support auto-segmentation, registration, identification of benign and malignant cancer, automated grading, early diagnosis, and prognosis prediction. Furthermore, these tasks are widely applied in the PCa diagnosis and treatment process, including radiotherapy, brachytherapy, active surveillance, surgery, and prognosis.
+
+## 6.1. Typical AI-Assisted Tasks
+Typical AI-assisted tasks in diagnosis encompass auto-segmentation, registration, identification and automatic grading system. Auto-segmentation is one the most common AI-assisted tasks, applied across diagnosis, treatment, monitoring and prognosis. Numerous automatic segmentation tools have been proposed over the years , but only recently have deep learning based CAD delivered stable, clinically relevant results.
+ 
+ For example, AI has been used for prostate gland segmentation, lesion identification, and classification on mpMRI and TRUS-Bx.
+ 
+ Real-time TRUS auto-segmentation with deep learning has also been reported.
+ 
+ For PET imaging, a CNNs model was utilized by training on pre-operative
+ 
+ F-choline (FCH) PET/CT scans from 45 newly diagnosed PCa patients prior to their RPa.
+ 
+ In a related work, Rubinstein et al combined hand-crafted perfusion-based features with deep autoencoder-based features generated from a dynamic
+ 
+ C-choline-PET/CT to perform both classification and localization.
+ 
+
+Registration refers to aligning regions of interest (ROIs) between pretreatment and reference images. It offers utility, as tissues may shift between acquisitions.
+ 
+ Deep convolutional neural networks have been deployed for registration on both TRUS images
+ 
+ and CT images.
+ 
+
+AI also aids differentiation between benign and malignant tumors. In one study, a recurrent neural networks (RNNs) reported an area under the curve (AUC) of 0.99 on the test set and 0.93 on an independent external cohort of more than 12,000 slides.
+ 
+ The STHLM3 framework further predicts the presence, extent and Gleason score of malignancy from population-based needle biopsy datasets.
+ 
+ Dov et al developed a model to identify high risk ROIs for pathologists’ further biopsy.
+ 
+ This hybrid human-machine approach highlights top 20 ROIs with the highest malignancy probability in each biopsy, allowing pathologists to focus exclusively on these areas.
+Grading systems are another common application of AI for diagnosis. As reported recently, AI grading system can perform at expert-level grading, surpassing non-uropathologists.
+ 
+ Panda challenges have also demonstrated expert-level performance of AI in scoring.
+ 
+ Pantanowitz et al developed a grading model that showed promising performance in distinguishing between high- and low-grade PCa on an external validation set.
+ 
+ Bulten et al created a deep-learning system to grade prostate biopsies following the Gleason grading standard, which can delineate individual glands, assign Gleason growth patterns, and determine biopsy-level grades.
+ 
+
+## 6.2. Typical AI-Assisted Tasks in Treatment
+Typical AI-assisted tasks in treatment include radiotherapy, brachytherapy, active surveillance, monitoring and prognosis. Radiotherapy needs to optimize dose distribution in consideration of both location and time, as well as target volume and organ at risk. AI can facilitate segmentation and prediction of dose distribution, actual delivered dose and treatment outcomes. Determining the optimal dose distribution across location and time is essential in radiotherapy. An important set of data to support clinical decision-making is the identification of target volume and organ at risk. Hence, AI-assisted auto-segmentation can provide valuable support.
+ 
+ Apart from segmentation tasks, AI has been widely applied to predict dose distribution in head and neck cancers as well as lung cancer.
+ 
+ For PCa treatment, one study used a deep learning approach to automate the calculation of dose distribution for PCa radiotherapy.
+ 
+ In terms of predicting the actual delivered dose, results from the study showed that the deep neural network achieved excellent agreement with treatment planning dose maps.
+ 
+ AI can also be applied to predict treatment outcomes, such as genitourinary toxicity
+ 
+ and incontinence.
+ 
+
+Brachytherapy refers to a treatment in which radioactive sources are implanted into the prostate, allowing for localized radiation dosage.
+ 
+ Therefore, brachytherapy is a delicate procedure that requires consideration of many factors, in which context AI offers a valuable opportunity for assistance. AI can similarly be applied to the auto-segmentation task in brachytherapy.
+ 
+ In addition, it can be used for the prediction of dosage plans. A machine learning algorithm developed for predicting source patterns has achieved clinical success, with performance comparable to expert-level quality and delivery within the required time.
+ 
+
+Patients stratified as a low-risk cohort are suitable for active surveillance. AI has wide applications in active surveillance. For example, AI can help detect subtle changes in a patient’s condition. In addition, AI can assist in the acquisition and interpretation of images.
+ 
+ Currently, there are examples of non-AI platform being used to track and guide patients, such as the PASS Risk Calculator. Thus, AI shows great potential in building AI-assisted tracking platforms.
+As for surgery, it is generally unrealistic to have AI perform the surgery, but it is reasonable to train AI to assist doctors. AI systems that display real-time visual information for lesion location, needle positioning, and measurements significantly improve procedural accuracy and efficiency. A mixed reality biopsy navigation system demonstrated a 53% reduction in procedure time and successful first-attempt completion in 70% of cases compared to only 20% without the system.
+ 
+ Similarly, an AI navigation system for vacuum-assisted breast biopsy achieved superior real-time tracking performance, with mean average precision of 0.829 for tumor detection and 0.765 for needle tip tracking, substantially outperforming junior surgeons.
+ 
+ Furthermore, AI can learn from real-time data and help adjust the procedure automatically.
+ 
+
+AI can standardize medical reports by automating documentation processes, which improves consistency, reduces documentation burden, and enhances efficiency in patient monitoring. , It can reduce reporting time, thereby saving time and labor. Moreover, AI can increase the consistency of reports, avoiding any inherent subjectivity of human assessment. With a higher level of standardization, it would be easier to build a complete and consistent database.
+In terms of prognosis prediction, researchers have proposed several AI-assisted tools. Wulczyn et al developed an AI-based Gleason grading system to predict prostate cancer-specific mortality.
+ 
+ However, as the Gleason score itself is inherently biased, the use of long-term follow-up data from AI is preferred. Another model combined clinical data and digital histopathology data from prostate biopsies to computationally predict patient specific outcomes and guide treatment decisions.
+ 
+ Beyond biopsy analysis, AI models have also been developed to predict disease progression by using PET/CT images.
+ 
+
+## 6.3. AI’s Potentials in Early Diagnosis
+Apart from AI assistance in existing PCa treatment pathways, there is a potential for early diagnosis using routine imaging such as CT, though this area requires further research. While CT is invaluable for assessing bone and joint pathology, it is generally not recommended for cancer screening because of high radiation exposure. Nevertheless, incidental CT scans obtained for other indications may enable earlier PCa detection.
+ 
+ An AI-based model analyzing such CT scans has proved promising for early detection of PCa.
+ 
+ In the accidental discovery of PCa, Patients with critical conditions who undergo CT scans may be simultaneously screened for prostate cancer, and early identification using this technology could significantly improve prognosis. Early diagnosis is therefore a crucial factor for patient outcomes. In cases of false positive predictions from CT-based machine learning models, patients may be referred for additional confirmatory examinations, such as laboratory tests or biopsies, to verify the diagnosis. In contrast, false negative predictions pose a greater clinical risk, as they may delay diagnosis and lead to disease progression. Consequently, these algorithms should be trained on diverse and representative CT datasets to minimize false negative rates and improve diagnostic reliability.
+ 
+
+## 6.4. AI Integration in Clinical Practice
+IBM Watson for Oncology, introduced in the mid-2010s, was one of the pioneering AI-driven clinical decision support systems designed to assist oncologists in treatment planning by analyzing patient data against vast medical literature and guidelines.
+ 
+ Despite initial promise, its adoption has been limited due to challenges such as poor integration with electronic health records, inconsistent recommendations, and a user interface that disrupted clinical workflows.
+ 
+ Recent evaluations highlight ongoing issues, including the system’s inability to fully replace human expertise and the need for continuous learning from real-world data, as evidenced in reports showing variable concordance rates with expert opinions and instances of unsafe recommendations. , These hurdles have led to scaled-back implementations and questions about its long-term viability in oncology.
+Building on early systems like Watson, more recent AI decision support tools have emerged to address oncology challenges with improved capabilities. For instance, ArteraAI, a multimodal AI platform for prostate cancer, uses machine learning to predict treatment responses and personalize therapy based on pathology and clinical data, showing strong validation in clinical trials as of 2025.
+ 
+ ASCO’s Guidelines Assistant, launched in recent years and powered by Google Cloud’s Gemini, provides real-time evidence-based recommendations to oncologists, integrating guidelines and patient-specific factors to enhance decision-making.
+ 
+ Additionally, an autonomous AI agent leveraging GPT-4, developed in 2025, combines multimodal precision oncology tools for treatment support, demonstrating high accuracy in simulating clinical workflows and predicting outcomes.
+ 
+ These alternatives focus on better data integration and user-centric design, offering a more balanced approach to clinical deployment.
+Clinical decision support systems (CDSS) in oncology offer significant merits, including enhanced precision in treatment recommendations, reduced decision fatigue for clinicians, and improved patient outcomes through personalized care based on large-scale data analysis.
+ 
+ However, demerits persist, such as barriers to clinical adoption stemming from data privacy concerns, validation challenges in diverse populations, and integration issues with existing healthcare infrastructure, which can lead to skepticism and underutilization.
+ 
+ Overall, while these systems promise transformative impact, rigorous regulatory oversight and ongoing refinements are essential to balance their benefits against these limitations.
+
+## 7. Limitations and Future Directions
+
+## 7.1. Data Standardization
+Two major hurdles limit standardization: (1) the scarcity of high-quality, open-source dataset and (2) difficulty establishing ground truth. The lack of datasets covering a wide range of scenarios hinders robust assessment by the AI model.
+ 
+ Additionally, inter-observer variability further introduces inconsistent expert annotations. Mitigation approaches include training on multi-expert-annotated datasets such as PANDA and resolving label disagreements with majority voting system, the STAPLE algorithm or automated label cleaning method. , , , Furthermore, pre-segmentation has also shown to improve diagnostic accuracy.
+ 
+
+## 7.2. Interpretability
+Improving interpretability has attracted growing interest in AI-assisted PCa pathology. Techniques such as gradient-weighted class activation mapping introduced by Arvaniti et al visualize model attention and highlight ROI.
+ 
+ Experts review of AI outputs provides an additional validation layer. In fact, experts have found AI errors during review.
+ 
+ Automatic concept explanations (ACEs) method has also demonstrated clinical significance by elucidating the features for decision making.
+ 
+ Moreover, AI models may help discover novel features strongly associated with disease development.
+ 
+ Lastly, it is considered beneficial to summarize common errors and advantages of AI models.
+ 
+ One research even provided a quantification of AI uncertainty.
+ 
+
+## 7.3. Bias and Fairness
+Expanding digital pathology infrastructure is essential to address bias and improve fairness. Regional medical centers should prioritize slide digitization and the adoption of interoperable platforms. In resources limited settings, AI-augmented workflows can help triage rare or challenging cases and support clinicians.
+ 
+ In the meantime, computationally enabled microscopes can bridge the gap until whole-slide imaging becomes broadly available. A microscope overlays AI information has shown promising results in AI-assisted real-time computational imaging tools.
+ 
+
+## 7.4. Validation
+Validation of AI for PCa pathology remains challenging. Key issues include intrinsic model limitations of AI and its influence on human decision-making, limited generalizability, and performance degradation in rare cases, tumor heterogeneity, and genetic variability. AI systems can nudge human judgements, sometimes even when the AI is inaccurate, raising concerns about automation bias.
+ 
+ False-positive alerts are often treated as “useful warnings,” but they can increase cognitive load and time on tasks.
+In addition, generalization is hindered by heterogeneity at multiple levels, ranging from biologic variation in PCa, to variability in datasets. To improve robustness, training on large, diverse datasets is recommended.
+ 
+ Complementary methods include data augmentation
+ 
+ and color enhancement,
+ 
+ deliberately inclusion of artificial artifacts to harden models
+ 
+ or samples from external dataset,
+ 
+ color modification
+ 
+ and style normalization
+ 
+ during training and validation.
+
+## 7.5. AI Regulations
+Integration of imaging, liquid biopsy, and biomarker data via AI enables more precise risk stratification, early detection, and personalized therapy in metastatic prostate cancer. Multimodal models combining radiomics, genomics, and clinical data have demonstrated improved diagnostic accuracy, reduced inter-reader variability, and enhanced prediction of treatment response. , AI-driven data integration supports non-invasive monitoring and may facilitate earlier intervention, potentially improving survival and quality of life. , , , , However, challenges remain in harmonizing data sources, ensuring generalizability, and validating clinical utility in prospective trials. , , 
+AI adoption in prostate cancer care is subject to evolving regulatory frameworks, including FDA clearance for imaging tools and compliance with the General Data Protection Regulation (GDPR) for data privacy. , Ethical governance requires transparency, explainability, and robust data stewardship to address the “black box” nature of some AI models and ensure patient autonomy. , , Multicenter collaborations and standardized reporting are essential for equitable, accountable clinical integration. , , 
+
+## 7.6. Rare Cases
+There are numerous rare cases to consider in real-world applications. These include: inflammation, atrophy, atypical small acinar proliferation, atypical intraductal proliferation, and some diagnostically challenging histological subtypes (i.e.ductal and intraductal carcinoma of the prostate, prostatic adenocarcinoma with neuroendocrine differentiation), and treatment-related changes. , , , , - These cases pose significant challenges to the validation of AI applications in PCa. To deal with complex real-world situations, researchers have introduced generative adversarial network (GAN) to synthesize high-fidelity pathological images. , For instance, Falahkheirkhah et al combined synthetic images generated by GAN with real images to train a model that classifies prostate tissues.
+ 
+ In most cases, experts only select representative slides per patient for training. However, this approach fails to capture the full spectrum of tumor heterogeneity. Therefore, it is preferable to incorporate data from all available slides of the patient and compare them with the most representative slides.
+ 
+ Regarding genetic diversity among different populations, some groups exhibit susceptibility to PCa. For example, FOXA1 mutations are more often observed in Asian populations compared to European and American populations.
+ 
+ Thus, it is prudent to validate the model’s applicability in various populations. However, most of the studies are still limited to populations from Western countries.
+ 
+
+## 8. Perspectives
+There are many remaining problems in AI-assisted PCa pathology. AI has potential in PSA ancillary task such as fPSA percentage, PHI and PCA3. For now, AI-assisted tools in PET images have not yet attracted much interest. In addition, most studies on AI-assisted tools on biomarkers have focused on genetic biomarkers. Alternative biomarkers, such as cellular biomarkers, still warrant further research. Multimodal models that integrate imaging, pathology, genomics, and real-world data by using deep neural networks or graph-based learning in PCa also merit attention. Finally, it is highly advisable to establish a standardized and efficient protocol for digitalizing patient data. Furthermore, developing validated pre-segmentation AI models before human assessment has clinical significance.
+Current limitations include a lack of ground truth dataset and limited regulatory approval of AI-assisted tools. A shortage in ground truth datasets hinders the training and evaluation of AI model. Only AI tools that have received official medical approval can be applied in clinical settings. Even though several AI models have gained FDA approval, the number of officially approved models remains inadequate to meet the demands of medical application.
+Current challenges include the validation and interpretability of AI models. The validation of AI models is a key issue, as misdiagnosis can lead to mistreatment and potentially avoidable deaths. AI models are often regarded as “black box”, which are inherently associated with low interpretability.
+
+## 9. Conclusion
+AI represents a transformative force in metastatic PCa care. Advances in AI-driven imaging tools can enhance early detection, monitor disease progression, and assess therapeutic response with greater accuracy and consistency. Similarly, AI-assisted biomarker discovery and interpretation facilitate the identification of novel prognostic and predictive indicators, supporting more individualized treatment strategies. By augmenting imaging interpretation, refining biomarker analysis, and enabling integrated clinical decision-making, AI supports precision medicine. However, robust validation, interpretability, bias and fairness, and data standardization are essential for safe and equitable implementation.
+
+## Acknowledgements
+The authors would like to thank Dr. Frieda Law for her support during the project.
+Funding: The authors disclosed receipt of the following financial support for the research, authorship, and/or publication of this article: This work was graciously supported by grants from the National Natural Science Foundation of China (32073002, 32471193), Li Ka-Shing Foundation at Shantou University Medical College (510858044), and Li Ka-Shing Foundation STU-GTIIT Joint-research Grant (2024LKSFG08).
+The authors declared no potential conflicts of interest with respect to the research, authorship, and/or publication of this article.
+
+## ORCID iDs
+Luyuan Li https://orcid.org/0000-0003-2017-6575
+R. Daniel Bonfil https://orcid.org/0000-0002-1605-8317
+Wensi Tao https://orcid.org/0000-0003-2396-9829
+
+## Ethical Considerations
+This study does not involve work that entails any ethics approval.
