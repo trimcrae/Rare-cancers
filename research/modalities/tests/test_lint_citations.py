@@ -116,3 +116,21 @@ def test_preflight_actually_runs_this_gate():
     sh = open(os.path.join(ROOT, "scripts", "preflight.sh"), encoding="utf-8").read()
     assert "lint_citations.py" in sh, "preflight does not run the citation-provenance gate"
     assert "rc=1" in sh.split("lint_citations.py", 1)[1][:400], "the gate cannot fail the script"
+
+
+def test_the_ledger_does_not_anchor_itself():
+    """⛔ IT DID, FOR ONE COMMIT. The unanchored count fell 215 -> 0 the moment the ledger existed.
+
+    The ledger is a `.json` enumerating every unanchored identifier, so scanning it as a fetch product
+    made all 215 self-anchoring — the gate reporting a clean tree it had just declared dirty. The PASS
+    condition never changed (a new fabrication is in neither the ledger nor an artifact), and that is
+    what made it dangerous: the guard kept working while its readout went vacuous, and 0 is the one
+    number nobody re-examines. A guard whose output stops meaning anything is not half-working.
+    """
+    _, anchors = lc.survey()
+    led = lc.load_ledger()
+    self_anchored = [e["key"] for e in led["entries"]
+                     if e["id"] in anchors.get(e["kind"], {})]
+    assert not self_anchored, "ledger entries anchored by the ledger itself: %s" % self_anchored[:5]
+    un = lc.unanchored(*lc.survey())
+    assert len(un) == len(led["entries"]), (len(un), len(led["entries"]))

@@ -104,7 +104,16 @@ def survey():
     """(prose, anchors) — identifiers in tracked prose, and identifiers in tracked fetch products."""
     files = _tracked()
     prose = _scan([f for f in files if f.endswith(PROSE_SUFFIXES)])
-    anchors = _scan([f for f in files if f.endswith(ANCHOR_SUFFIXES)])
+    # ⛔ THE LEDGER MUST NOT ANCHOR ITSELF, AND IT DID FOR ONE COMMIT (caught 2026-08-07, minutes
+    # after the gate merged). The ledger is a `.json` listing every unanchored identifier, so once it
+    # existed every one of those 215 ids appeared in a "fetch product" and the unanchored count fell
+    # from 215 to 0 — the gate reporting a clean tree it had just finished declaring dirty. The pass
+    # condition was unaffected (a new fabrication is in neither the ledger nor an artifact, so it
+    # still fails), which is exactly what made it dangerous: the guard kept working while its READOUT
+    # went vacuous, and a count of 0 is the one number nobody re-examines.
+    ledger_rel = os.path.relpath(LEDGER, ROOT).replace(os.sep, "/")
+    anchors = _scan([f for f in files
+                     if f.endswith(ANCHOR_SUFFIXES) and f != ledger_rel])
     return prose, anchors
 
 
