@@ -51,6 +51,21 @@ RAW = BASE + "GSE28866_raw_counts_54511_peaks_cancer_and_normal.txt.gz"
 #: other column role is derived from the header the file actually carries.
 EMC_GSMS = ["GSM715466", "GSM715467", "GSM715470", "GSM715472"]
 
+#: ⭐ THE COLUMN HEADERS ARE NOT GSMs. Measured by the first header read: the normalized table names
+#: its columns `<Tissue>_<specimen>` (e.g. `Breast_STT5463`), so a GSM never appears and matching on
+#: one finds nothing — which the first run reported honestly as `emc_gsms_found_in_header: []` rather
+#: than as an absent EMC arm. The four EMC libraries carry the specimen ids below, resolved from this
+#: repo's own sample-level characterisation of the series (`atr-hrd-sarcoma-series.json` titles
+#: `STT5525_EMC`, `STT5526_EMC`, `STT5527_EMC`, `STT5592_EMC`).
+EMC_SPECIMENS = ["STT5525", "STT5526", "STT5527", "STT5592"]
+
+#: ⛔ AND THE NORMAL ARM IS NOT DEFINED HERE, DELIBERATELY. The series says 66 cancer + 27 normal
+#: libraries, and 66+27 = 93 matches the raw table's sample-column count exactly — but the committed
+#: characterisation does not carry the 27 normals' titles, so which columns they are is UNKNOWN until
+#: the full header is read. Hard-coding a guess (`Normal_*`, or "anything not STT") would define the
+#: contrast by assumption and then measure it, which is how a comparator arm gets silently wrong.
+#: This module therefore REPORTS every sample column and classifies none of them it cannot justify.
+
 #: Genes the surface-antigen and matrix lanes are blocked on a normal-tissue comparison for.
 WANTED = ["ALCAM", "CD248", "CSPG4", "PRAME", "SSTR2", "CD276", "FAP", "MSLN", "L1CAM",
           "GPC3", "CDH17", "VCAN", "BGN", "CD44", "RET", "ENO3", "SEMA3C", "PPARG", "NR4A3"]
@@ -67,7 +82,7 @@ def _fetch(url, max_bytes=None):
         return None, "%s: %s" % (type(exc).__name__, exc)
 
 
-def _header_and_first_rows(data, n_rows=3):
+def _header_and_first_rows(data, n_rows=3):  # noqa: D401
     """The header line and a few data rows, gunzipped. Tolerates a truncated tail deliberately:
     a RANGE read of a gzip member ends mid-stream, and the header is all the first question needs."""
     rows, err = [], None
@@ -105,7 +120,7 @@ def _classify_columns(header_fields):
     symbol_like = [f for f in ann
                    if any(k in f.strip().strip('"').lower() for k in ("gene", "symbol", "name"))]
     return {"annotation_columns": ann, "sample_columns_n": len(samples),
-            "sample_columns_first10": samples[:10], "gsm_named_columns_n": len(gsm_cols),
+            "sample_columns": samples, "gsm_named_columns_n": len(gsm_cols),
             "symbol_like_columns": symbol_like}
 
 
@@ -132,7 +147,7 @@ def main(argv=None):
     }
 
     for name, url in (("normalized_36048_peaks", NORMALIZED), ("raw_counts_54511_peaks", RAW)):
-        data, err = _fetch(url, max_bytes=3_000_000)
+        data, err = _fetch(url, max_bytes=None if name.startswith("normalized") else 3_000_000)
         rec = {"id": name, "url": url}
         if err:
             # ⛔ UNREACHABLE IS A NETWORK FACT AND IS RECORDED AS ONE. It is never "no symbols".
@@ -158,6 +173,11 @@ def main(argv=None):
         emc_present = [g for g in EMC_GSMS if any(g in f for f in fields)]
         rec["emc_gsms_found_in_header"] = emc_present
         rec["emc_gsms_missing_from_header"] = [g for g in EMC_GSMS if g not in emc_present]
+        # ⭐ The columns are specimen-named, so resolve the EMC arm on the specimen id instead.
+        rec["emc_columns_by_specimen"] = {
+            s: [f for f in fields if s in f] for s in EMC_SPECIMENS}
+        rec["n_emc_columns_resolved"] = sum(
+            1 for v in rec["emc_columns_by_specimen"].values() if v)
         doc["sources"].append(rec)
 
     read = [s for s in doc["sources"] if s.get("status") == "READ"]
