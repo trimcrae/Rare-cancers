@@ -190,7 +190,63 @@
           "EMC_STT5592"
         ]
       },
-      "n_emc_columns_resolved": 4
+      "n_emc_columns_resolved": 4,
+      "grouping": {
+        "n_libraries": 93,
+        "n_tumour": 66,
+        "n_normal": 27,
+        "n_emc": 4,
+        "emc_columns": [
+          "EMC_STT5525",
+          "EMC_STT5526",
+          "EMC_STT5527",
+          "EMC_STT5592"
+        ],
+        "normal_columns": [
+          "STT5425_Adult_normal_breast",
+          "STT5451_Adult_normal_breast",
+          "STT5510_Adult_normal_breast",
+          "STT5588_Fetal_normal_lung",
+          "STT5601_Adult_normal_lung",
+          "STT5603_Adult_normal_lung",
+          "STT5609_Adult_normal_uterus",
+          "STT5610_Adult_normal_colon",
+          "STT5620_Adult_normal_breast",
+          "STT5680_Fetal_normal_bowel",
+          "STT5681_Fetal_normal_bowel",
+          "STT5682_Fetal_normal_bowel",
+          "STT5683_Fetal_normal_kidney",
+          "STT5684_Fetal_normal_kidney",
+          "STT5685_Fetal_normal_kidney",
+          "STT5686_Fetal_normal_lung",
+          "STT5687_Fetal_normal_lung",
+          "STT5688_Fetal_normal_lung",
+          "STT5692_Adult_normal_colon",
+          "STT5693_Adult_normal_colon",
+          "STT5694_Adult_normal_kidney",
+          "STT5695_Adult_normal_kidney",
+          "STT5696_Adult_normal_kidney",
+          "STT5697_Adult_normal_lung",
+          "STT5698_Adult_normal_lung",
+          "STT5699_Adult_normal_lung",
+          "STT5761_Adult_normal_breast"
+        ],
+        "technical_replicate_columns": [
+          "ESS_STT5520_rep1",
+          "ESS_STT5520_rep2",
+          "LMS_STT516_rep1",
+          "LMS_STT516_rep2"
+        ],
+        "normal_tissues": [
+          "bowel",
+          "breast",
+          "colon",
+          "kidney",
+          "lung",
+          "uterus"
+        ],
+        "matches_series_description": true
+      }
     },
     {
       "id": "raw_counts_54511_peaks",
@@ -356,7 +412,63 @@
           "EMC_STT5592"
         ]
       },
-      "n_emc_columns_resolved": 4
+      "n_emc_columns_resolved": 4,
+      "grouping": {
+        "n_libraries": 93,
+        "n_tumour": 66,
+        "n_normal": 27,
+        "n_emc": 4,
+        "emc_columns": [
+          "EMC_STT5525",
+          "EMC_STT5526",
+          "EMC_STT5527",
+          "EMC_STT5592"
+        ],
+        "normal_columns": [
+          "STT5425_Adult_normal_breast",
+          "STT5451_Adult_normal_breast",
+          "STT5510_Adult_normal_breast",
+          "STT5588_Fetal_normal_lung",
+          "STT5601_Adult_normal_lung",
+          "STT5603_Adult_normal_lung",
+          "STT5609_Adult_normal_uterus",
+          "STT5610_Adult_normal_colon",
+          "STT5620_Adult_normal_breast",
+          "STT5680_Fetal_normal_bowel",
+          "STT5681_Fetal_normal_bowel",
+          "STT5682_Fetal_normal_bowel",
+          "STT5683_Fetal_normal_kidney",
+          "STT5684_Fetal_normal_kidney",
+          "STT5685_Fetal_normal_kidney",
+          "STT5686_Fetal_normal_lung",
+          "STT5687_Fetal_normal_lung",
+          "STT5688_Fetal_normal_lung",
+          "STT5692_Adult_normal_colon",
+          "STT5693_Adult_normal_colon",
+          "STT5694_Adult_normal_kidney",
+          "STT5695_Adult_normal_kidney",
+          "STT5696_Adult_normal_kidney",
+          "STT5697_Adult_normal_lung",
+          "STT5698_Adult_normal_lung",
+          "STT5699_Adult_normal_lung",
+          "STT5761_Adult_normal_breast"
+        ],
+        "technical_replicate_columns": [
+          "ESS_STT5520_rep1",
+          "ESS_STT5520_rep2",
+          "LMS_STT516_rep1",
+          "LMS_STT516_rep2"
+        ],
+        "normal_tissues": [
+          "bowel",
+          "breast",
+          "colon",
+          "kidney",
+          "lung",
+          "uterus"
+        ],
+        "matches_series_description": true
+      }
     }
   ],
   "verdict": {
@@ -391,5 +503,189 @@
     "SEMA3C",
     "PPARG",
     "NR4A3"
-  ]
+  ],
+  "per_gene": {
+    "_contrast": "Median across a gene's 3SEQ peaks, then median across libraries in each arm. EMC n=4; normals n=27 (bowel/breast/colon/kidney/lung/uterus); other sarcomas = DDLPS, ESS, EWS, GIST, LMS, MLPS, SS.",
+    "_what_the_normal_arm_cannot_settle": "The normals are visceral organs with almost no soft tissue in them, so a gene high in EMC against THIS panel is not thereby shown to be EMC-specific rather than mesenchymal-lineage-specific. The normal arm is a normal-ORGAN EXPOSURE reading — the on-target/off-tumour axis — and the sarcoma arm is the lineage axis. Do not read either as the other.",
+    "_ties_to_technical_replicates": [
+      "ESS_STT5520_rep1",
+      "ESS_STT5520_rep2",
+      "LMS_STT516_rep1",
+      "LMS_STT516_rep2"
+    ],
+    "values": {
+      "PPARG": {
+        "n_peaks": 5,
+        "emc_median": 0.393804808,
+        "normal_median": 0.278300389,
+        "sarcoma_median": 0.18585377349999999,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "ALCAM": {
+        "n_peaks": 2,
+        "emc_median": 0.57833625,
+        "normal_median": 0.6310590444999999,
+        "sarcoma_median": 0.3770523255,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "VCAN": {
+        "n_peaks": 8,
+        "emc_median": 0.4734371995,
+        "normal_median": 0.14226183,
+        "sarcoma_median": 0.2354654605,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "NR4A3": {
+        "n_peaks": 3,
+        "emc_median": 0.2164123305,
+        "normal_median": 0.110199508,
+        "sarcoma_median": 0.0,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "RET": {
+        "n_peaks": 4,
+        "emc_median": 0.63741138225,
+        "normal_median": 0.18166726449999998,
+        "sarcoma_median": 0.1737113455,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "CD44": {
+        "n_peaks": 7,
+        "emc_median": 0.43296996,
+        "normal_median": 0.2556067,
+        "sarcoma_median": 0.2647962825,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "CD276": {
+        "n_peaks": 3,
+        "emc_median": 0.285691831,
+        "normal_median": 0.220399016,
+        "sarcoma_median": 0.201588798,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "MSLN": {
+        "n_peaks": 2,
+        "emc_median": 0.25683398,
+        "normal_median": 0.9407865559999999,
+        "sarcoma_median": 0.20852933825,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "ENO3": {
+        "n_peaks": 2,
+        "emc_median": 1.7724726762499998,
+        "normal_median": 0.7001786295,
+        "sarcoma_median": 0.8795399959999999,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "SSTR2": {
+        "n_peaks": 2,
+        "emc_median": 0.35226653750000003,
+        "normal_median": 0.22813325550000002,
+        "sarcoma_median": 0.25671572524999997,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "BGN": {
+        "n_peaks": 4,
+        "emc_median": 1.22543834325,
+        "normal_median": 0.6413700295,
+        "sarcoma_median": 0.49143574824999997,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "FAP": {
+        "n_peaks": 1,
+        "emc_median": 0.5707522785,
+        "normal_median": 0.350143141,
+        "sarcoma_median": 0.357886341,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "SEMA3C": {
+        "n_peaks": 3,
+        "emc_median": 0.5347469435000001,
+        "normal_median": 0.294224666,
+        "sarcoma_median": 0.3217135635,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "CDH17": {
+        "n_peaks": 3,
+        "emc_median": 0.066320055,
+        "normal_median": 0.07275742,
+        "sarcoma_median": 0.1314341645,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "CD248": {
+        "n_peaks": 2,
+        "emc_median": 1.766684664,
+        "normal_median": 2.1068718245,
+        "sarcoma_median": 2.7151863565,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "CSPG4": {
+        "n_peaks": 1,
+        "emc_median": 8.729579519000001,
+        "normal_median": 2.636317921,
+        "sarcoma_median": 3.4844235155,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "PRAME": {
+        "n_peaks": 1,
+        "emc_median": 0.1018351885,
+        "normal_median": 0.0,
+        "sarcoma_median": 0.19386444400000002,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "GPC3": {
+        "n_peaks": 1,
+        "emc_median": 0.1018351885,
+        "normal_median": 1.128719625,
+        "sarcoma_median": 0.2112685355,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      },
+      "L1CAM": {
+        "n_peaks": 1,
+        "emc_median": 0.0817961725,
+        "normal_median": 0.245335187,
+        "sarcoma_median": 0.0503910355,
+        "_n_emc_libs": 4,
+        "_n_normal_libs": 27,
+        "_n_sarcoma_libs": 32
+      }
+    },
+    "genes_with_no_peak_in_this_deposit": []
+  }
 }
