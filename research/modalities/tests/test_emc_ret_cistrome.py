@@ -379,3 +379,50 @@ def test_the_mouse_symbol_map_covers_ret_and_both_positive_controls():
     for sym in ["RET"] + M.KNOWN_POSITIVE_CONTROLS:
         assert sym in M.HUMAN_TO_MOUSE_SYMBOL, sym
         assert M.HUMAN_TO_MOUSE_SYMBOL[sym] == sym.capitalize(), sym
+
+
+# =============================================================================================
+# 8 — THE GPL6244 BUILD CROSS-CHECK
+# =============================================================================================
+#
+# ⚠ The two spans used below are FIXTURE VALUES, not a claim about where RET is. They exist only
+# to exercise the containment logic, and the real run fetches both from their own services. If
+# they were wrong the test would still be a valid test of the algebra — which is the point of
+# keeping every real coordinate out of this file.
+
+_ENS_FIXTURE = {
+    "hg38": {"RET": {"chrom": "chr10", "start": 43_077_069, "end": 43_130_351, "strand": 1}},
+    "hg19": {"RET": {"chrom": "chr10", "start": 43_572_517, "end": 43_625_797, "strand": 1}},
+}
+
+
+def test_gpl_containment_is_decisive_not_merely_corroborating():
+    """RET's two human spans on chr10 are far apart, so a probe range can be inside at most one.
+    If this ever reports 'consistent with both', nothing may be read as build-verified through
+    it, and the record must SAY so rather than picking one."""
+    probes = {"RET": [{"probe_id": "p1", "seqname": "chr10", "range_gb": "NC_000010.10",
+                       "start": 43_580_000, "stop": 43_580_100}]}
+    out = M._gpl_containment({}, probes, _ENS_FIXTURE)
+    assert out["RET_build_is_unambiguous"] is True
+    assert out["RET_consistent_with"] == ["hg19"]
+    assert out["per_gene"]["RET"]["⛔"] is None
+
+
+def test_gpl_containment_refuses_to_certify_an_ambiguous_probe():
+    probes = {"RET": [{"probe_id": "p1", "seqname": "chr10", "range_gb": "?",
+                       "start": 1, "stop": 2}]}          # inside neither
+    out = M._gpl_containment({}, probes, _ENS_FIXTURE)
+    assert out["RET_build_is_unambiguous"] is False
+    assert "may be read as build-verified" in out["per_gene"]["RET"]["⛔"]
+
+
+def test_gpl_containment_ignores_mouse_builds():
+    """GPL6244 is a HUMAN array. A mouse span must never be offered as a build its probes are
+    consistent with, however well the numbers happen to line up."""
+    ens = {"hg38": _ENS_FIXTURE["hg38"],
+           "mm10": {"RET": {"chrom": "chr6", "start": 118_150_000, "end": 118_200_000,
+                            "strand": 1}}}
+    probes = {"RET": [{"probe_id": "p1", "seqname": "chr6", "range_gb": "x",
+                       "start": 118_160_000, "stop": 118_160_100}]}
+    out = M._gpl_containment({}, probes, ens)
+    assert "mm10" not in (out["RET_consistent_with"] or [])

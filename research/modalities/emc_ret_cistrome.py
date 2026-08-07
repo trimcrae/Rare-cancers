@@ -614,6 +614,133 @@ def fetch_ncbi_gene_spans(symbols):
     return out, diag
 
 
+GPL6244_URL = ("https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6244"
+               "&targ=self&form=text&view=full")
+
+
+def verify_against_gpl6244():
+    """⛔ THE THIRD BUILD CHECK, AND THE ONLY ONE TIED TO THIS LANE'S OTHER HALF.
+
+    The instruction that produced this module said: verify the coordinate convention against a
+    COMMITTED artifact before building on it. Measured first, rather than assumed: this
+    repository's committed artifacts record that GPL6244 carries `seqname` / `RANGE_GB` /
+    `RANGE_START` / `RANGE_STOP` (the header is in `emc-atr-vulnerability-inputs.json` and
+    `emc-expression-panels-inputs.json`) — but **not their VALUES**. So there is no committed
+    genomic coordinate in this repository to reconcile against, and saying "verified against a
+    committed artifact" would have been false.
+
+    ⭐ WHAT IS DONE INSTEAD IS STRICTLY BETTER, because it is decisive rather than merely
+    corroborative. GPL6244 is the array the expression half of this lane reads
+    (`emc_expression_panels.py`, GSE24369). Its platform table carries each probe's genomic range
+    AND `RANGE_GB` — the assembly accession those ranges are stated against, which is
+    self-describing. So the check is: **does the RET probe's range fall inside the RET span this
+    module fetched, and on WHICH build?** RET's GRCh37 and GRCh38 spans on chr10 are far enough
+    apart that containment can hold for at most one of them. A silent build error therefore cannot
+    survive this, and the occupancy half and the abundance half of the lane end up demonstrably in
+    the same coordinate frame rather than assumed to be.
+    """
+    rec = {"_what": "GPL6244's own probe coordinates — the array the expression half of this lane "
+                    "reads — checked against the RET span fetched here, on every build.",
+           "platform": "GPL6244", "url": GPL6244_URL, "_status": "NOT_RUN"}
+    raw = get(GPL6244_URL, timeout=180, max_bytes=120_000_000)
+    if raw is None:
+        rec["_status"] = "unreachable"
+        rec["⚠"] = ("ABSENT READING. The platform table could not be fetched; the other two build "
+                    "checks stand on their own and this one is simply missing.")
+        return rec
+    text = raw.decode("utf-8", "replace")
+    header, rows = None, []
+    for ln in text.splitlines():
+        if ln.startswith("#") or not ln.strip():
+            continue
+        f = ln.rstrip("\n").split("\t")
+        if header is None:
+            if f and f[0].strip().upper() == "ID":
+                header = [c.strip() for c in f]
+            continue
+        rows.append(f)
+    if not header:
+        rec["_status"] = "no_header"
+        return rec
+    idx = {c.lower(): i for i, c in enumerate(header)}
+    need = ("seqname", "range_gb", "range_start", "range_stop", "gene_assignment")
+    rec["header"] = header
+    rec["columns_present"] = {c: (c in idx) for c in need}
+    if not all(rec["columns_present"].values()):
+        rec["_status"] = "columns_missing"
+        return rec
+    want = set(LOCI)
+    probes = {}
+    for f in rows:
+        try:
+            ga = f[idx["gene_assignment"]]
+        except IndexError:
+            continue
+        syms = {s.strip() for s in re.split(r"[/|,;]+", ga) if s.strip()}
+        for sym in (want & syms):
+            try:
+                probes.setdefault(sym, []).append({
+                    "probe_id": f[0].strip(),
+                    "seqname": norm_chrom(f[idx["seqname"]]),
+                    "range_gb": f[idx["range_gb"]].strip(),
+                    "start": int(f[idx["range_start"]]),
+                    "stop": int(f[idx["range_stop"]]),
+                })
+            except (ValueError, IndexError):
+                continue
+    rec["_status"] = "read"
+    rec["n_probes_in_table"] = len(rows)
+    rec["n_loci_with_a_probe"] = len(probes)
+    rec["range_gb_accessions_seen_for_these_loci"] = sorted(
+        {p["range_gb"] for v in probes.values() for p in v})[:12]
+    rec["⚠ range_gb_is_the_platforms_own_build_statement"] = (
+        "a RefSeq chromosome accession version is self-describing about the assembly, so the "
+        "platform's build is READ off the table rather than inferred from the numbers.")
+    return rec, probes
+
+
+def _gpl_containment(gpl_rec, probes, ens_by_build):
+    """Which build are GPL6244's RET coordinates consistent with? At most one can contain them."""
+    out = {"_what": "Containment of each GPL6244 probe range inside the gene span fetched on each "
+                    "build. RET's GRCh37 and GRCh38 spans on chr10 are far apart, so containment "
+                    "can hold on at most one — which makes this a DECISIVE build check rather "
+                    "than a corroborating one.",
+           "per_gene": {}}
+    for sym, plist in sorted((probes or {}).items()):
+        per = {}
+        for build, genes in ens_by_build.items():
+            g = genes.get(sym)
+            if not g or BUILDS.get(build, {}).get("species", "human") != "human":
+                continue
+            gs, ge = ens_to_bed(g["start"], g["end"])
+            inside = 0
+            for p in plist:
+                ps, pe = min(p["start"], p["stop"]) - 1, max(p["start"], p["stop"])
+                if p["seqname"] == g["chrom"] and ps >= gs - 5000 and pe <= ge + 5000:
+                    inside += 1
+            per[build] = {"n_probes": len(plist), "n_inside_gene_span_plus_5kb": inside,
+                          "gene_span_bed": [gs, ge], "gene_chrom": g["chrom"]}
+        consistent = [b for b, v in per.items() if v["n_inside_gene_span_plus_5kb"] > 0]
+        out["per_gene"][sym] = {
+            "per_build": per,
+            "builds_the_probes_are_consistent_with": consistent,
+            "unambiguous": len(consistent) == 1,
+            "⛔": None if len(consistent) == 1 else
+                 ("the probe ranges are consistent with more than one build, or with none. That "
+                  "is either a genuine coincidence of spans or a defect, and either way NOTHING "
+                  "in this artifact may be read as build-verified through this check."),
+        }
+    ret = out["per_gene"].get("RET") or {}
+    out["RET_build_is_unambiguous"] = bool(ret.get("unambiguous"))
+    out["RET_consistent_with"] = ret.get("builds_the_probes_are_consistent_with")
+    out["⛔ what_this_does_not_check"] = (
+        "it establishes that this module's gene spans and GPL6244's probe coordinates are in the "
+        "same frame. It says nothing about the PEAK files' build, which comes from the ChIP-Atlas "
+        "path or from a GEO series' own processing record, and which `intersect_locus` refuses to "
+        "mix regardless.")
+    return out
+
+
 def reconcile_builds(ens_by_build, ncbi):
     """The build result. Reports the chr10 offset between builds as a NUMBER, because a number is
     the only form in which a build mix-up is visible after the fact."""
@@ -1690,6 +1817,16 @@ def fetch():
     cache["genes"] = genes
     cache["gene_lookup_diagnostics"] = {"ensembl_per_build": gdiag, "ncbi_gene": ndiag}
     cache["build_reconciliation"] = reconcile_builds(genes, ncbi)
+
+    # The third build check, tied to the array the expression half of this lane reads.
+    g = verify_against_gpl6244()
+    if isinstance(g, tuple):
+        gpl_rec, gpl_probes = g
+        gpl_rec["containment"] = _gpl_containment(gpl_rec, gpl_probes, genes)
+        gpl_rec["probes"] = {k: v[:6] for k, v in gpl_probes.items()}
+    else:
+        gpl_rec = g
+    cache["build_reconciliation"]["third_check_gpl6244_probe_coordinates"] = gpl_rec
 
     # ---- part 2: the peaks --------------------------------------------------------------------
     peaksets = {}
