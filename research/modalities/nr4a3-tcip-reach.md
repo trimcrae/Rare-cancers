@@ -9,7 +9,7 @@ canonical_for: []
 purpose: "Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery, and report the graded size axis rather than the binary gate."
 scope: Geometry only. No binding, activity, degradation, selectivity or efficacy statement.
 audience: [maintainers, autonomous research agents]
-date: 2026-08-06
+date: 2026-08-07
 last_verified: unverified
 ---
 
@@ -25,27 +25,75 @@ last_verified: unverified
 
 **ADMITS** — the envelope admits a second terminus of transcriptional-effector size within the 24-backbone-atom chemically routine ceiling; at the 12-atom gate: **True**.
 
-| body | size class | residues | shortest linker (backbone atoms) with any admissible placement |
-|---|---|---|---|
-| `birc2` | single_domain | 92 | **6** |
-| `crbn` | multi_subunit | 1183 | **6** |
-| `mdm2` | single_domain | 94 | **6** |
-| `vhl` | multi_subunit | 340 | **6** |
+★★ **And it is no longer only a SIZE statement.** 2 NAMED transcriptional effector(s) are now staged and enumerated — BCL6 (bcl6, 7LWG), BRD4 (brd4_bd1, 4ZC9) — so the envelope's answer for them is **ADMITS**, computed from their own coordinates rather than from a proxy of similar size. **The size-class result is unchanged and is still carried by proxies; see §1b for exactly which sentences may and may not be upgraded.**
 
-⛔ It is not evidence that any transcriptional effector binds, is recruited, is retained on chromatin, or changes transcription. It is an excluded-volume statement: a body of the stated size has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. The effector bodies are SIZE PROXIES and not effectors; no NAMED effector has been staged. And the second half of the route's requirement set — paralogue discrimination on the binder — is untouched by geometry and is not addressed here at all.
+| body | what it is | size class | residues | shortest linker (backbone atoms) with any admissible placement |
+|---|---|---|---|---|
+| `bcl6` | **NAMED transcriptional effector** — BCL6 | multi_subunit | 243 | **6** |
+| `birc2` | E3 recruiter, used as an effector-SIZE proxy | single_domain | 92 | **6** |
+| `brd4_bd1` | **NAMED transcriptional effector** — BRD4 | single_domain | 127 | **6** |
+| `crbn` | E3 recruiter (replication target) | multi_subunit | 1183 | **6** |
+| `mdm2` | E3 recruiter, used as an effector-SIZE proxy | single_domain | 94 | **6** |
+| `vhl` | E3 recruiter (replication target) | multi_subunit | 340 | **6** |
+
+⛔ It is not evidence that BCL6, BRD4 binds anything, is recruited, is retained on chromatin, or changes transcription. It is an excluded-volume statement: a body of this shape has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. ⛔ And it does NOT upgrade the size-class result: `birc2` and `mdm2` remain size-and-shape proxies, the paired size comparison is still computed on the four E3 bodies alone, and nothing measured on a proxy may be restated as an effector result. The route's paralogue-discrimination requirement is untouched by geometry and is not addressed here at all.
+
+## 1b · ★★ The NAMED effector — what changed, and what did not
+
+per-rung admissibility for each STAGED, NAMED transcriptional effector, computed from that arm's own cells only
+
+| effector | what it is | source PDB | body | residues | shortest admitting linker | admits at the 12-atom gate |
+|---|---|---|---|---|---|---|
+| **BCL6** (`bcl6`) | transcriptional repressor (BTB/POZ zinc-finger) | 7LWG | A+B | 243 | **6** | True |
+| **BRD4** (`brd4_bd1`) | BET-family transcriptional co-activator / acetyl-lysine reader | 4ZC9 | A | 127 | **6** | True |
+
+| linker atoms | `bcl6` acceptance (95 % CI) | `brd4_bd1` acceptance (95 % CI) | `bcl6` body cost | `brd4_bd1` body cost |
+|---|---|---|---|---|
+| 6 | 0.00061528 [0.00059019, 0.00064143] | 0.00035417 [0.00033526, 0.00037414] | 0.001569 | 0.000903 |
+| 8 | 0.00068667 [0.00066013, 0.00071426] | 0.00039556 [0.00037554, 0.00041664] | 0.001596 | 0.00092 |
+| 10 | 0.00076056 [0.00073261, 0.00078957] | 0.00041139 [0.00039097, 0.00043288] | 0.001636 | 0.000885 |
+| 12 | 0.00076472 [0.00073669, 0.00079382] | 0.00043444 [0.00041344, 0.00045651] | 0.00155 | 0.00088 |
+| 14 | 0.000845 [0.00081551, 0.00087555] | 0.00047167 [0.00044976, 0.00049464] | 0.001622 | 0.000906 |
+| 16 | 0.00085444 [0.00082479, 0.00088516] | 0.00051028 [0.00048748, 0.00053415] | 0.001564 | 0.000934 |
+| 20 | 0.00088694 [0.00085672, 0.00091823] | 0.00055861 [0.00053473, 0.00058356] | 0.001471 | 0.000926 |
+| 24 | 0.00102139 [0.00098892, 0.00105492] | 0.00064972 [0.00062393, 0.00067658] | 0.001537 | 0.000978 |
+
+⚠ a named effector admitting is the same gate the proxies already passed at every rung. What changed is WHOSE excluded volume was tested, not how discriminating the test is.
+
+⛔ **What is still a SIZE-CLASS statement and may not be restated as an effector one:**
+- the PAIRED SIZE COMPARISON (`★_paired_body_size_comparison`) and everything derived from it — the within-class spread control, the pooled single/multi ratio and the interface-floor ablation — are computed on the four committed bodies ONLY. `birc2` and `mdm2` remain size-and-shape PROXIES there and nothing about a named effector may be read off them.
+- the interface-floor ablation is a statement about the SAMPLER's inherited degrader parameter, not about any effector; it is unchanged by staging one.
+- `admits` remains a gate that no tested body has failed, so a named effector admitting is not evidence of anything beyond excluded volume.
+
+### 1c · Is the named arm comparable to the committed four?
+
+the exit-atom offset displaces a body relative to the target before any rotation, so an arm whose exposure sits outside the committed arms' range is NOT COMPARABLE with them and its acceptance may not be pooled with or ranked against theirs. ⚠ The SIGN is not predictable and is not claimed: a larger offset both moves the body clear of the target (easier) and pushes it out of the shell it must sit in (harder). This does not invalidate such an arm — it bounds what may be said with it.
+
+| arm | partner class | ligand | heavy atoms | exit-atom exposure (Å) | inside the committed E3 range |
+|---|---|---|---|---|---|
+| `bcl6` | transcriptional effector | YN7 | 45 | 5.44 | True |
+| `birc2` | E3 ubiquitin-ligase recruiter | 1BG | 38 | 5.04 | True |
+| `brd4_bd1` | transcriptional effector | 4MW | 55 | 13.65 | False |
+| `crbn` | E3 ubiquitin-ligase recruiter | RN6 | 59 | 5.11 | True |
+| `mdm2` | E3 ubiquitin-ligase recruiter | HTZ | 46 | 5.79 | True |
+| `vhl` | E3 ubiquitin-ligase recruiter | 759 | 69 | 5.0 | True |
+
+Committed E3 exposure range: **5.0–5.79 Å**. Effector arms inside it: `bcl6`. Outside it: `brd4_bd1` (13.65 Å).
 
 ## 2 · What "one more anchor set" is, measured
 
-**Staged transcriptional-effector arms in this repository: 0** (of 4 staged arms, 4 loadable as rigid bodies).
+**Staged transcriptional-effector arms in this repository: 2** (of 6 staged arms, 6 loadable as rigid bodies).
 
 | arm | recruiter | partner class | source PDB | loadable |
 |---|---|---|---|---|
+| `bcl6` | BCL6 | transcriptional effector | 7LWG | True |
 | `birc2` | BIRC2 | E3 ubiquitin-ligase recruiter | 4HY4 | True |
+| `brd4_bd1` | BRD4 | transcriptional effector | 4ZC9 | True |
 | `crbn` | CRBN | E3 ubiquitin-ligase recruiter | 6BOY | True |
 | `mdm2` | MDM2 | E3 ubiquitin-ligase recruiter | 6Q9L | True |
 | `vhl` | VHL | E3 ubiquitin-ligase recruiter | 5T35 | True |
 
-every staged arm in the registry is an E3 ubiquitin-ligase recruiter. The count of staged transcriptional-effector arms is 0. `PUB-TCIP`'s stated reason for being unwritten — 'the machinery exists and takes one more anchor set' — is therefore correct about the machinery and understates the input: the anchor set is a STAGED STRUCTURE, not a number, and staging one needs RCSB, which the dev sandbox's egress proxy 403s.
+2 staged transcriptional-effector arm(s) are loadable as rigid bodies (bcl6 (7LWG), brd4_bd1 (4ZC9)), alongside 4 E3 ubiquitin-ligase recruiters. `PUB-TCIP`'s stated reason for being unwritten — 'the machinery exists and takes one more anchor set' — is DISCHARGED: the anchor set was a staged structure, not a number, and it now exists. ⛔ A staged body is an excluded volume and one atom's coordinates; it is not evidence that this effector binds anything, is recruited, or changes transcription.
 
 ## 3 · The body-free anchor envelope — the E3-free machinery
 
@@ -62,18 +110,18 @@ Fraction of the reach shell in which a second terminus's ligand exit atom can si
 | 20 | 25.0 | **0.60302** | 0.46169 | 0.68319 |
 | 24 | 30.0 | **0.66459** | 0.5914 | 0.71126 |
 
-## 4 · The paired placement envelope — same anchors, same sampler, four real bodies
+## 4 · The paired placement envelope — same anchors, same sampler, 6 real bodies
 
-| linker atoms | `birc2` (single domain) | `crbn` (multi subunit) | `mdm2` (single domain) | `vhl` (multi subunit) |
-|---|---|---|---|---|
-| 6 | 12/12 poses · 1487 accepted | 12/12 poses · 1359 accepted | 12/12 poses · 1043 accepted | 12/12 poses · 1347 accepted |
-| 8 | 12/12 poses · 1648 accepted | 12/12 poses · 1436 accepted | 12/12 poses · 1196 accepted | 12/12 poses · 1416 accepted |
-| 10 | 12/12 poses · 1688 accepted | 12/12 poses · 1552 accepted | 12/12 poses · 1211 accepted | 12/12 poses · 1737 accepted |
-| 12 | 12/12 poses · 1701 accepted | 12/12 poses · 1493 accepted | 12/12 poses · 1229 accepted | 12/12 poses · 1888 accepted |
-| 14 | 12/12 poses · 1790 accepted | 12/12 poses · 1632 accepted | 12/12 poses · 1343 accepted | 12/12 poses · 1991 accepted |
-| 16 | 12/12 poses · 1860 accepted | 12/12 poses · 1648 accepted | 12/12 poses · 1494 accepted | 12/12 poses · 2088 accepted |
-| 20 | 12/12 poses · 1976 accepted | 12/12 poses · 1823 accepted | 12/12 poses · 1886 accepted | 12/12 poses · 2326 accepted |
-| 24 | 12/12 poses · 2292 accepted | 12/12 poses · 2100 accepted | 12/12 poses · 2172 accepted | 12/12 poses · 2461 accepted |
+| linker atoms | `bcl6` (multi subunit) | `birc2` (single domain) | `brd4_bd1` (single domain) | `crbn` (multi subunit) | `mdm2` (single domain) | `vhl` (multi subunit) |
+|---|---|---|---|---|---|---|
+| 6 | 12/12 poses · 2215 accepted | 12/12 poses · 2897 accepted | 12/12 poses · 1275 accepted | 12/12 poses · 2670 accepted | 12/12 poses · 2084 accepted | 12/12 poses · 2695 accepted |
+| 8 | 12/12 poses · 2472 accepted | 12/12 poses · 3285 accepted | 12/12 poses · 1424 accepted | 12/12 poses · 2873 accepted | 12/12 poses · 2400 accepted | 12/12 poses · 2990 accepted |
+| 10 | 12/12 poses · 2738 accepted | 12/12 poses · 3450 accepted | 12/12 poses · 1481 accepted | 12/12 poses · 3063 accepted | 12/12 poses · 2428 accepted | 12/12 poses · 3534 accepted |
+| 12 | 12/12 poses · 2753 accepted | 12/12 poses · 3435 accepted | 12/12 poses · 1564 accepted | 12/12 poses · 2975 accepted | 12/12 poses · 2475 accepted | 12/12 poses · 3765 accepted |
+| 14 | 12/12 poses · 3042 accepted | 12/12 poses · 3570 accepted | 12/12 poses · 1698 accepted | 12/12 poses · 3216 accepted | 12/12 poses · 2667 accepted | 12/12 poses · 4052 accepted |
+| 16 | 12/12 poses · 3076 accepted | 12/12 poses · 3704 accepted | 12/12 poses · 1837 accepted | 12/12 poses · 3262 accepted | 12/12 poses · 2865 accepted | 12/12 poses · 4121 accepted |
+| 20 | 12/12 poses · 3193 accepted | 12/12 poses · 3909 accepted | 12/12 poses · 2011 accepted | 12/12 poses · 3622 accepted | 12/12 poses · 3738 accepted | 12/12 poses · 4551 accepted |
+| 24 | 12/12 poses · 3677 accepted | 12/12 poses · 4557 accepted | 12/12 poses · 2339 accepted | 12/12 poses · 4136 accepted | 12/12 poses · 4312 accepted | 12/12 poses · 4993 accepted |
 
 Read as: how many of the 12 warhead anchors admit **any** placement of that body at that linker length, and how many placements were accepted out of the samples drawn.
 
@@ -83,14 +131,14 @@ Read as: how many of the 12 warhead anchors admit **any** placement of that body
 
 | linker atoms | single-domain acceptance (95 % CI) | multi-subunit acceptance (95 % CI) | ratio single/multi | intervals overlap | single-domain body cost | multi-subunit body cost |
 |---|---|---|---|---|---|---|
-| 6 | 0.00070278 [0.00067593, 0.00073069] | 0.00075167 [0.00072388, 0.00078052] | **0.935** | True | 0.001792 | 0.001917 |
-| 8 | 0.00079 [0.0007615, 0.00081956] | 0.00079222 [0.00076369, 0.00082182] | **0.997** | True | 0.001837 | 0.001842 |
-| 10 | 0.00080528 [0.0007765, 0.00083512] | 0.00091361 [0.00088293, 0.00094536] | **0.881** | False | 0.001732 | 0.001965 |
-| 12 | 0.00081389 [0.00078496, 0.00084388] | 0.00093917 [0.00090805, 0.00097135] | **0.867** | False | 0.00165 | 0.001903 |
-| 14 | 0.00087028 [0.00084034, 0.00090128] | 0.00100639 [0.00097416, 0.00103968] | **0.865** | False | 0.001671 | 0.001932 |
-| 16 | 0.00093167 [0.00090068, 0.00096372] | 0.00103778 [0.00100505, 0.00107158] | **0.898** | False | 0.001706 | 0.0019 |
-| 20 | 0.00107278 [0.00103949, 0.00110713] | 0.0011525 [0.00111798, 0.00118809] | **0.931** | False | 0.001779 | 0.001911 |
-| 24 | 0.00124 [0.00120417, 0.00127689] | 0.00126694 [0.00123073, 0.00130423] | **0.979** | True | 0.001866 | 0.001906 |
+| 6 | 0.00069181 [0.00067286, 0.00071128] | 0.00074514 [0.00072547, 0.00076534] | **0.928** | False | 0.001764 | 0.0019 |
+| 8 | 0.00078958 [0.00076933, 0.00081037] | 0.00081431 [0.00079373, 0.00083541] | **0.97** | True | 0.001836 | 0.001893 |
+| 10 | 0.00081639 [0.00079579, 0.00083752] | 0.00091625 [0.00089441, 0.00093862] | **0.891** | False | 0.001756 | 0.001971 |
+| 12 | 0.00082083 [0.00080018, 0.00084202] | 0.00093611 [0.00091404, 0.00095872] | **0.877** | False | 0.001664 | 0.001897 |
+| 14 | 0.00086625 [0.00084503, 0.00088801] | 0.00100944 [0.00098651, 0.00103291] | **0.858** | False | 0.001663 | 0.001938 |
+| 16 | 0.00091236 [0.00089057, 0.00093468] | 0.00102542 [0.0010023, 0.00104906] | **0.89** | False | 0.00167 | 0.001877 |
+| 20 | 0.00106208 [0.00103856, 0.00108614] | 0.00113514 [0.00111081, 0.00116] | **0.936** | False | 0.001761 | 0.001882 |
+| 24 | 0.00123181 [0.00120645, 0.00125769] | 0.00126792 [0.00124219, 0.00129418] | **0.972** | True | 0.001853 | 0.001908 |
 
 `body cost` = acceptance ÷ the body-free admissible fraction of the same shell — the body's own marginal cost with the target's shape divided out.
 
@@ -98,16 +146,16 @@ Read as: how many of the 12 warhead anchors admit **any** placement of that body
 
 the single-domain pool accepts LESS than the multi-subunit pool at 8 of 8 rungs and MORE at 0, and the contrast is NOT larger than the spread between two bodies of the SAME size at 8 of 8 rungs — so it may not be reported as a size law. Two ~90-residue single-domain bodies differ from each other by more than the classes differ from each other, which says the controlling variable is the individual body's shape and exit-vector geometry rather than how big it is. `per_arm_acceptance_rate` at each rung is where that is visible.
 
-| linker atoms | `birc2` (92 res) | `crbn` (1183 res) | `mdm2` (94 res) | `vhl` (340 res) | within-class spread (single / multi) | between-class contrast | within > between |
-|---|---|---|---|---|---|---|---|
-| 6 | 0.00082611 | 0.000755 | 0.00057944 | 0.00074833 | 1.426 / 1.009 | 1.07 | **True** |
-| 8 | 0.00091556 | 0.00079778 | 0.00066444 | 0.00078667 | 1.378 / 1.014 | 1.003 | **True** |
-| 10 | 0.00093778 | 0.00086222 | 0.00067278 | 0.000965 | 1.394 / 1.119 | 1.135 | **True** |
-| 12 | 0.000945 | 0.00082944 | 0.00068278 | 0.00104889 | 1.384 / 1.265 | 1.154 | **True** |
-| 14 | 0.00099444 | 0.00090667 | 0.00074611 | 0.00110611 | 1.333 / 1.22 | 1.156 | **True** |
-| 16 | 0.00103333 | 0.00091556 | 0.00083 | 0.00116 | 1.245 / 1.267 | 1.114 | **True** |
-| 20 | 0.00109778 | 0.00101278 | 0.00104778 | 0.00129222 | 1.048 / 1.276 | 1.074 | **True** |
-| 24 | 0.00127333 | 0.00116667 | 0.00120667 | 0.00136722 | 1.055 / 1.172 | 1.022 | **True** |
+| linker atoms | `bcl6` (243 res) | `birc2` (92 res) | `brd4_bd1` (127 res) | `crbn` (1183 res) | `mdm2` (94 res) | `vhl` (340 res) | within-class spread (single / multi) | between-class contrast | within > between |
+|---|---|---|---|---|---|---|---|---|---|
+| 6 | 0.00061528 | 0.00080472 | 0.00035417 | 0.00074167 | 0.00057889 | 0.00074861 | 1.39 / 1.009 | 1.077 | **True** |
+| 8 | 0.00068667 | 0.0009125 | 0.00039556 | 0.00079806 | 0.00066667 | 0.00083056 | 1.369 / 1.041 | 1.031 | **True** |
+| 10 | 0.00076056 | 0.00095833 | 0.00041139 | 0.00085083 | 0.00067444 | 0.00098167 | 1.421 / 1.154 | 1.122 | **True** |
+| 12 | 0.00076472 | 0.00095417 | 0.00043444 | 0.00082639 | 0.0006875 | 0.00104583 | 1.388 / 1.266 | 1.14 | **True** |
+| 14 | 0.000845 | 0.00099167 | 0.00047167 | 0.00089333 | 0.00074083 | 0.00112556 | 1.339 / 1.26 | 1.165 | **True** |
+| 16 | 0.00085444 | 0.00102889 | 0.00051028 | 0.00090611 | 0.00079583 | 0.00114472 | 1.293 / 1.263 | 1.124 | **True** |
+| 20 | 0.00088694 | 0.00108583 | 0.00055861 | 0.00100611 | 0.00103833 | 0.00126417 | 1.046 / 1.256 | 1.069 | **True** |
+| 24 | 0.00102139 | 0.00126583 | 0.00064972 | 0.00114889 | 0.00119778 | 0.00138694 | 1.057 / 1.207 | 1.029 | **True** |
 
 ### 4d · ★★ Root cause — the interface floor, ablated
 
@@ -140,16 +188,19 @@ the same cells at the same linker length with ONLY the sampler's interface floor
 
 - `reproduces_the_committed_pose_ensemble`: **AGREES** (n = 12)
 - `committed_accepted_anchors_are_admissible`: **HOLDS**
-- `replicates_the_committed_E3_acceptance`: **AGREES** (n = 24)
+- `replicates_the_committed_E3_acceptance`: **DISAGREES** (n = 24)
 - `size_labels_match_the_coordinates`: **AGREES**
 - `acceptance_test_is_E3_free`: **HOLDS**
+- `exit_vector_comparability`: **FLAGS**
 
 ## 7 · What this inherits and cannot say
 
 - every warhead anchor is conditional on the cryptic pocket being the site, which `V3` left INCONCLUSIVE — the `R5` SITE half, carried whole from the E3 lane
 - ⭐ but NOT the `R5` POSE half: the anchors are MARGINALISED over pocket-mouth positions (`nr4a3_basin_search.build_pose_ensemble`, 12 anchors in a 5–11 Å shell around the pocket centroid), not taken from a docked pose. `pose-convergence-401.json`'s 7.006 Å median pocket-superposed ligand RMSD with `cross_method_evidence: NONE` is a statement about a DOCKED POSE this enumeration does not use, so it is not inherited as a coordinate error here — what is inherited is the site premise both rest on
 - one opened NR4A3 model frame; no ensemble, no dynamics, no induced fit of the target
-- the second-terminus bodies are single deposited conformers, and the two used as effector-size proxies are NOT transcriptional effectors — they are size-and-shape proxies and are labelled so everywhere
+- the second-terminus bodies are single deposited conformers, and `birc2`/`mdm2` are NOT transcriptional effectors — they are size-and-shape proxies, they are labelled so everywhere, and they alone carry the paired SIZE comparison
+- ⛔ a staged NAMED effector is its LIGAND-BINDING DOMAIN, not the full-length protein: a BCL6 BTB dimer is not BCL6 and a bromodomain is not BRD4. Everything outside the deposited construct is absent from the excluded volume, so an admitting answer is an UPPER bound on what the full protein would allow — and the full protein is what a cell contains
+- ⛔ the DNA and chromatin a transcriptional effector is bound to are absent entirely; a DNA-bound effector's accessible volume is smaller than a free domain's, and this enumeration cannot see that
 - `BLK-INDUCED-COMPLEX` is untouched: nothing here assembles or scores an induced complex, and no NR4A3 ternary of any kind has been correctly assembled by anyone
 - the route's paralogue-discrimination requirement (`R7`) is not a geometry question and is not addressed at all
 

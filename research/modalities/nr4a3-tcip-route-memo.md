@@ -5,7 +5,7 @@ level: L4
 kind: memo
 status: live
 canonical_for: []
-purpose: "Grade RT-TCIP against the enumeration that has now been run, and record the two documentation defects and one citation gate the run surfaced."
+purpose: "Grade RT-TCIP against the enumeration that has now been run, record which sentences the newly staged NAMED transcriptional effectors upgrade and which stay proxy-carried, and record the two documentation defects and one citation gate the run surfaced."
 scope: One route. Geometry only — no binding, activity, degradation, selectivity, efficacy or clinical statement.
 audience: [maintainers, autonomous research agents]
 date: 2026-08-06
@@ -37,7 +37,7 @@ attaches to reading a reach gate at its sampling ceiling. What the run is actual
 
 ---
 
-## 2 · What "one more anchor set" turned out to mean — the status-converting finding
+## 2 · What "one more anchor set" turned out to mean — and it has now been supplied
 
 `PUB-TCIP` is recorded as unwritten because *"the machinery exists and takes one more anchor set."* Read
 against the code, that phrase understates the input by a category.
@@ -45,16 +45,93 @@ against the code, that phrase understates the input by a category.
 The reach modules consume two points per cell: `a` (warhead exit-vector anchor, target-side, reused
 unchanged) and `b` (the second terminus's ligand exit atom). **`b` is not typeable.** It is produced by
 `nr4a3_basin_search.sample_placements`, which requires a staged **rigid body** — a registry record with
-`receptor_pdb` coordinates on disk and a `ligand.exit_atom_xyz`. That is the anchor set.
+`receptor_pdb` coordinates on disk and a `ligand.exit_atom_xyz`. That is the anchor set. ⇒ *"one more anchor
+set"* is **one more deposited structure**, staged through an RCSB fetch, and RCSB is 403'd by the dev
+sandbox's egress proxy, so it is a CI-only path.
 
-**Counted, not recalled** (`effector_arm_census`): the repository stages **4** such bodies — `vhl` (5T35),
-`crbn` (6BOY), `birc2` (4HY4), `mdm2` (6Q9L) — all four loadable, and **all four E3 ubiquitin-ligase
-recruiters. Staged transcriptional-effector arms: 0.**
+### ★★ 2026-08-06, later the same day: the CI fetch was run and the input now exists
 
-⇒ *"one more anchor set"* is **one more deposited structure**, staged through an RCSB fetch. RCSB is 403'd
-by the dev sandbox's egress proxy, so it is a CI-only path and cannot be done from here. **This does not
-block the run** — see §3 — but it does bound what the run may be said to be about, and it is why no
-statement here names an effector protein.
+⚠ **SUPERSEDED, RETAINED:** *"the repository stages **4** such bodies — `vhl` (5T35), `crbn` (6BOY), `birc2`
+(4HY4), `mdm2` (6Q9L) — all four loadable, and **all four E3 ubiquitin-ligase recruiters. Staged
+transcriptional-effector arms: 0.** … it is why no statement here names an effector protein."* That was a
+correct count of the repository as it stood and it is the finding that converted this lead's status. **It is
+no longer true**, and §7 records exactly which sentences that does and does not upgrade.
+
+**Two NAMED transcriptional effectors are now staged** by
+[`nr4a3_effector_stage.py`](./nr4a3_effector_stage.py) into
+[`nr4a3-effector-arm-registry.json`](./nr4a3-effector-arm-registry.json) — a **second** registry, not extra
+rows in the E3 one, because `nr4a3_e3_stage.py` rewrites its registry wholesale on every run and a merged
+effector arm would be silently deleted by the next E3 staging job.
+
+| arm | protein | what it is | entry | body | ligand | exit atom |
+|---|---|---|---|---|---|---|
+| `bcl6` | **BCL6** | BTB/POZ zinc-finger **transcriptional repressor** | 7LWG, 1.30 Å X-ray | BTB **homodimer**, chains A+B, residues 7–128, **243 residues** | YN7 (OICR-12694), 45 heavy atoms | C29, 5.44 Å exposed |
+| `brd4_bd1` | **BRD4** | BET **transcriptional co-activator** / acetyl-lysine reader, bromodomain 1 | 4ZC9, 0.99 Å X-ray | chain A, residues 42–168, **127 residues** | 4MW, 55 heavy atoms | O2, 13.65 Å exposed |
+
+### Why BCL6, on evidence rather than on plausibility
+
+Read out of the route's own motivating paper, not recalled. `EV-EB-TCIP-2025`
+(`10.1021/jacs.5c05634`, PMC12851799; CI-fetched full text committed on `literature-cache` at
+`literature/emc-post-degrader-options/tcip_ewsfli1_jacs_pmc.txt`) states in its abstract that EB-TCIP
+*"recruits FKBP12^F36V^-tagged EWSR1::FLI1 to DNA sites bound by the transcriptional regulator **BCL6**"*,
+and in its results that EB-TCIP is *"BAK-04-212, a bivalent molecule comprised of OAP and **BI3812**"* —
+BI3812 being a BCL6 BTB ligand. The recruited transcriptional machinery in the prior art is BCL6.
+
+⛔ **The hard constraint is the LIGAND, not the protein.** A second terminus with no small-molecule handle
+cannot supply `b` at all, and that is what rules out most transcriptional effectors. The paper names the same
+constraint in its own words when explaining why it picked BCL6: *"known chemical matter, validated exit
+vector, and assay availability."*
+
+**What was rejected, and why:**
+
+- **A bromodomain as the primary choice** — which is what `nr4a3_tcip_reach.effector_arm_census` itself
+  guessed (*"the TCIP literature's effector handle is a bromodomain-class ligand"*). Checked against the
+  source, that is **wrong for EB-TCIP**: the effector is BCL6 and the handle is a BTB lateral-groove ligand.
+  The guess is corrected in the module, and BRD4 BD1 is kept as a **second** body rather than the first —
+  see below.
+- **EWSR1::FLI1 / any fusion TF itself** — the paper's own reason: *"highly disordered and difficult to
+  drug"*, which is why it had to be FKBP-tagged. No ligandable handle ⇒ no `b`.
+- **Every BCL6 entry that could not supply a two-protomer ligand-binding unit** — **20 of the 25** entries
+  RCSB returned, each refused by name and reason in the registry's `rejected` list
+  (*"not enough chains of this accession to build the declared ligand-binding unit"*), plus 3 more with no
+  qualifying bound ligand. See the next paragraph: this is the defect the staging module exists to avoid,
+  and it fired 20 times on the first real fetch.
+
+### ⛔ Why this is not `nr4a3_e3_stage.py` with a different accession
+
+That script's `select_assembly_copy` takes **one chain per protein**, which is right for VHL, CRBN, BIRC2
+and MDM2 — every one of their ligand sites sits inside a single chain. **The BCL6 BTB lateral groove is
+formed BETWEEN the two protomers of an obligate homodimer.** A one-chain body would be half a binding site:
+the excluded volume understated, and the derived exit vector possibly pointing into the protomer that was
+dropped — with every distance downstream still looking perfectly reasonable. So the body here is **derived
+from the chosen ligand's own contacts**, and the evidence is recorded per chain rather than assumed:
+YN7 contacts **38 atoms of chain A and 20 of chain B**, so the ligand demonstrably spans the dimer and the
+body is `A+B` by measurement. An entry where the ligand touched one chain is completed only through an
+interface of ≥30 residues, and is **refused as ambiguous** if two candidate partners are within 1.20×.
+
+### Is the exit vector well determined, or is the argmax degenerate?
+
+This is the failure
+`nr4a3_e3_stage.pick_ligand`'s own docstring records paying for once — the first E3 run reported both arms'
+exit exposure as *exactly* 8.00 Å, which was the distance field's **clamp**, not a measurement, so the
+argmax was arbitrary. Checked here rather than assumed, on exact distances with no clamp in range:
+
+| arm | chosen exit | runner-up | gap | relationship |
+|---|---|---|---|---|
+| `bcl6` | C29, 5.44 Å | C31, 5.33 Å | **0.11 Å — a near tie** | C29–N30 = 1.37 Å, C29–C31 = 2.23 Å ⇒ both atoms are in the **same terminal moiety**, so the exit *direction* is unchanged by the tie |
+| `brd4_bd1` | O2, 13.65 Å | O4, 12.92 Å | 0.73 Å | O2–C10 = 1.22 Å (a carbonyl); one atom within 0.5 Å of the max |
+
+⇒ `bcl6`'s argmax is a near tie and is reported as one. It is **not** the clamp failure: the distances are
+exact, the maximum is 5.44 Å against an 8 Å clamp, and the two candidates are 2.23 Å apart on the same group.
+
+### What was verified about the staged records, rather than read off `status: OK`
+
+A filled `exit_atom_xyz` and a green `status` are exactly what a defaulted record would also carry, so the
+staging job re-reads what it wrote and checks the things only a real staging can produce
+(`nr4a3_effector_stage.self_check`): the coordinate file parses, `load_arm_from_registry` — **the same
+consumer the enumeration uses** — turns it into a rigid body, and the exit atom **lands on a deposited
+ligand heavy atom at 0.000 Å** rather than being a typed number. Both arms pass; both carry no RING, no
+cullin and no transfer anchor.
 
 ---
 
@@ -70,10 +147,14 @@ from identical anchors, an identical target frame, an identical distance field a
 | body-free | the pure anchor envelope, on a deterministic 1.0 Å lattice with no RNG | this **is** the E3-free machinery; second-terminus-independent by construction |
 | E3 bodies | `vhl` 340 res · `crbn` 1183 res | the replication target — if these do not reproduce the committed run, nothing else means anything |
 | effector-size bodies | `birc2` 92 res · `mdm2` 94 res | single-domain ligand-binding bodies with solved ligand exit vectors |
+| ★ **named effectors** (added 2026-08-06) | `bcl6` 243 res · `brd4_bd1` 127 res | the actual transcriptional machinery, enumerated on its own coordinates — §2 |
 
 ⛔ **`birc2` and `mdm2` are SIZE-AND-SHAPE PROXIES, not transcriptional effectors, and nothing here says
-otherwise.** They are used for exactly one property: a ~90–95-residue single-domain ligandable body. A
-statement about a *named* effector still needs that effector staged.
+otherwise.** They are used for exactly one property: a ~90–95-residue single-domain ligandable body. **They
+remain the ONLY bodies in the paired size comparison** — no effector arm enters those pools, and
+`test_a_named_effector_may_not_be_pooled_into_the_size_class_comparison` fails the build if one ever does.
+A statement about a *named* effector comes from the named arms' own cells (`★_named_effector`), never from
+these two.
 
 ### ★ The half of `PUB-TCIP`'s claim that is now MEASURED rather than read
 
@@ -155,6 +236,27 @@ this route. **So the TCIP number must be reported at both floors, never at the i
   *is* shared is the site premise both rest on.
 - One opened NR4A3 frame; no ensemble, no dynamics, no induced fit.
 - Single deposited conformers for the bodies, two of them explicit proxies.
+- **⛔ A staged named effector is its LIGAND-BINDING DOMAIN, not the protein.** A BCL6 BTB dimer (residues
+  7–128 of a 706-residue protein) is not BCL6, and a bromodomain (42–168 of 1362) is not BRD4. Everything
+  outside the deposited construct is absent from the excluded volume, so an admitting answer is an **upper
+  bound** on what the full protein would allow — and the full protein is what a cell contains.
+- **⛔ DNA and chromatin are absent entirely.** The whole point of a TCIP is that the effector is *bound to
+  DNA*; a DNA-bound effector has less accessible volume than a free domain, and this enumeration cannot see
+  that. It is a further reason the answer is an upper bound.
+- **⚠ Exit-vector exposure is a real confounder and is now measured, not assumed** — the sampler places a
+  body by putting its ligand exit atom in the reach shell, so how far that atom sits from its own body is a
+  fixed offset that displaces the whole body relative to the target before any rotation. Committed E3 range:
+  **5.00–5.79 Å**. `bcl6` sits at **5.44 Å — inside it**, so it is comparable to the four committed arms on
+  the property that would otherwise do the work. `brd4_bd1` sits at **13.65 Å — outside it**, so its
+  acceptance may not be pooled with or ranked against the others; it is kept as a second body, not as a
+  comparator (`cross_checks.exit_vector_comparability`, status `FLAGS`).
+  ⚠ **And the SIGN of that confounder is not claimed, because the first data that could speak to it went the
+  other way.** The obvious story — a far-dangling exit atom clears the target, so it is admitted more easily
+  — was written into this module and then contradicted: `brd4_bd1` at 13.65 Å accepted **less** than `bcl6`
+  at 5.44 Å, because a large offset also pushes the body out of the shell it has to sit in. Two mechanisms
+  with opposite signs, so the check outputs **"not comparable"** and never "comparable after allowing for
+  it". *Superseded, retained: "is therefore admitted more easily for a reason that has nothing to do with
+  BRD4."*
 - **`BLK-INDUCED-COMPLEX` is untouched.** Nothing here assembles or scores an induced complex.
 - **`R7` (paralogue discrimination on the binder) is not a geometry question and is not addressed at all.**
 
@@ -181,6 +283,14 @@ committed on the `literature-cache` branch at
 provenance record than "auto-captured lead" — but it is **not** `verify-refs`, and the repo's gate is
 `verify-refs`.
 
+**★ What changed on 2026-08-06, and what did not.** That citation is now the reason an effector was
+**CHOSEN** — a staging decision, recorded verbatim in the effector registry's
+`evidence_for_choosing_this_effector` with the two quotes it rests on. ⛔ **It still supplies no number to
+any result, and the gate is still open.** A citation may tell you which protein to fetch; it may not enter
+an artifact as a measurement until it clears `verify-refs`. The registry says so in its own
+`⚠_citation_gate` field, and `.github/workflows/verify-refs.yml` is held by another lane, so adding the DOI
+there is out of this one's remit and remains open.
+
 ⛔ **Consequently no number in `nr4a3-tcip-reach.json` comes from that citation.**
 `required_distances()` refuses it explicitly and uses only repository-owned bounds
 (`nr4a3_basin_search.PARAMS`, `nr4a3_linker_design.CHEM_MAX_ATOMS`), which are modality-agnostic — which is
@@ -193,7 +303,10 @@ reading is the one that survives any tightening.
 ## 7 · Grading the route, and what `PUB-TCIP` can honestly be
 
 **`readiness.attainable_today` moves from `reproducible_workflow` to a computed result.** The route now
-holds an artifact of its own; `RT-TCIP.artifacts` is `[]` today.
+holds an artifact of its own. ⚠ *Superseded, retained: "`RT-TCIP.artifacts` is `[]` today."* Measured on
+this branch it reads `["ART-TCIP-REACH"]` — the registration landed after this line was written, and a
+stale "the graph does not know about this yet" reads as a live gap. The graph edits still owed after the
+effector staging are described-not-applied at the end of §10.
 
 **What `PUB-TCIP` can now claim, in order of strength:**
 
@@ -207,8 +320,13 @@ holds an artifact of its own; `RT-TCIP.artifacts` is `[]` today.
    and the apparent effector-size penalty is entirely an **interface floor inherited from a degrader**,
    which inverts when ablated. That is a real result about the *instrument*, and it generalises beyond this
    route.
-4. **A staged transcriptional-effector arm does not exist in this repository** — so no claim about a named
-   effector is available at any price until one CI fetch happens.
+4. ⚠ **SUPERSEDED, RETAINED:** *"A staged transcriptional-effector arm does not exist in this repository —
+   so no claim about a named effector is available at any price until one CI fetch happens."* The CI fetch
+   happened the same day. Replaced by 4′ and by the boundary in §7b, which is the part that matters.
+4′. **The enumeration now runs on a NAMED transcriptional effector** — BCL6's BTB homodimer (7LWG, 243
+   residues, 1.30 Å), chosen from the route's own motivating paper and staged with the ligand-spanning
+   dimer measured rather than assumed. Its exit-vector exposure sits inside the committed E3 arms' range,
+   so it is comparable to them; BRD4 BD1 is a second body and is flagged as NOT comparable on that axis.
 
 ⚠ **Recommendation: this is a section, not a paper.** On its own, (1)–(4) is thin for a standalone
 preprint. It is a strong sub-section of a methods/negative-results paper about what the reach machinery can
@@ -218,6 +336,29 @@ true about reach and does not survive contact with the decision quantity).
 **And the route's actual blockers are untouched by any of this:** `BLK-R4-BINDS` (nothing is known to bind
 the pocket), `BLK-INDUCED-COMPLEX`, `BLK-PARALOGUE-DDG`, `BLK-UNSIZED-REQUIREMENT`, `BLK-NO-WET-LAB`. The
 $0 item is discharged; it was never the thing holding the route down.
+
+---
+
+## 7b · ⛔ THE LINE: what a named effector upgraded, and what it did NOT
+
+**This is the section to read before quoting anything from this route.** Staging BCL6 moved exactly one
+sentence, and the temptation to let it move the others is precisely the failure this memo was written to
+prevent.
+
+| statement | before | after | why |
+|---|---|---|---|
+| "the envelope admits a second terminus of effector SIZE" | size class, carried by two proxies | **unchanged** | the proxies still carry it; it is the same gate |
+| "the envelope admits **BCL6's BTB domain**" | ⛔ not available at any price | ✅ **measured**, on BCL6's own coordinates | `★_named_effector`, computed from that arm's own cells |
+| the paired single/multi **size** ratio, its intervals, and the within-class spread control | four E3 bodies, `birc2`/`mdm2` as proxies | **unchanged, and still proxy-carried** | no effector arm enters those pools; a test enforces it |
+| the **interface-floor ablation** and its sign inversion | a statement about the SAMPLER's inherited degrader parameter | **unchanged** | it is about the instrument, not about any effector |
+| anything about binding, recruitment, chromatin retention or transcription | ⛔ not claimed | ⛔ **still not claimed** | a staged body is an excluded volume and one atom's coordinates |
+| paralogue discrimination on the binder (`R7`) | not addressed | **still not addressed** | not a geometry question |
+
+⭐ **And the honest reading of the upgrade is small.** The gate the named effector passed is the gate every
+body has passed at every rung — the module says so itself
+(`★_the_named_effector.⚠_the_gate_still_cannot_fail`). What genuinely changed is **whose** excluded volume
+was tested, not how discriminating the test is. The value of staging BCL6 is that the route can now be
+written about without a proxy disclaimer attached to its central noun — not that a new result appeared.
 
 ---
 
@@ -255,10 +396,100 @@ which also fails if `blockers_retired` ever regresses.
 
 ---
 
-## 9 · What would make the next run decisive — one CI job, $0
+## 9 · ✅ CLOSED — the one CI job was run, and what is open after it
 
-Stage **one** transcriptional-effector arm through the existing `e3_recruiter_staging` path (RCSB fetch in
-CI, then `receptor_pdb` + `ligand.exit_atom_xyz` into the registry schema) and re-run this module with it
-in the arm list. Nothing else changes: the sampler, the anchors, the ladder and the cross-checks all
-already accept an arbitrary arm, which §3's control measures. That converts every "effector-size proxy"
-sentence here into a statement about a named protein, and it is the only remaining input.
+⚠ **SUPERSEDED, RETAINED:** *"Stage **one** transcriptional-effector arm through the existing
+`e3_recruiter_staging` path (RCSB fetch in CI, then `receptor_pdb` + `ligand.exit_atom_xyz` into the
+registry schema) and re-run this module with it in the arm list … it is the only remaining input."*
+
+**Done, 2026-08-06, $0.** Two arms rather than one, because a single body cannot tell an effector result
+from that body's own shape — which is the finding §4 already established for the size axis and which
+applies with equal force here. The staging ran on a GitHub Actions runner (RCSB is 403'd at the dev
+sandbox's egress proxy), through `fusion-cpu-extras.yml` → `tcip_effector_stage`
+(`task=nr4a_e3_stage`, `fanout_mode=precheck`), which commits the coordinates and the registry back to the
+triggering branch. One correction the prediction got wrong: it could **not** go through the
+`e3_recruiter_staging` path, for the homodimer reason in §2.
+
+**What is open after it, in the order it is worth doing:**
+
+1. **The citation gate** — `EV-EB-TCIP-2025` still has not cleared `verify-refs` (§6). It now motivates a
+   staging choice, which raises rather than lowers the cost of leaving it unverified. `verify-refs.yml` is
+   held by another lane.
+2. **A DNA-bound effector body.** Every named-effector number here is an upper bound because the enumeration
+   sees a free ligand-binding domain, and a TCIP's whole premise is that the effector is on chromatin. A
+   BCL6 BTB–corepressor-peptide or a nucleosome-context body would tighten it. This is a staging question,
+   not a sampling one, and is $0.
+3. **A wider named panel, if it is ever worth it — and it may not be.** `nr4a3_effector_stage.EFFECTORS`
+   takes a UniProt accession and a declared ligand-binding stoichiometry, so adding a repressor arm (EED,
+   Q9C0K0, the EED226/A-395 series) or a co-activator adaptor (WDR5, P61964, the WIN-site series) is one
+   dispatch and $0. ⛔ **But the honest expectation is that it changes nothing**: the gate admits every body
+   tested at every rung, so more bodies buy breadth in a test that cannot fail. Do it if the paper needs a
+   panel, not because it is available.
+4. **Which interface floor a transcriptional CIP actually needs** (`BLK-UNSIZED-REQUIREMENT`). Unchanged by
+   any of this, and still the question that decides whether the ablation's committed row or its floor-0 row
+   is the one to report.
+5. **Nothing here touches `BLK-R4-BINDS`**, and it remains the blocker that matters: no molecule is known
+   to bind the pocket every anchor in this enumeration hangs off.
+
+---
+
+## 10 · Graph edits — DESCRIBED, NOT APPLIED
+
+`systems/graph/` is held by another lane in this session, so nothing below was written. Each entry names
+the file, the exact current text and the replacement, so it can be applied and anchor-checked without
+re-deriving anything.
+
+### (a) `systems/graph/artifacts.json` — register the effector arm registry
+
+`ART-TCIP-REACH`'s note currently ends:
+
+> *"Its two size-class bodies (birc2, mdm2) are SIZE-AND-SHAPE PROXIES, not transcriptional effectors — no
+> effector arm is staged in this repository."*
+
+That clause is now false. Proposed replacement for the clause only:
+
+> *"Its two size-class bodies (birc2, mdm2) are SIZE-AND-SHAPE PROXIES, not transcriptional effectors, and
+> they alone carry the paired size comparison. ⭐ From 2026-08-06 the enumeration ALSO runs two NAMED
+> transcriptional effectors staged in ART-TCIP-EFFECTOR-ARMS; the admissibility statement is upgraded for
+> those arms and the size comparison is NOT. ⚠ Superseded, retained: 'no effector arm is staged in this
+> repository.'"*
+
+And a new record:
+
+```json
+{
+  "id": "ART-TCIP-EFFECTOR-ARMS",
+  "name": "Transcriptional-effector second-terminus arm registry",
+  "path": "research/modalities/nr4a3-effector-arm-registry.json",
+  "produced_by": "research/modalities/nr4a3_effector_stage.py",
+  "workflow": ".github/workflows/fusion-cpu-extras.yml",
+  "published_to": ["claude/tcip-effector-stage-ci"],
+  "note": "The input RT-TCIP was blocked on: staged rigid bodies for NAMED transcriptional effectors, so the route can speak about an effector rather than a size class. BCL6 BTB homodimer (7LWG, chains A+B, 243 res, ligand YN7) and BRD4 BD1 (4ZC9, 127 res, ligand 4MW). Discovery is by UniProt accession — this module supplies NO PDB id — and the rigid body is DERIVED from the chains the chosen ligand actually contacts, because the BCL6 groove spans the dimer and a one-chain body would be half a binding site. ⚠ The body is the LIGAND-BINDING DOMAIN, not the protein, and no DNA or chromatin is present, so any admitting answer computed on it is an UPPER bound. ⚠ brd4_bd1's exit-atom exposure (13.65 A) is OUTSIDE the committed E3 arms' range (5.00-5.79 A) and its acceptance may not be pooled with or ranked against theirs; bcl6 (5.44 A) is inside it. The citation that motivates the CHOICE of effector (10.1021/jacs.5c05634) has NOT cleared verify-refs and supplies no number."
+}
+```
+
+### (b) `systems/graph/routes.json` — `RT-TCIP`
+
+Add `"ART-TCIP-EFFECTOR-ARMS"` to `artifacts`.
+
+`closure_note` currently contains:
+
+> *"What it does NOT yet hold is a named effector: 0 transcriptional-effector bodies are staged."*
+
+Proposed replacement for that sentence:
+
+> *"⭐ AND ON 2026-08-06 IT ALSO GAINED THE INPUT IT WAS MISSING: two NAMED transcriptional-effector bodies
+> are staged (BCL6 BTB, BRD4 BD1 — ART-TCIP-EFFECTOR-ARMS), so the admissibility statement is no longer
+> proxy-carried. ⛔ The size comparison still is, and none of the route's blockers moved. ⚠ Superseded,
+> retained: 'What it does NOT yet hold is a named effector: 0 transcriptional-effector bodies are
+> staged.'"*
+
+⛔ **No blocker, grade, `closure_kind` or `required_validation` field changes.** Staging a body is an input,
+not a result: `BLK-R4-BINDS`, `BLK-INDUCED-COMPLEX`, `BLK-PARALOGUE-DDG`, `BLK-UNSIZED-REQUIREMENT` and
+`BLK-NO-WET-LAB` are all exactly where they were.
+
+### (c) `systems/graph/instruments.json` / `evidence.json` — nothing owed
+
+`nr4a3_effector_stage.py` is a STAGING step, not an instrument: it emits no verdict and answers no
+scientific question, so it gets no `INS-` id. `EV-EB-TCIP-2025` already exists and its status is unchanged
+(§6).
