@@ -1,0 +1,3135 @@
+{
+ "_title": "Q3 / S15 — the reciprocal anti-handle set carried as a DESIGN CONSTRAINT, as an executable predicate over the committed construct set",
+ "_status": "GEOMETRY-ONLY DESIGN FILTER. $0 CPU, pure stdlib, no new compute of any kind — every atom count is read from the committed enumeration. Nothing here is a claim about binding, reactivity, degradation, proteome-wide selectivity, efficacy, safety, a therapeutic window or clinical readiness. A filter removes liabilities; it adds no signal and widens no margin.",
+ "_question": "Does any committed construct's reach envelope admit a cysteine that a PARALOGUE has and NR4A3 does not — i.e. a residue at which the molecule acquires a paralogue liability no NR4A3-side analysis would ever look at?",
+ "_the_predicate": "antihandle_constraint.admits_antihandle(competitor_atoms, n, antihandles) — reach is monotone in chain length, so a construct of n backbone atoms admits exactly the cysteines whose requirement is <= n.",
+ "_inherits": [
+  "every atom count comes from nr4a3-linker-covalent-reach.json, computed on ONE opened NR4A3 frame with independently built, superposed paralogue models — that lane's `aligned_pair_displacement` owns the rotamer-noise bound (max SG/CA ratio 9.5) and it is not re-derived here. No count may be quoted to better than the rotamer it rests on.",
+  "the anchors are the docked pose whose known-answer test V3 returned INCONCLUSIVE, and V3's failure was SITE selection.",
+  "no thiol pKa, intrinsic electrophile reactivity, adduct stability or chemoproteomic selectivity is computed anywhere in this repository."
+ ],
+ "_pose_marginalisation": {
+  "rule": "REJECT iff an anti-handle is admitted in ANY committed cell (the UNION). The intersection would be the false-negative direction — it would certify a construct whose liability appears under five of six poses.",
+  "why": "R5 is unresolved and got worse on 2026-08-06: the second pose method DISAGREES with the first, so the program cannot name which cell is the real one.",
+  "evidence": {
+   "read": true,
+   "cross_method_evidence": "PRESENT — 6 system(s) carry a pose from two methods with disjoint scoring",
+   "R5_resolved": false,
+   "outcome": "THE TWO METHODS DISAGREE",
+   "_source": "research/modalities/pose-second-method.json"
+  },
+  "⛔": "no vector-specific or pose-specific statement is made anywhere in this artifact. The per-placement columns are DIAGNOSTIC and are labelled as such."
+ },
+ "anti_handle_set": {
+  "_derived_from": "nr4a3-linker-covalent-reach.json -> paralogue_control.reciprocal_uniqueness",
+  "antihandles": [
+   "NR4A1 C534",
+   "NR4A1 C551",
+   "NR4A2 C534"
+  ],
+  "shared_position_paralogue_cysteines": [
+   "NR4A1 C465",
+   "NR4A1 C475",
+   "NR4A1 C505",
+   "NR4A1 C566",
+   "NR4A2 C465",
+   "NR4A2 C475",
+   "NR4A2 C505",
+   "NR4A2 C566"
+  ],
+  "per_residue": {
+   "NR4A1 C465": {
+    "paralogue": "NR4A1",
+    "cysteine": "C465",
+    "nr4a3_aligned_residue": "C496",
+    "nr4a3_has_a_cysteine_here": true,
+    "band": "shared_position"
+   },
+   "NR4A1 C475": {
+    "paralogue": "NR4A1",
+    "cysteine": "C475",
+    "nr4a3_aligned_residue": "C506",
+    "nr4a3_has_a_cysteine_here": true,
+    "band": "shared_position"
+   },
+   "NR4A1 C505": {
+    "paralogue": "NR4A1",
+    "cysteine": "C505",
+    "nr4a3_aligned_residue": "C536",
+    "nr4a3_has_a_cysteine_here": true,
+    "band": "shared_position"
+   },
+   "NR4A1 C534": {
+    "paralogue": "NR4A1",
+    "cysteine": "C534",
+    "nr4a3_aligned_residue": "S565",
+    "nr4a3_has_a_cysteine_here": false,
+    "band": "antihandle"
+   },
+   "NR4A1 C551": {
+    "paralogue": "NR4A1",
+    "cysteine": "C551",
+    "nr4a3_aligned_residue": "T579",
+    "nr4a3_has_a_cysteine_here": false,
+    "band": "antihandle"
+   },
+   "NR4A1 C566": {
+    "paralogue": "NR4A1",
+    "cysteine": "C566",
+    "nr4a3_aligned_residue": "C594",
+    "nr4a3_has_a_cysteine_here": true,
+    "band": "shared_position"
+   },
+   "NR4A2 C465": {
+    "paralogue": "NR4A2",
+    "cysteine": "C465",
+    "nr4a3_aligned_residue": "C496",
+    "nr4a3_has_a_cysteine_here": true,
+    "band": "shared_position"
+   },
+   "NR4A2 C475": {
+    "paralogue": "NR4A2",
+    "cysteine": "C475",
+    "nr4a3_aligned_residue": "C506",
+    "nr4a3_has_a_cysteine_here": true,
+    "band": "shared_position"
+   },
+   "NR4A2 C505": {
+    "paralogue": "NR4A2",
+    "cysteine": "C505",
+    "nr4a3_aligned_residue": "C536",
+    "nr4a3_has_a_cysteine_here": true,
+    "band": "shared_position"
+   },
+   "NR4A2 C534": {
+    "paralogue": "NR4A2",
+    "cysteine": "C534",
+    "nr4a3_aligned_residue": "S565",
+    "nr4a3_has_a_cysteine_here": false,
+    "band": "antihandle"
+   },
+   "NR4A2 C566": {
+    "paralogue": "NR4A2",
+    "cysteine": "C566",
+    "nr4a3_aligned_residue": "C594",
+    "nr4a3_has_a_cysteine_here": true,
+    "band": "shared_position"
+   }
+  },
+  "_band_definition": {
+   "antihandle": "the paralogue carries a cysteine at a position where NR4A3 does not — S15's mechanism, and the reciprocal of the program's own categorical handle",
+   "shared_position": "both carry a cysteine at the aligned position — an ordinary off-target liability the reach module already scores, NOT an anti-handle"
+  }
+ },
+ "roadmap_set_disagreement": {
+  "_what": "roadmap §10.1a Q3 states the anti-handle set in prose; this compares it to the set derived from nr4a3-linker-covalent-reach.json -> paralogue_control.reciprocal_uniqueness",
+  "prose_set": [
+   "NR4A1 C505",
+   "NR4A1 C551",
+   "NR4A2 C534"
+  ],
+  "derived_set": [
+   "NR4A1 C534",
+   "NR4A1 C551",
+   "NR4A2 C534"
+  ],
+  "agrees": false,
+  "in_prose_but_not_reciprocal_unique": [
+   {
+    "label": "NR4A1 C505",
+    "why_not_an_antihandle": "it is at a position NR4A3 also carries a cysteine at, so it is a shared-position off-target liability, not a reciprocal anti-handle",
+    "band_it_actually_belongs_to": "shared_position"
+   }
+  ],
+  "reciprocal_unique_but_missing_from_the_prose": [
+   "NR4A1 C534"
+  ],
+  "_consequence": "the constraint implemented here uses the DERIVED set. The prose set is reported so the roadmap can be corrected rather than quietly contradicted."
+ },
+ "cells": {
+  "_what": "placement x pendant x convention cells read from the committed enumeration",
+  "n_cells": 120,
+  "n_placements": 10,
+  "n_pendants": 6,
+  "conventions": [
+   "corridor",
+   "through_space"
+  ]
+ },
+ "constructs": {
+  "_what": "the committed construct set, de-duplicated across the three library keys",
+  "n_constructs": 54,
+  "library_keys": [
+   "virtual_library",
+   "virtual_library_at_the_term_a_exemplar",
+   "virtual_library_at_representative_geometry"
+  ],
+  "backbone_lengths_present": [
+   14,
+   16,
+   18,
+   19,
+   20,
+   21,
+   24
+  ],
+  "shortest_committed_construct_atoms": 14
+ },
+ "★_length_frontier": {
+  "_what": "the constraint evaluated as a FUNCTION OF LENGTH over the same cells — the trade a designer actually makes, rather than a verdict on one library.",
+  "_why_it_matters": "anti-handle admission is monotone in backbone length, and so is P(a paralogue cysteine is also reached | an NR4A3-unique one is) (Q4 / S6). Both LIABILITY quantities are therefore minimised at short length — which is the composition §10.1b's ⊕ COMPOSER set asserts and no artifact had measured.",
+  "⛔_and_the_composition_is_NOT_as_simple_as_that": "MEASURED HERE, AND IT CORRECTS THE SENTENCE ABOVE RATHER THAN DECORATING IT. The two LIABILITY columns are monotone and agree; the DESIGN-TARGET column — cells reaching C397 while admitting no anti-handle — is NOT monotone and does NOT peak at the gate. It rises to a maximum above the gate and then collapses, because engagement and liability grow at different rates. ⛔ THIS DOES NOT LICENSE THE LONGER LENGTH: at any length above the gate the CATEGORICAL statement inherits V17's false negative (linker_length_principle.principle() refuses to emit it there), so the extra clean cells are reach without a statable discrimination. The honest reading is that the two constraints agree about liability and DISAGREE about where the most buildable cells are, and the gate is set by what can be SAID rather than by what can be reached.",
+  "★_the_design_target_column_peaks_at": {
+   "n_backbone_atoms": 16,
+   "n_cells": 38,
+   "is_the_categorical_gate": false
+  },
+  "categorical_gate_atoms": 12,
+  "_gate_source": "nr4a-paralogue-dynamics.json -> categorical_verdict.gate_atoms (READ, not typed)",
+  "⛔_shortest_committed_construct_is_above_the_gate": true,
+  "by_length": [
+   {
+    "n_backbone_atoms": 8,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 0,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 2,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": []
+   },
+   {
+    "n_backbone_atoms": 10,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 2,
+    "n_cells_admitting_a_shared_position_cysteine": 3,
+    "n_cells_where_C397_ITSELF_is_reached": 9,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 7,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A2 C534"
+    ]
+   },
+   {
+    "n_backbone_atoms": 11,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 4,
+    "n_cells_admitting_a_shared_position_cysteine": 4,
+    "n_cells_where_C397_ITSELF_is_reached": 28,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 24,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ]
+   },
+   {
+    "n_backbone_atoms": 12,
+    "is_the_categorical_gate": true,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 7,
+    "n_cells_where_C397_ITSELF_is_reached": 35,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 28,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ]
+   },
+   {
+    "n_backbone_atoms": 13,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 9,
+    "n_cells_admitting_a_shared_position_cysteine": 7,
+    "n_cells_where_C397_ITSELF_is_reached": 39,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 30,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ]
+   },
+   {
+    "n_backbone_atoms": 14,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 37,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ]
+   },
+   {
+    "n_backbone_atoms": 16,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 38,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ]
+   },
+   {
+    "n_backbone_atoms": 18,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 26,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ]
+   },
+   {
+    "n_backbone_atoms": 20,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 66,
+    "n_cells_admitting_a_shared_position_cysteine": 65,
+    "n_cells_where_C397_ITSELF_is_reached": 82,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 16,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ]
+   },
+   {
+    "n_backbone_atoms": 24,
+    "is_the_categorical_gate": false,
+    "n_cells": 120,
+    "n_cells_admitting_an_antihandle": 79,
+    "n_cells_admitting_a_shared_position_cysteine": 85,
+    "n_cells_where_C397_ITSELF_is_reached": 93,
+    "★_n_cells_reaching_C397_WITHOUT_an_antihandle": 14,
+    "_why_that_column": "THE DESIGN TARGET. A cell that reaches C397 and admits no anti-handle is the only state a construct can be built into; the other three are liability, no engagement, or both. This column is what the frontier is FOR, and it need not be monotone.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ]
+   }
+  ]
+ },
+ "summary": {
+  "n_constructs": 54,
+  "n_rejected_under_the_union_rule": 54,
+  "n_rejected_in_EVERY_cell": 0,
+  "n_surviving": 0,
+  "surviving_construct_ids": [],
+  "antihandle_witness_counts": {
+   "NR4A1 C534": 54,
+   "NR4A1 C551": 42,
+   "NR4A2 C534": 54
+  }
+ },
+ "per_construct": [
+  {
+   "construct_id": "vhlM4@ex_5amide_e6_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M4",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_10",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M4@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 10,
+    "n_cells_admitting_a_shared_position_cysteine": 6,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 10,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM4@ex_5amide_a2-a9_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M4",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_10",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M4@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 10,
+    "n_cells_admitting_a_shared_position_cysteine": 6,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 10,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM4@ex_5amide_a3-m3_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M4",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_10",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+peg",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M4@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 10,
+    "n_cells_admitting_a_shared_position_cysteine": 6,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 10,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM4@ex_5triazole_e5_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M4",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_10",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M4@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 10,
+    "n_cells_admitting_a_shared_position_cysteine": 6,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 10,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM4@ex_5amide_a2-a9_acrylamide",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M4",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_10",
+   "e3_handle": "vhl",
+   "pendant": "acrylamide",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 18,
+   "role": "control",
+   "own_placement": "vhl|M4@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 10,
+    "n_cells_admitting_a_shared_position_cysteine": 6,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 10,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM4@ex_5amide_a2-a9_cyanoprop",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M4",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_10",
+   "e3_handle": "vhl",
+   "pendant": "cyanoprop",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 18,
+   "role": "control",
+   "own_placement": "vhl|M4@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 10,
+    "n_cells_admitting_a_shared_position_cysteine": 6,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 10,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5amide_a9-a2_pyr3",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "pyr3",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 12,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 12,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": true,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5amide_a9-a3_pyr3",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "pyr3",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 19,
+   "role": "design",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 19,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 60,
+    "n_cells_admitting_a_shared_position_cysteine": 52,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 60,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 19,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 12,
+    "n_cells_admitting_a_shared_position_cysteine": 12,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 12,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": true,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5amide_e4-a2_pyr3",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "pyr3",
+   "linker_class": "peg+alkyl",
+   "n_backbone_atoms_intended": 19,
+   "role": "design",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 19,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 60,
+    "n_cells_admitting_a_shared_position_cysteine": 52,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 60,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 19,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 11,
+    "n_cells_admitting_a_shared_position_cysteine": 6,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 11,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5amide_a9-a2_ph",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "ph",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 18,
+   "role": "control",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 12,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 12,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": true,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5amide_e4-a2_ph",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "ph",
+   "linker_class": "peg+alkyl",
+   "n_backbone_atoms_intended": 19,
+   "role": "control",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 19,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 60,
+    "n_cells_admitting_a_shared_position_cysteine": 52,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 60,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 19,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 11,
+    "n_cells_admitting_a_shared_position_cysteine": 6,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 11,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5amide_a11-a2_pyr3",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "pyr3",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 20,
+   "role": "design",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 66,
+    "n_cells_admitting_a_shared_position_cysteine": 65,
+    "n_cells_where_C397_ITSELF_is_reached": 82,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 66,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 12,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 12,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": true,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5amide_a2-a5_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "design",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 6,
+    "n_cells_admitting_a_shared_position_cysteine": 3,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 6,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5amide_a2-m2_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+peg",
+   "n_backbone_atoms_intended": 14,
+   "role": "design",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 6,
+    "n_cells_admitting_a_shared_position_cysteine": 3,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 6,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5triazole_a9_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "design",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 6,
+    "n_cells_admitting_a_shared_position_cysteine": 3,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 6,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5piperazine_a9_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "design",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 6,
+    "n_cells_admitting_a_shared_position_cysteine": 3,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 6,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5amide_a2-a5_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "design",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 2,
+    "n_cells_admitting_a_shared_position_cysteine": 2,
+    "n_cells_where_C397_ITSELF_is_reached": 11,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 2,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5amide_a2-m2_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+peg",
+   "n_backbone_atoms_intended": 14,
+   "role": "design",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 2,
+    "n_cells_admitting_a_shared_position_cysteine": 2,
+    "n_cells_where_C397_ITSELF_is_reached": 11,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 2,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5triazole_a9_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "none",
+   "linker_class": "alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "design",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 2,
+    "n_cells_admitting_a_shared_position_cysteine": 2,
+    "n_cells_where_C397_ITSELF_is_reached": 11,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 2,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5piperazine_a9_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "none",
+   "linker_class": "alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "design",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 2,
+    "n_cells_admitting_a_shared_position_cysteine": 2,
+    "n_cells_where_C397_ITSELF_is_reached": 11,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 2,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5amide_a2-a5_acrylamide",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "acrylamide",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "control",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 6,
+    "n_cells_admitting_a_shared_position_cysteine": 3,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 6,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@ex_5amide_a2-a5_cyanoprop",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "cyanoprop",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "control",
+   "own_placement": "vhl|M3@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 6,
+    "n_cells_admitting_a_shared_position_cysteine": 3,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 6,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5amide_a2-a5_acrylamide",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "acrylamide",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "control",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 2,
+    "n_cells_admitting_a_shared_position_cysteine": 2,
+    "n_cells_where_C397_ITSELF_is_reached": 11,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 2,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@ex_5amide_a2-a5_cyanoprop",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "crbn",
+   "pendant": "cyanoprop",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 14,
+   "role": "control",
+   "own_placement": "crbn|M0@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 14,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 51,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 14,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 14,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 2,
+    "n_cells_admitting_a_shared_position_cysteine": 2,
+    "n_cells_where_C397_ITSELF_is_reached": 11,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 2,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@ex_5amide_a2-a7_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M2@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 5,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@ex_5amide_a7-a2_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M2@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 5,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@ex_5triazole_a11_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M2@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 5,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@ex_5piperazine_a11_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M2@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 5,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@ex_5amide_a2-a7_acrylamide",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "acrylamide",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "control",
+   "own_placement": "vhl|M2@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 5,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@ex_5amide_a2-a7_cyanoprop",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_07",
+   "e3_handle": "vhl",
+   "pendant": "cyanoprop",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "control",
+   "own_placement": "vhl|M2@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 5,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM14@ex_5amide_e6_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M14",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M14@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 5,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 5,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM14@ex_5amide_a2-a9_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M14",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M14@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 5,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 5,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM14@ex_5amide_a3-m3_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M14",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+peg",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M14@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 5,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 5,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM14@ex_5triazole_e5_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M14",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 18,
+   "role": "design",
+   "own_placement": "vhl|M14@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 5,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 5,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM14@ex_5amide_a2-a9_acrylamide",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M14",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "vhl",
+   "pendant": "acrylamide",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 18,
+   "role": "control",
+   "own_placement": "vhl|M14@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 5,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 5,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM14@ex_5amide_a2-a9_cyanoprop",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_the_term_a_exemplar"
+   ],
+   "designed_for_basin": "vhl|M14",
+   "designed_at_placement": "term_a_exemplar",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "vhl",
+   "pendant": "cyanoprop",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 18,
+   "role": "control",
+   "own_placement": "vhl|M14@term_a_exemplar",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 48,
+    "n_cells_admitting_a_shared_position_cysteine": 48,
+    "n_cells_where_C397_ITSELF_is_reached": 74,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 48,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 18,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 5,
+    "n_cells_admitting_a_shared_position_cysteine": 11,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 5,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM4@rep_5triazole_e7_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M4",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 24,
+   "role": "best available within the chemically routine linker cap — RETAINED DESPITE FAILING the filter, so the shortfall is visible",
+   "own_placement": "vhl|M4@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 24,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 79,
+    "n_cells_admitting_a_shared_position_cysteine": 85,
+    "n_cells_where_C397_ITSELF_is_reached": 93,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 79,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 24,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM14@rep_5triazole_e7_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M14",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 24,
+   "role": "best available within the chemically routine linker cap — RETAINED DESPITE FAILING the filter, so the shortfall is visible",
+   "own_placement": "vhl|M14@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 24,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 79,
+    "n_cells_admitting_a_shared_position_cysteine": 85,
+    "n_cells_where_C397_ITSELF_is_reached": 93,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 79,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 24,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 5,
+    "n_cells_admitting_a_shared_position_cysteine": 2,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 5,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@rep_5amide_a2-a11_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_05",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 20,
+   "role": "design",
+   "own_placement": "vhl|M2@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 66,
+    "n_cells_admitting_a_shared_position_cysteine": 65,
+    "n_cells_where_C397_ITSELF_is_reached": 82,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 66,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 4,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@rep_5amide_a2-m4_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_05",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+peg",
+   "n_backbone_atoms_intended": 20,
+   "role": "design",
+   "own_placement": "vhl|M2@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 66,
+    "n_cells_admitting_a_shared_position_cysteine": 65,
+    "n_cells_where_C397_ITSELF_is_reached": 82,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 66,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 4,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@rep_5amide_e7_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_05",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 21,
+   "role": "design",
+   "own_placement": "vhl|M2@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 21,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 72,
+    "n_cells_admitting_a_shared_position_cysteine": 70,
+    "n_cells_where_C397_ITSELF_is_reached": 87,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 72,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 21,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 9,
+    "n_cells_admitting_a_shared_position_cysteine": 5,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 9,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@rep_5triazole_e6_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_05",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 21,
+   "role": "design",
+   "own_placement": "vhl|M2@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 21,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 72,
+    "n_cells_admitting_a_shared_position_cysteine": 70,
+    "n_cells_where_C397_ITSELF_is_reached": 87,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 72,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 21,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 9,
+    "n_cells_admitting_a_shared_position_cysteine": 5,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 9,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@rep_5amide_a2-a11_acrylamide",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_05",
+   "e3_handle": "vhl",
+   "pendant": "acrylamide",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 20,
+   "role": "control",
+   "own_placement": "vhl|M2@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 66,
+    "n_cells_admitting_a_shared_position_cysteine": 65,
+    "n_cells_where_C397_ITSELF_is_reached": 82,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 66,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 4,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM2@rep_5amide_a2-a11_cyanoprop",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M2",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_05",
+   "e3_handle": "vhl",
+   "pendant": "cyanoprop",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 20,
+   "role": "control",
+   "own_placement": "vhl|M2@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 66,
+    "n_cells_admitting_a_shared_position_cysteine": 65,
+    "n_cells_where_C397_ITSELF_is_reached": 82,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 66,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 20,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 7,
+    "n_cells_admitting_a_shared_position_cysteine": 4,
+    "n_cells_where_C397_ITSELF_is_reached": 12,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 7,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "crbnM0@rep_5triazole_e7_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "crbn|M0",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_09",
+   "e3_handle": "crbn",
+   "pendant": "none",
+   "linker_class": "peg",
+   "n_backbone_atoms_intended": 24,
+   "role": "best available within the chemically routine linker cap — RETAINED DESPITE FAILING the filter, so the shortfall is visible",
+   "own_placement": "crbn|M0@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 24,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 79,
+    "n_cells_admitting_a_shared_position_cysteine": 85,
+    "n_cells_where_C397_ITSELF_is_reached": 93,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 79,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 24,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 0,
+    "n_cells_where_C397_ITSELF_is_reached": 1,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5amide_a2-a7_cyac_me",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "cyac_me",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5amide_a2-a7_cyac_ph",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "cyac_ph",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5amide_a2-a7_pyr3",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "pyr3",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5amide_a7-a2_pyr3",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "pyr3",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5triazole_a11_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5piperazine_a11_none",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "none",
+   "linker_class": "alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "design",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5amide_a2-a7_acrylamide",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "acrylamide",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "control",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5amide_a2-a7_cyanoprop",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "cyanoprop",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "control",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  },
+  {
+   "construct_id": "vhlM3@rep_5amide_a2-a7_ph",
+   "library_keys": [
+    "virtual_library",
+    "virtual_library_at_representative_geometry"
+   ],
+   "designed_for_basin": "vhl|M3",
+   "designed_at_placement": "representative",
+   "placement_pose_id": "exitvec_02",
+   "e3_handle": "vhl",
+   "pendant": "ph",
+   "linker_class": "alkyl+alkyl",
+   "n_backbone_atoms_intended": 16,
+   "role": "control",
+   "own_placement": "vhl|M3@representative",
+   "marginalised_over_poses": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 120,
+    "n_cells_admitting_an_antihandle": 33,
+    "n_cells_admitting_a_shared_position_cysteine": 28,
+    "n_cells_where_C397_ITSELF_is_reached": 71,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 33,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [
+     "NR4A1 C534",
+     "NR4A1 C551",
+     "NR4A2 C534"
+    ],
+    "reject_any_pose": true,
+    "reject_all_poses": false,
+    "verdict": "REJECT",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "at_its_own_placement_only": {
+    "n_backbone_atoms": 16,
+    "n_cells_evaluated": 12,
+    "n_cells_admitting_an_antihandle": 0,
+    "n_cells_admitting_a_shared_position_cysteine": 1,
+    "n_cells_where_C397_ITSELF_is_reached": 2,
+    "n_cells_where_C397_IS_reached_AND_an_antihandle_is_admitted": 0,
+    "_why_that_pair_is_reported": "a cell that admits an anti-handle while NOT reaching C397 is pure liability with no engagement, and a cell that reaches C397 cleanly is the design target. Reporting only the union count renders those two states alike.",
+    "antihandles_witnessed": [],
+    "reject_any_pose": false,
+    "reject_all_poses": false,
+    "verdict": "PASS",
+    "_marginalisation": "UNION over placement x pendant x convention cells. R5 is unresolved (pose-second-method.json: 0 of 6 systems agree within 2.00 A), so the program cannot say which cell is the real one and a liability under any of them is a liability."
+   },
+   "_own_placement_reading": "DIAGNOSTIC ONLY. R5 is unresolved, so a per-placement verdict is not a claim the program may make; the binding verdict is the marginalised one."
+  }
+ ],
+ "verdict": {
+  "headline": "NO COMMITTED CONSTRUCT SURVIVES THE ANTI-HANDLE CONSTRAINT UNDER THE UNION-OVER-POSES RULE — 54 of 54 rejected. The filter's failure mode IS its result: the enumeration has been optimising reach TO C397 while admitting the reciprocal-unique paralogue liability the constraint exists to refuse. ⚠ AND THE RULE TRAVELS WITH THE SENTENCE, BECAUSE IT IS LOAD-BEARING: 0 constructs are rejected in EVERY cell, so every rejection here rests on SOME committed cell rather than on all of them. That is the conservative reading R5 forces — the second pose method disagrees with the first, so the program cannot name which cell is real — and it is not the same claim as 'no geometry exists in which these constructs are clean'.",
+  "the_constraint_is_now_carried": true,
+  "⛔_what_a_pass_does_not_license": [
+   "any selectivity, potency, reactivity or window claim — no energy is computed anywhere",
+   "an increase in NR4A3 engagement. A filter removes liabilities; it adds no signal.",
+   "a proteome-wide statement — an electrophile does not know it is meant to be selective, and this constraint is evaluated over three proteins",
+   "a pose-specific or vector-specific design rule. Every verdict is marginalised over poses and may only be quoted that way."
+  ],
+  "⭑_what_it_does_license": "a design-time refusal with a named witness residue, applied before a construct is built rather than reported after it fails."
+ }
+}

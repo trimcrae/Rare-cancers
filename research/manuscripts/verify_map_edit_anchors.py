@@ -2,12 +2,17 @@
 """grep -F every current_text against the LIVE file. The categorical audit emitted nine verbatim edits
 and all nine failed to apply because the documents moved underneath them; this is the check that prevents
 a repeat. Verifies against BOTH origin/main and the working tree, because another agent is editing the map
-in this tree right now."""
+in this tree right now.
+
+⭑ TAKES AN OPTIONAL PATH (2026-08-07). It was hard-wired to one edit set, so every later pass either could
+not use it or had to copy it — and a verifier nobody can point at a new file is a verifier that stops
+being run. The default is unchanged, so existing invocations behave identically."""
 import json
 import subprocess
 import sys
 
-d = json.load(open("research/manuscripts/three-row-audit-map-edits.json"))
+DEFAULT = "research/manuscripts/three-row-audit-map-edits.json"
+d = json.load(open(sys.argv[1] if len(sys.argv) > 1 else DEFAULT))
 bad = 0
 for e in d["map_edits_required"]:
     for ref in ("origin/main", "WORKTREE"):
