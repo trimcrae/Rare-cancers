@@ -177,6 +177,42 @@ def _locator(anchor, current, text):
     return -1
 
 
+def _in_anchor_window(needle, anchor, current, texts):
+    """Does `needle` occur inside the region this edit actually targets? PURE.
+
+    ⛔ THE GUARD THAT WAS MISSING FROM THE PREFIX RETRY (2026-08-07). Global uniqueness answers "does this
+    string appear once?"; it does not answer "does it appear HERE." In a document where every row opens
+    the same way, a generic prefix can be globally unique and still sit in a different section — which is
+    how an unapplied edit was reported APPLIED. Locality is the discriminator, and the last-resort block
+    search already used it; this makes the two paths agree.
+
+    Uses the same locator and window as `_longest_shared_block`, so a change to one cannot silently
+    diverge from the other.
+
+    ⚠⚠ AND IT MUST NOT VETO WHEN THERE IS NO WINDOW TO CHECK AGAINST — measured 2026-08-07, minutes after
+    the guard above was added, because the stricter version turned `test_linker_library_canonical`'s
+    `row25-5bt-release` from APPLIED to a DEAD ANCHOR and the edit HAD landed. Why it has no window: its
+    `anchor` is a prose location (*"row 1's 'next action' cell opening"*) that no `find` can match, and
+    its `current_text` is gone because the edit landed and was then restyled — the whole clause is now
+    wrapped in `⚠ **Superseded, retained:** "…"`. So `_locator` returns -1 on every source, there is no
+    region, and locality is simply UNKNOWABLE for that edit.
+    ⛔ Unknowable is not false. Returning False there would be the *absent reading treated as a reading of
+    absence* failure, in the direction the module calls out as the milder-but-still-wrong one: a
+    correctly-applied edit reported dead, which turns a green guard red and pressures the next session to
+    stop routing edits. So an unlocatable edit falls back to the previous behaviour — global uniqueness
+    alone — and locality tightens only the edits that HAVE a resolvable region.
+    """
+    located = False
+    for _p, t in texts:
+        start = _locator(anchor, current, t)
+        if start < 0:
+            continue
+        located = True
+        if needle in t[start:start + ANCHOR_WINDOW_CHARS]:
+            return True
+    return not located
+
+
 def _longest_shared_block(probe, anchor, texts, current):
     """The longest contiguous run of `probe` that appears in the region the edit targets. PURE.
 
@@ -311,17 +347,34 @@ def verify(edits, map_path=None):
         #   · UNIQUE in the sources, so a short prefix cannot match coincidentally.
         # The shortened length is recorded, so an APPLIED reached this way is never indistinguishable
         # from one matched whole.
+        # ⛔ AND A FIFTH CONDITION, ADDED 2026-08-07 AFTER THE FOUR ABOVE ALL PASSED ON A FALSE APPLIED.
+        # Reproduction, on the live roadmap: an unapplied `Q2` state-cell edit proposed
+        # "✓ **complete 2026-08-03 — stale ○ corrected 2026-08-07** | …". Its full probe was ABSENT from
+        # the map (count 0, correctly), so the retry ran — and the 25-character prefix
+        # "✓ **complete 2026-08-03 —" was (a) at least MIN_PROBE_CHARS, (b) absent from `current_text`,
+        # and (c) present EXACTLY ONCE in the map. All three guards passed. But the one occurrence was
+        # row 3's long-applied "✓ **complete 2026-08-03 — and the gate FAILS**", ~1,700 lines away in a
+        # different section, and the router printed `= already applied` for an edit that had never been
+        # applied — the false APPLIED this module's own docstring says it exists to prevent, reached by
+        # the one retry path that was not bounded by the anchor.
+        # ⚠ GLOBAL UNIQUENESS IS NOT LOCALITY. Uniqueness says the string appears once; it does not say
+        # it appears HERE, and a generic opener ("✓ **complete <date> —", "✅ **RAN <date>") is exactly
+        # the shape that collides across rows in a document whose every row is written the same way.
+        # The last-resort block search below already bounds itself by the anchor for this reason; the
+        # prefix retry did not, and that asymmetry was the whole defect. So the shortened prefix must
+        # ALSO land inside the edit's own anchor window.
         if discriminating and not n_proposed:
             for n in range(len(probe) - 1, MIN_PROBE_CHARS - 1, -1):
                 short = probe[:n].rstrip()
                 if len(short) < MIN_PROBE_CHARS or short in current_s:
                     continue
-                if _count(short)[0] == 1:
+                if _count(short)[0] == 1 and _in_anchor_window(short, anchor_s, current_s, texts):
                     n_proposed = 1
                     e["_probe_shortened_to"] = len(short)
                     e["_probe_shortened_why"] = (
-                        "the full probe missed but this unique prefix is present and is still absent "
-                        "from current_text — the edit landed and the text was edited further afterwards")
+                        "the full probe missed but this unique prefix is present INSIDE THIS EDIT'S OWN "
+                        "ANCHOR WINDOW and is still absent from current_text — the edit landed and the "
+                        "text was edited further afterwards")
                     break
         # ⛔ AND THE DIVERGENCE IS NOT ALWAYS AT THE END. The prefix retry above catches an edit that
         # landed and was then EXTENDED. It cannot catch one whose FIRST characters differ — and that is
