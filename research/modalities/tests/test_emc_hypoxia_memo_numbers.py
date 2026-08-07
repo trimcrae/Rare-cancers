@@ -160,6 +160,35 @@ def test_the_signature_independence_figures_are_the_artifacts(art, memo):
             f"{min(rs):.2f}-{max(rs):.2f}")
 
 
+def test_the_genome_wide_null_table_is_the_artifacts_and_its_verdict_is_stated(art, memo):
+    """§2.7's sharpest result: none clears 0.05 on GPL6244, four of six do on GPL3290.
+
+    ⚠ If a re-run made GPL6244 clear, the memo's headline restriction to GPL3290 would be wrong in
+    the direction that matters — so the COUNTS are asserted, not just the numbers."""
+    counts = {}
+    for plat in (G6, G3):
+        gw = art["platforms"][plat]["C8_C9_C10_resampling"][
+            "C10_random_gene_set_null_GENOME_WIDE"]
+        if gw.get("_status") != "read":
+            pytest.skip("the genome-wide null has not been fetched on this branch")
+        assert gw["overlap_with_signature_membership"] < 0.10, (
+            "the genome-wide background is contaminated with signature membership; it is no "
+            "longer the unbiased null the memo says it is")
+        fr = {s: r["fraction_of_random_sets_reaching_observed_t"]
+              for s, r in gw["per_signature"].items()}
+        for s, v in fr.items():
+            # ⚠ VERBATIM, not rounded. `f"{0.1055:.3f}"` is `0.105` and a human writes `0.106`;
+            # agreeing a rounding convention between prose and test is how a test gets loosened
+            # instead of a number getting fixed. The artifact stores 4 dp, so the memo prints 4 dp.
+            assert str(v) in memo, f"{plat}/{s}: genome-wide null {v} is not in the memo verbatim"
+        counts[plat] = sum(1 for v in fr.values() if v < 0.05)
+    assert counts[G6] == 0, (
+        f"the memo says NOT ONE signature clears 0.05 on GPL6244; the artifact says "
+        f"{counts[G6]} do")
+    assert counts[G3] == 4, (
+        f"the memo says FOUR of six clear 0.05 on GPL3290; the artifact says {counts[G3]}")
+
+
 def test_the_random_gene_set_null_range_and_its_bias_are_the_artifacts(art, memo):
     for plat in (G6, G3):
         rows = [r["C10_random_gene_set_null_CACHED_UNIVERSE"]

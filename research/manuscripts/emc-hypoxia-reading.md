@@ -105,35 +105,45 @@ from the class labels: EMC and DFSP are annotated `CRH`/`CRH-mRNA`; **the three 
 `UHR`** — a different pool. Restricting the comparator arm to the three pool-matched DFSP samples,
 all six signatures stay positive (*t* = +2.36 to +4.27). The signal is not a reference-pool artefact.
 
-### 2.3 · Proliferation — PARTLY CONFOUNDED, and it differs by platform
+⭐ **§§2.3–2.5 are read on the MERGED gene cache.** The panels want list never asked for PECAM1,
+VWF, CDH5, PTPRC, CD68 or most of the proliferation set, so those proxies were three- and
+four-gene stubs and were reported as instrument limits. The CI background fetch requested them by
+name; the audit now merges the two caches after checking that the **411 and 434 genes present in
+both are value-identical**, so a disagreement between two independent parses of the same matrices
+would raise rather than average. Every proxy below is 8–11 genes, and **all three moved in the same
+direction they already pointed** — which is what a better-powered version of the same measurement
+should do, and is worth noting precisely because it is not guaranteed.
 
-Only three proliferation genes are readable in the cached panel (MKI67, TOP2A, RRM2), which is thin
-and stated as such. The module contrast is *t* = +0.79 on GPL6244 (flat) and *t* = +1.50 on
-GPL3290, and it correlates with the hypoxia score across samples on both (*r* = +0.60, +0.47).
-So on GPL6244 — where proliferation is flat — it cannot be driving the contrast; on GPL3290 it is a
-live partial explanation. MKI67's own array percentile in EMC is **0.516** (GPL6244) and **0.153**
-(GPL3290), i.e. EMC is not proliferative in absolute terms on either platform; the GPL3290 "up" is
+### 2.3 · Proliferation — the platform split is sharper than it first looked
+
+Eight proliferation genes readable on both. The module contrast is *t* = **+0.39** on GPL6244
+(flat) and *t* = **+2.85** on GPL3290, and it correlates with the hypoxia score across samples on
+both (*r* = +0.61, +0.66). So on GPL6244 — where proliferation is flat — it **cannot** be driving
+the contrast; on GPL3290 it is a live partial explanation and the correlation is the strongest of
+any confound tested there. MKI67's own array percentile in EMC is **0.516** (GPL6244) and **0.153**
+(GPL3290): EMC is not proliferative in absolute terms on either platform, and the GPL3290 "up" is
 relative to two comparators that are lower still.
 
-### 2.4 · Vascularity — CONSISTENT WITH THE READING, but the proxy is thin
+### 2.4 · Vascularity — CONSISTENT WITH THE READING, on both platforms
 
-Endothelium-restricted transcripts (KDR, FLT1, TEK, CLDN5 — deliberately **excluding** VEGFA and
-ANGPT2, which are HIF-driven and would make this a copy of the hypoxia read) are **lower** in EMC on
-both platforms (*t* = −3.65, −1.23) and **negatively** correlated with the hypoxia score across
-samples on both (*r* = −0.48, −0.42). That is the direction a hypovascular tissue predicts.
+Eleven endothelium-restricted transcripts (KDR, FLT1, TEK, TIE1, CLDN5, ESAM, ROBO4, EMCN, PECAM1,
+VWF, CDH5 — deliberately **excluding** VEGFA and ANGPT2, which are HIF-driven and would make this a
+copy of the hypoxia read) are **lower** in EMC on both platforms (*t* = −3.73, −1.73) and
+**negatively** correlated with the hypoxia score across samples on both (*r* = −0.53, −0.65). That
+is the direction a hypovascular tissue predicts, and it is now the most consistent cross-platform
+confound reading in the audit.
 
-⚠ Only 4 of 11 requested endothelial genes are readable in the cached panel — PECAM1, VWF, CDH5 and
-four others carry no probe *in that cache*. This is an instrument limit, reported as one, and the
-CI background fetch requests them by name so it can be re-read rather than left as an absent
-reading.
+⚠ It is still a **transcript proxy for vessel content in bulk tissue**, not a vessel count. It
+cannot distinguish fewer vessels from the same vessels diluted by more matrix — and for the hypoxia
+question those are not the same thing, because only the first lengthens a diffusion path.
 
 ### 2.5 · Necrosis — NOT DIRECTLY TESTABLE; the available proxy points away from it
 
-**There is no transcript marker of necrosis.** The nearest available proxy is myeloid infiltrate,
-and only one direction of it is informative: necrotic tumour recruits myeloid cells, so a **low**
-myeloid read is evidence against a necrosis-driven signature, while a high one would not have been
-proof of one. Measured: myeloid score **lower** in EMC on both platforms (*t* = −3.52, −1.47). This
-argues against necrosis and does not exclude it.
+**There is no transcript marker of necrosis.** The nearest available proxy is myeloid infiltrate
+(eleven genes), and only one direction of it is informative: necrotic tumour recruits myeloid
+cells, so a **low** myeloid read is evidence against a necrosis-driven signature, while a high one
+would not have been proof of one. Measured: myeloid score **lower** in EMC on both platforms
+(*t* = −4.40, −1.60). This argues against necrosis and does not exclude it.
 
 ### 2.6 · The signature multiplicity — THE LARGEST CORRECTION IN THIS AUDIT
 
@@ -183,17 +193,32 @@ size drawn from the cached want list, **6.3–34.0 % of random sets reach or bea
 GPL6244 and **4.3–20.5 %** on GPL3290; only HALLMARK on GPL3290 falls below 5 %. ⚠ That universe is
 **33–34 % hypoxia-signature membership by construction** — it is the want list assembled for these
 reads — so a "random" draw from it contains hypoxia genes and the null is inflated toward the
-observed value. **Read those fractions as an upper bound on the p-value, not the p-value.** The
-unbiased version is a draw from the platform's whole mapped-symbol universe, which needs a fetch;
-until it lands the audit reports it as **NOT TAKEN**, not as a pass.
+observed value. **Read those fractions as an upper bound on the p-value, not the p-value.**
+
+⭐ **THE GENOME-WIDE NULL HAS NOW BEEN TAKEN, and it is the sharpest result in this memo.** A seeded
+random sample of ~3,970 symbols from each platform's own mapped-symbol universe — **2.3 % and 3.1 %
+signature membership**, against 33–34 % for the want list, so the bias really did run the way the
+paragraph above said. Fraction of random same-size sets reaching or beating the observed *t*:
+
+| | GPL6244 | GPL3290 |
+|---|---|---|
+| Buffa | 0.1055 | **0.0315** |
+| Winter | 0.0575 | 0.061 |
+| Harris | 0.1875 | **0.0415** |
+| Elvidge | 0.077 | 0.069 |
+| HALLMARK | 0.053 | **0.0165** |
+| GO cellular response | 0.0655 | **0.022** |
+
+**On GPL6244 not one signature falls below 0.05. On GPL3290 four of six do.** Removing the bias
+moved every fraction *down*, as predicted — and it did not move GPL6244's below the line.
 
 ⚠ **The two nulls disagree, and the disagreement is informative rather than a defect.** Label
 permutation asks whether *these arms* separate on *this* score; the random-gene-set null asks
 whether *this set* is special among sets of its size. A signature can pass the first and fail the
 second when the arms differ on a broad axis that many gene sets partly report — which, given §3's
 finding that the signal is concentrated in the glycolytic members, is the most likely reading here.
-Neither null is the "right" one; a reading that quoted only the permutation result would be
-over-stated, and one that quoted only the random-set result would be under-stated.
+Neither null is the "right" one. A reading quoting only the permutation result would be
+over-stated; one quoting only the random-set result would be under-stated.
 
 ---
 
@@ -216,8 +241,8 @@ and on GPL3290 substantially so (*t* = +2.62 to +4.04; on GPL6244 *t* = +0.28 to
 is therefore **broader than glycolysis** and a purely metabolic explanation does not cover it.
 
 **Finding 3 — it is not an ENO3 artefact.** The curated glycolytic programme is up on both
-platforms and stays up with ENO3 removed and with **every** enolase removed (GPL6244 *t* = +3.78 →
-+3.30; GPL3290 *t* = +6.95 → +5.74).
+platforms and stays up with ENO3 removed and with **every** enolase removed (GPL6244 *t* = +3.66 →
++3.21; GPL3290 *t* = +7.13 → +5.72).
 
 **Finding 4 — the discriminating test. Within the EMC arm, the score does NOT track fusion output.**
 Holding the disease constant and letting only the degree of fusion output vary:
@@ -237,7 +262,7 @@ against. CA9 is also up between arms on both platforms.
 hypoxia score is mostly glycolysis, correlating it with ENO3 partly asks whether glycolysis tracks
 glycolysis. The narrower question is whether the **rest of the glycolytic programme, with ENO3
 excluded from the score**, rises with ENO3 within EMC tumours. It does not reproduce: *r* = **−0.88**
-(n = 6, GPL6244) and **+0.69** (n = 10, GPL3290). So the largest single glycolytic effect on both
+(n = 6, GPL6244) and **+0.65** (n = 10, GPL3290). So the largest single glycolytic effect on both
 platforms — ENO3, the published fusion target, at *t* = +3.61 and +13.22 between arms — sits **on top
 of** a glycolytic programme it does not co-vary with. That is the pattern a fusion-driven outlier
 over a differently-driven programme makes, and it is not the pattern a fusion-driven programme
@@ -312,13 +337,28 @@ or clinical readiness for any agent in any of these classes in EMC. A transcript
 hypoxia in 16 archival tumours is not a patient-selection biomarker, is not a companion diagnostic,
 and does not support giving anyone anything.
 
-⚠ **The general prior dominates the reading.** Hypoxia-directed therapy has a long negative track
-record in solid tumours, sarcoma included. The retrieved clinical record for each class is
-`research/modalities/emc-hypoxia-therapeutic-status.json`, which is its one home; the summary in
-`emc-hypoxia-confounds.json` → `therapeutic_hooks` adds no fact that file does not carry, and while
-that retrieval reads `NOT RETRIEVED` **no sentence anywhere may state a class's status from
-memory** — including the sentence that opens this paragraph, which is why the table below states
-what must be checked rather than what was found.
+⛔ **THE TRIAL REGISTRY WAS NOT RETRIEVED, AND THIS SECTION THEREFORE STATES NO CLASS'S TRIAL
+STATUS.** The retrieval ran on 2026-08-07. Its **PubMed half succeeded** for all 21 agents; its
+**ClinicalTrials.gov half failed for every one of them**, HTTP 400 on all four retries — root-caused
+from the job log as a malformed request of ours (the query passed v1 `StudyFields` names to the v2
+endpoint), not a block and not a rate limit. So this memo can say what has been *written about* and
+**cannot** say what has been *registered*, which is precisely the half a reader wants: whether a
+class's trials stopped, and why.
+
+⚠ **That failure very nearly published as a finding.** The summariser printed
+`n_registered_studies_returned: 0` and an empty phase table for all three classes, which renders
+exactly like a class that genuinely has no registered trial — while the per-agent record underneath
+said `QUERY FAILED` throughout. It now emits **no count at all** when every query for a class
+failed. The record and the fix are in
+`research/modalities/emc-hypoxia-therapeutic-status.json` and
+`emc-hypoxia-confounds.json` → `therapeutic_hooks`, which is that fact's one home.
+
+⚠ **The general prior below is therefore stated WITHOUT its supporting retrieval.** Hypoxia-directed
+therapy is widely understood to have a poor track record in solid tumours including sarcoma — but on
+this repository's own rule that nothing clinical may be stated uncited, that sentence is currently
+**[unverified] at the retrieval level** and the table states what must be checked rather than what
+was found. **No sentence anywhere may state a class's status from memory while the registry half
+reads NOT RETRIEVED.**
 
 | class | why this reading points at it | what must be checked before it is stated as a hook |
 |---|---|---|
@@ -351,7 +391,7 @@ Each claim this memo makes, and the single observation that would kill it.
 | F8 | The glycolytic elevation is not an ENO3 artefact | already falsifiable and did not falsify: removing every enolase leaves *t* = +3.30 / +5.74. |
 | F9 | EMC's CS matrix is abundant but comparatively under-sulfated | a glycomics or antibody measurement on EMC tissue showing normal or elevated 4-*O*/CS-E sulfation. **This is a capacity proxy, not a sulfation measurement**, so a wet-lab result outranks it outright. |
 | F10 | CSPG4 is not a reproducible up-call in EMC tumour tissue | a third series in which CSPG4 is up. It is +7.42 on one platform and −0.40 on the other. |
-| F11 | The signature is not simply a set of the right size | the genome-wide random-gene-set null. **Currently NOT TAKEN** — and the biased-conservative cached-universe version, whose fractions §2.7 owns and this row does not restate, is already close enough to the observed *t* that this is **the open falsifier most likely to fire.** |
+| F11 | The signature is not simply a set of the right size | ⭐ **TAKEN, and it FIRED on one platform.** Against the genome-wide null (§2.7) not one of the six clears 0.05 on **GPL6244**; four of six do on GPL3290. So on the 6-tumour, matrix-matched series the signature is not distinguishable from a gene set of its size, and the memo's claim is restricted to GPL3290 accordingly. The falsifier that remains is the same test on a third series. |
 
 ---
 
@@ -363,10 +403,20 @@ an abundant but comparatively under-sulfated chondroitin-sulfate matrix, in the 
 readable EMC expression series"* — reporting the confound audit **as the result**, including the
 platform disagreement and the multiplicity deflation, rather than the headline.
 
-**What is missing before it is worth posting:** the genome-wide null (§2.7, F11), which is one $0 CI
-fetch; a third EMC series (below); and the retrieved clinical record for §5. Nothing here needs a
-wet lab to be *publishable* — it needs one to be *actionable*, which is a different sentence and this
-memo does not blur them.
+**What is missing before it is worth posting:** the **trial-registry half of §5** (one $0 CI
+re-dispatch — the query is fixed, and `skip_null_background=true` runs it without redoing the GEO
+fetch), and a **third EMC series** (§7.1). The genome-wide null is no longer missing; it landed, it
+fired on GPL6244, and the headline now says so. Nothing here needs a wet lab to be *publishable* —
+it needs one to be *actionable*, which is a different sentence and this memo does not blur them.
+
+**And the headline the abstract may carry, after all of the above:** *on the only two publicly
+readable EMC series, EMC tumours score higher than comparator sarcomas on six published hypoxia
+signatures; the effect is robust on the 10-tumour series by permutation, leave-one-out and a
+genome-wide gene-set null, and is not distinguishable from a random gene set of the same size on
+the 6-tumour series; it is not explained by comparator myxoid composition, reference pool,
+proliferation or a necrosis proxy; it is concentrated in the glycolytic members but not confined to
+them; and within EMC tumours it tracks CA9 and not fusion output.* Every clause there is measured,
+and the two that a reader would most want to be stronger are stated as the limits they are.
 
 ### 7.1 · The third series is not missing — it is unread, and for an instrument reason
 
