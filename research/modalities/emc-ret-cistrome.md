@@ -592,6 +592,12 @@ python3 research/modalities/emc_ret_cistrome.py             # re-derive offline 
 python3 research/modalities/emc_ret_cistrome.py --report    # the tables in §3-§4
 ```
 
+⚠ **The inputs cache is ~50 MB**, because it holds every peak of all 79 peak sets. That is not
+tidy, and it is deliberate: `--check` reproduces the artifact **exactly** from it offline, and
+§4b's genome-wide paralogue overlap needs whole peak sets rather than the *RET* neighbourhood. A
+future slimming that keeps only the loci's chromosomes would silently change §4b's numbers, so it
+should not be done without moving that computation somewhere it can be recomputed.
+
 The fetch half runs only in CI — `emc-expression-datasets.yml`, `mode=ret-cistrome` (occupancy),
 `mode=panels` (the expression read), `mode=ret-motif` (the sibling sequence scan). The dev
 sandbox's egress proxy answers `403`/connection-refused to `chip-atlas.dbcls.jp`,
