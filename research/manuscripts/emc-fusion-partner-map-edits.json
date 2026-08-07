@@ -1,0 +1,59 @@
+{
+  "_what": "map / graph / other-lane edits proposed by the fusion-variant stratification synthesis (2026-08-07)",
+  "_rule": "CLAUDE.md rule 1 - each edit's `artifact` names the file that OWNS its numbers; never re-type one here",
+  "_do_not_apply_blind": "route with research/manuscripts/route_map_edits.py; anchors were grep -F verified at emit time",
+  "generated": "2026-08-07",
+  "lane": "research/manuscripts/emc-unexplored-treatment-lanes.md s3.2 (fusion-variant stratification, ranked #2 of twelve)",
+  "artifact": "research/manuscripts/emc-fusion-partner-pooling.json",
+  "verified_against": [
+    "research/manuscripts/emc-unexplored-treatment-lanes.md",
+    "systems/graph/publications.json"
+  ],
+  "n_edits": 3,
+  "map_edits_required": [
+    {
+      "id": "F1",
+      "serves": "medical integrity",
+      "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+      "section": "3.2 - Fusion-variant stratification",
+      "anchor": "is TAF15 (**PMID 36316541** **[FT]**) — in which even the carfilzomib synergy splits by partner.",
+      "current_text": "is TAF15 (**PMID 36316541** **[FT]**) — in which even the carfilzomib synergy splits by partner.",
+      "proposed_text": "is TAF15 (**PMID 36316541** **[FT]**). ⚠ **CORRECTED 2026-08-07 — this pair reads AGAINST the hypothesis, not with it.** The primary source's finding is partner-INDEPENDENCE: *\"Both models independent of the NR4A3 fusion partner showed high sensitivity to carfilzomib\"* and *\"Similar drug responses were seen in both models, independent of the fusion partner from NR4A3.\"* The only partner-differential reported is a scoring-threshold one — the carfilzomib combinations scored **synergistic** in the EWSR1 model and **additive** in the TAF15 model, one model per arm, no statistical claim — and neither model was tested against an antiangiogenic TKI. *Superseded, retained: \"in which even the carfilzomib synergy splits by partner.\"*",
+      "artifact": "research/manuscripts/emc-fusion-partner-pooling.json -> cohorts[bangerter-2022-exvivo].context_note",
+      "why": "ANOTHER LANE'S DOCUMENT - reported, not edited (CLAUDE.md rule 1.2). The sentence states the reverse of the source, and it is the sentence that makes the lane's preclinical support look stronger than it is. The correction is live in research/manuscripts/emc-fusion-partner-stratification.md s1 finding 3."
+    },
+    {
+      "id": "F2",
+      "serves": "PUB register",
+      "file": "systems/graph/publications.json",
+      "section": "publications array (append)",
+      "anchor": null,
+      "current_text": null,
+      "proposed_text": null,
+      "proposed_object": {
+        "id": "PUB-FUSION-PARTNER",
+        "level": "L3",
+        "kind": "publication",
+        "state": "drafted",
+        "target_venue": "preprint",
+        "document": {
+          "file": "research/manuscripts/emc-fusion-partner-stratification.md"
+        },
+        "what_it_would_claim": "The NR4A3 5' fusion partner is a candidate - not established - treatment-stratification variable in EMC: every published antiangiogenic-TKI response reported by partner is pooled here for the first time under one stated method, the entire TAF15::NR4A3 experience is three to five patients with no responses and a 95% upper bound above the comparator arm's point estimate, the partner's prognostic effect does not survive adjustment for tumour size in either larger series, and the field should therefore report the partner alongside response rather than act on it."
+      },
+      "artifact": "research/manuscripts/emc-fusion-partner-pooling.json",
+      "why": "CLAUDE.md s5 'every route's end goal is a paper' - this lane now has a named endpoint, a one-sentence claim and an honest statement of what is missing. systems/views/L3-publications.md is GENERATED, so the edit belongs in the graph and the view is regenerated with `python3 systems/systems_check.py --write-views`; `what_it_would_claim` is linted by lint_claims.py through that view, so it is written to pass R2/R4 (no efficacy, no 'establishes')."
+    },
+    {
+      "id": "F3",
+      "serves": "citation hygiene",
+      "file": "research/data/emc-clinical-registry.json",
+      "section": "registry.citations.warmke2023",
+      "anchor": "\"warmke2023\": {",
+      "current_text": "\"short\": \"Warmke 2023\",",
+      "proposed_text": "\"short\": \"Huang 2023\",",
+      "artifact": "research/manuscripts/emc-fusion-partner-pooling.json -> citations.huang2023",
+      "why": "The entry's identifier, title, DOI and PMID (36948401) are correct and resolve to Huang SC et al., Mod Pathol 2023; only the display label names a different author. NOT APPLIED HERE because the registry is gate 5 of preflight and this synthesis did not otherwise touch it; the entry is currently referenced by no cohort or patient row, so nothing renders the wrong label today. POLICY-evidence.md s1.3 - a citation label that names the wrong authors is a laundering risk the moment something starts citing it."
+    }
+  ]
+}
