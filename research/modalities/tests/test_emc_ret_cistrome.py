@@ -512,6 +512,34 @@ def test_the_headline_quotes_the_experiment_count_not_the_peakset_count():
     assert "2 of 2 peak sets" in v["headline"]
 
 
+def test_a_build_whose_service_returned_the_wrong_assembly_yields_NO_coordinates(monkeypatch):
+    """⛔ THE DEFECT THIS MODULE EXISTS TO PREVENT, COMMITTED BY THIS MODULE (run 31202485854).
+
+    `rest.ensembl.org` serves only the CURRENT mouse assembly, so the `mm10` lookup returned
+    GRCm39. `assembly_matches_expected` correctly went False — and the old code set a note and
+    RETURNED THE COORDINATES ANYWAY, so seven ChIP-Atlas mm10 peak sets were intersected against
+    GRCm39 loci and two reported `Ret` promoter-window peaks. A WARNING IS NOT A GUARD.
+    `intersect_locus` cannot catch it, because by then both sides carry the same build string.
+    """
+    def fake_post(url, chunk, build, tries=4):
+        return {sym: {"id": "ENSMUSGX", "assembly_name": "GRCm39", "seq_region_name": "6",
+                      "start": 1, "end": 2, "strand": 1, "biotype": "protein_coding"}
+                for sym in chunk}
+
+    monkeypatch.setattr(M, "_post_symbols", fake_post)
+    out, diag = M.fetch_gene_spans(list(M.LOCI), "mm10")
+    assert diag["assembly_matches_expected"] is False
+    assert out == {}, "coordinates from the wrong assembly must be DISCARDED, not flagged"
+    assert "⛔ coordinates_discarded" in diag
+    assert diag["n_resolved_before_discard"] > 0, (
+        "the record must show how many were dropped, or the discard is invisible")
+
+    # ...and the matching build must be unaffected.
+    out2, diag2 = M.fetch_gene_spans(list(M.LOCI), "mm39")
+    assert diag2["assembly_matches_expected"] is True
+    assert out2, "a build whose assembly matches must still return coordinates"
+
+
 def test_a_429_is_retryable_and_a_404_is_not():
     """A 429 is 'ask again later'; treating it as an answer is what silently disabled the
     independent second source for the genome build."""

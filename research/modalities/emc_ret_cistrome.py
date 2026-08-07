@@ -131,7 +131,13 @@ BUILDS = {
         "ensembl_species": "mus_musculus",
         "ensembl_assembly_expected": "GRCm38",
         "species": "mouse",
-        "why": "ChIP-Atlas's principal mouse build. An ORTHOLOGUE reading, tagged as one.",
+        "why": "ChIP-Atlas's principal mouse build. An ORTHOLOGUE reading, tagged as one. "
+               "⛔ MEASURED 2026-08-07: `rest.ensembl.org` serves only the CURRENT mouse "
+               "assembly, so this lookup returns GRCm39 and its coordinates are DISCARDED — "
+               "there is no GRCm38 REST endpoint in this map. The practical consequence is that "
+               "ChIP-Atlas's mouse peak sets (mm9 and mm10) are not readable through this route "
+               "at all, and that is recorded as an instrument limit rather than as an absence of "
+               "mouse binding. Fixing it needs a GRCm38 coordinate source, not a code change.",
     },
     "mm39": {
         "ensembl_rest": "https://rest.ensembl.org",
@@ -655,8 +661,24 @@ def fetch_gene_spans(symbols, build):
     diag["assembly_expected"] = exp
     diag["assembly_matches_expected"] = (diag["assemblies_returned"] == [exp])
     if not diag["assembly_matches_expected"]:
-        diag["⛔"] = ("the service returned an assembly this module did not ask for. Every "
-                     "intersection on this build is refused rather than reported.")
+        # ⛔⛔ THE COORDINATES ARE DISCARDED, NOT FLAGGED (measured 2026-08-07, run 31202485854).
+        # This block used to set a note and RETURN THE COORDINATES ANYWAY, and the module then did
+        # the exact thing it exists to prevent: `rest.ensembl.org` serves only the CURRENT mouse
+        # assembly, so the `mm10` lookup came back GRCm39, `assembly_matches_expected` went False —
+        # and seven ChIP-Atlas mm10 peak sets were intersected against GRCm39 coordinates anyway,
+        # two of them reporting `Ret` promoter-window peaks. Those two "positives" were a
+        # cross-build artefact produced by the very guard that was supposed to stop it.
+        # A WARNING IS NOT A GUARD. `intersect_locus` cannot catch this, because by then both
+        # sides carry the same build STRING; the only place it is catchable is here, where the
+        # returned assembly can be compared with the one that was asked for.
+        diag["⛔ coordinates_discarded"] = (
+            f"the service returned {diag['assemblies_returned']} when this build asked for "
+            f"{exp!r}. Every locus from this call is DROPPED, so every peak set on this build "
+            f"reports `no_loci_on_this_build` — an ABSENT READING, which is the honest state. "
+            f"Superseded, retained: this condition previously produced a note and returned the "
+            f"coordinates, and seven mm10 peak sets were scored against GRCm39 loci.")
+        diag["n_resolved_before_discard"] = len(out)
+        return {}, diag
     return out, diag
 
 
@@ -1498,7 +1520,31 @@ def derive(cache):
         "_retrieval_attempts": cache.get("attempts", [])[-400:],
     }
 
-    genes = cache.get("genes") or {}
+    # ⛔⛔ THE ASSEMBLY-MISMATCH DISCARD IS APPLIED HERE TOO, AND HERE IS WHERE IT MATTERS MOST.
+    # The fetch half now drops coordinates whose service returned the wrong assembly — but a cache
+    # COLLECTED BEFORE THAT FIX still holds them, and the cache is EVIDENCE and must not be edited
+    # to make a later reading come out right. So the derive half re-applies the rule from the
+    # diagnostic the cache already carries. This is what makes the correction reproducible from
+    # the committed inputs rather than only from a fresh run.
+    # Measured 2026-08-07 (run 31202485854): `mm10` asked for GRCm38, `rest.ensembl.org` returned
+    # GRCm39, and seven ChIP-Atlas mm10 peak sets were scored against those coordinates — two of
+    # them reporting `Ret` promoter-window peaks that were a cross-build artefact.
+    genes = dict(cache.get("genes") or {})
+    _bad = []
+    for _b, _d in ((cache.get("gene_lookup_diagnostics") or {})
+                   .get("ensembl_per_build") or {}).items():
+        if _d.get("assembly_matches_expected") is False and genes.get(_b):
+            _bad.append({"build": _b, "expected": _d.get("assembly_expected"),
+                         "returned": _d.get("assemblies_returned"),
+                         "n_loci_discarded": len(genes[_b])})
+            genes[_b] = {}
+    if _bad:
+        art["⛔ builds_discarded_for_assembly_mismatch"] = {
+            "_what": "Builds whose coordinate service returned an assembly other than the one "
+                     "asked for. Every locus from those calls is DROPPED, so every peak set on "
+                     "those builds reports `no_loci_on_this_build` — an ABSENT READING, which is "
+                     "the honest state and is not a statement about binding.",
+            "builds": _bad}
     peaksets = cache.get("peaksets") or {}
     usable = {k: v for k, v in peaksets.items()
               if k != "_TRUNCATION" and v.get("_status") == "read" and v.get("peaks")}

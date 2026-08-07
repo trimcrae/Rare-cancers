@@ -93,37 +93,67 @@ And the same discipline applies to a peak file with no build inside it: a GEO su
 `!Sample_data_processing` record**, and a series that does not name one unambiguously has its peak
 files **retrieved, recorded and not intersected**.
 
-### What the build check actually returned
+### What the build check returned
 
 | build | species | expected | returned | *RET* span (1-based) |
 |---|---|---|---|---|
-| **hg19** | human | GRCh37 | **GRCh37** | `chr10:43,572,475–43,625,799`, strand +, `ENSG00000165731` |
-| hg38 | human | GRCh38 | — | ⛔ **NOT RESOLVED** — `rest.ensembl.org` returned `HTTP 500` three times in ~7 s |
+| **hg38** | human | GRCh38 | **GRCh38** | `chr10:43,077,026–43,130,351`, strand +, `ENSG00000165731` |
+| **hg19** | human | GRCh37 | **GRCh37** | `chr10:43,572,475–43,625,799`, strand + |
 | mm39 | mouse | GRCm39 | **GRCm39** | `chr6:118,128,706–118,174,769`, strand − |
-| mm10 | mouse | GRCm38 | — | ⛔ NOT RESOLVED — same transient 500 |
+| mm10 | mouse | GRCm38 | ⛔ **GRCm39** | **DISCARDED — see below** |
 
-⛔ **THE FIRST RUN'S BUILD CHECK WAS INCOMPLETE, AND THAT IS RECORDED RATHER THAN PAPERED OVER.**
-Two of the four lookups failed on a **transient upstream 500** (the byte-identical mm39 request
-succeeded moments later), and the independent NCBI cross-check hit **`HTTP 429 Too Many
-Requests`** — so `RET_two_sources_agree_within_50kb_on_every_build` printed `False` when it had
-merely been throttled. **A build check reading as failed when it was rate-limited is exactly as
-dangerous as one reading as passed when it was not**, so all three causes were root-caused from
-the run's own `attempts` record and fixed rather than retried blind:
+**`chr10` offset, hg19 − hg38, at *RET*'s start: 495,449 bp.** That is the number the whole guard
+exists for: a build mix-up moves *RET* half a megabase and raises nothing.
 
-- a `429` is **"ask again later"**, not "not found" — `get()` was treating every HTTP error as
-  definitive, so one throttled `esummary` silently disabled the second source. Retryable statuses
-  are now named explicitly (`404` and `403` deliberately excluded), with a pacer under NCBI's
-  documented 3 req/s;
-- a **213-symbol POST took down the primary locus lookup**. The background panel is a
-  nice-to-have and it took *RET* with it. The lookup is now chunked with the **loci first** and a
-  per-symbol fallback, so a failed chunk costs its own symbols and nothing else;
-- ⛔ **an arbitrary `[:40]` cut 92 ChIP-Atlas rows to 40 and no field said so.** Truncation is now
-  recorded and surfaced in `part_2_intersection.⛔ retrieval_completeness`.
+**Two independent sources, same build, same frame:** NCBI Gene's `NC_000010.11` — a RefSeq
+chromosome accession *version*, which is self-describing about the assembly — gives
+`43,077,068–43,130,350` against Ensembl's `43,077,025–43,130,351` in BED coordinates. **Start
+delta +43 bp, end delta −1 bp**: the two annotate transcript ends slightly differently, which is
+reported rather than asserted away. A build mix-up would show a delta of order 10⁵.
 
-⚠ **Consequence for the reading below, stated plainly: every peak set intersected in the first run
-was on hg19, against the hg19 *RET* span, and no cross-build intersection was ever attempted —
-`intersect_locus` raises rather than allowing one.** So the reading is internally consistent and
-its scope is one build.
+⭐ **The third check is the decisive one, and it ties this memo to the other half of the lane.**
+GPL6244 is the array [`emc_expression_panels.py`](./emc_expression_panels.py) reads for GSE24369.
+Its platform table carries each probe's genomic range **and `RANGE_GB`** — the assembly accession
+those ranges are stated against. For the loci in this panel `RANGE_GB` reads `NC_000010.10`,
+`NC_000007.13`, `NC_000017.10` … — the **GRCh37** RefSeq accessions. And *RET*'s probe range falls
+inside the *RET* span fetched here on **hg19 and on hg19 only**: `RET_build_is_unambiguous: true`,
+`RET_consistent_with: ["hg19"]`. Containment can hold for at most one of two spans 495 kb apart,
+so this is a **decisive** check rather than a corroborating one, and it means the occupancy half
+and the abundance half of this lane are demonstrably in one coordinate frame instead of assumed to
+be.
+
+⚠ *Measured first, rather than claimed: the instruction that produced this module said to verify
+the convention against a **committed** artifact. This repository's committed artifacts record
+GPL6244's `seqname` / `RANGE_GB` / `RANGE_START` / `RANGE_STOP` **header** —
+`emc-atr-vulnerability-inputs.json` and `emc-expression-panels-inputs.json` — but **not their
+values**. So there is no committed genomic coordinate here to reconcile against, and saying
+otherwise would have been false. The live platform table is fetched instead, and it is a stronger
+check.*
+
+### ⛔ And the guard caught the module doing the exact thing it exists to prevent
+
+`rest.ensembl.org` serves only the **current** mouse assembly, so the `mm10` lookup came back
+**GRCm39** while the build asked for GRCm38. `assembly_matches_expected` correctly went `false` —
+**and the code set a note and returned the coordinates anyway.** Seven ChIP-Atlas `mm10` peak sets
+were then intersected against GRCm39 loci, and **two of them reported `Ret` promoter-window
+peaks**. Those two positives were a cross-build artefact, produced by the module whose entire
+premise is that cross-build intersection must be impossible.
+
+**A WARNING IS NOT A GUARD.** `intersect_locus` could not catch it, because by that point both
+sides carry the same build *string*; the only place it is catchable is at the lookup, where the
+returned assembly can be compared with the one requested. The coordinates are now **discarded**,
+the two artefact positives are gone from the reading, and every mouse peak set reports
+`no_loci_on_this_build` — an absent reading, which is the honest state. The practical consequence
+is that **ChIP-Atlas's mouse peak sets are not readable through this route at all**; fixing that
+needs a GRCm38 coordinate source, not a code change. Held by
+`test_a_build_whose_service_returned_the_wrong_assembly_yields_NO_coordinates`.
+
+*(Three further defects were found in the first run's own `attempts` record and fixed before the
+run that produced these numbers: a `429` was being treated as "not found", so one throttled NCBI
+`esummary` silently disabled the second source and the build check printed `False` when it had
+merely been throttled; a 213-symbol POST that hit a transient upstream `500` took the primary
+locus lookup down with the background panel, so the lookup is now chunked with the loci first; and
+an arbitrary `[:40]` cut 92 ChIP-Atlas rows to 40 with no field recording it.)*
 
 <!-- RESULTS-BUILD -->
 
@@ -193,30 +223,46 @@ archives **raw reads**, so they remain unusable at $0. Instrument limit, recorde
 
 ### 3a · ⭐ The finding
 
-**NR4A1 occupies *RET*'s first-intron regulatory region in Kasumi-1 cells, reproducibly, in the
-only two peak sets that recover BOTH published NR4A3 target loci.**
+**Three NR4A1 peaks sit in *RET*'s first-intron regulatory region, and they reproduce across two
+ChIP-seq replicates, two genome builds and two independent reprocessing pipelines.**
 
-Three peaks, at essentially identical coordinates in two independent ChIP-seq experiments
-(SRX1653203 / SRX1653204), stated as offsets from *RET*'s TSS on **GRCh37/hg19** (see §1):
+Offsets from *RET*'s TSS. `SRX1653203/4` are two Kasumi-1 experiments reprocessed by **ChIP-Atlas**
+(MACS2, q < 1e-5); `REMAP2022_NR4A1` is **ReMap 2022**'s merged NR4A1 catalogue — a *different*
+uniform-reprocessing pipeline, so it is not the same numbers arriving twice:
 
-| peak | offset from TSS (rep 1) | offset from TSS (rep 2) | score (rep 1 / rep 2) |
-|---|---|---|---|
-| 1 | +5,892 … +6,005 | +5,866 … +6,007 | 131 / 140 |
-| 2 | **+6,768 … +7,052** | **+6,792 … +7,108** | **448 / 540** |
-| 3 | +14,900 … +15,105 | +14,852 … +15,104 | 302 / 338 |
+| peak | 1653203 hg19 | 1653204 hg19 | 1653203 hg38 | 1653204 hg38 | ReMap 2022 hg38 |
+|---|---|---|---|---|---|
+| 1 | +5,892…+6,005 | +5,866…+6,007 | *(below threshold)* | +5,864…+6,008 | +5,841…+6,036 |
+| **2** | **+6,768…+7,052** | **+6,792…+7,108** | **+6,768…+7,054** | **+6,792…+7,116** | **+6,778…+7,116** |
+| 3 | +14,900…+15,105 | +14,852…+15,104 | +14,891…+15,110 | +14,853…+15,108 | +14,850…+15,120 |
+| MACS2 score, peak 2 | 448 | 540 | 451 | 556 | — |
+
+⭐ **The five columns agree to within ~50 bp.** Two of them are on **GRCh37** and three on
+**GRCh38** — spans 495,449 bp apart — so a coordinate-convention error could not produce this
+table. That is the build guard of §1 validated by the data rather than asserted.
 
 **Against a background panel this lane did not choose** — a fixed-seed 200-gene sample of the
 1,299 symbols the repository had already committed for the ATR concept universe, so it cannot have
 been picked to flatter or damage *RET*:
 
-| peak set | background genes with ≥1 promoter-window peak | genes with ≥ *RET*'s count (3) | empirical p |
-|---|---|---|---|
-| SRX1653203 | 58 / 200 | **0 / 200** | **0.005** |
-| SRX1653204 | 93 / 200 | 3 / 200 | **0.0199** |
+| peak set | peaks in set | bg genes with ≥1 promoter peak | bg genes with ≥ *RET*'s count | empirical p |
+|---|---|---|---|---|
+| SRX1653203 hg19 | 22,674 | 58 / 200 | **0 / 200** | **0.005** |
+| SRX1653204 hg38 | 26,660 | 90 / 198 | 2 / 198 | **0.0151** |
+| SRX1653204 hg19 | 26,549 | 93 / 200 | 3 / 200 | **0.0199** |
+| SRX1653203 hg38 | 22,717 | 62 / 198 | 9 / 198 | 0.0503 |
+| **ReMap 2022 (merged)** | **83,773** | **164 / 198** | **88 / 198** | **0.4472** |
 
 `p = (ge+1)/(n+1)`, never `ge/n`, so it can never print a zero the panel size does not support.
 
-⚠ **Peak 3 sits at the window edge.** The window is −10 kb / +15 kb and peak 3 spans +14.85–15.11
+⛔ **THE LAST ROW IS THE CEILING ON THE FIRST, AND IT MUST BE QUOTED WITH IT.** In ReMap's merged
+catalogue the same three peaks are present — but so is a peak at 164 of 198 background genes, and
+88 of them carry three or more. **In a deeply merged catalogue *RET* is occupied but entirely
+unremarkable.** The enrichment (p = 0.005–0.02) is a property of the *single-experiment* peak sets,
+where a peak means something because most genes do not have one. Anyone quoting `p = 0.005` without
+`p = 0.4472` is quoting a selection.
+
+⚠ **Peak 3 sits at the window edge.** The window is −10 kb / +15 kb and peak 3 spans ~+14.85–15.12
 kb, so it is partly defined by the scope choice. Peaks 1 and 2 are not.
 
 ⚠ **These are NOT the HOXB5 element.** The window was widened, before any data, to contain
@@ -237,14 +283,15 @@ lives, not at the promoter.
    chimeras differ from each other in DNA binding at a validated NBRE target, so nothing transfers
    to `EWSR1::NR4A3` by assumption.
 3. **Kasumi-1 is an AML line, not EMC.** The chromatin state at *RET* in EMC is unmeasured.
-4. **⛔ THE ALTERNATIVE HYPOTHESIS IS ALSO OCCUPIED, AND THIS IS THE MOST IMPORTANT CAVEAT.**
-   *KDR* carries **2** promoter-window peaks and **4** in the gene-body window in both replicates,
-   and *VEGFA* carries 1–2. §3.1's memo raises the conventional attribution of EMC's TKI activity
-   to VEGFR — the originating authors' own reading (**PMID 23058004**) — as the alternative to the
-   RET story. **Occupancy at *RET* does not discriminate between them**, because the same peak set
-   occupies the VEGFR axis too. Anyone quoting the *RET* peaks without this line is quoting half a
-   result.
-5. **A 250× depth confound sits underneath the paralogue pattern** — see §4.
+4. **⛔ THE ALTERNATIVE HYPOTHESIS IS ALSO OCCUPIED — AND IN THE DEEPEST CATALOGUE IT IS OCCUPIED
+   MORE. THIS IS THE MOST IMPORTANT CAVEAT IN THE MEMO.** *KDR* carries **2** promoter-window
+   peaks and **4** in the gene-body window in *every* Kasumi-1 peak set and in ReMap; *VEGFA*
+   carries 1–2 in Kasumi-1 and **10 promoter-window peaks and 12 in the gene body in ReMap 2022,
+   against *RET*'s 3.** §3.1's memo frames the conventional attribution of EMC's TKI activity to
+   VEGFR — the originating authors' own reading (**PMID 23058004**) — as the story RET displaces.
+   **Occupancy does not displace it. It occupies both, and it occupies VEGFA harder.** Anyone
+   quoting the *RET* peaks without this line is quoting half a result.
+5. **A ~250× depth confound sits underneath the paralogue pattern** — see §4.
 6. **Occupancy is not transactivation.** The ENO3 precedent needed **luciferase** on top of ChIP
    (**PMID 26310886**). Nothing here measures output.
 
@@ -253,16 +300,22 @@ lives, not at the promoter.
 Sorted by depth, the pattern is unambiguous: **only peak sets above ~20,000 peaks recover a known
 positive control at all**, and those are the only ones with a *RET* peak.
 
-| peak set | antigen | cell type | total peaks | SEMA3C | ENO3 | *RET* promoter window |
+| experiment | antigen | cell type | total peaks | SEMA3C | ENO3 | *RET* promoter window |
 |---|---|---|---|---|---|---|
-| SRX1653204 | NR4A1 | Kasumi-1 | 26,549 | 1 | 2 | **3** |
-| SRX1653203 | NR4A1 | Kasumi-1 | 22,674 | 1 | 2 | **3** |
+| REMAP2022_NR4A1 | NR4A1 | merged catalogue | 83,773 | 1 | 6 | **3** |
+| SRX1653204 | NR4A1 | Kasumi-1 | 26,549 / 26,660 | 1 | 2 | **3** |
+| SRX1653203 | NR4A1 | Kasumi-1 | 22,674 / 22,717 | 1 | 2 | **3 / 2** |
+| SRX2423525 | NR4A1 | K-562 | 6,823 / 7,958 | 0 | 1 | 0 |
 | SRX5242458 | NR4A1 | MOLM-14 | 15,415 | 0 | 0 | 0 |
-| SRX2423525 | NR4A1 | K-562 | 6,823 | 0 | 1 | 0 |
-| … 34 further sets, 6–1,105 peaks | NR4A1/2/3 | dendritic cells, K-562, LoVo, MCF 10A, breast | ≤1,105 | 0 | 0 | 0 |
+| … 35 further experiments | NR4A1/2/3 | dendritic cells, K-562, LoVo, MCF 10A, breast | ≤1,105 | 0 | 0 | 0 |
 
-**So the honest count is: 2 peak sets with a *RET* peak, and only 3 of 38 whose null would have
-meant anything.** The other 35 nulls say the experiment was too shallow, not that *RET* is unbound.
+**So the honest count is: 3 of 40 distinct experiments carry a *RET* promoter-window peak, and only
+4 of 40 recover a positive control at all.** The other 36 nulls say the experiment was too shallow
+to detect a locus NR4A3 is already published as binding — they do not say *RET* is unbound.
+
+⚠ **A peak set is not an experiment.** ChIP-Atlas reprocesses each SRX against every genome build
+it supports, so 40 experiments appear as 79 peak sets. The experiment count is the one to quote;
+counting peak sets would read as independent replication when it is the same reads aligned twice.
 
 <!-- RESULTS-INTERSECTION -->
 
@@ -272,17 +325,22 @@ meant anything.** The other 35 nulls say the experiment was too shallow, not tha
 
 ### 4a · At *RET* — the answer is NOT MEASURED, and the pattern that looks like an answer is a confound
 
-| paralogue | peak sets | any promoter-window peak at *RET* | depth of those sets |
+| paralogue | peak sets | any promoter-window peak at *RET* | depth range |
 |---|---|---|---|
-| **NR4A1** | 27 | **yes** (2 of 27) | 71 – 26,549 |
-| **NR4A2** | 7 | no | 6 – 1,105 |
-| **NR4A3** | 6 | no | 53 – 102 |
+| **NR4A1** | 60 | **yes** | 71 – 83,773 |
+| **NR4A2** | 14 | no | 6 – 1,105 |
+| **NR4A3** | 12 | no | **53 – 102** |
 
-⛔ **This is not "NR4A1 binds *RET* and NR4A3 does not."** The two positive sets have **22,674 and
-26,549** peaks; the deepest NR4A3 set has **102**. That is a **~250× depth difference**, on top of
-a cell-type difference (AML line vs primary dendritic cells), and **no NR4A3 peak set recovers a
-positive control**. Two variables move together with the outcome, and neither is the paralogue.
-**The paralogue question at *RET* is unanswered, and the honest state is NOT MEASURED.**
+⛔ **This is not "NR4A1 binds *RET* and NR4A3 does not."** The positive sets have **22,674–83,773**
+peaks; the deepest NR4A3 set anywhere has **102**. That is a **200–800× depth difference**, on top
+of a cell-type difference (AML line and a merged multi-tissue catalogue, versus primary dendritic
+cells), and **no NR4A3 peak set recovers a positive control**. Two variables move with the outcome
+and neither is the paralogue. **The paralogue question at *RET* is unanswered, and the honest
+state is NOT MEASURED.**
+
+⚠ *And ChIP-Atlas lists each experiment once per genome build, so these are ~30 NR4A1, 7 NR4A2 and
+6 NR4A3 distinct experiments — and every one of the six NR4A3 experiments is from one study in one
+cell type.*
 
 ### 4b · ⭐ But the paralogue overlap itself IS measured — and it is a repository first
 
