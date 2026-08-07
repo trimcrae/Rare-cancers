@@ -365,10 +365,12 @@ jobs:
           print("=" * 96)
           print("INSTRUMENT CONTROLS — read these before any number below")
           for name, chk in c["checks"].items():
-              print(f"  {'PASS' if chk.get('pass') else 'FAIL'}  {name}")
-              for mf, m in (chk.get("measured") or {}).items():
-                  print(f"        {mf[:28]:30s} delta={m.get('delta')} t={m.get('t')} "
-                        f"readable={m.get('readable')}")
+              p = chk.get("pass")
+              tag = "PASS" if p is True else ("FAIL" if p is False else "NOT-GRADED")
+              print(f"  {tag:<10} {name}")
+              for mf, m in (chk.get("per_platform") or {}).items():
+                  print(f"        {mf[:28]:30s} {m.get('state'):<15} delta={m.get('delta')} "
+                        f"t={m.get('t')} {(m.get('why') or '')[:80]}")
           print(" ->", c.get("_reading"))
           print("-" * 96)
           for mf, p in d["platforms"].items():

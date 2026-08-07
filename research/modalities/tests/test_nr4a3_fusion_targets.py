@@ -395,6 +395,52 @@ def test_a_failing_positive_control_flips_all_checks_pass_and_says_so():
     assert res["controls"]["checks"]["positive_control_ENO3"]["pass"] is False
     assert res["controls"]["all_checks_pass"] is False
     assert "DID NOT COME BACK AS PUBLISHED" in res["controls"]["_reading"]
+    assert "positive_control_ENO3" in res["controls"]["checks_failed"]
+
+
+def test_a_control_that_is_READABLE_but_has_no_contrast_is_NOT_GRADED_not_FAILED():
+    """⛔⛔ THE BUG THIS TEST EXISTS FOR, CAUGHT BEFORE THE FIRST REAL RUN. `NR4A3` on GPL3290 is
+    readable and has NO contrast — four of six comparator spots are missing, leaving 2 values
+    against a floor of 3. A `pass` rule of `all(delta is not None and delta > 0)` scores that as
+    FAILED, and the artifact would print '⚠ AT LEAST ONE KNOWN ANSWER DID NOT COME BACK AS
+    PUBLISHED' on a run where the instrument was fine and the ARRAY was short four spots. That is
+    'an absent reading is not a reading of absence' inside the block whose job is to tell a working
+    instrument from a broken one."""
+    inp = _make_inputs()
+    tgt = inp["targets"]["FAKE_series_matrix.txt.gz"]
+    n_s = tgt["n_samples"]
+    # blank the comparator arm for NR4A3 only: readable, but below the contrast floor
+    tgt["genes"]["NR4A3"]["values"] = [v if i < 6 else None
+                                       for i, v in enumerate(tgt["genes"]["NR4A3"]["values"])]
+    assert len(tgt["genes"]["NR4A3"]["values"]) == n_s
+    res = M.derive(inp)
+    chk = res["controls"]["checks"]["the_fusion_itself_NR4A3"]
+    assert chk["pass"] is None, chk
+    assert chk["per_platform"]["FAKE_series_matrix.txt.gz"]["state"] == "NOT_MEASURABLE"
+    assert "NOT a failed control" in chk["per_platform"]["FAKE_series_matrix.txt.gz"]["_means"]
+    assert "NOT GRADED" in chk["_verdict"]
+    assert "the_fusion_itself_NR4A3" in res["controls"]["checks_not_graded"]
+    # and it must NOT drag the overall verdict down
+    assert res["controls"]["all_checks_pass"] is not False or res["controls"]["checks_failed"]
+
+
+def test_an_unreadable_control_is_also_not_a_failure():
+    inp = _make_inputs()
+    del inp["targets"]["FAKE_series_matrix.txt.gz"]["genes"]["PLAGL1"]
+    chk = M.derive(inp)["controls"]["checks"]["directional_falsifier_PLAGL1"]
+    assert chk["pass"] is None
+    assert chk["per_platform"]["FAKE_series_matrix.txt.gz"]["state"] == "NOT_READABLE"
+
+
+def test_all_checks_pass_is_false_when_nothing_could_be_graded():
+    """A control block that grades nothing must not report success."""
+    inp = _make_inputs()
+    for g in ("ENO3", "NR4A3", "PLAGL1", "SGK1"):
+        inp["targets"]["FAKE_series_matrix.txt.gz"]["genes"].pop(g, None)
+    c = M.derive(inp)["controls"]
+    assert c["all_checks_pass"] is False
+    assert c["n_checks_graded"] == 0
+    assert "NO CONTROL COULD BE GRADED" in c["_reading"]
 
 
 def test_the_controls_pass_when_the_synthetic_data_is_built_to_the_published_directions():
@@ -406,7 +452,10 @@ def test_the_controls_pass_when_the_synthetic_data_is_built_to_the_published_dir
 def test_the_ENO3_control_points_at_the_one_home_of_its_prior(flat):
     e = flat["controls"]["checks"]["positive_control_ENO3"]
     assert "emc-expression-panels.json" in e["expect"]
-    assert "0.808" in e["expect"] and "3.811" in e["expect"]
+    # ⚠ the exact values from that artifact, not a rounding of them: gene_reads.ENO3 carries
+    # delta 0.8075 / t 3.607 on GPL6244 and 3.8113 / t 13.221 on GPL3290.
+    assert "0.8075" in e["expect"] and "3.607" in e["expect"]
+    assert "3.8113" in e["expect"] and "13.221" in e["expect"]
 
 
 # =============================================================================================

@@ -146,10 +146,21 @@ Four known answers, three of which can fail:
 
 | control | expectation | why it discriminates |
 |---|---|---|
-| **ENO3** | UP on both platforms; prior **+0.808 SD (t = +3.61)** GPL6244, **+3.811 SD (t = +13.22)** GPL3290 — one home: [`emc-expression-panels.json`](../modalities/emc-expression-panels.json) → `gene_reads.ENO3` | ⛔ If it fails, **report the instrument, not the biology.** |
+| **ENO3** | UP on both platforms; prior **+0.8075 SD (t 3.607, df 5.5)** GPL6244, **+3.8113 SD (t 13.221, df 8.5)** GPL3290 — one home: [`emc-expression-panels.json`](../modalities/emc-expression-panels.json) → `gene_reads.ENO3` | ⛔ If it fails, **report the instrument, not the biology.** |
 | **NR4A3** | UP — the chimera puts NR4A3 coding sequence under the partner's promoter, and NR4A3 IHC is the diagnostic marker of EMC | the tumour-identity check |
 | **PLAGL1** | ★★ **DOWN** | the only prediction a global offset cannot manufacture |
-| **SGK1** | flat or down **at transcript level**, despite 10/10 IHC positivity | the only row whose published transcript and protein directions oppose |
+| **SGK1** | flat or down **at transcript level** (threshold: delta < +0.3 SD), despite 10/10 IHC positivity | the only row whose published transcript and protein directions oppose |
+
+⛔ **`pass` is computed only over platforms where a contrast was actually computed, and that rule is
+load-bearing rather than pedantic.** `NR4A3` on GPL3290 is **readable and not measurable**: four of the six
+comparator spots for that probe are missing, leaving 2 comparator values against a floor of 3. A naive rule
+of the form *"every platform must show delta > 0"* marks that platform **FAILED** and prints *"⚠ at least
+one known answer did not come back as published"* on a run where the instrument was fine and the array was
+short four spots — **"an absent reading is not a reading of absence", inside the very block whose job is to
+tell a working instrument from a broken one.** So `NOT_READABLE` and `NOT_MEASURABLE` are neither passes nor
+failures, a control with no computable platform is `pass: null`, and
+`test_a_control_that_is_READABLE_but_has_no_contrast_is_NOT_GRADED_not_FAILED` fails the build if that ever
+collapses back into one state.
 
 ---
 

@@ -1581,75 +1581,138 @@ def _build_sets(res, circ):
     return sets
 
 
+def _check(res, gene, expect_fn, expect_text, extra=None):
+    """One control gene, graded per platform into FOUR states — and the distinction between the
+    last two is the whole point.
+
+    ⛔ 'NOT READABLE' AND 'NOT MEASURABLE' ARE NOT FAILURES, AND THE FIRST DRAFT OF THIS FUNCTION
+    SCORED THEM AS ONE (caught 2026-08-07 BEFORE the first real run, by reading the sibling lane's
+    committed artifact). `NR4A3` on GPL3290 is READABLE and has **no contrast**: four of the six
+    comparator spots are missing, so only 2 comparator samples carry a value against a floor of 3.
+    A `pass` rule of the form `all(delta is not None and delta > 0)` marks that platform FAILED —
+    which would have printed '⚠ AT LEAST ONE KNOWN ANSWER DID NOT COME BACK AS PUBLISHED' on a run
+    where the instrument was fine and the ARRAY was short four spots. That is precisely the
+    'an absent reading is not a reading of absence' failure, inside the very block whose job is to
+    tell a working instrument from a broken one.
+
+    So: `pass` is over the platforms where the contrast was ACTUALLY COMPUTED, and a control with
+    NO computable platform is `pass: null` — neither passed nor failed — with the reason."""
+    r = ((res.get("gene_reads") or {}).get(gene) or {})
+    per, agree, disagree, unmeasurable, unreadable = {}, [], [], [], []
+    for mf, rec in r.items():
+        if not rec.get("readable"):
+            per[mf] = {"state": "NOT_READABLE", "why": rec.get("why_not_readable"),
+                       "_means": "the platform could not be read for this symbol. NOT a statement "
+                                 "about the gene."}
+            unreadable.append(mf)
+            continue
+        w = rec.get("welch_EMC_vs_comparator")
+        if not w:
+            per[mf] = {"state": "NOT_MEASURABLE", "why": rec.get("_underpowered"),
+                       "n_EMC_with_a_value": rec.get("n_EMC_with_a_value"),
+                       "n_comparator_with_a_value": rec.get("n_comparator_with_a_value"),
+                       "_means": "READABLE but no group contrast — too few samples carry a value. "
+                                 "An instrument limit, NOT a failed control."}
+            unmeasurable.append(mf)
+            continue
+        ok = expect_fn(w["delta_a_minus_b"])
+        per[mf] = {"state": "AGREES" if ok else "DISAGREES",
+                   "delta": w["delta_a_minus_b"], "t": w["t"], "df": w["df"],
+                   "n_EMC_with_a_value": rec.get("n_EMC_with_a_value"),
+                   "n_comparator_with_a_value": rec.get("n_comparator_with_a_value")}
+        (agree if ok else disagree).append(mf)
+    n_graded = len(agree) + len(disagree)
+    out = {"expect": expect_text, "per_platform": per,
+           "platforms_agreeing": agree, "platforms_disagreeing": disagree,
+           "platforms_not_measurable": unmeasurable, "platforms_not_readable": unreadable,
+           "n_platforms_graded": n_graded,
+           "pass": (None if n_graded == 0 else not disagree)}
+    if n_graded == 0:
+        out["_verdict"] = ("⛔ NOT GRADED — no platform produced a contrast for this control. That "
+                           "is an absent reading, NOT a failed control and NOT a reading of "
+                           "absence.")
+    elif disagree:
+        out["_verdict"] = (f"⚠ DISAGREES with the published direction on {', '.join(disagree)} "
+                           f"(graded on {n_graded} platform(s)).")
+    else:
+        out["_verdict"] = (f"✅ agrees with the published direction on every platform where a "
+                           f"contrast could be computed ({n_graded} of {len(per)}).")
+    out.update(extra or {})
+    return out
+
+
 def _controls(res):
     """⭐ THE INSTRUMENT IS GRADED BEFORE THE BIOLOGY IS READ. Four checks, and three of them can
     FAIL — which is the point. A panel of set scores is worth nothing until the known answers come
     back."""
     out = {"_why": "A set of scores is worth nothing until the instrument has produced known "
                    "answers on these exact platforms. Read these before anything else.",
+           "_grading_rule": "pass is computed ONLY over platforms where a contrast was actually "
+                            "computed. NOT_READABLE and NOT_MEASURABLE are absent readings and "
+                            "are neither passes nor failures; a control with no computable "
+                            "platform is `pass: null`.",
            "checks": {}}
-    gr = res.get("gene_reads") or {}
-
-    def _delta(gene, mf):
-        r = (gr.get(gene) or {}).get(mf) or {}
-        w = r.get("welch_EMC_vs_comparator")
-        return (w or {}).get("delta_a_minus_b"), (w or {}).get("t"), r.get("readable")
-
-    plats = [mf for mf, p in (res.get("platforms") or {}).items() if p.get("_status") == "read"]
-
-    eno3 = {mf: _delta("ENO3", mf) for mf in plats}
-    out["checks"]["positive_control_ENO3"] = {
-        "expect": "UP on both platforms. The committed prior is +0.808 SD (t=+3.61) on GPL6244 and "
-                  "+3.811 SD (t=+13.22) on GPL3290 — one home: "
-                  "research/modalities/emc-expression-panels.json -> gene_reads.ENO3.",
-        "measured": {mf: {"delta": v[0], "t": v[1], "readable": v[2]} for mf, v in eno3.items()},
-        "pass": all(v[0] is not None and v[0] > 0 for v in eno3.values()),
-        "_if_it_fails": "⛔ STOP AND REPORT THE INSTRUMENT, NOT THE BIOLOGY. Every number in this "
-                        "file is produced by the same reduction.",
-    }
-    nr4a3 = {mf: _delta("NR4A3", mf) for mf in plats}
-    out["checks"]["the_fusion_itself_NR4A3"] = {
-        "expect": "UP in EMC — the chimera places NR4A3 coding sequence under the partner's "
-                  "promoter, and NR4A3 immunostaining is the diagnostic marker of EMC.",
-        "measured": {mf: {"delta": v[0], "t": v[1], "readable": v[2]} for mf, v in nr4a3.items()},
-        "pass": all(v[0] is not None and v[0] > 0 for v in nr4a3.values()),
-    }
-    plagl1 = {mf: _delta("PLAGL1", mf) for mf in plats}
-    out["checks"]["directional_falsifier_PLAGL1"] = {
-        "expect": "★★ DOWN. Published as down-regulated by EWS/NOR1 and strongly down in six EMC "
-                  "tumours (PMID 16112421). Every other literature row predicts UP, so a global "
-                  "offset or a 'EMC differs from dense sarcomas' artefact would push PLAGL1 UP "
-                  "with everything else. A DOWN reading is the one observation here that such an "
-                  "artefact cannot manufacture.",
-        "measured": {mf: {"delta": v[0], "t": v[1], "readable": v[2]} for mf, v in plagl1.items()},
-        "pass": all(v[0] is not None and v[0] < 0 for v in plagl1.values()
-                    if v[0] is not None) and any(v[0] is not None for v in plagl1.values()),
-        "_if_it_fails": "⚠ NOT automatically an instrument failure — PLAGL1 is imprinted and its "
-                        "published EMC read is n=6 by RT-PCR against chondrocyte controls, not "
-                        "against sarcomas. But a PLAGL1 that reads UP removes the strongest "
-                        "argument that the UP rows are not an offset, and must be reported.",
-    }
-    sgk1 = {mf: _delta("SGK1", mf) for mf in plats}
-    out["checks"]["prereg_discordance_SGK1"] = {
-        "expect": "★ FLAT OR DOWN at transcript level, despite the protein being over-expressed in "
-                  "10/10 EMC by IHC. Filion et al. 2009 state their microarray shows LOWER SGK1 "
-                  "mRNA in EMC than in other sarcomas, 'also consistent with the data of "
-                  "Subramanian and colleagues', and attribute the protein excess to an isoform "
-                  "lacking the proteasomal degradation signal.",
-        "measured": {mf: {"delta": v[0], "t": v[1], "readable": v[2]} for mf, v in sgk1.items()},
-        "pass": all(v[0] is not None and v[0] < 0.3 for v in sgk1.values() if v[0] is not None),
-        "_why_it_is_a_control": "It is the only row in the table whose published transcript "
-                                "direction OPPOSES its published protein direction, so it "
-                                "discriminates a transcript instrument that is working from one "
-                                "that is simply reporting 'EMC is different'.",
-    }
-    out["all_checks_pass"] = all(bool(c.get("pass")) for c in out["checks"].values())
-    out["_reading"] = ("Every known answer came back as published."
-                       if out["all_checks_pass"] else
-                       "⚠ AT LEAST ONE KNOWN ANSWER DID NOT COME BACK AS PUBLISHED. Read the "
-                       "failing check before any set score; a failing ENO3 invalidates the "
-                       "instrument, a failing PLAGL1 weakens every UP row, and a failing SGK1 "
-                       "suggests the contrast is reading tissue composition.")
+    out["checks"]["positive_control_ENO3"] = _check(
+        res, "ENO3", lambda d: d > 0,
+        "UP on both platforms. The committed prior is +0.8075 SD (t 3.607, df 5.5) on GPL6244 and "
+        "+3.8113 SD (t 13.221, df 8.5) on GPL3290 — ONE HOME, not retyped as a new fact: "
+        "research/modalities/emc-expression-panels.json -> gene_reads.ENO3.",
+        {"_if_it_fails": "⛔ STOP AND REPORT THE INSTRUMENT, NOT THE BIOLOGY. Every number in this "
+                         "file is produced by the same reduction."})
+    out["checks"]["the_fusion_itself_NR4A3"] = _check(
+        res, "NR4A3", lambda d: d > 0,
+        "UP in EMC — the chimera places NR4A3 coding sequence under the partner's promoter, and "
+        "NR4A3 immunostaining is the diagnostic marker of EMC.",
+        {"_known_instrument_limit": "⚠ EXPECTED TO BE NOT_MEASURABLE ON GPL3290. In the sibling "
+                                    "lane's committed read, four of the six comparator spots for "
+                                    "this probe are missing, leaving 2 comparator values against a "
+                                    "floor of 3. That is a short array, not a failed control, and "
+                                    "the grading rule above is what keeps the two apart."})
+    out["checks"]["directional_falsifier_PLAGL1"] = _check(
+        res, "PLAGL1", lambda d: d < 0,
+        "★★ DOWN. Published as down-regulated by EWS/NOR1 and strongly down in six EMC tumours "
+        "(PMID 16112421). Every other literature row predicts UP, so a global offset or an 'EMC "
+        "differs from dense sarcomas' artefact would push PLAGL1 UP with everything else. A DOWN "
+        "reading is the one observation here that such an artefact cannot manufacture.",
+        {"_if_it_fails": "⚠ NOT automatically an instrument failure — PLAGL1 is imprinted and its "
+                         "published EMC read is n=6 by RT-PCR against CHONDROCYTE controls, not "
+                         "against sarcomas, so the comparator differs from ours. But a PLAGL1 that "
+                         "reads UP removes the strongest argument that the UP rows are not an "
+                         "offset, and must be reported as removing it."})
+    out["checks"]["prereg_discordance_SGK1"] = _check(
+        res, "SGK1", lambda d: d < 0.3,
+        "★ FLAT OR DOWN at transcript level, despite the protein being over-expressed in 10/10 EMC "
+        "by IHC. Filion et al. 2009 state their microarray shows LOWER SGK1 mRNA in EMC than in "
+        "other sarcomas, 'also consistent with the data of Subramanian and colleagues', and "
+        "attribute the protein excess to an isoform lacking the proteasomal degradation signal.",
+        {"_why_it_is_a_control": "It is the only row in the table whose published transcript "
+                                 "direction OPPOSES its published protein direction, so it "
+                                 "discriminates a transcript instrument that is working from one "
+                                 "that is simply reporting 'EMC is different'.",
+         "_threshold": "delta < +0.3 SD. Chosen as 'not appreciably UP' rather than 'DOWN', "
+                       "because the published claim is that the mRNA is lower, in a different "
+                       "comparator set, and a strict d<0 would grade a null result as a failure."})
+    graded = [c for c in out["checks"].values() if c["pass"] is not None]
+    failed = [k for k, c in out["checks"].items() if c["pass"] is False]
+    ungraded = [k for k, c in out["checks"].items() if c["pass"] is None]
+    out["n_checks_graded"] = len(graded)
+    out["checks_failed"] = failed
+    out["checks_not_graded"] = ungraded
+    out["all_checks_pass"] = bool(graded) and not failed
+    if not graded:
+        out["_reading"] = ("⛔ NO CONTROL COULD BE GRADED. Nothing below is interpretable, and "
+                           "that is an instrument statement, not a biological one.")
+    elif failed:
+        out["_reading"] = (f"⚠ AT LEAST ONE KNOWN ANSWER DID NOT COME BACK AS PUBLISHED: "
+                           f"{', '.join(failed)}. Read the failing check before any set score. A "
+                           f"failing ENO3 invalidates the instrument; a failing PLAGL1 weakens "
+                           f"every UP row; a failing SGK1 suggests the contrast is reading tissue "
+                           f"composition rather than transcription.")
+    else:
+        out["_reading"] = (f"Every known answer came back as published, on every platform where a "
+                           f"contrast could be computed ({len(graded)} of {len(out['checks'])} "
+                           f"controls graded"
+                           + (f"; not graded: {', '.join(ungraded)}" if ungraded else "") + ").")
     return out
 
 
@@ -1859,10 +1922,12 @@ def _summarise(res):
     c = res.get("controls") or {}
     print("INSTRUMENT CONTROLS FIRST:", file=sys.stderr)
     for name, chk in (c.get("checks") or {}).items():
-        print(f"  {'PASS' if chk.get('pass') else 'FAIL'}  {name}", file=sys.stderr)
-        for mf, m in (chk.get("measured") or {}).items():
-            print(f"        {mf[:26]:28s} delta={m.get('delta')} t={m.get('t')} "
-                  f"readable={m.get('readable')}", file=sys.stderr)
+        p = chk.get("pass")
+        tag = "PASS" if p is True else ("FAIL" if p is False else "NOT-GRADED")
+        print(f"  {tag:<10} {name}", file=sys.stderr)
+        for mf, m in (chk.get("per_platform") or {}).items():
+            print(f"        {mf[:26]:28s} {m.get('state'):<15} delta={m.get('delta')} "
+                  f"t={m.get('t')} {m.get('why') or ''}"[:150], file=sys.stderr)
     print(f"  -> {c.get('_reading')}", file=sys.stderr)
     print("-" * 100, file=sys.stderr)
     for mf, p in (res.get("platforms") or {}).items():
