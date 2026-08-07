@@ -1,0 +1,271 @@
+{
+  "_what": "PROPOSED systems-graph records for the fusion transcriptional-output work — one route and one publication endpoint. DESCRIBED, NOT APPLIED.",
+  "_why_not_applied": "Four agents were working the branch `claude/live-leads-report-paths-8eynb2` concurrently when this was written. A direct edit to `systems/graph/routes.json` or `systems/graph/publications.json` would have collided with a sibling lane's edit to the same file, and `systems_check.py --write-views` regenerates ~50 view files from those two collections, so the collision surface is the whole of `systems/views/`. The records below are complete and schema-shaped so that applying them is a mechanical paste rather than a re-derivation.",
+  "_the_gap_this_closes": "⛔ NO ROUTE IN `systems/graph/routes.json` MODELS THIS WORK AT ALL, which is why it has no publication endpoint and appears nowhere in `systems/views/L3-publications.md`. That is not a filing omission: CLAUDE.md §5 makes 'can this route name the paper it is for?' the test of whether a route is an option or an activity, and until this record exists the answer for the fusion's transcriptional output is that nobody asked. The measurement, the instrument and the manuscript all exist; the model does not know about any of them.",
+  "_generated": "2026-08-07",
+  "_source_document": "research/manuscripts/nr4a3-fusion-transcriptional-output.md",
+
+  "_how_to_apply": [
+    "1. Append `proposed_route` to the array in `systems/graph/routes.json`.",
+    "2. Append `proposed_publication` to the array in `systems/graph/publications.json`.",
+    "3. `python3 systems/systems_check.py --write-views` to regenerate every view.",
+    "4. `./scripts/preflight.sh` — gate 2 validates both records against `systems/schema/route.schema.json` and `systems/schema/publication.schema.json`, gate 3 re-runs the EMC map check, and gate 1 re-runs the consistency linter.",
+    "5. `python3 research/manuscripts/lint_claims.py` — once `publications.json` carries `document.file`, the manuscript joins the linter's default target set automatically through `_publication_documents()`, and `systems/views/L3-publications.md` becomes linted on `what_it_would_claim`. Both were 0 ERROR when checked against this text on 2026-08-07.",
+    "NOTHING ELSE NEEDS EDITING. `systems/graph/strategies.json` carries no `routes` array — a strategy's members are derived from each route's own `strategy` field — so adding a route to an existing family requires no edit there."
+  ],
+
+  "_judgement_calls_a_reviewer_may_want_to_overrule": [
+    {
+      "call": "strategy = ST-DISSEMINATION",
+      "reasoning": "This is not a therapeutic approach and filing it under one would misrepresent it. ST-DISSEMINATION's thesis is that a computation-only program advances a disease in two ways — 'by producing a result someone else tests, or by producing methodology and negative results that stop others repeating the same failures' — and this route is squarely the first arm plus a reusable instrument. Filing it under ST-REPURPOSING (its nearest therapeutic neighbours, RT-PPARG-DOWNSTREAM and RT-TRABECTEDIN-PPARG) would read as a repurposing hypothesis, which it is not.",
+      "the_honest_discomfort": "ST-DISSEMINATION currently holds exactly one route (RT-METHODS-PAPER, a failure record). Putting a positive measurement beside it makes the family mean two different things. The alternative is a new L1 family for target/driver biology, which is a bigger change than a sibling lane should make unilaterally."
+    },
+    {
+      "call": "maturity = validated_in_silico rather than computed",
+      "reasoning": "CONVENTIONS §4.2 separates the two on exactly one question: has the instrument underneath recovered a known answer? This one recovered four — ENO3 (positive control), NR4A3 (tumour identity), PLAGL1 (directional falsifier, the only published DOWN prediction in the catalogue) and SGK1 (transcript/protein discordance) — with `all_checks_pass: true` and zero disagreeing platforms in `nr4a3-fusion-targets.json` → `controls`.",
+      "the_honest_discomfort": "`validated_in_silico` grades the INSTRUMENT, not the central assertion. The central assertion — that the fusion's published targets are co-ordinately up in EMC — is NOT validated, and `confidence: moderate` plus the `limitations` array is where that is said. A reader who reads maturity as a grade on the claim will over-read it."
+    },
+    {
+      "call": "instruments.support is EMPTY, and that is deliberate",
+      "reasoning": "`route.instruments.support` takes a `V*` or `INS-*` id, and no instrument record exists for the null-calibrated gene-set reader. It would properly be a `V*` (CONVENTIONS §1: `V` = an instrument IN the validation register, i.e. one with a known-answer control; `INS-` = one without), because it has four passing known-answer controls. ⛔ Minting `V23` from a sibling lane while three other agents hold the same branch is exactly the collision this file exists to avoid, so it is proposed separately below and NOT claimed here. Listing an unregistered id would fail `[V1]` (`cites unknown instrument`); listing nothing is the honest state.",
+      "the_honest_discomfort": "An empty `support` array reads as 'nothing supports this route', which is false. `supporting_evidence` carries the real support by `EV-*` and artifact reference instead."
+    }
+  ],
+
+  "proposed_route": {
+    "id": "RT-FUSION-OUTPUT",
+    "display_name": "The fusion's transcriptional output, read in EMC tissue",
+    "aliases": [
+      "the transcriptional-output route",
+      "the fusion target-set read",
+      "EWSR1::NR4A3 published targets in EMC tissue"
+    ],
+    "grade": {
+      "value": "A measured, null-calibrated per-gene concordance result with an explicitly stated ceiling: all three genes carrying a DNA-binding assay against an NR4A3 chimera are positive-signed on both readable array platforms and in an independent third cohort, while the AGGREGATE target set does not clear its size-matched null on either array platform. The binding constraint is not sample size — it is that the class-A set is three genes wide and that no genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five committed corpora, which is a bounded statement about a search rather than a claim that none exists.",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-fusion-transcriptional-output.md",
+        "anchor": "#6--conclusion"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [
+      "EV-FILION-2009",
+      "EV-SUBRAMANIAN-2005",
+      "EV-PMC6766969"
+    ],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-PPARG-DOWNSTREAM",
+        "axis": "what is being asked of the PPARγ axis",
+        "fails_on": [],
+        "why": "RT-PPARG-DOWNSTREAM asks whether a PPARγ-directed AGENT could act on a downstream effector, and is held up by the unresolved DIRECTION of that intervention. This route asks only whether the receptor's target genes are co-ordinately elevated in EMC tissue against a size-matched null. It supplies an input to that route and answers none of its question: §3.9 of the manuscript states in terms that an activity reading says nothing about the direction of any pharmacological intervention."
+      },
+      {
+        "route": "RT-METHODS-PAPER",
+        "axis": "what the paper is a record OF",
+        "fails_on": [],
+        "why": "RT-METHODS-PAPER is a record of instruments that FAILED their known-answer controls, in the degrader program. This route's instrument PASSED all four of its known-answer controls and returned a positive per-gene reading. Both sit in ST-DISSEMINATION and they are the two halves of that family's thesis, not one route described twice."
+      },
+      {
+        "route": "RT-DBD",
+        "axis": "whether the DNA-binding domain is a TARGET or an EXPLANATION",
+        "fails_on": [],
+        "why": "RT-DBD asks whether the fusion's DNA-binding domain can be drugged and is closed. This route uses the fact that the DBD binds DNA to ask what it binds DNA NEAR, which is a measurement question that the closure of RT-DBD does not touch."
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "⭐ OPEN, and the open part is cheap. The named next step — an NBRE motif scan of the promoters of the genes that read high, against a matched background — is sequence work that needs no new data, no dispatch and no money. The route's CEILING is a different matter and is not cheap: separating 'the fusion drives this gene' from 'this gene is associated with EMC' needs a cistrome measured with a fusion expressed, and §3.10 of the manuscript records that a search of 2,276 retrieved full-text documents across five committed corpora found none. That is a bounded negative about a SEARCH, not a statement that no such dataset exists — so the route is open on an experiment nobody has published rather than on a capability that does not exist.",
+    "strategy": "ST-DISSEMINATION",
+    "publication": {
+      "endpoint": "PUB-FUSION-OUTPUT",
+      "role": "primary",
+      "contribution": "The whole paper: the evidence-typed catalogue of every published NR4A3 / NR4A3-fusion transcriptional target with the verbatim sentence per gene, the size-matched empirical null that makes any gene-set read on these platforms interpretable, the four instrument controls, the three-cohort per-gene concordance reading with its ceiling, and the measured absence of any retrieved NR4A3-fusion cistrome."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "The fusion's transcriptional output, read in EMC tissue",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      },
+      "evidence": [
+        "EV-FILION-2009",
+        "EV-SUBRAMANIAN-2005",
+        "EV-PMC6766969"
+      ],
+      "produced_by": "research/modalities/nr4a3_fusion_targets.py",
+      "workflow": ".github/workflows/emc-expression-datasets.yml",
+      "published_to": [
+        "main"
+      ]
+    },
+    "purpose": "Do the genes an NR4A3 chimera is published to bind read higher in EMC tumour tissue than in comparator tumours — beyond what an arbitrary gene set of the same size achieves on the same platform?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "active",
+      "maturity": "validated_in_silico",
+      "confidence": "moderate",
+      "last_verified": "2026-08-07"
+    },
+    "rationale": "EMC is defined by an NR4A3 fusion, so the disease's central molecular hypothesis is that the chimera is a transcription factor with an aberrant output. Two questions are routinely conflated in the field's prose: which genes has anyone shown an NR4A3 chimera to physically BIND and drive, and which genes are HIGH in EMC tumours. The first is a mechanism claim and the second is an association that EMC's cell of origin, its myxoid architecture, or a generic matrix programme could produce on its own. Cataloguing the mechanism claims with their evidence type recorded per gene, and then reading them back in tumour tissue against an explicit calibration for what an arbitrary gene set does on the same platform, separates the two as far as public data allow — and states precisely where the separation stops.",
+    "supporting_evidence": [
+      {
+        "ref": "EV-PMC6766969",
+        "what_it_supports": "SEMA3C as the single best-evidenced direct target of EWSR1::NR4A3 — a human cell background, the actual EWSR1 chimera, and a chromatin-binding assay (ChAP-qPCR); and the measurement that the TAF15 chimera does NOT retain that binding, which is half of why native-to-fusion transfer cannot be assumed",
+        "strength": "direct"
+      },
+      {
+        "ref": "EV-FILION-2009",
+        "what_it_supports": "PPARG as a fusion-transactivated promoter with a band-shift, a luciferase reporter and a single-nucleotide NBRE mutant behind it; the never-cited negative result in the same paper that native NR4A3 and NR4A3ΔC do NOT activate that promoter; and Table 1, whose 21 mappable genes replicate cross-platform and cross-cohort at p_emp 0.0005 on both readable series",
+        "strength": "direct"
+      },
+      {
+        "ref": "EV-SUBRAMANIAN-2005",
+        "what_it_supports": "the GSE4303 / GPL3290 cohort itself (10 EMC on a 42,000-spot two-colour cDNA platform), and — read from the fetched GEO series record rather than inferred from sample counts — the confirmed circularity of scoring Filion Table 2 on that platform, which is why only Table 1 is used as a replication test",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "⛔ THE CENTRAL ONE. Whether the fusion DRIVES any of the genes that read high in EMC. Every reading here is consistent with the fusion driving them and equally consistent with EMC's cell of origin expressing them, with EMC's myxoid hypocellular architecture against dense comparator sarcomas, or with the genes being generic matrix or proliferation genes. The size-matched null removes the platform offset and part of the generic-gene explanation and removes neither of the first two, and nothing available at $0 does.",
+      "Whether the class-A set is three genes wide because that is the biology or because nobody has looked. No genome-wide chromatin experiment performed with an NR4A3 chimera was retrieved in 2,276 full-text documents across five committed corpora, so the set's width is a fact about the retrieved literature and not yet a fact about the fusion.",
+      "Whether sign concordance across six array readings and three genes means anything a coordinated programme would predict. Three individually EMC-associated genes predict the same pattern, and with three genes the two explanations are not separable.",
+      "Whether the fusion-type mixture is attenuating a real signal or hiding a reversal. No readable series records which fusion each EMC sample carries, and Brenca et al. show EWSR1- and TAF15-translocated EMC differ transcriptionally, so every EMC arm here is a mixture of unknown composition.",
+      "Whether the PPARγ activity reading is receptor output or adipogenic differentiation. The occupancy-derived arm and the adipogenesis process proxy are both set-specific UP on both platforms and share 44 genes (23% of the smaller set), and these data cannot separate them.",
+      "Whether any of this holds at protein level. Every reading is transcript-level in bulk tissue, and SGK1 is the worked example of a gene whose published protein and transcript directions oppose."
+    ],
+    "required_validation": [
+      {
+        "what": "The instrument must recover known published answers on these exact platforms before any set score is read — a positive control, a tumour-identity control, a directional falsifier with a published DOWN prediction, and a transcript/protein discordance control. ✅ DONE 2026-08-07, run 31200817686: all four agree on every platform where a contrast could be computed, `all_checks_pass: true`, zero disagreeing",
+        "instrument": "V1",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Any raw 'higher in EMC' contrast must be refused unless it clears a size-matched empirical null drawn from the same platform's own genes. ✅ DONE — 4,000 seeded draws per set per platform; the refusal fired on this route's own aggregate class-A+B set on both platforms and is reported rather than worked around",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "An NBRE motif scan of the promoters of the genes that read high, against a matched background. Sequence work: needs no new data, no dispatch and no money. It cannot demonstrate binding, but a set of up-in-EMC genes with NO NBRE enrichment would be a real negative. NOT DONE",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "An NR4A3 ChIP-seq peak set with the FUSION expressed, intersected with these expression reads: a gene up in EMC that carries a fusion-bound NBRE in its regulatory region is driven, and a gene up with no peak is correlated. ⛔ No such dataset was retrieved. The nearest available (Haller et al. 2019, PMID 30664630; processed data Zenodo doi 10.5281/zenodo.1483691, open) is NATIVE NR4A3 in acinic cell carcinoma, not a fusion — and given the measurement that native NR4A3 does not activate the PPARG promoter the fusion does, it answers a different question and must never be cited as answering this one",
+        "feasible_today": false,
+        "blocked_by": []
+      },
+      {
+        "what": "Fusion knockdown or degradation in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment was retrieved in the corpora searched",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "what": "Fusion-type-stratified EMC expression data, so the EWSR1 and TAF15 arms can be read apart rather than as a mixture",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "why_not_higher": "The result is a per-gene sign-concordance reading over three genes in cohorts of 4, 6 and 10, with the aggregate refused by its own null and no occupancy evidence in EMC. That is honest preprint content and it is not a journal-submission argument: a reviewer's first question — 'is any of this the fusion?' — has no answer here, and the paper says so rather than working around it. What would raise it is a cistrome intersection, not more writing.",
+      "missing": [
+        "the NBRE promoter scan, which is free and unstarted",
+        "a cistrome measured with an NR4A3 fusion expressed — an open, unclaimed experiment rather than an unfetched dataset"
+      ],
+      "evidence_required": [
+        "occupancy evidence in a fusion-expressing cell, for any gene named"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The measurement has run, the instrument passed its known-answer controls, and the manuscript is drafted. The one remaining free step — the NBRE promoter scan — costs $0 and is startable as written. Nothing about this route gets cheaper or easier by waiting, and the thing that WOULD change it (a fusion cistrome) is somebody else's experiment, which is a reason to publish the reading rather than to sit on it.",
+      "six_month_delta": "Small, unless someone deposits a fusion cistrome. The two array series and the 3SEQ deposit are all decade-old public data and will not improve.",
+      "two_year_delta": "Potentially decisive, and in one direction only: a genome-wide chromatin experiment with an NR4A3 chimera would convert every per-gene concordance here into either a driven-gene claim or a correlation, and nothing else would.",
+      "cost_trend": "flat",
+      "automation_outlook": "Fully automatable as re-analysis — the null draw is seeded, the pipeline is stdlib-only and the whole run costs $0 on CI. What is not automatable is the judgement that three genes of sign concordance is weaker than a set result, which is the sentence the pre-registration failed to write in advance."
+    },
+    "next": {
+      "best_next_action": "Run an NBRE motif scan over the promoter regions of the class-A and Filion-Table-1 genes against a size- and GC-matched background drawn from the same genome build, and record per-gene motif hits beside the existing per-gene deltas in `nr4a3-fusion-targets.json`. $0, sequence-only, no dispatch and no new data.",
+      "cost": "$0",
+      "blocked_on": []
+    },
+    "limitations": [
+      "n = 4, 6 and 10 EMC tumours across the three cohorts. Nothing here survives being described as a distribution.",
+      "The three cohorts are never pooled and must never be: 3SEQ 3'-end read density is not array intensity, and GPL6244 single-channel intensity is not GPL3290 two-colour log-ratio. The concordance is sign agreement across three independent measurements, which is weaker than a combined estimate.",
+      "Transcript only. No protein abundance, no post-translational state, no subcellular localisation.",
+      "No occupancy in EMC, and therefore no causal attribution to the fusion for any gene named.",
+      "The normal-tissue arm is a six-organ visceral panel, not matched adjacent tissue, so it cannot separate EMC-specific from mesenchymal-lineage-specific.",
+      "The empirical null controls the platform offset and set size, not gene-gene correlation within a real pathway, so its p is anti-conservative for coherent sets and is a screen rather than a test.",
+      "Uncorrected for multiple testing.",
+      "⛔ Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim for any agent, target or gene, and expression data cannot become that evidence."
+    ]
+  },
+
+  "proposed_publication": {
+    "id": "PUB-FUSION-OUTPUT",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "document": {
+      "file": "research/manuscripts/nr4a3-fusion-transcriptional-output.md"
+    },
+    "what_it_would_claim": "Across a retrieved corpus of 2,276 full-text documents, the set of genes any NR4A3 chimera has been shown to physically bind and drive is three genes wide — and those three read higher in EMC tumour tissue than in comparator tumours in every one of six array readings and in an independent third cohort on an unrelated technology, while the AGGREGATE target set does not clear a size-matched empirical null on either readable array platform and the published EMC transcriptional phenotype does clear it, on both. Reading a gene set in these EMC series is uninterpretable without that null calibration. No genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in that corpus, so no gene named can yet be told apart from a gene that is merely associated with the disease.",
+    "blocked_by": []
+  },
+
+  "_companion_records_deliberately_NOT_proposed_here": [
+    {
+      "what": "An instrument record for the null-calibrated gene-set reader — properly a `V*` id, because it carries four known-answer controls and all four pass.",
+      "why_not": "The V register runs to V22 and minting V23 from a sibling lane while three other agents hold the same branch is precisely the collision this file exists to avoid. It also needs a decision this lane should not take alone: whether the four controls in `nr4a3-fusion-targets.json` → `controls.checks` constitute ONE instrument with a four-part control or a family, and whether `INS-GEO-SERIES-CHARACTERISE` (which already characterises external GEO deposits before anything is built on them) is its parent or its sibling.",
+      "consequence_of_leaving_it": "`route.instruments.support` is empty, which under-states the route. `supporting_evidence` carries the real support instead. ⚠ An empty support array must not be read as 'no instrument' — the instrument exists, passes, and is committed; it is only unregistered."
+    },
+    {
+      "what": "Six edits to existing graph rows, already routed separately.",
+      "why_not": "They are their own file with their own verifier: `research/manuscripts/nr4a3-fusion-targets-map-edits.json`, verified with `python3 research/manuscripts/verify_map_edit_anchors.py research/manuscripts/nr4a3-fusion-targets-map-edits.json`. Duplicating them here would be a second home for the same proposed change, which is the defect the one-fact-one-home rule exists to prevent."
+    },
+    {
+      "what": "A `TECH-*` or `BLK-*` row for 'no NR4A3-fusion cistrome exists'.",
+      "why_not": "⛔ It would be the wrong shape and would encode an over-claim. A blocker asserts a fact about the world; what was measured is a fact about a SEARCH — no fusion cistrome was RETRIEVED in 2,276 documents across five committed corpora. That searched retrieved full text, not all of PubMed, and a dataset can be deposited without a paper. An absent reading is not a reading of absence, and a `BLK-NO-FUSION-CISTROME` row would quietly convert one into the other. It is recorded as a bounded negative in the manuscript's §3.10 and in `nr4a3-fusion-targets.json` → `_what_this_cannot_conclude.1b_no_fusion_cistrome_exists_in_the_retrieved_literature`, which carries the corpus counts so a future reader can re-grade it."
+    }
+  ],
+
+  "_verification": {
+    "_this_is_a_MEASUREMENT_not_an_assertion": "⛔ These records were not eyeballed against the schemas — they were INSERTED into a copy of the live graph and the repository's own checker was run over the result. A property asserted in prose about a record nobody validated is a hope, not a property, and this file would be the worst possible place for one.",
+    "checked_on": "2026-08-07",
+    "how": "`systems_check.load_graph()` → append both records → `systems_check.derive()` → `systems_check.run_checks()`, i.e. exactly the sequence `main()` runs under `--check`, with the view-drift comparison excluded because the views are regenerated at apply time (step 3 of `_how_to_apply`), not here.",
+    "measured": {
+      "baseline_without_the_records": "0 ERROR · 13 WARN",
+      "with_the_records_inserted": "0 ERROR · 14 WARN",
+      "new_errors_introduced": 0,
+      "new_warns_introduced": 1,
+      "the_one_new_warn": "[L4] routes/RT-FUSION-OUTPUT is new in the graph and absent from the legacy registry (expected while the legacy file is still hand-maintained) — a benign, expected notice that every new route raises."
+    },
+    "schema_validation": {
+      "proposed_route vs systems/schema/route.schema.json": "CLEAN",
+      "proposed_publication vs systems/schema/publication.schema.json#/$defs/publication": "CLEAN",
+      "proposed_route.publication vs systems/schema/publication.schema.json#/$defs/route_endpoint": "CLEAN",
+      "validator": "the repository's own `SchemaSet` (jsonschema Draft202012Validator with the cross-file $ref registry), never a hand-rolled subset"
+    },
+    "language_discipline": "`lint_claims.py` run over the record's own prose fields — `what_it_would_claim`, `grade.value`, `publication.contribution`, `rationale`, `closure_note`, `remaining_unknowns[]` and `limitations[]`, which are the strings that become readable text in `systems/views/L3-publications.md` and the L2 route page: 0 ERROR, 0 WARN.",
+    "⚠_a_trap_this_verification_fell_into_first_and_the_reason_it_is_recorded": "The first run of this harness called `run_checks(load_graph())` WITHOUT `derive()` and reported 18 baseline errors — nine `[S1] 'routes' is a required property` on the strategy rows and nine `[H2] route set disagrees with routes' own claims` — plus one apparently-new `[H2]` naming RT-FUSION-OUTPUT. Every one of those was an artefact of the harness: `main()` runs `derive(load_graph())`, and `strategy.routes` is a DERIVED field that `derive()` injects. ⛔ Had that run been believed, this file would have reported a fabricated conflict against ST-DISSEMINATION and the records would have been rewritten to fix a defect that did not exist. The discriminating observation was free and took one `sed` of `main()`: the real `--check` path passes clean on the same tree, so a harness disagreeing with it is the harness being wrong. A verification harness that does not reproduce the real invocation measures itself."
+  }
+}
