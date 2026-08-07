@@ -118,6 +118,24 @@ else
   echo "   FAILED -- rerun 'python3 research/manuscripts/emc_systems_map_check.py --check' to see why"; rc=1
 fi
 
+# ⛔ ADDED 2026-08-07, AND IT IS HERE RATHER THAN CI-ONLY BECAUSE THAT MISTAKE WAS MADE TWICE ABOVE.
+# An agent drafting a manuscript wrote a PMID from RECOLLECTION -- present in no committed source
+# anywhere in this repository -- and it PASSED lint_claims TWICE. Six invented titles and author-lists
+# went out in the same pass, caught only by a human-directed audit.
+#
+# ⚠ lint_claims cannot catch this and is not deficient for failing to: it checks how strongly a claim is
+# WORDED (R1-R5: selectivity, efficacy, safety, therapeutic window, clinical readiness). A fabricated
+# identifier on a properly-hedged sentence is, to that linter, a perfect sentence. Claim STRENGTH and
+# citation PROVENANCE are orthogonal, and no other gate reads an identifier at all -- against a
+# repository whose FIRST golden rule is "never fabricate medical facts, stats, citations or patient
+# data". This gate closes that and only that.
+echo "== citation provenance (every prose identifier traces to a fetch or to the ledger) =="
+if python3 research/manuscripts/lint_citations.py >/dev/null 2>&1; then
+  echo "   OK"
+else
+  echo "   FAILED -- rerun 'python3 research/manuscripts/lint_citations.py' to see which identifier"; rc=1
+fi
+
 echo "== parser guard (every registered parser can still find its input) =="
 if python3 systems/parser_guard.py >/dev/null 2>&1; then
   echo "   OK"
