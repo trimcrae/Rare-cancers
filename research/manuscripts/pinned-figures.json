@@ -838,6 +838,18 @@
       "current": "There is no ~80 % NR4A paralogue identity anywhere in this repo; the figure is SMARCA2/SMARCA4 transplanted onto NR4A. The NR4A readings, each owned elsewhere and none of them ~80 %: the Pocket-5 lining is 7 of 10 residues divergent (nr4a-selectivity.json); the aligned LBD is pct_divergent_any 42.9 pooled across both paralogues (nr4a3-differential-surface-atlas.json); and the domain-resolved PER-PARALOGUE identities -- zinc-finger DBD, hinge, LBD and AF1, each against NR4A1 and against NR4A2 separately -- are in target-route-census.json -> paralogue_identity_by_domain / zinc_finger_window. Consequence, and it runs in the program's favour: the LBD is the LEAST conserved ordered domain, so the programme already works in the most divergent part of the protein, and any route relocating the target to the DBD or to DNA binding is strictly worse on arithmetic alone (roadmap 6a).",
       "retired_by": "roadmap section 8 Route B's 2026-08-02 retraction ('Nothing in this repo puts the NR4A paralogue pocket at ~80 % identity'), sharpened 2026-08-03 by the domain-resolved census (target_route_census.py, $0 CPU over the cached UniProt sequences)",
       "scoping_note": "★ SCOPED TO THE NR4A USE, AND IT MUST STAY THAT WAY -- READ BEFORE WIDENING. ~80 % identity IS the correct, cited figure for SMARCA2/SMARCA4 bromodomains, a different protein pair this repo legitimately discusses in at least four live places (nr4a3-degrader-paper.md:2109; the roadmap's SMARCA2/4 gate record; selcal_interface_signature.py; valb_frame_transfer_check.py). A bare '80 %' pattern would fire on every one of them, and a linter that flags true statements gets switched off -- lint_claims.py's founding lesson. So the pattern anchors on the NOUN the number was wrongly attached to ('pocket' / 'paralogue(s)') and never on the number alone. The one live instance outside a marked retraction, nr4a3_linker_covalent_reach.py's docstring, was corrected in the same commit that added this entry; note that .py files are not lint targets, so that fix was by inspection rather than by the linter."
+    },
+    {
+      "id": "pose_singular_the_predicted_docked_pose",
+      "pattern": "[Tt]he predicted docked pose",
+      "current": "one member of the committed pose ensemble (nr4a3-degrader-paper.md 2.7, Figure 5d)",
+      "retired_by": "the R5 falsifier firing 2026-08-06 - pose-second-method.json: a scoring-independent second method reproduces none of the existing poses. Census: research/modalities/pose-conditionality-census.json"
+    },
+    {
+      "id": "pose_singular_persistence_of_the_modeled_pose",
+      "pattern": "[Pp]ersistence of the modeled pose",
+      "current": "persistence of one modelled pose over the short screening trajectory (nr4a3-degrader-paper.md 2.7)",
+      "retired_by": "the same falsifier - local persistence shows a placement is a local minimum, never that it is THE placement. Census: research/modalities/pose-conditionality-census.json"
     }
   ],
   "subset_checks": [

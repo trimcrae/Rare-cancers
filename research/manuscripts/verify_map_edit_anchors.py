@@ -29,11 +29,19 @@ roadmap reports all three as dead anchors when all three have landed.
 not use it or had to copy it -- and a verifier nobody can point at a new file is a verifier that stops
 being run. The default is unchanged, so existing invocations behave identically.
 
-⚠ THE TWO CORRECTIONS ABOVE WERE MADE INDEPENDENTLY, IN PARALLEL, AND THEY CONFLICTED IN GIT. Keeping only
-one would have been a real loss in either direction: the retired predicate makes every verdict wrong, and
-the hard-wired path is why nobody ran it to notice. They are merged here deliberately, not reconciled by
-picking a winner -- the failure mode this whole file exists to catch is an edit silently dropped because
-two people touched the same lines.
+⚠ THREE CORRECTIONS TO THIS FILE WERE MADE INDEPENDENTLY AND IN PARALLEL, AND ALL THREE CONFLICTED IN GIT.
+Keeping any one alone would have been a real loss: the retired predicate makes every verdict wrong, the
+hard-wired path is why nobody ran it to notice, and the single-shape reader silently returns "no edits" on
+half the artifacts this repo emits. They are merged deliberately rather than reconciled by picking a
+winner -- the failure mode this whole file exists to catch is an edit silently dropped because two people
+touched the same lines, and it very nearly happened to the checker itself.
+
+⭑ AN ALREADY-APPLIED EDIT IS `OK`, NOT `FAIL`. `route_map_edits.py` is idempotent and reports
+`already_applied`; this must agree with it, or re-verifying after a successful routing turns a correct
+state red and invites someone to "fix" it by re-applying. `map_edit_anchors.verify()` is the one home of
+that discriminator and is why this script does not reimplement it.
+
+Usage:  python3 research/manuscripts/verify_map_edit_anchors.py [artifact.json ...]
 """
 import json
 import os
@@ -69,9 +77,54 @@ def _materialise(ref, relpath):
     return fh.name
 
 
+def _all_edit_dicts(doc):
+    """Every dict that looks like a routed edit, regardless of shape or edit KIND."""
+    blk = doc if isinstance(doc, list) else doc.get("map_edits_required", doc)
+    if isinstance(blk, list):
+        return [e for e in blk if isinstance(e, dict)]
+    if isinstance(blk, dict):
+        for v in blk.values():
+            if isinstance(v, list) and any(isinstance(e, dict) for e in v):
+                return [e for e in v if isinstance(e, dict)]
+    return []
+
+
+def edits_of(doc):
+    """Both emitted shapes: a top-level list, and a list nested under `map_edits_required`.
+
+    ⚠ AGENTS EMIT BOTH, and a reader that knows only one returns an empty list rather than failing --
+    which this script would then print as "0 edits x 2 refs -- 0 unresolved", i.e. a clean bill of health
+    for an artifact it never read. An absent reading is not a reading of absence.
+    """
+    if isinstance(doc, list):
+        return [e for e in doc if isinstance(e, dict) and "current_text" in e]
+    blk = doc.get("map_edits_required", doc)
+    if isinstance(blk, list):
+        return [e for e in blk if isinstance(e, dict) and "current_text" in e]
+    if isinstance(blk, dict):
+        for v in blk.values():
+            if isinstance(v, list) and any(isinstance(e, dict) and "current_text" in e for e in v):
+                return [e for e in v if isinstance(e, dict) and "current_text" in e]
+    return []
+
+
 def main(artifact=None, refs=("origin/main", "WORKTREE")):
     artifact = artifact or DEFAULT_ARTIFACT
-    edits = json.load(open(artifact, encoding="utf-8"))["map_edits_required"]
+    doc = json.load(open(artifact, encoding="utf-8"))
+    edits = edits_of(doc)
+    if not edits:
+        # ⚠ TWO DIFFERENT STATES, AND CONFLATING THEM SENDS A READER HUNTING A BUG THAT IS NOT THERE.
+        # A routed artifact may carry FIELD edits (`current_fields`/`proposed_fields` on a graph record)
+        # rather than TEXT edits (`current_text` against a document anchor). This checker verifies text
+        # anchors; a file of field edits is not malformed and not unverified-by-accident, it is simply
+        # out of scope, and it must not be reported as "carries no applicable edits".
+        n_field = sum(1 for e in _all_edit_dicts(doc) if "current_fields" in e)
+        if n_field:
+            print("%s: 0 text-anchor edits; %d FIELD edit(s) -- out of scope for this checker, "
+                  "verify them against the graph schema instead" % (os.path.basename(artifact), n_field))
+            return 0
+        print("::error::%s carries no applicable edits" % artifact)
+        return 1
     bad = 0
     for e in edits:
         for ref in refs:
