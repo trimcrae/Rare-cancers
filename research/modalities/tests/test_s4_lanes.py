@@ -270,6 +270,28 @@ def test_the_committed_reach_artifact_carries_the_admits_ceiling():
     assert d["verdict"]["⛔_the_blocker_this_does_not_touch"]
 
 
+def test_the_naked_dna_ablation_carries_an_interval_and_the_reading_respects_it():
+    """★ THE CORRECTION THIS TEST EXISTS FOR. The first 40k-sample run reported groove ratios of 1.12-1.23
+    against a 1.08 control and asserted 'the receptor IS shaping the geometry ... by more than at the
+    control'. Those ratios rest on accepted counts of 114-180, whose 95 % intervals fully overlap. An
+    ordering of point estimates is not a finding, and a ratio without an interval cannot show that."""
+    p = os.path.join(HERE, "nr4a3-re-reach.json")
+    if not os.path.exists(p):
+        pytest.skip("artifact not generated in this checkout")
+    with open(p) as fh:
+        d = json.load(fh)
+    ab = d["★_naked_dna_ablation"]
+    for cls, row in ab["★_per_groove_class"].items():
+        assert row["ratio_ci95"], (cls, row)
+        assert row["ratio_ci95"][0] < row["ratio_naked_over_complex"] < row["ratio_ci95"][1]
+    sep = ab["groove_separated_from_control_at_95pct"]
+    reading = ab["★_reading"]
+    if sep:
+        assert "clears the control" in reading
+    else:
+        assert "UNRESOLVED AT THIS SAMPLING" in reading, reading
+
+
 def test_the_reach_artifact_makes_no_selectivity_or_efficacy_claim():
     p = os.path.join(HERE, "nr4a3-re-reach.json")
     if not os.path.exists(p):
