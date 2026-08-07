@@ -142,7 +142,20 @@ jobs:
           if-no-files-found: error
 
       - name: Europe PMC search + open-access full text (the `query` path)
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' }}
+        # ⛔ A TARGETS-ONLY DISPATCH MUST NOT ALSO RUN THE KEYWORD SWEEP (fixed 2026-08-07).
+        # `query` is `required: true` WITH a default, so passing an empty string does not
+        # produce an empty `inputs.query` — GitHub substitutes the default, the guard below
+        # sees a non-empty value, and the EMC keyword sweep runs anyway. Measured: a dispatch
+        # that asked only for a URL corpus published ~700 unrelated EMC papers into that
+        # corpus's slug, and a second one did the same alongside 21 mmCIFs. That is the
+        # mislabelled-record failure this workflow's own slug guard exists to prevent,
+        # arriving by a path the guard does not cover — a corpus that reads as its label but
+        # is mostly something else is worse than an empty one, because it looks answered.
+        # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
+        # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
+        # query explicitly and get both, which is the only case that ever wanted both.
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe'
+                && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           QUERY: ${{ inputs.query }}
         run: node scripts/fetch-paper.mjs sync "$QUERY"
@@ -155,7 +168,20 @@ jobs:
       # description of the wiring. (Same lesson as tests/test_fleet_armed.py's exempt-lane wiring
       # test: a property asserted in prose about a value a caller passes is a hope, not a property.)
       - name: Assert the query path actually searched (non-empty + known-positive control)
-        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe' }}
+        # ⛔ A TARGETS-ONLY DISPATCH MUST NOT ALSO RUN THE KEYWORD SWEEP (fixed 2026-08-07).
+        # `query` is `required: true` WITH a default, so passing an empty string does not
+        # produce an empty `inputs.query` — GitHub substitutes the default, the guard below
+        # sees a non-empty value, and the EMC keyword sweep runs anyway. Measured: a dispatch
+        # that asked only for a URL corpus published ~700 unrelated EMC papers into that
+        # corpus's slug, and a second one did the same alongside 21 mmCIFs. That is the
+        # mislabelled-record failure this workflow's own slug guard exists to prevent,
+        # arriving by a path the guard does not cover — a corpus that reads as its label but
+        # is mostly something else is worse than an empty one, because it looks answered.
+        # ⚠ Fixed by INTENT, not by removing the default: a caller supplying a targets corpus
+        # is asking for those URLs, so the sweep is suppressed. Callers who want both pass a
+        # query explicitly and get both, which is the only case that ever wanted both.
+        if: ${{ inputs.query != '' && inputs.slug != 'lane-probe'
+                && inputs.targets_file == '' && inputs.targets_json == '' }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
         run: python3 scripts/lit_query_assert.py
