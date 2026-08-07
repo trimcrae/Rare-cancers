@@ -1,0 +1,632 @@
+pmcJACS AuJACS Au4063jacsau101775714auJACS Au2691-3704American Chemical SocietyPMC11522902PMC11522902.111522902115229023948322510.1021/jacsau.4c005031ArticleNon-Markovian Dynamic
+Models Identify Non-Canonical
+KRAS-VHL Encounter Complex Conformations for Novel PROTAC Design
+https://orcid.org/0009-0003-2200-0490QiuYunrui WiewioraRafal P. IzaguirreJesus A. https://orcid.org/0000-0001-5447-0452XuHuafeng ShermanWoody https://orcid.org/0000-0002-0039-3196TangWeiping https://orcid.org/0000-0002-7119-9358HuangXuhui †Department
+of Chemistry, Theoretical Chemistry Institute, University of Wisconsin-Madison, Madison, Wisconsin 53706, United States‡Data
+Science Institute, University of Wisconsin-Madison, Madison, Wisconsin 53706, United States§Psivant
+Therapeutics, Boston, Massachusetts 02210, United States∥Atommap
+Corporation, NY, New York 10013, United
+States⊥Lachman
+Institute for Pharmaceutical Development, School of Pharmacy, University of Wisconsin-Madison, Madison, Wisconsin 53705, United States*E-mail: weiping.tang@wisc.edu.*E-mail: xhuang@chem.wisc.edu.240920242810202441047390938573868120620241609202426082024240920243110202401112024© 2024 The Authors. Published by American Chemical Society2024The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+Targeted protein degradation (TPD) is emerging as a promising
+therapeutic
+approach for cancer and other diseases, with an increasing number
+of programs demonstrating its efficacy in human clinical trials. One
+notable method for TPD is Proteolysis Targeting Chimeras (PROTACs)
+that selectively degrade a protein of interest (POI) through E3-ligase
+induced ubiquitination followed by proteasomal degradation. PROTACs
+utilize a warhead-linker-ligand architecture to bring the POI (bound
+to the warhead) and the E3 ligase (bound to the ligand) into proximity.
+The resulting non-native protein–protein interactions (PPIs)
+formed between the POI and E3 ligase lead to the formation of a stable
+ternary complex, enhancing cooperativity for TPD. A significant challenge
+in PROTAC design is the screening of the linkers to induce favorable
+non-native PPIs between POI and E3 ligase. Here, we present a physics-based
+computational protocol to predict noncanonical and metastable PPI
+interfaces between an E3 ligase and a given POI, aiding in the design
+of linkers to stabilize the ternary complex and enhance degradation.
+Specifically, we build the non-Markovian dynamic model using the Integrative
+Generalized Master equation (IGME) method from ∼1.5 ms all-atom
+molecular dynamics simulations of linker-less encounter complex, to
+systematically explore the inherent PPIs between the oncogene homologue
+protein and the von Hippel-Lindau E3 ligase. Our protocol revealed
+six metastable states each containing a different PPI interface. We
+selected three of these metastable states containing promising PPIs
+for linker design. Our selection criterion included thermodynamic
+and kinetic stabilities of PPIs and the accessibility between the
+solvent-exposed sites on the warheads and E3 ligand. One selected
+PPIs closely matches a recent cocrystal PPI interface structure induced
+by an experimentally designed PROTAC with potent degradation efficacy.
+We anticipate that our protocol has significant potential for widespread
+application in predicting metastable POI-ligase interfaces that can
+enable rational design of PROTACs.
+
+non-Markovian dynamic modelsMarkov state modelsprotein−protein interface predictionPROTACencounter complexU.S. Department of Health and Human Services10.13039/100000057NIH R35GM148266University of Wisconsin-Madison10.13039/100007015Research Forward FundUniversity of Wisconsin-Madison10.13039/100007015Hirschfelder Professorship Fundpmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9au4c00503document-id-new-14au4c00503ccc-price1
+
+## Introduction
+Small molecule heterobifunctional
+degraders, exemplified by proteolysis
+targeting chimeras (PROTACs), have the potential to transform drug
+discovery and therapeutic interventions by degrading proteins instead of inhibiting them. − Unlike the traditional small-molecule inhibitors that block the
+protein function through occupying the active or allosteric site of
+the protein of interest (POI), PROTACs can employ functional or nonfunctional
+binders to target the POI, inducing its degradation through a catalytic
+mechanism. , This approach provides opportunities to
+target many undruggable POIs that lack well-defined small molecule
+binding sites for functional blockade. A PROTAC comprises three distinct
+components: warhead, linker, and E3 ligand. With the warhead binding
+to the POI and E3 ligand binding to the E3 ligase, PROTAC facilitates
+the proximity between the POI and the E3 ubiquitin ligase, leading
+to the formation of a ternary complex. This complex could then trigger
+the ubiquitination of the POI, marking it for degradation by the cellular
+proteasome machinery. Over the past two decades, significant effort
+has been dedicated to investigating and designing PROTACs. , However, the development of most PROTACs remains highly empirical,
+involving the time-consuming synthesis and screening of libraries
+with various linkers between the warhead and the E3 ligase ligand.
+This process aims to induce favorable non-native protein–protein
+interactions (PPIs) between the POI and E3 ligase.
+Throughout
+the PROTAC-induced targeted protein degradation (TPD),
+establishing specific PPI between the POI and E3 ligase is critical. − Many degraders function by leveraging the stabilization of preexisting
+but weak PPIs between POIs and E3 ligases. − Additionally,
+both experiments and computational simulations reveal that PPIs of
+highly productive ternary complexes exhibit noticeable dynamical conformational
+heterogeneities, distinct from the static contacts found in crystal
+structures. , − Previous biophysical and structural
+studies have also demonstrated that different PROTACs, even with the
+same warhead and E3 ligand but different linkers, can induce distinct
+PPIs in ternary complexes, leading to significant differences in degradation
+efficiency. , − Therefore, investigating the complex and dynamic non-native PPIs
+between the POIs and E3 ligases is critical for understanding TPD
+mechanisms and guiding the rational design of novel PROTACs. An approach
+with great potential to explore all possible inherent PPIs between
+the POI and E3 ligase is to study the POI-E3 ligase encounter complex
+without the linker. , − The subsequent
+introduction of the linker to this encounter complex is akin to adding
+an additional geometric constraint. 
+All-atom MD simulation offers a promising approach to reveal metastable
+and dynamical PPIs between the POI and E3 ligase. , It has been combined with enhanced sampling techniques to elucidate
+both the kinetic and thermodynamic properties of a PROTAC system. However, simulating the formation of PPIs presents
+significant challenges due to the various ways in which the POI and
+E3 ligase can approach each other, as well as the conformational changes
+induced upon the formation of the encounter complex. The formation
+and conformational changes of encounter complex PPI interfaces often
+occur on milliseconds time scales, which exceed accessible length
+of the straightforward MD simulations for a system at the size of
+approximately 150,000 atoms. Adding to the complexity, there is a
+lack of dominant PPI, and all PPIs may potentially serve as functional
+ones for PROTAC design. Therefore, obtaining
+a comprehensive understanding of the conformational space of the encounter
+complex and identifying representative PPI interfaces, along with
+their equilibrium populations and transition rates between them, are
+challenging.
+Markov State Models (MSMs) built from extensive
+MD simulations
+offer a potentially useful technique to address these challenges. − MSMs model dynamics through a series of Markovian jumps among conformational
+states at discrete lag times. MSMs also provide a rigorous pipeline
+to coarse-grain MD conformations into a few comprehensible states
+according to their dynamic metastability, facilitating the prediction
+of thermodynamic and kinetic properties associated with them. However,
+for MSMs to have predictive power, they must be constructed with a
+sufficiently long lag time to ensure that interstate transitions become
+Markovian, posing a major challenge as the lag time is constrained
+by the length of short MD simulations., , , To address this challenge, we recently developed
+an approach based on the Generalized Master Equation (GME), called
+the Integrative Generalized Master equation (IGME) method. IGME captures non-Markovian dynamics by incorporating
+time-integrations of memory kernel functions, offering a promising
+approach to study PPIs in encounter complexes based on relatively
+limited MD simulation data.
+In this study, we constructed an
+IGME model from 2,492 MD trajectories,
+with an average length of 605 ns (∼1.51 ms in total), to elucidate
+potential non-native PPIs between the oncogene homologue (KRAS) protein − and the von Hippel-Lindau (VHL) E3 ligase. , KRAS is the oncogene most frequently mutated in cancer, and PROTAC-induced TPD is considered as a promising
+approach for treating KRAS-induced cancer. , We here simulated the formations and conformational changes of the
+encounter complex in the absence of the linker, but with KRAS bound
+to two different warheads and VHL bound to one ligand ( a–d). Using our simulation
+and dynamic modeling protocol, we revealed six metastable states characterized
+by distinct conformations of PPI interfaces and provided the corresponding
+thermodynamic and kinetic properties for each state. Based on the
+IGME model, we further evaluated additional structural properties
+of conformations within each state, such as the spatial proximity
+of the warhead and E3 ligand and the solvent-exposed sites of both.
+Consequently, we identified three metastable states that exhibit promising
+PPI interfaces for future linker design. Conformations from one of
+our predicted metastable states agree well with a recent ternary crystal
+structure (with an average interface-RMSD
+of 5.42 ± 3.67 Å) involving a degrader of promising degradation
+efficiency. Our IGME modeling offers a systematic and efficient approach
+to legitimizing metastable PPIs in protein pairs, thereby facilitating
+rational PROTAC design.
+ 
+2
+
+## Results and Discussions
+2.1
+
+## Elucidating the Dynamics of KRAS-VHL Encounter
+Complex Formation: IGME Outperforms MSM
+We construct our
+IGME model from MD trajectories totaling ∼1.51 ms for studying
+the dynamics of the KRAS-VHL encounter complex formation (see panels e-l for our
+protocol). Specifically, to systematically explore the complete ensemble
+of PPI interface conformations, we employ rigid protein docking to
+search the preferable PPIs from various approaching orientations,
+and then initiate unbiased MD simulations from these docking poses
+(see e,f and
+Methods 4.1 for details). To build the 100-microstate MSM, we initially
+characterize the conformations of the encounter complex using all
+25 330 internal pairwise distances between KRAS and VHL residues,
+and then employ the Molecular Systems Automated Identification of
+Cooperativity (MoSAIC) algorithm and
+Spectral-oASIS algorithm to identify
+1,500 important distances as features for subsequent analysis (see g,h and ). The implementation of these two
+algorithms ensures that the chosen distance features adequately represent
+various important collective motions around the PPI interfaces, while
+also capturing the slowest dynamics effectively (see and Methods 4.2 for details). Subsequently,
+we apply the time-lagged independent component analysis (tICA) , with kinetic mapping to project the
+encounter complex conformations onto five collective variables (CVs)
+(see i) and
+then cluster them into 100 microstates via K-Means algorithm (see j). The tICA-related
+hyperparameters and the number of microstates are optimized using
+cross-validation with the Generalized Matrix Rayleigh Quotient (GMRQ)
+score (see ). More details about the construction and validation of
+microstate MSM are presented in Methods and .
+To identify metastable PPIs of the KRAS-VHL
+encounter complex, we lump 100 microstates into six metastable macrostates
+using PCCA+ , and build a 6-macrostate IGME
+model (see k,l). Unlike Markovian MSMs, IGME utilizes the GME to evolve dynamics,
+considering the non-Markovian dynamics through time integrations of
+memory kernel functions. Given that the relaxation time of memory
+kernel functions is much shorter than the Markovian lag time for MSMs,
+IGME can model dynamics between a handful of metastable states with
+shorter segments of MD simulations compared to MSMs. As shown in a, the integrations
+of memory kernels reach plateaus at around 50 ns,
+therefore accurate IGME models can be constructed at the memory kernel
+relaxation time τk > 50 ns. An example of such an IGME model, constructed
+from MD simulation segments, each with the length of 150 ns (τk = 70ns and an additional segment of Lfit = 80 ns for fitting, see Methods
+4.3 for details), is shown in c. In sharp contrast, the MSM constructed with a much longer lag
+time of τ = 250 ns still predicts significantly
+faster state-relaxation dynamics compared to the original MD simulations
+( c). Furthermore, the root mean
+squared error (RMSE) of the MSMs’ predicted dynamics is over
+an order of magnitude larger than that of the IGME models at different
+lag times (see b and the Methods 4.3 for the details of the RMSE calculations).
+While IGME models consistently predict the slowest time scale and
+the mean first passage time (MFPT) across a wide range of lag times,
+MSMs always underestimate these values (see c,d). We anticipate that to achieve comparable
+performance with IGME models, MSMs would require a significantly longer
+lag time, which is beyond the length of our MD simulations. As shown
+in a, IGME models built with a
+wide range of hyperparameters: τk and Lfit robustly exhibit small RMSEs, i.e., below 0.1%. For the remaining
+sections, we choose the optimal IGME model as the one with the smallest
+RMSE value (constructed with τk = 70ns and Lfit = 80ns) to report the
+thermodynamic and kinetic properties of the PPI interfaces.
+ 
+2.2
+
+## Dynamic Heterogeneity of the Encounter Complex
+Associated with Diverse Metastable PPI Formation
+With the
+optimal IGME model, we observe the PPI interfaces of encounter complex
+consist of diverse non-native interaction patterns and exhibit significant
+dynamical heterogeneities. As shown in a, the free energy landscape of PPI interfaces,
+projected onto the top two CVs identified by tICA, reveal multiple
+free energy basins. Each basin is associated with distinct metastable
+macrostate, indicating the inherent flexibility and diversity for
+the formation of the PPI interfaces between KRAS and VHL. Our IGME
+model also shows that State VI is highly populated (72.71%), while
+the equilibrium populations of the other five states are all below
+10% ( b). Strikingly,
+we observe significant different PPI interfaces formed and stabilized
+by diverse chemical interactions between different domains of KRAS
+and VHL in these six metastable states (see representative structures
+in e). The
+transition rates between these metastable states are also predicted
+by our IGME model ( ). To characterize
+different PPIs, we first illustrate the PPI patterns using the residue
+pairwise distance maps and analyzing the distance variance between
+contacting interface residues in KRAS and VHL. As shown in , various PPIs display substantially
+different residue pairwise distance maps. Additional analysis of the
+contact frequency for each residue across PPI interfaces also indicates
+the heterogeneity of these PPIs ( ). To further examine if there exists preference of specific nonbonded
+chemical interactions to stabilize these PPIs, we plotted the preferences
+of amino acid type and interactions for PPIs formed in different macrostates
+(see ). We observe that
+salt bridges and dipolar interactions are present in all PPIs, through
+the interactions between charged residues (e.g., Glu and Arg) and
+polar residues (e.g., Gln and His). Interestingly, PPIs in States
+I and IV exhibit additional hydrophobic interactions (e.g., via Leu
+and Val). These observations suggest that KRAS and VHL can form different
+non-native PPIs via diverse nonbonded interactions. These metastable
+non-native PPIs open new opportunities for PROTAC design.
+ Previous experimental and computational results
+have demonstrated
+that it is inadequate to solely rely on the crystal structure of induced
+ternary complex to assess PROTAC performance. Instead, the dynamic
+behaviors of the ternary complex may exert a more influential role
+on degradation efficiency. , − As our simulations of the encounter complex do not include the degrader
+linker, the encounter complex exhibits much greater heterogeneity
+among multiple protein domains. We next examine the structural heterogeneities
+within each metastable macrostate. The visualizations of multiple
+encounter complex conformations for each macrostate (see ) and the characterization of distance
+variance between contacting interface residues (see ) illustrate the high consistency of PPI interfaces
+in State I–V and significant flexibilities of interfaces in
+state VI. By further using the MD conformation located at the geometric
+center of each macrostate as the reference structure, we compute the
+interface-RMSD among all MD conformations within each of the six macrostates
+( c). The interface-RMSD
+is calculated using the formula , where xi represents the Cartesian coordinates of atoms
+in the interface residues (i.e., residues with an average minimal
+distance to the other protein less than 10 Å) after optimal alignment, denotes the reference coordinates and N is the number of conformations. Except for the highest
+populated State VI, all other 5 macrostates display moderate interface-RMSD
+values which are comparable to those observed in the dynamical simulations
+of other PROTAC-induced ternary complexes. This observation suggests that even in the absence of the degrader
+linker, KRAS and VHL can develop dynamic cooperativity during the
+formation of the encounter complex, resulting in various well-defined
+PPIs suitable as a baseline for linker design. Additionally, we evaluate
+the stability of the PPIs for each macrostates. Previous studies have
+suggested a correlation between buried surface areas (BSA) and experimentally
+measured binding affinity of the PPIs. We quantify the BSAs of interfaces from different macrostates by
+subtracting the solvent-accessible surface area (SASA) of the two
+single proteins from the encounter complex. As shown in d, our analysis shows that
+there are no noticeable differences in the BSA values of the six macrostates
+in our IGME model. This result is consistent with the equilibrium
+populations predicted by IGME, where States I–V exhibit comparable
+populations.
+Conversely, although State VI has the largest overall
+equilibrium
+population, it encompasses diverse PPI binding modes with significantly
+shorter average lifetimes, making it unsuitable for linker design.
+We noticed that each metastable state spans a distinct region of varying
+size within the CV space ( a) and
+contains PPI interface binding modes with varying degrees of heterogeneity.
+We thus reported the average lifetime of microstates belonging to
+each metastable state as an indicator of the average lifetime for
+binding modes within each metastable state. Specifically, we fit the
+residence probability for each microstate at different lag times using
+the formula p(t)=cekt and define the microstate’s
+lifetime as the time at which the residence probability decays 1/e.
+As shown in , we plotted the lifetime
+distribution projected onto the top two tICA CVs, and the average
+lifetime of microstates within each metastable state, respectively.
+Interestingly, although state VI has the largest overall equilibrium
+population, it contains diverse PPI binding modes, and these modes
+exhibit much shorter average lifetimes ( b). This observation suggests that State VI is a high-entropy
+state with diverse, short-lived PPIs that rapidly interconvert. Consequently,
+PPI interfaces from States I–V may serve as better candidates
+for further PROTAC design. In the current study, we did not find any
+metastable states with extremely low equilibrium populations. However,
+we recognize that the population predicted by the IGME model could
+be a valuable criterion for shortlisting PPIs interfaces. Specifically,
+we recommend that metastable states with low populations (e.g., <
+1%) should not be prioritized for linker design.
+Compared to
+simple rigid protein docking, our simulation and dynamic
+modeling protocol significantly enhances the refinement of PPI interface
+patterns and identifies the most metastable interfaces. Although the
+interfaces obtained from docking exhibit considerable diversity, many
+do not fall within the free energy basins when projected onto the
+top two CVs (see ). A detailed
+comparison of the structural differences between docking interfaces
+and those from metastable states revealed noticeable differences in
+their contact maps (see ). Furthermore,
+assigning docking interfaces to metastable states showed that while
+these interfaces span all six states, 43 out of 50 are predominantly
+associated with state VI (see ),
+which is unsuitable for subsequent linker design. This highlights
+the importance of dynamic modeling for accurate interface classification
+and the identification of the most metastable PPI interfaces.
+
+2.3
+
+## Shortlisting Predicted PPIs Meeting Linker
+Constraints
+The rational design of PROTAC linkers has been
+limited due to the challenges associated with predicting the preexisting
+PPIs between the POI and the E3 ligase. As our IGME model has characterized
+the equilibrium populations and kinetics of various metastable PPI
+interfaces across different macrostates, we next consider the geometries
+of interfaces and ligands within each macrostate to evaluate their
+potential for linker design. Throughout the MD simulations, we notice
+that the warheads and E3 ligand tightly bound to the protein pockets,
+with only ∼3.2% of trajectories showing them diffusing away
+from the binding site. We further filter out these conformations from
+postanalysis. Since the encounter complex exhibits varying degrees
+of conformational changes during the formation of different PPIs,
+warheads and E3 ligand expose different atoms and adopt different
+relative orientations accordingly. To identify the exposed functional
+groups in the warheads and E3 ligand that could potentially be connected
+via a linker, we calculate the SASA for each of their atoms ( a,b). We identify
+exposed heavy atoms, defined as those with the top 50% SASA among
+all atoms, as having the linking potential. Furthermore, we measure
+the average pairwise distances between the exposed heavy atom pairs
+of the E3 ligand and the warheads to further assess the feasibility
+of linker design, as shown in c and .
+ a,b shows
+that the E3 ligand generally exhibits larger SASA compared to the
+warheads, primarily because of the shallow pocket of VHL. , The E3 ligand conformations from States I and IV are considerably
+more exposed than those from other states. This suggests that conformations
+from these two states may have multiple potential sites to be linked.
+However, upon examining the interactive profiles between KRAS and
+VHL in these two states ( e and ), we find that
+developing any linker based on the conformations from these two states
+is impractical, as the warheads and E3 ligand are too far away from
+each other (between 25 and 30 Å, see c). Previous studies have highlighted that
+linker length is one of the most crucial factors influencing the effectiveness
+of PROTACs, and excessively long linkers often lead to a reduction
+in potency. Generally, PROTACs with linkers containing more than 20
+atoms have comparatively low potency. , , , Therefore, designing
+linkers based on the PPI interfaces from States I and IV poses significant
+challenges. Moreover, after evaluating the conformations from all
+states, we observe that warhead 2 (see its chemical structure in d) consistently stays
+distant from the ligase ligand ( ), suggesting challenges in developing a degrader using it.
+Consequently, by excluding State VI due to its kinetically unstable
+PPI, and eliminating State I, State IV, and warhead 2 due to inappropriate
+distances between warheads and E3 ligand, the PPI interfaces from
+the remaining three states (II, III, and V) have the potential for
+further linker development between E3 ligand and warhead 1. We further
+visualize the PPI conformations and the relative positions of ligands
+for these three states. As shown in d–o, the conformations within these
+three states maintain consistent interfaces while also exhibiting
+slight heterogeneities. In addition, the warhead and ligand approach
+each other at appropriate distances for adding the linker. As shown
+in (f,j and
+n), we highlight the ligand and warhead atoms with the top 50% largest
+SASA using dashed boxes in their chemical structures. In these chemical
+structures, we have identified potential linking sites, marking them
+with colored dots based on their synthetic ease and frequency of use
+documented in the literature. , − In particular, the red dots correspond to atomic sites that are
+commonly used in literature for attaching the linkers, while the green
+dots indicate sites that are less frequently used for this purpose.
+However, it is important to note that less frequently used attachment
+sites for VHL ligands may lead to highly effective degraders. We anticipate that these selected conformations
+may aid in designing linkers that could further stabilize the naturally
+favorable PPIs.
+Through our systematic analysis shown above,
+we found there are
+several crucial factors to consider when evaluating and selecting
+appropriate PPI interfaces for linker design. We summarize these factors
+and criteria in a schematic workflow, as illustrated in . Specifically, quantifying their structural
+heterogeneity and average lifetimes for PPI binding modes helps in
+selecting states with long-lived PPI interfaces and consistent binding
+modes. States with interface-RMSD values larger than 10 Å should
+be carefully considered, given that the typical structural heterogeneity
+of the POI–PROTAC-E3 ligase ternary complex is moderate. And states with large interface-RMSD usually
+serve as connectors for diverse, short-lived PPI binding modes that
+rapidly interconvert. Subsequently, the equilibrium populations of
+states and the BSA of configurations within states can serve as references
+for PPI binding affinity. States with very low populations (e.g.,
+< 1%) and very small BSAs (e.g., < 500 Å2) should be used cautiously for linker design.
+Then we could employ SASA to identify solvent-exposed heavy atoms
+on the warhead or ligand as potential linking sites. Targeting these
+exposed sites with a linker can largely retain the inherent binding
+modes of the warhead and ligand. The identification process can be
+highly system-dependent, as variations in pocket shapes and PPI binding
+modes significantly influence the conformations of the warhead and
+ligand. Meanwhile, it is also essential to integrate chemical synthesis
+knowledge during this step. Additionally, the distance between selected
+linking sites offers guidance for determining the appropriate linker
+length. PPI interfaces with linking sites that are too far apart should
+be discarded, as typical linkers span 5 to 15 carbon atoms in length. 
+
+2.4
+
+## Our Predicted PPI Interface (State III) Agrees
+with the Structure Induced by an Experimentally Designed PROTAC
+A recent experimental study by Johannes et al. successfully designed
+and completed the preclinical validation of a single small molecule
+degrader, targeting KRAS and related mutant cancer proteins with VHL
+E3 ligase. In this study, the authors
+reported a cocrystal structure of the degrader in complex with KRAS
+and VHL at a resolution of 2.2 Å (PDB: 8QVU), as shown in a. We find that the
+PPI interface in this ternary cocrystal structure is structurally
+similar to the most populated microstate from our State III ( a,b and ). Upon further examination of the pairwise
+distance map of the crystal PPI interface, we observe a high degree
+of consistency with the pairwise distance map of the ensemble of interfaces
+within macrostate III ( c,d), where salt bridges and dipolar interactions stabilize
+the PPI. The interface-RMSDs between the crystal structure and the
+ensemble of interfaces from macrostate III and its corresponding most
+populated microstate are as small as 5.42 ± 3.67 Å and 3.76
+± 2.37 Å, respectively. The interface with the smallest
+interface-RMSD, visualized in a, has a value of just 0.68 Å and shares an identical
+contact map with the crystal structure. Furthermore, the BSA of crystal
+structure is 1,556 Å2, which is also consistent with
+State III (1,612 ± 367 Å2) and its most populated
+microstate (1,587 ± 206 Å2). This agreement between
+the PPI interfaces in State III with the experimental crystal structure
+provides compelling validation of the predictions from our IGME model.
+In contrast, among all interfaces generated from protein docking,
+we found only one that is closest to state III and exhibited the smallest
+interface-RMSD with the crystal structure. However, the PPI interfaces
+in this docking structure still show substantial differences in the
+contact map (with a Frobenius norm of 4.82 between the docking and
+crystal structures) and a significant interface RMSD of 8.28 Å
+compared to the crystal structure (see ), indicating that our MD simulations and IGME modeling significantly
+improve the accuracy of the initial docking structures.
+ Probing the dynamical interactions and identifying
+non-native PPIs
+between protein pairs without degrader poses significant challenges
+for various experimental methods. The weak binding affinity of the
+encounter complex makes it challenging for the structure biology approaches
+like X-ray crystallography. − While NMR spectroscopy or hydrogen–deuterium
+exchange mass spectrometry can detect the interactions, their time-resolution
+is limited. , Recently, it has also been shown
+that data-driven machine-learning approaches such as AlphaFold and
+AlphaFold-Multimer face challenges in accurately predicting non-native
+PPIs, particularly when the interface area is limited. , Our results demonstrate that non-native PPIs in encounter complex
+could be systematically and accurately predicted in atomistic detail
+by integrating parallel short unbiased MD simulations with non-Markovian
+dynamics modeling (i.e., IGME). Our models provide advantages of revealing
+both non-native PPIs and their dynamic heterogeneities simultaneously,
+thereby offering ensembles of metastable PPI interfaces for subsequent
+high-throughput linker design. In the future, the transition rates
+between macrostates predicted by our IGME model could be valuable
+in aiding the design of flexible linkers to stabilize two distinct
+metastable PPI interfaces that interconvert rapidly. Therefore, we
+anticipate that IGME holds significant potential for generalization
+in future PROTAC discovery.
+
+3
+
+## Conclusions
+PROTAC-induced TPD is regarded
+as one of the most promising approaches
+for small molecule-based drug discovery. However, the rational design
+of PROTACs remains challenging due to factors such as the large size
+of the multiprotein system and the complex, dynamic protein interactions.
+In this study, we present a physics-based approach to identify the
+complete ensemble of intrinsic and dynamic PPI interfaces between
+KRAS and VHL proteins by investigating the linker-less encounter complex.
+Specifically, we demonstrate that our IGME model, a non-Markovian
+dynamics model, constructed from extensive MD simulations (∼1.5
+ms), is able to elucidate the metastable states of PPI interfaces
+and accurately predict their associated thermodynamic and kinetic
+properties. We show that IGME models significantly outperform MSMs
+in predicting slow dynamics associated with the encounter complex
+formation between KRAS and VHL. The six metastable states characterized
+by our IGME model represent distinct PPI interfaces of the encounter
+complex. Upon evaluating the stabilities and geometries of the PPI
+interfaces in each state, we narrowed down to three states (State
+II, III, and V) with promising PPI interfaces for future PROTAC linker
+design. The interfaces from the selected metastable states are primarily
+maintained by electrostatic interactions and display local dynamic
+heterogeneity, serving as a good basis for linker docking. We validate
+our theoretical predictions by showing that one of our selected PPI
+interfaces (State III) is highly consistent with a recent cocrystal
+structure containing the PPI induced by an experimentally validated
+PROTAC for the KRAS-VHL system. We anticipate that our predicted PPI
+interfaces for the KRAS-VHL system will provide valuable insights
+for future linker design. We believe that the rigorous foundations
+of this strategy, grounded in physical simulations and statistical
+thermodynamics, will lead to broad applicability across diverse systems,
+facilitating more efficient designs of efficacious PROTACs.
+
+4
+
+## Methods
+4.1
+
+## All-Atom MD Simulation Setup for KRAS-VHL
+Encounter Complex
+The conformation of VHL protein (PDB ID: 1VCB) and KRAS protein (PDB ID: 7RPZ) are respectively
+derived from crystal structures identified through X-ray diffraction.
+We first utilize the PyRosetta docking package to generate sets of initial KRAS-VHL encounter complex
+structures. The rigid-body docking is performed while restraining
+the distance between the linker attachment atoms of warhead 1 and
+the E3 ligand as 20 Å, ensuring the formation of interfaces appropriate
+for subsequent design. Subsequently, we employ the K-Means algorithm
+to categorize the obtained docking structures into 50 clusters based
+on their root-mean-square deviations. The structure nearest to each
+cluster center is chosen as the initial structure for the subsequent
+MD simulations. We then protonate and solvate the initial poses in
+cubic boxes with explicit TIP3P water and add counterions to maintain the neutrality of the system. Next,
+we employ the OpenMM package to conduct
+all-atom simulations across Folding@Home, with the in-house parametrized force field for the small molecules
+(i.e., ligand and warheads) and the AMBER ff14SB force field for the proteins. The final obtained data set
+used for postanalysis consists of 2,492 trajectories, totaling 1.51
+ms of aggregate simulation time, with an average trajectory length
+of 605 ns. Please refer to and for more details of system setup and all-atom
+MD simulations.
+
+4.2
+
+## Construction and Validation for Microstate-MSM
+Following our proposed pipeline in , we construct the microstate-MSM to study
+the inherent PPIs between KRAS and VHL protein. The detailed procedures
+are described below:
+(1). Classify the collective motions at
+PPI interfaces via MoSAIC: we initially
+construct representations for PPI interfaces by
+utilizing the internal pairwise distances between KRAS residues (170
+residues) and VHL residues (149 residues), leading to 25 330
+pairwise distance features (see a). Subsequently, we apply the MoSAIC algorithm to cluster these features into 27 communities, with approximately
+10% of the features filtered out as unimportant noise (see b and more details in Supporting InformationSection 3.1). Through visualization of the features within each community, we
+further exclude 11 communities associated with collective conformational
+changes unrelated to PPI interfaces (see ), resulting in 16 communities encompassing a total of 14 402
+features (see and more details
+in Supporting InformationSection 3.1).
+(2). Select the features capturing slow
+dynamics by Spectral-oASIS: We apply
+the spectral-oASIS algorithm for the
+second round of feature selection, through
+which 1,500 features are automatically identified. These features
+are shown to effectively capture the top three slowest dynamic modes.
+(see c and more details in Supporting InformationSection 3.2)
+(3). Reduce dimensionality by tICA: , We employ
+tICA with kinetic mapping to linearly
+construct five collective variables (CVs) from 1,500 features. The
+MD conformations are projected on these CVs and further clustered
+into 100 microstates using the K-Means algorithm. The optimal hyper-parameters
+(i.e., number of CVs, tICA relaxation time and the number of microstates)
+are determined by cross-validations with the generalized matrix Rayleigh
+quotient (GMRQ) score (see Figure S5 and Supporting Information ).
+(4). Validate the microstate MSM: Based on the 100
+microstates
+model, we further conduct Implied Time Scale (ITS) analysis and Chapman-Kolmogorov
+(CK) test and validate the Markovian lag time for microstates-MSM
+is 200 ns (see and more details
+in Supporting Information ). Additionally, we validated
+that the microstates are well-connected and its transition probability
+matrix does not contain any disconnected components (see ).
+
+4.3
+
+## IGME Modeling of Encounter Complex
+To identify metastable states of the PPI interface, facilitate the
+interpretation, and acquire the associated thermodynamic and kinetic
+properties, we employ our recently developed IGME method to construct a model comprising only six representative
+states. We first utilize the PCCA+ algorithm , to lump the 100 microstates into 6 macrostates, given the largest
+time scale gap is between the fifth and sixth transition modes (see a). We performed a crisp state lumping
+by assigning each microstate to the macrostate with the highest membership
+value. Subsequently, the IGME is applied to accurately model the transition
+dynamics between macrostates, accounting for non-Markovian dynamics
+through the time-integration of memory kernel functions. Specifically,
+IGME precisely describes the evolution of the transition probabilities
+matrices (TPMs) with the lag time longer than memory relaxation time τk by , where matrices A and are estimated from simulations (Supporting Information Section 5).
+To determine τk, we utilize two approaches:
+one employs our previous quasi-MSM technique, which computes the memory kernel matrix at various times using the
+greedy algorithm with discretized GME, the other approach involves
+applying IGME to approximate the time-integrated memory kernel (see
+more details in Supporting InformationSection 5). The mean integral memory kernel (MIK),
+defined as , computed from two approaches are well
+consistent and the memory relaxation time τk is decided as 50ns ( a).
+To build the optimal non-Markovian dynamics model, we employ multiple
+sets of TPMs with different lag time range to estimate the matrices A and using least-squares fitting with a Lagrangian
+approach. The optimal range, parametrized
+by τk and Lfit are decided by time-averaged
+root mean squared error (RMSE) with respect to MD simulations. After
+a systematic scan, we ultimately identify the optimal fitting range: τk = 70ns and Lfit = 80ns (see a). The optimal
+IGME model, along with its predicted thermodynamic and kinetic properties
+for the metastable states, is visualized as a transition network ( and more details in Supporting InformationSection 5).
+
+## Data Availability Statement
+The MD simulation
+trajectories have been deposited in Open Science Framework (10.17605/OSF.IO/MERS6). The force field parameters for the two warhead molecules and one
+ligand molecule are provided as supplementary data files.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/jacsau.4c00503.Detailed descriptions of setups for protein–protein
+docking and all-atom MD simulations, principles and procedures for
+constructing and validating MSM and IGME models; Supplementary Figures
+section: Additional results and figures that complement the main text
+(PDF)
+Summary
+of forcefield parameters (ZIP)
+
+## Supplementary Material
+au4c00503_si_001.pdf
+au4c00503_si_002.zip
+
+The authors
+declare the following competing financial interest(s): W.T. is the
+cofounder and shareholder of Chimergen Therapeutic, Inc.
+
+## Acknowledgments
+We acknowledge the support from the Hirschfelder
+Professorship Fund from University of Wisconsin-Madison to X.H, the
+Research Forward Fund from the University of Wisconsin-Madison Office
+of the Vice Chancellor for Research with funding from the Wisconsin
+Alumni Research Foundation to X.H. and W.T., and the support from
+NIH R35GM148266 to W.T. We also thank the Folding@home volunteers
+for donating their computing resources.

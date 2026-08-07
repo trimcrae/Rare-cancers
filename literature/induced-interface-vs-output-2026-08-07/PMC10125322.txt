@@ -1,0 +1,650 @@
+4428acsbmcauACS Bio & Med Chem AuACS Bio Med Chem AuAmerican Chemical SocietyPMC1012532210125322101253223710160410.1021/acsbiomedchemau.2c00037Modeling
+the Effect of Cooperativity in Ternary Complex
+Formation and Targeted Protein Degradation Mediated by Heterobifunctional
+Degraders
+ParkDaniel IzaguirreJesus CoffeyRory XuHuafeng 1Roivant Discovery, New York, New York10036, United States*Email: huafeng@gmail.com.
+15112022317474–862542023© 2022 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Chemically induced proximity between certain endogenous
+enzymes
+and a protein of interest (POI) inside cells may cause post-translational
+modifications to the POI with biological consequences and potential
+therapeutic effects. Heterobifunctional (HBF) molecules that bind
+with one functional part to a target POI and with the other to an
+E3 ligase induce the formation of a target-HBF-E3 ternary complex,
+which can lead to ubiquitination and proteasomal degradation of the
+POI. Targeted protein degradation (TPD) by HBFs offers a promising
+approach to modulate disease-associated proteins, especially those
+that are intractable using other therapeutic approaches, such as enzymatic
+inhibition. The three-way interactions among the HBF, the target POI,
+and the ligase—including the protein–protein interaction
+between the POI and the ligase—contribute to the stability
+of the ternary complex, manifested as positive or negative binding
+cooperativity in its formation. How such cooperativity affects HBF-mediated
+degradation is an open question. In this work, we develop a pharmacodynamic
+model that describes the kinetics of the key reactions in the TPD
+process, and we use this model to investigate the role of cooperativity
+in the ternary complex formation and in the target POI degradation.
+Our model establishes the quantitative connection between the ternary
+complex stability and the degradation efficiency through the former’s
+effect on the rate of catalytic turnover. We also develop a statistical
+inference model for determining cooperativity in intracellular ternary
+complex formation from cellular assay data and demonstrate it by quantifying
+the change in cooperativity due to site-directed mutagenesis at the
+POI-ligase interface of the SMARCA2-ACBI1-VHL ternary complex. Our
+pharmacodynamic model provides a quantitative framework to dissect
+the complex HBF-mediated TPD process and may inform the rational design
+of effective HBF degraders.
+Keywords: targeted protein degradation, kinetics, pharmacodynamic
+model, ternary complex, binding cooperativity, protein−protein interaction
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Jun 6; Accepted 2022 Oct 25; Revised 2022 Oct 24; Collection date 2023 Feb 15.
+
+## Introduction
+Targeted protein degradation (TPD) mediated
+by heterobifunctional
+(HBF) degraders has emerged as a promising modality for therapeutic
+applications, − which enables in-cell reduction of a target POI that
+might not be amenable to traditional stoichiometric inhibition. HBF
+degraders, such as proteolysis targeting chimeras (PROTACs), simultaneously bind to an E3 ligase and a target
+POI, resulting in a target-HBF-E3 ternary complex, − in which the
+E3 ligase recruits a ubiquitin-charged E2 enzyme to ubiquitinate the
+POI, labeling the POI with a polyubiquitin chain for subsequent degradation
+by the proteasome. 
+The formation
+of the ternary complex often exhibits cooperativity
+in that the free energy change attendant to its formation is more
+negative or more positive than the sum of the free energy changes
+associated with the formation of the binary complexes between the
+E3 ligase and the HBF and between the target POI and the HBF. , The cooperativity—denoted as α—is defined to
+be the ratio of the equilibrium association constant of the E3 ligase
+binding to the HBF-target binary complex to that of the E3 ligase
+binding to the HBF alone; by thermodynamic
+symmetry, it is the same as the ratio of the equilibrium constant
+of the target binding to the HBF-E3 binary complex to that of the
+target binding to the HBF alone. Positive cooperativity (α >
+1) increases and negative cooperativity (α < 1) decreases
+the thermodynamic stability of the ternary complex. Among other reasons
+for cooperativity, the E3 ligase and the target POI form a novel protein–protein
+interface in the ternary complex, which may be thermodynamically favorable
+or unfavorable. Different HBF molecules may beget different cooperativity
+for the same pair of target POI and E3 ligase, providing a route to optimize the HBF molecule for efficient ternary
+complex formation and target degradation. Conversely, an HBF may induce different cooperativities between
+two very similar POIs when forming a ternary complex with the same
+E3 ligase, , giving rise to the opportunity of designing
+selective degraders using a promiscuous warhead molecule. , Because of the critical role of the ternary complex in the TPD process,
+cooperativity is an important parameter to consider in the design
+of HBF degraders.
+Although experimental evidence so far suggests
+that stable ternary
+complexes typically lead to efficient degradation, − there have been conflicting reports
+on the role of cooperativity in HBF-mediated TPD. , Strong
+degraders have been reported to have a wide range of cooperativity
+values, including negative cooperativity. , Conversely, HBF molecules with high cooperativity may be ineffective
+degraders. Unraveling the role of cooperativity
+in degradation requires a mechanistic model that relates the stability
+of the ternary complex to degradation efficiency.
+In this work,
+we develop a quantitative model of HBF-mediated TPD
+that predicts degradation efficacy given the kinetic parameters of
+the key steps in the TPD process, including those associated with
+ternary complex formation. Using this model, we investigate the effect
+of varying cooperativity—which varies the ternary complex stability
+while holding the other factors constant—on the degradation
+efficiency. Our analysis suggests that there may exist conditions
+under which increasing cooperativity (hence the ternary complex stability)
+diminishes degradation, and the optimal value of cooperativity to
+maximize degradation depends on other parameters, such as the stability
+of the binary complexes, the ubiquitination rate, the degradation
+rate, the expression level of the target POI, and the time point of
+degradation measurements. The predictions by our model on how degradation
+changes in response to changing parameters can be tested experimentally.
+In addition, we develop a statistical inference model using Markov
+chain Monte Carlo (MCMC) to estimate the cooperativity value from
+in-cell ternary complex formation assays. As an example, we have used
+it and the NanoBRET assay —which
+measures the relative intracellular ternary complex concentrations
+at different HBF concentrations—to determine the cooperativity
+of the ternary complex formed by the SMARCA2 protein, the HBF molecule
+ACBI1, and the von Hippel–Lindau
+(VHL) E3 ligase, including SMARCA2 and VHL mutants engineered by site-directed
+mutagenesis to potentially perturb their protein–protein interaction
+(PPI) in the ternary complex. Our analysis quantifies the contribution
+of different specific interactions at the protein–protein interface
+to the stability of the ternary complex inside the cell. 
+The complexity of the multi-step TPD process
+challenges the empirical
+approach to degrader development. The degradation efficiency depends
+on many parameters and, as we demonstrate below, the effect of modulating
+one parameter depends on the values of the other parameters. It is
+often unclear why a HBF molecule induces good or poor target degradation.
+By identifying the key parameters to which degradation is most sensitive
+under different biological contexts and predicting how degradation
+responds to changes in the parameter values, our model may help guide
+the development of effective HBF degraders.
+
+## Methods
+
+## Theoretical Models
+
+## Pharmacodynamic Model of HBF-Mediated Protein Degradation
+We have devised a pharmacodynamic model of HBF-mediated TPD using
+a system of time-dependent ordinary differential equations to describe
+the kinetics of the reactions involved in the degradation process.
+The model simulates the following reactions that occur once a dose
+of HBF molecules is introduced into the extracellular environment
+( and and ): the HBF molecule traverses the cell membrane (reaction
+1); HBF forms binary complexes with either the target POI (reaction
+2) or the E3 ligase (reaction 3); a ternary complex forms (reactions
+4 or 5); the E3 ligase in the ternary complex recruits ubiquitin-charged
+E2 enzymes to ubiquitinate the target (reaction 6); the ubiquitinated
+target dissociates from the ternary complex with HBF bound (reverse
+reaction 4) or without (reverse reaction 5); the ubiquitinated target
+(or the HBF-target binary complex) either undergoes a deubiquitination
+cascade (reaction 7), or if the target is polyubiquitinated with a
+chain of n = 4 ubiquitin molecules, it is degraded
+by the proteasome (reactions 8 or 9); and meanwhile, the target POI
+is produced by protein synthesis (reaction 10) and targets in all
+forms undergo intrinsic, HBF-independent degradation (reaction 11).
+In the initial HBF-free state, the baseline target concentration is
+determined by the ratio of the target production rate to the intrinsic
+degradation rate, satisfying
+1 The reference simulation parameters used in this work
+are listed
+in and exemplary
+parameters of complex formation and membrane permeability for two
+HBF molecules are listed in . Mass action kinetics govern the interactions between the target POI, HBF, and E3 ligase
+during ternary complex formation, ubiquitination, deubiquitination,
+and degradation. We assume that the baseline total E3 ligase concentration
+stays constant.
+ Our model is derived from previous models of
+HBF-mediated protein
+degradation, , but with important modifications,
+which enable us to reach different qualitative conclusions than previous
+models. First, our model accounts for a deubiquitination cascade after
+the ubiquitinated target protein dissociates from the ternary complex,
+whereas previous models assume instantaneous detachment of the entire
+ubiquitin chain from the target protein upon dissociation. Explicit
+consideration of the deubiquitination cascade results in an additional
+set of molecular species in our model that are absent in the previous
+models: the free target protein in various stages of polyubiquitination,
+which may be either rescued from degradation by the finite-rate deubiquitination
+process, re-engaged in the ternary complex with its ubiquitin chain
+further extended, or, for the protein with the ubiquitin chain length
+of n = 4, degraded. Second, our model assumes that
+the polyubiquitinated target protein may be degraded by the proteasome
+at a different—presumably no slower—rate after it dissociates
+from the ternary complex than when it is in a ternary complex (kdeg,T ≥ kdeg,Ternary), instead of always setting the same degradation rate for the polyubiquitinated
+target regardless whether it is free or bound in the ternary complex. This assumption is only applicable in our model
+because the previous models, as mentioned above, do not admit the
+free polyubiquitinated target protein. In this work, we first consider
+two limiting scenarios: (1) kdeg,Ternary = kdeg,T, in which the proteasome degrades
+the target in the ternary complex as efficiently as the free target,
+and (2) kdeg,Ternary = 0, in which the
+proteasome does not degrade the target in the ternary complex ( ; see ). We will then explore
+how the relationship between degradation and cooperativity is affected
+by the ratio of kdeg,Ternary/kdeg,T.
+
+## Determining Cooperativity from Intracellular Assay of Ternary
+Complex Formation
+The equilibrium ternary complex concentration
+can be calculated by solving the equilibrium mass action and conservation
+of mass equations , if the binary binding constants,
+cooperativity, and the concentrations of HBF, target POI, and E3 ligase
+are known. Common, however, is the inverse problem: determining the
+values of these parameters from the experimental measurements of ternary
+complex formation at different HBF concentrations. In experiments
+that measure intracellular ternary complex concentrations, the intracellular concentrations of HBF, target
+POI, and E3 ligase are a priori unknown, and the cooperativity may
+differ from that measured in a biophysical assay because the intracellular
+target protein is in a different environment and may be in a different
+state of conformation or post-translational modification, which make
+it challenging to robustly determine all these parameters at once.
+Here, we develop a model within the Bayesian framework of statistical
+inference to estimate these parameters via MCMC in fitting the equilibrium
+concentration equations to the experimentally measured intracellular
+ternary complex formation.
+MCMC is an iterative procedure that
+samples from a posterior probability distribution of parameters given
+the observed data and prior probabilistic assumptions about the parameters. , While exploring the target parameter space through sampling, Bayesian
+inference is used to update the prior state of beliefs such that the
+likelihood of the observed data is maximized by the resulting posterior
+state of beliefs. In cases when the posterior
+probability distribution is analytically intractable, MCMC provides
+repeated random samples from the posterior, from which characteristics
+of the distribution such as the mean and highest density intervals
+can be approximated.
+A schematic of our probabilistic graphical
+model is shown in , and the model parameters
+are listed in . Experiments such as the NanoBRET assay measure the intracellular ternary complex formation by a readout
+that is proportional to the ternary complex concentration. Given the
+readouts measured at N different extracellular HBF
+concentrations [Dec], our model estimates the posterior
+probability distributions of the unknown parameters in the ternary
+complex equilibrium. In this work, we apply our model to simultaneously
+determine the parameters of M = 5 ternary complexes,
+which share the same HBF molecule but with either the target protein
+or the E3 ligase mutated at the protein–protein interface,
+presumably altering the cooperativity. In our analysis, we assume
+that all constructs share the same binary binding constants but have
+different cooperativity values {αi=1,2, ..., M}, and that at equilibrium, the intracellular HBF
+concentration is proportional to the initial extracellular concentration: . The readout (milliBRET unit, or mBU, in
+NanoBRET assay) is assumed to be proportional to the ternary complex
+concentration: mBU = exp(β)[T·D·E3], where exp(β)
+is the proportionality constant. The experimentally observed readout
+is taken to be normally distributed, centered at the predicted mBU
+with standard deviation σ. At each iteration, MCMC proposes
+candidate values for the total target concentration [T]t, the total E3 ligase concentration [E3]t, cooperativity
+{αi}, κ, β, and σ.
+Given these proposed values and fixed binary equilibrium dissociation
+constants, the equilibrium ternary complex concentration [T·D·E3]
+is computed by numerically solving the mass action and mass conservation
+equations. The proposed values are then accepted or rejected according
+to the Metropolis criteria based on the likelihood of the observed
+readouts. We ran four independent MCMC
+chains at different initial parameter values, each for 10,000 iterations.
+The first 1000 samples were discarded (burn-in), as was every second
+sample thereafter (thinning). The {αi} parameters showed good convergence, achieving Gelman–Rubin
+convergence diagnostic statistics of , , , and .
+ 
+
+## Experimental Procedures
+
+## Plasmids
+
+## Mammalian Expression Vectors
+pRP-CMV-HaloVHL-IRES-nLucSMARCA2
+pRP-CMV-HaloVHL(R69Q)-IRES-nLucSMARCA2
+pRP-CMV-HaloVHL(Y112F)-IRES-nLucSMARCA2
+pRP-CMV-HaloVHL-IRES-nLucSMARCA2(E1420S)
+pRP-CMV-HaloVHL-IRES-nLucSMARCA2(L1465S)
+pRP-EF1A-EloB-IRES-EloC
+were ordered and cloned by VectorBuilder (https://en.vectorbuilder.com/). Sequences of the genes are listed in the Supporting Information.
+
+## NanoBRET Assay
+HEK293T (ATCC CRL-3216) cells were maintained
+in 37 °C incubators with 5% CO2 and grown in complete
+media, DMEM (Corning 10-013-CM) supplemented with 10% FBS (Corning
+35-011-CV) and 1% l-glutamine (Corning glutagro 25-015-CL).
+For transfections, HEK293T cells were seeded at 5 × 105 per well in a six-well plate (day 1). 24 h post seeding (day 2),
+lipofectamine 2000 (ThermoFisher Scientific 11668019) was used as
+per manufacturer’s protocol to co-transfect 2 μg of the
+pRP-CMV-HaloVHL-IRES-nLucSMARCA2 and 2 μg of the pRP-EF1A-EloB-IRES-EloC
+plasmid. 24 h after transfection (day 3), cells were removed from
+the six-well plates by trypsinization (0.25% Trypsin EDTA Gibco 25200-056)
+and seeded into a 96-well cell culture treated flat bottom white plate
+(Corning 3917) in 100 μL per well with phenol red free Opti-MEM
+(Gibco 11058-021) supplemented with 4% FBS and 100 nM HaloTag NanoBRET
+618 ligand (Promega N2583). Additional cells were plated without the
+HaloTag NanoBRET 618 ligand to serve as background control. 24 h after
+seeding into white bottom plates (day 4), half of the media was removed
+and replaced with compounds for dose response testing with the final
+makeup of the media being 0.1% DMSO, 2 μM Mg132 (Cell Signaling
+2194S), 1:100 Vivazine (Promega N2583), and 4% FBS in phenol red free
+Opti-MEM. The plates were immediately measured using a BioTek Synergy
+Neo2 at 450 and 610 nM with BioTek 74 NanoBRET Dual PTM/LUM upper
+top filter and read at various time points thereafter. We fit our
+model to the readings at 97 min.
+
+## Data and Software Availability
+We have deposited in
+GitHub
+the Python code for the pharmacodynamic model (https://github.com/stxinsite/kinetic-degradation)
+the R scripts for the statistical
+inference model, including
+the experimental data in a (https://github.com/stxinsite/degrader-modeling)
+ 
+
+## Results
+
+## Effect of Cooperativity on Degradation
+To illustrate
+the effect of cooperativity on degradation, we compare two HBF molecules
+with similar binary affinities for the POI and for the E3 ligase,
+but with about an order of magnitude difference in their cooperativity
+values. One such example is the pair of ACBI1 and PROTAC 1, both HBF
+molecules developed to recruit the E3 ligase VHL for the degradation
+of the target protein SMARCA2. ACBI1 induces
+a more stable ternary complex than PROTAC 1 does, due to a higher
+cooperativity (26 for ACBI1 vs 3.2 for PROTAC 1), even though ACBI1
+has a weaker affinity for both the target protein (SMARCA2) and the
+E3 ligase (VHL) ( ). ACBI1 has been reported to degrade SMARCA2
+more effectively than PROTAC 1 does. 
+Using our model, we simulated the target degradation
+induced by
+these two molecules, guess-estimating the experimentally unavailable
+kinetic parameters associated with ternary complex formation and with
+the degradation process ( and ). Our simulations recapitulate the experimental observation
+that ACBI1 is a stronger degrader than PROTAC 1 ( a). To control for the effect
+of permeability (ACBI1 is 20 times more permeable than PROTAC 1 ), we simulated a variant of PROTAC 1, denoted
+by PROTAC 1*, with its permeability set to that of ACBI1. ACBI1 induces
+quicker degradation than PROTAC 1* ( a), even though the intracellular concentration
+of PROTAC 1* is higher than that of ACBI1 ( b). ACBI1 degrades the target faster than
+PROTAC 1* ( a) because the former induces a higher concentration of the ternary
+complex (due to its higher cooperativity), leading to a faster accumulation
+of the polyubiquitinated target primed for degradation ( ).
+ At thermodynamic equilibrium, ternary complex formation
+first increases
+with the increase in degrader concentration but then decreases as
+the degrader concentration increases beyond a certain value ( ). This is known
+as the hook effect: at sufficiently high
+degrader concentration, different HBF molecules will form binary complexes
+with either the POI or the E3, yet no HBF molecule will bridge the
+POI and the E3 to form the ternary complex.
+ Our model demonstrates that the kinetic process
+of degradation
+also exhibits this non-monotonous dependency on HBF concentration
+( ). There are,
+however, important differences from the equilibrium hook effect. In
+our simulation of ACBI1, for example, the decrease in degradation
+at time t = 6 h at high degrader concentration is
+not associated with a decrease in the ternary complex formation. Also,
+degradation remains relatively constant over a wide range of degrader
+concentrations, wider in the case of ACBI1 (higher cooperativity)
+than in the case of PROTAC 1 (lower cooperativity). The dependency
+of ternary complex formation (at fixed time points) on the degrader
+concentration shows a more complex behavior than equilibrium ternary
+complex formation for the following reasons. In the degradation process,
+the formation of the ternary complex leads to target degradation,
+which creates a reactive flux that in effect suppresses the ternary
+complex concentration. As a result, the ternary complex concentration
+does not reach its equilibrium value, but stays relatively flat at
+a lower steady state value due to the balance between ternary complex
+formation and the subsequent target degradation, until the degrader
+concentration reaches a threshold where the equilibrium value of ternary
+complex concentration is approximately the same as the steady state
+value. Above this threshold, the ternary complex concentration decreases
+with the increase in degrader concentration. This threshold is reached
+in the case of PROTAC 1 but not ACBI1 in our simulations.
+ Next, we investigate the relationship between the
+stability of
+the ternary complex and degradation efficiency by exploring how changing
+the cooperativity in ternary complex formation affects degradation.
+We vary the value of cooperativity, α, by simultaneously multiplying koff,T,ternary, KD,T,ternary, koff,E3,ternary, and KD,E3,ternary (in ) by a scaling factor, keeping the other kinetic parameters
+constant. Unless otherwise noted, the parameters associated with ACBI1
+are used to perform simulations.
+If the polyubiquitinated target
+is degraded efficiently without
+first dissociating from the ternary complex, for example, if kdeg,Ternary = kdeg,T, target degradation increases with cooperativity, reaching saturation
+at different values of α for different binary affinities ( a). When the HBF
+degrader has a strong binary affinity for both the target and the
+E3 ligase, efficient degradation takes place even with negative cooperativity
+(α < 1). If the binary affinity between the HBF and, for
+example, the target is weak, high cooperativity is required to form
+a stable ternary complex and to induce degradation. Our results explain
+the experimental observation that efficient HBF degraders may have
+a wide range of cooperativity values. In this scenario, highly cooperative—thus stable—ternary
+complex implies efficient degradation.
+ At the opposite limit that the polyubiquitinated
+target in the
+ternary complex cannot be degraded by the ternary complex, that is, kdeg,Teranry = 0, we find that there is a non-monotonous
+relationship between target protein degradation and cooperativity,
+and the range of cooperativity values associated with efficient degradation
+depends on the binding constants of the binary HBF-target (or HBF-E3)
+complex ( b).
+Our model predicts diminished degradation when cooperativity exceeds
+a certain threshold, the value of which increases with the value of
+the binary KD. At high cooperativity,
+the polyubiquitinated target dissociates slowly from the highly stable
+ternary complex, which, under the condition of kdeg,Ternary ≈ 0, protects the target from degradation.
+Our analysis thus suggests that under certain conditions there may
+be an optimal range of cooperativity for efficient degradation, and
+that this range depends on the binary affinity between the HBF and
+the target (and the binary affinity between the HBF and the E3 ligase).
+This may help explain the experimental observation that the cooperative
+ternary complex does not necessarily lead to efficient degradation. , , 
+Given our model’s
+novel prediction of an optimal range of
+cooperativity values for degradation under the limiting scenario of kdeg,Ternary = 0, we next explore the conditions—under
+this same limiting scenario—that admit the above non-monotonous
+relationship between cooperativity and degradation, and how the optimal
+range of cooperativity depends on the other kinetic parameters of
+the degradation process. We will then investigate the range of kdeg,Ternary within which degradation may decrease
+with the increase in cooperativity.
+Our model suggests that
+the optimal range of cooperativity depends
+on the ubiquitination rate ( a). The target in the ternary complexes of different
+HBF molecules may have different ubiquitination rates because of the
+difference in their structural ensembles, , which affects the exposure of lysines on the target surface to ubiquitination. If ubiquitination is fast, a transient ternary
+complex is sufficient for ubiquitination to take place, and fast dissociation
+of the ternary complex—corresponding to a low cooperativity—leads
+to both high turnover of the HBF molecules and rapid production of
+free, polyubiquitinated target ready for degradation; in contrast,
+high cooperativity—and thus a very stable ternary complex—may
+hinder the catalytic turnover and slow down the degradation.
+ Our model predicts that non-monotonous dependence
+of degradation
+on cooperativity only holds if the degradation of polyubiquitinated
+target is slow. If this degradation step is sufficiently fast, efficient
+degradation occurs despite the slow dissociation of polyubiquitinated
+target from a highly stable ternary complex ( b).
+Different target proteins have
+different baseline cellular concentrations,
+which affect their degradability. Here, we investigate how the optimal
+range of cooperativity depends on a target’s baseline cellular
+concentration ( a). For targets with low cellular concentrations, efficient degradation
+can occur over a wide range of cooperativity values. For targets with
+high cellular concentrations, cooperativity needs to fall inside a
+very narrow range to enable efficient degradation because it requires
+high catalytic turnover to degrade a large quantity of target proteins.
+We note here that when the concentration of the E3 ligase is much
+lower than that of the target, degradation may diminish at high ternary
+complex stability if both deubiquitination and degradation are slow,
+without requiring that kdeg,Ternary ≪ kdeg,T ( b).
+ We have primarily analyzed the effect of cooperativity
+on degradation
+at an intermediate time t = 6 h. Here, we note that
+the effect depends on the time points of measured degradation ( a). There is a
+narrower range of cooperativity for effective degradation at short
+times (e.g., t = 1 h) than at longer times (e.g., t = 6, 12 h). At short times, degradation mediated by an
+HBF with low cooperativity is limited by ternary complex formation
+( d; at t = 1 h only 1.04% of the target is in the ternary complex
+for PROTAC 1 with α = 3.2), whereas degradation mediated by
+an HBF with high cooperativity (e.g., α = 200) is limited by
+the dissociation of the polyubiquitinated target from the ternary
+complex to become proteasome degradable ( b; at t = 1 h only 0.4%
+of the target is polyubiquitinated and not bound in a ternary complex).
+As a result, effective degradation requires a narrow range of cooperativity.
+At longer times, in contrast, the system is in a steady state with
+a sufficient accumulation of free, polyubiquitinated target protein
+to sustain efficient degradation, even when the high cooperativity
+leads to a predominant population of ternary complex (at t = 6 h, for an HBF with α = 200, even though 23% of the target
+is in a ternary complex, 2% of the target is polyubiquitinated and
+free). Thus, efficient degradation still occurs at high α values
+( a).
+ The above analyses considered only the limiting
+case of kdeg,Ternary = 0. A more realistic
+scenario may
+be 0 < kdeg,Ternary < kdeg,T (see Discussion). shows how degradation depends on cooperativity
+at different values of kdeg,Ternary. The
+non-monotonous relationship between degradation and cooperativity
+is only manifested when kdeg,Ternary is
+slower than kdeg,T by at least a factor
+of 1/32.
+ 
+
+## Understanding the Contributions of PPI to Cooperativity
+PPI between the target protein and the E3 ligase may affect the stability
+of the ternary complex. We hypothesized that introducing mutations
+at the target-E3 interface by protein site-directed mutagenesis could
+alter cooperativity. To test this hypothesis, we leveraged our statistical
+inference model developed in this work (see ) to analyze NanoBRET assays that measure intracellular ternary complex
+formation of SMARCA2-ACBI1-VHL at a range of ACBI1 concentrations,
+for wild-type (WT) SMARCA2 and VHL, two SMARCA2 mutants: LEU1465 →
+SER (L1465S) and GLU1420 → SER (E1420S), and two VHL mutants:
+TYR112 → PHE (Y112F) and ARG69 → GLN (R69Q). Based on
+the crystal structure of the SMARCA2-ACBI1-VHL ternary complex ( a; the molecular
+structure of ACBI1 is shown in b), the L1465S mutation in SMARCA2 and the
+Y112F and R69Q mutations in VHL are hypothesized to reduce the ternary
+complex stability, while the mutation E1420S should not. In this work,
+we demonstrate our inference model by providing a quick but approximate
+estimate of cooperativity of ternary complex formation in the cell,
+by making two simplifying assumptions that the mutations do not affect
+the stability and expression levels of SMARCA2 and VHL or their binary
+affinities for ACBI1. In a more detailed analysis, these changes in
+the expression levels of the target and the E3 ligase can be measured
+for the mutants, and the binary affinities can be measured using purified
+proteins, and these measured changes can be incorporated into our
+model to improve the accuracy of the inferred values of cooperativity.
+ Our inference model applied to the NanoBRET experimental
+data allows
+us to quantify the contributions of specific PPI to the cooperativity.
+Our model reasonably reproduces the titration curve observed in the
+experiments; both modeled and observed curves demonstrate the hook
+effect ( a). The mutations that abolish crystallographically
+observed PPIs—L1465S in SMARCA2, Y112F and R69Q in VHL—indeed
+reduce the cooperativity: posterior means , , and , compared to αWT = 26,
+which is fixed in our analysis to the value previously determined
+by surface plasmon resonance (unpublished results; the cooperativity
+was previously measured to be 28 by fluorescence polarization and
+30 by time-resolved fluorescence energy transfer ). The decrease in cooperativity for the VHL:R69Q mutant
+(α = 13) is qualitatively consistent with the previously published
+value for the VHL:R69A mutant (α = 3.3), both pointing to the contribution of R69 to the ternary complex
+stability. The posterior parameter distributions approximated by MCMC
+sampling exhibit a clear separation between these mutants and the
+wild-type: at least 97.5% of their probability densities lie below
+αWT ( b). In contrast, the posterior distribution for the cooperativity
+parameter of the control mutant E1420S is centered at the posterior
+mean , near the value of αWT.
+In this case, the cooperativity values for all
+the mutants fall
+in the range where they do not substantially affect the degradation
+efficiency. Using the SMARCA2 and VHL concentrations determined by
+our inference model ( ), we computed the degradation at 12 h for
+the mutant systems ( ). The extents of degradation are similar
+for all the mutants. In general, however, different PPI may lead to
+different values of cooperativity that potentially result in substantially
+different degradations, providing opportunity for selective degraders
+that differentiate between two protein targets of high sequence similarity.
+ 
+
+## Discussion
+This work focuses on relating the stability
+of the ternary complex
+to the degradation of the target protein. Accordingly, we have simplified
+several complex processes of multiple reactions subsequent to ternary
+complex formation into single-step reactions. For example, the degradation
+of the polyubiquitinated target, either free or bound in the ternary
+complex, requires first its binding to the proteasome particle (sometimes
+facilitated by the shuttle factors) and then the deubiquitination
+and unfolding of the target protein by an energy-consuming, active
+process on the proteasome. , The unfolded single-chain
+protein is then translocated through a ringed channel and degraded. Each is a separate step with its own rate of
+reaction. The rate of binding to the proteasome depends on the diffusivity
+of the molecular species (the ternary complex may diffuse slower than
+the free target protein), the extent of ubiquitination, and the proteasome
+concentration at the cellular locus. The rate of deubiquitination
+and unfolding may depend on the stability of the target protein, its
+extent of ubiquitination, and the presence or absence of other bound
+proteins, including the E3 ligase in the ternary complex (the complex
+may stabilize the target protein and retard its deubiquitination and
+unfolding). Including these steps in detail in our model would result
+in a complex system of reactions with too many unknown parameters.
+Instead, we have reduced the degradation of the polyubiquitinated
+target into a single step, with one rate for the free target (kdeg,T) and another for the target in the ternary
+complex (kdeg,Ternary), assuming kdeg,Ternary ≤ kdeg,T for the above reasons.
+Despite these simplifications,
+our model reveals the relationship
+between degradation and ternary complex stability under different
+conditions defined by kinetic rates of the key steps of TPD. Extending
+the previous pharmacodynamic models , of TPD to
+explicitly include the deubiquitination cascade and different degradation
+rates for the free ubiquitinated target and the target in the ternary
+complex, our model enables us to investigate the consequences of these
+parameters on the degradation and make novel predictions, such as
+the possibility of an optimal range of cooperativity for degradation
+under certain conditions. Our model may help determine when modulating
+the ternary complex stability will substantially impact degradation
+and in which direction.
+Our model makes the unique prediction
+that an over-stabilized ternary
+complex may hinder degradation if a polyubiquitinated target protein
+in a ternary complex is degraded much slower than one free, that is, kdeg,Ternary Â = kdeg,T, or if the concentration of the E3 ligase is much lower
+than that of the target and both deubiquitination and degradation
+rates are slow ( b). This prediction is yet to be validated by experimental examples
+that satisfy the conditions underlying the prediction. Because the
+optimal range of cooperativity depends on many kinetic parameters,
+a highly stable ternary complex may still admit efficient degradation. , , − , , To our knowledge, there have been no reports
+of measured degradation kinetics subsequent to target polyubiquitination,
+let alone separate degradation kinetics of the free polyubiquitinated
+target and the ternary complex, leaving their relative rates an open
+question.
+Many of the kinetic parameters in the cellular degradation
+process—needed
+in our model—have not been experimentally determined. We have
+guess-estimated their values in this work. For example, we estimated
+the degradation rate of a polyubiquitinated target, kdeg,T, based on the experimental observation that degradation
+of a single chain of 300 amino acid residues takes more than 20 s
+after the substrate is bound to the proteasome; , correspondingly, a substrate such as SMARCA2 (1590 amino acids)
+may take up to 100 s. The true degradation rate and other kinetic
+parameters such as the ubiquitination rate kub and the deubiquitination rate kdeub depend on the cellular context including the concentrations of the
+proteasome, E2 enzymes, and deubiquitinases. These kinetic parameters
+may be determined by fitting our model to an experimentally observed
+time course of HBF-induced degradation. 
+
+## Conclusions
+Our pharmacodynamic model of HBF-induced
+TPD enables us to quantitatively
+investigate how changes in the kinetic rates of the key steps in the
+degradation process affect the degradation efficiency. The development
+of therapeutic HBF degraders to degrade a POI entails many iterations
+of medicinal chemistry modifications of candidate molecules to improve
+their cellular and in vivo degradation efficacy. Such modifications
+change the stability of the ternary complex—including by way
+of changing the cooperativity—and the ubiquitination rate of
+the target by altering the structure and dynamics of the ternary complex
+and thus the accessibility of lysines on the POI’s surface.
+Our model may help identify which changing parameters are driving
+the changes in degradation efficiency, thus guiding the optimization
+of HBF degraders in the relevant dimensions and in the correct directions.
+Our model can estimate how degradation efficiency depends on other
+parameters, such as the baseline concentration of the target POI,
+and thus, it may inform the feasibility assessment of a POI as a target
+for therapeutic intervention by degradation. In addition, our mathematical
+framework may be extended to analyze the catalytic efficiency of other
+types of chemically induced proximity phenomena. , 
+
+## Acknowledgments
+We thank Woody Sherman and Frances Rodriguez-Rivera
+for discussions and suggestions to the paper and Yunxing (Stella)
+Li for preparing the Table of Content (TOC) graphic.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsbiomedchemau.2c00037.
+Nucleic acid sequences of the cloned vectors (PDF)
+
+## Author Contributions
+CRediT: Daniel Park investigation (lead), methodology (equal), software
+(lead), writing-original draft (lead), writing-review & editing
+(equal); Jesus Izaguirre conceptualization (supporting),
+data curation (equal), project administration (equal), writing-review
+& editing (supporting); Rory Coffey data curation
+(equal), investigation (equal), methodology (equal), writing-original
+draft (equal); Huafeng Xu conceptualization (lead), formal
+analysis (equal), investigation (equal), methodology (equal), project
+administration (lead), writing-original draft (equal), writing-review
+& editing (lead).
+
+The authors declare no
+competing financial interest.
+
+## Supplementary Material
+bg2c00037_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+bg2c00037_si_001.pdf
+
+## Data Availability Statement
+We have deposited in
+GitHub
+the Python code for the pharmacodynamic model (https://github.com/stxinsite/kinetic-degradation)
+the R scripts for the statistical
+inference model, including
+the experimental data in a (https://github.com/stxinsite/degrader-modeling)

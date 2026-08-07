@@ -1,0 +1,602 @@
+pmcJ Phys Chem BJ Phys Chem B822acssd101157530jpThe Journal of Physical Chemistry. B1520-61061520-5207pmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC9869335PMC9869335.1986933598693353660713910.1021/acs.jpcb.2c057951ArticleExploring PROTAC
+Cooperativity with Coarse-Grained
+Alchemical Methods
+https://orcid.org/0000-0003-2278-0768MaiHuanghao ZimmerMatthew H.https://orcid.org/0000-0002-1882-5380MillerThomas F.IIIDivision of Chemistry and Chemical
+Engineering, California Institute of Technology, Pasadena, California91125, United States*Email: hmmai@caltech.edu.060120231901202312724271624464551208202218122022230120232401202324012023© 2023 The Authors. Published by American Chemical Society2023The Authorshttps://creativecommons.org/licenses/by/4.0/Permits the broadest form of re-use including for commercial purposes, provided that author attribution and integrity are maintained (https://creativecommons.org/licenses/by/4.0/). 
+Proteolysis targeting chimera (PROTAC) is a novel drug
+modality
+that facilitates the degradation of a target protein by inducing proximity
+with an E3 ligase. In this work, we present a new computational framework
+to model the cooperativity between PROTAC–E3 binding and PROTAC–target
+binding principally through protein–protein interactions (PPIs)
+induced by the PROTAC. Due to the scarcity and low resolution of experimental
+measurements, the physical and chemical drivers of these non-native
+PPIs remain to be elucidated. We develop a coarse-grained (CG) approach
+to model interactions in the target–PROTAC–E3 complexes,
+which enables converged thermodynamic estimations using alchemical
+free energy calculation methods despite an unconventional scale of
+perturbations. With minimal parametrization, we successfully capture
+fundamental principles of cooperativity, including the optimality
+of intermediate PROTAC linker lengths that originates from configurational
+entropy. We qualitatively characterize the dependency of cooperativity
+on PROTAC linker lengths and protein charges and shapes. Minimal inclusion
+of sequence- and conformation-specific features in our current force
+field, however, limits quantitative modeling to reproduce experimental
+measurements, but further development of the CG model may allow for
+efficient computational screening to optimize PROTAC cooperativity.
+
+National Institute of General Medical Sciences10.13039/100000057R01GM138845DeLonghi TrustNANAAmgen10.13039/100002429NApmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYdocument-id-old-9jp2c05795document-id-new-14jp2c05795ccc-price
+
+## Introduction
+Proteolysis targeting chimera (PROTAC)
+has emerged as a promising
+drug modality that elicits protein degradation by hijacking the ubiquitin–proteasome
+system (UPS), a major regulatory component of cells. In the UPS pathway,
+E3 ligases transfer ubiquitins onto aberrant proteins to mark them
+for degradation by proteasomes. A PROTAC molecule exploits this pathway
+with two binding moieties that tether the target protein and an E3
+ligase together. The tethered target protein thus becomes a neo-substrate
+of the E3 ligase and is subsequently ubiquitinated for proteasomal
+degradation. PROTACs require a lower dose than conventional small-molecule
+inhibitors because of their catalytic nature and they have the potential
+to target the undruggable proteome. , Since the first
+proof-of-concept in 2001, the number of
+proteins successfully degraded by PROTACs has grown rapidly, and examples
+of such proteins include kinases and gene regulators that are implicated
+in cancer. As of 2021, at least 13 PROTACs are in or approaching clinical
+trials. 
+Despite increasing applications,
+there is a lack of guidance on
+designing PROTACs due to the unique mode of action. − In particular,
+a critical step in the degradation process is the formation of the
+ternary complex of target–PROTAC–E3. The ternary complex
+involves molecular interactions beyond the binary bindings between
+the two warheads of a PROTAC and the two proteins. The selectivity − and stability − of the ternary complex can both be improved through favorable protein–protein
+interactions (PPIs) between the target protein and the E3 ligase.
+For certain targets, the degradation outcome can be very different
+depending on whether cereblon (CRBN) or von Hippel–Lindau (VHL),
+the two most heavily used E3 ligases, more efficiently and selectively
+form a productive complex with the target. , − As more warheads for E3 ligases are designed, − choosing which of the more than 600 E3 ligases in humans optimally interact with the target protein will
+become important. , While PPIs depend on the sequences
+and the structures of the proteins, PROTACs can also modulate the
+PPIs by restricting the distance and relative orientation between
+the target and the E3 ligase, effectively changing the entropic component
+of PPIs.
+Because of this three-body interplay and the transient
+nature of
+the ternary complex, a complete characterization of the PPIs as a
+function of the PROTAC, the target protein, and the E3 ligase is intractable.
+A few proteomics studies , , on kinase degradation have used PROTACs with promiscuous warheads
+such that the PROTAC-induced PPIs differentially affect the degradation
+outcome of hundreds of proteins. These studies reported the fold change
+of protein abundance due to PROTAC treatment, but analysis can be
+complicated by secondary interactions and numerous other factors such as the permeability of the PROTAC,
+half-lives of the target proteins, cellular localization, and reactions
+downstream of ternary complex formation. Other studies , , − have focused on specific target-E3 pairs and examined the effect
+of changing PROTAC properties such as the linker length. They measured
+the difference in the strength of PROTACs binding to the target or
+the E3 ligase due to the presence of the other protein. This difference,
+termed binding cooperativity, reflects the strength of PROTAC-mediated
+PPIs. However, few generalizable patterns have emerged and systematic
+experimental characterizations remain scarce.
+Computational
+modeling based on docking or atomistic molecular
+dynamics (MD) has complemented experimental work , and
+displayed promising future prospects, but there are several limitations
+to current methodologies. Although standard docking protocols do not
+handle three-body problems, several workflows have been adapted ad
+hoc for PROTAC. − Docking studies rank ternary complex conformations by scoring functions
+biased for naturally evolved PPIs and benchmark against the few crystal
+structures of PROTAC-induced ternary complexes. − The results
+can be inaccurate as PROTAC-induced PPIs are non-native and exhibit
+plasticity. , In contrast, atomistic MD is
+physically grounded to capture non-native PPIs. However, the size
+of the ternary complex modeled at an atomistic resolution significantly
+limits the time scale of simulations, such that naively simulating
+PPIs can be prohibitively slow. Sophisticated enhanced sampling techniques
+and distributed computing are needed to sample an ensemble of low-energy
+conformations that are consistent with experimental data. Due to the difficulties in modeling the ternary
+complex, direct calculation of the binding cooperativities was not
+attempted until two recent studies , that explored
+the molecular mechanics with the generalized Born and surface area
+continuum solvation (MM/GBSA).
+Here, we seek an orthogonal approach
+that combines coarse-grained
+MD (CGMD) and alchemical free energy calculation methods to study
+PROTAC cooperativities. On the spectrum of computational tools, docking
+and atomistic MD are positioned at the empirical and first-principle
+ends, respectively, and finding a compromise in the middle of this
+spectrum is a promising direction. Compared to atomistic modeling,
+coarse-graining reduces the effective size of the model and smoothens
+the energy surface, enabling simulations at a much longer time scale
+necessary for the PROTAC-mediated complexes. While CGMD may struggle
+to recapitulate the molecular basis of lock-and-key bindings, such
+strong and specific interactions are less imperative in non-native
+PPIs induced by PROTACs. Moreover, PROTAC binding reduces the ways
+proteins can interact with each other, differentiating and simplifying
+the problem studied here from the formidable task of modeling general
+protein–protein binding. In docking, such constraints are challenging
+to incorporate into the scoring functions and are approximated through
+separate steps to filter compatible PPI poses and PROTAC geometries.
+While CGMD excludes many degrees of freedom from the PROTAC, proteins,
+and solvent entropy, this effect of configurational entropy on PPIs
+from PROTAC mediation can be directly captured. Finally, we calculate
+binding energies using alchemical methods, which circumvents the computational
+challenge of directly sampling binding and unbinding events between
+the PROTAC and proteins. We demonstrate the computational amenity
+of an unconventional application of alchemical methods motivated by
+the PROTAC systems, and take advantage of the physical interpretability
+of the CGMD + alchemical approach to explore the principles of PROTAC
+binding cooperativity.
+
+## Methods
+
+## CGMD Setup of PROTAC–Protein Complexes
+The binary
+and ternary PROTAC-protein complexes are coarse-grained at two resolutions
+to efficiently sample complex conformational changes while retaining
+sufficient details for structural insight. Specifically, a major focus
+of this work is to characterize the entropic effect of the length
+of PROTACs on the strength of induced PPIs, necessitating modeling
+the PROTAC linker at a higher resolution than the rest of the system.
+Proteins are coarse-grained by mapping every three amino acids onto
+a large bead of σ = 0.8 nm diameter, which is approximately
+the Kuhn length of polypeptides. − Binding moieties at the two ends
+of a PROTAC are each represented by a large bead, whereas the linker
+region is modeled as a Gaussian chain at the resolution of a PEG unit
+(σs = 0.35 nm) or three heavy atoms. Several experimental works that used
+flexible linear linkers motivate our modeling approach for the PROTAC
+linker, including Chan et al. where an
+alkane linker was varied in step sizes of our linker beads and Zorba
+et al. where a PEG linker is modified
+at smaller length steps such that linker lengths ranging from 1 to
+6 σs in our modeling correspond
+to the PROTAC (1), (3), (5), (6), (8), and (10).
+A minimal force
+field is used to describe the internal and interactive forces, and
+a full description can be found in the Supporting Information (Section S1). The three-dimensional structure of
+a protein is maintained by a bottom-up fitted elastic network model
+(Figure S2), which allows conformational
+flexibility. , Protein beads can have additional
+properties to describe PPIs beyond volume exclusion (Figure S1). When modeling electrostatic interactions, for
+example, a protein bead has the net charges of the triplet of residues
+that it is coarse-grained from. PROTACs are modeled as Gaussian polymers
+with volume exclusion, and the warhead beads are attached to the binding
+pockets of proteins through harmonic springs. Modeling PROTAC interactions
+beyond warhead binding is out of the scope of this work. Thus, under
+current setup, PROTAC beads have 0 charge and no affinity to any other
+beads.
+The orientation between the E3 ligase and the target
+protein is
+initialized such that the two binding pockets face each other, with
+a fully extended PROTAC tethering in between ( a). The binding moiety beads of PROTAC are
+placed at the center of each binding pocket, which is defined by the
+residues within 4 or 5 Å from the PROTAC warhead in experimental
+structures. Thus, setting up the initial coordinates of a ternary
+complex requires the following inputs: structures of each protein,
+residues at the two PROTAC binding pockets, and the length of the
+PROTAC linker. To calculate the difference in PROTAC binding energies
+due to PPIs, simulations of binary target/E3-PROTAC complexes are
+also needed. Binary complexes are prepared by removing a protein from
+the initialized ternary complex.
+ 
+
+## Thermodynamic Framework of Alchemical Perturbation
+The binding cooperativity of a PROTAC is mathematically defined as
+exp(ΔΔG/RT), where R is the gas constant, T here refers to
+the temperature in the context of an energetic scale and refers to
+the target protein elsewhere, ΔΔG = ΔGTPbinary–ΔGTPternary, and ΔGTPternary and ΔGTPbinary are the free energies of the PROTAC (P) binding to the target protein (T) with and without
+the presence of the E3 ligase (E). Because of the
+thermodynamic cycle ( b), the same ΔΔG can be obtained
+from ΔGEPbinary – ΔGEPternary. Favorable PPIs stabilize the ternary complex and facilitate
+PROTAC binding to both proteins. Thus, they lower ΔGTPternary and ΔGEPternary, which leads
+to larger ΔΔG and more positive cooperativity.
+Alchemical free energy calculation methods exploit alternative
+thermodynamic cycles to obtain ΔΔG without
+simulating binding and unbinding processes. For simplicity, in this
+work, all ΔΔGs are calculated using the
+cycle in c,
+which we describe in detail here, but one should arrive at the same
+result using the mirroring cycle in d. By the definition of a thermodynamic cycle,
+we have , where and represent the free energies of coupling T to P and to the target–PROTAC
+bound complex EP. In the initial states of both coupling
+processes (vertical processes in red in c), T is bound to P but is a dummy molecule at an ideal state. Specifically,
+multiple harmonic springs connect the binding pocket beads in T to the warhead bead of P, and T itself is an elastic network model consisting of only
+harmonic springs. All other interactions between T and the rest of the system, whether P or EP, are turned off. Coupling T simply means
+turning on these intermolecular interactions, while the binding pocket
+springs remain unperturbed.
+Attaching a dummy T instead of having T dissociated results in a systematic
+error in the horizontal
+free energies of EP binding ( and in c) such that the ΔΔG is
+unaffected. This is because the attachment of dummy T occurs via only one bead on P, except which there
+are no other force field terms involving both physically present beads
+and dummy beads. In the configurational partition function, energy
+terms describing the geometries of the physically present part of
+the system can therefore be separated from the term involving the
+dummy T and the attachment junction. The latter term
+is the same whether the physically present part is P or EP, such that the unphysical contribution from
+attaching dummy T cancels out in ΔΔG.
+
+## Free Energy Calculations
+Alchemically changing a protein
+from a dummy state to full coupling involves turning on the interaction
+potentials between the protein and the rest of the system in the force
+field. The interactions are turned on in stages by sequentially scaling
+each kind of interaction potential using a coupling parameter λ.
+Intramolecular potentials (e.g., the elastic network model of each
+protein) and intermolecular potentials not perturbed at the current
+stage are unaffected by the λ scaling. For the electrostatic
+potential, the start state (no electrostatics) and the end state (full
+electrostatics) correspond to λelec = 0 and 1 respectively.
+Intermediate states are interpolated such that the potential is defined
+as . For numerical stability, the electrostatic
+potential is only perturbed in the presence of volume exclusion, , which is modeled by Weeks–Chandler–Andersen (WCA)
+potential. To turn on Lennard-Jones (LJ) or variants of LJ potentials
+(e.g., WCA), a soft-core scaling with
+λLJ is used for numerical stability: where α = 0.5, rij is the distance between beads i and j, and σij is the sum of the radii of beads i and j. The number of intermediate states and the spacing of
+the coupling parameter values depend on the difficulty to obtain converged
+free energy calculations. For the electrostatic potential, a linear
+pathway where λelec ranges from 0 to 1 with a step
+size of 0.125 is a simple and effective approach. For LJ and related
+potentials, because most of the free energy changes occur near the
+start state of λLJ = 0 ( b,c), we introduce intermediate states at
+λLJ = 0.005, 0.01, 0.015, 0.02, 0.04, 0.06, 0.08,
+0.1, 0.2, 0.3, 0.5, 0.7, and 0.9.
+ The ΔG of turning on each
+kind of interaction
+is calculated using thermodynamic integration (TI), Bennett acceptance ratio (BAR) method, and the multistate BAR (MBAR) method. TI and BAR/MBAR are distinct formulations for free energy
+calculations, and we verify that these methods converge to similar
+values. The system in CGMD is evolved using overdamped Langevin dynamics
+with a diffusion coefficient of 253 nm2/s and a time step
+of 30 ns for stable integration. At each state, at least 64 trajectories
+of 6 s long are generated to sample the conformations of the complexes.
+After collecting the samples from trajectories, postprocessing involves
+calculating ∂U/∂λ and ΔUij for all i, j = 1, 2, ..., K states as inputs
+for TI, BAR, and MBAR.
+
+## Results and Discussion
+
+## Alchemical Perturbation of Protein Domains Is Feasible with
+CGMD
+The binding cooperativity of PROTAC due to PPIs is a
+unique challenge that calls for an unconventional application of alchemical
+free energy calculation methods. Alchemical methods are mainly used
+to determine the binding energies between small-molecule ligands and
+proteins, and typically no more than 10 heavy atoms are perturbed
+for efficient and accurate calculations. In protein–protein
+binding, recent applications and development focus on quantifying
+the relative free energy changes from small-scale perturbations such
+as mutations of single residues. − To our knowledge, the only case that alchemically
+calculates PPIs in a three-body setting compares how analogs of inhibitors
+change aberrant multimerization of the HIV-1 integrase. Their proposed thermodynamic framework involves
+calculating the relative free energy difference by perturbing small
+molecules that directly participate at a fixed PPI interface. This
+framework is more readily extendable to molecular glues that modulate
+PPIs in a similar way. PROTACs, however, due to a more modular design,
+are typically larger linear molecules. The flexibility of the linker
+is often nontrivial, such that the two proteins cannot be kept bound
+at a fixed interface. This configurational entropic concern necessitates
+an unusually large perturbation at the scale of a protein rather than
+a small molecule to calculate the binding cooperativity, testing the
+computational limit of alchemical methods.
+To explore the feasibility
+of the CG alchemical approach, we calculate the free energy of turning
+on the steric repulsions between a target protein and a PROTAC–E3
+complex (ΔGternary(sterics)) in
+the absence of other intermolecular potentials. We choose Bruton’s
+tyrosine kinase (BTK) as the target (only the kinase domain modeled),
+CRBN as the E3, and the PROTAC (10) from ref ( ), which are respectively
+modeled by 87, 124, and 8 beads in the CG model. Together they form
+the largest target–PROTAC–E3 complex simulated in this
+work. We compare the calculations using different percentages of the
+simulation data collected in the time-forward and time-reversed directions.
+The calculated values of ΔGternary(sterics) plateau starting around the midpoint of the simulation time, indicating
+numerical convergence ( a). The time-forward and -reversed estimations are within
+1 standard deviation (std) at the midpoint, and the time-reversed
+estimations remain stable after the midpoint. The observed behavior
+of the estimates over time suggests that unequilibrated samples at
+the beginning of the trajectories have been removed, and the remaining
+frames sample from similar distributions rather than distinct metastable
+states with slow transition rates. 
+Three methods, TI, BAR, and MBAR are used to separately estimate
+the free energies. The accuracy of all three methods depends on the
+number and the spacing of alchemical states. BAR and MBAR reweight
+conformations sampled from one state by their probability in another
+state to estimate the free energy differences. Having similar probability
+distributions between states (i.e., phase space overlap) is therefore
+critical to the estimation. Unlike BAR/MBAR, TI estimates the free
+energies by numerically integrating ⟨∂U/∂λ⟩, the ensemble average of the derivative
+of the potential energy U along the alchemical pathway
+defined by λ. Depending on the curvature of ⟨∂U/∂λ⟩, choices of intermediate states
+specified by λ and the integration scheme together introduce
+integration errors in addition to the statistical errors in estimating
+the ensemble average per state. We choose an alchemical pathway that
+involves 12 intermediate states in addition to the start and end states,
+such that , where is the free energy of changing the WCA
+potential between neighboring states λi and λi+1. With a total of
+14 states unevenly spaced, the phase space overlap between neighboring
+states is sufficient (Figure S3) for efficient
+reweighting-based estimations. For TI, the trapezoid rule of numerical
+integration is used for its simplicity and robustness. Although the
+quadrature errors result in a slight overestimation of ΔGternary(sterics), the ∂U/∂λ curve is sufficiently smooth such
+that TI and MBAR largely agree. In addition to the global agreement
+on ΔGternary(sterics), TI, BAR,
+and MBAR also locally agree with each other on all along the alchemical pathway ( c). We emphasize
+that TI and BAR/MBAR rely on distinct types of input data and processing
+procedures, and their consistency even at the most granular level
+of calculations further validate our CG alchemical approach.
+Analyses of estimations over simulation time and using different
+free energy calculation methods indicate that convergence of perturbing
+a protein can be achieved within reasonable computation time, significantly
+pushing the boundaries of applying alchemical methods. As parallelization
+can be done over the alchemical states and over trajectories for each
+state, the time to run one trajectory is the main limiting factor
+in the wall-clock computation time of applying our method. Criteria
+to determine how long a trajectory should be run are described in
+the Supporting Information (Section S2).
+For this work, depending on the size of the system, 3–14 CPU
+hours per trajectory of ternary complexes are sufficient.
+
+## Minimal Force Field Captures Entropic Effects in PROTAC-Mediated
+PPIs
+Encouraged by the proof-of-concept calculations above
+for ΔGternary, we also calculate
+ΔGbinary and complete our calculations
+for the ΔΔG of the thermodynamic cycle.
+We follow the sign convention of ΔΔG such
+that a positive value represents positive cooperativity. The BTK-CRBN
+system modeled here has been experimentally shown to lack large cooperativity,
+and introducing PROTACs in hydrogen/deuterium exchange experiments
+did not reveal significant profile changes that would indicate the
+presence of stable PPIs. As the starting point for our method development,
+we focus on this system due to its apparent simplicity and the availability
+of experimental characterization over a large range of PROTAC linker
+lengths. We characterize ΔΔG changes
+over PROTAC lengths because this relies on capturing the fundamental
+physics of the tertiary interactions ( a–c) rather than sequence- or conformation-specific
+properties.
+ Two force field setups are used to describe PPIs
+and the resulted
+ΔΔG trends over PROTAC linker lengths
+are compared. In the first setup, we calculate the baseline ΔΔG in the absence of PPIs other than volume exclusion. In
+the second setup, nonspecific attractions between BTK and CRBN beads
+are added and explored at two strengths. The intrinsic PPIs without
+PROTAC mediation should be weak such that in the limit of infinite
+linker length the ΔΔG is negligible.
+The attenuation of weak PPIs with increasing PROTAC linker lengths
+originates from configurational entropy. As the PROTAC becomes longer,
+it experiences a greater loss of configurational freedom upon binding
+to proteins to induce PPIs ( b and c), incurring an entropic cost. We examine this
+configurational entropic effect by modeling ΔΔG at linkers ranging from 1 to 6 beads (σs) long, which correspond to approximately 3.5 Å
+to 21 Å.
+In the first setup, the steric cores of the proteins
+should penalize
+PROTAC binding and result in negative cooperativities. This is because
+some conformations that are accessible to the PROTAC in a binary PROTAC–protein
+complex become inaccessible in the ternary complex due to steric clashes
+( a). As the
+linker length increases and steric clashes are attenuated, the cooperativity
+should become less negative. We verify that such a monotonically increasing
+trend of negative ΔΔG is obtained in
+our model ( d). Steric penalties on ΔΔG are most
+obvious at the region of short linker lengths (1–3 beads),
+after which the benefit from extending the linker length becomes increasingly
+marginal, and we expect that beyond the simulated window of linker
+lengths, ΔΔG will eventually plateau
+near 0. This ΔΔG trend is consistent
+with a recent effort to tabulate PROTAC linker length structure–activity
+relationships (SAR), which suggests that steric clashes at short linker
+lengths often result in a steep decrease in activity. 
+After validating the baseline trend, we next examine
+how the cooperativity
+trend is changed by the addition of favorable PPIs through LJ potentials.
+Increasing the well depth of LJ (ϵLJ) increases the
+strength of this nonspecific attraction, which is kept weak (Figure S1) to approximate van der Waals forces.
+At the attraction strength of ϵLJ = 0.125 kT, the ΔΔG curve is elevated
+compared to the previous curve without attraction ( d), as favorable PPIs are expected
+to enhance cooperativity. Nevertheless, at this attraction strength,
+steric penalties still dominate, and ΔΔGs remains negative. Even though adding an LJ potential brings an
+additional penalty when beads overlap, shorter PROTACs still benefit
+more from the attractive part of LJ than longer PROTACs, resulting
+in a flatter ΔΔG trend as compared with
+the purely repulsive interactions.
+An appropriate combination
+of repulsive and attractive forces may
+generate a nonmonotonic ΔΔG trend, such
+that intermediate linker lengths promote optimal cooperativity by
+minimizing steric clashes while maximally sampling attractive PPIs. As the attraction strength increases to ϵLJ = 0.2 kT, intermediate-length PROTACs exhibit
+not only positive ΔΔGs but the values
+can be comparable and even slightly higher than that of the longest
+PROTAC ( d).
+Within the limited window of linker lengths, only the initial part
+of the decaying tail of a nonmonotonic ΔΔG trend is observed. We expect that beyond the simulated window of
+linker lengths, configurational entropic penalties will continue driving
+ΔΔG down toward 0.
+Experimentally,
+the linker length at 3 beads uniquely enables weak
+positive cooperativity for BTK-CRBN, whereas our results at ϵLJ = 0.2 kT remain biased toward favoring
+longer linkers and are not as sensitive to linker length changes.
+To see whether these characteristics are specific to the choice of
+the system, we then examine the ΔΔG trends
+for a different system ( e), BRD4BD2-VHL, where experimentally, the linker
+length at 3 beads can also optimize the cooperativity. Due to the smaller size of the system, we can
+afford to calculate ΔΔGs at three more
+attraction strengths. Similar to BTK-CRBN, in the absence of attractions,
+negative ΔΔG monotonically increases
+over the linker length, and adding nonspecific attractions results
+in flatter and higher ΔΔG curves. Within
+the narrow window of short linker lengths, scanning the attractive
+strength ϵLJ from 0.125 to 0.25 kT, however, does not recapitulate the optimal linker length at 3 beads.
+This result suggests that enhancing nonspecific attractions in the
+minimal model is insufficient to compensate for the steric penalties
+while remaining sensitive to entropic penalties from the linker length.
+We demonstrate that the minimal CG model directly captures configurational
+entropic effects on weak nonspecific PPIs through analyzing ΔΔG trends over PROTAC linker lengths. Beyond this entropic
+effect, combining repulsive and attractive interactions at various
+strengths changes the behaviors of cooperativity trends and can shift
+the optimal linker length, as shown in BTK-CRBN. Nevertheless, chemically
+specific interactions or specific sampling of certain PPIs is needed
+to model optimal positive cooperativity at an experimentally relevant
+range and resolution of PROTAC linker lengths.
+
+## Electrostatics in PROTAC-Mediated PPIs Exhibit Plasticity
+As a step toward more realistic modeling of cooperativity, we seek
+chemically specific PPIs to include and further explore the BRD4BD2-VHL system due to the availability of experimental structural
+information. Crystal structures of the ternary complexes have revealed
+specific interactions that are proposed as the molecular basis for
+the observed positive cooperativity and selectivity against other
+structural homologues. , As shown in the previous subsection,
+these interactions between proteins cannot be approximated by nonspecific
+attractions that contribute to the cooperativity with low sensitivity
+to linker length and no protein sequence dependence.
+The structural
+findings such as salt bridges at the PPI interface and the mutational
+studies involving charged residues on BRD4BD2 and homologues motivate us to approach chemical specificity
+through modeling electrostatic interactions. As CGMD uses an implicit
+solvent, we choose the Debye–Hückel (DH) potential to
+describe electrostatics in consideration of screening effects under
+physiological conditions. Within the BRD4BD2-VHL system,
+incorporating charges of protein beads results in a monotonic trend
+of negative ΔΔGs with increasing linker
+length, ( a)
+similar to the baseline obtained using steric repulsions only ( e). Since charges
+are perturbed separately in ΔΔG calculations
+for numeric stability, in the following discussions, we further investigate
+our ΔΔG results by isolating the final
+stage (ΔGternary(charges)) in which
+charges are turned on in the presence of sterics.
+ Breaking down the ΔΔGs by each energy
+component shows that at all three linker lengths, ΔGternary(charges) is slightly negative, indicating a mildly
+favorable process, but the penalty from steric repulsions overwhelmingly
+dominates electrostatic contributions by an order of magnitude ( c). As PROTAC linker
+length increases from 2 to 4 beads, the contribution from ΔGternary(charges) monotonically diminishes. We
+consider the possibility that the screening of charges is too strong
+to model more favorable PPIs and tune the screening parameter in the
+DH potential at the linker length of 3 beads. However, because both
+the target protein and the E3 ligase have net positive charges, significantly
+weakening the screening strength leads to a much more unfavorable
+ΔGternary(charges) ( c). It is also possible that
+our level of coarse-graining loses the spatial resolution required
+for this system to capture detailed interactions like salt bridge
+formation as observed in the crystal structures. , 
+In addition to the small contribution to ΔΔG, ΔGternary(charges) itself
+exhibits plasticity because conformational sampling at the stage of
+charge perturbation in alchemical free energy calculations is biased
+by the potentials turned on in previous stages. The presence of steric
+repulsions combined with nonspecific attractions at the strength of
+ϵLJ = 0.2 kT, for example, has doubled
+the ΔGternary(charges) obtained
+at the linker length of 3 beads without nonspecific attractions ( c). Interestingly,
+this change in ΔGternary(charges) is on top of the favorable contribution from nonspecific attractions
+in the previous calculation stage (ΔGternary(other)) before the inclusion of protein charges. For this particular ternary
+complex, nonspecific attractions and electrostatic interactions work
+synergistically.
+Our dissection of the electrostatic component
+in ΔΔG under different simulation setups
+suggests that a more
+holistic parametrization is needed to accurately evaluate chemically
+specific PPIs. For BRD4BD2-VHL, incorporating hydrophobic
+interactions will be of particular interest as there is stacking of
+hydrophobic residues at the PPI interface observed in the crystal
+structures. , Hydrophobic interactions may
+also introduce nonadditive free-energy contributions with electrostatics
+in a similar manner seen with the nonspecific attractions. It is also
+worth noting that the favorable PPIs revealed by crystal structures
+are enabled by PROTACs using a JQ1 warhead, which imposes a different
+linker attachment angle (i.e., exit vector) from an I-BET726 warhead
+(Figure S7). Our current force field does not model the PROTAC linker with angular
+terms to specify the exit vectors, which leads to a ΔΔG trend that matches well with the worse-performing I-BET726
+set of PROTACs ( a). As rigidifying PROTACs is a common strategy to optimize the cooperativity
+by entropically enhancing certain PPIs, , parametrizing
+linker conformations will improve modeling the specificity in PROTAC-mediated
+PPIs.
+
+## Conclusions
+We explore a novel computational approach
+to model the binding
+cooperativity of PROTACs by combining CGMD and alchemical free energy
+calculations. The plasticity of PROTAC-mediated PPIs motivates an
+unconventional application of alchemical methods at a perturbation
+scale that is rarely attempted. We show that with coarse-graining,
+converged estimates from various free energy calculation methods are
+attainable within a reasonable amount of computation time. Our results
+expand the possibility of more creative use of alchemical methods.
+The feasibility and efficiency of the CG alchemical approach enable
+us to probe multiple energy components under the alchemical framework
+and characterize how PROTAC linker lengths modulate PPIs under different
+setups to produce distinct cooperativity trends. In addition to validating
+the benefit of using long linkers to avoid steric clashes, we demonstrate
+with a simple addition of nonspecific attractions between BTK and
+CRBN that the binding cooperativity can be promoted by shortening
+the PROTAC linker. Our minimal model is capable of unveiling such
+changes in cooperativity that are rooted in the configurational freedom
+of the ternary complexes rather than chemical properties.
+Quantitative
+modeling of the cooperativity, however, remains difficult
+due to the lack of specificity in the minimal model. Previous studies
+have recognized the challenges brought by non-native PROTAC-mediated
+PPIs that are often weak, transient, and pliable, and have called
+for a paradigm shift toward an ensemble-based characterization beyond
+a handful of docked or crystal poses. , , While thermodynamic properties such as the binding
+cooperativity are inherently ensemble-based, we note that both accurate
+sampling of PPI conformations according to chemical properties and
+efficient computation to sample a diverse set of conformations are
+important for calculations. Currently, tuning the strength of nonspecific
+attractions cannot approximate favorable PPIs while retaining sensitivity
+to entropic constraints from the PROTAC linker length. Simply adding
+electrostatic interactions based on amino acid charges proved insufficient
+to capture the cooperativity trend enabled by JQ1-based PROTACs in
+BRD4BD2-VHL. Additional parametrizations are needed to
+capture chemically specific PPIs.
+Two main avenues are worth
+exploring for future improvement of
+our method: PROTAC linker conformations and protein sequence-dependence.
+Among a myriad of PROTAC properties that
+we leave out, structural features such as the exit vector and the linker rigidity , in addition to the linker length can both entropically constrain
+the sampling of PPIs. Meanwhile, energy components of PPIs other than
+electrostatic interactions, notably the hydrophobic effects, are currently
+overlooked. Different energy components may have nonadditive effects
+in optimizing the absolute cooperativity and relative cooperativities
+between target homologues such as BRD4BD2 and BRD4BD1. Although coarse-graining enables efficient computation,
+parametrization for both directions of force field development will
+be a major hurdle to overcome. This can be bottom-up using shorter-time
+scale higher-resolution simulations, similar to that of the CG ENM
+(Figure S2) in this work. A top-down fitting
+might also become possible with rapidly growing experimental studies
+that develop platforms for empirical
+SAR of PROTAC linkerology , or leverage promiscuous
+PROTACs and target homologues and mutants to investigate the molecular
+basis of specificity. 
+
+## Supporting Information Available
+The Supporting
+Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jpcb.2c05795.Description of the force field terms in CGMD, parametrization
+of CG ENM, analysis of phase space overlap in alchemical free energy
+calculations of the BTK-PROTAC (10)-CRBN complex, description of postprocessing
+equilibrated and statistically decorrelated samples from CGMD trajectories
+for free energy calculations, convergence among TI, BAR, and MBAR
+for the results shown in and , and crystal structures
+showing the exit vector difference between JQ1 and I-BET726 (PDF)
+
+## Supplementary Material
+jp2c05795_si_001.pdf
+
+The
+authors declare no
+competing financial interest.
+
+## Acknowledgments
+H.M. thanks William M. Clemons, Jr., Daniel Jacobson,
+Tomislav Begušić, Xuecheng Tao, Marta Gonzalvo, and
+Lixue Cheng for comments on the manuscript, and Zhen-Gang Wang and
+Christopher J. Balzer for technical discussions. We gratefully acknowledge
+support from the National Institutes of Health (NIH) R01GM138845 (8877_CIT,
+subaward), Amgen Chem-Bio-Engineering Award (CBEA), and DeLogi Trust
+Science and Technology Grant. This work used the Extreme Science and
+Engineering Discovery Environment (XSEDE) Bridges computer at the
+Pittsburgh Supercomputing Center through allocation MCB160013. XSEDE is supported by National Science Foundation
+grant number ACI-1548562. This work also used computational resources
+from the Resnick High Performance Computing Center, a facility supported
+by Resnick Sustainability Institute at the California Institute of
+Technology.

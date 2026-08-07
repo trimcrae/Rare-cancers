@@ -1,0 +1,315 @@
+pmcJ Chem Inf ModelJ Chem Inf Model822acssdciJournal of Chemical Information and Modeling1549-95961549-960Xpubs.acs.org/jcimpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC12264966PMC12264966.112264966122649664055049210.1021/acs.jcim.5c001021ArticleComputational BiochemistryConstruction of PROTAC-Mediated Ternary Complex Structure
+Distribution Profiles Using Extensive Conformational Search
+6641763https://orcid.org/0000-0002-4727-7002KudoGenki ). shows the linker length and the pharmacological
+properties of each PROTAC, which was experimentally estimated by Chan
+et al. ). The dihedral angle was defined using the
+Cα atom of Trp117 in VHL, the centroid of VHL, the centroid
+of BRD4BD2, and the Cα atom of Arg423 in BRD4BD2. These two Cα atoms were selected because the root-mean-square
+fluctuation (RMSF) of these residues was low in the preconventional
+MD simulation (Figure S2). In each OFLOOD
+cycle, outliers were detected with FlexDice . A shows the Cα-RMSD
+profile for each system versus cycle. Note that the minimum Cα-RMSD
+value was plotted in every cycle. The complex structures at cycles
+0 (initial), 10, 20, and 100 in each system are shown in B–D. All systems
+showed Cα-RMSD values rapidly decreasing below 2 Å within
+the 20 cycles. This rapid decrease could be attributed to the structural
+flexibility of these transition states, which are only connected by
+PROTACs and do not have protein–protein interactions. These
+structural transitions converged after the 20th cycle. Finally, the
+Cα-RMSD value converged to less than 1 Å. The result that
+the three systems showed no differences in their Cα-RMSD profiles
+suggests that all systems are reachable at least for the reference
+pose, the crystal structure.
+ For further conformational search of the ternary complex
+structures,
+OFLOOD was subsequentially performed using the PaCS-MD trajectories. Figure S3 shows the extension of the subspace
+searched by OFLOOD according to the cycle. After 150 OFLOOD cycles,
+a broad conformational subspace was searched for each system. The
+MSMs were constructed on each conformational subspace using the trajectories
+from additional MD simulations. shows the FEL of each PROTAC system based on each
+MSM. These FELs indicate that the linker length in each PROTAC is
+proportional to the extent of each conformational subspace. Indeed,
+we calculated the α-shape area of each conformational space,
+and the areas were normalized to the value for the MZ1 system. As
+a result, the scaled values of the MZ4, MZ1, and MZ2 systems are 0.897,
+1.000, and 1.187, respectively. This implies that the linker length
+affects the diversity of the ternary complex structures. A shows a broad FEL
+of the MZ4 system with low free-energy values less than 2k
+B
+T, colored purple and dark blue. Thus,
+the MZ4 system has several stable conformations as the ternary complex
+structures. B shows the FEL of the MZ1 system. Compared with the FEL of the MZ4
+system, the area with low free-energy values is narrow and limited
+in the FEL of the MZ1 system. Specifically, the two regions, which
+are separated by high free-energy barriers, have significantly low
+free-energy values (less than 1k
+B
+T). One is at approximately [40, −100], which coincides
+with the position of one of the low free-energy regions in the MZ4
+system. The other is approximately [45, 0], and this state does not
+appear in the FELs of the MZ4 and MZ2 systems. This MZ1 system-specific
+region is widely spread along the Y-axis. C shows the FEL of
+the MZ2 system, indicating that the MZ2 system has a single low free-energy
+region, which coincides with the common position of the low free-energy
+regions of the MZ4 and MZ1 systems. In brief, all systems have the
+same region with low free-energy values, approximately [40, −100].
+Interestingly, the MZ4 system has many local free-energy minima and
+the MZ1 system has one more region with low free-energy values. In
+contrast, the MZ2 system has no other regions with low free-energy
+values.
+ 
+
+## Structural Evaluation of
+Stable Conformations
+Based
+on the FELs, ternary complex structures with low free-energy values
+were extracted as specific states. For the MZ4 and MZ1 systems, the
+global minimum and these specific states were obtained from the low
+free-energy regions. The locations of the extracted states in the
+FELs are shown in as the markers. For the MZ2 system, the global minimum state
+was only obtained. The complex structures and the corresponding contact
+maps are shown in and S4, respectively. For each
+state, structural evaluation of these structures was performed based
+on their RMSD and binding free-energy values based on the MM/GBSA
+method, as shown in . The RMSD values were calculated using the Cα atoms
+for the crystal structure of MZ1 (PDB ID: 5T35).
+ The global minimum states of the MZ4/1/2 systems were noted at
+[39.84, −104.90], [39.58, −109.81], and [39.44, −116.32],
+respectively. These ternary complex structures are similar to each
+other and share a low Cα-RMSD value of 1.5–2.0 Å.
+These structures also have the binding free-energy in proteins (ΔG
+bind
+PPI) of approximately −25 kcal/mol in common. In addition, the
+binding free-energies of the MZ4/1/2 systems (ΔG
+PROTAC
+PPI)
+were −100.52 ± 5.23, −104.44 ± 5.47, and −106.23
+± 5.53 kcal/mol, respectively, meaning that there is no substantial
+difference in ΔG
+PROTAC
+PPI among the systems. R
+g and strain energies of the PROTACs in these states are
+also comparable to each other. Notably, the strain energies of these
+states exhibited remarkable values over 40 kcal/mol. Overall, the
+global minimum states in the three systems are largely consistent
+across the different linker lengths.
+In the MZ4 system, MZ4
+system-specific regions with low free-energy
+values were observed. We picked up the specific state at [39.72, 45.01]
+in the FEL. This ternary complex structure differs significantly from
+the global minimum state, with the orientation of proteins rotated
+by about 145° (left side in ). Notably, the ΔG
+PROTAC
+PPI and
+ΔG
+bind
+PPI of the conformation were −100.10
+± 5.61 and −22.14 ± 12.13 kcal/mol, respectively.
+These values are comparable to those of the global minimum state.
+These results indicate that the MZ4 system has another stable conformation,
+which has similar free-energy and binding free-energy to the global
+minimum state. Additionally, the strain energy of MZ4 in the specific
+state is lower than that in the global minimum state, while R
+g is comparable to that of the global minimum
+state.
+The MZ1 system also has a specific region with low free-energy
+values, found at [44.66, 14.68] in the FEL. These proteins in the
+ternary complex structure are distant relative to the global minimum
+state, and the orientation of proteins rotated by approximately 120°
+(the center in ). The value of R
+g is slightly higher
+than that of the global minimum state, and the strain energy of MZ1
+in this state is relatively lower than that in the global minimum
+state, as shown in . The binding free-energy analysis shows that the proteins
+and MZ1 bind stably, for which the ΔG
+PROTAC
+PPI value was
+−97.64 ± 5.00 kcal/mol. By contrast, the affinity between
+proteins in this conformation was −16.36 ± 4.95 kcal/mol,
+which is inferior to the global minimum. These results suggest that
+this MZ1 system-specific state is less stable than the global minimum
+state, the so-called metastable structure.
+
+For each state of the ternary
+complex, the alignment model with
+ubiquitination complex assembly was constructed. A shows the alignment of the
+global minimum conformation with MZ1 and the ubiquitination complex
+assembly. The red spheres represent K368, K445, and K456 in BRD4BD2, and the lime cartoon model highlights the ubiquitin in
+the assembly. The model indicates that the three lysine residues of
+the BRD4BD2 are positioned toward the ubiquitin side. Specifically,
+the minimum angle formed by the lysine residue, the centroid of BRD4BD2, and the cysteine residue in the active site for ubiquitination
+was 20.9°. In the global minimum states of the MZ4 and MZ2 systems,
+the lysine residues are also positioned toward the ubiquitin side
+because these states are consistent with the global minimum state
+in the MZ1 system. In contrast, the alignment of the MZ4-specific
+state and assembly ( B) shows that these lysine residues are in the opposite orientation
+to the ubiquitin, and the minimum angle value was 95.4°. Additionally,
+the alignment with the assembly of the MZ1 system-specific state is
+shown in C,
+where BRD4BD2 and UBE2R1 (gray cartoon) are in conflict.
+ 
+
+## Discussion
+The FELs and stable ternary complex structures
+of the three PROTAC
+systems were obtained by using our methods ( and and ). Two dominant states were identified for the ternary complex in
+the MZ4 system with a short-length linker. One is the global minimum
+state in the FEL, and the other is the MZ4 system-specific state.
+The former structure, the global minimum state, is similar to the
+crystal structure with MZ1 and has the lowest free-energy in the FEL
+and low binding free-energies. In addition, for the latter structure,
+the MZ4 system-specific state has a similar low free-energy and binding
+free-energies compared to the global minimum state. For the ternary
+complex in the MZ1 system with a middle-length linker, a set of dominant
+and metastable states was identified. The dominant state has a similar
+structure to the crystal structure with MZ1. The metastable state
+has an inferior binding free-energy in the proteins compared to the
+global minimum state. For the ternary complex in the MZ2 system with
+a long-length linker, only one dominant state, which is similar to
+the crystal structure with MZ1, was identified. In summary, the MZ4/1/2
+systems commonly have a dominant state similar to the known complex;
+however, their distribution profiles differ significantly, even though
+these PROTACs differ only in their linker length. Furthermore, the
+system-specific states in these profiles may contribute to the variation
+in cooperativity and further to that in degradation activity of PROTACs,
+as described below.
+The MZ4, a PROTAC with a short linker, has
+lower degradation activity
+than MZ1 and MZ2 (“pDC50” column in ), and our results
+showed that the distribution profile of the MZ4-mediated ternary complex
+had multiple stable conformations. In a previous study, Crowe et al.
+suggested that recruiting the target protein to the orientation apart
+from the ubiquitin would cause low efficient ubiquitination and degradation. , the MZ4-mediated
+ternary complex has both favorable and unfavorable conformations for
+ubiquitination. Given that it readily forms an unfavorable conformation,
+it likely contributes to the low degradation activity of the MZ4.
+The MZ1, a PROTAC with a middle linker length, has the best cooperativity
+of ternary complex formation than MZ2 and MZ4 (“α”
+column in ),
+and our study revealed that the MZ1 system has the distribution profile
+with the global minimum state and the specific state, so-called metastable
+state. This specific state has a weak binding energy in the proteins,
+while the free-energy in the system is low. Focused on the interface
+in the proteins of this specific state, Arg69 in VHL and Asp389 in
+BRD4BD2 formed ionic interaction (Figure S5). This interaction contributes to keeping the proteins together,
+even though the protein–protein interface area in this specific
+state is limited (the center side in ). Specifically, for Arg69 in VHL, Kumar
+and Sobhia have previously suggested that this residue plays a key
+role in the interface of the ternary complexes, particularly in those
+formed by PROTACs exhibiting high cooperativity. . This
+indicates that this MZ1 conformation is native-like and can be often
+present in the unbound state. These findings suggest that the MZ1
+system-specific state can be one of the intermediate states from binary
+to ternary formation, which prevents them from dissociating before
+reaching the global minimum state. In contrast, the MZ4 and MZ2 systems
+do not have the arrangement of the proteins in the MZ1 system-specific
+state due to their linker length. In the MZ4 system, attempts to adopt
+the MZ1 system-specific conformation can cause protein collisions
+due to the short linker in MZ4 (the left side in ). Conversely, the longer linker
+can prevent ionic interactions between the proteins when trying to
+achieve this conformation in the MZ2 system (right side in ). In summary, the
+appropriate linker length in MZ1 enables the high cooperativity of
+ternary complex formation.
+ As above, the distribution profiles in the ternary
+complex structures
+allow us to understand the mechanism of PROTACs activities, the degradation
+activity, and the cooperativity. Given that Schiemer et al. reported
+that PROTAC-mediated target proteins and E3 bind flexibly to each
+other and form multiple ensembles, our
+study is effective for the rational design of PROTACs that induce
+both the intermediate and ubiquitin-accessible states. Specifically,
+sampling and profiling of the ternary complex structures via PROTAC
+with some activities are available to optimize their linker components
+and length. These structural insights can be leveraged to modify the
+PROTC’s substructure, promoting favorable orientations for
+ubiquitination and having additional intermediate states. Although
+a comprehensive understanding of the PROTAC function is yet to be
+achieved, our study provides a valuable framework for guiding future
+investigations.
+
+## Conclusions
+We attempted an extensive
+conformational search of PROTAC-mediated
+ternary complex structures using the PaCS-MD and OFLOOD method for
+three PROTACs with different linker lengths, experimentally characterized
+degradation activities, and cooperativity. Our analysis revealed that
+all PROTACs share a common low free-energy conformation resembling
+a known crystal structure but differ markedly in their conformational
+distribution profiles. Notably, the MZ4 system exhibited an alternative
+stable state that may hinder ubiquitin transfer, potentially explaining
+its reduced degradation activity. In contrast, the MZ1 system displayed
+a metastable conformation that may promote ternary complex formation,
+which is consistent with its high cooperativity. These results highlight
+the critical role of linker-dependent structural dynamics in determining
+the PROTAC efficacy. By providing structural distribution profiles
+linked to biological outcomes, our approach offers a practical framework
+for the rational design of PROTACs with an optimized degradation performance.
+
+## Supplementary Material
+
+PaCS-MD
+and OFLOOD used the Cygnus computational resources
+provided by the Multidisciplinary Cooperative Research Program at
+the Center for Computational Sciences (Project Code: CADD) at the
+University of Tsukuba. Additional MD simulation for MSM construction
+used computational resources of (supercomputer Fugaku provided by
+the RIKEN Center for Computational Science) (Project ID: hp230216).
+3D structures
+of the proteins were downloaded from the Protein Data Bank (PDB).
+We used AmberTools20 and Gaussian 16 Rev C.01 for PROTAC preparation.
+AmberTools20 was used to prepare the MD system. GROMACS 2021.5 was
+used as the MD engine. Rms module in GROMACS was used to calculate
+Cα-RMSD. Alpha Shape Toolbox was used to calculate the α-shape
+area. MDTraj was used to calculate R
+g and
+the contact map. Prime module in Schrödinger Suite 2023–3
+was used to calculate strain energy. PyEMMA was used to estimate MSM.
+Gmx_MMPBSA was used to calculate binding free-energy based on the
+MM/GBSA method. PyMOL was used for visualization. Scripts of our methodology
+and these conformational search results are deposited to Zenodo (DOI:
+10.5281/zenodo.15307772).
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/acs.jcim.5c00102.Initial models of each
+PROTAC system (Figure S1); RMSF
+of the Cα atom in VHL and BRD4BD2 (Figure S2); extension of
+the conformational search during the OFLOOD cycles (Figure S3); contact
+maps of global minimum states and system-specific states (Figure S4),
+and binding site in the MZ1-specific state (Figure S5) (PDF)
+
+#G.K. and T.H. contributed equally to this work. G.K., T.H., R.H.,
+Y.S., Taka.H., and R.Y. conceived the study. G.K., T.H., R.Y., and
+Taka.H. selected the targeted PROTAC-mediated ternary complexes. G.K.,
+T.H., and R.H. implemented the PaCS-MD and OFLOOD method. G.K. and
+T.H. performed the experiments and G.K. analyzed the data. The manuscript
+was written with contributions from all the authors. All authors approved
+the final version of the manuscript.
+This research
+was partially supported by the Research Support Project for Life Science
+and Drug Discovery [Basis for Supporting Innovative Drug Discovery
+and Life Science Research (BINDS)] (grant number JP24ama121029j0003)
+of the Japan Agency for Medical Research and Development (AMED), MEXT
+as “Program for Promoting Researches on the Supercomputer Fugaku”
+(Simulation- and AI-driven next-generation medicine and drug discovery
+based on “Fugaku”, JPMXP1020230120), and KAKENHI (grant
+numbers JP23K16987, JP23H04879, JP23H02427, and JP23K18033) from the
+Japan Society for the Promotion of Science (JSPS).
+The authors
+declare no competing financial interest.
+
+## Abbreviations
+BRD4BD2
+second bromodomain
+of bromodomain-containing protein 4
+FELfree-energy landscape
+MDmolecular dynamics
+PaCS-MDparallel cascade selection molecular dynamics
+MSMMarkov state model
+OFLOODoutlier flooding
+PDBProtein Data Bank
+PROTACproteolysis-targeting
+chimeras
+RMSDroot-mean-square
+deviation
+Rgradius
+of gyration
+VHLVon Hippel-Lindau tumor suppressor

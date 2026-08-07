@@ -1,0 +1,296 @@
+pmcJ Chem Theory ComputJ Chem Theory Comput822acssdctJournal of Chemical Theory and Computation1549-96181549-9626pubs.acs.org/JCTCpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC12159975PMC12159975.112159975121599754032688310.1021/acs.jctc.5c000641ArticleBiomolecular SystemsQuantifying Cooperativity
+through Binding Free Energies
+in Molecular Glue Degraders
+6670873https://orcid.org/0000-0001-6938-5816DudasBalint ). In addition, thalidomide analogs show
+surprising versatility and selectivity, as demonstrated by the different
+recruitment of the target proteins IKZF1 and CK1α by two thalidomide
+analogues, pomalidomide and lenalidomide. ), first establishing
+a dual complex followed by the association of the third component.
+In the three paths, the following dissociation constants (K) are defined for the dual complex formations based on
+the corresponding on- and off-rates
+1
+ KdA,L=v1−v1+=[A][L][B][AL][B]=[A][L][AL]
+
+2
+ KdL,B=u1−u1+=[A][L][B][LB][A]=[L][B][LB]
+
+3
+ KdA,B=r1−r1+=[A][L][B][AB][L]=[A][B][AB]
+and for the second steps
+4
+ KdAL,B=v2−v2+=[AL][B][ALB]
+
+5
+ KdLB,A=u2−u2+=[LB][A][ALB]
+
+6
+ KdAB,L=r2−r2+=[AB][L][ALB]
+
+ From a thermodynamic point of
+view, cooperativity can be defined
+as the ratio of the dissociation constants ( or ) for the binding of two components
+in the
+presence and absence of the third component
+7
+ α1=KdAL,BKdL,B=v2−u1+v2+u1−=u2−v1+u2+v1−=KdA,LBKdA,L=KdA,LKdL,B[ALB][A][L][B]
+
+Pathway specific cooperativity
+terms, α2, α3, can also be defined
+8
+ α2=KdA,LKdA,B[ALB][A][L][B]
+
+9
+ α3=KdL,BKdA,B[ALB][A][L][B]
+
+Indeed, several studies introduced
+and used
+different cooperativity
+terms. Cao et al. used the protein–protein complex as reference
+(α2), the K
+d corresponding
+to protein complex formation in the absence of a ligand, section. To assess the stability of our simulations, readers are
+encouraged to refer to the monitored rmsds in Figures S2–S4.
+
+## Binding Affinities in the Ternary Complex
+For a small
+molecule to act as a good degrader it is an important prerequisite
+that it can induce the formation of a stable ternary complex, even
+though the complex formation alone does not necessarily translate
+to degradation. As an example, experimentally it was observed that
+L1, L4–L5 against IKZF1 and L2–L3 against IKZF2 all
+have a maximum recruitment activity above 500% with respect to the
+glue-free complex recruitment, yet IKZF degradation could not be observed
+for them even in the regime of very high ligand concentrations (>50
+μM). A). L2 has a similar ability to stabilize the complex
+as L0, whereas L4 has a maximum activity not much inferior to L5,
+yet only in the presence of much higher ligand concentrations. All
+methods managed to rank L4 and L5 in front of the rest ( B–D). The IntE and the
+MMGBSA analysis predicted L4 to be superior to L5, whereas the FEP+
+analysis ranked L5 as the best glue in agreement with the experiments.
+Interestingly, in all three cases the performance of the reference
+L0 seems to be slightly underestimated, and all L1–L5 are predicted
+to be better glues than L0, whereas experimentally L1 was observed
+to perform worse than L0. Among L1–L3, the three methods do
+not establish a clear consensus ranking.
+ Even though all ligands L0–L5 are capable
+of inducing IKZF2
+recruitmentranging from 340% to 1350% maximum recruitment
+activity with respect to the ligand-free complex formationand
+the task here is to distinguish between ligands of comparable performances,
+all three computational analyses managed to clearly differentiate
+between the best-performing ligands (L4 and L5) and the rest, solely
+based on the energetics observed in the ternary complexes.
+We
+evaluated cooperativity in our simulations for L0–L5
+and compared the results with experimental complex association data.
+In agreement with the binding affinities discussed previously, all
+computational results agree that L1 is the least potent ligand among
+L1–L5 ( ), and all methods ranked L4 and L5 in front of the rest based on
+their cooperativity. This agreement is not straightforward, as favorable
+binding affinity in a ternary complex does not necessarily imply a
+free energy gain nor does it explain its extent upon the formation
+of the ternary complex compared to the dual complexes. Even for L1,
+the FEP+ simulations predict it to have stronger cooperativity than
+the reference, L0 ( C), which may be a result of underestimating L0 as discussed
+previously. Between L4 and L5, the IntE and the MMGBSA analysis predicted
+L4 to exhibit a stronger CE as opposed to the FEP+ analysis that predicted
+L5 having the strongest cooperativity, in agreement with the experimental
+recruitment data. The results shown in A,B simplify the cooperativity estimation
+by not including the ΔIntE
+AB
+ term
+in the ternary complexes. A good estimate of IntE
+AB
+ requires multiple runs, and the values have a considerable
+standard deviation (Figure S1). We found
+that no significant difference exists between the IntE
+AB
+ in the dual protein-complex and in the ternary
+complexes with the exception of L4 where a strong salt bridge is missing
+between E137IKZF2 and R373CRBN that weakens
+the interactions between the two proteins. Even though all six ligands
+are capable of enhancing IKZF2 recruitment to some extent, the CE
+analysis is capable of differentiating between the best-performing
+L4 and L5, and the least favorable L0 and L1.
+ 
+
+## Molecular Basis of Differences between IKZF Degraders
+To
+better understand the origin of the differences in gluing performances
+or “glueability” observed between the different ligands,
+we analyzed the interactions in the ternary complexes on the residue
+level. IntE averaged over the production MD simulations were calculated
+between L0–L5 and the CRBN/IKZF2 residues ( ). We found that largest difference
+in CRBN binding originates from the presence of a positive charge
+in L4 and L5 that brings in close contact the negatively charged E377CRBN, a forceful interaction which is absent for L0–L3.
+The observed >18.5 kcal/mol difference between the charged and
+uncharged
+ligands interacting with E377CRBN explains how the charged
+ligands are much more firmly glued to CRBN. We note, however that
+electrostatic interactions can be overestimated, C,D. L4 differed significantly in the IntE
+values with E137IKZF2 as compared with the other ligands.
+This interaction is 11.3 kcal/mol more favorable compared with the
+also charged L5, and is negligible for the uncharged L0–L3.
+This interaction is established at the loose N-terminal end of the
+IKZF2 which gets in close contact with the charged amine group of
+L4, whereas the additional bulky benzyl group in L5 obstructs the
+formation of this strong salt bridge. However, as discussed previously,
+E137IKZF2 forms a salt bridge with R373CRBN for
+the other ligands, which is missing for L4. We hypothesize furthermore
+that such a rearrangement of IKZF2 may not be possible in the full-length
+protein and therefore this interaction might lead to the overestimation
+of the molecular glue performance of L4 in our simulations.
+Interestingly, interactions with H141IKZF2 differentiate
+well between the ligands, ranging from −0.9 kcal/mol for L0
+to −4.5 kcal/mol for L5, and the ranking of the ligands also
+agrees well with their overall glue performance observed in the experiments,
+ranking L5 on top followed by L4, while L0 and L1 the worst. H141IKZF2 is the residue that is replaced by glutamine in IKZF1,
+and is crucial for designing selective IKZF2 degraders. C142IKZF2 also favors interactions with L5, followed by L4 with 1.5 kcal/mol
+less favorable IntE. Interactions with N143IKZF2, C145IKZF2, and G146IKZF2 are also present, those for
+all ligands.
+
+## Selectivity for the IKZF2 Isoform
+For degraders of
+the Ikaros family, it may be beneficial to develop selective degraders
+only targeting a specific member. It has been shown that L0 (pomalidomide)
+is active against IKZF1 and it does not degrade IKZF2, whereas L5
+was developed as a selective IKZF2 degrader sparing the degradation
+of IKZF1. ). FEP+ predicted even L1 to favor IKZF2,
+in contrast to experiments that showed higher affinity toward the
+IKZF1 ternary complex, yet without inducing IKZF1 degradation. Interestingly,
+the FEP+ calculations found L5 as showing the largest binding free
+energy difference between IKZF2 and IKZF1 complexes emphasizing its
+selectivity, yet experiments identified L3 with the largest difference.
+ We performed simulations on IKZF2­(H141Q) mimicking
+IKZF1
+(there
+are a total of four residue differences between IKZF2 and IKZF1 at
+the zinc fingers 2 and 3). However, the comparison of the energetics
+in the IKZF2­(H141Q) complexes did not capture the selectivity identified
+with the FEP+ residue perturbation simulations (Figures S5 and S6). All of the IKZF2­(H141Q) simulation results
+suggested that both L4 and L5 are more potent molecular glues than
+L0. We speculate that additional differences between IKZF2 and IKZF1
+beyond residue 141 may play a crucial role in IKZF1 recruitment.
+
+## Virtual Screening Campaign for the Discovery of IKZF2 Degraders
+Next, we aimed to identify new potent molecular glues targeting
+IKZF2 ( ). We
+performed a substructure search (see ) for ligands that share similarities with L0–L5 to ensure
+some interactions with CRBN and guide the positioning of new hits.
+ The retrieved molecules were prepared and docked
+to the CRBN.IKZF2
+complex using Schrödinger Maestro and Glide (see section for details). We then performed MD simulations
+on the CRBN/LIG, the IKZF2/LIG, and the CRBN/LIG.IKZF2 complexes,
+and calculated the ligand binding affinities in the ternary complex
+as well as the CE ( ). In addition to calculating the absolute IntE and CE that
+correspond to enthalpic contributions, in order to account for entropic
+losses to some extent, we recalculated the results normalized by the
+molecular mass of the ligands (Figure S7).
+ We found that 53% (316/596) of the tested compounds
+have both more
+favorable unnormalized IntE in the ternary complex and unnormalized
+CE than L0, while 26.5% (158/596) were identified to be more favorable
+in the normalized case. As L5 is the most potent molecular glue in
+our reference data set, we also compared our results to it. If not
+normalized, 5 data points were found to be superior even to L5, corresponding
+to 4 distinct molecules ( , one molecule had two different binding modes included).
+With normalization by the molecular masses, this increases to 32 (with
+30 distinct molecules), including 3 molecules from the unnormalized
+best hits ( , S7 and S8). Notably, two of the top
+five hits in the normalized analysis also rank among the top hits
+without normalization. Interestingly, while all top unnormalized hits
+carry a +1 charge similar to L5, 16 out of 32 normalized hits are
+neutral. One top-ranked molecule from the unnormalized analysis was
+omitted from further FEP analysis due to its large size (Figure S9, marked by P1 in ). The size of this ligand is comparable
+to heterobifunctional PROTACs (e.g., NX-2127 ) to
+identify crucial contacts within the ternary complexes.
+
+## Interactions
+of the Best Hits in the Ternary Complexes
+To further investigate
+the molecular basis of the predicted top hits’
+gluing capacity, we analyzed their residue-level interactions with
+CRBN and IKZF2 in their ternary complexes during MD simulations ( , interactions of
+further top candidates are shown in Figure S10). Since candidates were identified through a substructure search,
+they share a common core with L0–L5. As expected, the best
+candidates retained key interactions with CRBN, including contacts
+with E377CRBN, W380CRBN, W386CRBN, H378CRBN, N351CRBN P352CRBN, H353CRBN, and W400CRBN. Notably, five candidates (molecules
+P1, A–C, and G) exhibited even stronger interactions with negatively
+charged E377CRBN than the reference L5, further anchoring
+them to CRBN. Additionally, four candidates (A–C and G) showed
+enhanced interactions with N351CRBN, while molecules A–C
+even formed hydrogen bonds with H357CRBNan interaction
+that is negligible in L0–L5.
+ The top glue candidates
+also preserved key interactions with IKZF2,
+specifically with H141IKZF2, C142IKZF2, C145IKZF2, and G146IKZF2. Notably, three candidates
+(P1, A, and D) exhibited stronger interactions with H141IKZF2 than the reference L5. This residue is replaced by glutamine in
+IKZF1 and is crucial for designing selective IKZF2 degraders. In particular,
+molecule D showed a significantly more favorable interactionover
+6 kcal/mol stronger than L5by orienting its positively charged
+amine group toward the deprotonated Nε of H141IKZF2.
+Additionally, the bulky PROTAC-like candidate (P1) demonstrated
+enhanced interactions with E137IKZF2, P139IKZF2, and F140IKZF2 compared to L5. A strong interaction also
+existed between the experimental L4 and E137IKZF2 ( ), which hindered
+the formation of a key salt bridge between E137IKZF2 and
+R373CRBN. While this salt bridge was absent in the initial
+experimental complex (PDB: 8DEY), it formed during extended MD simulations for L0–L3,
+L5, and one glue candidate (molecule F) in its short MD production
+run. Notably, interactions with P139IKZF2 and F140IKZF2, which were nearly absent in L0–L5, were significantly
+improved in the bulky candidate.
+
+## FEP Analysis of the Top
+Hits
+We further analyzed the
+predicted top hits using FEP simulations, similar to our previous
+analysis on L0–L5. We included molecules that demonstrated
+both improved IntE and CE compared to L5, either in the normalized
+or unnormalized analysis (Figure S8 and Table S1). Relative binding affinities (ΔΔG) and relative cooperativities (ΔCE) were calculated with respect
+to L0.
+From our FEP calculations, we identified 17 candidate
+molecules with more favorable ΔG and CE values
+than L0. Although L5 remained the top-ranked glue, 7 candidates (among
+which four molecules: G, B, C, and A from ) outperformed L0–L3 (Figure S11). Notably, four out of the seven candidates
+that were best ranked using our computationally fast protocol (shown
+in ) were also
+ranked among the best 5 molecules identified by the more accurate
+but computationally very expensive FEP simulations. While our analysis
+confirmed L5 to be a very potent molecular glue (ranking it highest),
+L5 was originally developed through a recruitment-guided medicinal
+chemistry campaign and is not present in the screening databases.
+In fact, the top predicted candidate has a ΔΔG of −4.3 ± 0.6 kcal/mol and ΔCE of −2.2
+± 1.0 kcal/mol with respect to L0, while L5 had a ΔΔG of −6.4 ± 0.7 kcal/mol and ΔCE of −3.3
+± 1.0 kcal/mol. Interestingly, this candidate that ranked highest
+in our screening campaign (molecule G in and )
+that are known to bind CRBN, was performed to find new commercially
+available potential glues of the CRBN/IKZF2 complex. For the substructure
+search, the Molecules as a Service (MaaS) web service of Orion, 2022
+OpenEye Scientific Software, Inc. (MaaS 2.0.2. OpenEye, Cadence Molecular
+Sciences, Santa Fe, NM. http://www.eyesopen.com) was used to search through the Enamine and ZINC libraries. Also,
+a substructure search with SciFinder was conducted to identify commercially
+available compounds bearing the five substructures. A total of 1327
+compounds was identified from the search, which was subsequently prepared
+and docked to the CRBN/IKZF2 complex with the LigPrep and Glide tools
+of Schrodinger, Inc. The same docking protocol that was used for the
+FEP+ calculations was also applied here.
+ 
+
+## Supplementary Material
+
+The authors would like to thank Dénes Berta
+and Wim Dehaen for the useful discussions. The authors acknowledge
+funding from EPSRC (grant no. EP/R013012/1). This project used ARCHER2
+and JADE2 via the U.K. High-End Computing Consortium for Biomolecular
+Simulation, HECBioSim (http://hecbiosim.ac.uk) as well as the SCP supercomputing platform of AstraZeneca. C.A.
+and J.C.M. are employees of AstraZeneca and may hold stock options.
+The Supporting Information
+is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jctc.5c00064.Additional analysis of
+the complexes; additional interaction
+energy and cooperativity information; root-mean-square deviation analyses;
+list of best hit molecules with additional analyses (PDF)
+
+The authors
+declare the following competing financial interest(s): Juan Carlos
+Mobarec and Christina Athanasiou are employees of AstraZeneca and
+may hold stock options.

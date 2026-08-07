@@ -1,0 +1,1427 @@
+4063jacsauJACS AuJACS AuAmerican Chemical SocietyPMC1167212511672125116721253973591310.1021/jacsau.4c00831Structure-Based Design
+of “Head-to-Tail”
+Macrocyclic PROTACs
+LiChungen ChenYihan HuangWeixue QiuYudi HuangShengjie ZhouYang ZhouFengtao XuJian RenXiaomei ZhangJinwei WangZhen DingMing DingKe †State
+Key Laboratory of Chemical Biology, Shanghai
+Institute of Organic Chemistry, Chinese Academy of Sciences, No. 345 Lingling Road, Shanghai 200032, China‡University
+of Chinese Academy of Sciences, No. 1 Yanxihu Road, Huairou District, Beijing 101408, China§International
+Cooperative Laboratory of Traditional Chinese Medicine Modernization
+and Innovative Drug Discovery of Chinese Ministry of Education (MOE),
+Guangzhou City Key Laboratory of Precision Chemical Drug Development,
+College of Pharmacy, Jinan University, No. 855 Xingye Avenue East, Guangzhou 511400, China∥Key
+Laboratory of Structure-Based Drugs Design and Discovery of Ministry
+of Education, Shengyang Pharmaceutical University, Shenyang 110016, China⊥School
+of Life Science and Technology, China Pharmaceutical
+University, No. 639 Longmian
+Avenue, Nanjing 211198, China#Livzon Research
+Institute, Livzon Pharmaceutical Group Inc., No. 38, Chuangye North Road, Jinwan
+District, Zhuhai 519000, China*Email: dingk@sioc.ac.cn.
+2111202441248664866–488228122024© 2024 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Macrocyclization is a compelling strategy for conventional
+drug
+design for improving biological activity, target specificity, and
+metabolic stability, but it was rarely applied to the design of PROTACs
+possibly due to the mechanism and structural complexity. Herein, we
+report the rational design of the first series of “Head-to-Tail”
+macrocyclic PROTACs. The resulting molecule SHD913 exhibited
+pronounced Brd4 protein degradation with low nM DC50 values
+while almost totally dismissing the “hook effect”, which
+is a general character and common concern of a PROTAC, in multiple
+cancer cell lines. Further biological evaluation revealed that the
+compound exhibited positive cooperativity and induced de novo protein–protein interactions (PPIs) in both biophysical and
+cellular NanoBRET assays and outperformed macroPROTAC-1 that is the
+first reported macrocyclic Brd4 PROTAC, in cellular assays. In vitro liver microsomal stability evaluation suggested
+that SHD913 demonstrated improved metabolic stability
+in different species compared with the linear counterpart. The co-crystal
+structure of Brd4BD2: SHD913: VCB (VHL, Elongin
+C and Elongin B) complex determination and molecular dynamics (MD)
+simulation also elucidated details of the chemical-induced PPIs and
+highlighted the crucial contribution of restricted conformation of SHD913 to the ternary complex formation. These results collectively
+support that macrocyclization could be an attractive and feasible
+strategy for a new PROTAC design.
+Keywords: PROTACs, “head-to-tail” macrocyclization, hook effect, cocrystal structure, ternary complex
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Sep 10; Accepted 2024 Nov 6; Revised 2024 Oct 29; Collection date 2024 Dec 23.
+
+## Introduction
+Targeted protein degradation (TPD) is
+emerging as an attractive
+modality for both drug discovery and chemical biology research because
+of its “event-driven” action mode and closely mimicking
+the biologically genetic knockout. More
+than 30 proteolysis-targeting chimeras (PROTACs), which are bifunctional
+molecules that trigger protein proteasomal degradation by hijacking
+them into spatial proximity with an E3 ubiquitin ligase, have been
+advanced into different stages of clinical development. PROTACs demonstrate significant advantages over
+conventional drugs, such as a catalytic or substoichiometric pharmacological
+effect, an extended duration of action, and accessibility for intractable
+targets. Nonetheless, the theoretical
+“hook effect” (bell-shaped pharmacology) is a common
+concern for the PROTAC therapy due to the requirement for E3: PROTAC:
+target ternary complex formation. A PROTAC
+molecule generally exhibits a “dumbbell-shaped” geometry,
+in which a flexible or rigid linear linker is applied to facilitate
+the formation of the ternary complex. However,
+conformational flexibility of the linear PROTACs might result in unfavorable
+pharmacokinetic properties (e.g., poor solubility and metabolic liability),
+which is another major challenge for PROTAC development.
+Macrocyclization
+is a compelling strategy for conventional drug
+design to improve potency and drug-likeness of a molecule through
+conformational restriction, and macrocycles become privileged scaffolds
+for modulating protein–protein interactions (PPIs) harboring
+large, flat, and dynamic surfaces. For
+instance, macrocyclic natural products, i.e., cyclosporin A (CsA), tacrolimus (FK506), and rapamycin, were defined as the first
+“molecule glues” in the 1990s because of their capabilities
+to induce and stabilize PPIs ( A). , Most recently, a synthetic macrocyclic
+molecule, RMC-4998 ( A), was also reported to induce PPIs between cyclophilin A
+and KRASG12C and achieved promising therapeutic effects
+in non-small cell lung cancer (NSCLC) models. Given the fact that a PROTAC generally binds to surface pockets
+of the target protein and E3 ligase, and multiple linking sites could
+be available in both the warheads and E3 binders. We proposed that
+macrocyclic derivatives could be designed to lock the molecules in
+conformation favorable for ternary complex formation by decreasing
+the molecular entropy. Notably, a semiflexible macrocyclic PROTAC
+of the bromodomain and extra-terminal motif (BET) protein (Brd4) (macroPROTAC-1) was recently reported to exhibit strong target
+degradation potency. A co-crystal structure of macroPROTAC-1 bound in a ternary complex with VHL and Brd4BD2 was also
+solved to validate the design rationale, providing the first “proof of concept” for a macrocyclization
+approach in the new PROTAC design. Whereas the molecule could also
+be considered as a linear PROTAC harboring a macrocyclic Von Hippel–Lindau
+(VHL) ligand since the target binding motif is out of the macro-ring
+system ( B).
+ Utilizing VHL-Brd4 as a model system, we conducted
+structure-based
+design of the “Head-to-Tail” macrocyclic PROTACs by
+taking advantage of the pioneering structural information on a ternary
+complex formed by VHL, the second bromodomain (BD2) of Brd4 (Brd4BD2) and MZ1, a Brd4 PROTAC with a linear polyethylene
+glycol (PEG) linker. The new macrocyclic
+PROTAC exhibited fast and pronounced degrading potency with low nM
+DC50 values. Strikingly, no measurable “hook effect”
+was detected for the compound across a panel of cancer cell lines,
+even at concentrations of approximately 10,000 times greater than
+the determined DC50 values. Further biophysical evaluation
+and nanoluciferase bioluminescence resonance energy transfer (NanoBRET)
+determination confirmed that the compound exhibited a positive cooperative
+effect and induced neomorphic PPIs between Brd4BD2 and VHL both in solution and in cells.
+The co-crystal structure of the ternary complex was also solved to
+elucidate detailed interactions among Brd4BD2, VHL, and
+the PROTAC. To the best of our knowledge, this work represents the
+first example of a structure-based design of “Head-to-Tail”
+macrocyclic PROTACs ( B).
+
+## Results and Discussion
+
+## Structure-Based Design of Novel “Head-to-Tail”
+Macrocyclic PROTACs
+Alessio Ciulli and co-workers previously reported a crystal structure of Brd4BD2: MZ1: VCB (VHL, Elongin C, and Elongin B)
+ternary complex ( A, PDB: 5T35). It was shown that MZ1 induced de novo PPIs between
+the BD2 domain of Brd4 and VHL proteins to form a “bowl-shaped”
+interface where the molecule was accommodated. The linear PROTAC MZ1 generally adopted a “Z”
+conformation in which the JQ1- and VH032- motifs bound with Brd4BD2 and VHL ( A), respectively, in similar modes to the original monovalent
+ligands. Structural feature analysis
+revealed that the Cl atom in the warhead orientated to the PPI interface
+and closely approached the acetyl group of the VH032 moiety with a
+distance of 4.6 Å, suggesting that it might provide a new position
+to connect the VHL ligand with a short linker. X-ray structure also
+showed that the amide of the JQ1- moiety was located toward the benzylic
+and ortho-phenyl positions of the VH032 moiety with
+distances of 7.1 and 8.2 Å, respectively ( A). Studies have shown that both benzylic
+and ortho-phenyl positions of VH032 are solvent accessible
+and feasible to be utilized for VHL-based PROTAC design. Inspired by the structural information, a series
+of new “Head-to-Tail” macrocyclic PROTACs were designed
+aiming to decrease binding energy penalty, so the compound would be
+locked in conformations favorable for the ternary complex formation.
+Additionally, macrocyclization might also provide opportunities to
+improve the metabolic stability of the VHL-based PROTACs. Structurally, the macrocyclic molecules harbor
+two short linkers. One is between the JQ1- phenyl group and the VH032-
+acetyl moiety (upper, linker1), and the other one is for linking JQ1-
+amide with VH032 through benzylic or ortho-phenyl positions (bottom,
+linker2a, 2b) ( B).
+ 
+
+## Chemical Synthesis of the Macrocyclic PROTACs
+Synthesis
+of the designed molecules is depicted in . The JQ1-moieties were prepared from commercially
+available (S)-2-(4-(4-chlorophenyl)-2,3,9-trimethyl-6H-thieno [3,2-f] [1,2,4] triazolo[4,3-a] [1,4] diazepin-6-yl) acetic acid 1. A palladium-catalyzed
+hydroxylation was conducted by utilizing tris(dibenzylideneacetone)dipalladium
+(Pd2(dba)3) as a catalyst, t-BuBrettPhos as a ligand, and potassium hydroxide (KOH) as a base,
+and the resulting intermediate was consequently esterified to produce
+compound 2. Compound 2 was etherified with bromo-substituted esters 3a–3d and then hydrolyzed to yield 4a–4d. The VHL moieties were synthesized from 5a to 5f, which were prepared according to the
+previously reported procedures. 5a–5f underwent a Mitsunobu reaction to
+afford azides 6a–6f, which were deprotected
+and reacted with compound 7 to produce the corresponding
+amides, in which the azide was further reduced to give primary amines 8a–8f. JQ1-moieties 4a–4d were coupled with 8a–8f to afford 9a–9i, which were deprotected
+and followed by a macrocyclization to give the final compounds 10a–10i.
+ Compounds 15a–15c were
+synthesized
+from the starting material 11, which was prepared according
+to a reported procedure. Deprotection
+of the Boc group and a subsequent amidation were performed to yield 13. Compound 13 was reacted with bromo-substituted
+linkers 14a–14c, followed by hydrolysis,
+Boc-group deprotection, and cyclization reaction to yield final compounds 15a–15c.
+1H NMR determination
+suggested that macrocyclic compounds 10c–10i and 15a–15c were obtained
+with inseparable cis-/trans-rotamers
+because of the presence of the hydroxyproline
+restricting the amide bond rotation in the VHL binding moiety. The 1H–1H ROESY
+spectrum confirmed that the trans-conformation was
+more stable and the compounds could be converted to a single conformation
+by heating to 80 °C as determined by 1H NMR (Supporting Information).
+
+## Structure-Degradation Relationship (SDR) of the Macrocyclic
+PROTACs
+The structure of Brd4BD2: MZ1: VCB (PDB: 5T35) ternary complex showed that the distance between the Cl atom and
+the acetyl group in MZ1 was 4.6 Å, which is approximately
+equivalent to three C–C bonds. Therefore, we first designed compounds with 3 −CH2– units (n = 2) as the linker1 and explored
+the optimal length of linker2a by utilizing the benzylic position
+as the docking site for macrocyclization. As mentioned above, the
+macrocycles could adopt inseparable cis-/trans conformations
+because of the hydroxyproline moiety in the VHL binding motif. The
+ratios of trans-/cis- rotamers were reported based on 1H NMR determination. The degradation potency of the compounds was
+determined by using immunoblotting assays in PC-3 prostate cancer
+cells at 10 and 100 nM after 24 h treatments, with MZ1 as a positive control ( ). The results showed that most of the new “Head-to-Tail”
+macrocyclic molecules demonstrated obvious protein degrading potency,
+and the length of linker2a had a huge impact on the activity (compounds 10a–10f). Among the first series of molecules,
+compound 10d with a 6-CH2–unit linker2a
+(m = 4) exhibited the strongest potency with degradation
+rates of 78%/84% and 94%/95% against the long/short forms of Brd4
+protein at 10 and 100 nM, respectively. Lengthening or shortening
+linker2a caused a significant decrease of degradation potency on both
+long and short forms of Brd4 at 10 nM, although all of the molecules
+exhibited strong degradation at 100 nM. For instance, the compound
+with a 4-CH2–unit linker2a (m =
+2, 10b) displayed obviously decreased activity with degradation
+rates of 15 and 17% against the long and short forms of Brd4 at 10
+nM, respectively, while the corresponding numbers are 84 and 85% at
+a concentration of 100 nM. Compounds with longer linker2a (10e, 10f) also exhibited obviously decreased potencies
+at 10 nM, although their degradation efficiencies were almost equal
+to 10d at 100 nM. After identifying the optimal length
+of linker2a (m = 4), we validated the impact of the
+length of linker1. It was shown that shorter linker1 (n = 1, 10g) totally abolished the protein degradation
+potency at low concentrations, while the compounds with longer linker1
+(n = 3, 10h (SHD913); n = 4, 10i) exhibited comparable activities
+to that of 10d under both low and high concentrations.
+Notably, compounds 10d, SHD913, and 10i are equally potent to MZ1 under the experimental
+conditions.
+ Although the ortho-phenyl position
+of VH032 (8.2
+Å) in the Brd4BD2: MZ1: VCB complex is
+slightly farther away from the amide in the JQ1 moiety compared to
+the benzylic position (7.1 Å), it may also serve as a vector
+for macrocyclic PROTAC design. Notably, the semiflexible macroPROTAC-1 was obtained by using this position for cyclization. Therefore, new “Head-to-Tail”
+macrocyclic PROTACs were also designed and synthesized by using the ortho-phenyl position as a docking site, in which longer
+linker2bs were applied to match the farther distance to the JQ1 amide
+moiety. The resulting compounds 15a (p = 1), 15b (p = 2), and 15c (p = 3) also demonstrated strong protein degradation
+on Brd4 at 100 nM, but they were obviously less potent than the benzylicly
+linked compounds 10d, SHD913, and 10i at low concentrations ( , Figure S1).
+Further exploration at this position was hindered by the chemical
+challenge of the macrocyclization reaction.
+
+## Compound SHD913 Selectively Degrades Brd4 through Proteasomal
+Degradation Process
+SHD913 was selected as an
+example for further biological characterization because of its strong
+degrading potency and synthetic accessibility. The results showed
+that SHD913 potently induced degradation of both the
+long and short forms of Brd4 in dose- and time-dependent manners in
+PC3 cells. The compound could obviously degrade the protein at a concentration
+as low as 2–4 nM, achieving approximately complete degradation
+(>90%) at 64 nM after 24 h treatment. The DC50 values
+are
+7.7 and 5.0 nM for long and short Brd4 isoforms, respectively ( A and S2A). Moreover, the compound demonstrated a fast
+action mode, potently degrading both Brd4 isoforms with rates of 82
+and 86%, respectively, after a 2 h exposure at 100 nM ( B). The ubiquitin-proteasome
+degradation mechanism was also validated. Pretreatment with either
+the proteasome inhibitor MG132 or the NEDD8-activating enzyme inhibitor
+MLN4924 rescued Brd4 from degradation induced by SHD913 ( C). BET
+bromodomain inhibitor JQ1 and VHL ligand VH101 blocked the degradation
+through binding competition. Additionally, pretreatment with siVHL
+also reversed SHD913-mediated Brd4 degradation ( D), supporting a VHL-dependent proteasomal
+degradation mechanism. Global proteomic analysis was performed by
+using TMT-labeled mass spectrometry to validate the target specificity
+of this new macrocyclic PROTAC. Brd4 was the most significantly downregulated
+protein detected. Although the protein level of Brd3 was also decreased,
+it was obviously less prominent ( E and S2B,C).
+We did not detect Brd2 in the assay, which may be attributed to the
+low abundance of Brd2 in PC-3 cells.
+ 
+
+## SHD913 Demonstrates Positive Cooperativity and Dismisses “Hook
+Effect” in Cancer Cells
+“Hook effect”
+is a common phenomenon and theoretical concern for PROTACs, which
+results from saturated binary binding of a molecule with either the
+E3 ligase or the target protein. Strikingly, we did not detect the
+“hook effect” of SHD913 even at a super
+high concentration of 60 μM, which is the maximum applicable
+concentration and approximately 10,000-fold of the determined DC50 value in PC3 cells ( A). The strong and “linearly” dose-dependent
+degrading potency of SHD913 was also validated in other
+human cancer cells, including NSCLC cell lines of A549 and NCI-H23,
+triple negative breast cancer cells MDA-MB-231 and pancreatic cancer
+cells Panc 10.05 (Figure S2C–F).
+Whereas, the “hook effect” of MZ1 was observed
+starting from 30 μM in PC3 cells, which was consistent with
+the previous observation (Figure S2G). To confirm that the lack of “hook effect”
+was not attributed to the solubility or cellular uptake limit of SHD913, an intracellular mass detection was conducted to show
+that the molecule could be dose-dependently accumulated in cells with
+greater concentrations than those of MZ-1 and macroPROTAC-1 (Figure S2H). These results also promoted
+us to validate if SHD913 could induce the formation of
+a stable ternary complex of Brd4: SHD913: VCB. Initially,
+a size-exclusion chromatography assay was performed, revealing a leftward
+shift in retention volume upon mixing SHD913 with purified
+proteins Brd4BD2 and VCB, while no change was observed
+in the absence of the compound ( A). This result indicated the formation of a stable
+ternary complex of Brd4: SHD913: VCB. The SHD913-induced ternary complex formation in cells was also validated by
+using a NanoBRET assay. It was shown that SHD913 dose-dependently
+induced stronger luminescence signals than MZ1 and macroPROTAC-1 in the same experimental setup. It was also
+noteworthy that MZ1 induced a signal saturation at a
+concentration of 3.3 μM, but the saturation point could not
+be reached for SHD913 in this assay, where 10 μM
+was the highest practicable concentration ( B). These results collectively suggest that
+the macrocyclic PROTAC could induce the ternary complex formation
+more efficiently than the lead compound.
+ To determine the capability of SHD913 to induce de
+novo PPIs, a biolayer interferometry assay (BLI) was first conducted.
+It was confirmed that there was no intrinsic PPI between Brd4BD2 and VCB (Figure S3A). Whereas,
+preincubating SHD913 with a concentration gradient of
+VCB significantly induced interaction between immobilizing biotinylated
+Brd4BD2 and VCB, with a Kd value
+of 20.0 nM (Figure S3B). The cooperativity
+factor (α = Kdbinary/ Kdternary) is a parameter reflecting
+the capability of a molecule to induce ternary complex formation with
+two different proteins. Positive cooperativity
+(α > 1) indicates that binding of a molecule with one protein
+(binary complex) would facilitate and stabilize the formation of a
+ternary complex with the other one, which is presumably due to favorable
+chemical-induced PPIs. While negative cooperativity (α <
+1) suggests that a compound may induce unfavorably steric hindrance
+between the two proteins, thus a binary complex is detrimental to
+the formation of a ternary complex. Noncooperative binding (α
+= 1) means a bivalent molecule is large enough that binding with one
+protein will not affect its interaction with another one. To evaluate the potential cooperativity of compound SHD913, α value was calculated based on the Kd values determined using a BLI assay. The Kdbinary and Kdternary values of SHD913 with Brd4BD2 were measured by incubating biotinylated Brd4BD2 with SHD913 alone or preincubated with VCB protein,
+respectively. It was shown that SHD913 exhibited strong
+binding to Brd4BD2 with a Kdbinary value of 36.2 nM in the absence of VCB ( C), while preincubation
+of SHD913 with VCB protein significantly favored its
+Brd4BD2 binding with a Kdternary value of 6.9 nM ( D). Thus, a positive cooperativity for Brd4BD2 was achieved with an α value of 5.2. The isothermal titration
+calorimetry (ITC) experiments were also conducted to validate the
+cooperativity factor of SHD913, MZ1, and macroPROTAC-1. It was shown that SHD913 displayed
+an α value of 117 for Brd4BD2 in ITC assays ( ), which is slightly
+greater than that of MZ1 and macroPROTAC-1 under the same conditions (Figure S4, Table S1). The variation of α values is attributed to the condition
+difference in the determination assays. These data strongly agreed with the above observation that SHD913 induced Brd4BD2-VHL interaction both in
+biophysical assays and in cellular NanoBRET determination and significantly
+mitigated the “hook effect”.
+ 
+
+## Structural Analysis of Brd4BD2: SHD913: VCB Ternary
+Complex
+To get structural insight into the SHD913-induced ternary complex, a cocrystal structure of Brd4BD2: SHD913: VCB was solved with a resolution of 2.95 Å
+(PDB 8YMB, Table S2). Brd4BD2: SHD913: VCB exhibits quaternary architecture similar to that of Brd4BD2: MZ1: VCB, and Brd4BD2: macroPROTAC-1: VCB, with root-mean-square deviation (RMSD) values of 1.092 and
+1.079, respectively, through backbone Cα alignment (Figure S5). It is shown that SHD913 occupies the interface between Brd4BD2 and VHL with well-defined
+electron density, serving as a bridge between the proteins to facilitate
+the formation of a ternary complex ( A and S6). The
+JQ1 moiety of SHD913 binds to the acetyllysine-binding
+pocket of Brd4BD2 through a hydrogen bond with N433Brd4(BD2) and hydrophobic interaction with WPF shelf, while
+the VH032 motif attaches to the hydroxyproline-binding site of VHL
+mediated by multiple hydrogen bonds and stacking interactions ( B).
+ These binding patterns closely resemble those observed
+in previously
+reported binary crystal structures. Additionally,
+linker2a in SHD913 forms hydrophobic interactions with
+the second helical turn of the ZA loop of Brd4BD2 and compensates
+greatly with the cavity formed by interfaces of the two proteins ( B and S7). Significantly, the optimal linker2a could
+“drive” the proximity of the two proteins to facilitate
+PPI formation through conserved bidentate salt bridges between Asp381Brd4(BD2), Glu383Brd4(BD2), and Arg108VHL ( C). For
+the three complex structures, a salt bridge between Arg69VHL and Glu438Brd4(BD2) is only observed in Brd4BD2: MZ1: VCB. In comparison to the observation of hydrogen-bond
+mediated by the PEG linker and His437Brd4(BD2), as well
+as hydrogen bonds between Arg107VHL, His110VHL, and Ala384Brd4(BD2) both in the Brd4BD2: MZ1: VCB complex and Brd4BD2: macroPROTAC-1: VCB, there is no defined PPI in the upper part of the Brd4BD2: SHD913: VCB cocrystal structure ( C). Subsequently, SHD913 induced a slightly decreased buried surface area (BSA)
+of 603 Å2 in the protein/protein interface between
+Brd4BD2 and VHL, compared to that of MZ1 (689
+Å2) and macroPROTAC-1(681 Å2). However, the hydrophobic linker1 in SHD913 serves as a “hinge” to hijack the two proteins into
+spatial proximity and compensate for the PPI loss to facilitate and
+stabilize the ternary complex formation.
+Molecular dynamics
+(MD) simulations were also conducted to explore
+conformational features of the complex in dynamic settings. Three
+systems, i.e., Brd4BD2: SHD913: VCB, Brd4BD2: SHD913, and SHD913: VCB, were
+prepared from the crystal structure of the ternary complex. Each system
+was subjected to a 500 ns MD simulation. It was shown that all complexes
+were stable, as evidenced by minor RMSD fluctuations ( D and S8A,B). Hydrogen bond analysis of the ternary complex validated
+the contributions of the hydrogen bond networks, which align with
+observations from crystal structures. Approximately 95% occupancy
+was observed for the H-bonds between the triazole nitrogen of JQ1
+and Asn433Brd4(BD2), the hydroxyproline of SHD913 and His110VHL, and between Arg108VHL and Asp381Brd4(BD2). In contrast, the hydrogen bond between His110VHL and Ala384Brd4(BD2) was notably less significant
+with only 12% occupancy ( E). The conformational stability of the macrocyclic
+PROTAC in binary complexes was also assessed by measuring its RMSD
+and the distance between the triazole nitrogen and the hydroxyproline
+(dN–O) (Figure S8A,B). It was shown that SHD913 adopted substantially
+stable conformation in both complexes with minor RMSD fluctuations
+(Figure S8C,D). The dN–O distances were 13.7 ± 0.5 Å in the SHD913: Brd4BD2 complex and 15.1 ± 1.0 Å
+in the SHD913: VCB complex (Figure S8A,B), respectively, which are similar to that observed in
+the crystal structure (dN–O = 16.0
+Å) and ternary complex during MD simulations (dN–O = 16.3 ± 0.4 Å). These data suggested SHD913 retained a similar conformation in binary complexes
+as that in ternary complexes, supporting the conformational stability
+of the macrocyclic PROTAC.
+The structural details together with
+the MD simulation results
+provide a convincing explanation about the superior efficiency of SHD913 in inducing ternary complex formation and highlight
+the advantages of the conformationally restricted macrocyclization
+approach for new PROTAC design.
+
+## Conclusions
+In conclusion, the first “Head-to-Tail”
+macrocyclic
+Brd4 PROTAC was designed and synthesized to exemplify the potential
+application of the macrocyclization strategy in new PROTAC development.
+The representative macrocyclic molecule SHD913 exhibited
+similar degradation potency to that of previously reported linear
+PROTAC MZ1, with low nM DC50 values. However,
+it pronouncedly mitigated the “hook effect”, which is
+a common concern for the PROTAC therapy, in different human cancer
+cell lines. No measurable “hook effect” was detected
+at concentrations of approximately 10,000 times greater than the determined
+DC50 values. BLI and ITC biophysical determination supported
+that the compound exhibited positive cooperativity with α values
+of 5.2 and 117, respectively. The NanoBRET evaluation also revealed
+that SHD913 strongly induced neomorphic PPIs between Brd4BD2 and VHL in cells. The co-crystal
+structure of Brd4BD2: SHD913: VCB ternary
+complex was also determined to elucidate details of the chemical-induced
+PPIs. MD simulation results validated the crucial contribution of
+the restricted conformation of SHD913 to inducing the
+ternary complex formation. Although further characterization is needed, SHD913 demonstrates significantly mitigated “hook effect”,
+positive cooperativity, and de novo PPI induction.
+Additionally, preliminary in vitro liver microsomal
+stability of SHD913 was also evaluated to show that the
+macrocyclic molecule exhibited improved metabolic stability compared
+with the linear lead compound in different species (Table S3). These results collectively support the potential
+advantages of the macrocyclization approach in the new PROTAC design.
+
+## Methods
+
+## Chemistry
+
+## General Methods for Chemistry
+The commercial reagents
+and solvents were utilized without further purification in chemical
+synthesis. Reaction progress was monitored using liquid chromatography–mass
+spectrometry (LC-MS) and thin-layer chromatography (TLC). Intermediates
+and final compounds underwent purification through column chromatography
+on silica gel (300–400 mesh) and preparative reversed-phase
+high-performance liquid chromatography (RP-HPLC, acetonitrile/H2O), respectively. NMR spectra were recorded on a Bruker AVANCE
+600 spectrometer (Bruker Company, Germany) in CDCl3, DMSO-d6, or methanol-d4. High-resolution mass spectra (HRMS) were obtained using a Bruker
+MaXis 4G TOF mass spectrometer. The purities of final compounds were
+assessed via HPLC analysis utilizing the Agilent 1200 system and were
+confirmed to be >95%. HPLC condition included a Triart C18 reversed-phase
+column (5 μm, 4.6 mm × 250 mm) with a flow rate of 1.0
+mL/min. The gradient started with a 15 min transition from a 0.1%
+TFA in water and acetonitrile 1:9 mixture to 0.1% TFA in acetonitrile,
+followed by a 5 min phase of 0.1% TFA in acetonitrile.
+
+## (S)-2-(4-(4-Hydroxyphenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic Acid
+A solution of
+(S)-2-(4-(4-chlorophenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic acid 1 (500 mg,
+1.3 mmol, 1.0 equiv), KOH (280 mg, 5.0 mmol, 4.0 equiv), and tBuBrettPhos (484 mg, 1.0 mmol, 0.8 equiv) in dioxane/H2O (20 mL, v/v = 4/1) was degassed (argon sparge) before addition
+of Pd2(dba)3 (220 mg, 0.25 mmol, 0.2 equiv).
+The resulting mixture was stirred at 100 °C for 12 h under an
+argon atmosphere before being cooled to RT. Then the mixture was diluted
+with H2O (20 mL) and extracted with ethyl acetate (EtOAc,
+20 mL). The organic phase was separated, and the aqueous phase was
+washed with EtOAc (10 mL) three times. The resulting aqueous phase
+was acidified (pH 5–6) with 2 N hydrochloric acid (HCl) and
+was then concentrated. The obtained residue was redissolved in CH2Cl2/MeOH (20 mL, v/v = 5/1) and was then filtered.
+The organic phase was concentrated to provide crude intermediate (S)-2-(4-(4-hydroxyphenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic acid (410 mg, 86%) as a yellow solid,
+which was used directly without further purification. 1H NMR (600 MHz, DMSO-d6) δ 7.25
+(d, J = 8.1 Hz, 2H), 6.78 (d, J =
+8.7 Hz, 2H), 4.40 (t, J = 6.9 Hz, 1H), 3.20 (dd, J = 16.1, 5.8 Hz, 1H), 3.14 (dd, J = 16.0,
+7.7 Hz, 1H), 2.57 (s, 3H), 2.40 (s, 3H), 1.67 (s, 3H). 13C NMR (150 MHz, DMSO-d6) δ 173.17,
+162.78, 160.21, 156.05, 149.23, 131.09, 130.72, 130.24, 130.12, 129.75,
+128.26, 115.08, 54.06, 38.29, 13.92, 12.60, 11.09. LC–MS: calcd
+for C19H18N4O3S [M + H]+ 383.1, found 383.0.
+
+## Methyl (S)-2-(4-(4-Hydroxyphenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetate (2)
+To
+a stirred solution of (S)-2-(4-(4-hydroxyphenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic acid (382 mg, 1.0 mmol, 1.0
+equiv) in MeOH (15 mL) was added thionyl chloride (177 mg, 107 μL,
+1.5 mmol, 1.5 equiv) dropwise at 0 °C. The resulting mixture
+was stirred at RT for 5 h and was then concentrated. The obtained
+residue was purified by column chromatography (CH2Cl2/MeOH) to give intermediate 2 (376 mg, 95%) as
+a yellow solid. 1H NMR (600 MHz, DMSO-d6) δ 9.92 (s, 1H), 7.25 (d, J =
+8.3 Hz, 2H), 6.77 (d, J = 8.9 Hz, 2H), 4.55–4.16
+(m, 1H), 3.66 (s, 3H), 3.45 (dd, J = 16.5, 6.7 Hz,
+1H), 3.38 (dd, J = 16.5, 7.8 Hz, 1H), 2.59 (s, 3H),
+2.42 (s, 3H), 1.67 (s, 3H). 13C NMR (150 MHz, DMSO-d6) δ 171.07, 163.50, 159.56, 155.07, 149.65,
+131.34, 130.40, 130.33, 130.24, 129.96, 128.64, 114.99, 52.96, 51.42,
+36.26, 13.91, 12.61, 11.09. LC–MS: calcd for C20H20N4O3S [M + H]+ 397.1,
+found 397.1.
+
+## tert-Butyl (S)-5-(4-(6-(2-Methoxy-2-oxoethyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-4-yl)phenoxy)pentanoate
+To a stirred
+suspension of intermediate 2 (350 mg, 0.9 mmol, 1.0 equiv)
+in acetonitrile (15 mL) was added tert-butyl-5-bromopentanoate
+(320 mg, 1.4 mmol, 1.5 equiv) and K2CO3 (372
+mg, 2.7 mmol, 3.0 equiv). The reaction mixture was heated to 80 °C
+for 12 h and was then cooled to RT. The slurry was filtered, and the
+resulting cake was washed with EtOAc (10 mL). The organic phase was
+concentrated, and the resulting residue was then purified by column
+chromatography (CH2Cl2/MeOH) to give intermediate tert-butyl (S)-5-(4-(6-(2-methoxy-2-oxoethyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-4-yl)phenoxy)pentanoate (432 mg, 87%) as
+a white solid. 1H NMR (600 MHz, DMSO-d6) δ 7.34 (d, J = 8.4 Hz, 2H),
+6.94 (d, J = 8.9 Hz, 2H), 4.44 (t, J = 7.2 Hz, 1H), 3.99 (t, J = 6.3 Hz, 2H), 3.66 (s,
+3H), 3.46 (dd, J = 16.5, 6.7 Hz, 1H), 3.39 (dd, J = 16.5, 7.8 Hz, 1H), 2.60 (s, 3H), 2.42 (s, 3H), 2.25
+(t, J = 7.3 Hz, 2H), 1.75–1.68 (m, 2H), 1.65
+(s, 3H), 1.64–1.59 (m, 2H), 1.39 (s, 9H). 13C NMR
+(150 MHz, DMSO-d6) δ 172.60, 171.63,
+163.99, 160.93, 155.53, 150.30, 132.15, 131.04, 130.70, 130.66, 130.45,
+114.62, 79.95, 67.71, 53.63, 52.01, 36.82, 34.86, 28.39, 28.23, 21.74,
+14.51, 13.18, 11.69. LC-MS: calcd for C29H36N4O5S [M + H]+ 553.2, found 553.3.
+
+## (S)-2-(4-(4-((5-(tert-Butoxy)-5-oxopentyl)oxy)phenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic Acid (4b)
+To a solution of tert-butyl (S)-5-(4-(6-(2-methoxy-2-oxoethyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-4-yl)phenoxy)pentanoate (400 mg, 0.7 mmol,
+1.0 equiv) in THF/H2O (15 mL, v/v = 2/1) was added LiOH
+(52 mg, 2.1 mmol, 3.0 equiv). The reaction mixture was stirred at
+RT for 4 h before being concentrated to remove THF. The resulting
+aqueous phase was acidified (pH 5–6) with 2 N HCl before being
+extracted with EtOAc (30 mL). The organic phase was dried with anhydrous
+sodium sulfate (Na2SO4), filtered, and concentrated
+to yield a light yellow solid, which was resuspended via a mixture
+solution of isopropyl acetate and petroleum ether (PE) and was then
+filtered to give intermediate 4b (362 mg, 93%) as a white
+solid. 1H NMR (600 MHz, DMSO-d6) δ 12.37 (brs, 1H), 7.36 (d, J = 8.4 Hz,
+2H), 6.95 (d, J = 9.1 Hz, 2H), 4.40 (t, J = 7.1 Hz, 1H), 3.99 (t, J = 6.3 Hz, 2H), 3.41 (dd, J = 16.6, 6.9 Hz, 1H), 3.29 (dd, J = 16.6,
+7.4 Hz, 1H), 2.60 (s, 3H), 2.42 (s, 3H), 2.26 (t, J = 7.3 Hz, 2H), 1.75–1.68 (m, 2H), 1.66 (s, 3H), 1.66–1.58
+(m, 3H), 1.39 (s, 9H). 13C NMR (150 MHz, DMSO-d6) δ 171.51, 171.50, 162.72, 159.82, 154.66, 149.12,
+131.01, 129.92, 129.66, 129.61, 129.59, 129.34, 113.53, 78.86, 66.62,
+52.70, 36.04, 33.77, 27.31, 27.15, 27.13, 20.65, 13.44, 12.09, 10.61.
+LC-MS: calcd for C28H34N4O5S [M + H]+ 539.2, found 539.2.
+
+## (S)-2-(4-(4-(4-(tert-Butoxy)-4-oxobutoxy)phenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic Acid (4a)
+Intermediate 4a was prepared via a similar procedure
+to that of compound 4b. 1H NMR (600 MHz, DMSO-d6) δ 12.41 (brs, 1H), 7.37 (d, J = 8.2 Hz, 2H), 6.95 (d, J = 8.9 Hz, 2H),
+4.41 (t, J = 7.1 Hz, 1H), 4.00 (t, J = 6.3 Hz, 2H), 3.41 (dd, J = 16.6, 6.9 Hz, 1H),
+3.30 (dd, J = 16.6, 7.4 Hz, 1H), 2.60 (s, 3H), 2.42
+(s, 3H), 2.36 (t, J = 7.3 Hz, 2H), 1.93 (p, J = 6.8 Hz, 2H), 1.66 (s, 3H), 1.39 (s, 9H). 13C NMR (150 MHz, DMSO-d6) δ 172.54,
+172.30, 163.93, 160.90, 155.70, 150.26, 132.23, 131.08, 130.70, 130.64,
+130.53, 114.63, 80.17, 67.16, 53.72, 37.04, 31.74, 28.23, 24.73, 14.52,
+13.18, 11.70. LC-MS: calcd for C27H32N4O5S [M + H]+ 525.2, found 525.0.
+
+## (S)-2-(4-(4-((6-(tert-Butoxy)-6-oxohexyl)oxy)phenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic Acid (4c)
+Intermediate 4c was prepared via a similar procedure
+to that of compound 4b. 1H NMR (600 MHz, DMSO-d6) δ 12.41 (brs, 1H), 7.36 (d, J = 8.3 Hz, 2H), 6.94 (d, J = 9.0 Hz, 2H),
+4.40 (t, J = 7.1 Hz, 1H), 3.98 (t, J = 6.4 Hz, 2H), 3.41 (dd, J = 16.6, 6.9 Hz, 1H),
+3.30 (dd, J = 16.6, 7.4 Hz, 1H), 2.60 (s, 3H), 2.42
+(s, 3H), 2.20 (t, J = 7.2 Hz, 2H), 1.75–1.68
+(m, 2H), 1.66 (s, 3H), 1.58–1.50 (m, 2H), 1.43–1.36
+(m, 11H). 13C NMR (150 MHz, DMSO-d6) δ 172.68, 172.56, 163.88, 161.01, 155.73, 150.23,
+132.16, 131.04, 130.70, 130.57, 130.47, 114.61, 79.86, 67.92, 53.74,
+37.08, 35.17, 28.73, 28.23, 25.41, 24.83, 14.52, 13.18, 11.70. LC-MS:
+calcd for C29H36N4O5S
+[M + H]+ 553.2, found 553.2.
+
+## (S)-2-(4-(4-((7-(tert-Butoxy)-7-oxoheptyl)oxy)phenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic Acid (4d)
+Intermediate 4d was prepared via a similar procedure
+to that of compound 4b. 1H NMR (600 MHz, DMSO-d6) δ 7.35 (d, J = 8.4
+Hz, 2H), 6.94 (d, J = 9.0 Hz, 2H), 4.40 (t, J = 7.1 Hz, 1H), 3.97 (t, J = 6.4 Hz, 2H),
+3.39 (dd, J = 16.6, 6.9 Hz, 1H), 3.26 (dd, J = 16.6, 7.3 Hz, 1H), 2.59 (s, 3H), 2.42 (s, 3H), 2.18
+(t, J = 7.3 Hz, 2H), 1.73–1.67 (m, 2H), 1.66
+(s, 3H), 1.53–1.47 (m, 2H), 1.43–1.35 (m, 11H), 1.34–1.27
+(m, 2H). 13C NMR (150 MHz, DMSO-d6) δ 171.65, 162.61, 159.87, 154.79, 149.05, 130.98,
+129.89, 129.70, 129.58, 129.32, 113.50, 78.73, 66.89, 52.86, 34.05,
+27.80, 27.49, 27.14, 24.52, 23.90, 13.43, 12.09, 10.60. LC-MS: calcd
+for C30H38N4O5S [M + H]+ 567.3, found 567.5.
+
+## tert-Butyl (S)-(4-Azido-1-(4-(4-methylthiazol-5-yl)phenyl)butyl)carbamate
+(6a)
+To a stirred solution of compound 5a (360 mg, 1.0 mmol, 1.0 equiv) in anhydrous DMF/Toluene
+(20 mL, v/v = 1/10) was added DBU (380 mg, 348 μL, 2.5 mmol,
+2.5 equiv) and DPPA (687 mg, 2.5 mmol, 2.5 equiv). The mixture was
+stirred at 50 °C for 12 h before being diluted with H2O (30 mL). The resulting solution was extracted with EtOAc (30 mL).
+The organic phase was dried with anhydrous Na2SO4, filtered, and concentrated to afford a colorless oil, which was
+then purified by column chromatography (PE/EtOAc) to yield intermediate 6a (340 mg, 88%) as a colorless oil. 1H NMR (600
+MHz, Methanol-d4) δ 8.86 (s, 1H),
+7.44 (d, J = 8.2 Hz, 2H), 7.40 (d, J = 8.2 Hz, 2H), 4.60 (t, J = 7.1 Hz, 1H), 3.36–3.31
+(m, 2H), 2.48 (s, 3H), 1.80 (q, J = 7.3 Hz, 2H),
+1.74–1.65 (m, 1H), 1.63–1.54 (m, 1H), 1.43 (s, 9H). 13C NMR (150 MHz, Methanol-d4)
+δ 157.96, 152.85, 149.11, 145.31, 133.43, 131.57, 130.46, 128.00,
+80.29, 55.45, 52.14, 34.95, 28.81, 27.09, 15.85. LC-MS: calcd for
+C19H25N5O2S [M + H]+ 388.2, found 388.2. Intermediates 6b–6f were prepared via a similar procedure to that of compound 6a.
+
+## tert-Butyl ((S)-1-((2S,4R)-2-(((S)-4-Azido-1-(4-(4-methylthiazol-5-yl)phenyl)butyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+To a solution of compound 6a (320 mg, 0.8 mmol, 1.0
+equiv) in CH2Cl2 (15 mL) was added TFA (3 mL)
+before being stirred at RT for 3 h. The reaction solution was concentrated
+to remove TFA and obtain a yellow oil, which was dissolved in DMF
+(15 mL). Commercial (2S,4R)-1-((S)-2-((tert-butoxycarbonyl)amino)-3,3-dimethylbutanoyl)-4-hydroxypyrrolidine-2-carboxylic
+acid 7 (310 mg, 0.9 mmol, 1.1 equiv), Et3N
+(414 mg, 520 μL, 4.1 mmol, 5.0 equiv), and HATU (405 mg, 1.0
+mmol, 1.3 equiv) were then added. The resulting mixture was stirred
+at RT for 5 h, then diluted with H2O (50 mL) and extracted
+with EtOAc (40 mL). The resulting organic phase was washed with saline
+water, dried, filtered, and concentrated to give a colorless oil,
+which was purified by column chromatography (MeOH/CH2Cl2) to obtain intermediate tert-butyl ((S)-1-((2S,4R)-2-(((S)-4-azido-1-(4-(4-methylthiazol-5-yl)phenyl)butyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+(306 mg, 61% over two steps) as a colorless oil. 1H NMR
+(600 MHz, DMSO-d6) δ 8.99 (s, 1H),
+8.49 (d, J = 8.5 Hz, 1H), 7.45 (d, J = 8.3 Hz, 2H), 7.39 (d, J = 8.3 Hz, 2H), 6.37 (d, J = 9.2 Hz, 1H), 5.11 (d, J = 3.1 Hz, 1H),
+4.87 (q, J = 7.5 Hz, 1H), 4.46 (t, J = 8.0 Hz, 1H), 4.31 (s, 1H), 4.14 (d, J = 9.3 Hz,
+1H), 3.62 (dd, J = 10.5, 3.9 Hz, 1H), 3.58 (d, J = 10.3 Hz, 1H), 3.37–3.33 (m, 2H), 2.46 (s, 3H),
+2.02–1.94 (m, 1H), 1.82–1.67 (m, 4H), 1.65–1.58
+(m, 1H), 1.39 (s, 9H), 0.94 (s, 9H). 13C NMR (150 MHz,
+DMSO-d6) δ 171.54, 170.16, 155.78,
+151.98, 148.28, 143.98, 131.54, 130.33, 129.33, 127.26, 78.54, 69.33,
+59.13, 58.85, 56.79, 51.68, 50.87, 38.19, 35.87, 33.94, 28.65, 26.75,
+26.72, 25.62, 16.48. LC-MS: calcd for C30H43N7O5S [M + H]+ 614.3, found 614.2.
+
+## tert-Butyl ((S)-1-((2S,4R)-2-(((S)-4-Amino-1-(4-(4-methylthiazol-5-yl)phenyl)butyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+(8a)
+To a solution of intermediate tert-butyl ((S)-1-((2S,4R)-2-(((S)-4-azido-1-(4-(4-methylthiazol-5-yl)phenyl)butyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+(280 mg, 0.5 mmol, 1.0 equiv) in 1,4-dioxane/H2O (20 mL,
+v/v = 5/1) was added triphenylphosphine (360 mg, 1.4 mmol, 3.0 equiv).
+The mixture was stirred at RT for 1 h. Further NH3·H2O (2 mL) was then added. The resulting solution was
+stirred at RT for another 11 h before being concentrated. The residue
+was purified by column chromatography (0.5% Et3N in MeOH/CH2Cl2) to obtain intermediate 8a (247
+mg, 92%) as a white solid. 1H NMR (600 MHz, DMSO-d6) δ 8.99 (s, 1H), 8.49 (d, J = 8.4 Hz, 1H), 7.44 (d, J = 8.3 Hz, 2H), 7.39 (d, J = 8.3 Hz, 2H), 6.51 (d, J = 9.3 Hz, 1H),
+5.15 (brs, 1H), 4.82 (td, J = 8.9, 5.7 Hz, 1H), 4.46
+(t, J = 8.0 Hz, 1H), 4.30 (s, 1H), 4.16 (d, J = 9.4 Hz, 1H), 3.61 (dd, J = 10.5, 3.9
+Hz, 1H), 3.57 (d, J = 10.3 Hz, 1H), 2.68–2.58
+(m, 2H), 2.46 (s, 3H), 2.03–1.98 (m, 1H), 1.79–1.65
+(m, 3H), 1.59–1.47 (m, 2H), 1.40–1.37 (m, 10H), 1.28–1.22
+(m, 1H), 0.93 (s, 9H). 13C NMR (150 MHz, DMSO-d6)) δ 170.81, 169.62, 155.22, 151.38, 147.65, 143.73,
+131.00, 129.62, 128.68, 126.72, 77.98, 68.70, 58.58, 58.27, 56.29,
+51.36, 40.14, 37.63, 35.36, 33.29, 28.10, 27.56, 26.22, 15.91. LC-MS:
+calcd for C30H45N5O5S
+[M + H]+ 588.3, found 588.3.
+
+## tert-Butyl ((S)-1-((2S,4R)-2-(((S)-5-Amino-1-(4-(4-methylthiazol-5-yl)phenyl)pentyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+(8b)
+Intermediate 8b was prepared
+via a similar procedure to that of compound 8a. 1H NMR (600 MHz, DMSO-d6) δ
+8.98 (s, 1H), 8.41 (d, J = 8.4 Hz, 1H), 7.43 (d, J = 8.3 Hz, 1H), 7.37 (d, J = 8.3 Hz, 2H),
+6.40 (d, J = 9.3 Hz, 1H), 5.12 (brs, 1H), 4.80 (td, J = 8.7, 5.6 Hz, 1H), 4.47 (t, J = 8.0
+Hz, 1H), 4.29 (s, 1H), 4.14 (d, J = 9.4 Hz, 1H),
+3.61 (dd, J = 10.5, 4.1 Hz, 1H), 3.56 (d, J = 10.6 Hz, 1H), 2.46 (s, 3H), 2.03–1.94 (m, 1H),
+1.79–1.72 (m, 1H), 1.72–1.59 (m, 2H), 1.50–1.17
+(m, 17H), 0.93 (s, 9H). 13C NMR (150 MHz, DMSO-d6) δ 170.79, 169.57, 155.22, 151.36, 147.64,
+143.87, 131.01, 129.57, 128.67, 126.69, 77.99, 68.71, 58.49, 58.29,
+56.20, 51.85, 41.03, 37.62, 36.18, 35.29, 32.09, 28.09, 26.24, 26.20,
+22.91, 15.92. LC-MS: calcd for C31H47N5O5S [M + H]+ 602.3, found 602.2.
+
+## tert-Butyl ((S)-1-((2S,4R)-2-(((S)-6-Amino-1-(4-(4-methylthiazol-5-yl)phenyl)hexyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+(8c)
+Intermediate 8c was prepared
+via a similar procedure to that of compound 8a. 1H NMR (600 MHz, DMSO-d6) δ
+8.99 (s, 1H), 8.42 (d, J = 8.2 Hz, 1H), 7.43 (d, J = 8.3 Hz, 2H), 7.37 (d, J = 8.2 Hz, 2H),
+6.39 (d, J = 9.1 Hz, 1H), 5.13 (brs, 1H), 4.80 (td, J = 8.7, 6.1 Hz, 1H), 4.46 (t, J = 8.0
+Hz, 1H), 4.29 (s, 1H), 4.15 (d, J = 9.2 Hz, 1H),
+3.60 (dd, J = 10.5, 4.0 Hz, 1H), 3.56 (d, J = 9.8 Hz, 1H), 2.72–2.67 (m, 2H), 2.46 (s, 3H),
+2.06–1.95 (m, 1H), 1.77–1.60 (m, 3H), 1.50–1.20
+(m, 22H), 0.93 (s, 9H). 13C NMR (150 MHz, DMSO-d6) δ 171.36, 170.13, 155.79, 151.97, 148.23,
+144.45, 131.57, 130.17, 129.26, 127.24, 78.61, 69.26, 59.03, 58.85,
+56.81, 52.24, 38.22, 36.67, 35.87, 28.99, 28.95, 28.67, 26.81, 26.78,
+26.05, 16.50. LC-MS: calcd for C32H49N5O5S [M + H]+ 616.4, found 616.3.
+
+## tert-Butyl ((S)-1-((2S,4R)-2-(((S)-7-Amino-1-(4-(4-methylthiazol-5-yl)phenyl)heptyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+(8d)
+Intermediate 8d was prepared
+via a similar procedure to that of compound 8a. 1H NMR (600 MHz, DMSO-d6) δ
+8.98 (s, 1H), 8.38 (d, J = 8.4 Hz, 1H), 7.43 (d, J = 8.3 Hz, 2H), 7.36 (d, J = 8.3 Hz, 2H),
+6.45 (d, J = 9.4 Hz, 1H), 5.11 (brs, 1H), 4.79 (td, J = 8.7, 5.5 Hz, 1H), 4.46 (t, J = 8.0
+Hz, 1H), 4.29 (s, 1H), 4.13 (d, J = 9.3 Hz, 1H),
+3.64–3.59 (m, 1H), 3.55 (d, J = 10.6 Hz, 1H),
+2.46 (s, 3H), 2.03–1.94 (m, 1H), 1.78–1.70 (m, 1H),
+1.71–1.58 (m, 2H), 1.46–1.17 (m, 18H), 0.93 (s, 9H). 13C NMR (150 MHz, DMSO-d6) δ
+170.78, 169.53, 155.23, 151.37, 147.63, 143.89, 131.00, 129.56, 128.66,
+126.68, 77.95, 68.69, 58.45, 58.29, 56.13, 51.81, 40.88, 37.60, 36.30,
+35.24, 31.64, 28.47, 28.08, 28.04, 26.20, 26.07, 25.48, 15.91. LC-MS:
+calcd for C33H51N5O5S
+[M + H]+ 630.4, found 630.2.
+
+## tert-Butyl ((S)-1-((2S,4R)-2-(((S)-8-Amino-1-(4-(4-methylthiazol-5-yl)phenyl)octyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+(8e)
+Intermediate 8e was prepared
+via a similar procedure to that of compound 8a. 1H NMR (600 MHz, DMSO-d6) δ
+8.98 (s, 1H), 8.38 (d, J = 8.2 Hz, 1H), 7.43 (d, J = 8.2 Hz, 2H), 7.37 (d, J = 8.2 Hz, 2H),
+6.43 (d, J = 9.1 Hz, 1H), 4.79 (td, J = 8.7, 6.0 Hz, 1H), 4.47 (t, J = 7.8 Hz, 1H), 4.29
+(s, 1H), 4.14 (d, J = 9.2 Hz, 1H), 3.61 (dd, J = 10.5, 4.0 Hz, 1H), 3.56 (d, J = 10.1
+Hz, 1H), 2.46 (s, 3H), 2.01–1.96 (m, 1H), 1.79–1.73
+(m, 1H), 1.71–1.59 (m, 2H), 1.45–1.20 (m, 22H), 0.93
+(s, 9H). 13C NMR (150 MHz, DMSO-d6) δ 170.28, 169.02, 154.71, 150.85, 147.12, 143.38,
+130.50, 129.04, 128.15, 126.18, 77.44, 68.18, 57.93, 57.77, 55.62,
+51.31, 40.54, 37.09, 35.87, 34.74, 31.58, 28.22, 28.17, 27.56, 27.52,
+25.71, 25.68, 24.97, 15.39. LC-MS: calcd for C34H53N5O5S [M + H]+ 644.4, found 644.3.
+
+## tert-Butyl ((S)-1-((2S,4R)-2-(((S)-9-Amino-1-(4-(4-methylthiazol-5-yl)phenyl)nonyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)carbamate
+(8f)
+Intermediate 8f was prepared
+via a similar procedure to that of compound 8a. 1H NMR (600 MHz, DMSO-d6) δ
+8.98 (s, 1H), 8.38 (d, J = 8.4 Hz, 1H), 7.43 (d, J = 8.3 Hz, 2H), 7.36 (d, J = 8.3 Hz, 2H),
+6.41 (d, J = 9.3 Hz, 1H), 4.78 (dt, J = 8.7, 4.4 Hz, 1H), 4.47 (t, J = 7.9 Hz, 1H), 4.29
+(s, 1H), 4.14 (d, J = 9.2 Hz, 1H), 3.61 (dd, J = 10.5, 4.1 Hz, 1H), 3.56 (d, J = 10.4
+Hz, 1H), 2.46 (s, 3H), 2.02–1.94 (m, 1H), 1.78–1.72
+(m, 1H), 1.72–1.58 (m, 2H), 1.40–1.35 (m, 13H), 1.29–1.23
+(m, 11H), 0.93 (s, 9H). 13C NMR (150 MHz, DMSO-d6) δ 170.78, 169.53, 155.22, 151.36, 147.64,
+143.89, 131.01, 129.56, 128.66, 126.69, 77.96, 68.70, 58.44, 58.28,
+56.14, 51.82, 40.91, 37.61, 36.36, 35.24, 31.83, 28.83, 28.79, 28.64,
+28.08, 28.03, 26.24, 26.20, 26.19, 26.14, 25.52, 15.91. LC-MS: calcd
+for C35H55N5O5S [M + H]+ 659.4, found 659.1.
+
+## tert-Butyl 5-(4-((S)-6-(2-(((S)-4-((2S,4R)-1-((S)-2-((tert-Butoxycarbonyl)amino)-3,3-dimethylbutanoyl)-4-hydroxypyrrolidine-2-carboxamido)-4-(4-(4-methylthiazol-5-yl)phenyl)butyl)amino)-2-oxoethyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-4-yl)phenoxy)pentanoate (9a)
+To a solution of intermediate 4b (80 mg,
+0.15 mmol, 1.0 equiv) in DMF (10 mL) was added 8a (87
+mg, 0.15 mmol, 1.0 equiv), Et3N (45 mg, 56 μL, 0.45
+mmol, 3.0 equiv), and HATU (73 mg, 0.20 mmol, 1.3 equiv). The reaction
+mixture was stirred at RT for 5 h before being diluted with H2O (20 mL) and extracted with EtOAc (20 mL). The resulting
+organic phase was washed with saline water, dried, filtered, and concentrated
+to obtain a residue, which was purified by column chromatography (MeOH/CH2Cl2) to obtain intermediate 9a (93
+mg, 57%) as a white solid. 1H NMR (600 MHz, Methanol-d4) δ 8.87 (s, 1H), 7.47–7.39 (m,
+4H), 7.34 (d, J = 8.3 Hz, 2H), 6.84 (d, J = 8.9 Hz, 2H), 5.02 (dd, J = 9.9, 4.8 Hz, 1H),
+4.63 (dd, J = 9.2, 7.6 Hz, 1H), 4.58 (dd, J = 9.1, 5.2 Hz, 1H), 4.46 (s, 1H), 4.29 (s, 1H), 3.95 (t, J = 6.0 Hz, 2H), 3.87 (d, J = 11.1 Hz,
+1H), 3.77 (dd, J = 11.0, 3.9 Hz, 1H), 3.47–3.38
+(m, 2H), 3.29–3.19 (m, 2H), 2.68 (s, 3H), 2.46 (s, 3H), 2.42
+(s, 3H), 2.27 (t, J = 7.1 Hz, 2H), 2.18 (dd, J = 13.1, 7.6 Hz, 1H), 2.00–1.93 (m, 2H), 1.89–1.86
+(m, 1H), 1.83–1.67 (m, 6H), 1.65 (s, 3H), 1.43 (s, 9H), 1.36
+(s, 9H), 1.04 (s, 9H). 13C NMR (150 MHz, Methanol-d4) δ 174.76, 173.82, 172.90, 172.82, 166.95,
+162.81, 157.86, 157.42, 152.92, 152.05, 149.13, 144.65, 133.38, 133.06,
+132.95, 132.76, 132.52, 131.72, 131.62, 131.49, 130.52, 128.19, 115.41,
+81.50, 80.59, 71.16, 68.80, 60.88, 60.40, 58.12, 55.04, 53.75, 39.89,
+39.05, 38.82, 36.95, 36.05, 34.67, 29.66, 28.68, 28.40, 27.26, 27.04,
+22.89, 15.96, 14.44, 12.96, 11.61. LC-MS: calcd for C58H77N9O9S2 [M + H]+ 1108.5, found 1108.8. Intermediates 9b–i were prepared via a similar procedure to that of compound 9a.
+
+## (16S,122S,124R,10S,15S,Z)-10-(tert-Butyl)-124-hydroxy-1,21,319-trimethyl-15-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-9,14,19-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4)-benzenacyclohenicosaphane-8,11,13,20-tetraone
+(10a)
+To a solution of intermediate 9a (80 mg, 0.07 mmol, 1.0 equiv) in CH2Cl2 (10
+mL) was added TFA (2.5 mL). The resulting solution was stirred at
+RT for 3 h before being concentrated to obtain a yellow oil, which
+was dissolved in DMF (30 mL, 0.0025 mM). DIEA (46 mg, 63 μL,
+0.36 mmol, 5.0 equiv) and HATU (36 mg, 0.09 mmol, 1.3 equiv) were
+then added. The resulting mixture was stirred at RT for another 5
+h before being concentrated. The resulting residue was purified by
+preparative reversed-phase high-performance liquid chromatography
+(RP-HPLC, acetonitrile/H2O) to obtain final compound 10a (35 mg, 52% over two steps) as a trans isomer, white solid. 1H NMR (600 MHz, Methanol-d4) δ 8.87 (s, 1H), 7.53–7.42 (m,
+4H), 7.41 (d, J = 8.3 Hz, 1H), 7.17 (d, J = 8.5 Hz, 1H), 4.84–4.81 (m, 1H), 4.77 (s, 1H), 4.70–4.64
+(m, 1H), 4.61 (dd, J = 11.6, 2.3 Hz, 1H), 4.38 (s,
+1H), 4.10–4.04 (m, 1H), 4.04–3.99 (m, 1H), 3.84 (d, J = 11.2 Hz, 1H), 3.71 (dd, J = 11.1, 3.8
+Hz, 1H), 3.69–3.64 (m, 1H), 3.51 (dd, J =
+14.4, 11.6 Hz, 1H), 3.04 (dd, J = 14.3, 2.4 Hz, 1H),
+2.98–2.89 (m, 1H), 2.70 (s, 3H), 2.48 (s, 3H), 2.45 (s, 3H),
+2.45–2.40 (m, 1H), 2.37–2.30 (m, 1H), 2.25–2.19
+(m, 1H), 2.00–1.82 (m, 5H), 1.82–1.75 (m, 3H), 1.74
+(s, 3H), 1.72–1.64 (m, 1H), 1.04 (s, 9H). 13C NMR
+(150 MHz, Methanol-d4) δ 175.33,
+173.94, 173.02, 171.74, 166.57, 162.72, 157.61, 152.91, 152.14, 149.11,
+145.65, 133.42, 133.03, 133.00, 132.83, 132.44, 131.96, 131.59, 131.48,
+130.51 (2C), 127.94 (2C), 115.99, 70.92, 69.55, 60.34, 58.67, 58.14,
+55.80, 54.79, 49.61, 40.77, 39.06, 38.87, 37.06 (2C), 35.52, 35.26,
+28.50, 27.64 (3C), 27.13, 24.48, 15.85, 14.53, 12.99, 11.62. HRMS
+(ESI) calcd for C49H59N9O6S2 [M + H]+ 934.4105, found 934.4104. HPLC
+purity 97.46%. [α]D25 = +4.6 (c = 1.0 mg/mL, acetone).
+
+## (16S,122S,124R,10S,15S,Z)-10-(tert-Butyl)-124-hydroxy-1,21,319-trimethyl-15-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-9,14,20-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4)-benzenacyclodocosaphane-8,11,13,21-tetraone
+(10b)
+Final compound 10b was prepared
+via a similar procedure to that of compound 10a as a trans isomer, white solid. 1H NMR (600 MHz, Methanol-d4) δ 8.87 (s, 1H), 7.47–7.40 (m,
+6H), 7.15 (d, J = 8.9 Hz, 2H), 4.92 (t, J = 7.5 Hz, 1H), 4.70 (s, 1H), 4.61–4.53 (m, 2H), 4.45 (s,
+1H), 4.18–4.12 (m, 1H), 4.11–4.04 (m, 1H), 3.84 (d, J = 11.1 Hz, 1H), 3.76 (dd, J = 11.1, 3.7
+Hz, 1H), 3.60–3.52 (m, 1H), 3.48 (dd, J =
+13.9, 11.6 Hz, 1H), 3.03–2.94 (m, 2H), 2.70 (s, 3H), 2.48 (s,
+3H), 2.45 (s, 3H), 2.43–2.37 (m, 2H), 2.16 (dd, J = 13.1, 7.3 Hz, 1H), 1.97–1.82 (m, 7H), 1.80–1.74
+(m, 1H), 1.73 (s, 3H), 1.71–1.62 (m, 2H), 1.56–1.48
+(m, 1H), 1.06 (s, 9H). 13C NMR (150 MHz, Methanol-d4) δ 175.39, 175.31, 173.59, 173.17, 171.88,
+171.85, 166.62, 162.69, 157.50, 152.92, 152.17, 149.15, 144.58, 133.39,
+133.16, 132.98, 132.69, 132.49, 132.21, 131.71, 131.55, 130.55, 128.29,
+115.80, 71.17, 69.85, 60.86, 59.16, 59.07, 58.26, 55.17, 54.56, 49.61,
+40.10, 39.12, 38.79, 37.24, 37.22, 36.23, 30.88, 28.16, 27.23, 24.68,
+24.47, 15.86, 14.55, 12.98, 11.64. HRMS (ESI) calcd for C50H61N9O6S2 [M + H]+ 948.4264, found 948.4263. HPLC purity 97.21%. [α]D25 = +5.6 (c = 1.0 mg/mL, acetone).
+
+## (16S,122S,124R,10S,15S,Z)-10-(tert-Butyl)-124-hydroxy-1,21,319-trimethyl-15-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-9,14,21-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4)-benzenacyclotricosaphane-8,11,13,22-tetraone
+(10c)
+Final compound 10c was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 16/1), white solid. 1H NMR (trans, 600 MHz, Methanol-d4)
+δ 8.87 (s, 1H), 7.50–7.33 (m, 6H), 7.07 (d, J = 9.0 Hz, 2H), 4.88 (dd, J = 9.7, 4.8 Hz, 1H),
+4.67 (s, 1H), 4.62–4.56 (m, 2H), 4.43 (s, 1H), 4.13–4.02
+(m, 2H), 3.87 (d, J = 11.1 Hz, 1H), 3.74 (dd, J = 11.1, 3.7 Hz, 1H), 3.67–3.60 (m, 1H), 3.49 (dd, J = 14.3, 11.6 Hz, 1H), 3.02 (dd, J = 14.3,
+2.4 Hz, 1H), 2.95 (dt, J = 13.7, 7.0 Hz, 1H), 2.70
+(s, 3H), 2.48 (s, 3H), 2.45 (s, 3H), 2.44–2.41 (m, 1H), 2.33–2.27
+(m, 1H), 2.20–2.15 (m, 1H), 1.93–1.74 (m, 8H), 1.72
+(s, 3H), 1.70–1.63 (m, 2H), 1.55–1.47 (m, 3H), 1.05
+(s, 9H). 13C NMR (trans, 150 MHz, Methanol-d4) δ 175.73, 173.81, 172.96, 172.02, 166.72,
+162.77, 157.54, 152.89, 152.16, 149.11, 145.45, 133.43, 133.11, 132.98,
+132.74, 132.50, 132.11, 131.51, 131.43, 130.50, 127.92, 115.90, 71.09,
+69.16, 60.63, 59.04, 58.17, 55.00, 54.91, 49.61, 40.80, 39.03, 38.80,
+37.95, 36.69, 35.72, 30.55, 28.15, 28.13, 27.49, 27.14, 24.24, 15.85,
+14.51, 12.98, 11.63. HRMS (ESI) calcd for C51H63N9O6S2 [M + H]+ 962.4421,
+found 962.4416. HPLC purity 99.05%. [α]D25 = +5.5 (c =
+1.0 mg/mL, acetone).
+
+## (16S,122S,124R,10S,15S,Z)-10-(tert-Butyl)-124-hydroxy-1,21,319-trimethyl-15-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-9,14,22-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4)-benzenacyclotetracosaphane-8,11,13,23-tetraone
+(10d)
+Final compound 10d was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 7/1), white solid. 1H NMR (trans, 600 MHz, Methanol-d4)
+δ 8.87 (s, 1H), 7.47–7.36 (m, 6H), 7.02 (d, J = 9.0 Hz, 2H), 4.94–4.88 (m, 1H), 4.64 (s, 1H), 4.61–4.54
+(m, 2H), 4.44 (s, 1H), 4.14–4.06 (m, 2H), 3.84 (d, J = 11.2 Hz, 1H), 3.74 (dd, J = 11.1, 3.7
+Hz, 1H), 3.57–3.48 (m, 2H), 3.07–3.01 (m, 1H), 2.99
+(dd, J = 14.1, 3.0 Hz, 1H), 2.70 (s, 3H), 2.48 (s,
+3H), 2.44 (s, 3H), 2.39 (t, J = 6.8 Hz, 3H), 2.19–2.12
+(m, 1H), 1.98–1.89 (m, 2H), 1.89–1.78 (m, 6H), 1.71
+(s, 3H), 1.68–1.58 (m, 2H), 1.53–1.44 (m, 5H), 1.05
+(s, 9H). 13C NMR (trans, 150 MHz, Methanol-d4) δ 175.49, 173.73, 173.14, 172.00, 166.57,
+162.78, 157.52, 152.89, 152.17, 149.11, 145.06, 133.42, 133.17, 132.99,
+132.66, 132.49, 132.04, 131.53, 130.50, 128.04, 115.69, 71.20, 69.08,
+60.93, 59.18, 58.18, 55.07, 54.42, 40.55, 39.03, 38.73, 37.87, 37.07,
+36.14, 30.95, 30.25, 28.48, 27.67, 27.20, 27.08, 24.16, 15.85, 14.55,
+12.98, 11.64. HRMS (ESI) calcd for C52H65N9O6S2 [M + H]+ 976.4577, found
+976.4574. HPLC purity 95.97%. [α]D25 = +4.7 (c = 1.0 mg/mL,
+acetone).
+
+## (16S,122S,124R,10S,15S,Z)-10-(tert-Butyl)-124-hydroxy-12,13,19-trimethyl-15-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-9,14,23-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4)-benzenacyclopentacosaphane-8,11,13,24-tetraone
+(10e)
+Final compound 10e was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 10/1), white solid. 1H NMR (trans, 600 MHz, Methanol-d4)
+δ 8.86 (s, 1H), 7.46–7.35 (m, 6H), 6.98 (d, J = 9.1 Hz, 1H), 4.90 (dd, J = 10.2, 4.2 Hz, 1H),
+4.62 (s, 1H), 4.60–4.54 (m, 2H), 4.44 (s, 1H), 4.11–4.01
+(m, 2H), 3.87 (d, J = 11.2 Hz, 1H), 3.75 (dd, J = 11.1, 3.7 Hz, 1H), 3.65–3.59 (m, 1H), 3.48 (dd, J = 14.1, 11.6 Hz, 1H), 3.00 (dd, J = 14.0,
+2.6 Hz, 1H), 2.98–2.91 (m, 1H), 2.69 (s, 3H), 2.48 (s, 3H),
+2.44 (s, 3H), 2.43–2.39 (m, 1H), 2.38–2.32 (m, 1H),
+2.18–2.12 (m, 1H), 1.97–1.90 (m, 1H), 1.88–1.78
+(m, 6H), 1.72 (s, 3H), 1.66–1.59 (m, 2H), 1.48–1.41
+(m, 8H), 1.07 (s, 9H). 13C NMR (trans,
+150 MHz, Methanol-d4) δ 175.74,
+173.76, 172.91, 172.10, 166.62, 162.80, 157.49, 152.87, 152.14, 149.08,
+145.37, 133.40, 133.12, 132.96, 132.66, 132.47, 131.97, 131.44, 130.47,
+127.88, 115.50, 71.16, 68.96, 60.80, 59.29, 58.16, 54.99, 54.69, 40.80,
+39.10, 38.77, 38.30, 36.65, 36.02, 31.09, 31.04, 30.84, 28.63, 27.90,
+27.19, 27.13, 24.20, 15.86, 15.84, 14.52, 12.99, 11.63. HRMS (ESI)
+calcd for C53H67N9O6S2 [M + H]+ 990.4734, found 990.4732. HPLC purity
+98.31%. [α]D25 = +4.9 (c = 1.0 mg/mL, acetone).
+
+## (16S,122S,124R,10S,15S,Z)-10-(tert-Butyl)-124-hydroxy-1,21,319-trimethyl-15-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-9,14,24-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4)-benzenacyclohexacosaphane-8,11,13,25-tetraone
+(10f)
+Final compound 10f was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 3/1), white solid. 1H NMR (trans, 600 MHz, Methanol-d4)
+δ 8.86 (s, 1H), 7.44–7.38 (m, 6H), 6.96 (d, J = 8.8 Hz, 2H), 4.90 (dd, J = 10.0, 4.6 Hz, 1H),
+4.60 (s, 1H), 4.59–4.55 (m, 2H), 4.43 (s, 1H), 4.10–4.03
+(m, 2H), 3.86 (d, J = 11.2 Hz, 1H), 3.73 (dd, J = 11.1, 3.8 Hz, 1H), 3.60–3.54 (m, 1H), 3.51–3.45
+(m, 1H), 3.04–2.97 (m, 2H), 2.69 (s, 3H), 2.48 (s, 3H), 2.44
+(s, 3H), 2.41–2.36 (m, 2H), 2.19–2.13 (m, 1H), 1.97–1.88
+(m, 1H), 1.87–1.77 (m, 5H), 1.71 (s, 3H), 1.65–1.60
+(m, 2H), 1.47–1.38 (m, 10H), 1.05 (s, 9H). 13C NMR
+(trans, 150 MHz, Methanol-d4) δ 175.72, 173.77, 173.11, 172.13, 166.64, 162.84,
+157.52, 152.87, 152.14, 149.09, 145.31, 133.43, 133.11, 132.99, 132.71,
+132.47, 131.91, 131.47, 131.44, 130.47, 127.93, 115.46, 71.17, 68.81,
+60.83, 58.12, 55.05, 54.56, 40.64, 39.06, 38.78, 38.20, 37.34, 36.69,
+36.14, 31.20, 30.85, 30.71, 30.20, 28.85, 28.09, 27.49, 27.22, 27.09,
+24.09, 23.03, 15.85, 14.54, 12.98, 11.62. HRMS (ESI) calcd for C54H69N9O6S2 [M
++ H]+ 1004.4890, found 1004.4887. HPLC purity 96.47%. [α]D25 = +5.4 (c = 1.0 mg/mL, acetone).
+
+## (16S,112S,114R,9S,14S,Z)-9-(tert-Butyl)-114-hydroxy-1,21,319-trimethyl-14-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-8,13,21-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-11(1,2)-pyrrolidina-2(1,4)-benzenacyclotricosaphane-7,10,12,22-tetraone
+(10g)
+Final compound 10g was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 3/1), white solid. 1H NMR (trans, 600 MHz, Methanol-d4)
+δ 8.87 (s, 1H), 7.45–7.35 (m, 6H), 7.05 (d, J = 8.9 Hz, 2H), 4.93 (dd, J = 10.0, 4.7 Hz, 1H),
+4.61–4.55 (m, 2H), 4.44 (s, 1H), 4.39 (s, 1H), 4.15–4.08
+(m, 1H), 4.07–3.98 (m, 1H), 3.86 (d, J = 11.1
+Hz, 1H), 3.71 (dd, J = 10.9, 3.8 Hz, 1H), 3.64–3.56
+(m, 1H), 3.53–3.46 (m, 1H), 3.06–2.98 (m, 2H), 2.70
+(s, 3H), 2.55–2.47 (m, 1H), 2.48 (s, 3H), 2.47–2.41
+(m, 4H), 2.16–2.11 (m, 2H), 2.10–2.03 (m, 1H), 1.94–1.87
+(m, 1H), 1.85–1.75 (m, 2H), 1.69 (s, 3H), 1.65–1.58
+(m, 2H), 1.55–1.44 (m, 6H), 1.00 (s, 9H). 13C NMR
+(trans, 150 MHz, Methanol-d4) δ 175.52, 173.93, 173.11, 171.94, 166.79, 162.69,
+157.50, 152.88, 149.10, 145.26, 133.44, 133.16, 132.97, 132.69, 132.48,
+132.32, 131.49, 130.49, 127.97, 115.94, 71.21, 68.42, 60.83, 60.79,
+57.96, 55.02, 54.05, 40.18, 39.02, 38.82, 37.73, 36.25, 33.27, 30.67,
+29.74, 27.39, 27.21, 27.09, 26.99, 26.47, 15.85, 14.51, 12.97, 11.65.
+HRMS (ESI) calcd for C51H63N9O6S2 [M + H]+ 962.4421, found 962.4418.
+HPLC purity 99.49%. [α]D25 = +6.7 (c = 1.0 mg/mL, acetone).
+
+## (16S,132S,134R,11S,16S,Z)-11-(tert-Butyl)-134-hydroxy-1,21,319-trimethyl-16-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-10,15,23-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-13(1,2)-pyrrolidina-2(1,4)-benzenacyclopentacosaphane-9,12,14,24-tetraone
+(10h)
+Final compound 10h was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 7/1), white solid. 1H NMR (trans, 600 MHz, Methanol-d4)
+δ 8.87 (s, 1H), 7.47–7.35 (m, 6H), 6.96 (d, J = 9.0 Hz, 2H), 4.91–4.87 (m, 1H), 4.58–4.53 (m, 3H),
+4.43 (s, 1H), 4.10–4.03 (m, 2H), 3.87 (d, J = 11.0 Hz, 1H), 3.75 (dd, J = 11.0, 3.9 Hz, 1H),
+3.54–3.45 (m, 2H), 3.08–3.02 (m, 1H), 3.00 (dd, J = 14.0, 2.8 Hz, 1H), 2.69 (s, 3H), 2.48 (s, 3H), 2.44
+(s, 3H), 2.37–2.31 (m, 1H), 2.28–2.24 (m, 1H), 2.16–2.11
+(m, 1H), 1.96–1.90 (m, 1H), 1.87–1.73 (m, 5H), 1.70
+(s, 3H), 1.65–1.61 (m, 2H), 1.54 (p, J = 7.0
+Hz, 3H), 1.49–1.41 (m, 6H), 1.06 (s, 9H). 13C NMR
+(trans, 150 MHz, Methanol-d4) δ 176.29, 176.20, 173.74, 173.66, 173.10, 172.16,
+172.14, 166.62, 163.01, 157.53, 152.90, 152.16, 149.12, 145.02, 145.00,
+133.42, 133.12, 133.03, 132.73, 132.45, 131.79, 131.55, 131.49, 130.50,
+128.08, 115.64, 71.17, 69.32, 60.82, 60.77, 59.70, 59.61, 58.09, 55.14,
+54.42, 54.32, 40.32, 39.08, 38.73, 37.67, 37.64, 36.90, 36.86, 36.57,
+30.98, 30.02, 29.59, 27.57, 27.22, 27.10, 27.03, 26.87, 26.50, 15.85,
+14.51, 12.98, 12.97, 11.62. HRMS (ESI) calcd for C53H67N9O6S2 C51H63N9O6S2 [M + H]+ 990.4734, found 990.4725. HPLC purity 98.62%. [α]D25 = +5.8 (c = 1.0 mg/mL, acetone).
+
+## (16S,142S,144R,12S,17S,Z)-12-(tert-Butyl)-144-hydroxy-1,21,319-trimethyl-17-(4-(4-methylthiazol-5-yl)phenyl)-16H-3-oxa-11,16,24-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-14(1,2)-pyrrolidina-2(1,4)-benzenacyclohexacosaphane-10,13,15,25-tetraone
+(10i)
+Final compound 10i was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 16/1), white solid. 1H NMR (trans, 600 MHz, Methanol-d4)
+δ 8.87 (s, 1H), 7.44 (d, J = 8.3 Hz, 2H), 7.41–7.38
+(m, 4H), 6.94 (d, J = 9.0 Hz, 2H), 4.92 (dd, J = 8.9, 5.8 Hz, 1H), 4.67 (s, 1H), 4.59–4.52 (m,
+2H), 4.44 (s, 1H), 4.10–4.00 (m, 2H), 3.84 (d, J = 11.2 Hz, 1H), 3.75 (dd, J = 11.1, 3.7 Hz, 1H),
+3.54–3.45 (m, 2H), 3.06 (dt, J = 13.2, 7.3
+Hz, 1H), 3.00 (dd, J = 14.0, 2.9 Hz, 1H), 2.69 (s,
+3H), 2.48 (s, 3H), 2.44 (s, 3H), 2.33–2.28 (m, 2H), 2.16–2.11
+(m, 1H), 1.98–1.91 (m, 1H), 1.88–1.72 (m, 5H), 1.70
+(s, 3H), 1.67–1.55 (m, 5H), 1.51–1.37 (m, 8H), 1.07
+(s, 9H). 13C NMR (trans, 150 MHz, Methanol-d4) δ 175.85, 173.66, 173.07, 172.08, 166.56,
+163.02, 157.53, 152.90, 152.16, 149.12, 144.94, 133.40, 133.14, 132.99,
+132.69, 132.48, 131.79, 131.57, 131.50, 130.51, 128.10, 115.49, 71.15,
+69.14, 60.79, 58.95, 58.17, 55.08, 54.23, 40.51, 39.05, 38.70, 37.67,
+36.99, 36.02, 31.05, 30.12, 30.03, 29.03, 27.78, 27.21, 27.10, 26.53,
+26.50, 15.86, 14.52, 12.98, 11.63. HRMS (ESI) calcd for C54H69N9O6S2 [M + H]+ 1004.4890, found 1004.4889. HPLC purity 98.77%. [α]D25 = +5.5 (c = 1.0 mg/mL, acetone).
+
+## Methyl 2-((S)-4-(4-((5-(((S)-1-((2S,4R)-4-Hydroxy-2-((2-hydroxy-4-(4-methylthiazol-5-yl)benzyl)carbamoyl)pyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)amino)-5-oxopentyl)oxy)phenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetate (13)
+Intermediate 13 was prepared via a Boc-group deprotection
+from intermediate 11 and a further amide condensation
+reaction with compound 12, which was obtained via a deprotection
+from the intermediate of 4b. 1H NMR (600 MHz,
+DMSO-d6) δ 9.80 (s, 1H), 8.95 (s,
+1H), 8.46 (t, J = 6.1 Hz, 1H), 7.91 (d, J = 9.3 Hz, 1H), 7.37 (d, J = 7.8 Hz, 1H), 7.34 (d, J = 8.4 Hz, 2H), 6.95 (d, J = 9.1 Hz, 1H),
+6.91 (d, J = 1.8 Hz, 1H), 6.80 (dd, J = 7.8, 1.8 Hz, 1H), 5.12 (d, J = 3.6 Hz, 1H), 4.55
+(d, J = 9.3 Hz, 1H), 4.45 (q, J =
+7.2 Hz, 2H), 4.35 (s, 1H), 4.28 (dd, J = 16.2, 6.5
+Hz, 1H), 4.13 (dd, J = 16.2, 5.4 Hz, 1H), 3.99 (t, J = 6.1 Hz, 2H), 3.68–3.63 (m, 5H), 3.46 (dd, J = 16.5, 6.7 Hz, 1H), 3.39 (dd, J = 16.5,
+7.8 Hz, 1H), 2.60 (s, 3H), 2.44 (s, 3H), 2.41 (s, 3H), 2.38–2.29
+(m, 1H), 2.25–2.16 (m, 1H), 2.07–1.97 (m, 1H), 1.96–1.87
+(m, 1H), 1.74–1.56 (m, 7H), 0.92 (s, 9H). 13C NMR
+(150 MHz, DMSO-d6) δ 172.10, 171.76,
+171.05, 169.60, 163.43, 160.42, 154.96, 154.64, 151.13, 149.72, 147.30,
+131.55, 131.26, 130.47, 130.40, 130.13, 130.03, 129.86, 128.33, 125.26,
+119.13, 114.79, 114.05, 68.76, 67.21, 58.53, 56.25, 56.21, 53.05,
+51.44, 45.60, 37.81, 37.21, 36.24, 35.12, 34.34, 28.06, 26.26, 21.90,
+15.98, 13.94, 12.59, 11.11, 8.52. LC–MS: calcd for C47H56N8O8S2 [M + H]+ 925.4, found 925.1.
+
+## 2-((S)-4-(4-((5-(((S)-1-((2S,4R)-2-((2-((6-((tert-Butoxycarbonyl)amino)hexyl)oxy)-4-(4-methylthiazol-5-yl)benzyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)amino)-5-oxopentyl)oxy)phenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic Acid
+To stirred solution
+of intermediate 13 (130 mg, 0.14 mmol, 1.0 equiv) in
+acetonitrile (10 mL) was added tert-butyl (6-bromohexyl)carbamate
+(57 mg, 0.20 mmol, 1.5 equiv) and K2CO3 (56
+mg, 0.41 mmol, 3.0 equiv) before being heated to 80 °C for 12
+h. The reaction mixture was cooled to RT, filtered and the resulting
+cake was washed with EtOAc (10 mL). The organic phase was concentrated
+to give a colorless residue, which was then dissolved in THF/H2O (10 mL, v/v = 2/1). Further LiOH (10 mg, 0.41 mmol, 3.0
+equiv) was added. The resulting solution was stirred at RT for 3 h
+before being concentrated to remove THF. The resulting aqueous phase
+was acidified (pH 5–6) with 2 N HCl before being extracted
+with EtOAc (20 mL). The organic phase was dried with anhydrous Na2SO4, filtered, and concentrated to obtain a colorless
+residue, which was purified by column chromatography (CH2Cl2/MeOH) to obtain intermediate 2-((S)-4-(4-((5-(((S)-1-((2S,4R)-2-((2-((6-((tert-butoxycarbonyl)amino)hexyl)oxy)-4-(4-methylthiazol-5-yl)benzyl)carbamoyl)-4-hydroxypyrrolidin-1-yl)-3,3-dimethyl-1-oxobutan-2-yl)amino)-5-oxopentyl)oxy)phenyl)-2,3,9-trimethyl-6H-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepin-6-yl)acetic acid (80 mg, 51% over two steps)
+as a white solid. 1H NMR (600 MHz, DMSO-d6) δ 8.98 (s, 1H), 8.46 (t, J =
+6.0 Hz, 1H), 7.92 (d, J = 9.3 Hz, 1H), 7.46 (d, J = 7.8 Hz, 1H), 7.35 (d, J = 8.3 Hz, 2H),
+6.98 (d, J = 1.7 Hz, 1H), 6.92 (d, J = 9.0 Hz, 2H), 6.89 (dd, J = 7.7, 1.6 Hz, 1H),
+6.77 (t, J = 5.8 Hz, 1H), 5.17 (s, 1H), 4.55 (d, J = 9.4 Hz, 1H), 4.48–4.43 (m, 2H), 4.35 (s, 1H),
+4.31 (dd, J = 16.7, 6.5 Hz, 1H), 4.14 (dd, J = 16.6, 5.3 Hz, 1H), 4.03 (t, J = 6.3
+Hz, 2H), 3.98 (t, J = 6.2 Hz, 2H), 3.70–3.60
+(m, 2H), 3.11 (dd, J = 15.2, 6.3 Hz, 1H), 2.94–2.82
+(m, 3H), 2.56 (s, 3H), 2.45 (s, 3H), 2.40 (s, 3H), 2.36–2.30
+(m, 1H), 2.24–2.17 (m, 1H), 2.06–2.02 (m, 1H), 1.96–1.89
+(m, 1H), 1.77–1.59 (m, 9H), 1.46–1.27 (m, 16H), 0.92
+(s, 9H). 13C NMR (150 MHz, DMSO-d6) δ 171.97, 171.77, 169.62, 161.97, 160.11, 156.68,
+155.71, 155.46, 151.31, 148.96, 147.65, 131.30, 131.27, 130.61, 130.59,
+130.42, 130.04, 130.02, 129.69, 127.51, 126.95, 120.44, 113.91, 111.34,
+77.15, 68.75, 67.47, 67.15, 58.57, 56.26, 56.19, 55.36, 37.82, 37.07,
+35.11, 34.32, 29.32, 28.54, 28.16, 28.07, 26.25, 25.89, 25.18, 21.88,
+15.89, 13.94, 12.58, 11.11. LC–MS: calcd for C57H75N9O10S2 [M + H]+ 1110.5, found 1110.4.
+
+## (16S,122S,124R,10S,Z)-10-(tert-Butyl)-124-hydroxy-1,21,319-trimethyl-164-(4-methylthiazol-5-yl)-16H-3,17-dioxa-9,14,24-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4),16(1,2)-dibenzenacyclohexacosaphane-8,11,13,25-tetraone
+(15a)
+Final compound 15a was prepared
+via a similar procedure to that of compound 10a, including
+a Boc-group deprotection and a further amide condensation reaction. 15a was obtained as a trans/cis mixture (trans/cis = 7/3), white
+solid. 1H NMR (trans/cis, 600 MHz, Methanol-d4) δ 8.85
+(s, 0.7H), 8.82 (s, 0.3H), 7.39 (d, J = 8.3 Hz, 1.4H),
+7.34–7.28 (m, 1.4H), 7.02–6.92 (m, 3.3H), 6.86 (d, J = 1.5 Hz, 0.3H), 6.82 (d, J = 9.0 Hz,
+0.6H), 4.64–4.53 (m, 3.3H), 4.50 (s, 0.3H), 4.48 (s, 1.3H),
+4.46–4.42 (m, 0.3H), 4.38 (d, J = 14.8 Hz,
+0.7H), 4.35 (d, J = 16.0 Hz, 0.3H), 4.11 (t, J = 6.3 Hz, 1.4H), 4.08–3.98 (m, 2.1H), 3.95–3.88
+(m, 0.6H), 3.84 (d, J = 11.1 Hz, 0.7H), 3.74 (dd, J = 11.0, 4.1 Hz, 0.7H), 3.71–3.44 (m, 2.8H), 3.11
+(dt, J = 13.6, 6.9 Hz, 0.7H), 3.04 (dd, J = 14.5, 2.9 Hz, 0.7H), 3.02–2.97 (m, 0.6H), 2.69 (d, J = 1.4 Hz, 3.0H), 2.47 (s, 2.1H), 2.44 (s, 2.1H), 2.41
+(d, J = 2.4 Hz, 2.1H), 2.37–2.17 (m, 2.0H),
+2.17–2.11 (m, 1.4H), 1.97–1.87 (m, 2.0H), 1.86–1.73
+(m, 4.0H), 1.73–1.60 (m, 7.0H), 1.60–1.51 (m, 2.1H),
+1.01 (s, 2.5H), 0.97 (s, 6.5H). 13C NMR (trans/cis, 150 MHz, Methanol-d4) δ 175.92, 175.04, 173.87, 173.81, 173.21, 173.01, 172.63,
+172.48, 166.72, 166.69, 162.92, 162.79, 158.52, 157.87, 157.54, 157.51,
+152.89, 152.75, 152.19, 152.15, 149.17, 149.10, 133.62, 133.61, 133.26,
+133.09, 132.99, 132.90, 132.76, 132.68, 132.66, 132.53, 132.51, 131.90,
+131.78, 131.48, 131.31, 130.74, 129.36, 128.03, 128.00, 122.46, 122.41,
+115.56, 115.33, 113.43, 113.30, 71.10, 69.52, 69.48, 69.15, 69.08,
+68.81, 61.30, 60.71, 59.48, 58.33, 57.89, 55.89, 54.98, 54.93, 41.33,
+40.68, 40.52, 39.48, 39.15, 39.10, 38.93, 38.38, 37.46, 36.34, 35.99,
+30.63, 30.50, 30.31, 29.46, 28.89, 28.05, 27.85, 27.17, 27.11, 27.06,
+27.05, 24.01, 23.57, 15.96, 14.51, 14.47, 12.98, 11.68, 11.62. HRMS
+(ESI) calcd for C52H65N9O7S2 [M + H]+ 992.4527, found 992.4522. HPLC
+purity 98.87%. [α]D25 = +7.2 (c = 1.0 mg/mL, acetone).
+
+## (16S,122S,124R,10S,Z)-10-(tert-Butyl)-124-hydroxy-1,21,319-trimethyl-164-(4-methylthiazol-5-yl)-16H-3,17-dioxa-9,14,25-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4),16(1,2)-dibenzenacycloheptacosaphane-8,11,13,26-tetraone
+(15b)
+Final compound 15b was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 7/3), white solid. 1H NMR (trans/cis, 600 MHz, Methanol-d4) δ 8.87 (s, 0.7H), 8.86 (s, 0.3H), 7.39 (d, J = 8.3 Hz, 2H), 7.34 (d, J = 7.7 Hz, 0.7H),
+7.23 (d, J = 7.8 Hz, 0.3H), 7.02 (dd, J = 7.7, 1.5 Hz, 0.3H), 6.99 (d, J = 1.3 Hz, 0.7H),
+6.98 (dd, J = 7.7, 1.5 Hz, 0.7H), 6.95–6.89
+(m, 1.7H), 6.86 (d, J = 9.0 Hz, 0.6H), 4.65–4.60
+(m, 0.6H), 4.59–4.52 (m, 2.4H), 4.49–4.43 (m, 1.7H),
+4.38 (d, J = 14.5 Hz, 0.7H), 4.30 (d, J = 16.7 Hz, 0.3H), 4.11–3.97 (m, 3.3H), 3.97–3.89 (m,
+0.7H), 3.86 (d, J = 10.9 Hz, 0.7H), 3.75 (dd, J = 11.0, 4.1 Hz, 0.7H), 3.71–3.65 (m, 0.3H), 3.65–3.59
+(m, 0.6H), 3.56–3.42 (m, 1.7H), 3.21 (q, J = 7.3 Hz, 0.3H), 3.13–3.06 (m, 0.7H), 3.05–3.02 (m,
+0.7H), 2.99 (dd, J = 14.0, 2.8 Hz, 0.3H), 2.96–2.91
+(m, 0.3H), 2.69 (s, 3.0H), 2.49 (s, 2.1H), 2.46 (s, 0.9H), 2.43 (s,
+2.1H), 2.43–2.38 (m, 2.1H), 2.36–2.20 (m, 1.7H), 2.12
+(dd, J = 8.3, 4.0 Hz, 1.4H), 1.95–1.89 (m,
+1.4H), 1.86–1.72 (m, 5.0H), 1.70 (s, 2.1H), 1.68 (s, 0.9H),
+1.67–1.61 (m, 2.1H), 1.60–1.55 (m, 1.4H), 1.51–1.45
+(m, 4.6H), 1.01 (s, 2.5H), 0.99 (s, 6.5H). 13C NMR (trans/cis, 150 MHz, Methanol-d4) δ 175.97, 174.82, 173.94, 173.81, 173.13, 172.98,
+172.60, 172.52, 166.65, 166.52, 162.94, 162.81, 158.60, 157.83, 157.52,
+157.49, 152.91, 152.81, 152.13, 149.17, 149.10, 133.63, 133.59, 133.37,
+133.11, 133.07, 133.01, 132.99, 132.71, 132.69, 132.54, 132.49, 132.42,
+131.86, 131.64, 131.48, 131.15, 128.29, 128.20, 127.89, 122.44, 122.39,
+115.43, 115.24, 113.37, 113.16, 71.08, 69.50, 69.47, 69.16, 69.03,
+68.81, 61.36, 60.65, 59.48, 58.26, 57.86, 55.95, 55.14, 55.02, 42.62,
+41.43, 40.64, 40.43, 39.55, 39.14, 39.03, 38.36, 37.48, 37.44, 36.24,
+36.11, 36.03, 32.79, 31.17, 30.76, 30.69, 30.50, 30.38, 30.37, 30.20,
+29.71, 29.32, 29.16, 28.90, 28.17, 28.16, 28.02, 27.19, 27.10, 27.03,
+26.90, 24.00, 23.74, 23.46, 23.03, 21.55, 19.87, 19.18, 15.99, 15.97,
+14.67, 14.59, 14.51, 14.47, 12.99, 12.98, 11.80, 11.62. HRMS (ESI)
+calcd for C53H67N9O7S2 [M + H]+ 1006.4683, found 1006.4683. HPLC purity
+95.35%. [α]D25 = +5.8 (c = 1.0 mg/mL, acetone).
+
+## (16S,122S,124R,10S,Z)-10-(tert-Butyl)-124-hydroxy-1,21,319-trimethyl-164-(4-methylthiazol-5-yl)-16H-3,17-dioxa-9,14,26-triaza-1(4,6)-thieno[3,2-f][1,2,4]triazolo[4,3-a][1,4]diazepina-12(1,2)-pyrrolidina-2(1,4),16(1,2)-dibenzenacyclooctacosaphane-8,11,13,27-tetraone
+(15c)
+Final compound 15c was prepared
+via a similar procedure to that of compound 10a as a trans/cis mixture (trans/cis = 7/3), white solid. 1H NMR (trans/cis, 600 MHz, Methanol-d4) δ 8.86 (s, 0.7H), 8.85 (s, 0.3H), 7.41–7.34
+(m, 2H), 7.32 (d, J = 7.6 Hz, 0.7H), 7.25 (d, J = 7.8 Hz, 0.3H), 7.01 (dd, J = 7.8, 1.5
+Hz, 0.3H), 6.99–6.95 (m, 1.4H), 6.95–6.89 (m, 1.7H),
+6.85 (d, J = 9.0 Hz, 0.6H), 4.65 (d, J = 16.2 Hz, 0.3H), 4.61 (d, J = 9.3 Hz, 0.6H), 4.59–4.55
+(m, 1.4H), 4.53 (s, 0.7H), 4.50–4.42 (m, 1.7H), 4.38 (d, J = 15.0 Hz, 0.7H), 4.28 (d, J = 16.2 Hz,
+0.3H), 4.12–4.06 (m, 1.4H), 4.05–3.92 (m, 2.7H), 3.87
+(d, J = 10.7 Hz, 0.7H), 3.75 (dd, J = 10.9, 4.1 Hz, 0.7H), 3.66–3.61 (m, 0.9H), 3.53–3.44
+(m, 2.3H), 3.11–3.04 (m, 1.4H), 3.02–2.96 (m, 0.6H),
+2.69 (s, 0.9H), 2.69 (s, 2.1H), 2.48 (s, 2.1H), 2.45 (s, 0.9H), 2.43
+(s, 2.1H), 2.42–2.41 (m, 1.2H), 2.40–2.24 (m, 1.7H),
+2.22–2.17 (m, 0.3H), 2.15 (dd, J = 8.2, 3.7
+Hz, 1.4H), 1.92–1.85 (m, 1.7H), 1.85–1.74 (m, 4.3H),
+1.71 (s, 2.1H), 1.67 (s, 0.9H), 1.64–1.55 (m, 3.4H), 1.52–1.39
+(m, 6.6H), 1.01 (s, 2.7H), 0.98 (s, 6.3H). 13C NMR (trans/cis, 150 MHz, Methanol-d4) δ 176.03, 174.87, 173.95, 173.87, 173.15, 172.95,
+172.65, 172.53, 166.81, 166.65, 162.94, 162.84, 158.48, 157.97, 157.52,
+157.51, 152.89, 152.81, 152.16, 152.14, 149.15, 149.13, 133.63, 133.17,
+133.11, 133.08, 133.00, 132.75, 132.72, 132.69, 132.52, 132.46, 131.85,
+131.73, 131.48, 131.46, 130.53, 128.80, 128.22, 128.03, 122.40, 122.38,
+115.44, 115.29, 113.38, 113.27, 71.12, 69.57, 69.41, 69.18, 69.09,
+68.78, 66.96, 61.33, 60.70, 59.58, 58.30, 57.89, 57.66, 57.52, 57.38,
+56.03, 55.07, 54.98, 41.40, 40.71, 40.60, 39.45, 39.19, 39.14, 38.98,
+38.41, 37.46, 36.18, 36.10, 31.06, 30.89, 30.77, 30.71, 30.67, 30.59,
+30.53, 30.39, 29.74, 29.25, 28.34, 28.24, 27.48, 27.14, 27.10, 27.03,
+23.91, 23.58, 15.96, 15.49, 14.52, 14.49, 12.97, 11.64, 11.62. HRMS
+(ESI) calcd for C54H69N9O7S2 [M + H]+ 1020.4840, found 1020.4834. HPLC
+purity 99.47%. [α]D25 = +7.7 (c = 1.0 mg/mL, acetone).
+
+## Cell Lines
+PC-3, HEK293, A549, NCI-H23, MDA-MB-231,
+and Panc 10.05 cells were purchased from the American Type Culture
+Collection (ATCC) (Manassas, VA, USA). PC-3, HEK293, and MDA-MB-231
+cells were cultured in F-12K medium (Gibco, 21127022), DEME medium
+(Gibco, C11995500BT), and L-15 medium (Gibco, 11415064), respectively.
+A549, NCI-H23, and Panc 10.05 cells were cultured in RPMI-1640 medium
+(Gibco, C11875500BT). PC-3, HEK293, A549, NCI-H23, and Panc 10.05
+cells cell lines were grown in the mentioned medium supplemented with
+1% penicillin–streptomycin (Gibco, 15070063) and 10% fetal
+bovine serum (FBS) (ExCell Bio, FSP500). All cells were cultured in
+a cell incubator at 37 °C in an atmosphere containing 5% (v/v)
+CO2, while MDA-MB-231 cells were without CO2.
+
+## Immunoblotting
+The process was carried out by following
+the protocol recommended by Cell Signaling Technology. Briefly, cells
+were lysed by using SDS lysis buffer [62.5 mM Tris (pH 6.8), 2% SDS,
+10% glycerol, 50 mM DTT, 0.01% bromophenol blue]. The lysates were
+then sonicated on ice for 10 s and heated (100 °C, 10 min), followed
+by being centrifuged at 4 °C (12000 rpm, 5 min). The denatured
+proteins in the supernatant were collected and separated by SDS–PAGE
+gel and subsequently electrophoretically transferred onto polyvinylidene
+difluoride (PVDF) membranes. The membrane was then incubated in a
+blocking buffer containing 5% nonfat milk and 0.1% Tween-20 for 1
+h at room temperature. The membrane was then incubated with primary
+antibody overnight at 4 °C followed by 1 h of incubation with
+secondary antibody. A chemiluminescent signal was detected by using
+Western Lightning Plus ECL. The protein bands were visualized by an
+Amersham ImageQuant 800 system. Primary rabbit antibody against Brd4
+(ab314432) was purchased from Abcam. Alpha-tubulin (2144s) was purchased
+from Cell Signaling Technology. Data analysis and statistics were
+performed using GraphPad Prism 7.0.
+
+## TMT Labeled Mass-Spectrometry
+
+## Sample Preparation
+PC-3 cells were seeded in a 6 cm
+culture dish (2 × 10 6 cells/dish) and cultured for
+24 h. Cells were then treated with 100 nM of SHD913 for
+2 h. Subsequently, cells were digested with trypsin and collected
+by centrifugation (250 g, 5 min). After being washed twice with cold
+PBS, cells were lysed in 150 μL lysis buffer [0.1% BeyoZonase
+(Bryotime, D7121), 10 mM HEPES, pH 7.0, 1% SDS, 2 mM MgCl·6H2O]. Cell lysis was quantified using a micro BCA protein assay
+kit (Thermo Fisher Scientific), and samples were processed and digested
+using the filter aided sample preparation (FASP) method (600 μg
+protein/sample), followed by alkylation with iodoacetamide and digestion
+with trypsin. The samples were then desalted using the Oasis HLB C18
+SPE cartridge column (Waters, WAT094225). The collected peptides were
+lyophilized and reconstituted, and then the peptides were labeled
+using the TMT 11plex Isobaric Label Reagent Set (Thermo Fisher Scientific)
+according to the manufacturer’s instructions (25 μg/sample).
+After being labeled, the peptides from 11 samples were pooled together.
+The pooled TMT 11plex sample was fractionated using high pH reverse-phase
+chromatography with an XBridge peptide BEH column (130 Å, 3.5
+μm, 2.1 × 150 mm, Waters) on an Ultimate 3000 HPLC system
+(Thermo Scientific/Dionex). Buffers A (10 mM ammonium formate in water,
+pH 9) and buffer B (10 mM ammonium formate in 90% acetonitrile, pH
+9) were used over a linear gradient of 5–60% buffer B over
+60 min at a flow rate of 200 μL/min. 48 fractions were collected
+before concatenation into 12 fractions based on the UV signal of each
+fraction. All fractions were dried in a concentrator and were reconstituted
+in 0.2% formic acid solution for MS analysis.
+
+## LC-MS/MS Analysis
+The fractions were analyzed sequentially
+on an Orbitrap Fusion Lumos mass spectrometer (Thermo Scientific)
+coupled with a NanoLC-1200 UHPLC system (Thermo Scientific) using
+a C18 capillary column. LC separation was using gradient of 6–28%
+acetonitrile in a 0.2% formic acid solution. The separation flow rate
+was set up as 250 nL/min. MS3-TMT mass spectrometry methods were modified
+from the methods reported by the Steven Gygi group. The mass spectrometer was operated in data-dependent mode,
+and the scan sequence began with an orbitrap MS1 spectrum at resolution
+120,000, AGC target 5E5, MaxIT 50 ms. The 20 most intense precursor
+ions were selected for MS2/MS3 analysis. MS2 analysis consisted of
+CID and ion trap analysis. Following the acquisition of the MS2 spectrum,
+the MS3 spectrum was captured with multinotches. MS3 precursors were
+fragmented by HCD and analyzed with Orbitrap at NCE 65, AGC 1E5, resolution
+60,000.
+
+## Peptide and Protein Identification
+The raw MS data
+files for all 12 fractions were browsed against the Uniprot-Human-Canonical
+database by Proteome Discoverer 2.0 for protein identification and
+TMT reporter ion quantitation. The parameters were set as follows:
+enzyme used Trypsin/P; maximum number of missed cleavages equal to
+two; precursor mass tolerance equal to 20 ppm; ion trap fragment mass
+tolerance was set to 0.6 Da; variable modifications: oxidation (M),
+acetyl (N-term); fixed modifications: carbamidomethyl (C). The data
+was filtered by applying a 1% false discovery rate.
+
+## Protein Expression and Purification
+
+## Expression of Brd4BD2 and Brd3BD2 Protein
+A synthetic DNA sequence comprising Brd4BD2 (333–460,
+Uniprot number: O60885) and Brd3BD2(306–416, Uniprot
+number: Q15059) were cloned into the pET28a vector to express the
+Brd4BD2 fragment with a N-terminal hexahistidine
+(6 × His) and tobacco etch virus (TEV) cleavage site. Protein
+was expressed in Escherichia coli (E. coli) BL21(DE3) cells and cultured in lysogeny
+broth (LB) medium. Protein expression was induced by 0.4 mM IPTG at
+16 °C for 16 h. The BL21(DE3) cells were harvested by centrifugation
+(6000 rpm, 10 min). The cells were resuspended in lysis buffer [50
+mM HEPES, 150 mM NaCl, 1 mM TCEP, 5% glycerol, benzonase, and 1 mM
+phenylmethylsulfonyl fluoride (PMSF)] and lysed with a high-pressure
+homogenizer. After centrifugation (18000 rpm, 4 °C, 40 min),
+the supernatant was loaded on a HisTrap HP column and eluted stepwise
+with buffer (25 mM HEPES, 300 mM NaCl, 250 mM imidazole, 1 mM TCEP,
+5% glycerol). His-tag was removed by TEV protease, and the protein
+was further purified using the reverse nickel-affinity method. The
+eluted fractions containing Brd4BD2 were pooled, concentrated,
+and further purified by size exclusion chromatography (SEC) using
+a Superdex 16/600 75 pg column and stored at −80 °C in
+storage buffer (25 mM HEPES, 150 mM NaCl, 1 mM TCEP, pH 7.5).
+
+## Expression of VHL-ElonginC-ElonginB Protein
+The synthetic
+DNA sequence comprising VHL (55–213, Uniprot number: P40337)
+was cloned into plasmid pAcycDuet. ElonginC (17–112, Uniprot
+number: Q15369) was cloned into pRSFDuet and ElonginB (1–118,
+Uniprot number: Q15370) was cloned into pET32a. The vectors were generously
+gifted from the Professor Lifeng Pan’s Lab (Shanghai Institute
+of Organic Chemistry). All recombinant proteins were fused with N-terminal TRX-His6 follow a HRV 3C cleavage site. Plasmids
+encoding VHL, ElonginB, and ElonginC were cotransformed into E. coli BL21(DE3) cells and cultured in lysogeny
+broth (LB) medium, containing ampicillin (100 μg/mL), chloramphenicol
+(30 μg/mL), and kanamycin (34 μg/mL). Protein coexpression
+was induced by the addition of 0.4 mM IPTG at 16 °C for 16 h.
+The cells were harvested by centrifugation (6000 rpm, 10 min), and
+cell pellets were resuspended in lysis buffer [50 mM HEPES, 150 mM
+NaCl, 1 mM TCEP, 2.5 U/mL benzonase, and 1 mM phenylmethylsulfonyl
+fluoride (PMSF)] and lysed with a high-pressure homogenizer. After
+centrifugation (18,000 rpm, 4 °C, 40 min), the supernatant was
+loaded on a HisTrap HP column and eluted stepwise with buffer (25
+mM HEPES, 300 mM NaCl, 250 mM imidazole, and 1 mM TCEP). The fractions
+containing VCB were pooled, concentrated, and further purified by
+SEC using a Superdex 26/600 75 pg column and finally collected in
+elution buffer (25 mM HEPES, 150 mM NaCl, 1 mM TCEP, pH 7.5). The
+His tags of VCB were removed using 3C protease. The VCB protein was
+further purified using the reverse nickel-affinity method. Additionally,
+the VCB protein was purified by anion exchange and size-exclusion
+chromatography. Finally, the purified VCB protein complexes were stored
+in a storage buffer [25 mM HEPES, pH 7.5, 150 mM sodium chloride,
+1 mM dithiothreitol (DTT)].
+
+## Size Exclusion Chromatography
+Superdex 75 Increase
+16/200 was equilibrated with 25 mM HEPES, 150 mM NaCl, 1 mM TCEP,
+and pH 7.5 using an AKTA pure micro instrument. A mixture (2 mL) of
+tagless Brd4(150 μM), tagless VCB (150 μM), and compound SHD913 (150 μM, 0.03% DMSO) was then injected into the
+column, and the sample was eluted at a flow rate of 1 mL/min. UV absorbance
+was detected at 280 nm.
+
+## Bioluminescence Resonance Energy Transfer
+The NanoBRET
+assay was conducted according to the manufacturer’s protocol
+(Promega). 0.02 μg of Nanoluc-Brd4 vector (Promega, N1691) and
+2 μg of HaloTag-VHL vector (Promega, N273A) were combined with
+6 μL of FugGENE HD (Promega, E2311) and added into one well
+of a 6-well culture plate where HEK293 cells had been seeded 1 day
+in advance and reached 80% confluency. The following day, cells were
+digested with 0.05% trypsin-EDTA and resuspended in assay buffer (Opti-MEM
+I Reduced Serum medium, no phenol red, 4% FBS). Cells were then plated
+in 96-well plates (2 × 105 cells/80 μL/well)
+in the presence or absence of 0.1 mM HaloTag NanoBRET ligand (Promega,
+G9801). After 20 h, 10 μL MG-132 was added into each well with
+a final concentration of 10 μM for 30 min. Cells were then incubated
+with the test compounds for 2 h. For cell lysis and detection, the
+NanoBRET Nano-Glo substrate solution (Promega, N1571) was added into
+the 96-well plate (25 μL/well), and the plate was incubated
+in darkness while shaking (300 rpm, 1 min). Fluorescence signals were
+measured using a PerkinElmer Envision Multilabel Reader equipped with
+a NanoBRET module (450 nM BP filter and 610 nM LP filter). The wells
+without Halo ligand served as the background control. The fold increase
+of fluorescent signal from the compound group compared to those from
+the DMSO group was plotted against the concentration of the compound
+using GraphPad Prism 7.0.
+
+## Biolayer Interferometry Assay
+Purified recombinant
+Brd4BD2 was first biotinylated using the Thermo EZ-link
+long-chain biotinylation reagent. The Brd4BD2 and biotinylation
+reagent were then mixed in a 1:2 molar ratio in phosphate-buffered
+saline (PBS) at room temperature for 30 min. Then, the BLI binding
+assays were performed in 96-well (Greiner 655209) microplates at room
+temperature while shaking (1000 rpm) using the Octet R8 system (Sartorius).
+PBS with 0.1% bovine serum albumin (BSA), 0.05% Tween-20, and with
+or without 0.1% DMSO was used as assay buffer. Biotinylated Brd4BD2 protein was tethered on Super Streptavidin (SSA) biosensors
+(Sartorius) by dipping sensors into 200 μL of protein solutions
+(50 μg/mL/well). Averagely, a saturation response curve of 6–8
+nm was achieved in 10 min. The measurement processes were all under
+computer control. Data were generated and analyzed by Octet User software.
+For the initial step, biosensors were washed in an assay buffer for
+150 s to form a stable baseline.
+1.Binary KD for Brd4BD2. The biosensors labeled with biotin-Brd4BD2 were exposed to the solution containing the compound at
+the designated concentrations for the association and were monitored
+for 210 s. The biosensors were then moved back into the assay buffer
+to disassociate for another 400 s.
+2.Ternary KD for Brd4BD2. The biosensors labeled with biotin-Brd4BD2 were
+exposed to the solution containing the compound and
+protein complex for the association and were monitored for 210 s (100
+μL of 666 nM compound in assay buffer added to 100 μL
+of 100 ug/mL tagless VCB). The biosensors were then moved back into
+the assay buffer to disassociate for another 400 s.
+3.Intrinsic PPIs between Brd4BD2 and VCB. The biosensors labeled with biotin-Brd4BD2 were
+exposed to VCB complex solution for the association and were monitored
+for 210 s. The biosensors were then moved back into the assay buffer
+to disassociate for another 400 s.
+4.PPIs between Brd4BD2 and
+VCB induced by SHD913. The biosensors labeled with biotin-Brd4BD2 were exposed to the solution containing 1 μM SHD913 which had been preincubated with VCB complex for the
+association and were monitored for 210 s.
+
+## Crystallography
+Brd4BD2, VCB, and SHD913 were mixed in a 1:1:1 molar ratio and incubated for
+15 min to form a ternary complex with a final protein concentration
+of 9.5 mg/mL. Crystals were grown using the sitting drop vapor diffuse
+method consisting of 1 μL of the preincubated protein sample
+with an equal volume of reservoir solution containing 1.5 M ammonium
+sulfate, 0.1 M tris base/hydrochloric acid, pH 8.5, 12% (v/v) glycerol
+at 18 °C. Crystals were obtained after 1 week of incubation.
+Crystals were cryo-protected using a reservoir solution containing
+an additional 20% glycerol and flash-frozen in liquid nitrogen. The
+diffraction data were collected at the BL10U2 beamline at 100 K under
+a wavelength of 0.97918 using the PIXEL DECTRIS EIGER X 16 M detector
+in Shanghai Synchrotron Radiation Facility and processed with XDS,
+pointless and aimless. The complex structure
+was determined by molecular replacement, employing a reported structure
+(PDB: 5T35)
+as a search model, utilizing the program PHASER in the CCP4 suite. SHD913 geometry restraints for refinement were
+generated using eLBOW. An iterative cycle
+of refinement was carried out using COOT with PHENIX. Ramachandran plots indicate that 97.58% of backbone torsion
+angles are in the favored region, 2.30% in the allowed region, and
+0.12% in the outlier region. Interfaces observed in the crystal structure
+were calculated using PISA, and structural figures were generated
+using PyMOL. 
+
+## MD Simulations
+The complex of structures of Brd4BD2: SHD913: VCB, Brd4BD2: SHD913, and SHD913: VCB was prepared by Protein Preparation
+Wizard (Schrödinger, LLC, New York, NY, 2021). The SPC model
+was used for water molecules. The OPLS4 force field was used for the
+system. After relaxation, the systems were submitted to 500 ns production
+simulations. The simulations were run in constant number (N), pressure (P), and temperature (T) (NPT) ensemble at 300 K and 1 atm using
+Nosé–Hoover and the Martyna-Tobias-Klein algorithm.
+The RESPA integration method was used with a time step of 2 fs.
+
+## Metabolic Stability
+The in vitro metabolic stabilities
+of compounds were assessed by human, mouse and rat liver microsomes,
+which were prepared and diluted to a final protein concentration of
+0.5 mg/mL in a phosphate buffer containing EDTA and MgCl2. The tested
+compounds were dissolved in DMSO and diluted to a final concentration
+of 1 μM. The result compound solution was incubated with the
+microsomes at 37 °C for 5 min, followed by the addition of the
+NAPH-generating system. The reactions were stopped by using ice-cold
+acetonitrile at time points of 0, 5, 15, 30, and 45 min. The resulting
+samples were centrifuged and then analyzed by LC-MS/MS. Ketanserin
+was selected as the control compound in this assay. The parameters
+of the results were calculated by the classical formula.
+
+## ITC
+The titrations were all performed as reverse mode
+(protein in syringe, ligand in cell) and consisted of 19 injections
+of 2 μL protein solution (20 mM bis–tris propane, 100
+mM NaCl, 1 mM tris(2- carboxyethyl)phosphine (TCEP), pH 7.4) at a
+rate of 0.5 μL/s at 120 s time intervals. An initial 23 injection
+(0.4 μL) was made and discarded during data analysis. All experiments
+were performed at 25 °C while stirring at 600 r.p.m. The compound
+was diluted from a 5 mM DMSO stock solution to 10 μM in buffer
+containing 20 mM bis-tris propane, 100 mM NaCl, 1 mM tris(2-carboxyethyl)phosphine
+(TCEP), pH 7.4. The final DMSO concentration was 0.2%. Bromodomain
+(in the syringe) was titrated into 1 (in the cell). At the end of
+the titration, the excess of solution was removed from the cell, the
+syringe was washed and dried, VCB complex (84 μM, in the same
+buffer) was loaded in the syringe and titrated into the complex PROTAC–bromodomain.
+Titrations for the binary complex Compound–VCB were performed
+as follows: to the solution of 1 (in the cell), buffer (38.4 μL)
+was added by means of a single ITC injection. The excess solution
+was removed from the cell, the syringe was washed and dried, and the
+VCB complex (in the same buffer) was loaded in the syringe and titrated
+into the diluted PROTAC solution. The data were fitted to a single-binding-site
+model to obtain the stoichiometry n, the dissociation constant Kd, and the enthalpy of binding ΔH using the d analyzed using the MicroCal PEAQ-ITC analysis
+software provided by the manufacturer. Cooperativity (α) values
+were calculated from the ratio of binary Kd and ternary Kd values determined for
+VCB binding to compound or compound:bromodomain, respectively.
+
+## siRNA
+For siRNA transfection, cells were plated in
+12-well plates with Pen/Strep-free growth medium overnight. 50 nM
+of siVHL in 100 μL Opti-MEM was incubated with 2 μL Lipofectamine
+2000 in 100 μL Opti-MEM for 15 min at room temperature. Negative
+Control was only added Lipofectamine 2000. siRNA/Lipofectamine 2000
+mix was added to cells slowly. After an 8 hrs incubation, the medium
+was changed to complete growth medium. Cells were cultured for 72
+h for treatment with compounds. The siVHL sense sequence is 5′-
+GGCUCAACUUCGACGGCGA −3′ and the antisense sequence is
+5′- UCGCCGUCGAAGUUGAGCC −3′. siNC was just added
+Lipofectamine 2000.
+
+## Permeability Assay
+PC-3 cells were seeded in 6-well
+dishes for 80–90% confluency and treated with 10 and 30 μM
+of the indicated compounds for 24 h. The treated cells were washed
+with PBS 3 times and subsequently lysed with 150 μL of RIPA
+buffer. The cell lysates were precipitated with acetonitrile and then
+centrifuged at 2350g for 20 min at 4 °C. The lysate supernatants
+were collected and subjected to analysis using an LC–MS/MS
+system. The experiment was conducted by WuXi AppTec. through a research
+contract.
+
+## Acknowledgments
+We acknowledge the financial support from the National
+Key R&D Program of China (2023YFE0119000, 2023YFF1205104, and
+2023YFC2506402), the National Natural Science Foundation of China
+(22037003, 32071446, and 82204197), the Strategic Priority Research
+Program of the Chinese Academy of Sciences (XDB1060000), the Open
+Project of Shenzhen Bay Laboratory (SZBL2021080601004), the Major
+Program of Guangzhou National Laboratory (GZNL2023A02012), the China
+Postdoctoral Science Foundation (2023M733639), the Shanghai Postdoctoral
+Excellence Program (2022710), the State Key Laboratory of Chemical
+Biology, and Livzon Pharmaceutical Group Inc. We also thank the staff
+at BL10U2/BL02U1/BL17B1/BL18U1/BL19U1 beamlines at Shanghai Synchrotron
+Radiation Facility (SSRF) of the National Facility for Protein Science
+in Shanghai (NFPS), Shanghai Advanced Research Institute, Chinese
+Academy of Sciences, for providing technical support in X-ray diffraction
+data collection and analysis.
+
+## Glossary
+
+## Abbreviations
+BLIbiolayer
+interferometry assay
+Brd4BD2the second bromodomain of Brd4
+DBU1,8-diazabicyclo[5,4,0]undec-7-ene
+DC50the
+half
+maximal degradation concentration
+DIEAN,N-diisopropylethylamine
+DMFN,N-dimethylformamide
+DPPAdiphenylphosphoryl azide
+Et3Ntriethylamine
+HATU2-(7-azabenzotriazol-1-yl)-N′,N′,N’-tetramethyluronium hexafluorophosphate
+HPLChigh-performance liquid
+chromatography
+HRMShigh-resolution mass spectra
+K2CO3potassium carbonate
+KOHpotassium hydroxide
+LC-MSliquid chromatography–mass
+spectrometry
+LiOHlithium hydroxide
+NanoBRETnanoluciferase bioluminescence resonance energy transfer
+MDmolecular dynamics
+NH3.H2Oammonium hydroxide
+NSCLCnon-small cell
+lung cancer
+PEGpolyethylene glycol
+PPIprotein–protein interaction
+RMSDroot-mean-square deviation
+RTroom temperature
+SDRstructure-degradation relationship
+TFAtrifluoroacetic
+acid
+THFtetrahydrofuran
+TLCthin-layer chromatography
+TPDtargeted protein
+degradation
+VCBa complex of VHL, Elongin C and Elongin B
+VHLVon Hippel–Lindau protein
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/jacsau.4c00831.
+Degradation efficiency of compounds 10a–10i and 15a–15c in PC-3 cells; degradation efficiency of SHD913 in
+PC-3, A549, NCI-H23, MDA-MB-231, and Panc 10.05 cells, degradation
+efficiency of MZ1 in PC-3 cells, and intracellular mass
+of compounds SHD913, MZ1, macroPROTAC-1 per 105 cells; SHD913: Brd3BD2 binary Kd by BLI, and biophysical characterization
+of PPIs induced by SHD913 determined by BLI assay; biophysical
+characterization of PPIs induced by MZ1, SHD913, and macroPROTAC-1 determined by ITC assay; superposition
+of Brd4BD2: SHD913: VCB and Brd4BD2: MZ1: VCB; 2Fo-Fc electron density map of SHD913 contoured
+at 1.0 σ; electrostatic surface of the BRD4BD2: SHD913: VCB complex; MD simulations for the binary complex
+of Brd4BD2: SHD913 or SHD913:
+VCB; ITC data; crystal data collection and refinement statistics;
+in vitro liver microsomal stabilities of SHD913 and MZ1; and 1H NMR and 13C NMR spectra,
+and HPLC traces for all final compounds (PDF)
+
+## Author Contributions
+∇ L.C.,
+C.Y., and H.W. contributed equally to this work. CRediT: Chungen
+Li data curation, investigation, methodology; Yihan Chen data curation, investigation; Weixue Huang data curation,
+formal analysis, methodology; Yudi Qiu data curation,
+investigation; Shengjie Huang data curation,
+software; Yang Zhou data curation, software; Fengtao
+Zhou data curation, investigation; Jian Xu data
+curation, funding acquisition; Xiaomei Ren project administration,
+supervision; Jinwei Zhang formal analysis, methodology,
+writing - original draft; Zhen Wang supervision, validation,
+writing - original draft; Ming Ding data curation, resources,
+software; Ke Ding conceptualization, funding acquisition,
+resources, supervision, writing - review & editing.
+
+The authors
+declare the following competing financial interest(s): This research
+received financial support from Livzon Pharmaceutical Group Inc.
+
+## Supplementary Material
+au4c00831_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+au4c00831_si_001.pdf

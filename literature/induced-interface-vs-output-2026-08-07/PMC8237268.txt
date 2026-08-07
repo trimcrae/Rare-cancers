@@ -1,0 +1,657 @@
+J Med ChemJ Med Chem822acssd9716531jmJournal of Medicinal Chemistry0022-26231520-4804pmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC8237268PMC8237268.1823726882372683407641610.1021/acs.jmedchem.1c004011ArticleAn Exploration
+of Chemical Properties Required for
+Cooperative Stabilization of the 14-3-3 Interaction with NF-κB—Utilizing
+a Reversible Covalent Tethering Approach
+https://orcid.org/0000-0003-1430-9589WolterMadita ValentiDario CossarPeter J. HristevaStanimira LevyLaura M. GenskiThorsten HoffmannTorsten https://orcid.org/0000-0001-5675-511XBrunsveldLuc TzalisDimitrios https://orcid.org/0000-0001-7315-0315OttmannChristian †Department
+of Biomedical Engineering, Laboratory of Chemical Biology and Institute
+for Complex Molecular Systems, Eindhoven
+University of Technology, P.O. Box 513, 5600 MB Eindhoven, The Netherlands‡Medicinal
+Chemistry, Taros Chemicals GmbH & Co.
+KG, Emil-Figge-Straße 76a, 44227 Dortmund, Germany*Email: l.brunsveld@tue.nl. Phone: +31 40−247-2870.*Email: dtzalis@taros.de.*Email: c.ottmann@tue.nl. Phone: +31 40−247-2835.020620212406202164123846338423843605032021280620210607202105042026© 2021 The Authors. Published by American
+Chemical Society2021The Authorshttps://creativecommons.org/licenses/by-nc-nd/4.0/Permits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/). 
+Protein–protein
+modulation has emerged as a proven approach
+to drug discovery. While significant progress has been gained in developing
+protein–protein interaction (PPI) inhibitors, the orthogonal
+approach of PPI stabilization lacks established methodologies for
+drug design. Here, we report the systematic ″bottom-up″
+development of a reversible covalent PPI stabilizer. An imine bond
+was employed to anchor the stabilizer at the interface of the 14-3-3/p65
+complex, leading to a molecular glue that elicited an 81-fold increase
+in complex stabilization. Utilizing protein crystallography and biophysical
+assays, we deconvoluted how chemical properties of a stabilizer translate
+to structural changes in the ternary 14-3-3/p65/molecular glue complex.
+Furthermore, we explore how this leads to high cooperativity and increased
+stability of the complex.
+
+H2020 Marie Sklodowska-Curie Actions10.13039/100010665675179Nederlandse Organisatie voor Wetenschappelijk Onderzoek10.13039/501100003246024.001.035Nederlandse Organisatie voor Wetenschappelijk Onderzoek10.13039/501100003246016.150.366H2020 Marie Sklodowska-Curie Actions10.13039/100010665754462pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-NDdocument-id-old-9jm1c00401document-id-new-14jm1c00401ccc-price1
+
+## Introduction
+Protein–protein
+interaction (PPI) modulation has fundamentally
+changed drug discovery, expanding the druggable proteome. − This shift in perspective has rapidly expanded the number of entry
+points for novel therapeutic intervention for many diseases. , The development of PPI inhibitors has progressed steadily, leading
+to the emergence of clinically approved PPI inhibitors such as Venetoclax
+for chronic lymphocytic leukemia or small lymphocytic lymphoma. In contrast, PPI stabilization has emerged slowly,
+with the retrospective elucidation of the mode of action of clinically
+approved immunosuppressants, rapamycin, , and the cytostatic
+paclitaxel. , Successes of immunomodulators, lenalidomide,
+and cooperative PROTACs like AT1 provide valuable ″proofs-of-concepts″
+for modulating cell homeostasis using synthetically derived PPI stabilizers. − However, a systematic understanding of how to design small molecules
+that stabilize PPIs is urgently needed. The disconnection between
+these orthogonal PPI modulation approaches is primarily driven by
+a poor understanding of drug design rules for PPI stabilizers due
+to the complicated kinetics of dynamically interacting components
+that form the complex, , shallow surface pockets, and
+limited or no structural information about the essential interactions
+that drive complex formation. A major obstacle for the development
+of PPI stabilizers is identifying chemical starting points, as the
+transient nature of complexes makes detecting ligand binding challenging.
+Further, affinity of a ligand to a complex is not necessarily correlated
+to the ligand’s stabilizing activity.
+There is a significant
+need to develop novel drug discovery methodologies
+and alternative types of chemical matter to identify hit compounds
+for the development of PPI stabilizers. Fragment-based drug discovery
+has emerged as a promising approach leading to several clinically
+approved drugs. , Since the clinical approval of
+ibrutinib, the stigma relating to covalent drugs and fragments has
+dissipated, resulting in a rise in the
+application of covalent tethering, particularly for challenging drug
+targets. , The emergence of fragment tethering approaches
+using covalent chemistry has simplified the identification of hit
+compounds as binding fragments are easily detectable, and instrumentation
+is not reliant on detecting transient fragments/complex interactions
+to identify hits. , Covalent fragment screening uses
+a covalent bond that is formed between a natural or engineered amino
+acid inside the targeted binding pocket and a reactive handle installed
+on the fragments. Recent fragment screening
+approaches utilizing disulfide tethering have proven successful in
+identifying hit fragments for PPI stabilization. Such site-directed
+fragment identification has recently been reported by us for stabilization
+of the protein 14-3-3 in complex with estrogen receptor α (ERα) and estrogen related receptor gamma (ERRγ) utilizing a disulfide tethering approach. We
+have also reported a new aldimine-based covalent tethering approach
+for the 14-3-3/p65 subunit of NF-κB PPI. This approach employs a dynamic imine-based tether to anchor
+the fragment at the interface of the composite pocket. Lysine tethering
+is a particularly attractive approach as the large percentage of the
+proteinogenic amino acids makes it amendable to a wide array of chemical
+probe development projects. − 
+Targeting the p65 subunit of NF-κB is
+of specific interest
+since NF-κB is a homo- and/or heterodimeric transcription factor
+involved in the regulation of immune responses, cell proliferation,
+and inflammation and therefore is connected to cancer and autoimmune
+diseases, among others. − Attempts to directly inhibit
+the transcriptional activity of NF-κB have typically failed
+due to the inability to identify NF-κB-targeting matter. , Interestingly, increased transcriptional activity of p65 has been
+correlated with downregulation of 14-3-3 in studies on ischemia–reperfusion
+and breast cancer. , Also, upregulation of 14-3-3
+has been shown to favor cytosolic localization of p65, subsequently preventing transcriptional activity.
+Stabilization of the 14-3-3/p65 complex could therefore furnish a
+novel entry point for targeting NF-κB and enabling a controlled
+therapeutic intervention.
+Point mutational studies on p65 revealed
+three potential 14-3-3
+binding sites surrounding the phosphorylation sites S45, S281, and
+S340. Binding affinities and structural
+information for two of these sites, pS45 and pS281, were reported,
+showing the direct physical interaction between both proteins. Benzaldehyde-based molecular fragments were
+shown to bind specifically to Lys122 of 14-3-3 via imine bond formation,
+thereby stabilizing the interaction with the p65 motif around phosphorylation
+site pS45 via hydrophobic contacts with p65. 
+Here, we extend upon our initial communication reporting on
+an
+imine-based site-directed fragment approach to develop a 14-3-3/p65
+molecular glue. Critical to the development
+of molecular glues is a robust understanding of molecular interactions
+and structural changes in the protein–protein–ligand
+complex that result in cooperative behavior. To understand the chemical
+properties that produce cooperative ligands, we employed a fragment
+extension design process using structural information gathered from
+X-ray crystallography soaking experiments and fluorescence anisotropy
+(FA) measurements. This enabled us to design initial fragments into
+molecular glues that showed stabilizing activity for the 14-3-3/p65
+complex, culminating with the discovery of compound 24j that elicits an 81-fold stabilizing effect on the 14-3-3/p65 complex.
+
+2
+
+## Results and Discussion
+We have previously shown that
+aldimine bond formation is highly
+selective for Lys122 of 14-3-3 that lies at the interface between
+14-3-3 and p65 in the composite binding pocket ( A). The enhanced selectivity for Lys122 is
+the result of a combination of the local hydrophobic character of
+the composite pocket, a lowered pKa of
+the lysine side chain, and the templating effects of p65 binding. Given the intrinsically disordered nature of
+large parts of the p65 subunit of NF-κB ( B), we utilized a 13-mer phosphopeptide representing
+(EGRSAG pSer45 IPGRRS) the recognition sequence of 14-3-3 to expedite
+chemical matter elucidation. Our initial investigation used X-ray
+crystal soaking experiments and a fragment library of commercially
+available aldehydes (34 fragments) to identify four key chemotypes
+that induced imine bond formation with Lys122 within the 14-3-3/p65
+composite pocket ( C,D): methylsulfonyl (1 and 2),
+1-nitro,3-hydroxybenzene (3), methyl acetamide (4), and five-membered N-heterocycles (5, 6, and 7). Biochemical assessment
+of fragments 1–7 used a fluorescence anisotropy
+(FA) assay. To assess the fragments’ capacity to induce a ternary
+complex, the fragments were titrated to a solution of 100 nM fluorescently
+labeled p65_45 peptide (FITC-βAla-EGRSAG pSer45 IPGRRS) and
+50 μM of 14-3-3γ. The subsequent outputs are herein termed
+″half maximal complex concentration (CC50)″.
+Results from the assay showed that these fragments did not increase
+complex formation. However, the lack of increase in complexation at
+relevant fragment concentrations was in accordance with crystal data,
+which indicated little to no direct contacts between the fragments
+and the p65 peptide. Fragments that are detectable in crystallography
+experiments but do not induce a detectable effect on complex formation
+are termed ″silent-binders″. We sought to develop a
+structure–activity relationship (SAR) based upon these four
+chemotypes with the specific goal of developing molecular glues that
+orthosterically engage with p65 and stabilize the 14-3-3/p65 complex.
+ To facilitate rapid optimization of the initial hit compounds
+into
+molecular glues, six focused libraries were designed based on the
+four chemotypes from the initial screen. Key to the development of
+molecular glues is understanding which specific interactions (hotspots)
+between the fragments and the 14-3-3/p65 complex lead to cooperative
+binding. Within our lab, we have developed a highly robust crystallography
+screening system to rapidly access X-ray crystal structures of soaked
+fragments. Utilizing this system, we gain unparalleled structural
+information that guides hit optimization.
+2.1
+
+## Focused
+Library Development around the 3-Hydroxy,4-nitrobenzaldehyde
+Scaffold
+Initial focused library development concentrated
+on extension of 3 based on crystal data, which showed
+complete coverage of the fragment by the electron density map, indicating
+a high occupancy for 3 within the composite pocket. Analysis
+of the X-ray crystal structure of 3 indicated that a
+relatively large solvent exposed pocket was present in front of the
+fragment formed by p65 ( A). We sought to explore this chemical space via extension
+of 3 from the 3-hydroxy position. To expedite exploration,
+focused libraries 1 and 2 were obtained from a commercial supplier
+and screened using X-ray crystallography ( ).
+ Analysis of focused libraries 1 and 2 using X-ray crystal soaking
+experiments showed three sulfonate fragments (9a–c) and four ester fragments (10a, d, j, and m) bound to Lys122 in the crystal structures ( B,C; Figure S1A,B; Table S1). The various substituents elicited poor to moderate coverage
+by the electron density map, except for the sulfonates 9a and 9b. However, neither 9a nor 9b were active in functional FA assays (Figure S1A). For these smaller substitutes (9a and 9b), no favorable contacts with the peptide could
+be observed, whereas the larger substitutions resulted in a loss of
+electron density, indicative of a high conformational freedom of the
+ester side chain (9c, 10a, and 10j; Figure S1A,B).
+An additional collection
+of fragments (focused library 3) was synthesized
+based on tertiary amines at the meta-position. The
+replacement of the phenol oxygen of 3 with a ternary
+amine increased the number of vectors for fragment extension, reduced
+conformational freedom, and enabled the exploration of a different
+chemical space. A one-step nucleophilic aromatic substitution using
+the key benzaldehyde intermediate 11 and the corresponding
+amine (12a–u) was employed to afford 21 analogues
+(13a–u) with yields ranging from 20 to 68% ( ). Focused fragment
+library 3 was then soaked into p65_45/14-3-3 crystals and tested in
+the FA assay. Of this collection, four fragments bound in crystallography
+experiments, with 13e, f, l, and q showing significant electron density coverage
+( D, Figure S1C, Table S1). Notably, all four fragments
+contained six-membered saturated N-heterocyclic rings
+with polar functional groups that formed either direct hydrogen bonds
+with the backbone of p65 or water-mediated hydrogen bonds. The binding
+poses of these compounds were well defined, whereby the saturated N-heterocyclic ring extends toward the C-terminus of the
+p65 peptide. These results suggest that these fragments are shielded
+by the amphiphilic amino acids Pro47, Gly48, Arg49, and Arg50 of p65,
+which facilitate covalent tethering. Biophysical assessment of 13e, f, l, and q using
+FA compound titration assays showed that the fragments did not elicit
+significant ternary complex formation at biochemically relevant concentrations
+(Figure S1C). Surprisingly, 13f and 13l showed no increased complex formation, considering
+that both fragments engage in hydrogen bonding with p65. Given the
+lack of 14-3-3/p65 increased complex formation in FA compound titration
+assays at concentrations practical for hit optimization, we shifted
+focus to the five-membered N-heterocycles chemotype.
+
+2.2
+
+## Focused Library Development around the 4-(1H-Imidazol-1-yl)benzaldehyde Scaffold
+Fragment 5 was selected for fragment library development as the para-substitution proved to be more solvent exposed compared
+with 7 and the 1,3-substituted imidazole provided the
+possibility for fragment extension from three vectors of the N-heterocycle ( A). A focused library of 13 fragments (focused library
+4) was synthesized using a nucleophilic aromatic substitution reaction
+with cesium fluoride, triethylamine, 4-fluoro-nicotinaldehyde (14), and an array of substituted imidazoles (15a–e) or benzimidazoles (15f–k) ( ). The starting reactant 4-fluoro-nicotinaldehyde
+(14) was used to improve the solubility of the fragments
+and to provide a further point for a polar interaction compared with 5–7. The resulting library was then subjected
+to X-ray crystal soaking experiments and FA assay. Notably, fragments 16b, c, f, and g–k were tested as mixtures of regioisomers.
+ Analysis of the fluorescence anisotropy assay identified
+that fragments 16d, e, j, and k induced
+an increase in anisotropy ( B); however, only 16d, j,
+and k were detected in the electron density map of soaking
+experiments. Notably, all three fragments showed a mixture of conformational
+poses ( C–F, Figure S2, Table S2). Both structural isomers
+of 16j (2-methyl-5-methoxy-benzimidazole) and 16k (2-chloro-5-methoxy-benzimidazole) were observed to bind within
+the composite binding pocket as result of the soaking experiment using
+mixtures of the structural isomers ( D–F). For instance, the chlorine atom
+in 16k points toward the p65 peptide, while the methoxy-substitution
+can be detected in the 5-position ( E). For the other binding pose, the chlorine
+atom in 16k points to the FC pocket, whereas the methoxy-substitution
+located in the 6-position is positioned above Ile46 of p65. Both structural
+isomers of 16k engage in hydrophobic contacts with the
+roof of 14-3-3 and Ill46 of p65_45 ( F). Despite their similar binding poses, 16k (CC50 = 260 μM) elicited a significantly
+higher increase in anisotropy compared to 16j, which
+induced a negligible ternary complex formation in the FA assay ( B). The replacement
+of a chloro-moiety for a methyl group in 16k (16j) on the imidazole ring has a significant impact on complex formation,
+resulting in diminished anisotropy.
+
+2.3
+
+## Focused
+Library Development around the 4-Formylbenzamide
+Scaffold
+We next turned our attention to fragment extension
+based upon fragment 4. Analysis of the co-crystal structure
+showed that the N-acetyl group of 4 probes
+up and toward the p65 peptide. To expediate the rapid parallel synthesis
+of focused library 5, the N-(4-formylphenyl)acetamide
+(4) was inverted to a N-substituted
+4-formyl-benzamide (19a–t), improving the nucleophilicity
+of the amine in the corresponding amide coupling reactions as well
+as providing greater chemical diversity of the fragment extension
+( ). Further,
+a previously published cluster analysis of occurring torsion (τ)
+angles of benzamide report a τ ≈ 30 and 150° between
+the benzene ring and the acetamide head group ( A). We hypothesized
+that extension of the fragment from this vector provides the opportunity
+to engage with the p65 peptide and enhance fragment binding ( B). Focused library
+5 was synthesized using standard amide coupling conditions, 1-formylbenzoic
+acid (17), and amines 18a–t. In total,
+13 fragments (19a–t) with amide substitution in
+the para-position of the aldehyde functionality were
+synthesized, soaked in p65_45/14-3-3σΔC crystals, and
+tested in FA compound titrations. All fragments from library 5 were
+shown to bind within the composite binding pocket using X-ray crystallography
+(Figure S3, Table S2). Subsequent biophysical
+analysis identified that all compounds were silent binders, not inducing
+detectable formation of a ternary complex at assay relevant concentrations.
+X-ray co-crystallization experiments and an assessment of the C–C–C–N
+torsion angles provided an explanation for the lack of activity for
+this series of fragments. The electron density map of the aldehydes
+showed highly resolved electron density for the benzaldehyde ring
+and the amide of the benzamide. The carbonyl of the benzamide engages
+in polar contacts with the water shell of 14-3-3, thereby stabilizing
+this orientation of the fragments ( C). The binding poses of the different R-substitutions
+are poorly resolved by the electron density map, suggesting a high
+level of conformational freedom and a high-level entropy of the substitutes,
+unfavorable for binding. Assessment of this library of fragments showed
+the R-substitution pointing toward the solution above the p65 peptide
+or Asp215 of 14-3-3 with limited possibilities to engage in favorable
+contacts. For a few fragments, the R-substitutes engage in polar contacts
+with the 14-3-3 water shell, exemplified by 19e ( C). However, the
+additional polar contacts do not translate to significant increases
+in ternary complex formation potentially due to entropic penalties
+or lack of contacts with the p65 peptide. Given the lack of cooperative
+ternary complex formation of this library at biochemically relevant
+concentration, we shifted focus to the 4-formyl benzenesulfonamide
+chemotype.
+ 
+2.4
+
+## Focused
+Library Development around 4-Formyl-benzenesulfonamides
+Having
+investigated focused libraries 1–5, we shifted our
+attention to development of a focused library based on fragment 1. Analysis of the crystal structure of fragment 1, specifically the torsion angle of τ = 90 ± 30°
+between the benzene ring and the mesyl group, proved interesting ( A). Extension of the fragment from the methyl group provided
+a potential point of reaching over the p65 peptide, trapping its binding
+to 14-3-3 ( B). Alternatively, we postulated that fragment extension could also
+result in a change in the conformation of the fragment leading to
+the occupation of the FC pocket and increasing 14-3-3-based affinity.
+To expedite fragment development, the methyl group was replaced for N-substituted amines to facilitate rapid access to a library
+of 25 structural analogues of 4-formyl-benzenosulfonamides. This library
+of sulfonamides was synthesized by conversion of sodium 2-formylbenzene-1-sulfonate
+(20) to 4-formyl-benzenesulfonyl chloride (21) using thionyl chloride in DMF. Subsequent coupling of 21 with N-substituted amines (22a–z) afforded fragments 23a–z.
+ In contrast to focused libraries 1–5, most
+of the tested
+4-formyl-benzenesulfonamide fragments showed significant stabilization
+in FA assays, allowing a differentiated SAR analysis ( , C). The activity ranged from a weak affinity
+with a small, not quantifiable increase in anisotropy to a two-digit
+micromolar CC50 potency in compound titrations. From the
+focused library 6, nine fragments elicited CC50 values
+ranging from 57 to 430 μM. An additional assessment of stabilization
+using the FA protein titration assay showed for 19 fragments a significant
+shift of apparent KD values in the presence
+of 1 mM of the fragments. Fragments 23e, f, k, t, w, and z showed KD values of <30 μM
+compared to the binary complex of full-length 14-3-3 and the p65_45
+peptide that gave a KD = 300 ± 100
+μM. Analysis of this subset of fragments showed that these shifts
+in KD’s (stabilization factor,
+SFs range from ∼12- to 65-fold). Fragment 23z,
+possessing a N-substituted 1,2,3,4-tetrahydroquinoline,
+showed the greatest SF of ∼65-fold.
+ Comparison of X-ray crystal
+soaks provided an explanation for the
+FA assay results. Structural data showed that 2-methyl pyrrolidine
+(23e) and piperidine (23f) were tolerated
+within the composite binding pocket. Ring expansion to the N-methyl diazepane (23 g) proved to be detrimental
+to stabilization (CC50 = 640 μM). Notably, polar
+functionalities within six-membered N-heterocycles
+were not well tolerated; specifically, hydrogen bond accepting and
+donating groups (23h, n–u) elicited
+high CC50 values and modest SFs (6–16-fold). This
+can be exemplified by fragment 23f containing piperidine
+(app KD = 15 μM, SF =22) compared
+with N-methylpiperazine 23h (app KD = 100 μM, SF = 3.3) and morpholine 23u (app KD = 52 μM, SF
+= 6.3) ( A,B).
+Analysis of the X-ray structures showed that introduction of a polar
+functionality typically resulted in reorientation of the R-substitute
+of the fragment toward the FC-binding pocket. Introduction of a hydrophobic
+functionality such as 23k (app KD = 27 μM, SF = 12.2) and 23v (app KD = 430 μM, SF = 10.6) recovered stabilizing activity, with the fragments re-establishing
+hydrophobic contacts with the p65 peptide. Notably, large amphiphilic
+modifications were also not well tolerated, such as 23m (app KD = 74 μM, SF = 4.5) and 23n (app KD = 94 μM, SF
+= 3.5) ( C, ), with both 23m and 23n occupying solvent exposed space within
+the composite pocket but not engaging in contacts with p65. Interestingly,
+fragment 23w (app KD = 26
+μM, SF = 12.7) showed a significant drop in stabilization with
+respect to 23f. Crystal soaking experiments showed that
+fragment 23w engages in hydrophobic interactions with
+Ile46, Pro47, and Gly48 of p65 ( D). However, unlike other fragments, 23w induces a conformational change in the C-terminus of the peptide
+shifting toward the pS45. Analysis of soaking experiment with fragment 23y showed that the tetrahydroisoquinoline ring engages in
+hydrophobic contacts with the p65 peptide; however, unlike 23e and 23f, the bicyclic rings repulse Pro47 of p65 ( E). This provides
+an explanation for the poor stabilizing activity of 23y. In contrast to 2-tetrahydroquinoline (23y), 1-tetrahydroquinoline
+(23z) was highly tolerated, eliciting CC50 = 57 μM and app KD = 5.1 μM;
+this translated to ∼65-fold stabilization. X-ray crystallography
+analysis of fragment 23z provided valuable explanation
+for the high stabilization observed in FA assays. Specifically, the
+bicyclic substructure in 23z engages the p65 peptide
+and is positioned upwards occupying the hydrophobic roof of 14-3-3σΔC
+shaped by residues Ile219, Leu218, and Leu222 ( F). Further, 23z also engages
+in direct hydrophobic contacts with Ile46 and Pro47 of p65. Most notably,
+the 14-3-3/p65/23z ternary complex formation results
+in a reorientation of the p65 peptide leading to additional 14-3-3/p65
+contacts. Fragment 23z appears to function as a template
+for the additional binding of p65, increasing cooperative behavior
+of the ternary complex. Fragment 23z facilitates additional
+14-3-3/p65 contacts by enabling the C-terminus of p65 to wrap over 23z and engage in electrostatic contacts with 14-3-3. Specifically,
+salt bridges are observed between Arg49/Glu14 and Arg50/Asp215 of
+p65_45/14-3-3, respectively. These structural features translate to
+high activity in FA assays, with a CC50 of 57 μM
+and an SF of 65 ( G). The additional interactions between 14-3-3 and p65 induced by
+the binding of 23z lead to increased cooperativity of
+the ternary complex. This improved cooperative behavior directly translates
+into improved stabilization of the 14-3-3/p65 complex.
+ 
+2.5
+
+## Optimization
+of Fragment 23z
+Encouraged by the high stabilizing
+effect of covalent fragment 23z, we looked to develop
+a library of 10 sulfonylamides based
+on tricyclic fragment 23z. Due to the rearrangement of
+the p65 peptide in the presence of 23z forming a narrow
+and enclosed binding pocket, this limited the sites for fragment modifications
+to the 5-, 6-, or 7-position of the tetrahydroquinoline ring ( A). As a result,
+we focused on small modifications to build additional interactions
+with the hydrophobic patch in the roof of 14-3-3 or extension of the
+fragments over Ile46 of p65. Additionally, we investigated the addition
+of heteroatoms in the 4-position of the tetrahydroquinoline ring to
+engage with the backbone carbonyl or nitrogen of Pro47 or Gly48 to
+establish additional polar contacts. A small library of 10 analogues
+was synthesized using our previously mentioned sulfonamide coupling
+( ).
+ Structural analysis of
+this library showed that this series of
+analogues retained a similar cooperative behavior as 23z, inducing additional PPI contacts. Biophysical analysis using an
+FA assay provided valuable insight into the SAR around fragment 23z. Analysis of the CC50 concentration indicated
+that 23z showed the highest ternary complex formation,
+with all other analogues in this series eliciting a drop in complexation
+(CC50 values ranging from 110 to 310 μM). However,
+significant insight into complex stabilization was gained from the
+analysis of app KD values. Substitution
+of 23z for an indoline (24a) or racemic
+2-methyl-tetrahydroquinoline (24b) was tolerated; however,
+a 2-fold reduction was observed in stabilization, with app KD values of 11 and 9.6 μM, respectively.
+Structural analysis of 24a showed additional space around
+the five-membered heterocycle potentially providing additional sites
+for functionalization in the future (Figure S5). Fragment 24b showed excellent electron density across
+the entire fragment within the X-ray crystal structure, enabling unambiguous
+assignment of stereochemistry. From the structure, it was identified
+that the R-enantiomer exclusively bound in the crystal, suggesting
+that the pure R-enantiomer may have significantly underestimated CC50 and app KD ( B). This site may provide an
+excellent point for fragment extension toward the p65 peptide. Addition
+of a halogen or methoxy in the 6-position resulted in a reduction
+in stabilization, with 6-fluoro (24c), 6-chloro (24d), or 6-methoxy (24e) substituted tetrahydroquinoline
+fragments affording app KD values of 6.2,
+9.9, and 10 μM, respectively. Analysis of soaking experiments
+shows that modifications in this position resulted in unfavorable
+contacts with the roof of 14-3-3 ( C). Addition of an oxygen to the saturated
+six-membered ring (24f) proved detrimental to stabilization
+(app KD = 15 μM). Further addition
+of halogens or methoxy groups in the 6 or 7 positions did not re-establish
+lost stabilization, such as 6-chloro (24h), 6-methoxy
+(24i), or 7-fluoro (24g). Substitution of
+the benzomorpholine (24f) for tetrahydroquinoxaline (24j) resulted in an improvement in stabilization with 24j eliciting an app KD of 4.3
+μM, translating into the highest stabilizing effect with an
+81-fold stabilization ( D,E). Structural analysis showed that the introduction of
+a nitrogen atom in the saturated ring installs an additional hydrogen
+bond with the backbone carbonyl of Pro47 of p65 ( F).
+To assess the selective
+ternary complex formation of 24j with 14-3-3/p65, the
+fragment was further screened in a compound
+titration FA assay against three well-established 14-3-3 interactions
+(p53, ERα, and TAZ; Figure S6). Gratifyingly,
+no ternary complex formation was detected for p53, ERα, or TAZ
+complexes, proving that 24j is not a pan-stabilizer of
+14-3-3 interactions and indicating an initial selectivity of 24j toward the p65/14-3-3 interaction.
+
+3
+
+## Conclusions
+Summarizing, here we build upon our initial
+report of a novel covalent
+fragment screening approach using an aldehyde fragment library. These
+covalent fragments form a covalent tether with Lys122 within the 14-3-3/p65
+composite binding pocket. Specifically, we describe the optimization
+of initial hit covalent fragments into a p65/14-3-3 molecular glue
+that elicited an 81-fold stabilization of the 14-3-3/p65 complex.
+Critical to this success was the use of X-ray crystallography and
+FA measurements to develop a robust understanding of the structural
+activity relationship. Direct hydrophobic engagement with p65 was
+the driving interaction that established complex stabilization. Hydrophobic
+contacts between 23z or 24j and p65 resulted
+in a conformational change in the 14-3-3/p65 interface with extended
+interactions, in turn increasing the cooperativity of the ternary
+complex. Fragment 23z or 24j might serve
+as a valuable starting point for optimization for the development
+of a chemical probe to study the effects of 14-3-3-mediated regulation
+of p65 in a cellular context. Particularly, the aldehyde functionality
+requires additional investigations to validate its activity and oxidative
+stability in a cellular context such as with the aldehyde-containing
+drug voxelotor. Alternatively, the aldehyde
+could be replaced with a more benign chemical handle that is less
+susceptible to oxidation, or the application of a prodrug approach
+to protect the aldehyde may need to be considered when moving toward
+cellular studies.
+Considering the lack of rational methodologies
+to develop PPI stabilizers,
+here we describe a systematic approach to developing initial hit fragments
+into molecular glues. Observations from this research indicate that
+the direct engagement of molecular glues with the partner peptide
+is significant for stabilization. Specifically, hydrophobic contacts
+are effective to enhance ternary complex formation and support a cooperative
+binding mode. Analysis of SAR results indicates that fragments that
+facilitate templating of the p65 peptide and promotion of additional
+contacts between 14-3-3 and p65 resulted in increased complex stabilization.
+This research has direct applications to further development of PPI
+stabilizers as well as the field of PROTACs. There is a growing body
+of evidence showing that cooperative PROTACs, which stabilize direct
+PPIs, lead to improved efficacy, reducing problems associated with
+the hook-effect and the necessity for highly potent molecules. − Additionally, research from the field of PROTACs and our findings
+appear to be in agreement that the molecular glue/cooperative PROTAC
+potency of a ligand for a complex is not the driving force for increased
+complex stabilization; rather, the cooperativity behavior of the ternary
+complex appears to be the driving force for PPI stabilization. , , , 
+
+4
+
+## Experimental Section
+4.1
+
+## Protein Expression and Purification
+The 14-3-3 proteins
+were expressed and purified using standard protocols.
+In short, pPROEX HTb vectors encoding the 14-3-3σΔC (truncated
+C-terminus ΔC17) and 14-3-3γ isoform were transformed
+into BL21(DE3) cells. Protein expression was initiated with 0.4 mM
+IPTG at a cell density OD600 = 0.8–1. The expression
+took place overnight at 18 °C. The cells were harvested by centrifugation
+(10,000g, 15 min) and resuspended in a lysis buffer
+(50 mM Tris/HCl pH 8, 300 mM NaCl, 12.5 mM imidazole, and 2 mM β-mercaptoethanol).
+The cells were lysed with a homogenizer, and the lysate was cleared
+via centrifugation (40,000g, 30 min). Ni-NTA columns
+were used to isolate the protein, which was washed with 10 CV lysis
+buffer and eluted with 250 mM imidazole (50 mM Tris/HCl pH 8, 300
+mM NaCl, 250 mM imidazole, and 2 mM β-mercaptoethanol). The
+full-length 14-3-3γ was dialyzed against 25 mM HEPES pH 7.5,
+100 mM NaCl, 10 mM MgCl2, and 0.5 mM Tris(2-carboxyethyl)phosphine)
+and stored at −80 °C. For the 14-3-3σΔC, the
+His6-tag was removed by the TEV protease; the TEV was removed with
+Ni-NTA columns. The rest of the imidazole of the 14-3-3σΔC
+solution was removed by size exclusion chromatography (20 mM HEPES
+pH 7.5, 150 mM NaCl, and 2 mM β-mercaptoethanol) and stored
+at −80 °C.
+
+4.2
+
+## X-ray Crystallography
+Binary crystals
+with p65_45 peptide (sequence: EGRSAG pS45 IPGRRS, C-terminus:
+amidation; N-terminus: acetylation) and
+14-3-3σΔC were grown at a 14-3-3σΔC concentration
+of 12 mg/mL in a 1:2 ratio with the acetylated peptide in 20 mM HEPES
+pH 7.5, 2 mM MgCl2, and 2 mM β-mercaptoethanol. This
+complexation mixture was incubated overnight. In a hanging drop setup,
+the complexation mixture was mixed in 1:2 ratio with the precipitation
+buffer (95 mM HEPES pH 7.5, 27–28% PEG400, 190 mM CaCl2, and 5% glycerol). For data acquisition, crystals were directly
+flash-frozen in liquid nitrogen.
+Fragment soaks were performed
+by adding compounds in DMSO stock solutions direct to fully grown
+crystals with a final compound concentration of 10 mM (≤1%
+DMSO). The soaks were incubated for 7 days prior to data acquisition.
+Diffraction data were measured either at the P11 beamline of PetraIII
+(DESY campus, Hamburg, Germany) or the i-03/i-24 beamline of the diamond
+light source (Oxford, UK) or in-house. The diffraction data were integrated
+with the xia2/DIALS pipeline followed
+by molecular replacement with MolRep. , The binary
+p65_45/14-3-3σΔC structure was used as a search model
+(PDB ID: 6QHL). Model refinement took place in iterative cycles with Coot, Refmac5, and phenix.refine. 3D structures of ligands were prepared using
+the fragment SMILES and elbow of the phenix suite. Figures were generated with PyMOL (V2.0.6, Schrodinger
+LLC).
+
+4.3
+
+## Fluorescence Anisotropy Assays
+Complex
+stabilization was measured using a fluorescently labeled p65_45 peptide
+(FITC-βAla-EGRSAG pS45 IPGRRS) at a concentration
+of 100 nM throughout all assays. During compound titrations, the 14-3-3γ
+concentration was constant at 50 μM and the compound was titrated
+in a 1:1 dilution series. In protein titrations, 14-3-3γ was
+titrated in a 1:1 dilution series in the presence of 1 mM compound.
+The plates (Corning 384 well plates, black, round bottom, low binding)
+were incubated for 3 h at RT prior to fluorescence anisotropy (FA)
+measurements with the Tecan Infinite 500 plate reader (FITC dye: excitation
+485 nm and emission 535 nm). Dilution series were prepared in an FA
+buffer (10 mM HEPES pH 7.4, 150 mM NaCl, and 0.1% Tween20).
+The activity of the hit compound 24j was measured for
+the TAZ-peptide (FITC-βAla-RSH
+pS89 SPASLQ), p53-peptide (TAMRA-Ahx-SRAHSSHLKSKKGQSTSRHKKLMFK
+pT387 EGPDSD-COOH), or ERα-peptide (FITC-O1Pen-AEGFPA pT594 V-COOH) and 14-3-3γ. Therefore, the
+compound was titrated in a 1:1 dilution series to a constant concentration
+of 14-3-3γ and 10 nM peptide. The protein concentration was
+adjusted to one-third of the KD of the
+binary protein/peptide complex (final 14-3-3γ concentration
+for the measurement with TAZ: 0.1 μM; with p53: 0.3 μM
+and with ERα: 0.1 μM). For a better comparison, the baseline
+of each measurement was subtracted (Δr/mAU).
+All measurements were performed as single measurements. Data analysis
+was performed with Origin 2019 (V9.6.0.172, OriginLab Corporation)
+with the inbuilt ″Hill1″ function for data fitting.
+For data sets without an upper plateau, the Hill coefficient n was set to n = 1.
+
+4.4
+
+## Chemistry:
+General Information
+All
+commercial chemicals were used as received. Reagents were used without
+further purification unless otherwise noted. TLC analysis was performed
+on TLC aluminum sheets, silica gel layer, ALUGRAM SIL G UV254, 20
+× 20 cm by MACHEREY-NAGEL. TLC plates were analyzed by UV fluorescence
+(254 nm). UHPLC–MS analysis was performed using the UPLC Agilent
+Technologies 1290 Infinity coupled with the Agilent Technologies 6120
+Quadrupole LC/MS DAD detector. Column: ACQUITY UHPLC BEH C18 (1.7
+μm) 2.1 mm × 50 mm. Temperature: 40 °C. Detection:
+DAD + MS/6120 Quadrupole. Injected volume: 1 μL. Flow: 1.2 mL/min.
+Solvent A: water + 0.1% formic acid. Solvent B: acetonitrile + 0.1%
+formic acid. Gradient: 0 min 2% B, 0.2 min 2% B, 2.0 min 98% B, 2.2
+min 98% B, 2.21 min 2% B, and 2.5 min 2% B. Preparative HPLC was performed
+using the UPLC Agilent Technologies 1260 Infinity coupled with the
+Agilent Technologies 6120 Quadrupole LC/MS. Column: Waters XBridge
+Prep C18 5 μm OBD 19 × 150 mm. Detection: DAD + MS/6120
+Quadrupole. Flow: 32 mL/min. Solvent A: water + 0.1% formic acid.
+Solvent B: acetonitrile + 0.1% formic acid. Gradient: 0 min 77% A/23%
+B, 1 min 77% A/23% B, 9 min 16% A/84% B, 9.01 min 2% A/98% B, and
+11 min 2% A/98% B. The purity of the synthesized compounds is ≥95%. 1H NMR and 13C NMR spectra were recorded on a Bruker
+300 MHz spectrometer at ambient temperature. The chemical shifts are
+listed in ppm on the δ = scale, and coupling constants were
+recorded in hertz (Hz). Chemical shifts are calibrated relative to
+the signals corresponding of the nondeuterated solvent (CHCl3: δ = 7.26 ppm for 1H and 77.16 ppm for 13C; DMSO: δ
+= 2.50 ppm for 1H and 39.52 ppm for 13C). Abbreviations are used in
+the description of NMR data as follows: chemical shift (δ =
+ppm), multiplicity (s = singlet, d = doublet, t = triplet, m = multiplet,
+bs = broad singlet, dd = doublet of doublets, td = triplet of doublets),
+and coupling constant (J = Hz).
+For general
+procedures, chemical characterization, NMR spectra, and LC–MS
+traces, see the Supporting Information.
+
+## Supporting Information Available
+The
+Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jmedchem.1c00401. Additional results and
+X-ray crystallography tables,
+chemical experimental, and chemical spectral data (PDF)
+Molecular formula strings
+(CSV)
+
+## Supplementary Material
+jm1c00401_si_001.pdf
+jm1c00401_si_002.csv
+
+## Accession Codes
+Coordinates and
+structure factors have been deposited in the Protein Data Bank under
+the following accession codes: 7NMH, 7BI3, 7BIQ, 7BIW, 7BIY, 7BJB, 7BJF, 7BJL, 7BJW, 7BKH, 7NJ9, 7NJB, 7NK3, 7NK5, 7NLA, 7NLE, 7NM1, 7NM3, 7NM9, 7NR7, 7NV4, 7NVI, 7NWS, 7NXS, 7NXT, 7NXW, 7NXY, 7NY4, 7NYE, 7NYF, 7NYG, 7NZ6, 7NZG, 7NZK, 7NZV, 7O34, 7O3A, 7O3F, 7O3P, 7O3Q, 7O3R, 7O3S, 7O57, 7O59, 7O5A, 7O5C, 7O5D, 7O5F, 7O5G, 7O5O, 7O5P, 7O5S, 7O5U, 7O5X, 7O6F, 7O6G, 7O6I, 7O6J, 7O6K, 7O6M, and 7O6O. Authors will release the atomic coordinates
+and experimental data upon article publication.
+
+## Author Contributions
+§ M.W., D.V., and P.J.C. contributed equally. The manuscript was
+written through contributions of all authors. All of the authors approved
+the final version of the manuscript.
+The research
+was supported by funding from the European Union through the TASPPI
+project (H2020-MSCA-ITN- 2015, grant number 675179), through the Eurotech
+Postdoctoral Fellow program (Marie Skłodowska-Curie Co-funded,
+grant number 754462), and through The Netherlands Organization for
+Scientific Research (NWO) via VICI grant 016.150.366 and via Gravity
+Program 024.001.035.
+L.B. and C.O. are scientific
+co-founders of Ambagon Therapeutics.
+The authors declare the
+following competing financial interest(s): LB and CO are co-founders
+of Ambagon Therapeutics.
+
+## Abbreviations
+app. KDapparent KD
+CC50half-maximal complex concentration
+FAfluorescence anisotropy
+PPIprotein–protein
+interaction
+PROTACproteolysis targeting chimera
+SARstructure–activity relationship

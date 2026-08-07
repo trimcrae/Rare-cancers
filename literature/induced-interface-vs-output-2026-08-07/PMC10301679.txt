@@ -1,0 +1,836 @@
+4063jacsauJACS AuJACS AuAmerican Chemical SocietyPMC1030167910301679103016793738870010.1021/jacsau.3c00195Uncovering the Kinetic
+Characteristics and Degradation
+Preference of PROTAC Systems with Advanced Theoretical Analyses
+TangRongfan WangZhe XiangSutong WangLingling YuYang WangQinghua DengQirui HouTingjun SunHuiyong †Department
+of Medicinal Chemistry, China Pharmaceutical
+University, Nanjing 210009, Jiangsu, P. R. China‡Innovation
+Institute for Artificial Intelligence in Medicine of Zhejiang University,
+College of Pharmaceutical Sciences, Zhejiang
+University, Hangzhou 310058, Zhejiang, P. R. China*E-mail: tingjunhou@zju.edu.cn.
+*Email: huiyongsun@cpu.edu.cn.
+5620233617751775–17892962023© 2023 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Proteolysis-targeting chimeras (PROTACs), which can selectively
+induce the degradation of target proteins, represent an attractive
+technology in drug discovery. A large number of PROTACs have been
+reported, but due to the complicated structural and kinetic characteristics
+of the target-PROTAC-E3 ligase ternary interaction process, the rational
+design of PROTACs is still quite challenging. Here, we characterized
+and analyzed the kinetic mechanism of MZ1, a PROTAC that targets the
+bromodomain (BD) of the bromodomain and extra terminal (BET) protein
+(Brd2, Brd3, or Brd4) and von Hippel-Lindau E3 ligase (VHL), from
+the kinetic and thermodynamic perspectives of view by using enhanced
+sampling simulations and free energy calculations. The simulations
+yielded satisfactory predictions on the relative residence time and
+standard binding free energy (rp >
+0.9)
+for MZ1 in different BrdBD-MZ1-VHL ternary complexes. Interestingly,
+the simulation of the PROTAC ternary complex disintegration illustrates
+that MZ1 tends to remain on the surface of VHL with the BD proteins
+dissociating alone without a specific dissociation direction, indicating
+that the PROTAC prefers more to bind with E3 ligase at the first step
+in the formation of the target-PROTAC-E3 ligase ternary complex. Further
+exploration of the degradation difference of MZ1 in different Brd
+systems shows that the PROTAC with higher degradation efficiency tends
+to leave more lysine exposed on the target protein, which is guaranteed
+by the stability (binding affinity) and durability (residence time)
+of the target-PROTAC-E3 ligase ternary complex. It is quite possible
+that the underlying binding characteristics of the BrdBD-MZ1-VHL systems revealed by this study may be shared by different
+PROTAC systems as a general rule, which may accelerate rational PROTAC
+design with higher degradation efficiency.
+Keywords: PROTAC, Binding Free Energy Calculation, Residence
+Time, Umbrella Sampling, Random Accelerated Molecular
+Dynamics
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Apr 18; Accepted 2023 May 16; Revised 2023 May 16; Collection date 2023 Jun 26.
+
+## Introduction
+Targeted protein degradation (TPD) is
+an emerging technique in
+which drugs use the cell’s own proteasome system (UPS) or lysosome
+for target protein degradation. − Proteolysis-targeting chimera
+(PROTAC) proposed by Crews et al. has become one of the fastest developing
+targeted protein degradation technologies, which has made it possible
+to regulate proteins that were once considered undruggable. , − PROTACs in clinical trials represented by ARV-110
+and ARV-471 have shown significant effects in cancer therapy by targeting
+the degradation of the androgen receptor (AR) and estrogen receptor
+(ER), respectively. And the first PROTAC
+(LC-2) targeting degradation of KRASG12C shows high efficiency
+in attenuating the carcinogenic KRAS levels and downstream signaling
+in cancer cells. Therefore, PROTACs have
+attracted wide interest and applications in the field of drug discovery
+in recent years. 
+Typically, PROTACs
+are a class of bifunctional molecules, which
+are composed of an E3 ligase ligand (E3 ligand), a (warhead) ligand
+targeting the protein of interest (POI), and a linker connecting the
+above two ligands. Compared with traditional chemical drugs, PROTACs
+exert their drug activity through an “event-driven”
+rather than “occupation-driven” way, which means that
+the degradation activity of a PROTAC is not solely dependent on the
+binding affinity between the drug and the target, but closely related
+to the occurrence of ubiquitination labeling on the POI. , In general, ubiquitination is dependent on the formation of POI-PROTAC-E3
+ligase ternary complex induced by the PROTACs. The duration of the
+ternary complex only needs to ensure the occurrence of ubiquitination
+on the POI. Once the POI is degraded, the PROTAC dissociates and forms
+a new ternary complex again with another POI for the next round of
+degradation. In this process, the stability of the ternary complex
+is critical to the degradation efficiency; that is, PROTACs with relatively weak interactions to the POIs may
+still achieve high target degradation efficiency since their ternary
+complexes are stable enough to induce the ubiquitination of the POIs
+(namely the “event-driven” case). For instance, the
+binding affinity of foretinib, a p38α kinase inhibitor, only
+achieves the micromolar level; however, the PROTAC designed based
+on foretinib can effectively degrade p38α kinase at the nanomolar
+level. 
+Medicinal chemists usually
+carry out reasonable PROTAC design based
+on the high-affinity ligands of the E3 ligases and POIs. The traditional
+method is to separately design the E3 ligase ligand, the POI ligand
+and the proper linker. The design of the first two parts of a PROTAC
+is similar to that of the traditional small molecular drugs, while
+design of the linker needs to ensure that the PROTAC can induce the
+formation of a stable POI-PROTAC-E3 ligase ternary complex with proper
+interaction orientation between the POI and the E3 ligase, which makes
+the design of PROTACs more challenging than the design of traditional
+drugs. At present, only <5% of E3 ligases have been used for the
+PROTAC design, and POIs achieving targeted
+degradation mainly include the tyrosine kinases, hormone receptors,
+and BET family proteins. , In addition, due to
+the complicated structure and dynamic characteristics of the ternary
+PROTAC systems, the design of PROTACs remains a great challenge. Therefore,
+this study expects to reveal general rules responsible for the dynamic
+and thermodynamic characteristics of the PROTAC ternary systems by
+using in silico techniques, so as to accelerate the
+rational design of PROTACs.
+In the field of in silico computations, there
+have been advances in predicting the drug-target binding affinity. − However, a full understanding of the drug binding kinetics is also
+critical to improve drug efficacy and safety. − Generally, calculating the dissociation constant
+(koff) or residence time (τ = 1/koff) is more time-consuming than determining
+the binding affinity, because it requires sufficient sampling of the
+conformational space of the drug-target dissociation process. Fortunately,
+Wade and co-workers proposed to use τ-random accelerated molecular
+dynamics (τ-RAMD) to effectively explore dissociation pathways
+and predict the relative residence time of drugs to their targets, , which provides us a great number of details about the (un)binding
+kinetics of various biological systems. − 
+Compound MZ1, made up of the pan-BET
+inhibitor JQ1 (the warhead ligand), a
+specific VHL ligand VH032 (the E3-ligase ligand), , and a three-unit PEG linker ( B), is the first PROTAC achieving degradation of the
+BET protein family by recruiting substrate recognition subunits von
+Hippel-Lindau protein (VHL). It shows selectivity for the degradation
+of different bromodomains (BDs) of the BET family proteins Brd2, Brd3,
+and Brd4 in the experiments, and a number
+of experimental data has been deposited in this system (BrdBD-MZ1-VHL), facilitating one to investigate
+the general mechanism of formation/disintegration of the POI–PROTAC-E3
+ligase ternary complex. Therefore, in this study, we carried out enhanced
+sampling simulations based on RAMD and umbrella sampling (US) simulations
+to study the binding/disintegration characteristics, the stabilization
+mechanism and the protein–protein interaction (PPI) features
+of the PROTAC systems. The results show that the residence time of
+PROTACs can be effectively predicted by the τ-RAMD simulation,
+where MZ1 tends to remain on the surface of VHL, while the BDs prefer
+to dissociate from the surface of VHL without a specified dissociation
+direction, implying that MZ1 usually prefers more to form a binary
+complex with VHL before recruiting the BDs to form the PROTAC ternary
+complex. In addition, the underlying mechanism of MZ1 exhibiting higher
+degradation efficiency in the Brd4BD2-MZ1-VHL system than
+the Brd4BD1-MZ1-VHL system also revealed that MZ1 forms
+a more stable ternary complex and a more appropriate orientation in
+the Brd4BD2-MZ1-VHL system to increase the lysine exposure
+of the POI (BD) for higher degradation efficiency.
+ 
+
+## Materials and Methods
+
+## Structure Preparation
+The crystal structure of the
+second BD of Brd4 (Brd4BD2), MZ1 (a PROTAC molecule), and
+the von Hippel-Lindau E3 ligase (VHL) ternary complex (Brd4BD2-MZ1-VHL, PDB ID: 5T35( )) was employed for the analyses. The
+repeating units and water molecules were removed, and the missing
+flexible loops were repaired by the Prepare Protein module in Discovery Studio/2019 with the default parameters. Due
+to the lack of the crystal structures of MZ1 complexed with VHL and
+other BDs, the crystal structures of 3MXF, 3S92, 3S91, 3ONI, and 2YEK that contain
+different BDs and similar small molecules to MZ1 were used as the
+building blocks for other BrdBD-MZ1-VHL system construction.
+The above five crystal structures were processed with a same way as
+that of the Brd4BD2-MZ1-VHL complex, and then the five
+complexes with different ligand-BD were overlapped with the complex
+of Brd4BD2-MZ1-VHL to construct the other BrdBD-MZ1-VHL complexes. Besides, we treated the MZ1-VHL complex as the
+binary system for simulation after removing the BD protein in the
+Brd4BD2-MZ1-VHL complex. All the modified parts of the
+systems were relaxed by geometry refinement and CHARMm force field
+optimization to clean the potential unfavorable contacts in the systems.
+A total of seven PROTAC systems (six BrdBD-MZ1-VHL ternary
+systems and one MZ1-VHL binary system) were used for the following
+study.
+
+## Simulation System Setup
+Considering the large molecular
+weight of a PROTAC molecule, AM1-BCC atomic charge was used to handle MZ1 by using the antechamber module in AMBER/20. In the system preparation, the PROTAC molecule and protein
+were parametrized with the general amber force field (gaff, version 1.81) and the ff14SB force
+field, respectively. The ternary complexes
+were embedded in a TIP3P water box extended
+10 Å out of the solute in each direction. Counterions of Na+ or Cl– were added to neutralize the redundant
+charges of the systems. All the topology structures and coordinates
+of the PROTAC systems were built with the tleap module
+in AMBER/20.
+
+## Molecular Mechanics (MM) Minimization and MD Simulation
+Before MD simulation, the prepared systems were applied for a four-step
+MM minimization to further optimize the unfavorable bonds or local
+conformations of the initial structures. In the first step, all the
+heavy atoms were restrained by 5 kcal/mol·Å2 with
+the hydrogen atoms free for moving; then, the heavy atoms (oxygen)
+in water molecules and the counterions were allowed to move; subsequently,
+only the backbone atoms in the proteins were restrained with 5 kcal/mol·Å2; and finally, the whole system was set free for the full
+minimization. Here, 5,000 steps of steepest and conjugate descent
+minimizations were applied to the first three steps of MM minimization,
+while 10,000 and 20,000 steps of steepest and conjugate descent minimizations
+were conducted in the fourth step of MM minimization, respectively.
+The real space nonbonded cutoff was set to 10 Å and the long-range
+electrostatic interaction was handled with the Particle Mesh Ewald
+(PME) algorithm. The optimized structures
+were used for the following MD simulation.
+In the phase of conventional
+MD (cMD) simulation, the covalent bonds containing hydrogen atoms
+were constrained by the SHAKE algorithm
+and the Langevin algorithm was used to control the temperature of
+the system, where the collision frequency was set to 2/ps. The three-step
+protocol was applied to the MD simulation. First, each system was
+heated from 0 to 300 K during 50 ps in an NVT ensemble with the backbone
+atoms in the proteins restrained at 2 kcal/mol·Å2; then each system was equilibrated for another 50 ps in an NPT ensemble
+with the target temperature and pressure set to 300 K and 1 atm, respectively,
+and the heavy atoms of the proteins restraining at 2 kcal/mol·Å2 as well; finally, 100 ns cMD simulation was performed (T = 300 K and P = 1 atm) without any restraints.
+The time step was set to 2 fs, and the coordinates of the systems
+were recorded every 50 ps, so that a total of 2000 frames was collected
+in one cMD trajectory for the following analysis. All the MM minimizations
+and cMD simulations were performed with AMBER/20.
+
+## τ-Random Acceleration Molecular Dynamics (τ-RAMD)
+Simulation
+RAMD has been widely applied in the exploration
+of potential dissociation pathways of drugs. − τ-RAMD, an extension application of RAMD, is
+regarded as one of the computationally efficient approaches for the
+prediction of drug-target residence time that plays an important role
+in drug efficiency. , , At present, a number of MD sampling algorithms, such as metadynamics, − weighted ensemble (WE), − and Gaussian accelerated molecular dynamics (GaMD), , etc., have been used to predict the drug-target residence time,
+but the effective prediction of these methods requires either the
+custom parameters or very long simulation time, which undoubtedly
+increase the difficulty in practically characterizing the kinetic
+characteristics of the system. Nevertheless, RAMD simulation requires
+no prior knowledge of the ligand’s dissociation pathway, and
+the only parameter needing to be customized is the range of the random
+force. Thus, when an appropriate random force is set, the calculated
+relative residence time usually goes in a reasonable range. In the
+spirit of RAMD simulation, an artificial force is applied to the selected
+part of a system (usually a ligand) with a random direction to probe
+whether the biased part can shift a predetermined threshold distance
+(rmin, e.g., 0.025 Å in default)
+along the given direction under the action of the external force within
+a given simulation time (e.g., 0.1 ps in default). If the biased part
+of the system moves enough distance in the given simulation time,
+the same oriented force will be continued to the subsequent simulations;
+otherwise, the direction of the force will be changed randomly. And
+when the center of mass (CoM) of the biased part of the system dissociates
+a certain distance from the original position, the simulation terminates.
+Herein, considering that a large simulation space may be sampled
+in the disintegration process of the PROTAC system, all the systems
+were simulated with the generalized Born implicit solvent (GBIS) model
+in the RAMD simulations. − Since there is no long-range
+electrostatic calculation in the GBIS model, the real-space nonbonded
+cutoff was set to 16 Å. The concentration of the implicit ions
+was set to 0.2 M. Before RAMD simulation, each system was minimized,
+heated, and equilibrated in the same way as that conducted in the
+explicit-solvent simulations, whereas NAMD/2.14 in the implicit solvent model was used to facilitate the
+following RAMD simulations. Each system was simulated for five times
+to reduce the random impact on the resulted structures, and the last
+conformations in each system (five/system) were used as the starting
+points for the RAMD simulations.
+In the RAMD simulation, MZ1
+and BDs were defined as ligands in
+the six ternary systems, while MZ1 alone was set as the ligand in
+the binary system, with VHL used as the receptor for all the systems.
+To prevent drifting of the system, residues within three regions of
+VHL, including I147-N150, K159-L169, and E199-Q209, were constrained
+with 5 kcal/mol·Å2, which are located distant
+from the binding surface of MZ1 and BDs and will not affect the dissociation
+of the ligand. An artificial force of 2.1 kcal/mol·Å was
+used for the RAMD simulation, which showed robust results in our prior
+testing. The threshold distance (rmin)
+and RAMD time interval was set to 0.025 Å and 0.1 ps (50 steps),
+respectively, which means that if the defined ligand can move along
+the given force for 0.025 Å within 0.1 ps, the direction of the
+force will be continued in the next round of RAMD simulation; otherwise,
+a random direction will be generated in the force to bias the ligand
+to go through other directions. The terminal distance was set to 70
+Å to fully dissociate the ligand. For each starting point of
+the systems, 15 RAMD repeats were conducted, namely a total of 75
+trajectories (5 MD repeats × 15 RAMD repeats for each system)
+were collected for each system for the residence time calculation
+and disintegration mechanism analysis. All the RAMD simulations were
+conducted with NAMD/2.14.
+
+## Residence Time Calculation
+Theoretically, the disintegration
+of a biological system (rare event) follows the Poisson process, and
+one can estimate the effective residence time with the Poisson process
+to avoid influence of outlier points to the statistical result. , To characterize the Poisson process of the disintegration of a PROTAC
+system, the cumulative distribution function (CDF) can be used to
+describe the probability of observing at least one disintegration
+event within time t according to , where τ denotes the effective
+disintegration time estimated from several independent RAMD simulations.
+1 Moreover, in order to check the sampling
+quality of the RAMD simulations, the two-sample Kolmogorov–Smirnov
+(KS) test was used to compare the empirical cumulative distribution
+function (ECDF) derived from the RAMD simulations and its theoretical
+cumulative distribution function (TCDF, that is fitted from the ECDF
+with the minimum variance). A large p-value (e.g., > 0.05) means no statistical difference
+between
+the ECDF and TCDF, and the statistics of the samples obeys the Poisson
+process. Here, the computation of residence time was mainly according
+to the protocol proposed by Wade. We
+conducted the KS test by using samples in each replica of the five
+initial structures, which shows a higher p-value
+in the KS test, and averaged the results to represent the estimated
+residence time. The detailed KS test results can be found in Figure
+S1 in the Supporting Information.
+
+## Umbrella Sampling
+Umbrella sampling (US) has shown
+efficiency for studying binding free energy and kinetic details in
+exploring drug binding/dissociating pathways. − Here, in order
+to fully capture the thermodynamic and kinetic characteristics of
+a PROTAC interacting with the POI and E3 ligase, US was performed
+on the seven PROTAC systems based on the disintegration trajectories
+of the RAMD simulations.
+In the spirit of US simulation, an
+external potential is employed to bias the system from one thermodynamic
+state (e.g., bound-state system) to another (e.g., free-state system)
+along a predefined reaction coordinate (RC). In practice, the RC is usually divided into a series of pieces (named
+windows) to speed up the convergence of the sampling, where harmonic
+potential (ω) with equal or different force constant (K) is usually applied to each window to bias the sampling
+( ), with ωi(ξ) and ξiref representing the biasing potential at a certain
+position (ξ) of the RC and the reference position in window i, respectively.
+2 In this study, several dissociation
+pathways revealed by the RAMD
+trajectories were employed for the US simulation in each system (5–6
+trajectories for each system). A similar definition of the ligand
+as that of the RAMD simulation was applied in the US simulation, with
+the CoM distance between the heavy atoms of the ligand and the Cα
+atoms of residues within 5 Å of MZ1 (a part of ligand) defined
+as the RC. The RC position derived from each frame of the RAMD trajectory
+was used as the reference position for the US simulation. We took
+the last frame of the equilibrated phase MD simulation (before the
+RAMD simulation) as the initial structure for the US simulation, and
+then the frame whose distance was closest to the expected distance
+in the RAMD trajectory was used as the initial structure for the next
+window US simulation. Here, an average of ∼1.0 Å interval
+along the RC was set between two adjacent windows (Table S1), with the interval closer to each other at the beginning
+of the ligand’s dissociation (∼0.5 Å/interval,
+bound-state), while farther from each other as the ligand dissociates
+to the solvent (∼2.0 Å/interval, free-state). Meanwhile,
+the root-mean-square deviation (RMSD) between two adjacent windows
+of the initial conformations of the ligand was kept within 3 Å
+to prevent too much conformational change of the ligand. For sufficient
+convergence of the system, 10 cycles of 1 ns-US simulation were conducted
+for each window (namely, 1 ns × 10 cycles × ∼45 windows
+for each RAMD trajectory). The weighted histogram analysis method
+(WHAM) , was applied to calculate the potential of
+mean force (PMF) by converting the biased probability distribution
+to a normal one along the RC. The detailed window information on the
+US simulation can be found in Table S1.
+All the PMF curves were shifted with the minimum RC point at zero.
+The average PMF was estimated based on the 6–10 rounds of US
+samples with the last 10 Å of the PMF used for the PMF depth
+calculation. The standard deviation was estimated based on the 6–10
+rounds of PMFs with the last 10 Å of the PMF as well. All the
+US simulations were performed with the pmemd.cuda module in AMBER/20.
+To calculate the standard binding free
+energy (ΔGUS°) of
+the system, here, we applied Henchman’s scheme to correct the PMF depth (ΔPMFUS) of the
+PMF curve without using additional constraints ( ): , 
+3 4 where the second term of is associated with the standard volume (V° = 1661 Å3), the cross-sectional
+area (Au) detected by the unbound ligand
+(calculated by πR2 with R = 20 and 10 Å for BD and MZ1, respectively), and
+the bound length (Lb) calculated by the
+configurational integrals of the PMF curve along the ligand-bound
+region of the RC ξ ( ).
+
+## Bound-State and Kinetic-State Analyses Based on MM/GBSA Calculation
+Here, Molecular Mechanics/Generalized Born Surface Area (MM/GBSA)
+was used to analyze the binding characteristics of the cMD and US
+trajectories, which has been widely applied in various biological
+systems, such as protein–ligand, − protein–protein/peptide, , and protein–RNA systems. The
+calculation of MM/GBSA binding free energy follows the below formulas:
+5 6 7 8 9 where ΔGbind represents the binding free energy that is numerically equal to
+the energy difference between the protein–ligand complex (bound
+state) and the protein/ligand individuals (free state) ( ). Based on the second law of thermodynamics,
+the binding free energy can also be expressed by the enthalpy and
+entropy changes upon protein–ligand interactions as shown in . Because of the high computational
+cost of the entropy (−TΔS) calculation for the ternary system, here we did not try to take
+entropy into consideration. The enthalpy part (ΔH) is appropriately equal to the sum of the molecular mechanics energy
+change (ΔEMM) and the solvation
+free energy change (ΔGsol) of the
+system ( ), where
+ΔEMM consists of the bonded energies
+(ΔEint including the bond, angle,
+and dihedral energies) that can be canceled out here since the single
+MD trajectory protocol was applied for the end point binding free
+energy calculation due to the convergence issue, and the nonbonded electrostatic (ΔEele) and van der Waals (ΔEvdW) interactions ( ). What is noteworthy is that ΔEMM only represents the energy of a system in vacuum and thus
+the introduction of the solvation energy (ΔGsol) into the total free energy change makes the calculated
+energy closer to one in the physiological state. The solvation free
+energy can be decomposed into the polar (ΔGGB) and nonpolar (ΔGSA) parts ( ), in which
+the former can be estimated by a number of algorithms, represented
+by the Poisson–Boltzmann (PB) equation and the Generalized Born (GB) model, and the latter can usually be fitted by a linear equation to the
+solvent accessible surface area (SASA) ( ). Here, we applied Onufriev’s
+GB model for the polar solvation energy
+calculation with the interior (solute) and exterior dielectric (solvent)
+constants set to 1 and 80, respectively, and used the LCPO algorithm for the ΔA estimation
+with the parameters of γ and b set to 0.0072
+and 0, respectively. All the calculations were performed by the MMPBSA.py module in AMBER/20.
+Moreover, since the thermodynamic information on the ligand in
+microenvironment during the binding/dissociating process is beneficial
+to further understand the mechanism of action, here the kinetic energy
+information on the PROTAC system was characterized by the pathway
+analyzing method Kinetic Residue Energy Analysis (KREA), which maps the energetic profile into individual
+residues along the dissociation pathway through MM/GBSA decomposition.
+Here, all the US snapshots were mapped according to the US RC with
+the energy terms ΔEvdW, ΔEele, and ΔGGB calculated by the above MM/GBSA protocol, and ΔGSA estimated by the ICOSA algorithm. 
+
+## Solvent Accessible Surface Area (SASA) Analysis of the Protein
+Surface
+The SASA of the system was estimated
+by the Shrake-Rupley algorithm in PYMOL.
+To calculate the buried surface areas (BSA) of lysine on POI in the
+formation of the ternary complex, the POI in the ternary complex was
+separated, and the change of SASA between the individual
+POI and the POI in ternary complex was calculated for each lysine
+residue. 
+
+## H-Bond Frequency Computation
+In this study, an H-bond
+was defined with the donor–acceptor (D-A) distance ≤3.0
+Å and the angle of D-H-A ≤ 20°. The number of H-bonds
+were counted throughout the RAMD trajectories to calculate the H-bond
+frequency. All of the analyses were performed with the Hydrogen
+Bonds plugin (version 1.2) in VMD/1.9.2. 
+
+## Results and Discussion
+
+## Kinetic Details of the Degradation Mechanism of the PROTAC System
+
+## Predicting the Relative Residence Time during Disintegration
+of the PROTAC System
+The disintegration trajectories generated
+by the RAMD simulations were used to compute the residence time of
+the BrdBD-MZ1-VHL ternary systems and the MZ1-VHL binary
+system. As shown in , a remarkable correlation (Pearson R = 0.92)
+is shown for the predicted residence time and the experimental data
+(log10(1/koff)), indicating
+that the τ-RAMD simulation is capable of characterizing the
+relative residence time and dissociation trend of a PROTAC in the
+ternary complex, and the trajectories are reliable for subsequent
+analyses. Nevertheless, it is noteworthy that the difference of the
+predicted relative residence time is within the standard deviation
+because of the too close experimental data of the systems. Therefore,
+we mainly compared the systems with the longest (e.g., Brd4BD2-MZ1-VHL) and shortest (e.g., Brd4BD1-MZ1-VHL) residence
+time in the following study.
+ 
+
+## MZ1 Tends to Retain on the Surface of VHL during the Disintegration
+Process of the Ternary Complex
+Whether MZ1 dissociates with
+the BDs during disintegration of the BrdBD-MZ1-VHL ternary
+complex is of great interest since it determines which protein MZ1
+prefers to bind at first (BD or VHL) to form the binary complex during
+the formation of the BrdBD-MZ1-VHL ternary structure. Therefore,
+exploring the disintegration characteristics of the PROTAC systems
+can provide dynamic basis for the rational design of PROTACs.
+First, we conducted 100 ns cMD simulations on the six ternary PROTAC
+systems and monitored the binding free energy of MZ1 to the two proteins
+(BD and VHL). As shown in , MZ1 exhibits stronger MM/GBSA binding affinity to
+VHL in all the systems (ΔGMZ1-VHL<ΔGMZ1-BD), indicating
+that MZ1 is more favorable in binding with VHL in the solution environment.
+Next, the 75 RAMD trajectories in each ternary system were grouped
+depending on whether MZ1 has dissociated together with BD (inner panel
+in ). The result
+shows that the proportion of RAMD trajectories involving codissociation
+of MZ1 and BD are 29/75 (Brd4BD2), 16/75 (Brd4BD1), 21/75 (Brd3BD2), 26/75 (Brd3BD1), 24/75
+(Brd2BD2), and 31/75 (Brd2BD1) in the six PROTAC
+systems, accounting for a relatively small proportion, implying that
+MZ1 favors more in binding with VHL and tends to retain on VHL during
+the disintegration of the ternary structure, which is consistent with
+the bound-state MM/GBSA binary interaction result ( ). Furthermore, six representative
+trajectories among the 75 RAMD trajectories in the Brd4BD2-MZ1-VHL system were randomly selected to investigate the structural
+and interacting features of the different dissociation directions
+of the BD. As shown in A3–C3, when Brd4BD2 dissociates from the
+surface of VHL, MZ1 gradually disperses and extends to all the directions,
+with the PEG linker responsible for the high flexibility of MZ1 during
+the dissociation. However, the conformation of the E3-ligand part
+(VH032) of MZ1 targeting VHL remains relatively stable throughout
+the dissociation process, confirming why MZ1 tends to retain on the
+surface of VHL protein. And this hypothesis is further confirmed by
+monitoring the H-bond between MZ1 and VHL in the representative disintegration
+trajectories ( D), where MZ1 exhibits many H-bonds with Y98, S111, R107, H115 and
+H110 of VHL, while shows few H-bonds with Brd4BD2 (mainly
+with N433). Therefore, it is suggested that MZ1 prefers more to retain
+on VHL in most cases due to the strong H-bond interactions with VHL,
+and in turn indicating that MZ1 may prefer more to form binary complex
+with VHL at first before recruiting BD to form the ternary complex
+to achieve the target protein degradation.
+ 
+
+## BD Does Not Show Preferred Dissociation Direction during the
+Disintegration Process of the Ternary System
+As shown in , the 75 RAMD trajectories
+for each ternary system were plotted according to the RMSD of BD and
+the dihedral angle between BD and VHL. It is noteworthy that there
+shows no specific dissociation direction when the BD dissociates alone
+from the ternary complex, whereas its dissociation direction is limited
+to a certain range (red dots in each inner panel of ) when BD dissociates together
+with MZ1. This phenomenon has also been verified structurally. As
+shown in A1- B3, with the increase of dissociation distance between
+Brd4BD2 and VHL and the conformational change of MZ1, Brd4BD2 gradually dissociates from the surface of VHL in all directions.
+As a result, Brd4BD2 does not show an obvious preferred
+dissociation direction, which may be limited by the large volume of
+Brd4BD2 and its protein–protein interactions (PPIs)
+with VHL. Once Brd4BD2 breaks the strong interactions with
+MZ1, it slowly dissociates from the surface of VHL ( C1–C3).
+Further
+comparison of the H-bond interactions between MZ1 and the two proteins
+shows that in the trajectories involving codissociation of MZ1 and
+Brd4BD2, namely the RAMD ID of 8 and 14, a relatively higher
+frequency of the H-bond is shown between MZ1 and N433 on Brd4BD2 compared with other trajectories ( D). Moreover, the result also shows that
+MZ1 needs to try its best to prolong the interaction with Brd4BD2 to maintain the stability of the ternary complex during
+the disintegration process. Therefore, based on the above characteristics
+of MZ1, we speculate that the dissociation characteristics are an
+important factor affecting the dissociation directions of the BD protein.
+
+## The Codissociation of MZ1 with BD Limits the Dissociation Direction
+of BD
+Furthermore, we explored the dissociation details of
+MZ1-VHL binary system to reveal the mechanism of its influence on
+BD dissociation. Compared with the ternary systems, the dissociation
+direction of the binary system (MZ1-VHL) is more significant. As shown
+in , with the
+dissociation of MZ1, the dihedral angle between MZ1 and VHL exhibits
+two distinct trends, meaning that the dissociation of MZ1 may favor
+a certain of directions. Since there is no BD binding with the PROTAC
+molecule, the parts of warhead ligand targeting BD and the linker
+in MZ1 are both exposed to the solvent and show a high degree of flexibility
+throughout the dissociation process. Consistent with the ternary systems,
+the stability of the binary complex mainly depends on the H-bond between
+MZ1 and S111, R107, H115 and H110 of VHL, implying that the E3 ligase
+ligand part (VH032) of MZ1 does not change its binding pattern with
+VHL during the formation of the ternary complex. This result also
+suggests the importance of choosing a proper linker for PROTAC design.
+ At the beginning of dissociation, the strong H-bonds
+between MZ1
+and VHL maintain the binding mode and stabilize the conformation of
+VH032 in MZ1, although the flexible part of MZ1 extends to all directions.
+With further dissociation, MZ1 gradually overcomes the strong interactions
+with VHL and then dissociates along the β-folded plane in all
+directions. However, it is worth noting that the dissociations of
+MZ1 are all on the β-fold side space on the same side as β2,
+β3 and β4 ( B1–B3). The main reason may be that MZ1 binds to VHL
+at the β-fold, and therefore it is hard for it to dissociate
+from the opposite side of the β-fold due to its large structure.
+In addition, most part of the skeleton of MZ1 is exposed to the solvent
+region and there is no significant interaction to constrain its action
+in the dissociation process, therefore there is no specific dissociation
+pathway for MZ1 in the binary system as well. The above inference
+is also confirmed by the observation of the codissociation trajectories
+of the ternary systems (MZ1 dissociates together with BD), that is,
+basically all the BDs prefer to dissociate along the β-fold
+side space on the same side as β2, β3, and β4 in
+VHL because, to some extent, the strong interaction between MZ1 and
+BDs limits the dissociation direction of BDs, implying that, compared
+with the case of the MZ1-VHL binary complex interacting with BD to
+form the ternary complex (where no binding direction should be chosen
+before MZ1-VHL binding to BD), the recruitment of VHL by the MZ1-BD
+binary complex may be limited since an appropriate binding direction
+should be chosen at first for MZ1-BD to smoothly bind with VHL.
+
+## Influence of the Distinct Formation/Disintegration Mechanisms
+of Ternary Complex on the Degradation Efficiency
+Based on
+the above results, we speculate that if MZ1 forms a binary complex
+with VHL at first during the process of forming the ternary PROTAC
+complex, it may be more conducive to the improvement of the degradation
+efficiency. This is because, on one hand, it can shorten the formation
+period of the next ternary PROTAC complex after BD is ubiquitinated
+and degraded since MZ1 prefers more to bind with VHL, and on the other
+hand, it may improve the path searching efficiency for the formation
+of ternary complex with BD, as the MZ1-VHL binary complex recruits
+BDs in a wider range of ways compared with the MZ1-BD binary complex
+binding to VHL, where the latter is usually limited by a certain directions
+to bind with VHL.
+
+## Thermodynamic Details of the Degradation Mechanism of the PROTAC
+System
+
+## Predicting Binding Free Energy of the PROTAC Systems during
+the Disintegration Process
+After the initial exploration
+of the kinetic characteristics of the PROTAC systems, thermodynamic
+characteristics represented by binding free energy was also investigated
+for the representative RAMD trajectories, where conformations of the
+representative RAMD trajectories were extracted according to the dissociation
+distance between the defined ligand and receptor in each PROTAC system
+for US simulation. The potential of mean force (PMF) of each trajectory
+in each system was calculated (namely, 5–6 representative trajectories
+× 7 systems) based on 10 rounds of US simulations to guarantee
+the convergence of the PMF curves (namely 1 ns × ∼45 windows
+× 10 rounds for each RAMD trajectory). As shown in , although a variety of dissociation
+pathways can be sampled by the RAMD simulation, the resulting binding
+free energy may be different since RAMD trajectories with different
+disintegration direction were selected for the investigation that
+may involve trajectories with high disintegration energy. Therefore,
+the trajectory with the lowest PMF in each system that represents
+the minimum free energy path (MFEP) was identified as the dominant
+dissociation path for the following analysis. The convergence of the
+MFEP PMFs can be found in Figure S2 in the Supporting Information.
+ As shown in , the Pearson correlation was calculated between the
+standard binding
+free energy (ΔGUS°) derived from the PMF of the MFEP
+for each system and the experimental data, which shows a good correlation
+(R = 0.92), indicating that the MFEP is suitable
+for representing the dominated dissociation process of the PROTAC
+system. Therefore, detailed analyses were conducted on the corresponding
+trajectories to reveal the difference of the degradation efficiency
+in different PROTAC systems. Considering that the experimental data
+of the seven PROTAC systems are mostly on the same level, two representative
+systems, Brd4BD2-MZ1-VHL and Brd4BD1-MZ1-VHL
+that represent systems with higher and lower BD degradation efficiencies, were employed for the following analyses. The
+binding mechanisms and conformational changes of the dissociation
+process of the system were monitored.
+ 
+
+## Stable Ternary Structure Contributes Closely to the Degradation
+Efficiency of the PROTACs
+The lowest point of the PMF curve
+corresponds to the most stable bound-state of the system. Thus, we
+at first extracted the structure corresponding to point A1 in the
+PMF curve ( A) from the US trajectory of the Brd4BD2-MZ1-VHL system.
+Since a crystal structure (PDB ID: 5T35) has been reported for this system, we
+compared the RMSD difference of the PROTAC in the two ternary complexes
+to check whether the US simulation could explore the stable binding
+conformation of the PROTAC system. The result shows that the RMSD
+between the backbone atoms of MZ1 in the two molecules is 1.79 Å,
+indicating that the US simulation could explore the stable ternary
+complex conformation of the PROTAC systems. Based on the above analysis,
+we also obtained the most stable ternary structure of Brd4BD1-MZ1-VHL (point A2 in A).
+ By comparing the stable ternary complexes of the
+two systems (Brd4BD2-MZ1-VHL and Brd4BD1-MZ1-VHL),
+we found that the amino acid composition of the PPI interface in the
+above two systems exhibits a certain similarity. The shared residues
+located at the PPI interface of VHL in the two systems are P71, P86,
+W88, F91, Y98, P99, R107, R108, I109, H110, S111, Y112, H115, and
+W117 (orange stick model in B and C), while the common residues forming the PPI
+interface on the BD of the two systems only contain W374/W42 (W81/W42)
+and D381/D49 (D88/D49) (pink stick model in B and C), with the former and latter denoting
+the aligned residue positions in the real and simulated sequences,
+respectively ( A). The similarity of the protein-binding interface between the two
+systems further indicates that MZ1 does not change its mode to bind
+with VHL when inducing different BDs to form the ternary complexes,
+and the difference in degradation efficiency of MZ1 in different systems
+may arise from the difference of the binding stability between BDs
+and MZ1. Further monitoring of BrdBD-MZ1-VHL interface
+interaction ( B and C) shows that three H-bonds form between VHL and BD in both
+systems, but in the system of Brd4BD2-MZ1-VHL, MZ1 forms
+one additional H-bond with Brd4BD2. However, no additional
+H-bond is formed between MZ1 and Brd4BD1 in the system
+of Brd4BD1-MZ1-VHL. We speculate that the stronger H-bond
+interaction between MZ1 and Brd4BD2 makes MZ1 prefer to
+bind with Brd4BD2 than with Brd4BD1 and thus
+resulting in a more stable Brd4BD2-MZ1-VHL ternary complex
+to enhance the degradation efficiency. To further verify our speculation,
+we calculated the MM/GBSA binding free energy of the stable ternary
+structure of the two systems and found that MZ1 exhibited stronger
+binding affinity to Brd4BD2 compared with Brd4BD1 (−33.57 versus −29.60 kcal/mol).
+ 
+
+## Capability of Maintaining the Stability of the Ternary Structure
+Contributes to the Degradation Efficiency of the PROTACs
+The PMFs of BDs dissociation from the Brd4BD2-MZ1-VHL
+(pink line) and Brd4BD1-MZ1-VHL (cyan line) systems are
+shown in A, where the vital states upon ligand unbinding
+are labeled on the PMF curves with the corresponding representative
+structures shown in C–E and B, respectively, for the two systems. Moreover,
+the dynamic change of the interactions between MZ1 and the hot spot
+residues on VHL and BDs during the dissociation process were also
+illustrated in F (namely, the kinetic residue energetic analysis, KREA ), where the residues whose interaction with
+MZ1 is stronger than −4.0 kcal/mol during the dissociation
+process were defined as hot spot residues. It is shown in A that the tendency
+of the binding free energy depths (ΔPMFUS) obtained from the PMF curves (−14.85 ± 2.73
+kcal/mol versus −6.76 ± 1.83 kcal/mol) is consistent with
+the experimental result that the Brd4BD2-MZ1-VHL ternary
+complex is more stable than the Brd4BD1-MZ1-VHL ternary
+complex ( ).
+Therefore, the formation/disintegration process of the ternary complex
+can be analyzed in detail.
+As shown in A, comparing the two PMFs shows that the disintegration
+of the Brd4BD2-MZ1-VHL complex involves more transitional
+states than
+that of Brd4BD1-MZ1-VHL, indicating that breaking the stability
+of the Brd4BD2-MZ1-VHL ternary complex may require stepping
+over several energetic barriers of the transition states, while the
+dissociation of the Brd4BD1-MZ1-VHL complex is achieved
+more smoothly, consistent with the experimental evidence that MZ1
+is able to maintain the ternary complex of Brd4BD2-MZ1-VHL
+for a longer residence time ( ), thus demonstrating a stronger degradation efficiency.
+Furthermore, in turn for the binding process, Brd4BD2 may
+sense the MZ1-VHL binary complex within a longer distance (∼15
+Å, A)
+and form a more stable ternary complex (ΔPMFUS =
+−14.85 kcal/mol) compared with Brd4BD1 (∼10
+Å and ΔPMFUS = −6.76 kcal/mol).
+We further investigated the transition states of the two systems
+structurally. In the Brd4BD2-MZ1-VHL system, before the
+complete disintegration of the ternary complex (point E), MZ1 interacts
+with both VHL and Brd4BD2 to maintain the stability of
+the ternary complex, especially in the point of state C, where MZ1
+maintains not only the interaction with VHL but the important H-bond
+with Brd4BD2 ( C). In terms of energetic contributions, MZ1 also exhibits
+stronger interactions with multiple residues on VHL and Brd4BD2, such as P71 (−4.16 kcal/mol), W88 (−6.70 kcal/mol),
+and Y112 (−3.65 kcal/mol) on VHL and L385 (−6.41 kcal/mol)
+and V439 (−3.35 kcal/mol) on Brd4BD2 ( F). Although MZ1 does not maintain
+the important H-bond with Brd4BD2 in transition state D
+( D), it still
+maintains the interactions with Brd4BD2 to some extent,
+such as W374 (−0.80 kcal/mol) and L385 (−1.26 kcal/mol)
+on Brd4BD2. The disintegration of the Brd4BD2-MZ1-VHL ternary complex basically reaches equilibrium in transition
+state E, where MZ1 remains on the surface of VHL while Brd4BD2 dissociates alone from the ternary complex ( E). While for the system of Brd4BD1-MZ1-VHL, the stable ternary complex disintegrates at the first transition
+state (transition state B), where MZ1 does not exhibit a strong interaction
+with Brd4BD1 ( B). Based on the KREA, the energetic contribution of
+each residue in Brd4BD1 to MZ1 is near 0 kcal/mol ( F), meaning that
+the structure of Brd4BD1-MZ1-VHL ternary complex is broken
+in the state of B.
+To further investigate the difference in
+degradation efficiency
+of the PROTAC system, we compared the conformation of MZ1 in the two
+systems during the system disintegration. Specifically, the conformation
+of MZ1 changes in a relatively large way in the system of Brd4BD2-MZ1-VHL, with the RMSD of MZ1 in transition states C, D,
+and E of 8.58, 6.58, and 8.04 Å, respectively, compared to that
+in its bound state (point A1). Further investigation shows that the
+PEG linker in MZ1 is in a fully extended state in the transition states
+( C–E)
+compared to its bowl-shaped conformation in the bound state ( B), which seems to
+be a conformational adjustment of the PROTAC in response to the dissociation
+of Brd4BD2 (namely, the case that the PROTAC tries to maintain
+its interaction with Brd4BD2 to stabilize the ternary structure
+as long as possible). However, in the system of Brd4BD1-MZ1-VHL, MZ1 almost keeps in its original bowl-shaped conformation
+during the Brd4BD1 dissociation process. Taking the most
+stable state A2 as the reference, the RMSD of state B is 5.64 Å,
+with the PEG linker folded in the whole process ( B), indicating that the relatively
+weak binding affinity between Brd4BD1 and the POI-ligand
+part of MZ1 may leave the MZ1-VHL binary complex unable to fully participate
+in grasping (or binding with) the POI when the ternary complex disintegrating
+(or forming).
+
+## PROTAC with Higher Degradation Efficiency Needs to Ensure Its
+Appropriate Binding Orientation for Adequately Exposing Lysine on
+the Surface of the Target Protein
+Moreover, numerous studies
+have shown that PROTAC inducing degradation of POIs depends on the
+ubiquitin labeling of lysine on the surface of POIs by the E3 ligase,
+implying that the POI needs to expose more (if not specific) lysine
+in the ternary structure to improve the degradation efficiency. Thus,
+we measured the total lysine SASA on the BD of the most stable Brd4BD2-MZ1-VHL and Brd4BD1-MZ1-VHL ternary complexes
+obtained from US simulation (corresponding to the minimum energetic
+point of the PMF curve), showing that the lysine SASA on the BD of
+the former is larger than that of the latter (1811.68 versus 1582.46
+Å2). Besides, the buried surface area (BSA) of lysine
+during the formation of the ternary complex was also calculated, in
+which the BSAs of BD for Brd4BD2-MZ1-VHL and Brd4BD1-MZ1-VHL are 50.83 and 91.53 Å2, respectively. The
+difference of the BSA between the two systems indicates that binding
+of MZ1 to the Brd4BD2-MZ1-VHL system tends to leave more
+lysine exposed (or reduce the BSA of lysine), making the system easier
+to be ubiquitin-labeled by the E3 ligase. The above result is consistent
+with the experimental result that the degradation efficiency of Brd4BD2 targeted by MZ1 is higher than that of Brd4BD1. 
+
+## Conclusion
+In this work, by using enhanced sampling
+methodologies (mainly
+RAMD and US), we systematically interpreted the underlying formation/disintegration
+mechanism of a representative PROTAC system (BrdBD-MZ1-VHL)
+from the kinetic and thermodynamic perspectives of view. Overall,
+the employed methods are reliable to predict both the kinetic (relative
+residence time) and thermodynamic (standard binding free energy) properties
+of a PROTAC system (with Pearson R > 0.9 in both
+aspects), providing us a solid basis for capturing the kinetic characteristics
+of the PROTAC system.
+During the disintegration of the BrdBD-MZ1-VHL ternary
+systems, MZ1 tends to remain on the surface of VHL, indicating that
+the PROTAC usually forms a stable binary complex with the E3 ligase
+(VHL) and then recruits BDs to form the ternary complex for the protein
+degradation. In general, the BD usually dissociates alone from the
+ternary complex without a specific dissociation direction, but when
+MZ1 dissociates together with BD, the dissociation direction of the
+BD will be limited to a certain extent, indicating that if the formation
+of the POI and PROTAC happens at first, it may, to a certain extent,
+limit the way to form the ternary complex. This is a good phenomenon
+since it indicates that the stable formation of the PROTAC-E3 ligase
+binary complex may facilitate it to capture the POIs and improve the
+degradation efficiency, where the PROTAC will always bind with the
+E3 ligase whether the POI is complete or degraded, which may save
+much time for the case that the PROTAC needs to seek another POI for
+the next round of degradation because it binds more stably with the
+POI compared with the E3 ligase ( ).
+ In addition, the mechanism for the difference in
+the degradation
+efficiency of PROTACs was revealed in terms of structure and binding
+affinity. Whether a PROTAC can induce the formation of a stable POI-PROTAC-E3
+ligase ternary complex plays an important role in its degradation
+capability. An efficient PROTAC should exhibit tight binding affinities
+to both the POI and the E3 ligase to induce them into a stable interaction
+complex (the ternary complex). Moreover, the interaction orientation
+of the POI and E3 ligase is also very important for the degradation
+efficiency of the POI since the formation of a ternary complex should
+avoid affecting more of the lysine exposure on the surface of a POI,
+which is necessary for the ubiquitination labeling. This speculation
+can also be supported by the clinically trialed ARV-110 and ARV-471
+that were both designed with a rigid linker between the warhead ligand
+and the E3 ligase ligand to maintain an efficient interaction mode
+of the POIs and the E3 ligase for high efficiency degradation. − Besides, in the kinetic process of maintaining the stability of
+the ternary complex, a PROTAC with higher degradation efficiency may
+constantly adjust its conformation to prolong the stabilization time
+of the ternary complex, which also helps to degrade POIs with high
+efficiency. In summary, the proposed mechanism in this study may be
+helpful for the rational design of PROTACs with higher degradation
+efficiency.
+
+## Acknowledgments
+This work
+was supported by the National Key R&D Program
+of China (2021YFE0206400), the National Natural Science Foundation
+of China (81603031), Natural Science Foundation of Zhejiang Province
+(LQ21H300007), and the Young Elite Scientists Sponsorship Program
+by CPU (131810011 and 1132010013).
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/jacsau.3c00195.
+Details of the KS test of predicted residence time,
+convergence of MFEP PMFs, and simulation windows of US (PDF)
+
+## Author Contributions
+§ R.T. and Z.W. contributed equally to this
+work. Conceptualization,
+H.S. and T.H.; methodology, R.T., Z.W., and H.S.; analysis, R.T.,
+Z.W., S.X., L.W., Q.W., Y.Y., Q.D., and H.S.; writing, R.T. and H.S.;
+supervision, H.S. and T.H.
+
+The authors
+declare no competing financial interest.
+
+## Supplementary Material
+au3c00195_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+au3c00195_si_001.pdf

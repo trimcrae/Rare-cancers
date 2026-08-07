@@ -1,0 +1,277 @@
+822acssdJournal of the American Chemical SocietyJ Am Chem SocPMC1246498312464983124649834094465910.1021/jacs.5c09166A Complete Mechanistic
+Framework for Molecular Glue
+Characterization
+CouturierMaxime GuilbertRyan ClarksonPaul ArgyrouArgyrides 1
+Assays, Profiling & Cell
+Sciences, Discovery Sciences, BioPharmaceuticals R&D, AstraZeneca, Cambridge
+CB2 0AA, United
+Kingdom
+*
+Email: maxime.couturier@astrazeneca.com.
+*
+Email: argyrides.argyrou@astrazeneca.com.
+1392025147383419934199–342032792025© 2025 The Authors. Published by American Chemical SocietyThis article is licensed under CC-BY-NC-ND 4.0
+
+## Abstract
+The use of molecular glues to modulate protein–protein
+interactions
+has emerged as a promising approach to drug previously intractable
+targets. Despite strong interest in this modality, a comprehensive
+theoretical framework is lacking. We have established a complete mechanistic
+analysis which enables the determination of molecular glues’
+binding and cooperativity values from a simple biochemical matrix
+experiment. We validated the model using numerical integration and
+experimental data from fluorescence resonance energy transfer and
+fluorescence polarization assays. As the derived models enable the
+determination of all thermodynamic parameters of any molecular glue,
+they have significant applications in drug discovery, particularly
+for molecular glue optimization and characterization of neo-substrates.
+
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Jun 2; Accepted 2025 Sep 9; Revised 2025 Sep 8; Collection date 2025 Sep 24.
+
+Transcription factors and scaffolding
+proteins represent a wide and untapped pool of potential drug targets.
+They have proven challenging to drug with traditional small molecule
+inhibitors as they lack active-site pockets and enzymatic activity.
+Modulation of protein–protein interactions (PPIs) through induced
+proximity provides alternative opportunities to drug these targets:
+,
+ in this approach, a compound (L) induces or enhances an interaction
+between a target (T) and an effector protein (E), leading to the formation
+of a ternary complex ( ). Depending on the nature of the effector protein that is
+recruited, degradation, sequestration, or activation of the protein
+of interest are all possible.
+−
+
+ The field of induced proximity is most advanced
+with heterobifunctional
+molecules, such as PROTACs. Owing to their
+high molecular weight, the development of PROTACs into drugs requires
+extensive compound optimization to achieve good levels of cell permeability
+and oral bioavailability. The emerging field of molecular glues is
+aiming to circumvent the limitations. Due to their monovalent nature,
+molecular glues tend to have molecular weights similar to small molecule
+inhibitors, hence, they pose fewer challenges with optimization of
+the compounds physicochemical properties.
+Modeling ternary complex
+formation for heterobifunctional molecules
+and molecular glues is significantly more challenging than modeling
+binary interactions ( ). A comprehensive mathematical model for three-body binding
+equilibria for heterobifunctional molecules has been described by
+Douglass et al. In this seminal analysis,
+exact mathematical models that relate the amount of ternary complex
+to all possible T, E and L concentrations and cooperativity values
+were derived. More recently, analytical solutions have been complemented
+by computational methods.
+,
+ However, in contrast
+to heterobifunctional molecules, most molecular glues are monovalent
+and they can enhance pre-existing interactions, for example, between
+the β-transducin repeat-containing protein 1 (β-TrCP1)
+E3 ligase and one of its native protein substrates, β-catenin. Stabilizing existing PPIs may prove to be a broadly
+applicable mechanism, as more ligandable protein:protein complexes
+are identified, such as the 14–3–3 protein family and
+their diverse client proteins. While
+there is significant overlap between the set of equilibria describing
+heterobifunctional molecules and molecular glues ( ), the differences make the
+exhaustive work done on three-body systems involving the former not
+applicable to molecular glues.
+Currently, a mechanistic framework
+and associated mathematical
+model that relates the amount of ternary complex with the concentrations
+of proteins and ligand is not available for molecular glues. Such
+models are needed, particularly in drug discovery, to inform the design
+of glues based on derived thermodynamic parameters and to correlate
+results from biochemical assays to those of cellular assays.
+Herein, we establish the mechanistic framework necessary to relate
+the affinity constants of the system and ternary complex concentrations
+at equilibrium by using analytical and numerical approaches. The model
+we have developed enables users to derive all the thermodynamic parameters
+from data generated in a single experiment.
+We first solved
+the system under pseudo-first-order conditions
+where the glue and one of the proteins are in excess compared to the
+protein which binds to the glue. For the derivation below, we assume
+the glue binds to E ( A).
+ We were able to demonstrate that
+1a[ELT]=[E]0[L]0[T]0αK1K2+αK2[T]0+αK1[L]0+[T]0[L]01b[ELT]+[ET]=[E]0[T]0([L]0+αK2)αK1K2+αK2[T]0+αK1[L]0+[T]0[L]0where [E]0, [T]0 and [L]0 are
+the total amount of E, T and L, respectively, , and α represents the cooperativity
+(see Supporting Information for all derivations).
+In addition to modeling the ternary complex ( ), we also derived an equation for the sum
+of [ET] and [ELT] ( ), as many molecular glue discovery projects are likely to involve
+systems where a native interaction between E and T already exists.
+For such cases, the ET complex may also contribute to the signal,
+depending on the nature of the methodology used e.g. fluorescence
+resonance energy transfer from donor to acceptor fluorophores on E
+and T.
+Furthermore, in the absence of basal affinity between
+E and T (ET
+= 0), the system described in A simplifies to an ordered two step equilibrium and
+can hence be modeled by .
+2[ELT]=[E]0[L]0[T]0αK1K2+αK1[L]0+[T]0[L]0It should be noted that and , perhaps not
+surprisingly, closely resemble the equations that describe ternary
+complex formation in rapid equilibrium random and ordered bisubstrate
+enzyme kinetic mechanisms, respectively.
+
+To further validate our model, we compared its predictions
+with
+the values obtained from numerically solving the system in KinTek
+Explorer (see Supporting Information for simulation methods) and confirmed that the
+analytical model and the numerical predictions were identical ( B,C).
+To assess
+if our model would reflect experimental data, we generated
+time-resolved fluorescence resonance energy transfer (TR-FRET) data
+using the well-characterized β-TrCP1:β-catenin peptide
+system with the molecular glue NRX-252262, which enhances the affinity
+of the β-TrCP1:β-catenin peptide interaction. We performed a global fit of the data to and obtained the thermodynamic
+parameters: K
+1 = 810 ± 52 nM, K
+2 = 8900 ± 1300 nM, and α = 0.0008
+± 0.0001 ( D). The fit was excellent and the fitted values were consistent with
+those reported previously.
+
+Fits
+to an equation of the type Y = Y
+0 + B
+max × may also be carried out on the data for
+individual values of [L]. Modeling predicts that the EC50 values are expected to decrease as T increases (see the cross symbols
+in C). To investigate
+this further, we rearranged into
+3[ET]+[ELT]=Y0+Bmax[L]0EC50+[L]0with
+3aY0=[E]0[T]0K1+[T]03bBmax=[E]0[T]0K1(1−α)(K1+[T]0)(αK1+[T]0)3cEC50=α(K1K2+[T]0K2)αK1+[T]0The relationship between EC50 and [T]0 ( ) reveals that at low
+[T], EC50 tends to K
+2 (the
+affinity between the glue and E), at high [T], EC50 tends
+toward αK
+2, and there is an inflection
+point at [T] = αK
+1 where EC50 = . We replotted the EC50 values
+obtained from the data in D versus [T]0 and observed the expected
+decreasing relationship (see Figure S1).
+However, the replot revealed a lack of data at [T] below the inflection
+point. This is because NRX-252262 is highly cooperative (α ≈
+0.001). For less cooperative glues, however, additional data below
+the inflection point should be attainable and data fitting to should be robust and
+yield accurate parameters.
+In the absence of the model and data
+analysis presented here, K
+1 and α
+would be determined using TR-FRET
+by varying T in absence and presence of glue at saturating concentration,
+while K
+2 could be estimated from EC50 values. Useful information could also be obtained from the
+Span of the EC50 curves, as described recently. Using our model, we show that these parameters
+can be determined from one single dual titration experiment either
+by fitting the raw data to or the derived EC50 values to . Biophysical techniques that measure
+direct binding, such as surface plasmon resonance, are also useful
+and our model is also applicable to these alternative methodologies
+Having verified that the analytical derivation, the numerical modeling,
+and experimental data for the model presented above were all in agreement,
+we proceeded to consider additional cases that one is likely to encounter.
+There may be occasions where it may be not possible to carry out experiments
+under pseudo-first-order conditions e.g. if the proteins of interest
+are unstable at low nanomolar concentrations, and experiments may
+hence be restricted to relatively high protein concentrations; or
+if the assay relies on fluorescence polarization (FP). Under these
+conditions, it may be necessary to vary the concentration of the protein
+the glue binds to, which may lead to glue depletion and the assumptions
+underlying and not being satisfied. For those situations, we derived and :
+4a[ELT]=[T]0([E]0+[L]0+K2−Δ)2αK1+[E]0(α+1)+([L]0+K2−Δ)(1−α)4b[ELT]+[ET]=[T]0([E]0(α+1)+([L]0+K2−Δ)(1−α))2αK1+[E]0(α+1)+([L]0+K2−Δ)(1−α)with Δ = ([E]0 + [L]0 + K
+2)2 – 4­[E]0[L]0.
+As before, we showed that numerical
+modeling with KinTek Explorer
+gave the same results as the analytical model ( A,B). We used the same β-TrCP1:β‑catenin
+and NRX-262262 system as the experimental test case. We selected the
+plate-based, high-throughput methodology FP. The labeled β-catenin
+peptide was fixed at a low concentration (2 nM), and, in this instance,
+we varied the concentration of the glue at multiple fixed levels of
+β-TrCP1­( C). We fitted the data to , and the resulting derived parameters were in agreement with
+the expected values (K
+1 = 620 ± 34
+nM, K
+2 = 9000 ± 1530 nM and α
+= 0.0011 ± 0.0002).
+ The presence of the √Δ term in and prevents its
+rearrangement to the same form as . Furthermore, fitting concentration–response
+data under tight-binding conditions would not yield true EC50 values.
+While our focus has been to derive equations to fit
+equilibrium
+data under non-tight-binding and tight-binding conditions, considering
+kinetics would enrich the understanding of the system. We modeled
+cases of covalent and slow binding reversible molecular glues using
+KinTek Explorer, selecting values of key rate constants to allow formation
+of ternary complexes to be observed on the minute to hour time scale
+(Figures S2 and S3). Analogous to enzyme
+inhibitors, in both situations, the EC50 decreases as a
+function of time. For covalent glues, the EC50 asymptotically
+approaches half the glue binding partner concentration as would be
+expected, while for the slow-binding reversible glue case, the final
+EC50 is affinity driven and is hence predicted by c.
+In conclusion,
+we have derived a series of analytical solutions
+for molecular glue-induced ternary complexes covering the most common
+biochemical settings. We supported our analysis with numerical resolutions
+of the system and experimental data. Our models can be used to experimentally
+determine all the thermodynamic parameters of glue-induced ternary
+complex formation: the “basal” affinity between the
+proteins of interest (K
+1), the affinity
+of the glue for its binding partner (K
+2) and the glue-induced cooperativity (α). It hence completes
+the theoretical framework for the dual optimization of glue affinity
+and induced K
+D shift. In addition, there have been many reports of molecular
+glues inducing interaction between proteins without any detectable
+affinity (e.g., CRBN and most IMiDs neo substrates). By enabling scientists to determine this basal affinity
+from measurable ternary complex data, we believe the methods presented
+here fill an important gap in molecular glue discovery and will be
+extremely valuable to study and compare various neo-substrate systems.
+Our work provides the scientific community with the essential tools
+to study existing molecular glue systems and can be very impactful
+in current and future molecular glue drug discovery projects.
+
+## Supplementary Material
+
+## Acknowledgments
+We would like to
+acknowledge and thank Hazel Mak in the AstraZeneca
+Protein Science, Discovery Science team for providing us with β-TrCP1.
+We would also like to thank and acknowledge Daniel O’Donovan
+in the AstraZeneca Oncology Chemistry team for his support providing
+NRX-252262.
+
+## Glossary
+
+## Abbreviations
+FPfluorescence
+polarization
+TR-FRETtime-resolved fluorescence
+resonance energy transfer
+IMiDsimmunomodulatory drugs
+PROTACproteolysis targeting chimera
+PPIprotein–protein interaction
+
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/jacs.5c09166.
+All derivations and experimental procedures (protein
+generation, biochemical assays) (PDF)
+
+‡.M.C. and R.G. contributed equally to this
+work.
+
+This work was
+solely funded by AstraZeneca.
+
+The
+authors declare the
+following competing financial interest(s): All authors are employees
+of AstraZeneca and have stock ownership and/or stock options or interests
+in the company.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials

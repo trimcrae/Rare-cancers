@@ -1,0 +1,390 @@
+822acssdACS Chemical BiologyACS Chem BiolPMC6423499642349964234993072102510.1021/acschembio.9b00092SPR-Measured Dissociation Kinetics of PROTAC Ternary
+Complexes Influence Target Degradation Rate
+RoyMichael
+J WinklerSandra HughesScott J WhitworthClaire GalantMichael FarnabyWilliam RumpelKlaus CiulliAlessio †Division
+of Biological Chemistry and Drug Discovery, School of Life Sciences, University of Dundee, James Black Centre, Dow Street, Dundee DD1 5EH, United
+Kingdom‡Boehringer
+Ingelheim RCV GmbH & Co KG, 1221 Vienna, Austria*E-mail: a.ciulli@dundee.ac.uk.
+522019143361361–3682032019Copyright © 2019 American Chemical SocietyThis is an open access article published under a Creative Commons Attribution (CC-BY) License, which permits unrestricted use, distribution and reproduction in any medium, provided the author and source are cited.
+
+## Abstract
+ Bifunctional degrader
+molecules, known as proteolysis-targeting
+chimeras (PROTACs), function by recruiting a target to an E3 ligase,
+forming a target/PROTAC/ligase ternary complex. Despite the importance
+of this key intermediate species, no detailed validation of a method
+to directly determine binding parameters for ternary complex kinetics
+has been reported, and it remains to be addressed whether tuning the
+kinetics of PROTAC ternary complexes may be an effective strategy
+to improve the efficiency of targeted protein degradation. Here, we
+develop an SPR-based assay to quantify the stability of PROTAC-induced
+ternary complexes by measuring for the first time the kinetics of
+their formation and dissociation in vitro using purified
+proteins. We benchmark our assay using four PROTACs that target the
+bromodomains (BDs) of bromodomain and extraterminal domain proteins
+Brd2, Brd3, and Brd4 to the von Hippel–Lindau E3 ligase (VHL).
+We reveal marked differences in ternary complex off-rates for different
+PROTACs that exhibit either positive or negative cooperativity for
+ternary complex formation relative to binary binding. The positively
+cooperative degrader MZ1 forms comparatively stable and long-lived
+ternary complexes with either Brd4BD2 or Brd2BD2 and VHL. Equivalent complexes with Brd3BD2 are destabilized
+due to a single amino acid difference (Glu/Gly swap) present in the
+bromodomain. We observe that this difference in ternary complex dissociative
+half-life correlates to a greater initial rate of intracellular degradation
+of Brd2 and Brd4 relative to Brd3. These findings establish a novel
+assay to measure the kinetics of PROTAC ternary complexes and elucidate
+the important kinetic parameters that drive effective target degradation.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2019 Feb 1; Accepted 2019 Feb 5; Issue date 2019 Mar 15.
+
+Proteolysis-targeting chimeras
+(PROTACs) are bivalent molecules consisting of ligands for each of
+a target protein and an E3 ligase, joined via a linker. , PROTAC behavior can be modeled by three-body binding equilibria. Formation of a target/PROTAC/ligase ternary complex
+triggers proximity-dependent target protein ubiquitylation and degradation
+via the ubiquitin–proteasome system. , PROTAC
+drug discovery is rapidly advancing in both academia and industry,
+fuelled by both improvement in drug-like properties and broader recognition
+of mechanistic advantages of degradation over inhibition. , , PROTACs offer potential for improved
+selectivity beyond that of the constituent target ligand by harnessing
+additional stabilizing or destabilizing de novo protein–protein
+or protein–linker interactions formed via the ternary complex. , − Thus, in the context of a PROTAC ternary complex
+(ABC), the binding affinity of the PROTAC “B” to one
+protein partner “C” (binary binding) may be enhanced
+or reduced by the presence of the second protein partner “A”
+(ternary binding). This effect can be quantified in terms of a “cooperativity”
+(α) factor, defined as the ratio of binary and ternary dissociation
+constants for PROTAC binding to C (α = KDbinary/KDternary) ( A). Cooperativity may be described as “positive”
+(α > 1, enhanced ternary binding affinity relative to binary,
+thus further stabilizing the complex), “negative” (α
+< 1, reduced ternary binding affinity relative to binary, thus
+destabilizing the complex) or “non-cooperative” (α
+= 1, no change in binding affinity for C due to the presence of A).
+Developing new tools to understand cooperativity and avidity effects
+and ternary complex stability in PROTAC design is thus of significant
+interest. Although functional degraders can be generated in the absence
+of positive cooperativity, , mounting evidence suggests
+enhancing cooperativity and stability of ternary complexes could be
+an effective strategy in PROTAC design. − As bifunctional molecules,
+PROTACs are subject to a well-recognized “hook effect”,
+whereby at high PROTAC concentrations, binary interactions may outcompete
+ternary complex formation. , 3 Cooperativity
+is expected to counter this “hook effect” often exhibited
+by bifunctional molecules, thereby widening the concentration window
+for PROTAC activity and could also enable the use of weaker-affinity
+ligands. , 
+ There is now a growing literature of complementary methods
+to measure
+formation of PROTAC ternary complexes, offering different relative
+strengths and weaknesses (reviewed more comprehensively elsewhere). A number of steady-state methods have been described
+to measure ternary complex formation, cooperativity, or both. These
+include pull-down assays and proximity-based
+assays (e.g., AlphaScreen/AlphaLISA, time-resolved
+fluorescence energy transfer (TR-FRET)) to measure relative ternary
+complex formation at steady state as a function of PROTAC concentration. , , , Such assays can offer high throughput but require the labeling of
+both target and E3 ligase proteins, and the readout of ternary complex
+formation is indirect and semi-quantitative, owing to context-specific
+effects that may potentially affect assay measurement and confound
+comparison between PROTACs (e.g., effects due to
+target protein identity, relative protein orientation in the ternary
+complex, concentrations of proteins used in the assay, and the intrinsic
+absorbance or fluorescence of PROTACs). Cooperativity assays based
+on competitive binding (e.g., fluorescence polarization,
+to measure PROTAC binding to VHL in the presence or absence of target
+protein) have also been used to determine binding and cooperativity
+of PROTACs. ITC has also been used for
+label-free direct quantification of thermodynamic and binding parameters
+of PROTACs (for both binary and ternary complex formation), , , however, it is relatively more
+resource-intensive and lower throughput. Notably, none of these assays
+offer kinetic resolution. Recently, promising cell-based assays have
+been reported that enable real-time kinetic monitoring of PROTAC ternary
+complexes in cells, including the kinetic EGFP separation of phase-based
+protein interaction reporter (SPPIER) and kinetic bioluminescence resonance energy transfer (BRET) approaches. These cell-based methods enable
+the use of full-length proteins, albeit with the caveats that proteins
+must still be labeled (potentially giving rise to assay-specific effects
+described earlier), and the readout of ternary complex formation over
+time is still indirect. Promisingly, the ratiometric nature of BRET
+enables quantitative measurement. However,
+the readout in such cell-based assays may also be strongly affected
+by compound-specific factors, including variable cell permeability
+or nonspecific binding to cellular components as well as the potential
+general complication of target protein degradation at later time points
+if the normal proteosomal pathway has not been disrupted either genetically
+or chemically. It is thus also desirable to have well-validated, quantitative
+biophysical assays to measure PROTAC ternary complex kinetics in vitro using purified proteins.
+We were thus interested
+in exploring surface plasmon resonance
+(SPR) as a suitable label-free technique to monitor the kinetics of
+PROTAC-induced ternary complexes, the required intermediate species
+in the mechanism. Herein, we develop the
+first SPR-based assay to quantitatively measure the kinetics of ternary
+complex formation and dissociation, which we use to characterize the
+lifetime of ternary complexes composed of bromodomain-containing target
+proteins, PROTACs, and the von Hippel–Lindau E3 ligase (VHL).
+SPR has previously been utilized to characterize three-body binding
+systems (including complexes composed of protein, DNA, and small molecules), − which can be experimentally involving due to the complex nature
+of the binding equilibria. We sought a
+general-purpose and conceptually simple assay format to study PROTAC
+ternary complexes. Importantly, we recognized for bivalent molecules
+that the “hook effect” would preclude use of saturating
+concentrations of PROTAC in the running buffer. We reasoned that by
+immobilizing the E3 ligase, a single sensor surface might be utilized
+to measure diverse PROTAC/target combinations. To improve uniform
+presentation on the chip surface, we designed a VHL/ElonginB/ElonginC
+(VCB) construct harboring an AviTag sequence C-terminal to ElonginB
+for site-specific biotinylation (hereafter “biotin–VHL”). , 
+Using a Biacore T200 SPR instrument and streptavidin-immobilized
+biotin–VHL, we measured the kinetics and affinity of VHL binding
+for a concentration series of either PROTAC alone (to form a binary
+complex with VHL, KDbinary)
+or PROTAC pre-incubated with near-saturating concentrations of target
+protein (to form a ternary complex with VHL, KDternary; ). To achieve near-saturation, the minimum concentration
+of target protein used was 2 μM (corresponding to approximately
+a 20- to 50-fold excess of binary KD of
+the PROTAC for the target protein to ensure at equilibrium ≥95–98%
+formation of binary complex) (refer to Figures S1 and S2). Experiments were performed in either multicycle
+(binary) or single-cycle (ternary) format without regeneration to
+ensure a maximally stable surface and reduce experimental run-times
+for PROTAC/BD complexes exhibiting slow dissociation kinetics (refer
+to Figure S3). Doubly referenced replicate data were fitted globally (over multiple
+surface densities where applicable) to a 1:1 Langmuir binding model
+incorporating a parameter for mass-transfer effects to determine kinetic
+constants (kon, koff) from which dissociation constants were calculated (KD = koff/kon). Cooperativity (α) was calculated
+as the ratio KDbinary/KDternary.
+To benchmark the
+assay, we utilized the PROTAC MZ1, which forms
+a highly cooperative ternary complex with VHL and the second bromodomain
+(BD2) of Brd4 (Brd4BD2) that we have previously characterized
+both biophysically and structurally. , , In addition to MZ1, we selected three other PROTACs
+with ITC-measured affinities for ternary complex formation with VHL/bromodomain
+and extraterminal domain (BET) bromodomains (see ). , Combined,
+these encompass a range of both binary binding affinities and ternary
+complex cooperativities (both positive and negative). This set includes
+MZ1 and AT1, two positively cooperative PROTACs based on a triazolodiazepine
+BET inhibitor JQ1 (ligand A, ), as well as MZP55 and MZP61, two negatively cooperative
+PROTACs based on a more potent tetrahydroisoquinolone BET inhibitor
+I-BET726 (ligand B, ).
+ SPR binding studies were performed with MZ1,
+AT1, MZP55, and MZP61
+alone (binary) or in complex with Brd4BD2 as a representative
+BET bromodomain (ternary) and binding data compared with the ITC-obtained
+values (Tables and S1 and Figures S1–S4). , For MZ1, ternary complex formation was also measured with other
+BET bromodomains ( and ). No
+interaction was observed between VHL and Brd4BD2 in the
+absence of PROTAC (Figure S2). For the
+panel of PROTACs evaluated, the measured KD values for binary and ternary complexes, as well as the calculated
+values for the both cooperativity and change in complex stability
+(ΔΔG), were remarkably comparable using
+either ITC or SPR ( ). For MZP61 and MZP55, some nonspecific effects were observed
+for binary binding to VHL (Figure S4);
+in the case of MZP61, these effects were sufficiently pronounced as
+to preclude accurate kinetic fitting, so steady-state fitting was
+used to estimate KDbinary.
+ Relative to the binary equilibria,
+the VHL/MZ1/Brd4BD2 ternary complex displayed both a faster kon and a slower koff, leading to the tighter KDternary and significant positive
+cooperativity (α ≈ 20) (see C and Tables and S1). As anticipated, the VHL/AT1/Brd4BD2 ternary complex also exhibited positive cooperativity (α ≈
+5). In stark contrast, ternary complexes formed by either of MZP55
+and MZP61 with Brd4BD2 had very fast dissociation kinetics
+(>80-fold faster than the VHL/MZ1/Brd4BD2 complex) reflecting
+overall negative cooperativity, with the ternary complex exhibiting
+the most negative cooperativity (relative to the binary binding to
+VHL) being that formed by MZP61 (Table S1 and Figure S4). Analogous experiments
+were conducted in a reversed format using immobilized Brd4BD2 and PROTAC in solution in the absence or presence of excess VHL.
+Although quantitative fitting of these ternary data was not possible,
+qualitatively, the sensorgrams reflected the same trends already described
+for the standard format (Figure S6). While
+we have shown that both the ITC and SPR approaches are complementary
+and yield similar values, the notable advantages of our SPR method
+are increased throughput and yielding kinetic information, including
+estimates of the lifetime of the ternary complex. This information
+is invaluable to better understand PROTAC function and ternary complex
+stability in an enzymatic context, analogously
+to how quantification of inhibitor residence time has helped to understand
+pharmacological function in certain occupancy-driven small-molecule
+contexts. , 
+MZ1 has been shown to degrade Brd4
+more potently than Brd2 or Brd3
+(despite near-equipotent binding of the constituent warhead ligand
+to all BET bromodomains), , , resulting from the high thermodynamic stability of the VCB/MZ1/Brd4BD2 complex. This data suggested
+varying levels of cooperativity for MZ1 VHL/PROTAC/BD ternary complexes.
+Moreover, literature data from us using biophysical methods and others using cellular degradation assays, as well as our own FP data (vide infra) are consistent with the MZ1 mediated degradation of BET proteins
+being driven by complex formation with the BD2s. In an effort to better
+understand on a kinetic level the basis for apparent differences in
+cooperativity, we sought to quantify the overall kinetics of VHL/PROTAC/BD
+ternary complexes for each of the different BET bromodomains (Figures , S7, and S8 and Tables and S2). Ternary complexes
+consisting of VHL, MZ1, and the first bromodomain (BD1) of either
+Brd2, Brd3, or Brd4 all displayed very fast dissociation kinetics
+(t1/2 < 1 s), resulting overall in
+either low positive cooperativity or no cooperativity (α ≈
+1). In the case of the second bromodomains (BD2), ternary complexes
+instead exhibited much-slower dissociation kinetics (up to 800 slower
+for a BD2 compared to a BD1 in the case of Brd2; see ), consistent with the known
+degradation-driving complexes (with BD2s) being the more-stable and
+longer-lived complexes. Crucially, we were struck by the significantly
+longer ternary half-life of the VCB/MZ1/BD ternary complexes with
+Brd2BD2 and Brd4BD2 (t1/2 ≈ 70 and 130 s, respectively) relative to the more
+short-lived ternary complex with Brd3BD2 (t1/2 ≈ 6 s).
+Overlay of crystal structures
+of either Brd2BD2 (PDB: 3ONI) or Brd3BD2 (PDB: 3S92) in complex with
+JQ1 and the VCB/MZ1/Brd4BD2 structure
+(PDB: 5T35), suggested that ternary complex formation could
+be influenced by a single amino acid residue difference (Glu344 within the ZA loop of Brd3BD2, which corresponds to Gly382 and Gly386 in Brd2BD2 and Brd4BD2) ( A). In an equivalent VCB/MZ1/Brd3BD2 complex, the side-chain
+of Glu344 would induce severe steric clash with the VHL/MZ1
+portion of the complex, leading to destabilization. We therefore generated
+reciprocal point mutant swaps ( B) and measured ternary complex formation by SPR with
+MZ1 or AT1. In all cases, the resulting SPR binding profiles reflected
+the effect predicted for the point mutation. The G-to-E point mutation
+in Brd4BD2 or Brd2BD2 shortened the ternary
+complex half-life, decreasing cooperativity and complex stability;
+while the reverse point mutation in Brd3BD2 extended the
+ternary half-life to resemble the profile for Brd4BD2 and,
+correspondingly, increased cooperativity and stability (Figures C and S9 and Table S2). As a cross-validation, we evaluated
+these complexes in a competitive fluorescence polarization (FP) assay;
+measuring VHL binding of PROTAC or a PROTAC:BD binary complex via the displacement of a fluorescent HIF-1α peptide
+probe (Table S2 and Figure S10). Good correlation was observed between SPR-fitted
+dissociation constants (KD) and FP-derived
+inhibition constants (KI) ( A). Cooperativity values were
+also comparable using either method (Table S2). Together, these results underscore the robustness of our SPR approach
+and further support the conclusion that the described VCB/MZ1/Brd4BD2 structure (PDB: 5T35) reflects the predominant
+(long-lived) species present in solution.
+ These SPR data illustrate kinetically a mechanistic difference
+between different PROTAC “archetypes”. On the one hand, MZP55 and MZP61 are PROTACs with high
+binary target affinity (for Brd4) but low or negative cooperativity
+(Figures S4 and S6), thus likely forming
+highly populated binary complexes but a very transient ternary complex.
+On the other hand, MZ1 and AT1 exhibit weaker binary target affinity
+(for Brd4), but this is compensated for in the case of Brd4BD2 by significant positive cooperativity (to form stable ternary complexes).
+This latter case is predicted to fit a “rapid equilibrium”
+kinetics model, where a rate-limiting ubiquitination step is dependent
+on the concentration of PROTAC-induced ternary complex. In this regime, an extension in ternary complex
+stability (and, hence, lifetime) would be expected to increase rates
+of target protein ubiquitination and degradation, particularly at
+early time points prior to countervailing factors such as protein
+resynthesis or feedback mechanisms. An alternative scenario that might
+be envisaged for PROTAC molecules operating under a different regime, e.g., in a “slow-binding regime”, is that
+their association kinetics might be sufficiently rate limiting as
+to influence the ultimate outcome of the target degradation.
+We wished to examine these hypotheses in a cellular context. Time-course
+studies were performed to measure initial rate of degradation of Brd4,
+Brd3, or Brd2 in response to treatment of HEK293 cells with MZ1 ( B; see Figure S11 for representative Western blot data).
+We observed rapid degradation of Brd2 and both isoforms of Brd4, while
+the degradation of Brd3 was significantly slower ( B and Table S3). Recent results by an independent group, published while
+this manuscript was in preparation, strongly support our conclusion. Consistent with our data, Riching et
+al. observed more rapid initial rates of degradation and
+greater levels of ubiquitination for Brd2 and Brd4 compared to Brd3
+in response to MZ1 treatment. Crucially,
+we observed a correlation between the half-life of the VHL/MZ1/BD2
+ternary complexes and the initial rate of degradation of the corresponding
+BET protein, with the more slowly degraded BET protein (Brd3, ƛ
+= 4 × 103 min–1, cf. with Brd2 and Brd4, which show ƛ between 13 and 18 ×
+103 min–1) being also the one that exhibits
+the shortest-lived ternary complex ( B). This data is consistent with the rapid
+equilibrium framework, with the more stable and more slowly dissociating
+ternary complexes driving cellular protein degradation, and not consistent
+with a slow-binding ternary complex model; indeed, MZ1/Brd3BD2 showed comparatively fast association
+kinetics in our SPR data for binding to VHL (kon = 160 × 105 M–1 s–1), possibly even slightly faster as compared to MZ1/Brd2BD2 and MZ1/Brd4BD2 ( ). Taken together, these observations strongly
+suggest a mechanistic link between the relative half-life of a given
+target/PROTAC/E3 ligase ternary complex and initial rates of target
+degradation, which drives a faster and more profound target depletion
+in cells, at least for PROTACs operating under the “rapid equilibrium”
+kinetics model such as the archetypical degrader MZ1 studied herein.
+In conclusion, we demonstrate a simple and robust SPR-based method
+to quantify for the first time the stability of target/PROTAC/ligase
+ternary complexes by measuring the kinetics of their formation and
+dissociation. We demonstrate that our surface-based SPR method yields
+values for affinity, cooperativity (α) and complex stability
+comparable to ITC in solution , with increased throughput
+and yielding additional kinetic information not achievable using other
+assays described to date. We show by SPR that a single residue can
+impart significant changes in cooperativity, stability, and dissociative
+half-lives of ternary complexes formed with different but highly conserved
+target proteins. Lastly, we observe that these kinetic differences
+of ternary complexes correlate to relative initial rates of target
+degradation for the well-characterized BET degrader MZ1. Together,
+these findings establish a new assay for PROTAC ternary complex kinetics
+and illuminate on ternary complex stability and dissociative half-lives
+as key optimization parameters for PROTAC design and discovery campaigns.
+Our studies suggest that a potential challenge or limitation of
+this approach is the requirement for moderate quantities of whichever
+target protein is used in “near-saturating” concentrations;
+however, our experiments also suggest that meaningful data may still
+be obtained using lower concentrations than that generally used in
+this study (Figures S1 and S5). Our data
+also suggest that it may be necessary to evaluate both binding orientations
+(immobilizing either the target protein or E3 ligase on the sensor
+surface) to ascertain which format yields the best data. Nonspecific
+effects exhibited by certain PROTACs may also pose challenges in determining
+binary dissociation constants. This notwithstanding, we anticipate
+that our SPR kinetic assay will become an established tool to drive
+PROTAC development and to further elucidate the dynamic processes
+governing their mode of action. We envision that one natural extension
+of our approach may be adaptation to use in more high-throughput assays,
+in particular due to the additional kinetic information it provides
+relative to alternative binding approaches such as AlphaScreen or
+TR-FRET. This is rendered more feasible by the availability of newer
+highly parallel SPR instruments with improved sensitivity, reducing
+sample consumption. In our described approach, the E3 ligase (in this
+case, VHL) is immobilized on the sensor surface, which has the advantage
+of being agnostic of the target protein of interest; using this format,
+any target protein (domain or full-length) might conceivably be used
+that is capable of recombinant production. In suitable cases, a reversed
+format using immobilized target protein might provide certain benefits,
+such as enabling the same PROTAC/E3 ligase solution to be simultaneously
+screened against both targets and anti-targets on parallel flowcells.
+Another possibility might be direct capture of over-expressed full-length
+protein from cell lysate onto the sensor surface by way of a suitable
+affinity tag. Furthermore, immobilization of the protein of interest
+may make this approach capable of extension to screening for the most-suitable
+E3 ligase/PROTAC complexes for forming stable and long-lived complexes.
+Beyond PROTACs, this assay could also be applied more broadly to study
+three-body binding equilibria induced by other classes of heterobivalent
+molecules. 
+
+## Acknowledgments
+We thank chemists of the Ciulli group and at Boehringer
+Ingelheim for the gifts of compounds, K. H. Chan for discussions,
+G. Glendinning and S. Mayer for compound logistics, the Dundee MRC
+PPU Reagents and Services facility for the gift of the GST-BirA construct
+and for DNA sequencing services, and the Dundee Fingerprints Proteomics
+Facility for the ESI-MS analysis of protein samples.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge on the ACS Publications website at DOI: 10.1021/acschembio.9b00092.
+Tables showing
+fitted SPR data, SPR and FP binding studies,
+and fitted degradation time-course data; figures showing the selection
+of the PROTAC-to-target ratio, lack of significant interaction, data
+treatment, SPR sensorgrams, the effect of varying the PROTAC-to-target
+ratio, reversed-format SPR binding experiments, fitted fluorescence
+polarization competition data, and a representative Western blot;
+additional details on experimental methods (PDF)
+
+This project
+has received funding from the European Research Council (ERC) under
+the European Union’s Seventh Framework Programme (FP7/2007–2013)
+as a Starting Grant to A.C. (grant agreement no. ERC-2012-StG-311460
+DrugE3CRLs), and by Boehringer Ingelheim. Biophysics and drug discovery
+activities at Dundee were supported by Wellcome Trust strategic awards
+(100476/Z/12/Z and 094090/Z/10/Z, respectively) to the Division of
+Biological Chemistry and Drug Discovery.
+
+A preprint of this article
+(doi: 10.1101/451948) has been posted on bioRxiv: http://biorxiv.org/cgi/content/short/451948v1.
+
+The authors
+declare the following competing financial interest(s): The Ciulli
+laboratory receives sponsored research support from Boehringer Ingelheim
+and Nurix, Inc. A.C. is a scientific founder, director, and shareholder
+of Amphista Therapeutics, a company that is developing targeted protein
+degradation therapeutic platforms.
+
+## Supplementary Material
+cb9b00092_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+cb9b00092_si_001.pdf

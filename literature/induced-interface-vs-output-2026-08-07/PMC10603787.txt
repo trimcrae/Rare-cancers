@@ -1,0 +1,829 @@
+822acssdJournal of the American Chemical SocietyJ Am Chem SocPMC1060378710603787106037873781601410.1021/jacs.3c08307Rational Screening
+for Cooperativity in Small-Molecule
+Inducers of Protein–Protein Associations
+LiuShuang TongBingqi MasonJeremy W OstremJonathan M TutterAntonin HuaBruce K TangSunny A BonazziSimone BrinerKarin BerstFrédéric ZécriFrédéric
+J SchreiberStuart L †Chemical
+Biology and Therapeutics Science, Broad
+Institute of MIT and Harvard, 415 Main Street, Cambridge, Massachusetts 02142, United States‡Department
+of Chemistry and Chemical Biology, Harvard
+University, 12 Oxford Street, Cambridge, Massachusetts 02138, United States§Global
+Discovery Chemistry, Novartis Institutes
+for BioMedical Research, 181 Massachusetts Avenue, Cambridge, Massachusetts 02139, United States∥Chemical
+Biology and Therapeutics, Novartis Institutes
+for BioMedical Research, 181 Massachusetts Avenue, Cambridge, Massachusetts 02139, United States⊥Global
+Discovery Chemistry, Novartis Institutes
+for BioMedical Research, Novartis Campus, Basel, CH-4002, Switzerland*stuart_schreiber@harvard.edu (S.L.S.)
+*sliu.broad@gmail.com (S.L.)
+10102023145422328123281–2329128102023© 2023 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).Previous version available: This article is based on a previously available preprint posted on bioRxiv on May 24, 2023: "
+Rational screening for cooperativity in small-molecule inducers of protein–protein associations
+".
+
+## Abstract
+ The hallmark of a molecular glue is its ability to induce
+cooperative
+protein–protein interactions, leading to the formation of a
+ternary complex, despite weaker binding toward one or both individual
+proteins. Notably, the extent of cooperativity distinguishes molecular
+glues from bifunctional compounds, which constitute a second class
+of inducers of protein–protein interactions. However, apart
+from serendipitous discovery, there have been limited rational screening
+strategies for the high cooperativity exhibited by molecular glues.
+Here, we propose a binding-based screen of DNA-barcoded compounds
+on a target protein in the presence or absence of a presenter protein,
+using the “presenter ratio”, the ratio of ternary enrichment
+to binary enrichment, as a predictive measure of cooperativity. Through
+this approach, we identified a range of cooperative, noncooperative,
+and uncooperative compounds in a single DNA-encoded library screen
+with bromodomain containing protein (BRD)9 and the VHL–elongin
+C–elongin B (VCB) complex. Our most cooperative hit compound, 13-7, exhibits micromolar binding affinity to BRD9 but nanomolar
+affinity for the ternary complex with BRD9 and VCB, with cooperativity
+comparable to classical molecular glues. This approach may enable
+the rational discovery of molecular glues for preselected proteins
+and thus facilitate the transition to a new paradigm of small-molecule
+therapeutics.
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Aug 1; Collection date 2023 Oct 25.
+
+## Introduction
+Small-molecule drugs that induce protein–protein
+associations
+possess novel properties with substantial current medical impact and
+broad future therapeutic potential. These “chemical inducers
+of proximity” (CIPs) have been demonstrated to stabilize, degrade,
+translocate, inhibit, or activate protein targets, to rewire cellular
+circuitry, and to restrict drug actions to targeted tissues coexpressing
+their two protein partners. In some cases,
+the induced protein–protein associations exist within a single
+target protein (intramolecular), which underlies the ability to modulate
+otherwise challenging therapeutic targets such as the NLRP3 inflammasome and dysfunctional CFTR channel proteins in the
+genetic disorder cystic fibrosis. 
+CIPs comprise two major categories: molecular glues and bifunctional
+compounds. Bifunctional compounds bind their two protein targets largely
+noncooperatively (cooperativity factor α ∼ 1, where α
+= dissociation constant (KD)binary/KDternary, a) and therefore manifest the
+hook effect—a loss of ternary complexes at high compound concentrations
+due to the formation of inactive 1:1 compound/protein binary complexes.
+In contrast, molecular glues exhibit high cooperativity (α ≫
+1), which favors the formation of ternary complexes despite lacking
+binary affinity toward the protein partners, thereby mitigating the
+hook effect.
+ Typically, CIPs induce the associations of two
+proteins: a target
+protein that is subject to modulating effects and a presenter protein
+that exerts functional effects on the target protein. Tissue-specific
+or cell-specific presenter proteins enable high selectivity of molecular
+glues, as productive binding only occurs in the presence of both the
+target and the presenter proteins. “Undruggable” proteins
+can also be targeted by molecular glues, as demonstrated by the binding
+of WDB002 to an otherwise featureless coiled coil domain of CEP250,
+mediated by the presenter protein FKBP12. Bifunctional compounds such as protein degrading PROTACs are appealing
+due to the conceptual simplicity of their design: link two binders
+with a connector. Conversely, despite their therapeutic advantages,
+molecular glues have in general been challenging to design and have
+been most frequently identified serendipitously—by uncovering
+their ability to induce protein associations during mechanism-of-action
+studies of compounds having novel functional consequences on cells
+and in animals, for example, tacrolimus (FK506), sirolimus (rapamycin), , and lenalidomide/thalidomide. Initially identified as a novel mode of inhibition,
+molecular glues have more recently been used as degraders, among other
+functional consequences.
+There has been a tendency to differentiate
+bifunctional compounds
+from molecular glues based on their “binder–linker–binder”
+structure, which is less recognizable in many molecular glues. However,
+the hallmark of molecular glues is their high cooperativity in inducing
+protein–protein associations. In this study, we aim to develop
+a rational approach to discover compounds with high cooperativity
+regardless of their chemical structures. While various methodologies
+using DNA-encoded libraries (DELs) to identify molecules capable of
+forming ternary complexes have been reported, , none
+have discovered highly cooperative compounds. We recently described
+a screening technique using preselected target and presenter proteins
+to identify bifunctional compounds from a pool of DNA-barcoded compounds
+prepared using the split-and-pool synthesis strategy of DELs. We used
+the VHL–elongin C–elongin B (VCB) E3 ligase complex
+as the presenter protein to assess the functional outcomes of induced
+associations in cells. The resulting noncooperative PROTACs were effective
+in inducing ternary complexes in cells and degrading their preselected
+targets. Here, we adapt this system to
+rationally identify compounds from DELs that induce protein associations
+of preselected targets and presenters cooperatively. The resulting
+functional compounds exhibit cooperativity in vitro and in cells comparable to that of classical molecular glues.
+
+## Results
+
+## Library Design and Screening Workflow
+Based on the
+VHL-binding motif of VZ185, a reported PROTAC of bromodomain containing
+protein (BRD)9, we designed a VHL-targeted
+CIP-DEL and screened for compounds that induce associations between
+BRD9 and VHL. The library was constructed analogously to the one previously
+described, but used different exit vectors
+from the VHL ligand for attaching the connectors and DNA barcodes.
+The diversified triazine-based library was connected to the phenolic
+oxygen of the VHL-targeting ligand ( b), in accordance with VZ185. The DNA barcodes were attached to the distal
+amide of the VHL-targeting ligand, which points toward the solvent
+exposed region in the crystal structure of a similar compound cocrystallized
+with the bromodomain of SMARCA2 and VCB (PDB 6HAX). The split-and-pool synthesis consisted of three cycles,
+where cycle 1 included 13 connectors between the triazine library
+and the VHL-targeting ligand (Figure S1a), and cycle 2 and cycle 3 included 290 and 249 appendage building
+blocks on the triazine core, respectively, as previously described. In total, the CIP-DEL contains 938,730 library
+members, with DNA-encoded VZ185 (Figure S1b) added as a positive control at an equimolar amount to a single
+library member in the screen.
+In the CIP-DEL screen, His-tagged
+BRD9 (target protein) was immobilized on Co2+-coated magnetic
+beads. Immobilized BRD9 was added to either the CIP-DEL to form binary
+complexes [Beads, Target, Library (BTL)], or the CIP-DEL preincubated
+with tagless VCB (presenter protein) to form ternary complexes [Beads,
+Target, Library, Presenter (BTLP)]. The incorporation of the VHL-targeting
+ligand in the CIP-DEL enables the library to preferentially bind VCB
+in solution. Immobilizing the target protein on beads increases the
+effective protein concentration, thereby shifting the binding equilibrium
+to favor the interaction between BRD9 and the diversified triazine
+library in the CIP-DEL. To control for nonspecific bead binders, [Beads,
+Library (BL)] was included, where no protein was immobilized on beads
+or present in the buffer. The beads were then subjected to three washes
+before the proteins were heat-denatured to release the binders. DNA
+barcodes of the binders were PCR-amplified and sequenced to obtain
+the counts of each library member in BL, BTL, and BTLP. We modeled
+the count data as a Poisson sampling of barcodes, which normalizes
+the counts against the total sample counts while also accounting for
+sequencing data uncertainty. The binary
+enrichment was calculated by dividing BTL over BL, the ternary enrichment
+by dividing BTLP over BL, and the presenter ratio by dividing BTLP
+over BTL, essentially giving the ratio of ternary enrichment to binary
+enrichment ( c). A higher presenter ratio suggests that binding of the
+CIP-DEL compound to BRD9 is more dependent on the presence of VCB,
+implying higher cooperativity of the compound. We hypothesized
+that we could use the presenter ratio to select small molecules with
+various degrees of cooperativity in binding to BRD9 and VCB.
+
+## Screening Results
+The CIP-DEL screening results of
+BRD9/VCB were displayed as a plot of ternary enrichment (BTLP/BL)
+versus presenter ratio (BTLP/BTL), whereby each datum point represents
+a CIP-DEL library member ( a). The enrichment and presenter ratio values were
+reported as the lower bound of the 95% confidence interval. , Interestingly, the enriched compounds for BRD9/VCB showed a distribution
+into three groups: (1) high ternary enrichment and low presenter ratio,
+dominated by compounds with connectors 9 (9-series) and 12 (12-series);
+(2) medium ternary enrichment and medium presenter ratio, dominated
+by compounds with connector 11 (11-series); and (3) low ternary enrichment
+and high presenter ratio, dominated by compounds with connector 13
+(13-series). Note that an alternative plot of ternary enrichment versus
+binary enrichment would reveal predominantly the 9- and 12-series
+and mask the intriguing 13-series due to its extremely low binary
+enrichment (Figure S2a). For a given connector,
+a particular appendage building block was preferred, e.g. (9, 275,
+x) for the 9-series to give the high binary and ternary enrichment;
+structurally similar (13, 117, x) and (13, x, 109) for the 13-series
+to give the high presenter ratio (Figure S2b). Notably, all of the enriched connectors were relatively short
+and cyclic among the 13 connectors in the library (Figure S1a). We selected 16 library members (9-1 to 9-4, 11-1, 11-2, 12-1, and 13-1 to 13-9; a for plot, for summarized results,
+and Figure S3 for compound structures)
+for off-DNA synthesis and biophysical and cellular validation. We
+found that connector 12 was attached to the VHL ligand via the carbon para to the anticipated phenolic oxygen, due to the distinct
+reactivity of the 4-(piperazin-1-yl)-benzyl tosylate (Figure S4). Our subsequent discussion focuses
+on compounds with connectors 9, 11, and 13, which share a common scaffold.
+ 
+
+## Compounds with high presenter ratios showed no hook effect
+We first tested the ternary complex formation of the off-DNA compounds
+with purified recombinant BRD9 and VCB using AlphaScreen assays ( b, S5). Compounds that induced ternary complexes with BRD9 immobilized
+on the donor beads and VCB on the acceptor beads exhibited luminescent
+AlphaScreen signals. 9-1, a compound with a low presenter
+ratio (0.54), showed increasing AlphaScreen signals up to 120 nM,
+but the signals decreased at higher concentrations due to the hook
+effect ( b).
+Similarly, 11-1, a compound with a medium presenter ratio
+(16), showed AlphaScreen signals over a broader concentration range
+but still exhibited the hook effect above 1 μM ( b). However, 13-3 and 13-7, both of which had high presenter ratios (28
+and 22 respectively) and high ternary enrichment values within the
+13-series, showed increasing AlphaScreen signals without any significant
+hook effect up to the highest tested concentration of 10 μM
+( b). These
+results demonstrated that compounds with higher presenter ratios are
+more cooperative. Given that connectors 9, 11, and 13 are all short
+and cyclic ( c), it is difficult to predict the cooperativity of the tested compounds
+based on their chemical structures alone, underscoring the value of
+CIP-DEL screening for discovering cooperative compounds.
+
+## 13-7 has the highest cooperativity for BRD9 and VCB
+To quantify the cooperativity of the off-DNA compounds observed in
+AlphaScreen assays, we measured the cooperativity factor, α,
+by using surface plasmon resonance (SPR) ( d, S6). The α
+of a compound for BRD9 is the ratio of its binary KD for BRD9 to its ternary KD for BRD9. The binary and ternary KDs
+for BRD9 were determined by immobilizing biotinylated BRD9 on a streptavidin
+sensor chip with off-DNA compounds in solution and off-DNA compounds
+preincubated with tagless VCB in solution, respectively. For most
+of the 13-series compounds, binary KD values
+could not be accurately determined by SPR when the compounds were
+titrated up to 20 μM (Figure S6b),
+indicating weak binding to BRD9 alone and resulting in α values
+greater than a lower limit ( d). Among the compounds tested, 13-7 exhibited
+the highest cooperativity for BRD9 (α > 159, KDbinary > 20 μM, KDternary = 126 nM) ( d, S6). The α
+values for VCB were similarly calculated by immobilizing biotinylated
+VCB on the chip with compounds alone, or compounds preincubated with
+tagless BRD9 in solution. In theory, the α of the compounds
+for BRD9 should equate to that for VCB; in practice, different KDs of the compounds to the protein in solution,
+concentration of the protein in solution, and immobilization of the
+protein to a surface resulted in imperfect experimental conditions,
+and in some cases, different α values were obtained. Importantly,
+the relative trend remained consistent where the 9-series with low
+presenter ratios showed low α values, whereas the 13-series
+with high presenter ratios showed α values as high as 2140 (KDbinary = 238 nM, KDternary = 0.11 nM) for 13-7,
+which is comparable to the cooperativity of the classical molecular
+glue, rapamycin (α = 2170) binding
+to FKBP12 and the FRB domain of mTOR. The presenter ratios based on
+the screening results were observed to have a positive but nonlinear
+correlation with cooperativity measured by SPR ( d; Spearman’s correlation = 0.84,
+Pearson’s correlation = 0.40, calculated based on the lower
+bound of presenter ratios and α for BRD9 in ). While 13-7 does
+not have the highest presenter ratio, its high cooperativity could,
+in part, be correlated with its high ternary enrichment among the
+cooperative 13-series. We focus our discussion on 13-7, which has the highest cooperativity for both BRD9 and VCB.
+
+## 13-7 induced less binary but more ternary complexes
+To measure directly the proportion of binary and ternary complexes
+induced by various compounds, we used nondenaturing mass spectrometry
+(MS) to detect noncovalent interactions in a mixture of equimolar
+off-DNA compound, BRD9 and VCB ( e, S7). No binary
+binding to BRD9 was observed for all compounds under MS conditions.
+Binary binding to VCB was the strongest for the uncooperative/noncooperative 9-1 (96% bound), followed by the noncooperative VZ185 (68% bound) and the cooperative 13-7 (20% bound). Despite the potent binary binding of 9-1 to VCB, no MS peak corresponding to the ternary complex of 9-1 with BRD9 and VCB was observed. In contrast, a small population
+(12% relative to unbound BRD9) of ternary complex with BRD9 and VCB
+was observed for VZ185, while a large population (272% relative to
+unbound BRD9) of ternary complex with BRD9 and VCB was observed for
+the cooperative 13-7, despite its weak binary binding
+to VCB. The gas-phase nondenaturing MS results were validated by a
+solution-phase experiment where a mixture of equimolar 13-7, BRD9, and VCB were injected into a size exclusion column. A single
+elution peak containing BRD9 and VCB with no significant binary complexes
+or unbound proteins was observed ( f), suggesting that 13-7 induces
+the formation of ternary complexes with BRD9 and VCB cooperatively
+(see Figure S8 for control experiments).
+
+## 13-7 induced ternary complexes with high Emax in cells
+To assess the ability of the off-DNA
+compounds to induce ternary complexes within the cellular environment,
+we conducted NanoBiT assays using SmBiT-BRD9
+and VHL-LgBiT fusion proteins in HEK293T cells. Interestingly, no
+hook effects were observed for all compounds except VZ185 in the NanoBiT
+assays (Figure S9). Based on the measured
+luminescence signals, the uncooperative/noncooperative 9-1 induced a relatively low amount of ternary complexes with BRD9 and
+VHL in cells, with a half-maximal effective concentration (EC50) of 904 nM ( a). The noncooperative VZ185 induced more ternary complexes
+with a low EC50 of 5.5 nM, but with a hook effect observed
+above 1 μM. In contrast, 13-7, which showed cooperative
+behavior with purified BRD9 and VCB proteins in the AlphaScreen assays
+( b), induced
+dose-dependent formation of ternary complexes in cells with an EC50 of 17 nM and the highest maximum effect (Emax) ( ) among all compounds tested, partly due to the absence of any hook
+effect up to the highest tested concentration of 30 μM ( a).
+ 
+
+## Cooperative compounds showed better selectivity for close homologs
+VZ185 is a dual degrader of BRD9 and its close homolog, BRD7. While BRD9 is a promising therapeutic target
+for synovial sarcoma, nonselective degradation
+of BRD7 could have undesirable consequences. To investigate whether
+cooperativity could improve the selectivity of the off-DNA compounds
+in inducing ternary complexes with BRD9/VCB over BRD7/VCB, we conducted
+NanoBiT assays with SmBiT-BRD7 in place of SmBiT-BRD9 (Figure S10). The Emax values were normalized to VZ185 at 100% for both BRD9 and BRD7 ( b). The uncooperative/noncooperative 9-1, 9-2, and 12-1 showed poor selectivity
+for BRD9/VCB over BRD7/VCB. In contrast, the cooperative 13-series
+demonstrated high ternary complex formation with varying degrees of
+selectivity favoring BRD9/VCB. Notably, 13-5 and 13-6, which had the highest presenter ratios ( a), exhibited the highest selectivity
+(13-fold and 21-fold, respectively, compared to VZ185) for BRD9/VCB
+over BRD7/VCB ( b).
+
+## 13-7 degraded BRD9 in cells
+As the presenter protein
+in our CIP-DEL screen was VCB, BRD9 degradation was assessed using
+HiBiT assays as a functional consequence
+of compound-induced ternary complex formation with BRD9/VCB. Although
+less potent than VZ185 (Figure S11), 13-7 degraded BRD9-HiBiT fusion proteins in HEK293T cells
+(half-maximal degradation concentration (DC50) 108 nM)
+without a hook effect ( c). The BRD9 degradation induced by 13-7 was
+at least partly VHL dependent, as demonstrated by the shift of DC50 to 2.3 μM in the presence of the neddylation inhibitor,
+MLN4924 ( c). The decrease in the HiBiT assay signals
+with 13-7 was attributed to BRD9 degradation and not
+cellular toxicity, as confirmed by the CellTiter-Glo assay ( c). The calculation
+of degradation selectivity of the off-DNA compounds using the maximal
+degradation (Dmax) measured by HiBiT assays
+requires caution, as most of the tested compounds demonstrated non-VHL
+mediated degradation (Figures S11, S12, S13). Compounds with high cooperativity, including 13-7, 13-3, and 13–2, showed
+greater VHL dependence and reduced off-mechanism effects in BRD9 degradation.
+To verify our HiBiT results, we used fluorescence-activated cell
+sorting (FACS) to measure the degradation of BRD9-GFP fusion proteins
+in response to selected compounds in HEK293T cells ( d). BRD9-GFP was cloned in-frame
+with internal ribosomal entry site (IRES)-mCherry for simultaneous
+mCherry expression, allowing us to exclude expression level changes
+as a source of any reduction in the GFP signal. Addition of 13-7 (10 μM) to cells overexpressing BRD9-GFP resulted
+in reduced GFP signal intensity without effect on mCherry signal,
+consistent with loss of BRD9-GFP protein ( d). Co-treatment with the proteasome inhibitor
+MG132 prevented this effect, demonstrating that 13-7 induces
+proteasomal degradation of BRD9-GFP. Western blot analysis confirmed
+the absence of a hook effect in the degradation of BRD9-GFP induced
+by 13-7, up to the highest tested concentration of 30
+μM ( e).
+We also investigated 13-9, an outlier of the 13-series
+with high ternary enrichment but low presenter ratio based on the
+screening results ( a, ). 13-9 was uncooperative (α < 1) by SPR ( d), suggesting that its ternary
+complex formation with BRD9 and VCB is disfavored. As expected, we
+observed no degradation of BRD9-HiBiT with up to 30 μM 13-9 by HiBiT assays (Figure S11) and no degradation of BRD9-GFP at 10 μM 13-9 by FACS ( d).
+
+## Conclusion
+Rational screening for cooperative molecular
+glues in a high-throughput
+manner remains a challenging task in drug discovery. In this study,
+we demonstrated the feasibility of using a binding-based CIP-DEL approach
+to identify compounds that induce ternary complex formation and target
+degradation cooperatively. By screening a library of approximately
+a million DNA-barcoded compounds against BRD9 with and without VCB,
+we identified compounds that fall under opposite extremes: the 9-series
+with high ternary enrichment but low presenter ratio and the 13-series
+with low ternary enrichment but high presenter ratio.
+Our subsequent
+analysis of these compounds, which have similar
+chemical structures but varying cooperativity for BRD9/VCB, reveals
+that the connector between the BRD9 targeting ligand and the VHL ligand,
+together with a particular BRD9 targeting appendage building block,
+play a dominant role in determining the cooperativity of the compounds,
+e.g. (9, 275, x), (13, 117, x), and (13, x, 109) (Figure S2b, ). For a given connector, altering the appendage building
+blocks could occasionally improve (9-3 and 9-4, cooperative despite being in the 9-series) or reduce (13-9, uncooperative despite being in the 13-series) the cooperativity.
+Interestingly, the uncooperative/noncooperative 9-1 behaves differently from the cooperative 13-7 for both
+binding measured by biophysical methods and functional effect in cells
+( ). Although 9-1 has high binary affinity to BRD9, it exhibits strong hook
+effect in AlphaScreen assays ( b), with no ternary complex detected by nondenaturing
+MS ( d), and
+is less capable of inducing ternary complex formation with BRD9/VCB
+( a) and degrading
+BRD9 in cells (Figure S11). By contrast, 13-7 has low binding affinity to BRD9 alone but demonstrated
+the highest degree of ternary complex formation with purified and
+cellular BRD9/VCB, and BRD9 degradation in cells. These findings emphasize
+that binary affinity for the target protein is less consequential
+for ternary complex formation and target degradation compared to cooperativity
+and ternary KD. Furthermore, AlphaScreen
+and NanoBiT assay results demonstrated that cooperative compounds
+identified in this study are less susceptible to the hook effect ( b, a), similar to the case for classical molecular glues.
+Notably, compounds with high presenter ratios exhibited greater
+cooperativity and greater selectivity toward the target BRD9 over
+its close homolog BRD7 (13-5 and 13-6, b). The most cooperative
+compounds, 13-7 and 13-3, also had the highest
+ternary enrichment. Thus, it is advisable to consider both high presenter
+ratios and ternary enrichment values in identifying cooperative compounds.
+While the exit vectors for the VHL ligand in our CIP-DEL were designed
+based on the structural insights from BRD9-targeting VZ185, it is
+noteworthy that the diversified triazine library possesses the potential
+to engage not only with BRD9 but also with other target proteins of
+interest in the pursuit of molecular glue discovery. As we strive
+to extend the scope of our findings, ongoing investigations are in
+progress to validate the generality of analyzing data in this manner
+for systems other than BRD9/VCB and to explore the potential benefits,
+including improved drug properties, of utilizing monovalent molecules
+in the CIP-DEL. These endeavors, which align with the growing clinical
+validation of molecular glues as both degraders and tricomplex inhibitors,
+aim to facilitate the rational discovery of molecular glues for next-generation
+therapeutics.
+
+## Experimental Section
+
+## Recombinant Protein Preparation
+
+## (i) His-Tagged BRD9
+The plasmid pET-22b(+) containing
+the recombinant BRD9 gene (E135-A242) fused with an N-terminal His6
+tag, via Ndel and Xhol restriction sites, was expressed in Escherichia coli (E. coli) BL21(DE3) cells.
+A starter culture was grown in LB medium supplemented with ampicillin
+(50 μg/mL) at 37 °C overnight. The starter culture (1:100
+v/v) was used to inoculate 3 L of LB media supplemented with ampicillin
+(50 μg/mL) and grown at 37 °C to an OD600 nm = 0.6. Expression was induced with 0.5 mM isopropyl-β-d-1-thiogalactopyranoside (IPTG) at 20 °C for 16 h. The
+cells were collected by centrifugation (Thermo Scientific Sorvall
+LYNX 6000 centrifuge) at 8,000 × g for 10 min.
+The pellets were suspended in lysis buffer containing 20 mM HEPES,
+500 mM NaCl, pH 7.4, 1% Triton X-100, lysozyme (1 mg/mL), benzonase,
+1 mM TCEP, and 1 mM phenylmethylsulfonyl fluoride (PMSF). The cells
+were lysed on ice by sonication (50% amplitude, 3 s pulse “on”
+and 3 s pulse “off”, for a total of 5 min “on”
+time). The cell debris was precipitated by centrifugation (Thermo
+Scientific Sorvall LYNX 6000 centrifuge) at 30,000 × g for 60 min. The cell lysates were filtered through a 0.45
+μm syringe filter and purified by affinity chromatography using
+a 5 mL HisTrap HP column (GE Healthcare Life Sciences) with 5 CV of
+wash buffer (20 mM HEPES, 500 mM NaCl, pH 7.4), 10 CV of 4% elution
+buffer (20 mM HEPES, 500 mM NaCl, 500 mM imidazole, pH 7.4), and a
+gradient of 4–100% elution buffer over 10 CV. The fractions
+containing BRD9 were pooled, concentrated, and further purified by
+size exclusion chromatography (SEC) using a Superdex 16/600 75 pg
+column in 20 mM HEPES, 100 mM NaCl, pH 7.4. Pure fractions of BRD9
+were pooled, concentrated, aliquoted, and flash frozen for storage
+at −80 °C.
+
+## (ii) Tagless BRD9
+Tagless BRD9 was produced in a manner
+similar to that of His-tagged BRD9, but with a 3C cleavage site between
+the N-terminal His6 tag and the BRD9 gene. After the HisTrap purification,
+BRD9 protein was buffer exchanged to 20 mM HEPES, 500 mM NaCl, pH
+7.4, and the His6 tag was cleaved off by gently shaking the protein
+(10 mL) with HRV 3C protease (Pierce 88946, 90 μL) at 4 °C
+for 14 h. Complete cleavage was checked by MS before the tagless BRD9
+undergoing a second HisTrap purification where the protein was washed
+with 5 CV of wash buffer, 5 CV of 4% elution buffer, and a gradient
+of 4–50% elution buffer over 10 CV. The fractions containing
+tagless BRD9 were pooled, concentrated, and further purified by SEC
+as described for His-tagged BRD9.
+
+## (iii) Biotinylated BRD9
+Biotinylated BRD9 was produced
+in a manner similar to that of tagless BRD9, but with a 3C cleavage
+site followed by an Avi tag between the N-terminal His6 tag and the
+BRD9 gene. After the HisTrap purification, BRD9 protein was buffer
+exchanged to 20 mM HEPES, 100 mM NaCl, pH 7.4, supplemented with 5
+mM MgCl2, 2 mM ATP, 300 μM biotin, BirA (R&D
+systems 10464-BA, 90 μL), and HRV 3C protease (Pierce 88946,
+90 μL) for concurrent His tag cleavage and biotinylation at
+4 °C for 14 h. Complete cleavage and biotinylation was checked
+by MS before the second HisTrap and SEC purification as described
+for tagless BRD9.
+
+## (iv) His-Tagged VCB
+The plasmid pETite (Lucigen) containing
+the recombinant VHL (M54–D213, fused with an His8 tag and an
+HRV 3C protease site at the N-terminus), elongin C (M17–C112),
+and elongin B (M1–K104) (VCB complex) genes was coexpressed
+in the E. coli BL21 Star (DE3) strain supplemented
+with pRARE. The plasmid and glycerol stocks were generous gifts from
+Dustin Dovala (NIBR, Emeryville, USA) and Michael Romanowski (NIBR,
+Cambridge, USA) respectively. A starter culture was grown in TB medium
+supplemented with chloramphenicol (25 μg/mL) and kanamycin (50
+μg/mL) at 37 °C overnight. The starter culture (1:100 v/v)
+was used to inoculate TB media (3 L) supplemented with chloramphenicol
+(25 μg/mL) and kanamycin (50 μg/mL) and grown at 37 °C
+to an OD600 nm = 1.0. Expression was induced with
+0.5 mM IPTG at 20 °C for 15 h. The cells were collected by centrifugation
+(Thermo Scientific Sorvall LYNX 6000 centrifuge) at 8,000 × g
+for 10 min. The pellets were suspended in lysis buffer containing
+20 mM HEPES, 500 mM NaCl, pH 7.4, 1% Triton X-100, lysozyme (1 mg/mL),
+benzonase, 1 mM TCEP, and 1 mM PMSF. The cells were lysed on ice by
+sonication (50% amplitude, 3 s pulse “on” and 3 s pulse
+“off”, for total 5 min “on” time). The
+cell debris was precipitated by centrifugation (Thermo Scientific
+Sorvall LYNX 6000 centrifuge) at 30,000 × g for 60 min. The cell
+lysates were filtered through a 0.45 μm syringe filter and purified
+by affinity chromatography using a 5 mL HisTrap HP column (GE Healthcare
+Life Sciences) with 5 CV of wash buffer (20 mM HEPES, 500 mM NaCl,
+pH 7.4), 10 CV of 4% elution buffer (20 mM HEPES, 500 mM NaCl, 500
+mM imidazole, pH 7.4), and a gradient of 4–100% elution buffer
+over 10 CV. The fractions containing VCB were pooled, concentrated,
+and further purified by size exclusion chromatography (SEC) using
+a Superdex 26/600 200 pg column in 20 mM HEPES, 100 mM NaCl, pH 7.4.
+Pure fractions of VCB were pooled, concentrated, aliquoted, and flash
+frozen for storage at −80 °C.
+
+## (v) Tagless VCB
+Tagless VCB was produced in a manner
+similar to that of His-tagged VCB with the following exceptions. The
+same plasmid for His-tagged VCB was coexpressed in E. coli BL21 (DE3) cells, and the TB media was supplemented with kanamycin
+(50 μg/mL). After the HisTrap purification, VCB protein was
+buffer exchanged to 20 mM HEPES, 500 mM NaCl, pH 7.4, and the His8
+tag was cleaved off by gently shaking the protein (10 mL) with HRV
+3C protease (Pierce 88946, 90 μL) at 4 °C for 14 h. Complete
+cleavage was checked by MS before the tagless VCB undergoing a second
+HisTrap purification where the protein was washed with 5 CV of wash
+buffer, 5 CV of 4% elution buffer, and a gradient of 4–50%
+elution buffer over 10 CV. The fractions containing tagless VCB were
+pooled, concentrated, and further purified by SEC as described for
+His-tagged VCB.
+
+## (vi) Biotinylated VCB
+Biotinylated VCB was produced
+in a manner similar to that of tagless VCB with the following exceptions.
+The plasmid pETite (Lucigen) containing the recombinant VHL (M54–D213,
+fused with a His8 tag, an HRV 3C protease site and an Avi tag at the
+N terminus), elongin C (M17–C112), and elongin B (M1–Q118)
+(VCB complex) genes was coexpressed in E. coli BL21
+(DE3) cells. The plasmid was a generous gift from Dustin Dovala (NIBR,
+Emeryville, USA). After the HisTrap purification, VCB protein was
+buffer exchanged to 20 mM HEPES, 100 mM NaCl, pH 7.4, supplemented
+with 5 mM MgCl2, 2 mM ATP, 100 μM biotin, BirA (R&D
+systems 10464-BA, 100 μg), and HRV 3C protease (Pierce 88946,
+100 μL) for concurrent His tag cleavage and biotinylation at
+4 °C for 18 h. Complete cleavage and biotinylation was checked
+by MS before the second HisTrap and SEC purification as described
+for tagless VCB.
+
+## DNA-Encoded Library Screening
+The DEL screening was
+performed with 3 different selection conditions in parallel: (1) beads-only
+control (BL: beads, library), (2) BRD9BD - VCB (BTL: beads,
+target protein, library), and (3) BRD9BD + VCB (BTLP: beads,
+target protein, library, presenter protein). Proteins from commercial
+sources were used for the DEL screening while the subsequent validation
+was performed using proteins prepared in-house following the method
+described above. His-tagged BRD9 was purchased from BPS Bioscience
+(31090). Tagless VCB complex was purchased from R&D Systems (E3-600)
+excluding DTT in the supplied buffer to ensure compatibility with
+the His-Tag Dynabeads. The screening buffers used are ‘B (binding)
+Buffer’ containing 25 mM HEPES pH 7.4, 150 mM NaCl, 0.05% Tween-20
+(w/v), and ‘S (selection) Buffer’ containing 25 mM HEPES,
+pH 7.4, 150 mM NaCl, 0.05% Tween-20 (w/v), and 0.3 mg/mL Ultrapure
+Salmon Sperm DNA (ThermoFisher Scientific 15632011).
+His-Tag
+Dynabeads (Invitrogen 10103D, 10 μL per sample) were manually
+washed three times with B buffer and resuspended in B buffer (100
+μL per sample). Using a KingFisher Duo Prime (Thermo Scientific
+5400110) in a 96-well deepwell plate (Thermo Scientific 95040452)
+at rt, the washed beads were transferred to His-tagged BRD9 (10 μM
+in B buffer, 100 μL per sample) for BRD9 immobilization (1 h,
+medium mix). The beads were washed once with B buffer (200 μL)
+and twice with S buffer (200 μL) (3 min each, medium mix). The
+beads were then incubated (1 h, medium mix) with the library (10 million
+copies per library member, 156 nM, 100 μL in S buffer) only,
+or the library preincubated with tagless VCB (2 μM in S buffer).
+The positive control compound, DNA-encoded VZ185, was spiked into
+the library at an equimolar amount to a single library member in the
+screen, i.e. 10 million copies of this single compound per selection.
+The beads were then washed once with S buffer (200 μL) and twice
+with B buffer (200 μL) (3 min each, medium mix). Finally, the
+beads were transferred to B buffer (100 μL) and heated (95 °C,
+5 min) to elute bound DEL members into the supernatant. The supernatant
+(20 μL) was restriction digested by StuI (0.1 μL, NEB
+R0187) in 1× SmartCutter buffer (56.5 μL, NEB B7204S) per
+sample (37 °C, 1 h) and cleaned up using the ChargeSwitch PCR
+Clean-Up Kit (Thermo Scientific CS12000). Successful immobilization
+of the BRD9 protein was checked by resuspending the beads in NuPAGE
+LDS Sample Buffer (133.3 μL of 1×) supplemented with TCEP
+(3.33 μL of 0.5 M), heating at 95 °C for 5 min, and loading
+the supernatant onto an SDS-PAGE gel. The barcodes of the eluted DEL
+were PCR amplified using i5 index primer (3 μL of 10 μM
+stock in water), i7 index primer (3 μL of 10 μM stock
+in water), cleaned up elution samples (19 μL), and Invitrogen
+Platinum Hot Start PCR Master Mix (25 μL of 2×) (Invitrogen
+13000012). The PCR method is as follows: 95 °C for 2 min; 19
+cycles of 95 °C (15 s), 55 °C (15 s), 72 °C (30 s);
+72 °C for 7 min; hold at 4 °C. The PCR products were cleaned
+up using the ChargeSwitch PCR Clean-Up Kit, pooled in equimolar amounts,
+and the 187 bp amplicon was gel purified using 2% E-Gel EX Agarose
+Gels (ThermoFisher Scientific G401002) and the QIAquick Gel Extraction
+Kit (Qiagen 28704). The DNA concentration was measured using the Qubit
+dsDNA BR assay kit and sequenced using a HiSeq SBS v4 50 cycle kit
+(Illumina FC-401-4002) and HiSeq SR Cluster Kit v4 (Illumina GD-401-4001)
+on a HiSeq 2500 instrument (Illumina) in a single 50-base read with
+custom primer CTTAGCTCCCAGCGACCTGCTTCAATGTCGGATAGTG
+and 8-base index read 32 using custom primer CTGATGGAGGTAGAAGCCGCAGTGAGCATGGT.
+The sequencing data were analyzed as previously described and reported as the lower bound of 95% confidence
+interval unless stated otherwise.
+
+## AlphaScreen Assays
+AlphaScreen assays were carried
+out in AlphaPlate-384 plates (PerkinElmer 6008350) with a total volume
+of 20 μL of sample mixture in 25 mM HEPES, pH 7.4, 150 mM NaCl,
+and 0.05% Tween-20 (w/v) in each well. All experiments were conducted
+in duplicates. His-tagged BRD9 (5 μL, final 50 nM), biotinylated
+VCB (5 μL, final 20 nM), compounds (5 μL, 3-fold serial
+dilution from a top concentration of final 10 μM, 1% DMSO),
+and a mixture of streptavidin donor beads (PerkinElmer 6760619C, 2.5
+μL, final 0.02 mg/mL) and nickel chelate (Ni-NTA) acceptor beads
+(PerkinElmer 6760619C, 2.5 μL, final 0.02 mg/mL) were sequentially
+added to the wells of the plates. The mixture was incubated for 1
+h at rt in the dark. Fluorescence readings at an excitation of 680
+nm and an emission of 570 nm were measured on an EnVision 2105 plate
+reader (PerkinElmer). EC50 values were calculated from
+nonlinear regression curve fits (excluding any data points above the
+hook effect concentration, if any) using GraphPad Prism v9.5.
+
+## Surface Plasmon Resonance
+All SPR experiments were
+performed on a Biacore T200 or 8K instrument (GE Healthcare) at 25
+°C using a running buffer containing 20 mM HEPES, pH 7.5, 100
+mM NaCl, 0.005% tween-20, 0.2 mM TCEP, and 1% or 2% DMSO. The streptavidin
+sensor chip (Cytiva BR100531) was preconditioned with 1 M NaCl and
+40 mM NaOH (60 s × 3 cycles, 100 μL/min) and running buffer
+(60 s, 100 μL/min). The run has a startup run of 12 cycles using
+the running buffer, flow rate of 50 μL/min, contact time of
+70 s, and dissociation time of 140–200 s, with two negative
+controls using the running buffer between each compound. The syringe
+was washed with 50% DMSO in water between injections. KD values were determined by using the steady state affinity
+mode of the Biacore Evaluation Software. Cooperativity (α) was
+calculated by dividing the binary KD by
+the ternary KD, i.e., (i)/(ii) or (iii)/(iv)
+below.
+
+## (i) Binary KD for BRD9
+Biotinylated BRD9 (RU ∼ 500) was immobilized on the streptavidin
+chip. The compounds were 3-fold serially diluted with the running
+buffer (2% DMSO) from a top concentration of 20 μM (4 μL
+of 1 mM compound in DMSO added to 196 μL of running buffer without
+DMSO).
+
+## (ii) Ternary KD for BRD9
+Biotinylated BRD9 (RU ∼ 55) was immobilized on the streptavidin
+chip. The compounds were 3-fold serially diluted with the running
+buffer (1% DMSO) containing 2 μM tagless VCB from a top concentration
+of 2 μM (2 μL of 0.2 mM compound in DMSO added to 198
+μL of running buffer without DMSO and with 2.02 μM tagless
+VCB).
+
+## (iii) Binary KD for VCB
+Biotinylated VCB (RU ∼ 1700) was immobilized on the streptavidin
+chip. The compounds were 3-fold serially diluted with the running
+buffer (1% DMSO) from a top concentration of 2 μM (2 μL
+of 0.2 mM compound in DMSO added to 198 μL of running buffer
+without DMSO).
+
+## (iv) Ternary KD for VCB
+Biotinylated VCB (RU ∼ 140) was immobilized on the streptavidin
+chip. The compounds were 3-fold serially diluted with the running
+buffer (1% DMSO) containing 20 μM tagless BRD9 from a top concentration
+of 2 μM (2 μL of 0.2 mM compound in DMSO added to 198
+μL of running buffer without DMSO and with 20.2 μM tagless
+BRD9). The sample compartment temperature was lowered to 15 °C
+for better BRD9 stability.
+
+## Nondenaturing Mass Spectrometry
+Native mass spectrometry
+experiments were carried out using a Thermo Q-Exactive UHMR Mass Spectrometer
+(Thermo Scientific). Tagless BRD9 and tagless VCB stock solutions
+were buffer exchanged into 200 mM ammonium acetate, pH 7.5, using
+a Micro Bio-Spin 6 column (Bio-Rad 732-6221). The compound of interest
+(5 μM, 1% DMSO) was mixed with tagless BRD9 (5 μM) and/or
+tagless VCB (5 μM) in 200 mM ammonium acetate, pH 7.5. The samples
+(20 μL) were then pipetted into wells of a 384-well plate and
+introduced into the mass spectrometer using an automated chip-based
+electrospray ionization (ESI) source (TriVersa Nanomate, Advion, Ithaka,
+NY, USA) with an ESI voltage of 1.8 kV and spray backing gas pressure
+of 1.1 psi. Spectra were obtained in positive ion mode with a resolving
+power of 6,250 (at m/z 400) and
+a mass range of 1000–7000 m/z. The capillary temperature was set to 200 °C. The in-source
+trapping voltage was set to −5 V to help desolvate the ions
+while maintaining the compound binding to proteins. The detector was
+set to low m/z mode, while the ion
+transfer region was manually adjusted to a setting between low and
+high m/z mode with a trapping gas
+pressure of 7.0. Spectra were deconvoluted and relevant peaks were
+integrated to determine percent binary and ternary complexes formed
+using UniDec software. 
+
+## Size Exclusion Chromatography for Ternary Complex Measurement
+The Superdex 200 Increase 5/150 GL column was equilibrated with
+20 mM HEPES, 100 mM NaCl, pH 7.4, 1% DMSO (v/v) on a ÄKTA pure
+micro instrument. A mixture (40 μL) of tagless BRD9 (30 μM),
+tagless VCB (30 μM), and compound 13-7 (30 μM,
+2% DMSO) was then injected into the column, and the sample was eluted
+at a flow rate of 0.2 mL/min. UV absorbance was detected at 280 nm.
+
+## NanoBiT Assays
+HEK293T cells (15 mL) were plated at
+0.625 × 106 cells/mL in DMEM (Gibco 11995065) supplemented
+with 10% fetal bovine serum (FBS) in a T75 flask. CMV-driven SmBiT-BRD9
+(E135-A252) or SmBiT-BRD7 (E129-L250) plasmid (15 μg) , HSVtk-driven
+VHL-LgBiT plasmid (15 μg), OptiMEM I (1.5 mL, Gibco 31985070),
+and Fμgene HD (90 μL, Promega E2312) were incubated for
+10 min at rt before being added dropwise to the cells. After 24 h
+of incubation at 37 °C, 5% CO2, the transfected cells
+were trypsinized and normalized to 0.50 × 106 cells/mL
+in DMEM supplemented with 10% FBS. MLN4924 (final concentration of
+2 μM, 0.1% DMSO) was added to the cells. The cells (5 μL
+per well) were plated into a 1536-well TC-treated white plate (Greiner
+789173-A) using a single tip dispenser (GNF Systems One Tip Dispenser)
+and incubated for 16 h at 37 °C, 5% CO2. Compound
+(15 nL, 3-fold serially diluted with DMSO, final top concentration
+30 μM, 0.3% DMSO) or DMSO was dispensed into the target wells
+using an Echo 655 acoustic liquid handler. For NanoBiT assays with
+VHL ligand competition, VH101 (25 nL of 10 mM, final 50 μM)
+or the matching % DMSO was dispensed to the wells at the same time
+as the compound treatment using the Echo 655 acoustic liquid handler.
+The plates were incubated for 2 h at 37 °C, 5% CO2, before being removed from the incubator and cooled to r.t. for
+15 min. NanoBiT Nano-Glo reagent (5 μL, Promega N2012, Nano-Glo
+substrate diluted 1:25 in a mixture of 50% Nano-Glo LCS buffer and
+50% PBS) were dispensed into each well using the GNF single tip dispenser.
+After incubation at room temperature for 15 min, luminescence signals
+were read on a PHERAstar FS plate reader (BMG Labtech). Luminescence
+for each compound treated sample was normalized using the equation
+(well value-NC)/NC × 100%, where NC is the average neutral control
+(DMSO) well value. EC50 values were calculated from nonlinear
+regression curve fits (excluding any data points above the hook effect
+concentration, if any) using GraphPad Prism v9.5.
+
+## HiBiT and CTG Assays
+HEK293T cells (15 mL) was plated
+at 0.625 × 106 cells/mL in DMEM (Gibco 11995065) supplemented
+with 10% FBS in a T75 flask. HSVtk-driven BRD9 (M1-T597)-HiBiT or
+BRD7 (M1-S651)-HiBiT plasmid (15 μg), CMV-driven VHL plasmid
+(15 μg), OptiMEM I (1.5 mL, Gibco 31985070), and Fμgene
+HD (90 μL, Promega E2312) were incubated for 10 min at rt before
+being added dropwise to the cells. After 19 h of incubation at 37
+°C, 5% CO2, the transfected cells were trypsinized
+and normalized to 0.50 × 106 cells/mL in DMEM supplemented
+with 10% FBS. MLN4924 (final 2 μM, 0.1% DMSO) or DMSO was added
+to the cells. The cells (5 μL per well) were plated into a 1536-well
+TC-treated white plate (Greiner 789173-A) using a single tip dispenser
+(GNF Systems One Tip Dispenser) and incubated for 8 h at 37 °C,
+5% CO2. Compound (15 nL, 3-fold serially diluted with DMSO,
+final top concentration 30 μM, 0.3% DMSO) or DMSO was dispensed
+into the target wells using an Echo 655 acoustic liquid handler. For
+HiBiT assays with VHL ligand competition or MLN7243, VH101 (25 nL
+of 10 mM, final 50 μM), MLN7243 (5 nL of 100 μM, final
+0.1 μM), or the matching % DMSO was dispensed to the wells at
+the same time as the compound treatment using the Echo 655 acoustic
+liquid handler. The plates were incubated for 15 h at 37 °C,
+5% CO2, before being removed from the incubator and cooled
+to r.t. for 15 min. HiBiT lytic reagent (5 μL, Promega N3040,
+LgBiT protein diluted 1:100 and lytic substrate diluted 1:50 in Nano-Glo
+HiBiT lytic buffer) was dispensed into each well using the GNF dispenser.
+For CellTiter-Glo (CTG) assays, instead of the HiBiT lytic reagent,
+CTG reagent (5 μL, Promega G7571, CTG substrate dissolved in
+CTG buffer) were dispensed into each well. After incubation at r.t.
+for 15 min, luminescence signals were read on a PHERAstar FS plate
+reader (BMG Labtech). DCmax values were the maximum values
+after normalizing the luminescence for each compound-treated sample
+using the equation (well value-NC)/(AC-NC) × 100%, where NC is
+the average neutral control (DMSO) well value and AC is the average
+active control (mock-transfected with no DNA) well value. DC50 values were calculated from nonlinear regression curve fits (excluding
+any data points above the hook effect concentration, if any) using
+GraphPad Prism v9.5.
+
+## Fluorescence-Activated Cell Sorting
+The Artichoke vector
+was a gift from Benjamin Ebert. Full length BRD9 was cloned into the
+Artichoke vector using gateway cloning (BRD9 (M1-T597)-eGFP-IRES-mCherry),
+and lentivirus was produced in HEK293T cells using standard methods.
+Resulting reporter cells were cultured in DMEM (Gibco 10564011) supplemented
+with 10% FBS and 1% penicillin/streptomycin at 37 °C, 5% CO2. Prior to the FACS analysis, cells were sorted on a Sony
+MA900 cell sorter for dual eGFP and mCherry positive cells. Sorted
+cells were allowed to grow to 90% confluency and plated at 0.7 ×
+106 cells in FluoroBrite DMEM (Gibco A1896701) supplemented
+with 10% FBS per well in a 6-well TC plate. 19 h after plating the
+cells, compounds (final 10 μM, 0.5% DMSO) were added to the
+wells. After 24 h incubation at 37 °C, 5% CO2, the
+cells were detached with TrypLE (200 μL) for 1 min and resuspended
+in chilled 10% FBS in PBS (800 μL). Cells were collected by
+centrifugation and resuspended in 1% FBS in PBS (300 μL) supplemented
+with 2 mM EDTA. The cells were strained through 35 μm nylon
+mesh (Falcon 352235) prior to FACS on a CytoFLEX S Flow cytometer
+analyzing 100k mCherry-positive cells per sample. A plot of normalized
+cell count against the eGFP level was generated using FCS Express.
+
+## Western Blot
+Degradation of BRD9-eGFP in HEK293T cells
+was validated by Western blot. The same batch of cells sorted for
+the FACS experiment was plated at 35k cells in FluoroBrite DMEM (Gibco
+A1896701) supplemented with 10% FBS per well in a 96-well TC plate.
+19 h after plating the cells, compounds (3-fold serially diluted from
+a top concentration of final 30 μM, 0.5% DMSO) were added to
+the wells. After 24 h incubation at 37 °C, 5% CO2,
+the media was removed and the cells were lysed with RIPA buffer (11
+μL) with cOmplete EDTA-free Protease Inhibitor Cocktail on ice
+for 30 min. 8 M urea (4 μL) was added, and the supernatant was
+mixed with NuPAGE LDS Sample Buffer (4×) and heated for loading
+onto an SDS-PAGE gel. Proteins were transferred to PVDF membranes
+(Invitrogen IB24002) by using the iBlot 2 Gel Transfer Device. The
+membranes were blocked with Intercept (PBS) Blocking Buffer (LI-COR
+927-70001) at 4 °C for 1 h. The blots were probed with an anti-BRD9
+rabbit monoclonal antibody (Cell signaling technology 48306, 1:500
+in the blocking buffer) and an anti-β actin mouse monoclonal
+antibody (Santa Cruz Biotechnology sc-47778, 1:500 in the blocking
+buffer) at 4 °C with gentle shaking overnight. The membranes
+were washed with TBST three times, stained with IRDye 800CW goat anti-rabbit
+IgG (LI-COR 926-32211) and IRDye 680RD goat anti-mouse IgG (LI-COR
+926-68070) secondary antibodies (1:10,000 in the blocking buffer),
+washed with TBST three times, and imaged using a LI-COR Odyssey infrared
+imaging system.
+
+## Acknowledgments
+We sincerely acknowledge the following individuals for their
+technical and analytical expertise: Rishi Arora (SPR and microSEC),
+Andrew Reidenbach (DEL screening), Daniel Fuller (nondenaturing MS),
+Alicia Lindeman (next-generation sequencing), and Xiyu Jiao (statistical
+analysis). We are grateful to Dustin Dovala and Michael Romanowski
+for providing the VCB protein constructs, and Dennis Buckley for the
+compound VH101. Additionally, we express our appreciation to Raviraj
+Kulathila, Michael Romanowski, Wenzhi Tian, Liam Hudson, and Patricia
+Horton for their valuable support and contribution to this project.
+We are also thankful to Trevor Zandi, Zher Yin Tan, Zhihan Nan, and
+Claire Harmange Magnani for fruitful discussions that enhanced the
+clarity of this manuscript. Special thanks to Cindy Hon for her excellent
+operational support throughout this project. S.L. thanks the Agency
+for Science, Technology and Research (A*STAR, Singapore) for a National
+Science Scholarship. The research was supported in part by the National
+Institute of General Medical Sciences (R35GM127045 awarded to S.L.S.),
+the NCI’s Cancer Target Discovery and Development (CTD2) Network (grant number U01CA217848 and U01CA272612 awarded
+to S.L.S.), and the NIBR Scholar’s Program.
+
+## Supporting Information Available
+The Supporting Information
+is available free of charge at https://pubs.acs.org/doi/10.1021/jacs.3c08307.
+Experimental details on the preparation and characterization
+of the DNA-encoded library and off-DNA compounds, as well as supplementary
+figures (PDF)
+
+The authors
+declare the following competing financial interest(s): S.L.S. is a
+shareholder and serves on the Board of Directors of Kojin Therapeutics;
+is a shareholder and advises Kisbee Therapeutics, Belharra Therapeutics,
+Magnet Biomedicine, Exo Therapeutics, and Eikonizo Therapeutics; advises
+Vividion Therapeutics, Eisai Co., Ltd., Ono Pharma Foundation, F-Prime
+Capital Partners, and the Genomics Institute of the Novartis Research
+Foundation; and is a Novartis Faculty Scholar.
+
+## Supplementary Material
+ja3c08307_si_001.pdf
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+ja3c08307_si_001.pdf
