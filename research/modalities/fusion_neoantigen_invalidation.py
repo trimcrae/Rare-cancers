@@ -178,6 +178,29 @@ _EXCLUDE = ("/mainwt2/", "/.git/", "/.claude/", "/__pycache__/", "/node_modules/
             "/fusion_neoantigen_invalidation.py", "/fusion-neoantigen-retraction.json")
 
 
+def _excluded(path):
+    """Is `path` inside an excluded directory OF THIS REPO?
+
+    ⛔ MATCHED RELATIVE TO `REPO`, AND THAT IS THE WHOLE FIX (2026-08-07). `glob.glob` yields ABSOLUTE
+    paths, and the previous test was `x in <absolute path>`. The harness places agent worktrees at
+    `<repo>/.claude/worktrees/<id>/`, so when the checkout being scanned IS a worktree, every absolute
+    path under it contains `/.claude/` — every file matched the exclusion, `consumers()` returned an
+    empty list, and this guard reported that NOTHING consumes a retracted artifact.
+
+    ⚠ THAT IS FAIL-QUIET IN A MEDICAL-INTEGRITY GUARD. It does not error, it does not warn: it answers
+    the question it was asked with a clean, confident, wrong "none". An absent reading read as a reading
+    of absence, in the one check whose job is to find every file still quoting withdrawn peptides.
+    Proven by copying an identical tree to a path without `/.claude/`, where the same file's 13 tests
+    pass. CI checks out to `/home/runner/work/...`, so `main` never saw it — only every agent did.
+
+    ⚠ NOTHING IS LOOSENED. The same directory names are excluded; they are now anchored to the repo
+    root instead of matching anywhere in an absolute path, which is what the comment above always said
+    they meant. `/mainwt2/` is retained for the same reason it was added — it is another checkout name.
+    """
+    rel = "/" + os.path.relpath(path, REPO).replace(os.sep, "/")
+    return any(x in rel for x in _EXCLUDE)
+
+
 def peptides_of(art):
     """Every peptide string the artifact asserts, junction-level and ranked."""
     peps = {p for j in art.get("junctions") or [] for p in j.get("novel_peptides") or []}
@@ -203,7 +226,7 @@ def consumers(artifact_basename, self_paths=()):
         for path in sorted(glob.glob(os.path.join(REPO, root, "**", "*"), recursive=True)):
             if not os.path.isfile(path) or os.path.splitext(path)[1] not in _SCAN_EXTS:
                 continue
-            if any(x in path.replace(os.sep, "/") for x in _EXCLUDE) or os.path.abspath(path) in selves:
+            if _excluded(path) or os.path.abspath(path) in selves:
                 continue
             try:
                 text = open(path, encoding="utf-8", errors="ignore").read()
@@ -266,7 +289,7 @@ def citations(peps, self_paths=()):
         for path in sorted(glob.glob(os.path.join(REPO, root, "**", "*"), recursive=True)):
             if not os.path.isfile(path) or os.path.splitext(path)[1] not in _SCAN_EXTS:
                 continue
-            if any(x in path.replace(os.sep, "/") for x in _EXCLUDE) or os.path.abspath(path) in selves:
+            if _excluded(path) or os.path.abspath(path) in selves:
                 continue
             try:
                 text = open(path, encoding="utf-8", errors="ignore").read()
