@@ -36,6 +36,12 @@ half the artifacts this repo emits. They are merged deliberately rather than rec
 winner -- the failure mode this whole file exists to catch is an edit silently dropped because two people
 touched the same lines, and it very nearly happened to the checker itself.
 
+⚠ A FOURTH PARALLEL FIX ARRIVED AFTER THE THREE ABOVE and is partly folded in: it added an existence
+check and an echo of the resolved path, both kept. Its predicate half is NOT kept — it restored
+`count(anchor) == 1 and count(current_text) == 1`, the retired rule that goes red exactly when routing
+succeeds. Four agents fixed this one file independently in a day, three of them correctly and one
+regressively; that is worth recording, because the reason is that no test and no workflow ran it.
+
 ⭑ AN ALREADY-APPLIED EDIT IS `OK`, NOT `FAIL`. `route_map_edits.py` is idempotent and reports
 `already_applied`; this must agree with it, or re-verifying after a successful routing turns a correct
 state red and invites someone to "fix" it by re-applying. `map_edit_anchors.verify()` is the one home of
@@ -110,6 +116,15 @@ def edits_of(doc):
 
 def main(artifact=None, refs=("origin/main", "WORKTREE")):
     artifact = artifact or DEFAULT_ARTIFACT
+    if not os.path.exists(artifact):
+        print("no such map-edits file: %s" % artifact, file=sys.stderr)
+        return 2
+    # ⭑ ECHO WHAT WAS ACTUALLY VERIFIED. A fourth independent fix to this file (2026-08-07) diagnosed the
+    # class precisely: every session told to "verify your map-edits JSON with this script" could read a
+    # green result that belonged to a DIFFERENT file, and nothing in the output distinguished the two.
+    # The path argument is honoured above; printing the resolved artifact is what makes that CHECKABLE by
+    # the reader rather than merely true. A pass a reader cannot attribute is not a pass.
+    print("verifying %s" % os.path.relpath(artifact, ROOT))
     doc = json.load(open(artifact, encoding="utf-8"))
     edits = edits_of(doc)
     if not edits:

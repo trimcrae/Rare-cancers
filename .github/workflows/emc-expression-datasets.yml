@@ -97,10 +97,13 @@ on:
           panels = the six targeted gene/panel reads in the two READABLE EMC series (ASS1;
           CS/GAG+PAPS; a PPARγ TARGET-GENE signature; DLL3/ASCL1/NEUROD1/INSM1/HES1; a published
           hypoxia metagene; NR2F1). Writes its OWN artifact and cannot perturb part B's.
-        required: false
+          fusion-targets = score the published EWSR1::NR4A3 / NR4A3 direct-target set in the two
+          readable EMC series against a SIZE-MATCHED EMPIRICAL NULL on the same platform
+          (`nr4a3_fusion_targets.py` -> nr4a3-fusion-targets.json). Its own artifact; touches
+          nothing part B or the panels lane owns.        required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction", "panels"]
+        options: ["part-b", "gse-series", "aso-junction", "panels", "fusion-targets"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -164,6 +167,13 @@ jobs:
             # as absence, and a thin panel rendering like a covered one — are both assertable
             # offline. Failing here costs seconds; failing after the GEO fetch costs the run.
             python -m pytest research/modalities/tests/test_emc_expression_panels.py -q
+          elif [ "${{ inputs.mode }}" = "fusion-targets" ]; then
+            # ⛔ NOT OPTIONAL. The whole point of this mode is that a raw "HIGHER in EMC" is
+            # refused unless it clears a size-matched null, and that refusal is arithmetic. The
+            # suite constructs a KNOWN pure global offset and asserts the module declines it, and
+            # constructs a KNOWN set-specific signal on the same offset and asserts it does not.
+            # A build whose null calibration is broken must not be able to emit an artifact.
+            python -m pytest research/modalities/tests/test_nr4a3_fusion_targets.py -q
           else
             python -m pytest research/modalities/tests/test_emc_atr_vulnerability.py \
                              research/modalities/tests/test_atr_hrd_sarcoma_series.py -q
@@ -174,6 +184,32 @@ jobs:
       # done. `== 'part-b'` would silently turn that dispatch into a no-op that reports success.
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
         if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # fusion-targets — what the fusion is published to transcribe, read in EMC tissue
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # ⭐ WHY IT NEEDS ITS OWN FETCH RATHER THAN part B's OR the panels lane's INPUTS CACHE.
+      # Both of those caches hold per-sample values only for the genes THEIR concepts contain, and
+      # this read wants a different list — the evidence-typed direct-target table, two published
+      # EMC-vs-sarcoma profiles, the Brenca axon-guidance sets — plus two things neither cache
+      # holds at all: the per-sample mean z over EVERY mapped symbol (the platform's global
+      # offset) and a seeded random NULL POOL from which size-matched random gene sets are drawn.
+      # Without those two the read is a raw contrast on a platform whose arms differ globally.
+      - name: "Fusion targets — score the published NR4A3/fusion target set against a size-matched null"
+        if: inputs.mode == 'fusion-targets'
+        timeout-minutes: 75
+        env:
+          EMC_ACC_BRIDGE_BUDGET_S: ${{ inputs.acc_bridge_budget_s || '1500' }}
+        run: python research/modalities/nr4a3_fusion_targets.py --fetch
+
+      - name: "Fusion targets — offline re-derive must reproduce the artifact from its own cache"
+        if: always() && inputs.mode == 'fusion-targets'
+        timeout-minutes: 10
+        run: |
+          python research/modalities/nr4a3_fusion_targets.py --check \
+            || echo "--check reported drift; non-blocking, but READ IT"
+
+      - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
+        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'fusion-targets'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -317,6 +353,7 @@ jobs:
 
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
         if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
+        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 'fusion-targets'
         timeout-minutes: 10
         run: |
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
@@ -351,6 +388,10 @@ jobs:
             MSG="EMC expression panels: six targeted reads in the two readable series (CI)"
             PATHS="research/modalities/emc-expression-panels.json
                    research/modalities/emc-expression-panels-inputs.json"
+          if [ "${{ inputs.mode }}" = "fusion-targets" ]; then
+            MSG="NR4A3/fusion direct-target set scored in the two readable EMC series (CI)"
+            PATHS="research/modalities/nr4a3-fusion-targets.json
+                   research/modalities/nr4a3-fusion-targets-inputs.json"
           elif [ "${{ inputs.mode }}" = "gse-series" ]; then
             MSG="GEO series ${{ inputs.series || 'GSE299349' }}: sample-level characterisation (CI)"
             PATHS="research/modalities/atr-hrd-sarcoma-series.json
@@ -460,6 +501,67 @@ jobs:
 
       - name: "Summary — part-b"
         if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 'panels'
+      # ⭐ THE CONTROLS PRINT FIRST AND THE RAW DELTAS PRINT LAST. A reader who stops after two
+      # screens must have seen whether the instrument reproduced its known answers and how big the
+      # platform's global offset is, BEFORE seeing any "HIGHER in EMC" number.
+      - name: "Summary — fusion-targets"
+        if: always() && inputs.mode == 'fusion-targets'
+        run: |
+          python3 - <<'PY'
+          import json
+          d = json.load(open("research/modalities/nr4a3-fusion-targets.json"))
+          c = d["controls"]
+          print("=" * 96)
+          print("INSTRUMENT CONTROLS — read these before any number below")
+          for name, chk in c["checks"].items():
+              p = chk.get("pass")
+              tag = "PASS" if p is True else ("FAIL" if p is False else "NOT-GRADED")
+              print(f"  {tag:<10} {name}")
+              for mf, m in (chk.get("per_platform") or {}).items():
+                  print(f"        {mf[:28]:30s} {m.get('state'):<15} delta={m.get('delta')} "
+                        f"t={m.get('t')} {(m.get('why') or '')[:80]}")
+          print(" ->", c.get("_reading"))
+          print("-" * 96)
+          for mf, p in d["platforms"].items():
+              if p.get("_status") != "read":
+                  print(f"{mf}: {p.get('_status')}")
+                  continue
+              go = p.get("global_offset") or {}
+              print(f"{p['gse']}/{p['platform']}  EMC={p['n_EMC']} comp={p['n_comparator']} "
+                    f"symbols={p.get('n_distinct_symbols_on_platform')} "
+                    f"null_pool={(p.get('null_pool_spec') or {}).get('drawn')}")
+              print("   GLOBAL OFFSET:", go.get("reading") or go.get("why"))
+              print("   probe mapping:", (p.get("probe_mapping") or {}).get("reading"))
+          print("-" * 96)
+          print("CIRCULARITY:", d["circularity_reading"].get("verdict"))
+          print("-" * 96)
+          for name, per in d["set_scores"].items():
+              print(name)
+              for mf, r in per.items():
+                  print(f"   {mf[:28]:30s} {str(r.get('verdict'))[:200]}")
+          print("-" * 96)
+          print("PER-GENE, evidence-typed:")
+          rows = {r["gene"]: r for r in d["evidence_table"]["rows"]}
+          for g, per in sorted(d["gene_reads"].items()):
+              if g not in rows:
+                  continue
+              cls = rows[g]["evidence_class"]
+              exp = rows[g]["expected_direction_in_EMC"]
+              bits = []
+              for mf, r in per.items():
+                  if not r.get("readable"):
+                      bits.append(f"{mf[:12]}=NOT_READABLE")
+                      continue
+                  w = r.get("welch_EMC_vs_comparator") or {}
+                  nc = r.get("null_calibration") or {}
+                  bits.append(f"{mf[:12]}: d={w.get('delta_a_minus_b')} t={w.get('t')} "
+                              f"p_emp={nc.get('p_empirical_two_sided')}")
+              print(f"  {g:<10} [{cls:<26}] expect={exp:<32} " + " | ".join(bits))
+          PY
+
+      - name: "Summary — part-b"
+        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
+             && inputs.mode != 'fusion-targets'
         run: |
           python3 - <<'PY'
           import json
