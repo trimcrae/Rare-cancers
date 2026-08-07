@@ -35,6 +35,15 @@ PPARγ targets, hypoxia metagenes, adipogenesis, chondroitin-sulfate biosynthesi
 is interpretable until it is calibrated against a **size-matched random gene set drawn from the same
 platform's own genes**. That calibration is the instrument this memo delivers.
 
+**⏳ Status of the measurement.** The literature table (§1), the instrument (§2), the PPARγ framing (§3),
+the discriminators (§4) and the circularity grading (§5) are complete and are what this memo is the one home
+for. **The numbers themselves are produced by a CI dispatch** of
+[`emc-expression-datasets.yml`](../../.github/workflows/emc-expression-datasets.yml) `mode=fusion-targets`
+($0, GitHub-hosted CPU runner), which writes
+[`nr4a3-fusion-targets.json`](../modalities/nr4a3-fusion-targets.json). **Until §2b below carries a table
+of measured values, no number in this document is a reading of EMC** — read §1–§5 as the specification of a
+test, not as its result.
+
 ---
 
 ## 1 · The evidence-typed target table
@@ -161,6 +170,21 @@ tell a working instrument from a broken one.** So `NOT_READABLE` and `NOT_MEASUR
 failures, a control with no computable platform is `pass: null`, and
 `test_a_control_that_is_READABLE_but_has_no_contrast_is_NOT_GRADED_not_FAILED` fails the build if that ever
 collapses back into one state.
+
+---
+
+## 2b · The measured result
+
+> **⏳ NOT YET LANDED — this section is deliberately empty rather than absent.** The dispatch
+> (`emc-expression-datasets.yml`, `mode=fusion-targets`, run **31200817686**, dispatched **1:07 PM ET
+> 2026-08-07** against branch `worktree-agent-a7b8d3b23b5c7b311`, **$0**) writes
+> [`nr4a3-fusion-targets.json`](../modalities/nr4a3-fusion-targets.json) and publishes it to that branch.
+>
+> ⛔ **An empty section here means the measurement was not taken. It does NOT mean the sets were flat.**
+> When it lands, this section must carry, in this order: the four instrument controls with their per-platform
+> state; the measured **global offset** on each platform; each set's raw delta *and* its empirical p against
+> the size-matched null; and the per-gene, evidence-typed rows. A verdict written from the raw deltas alone
+> would be the exact error §2 exists to prevent.
 
 ---
 
