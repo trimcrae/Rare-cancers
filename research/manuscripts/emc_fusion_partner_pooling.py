@@ -794,8 +794,15 @@ COHORTS = [
         "pool": False,
         "contextReason": "n=1-per-arm-preclinical",
         "context_note": (
-            "READ THIS AGAINST THE HYPOTHESIS, NOT WITH IT. The only matched EWSR1/TAF15 model pair "
-            "in existence was screened over 40 agents, and the authors' finding is partner-"
+            "READ THIS AGAINST THE HYPOTHESIS, NOT WITH IT. ** CORRECTED 2026-08-07: superseded, "
+            "retained -- 'The only matched EWSR1/TAF15 model pair in existence was screened over 40 "
+            "agents'. The 40-drug screen ran on USZ20-EMC1 ALONE, verbatim: 'A medium throughput drug "
+            "screen using 40 drugs was conducted with USZ20-EMC1 at passage 5.' Only carfilzomib, "
+            "doxorubicin and venetoclax went on to the VALIDATION step that used both models, and it "
+            "is that step -- not the 40-drug screen -- the partner-independence sentences describe. "
+            "The correction does not weaken the reading: the comparison was always the validation. "
+            "It is the same over-claim this repository retracted on 2026-08-06 for a different "
+            "document, reappearing here.** The authors' finding is partner-"
             "INDEPENDENCE: 'Both models independent of the NR4A3 fusion partner showed high "
             "sensitivity to carfilzomib and good to moderate sensitivity to doxorubicin', and "
             "'Similar drug responses were seen in both models, independent of the fusion partner "
