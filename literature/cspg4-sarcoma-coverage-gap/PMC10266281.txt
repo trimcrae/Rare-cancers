@@ -1,0 +1,139 @@
+pmcFront ImmunolFront Immunol1754frontimmu101560960Front. Immunol.Frontiers in Immunology1664-3224Frontiers Media SAPMC10266281PMC10266281.110266281102662813732562510.3389/fimmu.2023.11988781ImmunologyOriginal ResearchLeveraging a disulfidptosis-based signature to improve the survival and drug sensitivity of bladder cancer patients
+ChenHualinYangWenjieLiYingjieMaLinJiZhigang 
+Department of Urology, Peking Union Medical College Hospital, Chinese Academy of Medical Sciences and Peking Union Medical College, Beijing, China
+Edited by: Jianzhong Ai, Sichuan University, China
+Reviewed by: Linbang Wang, Peking University Third Hospital, China; Xu Chen, Sun Yat-sen Memorial Hospital, China; Qiong Qin, First Affiliated Hospital of Chongqing Medical University, China
+*Correspondence: Zhigang Ji, jizhigang@pumch.cn
+3052023202314427662119887802420231852023010120231506202329092025Copyright © 2023 Chen, Yang, Li, Ma and Ji2023Chen, Yang, Li, Ma and Jihttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Background
+Disulfidptosis is a recently discovered form of cell death. However, its biological mechanisms in bladder cancer (BCa) are yet to be understood.
+
+## Methods
+Disulfidptosis-related clusters were identified by consensus clustering. A disulfidptosis-related gene (DRG) prognostic model was established and verified in various datasets. A series of experiments including qRT-PCR, immunoblotting, IHC, CCK-8, EdU, wound-healing, transwell, dual-luciferase reporter, and ChIP assays were used to study the biological functions.
+
+## Results
+We identified two DRG clusters, which exhibited distinct clinicopathological features, prognosis, and tumor immune microenvironment (TIME) landscapes. A DRG prognostic model with ten features (DCBLD2, JAM3, CSPG4, SCEL, GOLGA8A, CNTN1, APLP1, PTPRR, POU5F1, CTSE) was established and verified in several external datasets in terms of prognosis and immunotherapy response prediction. BCa patients with high DRG scores may be characterized by declined survival, inflamed TIME, and elevated tumor mutation burden. Besides, the correlation between DRG score and immune checkpoint genes and chemoradiotherapy-related genes indicated the implication of the model in personalized therapy. Furthermore, random survival forest analysis was performed to select the top important features within the model: POU5F1 and CTSE. qRT-PCR, immunoblotting, and immunohistochemistry assays showed the enhanced expression of CTSE in BCa tumor tissues. A series of phenotypic assays revealed the oncogenetic roles of CTSE in BCa cells. Mechanically, POU5F1 can transactivate CTSE, promoting BCa cell proliferation and metastasis.
+
+## Conclusions
+Our study highlighted the disulfidptosis in the regulation of tumor progression, sensitivity to therapy, and survival of BCa patients. POU5F1 and CTSE may be potential therapeutic targets for the clinical treatment of BCa.
+
+disulfidptosisbladder cancermolecular clusterstumor immune microenvironmentprognostic modelPOU5F1CTSEThis study was supported by the National High Level Hospital Clinical Research Funding (2022-PUMCH-B-008). We also analyzed the expression profiles of the 14 DRGs in the TCGA-BLCA cohort. Results showed that ACTB, DSTN, FLNA, IQGAP1, MYL6, and TLN1 were overexpressed in normal tissues, while CD2AP and INF2 were overexpressed in tumor tissues ( ). We further found that ACTB, DSTN, FLNA, and TLN1 were upregulated in high-grade and high-stage (stage III and IV) BCa tissues, indicating their association with BCa progression ( ). Finally, representative IHC images demonstrated the protein levels of the four genes ( ).
+
+3.2
+
+## DRG-based molecular clusters with distinct clinical features and TIME landscapes
+To investigate the biological roles of DRGs in BCa, we employed an unsupervised consensus clustering algorithm to categorize BCa samples of the TCGA-BLCA cohort based on the expression profiles of 14 DRGs. As indicated by the CDF curves and the PAC test, the optimal clustering number was 2 ( ). The expression levels of DRGs were higher in BCa samples of C1 compared to those of C2 ( ). In terms of clinical features, the proportion of patients with age > 65, male gender, and stage III and IV was relatively higher in C1 than in C2 ( ; ). Moreover, patients in C1 had a poorer prognosis compared to those in C2 ( ).
+ Next, we evaluated the expression levels of immune checkpoint genes (ICGs, ) and chemoradiotherapy-related genes (CRGs, ), as well as the TIME scores between two DRG-based clusters. As presented in , SOX2, EZH2, EGFR, and AKR1C1 of the CRGs had distinct expression patterns between the two DRG-based clusters. Specifically, AKR1C1 and SOX2 were downregulated in C1, whereas EGFR and EZH2 were overexpressed in C1. Regarding the TIME landscapes, we observed that samples of C1 had overexpressed ICGs ( ), a higher TIME score ( ), and higher infiltration levels of macrophages and activated memory CD4+ T cells ( ). However, samples of C2 had higher abundances of regulatory T cells, activated dendritic cells, monocytes, infiltrated memory B cells, and neutrophils.
+
+3.3
+
+## DRGs-based molecular clusters with dysregulated pathways and biological process
+To investigate the pathways and biological processes between the two DRG clusters, a series of enrichment analyses were employed, including GSVA, GSEA, and over-representation analysis (ORA). The results of GO-BP GSVA showed that DRG C1 was enriched in cellular structure-related processes, including podosome assembly, membrane raft assembly, regulation of protein maturation, and cortical cytoskeleton organization ( ). KEGG term results revealed that DRG C1 was abundant in immunity-related pathways, including focal adhesion and NOD-like receptor signaling pathway ( ). GSEA subsequently uncovered that DRG C1 was significantly linked to cancer hallmarks, including the cell cycle (G2M checkpoint and mitotic spindle, ) and cancergenesis and progression (epithelial-mesenchymal transition [EMT], hypoxia, and angiogenesis, ). In contrast, DRG C2 was associated with metabolism, specifically oxidative phosphorylation and fatty acid metabolism ( ).
+ We then identified DRGs cluster-related DEGs to verify the findings above. Consistently, cellular structure and immunity-related biological processes and pathways were mainly enriched ( ).
+
+3.4
+
+## Detection of gene clusters related to disulfidptosis in BCa
+First, prognosis-related DEGs were screened out by univariate Cox regression analysis. A hierarchical clustering algorithm was then used to classify the BCa samples into three gene clusters ( ). We observed that DRG C1 was highly correlated with gene cluster 1 while C2 was mostly related to gene cluster 3. Consistently, BCa patients in gene cluster 1 had a worse prognosis compared to those in gene cluster 3 ( ). Additionally, the majority of DRGs had significantly varied expression levels among the three gene clusters ( ).
+ 
+3.5
+
+## Development and validation of a disulfidptosis-related prognostic model
+Based on the OS-related DEGs, a disulfidptosis-related prognostic model was established for potential clinical application. The TCGA-BLCA cohort was used as the training set whereas three GEO datasets (GSE13507, GSE32548, and GSE32894) were regarded as the testing sets. Followed by LASSO and multivariate Cox regression analysis, a model with ten genes was constructed, including DCBLD2, JAM3, CSPG4, SCEL, GOLGA8A, CNTN1, APLP1, PTPRR, POU5F1, CTSE ( ). The DRG score of each BCa sample was: DRG score =0.03458897* DCBLD2 + 0.03469218* JAM3 + 0.05195818* CSPG4 + 0.04814716* SCEL - 0.14422347* GOLGA8A + 0.02423207* CNTN1 + 0.09220036* APLP1 - 0.05143026* PTPRR + 0.02817304* POU5F1 + 0.03568603* CTSE.
+Next, we aimed to investigate the correlation between DRG clusters (C1 and C2), gene clusters (1, 2, and 3), and DRG scores. Our findings indicated that DRG scores were considerably higher in DRG C1 than in C2. Moreover, the expression of DRGs was higher in BCa patients from the high-risk group ( ). We also discovered that the DRG score in gene clusters followed a rank order of 1 > 2 > 3, as illustrated in .
+As illustrated in the risk plot, the DRG score was linked to higher mortality and decreased survival ( ). BCa patients of the high-risk group had poorer OS than those of the low-risk group ( ). Time-dependent ROC analysis showed excellent performance of the model in predicting the prognosis: AUC of 0.837, 0.833, and 0.83 at 1-, 3-, and 5-year time points, respectively ( ).
+ To further verify the performance, we tested it on three external validation cohorts. Similarly, a declined survival was observed in BCa patients of the high-risk group ( ). High AUC value from time-dependent ROC analysis also suggested the prognostic performance of the established model ( ).
+
+3.6
+
+## Estimation of DRG score in immune infiltration
+The biological features of BCa samples in high- and low-risk groups were assessed by GSEA ( ). The analysis revealed that cellular structure-related activities such as external encapsulating structure organization and collagen fibril organization, as well as inflammation-related GO-BP including leukocyte migration, inflammatory response, and neutrophil chemotaxis, were highly activated in the high-risk group. Conversely, metabolism-related biological processes, such as long-chain fatty acid and arachidonic acid metabolic processes, were suppressed in the high-risk group ( ). Furthermore, the results of GSEA on cancer hallmarks indicated that a high DRG score was linked to cell cycle (G2M checkpoint and E2F target), tumor progression (EMT, hypoxia, and angiogenesis), as well as inflammation and immunity (inflammatory response and TNFA signaling via NF-kappa B) ( ).
+TIME scores including immune, stromal, and ESTIMATE scores were remarkably elevated in the high-risk group ( ). The correlation between immune infiltration and ten model genes was assessed ( ). Macrophages showed a positive correlation with DRG score, whereas CD8+ T cells, follicular helper T cells (Tfh cells), and Tregs exhibited a negative correlation with DRG score ( ).
+Cancer stem cells possess self-renewal, multipotent, and tumor-initiating abilities, leading to tumor growth, recurrence, and resistance to current treatments. To evaluate the relationship between the DRG score and the CSC index, both were combined, revealing a weak negative correlation ( ).
+
+3.7
+
+## Correlations between DRG score and ICGs and tumor mutational burden
+Patients in the high-risk group (52%) exhibited a higher frequency of TP53 mutations than those in the low-risk group (45%) ( ). Additionally, Patients in the high-risk group had significantly higher TMB scores compared to those in the low-risk group ( ).
+Given the reported association between ICB therapy and the expressions of ICGs, we next evaluated the association between the ICGs and DRG score. Our findings indicated a significant negative correlation between most ICGs and the ten model genes ( ). Specifically, the expressions of PVR, CD276, and SIRPA increased as the DRG score increased, while the expressions of TNFRSF14 and CD96 had the opposite trends ( ).
+
+3.8
+
+## Evaluation of the model in ICB-treated cohorts
+Our previous findings demonstrated a potential correlation between DRG scores and the expression of ICGs. To further investigate the predictive ability of our developed model in immunotherapy response, we analyzed three ICB-treated cohorts comprising different types of tumors. Within the Mariathasan cohort, the high-risk group was associated with a worse prognosis ( ). Non-responders had significantly higher risk scores compared to responders ( ), and the high-risk group had a lower proportion of responders and a higher proportion of non-responders than the low-risk group ( ). The ROC analysis revealed a high predictive performance of the model ( ). Additionally, the risk score gradually decreased from the desert immune phenotype to the inflamed phenotype ( ).
+ Within the Braun cohort, renal cell carcinoma (RCC) patients in the high-risk group suffered from worse OS and PFS ( ). Non-responders had significantly higher risk scores compared to responders ( ), and the high-risk group had a lower proportion of responders and a higher proportion of non-responders compared to the low-risk group ( ). The ROC analysis uncovered a high predictive performance of the model ( ). Similar findings were observed in the Liu cohort of patients with skin cutaneous melanoma (SKCM) ( ).
+
+3.9
+
+## Correlation between DRG score and CRGs and chemotherapeutic sensitivity
+Except for MGMT and AKR1C1, a negative correlation was observed between the expressions of CRGs and the ten model genes ( ). Additionally, EZH2, EGFR, TBX5, and SOX2 were positively correlated with the DRG score ( ). These findings suggested that the DRG score may be able to predict the chemotherapeutic response. To verify the findings, drug sensitivity analysis was performed using six frequently used chemotherapeutic agents in BCa patients. The results demonstrated that BCa patients in the high-risk group exhibited resistance to cisplatin, doxorubicin, gemcitabine, methotrexate, paclitaxel, and vinblastine ( ).
+
+3.10
+
+## POU5F1 transactivates CTSE by directly binding to its promoter
+The random survival forests (RSF) algorithm was utilized to ascertain the relative importance of each gene in the model. As presented in , POU5F1 displayed the highest degree of significance, followed by CTSE, DCBLD2, and GOLGA8A. Our correlation analysis indicated that POU5F1 was positively correlated exclusively with CTSE (R = 0.39, ). Furthermore, this result was consistent with the outcomes obtained through analysis of the GEPIA online tool ( ). POU5F1, also known as OCT4, is a transcriptional factor that has been linked with tumor proliferation, migration, and therapy resistance ( ). Previous research has thoroughly explored the oncogenic phenotypes of POU5F1 in various human cancers, including BCa ( ). Additionally, Fristrup et al. examined the protein levels of CTSE (Cathepsin E) in a large, multicenter cohort and found that CTSE levels were significantly associated with progression to stage T2-T4 BCa ( ). Nonetheless, the functional roles of CTSE in BCa remain poorly understood. In light of the positive correlation between POU5F1 and CTSE, we hypothesized that POU5F1 might transactivate CTSE to promote BCa progression.
+ First, we investigated the expression levels of CTSE in clinical BCa tissues and BCa cell lines. In 106 pairs of BCa tissues, we observed an upregulation of both CTSE mRNA and protein levels in tumor tissues ( ), which was further supported by representative IHC images ( ). In particular, CTSE was found to be overexpressed in BCa cell lines, especially in 5637 ( ). To gain insights into the biological functions of CTSE in BCa, a series of phenotypic assays were conducted in 5637 cells. We verified the efficacy of CTSE knockdown using qRT-PCR and immunoblotting assays ( ). CTSE deficiency was found to inhibit 5637 cell line proliferation ( ), as well as wound-healing migration and transwell invasion assays ( ). Overall, the upregulation of CTSE drives the progression of BCa cells in vitro.
+Next, we investigated the regulatory mechanisms between the transcription factor POU5F1 and the gene CTSE. A previous study reported the existence of a transcriptional binding site for POU5F1 ( ). We then identified a potential binding site for POU5F1 at the promoter of CTSE ( ). To investigate the functional significance of this binding site, we conducted luciferase assays in 5637 cells. We found that co-transfection of POU5F1 significantly stimulated the luciferase activity of the CTSE-WT promoter ( ). Moreover, increasing the dose of POU5F1 resulted in a gradual enhancement of luciferase activity ( ). Next, a ChIP assay was employed to validate the enrichment of POU5F1 on the promoter of CTSE ( ) and found that exogenous POU5F1 promoted more POU5F1 enrichment on the CTSE promoter compared to the vector group ( ). Our results demonstrate that POU5F1 transactivates CTSE by directly binding to its promoter, which has regulatory effects on both mRNA and protein levels ( ).
+
+3.11
+
+## POU5F1 promotes BCa proliferation and metastasis by transactivating CTSE
+We examined the functional association between POU5F1 and CTSE through phenotypic assays as POU5F1 was capable of regulating CTSE by physically binding to its promoter. The CCK-8 assay demonstrated that overexpression of POU5F1 enhanced the proliferation of 5637, while deficiency of CTSE inhibited it ( ). Similar outcomes were observed in wound-healing migration ( ) and transwell invasion assays ( ). In summary, our findings suggested that POU5F1 boosts the proliferation and metastasis of BCa cells by transactivating CTSE.
+
+4
+
+## Discussion
+Cell death is a crucial factor in regulating tumor proliferation ( ). Previous research has established a strong association between cell death and cancer cell metabolism ( ). However, the underlying mechanisms linking cell death and metabolism in BCa remain poorly understood.
+Disulfidptosis, initially proposed by Xiaoguang Liu, has provided new insights into the role of disulfides and glucose metabolism dysregulation in cell death. However, the landscapes of DRGs in BCa remain unclear. In this study, we conducted a systematic investigation of the genetic and transcriptional changes of 14 DRGs in BCa. We also established a disulfidptosis-related prognostic model with 10 features which exhibited excellent performance in predicting prognosis and immunotherapeutic response.
+By deciphering the genetic and transcriptional landscapes of DRGs in BCa, we found that only 27.05% of BCa samples had genetic mutations in DRGs. Surprisingly, six DRGs (ACTB, DSTN, FLNA, IQGAP1, MYL6, and TLN1) were downregulated in BCa compared to normal tissues, while CD2AP and INF2 were upregulated. Most of these downregulated DRGs (except for IQGAP1) were overexpressed in high-grade tumor tissues. Additionally, mRNA levels of ACTB, DSTN, FLNA, and TLN1 increased gradually with the tumor stage. Besides, protein levels of these genes were higher in BCa tumor tissues than in normal tissues, indicating post-translational modifications ( – ).
+Based on the expression pattern of DRGs, two disulfidptosis-related molecular clusters of the TCGA-BLCA cohort were identified. BCa patients in DRG C1 were characterized by decreased survival and advanced clinicopathological features. Further decoding of the TIME unraveled that C1 was featured by the inflamed TIME in terms of upregulated expression profiles of ICGs, elevated TIME scores, and infiltrated immune cell subsets. As evidenced by previous BCa studies, tumors with distinct TIME landscapes may hold different sensitivities to chemotherapy and immunotherapy ( , , , ). Consistently, the expression levels of CRGs and ICGs varied significantly between DRG clusters, indicating varied therapeutic responses between DRG clusters. These findings indicated the importance of disulfidptosis in driving BCa.
+Further, a disulfidptosis-related prognostic model was developed based on the OS-DEGs of the DRG clusters. Deciphering the TIME of BCa unveiled that a high DRG score was linked to the inflamed phenotype which had significant effects on the cancer treatment. Furthermore, a higher RNA stemness score was detected in the high-risk group, indicating the crucial role of disulfidptosis patterns in maintaining BCa tumors.
+Using the RFS method, we identified an exclusively positive correlation between two critical genes, POU5F1 and CTSE. POU5F1, also known as OCT4, encodes a transcription factor regulating stem cell pluripotency via the POU homeodomain. POU5F1 regulates the characteristics of tumor-initiating cells in terms of survival, self-renewal, resistance to drugs, and EMT ( ). Roundhill et al. studied the role of POU5F1 in Ewing sarcoma and found that POU5F1 intensely interacted with stemness and chemoresistance genes ( ). Mitchell and colleagues addressed the critical roles of POU5F1 in WDR5-induced glioblastoma progression ( ). As for CTSE (Cathepsin E), its biological characteristics have been addressed in various tumors including pancreatic cancer ( ), prostate cancer ( ), and gastric cancer ( ). In our study, we observed higher expression levels of CTSE at both mRNA and protein levels in BCa tumor tissues. Moreover, overexpression of CTSE promoted the proliferation, migration, and invasion of BCa cells. Mechanistically, we found that POU5F1 directly binds to the promoter of CTSE, leading to its transactivation and promotion of BCa progression.
+
+5
+
+## Conclusion
+In the study, we comprehensively investigated the DRG profiles in BCa and established a disulfidptosis-related prognostic model which exhibited excellent performance in predicting prognosis and immunotherapeutic response. BCa sample of different DRG scores was also characterized by distinct TIME landscape, response to immunotherapy and chemotherapy, and dysregulated pathways and biological processes. Furthermore, we found that POU5F1 and CTSE were critical components of the prognostic model. We also conducted further investigations to uncover the regulatory mechanisms underlying the relationship between POU5F1 and CTSE.
+
+## Data availability statement
+This data can be found here: TCGA-BLCA: https://portal.gdc.cancer.gov/GSE13507: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13507 GSE32548: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE32548 GSE32894: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE32894.
+
+## Ethics statement
+The studies involving human participants were reviewed and approved by Institutional Ethics Committee of Peking Union Medical College Hospital. The patients/participants provided their written informed consent to participate in this study.
+
+## Author contributions
+Conceptualization, HC and ZJ. Methodology, HC. Software, HC. Validation, HC. Formal analysis, HC. Investigation, HC. Resources, WY. YL, and LM. Data curation, WY, YL, and LM. Writing—original draft preparation, HC. Writing—review and editing, HC. Visualization, HC. Supervision, WY, YL, LM, and ZJ. Project administration, ZJ. All authors contributed to the article and approved the submitted version.
+
+## Acknowledgments
+We thank Dr. Jianming Zeng (University of Macau), and all the members of his bioinformatics team, biotrainee, for generously sharing their experience and codes.
+
+## Conflict of interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Publisher’s note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Supplementary material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fimmu.2023.1198878/full#supplementary-material
+
+Supplementary Figure 1Transcriptional and protein changes of DRGs. (A) mRNA levels of DRGs between low- and high-grade BCa tumor tissues. (B) mRNA levels of DRGs among stage II, III, and IV. (C) The protein levels of ACTB, DSTN, FLNA, and TLN1 between tumor and normal tissues by the Human Protein Atlas.
+Click here for additional data file.
+Supplementary Figure 2DRG-based molecular clusters with distinct clinicopathological features. (A) The consensus score matrix when clustering number was 2. (B) The CDF curves of each clustering number. (C) The proportion of ambiguous clustering (PAC) score indicated the optimal clustering number of 2. (D–F) The distribution of age groups (> 65 and ≤ 65) (D), gender (E), and stage (F) between DRG-based clusters.
+Click here for additional data file.
+Supplementary Figure 3LASSO regression.
+Click here for additional data file.
+Supplementary Figure 4The correlation between the DRG score and TIME score. (A, B) The activated or suppressed GO-BP (A) and hallmarks (B) in DRG C1. (C) The correlations between TIME scores and DRG scores. (D) The correlations between the ten model genes and infiltration of 22 immune cell subsets. (E, F) Correlations between the DRG score and the abundances of immune cells (E) and the stem index (F).
+Click here for additional data file.
+Supplementary Figure 5Genetic variations and ICGs. (A, B) The mutation features of BCa patients in low- (A) and high-risk (B) groups. (C) Distribution of TMB between risk groups. (D) Correlations between ICGs and ten model genes. (E) Correlations between ICGs and the DRG score.
+Click here for additional data file.
+Supplementary Figure 6The correlation between DRG score and CRGs. (A) The correlations between ten model genes and CRGs. (B) The correlations between CRGs and the DRG score. (C) Predicted IC50 between risk groups.
+Click here for additional data file.
+Supplementary Table 1The details of included datasets.
+Click here for additional data file.
+Supplementary Table 2The details of the 14 DRGs, DEGs between DRG-based molecular clusters, and OS-DEGs.
+Click here for additional data file.
+Supplementary Table 5The lists of ICGs and CRGs.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.

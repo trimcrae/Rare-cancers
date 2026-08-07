@@ -1,0 +1,776 @@
+912asnneuroASN NEUROASN NeuroTaylor & FrancisPMC4834722483472248347222464130510.1042/AN20130031Transcriptional regulation induced by cAMP elevation in mouse Schwann
+ cells
+SchmidDaniela ZeisThomas Schaeren-WiemersNicole *Neurobiology, Department of Biomedicine, University Hospital Basel, University of Basel, Hebelstrasse 20, CH-4031 Basel, Switzerland1To whom correspondence should be addressed (email
+ Nicole.Schaeren-Wiemers@unibas.ch).
+304201463e00142e00142252016© 2014 The author(s) has paid for this article to be
+ freely available under the terms of the Creative Commons Attribution Licence
+ (CC-BY)(http://creativecommons.org/licenses/by/3.0/) which permits unrestricted
+ use, distribution and reproduction in any medium, provided the original work is
+ properly cited.This is an Open Access article distributed under the terms of the
+ Creative Commons Attribution Licence (CC-BY) (http://creativecommons.org/licenses/by/3.0/) which permits
+ unrestricted use, distribution and reproduction in any medium, provided the
+ original work is properly cited.
+
+## Abstract
+In peripheral nerves, Schwann cell development is regulated by a variety of
+ signals. Some of the aspects of Schwann cell differentiation can be reproduced
+ in vitro in response to forskolin, an adenylyl
+ cyclase activator elevating intracellular cAMP levels. Herein, the effect of
+ forskolin treatment was investigated by a comprehensive genome-wide expression
+ study on primary mouse Schwann cell cultures. Additional to myelin-related
+ genes, many so far unconsidered genes were ascertained to be modulated by
+ forskolin. One of the strongest differentially regulated gene transcripts was
+ the transcription factor Olig1 (oligodendrocyte transcription factor 1), whose
+ mRNA expression levels were reduced in treated Schwann cells. Olig1 protein was
+ localized in myelinating and nonmyelinating Schwann cells within the sciatic
+ nerve as well as in primary Schwann cells, proposing it as a novel transcription
+ factor of the Schwann cell lineage. Data analysis further revealed that a number
+ of differentially expressed genes in forskolin-treated Schwann cells were
+ associated with the ECM (extracellular matrix), underlining its importance
+ during Schwann cell differentiation in vitro.
+ Comparison of samples derived from postnatal sciatic nerves and from both
+ treated and untreated Schwann cell cultures showed considerable differences in
+ gene expression between in vivo and
+ in vitro, allowing us to separate Schwann cell
+ autonomous from tissue-related changes. The whole data set of the cell culture
+ microarray study is provided to offer an interactive search tool for genes of
+ interest.
+Keywords: cAMP, forskolin, in vitro, microarray, Schwann cell differentiation
+
+Abbreviations: BMP, bone morphogenetic protein; cAMP, cyclic adenosine monophosphate; CNS, central nervous system; CREB, cAMP-response-element-binding protein; DAVID, Database for Annotation, Visualization and Integrated Discovery; DGC, dystrophin–glycoprotein complex; ECM, extracellular matrix; FDR, false discovery rate; GO, gene ontology; IPA, Ingenuity Pathway Analysis; Mag, myelin-associated glycoprotein; MAPK, mitogen-activated protein kinase; Mbp, myelin basic protein; Mpz/P0, myelin protein zero; NF-κB, nuclear factor κB; Olig1, oligodendrocyte transcription factor 1; PCA, principal component analysis; PFA, paraformaldehyde; PKA, protein kinase A; PNS, peripheral nervous system; qRT–PCR, quantitative RT–PCR; S.D., standard deviation
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2013 Jul 1; Revised 2014 Jan 16; Accepted 2014 Feb 5; Prepublished 2014 Mar 18; Collection date 2014.
+
+## INTRODUCTION
+Schwann cells are the glia cells of the PNS (peripheral nervous system). Throughout
+ the entire Schwann cell lineage, both an autocrine mechanism and axon–glia
+ interaction control the survival, proliferation and differentiation of Schwann cells
+ (reviewed in Jessen and Mirsky, ).
+ Schwann cells derive from neural crest cells, and migrate tightly associated with
+ axons to reach distal targets. At approximately E17, Schwann cell precursors become
+ immature Schwann cells ensheathing large axon bundles. The transition entails an
+ orchestrated change in response to survival signals and growth factors. Around birth
+ in rodents, immature Schwann cells differentiate into either myelinating or
+ nonmyelinating Schwann cells. This step from an immature to a mature Schwann cell
+ coincides with major changes in their cellular architecture. Generally, axons with a
+ diameter larger than 1 μm are segregated to form a one-to-one
+ relation with a Schwann cell, and thereafter will be myelinated (Peters and Muir,
+ ; Voyvodic, ). On the other hand, small caliber axons remain
+ engulfed by nonmyelinating Schwann cells. In addition to fiber diameter, reciprocal
+ signaling between Schwann cells and neurons influence the Schwann cell fate;
+ neurotrophins and growth factors, such as neuregulin1 type III were
+ identified as regulators for Schwann cell differentiation (reviewed in Salzer, ). Transition into myelinating Schwann
+ cells is also mediated by cAMP (cyclic adenosine monophosphate), which acts as a
+ second messenger. Upon ligand binding, the intracellular heterotrimeric G protein
+ complex activates the adenylyl cyclase, converting ATP into the second messenger
+ cAMP (Hanoune and Defer, ). The PKA
+ (protein kinase A) is activated in the presence of cAMP, which in turn stimulates
+ the CREB (cAMP-response-element-binding protein) signal transduction pathway
+ (reviewed in Meijer, ). The Gpr126
+ (G-protein-coupled receptor 126) is the so far only receptor identified to drive
+ Schwann cell differentiation by elevating cAMP levels (Monk et al., ). Mutation in Gpr126 causes hypomyelination and
+ retarded axonal segregation in the PNS, and cAMP elevation by forskolin treatment
+ was sufficient to restore myelination (Monk et al., ; Monk et al., ).
+ Elevation of intracellular cAMP has been shown to induce myelin-related gene
+ expression such as Mpz/P0 (myelin protein zero), Krox20 (Egr2) and Galc
+ (galactosylceramidase) in rat and human Schwann cell cultures (Lemke and Chao, ; Monuki et al., ; Parkinson et al., ; Monje et al., ).
+ Furthermore, activation of the cAMP pathway decreases expression of proteins
+ implicated in immature or nonmyelinating Schwann cells, such as the low-affinity
+ neurotrophin receptor p75NTR, Gfap (glial fibrillary acidic protein),
+ Gap43 (growth-associated protein 43) and cJun (Morgan et al., ; Monje et al., ). The effect of cAMP elevation was hitherto analyzed in respect to
+ transcriptional induction of particular genes known to be important in
+ differentiation, but its precise effect on mouse Schwann cells is not known yet.
+Herein, we performed a comprehensive genome-wide expression study on primary mouse
+ Schwann cell cultures treated with the adenylyl cyclase activator forskolin. A
+ detailed knowledge of the effect of forskolin on Schwann cells
+ in vitro is decisive, since the cAMP signaling pathway
+ was suggested to interfere also with other signaling pathways such as the PI3-kinase
+ and the MAP (mitogen-activated protein)-kinase pathways (Stewart et al., ; Kim et al., ; Cohen and Frame, ; Grimes and Jope, ;
+ Ogata et al., ; Monje et al., ; Monje et al., ). Our comprehensive analysis identified
+ transcriptional changes of so far disregarded genes induced by elevated cAMP levels
+ in primary mouse Schwann cell cultures. The functional roles of most of these genes
+ are not yet known in the Schwann cell lineage, but they might be new candidates to
+ be considered. Furthermore, we compared the expression pattern of differentially
+ expressed transcripts from naive and forskolin-treated cultured Schwann cells with
+ those from sciatic nerve samples of particular postnatal developmental stages. The
+ whole data set of the microarray study on primary mouse Schwann cell cultures is
+ provided to offer an interactive search tool for genes of interest, analyzing their
+ expression pattern in cultured Schwann cells upon forskolin treatment.
+
+## MATERIAL AND METHODS
+
+## Mice
+C57BL/6 mice were kept under standard SPF-conditions, housed and treated
+ according to the guidelines for care and use of experimental animals of the
+ veterinary office of the Canton of Basel.
+
+## Primary mouse Schwann cell cultures
+Schwann cells were prepared from P1 (postnatal day 1) mouse sciatic nerves, and
+ dissociated with 0.4% (w/v) collagenase and 0.125% (w/v) trypsin. DMEM
+ (Dulbecco's modified Eagle's medium; D6546, Sigma-Aldrich) supplemented with 10%
+ (v/v) FBS was added, and cells were seeded onto 24-well plates
+ (Primaria™, BD Bioscience). A day after, Schwann cells were treated with
+ 10 μM cytosine β-D-arabinofuranoside (AraC)
+ twice for 24 h to reduce fibroblast proliferation. Schwann cells were
+ passaged, and cells were pooled and cultured in DMEM containing 10% (v/v) FBS.
+ For mRNA expression analysis, primary Schwann cells were seeded at a density of
+ 25000 cells/well. For immunofluorescence analysis, 10000 Schwann cells were
+ seeded on poly-D-lysine and laminin-coated glass coverslips in a
+ 50 μl drop. For Schwann cell differentiation assay, cells were
+ stimulated with 20 μM forskolin (Sigma-Aldrich) in DMEM
+ supplemented with 10% (v/v) FBS for 24 h. Purity of mouse Schwann cell
+ cultures determined by immunofluorescent stainings for p75NTR and
+ S100 revealed more than 85% enrichment.
+
+## qRT–PCR expression analysis
+Schwann cells were washed with PBS, and total RNA was isolated using RNeasy Micro
+ Kit (Qiagen) according to the manufacturer's protocol. For the
+ in vivo analysis, 54 sciatic nerves were pooled to
+ nine experimental samples (n=9) at P0, 36 nerves were pooled to
+ nine experimental samples (n=9) at P3, P9 and P21, and 16
+ nerves were pooled to eight experimental samples (n=8) for
+ adult mice, and total RNA was isolated using ZR RNA MicroPrep™ Kit (Zymo
+ Research). For both in vivo and
+ in vitro studies, first strand cDNA synthesis was
+ performed using GoScript™ Reverse Transcriptase (Promega) and random
+ hexamer primers (Roche). Primers for qRT–PCR were designed with NCBI
+ PrimerBLAST (Supplementary Table S1; available at http://www.asnneuro.org/an/006/an006e142add.htm). Primer pairs
+ were chosen to overlap exon/intron junctions to prevent amplification of genomic
+ DNA. qRT–PCR was performed on the ViiA™ 7 Real-Time PCR System
+ (Applied Biosystems) with KAPA SYBR Fast Master Mix (Kapa Biosystems) or Power
+ SYBR Master Mix (Applied Biosystems). The acquired mRNA copy numbers were
+ normalized to the one of the 60S ribosomal protein subunit L13a.
+ In vitro data represent the mean of 12 samples per
+ condition derived from five independent experiments, and error bars indicate the
+ S.D. (standard deviation). In vivo data represent the
+ mean of at least eight experimental samples per time point, and error bars
+ indicate the S.D.. Statistical quantification was performed by a Student's
+ t test for unpaired groups.
+
+## Whole-genome expression profiling
+Schwann cells were stimulated with or without 20 μM forskolin for
+ 24 h as described above. Eighteen cultures were investigated, complied
+ by nine cultures per condition, derived from five independent experiments. The
+ in vivo microarray expression analysis was
+ performed with 28 sciatic nerves pooled to seven experimental samples
+ (n=7) at P0 and P10, 20 nerves pooled to five experimental
+ samples (n=5) at P4 and P7 and six nerves pooled to three
+ experimental samples (n=3) at P60. Total RNA was isolated using
+ the RNeasy Micro Kit (Qiagen) according to the manufacturer's protocol. All RNA
+ samples had an RIN (RNA integrity number) of above 8, verified with the Agilent
+ Bioanalyzer system (Agilent Technologies). RNA amplification, biotinylation,
+ in vitro transcription and cRNA hybridization was
+ performed as described before (Kinter et al., ). MouseWG-6 v2.0 Expression BeadChips from Illumina were
+ scanned using the iScan Reader (Illumina), and global median normalization of
+ gene expression was performed with the GenomeStudio software (version 2011.1,
+ Illumina). One coding DNA sequence may be represented by several distinct
+ oligonucleotides (called probes). For all examinations, probe-specific analysis
+ was performed, allowing to identify differentially expressed transcripts with
+ high confidence. All data passed the quality control analysis as assessed by the
+ Illumina on-board software (GenomeStudio, version 2011.1) and by PCA (principal
+ component analysis; Partek Genomics Suite, version 6.6, Partek Inc.).
+ Statistical analysis was performed using Partek Genomic Suite software (version
+ 6.6, Partek Inc.). Differentially expressed transcripts were identified by a
+ two-way ANOVA, and P-values were adjusted using the FDR (false
+ discovery rate) method to correct for multiple comparisons (Benjamini and
+ Hochberg, ). Significantly
+ differentially expressed genes were further analyzed with the IPA (Ingenuity
+ Pathway Analysis) software (Ingenuity Systems), the DAVID (Database for
+ Annotation, Visualization and Integrated Discovery (version 6.7) Bioinformatics
+ Resources (Huang da et al., ) and
+ TransFind (Kielbasa et al., ). We
+ provided the generated database as an interactive search tool to analyze the
+ expression pattern of genes of interest upon forskolin treatment.
+
+## Antibodies
+The following primary antibodies were used: anti-MBP (rat, 1:800, Chemicon),
+ anti-neurofilament (mouse, 1:800, SMI31, Covance), anti-Olig1 (rabbit, 1:1000,
+ Abcam), anti-p75NTR (rabbit, 1:500, Promega), anti-S100 (rabbit,
+ 1:500, Dako).
+The following secondary antibodies were used: donkey-anti-rabbit AlexaFluor488,
+ donkey-anti-mouse DyLight549, donkey-anti-rat AlexaFluor647 (all 1:500, Jackson
+ ImmunoResearch Laboratories), DAPI (4′,6-diamidino-2-phenylindole)
+ (1.25 μg/ml; Molecular Probes) was used as cellular counter
+ stain.
+
+## Immunofluorescent microscopy
+10 μm sections of fresh frozen torso of P7 mice were mounted on
+ gelatin/chrome alum-coated slides, dried at room temperature, and fixed for
+ 15 min in 4% (w/v) PFA (paraformaldehyde) in PBS. Sections were washed
+ three times for 15 min in PBS, and unspecific binding sites were impeded
+ by incubation with blocking buffer containing 1% (v/v) normal donkey serum
+ (Chemicon Int.), 2% (v/v) cold fish skin gelatin (Sigma-Aldrich), 0.15% (v/v)
+ Triton X-100 (Sigma-Aldrich) in PBS for 1 h at room temperature. Primary
+ antibodies were incubated in blocking buffer at 4°C overnight.
+ Fluorochrome-conjugated secondary antibodies were diluted in blocking buffer,
+ and incubated for 1 h at room temperature. Stained sections were
+ embedded in FluorSave (Calbiochem). For stainings of Schwann cell cultures,
+ cells were rinsed with PBS, and fixed with 4% (v/v) PFA in PBS for
+ 15 min. Further procedure was performed as described above. Fluorescence
+ microscopy images were acquired with the confocal microscope Nikon A1R
+ (40× objective, numerical aperture 1.3) or Zeiss LSM 710 (63×
+ objective, numerical aperture 1.4), using photomultiplier tube detectors. Image
+ quantification was performed with Imaris software (version 7.6.4, Bitplane) and
+ processing with ImageJ 1.47b software and Adobe Photoshop software (version
+ CS5.1).
+
+## RESULTS
+
+## Forskolin induced transcriptional regulation of genes involved in Schwann
+ cell development
+One key signaling pathway for Schwann cell differentiation and peripheral
+ myelination is mediated by cAMP levels. This signal transduction pathway can be
+ activated in vitro by forskolin, an adenylyl cyclase
+ activator. Since primary rat and mouse Schwann cells in cultures react distinct
+ upon particular stimulation reagents (Yamada et al., ), we examined in detail the effect of forskolin
+ on gene transcriptional regulation in primary mouse Schwann cell cultures.
+ Schwann cells isolated from sciatic nerves of P1 mice were cultured in the
+ presence or absence of forskolin for 24 h. We ascertained the optimal
+ forskolin concentration of 20 μM, which resulted in robustly
+ induced transcription of Mpz/P0, a commonly used marker for Schwann cell
+ differentiation (D. Schmid, T. Zeis, M. Sobrio and N. Schaeren-Wiemers,
+ unpublished work). A whole-genome expression assay was performed to identify
+ transcriptional changes induced by forskolin treatment in mouse Schwann cells
+ in vitro, and about 22000 transcripts were
+ consistently expressed in cultured Schwann cells. The generated database is
+ provided as an interactive search tool to analyze the expression pattern of
+ genes of interest upon forskolin treatment (Interactive Excel file; available at
+ http://www.asnneuro.org/an/006/an006e142add.htm). First,
+ forskolin-dependent transcriptional expression of genes that are implicated in
+ Schwann cell development, differentiation and myelination were analyzed ( ). For illustration, selected genes
+ were schematically grouped according to their temporal expression in the Schwann
+ cell lineage (Supplementary Figure S1; available at http://www.asnneuro.org/an/006/an006e142add.htm).
+ Analysis of transcription factors revealed a strong induction upon forskolin
+ treatment for the mRNA expression levels of Egr3 and Oct6 (Pou3f1), a major
+ target of cAMP signaling in Schwann cells (Monuki et al., ) ( A). Increased transcription was also detected of Krox24 (Egr1), the
+ Egr1-binding protein 2 (Nab2) and the inhibitor of DNA binding 2 and 4 (Id2,
+ Id4). Reduced mRNA expression levels were present for the transcription factors
+ AP2α (Tcfap2a) and cJun (Jun), which is in accordance to their
+ down-regulation during development in vivo (reviewed in
+ Jessen and Mirsky, ). For Krox20
+ (Egr2) and Sox10, which was strongly expressed in primary Schwann cells, no
+ significant forskolin-dependent regulation was observed. Investigation of
+ receptors, which were implicated in Schwann cell signaling, revealed that the
+ expression levels of the tyrosine kinase receptors ErbB2, TrkB (Ntrk2) and TrkC
+ (Ntrk3) were significantly increased by forskolin ( B). Forskolin treatment led to a small reduction of
+ the neurotrophin receptor p75NTR (Ngfr), in accordance to previous
+ reports on rat Schwann cell cultures (Morgan et al., ; Monje et al., ). It resulted also in increased transcription of the
+ myelin-related genes Mpz, peripheral myelin protein 22 (Pmp22) and lipin1 (Lpn1)
+ ( C). No transcriptional
+ regulation could be detected for 2′,3′-cyclic nucleotide
+ 3′ phosphodiesterase (Cnp), the myelin-associated glycoprotein (Mag) and
+ the myelin and lymphocyte protein (Mal), and reduced expression levels of
+ plasmolipin (Pllp) and myelin basic protein (Mbp) were detected in treated
+ Schwann cells. However, sequence analysis of the Mbp probes revealed that they
+ code also for Golli Mbp variants, having a distinct expression pattern and
+ function during glia development compared with classical MBP isoforms
+ (Campagnoni et al., ; Pribyl et al.,
+ ).
+During myelination, the synthesis of large amounts of lipids is important for
+ accurate myelin formation. For this reason, the effect of forskolin treatment
+ was investigated on the regulation of genes involved in lipid biosynthesis in
+ Schwann cells ( D). Significantly
+ increased transcription levels were detected for the stearoyl-coenzyme A
+ desaturase 1 (Scd1), the UDP-glucose ceramide glucosyltransferase (Ugcg, Gcs)
+ and the UDP galactosyltransferase 8A (Ugt8a, Cgt, mCerGT), the rate-limiting
+ enzyme of the cerebroside biosynthesis (Morell and Radin, ).
+Our data analysis revealed that forskolin treatment of cultured mouse Schwann
+ cells led to up-regulation of a number of transcripts which are important during
+ Schwann cell differentiation in vivo, and to reduced
+ transcription of genes known to be expressed in neural crest cells and Schwann
+ cell precursors in vivo (reviewed in Jessen and Mirsky,
+ ).
+
+## Forskolin-induced transcriptional regulation in Schwann cells
+To further investigate the effect of forskolin on transcriptional regulation in
+ cultured mouse Schwann cells, microarray data were analyzed more stringently
+ using an FDR-adjusted P-value of <0.05. This study
+ revealed that forskolin treatment resulted in increased expression of 330
+ transcripts by at least 1.5-fold, and in decreased expression of 305 transcripts
+ (Supplementary Table S2; available at http://www.asnneuro.org/an/006/an006e142add.htm). Among the 25
+ strongest induced genes, Mpz was the solely typical so far known myelin-related
+ gene ( A). Strong transcriptional
+ induction was detected for the sclerostin domain containing 1 (Sostdc1), the
+ pleckstrin homology domain containing family A (Plekha4) and the ECM
+ (extracellular matrix) protein spondin 2 (Spon2). Furthermore, increased
+ transcription was detected for the transcription factor Egr3, as already stated
+ before ( A), the fibro-blast growth
+ factor 7 (Fgf7), the endothelin receptor type B (Ednrb) and the
+ proteoglycan decorin (Dcn), to name a few. Strongest down-regulation upon
+ forskolin treatment was detected for the mRNA expression levels of protocadherin
+ 20 (Pcdh20, also known as Pcdh13), phosphodiesterase 1B (Pde1b) and leucine-rich
+ repeats and transmembrane domains 1 (Lrtm1), each represented by two transcripts
+ ( B). Olig1 was the only
+ transcription factor identified among the 25 strongest reduced transcripts.
+ Strong transcriptional reduction was also identified for the chondroitin sulfate
+ proteoglycan 4 [Cspg4, better known as neuron-glial antigen 2 (NG2)], the
+ proteoglycan aggrecan (Acan), the secreted matrix Gla protein (Mgp) and the
+ platelet-derived growth factor subunit B (Pdgfb). qRT–PCR of these
+ highly differentially expressed transcripts validated our microarray for the one
+ which were significantly increased upon forskolin treatment ( A) as well as for the ones which were
+ down-regulated upon forskolin treatment with the sole exception of Nme7 ( B).
+ In summary, cAMP elevation led to differential expression of more than 600
+ transcripts in primary mouse Schwann cell cultures. Among the 25 strongest
+ induced genes, Mpz was the only well-known myelin-related gene, disclosing the
+ possibility that new genes important for Schwann cell differentiation were
+ identified by this microarray analysis.
+
+## Olig1 expression in the PNS
+The transcription factor Olig1 was identified to be strongly down-regulated in
+ forskolin-treated mouse Schwann cells. Although Olig1 is known to play an
+ important functional role in differentiation of oligodendrocyte precursor cells
+ (Li et al., ), its expression in the
+ Schwann cell lineage is not known. For this reason, the expression of Olig1
+ protein was investigated on sciatic nerves of P7 mice. Colocalization analysis
+ revealed Olig1 immunofluorescent signal primarily in MBP-negative areas
+ consisting of small diameter axons identified by neurofilament ( B, inset and D, arrows). These areas are reminiscent of Remak
+ bundles evident by the expression of p75NTR, a marker for
+ nonmyelinating Schwann cells ( B and
+ Supplementary Figure S2; available at http://www.asnneuro.org/an/006/an006e142add.htm). In addition,
+ also a subset of myelinating Schwann cells were identified to be Olig1 positive
+ ( A and C, arrowheads). To determine Olig1 transcription during
+ peripheral nerve development, its mRNA expression levels were investigated by
+ qRT-PCR in sciatic nerves at P0, P3, P9, P21 and in adult mice ( D). Expression analysis of Olig1 mRNA
+ levels during peripheral nerve development revealed progressively increased
+ transcription correlating with Schwann cell maturation. In contrast to Mpz,
+ Olig1 mRNA expression levels remained high in adult nerves. Confocal
+ immunofluorescence microscopy identified Olig1 localization in the cytoplasm as
+ well as in the nucleus of Schwann cells ( E). Quantification of the average immunofluorescent signal revealed
+ a significant higher intensity in the cytoplasm compared with the nucleus
+ (results not shown). From our analysis, we conclude that Olig1 is expressed in
+ Schwann cells although at lower levels than in the CNS (central nervous system)
+ (results not shown).
+ 
+
+## Analysis of possible forskolin-dependent upstream regulators
+Putative forskolin-dependent upstream regulators were identified by IPA
+ (Ingenuity Pathway Analysis), based on the highly significantly regulated
+ transcripts (Supplementary Table S2). The highest significantly proposed
+ upstream regulator was identified as ‘forskolin’ ( ). Furthermore, three kinases
+ playing a role in regulating the NF-κB (nuclear factor κB)
+ pathway were suggested as upstream regulators, namely the inhibitor of
+ NF-κB kinase subunit
+ α (CHUK), the I-κB kinase subunit γ (IKBKG) and the
+ I-κB kinase subunit β (IKBKB). In addition, the signal
+ transducer and activator of transcription 3 (Stat3) and Sox10 were proposed to
+ be involved in the regulation of some of the differentially expressed genes.
+ Notch1 was proposed as the most significant inhibited upstream regulator, well
+ in line with the negative effect of Notch signaling on peripheral myelination
+ (Woodhoo et al., ). In addition,
+ inhibitory modulation was proposed for the small GTP-binding protein Rac1 and
+ the MAPK-kinase MEK 1 and 2 (MAP2K1/2).
+An important question to solve is whether there are putative transcription factor
+ binding sites in promoter regions of co-regulated genes, allowing to identify
+ transcription factors that might cause some of the observed alterations. Using
+ TransFind, a web-based software tool, the affinity of a transcription factor to
+ the putative promoters of the genes (−300 bp upstream to
+ +100 bp downstream of transcription start site) was predicted in
+ silico (Kielbasa et al., ). First, genes with induced mRNA expression levels due to
+ forskolin treatment were analyzed ( A). The most significant prediction was for the transcription factor
+ matrix of the KROX family, containing Krox24 (Egr1), Krox20 (Egr2), Egr3 and
+ NGFI-C (Egr4) and the distally related Wilms’ tumor 1 (Wt1) (Chavrier et
+ al., ; Lemaire et al., ; Call et al., ; Gessler et al., ; Patwardhan et al., ; Crosby et al., ). In
+ addition, genes with a binding site for the transcription factors spermatogenic
+ leucine zipper 1 (Spz1) and Wt1 were significantly overrepresented in
+ forskolin-induced genes. We could further identify that several genes with
+ reduced mRNA expression levels in treated Schwann cells contain a binding site
+ for the transcription factor HEB (also known as transcription factor 12, Tcf12)
+ or the myocyte enhancer factor-2 (MEF-2) ( B).
+ 
+
+## GO-annotations in differentiated Schwann cells
+The usage of GO (gene ontology) annotations allows analyzing differentially
+ expressed transcripts by means of a controlled vocabulary, in respect to the
+ categories of cellular components, molecular functions and biological processes
+ ( and Supplementary Table S4;
+ available at http://www.asnneuro.org/an/006/an006e142add.htm). Ana-lysis of
+ molecular functions revealed that forskolin-induced transcripts were associated
+ with cytoskeletal protein binding, actin binding and ECM binding, as well as
+ with cytokine and chemokine activity. Investigation of GO-annotations on
+ cellular components revealed a high association of both sets of transcripts with
+ the ECM, the extracellular region and the plasma membrane. Furthermore, genes
+ with reduced mRNA expression levels in treated cells showed enrichment for the
+ annotations basement membrane and integrin complex. Analysis of the category
+ ‘biological processes’ revealed that increased and decreased
+ transcripts were often associated with cell adhesion, migration and
+ proliferation, as well as with cell–cell signaling. The term of MAPKKK
+ (MAPK kinase kinase) cascade, which is implicated in Schwann cell
+ dedifferentiation (Harrisingh et al., ), was detected exclusively in the set of transcripts with
+ reduced expression due to forskolin treatment.
+ 
+
+## Pathway analysis implicated in Schwann cell differentiation
+To identify putative signaling cascades in forskolin-dependent differentially
+ expressed transcripts, the KEGG (Kyoto Encyclopedia of Genes and Genomes)
+ pathway was investigated using DAVID ( ). Also this analysis revealed that several forskolin-induced gene
+ transcripts were associated with the ECM–receptor interaction ( A). Pathway analysis of transcripts,
+ which were reduced upon elevation of cAMP levels revealed the strongest
+ enrichment for the focal adhesion pathway ( B). In line with induced transcripts, ECM–receptor
+ interaction was also proposed as a putative pathway for the set of genes with
+ decreased mRNA expression levels in treated Schwann cells. Furthermore, the MAPK
+ (MAP-kinase) signaling pathway was identified to be overrepresented in this set
+ of transcripts. Based on the pathway analysis, we conclude that a number of
+ differentially regulated transcripts were associated with the
+ ECM–receptor interaction as well as with the focal adhesion pathway,
+ implicating that a major effect of forskolin might be the modulation of the ECM
+ and the cytoskeleton.
+ 
+
+## Forskolin-dependent regulation of components of the ECM
+To determine the effect of elevated cAMP levels by forskolin on transcriptional
+ regulation of components of the ECM and the basal lamina, a list of selected
+ genes associated with the ECM was compiled and schematic illustrated ( ). Most of the investigated
+ components of the basal lamina showed differentially expressed mRNA expression
+ levels upon forskolin treatment of cultured Schwann cells. One of the strongest
+ reductions could be detected for α-dystrobrevin (Dtna), a member of the
+ DGC (dystrophin–glycoprotein complex). Furthermore, the transcription of
+ syntrophin acidic 1 (Snta1), also a component of this complex, was significantly
+ reduced upon forskolin treatment, although expression levels of the other
+ syntrophin isoforms were not changed. The DGC is linked to the basal lamina by
+ interaction with agrin (Agrn), whose mRNA expression levels were also reduced in
+ treated Schwann cells, or with laminin. A reduced expression was identified for
+ laminin γ2 (Lamc2), whereas increased expression levels were detected
+ for laminin α1, α2 (Lama1, Lama2) and laminin γ1 (Lamc1)
+ upon treatment. Investigation of the laminin receptor integrin manifested that
+ forskolin treatment reduced the transcription of integrins such as the integrin
+ α1, α2, α5, β1 and β5 (Itga1, Itga2,
+ Itga5, Itgb1 and Itgb5) in primary mouse Schwann cells. In contrast, forskolin
+ treatment induced the transcription of integrin β4 and β8 (Itgb4
+ and Itgb8), in agreement with a study reporting elevated integrin β4
+ expression during development and upon forskolin treatment in rat Schwann cells
+ (Feltri et al., ). Collagen fibers
+ are another major component of the ECM. Elevation of cAMP levels by forskolin
+ resulted in induced transcription of collagen type II α1
+ (Col2a1), in line with a previous report on rat Schwann cells (D’Antonio
+ et al., ), and collagen
+ type IV α2 (Col4a2). Forskolin treatment led to reduced
+ transcription of collagen type IV α5 (Col4a5), collagen
+ type V α2 (Col5a2) and of collagen type VI α3
+ (Col6a3). Additional analysis of basal lamina components revealed significantly
+ increased mRNA expression levels of nidogen1 (entactin, Nid1), nidogen2
+ (entactin 2, Nid2) and of the proteoglycan perlecan (Hspg2).
+ From these data, we conclude that forskolin treatment has a strong impact on
+ transcriptional regulation of a variety of ECM-associated genes in cultured
+ mouse Schwann cells, probably reflecting the morphological changes occurring
+ upon Schwann cell differentiation.
+
+## Correlation analysis between in vivo and
+ in vitro samples
+Elevation of intracellular cAMP by forskolin is often used as an
+ in vitro model for Schwann cell differentiation.
+ Therefore the expression data from naive and forskolin-treated Schwann cells and
+ from sciatic nerve tissues taken from P0, P4, P7, P10 and P60 mice were examined
+ by a PCA to visualize similarities or differences between the experimental
+ samples ( A). Well-defined clusters
+ could be identified for both untreated and treated Schwann cell cultures ( A, red and blue dots, respectively).
+ Additional distinct clusters could be detected for samples of the different
+ developmental time points of peripheral nerves ( A, green dots). The PCA for the developmental
+ in vivo samples at P0, P4, P7 and P10 showed that
+ the time points closely neighbor each other. P60 nerve samples formed an
+ individual cluster, reflecting that their expression is distinct. The PCA also
+ illustrated that the expression pattern identified in cultured Schwann cells did
+ not overlap with those of the peripheral nerve tissues, which is reflected by
+ the dendrogram analysis of hierarchical clustering ( B).
+ The effect on elevated cAMP levels on the Schwann cell lineage was further
+ investigated by analyzing only transcripts which were differentially expressed
+ with an FDR-adjusted P-value <0.05 due to forskolin
+ treatment ( C and D). By PCA, distinct clusters could be
+ visualized for samples of treated or untreated Schwann cell cultures ( C). Hierarchical cluster analysis
+ revealed further that forskolin-treated Schwann cell samples associate within
+ the same branch as samples derived from the nerve tissues ( D, arrow), indicating some corresponding expression
+ pattern. Still, the majority of differentially expressed transcripts elicited by
+ forskolin treatment do not resemble the in vivo
+ situation.
+
+## DISCUSSION
+Accurate peripheral myelination depends on a variety of signals and growth factors.
+ Elevation of intracellular cAMP levels by either db-(dibutyryl-)cAMP or forskolin is
+ the classically used stimulation assay to reproduce some of the aspects of Schwann
+ cell differentiation in vitro, reflected by induced
+ expression of myelin-related genes (Monuki et al., ; Morgan et al., ;
+ Parkinson et al., ; Schworer et al.,
+ ; Monje et al., ). The effect of forskolin treatment on primary mouse
+ Schwann cells was analyzed by a comprehensive microarray study. Comparison between
+ our microarray data and a study on rat Schwann cells treated with forskolin revealed
+ a number of overlaps such as increased expression of inositol triphosphate receptor
+ subtype 3 (Itpr3), laminin α2 and γ1 (Lama2, Lamc1) and reduced
+ expression of agrin (Agrn), fibroblast growth factor 5 (Fgf5) and focal adhesion
+ kinase pp125 (Ptk2) (Schworer et al., ).
+ In addition to the myelin-related genes known to be regulated by forskolin
+ in vitro, we identified many so far disregarded genes
+ to be expressed by cultured Schwann cells. The generated database and interactive
+ search tool for genes of interest provides a new insight into the molecular
+ mechanisms of Schwann cell differentiation (Interactive Excel file; available at
+ http://www.asnneuro.org/an/006/an006e142add.htm).
+First, we focused on genes that were reported to be expressed at a distinct stage of
+ the Schwann cell lineage (Supplementary Figure S1). In line with previous studies,
+ we observed induced transcription of genes expressed in differentiated Schwann
+ cells, such as the myelin-related genes Mpz and Pmp22 (Lemke and Chao, ; Morgan et al., ; Schworer et al., ; Monje et al., ).
+ However, no increase on mRNA expression levels could be detected for Mag. This
+ observation is in contrast to reports on rat Schwann cells showing increased protein
+ levels upon db-cAMP addition (Monje et al., ; Monje et al., ),
+ respectively, increased Mag transcription after forskolin treatment (Ogata et al.,
+ ). This discrepancy of Mag expression
+ compared with published literature might be explained by the fact that Schwann cells
+ derived from mice were investigated in our study, compared with Schwann cells
+ derived from rats in the other studies. Indeed, we found no report analyzing Mag
+ transcription upon forskolin treatment in primary mouse Schwann cell cultures. We
+ suggest that the effect of forskolin in respect to Mag transcription might be
+ distinct between rat and mouse Schwann cells.
+Induction of myelin-related gene transcripts was also reported in cultured Schwann
+ cells upon adenoviral infection with an Egr2-expressing construct (Nagarajan et al.,
+ ). In comparison with their study, we
+ also identified a down-regulation of genes expressed in neural crest cells, Schwann
+ cell precursors and immature Schwann cells, such as the transcription factors
+ AP2α (Tcfap2a) and cJun or the adhesion proteins Cdh2 (NCad) and Cdh19.
+ These observations suggest that Egr2-dependent differentiation drives the Schwann
+ cells predominantly into the myelinating phenotype, whereas treatment with forskolin
+ additionally leads to down-regulation of gene transcripts expressed at earlier
+ stages of the lineage.
+Upon forskolin treatment, we identified significantly increased expression for the
+ transcription factor Egr1 (Krox24), a major transcription factor in nonmyelinating
+ Schwann cells. The induced transcription might be due to the Egr1 promoter
+ containing a CRE (cAMP-response element) (reviewed in Thiel et al., ). Furthermore, increased transcriptional activity of
+ Egr1 by forskolin is in line with detected transactivation of Egr1 by CREB signaling
+ in gonadotophs (Mayer et al., ; Mayer and
+ Thiel, ). Besides Egr1, also the related
+ transcription factor Egr3 was significantly increased by around 7-fold in treated
+ Schwann cells. Enforced expression of both Egr1 and Egr3 by adenoviral infections
+ led to increased p75NTR transcription in immortalized rat Schwann cells
+ (Gao et al., ), in contrast to our data
+ of reduced p75NTR expression despite increased Egr1 and Egr3 mRNA
+ expression levels. However, the forskolin-induced increase of Egr1 transcription was
+ modest compared with enforced expression by adenoviral constructs, speculating that
+ a certain expression level and/or a distinct stoichiometry of Egr1 and Egr3 is
+ required to modulate p75NTR expression. Analysis of tyrosine kinase
+ receptors revealed that transcripts coding for ErbB2, TrkB and TrkC were increased
+ in treated Schwann cells, suggesting that forskolin treatment not only activates
+ CREB signaling but also might influence other intracellular signaling pathways
+ mediated by tyrosine kinase receptors in Schwann cells as previously suggested
+ (Stewart et al., ; Kim et al., ; Cohen and Frame, ; Grimes and Jope, ; Ogata et al., ; Monje
+ et al., ; Monje et al., ).
+
+## Olig1 as a new transcription factor in Schwann cells
+Among the 25 gene transcripts, which were strongly decreased in forskolin-treated
+ Schwann cells, we identified the transcription factor Olig1. In the CNS, Olig1
+ is essential for the differentiation of oligodendrocyte precursor cells into
+ mature oligodendrocytes (Xin et al., ; Li et al., ). In the
+ oligodendrocytes lineage, Olig1 activates Mbp transcription by interaction with
+ the transcription factor Sox10 (Li et al., ), which is also expressed throughout the entire Schwann cell
+ lineage. However, the role of Olig1 in the PNS is not known yet.
+ Although investigations of Olig1-deficient mice did not reveal major
+ abnormalities of the PNS (Charles D. Stiles, personal communication), a
+ functional role of Olig1 during peripheral nerve development or in regeneration
+ cannot be excluded. In cultured mouse Schwann cells, a significantly higher
+ Olig1 expression was detected in the cytoplasm compared with the nucleus. In the
+ CNS, Olig1 was also localized in the cytoplasm of oligodendrocytes, whereas
+ nuclear localization was only detected for a short time period during early
+ development (Arnett et al., ; Othman
+ et al., ). The cytoplasmic function
+ of Olig1 is not yet entirely understood, but it was demonstrated to be crucial
+ for elaboration of cell processes and membrane expansions in oligodendrocytes
+ precursor cells (Niu et al., ). Since
+ glial development in the PNS precedes the one in the CNS, Olig1 expression in
+ the nucleus might be present at very early embryonic stages. Besides early
+ development, nuclear Olig1 expression in oligodendrocytes was also reported upon
+ remyelination (Arnett et al., ). In
+ Olig1-deficient mice, remyelination failed due to impaired differentiation of
+ progenitors, underlining its essential role in oligodendrocyte differentiation
+ (Arnett et al., ). In line, we propose
+ Olig1 playing an important role also in Schwann cell differentiation, indicated
+ by its strong differential transcription upon differentiation with forskolin. In
+ the PNS, Olig1 was recently reported to be up-regulated in injured nerves
+ (Arthur-Farraj et al., ), suggesting
+ its expression in Schwann cells during denervation and regeneration. Our
+ immunofluorescence analysis on sciatic nerves revealed that Olig1 was localized
+ in regions correlating to nonmyelinating Schwann cells, which is well in line
+ with the decreased mRNA expression level upon forskolin treatment. In addition,
+ Olig1 could be detected in a subset of myelinating Schwann cells, but the
+ immunofluorescent signal was very weak. Furthermore, Olig1 mRNA levels slightly
+ increased during development, reflecting maturation of both myelinating and
+ nonmyelinating Schwann cells. From our data, we introduce Olig1 as a new
+ transcription factor of the Schwann cell lineage, whose expression is negatively
+ regulated by elevation of intracellular cAMP levels by forskolin.
+
+## Regulation of ECM components is forskolin-dependent
+Data analysis revealed that a set of differentially expressed transcripts due to
+ forskolin treatment are associated with components of the ECM. Highly
+ significantly increased mRNA expression levels could be identified for the
+ secreted ECM protein spondin 2 and for decorin, a chondroitin sulphate
+ proteoglycan known to be expressed in Schwann cells (Hanemann et al., ). These data are in agreement with
+ previous reports showing an up-regulation of decorin during embryonic Schwann
+ cell development (Buchstaller et al., ; D’Antonio et al., ). Also the proteoglycan thrombomodulin was increased in treated
+ Schwann cells, in line with induced expression of thrombomodulin in endothelial
+ and leukemia cell lines after elevation of intracellular cAMP levels (Ito et
+ al., ; Maruyama et al., ; Archipoff et al., ). To investigate whether differentially
+ expressed gene transcripts might have a common function, they were analyzed in
+ respect to their GO-annotations. Indeed, also this analysis identified the term
+ of ‘extracellular matrix’ for both sets, either transcripts
+ increased or decreased after forskolin treatment. In addition, pathway analysis
+ revealed that the interaction of ECM with its receptors was enriched in
+ differentially expressed genes.
+During Schwann cell differentiation and radial sorting
+ in vivo, considerable modifications of the plasma
+ membrane occur. The sole axon–glia interaction transforms into a
+ glia–glia interaction on one side, and an axon–glia interaction
+ on the other side of the same membrane elongation. Hence, expressional changes
+ of adhesion molecules and components of the ECM are vital for proper function
+ and polarization in vivo. From our data, we conclude
+ that one of the major effects of forskolin is the regulation of the ECM,
+ indicating that changes of the ECM also occur in Schwann cell differentiation
+ in vitro.
+
+## Highly significantly differential gene expression induced by elevated
+ cAMP
+Schwann cell development and differentiation are also influenced by accurate
+ levels of growth factors. Indeed, Fgf7, also known as keratinocyte growth
+ factor, was identified as one of the strongest forskolin-dependent increased
+ transcripts in primary mouse Schwann cells. This finding is in accordance with
+ studies showing that stimulation with forskolin led to increased Fgf7 expression
+ in other cells, such as dermal papilla cells and primary fibroblasts (Iino et
+ al., ; Scott et al., ). The strongest induced gene transcript was
+ Sostdc1 (ectodin, wise), an inhibitor of BMP (bone morphogenetic protein) and
+ modulator of the Wnt signaling pathways (Itasaki et al., ; Laurikkala et al., ). In the CNS, BMP and Wnt signaling pathways
+ inhibit differentiation of oligodendrocyte precursor cells into mature
+ oligodendrocytes (Feigenson et al., ), leading to the hypothesis that also in the PNS,
+ forskolin-dependent induction of Sostcd1 expression consequently positively
+ regulates glia cell differentiation. Another significantly induced gene was the
+ endothelin receptor type B. This receptor is coupled to the adenylyl
+ cyclase and was already shown previously to be expressed in immortalized Schwann
+ cells (Wilkins et al., ). This
+ increased transcription does not correspond to the forskolin-dependent
+ regulation of its ligand endothelin, which was reduced in treated Schwann cells.
+ However, reduced transcription of endothelin is in line with its proposed
+ function as a negative regulator of the transition from Schwann cell precursors
+ to immature Schwann cells (Brennan et al., ). The strongest forskolin-dependent reduction was detected for
+ the transcription of the protocadherin 20 (Pcdh20). This cell adhesion molecule
+ belongs to non-clustered protocadherins, and its expression was analyzed
+ particularly in the CNS (Pribyl et al., ). To our knowledge, Pcdh20 expression has not yet been
+ investigated in the PNS. In primary mouse Schwann cells, we detected high
+ expression levels of both transcripts in naive Schwann cells. Upon forskolin
+ treatment, transcription of Pcdh20 was highly significantly reduced, maybe
+ reflecting morphological changes of the cells in conjunction with differentially
+ expressed adhesion molecules. Forskolin treatment resulted also in strongly
+ reduced transcription of the calcium–and calmodulin-dependent
+ phosphodiesterase 1B (Pde1b). As for Pcdh20, gene transcripts of Pde1b were
+ strongly expressed in untreated Schwann cell cultures. This enzyme hydrolyzes
+ the second messengers cAMP and cGMP, consequently regulating their cellular
+ levels (reviewed in Bender and Beavo, ; Omori and Kotera, ).
+ Hence, elevated intracellular levels of cAMP by forskolin treatment might
+ directly suppress the expression of Pde1b. The third transcript which was
+ strongly reduced in forskolin-treated Schwann cells was the leucine-rich repeat
+ and transmembrane domain-containing protein 1 (Lrtm1). In naive Schwann cells, a
+ strong expression of both transcripts could be detected. The functional role of
+ the Lrtm1 protein is not known, but leucine-rich repeat proteins in general were
+ shown to be involved in cell adhesion and polarization, cytoskeleton dynamics
+ and neural development (reviewed in Kobe and Kajava, ), proposing Lrtm1 as a new candidate gene in
+ cell adhesion in Schwann cells. Also for PDGFβ, reduced expression was
+ detected in differentiated Schwann cells, in accordance with reports showing the
+ functional role of PDGF in cell migration and proliferation (De Donatis et al.,
+ ; Monje et al., ; Jiang et al., ). Our result of decreased PDGFβ in differentiated
+ Schwann cells is also in agreement with the finding that exogenous PDGF led to
+ suppression of the expression of myelin-related proteins in rat Schwann cells
+ (Ogata et al., ).
+
+## Transcripts with reduced expression upon forskolin treatment were associated
+ with the MAPK pathway
+Elevation of intracellular cAMP levels went also along with reduced transcription
+ of the transmembrane protein 158 (Tmem158, Ris1). Previously, Tmem158 was shown
+ to be up-regulated in response to activation of the Ras pathway (Barradas et
+ al., ; Iglesias et al., ; Birch et al., ), hence the reduced Tmem158 expression might be
+ a consequence of decreased pathway activity. Since the Ras/Raf/Mek/Erk signaling
+ pathway blocks Schwann cell differentiation (Harrisingh et al., ; Ogata et al., ), a decreased activity of this pathway is plausible upon
+ differentiation with forskolin. The hypothesis of reduced activity of the MAPK
+ cascade was validated by an analysis of putative pathways, revealing that gene
+ transcripts reduced in treated Schwann cells were often associated with the MAPK
+ pathway. In addition, the MAPK-kinases Mek1/2 could be identified as possible
+ inhibitory target regulators upon forskolin treatment. In line, Rac1 that was
+ proposed as a putative negative target regulator of differentially expressed
+ transcripts in treated Schwann cells, was recently identified as a negative
+ regulator of Schwann cell differentiation by up-regulating cJun and
+ down-regulating Krox20 through the JNK (c-Jun N-terminal kinase) pathway (Shin
+ et al., ). Upstream analysis further
+ revealed that three members of the NF-κB pathway are putative target
+ regulators. This is in accordance with the observation, that the activation of
+ NF-κB is vital for peripheral myelination (Nickols et al., ). NF-κB was also shown to be
+ phosphorylated and activated by the PKA (Yoon et al., ).
+
+## Distinct gene expression between Schwann cells
+ in vitro and developing peripheral nerves
+PCA demonstrated well-defined clusters of developing peripheral nerves
+ in vivo, represented by the time points P0, P4, P7
+ and P10. Samples of mature sciatic nerves at P60 constituted a separate cluster,
+ indicating distinct gene expression compared with earlier time points. Distinct
+ clusters could also be visualized for treated as well as untreated Schwann
+ cells. Comparison of gene expression between samples derived from primary mouse
+ Schwann cells and samples of developing sciatic nerves revealed significant
+ differences. The differences in gene expression between
+ in vivo and in vitro might
+ be explained by the fact that there is a constant interaction and reciprocal
+ signaling between axons and Schwann cells in vivo,
+ which is absent in primary mouse Schwann cell cultures. Furthermore, the
+ in vivo system is more complex, since other cells
+ such as endothelial cells and fibro-blasts are present in the nerve as well.
+ Cultured Schwann cells are more synchronized, in contrast to Schwann cells in
+ peripheral nerves, where an overlap of distinct Schwann cell stages can be
+ observed during early development. These data indicate that caution has to be
+ exercised when comparing primary Schwann cell cultures with
+ in vivo analysis, despite the finding that
+ forskolin-treated Schwann cells associate within the same branch of the
+ dendrogram as the nerve samples.
+
+## Conclusion
+This work aims to improve the knowledge of intracellular signaling in mouse
+ Schwann cells. Forskolin treatment of primary Schwann cells confirmed the
+ increased transcription of genes involved in Schwann cell differentiation and
+ the reduced transcription of genes known in neural crest cells and Schwann cell
+ precursors. Comprehensive data analysis of a whole-genome microarray further
+ identified a number of differentially regulated transcripts which have not yet
+ been reported in Schwann cells. We identified the expression of both Olig1
+ protein and mRNA in myelinating and non-myelinating Schwann cells, proposing it
+ as a novel transcription factor in the Schwann cell lineage. From our study, we
+ further conclude that a major effect of forskolin treatment is the regulation of
+ components of the ECM, underlining its importance during Schwann cell
+ differentiation. In addition, transcripts that were reduced upon treatment were
+ often associated with the MAPK and Rac1 signaling pathways, vali-dating previous
+ studies. We provide the whole data set of the microarray study to offer an
+ interactive search tool for genes of interest.
+
+## Online data
+
+## Supplementary data
+
+## Interactive search tool
+
+## Supplementary tables
+
+## ACKNOWLEDGEMENTS
+We thank K.R. Jessen and R. Mirsky (Department of Cell and Developmental Biology,
+ University College London, U.K.) for initial support with Schwann cell cultures,
+ C.D. Stiles (Department of Cancer Biology, Dana-Farber Cancer Institute, Harvard
+ Medical School, Boston, U.S.A.) for helpful discussions, and U. Certa (Molecular
+ Toxicology, Pharmaceutical Division, F. Hofmann-La-Roche AG, Basel, Switzerland) for
+ access to the microarray facility.
+
+## AUTHOR CONTRIBUTION
+Daniela Schmid and Nicole Schaeren-Wiemers designed the study. Cell cultures,
+ immunofluorescent stainings and qRT–PCR were performed by Daniela Schmid,
+ and the microarray was performed by Thomas Zeis. Daniela Schmid and Nicole
+ Schaeren-Wiemers analyzed the data and wrote the manuscript.
+
+## FUNDING
+This work was supported by the Swiss National Science
+ Foundation [grant numbers 31003A-125210 and 31003A-141185].
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Supplementary data
+
+## Interactive search tool
+
+## Supplementary tables

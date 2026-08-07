@@ -1,0 +1,164 @@
+GliaGlia379blackwellopen8806785GLIAGlia0894-14911098-1136pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC7586969PMC7586969.1758696975869693262164110.1002/glia.23866GLIA238661Research ArticleResearch ArticlesMultimodal single‐cell analysis reveals distinct radioresistant stem‐like and progenitor cell populations in murine glioma
+Alexander et al.AlexanderJes LaPlantQuincey C. PattwellSiobhan S.https://orcid.org/0000-0003-4434-3139 SzulzewskyFrankhttps://orcid.org/0000-0001-5710-9590 CiminoPatrick J.https://orcid.org/0000-0003-0441-4502 CarusoFrancesca P.https://orcid.org/0000-0002-2206-1459 PugliesePietro ChenZhihonghttps://orcid.org/0000-0001-7403-7015 ChardonFlorence HillAndrew J. SpurrellCailynhttps://orcid.org/0000-0003-0681-3697 AhrendsenDakota PietrasAlexanderhttps://orcid.org/0000-0002-5783-9347 StaritaLea M. HambardzumyanDolores IavaroneAntonio ShendureJayhttps://orcid.org/0000-0002-1516-1865 HollandEric C.https://orcid.org/0000-0002-3792-7120 eholland@fredhutch.org
+1
+Department of Genome Sciences
+University of Washington
+Seattle
+Washington
+USA
+
+2
+Department of Radiation Oncology
+University of Washington School of Medicine
+Seattle
+Washington
+USA
+
+3
+Department of Radiation Oncology
+Memorial Sloan Kettering Cancer Center
+New York
+New York
+USA
+
+4
+Human Biology Division
+Fred Hutchinson Cancer Research Center
+Seattle
+Washington
+USA
+
+5
+Dipartimento di Scienze e Tecnologie
+Università degli Studi del Sannio
+Benevento
+Italy
+
+6
+Bioinformatics Lab, BIOGEM
+Ariano Irpino
+Italy
+
+7
+Department of Oncological Sciences
+Tisch Cancer Institute, and Department of Neurosurgery, Mount Sinai Icahn School of Medicine
+New York
+New York
+USA
+
+8
+Brotman Baty Institute for Precision Medicine
+Seattle
+Washington
+USA
+
+9
+Division of Translational Cancer Research
+Lund University
+Lund
+Sweden
+
+10
+Institute for Cancer Genetics, Department of Neurology, Department of Pathology and Cell Biology
+Columbia University Medical Center
+New York
+New York
+USA
+
+11
+Allen Discovery Center for Cell Lineage
+Seattle
+Washington
+USA
+
+12
+Howard Hughes Medical Institute
+University of Washington
+Seattle
+Washington
+USA
+*Correspondence Eric C. Holland, Human Biology Division, Fred Hutchinson Cancer Research Center, Seattle, WA 98109, USA.
+Email: eholland@fredhutch.org0472020122020681236758610.1002/glia.v68.1224862502013202030420201752020261020203010202028042024© 2020 The Authors. Glia published by Wiley Periodicals LLC.https://creativecommons.org/licenses/by-nc/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+Radiation therapy is part of the standard of care for gliomas and kills a subset of tumor cells, while also altering the tumor microenvironment. Tumor cells with stem‐like properties preferentially survive radiation and give rise to glioma recurrence. Various techniques for enriching and quantifying cells with stem‐like properties have been used, including the fluorescence activated cell sorting (FACS)‐based side population (SP) assay, which is a functional assay that enriches for stem‐like tumor cells. In these analyses, mouse models of glioma have been used to understand the biology of this disease and therapeutic responses, including the radiation response. We present combined SP analysis and single‐cell RNA sequencing of genetically‐engineered mouse models of glioma to show a time course of cellular response to radiation. We identify and characterize two distinct tumor cell populations that are inherently radioresistant and also distinct effects of radiation on immune cell populations within the tumor microenvironment.
+
+## Main Points
+
+Early after irradiation of murine glioma, FACS‐analysis shows stem‐like cells are enriched, and scRNA‐seq shows the radioresistant tumor cells are progenitors and stem‐like cells. Also, microglia and macrophage populations shift.
+
+ 
+
+gliomaglioma stem cellsmyeloid cellsradiation responseradioresistancesingle‐cell RNA sequencingSP analysisNIH Office of the Director 10.13039/100000052Pioneer Award/DP1HG007811 To determine whether tumor cells fall within the SP or main population (MP) we generated tumors in an Olig2‐GFP genetic background that expresses GFP under the control of the Olig2 promoter. The transcription factor, Olig2, is expressed by oligodendrocyte progenitors and the bulk of tumor cells. Cells expressing it are excluded from the perivascular niche (PVN). However, since not every Olig2‐expressing cell is tumor, and it is possible that not all tumor cells express Olig2, we used the RCAS‐PDGFB‐RFP vector to generate tumors. In this model, in addition to Olig2‐driven GFP‐expression, tumor cells derived from the original RCAS‐infected cells express RFP ( ). We found that no Olig2‐expressing cells (GFP+) were in the SP in any condition (Figure ). In unirradiated tumors, we found that 2–5% of cells derived from the original RCAS‐infected cells (RFP+, Olig2
+−) were found in the SP (Figure , ). At 72 hr after 10 Gy, the percentage of RFP+, Olig2
+− tumor cells in the SP was substantially increased (p < .0001), and at recurrence, the percentage reverted back to that seen in the unirradiated tumors (Figure , ).
+This binary analysis suggests that the cell‐types in the SP, which include some tumor cells derived from the original RCAS‐infected cells, are relatively radioresistant as compared to the cell types in the MP, including Olig2‐expressing tumor cells and other tumor cells derived from the original RCAS‐infected cells. For a deeper understanding of the tumor cell types involved, we needed to go beyond this binary phenotype analysis.
+
+3.2
+
+## Single‐cell RNA sequencing of tumors identifies cell types
+We applied sciRNA‐seq to 15 archived, frozen samples that were also used in Figure , which consisted of normal brain and tumor‐containing hemisphere for each of three treatment conditions: no IR and 8 ± 2 hr and approximately 72 hr after 10 Gy ( ). Normal brain samples were obtained from the uninjected, non‐tumor‐bearing side of the brain of tumor‐bearing mice. On this sciRNA‐seq data, we applied UMAP embedding for dimensionality reduction and Louvain clustering for assigning clusters, which constitute cell types. The data included 15,648 cells with a median number of unique transcripts of 589.
+We first examined the data as a whole, that is, the union of all 6 conditions. UMAP embedding resulted in 5 superclusters, which were well separated suggesting very different cell types (Figure ). Using cell type‐specific markers, these superclusters were identified as distinct, major cell types of the brain: astrocytes expressing Gja1, myeloid cells expressing Csf1r, neurons expressing Snap25 and Gad1 (GABAergic) or Slc17a7 (Glutamatergic), oligodendrocytes expressing Mog, and oligodendrocyte precursor cells (OPC)/tumor expressing Pdgfra (Figure ) (Butovsky et al., ; Clarke et al., ; Ginhoux et al., ; Nishiyama, Komitova, Suzuki, & Zhu, ; Scolding et al., ; Tasic et al., ; Zhang et al., ). Adjacent to the OPC/tumor cluster is the endothelial cell cluster expressing Flt1 and Igfbp7, suggesting a similar expression profile. Consistent with the histology of these tumors and human GBM, T cells were not found. The OPC/tumor supercluster could be subdivided into immature oligodendrocytes/OPC expressing Enpp6 and OPC/tumor expressing the RCAS viral transcript (Figure ) (Nishiyama et al., ; Tasic et al., ). The assignment of tumor is supported by the much higher representation of the OPC/tumor cluster in tumor as compared to normal brain samples, as expected (Figure ). In contrast, normal cell types, such as endothelial cells and immature oligodendrocytes, are fairly evenly represented in normal brain and tumor samples.
+ The OPC/tumor portion of the supercluster consists of multiple expression profiles (Clusters 1, 2, 3, 11, 14, 16, and 22; Figure ), and RCAS expression is different between these clusters. Cluster 14 has the highest fraction of cells expressing RCAS, while the immature oligodendrocyte/OPC cluster has the lowest (Figure ). This could be an artifact of random sampling of the RCAS transcript caused by the sparsity of scRNA‐seq data. Alternatively, RCAS expression may affect or reflect the overall expression profile. So, clusters with different expression profiles have varying RCAS transcript levels. However, it is also possible that individual clusters are actually composed of some cells expressing RCAS, which are progeny of the original RCAS‐infected cells, and others that do not express RCAS, but have similar expression profiles to those that do. Consistent with this interpretation, relatively rare cells from normal brain samples, which do not express RCAS, cluster with tumor cells, suggesting similar expression patterns between these cells. (Figure ). This is also consistent with our previous finding that tumor cells recruit and cause an expansion of rare normal cell‐types with a tumor‐like phenotype (Fomchenko et al., ).
+Overall, sciRNA‐seq along with UMAP embedding and Louvain clustering is very effective at identifying different cell‐types and illuminating the relationships between them in our mouse glioma model. Additionally, we found that rare cells with similar expression patterns to tumor cells exist in normal brain. In the context of tumor, there may be an expansion of these tumor‐like cells that are not derived from the original RCAS‐infected cells.
+
+3.3
+
+## Tumor cell clusters are differentially sensitive to radiation
+Next, we examined the effect of IR on the gene expression of cells in the OPC/tumor supercluster (Figure ). In tumor samples, a left‐to‐right shift between no IR (Figure , lower left panel) and 8 hr after IR (Figure , lower middle panel) occurred, suggesting expression changes shortly after IR. This was followed by a reduction in the number of tumor cells recovered at 72 hr after IR, which is likely due to massive cell death (Figure , lower right panel). No clear differences were seen in the normal brain samples (Figure , upper panels).
+ To determine what expression changes drive the left‐to‐right shift, we trained a support vector machine (SVM) to determine the best line for dividing the OPC/tumor supercluster into left and right parts. This approach keeps cells with similar expression patterns together irrespective of which treatment group (no IR or 8 hr after IR) they originated from (Figure ). We then applied Gene Set Enrichment Analysis (GSEA) to determine which gene sets were enriched at 8 hr after IR (right) as compared to no IR (left). The enriched gene sets were associated with senescence, p53‐mediated DNA damage signaling response, and cell cycle arrest (Figure ). This was consistent with our previous study of early effects of IR on this tumor model using bulk polysome RNA sequencing of Olig2‐expressing cells (Halliday et al., ).
+At 72 hr, most OPC/tumor cells are lost, but three clusters, 17 (immature oligodendrocytes and OPC), 23 and 22, remain significantly populated (Figure ). Clusters 17 and 23 are adjacent to each other suggesting similar expression profiles, whereas Cluster 22 is on the opposite side of the supercluster suggesting a different expression profile. Cluster 22 is highly proliferative at baseline as indicated by high expression of the cell cycle genes, Marker of Proliferation Ki67 (Mki67) and Topoisomerase 2a (Top2a), whereas Clusters 17 and 23 are not (Figure ). Additionally, IR either induces proliferation or selects for cells that are proliferative since the fraction of cells expressing Mki67 and Top2a in Cluster 22 increases from no IR to 8 and 72 hr after IR. High Mobility Group AT‐Hook 2 (Hmga2), which is involved in DNA damage signaling, is highly upregulated shortly after IR in most OPC/tumor clusters, with the exception of Clusters 17 and 23 (Figure ) (Fedele et al., ). At 72 hr, clusters previously expressing Hmga2 are lost, with the exception of Cluster 22, which no longer expresses Hmga2. Hmga2 appears to be a marker of impending cell death, suggesting that Clusters 17, 23, and the remaining portion of 22, which do not express Hmga2 at 72 hr are likely to survive to repopulate the tumor. By contrast, RCAS expression remains similar between treatment groups in all three clusters. It is unclear what fraction of these surviving clusters are composed of tumor cells, but the lower bound is the fraction or RCAS‐expressing cells, which is lowest in Cluster 17 and highest in Cluster 23. These 3 clusters fall towards the lower end of the RCAS‐expression spectrum suggesting that they may have a smaller fraction of RCAS‐derived tumor cells than other clusters, such as 14 and 16, which are lost after radiation.
+Taken together, IR results in early tumor expression shifts toward the DNA damage signaling response and cell cycle arrest. This is followed by cell death leaving two radioresistant groups of cells at 72 hr after IR. One group is highly proliferative (Cluster 22) and the other (Clusters 17 and 23), which includes immature oligodendrocytes and OPC, is not, but both groups are at least partially composed of RCAS‐expressing tumor cells. These groups are likely to survive and one or both is likely to be the source of recurrent tumor.
+
+3.4
+
+## Gene ontology (GO) term enrichment and master regulator analyses reveal biological functions and drivers of the surviving cell clusters
+To further characterize the surviving cell clusters, we performed GO term enrichment analysis (GOTEA) to extract the biological properties distinguishing each cluster and Master Regulator Analysis (MRA) for in silico identification of the master regulators activated within each cluster. In this context, master regulators (MR) are proteins, mostly transcription factors (TF), which work as mechanistic regulators of the transcriptional signatures that define distinct tumor phenotypes (e.g., proneural vs. mesenchymal). This MRA approach compensates for the sparse sequence coverage inherent in scRNA‐seq (Methods) (Frattini et al., ; Mall et al., ).
+GOTEA confirmed that Cluster 17 includes OPC and immature oligodendrocytes, as the enriched gene sets were associated with oligodendrocyte development and myelination ( ). Enriched gene sets for Cluster 23 were associated with neurogenesis and neuronal functions including dendrite and synapse development, suggesting this cluster is neural precursor cells or NG2/polydendrocytes ( ). Although in the overall UMAP embedding Clusters 17 and 23 are separated from the mature oligodendrocyte cluster, when these three clusters are removed from the context of all other clusters and re‐embedded by UMAP, these three clusters are found to be contiguous (Figures and ). This shows a continuum of expression profiles between these clusters and suggests that they belong to the same cell lineage, consistent with the GOTEA. There is also a separate smaller cluster that expresses Mog and Snap25, which are markers of mature oligodendrocytes and neurons, respectively, and likely represents doublets and/or collisions.
+ Consistent with expression of Mki67 and Top2a in Cluster 22, enriched gene sets for this cluster were associated with proliferation, including DNA replication and mitosis ( ). Importantly, other associations were with stemness and early development (including regulation of stem cell proliferation), DNA damage repair, apoptosis, angiogenesis, and steroid signaling.
+MRA showed that the MRs of each cluster were consistent with their enriched biological functions by GOTEA. Among the TFs that exhibit MR activity in Cluster 17, were Sirtuin 2 (Sirt2), an NAD‐dependent histone deacetylase specifically expressed in oligodendrocytes to modulate the cytoskeleton during differentiation and maturation and the NK2 Homeobox 2 (Nkx2‐2) homeodomain TF, a well‐known MR of cell fate determination and differentiation in the oligodendrocyte lineage ( ) (Qi et al., ; Tang & Chua, ). The MRs activated in Cluster 23 included, TOX High Mobility Group Box Family Member 3 (Tox3), a TF regulating neural progenitor identity, and Forkhead Box P2 (Foxp2), a TF crucial for specialized neuronal activities ( ) (Enard, ; Sahu et al., ). Finally, the TFs acting as specific MRs of Cluster 22 include TEA Domain Transcription Factor 1 (Tead1) and Smad family member 3 (Smad3) (Figure ). These TFs are activated downstream of the Hippo signaling pathway by binding YAP/TAZ. Yap1/Tead1 expression has been shown to promote oncogenesis and radioresistance, increase proliferation, and confer cancer stem cell‐like traits, which are the phenotypes associated with the enriched gene sets of this cluster (Fernandez‐L et al., ; Zanconato, Cordenonsi, & Piccolo, ).
+Taken together, Clusters 17 and 23 are pre‐oligodendroglial and pre‐neuronal, respectively, and fall along the cell lineage leading to mature oligodendrocytes. In contrast, Cluster 22 has an expression profile suggesting vascular and stem‐like characteristics, which may at least in part be contributed to by YAP/TAZ signaling via Tead1 and Smad3. Therefore, at least some of Cluster 22 may correspond to the SP. However, it is still unclear if Cluster 22 also includes cells in the MP or if some of the cells in the SP are also in Clusters 17 and 23.
+
+3.5
+
+## Histologic analysis identifies the location of the radioresistant tumor cells at 72 hr
+For more information about the surviving cell types, we histologically examined tumor without IR, at 72 hr after IR, and at recurrence. At 72 hr after IR, the tumor density was 3 to 4‐fold lower than in unirradiated tumor, consistent with the loss of most cells in OPC/tumor clusters in our scRNA‐seq data at this time point (Figures and ). At recurrence, the density returned to similar levels as unirradiated tumor. Expression of OLIG2 and Ki67 followed the same trends as the tumor density with a reduction in cells staining for these proteins at 72 hr, but not complete loss (Figure ). Nestin, which is expressed by neural stem and progenitor cells, remained at approximately the same level at all three time points. Nestin staining is primarily perivascular or endothelial, while OLIG2 staining is excluded from this region. Ki67 staining is in both regions, but is higher in the PVN or endothelial cells at 72 hr after IR.
+ To determine the location of the surviving radioresistant clusters including oligodendrocyte and neuronal progenitors (17 and 23) and the highly proliferative vascular/stem‐like cells (22), we compared tumors without IR and at 72 hr after IR by double immunofluorescence staining using antibodies to OLIG2 and Ki67 (Figure ). We found that the most radioresistant population was OLIG2−/Ki67−, distributed throughout the tumor, and likely enriched in cells of the tumor microenvironment such as macrophages and endothelial cells, which is also seen in the scRNA‐seq data (data not shown). At 72 hr, these cells were viable, offsetting tumor cell loss, and made up as much as 45% of total cells (Figure , ). The most radiosensitive population was OLIG2+/Ki67+, was excluded from the PVN and vasculature, comprised 40% of total cells in unirradiated tumors, and showed nearly a 95% loss at 72 hr after IR (Figure , ). The two remaining populations were relatively radioresistant since they did not follow the general trend towards the loss of OLIG2+ and Ki67+ cells (compare to ). The OLIG2+/Ki67− population, was distributed throughout tumors and comprised 40% of total cells both before and after IR, consistent with the nonproliferating oligodendrocyte and neuronal progenitors of Clusters 17 and 23 (Figure , ). The OLIG2−/Ki67+ population was rare (3–4% both before and after RT), preferentially in the PVN or vasculature, and, by virtue of Ki67 levels, was likely to be enriched in the proliferative, vascular/stem‐like cells of Cluster 22 (Figure , ). Consistent with this interpretation and the MRA, which suggested that Cluster 22 was enriched in Tead1/Yap signaling, YAP1 staining was enriched in both the nuclei and cytoplasm of cells in the PVN or endothelial where it co‐stains with Nestin, suggesting that YAP1 is actively directing transcription there ( ).
+Taken together, at 72 hr after IR, the OLIG2+ tumor bulk is lost, but the OLIG2−/Nestin+/Ki67+ tumor cells of the PVN or endothelium survive. This is consistent with the SP analysis which showed a relative loss of the Olig2‐GFP expressing cells and enrichment of RFP+ cells. Since these cells are Ki67+ and YAP1+, the surviving cells of Cluster 22 are likely to be these cells of the PVN, but are not endothelial cells, which are in Cluster 26. It is not clear, though, that all of Cluster 22 are tumor cells derived from the original RCAS‐infected cells.
+
+3.6
+
+## Myeloid cell populations in tumor are affected by radiation
+Finally, we examined the early effects of IR on normal cell types. Normal cell clusters were mostly unaffected by radiation, with the exception of the myeloid cell supercluster (Figure ). To understand the radiation‐induced changes, this supercluster was removed from the context of all other clusters, re‐embedded by UMAP, and reclustered, resulting in four new clusters (Figure ).
+ We used previously published bulk RNA‐seq data from sorted naïve microglia, blood monocytes, tumor‐associated microglia, and bone marrow‐derived macrophages (BMDM) to identify markers to assign cell types to these clusters. We chose four commonly used myeloid markers that are dynamically regulated in the myeloid lineage in the context of tumor, Csf1r, Ptprc, Tmem119, and Ctsb (Figure ) (Bennett et al., ; Butovsky et al., ; Chen et al., ; Ginhoux et al., ; Sevenich, ). Csfr1 and Tmem119 are highly expressed by naïve microglia in normal brain, but are downregulated in tumor‐associated microglia, whereas Ptprc is most highly expressed in naïve monocytes, but is expressed at lower levels in the other myeloid cell types (Figure ). Expression of Ctsb is low in naïve myeloid cells but increased in both tumor‐associated microglia and BMDM. Based on these observations, we conclude that Cluster A(Csf1r
+int/Ptprc
+hi/Ctsb
+hi/Tmem119
+Lo) consists of tumor‐associated microglia and tumor‐infiltrating BMDM. Cluster B, which expresses high levels of Tmem119 and low levels of Ptprc and Ctsb, is resting microglia found outside of the tumor area. Cluster C, which expresses Ctsb and has RCAS transcripts, is activated, phagocytic macrophages and microglia, which have phagocytosed nuclei of RCAS‐expressing tumor cells and thereby contaminated their nuclei with mRNA from those cells. Similarly, cluster D, which expresses high levels of Csfr1 and Ctsb and has neuronal marker (e.g., Snap25) transcripts, is a subpopulation of phagocytic microglia residing outside the tumor, pruning dying or proliferating neural progenitors in the hippocampus or subventricular zone (SVZ).
+In the normal brain, resting microglia comprise the vast majority of the myeloid cell population with little variation without IR, or at 8 or at 72 hr after IR, but tumor is more dynamic (Figure ). Before IR similarly to normal brain, the majority of myeloid cells in the tumor are resting microglia. However, at 8 hr after IR, there is an influx of activated, but not phagocytic, tumor‐associated microglia and BMDM, and by 72 hr after IR, these cell‐types are the majority of this lineage in the tumor. Cluster C, increases at 8 hr as tumor cells are dying and then decreases again by 72 hr when most tumor cells have been lost from the tumor samples. Cluster D appears to increase by 72 hr after IR. The slower kinetics may be due to neurons or neuronal progenitors having slower kinetics of cell death as compared to tumor cells in response to radiation.
+To further delineate whether activated microglia and/or BMDM are the cell‐types in Cluster C phagocytizing tumor cells, we used surface markers to distinguish microglia (CD11b+CD45Lo), macrophages (CD11b+CD45Hi), newly infiltrated monocytes (CD45HiCD11b+Ly6g−Ly6cHi), and neutrophils (CD11b+Ly6g+Ly6cInt) by flow cytometry on tumors from a mouse model in which tumor cells derived from the original RCAS‐infected cells express RFP (Figure , ). We examined microglia and BMDM for RFP‐positivity, which would indicate phagocytosis of RFP‐expressing tumor cells. Without IR, the majority of RFP‐positive phagocytizing cells are tumor‐associated BMDM, and account for about 1.2% of total myeloid cells (Figure ). At 8 hr after IR, these phagocytizing BMDM diminish in number, but microglia appear to increase their phagocytic capability. Consistent with the scRNA‐seq data, the combined percentage of phagocytizing cells from microglia and BMDM populations peaked at 8 hr after IR at about 1.7% of total myeloid cells (Figure ). At 72 hr, phagocytosis had subsided in both populations.
+Taken together, there are at least four myeloid cell subpopulations that are identifiable by scRNA‐seq. These subpopulations consist of tumor‐associated microglia and BMDM that either are not (Cluster A) or are (Cluster C) phagocytosing tumor cells and non‐tumor‐associated resting (Cluster B) and phagocytosing (Cluster D) microglia. In normal brain without or after IR, the percentages of these subpopulations, which are dominated by resting microglia, are constant. In tumor, the percentages of tumor‐associated, activated microglia and BMDM (Clusters A and C) start higher and increase dramatically between samples without IR and at 8 and 72 hr after IR at the expense of resting microglia (Cluster B). Phagocytosis of tumor cells by tumor‐associated, activated microglia and BMDM peaks at 8 hr after IR, but the largest percentage of tumor‐associated, activated microglia and BMDM (phagocytosing or not) is at 72 hr after IR. At this point, most are not phagocytosing tumor cells, likely because very few tumor cells remain.
+
+4
+
+## DISCUSSION
+Glioma cells with stem‐like character are thought to be radioresistant and give rise to recurrences after therapy. Consistent with previous data, we found that SP cells in our mouse gliomas are relatively resistant to 10 Gy of IR. However, both the SP and MP are mixtures of cell‐types. To dissect out and measure radiation response in these cell‐types we turned to scRNA‐seq, which we applied to nuclear RNA. In this study, we applied nuclear scRNA‐seq to archived samples originally subjected to SP analysis as complementary approaches to better understand the connection between radioresistance and stemness in mouse models of glioma.
+Nuclear scRNA‐seq suggests that these mouse gliomas are comprised of multiple expression subtypes, which seem to be similar to rare cell types found in the normal brain. The bulk of tumor cells are predictably radiosensitive based on expression patterns. The radioresistant cells were divided between two distinct expression patterns. The majority are similar to oligodendrocyte and neural progenitors with low proliferation rates (Clusters 17 and 23). A small minority are highly proliferative with vascular and stem‐like expression patterns that preferentially occupy the PVN (Cluster 22). This cluster is characterized by several critical transcriptional networks including that of Yap1/Tead1, which is known to promote oncogenesis, proliferation, and radioresistance. Unfortunately, due to the sparsity of the scRNA‐seq data, we were unable to directly determine the relationship between the radioresistant clusters and the SP, because appropriate markers were not represented in the scRNA‐seq dataset.
+Importantly, the results of our study are consistent with human GBM data. The RCAS‐PDGFB‐driven gliomas in this study closely resemble human proneural GBM subtype (Herting et al., ). We have previously demonstrated that upon irradiation, murine PDGFB‐driven gliomas undergo a proneural to mesenchymal transition (Halliday et al., ). Bhat et al., showed that when RCAS‐PDGFB was overexpressed in combination with TAZ/TEAD overexpression, the resultant tumors had a mesenchymal signature, providing direct evidence of TAZ/TEAD playing a key role in driving the proneural to mesenchymal transition (Bhat et al., ). More specifically, recent evidence shows that upon irradiation, human proneural glioma stem cells undergo a mesenchymal transition and upregulate YAP/TAZ pathway genes (Minata et al., ). This is very similar to what we report in the current manuscript using our murine model.
+The expression patterns of non‐tumor cells are unaffected by 10 Gy of IR over the time course we examined, with the exception of the myeloid cell lineage. In normal brain, this lineage predominantly consists of microglia, and this is not significantly affected by IR. However, tumor within the brain results in the presence of BMDM, and IR activates microglia and increases the number of BMDM significantly. IR results in the presence of phagocytic cells, peaking at 8 hr after IR, that have engulfed tumor cells (by virtue of contaminating RCAS mRNA), and a separate group of phagocytic cells at 72 hr after IR that have engulfed neural progenitors.
+The notion that tumor stem cells are relatively nonproliferating is based on normal tissue. In this particular mouse glioma model, the majority of radioresistant cells are nonproliferating. However, a smaller population of radioresistant cells exists that is highly proliferative and, by gene expression patterns, stem‐like. This study does not address what specific cell‐type gives rise to recurrences, but a highly proliferative cell population is likely to contribute. This highly proliferative population may be specifically vulnerable to intervention based on its unique signaling dependencies. Our data suggest that YAP/TEAD signaling may be a candidate target for intervention for gliomas in the context of radiation.
+
+## AUTHOR CONTRIBUTIONS
+Conceptualization: Jes Alexander, Dolores Hambardzumyan, Antonio Iavarone, Jay Shendure, and Eric C. Holland; software: Jes Alexander, Andrew J. Hill, Francesca Pia Caruso, Pietro Pugliese, and Zhihong Chen; formal analysis: Jes Alexander, Francesca Pia Caruso, Pietro Pugliese, and Zhihong Chen; investigation: Jes Alexander, Quincey C. LaPlant, Frank Szulzewsky, PJC, Francesca Pia Caruso, Pietro Pugliese, Zhihong Chen, Florence Chardon, Cailyn Spurrell, Dakota Ahrendsen, KP, and Alexander Pietras; writing—original draft: Jes Alexander, Quincey C. LaPlant, Frank Szulzewsky, Francesca Pia Caruso, Pietro Pugliese, Zhihong Chen, Dolores Hambardzumyan, Antonio Iavarone, Jay Shendure, and Eric C. Holland; writing—review and editing: Jes Alexander, Quincey C. LaPlant, Siobhan S. Pattwell, Frank Szulzewsky, Francesca Pia Caruso, Pietro Pugliese, Zhihong Chen, Dolores Hambardzumyan, Antonio Iavarone, Jay Shendure, and Eric C. Holland; visualization: Jes Alexander, Quincey C. LaPlant, Frank Szulzewsky, Francesca Pia Caruso, Pietro Pugliese, and Zhihong Chen; supervision: Lea M. Starita, Dolores Hambardzumyan, Antonio Iavarone, Jay Shendure, and Eric C. Holland; funding acquisition: Lea M. Starita, Jay Shendure, and Eric C. Holland.
+
+## Supporting information
+
+Appendix
+S1. Supporting information
+Click here for additional data file.
+
+## ACKNOWLEDGMENT
+Sonali Arora provided helpful comments.
+
+## DATA AVAILABILITY STATEMENT
+sciRNA‐seq data availability: All sciRNA‐seq data have been deposited in NCBI's Gene Expression Omnibus and are accessible through GEO Series accession number GSE142168.

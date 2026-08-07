@@ -1,0 +1,198 @@
+319nihpaMagnetic resonance imagingMagn Reson ImagingPMC119217851192178511921785NIHMS20570763918147910.1016/j.mri.2024.110222Longitudinal registration of T1-weighted breast MRI: A registration algorithm (FLIRE) and clinical application
+TongMichelle W YuHon J Sjaastad AndreassenMaren M LoubrieStephane Rodríguez-SotoAna E SeibertTyler M Rakow-PennerRebecca DaleAnders M aDepartment of Bioengineering, University of California San Diego, La Jolla, CA, USAbDepartment of Radiology, University of California San Diego, La Jolla, CA, USAcSection of Oncology, Drammen Hospital, Vestre Viken Hospital Trust, Drammen, NorwaydDepartment of Radiation Medicine, University of California San Diego, La Jolla, CA, USAeDepartment of Neurosciences, University of California San Diego, La Jolla, CA, USA*Corresponding author at: 9500 Gilman Drive MC 0841, La Jolla, CA 92093, USA. mwtong@ucsd.edu (M.W. Tong).
+22820241131102221102221112025This is an open access article under the CC BY-NC license (http://creativecommons.org/licenses/by-nc/4.0/).The publisher's version of this article is available at Magn Reson Imaging
+
+## Abstract
+
+## Purpose:
+MRI is commonly used to aid breast cancer diagnosis and treatment evaluation. For patients with breast cancer, neoadjuvant chemotherapy aims to reduce the tumor size and extent of surgery necessary. The current clinical standard to measure breast tumor response on MRI uses the longest tumor diameter. Radiologists also account for other tissue properties including tumor contrast or pharmacokinetics in their assessment. Accurate longitudinal image registration of breast tissue is critical to properly compare response to treatment at different timepoints.
+
+## Methods:
+In this study, a deformable Fast Longitudinal Image Registration (FLIRE) algorithm was optimized for breast tissue. FLIRE was then compared to the publicly available software packages with high accuracy (DRAMMS) and fast runtime (Elastix). Patients included in the study received longitudinal T1-weighted MRI without fat saturation at two to six timepoints as part of asymptomatic screening (n = 27) or throughout neoadjuvant chemotherapy treatment (n = 32). T1-weighted images were registered to the first timepoint with each algorithm.
+
+## Results:
+Alignment and runtime performance were compared using two-way repeated measure ANOVAs (P < 0.05). Across all patients, Pearson’s correlation coefficient across the entire image volume was slightly higher with statistical significance and had less variance for FLIRE (0.98 ± 0.01 stdev) compared to DRAMMS (0.97 ± 0.03 stdev) and Elastix (0.95 ± 0.03 stdev). Additionally, FLIRE runtime (10.0 mins) was 9.0 times faster than DRAMMS (89.6 mins) and 1.5 times faster than Elastix (14.5 mins) on a Linux workstation.
+
+## Conclusion:
+FLIRE demonstrates promise for time-sensitive clinical applications due to its accuracy, robustness across patients and timepoints, and speed.
+
+Keywords: Non-linear, Registration, Longitudinal, Breast, T1, Neoadjuvant chemotherapy
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptyesis-preprintnois-journal-matternois-scannednois-retractednohas-published-versionnoIssue date 2024 Nov.
+
+1.
+
+## Introduction
+1.1.
+
+## Background
+Breast registration algorithms are commonly used to correct for movement within one patient visit on the timescale of minutes [ , ], and to align Dynamic Contrast-Enhanced (DCE) MR images which present signal enhancement patterns indicative of tumor malignancy [ , ]. Prior work on longitudinal registration of DCE-MR suggests registration may enable the identification of voxel-wise markers such as tumor volumes, contrast changes, and textural patterns that can improve upon conventional tumor assessment approaches [ ]. It stands to reason, longitudinal registration of other MR images acquired during the scan session have similar value.
+Longitudinal breast MRI is primarily acquired in two patient populations: for cancer screening and for assessment of cancer treatment response. Breast MRI with and without IV contrast is indicated for annual surveillance of asymptomatic women with ≥20% lifetime risk of developing breast cancer [ , ]. Patients diagnosed with early stage and locally advanced breast cancer receive neoadjuvant chemotherapy (NAC) to reduce tumor size, which increases the opportunity for breast conservation [ – ]. Commonly, Dynamic Contrast-Enhanced MRI and sometimes diffusion-weighted imaging (DWI) are used to evaluate tumor size, aid surgical planning, and improve predictions of long-term outcomes from chemotherapy response [ , – ]. For both patient populations T1-weighted breast MRI without fat saturation is part of the standard clinical procedure and has low tumor contrast, motivating registration of these images in this study. Once a deformation field is determined, the spatial mapping can be applied to DCE and DWI images as well as explored in case studies in this work.
+Image registration of breast tissue is challenging because it involves the alignment of highly deformable soft tissue that is inhomogeneous and anisotropic [ ]. Large deformations in breast tissue relating to breast positioning, weight change, and tumor response to treatment between time points may arise [ ]. Longitudinal breast registration algorithms must correct for changes in breast positioning while maintaining local heterogenous differences within cancerous tissue for observation. For breast registration, rigid and affine registrations are often applied to the entire volume to adjust for global displacements before nonlinear methods are used to correct smaller displacements [ , – ]. Performance evaluation commonly uses intensity metrics such as correlation and mutual information between registered images [ – , ] and Euclidian distance between anatomical features such as blood vessels, nipples, fibro-glandular tissue, and adipose tissue [ ]. However, breast images have limited reliable geometric features to use as control points across time [ ].
+Accurate image registration allows for voxel-wise analysis, but widespread adoption of registration techniques is limited due to challenges determining hyper-parameters that are validated for each application, long run-times, and requirement of intensive computation power [ ]. Despite these challenges, accurate image alignment is pertinent for assessment of medical images, especially qualitative methods that perform voxel-wise analysis.
+
+1.2.
+
+## Related work
+Publicly available software packages that have validated parameters for T1-weighted breast MRI registration include Ou et al.’s DRAMMS [ ]: Deformable Registration via Attribute Matching and Mutual-Saliency Weighting algorithm and Klein and Staring et al.’s Elastix algorithm [ ]. DRAMMS has demonstrated the highest accuracy among six signal intensity-based methods, although a drawback is its long runtime [ ]. Elastix [ ] performed well in terms of both image alignment and had shorter runtimes [ ]. Since breast tissue lacks reliable rigid landmarks, these validated algorithms will be the basis for performance assessment.
+
+1.3.
+
+## Objectives
+Objectives of this study are as follows.
+This study presents a Fast Longitudinal Image REgistration (FLIRE) algorithm optimized for 3D intrasubject registration of longitudinal breast MRI. Longitudinal breast registration aids in the quantification of cancer tissue properties for screening and treatment recommendation.
+FLIRE registration performance was evaluated by comparison of accuracy, diagnostic quality, and speed with two publicly available methods (DRAMMS and Elastix) that yielded acceptable breast registration in prior studies.
+Case studies are shown to demonstrate the usage of registration for patients with longitudinal tumor changes.
+
+2.
+
+## Methods
+2.1.
+
+## Subject eligibility and cohorts
+After approval from the Institutional Review Board, this retrospective study considered patients who received breast MRI from UC San Diego between 2016 and 2019. The study included all patients (n = 59) who had T1-weighted breast images acquired at multiple timepoints without significant breathing artifacts ( ). Artifacts due to motion from respiration were visually identified by ringing artifacts near the chest wall. These patients received longitudinal MRI as part of an asymptomatic screening population (n = 27) or population undergoing NAC treatment with biopsy confirmed cancer diagnosis (n = 32). Across all patients, there were a total of 206 timepoints consisting of a baseline visit (n = 59) and two to six follow-up visits (n = 147). Patients were aged 46 ± 12 years old, ranging from 20 to 68 years old.
+ For statistical analysis, a subset of patients were identified to evaluate the effect of duration between registered scans and NAC treatment on registration performance. A total of 32 patients had four timepoints acquired at approximately 1.5, 3.5, and 4.5 months from baseline. Eight of these patients were part of the asymptomatic screening cohort and 24 patients were undergoing NAC with timepoints corresponding to before-treatment, early-treatment, mid-treatment, and prior to surgery.
+For a case study, three patients undergoing NAC with no, moderate, and complete treatment responses were selected to assess registration of breast tissue with tumor over the course of chemotherapy. NAC patient’s complete multiparametric MRI exam included T1-weighted images without fat saturation for image alignment, in addition to DCE and DWI for tumor evaluation. Restriction Spectrum Imaging (RSI) parametric maps which present high tumor contrast were generated from DWI [ ] during neoadjuvant therapy to demonstrate a clinical example of quantitative assessment of tumor response aided by image registration.
+
+2.2.
+
+## MRI acquisition
+Data were acquired using an 8-channel breast-coil array on two identical 3 T scanners (MR750, DV25–26, GE Healthcare, Milwaukee, U. S.) with the standard clinical protocol at our institution. A 3D spoiled gradient echo pulse sequence was used to acquire T1-weighted images in the axial plane (TE = 2.6–2.7/4.2 ms, TR = 5.5–5.7/7.2 ms, FOV = 260–360 mm2, Flip Angle = 1 5°, Acquisition Matrix = 512 × 400, Reconstruction Matrix = 512 × 512, voxel size = 0.51–0.70 × 0.51–0.70 × 2.4 mm3) ( ).
+
+2.3.
+
+## Registration of longitudinal breast MR images
+Longitudinal T1-weighted images from follow-up visits (moving) for each patient were registered to baseline images (target) using FLIRE, DRAMMS [ ], and Elastix [ ]. A summary and comparison of each algorithm is illustrated in . For patients whose baseline and follow-up image dimensions differed, follow-up images were resampled to the baseline image. FLIRE registration was run on MATLAB (version 2020a) while DRAMMS (version 1.5.1) and Elastix (version 5.0.1) were run from the command line. All analysis was run on OS CentOS 7.9, Intel Xeon E5–2680 v3 2.5 GHz, 1 CPU with 24 cores and 48 threads, 512 GB RAM.
+ 2.3.1.
+
+## FLIRE registration algorithm
+FLIRE registration includes two preprocessing steps. The moving and target volumes were normalized by the 98th percentile signal intensity in the respective image to compare across timepoints. Normalization helps to regularize images so that the intensities are on a comparable scale, improving algorithm stability, convergence, and performance [ ].
+Additionally, linear registration was performed to account for large global displacements that can be described by translations, rotations, scaling, and shearing. The initial displacement field was estimated from the weighted sum of a (1) rigid transformation of the entire volume, (2) an affine registration of the left breast, and (3) an affine registration of the right breast ( ). The initial displacement field was used as an input to the nonlinear algorithm such that a smooth final net displacement field was calculated.
+ The deformable algorithm FLIRE uses was adapted from a non-linear registration technique for brain by Holland and Dale [ ]. The algorithm calculates three displacement fields corresponding to movement in each dimension for each voxel using signal intensity and Gaussian smoothing. Gaussian smoothing heavily blurs both the moving and target images by convolution with an isotropic Gaussian kernel of standard deviation (σgaussian). Smoothing is reduced in each successive iteration so that smaller differences in signal intensity become distinguishable. This technique aligns the most prominent signal intensity features before tuning finer details, which reduces the likelihood of converging to a suboptimal solution. The loss function minimizes differences in signal intensity and accounts for intensity nonuniformity that arises during acquisition through iterative unsmoothing. Causes of intensity variation include RF-field inhomogeneities, magnetic susceptibility, and receiver coil sensitivity [ ]. The loss function can be described as follows and was minimized using the biconjugate gradients stabilized (Bi-CGSTAB) method described by Holland and Dale [ ].
+
+fu1→,⋯,uN→=1NΣi=1Nmiλ0Sri→+u→i−Tri→2+λ1ui2+λ2∇→uix2+∇→uiy2+∇→uiz2
+where is the displacement at each voxel, , , are the regularization terms, is the target image, is the moving image, is the number of voxels, is the location of the center of the voxel, voxel weighting term. Once the loss is minimized, the deformation field is back calculated to determine the net displacement field that best aligns the moving and target images. The algorithm registers the moving image using cubic spline interpolation. Outputs consist of the registered moving image and displacement field.
+FLIRE parameters for breast tissue were approximated based on experience with similar registration techniques [ ] and refined to correct error cases identified by a radiologist as nondiagnostic and from the correlation coefficient. The optimal amount of smoothing, regularization factors, voxel weighting, and voxel sampling were determined (every 4th voxel was used in the registration, mi = 1 to evenly weight all voxels, σgaussian_moving = σgaussian_target = [ , , , , , , ], λ0 = 1, λ1 = 0, λ2 = [10, 1, 0.1, 0.03, 0.01, 0.003, 0.001]).
+
+2.3.2.
+
+## Reference registration algorithms
+For both reference algorithms, inputs to generate registered moving images consisted of the moving image, target image, and hyperparameters validated for T1-weighted breast images. The overarching implementation of each algorithm consists of signal intensity adjustment, an affine registration, followed by a deformable registration. For simplicity, each registration algorithm name refers to all the steps in their implementation.
+Based on research by Yangming Ou et al. on breast registration using anatomical T1-weighted images, DRAMMS was run with adjusted regularization weight and speed options (−g 0.3 –fast) [ ]. By default, DRAMMS performed N3-based biased field correction and histogram matching to the target image [ ]. After an affine registration using FSL’s flirt tool [ , ], a deformable registration was performed using Gabor attributes and mutual-saliency weighting to register voxels based on geometric texture [ ]. The net displacement field was extracted and applied to follow-up T1-weighted images using cubic spline interpolation.
+Prior to Elastix registration, input volumes were normalized by the 98th percentile signal intensity within the respective volume. Elastix performed sequential affine and elastic registrations of anatomical T1-weighted images using parameters determined in work by Hatef Mehrabian et al. [ ]. Elastix transformix was used to apply the net displacement field to follow-up T1-weighted images. The affine displacement field was applied using a linear interpolation and the elastic registration was applied using cubic spline interpolation.
+
+2.3.3.
+
+## Registration algorithm application case study
+To investigate one clinical application, follow-up images with contrast enhancement of tumors were aligned with the baseline timepoint. For three NAC patients, the displacement field calculated from T1-weighted image registration by FLIRE, was applied to DCE and DWI images. Linear interpolation was utilized to maintain image intensities while correcting displacement.
+
+2.4.
+
+## Assessment of registration methods
+Registration performance between the baseline (target) and follow-up (moving) images were evaluated using visual inspection of output images, image overlays, and correlation plots. Patient breast tissue consists of a mixture of adipose and fibro-glandular tissue that appears as unique pattern in MR images. Registration quality of the internal structure of the breasts was compared using a correlation coefficient (CC) as defined in . CC is sensitive to small intensity differences between images with similar acquisition and has a linear relationship between intensities [ – ]. Meanwhile, mutual information is commonly used for multi-modal registration to compare similarities between different intensity distributions by measuring how much information one variable has about another [ – ]. Structural similarity index metric was calculated to assess texture preservation in images [ , ]. A radiologist with 3 years of post-fellowship experience performed a binary evaluation of the images as diagnostic or nondiagnostic. Computation time to read, intensity match, register, and write images was also compared.
+(1)CC=∑n=1N(Mn−M¯)2×(Tn−T¯)2∑n=1N(Mn−M¯)2×∑n=1N(Tn−T¯)2,(2)M¯=∑n=1NMnN,(3)T¯=∑n=1NTnNCC = normalized correlation coefficient (Pearson’s correlation).
+M = moving volume intensities.
+T = target volume intensities.
+N = total number of voxels.
+
+2.5.
+
+## Statistical analysis
+All statistical analyses were performed using R Studio statistics software (version 1.4.1106 for Windows Mozilla/5.0 [Microsoft Windows 10 Pro, Intel]) [ ]. In order to analyze registration performance and minimize the effect of potential confounds from the duration between visits and the effect of NAC, differences in CCs and runtimes from two subsets of data were evaluated using two-way repeated measures analyses of variance (ANOVA) with Sidak post hoc tests [ ]. The repeated measures were defined to be the registration method and timepoints. Of all registration metrics, CC is best suited for registration of images with the same intensity as opposed to images of different intensity profiles [ , ]. Thus, CCs was used for this portion of analysis.
+Repeated measures ANOVA requires the data have the same number of timepoints and assumes that the data has no significant outliers, meets normality assumptions, and assumptions of sphericity. For subset A and subset B of the data, assumptions were checked using the rstatix package [ ] to identify extreme outliers from points that were 3 times above the third quartile or below the first quartile, quantile-quantile (QQ) plots [ ], and Mauchly’s test of sphericity [ ]. If there were extreme outliers, ANOVA results with and without the outliers was compared. The threshold for significance was set at 0.05. If there were no significant two-way interactions, performance was compared using a pairwise comparison t-test with Bonferroni adjustment. In order to generalize findings from the 2-way repeated measures ANOVA with four timepoints to the entire dataset with 2–6 timepoints, the distribution of the performance metrics was compared.
+
+3.
+
+## Results
+3.1.
+
+## Assessment of metrics
+The mean, standard deviation, and median registration performance metrics for all patients at all visits are reported in . Across 147 registrations, FLIRE achieved the highest image alignment metrics (CC, MI, SSIM) between baseline and registered follow-up signal intensity with the lowest or equivalent standard deviations, which demonstrates both accuracy and precision. The average values of the image alignment metrics suggest images registered with FLIRE are at least comparable and potentially improved compared to DRAMMS and Elastix. The variance in image alignment metrics across all three methodologies indicate FLIRE performed with the most consistency across all registrations and implies FLIRE is robust to input data. FLIRE also had the fastest runtime of the registration algorithms compared. FLIRE ran for an average of 10.0 mins which was 9.0 times faster than DRAMMS and 1.5 times faster than Elastix. To compare with reference methods, runtime was measured as the time elapsed from loading input images to saving the registered moving image.
+ 
+3.2.
+
+## Statistical analysis
+Repeated measures ANOVA of subset A revealed a significant main effect between registration methods (F(2.03,62.8) = 1.43, P = 0.25, ng2 = 0.01) and no effect of timepoint on the CC. Analysis of subset B across all registration methods ( 
+plot a) had the same finding (F (1.93,44.31) = 0.45, P = 0.63, ng2 = 0.004). Pairwise comparison t-test with Bonferroni adjustment found the differences in performance between registration methods were significant (p < 1e-4). Significant effects were consistent with and without using outliers (n = 5 outliers for all patients, n = 4 for NAC patients) in the analysis.
+ For each subset of data: (1) all patients at all visits, (2) all patients with four timepoints, and (3) neoadjuvant chemotherapy patients with four timepoints, the mean, standard deviation, and median performance metrics for each registration method were within one standard deviation. Thus, significant differences in registration method were generalized to the entire dataset and performance for all patients across all registration methods are compared in a boxplot ( 
+plot b). Although DRAMMS and Elastix have outliers performing well below the 25th quartile range, all registration methods significantly improve alignment indicated by CCs. FLIRE CCs consistently indicated good alignment achieving values above 0.91 for all patients which suggests the algorithm is robust to various breast shapes and positions.
+
+3.3.
+
+## Assessment of diagnostic quality
+After excluding outliers defined to be cases with CCs less than 0.89, all registration methods alignment of fibro-glandular parenchymal structures and patterns of the breast were deemed to be of diagnostic quality by a radiologist. compares axial T1-weighted images from one patient acquired at four timepoints with and without registration to the baseline timepoint. Each follow-up timepoint was registered using FLIRE, DRAMMS, and Elastix. The image overlay shows that all algorithms reduced misalignment of both breasts with varied initial displacements relative to each other.
+ Extreme outliers identified in R had CC values below 0.89 and were inspected for diagnostic viability. A total of 5 cases registered with either DRAMMs (n = 3) or Elastix (n = 2) revealed these images included the subdiaphragmatic region with the liver dome in the field of view ( : Patient 1). While the breast tissue was determined to be satisfactory for diagnosis, poor registration of this region led to lower CC values. However, two images registered with Elastix using the hyperparameters optimized by Mehrabian et al. were considered nondiagnostic when artifacts presented at the boundary between tissue and background ( : Patient 2).
+ 
+
+4.
+
+## Discussion
+Our results demonstrated that the FLIRE breast registration algorithm performed as well as publicly available and validated algorithms DRAMMS and Elastix with CC, MI, and SSIM values which had a higher means and the lowest standard deviations. Also, FLIRE had a considerably faster runtime than clinically available breast registration methods. This indicates FLIRE is both accurate, consistent, and fast which is necessary for clinical applications.
+4.1.
+
+## Registration algorithm
+All three algorithms have a similar 3D registration pipeline which involves signal intensity adjustment, a linear registration, and deformable registration but implementation varied. For FLIRE, the decision to normalize images by the 98th percentile signal intensity as opposed to histogram matching was motivated by the fact that similarly acquired images inherently have similar intensity ranges and distributions. Thus for intra-modality registration, normalization can be achieved faster and with less computational requirement than histogram matching but likely will perform worse for inter-modality registration of images with significantly different acquisitions.
+For breast, the initial 3D linear registration was critical due to the potential for significant shear, translation, and rotation of breast tissue. As movement in each breast is independent and there is a lack of physiological control points, FLIRE’s pipeline includes the weighted sum of independent registrations that algin the left and right breast separately. This greatly improved FLIRE robustness to a wide range of movement especially when the left and right breast shifted in opposite directions at the follow-up visit as seen in , timepoint 4. Overcoming this challenge enables the evaluation of bilateral breast MR which improves image interpretability, can be easily acquired, and increases the likelihood of contralateral breast cancer detection by 5% when compared with unilateral breast MR [ ]. On the other hand, non-linear algorithms were well suited for smaller displacements because the range of motion was less constrained, and the solutions were sensitive to the input position due to the presence of multiple local minima during optimization. To avoid sub-optimal minima and converge to an optimal solution, a linear registration was performed to correct large displacements and provide robustness to various breast shapes and positions, followed by a non-linear algorithm to align fine detail within a smaller search area. Additionally, an initial linear registration can save time and reduce computational power needed as there are less parameters to fit.
+Since the reference algorithms are packaged for public usage, the purpose of this analysis was to evaluate each algorithm as a ready-made tool for breast registration. In this study, images were acquired with a similar pulse sequence (T1-weighted without fat saturation) and resolution (0.51–0.70 × 0.51–0.70 × 2.4 mm3) although at a greater field strength 3 T and in the axial plane. The patient cohort (n = 59) in this study was also larger and more diverse consisting of individuals who were either asymptomatic or undergoing NAC with two to six follow-up visits. For comparison, Ou’s work on DRAMMS used 0.70 × 0.70 × 2.0 mm3 resolution images acquired at 1.5 T across 14 patients with tumors at two timepoints [ ]. Mehrabian’s work on Elastix used 0.49 × 0.49 × 3 mm3 images acquired in the sagittal plane at 1.5 T across 13 patients with breast tumors and lesions at two timepoints [ ]. Similarities in the images suggests the parameters from Mehrabian and Ou’s studies can be generalized to this study. Further analysis of the modular effect of each preprocessing, linear registration, and non-linear registration technique is not addressed in this study but the importance of including all three steps in the registration pipeline is noted.
+
+4.2.
+
+## Registration limitations
+Breast segmentation may be worthwhile to remove surrounding tissue and organs when evaluating registration performance. Registration image alignment metric values were high in breast tissue and low in the subdiaphragmatic region for follow-up timepoints with significant differences in the field of view. Good breast tissue registration achieved in this study suggests that even weighting across voxels sufficiently prioritized the alignment of breast tissue. Thus, there is less dependence on achieving an excellent segmentation, and segmentation is not necessary prior to registration if fast computation time is desired. However, when conducting a hyperparameter search, breast segmentations may allow for more sensitive evaluation of breast tissue alignment.
+Unlike most anatomical regions such as the brain, the limited number of control points makes quantification of registration accuracy challenging. In Ou’s study, the error between two expert annotations averaged 3.12 mm which highlights the difficulty of both identifying breast features and registering longitudinal breast images [ ]. Both Ou and Mehrabian perform landmark matching reporting DRAMMS accuracy of 6.05 mm [ ] and Elastix accuracy of 3.4 mm [ ] respectively. With the primary object of aligning fibro-glandular and adipose tissue well, this study used image alignment metrics as a surrogate for landmark annotations as it is sensitive to sparse features like edges or ridges between tissue. These metrics provides a global metric on registration accuracy complementary to evaluation of diagnostic quality by a radiologist which offers more insight on local alignment.
+While this analysis is limited by the lack of fine-tuning for the pre-validated algorithms and landmark point analysis, it still demonstrates the functionality of FLIRE registration algorithm on a large cohort of patients who received breast MR for asymptomatic screening and throughout NAC. Future work on breast registration algorithms should carefully consider the nature of soft breast tissue to overcome unique challenges associated with aligning both breasts and identifying reliable features for assessment. Breast registration may benefit from multimodal registration using input images with various contrasts to calculate a deformation field because varied contrasts likely provide more information on the internal structure of the breast tissue. Additionally, our findings suggest breast segmentation is particularly helpful for parameter tuning.
+
+4.3.
+
+## Clinical applications
+FLIRE presents a methodology for registering highly deformable breast tissue with highly regularized terms to avoid registration of local changes in volume. Consideration was given to registering each volume to baseline, the previous timepoint, or an average of multiple images. All images were registered to the baseline image to explore the feasibility of processing the images soon after acquisition and to avoid the chance of propagating registration errors or biases that may arise from registering to the previous timepoint.
+To explore a potential application and compatibility of image registration, the deformation field calculated from T1-weighted images was applied to DCE and DWI images for three patients with varied tumor responses to NAC. This approach was motivated by the desire to visualize tumor properties such as longitudinal intensity changes, since significant changes in tumor contrast on DCE and DWI are observed while signal differences in T1-weighted images without contrast are much less [ , , ]. Without registration the anatomical region in each voxel and slice can differ over time, so conventional response evaluation criteria in solid tumors (RECIST) evaluation assesses the longest tumor diameter for each timepoint [ ]. Across four timepoints, the breast tissue was well-registered as assessed by a radiologist for a patient with moderate NAC response (tumor’s longest diameter shrinking from 3.5 cm to 1.2 cm), a patient with no NAC response (tumor’s longest diameter grew from 2.8 to 11.9 cm), and a patient with complete NAC response (no residual threshold enhancement) ( ). These case studies demonstrate FLIRE’s ability to improve the spatial alignment of breast tissue across time for quick visualization of the same anatomical regions. Good registration benefits clinical workflows and enables downstream image processing pipelines that assess tumor properties as a metric for tumor response. Registration aided evaluation overcomes time-consuming evaluations and diagnostic challenges associated with the RECIST; such as when tumors retain their overall size and regress with internal scattered cell death. Additionally, registration improves assessment of efficiency of therapy, which is important to guide therapy selection for the best patient outcome.
+ 
+4.4.
+
+## Future direction
+While registration immensely improves breast alignment compared to unregistered images, the results should be considered alongside study limitations. Registration typically aids analysis of tissue and disease properties. In particular, this study focused on tumor contrast properties, but studies focused on volumetric tumor changes will likely benefit from a constraint on the tumor deformation field or Jacobian determinant analysis to better understand the confounding effects of registration on pathology [ , , ]. To reduce runtime further, future work may consider deep-learning algorithms that can evaluate several image resolutions simultaneously to address global and local deformations [ , ] rather than sequentially like the methods presented in this paper. Additionally, there is potential for optimized registration using four-dimensional registration techniques to decrease dependence on a single timepoint similar to previous studies for DCE breast MRI [ , ].
+
+5.
+
+## Conclusion
+FLIRE registration of T1-weighted breast MRI demonstrates promise for clinical workflow and time-sensitive applications because it is fast, robust to variation across patients and timepoints, and accurate. FLIRE performed as well as publicly available registration methods achieving consistently high values for image alignment metrics (CC, MI, SSIM) and excellent alignment defined by a radiologist’s assessment of the diagnostic quality in less computation time. Additionally, all multiparametric MRI scans were aligned across timepoints which enables voxel-wise analysis and facilitates improvements in breast cancer screening and evaluation of tumor size over the course of NAC. Assessment of registration accuracy is limited by the use of predefined breast registration hyperparameters for reference algorithms and the lack of landmark-based evaluation. Despite these limitations, FLIRE demonstrates promise for implementation on clinical scanners and image processing software to aid patient screening, diagnosis, and treatment planning.
+
+## Supplementary Material
+Supplemental Table 1
+
+## Acknowledgements
+
+## Funding:
+This work was supported by the California Breast Cancer Research Program Early Career Award [2 5IB-00 56] (Rakow-Penner R.); GE Healthcare (Rakow-Penner R., Dale A.M.); NIH [R37 CA249659] (Rakow Penner R.); and Krueger Wyeth Research Fund (Rakow Penner R.).
+
+## Abbreviations:
+FLIREFast Longitudinal Image REgistration
+DCEDynamic contrast-enhanced
+DWIDiffusion weighted imaging
+NACNeoadjuvant chemotherapy
+RECISTResponse evaluation criteria in solid tumors
+ANOVAAnalysis of variance
+DRAMMSDeformable Registration via Attribute Matching and Mutual-Saliency Weighting algorithm
+
+## Footnotes
+Declaration of competing interest
+Dr. Anders Dale is a Founder of and holds equity in CorTechs Labs, Inc., and serves on its Scientific Advisory Board. He is a member of the Scientific Advisory Board of Human Longevity, Inc. He receives funding through research grants from GE Healthcare to the University of California San Diego (UCSD). Similarly, Dr. Rebecca Rakow-Penner is a consultant for Human Longevity, Inc. She also receives funding through research grants from GE Healthcare to UCSD. She also has equity interest in CorTechs Labs and serves on its Scientific Advisory Board. She has stock options in CureMetrix. She is also on the Scientific Advisory board for Imagine Scientific. She reports honoraria from Bayer and consulted for Bayer. Dr. Tyler Seibert reports honoraria from Varian Medical Systems and WebMD; he has an equity interest in CorTechs Labs and serves on its Scientific Advisory Board. He also receives in-kind research support from GE Healthcare through agreements between GE Healthcare and UCSD.
+CRediT authorship contribution statement
+Michelle W. Tong: Data curation, Formal analysis, Investigation, Methodology, Project administration, Software, Supervision, Validation, Visualization, Writing – original draft, Writing – review & editing. Hon J. Yu: Writing – review & editing. Maren M. Sjaastad Andreassen: Validation, Writing – review & editing. Stephane Loubrie: Writing – review & editing. Ana E. Rodríguez-Soto: Supervision. Tyler M. Seibert: Writing – review & editing. Rebecca Rakow-Penner: Conceptualization, Data curation, Funding acquisition, Project administration, Resources, Supervision, Writing – review & editing. Anders M. Dale: Conceptualization, Funding acquisition, Methodology, Resources, Software, Writing – review & editing.
+Appendix A. Supplementary data
+Supplementary data to this article can be found online at https://doi.org/10.1016/j.mri.2024.110222.
+
+## Data availability
+Registration code associated with the current submission is available at https://github.com/michelle-tong18/FLIRE-MRI-registration.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Supplemental Table 1
+
+## Data Availability Statement
+Registration code associated with the current submission is available at https://github.com/michelle-tong18/FLIRE-MRI-registration.

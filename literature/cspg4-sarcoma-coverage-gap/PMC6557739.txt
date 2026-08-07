@@ -1,0 +1,251 @@
+BMC BioinformaticsBMC Bioinformatics13bmcbioi100965194BMC Bioinformatics1471-2105BMCPMC6557739PMC6557739.1655773965577393118201710.1186/s12859-019-2773-x27731ResearchA hybrid gene selection method based on gene scoring strategy and improved particle swarm optimization
+HanFeihanfei@ujs.edu.cn TangDi920924627@qq.com SunYu-Wen-Tian920924627@qq.com ChengZhunchengzhun38@163.com JiangJing920924627@qq.com LiQiu-Weiqiuwei.li@outlook.com 10000 0001 0743 511Xgrid.440785.aSchool of Computer Science and Communication Engineering, Jiangsu University, Xuefu Road, Zhenjiang, Jiangsu China 2Jiangsu Key Laboratory of Security Technology for Industrial Cyberspace, Zhenjiang, Jiangsu China 30000 0000 9750 7019grid.27871.3bSchool of Engineering, Nanjing Agricultural University, Weigang Road, Nanjing, Jiangsu China 1062019201920Suppl 8336058Publication of this supplement has not been supported by sponsorship. Information about the source of funding for publication charges can be found in the individual articles. The articles have undergone the journal's standard peer review process for supplements. The Supplement Editors declare that they have no competing interests.289100620191306201920062019© The Author(s) 2019https://creativecommons.org/licenses/by/4.0/Open Access This article is distributed under the terms of the Creative Commons Attribution 4.0 International License (http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons license, and indicate if changes were made. The Creative Commons Public Domain Dedication waiver(http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated.
+
+## Background
+Gene selection is one of the critical steps in the course of the classification of microarray data. Since particle swarm optimization has no complicated evolutionary operators and fewer parameters need to be adjusted, it has been used increasingly as an effective technique for gene selection. Since particle swarm optimization is apt to converge to local minima which lead to premature convergence, some particle swarm optimization based gene selection methods may select non-optimal genes with high probability. To select predictive genes with low redundancy as well as not filtering out key genes is still a challenge.
+
+## Results
+To obtain predictive genes with lower redundancy as well as overcome the deficiencies of traditional particle swarm optimization based gene selection methods, a hybrid gene selection method based on gene scoring strategy and improved particle swarm optimization is proposed in this paper. To select the genes highly related to out samples’ classes, a gene scoring strategy based on randomization and extreme learning machine is proposed to filter much irrelevant genes. With the third-level gene pool established by multiple filter strategy, an improved particle swarm optimization is proposed to perform gene selection. In the improved particle swarm optimization, to decrease the likelihood of the premature of the swarm the Metropolis criterion of simulated annealing algorithm is introduced to update the particles, and the half of the swarm are reinitialized when the swarm is trapped into local minima.
+
+## Conclusions
+Combining the gene scoring strategy with the improved particle swarm optimization, the new method could select functional gene subsets which are significantly sensitive to the samples’ classes. With the few discriminative genes selected by the proposed method, extreme learning machine and support vector machine classifiers achieve much high prediction accuracy on several public microarray data, which in turn verifies the efficiency and effectiveness of the proposed gene selection method.
+
+## Keywords
+Gene selectionGene scoringParticle swarm optimizationMicroarray dataInternational Conference on Data Science, Medicine and BioinformaticsIDMB 2018Wenzhou, China22- 24 June 2018pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© The Author(s) 2019
+
+## Background
+One of the major applications of microarray data analysis is to perform sample classification between different disease phenotypes, for diagnostic and prognostic purposes [ ]. However, for small size of samples in comparison to high dimensionality, along with experimental variations in measured gene expression levels, it is difficult to implement a particular biological classification problem as well as gain deeper understanding of the functions of particular genes [ ]. Gene selection is one of the critical steps in the course of the classification of microarray data [ ]. Selecting a useful gene subset not only decreases the computational complexity, but also increases the classification accuracy.
+The methods for gene selection are broadly divided into three categories: filter, wrapper and embedded methods [ ]. A filter method relies on general characteristics of the training data to select genes without involving any classifier for evaluation. Most filter methods consider each feature separately with ignoring feature dependencies, which may lead to worse classification performance when compared to other types of feature selection methods [ ]. In addition to considering feature dependencies, wrapper methods take into account the interaction between feature subset search and model selection. However, wrapper methods have a higher risk of overfitting than filter ones and are very computationally intensive [ ]. Embedded methods have the advantage that they include the interaction with the classification model, while being far less computationally intensive than wrapper methods [ ].
+Since it has no complicated evolutionary operators and fewer parameters need to be adjusted [ , ], particle swarm optimization (PSO) [ , ] has been used increasingly as an effective technique for global optimization in past decades. In recent years, PSO has been also implemented to perform gene selection. In [ ], a combination of Integer-Coded GA (ICGA) and particle swarm optimization, coupled with extreme learning machine (ELM) was used to select an optimal set of genes. In [ , ], binary PSO (BPSO) combined with filter method was applied to search optimal gene subsets. The method in [ ] simplified gene selection and obtained a higher classification accuracy compared with some similar gene selection methods based on GA, while the method in [ ] could determine the appropriate number of genes and obtained high classification accuracy by support vector machine. In [ ], the Kmeans-PSO-ELM method used K-means method to group the initial gene pool into several clusters, and the standard PSO combined with ELM was used to perform gene selection, which could obtain a compact set of informative genes. Since traditional PSO is apt to converge to local minima which lead to premature convergence, the above PSO based gene selection method still has much room to improve.
+To overcome the deficiencies of the above PSO based gene selection methods and obtain predictive genes with more interpretability, two gene selection methods based on binary PSO and gene-to-class sensitivity (GCS) information were proposed in [ , ]. In the KMeans-GCSI-MBPSO-ELM [ ], GCS information combined with K-means method was used to identify relevant genes for subsequent sample classification, and a modified BPSO coupling GCS information (GCSI) combined with ELM was used to select smallest possible gene subsets. Although the KMeans-GCSI-MBPSO-ELM could obtain predictive genes with lower redundancy and better interpretability, it might filter out a few critical genes highly related to samples’ classes in some cases and thus lead into worse classification accuracy [ ]. To overcome the weakness of the KMeans-GCSI-MBPSO-ELM, the BPSO-GCSI-ELM [ ] method also encoded GCS information into binary PSO to perform gene selection by initializing particles, updating the particles, modifying maximum velocity, and adopting mutation operation adaptively. Although the BPSO-GCSI-ELM method could avoid filtering out some critical genes, it may increase the computational cost because of the large initial gene pool.
+To obtain predictive genes with lower redundancy as well as overcome the deficiencies of the above mentioned gene selection methods, a hybrid gene selection method based on gene scoring strategy and improved particle swarm optimization (PSO) is proposed in this paper. Firstly, with the initial gene pool obtained with double filter strategies, randomization method combined with ELM is proposed to score each gene, and the third-level gene pool for further gene selection is established. Secondly, an improved PSO aiming at improving the search ability of the swarm is proposed to perform gene selection. In the improved PSO, to decrease the probability of converging into local minima, the Metropolis criterion of simulated annealing (SA) algorithm is introduced to update the particles, and the half of the swarm are reinitialized when the swarm is trapped into local minima. With the compact and relevant gene pool obtained by multiple filter strategies, the improved PSO could select the optimal gene subsets with high probability. Finally, experimental results on six public microarray data verify the effectiveness and efficiency of the proposed hybrid gene selection method.
+The remainder of this paper is organized as follows. The related preliminaries are briefly described in “ ” section. The proposed gene selection method is introduced in “ ” section. “ ” section gives the experimental results on six public microarray data. Finally, the concluding remarks are offered in “ ” section.
+
+## Methods
+
+## Particle swarm optimization
+Particle swarm optimization (PSO) is a population-based stochastic optimization technique developed by Eberhart and Kennedy [ ]. PSO works by initializing a flock of birds randomly over the searching space, where each bird is called a particle with no quality or volume. Each particle flies with a certain velocity according to its momentum and the influence of its own previous best position (Pib) as well as the best position of all particles (Pg). Assume that the dimension of searching space is D and the total number of particles is n. Then the original PSO is described as follows 
+1\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$\begin{array}{@{}rcl@{}} v_{id}(t+1)&=v_{id}(t)+c_{1}\times Y_{1}()\times \left[p_{ibd}(t)-x_{id}(t)\right]\\&+c_{2}\times Y_{2}()\times \left[p_{gd}(t)-x_{id}(t)\right] \end{array} $$ \end{document}vid(t+1)=vid(t)+c1×Y1()×pibd(t)−xid(t)+c2×Y2()×pgd(t)−xid(t) 
+
+2\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$ \begin{aligned} x_{id}(t+1)=x_{id}(t)+v_{id}(t+1),1\leq i\leq n, 1\leq d\leq D \end{aligned} $$ \end{document}xid(t+1)=xid(t)+vid(t+1),1≤i≤n,1≤d≤D 
+
+where vi(t) and xi(t) denote the velocity vector and the position of the i-th particle, respectively, at the t-th iteration; Pib(t) and Pg(t) denote the previous best position of the i-th particle and the best position of all particle, respectively; c1 and c2 are the positive acceleration constants; Y1() and r2() are random number between 0 and 1. In addition, it needs to place a limit on the velocity.
+To improve the convergence performance of the original PSO, a modified particle swarm optimization [ ] was proposed. An inertial weight was introduced in the velocity vector evolution equation described as follows: 
+3\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$ \begin{aligned} {} v_{id}(t+1)&=w_{t}\times v_{id}(t)+c_{1}\times Y_{1}()\times \left[p_{ibd}(t)-x_{id}(t)\right]\\ &\quad+c_{2}\times Y_{2}()\times \left[p_{gd}(t)-x_{id}(t)\right] \end{aligned} $$ \end{document}vid(t+1)=wt×vid(t)+c1×Y1()×pibd(t)−xid(t)+c2×Y2()×pgd(t)−xid(t) 
+where w is the inertial weight. Shi & Eberhart [ ] advised the linearly decreasing method to adjust the weight as follows: 
+4\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$\begin{array}{@{}rcl@{}} w(t)=w_{ini}-\frac{w_{ini}-w_{end}}{T_{max}}\times t \end{array} $$ \end{document}w(t)=wini−wini−wendTmax×t 
+where t is the current iteration number; wini,wend and Tmax are the initial inertial weight, the final inertial weight and the maximum number of iteration, respectively.
+
+## Extreme learning machine
+In [ ], a learning algorithm for single-hidden layer feedforward neural networks (SLFN) called extreme learning machine (ELM) was proposed to solve the problem caused by gradient-based learning algorithms. ELM randomly chooses the input weights and hidden biases, and analytically determines the output weights of SLFN. ELM has much better generalization performance with much faster learning speed than gradient-based algorithms [ , ].
+For N arbitrary distinct samples (XXi,Ti)(i=1,2,…,N.), where XXi=[xxi1,xxi2,…,xxin]∈Rn, Ti=[ ti1, ti2, …, tim] ∈ Rm. A SLFN with NH hidden neurons and activation function g() can approximate these N samples with zero error. This means that 
+5\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$\begin{array}{@{}rcl@{}} {Hw}_{o}=T \end{array} $$ \end{document}Hwo=T 
+where 
+\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$ \begin{aligned} & H\left({wh}_{1},...,{wh}_{N_{H}},b_{1},...,b_{N_{H}},{XX}_{1},...,{XX}_{N}\right)\\ &=\left[ \begin{array}{ccc} g\left({wh}_{1}\cdot {XX}_{1}+{b}_{1}\right) & \cdots & g\left({wh}_{N_{H}}\cdot {XX}_{1}+{b}_{N_{H}}\right)\\ \vdots & \ddots & \vdots \\ g\left({wh}_{1}\cdot {XX}_{N}+{b}_{1}\right) & \cdots & g\left({wh}_{N_{H}}\cdot {XX}_{N}+{b}_{N_{H}}\right)\\ \end{array} \right]\\ \end{aligned} $$ \end{document}Hwh1,...,whNH,b1,...,bNH,XX1,...,XXN=gwh1·XX1+b1⋯gwhNH·XX1+bNH⋮⋱⋮gwh1·XXN+b1⋯gwhNH·XXN+bNH \documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$ \begin{aligned} w_{o}= \left[ \begin{array}{c} {w_{o1}}^{T} \\ \vdots \\ {w_{o_{N_{H}}}}^{T}\\ \end{array} \right] \end{aligned} \quad\quad \texttt{and} \quad\quad \begin{aligned} T= \left[ \begin{array}{c} {t_{1}}^{T} \\ \vdots \\ {t_{N}}^{T} \\ \end{array} \right] \end{aligned} \texttt{.} $$ \end{document}wo=wo1T⋮woNHTandT=t1T⋮tNT. The whi=[whi1,whi2,...,whin]T is the input weight vector connecting the i-th hidden neuron and the input neurons, the woi=[woi1,woi2,...,woim]T is the output weight vector connecting the i-th hidden neuron and the output neurons, and the bi is the bias of the i-th hidden neuron.
+In the course of learning, first, the input weights and the hidden biases are arbitrarily chosen and need not be adjusted at all. Second, the smallest norm least-squares solution of the Eq. is obtained as follows: 
+6\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$\begin{array}{@{}rcl@{}} w_{o}=H^{+}T \end{array} $$ \end{document}wo=H+T 
+where H+ is the Moore-Penrose (MP) generalized inverse of matrix H.
+It was concluded that the ELM has the minimum train-ing error and smallest norm of weights [ , ]. The smallest norm of weights tends to have the best generalization performance [ , ]. Since the solution is obtained by an analytical method and all the parameters of SLFN need not be adjusted, ELM converges much faster than gradient-based algorithm.
+
+## The proposed gene selection method
+Gene selection generally consists of two steps, which are to identify relevant genes and to tend to select smallest subsets from the relevant genes. Different from the KMeans-GCSI-MBPSO-ELM [ ] and BPSO-GCSI-ELM [ ] methods, a scoring criterion following the double filter strategy is proposed to select highly relevant genes in this paper, which may decrease the size of the gene pool dramatically. For selecting compact gene subset from the refined gene pool, an improved PSO with the new strategies for reinitializing the swarm and updating of the Pg is proposed.
+Since the proposed method combines the scoring criterion with the improved PSO, coupled with ELM, to perform gene selection, it is referred to as the SC-IPSO-ELM method. The rough frame of the proposed method is shown in Fig.  , and the detailed steps are described as follows.
+ 
+
+Step 1: Form a first-level initial gene pool. The dataset is divided into training and testing datasets. Select 200–400 genes from all original genes by using information index to classification (IIC) method [ , ] as follows: 
+7\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$\begin{array}{@{}rcl@{}} d(g)\,=\,\sum_{j=1}^{c}\sum_{k=1,k=j}^{c}\left[\frac{1}{2}\frac{|\mu_{g^{j}}-\mu_{g^{k}}|}{\sigma_{g^{j}}+\sigma_{g^{k}}}\,+\,\frac{1}{2}ln\left(\frac{\sigma_{g^{j}}^{2}\,+\,\sigma_{g^{k}}^{2}}{2\sigma_{g^{j}}\sigma_{g^{k}}}\right)\right] \end{array} $$ \end{document}d(g)=∑j=1c∑k=1,k=jc12|μgj−μgk|σgj+σgk+12lnσgj2+σgk22σgjσgk 
+where and are the means of expression value of the gene g in the j-th and k-th classes, respectively, and and are the standard deviations of expression value of gene g in the j-th and k-th classes, respectively. c is the total number of classes. From [ , ], the higher the value of d(g), the more classification information the gene g contains, so the gene g is more relevant to samples categories. The high classification accuracy will be obtained with high probability by a classifier if the microarray data is projected onto the gene g whose IIC value, d(g), is high. The genes are ranked by their IIC values on the training dataset, and those genes with higher IIC values are chosen to establish the first-level gene pool.
+Step 2: Establish a second-level initial gene pool. Randomly generate different gene subsets from the first-level gene pool. Then, each gene subset’s predictive ability is evaluated according to the 5-fold cross validation (CV) classification accuracy obtained by ELM on the training dataset projected onto the gene subset. When the 5-fold cross validation classification accuracy is less than the predetermined value (θac), the corresponding gene subset is deleted. Thus, the genes in the remained gene subsets have comparatively high predictive ability and form the second-level initial gene pool. The number of the gene subsets in the second-level gene pool is noted as lse. Each gene subset is ranked as integer number (from 1 to lse) according to the corresponding 5-fold cross validation classification accuracy. The higher the classification accuracy is, the smaller the rank number of the corresponding gene subset is.
+Step 3: Establish a third-level initial gene pool by scoring strategy. The psedo-code of the scoring rule for the i-th gene in the second-level gene pool is listed as Algorithm 1.
+ where Rj is the ranked number of the j-th gene sub-set in the second-level gene pool. After obtaining the scores of all genes in the second-level gene pool, they are normalized into the interval of [0, 1] with linear transformation. Obviously, the higher value of the gene score is, the more relevant to the samples classes of the gene is. Further filter out those genes with much lower score values, and the remaining genes in the second-level pool form the third-level gene pool.
+Step 4: Use an improved PSO to select the optimal gene subsets from the third-level initial gene pool. The i-th particle Xi=(xi1,xi2,…,xiD) represents a candidate gene subset, and the element xij is the serial number of the selected gene. The dimension of the particles is equal to the number of the selected genes from the third-level initial gene pool, which is predetermined according to [ , ]. The fitness function of the i-th particle, f(Xi), is the 5-fold cross validation classification accuracy obtained by ELM on the training dataset projected onto the selected gene subset represented by the i-th particle. The optimization process of the improved PSO is the same as the traditional PSO except the following respects.
+One is the strategy of updating the best position of the swarm. To decrease the probability of premature convergence of the swarm, the Metropolis criterion in SA [ ] is introduced to update the best position of the swarm. In the (i+1)-th optimization generation, the best position of the swarm, pg, is updated by the Eq. as follows: 
+8\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$ {\begin{aligned} p_{g}(i+1)=\left\{ \begin{array}{lr} X_{j}, & f(X_{j})-f(p_{g}(i))\geq \varepsilon\\ X_{j} \,\texttt{with the} \,P = e^{-\frac{|f(X_{j})-f(p_{g}(i))|}{T(i+1)}},& |f(X_{j})-f(p_{g}(i))|< \varepsilon \end{array} \right. \end{aligned}} $$ \end{document}pg(i+1)=Xj,f(Xj)−f(pg(i))≥εXjwith theP=e−|f(Xj)−f(pg(i))|T(i+1),|f(Xj)−f(pg(i))|<ε 
+where T(i+1) is the annealing temperature which decreases linearly as the following equation 
+9\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$\begin{array}{@{}rcl@{}} T(i+1)=T_{0}-\frac{T_{0}-T_{end}}{{It}_{max}}\times (i+1) \end{array} $$ \end{document}T(i+1)=T0−T0−TendItmax×(i+1) 
+In Eq. , T0, Tend, and Itmax are the initial annealing temperature, final annealing temperature and maximum optimization generation number.
+The other is the strategy of mutating the swarm. When the swarm converges to the local minima, the particles in the swarm are close to each other, and the swarm loses its diversity. Mutating the swarm makes the particles repel each other and improves the diversity of the swarm, so the swarm jumps the local minima with high probability. In the improved PSO, the mutation operation is taken if the global best fitness value of the swarm does not change for predetermined generations (Nmu), which randomly select half number of particles in the swarm to reinitialize.
+The SC-IPSO-ELM method firstly identifies the relevant genes by the randomization method combined with ELM. Then, with the proposed gene scoring criterion, the much more relevant and compact gene pool is obtained. Finally, to obtain the optimal gene subsets, the tradition PSO is modified to improve its global search ability. Although the SC-IPSO-ELM method does not encode prior information to perform gene selection as the KMeans-GCSI-MBPSO-ELM [ ] and BPSO-GCSI-ELM [ ] methods, it could also select the most predictive genes with low redundancy effectively. Moreover, the multiple filter strategies produce much more compact gene pool than the methods in [ , ], which could decrease the computational cost of PSO searching the optimal gene subsets. Compared to the gene-to-class sensitivity information, genes’ rank information obtained by the scoring strategy is more robust, so the SC-IPSO-ELM method may not filter out predictive genes with higher probability than the methods in [ , ].
+The proposed gene selection method contains filtering irrelevant genes to establish the gene pool and using PSO to select functional gene subsets from the gene pool, and its computational complexity can be calculated as follows: 
+10\documentclass[12pt]{minimal}
+ \usepackage{amsmath}
+ \usepackage{wasysym} 
+ \usepackage{amsfonts} 
+ \usepackage{amssymb} 
+ \usepackage{amsbsy}
+ \usepackage{mathrsfs}
+ \usepackage{upgreek}
+ \setlength{\oddsidemargin}{-69pt}
+ \begin{document} $$\begin{array}{@{}rcl@{}} {CC}_{SC-IPSO-ELM}=O(N_{TG}\times N_{Train})+O(l\times N_{g1}) \\ +O(l_{se}\times N_{g2})+O(N_{PSO}\times {Iter}_{PSO}) \end{array} $$ \end{document}CCSC−IPSO−ELM=O(NTG×NTrain)+O(l×Ng1)+O(lse×Ng2)+O(NPSO×IterPSO) 
+where NTG,NTrain,l,Ng1,lse,Ng2,NPSO and IterPSO are the number of the original total genes, the number of training data, the number of the initial randomly generated gene subsets in Step 2, the size the first-level gene pool, the number of the selected gene subsets in Step 2, the size of the second-level gene pool, the swarm size and the maximum iteration number in the improved PSO, respectively. The four items on the right side of Eq. are the computational complexity of Step 1, Step 2, Step 3 and Step 4 of the proposed method, respectively. The first and fourth terms are as the same as those of the methods in [ , ]. The Ng1 and Ng2 both are much smaller than NTG. Generally, the l and lse are not greater than NTrain. The computational complexity of the SC-IPSO-ELM method can be approximated as the sum of the first and fourth terms on the right side of Eq. which is similar to the methods in [ , ], so the time complexity of the proposed method is at the same order of magnitude of that of the methods in [ , ]. Since the third-level gene pool is established by multiple filter strategy, the size of the third-level gene pool is small. The small third-level gene pool leads to small NPSO and IterPSO, which may decrease the computational cost of Step 4.
+
+## Results
+
+## Datasets
+To verify the effectiveness and efficiency of the proposed gene selection method, we conduct experiments on the six public microarray datasets including Leukemia, Colon, SRBCT, Brain cancer data,Lung and Lymphoma data. The detailed description of the datasets is listed in Table  .
+ 
+
+The Leukemia data [ ] contains total 72 samples in two classes, acute lymphoblastic leukemia (ALL) and acute myeloid leukemia (AML), which contain 47 and 25 samples, respectively. Every sample contains 7129 gene expression values. The Leukemia data are available at https://link.springer.com/article/10.1186/1471-2105-7-228#SupplementaryMaterial.
+The Brain cancer data contains 60 samples in two classes, 46 patients with classic and 14 patients with desmoplastic brain cancer. The Lymphoma data includes 58 samples where 32 patients did cured and 26 patients did not cured. Each sample in the Brain cancer and Lymphoma has 7129 genes. These two data are available at http://linus.nci.nih.gov/~brb/DataArchive_New.html.
+The Colon data consists of expression levels of 62 samples of which 40 samples are colon cancer samples and the remaining are normal samples. Although original expression levels for 6000 genes are measured, 4000 genes out of all the 6000 genes were removed considering the reliability of measured values in the measured expression levels. The measured expression values of 2000 genes are publicly available at http://microarray.princeton.edu/oncology/.
+The entire SRBCT data [ ] includes the expression data of 2308 genes. There are totally 63 training samples and 25 testing samples, five of the testing samples being not SRBCT. The 63 training samples contain 23 Ewing family of tumors (EWS), 20 rhabdomyosarcoma (RMS), 12 neuroblastoma (NB), and 8 Burkitt lymphomas (BL). The 20 testing samples contain 6 EWS, 5 RMS, 6 NB, and 3 BL. The data are available at https://link.springer.com/article/10.1186/1471-2105-7-228#SupplementaryMaterial.
+The LUNG data [ , ] contains in total 203 samples in five classes, adenocarcinomas, squamous cell lung carcinomas, pulmonary carcinoids, small-cell lung carcinomas and normal lung, which have 139, 21, 20, 6,17 samples, respectively. Each sample has 12600 genes. The genes with standard deviations smaller than 50 expression units were removed and a dataset with 203 samples and 3312 genes was obtained [ , ]. The data is also available at https://link.springer.com/article/10.1186/1471-2105-7-228#SupplementaryMaterial.
+In the experiments on all data, the swarm size is 60, the maximum iteration number is selected as 20, the acceleration constants c1 and c2 are both selected as 1.49445, and the inertial weight varies from 0.9 to 0.4. The size of the third-level gene pool is 40 on all data. The parameter Nmu is fixed as 3 on all data. The values of these parameters are determined by the cross-validation runs on the training datasets and according to [ , ].
+
+## The prediction ability of the selected gene subsets
+To verify the prediction ability of the selected gene subsets obtained by the proposed method, ELM is used to perform sample classification with some gene subsets selected by the SC-IPSO-ELM method on the six datasets. Each experiment is conducted 100 times, and the mean classification accuracies are listed in Table  .
+ 
+
+From Table  , with the small gene subsets selected by the proposed approach, ELM obtains 100% 5-fold cross validation and test accuracies both on the Leukemia and SRBCT data, With the about five and thirteen genes selected by the SC-IPSO-ELM method on the Brain cancer and Colon, respectively, ELM obtains high prediction accuracies. These results indicate that the SC-IPSO-ELM method has the ability of selecting those predictive genes highly related to samples’ classes.
+
+## Biological and functional analysis of the selected gene subsets
+The experiment on each microarray data is conducted 500 times, and the top ten frequently selected genes are listed in Tables  , , , , and for the six microarray data.
+ 
+
+From Tables  , , , , and , many genes selected by the SC-IPSO-ELM method were also selected by one or more methods proposed in [ , , , , – ]. On the Leukemia data, gene U05259, a B lymphocyte antigen receptor, encodes cell surface proteins for which monoclonal antibodies have been demonstrated to be useful in distinguishing lymphoid from myeloid lineage cells [ ]. Gene M63138 is the member of the peptidase C1 family involved in the pathogenesis of breast cancer and possibly Alzheimer’s disease [ ]. A muscle index can be calculated based on an average intensity of 17 ESTs in the array that are homologous to smooth muscle genes which included gene H20709 in the Colon data. Although the SC-IPSO-ELM method does not encode gene-to-class sensitivity (GCS) information extracted from the microarray data, it could also select some genes with comparatively high GCS values selected by the GCSI-based methods. Since the expression levels of all genes in the Brain cancer and Lymphoma data are not distinct in two classes, the different approaches considering different factors may select different discriminative gene subsets. Thus, the genes selected by the SC-IPSO-ELM are surely different from ones selected by other gene selected methods, which is verified by Tables  and .
+Figure  shows the heatmap with top ten frequently selected genes for the six data. It can be found that most of frequently selected genes’ expression levels clearly differentiate between/among two/multi classes on all data but the Brain cancer and Lymphoma data. From Fig.  b and e, there has no single gene whose expression levels are distinct between two classes, which was verified in [ , ]. Hence, the proposed method is capable of selecting predictive genes whose expression levels are distinct among different classes in most cases.
+ 
+
+## Comparison with the GCSI based gene selection methods
+In [ , ], two effective gene selection methods by considering GCS information we proposed. Experimental results on several public microarray data verified that the two methods, the KMeans-GCSI-MBPSO-ELM and BPSO-GCSI-ELM methods, outperformed than some PSO-based methods and other classical gene selection methods such as GS2, GS1, Cho’s and F-test. To avoid repetition of the comparison with the PSO-based and other classical gene selection methods, the SC-IPSO-ELM method is compared with only the KMeans-GCSI-MBPSO-ELM and BPSO-GCSI-ELM methods on the six data by using ELM and support vector machine (SVM), and the corresponding results of the average of 100 trials are listed in Tables  and .
+ 
+
+From Tables  and , the SC-IPSO-ELM method selects the almost same number of genes as the two GCSI based methods on the Leukemia, Brain cancer, SRBCT, LUNG and Lymphoma data, while it selects the most number of genes on the Colon data among three methods. ELM achieves 100% 5-fold CV accuracy on the Leukemia and SRBCT data with the genes selected by the three methods, and SVM achieves the same 5-fold CV accuracy on the Leukemia data with the genes selected by the three methods. ELM and SVM both obtain the highest 5-fold CV accuracy on the Brain cancer, Colon data and Lymphoma data with the genes selected by the SC-IPSO-ELM method, SVM obtains the slightly higher 5-fold CV accuracy on the SRBCT data with the SC-IPSO-ELM than that with the two GCSI based methods, and SVM obtains the highest 5-fold CV accuracy on the LUNG data with the BPSO-GCSI-ELM. On the whole, the SC-IPSO-ELM could select more predictive gene subsets than the two GCSI based methods.
+
+## Discussion on the parameter selection
+To establish second-level gene pool, it is critical to determine the value of the parameter, θac. Figure  shows the relationship between the classification accuracy on the training data obtained by ELM and the parameter, θac. On the Leukemia, Colon data, LUNG and Lymphoma data, the 5-fold CV and test accuracy both have an upward trend as the values of the parameter, increases, while they have a downward trend as the values of the parameter increases on the Brain cancer data. On the SRBCT data, the test accuracy decreases as the value of the parameter increases, while the 5-fold CV accuracy increases as the value of the parameter increases.
+ 
+
+For using the improved PSO to select the gene subset, the dimension of the particle is the number of the selected genes. Figure  shows the effect on different number of the selected genes. The 5-fold CV accuracy obtained by ELM has an upward trend as the number of the selected genes increases on the six data but the Colon data, while the curves of the test accuracy obtained by ELM fluctuate as the number of the selected genes increases on the six data.
+ 
+
+Figures  and provide a guide on how to select the values of the parameters θac and the number of the selected genes in the SC-IPSO-ELM. In general, these parameters should be selected empirically in particular applications.
+
+## Conclusions
+To obtain predictive genes with lower redundancy, a hybrid gene selection method based on gene scoring strategy and improved PSO was proposed in this paper. To decrease the computational cost, the relevant genes are filtered out through different strategies to establish more compact gene pool for further gene selection. Then, the improved PSO was proposed to select the most predictive gene subsets from the gene pool. Experimental results verified the proposed method could select highly predictive and compact gene subsets and outperformed than other PSO-based and GCSI-based gene selection methods. However, the proposed method selects genes lack of much interpretability. Future work will include how to encode some prior information into the proposed method for gene selection and apply it to RNA-Seq data analysis.
+
+## Acknowledgements
+The authors would like to thank the anonymous reviewers for their time and their valuable comments.
+
+## Funding
+Publication costs are funded by the National Natural Science Foundation of China [Nos. 61572241 and 61271385], the National Key R &D Program of China [No. 2017YFC0806600], the Foundation of the Peak of Six Talents of Jiangsu Province [No. 2015-DZXX-024], the Fifth “333 High Level Talented Person Cultivating Project” of Jiangsu Province [No. (2016) III-0845]
+
+## Availability of data and materials
+Not applicable.
+
+## About this supplement
+This article has been published as part of BMC Bioinformatics Volume 20 Supplement 8, 2019: Decipher computational analytics in digital health and precision medicine. The full contents of the supplement are available online at https://bmcbioinformatics.biomedcentral.com/articles/supplements/volume-20-supplement-8.
+
+## Authors’ contributions
+FH proposed the frame and wrote the manuscript. DT and YS conducted the experiments. ZC, JJ and QL designed the experiments. All authors read and approved the final manuscript.
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that they have no competing interests.
+
+## Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.

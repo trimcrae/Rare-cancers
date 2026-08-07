@@ -1,0 +1,499 @@
+379blackwellopenAdvanced Healthcare MaterialsAdv Healthc MaterPMC1279032212790322127903224090423510.1002/adhm.202503104Engineering Complexity: Advances in 3D Breast Cancer Models for Precision Oncology
+JeongWonwoo LeeSang Jin 
+1
+Wake Forest Institute for Regenerative Medicine, Wake Forest University School of Medicine, Medical Center Boulevard, Winston‐Salem, NC, 27157, USA*
+E‐mail: sang.lee@advocatehealth.org
+
+✉Corresponding author.
+492025151e03104e031041112026© 2025 The Author(s). Advanced Healthcare Materials published by Wiley‐VCH GmbHThis is an open access article under the terms of the http://creativecommons.org/licenses/by-nc/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited and is not used for commercial purposes.
+
+## Abstract
+Engineered in vitro cancer models are essential tools in cancer research, offering controlled microenvironments to study tumor biology and develop personalized therapies. Breast cancer, known for its complexity and high cellular heterogeneity, poses significant challenges in treatment. To address this, patient‐derived in vitro breast cancer models are being used to better predict individual drug responses and guide therapy selection. Recent bioengineering efforts have focused on replicating key features of breast cancer in vitro, such as angiogenesis, tumor cell invasion, heterogeneity, interactions with the tumor microenvironment, and metastatic behavior. Technologies including organoids, microfluidic platforms, and 3D bioprinting technologies have enabled the creation of more biologically and physiologically relevant models. Each system offers specific strengths and limitations, and choosing the right model depends on the research question and desired complexity. This review highlights the current progress in engineering in vitro breast cancer models, comparing their capabilities and discussing innovations aimed at improving their biological accuracy and clinical relevance. Ongoing challenges and future directions are also addressed, with a focus on enhancing model fidelity to native breast cancer.
+Keywords: Breast cancer, cancer heterogeneity, in vitro model, organoids, tumor microenvironment
+
+In vitro breast cancer models that closely mimic the complex biological and cellular interactions within the tumor microenvironment hold strong promise for enhancing our understanding of tumor progression, immune system behavior, and resistance to therapies, which are essential for developing personalized cancer treatments.
+
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoRevised 2025 Aug 23; Received 2025 Jun 19; Issue date 2026 Jan 9.
+
+1.
+
+## Introduction
+Cancer continues to pose a major clinical challenge, requiring the development of effective therapeutic strategies. Among these, chemotherapy and targeted drug therapies remain central to cancer treatment. In 2022, the global incidence of breast cancer reached ≈2.3 million new cases. This figure is projected to increase by 38% by the year 2050, underlining a growing public health concern.[
+ 
+] In breast cancer, the efficacy of pharmacological interventions heavily depends on the selection of appropriate drugs tailored to tumor subtype and individual patient response.[
+ 
+] Thus, Preclinical drug evaluation is a critical step in the drug development process, serving to validate therapeutic potential and optimize dosing strategies prior to clinical trials.[
+ 
+] Traditional 2D cell culture models have historically been the primary platform for assessing drug efficacy and resistance. While these models offer simplicity, scalability, and reproducibility, they fail to recapitulate the complex architecture and biological dynamics of in vivo tumors. Key limitations include the absence of cell‐cell and cell‐matrix interactions, lack of tumor heterogeneity, and an oversimplified tumor microenvironment (TME).[
+ 
+] These deficiencies limit the predictive accuracy of 2D models and contribute to high attrition rates in clinical drug development. Therefore, there is an urgent need for physiologically relevant in vitro platforms that can accurately model tumor behavior and improve translational outcomes.[
+ 
+]
+
+Given the dynamic interactions between cancer cells, host physiology, and surrounding stromal components, an ideal cancer model must accurately replicate both the tumor and its native microenvironment. Cellular heterogeneity and the diverse composition of the TME are critical determinants of tumor progression, therapeutic response, and resistance mechanisms.[
+ 
+] These factors must be carefully integrated into experimental models to yield clinically meaningful insights. There is an increasing demand for advanced preclinical models capable of recapitulating these complex interactions and enabling effective visualization and evaluation of tumor behavior. In response, a novel generation of bioengineered 3D cancer models has emerged, characterized by enhanced biological accuracy, structural integrity, and physiological relevance.[
+ 
+] These models present significant potential for bridging the gap between in vitro research and clinical applications.
+These 3D cancer models represent a significant advancement over 2D culture systems. By more closely mimicking the anatomical and physiological architecture and microenvironment of tumors, 3D models better capture the intricate biological behaviors of cancer cells, including their heterogeneity, spatial organization, and interactions with stromal and immune components.[
+ 
+] These models offer critical insights into the pathophysiology of human cancers and enable more accurate preclinical evaluation of therapeutic responses, thereby informing the development of more effective treatment strategies and improving translational potential. This review provides a comprehensive overview of current in vitro breast cancer models, with a particular focus on emerging strategies that align with the goals of precision medicine. By integrating current advancements in tissue engineering, cancer biology, and drug testing, the review aims to support the clinical translation of these models and guide the development of next‐generation platforms for personalized breast cancer research.
+
+2.
+
+## Breast Cancer Characteristics and Therapeutic Approaches
+Although the mortality rate of breast cancer has gradually declined since 1989, breast cancer remains the most prevalent cancer among women in the United States. Following lung cancer, it stands as the second leading cause of cancer‐related fatalities globally.[
+ 
+] In 2020, ≈685000 female fatalities due to breast cancer, and the mortality rate is anticipated to rise by more than 50%.[
+ 
+] Despite significant advancements in oncology, the persistently high mortality rate associated with breast cancer can be attributed to its intrinsic biological aggressiveness and heterogeneity. This section provides an overview of breast cancer characteristics, including heterogeneous cell components and TMEs, as well as current clinical therapeutic approaches (Table
+ ).
+ 2.1.
+
+## Subtypes of Breast Cancer and Therapeutic Strategies
+Breast cancer is commonly categorized into four molecular subtypes based on the expression of estrogen receptor (ER), progesterone receptor (PR), and human epidermal growth factor receptor 2 (HER2) (Table  ). The first subtype is hormone receptor‐positive and HER2‐negative (HR+/HER2‐), which expresses ER and/or PR but not HER2. The second subtype is HR‐positive and HER2‐positive (HR+/HER2+), characterized by the presence of ER and/or PR along with HER2 overexpression. The third subtype is HR‐negative and HER2‐positive (HR‐/HER2+), which lacks ER and PR expression but exhibits HER2 overexpression. The fourth subtype is triple‐negative breast cancer (TNBC), defined by the absence of ER, PR, and HER2 expression. Each subtype has distinct biological behaviors, prognoses, and responses to therapy.[
+ 
+] The HR+/HER2‐ subtype, which accounts for ≈60–70% of all breast cancer cases, is characterized by HR expression and low or absent HER2 expression. This subtype generally exhibits slower tumor growth and responds well to endocrine therapy and standard chemotherapy, resulting in a relatively favorable prognosis. HER2‐positive breast cancer, comprising ≈ 20% of cases, tends to be more aggressive and historically associated with a poorer prognosis.[
+ 
+]
+
+ HR: hormone receptor, ER: estrogen receptor, PR: progesterone receptor, HER2: human epiderma growth factor receptor type 2, DFSR: disease free survival rate
+TNBC accounts for ≈15% of all breast cancer cases.[
+ 
+] TNBC is the most aggressive subtype, demonstrating poor responsiveness to conventional therapies and associated with the worst prognosis among all subtypes. For instance, the 5‐year breast cancer‐specific survival rate for TNBC is around 80.5%, compared to over 93.0% for HR+/HER2‐ breast cancer. This gap widens in advanced stages: at stage IIIC, survival drops to 45% for TNBC versus 78% for HR+/HER2‐, and in stage IV, to 17% versus 39%, respectively.[
+ 
+] Treatment strategies for breast cancer vary by subtype and may include hormonal therapy, targeted therapy, and chemotherapy. Chemotherapy remains a standard treatment, particularly for TNBC and other aggressive subtypes, though some early‐stage cases may be managed without it. However, due to the molecular and clinical heterogeneity of breast cancer, selecting the optimal treatment is challenging. Individual responses to therapy are highly variable, making it difficult to accurately predict treatment outcomes.
+
+2.2.
+
+## Composition of Breast Cancer
+2.2.1.
+
+## Heterogeneous Cell Components
+Tumor heterogeneity, a hallmark of malignant neoplasms, profoundly influences tumor biology, affecting cellular proliferation, disease progression, and responsiveness to therapeutic interventions (Figure
+ ).[
+ 
+] Analyzing and comprehending the mechanism of heterogeneity is an important step in the development of effective breast cancer treatments. Particularly, breast cancer is a highly intricate and dynamic tumor characterized by the presence of heterogeneous tumor cells.[
+ 
+] Breast cancer heterogeneity arises from multiple mechanisms, including the differentiation state of the cell of origin, cell plasticity, genetic diversity, and the TME.[
+ 
+] Although the cell of origin strongly influences tumor phenotype, emerging evidence challenges traditional associations.[
+ 
+] For instance, luminal progenitors, previously thought to exclusively give rise to HR‐positive tumors, can also generate basal‐like or triple‐negative subtypes in the context of genetic alterations such as BRCA1 loss or PIK3CA activation. Furthermore, differentiated luminal‐like cells may retain tumorigenic and invasive potential. This complexity is compounded by cancer stem cell (CSC) plasticity, where reversible transitions through epithelial‐to‐mesenchymal transition (EMT) and mesenchymal‐to‐epithelial transition (MET) contribute to metastasis, immune evasion, and therapy resistance. Therefore, explaining the mechanisms underlying heterogeneity is critical for the development of more effective breast cancer therapies. Target therapy for breast cancer primarily focuses on heterogeneities represented by HR and HER2 oncoprotein. These biomarkers significantly influence the biological characteristics of breast cancer, determine appropriate treatment modalities, and predict the prognosis of patients.[
+ 
+] This breast cancer is classified into subtypes such as HR‐positive, HER2‐positive, and triple‐negative, based on the expression status of ER, PR, and HER2, along with clinical and histopathological features.
+ Breast cancer that expresses HRs is typically treated with hormonal therapy. However, the effectiveness of treatment can vary depending on whether both HRs are positive or only one is positive.[
+ 
+] HER2, a protein typically involved in the proliferation and division of breast cells, is expressed in ≈15–20% of breast cancers. HER2‐positive breast cancers exhibit aggressive behavior, often resulting in faster growth and greater spread compared to other types of breast cancer.[
+ 
+] While HER2‐targeted therapy has significantly improved the prognosis of HER2‐positive breast cancer, there are still significant variations in resistance and response patterns.[
+ 
+] In addition to the three representative biomarkers (ER, PR, and HER2), breast cancer presents a wide range of somatic mutations as prognosis markers.[
+ 
+]
+
+Differential expression of Ki‐67 serves as a prominent heterogeneity marker in the field of cancer. This nuclear protein is intricately linked to the cell cycle, and its elevated expression is directly correlated with the aggressiveness and metastatic potential of breast cancer.[
+ , 
+] Despite the advancements in knowledge regarding complex heterogeneity, certain limitations and shortcomings persist. A comprehensive understanding of the molecular mechanisms underlying tumor heterogeneity, which closely correlates with treatment efficacy, is imperative for the development of effective breast cancer treatments.
+
+2.2.2.
+
+## Tumor Microenvironment
+The TME is a dynamic and complex ecosystem that comprises the extracellular matrix (ECM), tumor vasculature, stromal components including fibroblasts and endothelial cells, and a diverse range of immune cells (Table
+ ).[
+ , 
+] These components actively facilitate tumorigenesis, progression, and metastasis through reciprocal interactions with cancer cells.[
+ 
+] They do not simply surround the tumor but actively interact with cancer cells, influencing their behavior and contributing to disease heterogeneity. Extensive research has demonstrated that the TME serves as both a prognostic indicator and a potential therapeutic target in breast cancer.[
+ 
+]
+
+In the TME, immune cells, stromal cells, and adipocytes engage in interactions with cancer cells, contributing to the development and progression of cancer‐associated phenotypes. Tumor‐associated macrophages (TAMs) often polarized to an M2‐like phenotype, which promote tumor growth, angiogenesis, ECM remodeling, and immune suppression.[
+ 
+] TAMs secrete growth factors, cytokines, and enzymes that support cancer cell invasion and intravasation. Myeloid‐derived suppressor cells (MDSCs) inhibit anti‐tumor immune responses, thereby facilitating tumor growth and metastasis.[
+ 
+] Cancer‐associated fibroblasts (CAFs) remodel the ECM and induce EMT through matrix metalloproteinase (MMP) secretion and transforming growth factor β (TGF‐β) signaling.[
+ 
+] Endothelial cells engage in angiogenesis, facilitating the formation of new blood vessels.[
+ 
+] This process ensures the delivery of oxygen and nutrients to rapidly growing tumors, while simultaneously creating pathways for cancer cells to intravasate and metastasize. Cancer‐associated adipocytes (CAAs) support cancer cells with fatty acids and other metabolic intermediates, thereby facilitating their proliferation and invasion.[
+ 
+]
+
+ECM remodeling plays a crucial role in tumor progression, drug resistance, and EMT. Increased collagen deposition, fibronectin accumulation, and hyaluronic acid modifications contribute to ECM stiffening, enhancing integrin‐FAK‐YAP/TAZ signaling and promoting cancer cell invasion. ECM stiffening promotes mechanotransduction and invasion through Rho/ROCK signaling.[
+ 
+] Hypoxia enhances stemness and metabolic adaptation via hypoxia‐inducible factor 1α (HIF‐1α) activation and glycolysis.[
+ 
+] These components cooperatively shape a pro‐tumorigenic microenvironment that drives progression and therapeutic resistance.
+The dynamic nature of the TME significantly impacts tumor cell proliferation, invasion, metastasis, and treatment resistance. Particularly, even within patients with the same molecular subtype of breast cancer, variations in the TME can result in substantial heterogeneity in clinical outcomes.[
+ 
+] The complex nature of the TME presents a significant challenge in accurately predicting drug responses. This complexity underscores the limitations of therapies that exclusively target cancer cells. Consequently, therapeutic strategies that simultaneously target and modulate the TME, such as ECM remodeling, immune modulation, and stromal cell reprogramming, are increasingly recognized as indispensable for enhancing treatment efficacy and improving patient outcomes.
+
+2.3.
+
+## Significance of Cancer Model Development
+Breast cancer is managed through a multimodal treatment strategy comprising surgery, radiation therapy, and systemic medication. While surgery and radiation primarily aim to achieve locoregional control, systemic therapies target disseminated disease, which remains the principal clinical challenge. The heterogeneity of breast cancer and the complexity of its TME make the selection of effective treatments particularly difficult. Although therapeutic advances have improved outcomes, drug resistance continues to limit the efficacy of many treatments. Among the subtypes, TNBC is particularly aggressive and associated with limited treatment options and a higher risk of recurrence. Due to the absence of HR and HER2 expression, TNBC does not respond to hormonal or HER2‐targeted therapies. As a result, chemotherapy remains the mainstay of systemic treatment for TNBC, despite its limited long‐term effectiveness in many cases.[
+ 
+]
+
+In instances where TNBC is deemed inoperable, preoperative (neoadjuvant) chemotherapy serves as the conventional therapeutic modality. However, the effectiveness of this treatment is typically assessed only after it has already been initiated. Although neoadjuvant chemotherapy can lead to pathologic complete remission in many patients, it may, in some cases, result in tumor progression or delay timely surgical intervention. Additionally, the use of conventional chemotherapeutic agents often causes significant toxicity, pain, and adverse side effects, largely due to their nonspecific nature and inappropriate dosing.[
+ 
+] The traditional “one‐size‐fits‐all” approach to chemotherapy has proven suboptimal, frequently leading to inadequate therapeutic responses and increased toxicity.[
+ 
+] While targeted therapies have been developed for specific breast cancer subtypes, the clinical effectiveness of truly personalized treatments remains limited. This underscores the critical need to assess individual drug responses prior to initiating therapy. Therefore, the development of advanced breast cancer models that faithfully recapitulate tumor heterogeneity and the TME is essential to improve predictive accuracy and support precision oncology.
+The primary goal of breast cancer models is to accurately replicate the disease while preserving its unique clinical and biological characteristics. These models serve as essential tools for elucidating the physiological mechanisms underlying breast cancer progression and for guiding the development of advanced therapeutic strategies. A significant achievement in this field was accomplished in 1907 when Harrison successfully cultured nerve fibers in a clotted lymph medium, a foundational step in the advancement of cell culture methodologies.[
+ 
+] Since then, these methodologies have advanced considerably, enabling the cultivation of cells outside the body and providing deeper insights into cellular growth and behavior. In breast cancer research, a wide range of in vitro and in vivo models have been established to investigate the biological features and tumorigenic processes of the disease. These models are essential for assessing drug efficacy throughout the drug development pipeline. Each type of model offers specific strengths and limitations, and ongoing efforts have focused on optimizing these systems to overcome existing challenges and improve their relevance to human breast cancer.
+
+3.
+
+## In Vivo Breast Cancer Models
+Since the initial production of transgenic mice, a spontaneous breast cancer model, numerous mouse models of breast cancer have been introduced.[
+ 
+] The representative traditional cancer model is the animal model, and this method continues to be widely utilized as a tool for drug testing or assessing the disease pathophysiology.
+3.1.
+
+## Tumor Transplantation Models
+This method involves injecting tumor cells directly into specific tissues, such as subcutaneous tissues or veins of mice. These models are highly effective and well‐established for preclinical drug evaluation. The tumor cells can be either cell line‐derived xenografts (CDX) or patient‐derived xenografts (PDX). CDX transplantation models are established by implanting refined breast cancer cell lines, including BT474 (luminal B) and MDA‐MB‐231, MDA‐MB‐435 (TNBC), and MCF7 (luminal A).[
+ 
+] Breast cancer implants are surgically inserted beneath the skin to monitor the progression of primary breast cancer. In contrast, metastatic breast cancer implants are administered intravenously.[
+ 
+] These models have been widely recognized for their utility in biological research and the elucidation of genetic mechanisms associated with breast cancer. CDX models are characterized by their rapidity, cost‐effectiveness, technical simplicity, and feasibility in assessing tumor dimensions.[
+ 
+] Since CDX models typically represent a homogeneous population of breast cancer, they are well‐suited for elucidating the biological characteristics of specific subtypes of breast cancer.[
+ 
+] Despite their uniformity, CDX models present limitations in accurately representing the heterogeneity of breast cancer. Additionally, they are not applicable to certain breast cancer subtypes and are primarily suitable for advanced breast cancer cases.[
+ 
+]
+
+To address the deficiencies and limitations of the CDX, the PDX model has been employed in cancer research and preclinical trials. A significant factor contributing to the low predictability in preclinical trials is the limited mimetic potential of cancer models in simulating patient‐specific cancers. Consequently, PDX models offer a superior alternative to CDX models, particularly in representing patient‐specific breast cancer subtypes and predicting drug responses in individual patients.[
+ 
+] PDX models are produced by implanting patient‐derived breast cancer cells or tissues. Consequently, the implanted tumors exhibit biologically and genetically comparable characteristics to primary breast cancer of specific patients, thereby offering predictive clinical value in drug response assessment.[
+ 
+] While PDX models offer numerous advantages, particularly in preserving histopathological characteristics and genetic profiles of the original cancer, they require the patient's tissue. Furthermore, in some cases, only aggressive subtypes of cancer benefit from using these models.[
+ 
+]
+
+The mouse intraductal (MIND) model is an orthotopic tumor transplantation technique in which breast cancer cells are directly introduced into the mammary ducts of immunodeficient mice.[
+ 
+] To establish this model, a small volume (typically 2‐5 µL) of tumor cell suspension is injected into the ductal lumen via the nipple using a fine‐gauge syringe, allowing tumor growth within the native epithelial architecture. This procedure preserves the tissue morphology and stromal interactions of the mammary gland, providing a physiologically relevant environment for studying in situ progression, local invasion, and spontaneous metastasis. A major advantage of the MIND model is its compatibility with both CDX and PDX, enabling flexible application depending on experimental needs. CDX‐based MIND models allow mechanistic and drug response studies using well‐characterized cancer subtypes,[
+ 
+] while PDX‐based MIND models preserve the histological and molecular heterogeneity of patient tumors.[
+ 
+] This dual applicability enhances the translational relevance of the model, making it particularly suitable for evaluating early‐stage disease progression and patient‐specific therapeutic responses.
+
+3.2.
+
+## Genetic‐Engineered Mouse Models
+Over the past decade, genetically engineered mouse models (GEMMs) have made a substantial contribution to advancing breast cancer research and supporting preclinical drug development. These models have been instrumental in elucidating the functions of key oncogenes and tumor suppressor genes, providing valuable insights into breast cancer pathogenesis and informing therapeutic strategies.[
+ 
+] GEMMs are typically classified into two categories: conventional models, which involve germline mutations, and conditional models, which incorporate inducible, tissue‐specific mutations.[
+ 
+] Conditional GEMMs are particularly valuable for modeling the complex genetic landscape of human breast cancer. They have been designed to reflect alterations in clinically relevant genes such as TP53, BRCA1, RB, MYC, and HER2/ERBB2.[
+ , 
+] Important examples include models that mimic luminal breast cancer using MMTV‐Neu, and basal‐like breast cancer using Brca1‐deficient and Tp53‐null genotypes.[
+ 
+] These models have significantly advanced our understanding of breast cancer subtypes and genetic heterogeneity.
+Despite their advantages, replicating the full complexity of human breast cancer, including its heterogeneity, dynamic evolution, and TME, remains a major challenge. GEMMs have addressed some of these limitations by allowing precise genetic manipulation, enabling researchers to dissect the roles of individual genes in tumor initiation and progression. Among these, the MMTV‐PyMT (polyomavirus middle T antigen) mouse model is one of the most widely used due to its ability to induce rapid and aggressive mammary tumors that closely mimic certain aspects of human breast cancer.[
+ 
+] However, important limitations persist. Murine breast cancers differ significantly from human cancers in terms of mammary gland physiology, stromal composition, and immune context.[
+ 
+] These species‐specific differences must be carefully considered when interpreting data and translating findings from GEMMs to human clinical settings.
+
+4.
+
+## In Vitro Breast Cancer Models
+Although animal models are still regarded as the gold standard for preclinical drug testing in breast cancer, they present notable limitations in translating preclinical efficacy to clinical success. In oncology, including breast cancer, an estimated 90‐98% of drugs that show promise in preclinical transplant models ultimately fail to demonstrate efficacy in human clinical trials.[
+ 
+] This high attrition rate is largely attributed to interspecies differences in tumor behavior, driven by host‐specific factors such as metabolism, immune response, and the TME.[
+ 
+] To address these discrepancies, in vitro breast cancer models have been developed to more accurately replicate human physiological conditions. These models allow precise control over tumor‐host interactions and environmental parameters, offering a more human‐relevant platform for drug testing.
+Traditionally, breast cancer cells have been cultured in 2D monolayers, which provide a simplified and accessible system for studying cellular behavior and drug response. However, 2D cultures lack the complexity of the native TME, resulting in altered cell morphology, gene expression, and drug sensitivity compared to in vivo conditions. To overcome these limitations, 3D culture systems such as spheroids and organoids have been developed. These models recreate key features of the in vivo tumor architecture, including oxygen and nutrient gradients, cell‐cell and cell‐matrix interactions, and spatial organization. Importantly, 3D models better mimic the structural and functional dynamics of the TME, making them powerful tools for studying tumor progression and evaluating therapeutic efficacy in a setting that more closely resembles human disease.
+4.1.
+
+## 2D Breast Cancer Cell Culture
+Conventional 2D culture systems have served as fundamental in vitro models for breast cancer research for decades. In this method, tumor cells are cultured as monolayers on flat surfaces, such as culture flasks or petri dishes. The 2D model is simple, cost‐effective, and well‐established, making it widely accessible for investigating cancer mechanisms and performing high‐throughput drug screening.[
+ 
+] Monolayer cultures offer several advantages: they are convenient to handle, enable homogeneous cell growth, and maintain a relatively stable phenotype due to minimal cell‐cell and cell‐matrix interactions.[
+ 
+] This simplicity has made 2D models indispensable for gaining foundational insights into cancer biology, including cell proliferation, apoptosis, and basic drug response. However, despite these strengths, 2D models present critical limitations. One of the most significant drawbacks is their inability to replicate the complex in vivo TME. In 2D systems, cells adhere to rigid plastic or glass surfaces under uniform conditions, where oxygen, nutrients, and other environmental factors are present at equal concentrations. These conditions do not reflect the spatial heterogeneity, chemical gradients, or 3D architecture found within actual tumor tissues.
+As a result, 2D‐cultured cells lack the diverse interactions with neighboring cells and ECM components that are essential for regulating tumor behavior, including gene expression, differentiation, invasion, and therapeutic response. These interactions are crucial for maintaining tumor heterogeneity, which directly influences treatment outcomes.[
+ 
+] While 2D models have been widely used in preclinical drug screening and cytotoxicity assays, their predictive value for in vivo drug efficacy remains limited.[
+ 
+] To address these shortcomings, several advanced 2D culture systems have been developed, including sandwich culture,[
+ , 
+] micropatterning,[
+ 
+] and substrate stiffness modulation.[
+ 
+] These enhanced platforms attempt to better mimic certain aspects of the in vivo environment, yet they still fall short in fully capturing the complexity of human tumors. Consequently, there remains a pressing need for more physiologically relevant and reliable models that can bridge the gap between in vitro findings and clinical outcomes.
+
+4.2.
+
+## Engineering Strategies for In Vitro 3D Breast Cancer Models
+Although 2D culture models remain widely used due to their simplicity, scalability, and cost‐effectiveness, they lack the spatial organization and physiological relevance necessary to fully recapitulate in vivo tissue architecture.[
+ 
+] This limitation has driven the advancement of 3D tissue models, which more accurately mimic the native microenvironment.[
+ 
+] In living tissues, cells reside within ECM, where they engage in complex biochemical and biomechanical interactions that govern key behaviors such as differentiation, proliferation, migration, and drug responsiveness. Compared to 2D systems, 3D models offer a more faithful representation of cellular dynamics and tumor biology, thereby enhancing the predictive power of therapeutic screening and disease modeling.
+The foundation of 3D culture was established in the 1970s when Hamburg and Salmon developed soft agar‐based systems for anchorage‐independent growth of cancer cells, a crucial characteristic of tumorigenesis.[
+ 
+] Since then, a variety of 3D culture techniques have been developed. Most are based on the principle of promoting cell aggregation to form spheroids or organoid‐like structures, which mimic the architecture and microenvironment of solid tumors.[
+ 
+] Although 3D cancer models are technically more complex and resource‐intensive than 2D cancer cell culture, they offer significant advantages by providing a more physiologically relevant environment.[
+ , 
+] As a result, they hold great potential for overcoming the limitations of traditional 2D cell culture and improving the predictive accuracy of preclinical drug testing.
+According to the definition provided by the FDA, microphysiological systems (MPS) are in vitro platforms precisely designed to mimic the functional characteristics of human and animal tissues and organs. Particularly, tumor‐on‐a‐chip (also known as cancer/tumor chips) constitute a prominent subcategory of MPS. These tumor‐on‐a‐chip devices specifically employ microfluidic technology to establish a dynamic microenvironment that closely resembles the physiological conditions of a living organ. Furthermore, cancer spheroids or organoids, which are assembled from single‐cell types or multicellular structures, are utilized to recapitulate the key structural and functional aspects of a cancer in vitro. These advancements have led to their increasing integration into cancer chips, resulting in the creation of even more physiologically relevant systems for cancer research.
+Advanced techniques, including spheroids/organoids, microfluidics‐based tissue chips, scaffold‐based systems, and 3D bioprinting, each prioritize different aspects such as cost, throughput, reproducibility, and interpretability. Spheroids/organoids are relatively low‐cost and suitable for high‐throughput screening but suffer from variability and limited physiological relevance. Microfluidic chips offer high reproducibility and interpretability through precise microenvironmental control; however, their high cost, technical complexity, and limited scalability pose substantial challenges to implementing high‐throughput methodologies. Scaffold‐based systems provide structural cues that enhance organization and function, though reproducibility and cost depend heavily on material properties and fabrication methods. In contrast, 3D bioprinting offers greater flexibility than other approaches, as it can integrate biomaterials, cells, and growth factors in customizable, spatially organized patterns to create complex, tissue‐like constructs. Although currently limited by throughput and cost, its versatility makes it uniquely positioned to bridge experimental scalability with physiological relevance, offering a powerful platform for future biomedical applications. Table
+ provides an overview of the fabrication methods employed in the engineering of 3D breast cancer models.
+ 4.2.1.
+
+## Cancer Spheroids/Organoids
+Cancer spheroids or organoids can induce robust cell‐cell interactions, leading to self‐organization that mimics the structural and functional characteristics of tumors. In contrast to 2D cell culture, they effectively replicate the nutrient and oxygen gradients present in a real TME. Although spheroids are also 3D, they are typically composed of simple aggregates of cancer cell lines. Organoids, particularly patient‐derived organoids (PDOs), exhibit greater complexity, often containing multiple cell types found in the original tumor. This capacity to generate mini‐tumors from specific patient's cancer cells holds significant implications for patient‐specific treatments. Table
+ defines the cell aggregation, spheroids, organoids, and assembloids currently employed in the development of in vitro cancer models.
+ Cancer spheroids/organoids are considered one of the most representative and widely used models due to their reproducibility and close mimicry of physiological tissue characteristics.[
+ 
+] Several methods have been established for generating spheroids/organoids, including the hanging drop method,[
+ 
+] non‐adherent suspension cultures (e.g., spinner flasks),[
+ 
+] liquid overlay techniques,[
+ 
+] and microfluidic devices.[
+ 
+] Although these models offer significant advantages, particularly in modeling heterogeneous breast cancer cell types, they still encounter several limitations. These include the development of diffusion gradients, nutrient deprivation in the spheroid core, and an incomplete representation of the host microenvironment.[
+ 
+] Consequently, there is an ongoing need for more advanced 3D cancer models that can overcome these limitations and more accurately reflect tumor behavior and drug responses in vivo.
+
+4.2.2.
+
+## Microfluidic System as a Tumor‐on‐a‐Chip
+In vivo, breast tumors are surrounded by abnormal vasculature that supports tumor progression. These vessels are often highly permeable, tortuous, and randomly organized, contributing to hypoxia, poor drug efficacy, and enhanced metastatic potential. Replicating such pathological vascular features in vitro is essential for understanding tumor‐vascular crosstalk and for testing therapeutic strategies under physiologically relevant conditions. To recapitulate key features of tumor‐associated vasculature and metastasis, microfluidic platforms have been developed to model both vascular remodeling and tissue‐specific extravasation.[
+ 
+]
+
+Microfluidic systems uniquely offer the ability to maintain continuous perfusion, apply physiologically relevant shear forces, and establish controlled chemical gradients. This perfusion‐based platforms commonly referred to as “tumor‐on‐a‐chip”.[
+ 
+] These features are critical for replicating the dynamic cues that regulate vascular permeability, tumor‐stroma signaling, and immune cell infiltration. Furthermore, the integration of real‐time imaging and multiplexed drug testing capabilities makes microfluidics well‐suited for functional studies such as intravasation, angiogenesis, and drug resistance evolution. By enabling high‐resolution, longitudinal tracking of cellular behaviors under flow, these platforms bridge the gap between in vitro assays and in vivo systems. Compared to conventional in vitro culture models, vascularized microfluidic systems provide superior biological realism and predictive value, thereby advancing translational applications in precision oncology and therapeutic screening.
+In models replicating vessel constriction and leakiness seen in tumors, breast cancer cells were observed to dynamically interact with adjacent vessels. This interaction led to hallmark features such as reduced vessel diameter and increased permeability, frequently documented in clinical tumor pathology.[
+ 
+] These platforms also enabled real‐time visualization of intravasation and helped identify cytokines mediating tumor‐induced vascular remodeling. To replicate the spatial proximity between perfused vasculature and invasive tumor margins, one model captured matrix‐dependent invasion behaviors and vascular remodeling consistent with histopathological observations in breast cancer.[
+ 
+] To mimic organ‐specific metastatic behavior, a platform reconstructed extravasation of breast cancer cells into bone‐ and lung‐mimetic environments, reflecting the clinical patterns of metastatic organotropism.[
+ 
+] To investigate the role of the stromal microenvironment in metastatic progression, a vascularized tissue model mimicking muscle and bone niches was developed.[
+ 
+] This system revealed distinct extravasation behaviors depending on the tissue setting, highlighting the influence of local stromal cues on metastatic dynamics. Furthermore, modulation of adenosine receptor signaling was found to alter dissemination patterns, offering mechanistic insight into the molecular drivers of site‐specific metastasis.
+By replicating not only the geometry of vascular networks but also the dynamic flow conditions and biochemical gradients present in vivo, microfluidic systems allow co‐culture of cancer, stromal, and endothelial cells under physiologically relevant conditions. These models are particularly valuable for evaluating angiogenesis, vascular normalization therapies, and the efficacy of drug delivery in tumor tissues. Although microfluidic platforms offer physiologically relevant conditions for in vitro cancer modeling, they have several inherent limitations. These include low throughput, which limits scalability for drug screening, and complex device fabrication and operation that require specialized expertise. Additionally, manual cell seeding can lead to inconsistent cell distribution, reducing reproducibility across experiments. These factors collectively limit their broader adoption in routine cancer research applications.
+
+4.2.3.
+
+## Scaffold‐Based Culture
+In breast tumors, cancer cells are surrounded within a dense ECM enriched with collagen, fibronectin, laminin, and hyaluronic acid (HA). This desmoplastic microenvironment increases tissue stiffness and generates spatial gradients in biochemical and mechanical signals, influencing tumor progression, immune infiltration, and therapeutic resistance. Replicating these matrix features in vitro is critical for understanding ECM‐regulated tumor behaviors under controllable and physiologically relevant conditions. To mimic such pathological ECM properties, scaffold‐based culture platforms utilize synthetic, natural, and tissue‐derived biomaterials that allow precise tuning of mechanical stiffness, porosity, and degradation profiles.[
+ 
+] Compared to microfluidic or suspension‐based systems, scaffold‐based cultures offer defined geometry and tunable microenvironment for long‐term tumor‐stroma co‐culture. Materials such as collagen, gelatin, HA, and tissue‐derived ECMs have been used to mimic native tissue composition, while synthetic polymers provide modular mechanical control. A variety of crosslinking strategies are employed to enhance structural fidelity and biological responsiveness.
+Scaffold‐based systems have been applied to model breast cancer behaviors in clinically relevant ECMs. For example, TNBCs cultured in high‐stiffness scaffolds exhibited increased invasiveness and reduced drug sensitivity, consistent with clinical observations.[
+ 
+] In MMP‐sensitive scaffolds, localized degradation initiated by tumor‐secreted enzymes led to enhanced cell migration and dynamic ECM remodeling.[
+ 
+] This allows for direct interrogation of degradation‐driven invasion and reciprocal tumor‐matrix interactions over time. Moreover, differential severity of bone metastatic behavior was investigated using nanoclay‐based scaffolds integrated with PDOs.[
+ 
+] However, scaffold‐based cultures mainly replicate static, post‐hoc tumor features, limiting spontaneous ECM production and dynamic remodeling crucial to cancer progression. Advanced 3D fabrication is therefore essential for mechanistic studies of tumor‐driven ECM remodeling and stromal response under biomimetic conditions.
+
+4.2.4.
+
+## Bioprinted 3D Cancer Models
+3D bioprinting has revolutionized the development of anatomically and physiologically relevant cancer models.[
+ 
+] By customizing ECM components and spatially integrating diverse cell types, this technology enables controlled investigation of phenotypic transitions,[
+ 
+] tumor‐stroma interactions,[
+ 
+] and ECM remodeling.[
+ 
+] Through precise deposition of bioinks containing heterogeneous breast cancer and stromal cells, researchers can fabricate patient‐specific models that mimic the ductal architecture and stromal complexity of the mammary gland.[
+ 
+] Such architectural precision enhances reproducibility and supports scalable production of sophisticated models for high‐throughput drug screening and mechanistic studies. Moreover, compartmentalization of malignant and stromal regions allows simulation of localized stiffness and biochemical gradients,[
+ 
+] advancing personalized therapeutic testing.
+The majority of bioprinted 3D cancer models are currently maintained in static conditions, which restrict their capacity to replicate physiological processes such as nutrient diffusion, shear stress, and immune cell interactions. To address these limitations, microfluidic perfusion systems have been incorporated into bioprinted platforms, supporting fluid flow, nutrient exchange, and long‐term culture stability.[
+ 
+] Furthermore, microfluidic systems can incorporate real‐time monitoring capabilities, including embedded sensors for pH, oxygen tension, and metabolic byproducts, enhancing the ability to study tumor responses over time.[
+ 
+] However, the increased technical complexity and limited throughput capacity of these advanced systems may restrict their applicability for high‐throughput drug screening, where simpler 2D or static 3D cultures still offer practical advantages.[
+ 
+] 3D bioprinted breast cancer models, particularly combined with microfluidic technologies, enhance physiological relevancy by replicating the structural, cellular, and biochemical intricacies of breast cancers. Continued advancements in these platforms will be essential for improving predictive modeling, personalized therapy testing, and the development of next‐generation cancer treatments.
+
+5.
+
+## Design Strategies for Engineering 3D Breast Cancer Models
+To effectively model breast cancer, the system should replicate critical features of the native tumor. Since it is not yet feasible to capture all aspects of breast cancer biology in a single model, the design of 3D models should strategically focus on specific characteristics such as hormone sensitivity, microenvironment interactions, and cell diversity. By tailoring models to emphasize these key elements, researchers can better investigate distinct mechanisms of tumor progression, metastasis, and therapeutic resistance. This targeted approach enables the development of more predictive platforms for drug screening, biomarker discovery, and personalized medicine applications in breast cancer research. This section provides an overview of the current design strategies in the development of 3D in vitro breast cancer models.
+5.1.
+
+## Hormone Receptor‐Specific Breast Cancer Models
+The HR‐positive breast cancers account for ≈70% of all breast cancer cases, making them the most prevalent subtype. Treatment strategies for these cancers typically focus on targeting ER and PR or disrupting hormone signaling pathways. Tamoxifen, the first clinically approved antiestrogenic agent, was introduced in the early 1970s[
+ 
+] and has since remained a standard therapy, particularly for premenopausal women. In contrast, aromatase inhibitors, which inhibit estradiol synthesis, have emerged as the preferred initial‐line endocrine therapy for postmenopausal patients, demonstrating enhanced survival outcomes with reduced adverse effects.[
+ 
+] Recent studies have also shown that combination therapies involving endocrine agents, chemotherapy, and immunotherapy can further enhance treatment efficacy.[
+ 
+] While the clinical complexity and evolving therapeutic landscape of HR‐positive breast cancer, developing reliable and physiologically relevant experimental models is essential. Such models are critical for dissecting the underlying mechanisms of hormone‐driven tumor growth, evaluating therapeutic responses, and optimizing combination regimens.
+In vivo models of ER‐positive breast cancer play an essential role in studying tumor progression, therapeutic response, and HR dynamics within a physiologically relevant environment. However, these models often face limitations in faithfully replicating the complexity of human endocrine signaling and immune microenvironments.[
+ 
+] The hormonal regulation observed in humans involves complex feedback loops and systemic interactions that are challenging to replicate in animal models.[
+ 
+] Therefore, drug efficacy and resistance mechanisms exhibit discrepancies in these models. To complement in vivo studies, in vitro models utilizing ER‐positive breast cancer cell lines, particularly MCF‐7, T47D, and ZR‐75‐1, have been extensively employed.[
+ 
+] MCF‐7, the first established ER‐positive breast cancer cell line, remains a cornerstone in both 2D and 3D culture systems for elucidating HR signaling and associated molecular pathways.[
+ 
+] While these in vitro platforms offer valuable insights and experimental control, they also have limitations. Many ER‐positive tumors exhibit intrinsic or acquired resistance to antiestrogens and aromatase inhibitors, a phenomenon not always accurately modeled in current in vitro systems.[
+ 
+] Additionally, conventional cultures frequently exhibit a diminished level of complexity compared to the TME, encompassing stromal, immune, and ECM components. This disparity hinders their predictive capabilities. Therefore, there is a pressing need for improved models that more closely replicate the hormonal, cellular, and immunological landscape of ER‐positive breast cancer to better understand treatment resistance and guide therapeutic development.
+Breast cancer organoids preserve the patient's unique genetic profile and intratumoral heterogeneity, making them valuable tools for modeling variable drug responses across individuals.[
+ 
+] These organoids are typically developed by culturing tumor‐derived cells in media that support the proliferation of CSCs and promote both basal‐ and luminal‐like tissue differentiation.[
+ 
+] As a result, breast cancer organoids closely mimic the structure and function of native tumor tissue, with genotype‐phenotype correlations exceeding 0.7 and organoids formation rate over 80%.[
+ 
+] Furthermore, drug response outcomes can exhibit significant variability across patient‐derived models. To better replicate the hormone‐responsive TME, researchers have employed strategies such as gene expression modulation and co‐culture systems with stromal or immune components.[
+ 
+] However, establishing standardized and reproducible endocrine‐responsive organoid models continues to be a major challenge. Consequently, the clinical application of high‐throughput, personalized organoid platforms for endocrine drug screening remains limited.
+
+5.2.
+
+## Reconstructing Tumor Extracellular Matrix
+The ECM plays an essential role in regulating breast cancer progression, metastasis, and therapy resistance (Figure
+ ). It influences both biochemical signaling and mechanical properties within the TME.[
+ 
+] Advanced biomaterials have resulted in the development of in vitro models that replicate essential ECM characteristics, including stiffness, composition, and viscoelasticity. These models provide valuable insights into tumor behavior and drug response. Recent studies have employed strategies such as multi‐microenvironment systems, dynamic stiffness modulation, and immune interactions to enhance the ability to reconstruct physiologically relevant tumor ECMs.
+ The ECM remodeling facilitates the establishment of distinct TMEs through intricate multi‐system interactions. The impact of aging on ECM is characterized by differential glycosylation and glycation, which influence tumor invasiveness and drug responses. A comprehensive drug screening of over 700 FDA‐approved drugs revealed therapeutic targets that vary depending on the aging of ECM.[
+ 
+] This discovery emphasizes the significance of age‐specific tumor models. The developed system served as a controlled platform for investigating tumor‐stroma interactions and angiogenesis. Research conducted on obesity‐induced ECM remodeling demonstrated that decellularized ECM from obese mammary glands enhanced the invasion of TNBCs driven by collagen type IV through NG2‐EGFR signaling.[
+ 
+] This finding establishes a direct correlation between ECM fibrosis and the metastatic potential of tumors. Concurrently, an investigation into collagen mineralization revealed that tumor cells within mineralized ECM exhibited a thicker glycocalyx, thereby diminishing their susceptibility to cytotoxicity mediated by natural killer (NK) cells.[
+ 
+] Porous core‐shell microspheres were fabricated using a nested aqueous two‐phase system, enabling the precise spatial arrangement of ECM components that replicate perivascular and endosteal microenvironments, which are critical in breast cancer‐bone metastasis.[
+ 
+] These findings indicate that targeting ECM modifications may enhance the efficacy of immunotherapy in breast cancer treatment.
+ECM stiffness is a critical determinant of breast‐cancer aggressiveness and patient prognosis. To explain how matrix rigidity influences tumor‐immune crosstalk, researchers developed a tunable HA hydrogel platform. Matrix stiffness was modulated by blending a poly(ethylene glycol) (PEG)‐based non‐degradable cross‐linker with a peptide cross‐linker that is selectively degraded by proteases, yielding hydrogels that emulate either compliant (≈0.9 kPa) or dense (≈1.5 kPa) breast‐tissue ECM.[
+ 
+] Elevating the stiffness from 0.9 kPa to 1.5 kPa significantly increased monocyte adhesion and stimulated the release of pro‐tumorigenic cytokines, thereby recreating the pro‐inflammatory microenvironment characteristic of high‐density breast tissue. Another example involves the use of methacrylated HA (MeHA), which was photo‐crosslinked with varying light exposure times to investigate the effects of dynamic ECM softening on MET.[
+ 
+] By tuning the elastic modulus from 0.21 kPa to 2.1 kPa, researchers mimicked physiologically relevant stiffness changes in the TME. The study revealed that integrin‐linked kinase (ILK) signaling plays a central role in mediating ECM‐induced cell state transitions, emphasizing its potential as a therapeutic target for regulating cancer cell plasticity and metastatic behavior.
+Microrheology‐based ECM remodeling analysis demonstrated that breast cancer cells simultaneously stiffened and fluidized their surrounding ECM, thereby enhancing invasion and therapy resistance.[
+ 
+] These findings highlight the necessity of incorporating biomechanical and viscoelastic analyses into ECM modeling to facilitate more accurate prediction of tumor behavior. Similarly, microfluidic compression assays revealed that malignant breast cancer spheroids exhibit enhanced deformability and diminished elasticity compared to benign spheroids, a characteristic indicative of aggressive cancer cells.[
+ 
+]
+
+Advancements in ECM modeling have provided physiologically relevant platforms for studying breast cancer progression by integrating ECM stiffness, viscoelasticity, composition, and immune interactions. The development of dynamic, patient‐specific, and age‐mimetic ECM models has expanded our understanding of tumor plasticity, immune evasion, and therapy resistance, offering novel insights for precision oncology. Moving forward, further refinement of ECM‐based tumor models should focus on multi‐parametric approaches that integrate mechanical, biochemical, and immunological factors to enhance clinical relevance as cancer models.
+
+5.3.
+
+## Tumor Stroma‐Related Breast Cancer Models
+The tumor stroma actively influences breast cancer progression, therapy resistance, and metastasis through mechanical, immune, and metabolic interactions (Figure
+ ). Cells in the tumor stroma, including CAFs, endothelial cells, CAAs, TAMs, and bone marrow‐derived cells, undergo pro‐tumorigenic reprogramming, leading to ECM remodeling, drug resistance, and metastatic dormancy. Recent in vitro models have replicated tumor‐stroma crosstalk, revealing key therapeutic targets and resistance mechanisms.[
+ 
+]
+
+ Under the influence of TGF‐β, IL‐6, and PDGF, CAFs upregulate α‐SMA, FAP, and ECM components, including collagen I, fibronectin, and HA. This process stiffens the matrix and impedes drug penetration.[
+ 
+] Consequently, anti‐fibrotic and ECM‐targeting therapies have emerged as potential strategies for breast cancer treatment.[
+ 
+] Additionally, CAFs secrete IL‐8 and CXCL12, which promote cancer survival and angiogenesis.[
+ 
+] A 3D bioprinted breast cancer model, comprising MCF‐7 cells, fibroblasts, and endothelial cells embedded within a methacrylated collagen (ColMA)‐MeHA bioink, has been established. This model reveals that CAF‐induced ECM stiffening exacerbates fibrosis and impairs drug permeability.[
+ 
+] The model further demonstrated that CAF‐driven ECM remodeling enhances microvascular complexity, implying a role in pro‐angiogenic signaling. Additionally, CAF‐mediated paracrine interactions conferred radiotherapy resistance, reinforcing their significance in tumor protection. Similarly, a 3D bioprinted TNBC stem cell (CSC) model utilizing human breast fibroblasts and a decellularized ECM bioink indicated that CAF‐induced ECM remodeling increases fibronectin and collagen deposition, thereby augmenting tumor invasiveness and drug resistance.[
+ 
+] The stroma‐driven activation of TGF‐β signaling facilitated EMT, supporting the survival and metastatic potential of CSCs. Furthermore, oncoproteome profiling revealed CAF‐secreted factors that contribute to therapy evasion and the development of an aggressive tumor phenotype.
+Endothelial cells emerge under the influence of VEGF and IL‐6, resulting in the loss of their barrier function, heightened vascular permeability, and upregulation of motor proteins (KIF2 and KIF5) to facilitate drug transportation. Co‐culture experiments involving primary breast cancer‐derived endothelial cells and breast cancer cells exhibited a twofold enhancement in nanoparticle uptake, indicating that tumor‐adapted vasculature actively increases its permeability.[
+ 
+] A vascularized microtumor model was developed using the microfluidics platform.[
+ 
+] This model incorporates MCF7, SKBR3, MDA‐MB‐468, and patient‐derived tumor cells into a perusable vascularized system. This enables researchers to replicate interstitial pressure and stromal remodeling in desmoplastic breast cancer. This model demonstrated that HA accumulation and IL‐8 signaling compromised vascular integrity, substantially reducing trastuzumab penetration. Targeting tumor‐endothelial interactions holds promise for enhancing drug delivery strategies. Another TNBC vascularized microtumor model, co‐cultured with primary breast stromal and endothelial cells, has been established to identify Tie2 receptor activation as a pivotal factor in stromal remodeling.[
+ 
+] Tie2 inhibition normalizes vascular function, reduces hypoxia, and enhances the efficacy of paclitaxel.
+Adipocytes exposed to IL‐6 and TNF‐α, secreted by tumor cells, undergo a phenotypic transformation. This transformation involves the loss of lipid stores and the transition into CAAs. CAAs play a crucial role in promoting tumor growth by increasing the secretion of adipokines. CAAs facilitate the transfer of fatty acids to cancer cells, providing an alternative energy source that enhances tumor metabolism. This process also induces chemotherapy resistance through the upregulation of the ATP‐binding cassette (ABC) transporter. To clarify this interaction, an engineered adipocyte model was developed by co‐culturing patient‐derived adipocytes with breast tumor organoids.[
+ 
+] This model revealed that adipocytes consumed glucose and fatty acids at high rates, depleting the metabolic resources available to tumors. Consequently, this depletion suppressed tumor growth and angiogenesis. Furthermore, to reconstitute the composition of breast cancer‐adipose tissue, embedded bioprinting with breast cancer spheroids was developed and spatially arranged in conjunction with freshly isolated adipose tissue to precisely control their interaction.[
+ 
+] This model demonstrated that drug resistance increased with decreasing distance between the cancer and adipose tissue, mediated by adipokine signaling. Inhibiting adipokines restored chemosensitivity, confirming the adipose‐cancer crosstalk as a regulator of drug response.
+Within the breast cancer TME, TAMs undergo a transformation into M2‐phenotypic cells, thereby facilitating immune suppression, metabolic adaptation, ECM remodeling, and the development of therapeutic resistance.[
+ 
+] TAMs exhibit elevated levels of IL‐10 and programmed cell death ligand 1 (PD‐L1), thereby suppressing cytotoxic T‐cell activity and recruiting regulatory T cells (Tregs) to establish an immunosuppressive milieu characterized by a skewed neutrophil‐lymphocyte ratio.[
+ 
+] Co‐culture experiments conducted utilizing patient‐derived breast cancer cells and mononuclear immune cells have unequivocally demonstrated that TAMs augment tumor invasiveness and chemoresistance, thereby reinforcing the progression of cancer. Microfluidic tumor‐on‐a‐chip models facilitated real‐time analysis of TAM‐mediated regulation, encompassing its impact on T‐cell infiltration and PD‐1 blockade responses.[
+ 
+] Additionally, a simulation of macrophage polarization by T cells and cancer was conducted in a microchannel, demonstrating the suppression of T‐cell‐mediated tumor killing.[
+ 
+] These studies emphasize the imperative for sophisticated in vitro models that incorporate supplementary immunosuppressive components, including Tregs, MDSCs, and variations in ECM stiffness. Furthermore, the inclusion of patient‐derived immune cells is crucial to augment the precision of medicine applications.
+Breast cancer metastasis to the bone marrow plays a crucial role in tumor dormancy and late‐stage recurrence. During this process, tumor cells enter a quiescent state before being reactivated under specific conditions. Bone marrow‐derived mesenchymal stem cells (MSCs) and osteoblasts, when exposed to TGF‐β and CXCL12, create a dormancy‐promoting environment.[
+ 
+] In this niche, MSCs secrete IL‐6 and TNF‐α, which sustain the survival of tumor cells. Conversely, osteoblasts suppress Wnt signaling, inducing quiescence in tumor cells. A co‐culture model involving ER‐positive breast cancer cells, MSCs, and fetal osteoblasts demonstrated osteoblast‐induced dormancy, while MSCs facilitated proliferation, underscoring the niche‐specific regulation of dormancy.[
+ 
+] To further recapitulate the bone microenvironment, a bioprinted cell‐laden bone matrix was developed.[
+ 
+] This matrix incorporates osteoblasts and MSCs within a gelatin methacryloyl (GelMA) hydrogel with nanocrystalline hydroxyapatite. Breast cancer exhibited enhanced proliferation in the presence of osteoblasts or MSCs, while osteogenic differentiation of stromal cells was suppressed, as evidenced by reduced alkaline phosphatase (ALP) activity. VEGF secretion was also significantly elevated in co‐cultured cancer cells, indicating a shift toward pro‐angiogenic signaling in the bone metastatic niche.
+In vitro models that incorporate stromal tissue interactions have explained key mechanisms governing breast cancer progression, drug resistance, and metastasis. Fibroblast‐induced desmoplasia disrupts vascular integrity and impedes drug penetration, while endothelial cells facilitate drug transport. Adipose tissue influences metabolic competition and drug response, while bone marrow niches regulate dormancy and metastatic reactivation. These discoveries highlight the imperative of designing physiologically pertinent multi‐tissue models to enhance preclinical testing and therapeutic development. Subsequent advancements in patient‐specific co‐culture systems will be instrumental in bridging the gap between experimental models and clinical outcomes, ultimately guiding precision oncology strategies for breast cancer treatment.
+
+6.
+
+## Translating In Vitro Breast Cancer Models into Clinical Setting
+Patient‐derived organoids (PDOs) have been compared with corresponding patient tissues to validate their clinical relevance, with active efforts focused on liver,[
+ 
+] pancreatic,[
+ 
+] colorectal,[
+ 
+] and gastric cancers.[
+ 
+] Derived directly from patient tumors, PDOs offer significant promise as predictive models for personalized treatment response. For instance, drug screening using gastrointestinal cancer PDOs demonstrated exceptional predictive performance, with 100% sensitivity and 93% specificity in identifying chemotherapy responders.[
+ 
+] Similarly, PDOs derived from treatment‐naïve pancreatic cancer patients achieved over 91% accuracy in forecasting therapeutic efficacy.[
+ 
+]
+
+In breast cancer, PDOs generated from clinical biopsies more than 30 patients successfully retained key histological and molecular features and exhibited drug responses that correlated with outcomes to neoadjuvant therapy.[
+ 
+] Although simple PDO platforms are widely used to assess patient‐specific drug sensitivity through direct pharmacological testing, they often selectively enrich for tumor epithelial cells or depend on media formulations optimized for CSC expansion. As a result, they frequently lack key stromal components and architectural features of the TME, limiting their ability to fully recapitulate in vivo tumor complexity. Advanced PDO models that incorporate stromal cell populations, ECM components, and biomechanical cues offer a more physiologically relevant platform, capable of recapitulating key mechanisms driving variable drug responses and metastatic behavior.
+To improve translational relevance, in vitro models must be intentionally engineered to capture the structural and mechanical intricacies of the TME, including matrix stiffness, spatial compartmentalization, and dynamic stromal interactions. As highlighted in this review, these design elements are essential for generating physiologically meaningful and clinically interpretable datasets. However, most existing models lack standardized output metrics and sufficient analytical depth, which hinders their clinical utility and limits cross‐platform comparability. Very importantly, predictive endpoints must correspond to clinically actionable outcomes within the therapeutic decision window, typically 7‐10 days following tumor biopsy. This requirement is especially critical in the neoadjuvant setting, where timely and accurate prediction of therapeutic response is essential for informing preoperative therapeutic strategies. A composite drug response index incorporating viability suppression, Ki67 reduction, EMT reversal, and invasion inhibition may provide a practical and interpretable framework to support clinical translation.
+In clinical settings, artificial intelligence (AI) has been applied in diagnostic workflows to predict tumor progression, mutational status, and patient outcomes using multiscale datasets such as histopathology, multiplex immunofluorescence, imaging mass cytometry, and genomic sequencing.[
+ , 
+] These models often process more than 100 molecular and spatial features per input and achieve high accuracy in non‐invasive, individualized predictions. Although initially developed for diagnostic applications,[
+ 
+] such AI systems hold significant potential for adaptation to in vitro PDO platforms. Specifically, PDO models incorporating TME features that recapitulate patient histology could be used to predict chemotherapy responses. However, realizing this application requires the development of scalable and reproducible tissue models capable of producing high‐dimensional, standardized outputs compatible with machine learning and clinical integration.
+Successful clinical implementation of engineered in vitro cancer models will require coordinated collaboration across industry, healthcare institutions, and academic research centers. Engineering robust and reproducible platforms suitable for regulatory and clinical adoption demands not only technical refinement but also the establishment of standardized protocols for validation, quality assurance, and integration with clinical datasets. Active engagement from regulatory agencies such as the U.S. Food and Drug Administration (FDA), along with legislative and policy stakeholders, is essential to define clear pathways for tissue‐based diagnostics. This includes setting criteria for preclinical evidence, establishing performance metrics for model‐based predictions, and integrating these standards into existing clinical trial and reimbursement frameworks. By aligning scientific innovation with regulatory infrastructure and institutional cooperation, in vitro cancer models can be transformed into clinically validated tools that advance precision oncology and improve patient outcomes.
+
+7.
+
+## Conclusion and Future Perspectives
+The increasing financial burden and inefficiency of conventional drug development, as exemplified by Eroom's Law, highlight the urgent need for more predictive and human‐relevant preclinical models.[
+ 
+] Despite encouraging animal data, over 88% of drug candidates fail in clinical trials due to toxicity or lack of efficacy, raising concerns about the translational value of animal testing.[
+ 
+] Legislative initiatives like the FDA Modernization Acts 2.0 and 3.0 now support alternative approaches, including in vitro tissue models. In vitro cancer platforms by utilizing patient‐derived cells, ECM components, and 3D culture systems offer biomimetic environments that better replicate human TMEs. Innovations such as organoids, tumor‐on‐a‐chip systems, and 3D bioprinted models are advancing drug screening and personalized oncology. To ensure clinical relevance, breast cancer models must accurately reflect the complex biological and cellular interactions within the TME, which critically influence tumor progression, immune dynamics, and therapeutic resistance.
+To further improve the physiological relevance of cancer models, it is essential to integrate dynamic interactions between tumor cells and components of the immune system. Current in vitro cancer models face significant limitations in capturing the complexity of immune cell dynamics within the TME. Most models fail to reflect the full diversity and functional plasticity of immune cells, including the recruitment, activation, and immunosuppressive roles of T cells, macrophages, dendritic cells, and other key subsets. Immune responses remain only partially represented, particularly with respect to the roles of T and B cell subsets beyond CD8+ cytotoxic T lymphocytes, which are still not fully understood. Moreover, existing models often lack the spatial architecture, cytokine gradients, and immune checkpoint signaling found in vivo, limiting their predictive value for immunotherapy outcomes. The absence of vascular and lymphatic structures also limits the ability to model immune cell trafficking and dynamic tumor‐immune interactions effectively.
+While breast cancer models have progressed in structural fidelity and cellular diversity, several key features remain underrepresented. Metastasis is a particularly complex process influenced by disease stage, dissemination routes, and perioperative dynamics, which are challenging to replicate within a single in vitro platform. Likewise, drug resistance emerges through rapid, context‐dependent interactions with the microenvironment, requiring spatially compartmentalized settings that reflect biochemical and mechanical gradients. Developing systems that can capture these multifactorial components in a reliable and reproducible manner may offer a more clinically aligned platform, supporting both mechanistic insight and precision oncology applications.
+While complex models offer enhanced physiological relevance, they often come with trade‐offs in cost, throughput, reproducibility, and interpretability. As such, the degree of model complexity should be aligned with specific research or clinical objectives. Rigorous, large‐scale validation, particularly for patient‐derived systems, is essential to establish when these models provide meaningful advantages over simpler platforms. To advance precision oncology, there is an urgent need for high‐throughput systems capable of capturing patient‐specific therapeutic responses in real time. Future studies should assess whether such models can consistently and accurately mirror in vivo drug responses across diverse clinical settings.
+
+## Conflict of Interest
+The authors declare no conflict of interest.
+
+## Acknowledgements
+This work was supported by the National Institutes of Health (Grant No. 1R01DE031285 and 1R01HD112028).
+
+## Biographies
+
+Wonwoo Jeong is a Postdoctoral Fellow in Dr. Lee's lab at the Wake Forest Institute for Regenerative Medicine (WFIRM). He holds a Ph.D. in Biomedical Engineering from the Ulsan National Institute of Science and Technology (UNIST) (2023). His research focuses on clinically relevant 3D bioprinting technologies, with an emphasis on developing bioinks derived from decellularized and patient‐specific tissues. Dr. Jeong has made significant contributions to soft tissue engineering, high‐throughput screening platforms, organoids, and type 1 diabetes treatments, with a broader aim of advancing regenerative medicine.
+ 
+
+Sang Jin Lee is a Professor at the Wake Forest Institute for Regenerative Medicine (WFIRM) with a Ph.D. in Chemical Engineering from Hanyang University (2003). He completed his postdoctoral fellowship at Harvard Medical School and WFIRM. His research focuses on biomaterials, particularly biodegradable polymers and tunable hydrogels, with expertise in tissue engineering and regenerative medicine. Dr. Lee's team is advancing 3D bioprinting technology to fabricate complex, multi‐cellular living tissue constructs. He has mentored over 180 trainees, authored 180 journal articles, edited two textbooks, and contributed 37 book chapters.
+ 
+
+Jeong W. and Lee S. J., “Engineering Complexity: Advances in 3D Breast Cancer Models for Precision Oncology.” Adv. Healthcare Mater.
+15, no. 1 (2026): e03104. 10.1002/adhm.202503104
+
+## References

@@ -1,0 +1,135 @@
+440plosonePLOS OnePLoS OnePLOSPMC1186732211867322118673224001458710.1371/journal.pone.0314773Prediction and validation of anoikis-related genes in neuropathic pain using machine learning
+HeYufengConceptualization, Writing – original draft WeiYeConceptualization, Data curation, Writing – original draft WangYongxinData curation, Formal analysis LingChunyanData curation, Formal analysis QiXiangData curation, Formal analysis, Methodology GengSiyuData curation MengYingtongData curation, Validation DengHaoData curation, Validation ZhangQisongData curation, Visualization QinXiaolingData curation, Project administration, Writing – review & editing ChenGuanghuiConceptualization, Project administration, Writing – original draft, Writing – review & editing LiZongjinEditor 1Department of Massage, The First Affiliated Hospital of Guangxi University of Chinese Medicine, Nanning, China2Department of Rehabilitation Medicine, The First Affiliated Hospital of Guangxi University of Chinese Medicine, Nanning, China3Graduate School, Guangxi University of Chinese Medicine, Nanning, China4Graduate School, Henan University of Chinese Medicine, Zhengzhou, China5Second Clinical Medical College, Henan University of Chinese Medicine, Zhengzhou, China6Medical College, Guangxi University, Nanning, China7School of Pharmacy, Guangxi University of Chinese Medicine, Nanning, China8Nankai University, CHINACompeting Interests: The authors have declared that no competing interests exist.
+‡ GC and XQ are also contributed equally to this work and should be considered co-Corresponding authors
+✉* E-mail: 13367807752@163.com (GC); 1746439777@qq.com (XQ)
+#Contributed equally.
+2722025202e0314773e03147732722025© 2025 He et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+
+## Background
+Neuropathic pain (NP) can be induced by a variety of clinical conditions, such as spinal cord injury, lumbar disc herniation (LDH), lumbar spinal stenosis, diabetes, herpes zoster, and spinal cord tumors, and inflammatory stimuli. The pathogenesis of NP is extremely complex. Specifically, in LDH, the herniated nucleus pulposus exerts mechanical pressure on nerve roots, triggering local inflammation and consequent NP. Anoikis, a special form of programmed cell death, is closely related to the progression of NP. In this study, we sought to clarify the molecular characteristics of anoikis-related genes in NP, providing novel insights for the diagnosis and treatment of NP.
+
+## Methods
+We screened NP-related genes based on the GSE124272 dataset and obtained 439 anoikis-related genes from the GeneCards database. Through Least Absolute Shrinkage and Selection Operator (LASSO) and Support Vector Machine (SVM) machine learning algorithms, six key hub genes were identified: hepatocyte growth factor (HGF), matrix metalloproteinase 13 (MMP13), c-abl oncogene 1, non-receptor tyrosine kinase (ABL1), elastase neutrophil expressed (ELANE), fatty acid synthase (FASN), and long non-coding RNA (Linc00324). Functional enrichment analyses, including Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG), alongside Gene Set Enrichment Analysis (GSEA) and immune infiltration analysis, were performed on these hub genes. Additionally, transcription factors and potential therapeutic drugs were predicted. We also used rats to construct an NP model and validated the analyzed hub genes using hematoxylin and eosin (H&E) staining, real-time polymerase chain reaction (PCR), and Western blotting assays.
+
+## Results
+Our data indicated that anoikis-related genes have diagnostic value in NP patients, as confirmed by experimental results. Moreover, this study elucidated the role of these genes in immune infiltration during the pathogenesis of NP and identified potential therapeutic drugs targeting these key genes.
+
+## Conclusion
+This study further explores the pathogenesis of NP and provides certain reference value for developing targeted therapeutic strategies, thereby improving NP management.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 May 14; Accepted 2024 Nov 15; Collection date 2025.
+
+## Introduction
+Neuropathic pain (NP) arises from diseases affecting the peripheral or central nervous system, especially the somatosensory nervous system [ ]. It has been established that the protrusion of the nucleus pulposus can mechanically irritate and compress nerve roots, leading to localized inflammation and consequent NP [ ]. Epidemiological data indicate that NP affects between 6.9% and 10% of the global population [ ]. The ineffectiveness of current NP prevention and treatment strategies impacts global health [ ], highlighting the urgent need for safe and efficient interventions due to the complex and poorly understood pathophysiology of NP.
+Anoikis is a type of programmed cell death distinguished by the detachment of cells from the extracellular matrix, leading to apoptosis following the loss of contact with neighboring cells or the matrix itself [ ]. Recent studies have associated anoikis-related genes with ophthalmic diseases, inflammatory bowel disease, and Parkinson’s disease [ – ]. Furthermore, anoikis has been linked to neuronal death in the hippocampus [ ] and observed to impair neuronal metabolism through neuronal and astrocyte pathways, leading to neurodegenerative diseases [ ]. These observations imply an association between neuronal cell death and anoikis.
+Neuronal cell death has been confirmed as a contributing factor to the onset of NP [ ]. The progression of NP is influenced by various cellular processes, such as apoptosis, autophagy, mitophagy, ferroptosis, pyroptosis, necroptosis, and phagocytosis [ ]. Therefore, it is plausible that anoikis may notably impact the progression of NP. While previous studies have linked anoikis to various diseases, its specific role in NP remains unexplored. Elucidating this relationship could provide novel insight into NP pathogenesis and treatment. Therefore, this study aims to examine the molecular characteristics of anoikis-related genes in NP, with the goal of providing new perspectives for NP diagnosis and treatment.
+
+## Materials & methods
+
+## Data acquisition
+We analyzed the gene expression profiles of patients with LDH-related NP, which were obtained from the GSE124272 dataset on the GPL21185 platform, accessed via the Gene Expression Omnibus (GEO) database [ , ]. This dataset contained eight patients with LDH-related NP and eight volunteers without NP.
+Anoikis-related genes were obtained from the GeneCards database (https://www.genecards.org/) [ ]. A comprehensive set of 917 anoikis-related genes was (as of September 1, 2023). Based on the criteria established by Chen Y [ ], genes with a score >0.7 were selected, resulting in 439 genes obtained for subsequent analysis.
+
+## Pre-test of anoikis-related genes
+A preliminary exploration of anoikis-related genes on human chromosomes was conducted using the "RCircos" package in R software (version 4.3.1) [ ]. Key genes were then visualized by creating a circular plot of human chromosomes depicting anoikis-related genes.
+
+## Identification and functional analysis of anoikis-related genes
+Anoikis-related genes from the gene expression profiles of patients with LDH-related NP were extracted using the "limma" package in R [ ]. Differential expression analysis was conducted to identify genes with altered expression in patients with LDH-related NP compared with those in healthy volunteers. Correlations between differentially expressed genes (DEGs) were analyzed using "corrplot" and "circlize" packages in R. Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment analyses were performed on DEGs using the "enrichplot", "ggplot2", and "org.Hs.eg.db" packages in R.
+
+## Screening of key anoikis-related genes using Support Vector Machine (SVM) algorithms
+We screened for key anoikis-related genes associated with LDH-related NP using SVM algorithms [ ]. Preliminary screening was performed using Least Absolute Shrinkage And Selection Operator (LASSO) regression [ ] with 1000-fold cross-validation (R package "glmnet"). Recursive feature elimination (RFE) with SVM was then used to identify key genes, minimizing overfitting (R package "e1071"). Finally, overlapping genes identified by the LASSO regression and SVM were considered key anoikis-related genes associated with LDH-related NP (R package "VennDiagram").
+
+## Performance validation of hub genes among anoikis-related genes
+The diagnostic performance of hub genes was validated using receiver operating characteristic (ROC) curve analysis [ ] ("glmnet" and "pROC" packages in R).
+
+## Gene set enrichment analysis (GSEA) and immunoassay of hub genes
+GSEA differs from GO enrichment analysis in that it is an analytical method with an unsupervised algorithm based on gene set enrichment [ ]. We performed GSEA to explore the biological mechanisms of the hub genes among the anoikis-related genes associated with LDH-related NP. Immune cell infiltration was evaluated in patient and healthy samples using the cell-type identification by estimating relative subsets of RNA transcripts (CIBERSORT) method. Subsequently, we assessed the association between hub genes among anoikis-related genes and the infiltration of immune cells.
+
+## Prediction of TFs and potential medications
+Transcription factors (TFs) and potential medications associated with LDH-related NP were identified using the Enrichr analysis platform (https://maayanlab.cloud/Enrichr/) [ ]. Key anoikis-related genes were analyzed to determine relevant TFs and therapeutic agents.
+
+## Experimental validation of hub genes
+
+## Animal modeling and grouping
+A total of 12 male specific pathogen-free (SPF)-grade rats weighing 280–300 g (qualification No. SYXK [Gui] 2019–0001) were provided by Hunan Silaikejingda Experimental Animal Co., Ltd. The rats were randomly assigned into a blank group or a model group, with six rats in each group. The rats in the model group underwent left lumbar 5 (L5) spinal nerve ligation, while those in the blank group were fed routinely and did not undergo modeling surgery. After 7 days, euthanasia was induced with an intraperitoneal injection of 1% pentobarbital sodium at a dose of 80 mg/kg, L4-L6 spinal cord segments and nerve roots were extracted for further analyses. The Laboratory Animal Welfare Ethics Committee of the Guangxi University of Chinese Medicine approved the study protocol (Approval No. DW20230525-101).
+
+## Hematoxylin and eosin (H&E) staining
+H&E staining was employed to observe the morphological changes in the dorsal horn of the rat spinal cords (L4–L6). The sections were soaked in PBS, rinsed with distilled water for 30 s, and stained with hematoxylin, followed by rinsing with distilled water. A bluing step was performed, after which the sections were again rinsed with distilled water. The sections were then stained with eosin, rinsed with water, and dehydrated using a graded ethanol series. To increase transparency, the sections were treated with xylene and sealed with neutral gum. Morphological changes in the dorsal horn were examined under a microscope in three fields of view per section.
+
+## Real-time PCR assay
+Total RNA was extracted from the L4L6 spinal cords of the rats via the TRIzol method, with β-actin as an internal reference gene. The concentration and quality of RNA were assessed and reverse transcription was performed using the CWbio RT Kit according to the manufacturer’s instructions. cDNA synthesis was conducted with the Reverse Transcription Kit. PCR amplification of target and internal reference gene primers was performed using a three-step PCR program: pre-denaturation at 95°C for 15 min, denaturation at 95°C for 10 s, annealing at 55°C for 30 s, and extension at 72°C for 30 s, for a total of 40 cycles. Each sample was run in triplicate. The relative mRNA expression level was calculated via the 2-ΔΔCt method. The primer sequences are shown in .
+ 
+
+## Western blotting assay
+The total protein was extracted from the L4–L6 spinal cords of the rats in each group. The protein concentration was measured using the BCA kit, with β-actin as an internal reference protein. Samples were loaded into wells, electrophoresed, and wet transferred to the polyvinylidene fluoride (PVDF) membrane. The membrane was subsequently immersed in a blocking solution for 2 h, followed by incubation with primary antibodies at 4°C overnight. After washing, the membrane was incubated with a secondary antibody solution for 1 h.Visualization was performed using a chemiluminescence imaging system, and gray values were analyzed using Image J software.
+
+## Statistical analysis
+Experimental data were statistically analyzed using GraphPad Prism 9.0 software, and independent samples t-tests were employed to assess significant differences. P < 0.05 represented a statistically significant difference.
+
+## Results
+
+## Identification and functional analysis results of anoikis-related genes
+The research workflow of this study is depicted in . A circular plot of the human chromosomes demonstrates the specific locations of copy number variations in key anoikis-related genes on each chromosome. In this visualization, the outer circle represents the chromosomes, while the inner circle represents the important anoikis-related genes ( ). The analysis revealed that these key anoikis-related genes were distributed across all human chromosomes. The expression data of the anoikis-related genes were extracted from patients with LDH-related NP and healthy volunteers using the R package "limma". Comparative analysis identified 86 differentially expressed anoikis-related genes between the two groups. A heat map was generated to display the expression levels of these genes in each sample ( ). The data indicated that 42 DEGs were upregulated in patients with LDH-related NP, whereas 44 genes were upregulated in healthy volunteers. Functional enrichment analysis of the 86 differentially expressed anoikis-related genes indicated their involvement in several biological functions and pathways. These genes were enriched for molecular functions, such as protein serine kinase activity and protein serine/threonine kinase activity ( ). Furthermore, these genes exhibited enrichment in signaling pathways such as the PI3K-Akt pathway, VEGF pathway, and TNF pathway ( ).
+ 
+
+## Screening of key anoikis-related genes using SVM
+Initially, ten key anoikis-related genes associated with LDH-related NP were identified using LASSO regression with 1,000-fold cross-validation ( ). To refine this selection and avoid overfitting, SVM analysis was performed, identifying 13 key anoikis-related genes in patients with LDH-related NP ( ). The overlapping genes from both LASSO and SVM analyses (HGF, MMP13, ABL1, ELANE, FASN, and LINC00324) were consolidated as the final key genes ( ).
+ 
+
+## Performance validation of key anoikis-related genes
+The diagnostic value of HGF, MMP13, ABL1, ELANE, FASN, and LINC00324 in patients with LDH-related NP was verified using ROC curve analysis.The results showed that all six genes exhibited significant diagnostic performance, and the area under the curve (AUC) values of each gene were as follows: HGF (0.875), MMP13 (0.844), ABL1 (0.906), ELANE (0.844), FASN (0.859) and LINC00324 (0.828) ( ). The combined model of these six key anoikis-related genes achieved an AUC value of 1.000, suggesting excellent diagnostic accuracy for identifying patients with LDH-related NP ( ).
+ 
+
+## GSEA and immunoassay of hub genes
+GSEA results of HGF, MMP13, ABL1, ELANE, FASN, and LINC00324 suggested that these six hub genes were primarily enriched in immune-related pathways and involved in biological processes related to genetics and metabolism ( ). To predict patient prognosis, we conducted immune cell infiltration analysis using the CIBERSORT algorithm. This analysis compared immune cell infiltration in patients with LDH-related NP and healthy volunteers and analyzed the correlation between immune cells and the six hub genes. Significant differences were observed in the infiltration of CD8 + T cells, γδ T cells, and neutrophils between patients with LDH-related NP and healthy volunteers (P < 0.05, ). Further analysis revealed correlations between these hub genes and 16 types of immune cells, of which only MMP13 and Macrophages M0 were negatively correlated with plasma cells and positively correlated with monocytes (P < 0.05, ).
+ 
+
+## Prediction of TFs and potential medications
+Our exploration of the Enrichr platform indicated that 23 TFs were associated with the key anoikis-related genes in the context of LDH-related NP. The key anoikis-related genes most relevant to TFs were ABL1 and FASN (P < 0.05, ). In addition, we identified four potential drugs with anti-inflammatory and analgesic effects for treating LDH-related NP: valdecoxib, benzocaine, netilmicin, and orphenadrine (P < 0.05, ).
+ 
+
+## Experimental results
+H&E staining revealed that the overall structure of the spinal cord tissue and axons (black arrows) in the blank group was intact, with no obvious demyelination and structurally complete, tightly wrapped membranes of peripheral nerve bundles. In contrast, the model group exhibited severe spinal cord damage, extensive demyelination (red arrowheads), moderate inflammatory cell infiltration (yellow arrowheads), a large number of vacuoles (green arrowheads) in the nerves, and incomplete membranes of peripheral nerve bundles with partial detachment (blue arrowheads). The above results suggest that the modeling was successful ( ). According to the real-time PCR assay, the mRNA expression levels of HGF, MMP13, ABL1, ELANE, and FASN were significantly elevated in the model group compared with those in the blank group (P < 0.01, ). The results of the Western blotting assay further verified that the protein expression levels of HGF, MMP13, ABL1, ELANE, and FASN in the model group were higher in the model group than those in the blank group (P < 0.01, ).
+ 
+
+## Discussion
+LDH is the most prevalent cause of NP, manifesting as pain due to spinal cord compression, which leads to neuronal and glial apoptosis [ ]. Currently, the regulatory mechanisms of anoikis-related genes in NP are not well understood. Identifying these genes using machine learning algorithms is crucial for elucidating the pathogenesis of NP and identifying potential diagnostic markers and prevention and treatment regimens.
+In this study, we analyzed the GSE124272 dataset from the GEO database using bioinformatics methods, identifying 917 anoikis-related genes. Following the optimization of the screening criteria, 86 genes associated with anoikis were selected. GO and KEGG enrichment analyses of the anoikis-related genes using R packages revealed that these DEGs were involved in molecular functions, such as protein serine kinase activity and protein serine/threonine kinase activity, and that they were enriched in signaling pathways, such as the PI3K-Akt pathway, VEGF pathway, and TNF pathway.
+Six key anoikis-related genes, namely HGF, MMP13, ABL1, ELANE, FASN, and LINC00324, were identified by examining the overlapping results of LASSO regression and SVM. The diagnostic value of these key genes was subsequently verified by the ROC curve, demonstrating excellent diagnostic performance. Research has linked these genes to apoptosis: HGF inhibits anoikis in pancreatic cancer cells via the PI3K pathway [ ], and MMP13 reduces anoikis through neural/neuroglial antigen 2 (NG2) shedding [ ]. Furthermore, ABL1 is highly expressed in colorectal cancer cells, and the absence of ABL1 inhibits cell proliferation and abnormally elevated apoptosis in two cell lines, SW480 and HCT-116, in models of colorectal cancer [ ]. It was found that transient and regulated expression of mutant ELANE leads to cell death by accelerating apoptosis [ ]. FASN induces apoptosis by promoting cell proliferation and migration. In osteosarcoma cells, the upregulation of FASN enhances cell anoikis resistance, and the knockdown of FASN significantly increases the rate of anoikis [ ]. In patients with leukemia, the overexpression of LINC00324 promotes leukemia cell proliferation and inhibits apoptosis [ ].
+Experimental validation using Western blotting and PCR assays revealed significantly significant differences in the expression levels of HGF, MMP13, ABL1, ELANE, and FASN between the blank and model groups (P < 0.01).
+The sensitization of injury receptors by the immune system involves complement cells, immune cells, glial cells, cytokines, and chemokines, whereas nerve injury is commonly involved in the pathological generation of pain through neuro-immune interactions and neuroinflammation. Immune cells play an important role in promoting the development of neuroinflammation and NP [ ]. Therefore, we performed a GSEA and immunoassay for the six key anoikis-related genes. The results showed significant differences in the immune cell infiltration of CD8 + T cells, γδm cells, and neutrophils between the model and blank groups, as well as correlations with 16 immune cell types. Specifically, MMP13 and Macrophages M0 were significantly negatively correlated with plasma cells and significantly positively correlated with monocytes. These findings suggest that the identified genes play a regulatory role in the immune response during the pathogenesis of NP.
+Further analysis on the Enrichr platform identified ABL1 and FASN as the most relevant TFs linked to key anoikis-related genes involved in LDH-associated NP. Furthermore, four potential drugs, valdecoxib, benzocaine, netilmicin, and orphenadrine, were predicted to have anti-inflammatory and analgesic effects in individuals with LDH-associated NP. Valdecoxib is widely applied as a selective COX-2 inhibitor and a nonsteroidal anti-inflammatory drug (NSAID) for pain relief in individuals with osteoarthritis and rheumatoid arthritis [ ]. Valdecoxib has been reported to ameliorate lipid-induced insulin resistance in skeletal muscle by inhibiting inflammation and endoplasmic reticulum stress [ ]. Parecoxib, a COX 2 inhibitor, and its active metabolite valdecoxib have been shown to reduce NP levels after sciatic nerve ligation in rats [ ]. Benzocaine is an anesthetic agent used primarily for disorders associated with oral ulcers, earaches, and dental complications. Studies have shown that benzocaine is significantly better than lidocaine for analgesia in a variety of minor oral surgical procedures in children, effectively relieving surgery-related pain [ ]. Netilmicin is a common antibiotic in clinical practice. The combination of moxifloxacin and netilmicin in patients with drug-resistant tuberculosis has a higher effectiveness and safety profile compared with moxifloxacin alone. This approach may lead to fewer inflammatory factors and improved immune function in patients with drug-resistant tuberculosis [ ]. In addition, studies have shown that netilmicin has significant advantages in treating gram-negative bacterial meningitis [ ]. However, whether netilmicin can improve NP-related neuroinflammation remains to be confirmed. Orphenadrine, a central-acting skeletal muscle relaxant, was an early treatment for Parkinson’s disease. Some researchers have found that its analgesic mechanism may be related to sodium channel blockade [ ]. Endogenous circulating analogs of orphenadrine were found to potentially play a role in the prevention of neuronal sensitization in a rat model of CCI by attenuating the hyperexcitability of a harmful stimulus [ ].
+This study has several limitations. First, the study was conducted based on the GEO database, which included limited samples.This small sample size may reduce the generalizability of the results. Thus, future studies with more patients are needed to validate our findings. Additionally, the use of the GEO database represents a limitation, as it does not account for the clinical features of the patients whose samples were analyzed, such as age, duration of NP, and comorbidities. Finally, although key genes were validated through several tests, further validation of potential therapeutic agents is needed. In the future, we plan to conduct additional in vitro and in vivo experiments to validate the diagnostic and therapeutic efficacy of the identified key genes and medications for NP.
+
+## Conclusions
+This study elucidated the diagnostic significance of anoikis in patients with NP. Through a series of bioinformatics analyses, we ultimately predicted that six key genes, including HGF, MMP13, ABL1, ELANE, FASN, and LINC00324, have certain diagnostic value for NP, which were experimentally validated. These findings provide a reference for further exploring the diagnostic biomarkers and pathogenesis of NP.
+
+## Supporting information
+S1 File
+
+## Figs – .
+(RAR)
+S1 Raw data(PDF)
+
+## Data Availability
+“All relevant data are within the paper and its files.”
+
+## Funding Statement
+Guangxi Key Research Laboratory of Meridian rehabilitation Award Number: 2024019-03 | Recipient: Guanghui Chen Guangxi University of Chinese Medicine High level Talent Cultivation and Innovation Team Award Number: 2022A006 | Recipient: Ye Wei Natural Science Foundation of Guangxi Zhuang Autonomous Region Award Number: 2020GXNSFAA259013 | Recipient: Yufeng He Natural Science Foundation of Guangxi Zhuang Autonomous Region Award Number: 2023GXNSFAA026456 | Recipient: Guanghui Chen Guangxi Key Research and Development Program Award Number: Guike AB20159026 | Recipient: Guanghui Chen Guangxi Traditional Chinese Medicine Key Cultivation Discipline Construction Project Award Number: GZXK-Z-20-32 | Recipient: Guanghui Chen Guangxi High Level Traditional Chinese Medicine Key Discipline Construction Project Award Number: 2024016-02-04 | Recipient: Ye Wei Yufeng He Guangxi Famous Traditional Chinese Medicine Inheritance Studio Award Number: GZY2024014 | Recipient: Yufeng He.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+S1 File
+
+## Figs – .
+(RAR)
+S1 Raw data(PDF)
+
+## Data Availability Statement
+“All relevant data are within the paper and its files.”

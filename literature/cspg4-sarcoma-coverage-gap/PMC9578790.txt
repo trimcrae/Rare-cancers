@@ -1,0 +1,135 @@
+859joncJournal of OncologyJ OncolWileyPMC9578790957879095787903626827710.1155/2022/6891655Integrin α6 Indicates a Poor Prognosis of Craniopharyngioma through Bioinformatic Analysis and Experimental Validation
+JiaYanfei WuWentao XiaoYouchao CaiKefan GuiSongbai LiQiang LiTian 
+1Department of Neurosurgery, Beijing Tiantan Hospital, Capital Medical University, Beijing 100070, China
+2Department of Neurosurgery, The Second Affiliated Hospital of Lanzhou University, Lanzhou 730000, China
+3School of Basic Medicine, Fourth Military Medical University, Xi'an 710032, ChinaAcademic Editor: Ningke Ruan
+✉Corresponding author.
+1110202220226891655689165519102022Copyright © 2022 Yanfei Jia et al.This is an open access article distributed under the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Background
+ Craniopharyngioma (CP) is a benign slow-growing tumor. It tends to affect children, and the number of patients is on rise. Considering the high morbidity and mortality of CP, it is urgent and pivotal to identify new biomarkers to uncover the etiology and pathogenesis of CP. 
+
+## Methods
+ The “limma” package was utilized to calculate the data from the Gene Expression Omnibus (GEO) database. Based on differentially expressed genes (DEGs), gene ontology and pathway analysis were deduced from the DAVID web tool. Further, we constructed a protein-protein interaction (PPI) network. Weighted correlation network analysis (WGCNA) was utilized to build a coexpression network. Finally, Western blotting and survival analysis were performed to examine the expression level of important metabolism-related genes. 
+
+## Results
+ Three hundred and eighty-four DEGs were identified between normal tissues and CPs from the GSE94349 and GSE26966 datasets. The Venn diagram for DEGs and hub genes in the ‘turquoise' module revealed four key genes. Finally, the outcome of the survival analysis suggested that Integrin α6 (ITGA6) significantly affected the overall survival time of the patients with CP. 
+
+## Conclusion
+ IGTA6, as a metabolism-related molecule, was found to be substantially related to the overall survival of patients with CP.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Aug 21; Revised 2022 Sep 17; Accepted 2022 Sep 24; Collection date 2022.
+
+## 1. Introduction
+Craniopharyngioma (CP) is a locally aggressive tumor with a low histological grade (WHO I grade) [ ], mostly occurs in the sellar and suprasellar regions [ ]. Globally, the incidence rate of CP in children's ranged the third of intracranial tumors and it is also the most common nonneuroepithelial neoplasm in the hypothalamus and pituitary regions [ ]. Despite the benign histologic appearance [ ], due to invasion to important structures around the tumor, such as the optic chiasma, Willis ring, pituitary, and hypothalamus [ ], hence, symptoms and signs of hypothalamic and pituitary dysfunctions are evident in patients with CP. Currently, surgery is the most effective treatment; however, the complexity of CP creates challenges for surgery treatment and leads to a high mortality rate. Difficulties still exist in the removal of the tumor owing to the anatomical structure adjacent to the suprasellar region and adhesion around tumor with the surrounding tissues. Some controversies regarding the etiology, histology, and pathology of CP, as also the optimal treatment strategy persist [ ]. In short, it is urgent and important to identify new biomarkers to uncover the etiology and pathogenesis of CP.
+Microarray-based high-throughput platform is a promising and efficient technique, which is widely used to screen epigenetic or genetic alternations and identify cancer biomarkers [ , ]. Comprehensive calculation of data provides key avenues to explore the mechanisms of tumors [ ]. Several gene expression profiling microarrays have been employed to identify the differentially expressed genes (DEGs) in CP, and some bioinformatic methods have been used to analyze the data. In this study, we processed raw data of CP samples in the GSE94349 and GSE26966 datasets downloaded from GEO. DEGs were analyzed, and WGCNA was performed to elucidate the possible mechanisms underlying CP more clearly.
+
+## 2. Methods
+
+## 2.1. Microarray Data
+Two gene expression profiling datasets (GSE94349 and GSE26966 from GPL55999 platform), acquired from the GEO, comprise 9 normal pituitary tissues and 9 CP tissues. The two datasets were chosen for integrated analysis owing to their same platform.
+
+## 2.2. Data Processing
+We used the ‘limma' package (V3.29.0) with standard data processing conditions to identify DEGs. The cut-off criteria were p < 0.05 and |logFC| ≥ 2. Subsequently, the DEGs were analyzed by Gene Ontology (GO) term enrichment analysis and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway analysis using the ‘clusterprofiler' package (V4.4.3) in R V3.5.5. The protein-protein interaction (PPI) network was constructed using STRING Database (http://string-db.org/) and the Cytoscape software. Subsequently, the WGCNA package (V1.61) was employed to search the correlations among genes and identify the significantly correlated gene modules. The soft thresholding power was set at 6.
+
+## 2.3. GO Term Annotation and KEGG Pathway Enrichment Analyses
+We utilized clusterProfiler to perform GO and KEGG analyses, for a detailed comprehension of the DEGs. p < 0.05 was considered a significant enrichment.
+
+## 2.4. Protein-Protein Interaction (PPI) Network Construction
+The DEGs used for constructing PPI network were obtained through the ‘limma' package. The Cytoscape software (V3.8.1) was thereafter employed to analyze the interactive relationships among the candidate proteins [ ]. The “Molecular Complex Detection” (MCODE) module (V2.0.2) was used to detect densely connected regions in large PPI networks that may represent molecular complexes [ ].
+
+## 2.5. Weighted Correlation Network Analysis (WGCNA)
+Weighted correlation network analysis (WGCNA) was used for identifying modules of highly correlated genes, summarizing clusters using the module eigengenes or an intramodular hub gene, and correlating modules to one another and to the external sample traits (using eigengene network methodology) [ ]. We used the WGCNA package to construct the gene coexpression network, identify modules, and finally obtain the genes in the modules of interest.
+
+## 2.6. Identification of Key Genes
+The final key genes were identified as the intersecting genes between those in the ‘turquoise' module from WGCNA and DEGs.
+
+## 2.7. Tissue Collection
+A total of 21 human CP tissues were acquired from the patients, and 10 normal pituitary tissues from other patients with common pediatric brain tumor types. No local or systematic neoadjuvant radiotherapy, or/and chemotherapy, and targeted therapy were managed. The study design was approved by the Research Ethics Committee of Lanzhou University (Lanzhou, Gansu, PR China) and all patients enrolled in this study provided signed informed consent.
+
+## 2.8. Western Blotting
+Initially, we selected four of the 21 human CP tissues and four normal pituitary tissues, as previously described. Total proteins of each sample were extracted with Cell lysis buffer for Western and IP (Beyotime Biotechnology, China), followed by quantification using bicinchoninic acid (BCA) kit (Beyotime Biotechnology, China). After being separated by 10% sodium dodecyl sulfate polyacrylamide gel electrophoresis (SDS-PAGE), the total protein was transferred onto the polyvinylidene fluoride (PVDF) membranes (Beyotime Biotechnology, China) which were then blocked for 1 h. Thereafter, the membranes were incubated first with primary antibodies against at 4°C overnight and then with a horseradish peroxidase-conjugated secondary antibody for 2 h. Later, protein-antibody complexes were visualized and analyzed using ECL chemiluminescent solution (Beyotime Biotechnology, China). Finally, the ImageJ software (Rawak Software, Germany) and GraphPad Prism (version 7, GraphPad Software, San Diego, USA) were used to analyze the grayscale values of the bands.
+
+## 2.9. Survival Analysis
+The survival analysis was performed of all 21 CP samples using the SPSS version 22.0 software (IBM Corp. Chicago, IL, USA). Kaplan-Meier curve and Cox's proportional hazards regression model were performed to analyze the overall survival, and the differences were analyzed for significance using the log-rank test. The statistically significant modules were defined as those with p < 0.05.
+
+## 3. Results
+
+## 3.1. Identification of Aberrant DEGs in CP
+We used the ‘limma' package with the preprocessing parameters to analyze and obtain the DEGs among the GSE94349 and GSE26966 datasets. Using p < 0.05 and |logFC| ≥ 2 as the threshold criteria, a total of 384 DEGs were identified, including 56 downregulated and 328 upregulated genes in CP tissues as compared to the normal pituitary tissues ( ). These DEGs are shown in the volcano map ( ).
+ 
+
+## 3.2. GO Functional Enrichment Analysis
+Significant terms from GO enrichment analysis using DAVID are listed in . All the significant genes with a low expression are listed in the table. These genes were enriched in the biological processes (BP) involved in negative regulation of cilium assembly, endothelial cell apoptosis, regulation of transcription, DNA template, calcium ion transmembrane transport, and eye photoreceptor cell development. The results from DAVID analyses showed that there were no genes with a low expression enriched in molecular functions (MF) and cell components (CC). For the genes with a high expression, shows the corresponding top five significant GO enrichment terms analyzed in DAVID. Molecular functions were enriched in cell adhesion molecule binding, glycoprotein binding, signal transducer activity, cadherin binding involved in cell-cell adhesion, and protein binding. Additionally, cellular component enrichment was found in focal adhesion, extracellular exosome, cell surface, extracellular space, and extracellular matrix while biological processes enrichment was found in cell adhesion, extracellular matrix organization, single organismal cell-cell adhesion, cellular response to low-density lipoprotein particle stimulus, and wound healing.
+ 
+
+## 3.3. KEGG Pathway Analysis
+As shown in , the results of KEGG suggested genes with a low expression were significantly enriched in pathways including adrenergic signaling and pancreatic secretion in cardiomyocytes. Genes with a high expression demonstrated enrichment in pathways of cancer, focal adhesion, proteoglycans in cancer, leishmaniasis, lysosome, PI3K-Akt signaling, and arrhythmogenic right ventricular cardiomyopathy (ARVC).
+ 
+
+## 3.4. PPI Network and Cluster Analysis
+The PPI network was constructed using the STRING database. The Cytoscape software was used to analyze the interactive relationships among the candidate proteins. Module analysis was conducted using MCODE ( ). In the clusters, the following 29 genes: CCL5/PPBP/APLNR/ANXA1/GPR65/F2RL1/PTGER3/CHRM3/APP/GBP6/HLA-DPA1/HLA-DPB1/CD44/IRF6/TOP2A/ENTPD3/RRM1/TYMS/RRM2/XYLT1/BGN/SDC1/CSPG4/LRRFIP1/FGF1/ERLIN2/ITGA6/YWHAB/YWHAZ, were found to form the hub according to the MCODE findings ( ).
+ 
+
+## 3.5. WGCNA
+Among the modules, the ‘turquoise' one was found to be the most relevant for the cancer traits (Figures and ). A total of 1,000 genes were selected at random for plotting the heatmap ( ). As shown in , the ‘turquoise' module showed a high correlation. The genes in this module were then selected as the hub genes with a cut-off of correlation ≥ 0.5. Finally, 205 hub genes were identified from the chosen ‘turquoise' module.
+ 
+
+## 3.6. Key Genes Identified among Hub Genes in Turquoise Module and DEGs
+To obtain valuable clues from these data, key genes were identified from among the hub genes in the turquoise module and DEGs. In total, four key genes were obtained, namely PPBP, CD44, SDC1, and ITGA6 ( ).
+ 
+
+## 3.7. Western Blotting and the Survival Curve Analyses
+From the selected 8 tissues, only ITGA6 showed a low expression in all normal pituitary tissues ( ). Besides, in the tissues C1, C2, and C4, ITGA6 was overexpressed. As shown in , the expression of ITGA6 was significantly different between the CP and pituitary tissues.
+ Further, survival analysis for these four genes was employed to evaluate their effects on the overall survival of patients with CP. No significant differences were obtained in patients with CP showing differential levels of CD44, SDC1, and PPBP expressions (Figures – ). The results of the survival analysis indicated that the overall survival time of CP pantients could have significant differences between the high ITGA6 expression group and low ITGA6 expression group ( ).
+ 
+
+## 4. Discussion
+
+## 4.1. Main Finding
+Neoplasm remains the main leading cause of death worldwide. Although CP is a benign slow-growing tumor [ ], it appears partially aggressive and has an arachnoid interface with surrounding structures, thus rendering it incurable [ – ]. Hence, studies on invasion and the migration of CP are becoming increasingly popular. Previous studies show that the tumor microenvironment of craniopharyngioma has some particular characteristics, such as infiltration of leukocytes, a local abundance of adenosine triphosphate (ATP) and elevated levels of proinflammatory cytokines that are thought to be responsible for the local invasion. Yin et al. show that CXCL12/CXCR4 promotes proliferation, migration, and invasion of adamantinomatous CP via the PI3K/AKT signaling pathway [ ]. In this study, using the GEO datasets and clinical samples, we aimed to identify new prognosis predictors for this disease.
+
+## 4.2. Interpretation
+Herein, we collected two GEO datasets and performed an integrated analysis using both DEGs and WGCNA to obtain valuable clues. A total of 384 DEGs were identified, including 56 downregulated genes and 328 upregulated genes in CP tissues compared to normal tissues. Enrichment analyses using GO annotation and KEGG pathways were subsequently performed to further analyze the functions of these genes. As suggested by the results of the DAVID analysis, genes with a high expression in CP tissues were enriched in biological processes of pathways in cell adhesion, extracellular matrix organization, and wound healing. Molecular functions from GO analysis showed enrichment in cell adhesion molecule binding, glycoprotein binding, and protein binding. This was reasonable as frequent cellular proliferation and loss of cell adhesion are hallmarks of malignant diseases including CP [ ]. The results of the KEGG pathway enrichment analysis suggested significant enrichment in pathways including PI3K-Akt signaling and regulation of actin cytoskeleton. This was consistent with the fact that PI3K-Akt signaling is known to be frequently dysregulated in CP [ ].
+Four key genes identified from among the hub genes, PPBP (CXCL7), CD44, SDC1, and ITGA6 (CD49f), were selected for further experimental analyses. A total of four CP and four normal pituitary samples were processed for Western blotting, and we found the differential expressions of the four tested genes. After analyzing the results of Western blotting, ITGA6 was selected as the target gene to perform survival analysis.
+Many studies show that ITGA6 is overexpressed in several carcinomas, including breast cancer, colorectal cancer, kidney cancer, and gallbladder carcinoma [ – ]. Moreover, the overexpression of ITGA6 suggests a poor prognosis in breast, colorectal, kidney, and gallbladder cancers. For instance, Zhang et al. report that ITGA6 overexpression is associated with invasion, metastases, and poor prognoses in human gallbladder carcinoma [ ]. Several studies suggest that ITGA6 expression is associated with the progression and invasion of malignant lesions [ , ].
+Several researchers have invented new ways to inhibit the growth of cancers by targeting ITGA6 [ – ]. Wang et al. have successfully shown that miR-127-3p inhibits cellular growth and invasiveness by targeting ITGA6 in human osteosarcoma [ ]. Laudato et al. report that P53-induced miR-30e-5p inhibits colorectal cancer invasion and metastases by targeting ITGA6 and ITGB1 [ ]. However, the importance of ITGA6 in the CP remains unknown. Our findings demonstrated that the overexpression of ITGA6 was associated with the overall survival of patients with CP. The present study is, to the best of our knowledge, the first to investigate the association among the important biomarkers and characteristics of CP. Herein, the survival analysis indicated that ITGA6 was a poor prognostic factor for CP, which means patients with a high expression of ITGA6 had a significantly shorter overall survival relative to those with a low expression (p = 0.007).
+
+## 4.3. Limitations
+Although we found that IGTA6 affected the overall survival of patients with CP, some limitations to this investigation should be acknowledged. Further molecular experiments are needed to confirm the findings on the importance of ITGA6 for cellular invasion and proliferation in CP. Moreover, the regulatory factors for the expression of ITGA6 and the underlying pathways need further elucidation. For instance, Zhang et al. show that Twist2 promotes proliferation and invasion of kidney cancer cells by regulating ITGA6 and CD44 expressions in the ECM-receptor-interaction pathway [ ]. We plan to address these in the future.
+
+## 4.4. Conclusion
+Several studies have been conducted over the past few years to investigate the pathogenesis of CP, yet little is known about the formation and progression of this disease [ – ]. In summary, our findings indicated that ITGA6 was significantly correlated with the survival of the patients. Moreover, it can serve as a clinical prognostic marker for CP. Further experiments shall be performed in the future to confirm our findings.
+
+## Acknowledgments
+This study was funded by the Gansu Province Science and Technology Plan Project (Key Research and Develop Program) (2020), fund code: 20YF8WA086.
+
+## Contributor Information
+Songbai Gui, Email: guisongbai@yeah.net.
+Qiang Li, Email: strong908@163.com.
+Tian Li, Email: tian@fmmu.edu.cn.
+
+## Data Availability
+The datasets used and/or analyzed during the current study are available from corresponding author.
+
+## Ethical Approval
+The study was approved by the Ethics Committee of Lanzhou University.
+
+## Consent
+Written informed consent was obtained from all participants and their guardians.
+
+## Conflicts of Interest
+The authors declare that they have no conflicts of interest.
+
+## Authors' Contributions
+Writing was done by Yanfei Jia and Wentao Wu. Experiments were performed by Youchao Xiao, Lei Cao, and Ning Qiao. Manuscript revision was done by Shijia Zhai. Figure design and statistics were done by Kefan Cai and Songbai Gui. Idea and supervision were provided by Qiang Li and Tian Li. Yanfei Jia and Wentao Wu contributed equally to this work.
+
+## References
+ 
+
+## Associated Data
+
+## Data Availability Statement
+The datasets used and/or analyzed during the current study are available from corresponding author.
