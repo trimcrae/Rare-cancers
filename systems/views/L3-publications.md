@@ -26,7 +26,7 @@ last_verified: 2026-08-06
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.** A claim
 > below is what the paper would ESTABLISH, at the weight its instruments actually support.
 
-**16 endpoints for 40 routes · 15 with a document · 1 unwritten.**
+**19 endpoints for 43 routes · 18 with a document · 1 unwritten.**
 
 ⭐ **An unwritten paper is a row here, and that is the reason this collection exists.** L3 and L4 are otherwise DOCUMENTS rather than graph rows ([ARCHITECTURE §3](../ARCHITECTURE.md#3--the-hierarchy)), on the sound grounds that copying a file's title into JSON creates a second home for a fact the file owns. That reasoning is intact — a row with a document carries no title and this page reads it back out of the file. What it did not cover is a paper that **does not exist yet**: it has no file, so it has no other home, and leaving it unmodelled made *“this route has no endpoint”* and *“this route's endpoint is not written yet”* look identical.
 
@@ -43,6 +43,9 @@ last_verified: 2026-08-06
 | **PUB-CLOSED-ROUTES**<br/>[Seven routes closed on argument rather than on experiment — the negativ…](../../research/manuscripts/closed-routes-negative-record.md) | ◐ `drafted` | `preprint` | 7 | — |
 | **PUB-DEGRADER**<br/>[In silico design of a paralogue-favoured ligand for a cryptic NR4A3 poc…](../../research/manuscripts/nr4a3-degrader-paper.md) | ◐ `drafted` | `journal_submission` | 5 | — |
 | **PUB-EMC-PROGRAM**<br/>[Attacking an "undruggable" fusion oncoprotein by computation alone: a d…](../../research/manuscripts/emc-treatment-roadmap.md) | ◐ `drafted` | `journal_submission` | 2 | — |
+| **PUB-ENDPOINT**<br/>[Objective response is the wrong endpoint for extraskeletal myxoid chond…](../../research/manuscripts/emc-response-endpoint-paper.md) | ◐ `drafted` | `journal_submission` | 1 | — |
+| **PUB-FUSION-OUTPUT**<br/>[What EWSR1::NR4A3 is published to transcribe, read in EMC tumour tissue…](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md) | ◐ `drafted` | `preprint` | 1 | — |
+| **PUB-FUSION-PARTNER**<br/>[Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a…](../../research/manuscripts/emc-fusion-partner-stratification.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-HLA-COVERAGE**<br/>[Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunoth…](../../research/manuscripts/hla-coverage-emc.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-METHODS**<br/>[The failure record of a computation-only degrader program: what in-sili…](../../research/manuscripts/degrader-methods-failure-record.md) | ◐ `drafted` | `journal_submission` | 1 | — |
 | **PUB-MONOVALENT**<br/>[The monovalent pocket-modulation route — a small molecule that only occ…](../../research/manuscripts/nr4a3-monovalent-pocket-route.md) | ◐ `drafted` | `internal_note` | 1 | — |
@@ -157,6 +160,36 @@ The gap in EMC care is categorical rather than a matter of degree — nothing in
 | [RT-ICI-TKI](L2-rt-ici-tki.md) — Checkpoint inhibitor + anti-angiogenic TKI combinati | `context` | The comparator arm: the most consistently active class in EMC, cited to size the gap rather than analysed. Promoting it to a contribution would overstate what was done. |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) — Trabectedin (± RT or combination) | `context` | Cited to establish current care and the categorical gap. Explicitly not this program's contribution — it is clinical-evidence synthesis, and a single response must not be overstated. |
 
+### PUB-ENDPOINT — Objective response is the wrong endpoint for extraskeletal myxoid chondrosarcoma: the same 47 patients, read two ways
+
+**◐ `drafted` · aimed at `journal_submission` · [`research/manuscripts/emc-response-endpoint-paper.md`](../../research/manuscripts/emc-response-endpoint-paper.md)**
+
+Summarising systemic therapy in an indolent ultra-rare sarcoma by its objective-response rate discards most of what its own trials recorded - over the identical 47 patients ever evaluated in a prospective EMC trial, response is 12.8 percent and disease control 89.4 percent, and the whole 76.6-point gap is 36 patients with stable disease - while at achievable sample sizes a response-rate readout returns a result that is uninterpretable rather than negative a substantial fraction of the time. It does NOT claim disease control is the right endpoint instead, and asserts no efficacy for any agent: the confound it cannot remove is that stable disease in an indolent tumour may be natural history, and it states that objection at full strength rather than deflecting it.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) — Reframe the endpoint advanced-EMC systemic therapy i | `primary` | The whole paper: the two endpoints on one denominator, the 36 discordant patients, the reporting-completeness census, the small-trial arithmetic, and the limitations section that states the natural-history confound at full strength. |
+
+### PUB-FUSION-OUTPUT — What EWSR1::NR4A3 is published to transcribe, read in EMC tumour tissue against a size-matched empirical null: three cohorts, three platform families
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/nr4a3-fusion-transcriptional-output.md`](../../research/manuscripts/nr4a3-fusion-transcriptional-output.md)**
+
+Across a retrieved corpus of 2,276 full-text documents, the set of genes any NR4A3 chimera has been shown to physically bind and drive is three genes wide — and those three read higher in EMC tumour tissue than in comparator tumours in every one of six array readings and in an independent third cohort on an unrelated technology, while the AGGREGATE target set does not clear a size-matched empirical null on either readable array platform and the published EMC transcriptional phenotype does clear it, on both. Reading a gene set in these EMC series is uninterpretable without that null calibration. No genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in that corpus, so no gene named can yet be told apart from a gene that is merely associated with the disease.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) — The fusion's transcriptional output, read in EMC tis | `primary` | The whole paper: the evidence-typed catalogue of every published NR4A3 / NR4A3-fusion transcriptional target with the verbatim sentence per gene, the size-matched empirical null that makes any gene-set read on these platforms interpretable, the four instrument controls, the three-cohort per-gene concordance reading with its ceiling, and the measured absence of any retrieved NR4A3-fusion cistrome. |
+
+### PUB-FUSION-PARTNER — Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a partner-stratified pooled synthesis
+
+**◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-fusion-partner-stratification.md`](../../research/manuscripts/emc-fusion-partner-stratification.md)**
+
+The NR4A3 5' fusion partner is a candidate - not established - treatment-stratification variable in EMC: pooling every published partner-stratified report under one pre-committed evidence contract shows a consistent DIRECTION and no established magnitude, because the entire published TAF15::NR4A3 antiangiogenic-TKI experience is three to five patients with no reported responses and a 95% upper bound lying above the comparator arm's own point estimate; the partner's prognostic effect does not survive adjustment for tumour size in either of the two larger series to test it; and the review literature's metastasis claim runs opposite to the only cohort that publishes event counts by partner. It makes no treatment recommendation and asserts no efficacy, safety, therapeutic window or clinical readiness for any agent.
+
+| route | role | what it contributes |
+|---|---|---|
+| [RT-PARTNER-STRAT](L2-rt-partner-strat.md) — NR4A3 5' fusion partner as a treatment-stratificatio | `primary` | The whole paper: the pooled partner-stratified response, outcome and prevalence figures under one pre-committed method; the estimand ceiling that turns a repeated qualitative claim into a stated direction with no established magnitude; the metastasis reversal in the only cohort with event counts; the size-adjustment result from the two larger series; the attribution correction on the field's most-quoted caveat; and the zero-patient-cost ask that follows. |
+
 ### PUB-HLA-COVERAGE — Population coverage of a public EWSR1::NR4A3 fusion-neoantigen immunotherapy in extraskeletal myxoid chondrosarcoma: a r
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/hla-coverage-emc.md`](../../research/manuscripts/hla-coverage-emc.md)**
@@ -226,11 +259,11 @@ Existing agents not yet reported in EMC can be mapped to EMC's molecular and mic
 | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) — PPARG downstream-effector (repurpose TZDs) | `contributing` | The downstream-effector axis, carried with its direction flagged unresolved — scoped as unresolved and NOT refuted, which the paper must not conflate. |
 | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) — Trabectedin + a PPARγ agonist (all approved drugs) | `contributing` | The all-approved combination arm, held behind the same unresolved PPARγ direction that bounds the row above it. |
 
-### PUB-SURFACE-TARGETS — In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: one cell line, a translocation-sarcoma
+### PUB-SURFACE-TARGETS — In-silico surface-antigen prioritisation for extraskeletal myxoid chondrosarcoma: a surrogate search checked against the disease's own tissue
 
 **◐ `drafted` · aimed at `preprint` · [`research/manuscripts/emc-surface-target-landscape.md`](../../research/manuscripts/emc-surface-target-landscape.md)**
 
-Surface and stromal antigens can be prioritised for EMC in silico from one cell line and a translocation-sarcoma comparison set, and every resulting negative is bounded by that surrogate basis rather than by an EMC tissue measurement — which is the honest limit of a search run without the disease's own expression data.
+Surface and stromal antigens can be prioritised for EMC in silico, and the honest limit of the prioritisation is set by what the comparator basis can see. ⚠ SUPERSEDED 2026-08-07, RETAINED: the prior claim was that every negative is "bounded by that surrogate basis rather than by an EMC tissue measurement", from "one cell line and a translocation-sarcoma comparison set". THREE EMC TISSUE COHORTS ARE NOW READ (GSE24369/GPL6244, GSE4303/GPL3290, GSE28866/3SEQ), the third carrying 27 normal-organ libraries — the first on-target/off-tumour exposure axis this repository has had. The surrogate-basis framing is therefore no longer the binding limit and the paper needs rewriting rather than re-verifying. ⛔ The rewrite is a DEMOTION, not a gain: ALCAM, its lead antigen, reads 0.578 in EMC against 0.631 in normal tissue and loses the exposure axis while keeping the lineage half; CSPG4 is the largest row in the new deposit and is discordant across cohorts (+0.885 GPL6244, -0.189 GPL3290).
 
 **Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
 
@@ -315,6 +348,9 @@ For each parked modality there is a single named capability — a glue design me
 | [RT-UBIQ-SELECTIVE](L2-rt-ubiq-selective.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-DEGRADER** ◐ | `journal_submission` | `contributing` |
 | [RT-ICI-TKI](L2-rt-ici-tki.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
 | [RT-TRABECTEDIN](L2-rt-trabectedin.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `internal_note` | **PUB-EMC-PROGRAM** ◐ | `journal_submission` | `context` |
+| [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-ENDPOINT** ◐ | `journal_submission` | `primary` |
+| [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `preprint` | **PUB-FUSION-OUTPUT** ◐ | `preprint` | `primary` |
+| [RT-PARTNER-STRAT](L2-rt-partner-strat.md) | [ST-REPURPOSING](L1-st-repurposing.md) | `preprint` | **PUB-FUSION-PARTNER** ◐ | `preprint` | `primary` |
 | [RT-VACCINE](L2-rt-vaccine.md) | [ST-IMMUNO](L1-st-immuno.md) | `internal_note` | **PUB-HLA-COVERAGE** ◐ | `preprint` | `primary` |
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | [ST-DISSEMINATION](L1-st-dissemination.md) | `journal_submission` | **PUB-METHODS** ◐ | `journal_submission` | `primary` |
 | [RT-MONOVALENT](L2-rt-monovalent.md) | [ST-OCCUPANCY](L1-st-occupancy.md) | `internal_note` | **PUB-MONOVALENT** ◐ | `internal_note` | `primary` |

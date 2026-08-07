@@ -6,7 +6,7 @@ kind: generated
 status: generated
 generator: systems/systems_check.py
 purpose: Is there an already-approved drug whose mechanism plausibly fits EMC's biology and that has not been tried in EMC?
-scope: Level 1. 7 routes.
+scope: Level 1. 8 routes.
 audience: ["maintainers", "autonomous research agents"]
 date: 2026-08-05
 last_verified: 2026-08-05
@@ -41,6 +41,8 @@ flowchart LR
   ST_REPURPOSING --> RT_CARFILZOMIB
   RT_HDAC_BET["✓ RT-HDAC-BET"]:::fam
   ST_REPURPOSING --> RT_HDAC_BET
+  RT_PARTNER_STRAT["✓ RT-PARTNER-STRAT"]:::fam
+  ST_REPURPOSING --> RT_PARTNER_STRAT
   RT_PPARG_DOWNSTREAM["✓ RT-PPARG-DOWNSTREAM"]:::fam
   ST_REPURPOSING --> RT_PPARG_DOWNSTREAM
   RT_RXR["✓ RT-RXR"]:::fam
@@ -55,6 +57,7 @@ flowchart LR
   BLK_NO_EMC_DATA{{"BLK-NO-EMC-DATA — EMC is nearly absent from public functi…"}}:::blk
   BLK_NO_EMC_DATA --> RT_6MP
   BLK_NO_EMC_DATA --> RT_CARFILZOMIB
+  BLK_NO_EMC_DATA --> RT_PARTNER_STRAT
   BLK_NO_EMC_DATA --> RT_PPARG_DOWNSTREAM
   BLK_NO_EMC_DATA --> RT_TRABECTEDIN
   BLK_NO_EMC_DATA --> RT_TRABECTEDIN_PPARG
@@ -79,6 +82,7 @@ flowchart LR
 | **[RT-6MP](L2-rt-6mp.md)**<br/>6-mercaptopurine / AF-1 agonism of the fusion | ✓ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Nothing. Cite the closure — it is the clearest example in the register of wild-type pharmacology failing to tr |
 | **[RT-CARFILZOMIB](L2-rt-carfilzomib.md)**<br/>Carfilzomib ± anthracycline (± venetoclax) | ○ ready | concept | `internal_note` | [PUB-REPURPOSING](L3-publications.md) ◐ *primary* | Treat as landscape context; the ex-vivo result is banked and needs no further lookup. |
 | **[RT-HDAC-BET](L2-rt-hdac-bet.md)**<br/>HDAC / BET to lower fusion expression | ✓ parked | concept | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Nothing. Cite the closure when the idea resurfaces. |
+| **[RT-PARTNER-STRAT](L2-rt-partner-strat.md)**<br/>NR4A3 5' fusion partner as a treatment-stratification variable | ✓ ready | computed | `preprint` | [PUB-FUSION-PARTNER](L3-publications.md) ◐ *primary* | Post the preprint at research/manuscripts/emc-fusion-partner-stratification.md, and in the same pass send the  |
 | **[RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md)**<br/>PPARG downstream-effector (repurpose TZDs) | ✓ blocked | concept | `internal_note` | [PUB-REPURPOSING](L3-publications.md) ◐ *contributing* | The literature half is CLOSED (research/manuscripts/pparg-direction-emc.md). What remains is a PPARγ activity  |
 | **[RT-RXR](L2-rt-rxr.md)**<br/>RXR-heterodimer modulation of the fusion | ✓ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Nothing. The scan carries the one observation that would reopen it. |
 | **[RT-TRABECTEDIN](L2-rt-trabectedin.md)**<br/>Trabectedin (± RT or combination) | ○ ready | concept | `internal_note` | [PUB-EMC-PROGRAM](L3-publications.md) ◐ *context* | Keep as cited landscape context. Do not overstate a single response. |

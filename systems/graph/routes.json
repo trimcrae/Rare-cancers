@@ -4982,5 +4982,499 @@
       "best_next_action": "Watch for an induced-complex benchmark reporting inter-chain accuracy on post-training-horizon structures. In-horizon results are memorisation-permitting and move nothing.",
       "cost": "$0"
     }
+  },
+  {
+    "id": "RT-ENDPOINT-CHOICE",
+    "display_name": "Reframe the endpoint advanced-EMC systemic therapy is judged on",
+    "aliases": [
+      "the endpoint paper",
+      "objective response is the wrong endpoint for EMC",
+      "response-vs-disease-control discordance"
+    ],
+    "level": "L2",
+    "kind": "route",
+    "title": "Reframe the endpoint advanced-EMC systemic therapy is judged on",
+    "purpose": "Is the objective-response rate a fit summary of systemic-therapy outcomes in an indolent ultra-rare sarcoma, and what does the published record lose by using it?",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "grade": {
+      "value": "DELIVERABLE, complete. The manuscript exists, every figure in it is derived by a committed producer with a --check reproduction mode, and no measurement, spend, capability or third party gates it. Its ceiling is stated inside it: it is an argument about MEASUREMENT and cannot become evidence that any agent works.",
+      "owner": {
+        "file": "research/manuscripts/emc-response-endpoint-paper.md",
+        "anchor": null
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/emc-post-degrader-options.md",
+        "asserts_grade": false
+      }
+    ],
+    "strategy": "ST-DISSEMINATION",
+    "state": {
+      "work_state": "complete",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "moderate",
+      "last_verified": "2026-08-07"
+    },
+    "rationale": "EMC is indolent: this repository's own pooled reading of its outcome cohorts puts distant metastasis far above disease-specific death, over follow-up windows in which most patients are alive. An endpoint that records only tumour shrinkage therefore has almost no category to put this disease's observations into. Read over the identical 47 patients ever evaluated for response inside a prospective EMC trial, objective response is 12.8 percent and disease control is 89.4 percent - and the entire 76.6-point gap is 36 patients whose best response was stable disease. That gap is a fact about two endpoints on one dataset, not evidence about any drug, and the route's own strongest objection is that stable disease in an indolent tumour may be natural history. What survives that objection unaltered is the arithmetic: at the pooled response rate a 20-patient single-arm trial expects 2.6 responses and has a 6.5 percent chance of seeing none at all (29 percent at the interval's lower bound), so a zero in that regime is uninterpretable rather than negative. Alongside it sits a reporting finding with a trivial remedy - of the 9 published EMC systemic-therapy cohorts, 7 report extractable objective-response counts and 1 reports a 6-month progression-free count, so the endpoint the field's own trials migrated to is the one it reports least completely.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-ENDPOINT-DISCORDANCE",
+        "what_it_supports": "the two endpoints computed over the identical 47-patient denominator, the 36 discordant stable-disease patients derived two independent ways, the reporting-completeness census, and the small-trial binomial arithmetic - all reproducible offline via --check",
+        "strength": "direct"
+      },
+      {
+        "ref": "ART-EMC-CLINICAL-REGISTRY",
+        "what_it_supports": "the cited EMC clinical evidence base the counts ultimately rest on, under the evidence contract enforced as a preflight gate",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "The rate of spontaneous stabilisation after documented progression in untreated advanced EMC. It is unpublished, it is what would calibrate the disease-control reading, and no randomised no-treatment arm in an ultra-rare indolent sarcoma is a realistic ask.",
+      "Whether the two European prospective cohorts share patients - the IMMUNOSARC II abstract records 6 of 23 with a prior antiangiogenic and no patient-level data is published, so the independence of the pooled interval cannot be sized.",
+      "What the IMMUNOSARC II full paper would do to 23 of the 47 pooled patients; it does not exist, and the abstract carries two unreconciled arithmetic inconsistencies.",
+      "Whether any journal would accept an endpoint-methodology argument in an ultra-rare disease as publishable on its own, given that its denominator is 47 patients worldwide."
+    ],
+    "required_validation": [
+      {
+        "what": "That the two endpoints are computed over the identical patient set - if they are not, the comparison is between populations and the route's central claim is void",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "That the re-derived pooled proportions agree with the artifact that owns them, so the discordance figures are provably about the same object",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "A comparator that would separate treatment effect from natural history in the disease-control reading - a randomised no-treatment arm, or an observational within-patient design such as growth-modulation index or time to next treatment",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "journal_submission",
+      "missing": [],
+      "evidence_required": [],
+      "experiment_required": []
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "Nothing gates it - no measurement, no spend, no capability, no third party. It was unwritten only because no route modelled it, and the argument's value is highest before the next EMC cohort reports, because its concrete ask is a four-cell best-response table that a trial in design can still print and a trial already published cannot.",
+      "six_month_delta": "Little. The IMMUNOSARC II full paper could land and would replace 23 of 47 pooled patients with peer-reviewed counts; the paper already brackets the numerical effect at 1.7 percentage points.",
+      "two_year_delta": "Small on the arithmetic, potentially large on the confound: an observational growth-rate or time-to-next-treatment analysis in a sarcoma registry would supply the within-patient comparator this literature lacks.",
+      "cost_trend": "flat",
+      "automation_outlook": "The derivation and its reproduction check are already automated. The judgement about what stable disease means in an indolent tumour is not, and is the part that carries the paper."
+    },
+    "blockers_inherited": [],
+    "blockers_retired": [
+      "BLK-NO-WET-LAB"
+    ],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [],
+    "evidence": [],
+    "artifacts": [
+      "ART-EMC-ENDPOINT-DISCORDANCE"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-ICI-TKI",
+        "axis": "what is being asked about the same trials",
+        "fails_on": [],
+        "why": "RT-ICI-TKI cites those cohorts to size the CLINICAL landscape and is explicitly not this program's contribution; this route re-reads the same cohorts to ask whether the summary statistic the field quotes from them is fit for the disease. Same patients, different question, and neither answers the other's"
+      },
+      {
+        "route": "RT-METHODS-PAPER",
+        "axis": "whose methods are under examination",
+        "fails_on": [],
+        "why": "the methods paper reports THIS program's own in-silico instruments failing their known-answer controls; this route reports a measurement convention in the published CLINICAL literature. Both are ST-DISSEMINATION deliverables and neither supplies the other's content"
+      }
+    ],
+    "limitations": [
+      "It is an argument about measurement. It asserts no efficacy, potency, dose, safety, therapeutic window or clinical readiness for any agent, and makes no treatment recommendation, including a negative one.",
+      "It does not claim disease control is the correct endpoint instead. At 89.4 percent that endpoint is near its ceiling, it has no comparator in this disease, and an unknown share of the stable diseases would have been stable untreated.",
+      "Every pooled denominator is under 60 patients worldwide, ever. One contributing cohort is 2 patients. The width of the intervals is a finding, not a provisional estimate awaiting a larger series.",
+      "No randomised evidence exists for any systemic therapy in EMC; the one randomised dataset that touches the disease had a control arm containing no EMC patients at all.",
+      "Best response is not duration. The route measures neither how long control lasted nor what any patient's outcome was."
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "No scientific blocker. The route is complete as a deliverable and its one open scientific question - the untreated stabilisation rate - is a limit ON the interpretation rather than a gate on the paper, which states it as its own strongest counter-argument rather than waiting for it.",
+    "publication": {
+      "endpoint": "PUB-ENDPOINT",
+      "role": "primary",
+      "contribution": "The whole paper: the two endpoints on one denominator, the 36 discordant patients, the reporting-completeness census, the small-trial arithmetic, and the limitations section that states the natural-history confound at full strength."
+    },
+    "next": {
+      "best_next_action": "Review the manuscript for external posting. Nothing else in the route is unrun.",
+      "cost": "$0",
+      "blocked_on": []
+    }
+  },
+  {
+    "id": "RT-FUSION-OUTPUT",
+    "display_name": "The fusion's transcriptional output, read in EMC tissue",
+    "aliases": [
+      "the transcriptional-output route",
+      "the fusion target-set read",
+      "EWSR1::NR4A3 published targets in EMC tissue"
+    ],
+    "grade": {
+      "value": "A measured, null-calibrated per-gene concordance result with an explicitly stated ceiling: all three genes carrying a DNA-binding assay against an NR4A3 chimera are positive-signed on both readable array platforms and in an independent third cohort, while the AGGREGATE target set does not clear its size-matched null on either array platform. The binding constraint is not sample size — it is that the class-A set is three genes wide and that no genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in 2,276 full-text documents across five committed corpora, which is a bounded statement about a search rather than a claim that none exists.",
+      "owner": {
+        "file": "research/manuscripts/nr4a3-fusion-transcriptional-output.md",
+        "anchor": "#6--conclusion"
+      }
+    },
+    "grade_pointers": [],
+    "blockers_inherited": [],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1"
+    ],
+    "evidence": [
+      "EV-FILION-2009",
+      "EV-SUBRAMANIAN-2005",
+      "EV-PMC6766969"
+    ],
+    "artifacts": [],
+    "distinct_from": [
+      {
+        "route": "RT-PPARG-DOWNSTREAM",
+        "axis": "what is being asked of the PPARγ axis",
+        "fails_on": [],
+        "why": "RT-PPARG-DOWNSTREAM asks whether a PPARγ-directed AGENT could act on a downstream effector, and is held up by the unresolved DIRECTION of that intervention. This route asks only whether the receptor's target genes are co-ordinately elevated in EMC tissue against a size-matched null. It supplies an input to that route and answers none of its question: §3.9 of the manuscript states in terms that an activity reading says nothing about the direction of any pharmacological intervention."
+      },
+      {
+        "route": "RT-METHODS-PAPER",
+        "axis": "what the paper is a record OF",
+        "fails_on": [],
+        "why": "RT-METHODS-PAPER is a record of instruments that FAILED their known-answer controls, in the degrader program. This route's instrument PASSED all four of its known-answer controls and returned a positive per-gene reading. Both sit in ST-DISSEMINATION and they are the two halves of that family's thesis, not one route described twice."
+      },
+      {
+        "route": "RT-DBD",
+        "axis": "whether the DNA-binding domain is a TARGET or an EXPLANATION",
+        "fails_on": [],
+        "why": "RT-DBD asks whether the fusion's DNA-binding domain can be drugged and is closed. This route uses the fact that the DBD binds DNA to ask what it binds DNA NEAR, which is a measurement question that the closure of RT-DBD does not touch."
+      }
+    ],
+    "closure_kind": "open",
+    "revival_trigger": [],
+    "closure_note": "⭐ OPEN, and the open part is cheap. The named next step — an NBRE motif scan of the promoters of the genes that read high, against a matched background — is sequence work that needs no new data, no dispatch and no money. The route's CEILING is a different matter and is not cheap: separating 'the fusion drives this gene' from 'this gene is associated with EMC' needs a cistrome measured with a fusion expressed, and §3.10 of the manuscript records that a search of 2,276 retrieved full-text documents across five committed corpora found none. That is a bounded negative about a SEARCH, not a statement that no such dataset exists — so the route is open on an experiment nobody has published rather than on a capability that does not exist.",
+    "strategy": "ST-DISSEMINATION",
+    "publication": {
+      "endpoint": "PUB-FUSION-OUTPUT",
+      "role": "primary",
+      "contribution": "The whole paper: the evidence-typed catalogue of every published NR4A3 / NR4A3-fusion transcriptional target with the verbatim sentence per gene, the size-matched empirical null that makes any gene-set read on these platforms interpretable, the four instrument controls, the three-cohort per-gene concordance reading with its ceiling, and the measured absence of any retrieved NR4A3-fusion cistrome."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "The fusion's transcriptional output, read in EMC tissue",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      },
+      "produced_by": "research/modalities/nr4a3_fusion_targets.py",
+      "workflow": ".github/workflows/emc-expression-datasets.yml",
+      "published_to": [
+        "main"
+      ]
+    },
+    "purpose": "Do the genes an NR4A3 chimera is published to bind read higher in EMC tumour tissue than in comparator tumours — beyond what an arbitrary gene set of the same size achieves on the same platform?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "active",
+      "maturity": "validated_in_silico",
+      "confidence": "moderate",
+      "last_verified": "2026-08-07"
+    },
+    "rationale": "EMC is defined by an NR4A3 fusion, so the disease's central molecular hypothesis is that the chimera is a transcription factor with an aberrant output. Two questions are routinely conflated in the field's prose: which genes has anyone shown an NR4A3 chimera to physically BIND and drive, and which genes are HIGH in EMC tumours. The first is a mechanism claim and the second is an association that EMC's cell of origin, its myxoid architecture, or a generic matrix programme could produce on its own. Cataloguing the mechanism claims with their evidence type recorded per gene, and then reading them back in tumour tissue against an explicit calibration for what an arbitrary gene set does on the same platform, separates the two as far as public data allow — and states precisely where the separation stops.",
+    "supporting_evidence": [
+      {
+        "ref": "EV-PMC6766969",
+        "what_it_supports": "SEMA3C as the single best-evidenced direct target of EWSR1::NR4A3 — a human cell background, the actual EWSR1 chimera, and a chromatin-binding assay (ChAP-qPCR); and the measurement that the TAF15 chimera does NOT retain that binding, which is half of why native-to-fusion transfer cannot be assumed",
+        "strength": "direct"
+      },
+      {
+        "ref": "EV-FILION-2009",
+        "what_it_supports": "PPARG as a fusion-transactivated promoter with a band-shift, a luciferase reporter and a single-nucleotide NBRE mutant behind it; the never-cited negative result in the same paper that native NR4A3 and NR4A3ΔC do NOT activate that promoter; and Table 1, whose 21 mappable genes replicate cross-platform and cross-cohort at p_emp 0.0005 on both readable series",
+        "strength": "direct"
+      },
+      {
+        "ref": "EV-SUBRAMANIAN-2005",
+        "what_it_supports": "the GSE4303 / GPL3290 cohort itself (10 EMC on a 42,000-spot two-colour cDNA platform), and — read from the fetched GEO series record rather than inferred from sample counts — the confirmed circularity of scoring Filion Table 2 on that platform, which is why only Table 1 is used as a replication test",
+        "strength": "direct"
+      }
+    ],
+    "remaining_unknowns": [
+      "⛔ THE CENTRAL ONE. Whether the fusion DRIVES any of the genes that read high in EMC. Every reading here is consistent with the fusion driving them and equally consistent with EMC's cell of origin expressing them, with EMC's myxoid hypocellular architecture against dense comparator sarcomas, or with the genes being generic matrix or proliferation genes. The size-matched null removes the platform offset and part of the generic-gene explanation and removes neither of the first two, and nothing available at $0 does.",
+      "Whether the class-A set is three genes wide because that is the biology or because nobody has looked. No genome-wide chromatin experiment performed with an NR4A3 chimera was retrieved in 2,276 full-text documents across five committed corpora, so the set's width is a fact about the retrieved literature and not yet a fact about the fusion.",
+      "Whether sign concordance across six array readings and three genes means anything a coordinated programme would predict. Three individually EMC-associated genes predict the same pattern, and with three genes the two explanations are not separable.",
+      "Whether the fusion-type mixture is attenuating a real signal or hiding a reversal. No readable series records which fusion each EMC sample carries, and Brenca et al. show EWSR1- and TAF15-translocated EMC differ transcriptionally, so every EMC arm here is a mixture of unknown composition.",
+      "Whether the PPARγ activity reading is receptor output or adipogenic differentiation. The occupancy-derived arm and the adipogenesis process proxy are both set-specific UP on both platforms and share 44 genes (23% of the smaller set), and these data cannot separate them.",
+      "Whether any of this holds at protein level. Every reading is transcript-level in bulk tissue, and SGK1 is the worked example of a gene whose published protein and transcript directions oppose."
+    ],
+    "required_validation": [
+      {
+        "what": "The instrument must recover known published answers on these exact platforms before any set score is read — a positive control, a tumour-identity control, a directional falsifier with a published DOWN prediction, and a transcript/protein discordance control. ✅ DONE 2026-08-07, run 31200817686: all four agree on every platform where a contrast could be computed, `all_checks_pass: true`, zero disagreeing",
+        "instrument": "V1",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "Any raw 'higher in EMC' contrast must be refused unless it clears a size-matched empirical null drawn from the same platform's own genes. ✅ DONE — 4,000 seeded draws per set per platform; the refusal fired on this route's own aggregate class-A+B set on both platforms and is reported rather than worked around",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "An NBRE motif scan of the promoters of the genes that read high, against a matched background. Sequence work: needs no new data, no dispatch and no money. It cannot demonstrate binding, but a set of up-in-EMC genes with NO NBRE enrichment would be a real negative. NOT DONE",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      {
+        "what": "An NR4A3 ChIP-seq peak set with the FUSION expressed, intersected with these expression reads: a gene up in EMC that carries a fusion-bound NBRE in its regulatory region is driven, and a gene up with no peak is correlated. ⛔ No such dataset was retrieved. The nearest available (Haller et al. 2019, PMID 30664630; processed data Zenodo doi 10.5281/zenodo.1483691, open) is NATIVE NR4A3 in acinic cell carcinoma, not a fusion — and given the measurement that native NR4A3 does not activate the PPARG promoter the fusion does, it answers a different question and must never be cited as answering this one",
+        "feasible_today": false,
+        "blocked_by": []
+      },
+      {
+        "what": "Fusion knockdown or degradation in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment was retrieved in the corpora searched",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "what": "Fusion-type-stratified EMC expression data, so the EWSR1 and TAF15 arms can be read apart rather than as a mixture",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "why_not_higher": "The result is a per-gene sign-concordance reading over three genes in cohorts of 4, 6 and 10, with the aggregate refused by its own null and no occupancy evidence in EMC. That is honest preprint content and it is not a journal-submission argument: a reviewer's first question — 'is any of this the fusion?' — has no answer here, and the paper says so rather than working around it. What would raise it is a cistrome intersection, not more writing.",
+      "missing": [
+        "the NBRE promoter scan, which is free and unstarted",
+        "a cistrome measured with an NR4A3 fusion expressed — an open, unclaimed experiment rather than an unfetched dataset"
+      ],
+      "evidence_required": [
+        "occupancy evidence in a fusion-expressing cell, for any gene named"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The measurement has run, the instrument passed its known-answer controls, and the manuscript is drafted. The one remaining free step — the NBRE promoter scan — costs $0 and is startable as written. Nothing about this route gets cheaper or easier by waiting, and the thing that WOULD change it (a fusion cistrome) is somebody else's experiment, which is a reason to publish the reading rather than to sit on it.",
+      "six_month_delta": "Small, unless someone deposits a fusion cistrome. The two array series and the 3SEQ deposit are all decade-old public data and will not improve.",
+      "two_year_delta": "Potentially decisive, and in one direction only: a genome-wide chromatin experiment with an NR4A3 chimera would convert every per-gene concordance here into either a driven-gene claim or a correlation, and nothing else would.",
+      "cost_trend": "flat",
+      "automation_outlook": "Fully automatable as re-analysis — the null draw is seeded, the pipeline is stdlib-only and the whole run costs $0 on CI. What is not automatable is the judgement that three genes of sign concordance is weaker than a set result, which is the sentence the pre-registration failed to write in advance."
+    },
+    "next": {
+      "best_next_action": "Run an NBRE motif scan over the promoter regions of the class-A and Filion-Table-1 genes against a size- and GC-matched background drawn from the same genome build, and record per-gene motif hits beside the existing per-gene deltas in `nr4a3-fusion-targets.json`. $0, sequence-only, no dispatch and no new data.",
+      "cost": "$0",
+      "blocked_on": []
+    },
+    "limitations": [
+      "n = 4, 6 and 10 EMC tumours across the three cohorts. Nothing here survives being described as a distribution.",
+      "The three cohorts are never pooled and must never be: 3SEQ 3'-end read density is not array intensity, and GPL6244 single-channel intensity is not GPL3290 two-colour log-ratio. The concordance is sign agreement across three independent measurements, which is weaker than a combined estimate.",
+      "Transcript only. No protein abundance, no post-translational state, no subcellular localisation.",
+      "No occupancy in EMC, and therefore no causal attribution to the fusion for any gene named.",
+      "The normal-tissue arm is a six-organ visceral panel, not matched adjacent tissue, so it cannot separate EMC-specific from mesenchymal-lineage-specific.",
+      "The empirical null controls the platform offset and set size, not gene-gene correlation within a real pathway, so its p is anti-conservative for coherent sets and is a screen rather than a test.",
+      "Uncorrected for multiple testing.",
+      "⛔ Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim for any agent, target or gene, and expression data cannot become that evidence."
+    ]
+  },
+  {
+    "id": "RT-PARTNER-STRAT",
+    "display_name": "NR4A3 5' fusion partner as a treatment-stratification variable",
+    "aliases": [
+      "fusion-variant stratification",
+      "EWSR1 vs TAF15 stratification",
+      "partner-stratified pooled synthesis",
+      "the fusion-partner stratification work"
+    ],
+    "grade": {
+      "value": "The portfolio's only patient-SELECTION route: it proposes no new agent and no new modality, and asks instead which existing patients the one active drug class is reported to work in. Its finding is a DIRECTION with no established magnitude, and its deliverable - a pooled synthesis plus a costless ask of the field - is complete and unblocked.",
+      "owner": {
+        "file": "research/manuscripts/emc-fusion-partner-stratification.md",
+        "anchor": "#5--what-this-synthesis-claims-and-what-it-does-not"
+      }
+    },
+    "grade_pointers": [
+      {
+        "file": "research/manuscripts/emc-unexplored-treatment-lanes.md",
+        "asserts_grade": true
+      }
+    ],
+    "blockers_inherited": [
+      "BLK-NO-EMC-DATA"
+    ],
+    "blockers_retired": [],
+    "instruments": {
+      "support": [],
+      "disclosed_failing": []
+    },
+    "objects": [
+      "OBJ-FUS-T1",
+      "OBJ-FUS-TAF15",
+      "OBJ-FUS-TCF12",
+      "OBJ-FUS-FUSNR4A3"
+    ],
+    "evidence": [
+      "EV-PMC4015728",
+      "EV-PMC6766969",
+      "EV-BANGERTER-2023"
+    ],
+    "artifacts": [
+      "ART-FUSION-PARTNER-POOLING",
+      "ART-EMC-CLINICAL-REGISTRY"
+    ],
+    "distinct_from": [
+      {
+        "route": "RT-ICI-TKI",
+        "axis": "what the route proposes",
+        "fails_on": [],
+        "why": "RT-ICI-TKI proposes a COMBINATION - it asks whether adding a checkpoint inhibitor to an anti-angiogenic TKI has an EMC signal, and it is landscape context rather than this program's contribution. This route proposes no combination and no agent at all: it asks WHICH PATIENTS the antiangiogenic class is reported to work in, and its contribution is a pooled reading of the published record under a stated method. The two share one drug class and nothing else - a result here would change who is enrolled, not what is given."
+      },
+      {
+        "route": "RT-CARFILZOMIB",
+        "axis": "what the matched USZ model pair is evidence FOR",
+        "fails_on": [],
+        "why": "Both routes read Bangerter's two patient-derived EMC models, and they read them for opposite purposes: RT-CARFILZOMIB takes the models' drug sensitivity as evidence about an AGENT, while this route takes them as evidence about the PARTNER - and finds partner-INDEPENDENCE, which bounds this route's own biomarker rather than supporting it. Conflating the two readings is how a source that argues against a hypothesis gets cited for it."
+      },
+      {
+        "route": "RT-TRABECTEDIN",
+        "axis": "which existing agent's EMC record is being re-read",
+        "fails_on": [],
+        "why": "Both are clinical-evidence re-readings of an approved agent already used in EMC, and both are the kind of route that can only ever produce a paper. They differ in the axis: RT-TRABECTEDIN re-reads a single arm's denominator and outcome attribution; this route re-reads response and outcome STRATIFIED by a molecular variable, across every report that gives one."
+      }
+    ],
+    "closure_kind": "open",
+    "closure_note": "Not closed, and the two halves close on different terms. The DELIVERABLE is complete: the synthesis has run, its artifact is committed and reproducible, and nothing blocks the paper. The QUESTION is open and cannot be closed from here - it needs partner-stratified counts that exist today inside three paywalled tables, or one new published case. That asymmetry is the route, not a defect in it.",
+    "strategy": "ST-REPURPOSING",
+    "publication": {
+      "endpoint": "PUB-FUSION-PARTNER",
+      "role": "primary",
+      "contribution": "The whole paper: the pooled partner-stratified response, outcome and prevalence figures under one pre-committed method; the estimand ceiling that turns a repeated qualitative claim into a stated direction with no established magnitude; the metastasis reversal in the only cohort with event counts; the size-adjustment result from the two larger series; the attribution correction on the field's most-quoted caveat; and the zero-patient-cost ask that follows."
+    },
+    "level": "L2",
+    "kind": "route",
+    "title": "NR4A3 5' fusion partner as a treatment-stratification variable",
+    "provenance": {
+      "owner": {
+        "file": "systems/graph/routes.json"
+      }
+    },
+    "purpose": "Does the NR4A3 5' fusion partner identify which EMC patients the one systemically active drug class is reported to work in - and what does the published record actually support, as opposed to what it is repeatedly said to support?",
+    "state": {
+      "work_state": "complete",
+      "authorization": "free",
+      "status": "ready",
+      "maturity": "computed",
+      "confidence": "low",
+      "last_verified": "2026-08-07"
+    },
+    "rationale": "EMC has one systemic class with reproducible activity - the antiangiogenic TKIs - and four separate literatures each report that the two principal fusion variants behave differently under it, in outcome, in prevalence and in transcriptional programme. None of the four had been combined with any other, and no source pools the response data at all, so the belief was stronger in the field's prose than in the field's counts and nobody could say by how much. A stratification variable is also the cheapest kind of clinical result to act on: it needs no new molecule, no new modality and no wet lab, only that the variable be reported. This route is the reading that says how much the published record carries - and its answer is a direction with no established magnitude, which is a different and more useful statement than the qualitative claim it replaces.",
+    "supporting_evidence": [
+      {
+        "ref": "ART-FUSION-PARTNER-POOLING",
+        "what_it_supports": "Every pooled figure the route rests on: TKI objective response by partner under both the POLICY-conformant primary and the assume-independent secondary analysis, the single-cohort outcome intervals, the four-series prevalence pool, and the inclusion verdict and reason for every cohort considered.",
+        "strength": "direct"
+      },
+      {
+        "ref": "EV-PMC4015728",
+        "what_it_supports": "The only published EMC cohort reporting outcome EVENT COUNTS by NR4A3 partner - and therefore the only source of the disease-specific-death contrast and of the distant-recurrence reversal. NOTE for whoever applies this: the evidence row's own `what_it_supports` currently describes a DIFFERENT use of the same paper (its RT-PCR primer design, corroborating the exon-level junctions). Both uses are real; the row's field is worth extending rather than replacing.",
+        "strength": "direct"
+      },
+      {
+        "ref": "EV-PMC6766969",
+        "what_it_supports": "The transcriptional mechanism that separates the two variants - the axon-guidance switch, and the chromatin-affinity result that the EWSR1 chimera retains SEMA3C promoter binding while the TAF15 chimera is impaired. Carried as CONTEXT, not as corroboration: it shares its senior investigators and consortium with both TKI reports, so it is the same investigators explaining their own clinical observation.",
+        "strength": "transferred"
+      },
+      {
+        "ref": "EV-BANGERTER-2023",
+        "what_it_supports": "The only matched EWSR1/TAF15 patient-derived model pair in existence, and it reads AGAINST this route's hypothesis rather than with it: the authors' finding is partner-INDEPENDENT drug response, and neither model was tested against an antiangiogenic TKI. It bounds the biomarker's scope to the class in which the correlation was observed. Listed as supporting evidence because a bound on a claim is part of what the claim rests on.",
+        "strength": "transferred"
+      }
+    ],
+    "remaining_unknowns": [
+      "Whether the response contrast is real at all. Zero of three to five TAF15 patients is consistent with a TAF15 response rate equal to the EWSR1 one - the 95% Wilson upper bound sits above the comparator arm's own point estimate in both analyses.",
+      "Whether the two published TKI cohorts share patients. The overlap cannot be excluded from any accessible source, which is why the headline denominator is a range rather than a number.",
+      "Whether the pazopanib trial's comparator arm is EWSR1 at all - it is `non-TAF15`, and no accessible source gives the trial's full partner distribution.",
+      "Whether the partner is an independent prognostic factor. The two larger series that tested it both lose it once tumour size is in the model, and the partner is itself associated with size.",
+      "Whether partner assignment is comparable across series. The four prevalence cohorts did not use one assay, and each carries a partner-unassigned residue excluded from both numerator and denominator - an assumption of missing-at-random that no report supports.",
+      "Whether the mechanism has anything to do with the clinical observation. The one matched model pair says drug response is partner-independent for the class it tested, and the mechanism paper shares a consortium with the clinical reports."
+    ],
+    "required_validation": [
+      {
+        "what": "Partner-stratified event counts from the two largest outcome series, which exist today inside their paywalled full texts (Mod Pathol 2023, Ann Surg Oncol 2021) and would more than double the world's poolable evidence at zero new patient cost",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "what": "The pazopanib trial's full fusion-partner distribution and its prior-therapy table, which together close both the overlap question and the composition of the comparator arm",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "what": "A partner-stratified reanalysis of any registry with size and stage adjusted for - the test the two larger series already point at and neither could complete",
+        "feasible_today": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "what": "Re-running the generator and reproducing the committed artifact, which is what makes every figure in the paper checkable by a reader with no network and no dependencies",
+        "feasible_today": true,
+        "blocked_by": []
+      }
+    ],
+    "readiness": {
+      "attainable_today": "preprint",
+      "why_not_higher": "The synthesis is complete and reproducible, and nothing blocks posting it. What holds it below a journal submission is not the writing but the evidence base: the primary analysis rests on a single trial's three-patient stratum, the per-arm denominators for both TKI cohorts were read from secondary sources because neither primary full text is open access, and the outcome analysis is one cohort of 23. A reviewer would be right to ask for the three paywalled tables, and nobody here can supply them.",
+      "missing": [
+        "per-partner event counts from Huang 2023 (Mod Pathol, n = 58) and Paioli 2021 (Ann Surg Oncol, n = 67)",
+        "the pazopanib trial's full partner distribution and prior-therapy table (Lancet Oncol 2019)",
+        "NCT02066285's eligibility text, absent from the cached ClinicalTrials.gov v2 field set"
+      ],
+      "evidence_required": [
+        "at least one further cohort reporting objective response by NR4A3 partner with integer counts"
+      ]
+    },
+    "timing": {
+      "recommendation": "pursue_now",
+      "rationale": "The analysis is done, the artifact is committed and reproducible, and the deliverable is unblocked. Waiting does not improve it: no new EMC cohort is expected, the three tables that would move it are already written and simply not public, and the ask this paper makes - report the partner alongside response - only starts working once it is published. A synthesis that names the missing tables is also the cheapest instrument for getting them released.",
+      "six_month_delta": "Little, unless a new case report or a partner-stratified registry reanalysis appears. One published TAF15 response would change the conclusion outright, and that is a single case report away.",
+      "two_year_delta": "Materially more if the paywalled tables are published or a registry reanalysis is run - both are decisions by other people rather than capabilities that must arrive.",
+      "cost_trend": "flat",
+      "automation_outlook": "Retrieval, pooling and interval arithmetic are fully automated here and cost $0. Deciding which cohorts may be pooled at all - the overlap judgement in particular - is not automatable and is where the analysis actually lives."
+    },
+    "next": {
+      "best_next_action": "Post the preprint at research/manuscripts/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
+      "cost": "$0",
+      "blocked_on": []
+    }
   }
 ]

@@ -22,7 +22,7 @@ last_verified: 2026-08-05
 > lab, no funding for one — so every advance is either in-silico or publish-to-convince.
 > **Nothing here asserts efficacy, safety, a therapeutic window or clinical readiness.**
 
-**9 strategy families · 40 routes · 18 blockers · 25 technology dependencies.**
+**9 strategy families · 43 routes · 18 blockers · 25 technology dependencies.**
 
 ## The shape of the portfolio
 
@@ -41,14 +41,14 @@ flowchart LR
   BLK_UNSIZED_REQUIREMENT{{"BLK-UNSIZED-REQUIREMENT — 2 families"}}:::blk
 
   ST_IMMUNO["ST-IMMUNO ✓ · 9 routes"]:::fam
+  ST_REPURPOSING["ST-REPURPOSING ✓ · 8 routes"]:::fam
   ST_PROXIMITY["ST-PROXIMITY ◐ · 7 routes"]:::fam
-  ST_REPURPOSING["ST-REPURPOSING ✓ · 7 routes"]:::fam
   ST_NUCLEIC_ACID["ST-NUCLEIC-ACID ✓ · 5 routes"]:::fam
   ST_DEPENDENCY["ST-DEPENDENCY ✓ · 3 routes"]:::fam
+  ST_DISSEMINATION["ST-DISSEMINATION ○ · 3 routes"]:::fam
   ST_FUSION_DIRECT["ST-FUSION-DIRECT ✕ · 3 routes"]:::fam
   ST_OCCUPANCY["ST-OCCUPANCY ○ · 3 routes"]:::fam
   ST_RADIOLIGAND["ST-RADIOLIGAND ○ · 2 routes"]:::fam
-  ST_DISSEMINATION["ST-DISSEMINATION ○ · 1 route"]:::fam
 
   BLK_NO_WET_LAB --> ST_DEPENDENCY
   BLK_NO_WET_LAB --> ST_NUCLEIC_ACID
@@ -96,10 +96,10 @@ flowchart LR
 | **[ST-FUSION-DIRECT](L1-st-fusion-direct.md)**<br/>Targeting the fusion protein's other domains | The fusion has more than one surface. If a different domain is more tractable or more selective, the paralogue problem might be sidestepped rather tha… | 3 | ✕ closed · scoped | closed_but_informative |
 | **[ST-NUCLEIC-ACID](L1-st-nucleic-acid.md)**<br/>Nucleic-acid and genetic therapeutics | The junction is the only truly tumour-exclusive feature of this disease. A molecule that reads sequence rather than shape can discriminate perfectly, … | 5 | ✓ blocked · computed | hedge |
 | **[ST-IMMUNO](L1-st-immuno.md)**<br/>Immunotherapy and antigen-directed approaches | If a tumour-restricted antigen exists, the discrimination problem is solved by the immune system rather than by chemistry, and potency comes free. The… | 9 | ✓ blocked · computed | hedge |
-| **[ST-REPURPOSING](L1-st-repurposing.md)**<br/>Repurposing approved and late-stage agents | An approved drug skips discovery, synthesis, toxicology and most of the cost of being right. For an ultra-rare disease with no targeted agent, a mecha… | 7 | ✓ blocked · computed | cheap_option |
+| **[ST-REPURPOSING](L1-st-repurposing.md)**<br/>Repurposing approved and late-stage agents | An approved drug skips discovery, synthesis, toxicology and most of the cost of being right. For an ultra-rare disease with no targeted agent, a mecha… | 8 | ✓ blocked · computed | cheap_option |
 | **[ST-RADIOLIGAND](L1-st-radioligand.md)**<br/>Radioligand and theranostic approaches | A radioligand does not need the target to be a driver, only to be present and accessible. That decouples the therapy entirely from the fusion biology … | 2 | ○ blocked · concept | cheap_option |
 | **[ST-DEPENDENCY](L1-st-dependency.md)**<br/>Synthetic lethality and dependency | You do not have to drug the driver if the driver has made something else indispensable. A synthetic-lethal partner can be an ordinary, already-druggab… | 3 | ✓ blocked · computed | hedge |
-| **[ST-DISSEMINATION](L1-st-dissemination.md)**<br/>Methods and publication as an outcome in itself | A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodolo… | 1 | ○ ready · scoped | dissemination |
+| **[ST-DISSEMINATION](L1-st-dissemination.md)**<br/>Methods and publication as an outcome in itself | A computation-only program with no wet lab advances a disease in exactly two ways: by producing a result someone else tests, or by producing methodolo… | 3 | ○ ready · scoped | dissemination |
 
 ## Where the portfolio ends
 
@@ -110,7 +110,7 @@ Every route above ends in a paper. With no wet lab and no clinic, the published 
 | state | endpoints | routes feeding them |
 |---|---:|---:|
 | ○ `unwritten` | 1 | 5 |
-| ◐ `drafted` | 15 | 35 |
+| ◐ `drafted` | 18 | 38 |
 
 ## What holds the portfolio down
 
@@ -120,7 +120,7 @@ A blocker on one route is a risk. A blocker on fifteen is the portfolio's shape.
 
 | blocker | kind | routes held | families | retired by |
 |---|---|---:|---:|---|
-| **BLK-NO-EMC-DATA** | `insufficient_data` | 18 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
+| **BLK-NO-EMC-DATA** | `insufficient_data` | 19 | 5 | `TECH-EMC-EXPRESSION-DATA`, `TECH-VIRTUAL-CELL` |
 | **BLK-NOT-FUSION-SELECTIVE** | `fundamental_biological_limit` | 14 | 6 | *permanent — nothing* |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | 9 | 3 | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-NO-WET-LAB** | `requires_external_collaboration` | 9 | 6 | `TECH-CLOUD-WET-LAB`, `TECH-EMC-MODEL-ACCESS` |

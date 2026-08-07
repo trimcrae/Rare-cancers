@@ -1,0 +1,260 @@
+{
+  "_what": "PROPOSED systems-graph edits for the surface-antigen prioritisation work (2026-08-07). NOT APPLIED.",
+  "_why_not_applied": "systems/graph/*.json is being edited by several parallel sessions today; applying these here would collide. This file is the proposal, written to the live schemas so that applying it is a copy rather than a redesign.",
+  "_rule": "CLAUDE.md rule 1 - one fact, one home. NO NUMBER IS TYPED HERE. Every figure these records point at lives in research/modalities/emc-expression-panels.json (reads.read_8_SURFACE_ANTIGEN, reads.control, gene_reads) or research/modalities/gse28866-tumour-vs-normal.json (per_gene.values), and the prose that states them lives in research/manuscripts/emc-surface-target-landscape.md.",
+  "generated": "2026-08-07",
+  "author_note": "Written by the session that rewrote emc-surface-target-landscape.md around the EMC tumour-tissue read. The manuscript, its frontmatter title and the seven regenerated views ARE applied; only these graph records are held back.",
+  "_the_one_thing_that_makes_all_of_this_necessary": "Five of the six route records below say, in readiness.missing or remaining_unknowns, some form of 'this has never been measured in EMC' / 'a real EMC series is what could change it'. THAT IS NO LONGER TRUE. Three EMC tumour cohorts are read (GSE24369/GPL6244, GSE4303/GPL3290, GSE28866/3SEQ), and all ELEVEN of the therapeutic addresses these routes name now have an EMC-tissue contrast - six of them for the first time on 2026-08-07, when a lost surface-antigen read was restored. A route whose stated blocker has been discharged and whose record still names it will be re-proposed by a future session as though it were open.",
+  "_how_to_apply": [
+    "1. Append/patch `proposed_records[]` where each `collection` says, in the order given - artifacts FIRST (the routes and the publication reference them, so applying a route first leaves the build red between steps), then publications, then routes.",
+    "2. ⛔ MIRROR `grade` AND `closure_note` INTO THE LEGACY REGISTRY IN THE SAME COMMIT - see `_the_second_home_that_must_be_updated_with_it` below. MEASURED, not guessed: applying the graph patches alone produces SEVEN `[L3]` errors.",
+    "3. Regenerate BOTH generated views: `python3 systems/systems_check.py --write-views` AND `python3 research/manuscripts/emc_systems_map_check.py --write-view`. Both trees are GENERATED and a hand-edit fails the build; the second is easy to forget and was the only error left standing in the validation run below.",
+    "4. `python3 systems/systems_check.py --check`, then `python3 research/manuscripts/emc_systems_map_check.py --check`, then `./scripts/preflight.sh`.",
+    "5. `python3 research/manuscripts/lint_claims.py` - `what_it_would_claim` and every route `grade.value` are linted through systems/views/**, so a claim written one notch too strong fails CI rather than a review.",
+    "6. ⚠ DEDUPE FIRST: `ART-EMC-EXPRESSION-PANELS` below registers research/modalities/emc-expression-panels.json, which the fusion-transcriptional-output session is also reading today. If that session proposes the same artifact, APPLY ONE, not both - a second registration is a second home for the same fact."
+  ],
+  "_the_second_home_that_must_be_updated_with_it": {
+    "what": "`systems/graph/routes.json` and `research/manuscripts/emc-systems-map.json` BOTH carry a route's `grade` and `closure_note`, and `systems_check.check_legacy_agreement` fails the build on any disagreement (`SHARED_ROUTE_FIELDS`). The graph is the source; the legacy file is a policed projection that eleven consumers still read.",
+    "so_these_seven_field_writes_are_DOUBLE": [
+      "RT-B7H3.grade",
+      "RT-B7H3.closure_note",
+      "RT-SSTR2.closure_note",
+      "RT-FAP-RLT.closure_note",
+      "RT-PRAME-IMMTAC.closure_note",
+      "RT-TCRT-CTA.closure_note",
+      "RT-CART-SURFACE.closure_note"
+    ],
+    "and_these_are_graph_only": "`readiness` and `remaining_unknowns` are NOT in SHARED_ROUTE_FIELDS - the graph adds them and the legacy file has no counterpart to disagree with. Copying them into the legacy registry would CREATE the duplication this check exists to prevent.",
+    "publications_and_artifacts": "Neither collection is mirrored. PUB-SURFACE-TARGETS and the two ART-* records are graph-only."
+  },
+  "_validated": {
+    "how": "The records were applied to an IN-MEMORY copy of the graph (`systems_check.load_graph()`, never written to disk), the legacy mirror was written to a TEMP file and `systems_check.LEGACY` pointed at it, and the real checker battery was run - `systems_check.derive()` + `run_checks()`, not an eyeball against the schema. The map checker was run through its own `--map` argument against the patched registry in the scratchpad.",
+    "results": {
+      "graph_patches_alone": "7 ERROR - all `[L3]` legacy-projection disagreements. THIS IS THE FINDING THAT MADE STEP 2 EXIST; the patches looked complete and were not.",
+      "graph_plus_legacy_mirror": "0 ERROR, 13 WARN - and the 13 WARN are the repository's existing baseline, unchanged by these records.",
+      "emc_systems_map_check_on_the_patched_registry": "1 ERROR, and it is `[V1] emc-systems-map.md differs from what the registry generates` - i.e. exactly and only 'you have not regenerated the view yet', which is step 3. NO O3/O4 medical-integrity error and NO R1/R2 grade-ownership error: RT-B7H3's grade stays singly-owned by the manuscript, and the disputed-identity classifications are untouched.",
+      "field_shape": "Every `fields` key was asserted to ALREADY EXIST on its target before being written, so all seven route records and the publication record are genuine patches and none silently introduces a field the schema does not know."
+    },
+    "what_this_validation_does_NOT_cover": "It does not check the PROSE. A `grade.value` or `what_it_would_claim` that is factually wrong, or one notch too strong for lint_claims, passes every check above. Step 5 is not optional."
+  },
+  "_what_was_deliberately_NOT_proposed": [
+    "No change to RT-B7H3's TIER. The tier is Tier 3 on a surrogate negative and stays Tier 3 on a tissue negative that points the same way; only the basis sentence changes. Moving a tier on concordant evidence would be motion without information.",
+    "No PROMOTION of any route. CSPG4 is the only row with a large new positive and it does not replicate across platforms (state MOVED_ON_ONE_FLAT_ON_THE_OTHER), so it earns an open question, never a grade.",
+    "No new route for CSPG4 or ALCAM. Neither has a named modality, a named agent or a stated endpoint, so either would be an activity rather than an option (CLAUDE.md §5).",
+    "No change to BLK-NO-EMC-DATA itself. Its text - 'EMC is nearly absent from public functional-genomics data' - is still true of FUNCTIONAL genomics (CRISPR, dependency); what changed is EXPRESSION. Widening the blocker to cover expression would be wrong, and narrowing it needs a decision this session did not have to make. FLAGGED FOR trimcrae, not proposed."
+  ],
+  "proposed_records": [
+    {
+      "collection": "systems/graph/artifacts.json",
+      "action": "append",
+      "note": "⚠ See _how_to_apply step 5 - another session may propose this same record today.",
+      "record": {
+        "id": "ART-EMC-EXPRESSION-PANELS",
+        "level": "L5",
+        "kind": "artifact",
+        "path": "research/modalities/emc-expression-panels.json",
+        "produced_by": "research/modalities/emc_expression_panels.py",
+        "cost": "$0 - CI, no GPU",
+        "what_it_is": "Targeted gene and curated-panel reads in the two READABLE EMC array series - GSE24369 on GPL6244 (6 EMC vs 29 comparator sarcomas) and GSE4303 on GPL3290 (10 vs 6). Nine reads; read_8_SURFACE_ANTIGEN is the surface-antigen one, and it carries a per-gene cross_platform_board over 100 genes.",
+        "has_control": true,
+        "control_note": "reads.control reads NR4A3, ENO3 and MKI67 - two genes that must be up and one that must be flat - on these exact platforms before any antigen is read. A control licenses reading the other rows and nothing more.",
+        "limits": [
+          "Two platforms with different physics; GPL3290 is two-colour log-ratio against a reference pool, so an absolute level there is not a statement that a gene is expressed.",
+          "Different comparator arms between the two series, so a single-platform move is a lead and not a replication.",
+          "Bulk archival tissue, not deconvolved - a stromal or matrix antigen can read high because the compartment is present.",
+          "No multiple-testing correction anywhere, by design; every t and df is reported.",
+          "READABILITY IS AN INSTRUMENT STATE, NEVER A LOW READING. Genes unreadable on a platform carry READABLE_ON_ONE_PLATFORM_ONLY or NOT_READABLE_ON_EITHER_PLATFORM and must never be reported as negative."
+        ]
+      }
+    },
+    {
+      "collection": "systems/graph/artifacts.json",
+      "action": "append",
+      "record": {
+        "id": "ART-GSE28866-TUMOUR-VS-NORMAL",
+        "level": "L5",
+        "kind": "artifact",
+        "path": "research/modalities/gse28866-tumour-vs-normal.json",
+        "produced_by": "the GSE28866 supplementary peak-table read (emc-expression-datasets.yml)",
+        "cost": "$0 - CI, no GPU",
+        "what_it_is": "The ONLY deposit reachable at $0 that carries EMC libraries alongside NORMAL tissue. 19 genes, n = 4 EMC, 27 normal-organ libraries and 32 non-EMC sarcoma libraries on 3SEQ. Its canonical interpretation is research/manuscripts/gse28866-tumour-vs-normal-reading.md, which is canonical_for it.",
+        "has_control": true,
+        "control_note": "NR4A3 is detected in the EMC arm and its median across the 32 other sarcomas is zero - the fusion's own 3' partner behaving as the disease definition requires, in a cohort this repository did not choose. A control, not a result.",
+        "limits": [
+          "n = 4 EMC. Medians of four libraries: no confidence interval, no test, no distribution.",
+          "3' end read density is NOT array intensity and must NEVER be pooled with GPL6244/GPL3290.",
+          "Several genes rest on a SINGLE PEAK - CSPG4, FAP, GPC3, L1CAM, PRAME among them; n_peaks is in the artifact for this reason.",
+          "TWO AXES, NEVER ONE. The 27 normals are visceral organs with almost no soft tissue in them, so the normal arm is an on-target/off-tumour EXPOSURE axis and NOT a lineage-specificity axis; the 32-sarcoma arm is the lineage axis. Reading either as the other is the error this artifact's reading memo exists to prevent.",
+          "The normals are a tissue panel, not matched adjacent tissue, and six organs are not a body.",
+          "Transcript only. No protein, no surface localisation, no safety statement, no therapeutic-window statement."
+        ]
+      }
+    },
+    {
+      "collection": "systems/graph/publications.json",
+      "action": "patch",
+      "target_id": "PUB-SURFACE-TARGETS",
+      "note": "Replaces the 2026-08-07 supersession NOTE (which correctly recorded that the paper needed rewriting) with the claim the rewritten paper actually makes. The supersession narrative belongs in the manuscript's Amendment 2, which now carries it; leaving it here too would be two homes for one correction.",
+      "fields": {
+        "what_it_would_claim": "A surface-antigen search built on a lineage surrogate and a normal-tissue prior does not transfer to the disease it was built for: checked against three EMC tumour cohorts on three platform families, NOT ONE of the eleven therapeutic addresses this work's routes name is concordantly elevated in EMC relative to comparator sarcomas, ZERO of the eight surrogate-selective antigens are concordantly elevated on both arrays, and the one antigen that IS elevated on both - ALCAM, which no route names - shows no separation from normal visceral organ tissue on the only cohort able to measure that. The surrogate's NEGATIVES transferred and its POSITIVES did not, which is a caution that applies to every surrogate-based rare-tumour target list. ⚠ SUPERSEDED 2026-08-07, RETAINED: the prior claim was that every negative is 'bounded by that surrogate basis rather than by an EMC tissue measurement', from 'one cell line and a translocation-sarcoma comparison set' - the tissue measurement now exists and the bound is discharged.",
+        "_role_contributions_to_update": {
+          "_why": "The six per-route `what it contributes` strings all describe the paper as a surrogate-bounded RANKING. After the rewrite the paper's contribution to each route is an EMC-TISSUE READING of that route's own address.",
+          "RT-B7H3": "The prioritised ranking, and B7-H3's EMC-tissue reading: lower in EMC than in comparator sarcomas on the one platform that can read it, agreeing in direction with the surrogate negative that already grounded this route's grade.",
+          "RT-CART-SURFACE": "The cell-product reading of the same ranking, and ALCAM - the only antigen on the board elevated in EMC on both arrays, an antigen NO route names, and the one the normal-organ exposure axis demotes. The constraint is still the antigen and the stroma rather than the CAR.",
+          "RT-FAP-RLT": "The stromal arm, and the first EMC-tissue reading of it: FAP is flat against comparator sarcomas on both arrays and the whole 13-gene stromal/matrix panel is lower in EMC on both. ⚠ The GSE24369 comparators are fibroblastic lesions, so 'not higher' is partly a statement about the comparator.",
+          "RT-PRAME-IMMTAC": "The one antigen whose therapeutic already exists clinically - and the check has now been run: PRAME reads at the floor of every readable EMC cohort, and the class-I antigen-presentation panel its modality depends on is lower in EMC on both platforms.",
+          "RT-SSTR2": "The theranostic receptor arm, framed as a cheap decisive negative rather than a lead - and its first EMC transcript readings, which show no elevation over other soft-tissue tumours. They lower the prior for a scan without removing the reason to do one, because no transcript measures receptor protein density.",
+          "RT-TCRT-CTA": "The cancer-testis antigen arm ported from synovial sarcoma, downgraded on a measurement rather than an argument - and the real EMC series that downgrade was waiting for."
+        }
+      }
+    },
+    {
+      "collection": "systems/graph/routes.json",
+      "action": "patch",
+      "target_id": "RT-B7H3",
+      "note": "Grade OWNER is research/manuscripts/emc-surface-target-landscape.md, so this route's grade sentence is the manuscript's to move and this is the record that must follow it. TIER UNCHANGED - see _what_was_deliberately_NOT_proposed.",
+      "fields": {
+        "grade": {
+          "value": "Tier 3 - already red-teamed in this repo, and now checked against EMC tumour tissue. ⚠ THE TWO ANTIGENS STILL FAIL DIFFERENTLY: B7-H3/CD276 is NOT selective in the surrogate (BH q = 1.0, enrichment 0.14) and is LOWER in EMC than in comparator sarcomas on the one array platform that can read it, while sitting mid-to-high in that array's own distribution - expressed and not differential. CD56/NCAM1 IS selective in the surrogate (q = 0.0, enrichment 1.74), reads FLAT_ON_BOTH arrays in EMC tissue, and fails on the normal-tissue / immune window (NK cells) with a discontinued CD56 ADC precedent.",
+          "owner": {
+            "file": "research/manuscripts/emc-surface-target-landscape.md",
+            "anchor": null
+          }
+        },
+        "readiness": {
+          "attainable_today": "internal_note",
+          "why_not_higher": "The negative is now measured on BOTH a surrogate and EMC tumour tissue and the two agree in direction, which is stronger than either alone - but both are transcript, and B7-H3's clinical traction rests on protein being tumour-restricted despite broad mRNA. A transcript negative cannot close a protein question.",
+          "missing": [
+            "a protein-level measurement on EMC tissue"
+          ]
+        },
+        "remaining_unknowns": [
+          "Whether B7-H3 PROTEIN on EMC tissue behaves like the transcript. This is the whole remaining question, and it is the one the transcript negative cannot answer.",
+          "⛔ CD276 is NOT READABLE on GPL3290, so the EMC-tissue reading rests on ONE array platform and one probe. An absent reading is not a reading of absence."
+        ],
+        "closure_note": "The selectivity premise was MEASURED and failed FOR B7-H3 in the surrogate (BH q = 1.0), and the EMC-tissue read agrees in direction on the one platform that can take it. ⚠ It did NOT fail for CD56 - NCAM1 returns q = 0.0 and is selectivity-significant in the surrogate; what fails there is the normal-tissue window (VITAL_OR_IMMUNE_LIABILITY, NK cells), and in EMC tissue NCAM1 is flat on both arrays. Collapsing the two into one 'not selective' verdict was wrong for half this route and still is."
+      }
+    },
+    {
+      "collection": "systems/graph/routes.json",
+      "action": "patch",
+      "target_id": "RT-SSTR2",
+      "note": "readiness.missing said 'any expression measurement in EMC' and remaining_unknowns[0] said the receptor 'has never been measured'. Both are now false. Grade OWNER is emc-post-degrader-options.md and is NOT touched here - the tier is that memo's to move.",
+      "fields": {
+        "readiness": {
+          "attainable_today": "experimental_proposal",
+          "why_not_higher": "The expression measurement it was waiting for has arrived and does not support it, but the measurement that would decide it - receptor PROTEIN density, by IHC or a DOTATATE scan - is still a measurement and not a computation. There is no computation that would strengthen this route.",
+          "missing": [
+            "a receptor PROTEIN measurement on EMC tissue"
+          ],
+          "experiment_required": [
+            "SSTR2 immunohistochemistry, or a ⁶⁸Ga-DOTATATE scan, on EMC tissue"
+          ]
+        },
+        "remaining_unknowns": [
+          "⚠ SUPERSEDED 2026-08-07: 'Whether EMC expresses the receptor at all - this has never been measured.' It has now been read in EMC tumour tissue and shows NO elevation over comparator sarcomas on the one array platform that can read it, sitting mid-distribution on that array; the whole SSTR1-5 family panel could not be scored at all on the other platform (below the readable-gene floor) and is flat on the first.",
+          "Whether receptor PROTEIN density is high enough for therapeutic rather than merely diagnostic use. NO TRANSCRIPT READING MEASURES THIS, which is why the transcript result lowers the prior for a scan without removing the reason to do one.",
+          "SSTR2's normal-tissue verdict is ALREADY computed as ENHANCED_BROAD (emc-surface-normal-window.json), so a positive EMC scan does not settle the route - tumour-to-normal uptake ratio and dosimetry remain. Crossfire does not make a broadly-expressed normal antigen safer; it widens the irradiated field."
+        ],
+        "closure_note": "Not refuted, and now weakened rather than merely unmeasured - a negative scan still kills it cheaply, and it stays on the ask list."
+      }
+    },
+    {
+      "collection": "systems/graph/routes.json",
+      "action": "patch",
+      "target_id": "RT-FAP-RLT",
+      "note": "readiness.missing said 'any measurement in EMC' and remaining_unknowns[0] said the stromal target 'has never been measured'. Both are now false, and the record's own caveat about the surfaceome screen having no CAF compartment is exactly why the bulk-tissue read is the instrument that can speak. Grade OWNER is emerging-modalities-scan-emc.md and is NOT touched here.",
+      "fields": {
+        "readiness": {
+          "attainable_today": "internal_note",
+          "why_not_higher": "It now has a measurement in EMC and the measurement is unfavourable, but it is bulk transcript in archival tissue and cannot be deconvolved into tumour versus stroma - which is the compartment this route targets.",
+          "missing": [
+            "a compartment-resolved (single-cell or spatial) or protein-level measurement in EMC"
+          ]
+        },
+        "remaining_unknowns": [
+          "⚠ SUPERSEDED 2026-08-07: 'Whether the stromal target is present in EMC's particular myxoid matrix - this has never been measured.' FAP is now read in EMC tumour tissue on both array platforms and is FLAT_ON_BOTH against comparator sarcomas, and the whole 13-gene stromal/matrix panel is LOWER in EMC on both. ⚠ Read the comparator before reading the result: GSE24369's comparators are desmoid fibromatosis and fibrosarcoma - fibroblastic lesions in which FAP is expected to be high - and EMC itself sits high in that array's own distribution. This does NOT say EMC lacks FAP; it says a FAP-directed route cannot claim EMC as a selectively FAP-rich indication among soft-tissue tumours.",
+          "⛔ Bulk archival tissue cannot separate the tumour compartment from the stroma, so neither the negative nor a positive would attribute the signal. A single-cell or spatial EMC dataset is what would.",
+          "The surfaceome screen (ART-SURFACE-EXPRESSION) returns FAP selectivity_q = 0.1555 / myxoid 0.0 - but it is DepMap tumour-cell MONOCULTURE with no CAF compartment (surfaceome-instrument-limits.json L1/L2/L5, demonstrated at frac_expressed 0.0 for LRRC15), so it cannot see the stroma this route targets and never answered the question. That its direction happens to agree with the tissue read is a coincidence of direction, not a corroboration.",
+          "Whether a stromal-targeted radioligand delivers enough dose to the tumour cells."
+        ],
+        "closure_note": "No longer 'emerging and unmeasured in EMC' - it is emerging and measured unfavourably at transcript level, on an instrument that cannot attribute the signal to a compartment."
+      }
+    },
+    {
+      "collection": "systems/graph/routes.json",
+      "action": "patch",
+      "target_id": "RT-PRAME-IMMTAC",
+      "note": "readiness.missing said 'expression confirmation on EMC tissue' and remaining_unknowns[0] said the measurement 'was on cell-line surrogates'. The confirmation has been run and it is unfavourable. ⚠ The closure_note's 2026-08-05 sentence about the WITHDRAWN disputed-line half is retained verbatim - it is a different correction and still binds.",
+      "fields": {
+        "readiness": {
+          "attainable_today": "internal_note",
+          "why_not_higher": "The EMC-tissue expression read it was waiting for has arrived and PRAME reads at the floor of every readable cohort, so this is no longer a well-formed proposal with an unknown answer. ⚠ Transcript, not protein, and not HLA presentation - so it is downgraded rather than closed.",
+          "missing": [
+            "a protein or peptide-HLA measurement on EMC tissue, if anyone still wants one"
+          ]
+        },
+        "remaining_unknowns": [
+          "⚠ SUPERSEDED 2026-08-07: 'Whether the surrogate expression holds on real EMC tissue - the measurement was on cell-line surrogates.' It does not. PRAME reads near the bottom of both arrays' own probe distributions with no separation from comparator sarcomas, and its EMC median on the 3SEQ deposit is BELOW the other-sarcoma median, on a single peak.",
+          "⛔ THE MODALITY'S PRECONDITION ALSO READS DOWN: the 12-gene class-I antigen-presentation panel (B2M, HLA-A/B/C, TAP1/2, TAPBP, NLRC5, PSMB8/9, CIITA, ERAP1) is lower in EMC than in comparator sarcomas on BOTH platforms. That is a precondition and not a target, and the second platform's contrast is not significant on any reading - but it is the direction an HLA-directed route does not want.",
+          "HLA restriction limits which patients would be eligible, and peptide-HLA presentation is a separate and still-unaddressed question from transcript abundance."
+        ],
+        "closure_note": "The one CTA whose SURROGATE expression came back favourable - and whose EMC-tissue check, run 2026-08-07, came back at the floor. 2026-08-05: the subtype/myxoid-proximity half of the supporting read was WITHDRAWN (n=1, disputed-identity line ACH-001519); only the relative ordering across the sarcoma panel survived, and that is now contradicted by the tissue."
+      }
+    },
+    {
+      "collection": "systems/graph/routes.json",
+      "action": "patch",
+      "target_id": "RT-TCRT-CTA",
+      "note": "readiness.missing said 'a real EMC expression series' and the closure_note said 'a real EMC series is what could change it'. The series exist. ⚠ THE ANSWER IS PARTLY AN INSTRUMENT STATEMENT AND MUST BE WRITTEN AS ONE - most of the CTA panel is unreadable on GPL3290.",
+      "fields": {
+        "readiness": {
+          "attainable_today": "internal_note",
+          "why_not_higher": "The real EMC series it was waiting for arrived and did not overturn the downgrade - but the CTA panel is the WORST-COVERED panel in the whole tissue read, so the answer is bounded by readability rather than by biology.",
+          "missing": [
+            "a CTA panel that is actually readable on more than one platform - i.e. an RNA-seq EMC series"
+          ]
+        },
+        "remaining_unknowns": [
+          "⚠ SUPERSEDED 2026-08-07: 'Whether a real EMC series would agree with the surrogate measurement that downgraded this.' Three EMC series were read. The CTA panel is flat in EMC on the platform that can score it, and PRAME - the best-supported member - reads at the floor.",
+          "⛔ AND THE READ IS BOUNDED BY THE INSTRUMENT, NOT BY THE BIOLOGY: the HLA-presented-antigen panel could NOT be scored on GPL3290 at all (below the readable-gene floor), and CTAG1B, MAGEA3 and SSX2 are unreadable on BOTH platforms. Those are instrument statements. NOTHING here licenses a sentence about whether EMC expresses them.",
+          "Class-I antigen-presentation machinery reads lower in EMC than in comparator sarcomas on both platforms - a precondition this route shares with RT-PRAME-IMMTAC."
+        ],
+        "closure_note": "EMC is CTA-low on measured data, now including EMC tumour tissue rather than surrogates alone. ⛔ What could still change it is an RNA-seq EMC series, because most of this panel is unreadable on the deposits available - which is a different ask from the 'real EMC series' this note used to make."
+      }
+    },
+    {
+      "collection": "systems/graph/routes.json",
+      "action": "patch",
+      "target_id": "RT-CART-SURFACE",
+      "note": "remaining_unknowns[0] asked whether any sufficiently selective surface antigen exists on EMC. The tissue read is the first evidence bearing on it. Grade OWNER is car-t-strategies-emc.md and is NOT touched here.",
+      "fields": {
+        "readiness": {
+          "attainable_today": "internal_note",
+          "why_not_higher": "Still blocked by the antigen rather than by the cell product - and the antigen search has now been checked against EMC tissue and returned no address that clears both the lineage and the normal-organ exposure axes.",
+          "missing": [
+            "a surface antigen that clears BOTH the lineage and the normal-organ exposure axes in EMC"
+          ]
+        },
+        "remaining_unknowns": [
+          "⚠ NARROWED 2026-08-07: 'Whether any sufficiently selective surface antigen exists on EMC.' NOT ONE of the eleven route-named addresses is concordantly elevated in EMC tumour tissue on both arrays. The only antigen on the board that is - ALCAM - is one NO route names, and on the only cohort carrying normal organs its EMC median sits BELOW the normal-tissue median while remaining above other sarcomas: the lineage half survives and the exposure half does not. For a binary-kill modality the exposure axis is the one that decides usability, so ALCAM-as-a-marker is untouched and ALCAM-as-a-CAR-address is materially weaker. ⚠ Single cohort, n = 4, transcript, two peaks; not a safety statement.",
+          "⭐ CSPG4 is the one open row: the largest absolute row in the normal-containing deposit, up on BOTH of that deposit's axes - and it was NEVER EVALUATED by the surfaceome scan at all (a measured coverage gap, surfaceome-instrument-limits.json L4, NOT a rejection). It moves strongly on one array and is flat on the other, so it is held open rather than promoted, and the flat platform's comparator arm is n = 6 and contains DFSP, in which CSPG4/MCSP is expected to be high.",
+          "Whether the myxoid stroma admits T cells at all.",
+          "⛔ Every reading above is transcript. None of it says an antigen is on the cell surface, at a usable density, or on the tumour cell rather than the stroma."
+        ],
+        "closure_note": "Blocked by the antigen search and the cold myxoid stroma, not by the cell product - and the antigen search has now been run against EMC tissue rather than a surrogate. ⚠ BLK-NOT-FUSION-SELECTIVE reads HERE as on-target/off-tumour - the antigen is shared with normal tissue - not as a paralogue margin; a CAR engages neither NR4A3 nor EWSR1."
+      }
+    }
+  ],
+  "_flagged_for_trimcrae_not_proposed": [
+    {
+      "what": "BLK-NO-EMC-DATA is the blocker on PUB-SURFACE-TARGETS and reads 'EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)'.",
+      "why_it_is_awkward_now": "Still TRUE of functional genomics - there is still no EMC CRISPR data and the one DepMap line's identity is disputed. But it is the blocker on a PAPER whose entire new result comes from three public EMC EXPRESSION deposits, so a reader of the endpoint register sees a paper blocked on the absence of the data it just used.",
+      "the_decision_that_is_not_mine": "Either (a) split the blocker into functional-genomics vs expression, or (b) leave it and let the publication's own claim carry the distinction. Splitting a blocker changes what every other route inheriting it means, which is a program-level call."
+    },
+    {
+      "what": "research/manuscripts/emc-surface-target-outreach.md is the ready-to-send outreach accompanying this manuscript.",
+      "why": "Its ask is the 2026-07-03 one. §7 of the rewritten paper changes the ask substantially - from 'any EMC expression data' to four named protein-level questions plus a single-cell/spatial request. The outreach is OUTWARD-FACING, so under CLAUDE.md §3 it is not something to rewrite and send without a review block. NOT TOUCHED by this session."
+    }
+  ]
+}

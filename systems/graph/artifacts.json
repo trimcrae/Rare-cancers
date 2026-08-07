@@ -228,5 +228,61 @@
     "path": "research/modalities/depmap-sarcoma-dependency.json",
     "produced_by": "research/modalities/depmap_sarcoma_dependency.py",
     "note": "⛔ REGISTERED 2026-08-06 by the route framing audit. It had NO id at all, while RT-SYNLETH-DEP cited INS-DEPMAP-KO for its result — a DIFFERENT scan whose gene panel is ATR/ATM/DDR and contains no BRD9, BICRA or any ncBAF gene. Two scans, two panels, one cited for the other's result. It is also the artifact RT-HDAC-BET's closure now rests on, so registering it turns that closure from a prose assertion into a checkable one. ⚠ 91 sarcoma lines and ZERO EMC lines — the bound is not n=1, it is NO EMC observation at all. BRD9: sarcoma_mean 0.105, selectivity -0.016."
+  },
+  {
+    "id": "ART-FUSION-PARTNER-POOLING",
+    "path": "research/manuscripts/emc-fusion-partner-pooling.json",
+    "produced_by": "research/manuscripts/emc_fusion_partner_pooling.py",
+    "workflow": ".github/workflows/fetch-literature.yml",
+    "published_to": [
+      "main"
+    ],
+    "note": "The one home of every number in the partner-stratified synthesis: cohorts with their inclusion verdict and reason, per-partner strata, the citation map with primary-vs-secondary provenance, three analyses with Wilson intervals, and the retrieval provenance of every count. Stdlib-only and deterministic - re-running the generator reproduces the committed file byte-for-byte apart from its `_generated_utc` stamp (measured 2026-08-07 on this checkout). Method is systems/POLICY-evidence.md s1-s2, not a per-analysis choice. It carries `_do_not_hand_edit`: a count is changed in the generator's COHORTS table and the file regenerated."
+  },
+  {
+    "id": "ART-EMC-EXPRESSION-PANELS",
+    "level": "L5",
+    "kind": "artifact",
+    "path": "research/modalities/emc-expression-panels.json",
+    "produced_by": "research/modalities/emc_expression_panels.py",
+    "cost": "$0 - CI, no GPU",
+    "what_it_is": "Targeted gene and curated-panel reads in the two READABLE EMC array series - GSE24369 on GPL6244 (6 EMC vs 29 comparator sarcomas) and GSE4303 on GPL3290 (10 vs 6). Nine reads; read_8_SURFACE_ANTIGEN is the surface-antigen one, and it carries a per-gene cross_platform_board over 100 genes.",
+    "has_control": true,
+    "control_note": "reads.control reads NR4A3, ENO3 and MKI67 - two genes that must be up and one that must be flat - on these exact platforms before any antigen is read. A control licenses reading the other rows and nothing more.",
+    "limits": [
+      "Two platforms with different physics; GPL3290 is two-colour log-ratio against a reference pool, so an absolute level there is not a statement that a gene is expressed.",
+      "Different comparator arms between the two series, so a single-platform move is a lead and not a replication.",
+      "Bulk archival tissue, not deconvolved - a stromal or matrix antigen can read high because the compartment is present.",
+      "No multiple-testing correction anywhere, by design; every t and df is reported.",
+      "READABILITY IS AN INSTRUMENT STATE, NEVER A LOW READING. Genes unreadable on a platform carry READABLE_ON_ONE_PLATFORM_ONLY or NOT_READABLE_ON_EITHER_PLATFORM and must never be reported as negative."
+    ]
+  },
+  {
+    "id": "ART-GSE28866-TUMOUR-VS-NORMAL",
+    "level": "L5",
+    "kind": "artifact",
+    "path": "research/modalities/gse28866-tumour-vs-normal.json",
+    "produced_by": "the GSE28866 supplementary peak-table read (emc-expression-datasets.yml)",
+    "cost": "$0 - CI, no GPU",
+    "what_it_is": "The ONLY deposit reachable at $0 that carries EMC libraries alongside NORMAL tissue. 19 genes, n = 4 EMC, 27 normal-organ libraries and 32 non-EMC sarcoma libraries on 3SEQ. Its canonical interpretation is research/manuscripts/gse28866-tumour-vs-normal-reading.md, which is canonical_for it.",
+    "has_control": true,
+    "control_note": "NR4A3 is detected in the EMC arm and its median across the 32 other sarcomas is zero - the fusion's own 3' partner behaving as the disease definition requires, in a cohort this repository did not choose. A control, not a result.",
+    "limits": [
+      "n = 4 EMC. Medians of four libraries: no confidence interval, no test, no distribution.",
+      "3' end read density is NOT array intensity and must NEVER be pooled with GPL6244/GPL3290.",
+      "Several genes rest on a SINGLE PEAK - CSPG4, FAP, GPC3, L1CAM, PRAME among them; n_peaks is in the artifact for this reason.",
+      "TWO AXES, NEVER ONE. The 27 normals are visceral organs with almost no soft tissue in them, so the normal arm is an on-target/off-tumour EXPOSURE axis and NOT a lineage-specificity axis; the 32-sarcoma arm is the lineage axis. Reading either as the other is the error this artifact's reading memo exists to prevent.",
+      "The normals are a tissue panel, not matched adjacent tissue, and six organs are not a body.",
+      "Transcript only. No protein, no surface localisation, no safety statement, no therapeutic-window statement."
+    ]
+  },
+  {
+    "id": "ART-EMC-ENDPOINT-DISCORDANCE",
+    "path": "research/manuscripts/emc-endpoint-discordance.json",
+    "produced_by": "research/manuscripts/emc_endpoint_discordance.py (stdlib only, CPU, $0; --check re-derives and refuses to write on any drift)",
+    "published_to": [
+      "main"
+    ],
+    "note": "Arithmetic over the integer counts owned by research/manuscripts/emc-systemic-therapy-pooling.json: the objective-response and disease-control readings on one denominator, the discordant stable-disease count derived two independent ways and asserted equal, a reporting-completeness census of the published EMC systemic-therapy literature, the binomial arithmetic of each endpoint at achievable trial sizes, and a DETECTOR for one discrepancy between two committed fields of the source file (its summary says both modern EMC trials chose a 6-month progression-free primary endpoint; its own verbatim quote of the 2019 pazopanib trial says that trial's primary endpoint was objective response). It re-derives the source's pooled proportions as a PARITY CHECK only and is not a second home for them."
   }
 ]

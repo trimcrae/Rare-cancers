@@ -106,7 +106,7 @@
     "document": {
       "file": "research/manuscripts/emc-surface-target-landscape.md"
     },
-    "what_it_would_claim": "Surface and stromal antigens can be prioritised for EMC in silico from one cell line and a translocation-sarcoma comparison set, and every resulting negative is bounded by that surrogate basis rather than by an EMC tissue measurement — which is the honest limit of a search run without the disease's own expression data.",
+    "what_it_would_claim": "Surface and stromal antigens can be prioritised for EMC in silico, and the honest limit of the prioritisation is set by what the comparator basis can see. ⚠ SUPERSEDED 2026-08-07, RETAINED: the prior claim was that every negative is \"bounded by that surrogate basis rather than by an EMC tissue measurement\", from \"one cell line and a translocation-sarcoma comparison set\". THREE EMC TISSUE COHORTS ARE NOW READ (GSE24369/GPL6244, GSE4303/GPL3290, GSE28866/3SEQ), the third carrying 27 normal-organ libraries — the first on-target/off-tumour exposure axis this repository has had. The surrogate-basis framing is therefore no longer the binding limit and the paper needs rewriting rather than re-verifying. ⛔ The rewrite is a DEMOTION, not a gain: ALCAM, its lead antigen, reads 0.578 in EMC against 0.631 in normal tissue and loses the exposure axis while keeping the lineage half; CSPG4 is the largest row in the new deposit and is discordant across cohorts (+0.885 GPL6244, -0.189 GPL3290).",
     "blocked_by": [
       "BLK-NO-EMC-DATA"
     ]
@@ -210,5 +210,41 @@
       "BLK-VECTOR-DELIVERY",
       "BLK-INDUCED-COMPLEX"
     ]
+  },
+  {
+    "id": "PUB-ENDPOINT",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "journal_submission",
+    "document": {
+      "file": "research/manuscripts/emc-response-endpoint-paper.md",
+      "anchor": null
+    },
+    "what_it_would_claim": "Summarising systemic therapy in an indolent ultra-rare sarcoma by its objective-response rate discards most of what its own trials recorded - over the identical 47 patients ever evaluated in a prospective EMC trial, response is 12.8 percent and disease control 89.4 percent, and the whole 76.6-point gap is 36 patients with stable disease - while at achievable sample sizes a response-rate readout returns a result that is uninterpretable rather than negative a substantial fraction of the time. It does NOT claim disease control is the right endpoint instead, and asserts no efficacy for any agent: the confound it cannot remove is that stable disease in an indolent tumour may be natural history, and it states that objection at full strength rather than deflecting it.",
+    "blocked_by": []
+  },
+  {
+    "id": "PUB-FUSION-OUTPUT",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "document": {
+      "file": "research/manuscripts/nr4a3-fusion-transcriptional-output.md"
+    },
+    "what_it_would_claim": "Across a retrieved corpus of 2,276 full-text documents, the set of genes any NR4A3 chimera has been shown to physically bind and drive is three genes wide — and those three read higher in EMC tumour tissue than in comparator tumours in every one of six array readings and in an independent third cohort on an unrelated technology, while the AGGREGATE target set does not clear a size-matched empirical null on either readable array platform and the published EMC transcriptional phenotype does clear it, on both. Reading a gene set in these EMC series is uninterpretable without that null calibration. No genome-wide chromatin experiment performed with an NR4A3 fusion was retrieved in that corpus, so no gene named can yet be told apart from a gene that is merely associated with the disease.",
+    "blocked_by": []
+  },
+  {
+    "id": "PUB-FUSION-PARTNER",
+    "level": "L3",
+    "kind": "publication",
+    "state": "drafted",
+    "target_venue": "preprint",
+    "document": {
+      "file": "research/manuscripts/emc-fusion-partner-stratification.md"
+    },
+    "what_it_would_claim": "The NR4A3 5' fusion partner is a candidate - not established - treatment-stratification variable in EMC: pooling every published partner-stratified report under one pre-committed evidence contract shows a consistent DIRECTION and no established magnitude, because the entire published TAF15::NR4A3 antiangiogenic-TKI experience is three to five patients with no reported responses and a 95% upper bound lying above the comparator arm's own point estimate; the partner's prognostic effect does not survive adjustment for tumour size in either of the two larger series to test it; and the review literature's metastasis claim runs opposite to the only cohort that publishes event counts by partner. It makes no treatment recommendation and asserts no efficacy, safety, therapeutic window or clinical readiness for any agent."
   }
 ]
