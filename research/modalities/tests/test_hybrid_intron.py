@@ -17,15 +17,18 @@ import os
 
 import pytest
 
-os.environ.setdefault("TRANSCRIPT_SOURCE", "cache")
-
 import hybrid_intron as hi                                     # noqa: E402
 import junction_aso as ja                                      # noqa: E402
 
 
+# ⛔ NO MODULE-LEVEL `os.environ.setdefault(...)` HERE. `junction_aso.transcript_model` reads
+# TRANSCRIPT_SOURCE at CALL time precisely so a test can scope it, and an import-time setdefault
+# would leak the value into every other test module in the same pytest process — the cross-module
+# env leak that module's own comment records having been bitten by. The fixture scopes it instead.
 @pytest.fixture(autouse=True)
 def _cache_only(monkeypatch):
     monkeypatch.setenv("TRANSCRIPT_SOURCE", "cache")
+    monkeypatch.delenv("HYBRID_INTRON_MODE", raising=False)
 
 
 def test_the_intron_is_named_in_transcript_rank_and_the_coding_rank_alias_is_a_different_intron():
@@ -199,9 +202,28 @@ def test_the_committed_artifact_matches_a_fresh_offline_run(tmp_path, monkeypatc
     monkeypatch.delenv("HYBRID_INTRON_MODE", raising=False)
     hi.main()
     new = json.loads((tmp_path / "m.json").read_text())
-    for k in ("coordinate_convention", "fusion_unique_budget", "wildtype_identity_audit",
-              "composition_is_not_the_binding_constraint", "head_to_head"):
-        assert new[k] == old[k], f"{k} drifted from the committed artifact"
+
+    def _findings(d):
+        """Everything except run provenance.
+
+        ⚠ `_transcript_source.requested` records WHICH SOURCE THIS RUN ASKED FOR, and
+        `junction_aso.transcript_source_provenance` reads that off an import-time constant. It
+        legitimately differs between a run launched with TRANSCRIPT_SOURCE=cache and one left on
+        `auto`, and it is provenance rather than a finding. The FINDINGS must not move; that is what
+        is asserted. `used_per_gene` — which source actually answered — is checked separately below.
+        """
+        out = json.loads(json.dumps(d))
+        out["coordinate_convention"].pop("_transcript_source", None)
+        return out
+
+    a, b = _findings(new), _findings(old)
+    for k in ("coordinate_convention", "regeneration_check", "fusion_unique_budget",
+              "wildtype_identity_audit", "mechanism_and_confidence_cost",
+              "composition_is_not_the_binding_constraint", "screen_applicability", "head_to_head"):
+        assert a[k] == b[k], f"{k} drifted from the committed artifact"
+    used = old["coordinate_convention"]["_transcript_source"]["used_per_gene"]
+    assert set(used.values()) == {"committed_cache"}, (
+        "the committed offline artifact must record that both genes came from the committed cache")
 
 
 def test_no_efficacy_or_clinical_language_in_the_artifact():
