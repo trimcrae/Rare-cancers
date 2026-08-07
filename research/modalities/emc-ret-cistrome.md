@@ -440,7 +440,9 @@ ligand is the same failure mode as a receptor with no phosphorylation.
 | *GFRA3* | co-receptor | −0.10 SD, \|t\| 2–3, 17th pct | −0.88 SD, \|t\| < 2 |
 | *GFRA4* | co-receptor | flat | ⛔ not readable |
 
-**Not one ligand or co-receptor is up in either series, and four of them are significantly down.**
+**Not one ligand or co-receptor is up in either series** (*GDNF*'s +0.03 SD on GPL6244 is flat by
+the module's own \|t\| < 2 rule), **and five of the eight are down at \|t\| ≥ 2 somewhere, two of
+them at \|t\| ≥ 3.**
 So the reading is: **receptor up, ligand-and-co-receptor arm down or flat, in both cohorts** — the
 same *shape* that decided the comparator disease, arriving from expression rather than from a
 stain, and **nobody has published it for EMC**.
@@ -566,5 +568,23 @@ Absent readings, not negatives, recorded as such.
 | [`emc-ret-cistrome.json`](./emc-ret-cistrome.json) | the derived artifact |
 | [`emc-ret-cistrome-inputs.json`](./emc-ret-cistrome-inputs.json) | the inputs cache — every peak set, every locus, and every network attempt with its HTTP status |
 | [`tests/test_emc_ret_cistrome.py`](./tests/test_emc_ret_cistrome.py) | the guards: interval algebra, the cross-build refusal, no-reading-⇒-no-verdict, and that a null without a recovered positive control renders as UNINTERPRETABLE rather than as a negative |
-| [`emc_expression_panels.py`](./emc_expression_panels.py) | `read_7_RET` — the abundance half, in the same two EMC tumour series |
-| [`emc-ret-cistrome-map-edits.json`](./emc-ret-cistrome-map-edits.json) | the routed roadmap/graph proposal. **Not applied** |
+| [`emc_expression_panels.py`](./emc_expression_panels.py) | `read_7_RET` — the abundance half, the ligand module and the NR4A target-set membership arm, in the same two EMC tumour series |
+| [`emc-expression-panels.json`](./emc-expression-panels.json) | where `read_7_RET` lands. Read `reads.control` first |
+| [`emc-ret-cistrome-map-edits.json`](./emc-ret-cistrome-map-edits.json) | the routed roadmap/graph proposal. **Not applied.** Anchors re-verified 3/3 on both `origin/main` and the worktree |
+| [`emc-ret-lane.md`](./emc-ret-lane.md) | the prior pass. **§3 remains the one home of the activation-bar finding and this memo does not move it** |
+
+## 8 · Reproducing this
+
+```
+python3 research/modalities/emc_ret_cistrome.py --selftest   # 23 checks, no network
+python3 -m pytest research/modalities/tests/test_emc_ret_cistrome.py -q   # 52 tests
+python3 research/modalities/emc_ret_cistrome.py             # re-derive offline from the cache
+python3 research/modalities/emc_ret_cistrome.py --report    # the tables in §3-§4
+```
+
+The fetch half runs only in CI — `emc-expression-datasets.yml`, `mode=ret-cistrome` (occupancy),
+`mode=panels` (the expression read), `mode=ret-motif` (the sibling sequence scan). The dev
+sandbox's egress proxy answers `403`/connection-refused to `chip-atlas.dbcls.jp`,
+`remap.univ-amu.fr`, `eutils.ncbi.nlm.nih.gov`, `rest.ensembl.org` and `www.ebi.ac.uk`, which is
+measured rather than assumed and is why this runs there (CLAUDE.md §6). **$0 throughout — CPU
+runners only, no GPU, no rental, nothing billed.**
