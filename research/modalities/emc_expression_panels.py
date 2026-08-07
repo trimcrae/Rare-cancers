@@ -397,12 +397,41 @@ SIGNATURE_SLOTS = {
         "enrichr": [("trrust", "ppargh"), ("trrust", "pparg")],
         "exclude": ["ppargc"], "prefer": ["human"],
     },
-    "pparg_perturbation_response": {
+    # ⭐ THE PERTURBATION SLOT IS SPLIT INTO THREE ARMS, AND THE THIRD IS A DIRECTIONAL CONTROL.
+    # ⚠ The first version asked for one term matching "pparg" and got
+    # `PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN` — the right arm, chosen ALPHABETICALLY
+    # (measured, run 31182233077). An accident that lands on the correct answer is still an accident,
+    # and the twelve alternatives it beat included the exact opposite arm. So the arms are now named
+    # by a HARD requirement on the term rather than by preference, and all three are scored:
+    #   * KO_DOWN — genes that FALL when PPARG is removed, i.e. PPARγ-DEPENDENT genes. If the
+    #               receptor is transcriptionally engaged in EMC these should read HIGH.
+    #   * OE_UP   — genes that RISE when PPARG is over-expressed. Independent construction, same
+    #               expected direction, so agreement between them is worth more than either alone.
+    #   * KO_UP   — genes that RISE when PPARG is removed. ⛔ THE CONTROL: it must NOT move the same
+    #               way as KO_DOWN. If both arms read high, the contrast is measuring something the
+    #               two sets share — cell-type composition, array behaviour, gene length — and not
+    #               PPARγ output at all. A read with no arm that can fail is not a read.
+    "pparg_perturbation_KO_DOWN": {
         "read_id": "read_3_PPARG_ACTIVITY", "role": "pparg_target_set",
-        "what": "Genes whose expression MOVES when PPARG is perturbed. ⚠ The Enrichr term name "
-                "carries its own direction (up/down) and its own GEO accession; both are recorded "
-                "verbatim, and the direction must be read off the term rather than assumed.",
-        "enrichr": [("tf_perturb", "pparg")], "exclude": ["ppargc"], "prefer": ["human"],
+        "what": "Genes DOWN when PPARG is knocked out / deficient — PPARγ-DEPENDENT genes. High in "
+                "EMC is the reading consistent with an engaged receptor.",
+        "enrichr": [("tf_perturb", "pparg")], "exclude": ["ppargc"],
+        "require_any": ["deficiency", "ko"], "require_suffix": "down",
+    },
+    "pparg_perturbation_OE_UP": {
+        "read_id": "read_3_PPARG_ACTIVITY", "role": "pparg_target_set",
+        "what": "Genes UP when PPARG is over-expressed — an independently constructed set with the "
+                "same expected direction as KO_DOWN.",
+        "enrichr": [("tf_perturb", "pparg")], "exclude": ["ppargc"],
+        "require_any": ["oe"], "require_suffix": "up",
+    },
+    "pparg_perturbation_KO_UP_CONTROL": {
+        "read_id": "read_3_PPARG_ACTIVITY", "role": "directional_control_NOT_a_target_set",
+        "what": "⛔ THE FALSIFIER. Genes UP when PPARG is knocked out — the arm that should NOT "
+                "track the other two. If it moves with them, the contrast is not measuring PPARγ "
+                "output and read 3 must not be quoted.",
+        "enrichr": [("tf_perturb", "pparg")], "exclude": ["ppargc"],
+        "require_any": ["deficiency", "ko"], "require_suffix": "up",
     },
     "adipogenesis_process_proxy": {
         "read_id": "read_3_PPARG_ACTIVITY", "role": "process_proxy_NOT_a_target_set",
@@ -500,6 +529,27 @@ MIN_GROUP_N_FOR_A_CONTRAST = 3
 # ---------------------------------------------------------------------------------------------
 # FETCH
 # ---------------------------------------------------------------------------------------------
+def _species_note(term):
+    """⭐ DERIVED FROM THE MATCHED TERM, NEVER TYPED. Measured 2026-08-07 (run 31182233077): EVERY
+    PPARG term in `ChEA_2022` and in `TF_Perturbations_Followed_by_Expression` is a MOUSE
+    experiment, and `ENCODE_and_ChEA_Consensus_TFs_from_ChIP-X` carries no PPARG term at all. Only
+    TRRUST's `PPARG human` is human-derived. That is a real limit on read 3 and it must travel with
+    every number the set produces rather than sitting in a footnote — a mouse-derived target set
+    applied to human tumour transcripts is an orthology assumption, not a measurement."""
+    low = _norm(term)
+    for sp in ("human", "mouse", "rat"):
+        if sp in low:
+            return {
+                "species": sp,
+                "caveat": (None if sp == "human" else
+                           f"⚠ THE SOURCE EXPERIMENT IS {sp.upper()}, NOT HUMAN. The gene symbols "
+                           f"are applied to human tumour transcripts by name, which is an "
+                           f"ORTHOLOGY ASSUMPTION. It does not invalidate the read; it bounds it, "
+                           f"and any sentence quoting this set must carry the bound."),
+            }
+    return {"species": "not stated in the term", "caveat": None}
+
+
 def _load_enrichr_libraries(keys):
     """One request per library returns the whole library as TSV: `term\\t\\tGENE\\tGENE\\t...`."""
     libs, diag = {}, {}
@@ -568,6 +618,8 @@ def fetch_signature_sets():
         if not rec.get("genes"):
             excl = spec.get("exclude") or []
             pref = spec.get("prefer") or []
+            req_any = spec.get("require_any") or []
+            req_suffix = spec.get("require_suffix")
             for libkey, needle in (spec.get("enrichr") or []):
                 lib = libs.get(libkey)
                 if not lib:
@@ -576,6 +628,14 @@ def fetch_signature_sets():
                     continue
                 terms = [t for t in lib["terms"] if not any(x in _norm(t) for x in excl)]
                 n_excluded = len(lib["terms"]) - len(terms)
+                # ⛔ REQUIREMENTS ARE HARD, NOT PREFERENCES, and a slot that cannot meet them stays
+                # UNRESOLVED. That is the whole point: `pparg_perturbation_KO_UP_CONTROL` exists to
+                # be able to disagree, so silently falling back to whatever term sorts first would
+                # hand read 3 a "control" that is not the control it names.
+                if req_any:
+                    terms = [t for t in terms if any(x in _norm(t) for x in req_any)]
+                if req_suffix:
+                    terms = [t for t in terms if _norm(t).endswith(req_suffix)]
                 # prefix match first, substring second; the verbatim term and every alternative are
                 # recorded either way so a reader can see exactly what was scored and what was not.
                 hits = sorted(t for t in terms if _norm(t).startswith(needle))
@@ -584,16 +644,22 @@ def fetch_signature_sets():
                     hits = sorted(t for t in terms if needle in _norm(t))
                     match_rule = "substring"
                 if not hits:
-                    rec["candidates_tried"].append({"library_key": libkey, "needle": needle,
-                                                    "error": "no term matched",
-                                                    "n_terms_excluded": n_excluded})
+                    rec["candidates_tried"].append(
+                        {"library_key": libkey, "needle": needle, "error": "no term matched",
+                         "n_terms_excluded": n_excluded, "require_any": req_any,
+                         "require_suffix": req_suffix})
                     continue
                 preferred = [t for t in hits if any(p in _norm(t) for p in pref)]
                 hit = preferred[0] if preferred else hits[0]
                 rec.update({"resolved_set": hit, "matched_term_verbatim": hit,
                             "all_matching_terms_verbatim": hits[:12],
                             "n_matching_terms": len(hits),
-                            "selection_rule": (f"{match_rule} match on {needle!r}; "
+                            "species_of_the_source_experiment": _species_note(hit),
+                            "selection_rule": (f"{match_rule} match on {needle!r}"
+                                               + (f"; REQUIRED any of {req_any}" if req_any else "")
+                                               + (f"; REQUIRED suffix {req_suffix!r}"
+                                                  if req_suffix else "")
+                                               + "; "
                                                + (f"preferred a term containing {pref}"
                                                   if preferred else
                                                   "no preference applied — first alphabetically")
@@ -767,6 +833,79 @@ def _zrow(tgt, gene):
     v = tgt["genes"][gene]["values"]
     return [None if (v[i] is None or not bg[i]) else
             (v[i] - bg[i]["mean"]) / max(1e-9, bg[i]["sd"]) for i in range(n_s)]
+
+
+def _mapping_rate_reading(tgt):
+    """Two DIFFERENT mapping rates, kept apart, and only one of them is comparable to the prior.
+
+    ⛔ THE FIRST VERSION OF THIS FUNCTION COMPARED THE WRONG TWO NUMBERS AND MANUFACTURED A DRIFT
+    WARNING ON A RUN WITH NO DRIFT (measured 2026-08-07, run 31182233077). The prior quoted in
+    `TARGETS` comes from `emc-atr-vulnerability.json`, and that field is built from
+    `probe_symbol_mapping.accession_resolution_rate` — the fraction of distinct **GenBank
+    accessions** that resolved to a symbol. This module separately measures the fraction of
+    **probes on the matrix** that carry a symbol. Different numerators, different denominators,
+    different questions. Compared against each other they printed:
+        GPL6244  probe 0.7109 vs prior 0.932  -> "MOVED by 22 points"
+        GPL3290  probe 0.6326 vs prior 0.582  -> "MOVED by 5 points"
+    while the LIKE-FOR-LIKE figures from the same run were 0.983 (better than the 0.932 prior,
+    because the UniGene archive resolved 51,071 accessions) and **0.582 — identical to the prior to
+    three decimals.** A guard that cries drift on a clean run is worse than no guard: it trains the
+    next reader to skip the line that would have caught a real one.
+
+    So both rates are reported, each named for what it measures, and the drift comparison is made
+    ONLY against the accession rate, which is the quantity the prior actually is."""
+    diag = tgt.get("probe_symbol_mapping") or {}
+    acc = diag.get("accession_resolution_rate")
+    probe = tgt.get("measured_probe_mapping_rate")
+    out = {
+        "probe_level_rate": probe,
+        "_probe_level_rate_means": (
+            "fraction of the probes ON THIS MATRIX that carry a gene symbol. This is the number "
+            "that governs whether a given gene is readable, and it is NOT the figure the prior "
+            "records — see below."),
+        "accession_resolution_rate": acc,
+        "_accession_resolution_rate_means": (
+            "fraction of the platform's distinct GenBank accessions that resolved to a symbol. "
+            "This IS the quantity `emc-atr-vulnerability.json` records, so it is the only one "
+            "comparable to the prior."),
+        "prior_accession_resolution_rate": tgt["prior_probe_mapping_rate"],
+        "prior_source": tgt["prior_source"],
+        "resolution_sources": {k: diag.get(k) for k in (
+            "n_distinct_accessions", "n_accessions_resolved_by_curated_dictionary",
+            "n_accessions_resolved_by_unigene_archive", "n_accessions_newly_queried",
+            "n_accessions_resolved_total", "ncbi_global_budget_exhausted") if k in diag},
+    }
+    if acc is None:
+        out["reading"] = ("⚠ NO ACCESSION-RESOLUTION RATE IN THIS RUN'S DIAGNOSTIC, so the "
+                          "like-for-like comparison against the prior COULD NOT BE MADE. That is "
+                          "an absent reading, not agreement.")
+        return out
+    delta = acc - tgt["prior_probe_mapping_rate"]
+    out["abs_difference_vs_prior"] = round(abs(delta), 4)
+    out["direction_vs_prior"] = ("more accessions resolved than the prior run" if delta > 0 else
+                                 "fewer accessions resolved than the prior run" if delta < 0 else
+                                 "identical to the prior run")
+    # ⚠ THE DIRECTION IS PART OF THE VERDICT, NOT DECORATION. A rate that moved UP and a rate that
+    # moved DOWN send a reader to opposite places — one to "what did we gain", one to "what broke" —
+    # and a single undirected "MOVED" sentence sent the first reader hunting for a failed fetch that
+    # had not happened. Both still flag: an annotation pipeline that changed is worth noticing
+    # either way, because the gene list it produces is what every read below rests on.
+    if abs(delta) <= 0.05:
+        out["reading"] = "consistent with the prior characterisation"
+    elif delta > 0:
+        out["reading"] = ("⚠ MOVED UP by more than 5 points against the prior, COMPARED LIKE FOR "
+                          "LIKE — MORE accessions resolved this run than last. Not a failure, but "
+                          "not nothing: a wider bridge changes WHICH genes are readable, so a gene "
+                          "readable here and unreadable in the prior run is explained by this line "
+                          "and not by the biology.")
+    else:
+        out["reading"] = ("⚠ MOVED DOWN by more than 5 points against the prior, COMPARED LIKE FOR "
+                          "LIKE — FEWER accessions resolved this run. A diagnosable event: a "
+                          "changed platform annotation, an exhausted NCBI budget "
+                          "(`ncbi_global_budget_exhausted` above), or a failed UniGene fetch. Read "
+                          "it BEFORE any number below it, because a gene can be unreadable here "
+                          "purely for this reason.")
+    return out
 
 
 def _gene_read(gene, tgt, classes, emc, comp):
@@ -947,18 +1086,7 @@ def derive(inp):
         counts = {}
         for c in classes:
             counts[c] = counts.get(c, 0) + 1
-        drift = None
-        if tgt.get("measured_probe_mapping_rate") is not None:
-            d = abs(tgt["measured_probe_mapping_rate"] - tgt["prior_probe_mapping_rate"])
-            drift = {"measured": tgt["measured_probe_mapping_rate"],
-                     "prior": tgt["prior_probe_mapping_rate"],
-                     "prior_source": tgt["prior_source"],
-                     "abs_difference": round(d, 4),
-                     "reading": ("consistent with the prior characterisation" if d <= 0.05 else
-                                 "⚠ MOVED by more than 5 points against the prior. A moved rate is "
-                                 "a diagnosable event — a changed platform annotation, or a partly-"
-                                 "failed accession bridge — and must be read BEFORE any number "
-                                 "below it is.")}
+        drift = _mapping_rate_reading(tgt)
         res["platforms"][mf] = {
             "_status": "read", "series": tgt["gse"], "platform": tgt["platform"],
             "platform_matches_expected": tgt.get("platform_matches_expected"),
@@ -1016,6 +1144,7 @@ def derive(inp):
             "matched_term_verbatim": rec.get("matched_term_verbatim"),
             "all_matching_terms_verbatim": rec.get("all_matching_terms_verbatim"),
             "selection_rule": rec.get("selection_rule"),
+            "species_of_the_source_experiment": rec.get("species_of_the_source_experiment"),
             "library": rec.get("library"), "citation": rec.get("citation"),
             "provenance": rec.get("provenance"), "n_genes": rec.get("n_genes"),
             "per_platform": {mf: _score_gene_list(genes, tgt, emc, comp,
@@ -1082,6 +1211,7 @@ def _slot_summary(res, read_id):
                 "resolved_set": v.get("resolved_set"),
                 "matched_term_verbatim": v.get("matched_term_verbatim"),
                 "selection_rule": v.get("selection_rule"),
+                "species_of_the_source_experiment": v.get("species_of_the_source_experiment"),
                 "citation": v.get("citation"), "n_genes": v.get("n_genes"),
                 "per_platform": {mf: {"coverage": p.get("coverage"),
                                       "n_genes_readable": p.get("n_genes_readable"),
@@ -1147,7 +1277,18 @@ def _assemble_reads(res):
                                                   "CHST3", "CHST7", "CHST15", "UST"])})
     R["read_3_PPARG_ACTIVITY"] = _read_entry(
         res, "read_3_PPARG_ACTIVITY", "pparg_target_activity",
-        {"abundance_is_not_the_read": PANELS["pparg_target_activity"]["abundance_is_not_the_read"],
+        {"how_to_read_the_arms": (
+            "⛔ CHECK THE CONTROL ARM BEFORE QUOTING ANYTHING. "
+            "`pparg_perturbation_KO_DOWN` (PPARγ-dependent genes) and `pparg_perturbation_OE_UP` "
+            "are expected to move TOGETHER if the receptor is transcriptionally engaged. "
+            "`pparg_perturbation_KO_UP_CONTROL` is expected NOT to. If all three move the same "
+            "way, the contrast is measuring something the sets share rather than PPARγ output, "
+            "and read 3 must not be quoted."),
+         "species_of_each_set": {
+             k: v.get("species_of_the_source_experiment")
+             for k, v in res["signature_scores"].items()
+             if v.get("read_id") == "read_3_PPARG_ACTIVITY"},
+         "abundance_is_not_the_read": PANELS["pparg_target_activity"]["abundance_is_not_the_read"],
          "direction_reading_rules": PANELS["pparg_target_activity"]["direction_reading_rules"],
          "abundance_context_only": {
              "_warning": "CONTEXT, NOT A NEW MEASUREMENT. PPARG abundance in EMC has one home: "
@@ -1209,8 +1350,10 @@ def _summarise(res):
             continue
         r = p["probe_mapping_rate"] or {}
         lines.append(f"{mf} [{p['platform']}] n={p['n_samples']} EMC={p['n_EMC']} "
-                     f"comp={p['n_comparator']} mapping={r.get('measured')} "
-                     f"(prior {r.get('prior')}) genes_measured={p['n_wanted_genes_measured']}"
+                     f"comp={p['n_comparator']} probe_rate={r.get('probe_level_rate')} "
+                     f"acc_rate={r.get('accession_resolution_rate')} "
+                     f"(prior acc {r.get('prior_accession_resolution_rate')}) "
+                     f"genes_measured={p['n_wanted_genes_measured']}"
                      f"/{p['n_wanted_genes_requested']}")
     lines.append("")
     lines.append("INSTRUMENT CONTROLS (read these first):")

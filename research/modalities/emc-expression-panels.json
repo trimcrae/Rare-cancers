@@ -495,11 +495,22 @@
       "n_probes": 28459,
       "n_probes_mapped_to_a_symbol": 20232,
       "probe_mapping_rate": {
-        "measured": 0.7109,
-        "prior": 0.932,
+        "probe_level_rate": 0.7109,
+        "_probe_level_rate_means": "fraction of the probes ON THIS MATRIX that carry a gene symbol. This is the number that governs whether a given gene is readable, and it is NOT the figure the prior records \u2014 see below.",
+        "accession_resolution_rate": 0.983,
+        "_accession_resolution_rate_means": "fraction of the platform's distinct GenBank accessions that resolved to a symbol. This IS the quantity `emc-atr-vulnerability.json` records, so it is the only one comparable to the prior.",
+        "prior_accession_resolution_rate": 0.932,
         "prior_source": "emc-atr-vulnerability.json -> part_b_emc_tumour_signature.series_readability.GSE24369.probe_mapping_rate_per_platform.GPL6244",
-        "abs_difference": 0.2211,
-        "reading": "\u26a0 MOVED by more than 5 points against the prior. A moved rate is a diagnosable event \u2014 a changed platform annotation, or a partly-failed accession bridge \u2014 and must be read BEFORE any number below it is."
+        "resolution_sources": {
+          "n_distinct_accessions": 62204,
+          "n_accessions_resolved_by_curated_dictionary": 6830,
+          "n_accessions_resolved_by_unigene_archive": 51071,
+          "n_accessions_newly_queried": 4303,
+          "n_accessions_resolved_total": 61139
+        },
+        "abs_difference_vs_prior": 0.051,
+        "direction_vs_prior": "more accessions resolved than the prior run",
+        "reading": "\u26a0 MOVED UP by more than 5 points against the prior, COMPARED LIKE FOR LIKE \u2014 MORE accessions resolved this run than last. Not a failure, but not nothing: a wider bridge changes WHICH genes are readable, so a gene readable here and unreadable in the prior run is explained by this line and not by the biology."
       },
       "probe_mapping_diagnostic": {
         "platform": "GPL6244",
@@ -1027,11 +1038,22 @@
       "n_probes": 43008,
       "n_probes_mapped_to_a_symbol": 27206,
       "probe_mapping_rate": {
-        "measured": 0.6326,
-        "prior": 0.582,
+        "probe_level_rate": 0.6326,
+        "_probe_level_rate_means": "fraction of the probes ON THIS MATRIX that carry a gene symbol. This is the number that governs whether a given gene is readable, and it is NOT the figure the prior records \u2014 see below.",
+        "accession_resolution_rate": 0.582,
+        "_accession_resolution_rate_means": "fraction of the platform's distinct GenBank accessions that resolved to a symbol. This IS the quantity `emc-atr-vulnerability.json` records, so it is the only one comparable to the prior.",
+        "prior_accession_resolution_rate": 0.582,
         "prior_source": "emc-atr-vulnerability.json -> part_b_emc_tumour_signature.series_readability.GSE4303.probe_mapping_rate_per_platform.GPL3290",
-        "abs_difference": 0.0506,
-        "reading": "\u26a0 MOVED by more than 5 points against the prior. A moved rate is a diagnosable event \u2014 a changed platform annotation, or a partly-failed accession bridge \u2014 and must be read BEFORE any number below it is."
+        "resolution_sources": {
+          "n_distinct_accessions": 65180,
+          "n_accessions_resolved_by_curated_dictionary": 630,
+          "n_accessions_resolved_by_unigene_archive": 37279,
+          "n_accessions_newly_queried": 27271,
+          "n_accessions_resolved_total": 37923
+        },
+        "abs_difference_vs_prior": 0.0,
+        "direction_vs_prior": "identical to the prior run",
+        "reading": "consistent with the prior characterisation"
       },
       "probe_mapping_diagnostic": {
         "platform": "GPL3290",

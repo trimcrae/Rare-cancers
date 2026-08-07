@@ -421,8 +421,9 @@ jobs:
                   continue
               r = p["probe_mapping_rate"] or {}
               print(f"{mf} [{p['platform']}] n={p['n_samples']} EMC={p['n_EMC']} "
-                    f"comp={p['n_comparator']} mapping={r.get('measured')} "
-                    f"(prior {r.get('prior')}) — {r.get('reading')}")
+                    f"comp={p['n_comparator']} probe_rate={r.get('probe_level_rate')} "
+                    f"acc_rate={r.get('accession_resolution_rate')} "
+                    f"(prior acc {r.get('prior_accession_resolution_rate')}) — {r.get('reading')}")
               print(f"    classes: {p['class_counts']}")
               print(f"    genes measured: {p['n_wanted_genes_measured']}"
                     f"/{p['n_wanted_genes_requested']}  | values: {p['value_kind'][:60]}")

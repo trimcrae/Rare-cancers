@@ -310,9 +310,16 @@ def test_a_ppargc1a_term_can_never_be_selected_as_a_pparg_target_set(monkeypatch
         "PPARG 19300518 ChIP-ChIP 3T3-L1 Mouse": ["PLIN1", "ADIPOQ"],
     })
     out = M.fetch_signature_sets()
-    for slot in ("pparg_chip_chea", "pparg_consensus_encode_chea", "pparg_perturbation_response"):
+    # every slot that resolved for read 3 — whatever the slot list happens to be — must not have
+    # taken a PPARGC1A term. Enumerated from the module so a new PPARG slot inherits the guard
+    # instead of quietly escaping it.
+    read3 = [k for k, s in M.SIGNATURE_SLOTS.items()
+             if s["read_id"] == "read_3_PPARG_ACTIVITY" and "ppargc" in (s.get("exclude") or [])]
+    assert read3, "no PPARG slot carries the exclusion — the guard has been removed"
+    for slot in read3:
         rec = out["slots"][slot]
-        assert rec.get("resolved_set"), slot
+        if not rec.get("resolved_set"):
+            continue
         assert "PPARGC1A" not in rec["resolved_set"], (slot, rec["resolved_set"])
         for alt in rec.get("all_matching_terms_verbatim") or []:
             assert "PPARGC1A" not in alt, (slot, alt)
@@ -328,6 +335,56 @@ def test_a_human_experiment_is_preferred_over_a_mouse_one_and_the_rule_is_record
     assert "preferred a term containing" in rec["selection_rule"]
     # and the alternative is still visible, so the choice is auditable rather than hidden
     assert any("Mouse" in t for t in rec["all_matching_terms_verbatim"])
+
+
+# ⛔ THE ARM THAT CAN FAIL. Read 3 is the flagship read of this module, and a read with no arm that
+# could disagree is not a read. `pparg_perturbation_KO_UP_CONTROL` is that arm; these tests pin that
+# it selects the OPPOSITE term to KO_DOWN and that the requirement is HARD, so a library missing the
+# control arm leaves it UNRESOLVED rather than silently handing read 3 a near-miss as its falsifier.
+PERTURB_TERMS = {
+    "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 DOWN": ["AAA", "BBB", "CCC"],
+    "PPARG DEFICIENCY MOUSE GSE23421 CREEDSID GENE 1231 UP": ["DDD", "EEE", "FFF"],
+    "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 UP": ["GGG", "HHH", "III"],
+    "PPARG OE MOUSE GSE10192 CREEDSID GENE 2731 DOWN": ["JJJ", "KKK"],
+}
+
+
+def test_the_three_perturbation_arms_select_three_different_terms(monkeypatch):
+    _fake_libs(monkeypatch, PERTURB_TERMS)
+    slots = M.fetch_signature_sets()["slots"]
+    ko_down = slots["pparg_perturbation_KO_DOWN"]["resolved_set"]
+    oe_up = slots["pparg_perturbation_OE_UP"]["resolved_set"]
+    ko_up = slots["pparg_perturbation_KO_UP_CONTROL"]["resolved_set"]
+    assert ko_down.endswith("DOWN") and "DEFICIENCY" in ko_down
+    assert oe_up.endswith("UP") and " OE " in oe_up
+    assert ko_up.endswith("UP") and "DEFICIENCY" in ko_up
+    assert len({ko_down, oe_up, ko_up}) == 3, "the control must not be the same set as an arm"
+    assert slots["pparg_perturbation_KO_UP_CONTROL"]["role"] \
+        == "directional_control_NOT_a_target_set"
+
+
+def test_the_control_arm_stays_unresolved_when_the_library_cannot_supply_it(monkeypatch):
+    _fake_libs(monkeypatch, {k: v for k, v in PERTURB_TERMS.items() if not k.endswith("1231 UP")})
+    slots = M.fetch_signature_sets()["slots"]
+    assert "genes" not in slots["pparg_perturbation_KO_UP_CONTROL"]
+    assert "NOT RETRIEVED" in slots["pparg_perturbation_KO_UP_CONTROL"]["unresolved"]
+    # and it must NOT have quietly taken the OE_UP term instead
+    assert slots["pparg_perturbation_KO_DOWN"].get("resolved_set", "").endswith("DOWN")
+
+
+def test_a_mouse_sourced_set_carries_its_orthology_caveat(monkeypatch):
+    _fake_libs(monkeypatch, PERTURB_TERMS)
+    rec = M.fetch_signature_sets()["slots"]["pparg_perturbation_KO_DOWN"]
+    sp = rec["species_of_the_source_experiment"]
+    assert sp["species"] == "mouse"
+    assert "ORTHOLOGY ASSUMPTION" in sp["caveat"]
+
+
+def test_a_human_sourced_set_carries_no_orthology_caveat(monkeypatch):
+    _fake_libs(monkeypatch, {"PPARG human": ["AAA", "BBB", "CCC", "DDD"]})
+    rec = M.fetch_signature_sets()["slots"]["pparg_curated_trrust"]
+    assert rec["species_of_the_source_experiment"]["species"] == "human"
+    assert rec["species_of_the_source_experiment"]["caveat"] is None
 
 
 def test_a_slot_with_no_matching_term_stays_unresolved_rather_than_taking_a_near_miss(monkeypatch):
@@ -411,6 +468,62 @@ def test_the_sign_convention_is_stated_and_correct(res):
 # ---------------------------------------------------------------------------------------------
 # 7 — ONE FACT, ONE PLACE: the priors must agree with the artifact they are quoted from
 # ---------------------------------------------------------------------------------------------
+# ⛔ THE GUARD THAT CRIED DRIFT ON A CLEAN RUN (measured 2026-08-07, run 31182233077). The prior in
+# `TARGETS` is an ACCESSION-resolution rate; this module also measures a PROBE-level rate. Comparing
+# the two printed "MOVED by 22 points" on GPL6244 and "MOVED by 5 points" on GPL3290, while the
+# like-for-like figures were 0.983 (better) and 0.582 (identical to the prior). A guard that fires on
+# a clean run trains the next reader to skip the line that would have caught a real one.
+def _target_with(acc_rate, probe_rate, prior):
+    return {"probe_symbol_mapping": {"accession_resolution_rate": acc_rate},
+            "measured_probe_mapping_rate": probe_rate,
+            "prior_probe_mapping_rate": prior, "prior_source": "x"}
+
+
+def test_the_drift_check_compares_the_accession_rate_not_the_probe_rate():
+    # the real GPL3290 numbers from run 31182233077: accession rate identical to the prior, probe
+    # rate 5 points away from it. The verdict must follow the accession rate.
+    r = M._mapping_rate_reading(_target_with(0.582, 0.6326, 0.582))
+    assert r["reading"] == "consistent with the prior characterisation"
+    assert r["abs_difference_vs_prior"] == 0.0
+    assert r["accession_resolution_rate"] == 0.582
+    assert r["probe_level_rate"] == 0.6326
+
+
+def test_both_rates_are_reported_and_each_says_what_it_measures():
+    r = M._mapping_rate_reading(_target_with(0.983, 0.7109, 0.932))
+    assert "probes ON THIS MATRIX" in r["_probe_level_rate_means"]
+    assert "distinct GenBank accessions" in r["_accession_resolution_rate_means"]
+    assert "comparable to the prior" in r["_accession_resolution_rate_means"]
+
+
+# ⛔ A RATE THAT IMPROVED AND A RATE THAT DEGRADED MUST NOT RENDER ALIKE. The real GPL6244 numbers
+# from run 31182233077 are 0.983 against a 0.932 prior — 5.1 points UP, so it flags, and the first
+# wording sent the reader to "a failed UniGene fetch" for a run in which the UniGene archive had
+# resolved 51,071 accessions. Same shape as the paying-vs-refused rule in CLAUDE.md §1: one glyph,
+# one meaning.
+def test_an_improved_rate_flags_but_says_it_improved():
+    r = M._mapping_rate_reading(_target_with(0.983, 0.7109, 0.932))
+    assert "MOVED UP" in r["reading"]
+    assert "MORE accessions resolved" in r["reading"]
+    assert "Not a failure" in r["reading"]
+    assert r["direction_vs_prior"] == "more accessions resolved than the prior run"
+
+
+def test_a_degraded_rate_flags_and_points_at_the_things_that_break():
+    r = M._mapping_rate_reading(_target_with(0.30, 0.60, 0.582))
+    assert "MOVED DOWN" in r["reading"]
+    assert "FEWER accessions resolved" in r["reading"]
+    assert "ncbi_global_budget_exhausted" in r["reading"]
+    assert r["direction_vs_prior"] == "fewer accessions resolved than the prior run"
+
+
+def test_a_missing_accession_rate_is_an_absent_reading_not_agreement():
+    r = M._mapping_rate_reading(_target_with(None, 0.60, 0.582))
+    assert "COULD NOT BE MADE" in r["reading"]
+    assert "absent reading, not agreement" in r["reading"]
+    assert "abs_difference_vs_prior" not in r
+
+
 @pytest.mark.committed_artifact
 def test_the_probe_mapping_priors_agree_with_emc_atr_vulnerability_json():
     path = os.path.join(MOD, "emc-atr-vulnerability.json")
