@@ -1141,14 +1141,22 @@ def fetch_background():
     for t in P.TARGETS:
         plat = t["platform_expected"]
         print(f"symbol universe for {plat}...", file=sys.stderr)
-        sym, _diag = _gpl_symbols(plat)
+        # ⚠ ONE `_gpl_symbols` CALL PER PLATFORM, AND THE RESULT IS HANDED ON. This function needs
+        # the symbol universe before it can sample from it, and `_read_target` needs the same map;
+        # calling it twice meant two full platform-table downloads and parses per platform, which
+        # on GPL3290 is the expensive half of the whole job. ⛔ The defect was read off the two
+        # call sites, NOT off a stopwatch: the first version of this comment claimed the step had
+        # "passed 58 minutes", which was an elapsed-time GUESS — the Actions API put the step at
+        # twenty. The redundant fetch is worth removing on its own terms, and a fix does not get to
+        # borrow a measurement nobody took (CLAUDE.md §4).
+        sym, diag = _gpl_symbols(plat)
         symbols = sorted({s for s in sym.values() if s})
         rng = random.Random(NULL_SEED)
         drawn = sorted(rng.sample(symbols, min(N_BACKGROUND_SYMBOLS, len(symbols))))
         # a named confound gene that also fell in the random draw is REMOVED from the draw pool —
         # it is no longer an unchosen gene, and a pool cannot be partly chosen.
         drawn = [g for g in drawn if g not in set(CONFOUND_GENES_TO_ADD)]
-        rec = P._read_target(t, set(drawn) | set(CONFOUND_GENES_TO_ADD))
+        rec = P._read_target(t, set(drawn) | set(CONFOUND_GENES_TO_ADD), sym_diag=(sym, diag))
         rec["_sample_seed"] = NULL_SEED
         rec["_n_symbols_on_platform"] = len(symbols)
         rec["_random_background_symbols"] = drawn

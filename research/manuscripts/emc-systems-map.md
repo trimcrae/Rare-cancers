@@ -299,6 +299,7 @@ A claim is only as good as the provenance of the thing it was read off. An entry
 |---|---|---|
 | [`IDEAS.md`](../IDEAS.md) | the 2026-07-03 'DepMap DOES contain one EMC line' correction, and the surface-paper headline | ⛔ **invalidated** |
 | [`README.md`](README.md) | manuscripts index entry for the surface-target preprint | ⛔ **invalidated** |
+| [`emc-hypoxia-reading.md`](emc-hypoxia-reading.md) | §1 — cited ONLY to state that the strongest preclinical support for hypoxia-directed therapy in EMC (PMID 32948981, dose-dependent radiosensitivity + hypoxia-prodrug potentiation) was run in this model and is therefore not usable as EMC evidence. The memo builds nothing on that result; it names it as the gap its own tumour-tissue reading is a candidate to replace, and it is the reason that reading is audited rather than announced. | ⛔ **invalidated** |
 | [`emc-post-degrader-options.md`](emc-post-degrader-options.md) | route 1's $0 CRISPR-availability finding (unaffected); route 1's EMC-model list for the ATRi ask; route 6's D axis, whose only computable component was a PPARG read off this model | ⛔ **invalidated** |
 | [`emc-surface-target-landscape.md`](emc-surface-target-landscape.md) | PREPRINT. Title/abstract framing, §2.2 class definition, §3.1 + Table 1, §3.5, §6, §7 | ⛔ **invalidated** |
 | [`emc-surface-target-outreach.md`](emc-surface-target-outreach.md) | OUTWARD-FACING draft emails: 'the one EMC line in public data'; pre-send checklist | ⛔ **invalidated** |

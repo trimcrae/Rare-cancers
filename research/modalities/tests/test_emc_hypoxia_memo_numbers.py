@@ -192,6 +192,31 @@ def test_the_fusion_vs_tissue_correlations_are_the_artifacts(art, memo):
             f"{plat}: NR4A3 within-EMC r {nr} is not in the memo")
 
 
+def test_the_glycolytic_decomposition_ranges_are_the_artifacts(art, memo):
+    """§3 Findings 1 and 2 — the numbers that decide how much of the reading is metabolism.
+
+    ⚠ The first draft of Finding 1 said `3–5×` and Finding 2 said `five of six sets`. The measured
+    ratio reaches 11.6× and the remainder is positive in SIX of six. Both were typed from an
+    exploratory script; both are the reason this test exists."""
+    body = _ascii_minus(memo)
+    for plat in (G6, G3):
+        dec = art["platforms"][plat]["fusion_vs_tissue"]["decomposition_glycolytic_vs_rest"]
+        ratios, rest_t = [], []
+        for v in dec.values():
+            cg = v["glycolytic_members"]["contrast"]
+            cr = v["non_glycolytic_remainder"]["contrast"]
+            if cr:
+                rest_t.append(cr["t"])
+            if cg and cr and cr["delta_a_minus_b"]:
+                ratios.append(cg["delta_a_minus_b"] / cr["delta_a_minus_b"])
+        assert f"{min(ratios):.1f}-{max(ratios):.1f}×" in body, (
+            f"{plat}: memo's glycolytic/remainder ratio range does not match "
+            f"{min(ratios):.1f}-{max(ratios):.1f}×")
+        assert all(t > 0 for t in rest_t), (
+            "the memo says the non-glycolytic remainder is positive in EVERY set on both platforms")
+        assert len(rest_t) == 6, f"{plat}: expected six scoreable remainders, got {len(rest_t)}"
+
+
 def test_the_enolase_removal_figures_are_the_artifacts(art, memo):
     for plat in (G6, G3):
         full = _t(art, plat, ["fusion_vs_tissue", "discriminators", "glycolysis_curated",

@@ -24,9 +24,16 @@ last_verified: 2026-08-07
 memo's numbers; every one is derived, none typed) ·
 [`emc-expression-panels.json`](../modalities/emc-expression-panels.json) (the reading being
 audited — the six headline t-statistics live there and are **not** restated here) ·
-[`emc_hypoxia_confounds.py`](../modalities/emc_hypoxia_confounds.py) ·
-[`emc-hypoxia-null-background.json`](../modalities/emc-hypoxia-null-background.json) ·
-[`emc-hypoxia-therapeutic-status.json`](../modalities/emc-hypoxia-therapeutic-status.json)
+[`emc_hypoxia_confounds.py`](../modalities/emc_hypoxia_confounds.py)
+
+⚠ **Two artifacts this memo depends on do NOT yet exist, and are deliberately named rather than
+linked so that stays visible:** `research/modalities/emc-hypoxia-null-background.json` (the
+genome-wide null, §2.7 / F11) and `research/modalities/emc-hypoxia-therapeutic-status.json` (the
+retrieved clinical record, §5). Both are produced by one $0 CI dispatch —
+`emc-expression-datasets.yml` `mode=hypoxia-confounds`. Until they land the audit reports those two
+readings as **NOT TAKEN** and **NOT RETRIEVED**, which is not the same as a pass and is not the same
+as a negative. **A link to a file that does not exist would make an absent reading look like an
+available one**; the link goes in when the file does.
 
 ⛔ **THE CEILING ON EVERYTHING BELOW.** These are transcript levels in 16 archival tumours on two
 decade-old array platforms, uncorrected for multiple testing. A hypoxia metagene is a
@@ -199,12 +206,14 @@ that is genuinely hypoxic produce the **same metagene score**.
 
 **Finding 1 — the signal is concentrated in the glycolytic members, on both platforms.** Splitting
 each published set into its glycolytic members and the remainder, the glycolytic part carries
-3–5× the effect of the remainder in every case (GPL6244 *d* = +0.28 to +0.50 vs +0.02 to +0.15;
-GPL3290 *d* = +0.87 to +1.10 vs +0.17 to +0.41).
+**2.9–11.6×** the remainder's effect on GPL6244 and **2.2–5.4×** on GPL3290, in every set that can
+be scored both ways (*d* = +0.28 to +0.50 vs +0.02 to +0.15, and +0.87 to +1.10 vs +0.17 to +0.41).
+The GO cellular-response set has only two glycolytic members, below the gene floor, so its
+glycolytic arm emits UNDERPOWERED rather than a number.
 
-**Finding 2 — but the non-glycolytic remainder is still positive**, and on GPL3290 strongly so
-(*t* = +2.6 to +4.0 across five of six sets; on GPL6244 *t* = +0.28 to +2.35). The reading is
-therefore **broader than glycolysis** and a purely metabolic explanation does not cover it.
+**Finding 2 — but the non-glycolytic remainder is still positive in every set on both platforms**,
+and on GPL3290 substantially so (*t* = +2.62 to +4.04; on GPL6244 *t* = +0.28 to +2.35). The reading
+is therefore **broader than glycolysis** and a purely metabolic explanation does not cover it.
 
 **Finding 3 — it is not an ENO3 artefact.** The curated glycolytic programme is up on both
 platforms and stays up with ENO3 removed and with **every** enolase removed (GPL6244 *t* = +3.78 →
@@ -294,11 +303,12 @@ hypoxia in 16 archival tumours is not a patient-selection biomarker, is not a co
 and does not support giving anyone anything.
 
 ⚠ **The general prior dominates the reading.** Hypoxia-directed therapy has a long negative track
-record in solid tumours, sarcoma included. The retrieved clinical record for each class is in
-[`emc-hypoxia-therapeutic-status.json`](../modalities/emc-hypoxia-therapeutic-status.json), which is
-its one home; the summary in `emc-hypoxia-confounds.json` → `therapeutic_hooks` adds no fact that
-file does not carry, and while that retrieval reads `NOT RETRIEVED` **no sentence anywhere may state
-a class's status from memory.**
+record in solid tumours, sarcoma included. The retrieved clinical record for each class is
+`research/modalities/emc-hypoxia-therapeutic-status.json`, which is its one home; the summary in
+`emc-hypoxia-confounds.json` → `therapeutic_hooks` adds no fact that file does not carry, and while
+that retrieval reads `NOT RETRIEVED` **no sentence anywhere may state a class's status from
+memory** — including the sentence that opens this paragraph, which is why the table below states
+what must be checked rather than what was found.
 
 | class | why this reading points at it | what must be checked before it is stated as a hook |
 |---|---|---|
