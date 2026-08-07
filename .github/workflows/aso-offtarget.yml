@@ -39,6 +39,14 @@ on:
       suffix_tag:
         description: "Extra suffix appended to real-junction outputs, e.g. -20mer (avoids overwriting the 16-mer files)"
         required: false
+      hybrid_intron:
+        description: "Run hybrid_intron.py in CI mode: Ensembl genomic intron fetch + hybrid-intron seam designs + the SAME gap-resolved BLAST screen. Blank/false = skip."
+        required: false
+        type: boolean
+        default: false
+      hybrid_bp_fractions:
+        description: "hybrid_intron: comma-separated MODELLED breakpoint positions as a fraction into EWSR1 intron 7 (default 0.25,0.5,0.75). The real per-patient breakpoint is not held by this repo."
+        required: false
 
 permissions:
   contents: write
@@ -58,7 +66,7 @@ jobs:
           python-version: "3.11"
 
       - name: Transcriptome-wide off-target screen (NCBI BLAST, stdlib only)
-        if: ${{ inputs.real_junctions == '' }}
+        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron }}
         working-directory: research/modalities
         env:
           EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
@@ -106,8 +114,23 @@ jobs:
             echo "::endgroup::"
           done
 
+      # ⛔ NO `|| echo` HERE. The 2026-08-06 incident (run 31130625823) is recorded in
+      # junction_aso.py's `_env_int` block: a swallowed command exited 0 after one second and the
+      # publish step then republished stale artifacts under a fresh-screen commit message. This
+      # step fails the job instead, so a green run means the fetch and the gates really ran.
+      - name: Hybrid intron — genomic fetch, seam designs, gap-resolved BLAST screen
+        if: ${{ inputs.hybrid_intron }}
+        working-directory: research/modalities
+        env:
+          HYBRID_INTRON_MODE: ci
+          TRANSCRIPT_SOURCE: auto        # live Ensembl, diffed against the committed cache
+          HYBRID_BP_FRACTIONS: ${{ inputs.hybrid_bp_fractions }}
+          OLIGO_LEN: ${{ inputs.oligo_len }}
+          WING: ${{ inputs.wing }}
+        run: python hybrid_intron.py
+
       - name: Uncapped full-transcriptome evaluation (off-target + accessibility + siRNA seed)
-        if: ${{ inputs.real_junctions == '' }}
+        if: ${{ inputs.real_junctions == '' && !inputs.hybrid_intron }}
         working-directory: research/modalities
         env:
           EWSR1_KEEP_AA: ${{ inputs.ews_keep }}
@@ -126,6 +149,7 @@ jobs:
           cp research/modalities/junction-aso-offtarget*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/aso-insilico-evaluation*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           cp research/modalities/junction-sirna-designs*.json "$RUNNER_TEMP/res/" 2>/dev/null || true
+          cp research/modalities/hybrid-intron-model.json "$RUNNER_TEMP/res/" 2>/dev/null || true
           git fetch origin modalities-cache || true
           rm -f research/modalities/*.json research/modalities/*.png
           if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
@@ -140,5 +164,6 @@ jobs:
           git add research/modalities/junction-aso-offtarget*.json 2>/dev/null || true
           git add research/modalities/aso-insilico-evaluation*.json 2>/dev/null || true
           git add research/modalities/junction-sirna-designs*.json 2>/dev/null || true
+          git add research/modalities/hybrid-intron-model.json 2>/dev/null || true
           git commit -m "ASO real/reference junction screens: design + gap-resolved BLAST + uncapped eval + siRNA" || { echo "no changes"; exit 0; }
           git push origin modalities-cache
