@@ -186,6 +186,24 @@ collapses back into one state.
 > the size-matched null; and the per-gene, evidence-typed rows. A verdict written from the raw deltas alone
 > would be the exact error §2 exists to prevent.
 
+## 2c · ⭐ The decision rule, written **before** the numbers
+
+⛔ **Pre-registered on 2026-08-07, while run 31200817686 was still executing**, precisely so the verdict
+cannot be fitted to whatever came back. Each outcome below already has its sentence, its ceiling and its
+next step.
+
+| # | outcome | what it licenses — and its ceiling |
+|---|---|---|
+| **A** | ENO3 reproduces **and** class A (or A+B) clears its size-matched null on **both** platforms **and** PLAGL1 reads DOWN | ★ **A positive, EMC-specific result.** Sentence: *"the genes an NR4A3 chimera is published to bind are co-ordinately higher in EMC tumour tissue than in comparator sarcomas, beyond what a size-matched random gene set achieves on the same platform, in two independent series."* **Ceiling, attached in the same paragraph:** three genes with a fusion assay; two platforms of n = 6 and n = 10; **consistent with the fusion driving them and with EMC's cell of origin**; no cistrome, so no gene is shown to be bound *in EMC*. Next step: the NBRE promoter scan (§4.4), then a peak intersection when a peak set exists. |
+| **B** | ENO3 reproduces, class A clears its null on **one** platform only | **A single-platform observation, reported as one.** Name the platform, its global offset and its comparator arm, and say which of the two is more likely to be the artefact. Not a result until it replicates. |
+| **C** | ENO3 reproduces, **nothing** clears its null | ⭐ **Still a result, and a useful one:** *"the published NR4A3-target set is not distinguishable from a size-matched random gene set in either readable EMC series."* **It is NOT evidence that the fusion does not drive them** — n = 6/n = 10 on decade-old arrays, mixed fusion types, and three genes in class A. It is a **bound on what these two datasets can show**, and it re-files nine routes' `BLK-NO-EMC-DATA` from *"no data"* to *"data too thin at this effect size"*, which is a different and more actionable blocker. |
+| **D** | ENO3 does **not** reproduce | ⛔ **Report the instrument and stop.** No biological sentence may be written from this run. |
+| **E** | ENO3 reproduces but **PLAGL1 reads UP** | ⚠ Every UP row loses its strongest defence against the offset explanation, **and that must be stated in the same breath as any UP finding**, not in a limitations list. The PLAGL1 comparator differs from ours (chondrocytes, not sarcomas), so this weakens rather than refutes — and the weakening is the reportable part. |
+| **F** | Filion Table 1 clears its null but class A does not | **The instrument reads EMC and the fusion-target set is the thing that is flat.** That is the most informative negative available here, because it separates *"this contrast cannot see anything"* from *"this contrast can see EMC and does not see the target set."* |
+
+⚠ **In every branch, the raw delta may not be quoted without its empirical p.** That is the one rule this
+memo adds to how EMC expression is written in this repository.
+
 ---
 
 ## 3 · The PPARγ activity question — what resolves it, and what bounds it
