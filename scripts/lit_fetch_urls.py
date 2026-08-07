@@ -140,12 +140,37 @@ def resolve_targets() -> dict:
     change what every future run fetches). LIT_TARGETS_MODE=extend appends instead of replacing.
     """
     path = os.environ.get("LIT_TARGETS_FILE", "").strip()
-    if not path:
+    inline = os.environ.get("LIT_TARGETS_JSON", "").strip()
+    if not path and not inline:
         return TARGETS
-    with open(path, "r", encoding="utf-8") as fh:
-        extra = json.load(fh)
-    if not isinstance(extra, dict) or not all(isinstance(v, str) for v in extra.values()):
-        raise SystemExit(f"{path}: expected a flat JSON object of name -> url")
+
+    extra: dict = {}
+    if path:
+        with open(path, "r", encoding="utf-8") as fh:
+            extra.update(json.load(fh))
+    if inline:
+        # ⛔ WHY AN INLINE CORPUS EXISTS AT ALL (added 2026-08-07, from a measured cap).
+        # `LIT_TARGETS_FILE` names a path INSIDE THE CHECKED-OUT REF, so fetching a URL that is
+        # not already committed requires committing and pushing a corpus file first. An agent
+        # working in an isolated worktree under a no-push constraint therefore could not verify
+        # ANY arbitrary URL, and the consequence was not hypothetical: the FAP lane had to file
+        # every one of its clinicaltrials.gov facts as `[search]` rather than `[API]`, because
+        # the proxy denies that host locally and no CI path could reach it either. That caps
+        # every trial claim in the portfolio at unverified — including the trial-eligibility
+        # lane, which is the one item on the board with a direct patient consequence.
+        # ⚠ A registry status is exactly the class of fact that must never be quoted from a
+        # search snippet: it changes without notice, and a stale "recruiting" is the one error
+        # here that could actually mislead someone about their own options.
+        parsed = json.loads(inline)
+        if not isinstance(parsed, dict):
+            raise SystemExit("LIT_TARGETS_JSON: expected a flat JSON object of name -> url")
+        # Inline layers OVER a file when both are given, so a dispatch can override one entry of
+        # a committed corpus without forking the whole file. Stated because a silent precedence
+        # rule between two sources of the same thing is how a run fetches something nobody meant.
+        extra.update(parsed)
+
+    if not all(isinstance(v, str) for v in extra.values()):
+        raise SystemExit("targets: expected a flat JSON object of name -> url")
     # Underscore-prefixed keys are documentation, not targets. Corpus files in this repo
     # carry a "_readme" line saying what the corpus is for and under what constraints it
     # was fetched; that is worth keeping, so the convention is honoured rather than banned.

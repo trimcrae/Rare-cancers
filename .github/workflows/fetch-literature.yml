@@ -34,8 +34,12 @@ on:
         description: "Optional JSON {name: url} corpus to fetch instead of the built-in TARGETS"
         required: false
         default: ""
+      targets_json:
+        description: "Inline JSON {name: url} corpus. Use when the URLs are not already committed in this ref — targets_file names a PATH IN THE CHECKED-OUT TREE, so it cannot reach a URL nobody has pushed yet. Layers over targets_file when both are given."
+        required: false
+        default: ""
       targets_mode:
-        description: "replace (default) or extend — how targets_file combines with built-in TARGETS"
+        description: "replace (default) or extend — how targets_file/targets_json combine with built-in TARGETS"
         required: false
         default: "replace"
       expect_pmids:
@@ -164,9 +168,10 @@ jobs:
       # the same contamination the publish step's slug guard below was written to prevent, arriving
       # from the other direction. A query-only run now runs the query path ONLY.
       - name: Fetch literature URLs (generic, runner has unrestricted egress)
-        if: ${{ (inputs.targets_file != '' || inputs.query == '') && inputs.slug != 'lane-probe' }}
+        if: ${{ (inputs.targets_file != '' || inputs.targets_json != '' || inputs.query == '') && inputs.slug != 'lane-probe' }}
         env:
           LIT_TARGETS_FILE: ${{ inputs.targets_file }}
+          LIT_TARGETS_JSON: ${{ inputs.targets_json }}
           LIT_TARGETS_MODE: ${{ inputs.targets_mode }}
         run: python3 scripts/lit_fetch_urls.py
 
