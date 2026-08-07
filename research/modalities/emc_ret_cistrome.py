@@ -1983,15 +1983,85 @@ def _synthetic_cache(ret_peak, control_peak):
 
 # =============================================================================================
 
+def report(art):
+    """Markdown tables, DERIVED from the artifact rather than re-typed into the memo.
+
+    CLAUDE.md §1: a number has one home. `emc-ret-cistrome.md` quotes this output and says so, so
+    a reader can regenerate the tables and a drifted memo is detectable instead of plausible.
+    """
+    L = []
+    b = art.get("part_0_genome_build") or {}
+    L.append("**Genome build** — nothing lifted over; each build fetched from its own service.\n")
+    L.append("| build | species | expected assembly | assembly returned | RET span (1-based) |")
+    L.append("|---|---|---|---|---|")
+    for build, r in (b.get("per_build") or {}).items():
+        g = r.get("RET_ensembl") or {}
+        span = f"{g.get('chrom') or '—'}:{g.get('start') or '—'}–{g.get('end') or '—'}"
+        L.append(f"| `{build}` | {r.get('species')} | {r.get('ensembl_assembly_expected')} | "
+                 f"{g.get('assembly_name') or '—'} | {span} |")
+    off = b.get("chr10_offset_hg19_minus_hg38_at_RET_start")
+    L.append(f"\n`chr10` offset, hg19 − hg38, at RET's start: **{off} bp**. "
+             f"Two independent sources agree within 50 kb on every build: "
+             f"**{b.get('RET_two_sources_agree_within_50kb_on_every_build')}**.")
+    g3 = b.get("third_check_gpl6244_probe_coordinates") or {}
+    c3 = g3.get("containment") or {}
+    L.append(f"\nGPL6244 probe-coordinate cross-check: `{g3.get('_status')}` · RET build "
+             f"unambiguous: **{c3.get('RET_build_is_unambiguous')}** · consistent with "
+             f"**{c3.get('RET_consistent_with')}**.")
+
+    p2 = art.get("part_2_intersection") or {}
+    s = p2.get("ret_summary") or {}
+    L.append("\n\n**RET, per peak set** — the positive-control column decides whether a null in "
+             "the RET column means anything.\n")
+    L.append("| peak set | antigen | build | species | cell type | total peaks | RET promoter "
+             "window | RET gene body | nearest peak to TSS | p vs background | positive control |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|")
+    for r in (s.get("rows") or []):
+        L.append(f"| `{r['peakset']}` | {r['antigen']} | {r['genome']} | {r['species']} | "
+                 f"{str(r['cell_type'])[:38]} | {r['n_peaks_total']} | "
+                 f"**{r['RET_promoter_window_peaks']}** | {r['RET_genebody_window_peaks']} | "
+                 f"{r['RET_nearest_peak_to_tss_bp']} | {r['empirical_p_vs_background']} | "
+                 f"{r['positive_control']} |")
+    L.append(f"\nHuman: {json.dumps(s.get('human'))} · "
+             f"Mouse orthologue: {json.dumps(s.get('mouse_orthologue'))}")
+
+    p3 = art.get("part_3_paralogue_overlap") or {}
+    L.append(f"\n\n**Paralogue overlap** — state: **{p3.get('state')}**\n")
+    L.append("| paralogue | peak sets | any promoter-window peak at RET |")
+    L.append("|---|---|---|")
+    for ag, r in (p3.get("at_RET") or {}).items():
+        L.append(f"| {ag} | {r.get('n_peaksets')} | {r.get('any_promoter_peak_at_RET')} |")
+    L.append("\n| pair | genome | cell types | peaks A / B | fraction of A overlapped by B |")
+    L.append("|---|---|---|---|---|")
+    for k, v in (p3.get("genome_wide_pairwise_sharing") or {}).items():
+        if v.get("_status") == "not_computable":
+            L.append(f"| {k} | — | — | — | ⚠ not computable — {v.get('why','')[:60]} |")
+        else:
+            L.append(f"| {k} | {v.get('genome')} | {str(v.get('cell_type_a'))[:20]} / "
+                     f"{str(v.get('cell_type_b'))[:20]} | {v.get('n_peaks_a')} / "
+                     f"{v.get('n_peaks_b')} | **{v.get('fraction_of_a_overlapped_by_b')}** |")
+    v = art.get("verdict")
+    L.append("\n\n**Verdict**\n")
+    L.append("```json\n" + json.dumps(v, indent=1, ensure_ascii=False) + "\n```")
+    return "\n".join(L)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true")
     ap.add_argument("--check", action="store_true")
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--report", action="store_true",
+                    help="markdown tables derived from the committed artifact")
     args = ap.parse_args()
 
     if args.selftest:
         return selftest()
+
+    if args.report:
+        with open(OUT, "r", encoding="utf-8") as fh:
+            print(report(json.load(fh)))
+        return 0
 
     if args.fetch:
         cache = fetch()
