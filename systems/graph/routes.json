@@ -1029,7 +1029,7 @@
         "blocked_by": []
       },
       {
-        "what": "A staged transcriptional-effector body, so the result can name an effector rather than a size class — needs a deposited structure with a ligand exit vector, staged through an RCSB fetch in CI (RCSB is 403'd at the dev proxy)",
+        "what": "A staged transcriptional-effector body, so the result can name an effector rather than a size class — ✅ DONE 2026-08-06: BCL6 (7LWG, BTB/POZ repressor, ligand YN7, exit atom inside the committed E3 exit-exposure range) staged via CI RCSB fetch, nr4a3-effector-arm-registry.json. Chosen from the route's own motivating paper, which names BCL6 as what EB-TCIP recruits. ⚠ The enumeration re-run with the real arm is not yet landed, so every published TCIP number remains size-class-only until it is.",
         "feasible_today": true,
         "blocked_by": []
       },
@@ -1057,7 +1057,7 @@
       "automation_outlook": "Fully automatable; it is a $0 enumeration."
     },
     "next": {
-      "best_next_action": "Stage a transcriptional-effector second-terminus body (deposited structure + ligand exit atom) via an RCSB fetch in CI, then re-run the enumeration so the route can name an effector instead of a size class.",
+      "best_next_action": "Re-run the reach enumeration with the staged BCL6 arm and restate the result as named-effector rather than size-class. The staging is done; what is outstanding is the re-run and the document restatement.",
       "cost": "$0"
     }
   },

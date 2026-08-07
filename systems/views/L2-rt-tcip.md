@@ -74,7 +74,7 @@ A transcriptional chemical inducer of proximity brings an effector to a DNA-boun
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | The paired reach enumeration run with an effector-size second terminus — ✅ DONE 2026-08-06, ART-TCIP-REACH | ⛔ none built | yes | — |
-| A staged transcriptional-effector body, so the result can name an effector rather than a size class — needs a deposited structure with a ligand exit vector, staged through an RCSB fetch in CI (RCSB is 403'd at the dev proxy) | ⛔ none built | yes | — |
+| A staged transcriptional-effector body, so the result can name an effector rather than a size class — ✅ DONE 2026-08-06: BCL6 (7LWG, BTB/POZ repressor, ligand YN7, exit atom inside the committed E3 exit-exposure range) staged via CI RCSB fetch, nr4a3-effector-arm-registry.json. Chosen from the route's own motivating paper, which names BCL6 as what EB-TCIP recruits. ⚠ The enumeration re-run with the real arm is not yet landed, so every published TCIP number remains size-class-only until it is. | ⛔ none built | yes | — |
 | A ternary geometry for the induced complex | ⛔ none built | **no** | BLK-INDUCED-COMPLEX |
 
 ## Blockers
@@ -143,7 +143,7 @@ The cheapest promotion in the options register, and it has now been taken: the e
 
 ## Best next action
 
-Stage a transcriptional-effector second-terminus body (deposited structure + ligand exit atom) via an RCSB fetch in CI, then re-run the enumeration so the route can name an effector instead of a size class.
+Re-run the reach enumeration with the staged BCL6 arm and restate the result as named-effector rather than size-class. The staging is done; what is outstanding is the re-run and the document restatement.
 
 *Cost:* $0
 
