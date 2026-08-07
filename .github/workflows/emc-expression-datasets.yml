@@ -133,7 +133,7 @@ on:
           aso-junction = grade every declared EWSR1::NR4A3 exon pair at the mRNA level against
           Ensembl and regenerate the ASO design panel for the ones that survive. Publishes
           NOTHING — it prints and uploads, on purpose (see the header).
-          panels = the six targeted gene/panel reads in the two READABLE EMC series (ASS1;
+          panels = the targeted gene/panel reads in the two READABLE EMC series (ASS1;
           CS/GAG+PAPS; a PPARγ TARGET-GENE signature; DLL3/ASCL1/NEUROD1/INSM1/HES1; a published
           hypoxia metagene; NR2F1). Writes its OWN artifact and cannot perturb part B's.
           fusion-targets = score the published EWSR1::NR4A3 / NR4A3 direct-target set in the two
@@ -146,6 +146,9 @@ on:
           ret-motif = the SIBLING instrument: emc_ret_target_scan.py --fetch, the NBRE/NurRE motif
           scan against two nulls plus the RET expression read. A sequence question, not an
           occupancy one; the two are allowed to disagree and neither supersedes the other.        required: false
+          hypoxia metagene; NR2F1; and from 2026-08-07 a SURFACE-ANTIGEN panel). Writes its OWN
+          artifact and cannot perturb part B's. The authoritative list of reads is
+          `emc_expression_panels.PANELS`, not this description.
         required: false
         default: "part-b"
         type: choice
@@ -459,7 +462,7 @@ jobs:
       # because both have already been CHARACTERISED — their probe mapping rates have their one
       # home in emc-atr-vulnerability.json, and this run reports its own MEASURED rate against
       # that prior so a silently-degraded annotation cannot pass as a biological reading.
-      - name: "Panels — six targeted reads in the two readable EMC series"
+      - name: "Panels — the targeted reads in the two readable EMC series"
         if: inputs.mode == 'panels'
         timeout-minutes: 90
         env:
@@ -477,6 +480,25 @@ jobs:
           python research/modalities/emc_expression_panels.py --check \
             || echo "--check reported drift; non-blocking, but READ IT"
 
+      # ⭐ THE OTHER HALF OF A SURFACE-ANTIGEN READING, IN THE SAME DISPATCH (added 2026-08-07).
+      # Read 7 measures antigens in EMC tumour tissue against OTHER SARCOMAS. That contrast cannot
+      # speak to on-target/off-tumour toxicity, and normal-tissue expression is what kills surface
+      # antigens — so an EMC-tumour number without a normal-tissue window is an antigen nobody can
+      # grade. `emc_surface_normal_window.py` is the one home of that axis (HPA RNA, with
+      # DLL3/GPC3 as RESTRICTED positive controls, B2M as BROAD and CD3E as the hard immune
+      # control); it is run here so the two halves land together instead of one waiting on a
+      # separate omnibus dispatch. CLAUDE.md §6: fan out when no result could cancel the other.
+      #
+      # ⚠ NON-BLOCKING BY DESIGN. HPA is a third-party API; a failure there must not destroy the
+      # GEO read that just spent up to 90 minutes. A missing normal-window artifact is an ABSENT
+      # reading and the panel artifact says so in its own text — it is never a finding of no
+      # liability.
+      - name: "Panels — normal-tissue therapeutic-window (HPA) for the same antigens"
+        if: always() && inputs.mode == 'panels'
+        timeout-minutes: 20
+        working-directory: research/modalities
+        run: python emc_surface_normal_window.py || echo "::warning::normal-window failed — the EMC-tumour read stands, the normal-tissue axis is ABSENT (not negative)"
+
       # Belt and braces: the run artifact survives even if the publish step below cannot push.
       - name: "Panels — upload the artifact and its inputs cache"
         if: always() && inputs.mode == 'panels'
@@ -487,6 +509,7 @@ jobs:
           path: |
             research/modalities/emc-expression-panels.json
             research/modalities/emc-expression-panels-inputs.json
+            research/modalities/emc-surface-normal-window.json
 
       # ─────────────────────────────────────────────────────────────────────────────────────
       # ret-cistrome — measured NR4A occupancy at the RET locus
@@ -667,7 +690,7 @@ jobs:
             PATHS="research/modalities/nr4a3-fusion-targets.json
                    research/modalities/nr4a3-fusion-targets-inputs.json"
           if [ "${{ inputs.mode }}" = "panels" ]; then
-            MSG="EMC expression panels: six targeted reads in the two readable series (CI)"
+            MSG="EMC expression panels: targeted reads in the two readable series (CI)"
             PATHS="research/modalities/emc-expression-panels.json
                    research/modalities/emc-expression-panels-inputs.json"
           elif [ "${{ inputs.mode }}" = "hypoxia-confounds" ]; then
@@ -675,6 +698,8 @@ jobs:
             PATHS="research/modalities/emc-hypoxia-confounds.json
                    research/modalities/emc-hypoxia-null-background.json
                    research/modalities/emc-hypoxia-therapeutic-status.json"
+                   research/modalities/emc-expression-panels-inputs.json
+                   research/modalities/emc-surface-normal-window.json"
           elif [ "${{ inputs.mode }}" = "gse-series" ]; then
             MSG="GEO series ${{ inputs.series || 'GSE299349' }}: sample-level characterisation (CI)"
             PATHS="research/modalities/atr-hrd-sarcoma-series.json
@@ -780,6 +805,51 @@ jobs:
                     "PAPSS1", "PAPSS2", "DLL3", "ASCL1", "NEUROD1", "INSM1", "HES1", "PPARG"):
               for mf, r in (d["gene_reads"].get(g) or {}).items():
                   print(f"  {g:<8} {mf[:30]:<32} {r.get('verdict')}")
+
+          # ⛔ THE UNMEASURED BUCKET IS PRINTED FIRST, AND THAT ORDER IS THE POINT. Five routes
+          # are blocked on "any measurement in EMC", so the temptation is to read the winners and
+          # close the rest. A gene in NOT_READABLE_ON_EITHER_PLATFORM was not measured; nothing
+          # here licenses a sentence about it (CLAUDE.md §4).
+          board = ((d["reads"].get("read_7_SURFACE_ANTIGEN") or {})
+                   .get("cross_platform_board") or {})
+          if board:
+              print()
+              print(f"=== SURFACE-ANTIGEN BOARD ({board.get('n_genes')} genes) ===")
+              order = ["NOT_READABLE_ON_EITHER_PLATFORM", "READABLE_ON_ONE_PLATFORM_ONLY",
+                       "DISCORDANT_OPPOSITE_SIGNS", "MOVED_ON_ONE_FLAT_ON_THE_OTHER",
+                       "FLAT_ON_BOTH", "CONCORDANT_DOWN_ON_BOTH", "CONCORDANT_UP_ON_BOTH"]
+              bs = board.get("by_state") or {}
+              for state in order + [s for s in bs if s not in order]:
+                  if state not in bs:
+                      continue
+                  print(f"  {state:<34} ({len(bs[state]):>2}) {', '.join(bs[state])}")
+              print("  ⛔ NOT_READABLE_* is an INSTRUMENT statement, never a biological negative.")
+              print()
+              for g in ("CD248", "CSPG4", "CD276", "SSTR2", "FAP", "PRAME", "B2M", "LRRC15"):
+                  row = (board.get("per_gene") or {}).get(g) or {}
+                  for mf, p in (row.get("per_platform") or {}).items():
+                      print(f"  {g:<8} {mf[:30]:<32} {str(p.get('verdict'))[:160]}")
+
+          import os
+          nw = "research/modalities/emc-surface-normal-window.json"
+          print()
+          if not os.path.exists(nw):
+              print("=== NORMAL-TISSUE WINDOW: ABSENT (the HPA step did not produce it). "
+                    "⛔ An absent reading, NOT a finding of no normal-tissue liability. ===")
+          else:
+              w = json.load(open(nw))
+              print("=== NORMAL-TISSUE WINDOW (HPA) — the axis the EMC contrast cannot supply ===")
+              print("  self-validation:", json.dumps(w.get("self_validation", {}).get(
+                  "positive_controls_restricted")), json.dumps(w.get(
+                      "self_validation", {}).get("negative_control_broad")), json.dumps(w.get(
+                          "self_validation", {}).get("hard_immune_control_must_not_be_restricted")))
+              print("  drift vs previous:", json.dumps(w.get("_drift_vs_previous_artifact", {}).get(
+                  "windows_that_changed")))
+              for g, a in sorted((w.get("antigens") or {}).items()):
+                  print(f"  {g:<10} {str(a.get('window') or a.get('_status')):<28} "
+                        f"spec={str(a.get('rna_tissue_specificity'))[:24]:<24} "
+                        f"blood={str(a.get('rna_blood_cell_specificity'))[:24]:<24} "
+                        f"pm={a.get('plasma_membrane_confirmed')}")
           PY
 
       # ⭐ THE BUILD AND THE POSITIVE CONTROLS PRINT BEFORE THE RESULT, ON PURPOSE. A RET peak
