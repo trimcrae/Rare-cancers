@@ -84,7 +84,9 @@ MIN_CLEARANCE = PARAMS["pose_min_clearance_A"]
 SEED = 20260807
 ANCHOR_PITCH_A = 1.0
 ANCHOR_MAX_DNA_A = 5.0        # an exit atom further than this from DNA is not on a DNA-bound ligand
-N_ANCHORS = 6                 # deterministically farthest-point-sampled from the admissible set
+N_ANCHORS_PER_CLASS = 4       # deterministically farthest-point-sampled WITHIN each groove class
+BASE_EDGE_MAX_A = 6.0         # beyond this from a base edge, a point is not in a groove
+GROOVE_CLASSES = ("minor", "major", "backbone_or_solvent")
 NBRE_CONSENSUS = "AAAGGTCA"   # the NR4A monomeric response element; SEARCHED FOR in the coordinates, never
                               # assumed to be present — a run that cannot find it refuses rather than guesses
 
@@ -335,19 +337,36 @@ def enumerate_anchors(atoms, unit, nbre, field_all):
                 best, lab = dd, g
         labelled.append({"xyz": [round(v, 3) for v in p], "clearance_A": round(dcore, 3),
                          "dist_to_dna_A": round(ddna, 3),
-                         "groove": lab if best <= 6.0 else "backbone_or_solvent",
+                         "groove": lab if best <= BASE_EDGE_MAX_A else "backbone_or_solvent",
                          "dist_to_nearest_base_edge_A": round(best, 3)})
 
     counts = {}
     for a in labelled:
         counts[a["groove"]] = counts.get(a["groove"], 0) + 1
-    pts = [tuple(a["xyz"]) for a in labelled]
-    idx = G.farthest_point_sample(pts, min(N_ANCHORS, len(pts))) if pts else []
-    chosen = []
-    for k, i in enumerate(idx):
-        rec = dict(labelled[i])
-        rec["anchor_id"] = "a%d" % k
-        chosen.append(rec)
+
+    # ⛔⛔ STRATIFIED BY GROOVE, AND THE FIRST VERSION WAS NOT — WHICH INVALIDATED ITS OWN CONTROL.
+    #    It farthest-point-sampled 6 anchors from the whole admissible cloud. Farthest-point sampling
+    #    maximises SPREAD, so it selects the OUTERMOST points of the cloud, and the cloud's outer surface is
+    #    bulk solvent. Measured on the 2026-08-07 CI run: all 6 chosen anchors came back
+    #    `backbone_or_solvent`, 8.3-12.4 A from the nearest base edge — i.e. beside the duplex, not in it.
+    #    That is not where a DNA-binding ligand's exit atom sits, and it is exactly why that run's
+    #    naked-DNA ablation came back at 1.03-1.04x for two of six bodies: with the anchor already out in
+    #    solvent, deleting the receptor barely changes what fits. The weak control was DIAGNOSTIC of the
+    #    anchor selection, not of the geometry.
+    #    ⇒ Anchors are now drawn PER GROOVE CLASS. The minor and major grooves are where a real
+    #    sequence-directed binder (polyamide-class, or the major-groove face NR4A2 itself reads) would put
+    #    its exit vector; `backbone_or_solvent` is retained as a DECLARED CONTROL, not as the headline.
+    chosen, by_class = [], {}
+    for cls in GROOVE_CLASSES:
+        pool = [a for a in labelled if a["groove"] == cls]
+        pts = [tuple(a["xyz"]) for a in pool]
+        idx = G.farthest_point_sample(pts, min(N_ANCHORS_PER_CLASS, len(pts))) if pts else []
+        by_class[cls] = {"n_available": len(pool), "n_used": len(idx)}
+        for k, i in enumerate(idx):
+            rec = dict(pool[i])
+            rec["anchor_id"] = "%s_%d" % (cls[:3], k)
+            rec["groove_class"] = cls
+            chosen.append(rec)
     return {
         "_method": ("every %.1f A lattice point within %.1f A of an NBRE-core heavy atom that also clears "
                     "the WHOLE complex by the sampler's own pose_min_clearance_A (%.2f A). Nothing is "
@@ -356,9 +375,17 @@ def enumerate_anchors(atoms, unit, nbre, field_all):
         "n_grid_points_scanned": n_grid,
         "n_admissible_anchor_positions": len(labelled),
         "by_groove": counts,
+        "groove_labelling": ("nearest base-edge atom of an NBRE-core nucleotide, within %.1f A; standard "
+                             "minor-edge (A N3/C2, G N3/N2, T O2, C O2) and major-edge (A N6/N7, G O6/N7, "
+                             "T O4/C7, C N4/C5) atom sets" % BASE_EDGE_MAX_A),
         "n_anchors_used": len(chosen),
-        "_thinning": ("farthest-point sampling (basin_geom.farthest_point_sample) — deterministic, and "
-                      "chosen to SPAN the admissible set rather than to cluster where it is densest"),
+        "anchors_per_class": by_class,
+        "_thinning": ("farthest-point sampling (basin_geom.farthest_point_sample) WITHIN each groove class "
+                      "— deterministic, and stratified so the selection cannot drift into bulk solvent"),
+        "⛔_backbone_or_solvent_is_a_control": (
+            "those anchors sit beside the duplex rather than in a groove. They are reported so the groove "
+            "classes can be read against something, and they are NOT where a sequence-directed warhead's "
+            "exit vector would be."),
         "anchors": chosen,
     }
 
@@ -524,7 +551,9 @@ def build(n_samples, procs, arms_wanted=None):
                           "mean_fraction_admissible": round(sum(v) / len(v), 5) if v else None,
                           "min": round(min(v), 5) if v else None, "max": round(max(v), 5) if v else None}
 
+    anchor_class = {a["anchor_id"]: a["groove_class"] for a in anchors["anchors"]}
     summary = summarise(cells, geom)
+    groove_only = [c for c in cells if anchor_class.get(c["anchor_id"]) in ("minor", "major")]
     d = {
         "_title": "Is a response-element-based degrader geometrically buildable? (NBRE anchor, PDB 7WNH)",
         "_question": ("emc-unexplored-treatment-lanes.md §4: 7WNH is already in the repo — the anchor for "
@@ -569,7 +598,11 @@ def build(n_samples, procs, arms_wanted=None):
         "paired_placement_envelope": {"n_cells": len(cells), "n_samples_per_cell": n_samples,
                                       "linker_ladder_atoms": LADDER, "cells": cells},
         "summary": summary,
-        "★_naked_dna_ablation": naked_dna_ablation(cells, ab_cells, geom),
+        "★_summary_groove_anchors_only": summarise(groove_only, geom),
+        "_summary_note": ("`summary` pools all three anchor classes; `★_summary_groove_anchors_only` drops "
+                          "the solvent-adjacent control anchors and is the one to read. The verdict is "
+                          "taken from the groove-only summary."),
+        "★_naked_dna_ablation": naked_dna_ablation(cells, ab_cells, geom, anchor_class),
         "★_interface_floor_ablation": interface_floor_ablation(cells, nf_cells),
         "runtime_s": round(time.time() - t0, 1),
     }
@@ -577,42 +610,65 @@ def build(n_samples, procs, arms_wanted=None):
     return d
 
 
-def naked_dna_ablation(cells, ab, geom):
+def naked_dna_ablation(cells, ab, geom, anchor_class):
     """★ THE ABLATION THAT CAN COME BACK EITHER WAY. If removing the 341-residue receptor does not change
     what the enumeration admits, then the receptor is not shaping this geometry and 'admits' is a statement
-    about a naked duplex — true, and uninformative about this site."""
+    about a naked duplex — true, and uninformative about this site.
+
+    ⚠ REPORTED PER GROOVE CLASS, because pooling hides the answer. NR4A2 reads the MAJOR groove of the NBRE,
+    so that is where deleting it should matter most; the minor groove is on the other face; and
+    `backbone_or_solvent` is beside the duplex, where deleting the receptor should matter least. A pooled
+    ratio averages those three different physical situations into one uninterpretable number — which is
+    what the first version of this function did.
+    """
     at_gate = [c for c in cells if c["linker_atoms"] == GATE_ATOMS]
-    by = {}
-    for c in at_gate:
-        by.setdefault(c["arm_id"], [0, 0])
-        by[c["arm_id"]][0] += c["n_accepted"]
-        by[c["arm_id"]][1] += c["n_samples"]
-    byn = {}
-    for c in ab:
-        byn.setdefault(c["arm_id"], [0, 0])
-        byn[c["arm_id"]][0] += c["n_accepted"]
-        byn[c["arm_id"]][1] += c["n_samples"]
-    rows = {}
-    for aid in sorted(by):
-        a_r = by[aid][0] / by[aid][1] if by[aid][1] else None
-        n_r = byn[aid][0] / byn[aid][1] if byn.get(aid, [0, 0])[1] else None
-        rows[aid] = {"acceptance_with_receptor": round(a_r, 8) if a_r is not None else None,
-                     "acceptance_naked_dna": round(n_r, 8) if n_r is not None else None,
-                     "ratio_naked_over_complex": round(n_r / a_r, 3) if (a_r and n_r) else None}
-    ratios = [v["ratio_naked_over_complex"] for v in rows.values() if v["ratio_naked_over_complex"]]
+
+    def group(rows, key):
+        out = {}
+        for c in rows:
+            k = key(c)
+            out.setdefault(k, [0, 0])
+            out[k][0] += c["n_accepted"]
+            out[k][1] += c["n_samples"]
+        return out
+
+    per_arm, per_arm_n = group(at_gate, lambda c: c["arm_id"]), group(ab, lambda c: c["arm_id"])
+    per_cls = group(at_gate, lambda c: anchor_class.get(c["anchor_id"], "?"))
+    per_cls_n = group(ab, lambda c: anchor_class.get(c["anchor_id"], "?"))
+
+    def ratios_of(a, b):
+        out = {}
+        for k in sorted(set(a) | set(b)):
+            ra = a.get(k, [0, 0])[0] / a[k][1] if a.get(k, [0, 0])[1] else None
+            rb = b.get(k, [0, 0])[0] / b[k][1] if b.get(k, [0, 0])[1] else None
+            out[k] = {"acceptance_with_receptor": round(ra, 8) if ra is not None else None,
+                      "acceptance_naked_dna": round(rb, 8) if rb is not None else None,
+                      "ratio_naked_over_complex": round(rb / ra, 3) if (ra and rb) else None}
+        return out
+
+    by_cls = ratios_of(per_cls, per_cls_n)
+    groove = {k: v for k, v in by_cls.items() if k in ("minor", "major")}
+    gr = [v["ratio_naked_over_complex"] for v in groove.values() if v["ratio_naked_over_complex"]]
+    ctrl = (by_cls.get("backbone_or_solvent") or {}).get("ratio_naked_over_complex")
     return {
         "_what": "the same enumeration at the %d-atom gate with the NR4A2 chain deleted" % GATE_ATOMS,
-        "per_arm": rows,
-        "ratio_min": min(ratios) if ratios else None,
-        "ratio_max": max(ratios) if ratios else None,
+        "per_arm_pooled_over_anchors": ratios_of(per_arm, per_arm_n),
+        "★_per_groove_class": by_cls,
+        "groove_ratio_min": min(gr) if gr else None,
+        "groove_ratio_max": max(gr) if gr else None,
+        "solvent_control_ratio": ctrl,
         "★_reading": (
-            "removing the receptor multiplies the admitted orientation space by %.2f-%.2fx, so the protein "
-            "IS shaping the geometry and the enumeration is not merely describing a bare duplex."
-            % (min(ratios), max(ratios)) if ratios and min(ratios) > 1.15 else
-            "removing the receptor changes the admitted orientation space by %s-%sx. ⚠ If that is close to "
-            "1, the receptor is NOT constraining this geometry and an `admits` answer here is a statement "
-            "about a naked B-form duplex, which is true of any DNA sequence and tells us nothing about the "
-            "NBRE in particular." % (min(ratios) if ratios else None, max(ratios) if ratios else None)),
+            "in the grooves — where a sequence-directed warhead's exit vector would sit — deleting the "
+            "receptor multiplies the admitted orientation space by %.2f-%.2fx, against %.2fx at the "
+            "solvent-adjacent control anchors. %s"
+            % (min(gr), max(gr), ctrl or float('nan'),
+               ("The receptor IS shaping the geometry at the anchors that matter, and by more than at the "
+                "control, so this is not merely a statement about a naked B-form duplex."
+                if (ctrl and min(gr) > ctrl) else
+                "⚠ THE GROOVE ANCHORS ARE NOT MORE CONSTRAINED THAN THE SOLVENT CONTROL, so the receptor is "
+                "not doing the work here and an `admits` answer is close to a statement about a naked "
+                "duplex — true of any DNA sequence, and uninformative about the NBRE in particular."))
+            if gr else "no groove anchor was admissible at all — see anchor_set.anchors_per_class"),
     }
 
 
@@ -640,17 +696,20 @@ def interface_floor_ablation(cells, nf):
 
 
 def verdict(d):
-    s = d["summary"]
+    s = d["★_summary_groove_anchors_only"]
     key = "admits_at_the_%d_atom_gate" % GATE_ATOMS
     admits = [a for a, v in s.items() if v[key]]
     shortest = {a: v["shortest_linker_atoms"] for a, v in s.items()}
     return {
-        "answer": "ADMITS" if len(admits) == len(s) else ("PARTIAL" if admits else "REFUSES"),
+        "answer": "ADMITS" if admits and len(admits) == len(s) else ("PARTIAL" if admits else "REFUSES"),
+        "_read_on": ("GROOVE anchors only (minor + major). The solvent-adjacent control anchors are "
+                     "excluded from the verdict — see anchor_set.⛔_backbone_or_solvent_is_a_control."),
         "_in_the_tcip_enumerations_vocabulary": (
             "%d of %d staged second-terminus bodies admit at the %d-atom gate; shortest_linker_atoms = %s. "
-            "Anchors: %d admissible lattice positions around the NBRE core, %d used."
+            "Anchors: %d admissible lattice positions around the NBRE core (%s), %d used across %d classes."
             % (len(admits), len(s), GATE_ATOMS, shortest, d["anchor_set"]["n_admissible_anchor_positions"],
-               d["anchor_set"]["n_anchors_used"])),
+               d["anchor_set"]["by_groove"], d["anchor_set"]["n_anchors_used"],
+               len(d["anchor_set"]["anchors_per_class"]))),
         "⛔_and_this_is_the_sentence_that_must_travel_with_it": (
             "AN `ADMITS` ANSWER IS AN EXCLUDED-VOLUME STATEMENT THAT NO TESTED BODY HAS EVER FAILED IN THIS "
             "REPOSITORY. It is therefore NOT evidence of anything beyond excluded volume: not of binding, "
@@ -709,10 +768,12 @@ def to_markdown(d):
          "- NBRE `%s` located on chain %s at %s" % (
              d["response_element"]["matched"], d["response_element"]["chain"],
              d["response_element"]["resseqs"]), "",
-         "## Per body", "",
+         "- anchors: %s admissible lattice positions; %s" % (
+             d["anchor_set"]["n_admissible_anchor_positions"], d["anchor_set"]["by_groove"]), "",
+         "## Per body (groove anchors only)", "",
          "| arm | class | residues | shortest linker (atoms) | admits at the %d-atom gate |" % GATE_ATOMS,
          "|---|---|---|---|---|"]
-    for a, r in sorted(d["summary"].items()):
+    for a, r in sorted(d["★_summary_groove_anchors_only"].items()):
         L.append("| %s | %s | %d | %s | %s |" % (a, r["size_class"], r["n_residues"],
                                                  r["shortest_linker_atoms"],
                                                  r["admits_at_the_%d_atom_gate" % GATE_ATOMS]))
