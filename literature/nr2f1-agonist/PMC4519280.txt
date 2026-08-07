@@ -1,0 +1,233 @@
+440plosonePLoS ONEPLoS OnePLOSPMC4519280451928045192802622277810.1371/journal.pone.0133901An Integrative Approach for Mapping Differentially Expressed Genes and Network Components Using Novel Parameters to Elucidate Key Regulatory Genes in Colorectal Cancer
+SehgalManika GuptaRajinder MoussaAhmed SinghTiratha Raj XuYingEditor 1Department of Biotechnology and Bioinformatics, Jaypee University of Information Technology (JUIT), Waknaghat, Solan, H.P. 173234, India2LabTIC Laboratory, ENSA, Abdelmalek Essaadi University, Tangier, Morocco3University of Georgia, UNITED STATESCompeting Interests: The authors have declared that no competing interests exist.
+Conceived and designed the experiments: TRS. Performed the experiments: MS RG AM. Analyzed the data: MS AM TRS. Contributed reagents/materials/analysis tools: TRS MS AM. Wrote the paper: MS RG TRS AM.
+✉* E-mail: tiratharaj@gmail.com
+2972015107e0133901e01339013172015© 2015 Sehgal et alThis is an open-access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are properly credited.
+
+## Abstract
+For examining the intricate biological processes concerned with colorectal cancer (CRC), a systems biology approach integrating several biological components and other influencing factors is essential to understand. We performed a comprehensive system level analysis for CRC which assisted in unravelling crucial network components and many regulatory elements through a coordinated view. Using this integrative approach, the perceptive of complexity hidden in a biological phenomenon is extensively simplified. The microarray analyses facilitated differential expression of 631 significant genes employed in the progression of disease and supplied interesting associated up and down regulated genes like jun, fos and mapk1. The transcriptional regulation of these genes was deliberated widely by examining transcription factors such as hnf4, nr2f1, znf219 and dr1 which directly influence the expression. Further, interactions of these genes/proteins were evaluated and crucial network motifs were detected to associate with the pathophysiology of CRC. The available standard statistical parameters such as z-score, p-value and significance profile were explored for the identification of key signatures from CRC pathway whereas a few novel parameters representing over-represented structures were also designed in the study. The applied approach revealed 5 key genes i.e. kras, araf, pik3r5, ralgds and akt3 via our novel designed parameters illustrating high statistical significance. These novel parameters can assist in scrutinizing candidate markers for diseases having known biological pathways. Further, investigating and targeting these proposed genes for experimental validations, instead being spellbound by the complicated pathway will certainly endow valuable insight in a well-timed systematic understanding of CRC.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2015 Apr 17; Accepted 2015 Jul 2; Collection date 2015.
+
+## Introduction
+Colorectal cancer (CRC) influences millions of people worldwide and exists as the most commonly diagnosed cancers after lung and breast cancer [ ]. CRC contributes to second largest cause of death in males and third highest in females, also prevalence of the disorder is observed mostly in the economically developed regions [ , ]probably due to lifestyle and dietary issues. The incidence and mortality rate for CRC is approximately 35–40 percent higher in men as compared to women [ ]. As per the cancer status in United States for 2013, approximately 102,480 peoplesuffered and 50,830 died of CRC which governs the severity of disease [ ]. CRC mainly manifests as abnormal growth of cells occurring at the lining of colon or rectum and the disease progression takes place by replacing a non-cancerous polyp to cancerous tumour. Previous reports [ – ] suggest a variety of factors linked to the disease pattern such as inflammatory bowel disease, polyps, obesity, smoking and genetic history of cancer. The disease is also characterized by rectal bleeding, obstruction, abdominal pain, lack of appetite and subsequent weight loss [ , ]. None of the symptoms independently assures the incidence of CRC and often there are no observable symptoms in early CRC. Therefore, appropriate screening for the disease is required [ ] to facilitate early detection and timely removal of polyps [ ].
+In order to identify biomarkers for early detection, the cancer pathway and disease progression has to be critically examined. Although, in recent decades, many studies have conceded on screening, diagnosis and treatment for CRC [ , ] but still the genetic and initiation factors accountable for the disease are unknown [ ]. There is a huge lack in understanding of mechanisms underlying the progression of CRC from non-cancerous polyp to a tumor and their responsible pathways [ ]. Studies illustrate that CRC is mainly associated with chromosome instability (CIN) [ ] and microsatellite instability (MSI) pathways [ , ].Genetic aberrations in genes involved in CIN pathway leads to the activation of oncogenes like kras and inactivate certain tumor suppressor genes such as smad4, p53, smad2, bax and apc [ ]. Moreover, previous reports [ ] and a database on DNA repair genetic association studies [ ] suggests that mutations in DNA repair genes, i.e. mlh1, msh2, msh3 and msh6of MSI pathway contributes to hereditary non-polyposis colorectal cancer (HNPCC) and CRC. Therefore, investigating important up and down regulated genes may deduce markers for CRC as observed in other studies for different diseases [ ]. Further, a comprehensive perceptive on the genes and related pathways is required for designing specific and effective therapies for CRC [ ].
+There is already a massive accumulation of gene expression data for CRC in public domains and several computational techniques have been applied for its analysis. But, the ultimate challenge lies in extracting vital biological information or markers from this amalgamation of data [ ]. The DNA microarray technique not only provides a valuable measure for estimating expression of thousand genes at once but also offers vital molecular clues regarding mechanisms underlying the pathophysiology of disease [ , ]. Subsequently, the strategy we pursued includes identification of biologically significant genes and elucidation of key patterns or motifs formed by these candidate genes which governs the functional impact of various biological processes in CRC. Each identified gene was then annotated focussing on the categorization of genes by means of biological processes, molecular functions and cellular components for their association and involvement in CRC [ ].
+Additionally, an attempt was made to identify vital network components (network motifs) occurring in elevated frequencies than randomly expected in a pathway. These network motifs provide statistically overrepresented sub-structures (sub-graphs) in a network and are recognized as simple building blocks of a complicated network. These network motifs play a central role in recognition and analysis of specific patterns in biological networks and yield significant insights in better understanding of complex biological processes involved in intricate human diseases [ ]. We applied computational and statistical criterion for the efficient detection of biological network motifs in CRC and their functional evaluation measures were utilized to reduce the complexity for recognizing best appropriate candidates in the proposed study.
+The main perspective of our study was system-component analyses for CRC with several biological components comprising the expression of genes involved, their annotations, and analyses in form of complex network motifs governing vital functions. The foremost objective was to manually curate and annotate all genes, network components, processes, molecular functions and pathways involved in CRC and then facilitate identification of a few key genes that may serve as vital markers for CRC. On the whole, an integrative approach was practised that includes various aspects of molecular data, biomarkers, networks and pathways for uncovering the intricacy in CRC pathway and then confining the search to only a few genes or network components that may answer diverse biological queries concerning CRC. Also, such in silico approach could be applied to other diseases in quest for identifying biomarkers and the study will not only assist experimental biologists, geneticists and other scientific community to identify novel biomarkers for diseases but also has implications for the pharmaceutical industry to target important molecules and design appropriate target-based drugs for medications.
+
+## Materials and Methods
+An in silico approach with different forms of raw data, computational tools, software and databases was applied for extensive understanding of mechanisms involved in CRC. A myriad of in-house perl scripts and statistical techniques were employed for characterization of biomarkers for the disease. Entire workflow representing different parameters and biological aspects considered for the study is presented in .
+ 
+
+## Biological data
+The DNA microarray analysis was performed on raw data retrieved from Gene Expression Omnibus (GEO) [ ] for the early onset of CRC [ ]. The main priority for studying gene expression at an early stage was to identify biomarkers for early detection of disease which consequently could then be aptly managed. The ultimate goal of the study was to detect additional differentially expressed genes in early onset CRC since the one’s involved in familial adenomatous polyposis (FAP) [ ] and HNPCC [ , ] are already well illustrated. The extracted dataset was then analyzed using GeneChip U133-Plus 2.0 Array. Furthermore, the network motifs for CRC were detected by retrieving biological pathways from KEGG [ ], Reactome [ ], BioGRID [ ] and other pathway databases [ ].
+
+## Pre-processing of data
+First and the foremost step for DNA microarray analysis is pre-processing and normalization of raw data which then is subjected to further analysis. This process minimizes the noise resulting from technical variations and subsequently permits data to be compared for determining the actual biological changes. The implementation of data normalization assists in stabilizing unequal quantities of starting RNA, differences in labelling or detection efficiencies between the used fluorescent dyes and systematic biases in expression levels. Hence, the data congregated from each available CRC disease chip has been normalized using the robust multi average analysis (RMA) algorithm [ ] from Microarray Data Analysis System (MIDAS) in TM4 microarray software suite.
+
+## Identification of differentially expressed genes
+Subsequent to microarray experiments, recognizing genes with altered expression profiles in diseased state is an imperative and tedious task to perform. The multiple hypotheses testing problem is generally observed due to the presence of a few conditions, many observations and thousands of hypotheses to be explicitly tested. To overcome this issue, an appropriate statistic has been chosen for testing each gene in the dataset and then computing its corresponding p-value. An adjustment process is applied to the raw p-values in order to avoid errors from hypotheses multiplicity [ ] and finally a QQ plot is generated. This plot represents the values of observed test statistics against the expected test statistics under a combination of null hypotheses. Ultimately, the expressed genes for control and diseased states were considered for significance analysis of microarrays (SAM) and volcano plot analyses to measure the substantial gap leading to the identification of crucial regulatory genes [ , ].
+
+## Cluster analysis for co-expressed genes
+The clustering of differentially expressed genes was characterized using hierarchical clustering algorithm. Genes sharing similar expression profiles and other biological features were clustered together and vice-versa. In earlier studies, this kind of classification is achieved for diverse forms of cancers but for CRC, a poor classification has been observed [ ]. Moreover, hierarchical clustering was performed to deduce the significance of differential expression selection step in classifying the co-regulated genes. Further, for the identification of important patterns and components in multi-dimensional microarray data, principal component analysis (PCA) was accomplished [ ]. This technique facilitated the detection of major principal components and aided in analyzing and visualizing genes with similar expression profiles.
+
+## Transcriptional regulation of CRC genes
+Since, gene regulation plays crucial role at the level of transcription by employing a variety of transcription factors (TFs) and their target genes; a broad knowledge of transcriptional regulatory elements (REs) is necessary for thorough understanding of gene regulation and underlying complex regulatory processes. Available, in silico tools such as DiRE (Distant Regulatory Elements) [ ] and oPOSSUM [ ] were surveyed for the identification of REs among these differentially expressed genes. Both the toolsassist in identification of TFs where DiRE has a unique feature of recognizing REs outside of proximal promoter regions by considering full gene locus. The REs including proximal promoters and distant REs like enhancers, repressors and silencers were detected for a broader perspective on the concerned regulatory process of CRC.
+
+## Functional enrichment for differentially expressed genes
+The enrichment analysis focused on manual curation and annotation via WEB-based Gene SeT AnaLysis Toolkit (WebGestalt) [ ] and Gorilla tools. The former tool comprises of genomics, proteomics and large-scale genetic studies generated data for functional annotation of differentially expressed and co-expressed datasets. This toolkit integrates information from several public resources and often provides accurate and sensitive results, aiding in identification of biological processes, their cellular compartments and molecular functions associated with the corresponding genes. Whereas, GOrilla tool [ ] makes computation on the basis of exact p-values without simulation analyses for detecting the functional characteristics of the gene sets. Both the tools make use of same statistical approach i.e. hyper-geometric distribution (HGD) for significance testing and functional enrichment of genes whereas WebGestalt furthermore exploits Fisher’s exact test for the annotation analyses. Mathematically, for HGD if there are ‘N’ number of genes in a group where ‘A’ genes are related to a particular GO term and a sample of ‘n’ genes from ‘N’ is taken, then the probability of acquiring ‘a’ genes associated with ‘a’ or more GO terms in a sample ‘n’ is deliberated using HGD:
+
+p−value=1−∑i=0a−1fHG(i;N,A,n)=1−∑i=0a−1(Ai)(N−An−i)(Nn)GOrilla displays the statistically significant and enriched genes at the top of ranked gene list and uses a variant of regular HGD named mHG (minimum hypergeometric) for the enrichment analyses of ranked gene lists [ ]. In many cases, a fixed threshold (n) doesn’t work and ranking of all the elements (genes) is required for finding the value of ‘n’ that further minimizes HGD. For instance, consider a ranked gene list say g
+1,…, g
+N in place of a target set, and defined label vector: λ = λ
+1,…,λ
+N
+∈ {0, 1}
+N as indicated by the association of ranked genes to a given GO term, λ
+i
+= 1 if g
+i is associated with the term [ ]. Then, mHG score is given by:
+
+mHG(λ)=min1≤n≤N(HGT(N,K,n,kn(λ)))
+Where
+
+kn(λ)=∑i=1nλiHere, the cut-off between top rated genes and rest of the genes is calibrated in a precise manner to maximize the gene enrichment analyses.
+
+## Detection of crucial patterns from CRC pathway
+Examination of vital network motifs, an important aspect to recognize the modularity and to solve large-scale structure of complicated biological networks was facilitated from complex CRC disease pathway. A variety of motif detection tools like MFinder [ ], MAVisto [ ] and FANMOD [ ] were employed to identify motifs; where all these tools implement different algorithms. MFinder uses a semi-dynamic programming algorithm in order to reduce the run time in detecting network motifs and performs full enumeration of the sub-graphs whereas MAVisto tool employs a flexible algorithm for the identification of network motifs and also includes an advanced force-directed layout algorithm [ ] for its analyses. Moreover, FANMOD runs a much sophisticated algorithm named RAND-ESU [ ] that works on both directed as well as undirected networks for specification and sampling of sub-graphs. This algorithm performs better than its counter algorithms [ ] for the identification of network motifs from complex biological networks.
+The statistical implication of these generated motifs was then evaluated using available standard constraints such as z-scores, p-values and significance profile (SP). The p-value and z-score for each motif was estimated (via Fanmod’s output) and those having z-score>2 and p-value<0.05 were classified as significant motifs and are demonstrated in . Further, the SP furnishes normalized z-score values for a particular network motif (m
+i
+) which is given by:
+
+SP(mi)=Z(mi)∑i=1nZ(mi)2
+Where Z(m
+i
+) corresponds to the z-score value for each network motif.
+All the generated 4–8 node sub-graphs with unique network motif IDs were then extensively analysed for examining the genes and their complex interactions in CRC using our novel designed parameters such as ‘FN
+i
+’, ‘FTN
+i
+’ and ‘FT
+i
+’ as represented in . The Network Motif Image ID column presents the network motif IDs as the adjacency matrix created for each interaction where 0 and 1 correspond to no connection and connection among nodes respectively.
+ Here, ‘FN
+i
+’ corresponds to the number of genes present in a given network motif ID; ‘FTN
+i
+’ is the sum of frequencies for all the genes occurring in a given network motif ID and ‘FT
+i
+’ is defined as the ratio of number of genes for a particular network motif ID and the sum of frequencies for all genes in a given network motif. For a given network motif ID say ‘n
+i
+’, where i = 1,2,3,….,n; ‘FT
+i
+’ is given by:
+
+FTi=FNiFTNiEach ‘FT
+i
+’ value for a particular network motif ID provides the magnitude of all genes involved in a particular network motif. Thus, the applied methodology comprises of both top-down and bottom-up approaches for detecting the key players in CRC pathway. Using the top-down approach, first the entire CRC pathway was partitioned into smaller sub-graphs with small functional modules and then the involved nodes were identified and annotated. On the other hand, a bottom-up approach was applied for classifying the interactions and relationships among the nodes. Ultimately, outcome from both the approaches was incorporated to identify key nodes in CRC pathway in order to deduce the crucial genes employed in disease.
+
+## Results
+In this study, a comprehensive analysis for differentially expressed genes, TFs, interacting proteins, putative network motifs and their implications in diverse pathways related to CRC has been extensively carried out. Selected CRC dataset for DNA microarray was considered for the process of normalization for removal of errors and noise from the dataset as depicted in . The figure illustrates the box plot for all four Affymetrix chips before and after normalization using quantile normalization and clearly demonstrates the impact of normalization step by rectifying the signal of genes across all chips.
+ The microarray dataset was examined for the identification of specific patterns or markers that may differentiate normal vs. diseased state for signifying the susceptibility and facilitate early diagnosis of CRC. After preliminary pre-processing and manual inspection based on the proportional analysis, final set subjected to SAM composed of only the robust candidates (see ). SAM revealed a total of 631 genes ( ) from the microarray dataset which were differentially expressed among the tested conditions since data points lie aside the diagonal line in a substantial manner. The volcano plot between control and the diseased state for CRC clearly elucidated the difference between genes that were differentially expressed in the two groups as shown in . Here, the spots represented in black are the genes showing normal expression whereas the red ones with signal log ratio (SLR)>2 are over expressed and those with SLR<-2 are under expressed genes in the diseased state. Moreover, SOM significant clusters are depicted in and PCA (well described in and Figs) revealed the projections for 3 different conditions, i.e. over-expressed genes, under-expressed genes and genes showing normal expression.
+ After characterizing the differential expression pattern of crucial genes implicated in early CRC progression, role of RE and transcriptional regulation was essential to recognize. We identified a total of 108 TFs in the gene expression dataset for CRC ( ), represented in descending order of their occurrence in the frequency column. Additionally, importance of these TFs were estimated using an optimization procedure that considers a weight ‘w
+i
+’ for each i
+thTF, as a measure of its association with the input gene set and further calculates the importance value as the product of TF occurrence (frequency) and TF weight. We also classified TFs (see ) found in each differentially expressed gene from CRC dataset, providing total number of TFs for each gene, locus, their names, position and their associated types. Moreover, families for all the important TFs have been recognized and illustrated in . We also compiled a list for top 10 TFs implicated in genes responsible for differential expression in early CRC with their frequencies of occurrence, importance and other essential details as depicted in . A few experimental validations complementing to the association of these transcription factors in CRC are also referred in the table.
+ The majority of identified TFs belonged to zinc-coordinating class and hormone-nuclear receptor family of transcriptional regulatory system. Hepatocyte nuclear factor 4 (hnf4), nuclear receptor subfamily 2 group F member 1 (nr2f1) and down-regulator of transcription 1 (dr1) are the most recurrent TFs regulating genes in early CRC dataset and are the members of same class as well as family of TFs. All these TFs either bind directly or in the form of a complex to control the rate of transcription. This kind of information is primarily required to understand the gene regulation in a comprehensive manner. It is anticipated that for the regulation of genes involved in CRC, manipulation of regulatory region of genes specifically for the identified TFs such as hnf4, nr2f1, dr1 and their classes could provide biological insight to experimental biologists and geneticists. Further, an attempt was made to manually curate and annotate the genes for their biological roles, functions, cellular components and their implication in diverse complex biological pathways. Out of 631 differentially expressed genes, functional enrichment for 509 genes was aggravated. Maximum genes had their roles in biological regulation, protein binding and were present at membranes of the cell ( ). This particular section of the manuscript provides an insight to diverse mechanisms and pathways elucidated by the regulation of genes involved in CRC pathway.
+ After acquiring the differential expression pattern, we intended to identify chief sub-networks configured by these genes; facilitating annotation of intricate biological network implicated in CRC. Based on the rationale, detection of crucial network motifs and network patterns was made; providing essential clues concerning the hierarchical decomposition of CRC network. Here the patterns being referred are small connected sub-networks occurring in significantly higher frequencies in a network than would be expected for a given random network. These patterns or motifs are considerably overrepresented and characterize certain essential functional aspects associated with CRC related pathways and its progression. Several motifs ranging from 4–8 sub-graph nodes were generated and annotated for the CRC pathway which is available as supplementary data (available at: http://www.bioinfoindia.org/CRCData), and a few have been depicted in . The applied bottom-up approach is clearly demonstrated in starting from 4-node sub-graphs and then proceeding one by one till 8-node sub-graphs were generated; all the interacting genes were annotated along with their functional relationships.
+ The network motifs thus obtained from CRC pathway contained 4-chain motifs, single input module (SIM), multiple input module (MIM), bifan motifs and other important biological signatures that were supported by significant z-scores and p-values for their statistical relevance. These network motifs were further subjected to annotation and disease-specific analyses since, they have important functions to execute; as in case of SIM motif, several genes are controlled by a single master gene and the master gene is known to be autoregulatory. Whereas, in MIM motif (a generalization of SIM), a single gene is being controlled by multiple genes [ ]. Other regular 4-node motifs confirmed the presence of diamond, biparallel and bifan motifs (often built by two regulatory and two regulated genes). Further, these nodes were annotated for identifying genes involved in these patterns for their biological significance using in house Perl scripts. Similar type of motif graphs were generated for sub-networks of other network sizes and annotation of these graphs were based on statistical criterion via mean-frequencies, standard deviation, z-scores and p-values.
+The calculated SP was then superlatively plotted on a graph against the different motifs as illustrated in . The motif SP graph clearly depicts that as the number of nodes in a motif increase, the complexity increases and further the trend declines representing smaller normalized z-score values towards large motif sizes. Based upon this SP profile analysis we suggest that network motifs with smaller node size (3 or 4) are more functionally allied towards their role in pathways while motifs of larger size (> = 5 nodes) are less functional ( ). It is believed that the observed trend might be similar in many such biological networks if analyzed.
+ The novel deliberated parameters revealed that the lower ‘FT
+i
+’ value proves to be more statistically significant. As it signifies greater involvement of a few genes that explains complex interactions among different nodes in a given motif. Further, the motif showing least ‘FT
+i
+’ value i.e. 0.171 for motif ID ‘7n’ was chosen for identifying key players in the given motif. This information was attained by mapping all genes from the complex CRC pathway onto the network motifs and then frequency of each gene for each network motif was calculated (see ). This analysis was performed to understand the involvement of different genes on the basis of their occurrence (frequency) in each motif. For instance, consider 4a motif in (detail for motif images at http://www.bioinfoindia.org/CRCData), the involvement of pik3r5, kras and araf genes were found4, 5 and 4 times in the same pattern (motif). Finally, a sum of all these frequencies for each gene was calculated to comprehend a cumulative impact and in parallel the frequencies for all genes in the above mentioned motif (with least ‘FT
+i
+’ value) were calculated and presented in . In general when this approach was applied for 13 DNA repair associated diseases, the least FTi value was usually reported for smaller motifs having high SP scores (results unpublished) with exception to results in CRC dataset where least FTi value is observed in 7-node motif (i.e. 7n). Therefore, our approach of reducing the entire CRC pathway complexity into smaller sub-graphs and subsequently identifying key players is quite promising as confirmed from .
+ 
+
+## Discussion
+Analyzing complex biological pathway of CRC is a convoluted process and requires an integrative approach for identifying biomarkers for the disease. Thus, the approach we applied not only performs enrichment analyses but also presents observations from many different methods, applications and tools existing for gene expression and network data analyses. The current study intended for identification of vital components in pursuit of reducing the complexity hidden in intricate CRC pathway and their associated biological processes. Identification of crucial network motifs will help systems biologists to find key components from whole pathways and analyze their behaviour against different experimental conditions. Although genes involved in MMR system like mlh1, msh2, msh6, pms2 and other genes such as apc and mutyh have already shown their influence on CRC but still cause and progression of the disease remains unrequited. Consequently, we made an effort to identify certain other genes that may potentially impact meticulous understanding of CRC. Many important genes as revealed in like kirsten rat sarcoma viral oncogene homolog (kras), v-raf murine sarcoma 3611 viral oncogene homolog (araf), phosphoinositide-3-kinase, regulatory subunit 5 (pik3r5), ral guanine nucleotide dissociation stimulator (ralgds) and v-akt murine thymoma viral oncogene homolog 3 (akt3) were observed to contribute maximum complexity in the CRC pathway. These genes illustrate higher frequencies and numerous interactions among nodes and are proposed to be vital for CRC disease progression. Here, the CRC pathway complexity has been reduced to a few key genes that may be explored further for their putative roles in the disease.
+Previous reports suggest that the mutational analyses of kras and braf are highly correlated with the development of colorectal cancer by activating MAP kinase pathway [ ]. The braf gene, an isoform of araf (suggested from the pathway level analysis) also has its influence on a number of tumors especially in colorectal and gastric cancer whereas role of araf still remains a mystery [ ]. Although there have been contradictory reports earlier [ ] stating that mutations in araf gene may not be associated with pathogenesis of various human cancers. But we found 97% similarity among the two protein sequences (araf and braf) and the two isoforms share several domains such as Raf_RBD, Pkinase, SPS1, TyrKc and biological properties including binding sites; so intending araf as one of the key genes in CRC for its association in disease may prove vital for understanding cancer genetics.
+FBJ murine osteosarcoma viral oncogene homolog (fos) and jun proto-oncogene (jun) with ample frequencies were identified in network motifs as well as in the differential expression dataset depicting their putative roles in forming the convoluted CRC pathway (Figs and ). As deciphered in the Figures, these genes demonstrate vital interactions among themselves and other genes focussing on activating certain genes, phosphorylating and affecting expression of genes. This study reveals some important markers and a few novel genes and its variants that are believed to associate with CRC and its progression. The 5 genes reported in the study namely, kras, araf, pik3r5, ralgds and akt3 along with 2 other genes jun and fos can be studied broadly for its association in CRC since, the former genes illustrated complex associations and latter signified high differential expression in diseased state. Moreover, the anticipated genes, jun, fos, mapk1and their REs znf219, hnf4, pparg and dr1could be utilized further to control the transcriptional regulation and other regulatory actions executed by these genes. All major responsible candidates were subjected to functional enrichment for their classification in biological processes, pathways and molecular functions they perform. The earlier studies were based on the differential gene expression obtained in early colorectal cancer dataset whereas our approach not only signifies the importance of differentially expressed genes but also helps understand the interactions among these genes/proteins at pathway level. The previous approach revealed seven genes, cyr61, uchl1, fos, fosb, egr1, vip, and krt24 which were significantly over expressed in diseased as compared to normal. In our study, we propose 5 additional genes kras, araf, pik3r5, ralgds and akt3 along with jun and fos (also stated by earlier study) which could be explored further for their role in CRC progression.
+
+## Conclusion
+The study proposes novel parameters which depicts the dependence of an entire system on a few key genes, proteins and metabolites for examining the statistical significance. Hence, the 5 genes proposed from comprehensive theoretical and computational analysis implicated in CRC may serve as imperative therapeutic targets for CRC. Proposed set of putative TFs will also assist experimental biologists and geneticists to manipulate regulatory processes associated with the genes. There is an imperative need to apply this approach on other perilous diseases as well to identify crucial network components and biomarkers. It is believed that besides key genes proposed in this study, we provide novel methodology to analyze small components of large and complex biological networks. The identified genes from early progression dataset and network analyses for CRC may be explored further and experimentally tested to reveal crucial insights in understanding the disease in an extensive mode.
+
+## Supporting Information
+S1 Fig
+
+## The Self Organizing Map for differentially expressed dataset in colorectal cancer.
+The darker shades of orange explain clusters having similar expression profiles which then vary to yellow and white for clusters having larger deviations among them.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Sample representations through PCA for control and diseases states for the.cel files of experiments.
+Clusters represent various conditions. Principal components 1 and 2 are being related through dimensions 1 and 2 respectively.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Sample representations through PCA for control and diseases states for the.cel files of experiments.
+Clusters represent various conditions. Principal components 1 and 3 are being related through dimensions 1 and 3 respectively.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Statistical parameters like z-score, p-value and significance profile for each network motif.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## The differentially expressed genes obtained from the CRC microarray dataset.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## A list of all identified TFs in early CRC progression with their frequency of occurrence.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## The number of TFs in a particular gene with their relative positions.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## General description regarding TFs including their class and families.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## Information on genes with complex interactions occurring in the CRC pathway.
+(XLSX)
+Click here for additional data file.
+
+## Acknowledgments
+We express our gratitude to The SERB (Science & Engineering Research Board), Department of Science and Technology (DST), India for funding the project through FASTTRACK Scheme grant (SR/FT/LS-026/2009) to TRS.
+
+## Data Availability
+Data are available from Dryad. DOI: 10.5061/dryad.5b1j0.
+
+## Funding Statement
+This work was supported by the Science and Engineering Research Board, Department of Science and Technology (DST), India, grant number SR/FT/LS-026/2009.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## The Self Organizing Map for differentially expressed dataset in colorectal cancer.
+The darker shades of orange explain clusters having similar expression profiles which then vary to yellow and white for clusters having larger deviations among them.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## Sample representations through PCA for control and diseases states for the.cel files of experiments.
+Clusters represent various conditions. Principal components 1 and 2 are being related through dimensions 1 and 2 respectively.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Sample representations through PCA for control and diseases states for the.cel files of experiments.
+Clusters represent various conditions. Principal components 1 and 3 are being related through dimensions 1 and 3 respectively.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Statistical parameters like z-score, p-value and significance profile for each network motif.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## The differentially expressed genes obtained from the CRC microarray dataset.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## A list of all identified TFs in early CRC progression with their frequency of occurrence.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## The number of TFs in a particular gene with their relative positions.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## General description regarding TFs including their class and families.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## Information on genes with complex interactions occurring in the CRC pathway.
+(XLSX)
+Click here for additional data file.
+
+## Data Availability Statement
+Data are available from Dryad. DOI: 10.5061/dryad.5b1j0.

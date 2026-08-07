@@ -1,0 +1,168 @@
+Front OncolFront Oncol1755frontonco101568867Front. Oncol.Frontiers in Oncology2234-943XFrontiers Media SAPMC8231021PMC8231021.1823102182310213417869710.3389/fonc.2021.6979491OncologyOriginal ResearchN6-Methylandenosine-Related lncRNAs in Tumor Microenvironment Are Potential Prognostic Biomarkers in Colon Cancer
+ZhangHongliang ZhaoLei LiSongyan WangJing FengCong LiTanshi DuXiaohui 
+1
+Medical School of Chinese People's Liberation Army (PLA), Beijing, China
+
+2
+Department of Emergency, The First Medical Center, Chinese PLA General Hospital, Beijing, China
+
+3
+The 65651 Army of the Chinese PLA, Jinzhou, China
+
+4
+Department of Clinical Laboratory, Peking University People’s Hospital, Peking University People’s Hospital, Beijing, China
+
+5
+Department of General Surgery, The First Medical Center, Chinese PLA General Hospital, Beijing, China
+Edited by: Jianjun Xie, Shantou University, China
+Reviewed by: Shuangsang Fang, Beijing University of Chinese Medicine, China; Jian Zhang, Harbin Medical University (Daqing), China
+*Correspondence: Tanshi Li, lts301@163.com; Xiaohui Du, duxiaohui301@sina.com
+†These authors have contributed equally to this work and share first authorship
+This article was submitted to Gastrointestinal Cancers, a section of the journal Frontiers in Oncology
+116202120211137551169794920420212552021010120212606202104052024Copyright © 2021 Zhang, Zhao, Li, Wang, Feng, Li and Du2021Zhang, Zhao, Li, Wang, Feng, Li and Duhttps://creativecommons.org/licenses/by/4.0/This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Background
+LncRNA dysregulation and the tumor microenvironment (TME) have been shown to play a vital role in the progression and prognosis of colon cancer (CC). We aim to reveal the potential molecular mechanism from the perspective of lncRNA in the TME and provide the candidate biomarkers for CC prognosis.
+
+## Methods
+ESTIMATE analysis was used to divide the CC patients into high and low immune or stromal score groups. The expression array of lncRNA was re-annotated by Seqmap. Microenvironment-associated lncRNAs were filtered through differential analysis. The m6A-associated lncRNAs were screened by Pearson correlation analysis. Lasso Cox regression analyses were performed to construct the m6A- and tumor microenvironment-related lncRNA prognostic model (m6A-TME-LM). Survival analysis was used to assess the prognostic efficacy of candidate lncRNAs. Enrichment analyses annotated the candidate genes’ functions.
+
+## Results
+We obtained 25 common differentially expressed lncRNAs (DELs) associated with immune microenvironment and m6A-related genes for subsequent lasso analysis. Four out of these DELs were selected for the m6A-TME-LM. All the four lncRNAs were related to overall survival, and a test set testified the result. Further stratification analysis of the m6A-TME-LM retained its ability to predict OS for male and chemotherapy adjuvant patients and performed an excellent prognostic efficacy in the TNM stage III and IV subgroups. Network analysis also found the four lncRNAs mediated co-expression network was associated with tumor development.
+
+## Conclusion
+We constructed the m6A-TME-LM, which could provide a better prognostic prediction of CC.
+
+colon cancertumor microenvironmentN6-methylandenosine (m6A)lncRNA - long noncoding RNAprognostic biomarker 
+
+## Materials and Methods
+
+## Data Sources
+The expression data of 585 CC patients and corresponding clinical information were extracted from the GEO database with the accession number GSE39582. Another whole-genome gene expression data of 177 CC patients with matched clinical data were downloaded with the accession number GSE17536 (https://www.ncbi.nlm.nih.gov/geo/). Then, the lncRNA expression matrix of the TCGA CC data set was used as an independent test data set and downloaded from the TANRIC database ( ). All the CC patients with complete overall survival (OS) information were selected. The gene expression profiles were quantified by FPKM and normalized through log2-based transformation. In addition, the ESTIMATE algorithm was employed to calculate immune and stromal scores for each sample by “estimate” R package.
+
+## Re-Annotating Microarray to Construct lncRNA Expression Profiles
+Annotation files for lncRNAs and protein-coding genes (PCGs) were downloaded from GENECODE (https://www.gencodegenes.org/human/). Moreover, the human genome annotation file (GRCh38/hg38) was downloaded from the UCSC database (http://hgdownload.cse.ucsc.edu/).
+We mapped the probe sequences to the human genome (hg38) by Seqmap software (http://www-personal.umich.edu/~jianghui/seqmap/). First, the sequence of 54675 probes (HG-U133_Plus_2) was mapped to GRCh38 human reference genome by Seqmap, and the corresponding genome position of these probes was found. Then, remove probes that match to multiple locations, leaving probes that uniquely mapped to a single location in human genome with a maximum of two mismatches. Finally, according to the downloaded lncRNA genome location information, the probe of the previous step was corresponding to the lncRNA. A total of 4674 probes from the HG-U133_Plus_2 array were uniquely mapped to lncRNAs. In the end, we constructed the lncRNA expression profile include 3724 lncRNAs in these data sets.
+
+## Differential Expression Analysis
+Based on the results of the ESTIMATE analysis, we obtained microenvironmental scores in colorectal patients. Subsequently, we classified patients into groups with high or low immune scores and high or low stromal scores based on median scores. Then, differential expression analysis between the high and low groups was performed using the “limma” R package. The differentially expressed lncRNAs (DELs) were identified with an adjusted P-value < 0.05 and an absolute log2 fold change ≥ 0.263.
+On the other hand, we also divided the patients into high- and low-risk score groups based on our m6A-TME-LM and analyzed the differentially expressed genes in the groups. The differentially expressed genes (DEGs) were identified with an adjusted P-value < 0.05 and an absolute log2 fold change ≥ 0.585.
+
+## Pearson Analysis Between m6A-Related Genes and DELs
+The expression matrix for 21 m6A-related genes was extracted from two separate data sets based on previously published articles. Then, Pearson correlation coefficient (PCC) was used to evaluate the expression correlation between these m6A-related genes and DELs. LncRNAs with PCC ≥ 0.3 or PCC ≤ −0.3 and P-value < 0.05 were selected as m6A-related lncRNAs. Only lncRNAs that meet the threshold in the two data sets will be selected for subsequent analysis.
+
+## Regression Analysis
+The m6A-associated differential lncRNAs filtered by two data sets were intersected to get 25 common m6A-associated lncRNAs. Subsequently, univariate cox regression analysis was used to screen out the prognostic lncRNAs. Next, LASSO Cox regression was performed using the R package “glmnet” ( ) to construct a tumor microenvironment and m6A-associated lncRNA prognostic model (m6A-TME-LM) of CC patients, which included four m6A-associated lncRNAs.
+
+## Survival Analysis
+Kaplan-Meier analysis was used to screen vital prognostic lncRNAs. Survival curves were drawn to illustrate the associations of expression levels of these lncRNAs with CC outcome by the “survival” R package. The multivariable Cox regression analysis was used to test whether the signature was independent of other clinical features. Using pROC package, the area under the ROC curve (AUC) was calculated to assess the prognostic efficiency of this signature.
+The survival analysis was also used to compare OS between different subgroups, including low-risk and high-risk subgroups, based on the expression of four m6A-associated lncRNAs. The subgroups were separated by the following features: chemotherapy adjuvant (yes or no), gender (male or female), TNM stage (I and II or III and IV), and age (≤ 68 or > 68 years).
+
+## Construction of the Co-Expression Network
+Based on the m6A-TME-LM risk score, we separated the CC patients into low- and high-risk groups. Next, differentially expressed genes (DEGs) associated with the four lncRNAs in m6A-TME-LM were screened from mRNA and lncRNA expression profile data using Pearson correlation coefficient (PCC). Those dysregulated lncRNA-mRNA pairs with PCC ≥ 0.3 or PCC ≤ −0.3 and p < 0.05 were selected as co-expressed lncRNA-mRNA pairs and used to construct the co-expression network.
+
+## Function Enrichment Analysis
+All the DEGs and the DELs related genes in the study were extracted for further functional enrichment by using the “clusterProfile” R package ( ) and Metascape software. Functional enrichment was conducted for the GO terms ( ), KEGG pathways ( ), and Hallmarks. Functions with a false discovery rate < 0.05 were selected.
+
+## Results
+
+## Identification of Tumor Microenvironment- and m6A-Related lncRNAs in CC Patients
+A total of 3724 lncRNAs’ expression levels were re-annotated in two CC data sets. After the ESTIMATE analysis, we divided the CC patients into high- and low-score groups based on the immune or stromal score. Then, we used differential expression analysis to get DELs associated with tumor microenvironments. In GSE39582 data set, there were 86 immune-associated DELs, and 78 lncRNAs were differentially expressed according to immune or stromal score (
+ 
+). Similarly, in GSE17536 data set, there were 25 immune-associated DELs and 23 stromal associated DELs (
+ 
+). Then, we obtained the expression levels of 21 m6A-associated genes through the two data sets separately and performed Pearson correlation analysis between these genes and our m6A-associated lncRNAs in each data set. The lncRNAs with expression values associated with the 21 m6A-associated genes (p < 0.05 and |PCC| > 0.3) were defined as m6A-associated lncRNAs. Finally, we obtained 78 lncRNAs that were significantly associated with m6A in GSE39582 and 36 eligible ones in GSE17536. Finally, 25 m6A-associated lncRNAs were selected in both two data sets (
+ and 
+).
+ 
+
+## Identification of Potential Prognostic lncRNAs and Construct the m6A-TME-LM
+Combined with clinical information, we screened prognosis-related lncRNAs from the 25 candidate lncRNAs by univariate Cox regression analysis (p < 0.05). We obtained 12 out of the 25 lncRNAs were significantly associated with overall survival (OS) of CC patients (
+ 
+).
+ We then performed LASSO Cox analysis based on the 12 prognostic lncRNAs in the GSE38592 data set and generated a model which contains four lncRNAs (
+ 
+). The risk score of each sample in the data set was calculated based on the coefficient of four lncRNAs involved in m6A-TME-LM (
+ 
+). Then, patients were divided into two subgroups based on the median risk score (low-risk and high-risk). The survival curve showed that patients with higher risk scores had a worse prognosis (
+ 
+). And the ROC curves likewise found that m6A-TME-LM had a good efficacy to predict survival time in this data set. (AUC = 0.63; 
+).
+ 
+
+## Validation of the m6A-TME-LM
+To testify the prognostic efficacy of m6A-TME-LM, we conducted the model in GSE17536 data set using the same algorithm. The low-risk and high-risk subgroups were also distinguished based on the median risk scores of CC patients in this data set. Ultimately, we obtained results consistent with the training data set (
+ 
+). The ROC curve also indicated that this model had a more vital prognostic ability in the data set (AUC = 0.674; 
+). Meanwhile, an independent test data (TCGA data set) was used to testify the predictive efficacy of the model further. We also got consistent results (
+ 
+). The ROC curve also indicated that this model had a stronger prognostic ability in the data set (AUC = 0.986). These results demonstrated the m6A-TME-LM had a stable predictive power of prognosis in CC.
+
+## Survival Analysis of the Four Crucial lncRNAs
+Four crucial lncRNAs in the model were evaluated by univariate Cox regression analysis. The forest plot shows that ENSG00000254290 is a protective factor with HR (Hazard ratio) < 1, while ENSG00000237187, ENSG00000234456, and ENSG00000233901 are risk factors with HR> 1 in CC patients (
+ 
+). The alluvial plot showed the roles of these four lncRNAs in CC (
+ 
+). Then, survival curves showed that all the four lncRNAs are survival-associated in both two data sets (
+ 
+).
+ 
+
+## Stratification Analysis of the m6A-TME-LM
+To further assess the prognostic efficacy of m6A-TME-LM, a stratified analysis was used to explore whether the model still could predict OS in different subgroups. The result showed that the higher risk CC patients had a worse survival rate in age > 68 subgroups (
+ 
+). Similarly, we confirmed that m6A-TME-LM retained its prognostic efficacy of male patients (
+ 
+) and patients with chemotherapy adjuvant (
+ 
+). Patients with higher risk also had a worse OS in both the TNM stage III and IV subgroups (
+ 
+). These data proved that the model could be a novel predictor and performed an excellent prognostic efficacy in CC. The m6A-TME-LM may help to improve the prognosis of CC patients.
+ 
+
+## The Potential Function of the m6A-TME-LM
+To better confirm the signature’s potential functions in CC, we classified the samples into high and low risk‐score groups based on the m6A-TME-LM and obtained DEGs influenced by the model (
+ 
+). Heatmap showed the cluster efficiency of these DEGs (
+ 
+). Then, enrichment analysis was performed to confirm the function of the m6A-TME-LM. As shown in , the DEGs were enriched in multiple signaling pathways include PI3K-Akt signaling pathway, IL-17 signaling pathway, Toll-like receptor signaling pathway, NF-kappa B signaling pathway, and so on. It also enriched in many GO terms, which contained regulation of leukocyte migration, extracellular matrix, receptor-ligand activity, and so on (
+ 
+). Further enrichment analysis in Hallmarks showed that these genes involved in the inflammatory response, KRAS signaling and interferon Gamma response, etc. (
+ 
+). All of these suggest that the m6A-TME-LM plays an essential role in CC.
+ 
+
+## Construct the Co-Expressed Network to Explain the Function of the Model
+To further explore how these crucial lncRNAs regulate the aberrant expression of mRNAs in CC, we constructed a co-expressed network based on the correlation between the TME-m6A-related lncRNAs and DEGs. Ultimately, four lncRNAs and 906 mRNAs were selected in the network (
+ 
+). Next, the mRNAs in the network were upload to the ClueGO tool of Cytoscape for functional analysis, and the result showed that these genes were enriched in focal adhesion, AGE-RAGE signaling pathway, Toll-like receptor signaling pathway, and NF-kappa B signaling pathway, etc. (
+ 
+).
+ 
+
+## Discussion
+Multiple previous studies have shown that methylation, especially m6A modification, plays a key role as a regulator in cancer development ( ), but how it functions in colon cancer progression by regulating lncRNA remains unknown. The m6A regulators have been reported to influence the malignant progression and poor prognosis in a variety of tumors by regulating specific lncRNAs. For example, METTL3-mediated m6A methylation modification directly promotes YAP translation and increases YAP activity by regulating the MALAT1-miR-1914-3p-YAP axis to induce drug resistance and metastasis in NSCLC ( ). LncRNA SOX2OT elevates SOX2 expression through ALKBH5-mediated epigenetic regulation of glioblastoma and promotes temozolomide resistance ( ). The lncRNA OSER1-AS1 inhibits the growth and metastasis of non-small cell lung cancer by suppressing ELAVL1 ( ). Furthermore, METTL14-mediated m6A methylation modifications of LNC942 promote proliferation and progression in breast cancer cells ( ). Numerous other studies have also revealed that m6A modification of lncRNAs can influence cancer development, and lncRNAs can act as co-expression RNAs that target and regulate m6A regulators, thereby affecting tumor invasion progression. In summary, we believe that m6A modification of lncRNAs is not negligible in tumor progression, and we should pay attention to m6A modification of lncRNAs to discover potential cancer prognostic biomarkers.
+We identified 25 m6A-related prognostic lncRNAs from 585 CC patients, and four of them were included in the m6A-TME-LM. ENSG00000254290 (RP11-150O12.3) was identified as the potential lncRNA biomarkers for liver hepatocellular carcinoma (LIHC) ( ). The present study demonstrated that ENSG00000237187 (NR2F1-AS1) promoted the progression of NB through the miR-493/TRIM2 axis. It also regulates miR-371a-3p/TOB1 axis to suppress the proliferation of CRC cells ( ). ENSG00000233901 (RP11-65J3.1) is a novel lncRNA that only puts forward in this study, and the potential function needs further analysis. ENSG00000234456 (MAGI2-AS3) has been found to be involved in multiple cancers, including esophageal cancer ( ), bladder cancer ( ), breast cancer ( ), and colon adenocarcinoma ( ). Compared to other CC-related lncRNA biomarkers ( , ), these four lncRNAs are relatively novel and have good prognostic efficacy. Therefore, we hope that our results will be helpful in identifying potential targeting prognostic lncRNAs for m6A regulators, thus providing insights for their deeper study in CC tumorigenesis and progression.
+
+## Conclusion
+First, we identified the immune-related DELs by ESTIMATE analysis and obtained several m6A-related lncRNAs by correlation analysis. Then, we developed the m6A-TME-LM by lasso regression. Next, survival analysis was used to find potential prognostic biomarkers, and four lncRNAs with independent prognostic efficacy were obtained. Finally, the co-expression network of these lncRNAs helps us to find the potential functions of the crucial lncRNAs. This study may be helpful for future studies concerning CC with the aim of finding potential prognostic targets of it.
+
+## Data Availability Statement
+The original contributions presented in the study are included in the article/ . Further inquiries can be directed to the corresponding authors.
+
+## Author Contributions
+HZ, LZ, TL, and XD conceived and devised the study. HZ, LZ, and SL performed bioinformatic and statistical analysis. JW and CF found testify data and analysis tools. HZ, TL, and XD supervised research and wrote the manuscript. All authors contributed to the article and approved the submitted version.
+
+## Funding
+This work was supported by the National Natural Science Foundation of China (Research Index: 81871317), “Winter Olympic Emergency Medical Support” (Research Index: 2019YFF0302300) sponsored by Ministry of National Science and Technique, and Project (RDE2020-15) supported by Peking University People’s Hospital Scientific Research Development Funds.
+
+## Conflict of Interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+## Acknowledgments
+Thanks to all the peer reviewers and editors for their opinions and suggestions.
+
+## Supplementary Material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fonc.2021.697949/full#supplementary-material
+Supplementary Figure 1Validation of the m6A-TME-LM. (A) Kaplan–Meier curves showed that the high-risk subgroup had worse overall survival than the low-risk subgroup in test data set (TCGA). Receiver operating characteristic (ROC) curves of m6A-TME-LM for predicting the overall survival in TCGA data set. (B) Forest plot showed the result of univariate Cox regression analysis.
+Click here for additional data file.

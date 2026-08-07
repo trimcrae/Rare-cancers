@@ -1,0 +1,143 @@
+638frontmolneuroFrontiers in Molecular NeuroscienceFront Mol NeurosciFrontiers Media SAPMC8873373887337388733733522191110.3389/fnmol.2022.751044Identification of Molecular Signatures and Candidate Drugs in Vascular Dementia by Bioinformatics Analyses
+ShuJun WeiWenshi ZhangLi 1Department of Neurology, Cognitive Disorders Center, Huadong Hospital, Fudan University, Shanghai, ChinaEdited by: Eva Zerovnik, Institut Jožef Stefan (IJS), Slovenia
+Reviewed by: Kai K. Kummer, Innsbruck Medical University, Austria; Ying Zhu, Fudan University, China
+✉*Correspondence: Wenshi Wei, wenshiwei1999@163.com
+*Li Zhang, lizhang_huadong@163.com
+This article was submitted to Molecular Signalling and Pathways, a section of the journal Frontiers in Molecular Neuroscience
+1122022157510447510442622022Copyright © 2022 Shu, Wei and Zhang.This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+## Abstract
+Vascular dementia (VaD) is considered to be the second most common form of dementia after Alzheimer’s disease, and no specific drugs have been approved for VaD treatment. We aimed to identify shared transcriptomic signatures between the frontal cortex and temporal cortex in VaD by bioinformatics analyses. Gene ontology and pathway enrichment analyses, protein–protein interaction (PPI) and hub gene identification, hub gene–transcription factor interaction, hub gene–microRNA interaction, and hub gene–drug interaction analyses were performed. We identified 159 overlapping differentially expressed genes (DEGs) between the frontal cortex and temporal cortex that were enriched mainly in inflammation and innate immunity, synapse pruning, regeneration, positive regulation of angiogenesis, response to nutrient levels, and positive regulation of the digestive system process. We identified 10 hub genes in the PPI network (GNG13, CD163, C1QA, TLR2, SST, C1QB, ITGB2, CCR5, CRH, and TAC1), four central regulatory transcription factors (FOXC1, CREB1, GATA2, and HINFP), and four microRNAs (miR-27a-3p, miR-146a-5p, miR-335-5p, and miR-129-2-3p). Hub gene–drug interaction analysis found four drugs (maraviroc, cenicriviroc, PF-04634817, and efalizumab) that could be potential drugs for VaD treatment. Together, our results may contribute to understanding the underlying mechanisms in VaD and provide potential targets and drugs for therapeutic intervention.
+Keywords: systems biology, gene–drug interaction, hub gene, vascular dementia, protein–protein interaction (PPI)
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Aug 2; Accepted 2022 Jan 17; Collection date 2022.
+
+## Introduction
+Vascular dementia (VaD) is a neurocognitive disorder that also has other characteristics such as behavioral symptoms, locomotor abnormalities, and autonomic dysfunction ( ). Various clinical and population studies have indicated that the prevalence of early-onset VaD (<65 years old) ranges from 3.1 to 44% ( ). VaD is considered to be the second most common form of dementia after Alzheimer’s disease (AD), posing a heavy burden on families and societies ( ). However, no specific drugs have been approved for VaD treatment. Growing evidence indicates that stroke, hypertension, diabetes, and atherosclerosis are risk factors for VaD ( ). A recent study found that the incidence of post-event dementia at 1 year was 34⋅4% in patients with severe stroke, 8⋅2% in patients with minor stroke, and 5⋅2% in patients with transient ischemic attack ( ). The underlying mechanism of VaD is still largely unknown but may be associated with pathological processes including chronic hypoperfusion and hypoxia ( ), vascular endothelial dysfunction and damage ( ), increased blood–brain barrier permeability ( ), and oxidative stress and inflammation ( ; ). Therefore, there is a need to elucidate the detailed molecular mechanisms of VaD and explore potential drugs for VaD treatment.
+Bioinformatics analysis of transcriptomic data is used widely to identify biomarkers, therapeutic targets, and the mechanisms of various diseases, including dementia ( ). Key modules and hub genes related to AD have been identified ( ; ), yet VaD has received little attention. A vascular basis for neuronal atrophy in both the temporal and frontal lobes in VaD that is entirely independent of any Alzheimer’s pathology has been reported ( ). Therefore, in this study, we analyzed transcriptome signatures of the temporal cortex and frontal cortex samples from a microarray dataset of VaD to identify overlapping differentially expressed genes (DEGs) between the two brain regions. Gene ontology and pathway enrichment analyses were conducted to predict the biological activities of the overlapping DEGs. Protein–protein interaction (PPI) analysis was performed to detect potential relationships among the proteins encoded by the overlapping DEGs. Hub genes and key modules were identified using Cytoscape software. We also performed hub gene–transcription factor (TF) and hub gene–microRNA (miRNA) interaction analyses to detect potential transcriptional and posttranscriptional regulatory factors, and hub gene–drug interaction analysis to identify candidate drugs. These inclusive systems biology processes allowed us to identify potential biomolecular signatures of VaD, which will give new insights into the underlying mechanisms and provide potential targets for therapeutic intervention.
+
+## Materials and Methods
+A schematic diagram of the workflow of the bioinformatics analyses is shown in .
+ 
+
+## Identification of DEGs From Microarray Datasets of the Frontal Cortex and Temporal Cortex Samples From Patients With VaD
+We used the Gene Expression Omnibus (GEO) dataset, GSE122063, which contains gene expression profiles of the frontal cortex and temporal cortex samples from patients with AD, VaD, and matched controls ( ). In the current study, we analyzed only the gene expression data of the frontal cortex and temporal cortex from VaD and matched control patients. The dataset is available from the National Center for Biotechnology Information (NCBI) GEO database ( ). To identify overlapping DEGs, we analyzed a subset comprising 18 temporal cortex and 18 frontal cortex samples of VaD and 22 matched control samples using the Limma package in the NCBI GEO2R online tool. The threshold values for significant DEGs were adjusted P-value < 0.05 and | log fold change (FC)| > 1. Volcano plots were used to visualize the DEGs in frontal cortex or temporal cortex versus the matched controls. A Venn diagram was used to identify the overlapping DEGs between the two brain regions ( ).
+
+## Gene Ontology and Pathway Enrichment Analyses
+Gene ontology (GO) enrichment analysis under the three main GO categories, biological process, molecular function, and cellular component, and pathway enrichment analysis of the overlapping DEGs between the two brain regions were performed on the web-based portal Metascape ( ). The Kyoto Encyclopedia of Genes and Genomes (KEGG) ( ), Reactome ( ), and WikiPathways databases ( ) were used for pathway annotation. The PANTHER database was applied to detect protein class over-representation of the proteins encoded by the overlapping DEGs ( ). P-value < 0.01 was selected as the threshold for significant enrichment.
+
+## Protein–Protein Interaction Network Construction and Module Analysis
+To detect the potential relationships among the proteins encoded by the overlapping DEGs, we used the Search Tool for the Retrieval of Interacting Genes (STRING) database, version 11.0 to construct a PPI network; a combined score of >0.7 was set as the cut-off criterion of statistical significance ( ). Cytoscape 3.7.1 was used to visualize the PPI network ( ). Ten genes with the highest degree of connectivity were identified as hub genes using the cytoHubba plugin, and key modules were identified using the molecular complex detection (MCODE) plugin.
+
+## Hub Gene–Transcription Factor Interaction and Hub Gene–miRNA Interaction Analyses
+Hub genes are considered to be key genes that play vital roles in the biological process of interest. Therefore, we performed hub gene–TF and hub gene–miRNA interaction analyses to detect TFs and miRNAs that may regulate the hub genes at transcriptional and posttranscriptional levels, respectively. The JASPAR ( ) and TarBase v8 ( ) databases were searched to identify TFs and miRNAs based on topological parameters (i.e., degree and betweenness centrality), respectively, using the NetworkAnalyst software ( ). In addition, motif analysis of DEGs was performed to discover these genes promoter sequence motifs via the MEME algorithm in the MEME Suite ( ). E-value < 0.01 was selected as the threshold for significant motifs. In order to see if any transcription factor identified above has enriched motifs on these genes, those discovered significant motifs were compared with motifs in JASPAR (NON-REDUNDANT) DNA (21 Databases) motif databases using the motif database scanning algorithm Tomtom ( ). The StarBase datasets ( ) presented the miRNA–target interactions by intersecting the predicting target sites of miRNAs with binding sites of Ago protein, which were derived from CLIP-seq data and users can search the interactions of miRNA-target by selecting one/multiple target-predicting programs (PITA, RNA22, miRmap, DIANA-microT, miRanda, PicTar, and TargetScan). Therefore we used it to predict microRNA binding sites of hub genes.
+
+## Drug–Gene Interaction Analysis
+The Drug--Gene Interaction Database (DGIdb) was searched to identify potential drugs that could be used in the treatment of VaD. DGIdb is an online database that provides drug-gene interaction and gene druggability information from various sources, including the literature (PubMed and clinical trial databases) and several drug databases (DrugBank, PharmGKB, and ChEMBL) ( ). The 10 identified hub genes were imported into DGIdb as potential targets to search for existing drugs that could interact with them. Drugs that showed specific types of interactions with the hub genes were selected. Cytoscape software was applied to visualize the interactions between the selected drugs and the corresponding target genes. To identify related clinical trials, the drugs that showed specific types of interactions with the hub genes were input into the ClinicalTrials.gov registry, the largest clinical trials database which contains over 329,000 trials worldwide.
+
+## Results
+
+## Identification of DEGs
+The differential expression analysis detected 128 upregulated and 183 downregulated genes in the frontal cortex ( and ), and 131 upregulated and 165 downregulated genes in the temporal lobe cortex ( and ) of VaD compared with the matched controls. A total of 159 overlapping DEGs, including 62 upregulated and 97 downregulated genes, were detected between the two brain regions ( , , and ).
+ 
+
+## Functional Enrichment Analysis of the Overlapping DEGs
+The protein class over-representation analysis of proteins encoded by the overlapping DEGs classified them into different groups according to their functions and activities ( ). The results of the GO and signal pathways enrichment analyses of the overlapping DEGs are given in , , respectively. The most significantly enriched terms were inflammation and innate immunity, synapse pruning, regeneration, positive regulation of angiogenesis, response to nutrient levels, and positive regulation of the digestive system process, which may help in understanding the DEGs involved in the pathogenesis of VaD. We also performed the gene ontology enrichment and pathway enrichment analysis of up-regulated genes and down-regulated genes separately, and the results were presented in the “GO analysis” sheet and “pathway analysis” sheet of respectively.
+ 
+
+## Protein–Protein Interaction Network Construction and Module Analysis
+The PPI network of the 159 overlapping DEGs has 142 nodes and 88 edges ( and ); disconnected nodes in the network are hidden. The average node degree of the PPI network was 1.16, and average local clustering coefficient was 0.268, and the PPI enrichment p-value was 1.82e-13. The topological analysis of the PPI network identified ten hub genes, GNG13, CD163, C1QA, TLR2, SST, C1QB, ITGB2, CCR5, CRH, and TAC1 ( and ). The MCODE analysis identified three sub-networks, implying these overlapping genes may be involved in different biological processes. The sub-network with the highest MCODE score (score = 5.2) is shown in .
+ 
+
+## Regulatory Signatures of VaD
+We analyzed the hub gene–TF interactions ( ) and hub gene–miRNA interactions ( ) and identified central regulatory TFs and miRNAs using the topological parameters. Four TFs, FOXC1, CREB1, GATA2, and HINFP, and four miRNAs, miR-27a-3p, miR-146a-5p, miR-335-5p, and miR-129-2-3p were detected from the two interaction networks, respectively ( ). The results of common DEGs-TF and DEGs-miRNA analysis were provided in the , respectively, and . We performed motif analysis of DEGs and discovered 28 significant motifs ( ). And these motifs were compared with motifs in JASPAR (NON-REDUNDANT) DNA (21 Databases) motif databases and several transcription factors identified above (GATA2, TFAP2A, GATA3, MEF2A, KLF5, ELK4, SP1, JUND, EGR1, E2F6, NR2F1, NR2C2, SOX10, and E2F4) were matched to these motifs ( ). The results of the microRNA binding sites of these hub genes were provided in the .”
+ 
+
+## Drug–Gene Interaction Analysis
+The 10 hub genes were considered as potential druggable targets for VaD treatment. The drug-gene interaction analysis found 69 candidate target drugs/compounds for VaD treatment. Among them, 22 targeted TAC1, 19 targeted ITGB2, 15 targeted CCR5, 7 targeted SST, 4 targeted TLR2, and 2 targeted CRH. For 47 of the candidate drugs, no specific types of interactions with the hub genes have been reported, and therefore these drugs need further investigation. For the other 22 candidate drugs, specific types of interactions with hub genes have been reported and were visualized using Cytoscape software ( and ). No candidate drugs were identified for GNG13, CD163, C1QA, or TLR2. Until now, none of the 22 drugs have been used directly to treat VaD, as was shown by searching the ClinicalTrials.gov registry.
+ 
+
+## Discussion
+Vascular dementia is a progressive disease that affects cognitive abilities, especially executive functioning. The heterogeneity of causes of VaD makes it challenging to elucidate the neuropathological substrates and mechanisms of VaD. In this study, we used multi-stage bioinformatics analyses to identify biomolecular signatures that underlie the pathophysiological mechanisms of VaD by analyzing the gene expression patterns in the temporal cortex and frontal cortex samples from patients with VaD.
+A total of 159 overlapping DEGs between these brain regions were identified. We performed GO and pathway enrichment analysis to obtain further insights into the functions and signaling pathways of the overlapping DEGs. We found that these DEGs were enriched mainly in inflammation and innate immunity, synapse pruning, regeneration, positive regulation of angiogenesis, response to nutrient levels, and positive regulation of the digestive system process. Accumulating evidence indicates that inflammation and innate immunity play crucial roles in the progression of VaD. Synaptic pruning is essential for the development and maintenance of healthy brain circuitry by removing less active or “weak” synapses to allow the strengthening and maturation of more active connections in a neural activity-dependent process. Disruption of synaptic pruning has been associated with several neural disorders, such as schizophrenia and AD ( ). The synaptic pruning pathway was shown to be activated early in the brain of patients with AD where it mediates synapse loss ( ), yet its role in VaD is largely unknown and needs future research. Increasing evidence has suggested that aberrant angiogenesis may play a role in the development of VaD, but its precise role remains controversial. A significant association between angiogenesis activity and cerebrovascular disease, which is a significant contributor to VaD, has been reported ( ), whereas other studies have indicated that promoting angiogenesis, especially in functional blood vessels, can reduce the extent of ischemia and improve cognition in VaD ( ; ). Clearly, more studies are needed to better understand the potential of angiogenesis as an intervention target.
+We performed PPI analysis to discover the potential relationships among the proteins encoded by the overlapping DEGs and identified 10 hub genes (GNG13, CD163, C1QA, TLR2, SST, C1QB, ITGB2, CCR5, CRH, and TAC). Heterotrimeric G proteins, which consist of alpha, beta, and gamma subunits, function as signal transducers for the seven-transmembrane, G protein-coupled receptors. GNG13, which encodes a gamma subunit, is expressed in taste, retinal, and neuronal tissues, and the GNG13 protein is involved in the gustatory signal transduction pathway by interacting with proteins containing PDZ domains ( ; ). suggested that the GNG13 subunit was a critical signaling component in both the main olfactory epithelium and apical vomeronasal epithelium, by playing an important role in odor-triggered social behaviors including male–male aggression. A recent study found the expression level of GNG13 was significantly reduced in patients with AD compared with its expression in healthy control subjects and GNG13 may act as a potential biomarker in Purkinje cells, indicating the state of health of the cerebellum ( ). However, insufficient information is available on its role in VaD. Future experiments are needed for verification.
+The protein encoded by CD163 is a cell-surface glycoprotein in the scavenger receptor cysteine-rich superfamily, and it is expressed exclusively in monocytes and macrophages ( ). A recent study found that CD163+ macrophages promoted plaque angiogenesis, vascular permeability, inflammation, and progression of atherosclerosis, and deletion of CD163 in mice reduced intraplaque neovascularization and plaque progression ( ). Besides, CD163+ macrophages and microglia were in the central and peripheral nervous system and may play a role in the inflammatory process ( ; ). Atherosclerosis and inflammatory responses are known to be related to VaD ( ), which is consistent with our results. The proteins encoded by C1QA and C1QB belong to the C1q family, whose members are the first components of the complement pathway and are involved in complement system regulation and play crucial roles in neurological disorders ( ). A previous study indicated that aged C1qa-knockout mice showed reduced levels of cognitive and memory decline ( ), which is in accordance with the results of our study.
+The protein encoded by TLR2 is a member of the toll-like receptor (TLR) family, whose members are significant pattern recognition receptors of the innate immune system, initiating inflammatory cascades by recognizing pathogen- and damaged-associated molecular patterns. TLR2 was found to play a pivotal role in inflammation after ischemic brain injury ( ) and was involved in the development of diabetic microvascular complications, including endothelial dysfunction and cognitive impairment ( ). In this study, we found that TLR2 was upregulated in the VaD samples compared with the controls samples, which supports the previous results.
+Somatostatin, which is encoded by SST, is a widely distributed peptide in the central nervous system where it affects the rates of neurotransmission, and it was reported to be decreased in cerebrospinal fluid in patients with AD and VaD ( ). CCR5 encodes a seven-membrane, G protein-coupled receptor that may impact learning and memory by acting on CREB signaling, a pathway that is critical for learning and memory ( ). CRH encodes a member of the corticotropin-releasing factor family that functions as a significant regulator of homeostasis, mediating the autonomic, behavioral, and neuroendocrine responses to stress ( ). Previous studies indicated that CRH might be involved in the regulation of cognitive performances ( ).
+Hub genes are considered to be key genes that play vital roles in biological processes and can affect the regulation of other genes in related pathways; thus, hub genes are often important targets and research hotspots. We studied hub gene–TF and hub gene–miRNA interactions to identify potential transcriptional and posttranscriptional regulators of the 10 identified hub genes. We identified four TFs (FOXC1, CREB1, GATA2, and HINFP) and four miRNAs (miR-27a-3p, miR-146a-5p, miR-335-5p, and miR-129-2-3p) as regulators of the hub genes in VaD. FOXC1 is involved in vascular development processes, including arterial specification and angiogenesis regulation, and may play a role in small vessel disease, which is the primary pathology underlying vascular cognitive impairment ( ). Cyclic adenosine monophosphate responsive element-binding protein 1 (CREB1) is a leucine-zipper transcription factor that plays an essential role in long-term memory formation ( ). Silencing of CREB1 exasperated cognitive dysfunction in vascular dementia (VD) mouse model by inhibiting activation of the PKA-CREB signaling pathway ( ). GATA2, which encodes GATA-binding protein 2, was found to be differentially expressed in AD ( ), but its role in VaD has not been reported so far.
+The reduced level of miR-27a-3p found in the cerebrospinal fluid of patients with AD indicated it as a candidate biomarker for AD ( ). A recent study reported that reduction of miR-27a-3p in vascular smooth muscle cells may result in the development of vascular calcification that develops in association with atherosclerosis, one of the critical risk factors of VaD ( ). miR-146a-5p was also reported to be associated with dysfunction of the vascular endothelium and may be involved in regulating high glucose-induced endothelial inflammation and atherosclerosis ( ; ). found that overexpression of miR-335-5p impaired spatial memory and long-term potentiation maintenance in mice, indicating that miR-335-5p may play a critical role in spatial learning and synaptic plasticity. The blood level of miR-129-2-3p was significantly lower in ischemic stroke patients and negatively associated with the risk of ischemic stroke ( ; ). These miRNAs can be considered as candidate biomarkers for VaD.
+To the best of our knowledge, there are no definitive drugs available for VaD treatment. We performed a drug-hub gene interaction analysis to detect potential target drugs/compounds for VaD treatment and identified a total of 22 drugs that were predicted to have specific types of interactions with the hub genes. We checked the 22 candidate drugs in the ClinicalTrials.gov registry (see footnote 8). Although none of the 22 drugs have been used directly to treat VaD, four of them (maraviroc, cenicriviroc, PF-04634817, and efalizumab) could be potential drugs for VaD treatment. Maraviroc, cenicriviroc, and PF-04634817 are all CCR5 antagonists and efalizumab is an IGTB2 antagonist. Maraviroc and cenicriviroc were reported to improve cognition in HIV-infected individuals with cognitive impairment through their antiretroviral and anti-inflammatory effects ( ; ). Moreover, maraviroc was found to reduce cardiovascular risk by modulation of atherosclerotic progression in vivo and in vitro ( ; ). PF-04634817 and efalizumab are being developed for the treatment of diabetic nephropathy ( ) and type 1 diabetes mellitus ( ), respectively. Diabetes mellitus and its complications are known risk factors for VaD. These four drugs need to be evaluated as potential drugs in VaD treatment in future studies.
+Our study has some limitations. First, our results are based on publicly available microarray data, and no clinical or experimental confirmation of the roles of the proteins encoded by the identified genes of interest was attempted in the present study. Second, the expression profiles from only one GEO dataset were analyzed because of the limited number of available microarray datasets of VaD. In future studies, if available, multiple datasets should be analyzed simultaneously to increase the reliability of the results. Notwithstanding these limitations, this study offers some insights into the underlying mechanisms involved in the progression of VaD.
+
+## Conclusion
+We identified overlapping DEGs between the frontal cortex and temporal cortex of VaD. These overlapping DEGs were enriched mainly in GO terms and pathways associated with inflammation and innate immunity, synapse pruning, regeneration, positive regulation of angiogenesis, and response to nutrient levels, all of which play crucial roles in the progression of VaD. We also identified hub genes, TFs, and miRNAs that were predicted to regulate the expression of the hub genes, as well as candidate drugs that target the hub genes. Our results may contribute to understanding the underlying mechanisms in VaD and provide potential targets and drugs for therapeutic intervention.
+
+## Data Availability Statement
+The datasets presented in this study can be found in online repositories. The names of the repository/repositories and accession number(s) can be found in the article/ .
+
+## Author Contributions
+JS, WW, and LZ conceived and designed the study, analyzed the data, wrote the manuscript, and contributed to the designs of the methods used in this study. All authors have read and agreed to the publication of this version of the manuscript.
+
+## Conflict of Interest
+The authors declare that the research was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest. The reviewer YZ has declared a shared parent affiliation with the authors at the time of review.
+
+## Publisher’s Note
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+## Acknowledgments
+We thank Margaret Biswas, from Liwen Bianji (Edanz) (www.liwenbianji.cn/) for editing the English text of a draft of this manuscript.
+
+## Footnotes
+1
+https://www.ncbi.nlm.nih.gov/geo/
+
+2
+http://metascape.org/
+
+3
+www.string-db.org
+
+4
+www.cytoscape.org
+
+5
+http://meme-suite.org
+
+6
+http://starbase.sysu.edu.cn/
+
+7
+www.dgidb.org
+
+8
+https://clinicaltrials.gov/
+
+## Funding
+This work was funded by Shanghai Municipal Key Clinical Specialty, grant number shslczdzk02801, the Shanghai Municipal Health Commission, grant number 2020YJZX0109, the Shanghai Pujiang Program, grant number 2019PJD013, and National Natural Science Foundation of China (NSFC), grant number 81471103. The funders had no role in the design of the study; in the collection, analyses, or interpretation of data; in the writing of the manuscript, or in the decision to publish the results.
+
+## Supplementary Material
+The Supplementary Material for this article can be found online at: https://www.frontiersin.org/articles/10.3389/fnmol.2022.751044/full#supplementary-material
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+Click here for additional data file.
+
+## Data Availability Statement
+The datasets presented in this study can be found in online repositories. The names of the repository/repositories and accession number(s) can be found in the article/ .

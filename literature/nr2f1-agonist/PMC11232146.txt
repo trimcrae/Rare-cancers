@@ -1,0 +1,942 @@
+pmcGenes EnvironGenes Environ3026genvGenes and Environment1880-70461880-7062BMCPMC11232146PMC11232146.111232146112321463898252310.1186/s41021-024-00310-y3101ResearchMapping the influence of hydrocarbons mixture on molecular mechanisms, involved in breast and lung neoplasms: in silico toxicogenomic data-mining
+Abu-BakarA’edahaedah.abubakar@petronas.com IsmailMaihanimaihani.ismail@petronas.com ZulkifliM. Zaqrul Ieman ZainiNur Aini Sofiyya ShukorNur Izzah Abd HarunSarahani Inayat-HussainSalmaan Hussain 1grid.502073.30000 0004 0634 0655Product Stewardship and Toxicology, Environment, Social Performance & Product Stewardship (ESPPS), Group Health, Safety and Environment (GHSE), Petroliam Nasional Berhad (PETRONAS), Kuala Lumpur, 50088 Malaysia 2Health, Safety and Environment (HSE), KLCC Urusharta, Kuala Lumpur, 50088 Malaysia 3https://ror.org/00bw8d226grid.412113.40000 0004 1937 1557Institute of Systems Biology, Universiti Kebangsaan Malaysia, Bangi, Selangor 43600 UKM Malaysia 4https://ror.org/02tc7rm90grid.502073.30000 0004 0634 0655ESPPS, GHSE, PETRONAS, Kuala Lumpur, 50088 Malaysia 5https://ror.org/03v76x132grid.47100.320000 0004 1936 8710Department of Environmental Health Sciences, Yale School of Public Health, Yale University, 60 College St, New Haven, CT 06250 USA 9720242024464523361520112023762024090720240907202411072024© The Author(s) 2024https://creativecommons.org/licenses/by/4.0/Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/. The Creative Commons Public Domain Dedication waiver (http://creativecommons.org/publicdomain/zero/1.0/) applies to the data made available in this article, unless otherwise stated in a credit line to the data.
+
+## Background
+Exposure to chemical mixtures inherent in air pollution, has been shown to be associated with the risk of breast and lung cancers. However, studies on the molecular mechanisms of exposure to a mixture of these pollutants, such as hydrocarbons, in the development of breast and lung cancers are scarce. We utilized in silico toxicogenomic analysis to elucidate the molecular pathways linked to both cancers that are influenced by exposure to a mixture of selected hydrocarbons. The Comparative Toxicogenomics Database and Cytoscape software were used for data mining and visualization.
+
+## Results
+Twenty-five hydrocarbons, common in air pollution with carcinogenicity classification of 1 A/B or 2 (known/presumed or suspected human carcinogen), were divided into three groups: alkanes and alkenes, halogenated hydrocarbons, and polyaromatic hydrocarbons. The in silico data-mining revealed 87 and 44 genes commonly interacted with most of the investigated hydrocarbons are linked to breast and lung cancer, respectively. The dominant interactions among the common genes are co-expression, physical interaction, genetic interaction, co-localization, and interaction in shared protein domains. Among these genes, only 16 are common in the development of both cancers. Benzo(a)pyrene and tetrachlorodibenzodioxin interacted with all 16 genes. The molecular pathways potentially affected by the investigated hydrocarbons include aryl hydrocarbon receptor, chemical carcinogenesis, ferroptosis, fluid shear stress and atherosclerosis, interleukin 17 signaling pathway, lipid and atherosclerosis, NRF2 pathway, and oxidative stress response.
+
+## Conclusions
+Within the inherent limitations of in silico toxicogenomics tools, we elucidated the molecular pathways associated with breast and lung cancer development potentially affected by hydrocarbons mixture. Our findings indicate adaptive responses to oxidative stress and inflammatory damages are instrumental in the development of both cancers. Additionally, ferroptosis—a non-apoptotic programmed cell death driven by lipid peroxidation and iron homeostasis—was identified as a new player in these responses. Finally, AHR potential involvement in modulating IL-8, a critical gene that mediates breast cancer invasion and metastasis to the lungs, was also highlighted. A deeper understanding of the interplay between genes associated with these pathways, and other survival signaling pathways identified in this study, will provide invaluable knowledge in assessing the risk of inhalation exposure to hydrocarbons mixture. The findings offer insights into future in vivo and in vitro laboratory investigations that focus on inhalation exposure to the hydrocarbons mixture.
+
+## Supplementary Information
+The online version contains supplementary material available at 10.1186/s41021-024-00310-y.
+
+## Keywords
+Breast cancerLung cancerHydrocarbonsToxicogenomics AnalysisChemical mixturesMolecular pathwayspmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BYissue-copyright-statement© Japanese Environmental Mutagen Society 2024
+
+## Introduction
+Air pollution, a pervasive mixture of chemicals and particulate matter (PM), is one of the greatest environmental risks to health. In 2019, the World Health Organization (WHO) estimated 11% of outdoor air pollution-related premature deaths were due to cancer within the respiratory tract [ ].
+Polycyclic aromatic hydrocarbons (PAHs) are among the chemicals found in the complex mixture of chemicals and PM in air pollution [ , ]. Common sources of PAHs include household combustion devices, motor vehicles, industrial activities, and forest fires [ ]. Exposure to airborne PAHs in both occupational and non-occupational settings were associated with the risk of developing breast and lung cancers [ – ]. Notably, a French prospective cohort study, of a large sample size with long-term exposure data of benzo(a)pyrene (BaP), showed significant association between airborne BaP exposure and overall breast cancer risk. The association was greater among women in menopausal transition and tobacco smokers [ ]. Inevitably, the International Agency for Research on Cancer (IARC) classified BaP as a Group 1 carcinogen in humans, based on sufficient experimental evidence of carcinogenicity in animals and corroborated by consistent mechanistic evidence [ ].
+The IARC has also declared tobacco smoking to have sufficient and limited evidence in humans to cause lung and breast cancer, respectively [ ]. Arguably, tobacco smoking is a good example of adverse health effects of exposure to chemicals mixture. This is because tobacco smoke contains more than 5,000 different chemicals, including PAHs, tobacco specific nitrosamines, aromatic amines, aldehydes, phenols, nitro compounds, volatile hydrocarbons, and other organic and inorganic chemicals [ ]. Tobacco smokers who work at industrial facilities are at high risk of exposure to hydrocarbons mixture and the risks of breast and lung cancers have been shown to be greater among workers who smoke tobacco [ , ]. Studies on the mechanism by which exposure to a mixture of hydrocarbons contributes to the development of breast and lung cancers are scarce and, indeed, a complex field to venture into. However, advances in toxicogenomics provide comprehensive databases on chemicals, genes, proteins, and diseases that one can utilize to gain insights into molecular pathways that chemical mixtures potentially influence in the development of a specific disease.
+This article elucidates interactions of genes influenced by a mixture of carcinogenic hydrocarbons with those related to the development of breast and lung cancer. Importantly, the article demonstrates the capability of in silico data-mining for gauging probable molecular mechanisms of mixture-induced toxic effects. This may then assist in strategizing experimental studies to better understand the impact of airborne hydrocarbons in the development of breast and lung cancers. The findings of such studies would then contribute to the risk assessment of chemical mixtures to safeguard the health of people.
+
+## Methods
+
+## Selection of hazardous air pollutants
+In 2019, Ismail et al. [ ] undertook to prioritize the hazard classification of 188 chemicals in the Office of Environment Health Hazard Assessment (OEHHA) list of chemicals emitted from California refineries [ ]. The prioritization was in accordance with the United Nations Globally Harmonized System of Classification and Labelling of Chemicals (UN GHS). The classifications considered were carcinogenicity (C), mutagenicity (M) and reproductive toxicity (R) from databases of nine countries. Out of the 188 chemicals, 67 were identified as carcinogens 1 A (known human carcinogen), 1B (presumed human carcinogen) or 2 (suspected human carcinogen) [ ].
+We confirmed the classification of these chemicals by referencing databases of six countries—Australia, European Union (EU), Japan, South Korea, Malaysia, and New Zealand—to reflect the latest classification. The reference databases (Table  ) were chosen as they were accessible in English on the open World Wide Web domain.
+
+ 
+
+From the revised list, chemicals with the most stringent carcinogenicity classification (1/1A/1B) (Suppl Table ) were then screened for hydrocarbons, as they are common air pollutants and contained in tobacco smoke. These hydrocarbons were further analyzed for gene interactions in the development of breast and lung cancers. The molecular pathways potentially influenced by these genes were elucidated to gain insights on potential molecular pathways affected by hydrocarbons mixture.
+
+## Comparative Toxicogenomic database (CTD) analysis
+The hydrocarbons were grouped into alkanes/alkenes, halogenated hydrocarbons, and PAHs. The linkages between these groups of hydrocarbons and cancers of the breast and lung, were explored by analyzing the chemical-gene/protein interactions obtained from the Comparative Toxicogenomic Database (CTD; https://ctdbase.org/). The analysis was based on data downloaded in July 2023. The CTD is a public domain database that allows the integration of data to provide a better understanding of the interactions between environmental chemicals, genes, and diseases [ ]. Chemicals, chemical-phenotypes, gene ontology and chemicals-disease associations are the examples of information provided by the CTD. The search for genes associated with breast and or lung cancers was based on the CAS number of each individual carcinogenic hydrocarbon and inference network. The data-mining process flow is depicted in Fig.  . The respective inference score and the reference links are in Supplementary Table .
+
+ 
+
+## Identifying common genes for hydrocarbons mixture and breast and lung cancer development
+The lists of genes extracted from the CTD were uploaded to an Excel spreadsheet. Further analysis was done with Cytoscape version 2.5.10—a free software package—to visualize, model and analyze molecular and genetic interaction networks [ ].
+
+## Gene-gene interaction network construction
+The complex gene-gene interactions network of the common genes between the hydrocarbons and the selected cancers was constructed with GeneMANIA, a free in silico tool (http://www.genemania.org) that provides a flexible interface to query genomic, proteomic, and gene function data [ , ]. The tools’ dataset are from various publicly available databases, such as Gene Expression Omnibus (GEO) for co-expression data [ ]; BioGRID for physical and genetic interaction data [ ]; I2D for predicted protein interaction data [ ]; and Pathway Commons for pathway and molecular interaction data [ – ]. The database has almost 2300 networks from eight different organisms that collectively contain nearly 600 million interactions covering almost 164,000 genes [ ]. GeneMANIA generates networks from the data either directly or using an in-house analysis pipeline to convert profiles to functional association networks [ ]. Co-expression networks were filtered (by default) to remove weak correlations [ ]. In this study, Homo sapiens was selected as a target organism in GeneMANIA analysis.
+
+## Molecular pathways enrichment analysis
+Pathway analysis was performed by Cytoscape ClueGO together with CluePedia plug-in version 2.5.10. The common genes found between hydrocarbons that are associated with the selected cancer development were inserted into the Load Marker List section. The Kyoto Encyclopedia of Genes and Genomes (KEGG), Reactome, and WikiPathways [ – ] databases were selected in the ClueGO settings to extract the list of pathways. Enrichment right-sided hypergeometric test was used for the enrichment with a Bonferroni step-down correction and a κ score of 0.3 to link the terms [ ]. ClueGO plug-in integrates GO terms and KEGG/BioCarta pathways. The plug-in was used to visualize molecular pathways and gene ontology that are linked to the examined common genes connected to the selected cancers. The organism analyzed was set to Homo sapiens. The output results (gene-pathway interactions) are shown in Supplementary Figs.  & that were used to construct Figs.  and .
+
+ 
+
+ 
+
+## Results
+
+## Classification revision
+Among the 67 chemicals screened, the classifications of seven chemicals were revised to a more stringent category: from category 2 (suspected human carcinogen) to category 1/1A/1B (known human carcinogen/presumed human carcinogen). This revision was based on Japan’s most stringent classification. The seven chemicals are 1,1,2,2-tetrachloroethane (CAS No. 79-34-5), analine (CAS No. 62-53-3), anthracene (CAS No. 120-12-7), biphenyl (CAS No. 92-52-4), dichloromethane (CAS No. 75-09-2), methyl isobutyl ketone (CAS No. 108-10-1), and styrene (CAS No. 100-42-5) (Suppl Table ). With the revision, 41 of the 67 chemicals are category 1/1A/1B carcinogens, of which 27 are hydrocarbons (Suppl Table ). Among the 27 hydrocarbons, 25 were identified as alkanes, alkenes, halogenated hydrocarbons, and PAHs.
+
+## Comparative Toxicogenomic database analysis
+Among the 25 hydrocarbons, nine were excluded from further toxicogenomics analysis for absence of curated data in the CTD. The nine chemicals are isobutane (CAS No. 75-28-5), n-butane (CAS No. 106-97-8), 1,1,2,2-tetrachloroethane (CAS No. 79-34-5), 1,2-dichloroethane (CAS No. 107-06-2), vinyl bromide (CAS No. 593-60-2), polychlorinated biphenyl (CAS No. 1336-36-3), benz(a)anthracene (CAS No. 56-55-3), biphenyl (CAS No. 92-52-4), and benzo(e)pyrene (CAS No. 192-97-2) (Suppl Table ).
+In the alkanes/alkenes group, only two of the four chemicals contained gene interactions data. Isoprene (2-methyl-1,3-butadiene (CAS No. 78-79-5)) affects 12 and 8 genes associated with breast and lung cancer, respectively, whilst 1,3-butadiene (CAS No. 106-99-0) affects 63 genes linked to breast cancer development and 48 genes linked to lung cancer (Suppl Table ).
+In the halogenated group, six of the twelve chemicals affect genes linked to breast or lung cancer genes. Tetrachlorodibenzodioxin (TCDD) (CAS No. 1746-01-6) interacts with the greatest number of genes related to breast cancer development (489 genes), followed by trichloroethylene (CAS No. 79-01-6; 230 genes), tetrachloroethylene (CAS No. 127-18-4; 40 genes), and dichloromethane (CAS No. 75-09-2; 35 genes). Both 1,2 dichloropropane (CAS No. 78-87-5) and 1,2-dibromoethane (CAS No. 106-93-4) affect only five genes (Suppl Table ). Regarding genes linked to lung cancer development, TCDD, carbon tetrachloride (CAS No. 56-23-5), dichloromethane, and vinyl chloride (CAS No. 75-01-4) affect 250, 184, 25, and 16 genes, respectively, whilst 1,2-dichloropropane and 1,2-dibromoethane affect less than ten genes (Suppl Table ).
+Among the nine chemicals in the PAHs group, BaP (CAS No. 50-32-8) affects the greatest number of genes related to breast cancer development (492 genes), followed by anthracene (CAS No. 120-12-7; 12 genes) (Suppl Table ). In regard to interactions with lung cancer-associated genes, BaP affects the greatest number of genes (259 genes), followed by benzo(b)fluoranthene (CAS No. 205-99-2; 52 genes), chrysene (CAS No. 218-01-9; 35 genes), dibenz(a, h)anthracene (CAS No. 53-70-3; 34 genes), and benzo(k)fluoranthene (CAS No. 207-08-9; 33 genes) (Suppl Table ).
+
+## Genes interacted with hydrocarbons mixture that are connected to breast and lung cancers
+The data-mining revealed 87 and 44 genes linked to breast and lung cancer, respectively, interacted with most of the investigated hydrocarbons (Suppl Table ).
+The mutual molecular pathways in the development of breast and lung cancer that are linked to these genes are aryl hydrocarbon receptor (AHR) pathway, apoptosis, chemical carcinogenesis, ferroptosis, fluid shear stress and atherosclerosis, lipid and atherosclerosis, miRNA in DNA damage response, Nrf2 pathway, nuclear receptors meta-pathway, and oxidative stress response (Suppl Figs.  & ; Suppl Tables & ).
+Molecular pathways involved in breast cancer but not in lung cancer development are androgen receptor signaling, DNA methylation, estrogen metabolism and signaling, and interleukin-10 (IL-10) anti-inflammatory signaling (Suppl Fig.  & Suppl Table ).
+Interleukin-3, 4, 13 and 17 (IL-3, IL-4, IL-13, IL-17) signaling pathways, p53 signaling, oxidative damage response, and SUMOylation are involved in the development of lung cancer (Suppl Fig.  & Suppl Table ) but not breast cancer.
+
+## Gene-gene interaction network affected by the common genes
+GeneMANIA Cytoscape predictive plug-in provides information on interaction types between the common genes. The interaction types include: (a) Co-expression—two gene products are linked if their expression levels are similar across conditions in a gene expression study; (b) Genetic interaction—two genes are functionally associated if one gene is affected by alterations that occur to the second gene; (c) Physical Interaction—two genes product are linked if they interact at protein level; (d) Co-localization—genes expressed in the same tissue or proteins found in the same location; (e) Interaction in shared protein domains; and (f) Interaction predicted by the server [ ].
+Complex networks encompassing the whole set of interactions between the common genes linked to breast and lung cancers are presented in Supplementary Fig.  . Co-expression (47.33% of interactions) and physical interaction (40.18%) are the dominant interactions among the common genes in breast cancer development, followed by genetic interaction (2.90%), co-localization (2.74%), and interaction in shared protein domains (0.54%) (Table  ). In the case of lung cancer development, co-expression is the dominant interaction between the common genes (46.88%), followed by physical interaction (24.17%), shared protein domain (7.61%), co-localization (7.43%), and genetic interaction (3.04%) (Table  ).
+
+ 
+
+In gaining insights on the potential biological pathways that would be affected by exposure to a mixture of hydrocarbons, we focused on 16 genes common in the development of both cancers (Suppl Table ). Among these genes, 12 are protein-coding genes and 4 are proto-oncogenes.
+The protein encoded by the 12 genes are baculoviral inhibitor of apoptosis (IAP) repeat-containing 5 (BIRC5), cyclin D1 (CCNDI), cytochrome P450 1B1 (CYP1B1), DNA methyltransferase 3 alpha (DNMT3A), estrogen receptor 1 (ESR1), glutathione S-transferase pi 1 (GSTP1), heme oxygenase 1 (HMOX1), interleukin 1 β (IL1B), interleukin 6 (IL6), transferrin receptor (TFRC), tumor necrosis factor (TNF), and tumor protein p53 (TP53). The 4 proto-oncogenes are c-Fos (FOS), Jun (JUN), HRas (HRAS) and Kras (KRAS) (Suppl Table ).
+Among the investigated hydrocarbons, 3 are associated with breast cancer development only: the halogenated hydrocarbon, trichloroethylene (TCE) and tetrachloroethylene, and anthracene, a polyaromatic hydrocarbon (Table  ). The chemical-gene interactions involved changes in mRNA and protein expression. All 3 chemicals do not interact with the HRAS and KRAS genes (Table  ).
+
+ 
+
+TCE interacted with the other 14 genes: it increased the expression of mRNA and/or protein of BIRC5 [ , ], CCND1 [ ], CYP1B1 [ ], ESR1 [ ], FOS [ ], GSTP1 [ ], HMOX1 [ , , ], IL1B [ ], IL6 [ ], JUN [ , , ], TNF [ ], and TP53 [ ]. It also decreased mRNA expression of CCND1 [ ], CYP1B1 [ ], DNMT3A [ , ], IL6 [ ], JUN [ ], TFRC [ ], TNF [ ], TP53 [ ], and decreased HMOX1, IL6 and TNF protein expression [ , ] (Table  ). The potential biological pathways affected by TCE are AHR pathway, apoptosis, chemical carcinogenesis, DNA methylation, estrogen metabolism and signaling, ferroptosis, fluid shear stress & atherosclerosis, IL-10 anti-inflammatory signaling, lipid and atherosclerosis, miRNA in DNA damage, Nrf2 pathway, and oxidative stress response (Fig.  ).
+Tetrachloroethylene interacted with only 5 genes (BIRC5, FOS, JUN, TNF, and TP53). It increased the expression of BIRC5 and TP53 mRNAs and TNF protein, as well as decreased the expression of FOS and JUN proteins (Table  ). The potential biological pathways affected by tetrachloroethylene are AHR pathway, apoptosis, estrogen signaling, ferroptosis, fluid shear stress & atherosclerosis, lipid and atherosclerosis, miRNA in DNA damage, nuclear receptors meta-pathway, and oxidative stress response (Fig.  ). Tetrachloroethylene ability to increase the expression of BIRC5 mRNA (Table  ) suggests deregulation of apoptosis as a potential mechanism affected by tetrachloroethylene in the development of breast cancer. This is because BIRC5—a member of the inhibitor of apoptosis (IAP) family—inhibits caspase activation, which leads to deregulation of apoptosis and increase cellular proliferation [ ].
+Anthracene interacted with only 3 genes (CCND1, CYP1B1, and ESR1). It increased the expression of CYP1B1 mRNA, as well as CCND1 and ESR1 protein (Table  ). The potential biological pathways affected by anthracene are AHR pathway, chemical carcinogenesis, estrogen metabolism and signaling, estrogen-dependent nuclear events, miRNA in DNA damage, and nuclear receptors meta-pathway (Fig.  ).
+In the case of lung cancer, the interactions of carbon tetrachloride, vinyl chloride,dibenz(a, h)anthracene, benzo(b)fluoranthene, benzo(k)fluoranthene, and chrysene with the 16 genes, involved up- and down-regulation at mRNA and protein levels, gene polymorphism, and gene mutagenesis (Table  ).
+
+ 
+
+Carbon tetrachloride affected the up- and or down-regulation of all 16 genes at mRNA and or protein levels (Table  ). It increased the activity of DNMT3A, FOS, HMOX1, IL1B, IL6, JUN, and TNF. This implicates potential involvement of biological pathways associated with AHR pathway, apoptosis, chemical carcinogenesis, ferroptosis, fluid shear stress & atherosclerosis, oxidative stress response, and SUMOylation (Fig.  ).
+Vinyl chloride interacted with only 6 genes. In addition to down regulating HMOX1, IL1B, IL6, and TP53 at mRNA level, as well as decreasing HMOX1 protein expression, it increased mutagenesis of both KRAS [ – ] and TP53 [ – ] genes (Table  ). When KRAS gene is mutated, it becomes an oncogene that can transform normal cells into cancer cells [ ], whilst TP53 mutations resulted in uncontrolled cell growth leading to cancer development [ ]. Thus, the potential mechanism by which vinyl chloride contributes to the development of lung cancer is associated with disruption of normal cellular processes and promotion of tumorigenesis. In the case of TNF, vinyl chloride increased the mRNA and protein activity (Table  ), indicating potential impact in tumor microenvironment.
+Among the 4 PAHs associated with lung cancer, benzo(b)fluoranthene and benzo(k)fluoranthene interacted with 11 of the 16 genes, whilst chrysene and dibenz(a, h)anthracene interacted with 5 and 4 genes, respectively (Table  ). The upregulation of DNMT3A mRNA was increased by benzo(b)fluoranthene but not by the other 3 PAHs (Table  ). Similarly, the regulations of KRAS mRNA and protein were unaffected by all 4 PAHs, except for benzo(b)fluoranthene increased the mutagenesis of KRAS gene [ , ]. It also increased TP53 protein expression and affected its activity [ ] (Table  ). This suggests that benzo(b)fluoranthene and vinyl chloride affected similar biological pathways in the development of lung cancer. A comprehensive overview of the interaction between the 16 genes and PAHs that are linked to lung cancer is shown in Fig.  .
+In the development of both cancers, TCDD and BaP interacted with all 16 genes by affecting the respective mRNA and protein expression and or protein activity (Table  ). BaP can also affect the methylation of BIRC5 3’UTR, GSTP1 promoter, HRAS and IL1B 5’UTR, and phosphorylation of TP53 protein [ – ]. The alkenes, isoprene and 1,3-butadiene increased the mutagenesis of both HRAS and KRAS genes [ ], whilst BaP increased the mutagenesis of KRAS gene [ , , , ] (Table  ). Isoprene also increased the expression of CCND1 protein (Table  ). This indicates similar mechanism of actions by which isoprene, 1,3-butadiene and BaP contribute to the development of both breast and lung cancers.
+
+ 
+
+## Discussion
+In utilizing the in silico toxicogenomic data-mining approach—to explore molecular mechanisms by which exposure to hydrocarbons mixture affects cancer development—we identified 16 genes common in the development of breast and lung cancers that interact with most of the investigated hydrocarbons. Proteins encoded by these genes: BIRC5, CCND1, TNF, and the proto-oncogenes FOS, JUN, HRAS, and KRAS, have all been implicated in cell cycle regulation directly or indirectly. The other 9 genes, CY1B1, DNMT3A, ESR1, GSTP1, HMOX1, IL1B, IL6, TFRC, and TP53 encode proteins involved in xenobiotic metabolism, gene regulation, oxidative damage response, inflammatory response, iron homeostasis, regulation of cell signaling pathways, and DNA damage response.
+It is noted that these common genes may interact with carcinogens other than the investigated hydrocarbons. For example, acetaldehyde (CAS No. 75-07-0), asbestos (CAS No. 1332-21-4), bis(2-ethyl hexyl) phthalate (CAS No. 117-81-7), cadmium (CAS No. 7440-43-9), and chromium (CAS No. 18540-29-9) interacted with most of the 16 common genes, except BIRC5, DNMT3A, HRAS and KRAS (Suppl Table ). The latter 4 genes interacted with carbon tetrachloride, 1,3-butadiene, TCDD, and BaP in the development of both breast and lung cancers.
+The chemical-gene interactions profile suggests complex crosstalk involving DNA damage, transcriptional and post-transcriptional regulations, as well as translational and post-translational regulations, that affect various biological pathways common to cancer development. These biological pathways include gene mutation, cell cycle progression, oxidative stress and damage responses, inflammatory responses, and DNA damage responses.
+In our mapping of biological pathways for breast cancer, DNMT3A, an enzyme responsible for de novo DNA methylation, is shown to be involved in miRNA expression (Suppl Fig.  ). The crosstalk between DNA methylation and miRNA expression can drive the pathogenesis of a disease. For instance, miRNAs can influence DNA methylation patterns by targeting transcripts of proteins responsible for DNA methylation, such as DNMT3A. Conversely, the methylation of miRNA promoter regions can inhibit their transcription, affecting their ability to regulate gene expression. Such crosstalk has been shown to drive the hormone-dependent phenotype of breast cancer [ ].
+In the case of lung cancer, the function of DNMT3A may be modified by SUMOylation a process of attaching and detaching small proteins called Small Ubiquitin-like Modifier (SUMO) to and from target proteins. This may lead to changes in the methylation of genes involved in cell growth and division, potentially contributing to uncontrolled cell proliferation. SUMOylation of other target proteins has been shown to enhance lung cancer metastasis [ ].
+The nature of chemical interaction in a mixture of hydrocarbons, such as additive, synergistic, potentiation, and antagonism cannot be discerned from this study due to inherent limitations of the study approach. However, the differences in chemical-gene interactions observed among the hydrocarbons provide insights into potential impact of exposure to hydrocarbons mixture.
+For example, TCE—a halogenated hydrocarbon associated with increased risk of breast cancer in male and female workers [ , ]—may potentiate the risk of lung cancer from exposure to dibenz(a, h)anthracene and the risk of both breast and lung cancer from exposure to BaP. The potential mechanism for such potentiation is increased DNA damage through DNA adduct formation and increased cellular proliferation through deregulation of apoptosis. TCE upregulates TP53 protein expression [ ], as well as BIRC5 mRNA and protein expression [ , ]. Elevated cellular TP53 protein has been shown to increase bioactivation of PAHs, such as dibenz(a, h)anthracene and BaP, by the enzyme cytochrome P450 1A1 (CYP1A1), which resulted in the elevation of DNA adduct levels [ ]. BIRC5, on the other hand, inhibits caspase activation, which leads to deregulation of apoptosis and increase cellular proliferation [ ].
+In the case of vinyl chloride co-exposed with dibenz(a, h)anthracene and BaP, the DNA adduct formation via p53-dependent CYP1A1 bioactivation of the two PAHs, may be reduced as vinyl chloride is known to increase mutagenesis of the TP53 gene [ , ].
+
+## Chemical carcinogenesis
+Chemical carcinogenesis that pivots on the AHR pathway appears to be the bridge linking the development and progression of breast and lung cancers. AHR plays a "double-edged sword" that promotes or suppresses tumorigenesis, depending on cell and tissue context and mode of AHR activation. In breast cancer, AHR shapes the tumor microenvironment and modifies immune tolerance [ ], whilst in lung cancer, AHR is involved in the regulation of cell proliferation, angiogenesis, inflammation, and apoptosis [ ].
+AHR is a multi-functional transcription factor activated by a variety of ligands, such as BaP, benz(a)anthracene, TCDD, and metabolites of tryptophan, heme and arachidonic acid, indigoids, and equilenin (reviewed in [ ]). These ligands can be agonist, antagonist or selective AHR modulators [ ]. Upon ligand binding, the cytosolic AHR-ligand complex is translocated into the nucleus where it heterodimerizes with the aryl hydrocarbon nuclear transporter (ARNT) before binding to the xenobiotic/dioxin response elements (XREs/DREs) in the promoter of target genes and triggers their expression [ ]. These genes are involved in many physiological functions, such as xenobiotic metabolism [ ], immune response [ ], cell cycle and proliferation [ , ], lipid metabolism [ , ], tumor promotion [ , ], and negative regulation of AHR pathway [ ]. Perturbations of these physiological functions have been shown to be associated with cancer development and progression, which suggests a complex role of AHR in chemical carcinogenesis.
+In xenobiotic metabolism, AHR activates transcriptional up-regulation of the cytochrome P450 1A1 (CYP1A1) and CYP1B1 genes. Most of the investigated hydrocarbons are linked to these two genes. Some are substrates for both enzymes. For example, the first step of BaP hydroxylation to BaP-7,8-epoxide, and the final epoxidation step to form BaP-7,8-dihydrodiol-9,10-epoxide (BPDE) are catalyzed by CYP1A1 and CYP1B1 enzymes in the lung and breast tissues [ – ], BPDE is a highly genotoxic metabolite that binds to deoxyguanosine at position N-2 to form DNA adducts [ ]. Cigarette smoke was reported to induce CYP1A1 and CYP1B1 expressions in lung tissue of smokers and of lung cancer patients (both smokers and non-smokers) [ – ], which correlates with increased levels of BPDE and DNA adducts [ – ]. Bulky BaP-like DNA adducts were also detected in breast cancer patients [ , ]. PAHs reactive metabolites are known to cause point mutations in RAS proto-oncogenes, such as codon 13 and codon 61 of the HRAS gene (reviewed in [ ]). These observations suggest that the AHR/CYP450-dependent DNA adducts formation is a likely pathway to be affected by exposure to hydrocarbons mixture in the development of breast and lung cancers.
+Several mechanisms by which AHR modulates the cell cycle have been proposed to account for the pro-/anti-proliferative action of AHR agonists observed with tumor cells in vitro [ , , ]. One of the proposed ligand-activated mechanisms involved transcriptional upregulation of the CDKN1B gene by agonist-activated AHR binding to the gene’s promoter region [ , ]. However, this mechanism has not been demonstrated in the development and progression of either breast or lung cancer. Being an inhibitor of cyclin-dependent kinase activity, increased CDKN1B activity limits phosphorylation of retinoblastoma protein (Rb), resulting in restriction of E2F-dependent gene expression and progression through the cell cycle [ ]. In the absence of ligand, AHR complexed with cyclin D and the cyclin-dependent kinases CDK4/6 to promote cell cycle progression in human breast cancer cells [ ]. TCDD, the atypical AHR agonist, dissociates the AHR/cyclinD/CDK complex to induce cell cycle arrest [ ]. This contradictory role of AHR may reflect the impact of exposure to hydrocarbon mixtures on cell proliferation, as most of the investigated hydrocarbons are AHR agonists with different affinity to the receptor [ ]. Similar contradictory effects of AHR on cell cycle progression were also observed in human lung cancer cells [ ]. The impact of exposure to mixtures of 2-methyl-1,3-butadiene, carbon tetrachloride, TCDD, and BaP on this pathway may contribute to the development of breast and or lung cancer as these hydrocarbons interacted with CDKN1B gene (Suppl Table 2).  
+The mechanisms by which AHR shapes the tumor microenvironment are unclear, but it has been proposed that systemic and tumor-localized generation of endogenous AHR ligands heightened AHR expression/activity, which may establish a pro-inflammatory yet immune-suppressive tumor micro-environment. This favors tumor survival and escapes from immune surveillance, which results in tumor progression [ ]. Indeed, AHR overexpression that is correlated with elevated expression of inflammatory markers, including interleukin-8 (IL-8), has been observed in human breast tumors [ ]. IL-8 has been identified as a critical gene that mediates breast cancer invasion and metastasis to the lungs [ ]. The involvement of IL1B—one of the 16 common genes identified in this study—in this mechanism has not been elucidated in both breast and lung cancer development and progression. Our mapping, however, showed IL1B is involved in modulating the IL-17 signaling pathway, lipid and atherosclerosis pathway, and fluid shear stress and atherosclerosis pathway in both breast and lung cancer development. It is plausible that the impact of PAHs mixture on these pathways may involve AHR activation, as fluid shear stress in endothelial cells has been shown to modulate CYP1A-dependent AHR activation [ , ], but the mechanism of activation remains unclear [ , ].
+
+## Adaptive responses to cellular damage
+AHR activation has also been shown to be associated with the oxidative stress response pathway. For example, exposure of estrogen receptor (ER) positive breast cancer cells to low doses of PAHs mixture activated AHR and overexpressed CYP1 isoforms, which correlated with increased expression of antiapoptotic and antioxidant proteins [ ].
+Besides catalyzing the biotransformation of PAHs to DNA damaging reactive metabolites, CYP1A1 and CYP1B1 catalyze the oxidation of estradiol (E2) to 2-hydroxyestradiol and 4-hydroxyestradiol, which subsequently undergo one-electron oxidation to produce unstable semiquinones (SQs) intermediates [ ], potential mutagens that can damage DNA [ , ]. Additionally, redox cycling can occur, where the SQs can pass their unpaired electron to molecular oxygen, forming a superoxide anion and restoring the catechol. Superoxide anion can then be metabolized to other reactive oxygen species (ROS), including hydrogen peroxide (H2O2) [ , ]. Another contributor of ROS in breast cancer cells is the expression of CYP2E1, which increased significantly in breast tumors and adjacent tissues [ ]. CYP2E1 also regulates autophagy, stimulates stress in the endoplasmic reticulum, and suppresses the metastatic potential of breast cancer cells [ ], indicative of the protective role of CYP2E1.
+Excessive ROS can cause DNA damage, as well as lipid and protein oxidation, which triggers an oxidative stress response that involves activation of the NRF2-KEAP1 signaling pathway. This pathway modulates the expression of genes encoding antioxidant proteins, such as superoxide dismutase and HMOX1. The latter is involved in the maintenance of cellular homeostasis by catalyzing the oxidation of heme to carbon monoxide, biliverdin, and ferrous iron. These biologically active compounds participate in cellular protection by reducing oxidative injury, attenuating the inflammatory response, inhibiting cell apoptosis, and regulating cell proliferation [ ]. In mouse, HMOX1 activity increased tumor growth and angiogenic potential, as well as decreased apoptosis in lung cancer progression [ ], whilst in rat and human breast cancer cells, HMOX1 activity inhibits proliferation [ ].
+Notably, the NRF2-KEAP1 signaling pathway is linked to ferroptosis, one of the common pathways in the development of breast and lung cancer mapped out in this study.
+
+## Ferroptosis
+Ferroptosis is a non-apoptotic programmed cell death, which has gained traction as a new target for treating tumors [ ]. It is regulated by a complex signaling pathway that is dependent on lipid peroxidation and iron accumulation [ , ]. Evidence that supports the potential physiological roles of ferroptosis in tumorigenesis resides in the way it is induced in cancer cells. This includes activation of the RAS–RAF–MEK–ERK pathway and induction in cancer cells with mutant RAS, as well as dependency on iron, which is known to be important for cancer cell proliferation (reviewed in [ ]). Induction of ferroptosis has been shown to suppress tumor growth, but ferroptotic damage favors tumor growth by triggering inflammation-associated immunosuppression in the tumor microenvironment [ ]. Therefore, the three key features of ferroptosis: iron accumulation, increased lipid peroxidation and inability to efficiently reduce lipid peroxidases, must be well regulated to strike the delicate balance of survival and damage in tumorigenesis.
+Little is known about ferroptosis role in breast and lung cancer progression, and the impact of exposure to hydrocarbons mixture on such association. However, several studies have found important correlations between mutations in tumor suppressor gene and proto-oncogene, TP53 and RAS, and in genes encoding proteins involved in stress response pathways. One of these pathways is the NRF2 signaling pathway [ ], which is one of the common molecular pathways identified in this study.
+Depending on the pathological condition, the transcription factor NRF2 serves as either an anti- or pro-ferroptotic activator. Under oxidative stress conditions, NRF2 complexed with its chaperon protein to bind to the ARE (Antioxidant Response Element) on the promoter region of its target genes with anti- or pro-ferroptotic functions. An example of iron-related NRF2 target gene that promotes ferroptotic cascade is HMOX1, which catalyzes the cleavage of heme to form biliverdin, carbon monoxide, and ferrous iron (Fe2+) [ ]. Chemical-induced ferroptotic cell death driven by increased HMOX1 expression was observed in HT-1080, neuroblastoma and glioblastoma cell lines [ – ]. An example of NRF2 acting as anti-ferroptotic activator is in its regulating the expression of enzymes responsible for glutathione synthesis, as well as preventing lipid peroxidation and reducing oxidized CoQ10, a key membrane antioxidant (GPX4 and FSP1) [ ]. Notably, GSTP1 has been shown to be involved in tumor development through the ferroptosis pathway [ ] and was suggested to be a novel negative regulator of ferroptosis that may play an important role in lung cancer radiotherapy by inhibiting ferroptosis [ ]. Crosstalk mechanisms between the RAS–RAF–MEK–ERK pathway and the NRF2 signaling pathway, with the involvement of GSTP1 in ferroptosis during tumorigenesis in breast and lung cells, and impact of exposure to halogenated and polyaromatic hydrocarbons on the crosstalk mechanisms have yet to be explored.
+The role of AHR and NRF2 in regulating ferroptosis in breast and lung cancer cells is unclear, but AHR has been shown to promote the development of non-small cell lung cancer (NSCLC) by inducing the expression of SLC7A11, a key regulator of ferroptosis [ ].
+In sum, as most hydrocarbons are AHR ligands, the impact of inhalation exposure to hydrocarbons mixture on these physiological functions is complex, given the distinct classes of AHR ligands: agonist, antagonist and selective AHR modulators [ ]. However, this study revealed an important role of AHR in being the bridge linking the development and progression of breast and lung cancers as it is involved (directly and or indirectly) in the regulation of biological pathways mapped out in this study. Notably, the mechanism by which IL1B regulates IL-8—a critical gene that mediates breast cancer invasion and metastasis to the lungs [ ]—and the role of AHR in such mechanism, is worth pursuing.
+
+## Conclusion
+Within the inherent limitations of in silico toxicogenomics associated tools, we were able to elucidate the molecular pathways of breast and lung cancer development potentially affected by exposure to hydrocarbons mixture. In silicon data-mining depends on the online sources and the quality of the interactions present in them. Complex molecular pathways were obtained by drawing statistical associations between chemical-gene-disease relationships. Therefore, dose-response relationship, interaction profile of hydrocarbons mixture, route and duration of exposure to the investigated hydrocarbons mixture, along with individual sensitivity of exposed subjects, cannot be drawn from this study. In conclusion,  our findings should be regarded as insights into future in vivo and in vitr laboratory investigations that focus on inhalation exposure to the hydrocarbons mixture.
+
+## Electronic supplementary material
+Below is the link to the electronic supplementary material.
+
+Supplementary Material 1
+
+Supplementary Material 2
+
+Supplementary Material 3
+
+Supplementary Material 4
+
+Supplementary Material 5
+
+Supplementary Material 6
+
+Supplementary Material 7
+
+Supplementary Material 8
+
+Supplementary Material 9
+
+Publisher’s Note
+Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+
+## Acknowledgements
+Not applicable.
+
+## Author contributions
+SHIH, AAB, and MI contributed to the direction of the paper. MZIZ and NIAS updated hazard classification of the chemicals under the supervision of MI. NASZ conducted CTD data-mining and compilation networks images under the supervision of SH & AAB. All authors contribute to the writing of the manuscript and provided feedback in finalizing the manuscript.
+
+## Funding
+Not applicable.
+
+## Data availability
+All data generated or analyzed during this study are included in this published article. Additional supplementary data are available from the corresponding author upon request.
+
+## Declarations
+
+## Ethics approval and consent to participate
+Not applicable.
+
+## Consent for publication
+Not applicable.
+
+## Competing interests
+The authors declare that there are no conflicts of interest regarding the publication of this paper.
+
+## Abbreviations
+A2MAlpha-2-macroglobulin
+ABCA8ATP binding cassette subfamily A member 8
+ABCB1ATP binding cassette subfamily B member 1
+ABCB1BATP-binding cassette, sub-family B
+ABCC1ATP binding cassette subfamily C member 1
+ABCG2ATP binding cassette subfamily G member 2
+ABL1Abl tyrosine kinase proto-oncogene 1
+ACACBAcetyl-CoA carboxylase beta
+ACEAngiotensin I converting enzyme
+ACHEAcetylcholinesterase
+ACSM1Acyl-CoA synthetase medium chain family member 1
+ACTA2Actin alpha 2
+ACTBActinβ
+ACVR1Activin A receptor type 1
+ADAAdenosine deaminase
+ADARAdenosine deaminase RNA specific
+ADAM10ADAM metallopeptidase domain 10
+ADAM28ADAM metallopeptidase domain 28
+ADAM33ADAM metallopeptidase domain 33
+ADAMTS1ADAM metallopeptidase with thrombospondin type 1 motif 1
+AFPAlpha fetoprotein
+AGR2Anterior gradient 2
+AHRAryl hydrocarbon receptor
+AKAP12A-kinase anchoring protein 12
+AKT1Akt kinase
+AKT2AKT serine/threonine kinase 2
+ALDOAAldolase, fructose-bisphosphate A
+ALKALK receptor tyrosine kinase
+ALKBH8AlkB homolog 8
+ALX4ALX homeobox 4
+ANGPTL4Angiopoietin like 4
+ANK3Ankyrin 3
+ANKRD18AAnkyrin repeat domain 18 A
+ANKRD20A2PAnkyrin repeat domain 20 family member A2
+ANKRD34AAnkyrin repeat domain 34 A
+ANXA2Annexin A2
+AOC4PAmine oxidase copper containing 4,pseudogene
+APCAPC regulator of WNT signaling pathway
+APC2APC regulator of WNT signaling pathway 2
+APOA1Apolipoprotein A1
+APOBEC3AApolipoprotein B mRNA editing enzyme catalytic subunit 3 A
+APOBEC3BApolipoprotein B mRNA editing enzyme catalytic subunit 3B
+APOC3Apolipoprotein C3
+APOEApolipoprotein E
+APRTAdenine phosphoribosyltransferase
+ARAndrogen receptor
+ARAFA-Raf proto-oncogene
+AREGAmphiregulin
+ARF1ADP ribosylation factor 1
+ARHGDIARho GDP dissociation inhibitorα
+ARHGEF5Rho guanine nucleotide exchange factor 5
+ARID1AAT-rich interaction domain 1 A
+ARRDC3Arrestin domain containing 3
+ARTNArtemin
+AS3MTArsenite methyltransferase
+ATG10Autophagy related 10
+ATG101Autophagy related 101
+ATMATM serine/threonine kinase
+ATOX1Antioxidant 1 copper chaperone
+ATP6AP1LATPase H + transporting accessory protein 1 like (pseudogene)
+ATP7BATPase copper transportingβ
+ATSDRAgency for Toxic Substances and Disease Registry
+AURKAAurora kinase A
+AVPI1Arginine vasopressin induced 1
+AZGP1α-2-glycoprotein 1,zinc-binding
+B4GAT1Beta-1,4-glucuronyltransferase 1
+BAG1BAG cochaperone 1
+BAP1BRCA1 associated protein 1
+BARD1BRCA1 associated RING domain 1
+BAXCL2 associated X
+BCAR3BCAR3 adaptor protein
+BCHEButyrylcholinesterase
+BCL2BCL2 apoptosis regulator
+BCL2A1BCL2 related protein A1
+BCL2L1BCL2 like 1
+BECN1Beclin 1
+BGNBiglycan
+BHLHE41Basic helix-loop-helix family member e41
+BIRC2Baculoviral IAP repeat containing 2
+BIRC5Baculoviral IAP repeat containing 5
+BMP2Bone morphogenetic protein 2
+BMP4Bone morphogenetic protein 4
+BMPR2Bone morphogenetic protein receptor type 2
+BRAFB-Raf proto-oncogene, serine/threonine kinase
+BRCA1BRCA1 DNA repair associated
+BRCA2BRCA2 DNA repair associated
+BRF1BRF1 RNA polymerase III transcription initiation factor subunit
+BRIP1BRCA1 interacting helicase 1
+BTN3A2Butyrophilin subfamily 3 member A2
+C1QBPComplement C1q binding protein
+CA12Carbonic anhydrase 12
+CADM1Cell adhesion molecule 1
+CALEPACalifornia Environmental Protection Agency
+CALML3Calmodulin like 3
+CASChemical Abstract Service
+CASP7Caspase 7
+CASP8Caspase 8
+CATCatalase
+CAV1Caveolin 1
+CBR2Carbonyl reductase 2
+CCL18C-C motif chemokine ligand 18
+CCL20C-C motif chemokine ligand 20
+CCN1Cellular communication network factor 1
+CCN2Cellular communication network factor 2
+CCND1Cyclin D1
+CCNE1Cyclin E1
+CCNG1Cyclin G1
+CCNHCyclin H
+CCT5Chaperonin containing TCP1 subunit 5
+CD109CD109 molecule
+CD274CD274 molecule
+CD40CD40 molecule
+CD74CD74 molecule
+CDACytidine deaminase
+CDH1Cadherin 1
+CDH13Cadherin 13
+CDH2Cadherin 2
+CDH5Cadherin 5
+CDKN1ACyclin dependent kinase inhibitor 1 A
+CDKN1BCyclin dependent kinase inhibitor 1B
+CDKN1CCyclin dependent kinase inhibitor 1 C
+CDKN2ACyclin dependent kinase inhibitor 2 A
+CEACAM1CEA cell adhesion molecule 1
+CENPFCentromere protein F
+CES1Carboxylesterase 1
+CES1FCarboxylesterase 1 F
+CFL1Cofilin 1
+CHD4Chromodomain helicase
+DNABinding protein 4
+CHEK1Checkpoint kinase 1
+CHEK2Checkpoint kinase 2
+CHRNA2Cholinergic receptor nicotinic α 2 subunits
+CHRNA3Cholinergic receptor nicotinic α 3 subunits
+CHRNA5Cholinergic receptor nicotinic α 5 subunits
+CHRNA7Cholinergic receptor nicotinic α 7 subunits
+CHRNB4Cholinergic receptor nicotinic β 4 subunits
+CHST15Carbohydrate sulfotransferase 15
+CLCA2Chloride channel accessory 2
+CLDN1Claudin 1
+CLDN4Claudin 4
+CLIC1Chloride intracellular channel 1
+CLPTM1LCleft lip and palate associated transmembrane protein 1
+CLTBClathrin light chain B
+CLUL1Clusterin like 1
+CNR2Cannabinoid receptor 2
+COL6A1Collagen type VI α 1 chain
+COL7A1Collagen type VII α 1 chain
+COMTCatechol-O-methyltransferase
+COTL1Coactosin like F-actin binding protein 1
+COX17Cytochrome c oxidase copper chaperone COX17
+CPECarboxypeptidase E
+CPT1ACarnitine palmitoyltransferase 1 A
+CRHR1Corticotropin releasing hormone receptor 1
+CRPC-reactive protein
+CSF1Colony stimulating factor 1
+CSF1RColony stimulating factor 1 receptor
+CSF2Colony stimulating factor 2
+CSF3Colony stimulating factor 3
+CST6Cystatin E/M
+CTDComparative Toxicogenomic Database
+CTNNB1Catenin beta 1
+CTU1Cytosolic thiouridylase subunit 1
+CTU2Cytosolic thiouridylase subunit 2
+CUL5Cullin 5
+CWH43Cell wall biogenesis 43 C-terminal homolog
+CXCL1C-X-C motif chemokine ligand 1
+CXCL12C-X-C motif chemokine ligand 12
+CXCL14C-X-C motif chemokine ligand 14
+CXCL2C-X-C motif chemokine ligand 2
+CXCL3C-X-C motif chemokine ligand 3
+CXCL8C-X-C motif chemokine ligand 8
+CXCL9C-X-C motif chemokine ligand 9
+CXCR4C-X-C motif chemokine receptor 4
+CYP17A1Cytochrome P450 family 17 subfamily A member 1
+CYP19A1Cytochrome P450 family 19 subfamily A member 1
+CYP1A1Cytochrome P450 family 1 subfamily A member 1
+CYP1A2Cytochrome P450 family 1 subfamily A member 2
+CYP1B1Cytochrome P450 family 1 subfamily B member 1
+CYP24A1Cytochrome P450 family 24 subfamily A member 1
+CYP2A6Cytochrome P450 family 2 subfamily A member 6
+CYP2B1Cytochrome P450 family 2 subfamily B member 1
+CYP2D6Cytochrome P450 family 2 subfamily D member 6
+CYP2E1Cytochrome P450 family 2 subfamily E member 1
+CYP3A4Cytochrome P450 family 3 subfamily A member 4
+DAB2IPDAB2 interacting protein
+DAP3Death associated protein 3
+DAPK1Death associated protein kinase 1
+DDIT3DNA damage inducible transcript 3
+DDR1Discoidin domain receptor tyrosine kinase 1
+DEKDEK proto-oncogene
+DEPP1DEPP autophagy regulator 1
+DESDesmin
+DHFRDihydrofolate reductase
+DIO3iodothyronine deiodinase 3
+DKK1Dickkopf WNT signaling pathway inhibitor 1
+DLL1Delta like canonical Notch ligand 1
+DLL4Delta like canonical Notch ligand 4
+DLL4Delta like canonical Notch ligand 4
+DNAI7Dynein axonemal intermediate chain 7
+DNASE1L3Deoxyribonuclease 1 like 3
+DNMT1DNA methyltransferase 1
+DNMT3ADNA methyltransferase 3α
+DNMT3BDNA methyltransferase 3β
+DOK1Docking protein 1
+DOK2Docking protein 2
+DOK3Docking protein 3
+DPYDDihydropyrimidine dehydrogenase
+DSC3Desmocollin 3
+DTX3Deltex E3 ubiquitin ligase 3
+DYNC2H1Dynein cytoplasmic 2 heavy chain 1
+E2F1E2F transcription factor 1
+EAF2ELL associated factor 2
+ECHAEuropean Chemicals Agency
+EDNRBEndothelin receptor type B
+EEF1B2Eukaryotic translation elongation factor 1 beta 2
+EEF2Eukaryotic translation elongation factor 2
+EFEMP1EGF containing fibulin extracellular matrix protein 1
+EFNA1Ephrin A1
+EFNB2Ephrin B2
+EGFEpidermal growth factor
+EGFREpidermal growth factor receptor
+EGR1Early growth response 1
+EHMT2Euchromatic histone lysine methyltransferase 2
+EIF2S2Eukaryotic translation initiation factor 2 subunitβ
+EIF6Eukaryotic translation initiation factor 6
+ELK3ETS transcription factor ELK3
+ELP1Elongator acetyltransferase complex subunit 1
+ELP3Elongator acetyltransferase complex subunit 3
+EMSYEMSY transcriptional repressor, BRCA2 interacting
+EMX2Empty spiracles homeobox 2
+ENO1Enolase 1
+EP300E1A binding protein p300
+EPA/RPFUSEPA relative potency factor applied
+EPB41L3Erythrocyte membrane protein band 4.1 like 3
+EPHB4EPH receptor B4
+EPHX1Epoxide hydrolase 1
+EPORErythropoietin receptor
+ERBB2Erb-b2 receptor tyrosine kinase 2
+ERBB3Erb-b2 receptor tyrosine kinase 3
+ERCC1ERCC excision repair 1,endonuclease non-catalytic subunit
+ERCC6ERCC excision repair 6,chromatin remodeling factor
+ERGIC3ERGIC and golgi 3
+ESR1Estrogen receptor 1
+ESR2Estrogen receptor 2
+ESRRAEstrogen related receptorα
+ETS2ETS proto-oncogene 2,transcription factor
+ETV4ETS variant transcription factor 4
+EVLEnah/Vasp-like
+EUEuropean Union
+EXO1Exonuclease 1
+EZH2Enhancer of zeste 2 polycomb repressive complex 2 subunit
+F3Coagulation factor III, tissue factor
+FABP7Fatty acid binding protein 7
+FASFas cell surface death receptor
+FASLGFas ligand
+FASNFatty acid synthase
+FBLFibrillarin
+FBXW7F-box and WD repeat domain containing 7
+FEN1Flap structure-specific endonuclease 1
+FGD5FYVE, RhoGEF and PH domain containing 5
+FGF10Fibroblast growth factor 10
+FGF3Fibroblast growth factor 3
+FGF4Fibroblast growth factor 4
+FGF9Fibroblast growth factor 9
+FGFR1Fibroblast growth factor receptor 1
+FGFR2Fibroblast growth factor receptor 2
+FHITFragile histidine triad diadenosine triphosphatase
+FHL2Four and a half LIM domains 2
+FKBPLFKBP prolyl isomerase like
+FLACC1Flagellum associated containing coiled-coil domains 1
+FLNAFolliculin
+FLT1Fms related receptor tyrosine kinase 1
+FN1Fibronectin 1
+FOSFos proto-oncogene, AP-1 transcription factor subunit
+FOSBFosB proto-oncogene, AP-1 transcription factor subunit
+FOSL2FOS like 2,AP-1 transcription factor subunit
+FOXA1xForkhead box A1
+FOXM1Forkhead box M1
+FOXP3Forkhead box P3
+FOXQ1Forkhead box Q1
+FSTFollistatin
+FTOFTO alpha-ketoglutarate dependent dioxygenase
+FUBP1Far upstream element binding protein 1
+GALNT16Polypeptide N-acetylgalactosaminyltransferase 16
+GASTGastrin
+GATA6GATA binding protein 6
+GCGC vitamin D binding protein
+GCLCGlutamate-cysteine ligase catalytic subunit
+GDF10Growth differentiation factor 10
+GEOGene Expression Omnibus
+GJA1Gap junction protein α 1
+GJB1Gap junction protein beta 1
+GNAI2G protein subunit α i2
+GNMTGlycine N-methyltransferase
+GPER1G protein-coupled estrogen receptor 1
+GPIGlucose-6-phosphate isomerase
+GPNMBGlycoprotein nmb
+GPX1Glutathione peroxidase 1
+GPX2Glutathione peroxidase 2
+GPX3Glutathione peroxidase 3
+GPX4Glutathione peroxidase 4
+GRB7Growth factor receptor bound protein 7
+GRIK2Glutamate ionotropic receptor kainate type subunit 2
+GSK3BGlycogen synthase kinase 3β
+GSTM1Glutathione S-transferase mu 1
+GSTP1Glutathione S-transferase pi 1
+GSTP2Glutathione S-transferase, pi 2
+GSTT1Glutathione S-transferase theta 1
+GUCY1A2Guanylate cyclase 1 soluble subunit α 2
+GZMBGranzyme B
+H1-2H1.2 linker histone, cluster member
+H19H19 imprinted maternally expressed transcript
+H2AXH2A.X variant histone
+H2BC12H2B clustered histone 12
+H2BC4H2B clustered histone 4
+H6PDHexose-6-phosphate dehydrogenase/glucose 1-dehydrogenase
+HADHBHydroxyacyl-CoA dehydrogenase trifunctional multienzyme complex subunitβ
+HAPLN4Hyaluronan and proteoglycan link protein 4
+HES1Hes family bHLH transcription factor 1
+HEY1Hes related family bHLH transcription factor with YRPW motif 1
+HEY2Hes related family bHLH transcription factor with YRPW motif 2
+HEYLHes related family bHLH transcription factor with YRPW motif like
+HHEXHematopoietically expressed homeobox
+HIC1HIC ZBTB transcriptional repressor 1
+HIF1AHypoxia inducible factor 1 subunit alpha
+HILPDAHypoxia inducible lipid droplet associated
+HMMRHyaluronan mediated motility receptor
+HMOX1Heme oxygenase 1
+HNRNPKHeterogeneous nuclear ribonucleoprotein K
+HNRNPLHeterogeneous nuclear ribonucleoprotein L
+HNRNPRHeterogeneous nuclear ribonucleoprotein R
+HOXB13Homeobox B13
+HOXB9Homeobox B9
+HOXD11Homeobox D11
+HPHaptoglobin
+HPSEHeparinase
+HRASHRas proto-oncogene, GTPase
+HRGHistidine rich glycoprotein
+HSP90AA1Heat shock protein 90 alpha family class A member 1
+HSPA1BHeat shock protein family A (Hsp70) member 1B
+HTRA1HtrA serine peptidase 1
+IARCInternational Agency for Research in Cancer
+lIBSPIntegrin binding sialoprotein
+ICAM5Intercellular adhesion molecule 5
+ID3Inhibitor of DNA binding 3
+IDO1Indoleamine 2,3-dioxygenase 1
+IDSIduronate 2-sulfatase
+IER2Immediate early response 2
+IFNB1Interferon β 1
+IFNGInterferon gamma
+IGBP1Immunoglobulin binding protein 1
+IGF1Insulin like growth factor 1
+IGF1RInsulin like growth factor 1 receptor
+IGFBP5Insulin like growth factor binding protein 5
+IGFBP7Insulin like growth factor binding protein 7
+IKBKGInhibitor of nuclear factor kappa B kinase regulatory subunit gamma
+IL10Interleukin 10
+IL1BInterleukin 1β
+IL1R2Interleukin 1 receptor type 2
+IL2Interleukin 2
+IL24Interleukin 24
+IL6Interleukin 6
+IQSEC1IQ motif and Sect. 7 domain ArfGEF 1
+IRF1Interferon regulatory factor 1
+IRF4Interferon regulatory factor 4
+ITSN2Intersectin 2
+JAG1Jagged canonical Notch ligand 1
+JAG2Jagged canonical Notch ligand 2
+JMJD6Jumonji domain containing 6
+JUNJun proto-oncogene
+JUNBJunB proto-oncogene
+JUNDJunD proto-oncogene
+KCNH1Potassium voltage-gated channel subfamily H member 1
+KDRKinase insert domain receptor
+KITKIT proto-oncogene
+KLHDC10Kelch domain containing 10
+KLHDC7AKelch domain containing 7 A
+KLK10Kallikrein related peptidase 10
+KMT2DLysine methyltransferase 2D
+KRASKRAS proto-oncogene
+KRT14Keratin 14
+KRT18Keratin 18
+KRT5Keratin 5
+KRT8Keratin 8
+L3MBTL3L3MBTL histone methyl-lysine binding protein 3
+LAMTOR5Late endosomal/lysosomal adaptor, MAPK and MTOR activator 5
+LBX1Ladybird homeobox 1
+LDHAL6BLactate dehydrogenase A like 6B
+LDHBLactate dehydrogenase B
+LECT2Leukocyte cell derived chemotaxin 2
+LEF1Lymphoid enhancer binding factor 1
+LEPLeptin
+LEPRLeptin receptor
+LGR6Leucine rich repeat containing G protein-coupled receptor 6
+LIMD2LIM domain containing 2
+LINC00115Long intergenic non-protein coding RNA 115
+LINC00671Long intergenic non-protein coding RNA 671
+LLGL1LLGL scribble cell polarity complex component 1
+LLGL2LLGL scribble cell polarity complex component 2
+LMNTD1Lamin tail domain containing 1
+LOXL2Lysyl oxidase like 2
+LPAR1Lysophosphatidic acid receptor 1
+LRRC37ALeucine rich repeat containing 37 A
+LRRC3BLeucine rich repeat containing 3B
+LSP1Lymphocyte specific protein 1
+MACIRmacrophage immunometabolism regulator
+MALMal
+MALAT1Metastasis associated lung adenocarcinoma transcript 1
+MAN2C1Mannosidase alpha class 2 C member 1
+MAP2K7Mitogen-activated protein kinase kinase 7
+MAP3K1Mitogen-activated protein kinase kinase kinase 1
+MAP3K8Mitogen-activated protein kinase kinase kinase 8
+MAP4K4Mitogen-activated protein kinase kinase kinase kinase 4
+MAPK1Mitogen-activated protein kinase 1
+MAPK14Mitogen-activated protein kinase 14
+MAPK3Mitogen-activated protein kinase 3
+MARCKSMyristoylated alanine rich protein kinase C substrate
+MCL1MCL1 apoptosis regulator
+MDM2MDM2 proto-oncogene
+MDM4MDM4 regulator of p53
+MECOMMDS1 and EVI1 complex locus
+MED12Mediator complex subunit 12
+MED28Mediator complex subunit 28
+MEIS1Meis homeobox 1
+METMET proto-oncogen
+METTL6Methyltransferase 6
+MFGE8Milk fat globule EGF and factor V/VIII domain containing
+MIFMacrophage migration inhibitory factor
+MIR10AMicroRNA 10a
+MIR1246MicroRNA 1246
+MIR126MicroRNA 126
+MIR127MicroRNA 127
+MIR136MicroRNA 136
+MIR141MicroRNA 141
+MIR145MicroRNA 145
+MIR146AMicroRNA 146a
+MIR152MicroRNA 152
+MIR154MicroRNA 154
+MIR155MicroRNA 155
+MIR193AMicroRNA 193a
+MIR200BMicroRNA 200b
+MIR200CMicroRNA 200c
+MIR205MicroRNA 205
+MIR206MicroRNA 206
+MIR21MicroRNA 21
+MIR22MicroRNA 22
+MIR221MicroRNA 221
+MIR222MicroRNA 222
+MIR224MicroRNA 224
+MIR242MicroRNA 242
+MIR24-2MicroRNA 24 − 2
+MIR29AMicroRNA 29a
+MIR30MicroRNA 30
+MIR301AMicroRNA 301a
+MIR302DMicroRNA 302d
+MIR30AMicroRNA 30a
+MIR31MicroRNA 31
+MIR31HGMIR31 host gene
+MIR34BMicroRNA 34b
+MIR34CMicroRNA 34c
+MIR369MicroRNA 369
+MIR370MicroRNA 370
+MIR410MicroRNA 410
+MIR429MicroRNA 429
+MIR4435-2HGMIR4435-2 host gene
+MIR487BMicroRNA 487b
+MIR494MicroRNA 494
+MIR506MicroRNA 506
+MIR98MicroRNA 98
+MIRLET7BHGMIRLET7B host gene
+MKI67Marker of proliferation Ki-67
+MMEMembrane metalloendopeptidase
+MMP1Matrix metallopeptidase 1
+MMP1Matrix metallopeptidase 1
+MMP10Matrix metallopeptidase 10
+MMP14Matrix metallopeptidase 14
+MMP1AMatrix metallopeptidase 1a
+MMP2Matrix metallopeptidase 2
+MMP3Matrix metallopeptidase 3
+MMP9Matrix metallopeptidase 9
+MOESouth Korea Ministry of Environment
+MOLSouth Korea Ministry of Labour
+MPOMyeloperoxidase
+MPP1MAGUK p55 scaffold protein 1
+MRPL13Mitochondrial ribosomal protein L13
+MRPL19Mitochondrial ribosomal protein L19
+MRPL9Mitochondrial ribosomal protein L9
+MRPS22Mitochondrial ribosomal protein S22
+MRPS23Mitochondrial ribosomal protein S23
+MRPS28Mitochondrial ribosomal protein S28
+MRPS7Mitochondrial ribosomal protein S7
+MST1Macrophage stimulating 1
+MT3Metallothionein 3
+MTDHMetadherin
+MTHFRMethylenetetrahydrofolate reductase
+MTORMechanistic target of rapamycin kinase
+MTR5-methyltetrahydrofolate-homocysteine methyltransferase
+MUC12Mucin 12
+MUC16Mucin 16
+MYCMYC proto-oncogene
+MYH9Myosin heavy chain 9
+MYO18BMyosin XVIIIB
+NAT2N-acetyltransferase 2
+NCOA1Nuclear receptor coactivator 1
+NCOA2Nuclear receptor coactivator 2
+NCOA3Nuclear receptor coactivator 3
+NCOR1Nuclear receptor corepressor 1
+NDRG1N-myc downstream regulated 1
+NDUFS3NADH: ubiquinone oxidoreductase core subunit S3
+NECTIN2Nectin cell adhesion molecule 2
+NFE2L2NFE2 like bZIP transcription factor 2
+NFKBIANFKB inhibitorα
+NFYANuclear transcription factor Y subunitα
+NISCHNischarin
+NMBRNeuromedin B receptor
+NOP9NOP9 nucleolar protein
+NOS2Nitric oxide synthase 2
+NOS3Nitric oxide synthase 3
+NOTCH1Notch receptor 1
+NOTCH2Notch receptor 2
+NOTCH3Notch receptor 3
+NOTCH4Notch receptor 4
+NPPANatriuretic peptide A
+NQO1NAD(P)H quinone dehydrogenase 1
+NQO1NAD(P)H quinone dehydrogenase 1
+NQO2NAD(P)H quinone dehydrogenase 2
+NR2F1Nuclear receptor subfamily 2 group F member 1
+NR2F6Nuclear receptor subfamily 2 group F member 6
+NR2F6Nuclear receptor subfamily 2 group F member 6
+NRCAMNeuronal cell adhesion molecule
+NRG1Neuregulin 1
+NRIP1Nuclear receptor interacting protein 1
+NSD2Nuclear receptor binding SET domain protein 2
+NSUN6NOP2/Sun RNA methyltransferase 6
+NUDT17Nudix hydrolase 17
+NUDT2Nudix hydrolase 2
+O&GOil and gas
+OCLNOccluding
+OEHHAOffice of Environment Health Hazard Assessment
+OGG18-oxoguanine DNA glycosylase
+PABPC1Poly(A) binding protein cytoplasmic 1
+PAEPProgestagen associated endometrial protein
+PAK1P21 (RAC1) activated kinase 1
+PALB2Partner and localizer of BRCA2
+PARP1Poly(ADP-ribose) polymerase 1
+PCBP1Poly(rC) binding protein 1
+PCDHGB6Protocadherin gamma subfamily B,6
+PCNAProliferating cell nuclear antigen
+PDCD1Programmed cell death 1
+PDCD4Programmed cell death 4
+PDE2APhosphodiesterase 2 A
+PDGFAPlatelet derived growth factor subunit A
+PDLIM4PDZ and LIM domain 4
+PDPK13-phosphoinositide dependent protein kinase 1
+PDZK1PDZ domain containing 1
+PER3Period circadian regulator 3
+PGGT1BProtein geranylgeranyltransferase type I subunit beta
+PGRProgesterone receptor
+PHB1Prohibitin 1
+PHGDHPhosphoglycerate dehydrogenase
+PIK3CAPhosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunitα
+PIM1Pim-1 proto-oncogene, serine/threonine kinase
+PIN1Peptidylprolyl cis/trans isomerase, NIMA-interacting 1
+PLA2G4APhospholipase A2 group IVA
+PLEKHD1Pleckstrin homology and coiled-coil domain containing D1
+PON1Paraoxonase 1
+PPARGC1BPPARG coactivator 1β
+PPBPPro-platelet basic protein
+PPM1DProtein phosphatase, Mg2+/Mn2 + dependent 1D
+PPP1R12BProtein phosphatase 1 regulatory subunit 12B
+PPP2R1BProtein phosphatase 2 scaffold subunit 1β
+PPRTVUSEPA Provisional Peer-Reviewed Toxicity Values
+PRC1Protein regulator of cytokinesis 1
+PRDX1Peroxiredoxin 1
+PRDX6Peroxiredoxin 6
+PRKNParkin RBR E3 ubiquitin protein ligase
+PRSS46Protease, serine 46
+PSMA4Proteasome 20 S subunit α 4
+PTENPhosphatase and tensin homolog
+PTGISProstaglandin I2 synthase
+PTGS1Prostaglandin-endoperoxide synthase 1
+PTGS2Prostaglandin-endoperoxide synthase 2
+PTHLHParathyroid hormone like hormone
+PTMAProthymosinα
+PTPRDProtein tyrosine phosphatase receptor type D
+PYCARDPYD and CARD domain containing
+RAD51RAD51 recombinase
+RAD51BRAD51 paralog B
+RAD51CRAD51 paralog C
+RAD52RAD52 homolog, DNA repair protein
+RAD54LRAD54 like
+RAF1Raf-1 proto-oncogene, serine/threonine kinase
+RALYLRALY RNA binding protein like
+RAMP2Receptor activity modifying protein 2
+RARARetinoic acid receptorα
+RARBRetinoic acid receptorβ
+RASSF1Ras association domain family member 1
+RB1RB transcriptional corepressor 1
+RB1CC1RB1 inducible coiled-coil 1
+RBM3RNA binding motif protein 3
+RBP4Retinol binding protein 4
+RCCD1RCC1 domain containing 1
+RCHY1Ring finger and CHY zinc finger domain containing 1
+RECQLRecQ like helicase
+RELARELA proto-oncogene, NF-kB subunit
+REPS2RALBP1 associated Eps domain containing 2
+RGS2Regulator of G protein signaling 2
+RIBC2RIB43A domain with coiled-coils 2
+RIC8ARIC8 guanine nucleotide exchange factor A
+RIOX2Ribosomal oxygenase 2
+RMND1Required for meiotic nuclear division 1 homolog
+RNASET2Ribonuclease T2
+RNF115Ring finger protein 115
+RNF182Ring finger protein 182
+ROBO1Roundabout guidance receptor 1
+ROR1Receptor tyrosine kinase like orphan receptor 1
+RPL23ARibosomal protein L23a
+RPL31Ribosomal protein L31
+RPLP2Ribosomal protein lateral stalk subunit P2
+RPS4XRibosomal protein S4 X-linked
+RPS6Ribosomal protein S6
+RPS6KB2Ribosomal protein S6 kinase B2
+RPS7Ribosomal protein S7
+RPS8Ribosomal protein S8
+RRADRas related glycolysis inhibitor and calcium channel regulator
+RSPO3R-spondin 3
+RTEL1Regulator of telomere elongation helicase 1
+RUNX2RUNX family transcription factor 2
+RUNX3RUNX family transcription factor 3
+RXRBRetinoid X receptorβ
+SECISBP2LSECIS binding protein 2 like
+SELENBP1Selenium binding protein 1
+SELENOPSelenoprotein P
+SERPINA1Serpin family A member 1
+SERPINB2Serpin family B member 2
+SERPINB5Serpin family B member 5
+SERPING1Serpin family G member 1
+SETBP1SET binding protein 1
+SETD2SET domain containing 2,histone lysine methyltransferase
+SFRP1Secreted frizzled related protein 1
+SFRP2Secreted frizzled related protein 2
+SFRP5Secreted frizzled related protein 5
+SFTPBSurfactant protein B
+SFTPDSurfactant protein D
+SHMT1Serine hydroxymethyltransferase 1
+SIDT2SID1 transmembrane family member 2
+SIM1SIM bHLH transcription factor 1
+SIRT1Sirtuin 1
+SLC10A6Solute carrier family 10 member 6
+SLC16A3Solute carrier family 16 member 3
+SLC22A18Solute carrier family 22 member 18
+SLC28A1Solute carrier family 28 member 1
+SLC2A1Solute carrier family 2 member 1
+SLC2A10Solute carrier family 2 member 10
+SLC2A2Solute carrier family 2 member 2
+SLC2A5Solute carrier family 2 member 5
+SLC39A6Solute carrier family 39 member 6
+SLC3A2Solute carrier family 3 member 2
+SLC5A5Solute carrier family 5 member 5
+SLC7A5Solute carrier family 7 member 5
+SLCO1B1Solute carrier organic anion transporter family member 1B1
+SLCO1B3Solute carrier organic anion transporter family member 1B3
+SMARCC1SWI/SNF related, matrix associated, actin dependent regulator of chromatin subfamily c member 1
+SMC2Structural maintenance of chromosomes 2
+SNAI1Snail family transcriptional repressor 1
+SNAI2Snail family transcriptional repressor 2
+SNCGSynuclein gamma
+SND1Staphylococcal nuclease and tudor domain containing 1
+SNX32Sorting nexin 32
+SOD2Superoxide dismutase 2
+SOX2SRY-box transcription factor 2
+SOX30SRY-box transcription factor 30
+SOX9SRY-box transcription factor 9
+SPATA18Spermatogenesis associated 18
+SPP1Secreted phosphoprotein 1
+SPRY2Sprouty RTK signaling antagonist 2
+SRCSRC proto-oncogene, non-receptor tyrosine kinase
+SREBF2Sterol regulatory element binding transcription factor 2
+STARD8StAR related lipid transfer domain containing 8
+STAT3Signal transducer and activator of transcription 3
+STAT5ASignal transducer and activator of transcription 5 A
+STC2Stanniocalcin 2
+STIM1Stromal interaction molecule 1
+STK11Serine/threonine kinase 11
+STMN1Stathmin 1
+STN1STN1 subunit of CST complex
+STXBP4Syntaxin binding protein 4
+SULT1A1Sulfotransferase family 1 A member 1
+SYNE1Spectrin repeat containing nuclear envelope protein 1
+SYNJ2Synaptojanin 2
+TAFA4TAFA chemokine like family member 4
+TANKTRAF family member associated NFKB activator
+TBX3T-box transcription factor
+TCL1BTCL1 family AKT coactivator B
+TEP1Telomerase associated protein 1
+TERTTelomerase reverse transcriptase
+TFAP2ATranscription factor AP-2α
+TFPI2Tissue factor pathway inhibitor 2
+TFRCTransferrin receptor
+TGFB1Transforming growth factor β 1
+TGFBR2Transforming growth factor beta receptor 2
+TGM2Transglutaminase 2
+THBS1Thrombospondin 1
+THEMIS2Thymocyte selection associated family member 2
+TLE3TLE family member 3
+TLR4Toll like receptor 4
+TMEM25Transmembrane protein 25
+TMEM45ATransmembrane protein 45 A
+TNFTumor necrosis factor
+TNFSF10TNF superfamily member 10
+TNIP1TNFAIP3 interacting protein 1
+TOP2ADNA topoisomerase IIα
+TOX3TOX high mobility group box family member 3
+TP53Tumor protein p53
+TP53BP1Tumor protein p53 binding protein 1
+TP53BP2Tumor protein p53 binding protein 2
+TP63Tumor protein p63
+TP73Tumor protein p73
+TRERF1Transcriptional regulating factor 1
+TRIM12ATripartite motif-containing 12 A
+TRIM47Tripartite motif containing 47
+TRIOTrio Rho guanine nucleotide exchange factor
+TRMT11TRNA methyltransferase 11 homolog
+TRP53Transformation related protein 53
+TRP63Transformation related protein 63
+TSC2TSC complex subunit 2
+TSHRThyroid stimulating hormone receptor
+TTRTransthyretin
+TUBB3Tubulin beta 3 class III
+TXNThioredoxin
+TYMSThymidylate synthetase
+TYRP1Tyrosinase related protein 1
+UBDUbiquitin D
+UBE2CUbiquitin conjugating enzyme E2 C
+UBLCP1Ubiquitin like domain containing CTD phosphatase 1
+UGT2B17UDP glucuronosyltransferase family 2 member B17
+UMPSUridine monophosphate synthetase
+UN GHSUnited Nations Globally Harmonized System of Classification and Labelling of Chemicals
+UPK1BUroplakin 1B
+USP18Ubiquitin specific peptidase 18
+VDRVitamin D receptor
+VEGFBVascular endothelial growth factor B
+VEGFCVascular endothelial growth factor C
+VHLVon Hippel-Lindau tumor suppressor
+VIMVimentin
+VPS39VPS39 subunit of HOPS complex
+WNT10BWnt family member 10B
+WNT5AWnt family member 5 A
+WT1WT1 transcription factor
+WWOXWW domain containing oxidoreductase
+XPCXPC complex subunit
+XRCC2X-ray repair cross complementing 2
+XRCC3X-ray repair cross complementing 3
+YAP1Yes1 associated transcriptional regulator
+YBX1Y-box binding protein 1
+ZC3H11AZinc finger CCCH-type containing 11 A
+ZEB1Zinc finger E-box binding homeobox 1
+ZEB2Zinc finger E-box binding homeobox 2
+ZFP366Zinc finger protein 366
+ZNF365Zinc finger protein 365
+ZNF366Zinc finger protein 366
+ZNF404Zinc finger protein 404
+ZNF432Zinc finger protein 432
+ZNF595Zinc finger protein 595
+ZSCAN22Zinc finger and SCAN domain containing 22
+ZSWIM5Zinc finger SWIM-type containing 5

@@ -1,0 +1,113 @@
+pmcCancer MedCancer Med1974canmed101595310CAM4Cancer Medicine2045-7634WileyPMC10417082PMC10417082.110417082104170823730618810.1002/cam4.6176CAM46176CAM4-2022-12-5529.R21BioinformaticsBiomarkersBreast CancerCheck Point ControlResearch ArticleResearch ArticlesBioinformaticsConstruction of a prognostic model for triple‐negative breast cancer based on immune‐related genes, and associations between the tumor immune microenvironment and immunological therapy
+Zhu et al.ZhuYue TaoLin‐Feng LiuJin‐Yan WangYi‐Xuan HuangHai som006@sina.comJiangYan‐Nanhttps://orcid.org/0000-0002-9495-1813 nicy1989@163.comQianWei‐Fenghttps://orcid.org/0000-0001-8175-0513 qwf1010@163.com
+
+1
+
+Department of Breast and Thyroid Surgery
+the Affiliated Suzhou Hospital of Nanjing Medical University, Gusu School, Nanjing Medical University
+Suzhou
+China
+
+2
+
+Department of Critical Care Medicine
+the Affiliated Suzhou Hospital of Nanjing Medical University, Gusu School, Nanjing Medical University
+Suzhou
+China
+
+*
+Correspondence
+
+Wei‐Feng Qian, Yan‐Nan Jiang, and Hai Huang, Department of Breast and Thyroid Surgery, the Affiliated Suzhou Hospital of Nanjing Medical University, Gusu School, Nanjing Medical University, Suzhou 215000, China.
+Email: qwf1010@163.com; nicy1989@163.com; som006@sina.com
+
+126202372023121444297810.1002/cam4.v12.141570415719
+1042023
+14122022
+1952023
+120620231208202314082023© 2023 The Authors. Cancer Medicine published by John Wiley & Sons Ltd.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Background
+Triple‐negative breast cancer (TNBC) is the subtype of breast cancer with the worst prognosis, and it is highly heterogeneous. There is growing evidence that the tumor immune microenvironment (TIME) plays a crucial role in tumor development, maintenance, and treatment responses. Notably however, the full effects of the TIME on prognosis, TIME characteristics, and immunotherapy responses in TNBC patients have not been fully elucidated.
+
+## Methods
+Gene Expression Omnibus and The Cancer Genome Atlas data were used to data analysis. Single‐cell sequencing and tissue microarray analysis were used to investigate gene expression. The concentrations and distributions of immune cell types were determined and analyzed using the CIBERSORT strategy. Tumor immune dysfunction and exclusion score and the IMvigor210 cohort were used to estimate the sensitivity of TNBC patients with different prognostic statuses to immune checkpoint treatment.
+
+## Results
+Five immune‐related genes associated with TNBC prognosis (IL6ST, NR2F1, CKLF, TCF7L2, and HSPA2) was identified and a prognostic evaluation model was constructed based on those genes. The respective areas under the curve of the prognostic nomogram model at 3 and 5 years were 0.791 and 0.859. The group with a lower nomogram score, with a better prognosis survival status and clinical treatment benefit rate.
+
+## Conclusion
+A prognostic model for TNBC that was closely related to the immune landscape and therapeutic responses was constructed. This model may help clinicians to make more precise and personalized treatment decisions pertaining to TNBC patients.
+
+immune‐related genesprognostic modeltriple‐negative breast cancertumor immune microenvironmentthe Suzhou Health and Family Planning CommissionSKJYD2021104 
+3.2
+
+## Enrichment analyses of the GO and KEGG databases
+The aforementioned set of 82 genes was investigated using GO and KEGG methods (Figure  ). The highly enriched genes pertained to growth hormone, regulation of leukocyte migration, antimicrobial humoral responses, cytokine receptor activity, regulation of chemotaxis, and positive regulation of microtubule polymerization. The results were obtained using “ClueGO” and “CluePedia” in Cytoscape software.
+
+3.3
+
+## Identification of prognostic biomarkers related to TNBC
+
+TCGA transcriptome and clinical data were used to perform univariate Cox regression analysis of the 82 genes identified. The filter criterion used was p < 0.2, which yielded 12 genes (Table  ). Twelve genes were identified with the LASSO and SVM‐RFE algorithms. The LASSO algorithm was used to identify 10 nonzero coefficients (Figure  ) by utilizing lambda.min. When the number of features reached 1, 5, and 7, the error of the SVM‐RFE algorithm was the lowest (Figure  ). To simplify the prognostic model, the first five genes of the top features were chosen. Five shared biomarkers for TNBC were defined by overlapping the biomarkers derived from these two algorithms (Figure  ). These five genes associated with the prognosis of TNBC were considered to be the best, and included IL6ST, NR2F1, CKLF, TCF7L2, and HSPA2.
+ 
+3.4
+
+## Construction of an immune‐related prognostic model using the TCGA Dataset
+
+LASSO and SVM‐RFE results from the TCGA dataset were used to create a nomogram that clearly depicts the immunological model prognosis (Figure  ). Multivariate analysis awarded a score to each variable. All predictive characteristics were taken into account while calculating a total nomogram score. The established OS prediction nomogram had a C‐index of 0.769. All 110 TCGA datasets were divided into two groups; a high‐point group (n = 55) and a low‐point group (n = 55). Survival rates differed significantly between the high‐point and low‐point groups according to the Kaplan–Meier survival curve (p = 0.001; Figure  ). TNBC patient prognosis may be accurately predicted using the nomogram generated in this study, as indicated by the calibration plots of 3 and 5 years (Figure  ). At 3 and 5 years the AUCs of the risk model were 0.791 and 0.859 (Figure  ). The AUC of the nomogram was 0.814, which was the largest among all dependent variables. The AUCs of IL6ST, NR2F1, CKLF, TCF7L2, and HSPA2 were 0.621, 0.626, 0.683, 0.633, and 0.628, respectively (Figure  ). According to these data, the nomogram is more accurate for predicting survival in TNBC patients than individual prognostic variables. In the validation set GSE58812, the predictive power of the model was further verified. At 3 and 5 years the AUCs of the risk model were 0.708 and 0.747. The AUC of the nomogram was 0.721, which was also the largest among all dependent variables (Figure  ). Expression levels of the above five genes were compared in normal and TNBC tissues using the TCGA database (Figure  ). Immunohistochemical results indicated differences in expression of the five genes in the model in both normal breast tissue and TNBC tissues (Figure  ). Among them, CKLF (Figure  ) was upregulated in TNBC tissues, and HSPA2 (Figure  ), IL6ST (Figure  ), NR2F1 (Figure  ), and TCF7L2 (Figure  ) were downregulated in TNBC tissues, which is concordant with the results of TCGA database analysis.
+ 
+3.5
+
+## Analysis of key prognostic genes at the single‐cell level
+Based on cell annotation results from the data provider, cells in TNBC tissues were divided into nine cell subpopulations; B cells, cancer‐associated fibroblasts (CAFs), cancer epithelial cells, endothelial cells, myeloid cells, normal epithelial cells, plasmablasts, perivascular‐like (PVL) cells, and T cells (Figure  ). CKLF was mainly expressed in CAF, cancer epithelial, myeloid, and T‐cell clusters, HSPA2 was mainly expressed in cancer epithelial, myeloid, and normal epithelial cell clusters, TCF7L2 was mainly expressed in CAF, cancer epithelial, cancer, myeloid, and normal epithelial cell clusters, and IL6ST was mainly expressed in CAF, cancer epithelial, endothelial, myeloid, normal epithelial, and T‐cell clusters (Figure  ). NR2F1 was mainly expressed in CAF and cancer epithelial cell clusters. A simulation analysis of the cell trajectory differentiation of T cells was then performed (Figure  ). The darker the blue, the earlier the cell differentiated, thus T cells differentiated from right to left over time, with the darkest blue representing the earliest differentiated cells (Figure  ). As shown in Figure  cells exhibited several different states of differentiation each marked with a different color, with red indicating the earliest type of differentiation. An expression‐level plot of CKLF, HSPA2, IL6ST, NR2F1, and TCF7L2 in single‐cell developmental trajectories was then generated (Figure  ), which indicated that CKLF expression of was upregulated in late T‐cell differentiation. Other genes exhibited no clear changes during the progression of T‐cell differentiation.
+ 
+3.6
+
+## Infiltration fraction overview of 20 immune cells across patients
+TNBC patients with various prognostic statuses were investigated using the CIBERSORT method to categorize immune cell composition and clinical type based on TCGA datasets. Application of a threshold of p < 0.05 resulted in the inclusion of 81 samples. Patients in the two categories had unique immune landscapes based on nomogram scores. Compared to the high‐risk group, patients in the low‐risk group (n = 63) exhibited significantly larger proportions of resting memory CD4 T cells, follicular helper T cells, resting natural killer cells, monocytes, and M1 macrophages. Regulatory T cells, M0 macrophages, and M2 macrophages were more prevalent in the high‐risk group (n = 17; Figure  ). The color‐coded bars in Figure  depict the percentages of immune cells in each TNBC sample. The higher each bar, the more immune cells were present in a given sample. M1 macrophages were positively associated with activated CD4 memory T cells and follicular helper T cells, but were negatively correlated with regulatory T cells, M2 macrophages, and M0 macrophages. Activated CD4 memory T cells were positively associated with CD8 T cells, plasma cells, and M1 macrophages, but were negatively correlated with regulatory T cells, follicular helper T lymphocytes, and M0 macrophages (Figure  ).
+ 
+3.7
+
+## Significance of the TNBC‐related gene signature in immunotherapy
+The clinical effectiveness of immunotherapy in distinct prognostic groups was evaluated using TIDE. Patients who had higher TIDE prediction scores had a lower chance of benefiting from immune checkpoint treatment (ICI). Patients with higher TIDE scores were more likely to benefit from ICIs (Figure  ). Having a higher TIDE prediction score was related to a lower chance of success. TIDE outcomes perfectly matched prognostic assessment results based on the nomogram model. The immunotherapy cohort IMvigor210 was divided into high‐score and low‐score subgroups. A Kaplan–Meier curve reflected a significant difference in survival prognosis between the two subgroups (Figure  ), and the prognostic status of the low‐score group was better than that of the high‐score group. This indicates that patients with lower nomogram scores had relatively favorable prognostic outcomes in the population receiving ICB treatment, which is consistent with the aforementioned survival outcomes of derived by analyzing high and low nomogram score subgroups in the TNBC population. In the low‐score group, the CR/PR proportion was 26.97%, and the SD/PD proportion was 73.03%. In the high‐score group, the CR/PR proportion was 18.49%, and the SD/PD proportion was 81.51% (Figure  ). This indicates that the low‐score group had a better disease remission rate after receiving ICB treatment than the high‐score group.
+ 
+
+4
+
+## DISCUSSION
+TNBC is one of the major subtypes of breast cancer with high immune heterogeneity and metastatic potential. Despite the increasing incidence of TNBC, molecularly targeted drugs and ICB therapy have led to significant improvements in survival in patients with advanced TNBC. The complexity of TIME in TNBC has led to treatment side effects and drug resistance however, and even relapse in some patients during treatment. Very recently a single‐cell and spatially resolved transcriptomics analysis deconvoluted large breast cancer cohorts and stratified them into nine ecotypes. In particular, the molecular signatures from PD‐L1/PD‐L2+ macrophage populations, mesenchymal cells, and stromal‐immune niches identified ecotypes with unique cellular compositions and clinical outcomes. Studies indicate that dynamic changes in neutrophils and macrophages have redefined the “immune subtypes” of TNBC, including neutrophil enrichment subtypes and macrophage enrichment subtypes. These different subtypes respond differently to ICB treatment. It is therefore necessary to find suitable TNBC therapeutic targets and further evaluate changes in TIME to predict treatment outcomes.
+The prognostic immune nomogram model developed in the current study contained five genes; IL6ST, NR2F1, CKLF, TCF7L2, and HSPA2. A member of the interleukin family of cytokines that includes IL6, CNTF, LIF, and OSM, IL6ST is a signal transducer that activates the JAK/STAT and MAPK/PI3K/ERK signaling pathways. The complex signaling mechanisms of IL6ST evidently play critical roles in immunology and a wide range of cancers. In a previous study higher IL6ST levels were significantly associated with better OS in TNBC patients. The steroid hormone receptor NR2F1 is an orphan nuclear receptor assumed to be a transcriptional repressor though it may also promote the expression of target genes. , , Breast cancer dormancy gene signatures have recently identified NR2F1 as a gene with increased expression in dormant cells. NR2F1 is also a strong candidate gene for breast cancer susceptibility, and greater transcript levels are related to resistance to the development of mammary carcinoma. Neutrophils, monocytes, and lymphocytes are all attracted to CKLF, which is a cytokine and chemoattractant. Ovarian cancer cells have previously been shown to release CKLF, which promotes cancer cell proliferation in an autocrine or paracrine manner, as previously described. However, few studies have investigated associations between CKLF and cancer. TCF7L2 is one of several transcription factors related to T cell factor/lymphoid enhancer binding factors. Zheng et al. reported that the Wnt/−catenin pathway promotes breast cancer stemness via the LUCAT1/miR‐5582‐3p/TCF7L2 axis. That investigation indicated that TCF7L2 is responsible for the transcriptional activation of downstream factors via the TCF7L2/−catenin complex. This implicates TCF7L2 as a crucial component in metabolic processes, cell differentiation, cell proliferation, and cell death. The molecular chaperone system is mostly comprised of HSPs, which play an important role. A member of the HSP family, heat shock protein A2 (HSPA2), has recently emerged as an important cancer‐related protein with potential biomarker implications. A recent study investigated novel therapeutic strategies in breast cancer via suppression of HSPA2‐mediated oncogenic signaling by specific small‐molecule inhibitors. In the present study CKLF was upregulated in TNBC tissues, and NR2F1, IL6ST, HSPA2, and TCF7L2 were downregulated in TNBC tissues, which was concordant with the results of TCGA database analysis and immunohistochemistry results.
+Tumor infiltrating lymphocytes (TILs) and immune‐related gene expression signatures provide prognostic and predictive insight into early TNBC. , The invasion abundance and spatial distribution of immune cells are also influencing factors. , , In an effort to classify tumor immune microenvironment researchers investigated the numbers of antigen‐producing cells and their spatial distributions, and described four subtypes. Immune deserts and fully inflamed tumors, respectively, have homogenously low and high numbers of CD8+ T cells. Margin‐restricted and stroma‐restricted tumors have no or low numbers of lymphocytes within the tumor, and are characterized by restricted CD8+ T cells. There is a limited infiltrate of immune cells in immune desert tumors, which consists mainly of PD‐L1+ macrophages and exhausted T cells. Single‐cell RNA sequencing has provided deeper insight into immune cells' complex biology. A single macrophage can coexpress genes associated with M1 and M2, challenging the classical polarization model. The activation and differentiation states of T cells are also evidently continuous. The role of tissue‐resident memory CD8+ T cells in breast cancer immunosurveillance has been investigated. In that study patients with TNBC who had a CD8+ tissue‐resident memory‐related gene signature had better disease‐free survival (DFS) and OS. In this study different groups exhibited different immune microenvironments and were associated with different prognostic outcomes. This suggests that the gene model generated in the study may be useful for assessing TNBC prognoses and immune environments.
+Tumor sensitivity to immune checkpoint therapy can be predicted using the TIDE score. In TCGA datasets in the present study TIDE score was lower in the low‐risk subtype than in the high‐risk subtype. This suggested that patients with lower nomogram scores were more sensitive to ICB treatment. Imvigor210, a clinical cohort that received programmed cell death protein 1 (PD‐1)/PD‐L1 immunotherapy, was used to compare prognoses and clinical efficacy in subgroups with different scores, and the results were consistent with expectations. These findings suggest that a prognostic model based on five specific genes may be useful for evaluating responses to targeted therapy and immunotherapy, which may help promote the development of personalized therapies for TNBC.
+In the present study the expression levels of five key genes were analyzed in different cells via single‐cell sequencing. CKLF was significantly enriched in T cells, and visualization of the developmental trajectory of T cells using pseudotime analysis indicated that CKLF was expressed in the late stage of T‐cell differentiation. There is very little research on CKLF, but CMTM4 and CMTM6, which are also members of the human chemokine‐like factor superfamily, reportedly play an important regulatory role in PD‐1/PD‐L1 immunotherapy. ICB is currently the most advanced cancer immunotherapy. By binding ligands, T cell inhibitory receptors send signals to block T cell activation, preventing autoimmunity. PD‐1 is an immunological checkpoint receptor expressed on antigen‐stimulated T cells. PD‐1/PD‐L1 signaling decreases T‐cell proliferation, cytokine generation, cytotoxicity, and survival. Reactivating T cell‐mediated antitumor immunity is a common goal of cancer therapy, and ICIs such as anti‐PD‐1 and anti‐PD‐L1 monoclonal antibodies are frequently used to achieve this goal. Because most patients with cancers cannot benefit from PD‐1/PD‐L1 immunotherapy due to congenital or acquired resistance, there is a need to identify target genes that can be mutually regulated with PD‐1/PD‐L1 to improve the benefit rate of clinical immunotherapy, and we suspect that CKLF may play the above‐described regulatory role, but this needs to be confirmed by further experiments.
+While the findings of the current study are valuable, the study had some limitations. A public database was used to generate constructs and validate the results. Therefore, prospective studies are essential to evaluate the clinical application of the model in patients with TNBC. Comprehensive functional experiments are essential to elucidate the specific mechanisms associated with the genes involved.
+
+5
+
+## CONCLUSION
+A nomogram model for predicting survival and immunological responses was constructed based on the five immune‐related genes identified in this investigation. Relationships between TNBC prognosis and dynamic changes in the tumor microenvironment were evaluated.
+
+## AUTHOR CONTRIBUTIONS
+
+Yue Zhu: Formal analysis (equal); methodology (equal); software (equal); writing – original draft (lead). Lin‐Feng Tao: Formal analysis (equal); methodology (equal); software (equal). Jinyan Liu: Methodology (equal); validation (equal); writing – review and editing (equal). Yi‐Xuan Wang: Data curation (equal); methodology (equal); resources (equal). Hai Huang: Funding acquisition (lead); investigation (equal); methodology (equal); writing – review and editing (equal). Yannan Jiang: Project administration (equal); supervision (equal); writing – review and editing (equal). Wei‐Feng Qian: Project administration (lead); resources (equal); supervision (lead).
+
+## FUNDING INFORMATION
+The Suzhou Health and Family Planning Commission (SKJYD2021104).
+
+## CONFLICT OF INTEREST STATEMENT
+The authors have disclosed no conflicts of interest.
+
+## ETHICS STATEMENT
+The authors are accountable for all aspects of the work in ensuring that questions related to the accuracy or integrity of any part of the work are appropriately investigated and resolved. Signed informed consent regarding this study was provided by all participants, and ethical approval for the study was received from the Suzhou Municipal Hospital. The application of the TCGA and GEO databases was approved by the review boards of the Massachusetts Institute of Technology and Beth Israel Deaconess Medical Center. The study was conducted in accordance with the Declaration of Helsinki (as revised in 2013).
+
+## Supporting information
+
+Figure S1.
+
+Click here for additional data file.
+
+## DATA AVAILABILITY STATEMENT
+All data generated or analysed during this study are included in this published article [and its supplementary information files].

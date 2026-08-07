@@ -1,0 +1,168 @@
+3295bbprBiochemistry and Biophysics ReportsBiochem Biophys RepElsevierPMC9898624989862498986243674806410.1016/j.bbrep.2023.101431Single-cell transcriptome reveals cellular heterogeneity and lineage-specific regulatory changes of fibroblasts in post-traumatic urethral stricture
+LiKuiqing LaiCong HeiShangyan LiuCheng LiZhuohang KeweiXu aSun Yat-Sen Memorial Hospital, Sun Yat-Sen University, Guangzhou, ChinabTraditional Chinese Medicine Affiliated Hospital of Guangzhou Medical University, Guangzhou, China∗Corresponding author. No. 107 Yan Jiang West Road, Guangzhou, China.510120 xukewei@mail.sysu.edu.cn
+231202333101431101431522023© 2023 The Authors. Published by Elsevier B.V.This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+Fibroblast is the critical repair cell for urethral wound healing. The dysfunction of fibroblasts can lead to excessive fibrosis and hypertrophic scar, which eventually leads to post-traumatic urethral stricture. However, the fibroblast subpopulation and intercellular communication in urethral stricture remains poorly understood. Therefore, a comprehensive single-cell resolution transcript landscape of human PTUS needs to be reported. We performed single-cell RNA-sequencing of 13,411 cells from post-urethral stricture tissue and adjacent normal tissue. Unsupervised clustering, function enrichment analysis, cell trajectory construction and intercellular communication analysis were applied to explore the cellular microenvironment and intercellular communication at single-cell level. We found that there is highly cell heterogeneity in urethral stricture tissue, which includes 11 cell lineages based on the cell markers. We identified the molecular typing of fibroblasts and indicated the key fibroblast subpopulations in the process of fibrogenesis during urethral stricture. The intercellular communication between fibroblasts and vascular endothelial cells was identified. As an important bridge in the communication, integrins may be a potential therapeutic target for post-traumatic urethral stricture. In conclusion, this study reveals the cellular heterogeneity and lineage-specific regulatory changes of fibroblasts in post-traumatic urethral stricture, thereby providing new insights and potential genes for post-traumatic urethral stricture treatment.
+Keywords: Post-traumatic urethral stricture, Single-cell transcriptome, Fibroblast, Vascular endothelial cell, Integrin
+
+## Highlights
+•The cellular heterogeneity of PTUS was demonstrated by scRNA-Seq for the first time.
+•Fibroblast subpopulatios have highly functional heterogeneity in urethral stricture.
+•The interaction between VECs and fibroblasts is the crucial factor of PTUS.
+•Integrins can be a potential therapeutic target for urethral stricture.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Nov 7; Revised 2023 Jan 12; Accepted 2023 Jan 16; Collection date 2023 Mar.
+
+1.
+
+## Introduction
+Post-traumatic urethral stricture (PTUS) is caused by the abnormal healing of urethral mucosa after injury, which makes the urethral lumen scarred and finally form stricture. In this process, the imbalance of repair mechanisms including inflammatory reaction, angiogenesis, granulation formation and tissue remodeling can lead to excessive scar hyperplasia, which makes the treatment of urethral stricture more complicated [ , ]. Although great progress has been made in various treatments such as surgery and drug intervention, the stricture caused by urethral trauma is still a challenge for clinical treatment [ , ]. Therefore, it is important to clarify the cellular and molecular mechanisms of the pathogenesis of PTUS.
+Single-cell RNA sequencing (scRNA-seq) can analyze the gene expression status of a single-cell on a large scale through high-throughput sequencing with its high resolution [ ]. scRNA-seq provides a powerful analytical tool for revealing complex cellular events and is widely used in studies including cancer, immunity, and phylogeny. In view of the complex molecular mechanism of urethral stricture formation, the regulatory changes are still unclear. Previous studies mostly used bulk analysis to detect the transcriptome changes of PTUS [ , ]. However, to our knowledge, the cellular heterogeneity and interaction network of various cells of PTUS have not been explored with single-cell resolution.
+In this study, we performed scRNA-seq on PTUS and characterized the transcriptome characteristics comprehensively. We demonstrated the cellular heterogeneity of PTUS, conducted molecular typing of fibroblast subpopulation and identified the lineage-specific regulatory changes of fibroblasts. Our study provides single-cell level insight into the pathogenesis of PTUS and potential genes for post-traumatic urethral stricture treatment.
+
+2.
+
+## Materials and methods
+2.1.
+
+## Tissue isolation and preparation of single-cell suspension
+The protocol was proved by the Ethics Committee of the Sun Yat-sen Memorial Hospital of Sun Yat-sen University. The methods were approved by the hospital ethics committee. The patients provided written informed consent for the use of their tissue samples. The protocols conformed to the guidelines set by the Declaration of Helsinki. PTUS tissue was separated into single-cell suspension by enzyme digestion and mechanical cutting. Briefly, the urethral scar tissue was cleaned three times to ensure that it was not contaminated by blood. The samples were stored in MACS tissue storage solution (MiltenyiBiotec). The urethral tissue was processed according to the manufacturer's instructions (Miltenyi Biotec, Germany). The sample was digested overnight in a 37 °C water bath and passed through pre-wetted 70 μM cell filter, 900G centrifuge for 20 min, added 5 mL DPBS into the precipitation to suspend cells and passed 35 μ M cell filter for re-filtering. The MACS dead cell removal kit (Miltenyi Biotec) was used to remove low activity cells to further concentrate the single-cell suspension. The cells were resuspended in DPBS (containing 2% FBS) and counted by Counter ® II Automated Cell Counter.
+
+2.2.
+
+## Preparation and quality control of single-cell RNA sequencing library
+According to the manufacturer's instructions, BD Rhapsody system is used to capture single cells, add gel magnetic beads and form single-cell gel beads. Then reverse transcription is carried out, so that the RNA with poly-A was reversely transcribed into the first strand of cDNA with unique molecular identifiers (UMI) information. After the completion of cDNA amplification, the fragments were digested and the optimal fragments were screened with magnetic beads to construct a sequencing library. Agilent 2100 was used for quantitative analysis of the library and Illumina sequencer was used for sequencing. We used cell ranger software to convert single-cell data from fastq files to cell expression matrix lists. The single-cell RNA sequence data were processed by the NovelBrain cloud platform of Liebing Technology Co. Ltd. In order to evaluate the data quality of the original data, we used Fastp algorithm to filter out the low quality data. UMI tools were used to extract and measure the quantity of UMI in each single cell gene transcript and filter out dead cells and cell fragments. The transcriptional data of single-cell were used for subsequent analysis.
+
+2.3.
+
+## Construction of cell subsets and annotation of cell types
+We used the Seurat algorithm to conduct regression analysis based on the number of UMI and the proportion of mitochondria in cells as the regression conditions. Based on the regression data, we calculated the dispersion and expression value of genes, and obtained the highly variable gene. Then principal components analysis was carried out. t-distributed stochastic neighbor embedding (tSNE) was used for dimension reduction analysis. The tSNE location of cells and key molecules of all samples is visualized. Using the cluster based method (resolution = 0.8), we obtained unsupervised cell clustering results.
+The Wilcoxon algorithm was used to analyze the marker genes of all clusters. The genes with log2 fold change>0.25 in each cluster was selected as the significant marker genes of the cluster. Next, we annotated the cell type using the single-cell type annotation software Single R and Marker genes. The correlation between the predicted cells and the reference database was calculated and the cell type annotation was obtained.
+
+2.4.
+
+## Cellular trajectory reconstruction analysis
+Cellular trajectory reconstruction analysis uses algorithms to learn the expression patterns of all genes and arrange each cell to its own development path. We use Cytotrace to analyze the cell trajectories of all fibroblast subpopulations and evaluate the relative differentiation status of each subpopulation.
+
+2.5.
+
+## Gene set enrichment analysis
+We used the clusterProfiler package and Kyoto encyclopedia of Genes and Genomes (KEGG) to analyze and visualize GO and signal pathways. GO analysis describes samples from biological process (BP), molecular function (MF) and cellular component (CC). The purpose of signal pathway analysis is to find significant enrichment signal pathways based on KEGG database.
+
+2.6.
+
+## QuSAGE analysis
+Qusage analysis is a quantitative gene set enrichment analysis (GSEA) based on the gene sets and gene expression. Briefly, it uses the algorithm to analyze enrichment of the gene sets. According to the above method, we scored the enrichment differences of gene sets from fibroblast clusters and showed the enrichment differences of each cluster in the form of heat map.
+
+2.7.
+
+## Cell communication analysis
+We used CellPhoneDB to systematically analyze the intercellular communication network based on the molecular level [ ]. In short, we randomly arranged cell type markers for all single cells. The average expression levels of ligands and receptors in the randomly arranged cell population were calculated. The cell matrix realized by Seurat normalization was used to calculate cell communication significance (p < 0.05).
+
+3.
+
+## Results
+3.1.
+
+## Single-cell RNA sequencing reveals the cellular diversity and heterogeneity of PTUS tissue
+In order to explore the cell heterogeneity in PTUS tissue, we collected PTUS tissue and adjacent normal tissue for single-cell RNA sequencing ( A). After the quality control, the cells with low gene detection rate (<600 genes) and high mitochondrial gene ratio (>8%) were removed, and the transcriptome profile of 13411 cells (PTUS: 7812; normal: 5599) was obtained. Unbiased clustering analysis revealed 20 cell clusters ( B). Based on hierarchical clustering and the established lineage specific marker genes ( C), we assigned these clusters to 11 cell lineages. Among them, Fibroblast includes clusters c2, c3, c5 and c16, accounting for the largest proportion of cells (25.36%). Vascular endothelial cell (VEC) includes c1, c4, c15 and c17, accounting for 20.70% of the total sum of cells. T cell includes c0 and c12 accounting for 22.23% and smooth muscle cell (SMC) for 10.4%. Additionally, we also found other cell lineages, including monocyte, urethral basal cell, urethral luminal cell, plasma cell, mast cell, B cell and proliferation cell ( ). These clusters showed different molecular characteristics, reflecting the cellular diversity and heterogeneity of PTUS tissue.
+ 
+3.2.
+
+## Differential proportion analysis showed significant expansion of fibroblast lineage in PTUS
+Next, we sought to identify cell lineages or clusters that were significantly expanded or decreased in PTUS. The results demonstrated that the proportions of multiple cell lineages were significantly different. Compared with normal tissue, the number of clusters c3 and c5 of fibroblast increased significantly, while the number of c2 and c15 decreased. VEC and SMC cell lineages were significantly reduced. In addition, c0 and c12 clusters of T cells were significantly increased ( ). Considering the critical role of fibroblasts in scar formation and fibrosis, our research focused on the fibroblast lineage.
+
+3.3.
+
+## Gene enrichment analysis revealed that dysregulated pathways in PTUS
+We identified the specific regulatory pathway in PTUS fibroblast by gene enrichment analysis ( ). Biological processes such as ECM receptor interaction and collagen fiber organization are significantly enriched in fibroblasts, which have been proven to be over activated in a variety of scar tissues [ ]. It is worth noting that a variety of signal pathways were activated in PTUS fibroblasts. TGFβ, wound healing and angiogenesis signaling pathways have been confirmed in the skin scar or other fibrosis diseases [ , , ]. In addition, Hippo signaling pathway and advanced glycation end product-receptor of AGE (AGE-RAGE) pathway were significantly activated in PTUS fibroblasts, which have been considered to be related to fibrosis [ , ]. It should be noted that we found that tumor related genes involved in PI3K/Akt and proteoglycans in cancer signaling pathways were up-regulated in PTUS fibroblasts ( ), which was consistent with the characteristics of scar fibroblasts, such as excessive proliferation [ , ].
+ 
+3.4.
+
+## Cell trajectory reconstruction and heterogeneity analysis of fibroblasts
+In order to further analyze the differentiation of fibroblast subpopulation, we used Cytotrace software to reconstruct the cell differentiation trajectory. As shown in A, according to the differentiation potential of fibroblasts, they are sorted from the most mature (lowest value) to the least mature (highest value). We found that the Cytotrace score of c2 and c16 was low, and that of c5 cluster was the highest, which revealed that c5 was at the initial stage of differentiation, c3 was mainly at the intermediate stage, and c2 and c16 were mainly at the end of differentiation. It indicates the differentiation diversity of fibroblast lineage.
+ In addition, we investigated whether there was heterogeneity in the activation intensity of gene sets regulating fibrosis among fibroblast subpopulations. As shown in B, the gene sets of each cluster are concentrated in the ECM, TGFβ, proteoglycans and AGE-RAGE signal pathways. Nevertheless, they have different levels of gene activation in the regulatory pathway. As shown in C–F, the gene expression intensity of each fibroblast cluster on the ECM pathway is heterogeneous. The heterogeneity of other highly activated pathways can be seen in .
+
+3.5.
+
+## Enrichment and analysis of key transcription factors in fibroblast subpopulation
+We used SCENIC software to analyze the key transcription factors regulating each fibroblast subpopulation. As shown in G, the four clusters all highly express transcription factors related to fibroblast proliferation, such as NR2F1, EGR2, SIX1, etc. However, there is still heterogeneity in the expression intensity of transcription factors. C5 shows a higher intensity of NR2F1, which is more closely related to cell cycle regulation and cell differentiation. C2 and c16, as the end point of differentiation, showed more high-intensity SIX1, DLX5 and NKX3-1, which were closely related to cell proliferation and migration. These results suggest that the differential expression of multiple transcription factors is one of the reasons for the heterogeneity of fibroblasts.
+
+3.6.
+
+## Cell communication analysis revealed the ligand receptor interaction network in fibroblasts of PTUS
+We used CellPhoneDB to identify the communication network between fibroblasts and non fibroblasts. The results demonstrated that the interactions between the four clusters of fibroblasts and VEC were the most active ( A). α10β1-COL3A1, α10β1-COL1A1, αvβ3-MMP2 widely existed in the interaction between fibroblasts and VECs. In addition, PTPRZ1 from urethral luminal cells and urethral basal cells, and KIT from mast cells can also combine with PTN of fibroblasts ( B and C).
+ 
+
+4.
+
+## Discussion
+Although the dysfunction of urethral wound healing can lead to PTUS, the potential molecular complexity and cellular heterogeneity is still unclear, which limits further study of PTUS. In this study, single-cell transcriptome was applied to perform a comprehensive transcriptional landscape of human PTUS tissue for the first time. The cell lineages, especially fibroblasts, were systematically classified and identified. The dense communication network among fibroblasts and non-fibroblasts in the microenvironment of PTUS was constructed.
+The enrichment analysis of signal pathway indicated that fibroblasts could maintain the balance of synthesis and degradation of extracellular collagen. However, the function of each fibroblast cluster is still different. Cluster 2 is characterized by the activation function of ECM pathway. TGFβ signaling pathway and glycosaminoglycan degradation pathway are enriched in c3 and c5 respectively and Hippo signaling pathway is more expressed in c16. The relatively specific pathway changes suggest the differences among fibroblast clusters, which may be one of the reasons for the complexity of fibroblasts in PTUS.
+Cellular trajectory reconstruction analysis of fibroblast clusters indicates that c5 is in the initial stage of differentiation, c3 is in the middle stage. C2 and c16 are in the terminal stage of differentiation. In order to explore the functional heterogeneity of fibroblast subpopulation, we combined Qusage and SCENIC to analyze the expression intensity of gene sets and the expression of transcription factors. Studies have shown that excessive ECM deposition caused by fibroblasts can lead to excessive scar formation. Consistent with this, we found that the gene sets of the fibroblast subpopulations were enriched in the ECM pathway. The regulation intensity of COL6A3, FN1, LAMA4 genes in the ECM pathway was significantly increased. In terms of functional heterogeneity, c16 activates LAMA2, ITGAV, ITGA8 genes more tensely than other clusters. Studies have confirmed that LAMA2, as a kind of laminin, is the main component of basement membrane and can promote cell attachment and migration during scar fibrosis by interacting with extracellular matrix components [ , ]. As integrins, ITGAV and ITGA8 involved in the process of cell attachment and cell matrix attachment. Since integrins are highly enriched in the dysfunctional pathway of PTUS, we considered that it may promote urethral stricture. This hypothesis has been preliminarily explored in subsequent cell communication analysis.
+Furthermore, c16 at the end of differentiation showed high intensity of transcription factors such as SIX1, DLX5, LHX9 and NKX3-1. Studies have shown that SIX1 can stimulate angiogenesis, promote cell migration and epithelial-mesenchymal transition [ ]. DLX5 binds to Notch1 and Notch3 gene sites to activate their transcription. In addition, DLX5 combines Akt signal transduction to promote cell proliferation by activating Wnt signal transduction [ ]. LHX9 interacts with p53 to inhibit the expression of glycolytic enzyme PGK1 and regulate cell proliferation [ ]. Nkx3.1 is an important mediator of bladder fibrosis in bladder outlet obstruction and is responsible for activating the pathway leading to tissue fibrosis [ ]. NR2F1 can regulate the cell cycle dynamics of neocortical progenitor cells and affect the balance between the proliferation and differentiation of neural progenitor cells [ ]. NR2F1 may perform a similar function in regulating differentiation in the c5 cluster at the starting point of differentiation, which needs further experimental verification.
+It is worth pointing out that the non-fibroblast population, especially vascular endothelial cells, also plays an indispensable role in PTUS. In the scar tissue, fibroblasts promote vascular endothelial cell proliferation and angiogenesis by secreting VEGF and bFGF. Endothelial cells can also secrete TGF-β1, PDGF and bFGF, thus promoting fibroblast proliferation and collagen secretion. The cytokines secreted by fibroblasts and vascular endothelial cells can form microenvironment between them and regulate the occurrence and progression of scar. Studies have demonstrated the role of VEGFR signaling pathway in pathological angiogenesis [ ]. Consistent with previous studies, we found that the pathological angiogenesis and VEGFR signal pathways were significantly activated in PTUS ( ). Furthermore, we determined the ligand-receptor pair relationship between VEC and fibroblasts ( C). Studies have shown that MMP2 and integrin αvβ3 interaction can induce PI3/AKT signal pathway and activate hypoxia induced transcription factor-1a (HIF-1a) and vascular endothelial growth factor (VEGF). Their pairing relationship is crucial for the balance of extracellular matrix and cell migration [ , ]. In addition, we observed that scores from the α10β1-COL3A1 pair ranked at the top of the pairing strength in communication network. Combined with the high-intensity gene expression of COL3A1, it reveals that integrin signal pathway can be used as a target to inhibit fibrosis and angiogenesis in PTUS [ , , ]. It is worth noting that we also found that PTPRZ1 from urethral cells, as a receptor, interacts with PTN from fibroblasts as a ligand. In addition, KIT from mast cells is connected to KITLG from fibroblasts as a ligand. PTN-PTPRZ1 and KIT-KITLG are regulatory genes of tyrosine kinase signal pathway, which are widely involved in cell growth, differentiation and mitotic cycle regulation. This suggests that both two receptor-ligand pairs may be potential targets for regulating fibroblast proliferation during PTUS [ , ].
+In addition to functional heterogeneity, fibroblasts also show structural heterogeneity. Studies have shown that fibroblasts can show obvious plasticity and phenotype transformation in the process of fibrosis. For example, transcription factor PU. 1 can not only polarize quiescent fibroblasts, but also repolarize ECM degrading inflammatory fibroblasts into ECM producing fibrosis phenotype. In addition, the inactivation of PU. 1 reprogrammed fibroblasts into static fibroblasts, leading to the regression of fibrosis [ ]. In PTUS, further experiments are still needed to further verify its structural heterogeneity. Despite these encouraging results, there are still some limitations in the present study. First, in the process of tissue isolation and preparation of single-cell suspension, there are impurities that seriously affects the proportion of active cells. This leads to a small sample size, which may limit the accuracy of cell lineage and subpopulation characteristics. Second, the identification of characteristics of cell subpopulation still needs the support of specific biochemical experimental results. Finally, we focused on the identification of the lineage-specific regulatory changes of fibroblasts but not from other cell lineages in PTUS. Non-fibroblast cells including vascular endothelial cells, leukocytes and urethral basal cells should be included in further studies.
+In conclusion, our study is the first one to explore the cellular heterogeneity and lineage-specific regulatory changes of fibroblasts in PTUS with single-cell resolution. We demonstrated the comprehensive transcriptional landscape of PTUS and identified the molecular classification of fibroblast subpopulation. Furthermore, we found that fibroblasts played a pivotal role in the intercellular communication of PTUS cells and identified the bridge role of integrin family in this process. Our research reveals the potential regulatory role of integrin family in PTUS, which needs further verification.
+
+## Funding
+This work was supported by the National Natural Science Foundation of China (grant numbers 81702528 and 82072841).
+
+## Availability of data
+The data that support the findings of this study are available from the corresponding author upon reasonable request.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.bbrep.2023.101431.
+
+Appendix A.
+
+## Supplementary data
+The following are the Supplementary data to this article.
+
+## Multimedia component 1
+Multimedia component 1
+
+## Figure S1
+Identification of cell lineages based on cell markers.
+Figure S1
+
+## Figure S2
+Heterogeneity of gene activity intensity of dysregulated pathways in PTUS fibroblasts. (a-d) Box plot of the activation degree of genes related to TGFβ, proteoglycans and AGE-RAGE signal pathways of the fibroblast cell cluster. The midpoint of the vertical line corresponds to the position on the vertical axis, indicating the activity of this gene. If the activity is greater than zero, it means that the corresponding gene is up-regulated in this cell cluster compared with other cell clusters; on the contrary, the expression was down regulated. The dash at both ends of each vertical line represents the 95% confidence interval. The blue dotted line and gray bar represent the overall activity and the confidence interval of the gene set. PTUS: post-traumatic urethral stricture.
+Figure S2
+
+## Figure S3
+Gene set enrichment and cell trajectory reconstruction analysis of PTUS VECs. (a-d) GO analysis of enriched genes of the VEC clusters c1, c4, c15, c17. (e) Cell trajectory reconstruction reveals a differentiation trajectory. CytoTRACE score is inversely proportional to the degree of cell differentiation. BP: biological process, MF:molecular function, CC: cellular component, PTUS: post-traumatic urethral stricture, VEC: vascular endothelial cell.
+Figure S3
+
+## Data availability
+Data will be made available on request.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Figure S1
+Identification of cell lineages based on cell markers.
+Figure S1
+
+## Figure S2
+Heterogeneity of gene activity intensity of dysregulated pathways in PTUS fibroblasts. (a-d) Box plot of the activation degree of genes related to TGFβ, proteoglycans and AGE-RAGE signal pathways of the fibroblast cell cluster. The midpoint of the vertical line corresponds to the position on the vertical axis, indicating the activity of this gene. If the activity is greater than zero, it means that the corresponding gene is up-regulated in this cell cluster compared with other cell clusters; on the contrary, the expression was down regulated. The dash at both ends of each vertical line represents the 95% confidence interval. The blue dotted line and gray bar represent the overall activity and the confidence interval of the gene set. PTUS: post-traumatic urethral stricture.
+Figure S2
+
+## Figure S3
+Gene set enrichment and cell trajectory reconstruction analysis of PTUS VECs. (a-d) GO analysis of enriched genes of the VEC clusters c1, c4, c15, c17. (e) Cell trajectory reconstruction reveals a differentiation trajectory. CytoTRACE score is inversely proportional to the degree of cell differentiation. BP: biological process, MF:molecular function, CC: cellular component, PTUS: post-traumatic urethral stricture, VEC: vascular endothelial cell.
+Figure S3
+
+## Data Availability Statement
+The data that support the findings of this study are available from the corresponding author upon reasonable request.
+Data will be made available on request.

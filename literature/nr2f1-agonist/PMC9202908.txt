@@ -1,0 +1,479 @@
+331plosgenPLoS GeneticsPLoS GenetPLOSPMC9202908920290892029083570914010.1371/journal.pgen.1010168Combined analyses of RNA-sequence and Hi-C along with GWAS loci—A novel approach to dissect keloid disorder genetic mechanism
+HuangJiaData curation, Formal analysis, Methodology, Visualization, Writing – original draft ZhouXiaoboInvestigation, Software WangWenboResources ZhouGuangdongSupervision ZhangWenJieSupervision GaoZhenResources WuXiaoliResources LiuWeiConceptualization, Funding acquisition, Project administration, Supervision, Writing – review & editing TirganMichaelEditor 1Department of Plastic and Reconstructive Surgery, Shanghai Ninth People’s Hospital, Shanghai Jiao Tong University School of Medicine, Shanghai, China2Shanghai Key Laboratory of Tissue Engineering Research, Shanghai, China3National Tissue Engineering Centre of China,  Shanghai, China4Keloid Research Foundation, UNITED STATESThe authors have declared that no competing interests exist.
+¤Current address: Department of Dermatology, Huashan Hospital, Fudan University, Shanghai, China
+✉* E-mail: liuwei_2000@yahoo.com
+1662022186e1010168e10101681762022© 2022 Huang et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+Keloid disorder is a tumour-like disease with invasive growth and a high recurrence rate. Genetic contribution is well expected due to the presence of autosomal dominant inheritance and various genetic mutations in keloid lesions. However, GWAS failed to reveal functional variants in exon regions but single nucleotide polymorphisms in the non-coding regions, suggesting the necessity of innovative genetic investigation. This study employed combined GWAS, RNA-sequence and Hi-C analyses to dissect keloid disorder genetic mechanisms using paired keloid tissues and normal skins. Differentially expressed genes, miRNAs and lncRNAs mined by RNA-sequence were identified to construct a network. From which, 8 significant pathways involved in keloid disorder pathogenesis were enriched and 6 of them were verified. Furthermore, topologically associated domains at susceptible loci were located via the Hi-C database and ten differentially expressed RNAs were identified. Among them, the functions of six molecules for cell proliferation, cell cycle and apoptosis were particularly examined and confirmed by overexpressing and knocking-down assays. This study firstly revealed unknown key biomarkers and pathways in keloid lesions using RNA-sequence and previously reported mutation loci, indicating a feasible approach to reveal the genetic contribution to keloid disorder and possibly to other diseases that are failed by GWAS analysis alone.
+
+## Author summary
+Keloid disorder is a benign skin tumour characterized by uncontrolled fibroproliferative tissue growth, which only occurs in human beings with severe reoccurrence post-therapy. It affects several hundred million people with difficulty to control its growth and relapse. It has been long thought that exonic gene mutations must play an important role, but large-scaled GWAS analyses only revealed 3 single nucleotide polymorphisms in the non-coding regions as previously reported. For the first time, this study demonstrated that the true genetic mechanism is likely to be the dysfunctional epigenetic regulation caused by mutations in regulatory elements at the non-coding region as revealed by the combined analyses of GWAS, RNA-sequence and Hi-C data. This approach may lead to the breakthrough of keloid disorder genetic/epigenetic mechanism, if further large-scaled analyses are performed along with human keloid tissue Hi-C data.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2021 Dec 2; Accepted 2022 Mar 25; Collection date 2022 Jun.
+
+## Introduction
+Keloid disorder is considered as a benign skin tumour that exhibits many cancer-like characteristics such as uncontrollable and invasive growth with an extremely high recurrence rate. Unlike hypertrophic scar, keloid lesions are lack of spontaneous regression and able to cross the original wound boundary. Keloid lesions usually appear as highly vascularized, rubbery and fibrous nodules in their gross view and typically occur in response to surgery, lacerations, burns or inflammatory skin conditions. The pathogenesis of keloid disorder is complicated and involves uncontrolled dermal fibroblast proliferation, excessive deposition of extracellular matrices (ECM) including collagen and proteoglycans, increased inflammatory cell infiltration and viciously dysregulated cytokines [ ]. However, gene mutations are increasingly recognized as one of the critical risk factors for keloid lesion formation.
+Previously, genetic investigation usually focused on exon mutation using genome-wide association study (GWAS) in order to explore the potential pathogenic gene mutation of functional molecules. However, GWAS literature only revealed some associated risk single nucleotide polymorphisms (SNPs) in the non-coding regions instead of identifying specific susceptibility genes and pathogenic signalling pathways in keloid lesions [ , ]. These phenomena suggest that a new strategy might be needed to further decipher the genetic contribution to keloid disorder pathogenesis. GWAS usually requires a large sample size to qualify the assay. Instead, the widely applied RNA-sequence (RNA-seq) technique can efficiently generate reliable data with a relatively small sample size, particularly for self-controlled tissue samples [ – ].
+Genetic and epigenetic abnormalities are now believed to be closely implicated in tumour initiation and progression. It has been proven that mutation in the non-coding regions could result in dysregulated expression of microRNAs (miRNAs) and long non-coding RNAs (lncRNAs), which in turn affects the expression of protein-coding genes (mRNAs). For example, overexpression of lncRNA NR2F1-AS1 was shown to promote the proliferation and migration of thyroid cancer cells through regulating the miR-338-3p/CCND1 axis [ ]. Downregulated miR-338-3p could accelerate hepatocellular carcinoma cell growth through targeting FOXP4 [ ]. All those aberrations in mRNA, miRNA and lncRNA could directly or indirectly regulate protein expression at post-transcription level.
+Because of this reason, this study investigated the genetic and epigenetic differences between keloids keloid tissues and their surrounding normal skins using RNA-seq analyses of mRNA, miRNA and lncRNA combined with the analysis of published GWAS data in order to mine dysregulated gene expression and related signalling pathways. In addition, high-throughput chromosome conformation capture (Hi-C) was utilized to analyse the susceptible chromosome loci of keloid lesions that were reported previously [ , ], and Hi-C was also combined with RNA-seq for the correlation analysis and functional verification (See ), which may set as an example of a new strategy to dissect the genetic mechanism of keloid lesion formation and development.
+ 
+
+## Results
+
+## Differential RNA expression between keloid tissues and their adjacent normal skins
+As shown in , the keloid lesions appear as unsightly firm, rubbery, bosselated and outgrowing tumours with pink and purple colours. The differential expressed mRNAs (DEGs), lncRNAs (DElncRNAs) and miRNAs (DEmiRNAs) between keloid lesions and their corresponding adjacent normal skins (uniformly detected in all 3 paired samples, K1-K3, ) were calculated from the RNA-seq data to form a heatmap ( ). There were total 3735 DEGs consisting of 1022 upregulated and 2713 downregulated; 3074 DElncRNAs consisting of 1172 upregulated and 1902 downregulated; 270 DEmiRNAs consisting of 143 upregulated and 127 downregulated ( – Tables). Then the Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment was analysed on all three types of DERNAs.
+ As shown in , 14 significantly enriched KEGG pathways were identified including Wnt, Tyrosine metabolism, Retinol metabolism, peroxisome proliferator-activated receptor (PPAR), Pancreatic secretion, Neuroactive ligand-receptor interaction, Metabolism of xenobiotics by cytochrome P450, Inflammatory mediator regulation of TRP channels, Hippo, Fatty acid degradation, Estrogen, ECM-receptor interaction, Cell adhesion molecules (CAMs) and Signalling pathways regulating pluripotency of stem cells. All the DEGs and DElncRNAs were then analysed using weighted gene co-expression network analysis (WGCNA) and the weighted co-expression network was modelled to divide RNAs into 7 modules ( ) as previously described [ ]. Among them, three modules (blue, red and turquoise) were significantly differentially expressed between keloid lesions and adjacent normal skin samples ( ).
+
+## The RNA regulation network
+The entire RNA regulation network was built on the differentially expressed RNAs. A total of 52556 DEmiRNA-target (mRNA) interaction pairs consisting of 270 DEmiRNAs and 12221 targeting genes were constructed ( ) and the whole miRNA targeted genes were shown in . The topological characteristics of the top 20 nodes in the network were displayed in . Among them, hsa-miR-335-5p, which was downregulated in keloid tissues, showed most targets including ITGB8 (Integrin beta-8, a receptor for fibronectin which could promote keloid lesion formation) [ ], PARD6B (par-6 family cell polarity regulator beta, which was involved in cell division and cell polarization) [ ], RUNX2 (Runt-related transcription factor 2, which could transactivate collagen I and collagen X) [ ], WDR17 (WD Repeat Domain 17, associated with retinal disease) [ ], LONRF2 (LON Peptidase N-Terminal Domain And Ring Finger 2, which was upregulated in pancreatic ductal adenocarcinoma) [ ], XKR4 (XK Related 4, which could affect cerebellar development) [ ], RRAGD (Ras-related GTP binding D, which could directly activate the mTOR signalling pathway and subsequently inhibit the autophagy) [ ], FMNL3 (Formin-like protein 3, which was linked to oncogenic pathway) [ ], LIFR (Leukaemia inhibitory factor receptor, which promoted tumour angiogenesis by up-regulating IL-8 levels) [ ], RAB11FIP1 (RAB11 Family Interacting Protein 1, which had a ras-activating function and promoted cancer) ( ) [ ].
+ Then the DEGs and DElncRNAs were mapped to the DEmiRNA-target networks while the protein-protein interactions were also imported to construct the total RNA regulation network ( ). And the three modules mentioned above were selected in the total network to further construct a fine regulatory network ( ). It was shown that the interactions between blue and turquoise modules were of tighter association ( ). As seen in , whole DEG-DEmiRNA and DEG-DElncRNA interaction pairs from the three WGCNA modules were used to construct the RNA interaction network. The interaction network contained several small subnetworks instead of a single big one ( ). Enrichment analysis was adopted to illuminate the potential functions of the three modules and 8 signalling pathways including ECM-receptor interaction, CAMs, epidermal growth factor receptor (EGFR/ERBB), axon guidance, mitogen-activated protein kinase (MAPK), Wnt, insulin and PPAR pathway. They are present in the networks according to the top 8 P value ( , labelled with*). To further explore the potential DERNAs involved in the 8 signalling pathways, these pathways were also mapped to the total RNA regulation network ( ) and a few nodes were represented ( ), which can be used for further needed analysis. These results suggested that epigenetic modification in keloid lesions can have a significant influence on keloid disorder pathogenesis via affecting the functions of important signalling pathways.
+
+## The validation of dysregulated critical signalling pathways in keloid lesions
+The pathogenic contributions of MAPK and Wnt pathways to keloid lesions have long been recognized [ , ], which indicated that the accuracy and quality of the sequencing data were sufficient for further analysis. The remaining 6 pathways mentioned above were then verified in the keloid and normal skin tissues by western bolt (WB) assay ( ). PPAR and axon guidance pathways might be inhibited in keloid lesions because of the downregulated expression of PPARγ and Slit2, respectively. ERBB pathway was found repressed due to the reduced expression of amphiregulin (AREG), ERBB1 and ERBB3. Slightly differentially expressed intercellular cell adhesion molecule 1 (ICAM1) and L-selectin implied the similar activity of CAMs pathway in keloid lesions and normal skin tissues. The insulin signalling pathway was activated in keloid lesions with highly upregulated insulin-like growth factor 1 receptor (IGF1R). Regarding the ECM-receptor interaction pathway, the downregulated laminin subunit alpha 1 (LAMA1) and LAMA2 but upregulated LAMA3 were found in keloid lesions compared with those of normal skin tissues.
+
+## DERNAs in the topologically associating domains (TADs) of susceptible loci
+Gene expression could be modulated via changing the local chromatin structure, which directly links to chromatin organization and transcriptional network architecture. The genes in the same TADs share the same cis-regulatory regions with promoters of specific genes [ ]. As shown in , the TADs (red box) in the susceptible loci were retrieved from the IMR90 Hi-C database to detect the DERNAs. After mapping Hi-C data within the susceptibility locus to keloid tissue RNA-seq data, the RNA expressions within a particular locus were shown in and . The significantly differentiated RNAs were then selected based on the criteria of P value < 0.05 and |log2FC| ≥ 1 ( ). In locus 1q41, HHIPL2 (hedgehog interacting protein-like 2), LINC01705, LINC01655 and LINC02257 were significantly upregulated ( ). However, no RNAs were found to be significantly differentially expressed within locus 3q22.3 ( ). In locus 15p21.3, there were 16 RNAs exhibiting a constant downward trend as shown in and and TEX9 (testis-expressed 9), AC011912.1, DNAAF4-CCPG1 were significantly downregulated ( ). Unexpectedly, a few upregulated genes were observed within the sub-TAD of this locus (yellow box) and some significantly upregulated genes were found including PYGO1 (pygopus family PHD finger 1), NEDD4 (neuronal precursor cell expressed developmentally downregulated 4) and RAB27A (ras-related protein rab-27a) ( , ).
+ These results are in agreement with the fact that loci 1q41 and 15p21.3 were susceptible for keloid disorder in Chinese Han population. Although there are SNP mutations at locus 3q22.3 in Japanese, but not in Chinese Han people [ ], no significant DERNAs were found in this locus using tissue samples of Chinese keloid patients ( ). Thus, the significant DEGs and DElncRNAs within the two TADs (1q41 and 15p21.3, ) were selected for further validation of their expression and functions.
+
+## The validation of selected biomarkers in keloid tissues
+Immunohistochemistry (IHC), Western blot (WB) and real-time quantitative polymerase chain reaction (RT-qPCR) analysis showed that the selected four TAD genes (HHIPL2, NEDD4, PYGO1, RAB27A) and corresponding coding proteins were highly upregulated in keloid lesions, and TEX9 and corresponding coding proteins validated by IHC were obviously downregulated in keloid lesions ( ). Unexpectedly, TEX9 was upregulated in WB. As for the no-consistent result of WB and IHC, it is possibly because the same protein may not have the same conformation in SDS-PAGE used in WB and in the paraffin section usually used in IHC [ ]. Additionally, the expressions of three selected lncRNAs (LINC02257, LINC01705, LINC01655) were significantly upregulated and two lncRNAs (AC011912.1 and DNAAF4-CCPG1) were obviously downregulated in the keloid lesion samples than those in the normal skin samples ( , P < 0.05). All the findings supported the high prediction accuracy of the sequencing and bioinformatics analysis.
+ 
+
+## The effect of gene transfection on keloid fibroblasts (KFs) proliferation, cell cycle distribution and apoptosis
+PYGO1, RAB27A and LINC02257 shRNA transfection could significantly decrease KFs viability compared with that of control cells at the time points of day 3 and day 5 post-transfection. Similarly, overexpression of TEX9, hsa-miR-335-5p and NDAAF4-CCPG1 could significantly diminish cell viability at day 3 and day 5 post-transfection ( , P < 0.05).
+ Furthermore, knockdown of PYGO1, RAB27A and LINC02257 induced an obvious GO/G1 phase cell cycle arrest in KFs compared with the control cells as shown in (P < 0.05). A similar phenomenon was observed in the KFs with overexpression of TEX9, hsa-miR-335-5p and DNAAF4-CCPG1 ( , P < 0.05).
+Moreover, KFs transfected with PYGO1, RAB27A and LINC02257 shRNA and overexpressed of TEX9, hsa-miR-335-5p and NDAAF4-CCPG1 displayed a significant increase in early, late and total apoptosis in KFs compared to the cells of the control group ( , P < 0.05). Representative histograms of cell cycle phase and cell apoptosis distribution were shown in and Figs.
+
+## Discussion
+Keloid disorder is a benign skin tumour characterized by fibroproliferative skin disorder that only occurs and relapses in humans with difficulty to control its growth and invasion into normal skin [ ]. The mechanism regarding keloid lesion origin and development is extremely complicated and genetic factors are increasingly recognized as an important contributor to the disease.
+Keloid disorder is considered to be a genetically heterogeneous disease that most often shows autosomal dominant inheritance [ ]. Familial heritability and prevalence were also found in keloid patients, which supported the concept of genetic susceptibility in keloid disorder [ ]. Furthermore, gene mutations such as P53 and FAS were detected in keloid tissues and KFs by whole-exome sequencing [ , ], leading to the impression that genetic mutations in the coding region may cause abnormal function of corresponding proteins and dysregulation of related signalling pathways.
+Therefore, large-scaled GWAS analyses of keloid patients were performed to detect the susceptibility loci and genes. Unexpectedly, no gene mutation was found in the exon regions, although a large sample size was involved [ , ]. In addition, a study of 4 keloid disorder cases with family heredity history also failed to reveal obvious exon mutation upon GWAS examination [ ]. These negative results imply that gene mutation in exon region might not be a major genetic contributor. Unfortunately, GWAS analysis might be an efficient way to investigate the genetic mechanism of various types of diseases only when enrolling several hundreds to thousands or more participants [ – ].
+In recent years, epigenetic inheritance and gene mutation in the non-coding regulatory regions were postulated as important mechanisms for tumour pathogenesis. Somatic mutations instead of germline mutations were found to play a key pathogenic role in squamous cell cancer, prostate cancer and pediatric embryonal tumours [ – ]. In line with the literature reports of somatic mutations in keloid tissues such as P53 and FAS [ , ], no systemic inherited mutation has been found thus far, suggesting that epigenetic abnormality caused by regulating locus within the intron region might be a true genetic contributor to keloid lesion origin and development.
+Dislike GWAS, RNA-seq, a widely used assay for epigenetic abnormality analysis, usually requires a relatively small sample size to precisely dissect the genetic and epigenetic mechanism of a certain disease. For example, RNA-seq analysis of the primary mammary epithelial cells (n = 3) and MEKO tumour cell lines (n = 3) found that activation of JNK pathway could prevent tumour initiation [ ]. RNA-seq analysis of six mice (3 normal mice and 3 diet-induced obesity mice) elucidated Clec11 regulated proliferation and lipid metabolism in islets [ ]. RNA-seq revealed that the genes expression involved in glycolysis was reduced in K562 cells treated with 2 μM Imatinib compared to those of vehicle control (n = 2) which was important in the control of leukemia cell metabolism [ ].
+Due to the obvious advantages, we conducted an exploratory try of RNA-seq using a self-control model that could minimize individual variation and was able to detect uniformly differentially expressed RNAs. This model has been previously applied for analysing diseases like breast cancer, Paget’s disease and malignant melanoma [ – ]. In this study, three cases of severe keloid lesions and their adjacent normal skins were collected to form 3 paired tissue samples for RNA extraction and high-throughput sequencing, which revealed tremendous amounts of DERNAs between paired keloid tissues and nearby normal skins ( ), and KEGG analysis also showed significantly enriched signalling pathways ( ).
+Some were previously reported in the literature including Wnt signalling pathway and PPARγ signalling pathway [ ]. Previous functional analysis of KF gene expression in 32 samples also suggested ECM-receptor interaction pathway was significantly enhanced in keloid lesions [ ], which is in agreement with our findings. This study also revealed some signalling pathways that were not reported in the literature for keloid disorder pathogenesis including tyrosine metabolism, pancreatic secretion, neuroactive ligand-receptor interaction, metabolism of xenobiotics by cytochrome P450, inflammatory mediator regulation of TRP channels, Hippo signalling pathway, estrogen signalling pathway and CAMs, etc. ( ). These findings might be able to reveal the novel mechanism of keloid disorder. For example, CAMs regulated the fibrotic process in scleroderma [ ]. Hippo pathway could modulate pericardial inflammation and myocardial fibrosis [ ]. Estrogen signalling pathway and metabolism of xenobiotics by cytochrome P450 were involved in regenerating liver functions [ ], and cytochrome P450 abnormality was observed in our keloid tissue single-cell sequencing analysis. The exact roles played by these factors in keloid disorder are worth investigating in the future.
+Epigenetics involves the regulation of highly networked genes in which miRNA and lncRNA make a significant contribution. Thus, bioinformatic analysis was performed on DERNAs to form miRNA-mRNA and lncRNA-mRNA network and a total RNA regulation network was built as shown in . Interestingly, the miRNA-mRNA network and the total RNA regulation network showed that hsa-miR-335-5p was a key player as it dominantly regulated a variety of molecules potentially for keloid disorder pathogenesis (Figs , and and Tables), indicating that hsa-miR-335-5p oriented regulation network might be an important part of keloid disorder mechanism, which deserves further exploration.
+To better select potential targeting molecules, three modules derived from WGCNA analysis were further jointly analysed with the total RNA regulation network ( ), which revealed a more complex network ( ). Among them, a large number of pathways were significantly enriched via this bioinformatic analysis, including PPAR, MAPK, axon guidance, ERBB, insulin, ECM-receptor interaction, Wnt and CAMs pathways ( ). More importantly, quite some pathways identified via this approach were overlapped with those enriched via simple RNA sequence analysis as shown in including PPAR, ECM-receptor interaction, Wnt and CAMs pathways, suggesting that total RNA regulation network analysis exhibited more advantages over simple mRNA analysis. Among which, MAPK, PPAR and Wnt pathways have already been reported to be closely related with the onset of keloid disorder [ , ]. However, axon guidance, insulin, ERBB, CAMs and ECM-receptor interaction pathways are the first reports by this study and verified by WB ( ).
+Although mutations in the coding region were not captured by GWAS, the function of locus mutation in the intron region remains an open question in the mechanistic investigation of keloid disorder pathogenesis [ , ]. Hi-C was usually used to identify the targeting genes and genetic variants that were influenced by nearby genes via investigating the chromosome interactions, which is beneficial for understanding the mechanism of GWAS variants and their influence on disease pathology [ ]. Hi-C can also detect the chromosome interactions and identify the TADs that harbour the risk SNPs. TADs are self-interacting genomic regions, within which DNA sequences prefer to interact with each other more frequently than with sequences outside. They are sub-architectural units of the folded chromatin in the overall 3D genome architecture, which could set a background for gene regulation and be involved in disease susceptibility. Previously, researchers discovered the important pathways associated with the mechanism of disease susceptibility by mapping risk SNPs to TADs regions [ ]. Thus, it is important to identify TADs as well as their target genes and risk SNPs located at the particular TADs [ ].
+We therefore mapped the Hi-C data of Fibroblast IMR90 to the reported non-coding loci (1q41, 3q22.3 and 15p21.3) found in Japanese and Chinese populations suffering from keloid disorder [ , ]. Interestingly, DEmRNA and DElncRNA in TADs located at 1q41 and 15p21.3 (sites shared by Japanese and Chinese) were found, whereas no obvious findings in locus 3q22.3 (unique to Japanese) as shown in [ ]. More importantly, the identified ten DERNAs were verified in five other paired keloid lesion-normal skin tissue samples ( ). Meanwhile, the cytological study showed that overexpressing the RNAs that were downregulated in keloids, and knocking-down the RNAs that were upregulated in keloids could inhibit KF overproliferation through altering the cell cycle distribution and accelerating the cell apoptosis (Figs and and ). We thus preliminarily verified the feasibility and efficacy of combining GWAS, Hi-C and RNA-seq techniques to elucidate genetic contribution to the pathogenic mechanism of keloid disorder.
+In this study, hsa-miR-335-5p was found significantly decreased in keloid lesions. Previously, reduced expression of hsa-miR-335-5p was shown to promote cancer progression, while increasing the expression could effectively inhibit disease progression [ ]. As shown, the functional analyses also demonstrated that hsa-miR-335-5p overexpression could inhibit KF proliferation, alter cell cycle distribution and accelerate cell apoptosis (Figs and and ). However, it remains unclear why the Hi-C TADs analysis failed to reveal differentially expressed hsa-miR-335-5p, suggesting that keloid tissue-specific Hi-C database must be established in order to truly dissect the complexity of keloid disorder genetic mechanism.
+Despite the time consumption and intensive efforts made in the past 30 years to try to identify the genetic contribution to keloid disorder pathogenesis, up to now no valuable exon mutation has ever been detected by GWAS, which is in contrast to general expectation because the tumour-like appearance of keloid lesions implies that mutation in the coding region of important molecules should exist, and this expectation has been validated in numerous tumour types [ – ]. This unexpected phenomenon indicates that the traditional approach of genetic investigation using GWAS analysis for exon mutation might be inappropriate and probably has been misled by the tumour-like appearance of keloid lesion, or keloid disorder genetic mechanism might be different from that of cancers although both may share some similarities.
+Genetic mutation plays key roles in cancer development, and animal models have been successfully established for many cancer types in vivo using cancer cell injection. Different from cancer, keloid lesion animal model never truly succeed and KFs usually lost their pathological phenotype after three passages of in vitro culture. These phenomena indicate that epigenetic abnormality, rather than genetic mutation, might be the major contributing way to keloid lesion development. Latest advances in tumour studies using combined approaches of genetic and epigenetic investigation as well as functional evaluation of intronic mutation also provided insightful directions.
+Therefore, in this study, RNA sequence and Hi-C technology were combined to dissect the potential mechanism. Although large-scaled GWAS analysis on 714 keloid patients and 2944 controls revealed gene mutation at the loci 1q41 and 15p21.3 without functional evaluation [ ], this study did discover ten DERNAs, which were verified in total five paired tissue samples and their functions on cell proliferation, cell cycle and apoptosis in other keloid samples as shown in Figs and . It is expected that more pathological factors would be explored when KF specific Hi-C data could be well established.
+For the first time, this exploratory study showed that RNA-seq combined with Hi-C and published gene mutation data at the non-coding region could truly reveal many known and unknown discoveries that were further verified by cell functional assays, qPCR and IHC and biochemistry analysis. It also successfully demonstrated the functionality of genetic mutation in the non-coding regions of previous GWAS reports by mapping Hi-C data to the special loci. Such large amounts of pathological findings revealed by this assay indicate that combined Hi-C, RNA-seq and GWAS techniques may represent a correct and efficient approach for investigating the genetic mechanism of keloid disorder pathogenesis. With the increased sample size, establishment of keloid lesion-specific Hi-C database and rapid advancement of sequencing technology, the genetic mechanisms of keloid disorder, a disease with tumour-like pathological changes, will be inevitably dissected.
+In summary, this study presents a novel approach of combined analyses of GWAS, RNA-seq and Hi-C to dissect the genetic mechanism of keloid disorder, which is highly efficient and is able to enrich important pathways and identify differentiated molecules that are involved in keloid lesion pathogenic mechanism. This novel approach may also likely be used to explore genetic mechanism of other diseases that are not possible with GWAS analysis alone.
+
+## Materials and methods
+
+## Ethics statement
+This study was approved by the Ethics Committee of Shanghai Ninth People’s Hospital (2016.8.1–01) with written consent from all keloid tissue donors.
+
+## Keloid patients and specimens
+Three keloid patients (named K1, K2 and K3) diagnosed with severe keloid lesions (as shown in ) were recruited. Then three pathological specimens from the outer zone of keloid lesions as well as three adjacent normal skins were collected during keloid lesion resection surgery. The distance between the keloid lesions and normal skins was about 1 cm. In addition, other five paired tissue samples (named KT1-KT5) were used for the verification of DERNAs and corresponding proteins using IHC, WB and RT-qPCR. Besides, nine keloid tissue samples (named KS1-KS9) were also employed for in vitro cell function analysis of the DERNAs. All the tissue samples were donated by keloid patients for research purposes only with written informed consent and the information of keloid tissue samples is listed in .
+
+## Analysis of DERNAs
+mRNA-seq, lncRNA-seq and miRNA-seq analyses were respectively performed on the six samples (three keloid lesions and three corresponding adjacent normal skins) by Genminix Informatics co., Ltd (Shanghai, China) as previously described [ , ]. Package DESeq2 was used to compare the DERNAs between paired keloid lesion and normal skin samples of all the three keloid patients. The DEmRNAs and DElncRNAs with the adjusted P value < 0.05 and |log2FC| ≥ 2 based on DESeq2 analysis were selected. Regarding miRNAs, the extracted counts were normalized across all samples using DESeq2 package, and miRNAs with the adjusted P value < 0.05 and |log2FC| ≥ 0.67 were selected as DEmiRNAs. Hierarchical cluster heatmap representing the expression direction and intensity of DEGs, DElncRNAs and DEmiRNAs was generated using the pheatmap (R package) (https://cran.r-project.org/web/packages/pheatmap/index.html) based on Euclidean distance. Functional enrichment analysis based on the KEGG functional hierarchy was performed on DEGs, target genes regulated by DElncRNAs and target genes regulated by DEmiRNAs (see ).
+
+## Identification of co-expression modules by performing clustering analysis
+Pearson’s correlation coefficient (PCC) was calculated between expressed values of each lncRNA-mRNA pair in keloid lesion and normal skin samples. The co-expressed lncRNA-mRNA pairs with PCC > 0.9 were selected as significant interaction pairs [ ]. Furthermore, co-expression analysis was performed using WGCNA to identify the modules of high correlation and the P value of DEGs and DElncRNAs between keloid lesion and normal skin samples was calculated and regarded as a feature of each gene module [ ]. The clustering analysis was conducted to identify significant co-expression modules. Then the significant modules were selected and related lncRNA-mRNA-miRNA interaction network was constructed (see ).
+
+## Construction of miRNA-target network
+MiRTarBase is a comprehensive database of experimentally verified miRNA-target interactions, which were verified either by highly reliable methods such as WB, fluorescence reporter experiments, RT-qPCR or predicted by high-throughput experiments like photoactivatable ribonucleoside enhanced crosslinking, immunoprecipitation and crosslinking immunoprecipitation coupled with high throughput sequencing [ ]. Therefore, it was used to explore the functions of DEmiRNAs. In order to investigate the roles of DEmiRNAs in regulating the expression of target genes, miRNA-target interaction network was constructed based on the DEmiRNA-target interaction pairs using miRanda and TargetScan database, and the nodes in the DEmiRNA-target network were ranked according to a descending order of each degree by performing topological characteristic analysis (see ) [ ].
+
+## Construction of lncRNA-associated RNA network
+The RNA network consisting of DEmiRNA-DEG-DElncRNA interactions was constructed based on the relationship information of DEmiRNA-DEG interaction pairs and DElncRNA-DEG interaction pairs. The network was displayed using Cytoscape software [ ].
+
+## Functional enrichment analysis
+Functional enrichment analyses were conducted on the DEGs, the targeting genes regulated by DElncRNAs, and the targeting genes regulated by DEmiRNAs in the lncRNA-mRNA-miRNA network constructed by the significant gene modules. The network diagram was built and the DEmRNAs/DEmiRNAs/DElncRNAs enriched in KEGG biological pathway were analysed by network analyst tools (P < 0.01 by Fisher’s exact probability test) [ ].
+
+## Combined analyses of Hi-C and RNA-seq data
+Considering that fibroblast proliferation is the main pathogenic mechanism of keloid disorder, the genome-wide chromosome conformation of Human Fibroblast IMR90 captured by Hi-C (http://promoter.bx.psu.edu/hi-c/view.php) was obtained and analysed. The selected reference genome was Hg38, and resolution ratio was set as 40k [ ]. Afterwards, the Hi-C RNA expression of the TADs in these three susceptible loci (1q41, 3q22.3 and 15p21.3) found in Japanese and Chinese populations with keloid disorder were mapped to the keloid tissue RNA-seq data. And DERNAs in these three TADs were selected for further validation through WB, IHC and RT-qPCR assay. All the antibody information is listed in .
+
+## WB assay
+Important molecules were selected based on the KEGG enrichment data, Hi-C and RNA-seq joint analysis data. These selected molecules were subjected to WB to examine the expression levels of encoded proteins of five genes including HHIPL2, NEDD4, PYGO1, RAB27A and TEX9. WB was also used to examine the representative proteins involved in the eight signalling pathways including LAMA1, LAMA2 and LAMA3 in ECM–receptor interaction, IGF1R in insulin signalling pathway, PPARγ in PPAR pathway, AREG, ERBB1, ERBB3 in ERBB pathway, Slit2 in axon guidance pathway, and L-selectin, ICAM1 in CAMs signalling pathway. The analyses were performed as follows. Briefly, about 20 μg whole protein lysate was loaded onto a 4–20% SDS-PAGE gel (Bio-Rad, Hercules, CA). The fractionated proteins were transferred onto a nitrocellulose membrane (Bio-Rad, Hercules, CA), which was subsequently blocked with 5% bovine serum albumin for 1 hour. The membranes were incubated at 4°C overnight with the primary antibodies. Anti-β-actin was used as a loading control. The membranes were thoroughly washed in washing buffer and incubated with the secondary antibodies for 1 hour at room temperature. The protein bands were eventually visualized using an enhanced chemiluminescence detection kit (Thermo Scientific, 32106). All the antibody information is listed in .
+
+## IHC assay
+Keloid tissue and adjacent normal skin tissue sections were incubated with anti-HHIPL2, anti-NEDD4, anti-PYGO1, anti-RAB27A and anti-TEX9 antibodies at 4°C overnight followed by two washes in phosphate-buffered saline (PBS). Then, the sections were incubated with a secondary antibody at 37°C for 30 min and washed in PBS, stained with 3,3’-diaminobenzidine chromogenic kit. Afterwards, the samples were counterstained with hematoxylin and rinsed with distilled water. After being dried, they were observed under a microscope and digitally recorded. Integral optical density (IOD)/area values were used to assess the expression level in the immunohistochemically stained tissue sections with the image analysis program Image-Pro Plus 6.0 in three randomly selected fields.
+
+## RNA extraction and RT-qPCR
+The expression levels of mRNAs and lncRNAs were validated by RT-qPCR. Total RNA was extracted from the keloid tissue and adjacent normal skin tissues of other five randomly selected keloid patients using EZ-press RNA Purification Kit (EZBioscience, USA). A 4×Reverse Transcription Master Mix (EZBioscience) was used for reverse transcription reaction at 42°C for 15 min, 95°C for 3 min. The 2×SYBR Green qPCR Master Mix (EZBioscience) was used to perform qPCR as follows: initial denaturation at 95°C for 5 min, followed by 40 amplification cycles (10s at 95°C for denaturation, and 30s at 60°C for annealing and extension) using a Strata Gene Mx3000p (Applied Biosystems). Each interested gene was normalized to the housekeeping gene GAPDH and the fold change was compared relatively to that of the control sample. qPCR assay was performed in triplicate and repeated at least three times.
+
+## Isolation and culture of human KFs
+KFs were obtained from keloid patients underwent keloid lesion excision procedure. The experimental protocol was approved by the Ethics Committee of Shanghai Ninth People’s Hospital. As previously reported [ ], the keloid tissues of inflammatory outer zone were excised and the epidermis was removed. The remaining dermis was cut into small fragments and digested with 0.3% collagenase (SERA, Heidelberg, Germany) in Dulbecco’s modified Eagle’s medium (DMEM) (Hyclone, Logan City, UT) for 6 h at 37°C on a rotator. Afterwards, the cell suspension was centrifuged and resuspended in DMEM with 10% fetal bovine serum (FBS, Gibco, Grand Island, NY). The cells were seeded onto a 10-cm culture dish (BD, Falcon, TX) at a regular density (1.0×106 per dish) and passaged by 0.25% trypsin-EDTA (Ethylene Diamine Tetraacetic Acid) (Gibco) when they reached 80% confluency.
+
+## The overexpression and knockdown of genes and non-coding RNAs
+PYGO1, RAB27A, LINC02257 shRNA plasmids, and hsa-miR-335-5p, TEX9 and DNAAF4-CCPG1-sgRNA overexpression plasmids were respectively co-transfected with the lentiviral packaging plasmids (Genomeditech, China) into 293 T cells [ ]. The virus-containing supernatants were collected at 48 h after transfection and filtered using a 0.45 μm cellulose acetate filter (Merck Millipore, USA). Then the supernatants were diluted 2 times with serum-free DMEM containing polybrene (YEASEN, China) at a final concentration of 5 μg/ml. The mixed solutions were added to the KFs (seeded onto 6-well culture plates at 1×105 per well) for another 16 hours of incubation before the exchange with fresh DMEM culture medium. After another 72 hours of incubation, the stably transfected cells were selected with 1 μg/ml puromycin (Sigma, USA). KFs transfected by lentivirus carrying negative control under the same conditions were used as controls.
+
+## Cell viability assay
+The control and transfected KFs were cultured in 96-well plate at 2000 cells/well for 5 days. Cell Counting Kit 8 (CCK-8; Beyotime Institute of Biotechnology, Haimen, China) was used to examine cell viability at 1, 3- and 5-day post-transfection. Results are presented as the cell proliferation (%) relative to control cells.
+
+## Cell cycle analysis
+The control and transfected KFs were seeded in 6-well culture plates at 1×105 cells per well for 4 days, then the cells were collected and fixed in 70% ice-cold ethanol at 4°C overnight. Afterwards, they were washed with PBS, incubated in PBS containing 100 μg/ml propidium iodide (PI), RNase (1 mg/ml), and 0.1% Triton X-100 at 4°C for 30 min. The proportion of KFs in cell cycle distributions was measured by the Epics Altra Flow Cytometer equipped with ModiFit LT v2.0 software (Verity Software House, Topsham, ME, USA) in half an hour.
+
+## Cell apoptosis analysis
+The control and transfected KFs cultured for 4 days were harvested with 0.25% trypsin followed by two washes in PBS, and centrifuged at 1500 rpm for 5 min. Then the cells were washed with ice-cold PBS, and resuspended in 195 μl of binding buffer (cat. no. 556454, BD Biosciences, USA). After being stained with 5 μl Annexin V-FITC and 10 μl PI in dark for 20 min at 37°C, cell samples were analysed with flow cytometry.
+
+## Statistical analysis
+For the part of bioinformatics analysis, Package DESeq2 was used to compare the DERNAs between paired keloid lesions and normal skins of all three keloid patients. The DEmRNAs and DElncRNAs with a P value < 0.05 and |log2FC| ≥ 2 were selected. The DEmiRNAs with a P value < 0.05 and |log2FC| ≥ 0.67 were selected. The co-expressed lncRNA-mRNA pairs with PCC > 0.9 were selected as significant interaction pairs [ ]. The differential RNAs of module oriented total network in KEGG pathway were analysed by network analysis tools (P < 0.01 by Fisher’s exact probability test). The DERNAs within susceptibility loci were selected based on the criteria of P < 0.05 and |log2FC| ≥ 1.
+For the part of in vitro experiments, the statistical analyses were processed using the statistical software Statistical Package for the Social Sciences (version 19.0, Chicago). The data are represented as the mean ± standard derivation. Student’s t-test was employed to analyze the differences between control and experimental counterparts, and P < 0.05 was considered statistically significant.
+
+## Supporting information
+S1 Fig
+
+## Clustering of the RNA-seq data from three paired tissue samples.
+Heatmap showed DEGs, DElncRNAs and DEmiRNAs between keloids and their adjacent normal skins.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## DElncRNA-target gene interaction pairs were modelled into 7 modules using WGCNA.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Construction of DEmiRNA-target gene interaction pairs.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## Construction of total DERNAs regulation network.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## Mapping the three modules into the total DERNAs regulation network.
+(TIF)
+Click here for additional data file.
+S6 Fig
+
+## Mapping the eight signalling pathways of the three modules into the total DERNAs regulation network.
+(TIF)
+Click here for additional data file.
+S7 Fig
+
+## Cell cycle was arrested at G0/G1 phase after gene knockdown and overexpression.
+Representative histograms of cell cycle phase distribution of KFs with knockdown of PYGO1, RAB27A, LINC02257 (A) and overexpression of TEX9, hsa-miR-335-5p (B) and DNAAF4-CCPG1 (C).
+(TIF)
+Click here for additional data file.
+S8 Fig
+
+## Loss-of-function and gain-of-function assays promoted cell apoptosis.
+Representative apoptosis pattern of KFs with knockdown of PYGO1, RAB27A, LINC02257 (A) and overexpression of TEX9, hsa-miR-335-5p (B) and DNAAF4-CCPG1 (C).
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Demographic data of keloid samples used in this study.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Antibodies used in western blotting and immunohistochemical staining.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## The differentially expressed mRNAs between keloids and corresponding adjacent normal skins.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## The differentially expressed lncRNAs between keloids and corresponding adjacent normal skins.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## The differentially expressed miRNAs between keloids and corresponding adjacent normal skins.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## The whole DEmiRNAs targeted mRNAs.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## The topological features of top 20 nodes in the miRNA-target network.
+(XLSX)
+Click here for additional data file.
+S8 Table
+
+## The risk SNPs in the three patients.
+(XLSX)
+Click here for additional data file.
+S1 Data
+
+## Numerical data underlying graphs.
+(XLSX)
+Click here for additional data file.
+
+## Data Availability
+Datasets related to this article can be found at https://dataview.ncbi.nlm.nih.gov/object/PRJNA736745?reviewer=okvm6kr2108v7s7su502kqfkts, hosted at the U.S. National Institutes of Health’s National Library of Medicine (NIH/NLM). All other data generated or analyzed during this study are included in this published article and in the .
+
+## Funding Statement
+This research was supported by the National Natural Science Foundation (81671921 to WL). The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+
+## References
+ 
+
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1010168.r001Decision Letter 0
+YIChengqiSection Editor: MethodsTirganMichaelGuest Editor© 2022 YI, TirganThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+6 Feb 2022
+
+Dear Dr Prof. Liu:
+Thank you very much for submitting your Research Article entitled 'Combined analyses of RNA-sequence and Hi-C along with GWAS loci — A novel approach to dissect keloid genetic mechanism' to PLOS Genetics.
+ 
+The manuscript was fully evaluated at the editorial level and by independent peer reviewers. The reviewers appreciated the attention to an important topic but identified some concerns that we ask you address in a revised manuscript
+We therefore ask you to modify the manuscript according to the review recommendations. Your revisions should address the specific points made by each reviewer, and provide a detailed list of your responses to the review comments and a description of the changes you have made in the manuscript.
+We hope to receive your revised manuscript within the next 30 days. If you anticipate any delay in its return, we would ask you to let us know the expected resubmission date by email to plosgenetics@plos.org.
+If present, accompanying reviewer attachments should be included with this email; please notify the journal office if any appear to be missing. They will also be available for download from the link below. You can use this link to log into the system when you are ready to submit a revised version, having first consulted our Submission Checklist.
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email us at figures@plos.org.
+Please be aware that our data availability policy requires that all numerical data underlying graphs or summary statistics are included with the submission, and you will need to provide this upon resubmission if not already present. In addition, we do not permit the inclusion of phrases such as "data not shown" or "unpublished results" in manuscripts. All points should be backed up by data provided with the submission.
+To enhance the reproducibility of your results, we recommend that you deposit your laboratory protocols in protocols.io, where a protocol can be assigned its own identifier (DOI) such that it can be cited independently in the future. Additionally, PLOS ONE offers an option to publish peer-reviewed clinical study protocols. Read more information on sharing protocols at https://plos.org/protocols?utm_medium=editorial-email&utm_source=authorletters&utm_campaign=protocols
+Please review your reference list to ensure that it is complete and correct. If you have cited papers that have been retracted, please include the rationale for doing so in the manuscript text, or remove these references and replace them with relevant current references. Any changes to the reference list should be mentioned in the rebuttal letter that accompanies your revised manuscript. If you need to cite a retracted article, indicate the article’s retracted status in the References list and also include a citation and full reference for the retraction notice.
+PLOS has incorporated Similarity Check, powered by iThenticate, into its journal-wide submission system in order to screen submitted content for originality before publication. Each PLOS journal undertakes screening on a proportion of submitted articles. You will be contacted if needed following the screening process.
+To resubmit, you will need to go to the link below and 'Revise Submission' in the 'Submissions Needing Revision' folder.
+Please let us know if you have any questions while making these revisions.
+Yours sincerely,
+Michael Tirgan, MD
+Guest Editor
+PLOS Genetics
+Chengqi YI
+Section Editor: Methods
+PLOS Genetics
+Dear Prof. Liu:
+We thank you for submitting your manuscript to PLOS Genetics. Your Manuscript was review by reviewers. Please respond to the reviewer comments and revise and resubmit your manuscript.
+Thank you
+PLOS Genetics
+Reviewer's Responses to Questions
+
+Comments to the Authors:
+
+Please note here if the review is uploaded as an attachment.
+
+Reviewer #1: This manuscript describes an RNASeq approach combined with Hi-C analysis comparing 3 keloids with adjacent normal skin pairs and investigates the GWAS loci previously described by Nakashima et al., 2010. The authors identified several potential pathways leading to keloids and identified several genes within these pathways that showed differential expression by immunohistochemistry and performed over-expression and knock-down experiments to show effects on cell survival.
+Overall, I recommend that authors revisit English grammar and sentence structure in the manuscript for better readability.
+L48: Please rephrase sentence as keloids don’t just appear “only” due to re-occurrence.
+L49 and L270: Do you mean the control of keloid growth and recurrence is not well understood? Please rephrase.
+L50: replace “exon gene mutation” with “exonic gene mutations”
+L53: replace with “by mutations in regulatory”.
+L56: replace with “may lead to a breakthrough in the discovery of”. Do you mean further analyses are needed? Please rephrase.
+L68: recommended change to plural “gene mutations are increasingly recognized as one of the critical risk factors”.
+L82: change to “For example, overexpression….” as this lncRNA is being used as an example and has nothing to do with keloids.
+General comment: Were the differentially expressed genes detected in all samples uniformly or was there heterogeneity (all keloids versus all controls in your various analyses)? This needs to be addressed upfront and also appropriately addressed in the Discussion section. For better reading, the relevant paragraphs could mention the keloid samples that were used for specific experiments [e.g., K1-K3 (Suppl. Table S1)].
+L133: hsa-miR-355-5p was down-regulated in your RNA-Seq experiments. Were the interacting genes that are listed here also DEGs in your screen? This is not clear from your sentence.
+L256: Were these biological and technical replicates? Was the knock-down performed with keloid samples used for RNASeq or in some of the additional keloid samples (KS1-KS9)? Was there any heterogeneity seen in the latter samples or did all samples have a comparable knock-down result? Please expand for more clarity.
+L366: The fact that the samples K1-K9 are keloid-normal sample pairs needs to be described in the Methods section. Fig. 5 does not show or explain that these samples were used. It would be clearer if transcript abundance relative to a housekeeping gene would be presented in box plots (Livak and Schmittgen, Methods, 2001; PMID: 11846609). Thus, it would also be more clear whether a message is highly expressed or at low levels.
+L453: WGCNA appears to be best suited to study linear relationships in a larger number of samples. You analyzed each of 3 keloids to the corresponding normal skin sample - or all samples together? Please describe your methodology and the limitations of WGCNA.
+L516: “cultivated” do you mean incubated?
+L513: Since TEX9 showed the opposite effect from Western blot results the methods section should describe how you did control stainings for IHC. Isotype controls?
+Fig.1: This is an interesting presentation of a summary but may be easier to read as a flow chart.
+Fig. 2: Please spell out WGCNA in the figure legend. What do colors in 2c stand for? Needs to be mentioned somewhere.
+Fig 3D: The Western bands are presumably not from a single blot, yet only one housekeeping band is shown. Can you quantify the keloid/normal scar bands to their respective housekeeping gene?
+Fig 5D: It would be clearer if transcript abundance relative to a housekeeping gene would be presented in box plots. Thus, it would also be more clear whether a message is highly expressed or at low levels.
+Reviewer #2: This study focuses on keloid disorder, a group of fibroproliferative tumors, keloids being the prototype. These studies are welcome in the context of the notion that there are no effective or specific treatments for this disorder. The study is a methodological tour-de-force combining several state of the art technologies, including GWAS, RNA-seq and Hi-C, analyses, and the data are subjected to extensive bioinformatics, which has generated a large number of data which have been meticulously catalogue in this manuscript.
+There were a number of issues at that should be considered by the authors for improvement of the study.
+1. The study focuses on keloids but only three individual keloid samples, together with the adjacent normal skin, were analyzed. The author's description of the keloids is somewhat incompletes in that the authors do not make a clear distinction between keloids and hypertrophic scars. In fact, the description in the first paragraph of the Introduction is more applicable to hypertrophic scars.
+Furthermore, there is no histological documentation of the type of keloid tissue that is being analyzed. The importance of this point is emphasized by the fact that keloid lesions can be highly heterogeneous, some parts of the lesions being highly cellular with a large number of inflammatory cells, while other parts are characterized by dense fiber meshwork of extracellular matrix of connective tissue, mostly collagen, with a few myofibroblastic cells embedded into it. Thus, it is not clear how representative their findings are in the spectrum of keloid pathology.
+2. While the genetic contribution to keloid development is well established through population studies, the authors state that “genetic contribution is well expected due to the presence of autosomal dominant inheritance.” In fact, autosomal dominant inheritance has bee documented only in a very few families. In the present manuscript, there is no reference to family history of keloids in the three patients studied.
+3. Additional studies were performed using cultured keloid fibroblasts Isolated from apparently inflammatory outer zone of the lesions. The pitfall of these experiments relate to the culture conditions of the fibroblasts. First, the cells were cultured on plastic culture dishes, but it has been well documented that the culture of keloid fibroblasts under such standard fibroblast culture conditions results in loss of the collagen overproducing phenotype, and the keloid fibroblasts in culture do not recapitulate the characteristics of cells in keloid lesions in situ. Consequently, it is very unclear if the changes observed in the molecular studies are really representative of the characteristics of these cells when part of the keloid lesions.
+4. Another deficiency of the culture conditions is the apparent lack of ascorbic acid (vitamin C) which is an obligatory requirement for the synthesis of not only collagens but also a number of other proteins, and the corresponding mRNA transcript levels have been shown to be altered by addition of vitamin C to the tissue culture medium.
+5. The bioinformatics of the data derived from the molecular analyse, I.e., GWAS, RNA-seq and Hi-C, has resulted in a large number of data that are faithfully detailed in the manuscript. It is apparent, however, that many of the pathways identified to be altered in keloid samples vs. control skin may have very little, if anything, to do with the pathomechanisms of keloids. Thus, while technically for the most part correct, these studies have provided information which is very difficult to correlate to the development and growth of keloids, with little therapeutic implications for this, currently intractable disorder. As indicated by the authors, this is really an exploratory study with a limited number of samples and an increase in sample size and advancements in sequencing technologies are required to dissect the pathological changes associated with keloids.
+Reviewer#3
+The authors have undertaken a very important step in better understanding the genetics of keloid disorder.  This work deserves to be published; however, this manuscript can be much improved prior to being published.  Please consider the following:
+1- The title of the manuscript - Keloid-specific gene expression profiling – will easily attract the readers who are familiar with keloid disorder and are interested in this topic, therefore there is no need to provide an exhaustive review of what a scar is, or what a keloid is. Furthermore, there is no general agreement on the definitions that are provided for scar, hypertrophic scar, etc.
+I would encourage the authors to remove much of introduction and start their abstract from where they state: “In an effort to find out keloid-specific genes---” and the introduction from where they state: “To date, there have been five reports---".  Those interested in this publication are very familiar with the underlying disorder.
+2- Authors refer to Keloids as Scars. Keloids are not scars. The authors have somewhat alluded to this in the context of their manuscript. The authors should more precisely define different pathologies, and perhaps consider the following:
+Consider using the term “Keloid Disorder” to refer to the underlying genetic disorder that keloid patients have.
+Consider using the term “Keloid Lesion” to refer to the actual lesions.
+Consider using the term “Keloid Tissue” to refer to the tissue of a keloid lesion.
+Consider using the term “Keloid Patient” to refer to the patient who suffers from keloid disorder.
+Avoid using the term “Keloid” alone, as using this term alone leaved the reader to decide is the author is talking about the Keloid Disorder or the Keloid Lesions.
+Avoid using “exaggerated scars such as hypertrophic scars and keloids” Just state hypertrophic scars and keloid lesions.
+3- The core of the introduction starts where the authors state: “To date, there have been five reports comparing gene expression patterns in keloid and related scar lesions—”
+Authors should consider using a phrase such as:  To our knowledge, there have been five reports comparing gene expression patterns in keloid tissue.
+Also, “related scar lesions” is vague. What do you mean by related scar lesions? In the same patient, in other patients.
+4 - In the introduction section, the authors state: “In this study, we aimed to compare the overall gene expression patterns of reversible and irreversible scars and provide insight into the molecular and cellular mechanisms behind these lesions.”
+Please revise the phrase “irreversible scars such as keloids and reversible scars.” This is way too confusing.
+Tell us what you exactly did.
+5- In the introduction section, the authors state: “abnormal fibroproliferative scar lesions,” 
+The authors use several different terms, and it is unclear what they mean by these. For instance, in here, do you mean Keloid Lesions?
+6- In the result section, the authors stated that” To reveal the gene expression characteristics of keloids and related lesions, we collected 4 keloid tissues, 5 hypertrophic scars, and 3 normotrophic scars.”
+Were these tissue samples taken from ONE patient? Or from 12 different patients?  Authors need to better describe the origin of the tissues that they analyzed. Did 4 keloids come from 4 different patients or from one keloid patient? Same as the other tissues.
+********** 
+
+Have all data underlying the figures and results presented in the manuscript been provided?
+
+Large-scale datasets should be made available via a public repository as described in the PLOS Genetics
+data availability policy, and numerical data that underlies graphs or summary statistics should be provided in spreadsheet form as supporting information.
+Reviewer #1: No: I did not find link to data sets generated for this study. No statement of data sharing has been made. The Nakashima et al., 2010 data set is publicly available.
+Reviewer #2: Yes
+********** 
+PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1010168.r002Author response to Decision Letter 0
+1662022186e1010168e1010168Collection date 2022 Jun.
+
+17 Mar 2022
+
+AttachmentSubmitted filename: review comments and response.docx
+Click here for additional data file.
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1010168.r003Decision Letter 1
+YIChengqiSection Editor: MethodsTirganMichaelGuest Editor© 2022 YI, TirganThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+25 Mar 2022
+
+Dear Prof. Liu:
+We are pleased to inform you that your manuscript entitled "Combined analyses of RNA-sequence and Hi-C along with GWAS loci — A novel approach to dissect keloid disorder genetic mechanism" has been editorially accepted for publication in PLOS Genetics. Congratulations!
+Before your submission can be formally accepted and sent to production you will need to complete our formatting changes, which you will receive in a follow up email. Please be aware that it may take several days for you to receive this email; during this time no action is required by you. Please note: the accept date on your published article will reflect the date of this provisional acceptance, but your manuscript will not be scheduled for publication until the required changes have been made.
+Once your paper is formally accepted, an uncorrected proof of your manuscript will be published online ahead of the final version, unless you’ve already opted out via the online submission form. If, for any reason, you do not want an earlier version of your manuscript published online or are unsure if you have already indicated as such, please let the journal staff know immediately at plosgenetics@plos.org.
+In the meantime, please log into Editorial Manager at https://www.editorialmanager.com/pgenetics/, click the "Update My Information" link at the top of the page, and update your user information to ensure an efficient production and billing process. Note that PLOS requires an ORCID iD for all corresponding authors. Therefore, please ensure that you have an ORCID iD and that it is validated in Editorial Manager. To do this, go to ‘Update my Information’ (in the upper left-hand corner of the main menu), and click on the Fetch/Validate link next to the ORCID field.  This will take you to the ORCID site and allow you to create a new iD or authenticate a pre-existing iD in Editorial Manager.
+If you have a press-related query, or would like to know about making your underlying data available (as you will be aware, this is required for publication), please see the end of this email. If your institution or institutions have a press office, please notify them about your upcoming article at this point, to enable them to help maximise its impact. Inform journal staff as soon as possible if you are preparing a press release for your article and need a publication date.
+Thank you again for supporting open-access publishing; we are looking forward to publishing your work in PLOS Genetics!
+Yours sincerely,
+Michael Tirgan, MD
+Guest Editor
+PLOS Genetics
+Chengqi YI
+Section Editor: Methods
+PLOS Genetics
+
+www.plosgenetics.org
+
+Twitter: @PLOSGenetics
+----------------------------------------------------
+Comments from the reviewers (if applicable):
+----------------------------------------------------
+
+Data Deposition
+
+If you have submitted a Research Article or Front Matter that has associated data that are not suitable for deposition in a subject-specific public repository (such as GenBank or ArrayExpress), one way to make that data available is to deposit it in the Dryad Digital Repository. As you may recall, we ask all authors to agree to make data available; this is one way to achieve that. A full list of recommended repositories can be found on our website.
+The following link will take you to the Dryad record for your article, so you won't have to re‐enter its bibliographic information, and can upload your files directly: 
+
+http://datadryad.org/submit?journalID=pgenetics&manu=PGENETICS-D-21-01585R1
+
+More information about depositing data in Dryad is available at http://www.datadryad.org/depositing. If you experience any difficulties in submitting your data, please contact help@datadryad.org for support.
+Additionally, please be aware that our data availability policy requires that all numerical data underlying display items are included with the submission, and you will need to provide this before we can formally accept your manuscript, if not already present.
+----------------------------------------------------
+
+Press Queries
+
+If you or your institution will be preparing press materials for this manuscript, or if you need to know your paper's publication date for media purposes, please inform the journal staff as soon as possible so that your submission can be scheduled accordingly. Your manuscript will remain under a strict press embargo until the publication date and time. This means an early version of your manuscript will not be published ahead of your final version. PLOS Genetics may also choose to issue a press release for your article. If there's anything the journal should know or you'd like more information, please get in touch via plosgenetics@plos.org.
+PLoS GeneticsPLoS Genet10.1371/journal.pgen.1010168.r004Acceptance letter
+YIChengqiSection Editor: MethodsTirganMichaelGuest Editor© 2022 YI, TirganThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+27 Apr 2022
+
+PGENETICS-D-21-01585R1 
+Combined analyses of RNA-sequence and Hi-C along with GWAS loci — A novel approach to dissect keloid disorder genetic mechanism 
+Dear Dr Liu, 
+We are pleased to inform you that your manuscript entitled "Combined analyses of RNA-sequence and Hi-C along with GWAS loci — A novel approach to dissect keloid disorder genetic mechanism" has been formally accepted for publication in PLOS Genetics! Your manuscript is now with our production department and you will be notified of the publication date in due course.
+The corresponding author will soon be receiving a typeset proof for review, to ensure errors have not been introduced during production. Please review the PDF proof of your manuscript carefully, as this is the last chance to correct any errors. Please note that major changes, or those which affect the scientific understanding of the work, will likely cause delays to the publication date of your manuscript. 
+Soon after your final files are uploaded, unless you have opted out or your manuscript is a front-matter piece, the early version of your manuscript will be published online. The date of the early version will be your article's publication date. The final article will be published to the same URL, and all versions of the paper will be accessible to readers.
+Thank you again for supporting PLOS Genetics and open-access publishing. We are looking forward to publishing your work! 
+With kind regards,
+Livia Horvath
+PLOS Genetics
+On behalf of:
+The PLOS Genetics Team
+Carlyle House, Carlyle Road, Cambridge CB4 3DN | United Kingdom
+plosgenetics@plos.org | +44 (0) 1223-442823
+plosgenetics.org | Twitter: @PLOSGenetics
+Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## Clustering of the RNA-seq data from three paired tissue samples.
+Heatmap showed DEGs, DElncRNAs and DEmiRNAs between keloids and their adjacent normal skins.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## DElncRNA-target gene interaction pairs were modelled into 7 modules using WGCNA.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## Construction of DEmiRNA-target gene interaction pairs.
+(TIF)
+Click here for additional data file.
+S4 Fig
+
+## Construction of total DERNAs regulation network.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## Mapping the three modules into the total DERNAs regulation network.
+(TIF)
+Click here for additional data file.
+S6 Fig
+
+## Mapping the eight signalling pathways of the three modules into the total DERNAs regulation network.
+(TIF)
+Click here for additional data file.
+S7 Fig
+
+## Cell cycle was arrested at G0/G1 phase after gene knockdown and overexpression.
+Representative histograms of cell cycle phase distribution of KFs with knockdown of PYGO1, RAB27A, LINC02257 (A) and overexpression of TEX9, hsa-miR-335-5p (B) and DNAAF4-CCPG1 (C).
+(TIF)
+Click here for additional data file.
+S8 Fig
+
+## Loss-of-function and gain-of-function assays promoted cell apoptosis.
+Representative apoptosis pattern of KFs with knockdown of PYGO1, RAB27A, LINC02257 (A) and overexpression of TEX9, hsa-miR-335-5p (B) and DNAAF4-CCPG1 (C).
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## Demographic data of keloid samples used in this study.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## Antibodies used in western blotting and immunohistochemical staining.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## The differentially expressed mRNAs between keloids and corresponding adjacent normal skins.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## The differentially expressed lncRNAs between keloids and corresponding adjacent normal skins.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## The differentially expressed miRNAs between keloids and corresponding adjacent normal skins.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## The whole DEmiRNAs targeted mRNAs.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## The topological features of top 20 nodes in the miRNA-target network.
+(XLSX)
+Click here for additional data file.
+S8 Table
+
+## The risk SNPs in the three patients.
+(XLSX)
+Click here for additional data file.
+S1 Data
+
+## Numerical data underlying graphs.
+(XLSX)
+Click here for additional data file.
+AttachmentSubmitted filename: review comments and response.docx
+Click here for additional data file.
+
+## Data Availability Statement
+Datasets related to this article can be found at https://dataview.ncbi.nlm.nih.gov/object/PRJNA736745?reviewer=okvm6kr2108v7s7su502kqfkts, hosted at the U.S. National Institutes of Health’s National Library of Medicine (NIH/NLM). All other data generated or analyzed during this study are included in this published article and in the .

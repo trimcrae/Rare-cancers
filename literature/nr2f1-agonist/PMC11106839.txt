@@ -1,0 +1,230 @@
+2992heliyonHeliyonHeliyonElsevierPMC1110683911106839111068393877407910.1016/j.heliyon.2024.e30335Multi-omics characterization of macrophage polarization-related features in osteoarthritis based on a machine learning computational framework
+HuPing LiBeining YinZhenyu PengPeng CaoJiangang XieWanyu LiuLiang CaoFujiang ZhangBin aDepartment of Othopaedics, Tianjin Medical University General Hospital, 154 Anshan Road, Heping District, Tianjin, 300052, ChinabInternational Science and Technology Cooperation Base of Spinal Cord Injury, Tianjin Key Laboratory of Spine and Spinal Cord Injury, Department of Orthopedics, Tianjin Medical University General Hospital, Tianjin, ChinacDepartment of Sports Injury and Arthroscopy, Tianjin Hospital of Tianjin University, ChinadOrthopaedic Center of Beijing Luhe Hospital, Capital Medical University, China⁎Corresponding author. Department of Othopaedics, Tianjin Medical University General Hospital, 154 Anshan Road, Heping District, Tianjin, 300052, China. philexchang@126.com
+⁎⁎Corresponding author. Department of Othopaedics, Tianjin Medical University General Hospital, 154 Anshan Road, Heping District, Tianjin, 300052, China. fcao@tmu.edu.cn
+1Ping Hu, Beining Li, Zhenyu Yin contributed equally to this work and share first authorship.
+2742024109e30335e303352152024© 2024 The AuthorsThis is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+
+## Background
+OA imposes a heavy burden on patients and society in that its mechanism is still unclear, and there is a lack of effective targeted therapy other than surgery.
+
+## Methods
+The osteoarthritis dataset GSE55235 was downloaded from the GEO database and analyzed for differential genes by limma package, followed by analysis of immune-related modules by xcell immune infiltration combined with the WGCNA method, and macrophage polarization-related genes were downloaded according to the Genecard database, and VennDiagram was used to determine their intersection. These genes were also subjected to gene ontology (GO), disease ontology (DO), and Kyoto Encyclopedia of Genes and Genomes (KEGG) functional enrichment analyses. Using machine learning, the key osteoarthritis genes were finally screened. Using single gene GSEA and GSVA, we examined the significance of these key gene functions in immune cell and macrophage pathways. Next, we confirmed the correctness of the hub gene expression profile using the GSE55457 dataset and the ROC curve. Finally, we projected TF, miRNA, and possible therapeutic drugs using the miRNet, TargetScanHuman, ENCOR, and NetworkAnalyst databases, as well as Enrichr.
+
+## Results
+VennDiagram obtained 71 crossover genes for DEGs, WGCNA-immune modules, and Genecards; functional enrichment demonstrated NF-κB, IL-17 signaling pathway play an important role in osteoarthritis-macrophage polarization genes; machine learning finally identified CSF1R, CX3CR1, CEBPB, and TLR7 as hub genes; GSVA analysis showed that CSF1R, CEBPB play essential roles in immune infiltration and macrophage pathway; validation dataset GSE55457 analyzed hub genes were statistically different between osteoarthritis and healthy controls, and the AUC values of ROC for CSF1R, CX3CR1, CEBPB and TLR7 were more outstanding than 0.65.
+
+## Conclusions
+CSF1R, CEBPB, CX3CR1, and TLR7 are potential diagnostic biomarkers for osteoarthritis, and CSF1R and CEBPB play an important role in regulating macrophage polarization in osteoarthritis progression and are expected to be new drug targets.
+
+Keywords: Osteoarthritis, Macrophage polarization, Bioinformatics, Machine learning, WGCNA
+
+## Highlights
+•Pioneering bioinformatics approach to study macrophage genes in osteoarthritis.
+•Breakthrough in analyzing GSE55235 dataset for osteoarthritis.
+•Identified CSF1R, CX3CR1, CEBPB, TLR7 as diagnostic biomarkers.
+•Validated hub genes and predicted drugs for osteoarthritis treatment.
+•Integrated GO, DO, KEGG, and GSEA in osteoarthritis research.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Feb 17; Revised 2024 Apr 16; Accepted 2024 Apr 24; Collection date 2024 May 15.
+
+1.
+
+## Introduction
+Osteoarthritis (OA), one of the most prevalent diseases affecting joint function, affects almost more than 240 million people worldwide [ , , ], causes substantial economic losses and brings great inconvenience to the lives of patients [ , ].Most patients suffered from OA (59–87 %) have at least one other chronic disease, especially cardiometabolic conditions [ ].According to a clinical trial, inhibitors of cathepsin K, inhibitors of Wnt, and anabolic growth factors may arrest structural progression, and nerve growth factor inhibitors may release OA pain. The treatment mentioned above methods are helpful for the symptoms and delaying the progression of OA. However, the research focusing on a single pathogenic gene has not fully elucidated its molecular changes and internal mechanism, in other words, was easy to neglect the bigger picture of OA itself. Focusing on one crucial tissue, creating a precise image of the molecular alterations and internal mechanism of OA, identifying the DEGs between OA patients and healthy individuals, and studying these molecular changes provide a unique perspective on OA [ ].
+As research progressed, OA was recognized as a disorder characterized by sustained low-grade inflammation [ ].Macrophages from synovial act as immunocyte, engage in and be indispensable for the structural development of OA [ , ].Signaling pathways like mTOR, NF-κB, JNK, PI3K/Akt regulated activated macrophages and polarized macrophages into subtypes M1 or M2 in OA synovial tissues. In addition, synovitis also plays a crucial role in the progression of OA, where M1 macrophage-driven synovitis exacerbates the pathological process. The main pathological features of synovitis are abnormal synovial growth, inflammatory response, and vascular proliferation. Synovial inflammation increases the risk of OA progression and promotes the recruitment of monocytes, lymphocytes, and other white blood cells. Conversely, macrophages are critical mediators of synovial inflammatory activity and pathological cartilage and bone responses. Soluble mediators are working as highly accurate predictors of knee OA progression throughout the whole development, in which SF elastase and TGFβ1 are most representative [ , , ].
+The activated macrophages mainly show two subtypes, called M1 (Classical Activation) and M2 (Alternative Activation) [ ]. For the synovium of OA sufferers, M1 macrophages account for the vast majority of macrophages. In contrast, the proportion M2 macrophages occupied is relatively tiny. When synovial macrophages were mainly polarized to M1 type, the severity of OA was aggravated. Researchers tried boosting the polarization of M2 macrophages or suppressing the polarization of M1 macrophages and gained similar results that osteoarthritis's progression was significantly slowing down [ ].Above all, such consequences hint that inhibition of the polarization from macrophages to M1 subtype and stimulation of the transformation from M1 subtype to M2 were potentially effective strategies for the treatment of OA [ ].
+It can be seen that the biological treatment of immune infiltration or interfering with the polarization of macrophages are hot spots in the treatment of OA. However, scientific research has entered the era of omics. To analyze the role immunocytes played in the occurrence and progression of osteoarthritis, using bioinformatics tools, we screen potential biomarkers involved in the immune process and find drugs that intervene in macrophage polarization biomarkers, thereby delaying the progression of osteoarthritis, which can be applied to decision-making in future clinical practice. In this study, after obtaining DEGs and analyzing the macrophage polarization data set of Genecards, we used WGCAN algorithm and three different machine learning algorithms to screen further potential biomarkers perform expression level verification and functional analysis on them, including ROC diagnostic analysis, single gene GSVA analysis of GSEA [ , ], immune infiltration and macrophage polarization datasets. These data were used to study the function of these genes and the mechanism involved in macrophage polarization, and finally, identify the ideal drug target by using the drug database.
+
+2.
+
+## Materials and methods
+2.1.
+
+## Microarray data acquirement and data pretreatment
+The microarray data of gene expression was downloaded from the database: Gene Expression Omnibus (GEO) [ ]. For the dataset GSE55235, we detail the characteristics of 20 synovial tissues, comprising 10 normal and 10 osteoarthritis (OA) samples. We include patient demographics like age and gender, specify the disease stage, and outline sample collection methods. The exclusion of rheumatoid arthritis samples enhances the dataset's focus on OA, increasing its specificity for studying this condition. Similarly, GSE55457 follows the same protocol to ensure reproducibility. For GSE152805, we describe the demographics of three OA patients and explain the single-cell RNA sequencing methodology, including cell sorting techniques and sequencing depth, used in the analysis.
+
+2.2.
+
+## Identification of DEGs
+Firstly, we treated the expression of GSE55235 more than 50 with logarithm before correcting and normalizing. The parameters |Log2fold change| >1 and p < 0.05 were regarded as the screening criterion for differentially expressed genes (DEGs)（Analyzed by R package “Limma” [ ], genes satisfying p < 0.05 and |log2FC|>1 are considered as DEGs）As for the microarray data （GSE55457） for validating. After standardization, the expression of the hub gene was extracted for the final test. The R packages “ggplot2” and “pheatmap” generated volcano maps and heat maps” to illustrate DEG results.
+
+2.3.
+
+## Immune cell infiltration analysis
+We performed immune infiltration analysis using the R package “IOBR”, which provides bulk analysis of the features and the correlation with clinical phenotypes, lncRNA analysis, genomic features, and features from scRNA-seq data in different cancer settings [ ]. IOBR supports eight common immune infiltration algorithms, and we used the “xCell” algorithm for immune infiltration analysis. xCell, a novel method based on genetic features, was used to infer Sixty-four immune cell types [ ].
+
+2.4.
+
+## Screening of target modules and genes based on WGCNA
+In this research [ ], WGCNA was used to identify the genes and modules most strongly associated with osteoarthritis immunity. Firstly, we removed the genes with a variance of 0, calculated each gene's mean standard deviation (MSD) separately, and deleted the genes with a proportion of MSD greater than 10 %. The samples were hierarchically grouped further to identify outliers and exclude anomalous data. The pearson correlation matrix and average correlation were calculated to perform all pairings of genes. A weighted adjacency matrix by the power function A mn = |C mn | ^ beta construct. Beta, a soft threshold value specified by the pickSoft function, may stress the strong correlation between genes. Topological overlap matrix (TOM) may quantify the network connection of a gene and determine the related difference degree (1-TOM). To categorize the genes with comparable expression characteristics into gene modules, we performed average relation hierarchical clustering by dissimilarity measurement method based on TOM, and the minimum size of the genome is 150. Merging modules, the threshold was set to 0.25. The R program “WGCNA” was then adopted to estimate the link between modules and differentially infiltrating immunocytes. Modules with high correlation coefficients were regarded as candidates to make the association with discrepantly infiltrating immunocytes and were chosen to be used in subsequent analyses.
+
+2.5.
+
+## Function and pathway enrichment analysis
+The macrophage polarization-related gene sets were obtained from Gnencards [ ] website (https://www.genecards.org/), and the intersection with DEGS and WGCNA module genes was taken to build a Venn diagram from the “Venn Diagram “R package. GO [ ], KEGG [ ], and DO [ ] analyses were performed for the DEGs. The filtering criterion of enrichment analysis was identified as p-value <0.05, and the enriched consequences were significant when both were met. The R package ‘org.Hs.eg.db’ and the ‘clusterProfiler’ [ ] were individually used for gene ID conversion and enrichment analysis results. The ‘enrichplot’ and ‘ggplot2’ packages were used to visualize results and bubble and bar mapping. Finally, all genes were analyzed for GSEA enrichment. For visualization, we saved and plotted the top five enrichment pathways.
+
+2.6.
+
+## Establishment of protein-protein interaction (PPI) networks
+To reveal the protein interactions among genes, a PPI [ ] net was constructed by STRING [ ] (Search Tool for the Retrieval of Interacting Genes https://string-db.org/). We visualized such a network with a confidence score of 0.4 by Cytoscape [ ].
+
+2.7.
+
+## Filtering and identification of potential biomarkers based on machine learning algorithms
+We first used the R package “e1071” and the SVM-RFE [ ] algorithm to screen for potential genes. Support Vector Machine (SVM) is a supervised learning model that accurately classifies data points by maximizing the margin between two hyperplanes. We used a linear kernel function and optimized the parameters cost (C) and gamma (γ) through 10-fold cross-validation, where C ranged from 2^(−5:5) and γ ranged from 2^(−5:5). The parameter combination with the highest average accuracy was selected to obtain the optimal SVM model. Next, we further screened potential genes using the LASSO logistic regression algorithm and the R package “glmnet”. LASSO [ ] performs gene selection and classification through regression analysis, achieving sparsity via L1 regularization to select the most relevant features. We used 10-fold cross-validation to determine the regularization parameter λ, ensuring that the bias term satisfies the minimum criterion. The optimal λ value was obtained using the “lambda.min” parameter of the cv. glmnet function. The screened differentially expressed genes (DEGs) were analyzed using the Random Forest function. Random Forest is an ensemble learning method that improves classification performance by constructing multiple decision trees and combining their predictions. We used 500 decision trees, with the number of features for each tree being the square root of the total number of features. The Gini index was used as the purity measure to select the best split. Feature importance was evaluated by calculating the Mean Decrease Gini for each feature across all trees.
+
+2.8.
+
+## Biological function and regulatory mechanism of hub gene
+GSEA is used for identifying the potential functions of hub genes. We downloaded the external reference gene subset from the MSigDB [ ] (Molecular Signature Database). The criterion for significant enrichment was p < 0.05. We downloaded C5: ontology gene sets from MSigDB and fifteen 25 macrophage-related gene sets were extracted. Also, the “GSVA” [ ] R package was used to analyze the correlation between hub genes and macrophage regulation and presented in the form of heat maps drawn by R packages “ggplot2” and “ggcor".
+
+2.9.
+
+## Establishment of TF-hub-miRNA interactions network and potential therapeutic drugs prediction
+The target miRNAs of hub genes were obtained from miRNet (https://www.mirnet.ca/), TargetScanHuman (https://www.targetscan.org/vert_80/), and ENCORI (https://starbase.sysu.edu.cn/), and the NetworkAnalyst [ ] (https://www.networkanalyst.ca/) was used to predict the upstream TF (transcription factor). Finally, we constructed the TF-hub gene-miRNA Sankey map by R packages “ggplot2” and “ggalluvial”. Subsequently, 5 potential biomarker-related drug prediction sites from DSigDB (the drug signature database) were searched in Enrichr, and Cytoscape constructed the hub gene-predicted drug interaction network.
+
+2.10.
+
+## Single cell sequencing analysis
+We used the Seurat package (v.4.3.0) in R (R4.2.1) to process and visualize the scRNA-seq data. In the initial quality control step, we filtered out cells with less than 200 or more than 10,000 detected genes and genes detected in fewer than three cells. Then we calculated the percentage of mitochondrial genes and hemoglobin genes for each cell as quality control indicators. We used violin plots to show the distribution of these indicators, as well as the number of detected genes and the total counts per cell. We removed cells with less than 200 or more than 10,000 detected genes, less than 100 or more than 30,000 total counts, more than 20 % mitochondrial genes, or more than 3 % hemoglobin genes. We normalized the data using “LogNormalize” and SCTransform and removed noise from mitochondrial genes. We scaled the data for downstream analysis such as PCA dimensionality reduction, setting the scale factor to 10,000. When filtering variable genes, we specified the top 2000 highly variable genes for downstream analysis. We used the FindClusters function to cluster the data. We used uniform manifold approximation and projection (UMAP) dimensionality reduction on the first 30 principal components to project the entire dataset into a two-dimensional space. For each cell cluster, we assigned cell type labels using statistical enrichment of marker gene sets and manual evaluation of gene expression of genes used by Ching-Heng Chou.
+
+2.11.
+
+## Statistical analysis
+In this investigation, we compared gene expression in OA and healthy samples in the analyzed dataset GSE55235 and validation set GSE55457 using t-test, and validated its accuracy by performing Receiver Operating Characteristic (ROC) curve analysis of the screened hub genes with the R package “pROC” [ ](21414208) and obtaining the corresponding (AUC) values. In addition, the expression levels of biomarkers were examined and box plots were created, and statistically significant differences were considered if *p < 0.05, **p < 0.01, ***p < 0.001.
+
+3.
+
+## Results
+3.1.
+
+## The identification of DEGs
+ , were the expression of each sample before and after correction. Using the R package “Limma” to perform variance analysis of the data sets. The criterion of DEGs were P < 0.05 and | log2FC | > 1. According to our standard, 1020 DEGs were discovered, in which the expression of 549 genes were up regulated and the left were down. The abscissa of C was log2FoldChange with the ordination of -log 10 (p-value). Red, blue, and gray nodes represent up-regulated DEGs, downregulated DEGs, and genes that are not notably differently expressed individually. Among them, genes with absolute value of log2FoldChange greater than 2 and p < 0.01 were annotated with gene names. As shown in , We took | log2FC | of DEGs sorting, obtaining a significant increase 30 and 30 significantly lower genes to draw heat maps. We utilized a blue bar and red bar to separate the healthy group from the osteoarthritis group and used red representing high level of gene expression and blue representing low.
+ 
+3.2.
+
+## Immuno-infiltrating cell analysis
+ A shows the enriched abundance of immune infiltrating cells in OA and control groups, with the highest percentage of macrophages. b shows the correlation heat map between individual immune cells in the immune infiltrate, where red indicates positive correlation and blue indicates negative correlation. According to C, significant differences exist in immune cells between osteoarthritis and control samples (P < 0.05), in which B-cells, Basophils, CD4+ naive T cells, CD4+ Tcm, CD4+ Tem, CD8+ naive T-cells, CD8+ T-cells, CD8+ Tcm, CD8+ Tem, cDC, Class-switched memory B-cells, CLP, CMP, Macrophages, Macrophages M1, Macrophages M2, Mast cells, MPP, pDC and Tgd cells are of remarkable. It is interesting to note that the different polarization states of macrophages are significantly different.
+ 
+3.3.
+
+## Establishment of weighted co-expression networks and identification of immune-related modules
+To identify the genes that are most linked with immunocytes in osteoarthritis, WGCNA was used. As shown in A, we clustered all the samples and correlated them with clinical traits. There were no outliers and most samples with the same clinical traits were clustered together. Notably, the control sample, GSM1332210, was clustered in the osteoarthritis group. Based on unsigned and average connectivity，β = 7 (scale free R2 = 0.85) was used as the optimal “soft” threshold ( B). In addition, we set 150 as the minimum number of genes in the module, combined module threshold of 0.25. Finally, we obtained 14 co-expression modules ( C). Notably, gray modules were the gene sets that cannot be assigned to any module. According to correlation analysis of modules and traits (infiltrating immunocytes), the blue module was highly positive in correlation with Macrophages, Macrophages_M1, and Macrophages_M2 (Cor = 0.7, P = 6e-04). While the Pink was negatively correlated with Macrophages, Macrophages_M1 and Macrophages_M2 (cor = −0.66, p = 0.002) ( D). Finally, the Blue (cor = 0.97, p < 1e-200) and Pink (0.74, p = 3.3e-75) modules were selected as the target modules in that they had the highest correlation with immunity ( E).
+ 
+3.4.
+
+## Functional and pathway enrichment analysis
+From the previous Immune infiltration results, we found the blue and pink modules had the highest correlation with macrophages. We downloaded 500 genes related to polarized macrophages from Genecards（https://www.genecards.org/）. We identified 71 differentially expressed polarized macrophage-related genes and the intersection of genes related to DEGs- WGCNA-macrophage polarization is shown in A.
+ To explore the role of 71 differentially expressed polarized macrophage genes in osteoarthritis. The terms GO, KEGG, and DO are shown in （B-G）. The aspects of such results presented by GO enrichment analysis were as follows： BP (Biological processes): leukocyte cell-cell adhesion, leukocyte migration; CC (Cellular component): intracellular vesicles; MF (Molecular function): immune receptor activity, cytokine receptor binding ( b). By KEGG analysis, the results showed that most DEGs were enriched in rheumatoid arthritis, leishmaniasis, lipids and arteriosclerosis, osteoclast differentiation, and NF-kappa B signaling pathway ( c). GSEA revealed several up-regulated pathways, including allograft rejection, asthma, degradation of other sugars, primary immune deficiency and type I diabetes. As for down regulated pathways, circadian rhythm, IL-17 signaling pathway, Legionnaires' disease, mineral absorption and cancer were discovered ( E–F). The ridge diagram will show the expression distribution of the core enriched genes in GSEA enriched category, from which we can see that the up-regulated pathways mainly include: Phagosome, Lysosome, Cell adhesion molecules, Leukocyte transendothelial migration, etc. the down-regulated pathways mainly include: NF-kappa B and TNF( G).
+
+3.5.
+
+## Machine learning-based hub genes screening
+To further identify potential biologically critical genes for osteoarthritis from the 71 target genes, we performed three different kinds of machine learning. Firstly, according to SVM-RFE analysis, the SVM model showed the best accuracy and error rate based on 19 characteristic genes ( A and B). Therefore，we identified 19 genes CSF1R, CXCL12, MYC, AHR, JAK2, CX3CR1, CD4, CEBPB, TNFSF11, ITGAM, NFKBIA, VCAM1, OLR1, CXCL2, HLA-DPB1, CIITA, TLR7, IL1R1, EDN1. In addition, based on osteoarthritis and control samples, we determined the most appropriate log (λ) (=7) by 10x cross validation when constructing the LASSO model ( C). Finally, with nonzero coefficients, 7 genes identified were as follows: CX3CR1, CXCL12, HLA-DPB1, TLR7, CSF1R, CEBPB, ITGAM. We then, used random forest to further filter down the 71 target genes. A recurring random forest categorization was conducted for all possible values of the 71 genes and the average error rate was analyzed in such model. We finally selected 14 genes with MeanDecreaseAccuracy greater than 0.014 (MYC, ZFP36, CEBPB, CX3CR1, KLF4, CXCL2, NFKBIA, TNFSF11, VEGFA, TREM2, TLR7, JUN, CXCL8, CSF1R) as the follow-up study the expected genes (as in Figure D). The Venn diagram showed the overlapping genes in LASSO, SVM and RF modules, and finally, four hub genes CSF1R, CX3CR1, CEBPB, TLR7 were identified ( E).
+ 
+3.6.
+
+## PPI network construction
+We build a PPI network further to dig into the protein interactions of the target genes. shows that the PPI network includes 71 nodes with 854 edges. We use red and green to distinguish between up-regulated and down-regulated genes. Such interaction maps of the first five go entries of the 71 target genes with the hub genes were conducted then ( ).
+ 
+3.7.
+
+## Biological functions and regulating mechanisms of the potential biomarkers
+With the plan to deeply discover the biological roles and regulatory mechanisms of CSF1R, CX3CR1, CEBPB and TLR7, GSEA was performed based on their ordered gene expression matrices. We performed single-gene GSEA functional analysis of four potential biomarkers of osteoarthritis: we found that in addition to the previously enriched pathways, some new pathways such as: Rap 1 signaling pathway, mucin type o-glycan biosynthesis ( A–D) were identified, suggesting possible involvement in macrophage migration and polarization. To analyze the correlation between hub genes, we then utilized the Pearson correlation coefficient algorithm. The heat map showed a significant positive correlation between CEBPB and TLR7 ( ).
+ 
+3.8.
+
+## The result relation from hub gene immune infiltration analysis and the regulation of macrophage biological process
+We exacted 25 macrophage-related biological processes from msigdb's C5: ontology gene sets. The enrichment fraction of gene characteristics of CSF1R, CX3CR1, CEBPB, and TLR7 were calculated by R package GSVA. The heat maps of hub genes and macrophage-related biological processes were drawn by R packages “ggplot2” and “ggcor”. In the outcome of immune infiltration, we found that CEBPB was positively correlated with macrophage M0, M1, M2 （p < 0.01) and CD4+ memory T-cells（p < 0.05). CEBPB was positively correlated with biological processes like macrophage activation involved in immune response, macrophage chemotaxis, and macrophage inflammatory protein 1 alpha production ( A).
+ From outcome of immune infiltration，CSF1R played a negative role in correlation with CD4+ T cells and NK cells (p < 0.05）but positively correlated with CD4+ Tem. CSF1R was positively correlated with biological processes like macrophage cytokine production, granulocyte-macrophage colony stimulating factor production, macrophage activation, regulation of macrophage activation, macrophage apoptotic process, rule of cellular response to macrophage colony stimulating factor stimulus, regulation of macrophage apoptotic process. (p < 0.05) ( B).
+CX3CR1, in a negative correlation with Neutrophils（p < 0.05）, acted in a positive correlation with Megakaryocytes instead（p < 0.05）. TLR7 was negatively correlated with CD4+Tcm（p < 0.01),GMP(p < 0.05)but positively correlated with Macrophages（p < 0.05). However, Neither CX3CR1 nor TLR7 was significantly involved in macrophage biological processes ( C–D).
+
+3.9.
+
+## Potential biological criteria expression and macrophage correlation
+To further verify the correlation between macrophages and hub genes. To show the correlation between hub genes and macrophages directly, we then used the R package “ggExtra” to plot the marginal density according to the results of the previous immuno-infiltration analysis. The correlation coefficients of CEBPB with Macrophages and Macrophages M1 were −0.59 and −0.52, respectively ( A–B); the correlation coefficients of CSF1R respectively were 0.69 and 0.6 with Macrophages M1 and Macrophages M2 ( C–D). Additional correlations between other hub genes and macrophage polarization are shown in the Supplementary Figure(s3).
+ 
+3.10.
+
+## Expression validation of potential biomarkers
+To further explore the role of hub genes CEBPB, CSF1R, CX3CR1, and TLR7 in osteoarthritis, we compared their expression levels in osteoarthritis patients and healthy groups using the analytical dataset GSE55235 and the validation dataset GSE55457, respectively.
+The AUC of the ROC of CEBPB, CSF1R, CX3CR1, and TLR7 for the analyzed dataset GSE55235 was 0.990, 1.000, 1.000, and 1.000, respectively ( A–D); The p-values for the difference in expression of CSF1R, CX3CR1, CEBPB, and TLR7 between normal control and osteoarthritis groups were 1.1e-5, 1.1e-5, 2.2e-5, 1.1e-5 ( E).
+ The AUC from the ROC curve of CEBPB, CSF1R, CX3CR1, and TLR7 in verification data set GSE55457 were 0.900, 0.780, 0.900, 0.930, individually ( A–D). The p values of CSF1R, CX3CR1, CEBPB, and TLR7 expression differences between control group and OA group were 0.04, 1.5e-3, 1.5e-3, and 4.9e-4, respectively ( E).
+ The hub genes CEBPB, CSF1R, CX3CR1, and TLR7 were same at the level of expression in the two data sets, and the ROC curves showed that the 4 genes can be used as diagnostic biomarkers for OA.
+
+3.11.
+
+## Gene regulatory networks targeted by TF and miRNA and potential therapeutic drugs prediction
+To investigate the regulatory mechanisms of CEBPB, CSF1R, CX3CR1and TLR7, we predicted their TF and miRNA and constructed a TF-hub gene-miRNA sang-map, in which CSF1R was regulated by FOXC1, TFAP2A, hsa-miR-155-5p, and hsa-miR-34a-5p; CEBPB was regulated by NR2F1, PRRX2, hsa-miR-155-5p, and hsa-miR-374a-5p ( ). In addition, we predicted the possible potential drugs ( ).
+ 
+3.12.
+
+## Single-cell sequencing analysis reveals the distribution of hub genes
+We performed quality control and normalization on the data. A–B shows the quality control plots for single-cell data. The left panel of A shows the relationship between nCount_RNA and percent. mt, with a correlation coefficient of −0.2, indicating that the lower the percentage of mitochondrial DNA in the total DNA, the higher the total number of RNA molecules. The right panel of A shows the relationship between nCount_RNA and nFeature_RNA, with a correlation coefficient of 0.94, indicating that the higher the total number of RNA molecules, the more genes are expressed. Based on Figure B, we filtered out most doublets/dead cells/empty droplets. Then we named each cell based on the top genes of each cell cluster, namely sub-synovial fibroblasts (SSF), synovial fibroblasts (SIF), HLA-DRA + cells, smooth muscle cells (SMC), endothelial cells (EC), T cells, mast cells and proliferative immune cells (ProIC) ( C–E). Finally, we used umap and bubble plots to show the expression of hub genes in synovial tissue, and found that they were mainly expressed in HLA-DRA + cells ( D–F).
+ 
+
+4.
+
+## Discussion
+In recent years, the incidence of osteoarthritis has been increasing [ ]. For OA is difficult to diagnose in the early stage, and the late intervention method is mostly surgery, it often leads to poor prognosis of patients and brings heavy economic burden to patients and society. We used bioinformatics technology to compare OA patients with normal people to find OA biomarkers, which is helpful for disease diagnosis, discovery of potential target drugs, improvement of prognosis, etc. In previous bioinformatics studies, researchers focused on the simple functional enrichment analyzes of differential genes, which only explored the expression of hub genes in diseases but lacking further functional analysis.
+Firstly, we analyzed osteoarthritis sequencing data using two algorithms, limma and WGCNA. In addition, we downloaded macrophage polarization-related genes from the website GeneCards, and perform functional annotation on these common 71 genes. From GO analysis, we found these genes involved in biological processes mainly include leukocyte cell-cell adhesion and leukocyte migration. In addition, the therapeutic Wnt inhibition alleviates disease severity in traumatic OA by promoting the anticatalytic effect of chondrocytes and the antifibrotic effect on synovial fibroblasts. Any drugs that can inhibit Wnt singaling pathway may be promising for the treatment of OA [ ]. Leukocyte recruitment is a vital factor in inducing the arthritic state. In synovial fluid and synovial tissue, leukocyte infiltration indicates inflammatory arthritis, and preventing leukocyte recruitment can be a promising way to relieve OA [ ]. In addition, KEGG analysis includes NF-kappa B signaling pathway and Lipid and atherosclerosis. NF-κB（nuclear factor-κB）, working as a transcription factor, functions in the expression of genes that regulate cell proliferation and apoptosis and react to inflammation and immune responses. In osteoarthritis (OA) model, the degree of NF-κB activation was confirmed to modulate the promotion or inhibition of OA [ ]. NF-κB signaling pathway impacts cartilage matrix reshaping, chondrocyte death, and synovial inflammation and also indirectly stimulates some downstream regulators of terminal chondrocyte differentiation [ ]. The NF-κB signaling pathway acts as a vital factor in the onset and progress of OA. By activating Nrf2 and inhibiting the STING-dependent NF-κB pathway, some unfavorable events like inflammatory reaction, ECM degradation, and senescence of chondrocytes triggered by IL-1β may be alleviated. Regulating the synovial macrophages polarizing via the NF-κB axis does help to attenuate the course of OA [ ]. DO analysis was similar to KEGG in that OA patients were more likely to suffer from atherosclerosis simultaneously. At the early stages of OA, lipid deposition in joints is observed before tissue changes [ ]. On the other hand, different from the previous differential gene enrichment analysis, GSEA can better reflect the pathways involved in biological disease processes. As a newfound T cell-derived cytokine, IL-17 was proved vital for the bone resorption of osteoclast [ ]. Therapies targeting IL-17 can improve clinical manifestations of psoriatic arthritis but have not been discovered in OA patients [ , ]. In senescent cells, researchers find that intra-articular injection of IL-17 neutralizing antibody reduces joint degeneration and expression of Cdkn1a, a senescence marker.
+Next, we combined LASSO logistic regression, SVM-RFE, and RF algorithms to identify CSF1R, CX3CR1, CEBPB, and TLR7 as potential biomarkers. To further verify the reliability of these 4 biomarkers, another synovial inflammation dataset was used for validation. The AUC value of the ROC curve from each hub gene in the analysis data set and validation set was more significant than 0.65, indicating that the hub genes we screened can be used as diagnostic biomarkers for osteoarthritis. In addition, we verified the expression of hub genes in the osteoarthritis group and the healthy control group, finding that the expression of each hub gene was consistent in the analysis data set and validation set. (The hub genes CSF1R, CX3CR1, and TLR7, are all up-regulated in osteoarthritis patients, and CEBPB is down-regulated in osteoarthritis patients.)
+CSF1R, one of the most common pro-inflammatory cytokines, can lead to various inflammatory conditions. Colony-stimulating factor-1 (CSF-1), also known as macrophage colony-stimulating factor (MCSF), is the specific ligand of CSF1R [ ]. Combination of the two triggers the differentiation of macrophages and cells proliferation from the monocyte/macrophage lineage. Also, CSF1R is thought to regulate monocyte migration and activation, which were considered as an essential factor in the pathogenesis of arthritis [ ]. There was a comment that blocking the CSF-1 receptor can protect bone and cartilage, so that relieves OA progression [ ]. Both CSF1 and IL-34 are crucial for the survival, proliferation, and differentiation of macrophages. CSF1R signaling not only drives macrophage differentiation but also plays a role in controlling tissue homeostasis, repair, and inflammation. However, developmental defects in knockout models for CSF1R, CSF1, or IL34 have limited the utility of these models in studying the receptor's function under steady-state and inflammatory conditions [ , ]. In the context of OA, the stimulation of CSF1R by CSF-1 or IL-34 promotes macrophage differentiation, activation, and osteoclastogenesis. Pharmacological inhibition of CSF1R has been beneficial in animal models of arthritis, suggesting that modulating CSF1R signaling could be a potential therapeutic strategy for OA. The relative contributions of CSF-1 and IL-34 to CSF1R signaling in rheumatoid arthritis (RA) have been investigated, providing insights into how these ligands may influence the disease process [ ].
+CX3CR1 motif chemokine receptor 1 (CX3CR1) comes from the G protein-coupled receptor 1 (GPCR1) family. As the sole known member of the CX3C chemokine receptor subfamily till now, CX3CR1 is also the fractalkine receptor or G-protein coupled receptor 13 (GPR13) [ ]. The CX3CL1/CX3CR1 axis is involved in leukocyte recruitment and chemokines associated with many inflammatory diseases [ , , ]. According to Culemann [ ], CX3CR1+ synovial macrophages are situated in the topmost synovial layer atop the fibroblast-like synoviocytes. To limit inflammatory reactions and preserve the intra-articular structures, the thick physical barrier created by CX3CR1+ macrophages separates the articular cavity from the surrounding synovium [ ]. In OA, CX3CR1+ macrophages form a tight-junction-mediated barrier at the synovial lining, which is thought to protect the joint [ ]. Additionally, a subset of macrophages characterized as TREM2+CX3CR1+FOLR2+has been identified, suggesting a complex heterogeneity within the joint macrophage population that could be relevant for understanding the pathophysiology of OA and designing targeted therapies [ ].
+The CCAAT/enhancer-binding protein β (C/EBPβ), encoded by the CEBPB gene, is a transcription factor implicated in the regulation of various biological processes, including immune responses and endochondral ossification. In the context of OA, C/EBPβ has been identified as a potent regulator, with computational predictions and motif-reporter assays indicating interactions with RUNX2, a key player in skeletal development and OA progression [ ]. Notably, C/EBPβ has been found to regulate the signaling pathway between β-adrenergic stimulation and the expression of Arg1, a gene associated with the M2 macrophage phenotype. β-adrenergic signaling induces Cebpb gene expression, which subsequently leads to Arg1 gene expression, suggesting a potential mechanism through which C/EBPβ influences macrophage polarization [ ]. This finding is particularly significant as it links macrophage polarization with a known molecular pathway, providing a potential target for therapeutic intervention. Furthermore, the role of C/EBPβ extends beyond the regulation of macrophage polarization. It has been shown to interact with other signaling molecules and transcription factors, such as NF-κB, that are involved in immune responses, including emergency myelopoiesis, which can be relevant in the context of inflammation and OA [ ].
+TLR7 is a member of the Toll-like receptor family, which plays a pivotal role in the innate immune response by recognizing pathogen-associated molecular patterns. In the context of OA, TLR7 activation can lead to the production of pro-inflammatory cytokines and contribute to joint inflammation and damage. The link between TLR7 and OA has been strengthened by the identification of an X-linked TLR7 polymorphism, suggesting a genetic predisposition to the disease [ ]. The interaction between macrophage polarization and TLR7 signaling is complex and can significantly influence the inflammatory environment within the OA joint. For instance, the activation of TLR7 can promote the polarization of macrophages towards the M1 phenotype, as evidenced by studies showing an increase in M1 macrophages upon TLR7/8 activation [ ]. This suggests that TLR7 may serve as a therapeutic target to modulate macrophage polarization and, in turn, ameliorate OA symptoms.
+In OA models, the synovial tissue release miR-21, which causes knee pain by TLR7 in surgical rats. Extracellular miRNAs in joints were performed to be a potentially reasonable therapeutic strategy for the relief of pain induced by OA [ ]. Hypoxia-inducible factor 2α (HIF-2α) may function as a regulator of OA by enhancing endochondral ossification. Induced by HIF-2α and targeting MMP-13, C/EBPβ and RUNX2 govern cartilage degeneration. Comparative research about this molecular network in chondrocytes may provide a meaningful reference in clinical treatment for OA patients [ ].
+While this study identifies potential biomarkers and therapeutic targets for osteoarthritis, it is important to consider its limitations. The reliance on bioinformatics and publicly available datasets introduces potential biases from variations in sample collection and patient characteristics. Future research should validate these findings through independent cohorts and experimental models to solidify the conclusions. Additionally, exploring interactions between macrophages and other cell types like chondrocytes could provide deeper insights into osteoarthritis pathogenesis. The roles of identified targets like CSF1R and CEBPB need further experimental validation to confirm their efficacy and safety as therapeutic options. Integrating multi-omics data and conducting functional studies on the identified genes could enhance our understanding of the molecular mechanisms driving the disease.
+
+5.
+
+## Conclusion
+In summary, we screened 71 target genes from OA patients' synovial tissue and identified CEBPB, CSF1R, CX3CR1, and TLR7 as potential diagnostic biomarkers for osteoarthritis through machine learning. The 4 genes may get involved in macrophage activation. Among them, CEBPB and CSF1R were involved in various macrophage-related pathways, which may be 2 new drug targets in OA.
+
+## Data availability statement
+The datasets in this study can all be found in public repositories. The names and login numbers of the repositories can be found in the article/supplementary material.
+
+## Ethics statement
+The human participant data we used were downloaded from a public database site and the study did not require ethical review or approval, as required by local legislation and agencies.
+
+## Funding
+This research was supported by the Wu Jieping Medical Foundation Clinical Research Special Fund (Grant No. 320.6750.2020-03-13).
+
+## CRediT authorship contribution statement
+Ping Hu: Writing – review & editing, Writing – original draft, Visualization, Validation, Methodology, Investigation, Formal analysis, Data curation. Beining Li: Writing – review & editing, Writing – original draft, Visualization, Validation, Methodology, Investigation, Formal analysis, Data curation. Zhenyu Yin: Writing – review & editing, Writing – original draft, Methodology, Investigation, Formal analysis, Data curation. Peng Peng: Writing – review & editing, Validation, Methodology, Investigation. Jiangang Cao: Methodology, Investigation, Funding acquisition. Wanyu Xie: Writing – review & editing, Writing – original draft, Methodology, Investigation. Liang Liu: Methodology, Investigation. Fujiang Cao: Writing – review & editing, Writing – original draft, Supervision, Methodology, Investigation, Formal analysis, Data curation. Bin Zhang: Writing – original draft, Supervision, Project administration, Methodology, Investigation, Funding acquisition, Formal analysis, Data curation, Conceptualization.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Acknowledgments
+Thanks to GEO database for sharing the data.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.heliyon.2024.e30335.
+
+## Contributor Information
+Fujiang Cao, Email: fcao@tmu.edu.cn.
+Bin Zhang, Email: philexchang@126.com.
+
+Appendix A.
+
+## Supplementary data
+The following is the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data Availability Statement
+The datasets in this study can all be found in public repositories. The names and login numbers of the repositories can be found in the article/supplementary material.

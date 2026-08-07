@@ -1,0 +1,104 @@
+pmcInt J GenomicsInt J Genomics2080ijgIJOGInternational Journal of Genomics2314-436X2314-4378WileyPMC12580263PMC12580263.112580263125802634119022110.1155/ijog/6085216IJOG60852161Research ArticleArticleSphingolipid Metabolism Dysregulation Drives Immune Microenvironment Remodeling and Predicts Prognosis in Bladder Cancer
+PengZechunhttps://orcid.org/0009-0009-2244-0633 YangJiehttps://orcid.org/0009-0004-4721-5866 yangjie840334@163.comJiaRuipenghttps://orcid.org/0000-0002-5532-5641 WuTianshihttps://orcid.org/0009-0000-9027-4758 wutianshi@hainmc.edu.cnZhaoSongyunsongyunzhao@wmu.edu.cn
+
+1
+
+Department of Urology, The Second Affiliated Hospital of Hainan Medical University, Haikou, China, hainmc.edu.cn
+
+2
+
+Department of Urology, Nanjing First Hospital, Nanjing Medical University, Nanjing, China, njmu.edu.cn
+02112025202520254807306085216
+1782025
+1812025
+0892025
+021120250411202505112025Copyright © 2025 Zechun Peng et al. International Journal of Genomics published by John Wiley & Sons Ltd.2025https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.The role of sphingolipid metabolism (SM) dysregulation in promoting bladder cancer (BLCA) progression and influencing patient prognosis has been well documented. To enhance therapeutic strategies, we aimed to identify key sphingolipid metabolism–related genes (SMGs) and develop a prognostic signature for personalized BLCA management. In this study, 430 BLCA samples from The Cancer Genome Atlas (TCGA) were analyzed via univariate Cox regression to screen critical SMGs involved in tumor progression. A LASSO regression model was applied to minimize overfitting, followed by multivariable Cox regression to construct and validate a SMG‐based prognostic signature in an independent cohort. Key findings revealed that SM dysregulation correlated with poor clinical outcomes and eight pivotal prognostic genes (ATP13A2, PCSK2, NR2F1, GSDMB, NFASC, NTF3, LGALS4, and SREBF1) were identified. The resulting risk model demonstrated robust prognostic performance with AUC values of 0.772 (training cohort) and 0.725 (validation cohort). Notably, high‐risk patients exhibited a highly active immunological profile characterized by elevated immune scores and enhanced functionality across 26 immune components, including increased infiltration of NK cells, CD8+ T cells, and elevated cytolytic activity. These results suggest that SM dysregulation may drive immunomodulatory changes in BLCA microenvironments, offering mechanistic insights into tumor immune evasion. This study provides a novel biomarker tool for risk stratification and highlights SM pathways as potential therapeutic targets for BLCA patients with immune microenvironment dysregulation.
+
+## Keywords
+bladder cancerimmune microenvironmentpersonalized therapyprognostic modelsphingolipid metabolism
+Hainan Province Clinical Medical Center
+
+Natural Science Foundation of Hainan Province10.13039/501100004761
+822QN472820MS142ZDYF2024SHFZ122 
+
+## 3.2. Prognostic BLCA Risk Score Model Established in Training Cohort
+UniCox regression analysis was performed on 8133 SMGs, revealing 54 SMGs significantly associated with prognosis (Figure ). Further refinement using LASSO regression analysis reduced the number of candidate SMGs (Figure ). The selection was made by assessing clinical relevance and biological function, and further LASSO regression analysis identified five key SMGs (PCSK2, NFASC, NTF3, NR2F1, and GSDMB) strongly linked to prognosis (Figure ). A predictive BLCA risk score model was developed based on these eight SMGs, and the risk score for each patient was calculated using the formula described in the Materials and Methods section. Patients were then stratified into low BLCA and high BLCA risk groups based on their scores.
+ 
+
+## 3.3. Correlation Between BLCA Risk Score and Clinical Parameters
+Using the median risk score as the cutoff, patients in the training cohort were classified into low BLCA (n = 102) and high BLCA (n = 102) groups (Figure ). The high BLCA group exhibited significantly poorer prognosis (Figure ). To validate the model, the same cutoff was applied to the validation cohort, dividing patients into low BLCA (n = 98) and high BLCA (n = 104) groups (Figure ). Consistently, high BLCA patients in the validation cohort showed worse OS, confirming the model′s predictive accuracy (Figure ).
+ UniCox analysis demonstrated that both the BLCA risk score and tumor stage were significantly associated with OS (Tables and ). MultCox analysis further confirmed that the BLCA risk score and stage were independent prognostic factors (Tables and ). ROC curves for 1‐, 3‐, and 5‐year survival yielded area under the curve (AUC) values of 0.772 (training cohort) and 0.725 (validation cohort), indicating superior predictive performance of the BLCA risk score compared to other clinical parameters (Figures , , , and ). External validation using a GEO dataset corroborated these findings.
+ Stratified survival analysis revealed significantly worse prognosis for high‐risk patients (Figure ). The AUC values for 1‐, 3‐, and 5‐year ROC curves were 0.802, 0.785, and 0.832, respectively, underscoring the model′s reliability (Figure ). The model also outperformed traditional clinical parameters in prognostic accuracy (Figure ).
+ 
+
+## 3.4. Enrichment Analysis of SMGs Using KEGG and GO Database
+We identified 882 DEGs between the two risk groups. GO enrichment analysis revealed their involvement in keratinization, axon development, and homophilic cell adhesion via plasma membrane adhesion molecules (Figures , , and ). KEGG analysis highlighted metabolic pathways such as neuroactive ligand–receptor interaction, retinol metabolism, and porphyrin metabolism (Figures , , and ). These findings suggest that the enriched pathways may play pivotal roles in BLCA prognosis.
+ 
+
+## 3.5. GSVA
+GSVA revealed significant enrichment of metabolic, immune response, and cellular activity pathways in high BLCA patients (Figure ). Key differentially enriched pathways included leukocyte transendothelial migration, T‐cell receptor signaling, and lymphocyte chemotaxis regulation, suggesting distinct immune and metabolic dysregulation in high‐risk BLCA.
+ 
+
+## 3.6. GSEA
+GSEA identified the Top 10 enriched pathways from GO and KEGG gene sets (Figure ). Immune‐related pathways, such as adaptive immune response, immunoglobulin complex formation, antigen binding, and immunoglobulin production, were upregulated in high BLCA patients (Figures , , , , , and ). These results further implicate immune dysfunction in BLCA prognosis.
+ 
+
+## 3.7. IME Analysis
+ESTIMATE algorithm analysis showed that high BLCA patients had elevated immune scores, stromal scores, and ESTIMATE scores, but lower tumor purity (Figures , , , , and ). ssGSEA confirmed higher immune cell infiltration in high BLCA patients, with 26 immune‐related functions upregulated (Figure ). These findings suggest that immune dysfunction contributes to tumor progression and immune evasion.
+ 
+
+## 3.8. Single‐Cell Data Analysis
+BLCA samples from the GSE database were clustered, and cell types in BLCA were annotated by the UMAP algorithm (Figure ). A “risk score” was calculated in the single‐cell dataset based on risk model‐included genes; its expression distribution across different cell populations was depicted on the UMAP plot (Figure ). The single‐cell analysis of BLCA revealed significant differences in cellular composition between high‐ and low‐risk groups. Compared to the low‐risk group, the high‐risk group exhibited a marked reduction in epithelial cell populations, accompanied by a substantial increase in fibroblast proportions (23% elevation). Concomitantly, endothelial cell fractions rose by approximately 3%, while NK/T cells demonstrated a ~1% proportional shift (Figure ). These findings underscored the critical roles of these cell types in BLCA prognosis. As illustrated in Figure , while NK cell–type alterations were nonsignificant in the high‐risk group, the primary immunophenotypic changes were attributed to dysregulated T‐cell expression profiles. Collectively, these observations suggest that immunocompetence alterations in the high‐risk cohort may drive epithelial–mesenchymal transition (EMT) processes, thereby elevating metastatic potential and contributing to adverse clinical outcomes through enhanced tumor progression. This mechanism highlights the importance of cellular composition shifts in shaping BLCA prognosis and therapeutic vulnerability.
+ 
+
+## 3.9. Immunohistochemical Validation of Key SMGs
+Immunohistochemistry data for NTF3, NFASC, and GSDMB demonstrated differential expression between normal and BLCA tissues (Figure ), supporting the bioinformatics findings.
+ 
+
+## 3.10. NFASC Silencing Suppressed TCCSUP Cell Viability and Promoted Apoptosis
+Following siRNA transfection into TCCSUP cells, total RNA was extracted and subjected to qRT‐PCR analysis. The results demonstrated a significant reduction in NFASC mRNA levels, confirming successful transfection and enabling subsequent experimental investigations (Figure ).
+ Cell proliferation and viability were assessed using an EDU assay. Fluorescently labeled active substances incorporated into newly synthesized DNA molecules resulted in red‐positive cells, while DAPI staining highlighted nuclei in blue. The experimental data revealed a marked decrease in the proportion of EDU‐positive cells upon NFASC silencing, indicating suppressed proliferation and viability (Figure ). These findings further validated NFASC as a risk gene in BLCA.
+Flow cytometry analysis revealed a significant increase in the apoptosis rate following NFASC silencing (Figure ). This underscored the critical role of NFASC in promoting the survival and proliferation of TCCSUP cells.
+
+## 3.11. NFASC Silencing Attenuated Migration and Invasion in TCCSUP Cells
+Tumor cell migration and invasion are pivotal mechanisms underlying cancer metastasis. To evaluate the impact of NFASC on these processes, wound healing assays, Transwell assays, and colony formation assays were performed. The wound healing assay demonstrated a significantly slower healing rate in the si‐NFASC group compared to the control and si‐NC groups under identical conditions (Figure ). Similarly, the Transwell assay revealed a substantial reduction in the number of migrating cells upon NFASC silencing (Figure ). The colony formation assay further supported these observations, with the si‐NFASC group exhibiting fewer colonies than the control groups (Figure ). Collectively, these results indicated that NFASC silencing effectively inhibits the migratory and invasive capabilities of TCCSUP cells, corroborating our predictive model and highlighting its potential as a therapeutic target.
+ 
+
+## 4. Discussion
+Metabolic reprogramming (MRG) is a hallmark of cancer, with each metabolic state exhibiting a distinct genetic signature that influences disease progression [ ]. Alterations in tumor stroma metabolism, particularly glucose MRG, play a significant role in oncogenic pathways [ – ]. The Myc protein, a key metabolic regulator, drives MRG by modulating glucose and glutamine metabolism, as well as serine production, thereby fueling cancer cell growth [ ].
+Despite advancements in BLCA diagnosis and treatment over the past two decades, high relapse rates and the risk of progression to invasive disease render it one of the most costly cancers to manage [ ]. Challenges such as recurrence, antimicrobial resistance, and rapid disease progression underscore the urgent need for novel biomarkers to improve clinical detection and therapeutic strategies [ ].
+In this study, we pioneered the exploration of the relationship between BLCA and SMGs. Using LASSO Cox and UniCox regression analyses, we developed a predictive BLCA risk score model based on 54 DEGs from TCGA datasets. The model effectively stratified patients into low and high BLCA score groups with distinct survival outcomes, a finding validated in both training and test cohorts. MultCox analysis further confirmed the model′s independence as a prognostic factor.
+Immunological profiling revealed that high BLCA score patients exhibited elevated levels of immune‐inflamed and immunosuppressive cells, including Tregs, APC costimulation, and checkpoint molecules, suggesting their potential candidacy for immunotherapy. The ESTIMATE algorithm was employed to assess tumor purity and immune infiltration, revealing that patients with favorable prognoses had lower tumor purity and higher immune scores. Subsequent ssGSEA analysis corroborated these findings, demonstrating immune dysregulation in high BLCA patients, characterized by elevated activity in 26 of 29 immune‐related pathways. This immune dysfunction likely contributes to poorer prognoses.
+Our study highlights the role of SM dysregulation in TIME anomalies, which adversely affect BLCA outcomes [ ]. Sphingolipids, particularly gangliosides like GD3 and GD2, promote tumorigenesis, whereas monosialyl gangliosides (e.g., GM1 and GM3) exhibit tumor‐suppressive properties [ , ]. These lipids modulate cellular signaling via cis‐ and trans‐binding interactions, influencing pathways involving growth factors, integrins, and immune cell activity [ ]. For instance, in melanomas, AKT, p130Cas, and paxillin drive carcinogenesis and migration, potentially mediated by Src family proteins [ ].
+Among the genes of interest (NTF3, NFASC, and GSDMB), NFASC emerged as a high‐risk gene in BLCA. In vitro experiments using TCCSUP cells demonstrated that NFASC silencing inhibited proliferation, induced apoptosis, and suppressed migration and invasion, aligning with our bioinformatics predictions. These findings underscore the reliability of our model and its potential for risk stratification and targeted therapy development.
+In recent years, the therapeutic landscape of BLCA has undergone a significant transformation with the emergence of immune checkpoint inhibitors (ICIs), targeted therapies, and especially antibody‐drug conjugates (ADCs). Agents such as enfortumab vedotin, sacituzumab govitecan, and disitamab vedotin (RC48‐ADC) have demonstrated promising efficacy in patients with advanced or metastatic BLCA, particularly those who are resistant to chemotherapy or immunotherapy [ ]. Real‐world studies have shown that neoadjuvant chemoimmunotherapy (e.g., tislelizumab combined with gemcitabine and cisplatin) achieves significantly higher pathological complete response (pCR) and downstaging rates compared to chemotherapy or immunotherapy alone. Furthermore, RC48‐ADC combined with ICIs has achieved a pathological response rate of 75.5% and a 1‐year disease‐free survival rate of 97.4% in patients with HER2‐positive MIBC [ ]. These findings not only highlight the clinical potential of ADC‐based combination regimens but also underscore the urgent need for predictive models to guide treatment selection.
+Our risk score model, developed based on SMGs, reflects key immune characteristics of the TME, including both immune activation and suppression. Given the role of sphingolipids in regulating membrane architecture, receptor clustering, and signal transduction, this model may also offer predictive value for response to ADC monotherapy or ADC‐ICI combination regimens. Moreover, high‐risk genes identified in our model, such as NFASC, may influence tumor behavior and treatment sensitivity by modulating the TME. Future studies integrating our model with drug‐specific biomarkers such as HER2 and HSPA1A may enable more accurate identification of patients likely to benefit from ADC‐based therapies, thereby contributing to precision medicine in BLCA.
+
+## 4.1. Limitations
+There are several limitations to this study. Due to funding constraints and limited availability of clinical samples, our experimental validation relied on publicly available immunohistochemistry data. Although these data partially support our findings, future studies should involve more patient‐derived tissue samples and functional experiments to elucidate the mechanistic roles of SMGs in BLCA progression.
+In addition, while our study revealed a correlation between SMG dysregulation and immune microenvironment remodeling, it lacks direct causal evidence. Functional in vivo or in vitro experiments—such as gene knockout or overexpression of key SMGs—are needed to determine whether sphingolipid metabolites directly modulate immune cell function or whether immune modulation influences sphingolipid signaling in return.
+Furthermore, our prognostic model was constructed using core clinical variables such as age, gender, and tumor stage. However, important real‐world factors, including lifestyle characteristics (e.g., smoking history), comorbidities (e.g., diabetes and hypertension), and treatment history (e.g., chemotherapy or immunotherapy), were not incorporated. These variables may affect patient prognosis and introduce confounding bias when applying the model in clinical settings. Future studies should aim to optimize the model by integrating a broader spectrum of clinical and biological variables to improve its predictive accuracy and clinical applicability.
+
+## 5. Conclusion
+This study establishes a correlation between SM and BLCA, enabling stratification of patients into high‐ and low‐risk groups. Immune and functional analyses revealed that sphingolipid dysregulation impairs immune status, exacerbating disease prognosis. These insights provide a foundation for personalized risk assessment and the development of targeted therapies tailored to individual patient profiles.
+
+## Ethics Statement
+The authors have nothing to report.
+
+## Consent
+The authors have nothing to report.
+
+## Disclosure
+This manuscript has been presented as a preprint in Research Square.
+
+## Conflicts of Interest
+The authors declare no conflicts of interest.
+
+## Author Contributions
+Tianshi Wu and Ruipeng Jia: conceptualization and visualization; Zechun Peng and Jie Yang: original manuscript writing; Zechun Peng and Jie Yang: formal analysis; Tianshi Wu: data curation; Tianshi Wu, Ruipeng Jia, Jie Yang, and Zechun Peng: writing—review and editing and project administration. Zechun Peng and Jie Yang contributed equally to this work.
+
+## Funding
+This study was funded by the Hainan Provincial Natural Science Foundation of China (ZDYF2024SHFZ122, 820MS142, and 822QN472) and the Hainan Province Clinical Medical Center.
+
+## Data Availability Statement
+The study provides access to the datasets through online repositories. You can find the repository/repositories′ names and corresponding accession number(s) in the following link: https://xenabrowser.net/datapages/.

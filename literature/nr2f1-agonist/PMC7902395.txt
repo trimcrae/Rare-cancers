@@ -1,0 +1,104 @@
+Biosci RepBiosci Rep1915bsr8102797bsrBioscience Reports0144-84631573-4935Portland Press LtdPMC7902395PMC7902395.1790239579023953355424510.1042/BSR20204086BSR202040861BiophysicsCell Cycle, Growth & ProliferationCell Death & InjuryDevelopmental BiologyResearch ArticlesIdentification of immune-related lncRNAs to improve the prognosis prediction for patients with papillary thyroid cancer
+LiZhiyang ]. Although PTC generally has a good prognosis, tumor recurrence and metastasis impede clinical management and individual patient survival [ ]. Therefore, further understanding of the molecular mechanism of PTC to develop effective methods for early screening and diagnosis is critical for reducing the number of PTC patients who are not diagnosed before the onset of aggressive disease.
+Long non-coding RNAs (lncRNAs), which do not have protein-coding functions, have recently attracted increasing research attention [ ]. These RNAs play a significant role in different cellular processes, particularly in numerous tumors [ ]. MicroRNAs (miRNAs) are small, endogenous, non-coding RNAs composed of 19–25 nucleotides. They exert the critical function of regulating gene expression, and their regulatory networks are involved in many biological processes [ ]. Previous studies on the competing endogenous RNA (ceRNA) have focused on the mechanism hypothesis, presented by Salmena et al., which has been described as the ‘Rosetta Stone’ for decoding the RNA language used in regulating RNA cross-talk and modulating biological functions [ ]. The core concept is that ceRNAs interact with target miRNAs through miRNA response elements to control the transcriptome on a large scale. Recently, an increasing number of lncRNAs have been discovered in the tumorigenesis of PTC. For example, Feng et al. found that lncRNA n384546 promotes PTC progression and metastasis [ ]. However, previous studies have focused on the mechanism of a single lncRNA–miRNA–mRNA axis, and there is currently no reported ceRNA network in PTC. Consequently, it is imperative to investigate the role of ceRNA networks in the poor prognosis of PTC. By further learning how lncRNAs function in the pathogenesis of PTC, we may find solutions to the most pressing challenges faced while treating this disease.
+Immunotherapy is another promising approach for overcoming the poor prognosis of PTC patients after standard therapy and restricted applicability of targeted therapies. Currently, several immune-related parameters, mainly tumor-infiltrating lymphocytes, have been reported to predict the prognosis of cancer patients, suggesting that immune states have a significant impact on the prognosis of patients [ ]. Therefore, it is necessary to systematically study immune-related lncRNAs in the PTC microenvironment to understand the complex anti-tumor response better and determine effective immunotherapy for PTC.
+In the present study, we constructed a ceRNA regulatory network to determine how immune-related lncRNAs act as a sponge for miRNA to regulate PTC gene expression. We found that immune-related lncRNA SLC26A4-AS1, which is the most associated with disease-free survival, may play an oncogenic role in the development of PTC. The present study might provide an insight into the molecular mechanisms that participate in progression and tumorigenesis of PTC.
+
+## Materials and methods
+
+## Data collection and processing
+We searched the Gene Expression Omnibus (GEO) database (www.ncbi.nlm.nih.gov/geo/) and The Cancer Genome Atlas (TCGA) data portal (https://cancergenome.nih.gov/). We used the following search terms: papillary thyroid carcinoma and PTC. We obtained data from GEO for 64 PTC samples and 61 normal thyroid tissue samples (GSE33630, GSE3467, and GSE3678) and TCGA, which contained data from 493 primary PTC samples and 58 non-tumor tissues. Furthermore, we downloaded 319 lncRNAs related to the immune system process M13664, immune response M19817, immune effector process M14818, immune system development, and the M3457 pathway from the Molecular Signatures Database (MSigDB;https://www.gsea-msigdb.org/gsea/msigdb).
+
+## Construction of the lncRNA–miRNA–mRNA network of PTC
+We analyzed the gene expression data using the DESeq2 package and ggplot2 package of R software for each group and sample. Reverse-transcription quantitative PCR was used to identify common differentially expressed genes (DEGs) from the datasets, and they were integrated using Venn analysis. We obtained the miRNA sequences from the StarBase database (http://starbase.sysu.edu.cn/). MiRcode (http://www.mircode.org/) [ ] is an effective online software that provides the interactions between lncRNAs and miRNAs. MiRTarBase (http://mirtarbase.mbc.nctu.edu.tw) [ ], miRDB (http://www.mirdb.org/miRDB/) [ ], and TargetScan (http://www.targetscan.org/) [ ] are online tools that were used to retrieve and predict target mRNAs of the miRNAs. A Venn diagram was constructed to obtain the overlapping portion of target miRNAs and mRNAs.
+
+## Analysis of immune characteristics between the high- and low-risk groups
+We used a multivariate Cox regression model to screen immune-related lncRNAs. After incorporating the expression levels of specific genes, each patient’s risk score formula was constructed and weighted by its estimated regression coefficient. According to the risk score formula, patients were divided into the low- and high-risk groups with the median risk score as the cut-off point.
+
+## Functional and survival analysis
+We used the clusterprofiler package of R software to perform Gene Ontology (GO) function analysis and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway analysis of the above common DEGs. P<0.05 was used as a threshold to screen significant enrichment functions and pathways. The lncRNAs in the PTC lncRNA–miRNA–mRNA network were identified as crucial lncRNAs. LncRNA correlations with patient survival were featured in GEPIA for Kaplan–Meier survival analysis.
+
+## Tissues sample collection and total RNA extraction
+We collected a total of 10 PTC tissue samples and 20 normal tissue samples from patients who underwent surgery between 2018 and 2019 at the Second Affiliated Hospital of Shantou University (Guangdong, China). The Ethics Committee approved the present study at the Second Affiliated Hospital of Shantou University (Guangdong, China), and all patients provided written informed consent. Following resection, the tissues were immediately frozen at −80°C. TRIzol reagent (Invitrogen; Thermo Fisher Scientific, Inc.) was used to extract the total RNA from PTC cells and tissue samples.
+
+## Reverse-transcription quantitative PCR
+In vitro, we mixed the cultured cells and plasma with TRIzol reagent (Invitrogen, U.S.A.) to extract total RNA. Tumor tissues and adjacent healthy tissues were ground in liquid nitrogen before the addition of TRIzol reagent. Reverse transcription was performed using RNA samples as a template to synthesize cDNA. We used SYBR Green Real-Time PCR Master Mix (Thermo Fisher Scientific, U.S.A.) to prepare the PCR system.
+
+## Cell culture and transfection
+Human PTC cell lines IHH-4 and HTH83 were provided by the American Type Culture Collection (ATCC, U.S.A.). Cells were cultured in DMEM containing 10% FBS (Invitrogen, Carlsbad, CA, U.S.A.), 100 U/ml streptomycin (Invitrogen, Carlsbad, CA, U.S.A.), and 100 mg/ml penicillin G (Invitrogen, Carlsbad, CA, U.S.A.) in an incubator (37°C, 5% CO2). Cells were collected during the logarithmic growth phase for subsequent experiments. We transfected cells with 50 nM negative control (NC) or SLC26A4-AS1 small interfering (si) RNA using Lipofectamine RNAi MAX reagent (Thermo Fisher Scientific, Inc.). After 24 h of transfection, subsequent experiments were performed.
+
+## Cell migration and proliferation assay
+Following transfection, cells were resuspended in RPMI medium without FBS at a density of 2 × 104 cells/well. We seeded a total of 100 μl resuspended cells into the upper chamber of a Transwell insert. RPMI medium supplemented with 10% FBS was added to the lower chamber. The cells were cultured at 37°C with 5% CO2 for 25 h. Migratory cells were fixed in 70% paraformaldehyde for 30 min and stained with 0.1% Crystal Violet for an additional 30 min at room temperature. After being washed with PBS, cells were directly observed using an inverted microscope and were counted in five randomly selected fields to obtain the average using ImageJ (version 1.48; National Institutes of Health). Following transfection, IHH-4 and HTH83 cells were seeded into 96-well plates at a density of 5 × 103 cells/well. At the 24, 48, 72, and 96 h time points, 101 Cell Counting Kit-8 (CCK-8; Dojindo Molecular Technologies, Inc.) solution was added to each well, and the plates were incubated at 37°C for 1 h in the dark. Absorbance was measured at a wavelength of 450 nm using a microplate reader.
+
+## Cells detected by flow cytometry
+Cells were washed twice with cold PBS and binding buffer was added (100 µl). Cells were incubated with PE-Annexin V (5 µl) and 7AAD (5 µl) for 15 min in the dark at room temperature. Cells were washed with fresh binding buffer, then 400 µl of binding buffer were added to the cells, re-suspended and analyzed in an Agilent NovoCyte Quanteon flow cytometer (Agilent Technologies Co. Ltd, U.S.A.). The fluorescence was quantified by CSampler software (Becton, Dickinson and Company, Franklin Lakes, NJ, U.S.A.).
+
+## Results
+
+## Establish PTC’s lncRNA–miRNA–mRNA ceRNA network
+The GSE3678, GSE3467, and GSE33630 databases had 64 PTC samples and 61 paired normal thyroid tissue samples. The TCGA database had 493 primary PTC samples and 58 non-tumor tissues. Following data processing using the LIMMA package, 1189, 1194, and 2226 DEGs were extracted from the expression profile datasets GSE3678, GSE3467, and GSE33630, respectively ( A–D). After screening out immune-related lncRNAs, we finally obtained four lncRNAs, which were identified by Venn analysis ( E). Hierarchical clustering of the identified DEGs is displayed as a heatmap in F. We obtained 96 abnormally expressed miRNAs significantly relevant to PTC survival from OncomiR. Four PTC-specific lncRNAs putatively interacted with 15 PTC-specific miRNAs. Then, the relationships between cancer-specific miRNAs and cancer-specific mRNAs were evaluated. A total of 435 PTC-specific mRNAs targeted by 25 PTC-specific miRNAs were identified. Based on the above data, the lncRNA–miRNA–mRNA ceRNA network of PTC ( ) was established and plotted using Cytoscape 3.7.0.
+ 
+
+## Immune-related lncRNA was significantly related to the prognosis of PTC
+The PTC patients were divided into two groups based on the Lasso analysis. There were significant differences in clinical outcomes for overall survival (OS) between the two groups of patients. shows a heat map of the included immune-related lncRNA expression profile ( A) and K–M analysis of the significant difference in survival between the two groups ( B).
+ 
+
+## The main pathways regulated by lncRNA
+We analyzed lncRNA-regulated GO terms ( A–C). In the PTC lncRNA–miRNA–mRNA ceRNA network, the result showed that the mRNAs related to the biological process were most relevant to signal transduction. mRNAs related to the cellular component were most relevant to the integral component of the membrane, and molecular function was most relevant to calcium ion binding. We performed pathway enrichment analysis of the mRNAs of the lncRNA–miRNA–mRNA ceRNA network and identified the lncRNA regulated pathway ( D). Functional analysis showed the top three lncRNA regulated pathways were pathways in cancer, the PI3K-Akt signaling pathway, and focal adhesion. We used GEPIA to perform survival analysis of prognosis-related lncRNAs ( ). Only SLC26A4-AS1 had an intersection in the results of the two databases. Similarly, only SLC26A4-AS1 was significantly associated with disease-free survival in GEPIA.
+ 
+
+## Silencing of SLC26A4-AS1 inhibited IHH-4 and HTH83 cells growth
+SLC26A4-AS1 expression levels were detected in normal tissues (n=10) and PTC tissues (n=20). The results revealed that the expression levels of SLC26A4-AS1 were significantly increased in PTC tissues (P=0.0090; A). To further investigate the functions of SLC26A4-AS1, siRNA targeting SLC26A4-AS1 was established and knockdown assays were subsequently performed in vitro. Transfection efficiency is illustrated in B, and the SLC26A4-AS1 group exhibited significantly decreased levels of SLC26A4-AS1 compared with the control group in both the cell lines tested. The results of the CCK-8 assay revealed that cell proliferation was significantly inhibited following SLC26A4-AS1 knockdown ( C,D). In addition, results from Transwell assays showed that migration was significantly abrogated in IHH-4 and HTH83 cells following SLC26A4-AS1 knockdown ( E,F).
+ 
+
+## Overexpression of SLC26A4-AS1 inhibited the function of immune cells in PTC patients
+As shown in A, co-culture with IHH-4 cells, which were transfected with SLC26A4-AS1, resulted in reduction in proliferation of CD8+ T cells, but this phenomenon could be partly relieved by administration of the anti-PD-L1 antibody. NK cells normally do not express PD-1, but after culture in the IHH-4 derived condition medium+IL-15, PD-1 expression was noted on the surface of NK cells. These PD-1+NK cells were used in cytotoxicity assay. As shown in B, IHH-4 cells were pre-stained with CFSE, and they served as the target cells for NK cells. The cytotoxicity of PD-1+NK cells was decreased after IHH-4 cells were transfected with SLC26A4-AS1, but this phenomenon could be partly relieved by administration of the anti-PD-L1 antibody. As shown in C, after co-culture with IHH-4 cells, which were transfected with SLC26A4-AS1, the apoptosis rate of T cells was significantly enhanced compared with that in the control group, and this phenomenon could be partly relieved by administration of the anti-PD-L1 antibody. This result indicated that the immune-suppression function of SLC26A4-AS1 is dependent on PD-L1 expression. Taken together, our results indicated that SLC26A4-AS1 overexpression in PTC suppresses the immune cell function.
+ 
+
+## Discussion
+Over the last few years, the ceRNA hypothesis has been considered a novel layer of gene regulation. Our knowledge about the molecular mechanism of lncRNA in cancer is still limited. In the present study, we identified cancer-specific lncRNAs, miRNAs, and mRNAs in PTC. According to the bioinformatics differential analysis, we constructed a ceRNA network. We predicted functions of DEGs in PTC by the GO and pathway analyses. Of the genes involved in the ceRNA network, KEGG analysis showed that these genes were mainly enriched in two pathways related to cancer: pathways in cancer and the PI3K-Akt signaling pathway. There was evidence that the PI3K-Akt signaling pathway plays an essential role in PTC tumorigenesis. Hao et al.’s study showed that the PI3K-Akt signaling pathway activation was associated with PTC cell proliferation, migration, and invasion [ ]. Zheng et al. found that TEKT4 promoted PTC cell metastasis through activating the PI3K/Akt pathway [ ]. The regulation function of lncRNAs through the PI3K/Akt pathway in PTC is worthy of study. The ceRNA network identified in our analysis provided useful clues for further research.
+Among the immune-related lncRNAs from the GEO database analysis, SLC26A4-AS1 is associated with PTC disease-free survival. LncRNA NR2F1-AS1 is broadly expressed in the brain [ ], gall bladder [ ], and other tissues. TNRC6C-AS1 is broadly expressed in lymph nodes [ ], spleen [ ], and other tissues. LOC646736 is restrictedly expressed in the thyroid [ ]. Further molecular biological experiments are needed to confirm the function of the identified genes.
+We found that only SLC26A4-AS1 had an intersection in the results of the two databases. Similarly, only SLC26A4-AS1 was significantly associated with disease-free survival in GEPIA. The expression levels of SLC26A4-AS1 were determined in PTC clinical samples using RT-qPCR. The results revealed that SLC26A4-AS1 was highly expressed in PTC tissues compared with normal tissue samples. Functional cell-based assays further confirmed that SLC26A4-AS1 played a role in the proliferation and migration of IHH-4 and HTH83 cells. The PD-L1 axis is a classical checkpoint that induces an immune-suppression effect in T cells. In the present study, we confirmed that SLC26A4-AS1 overexpression-induced up-regulation of PD-L1 could enhance T-cell apoptosis and restrict T-cell proliferation. Li et al. reported that PD-1 expression in NK cells was induced when incubated with tumor cells [ ]. In this study, the cytotoxicity of PD-1+NK cells could be impaired by PD-L1 up-regulation induced by SLC26A4-AS1 overexpression in PTC cells. To further examine the mechanism of SLC26A4-AS1, RNA immunoprecipitation and chromatin immunoprecipitation assays will be performed in future studies.
+In our study, we identified four immune-related lncRNAs from the GEO database and six immune-related lncRNAs from the TCGA database. Finally, we determined that SLC26A4-AS1 was the most prognostic immune-related lncRNA. It is meaningful to explore new biomarkers for diagnosis, prognostication, and PTC therapeutic targets to develop more effective surveillance and treatment programs. The present study provides the right direction for further research. Functional studies that can further delineate the biologic basis of PTC are needed.
+
+## Conclusion
+We constructed a PTC-specific ceRNA network and chose four hub lncRNAs for PTC by bioinformatics analysis. We described a method for identifying the potential lncRNA biomarkers. We found that SLC26A4-AS1, which is most associated with disease-free survival, may play an oncogenic role in the development of PTC. Furthermore, we found the ceRNA network in PTC, which should help to further our understanding of the mechanism underlying the pathogenesis of this disease.
+
+## Acknowledgements
+The authors are very grateful to the data providers of the study.
+
+## Data Availability
+Data can be obtained from the corresponding author.
+
+## Competing Interests
+The authors declare that there are no competing interests associated with the manuscript.
+
+## Funding
+This work was supported by the Medical Scientific Research Foundation of Guangdong Province, China [grant number A2015614]; the Undergraduate Innovation and Entrepreneurship Training Program Project of Shantou University [grant number 201910560249]; the Bethune-Ethicon Excellence Surgery Fund Project [grant number HZB-20181119-25]; the Project of Administration of Traditional Chinese Medicine of Guangdong Province of China [grant number 20182066]; and the China Postdoctoral Science Foundation [grant number 2020M682683].
+
+## Author Contribution
+Yexi Chen and Hai Lu conceived and designed the study. Zhiyang Li and Weixun Lin performed the main experiments. Jiehua Zheng analyzed and interpreted the data. Weida Hong was responsible for reagents and materials. Taofeng Zhang drafted the article. Juan Zou revised the article critically. All authors gave final approval for the submitted versions.
+
+## Ethics Approval
+This work has been approved by the ethical committee at Shantou University.
+
+## Informed Consent
+All patients provided written informed consent.
+
+## Abbreviations
+CCK-8cell counting kit-8
+ceRNAcompeting endogenous RNA
+DEGdifferentially expressed gene
+GEOGene Expression Omnibus
+GOGene Ontology
+KEGGKyoto Encyclopedia of Genes and Genomes
+lncRNAlong non-coding RNA
+miRNAmicroRNA
+MSigDBMolecular Signatures Database
+NKnatural killer
+OSoverall survival
+PD-1programmed death receptor 1
+PD-Lprogrammed cell death-ligand 1
+PTCpapillary thyroid cancer
+RT-qPCRreal time quantitative reverse transcription
+TCGAThe Cancer Genome Atlas

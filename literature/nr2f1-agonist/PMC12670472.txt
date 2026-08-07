@@ -1,0 +1,211 @@
+pmcAndrologyAndrology379blackwellopenANDRAndrology2047-29192047-2927pmc-is-collection-domainyespmc-collection-titleWiley Open Access CollectionPMC12670472PMC12670472.112670472126704724069335810.1111/andr.70100ANDR701001Original ArticleOriginal ArticleEditors' PickSpatial transcriptomics mapping of immune cell and TGFβ signalling pathway heterogeneity in testicular germ cell tumours
+MOODY et al.
+MoodySarah C. sarah.moody@hudson.org.auFietzDaniela NathanielBenedict FrydenbergMark TranBen SchuppeHans‐Christian LovelandKate L. kate.loveland@monash.edu
+
+1
+
+Centre for Reproductive Health
+Hudson Institute of Medical Research
+Clayton
+Victoria
+Australia
+
+2
+
+Department of Molecular and Translational Sciences, School of Clinical Sciences
+Monash University
+Clayton
+Victoria
+Australia
+
+3
+
+Institute of Veterinary Anatomy, Histology and Embryology
+Justus‐Liebig University Giessen
+Giessen
+Germany
+
+4
+
+Department of Surgery
+FMNHS, Monash University
+Melbourne
+Victoria
+Australia
+
+5
+
+Department of Urology, Cabrini Institute
+Cabrini Health
+Melbourne
+Victoria
+Australia
+
+6
+
+Department of Medical Oncology
+Peter MacCallum Cancer Centre
+Melbourne
+Victoria
+Australia
+
+7
+
+Division of Personalised Medicine
+Walter and Eliza Hall Institute
+Parkville
+Victoria
+Australia
+
+8
+
+Department of Urology, Pediatric Urology and Andrology
+Justus Liebig University Giessen
+Giessen
+Germany
+
+*
+Correspondence
+Kate L. Loveland and Sarah C. Moody, Centre for Reproductive Health, Hudson Institute of Medical Research, Clayton, VIC, Australia. Email: kate.loveland@monash.edu and sarah.moody@hudson.org.au
+
+22720251202614150164510.1111/andr.v14.1210227
+0662025
+23112024
+0972025
+021220250312202503122025© 2025 The Author(s). Andrology published by John Wiley & Sons Ltd on behalf of American Society of Andrology and European Academy of Andrology.https://creativecommons.org/licenses/by/4.0/This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Background
+Testicular germ cell tumours (TGCTs) are amongst the most common malignancies in young men, and their incidence is increasing worldwide. Tissue heterogeneity hampers efforts to understand how TGCT precursors (termed germ cell neoplasia in situ; GCNIS) emerge and progress, restricting elucidation of new strategies for diagnosis and management.
+
+## Objectives
+This study reports the use of spatial transcriptomic analysis in TGCT tissue sections.
+
+## Materials and methods
+Over 90 regions of interest (ROIs) were identified in sections from four TGCT patients’ samples, three with non‐seminoma, one seminoma. Transcripts in each ROI were sequenced and examined using the NanoString GeoMx spatial whole transcriptomics workflow, the values normalised and analysed using Degust RNA‐Seq and Ingenuity Pathway Analysis software.
+
+## Results
+The distribution and expression of functional markers in specific cell types was used to map individual tumours, GCNIS, and tumour‐adjacent regions. Significant heterogeneity in TGCTs and surrounding areas is documented between patients and across different regions in the same tumour. Immune cell‐related transcripts encoding macrophage, T cell, B cell, natural killer cell, dendritic cells and neutrophil subsets were identified as contributing substantially to tumour heterogeneity. Assessment of ROIs containing GCNIS and areas immediately adjacent from two individual non‐seminoma tumour samples identified the TGFβ family as contributing to upstream regulation of transcripts in both patients; known activin A target genes were differentially expressed between the GCNIS and microenvironment ROIs. In addition, two discrete tumour areas within the seminoma sample displayed distinct transcript profiles, one featuring higher levels of immune cell‐related transcripts, and the other TGFβ superfamily transcripts.
+
+## Conclusion
+These findings highlight aspects of the complex challenge faced while seeking therapeutic targets to enable tumour spread restriction. However, these outcomes reinforce knowledge that TGFβ family members can influence seminoma fate and provide new evidence of their potential contribution to the transition of GCNIS cells into tumours.
+
+cancer immunobiologyinterferon gammaNanoStringtestis cancerTGFβ signalling pathwaytumour heterogeneity
+European Cooperation in Science and Technology10.13039/501100000921
+
+Deutsche Forschungsgemeinschaft10.13039/501100001659
+
+National Health and Medical Research Council10.13039/501100000925
+ 
+2.5
+
+## Sequencing, data QC and normalisation
+Sequencing of photo‐cleaved RNA oligo probes was performed at the Peter MacCallum Cancer Centre Molecular Genomics Core. Sequencing was performed using the NovaSeq NGS instrument. Initial evaluation of sequencing data determined that all ROIs had a strong signal, with the Quartile 3 (Q3) counts above the negative probe geomean count (Supporting Information Figure ).
+NanoString‐developed open‐source R packages GeoMxTools (v3.4.0) and NanoStringNCTools (v1.7.1; NanoString Technologies Inc) were used to analyse data from the NanoString GeoMx DSP instrument. GeoMx raw gene expression count files were loaded onto R, consisting of DCCs (expression count data and sequencing quality metadata), PKCs (probe assay metadata describing the gene targets present in the data), and annotation files (a spreadsheet containing sample metadata for each ROI); these files were combined as a single data object for subsequent steps of the GeoMx workflow. All ROIs were assessed for QC purposes to ensure sequencing quality as segment QC. Based on segment QC results, three ROIs were flagged and excluded from further analyses due to low stitched and alignment proportions [Slide 1, ROI 11; Slide 4, ROI 16; and Slide 4, ROI 27]. Standard probe QC steps were then applied to exclude outlier probes, and the limit of quantification (LOQ) was calculated to establish minimum quantifiable gene expression levels per segment. Quartile 3 (Q3) normalisation was applied as part of the guideline. Raw counts were exported and processed in Degust, a web‐based RNA‐seq analysis tool (v4.1.1) and for bulk analyses using the voom/limma pipelines. , 
+
+2.6
+
+## Determination of normalisation method
+NanoString guidelines recommend Q3 normalisation as a standard, however, there is also an option to normalise data using ROI nuclei count. Along with Q3 normalisation, normalisation to nuclei number was investigated via the NanoString R package. Several housekeeper genes (RPLP0, RPS20, RPS29, SDHA, and YWHAZ) were examined across all ROIs. Elevation of YWHAZ, RPLP0, RPS20, and RPS29 was observed in all seminoma tumour ROIs, ‘Slide 4_06’ to ‘Slide 4_26’, however this appears to be a tissue‐specific effect, as the nuclei count for these ROIs falls from 241 to 387, close to or below the average nuclei count (Supporting Information Table and Supporting Information Figure ). Q3 normalisation was more consistent across ROIs compared with nuclei count normalisation. Raw data were then uploaded into the Degust RNA‐Seq analysis tool, and resulting ‘counts per million’ via the voom/limma pipelines closely matched the Q3 normalisation values (Supporting Information Figure ), therefore this method was chosen for data analysis.
+The processes of data analysis and resulting ROI annotations is delineated in the Results section based on established markers for specific cell types known to be present in the adult human testis and in TGCTs.
+
+3
+
+## RESULTS
+Spatial whole genome transcriptome analysis was performed on human testis tumour and tissue adjacent to the tumour from four patients (Table  ). An initial H&E histochemistry and immunostaining of non‐seminoma (to detect OCT4 and CD68) of independent sections from each tumour sample was employed to ascertain their overall cellular composition (Supporting Information Figure ). Three patients had non‐seminoma tumours (NonSem1–3), and one patient sample contained only seminoma (Sem). Adjacent tissue was collected from testes containing tumour (from NonSem2‐3, Sem), deemed to be macroscopically normal, however, only NonSem2 adjacent tissue was histologically normal (Supporting Information Figure ). NonSem3 adjacent tissue contained GCNIS and immune cell infiltrates (Supporting Information Figure ), and Sem adjacent tissue had tubular atrophy and immune cell infiltrates (Supporting Information Figure ). Spatial whole transcriptome RNA‐sequencing was performed on ROIs within tumour areas and adjacent tissue.
+3.1
+
+## Region of interest annotation and validation
+At the time of NanoString analysis, the sections used to collect materials for RNA‐sequencing were stained with antibodies to detect CD45 and cytokeratin (Figure  ). Immunofluorescence staining combined with H&E staining of the adjacent section was used to annotate and categorise ROIs (Figure  ). ROIs were assigned to 16 categories based on histological assessment, including but not limited to regions of normal spermatogenesis (NSP), interstitium, PanCK+ ducts within non‐seminoma tumours, GCNIS and Sertoli cell only tubules (Figure  ). ROIs were re‐labelled 1–92 based on category and patient ID (Supporting Information Table ) and cell‐specific transcript markers were used to confirm their identity (Figure  ). Germline and somatic cell markers were selected using the Adult Human Testis Transcriptional Cell Atlas. Immune cell and TGCT tumour markers were identified from the literature. , , The expression profiles of cell‐specific markers validated the histological assessment of ROIs in this dataset. Germ cell‐related transcripts such as DAZL and TNP1 were higher in normo‐spermatogenic (NSP) tubule ROIs (no. 1–10), along with levels of Sertoli cell markers SOX9, PRND, and INHA. The Leydig cell transcript CYP11A1 was highly expressed in interstitium ROIs (no. 14–20), along with other Leydig, endothelial, myoid and immune cell markers, as expected. Seminoma‐containing ROIs (no. 72–91) had high levels of POU5F1 (encodes OCT4), PRAME, PDPN, SOX17, and TFAP2C. Seminoma ROIs also exhibited immune cell transcripts, consistent with the presence of immune cell infiltrates often seen within tumour regions. , , , , 
+
+ To validate our protocols for assessing differences between ROIs, we compared NSP and interstitial regions in NonSem2 adjacent tissue (Supporting Information Figure ), as these have distinct and well‐characterised phenotypes. Amongst the 1167 differentially expressed genes (DEGs) identified (false discovery rate (FDR) < 0.05, LogFC1), 871 were downregulated in interstitial ROIs compared with NSP tubules, including PRM2 and TNP1 that are abundant in post‐meiotic germ cells. Amongst the 296 that were upregulated were Leydig cell transcripts, CYP17A1 and INSL3 (Supporting Information Figure ). DAVID functional annotation analysis provided further validation that pathways upregulated in the interstitium included steroid biosynthesis, lipid metabolism, cholesterol biosynthesis and innate immunity. Pathways upregulated in tubules with NSP included ‘spermatogenesis’, ‘cell differentiation’, ‘flagellum’ and ‘histones’ (Supporting Information Figure ).
+
+3.2
+
+## Assessment of the GCNIS microenvironment
+We examined the microenvironment within and surrounding GCNIS‐containing tubules as a strategy for discovering what factors might influence the fate and behaviour of these cells considered to be aberrant gonocytes that persist the adult testis. Histological assessment identified individual ROIs with tubules containing GCNIS in non‐seminoma samples: two in NonSem2 tumour (ROIs 64–65), and three in NonSem3 adjacent to tumour tissue (ROIs 66–68). POU5F1 transcript (encoding OCT4) presence within these ROIs reinforced their classification as GCNIS‐containing ROIs (Figure  ). Next, ROIs in close proximity to each of these ROIs that were histologically similar to each other were identified. In NonSem2, two tumour ROIs (ROIs 50, 51) next to GCNIS were selected; these appeared fibrotic and contained scattered immune cells (Figure  ). In NonSem3, two ROIs (ROIs 34, 35) containing immune cell infiltrates were selected (Figure  ).
+ This allowed (1) comparison of transcripts between GCNIS‐containing regions and their histologically distinct adjacent regions, and (2) identification of common features and differences between the two biologically independent non‐seminoma tumours. Comparisons between the GCNIS and GCNIS‐adjacent ROIs within NonSem2 and NonSem3 were each made independently. Ingenuity Pathway Analysis (IPA) identified 239 and 1069 DEGs (adjacent ROIs vs. GCNIS) in NonSem2 and NonSem3, respectively (FDR < 0.05, LogFC > 0.585, ← 0.585; Figure  ). In NonSem2, top differentially expressed genes within the GCNIS ROIs included the lipid metabolism gene APOA1, the steroid hormone synthesis enzyme‐encoding gene CYP17A1, and the cholesterol synthesis gene DHCR24 (Table  ; full DEG list in Supporting Information Table ). Further, the top pathways identified between GCNIS and GCNIS‐adjacent ROIs with a negative z‐score (−log(p‐value), z‐score < (−2)) included cholesterol biosynthesis pathways, indicating a higher level of cholesterol biosynthesis‐related transcripts within the GCNIS‐containing ROIs (Supporting Information Table ). In NonSem3, the top DEGs in immune cell infiltrates were MS4A1 and CD22, both B cell markers (Supporting Information Table ), and pathways included ‘Neutrophil Degranulation’ and ‘Natural Killer Cell signalling’ (Supporting Information Table ). Interestingly, ‘IL12 signalling and production in macrophages’ was common within the top 15 pathways in both patient comparisons.
+ To identify common features in the GCNIS microenvironments of different patients, DEGs were obtained by comparing the GCNIS and GCNIS‐adjacent ROIs from each NonSem2 and NonSem3. There were 69 DEGs that were commonly identified in both (Figure  ). Three DEGs were commonly higher in both GCNIS‐adjacent ROIs relative to the GCNIS‐containing ROIs, 57 were commonly lower, and nine DEGs exhibited reciprocal regulation in the comparison between NonSem2 and NonSem3 (Figure  ).
+Upstream regulator analysis identified the components of the TGFβ family within NonSem2 (TGFBR2, SMAD4; prediction activated, z‐score >2; Supporting Information Table ) and NonSem3 (TGFβ family, TGFβ1, SMAD3; prediction inhibited, z‐score ← 2; Supporting Information Table ). It is striking that within the list of 69 common DEGs, SERPINA5, CLDN11, INSL3, and CYP11A1 have been identified as activin A‐target genes in transgenic mouse models of altered activin A and in ex vivo cultures of foetal mouse gonads. , These were all higher in the CGNIS ROIs, indicating that activin stimulation may be important to maintaining the environment for these genes which are produced in somatic cells of the testis.
+
+3.3
+
+## Patient‐specific immune cell profiles in non‐seminoma tumours
+The immune cell profiles within and between tumours from individual patients contributes to TGCT heterogeneity, , , , , therefore we mapped transcripts encoding several immune cell markers: macrophage, T cell, B cell, natural killer cell (NKC), DCs and neutrophil subsets (Figure  ). Amongst all non‐seminoma samples, the immune cell transcript signal was lowest in ROIs with NSP. Immune cell profiles within NonSem1 ROIs were heterogeneous, with the strongest signal for immune cell markers in the ROI containing blood vessels (Figure  ). In NonSem2, tissue adjacent to the tumour was histologically normal (ROIs 1–6 with NSP; ROIs 15–18 interstitium (Int); Supporting Information Figure ), and immune cell profiles reflected this, with little to no immune cell markers in NSP ROIs, and moderate expression in interstitial ROIs (Figure  ). The immune cell‐containing infiltrate ROIs (nos. 33, 34 and 35) in both NonSem2 and NonSem3 (Figure  ) had high expression of B cell markers (MS4A1, encoding CD20; CD79A; CD22; CD19). In NonSem3, immune cell regions (ROIs 34–36) also distinctively high levels of the transcript encoding the B cell attractant chemokine CXCL13 and its receptor, CXCR5 (Figure  ). NonSem3 tumour regions (ROIs 42–49) demonstrated broad expression of most immune cell subtype markers, with higher levels of T cell compared with B cell markers.
+ 
+3.4
+
+## Immune cell profiles in tissue adjacent to seminoma
+In tissue adjacent to the seminoma tumour (Supporting Information Figure ), amongst the five ROIs selected for spatial transcriptomic analysis, two harboured immune cell infiltrates located next to two SCO tubules, and a region of tubular shadows (ROIs 37, 38, 57, 58, and 60; Figure  ). There was no histological evidence of seminoma or GCNIS cells within this tissue section (Supporting Information Figure ), an observation reinforced by the absence of germ cell markers within the SCO ROIs (Figure  ). Immune cell infiltrates near the SCO tubules had higher levels of macrophage, T cell, NKC and DC markers and several chemokine and receptor transcripts, compared with the low abundance of B cell markers (Figure  ). Interestingly, ROI 38 (immune cell infiltrate near SCO), had high levels of transcripts encoding the pro‐inflammatory IL1B, the T cell and NK cell chemoattractant CXCL10, and its receptor CXCR3. Immune cell transcripts were present within SCO tubule ROIs, albeit at lower levels compared with the immune cell infiltrate ROIs.
+ 
+3.5
+
+## Heterogeneity in seminoma tissue from an individual patient
+The initial histological assessment of the seminoma sample indicated there were two distinct areas, and this was reinforced when spatial transcriptomics identified significant differences in cell‐specific markers (Figure  ). Nine and 11 ROIs were selected and analysed in each of these two distinct areas (Figure  ). As predicted from histological observations, transcripts encoding immune cell markers such as CD68, were generally higher in area 2 (ROIs 72–80; Figures  and  ), while the early germ cell and seminoma marker, KIT, was higher in section 1 (ROIs 81–91, Figure  ). Despite the prevalence of seminoma cells in both regions, the two areas were transcriptionally distinct, as evident by the multidimensional scaling (MDS) plot groupings of ROIs (Figure  ). B cell transcripts were higher in a subset of the area 2 ROIs, compared with markers of other immune cell types.
+ A comparison between the two seminoma areas identified 411 DEGs (FDR < 0.05, LogFC > 1, ← 1), with 332 higher and 72 lower in area 2 (with immune cells) versus area 1 (Figure  and Supporting Information Table ). Transcripts higher in area 1 encode transcription factors LHX1 and CITED1, the tyrosine kinase receptor KIT, and the histone component H2AC8. Elevated transcript levels in area 2 included of pluripotency‐associated DPPA5, testis cancer antigen MAGEA2, matrix metalloproteinase MMP9, and histone component H2BS1. These findings provide evidence of fundamental differences in seminoma cells in areas with and without immune cell infiltrates within the same tumour. Unsurprisingly, the top pathways identified from DEG analysis using IPA were most commonly related to immune cell signalling and biology (Supporting Information Table ), while top‐ranked upstream regulators (activated, z‐score >2) included cytokines interferon gamma (IFNG), tumour necrosis factor (TNF) and interleukin 4 (IL4), and TGFβ1 (Supporting Information Table ).
+
+3.6
+
+## TGFβ signalling pathway machinery in seminoma tumour areas
+The presence and potential involvement of TGFβ superfamily members in TGCT aetiology has been demonstrated. , , , , 
+KIT and MMP9 transcripts are modulated by activin A, a ligand of the TGFβ superfamily, in mouse and human models. , , , Because these transcripts were identified as differentially expressed between area 1 and area 2 of the seminoma tumour ROIs (Figure  ), and TGFβ1 was identified as an upstream regulator by IPA, we next profiled TGFβ superfamily machinery within the seminoma area 1 and area 2 ROIs. The relative abundance of TGFβ superfamily machinery in area 1 compared with area 2 included transcripts encoding ligands, receptors, intracellular SMADS, and some pathway inhibitors (Figure  ). Within area 1, there was notable heterogeneity between individual ROIs, corresponding to different levels of ligand and receptor transcripts (e.g., BMP5, AMHR2 are particularly high in ROI 80).
+ 
+
+4
+
+## DISCUSSION
+This study demonstrates the potential for using spatial transcriptomics to provide information about nature of tumours within individual patient samples that cannot be discerned by conventional histological analysis. TGCT heterogeneity is particularly challenging when examining non‐seminoma tumours in particular, because they often contain multiple differentiated cell types, however as demonstrated here, seminomas are also heterogeneous despite being labelled ‘pure’ by the pathologist. The combined evaluation of transcriptomes and morphology in discrete TGCT tissue regions can identify potential signalling mechanisms and the potential role of immune cells within such heterogeneous tumours.
+We still do not understand how GCNIS precursors first emerge, despite evidence of combined genetic and environmental cues. Their developmental trajectory into different tumour subtypes is even more opaque, due to the prolonged timeline during which this is likely to occur. Candidate signalling pathways that have been implicated include WNT, FGF and the TGFβ superfamily, , , , , while the potential for immune cells to influence the fate of these gonocyte‐like that are present at the cord basement membrane has attracted significant interest. , , Evidence implicating each of these, or other processes, could eventually lead to strategies to minimise the conversion of these cells into tumours.
+In the present study we sought to learn about factors in the local environment that could be influencing GCNIS fate by evaluating transcripts in GCNIS‐containing ROIs and in their neighbouring ROIs (Figure  ). Our insights are limited due to the small sample number, comprised two GCNIS tubules and adjacent ROIs from two independent non‐seminoma samples. However, in both patient samples the microenvironment adjacent to the GCNIS tubules contained higher levels of cholesterol and steroid biosynthesis‐related transcripts, an outcome intriguingly consistent with the previous identification of lipid droplets within tubules containing GCNIS. As expected, the majority of transcripts present at lower levels in GCNIS‐adjacent ROIs are Sertoli and Leydig cell products (e.g., SOX9, SERPINA5, INSL3, CLU). The three transcripts that were higher in adjacent ROIs, NAGPA, FCMR, DUSP6, are associated with different aspects of protein processing. NAGPA encodes N‐acetylglucosamine‐1‐phosphodiester alpha‐N‐acetylglucosaminidase, an enzyme that selectively removes the GlcNAc carbohydrate and thereby contributes to protein delivery to lysosomes. FCMR codes for the high‐affinity Fc receptor for both membrane‐bound and secreted immunoglobulin M (IgM) and has been implicated in regulating both T and B cell functions, modulation of myeloid responses in vivo and in vitro, as well as facilitating IgM–antigen complex degradation by directing their movement into endosomes. 
+DUSP6 encodes a dual specificity protein phosphatase subfamily member that has wide‐ranging effects on cell behaviour by acting on extracellular signal‐regulated kinases (ERK) proteins in the mitogen‐activated protein (MAP) kinase superfamily; mutations in DUSP have been linked to hypogonadotropic hypogonadism. For each of these three genes, the functional implications of their relatively high expression in sites adjacent to GCNIS are currently unknown, although we speculate that they could influence immune cell functions and/or antigen presentation. Identifying activin A‐target genes amongst the DEGs common to both, along with components of the TGFβ family as upstream regulators, provides intriguing evidence that this pathway is central to the processes that sustain gonocyte‐like germ cells in a maturing testis environment.
+The finding that TGFβ signalling machinery and activin downstream target gene expression was much lower in the region of seminoma that contained immune cell infiltrates (Sem area 2) gives a strong indication that immune cells may influence the fate of these neoplastic germ cells. The principle that BMP signalling downregulation is a pre‐requisite for seminoma transformation into non‐seminoma cell type was demonstrated using transplanted TCam‐2 seminoma cells by Nettersheim et al. It is therefore logical to consider whether immune cell infiltrates, such as the subtypes identified by the presence of B cell‐related transcripts, create a microenvironment that enables seminoma cells to transform into a more malignant tumour subtype.
+The documented complexity and variety of immune cell subtypes within seminomas and non‐seminomatous TGCTs has been observed predominantly using immunohistochemistry methods. , , , The presence of multiple immune cell subtype transcripts in ROIs of the three non‐seminoma patient tumours investigated here offers an unbiased perspective, as it is not limited by antibody availability or fixation approaches. It was interesting that our data indicate higher levels of B cell‐expressed transcripts compared with those typical of T cells in non‐seminoma tumour immune cell infiltrate ROIs. Most frequently, macrophages and T cells are reported as the dominant immune cell populations in non‐seminoma tumours, with B cells detectable and highest in mixed TGCT compared with seminoma and embryonal carcinoma. , Transcripts encoding factors relating to B cell differentiation and activation were abundant in both samples within the ROIs adjacent to GCNIS in NonSem2 and NonSem3, suggesting a functional interaction exists between the GCNIS and B cells. Based on the results presented here, we expect that knowledge from unbiased spatial analyses of immune cells in additional patient samples will reveal their impact on GCNIS fate.
+Examining the tissue adjacent to tumour regions in TGCT samples may identify processes influencing their formation and maintenance. This methodology also enables us to develop a more refined understanding of seminomas which appear histologically homogeneous and have largely been treated as such. For example, enabling identification of additional markers or risk factors relating to differences between two seminoma subtypes, such as those identified in the large computational study of 64 seminoma samples using The Cancer Genome Atlas. The first harbours a higher pluripotency status with a bigger neutrophil population, and the second with higher FOXA2 and a ‘reprogrammable’ phenotype. , , We did not identify ROIs with significant levels of FOXA2. The seminoma tumour in our dataset appears closer to the first subtype, however the presence of immune cells yields further differences in transcript signatures between the two areas within this individual patient.
+Additional approaches have identified regional heterogeneity within seminomas. One study used laser microdissection followed by mRNA profiling using nCounter‐based gene expression profiling to identify transcriptional differences between non‐metastatic and metastatic seminomas, comparing the centre of the tumour and the tumour front of these two tumour stages. Most differential gene expression was documented in comparisons between seminoma tumour stages, with both exhibiting a tumour front that had a distinct gene profile relative to the central regions. In metastatic tumour front tissue, transcripts relating to immune cell pathways, metabolism, inflammation and angiogenesis, and to the IL6 signalling pathway were higher when compared with non‐metastatic seminoma tumour fronts. In another study employing scRNA‐Seq, a single patient seminoma sample was shown to contain with two transcriptionally distinct tumour subtypes; one expressed the WNT signalling transcription factor TCF7L1 (encodes T cell factor 7 like 1; WNT signalling mediator), and the second expressed SCG3 and SV2C. This increasing evidence of seminoma tumour heterogeneity between patients, and within a patient, including in our dataset, highlight the need to establish a solid understanding of what features of heterogeneity are functionally important for clinical management.
+A striking difference between area 1 and area 2 of the seminoma tumour specimen was the higher levels of transcription factor LHX1 and the tyrosine kinase receptor KIT in area 1 ROIs. LHX1 function in seminoma has not been studied, however, it is a marker of the earliest undifferentiated spermatogonial stem cells in the developing mouse testis. Further, LHX1 expression correlated with poor overall survival in uterine corpus endometrial carcinoma cells and tissue within the Cancer Genome Atlas. KIT production in primordial germ cells is required for their survival and migration to the genital ridge during embryogenesis. The expression of KIT is a hallmark of seminomatous TGCT, reflecting their early germ cell origin, and its levels can be modulated by exogenous activin A in both seminoma‐derived TCam‐2 cells, with an increase in transcript levels, , and in seminoma tumour fragment hanging drop cultures, with decreased transcript and protein levels. 
+
+Neutrophil degranulation and Interferon gamma signalling were each identified as top‐regulated pathways in area 2 of the seminoma sample along with higher levels of immune cell subtype markers, indicating a function for localised, enhanced neutrophil activity. Neutrophils are abundant, first responder cells in the innate immune response to insults and pathogens, however, they may be reprogrammed into pro‐tumourigenic neutrophils. , Increased levels of neutrophils in non‐seminoma tumours have been associated with metastasis and poor survival outcomes in patients. Activated neutrophils can release cytokines, inflammatory mediators, and stimulate T cells. They also undergo degranulation, a complex process which releases proteins such as the matrix metalloproteinase MMP9, which is itself associated with tumour progression and angiogenesis. , 
+MMP9 is expressed in seminomas, and exposure of the TCam‐2 cell line to activin A results in increased MMP9 transcript levels. The higher levels of neutrophil markers and MMP9 in area 2 of the seminoma sample compared with area 1 in the present study highlights the presence of two distinct microenvironments. Our previous work showed that, along with pro‐inflammatory (IL‐1β, IL‐6, TNF‐α) and Th1‐related cytokines (IL‐2, IFN‐γ), transcripts encoding Treg‐related cytokines TGF‐β and IL‐10 were significantly higher in TGCT compared with testis tissue regions with NSP or non‐neoplastic inflammation. In addition to the identification of Tfh cells and B cell clusters in seminoma samples, increased transcript levels of supporting chemokines have been identified in testicular germ cell neoplasia, that is, CXCL‐13 and CCL‐5. , , This further underlines the tremendous differences in the microenvironments of seminomas compared with NSP, non‐neoplastic testicular inflammation, and non‐seminoma tumours.
+In conclusion, this study demonstrates the power of employing spatial transcriptomics to study different regions of a tumour, including as a tool to explore the diversity of microenvironment and immune cell populations in TGCTs. Although this technology is limited to providing a snapshot of the tumour at time of excision, we have demonstrated approaches that will enable its application to understand tumour aetiology as further samples are explored by us and others. While the technology employed in this study lacks resolution at the single cell level, we were able to combine expert histological analysis with localised transcriptome mapping to search for clues about the factors which sustain and transform GCNIS cells. Ultimately the improved resolution and comparison with a greater number of samples has the potential to yield personalised approaches to therapy and to inform strategies for ongoing management of patients with TGCTs.
+
+## AUTHOR CONTRIBUTIONS
+
+Sarah C. Moody: Design and implement experiments; data analysis and manuscript writing. Daniela Fietz: Design experiments; data analysis and manuscript review. Benedict Nathaniel: Data analysis and manuscript review. Mark Frydenberg: Sample provision and manuscript review. Ben Tran: Sample provision and manuscript review. Hans‐Christian Schuppe: Design experiments; data analysis and manuscript review. Kate L. Loveland: Design experiments; data analysis and manuscript writing.
+
+## CONFLICT OF INTEREST STATEMENT
+Sarah C. Moody, Daniela Fietz, Benedict Nathaniel, Mark Frydenberg, Hans‐Christian Schuppe and Kate L. Loveland declare no conflicts of interest.
+
+Ben Tran receives research funding from Amgen, Astellas, AstraZeneca, Bayer, BMS, Genentech, Ipsen, Janssen, Pfizer, Movember and MSD. Ben Tran is an Honorarium of Amgen, Astellas, AstraZeneca, Bayer, BMS, Ipsen, Janssen, Merck, MSD, Pfizer, Sanofi, Tolmar. Ben Tran has consulting/advisory positions with Amgen, Astellas, AstraZeneca, Bayer, BMS, Ipsen, IQVIA, Janssen, Merck, MSD, Novartis, Pfizer, Roche, Sanofi and Tolmar.
+
+## Supporting information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+Supporting Information
+
+Supporting Information Figure 1
+
+Supporting Information Figure 2
+
+Supporting Information Figure 3
+
+Supporting Information Figure 4
+
+Supporting Information Figure 5
+
+Supporting Information Figure 6
+
+Supporting Information Figure 7
+
+Supporting Information Figure 8
+
+## ACKNOWLEDGEMENTS
+We gratefully acknowledge the generosity of the patients who consented to tissue specimen donation, and thank Kristina Zlatic and Melissa Papargiris for co‐ordinating consent and collection of tissues. The Monash Histology Platform (MHTP and Clayton nodes, Melbourne, Australia) provided essential histological services. We thank Paul McMillan at the Centre for Advanced Histology and Microscopy (Peter MacCallum Cancer Centre) for processing samples for NanoString analysis, and Gisella Mir Arnau at the Molecular Genomics Core (Peter MacCallum Cancer Centre) for performing ROI sequencing. This work was supported by funding from the NHMRC (to Kate L. Loveland, Project ID1181516) and received support from the Victorian State Government Operational Infrastructure Scheme. It was also supported in the framework of the International Research Training Group in ‘Molecular pathogenesis on male reproductive disorders’, a collaboration between Justus Liebig University (Giessen) and Monash University (Melbourne) (GRK1871/1‐2) funded by the Deutsche Forschungsgemeinschaft (DFG) and Monash University. Daniela Fietz and Hans‐Christian Schuppe are supported by DFG grant no. FOR 5644 ‘The role of immune cells in the function of the normal and diseased testis and epididymis (INFINITE)’ and members of the COST action CA20119 ‘European andrology network—research co‐ordination, education and public awareness (ANDRONET)’ funded by the European Union.
+Open access publishing facilitated by Monash University, as part of the Wiley ‐ Monash University agreement via the Council of Australian University Librarians.

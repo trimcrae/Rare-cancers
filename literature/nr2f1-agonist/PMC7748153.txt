@@ -1,0 +1,861 @@
+440plosonePLoS ONEPLoS OnePLOSPMC7748153774815377481533333808410.1371/journal.pone.0242773Coupling of autism genes to tissue-wide expression and dysfunction of synapse, calcium signalling and transcriptional regulation
+ReillyJamieConceptualization, Formal analysis, Visualization, Writing – original draft GallagherLouiseWriting – review & editing LeaderGeraldineWriting – review & editing ShenSanbingSupervision, Visualization, Writing – review & editing SahooNirakarEditor 1Regenerative Medicine Institute, School of Medicine, Biomedical Science Building, National University of Ireland (NUI) Galway, Galway, Ireland2Discipline of Psychiatry, School of Medicine, Trinity College Dublin, Dublin, Ireland3Trinity Translational Medicine Institute, Trinity Centre for Health Sciences—Trinity College Dublin, St. James’s Hospital, Dublin, Ireland4Irish Centre for Autism and Neurodevelopmental Research (ICAN), Department of Psychology, National University of Ireland (NUI) Galway, Galway, Ireland5FutureNeuro Research Centre, Royal College of Surgeons in Ireland (RCSI), Dublin, Ireland6The University of Texas Rio Grande Valley, UNITED STATESCompeting Interests: The authors have declared that no competing interests exist.
+✉* E-mail: J.Reilly12@nuigalway.ie (JR); Sanbing.shen@nuigalway.ie (SS)
+181220201512e0242773e0242773712021© 2020 Reilly et alThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+
+## Abstract
+Autism Spectrum Disorder (ASD) is a heterogeneous disorder that is often accompanied with many co-morbidities. Recent genetic studies have identified various pathways from hundreds of candidate risk genes with varying levels of association to ASD. However, it is unknown which pathways are specific to the core symptoms or which are shared by the co-morbidities. We hypothesised that critical ASD candidates should appear widely across different scoring systems, and that comorbidity pathways should be constituted by genes expressed in the relevant tissues. We analysed the Simons Foundation for Autism Research Initiative (SFARI) database and four independently published scoring systems and identified 292 overlapping genes. We examined their mRNA expression using the Genotype-Tissue Expression (GTEx) database and validated protein expression levels using the human protein atlas (HPA) dataset. This led to clustering of the overlapping ASD genes into 2 groups; one with 91 genes primarily expressed in the central nervous system (CNS geneset) and another with 201 genes expressed in both CNS and peripheral tissues (CNS+PT geneset). Bioinformatic analyses showed a high enrichment of CNS development and synaptic transmission in the CNS geneset, and an enrichment of synapse, chromatin remodelling, gene regulation and endocrine signalling in the CNS+PT geneset. Calcium signalling and the glutamatergic synapse were found to be highly interconnected among pathways in the combined geneset. Our analyses demonstrate that 2/3 of ASD genes are expressed beyond the brain, which may impact peripheral function and involve in ASD co-morbidities, and relevant pathways may be explored for the treatment of ASD co-morbidities.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2020 Jul 27; Accepted 2020 Nov 9; Collection date 2020.
+
+## Introduction
+Autism Spectrum Disorder (ASD) is a heterogeneous and complex neurodevelopmental disorder [ ], with core features including stereotypical behaviours and impaired social and communication skills, and with various comorbidity. The CNS comorbidity of ASD includes epilepsy, sleeping disorders [ ], intellectual disabilities, language delay, anxiety and hyperactivity [ , ], and the peripheral comorbidity includes gastrointestinal, metabolic disorders, auto-immune disorders, tuberous sclerosis, attention-deficit hyperactivity disorder, and sensory problems associated motor problems [ , – ]. It appears that genetic heterogeneity and environmental factors impact not only the severity of ASD, but also the presence and severity of comorbid disorders [ ]. However, it is unknown why different individuals display overlapping core symptoms and/or different comorbidities.
+With the advent and increasing availability of DNA sequencing over the past decade, much has been uncovered about the genetics of ASD [ ], which include de novo events [ – ], mosaic mutations [ ] and gene dosage changes resulted from copy number variations [ – ], as well as epigenetic/transcriptome changes with no apparent genetic alterations [ ]. As a result, hundreds to thousands of ASD risk factors have been identified by different studies, suggesting that ASD is a multi-genetic disorder and each has small effects in terms of ASD population. This presents a huge challenge to develop ASD diagnosis or treatment. Meanwhile, little is known about which set of genetic factors links to peripheral comorbidity, and it is therefore crucial to decipher factors/pathways which are associated with the comorbidities.
+The genetic studies have allowed formation of ASD databases for investigations [ , ]. The early network analyses using the SFARI database have identified ASD pathways of abnormal synaptic function, chromatin remodelling and ion channel activity [ ] which are highly connected by MAPK signalling and calcium channels, with some genes associated with cardiac and neurodegenerative disorders [ ]. This was carried out before the scoring system from SFARI became available. In addition, the SFARI list of ASD genes has risen from 680 in 2016 to 1053 in January 2019. Furthermore, independent scoring systems have become available and suggested additional genes with significance to ASD, from either sequencing thousands of individuals across the globe [ ], or using existing interaction databases in conjunction with SFARI database [ , ], or employing machine learning on datasets [ , ]. This suggests that another round of ASD pathway analysis is due.
+Our hypotheses were that the high ASD candidates would recur in different scoring systems, and that comorbidities in ASD would involve expression of risk genes in relevant tissues/organs. Therefore, in this study, we focused on the identification of the overlapping genes in the updated SFARI database and autistic genes shortlisted by the majority of the third-party scoring systems as summarised in . To explore the biological context of these genes, we first examined their expression using the GTEx database to find out if they were transcribed not only in the brain but also in other peripheral tissues, and then used the human protein atlas (HPA) dataset to verify protein expression levels. We also explored tissue specific networks from human reference interactome (Huri) [ ] to see if any ASD candidates interacted with genes in these networks.
+ Our analyses suggest that a third of ASD risk genes (CNS geneset) is specifically expressed in the CNS, which are involved in brain development, synaptic function and ion transport, whereas the majority of ASD factors are highly expressed in both CNS and peripheral tissues (CNS+PT geneset), with pathways of brain development, chromatin organisation and gene regulation, which may account for ASD peripheral comorbidity.
+
+## Methods
+
+## Datasets and shortlisting of the ASD risk factors
+Five datasets were chosen as the starting point of this study [ , – ], and high-ranking genes were shortlisted from each dataset with defined criteria ( , ). For the Exome Aggregation Consortium (EXAC) with exome sequencing data from ~60,000 cases ( ), a high intolerance to mutation of pLi ≥ 0.9 was applied, where pLi indicated the level of intolerance to mutations in a given gene, with many containing loss of function variants. In the Krishnan’s geneset ( ) created using human disease databases of GAD, OMIN, HUGE and SFARI in December 2013, along with a brain-specific functional interaction network, a q-value of ≤0.05 was used, where q-value was the probability of the gene being an ASD risk candidate after multiple testing for false positivity. For the Zhang’s geneset ( ) made using CNS microarray expression data from six brain regions derived from mice and validated using data from exome sequencing studies [ , , , , , ], mutations of the human homologues with a (DAMAGE) score of D≥0 were shortlisted, where positive D-score was a measure of a mutation’s likeliness to be associated with ASD. For the Duda’s list ( ) which was created from de novo mutation analysis, protein-protein interaction and phenotype information, the top 10% of genes in the list were selected, as this was used as a cut off in the original publication. Finally, for the SFARI collection, all genes up to January 2019 were included ( ).
+ 
+
+## Overlap of shortlisted genes with SFARI
+After shortlisting of high-ranking genes from each dataset, the Jvenn program was applied to identify the common ASD risk genes among the 5 sources [ ]. A list of 519 genes, which were overlapped among 4 of 5 sources, was extracted ( , ). Among them, 319 genes appeared in the SFARI database were taken forward for expression and enrichment analyses.
+
+## Filtering using gene expression analysis data
+Since ASD has a wide array of peripheral co-morbidities, we believe that some ASD genes are expressed in peripheral tissues. To explore this possibility, mRNA expression data were downloaded from the GTEx consortium (v7) in the form of median TPM (Transcripts Per Million) values from all tissues [ ]. We excluded low expression genes based on the average of the median (TPM<3) in both CNS and PT groups. Additionally, we removed genes with a SFARI score of 6, which were not likely to be associated with ASD. The expression data was applied to the 319 selected genes and uploaded to Morpheus (https://software.broadinstitute.org/morpheus) to generate heatmap (with settings for clustering: hierarchical, euclidean distance, linkage method complete, clustering based on columns). Genes with extremely low levels of mRNA expression, at an average TPM≤3 in both the brain and peripheral tissues, were excluded from the subsequent analyses ( ).
+
+## Overview of protein expression levels
+As an additional level of verification, we used HPA data (v19.3) obtained via HPA analyze [ ], a Bioconductor program that runs in R, to assess protein expression levels across multiple tissues among the two genesets, and used ggplot2 [ ] to visualise the data.
+
+## Tissue specific interaction networks
+The expression of ASD genes in other tissues indicates that they may interact with other factors in tissue-specific networks. To explore this, we used tissue-specific networks generated from Huri to see if ASD candidate genes were present in other networks, and if they had any interacting partners within these networks.
+
+## Functional enrichment analysis of the final geneset
+The final list of ASD common risk factors was analyzed through STRING program for pathway analyses, except for SHANK3 that was misidentified as HOMER2 in the current human database of STRING v11. The resulting GO Terms (Biological Processes, Cellular Components, and Molecular Function) and KEGG pathways were downloaded. The same list was also loaded into Cytoscape [ ] to identify sub-clusters of genes in interaction network.
+
+## Analysis of genesets for co-morbid phenotypes
+To examine potential association of the ASD genesets with occurring co-morbidities, an overrepresentation analysis (ORA) was carried out using the tool WebGestalt [ ] to assess other co-morbid conditions linking to the ASD genesets. The Human Phenotype Ontology database was used for the analysis [ ]. The top 50 terms were used as a cut off to balance between the co-morbidities reported in ASD and to ensure that the final lists are not too broad and overly diluted.
+
+## Comparison of shortlisted ASD geneset with ASD expression studies
+To examine the utility of the ASD geneset in the literature of ASD gene expression studies, we compared the ASD geneset with DEGs reported from post-mortem brain [ ], blood [ – ] and GI tissue [ , ], as well as iPSC-derived cell models [ – ], to see if any of the ASD genes were significantly up or downregulated. The DEGs were obtained using autism versus control group with FDR (adj p-value) at 0.05, except for Voineagu [ ] and Pramparo [ ], which we used Geo2R [ ] using autism versus controls as groups to obtain DEGS at 0.05 FDR (adj p-value).
+
+## Expression of genes across brain development and sex-bias
+We used CSEA [ ] tool to check for enrichment of our genes for human gene expression across developmental periods and brain tissues in the Brainspan dataset. We also used the genesets from the publications [ , ] to see if any of our shortlisted genes had sex-bias expression in prenatal stages [ ], or if there was sex-specific splicing in our geneset [ ] using the bioconductor package GeneOverlap [ ].
+
+## Comparison with psychiatric and peripheral diseases
+Our functional analyses of the ASD genesets showed enrichment for processes in areas relating to cardiac function and insulin. In addition, it is known that many ASD risk genetic factors share molecular pathways with other psychiatric conditions. To future explore this, we downloaded genesets for schizophrenia (SCZ), bipolar disorder (BP), and major depressive disorder (MDD) from Psygenet [ ]. We also downloaded genelists from Harmonizome database [ , ] for 4 peripheral conditions of arrythmia (ARY), type 1 (T1D) and type 2 (T2D) diabetes based on our results, and inflammatory bowel disease (IBD) based on co-morbidity of gastrointestinal issues with ASD for comparison of ASD risk factors in the current study.
+
+## Results
+To explore the hypothesis that ASD candidate genes were recurrent across different scoring systems, we selected the SFARI dataset and four other published scoring systems for the current study ( , ). Consequently, we selected 3126 genes out of 15735 from the EXAC dataset with pLi ≥ 90% chance of intolerance to loss of function [ ], 3225 genes from Krishnan’s data [ ] based on q<0.05, 7189 genes out of 15950 from Zhang’s data [ ] with a positive DAMAGE score (D>0), and 2111 genes from the top 10% of the 21115 genes in the Duda’s data [ ], and all 1053 SFARI genes as of Jan 2019 [ ].
+These shortlists were subsequently analysed by Jvenn web tool for overlapping ASD genes [ ], and 114 genes were found to be shared by all five shortlists ( , ). Considering that some well-known ASD genes such as SHANK3 and CHD8 were excluded from the 114 geneset, we adjusted to include the genes that were overlapped in 4 of the 5 scoring systems, which resulted in a total to 519 ASD risk genes. Further examination of the 519 genes for the presence in the SFARI dataset has narrowed down the list to 319 SFARI genes, which were highly ranked in >3 of 4 other independent studies besides the SFARI dataset ( , ).
+ 
+
+## Expression pattern of ASD genes
+To assess the gene expression across different tissues, we next examined body-wide expression of the 319 genes using the GTEx dataset containing standardized mRNA expression in units of TPM. This further reduced the ASD genes to 292 genes to filter out low abundance genes with TMP≥3 in both CNS and PT ( ).
+The expression levels of the 292 genes were presented in the Heatmap, with high expression coloured in red, low expression in green and no expression in grey. Analysis of the 292 genes with GTEx ( ) showed that the ASD genes were clustered into 2 groups ( ); 91 genes were mainly expressed in the CNS with TMP<3 in PT, whereas the remaining 201 genes were ubiquitously expressed in both the CNS and PT.
+ A similar expression profile for proteins was observed in HPA data (Figs and ), whereas CNS geneset showed protein expression mostly in the CNS ( ), the CNS+PT geneset showed protein expression in both the CNS and other tissue types ( ). We also identified that some of the ASD factors in the CNS+PT geneset ( – Figs) were indeed interacting with other proteins in tissue-specific networks ( ). Interestingly HDAC4 (S6) in the colon and STX1A (S15) in the pituitary gland were found to be tissue-specific genes in these organs.
+ 
+
+## Enriched neurodevelopment, synaptic function, and ion transport in the CNS geneset
+To assess the biological context of ASD factor, the STRING (v 11) program was used to analyse two groups of the ASD factors, respectively [ ]. The 91 CNS-specific geneset gave rise to 305 “Biological Processes” ( ), 73 “Cellular Components” ( ) and 62 “Molecular Function” ( ). Go term results revealed an enrichment for neuronal development and synaptic function in the CNS geneset ( ).
+ We also visualized the interaction network using Cytoscape (V3.7). Among the 91 CNS genes ( ), 47 (colored in blue) were involved in “Nervous system development” (FDR = 1.39E-18), 31 (colored in red) were linked to “Trans-synaptic signalling” (FDR = 2.41E-25), and 30 were associated with “Ion transmembrane transport” (colored in yellow, FDR = 1.55E-14, ), which included 6 calcium channels (ATP2B2, CACNA1A, CACNA1B, CACNA1D, CACNA1G, CACNA2D3), 3 sodium channels (SCN1A, SCN2A, SCN8A), 4 potassium (HCN1, KCND2, KCNQ2, KCNQ3) channels, 6 glutamatergic receptors (GRIA1, GRID1, GRIK2, GRIN1, GRIN2A, GRIN2B), 5 GABAergic receptors (GABRA1, GABRA3, GABRA4, GABRA5, GABRB3) and 5 transporters (SLC12A5, SLC1A2, SLC24A2, SLC30A3, SLC4A10).
+ Consistently, the synapses (42/91 genes, FDR = 4.06E-30), neuronal projection (44/91, FDR = 9.54E-28) and ion channel complex (24/91, FDR = 7.59E-22, ) were enriched in “Cell Components”. The ion-gated channel activity (24/91, FDR = 5.78E-19) and neurotransmitter receptor activity (13/91, FDR = 3.60E-13) including glutamate (7/91, 2.95E-09, GRIA1, GRID1, GRIK2, GRIN1, GRIN2A, GRIN2B, GRM1) and GABA receptor activity (6/91, 4.12E-08, GABBR2, GABRA1, GABRA3, GABRA4, GABRA5, GABRB3), were the most significant “Molecular Functions”. The “KEGG pathway” analyses ( ) demonstrated that Glutamatergic synapse (12/91, 2.46E-11, CACNA1A, CACNA1D, DLGAP1, GRIA1, GRIK2, GRIN1, GRIN2A, GRIN2B, GRM1, HOMER1, SHANK2, SLC1A2), GABAergic synapse (11/91, 3.44E-11, CACNA1A, CACNA1B, CACNA1D, GABBR2, GABRA1, GABRA3, GABRA4, GABRA5, GABRB3, GAD1, SLC12A5), Calcium signalling pathway (11/91, 1.80E-08, ATP2B2, CACNA1A, CACNA1B, CACNA1D, CACNA1G, CAMK2A, ERBB4, GRIN1, GRIN2A, GRM1, NOS1) and Circadian entrainment (9/91, 1.74E-08, CACNA1D, CACNA1G, CAMK2A, GRIA1, GRIN1, GRIN2A, GRIN2B, NOS1, NOS1AP) were the top pathways in the CNS geneset ( ). Together, these data suggest that the 91 CNS-specific ASD risk factors are involved in regulation of brain development, E/I balance and calcium signalling, which are closely related to the ASD core features, and to the CNS comorbidity such as epilepsy, intellectual disability and sleeping disorders.
+
+## Enriched chromatin organisation and gene regulation in CNS+PT geneset
+Analyses of the 200 CNS+PT genes resulted in 546 “Biological Processes” ( ), 127 “Cellular Components” ( ), and 123 “Molecular Function” ( ). Like the CNS geneset, CNS development and synapse are the top pathways in the CNS+PT ASD geneset. This included Nervous system development (72/200 genes in blue, FDR = 7.50E-17, ), Modulation of chemical synaptic transmission (20/200, FDR = 1.74E-08) and Trans-synaptic signalling (22/200, FDR = 3.16E-08) as top “Biological Processes”, Synapse (46/200 in red, FDR = 6.44E-18, ) as the most significant “Cellular Components”, Ion binding (106/200, FDR = 2.09E-08) in the “Molecular Function” ( ), and Long-term potentiation (6/200, FDR = 0.003), Glutamatergic (7/200, FDR = 0.006), and Dopaminergic synapse (7/200, FDR = 0.011) identified in the “KEGG” pathways ( , ).
+However, the most prominent feature of the CNS+PT ASD geneset was transcription regulation, and this included Nucleus (128/200, FDR = 1.73E-14) in the “Cellular Components”, Regulation of gene expression (96/200 genes in red, FDR = 4.21E-12, ), Chromatin organization (44/200 in green, FDR = 1.44E-18, ) and Histone modification (26/200, FDR = 2.08E-12) identified in the “Biological Processes”, Chromatin binding (29/200, FDR = 3.00E-11), Transcription factor binding (24/200, FDR = 2.26E-06), DNA binding (53/200, FDR = 6.72E-06) and Histone binding (12/200, FDR = 3.17E-05) in the “Molecular Function”.
+In addition, Circadian entrainment (5/200 genes, FDR = 0.034, CACNA1C, CAMK2B, ITPR1, PLCB1, PRKCB), WNT signalling (10/200, FDR = 3.1E-04, APC, CAMK2B, CHD8, CREBBP, CSNK1E, GSK3B, PLCB1, PRICKLE1, PRICKLE2, PRKCB), Thyroid hormone signalling (8/200, FDR = 1.5E-03, ATP1A3, CREBBP, GSK3B, MED13, MED13L, NCOR1, PLCB1, PRKCB), Aldosterone synthesis and secretion (8/200, FDR = 5.0E-04, ATP1A3, CACNA1C, CAMK2B, DAGLA, ITPR1, NR4A2, PLCB1, PRKCB), Gastric acid secretion (5/200, FDR = 0.0179, ATP1A3, CAMK2B, ITPR1, PLCB1, PRKCB), Insulin secretion (9/200, FDR = 7.16E-05, ATP1A3, CACNA1C, CAMK2B, KCNMA1, PLCB1, PRKCB, RAPGEF4, SNAP25, STX1A), Salivary secretion (5/200, FDR = 0.0298, ATP1A3, ITPR1, KCNMA1, PLCB1, PRKCB) and Pancreatic secretion (5/200, FDR = 0.0343, ATP1A3, ITPR1, KCNMA1, PLCB1, PRKCB) were also detected as significant KEGG pathways in the CNS+PT ASD geneset.
+In consistency with this, STRING analysis of the combined 291 ASD genes gave rise to 47 “KEGG pathways” ( ), 677 “Biological Processes” ( ), 149 “Cellular Components” ( ) and 177 “Molecular Function” ( ). The top enriched pathways of the combined ASD risk factors included Nervous system development (119/291 genes, FDR = 8.85E-34), Synapse (87/291, 1.9E-43), Trans-synaptic signalling (53/291, 1.04E-28), Ion channel complex (36/291, 2.55E-20), Ion-gated channel activity (33/291, 1.2E-14), Regulation of ion transport (44/291, 4.79E-15) and Neurotransmitter receptor activity (14/291, 8.86E-08), Chromatin organisation (44/291, 9.4E-14), Chromosome (36/291, 4.80E-06) and Chromatin binding (31/291, 3.48E-09) and Positive regulation of gene expression (66/291, 8.15E-10). These data suggest that the CNS+PT geneset of ASD candidate genes may influence not only the core symptoms via CNS development and synaptic function, but also the comorbidities through dysregulated gene expression and hormonal signalling in the peripheral organs.
+
+## E/I balance, and calcium signalling are central to ASD
+KEGG analyses generated 26 pathways for the CNS ( ) geneset and 31 pathways for the CNS+PT geneset ( ). The top pathways from the CNS geneset corresponded to Glutamatergic synapse (12/91 genes, 2.46E-11), GABAergic synapse (11/91, 3.44E-11), Neuroactive ligand-receptor interaction (14/91, 1.42E-09), Retrograde endocannabinoid signalling (11/91, 3.77E-09), Calcium signalling pathway (11/91, 1.80E-08) and MAPK signalling (6/91, 0.0105). The CNS+PT ASD geneset was also enriched for Secretion, Thyroid function, and Cellular signalling. Interestingly, 10 pathways from both ASD genesets appeared to overlap, which included Glutamatergic, Dopaminergic, Cholinergic synapses, Circadian entrainment, cAMP and Retrograde endocannabinoid signalling ( ). Calcium channels, Glutamatergic and GABAergic receptors appeared to link to most of the pathways.
+To further investigate the interconnectivity among the KEGG pathways ( ), we constructed an interaction matrix with the combined ASD geneset KEGG pathways ( ), similar to a previous analysis [ ]. The calcium signalling (27/47), MAPK Signalling (12/47) and cAMP signalling (6/47) were identified as highly interconnected signalling pathways. Pre-synaptically, the genes in calcium signalling also appeared frequently in the other pathways, particularly the genes encoding the pore-forming subunit of voltage-gated calcium channel (CACNA1A, CACNA1B, CACNA1C, CACNA1D), the I3P receptor IPTR1, PLCB and the calmodulin proteins (CAMK2A, CAMK2B) are connected to the neurotransmitter releases ( ). Post-synaptically, Glutamatergic synapse (8/47) had the largest number of interactions with other pathways, which was followed by Dopaminergic synapse (7/47). The NDMAR (GRIN2A, GRIN2B, GRIN1) and AMPA (GRIA1) receptors were also the highly interconnected notes in neural and synaptic, calcium and cAMP signalling pathways. In summary, this overlap analyses demonstrated that the E/I balance, and calcium signalling are the most significant pathways linking to the ASD core symptoms, and transcriptional regulation to the ASD comorbidities.
+ 
+
+## Enriched epilepsy/seizures in the CNS geneset and congenital abnormalities/developmental delay in CNS+PT geneset
+The results from WebGestalt ( , Supplementary links 1 and 2) showed that epilepsy and seizures were enriched in 19 of the top 50 phenotype terms and movement disorders in 9 of the 50 terms in the CNS geneset. In the CNS+PT set, there was enrichment for behaviour issues (9/50) such as self-injurious (FDR = 1.04E-07), aggressive behaviour (1.04E-11), and congenital abnormalities of the face (25/50 items).
+ 
+
+## High proportion of the ASD genes were dysregulated in ASD
+We compared the ASD geneset with DEGs between ASD and controls in the literature and found that 201 of the 292 genes in our ASD geneset were dysregulated, at least once across multiple ASD gene expression studies ( , ). Recurrent DEGs such as RELN, FOXP1, GAD1, NRXN1, FOXG1 and CAMK2A were present in multiple studies ( ). These data suggest that not only mutations but also dysregulated expression of the ASD risk genes can be linked to the development of ASD.
+
+## ASD genes enriched in cortex development and sex-bias brain expression
+We compared ASD shortlist with CSEA dataset and found that 280 of the 292 ASD genes were mapped to CSEA, with an enrichment in the cortex across most timepoints ( ), with most significant enrichment in the early-mid fetal stage of brain development at pSI 0.05 (p-value = 5.427e-16, FDR = 3.256e-14) pSI 0.01 (p-value = 5.560e-07 FDR = 3.336e-05) and pSI 0.001 p-value = 8.912e-04, FDR = 0.053) ( ). In addition, there was also enrichment of genes in the striatum at the early-mid fetal stage (p-value = 1.872e-08, FDR = 2.808e-07), in the cerebellum at childhood (p-value = 7.576e-07, FDR = 7.576e-06) and adolescence (p-value = 9.970e-04, FDR = 0.005), in the thalamus in early fetal (p-value = 0.010, 0.043) and neonatal period (p-value 4.333e-04, FDR = 0.003), and in the amygdala from mid-early (p-value = 0.009, FDR = 0.042) to mid-late (p-value = 0.017, FDR = 0.064) fetal stages. These data suggest that the ASD geneset plays essential role in brain development, especially corticogenesis.
+ To investigate if the ASD genes are sex-related, we compared the ASD geneset with genes which were known to have sex-biased expression in prenatal male and female ( ). Significant correlations were found with genes bias for female cerebellar cortex, dorsolateral prefrontal cortex, medial prefrontal cortex, orbital frontal cortex, inferolateral temporal cortex and caudal superior temporal cortex ( ), and with genes bias for male primary somatosensory cortex, mediodorsal nucleus of thalamus and striatum ( ). In addition, 34 of the 292 genes were found to have sex-biased gene-splicing in at least one brain region ( , ). These genes are likely to contribute to sex-bias occurrence of the ASD.
+
+## ASD genes present in other conditions
+We next compared the ASD genes with other neuropsychiatric conditions, including schizophrenia, bipolar and major depression, and peripheral conditions such as arrythmia, inflammatory bowel disease and type 1 and type 2 diabetes ( , ), and identified 94 genes which were identified in Pyschgenet database ( ), and involved in synaptic transmission. The remaining ASD-unique genes were enriched for chromatin organization and gene expression. We also found significant overlaps of the ASD genes with factors associated with psychiatric and peripheral conditions ( ), including a large overlap with type 2 diabetes (134/292, FDR = 3e-42). These data suggest a common disturbance in neuronal communication with CNS other neuropsychiatric disorders and gene dysregulation with peripheral conditions.
+ 
+
+## Discussion
+It is becoming apparent that ASD genes could influence other organ systems. This is reflected by the many co-morbidities occurring outside the CNS such gastrointestinal issues, metabolic disorders, auto-immune disorders, tuberous sclerosis, attention-deficit hyperactivity disorder, and sensory problems associated motor problems. However, little attention has been given to related organs of major comorbidities. Here we have identified 319 overlapping ASD candidates among the four independent scoring systems and the SFARI database [ , – ]. We also introduced gene expression using the GTEx database [ , ], which consists of mRNA data of 53 human tissues from approximately 1000 individuals at the age of 21–70. This resulted in a shortlist of 292 common ASD candidate genes with mRNA expression at TPM ≥3 transcripts. This also categorized the ASD factors into 2 genesets, the CNS-specific geneset of 91 genes (with a TMP<3 in PT) and the CNS+PT geneset of 201 genes. This was validated at the protein level across these tissues in the human protein atlas (HPA) dataset and Huri, showing that that ASD genes are not only expressed in other organs outside the brain, but also appear to interact with other proteins in tissue-specific networks.
+STRING analyses show that the CNS geneset is enriched for nervous development, glutamatergic/GABAergic synapses, and calcium signalling. Phenotype analysis also showed high enrichment for epilepsy and seizures. Both results support the hypothesis that disruption of E/I balance during CNS development as a major feature of ASD [ ], which are related to CNS co-morbidities such as epilepsy occurring in 30% of ASD at severe end of the spectrum.
+The expression of 201 ASD candidate genes in CNS+PT suggest that ASD genes may influence not only the CNS but also peripheral systems in the body. This geneset is enriched for nervous development and synapse, as well as for chromatin organisation and gene regulation, which are consistent with previous reports from exome sequencing studies [ , , , , ]. Therefore, the genes involved in chromatin organisation and gene regulation could have an influence in peripheral co-morbidities. Many of the genes in our ASD geneset also show dysregulated expression in multiple studies ( ) pertaining to cortical tissue and iPSC derived models, and in the few studies carried on gene expression in the gastrointestinal tract of ASD.
+Strong candidate genes such as CHD8, POGZ and DYRK1A were previously reported to be associated with not only autism but also gastrointestinal issues, facial dysmorpisms, visual and feeding problems [ – ]. Indeed, facial dysmorphism is also a recurrent phenotype that emerges among various subgroups of autistics with known genetic mutations [ – ]. Some enrichment of ASD genes reported to overlap with heart development (S10-21) and congenital heart deformation [ , ], and a high rate of ASD diagnosis was reported among children with congenital heart defects [ ]. POGZ and ANKRD11 are also present in many tissue interaction networks ( ) which are involved in neural proliferation. The POGZ is a zinc finger protein interacting with the transcription factor SP1 [ ], and ANKRD11 is a chromatin regulator, modulating histone acetylation and inhibiting ligand-dependent activation of transcription [ ]. ANKRD11 mutations have been associated with diseases with distinctive craniofacial features, short stature, skeletal anomalies, global developmental delay, seizures and intellectual disability [ ].
+The strong enrichment for neuronal processes and functions in tissues beyond the brain is of curious interest, but researchers are starting to explore other aspects of ASD that could have an impact on other organs such as the heart via the sympathetic and parasympathetic nervous systems [ ], and the gastrointestinal tract via the enteric nervous system [ ]. In fact there is growing evidence that heart rate is affected among Autistics [ – ], along with evidence that ASD genes could be involved in aspects of gastrointestinal development and function [ , – ]. There is a potential for more work on how the parts of the brain control heart rate and gastrointestinal, how they are altered in autism, or even if reported autonomic issues in co-morbidities such gastroesophageal reflux [ , ] hold true in the autistic population as well. The expression of proteins such as STX1A, SNAP25 and FOXP1 expressed in endocrine tissues could be of interest in ASD, given how knockouts in these genes can impact the development and function of certain parts of the endocrine system [ – ] and how genes involved in neurotransmission could also be involved in secretion of hormones [ ].
+Another unaddressed question is if the peripheral nervous system and peripheral organs are affected by mutations in addition to the CNS. Amongst the results we found enrichment for neuromuscular and cardiac function in STRING analysis (S9-20). Some animal models such as FOXP1, SHANK3, NOS1 and CHD8 [ , , , , ] have been developed for functional analysis of ASD candidate genes in the gastrointestinal system, which indicates that ASD genes may play an important role in this organ [ ], and yet most research have been mainly focused on the brain in both human and animal models. A greater utilisation of the animal models to explore other systems such as the cardiac and gastrointestinal systems would be welcome.
+In fact, 88/292 genes in our ASD geneset already have existing genetic mouse models, as well as rescue models for 28/292 genes according to the SFARI database (July 2020) at the time of writing. They are helpful in understanding function of these genes, and may also assist drug development to remediate related pathways, not just in the brain, but also throughout the peripheral nervous system that connects to co-morbidity organs, and even in the peripheral organs themselves.
+The interconnectivity analyses from the current study reveal calcium, MAPK and glutamatergic signalling as three highest interconnected pathways, all are also involved with each other based on the interaction matrix. This is in line with a previous publication that ASD factors are converged upon MAPK and calcium signalling [ ]. It is worth to note that MAPK signalling is also interlinked with calcium signalling in this study. Ten of the 14 MAPK pathway members, CACNA1A, CACNA1B, CACNA1C, CACNA1D, CACNA1G, CACNA2D1, CACNA2D3, CACNB2, ERBB4 and PRKCB, are overlapped with the calcium signalling ( ), and 8 of them are calcium channels. Furthermore, calcium channels appear in 16 top KEGG pathways including glutamatergic, GABAergic, dopaminergic, cholinergic and serotonergic synapses of the ASD genes ( ). Our results add to the evidence that calcium and glutamatergic signalling are the significant components in ASD pathways.
+ Calcium signalling is a highly integral system in the human body and is increasingly shown to be implicated in ASD [ , ]. In neurons, the arrival of the electric current induces Ca2+ influx via voltage-gated calcium channels, and this triggers exocytosis and neurotransmitter release [ ]. The voltage-gated calcium channels are tetramers containing three auxiliary subunits (β, α2δ, γ) and one pore-forming α1 subunit. Eight calcium channels (CACNA1A, CACNA1B, CACNA1C, CACNA1D, CACNA1G, CACNA2D1, CACNA2D3, CACNB2) are present in our 291 ASD geneset. Experiments using fibroblasts from monogenic [ ] and non-syndromic autistic subjects [ ] demonstrate aberrant calcium signalling mediated by I3PR. In addition, mutations of calcium channels have been found in ASD, for example, CACNA1A rs7249246/rs12609735 were associated with Chinese Han ASD [ ], and CACNA1A mutations in Epileptic Encephalopathy [ , ], gain of function of CACNA1C in Timothy syndrome with ASD [ ] and recurring CNVs of CACNA2D3 [ , , , ]. Exome sequencing has identified various mutations of CACNA1D in ASD [ , , , , ], epilepsy [ ] developmental delay [ ] endocrine issues [ , ], CACNA2D1 in epilepsy and intellectual disability [ ] and CACNB2 mutations in ASD [ , ]. CACNA1C (rs1024582) and CACNB2 (rs2799573) polymorphisms were suggested as the common risks across seven brain diseases [ ]. Therefore, dysregulated calcium and synaptic signalling could be a commonly perturbed pathway in ASD and frequently occurring comorbidities.
+Calcium channels are coupled to neuronal transmission, and E/I imbalance was proposed as a common ASD pathway previously [ ]. For example, increased calcium signalling is found in NRXN1α+/− neurons derived from ASD induced pluripotent stem cells with increased expression of voltage-gated calcium channels [ ]. In the current study, KEGG pathways show that CACNA1A, CACNA1C, CACNA1D are involved in glutamatergic synapse; CACNA1A, CACNA1B and CACNA1D in cholinergic synapse; and CACNA1A, CACNA1B, CACNA1C and CACNA1D in GABAergic, dopaminergic, and serotonergic synapses. The glutamatergic and GABAergic transmission are the major excitatory and inhibitory pathways in the CNS, which are recurrently featured in “Biological Processes”, “Molecular Functions”, “Cell Components” and KEGG pathways of the 291 ASD candidate genes. Various glutamatergic receptor genes (GRIA1, GRIK2, GRIK5, GRIN1, GRIN2A, GRIN2B, GRM1, GRM5, GRM7), scaffolding components of synapses (SHANK2, SHANK3, DLG4, DLGAP1) and transport of glutamate (SLC1A2) were all involved in ASD and other comorbidities [ , – ].
+Remarkably, various calcium signalling members are commonly appeared in other pathways that are perturbed in ASD ( , ). For example, 11/14 molecules in Circadian entrainment, 10/14 in MAPK signalling, 7/15 in Wnt signalling, 10/10 in Oxytocin signalling, 9/12 in Aldosterone synthesis and secretion, 8/17 in Retrograde endocannabinoid signalling, 6/11 in insulin secretion, were found in calcium signalling pathway, which could be of great interest given their role in the pancreas [ ]. In the top KEGG pathways identified from the CNS geneset (CNS), the CNS+PT geneset and combined (Com) 292 ASD candidates, calcium signalling members (bold) appeared in all other KEGG pathways. Therefore, calcium signalling is likely to play a major role not only in ASD but also in ASD comorbidities.
+
+## Limitations
+Like other meta-analyses, biases and limitations should be considered in pathway analyses. We first assumed that any significant ASD candidate genes shall appear in 4/5 independent datasets. However, some strong candidate genes, such as FMR1 and PTEN, did not appear in the final 291 gene list. While they have much evidence to support their role in ASD, the genes did not overlap due to differences in ranking criteria of different systems. For example, PTEN was in the top ranking in SFARI, Zhang and EXAC, however it was not shortlisted from Duda’s and Krishnan’s score systems. Likewise, FMR1 was ranked top in Duda’s, Zhang’s and SFARI, but did not pass the threshold in EXAC or Krishnan’s dataset. The biological influence of FMR1 and PTEN in ASD is very significant. For example, FMR1 is known to target 126/291 ASD candidates in the current study, and PTEN is a target of another strong ASD candidate, CHD8, on our list.
+We also filtered out 200 genes ( ), which were overlapped by four independent scoring systems but not existed in the SFARI database. 66 of them are targets of the FMR1, and 36 are targets of CHD8. Some of them like BCL11B, DPF1, ETV1, NFASC, PAK7, PLXNC1, SCN3A, SLC17A7 and SLITRK1 were also dysregulated in cerebral organoids derived from autistics with large head circumference [ ], while others (NEDD4L, RICTOR, SLC8A1, CELF2, MLLT3, PPFIA2, EPHA7, LRRC4C and RORB) were identified from very recent single cell sequencing of autism cortical tissue [ ]. This suggests they would still be modulated as downstream targets in some cases of ASD.
+In the current study we hypothesized that a strong ASD candidate gene should be highly expressed in the brain and/or relative PT with strong comorbidity. However, this assumption could be potentially challenged by the following scenario. (1) If an ASD gene were development-specific but had low abundance in adult post-mortem tissues, it would be filtered out by GTEx dataset derived from donors of 20–79 age; (2) If a gene were highly expressed in a small subset of specific nuclei of the brain, which might appear not abundant in the total brain RNA; (3) If an ASD gene were modulated by ethnic genetic background, as 85.2% of GTEx donors were Caucasian European subjects, 12.7% were African-American, 1.1% were Asian and 0.3% were American-Indian. As for protein expression, the HPA is an evolving database, and genes with no protein expression data now can be updated in future releases. The same goes for cell types in tissue, which will also be incomplete, given the myriad cell types that are present in all organs. The use of single cell sequencing technology and flow cytometry will be useful in addressing the issue [ , ].
+It is interesting that many of the ASD genes are found to have sex-bias expression and/or splicing, which may be associated with sex-bias diagnosis of ASD [ – ]. We are limited in understanding its biological base by the lack of transcriptomic analysis of ASD genes. Many of the transcriptomic studies have focused on male subjects, or the ratio of female samples are too few to illustrate any sex-specific effects in ASD. It is suggested that future transcriptomic studies should incorporate an even number of male and female subjects in both groups of case and control. Organoid cell lines may also be created from both sexes to make up for this short coming.
+It would be desirable if gene expression datasets are available to compare from control and ASD patients at different time points not just in the brain, but also across the entire body. A recent publication [ ] has proposed a paediatric cell atlas, which would collate and characterise gene expression at the single cell level across multiple tissues and time points of human development from birth to adulthood. This would be a fantastic initiative if it fully goes ahead, as such a resource would bring great insight into the co-morbidities associated with ASD. Single-cell expression data from cortical tissue of ASD subjects has become available to researchers recently [ ], which could be a good starting point to analyse cell-types of interest and explore ASD heterogeneity. The availability of iPSCs from different ASD cases allows to culture and analyse different cell types in both CNS and peripheral organs, which are not easily accessed by conventional methodologies. This can be useful to explore how ASD genes may influence the biological processes during brain development, neuronal function, as well as cells of comorbidity peripheral organs.
+
+## Conclusion
+By utilizing multiple scoring systems, we have identified recurrent ASD candidate genes, with convergence on multiple pathways and processes involved in ASD ( ). The use of GTEx and HPA data also gives a glimpse into their body-wide expression patterns, which has not been explored previously using ASD gene lists, which we have done so in this study. The bioinformatic analyses of CNS-specific and/or CNS+PT candidate genesets enable us to pinpoint CNS development, E/I balance and calcium signalling as important pathways involved in not just ASD but also brain comorbidity such as epilepsy. The analysis of CNS+PT geneset suggests chromosomal organisation/transcription regulation, calcium-interconnected MARK/WNT and secretion as major pathways with disruptive behaviour, developmental delay as well as congenital abnormalities. Calcium signalling is highly interconnected amongst pathways, which could be informative in exploring complications and co-morbidities associated with ASD where calcium signalling could be involved, especially those subsets of autistic individuals who harbour mutations in these genes that can result in channelopathies.
+ 
+
+## Supporting information
+S1 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(PNG)
+Click here for additional data file.
+S4 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S6 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S7 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S8 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S9 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S10 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S11 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S12 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S13 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S14 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S15 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S16 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S17 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S18 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S19 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## Jvenn overlap data.
+This can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## HPA data relating to ASD genes.
+This can be found in supporting excel file.
+(XLSX)
+Click here for additional data file.
+S8 Table
+
+## The 292 ASD gene list with attached scoring information: This can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S9 Table
+
+## The expression data of the 292 genes, this is found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S10 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S11 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S12 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S13 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S14 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S15 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S16 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S17 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S18 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S19 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S20 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S21 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S22 Table
+
+## Pathway interaction matrix, this is found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S23 Table
+
+## Dysregulated genes overlapped with our dataset with up/down regulation and fold changes.
+This can be found in supporting excel file.
+(XLSX)
+Click here for additional data file.
+S24 Table
+
+## Enrichment Results from CSEA analysis of genes in different brain regions across multiple timepoints, this is found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S25 Table
+
+## Gene lists for sex-biased expression in male and female prenatal brain, sex-biased splicing, and psychiatric conditions from Psygenet, and peripheral conditions from Harmonizome database.
+These are found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S26 Table
+
+## Table of non-SFARI Overlapping genes.
+This is found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S1 File
+
+## The web links to full WebGestalt results are attached as html documents.
+(ZIP)
+Click here for additional data file.
+S2 File
+
+## GeneOverlap code final.
+(R)
+Click here for additional data file.
+S3 File
+
+## HPA-code final.
+(R)
+Click here for additional data file.
+
+## Acknowledgments
+The Authors wish to thank all those who contributed to this manuscript.
+
+## Abbreviations
+A1CPrimary auditory cortex
+AMYAmygdaloid complex
+AryArrythmia
+ASDAutism Spectrum Disorder
+BPBipolar Disorder
+CBCCerebellar cortex
+CNSCentral Nervous System
+DAMAGESDisease-Associated Mutation Analysis Using Gene Expression Signatures
+DFCDorsolateral prefrontal cortex
+DNADeoxyribonucleic Acid
+EXACExome Aggregation Consortium
+GABAGamma-Aminobutyric Acid
+GTExGenotype-Tissue Expression
+HIPHippocampus
+HPAHuman Protein Atlas
+HuriHuman Reference Interactome
+IBDInflammatory bowel disease
+IPCPosterior inferior parietal cortex
+iPSCInduced Pluripotent Stem Cell
+ITCInferolateral temporal cortex
+M1CPrimary motor cortex
+MAPKMitogen Activated Protein Kinase
+MDMediodorsal nucleus of thalamus
+MDDMajor Depressive Disorder
+MFCMedial prefrontal cortex
+OFCOrbital frontal cortex
+ORAOverrepresentation Analysis
+PTPeripheral Tissue
+S1CPrimary somatosensory cortex
+SFARISimons Foundation for Autism Research Initiative
+STCPosterior(caudal) superior temporal cortex
+STRStriatum
+T1DType 1 diabetes
+T2DType 2 diabetes. SCZ–Schizophrenia
+V1CPrimary visual cortex
+VFCVentrolateral prefrontal cortex
+
+## Data Availability
+All data used in this paper are publicly available. The file for median GTEx expression data can be found here (https://gtexportal.org/home/datasets). The data from HPA can be accessed via Bioconductor in R, using the code provided in the supplementary information. The networks from Huri can be accessed from NDEX (http://www.ndexbio.org/#/user/69e7b21d-8981-11ea-aaef-0ac135e8bacf) Information from the scoring systems used can be found in the supplementary information sections of their respective publications. Differentially Expressed genes can be found in from respective publications and in Geo2r (GSE42133 for Pramparo, GSE28521 for Voineagu). Code is provided for data access to HPA and GeneOverlap and generating figures. Genelists were obtained from pysgenet(http://www.psygenet.org/web/PsyGeNET/menu), Harmonizome(https://maayanlab.cloud/Harmonizome/dataset/GWASdb+SNP-Disease+Associations) and the supplementary information from respective publications.
+
+## Funding Statement
+Funding was provided by Science Foundation Ireland (Grant 13/IA/1787 to S.S. and L.G., 16/RC/3948 to FutureNeuro), and National University of Ireland Galway (Grant RSU002 to S.S.) for funding the research.
+
+## References
+ 
+
+PLoS ONEPLoS One10.1371/journal.pone.0242773.r001Decision Letter 0
+SahooNirakarAcademic Editor© 2020 Nirakar SahooThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+4 Sep 2020
+
+PONE-D-20-23352
+Coupling of autism genes to tissue-wide expression and dysfunction of synapse, calcium signalling and transcriptional regulation
+PLOS ONE
+Dear Dr. Reilly,
+Thank you for submitting your manuscript to PLOS ONE. After careful consideration, we feel that it has merit but does not fully meet PLOS ONE’s publication criteria as it currently stands. Therefore, we invite you to submit a revised version of the manuscript that addresses the points raised during the review process.
+The manuscript has been assessed by two experts in the field; please find their comments appended at the end of this email. The reviewers have identified several issues, all of which needed to be addressed in a revised version of the manuscript. In particular, I would advise you to pay attention to major comments from Reviewers.
+If you will need more time than this to complete your revisions, please reply to this message or contact the journal office at plosone@plos.org. When you're ready to submit your revision, log on to https://www.editorialmanager.com/pone/ and select the 'Submissions Needing Revision' folder to locate your manuscript file.
+Please include the following items when submitting your revised manuscript:
+A rebuttal letter that responds to each point raised by the academic editor and reviewer(s). You should upload this letter as a separate file labeled 'Response to Reviewers'.
+A marked-up copy of your manuscript that highlights changes made to the original version. You should upload this as a separate file labeled 'Revised Manuscript with Track Changes'.
+An unmarked version of your revised paper without tracked changes. You should upload this as a separate file labeled 'Manuscript'.
+If you would like to make changes to your financial disclosure, please include your updated statement in your cover letter. Guidelines for resubmitting your figure files are available below the reviewer comments at the end of this letter.
+If applicable, we recommend that you deposit your laboratory protocols in protocols.io to enhance the reproducibility of your results. Protocols.io assigns your protocol its own identifier (DOI) so that it can be cited independently in the future. For instructions see: http://journals.plos.org/plosone/s/submission-guidelines#loc-laboratory-protocols
+We look forward to receiving your revised manuscript.
+Kind regards,
+Nirakar Sahoo, PhD
+Academic Editor
+PLOS ONE
+Journal Requirements:
+When submitting your revision, we need you to address these additional requirements.
+1. Please ensure that your manuscript meets PLOS ONE's style requirements, including those for file naming. The PLOS ONE style templates can be found at
+https://journals.plos.org/plosone/s/file?id=wjVg/PLOSOne_formatting_sample_main_body.pdf and
+https://journals.plos.org/plosone/s/file?id=ba62/PLOSOne_formatting_sample_title_authors_affiliations.pdf
+[Note: HTML markup is below. Please do not edit.]
+Reviewers' comments:
+Reviewer's Responses to Questions
+Comments to the Author
+1. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #2: Partly
+**********
+2. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+3. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+4. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+5. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: In this manuscript, Reilly et. al. undertake bioinformatics analysis of susceptible genes in autism spectrum disorder (ASD) and associated co-morbidities. ASD is a genetically complex neurodevelopmental syndrome, with a wide array of central nervous system (CNS) and peripheral genes being implicated. A systematic assignment of genes responsible for comorbidities is lacking. An effort toward this direction can aid in deciphering the underlying genetic determinants and mechanisms, and could be relevant clinically. To that end, the authors analyzed five publicly available ASD databases, namely, SFARI, EXAC, Krishnan, Duda and Zhang. Based on overlap of the genes in these databases and expression profile, 292 genes were finally shortlisted for further analyses. These genes could be clustered into two sets – one expressed in the CNS and the other in the CNS as well as in peripheral tissues (PT). While both genesets included genes belonging to neuronal development, ion transport and synapse, the CNS+PT set intriguingly included additional genes related to chromatin organization and gene expression.
+The study represents a thorough and systematic analyses of the genes implicated in ASD using available datasets. The analysis provides a platform for further experiments looking into roles of various genes especially the ones related to chromatin organization.
+A couple of issues that the authors need to address:
+1) It would further strengthen the analysis if the authors provide a comparison of expression profile of the genes analyzed in normal vs ASD patients. The authors could provide the comparison for whole or a subset of genes based on availability of data. This would help in narrowing down the focus on genes whose expressions vary in diseased state for future experimental studies.
+2) ASD is more prevalent in males compared to females and is also characterized by an early onset with respect to age of an individual. So, it would again strengthen the manuscript if the authors analyze expression pattern in males vs. females and whether there is any difference with age. In case there is a notable difference, then the data should be presented whereas if there is no skewed behavior, that need to be mentioned appropriately in the results.
+Reviewer #2: In the present manuscript Reilly and co-authors analyze the existing gene expression data from autism spectrum disorder (ASD) samples. The authors presumed that dysregulation of a set of genes driving ASD should be visible in different scoring systems. By combining and reanalyzing the results of several scoring systems, the authors generated. list of genes that, in their opinion, reflects a hallmark set for ASD. Several findings in this set are intriguing, esp the possible involvement of extra-CNS tissues. The paper is methodologically sound and well written. However, in this Reviewer's opinion, in the present stage, the manuscript's scope is very limited, and it is likely that its impact will not be significant.
+At present, there does not seem to be a lack of candidate genes for ASD. In the present form the manuscript identifies yet another candidate set, which does not illuminate what makes ASD distinct from other neurologic diseases, or whether ASD is a set of conditions. The manuscript would benefit from an informative comparison of the author's set with other diseases, identifying unique features of ASD.
+As the authors indicate, it is likely that the ASD-driving dysregulation(s) occur early in development and thus, the utility of the present set is unclear.
+**********
+6. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+[NOTE: If reviewer comments were submitted as an attachment file, they will be attached to this email and accessible via the submission site. Please log into your account, locate the manuscript record, and check for the action link "View Attachments". If this link does not appear, there are no attachment files.]
+While revising your submission, please upload your figure files to the Preflight Analysis and Conversion Engine (PACE) digital diagnostic tool, https://pacev2.apexcovantage.com/. PACE helps ensure that figures meet PLOS requirements. To use PACE, you must first register as a user. Registration is free. Then, login and navigate to the UPLOAD tab, where you will find detailed instructions on how to use the tool. If you encounter any issues or have any questions when using PACE, please email PLOS at figures@plos.org. Please note that Supporting Information files do not need this step.
+PLoS ONEPLoS One10.1371/journal.pone.0242773.r002Author response to Decision Letter 0
+181220201512e0242773e0242773Collection date 2020.
+
+21 Oct 2020
+
+Dear Editors, 
+thank you and the reviewers for the kind remarks and constructive comments. We have addressed the points raised by the reviewers, with point-by-point response below. We have revised the manuscript with additional data which significantly strengthen the manuscript. We hope the revised manuscript can be accepted for publication on PLOS One.
+Kind regards
+Reviewer 1 questions
+1) It would further strengthen the analysis if the authors provide a comparison of expression profile of the genes analyzed in normal vs ASD patients. The authors could provide the comparison for whole or a subset of genes based on availability of data. This would help in narrowing down the focus on genes whose expressions vary in diseased state for future experimental studies.
+Response : We thank Reviewer 1 for raising this good point. We have now added a table and data on genes that were reported to be differentially expressed in various studies that overlap with our geneset. 
+2) ASD is more prevalent in males compared to females and is also characterized by an early onset with respect to age of an individual. So, it would again strengthen the manuscript if the authors analyze expression pattern in males vs. females and whether there is any difference with age. In case there is a notable difference, then the data should be presented whereas if there is no skewed behavior, that need to be mentioned appropriately in the results.
+Response: We have used gene lists reported by Shi et al 2016 and identified some of our ASD genes present across brain regions at prenatal stages with sex-bias expression (Fig. 8A and B). We also used CSEA webtool and found our geneset is enriched across various developmental stages in the human brain (Fig 8D). We also used GeneOveralp in Bioconductor to test significance of overlap in male biased and female biased prenatal gene sets, and identified 34 genes which are differentially spliced in male and female (Fig 8C).
+Reviewer 2 questions
+1) At present, there does not seem to be a lack of candidate genes for ASD. In the present form the manuscript identifies yet another candidate set, which does not illuminate what makes ASD distinct from other neurologic diseases, or whether ASD is a set of conditions. The manuscript would benefit from an informative comparison of the author's set with other diseases, identifying unique features of ASD.
+Response: We have compared ASD geneset with genes from psychiatric conditions (via Psychgenet) and 4 peripheral conditions (Inflammatory bowel disease, arrythmia, Type 1 and Type 2 diabetes) from Harmonizome database (GWAS lists are from GWASdb dataset. We have identified subsets of genes overlapping with CNS snf peripheral conditions, as well as ASD unique genes (Fig. 9)
+2) As the authors indicate, it is likely that the ASD-driving dysregulation(s) occur early in development and thus, the utility of the present set is unclear.
+Response: We have used CSEA to test for enrichment of the ASD geneset in various brain regions across different timepoints of brain development and showed a high enrichment to specific regions, cortex in particular (Fig. 8D)
+AttachmentSubmitted filename: Reviewer questions and responses (1).docx
+Click here for additional data file.
+PLoS ONEPLoS One10.1371/journal.pone.0242773.r003Decision Letter 1
+SahooNirakarAcademic Editor© 2020 Nirakar SahooThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+10 Nov 2020
+
+Coupling of autism genes to tissue-wide expression and dysfunction of synapse, calcium signalling and transcriptional regulation
+PONE-D-20-23352R1
+Dear Dr. Reilly,
+We’re pleased to inform you that your manuscript has been judged scientifically suitable for publication and will be formally accepted for publication once it meets all outstanding technical requirements.
+Within one week, you’ll receive an e-mail detailing the required amendments. When these have been addressed, you’ll receive a formal acceptance letter and your manuscript will be scheduled for publication.
+An invoice for payment will follow shortly after the formal acceptance. To ensure an efficient process, please log into Editorial Manager at http://www.editorialmanager.com/pone/, click the 'Update My Information' link at the top of the page, and double check that your user information is up-to-date. If you have any billing related questions, please contact our Author Billing department directly at authorbilling@plos.org.
+If your institution or institutions have a press office, please notify them about your upcoming paper to help maximize its impact. If they’ll be preparing press materials, please inform our press team as soon as possible -- no later than 48 hours after receiving the formal acceptance. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information, please contact onepress@plos.org.
+Kind regards,
+Nirakar Sahoo, PhD
+Academic Editor
+PLOS ONE
+Additional Editor Comments (optional):
+Reviewers' comments:
+Reviewer's Responses to Questions
+Comments to the Author
+1. If the authors have adequately addressed your comments raised in a previous round of review and you feel that this manuscript is now acceptable for publication, you may indicate that here to bypass the “Comments to the Author” section, enter your conflict of interest statement in the “Confidential to Editor” section, and submit your "Accept" recommendation.
+Reviewer #1: All comments have been addressed
+Reviewer #2: All comments have been addressed
+**********
+2. Is the manuscript technically sound, and do the data support the conclusions?
+The manuscript must describe a technically sound piece of scientific research with data that supports the conclusions. Experiments must have been conducted rigorously, with appropriate controls, replication, and sample sizes. The conclusions must be drawn appropriately based on the data presented. 
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+3. Has the statistical analysis been performed appropriately and rigorously? 
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+4. Have the authors made all data underlying the findings in their manuscript fully available?
+The PLOS Data policy requires authors to make all data underlying the findings described in their manuscript fully available without restriction, with rare exception (please refer to the Data Availability Statement in the manuscript PDF file). The data should be provided as part of the manuscript or its supporting information, or deposited to a public repository. For example, in addition to summary statistics, the data points behind means, medians and variance measures should be available. If there are restrictions on publicly sharing data—e.g. participant privacy or use of data from a third party—those must be specified.
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+5. Is the manuscript presented in an intelligible fashion and written in standard English?
+PLOS ONE does not copyedit accepted manuscripts, so the language in submitted articles must be clear, correct, and unambiguous. Any typographical or grammatical errors should be corrected at revision, so please note any specific errors here.
+Reviewer #1: Yes
+Reviewer #2: Yes
+**********
+6. Review Comments to the Author
+Please use the space provided to explain your answers to the questions above. You may also include additional comments for the author, including concerns about dual publication, research ethics, or publication ethics. (Please upload your review as an attachment if it exceeds 20,000 characters)
+Reviewer #1: (No Response)
+Reviewer #2: (No Response)
+**********
+7. PLOS authors have the option to publish the peer review history of their article (what does this mean?). If published, this will include your full peer review and any attached files.
+If you choose “no”, your identity will remain anonymous but your review may still be made public.
+Do you want your identity to be public for this peer review? For information about this choice, including consent withdrawal, please see our Privacy Policy.
+Reviewer #1: No
+Reviewer #2: No
+PLoS ONEPLoS One10.1371/journal.pone.0242773.r004Acceptance letter
+SahooNirakarAcademic Editor© 2020 Nirakar SahooThis is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+1 Dec 2020
+
+PONE-D-20-23352R1 
+Coupling of autism genes to tissue-wide expression and dysfunction of synapse, calcium signalling and transcriptional regulation 
+Dear Dr. Reilly:
+I'm pleased to inform you that your manuscript has been deemed suitable for publication in PLOS ONE. Congratulations! Your manuscript is now with our production department. 
+If your institution or institutions have a press office, please let them know about your upcoming paper now to help maximize its impact. If they'll be preparing press materials, please inform our press team within the next 48 hours. Your manuscript will remain under strict press embargo until 2 pm Eastern Time on the date of publication. For more information please contact onepress@plos.org.
+If we can help with anything else, please email us at plosone@plos.org. 
+Thank you for submitting your work to PLOS ONE and supporting open access. 
+Kind regards, 
+PLOS ONE Editorial Office Staff
+on behalf of
+Dr. Nirakar Sahoo 
+Academic Editor
+PLOS ONE
+Associated Data
+
+## Supplementary Materials
+S1 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S2 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S3 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(PNG)
+Click here for additional data file.
+S4 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S5 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S6 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S7 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S8 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S9 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S10 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S11 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S12 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S13 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S14 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S15 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S16 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S17 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S18 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S19 Fig
+
+## ASD genes are present in tissue-specific interaction networks.
+Yellow nodes highlight ASD genes, green are tissue-specific genes, red edges are interactions between ASD genes and other partners. The graphs are in order of appearance; Adrenal Gland, Adipose subcutaneous, Artery aorta, Artery coronary, Artery tibial, Colon sigmoid, Colon transverse, Esophagus-mucosa, Esophagus-muscularis, Heart-left atrial appendage, Heart-left ventricle, Kidney, Lung, Muscle-skeletal, Pancreas, Pituitary, Small Intestine-terminal ileum, Spleen, Stomach.
+(TIF)
+Click here for additional data file.
+S1 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S2 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S3 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S4 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S5 Table
+
+## The shortlisted genes from the scoring systems, which can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S6 Table
+
+## Jvenn overlap data.
+This can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S7 Table
+
+## HPA data relating to ASD genes.
+This can be found in supporting excel file.
+(XLSX)
+Click here for additional data file.
+S8 Table
+
+## The 292 ASD gene list with attached scoring information: This can be found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S9 Table
+
+## The expression data of the 292 genes, this is found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S10 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S11 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S12 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S13 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S14 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S15 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S16 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S17 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S18 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S19 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S20 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S21 Table
+
+## STRING results for the CNS, CNS+PT and all 292 genes, these are found in the supporting excel files.
+(XLSX)
+Click here for additional data file.
+S22 Table
+
+## Pathway interaction matrix, this is found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S23 Table
+
+## Dysregulated genes overlapped with our dataset with up/down regulation and fold changes.
+This can be found in supporting excel file.
+(XLSX)
+Click here for additional data file.
+S24 Table
+
+## Enrichment Results from CSEA analysis of genes in different brain regions across multiple timepoints, this is found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S25 Table
+
+## Gene lists for sex-biased expression in male and female prenatal brain, sex-biased splicing, and psychiatric conditions from Psygenet, and peripheral conditions from Harmonizome database.
+These are found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S26 Table
+
+## Table of non-SFARI Overlapping genes.
+This is found in the supporting excel file.
+(XLSX)
+Click here for additional data file.
+S1 File
+
+## The web links to full WebGestalt results are attached as html documents.
+(ZIP)
+Click here for additional data file.
+S2 File
+
+## GeneOverlap code final.
+(R)
+Click here for additional data file.
+S3 File
+
+## HPA-code final.
+(R)
+Click here for additional data file.
+AttachmentSubmitted filename: Reviewer questions and responses (1).docx
+Click here for additional data file.
+
+## Data Availability Statement
+All data used in this paper are publicly available. The file for median GTEx expression data can be found here (https://gtexportal.org/home/datasets). The data from HPA can be accessed via Bioconductor in R, using the code provided in the supplementary information. The networks from Huri can be accessed from NDEX (http://www.ndexbio.org/#/user/69e7b21d-8981-11ea-aaef-0ac135e8bacf) Information from the scoring systems used can be found in the supplementary information sections of their respective publications. Differentially Expressed genes can be found in from respective publications and in Geo2r (GSE42133 for Pramparo, GSE28521 for Voineagu). Code is provided for data access to HPA and GeneOverlap and generating figures. Genelists were obtained from pysgenet(http://www.psygenet.org/web/PsyGeNET/menu), Harmonizome(https://maayanlab.cloud/Harmonizome/dataset/GWASdb+SNP-Disease+Associations) and the supplementary information from respective publications.

@@ -1,0 +1,310 @@
+Iran J BiotechnolIran J Biotechnol3128iranjbiotech101276796Iranian Journal of Biotechnology1728-30432322-2921Iran National Institute of Genetic Engineering and BiotechnologyPMC8217530PMC8217530.1821753082175303417918910.30498/IJB.2021.2565IJB-19-11Research ArticleTopological Analysis of Regulatory Networks Reveals Functionally Key Genes and miRNAs Involved in the Differentiation of Mesenchymal Stem Cells
+AtaeiAtousa PoorebrahimMansour RajabpourAzam RizvanovAlbert Shahriar ArabSeyed 
+1
+Institute of Fundamental Medicine and Biology, Kazan Federal University, Kazan, Russia
+2
+Department of Medical Biotechnology, School of Advanced Technologies in Medicine, University of Medical Sciences, Tehran, Iran
+3
+Cellular and Molecular Research Center, Qazvin University of Medical Sciences, Qazvin, Iran
+4
+Institute of Fundamental Medicine and Biology, Kazan Federal University, Kazan, Russia
+5
+Department of Biophysics, Faculty of Biological Sciences, Tarbiat Modares University, Tehran, Iran
+ŧ
+Equal contribution*Corresponding author:
+Seyed Shahriar Arab. Department of Biophysics, Faculty of Biological Sciences, Tarbiat Modares University, Tehran, Iran. Tel: +98- 2182883494, Fax: +98- 2182884717, E-mail: sh.arab@modares.ac.ir120210112021191384241e2565e2565010120212506202128062021Copyright: © 2021 The Author(s); Published by Iranian Journal of Biotechnologyhttps://creativecommons.org/licenses/by-nc/4.0/This is an Open Access article distributed under the terms of the Creative Commons Attribution-NonCommercial 4.0 Unported License, ( http://creativecommons.org/licenses/by-nc/4.0/
+) which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+
+## Background:
+ The details of molecular mechanisms underlying the differentiation of Mesenchymal Stem Cells (MSCs) into specific lineages are not well understood.
+
+## Objectives:
+ We aimed to construct the interactome network and topology analysis of bone marrow mesenchymal stem cell of CAGE data. Applying the enrichment results,
+we wanted to introduce the common genes and hub-microRNA and hub-genes of these giant network.
+
+## Materials and Methods:
+ In this study, we constructed gene regulatory networks for each non-mesenchymal cell lineage according to their gene expression profiles obtained from FANTOM5 database.
+The putative interactions of TF-gene and protein-protein were determined using TRED, STRING, HPRD and GeneMANIA servers.
+In parallel, a regulatory network including corresponding miRNAs and total differentially expressed genes (DEGs) was constructed for each cell lineage. 
+
+## Results:
+ The results indicated that analysis of networks’ topology can significantly distinguish the hub regulatory genes and miRNAs involved in the differentiation of MSCs.
+The functional annotation of identified hub genes and miRNAs revealed that several signal transduction pathways i.e. AKT, WNT and TGFβ and
+cell proliferation related pathways play a pivotal role in the regulation of MSCs differentiation. We also classified cell lineages into two groups based on their predicted miRNA profiles. 
+
+## Conclusions:
+ In conclusion, we found a number of hub genes and miRNAs which seem to have key regulatory functions during differentiation of MSCs.
+Our results also introduce a number of new regulatory genes and miRNAs which can be considered as the new candidates for genetic manipulation of MSCs in vitro. 
+
+ Differentiation MSCs miRNA Regulatory network Topological analysispmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC
+
+## 1. Background
+Mesenchymal stem cells (MSCs) can be isolated in adults from a variety of tissues including: bone marrow, adipose tissue, liver, dental pulp, endometrium, muscle,
+amniotic fluid, placenta and umbilical cord blood. Because of their capacity for self-renewal and multipotency,
+MSCs are widely used in cell-based therapy for a wide range of autoimmune disorders ( 
+), degenerative diseases ( 
+) and cancers ( 
+). MSCs have a high potential to differentiate into several distinct cell lineages namely osteoblasts, chondrocytes, adipocytes, muscle cells, cardiomyocytes,
+tenocyte and neural precursors. Furthermore, these cells actively participate in organ homeostasis, injury repair, and aging processes.
+However, the details of mechanisms underlying differentiation of MSCs are only in part understood and it must be considered that there are some outstanding ambiguities
+in the differentiation stages of MSCs. In order to provide new insights into the biological aspects of differentiation of MSCs,
+there has been a growing effort toward monitoring the distinct state of stem cells differentiation using high-throughput biochips ( 
+). There are a few regulatory genes reported as a key regulator of osteogenesis (RUNX2, SP7), chondrogenesis (SOX9), adipogenesis (PPARG, C/EBPs), myogenesis (MYOD1, MYF5),
+tenogenesis (TNMD) and neurogenesis (SOX2, NEUROG2). Despite these findings, in vitro production of terminally differentiated cells from MSCs has been remained a challenge yet.
+Therefore, identification of important regulatory genes and miRNAs involved in the differentiation of MSCs seems to be critical for successful
+stem cell-based tissue engineering. Yang et al. characterized the essential genes using topological analysis of protein-protein interaction (PPI) networks and found
+that this strategy could accurately separate essential genes from non-essential genes in Saccharomyces cerevisiae ( 
+). There are several studies that indicate topological analysis of PPI networks is highly capable of finding new biomarkers in various medical investigations ( 
+). Most recently, we evaluated the role of Pluronic P85 treatment in transcription profile of human tooth germ stem cells (hTGSCs) by a network-based approach.
+Our results could efficiently clarify the molecular mechanisms underlying the impact of Pluronic P85 on hTGSCs differentiation ( 
+). 
+MiRNAs are a group of short non-coding endogenous RNAs known to post-transcriptionally control gene expression and influence a broad range of biological processes.
+It has been previously demonstrated that the complex regulatory network of miRNAs-TFs could be associated with a number of common disorders ( 
+). An interesting field of research has been generated to identify the family of miRNAs that are suspected to contribute in the differentiation of MSCs
+( 
+). Recently emerging evidences demonstrate that differentiation of MSCs is closely dependent on the miRNA expression profile regulating critical steps of
+MSCs differentiation into particular lineages ( 
+, 
+). Based on the low-throughput studies, some miRNAs have been reported as key modulators of MSCs gene expression during differentiation ( 
+- 
+). However, each miRNA may regulate hundreds of genes and several miRNAs can impair the expression of a single functional gene.
+Taken together, it seems necessary to comprehensively investigate miRNAs-genes interactions in the MSCs during differentiation processes.
+It is also important to know that miRNA expression patterns induced during differentiation of MSCs can consider as a reliable signature of lineage determination ( 
+). In particular, a set of multiple human differentiated tumors have been successfully clustered based on miRNA expression profiles,
+whereas messenger RNA (mRNA) profiles couldn’t accurately classify the same samples ( 
+).
+
+## 2. Objectives
+In the present study, we constructed TF-gene and protein-protein regulatory networks of six possible differentiation fates of MSCs including: osteogenesis,
+chondrogenesis, adipogenesis, myogenesis, neuroge-nesis and tenogenesis based on the experimental data obtained from cap analysis gene expression (CAGE).
+Subsequently, we merged these constructed networks together and built a final PPI network for each cell type.
+In parallel, a detailed miRNAs-PPI regulatory network also was reconstructed for each differentiation pathways.
+Topological analysis of the resulted regulatory networks revealed functionally distinct miRNAs and genes, which seemed to be involved in the differentiation of MSCs.
+Finally, we clustered cell lineages according to their predicted miRNA profiles. 
+
+## 3. Materials and Methods
+
+## 3.1. Data Collection
+In the present study gene expression data of several non-mesenchymal lineages including: osteocyte (3 samples), adipocyte (5 samples), myocyte (4 samples),
+chondrocyte (2 samples), tenocyte (3 samples), neurocyte (3 samples) and mesenchymal bone marrow stem cells (3 samples)
+were collected from Functional annotation of mammalian genomes5 (FANTOM5) database ( 
+). The information regarding selected datasets is available in supplementary (Table S1). FANTOM5 encompasses transcription regulatory data across a variety
+of biological states in the mammalian cells. Normalization steps and subsequently RNA-Seq data analysis were performed using DESeq package ( 
+) in R (https://www.r-project.org/). DESeq works based on negative binomial distribution and it has been shown that it outperforms other existing methods
+for finding DEGs, therefore, it can better fit to expressional data. Finally, the DEGs of six lineages were identified compared to bone marrow mesenchymal
+stem cell samples. We considered fold change (log2 fold changes larger than 1.5 and smaller than -1.5) and p-value below 0.05 as cutoffs to select the important
+genes from normalized data. 
+
+## 3.2. Regulatory Network Construction
+Among detected DEGs in six understudied cell lineages and omitting the genes with no known function, the remained functional genes were selected for constructing gene
+regulatory networks. Protein-protein relationships’ data were obtained from STRING (a protein-protein interaction database) ( 
+), GeneMANIA (a web service used for prediction of gene function for a list of genes) ( 
+) and Human Protein Reference Database (HPRD; http://www.hprd.org/) databases as well as literature mining ( ). The putative TF-target gene pairs were obtained from
+TRED (The transcriptional regulatory element database) ( 
+). Only the interactions with at least one published experimentally validation were retrieved from the databases.
+The corresponding protein-protein and TF-gene networks in all six cell lineages were constructed. TF-genes and protein-protein networks were merged together and
+a final PPI network was built for each cell lineage. Briefly, The TFs were initially filtered from DEG lists via utilizing TRED database,
+and subsequently a TF-gene regulatory network was constructed for DEGs of each cell lineage. In this step, only the gene targets that were existed in DEGs list
+participated in network construction. In parallel, PPIs were collected from STRING, HPRD and GeneMANIA.
+All found interactions were integrated into a file and visualized using Cytoscape for further analyses.
+In parallel, the experimentally validated miRNAs involved in the regulation and function of TFs and other genes in PPI networks were collected through
+text mining beside mirTarBase ( ) and miRSearch
+(https://www.exiqon.com/mirsearch) databases. Only experimentally verified miRNA–target relationships were considered for further analyses.
+Corresponding miRNA-PPI networks in the respective cell types were also reconstructed.
+ 
+
+## 3.3. Networks Topological Analysis
+Topological network analysis was carried out for PPI and miRNA-PPI networks of all six cell lineages.
+Among different measures available for network topology analysis using Cytoscape 3.2.1 plugin Network Analyzer,
+Degree and Betweenness centrality were selected as a criterion for selecting important regulatory genes in this study,
+since their results showed better outcome than others (highly consistent with MSCs differentiation pathways) ( 
+). Nodes degree which is one of the centrality measures of a network refers to the number of neighbors (edges) of a node.
+Usually nodes with higher degree centrality are considered as biologically important ones within biological networks.
+Betweenness centrality is another centrality measure representing the number of times each node is visited during traversing all shortest paths
+(the smallest number of edges linking any pair of nodes) and computed as follow:
+
+Cb(n)=∑s≠n≠t(σst(n)σst)
+
+The s and t are nodes in the network different from n, σst indicate the
+number of shortest paths from s to t,
+and σst(n) is the number of shortest paths from s to t that n lies on.
+We selected top genes according to the ranked results of two mentioned methods. The genes with high Betweenness centrality or degree and miRNAs
+with higher out-degree were considered as important regulatory hubs. 
+
+## 3.4. Functional Annotation Clustering
+In order to determine the functional categories of the regulatory hub genes obtained from the previous step, the list of detected hub genes in
+each network were introduced to DAVID bioinformatics resources ( 
+). Hub genes with transcriptional regulatory function were selected in order to identify any regulatory relationships among them.
+Interactions between transcriptional regulatory hub genes and corresponding hub miRNAs were determined and visualized ( ).
+Specific enrichment of miRNAs was also performed using TAM tool ( ).
+ 
+
+## 3.5. MiRNA-Based Classification of Cell Lineages
+The classification of cell lineages were performed in MATLAB 2014 based on respective miRNA profiles with a distance-based hierarchical clustering
+(using Jaccard similarity coefficient distance ( 
+) method written in JAVA programming language. Jaccard similarity coefficient is used for the comparison of the similarity of datasets through calculating the
+intersection of two sample sets divided by their unions. In this study first the Jaccard distance between 6 different cell lineages were calculated using
+a written program in JAVA. The resulted distance table was in turn imported to MATLAB 2014 and classified using “complete seqlinkage” command which works based
+on “Unweighted Pair Group Method with Arithmetic Mean” (UPGMA) ( 
+). The analysis of homology between the miRNA sets of six lineages was also carried out by using InteractiVenn web tool ( ).
+
+## 4. Results 
+
+## 4.1. PPIs Network Analysis
+After analyzing with DESeq, the DEGs of each cell lineage were chosen as genes that were significantly up-and down-regulated in differentiated
+cell samples compared with MSC samples. The non-functional genes (genes with no known function which are different from non-annotated genes)
+were removed and remained genes of each cell lineage were finally selected for constructing PPI networks. The number of nodes-edges in the PPI networks constructed from osteocyte,
+chondrocyte, adipocyte, myocyte, neurocyte and tenocyte gene expression profiles are 381-1724, 190-3026, 194-1855, 181-1397, 164-758 and 206-436 respectively.
+We analyzed the topological properties of interactions in the constructed PPI networks to determine key hub genes of MSCs differentiation.
+The results of nine performed methods were compared together and it turned out that Degree and Betweenness methods were highly reliable to identify the functional
+genes likely to be involved in the MSCs differentiation. However, based on the node degree distribution and neighborhood connectivity distribution charts,
+all constructed PPI networks showed a biological scale-free pattern. Node degree distribution chart indicated that many nodes had low numbers of interactions and
+a few nodes were highly connected. Neighborhood connectivity distribution showed an assortative pattern, which means that nodes had a
+tendency to connect with nodes with similar connectivity (cytoscape exportable files are available in Supplementary PPI data). 
+After filtering and removing duplicate values between two applied measures, we obtained a large number of unique genes (143 from osteocyte,
+138 from chondrocyte, 134 from adipocyte, 131 from myocyte, 128 from neurocyte and 142 from tenocyte) and defined these genes as the main candidate
+genes involved in MSCs differentiation (supplementary Table S2). Presence of several cell-specific biomarkers
+(i.e. RUNX2 and SP7 for osteocyte, SOX9 for chondrocyte, PPARG for adipocyte, MEF2A, 2C and 2D for myocyte, SOX2, NEUROG1, G2, G3 and D1 for neurocyte
+and ETV5 and FGF2 for tenocyte) indicate that the PPI networks are highly cell-specific. We performed functional annotation of obtained hub genes using DAVID tool and
+regarded transcriptional regulatory genes category consisting of TFs and non-TFs genes for further analysis ( ).
+However, functionalannotation of obtained hub genes from PPI network revealed that these genes share some similar processes,
+such as cell cycle, differentiation, signal transduction, phosphorylation, transcription regulation, and so on ( ).
+Among DAVID terms, signal transduction and phosphorylation categories which consist of the highest proportion of DEGs seem to have key role in the differentiation of MSCs. 
+ 
+
+## 4.2. MiRNAs-PPI Network and Clustering Analyses
+MiRNA-PPI regulatory networks were reconstructed by adding corresponding miRNAs to the PPI network of each cell lineage. The resulting networks of osteocyte,
+chondrocyte, adipocyte, myocyte, neurocyte and tenocyte consist of 637-1613, 632-1491, 654-1668, 627-1557, 602-1438 and 634-1588 nodes-edges respectively.
+Topological analysis of these regulatory networks identified a set of hub miRNAs for each cell type. The miRNAs with higher out-degree measure are tabulated in
+the . After removing duplicate miRNAs, we obtained 35 unique miRNAs identified as hub miRNAs in six networks
+and represented them along with their targets in the . However, the expression levels of these hub miRNAs need to
+be experimentally evaluated to identify the up- and down-regulated hub miRNAs in each cell lineage. 
+ Enrichment of all six lineage-related hub miRNAs indicated that some particular functional categories such as Cell cycle,
+Apoptosis, AKT signaling pathway, Angiogenesis, Hormones regulation, Human embryonic stem cell (hESC) regulation and Cell differentiation
+were significantly overrepresented ( ). A comparison of predicted miRNA patterns of six cell lineages demonstrated that ten clusters
+of miRNAs including: has-let-7a, has-mir-15a, has-mir-181a, has-mir-182, has-mir-196a, has-mir-221, has-mir-29a, has-mir-29b,
+has-mir-30a and has-mir-374b are common in all six miRNA-PPI networks. The functional annotation of selected hub genes and miRNAs suggest
+that signal transduction and cell cycle related pathways play a pivotal role in the regulating MSCs differentiation. The enrichment of hub miRNAs
+revealed that a high number of miRNAs are participated in the modulation of AKT signaling pathway. The central role of AKT signalingpathway in
+the regulation of MSCs proliferation, survival, differentiation and migration has been reported more and more
+( , ).
+Lim and colleagues found that Akt-dependent up-regulation of Bcl2 mediates the differentiation and survival of MSCs stimulated by
+Brain-derived neurotrophic factor (BDNF) ( ). 
+ Owing to the fact that there are considerable differences between the miRNA expression signatures of MSC-derived lineages
+( ), miRNA-based classification may provide a deeper insight into the perception of common
+regulatory mechanisms underlying the self-renewal and differentiation of MSCs. In this step, cell lineages were classified only by
+considering the experimentally validated miRNAs corresponding to the DEGs. The six non-mesenchymal cell lineages were divided in two groups by
+the cluster analysis. The first group was composed of myocyte and neurocyte, while the second group contained chondrocyte, osteocyte, adipocyte and tenocyte.
+The results of the classification clearly indicated that the all six cell lineages share a large number of similar miRNAs.
+However, there was no previous study reporting the origin of studied cell lineages according to their miRNA expression profile, and
+therefore the details of this result must be validated experimentally.
+
+## 5. Discussion
+Previous studies have reported that canonical WNT/CTNNB1 signaling pathway plays a crucial role in the specific stages of osteogenesis by directly regulating RUNX2 gene expression ( 
+). Here, we found CTNNB1 and TCF3 genes involved in canonical WNT pathway as hub genes of osteocyte PPI network. The KLF10, ATF4 and FOXO1 ,three hub genes of osteocyte, can also promote osteogenesis by stimulating RUNX2 expression
+( , ),
+whereas BMP2 and MSX2 can up-regulate SP7/OSX in the MSCs undergoing osteogenic differentiation ( ).
+LEF1 is a hub gene of adipocyte, myocyte and tenocyte PPI networks which participates in WNT signaling pathway. In has been revealed that WNT/LEF1 signaling pathway
+acts as positive regulator of myogenesis via up-regulation of PITX2 expression ( 
+). The TGFβ signaling pathway is also necessary for differentiation of MSCs into particular lineages, especially osteocyte.
+Activation of TGFβ let to the up-regulation of RUNX2 and down-regulation of PPARG through interacting with PPARγ signaling pathway.
+This pathway provides a functional competence between osteogenesis and chondrogenesis during the early stages of their development and also inhibit differentiation
+of MSCs into adipocyte and myocyte ( 
+). However, the detailed role of TGFβ signaling pathway in tenogenesis is not well described. We found some SMAD family members,
+involved in TGFβ signaling pathway, namely SMAD1, SMAD5, SMAD3 and SMAD9 as hub regulatory genes of osteo, chondro and tenocyte-derived PPI networks.
+Recent studies have shown that two HOX and SOX families encode a highly conserve group of transcription factors which play
+a crucial role in regulating of lineage development. Our results indicated that several members of these two families
+(SOX1-6 and HOXC6, HOXA9, HOXA10) are obviously recognized as hub genes of neurocyte PPI network.
+The key role of SOX family in the regulation of neural development has been frequently reported ( 
+). We found that SOX6 was significantly down-regulated in the neurocyte samples compared to MSC samples suggesting its negative effect on the neural development
+by maintaining the undifferentiated state of neural progenitors. In addition to neurocyte, we obtained SOX9 and SOX11 as hub genes of chondrocyte and adipocyte
+networks respectively. SOX9, a master regulator of chondrogenesis, is required for successive differentiation of MSCs into chondrogenic lineage
+( 
+). Overexpression of SOX11 has been observed in the MSCs undergoing osteogenesis, adipogenesis, neurogenesis and chondrogenesis proposing that
+expression of this gene is critical for differentiation of MSCs into four mentioned lineages ( ).
+FGF2 is a member of growth factors that implicate in diverse biological processes, such as cell growth, cell differentiation and wound healing.
+This gene was found as a hub gene of tenocyte, neurocyte and chondrocyte PPI networks. FGF2 enhances the chondrogenic potential
+of MSCs through strong induction of SOX9 expression ( 
+). This gene sufficiently increases tenogenesis by activating ETV4 and ETV5 transcription factors that result in the induction of SCX, a tendon-specific marker
+( 
+). FGF2 can also indirectly inhibit differentiation of MSCs into neural lineage via interaction with NOTCH signaling pathway
+( 
+). TWIST1, a hub gene of osteocyte, myocyte and neurocyte PPI networks, plays a crucial role in the regulation of osteogenesis ( 
+) and muscle development ( 
+). However, its function in neurogenesis has not yet been established. EGR1 and EGR2 are transcriptional regulators that activate
+the expression of several genes whose products are required for adipogenic and tenogenic differentiation of stem cells ( 
+, 
+). The EGFR-induced expression of EGR2 can also preserve the capacity of osteoprogenitor proliferation ( 
+). SIRT1 was distinguished as the most important hub gene of adipocyte PPI network suggesting its key role in promoting adipogenesis and adipose tissue development.
+Recent studies have demonstrated that SIRT1 can induce the expression of ADIPOQ, an adipose-derived hormone expressed during the early phase of adipogenesis,
+by enhancing the FOXO1 and CEBPA interaction ( 
+). 
+It has been observed that miRNA expression profile of MSC is changed considerably during differentiation into cell lineages.
+The corresponding functionally active miRNAs are involved in the regulation of specific stages of MSCs differentiation.
+Among the all six lineages miRNAs-PPI networks, hsa-miR-335 was found as a hub miRNA with the highest out-degree.
+Then, this miRNA considered as the most important hub miRNA in the analyzed miRNAs-PPI networks. Down-regulation of hsa-miR-335 has
+been experimentally observed upon MSCs differentiation. Recent reports have indicated that overexpression of hsa-miR-335 can
+inhibit the differentiation and migration of human MSCs ( 
+). The expression of has-miR-335 in MSCs activates WNT signaling pathway that results in the increased stemness, and the acquisition
+of migration capability ( 
+). This miRNA regulate proliferation and differentiation of MSCs through targeting high number of genes, almost 60 genes, such as RB1 and RUNX2
+( 
+, 
+). The expression of two identified hub miRNAs including has-miR-124 and has-miR-34a is also associated with differentiation of MSCs.
+Ectopic expression of has-miR-124 resulted in the substantially down-regulation of ACAN, a chondrocyte marker, as well as the up-regulation of an adipocyte marker, FABP4 ( 
+). In the neural precursor cells, has-miR-34a is able to control MSCs neurogenesis through modulating the genes involved in the regulation of cell motility ( 
+). This miRNA also acts as negative regulator of osteogenesis by inhibiting translation of JAG1 ( 
+). JAG1 is a ligand for NOTCH receptors mediating NOTCH signaling pathway and is able to increase osteogenic potential of MSCs ( 
+). Hsa-miR-26 family consisting of hsa-miR-26a and hsa-miR-26b are actively participating in the regulation of MSCs differentiation.
+This family can facilitate the MSCs osteogenesis possibly by targeting some osteogenesis inhibitory genes such as HDAC4 and CDK6 ( 
+). Furthermore, hsa-miR-26b is also known to act as a negative regulator of adipocytes differentiation, likely by regulating PTEN expression
+( 
+). The hsa-let-7 family is another important family of miRNAs which is well known because of its tumor suppressor activity.
+Moreover, the members of this family led to a temporal switch of MSCs from undifferentiated state to various differentiated cell lineages
+( 
+). Except for neurocyte network, we obtained hsa-let-7a and hsa-let-7b as hub miRNA of all analyzed networks.
+The specific role of hsa-let-7 family in the promotion of osteogenesis is mediated through regulation of HMGA2 ( 
+).
+Our results indicated that hsa-miR-148b is a hub miRNA of neurocyte, tenocyte and adipocyte miRNAs-PPI networks. Members of hsa-mir-148 family,
+which include hsa-miR148a, hsa-miR-148b and hsa-miR-152, have an aberrant expression in different stages of MSC differentiation.
+The experimental studies, have also reported that this family is involved in the regulation of osteogenesis, myogenesis and adipogenesis ( 
+). Schoolmeesters et al. found that the expression of hsa-miR-148b significantly increased during early steps of osteogenesis ( 
+). Overexpression of hsa-miR-148b has also reported in the mouse adipocytes and referred as a high confidence PPARG target ( 
+). PPARG is a negative regulator of osteogenesis and inhibition of this gene can efficiently promote the osteogenesis of MSCs.
+The hsa-miR-20, as one of the identified adipocyte hub miRNA, can accelerate the differentiation of MSCs into osteocytes through targeting PPARG ( 
+). In all six miRNA-PPI networks, hsa-miR-21 was recognized as an important hub miRNA (Out-degree>10).
+Hsa-miR-21 is able to inhibit osteogenesis and promote adipogenesis by modulating TGFβ signaling pathway ( 
+). However, Yang Mei et al. reported that overexpression of hsa-miR-21 can enhance the expression of PPARG and RUNX2 resulting in
+an increased in adipogenesis and osteogenesis respectively ( ). 
+
+## 6. Conclusion
+Our results also introduced FOXO1 as a down-regulated hub gene of chondrocyte and adipocyte PPI networks.
+FOXO1 suppresses adipocyte differentiation by repressing the expression of PPARG gene ( 
+). In this study, some other FOX family members including FOXM1, FOXC2 and FOXO3 were also determined as hub regulatory genes of osteocyte, chondrocyte,
+adipocyte and myocyte networks. Recently, a considerable attention has been focused on studying the roles of FOX family in cancer progression and invasion.
+More details are given in Ref ( 
+). According to our results, this family of transcription factors can be considered as new potential candidates for in vitro manipulation of MSCs. 
+The HOX family, either transcriptionally or epigenetically, regulates neurogenesis in the vertebrates. However, the possible mechanism underlying
+transcriptional regulation of HOX genes during neural development is barely understood. There were two other homeobox-containing genes
+including DLX2 and DLX5 in the final lists of tenocyte and myocyte hub genes. It has been shown that DLX2 negatively regulates NOTCH signaling
+pathway and DLX5 inhibits neural differentiation of MSCs ( 
+). The NOTCH signaling pathway functions in the sustaining stemness of MSCs as well as neural lineage development. Based upon these findings,
+we suggest that DLX2/5 can promote myogenesis by inhibiting NOTCH signaling pathway and consequently suppressing neurogenesis.
+However, we couldn’t find any published data explaining the specific role of DLX proteins in the regulation of tenogenesis. 
+The role of hsa-miR-192 in the regulation of MSCs differentiation is not well established and researchers have mainly focused on
+its function in the cancer progression ( 
+). However, it has been reported that PPARG gene expression, a marker of adipocyte, is regulated by hsa-miR-192 induction ( 
+). The inhibition or induction of hsa-miR-9 and hsa-miR-98 can regulate IL1B, TNFA, MMP13 and COL2A1 genes expression indicating their important roles
+in the development of chondrocytes and osteocytes ( 
+, ). 
+In conclusion, we aimed to identify key regulatory genes and miRNAs likely to be involved in the regulation of MSCs differentiation.
+Consistent with recent publications, we found a set of hub genes and miRNAs seemed to be key regulators of MSCs differentiation.
+Our results also introduced a number of new regulatory genes and miRNAs which can be considered as the new candidates for genetic manipulation of MSCs. 
+
+## Acknowledgement
+This research is supported by Research Core: “Bio-Mathematics with computational approach” of Tarbiat Modares University,
+with grant number “IG-39706” and the Russian Government Program of Competitive Growth of Kazan Federal University.
+Albert A. Rizvanov was supported by state assignments 20.5175.2017/6.7 and 17.9783.2017/8.9 of the Ministry of Science and Higher Education of Russian Federation. 
+
+Conflict of Interest:
+The authors declare no conflicts of interest.
