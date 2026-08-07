@@ -1710,6 +1710,40 @@ def _cannot_conclude():
             "sarcomas, (c) a platform-wide offset between the arms, and (d) the gene being a "
             "generic proliferation or matrix gene. The null calibration removes (c) and part of "
             "(d). It does NOT remove (a) or (b), and nothing available at $0 does."),
+        "1b_no_fusion_cistrome_exists_in_the_retrieved_literature": {
+            "_this_is_a_SEARCH_RESULT_not_an_assumption": True,
+            "question": "Has anyone applied a GENOME-WIDE chromatin method (ChIP-seq, CUT&RUN, "
+                        "CUT&Tag, ChIP-exo, ChIP-PET, ATAC-seq) to an NR4A3 FUSION — EWSR1::NR4A3, "
+                        "TAF15::NR4A3 or TFG::NR4A3?",
+            "corpora_searched": {
+                "extraskeletal-myxoid-chondrosarcoma": {"fulltext_files": 693,
+                                                        "index_records": 1369},
+                "nr4a3-cistrome-tight": {"fulltext_files": 461, "index_records": 792},
+                "nr4a3-fusion-partners": {"fulltext_files": 345, "index_records": 530},
+                "nr4a3-lbd-vs-af1": {"fulltext_files": 13},
+                "pparg-direction-emc-2026-08-06": {"fulltext_files": 764, "index_records": 978},
+            },
+            "totals": {"fulltext_documents_scanned": 2276, "catalogued_records": 3669,
+                       "documents_naming_both_a_cistrome_method_and_NR4A3_NOR1_TEC": 153},
+            "result": "ZERO. Not one sentence in 2,276 retrieved documents applies a genome-wide "
+                      "chromatin method to an NR4A3 chimera. The only chromatin experiment "
+                      "performed with a fusion anywhere in this corpus is Brenca et al.'s "
+                      "ChAP-qPCR — TARGET-SPECIFIC amplification at ONE locus (SEMA3C), not a "
+                      "genome-wide map.",
+            "⛔_how_to_state_it": "‘No EWSR1::NR4A3 cistrome has been retrieved in 2,276 documents "
+                                 "across five committed corpora’ — a bounded negative about a "
+                                 "SEARCH. It is NOT ‘no such dataset exists’: this searched "
+                                 "retrieved full text, not all of PubMed, and a dataset can be "
+                                 "deposited without a paper. AN ABSENT READING IS NOT A READING "
+                                 "OF ABSENCE.",
+            "why_it_matters": "It is the reason the discriminator below has to reach for a "
+                              "NON-fusion tumour's cistrome, and the reason that substitution "
+                              "must carry Filion's native-does-not-activate-PPARG measurement "
+                              "beside it. It also means a fusion cistrome is an OPEN, unclaimed "
+                              "experiment rather than a dataset someone forgot to fetch.",
+            "reproduce": "research/modalities/nr4a3_fusion_targets.py header names the corpora; "
+                         "they are on the `literature-cache` branch under `literature/`.",
+        },
         "2_what_would_discriminate": [
             "★ A CISTROME IN THE RIGHT CELL. An NR4A3 ChIP-seq peak set with the FUSION expressed, "
             "intersected with these expression reads: a gene that is up in EMC AND carries a "

@@ -397,6 +397,19 @@ def test_the_discriminator_section_states_the_AciCC_caveat_rather_than_selling_t
     assert "NATIVE NR4A3" in txt and "NOT a fusion" in txt
 
 
+def test_the_no_fusion_cistrome_finding_is_stated_as_a_bounded_search_not_as_absence(flat):
+    """⛔ THE MOST QUOTABLE SENTENCE IN THE FILE AND THE EASIEST TO OVERSTATE. It must carry the
+    corpus sizes it was measured over and must refuse the 'no such dataset exists' reading."""
+    b = flat["_what_this_cannot_conclude"]["1b_no_fusion_cistrome_exists_in_the_retrieved_literature"]
+    assert b["totals"]["fulltext_documents_scanned"] == 2276
+    assert b["totals"]["documents_naming_both_a_cistrome_method_and_NR4A3_NOR1_TEC"] == 153
+    assert "ZERO" in b["result"]
+    txt = json.dumps(b)
+    assert "not all of PubMed" in txt
+    assert "ABSENT READING IS NOT A READING" in txt.upper()
+    assert sum(v["fulltext_files"] for v in b["corpora_searched"].values()) == 2276
+
+
 def test_the_coordination_note_says_what_is_needed_rather_than_fetching_it(flat):
     txt = flat["_what_this_cannot_conclude"]["3_coordination_note"]
     assert "does NOT fetch" in txt

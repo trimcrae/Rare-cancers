@@ -205,6 +205,32 @@ produced a redundancy argument its own cited source contradicts (`pparg-directio
 comparator sarcomas; (c) a platform-wide offset; (d) the gene being a generic proliferation or matrix gene.
 **The null calibration removes (c) and part of (d). Nothing available at $0 removes (a) or (b).**
 
+### ⛔ First, a measured negative: **no NR4A3-fusion cistrome has been retrieved**
+
+The obvious discriminator is a cistrome. So the corpora were searched for one, and the search is
+reported rather than assumed.
+
+| corpus | full-text documents | catalogued Europe PMC records |
+|---|---:|---:|
+| `extraskeletal-myxoid-chondrosarcoma` | 693 | 1,369 |
+| `pparg-direction-emc-2026-08-06` | 764 | 978 |
+| `nr4a3-cistrome-tight` | 461 | 792 |
+| `nr4a3-fusion-partners` | 345 | 530 |
+| `nr4a3-lbd-vs-af1` | 13 | — |
+| **total** | **2,276** | **3,669** |
+
+**153 of those documents name both a genome-wide chromatin method** (ChIP-seq, CUT&RUN, CUT&Tag,
+ChIP-exo, ChIP-PET, ATAC-seq, ChAP) **and NR4A3/NOR-1/TEC. Zero of them apply one to an NR4A3 chimera.**
+The only chromatin experiment performed with a fusion anywhere in the corpus is Brenca et al.'s
+**ChAP-qPCR — target-specific amplification at one locus**, not a genome-wide map.
+
+⚠ **State it as what it is: a bounded negative about a SEARCH.** *"No EWSR1::NR4A3 cistrome has been
+retrieved in 2,276 documents across five committed corpora."* It is **not** *"no such dataset exists"* —
+this searched retrieved full text, not all of PubMed, and a dataset can be deposited without a paper.
+**An absent reading is not a reading of absence.** What it does establish is that a fusion cistrome is an
+**open, unclaimed experiment**, not a dataset someone forgot to fetch — and that any substitute must carry
+Filion's *native-does-not-activate-PPARG* measurement beside it.
+
 ### What would discriminate, named rather than hand-waved
 
 1. ★ **A cistrome, intersected with these expression reads.** A gene that is up in EMC **and** carries a
