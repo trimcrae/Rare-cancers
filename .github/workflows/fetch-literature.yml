@@ -62,6 +62,16 @@ jobs:
       - name: Install PDF text extractor
         run: python3 -m pip install --quiet pypdf
 
+      # A `query` beginning with `PROBE:` runs the read-only batch citation probe INSTEAD of the
+      # corpus paths: Europe PMC + ClinicalTrials.gov over the query set in
+      # scripts/lit_probe_queries.json, printed to THIS LOG and committed nowhere. The dev sandbox's
+      # egress proxy blocks every literature host (europepmc, ncbi, doi.org, crossref, openalex,
+      # clinicaltrials.gov and every publisher), so verifying a PMID/DOI/NCT has to happen out here
+      # (CLAUDE.md §6). Nothing is published, so the slug guard below has no claim to check.
+      - name: Batch citation probe (read-only, log-only)
+        if: ${{ startsWith(inputs.query, 'PROBE:') }}
+        run: python3 scripts/lit_batch_probe.py
+
       # ⛔ THE SEARCH THIS WORKFLOW HAS ALWAYS CLAIMED TO DO WAS NEVER WIRED UP (found 2026-08-05).
       # This file's own header says it "Pulls open-access research papers ... using the Europe PMC API
       # via scripts/fetch-paper.mjs". That script exists, has exactly the `sync "<query>"` command the
@@ -72,7 +82,7 @@ jobs:
       # reported SUCCESS. CLAUDE.md §6 names this workflow as the Europe PMC escape hatch, on the
       # strength of the header -- so the rule pointed every session at a search that did not run.
       - name: Europe PMC search + open-access full text (the `query` path)
-        if: ${{ inputs.query != '' }}
+        if: ${{ inputs.query != '' && !startsWith(inputs.query, 'PROBE:') }}
         env:
           QUERY: ${{ inputs.query }}
         run: node scripts/fetch-paper.mjs sync "$QUERY"
@@ -85,7 +95,7 @@ jobs:
       # description of the wiring. (Same lesson as tests/test_fleet_armed.py's exempt-lane wiring
       # test: a property asserted in prose about a value a caller passes is a hope, not a property.)
       - name: Assert the query path actually searched (non-empty + known-positive control)
-        if: ${{ inputs.query != '' }}
+        if: ${{ inputs.query != '' && !startsWith(inputs.query, 'PROBE:') }}
         env:
           LIT_EXPECT_PMIDS: ${{ inputs.expect_pmids }}
         run: python3 scripts/lit_query_assert.py
