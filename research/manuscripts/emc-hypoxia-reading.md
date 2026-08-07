@@ -337,41 +337,43 @@ or clinical readiness for any agent in any of these classes in EMC. A transcript
 hypoxia in 16 archival tumours is not a patient-selection biomarker, is not a companion diagnostic,
 and does not support giving anyone anything.
 
-⛔ **THE TRIAL REGISTRY WAS NOT RETRIEVED, AND THIS SECTION THEREFORE STATES NO CLASS'S TRIAL
-STATUS.** The retrieval ran on 2026-08-07. Its **PubMed half succeeded** for all 21 agents; its
-**ClinicalTrials.gov half failed for every one of them**, HTTP 400 on all four retries — root-caused
-from the job log as a malformed request of ours (the query passed v1 `StudyFields` names to the v2
-endpoint), not a block and not a rate limit. So this memo can say what has been *written about* and
-**cannot** say what has been *registered*, which is precisely the half a reader wants: whether a
-class's trials stopped, and why.
+**The clinical record below was RETRIEVED, not recalled**, from ClinicalTrials.gov API v2 and
+PubMed on 2026-08-07. Every query and every returned row is in
+`research/modalities/emc-hypoxia-therapeutic-status.json`, which is its one home; the summary in
+`emc-hypoxia-confounds.json` → `therapeutic_hooks` adds no fact that file does not carry.
 
-⚠ **That failure very nearly published as a finding.** The summariser printed
-`n_registered_studies_returned: 0` and an empty phase table for all three classes, which renders
-exactly like a class that genuinely has no registered trial — while the per-agent record underneath
-said `QUERY FAILED` throughout. It now emits **no count at all** when every query for a class
-failed. The record and the fix are in
-`research/modalities/emc-hypoxia-therapeutic-status.json` and
-`emc-hypoxia-confounds.json` → `therapeutic_hooks`, which is that fact's one home.
+⚠ **Read the registry for STATUS, never for OUTCOME.** ClinicalTrials.gov records that a trial
+completed, not what it showed. Where a trial's own `whyStopped` field is quoted below it is verbatim
+from the registry; nowhere does this memo state a trial's *result*, because the registry cannot
+supply one and this session did not read the publications.
 
-⚠ **The general prior below is therefore stated WITHOUT its supporting retrieval.** Hypoxia-directed
-therapy is widely understood to have a poor track record in solid tumours including sarcoma — but on
-this repository's own rule that nothing clinical may be stated uncited, that sentence is currently
-**[unverified] at the retrieval level** and the table states what must be checked rather than what
-was found. **No sentence anywhere may state a class's status from memory while the registry half
-reads NOT RETRIEVED.**
+| class | registered studies (ph 3) | sarcoma-indexed | what the record actually says |
+|---|---|---|---|
+| **Hypoxia-activated prodrugs** (evofosfamide/TH-302, tirapazamine, PR-104, tarloxotinib, CP-506, apaziquone, banoxantrone) | **109** (17) | **9** | ⚠ **This class has already been taken into soft-tissue sarcoma at phase 3 and the follow-on is gone.** `NCT01440088` — TH-302 + doxorubicin vs doxorubicin alone, **PHASE 3, COMPLETED**; its continuation `NCT02712567` (SARC021C) is **NO_LONGER_AVAILABLE**; the Japanese phase 2 `NCT02255110` is **TERMINATED**. Two further TH-302 trials carry registry `whyStopped` text of *"the futility boundary was not met and the study was stopped"* (`NCT02093962`) and *"company decision to discontinue"* (`NCT02047500`), and three PR-104 trials are terminated, one for *"low probability of clinically significant result"* (`NCT00862134`), one *"poorly tolerated"* (`NCT00862082`). |
+| **HIF-pathway agents** (belzutifan/MK-6482/PT2977, PT2385, ARO-HIF2, EZN-2968) | **109** (24) | **0** | ⚠ **A large, active class that has never been indexed to sarcoma at all** — and **isoform** decides whether that matters. The approved agent is HIF-2α-selective, i.e. **EPAS1**, and EPAS1 here is *t* = **+2.55** (GPL6244) and **+0.26** (GPL3290): not reproducibly elevated, with HIF machinery overall flat (§2, §3). A class hook that ignores which isoform moves is not a hook. |
+| **CA-IX-directed agents** (girentuximab and the ⁸⁹Zr line, SLC-0111, DTP348, CA9 CAR-T) | **30** (6) | **1** | ⚠ **The single sarcoma-indexed trial is IMAGING, not therapy** — `NCT06447103`, an ⁸⁹Zr-DFO-GmAb PET/CT scan study, RECRUITING. `SLC-0111`'s pancreatic trial `NCT03450018` is TERMINATED (*"changing treatment landscape"*), `DTP348`'s `NCT02216669` WITHDRAWN (*"no financial agreement"*). This is a small class, mostly early phase, with its sarcoma exposure so far confined to imaging. |
 
-| class | why this reading points at it | what must be checked before it is stated as a hook |
-|---|---|---|
-| **Hypoxia-activated prodrugs** (evofosfamide/TH-302, tirapazamine, tarloxotinib, CP-506, PR-104, banoxantrone) | the entire rationale is the tissue state this reading is about | ⚠ **the soft-tissue-sarcoma history comes first, not in a footnote.** The strongest EMC-specific preclinical support for this class is already **invalidated** here (§1). |
-| **HIF-pathway agents** (belzutifan and the HIF-2α series, EZN-2968) | HIF is the transcription factor the signature is a shadow of | ⚠ **isoform.** The approved agent in this class is HIF-2α-selective, i.e. **EPAS1** — and EPAS1 in this data is *t* = +2.55 (GPL6244) and **+0.26** (GPL3290), i.e. not reproducibly elevated, while HIF machinery overall is flat. A class hook that ignores which isoform moves is not a hook. |
-| **CA-IX-directed agents** (girentuximab and the ⁸⁹Zr imaging line, SLC-0111, CA9 CAR-T) | CA-IX is among the most hypoxia-restricted proteins in normal tissue, which is what makes it an address rather than only a marker | ⚠ **surface protein, not transcript.** A CA9 transcript reading is not a measurement of surface CA-IX density on EMC cells and cannot become one. This is the same distinction the repo's surfaceome work already enforces. |
+**And the question a reader will ask, asked directly rather than inferred:** ClinicalTrials.gov
+returns **23 registered trials whose condition list names extraskeletal myxoid chondrosarcoma**
+(query in the artifact). Scanning their titles, none is a trial of any agent in the three classes
+above — they are sarcoma-basket, radiotherapy, and targeted/immunotherapy studies (e.g.
+`NCT02066285`, pazopanib in solitary fibrous tumour **and EMC**). ⚠ That is a reading of trial
+TITLES and condition lists, not of their intervention lists, so it is a strong indication and not a
+proof of absence.
 
-**The honest ranking among the three**, on this data alone and for the single reason that it is the
-only one with an internally consistent measured basis here: CA9 is the readout that behaved best in
-§3 — up between arms on both platforms and tracking the rest of the signature within EMC tumours on
-both. That makes CA-IX the most defensible thing to *ask a question about*. It does **not** make a
-CA-IX-directed agent a candidate, because the address is a surface protein nobody has measured in
-EMC.
+**The honest ranking among the three**, on this data alone: CA-IX has the best measured basis here —
+CA9 is up between arms on both platforms and is the one readout that tracks the rest of the
+signature within EMC tumours on both (§3). It also has the **least** clinical baggage of the three
+in sarcoma, and by far the least clinical development overall. Those two facts pull in opposite
+directions and neither is evidence of anything about EMC. ⛔ It does **not** make a CA-IX-directed
+agent a candidate: the address is a **surface protein nobody has measured in EMC**, and a CA9
+transcript reading cannot become that measurement.
+
+⛔ **What the prodrug row means for this memo's own framing.** The class whose mechanism this
+reading points at most directly is the class that has already had its phase 3 in soft-tissue
+sarcoma, and the strongest EMC-specific preclinical support for it is `invalidated` here (§1). A
+hypoxia signature in EMC is therefore a reason to ask a **question**, not a reason to revisit that
+class — and any sentence that reads the other way is over-reading this memo.
 
 ---
 
@@ -403,11 +405,10 @@ an abundant but comparatively under-sulfated chondroitin-sulfate matrix, in the 
 readable EMC expression series"* — reporting the confound audit **as the result**, including the
 platform disagreement and the multiplicity deflation, rather than the headline.
 
-**What is missing before it is worth posting:** the **trial-registry half of §5** (one $0 CI
-re-dispatch — the query is fixed, and `skip_null_background=true` runs it without redoing the GEO
-fetch), and a **third EMC series** (§7.1). The genome-wide null is no longer missing; it landed, it
-fired on GPL6244, and the headline now says so. Nothing here needs a wet lab to be *publishable* —
-it needs one to be *actionable*, which is a different sentence and this memo does not blur them.
+**What is missing before it is worth posting:** a **third EMC series** (§7.1) — that is the only
+open item. The genome-wide null landed and fired on GPL6244; the clinical record was retrieved and
+§5 states it. Nothing here needs a wet lab to be *publishable* — it needs one to be *actionable*,
+which is a different sentence and this memo does not blur them.
 
 **And the headline the abstract may carry, after all of the above:** *on the only two publicly
 readable EMC series, EMC tumours score higher than comparator sarcomas on six published hypoxia

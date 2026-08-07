@@ -1,5 +1,5 @@
 {
- "_generated_utc": "2026-08-07T17:27:37+00:00",
+ "_generated_utc": "2026-08-07T17:47:34+00:00",
  "_sources": {
   "clinicaltrials_gov": "ClinicalTrials.gov API v2 (https://clinicaltrials.gov/api/v2)",
   "pubmed": "NCBI E-utilities esearch/esummary over db=pubmed"
@@ -17,29 +17,485 @@
    ],
    "clinicaltrials": {
     "CA9 CAR-T": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=CA9%20CAR-T",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 0,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=CA9%20CAR-T",
+     "n_returned": 0,
+     "studies": []
     },
     "DTP348": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=DTP348",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 1,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=DTP348",
+     "n_returned": 1,
+     "studies": [
+      {
+       "conditions": [
+        "Solid Tumors",
+        "Head and Neck Neoplasms"
+       ],
+       "nct": "NCT02216669",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Maastricht Radiation Oncology",
+       "start": "2017-03",
+       "status": "WITHDRAWN",
+       "title": "Trial to Determine Optimal Phase II Dose of the Oral Dual CAIX Inhibitor/ Radiosensitizer",
+       "why_stopped": "No financial agreement"
+      }
+     ]
     },
     "SLC-0111": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=SLC-0111",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 2,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=SLC-0111",
+     "n_returned": 2,
+     "studies": [
+      {
+       "conditions": [
+        "Solid Tumours"
+       ],
+       "nct": "NCT02215850",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Welichem Biotech Inc.",
+       "start": "2014-10",
+       "status": "COMPLETED",
+       "title": "Safety Study of SLC-0111 in Subjects With Advanced Solid Tumours",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Pancreatic Ductal Adenocarcinoma"
+       ],
+       "nct": "NCT03450018",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "British Columbia Cancer Agency",
+       "start": "2019-01-10",
+       "status": "TERMINATED",
+       "title": "A Study of SLC-0111 and Gemcitabine for Metastatic Pancreatic Ductal Cancer in Subjects Positive for CAIX",
+       "why_stopped": "Changing treatment landscape: The availability of nab-paclitaxel with gemcitabine in the second-line setting has changed the feasibility of further recruitment and potential long-term development oppo"
+      }
+     ]
     },
     "carbonic anhydrase IX inhibitor": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=carbonic%20anhydrase%20IX%20inhibitor",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 0,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=carbonic%20anhydrase%20IX%20inhibitor",
+     "n_returned": 0,
+     "studies": []
     },
     "girentuximab": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=girentuximab",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 27,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=girentuximab",
+     "n_returned": 27,
+     "studies": [
+      {
+       "conditions": [
+        "Kidney Cancer"
+       ],
+       "nct": "NCT00087022",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Heidelberg Pharma AG",
+       "start": "2004-07",
+       "status": "COMPLETED",
+       "title": "Monoclonal Antibody Therapy (Rencarex\u00ae) in Treating Patients Who Have Undergone Surgery for Non-metastatic Kidney Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07179770",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "NYU Langone Health",
+       "start": "2025-09-15",
+       "status": "RECRUITING",
+       "title": "Effects of Belzutifan on 89Zr-DFO-girentuximab PET Uptake in Patients With Renal Cell Carcinoma (RCC)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma",
+        "Kidney Cancer",
+        "Advanced Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05239533",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Memorial Sloan Kettering Cancer Center",
+       "start": "2022-02-16",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Study of Nivolumab in Combination With 177Lu-girentuximab for Kidney Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT02002312",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Radboud University Medical Center",
+       "start": "2011-08",
+       "status": "COMPLETED",
+       "title": "Phase II Study of Lutetium-177 Labeled Girentuximab in Patients With Advanced Renal Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Advanced Cancer",
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05663710",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "M.D. Anderson Cancer Center",
+       "start": "2023-06-30",
+       "status": "RECRUITING",
+       "title": "Phase 1b/2 Study of Combination 177Lu Girentuximab Plus Cabozantinib and Nivolumab in Treatment na\u00efve Patients With Advanced Clear Cell RCC",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumor, Adult",
+        "Advanced Solid Tumor",
+        "Advanced Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05868174",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Telix Pharmaceuticals (Innovations) Pty Limited",
+       "start": "2023-05-23",
+       "status": "RECRUITING",
+       "title": "Combination of 177Lu-TLX250 and Peposertib in Patients With Carbonic Anhydrase IX -Expressing Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Urothelial Carcinoma"
+       ],
+       "nct": "NCT05046665",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "South Metropolitan Health Service",
+       "start": "2021-05-14",
+       "status": "COMPLETED",
+       "title": "Phase I Study to Evaluate the Diagnostic Performance of 89Zirconium Girentuximab PET in Urothelial Cancer Patients",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Carcinoma"
+       ],
+       "nct": "NCT03556046",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Radboud University Medical Center",
+       "start": "2018-04-05",
+       "status": "COMPLETED",
+       "title": "89Zr-girentuximab ) Dosimetry in CCRC Study - ZIR-DOSE",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT02883153",
+       "phase": [
+        "PHASE2",
+        "PHASE3"
+       ],
+       "sponsor": "Radboud University Medical Center",
+       "start": "2015-12",
+       "status": "COMPLETED",
+       "title": "Zirconium-89-girentuximab PET/CT Imaging in Renal Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "VHL - Von Hippel-Lindau Syndrome"
+       ],
+       "nct": "NCT07171905",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "IRCCS Ospedale San Raffaele",
+       "start": "2026-02-25",
+       "status": "RECRUITING",
+       "title": "CAT-VHL Exploring the Role of Carbonic Anhydrase IX as Diagnostic and Theranostic Target in Von-Hippel Lindau Disease",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Hepatocellular Carcinoma (HCC)",
+        "Intrahepatic Cholangiocarcinoma (Icc)",
+        "Neuroendocrine Tumors"
+       ],
+       "nct": "NCT06735560",
+       "phase": [
+        "NA"
+       ],
+       "sponsor": "Nantes University Hospital",
+       "start": "2025-11-04",
+       "status": "RECRUITING",
+       "title": "Study Assessing PET Imaging With Zirconium-labelled Girentuximab in Patients With HCC, BTC or NEN",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT02411968",
+       "phase": null,
+       "sponsor": "Radboud University Medical Center",
+       "start": "2015-02",
+       "status": "COMPLETED",
+       "title": "Follow up After Cryoablation of Small Renal Masses.",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Cervical Cancer",
+        "Colorectal Cancer",
+        "Esophageal Cancer",
+        "Gastric Cancer",
+        "Glioblastoma Multiforme",
+        "Cholangiocarcinoma",
+        "Hepatocellular Carcinoma",
+        "Head and Neck Squamous Cell Carcinoma"
+       ],
+       "nct": "NCT05563272",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Telix Pharmaceuticals (Innovations) Pty Ltd",
+       "start": "2023-06-06",
+       "status": "TERMINATED",
+       "title": "89Zr-girentuximab for PET Imaging of CAIX Positive Solid Tumors",
+       "why_stopped": "Indication scouting for TLX250-CDx will continue in theranostic studies, with a therapeutic component in the study design."
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma",
+        "Kidney Cancer"
+       ],
+       "nct": "NCT01762592",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Heidelberg Pharma AG",
+       "start": "2017-12",
+       "status": "WITHDRAWN",
+       "title": "REDECT 2: REnal Masses: Pivotal Trial to DEteCT Clear Cell Renal Cell Carcinoma With PET/CT",
+       "why_stopped": "new sponsor"
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT02497599",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Radboud University Medical Center",
+       "start": "2015-06",
+       "status": "UNKNOWN",
+       "title": "Intraoperative Dual-modality Imaging in Renal Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma",
+        "Sarcomatoid Renal Cell Carcinoma",
+        "Stage II Renal Cell Cancer",
+        "Stage III Renal Cell Cancer",
+        "Stage IV Renal Cell Cancer"
+       ],
+       "nct": "NCT06447103",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Jonsson Comprehensive Cancer Center",
+       "start": "2024-08-06",
+       "status": "RECRUITING",
+       "title": "An Investigational Scan (89Zr-DFO-GmAb PET/CT) Compared to Contrast-Enhanced CT for the Detection of Recurrent Clear Cell Renal Cell Cancer After Surgery Comparing Carbonic Anhydra",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT04897763",
+       "phase": [
+        "EARLY_PHASE1"
+       ],
+       "sponsor": "Institut Cancerologie de l'Ouest",
+       "start": "2021-12-15",
+       "status": "COMPLETED",
+       "title": "Assessment of Safety, Tolerability, Radiation Dosimetry, Imaging Properties of 89Zr-girentuximab in Patients With NMIBC",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT03849118",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Telix Pharmaceuticals (Innovations) Pty Limited",
+       "start": "2019-08-15",
+       "status": "COMPLETED",
+       "title": "89Zr-TLX250 for PET/CT Imaging of ccRCC- ZIRCON Study",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Triple Negative Breast Cancer"
+       ],
+       "nct": "NCT04758780",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Institut Cancerologie de l'Ouest",
+       "start": "2021-09-21",
+       "status": "COMPLETED",
+       "title": "Imaging Performance Assessment of 89Zi-girentuximab (89Zr-TLX250) PET in Metastatic Triple Negative Breast Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT06090331",
+       "phase": null,
+       "sponsor": "Telix Pharmaceuticals (Innovations) Pty Limited",
+       "start": null,
+       "status": "NO_LONGER_AVAILABLE",
+       "title": "89Zr-DFO-girentuximab Expanded Access Program (EAP)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Kidney Cancer"
+       ],
+       "nct": "NCT00717587",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Abramson Cancer Center at Penn Medicine",
+       "start": "2008-06",
+       "status": "UNKNOWN",
+       "title": "Sunitinib Before and After Surgery in Treating Patients With Stage IV Kidney Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma",
+        "Suspected Recurrent Renal Clear Cell Carcinoma",
+        "Recurrent Renal Cell Cancer"
+       ],
+       "nct": "NCT05861778",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Telix Pharmaceuticals (Innovations) Pty Limited",
+       "start": "2023-06-26",
+       "status": "COMPLETED",
+       "title": "Evaluation of 89Zr-TLX250 PET/CT in Chinese Patients With Indeterminate Renal Masses or Suspected Recurrent Renal Clear Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT07260162",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Institut Cancerologie de l'Ouest",
+       "start": "2027-01",
+       "status": "NOT_YET_RECRUITING",
+       "title": "Evaluation of ATO-101\u2122 in Patients With Non-Muscle-Invasive Bladder Cancer (PERSEVERANCE EU)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma (ccRCC)",
+        "ccRCC"
+       ],
+       "nct": "NCT07077083",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Massachusetts General Hospital",
+       "start": "2026-09-16",
+       "status": "NOT_YET_RECRUITING",
+       "title": "CAIX PET/CT for Residual or Recurrent Post-ablative ccRCC",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "ccRCC",
+        "Renal Cell Carcinoma (Kidney Cancer)",
+        "Renal Cell Carcinoma (RCC)",
+        "Renal Cell Cancer Metastatic",
+        "Renal Cell Cancer, Recurrent",
+        "Clear Cell Renal Cell Cancer (ccRCC)"
+       ],
+       "nct": "NCT07197580",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Telix Pharmaceuticals (Innovations) Pty Limited",
+       "start": "2026-03-25",
+       "status": "RECRUITING",
+       "title": "Phase 3 Study to Assess Safety and Efficacy of 177Lu-TLX250 in Advanced Relapsed or Recurrent ccRCC",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT06750419",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Telix Pharmaceuticals (Innovations) Pty Limited",
+       "start": "2024-11-06",
+       "status": "RECRUITING",
+       "title": "89Zr-TLX250 for PET/CT Imaging of ccRCC - ZIRCON-CP Study",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell",
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT04496089",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Telix Pharmaceuticals (Innovations) Pty Limited",
+       "start": "2020-08-01",
+       "status": "COMPLETED",
+       "title": "Evaluation of Safety, Biodistibution and Sensitivity/Specificity of PET/CT Imaging With 89Zr-TLX250 in Subjects With RCC",
+       "why_stopped": null
+      }
+     ]
     }
    },
    "pubmed": {
@@ -494,7 +950,28 @@
      "n_hits": 11
     }
    },
-   "sarcoma_specific_trials": {},
+   "sarcoma_specific_trials": {
+    "girentuximab": [
+     {
+      "conditions": [
+       "Clear Cell Renal Cell Carcinoma",
+       "Sarcomatoid Renal Cell Carcinoma",
+       "Stage II Renal Cell Cancer",
+       "Stage III Renal Cell Cancer",
+       "Stage IV Renal Cell Cancer"
+      ],
+      "nct": "NCT06447103",
+      "phase": [
+       "PHASE2"
+      ],
+      "sponsor": "Jonsson Comprehensive Cancer Center",
+      "start": "2024-08-06",
+      "status": "RECRUITING",
+      "title": "An Investigational Scan (89Zr-DFO-GmAb PET/CT) Compared to Contrast-Enhanced CT for the Detection of Recurrent Clear Cell Renal Cell Cancer After Surgery Comparing Carbonic Anhydra",
+      "why_stopped": null
+     }
+    ]
+   },
    "the_prior_that_matters": "\u26a0 SURFACE PROTEIN, NOT TRANSCRIPT. An address for an antibody, a radioligand or a CAR is a SURFACE-protein question. A CA9 transcript reading is not a measurement of surface CA-IX density on EMC cells and cannot become one.",
    "why_a_hypoxia_reading_points_here": "CA-IX is among the most hypoxia-restricted proteins in normal tissue, which is what makes it an address rather than only a marker."
   },
@@ -510,39 +987,1717 @@
    ],
    "clinicaltrials": {
     "ARO-HIF2": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=ARO-HIF2",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 1,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=ARO-HIF2",
+     "n_returned": 1,
+     "studies": [
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT04169711",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Arrowhead Pharmaceuticals",
+       "start": "2020-08-17",
+       "status": "COMPLETED",
+       "title": "Study of ARO-HIF2 in Patients With Advanced Clear Cell Renal Cell Carcinoma",
+       "why_stopped": null
+      }
+     ]
     },
     "EZN-2968": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=EZN-2968",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 3,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=EZN-2968",
+     "n_returned": 3,
+     "studies": [
+      {
+       "conditions": [
+        "Carcinoma, Hepatocellular"
+       ],
+       "nct": "NCT02564614",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Hoffmann-La Roche",
+       "start": "2016-05-02",
+       "status": "COMPLETED",
+       "title": "A Study of Hypoxia-inducible Factor 1a (HIF1A) Messenger Ribonucleic Acid (mRNA) Antagonist (RO7070179), to Demonstrate Proof-of-mechanism in Adult Participants With Hepatocellular",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma",
+        "Lymphoma"
+       ],
+       "nct": "NCT00466583",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Enzon Pharmaceuticals, Inc.",
+       "start": "2007-03",
+       "status": "COMPLETED",
+       "title": "Phase 1 Study of EZN-2968 Weekly in Adult Patients With Advanced Solid Tumors or Lymphoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Neoplasms",
+        "Liver Metastases"
+       ],
+       "nct": "NCT01120288",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "National Cancer Institute (NCI)",
+       "start": "2010-04-29",
+       "status": "COMPLETED",
+       "title": "A Pilot Study of EZN-2968, an Antisense Oligonucleotide Inhibitor of HIF-1alpha, in Adults With Advanced Solid Tumors With Liver Metastases",
+       "why_stopped": null
+      }
+     ]
     },
     "MK-6482": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=MK-6482",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 32,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=MK-6482",
+     "n_returned": 32,
+     "studies": [
+      {
+       "conditions": [
+        "Von Hippel Lindau Disease"
+       ],
+       "nct": "NCT06554730",
+       "phase": null,
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2024-06-30",
+       "status": "WITHDRAWN",
+       "title": "MSD Belzutifan PAS",
+       "why_stopped": "Study is registered /active on RWD Catalogues (https://catalogues.ema.europa.eu) - Please refer to EU PAS number: EUPAS108114"
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT04627064",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Dana-Farber Cancer Institute",
+       "start": "2020-12-31",
+       "status": "COMPLETED",
+       "title": "ABEMA Alone or in COMBO With MK-6482",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04846920",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-06-14",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Advanced Clear Cell Renal Cell Carcinoma (MK-6482-018)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT07489495",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-04-09",
+       "status": "RECRUITING",
+       "title": "A Clinical Study of Belzutifan (MK-6482) and Zanzalintinib in People With Renal Cell Carcinoma (RCC) (LITESPARK-034/LS-034/MK-6482-034)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pheochromocytoma/Paraganglioma",
+        "Pancreatic Neuroendocrine Tumor",
+        "Von Hippel-Lindau Disease",
+        "Advanced Gastrointestinal Stromal Tumor",
+        "HIF-2\u03b1 Mutated Cancers"
+       ],
+       "nct": "NCT04924075",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-08-12",
+       "status": "RECRUITING",
+       "title": "Belzutifan/MK-6482 for the Treatment of Advanced Pheochromocytoma/Paraganglioma (PPGL), Pancreatic Neuroendocrine Tumor (pNET), Von Hippel-Lindau (VHL) Disease-Associated Tumors, A",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT03445169",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-02-23",
+       "status": "COMPLETED",
+       "title": "A Food Effect Study in Healthy Volunteers With Belzutifan (PT2977, MK-6482) Tablets",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Malignant Neoplasm"
+       ],
+       "nct": "NCT07700758",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-11-23",
+       "status": "NOT_YET_RECRUITING",
+       "title": "A Study of Belzutifan in Adolescent Participants With Solid Tumors (MK-9999-01E/LIGHTBEAM-U01)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT05239728",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-03-15",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) Plus Pembrolizumab (MK-3475) Versus Placebo Plus Pembrolizumab in Participants With Clear Cell Renal Cell Carcinoma Post Nephrectomy (MK-6482-022)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT06903715",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-03-28",
+       "status": "COMPLETED",
+       "title": "A Clinical Study of Belzutifan (MK-6482) Alone or With Phenytoin in Healthy Participants (CA46602/MK-6482-035)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Ovarian Cancer",
+        "Ovarian Carcinoma",
+        "Endometrial Cancer",
+        "Uterine Cancer",
+        "Cervical Cancer",
+        "Vulvar Cancer",
+        "Gynecologic Cancer",
+        "Vaginal Cancer"
+       ],
+       "nct": "NCT06677190",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Dana-Farber Cancer Institute",
+       "start": "2024-12-20",
+       "status": "RECRUITING",
+       "title": "Belzutifan in Recurrent Clear Cell Carcinoma of Gynecologic Origin",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04626479",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-12-16",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Substudy 03A: A Study of Immune and Targeted Combination Therapies in Participants With First Line (1L) Renal Cell Carcinoma (MK-3475-03A)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "VHL - Von Hippel-Lindau Syndrome",
+        "VHL Gene Mutation",
+        "VHL Syndrome",
+        "VHL Gene Inactivation",
+        "VHL-Associated Renal Cell Carcinoma",
+        "VHL-Associated Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT03401788",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-05-02",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Phase 2 Study of Belzutifan (PT2977, MK-6482) for the Treatment of Von Hippel Lindau (VHL) Disease-Associated Renal Cell Carcinoma (RCC) (MK-6482-004)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT06234605",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "HiberCell, Inc.",
+       "start": "2024-04-29",
+       "status": "RECRUITING",
+       "title": "A Study of HC-7366 in Combination With Belzutifan (WELIREG\u2122) in Patients With Renal Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05468697",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-08-10",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Combination With Palbociclib Versus Belzutifan Monotherapy in Participants With Advanced Renal Cell Carcinoma (MK-6482-024/LITESPARK-024)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04736706",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-04-14",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Pembrolizumab (MK-3475) in Combination With Belzutifan (MK-6482) and Lenvatinib (MK-7902), or Pembrolizumab/Quavonlimab (MK-1308A) in Combination With Lenvatinib, Versus",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04489771",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-09-13",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Advanced Renal Cell Carcinoma (MK-6482-013)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT07121959",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-08-18",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) and Metformin in Healthy Adult Participants (MK-6482-039)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma (RCC)",
+        "Clear Cell Renal Cell Carcinoma (ccRCC)",
+        "Kidney Cancer",
+        "Renal Cancer",
+        "Renal Cell Carcinoma",
+        "Renal Cell Cancer Metastatic",
+        "Renal Cell Carcinoma Recurrent",
+        "Renal Cell Cancer, Recurrent"
+       ],
+       "nct": "NCT03634540",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-09-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Trial of Belzutifan (PT2977, MK-6482) in Combination With Cabozantinib in Patients With Clear Cell Renal Cell Carcinoma (ccRCC) (MK-6482-003)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04626518",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-12-17",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Substudy 03B: A Study of Immune and Targeted Combination Therapies in Participants With Second Line Plus (2L+) Renal Cell Carcinoma (MK-3475-03B/KEYMAKER-U03)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Von Hippel-Lindau Disease",
+        "Malignant Neoplasms"
+       ],
+       "nct": "NCT07405164",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-03-23",
+       "status": "RECRUITING",
+       "title": "Extension Study for Participants in Studies That Include Belzutifan (MK-6482-043/LITESPARK-043)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07049926",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-07-20",
+       "status": "RECRUITING",
+       "title": "Substudy 03C: A Study of Combination Therapies in Participants With Renal Cell Carcinoma With Recurrent Disease During or After Anti-PD-(L)1 Therapy (MK-3475-03C/KEYMAKER-U03)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Moderate Hepatic Impairment"
+       ],
+       "nct": "NCT04995484",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-06-24",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Hepatic Impairment (MK-6482-020)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Neoplasm Malignant"
+       ],
+       "nct": "NCT04976634",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-08-18",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Pembrolizumab Plus Lenvatinib in Combination With Belzutifan in Solid Tumors (MK-6482-016)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07227402",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-11-26",
+       "status": "RECRUITING",
+       "title": "A Clinical Study of Belzutifan and Zanzalintinib in People With Recurrent Kidney Cancer Following Adjuvant Therapy (MK-6482-033)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04195750",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-02-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) Versus Everolimus in Participants With Advanced Renal Cell Carcinoma (MK-6482-005)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Advanced Solid Tumors",
+        "Solid Tumor",
+        "Solid Carcinoma",
+        "Solid Tumor, Adult",
+        "ccRCC",
+        "RCC, Clear Cell Adenocarcinoma",
+        "RCC",
+        "Kidney Cancer"
+       ],
+       "nct": "NCT02974738",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2016-12-07",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Trial of Belzutifan (PT2977, MK-6482) Tablets In Patients With Advanced Solid Tumors (MK-6482-001)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04586231",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-02-25",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Combination With Lenvatinib Versus Cabozantinib for Treatment of Renal Cell Carcinoma (MK-6482-011)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT05899049",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-07-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Pembrolizumab (MK-3475) in Combination With Belzutifan (MK-6482) and Lenvatinib (MK-7902), or Pembrolizumab/Quavonlimab (MK-1308A) in Combination With Lenvatinib, vs Pem",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "ccRCC",
+        "RCC",
+        "Kidney Cancer",
+        "Clear Cell Renal Cell Carcinoma",
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT02293980",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2014-11-25",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Phase 1, Dose-Escalation Trial of PT2385 Tablets In Patients With Advanced Clear Cell Renal Cell Carcinoma (MK-3795-001)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "End Stage Renal Disease",
+        "Renal Impairment"
+       ],
+       "nct": "NCT04994522",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-07-12",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Renal Impairment (MK-6482-021)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Breast Cancer"
+       ],
+       "nct": "NCT06428396",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2024-11-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Study of Belzutifan (MK-6482) Plus Fulvestrant for ER+/HER2- Metastatic Breast Cancer (MK-6482-029/LITESPARK-029)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05030506",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-10-13",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) as Monotherapy and in Combination With Lenvatinib (E7080/MK-7902) With or Without Pembrolizumab (MK-3475) in China Participants With Advanced Renal ",
+       "why_stopped": null
+      }
+     ]
     },
     "PT2385": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=PT2385",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 5,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=PT2385",
+     "n_returned": 5,
+     "studies": [
+      {
+       "conditions": [
+        "Renal Cell Carcinoma",
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT04989959",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Orhan Kemal Oz",
+       "start": "2021-08-18",
+       "status": "RECRUITING",
+       "title": "[18F]PT2385 PET/CT in Patients With Renal Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Recurrent Glioblastoma"
+       ],
+       "nct": "NCT03216499",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Sidney Kimmel Comprehensive Cancer Center at Johns Hopkins",
+       "start": "2017-09-14",
+       "status": "COMPLETED",
+       "title": "HIF-2 Alpha Inhibitor PT2385 in Treating Patients With Recurrent Glioblastoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "ccRCC",
+        "RCC",
+        "Kidney Cancer",
+        "Clear Cell Renal Cell Carcinoma",
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT02293980",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2014-11-25",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Phase 1, Dose-Escalation Trial of PT2385 Tablets In Patients With Advanced Clear Cell Renal Cell Carcinoma (MK-3795-001)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT02553356",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2015-09",
+       "status": "COMPLETED",
+       "title": "PT2385-102 Food Effect Study of PT2385 in Healthy Volunteers",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "VHL Gene Mutation",
+        "VHL",
+        "VHL Syndrome",
+        "VHL Gene Inactivation",
+        "Von Hippel",
+        "Von Hippel-Lindau Disease",
+        "Von Hippel's Disease",
+        "Von Hippel-Lindau Syndrome, Modifiers of"
+       ],
+       "nct": "NCT03108066",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2017-04-24",
+       "status": "COMPLETED",
+       "title": "MK-3795 (PT2385) for the Treatment of Von Hippel-Lindau Disease-Associated Clear Cell Renal Cell Carcinoma (MK-3795-003)",
+       "why_stopped": null
+      }
+     ]
     },
     "PT2977": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=PT2977",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 24,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=PT2977",
+     "n_returned": 24,
+     "studies": [
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04846920",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-06-14",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Advanced Clear Cell Renal Cell Carcinoma (MK-6482-018)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT07489495",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-04-09",
+       "status": "RECRUITING",
+       "title": "A Clinical Study of Belzutifan (MK-6482) and Zanzalintinib in People With Renal Cell Carcinoma (RCC) (LITESPARK-034/LS-034/MK-6482-034)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pheochromocytoma/Paraganglioma",
+        "Pancreatic Neuroendocrine Tumor",
+        "Von Hippel-Lindau Disease",
+        "Advanced Gastrointestinal Stromal Tumor",
+        "HIF-2\u03b1 Mutated Cancers"
+       ],
+       "nct": "NCT04924075",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-08-12",
+       "status": "RECRUITING",
+       "title": "Belzutifan/MK-6482 for the Treatment of Advanced Pheochromocytoma/Paraganglioma (PPGL), Pancreatic Neuroendocrine Tumor (pNET), Von Hippel-Lindau (VHL) Disease-Associated Tumors, A",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT03445169",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-02-23",
+       "status": "COMPLETED",
+       "title": "A Food Effect Study in Healthy Volunteers With Belzutifan (PT2977, MK-6482) Tablets",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Malignant Neoplasm"
+       ],
+       "nct": "NCT07700758",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-11-23",
+       "status": "NOT_YET_RECRUITING",
+       "title": "A Study of Belzutifan in Adolescent Participants With Solid Tumors (MK-9999-01E/LIGHTBEAM-U01)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT05239728",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-03-15",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) Plus Pembrolizumab (MK-3475) Versus Placebo Plus Pembrolizumab in Participants With Clear Cell Renal Cell Carcinoma Post Nephrectomy (MK-6482-022)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT06903715",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-03-28",
+       "status": "COMPLETED",
+       "title": "A Clinical Study of Belzutifan (MK-6482) Alone or With Phenytoin in Healthy Participants (CA46602/MK-6482-035)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Ovarian Cancer",
+        "Ovarian Carcinoma",
+        "Endometrial Cancer",
+        "Uterine Cancer",
+        "Cervical Cancer",
+        "Vulvar Cancer",
+        "Gynecologic Cancer",
+        "Vaginal Cancer"
+       ],
+       "nct": "NCT06677190",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Dana-Farber Cancer Institute",
+       "start": "2024-12-20",
+       "status": "RECRUITING",
+       "title": "Belzutifan in Recurrent Clear Cell Carcinoma of Gynecologic Origin",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "VHL - Von Hippel-Lindau Syndrome",
+        "VHL Gene Mutation",
+        "VHL Syndrome",
+        "VHL Gene Inactivation",
+        "VHL-Associated Renal Cell Carcinoma",
+        "VHL-Associated Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT03401788",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-05-02",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Phase 2 Study of Belzutifan (PT2977, MK-6482) for the Treatment of Von Hippel Lindau (VHL) Disease-Associated Renal Cell Carcinoma (RCC) (MK-6482-004)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05468697",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-08-10",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Combination With Palbociclib Versus Belzutifan Monotherapy in Participants With Advanced Renal Cell Carcinoma (MK-6482-024/LITESPARK-024)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04736706",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-04-14",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Pembrolizumab (MK-3475) in Combination With Belzutifan (MK-6482) and Lenvatinib (MK-7902), or Pembrolizumab/Quavonlimab (MK-1308A) in Combination With Lenvatinib, Versus",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04489771",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-09-13",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Advanced Renal Cell Carcinoma (MK-6482-013)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma (RCC)",
+        "Clear Cell Renal Cell Carcinoma (ccRCC)",
+        "Kidney Cancer",
+        "Renal Cancer",
+        "Renal Cell Carcinoma",
+        "Renal Cell Cancer Metastatic",
+        "Renal Cell Carcinoma Recurrent",
+        "Renal Cell Cancer, Recurrent"
+       ],
+       "nct": "NCT03634540",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-09-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Trial of Belzutifan (PT2977, MK-6482) in Combination With Cabozantinib in Patients With Clear Cell Renal Cell Carcinoma (ccRCC) (MK-6482-003)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Von Hippel-Lindau Disease",
+        "Malignant Neoplasms"
+       ],
+       "nct": "NCT07405164",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-03-23",
+       "status": "RECRUITING",
+       "title": "Extension Study for Participants in Studies That Include Belzutifan (MK-6482-043/LITESPARK-043)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07049926",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-07-20",
+       "status": "RECRUITING",
+       "title": "Substudy 03C: A Study of Combination Therapies in Participants With Renal Cell Carcinoma With Recurrent Disease During or After Anti-PD-(L)1 Therapy (MK-3475-03C/KEYMAKER-U03)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Moderate Hepatic Impairment"
+       ],
+       "nct": "NCT04995484",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-06-24",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Hepatic Impairment (MK-6482-020)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Neoplasm Malignant"
+       ],
+       "nct": "NCT04976634",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-08-18",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Pembrolizumab Plus Lenvatinib in Combination With Belzutifan in Solid Tumors (MK-6482-016)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07227402",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-11-26",
+       "status": "RECRUITING",
+       "title": "A Clinical Study of Belzutifan and Zanzalintinib in People With Recurrent Kidney Cancer Following Adjuvant Therapy (MK-6482-033)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04195750",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-02-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) Versus Everolimus in Participants With Advanced Renal Cell Carcinoma (MK-6482-005)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Advanced Solid Tumors",
+        "Solid Tumor",
+        "Solid Carcinoma",
+        "Solid Tumor, Adult",
+        "ccRCC",
+        "RCC, Clear Cell Adenocarcinoma",
+        "RCC",
+        "Kidney Cancer"
+       ],
+       "nct": "NCT02974738",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2016-12-07",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Trial of Belzutifan (PT2977, MK-6482) Tablets In Patients With Advanced Solid Tumors (MK-6482-001)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04586231",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-02-25",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Combination With Lenvatinib Versus Cabozantinib for Treatment of Renal Cell Carcinoma (MK-6482-011)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT05899049",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-07-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Pembrolizumab (MK-3475) in Combination With Belzutifan (MK-6482) and Lenvatinib (MK-7902), or Pembrolizumab/Quavonlimab (MK-1308A) in Combination With Lenvatinib, vs Pem",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "End Stage Renal Disease",
+        "Renal Impairment"
+       ],
+       "nct": "NCT04994522",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-07-12",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Renal Impairment (MK-6482-021)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05030506",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-10-13",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) as Monotherapy and in Combination With Lenvatinib (E7080/MK-7902) With or Without Pembrolizumab (MK-3475) in China Participants With Advanced Renal ",
+       "why_stopped": null
+      }
+     ]
     },
     "belzutifan": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=belzutifan",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 44,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=belzutifan",
+     "n_returned": 44,
+     "studies": [
+      {
+       "conditions": [
+        "Renal Cell Carcinoma",
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT04989959",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Orhan Kemal Oz",
+       "start": "2021-08-18",
+       "status": "RECRUITING",
+       "title": "[18F]PT2385 PET/CT in Patients With Renal Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma",
+        "Metastatic Renal Cell Carcinoma",
+        "Kidney Cancer"
+       ],
+       "nct": "NCT05700461",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Oliver Jonas",
+       "start": "2024-12-01",
+       "status": "RECRUITING",
+       "title": "Drug Screening Using Novel IMD in Renal Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07179770",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "NYU Langone Health",
+       "start": "2025-09-15",
+       "status": "RECRUITING",
+       "title": "Effects of Belzutifan on 89Zr-DFO-girentuximab PET Uptake in Patients With Renal Cell Carcinoma (RCC)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Von Hippel Lindau Disease"
+       ],
+       "nct": "NCT06554730",
+       "phase": null,
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2024-06-30",
+       "status": "WITHDRAWN",
+       "title": "MSD Belzutifan PAS",
+       "why_stopped": "Study is registered /active on RWD Catalogues (https://catalogues.ema.europa.eu) - Please refer to EU PAS number: EUPAS108114"
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT04627064",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Dana-Farber Cancer Institute",
+       "start": "2020-12-31",
+       "status": "COMPLETED",
+       "title": "ABEMA Alone or in COMBO With MK-6482",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04846920",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-06-14",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Advanced Clear Cell Renal Cell Carcinoma (MK-6482-018)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT07489495",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-04-09",
+       "status": "RECRUITING",
+       "title": "A Clinical Study of Belzutifan (MK-6482) and Zanzalintinib in People With Renal Cell Carcinoma (RCC) (LITESPARK-034/LS-034/MK-6482-034)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pheochromocytoma/Paraganglioma",
+        "Pancreatic Neuroendocrine Tumor",
+        "Von Hippel-Lindau Disease",
+        "Advanced Gastrointestinal Stromal Tumor",
+        "HIF-2\u03b1 Mutated Cancers"
+       ],
+       "nct": "NCT04924075",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-08-12",
+       "status": "RECRUITING",
+       "title": "Belzutifan/MK-6482 for the Treatment of Advanced Pheochromocytoma/Paraganglioma (PPGL), Pancreatic Neuroendocrine Tumor (pNET), Von Hippel-Lindau (VHL) Disease-Associated Tumors, A",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT03445169",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-02-23",
+       "status": "COMPLETED",
+       "title": "A Food Effect Study in Healthy Volunteers With Belzutifan (PT2977, MK-6482) Tablets",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Von Hippel Lindau",
+        "Von Hippel Lindau Disease",
+        "Von Hippel Lindau-Deficient Clear Cell Renal Cell Carcinoma",
+        "Hemangioblastoma (HB) of the Central Nervous System (CNS)",
+        "PNET",
+        "Retinal Angiomatous Proliferation",
+        "Pheochromocytoma/Paraganglioma",
+        "Endolymphatic Sac Tumor"
+       ],
+       "nct": "NCT07167329",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Jos\u00e9 Claudio Casali da Rocha",
+       "start": "2024-01-01",
+       "status": "RECRUITING",
+       "title": "Real-World Effectiveness and Pharmacogenetics of Belzutifan in VHL Syndrome: The BELIEVE-VHL Trial",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Prostate Cancer"
+       ],
+       "nct": "NCT05574712",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Sidney Kimmel Comprehensive Cancer Center at Johns Hopkins",
+       "start": "2024-01-01",
+       "status": "WITHDRAWN",
+       "title": "A Neoadjuvant Study of Abiraterone Acetate, Leuprolide Acetate, and Belzutifan in Men With Regional Prostate Cancer",
+       "why_stopped": "Principal Investigator has decided not to activate this trial."
+      },
+      {
+       "conditions": [
+        "Malignant Neoplasm"
+       ],
+       "nct": "NCT07700758",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-11-23",
+       "status": "NOT_YET_RECRUITING",
+       "title": "A Study of Belzutifan in Adolescent Participants With Solid Tumors (MK-9999-01E/LIGHTBEAM-U01)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT05239728",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-03-15",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) Plus Pembrolizumab (MK-3475) Versus Placebo Plus Pembrolizumab in Participants With Clear Cell Renal Cell Carcinoma Post Nephrectomy (MK-6482-022)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT06903715",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-03-28",
+       "status": "COMPLETED",
+       "title": "A Clinical Study of Belzutifan (MK-6482) Alone or With Phenytoin in Healthy Participants (CA46602/MK-6482-035)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Ovarian Cancer",
+        "Ovarian Carcinoma",
+        "Endometrial Cancer",
+        "Uterine Cancer",
+        "Cervical Cancer",
+        "Vulvar Cancer",
+        "Gynecologic Cancer",
+        "Vaginal Cancer"
+       ],
+       "nct": "NCT06677190",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Dana-Farber Cancer Institute",
+       "start": "2024-12-20",
+       "status": "RECRUITING",
+       "title": "Belzutifan in Recurrent Clear Cell Carcinoma of Gynecologic Origin",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04626479",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-12-16",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Substudy 03A: A Study of Immune and Targeted Combination Therapies in Participants With First Line (1L) Renal Cell Carcinoma (MK-3475-03A)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "VHL - Von Hippel-Lindau Syndrome",
+        "VHL Gene Mutation",
+        "VHL Syndrome",
+        "VHL Gene Inactivation",
+        "VHL-Associated Renal Cell Carcinoma",
+        "VHL-Associated Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT03401788",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-05-02",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Phase 2 Study of Belzutifan (PT2977, MK-6482) for the Treatment of Von Hippel Lindau (VHL) Disease-Associated Renal Cell Carcinoma (RCC) (MK-6482-004)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07593040",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Vall d'Hebron Institute of Oncology",
+       "start": "2026-06",
+       "status": "NOT_YET_RECRUITING",
+       "title": "Pembrolizumab Plus Belzutifan With or Without Lenvatinib in Localized Renal Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT06234605",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "HiberCell, Inc.",
+       "start": "2024-04-29",
+       "status": "RECRUITING",
+       "title": "A Study of HC-7366 in Combination With Belzutifan (WELIREG\u2122) in Patients With Renal Cell Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05468697",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-08-10",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Combination With Palbociclib Versus Belzutifan Monotherapy in Participants With Advanced Renal Cell Carcinoma (MK-6482-024/LITESPARK-024)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04736706",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-04-14",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Pembrolizumab (MK-3475) in Combination With Belzutifan (MK-6482) and Lenvatinib (MK-7902), or Pembrolizumab/Quavonlimab (MK-1308A) in Combination With Lenvatinib, Versus",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07187778",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "M.D. Anderson Cancer Center",
+       "start": "2025-12-19",
+       "status": "RECRUITING",
+       "title": "Phase II Trial of Single Agent Belzutifan or Pembrolizumab Versus Combination as Neoadjuvant Therapy in Clear Cell Renal Cell Carcinoma (BLAZE)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Cancer"
+       ],
+       "nct": "NCT07377526",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "M.D. Anderson Cancer Center",
+       "start": "2026-05-26",
+       "status": "SUSPENDED",
+       "title": "TROP2 CAREngineered Cord Blood-Derived NK Cells + Belzutifan In Pancreatic Cancer",
+       "why_stopped": "PI Request"
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04489771",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-09-13",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Advanced Renal Cell Carcinoma (MK-6482-013)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Healthy"
+       ],
+       "nct": "NCT07121959",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-08-18",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) and Metformin in Healthy Adult Participants (MK-6482-039)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "VHL - Von Hippel-Lindau Syndrome"
+       ],
+       "nct": "NCT07554508",
+       "phase": null,
+       "sponsor": "Chinese University of Hong Kong",
+       "start": "2026-05",
+       "status": "NOT_YET_RECRUITING",
+       "title": "Belzutifan VHL RCC HK Prospective Registry",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma (RCC)",
+        "Clear Cell Renal Cell Carcinoma (ccRCC)",
+        "Kidney Cancer",
+        "Renal Cancer",
+        "Renal Cell Carcinoma",
+        "Renal Cell Cancer Metastatic",
+        "Renal Cell Carcinoma Recurrent",
+        "Renal Cell Cancer, Recurrent"
+       ],
+       "nct": "NCT03634540",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2018-09-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Trial of Belzutifan (PT2977, MK-6482) in Combination With Cabozantinib in Patients With Clear Cell Renal Cell Carcinoma (ccRCC) (MK-6482-003)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04626518",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-12-17",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Substudy 03B: A Study of Immune and Targeted Combination Therapies in Participants With Second Line Plus (2L+) Renal Cell Carcinoma (MK-3475-03B/KEYMAKER-U03)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Von Hippel-Lindau Disease",
+        "Malignant Neoplasms"
+       ],
+       "nct": "NCT07405164",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2026-03-23",
+       "status": "RECRUITING",
+       "title": "Extension Study for Participants in Studies That Include Belzutifan (MK-6482-043/LITESPARK-043)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07049926",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-07-20",
+       "status": "RECRUITING",
+       "title": "Substudy 03C: A Study of Combination Therapies in Participants With Renal Cell Carcinoma With Recurrent Disease During or After Anti-PD-(L)1 Therapy (MK-3475-03C/KEYMAKER-U03)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pheochromocytoma and Paraganglioma (PPGL)",
+        "Pheochromocytoma Malignant",
+        "Pheochromocytoma, Metastatic",
+        "Pheochromocytoma/Paraganglioma",
+        "Pheochromocytoma"
+       ],
+       "nct": "NCT07680205",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Cambridge University Hospitals NHS Foundation Trust",
+       "start": "2026-04-27",
+       "status": "RECRUITING",
+       "title": "An Experimental Study of Belzutifan Impact on Catecholamine Metabolism",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Moderate Hepatic Impairment"
+       ],
+       "nct": "NCT04995484",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-06-24",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Hepatic Impairment (MK-6482-020)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Neoplasm Malignant"
+       ],
+       "nct": "NCT04976634",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-08-18",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Pembrolizumab Plus Lenvatinib in Combination With Belzutifan in Solid Tumors (MK-6482-016)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07227402",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2025-11-26",
+       "status": "RECRUITING",
+       "title": "A Clinical Study of Belzutifan and Zanzalintinib in People With Recurrent Kidney Cancer Following Adjuvant Therapy (MK-6482-033)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04195750",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2020-02-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) Versus Everolimus in Participants With Advanced Renal Cell Carcinoma (MK-6482-005)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Advanced Solid Tumors",
+        "Solid Tumor",
+        "Solid Carcinoma",
+        "Solid Tumor, Adult",
+        "ccRCC",
+        "RCC, Clear Cell Adenocarcinoma",
+        "RCC",
+        "Kidney Cancer"
+       ],
+       "nct": "NCT02974738",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2016-12-07",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Trial of Belzutifan (PT2977, MK-6482) Tablets In Patients With Advanced Solid Tumors (MK-6482-001)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT04586231",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-02-25",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) in Combination With Lenvatinib Versus Cabozantinib for Treatment of Renal Cell Carcinoma (MK-6482-011)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Carcinoma, Renal Cell"
+       ],
+       "nct": "NCT05899049",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-07-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Pembrolizumab (MK-3475) in Combination With Belzutifan (MK-6482) and Lenvatinib (MK-7902), or Pembrolizumab/Quavonlimab (MK-1308A) in Combination With Lenvatinib, vs Pem",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Castration-Resistant Prostate Cancer"
+       ],
+       "nct": "NCT02861573",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2016-11-17",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Study of Pembrolizumab (MK-3475) Combination Therapies in Metastatic Castration-Resistant Prostate Cancer (MK-3475-365/KEYNOTE-365)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "ccRCC",
+        "RCC",
+        "Kidney Cancer",
+        "Clear Cell Renal Cell Carcinoma",
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT02293980",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peloton Therapeutics, Inc., a subsidiary of Merck & Co., Inc. (Rahway, New Jersey USA)",
+       "start": "2014-11-25",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Phase 1, Dose-Escalation Trial of PT2385 Tablets In Patients With Advanced Clear Cell Renal Cell Carcinoma (MK-3795-001)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "End Stage Renal Disease",
+        "Renal Impairment"
+       ],
+       "nct": "NCT04994522",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2022-07-12",
+       "status": "COMPLETED",
+       "title": "A Study of Belzutifan (MK-6482) in Participants With Renal Impairment (MK-6482-021)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Breast Cancer"
+       ],
+       "nct": "NCT06428396",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2024-11-27",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "Study of Belzutifan (MK-6482) Plus Fulvestrant for ER+/HER2- Metastatic Breast Cancer (MK-6482-029/LITESPARK-029)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Renal Cell Carcinoma"
+       ],
+       "nct": "NCT05030506",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck Sharp & Dohme LLC",
+       "start": "2021-10-13",
+       "status": "ACTIVE_NOT_RECRUITING",
+       "title": "A Study of Belzutifan (MK-6482) as Monotherapy and in Combination With Lenvatinib (E7080/MK-7902) With or Without Pembrolizumab (MK-3475) in China Participants With Advanced Renal ",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Active Surveillance",
+        "Clear Cell Renal Cell Carcinoma"
+       ],
+       "nct": "NCT07023432",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "M.D. Anderson Cancer Center",
+       "start": "2025-11-17",
+       "status": "RECRUITING",
+       "title": "Belzutifan's Role in Active Surveillance Versus Treatment for Indolentmetastatic Clear Cell Renal Ccell Carcinoma (BRAVE-RCC)",
+       "why_stopped": null
+      }
+     ]
     },
     "topotecan HIF": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=topotecan%20HIF",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 0,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=topotecan%20HIF",
+     "n_returned": 0,
+     "studies": []
     }
    },
    "pubmed": {
@@ -1714,49 +3869,1678 @@
    ],
    "clinicaltrials": {
     "AQ4N": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=AQ4N",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 3,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=AQ4N",
+     "n_returned": 3,
+     "studies": [
+      {
+       "conditions": [
+        "Non-Hodgkin's Lymphoma",
+        "Chronic Lymphocytic Leukemia",
+        "Small Lymphocytic Leukemia"
+       ],
+       "nct": "NCT00109356",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Novacea",
+       "start": "2005-03",
+       "status": "UNKNOWN",
+       "title": "Study of AQ4N in Patients With Non Hodgkin's Lymphoma, Chronic Lymphocytic Leukemia, or Small Lymphocytic Leukemia",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Glioblastoma Multiforme"
+       ],
+       "nct": "NCT00394628",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Novacea",
+       "start": "2006-10",
+       "status": "UNKNOWN",
+       "title": "AQ4N in Combination With Radiotherapy and Temozolomide in Subjects With Newly Diagnosed Glioblastoma Multiforme",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Malignancies",
+        "Non-Hodgkin's Lymphoma"
+       ],
+       "nct": "NCT00090727",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Novacea",
+       "start": "2004-08",
+       "status": "UNKNOWN",
+       "title": "Chemotherapy for Patients With Advanced Solid Tumors or Non-Hodgkin's Lymphoma",
+       "why_stopped": null
+      }
+     ]
     },
     "CP-506": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=CP-506",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 1,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=CP-506",
+     "n_returned": 1,
+     "studies": [
+      {
+       "conditions": [
+        "Unspecified Adult Solid Tumor, Protocol Specific"
+       ],
+       "nct": "NCT04954599",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Maastricht University Medical Center",
+       "start": "2023-05-30",
+       "status": "RECRUITING",
+       "title": "Phase 1/2 Clinical Trial of CP-506 (HAP) in Monotherapy or With Carboplatin or ICI",
+       "why_stopped": null
+      }
+     ]
     },
     "PR-104": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=PR-104",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 8,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=PR-104",
+     "n_returned": 8,
+     "studies": [
+      {
+       "conditions": [
+        "Non-Small Cell Lung Cancer"
+       ],
+       "nct": "NCT00862134",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Proacta, Incorporated",
+       "start": "2009-03",
+       "status": "TERMINATED",
+       "title": "Randomized, Multi-center, Open-label, Study of PR104 Versus PR104/Docetaxel in Non-Small Cell Lung Cancer (NSCLC)",
+       "why_stopped": "Interim analysis indicated low probability of clinically significant result"
+      },
+      {
+       "conditions": [
+        "Lung Cancer"
+       ],
+       "nct": "NCT00544674",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Proacta, Incorporated",
+       "start": "2007-08",
+       "status": "TERMINATED",
+       "title": "PR104 in Treating Patients With Previously Untreated or Relapsed Small Cell Lung Cancer",
+       "why_stopped": "Terminated early due to discovery of new mechanism of activation."
+      },
+      {
+       "conditions": [
+        "Unspecified Adult Solid Tumor, Protocol Specific"
+       ],
+       "nct": "NCT00459836",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Proacta, Incorporated",
+       "start": "2007-02",
+       "status": "COMPLETED",
+       "title": "PR-104 and Docetaxel or Gemcitabine in Treating Patients With Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Unspecified Adult Solid Tumor, Protocol Specific"
+       ],
+       "nct": "NCT00616213",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Proacta, Incorporated",
+       "start": "2008-02",
+       "status": "COMPLETED",
+       "title": "PR104 and G-CSF in Treating Patients With Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Unspecified Adult Solid Tumor, Protocol Specific"
+       ],
+       "nct": "NCT01358227",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Proacta, Incorporated",
+       "start": "2006-12",
+       "status": "COMPLETED",
+       "title": "A Phase I Dose Escalation Trial of PR104 Given Weekly in Subjects With Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Hepatocellular Carcinoma"
+       ],
+       "nct": "NCT00862082",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Proacta, Incorporated",
+       "start": "2009-03",
+       "status": "TERMINATED",
+       "title": "Randomized Phase 1/2 Open-Label Trial of PR104 and Sorafenib in Patients With Advanced Hepatocellular Carcinoma (HCC)",
+       "why_stopped": "PR104 plus sorafenib was poorly tolerated in patients with advanced HCC"
+      },
+      {
+       "conditions": [
+        "Unspecified Adult Solid Tumor, Protocol Specific"
+       ],
+       "nct": "NCT00349167",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Proacta, Incorporated",
+       "start": "2005-12",
+       "status": "COMPLETED",
+       "title": "PR-104 in Treating Patients With Advanced Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Acute Myelogenous Leukemia",
+        "Acute Lymphocytic Leukemia"
+       ],
+       "nct": "NCT01037556",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Proacta, Incorporated",
+       "start": "2010-01",
+       "status": "UNKNOWN",
+       "title": "PR104 in Treating Patients With Refractory/Relapsed Acute Leukemia",
+       "why_stopped": null
+      }
+     ]
     },
     "TH-302": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=TH-302",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 29,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=TH-302",
+     "n_returned": 29,
+     "studies": [
+      {
+       "conditions": [
+        "Metastatic or Locally Advanced Unresectable Pancreatic Adenocarcinoma"
+       ],
+       "nct": "NCT01746979",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2012-12",
+       "status": "COMPLETED",
+       "title": "Clinical Trial Testing TH-302 in Combination With Gemcitabine in Previously Untreated Subjects With Metastatic or Locally Advanced Unresectable Pancreatic Adenocarcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumors"
+       ],
+       "nct": "NCT02020226",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2013-11",
+       "status": "UNKNOWN",
+       "title": "A Cardiac Safety Study of TH-302 in Patients With Advanced Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Cancer"
+       ],
+       "nct": "NCT02047500",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2014-01",
+       "status": "TERMINATED",
+       "title": "Phase I TH-302 Plus Gemcitabine Plus Nab-Paclitaxel in Pancreatic Cancer",
+       "why_stopped": "The trial has been terminated earlier following the company decision to discontinue the clinical development of Evofosfamide"
+      },
+      {
+       "conditions": [
+        "Non-small Cell Lung Cancer"
+       ],
+       "nct": "NCT02093962",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2014-06",
+       "status": "TERMINATED",
+       "title": "Study of TH-302 or Placebo in Combination With Pemetrexed in Patients With Non-squamous Non-small Cell Lung Cancer",
+       "why_stopped": "At the interim analysis, the futility boundary was not met and the study was stopped due to insufficient efficacy."
+      },
+      {
+       "conditions": [
+        "Advanced Renal Cell Carcinoma",
+        "Gastrointestinal Stromal Tumors",
+        "Pancreatic Neuroendocrine Tumors"
+       ],
+       "nct": "NCT01381822",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2011-06",
+       "status": "UNKNOWN",
+       "title": "Dose-Escalation Study of TH-302 in Combination With Sunitinib to Treat Patients With Advanced Renal Cell Carcinoma,Gastrointestinal Stromal Tumors and Pancreatic Neuroendocrine Tum",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Soft Tissue Sarcoma"
+       ],
+       "nct": "NCT02255110",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck KGaA, Darmstadt, Germany",
+       "start": "2014-12-10",
+       "status": "TERMINATED",
+       "title": "A Japanese Trial of TH-302 in Subjects With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+       "why_stopped": "Sponsor's decision due to negative result of Phase 3 study TH-CR-406/SARC021"
+      },
+      {
+       "conditions": [
+        "Glioblastoma"
+       ],
+       "nct": "NCT02342379",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "The University of Texas Health Science Center at San Antonio",
+       "start": "2015-05",
+       "status": "COMPLETED",
+       "title": "TH-302 in Combination With Bevacizumab for Glioblastoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Adenocarcinoma"
+       ],
+       "nct": "NCT01144455",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2010-06",
+       "status": "COMPLETED",
+       "title": "Study of the Safety and Efficacy of TH-302 in Combination With Gemcitabine Compared With Gemcitabine Alone in Previously Untreated Patients With Pancreatic Adenocarcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumor"
+       ],
+       "nct": "NCT02076230",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck KGaA, Darmstadt, Germany",
+       "start": "2014-02",
+       "status": "COMPLETED",
+       "title": "A Phase 1 TH-302 Mass Balance Trial",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Tumors",
+        "Hypoxia"
+       ],
+       "nct": "NCT00495144",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2007-06",
+       "status": "COMPLETED",
+       "title": "A Phase I Study of the Safety, Pharmacokinetics, and Anti-Tumor Activity of TH-302 in Patients With Advanced Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Soft Tissue Sarcoma"
+       ],
+       "nct": "NCT01440088",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2011-09",
+       "status": "COMPLETED",
+       "title": "A Trial of TH-302 in Combination With Doxorubicin Versus Doxorubicin Alone to Treat Patients With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "HIGH GRADE GLIOMA"
+       ],
+       "nct": "NCT01403610",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "The University of Texas Health Science Center at San Antonio",
+       "start": "2011-06",
+       "status": "COMPLETED",
+       "title": "Safety and Efficacy Study of TH-302 CNS Penetration in Recurrent High Grade Astrocytoma Following Bevacizumab",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Acute Myelogenous Leukemia",
+        "Acute Lymphoblastic Leukemia",
+        "Chronic Myelogenous Leukemia",
+        "High-risk Myelodysplastic Syndrome",
+        "Chronic Lymphocytic Leukemia",
+        "Advanced Myelofibrosis"
+       ],
+       "nct": "NCT01149915",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2010-06",
+       "status": "COMPLETED",
+       "title": "Study of Hypoxia-Activated Prodrug TH-302 to Treat Advanced Leukemias",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Multiple Myeloma"
+       ],
+       "nct": "NCT01522872",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2012-02",
+       "status": "UNKNOWN",
+       "title": "Open-label Study of TH-302 and Dexamethasone With or Without Bortezomib or Pomalidomide in Subjects With Relapsed/Refractory Multiple Myeloma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Cancer",
+        "Melanoma",
+        "Squamous Cell Carcinoma of the Head and Neck",
+        "Prostate Cancer"
+       ],
+       "nct": "NCT03098160",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2017-05-10",
+       "status": "UNKNOWN",
+       "title": "Immunotherapy Study of Evofosfamide in Combination With Ipilimumab",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Esophageal Cancer"
+       ],
+       "nct": "NCT02598687",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Maastricht Radiation Oncology",
+       "start": "2015-12",
+       "status": "WITHDRAWN",
+       "title": "Testing TH-302, in Combination With Preoperative Chemoradiotherapy, in Esophageal Cancer.",
+       "why_stopped": "2 Phase 3 trials didn't meet their primary endpoint, so further development and testing of TH-302 is uncertain"
+      },
+      {
+       "conditions": [
+        "Castration Resistant Prostate Cancer"
+       ],
+       "nct": "NCT06836726",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "University Health Network, Toronto",
+       "start": "2026-05-27",
+       "status": "NOT_YET_RECRUITING",
+       "title": "Clinical Trial to Test Efficacy of Targeting Hypoxia Combined With ARSI After First-line ARSI Therapy for Castrate Resistant Prostate Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Biliary Tract Cancer"
+       ],
+       "nct": "NCT02433639",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Seoul National University Hospital",
+       "start": "2015-04",
+       "status": "COMPLETED",
+       "title": "Study of TH-302 Monotherapy as Second-line Treatment in Advanced Biliary Tract Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Prostate Cancer",
+        "Metastatic Head and Neck Squamous Cell Carcinoma",
+        "Metastatic Pancreatic Cancer"
+       ],
+       "nct": "NCT06782555",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2025-01-08",
+       "status": "RECRUITING",
+       "title": "A Study of Evofosfamide in Combination with Zalifrelimab and Balstilimab",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Neuroendocrine Tumors",
+        "Pancreatic Neoplasms"
+       ],
+       "nct": "NCT02402062",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Grupo Espanol de Tumores Neuroendocrinos",
+       "start": "2015-05-11",
+       "status": "COMPLETED",
+       "title": "A Study to Assess the Safety and the Efficacy of the Combination of TH-302 and Sunitinib in Neuroendocrine Pancreatic Tumours",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Adenocarcinoma",
+        "Advanced Disease",
+        "Metastatic Disease"
+       ],
+       "nct": "NCT02496832",
+       "phase": [
+        "NA"
+       ],
+       "sponsor": "University Health Network, Toronto",
+       "start": "2014-11",
+       "status": "WITHDRAWN",
+       "title": "A Study of Hypoxia Imaging in Advanced Pancreatic Cancer Patients Being Treated With Gemcitabine and TH-302 or TH-302 Placebo",
+       "why_stopped": "Study was never initiated"
+      },
+      {
+       "conditions": [
+        "Metastatic Melanoma"
+       ],
+       "nct": "NCT01864538",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2013-05",
+       "status": "TERMINATED",
+       "title": "A Phase 2 Biomarker - Enriched Study of TH-302 in Subjects With Advanced Melanoma",
+       "why_stopped": "Lack of enrollment"
+      },
+      {
+       "conditions": [
+        "Soft Tissue Sarcoma"
+       ],
+       "nct": "NCT02712567",
+       "phase": null,
+       "sponsor": "Sarcoma Alliance for Research through Collaboration",
+       "start": null,
+       "status": "NO_LONGER_AVAILABLE",
+       "title": "SARC021C: A Continuation Study of TH-CR-406/SARC021",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Soft Tissue Sarcoma"
+       ],
+       "nct": "NCT00742963",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2008-08",
+       "status": "COMPLETED",
+       "title": "Dose-Escalation Study of TH-302 in Combination With Doxorubicin to Treat Patients With Advanced Soft Tissue Sarcoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Hepatocellular Carcinoma"
+       ],
+       "nct": "NCT01721941",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Scripps Clinic Cancer Center",
+       "start": "2014-12",
+       "status": "UNKNOWN",
+       "title": "TH-302 Plus Doxorubicin Delivered by Trans-Arterial Chemoembolization (TACE) in Patients With Hepatocellular Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumors"
+       ],
+       "nct": "NCT01485042",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Herbert Hurwitz, MD",
+       "start": "2011-12",
+       "status": "COMPLETED",
+       "title": "Dose Escalation Study of Pazopanib Plus TH-302",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumor",
+        "Pancreatic Cancer"
+       ],
+       "nct": "NCT01833546",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck KGaA, Darmstadt, Germany",
+       "start": "2013-04-18",
+       "status": "COMPLETED",
+       "title": "A Japanese Phase 1 Trial of TH-302 in Subjects With Solid Tumors and Pancreatic Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Non-Small Cell Lung Cancer",
+        "Prostate Cancer",
+        "Pancreatic Cancer"
+       ],
+       "nct": "NCT00743379",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2008-08",
+       "status": "COMPLETED",
+       "title": "Dose-Escalation Study of TH-302 in Combination With A) Gemcitabine or B) Docetaxel or C) Pemetrexed to Treat Advanced Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Kidney Cancer",
+        "Liver Cancer"
+       ],
+       "nct": "NCT01497444",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Alliance for Clinical Trials in Oncology",
+       "start": "2012-05",
+       "status": "COMPLETED",
+       "title": "Sorafenib Tosylate and Hypoxia-Activated Prodrug TH-302 in Treating Patients With Advanced Kidney Cancer or Liver Cancer That Cannot Be Removed By Surgery",
+       "why_stopped": null
+      }
+     ]
     },
     "apaziquone": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=apaziquone",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 9,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=apaziquone",
+     "n_returned": 9,
+     "studies": [
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT02563561",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Spectrum Pharmaceuticals, Inc",
+       "start": "2015-10-09",
+       "status": "TERMINATED",
+       "title": "A Study of Intravesical Apaziquone as a Surgical Adjuvant in Participant Undergoing Transurethral Resection Bladder Tumor (TURBT)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT01469221",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Spectrum Pharmaceuticals, Inc",
+       "start": "2012-01",
+       "status": "TERMINATED",
+       "title": "Efficacy and Safety Study of Apaziquone vs. Placebo in Patients With Non-Muscle Invasive Bladder Cancer (NMIBC)",
+       "why_stopped": "Business reason"
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT03224182",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Spectrum Pharmaceuticals, Inc",
+       "start": "2017-08-04",
+       "status": "TERMINATED",
+       "title": "A Study of Intravesical Qapzola (Apaziquone) as a Surgical Adjuvant in Participants Undergoing Transurethral Resection of Bladder Tumor (TURBT)",
+       "why_stopped": "Suspended development"
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT00598806",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Spectrum Pharmaceuticals, Inc",
+       "start": "2007-08",
+       "status": "COMPLETED",
+       "title": "Single Dose Intravesical Apaziquone Postoperative in Patients Undergoing TURBT for Noninvasive Bladder Cancer (SPI-612)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT00461591",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Spectrum Pharmaceuticals, Inc",
+       "start": "2007-04",
+       "status": "COMPLETED",
+       "title": "Single Dose Intravesical Apaziquone Postoperative in Patients Undergoing TURBT for Noninvasive Bladder Cancer (SPI-611)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT01410565",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Spectrum Pharmaceuticals, Inc",
+       "start": "2011-07",
+       "status": "TERMINATED",
+       "title": "Efficacy and Safety of Multi-Instillations of Apaziquone in Patients With Non-Muscle Invasive Bladder Cancer",
+       "why_stopped": "Business reason"
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT01373398",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Handok Inc.",
+       "start": "2011-05",
+       "status": "COMPLETED",
+       "title": "Safety and Pharmacokinetic Study of EO9(Intravesical Instillation)",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Bladder Cancer"
+       ],
+       "nct": "NCT01475266",
+       "phase": [
+        "PHASE2",
+        "PHASE3"
+       ],
+       "sponsor": "Nippon Kayaku Co., Ltd.",
+       "start": "2011-11",
+       "status": "TERMINATED",
+       "title": "Single Immediate Instillation of EO9 After TURBT in Patients With Non-muscle-invasive Bladder Cancer (NMIBC)",
+       "why_stopped": "Sponsor's decision"
+      },
+      {
+       "conditions": [
+        "Bladder Neoplasms"
+       ],
+       "nct": "NCT00141531",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Spectrum Pharmaceuticals, Inc",
+       "start": "2005-07",
+       "status": "COMPLETED",
+       "title": "Phase II Trial of EOquin in High-risk Superficial Bladder Cancer",
+       "why_stopped": null
+      }
+     ]
     },
     "banoxantrone": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=banoxantrone",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 3,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=banoxantrone",
+     "n_returned": 3,
+     "studies": [
+      {
+       "conditions": [
+        "Non-Hodgkin's Lymphoma",
+        "Chronic Lymphocytic Leukemia",
+        "Small Lymphocytic Leukemia"
+       ],
+       "nct": "NCT00109356",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Novacea",
+       "start": "2005-03",
+       "status": "UNKNOWN",
+       "title": "Study of AQ4N in Patients With Non Hodgkin's Lymphoma, Chronic Lymphocytic Leukemia, or Small Lymphocytic Leukemia",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Glioblastoma Multiforme"
+       ],
+       "nct": "NCT00394628",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Novacea",
+       "start": "2006-10",
+       "status": "UNKNOWN",
+       "title": "AQ4N in Combination With Radiotherapy and Temozolomide in Subjects With Newly Diagnosed Glioblastoma Multiforme",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Malignancies",
+        "Non-Hodgkin's Lymphoma"
+       ],
+       "nct": "NCT00090727",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Novacea",
+       "start": "2004-08",
+       "status": "UNKNOWN",
+       "title": "Chemotherapy for Patients With Advanced Solid Tumors or Non-Hodgkin's Lymphoma",
+       "why_stopped": null
+      }
+     ]
     },
     "evofosfamide": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=evofosfamide",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 29,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=evofosfamide",
+     "n_returned": 29,
+     "studies": [
+      {
+       "conditions": [
+        "Metastatic or Locally Advanced Unresectable Pancreatic Adenocarcinoma"
+       ],
+       "nct": "NCT01746979",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2012-12",
+       "status": "COMPLETED",
+       "title": "Clinical Trial Testing TH-302 in Combination With Gemcitabine in Previously Untreated Subjects With Metastatic or Locally Advanced Unresectable Pancreatic Adenocarcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumors"
+       ],
+       "nct": "NCT02020226",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2013-11",
+       "status": "UNKNOWN",
+       "title": "A Cardiac Safety Study of TH-302 in Patients With Advanced Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Cancer"
+       ],
+       "nct": "NCT02047500",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2014-01",
+       "status": "TERMINATED",
+       "title": "Phase I TH-302 Plus Gemcitabine Plus Nab-Paclitaxel in Pancreatic Cancer",
+       "why_stopped": "The trial has been terminated earlier following the company decision to discontinue the clinical development of Evofosfamide"
+      },
+      {
+       "conditions": [
+        "Non-small Cell Lung Cancer"
+       ],
+       "nct": "NCT02093962",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2014-06",
+       "status": "TERMINATED",
+       "title": "Study of TH-302 or Placebo in Combination With Pemetrexed in Patients With Non-squamous Non-small Cell Lung Cancer",
+       "why_stopped": "At the interim analysis, the futility boundary was not met and the study was stopped due to insufficient efficacy."
+      },
+      {
+       "conditions": [
+        "Advanced Renal Cell Carcinoma",
+        "Gastrointestinal Stromal Tumors",
+        "Pancreatic Neuroendocrine Tumors"
+       ],
+       "nct": "NCT01381822",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2011-06",
+       "status": "UNKNOWN",
+       "title": "Dose-Escalation Study of TH-302 in Combination With Sunitinib to Treat Patients With Advanced Renal Cell Carcinoma,Gastrointestinal Stromal Tumors and Pancreatic Neuroendocrine Tum",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Soft Tissue Sarcoma"
+       ],
+       "nct": "NCT02255110",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Merck KGaA, Darmstadt, Germany",
+       "start": "2014-12-10",
+       "status": "TERMINATED",
+       "title": "A Japanese Trial of TH-302 in Subjects With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+       "why_stopped": "Sponsor's decision due to negative result of Phase 3 study TH-CR-406/SARC021"
+      },
+      {
+       "conditions": [
+        "Glioblastoma"
+       ],
+       "nct": "NCT02342379",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "The University of Texas Health Science Center at San Antonio",
+       "start": "2015-05",
+       "status": "COMPLETED",
+       "title": "TH-302 in Combination With Bevacizumab for Glioblastoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Adenocarcinoma"
+       ],
+       "nct": "NCT01144455",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2010-06",
+       "status": "COMPLETED",
+       "title": "Study of the Safety and Efficacy of TH-302 in Combination With Gemcitabine Compared With Gemcitabine Alone in Previously Untreated Patients With Pancreatic Adenocarcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumor"
+       ],
+       "nct": "NCT02076230",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck KGaA, Darmstadt, Germany",
+       "start": "2014-02",
+       "status": "COMPLETED",
+       "title": "A Phase 1 TH-302 Mass Balance Trial",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Tumors",
+        "Hypoxia"
+       ],
+       "nct": "NCT00495144",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2007-06",
+       "status": "COMPLETED",
+       "title": "A Phase I Study of the Safety, Pharmacokinetics, and Anti-Tumor Activity of TH-302 in Patients With Advanced Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Soft Tissue Sarcoma"
+       ],
+       "nct": "NCT01440088",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2011-09",
+       "status": "COMPLETED",
+       "title": "A Trial of TH-302 in Combination With Doxorubicin Versus Doxorubicin Alone to Treat Patients With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "HIGH GRADE GLIOMA"
+       ],
+       "nct": "NCT01403610",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "The University of Texas Health Science Center at San Antonio",
+       "start": "2011-06",
+       "status": "COMPLETED",
+       "title": "Safety and Efficacy Study of TH-302 CNS Penetration in Recurrent High Grade Astrocytoma Following Bevacizumab",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Acute Myelogenous Leukemia",
+        "Acute Lymphoblastic Leukemia",
+        "Chronic Myelogenous Leukemia",
+        "High-risk Myelodysplastic Syndrome",
+        "Chronic Lymphocytic Leukemia",
+        "Advanced Myelofibrosis"
+       ],
+       "nct": "NCT01149915",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2010-06",
+       "status": "COMPLETED",
+       "title": "Study of Hypoxia-Activated Prodrug TH-302 to Treat Advanced Leukemias",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Multiple Myeloma"
+       ],
+       "nct": "NCT01522872",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2012-02",
+       "status": "UNKNOWN",
+       "title": "Open-label Study of TH-302 and Dexamethasone With or Without Bortezomib or Pomalidomide in Subjects With Relapsed/Refractory Multiple Myeloma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Cancer",
+        "Melanoma",
+        "Squamous Cell Carcinoma of the Head and Neck",
+        "Prostate Cancer"
+       ],
+       "nct": "NCT03098160",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2017-05-10",
+       "status": "UNKNOWN",
+       "title": "Immunotherapy Study of Evofosfamide in Combination With Ipilimumab",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Esophageal Cancer"
+       ],
+       "nct": "NCT02598687",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Maastricht Radiation Oncology",
+       "start": "2015-12",
+       "status": "WITHDRAWN",
+       "title": "Testing TH-302, in Combination With Preoperative Chemoradiotherapy, in Esophageal Cancer.",
+       "why_stopped": "2 Phase 3 trials didn't meet their primary endpoint, so further development and testing of TH-302 is uncertain"
+      },
+      {
+       "conditions": [
+        "Castration Resistant Prostate Cancer"
+       ],
+       "nct": "NCT06836726",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "University Health Network, Toronto",
+       "start": "2026-05-27",
+       "status": "NOT_YET_RECRUITING",
+       "title": "Clinical Trial to Test Efficacy of Targeting Hypoxia Combined With ARSI After First-line ARSI Therapy for Castrate Resistant Prostate Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Biliary Tract Cancer"
+       ],
+       "nct": "NCT02433639",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Seoul National University Hospital",
+       "start": "2015-04",
+       "status": "COMPLETED",
+       "title": "Study of TH-302 Monotherapy as Second-line Treatment in Advanced Biliary Tract Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Metastatic Prostate Cancer",
+        "Metastatic Head and Neck Squamous Cell Carcinoma",
+        "Metastatic Pancreatic Cancer"
+       ],
+       "nct": "NCT06782555",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2025-01-08",
+       "status": "RECRUITING",
+       "title": "A Study of Evofosfamide in Combination with Zalifrelimab and Balstilimab",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Neuroendocrine Tumors",
+        "Pancreatic Neoplasms"
+       ],
+       "nct": "NCT02402062",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Grupo Espanol de Tumores Neuroendocrinos",
+       "start": "2015-05-11",
+       "status": "COMPLETED",
+       "title": "A Study to Assess the Safety and the Efficacy of the Combination of TH-302 and Sunitinib in Neuroendocrine Pancreatic Tumours",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Pancreatic Adenocarcinoma",
+        "Advanced Disease",
+        "Metastatic Disease"
+       ],
+       "nct": "NCT02496832",
+       "phase": [
+        "NA"
+       ],
+       "sponsor": "University Health Network, Toronto",
+       "start": "2014-11",
+       "status": "WITHDRAWN",
+       "title": "A Study of Hypoxia Imaging in Advanced Pancreatic Cancer Patients Being Treated With Gemcitabine and TH-302 or TH-302 Placebo",
+       "why_stopped": "Study was never initiated"
+      },
+      {
+       "conditions": [
+        "Metastatic Melanoma"
+       ],
+       "nct": "NCT01864538",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2013-05",
+       "status": "TERMINATED",
+       "title": "A Phase 2 Biomarker - Enriched Study of TH-302 in Subjects With Advanced Melanoma",
+       "why_stopped": "Lack of enrollment"
+      },
+      {
+       "conditions": [
+        "Soft Tissue Sarcoma"
+       ],
+       "nct": "NCT02712567",
+       "phase": null,
+       "sponsor": "Sarcoma Alliance for Research through Collaboration",
+       "start": null,
+       "status": "NO_LONGER_AVAILABLE",
+       "title": "SARC021C: A Continuation Study of TH-CR-406/SARC021",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Soft Tissue Sarcoma"
+       ],
+       "nct": "NCT00742963",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "ImmunoGenesis",
+       "start": "2008-08",
+       "status": "COMPLETED",
+       "title": "Dose-Escalation Study of TH-302 in Combination With Doxorubicin to Treat Patients With Advanced Soft Tissue Sarcoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Hepatocellular Carcinoma"
+       ],
+       "nct": "NCT01721941",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Scripps Clinic Cancer Center",
+       "start": "2014-12",
+       "status": "UNKNOWN",
+       "title": "TH-302 Plus Doxorubicin Delivered by Trans-Arterial Chemoembolization (TACE) in Patients With Hepatocellular Carcinoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumors"
+       ],
+       "nct": "NCT01485042",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Herbert Hurwitz, MD",
+       "start": "2011-12",
+       "status": "COMPLETED",
+       "title": "Dose Escalation Study of Pazopanib Plus TH-302",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Solid Tumor",
+        "Pancreatic Cancer"
+       ],
+       "nct": "NCT01833546",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Merck KGaA, Darmstadt, Germany",
+       "start": "2013-04-18",
+       "status": "COMPLETED",
+       "title": "A Japanese Phase 1 Trial of TH-302 in Subjects With Solid Tumors and Pancreatic Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Non-Small Cell Lung Cancer",
+        "Prostate Cancer",
+        "Pancreatic Cancer"
+       ],
+       "nct": "NCT00743379",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Threshold Pharmaceuticals",
+       "start": "2008-08",
+       "status": "COMPLETED",
+       "title": "Dose-Escalation Study of TH-302 in Combination With A) Gemcitabine or B) Docetaxel or C) Pemetrexed to Treat Advanced Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Kidney Cancer",
+        "Liver Cancer"
+       ],
+       "nct": "NCT01497444",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Alliance for Clinical Trials in Oncology",
+       "start": "2012-05",
+       "status": "COMPLETED",
+       "title": "Sorafenib Tosylate and Hypoxia-Activated Prodrug TH-302 in Treating Patients With Advanced Kidney Cancer or Liver Cancer That Cannot Be Removed By Surgery",
+       "why_stopped": null
+      }
+     ]
     },
     "tarloxotinib": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=tarloxotinib",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 4,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=tarloxotinib",
+     "n_returned": 4,
+     "studies": [
+      {
+       "conditions": [
+        "Non-small Cell Lung Cancer",
+        "NSCLC",
+        "Non-squamous NSCLC"
+       ],
+       "nct": "NCT02454842",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Rain Oncology Inc",
+       "start": "2015-06",
+       "status": "TERMINATED",
+       "title": "Study for Treatment With TH-4000 (Tarloxotinib) in Epidermal Growth Factor Receptor (EGFR) Mutant, T790M-negative Non-small Cell Lung Cancer (NSCLC) Patients",
+       "why_stopped": "Lack of efficacy"
+      },
+      {
+       "conditions": [
+        "NSCLC, Stage IV",
+        "NSCLC Stage IIIB",
+        "NSCLC, Stage IIIC",
+        "NSCLC, Recurrent",
+        "EGFR Exon 20 Insertion Mutation",
+        "HER2-activating Mutation",
+        "ERBB Fusion",
+        "NRG1 Fusion"
+       ],
+       "nct": "NCT03805841",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Rain Oncology Inc",
+       "start": "2019-03-13",
+       "status": "TERMINATED",
+       "title": "Study of Tarloxotinib in Pts With NSCLC (EGFR Exon 20 Insertion, HER2-activating Mutations) & Other Solid Tumors With NRG1/ERBB Gene Fusions",
+       "why_stopped": "enrollment pause"
+      },
+      {
+       "conditions": [
+        "Metastatic Head-and-neck Squamous-cell Carcinoma"
+       ],
+       "nct": "NCT02449681",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Rain Oncology Inc",
+       "start": "2015-08",
+       "status": "TERMINATED",
+       "title": "Study for Treatment of Patients With Recurrent or Metastatic Squamous Cell Carcinoma of the Head and Neck or Skin",
+       "why_stopped": "Lack of efficacy"
+      },
+      {
+       "conditions": [
+        "Non-Small Cell Lung Cancer"
+       ],
+       "nct": "NCT05313009",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Medical University of South Carolina",
+       "start": "2022-03-07",
+       "status": "TERMINATED",
+       "title": "Tarlox and Sotorasib in Patients With KRAS G12C Mutations",
+       "why_stopped": "Study drug was discontinued by manufacturer for business reasons."
+      }
+     ]
     },
     "tirapazamine": {
-     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.intr=tirapazamine",
-     "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,WhyStopped,StartDate,PrimaryCompletionDate,LeadSponsorName&query.in",
-     "_what_this_is_not": "this is a failed retrieval, NOT a finding that no trial exists."
+     "_n_total_reported": 23,
+     "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.intr=tirapazamine",
+     "n_returned": 23,
+     "studies": [
+      {
+       "conditions": [
+        "Squamous Neck Carcinoma of the Head and Neck Cancer (SCCHN)"
+       ],
+       "nct": "NCT00002774",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Stanford University",
+       "start": "1996-06",
+       "status": "COMPLETED",
+       "title": "Radiation Therapy and Combination Chemotherapy in Treating Patients With Stage III or Stage IV Head and Neck Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Hepatocellular Carcinoma",
+        "Gastrointestinal Cancer Metastatic",
+        "Neuroendocrine Tumors"
+       ],
+       "nct": "NCT02174549",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Teclison Ltd.",
+       "start": "2014-09",
+       "status": "RECRUITING",
+       "title": "Dose-defining Study of Tirapazamine Combined With Embolization in Liver Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Lung Cancer"
+       ],
+       "nct": "NCT00033410",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "California Cancer Consortium",
+       "start": "2002-03",
+       "status": "COMPLETED",
+       "title": "Chemotherapy, Tirapazamine, and Radiation Therapy in Treating Patients With Non-Small Cell Lung Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Lung Cancer"
+       ],
+       "nct": "NCT00017459",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Sanofi",
+       "start": "2000-07",
+       "status": "COMPLETED",
+       "title": "Cisplatin Plus Vinorelbine With or Without Tirapazamine in Treating Patients With Stage IIIB or Stage IV Non-Small Cell Lung Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Colorectal Cancer with Hepatic Metastases"
+       ],
+       "nct": "NCT06834399",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Zhejiang Raygene Pharmaceuticals Co., Ltd",
+       "start": "2023-04-27",
+       "status": "TERMINATED",
+       "title": "TATE and KN046 in MCRC",
+       "why_stopped": "Business Operation Strategy Adjustment"
+      },
+      {
+       "conditions": [
+        "Carcinoma, Hepatocellular"
+       ],
+       "nct": "NCT03145558",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Teclison Ltd.",
+       "start": "2017-12-05",
+       "status": "TERMINATED",
+       "title": "TATE Versus TACE in Intermediate Stage HCC",
+       "why_stopped": "Landscape changed and the study population is no longer suitable for the study treatment."
+      },
+      {
+       "conditions": [
+        "Head and Neck Squamous Cell Carcinoma"
+       ],
+       "nct": "NCT00174837",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Sanofi",
+       "start": "2005-04",
+       "status": "COMPLETED",
+       "title": "TRACE: Tirapazamine-Radiation And Cisplatin Evaluation",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Limited Stage Small Cell Lung Cancer"
+       ],
+       "nct": "NCT00066742",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "National Cancer Institute (NCI)",
+       "start": "2003-09",
+       "status": "COMPLETED",
+       "title": "Tirapazamine Combined With Chemo and RT in Limited-Stage Small Cell Lung Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Head and Neck Neoplasms"
+       ],
+       "nct": "NCT00094081",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "Sanofi",
+       "start": "2002-10",
+       "status": "COMPLETED",
+       "title": "Concomitant Radiation and Cisplatin With and Without Tirapazamine in Treatment of Advanced Head and Neck Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Cervical Adenocarcinoma",
+        "Cervical Adenosquamous Cell Carcinoma",
+        "Cervical Squamous Cell Carcinoma",
+        "Stage IB Cervical Cancer",
+        "Stage IIA Cervical Cancer",
+        "Stage IIB Cervical Cancer",
+        "Stage III Cervical Cancer",
+        "Stage IVA Cervical Cancer"
+       ],
+       "nct": "NCT00262821",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "National Cancer Institute (NCI)",
+       "start": "2006-02",
+       "status": "TERMINATED",
+       "title": "Cisplatin and Radiation Therapy With or Without Tirapazamine in Treating Patients With Cervical Cancer",
+       "why_stopped": "Study drug no longer available resulting in lack of study drug for participants."
+      },
+      {
+       "conditions": [
+        "Alveolar Childhood Rhabdomyosarcoma",
+        "Embryonal Childhood Rhabdomyosarcoma",
+        "Embryonal-botryoid Childhood Rhabdomyosarcoma",
+        "Previously Treated Childhood Rhabdomyosarcoma",
+        "Recurrent Childhood Rhabdomyosarcoma"
+       ],
+       "nct": "NCT00025363",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "National Cancer Institute (NCI)",
+       "start": "2001-11",
+       "status": "COMPLETED",
+       "title": "Comparison of Chemotherapy Regimens in Treating Children With Relapsed or Progressive Rhabdomyosarcoma",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Hepatocellular Carcinoma",
+        "Gastric Cancer"
+       ],
+       "nct": "NCT03259867",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Teclison Ltd.",
+       "start": "2017-07-01",
+       "status": "RECRUITING",
+       "title": "Combination of TATE and PD-1 Inhibitor in Liver Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Colorectal Cancer; Lung Cancer"
+       ],
+       "nct": "NCT04701476",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Teclison Ltd.",
+       "start": "2021-05-20",
+       "status": "RECRUITING",
+       "title": "TATE and Pembrolizumab (MK3475) in mCRC and NSCLC",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Cervical Cancer"
+       ],
+       "nct": "NCT00003369",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "SWOG Cancer Research Network",
+       "start": "1998-08",
+       "status": "COMPLETED",
+       "title": "S9717 Tirapazamine Plus Cisplatin in Treating Patients With Metastatic, Recurrent, or Refractory Cervical Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Unspecified Childhood Solid Tumor, Protocol Specific"
+       ],
+       "nct": "NCT00003288",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "National Cancer Institute (NCI)",
+       "start": "1998-08",
+       "status": "COMPLETED",
+       "title": "Tirapazamine Plus Cyclophosphamide in Treating Children With Refractory Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Hepato Cellular Carcinoma (HCC)"
+       ],
+       "nct": "NCT06848556",
+       "phase": [
+        "PHASE1",
+        "PHASE2"
+       ],
+       "sponsor": "Zhejiang Raygene Pharmaceuticals Co., Ltd",
+       "start": "2021-05-14",
+       "status": "TERMINATED",
+       "title": "Evaluate the Effect of Tirazamine on Primary Liver Cancer.",
+       "why_stopped": "Company Operational Strategy Adjustment"
+      },
+      {
+       "conditions": [
+        "Unspecified Adult Solid Tumor, Protocol Specific"
+       ],
+       "nct": "NCT00005078",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "City of Hope Medical Center",
+       "start": "2000-03",
+       "status": "COMPLETED",
+       "title": "Tirapazamine, Carboplatin, and Paclitaxel in Treating Patients With Advanced Malignant Solid Tumors",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Cervical Cancer"
+       ],
+       "nct": "NCT00098995",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "Peter MacCallum Cancer Centre, Australia",
+       "start": "2004-12",
+       "status": "COMPLETED",
+       "title": "Tirapazamine, Cisplatin, and Radiation Therapy in Treating Patients With Stage IB, Stage II, Stage III, or Stage IVA Cervical Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Ovarian Cancer",
+        "Primary Peritoneal Cavity Cancer"
+       ],
+       "nct": "NCT00020696",
+       "phase": [
+        "PHASE2"
+       ],
+       "sponsor": "Gynecologic Oncology Group",
+       "start": "2001-06",
+       "status": "COMPLETED",
+       "title": "Tirapazamine Plus Cisplatin in Treating Patients With Persistent or Recurrent Ovarian Epithelial or Primary Peritoneal Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Lung Cancer"
+       ],
+       "nct": "NCT00006484",
+       "phase": [
+        "PHASE3"
+       ],
+       "sponsor": "SWOG Cancer Research Network",
+       "start": "2000-11",
+       "status": "COMPLETED",
+       "title": "Combination Chemotherapy With or Without Tirapazamine in Treating Patients With Stage IIIB or Stage IV Non-small Cell Lung Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "Cervix Cancer"
+       ],
+       "nct": "NCT00493376",
+       "phase": null,
+       "sponsor": "British Columbia Cancer Agency",
+       "start": "2007-08",
+       "status": "TERMINATED",
+       "title": "Study of Tumour Response to Tirapazamine During Treatment of Cervical Cancer",
+       "why_stopped": "This study was a companion study to another one. The other study closed early so this one did as well."
+      },
+      {
+       "conditions": [
+        "Lung Cancer"
+       ],
+       "nct": "NCT00006487",
+       "phase": [
+        "PHASE1"
+       ],
+       "sponsor": "SWOG Cancer Research Network",
+       "start": "2000-10",
+       "status": "COMPLETED",
+       "title": "S0004: Combination Chemotherapy Plus Radiation Therapy in Treating Patients With Limited-stage Small Cell Lung Cancer",
+       "why_stopped": null
+      },
+      {
+       "conditions": [
+        "HCC"
+       ],
+       "nct": "NCT06844357",
+       "phase": [
+        "PHASE2",
+        "PHASE3"
+       ],
+       "sponsor": "Zhejiang Raygene Pharmaceuticals Co., Ltd",
+       "start": "2025-03-27",
+       "status": "RECRUITING",
+       "title": "A Phase II/III Trial Comparing Transarterial Tirapazamine Embolization (TATE) With cTACE for Intermediate-stage Liver Cancer.",
+       "why_stopped": null
+      }
+     ]
     }
    },
    "pubmed": {
@@ -3502,14 +7286,266 @@
      "n_hits": 25
     }
    },
-   "sarcoma_specific_trials": {},
+   "sarcoma_specific_trials": {
+    "TH-302": [
+     {
+      "conditions": [
+       "Soft Tissue Sarcoma"
+      ],
+      "nct": "NCT02255110",
+      "phase": [
+       "PHASE2"
+      ],
+      "sponsor": "Merck KGaA, Darmstadt, Germany",
+      "start": "2014-12-10",
+      "status": "TERMINATED",
+      "title": "A Japanese Trial of TH-302 in Subjects With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+      "why_stopped": "Sponsor's decision due to negative result of Phase 3 study TH-CR-406/SARC021"
+     },
+     {
+      "conditions": [
+       "Soft Tissue Sarcoma"
+      ],
+      "nct": "NCT01440088",
+      "phase": [
+       "PHASE3"
+      ],
+      "sponsor": "Threshold Pharmaceuticals",
+      "start": "2011-09",
+      "status": "COMPLETED",
+      "title": "A Trial of TH-302 in Combination With Doxorubicin Versus Doxorubicin Alone to Treat Patients With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+      "why_stopped": null
+     },
+     {
+      "conditions": [
+       "Soft Tissue Sarcoma"
+      ],
+      "nct": "NCT02712567",
+      "phase": null,
+      "sponsor": "Sarcoma Alliance for Research through Collaboration",
+      "start": null,
+      "status": "NO_LONGER_AVAILABLE",
+      "title": "SARC021C: A Continuation Study of TH-CR-406/SARC021",
+      "why_stopped": null
+     },
+     {
+      "conditions": [
+       "Soft Tissue Sarcoma"
+      ],
+      "nct": "NCT00742963",
+      "phase": [
+       "PHASE1",
+       "PHASE2"
+      ],
+      "sponsor": "ImmunoGenesis",
+      "start": "2008-08",
+      "status": "COMPLETED",
+      "title": "Dose-Escalation Study of TH-302 in Combination With Doxorubicin to Treat Patients With Advanced Soft Tissue Sarcoma",
+      "why_stopped": null
+     }
+    ],
+    "evofosfamide": [
+     {
+      "conditions": [
+       "Soft Tissue Sarcoma"
+      ],
+      "nct": "NCT02255110",
+      "phase": [
+       "PHASE2"
+      ],
+      "sponsor": "Merck KGaA, Darmstadt, Germany",
+      "start": "2014-12-10",
+      "status": "TERMINATED",
+      "title": "A Japanese Trial of TH-302 in Subjects With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+      "why_stopped": "Sponsor's decision due to negative result of Phase 3 study TH-CR-406/SARC021"
+     },
+     {
+      "conditions": [
+       "Soft Tissue Sarcoma"
+      ],
+      "nct": "NCT01440088",
+      "phase": [
+       "PHASE3"
+      ],
+      "sponsor": "Threshold Pharmaceuticals",
+      "start": "2011-09",
+      "status": "COMPLETED",
+      "title": "A Trial of TH-302 in Combination With Doxorubicin Versus Doxorubicin Alone to Treat Patients With Locally Advanced Unresectable or Metastatic Soft Tissue Sarcoma",
+      "why_stopped": null
+     },
+     {
+      "conditions": [
+       "Soft Tissue Sarcoma"
+      ],
+      "nct": "NCT02712567",
+      "phase": null,
+      "sponsor": "Sarcoma Alliance for Research through Collaboration",
+      "start": null,
+      "status": "NO_LONGER_AVAILABLE",
+      "title": "SARC021C: A Continuation Study of TH-CR-406/SARC021",
+      "why_stopped": null
+     },
+     {
+      "conditions": [
+       "Soft Tissue Sarcoma"
+      ],
+      "nct": "NCT00742963",
+      "phase": [
+       "PHASE1",
+       "PHASE2"
+      ],
+      "sponsor": "ImmunoGenesis",
+      "start": "2008-08",
+      "status": "COMPLETED",
+      "title": "Dose-Escalation Study of TH-302 in Combination With Doxorubicin to Treat Patients With Advanced Soft Tissue Sarcoma",
+      "why_stopped": null
+     }
+    ],
+    "tirapazamine": [
+     {
+      "conditions": [
+       "Alveolar Childhood Rhabdomyosarcoma",
+       "Embryonal Childhood Rhabdomyosarcoma",
+       "Embryonal-botryoid Childhood Rhabdomyosarcoma",
+       "Previously Treated Childhood Rhabdomyosarcoma",
+       "Recurrent Childhood Rhabdomyosarcoma"
+      ],
+      "nct": "NCT00025363",
+      "phase": [
+       "PHASE2"
+      ],
+      "sponsor": "National Cancer Institute (NCI)",
+      "start": "2001-11",
+      "status": "COMPLETED",
+      "title": "Comparison of Chemotherapy Regimens in Treating Children With Relapsed or Progressive Rhabdomyosarcoma",
+      "why_stopped": null
+     }
+    ]
+   },
    "the_prior_that_matters": "\u26a0 THE SARCOMA HISTORY IS THE FIRST THING A READER MUST SEE, not a footnote. Retrieve the soft-tissue-sarcoma trials of this class and report their outcome before any mechanism sentence.",
    "why_a_hypoxia_reading_points_here": "a hypoxia-activated prodrug is reduced to its cytotoxic form only under low oxygen, so its entire rationale is the tissue state this reading is about."
   }
  },
  "every_registered_EMC_trial": {
-  "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,Interventions&query.cond=extraskeletal%20myxoid%20chondrosarcoma",
-  "_status": "QUERY FAILED: failed: https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&fields=NCTId,BriefTitle,OverallStatus,Phase,Conditions,Interventions&query.cond=extraskeletal%20myxoid%20chondrosarcoma",
-  "_what_this_is_not": "a failed retrieval, NOT a finding that no EMC trial exists."
+  "_n_total_reported": 23,
+  "_query_url": "https://clinicaltrials.gov/api/v2/studies?pageSize=50&countTotal=true&query.cond=extraskeletal%20myxoid%20chondrosarcoma",
+  "_why_asked": "so the claim `no trial of any of these classes exists in EMC` is a retrieved statement rather than an assumption",
+  "studies": [
+   {
+    "nct": "NCT03277924",
+    "status": "COMPLETED",
+    "title": "Trial of Sunitinib and/or Nivolumab Plus Chemotherapy in Advanced Soft Tissue and Bone Sarcomas"
+   },
+   {
+    "nct": "NCT01659203",
+    "status": "RECRUITING",
+    "title": "Proton or Photon RT for Retroperitoneal Sarcomas"
+   },
+   {
+    "nct": "NCT00003718",
+    "status": "UNKNOWN",
+    "title": "Temozolomide in Treating Patients With Advanced Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT00720174",
+    "status": "COMPLETED",
+    "title": "Cixutumumab and Doxorubicin Hydrochloride in Treating Patients With Unresectable, Locally Advanced, or Metastatic Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT06526897",
+    "status": "NOT_YET_RECRUITING",
+    "title": "Evaluation of Chest CT Versus Chest X-Ray for Lung Surveillance After Curative-Intent Resection of High-Risk Truncal-Extremity Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT07734805",
+    "status": "ACTIVE_NOT_RECRUITING",
+    "title": "Radiological Diagnosis of Pediatric Neck Swellings"
+   },
+   {
+    "nct": "NCT01532687",
+    "status": "COMPLETED",
+    "title": "Gemcitabine With or Without Pazopanib in Treating Patients With Refractory Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT00423618",
+    "status": "COMPLETED",
+    "title": "Randomised Trial of Volume of Post-operative Radiotherapy Given to Adult Patients With eXtremity Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT00740597",
+    "status": "TERMINATED",
+    "title": "Intensity-Modulated Radiation Therapy in Treating Patients Undergoing Surgery for Stage IB, Stage II, or Stage III Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT00589121",
+    "status": "COMPLETED",
+    "title": "Image-Guided Radiation Therapy in Treating Patients With Primary Soft Tissue Sarcoma of the Shoulder, Arm, Hip, or Leg"
+   },
+   {
+    "nct": "NCT00900211",
+    "status": "UNKNOWN",
+    "title": "Tissue Sample Collection From Patients With Soft Tissue Sarcoma of the Arms, Hands, Legs, or Feet Treated on Clinial Trial CRUK-VORTEX"
+   },
+   {
+    "nct": "NCT05836571",
+    "status": "ACTIVE_NOT_RECRUITING",
+    "title": "Testing Ipilimumab and Nivolumab Combination With or Without Cabozantinib in People >= 18 Years Old With Advanced Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT01154452",
+    "status": "COMPLETED",
+    "title": "Vismodegib and Gamma-Secretase/Notch Signalling Pathway Inhibitor RO4929097 in Treating Patients With Advanced or Metastatic Sarcoma"
+   },
+   {
+    "nct": "NCT01189253",
+    "status": "TERMINATED",
+    "title": "Doxorubicin Hydrochloride or Trabectedin in Treating Patients With Previously Untreated Advanced or Metastatic Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT00474994",
+    "status": "COMPLETED",
+    "title": "Sunitinib in Treating Patients With Metastatic, Locally Advanced, or Locally Recurrent Sarcomas"
+   },
+   {
+    "nct": "NCT03600649",
+    "status": "UNKNOWN",
+    "title": "Clinical Trial of SP-2577 (Seclidemstat) in Patients With Relapsed or Refractory Ewing or Ewing-related Sarcomas"
+   },
+   {
+    "nct": "NCT06239272",
+    "status": "RECRUITING",
+    "title": "NRSTS2021, A Risk Adapted Study Evaluating Maintenance Pazopanib, Limited Margin, Dose-Escalated Radiation Therapy and Selinexor in Non-Rhabdomyosarcoma Soft Tissue Sarcoma (NRSTS)"
+   },
+   {
+    "nct": "NCT05355753",
+    "status": "TERMINATED",
+    "title": "A Study to Assess the Safety and Tolerability of CFT8634 in Locally Advanced or Metastatic SMARCB1-Perturbed Cancers, Including Synovial Sarcoma and SMARCB1-Null Tumors"
+   },
+   {
+    "nct": "NCT02066285",
+    "status": "COMPLETED",
+    "title": "Trial of Pazopanib in Patients With Solitary Fibrous Tumor and Extraskeletal Myxoid Chondrosarcoma"
+   },
+   {
+    "nct": "NCT05266196",
+    "status": "UNKNOWN",
+    "title": "A Rollover Protocol to Allow for Continued Access to the LSD1 Inhibitor Seclidemstat (SP-2577)"
+   },
+   {
+    "nct": "NCT00112463",
+    "status": "COMPLETED",
+    "title": "Depsipeptide (Romidepsin) in Treating Patients With Metastatic or Unresectable Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT00346164",
+    "status": "COMPLETED",
+    "title": "Observation, Radiation Therapy, Combination Chemotherapy, and/or Surgery in Treating Young Patients With Soft Tissue Sarcoma"
+   },
+   {
+    "nct": "NCT02180867",
+    "status": "COMPLETED",
+    "title": "Radiation Therapy With or Without Combination Chemotherapy or Pazopanib Before Surgery in Treating Patients With Newly Diagnosed Non-rhabdomyosarcoma Soft Tissue Sarcomas That Can "
+   }
+  ]
  }
 }
