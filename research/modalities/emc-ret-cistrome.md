@@ -175,7 +175,7 @@ series to be characterised before anything is built on it, and CLAUDE.md §4 req
 | **Europe PMC** `resultType=core` + `supplementaryFiles` | curated database cross-references and the publisher supplement bundle | neither is in the rendered body text; the cDC2 study's supplements are Wiley-hosted |
 | **EBI BioStudies / ArrayExpress** | the archive a European deposition would use | *"not in GEO"* and *"not deposited"* are different facts |
 | **ReMap 2022** and **ENCODE** | two more uniformly-reprocessed human TF catalogues | breadth, and each is one request |
-| **NGDC GSA** `CRA032324` / `CRA032321` | the Schwann-cell NR4A3 ChIP-seq named verbatim in PMC13099357 | ⚠ GSA archives **raw reads**. Alignment + peak calling from FASTQ is not a $0 CPU-runner operation, and that is recorded as an **instrument limit**, never as an absence of data |
+| **NGDC GSA** `CRA032324` / `CRA032321` | the Schwann-cell NR4A3 ChIP-seq named verbatim in PMC13099357 | ⚠ **Measured, not assumed:** both accession pages list `.fq` and nothing else. **Raw reads.** Alignment + peak calling from FASTQ is not a $0 CPU-runner operation, and that is recorded as an **instrument limit**, never as an absence of data |
 
 ### What came back
 
@@ -189,26 +189,35 @@ listed once per genome build, so those 92 rows are ~46 distinct experiments:
 | NR4A3 | hg19 / hg38 | **6 each** | **dendritic cells only** |
 | Nr4a1 (mouse) | mm9 / mm10 | 7 each | — |
 
-⛔ **The single most consequential line in this table: every NR4A3 ChIP-seq experiment in existence
-that ChIP-Atlas has reprocessed is in one cell type, from one study.** Peak caller MACS2 at
-ChIP-Atlas's threshold `05` (q < 1e-5); QC (reads, % mapped, % duplicates, peak count) is recorded
-per experiment in the artifact, and it is the peak-count column that turns out to decide
-everything (§3c).
+⛔ **The single most consequential line in this table: every NR4A3 ChIP-seq experiment ChIP-Atlas
+has reprocessed is in one cell type, from one study.** Peak caller MACS2 at ChIP-Atlas's threshold
+`05` (q < 1e-5); QC (reads, % mapped, % duplicates, peak count) is recorded per experiment in the
+artifact, and it is the peak-count column that turns out to decide everything (§3c). The
+`experimentList.tab` stream completed rather than truncating, so the 92 is a **complete** count
+over the 845,824 rather than a partial one.
 
-⭐ **The cDC2 accession the prior pass could not find is `GSE186199`**, and it was found twice
-independently: by a regex scan of PMC10108054's `fullTextXML` (the prior pass searched the PMC
-*rendering*), and by a GEO query returning GSE186197/98/99 — *"Nuclear receptor subfamily 4A
-signaling as a key disease pathway of CD1c+ dendritic cell…"*. ChIP-Atlas had already reprocessed
-it, which is what makes §4b's paralogue overlap computable at all. **GEO returned 37 series in
-total**; the ones carrying NR4A ChIP data are listed in the artifact with their organism, sample
+⭐ **The cDC2 accession the prior pass could not find is `GSE186199`**, and it was found by **three
+independent routes**: a regex scan of PMC10108054's `fullTextXML` (the prior pass searched the PMC
+*rendering* and found none); a GEO query returning GSE186197/98/99 — *"Nuclear receptor subfamily
+4A signaling as a key disease pathway of CD1c+ dendritic cell…"*; and **NCBI's ELink paper→dataset
+table, which returns 3 linked GEO datasets for that PMID** and does not depend on the article body
+at all. ChIP-Atlas had already reprocessed it, which is what makes §4b's paralogue overlap
+computable. **The GEO sweep returned 92 series in total**, each recorded with its organism, sample
 count and verbatim title.
 
-⚠ **Europe PMC's curated cross-reference list returned nothing for any of the three papers**, so
-the route that was expected to find the accession was not the one that did. That is recorded as a
-reading about the cross-reference list, not about deposition.
+⚠ **Europe PMC's curated cross-reference list returned nothing for any of the three papers.** The
+route expected to find the accession was not the one that did — recorded as a reading about the
+cross-reference list, not about deposition.
 
-✅ **PMC13099357's accessions `CRA032321` / `CRA032324` were recovered as stated** — but GSA
-archives **raw reads**, so they remain unusable at $0. Instrument limit, recorded as one.
+✅ **PMC13099357's `CRA032321` / `CRA032324` were recovered as stated, and the instrument limit is
+now MEASURED rather than assumed:** the GSA pages for both accessions list `.fq` files and nothing
+else. **Raw reads.** Alignment and peak calling stand between that accession and a peak set, and
+that is not a $0 CPU-runner operation.
+
+⛔ **And the scarcity of NR4A3 chromatin data is confirmed from two more directions.** **ReMap
+2022** holds an NR4A1 catalogue (1.6 MB, 83,773 peaks) and **no NR4A2 or NR4A3 catalogue at all**.
+**ENCODE** lists **4** NR4A1 experiments and **none** for NR4A2 or NR4A3. Three independent
+catalogues agree: **NR4A3 has been ChIP'd once, by one group, in one cell type.**
 
 <!-- RESULTS-DATASETS -->
 
