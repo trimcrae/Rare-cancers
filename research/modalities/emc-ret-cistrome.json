@@ -4,7 +4,7 @@
  "_lane": "emc-unexplored-treatment-lanes.md \u00a73.1 / emc-ret-lane.md \u00a72d next-step 1",
  "_sibling_instrument": "emc_ret_target_scan.py \u2014 the NBRE motif scan. Different question, allowed to disagree.",
  "_generated_from": "emc-ret-cistrome-inputs.json",
- "generated_utc": "2026-08-07T17:49:39+00:00",
+ "generated_utc": "2026-08-07T17:57:50+00:00",
  "_language_discipline": "Nothing in this file asserts that any RET inhibitor is selective for, effective in, safe in, or ready for extraskeletal myxoid chondrosarcoma, and nothing here recommends giving any agent to any patient. No EMC patient has received a selective RET inhibitor.",
  "part_0_genome_build": {
   "_what": "The genome build, established from two independent sources per build and never lifted over. This block is a RESULT, not metadata (CLAUDE.md \u00a74: this lane has twice been burned by a coordinate convention that produced a plausible file).",
@@ -32662,7 +32662,7 @@
    }
   },
   "state": "OCCUPIED BY NR4A1 AND NOT BY THE OTHERS",
-  "reading": "the reading a paralogue-selective strategy would want. \u26a0 It rests on peak CALLING at a fixed threshold, so 'absent in paralogue X' can be a sub-threshold peak. Grade it against the genome-wide sharing rate.",
+  "reading": "\u26d4 READ THE DEPTH COLUMN BEFORE READING THIS STATE. It looks like the reading a paralogue-selective strategy would want, and it is usually a depth artefact: the deepest peak set here has 83773 peaks and the shallowest paralogue's deepest has 154, a 544.0x difference. A paralogue with no deep experiment cannot show a peak anywhere, at any locus, so 'not occupied' by that paralogue is an ABSENT READING. Check three things before quoting this state as selectivity: (a) does the unoccupied paralogue have a peak set of comparable depth at all; (b) does any of its peak sets recover a known positive control; (c) is the cell type matched. If any answer is no, the honest state is NOT MEASURED. \u26a0 And peak CALLING is thresholded, so even at matched depth 'absent' can be a sub-threshold peak.",
   "\u26d4 what_this_is_not": "wild-type paralogues in a non-EMC cell type. It is not a measurement of what EWSR1::NR4A3 binds, and not a selectivity claim about any molecule."
  },
  "verdict": {

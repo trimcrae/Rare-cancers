@@ -1844,9 +1844,22 @@ def _paralogue_block(usable, per_set, genes):
                    "against the genome-wide sharing rate below before calling it either.")
     else:
         state = f"OCCUPIED BY {'+'.join(shared)} AND NOT BY THE OTHERS"
-        reading = ("the reading a paralogue-selective strategy would want. ⚠ It rests on peak "
-                   "CALLING at a fixed threshold, so 'absent in paralogue X' can be a "
-                   "sub-threshold peak. Grade it against the genome-wide sharing rate.")
+        depths = {ag: (at_ret.get(ag, {}).get("peak_depth_range") or [None, None])[1]
+                  for ag in PARALOGUES}
+        hi = max((v for v in depths.values() if v), default=None)
+        lo = min((v for v in depths.values() if v), default=None)
+        ratio = round(hi / lo, 1) if hi and lo else None
+        reading = (
+            "⛔ READ THE DEPTH COLUMN BEFORE READING THIS STATE. It looks like the reading a "
+            "paralogue-selective strategy would want, and it is usually a depth artefact: the "
+            f"deepest peak set here has {hi} peaks and the shallowest paralogue's deepest has "
+            f"{lo}, a {ratio}x difference. A paralogue with no deep experiment cannot show a peak "
+            "anywhere, at any locus, so 'not occupied' by that paralogue is an ABSENT READING. "
+            "Check three things before quoting this state as selectivity: (a) does the "
+            "unoccupied paralogue have a peak set of comparable depth at all; (b) does any of its "
+            "peak sets recover a known positive control; (c) is the cell type matched. If any "
+            "answer is no, the honest state is NOT MEASURED. ⚠ And peak CALLING is thresholded, "
+            "so even at matched depth 'absent' can be a sub-threshold peak.")
     return {
         "_question": "Is a peak at RET shared by NR4A1/NR4A2/NR4A3, or is it NR4A3's alone?",
         "_why_it_matters": "a peak all three share says something different from one only NR4A3 "

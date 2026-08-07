@@ -304,7 +304,7 @@ lives, not at the promoter.
    VEGFR — the originating authors' own reading (**PMID 23058004**) — as the story RET displaces.
    **Occupancy does not displace it. It occupies both, and it occupies VEGFA harder.** Anyone
    quoting the *RET* peaks without this line is quoting half a result.
-5. **A 150–500× depth confound sits underneath the paralogue pattern** — see §4.
+5. **A 147–544× depth confound sits underneath the paralogue pattern** — see §4.
 6. **Occupancy is not transactivation.** The ENO3 precedent needed **luciferase** on top of ChIP
    (**PMID 26310886**). Nothing here measures output.
 
@@ -345,7 +345,7 @@ counting peak sets would read as independent replication when it is the same rea
 | **NR4A3** | 12 | **6** | **53 – 154** | no |
 
 ⛔ **This is not "NR4A1 binds *RET* and NR4A3 does not."** The positive sets have **22,674–83,773**
-peaks; the deepest NR4A3 experiment anywhere has **154**. That is a **150–500× depth difference**,
+peaks; the deepest NR4A3 experiment anywhere has **154**. The artifact computes the ratio at **544×** against the deepest set, and it is **147–173×** against the Kasumi-1 sets alone —
 on top of a cell-type difference (an AML line and a merged multi-tissue catalogue, versus primary
 dendritic cells), and **no NR4A3 peak set recovers a positive control**. Two variables move with
 the outcome and neither is the paralogue. **The paralogue question at *RET* is unanswered, and the
