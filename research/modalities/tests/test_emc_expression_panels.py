@@ -652,8 +652,16 @@ def test_the_third_series_lead_carries_its_diagnostic_and_is_not_stated_as_a_res
     assert "n_probes: 0" in third[key], "the diagnostic must be quoted, not summarised"
     assert "404" in third[key]
     assert "not a finding" in third["⛔_so_the_grade_is_about_the_file_format_not_the_data"]
-    # and the lead must say it is a lead
-    assert "UNKNOWN" in third["the_next_step_and_its_cost"]
+    # the follow-up ran; it must record what it MEASURED and what is still open, and the
+    # remaining unknown must not be softened into a result
+    done = third["✅_that_characterisation_was_run_and_here_is_what_it_measured"]
+    assert done["state"] == "SERIES_LEVEL_PROCESSED_SUPPLEMENT_ONLY"
+    assert "cancer_and_normal" in done["⭐_a_processed_matrix_exists"]
+    assert len(done["the_four_EMC_samples_named"]) == 4
+    assert "peak" in done["⛔_and_the_obstacle_that_is_left_is_real_and_specific"].lower()
+    assert "NOT known" in done["⛔_and_the_obstacle_that_is_left_is_real_and_specific"]
+    assert "and no further" in done["⛔_what_is_still_UNKNOWN"]
+    assert "not an arbiter" in done["⛔_what_is_still_UNKNOWN"]
 
 
 def test_every_route_named_address_is_in_the_board(res):

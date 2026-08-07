@@ -1619,13 +1619,43 @@ def _assemble_reads(res):
                          "speak to on-target/off-tumour toxicity; a tumour-vs-NORMAL arm in an "
                          "EMC series is the one measurement that could, and no artifact in this "
                          "repository holds it."),
-                     "the_next_step_and_its_cost": (
-                         "$0. Characterise GSE28866's SUPPLEMENTARY files in CI "
-                         "(`emc-expression-datasets.yml mode=gse-series series=GSE28866`) and "
-                         "establish whether a processed count matrix exists and carries CSPG4 "
-                         "and CD248. ⚠ Until that returns, whether the data is usable is UNKNOWN "
-                         "— this entry records a lead with its evidence, not a result. n=4 EMC "
-                         "would in any case be descriptive."),
+                     "✅_that_characterisation_was_run_and_here_is_what_it_measured": {
+                         "run": "emc-expression-datasets.yml mode=gse-series series=GSE28866, "
+                               "run 31200667719, 2026-08-07. Artifact: "
+                               "research/modalities/atr-hrd-sarcoma-series.json.",
+                         "state": "SERIES_LEVEL_PROCESSED_SUPPLEMENT_ONLY",
+                         "⭐_a_processed_matrix_exists": (
+                             "The series-level supplementary listing carries "
+                             "`GSE28866_raw_counts_54511_peaks_cancer_and_normal.txt.gz` and "
+                             "`GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz`. Both "
+                             "names say `cancer_and_normal` — the tumour-vs-NORMAL arm is in the "
+                             "file, not merely in the sample annotations."),
+                         "the_four_EMC_samples_named": ["GSM715466 (STT5525_EMC)",
+                                                        "GSM715467 (STT5526_EMC)",
+                                                        "GSM715470 (STT5527_EMC)",
+                                                        "GSM715472 (STT5592_EMC)"],
+                         "n_normal_tissue_samples_in_the_deposit": 27,
+                         "⛔_and_the_obstacle_that_is_left_is_real_and_specific": (
+                             "The matrix is indexed by PEAKS, not genes — 54,511 raw and 36,048 "
+                             "normalised 3SEQ peaks. A per-gene question therefore needs a "
+                             "peak→gene mapping, and whether the file carries one (a symbol "
+                             "column) or only genomic coordinates is NOT known: nothing has "
+                             "opened the file. Per-sample supplementary files are `.bed.gz` and "
+                             "the characteriser counted 0 of 99 samples with a processed-looking "
+                             "per-sample file, so the series-level table is the only route in."),
+                         "⛔_what_is_still_UNKNOWN": (
+                             "Whether CSPG4, CD248 or ALCAM can be read out of that peak table. "
+                             "This entry has moved from 'a series might exist' to 'a series "
+                             "exists and its processed matrix is downloadable', and no further. "
+                             "n=4 EMC would be descriptive in any case, and 3SEQ on FFPE is a "
+                             "different measurement from either array platform above — so this "
+                             "would be a third opinion, not an arbiter."),
+                         "the_next_step_and_its_cost": (
+                             "$0. Fetch the two series-level files in CI and report their header "
+                             "— whether a gene/symbol column exists, and if not, what the peak "
+                             "coordinates would have to be mapped against. That single header "
+                             "read decides whether this series is usable at all."),
+                     },
                  },
                  "PER-SAMPLE COMPARATOR-ARM DECOMPOSITION on GPL3290: score CSPG4 in EMC vs DFSP "
                  "and vs GIST SEPARATELY (n=3 each). If DFSP alone carries the high comparator "
