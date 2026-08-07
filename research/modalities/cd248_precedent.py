@@ -284,15 +284,20 @@ MODALITY_LADDER = {
 }
 
 
-def _corpus_index():
-    """Read the CI-retrieved Europe PMC index out of the `literature-cache` branch.
+def _corpus_index(corpus_dir=None):
+    """Read a CI-retrieved Europe PMC index out of the `literature-cache` branch.
 
     ⛔ FAIL-HONEST, AND THAT IS THE WHOLE POINT OF DERIVING IT. If the corpus is not reachable
     from this checkout the counts are reported as UNREAD, never as zero — a retrieval that could
     not be read is an absent reading, and 'no EMC papers found' produced by a failed `git show`
     is the exact fabricated negative this repository has been burned by (CLAUDE.md §4).
+
+    ⭐ TAKES THE CORPUS DIRECTORY so sibling precedent modules (`alcam_precedent.py`) reuse this
+    reader rather than reimplementing it. The fail-honest behaviour above is the whole reason it
+    must not be copied: a second, subtly different reader is a second chance to turn an
+    unreadable corpus into a zero.
     """
-    path = f"{CORPUS_REF}:{CORPUS_DIR}/_index.json"
+    path = f"{CORPUS_REF}:{corpus_dir or CORPUS_DIR}/_index.json"
     try:
         raw = subprocess.run(["git", "show", path], cwd=ROOT, capture_output=True,
                              timeout=120).stdout

@@ -3,7 +3,18 @@
   "_the_result_in_one_sentence": "⭐ ALCAM (CD166) is HIGHER in EMC tumour tissue than in comparator sarcomas on BOTH readable series and against BOTH comparator arms, and it is the only concordant-up gene whose HPA normal-tissue window is RESTRICTED — the first EMC-MEASURED candidate surface antigen this repository holds. ⛔ CD248, the surfaceome scan's only selectivity-significant antigen, does NOT survive: it reads LOWER in EMC on the one platform that can read it, its normal-tissue window is VITAL_OR_IMMUNE_LIABILITY, and the one randomised human test of a CD248-directed agent in soft-tissue sarcoma was negative.",
   "_rule": "Every edit here is a JSON LIST APPEND or a record-field addition, and every one carries `proposed_text: null` with its payload in `proposed_record` — the derived-count contract in route_map_edits.py. Matching a JSON file's tail as verbatim anchor text is brittle, and a silent mis-append into a graph file is worse than a deferred edit.",
   "_not_applied_and_why": "DRY RUN ONLY. systems/graph/** edits must be followed by `python3 systems/systems_check.py --write-views` in the SAME commit, and three of these register artifacts that six routes would then read. The agent that produced them was instructed not to hand-edit systems/graph/**.",
-  "_apply_order": ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9"],
+  "_apply_order": [
+    "A1",
+    "A2",
+    "A3",
+    "A3b",
+    "A4",
+    "A5",
+    "A6",
+    "A7",
+    "A8",
+    "A9"
+  ],
   "_what_this_deliberately_does_NOT_do": [
     "⛔ It does NOT retire BLK-NO-EMC-DATA on any route. That blocker is about EMC data in general; what these reads supply is a TRANSCRIPT reading in n=6 and n=10 archival tumours on two array platforms. Retiring a blocker on that would be the over-claim the whole read is built to avoid.",
     "⛔ It does NOT retire BLK-ANTIGEN-COLD or discharge RT-CART-SURFACE's `missing: [\"a selective surface antigen\"]`. ALCAM is a transcript lead with a normal-tissue prior; 'selective surface antigen' is a PROTEIN claim about SURFACE localisation and tumour restriction, and none of the three is measured here.",
@@ -16,9 +27,10 @@
   "produced_by_runs": [
     "31200063875 — emc-expression-datasets.yml mode=panels (GEO read + HPA normal window)",
     "31200667719 — emc-expression-datasets.yml mode=gse-series series=GSE28866",
-    "31198413440 — fetch-literature.yml, corpus literature/cd248-endosialin-antibody (1,643 records)"
+    "31198413440 — fetch-literature.yml, corpus literature/cd248-endosialin-antibody (1,643 records)",
+    "31202393386 — fetch-literature.yml, corpus literature/alcam-cd166-binder (6,547 records, 657 on-topic)"
   ],
-  "n_edits": 9,
+  "n_edits": 10,
   "map_edits_required": [
     {
       "id": "A1",
@@ -87,6 +99,27 @@
       }
     },
     {
+      "id": "A3b",
+      "section": "systems/graph/artifacts.json → new ART-ALCAM-PRECEDENT (list append)",
+      "file": "systems/graph/artifacts.json",
+      "field": "new artifact ART-ALCAM-PRECEDENT",
+      "anchor": "\"id\": \"ART-HLA-COVERAGE\"",
+      "current_text": null,
+      "proposed_text": null,
+      "why": "⛔ ALCAM IS THE ONE POSITIVE ON THE BOARD, WHICH MAKES IT THE MOST DANGEROUS RECORD IN THE REPOSITORY TO LEAVE UNQUALIFIED. Its ART-SURFACE-NORMAL-WINDOW verdict is RESTRICTED, and the primary literature puts it on mesenchymal stem cells, in the haematopoietic stem-cell niche, on perichondrium and on the CD6 axis of T cells. Those are not in conflict — a bulk normal-tissue RNA atlas cannot resolve a rare compartment — but a RESTRICTED label travelling without them would read as a green light.",
+      "proposed_record": {
+        "id": "ART-ALCAM-PRECEDENT",
+        "name": "ALCAM / CD166 binder precedent and its normal-tissue liability",
+        "path": "research/modalities/alcam-precedent.json",
+        "produced_by": "research/modalities/alcam_precedent.py",
+        "known_answer_control": {
+          "description": "Not predictive — citations and one derived count. The count that could lie is `emc_specific_evidence`, whose controls are asserted in tests/test_alcam_precedent.py: an unreadable corpus reports UNREAD and claims no count, and the EMC denominator is the ON-TOPIC subset (657 of 6,547 retrieved records actually mention the antigen), because a broad query makes the raw denominator meaningless.",
+          "passes": true
+        },
+        "note": "⭐ A BINDER EXISTS AND HAS REACHED PATIENTS: praluzatamab ravtansine (CX-2009), a CD166-targeting Probody-drug conjugate, phase I/II in advanced solid tumours (PMID 35165101, PMC9365353, doi 10.1158/1078-0432.ccr-21-3656). ⚠ NO OUTCOME IS CHARACTERISED and no sarcoma or EMC cohort is claimed. An anti-CD166/4-1BB CAR-T exists preclinically in OSTEOSARCOMA (PMID 30995926, PMC6471997), as do 89Zr and 64Cu immunoPET tracers. ⛔ AND THE LIABILITY IS CONCRETE: ALCAM regulates haematopoietic stem cells and their niche (PMID 24740813, PMC4110658), marks mesenchymal stem cells and perichondrium (PMID 12070283, PMC2193567; PMID 9556065), and is the CD6 ligand in T-cell costimulation (PMID 35484649, PMC9614543) — which is a modality-specific hazard for a CAR-T or engager that does not arise for a conjugate. That the clinical agent is a MASKED Probody is independent corroboration that the field already judged normal-tissue distribution to be the obstacle. ⚠ Second deflation, specific to this disease: ALCAM is a mesenchymal-lineage marker, EMC is a mesenchymal tumour, and the contrast is against other sarcomas — so the elevation may report lineage rather than anything about EWSR1::NR4A3, and nothing measured discriminates the two. ZERO of the 657 on-topic records mention EMC or its fusion."
+      }
+    },
+    {
       "id": "A4",
       "section": "systems/graph/routes.json → RT-SSTR2 gains the EMC expression measurement it names as missing",
       "file": "systems/graph/routes.json",
@@ -96,7 +129,10 @@
       "proposed_text": null,
       "why": "This route's `readiness.missing` is literally ['any expression measurement in EMC'] and its `experiment_required` is 'a receptor scan, or an expression readout on EMC tissue'. The expression readout now exists and is NOT supportive, which is a more useful state than unmeasured.",
       "proposed_record": {
-        "artifacts_append": ["ART-EMC-SURFACE-PANEL", "ART-SURFACE-NORMAL-WINDOW"],
+        "artifacts_append": [
+          "ART-EMC-SURFACE-PANEL",
+          "ART-SURFACE-NORMAL-WINDOW"
+        ],
         "reading": "SSTR2 is READABLE on GPL6244 (1 probe) with EMC at the 60th percentile of the array's probe distribution, and FLAT versus the comparator sarcomas: −0.0424 SD, t=−0.397, df=5.3, n_EMC=6, n_comparator=29. On GPL3290 NO PROBE MAPS TO IT — an instrument statement, not a second negative. SSTR1/3/4/5 are readable on GPL6244 only. HPA normal-tissue window: ENHANCED_BROAD (tissue enhanced — detected widely with a peak), which is NOT a restricted window.",
         "⛔_what_this_does_and_does_not_change": "It DISCHARGES `missing: ['any expression measurement in EMC']` AT TRANSCRIPT LEVEL and answers it in the unsupportive direction — SSTR2 is present but not elevated. It does NOT establish receptor PROTEIN density, which is what a DOTATATE-style radioligand actually needs and what a receptor scan would measure, so `experiment_required` survives with the receptor-scan half intact.",
         "⚠_a_single_platform_flat_reading_is_not_a_closure": "n=6 EMC on one array, uncorrected. This bounds the route; it does not close it."
@@ -112,7 +148,10 @@
       "proposed_text": null,
       "why": "`missing: ['any measurement in EMC']`, and surfaceome-instrument-limits.json L5 records that the DepMap scan holds NO EMC observation of FAP for two independent reasons. A bulk-tissue read is the instrument that CAN hold one, because the CAF compartment exists in tissue and not in monoculture.",
       "proposed_record": {
-        "artifacts_append": ["ART-EMC-SURFACE-PANEL", "ART-SURFACE-NORMAL-WINDOW"],
+        "artifacts_append": [
+          "ART-EMC-SURFACE-PANEL",
+          "ART-SURFACE-NORMAL-WINDOW"
+        ],
         "reading": "FAP is READABLE on BOTH platforms and FLAT on both: GPL6244 −0.2652 SD, t=−0.806, df=8.2 (EMC at the 88th array percentile); GPL3290 −0.1438 SD, t=−0.553, df=14.0 (64th percentile). The wider stromal compartment agrees rather than contradicting: LRRC15 −0.4074 SD t=−2.434 and PDGFRB −0.7523 SD t=−4.193 on GPL6244, ACTA2/POSTN/TNC flat on both. HPA normal-tissue window for FAP: ENHANCED_BROAD.",
         "⭐_why_this_is_the_first_real_FAP_reading_for_this_route": "It is taken in an instrument that CONTAINS the compartment FAP occupies. surfaceome-instrument-limits.json L1/L2 records that DepMap monoculture structurally cannot see a stromal antigen — LRRC15 reads frac_expressed 0.0 there — so the earlier absence of a FAP signal was the compartment's absence. Here the compartment is present and FAP still does not separate EMC from comparator sarcomas.",
         "⛔_what_it_does_not_establish": "FAP PROTEIN, and therefore nothing about FAPI tracer uptake — a radioligand binds protein on cells, and a bulk transcript contrast in archival tissue is two inferential steps away. It also cannot say EMC has no FAP-positive stroma; it says EMC's is not elevated RELATIVE TO other sarcomas, which is a different and weaker statement than 'FAP is low in EMC'.",
@@ -129,7 +168,10 @@
       "proposed_text": null,
       "why": "`readiness.missing: ['a tissue-level measurement']`, with `why_not_higher` recording that 'the negative was measured on surrogates, so it is as provisional as a positive would have been'. The tissue-level measurement now exists.",
       "proposed_record": {
-        "artifacts_append": ["ART-EMC-SURFACE-PANEL", "ART-SURFACE-NORMAL-WINDOW"],
+        "artifacts_append": [
+          "ART-EMC-SURFACE-PANEL",
+          "ART-SURFACE-NORMAL-WINDOW"
+        ],
         "reading_CD276": "READABLE on GPL6244 (1 probe), EMC at the 79th array percentile, and LOWER in EMC than the comparator sarcomas: −0.249 SD, t=−2.549, df=8.0. NOT READABLE on GPL3290 — an instrument statement. HPA normal-tissue window: BROAD_LIABILITY (low tissue specificity).",
         "reading_NCAM1_CD56": "READABLE on both and FLAT on both: GPL6244 −0.268 SD, t=−1.077; GPL3290 +1.0284 SD, t=1.972. HPA window: VITAL_OR_IMMUNE_LIABILITY (immune cell enriched) — which is exactly the normal-tissue/NK failure this route's closure note already records for CD56, now confirmed on the same instrument that grades the rest of the board.",
         "⭐_the_surrogate_negative_and_the_tissue_reading_agree": "The route's closure note says B7-H3's selectivity was measured on surrogates and failed (BH q=1.0, enrichment 0.14 in the DepMap scan). The independent tissue read is in the same direction and is if anything stronger — CD276 is lower in EMC than in comparator sarcomas. Two instruments, two populations, one direction; that is what makes a provisional negative less provisional.",
@@ -146,7 +188,10 @@
       "proposed_text": null,
       "why": "`missing: ['expression confirmation on EMC tissue']`, and its `why_not_higher` names 'presentation on HLA-A*02:01 is a separate and unaddressed question'. Both halves now have a reading, and the second one is the half nobody had measured.",
       "proposed_record": {
-        "artifacts_append": ["ART-EMC-SURFACE-PANEL", "ART-SURFACE-NORMAL-WINDOW"],
+        "artifacts_append": [
+          "ART-EMC-SURFACE-PANEL",
+          "ART-SURFACE-NORMAL-WINDOW"
+        ],
         "reading_PRAME": "READABLE ON BOTH PLATFORMS and FLAT on both: GPL6244 −0.004 SD, t=−0.05, df=25.6, with EMC at the 30th percentile of the array; GPL3290 +0.868 SD, t=1.427, df=5.0, with EMC at the 11th percentile. ⚠ THE PERCENTILES ARE THE INFORMATIVE HALF HERE, NOT THE CONTRAST: PRAME sits in the bottom third of both arrays' probe distributions, so the reading is 'present at a low level and not elevated', not 'elevated'. HPA normal-tissue window: RESTRICTED.",
         "⛔_PRAME_is_not_a_surface_antigen": "It is an intracellular protein reached through HLA class I presentation, so an ImmTAC or TCR-T needs the PEPTIDE-HLA complex, not the protein. A transcript reading is therefore two steps removed, and the route's own `why_not_higher` says so.",
         "reading_the_presentation_machinery_measured_for_the_first_time": "HLA-A is READABLE on both and FLAT on both, sitting at the 99th percentile of GPL6244 — so class I heavy chain is abundantly transcribed in EMC. B2M is modestly LOWER in EMC on GPL6244 (−0.3347 SD, t=−5.622) while still at the 99th array percentile, and flat on GPL3290. NLRC5 −0.1804 SD t=−3.336 (GPL6244), CIITA lower on both. TAP1 flat on both; TAP2/TAPBP/ERAP1 lower on GPL6244 only; PSMB9 opposite signs on the two platforms.",
@@ -164,7 +209,10 @@
       "proposed_text": null,
       "why": "`missing: ['a real EMC expression series']`, and `why_not_higher` says the route 'was downgraded on a measurement rather than on reasoning ... but it means the route needs a better measurement, not a better argument'. Two real EMC series have now been read for the cancer-testis panel, and the answer splits into two very different halves.",
       "proposed_record": {
-        "artifacts_append": ["ART-EMC-SURFACE-PANEL", "ART-SURFACE-NORMAL-WINDOW"],
+        "artifacts_append": [
+          "ART-EMC-SURFACE-PANEL",
+          "ART-SURFACE-NORMAL-WINDOW"
+        ],
         "⛔_half_the_panel_could_not_be_read_at_all": "CTAG1B (NY-ESO-1), MAGEA3 and SSX2 map to NO PROBE on EITHER platform. That is an INSTRUMENT statement and is NOT evidence that these antigens are absent in EMC — for the two most-used clinical CTA addresses, the read could not be taken.",
         "reading_the_half_that_was_readable": "MAGEA4 — the afami-cel address and the synovial-sarcoma port this route is named for — is READABLE on GPL6244 at the 27.8th array percentile and FLAT (−0.05 SD, t=−1.499); on GPL3290 it is readable but underpowered for a contrast. MAGEA1 (27.5th pct), MAGEC2 (14.3th pct) and CTAG2 (73.2nd pct) are readable on GPL6244 only and flat; MAGEA10 is readable on both and flat on both; SSX1 sits at the 7.8th and 10.5th percentiles and is lower on GPL3290. HPA normal-tissue windows: MAGEA4 RESTRICTED, CTAG1B RESTRICTED — as expected for cancer-testis antigens, and irrelevant while the EMC reading is flat.",
         "⭐_the_shape_of_the_answer": "Where the panel could be read, the cancer-testis antigens sit LOW in the array distribution and do not separate EMC from comparator sarcomas. A CTA-directed TCR-T needs high, homogeneous antigen expression; nothing here supplies it. ⚠ But the two addresses that matter most clinically were UNREADABLE, so this bounds the route rather than closing it, and it is a reason to look for an RNA-seq EMC series rather than to stop.",
@@ -181,7 +229,11 @@
       "proposed_text": null,
       "why": "`missing: ['a selective surface antigen']`, and `why_not_higher` says the route is 'blocked by the antigen search and the cold stroma rather than by the cell product'. This is the first pass of that antigen search taken IN EMC TISSUE rather than in surrogate cell lines.",
       "proposed_record": {
-        "artifacts_append": ["ART-EMC-SURFACE-PANEL", "ART-SURFACE-NORMAL-WINDOW", "ART-CD248-PRECEDENT"],
+        "artifacts_append": [
+          "ART-EMC-SURFACE-PANEL",
+          "ART-SURFACE-NORMAL-WINDOW",
+          "ART-CD248-PRECEDENT"
+        ],
         "⭐_the_one_candidate_that_survived_both_screens": "ALCAM (CD166) is HIGHER in EMC than in comparator sarcomas on BOTH platforms and against BOTH comparator arms: GPL6244 +1.0907 SD, t=+7.008, df=12.4, with EMC at the 98.8th percentile of the array's probe distribution; GPL3290 +0.7535 SD, t=+2.214, df=8.5, at the 71.4th percentile. Its HPA normal-tissue window is RESTRICTED (tissue enriched, not detected as immune-enriched) — the ONLY one of the five concordant-up genes with a restricted window.",
         "the_other_four_concordant_up_genes_and_why_they_are_weaker": "CD44 (t=+7.859/+3.042) is BROAD_LIABILITY in normal tissue. VCAN (t=+3.937/+4.762) is VITAL_OR_IMMUNE_LIABILITY. GPC1 (t=+3.111/+4.011) is ENHANCED_BROAD. BGN (t=+4.137/+3.874) has no HPA window recorded in this run — an ABSENT reading, and a gap to close before it is graded. ⚠ VCAN and BGN are SECRETED matrix proteoglycans rather than plasma-membrane proteins, so they are not CAR addresses at all whatever their expression; they are recorded because they are the matrix EMC is made of and because they bear on the ofCS carrier question.",
         "⛔_what_ALCAM_IS_NOT_YET": "Not protein. Not tumour-restricted (RESTRICTED is a normal-tissue RNA prior, not a safety statement). Not deconvolved — bulk archival tissue mixes tumour cells with stroma, vasculature and immune infiltrate. And not selective for the FUSION, so BLK-NOT-FUSION-SELECTIVE is untouched.",
