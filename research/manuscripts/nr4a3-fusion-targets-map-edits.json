@@ -1,0 +1,71 @@
+{
+ "_what": "Edits this lane OWES to files it is not permitted to hand-edit — systems/graph/*, systems/views/* (generated) and the roadmap. DESCRIBED, NOT APPLIED.",
+ "_rule": "Every `current_text` is grep -F verified to appear EXACTLY ONCE in both origin/main and the working tree. Verify with: python3 research/manuscripts/verify_map_edit_anchors.py research/manuscripts/nr4a3-fusion-targets-map-edits.json",
+ "_do_not_apply_blind": "Read the reason column. Two of these RETIRE a blocker attribution rather than update text, and one of them (E3) removes a route's stated dependency on a 2029 technology forecast — that is a decision, not a typo fix.",
+ "_source": "research/manuscripts/nr4a3-fusion-transcriptional-output.md and research/modalities/nr4a3-fusion-targets.json",
+ "generated": "2026-08-07",
+ "verified_against": ["origin/main", "WORKTREE"],
+ "n_edits": 6,
+ "map_edits_required": [
+  {
+   "id": "E1",
+   "serves": "the PPARγ ACTIVITY readout that RT-PPARG-DOWNSTREAM is blocked on",
+   "file": "systems/graph/routes.json",
+   "section": "RT-PPARG-DOWNSTREAM -> required_validation[1]",
+   "anchor": "A PPARγ TARGET-GENE (activity) readout in EMC.",
+   "current_text": "A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone",
+   "proposed_text": "A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone. ⭐ ATTEMPTED 2026-08-07 AND THE ATTEMPT IS INFORMATIVE: six target-gene sets were scored in the two readable EMC series (research/modalities/emc-expression-panels.json, read 3) and the arms DISAGREE — KO_DOWN positive on GPL3290 while OE_UP, which is an independent construction with the SAME expected direction, is flat. ⛔ The disagreement may not be biological: on GPL3290 twelve of sixteen unrelated gene sets read HIGHER in EMC, which is the shape of a platform-wide offset. The calibration that decides it — a SIZE-MATCHED EMPIRICAL NULL drawn from the same platform's own genes — is implemented in research/modalities/nr4a3_fusion_targets.py and is $0. Until it has run, this row is NOT blocked by BLK-NO-EMC-DATA; it is blocked on one free CI dispatch.",
+   "reason": "The row's own `blocked_by: [BLK-NO-EMC-DATA]` is wrong as stated. Data exist and have been read; what was missing is a calibration, which costs nothing. CLAUDE.md §0: “blocked” is a claim that needs evidence and is usually wrong."
+  },
+  {
+   "id": "E2",
+   "serves": "the same row's feasibility flag",
+   "file": "systems/graph/routes.json",
+   "section": "RT-PPARG-DOWNSTREAM -> closure_note",
+   "anchor": "⚠ Scoped: the DIRECTION is unresolved, not refuted",
+   "current_text": "⚠ Scoped: the DIRECTION is unresolved, not refuted — in EMC the fusion turns PPARG on, so an agonist may be redundant. An EMC expression read settles it either way.",
+   "proposed_text": "⚠ Scoped: the DIRECTION is unresolved, not refuted. ⛔ TWO CORRECTIONS. (1) The redundancy clause is WITHDRAWN — it is not in the source it cited and Filion et al. argue the opposite (research/manuscripts/pparg-direction-emc.md §3); it survives here in a field the §3 withdrawal did not reach. (2) “An EMC expression read settles it either way” is FALSE AS WRITTEN: an EMC expression read of receptor ABUNDANCE settles nothing, because abundance is already measured; and a read of ACTIVITY settles it only if calibrated against a size-matched null on the same platform, because the platform carries an arm-wide offset of the same size as the effect (research/manuscripts/nr4a3-fusion-transcriptional-output.md §2).",
+   "reason": "A withdrawn premise left standing in a second field, plus a feasibility claim that overstates what an expression read can do. Both are quotable as written."
+  },
+  {
+   "id": "E3",
+   "serves": "RT-TRABECTEDIN-PPARG's inherited blocker",
+   "file": "systems/graph/routes.json",
+   "section": "RT-TRABECTEDIN-PPARG -> remaining_unknowns[1]",
+   "anchor": "Whether the combination has any EMC-specific rationale beyond both drugs being available.",
+   "current_text": "Whether the combination has any EMC-specific rationale beyond both drugs being available.",
+   "proposed_text": "Whether the combination has any EMC-specific rationale beyond both drugs being available. ⭐ THE EMC-SPECIFIC HALF IS NARROWER THAN THE ROW ASSUMES: PPARG is one of only THREE genes any published experiment shows an NR4A3 chimera physically binding and driving (with SEMA3C and ENO3 — research/manuscripts/nr4a3-fusion-transcriptional-output.md §1), and it is the only one of the three whose assay used the EWSR1 chimera on a human promoter. ⚠ That is an argument for the AXIS, not for either direction of pharmacology, and Filion et al. measured native NR4A3 FAILING to activate the same promoter — so the axis is fusion-specific rather than NR4A3-generic, which cuts both ways for a systemic agonist.",
+   "reason": "The route's EMC-specific rationale exists and is stronger and narrower than the row records; the same table also supplies the caveat that keeps it from being oversold."
+  },
+  {
+   "id": "E4",
+   "serves": "EV-FILION-2009's scope",
+   "file": "systems/graph/evidence.json",
+   "section": "EV-FILION-2009 -> what_it_supports",
+   "anchor": "the DBD filter in fusion_object_inventory.py",
+   "current_text": "That the fusion is a functional transcriptional driver acting through its DNA-binding domain; the fusion→PPARG axis both PPARG routes rest on; the DBD filter in fusion_object_inventory.py. ⚠ IT SUPPORTS THE AXIS, NOT A DIRECTION.",
+   "proposed_text": "That the fusion is a functional transcriptional driver acting through its DNA-binding domain; the fusion→PPARG axis both PPARG routes rest on; the DBD filter in fusion_object_inventory.py. ⭐ AND A MEASUREMENT THIS REPOSITORY HAS NEVER CITED: in the same experiment, native NR4A3 and NR4A3ΔC DO NOT activate the PPARG promoter under the conditions in which the fusion readily does. That is a direct refutation of the assumption that a native-NR4A3 target list predicts FUSION targets — so an NR4A3 cistrome from a non-fusion tumour (e.g. EV-HALLER-2019-ACICC) may NOT be read as a fusion cistrome. Verbatim: research/manuscripts/nr4a3-fusion-transcriptional-output.md §1. ⚠ IT SUPPORTS THE AXIS, NOT A DIRECTION.",
+   "reason": "A load-bearing negative result inside a paper the repository already registers, never extracted. It changes how any future cistrome dataset may be used."
+  },
+  {
+   "id": "E5",
+   "serves": "the register of evidence items",
+   "file": "systems/graph/evidence.json",
+   "section": "new items",
+   "anchor": "EV-SUBRAMANIAN-2005",
+   "current_text": "EV-SUBRAMANIAN-2005",
+   "proposed_text": "Register FOUR new evidence items, all read from retrieved full text or abstract: EV-BRENCA-2019 (PMID 31020999, PMCID PMC6766969, doi 10.1002/path.5284 — ChAP-qPCR showing EWSR1::NR4A3 binds a SEMA3C NBRE-like site in human cells and TAF15::NR4A3 does not; the only chromatin-binding assay with the EWSR1 chimera in a human background); EV-KIM-2016-ENO3 (PMID 26310886, doi 10.1002/mc.22384 — EMSA + ChIP + luciferase for TFG::NR4A3 on the human beta-enolase promoter; ⚠ the fusion assayed is TFG, not EWSR1); EV-HALLER-2019-ACICC (PMID 30664630, PMCID PMC6341107 — NR4A3 ChIP-seq in three human AciCC tumours; processed data Zenodo doi 10.5281/zenodo.1483691 OPEN, raw EGA EGAS00001002795 controlled; ⚠ NATIVE NR4A3 by enhancer hijacking, NOT a fusion); EV-FILION-2005-PLAGL1 (PMID 16112421 — PLAGL1 DOWN-regulated by EWS/NOR1 and in six EMC tumours; the only published DOWN direction and therefore the directional falsifier for every EMC expression panel).",
+   "reason": "Four primary sources the graph does not hold, three of which are the entire mechanistic basis of the fusion's transcriptional output and one of which is the only accession-bearing cistrome anywhere near this question."
+  },
+  {
+   "id": "E6",
+   "serves": "the technology dependency nine routes inherit BLK-NO-EMC-DATA through",
+   "file": "systems/graph/technologies.json",
+   "section": "TECH-EMC-EXPRESSION-DATA -> current_state / evidence",
+   "anchor": "The weekly scan fired on this trigger with new hits in its most recent run; none has yet been graded as a usable deposit.",
+   "current_text": "The weekly scan fired on this trigger with new hits in its most recent run; none has yet been graded as a usable deposit.",
+   "proposed_text": "The weekly scan fired on this trigger with new hits in its most recent run; none has yet been graded as a usable deposit. ⛔ BUT TWO READABLE EMC EXPRESSION SERIES ALREADY EXIST AND HAVE BEEN READ — GSE24369/GPL6244 (6 EMC vs 29 comparator sarcomas) and GSE4303/GPL3290 (10 EMC vs 3 DFSP + 3 GIST) — so for a GENE-SET readout this dependency is not absent data. What is missing is CALIBRATION: on GPL3290 twelve of sixteen unrelated gene sets read HIGHER in EMC, which is the shape of a platform-wide offset rather than twelve findings, so no set score there is interpretable until it clears a size-matched empirical null drawn from that platform's own genes. Implemented at $0: research/modalities/nr4a3_fusion_targets.py; instrument and limits: research/manuscripts/nr4a3-fusion-transcriptional-output.md §2. ⚠ This does NOT retire the dependency — a per-antigen or per-sample RNA-seq readout still needs a real deposit, and both series are decade-old arrays with n=6 and n=10.",
+   "reason": "CLAUDE.md §0: most rows that read blocked are blocked on a $0 fetch or a staging step. Nine routes inherit BLK-NO-EMC-DATA through this node, and for the gene-set half of the question the data are already in hand. The edit narrows the dependency rather than retiring it, because the per-antigen half is genuinely still blocked."
+  }
+ ]
+}
