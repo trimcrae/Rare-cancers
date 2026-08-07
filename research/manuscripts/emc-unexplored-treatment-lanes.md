@@ -169,6 +169,18 @@ cheapest paper on the board and it answers the complaint clinicians actually mak
 
 ### 3.3 · FET-fusion trial eligibility
 
+> ✅ **RE-VERIFIED LIVE 2026-08-07 and the paragraph this section asks for is DRAFTED (unpublished):**
+> [`fet-fusion-trial-eligibility-notice.md`](./fet-fusion-trial-eligibility-notice.md), data in
+> [`fet-fusion-trial-eligibility-2026-08-07.json`](../literature/fet-fusion-trial-eligibility-2026-08-07.json).
+> All nine NCT numbers below re-read from the registry; **no status had changed.** Three
+> qualifications the flat list below cannot carry are recorded there — `NCT03767075`'s RECRUITING
+> flag was last verified by its sponsor in **April 2024**; `NCT06239272`'s lower age bound exists
+> only in the criterion text, not in the structured field; and of the five called "EMC-eligible"
+> here, **only `NCT06239272` names EMC in its own condition list** (`NCT01659203` is defined by
+> tumour location, `NCT04040205` by a CDK-pathway alteration). Statuses below are as of the
+> **2026-08-07** read; a stale "recruiting" is the one error in this section that could harm
+> someone, so re-read before quoting it.
+
 **`NCT05918640` (LIFFT, CHOP), phase 1/2, RECRUITING** **[API]**. Phase 1 eligibility is
 **fusion-defined, not histology-defined**: age ≥10, recurrent/relapsed solid tumour with *"a known FET
 fusion (fusion that contains EWSR1, FUS, or TAF15)"*. EMC's three principal 5′ partners are all FET
