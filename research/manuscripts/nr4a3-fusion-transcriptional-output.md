@@ -46,6 +46,16 @@ independent platform and cohort) **replicates at p_emp 0.0005 on both**; and the
 resolves — the occupancy-derived arm is up and its falsifier is down on both platforms, with an adipogenic
 differentiation confound that these data cannot separate. Numbers in **§2b**; PPARγ in **§3**.
 
+> ⚠ **`emc-expression-panels.json` IS NOT ON `main`, AND IT IS NAMED HERE RATHER THAN LINKED FOR THAT
+> REASON.** It is produced by `research/modalities/emc_expression_panels.py` on a sibling agent's branch
+> (`claude/live-leads-report-paths-8eynb2` / `worktree-agent-a1b33c5fcec0de575`) and is the one home of the
+> ENO3 prior and of the uncalibrated PPARγ read this memo cross-checks against. A markdown link to it
+> **fails the link check on `main`**, which is the correct behaviour (CLAUDE.md §7: an artifact on the wrong
+> branch is a stale fact that reads as a current one). ⛔ **This memo does not depend on it** — every
+> number in §2b and §3 is derived from
+> [`nr4a3-fusion-targets.json`](../modalities/nr4a3-fusion-targets.json), which is on this branch. The
+> cross-check is corroboration, not a dependency.
+
 ---
 
 ## 1 · The evidence-typed target table
@@ -121,7 +131,7 @@ from DFSP/GIST comparators on exactly that axis.
 ## 2 · Why a raw *"HIGHER in EMC"* is not a result — and the instrument that fixes it
 
 **The observation that forced this.** On `GSE4303`/`GPL3290`, of the sixteen gene sets scored so far in
-[`emc-expression-panels.json`](../modalities/emc-expression-panels.json), **twelve came back HIGHER in EMC**,
+`emc-expression-panels.json` ⚠(not on `main`), **twelve came back HIGHER in EMC**,
 most of them at |t| > 3: PPARγ ChIP targets, PPARγ curated targets, the PPARγ KO_DOWN arm, adipogenesis,
 four independent hypoxia metagenes, a hypoxia GO term, the hypoxia hallmark, chondroitin-sulfate
 biosynthesis, GAG biosynthesis, arginine metabolism. **Sets with no biological relationship to one another
@@ -160,7 +170,7 @@ Four known answers, three of which can fail:
 
 | control | expectation | why it discriminates |
 |---|---|---|
-| **ENO3** | UP on both platforms; prior **+0.8075 SD (t 3.607, df 5.5)** GPL6244, **+3.8113 SD (t 13.221, df 8.5)** GPL3290 — one home: [`emc-expression-panels.json`](../modalities/emc-expression-panels.json) → `gene_reads.ENO3` | ⛔ If it fails, **report the instrument, not the biology.** |
+| **ENO3** | UP on both platforms; prior **+0.8075 SD (t 3.607, df 5.5)** GPL6244, **+3.8113 SD (t 13.221, df 8.5)** GPL3290 — one home: `emc-expression-panels.json` ⚠(not on `main`) → `gene_reads.ENO3` | ⛔ If it fails, **report the instrument, not the biology.** |
 | **NR4A3** | UP — the chimera puts NR4A3 coding sequence under the partner's promoter, and NR4A3 IHC is the diagnostic marker of EMC | the tumour-identity check |
 | **PLAGL1** | ★★ **DOWN** | the only prediction a global offset cannot manufacture |
 | **SGK1** | flat or down **at transcript level** (threshold: delta < +0.3 SD), despite 10/10 IHC positivity | the only row whose published transcript and protein directions oppose |
@@ -196,7 +206,7 @@ Run **31200817686** (`emc-expression-datasets.yml`, `mode=fusion-targets`), disp
 ⭐ **The instrument is independently validated twice over.** ENO3 reproduces the sibling lane's committed
 value **to four decimal places on both platforms**, from a separately written module — and so do the PPARγ
 arms (TRRUST GPL3290: +0.1647, t 3.193, df 8.3, 57/66 genes; adipogenesis GPL3290: +0.2183, t 5.081, df 13.9,
-176/200 — identical to [`emc-expression-panels.json`](../modalities/emc-expression-panels.json)). Two
+176/200 — identical to `emc-expression-panels.json` ⚠(not on `main`)). Two
 independent implementations, the same numbers.
 
 ★★ **And the directional falsifier fires in the right direction.** `PLAGL1` — the one gene in the whole
@@ -309,7 +319,7 @@ that clears its null, and §2b (iv) states it at that weight.
 [`pparg-direction-emc.md`](./pparg-direction-emc.md) §6 — *PPARG* is over-expressed in EMC in two
 independent cohorts and the fusion can drive its promoter. What has never been measured by anyone is
 receptor **activity**, i.e. transcriptional output. The first attempt at that measurement
-([`emc-expression-panels.json`](../modalities/emc-expression-panels.json), read 3) produced an **ambiguous**
+(`emc-expression-panels.json` ⚠(not on `main`), read 3) produced an **ambiguous**
 result:
 
 | arm | construction | GPL6244 | GPL3290 |
@@ -518,7 +528,7 @@ of origin. Replication there says the instrument reads EMC; it does **not** say 
 
 Everything else points here rather than restating it. The PPARγ *direction* question and *abundance* both
 have their one home in [`pparg-direction-emc.md`](./pparg-direction-emc.md); the ENO3 prior has its one home
-in [`emc-expression-panels.json`](../modalities/emc-expression-panels.json).
+in `emc-expression-panels.json` ⚠(not on `main`).
 
 ## 8 · `map_edits_required` — DESCRIBED, NOT APPLIED
 

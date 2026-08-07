@@ -4,8 +4,11 @@
  "_do_not_apply_blind": "Read the reason column. Two of these RETIRE a blocker attribution rather than update text, and one of them (E3) removes a route's stated dependency on a 2029 technology forecast — that is a decision, not a typo fix.",
  "_source": "research/manuscripts/nr4a3-fusion-transcriptional-output.md and research/modalities/nr4a3-fusion-targets.json",
  "generated": "2026-08-07",
- "verified_against": ["origin/main", "WORKTREE"],
- "n_edits": 6,
+ "verified_against": [
+  "origin/main",
+  "WORKTREE"
+ ],
+ "n_edits": 7,
  "map_edits_required": [
   {
    "id": "E1",
@@ -14,8 +17,8 @@
    "section": "RT-PPARG-DOWNSTREAM -> required_validation[1]",
    "anchor": "A PPARγ TARGET-GENE (activity) readout in EMC.",
    "current_text": "A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone",
-   "proposed_text": "A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone. ⭐ ATTEMPTED 2026-08-07 AND THE ATTEMPT IS INFORMATIVE: six target-gene sets were scored in the two readable EMC series (research/modalities/emc-expression-panels.json, read 3) and the arms DISAGREE — KO_DOWN positive on GPL3290 while OE_UP, which is an independent construction with the SAME expected direction, is flat. ⛔ The disagreement may not be biological: on GPL3290 twelve of sixteen unrelated gene sets read HIGHER in EMC, which is the shape of a platform-wide offset. The calibration that decides it — a SIZE-MATCHED EMPIRICAL NULL drawn from the same platform's own genes — is implemented in research/modalities/nr4a3_fusion_targets.py and is $0. Until it has run, this row is NOT blocked by BLK-NO-EMC-DATA; it is blocked on one free CI dispatch.",
-   "reason": "The row's own `blocked_by: [BLK-NO-EMC-DATA]` is wrong as stated. Data exist and have been read; what was missing is a calibration, which costs nothing. CLAUDE.md §0: “blocked” is a claim that needs evidence and is usually wrong."
+   "proposed_text": "A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone. ⭐ DONE 2026-08-07, $0, run 31200817686 — research/modalities/nr4a3-fusion-targets.json, written up in research/manuscripts/nr4a3-fusion-transcriptional-output.md §3. RESULT, null-calibrated against size-matched random gene sets on each platform: the OCCUPANCY-DERIVED PPARγ target set (ChEA ChIP-PET) is SET-SPECIFIC UP on BOTH readable EMC series (p_emp 0.0005 / 0.0005) and the KO_UP FALSIFIER is SET-SPECIFIC DOWN on BOTH (p_emp 0.041 / 0.0035) — the pattern an engaged receptor predicts. ⛔ CEILING: the ADIPOGENESIS PROCESS PROXY is also set-specific UP on both and shares 44 genes (23% of the smaller set) with the ChEA arm, so PPARγ target output CANNOT be separated from an adipogenic differentiation component in these data. ⚠ The KO_DOWN/OE_UP 'disagreement' this row inherited is NOT biological: the two arms share 16 genes of 206/269 (Jaccard 0.035) and are effectively different gene sets. ⚠ This is an ACTIVITY reading and says nothing about the DIRECTION of pharmacological intervention, whose one home remains research/manuscripts/pparg-direction-emc.md §6. ⛔ THIS ROW IS NO LONGER BLOCKED BY BLK-NO-EMC-DATA.",
+   "reason": "The row's own `blocked_by: [BLK-NO-EMC-DATA]` was wrong as stated: data existed, had been read, and the missing piece was a calibration that costs nothing. It has now been run. CLAUDE.md §0: 'blocked' is a claim that needs evidence and is usually wrong."
   },
   {
    "id": "E2",
@@ -24,7 +27,7 @@
    "section": "RT-PPARG-DOWNSTREAM -> closure_note",
    "anchor": "⚠ Scoped: the DIRECTION is unresolved, not refuted",
    "current_text": "⚠ Scoped: the DIRECTION is unresolved, not refuted — in EMC the fusion turns PPARG on, so an agonist may be redundant. An EMC expression read settles it either way.",
-   "proposed_text": "⚠ Scoped: the DIRECTION is unresolved, not refuted. ⛔ TWO CORRECTIONS. (1) The redundancy clause is WITHDRAWN — it is not in the source it cited and Filion et al. argue the opposite (research/manuscripts/pparg-direction-emc.md §3); it survives here in a field the §3 withdrawal did not reach. (2) “An EMC expression read settles it either way” is FALSE AS WRITTEN: an EMC expression read of receptor ABUNDANCE settles nothing, because abundance is already measured; and a read of ACTIVITY settles it only if calibrated against a size-matched null on the same platform, because the platform carries an arm-wide offset of the same size as the effect (research/manuscripts/nr4a3-fusion-transcriptional-output.md §2).",
+   "proposed_text": "⚠ Scoped: the DIRECTION is unresolved, not refuted. ⛔ TWO CORRECTIONS AND ONE MEASUREMENT. (1) The redundancy clause is WITHDRAWN — it is not in the source it cited and Filion et al. argue the opposite (research/manuscripts/pparg-direction-emc.md §3); it survives here in a field the §3 withdrawal did not reach. (2) 'An EMC expression read settles it either way' is FALSE AS WRITTEN: a read of receptor ABUNDANCE settles nothing, because abundance is already measured, and a read of ACTIVITY settles it only when calibrated against a size-matched null on the same platform — a raw delta of +0.33 with t=3.16 lands INSIDE that null band on GPL3290. (3) ⭐ THE ACTIVITY READ HAS NOW BEEN TAKEN (2026-08-07, run 31200817686): PPARγ target genes ARE co-ordinately higher in EMC than in comparator sarcomas beyond a size-matched random set, on both platforms, with the knockout-opposite arm moving the other way — and the same data cannot separate that from an adipogenic differentiation programme. One home: research/manuscripts/nr4a3-fusion-transcriptional-output.md §3.",
    "reason": "A withdrawn premise left standing in a second field, plus a feasibility claim that overstates what an expression read can do. Both are quotable as written."
   },
   {
@@ -66,6 +69,16 @@
    "current_text": "The weekly scan fired on this trigger with new hits in its most recent run; none has yet been graded as a usable deposit.",
    "proposed_text": "The weekly scan fired on this trigger with new hits in its most recent run; none has yet been graded as a usable deposit. ⛔ BUT TWO READABLE EMC EXPRESSION SERIES ALREADY EXIST AND HAVE BEEN READ — GSE24369/GPL6244 (6 EMC vs 29 comparator sarcomas) and GSE4303/GPL3290 (10 EMC vs 3 DFSP + 3 GIST) — so for a GENE-SET readout this dependency is not absent data. What is missing is CALIBRATION: on GPL3290 twelve of sixteen unrelated gene sets read HIGHER in EMC, which is the shape of a platform-wide offset rather than twelve findings, so no set score there is interpretable until it clears a size-matched empirical null drawn from that platform's own genes. Implemented at $0: research/modalities/nr4a3_fusion_targets.py; instrument and limits: research/manuscripts/nr4a3-fusion-transcriptional-output.md §2. ⚠ This does NOT retire the dependency — a per-antigen or per-sample RNA-seq readout still needs a real deposit, and both series are decade-old arrays with n=6 and n=10.",
    "reason": "CLAUDE.md §0: most rows that read blocked are blocked on a $0 fetch or a staging step. Nine routes inherit BLK-NO-EMC-DATA through this node, and for the gene-set half of the question the data are already in hand. The edit narrows the dependency rather than retiring it, because the per-antigen half is genuinely still blocked."
+  },
+  {
+   "id": "E7",
+   "serves": "the routes that inherit BLK-NO-EMC-DATA and would otherwise mis-read this result",
+   "file": "systems/graph/routes.json",
+   "section": "RT-PPARG-DOWNSTREAM -> purpose",
+   "anchor": "Could a PPARγ-directed agent act on a downstream effector of the fusion?",
+   "current_text": "Could a PPARγ-directed agent act on a downstream effector of the fusion?",
+   "proposed_text": "Could a PPARγ-directed agent act on a downstream effector of the fusion? ⭐ THE DOWNSTREAM HALF IS NOW MEASURED (2026-08-07, $0): PPARγ transcriptional OUTPUT is detectable in EMC tumour tissue above a size-matched null, on both readable series, with a correctly-behaving falsifier — so the axis is not merely an abundance observation. ⛔ WHAT IS STILL MISSING IS NOT DATA AND NOT THE AXIS: it is (a) separability from an adipogenic differentiation programme, which these two array series cannot provide, and (b) the DIRECTION of intervention, which is a pharmacology question no expression read can answer. Re-file the blocker accordingly. research/manuscripts/nr4a3-fusion-transcriptional-output.md §3.",
+   "reason": "The route is filed `work_state: complete, status: blocked` behind a 2029 data forecast, and the thing it was waiting for has been measured at $0. Leaving it as-is makes the board's most-improved row invisible — and re-filing it WITHOUT the adipogenic ceiling would overstate it, which is why both halves are in the same sentence."
   }
  ]
 }
