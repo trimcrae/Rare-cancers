@@ -47,7 +47,11 @@ permissions:
   contents: write
 
 concurrency:
-  group: fetch-literature
+  # Per-ref on this branch: the shared `fetch-literature` group serialises every sweep in the
+  # repo, and GitHub keeps only the newest PENDING run in a group -- so a read-only probe queued
+  # behind three sibling sweeps gets cancelled without ever running. Keyed by ref, the probe
+  # cannot collide with anything (it writes nothing and pushes nothing).
+  group: fetch-literature-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
