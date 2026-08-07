@@ -400,6 +400,90 @@ experiment the ENO3 precedent actually needed: **PMID 26310886** established ENO
 ChIP *and* **luciferase** — occupancy plus a functional readout. Occupancy alone has never been
 enough in this lane's own precedent.
 
+### 5a · The instrument reproduced its known answers first
+
+Nothing below is quotable unless this block is. `emc_expression_panels.py` `read_7_RET`, on
+GSE24369/GPL6244 (**6 EMC vs 29 comparator sarcomas**, single-channel) and GSE4303/GPL3290
+(**10 EMC vs 6 comparators**, two-colour, so **relative** — only the between-group contrast is
+interpretable):
+
+| control | expected | GPL6244 | GPL3290 |
+|---|---|---|---|
+| **NR4A3** | UP — the disease-defining event | **+0.74 SD, t = 4.66**, 76th pct | contrast underpowered (n = 9 vs 2) |
+| **ENO3** | UP — published direct target of an NR4A3 fusion (**PMID 26310886**) | **+0.81 SD, t = 3.61** | **+3.81 SD, t = 13.22**, 98th pct |
+| **MKI67** | ~flat — EMC is slow-cycling | +0.13 SD, \|t\| < 2 ✓ | +1.24 SD, \|t\| 2–3 |
+
+### 5b · ⭐ *RET* is up in EMC in BOTH series — the first time it has been read in the second one
+
+| | GPL6244 (6 EMC vs 29) | GPL3290 (10 EMC vs 6) |
+|---|---|---|
+| ***RET*** | **+0.46 SD, t = 2.613**, 58th pct | **+1.11 SD, t = 4.077**, 86th pct |
+
+**PMID 28423517** measured RET mRNA in **n = 6** by transcriptome sequencing. This adds a
+**second, independent, differently-platformed cohort** (n = 10 EMC on a two-colour cDNA array) and
+it agrees. The abundance half of §3.1's claim is corroborated rather than merely repeated.
+
+### 5c · ⛔⛔ AND THE LIGAND MODULE IS THE OPPOSITE — THIS IS THE CLEAR-CELL-SARCOMA SHAPE
+
+**PMID 34885165** closed crizotinib in clear cell sarcoma on **two** grounds, not one: MET protein
+in 82 % but phospho-MET in **4 %** — *and* the **HGF ligand in only 16 %**. A receptor with no
+ligand is the same failure mode as a receptor with no phosphorylation.
+
+| gene | role | GPL6244 | GPL3290 |
+|---|---|---|---|
+| *GDNF* | RET ligand | flat | **−1.60 SD, \|t\| 2–3**, 25th pct |
+| *NRTN* | RET ligand | flat | flat |
+| *ARTN* | RET ligand | flat | flat |
+| *PSPN* | RET ligand | −0.07 SD, \|t\| 2–3 | ⛔ not readable |
+| ***GFRA1*** | **obligate GDNF co-receptor** | flat, 69th pct | **−1.62 SD, t = −3.63**, 23rd pct |
+| ***GFRA2*** | neurturin co-receptor | **−0.96 SD, t = −4.11** | **−1.42 SD, t = −3.26** |
+| *GFRA3* | co-receptor | −0.10 SD, \|t\| 2–3, 17th pct | −0.88 SD, \|t\| < 2 |
+| *GFRA4* | co-receptor | flat | ⛔ not readable |
+
+**Not one ligand or co-receptor is up in either series, and four of them are significantly down.**
+So the reading is: **receptor up, ligand-and-co-receptor arm down or flat, in both cohorts** — the
+same *shape* that decided the comparator disease, arriving from expression rather than from a
+stain, and **nobody has published it for EMC**.
+
+⛔ **What it is not, at full strength.** (a) Transcript, not protein — the CCS result was IHC on a
+blinded array and this is not that measurement. (b) **Bulk tissue**: GDNF-family signalling can be
+paracrine and stromal, so a low tumour-compartment transcript does not establish that no ligand
+reaches the receptor. (c) RET can be activated ligand-independently, so a ligand-poor tumour is not
+automatically a RET-inactive one. (d) n = 6 and n = 10, two decade-old array platforms, uncorrected
+for multiple testing, one of them two-colour and therefore relative. **This does not close the RET
+lane and it is not the missing measurement** — [`emc-ret-lane.md`](./emc-ret-lane.md) §3 remains
+the one home of that gap. It does say the lane now has a *second* reason to want the phospho-RET /
+ligand co-stain, and it names the co-stain: **GDNF and GFRA1**.
+
+### 5d · The alternative hypothesis, in the same tumours
+
+| gene | GPL6244 | GPL3290 |
+|---|---|---|
+| *VEGFA* | +0.39 SD, \|t\| < 2, 93rd pct | +0.93 SD, \|t\| 2–3 |
+| *KDR* | **−0.87 SD, \|t\| 2–3** | −0.11 SD, flat |
+| *PDGFRB* | **−0.75 SD, t = −4.19** | −0.59 SD, flat |
+| *KIT* | **+1.35 SD, t = 3.03**, 88th pct | +0.40 SD, flat |
+
+⚠ **Mixed, and it does not resolve the RET-versus-VEGFR question either way.** *VEGFA* is high in
+both; *KDR* — the receptor an anti-angiogenic mechanism would act through — is **not** up. Read
+with §3b caveat 4, where the deepest peak set occupies *VEGFA* harder than *RET*: **the two
+attributions are not separated by anything measured here.**
+
+### 5e · ⛔ The membership arm is an ABSENT READING, and that is itself informative
+
+Eight NR4A target-set slots were requested across four instrument classes. **Seven did not
+resolve**: Enrichr's ChEA, ENCODE+ChEA, TRRUST and TF-perturbation libraries contain **no NR4A3
+term and no NR4A1 term at all**. The one that resolved is `nr4a2_targets_chea` — *"NR4A2 19515692
+ChIP-ChIP MN9D Mouse"*, 128 genes, a **mouse** ChIP-chip — and *RET* is not in it, nor are *ENO3*,
+*SEMA3C*, *VEGFA* or *KDR*.
+
+**`member: null`, never `member: false`.** A set that was not retrieved says nothing about
+membership, and the artifact records it that way. What the absence *does* corroborate is
+[`emc-ret-lane.md`](./emc-ret-lane.md) §2d from a completely different direction: **there is no
+curated NR4A3 target-gene set in any standard library**, because nothing genome-scale has been
+published on NR4A3 to build one from. ⛔ **So the perturbation arm — "does *RET* move when NR4A3 is
+perturbed?" — was not answerable, and that question remains open.**
+
 <!-- RESULTS-EXPRESSION -->
 
 ---
@@ -408,53 +492,67 @@ enough in this lane's own precedent.
 
 ### The one-paragraph answer
 
-**Is *RET* a direct transcriptional target of the EWSR1::NR4A3 fusion? Still unknown — and for
-the first time the question has a measurement attached to it rather than an argument.** The
-*RET* locus **is** a bindable NR4A-family site in human chromatin: NR4A1 occupies three positions
-in *RET*'s first intron in Kasumi-1 cells, reproducibly across two experiments, in the only two
-peak sets of the 38 that recover both published NR4A3 target loci, at an empirical p of 0.005 and
-0.020 against a 200-gene background panel this lane did not choose (§3). ⛔ **That is a prior, and
-four things stop it being more:** it is the wrong paralogue (NR4A1), the wrong protein (wild type,
-not the chimera), the wrong cell type (an AML line, not EMC) — and **the alternative hypothesis is
-occupied by the same peak set**, with *KDR* carrying two promoter-window peaks and four in the
-gene body. ⛔ **NR4A3 occupancy at *RET* is NOT MEASURED**: the only NR4A3 ChIP-seq that exists
-anywhere is six dendritic-cell experiments of 53–102 peaks, none of which detects a locus NR4A3 is
-already published as binding. Those are absent readings, not negatives, and this memo records them
-as such.
+**Is *RET* a direct transcriptional target of the EWSR1::NR4A3 fusion? Still unknown — and for the
+first time the question has measurements attached to it instead of an argument.** Three things were
+measured. **(1)** The *RET* locus **is** a bindable NR4A-family site in human chromatin: three
+NR4A1 peaks in *RET*'s first intron, reproducing across two Kasumi-1 replicates, **two genome
+builds** and **two independent reprocessing pipelines** (ChIP-Atlas and ReMap 2022), at empirical
+p = 0.005–0.02 against a background panel this lane did not choose — in **3 of 40** public
+experiments, and in the only ones deep enough to recover a published NR4A3 target locus (§3).
+**(2)** *RET* mRNA is **up in EMC in both readable series**, adding an independent n = 10 cohort to
+the published n = 6 (§5b). **(3)** ⭐ And the reading nobody has published: **every GDNF-family
+ligand is flat or down and the obligate co-receptors *GFRA1* and *GFRA2* are significantly down**,
+in both cohorts — *receptor up, ligand arm down*, which is the exact shape that closed crizotinib
+in clear cell sarcoma (§5c).
+
+⛔ **Five things stop the occupancy result being more than a prior:** wrong paralogue (NR4A1),
+wrong protein (wild type, not the chimera), wrong cell type (an AML line), a 200–800× depth
+confound under the paralogue pattern — and **the alternative hypothesis is occupied harder**, with
+*VEGFA* carrying 10 promoter-window peaks to *RET*'s 3 in the deepest catalogue. ⛔ **NR4A3
+occupancy at *RET* is NOT MEASURED**: every NR4A3 ChIP-seq in existence is six dendritic-cell
+experiments of 53–102 peaks, none of which detects a locus NR4A3 is already published as binding.
+Absent readings, not negatives, recorded as such.
 
 ### The grade
 
 | question | answer |
 |---|---|
-| **Is *RET*'s locus bindable by an NR4A protein in human chromatin?** | **Yes — measured, reproducibly, for the first time.** NR4A1, Kasumi-1, three first-intron peaks, p = 0.005 / 0.020 vs a panel this lane did not pick |
-| **Does NR4A3 bind *RET*?** | **NOT MEASURED.** Six NR4A3 experiments exist worldwide in ChIP-Atlas; all are 53–102 peaks and none recovers a positive control |
+| **Is *RET*'s locus bindable by an NR4A protein in human chromatin?** | **Yes — measured, and reproduced across two builds and two pipelines.** NR4A1, Kasumi-1 + ReMap 2022, three first-intron peaks agreeing to ~50 bp |
+| **Does NR4A3 bind *RET*?** | **NOT MEASURED.** Six NR4A3 experiments exist worldwide in ChIP-Atlas, all from one study in one cell type, 53–102 peaks, none recovering a positive control |
 | **Does `EWSR1::NR4A3` bind *RET*?** | **Unanswerable from public data.** No fusion cistrome exists (`emc-ret-lane.md` §2d) |
-| **Does this favour the RET attribution over the VEGFR one for EMC's TKI activity?** | **No.** The same peak set occupies *KDR* and *VEGFA*. The instrument does not discriminate |
+| **Is *RET* elevated in EMC?** | **Yes, now in two independent cohorts** (§5b) — the published n = 6 plus an n = 10 series nobody had read for *RET* |
+| **⭐ Is there a ligand for it?** | **Not in the transcript data, in either cohort.** All four GDNF-family ligands flat or down; *GFRA1* and *GFRA2* significantly down (§5c). ⚠ Transcript, bulk tissue, and RET can signal ligand-independently — this is a reason to stain, not a closure |
+| **Does this favour the RET attribution over the VEGFR one for EMC's TKI activity?** | **No — and it slightly disfavours it.** The deepest peak set occupies *VEGFA* harder than *RET*, and in expression *VEGFA* is up while *KDR* is not. Nothing measured here separates the two |
 | **Has the §3.1 falsifier fired?** | **No — and one clause moved.** Its first clause (*no NBRE at RET*) now has two instruments pointed at it; its second (*phosphorylation tracks stroma*) remains unmeasurable at $0 anywhere |
-| **Does this change the activation bar?** | **No, and nothing here could.** `emc-ret-lane.md` §3 is the one home of that finding: the only report of RET *activation* in EMC is one sentence in a paywalled abstract over "a limited set of samples" of an n = 10 series, with no numerator and no denominator, and RET in EMC has never been given the blinded 32-case TMA that decided MET in clear cell sarcoma (**PMID 34885165**: MET protein 82 %, phospho-MET 4 %) |
-| **Is it publishable?** | **Yes, and it is now a stronger paper than the negative it was going to be.** *"Is RET a target gene of EWSR1::NR4A3? What the public cistrome can and cannot say."* One sentence for the record: **the RET locus is a measured NR4A-family binding site in human chromatin, no NR4A3 ChIP-seq deep enough to test it exists, and the same peak set occupies the VEGFR axis — so the RET-versus-VEGFR question in EMC is not decidable from occupancy alone.** |
+| **Does this change the activation bar?** | **No, and nothing here could.** `emc-ret-lane.md` §3 is the one home of that finding. What §5c adds is a *second* reason to want the missing stain, and a specific co-stain to run: **GDNF and GFRA1** |
+| **Is it publishable?** | **Yes, and it is now a stronger paper than the negative it was going to be.** *"RET in extraskeletal myxoid chondrosarcoma: a bindable NR4A locus, an elevated receptor, and no ligand."* One sentence for the record: **the *RET* locus is a measured NR4A-family binding site in human chromatin and *RET* mRNA is elevated in both readable EMC cohorts — but no NR4A3 ChIP-seq deep enough to test the paralogue exists, the same peak sets occupy the VEGFR axis harder, and every GDNF-family ligand and co-receptor is flat or down, which is the configuration that closed the analogous MET hypothesis in clear cell sarcoma.** |
 | **What it is NOT** | not evidence that `EWSR1::NR4A3` binds *RET*; not evidence of RET activation in EMC; not a selectivity, efficacy, safety, therapeutic-window or clinical-readiness claim; not a recommendation. **No EMC patient has received a selective RET inhibitor** |
 
 ### ⭐ What is now unblocked that was not
 
-- **The cDC2 three-paralogue accession is `GSE186199`** — recovered from the full text of
-  PMC10108054 by a scan of `fullTextXML` (the prior pass searched the PMC *rendering* and found
-  none), and independently returned by a GEO query as one of GSE186197/98/99. ChIP-Atlas has
-  already reprocessed it uniformly, which is why §4b's overlap could be computed at all.
-  `emc-ret-lane.md` §2d's *"needs one prior $0 retrieval"* is closed.
-- **The paralogue-overlap number exists**, and it is the repository's first direct one.
+- **The cDC2 three-paralogue accession is `GSE186199`** — recovered from PMC10108054's
+  `fullTextXML` (the prior pass searched the PMC *rendering* and found none) and independently
+  returned by a GEO query as one of GSE186197/98/99. ChIP-Atlas had already reprocessed it, which
+  is why §4b's overlap is computable at all. `emc-ret-lane.md` §2d's *"needs one prior $0
+  retrieval"* is **closed**.
+- **The paralogue-overlap number exists** (§4b), and it is the repository's first direct one.
+- **The RET expression read exists in a second cohort**, and the ligand module has been read at
+  all — for the first time in this disease.
 
 ### The ordered next steps, cheapest first
 
-1. **$0 — deepen the paralogue test by adding CUT&RUN/CUT&Tag and GTRD/Cistrome DB to the
-   catalogue sweep.** The binding question at *RET* is limited by NR4A3 peak-set depth, not by
-   anything conceptual. If a deeper NR4A3 experiment exists in any catalogue, it settles §4a.
-2. **$0 — re-read the two Kasumi-1 peak sets against a matched-depth null.** The background panel
-   is not depth-matched; a peak-count-matched permutation over the same peak set would tighten
-   p = 0.005 into something a referee cannot dismiss as a depth artefact.
-3. **⛔ Outside-world — the full text of Eur J Cancer 2014;50:1657-64 (PMID 24703573).**
-   Unchanged from `emc-ret-lane.md` §6: it is still the single highest-value unread page in this
-   lane, and everything the activation bar says is provisional on it. Paywalled.
+1. **$0 — a depth-matched null for the Kasumi-1 peak sets.** The background panel is not
+   depth-matched, and ReMap's `p = 0.4472` shows exactly why that matters. A peak-count-matched
+   permutation within the same peak set turns `p = 0.005` into something a referee cannot dismiss
+   as a depth artefact. This is the single highest-value remaining $0 step.
+2. **$0 — widen the catalogue sweep to CUT&RUN / CUT&Tag, GTRD and Cistrome DB.** The paralogue
+   question is limited by NR4A3 peak-set depth, not by anything conceptual: one deeper NR4A3
+   experiment settles §4a.
+3. **$0 — a GRCm38 coordinate source**, which would make ChIP-Atlas's 14 mouse Nr4a1 experiments
+   readable. They are currently unreadable through this route by construction (§1).
+4. **⛔ Outside-world — the full text of Eur J Cancer 2014;50:1657-64 (PMID 24703573).** Unchanged
+   from `emc-ret-lane.md` §6: still the single highest-value unread page in this lane, and
+   everything the activation bar says is provisional on it. Paywalled.
 
 <!-- RESULTS-VERDICT -->
 
