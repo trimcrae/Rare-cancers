@@ -1,0 +1,881 @@
+822acssdJournal of Proteome ResearchJ Proteome ResPMC9990128999012899901283672348310.1021/acs.jproteome.2c00557SUMO Proteomics
+Analyses Identify Protein Inhibitor
+of Activated STAT-Mediated Regulatory Networks Involved in Cell Cycle
+and Cell Proliferation
+LiChongyang BoutetAlison PascariuCristina Mirela NelsonTrent CourcellesMathieu WuZhaoguan Comtois-MarotteSimon EmeryGregory ThibaultPierre †Institute
+for Research in Immunology and Cancer, Université
+de Montréal, Montréal, Québec H3T 1J4, Canada‡Molecular
+Biology program, Université de Montréal, Montréal, Québec H3C 3J7, Canada§Department
+of Chemistry, Université de Montréal, Montréal, Québec H3C 3J7, Canada∥Department
+of Pathology and Cell Biology, Université
+de Montréal, Montréal, Québec H3C 3J7, Canada⊥Department
+of Biochemistry and Molecular Medicine, Université de Montréal, Montréal, Québec H3C 3J7, Canada*Email:pierre.thibault@umontreal.ca. Phone: (514)-343-6910. Fax: (514) 343-7586.
+122023223812812–825832023© 2023 The Authors. Published by American Chemical SocietyPermits non-commercial access and re-use, provided that author attribution and integrity are maintained; but does not permit creation of adaptations or other derivative works (https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+ Protein inhibitor
+of activated STAT (PIAS) proteins are E3 SUMO
+ligases playing important roles in protein stability and signaling
+transduction pathways. PIAS proteins are overexpressed in the triple-negative
+breast cancer cell line MDA-MB-231, and PIAS knockout (KO) results
+in a reduction in cell proliferation and cell arrest in the S phase.
+However, the molecular mechanisms underlying PIAS functions in cell
+proliferation and cell cycle remain largely unknown. Here, we used
+quantitative SUMO proteomics to explore the regulatory role of PIAS
+SUMO E3 ligases upon CRISPR/Cas9 KO of individual PIAS. A total of
+1422 sites were identified, and around 10% of SUMO sites were regulated
+following KO of one or more PIAS genes. We identified protein substrates
+that were either specific to individual PIAS ligase or regulated by
+several PIAS ligases. Ki-67 and TOP2A, which are involved in cell
+proliferation and epithelial-to-mesenchymal transition, are SUMOylated
+at several lysine residues by all PIAS ligases, suggesting a level
+of redundancy between these proteins. Confocal microscopy and biochemical
+experiments revealed that SUMOylation regulated TOP2A protein stability,
+while this modification is involved in the recruitment of Ki-67 nucleolar
+proteins containing the SUMO interacting motif. These results provide
+novel insights into both the redundant and specific regulatory mechanisms
+of cell proliferation and cell cycle mediated by PIAS SUMO E3 ligases.
+Keywords: quantitative proteomics, protein modification, SUMOylation, E3 SUMO ligases, protein inhibitor
+of activated STAT (PIAS), cell proliferation, topoisomerase
+2A, Ki-67
+
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2022 Sep 16; Collection date 2023 Mar 3.
+
+## Introduction
+Protein
+SUMOylation is the process by which a target protein is
+covalently modified by a small ubiquitin-like modifier (SUMO) protein. Analogous to ubiquitin, SUMOylation occurs via
+an enzymatic cascade consisting of SUMO E1 activating enzymes SAE1/SAE2,
+E2 conjugating enzyme UBC9, and SUMO E3 ligases. The protein inhibitor of activated STAT (PIAS) proteins
+are SP-RING SUMO E3 ligases that play a key role in regulating various
+cellular processes, including most notably transcription, signal transduction,
+cell-cycle progression, protein SUMOylation, and stabilization. PIAS proteins are also implicated in immune regulation,
+DNA repair, cellular proliferation, cell survival, and the cell cycle. They were originally found to interact with and
+inhibit activated signal transducers and activators of transcription
+(STATs). More recently, these proteins have been shown to function
+as SUMO E3 ligases that promote the SUMOylation of a number of transcription
+regulators. PIAS proteins were first discovered
+in Saccharomyces cerevisiae (Siz1/Siz2) and are evolutionarily
+conserved in eukaryotes. , The family of mammalian
+PIAS consists of four genes giving rise to seven proteins, namely
+PIAS1, PIASxα, PIASxβ, PIAS3, PIAS3L, PIASy, and PIASyE6– (PIAS4). Sequence and
+structural analysis of PIAS proteins indicate a high degree of conservation
+within isoforms. , Four conserved domains and two
+motifs, including the N-terminal scaffold attachment factor-A/B, acinus
+and PIAS (SAP) domain, the Pro-Ile-Asn-Ile-Thr (PINIT) motif, the
+central RING-finger-like zinc-binding domain (RLD), the highly acidic
+domain (AD), the SUMO-interacting motif (SIM), and the C-terminal
+serine/threonine-rich region (S/T), have
+been identified in all PIAS proteins.
+PIAS proteins have been
+most frequently implicated in tumorigenesis. In human prostate cancer, PIAS1 functions as
+a target gene selective androgen receptor coregulator on chromatin
+and enhances proliferation through inhibition of p21. In the triple-negative breast cancer model cell line MDA-MB-231,
+PIAS1 was found to regulate tumor initiating stem cells by modulating
+the epigenetic status of several clinically relevant genes, including
+cyclin D2 (CCND2), estrogen receptor (ESR1), and breast tumor suppressor WNT5A (WNT5A). One multiple myeloma clinical study reported
+that expression levels of PIAS1 are negatively correlated with the
+patient’s 6 year survival rate, indicating that PIAS1 and the
+SUMO pathway may promote tumorigenesis and unfavorable prognostic. Increased PIAS3 expression was observed in a
+variety of human cancers including lung, breast, prostate, colorectal,
+and brain tumors. In contrast, lower
+expression of PIAS3 protein was found to be correlated with poor survival
+of patients with gastric cancer. Furthermore,
+microRNA-21 activates the STAT3-dependent signal pathway by inhibiting
+the function of PIAS3 and downregulation of PIAS3 contributes to the
+oncogenic function of microRNA-21 in multiple myeloma. Several studies have highlighted the relationship
+between hypoxic signaling and PIAS4 overexpression in cancers such
+as ovarian and pancreatic, implicating PIAS4 as part of the shift
+upon hypoxic signaling. Lastly, in acute
+promyelocytic leukemia, PIAS2-α-mediated PML SUMOylation may
+have a role in promoting replicative senescence. 
+In addition to mediating cell proliferation and apoptosis
+in various
+cancers, PIAS proteins also regulate cell migration of cancer cells.
+For example, PIAS4 enhances epithelial cell migration through SUMOylation
+of the transcription factor C/EBPδ, leading to sequestration
+at the nuclear periphery and subsequent reduction of C/EBPδ
+transcriptional activity. PIAS3-mediated
+GTP-Rac1 SUMOylation prolongs the Rac1-GTP activated state and further
+stimulates cell migration. In MDA-MB-231
+triple-negative breast cancer cells, PIAS1 and/or PIAS4 mediates PYK2
+SUMOylation, subsequently triggering autophosphorylation, interaction
+with tyrosine kinase SRC, phosphorylation of paxillin, activation
+of ERK1/2, and promotion of cell migration. Our most recent large-scale quantitative SUMO proteomics analysis
+revealed that PIAS1 SUMOylates intermediate filament protein vimentin,
+enhances vimentin solubility, and accelerates intermediate filament
+disassembly and reassembly, further promoting HeLa cell migration
+and motility. 
+Although these studies
+have identified a role for protein SUMOylation
+in cancer development through cell proliferation and cell cycle progression,
+the molecular mechanisms by which this is achieved remain unclear.
+There is thus a need to identify PIAS substrates that could be associated
+with tumor cell proliferation. To date, an increasing number of potential
+SUMO E3 ligase substrates have been reported, though most of these
+were analyzed individually using biochemical and molecular biological
+assays. , More recently, a human proteome microarray-based
+activity screen has been used to identify putative substrates of specific
+SUMO E3 ligases and revealed that PIAS2 SUMOylation of PYK2, a member
+of focal adhesion kinase family, is essential for its activation and
+interaction with SRC. , Although protein arrays provide
+a valuable approach to establish target specificity of SUMO E3 ligases,
+they cannot provide information on the nature and sites of modification.
+To analyze the molecular components and regulatory mechanisms by which
+PIAS SUMO E3 ligases exert their action on cell proliferation and
+cell cycle progression, we used SUMO proteomics analyses to identify
+protein substrates upon knockout (KO) of individual PIAS genes. We
+identified a large subset of proteins involved in cell proliferation
+and cell cycle to be differentially modified, supporting the role
+of PIAS proteins on these cellular processes. To the best of our knowledge,
+this work represents the first SUMO proteomics analysis of PIAS SUMO
+E3 ligase regulatory networks.
+
+## Experimental Procedures
+
+## Cell Culture and Transfection
+Human breast cancer cell
+line MDA-MB-231 was purchased from American Type Culture Collection
+(ATCC), and HEK293 stably expressing the 6xHis-SUMO3-Q87R/Q88N mutant
+(HEK293-SUMO3m) was cultured in Dulbecco’s
+modified Eagle’s medium (HyClone) supplemented with 10% fetal
+bovine serum (Wisent), 1% l-glutamine (Thermo Fisher Scientific),
+and 1% penicillin/streptomycin (Invitrogen) in 5% CO2 at
+37 °C.
+For gene knockout, the CRISPR/Cas9-based gene knockout
+vectors pCRISPR were purchased from Genecopoeia, Inc. (Rockville,
+MD). We ordered three different sgRNAs for each PIAS gene. The sgRNA
+sequence for each gene is listed below. PIAS1-sgRNA1: 5′-TTCTGAACTCCAAGTACTGT-3′,
+PIAS1-sgRNA2: 5′- GCCCTGCATTTGCTAAAGGC-3′, PIAS1-sgRNA3:
+5′- ACTTGAATGTACGTTGGGGA-3′, PIAS2-sgRNA1: 5′-CAAGTATTACTAGGCTTTGC-3′,
+PIAS2-sgRNA2: 5′-ATAAATGCAGCGCCCTCATC-3′, PIAS2-sgRNA3:
+5′-CTCATCAAGCCCACGAGTTT-3′, PIAS3-sgRNA1: 5′-GCCCTTCTATGAAGTCTATG-3′,
+PIAS3-sgRNA2: 5′- ATGGTGACATCAGGGTGCAC-3′, PIAS3-sgRNA3:
+5′-GCCCTTCTATGAAGTCTATG-3′, PIAS4-sgRNA1: 5′-GGCTTCGCGCCGTAGTCTTAG-3′,
+PIAS4-sgRNA2: 5′- GAAGCACGAGCTCGTCACCA-3′, PIAS4-sgRNA3:
+5′-GAGCTTCACC AGGCGGACTTC-3′, and scrambled sgRNA: 5′-GGCTTCGCGCCGTAGTCTTA-3′.
+MDA-MB-231 cells or HEK293-SUMO3m cells were transfected with 1 μg
+of pCRISPR vector or a scrambled sgRNA vector as negative control
+per million cells using JetPrime Reagent (Polyplus-transfection) according
+to the manufacturer’s protocol. Single-cell sorting for clonal
+cell line development was achieved by fluorescence-activated cell
+sorting (FACS) based on Red Fluorescent Proteins-mCherry signals 48
+h after transfection. mCherry-positive cells were cultured and expanded
+for 2 weeks. PIAS knockout efficiency was confirmed by western blotting.
+
+## Cell Proliferation Assay
+The cell proliferation assay
+was conducted using cell proliferation reagent WST-1 solution (Roche).
+PIAS KO or CTL MDA-MB-231 cells were seeded into 96-well plates at
+a density of 1000 cells/well. After 0, 2, and 4 days of cell culture,
+WST-1 reagents were added to each well, and cells were further incubated
+at 37 °C with 5% CO2 for 1 h. Subsequently, the absorbance
+of the samples was measured using a Nanoquant Infinite 200 Pro spectrophotometer
+(TECAN) with an optical density (OD) at 450 nm. The background subtraction
+was performed using OD630. Each experiment was performed
+with three instrumental replicates and three biological replicates.
+The relative numbers of viable cells for each condition were estimated
+based on the absorbance of (OD450-OD630).
+
+## Cell Cycle Analysis
+The cell cycle distribution analysis
+of PIAS KO and CTL MDA-MB-231 cells were performed using flow cytometry
+as described previously. Briefly, cells
+were trypsinized, harvested and washed three times with cold PBS,
+then fixed with precooled 70% ethanol in PBS for 2 h at 4 °C.
+Fixed cells were first centrifuged at 215g for 5
+min and then washed twice with cold PBS. After all washes, cells were
+resuspended in PBS and processed with the cell cycle kit (Abcam, ab112116).
+Cellular DNA content was determined by flow cytometry with the BD
+FACSCanto II system and BD FACS DIVA 8.0.2 software (BD Biosciences
+Clontech). The cell cycle distribution was analyzed with FlowJo version
+10.8.1 using the Watson univariate model.
+
+## SILAC Labeling and Protein
+Extraction
+The parental
+HEK293-SUMO3m cells were cultured in DMEM (Thermo Fisher Scientific)
+supplemented with light (0Lys, 0Arg) amino acids.
+HEK293-SUMO3m-KO-CTL cells were grown in DMEM (Thermo Fisher Scientific)
+containing medium ( Lys, Arg) amino acids, and different PIAS KO cells were separately
+grown in DMEM (Thermo Fisher Scientific) containing heavy ( Lys, Arg) isotopic
+forms of lysine and arginine (Silantes) for at least 6 passages to
+ensure full labelling. For each triple SILAC experiment, only the
+light channel was treated with 10 mM MG132 for 16 h to increase protein
+SUMOylation. The MG132-treated light channel serves as a signal booster
+for the other channels to trigger MS/MS of SUMOylated peptides. The
+number of cells combined from each channel was using the ratio of
+L:M:H = 1:4:4, and the combined cells were washed twice with ice-cold
+PBS, lysed in Ni-NTA denaturing incubation buffer (6 M Guanidinium
+HCl, 100 mM NaH2PO4, 20 mM 2-chloroacetamide,
+5 mM 2-mercaptoethanol, 10 mM Tris–HCl pH = 8), and sonicated.
+Protein quantification was performed using a micro Bradford assay
+(Bio-Rad).
+For proteome analysis, 100 μg of flow through
+proteome samples of each biological sample from Ni-NTA purification
+was collected. 50 mM ammonium bicarbonate was added to each sample
+to make the final concentration of guanidinium HCl as 1 M. Protein
+digestion was carried out using a ratio 1:50 of sequencing-grade modified
+trypsin (Promega):protein extract at 37 °C overnight. The reaction
+was quenched by adding 1% trifluoroacetic acid (TFA). Sample desalting
+was performed on hydrophilic–lipophilic balance (HLB) cartridges
+(3 cc, 30 mg) (Waters) and eluted in low protein binding collection
+tubes (Thermo Fisher Scientific). Finally, samples were dried down
+by a Speed Vac prior to LC–MS/MS analysis.
+
+## Protein Purification,
+Digestion, and Desalting
+For
+each biological replicate, 9 mg of total cell extract (TCE) were incubated
+with 360 μL of Ni-NTA beads (Qiagen) at 4 °C for 16 h.
+The beads were subsequently washed once with 12 mL of Ni-NTA denaturing
+incubation buffer, five times with 12 mL of Ni-NTA denaturing washing
+buffer (8 M urea, 100 mM NaH2PO4, 20 mM imidazole,
+5 mM 2-mercaptoethanol, 20 mM chloroacetamide, 10 mM Tris–HCl
+pH = 6.3), and twice with 10 mL of 50 mM ammonium bicarbonate. Protein
+quantification on beads was conducted using micro Bradford assay (Bio-Rad).
+Protein digestion on beads was carried out using a ratio 1:20 of sequencing-grade
+modified trypsin (Promega):protein extract in 50 mM ammonium bicarbonate
+at 37 °C overnight. To quench the reaction, 1% trifluoroacetic
+acid (TFA) was added. Sample desalting was performed on hydrophilic–lipophilic
+balance (HLB) cartridges (3 cc, 60 mg) (Waters) and eluted in low
+protein binding collection tubes (Thermo Fisher Scientific). Finally,
+samples were dried down by a Speed Vac prior to LC–MS/MS analysis.
+
+## Immunoisolation of SUMO Peptide
+MagReSyn Protein A
+magnetic beads (Resyn Biosciences) were equilibrated with an anti-K
+(NQTGG) antibody at a ratio of 1:2 (v/w) for 1 h at 4 °C in PBS
+and then washed 3 times with 200 mM triethanolamine pH = 8.3. For
+antibody/bead cross-linking, 10 μL of 5 mM DMP in 200 mM triethanolamine
+pH = 8.3 was added per μL of bead slurry and incubated with
+inversion for 1 h at room temperature. The reaction was quenched for
+30 min by adding 1 M Tris–HCl pH = 8 to a final concentration
+50 mM. Prior to immunoisolation, three washes with ice-cold PBS were
+applied on cross-linked beads. The desalted peptides were resuspended
+in 1 mL of PBS containing cross-linked anti-K-NQTGG at a ratio of
+1:2 (w/w). The peptides/beads were incubated for 1 h at 4 °C
+followed with three washes of 1 mL of 1 × ice-cold PBS, once
+with 1 mL of 0.1 × ice-cold PBS, and a last wash with cold MilliQ
+H2O. The enriched SUMO peptides were eluted from the beads
+using 200 μL of 0.2% formic acid in water three times and dried
+down by a Speed Vac.
+
+## SCX Fractionation
+Strong cation
+exchange (SCX) stage
+tips (ThermoFisher Scientific) were conditioned with acetonitrile.
+SUMO peptides were redissolved in water containing 15% acetonitrile
+(ACN) and 0.2% formic acid (FA) and loaded onto the conditioned SCX
+stage tip. Loaded peptides were washed once with an SCX wash buffer
+(10 mM ammonium acetate, 20% ACN, and 0.5% FA). Sequential peptide
+fractionation was performed using a series of SCX elution buffers
+with increasing concentration of ammonium acetate (125, 175, 250,
+350, 1500 mM ammonium acetate in 20% ACN, 0.5% FA). All the eluted
+fractions were dried down by a Speed Vac and subjected to LC–MS/MS
+analysis.
+
+## Mass Spectrometry Analysis
+Peptides were redissolved
+in 0.2% FA solution and analyzed by LC–MS/MS using a Q Exactive
+HF Hybrid Quadrupole-Orbitrap mass spectrometer (Thermo Fisher Scientific)
+coupled to a Proxeon Easy-nLC 1000. Samples were injected on a 300
+μm ID × 5 mm trap and separated on a 150 μm ×
+20 cm nano-LC column (Jupiter C18, 3 μm, 300 A, Phenomenex).
+The separation on the LC system was performed using a linear gradient
+from 7 to 30% ACN, 0.2% FA over 105 min at 600 nL/min. The acquisition
+parameters on the MS instrument were set as follows: For full MS scans,
+the scan window was from m/z 350
+to m/z 1500 with a resolution of
+120,000 at m/z 200. A target AGC
+of 1E6 with a maximum injection time of 200 ms was used. For MS/MS
+scans, HCD mode with a normalized collision energy of 25 was enabled
+and resolution of 30,000 with a TopN = 5 method, a target AGC of 5E3,
+and a maximum injection time of 1000 ms was used. The MS/MS triggering
+threshold was set to 1 × 105, and the dynamic exclusion
+of previously acquired precursor was enabled for 20 s within a mass
+range of ±0.8 Da.
+
+## Data Processing
+MS raw data were
+analyzed using MaxQuant
+(version 1.6.2.10 and searched against UniProt/SwissProt human proteome
+database (http://www.uniprot.org/) released on June 2019). The corresponding proteome data and SUMO
+proteome data of each biological sample were labeled with the same
+experimental name. The maximum missed cleavage sites for trypsin was
+set to 3. The fixed modification was set using carbamidomethylation
+(C) and acetylation (Protein N term), and oxidation (M), deamination
+(NQ), and NQTGG (K) were set as variable modifications. The “match
+between runs” feature was enabled to correlate identification
+and quantitation results across different runs. The false discovery
+rate was set to 1% for peptide, protein, and site identification.
+Only the SUMO sites with a localization probability of ≥0.75
+were kept. The proteinGroups.txt file was used for proteome quantitation.
+The fold change cutoff value was calculated based on 2.5% changes
+on each tail of the volcano plot. The MS raw data and MaxQuant search
+results have been deposited to the ProteomeXchange Consortium (http://proteomecentral.proteomexchange.org) via the PRIDE partner repository with the dataset identifier PXD023841.
+
+## Bioinformatics Analysis
+Classification of identified
+PIAS1 substrates was performed using PANTHER 16.0 (Protein Analysis
+Through Evolutionary Relationships) (http://www.pantherdb.org), which
+classifies proteins by their functions. The PIAS-regulated SUMO substrates were grouped into the biological
+process, molecular function, and cellular component classes using
+DAVID Bioinformatics Resources 6.8. Regulatory
+networks of PIAS-regulated SUMO substrates were built by searching
+against the STRING (Search Tool for the Retrieval of Interacting Genes/Proteins)
+database version 11.0. Visualization of regulatory networks was then
+performed in Cytoscape v3.8.0 and subnetworks were grouped according
+to their GO terms. Evolutionary conservation analysis of SUMOylated
+lysine residues was assessed across 12 species: Mus musculus, Rattus norvegicus, Bos taurus, Gallus gallus, Xenopus laevis, Danio rerio, Drosophila melanogaster, Caenorhabditis
+elegans, Arabidopsis thaliana, Oryza
+sativa, Saccharomyces cerevisiae, and Schizosaccharomyces pombe using the ProteoConnections bioinformatics
+platform. 
+
+## Western Blot
+TCE
+was diluted in Laemmli buffer (10%
+(w/v) glycerol, 2% SDS, 10% (v/v) 2-mercaptoethanol, and 62.5 mM Tris–HCl,
+pH = 6.8) and then boiled for 5 min on a dry metal heating block bath
+incubator at 95 °C. The protein was separated on a 4–12%
+precast SDS-PAGE (Bio-rad) followed by transfer onto nitrocellulose
+(NC) membranes. NC membranes were briefly stained with 0.1% Ponceau-S
+in 5% acetic acid to determine total protein content prior to blocking
+with 5% non-fat milk in Tris-buffered saline with Tween 20 (TBST)
+at RT for 1 h. Membranes were subsequently incubated overnight with
+primary antibody at a 1:1000 prepared in 5% bovine serum albumin (BSA)
+in TBST at 4 °C. NC membranes were then incubated with peroxidase-conjugated
+anti-mouse or anti-rabbit IgG (Cell Signaling Technology) at a 1:5000
+dilution prepared in 5% BSA in TBST for 1 h at RT. Finally, the NC
+membranes were subjected to three washes with TBST for 10 min each
+and revealed using ECL plus (GE Healthcare) as per the manufacturer’s
+instructions. Chemiluminescence was captured on Blue Ray film (VWR).
+The following antibodies were used for western blot analyses: rabbit
+anti-PIAS1 antibody (3550S, Cell Signaling Technology), rabbit anti-PIAS2
+antibody (ab126601, Abcam), rabbit anti-PIAS3 antibody (9042S, Cell
+Signaling Technology), rabbit anti-PIAS4 antibody (4392S, Cell Signaling
+Technology), rabbit anti-α-tubulin antibody (2144S, Cell Signaling
+Technology), rabbit anti-β-actin antibody (4970S, Cell Signaling
+Technology), and rabbit anti-topoisomerase IIα (12286S, Cell
+Signaling Technology).
+
+## Fluorescence Imaging
+Cells were
+plated on concanavalin
+A (0.5 μg/μL; C2010; Sigma-Aldrich)-coated coverslips
+for 2 h. Then, cells were fixed using paraformaldehyde 4% (Alfa Aesar)
+in PBS for 20 min and washed using TBS 1× (20 mM Tris–HCl
+pH 7.5, 154 mM NaCl, 2 mM EGTA, 2 mM MgCl2). Cells were
+permeabilized and blocked for 1 h in TBS-BSA-saponin 1× (0.02%
+saponin, 2% BSA in TBS 1×). Cells were incubated with a rabbit
+primary antibody against Ki-67 (1/250, D2H10, Cell Signaling) or the
+rabbit anti-topoisomerase IIα (1/400, 12286S, Cell Signaling)
+diluted in TBS-BSA-saponin 1× overnight at RT, washed three times
+in TBS-BSA-saponin 1×, and incubated with DAPI (1/10000, D8417-10MG,
+Sigma), an Alexa Fluor 555-conjugated anti-phalloidin antibody (1/1000,
+A34055, Invitrogen), and an Alexa Fluor 488-conjugated anti-rabbit
+secondary antibody (1/400, A11008, Invitrogen) diluted in TBS-BSA-saponin
+1× for 1 h at RT. Cells were washed two times in TBS-saponin-BSA
+and a last time in TBS 1× before being mounted in Vectashield
+medium (H-1000, Vector Laboratories). Images of fixed cells were acquired
+using a Leica TCS SP8 microscope (Leica Microsystems) with a 63×
+objective and analyzed on ImageJ (NIH).
+
+## Quantification of Ki-67
+Particles and TOP2A Mean Intensity
+We quantified Ki-67 particles
+and TOP2A nuclear mean intensity
+using ImageJ software (NIH) on z-stacks of five 1 μm sections.
+Small foci (S), medium foci (M), nucleolar associated domains (NADs),
+and total particles were counted manually on 25–30 cells per
+condition. TOP2A mean intensity was measured in the nucleus of 25–30
+cells on three consecutive frames. The background, determined outside
+the cells was systematically subtracted from the fluorescence intensities.
+Only images with a signal in the linear range were considered for
+quantification.
+
+## Statistics
+Statistical analysis
+was carried out to
+assess differences between experimental groups. Data were presented
+as the means ± SD for cell proliferation assay and cell cycle
+analysis. Statistical significance was analyzed by two-tailed Student’s t tests. p < 0.05 was considered to
+be statistically significant; *p < 0.05, **p < 0.01, and ***p < 0.001. For TOP2A
+mean intensity and Ki-67 particle quantification, data were presented
+as mean ± SEM. Statistical significance between various conditions
+was assessed using Kruskal–Wallis test with Dunn’s correction
+for multiple comparisons. *p < 0.05, ***p < 0.001, ****p < 0.0001.
+
+## Results
+and Discussion
+
+## PIAS KO Affects MDA-MB-231 Cell Proliferation
+and Cell Cycle
+As SUMO E3 ligases, the protein inhibitor
+of activated STAT (PIAS)
+family members have been reported to play multiple roles in regulating
+several cellular processes, such as protein stability, signal transduction,
+and DNA repair. Several studies have also
+demonstrated that PIAS-family members participate in tumorigenesis
+and cancer-related processes, specifically in the processes of cellular
+proliferation and migration. , , , To understand the physiological
+functions and differences between PIAS SUMO E3 ligases, knockout cell
+lines for each PIAS gene were generated in the breast cancer cell
+line MDA-MB-231 and used to perform phenotypic assays. All PIAS proteins
+contain four conserved functional domains that are ideal targets for
+sgRNA by CRISPR/Cas9 to obtain an efficient gene KO. Due to the high
+degree of protein sequence identity within these functional domains,
+we selected unique regions of the open reading frame (ORF) from the
+different PIAS genes to avoid targeting several PIAS genes simultaneously.
+Here, we utilized a CRISPR/Cas9-based gene editing strategy followed
+by fluorescence-activated cell sorting (FACS) to efficiently select
+monoclonal cell lines specific for each PIAS gene KO ( a). We designed three different
+sgRNAs for each PIAS gene that targeted different sequences corresponding
+to protein functional domains and inserted them into the pCRISPR vector,
+which constitutively expresses sgRNA, Cas9 nuclease, and mCherry fluorescence
+protein. Two days post-transfection, cells expressing the mCherry
+protein were sorted using FACS and single cells were seeded into 96-well
+plates for clonal cell line expansion. This workflow allows for a
+rapid KO screen without antibiotic selection and resulted in a >90%
+success rate among obtained clonal cell lines after 2 weeks. Next,
+we verified the individual PIAS KO efficiency and specificity by western
+blotting ( b)
+and confirmed that each PIAS gene was successfully knocked out in
+MDA-MB-231 cells without disturbing other PIAS genes. It is noteworthy
+that two bands are detected for PIAS2 and PIAS3 and correspond to
+their expected isoforms. 
+ We previously reported that the expression of PIAS1
+is positively
+correlated with increased levels of cell proliferation and migration
+in HeLa cells. Here, we further examined
+the physiological effects of different PIAS gene KO in the breast
+cancer cell line MDA-MB-231. We first evaluated changes in cell appearance
+by microscopy and noted that PIAS2 and PIAS4 KO significantly altered
+cell morphology ( c). PIAS2 KO cells lost their ability to form pseudopodia resulting
+in a more rounded shape, whereas PIAS4 KO cells presented a similar
+phenotype but to a lesser extent. Conversely, PIAS1 KO caused the
+cells to stretch into a longer and narrower shape, while no significant
+changes were observed for PIAS3 KO cells compared to control cells.
+Next, we seeded 1000 cells of each PIAS KO cell line with four technical
+and three biological replicates and measured the proliferation rate
+up to 4 days using the WST-1 cell proliferation assay. The results
+indicated that all PIAS KOs reduced cell proliferation of MDA-MB-231
+cells to different extents. The reduced proliferation rate varied
+between the PIAS KO cells, with PIAS4 KO exhibiting the greatest impact
+by day 4, with more than 60% reduction compared to control cells.
+PIAS1 KO had the least impact on the proliferation rate but still
+resulted in a 40% decrease relative to control cells ( d). In line with a decreased
+proliferation rate, we also observed that PIAS gene ablation led to
+a reduction in the proportion of cells in the G1 phase and an accumulation
+of cells in the S phase and G2/M, suggesting that the reduction in
+cell proliferation is partly accounted for by a delay in DNA replication
+and protein synthesis ( e, Figure S1). Altogether, these
+results indicated that each PIAS KO reduced cell proliferation and
+cell cycle progression to varying degrees, thus suggesting a role
+for SUMOylation in the observed phenotypes.
+
+## Unraveling PIAS Substrates
+Using Gene Editing and SUMO Proteomics
+Most of the current
+studies are based on individual investigation
+between a given PIAS protein and their potential targets, resulting
+in a lack of understanding of PIAS regulatory mechanisms in a system-wide
+manner. In addition, PIAS protein members share several conserved
+domains, making it more challenging to identify and discriminate redundancy
+and specificity across all PIAS members. The first global identification
+of PIAS SUMO substrates was performed using the HuProt microarray-based
+proteomics analysis in tandem with an in vitro SUMOylation assay. , Although this approach provided a general profile of PIAS SUMO E3
+ligase substrates, the in vitro SUMO condition increases the probability
+of false positive identification.
+To better understand the mechanisms
+responsible for regulating cell proliferation and cell cycle by different
+PIAS SUMO E3 ligases, we conducted a large-scale SUMO proteomics experiment
+to identify substrates that are common and unique to individual PIAS.
+Here, we used a HEK293 cell line stably expressing SUMO3m and previously
+characterized for system-level SUMO proteome analyses. , We generated PIAS KO cells in HEK293 SUMO3m cell lines for SUMO
+proteomics using the CRISPR/Cas9 approach described in a. We obtained efficient and
+specific PIAS KO in HEK293 SUMO3m cells as confirmed by western blotting
+( a). Next,
+we performed a triple SILAC-based SUMO proteomics analysis modified
+from our previously published approach to profile the PIAS-mediated SUMO regulatory networks in a site-specific
+manner. For each triple SILAC, HEK293 SUMO3m KO control cells were
+grown in media containing medium isotopic forms of lysine and arginine
+( Lys, Arg),
+while PIAS KO cells were grown in heavy media ( Lys, Arg) under basal conditions
+at 37 °C. In order to normalize quantitation results across all
+12 biological replicates including 4 PIAS KO samples, we used parental
+HEK293 SUMO3m cells grown in light media (0Lys, 0Arg) for all light channels as an internal standard. In this case,
+the quantitation across samples can be normalized and technical variations
+introduced from sample preparation can be removed. Additionally, these
+cells were treated with MG132 for 16 h prior to cell collection to
+boost the SUMO identification. The light channel allows the mass spectrometer
+to find high intensity precursor ions of SUMO peptides presented as
+the light version and further triggers MS/MS fragmentation and identification
+for those ions with low intensities from medium and heavy channels.
+Of note, only a quarter of protein lysate from the light channel was
+combined with samples from medium and heavy channels, giving a ratio
+of 1:4:4 for each sample combination. This SILAC combination strategy
+prevents signal saturation from SUMO peptides in the light channel,
+which could cause an inaccurate quantitation for lower abundance SUMO
+peptides from medium and heavy channels.
+ We took advantage of our optimized workflow to identify SUMO substrates
+regulated by each PIAS SUMO E3 ligase ( c). After pooling labeled cells, samples
+were subjected to Ni-NTA pulldown for SUMO protein purification prior
+to tryptic digestion. Subsequently, immunoisolation was performed
+on the Ni-NTA purified peptide pool to enrich the SUMO peptides containing
+the NQTGG-remnant. Off-line SCX peptide fractionation was conducted
+to enhance peptide coverage and the depth of SUMO proteome analysis.
+Finally, all samples were injected on the Q Exactive HF LC–MS/MS
+system and raw data were searched using MaxQuant software. 
+To evaluate the reproducibility of our
+SUMO proteome, we determined
+the Pearson correlation coefficients and obtained values over 0.9
+across biological triplicates, indicating a high level of reproducibility
+of our analyses (Figure S2a). We examined
+the similarity of individual SUMO proteomes using principal component
+analysis (PCA) (Figure S2b). PCA generated
+four distinct groups clustering all replicates together.
+Next,
+we analyzed substrates that are significantly regulated by
+SUMOylation upon PIAS KO. To ensure that changes in SUMOylation patterns
+were not attributed to variation of protein expression upon PIAS KO,
+we also analyzed the total proteome of each PIAS triple SILAC sample.
+In addition, the proteome dataset was used to define the fold change
+cutoff value for SUMOylated targets. We performed one sample t test with a P value threshold of 0.05
+using Benjamini–Hochberg correction on the proteome dataset
+to determine the significant changes on the protein level upon each
+PIAS KO. We selected 2.5% on both upregulated and downregulated proteins
+and used the corresponding fold change (FC) as a cutoff value to define
+the significant changes on the SUMO proteome level. The distribution
+of protein abundance upon PIAS KO are presented in Figure S3. In total, we quantified 1422 SUMO peptides across
+all 12 samples (Table S1). After one sample t test and FC cut-off on the x axis as
+shown in a,
+PIAS2 KO led to more upregulated than downregulated SUMOylation, whereas
+the other three PIAS KO samples showed the opposite trend. In general,
+PIAS3 KO had the greatest impact on regulation with 174 downregulated
+and 82 upregulated SUMO sites. PIAS2 regulated 204 SUMOylation sites,
+of which 87 were downregulated and 117 were upregulated. PIAS1 and
+PIAS4 regulated similar numbers of SUMOylation sites, with PIAS1 downregulating
+116 and upregulating 55 sites and PIAS4 downregulating 129 and upregulating
+44 sites. While downregulation of protein SUMOylation is expected
+upon PIAS KO, the observation of upregulated SUMO sites can be explained
+by cross activity between E3 ligases whereby a PIAS KO can positively
+or negatively regulate the activity of a different PIAS or the stability
+of its substrates. Interestingly, among all regulated SUMOylation
+sites, 30 sites were found to be common to all PIAS proteins and at
+least 67 sites were regulated by two different PIAS proteins ( c, Figure S4). These results indicate that PIAS SUMO E3 ligases
+share common and unique substrates, thus highlighting the functional
+diversity within the PIAS-family members.
+ To understand if PIAS regulated
+protein SUMOylation on a similar
+pool of candidates, we compared the differentially expressed SUMOylated
+proteins (DESPs) upon PIAS KO. We also compared our data with those
+observed from protein microarray-based studies. In total, 18 DESPs including SUMO1–4, UBR7, RBBP7,
+ATRX, and SSRP1 were common to both studies. The low overlap observed
+here reflects the variation in protein expression and sensitivity
+of the different approaches used (Figure S5).
+
+## PIAS Ligases Share Common and Distinct Protein Substrates
+To gain further insight into the biological processes regulated
+by different PIAS SUMO E3 ligases, we performed a PANTHER classification
+analysis on DESPs (Figure S6). All identified
+DESPs were grouped into categories according to their biologically
+relevant functions. Proteins involved in “gene-specific transcriptional
+regulator (PC00264)”, “nucleic acid metabolism protein
+(PC00171)”, “chromatin/chromatin-binding, or -regulatory
+protein (PC00077)”, and “translational protein (PC00263)”
+regroup 87% of DESPs.
+To identify biologically relevant functions
+regulated by PIASs, we performed Gene Ontology (GO) term enrichment
+analysis of the downregulated and upregulated candidates ( ). The heatmaps ( a) show the enriched
+GO terms of DESPs from each PIAS KO. The GO terms “transcription
+regulation” and “protein SUMOylation” were significantly
+enriched in the SUMO proteome datasets across all PIAS members, suggesting
+that different PIASs may have similar regulatory mechanisms through
+gene transcription by regulating substrate activity or stability through
+SUMOylation. The GO term of “regulation of cell proliferation”
+was enriched in DESPs for PIAS2. The results of GO term enrichment
+for molecular functions, cellular compartment, and pathways are shown
+in b–d,
+for each PIAS.
+ The phenotypic assays in Figure 1c,d showed that
+PIAS KO reduced
+cell proliferation of MDA-MB-231 cells to varying degrees. To further
+understand the redundant and specific interactions of regulated SUMO
+proteins, we generated a network incorporating the DESPs using STRING
+where each node represents a SUMO substrate affected by the corresponding
+PIAS ligase. We first extracted a subnetwork containing only DESPs
+with commonly regulated SUMO sites as shown in a. Several highly connected interactors were
+classified into different protein class terms according to their biological
+processes. Surprisingly, many DESPs were found to be involved in cell
+proliferation (e.g., MKI67 and TOP2A). PIAS ligases may regulate protein
+stability or protein–protein interaction via their SUMOylation
+and could affect cell proliferation. Aside from this group, we also
+found that PIAS ligases regulated proteins involved in transcription
+regulation, RNA processing, signal transduction, RNA processing, and
+chromatin remodeling. In addition, we identified other SUMO and ubiquitin
+ligases (e.g., RNF2, ZNF451) regulated by all PIAS proteins, which
+suggest a crosstalk between SUMO and ubiquitin involving PIAS SUMO
+E3 ligases.
+ To better understand the regulatory specificity of protein SUMOylation,
+we next extracted a subnetwork containing unique DESPs with lysine
+SUMOylation associated with specific PIAS ligases ( b). Interestingly, a large
+number of DESPs shared several protein classes with those from common
+DESPs, such as cell proliferation, transcription regulation, Ub/Ubl
+regulation, and RNA processing. Different PIAS ligases can modify
+the same substrate but on different receptor lysines or on different
+proteins regrouped under the same GO term. Also, several substrates
+regulated by specific PIAS ligase were regrouped into unique protein
+classes including nucleosome assembly, DNA damage repair, and chromosome
+organization.
+To establish trends between protein targets affected
+upon PIAS
+KO, we generated a heatmap displaying the hierarchical clustering
+of differentially regulated SUMOylated proteins. In total, we identified
+530 SUMOylated proteins, of which 30 were regulated by all four PIASs
+(Figure S7). To extract groups of substrates
+specific to each PIAS, we also used fuzzy C-means (FCM) clustering
+and generate profiles of regulated clusters. We found four clusters
+of SUMO peptides that displayed a specific downregulation upon individual
+PIAS KO. In addition, we also identified a cluster of substrates where
+PIAS1 and PIAS3 have a similar downregulation pattern while PIAS2
+and PIAS4 exhibit the opposite regulation trend. Interestingly, each
+cluster was found to contain unique regulated substrates involved
+in cell proliferation. For example, PIAS4 may regulate cell proliferation
+through the SUMOylation of CBX3 and BRD4. These results indicate the regulatory specificity of each PIAS SUMO
+E3 ligase on a subpool of substrates.
+
+## Evolutionary Conservation
+Analysis of Sites Modified by PIAS
+Ligases
+All residues in a given protein are not equally important,
+and certain lysine residues may have more significant effects on protein
+function. The rate of conservation is
+one of the most widely used approach to predict functionally important
+residues in protein sequences by comparing its occurrence in orthologues
+through evolution. Although a large number
+of SUMOylated sites and their corresponding SUMO E3 ligases have been
+reported in various eukaryotes by different groups, the conservation of SUMOylated lysine sites in these organisms
+remains unclear. To determine the evolutionary conservation of the
+modified lysine residues, we used ProteoConnections and compared all identified SUMOylated sites across 12
+different species (Figure S8a, Table S2). We further classified the identified SUMO sites into three conservation
+levels based on the extent to which a site is conserved across species.
+Lysines conserved in more than 8 species were designated as having
+a “High” conservation rate. Lysines conserved in 5 to
+8 or in 4 and fewer species were defined as “Medium”
+or “Low” conservation rate, respectively. As shown in Figure S8b, the identified SUMOylome comprised
+approximately 23% of highly conserved SUMO sites and 60% of medium
+conserved SUMO sites. In contrast, the regulated SUMO sites by PIAS1,
+PIAS2, and PIAS3 showed a greater proportion of highly conserved sites.
+Of note, PIAS3 regulated almost 40% of SUMO sites that had a high
+conservation rate while only 45% of SUMO sites had a medium conservation
+rate, indicating a contrasting trend of conservation compared to the
+regulated sites of other PIAS SUMO E3 ligases. These observations
+suggest that although most SUMOylated lysines have at least medium
+conservation rate, they vary across different PIAS SUMO E3 ligases.
+We assessed the regulatory specificity of PIAS SUMO E3 ligases
+by selecting the substrates with highly conserved lysine residues
+that are uniquely regulated by each PIAS ligase (Figure S8c). A closer examination of specific substrates revealed
+that each PIAS ligase also regulates unique biological processes through
+different substrates. For example, we identified that PIAS1 targeted
+PARP1 at multiple sites (K203, K249, K331), consistent with a prior
+report indicating that this modification is necessary for DNA damage
+repair. Different histones were uniquely
+modified by PIAS2 including H2B (K6, K21, K121), H4 (K9), and H3 (K24),
+and SUMOylation of histone could play a role in the recruitment of
+chromatin remodeling and the recruitment of histone-modifying enzymes. Interestingly, we also observed that PIAS3 modified
+SUMO2, SUMO3, and SUMO4 on K33, a site required for polySUMO chain
+formation. 
+Next, we looked at substrates
+of each PIAS ligase that display
+a high conservation level to understand their regulation specificity
+(Figure S9). Of note, each PIAS ligase
+may also regulate cell proliferation through very distinct SUMOylated
+substrates. We found that PIAS1 SUMOylates CDC73 at K198, a site located
+on the N-terminus of its β-catenin binding domain. CDC73 was
+reported to be involved in cell cycle and cell growth, while MTA2
+was found to promote cell migration and invasion in gastric cancer
+cells. It is worth noting that PIAS2
+SUMOylated actin, tubulin, and myosin at non-consensus UBC9 sites,
+a modification that may affect the cytoskeleton organization and cell
+motility. PIAS3-mediated SUMOylation
+of SALL1 at K1319 was reported to affect its nuclear localization
+and further regulate target gene expression. We also identified CBX3 K21 as a target of PIAS4. CBX3 recognizes
+methylated K9 histone H3 tails, leading to epigenetic repression,
+and its SUMOylation could affect its transcriptional silencing activity.
+
+## TOP2A Stability and Ki67-Associated Nucleoli Substructures Are
+Regulated by Protein SUMOylation
+Our network analysis identified
+that PIAS may regulate cell proliferation and cell cycle via SUMOylation
+of shared substrates, including TOP2A and Ki-67. Human TOP2A gene
+encodes DNA topoisomerase IIα, which relieves topological DNA
+stress during gene transcription and regulates chromosome condensation
+and chromatid separation. TOP2A was reported as an indicator of proliferation
+rate in many human malignancies and to
+play important roles in maintaining genomic stability. In particular, SUMOylation of TOP2 is important
+during DNA repair by proteases and nucleases and for proper subnuclear localization and protein–protein
+interactions. Our proteomic analyses
+identified that all PIAS ligases SUMOylated Lys-1238, Lys-1240, and
+Lys-1370, potentially impacting protein stabilization, leading to
+an inhibition of p53 and increased cell proliferation. These sites are located at the C-terminus of
+TOP2A and are highly conserved across different species (Figure S10a). Upon different PIAS gene knockout,
+the SUMOylation levels of these sites were reduced by 2 to 5-fold
+(Figure S10b). To investigate the function
+of PIAS-mediated SUMOylation of TOP2A, we evaluated the subcellular
+localization of the endogenous TOP2A in HEK293 SUMO3m PIAS KO cells.
+Confocal microscopy experiments revealed that PIAS1–3 KO led
+to a 30% reduction of nuclear TOP2A whereas a 15% decrease was observed
+upon PIAS4 KO (Figures S10c,d). Similarly, we also noted that TOP2A
+abundance decreased upon PIAS gene ablation when total cell lysates
+of HEK293 PIAS KO cells were analyzed by immunoblots (Figure S10e). These results suggest that PIAS-mediated
+SUMOylation of TOP2A near its C-terminus may prevent protein degradation.
+Interestingly, we also observed that Ki-67 was SUMOylated by all
+PIASs at 10 sites primarily located at the UBC9 consensus motif within
+the Ki-67 tandem repeat region ( a). Quantitative SUMO proteomic analyses revealed that
+SUMOylation of these sites were reduced by 2- to 6-fold upon different
+PIAS gene knockouts ( b). Ki-67 is a commonly used prognostic marker for grading
+tumors as it is highly expressed in actively
+dividing cells but show low expression levels in quiescent cells. Its localization pattern varies according to
+the cell cycle; in early G1, it partly localizes to constitutive heterochromatin
+and then associates with newly reformed nucleoli until mitosis. 
+ To determine if protein SUMOylation affects the distribution
+of
+Ki-67 within the nucleoli, we performed confocal microscopy experiments
+on HEK293 SUMO3 cells following individual PIAS knockout ( c). Subtle changes
+in the nucleoli morphology were noted in the number and size of Ki-67
+foci and nucleolar associated domains (NAD) upon deletion of PIAS
+( d). To determine
+the extent of these changes, we compared the mean number of nucleolar
+substructures and regrouped them under three categories representing
+small or medium foci and large NAD ( d). Each experiment was performed on three
+separate biological replicates with measurements made on at least
+30 separate cells and compared to those obtained on control cells.
+These analyses indicated that the numbers of small and medium Ki-67
+foci were reduced upon PIAS gene ablation resulting in an accumulation
+of large NAD substructures ( e). It is noteworthy that the same experiments were
+repeated with MDA-MB-231 cells and confirmed these findings (Figure S11). These results suggest that disassembly
+of nucleoli might be delayed upon reduction in Ki-67 SUMOylation.
+The assembly/disassembly of the nucleolus is regulated by reciprocal
+phosphorylation and dephosphorylation of the transcription machinery
+and the RNA processing complexes. Ki-67
+is hyperphosphorylated through the activity of different kinases during
+mitosis and dephosphorylated by PP1 phosphatases during the anaphase/telophase
+when it moves away from the nucleolus and localizes at the surface
+of condensed mitotic chromosome to form a perichromosomal layer, PCL. Interestingly, several regulatory subunits of
+PP1 contain a SIM, and SUMOylation of Ki-67 could serve as a scaffold
+for the recruitment of PP1. Other proteins including the p150 subunit
+of chromatin assembly factor 1 (CAF-1) contain a SIM, and this motif
+is necessary to regulate Ki-67 accumulation on the mitotic PCL. A recent proteomic study reported a detailed
+spatiotemporal analysis of the human nucleolar proteome using confocal
+microscopy and identified 65 nucleolar proteins that localized to
+PCL during mitosis. Closer examination
+of these nucleolar proteins revealed that 39 of these 65 nucleolar
+proteins contain one or more SIM domains. These observations suggest
+that SUMOylation of nucleolar proteins could serve as a molecular
+glue favoring the formation of membraneless and spatially distinct
+structures through liquid–liquid phase separation. 
+We also identified other PIAS-mediated
+SUMO substrates including
+nucleus accumbens-associated protein 1 (NACC1), Fos-related antigen 2 (FOSL2), nucleophosmin (NPM1), and pre-mRNA-processing
+factor 40 homolog A (PRPF40A) that can
+all play a role in either cell proliferation, cell migration/morphology,
+or cytoskeleton organization. Separate functional studies would be
+needed to determine the role of SUMOylation for these proteins.
+
+## Conclusions
+This work determined that PIAS knockout (KO)
+in the triple-negative
+breast cancer cell line MDA-MB-231 results in a reduction in cell
+proliferation and cell arrest in the S phase. These observations suggested
+that increased protein SUMOylation plays an important role in cell
+proliferation and cell cycle progression. Our comprehensive analysis
+of substrates from all four PIAS ligases using CRISPR/Cas9 gene editing
+and our SUMO proteomic method enabled the profiling of more than 1422
+sites, and different subsets of SUMO sites (∼ 100–200
+sites) were regulated following KO of one or more PIAS genes. We identified
+protein substrates that were either specific to individual PIAS ligase
+or regulated by several PIAS ligases. While several PIAS affect the
+same substrates, the corresponding modification sites are different,
+suggesting that apparent redundant PIAS functions are actually distinct
+in their site recognition. We identified that Ki-67 and TOP2A, which
+are involved in cell proliferation and epithelial-to-mesenchymal transition,
+are SUMOylated at several lysine residues by all PIAS ligases, suggesting
+a level of redundancy within the PIAS family members. Detailed confocal
+microscopy and biochemical experiments revealed that SUMOylation regulated
+TOP2A protein stability, while this modification is involved in the
+recruitment of Ki-67 nucleolar proteins containing the SUMO interacting
+motif during mitosis. Our contribution not only provides an important
+resource for researchers but also highlights new roles for protein
+SUMOylation in the regulation of TOP2A and Ki-67 during cell division.
+
+## Acknowledgments
+The authors thank Dr. Éric
+Bonneil for assistance
+with MS experiments and Robin Minati for flow cytometry experiments.
+This work was carried out with financial support from the Natural
+Sciences and Engineering Research Council (NSERC 311598) to P.T. and
+from the Canadian Institute for Health Research (CIHR, PJT - 175093)
+to G.E. The IRIC proteomics facility is a Genomics Technology platform
+funded in part by the Canadian Government through Genome Canada, the
+Canadian Center of Excellence in Commercialization and Research, and
+the Canadian Foundation for Innovation. C.L. was supported by a scholarship
+from Fonds de recherche du Québec – Nature et technologies
+(FRQNT).
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.jproteome.2c00557.
+Figure S1: Gating
+strategy for cell cycle analysis upon
+different PIAS gene knockouts in MDA-MB-231 cells; Figure S2: Pearson’s
+correlation coefficient and principal component analysis; Figure S3:
+Histograms show the fold change of proteome upon PIAS1 KO, PIAS2 KO,
+PIAS3 KO, and PIAS4 KO; Figure S4: Venn diagram showing upregulated
+SUMOylation sites and downregulated SUMOylation sites affected by
+specific PIAS KO; Figure S5: Comparison of DESPs and PIAS substrates
+identified from protein microarray; Figure S6: PANTHER classification
+analysis; Figure S7: Regulatory profiling of protein SUMOylation by
+different PIAS ligases; Figure S8: Evolutionary conservation analysis
+of PIAS ligases and regulated SUMO sites; Figure S9: Evolutionary
+conservation analysis of unique substrates of each PIAS ligase; Figure
+S10: PIAS ligase regulated SUMOylation of DNA topoisomerase II-α;
+Figure S11: PIAS ligases regulated SUMOylation of Ki-67 and its structural
+changes during cell cycle in MDA-MB-231 cells; Figure S12: Uncropped
+WB films of Figure 1b; Figure S13: Uncropped WB films of Figure 2a;
+Figure S14: Uncropped WB film of Supplementary Figure 9e (PDF)
+Table S1: List
+of quantified SUMOylome across all 12
+samples from largescale SILAC quantitative SUMO proteomics analysis
+(XLS)
+Table
+S2: List of conserved SUMOylated lysine residue
+across 12 species identified from SUMO proteomics analysis (XLS)
+
+## Author Contributions
+C.L. and P.T.
+conceived of the project; C.L. performed the phenotypic assay and
+proteomics analysis; C.M.P., T.N., and C.L. generated the PIAS knockout
+cell lines and confirmed by western blot. C.L. performed bioinformatics
+analysis with the assistance of M.C., Z.W., and S.C.M.; A.B. performed
+immunofluorescence imaging and analysis; C.L. and P.T. contributed
+to experimental design and analysis; C.L. wrote the manuscript. C.L.,
+T.N., G.E., and P.T. edited and reviewed the manuscript.
+
+The authors declare no
+competing financial interest.
+
+## Supplementary Material
+pr2c00557_si_001.pdf
+pr2c00557_si_002.xlsx
+pr2c00557_si_003.xlsx
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+pr2c00557_si_001.pdf
+pr2c00557_si_002.xlsx
+pr2c00557_si_003.xlsx

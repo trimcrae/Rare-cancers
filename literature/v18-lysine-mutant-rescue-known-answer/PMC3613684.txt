@@ -1,0 +1,950 @@
+J Cell BiolJ. Cell Biol482jcellbiolThe Journal of Cell Biology0021-95251540-8140The Rockefeller University PressPMC3613684PMC3613684.1361368436136842354703210.1083/jcb.2012100192012100191Research ArticlesToolsGlobal analysis of SUMO chain function reveals multiple roles in
+chromatin regulation
+Global analysis of SUMO chain functionSrikumarTharan LewickiMegan C. CostanzoMichael TkachJohnny M. van BakelHarm TsuiKyle JohnsonErica S. BrownGrant W. AndrewsBrenda J. BooneCharles GiaeverGuri NislowCorey RaughtBrian 
+1
+Ontario Cancer Institute, University Health Network, Toronto, Ontario
+M5G 1L7, Canada
+2Department of Medical
+Biophysics, 3Terence Donnelly Center
+for Cellular and Biomolecular Research,
+4Department of Biochemistry,
+5Banting and Best Department of Medical
+Research, 6Department of
+Pharmaceutical Sciences, and
+7Department of Molecular Genetics, University of
+Toronto, Toronto, Ontario M5S 1A1, Canada
+8
+Department of Biochemistry and Molecular Biology, Thomas Jefferson
+University, Philadelphia, PA 19107
+Correspondence to Brian Raught:
+brian.raught@uhnres.utoronto.ca14201320112213201451633102012732013011020130110201330062024© 2013 Srikumar et al.2013https://creativecommons.org/licenses/by-nc-sa/3.0/This article is distributed under the terms of an
+Attribution–Noncommercial–Share Alike–No Mirror Sites
+license for the first six months after the publication date (see http://www.rupress.org/terms). After six months it is
+available under a Creative Commons License
+(Attribution–Noncommercial–Share Alike 3.0 Unported license,
+as described at http://creativecommons.org/licenses/by-nc-sa/3.0/).Multiple large-scale analyses in yeast implicate SUMO chain function in the
+maintenance of higher-order chromatin structure and transcriptional repression
+of environmental stress response genes.
+
+Like ubiquitin, the small ubiquitin-related modifier (SUMO) proteins can form
+oligomeric “chains,” but the biological functions of these
+superstructures are not well understood. Here, we created mutant yeast strains
+unable to synthesize SUMO chains (smt3allR) and
+subjected them to high-content microscopic screening, synthetic genetic array
+(SGA) analysis, and high-density transcript profiling to perform the first
+global analysis of SUMO chain function. This comprehensive assessment identified
+144 proteins with altered localization or intensity in
+smt3allR cells, 149 synthetic genetic
+interactions, and 225 mRNA transcripts (primarily consisting of stress- and
+nutrient-response genes) that displayed a >1.5-fold increase in
+expression levels. This information-rich resource strongly implicates SUMO
+chains in the regulation of chromatin. Indeed, using several different
+approaches, we demonstrate that SUMO chains are required for the maintenance of
+normal higher-order chromatin structure and transcriptional repression of
+environmental stress response genes in budding yeast.
+
+pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyespmc-license-refCC BY-NC-SA
+
+## Complete image-based screen data
+
+https://doi.org/10.1083/jcb.201210019.dv
+
+## Introduction
+The small ubiquitin-related modifier (SUMO) system plays important roles in many
+diverse biological processes in all eukaryotes ( ; ). Like ubiquitin, SUMO modification is effected via covalent
+conjugation to an epsilon amine moiety of a lysine residue in a targeted protein,
+via the sequential action of SUMO-specific E1, E2, and E3 proteins. SUMO conjugation
+can be reversed by a family of SUMO-specific proteases ( ; ; ).
+The sole budding yeast SUMO protein is encoded by the essential SMT3
+gene. Invertebrates also express a single SUMO protein, whereas vertebrates and
+plants express multiple SUMO isoforms ( ; ).
+Systematic proteomics screens have identified >500 putative SUMO conjugates
+in budding yeast (among others, ; ;
+ ) and hundreds more
+in plants, insects, and mammals ( ; ; ). Ectopic
+expression of the human SUMO-1 protein rescues smt3 lethality
+( ), highlighting
+the usefulness of Saccharomyces cerevisiae as a model organism for
+assessing SUMO function in eukaryotes.
+The SUMO proteins interact with small hydrophobic domains referred to as
+SUMO-interacting motifs (SIMs). SIMs confer low affinity binding to SUMOs, often
+occur in tandem, and can confer specificity for particular SUMO isoforms ( ; ; ; ).
+Sumoylation thus represents a rapid and efficient way to regulate
+protein–protein interactions. SUMO–SIM interactions have been
+implicated in a variety of biological functions, including transcriptional control
+( ; ; ), DNA damage repair ( ; ; ), protein degradation ( ; ), and the assembly of DNA–protein superstructures such as PML
+( ;
+ ) and insulator
+bodies ( ; ).
+Notably, SUMO can be conjugated to proteins in a monomeric form, or as oligomeric
+SUMO “chain” structures. In budding yeast, SUMO–SUMO linkages
+are formed primarily via K15 ( ), although we and others have detected linkages at additional lysine
+residues in vitro ( ;
+ ). The best
+characterized function of SUMO chains is as a secondary degradation signal. The
+SUMO-targeted ubiquitin ligases (STUbLs) are an evolutionarily conserved family of
+ubiquitin E3 proteins that contain multiple SIMs. The STUbLs are thus recruited to
+polysumoylated proteins and effect their ubiquitylation, marking them for 26S
+proteasome-mediated destruction ( ). A few STUbL targets have been identified, including PML ( ; ), the HTLV-1 Tax protein
+( ), the
+Drosophila melanogaster transcriptional repressor Hairy ( ), and the budding yeast
+transcriptional regulator Mot1 ( ; ).
+Importantly, however, the biological functions of SUMO chains remain poorly
+characterized.
+Many studies have implicated the SUMO system in transcriptional regulation ( ; ). Transcription factors and
+coregulators, chromatin remodeling proteins, and histones are all modified by SUMO
+( ; ). Most studies have
+indicated that SUMO plays a negative regulatory role in transcription, and SUMOs can
+bind to SIMs in transcriptional co-repressors such as CoREST1 ( ) and Daxx, and other types of proteins
+that regulate chromatin structure, including histone methyltransferases (SETDB1,
+SUV4-2OH) and the chromatin remodeler Mi2 ( ; , ), possibly to effect
+local heterochromatization ( ; ;
+ ).
+Here, using a combination of high-content microscopic screening, functional genomics
+analysis, and high-density transcript profiling, we conducted the first global study
+of SUMO chain function. Using this data-rich resource, we implicate the SUMO system
+in the maintenance of transcriptional repression and higher-order chromatin
+structure.
+
+## Results
+
+## smt3allR strains exhibit chromosome segregation
+defects and replication-associated DNA damage
+To better understand the biological roles of SUMO chains, we generated haploid
+yeast strains in which the endogenous SUMO gene (SMT3) was
+replaced by an ORF in which all nine lysine codons were mutated to code for
+arginine (as in ).
+The resulting mutant SUMO “allR” polypeptide can thus be
+conjugated to other proteins as a monomer, but lacks the ability to form SUMO
+chains ( ). Although
+smt3 deletants arrest in G2/M with short spindles and
+replicated DNA ( ;
+ ; ), an earlier study
+demonstrated that smt3allR strains are viable and
+that the SUMO allR polypeptide is conjugated to the septin protein Cdc11 in vivo
+( ). SUMO
+function is thus at least partially fulfilled by the SUMO allR protein.
+Consistent with these data, we found that a recombinant SUMO allR protein is
+conjugated to a model substrate (a biotinylated 11-aa peptide containing the
+SUMO consensus sequence) in vitro as efficiently as the wild-type (WT) protein
+( ), which indicates that the
+K-to-R mutations do not appreciably affect the ability of this polypeptide to be
+recognized by the SUMO E1 or E2 proteins.
+ Several previous studies have demonstrated that steady-state sumoylation
+increases in response to stress ( ; ). To determine whether the smt3allR
+strain is able to respond to environmental stresses commonly encountered by
+yeast, we assessed its response to high ethanol (EtOH) concentrations. As
+expected, exposure of WT cells to 10% EtOH (for 1 h) led to a dramatic increase
+in high-molecular-weight SUMO conjugates ( ). Although smt3allR cells displayed a
+decrease in unconjugated (free) SUMO, only a very minor increase in
+high-molecular-weight SUMO conjugates in response to EtOH treatment was observed
+( ; the minor high molecular
+signal most likely reflects multi-monosumoylation of high-molecular-weight
+targets, or could represent, e.g., proteins that are both sumoylated and
+ubiquitylated in response to stress). In addition, here we tested two different
+smt3allR strains: one in which the
+C-terminal three amino acid extension of the SUMO protein was maintained in the
+coding region (pro-smt3allR) and a second in which
+this region was removed to express the mature SUMO polypeptide
+(smt3allR). No differences in division time
+(not depicted) or EtOH response were observed between the two strain types
+( ), which indicates that SUMO
+maturation activity is not limiting in these cells.
+The signal strength of the unconjugated SUMO allR protein in Western blot
+analysis was markedly lower than that observed for the endogenous WT SUMO
+protein ( ). However, when equal
+amounts of purified recombinant WT and allR SUMO polypeptides were subjected to
+SDS-PAGE and Coomassie blue staining ( , top) or Western blotting analysis ( , bottom), we found that the allR SUMO protein is simply not
+recognized as efficiently by the SUMO antibody (with this antibody, the allR
+protein yields <20% of the signal intensity of an equivalent amount of
+the WT SUMO protein). Indeed, quantification of SUMO signal intensity in
+parental and smt3allR yeast strains based on these
+data indicate that the SUMO allR protein is expressed at levels similar to (or
+even higher than) the endogenous SUMO protein (see Materials and methods for
+details).
+As expected ( ), under
+standard culture conditions the doubling time of
+smt3allR cells is increased ∼1.5-fold
+(180 ± 6.7 min) as compared with parental strains (119 ± 1.3 min;
+P < 0.01; ). FACS of SYTOX
+green–stained cells revealed a slight increase in a supra-G2 population,
+and an approximately twofold increase in cells with >2n DNA content
+( ) in the
+smt3allR cell population (P < 0.01).
+Consistent with observations in other SUMO pathway mutants ( ; ), DAPI staining revealed
+chromosome segregation defects in a subset of the
+smt3allR population (∼40% of large budded
+cells; and Fig. S1
+A). A lack of SUMO chain synthesis thus appears to negatively
+affect the efficient segregation of chromosomes, which in turn leads to an
+increase in population ploidy.
+ Consistent with a role for SUMO chains in DNA replication,
+smt3allR cells also displayed
+hypersensitivity to the ribonucleotide reductase inhibitor hydroxyurea (HU) and
+the alkylating agent methyl methanesulfonate (MMS), but did not exhibit
+increased sensitivity to DNA damage induced by zeocin or 4-nitroquinoline
+1-oxide (4NQO; and Fig. S1 B),
+and did not display increased sensitivity to high or low temperatures, or
+protein-damaging agents ( and
+Fig. S1, B and C).
+Strikingly, untreated smt3allR strains displayed a
+>10-fold increase in the number of steady-state DNA damage foci, as
+visualized via RAD52-GFP, DDC1-GFP, and RFA1-GFP (parental strain average for
+all markers = 1.51 ± 0.63 foci/field;
+smt3allR average = 17.1 ± 2.93
+foci/field; ). To further explore
+the role of SUMO chains in replication-associated DNA damage, we crossed the
+smt3allR strain with 384 yeast strains
+expressing GFP-tagged proteins ( ) previously linked to the DNA damage response ( ). Live cells were
+imaged using automated high-throughput confocal microscopy ( ) and the resulting
+images were examined for differences in localization and signal intensity in the
+SUMO chain mutant ( and
+Table
+S1). This high content screen (HCS) highlighted changes in
+localization and/or intensity in smt3allR cells for
+144 proteins, most of which are involved in DNA replication, segregation, or
+repair processes ( and Table
+S1). These data are consistent with several earlier publications linking the
+SUMO system to replication stress ( ; ), yet significantly expand the repertoire of DNA
+damage–associated proteins demonstrated to be affected in response to
+SUMO system defects. Most importantly, these data for the first time also
+specifically implicate SUMO chains in this function.
+ SMT3 was first characterized as a high-copy suppressor of
+mif2, a kinetochore protein required for structural
+integrity of the mitotic spindle ( ; ). Chromosomal passenger complex protein localization is
+also regulated by the SUMO system, to mediate spindle disassembly ( ). Consistent
+with a role for SUMO chains in mitotic spindle dynamics, the HCS highlighted
+mislocalization of several additional proteins (4 of 11 proteins in the screen)
+involved in spindle function ( 
+and Fig.
+S2).
+Also of note, although a majority of cells fell within the normal size range, a
+subpopulation of smt3allR cells exhibited
+significant increases in volume (P < 0.001; ). The proportion of cells with a volume
+>80 fl (more than two standard deviations from the mean) was 11 ±
+4% for parental strains and 30 ± 6% for
+smt3allR strains. Both large and normal sized
+smt3allR cells successfully produced
+colonies, and gave rise to a mix of normal and large cells in similar
+proportions (unpublished data), which indicates that the large cell phenotype is
+neither terminal nor heritable. The size increase thus likely reflects a cell
+cycle delay caused by an increased DNA repair load and chromosome segregation
+defects.
+
+## smt3allR cells display characteristics of an
+activated environmental stress response
+The HCS also highlighted several GFP-tagged vacuolar proteins with clear changes
+in localization in smt3allR cells; e.g., VPS1-GFP
+and VPS41-GFP displayed more numerous puncta than parental cells (Fig. S2).
+Multiple mitochondrial markers (e.g., MDM12-GFP and POR1-GFP) also displayed
+markedly increased signal intensity in the smt3allR
+strains (Fig. S2). Consistent with these data, electron micrographs revealed a
+large subset of smt3allR cells with fragmented
+vacuoles, increased mitochondrial volume, and thicker cell walls than parental
+strains ( and Fig. S3
+A). These defects were unexpected and were investigated
+further.
+ Signal intensities for a GFP bearing a mitochondrial targeting sequence ( ) and
+Mitotracker red, a thiol-reactive dye that accumulates in active mitochondria,
+were strikingly enhanced in cells defective for SUMO chain synthesis ( ).
+smt3allR cells also exhibited a significant
+increase (more than fourfold; P < 0.01) in basal oxygen consumption rates
+( ), even when maintained in
+glucose-containing culture media (a condition in which glycolysis is the
+preferred mode of energy production). smt3allR cells
+thus maintain abnormally high levels of mitochondria that are metabolically
+active even in the presence of glucose.
+Vacuolar fragmentation is observed in cells in a hypertonic environment ( ). Glycerol is the
+primary osmoprotectant in S. cerevisiae, and is synthesized in
+response to hyperosmotic conditions to maintain cell turgor ( ).
+smt3allR cells grown in isosmotic media
+displayed highly fragmented vacuoles and a more than twofold increase (P
+< 0.01) in intracellular glycerol concentrations, as compared with
+parental strains (Fig. S3, B and C). These data suggest that SUMO chain mutants
+are also subject to chronic osmotic stress or exhibit aberrant osmotic stress
+signaling.
+Together, our data reveal that disruption of SUMO chain assembly gives rise to a
+pleiotropic cell population exhibiting several different physiological defects.
+We did not observe any clear correlation between, e.g., ploidy and the number of
+DNA damage foci or mitochondrial mass, which suggests that these phenotypes are
+largely independent of one another.
+Replication-associated DNA damage is observed in other types of SUMO system
+mutants ( ; ), and our analysis
+implicates SUMO chains in this process. However, we also observed phenotypic
+characteristics in smt3allR cells that have not
+previously been described for other types of SUMO mutants. Many of these traits
+are reminiscent of an inappropriately activated response to environmental stress
+or nutrient-poor media conditions.
+
+## The smt3allR phenotype is caused by a lack of
+SUMO chains
+To confirm that the smt3allR phenotype is caused by a
+lack of SUMO chains, and not to secondary mutations that could arise in such
+mutants, we transformed plasmids coding for galactose-inducible WT or allR SUMO
+proteins into parental and smt3allR strains, and
+assessed their effects on doubling time, ploidy, and vacuolar morphology.
+Additional SUMO allR protein expression in the
+smt3allR strain (induced for 16 h) had no
+apparent effect on cycling time (188 ± 6 min), ploidy, or vacuole size
+and number ( ; and Fig. S3
+D). Similarly, overexpression of the WT SUMO protein in parental strains had no
+discernible effect on these phenotypic features ( ; and Fig. S3 D). However, overexpression of the SUMO
+allR protein in parental (WT) strains led to a significant increase in doubling
+time (177 ± 8 min, P < 0.001; ), an increase in the number of cells with >2n DNA ploidy
+( ), and an increase in
+vacuolar fragmentation (Fig. S3 D). Conversely, expression of the WT SUMO
+protein in smt3allR strains led to a decrease in
+doubling time (121 ± 2 min, P < 0.001), a decrease in the
+proportion of cells with >2n DNA ploidy, and a decrease in vacuolar
+fragmentation ( ; and Fig.
+S3 D). The smt3allR phenotype can thus be at least
+partially rescued by expression of a SUMO protein that can form chains, and
+overexpression of the SUMO allR protein in WT cells can effect changes in
+cycling time, ploidy, and vacuolar morphology even in the presence of the
+endogenous SUMO polypeptide. Together, these data indicate that the
+smt3allR phenotype is not caused by a
+limited supply of the SUMO protein for conjugation, or to secondary mutations in
+these strains, but is indeed caused by a lack of SUMO chains. These data also
+demonstrate that the SUMO allR protein can act in a dominant manner in the
+presence of the endogenous SUMO polypeptide, presumably by preventing SUMO chain
+formation.
+Previous studies have indicated that SUMO chains in vivo are linked primarily via
+N-terminal lysine residues (mostly through K15; ). To determine whether the
+smt3allR phenotype could be recapitulated by
+disrupting only the N-terminal lysine residues, we also expressed a SUMO 3KR
+mutant (in which only lysines 11, 15, and 19 are mutated to arginine residues)
+in WT cells. Division time and ploidy were indistinguishable from cells
+expressing the SUMO allR mutant (Fig.
+S4), which further suggests that the
+smt3allR phenotype is caused by the disruption
+of SUMO chains. In the remaining work presented here, we used
+smt3allR strains to avoid any possibility of
+SUMO chain synthesis via the use of alternative lysine residues (as we and
+others have observed in vitro; ; ;
+ ).
+
+## A SUMO chain genetic interaction network
+To identify cellular pathways that specifically compensate for disrupted SUMO
+chain synthesis, the smt3allR strain was subjected
+to synthetic genetic array (SGA) analysis, as in and . The
+smt3allR mutant was crossed with an ordered
+array of ∼4,700 viable yeast deletion mutants, and the resulting strains
+were scored for colony growth ( ). To avoid the possibility of false-positive interactions
+caused by secondary mutations in the SUMO chain mutant, SGA was conducted twice,
+using two different smt3allR strains (one expressing
+pro-SMT3allR and one expressing the mature
+SMT3allR polypeptide, as in ). 149 high-confidence synthetic
+genetic interactions were detected in both analyses (Table
+S2). The resultant SUMO chain genetic interaction network
+represents the first global genetic analysis of SUMO chain function in any
+organism. Gene ontology (GO) analysis (Table S2) highlighted significant
+enrichment in interactions with genes involved in DNA replication, DNA damage
+repair, chromatin remodeling, cell cycle control, stress responses, protein
+catabolism, nuclear transport, and meiosis.
+SGA correlation analysis (i.e., the comparison of genetic interaction maps) is
+useful for gaining insight into the function of a gene of interest, because
+genes that share similar patterns of genetic interactions are likely to share
+similar biological roles ( ). The smt3allR SGA profile was thus
+compared with SGA-derived genetic interaction profiles of 4,458 mutant strains
+available in the data repository of the yeast genetic interactions database
+(DRYGIN; ). 194 genes
+displayed a significant positive correlation with the
+smt3allR genetic interaction map ( , , and Table S2). Attesting to the robustness of this
+analysis, three of the four highest correlated genes were derived from
+components of the SUMO system itself: ubc9
+(ubc9-2), mms21
+(mms21-sp), and smt3 (smt3-damp; decreased
+abundance by mRNA perturbation; ). ulp1 was also a top-scoring hit
+(ulp1-333). Likely reflecting a role in a subset of SUMO
+functions, siz2 (nfi1) displayed a
+significant, but lower, overlap with the smt3allR
+interaction profile. Consistent with STUbL-mediated degradation as a major
+function for SUMO chains, the second most highly correlated genetic interaction
+map in our screen was slx8. The gene coding for its binding
+partner slx5 was also a top-scoring hit.
+ As expected, ubiquitin-proteasome system (UPS) components were also highlighted
+in this analysis; the UPS works with Slx5-Slx8 to effect SUMO-targeted protein
+degradation. We also observed overlap with the cdc48 (p97) SGA
+map. This protein was recently reported to work with the Slx5-Slx8 proteins to
+mediate genome stability ( ). Another set of highly correlated genes corresponded to nuclear
+pore complex (NPC) components and karyopherins (nup60,
+nup133, nup145-R4, nup84,
+and srp1-damp). This is also not unexpected, as strains with a
+loss of function in any of these genes display aberrant Ulp1 localization, which
+directly impacts SUMO system function ( ; ).
+Consistent with the smt3allR phenotype, several
+proteins involved in DNA replication and repair shared significant similarity
+with the smt3allR genetic interaction profile,
+including several DNA polymerases, helicases, and exonucleases (e.g.,
+rad27, cdc2-1, pol32,
+pol12-ts, pol1-13, rrm3,
+etc.), and genes implicated in stalled replication fork stabilization (e.g.,
+tof1, mrc1, and csm3, and
+the MCM helicase complex: mcm3-1, cdc47-ts,
+and cdc46-1). Recent work has also demonstrated that the SUMO
+E3 ligase Mms21, as part of the Smc5-6 complex, plays a critical role in
+resolving recombination intermediates at damaged DNA templates ( ; ). Smc5-6 mutants
+undergo aberrant mitosis, in which chromosome segregation of repetitive regions
+is impaired ( ). A failure to resolve this type of DNA damage can lead to
+chromosomal rearrangements and increased ploidy. Indeed, multiple components of
+the Smc5-Smc6 complex (mms21-1, nse3-ts4,
+nse4-ts2, kre29-ts2, etc.) were highly
+correlated in our analysis. Also as observed in our HCS, genetic interaction
+maps for esc2, sgs1, mus84,
+and mms1, all of which play an important role in resolving
+homologous recombination repair DNA intermediates in response to replication
+stress ( ; ; ), were highly correlated with
+the smt3allR interaction map.
+Notably, SGA correlation analysis also highlighted similarity between
+smt3allR and several proteins involved in
+chromatin organization and remodeling. For example, significant correlations
+were observed with the histone chaperone asf1, several
+components of chromatin assembly factor-1 (CAF-1; cac2,
+rlf2, and msi1), the histone
+acetyltransferase rtt109, the histone H2A.Z exchange complex
+SWR1 (swr1, vps71, arp6,
+swc4-4, etc.), histone deletants (hta1,
+htz1, hhf1), and spt21
+(required for proper histone gene transcription).
+Interestingly, we also observed similarity with genes implicated in mitochondrial
+function (e.g. mrh4, msw1, and
+mrp49) and osmotic stress signaling (ssk2
+and pbs2). Consistent with our HCS data and several previous
+publications linking the SUMO system to spindle function ( ; ; ), SGA correlation
+analysis also highlighted several spindle and kinetochore genes (e.g.,
+bub3, spc105-15, lte1, kar3,
+clk1, stu2-11, and
+stu2-12).
+In sum, our genetic data implicate SUMO chains in several functions previously
+ascribed to the SUMO system, such as resolving DNA replication–associated
+repair structures, but also link them to some previously unsuspected biological
+roles, such as osmoregulation and higher order chromatin structure.
+
+## Derepression of stress- and nutrient-regulated gene transcription and
+aberrant transcription of cryptic intergenic regions in
+smt3allR strains
+High-resolution whole genome nucleotide tiling arrays (see Materials and methods
+for details) were next used to characterize the transcription profile of cells
+defective for SUMO chain synthesis (as in ). 36 genes were repressed and 225 mRNAs were expressed
+>1.5-fold higher in the smt3allR strain, as
+compared with parental cells ( 
+and Table
+S3). The up-regulated mRNAs consisted primarily of genes
+implicated in stress responses, nutrient adaptation, cell wall components,
+mitochondrial proteins, sporulation, and mating; i.e., genes that are normally
+repressed under standard laboratory culture conditions, where cells are
+maintained in media with optimal carbon and nitrogen sources, and at optimal
+growth temperature. Increased transcription of this gene set likely accounts for
+many aspects of the pleiotropic smt3allR phenotype.
+For example, several genes implicated in mitochondrial function (e.g.,
+STF1, ALD4, and CYC7) and
+cell wall integrity signaling (e.g., YGP1,
+KDX1, and PRM5) are up-regulated in this
+strain. These data suggest that SUMO chains are likely to be involved indirectly
+in each of these biological functions, via transcriptional control.
+ We also observed a notable increase in transcription from silenced mating type
+and sporulation genes (e.g., MFA1, MFA2,
+RIM4, and PRM1), as well as several
+intergenic regions (Fig. S5
+A and Table S3); e.g., 47 cryptic unstable transcripts (CUTs)
+were expressed >1.5-fold higher in the
+smt3allR strain than in parental cells.
+Together, these data indicate that disruption of SUMO chain synthesis has a
+wide-ranging negative effect on the maintenance of transcriptional repression.
+(It should also be noted that, although overall changes in the expression of
+individual transcripts are not extremely large in these mutants, this number
+reflects a population average. Because the phenotypes of individual
+smt3allR cells are pleiotropic, we suspect
+that these averages reflect much larger changes in a smaller subpopulation of
+cells.)
+
+## SUMO chains are required to establish a basal transcription
+“setpoint” for stress-regulated genes
+The transcription of stress-response genes is rapidly increased in response to
+changes in the extracellular environment ( ). To explore the role of SUMO chains in the
+transcriptional stress response, we subjected parental and
+smt3allR cells to hyperosmotic culture
+conditions (1 M NaCl for 30 min), followed by a 120-min recovery in isosmotic
+media. Using real-time qRT-PCR, expression levels of four different mRNAs that
+are overexpressed in smt3allR cells, and which are
+up-regulated in response to osmotic shock (HSP12,
+SPS100, GRE1, and HUG1),
+were monitored. As expected, in parental cells all four of the genes in the test
+set displayed a rapid increase in mRNA levels in response to hyperosmotic shock
+( and Fig. S5 B). After a
+return to isosmotic media, a gradual decrease in mRNA abundance was observed,
+returning to pre-stress levels within 60–120 min ( and Fig. S5 B). Consistent with our tiling array
+data, this gene set was already expressed at higher levels in untreated
+smt3allR strains ( and Fig. S5 B). In response to osmotic shock, the
+four gene set was up-regulated to approximately the same expression levels (or
+slightly higher in some cases) as the parental strain, and removal of the stress
+resulted in a similar gradual decrease in mRNA abundance to near basal
+smt3allR transcript levels ( and Fig. S5 B). Identical results
+were observed in cells expressing the 3KR SUMO protein (Fig. S4 C). A deficiency
+in SUMO chain function does not therefore appear to significantly affect the
+activation kinetics or maximal mRNA expression levels in response to stress, but
+instead influences the basal transcription setpoint of this highly regulated
+group of genes.
+ 
+
+## SUMO chain disruption affects multiple aspects of higher-order chromatin
+organization
+Aberrant mitotic chromosome condensation and segregation, transcriptional
+derepression of stress- and nutrient-regulated genes, and aberrant transcription
+from intergenic regions suggested that smt3allR
+strains could have a chromatin condensation defect. To this end, we subjected
+smt3allR and parental cells to several
+different assays of higher-order chromatin structure.
+ 
+
+## The lacO/lacR chromosome marker system.
+To begin to assess how a lack of SUMO chains impacts chromatin structure, we
+used a yeast strain bearing two lac operon repeat insertions on chromosome
+IV, separated by ∼450 kb (strain AVY89; ). When the lacR-GFP protein is
+bound to its cognate operon, confocal microscopy can be used to measure the
+distance between the two GFP foci ( ). Plasmids encoding the gal-inducible WT or allR SUMO
+proteins were transformed into this strain, cells were exposed to galactose
+to induce SUMO protein expression for 16 h, and cells were treated with
+α factor to synchronize them in G1. The distance between GFP signals
+was then quantified, as in . In cells expressing the WT SUMO protein, the two GFP foci
+were 1.19 ± 0.04 µm apart on average, the same as that
+observed in the untransformed parental strain ( ) and similar to measurements
+previously reported in other laboratory strains ( ). Notably, in the strain expressing
+the SUMO allR protein, the mean distance between the GFP-marked chromosome
+regions was significantly increased (1.45 ± 0.05; P < 0.01;
+ ). Inhibition of
+SUMO chain formation thus negatively affects chromosome IV compaction and/or
+organization.
+
+## Telomere clusters.
+The SUMO system was also previously linked to telomere silencing and
+localization ( ;
+ ; ). During
+interphase, budding yeast telomeres are clustered into 3–8 foci
+located near the inner nuclear membrane (INM; ). To determine if SUMO chains
+are important for proper telomere organization, we examined the localization
+of the telomere regulatory protein SIR2 in parental and
+smt3allR strains. As expected, in
+parental strains, SIR2-GFP was found in a small number of foci near the INM.
+However, smt3allR cells displayed an increased
+number of (generally smaller) SIR2-GFP foci, and many cells possessed an
+additional diffuse nuclear SIR2 signal ( ), which indicates widespread SIR2 mislocalization.
+
+## Nucleolar chromatin organization.
+The ribosomal DNA (rDNA) genes occur in a tandem array of ∼150 copies
+in budding yeast laboratory strains, comprising ∼1 Mb of chromosome
+XII ( ),
+and are organized into a compact structure localized near the INM, the
+nucleolus ( ).
+Transcription of rDNA is tightly controlled, and specialized silencing
+mechanisms are required to prevent homologous recombination between rDNA
+repeats and to maintain rDNA copy number ( ; ). The SUMO system plays an important (but poorly
+understood) role in these processes ( ; unpublished data). To better understand
+the role of SUMO chains in rDNA organization and maintenance, several
+different nucleolar markers were expressed and analyzed in parental and
+smt3allR cells. Notably, the NOP2-GFP
+protein exhibited a much more diffuse pattern in cycling
+smt3allR cells (Fig. S5 C), implicating
+SUMO chain function in the organization of nucleolar DNA. To confirm and
+extend this result, NOP58-GFP–, NOP13-GFP–, and
+NET1-GFP–expressing cells were arrested in S phase by HU treatment
+(0.2 M for 90 min) and released into nocodazole-containing medium (15
+µg/ml for 90 min) to synchronize them at the G2/M boundary, when
+budding yeast rDNA is partially compacted in preparation for mitosis ( ; ). The
+signal volume of NOP58-GFP and NOP13-GFP was much more variable in
+smt3allR cells as compared with parental
+strains ( ). Similarly,
+although the total NET1-GFP fluorescence signal intensity was equal in both
+strains, the signal volume was much more variable, and larger on average, in
+smt3allR cells (P < 0.0001; ). Together, these data
+indicate that nucleolar DNA organization is also altered in a budding yeast
+mutant unable to synthesize SUMO chains.
+Previous work has demonstrated that a loss of rDNA repeat organization or
+localization can lead to changes in rDNA copy number ( ; ). Using quantitative PCR (qPCR), we
+found that the rDNA repeat number is significantly increased in
+smt3allR cells, as compared with their
+parental counterparts ( ).
+Similar to chromosome IV and telomeres, rDNA compaction and/or organization
+(as judged by several different GFP markers and quantitation of rDNA repeat
+number) is thus also compromised when SUMO chain function is disrupted.
+ 
+
+## Discussion
+Many transcription factors, coregulators, and chromatin remodeling proteins are SUMO
+targets (for review see ), and
+sumoylation of chromatin remodelers in yeast and mammalian cells has been suggested
+to be required for the formation of a local heterochromatin-like state on some
+promoters ( ). A recent
+study indicated that Ubc9 inactivation in S. cerevisiae leads to
+increased transcription at the inducible ARG1 gene and impaired the
+ability of these cells to inactivate ARG1 transcription after
+removal of the activation signal ( ). SUMO has also been reported to be enriched in heterochromatic DNA
+regions ( ), and
+sumoylation of the ubiquitous transcription factor Sp3 has been linked to local
+heterochromatinization ( ), whereas expression of an unsumoylatable Sp3 protein leads to
+derepression of several tissue-specific genes in mammalian cells ( ). Here, we find that
+disruption of SUMO chains in yeast negatively affects higher-order chromatin
+organization and the maintenance of transcriptional repression. We propose that a
+general, widespread defect in chromatin packaging (as reflected by increased
+distances between two chromosomal markers, disorganized telomere clustering, and
+altered nucleolar rDNA organization) leads to transcriptional derepression
+throughout the genome. In this way, SUMO chains appear to play an important role in
+establishing a basal transcription setpoint. Our data also indicate that SUMO chains
+are not required for stress-regulated transcriptional activation. However, the
+precise role of SUMO chains in transcriptional inactivation is not yet clear:
+although SUMO chains are clearly required to maintain transcriptional repression in
+yeast, they do not seem to be required for at least a partial inactivation of
+transcription after stress ( ).
+Additional exploration of the role of SUMO chains in transcriptional inactivation
+may shed further light on these findings.
+The SUMO system has also been implicated in DNA replication and DNA damage repair
+( ; ). Our data specifically
+implicate SUMO chains in DNA replication–associated DNA damage. How might
+this damage occur in smt3allR cells? DNA lesions can
+block the progress of DNA replication forks. Although replication can restart via
+repriming downstream of the damaged area ( ), the repriming process generates a single-stranded gap
+near the lesion ( ).
+To fill these gaps, the template switch (TS) pathway may be used. TS utilizes
+undamaged DNA on the sister chromosome via a mechanism that shares similarities with
+homologous recombination ( ; ).
+The TS process gives rise to X-shaped DNA intermediates, with biochemical properties
+similar to pseudodouble Holliday junctions (for review see ). A failure to resolve these structures can lead
+to DNA damage and chromosomal rearrangements. The RecQ helicase Sgs1 (the budding
+yeast orthologue of the human BLM protein) is required for resolution of these
+structures ( ; ), and the ability of
+Sgs1 to promote their dissolution is regulated by the SUMO pathway ( ). Recent work has also
+demonstrated that the Smc5-6 complex, Esc2, and the Mms4-Mus81 complex (all of which
+were detected in our SGA and HCS analyses) play important roles in resolving these
+recombination intermediates on damaged DNA templates ( ; ). Mutant smc5-6 and smc6-9
+cells are sensitive to MMS treatment, and undergo aberrant mitosis in which
+chromosome segregation of repetitive regions is impaired ( ). Consistent with these data, the
+SUMO mutant strain smt3-331 was isolated in a high-content screen
+for cells unable to properly segregate GFP-labeled chromosomes ( ). Our
+smt3allR mutant shares several similarities with
+this group of strains, implicating SUMO chains in the same processes.
+It is important to note that the SUMO proteins may be regulated by posttranslational
+modifications such as phosphorylation, acetylation, and ubiquitylation ( ; ). However, acetylation of lysine
+residues in the human SUMO proteins inhibits (or has no effect on) SUMO–SIM
+interactions, and K-to-R mutations at acetylation sites do not affect their activity
+in transcriptional repression and protein binding assays ( ). As reported here, the 3KR yeast SUMO
+mutant has the same effect as the allR SUMO protein in assays of division time,
+ploidy, and mRNA expression levels. K-to-R mutations are thus not likely to
+significantly disrupt SUMO function, other than to abrogate chain synthesis.
+Nevertheless, because we do not completely understand how the yeast SUMO protein may
+be posttranslationally modified, we cannot rule out this possibility.
+Finally, our data also have clear implications for human disease. For example, a SUMO
+chain deficit could render cells more susceptible to chemotherapeutic agents because
+of a heavier DNA damage load and increased chromosome missegregation. Indeed,
+although the molecular details of this phenomenon are not yet understood, a recent
+study linked SUMO E1 mutations to improved outcome in some (Myc
+mutation–associated) breast cancers ( ). Combined with our observations, these data
+suggest that targeting of the SUMO system (and in particular SUMO chain synthesis)
+could have therapeutic value.
+
+## Materials and methods
+
+## Yeast strains and plasmids
+S. cerevisiae strains used in this study were derivatives of the
+BY4741/2 haploid cells, unless otherwise specified, and are listed in Table
+S4. All yeast genetic manipulations were performed according to
+established procedures. Unless otherwise noted, yeast strains were grown at
+30°C to mid-logarithmic phase in YPD or selective minimal (SM) media
+supplemented with appropriate nutrients and 2% glucose. Transformations were
+performed as described previously ( ). The AVY89 strain was kindly provided by D.J. Clarke
+(University of Minnesota Medical School, Minneapolis, MN).
+
+## Construction of smt3allR strains
+Multistep PCR was used to generate a product containing the NatMX cassette from
+p4339, 207 bp of the Smt3 5′ UTR from genomic DNA, the
+smt3allR coding DNA sequence from , and 273 bp of the
+Smt3 3′ UTR from genomic DNA. The resulting product was used to transform
+yeast strains as in . See Table
+S5 for primers.
+
+## Whole cell lysate preparation, affinity purification, SDS-PAGE, and Western
+blotting
+Whole cell lysates were prepared by alkaline lysis and trichloroacetic acid
+protein precipitation of cell pellets derived from 10-ml cultures. Protein
+pellets were resuspended in SDS-PAGE sample buffer, sonicated for 10 s, and
+incubated at 90°C for 5 min before SDS-PAGE. Proteins were transferred to
+a nitrocellulose membrane (Pall) and probed with HA.11 (Covance), anti-Smt3
+(Covance), or anti-actin (EMD Millipore). Proteins were visualized with
+secondary HRP-conjugated anti–mouse or anti–rabbit antibodies
+(Bio-Rad Laboratories) and ECL (Immuno-Star HRP; Bio-Rad Laboratories).
+
+## Recombinant protein purification and quantification
+pGEX-6P-1-SMT3 or pGEX-6P-1-smt3allR, encoding an N-terminal GST
+moiety fused to the SMT3 or
+smt3allR coding regions (1–294), was
+constructed using standard cloning techniques, and verified by DNA sequencing.
+The pGEX-6P-1-SUMO proteins were expressed in BL21 Escherichia
+coli induced with 2 mM isopropyl-β-D-1-thiogalactopyranoside
+at 16°C for 16 h. Proteins were purified using MagneGST glutathione
+particles (Promega), according to manufacturer’s instructions. WT and
+allR SUMO proteins were cleaved free of the GST moiety using a 4% PreScission
+Protease solution (GE Healthcare) at 4°C for 16 h. Proteins were assessed
+for purity using SDS-PAGE and quantified with a Bradford assay.
+Coomassie-stained SDS-PAGE gels were digitized using a scanner (Epson), and
+intensity measurements on individual bands were made on the digitized images
+using Photoshop CS4 (Adobe) software.
+
+## In vitro sumoylation
+Assays were performed with 150 ng of E1 (AOS1/UBA2), 1 µg of E2 (UBC9), 2
+µl of 10× sumoylation reaction buffer (200 mM Hepes, pH 7.5, 50 mM
+MgCl2, and 20 mM ATP), 1 µg of SUMO, and 250 ng of
+biotinylated substrate (all proteins from Boston Biochem). The reaction mixture
+was incubated at 30°C for 2 h, then quenched with SDS-PAGE sample buffer.
+Reactions were analyzed by SDS-PAGE followed by Western blotting using
+streptavidin-conjugated HRP (Bio-Rad Laboratories). After transfer to a
+nitrocellulose membrane (Pall), proteins were visualized using a 2% solution of
+Ponceau S in 1% acetic acid.
+
+## Electron microscopy
+Samples were prepared as in , and visualized on a transmission electron microscope (H-7000;
+Hitachi). In brief, cells were fixed with 4% glutaraldehyde at room temperature
+for 5 min. Cells were washed and secondary fixed with 2% potassium permanganate
+at room temperature for 5 min. Cells were then washed and overlayed with 1%
+uranyl acetate for 1 h at room temperature. Cells were then dehydrated by
+incubating in increasing amounts of ethanol over an 8-h period. Next, cells were
+infiltrated in Spurr’s resin and samples were polymerized in embedding
+mold at 60°C for 48 h. 90-nm-thin sections were mounted on 200 mesh
+copper grids and stained with lead citrate for 5 min before observation with the
+transmission electron microscope (H7000) at 75 kV. Images were captured in TIF
+format.
+
+## Oxygen consumption rate measurements
+Cultures were grown overnight (O/N) in YPD media and diluted in the morning to
+OD600 0.1 in fresh YPD media. 1 ml of OD600 0.3
+culture was collected, washed twice with 50 mM potassium phosphate buffer, pH
+6.8, and resuspended to OD600 0.3. Resuspended cells were used to
+seed XF96 plates (Seahorse Biosciences). Plates were centrifuged at 2,000 rpm
+for 2 min, then allowed to rest for 30 min at 30°C. The Seahorse sensor
+cartridge was rehydrated O/N as per the manufacturer’s instructions. XF96
+culture plates and sensor cartridge were mated and placed in a Seahorse
+instrument, set to maintain temperature at 30°C. An initial wait time of
+20 min was added to allow equilibration of the culture to instrument conditions.
+After 1 min of mixing, a 1-min wait time was also included to allow for cell
+settling, before measuring for 2 min. Three measurements were taken for the
+basal reading, before the addition of azide to a final concentration of 0.05% in
+media. Three additional readings were then taken. The mean of the three readings
+across the 2-min span was calculated for each well. Six wells were used for each
+strain.
+
+## High-content microscopic screen
+An array consisting of 384 strains (Table S3) from the yeast GFP collection
+( ) expressing
+proteins previously demonstrated to display altered localization or intensity in
+response to replication stress ( ) was constructed and crossed with the
+smt3allR mutant
+(smt3allR::NatMX NUP49-mCherry::URA3 or
+pro-smt3allR::NatMX NUP49-mCherry::URA3) using SGA
+( ) to yield 384
+GFP-ORF strains bearing the smt3allR allele. GFP
+protein localization and relative steady-state abundance for each strain in the
+WT and smt3allR mutants were determined essentially
+as described in . In
+brief, cultures were grown to mid-log phase in low-fluorescence medium and
+transferred to 384-well slides at a final density of 0.045 OD600/ml.
+Four images per well in the green and red channels (800 ms exposure) were
+simultaneously acquired, imaged using a high-throughput confocal microscope
+system (EVOTEC Opera; PerkinElmer) with quad-band dichroic filter
+(405/488/561/653). The images were blinded and scored manually for localization
+and relative abundance changes versus the WT GFP-ORF ( ). A brief description was recorded for
+each protein undergoing a change in the smt3allR or
+pro-smt3allR strains.
+
+## Confocal microscopy
+Mid-log phase cells were collected from 1-ml cultures, washed in brief in
+H2O containing 2% glucose, and mounted on a glass slide. Cells
+were imaged at room temperature using a 100×/1.40 NA Plan-Apochromat lens
+on an inverted microscope (IX80; Olympus) fitted with a spinning disk confocal
+scanner unit (Yokogawa CSU10; Quorum Technologies, Inc.) and a 512 × 512
+EM charge-coupled device (CCD) camera (Hamamatsu Photonics). Diode lasers at 561
+nm (RFP), 491 nm (GFP), and 405 nm (DAPI) were used for excitation combined with
+the following filter sets: 500/20 nm, 430/10 nm, and 555/28 nm. The system was
+controlled with Volocity 5.5 software (PerkinElmer). The CCD camera was operated
+at maximum resolution. Exposure times, gain, and sensitivity varied by protein;
+however, the same settings were used in WT and
+smt3allR strains. Settings were maintained for
+all subsequent images of the same strain. Cropping and gamma adjustments of
+images were performed using Volocity (image export) and Photoshop CS4.
+For experiments requiring fluorescent labeling of vacuoles, FM4-64 was added to
+culture media to a concentration of 20 µM and incubated at 30°C
+for 30 min. Cultures were washed twice with media, then resuspended in fresh
+media and allowed to grow for another hour before imaging. To achieve hypertonic
+shock, cells were treated with 0.4 M NaCl for 10 min before imaging. To achieve
+hypotonic shock, cells were treated with 20 mM MES for 10 min before imaging.
+Nine z stacks 0.4 µm apart were acquired. Exposure time, sensitivity,
+gain, laser power, and binning were kept constant between all strains.
+For fluorescent mitochondrial labeling, the plasmid pVT100U-mtGFP ( ) was
+transformed into strains using electroporation. Strains were grown O/N, diluted
+to an OD600 of 0.2, and allowed to grow for 3 h. 0.1 µM
+MitoTracker red CMXRos (Invitrogen) and 7.5 µg/ml DAPI (Biotium, Inc.)
+were added to the culture media and incubated at 30°C for 2 h. Cells were
+then washed once with 1 M sorbitol, resuspended in 0.5 ml of 1 M sorbitol with
+30 µl of 37% formaldehyde, and left on the benchtop for 5 min with
+occasional vortexing. Cells were then pelleted and resuspended in 50 mM Tris, pH
+7.4, and stored at 4°C until they were imaged. Nine z stacks 0.4
+µm apart were acquired. Exposure time, sensitivity, gain, laser power,
+and binning were kept constant between all strains.
+For nucleolar/rDNA condensation experiments, cells were grown O/N in CSM
+His‒ media with 2% glucose at 26°C. The next morning, 1 ml of
+OD600 0.3 cells were collected and resuspended in YPD containing
+0.2 M HU for 90 min at 30°C. Cells were washed three times with water and
+resuspended in YPD containing 15 µg/µl nocodazole for 90 min at
+30°C. Cells were then washed once with 1 M sorbitol and resuspended in
+0.5 mL of 1 M sorbitol. Formaldehyde was added to 2% (final) and cells were
+incubated at room temperature for 5 min, with gentle vortexing every 30 s. Cells
+were then pelleted and resuspended in 50 mM Tris, pH 7.4, and stored at
+4°C until they were imaged. Nine z stacks 0.4 µm apart were
+acquired. Exposure time, sensitivity, gain, laser power, and binning were kept
+constant between all strains. Volocity software was used to automatically
+identify cells using brightfield at 8% threshold cutoff (also a cutoff of
+>2 µm3). Within objects identified as a cell, the
+fluorescence intensity in the GFP channel was measured within 2 SD of the mean,
+and the volume occupied by this fluorescence signal was computed. The
+Mann-Whitney test was used to compare means of fluorescence volumes. To
+represent data graphically, volumes were binned and shown as a percentage of the
+population.
+
+## Flow cytometry analysis
+Approximately 107 mid-log phase cells were resuspended in 70% EtOH for
+fixation. Flow cytometry analysis was performed with a flow cytometer
+(FACSCalibur; BD) and CellQuest Pro software (BD). DNA was stained using the
+fluorescent dye Sytox green (Invitrogen) at a 1:5,000 dilution. Data were
+analyzed using a free version of Cyflogic (CyFlo Ltd.).
+
+## Cellular glycerol levels
+To determine total glycerol content, a 1-ml aliquot of YPD grown cells
+(OD600 = 0.6) was collected by centrifugation, washed
+twice with water, and resuspended in 0.5 ml of 100 mM Tris, pH 7.4. Samples were
+boiled for 10 min and centrifuged at 16,000 g for 15 min
+(4°C), and 10 µl of the supernatants were assayed for glycerol
+content. Glycerol concentration was determined colorimetrically with a
+commercial kit (EnzyChrom Glycerol Assay kit, EGLY-200; BioAssay Systems),
+according to the manufacturer’s instructions.
+
+## SGA analysis/SGA correlation analysis
+SGA and correlation analyses were conducted as in and . In brief,
+smt3allR query strains were crossed with
+3,885 nonessential deletion mutants to generate double mutants via several
+selection steps. The fitness of double mutants was evaluated by measuring colony
+size in an automated fashion (see for details). Genetic interaction profile similarities
+were measured for all query and array gene pairs by computing Pearson
+correlation coefficients (PCC) for the complete genetic interaction matrix in
+ and the SGA
+with the smt3allR. SGA was conducted using two
+different clones of the smt3allR mutant (one
+expressing the pro-SUMO protein and one expressing the mature SUMO polypeptide)
+in the Y7092 SGA parental strain. Genes identified to be synthetic sick in both
+screens were considered to be true positives.
+
+## Transcriptome analysis
+WT and smt3allR strains were grown to mid-log phase
+in YPD media. Samples were centrifuged and snap-frozen. Total RNA and
+single-stranded cDNA were prepared according to , except that actinomycin D was added
+to a final concentration of 6 µg/ml during cDNA synthesis to prevent
+antisense artifacts ( ). In brief, RNA was extracted with hot phenol from mid-log phase
+cultures, and total RNA was treated for 10 min at 37°C with RNase-free
+DNaseI, repurified using the RNeasy Mini kit (QIAGEN) and eluted with 1×
+Tris-EDTA buffer, pH 8.0. Single-stranded cDNA was synthesized in 200-µl
+reactions containing 0.25 µg/µl total RNA, 12.5 ng/µl
+random primers, 12.5 ng/µl oligo(dT)12-18 primer, 15 units/µl
+SuperScript II (Invitrogen), 1× first strand buffer, 10 mM DTT, 6
+ng/µl actinomycin D, and 10 mM dNTP. After cDNA synthesis, RNA was
+degraded with 1/3 volume of 1 M NaOH incubated for 30 min, and an addition of
+1/3 volume of 1 M HCl was used to neutralize the solution before cleanup with
+the MinElute Reaction Cleanup kit (QIAGEN). cDNA was fragmented with 2.1
+units/µl DNaseI and labeled in 50 µl reactions containing 0.3 mM
+GeneChip DNA labeling reagent, 1× terminal transfer reaction buffer, and
+2 µl of terminal deoxynucleotidyl transferase (Promega) for 60 min at
+37°C. Labeled cDNA was hybridized to arrays for 16 h at 45°C. Raw
+data from Affymetrix GCOS software (.CEL format) was analyzed with Affymetrix
+Tiling Analysis software (TAS; http://www.affymetrix.com/partners_programs/programs/developer/TilingArrayTools/index.affx).
+Expression levels were mapped to the chromosomal map from the
+Saccharomyces Genome Database and are available for
+download as supplemental .bar files.
+
+## qRT-PCR
+Strains were grown O/N, diluted to OD600 0.2, and grown to 0.6.
+Cultures were shocked with 1 M NaCl for 30 min, then allowed to recover in fresh
+YPD media for 120 min. 5-ml culture aliquots were collected at the indicated
+time points and snap-frozen. The MasterPure Yeast RNA Purification kit
+(Epicenter) was used according to manufacturer’s instructions to prepare
+purified RNA. RNA quality (RIN) was analyzed using an Agilent 2100 Bioanalyzer
+and RNA quantity was estimated with a spectrophotometer (Nanodrop 1000; Thermo
+Fisher Scientific). qRT-PCR primers were designed using the cDNA for each
+desired target with qPCR settings in Primer3Plus (see Table S5; ). 40 ng of
+template RNA and 50 nM of each primer were used with the Power SYBR green
+RNA-to-CT 1-Step kit (Applied Biosystems) in 20-µl reactions, as per the
+manufacturer’s instructions, on a qPCR system (Mx3000P; Stratagene). Act1
+was used as a control for ΔΔCt-based relative quantification
+( ).
+
+## qPCR
+Strains were grown O/N in YPD (200 µg/ml +cloNAT or 100
+µg/ml +G418 for mutants), diluted in the morning to
+OD600 of 0.2. Cultures were grown to OD600 0.8, and
+10-ml aliquots were snap-frozen. A MasterPure Yeast DNA Purification kit
+(Epicentre) was used to isolate genomic DNA according to the
+manufacturer’s instructions. Samples were incubated with DNase-free RNase
+for 2 h in TE before storing at −20°C. DNA was quantified with a
+spectrophotometer (Nanodrop 1000). A Power Sybr green PCR kit was used in
+20-µl reactions containing 1 ng of DNA and 50 nM of each primer, as per
+the manufacturer’s instructions, on a qPCR system (Mx3000P). Primers were
+as follows: rDNA-F, 5′-TACTGCGAAAGCATTTGCCAAGGACG-3′; rDNA-R,
+5′-TCCCCCCAGAACCCAAAGACTTTGAT-3′; act1-F,
+5′-CTTTCAACGTTCCAGCCTTC-3′; and act1-R,
+5′-CCAGCGTAAATTGGAACGAC-3′.
+
+## Online supplemental material
+Fig. S1 shows data indicating that the smt3allR
+strains exhibit markedly increased chromosome segregation defects, and
+additional spot assays. Fig. S2 contains representative images from the HCS
+showing mislocalized spindle proteins, and highlights characteristics of an
+environmental stress response in SUMO mutant strains. Fig. S3 contains
+additional EM images, as well as measurements on internal glycerol content and
+FM4-64 vacuole-stained images. Fig. S4 contains doubling time, FACS, and gene
+expression data for strains overexpressing an
+smt33KR protein. Fig. S5 displays a summarized
+image of microarray data for the smt3allR strain, an
+expression profile for the Gre1 mRNA during stress response, and representative
+images from the HCS for NOP2-GFP. Table S1 contains localization and intensity
+data from the HCS, as well as GO analysis. Table S2 contains all SGA and
+correlation analysis data, as well as GO analysis. Table S3 contains expression
+data for all ORFs and known CUTs. Table S4 contains details on strains used in
+this study. Table S5 lists the sequences of all primers used in this study. Two
+.bar files, containing expression level changes mapped to chromosome location,
+are available for download. Online supplemental material is available at
+http://www.jcb.org/cgi/content/full/jcb.201210019/DC1.
+Additional data are available in the JCB DataViewer at https://doi.org/10.1083/jcb.201210019.dv.
+
+We thank Yan Chen and Dr. Paul Fraser at the University of Toronto EM facility and
+Connie Danielsen for expert technical assistance, as well as A.-C. Gingras and the
+Raught laboratory for critical reading of the manuscript. We are also very grateful
+to D.J. Clarke for yeast strains.
+T. Srikumar was funded by a Canadian Institutes of Health Research student
+fellowship. Work in the G.W. Brown laboratory was supported by grant 020254 from the
+Canadian Cancer Society Research Institute. C. Boone and B.J. Andrews were supported
+by a grant from the National Institutes of Health (1R01HG005853-01) and by grants
+from the Canadian Institutes of Health Research (MOP-102629 and MOP-97939) and the
+Ontario Research Fund (GL2-01-22). B. Raught holds the Canada Research Chair in
+Proteomics and Molecular Medicine, and funding for work in the B. Raught laboratory
+was provided by Canadian Institutes of Health Research grant MOP81268.
+
+## Abbreviations used in this paper:
+CUTcryptic unstable transcript
+GOgene ontology
+HCShigh content screen
+HUhydroxyurea
+INMinner nuclear membrane
+MMSmethyl methanesulfonate
+O/Novernight
+qPCRquantitative PCR
+rDNAribosomal DNA
+SGAsynthetic genetic array
+SIMSUMO-interacting motif
+STUbLSUMO-targeted ubiquitin ligase
+SUMOsmall ubiquitin-related modifier
+TStemplate switch
+WTwild type

@@ -1,0 +1,1491 @@
+822acssdChemical ReviewsChem RevPMC1229120812291208122912084040414610.1021/acs.chemrev.5c00001Advancing Covalent
+Ligand and Drug Discovery beyond
+Cysteine
+KimGibae GramsR Justin HsuKu-Lung 
+†
+Department
+of Chemistry, University of Texas at Austin, Austin, Texas
+78712, United States
+*
+Ku-Lung
+Hsu; Phone: 512-232-2146; Email: ken.hsu@utexas.edu.
+22520251251466536653–66842872025© 2025 The Authors. Published by American Chemical SocietyThis article is licensed under CC-BY-NC-ND 4.0
+
+## Abstract
+Targeting intractable proteins remains a key challenge
+in drug
+discovery, as these proteins often lack well-defined binding pockets
+or possess shallow surfaces not readily addressed by traditional drug
+design. Covalent chemistry has emerged as a powerful solution for
+accessing protein sites in difficult to ligand regions. By leveraging
+activity-based protein profiling (ABPP) and LC-MS/MS technologies,
+academic groups and industry have identified cysteine-reactive ligands
+that enable selective targeting of challenging protein sites to modulate
+previously inaccessible biological pathways. Cysteines within a protein
+are rare, however, and developing covalent ligands that target additional
+residues hold great promise for further expanding the ligandable proteome.
+This review highlights recent advancements in targeting amino acids
+beyond cysteine binding with an emphasis on tyrosine- and lysine-directed
+covalent ligands and their applications in chemical biology and therapeutic
+development. We outline the process of developing covalent ligands
+using chemical proteomic methodology, highlighting recent successful
+examples and discuss considerations for future expansion to additional
+amino acid sites on proteins.
+
+ 
+ 
+statusreleaseddisplay-pdfyesis-in-collection-domainyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2025 Jan 1; Accepted 2025 Apr 22; Revised 2025 Mar 13; Collection date 2025 Jul 23.
+
+1.
+
+## Introduction
+Advancements in covalent
+drug discovery have alleviated the long-standing
+stigma that electrophilic compounds induce adverse drug events due
+to their promiscuous reactivity in living systems, thereby limiting
+their clinical applications.
+−
+
+ The recent FDA approval of Sotorasib
+(Amgen, 2021) underscores the utility of covalent chemistry for developing
+highly targeted therapies for historically intractable protein classes.
+Sotorasib incorporates a strategically placed acrylamide moiety within
+a KRAS-targeting scaffold, enabling it to react with the mutant cysteine
+residue and lock KRAS G12C in its inactive state by outcompeting GTP
+binding.
+,
+ Reversible KRAS inhibitors have proven ineffective
+due to the high intracellular concentrations of GTP and GDP (submillimolar
+range) and their strong affinities for KRAS (K
+
+d
+ ∼ 20 pM) under physiological conditions, which have historically rendered KRAS ″undruggable″.
+−
+
+ Covalent compounds, however, bridge this gap by targeting sites
+considered undruggable by reversible ligands, thereby addressing critical
+but challenging targets in medicinal chemistry and advancing precision
+medicine through amino acid-selective electrophiles that enhance target
+specificity.
+In addition, covalent compound selectivity can
+be globally evaluated
+and derisked using ABPP, which quantifies on- and off-target interactions
+across the proteome via chemoproteomics coupled with tandem liquid
+chromatography/mass spectrometry (LC-MS/MS).
+−
+
+ This proteome-wide assessment facilitates structure–activity
+relationship (SAR) studies for optimizing drug profiles and exploring
+novel or previously intractable targets using irreversible compounds.
+−
+
+ Furthermore, the identification of site of binding via chemoproteomics
+provides valuable insights for optimizing small molecules through in silico studies.
+−
+
+Numerous amino acid-selective electrophiles
+have been developed,
+including iodoacetamide (IA) for cysteines and fluorophosphonates
+for active-site serines.
+−
+
+ Cysteine has been extensively targeted for chemical probe and drug
+discovery due to its high nucleophilicity, localization in functional
+pockets and demonstrated ligandability with electrophilic ligands. Several cysteine-targeting covalent ligands
+have been translated into drugs with Sotorasib, an FDA-approved drug
+for solid tumors serving as a notable example.
+,
+ Ritlecitinib (Pfizer, 2023) serves as a notable example of a cysteine-targeting
+covalent drug for a nononcology indication. This novel therapeutic
+agent for alopecia areata exhibits exceptional selectivity for JAK3
+compared to other JAK isoforms.
+,
+ The high selectivity
+of Ritlecitinib is primarily due to its ability to form a covalent
+bond with C909, a residue uniquely present in JAK3.
+,
+ Interestingly, this cysteine residue is conserved across TEC family
+kinases, enabling Ritlecitinib to exert dual inhibitory effects on
+both JAK3 and TEC family members. This
+distinctive dual mechanism of action, combined with its irreversible
+binding properties, offers significant advantages in terms of selectivity,
+and therapeutic efficacy, particularly for alopecia areata treatment. Recognizing its potential, the FDA approved
+Ritlecitinib in 2023 for the treatment of severe alopecia areata in
+patients aged 12 years and older.
+,
+
+Efforts
+to expand electrophiles targeting amino acids beyond cysteine
+stem from the low abundance of this residue in protein (1.7% of amino
+acids in the human proteome). Probes
+targeting other nucleophilic amino acids such as tyrosine, lysine,
+histidine, serine, threonine, aspartic-, and glutamic-acid have been
+reported.
+−
+
+ Tyrosine is more abundant (3.2%) compared with cysteines and has
+recently been targeted by sulfone-based electrophiles, thus expanding
+the ligandable proteome.
+,
+ Lysine is also of high
+interest due to its abundance in human proteins (6.0%) and relatively
+low mutation rates compared to other residues.
+,
+ This highlights the potential of lysine-reactive chemistry to uncover
+new biological insights.
+In this review, we discuss both historical
+and recent advances
+(within the past 3 years) in covalent targeting of lysine and tyrosine
+residues in cellular proteomes using electrophilic small molecules.
+Methods involving the use of photo-, enzyme-, and transition metal-catalyzed
+modification are beyond the scope of this review and will not be covered.
+Instead, we direct readers to the following comprehensive reviews.
+−
+
+2.
+
+## Development of Novel Covalent Ligands
+2.1.
+
+## Rate Constants and Mechanism of the Bond Formation
+Enzyme inhibitors can function through either reversible or irreversible
+mechanisms, each characterized by distinct binding dynamics and reaction
+pathways ( ). Reversible noncovalent inhibitors suppress enzymatic
+activity by forming a transient enzyme–inhibitor complex [P
++ L] in a single-step reaction ( A). The end point of this interaction is defined by
+the equilibrium state, which reflects the balance between association
+and dissociation of the inhibitor. In contrast, irreversible inhibitors
+achieve complete enzymatic inactivation through covalent bond formation,
+rendering dissociation negligible ( B).
+ Unlike traditional fast-binding inhibitors, some
+inhibitors exhibit
+time-dependent or slow-binding behavior, where steady-state equilibrium
+or full inactivation occurs gradually.
+,
+ This phenomenon
+is particularly common among inhibitors employing covalent binding
+modes, as the formation of a covalent adduct is not an instantaneous
+process. For reversible covalent inhibitors, the binding process involves
+two distinct steps: an initial rapid interaction forms a noncovalent
+enzyme–inhibitor [P + L] complex, followed by a slower step
+in which a covalent [P – L] adduct is formed. Importantly,
+the covalent [P – L] adduct remains in equilibrium with the
+noncovalent [P + L] complex due to its reversible nature ( D). The steady-state
+inhibition constant captures this overall equilibrium. Optimization
+of reversible covalent inhibitors typically focuses on enhancing binding
+affinity by reducing dissociation rates, as slower off-rates and prolonged
+residence times are associated with improved therapeutic efficacy.
+−
+
+In contrast, irreversible inhibitors form covalent [P –
+L] adducts which do not revert to the starting materials. This irreversible
+mechanism alters how inhibitor potency is assessed, as kinetic parameters
+such as IC50 can vary depending on incubation time.
+,
+ Many irreversible inhibitors follow a two-step mechanism: an initial
+noncovalent interaction forms a [P + L] complex, which subsequently
+transitions into a covalent [P – L] adduct. The potency of
+such inhibitors depends on both their noncovalent binding affinity
+(K
+
+I
+) and the maximum
+rate of inactivation (k
+inact). The ratio k
+inact/K
+
+I
+ is widely regarded as the most reliable measure of potency
+for two-step irreversible inhibitors.
+−
+
+On the other hand,
+highly reactive compounds such as thiol-alkylating
+agents may bypass the noncovalent intermediate entirely and bind directly
+in a single step ( C).
+,
+ For one-step mechanism, parameter
+like k
+chem is used to evaluate potency
+and efficiency.
+
+The strategies
+for developing reversible and irreversible covalent
+inhibitors can differ substantially. For reversible covalent inhibitors,
+efforts focus on optimizing overall affinity and prolonging residence
+time to enhance therapeutic effects. On the other hand, designing
+irreversible covalent inhibitors requires balancing rapid covalent
+bond formation with minimizing off-target reactivity toward undesired
+proteins or endogenous nucleophiles such as glutathione (GSH). Clinically
+relevant ranges for k
+inact/K
+
+I
+ must account for factors such as the
+nucleophilicity of the targeted amino acid residue and competition
+from endogenous molecules.
+
+For
+instance, Sotorasib exhibited a k
+inact value of 6.24 × 10–3 s–1, and a K
+
+I
+ value of
+3.11 × 10–7 M, which is sufficient to develop
+as a drug.
+,
+ By understanding these distinct
+mechanisms and optimizing key parameters, researchers can tailor inhibitor
+designs to achieve desired therapeutic outcomes while minimizing adverse
+effects.
+
+2.2.
+
+## Covalent Ligand Discovery with LC-MS/MS
+ABPP coupled with LC-MS/MS is a powerful tool for developing broad-profiling
+probes and residue-directed covalent inhibitors. For example, competitive
+ABPP using cysteine-reactive covalent probes such as desthiobiotin-iodoacetamide
+(DBIA) and acrylamide-based ligands represent a well-established approach
+for covalent targeting of cysteines in the field. These probes incorporate either reporter tags directly
+or terminal alkynes that react with reporter-N3 reagents
+via click chemistry (Copper­(I)-catalyzed azide–alkyne cycloaddition
+or CuAAC) for detection and quantification of modified protein sites.
+
+Activity-based probes (ABPs) covalently
+bind a wide range of proteins and are utilized in ABPP ( ). This approach can monitor changes in protein binding activity under
+various activation stimuli. In drug discovery, competitive ABPP provides
+invaluable insights for medicinal chemists. First, it enables
+the evaluation of irreversible and reversible (under kinetically controlled
+conditions) ligand affinities for proteins of interest in lysates,
+cells and animals. Traditional drug discovery methods often
+rely on High-Throughput Screening (HTS) to identify ligands for protein
+targets; however, these approaches face significant limitations, including
+high cost, challenges in validating on- and off- target engagement
+of proteins in cells and the lack of assays to evaluate activity of
+target proteins without prior biological insights.
+−
+
+ Collectively,
+these aforementioned factors contribute to many proteins being classified
+as undruggable.
+,
+
+ In contrast, LC-MS/MS facilitates the identification
+of proteins
+and their modified residues across entire proteomes, and selective
+ABPs serve as effective tools for functional evaluation.
+−
+
+ Consequently, ABPP strategies can address a wider range of protein
+classes and probe binding in some instances can serve as surrogate
+activity assays for challenging targets.
+Second, ABPP
+provides critical information on both the
+selectivity and potency of ligands for target proteins. Labeling
+techniques such as Stable Isotope Labeling by Amino acids in Cell
+culture (SILAC), isotopically labeled desthiobiotin azide (isoDTB),
+and more recently, Tandem Mass Tag (TMT) reagents utilize isotopic
+labeling strategies in LC-MS/MS to quantify peptides modified by ABPs.
+−
+
+ These methods, combined with advanced data analysis software like
+SEQUEST, Comet, MaxQuant and Byonic, play a pivotal role in interpreting complex LC-MS/MS data.
+This underscores the dual importance of effective labeling strategies
+and robust computational tools in ABPP experiments. Additionally,
+pretreatment with potential covalent binders can block probe binding,
+allowing for the assessment of binding affinities for irreversible
+ligands. To maximize protein detection and minimize undetectable off-target
+effects caused by irreversible ligands, highly reactive and residue-directed
+probes are essential. The IA electrophile is a potent thiol alkylating
+agent and thus its alkynylated probe is highly effective as a general
+cysteine-reactive ABP. Counterpart ABPs are more challenging to develop
+and a reason why beyond cysteine ABPP is only recently emerging.
+A general workflow employed by our group and others to develop
+electrophilic groups for protein and covalent ligand discovery by
+ABPP consists of the following steps: 1) Chemoselective ABP Development:
+Develop new global ABPs featuring tunable electrophilic warheads and
+analyze their binding activity including amino acid chemoselectivity
+in proteomes. Simplicity and high reactivity are prioritized to maximize
+detection of modified proteins and binding sites. Overly complex ABP
+structures risk fragmentation and poor LC compatibility during analysis,
+leading to reduced detection efficiency. 2) Ligandability assessment
+using Fragment Electrophiles and Competitive ABPP: Construct a library
+of fragment-like compounds containing electrophilic warheads for evaluating
+ligandability of protein sites containing residues of interest by
+competitive ABPP. The use of a common electrophile for ligand and
+ABP design can reduce the potential for missing liganded sites not
+detected by ABPs. 3) Prioritization of liganded sites via functional
+assays: Validate biochemical and cell biological effects from genetic
+and pharmacological perturbation of target protein site(s). 4) Targeted
+covalent modulator development: Translate ligandability findings into
+highly potent and selective tool compounds for cellular and in vivo evaluation of target protein. Conduct SAR studies
+to reduce off-target affinities identified in ABPP results and enhance
+potency against target proteins. In silico docking
+studies or molecular dynamics simulations can assist in fine-tuning
+affinities for both on- and off-targets. Additionally, pharmacokinetic
+optimization is required to balance intrinsic reactivity with hydrolytic
+and metabolic stability.
+An example from our group is the development
+of a PTGR2 (Y100)
+covalent inhibitor containing a Sulfonyl-Azole (SufAz) warhead, which
+illustrates this workflow in practice ( ).
+,
+ SufAz ABPs were designed
+as tyrosine/lysine-selective warheads with negligible detectable affinity
+for cysteine, which we speculate is due to the inherent instability
+arising from the predicted sulfonothioate (SO2–S)
+adduct.
+,
+ Using these ABPs, quantitative ABPP methods
+were employed to evaluate potency and selectivity of a library of
+sulfonyl-azole fragment electrophiles for PTGR2 inactivation. Among
+these compounds, HHS-0701 emerged as a lead PTGR2 inhibitor with reasonable
+proteome-wide selectivity and cellular activity. Further SAR studies demonstrate that exchanging the triazole
+for an imidazole leaving group could further improve selectivity against
+common off-targets of this electrophile class.
+
+ Originating from the conceptual framework of activity-based
+protein
+profiling (ABPP) in drug discovery, the Kelly and Sharpless groups
+introduced the Inverse Drug Discovery (IDD) approach. Unlike global ABPs, which typically use broadly reactive
+probes, IDD employs alkynyl-substituted probes containing latent electrophilic
+warheads, such as aryl fluorosulfates and sulfuramidimidoyl fluorides.
+These probes are used for the biological evaluation of their own activity,
+or that of the corresponding ligand, with minimal chemical modification. Due to their weak intrinsic reactivity for covalent
+binding, only a limited number of conjugated proteins are identified
+via LC-MS/MS compared to the use of global ABPs. Although the complexity
+of the chemical structure may pose challenges for protein identification,
+this strategy can significantly reduce concerns about unexpected off-target
+effects when paired with an appropriately selected adduct group.
+
+In addition, residue-directed warhead
+development enables selective
+targeting of mutants and addresses limitations associated with reversible
+inhibitors that exhibit short residence times due to open binding
+sites. Simple incorporation of residue-reactive warheads can convert
+reversible inhibitors into irreversible ones with enhanced therapeutic
+potential.
+,
+
+3.
+
+## Residue-reactive Scaffolds
+3.1.
+
+## Cysteine-reactive Scaffolds
+For drug
+development, cysteine is an attractive target in part because of its
+high nucleophilicity and low abundance, which can facilitate increased
+selectivity for the target proteins.
+−
+
+ Particularly, an acrylamide
+electrophilic group has been extensively studied and now clinically
+validated for development of covalent drugs. Among acrylamide-based
+covalent drugs, kinases have been prominently targeted because of
+the ability to ligand nonconserved cysteines within the highly conserved
+ATP binding pocket to develop more selective drug compounds. Examples include Ibrutinib (Abbvie, 2013),
+−
+
+ which is an acrylamide inhibitor that binds to C481 of Bruton’s
+tyrosine kinase (BTK) as well as series of covalent inhibitors which
+targeted C797 of Epidermal growth factor (EGFR) to combat T790M mutation
+such as Afatinib (Boehringer Ingelheim, 2013) and Osimertinib (Astrazeneca,
+2015).
+−
+
+Many probes with diverse cysteine-reactive warheads have also
+been developed. In addition to IA, many
+α-halogenated amide and α,β-unsaturated amides were
+developed as covalent probes.
+−
+
+ In addition, halogenated heteroaromatic
+compounds, including simple probes and nucleoside and nucleobase mimics
+for RNA binding proteins (e.g., clickable electrophilic purines),
+undergo nucleophilic aromatic substitution (SNAr) with
+cysteines.
+−
+
+ For additional information on targeting
+cysteines, we direct readers to recent reviews on cysteine-reactive
+electrophiles and their applications.
+−
+
+The rationale for targeting
+cysteines is clear but not every protein
+pocket contains an available cysteine, prompting exploration of electrophilic
+groups that can ligand sites beyond cysteine. In the following sections,
+we summarize recent advancements in electrophile development for beyond
+cysteine targeting. We initially focus on lysine-targeting chemistry
+given the high abundance of lysines and their functional roles in
+protein biochemistry. We conclude the review with electrophiles for
+targeting tyrosine, which lie in between cysteine and lysine in abundance
+and present opportunities for disrupting protein–protein and
+protein-nucleic acid recognition.
+−
+
+3.2.
+
+## Lysine-reactive Scaffolds
+3.2.1.
+
+## Biological Features of Lysine
+The
+pK
+
+a
+ of the ε-NH3
++ group of lysine is 10.4 when lysine exists as
+a free amino acid, meaning that most lysine residues are protonated
+under physiological conditions (pH = 7.4). However, the pK
+
+a
+ of
+lysine can vary significantly depending on its location within a protein.
+For example, studies have shown a 5-log reduction in pK
+
+a
+ for buried vs solvent-exposed lysine
+side-chain, thereby increasing its nucleophilicity and propensity
+for electrophilic modification.
+−
+
+ García-Moreno et al.
+,
+ produced 25 variants of staphylococcal nuclease (SNase) to analyze
+shifts in pK
+
+a
+ of lysine
+side chains based on their environment. The side chain of the K92
+(I92K) mutant is buried in SNase and was calculated to have a pK
+a of 5.2, whereas solvent exposed N118K has
+a pK
+
+a
+ of 10.4 ( A).
+ Lysine undergoes various PTMs, which play critical
+roles in cell
+biology including signal transduction ( B).
+−
+
+ More than 100,000 PTM sites on lysine across
+over 10,000 proteins have been mapped using mass spectrometry; however,
+many PTM functions remain elusive.
+,
+ PTMs on lysine
+include acyl substitution (e.g., acetylation, ubiquitination) with
+various acyl substrates or alkylation (e.g., methyl-, dimethyl-, or
+trimethylation) mediated by methyltransferases.
+,
+ The nucleophilicity of lysine correlates with frequency of PTMs
+such as acetylation.
+,
+
+Lysine is also prone to
+oxidative deamination to an aldehyde that
+is well studied and commonly observed in histones. Oxidative deamination of lysine is mediated by copper-dependent
+amine oxidases (CAOs).
+CAOs catalyze oxidative amination using
+a covalently linked quinone
+cofactor 2,4,5-trihydroxyphenylalanine quinone (TPQ) or lysine tyrosylquinone
+(LTQ) that subdivide the CAO family into TPQ-dependent CAOs (i.e.,
+CAOs) or LTQ-dependent lysyl oxidases (LOXs).
+−
+
+ Lysine can also sequester carbon dioxide via a carboxylation process
+and cyanate via carbamylation.
+,
+ Particularly, many
+PTMs on lysine are reversibly regulated by enzyme pairs such as histone
+acetylases (HACs) and histone deacetylases (HDACs), depending on physiological
+conditions. Due to the functional importance
+mentioned above, there are considerable research efforts focused on
+developing molecules that can perform PTMs such as acetylation on
+specific lysine residues.
+−
+
+ Thus, the covalent modification of lysine can be influenced by its
+protonation state and interactions with various PTMs, as described
+above, making lysine an attractive residue for covalent modification.
+
+3.2.2.
+
+## Lysine-Targeted Chemistry
+3.2.2.1.
+
+## Natural Lysine-targeted Aldehydes and
+Mimetics
+The formation of aldimines is commonly used in organic
+chemistry such as the popular reductive amination reaction that delivers
+primary, secondary, or tertiary amines. The use of aldehydes to produce
+aldimines for bioconjugation to lysine on proteins is limited by the
+thermodynamic instability of imines, which rapidly revert to their
+aldehyde and amine precursors in aqueous solutions.
+−
+
+Efforts to stabilize the imine under aqueous conditions were
+inspired by the ability of B6 vitamers PL and PLP, the latter of which
+is an essential vitamin and the active B6 vitamer, to conjugate with
+amines in xenobiotics and biomolecules.
+−
+
+ This topic has been comprehensively reviewed by Eliot and Kirsch
+so only recent literature will be covered here. PLP is known to covalently modify lysine in various proteins, which is utilized by alanine racemase,
+,
+ aspartate aminotransferase,
+,,
+ serine hydroxymethyltransferase, aromatic L-amino acid decarboxylase, and other proteins to facilitate transformations
+of amino acids ( A). Using NMR, Crugeiras et al. characterized
+the strength of the intramolecular hydrogen bond between the imine
+and o-hydroxy proton of amine-conjugated pyridoxal
+in aqueous solution to be ∼ 3 kcal/mol ( B).
+,
+
+ The pyridoxal-amine intramolecular hydrogen bond
+is more stable
+than i+4 hydrogen bonds in an α-helix (about 2 kcal/mol).
+,
+ In E. coli, PLP binds K36 in PLP Homeostasis Protein
+(PLPHP or YggS) with a K
+
+D
+ of about 1 nM and has no enzymatic function, suggesting PLPHP acts
+as a regulatory or PLP-transfer mechanism to modulate PLP levels or
+mediate PLP-dependent enzymatic reactions, respectively; however,
+more evidence is required to define the role of PLPHP. The ability of PLP to bind lysine in proteins
+warrants discussion of amine- and hydrazine-containing therapeutics
+that interact with PLP resulting in vitamin B6 deficiency or inactivation
+of the therapeutic itself. The interaction
+between isoniazid, the first-line treatment for tuberculosis, and
+PLP was one of the first drug-PLP interactions to be investigated
+due to induction of isoniazid neuritis in patients, i.e., isoniazid
+interference in vitamin B6 metabolism that is mitigated
+by coadministration with pyridoxine.
+−
+
+ However, isoniazid
+interactions with other metabolites and
+cofactors, such as NAD+, may
+be involved in isoniazid-related toxicity issues. The kinetics of
+formation of the isoniazid-PLP conjugate is the most rapid compared
+to hydrazine and other hydrazine-containing drugs, such as carbidopa
+and hydralazine, and correlates with the pK
+
+a
+ of the primary amine in each hydrazine moiety (e.g.,
+isoniazid (pK
+
+a
+ = 11.10)
+> hydrazine (pK
+
+a
+ =
+8.10)
+> carbidopa (pK
+
+a
+ =
+7.25)
+> hydralazine (pK
+
+a
+ =
+7.20)).
+,
+ Carbidopa is used to treat Parkinson’s
+disease as it mitigates degradation of dopa by inhibiting aromatic
+L-amino acid decarboxylase (AAAD) in peripheral tissues, allowing
+more dopa to reach the brain. Decreases
+in concentration of PLP in serum (88%), liver (51%), muscle (18%),
+brain (27%), and hypothalamus (18%) was observed in rats administered
+100 mg/kg carbidopa; however, clinically relevant doses, such as 10–30
+mg/kg, were less effective at reducing PLP concentrations. Similar
+to isoniazid, coadministration of pyridoxine hydrochloride with carbidopa
+mitigates reductions in PLP levels.
+,
+ In addition
+to the examples above, there are numerous drugs (e.g., hydralazine, phenelzine, cycloserine,
+−
+
+ penicillamine, and amphetamine) capable of conjugating PLP resulting in vitamin
+B6 deficiency ( C). Sieber and colleagues synthesized PLP-mimicking ABPs (1-3) to detect PLP-dependent enzymes (PLP-DE) which are
+phosphorylated in situ by pyridoxal kinase and identify
+off-targets of PLP-DE inhibitor such as D-cycloserine. The inactive control 4, which
+lacks the electronic capability for PLP catalysis, was used to evaluate
+nonspecific reactivity of the PL scaffold. Using ABPs (1-3), a significant portion of the eukaryotic cells, Gram-positive, and -negative bacteria were successfully
+detected and utilized in antibiotic drug discovery ( D).
+Similarly, Folkers
+et al. discovered
+that the sensitivity observed in individuals consuming food with high
+levels of monosodium glutamate (MSG) is linked to decreased PLP levels
+in the blood. Co-administration of MSG and PLP in the diet alleviated
+symptoms of MSG-related toxicity compared to a placebo group, suggesting
+that MSG conjugates with PLP, thereby reducing its concentration to
+unhealthy levels.
+In 2014, Wilde et al. reported that
+hydralazine can covalently modify abasic (Ap) sites in double- and
+single-stranded DNA, which exist in equilibrium between the ring-closed
+hemiacetal (5) and ring-opened aldehyde (6). Hydralazine reacts with the aldehyde (6) to form
+hydrazone (7), which can undergo ring closure to produce
+hemiaminal (8), a structure prone to errors and potentially
+mutagenic ( A). In addition, aldose sugars naturally
+form advanced glycation end products (AGEs) with proteins or lipids
+( B). These
+AGEs can accumulate in vessel walls, leading to micro- and macrovascular
+complications,
+,
+ and are implicated in various
+aging- and alcohol-related diseases.
+,
+ The formation
+of AGEs during aging and under hyperglycemic conditions, where they
+bind to cell surface receptors, increase reactive oxygen species (ROS),
+alter the extracellular matrix, modify hormone levels, and cross-link
+with other proteins such as collagen. Protein-aldose sugar bioconjugates are formed between lysine or
+arginine residues on a protein and an aldehyde on the sugar via mechanisms
+similar to those described above. To
+investigate biological events of AGE formation, Methylglyoxal (MG),
+which is major reactive carbonyl species serving as a precursor to
+AGEs, was employed to develop ABP for chemoproteomic profiling ( C).
+,
+ Aminoguanidine is a therapeutic that covalently modifies 1,2-dicarbonyl
+compounds, increasing urinary excretion
+of orally absorbed AGEs and reducing their accumulation in the kidney
+and liver. Other AGE-related therapeutics
+such as ALT-946 and pyridoxamine follow a similar mechanism as aminoguanidine,
+whereas ALT-711 functions by breaking the bond between the 1,2-dicarbonyl
+( D).
+
+ 
+3.2.2.2.
+
+## Synthetic Aldehyde Warheads
+As
+mentioned in the previous section, the inherent stability and selectivity
+of salicylaldehyde for reversible covalent adduction of amines inspired
+synthetic small molecules targeting catalytic lysines.
+,
+ ORIN1001, an inhibitor of inositol-requiring enzyme 1 (IRE1), has
+entered clinical trials as an antitumor agent, originating from a
+salicylaldehyde screening hit compound 13 ( A).
+,
+ The covalent reversible Bcr-Abl kinase inhibitor 15 was derived from the reversible inhibitor PPY-A through the introduction
+of aldehyde warheads ( B). The covalent reversible
+inhibitors were designed to target the catalytic lysine K271, based
+on the X-ray cocrystal structure of PPY-A with ABL1 kinase ( C, PDB ID: 2QOH).
+,
+
+ The reversible covalent inhibitor 14, containing a carbonyl boronic acid
+capable
+of stabilizing imine intermediates, demonstrated high potency in vitro; however, its activity significantly decreased
+in living cells, which could be due to metabolism of the aldehyde
+functional group within this scaffold.
+,
+ Structural
+modification of carbonyl boronic acid to salicylaldehyde enhanced
+antiproliferative effects in situ with increasing
+inhibitory activity to ABL, and high kinase selectivity was confirmed
+using ABPP with an alkynyl probe corresponding to compound 15.
+
+Notably, solvent-exposed noncatalytic
+lysine residues are generally
+not preferred as targets for aldehyde electrophiles due to their reversible
+nature and high possibility to exist in the protonated form.
+,
+ However, 2-hydroxy-1-naphthalenealdehydes (16) could
+bind specifically to K720 of KRIT1 which has inherently low nucleophilicity. K720 is a surface residue located within the
+HEG1 binding domain of KRIT1; thus, 16 can function as
+a Protein–protein Interaction (PPI) inhibitor ( D).
+
+Recently, Cravan et al. modified
+the clinical reversible pan-AKT1 allosteric inhibitor ARQ092 into
+an irreversible AKT1­(E17K) mutant selective inhibitor 17 by introducing salicylaldehyde warheads ( ). This selectivity
+was achieved through the recruitment of endogenous zinc ions, which
+stabilized the aldimine product formed between the E17K mutant and
+the salicylaldehyde warhead. Pan-AKT1 inhibitors have been associated
+with hyperglycemia as a side effect in clinical studies,
+−
+
+ but the newly developed irreversible AKT1­(E17K) mutant selective
+compound 17 did not induce hyperglycemia.
+ The Gao group designed boronic acids with extended
+residence times
+compared to 2-formyl or 2-keto aryl boronic acids.
+,
+ By linking a 2-formylanilino group to the o-benzylic position, they
+observed a dramatic increase in the half-life (t
+
+1/2
+) for covalent modification. Lysine forms
+an imine that coordinates with boron similarly to 2-formylboronic
+acids; however, the anilino nitrogen also coordinates with boron,
+resulting in the formation of a bicyclic ring structure ( ).
+ The covalent reversible properties of salicylaldehyde
+have recently
+spurred exploration into diverse aldehyde-containing ABPs, which often
+require reduction with agents such as NaBH4 for detection.
+,
+ Yang et al. developed lysine-targeted
+ABPs based on residence time ( A). While benzaldehyde (18) and salicylaldehyde
+probes (19-20) detected a similar number
+of kinases, probe 18 exhibited a short half-life following
+washout ( B). In contrast, salicylaldehydes stabilized imine covalent products, significantly increasing the half-life of reversible
+covalent probes after washout ( C). Interestingly, different dissociation
+rates were observed among kinases after washout, enabling ABPs to
+selectively bind to kinases such as Aurora Kinase A (AURKA) K162 in
+both in vitro and in vivo systems.
+Screening aminophilic compounds using ABPP with LC-MS/MS identified
+dicarboxaldehyde fragments, including Jensenone (21)
+and 22, as potential lysine- targeted scout molecules
+( D). Building on these findings, phloroglucinol
+meroterpenoids and their corresponding probes were synthesized to
+map lysine-phloroglucinol meroterpenoid interactions in live cells
+( D).
+
+ Recently, Chen et al. applied a 2-ethynylbenzaldehyde
+(2-EBA) warhead for developing catalytic lysine-targeted ligands.
+Unlike other aldehyde warheads, 2-EBA irreversibly binds to the N-terminus of peptides or lysine residues, forming a stable
+isoquinolinium product ( A). Due to the low intrinsic reactivity of the 2-EBA
+warhead, 27 exhibited negligible reactivity with GSH.
+Based on the reported structure of a reversible inhibitor, 2-EBA and
+sulfonylfluoride derivatives were investigated ( B). The study demonstrated
+the superior efficacy and lysine-selectivity of 2-EBA derivatives.
+Additionally, using the 2-EBA warhead, successful modification of N-terminal amines over lysine residues was achieved under
+slightly acidic conditions (pH = 6.5).
+
+ 
+3.2.2.3.
+
+## Michael Acceptor Warheads
+Although
+Michael acceptors such as acrylamide, vinylsulfone, and vinylsulfonamide
+primarily target cysteine residues, preferentially oriented Michael
+acceptors can also bind to lysine residues.
+,
+ PX-866 (Sonolisib), an investigational drug and orally available
+pan-PI3K inhibitor, is a modified derivative of the natural product
+Wortmannin. The substituted-acrylamide
+of PX-866 covalently binds to and inhibits catalytic K802 in p100α
+and K883 in p110γ.
+
+Through
+structural drug design approaches, the reversible Cyclin D kinase
+2 (CDK2) inhibitor NU6155 was converted into an irreversible inhibitor
+NU6300 by introducing a vinylsulfonyl group targeting K87, a residue
+not well-conserved across the protein kinase family ( A).
+,
+ Similarly, a reversible non-nucleoside inhibitor of HIV reverse
+transcriptase (33) was converted into an irreversible
+inhibitor (34-35) by introducing an acrylamide
+group near catalytic residues such as K102 and Y181C ( B).
+,
+
+ Additionally, studies comparing the reactivity
+of various Michael
+acceptors with GSH and N-α-acetyl-l-lysine revealed that vinylsulfone and sulfonamide react more rapidly
+with N-α-acetyl-l-lysine than with
+GSH. This observation can be attributed
+to the hard nucleophilic nature of N-α-acetyl-l-lysine, which interacts more effectively with hard electrophiles
+like vinylsulfonamides compared to softer acrylamide electrophiles. These findings provide valuable insights for
+optimizing lysine-targeted Michael acceptor compounds in terms of
+potency and stability ( ).
+ 
+3.2.2.4.
+
+## Activated Ester Warheads
+
+N-hydroxysuccinimide (NHS) esters are representative lysine-reactive
+activated esters. One of the most widely used NHS esters, TMT reagents
+effectively label N-terminal free NH2 groups
+and lysine residues ( A). However, NHS esters are
+highly susceptible to hydrolysis, and their residue specificity can
+deteriorate due to their high reactivity.
+
+ Numerous studies have attempted to minimize over
+labeling caused
+by NHS-ester-based TMT reagents, which exhibit promiscuity toward
+other residues such as serine, threonine, and tyrosine.
+,
+ Ward et al. investigated the residue
+selectivity of an NHS-ester-alkyne ABP (37) in the mouse
+liver proteome using isotopic Tandem Orthogonal Proteolysis-Activity
+Based Protein Profiling (isoTOP-ABPP) platform. Their study identified
+3,372 modified peptides in total, with 49% of the labeled sites corresponding
+to lysine residues ( B). Hacker et al. synthesized
+a variety of activated ester ABPs, including NHS, nitro-substituted
+phenyl, and fluoro substituted phenyl esters. Among these, the Sulfotetrafluorophenyl
+(STP)-alkyne ABP (38) demonstrated strong proteomic reactivity
+and high selectivity for lysine residues. The most frequently modified
+alternative sites were serine residues (∼8% of labeled peptides),
+with less than 5% modification observed for other residues ( C). Notably, lysine
+modification can interfere with trypsin digestion at cleavage sites,
+potentially leading to misinterpretation of modified sites detected
+by LC-MS/MS.
+Additionally, using ABP 38, more than
+30 aminophilic
+chemotypes were screened in cancer cell proteomes, revealing that
+77% of the liganded proteins were non-DrugBank proteins. This finding suggests that the discovered aminophilic
+fragments could serve as scout molecules for targeting previously
+intractable proteins. Wan et al. synthesized
+a series of activated esters to systematically tune reactivity using
+lysine-containing peptides. Among these tested esters, triazine ester 42 exhibited the highest reactivity and lysine-selectivity in vitro ( D). Using activated ester warheads, reversible selective PI3Kδ
+inhibitors GSK2292767 and GSK2269557 (∼1,000-fold selectivity
+over PI3Kα, β, γ) were successfully converted into
+irreversible inhibitor 46 by modification of a sulfonamide
+pharmacophore interacting with K779 ( A).
+,
+ Additionally, ATP
+and ADP-desthiobiotin probes have been widely used as ABPs to profile
+protein kinases by targeting conserved lysine residues in ATP-binding
+sites as well as various nucleotide-binding proteins such as ATPases
+and heat shock proteins.
+−
+
+ ( B). Two
+highly conserved lysine residues are commonly found across protein
+kinases: one localized in subdomain II (except in the WNK family)
+and another in subdomain VIB within the HRDxKxxN motif ( C).
+−
+
+ 
+3.2.2.5.
+
+## N-Acyl-N-alkylsulfonamide
+(NASA) Warheads
+NASA moieties have been widely utilized as
+reactive species in safety-catch linkers for solid-phase peptide synthesis.
+−
+
+ The NASA scaffold functions as an acyl donor that is lysine-reactive,
+and the Hamachi group optimized this functional group as an electrophilic
+warhead in ABPs ( A).
+−
+
+N-acyl-N-arylsulfonamide (ArNASA)
+derivatives (51) demonstrated significantly prolonged
+half-lives compared to NASA itself, along with increased selectivity
+( B). Additionally,
+ligand-directed NASA-containing inhibitors (52-53) showed improved potency compared to their parent compounds
+when targeting lysine residues in proteins such as C481S Bruton’s
+tyrosine kinase (BTK) and Heat Shock Protein 90 (Hsp90) in live cells
+( C). Binding
+of NASA warheads to N-terminal α-amines and
+tyrosine residues was also observed in the human double minute 2 (HDM2)
+protein, where they acted as PPI inhibitors. Tivon et al. further developed NASA-containing
+aptamers to label targeted lysine residues. In this approach, oligonucleotides
+facilitated proximity between the target protein and the NASA warhead,
+enabling lysine residues to attack the NASA electrophile and label
+the protein effectively. Ryan et al. reported N-acetyl-N-alkylsulfonamide
+derivatives capable of transferring acetyl groups site-specifically
+to lysine residues in human cells. Furthermore, Teng et al. developed a potential targeted degrader that
+combined a CDK2 ligand with a CRBN-recruiting ligand using a NASA
+warhead. Although the study confirmed the formation of a CDK2-CRBN
+complex, degradation of CDK2 was not observed.
+ 
+3.2.2.6.
+
+## Squarate, Squaramate, and Squaramide Warheads
+Squaramides are bioisosteres of ureas, thioureas, guanidines, and
+cyanoguanidines that are commonly employed in medicinal chemistry.
+,
+ Additionally, squaramides and squaric acids have been incorporated
+into nucleosides as isosteres of phosphate groups.
+−
+
+ Several methods have been developed to synthesize squarate- and
+squaramide-containing building blocks such as amino acids, peptides,
+−
+
+ proteins, polymers,
+−
+
+ nucleosides, fluorescent probes, and
+luminescent probes that exploit the
+high reactivity of squarate esters with free amines.
+Kiessling
+and co-workers compared the reaction rates of squarate esters and
+squaramates with other lysine-reactive electrophiles such as NHS esters. The second consecutive reaction rate for squaramates
+was much slower than that for NHS esters, demonstrating their mild
+reactivity (>104-fold slower than NHS esters; A). Subsequently,
+a squaramate moiety was introduced at the terminal phosphate of UDP
+as a substrate mimic for glycotransferase GlfT2. This compound selectively
+inhibited a catalytic lysine residue while dichlorotriazine analogs
+modified eight lysines in GlfT2. Ohara et al. designed a glycan-BODIPY-squaramate conjugate 59 that bound Human UGGT1 (HUGT1), an N-glycosylating
+enzyme recognizing aglycons. Irreversible modification of K1424 via
+reaction with squaramate 59 provided insights into the
+aglycon binding site and folding-sensing mechanism of HUGT1 ( B).
+ Lysine-specific squaramates were further explored
+by Abbasov et
+al., leading to compounds 60 and 61 as broader lysine-reactive squaramates than
+other sterically hindered squaramates ( C). Notably, 61 covalently
+modified K351 in Ku70 (XRCC6), inhibiting its dimerization with Ku80
+(XRCC5). This process disrupts nonhomologous end-joining critical
+for repairing DNA double-strand breaks in human cells.
+The unique
+properties of squaramates such as their two consecutive
+reactive sites and mild reactivity, have made them extensively useful
+in biomolecular conjugation studies. Fonvielle et al. prepared RNA-derivatized squaramates for conjugation
+with peptides and proteins to identify or covalently modify tRNA-enzyme
+binding sites. Ivancová et al. linked squarates to deoxycytidine nucleotides to create squaramate-linked
+dCTPs (dCESQTPs, 62), which were incorporated
+into DNA by DNA polymerase. These synthesized DNA probes (DNA_CESQ) efficiently reacted with DNA-binding proteins but showed
+limited reactivity with peptides lacking DNA-binding affinity ( D). As demonstrated
+above, lysine-specific and mild electrophilic squaramates stand out
+for their versatility in discovering undruggable proteins such as
+DNA-binding proteins through various bioconjugation strategies.
+
+3.2.2.7.
+
+## Sulfur­(VI)-Fluoride Warheads: Sulfonyl
+Fluoride (-SO2F) and Fluorosulfate (-OSO2F)
+Sulfonyl fluoride was historically regarded as an unsuitable electrophile
+due to its combination of kinetic and thermodynamic stability, which
+limited its reactivity with nucleophiles. However, Baker first demonstrated
+that sulfonyl fluoride could rapidly form covalent bonds if the compound
+first binds reversibly to a protein, facilitating access for covalent
+bond formation. This insight has since attracted significant interest
+in both drug discovery and chemoproteomics. Sulfonyl fluoride can
+react with residues such as tyrosine, lysine, serine, threonine, and
+histidine.
+,,
+ Its hydrolytic stability, which can be easily tuned, provides a
+valuable alternative to many unstable irreversible ligands ( A).
+,
+ However, the affinity of the electrophile for proteins does not
+necessarily correlate with its intrinsic reactivity because the rate
+of reversible interactions between the compound and the binding site
+significantly influences covalent bond formation.
+
+ Zhao et al. developed
+XO-44, a highly
+selective ABP for protein kinases, which detected 133 endogenous kinases
+in live Jurkat cells ( B). XO-44 also demonstrated its potential to identify off-targets
+of kinase inhibitors through competitive ABPP studies with Dasatinib,
+a tyrosine kinase inhibitor ( C). Furthermore, among the 375 tested purified protein
+kinases, XO-44 exhibited IC50 values below 1 μM for
+219 kinases ( D). XO-44 has also been utilized in studies identifying resistance
+mechanisms for the multityrosine kinase inhibitor Lenvatinib. These findings suggest that XO-44 can be leveraged
+to evaluate kinase inhibitor profiles and may serve as a promising
+scaffold for developing kinase inhibitors.
+,
+
+The Cheeseman group designed covalent inhibitors for Hsp72
+by mimicking
+reversible nucleotide-competitive inhibitors such as 8-N-benzyladenosine through the introduction of electrophilic warheads.
+,
+ For instance, introducing an acrylamide warhead converted a reversible
+inhibitor into an irreversible analog targeting K56. However, this
+modification resulted in low k
+
+inact
+ due to unfavorable conformations between the warhead and proximal
+residues that hindered covalent bond formation. Based on a systematic
+analysis of X-ray cocrystal structures of Hsp72, a rationally designed
+arylsulfonylfluoride was introduced, improving the kinetic parameter
+(k
+
+inact
+/K
+
+I
+) by 108-fold compared to the acrylamide
+derivative.
+Recently, fluorosulfates (-OSO2F), which
+are more stable
+and latent aminophiles than sulfonyl fluorides, have emerged as electrophilic
+warheads for developing irreversible ligands.
+−
+
+ Tang et al. introduced fluorosulfate
+into the first-generation EGFR inhibitor Erlotinib to target catalytically
+conserved K745 ( A). The resulting irreversible inhibitor 72 displayed
+comparable cellular activity to Erlotinib while demonstrating a favorable
+pharmacokinetic profile both in vitro and in vivo. Tang et al. also
+synthesized fluorosulfate derivatives of XO-44 and analyzed their
+profiles across the human lysine kinome while assessing their stability
+and reactivity ( B). Among these derivatives, ABP 73 detected
+more kinases than XO-44 and was used in combination with VX-680 to
+develop irreversible Aurora kinase inhibitors. The newly synthesized
+irreversible inhibitor 74 exhibited comparable potency
+against AURKA but showed higher selectivity than VX-680.
+ 
+3.2.2.8.
+
+## Sulfonyl-Azole (SufAz) Warheads
+An apparent difference between Sulfur­(IV)-fluoride and SufAz warheads
+is the choice of leaving group at the sulfonyl electrophilic center,
+and SufAz compounds have the advantage of additional tunability via
+modification of the azole leaving groups. Particularly, our group introduced sulfur-triazole exchange (SuTEx)
+chemistry for chemoproteomics and protein ligand discovery ( ).
+,,
+ 1,2,4-sulfonyl-triazoles modify
+tyrosine and lysine residues with a preference for tyrosine.
+,
+ Of relevance to this section, the lysine binding activity of SuTEx
+chemistry can be augmented toward lysine residues by switching to
+a 1,2,3-triazole leaving group or by positioning the electrophile
+near catalytic lysines using kinase-binding scaffolds.
+,−
+
+ The latter was demonstrated using a SuTEx
+warhead-containing XO44 derivative, KY-26, for identifying site of
+binding on kinases (∼50% of the modified peptides was detected
+as lysine) using a modified LC-MS/MS protocol.
+
+ 
+
+3.3.
+
+## Tyrosine-reactive Scaffolds
+3.3.1.
+
+## Biological Features of Tyrosine
+Tyrosine, despite having a slightly lower pK
+
+a
+ (∼10) than a protonated lysine, has
+been more challenging to target using covalent ligands. This can be attributed to the structural characteristics
+of its side chain, which is more rigid and sterically hindered by
+the phenolic hydroxyl group. These factors pose challenges in achieving
+the optimal geometries required for effective covalent binding.
+Nevertheless, tyrosine-targeting electrophiles have proven valuable
+in studying PPIs. Tyrosine is notably
+abundant at protein–protein interfaces, where its unique properties
+contribute significantly to molecular recognition.
+−
+
+ Its amphipathic nature allows for diverse interactions, while its
+rigidity enhances binding affinity and specificity. The limited conformational
+flexibility of tyrosine reduces entropic penalties during binding,
+thereby minimizing nonspecific interactions. This specificity is particularly
+critical in tyrosine-rich interfaces, which are inherently less accommodating
+to nonspecific binding events.
+Additionally, PTMs such as phosphorylation
+of tyrosine residues
+plays a pivotal role in regulating PPIs that are essential for biological
+processes.
+−
+
+ Targeting tyrosines subject to phosphorylation
+could therefore serve as a different strategy for modulating signaling
+pathways.
+−
+
+ Developing tyrosine-reactive warheads may
+enable precise regulation of these critical residues and provide deeper
+insights into signaling mechanisms.
+−
+
+ Thus, the development
+of novel tyrosine-reactive warheads holds great potential to advance
+our understanding of protein signaling networks and discover irreversible
+small molecule modulators with unprecedented mechanisms.
+
+3.3.2.
+
+## Tyrosine-targeted Chemistry
+3.3.2.1.
+
+## Mannich Type Warheads
+Francis
+and co-workers developed a three-component Mannich-type tyrosine conjugation
+strategy.
+−
+
+ Utilizing the Betti variant of the Mannich
+reaction, they performed an in situ imine condensation
+between an electron-rich aniline and formaldehyde, followed by the
+formation of a C–C bond with tyrosine ( ). Although
+this reaction proceeds under mild conditions, it requires an extended
+reaction time and an optimal pH.
+−
+
+ Moreover, it also leads
+to the formation of adducts with tryptophan and cysteine, limiting
+its chemoselectivity.
+ To address these limitations, Tanaka and co-workers
+introduced
+a two-component Mannich-type tyrosine bioconjugation strategy.
+,
+ In this approach, a stable cyclic imine was presynthesized and subsequently
+reacted with tyrosine. This method offers several advantages: it is
+versatile across a wide range of pH values, prevents enamine formation
+during the reaction, and exhibits improved resistance to hydrolysis.
+These features make Mannich-type conjugation more applicable in biological
+systems for selective tyrosine targeting. Although the cyclic imine
+showed limited activity for global tyrosine labeling, it demonstrated
+significant potential for targeted covalent labeling and inhibition.
+
+Building on this tyrosine bioconjugation
+strategy, Wang et al. synthesized cyclic
+imine warheads as targeted
+covalent inhibitors. Among the cyclic imines evaluated, cyclohexylimino-lactones
+and -lactams exhibited reactivity toward Ac-Tyr-NHMe in PBS buffer
+(pH 7, 37 °C). While lactones showed high reactivity, this electrophile
+was labile and subject to hydrolysis. Conversely, cyclohexyliminolactams
+exhibited stability under GSH treatment and in acidic and basic conditions.
+For the reversible dual CBX2 and CBX8 inhibitor SW2_110A (75), a cyclic imine was introduced to selectively target the nonconserved
+Y39 of CBX8, thereby enhancing selectivity over CBX2 ( A). Design of this covalent
+inhibitor was enabled by a cocrystal structure of CBX8 bound to an
+oligopeptide UNC3866 (PDB ID: 5EQ0,
+ B). Biochemical
+assays and LC-MS/MS analysis revealed that cyclic imine 77 improved selectivity through a targeted covalent binding strategy
+( C).
+ 
+3.3.2.2.
+
+## Triazolidione (TAD) Warheads
+The tyrosine conjugation potential of cyclic TAD warheads was first
+reported by Barbas and co-workers. Due
+to their high selectivity for tyrosine and tryptophan, as well as
+the stability of the resulting adducts, TAD warheads have been widely studied ( ).
+−
+
+ However, their poor aqueous stability poses
+challenges for pharmaceutical development. Additionally, TAD hydrolysis
+generates isocyanates that can nonspecifically bind to residues such
+as lysine, although this can be mitigated by using Tris buffer to
+scavenge isocyanate byproducts.
+−
+
+ Decoene et al. further demonstrated that the Tyr/Trp selectivity
+of TAD can be modulated by pH, with acidic conditions favoring tryptophan
+modification. Moinpour et al. quantified
+TAD labeling on surface tyrosine residues, offering insights into
+conformational changes in proteins, which are critical for understanding
+PPI.
+ 
+3.3.2.3.
+
+## Sulfur­(VI)-Fluoride Warheads: Sulfonyl
+Fluoride (-SO2F) and Fluorosulfate (-OSO2F)
+As discussed in , sulfonyl fluoride warheads exhibit significant reactivity
+toward tyrosine as well as lysine residues. Scammells et al. transformed a reversible A1 Adenosine Receptor
+(A1AR) antagonist, DPCPX, into an irreversible antagonist,
+FSCPX, through a traditional SAR study. Covalent inactivation of FSCPX
+was achieved by introducing an arylsulfonyl fluoride warhead at either
+the 8- or N
+3-position. Next, an optimization
+strategy for improving metabolic stability resulted in discovery of
+DU172; X-ray cocrystal structures with
+human A1AR (hA1AR) confirmed covalent binding
+between the ligand and Y2657.36 of hA1AR ( A). In addition, an irreversible partial hA1AR agonist and ABPs containing sulfonyl fluoride were developed
+and used to visualize the receptor in live cells, mimicking the reversible
+hA1AR partial agonist, Capadenoson.
+,
+
+ Homology modeling of hA1AR with DU172
+further inspired
+Yang et al. to design novel irreversible
+human A3 Adenosine Receptor (hA3AR) antagonists. Since
+most existing hA3AR modulators are reversible ligands,
+developing irreversible ligands provide additional chemical probes
+to expand our understanding of hA3AR.
+−
+
+ The simple incorporation of an electrophile into DU172 resulted
+in covalent interaction with Y2717.36 of hA3AR. This modification was further developed into ABPs with terminal
+alkyne groups for profiling endogenous hA3AR expression
+( B).
+
+Jones and co-workers designed ABPs and
+irreversible inhibitors
+for RNA binding of DcpS.
+,
+ X-ray cocrystal structures
+of DcpS with D153249 (78) identified three nucleophilic
+residues (Y113, Y143, K142) near the benzyl group, motivating the
+introduction of sulfonyl fluoride at ortho-, meta-, or para-positions of the benzyl
+substituent. As expected, SF-p1 (79)
+modified Y143, while SF-m1 (80) and
+SF-o1 (81) bound with Y113 ( ). Additionally,
+alkynylation of 80 facilitated its use as a tool for
+evaluating DcpS target engagement.
+ Chen et al. reported
+arylfluorosulfate
+ABPs that selectively modify conserved tyrosine residues in the substrate-binding
+site of the intracellular lipid-binding protein (iLBP) family. Among
+these, biphenylarylfluorosulfate exhibited selective labeling of CRABP2
+in living cells. The selectivity was attributed to a lowered pK
+
+a
+ (∼7.6) of CRABP2 Y134,
+influenced by adjacent arginine residues. Olsen and co-workers further
+advanced the field by developing irreversible SIRT5-selective fluorosulfate
+inhibitors and ABPs. Their earlier mechanism-based
+reversible SIRT5 inhibitor 82, which incorporated a thiourea
+moiety, suffered from issues related to cell permeability and serum
+stability. To address these limitations,
+bioisostere and prodrug strategies were explored but proved insufficient
+for in vivo applications.
+−
+
+ By replacing the warhead with a fluorosulfate group and incorporating
+a guanidine moiety to increase aqueous solubility, they successfully
+developed SIRT5 ABP 83, which exhibited functionality in vivo ( ).
+
+ 
+3.3.2.4.
+
+## Sulfonyl-Azole (SufAz) Warheads
+The SufAz electrophile is one of the most tyrosine-selective scaffolds
+available, offering sufficient stability and tunability for chemoproteomic
+applications.
+,
+ SuTEx ligands have been shown
+to disrupt enzymatic sites by liganding catalytic and noncatalytic
+tyrosines on proteins, and perturb protein–protein or protein-RNA
+complexes involved in biomolecular condensate formation and dissolution.
+,,
+ Hahm et al. synthesized a series of SuTEx compounds, among which HHS-465
+(84) and HHS-475 (85) were frequently used
+in ABPP studies in lysates and live cells ( ). Notably, HHS-482 (86) exhibited
+moderate reactivity but superior tyrosine selectivity (Y/K ratio ∼
+5).
+ Brulet et al. investigated
+the tunability
+of SuTEx compounds by modifying adduct groups and substituents on
+leaving groups in both organic solutions and proteomes. Aryl substituents
+as adduct groups demonstrated superior reactivity, whereas cyclopropyl-substituted
+adduct groups reduced electrophilicity. Additionally, the reactivity
+of SuTEx compounds correlated strongly with the electronic properties
+of their substituents ( ).
+ Huang et al. combined
+the RF001 fragment
+of the serotonin receptor antagonist Ritanserin with SuTEx warheads
+( ). Ritanserin
+exhibited secondary activity against metabolic kinases such as diacylglycerol
+kinase (DGK) alpha, prompting the introduction of the RF001 binding
+element for developing kinase-targeted ABPs. The ABP design installed
+the structurally complex RF001 moiety in the leaving group to mediate
+recognition without complicating the resulting peptide-probe adduct
+to enhance LC-MS/MS detectability of modified sites. The resulting
+SuTEx ABP, TH211, identified tyrosine residues located in the catalytic
+or regulatory domains of over 50 protein and metabolic kinases in
+live cells. Additionally, TH211 was used to capture sites in predicted
+binding pockets of DGKs to guide future inhibitor development.
+
+ 
+
+3.4.
+
+## Stereoselective Recognition in Covalent Ligand
+Design
+A traditional ligand screening for evaluation of cellular
+activity can be easily altered by physicochemical properties of ligands,
+which can increase complexity of SAR anlaysis.
+−
+
+ Also, many proteins utilize stereochemical properties as one of
+the key factors to distinguish substrates.
+−
+
+ Thus, the concept of stereoprobe pairs was proposed as an innovative
+solution to conduct systemic SAR analysis, minimizing the concerns
+of physicochemical properties.
+−
+
+ Stereoprobe pairs serve as ideally matched
+controls to assess on-target versus nonspecific binding and cellular
+activity of electrophilic ligands. The initial proteomic mapping using
+enantioprobes was focused on targeting cysteines with Michael acceptor
+electrophiles or to broadly target the proteome in a protein residue-independent
+manner using photoreactive diazirine groups ( ).
+−
+
+ Recently, the Taunton group synthesized enantiomeric
+ABP pairs
+of tyrosine- and lysine- reactive sulfonyl fluorides, demonstrating
+that stereochemistry influences binding preferences on protein residues
+beyond cysteine ( ). By screening ten enantiomeric
+pairs (96-105), the authors detected 634
+stereoselectively modified sites (513 Tyr, 121 Lys) out of 2,343 total
+modified sites (1,728 Tyr, 615 Lys) in living cells. These enantiomeric
+pairs, which provide valuable insights into stereochemical preferences
+at protein binding sites, can not only guide the design of small molecules
+to target novel proteins but also serve as useful tools for connecting
+on- versus off-target binding site engagement with phenotypes observed
+in compound-treated cells.
+ 
+
+4.
+
+## Conclusions and Future Outlook
+Most
+of the human proteome (∼85%) lack well-defined binding
+pockets making them challenging targets for traditional drug design.
+,
+ Examples of such proteins include p53 and c-Myc, which often rely
+on PPIs or intrinsically disordered regions for their function.
+−
+
+ To overcome these challenges, covalent chemistry and ABPP have become
+indispensable tools in drug discovery, streamlining steps from target
+identification to lead optimization. The emergence of ABPP technologies
+combined with LC-MS/MS has transformed drug discovery by enabling
+a tractable path toward discovery of amino acid-directed covalent
+warheads and subsequent optimization of highly targeted covalent ligands.
+Additionally, ABPP has expanded the scope of ligandable proteins previously
+considered intractable.
+While numerous cysteine-directed covalent
+inhibitors have been
+developed, targeting cysteine alone covers only a small portion of
+the proteome. Therefore, there is a growing
+demand for covalent chemistries that target a broader range of amino
+acids on proteins. Among these residues, lysine and tyrosine have
+emerged as an attractive target for covalent modulator development.
+To date, various lysine-reactive warheads have been discovered
+and utilized for protein profiling and the development of covalent
+inhibitors. Furthermore, some studies have focused on PTMs at lysine
+residues and have applied site-selective lysine chemistry to diverse
+biological applications such as antibody-drug conjugation (ADC) and
+human serum albumin (HSA)-conjugated strategies.
+−
+
+ Despite the development of numerous tyrosine- and lysine-reactive
+warheads, each scaffold has limited coverage when considering the
+vast diversity of potential ligandable sites in the human proteome.
+,,
+ In fact, the proximity-driven
+environment within the residues strongly influences the reactivity
+of warheads, which depends on their electronic and steric properties.
+−
+
+ This underscores the need for continued development of diverse scaffolds
+to target hard to ligand proteins.
+In particular, tyrosine-
+and lysine-reactive warheads that avoid
+reactivity with cysteine such as sulfonyl electrophiles, are crucial
+for achieving selective modification of novel targets. Thiols on cysteine
+and GSH are primary nucleophiles in cells that readily forms covalent
+bonds with electrophiles. Thus, electrophiles designed to target noncysteine
+residues must avoid or minimize thiol cross-reactivity in biological
+systems. The discovery of novel electrophiles and their precise integration
+into noncovalent recognition scaffolds is essential for advancing
+covalent inhibitors and chemoproteomic probes targeting lysine as
+well as other nucleophilic residues such as tyrosine, noncatalytic
+serine/threonine, and histidine. Tyrosines are particularly interesting
+because they are more abundant than cysteine but not as prevalent
+as lysine to expand protein targeting opportunities without compromising
+selectivity. Also, tyrosines are known
+to be enriched in protein binding surfaces, suggesting that targeting
+tyrosine has a high potential for developing PPI inhibitors.
+
+In recent years, the IDD approach has
+emerged as an important strategy
+for the discovery of novel covalent ligands, including enantiomeric
+ABP pairs. While chirality is commonly incorporated into the adduct
+group of enantiomeric pairs, the inclusion of chirality within the
+electrophilic center itself also represents a promising and underexplored
+avenue for covalent ligand development.
+Progress in chemoproteomic
+probe design combined with multiplexed
+quantitative mass spectrometry will further expand the scope of functional
+protein pockets amenable to covalent targeting. This advancement will
+provide new fundamental insights into protein biochemistry and biology
+and in the process drive innovation in therapeutic development.
+
+## Acknowledgments
+This work was supported by the National Institutes
+of Health grant nos. GM144472 (K.-L.H.), DA043571 (K.-L.H.), AI169412
+(K.-L.H.), the Mark Foundation for Cancer Research (Emerging Leader
+Award to K.-L.H.), Recruitment of Rising Stars Award from CPRIT (RR220063
+to K.-L.H.), the National Science Foundation (CHE-2422750 to K.-L.H.),
+a Research Grant Award from The Welch Foundation (F-2143-20230405
+to K.-L.H.), and the Basic Science Research Program through the National
+Research Foundation of Korea (NRF) funded by the Ministry of Education
+(RS-2024-00415392 to G. K.).
+
+## Glossary
+
+## Abbreviations
+BODIPYBorondipyrromethene
+CBXChromobox protein
+CRABP2Cellular retinoic
+acid-binding
+protein 2
+CRBNCereblon
+protein
+DBPDNA
+binding protein
+DcpSDecapping scavenger enzyme
+DPCPXDipropylcyclopentylxanthine
+FDAFood and drug administration
+FSCPX8-Cyclopentyl-3-(3-((4-(fluorosulfonyl)­benzoyl)­oxy)­propyl)-1-propylxanthine
+GDPGuanosine diphosphate
+GTPGuanosine triphosphate
+GlfT2Galactofuranosyltransferase
+2
+HEG1Heart development
+protein with
+EGF-like domains 1
+HIVHuman immunodeficiency virus
+JAKJanus kinase
+KRIT1Krev interaction trapped protein
+1
+NADNicotinamide
+adenine dinucleotide
+PI3KPhosphatidylinositol-3 kinase
+SIRT5Sirtuin 5
+TECTyrosine kinase expressed in hepatocellular
+carcinoma
+UDPUridine
+diphosphate
+UGGT1UDP-glucose:glycoprotein glucosyltransferase
+WNKWith-no-lysine kinases
+XRCCX-ray repair cross-complementing
+protein
+
+## Biographies
+Gibae Kim graduated from Seoul
+National University in 2018 and
+received his Ph.D. in Medicinal Chemistry in 2024 from the College
+of Pharmacy at Seoul National University. During his Ph.D. studies,
+he investigated modified nucleoside chemistry and SAR studies of their
+derivatives under the guidance of Professor Lak Shin Jeong. He then
+joined the Hsu Lab as a postdoctoral fellow in the Department of Chemistry
+at the University of Texas at Austin, where he focused on discovering
+novel targets using LC-MS/MS and developing new electrophiles.
+
+R. Justin Grams received his B.S. in Biochemistry
+from Virginia
+Tech in 2012 and his Ph.D. in Organic Chemistry from Virginia Tech
+in 2021 under the advisorship of Prof. Webster Santos. Justin worked
+as a Post-Doctoral Research Associate in the Hsu Lab at the University
+of Texas at Austin and a Visiting Scholar at the University of Virginia
+until 2024 and transitioned to a Research Scientist in the Hsu Lab
+at UT Austin. Justin’s postdoctoral research involved designing
+and synthesizing sulfonyl-triazole electrophiles that covalently modify
+functional tyrosines in oncogene proteins towards oncology.
+
+Ku-Lung (Ken) Hsu is currently a Stephen F. and
+Fay Evans Martin
+Endowed Associate Professor and CPRIT Scholar in the Department of
+Chemistry at the University of Texas at Austin. His group develops
+enabling covalent chemistry and chemical proteomic technologies to
+create novel molecules that drive chemical biology and therapeutic
+discovery and uncover new insights into protein and lipid biology
+relevant to human disease. Ken received his PhD in Chemistry and Biochemistry
+from the University of Texas at Austin and pursued further training
+in chemical biology at The Scripps Research Institute (TSRI) in La
+Jolla as a Hewitt Foundation for Medical Research Postdoctoral Fellow.
+
+The manuscript
+was written through contributions of all authors. All authors have
+given approval to the final version of the manuscript. CRediT: Gibae Kim conceptualization, visualization, writing - original
+draft, writing - review & editing; Robert Justin Grams writing - review & editing; Ku-Lung Hsu conceptualization,
+funding acquisition, supervision, writing - original draft, writing
+- review & editing.
+
+The authors
+declare the following competing financial interest(s): K.-L.H. is
+a founder and scientific advisory board member of Hyku Biosciences.
+
+Published
+as part of Chemical Reviews
+special issue “Drugging the Undruggable”.
+
+## References

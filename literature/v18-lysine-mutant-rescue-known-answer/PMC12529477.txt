@@ -1,0 +1,569 @@
+pmcAnal ChemAnal Chem822acssd0370536acAnalytical Chemistry0003-27001520-6882pubs.acs.org/acpmc-is-collection-domainyespmc-collection-titleACS AuthorChoicePMC12529477PMC12529477.112529477125294774100229410.1021/acs.analchem.5c038291ArticleA Flexible
+End-to-End Automated Sample Preparation
+Workflow Enables Standardized and Scalable Bottom-up Proteomics
+7723936https://orcid.org/0009-0004-0870-451XSchärSandra .
+For FAIMS-DIA measurements ( ), high-input samples (>30 μg protein)
+were normalized to >3.5 μg peptides, while low-input samples
+(<30 μg) were injected entirely with volume normalization.
+Separation was done on an in-house packed column using an EASY-nLC
+1200 system and Orbitrap Exploris 480 with FAIMS Pro (Thermo Fisher).
+The nonlinear LC gradient was 1–50% B over 171 min, followed
+by a wash at 90% B for 7 min and equilibration at 1% B. The flow rate
+ramped from 450 to 271 nL/min. FAIMS-DIA included one MS1 scan and
+34 DIA segments per compensation voltage (Bruderer et al.
+ ), 10 μL of samples was
+injected onto
+an ACQUITY UHPLC CSH C18 reversed-phase column (300 μm inner
+diameter, 15 cm length, 1.7 μm beads) on an ACQUITY UHPLC M-Class
+capillary flow liquid chromatography system (Waters) connected to
+an Orbitrap Exploris 480 equipped with the EASY-spray source and FAIMS
+Pro ion mobility device (Thermo Fisher Scientific). The nonlinear
+LC gradient was 1–50% B in 30 min, followed by a wash at 90%
+B for 3 min and equilibration at 1% solvent B for 3 min at 50 °C,
+with a flow rate of 4 μL/min. FAIMS-DIA included one MS1 scan
+and 40 DIA segments per compensation voltage (Bruderer et al.
+ – ), 1 μg of peptides was injected onto
+the Aurora-3 CSI column (IonOpticks) using Vanquish Neo LC and Orbitrap
+Exploris 480 with FAIMS Pro. The LC gradient was 0–50% B over
+55 min, 50–90% B in 10 s, and 90% B for 8 min. The flow rate
+ramped from 500 to 200 nL/min over 63 min. A DIA run was performed
+for iRT calibration, and single-ion monitoring was used to optimize
+FAIMS CVs (−20 to −80 V). The acquisition window per
+peptide was 6 min. The target list is provided in Table S6.
+
+## Mass Spectrometric Data Analysis
+Spectronaut 18 was
+used to process DIA data files for – (Biognosys). ). This platform encompasses a comprehensive
+workflow that covers the entire process, from biological sample input
+to MS-ready peptide output. For this, we chose a customized workcell
+that integrates an 8-channel Hamilton Robotics Microlab STAR M liquid
+handling robot with a central unit and several third-party devices
+(Figure S1). This workcell was able to
+manage all essential tasks in an extensive workflow, as it harbored
+multiple plate positions with options for both cooling and heating,
+as well as accommodating volumes ranging from nanoliters to milliliters
+(Figure S2). We incorporated a positive-pressure
+module within the central unit for applications requiring positive
+pressure, such as solid-phase extraction or evaporation. In addition,
+we employed a magnet to interact with magnetic particles, facilitating
+separation and isolation steps. To regulate temperature-sensitive
+procedures, we integrated two thermoshakers into the platform, allowing
+for controlled shaking and/or incubation steps. The integrated robotic
+arm facilitates seamless interfacing between the on-deck devices and
+the third-party devices. These include a focused ultrasonicator for
+cell or tissue disruption and lysis, a UV–vis spectrophotometer
+for concentration determination assays, a plate sealer and peeler
+for plate coverage, and a plate hotel serving as storage for consumables.
+ We designed a workflow capable of efficiently processing
+up to
+two 96-well plates in a single run. To enhance efficiency, we parallelized
+the workflow and coordinated it with a dynamic scheduler, distributing
+tasks across multiple processing units based on real-time workload
+and resource availability (Figure S3).
+This approach optimized resource allocation, reduced processing time,
+and improved overall system performance.
+We organized the sample
+preparation process into three processing
+blocks: preprocessing, main sample processing, and postprocessing
+( ). Preprocessing
+encompasses preliminary sample-specific steps that samples may undergo
+prior to being subjected to the main processing. These include cell
+or tissue disruption, protein depletion, and protein enrichment. The
+main sample processing workflow comprises all steps from the biological
+sample input leading to MS-ready peptide output. Postprocessing covers
+optional downstream steps such as peptide fractionation, peptide enrichment,
+or spike-in of heavy-labeled peptides for absolute quantification.
+The sample preparation platform operates on a modular, block-wise
+design, allowing the desired workflow to be customized from a selection
+of preprocessing, main, and postprocessing methods, which can be seamlessly
+integrated. Moreover, we incorporated various lysis protocols in the
+preprocessing steps, which enabled the platform
+to handle a wide range of input materials, including cultured cells,
+biofluids, and fresh frozen tissue. Overall, this highlights the versatility
+of the sample preparation platform, which can be optimally tailored
+to study various aspects of protein biology in multiple sample types
+using high-throughput bottom-up proteomics.
+We designed the
+main workflow to handle a predefined input protein
+amount, independent of the sample type. The main method provided the
+user with the option to either perform or skip the protein quantification
+assay, regardless of whether the protein concentration is assumed
+or needs to be determined based on the sample type. We made sure that
+if a sample’s concentration surpassed the upper limit of the
+calibration curve during protein concentration determination, thereby
+qualifying as an outlier, a repetition of the assay was triggered
+automatically, followed by further dilution of the sample. Next, we
+applied the protein aggregation capture (PAC) protocol ). In the PAC protocol, aggregated and precipitated
+proteins are nonspecifically immobilized onto microparticles. The
+immobilized proteins are subjected to washing steps to remove any
+contaminants, facilitating the retrieval of proteins from a complex
+background matrix. The proteins undergo reduction, alkylation, and
+subsequent digestion directly on the beads. The enzymatically digested
+peptides are acidified and purified via solid-phase extraction. The
+eluted peptides are dried using a nitrogen blowdown evaporator. Peptides
+are resuspended, their concentration is determined, and then adjusted
+to a user-defined target concentration, transferred into liquid chromatography
+coupled to mass spectrometry (LC-MS) compatible 96-well plates, and
+stored at a cooled deck position until further usage ( ).
+With this workflow
+design, we first tested the hardware functionality
+and scripting logic and subsequently adjusted the workflow to multiple
+levels. For this, we focused on reagent-specific liquid handling optimization
+to account for liquid properties and environmental conditions, achieving
+accurate and precise pipetting. We minimized dead volumes to conserve
+expensive and precious reagents, ensuring cost-effectiveness and resource
+efficiency. By running the protocol repeatedly, we continuously improved
+process security by advancing error handling and implementing automated
+error recovery. This reduced the risk of process failures, eliminated
+the sample fallout rate, and ensured consistent, high-quality outcomes.
+Finally, we improved the user experience by implementing clear loading
+instructions, reducing user hands-on time, and simplifying the process
+for end users.
+In conclusion, we have developed a highly versatile,
+multipurpose
+sample preparation platform. This comprehensive, end-to-end automated
+solution is seamlessly integrated with MS acquisition, data processing,
+and downstream analysis. The modular system minimizes hands-on time
+while offering high-throughput in bottom-up proteomics sample preparation
+through parallel workstreams.
+
+## Assessment of the Automated
+Sample Preparation Workflow Reveals
+High Intra- and Interplate as well as Longitudinal Reproducibility
+Coupled with Excellent Sensitivity and Precision
+One key
+aspect of an automated sample processing workflow is to provide a
+high level of reproducibility, accuracy, and precision. Therefore,
+we investigated the variability of one sample preparation run. For
+this, we used HeLa cells as input material and coupled the cell lysis
+as a preprocessing step to the main method. To assess both intra-
+and interplate reproducibility, 24 replicates of 100 μg protein
+input were prepared and distributed across two different plates ( A). We analyzed the samples using LC-MS and observed highly
+consistent protein group and peptide identifications across all samples
+(Figure S4) both within and across plates
+(median Spearman correlation coefficient ρ = 0.9989 [95% CI:
+0.997, 0.999]) ( B).
+ We tested the occurrence of cross-contamination
+during sample processing
+by measuring 24 negative controls (blanks) across two plates ( A). The average of
+four negative control injections resulted in 2.33% protein group identification
+(220 protein groups) and 0.41% peptide identification (709 peptides)
+compared to conventional injections, indicating minimal cross-contamination
+relative to sample-containing injections ( C). We further tested the stability of the
+automated sample preparation platform across a large range of protein
+input amounts. Protein amounts ranging from 0.1 μg to 100 μg
+were processed in quadruplicates, distributed across two plates in
+a single run ( A). All samples with similar injection amounts consistently identified
+between 9,263 and 9,563 protein groups and between 168,276 and 178,878
+peptides, indicative of a high similarity in sample recovery, independent
+of the sample input amount ( C). Submicrogram protein input amounts are of particular
+interest as they underscore the capability of advanced proteomics
+techniques to achieve comprehensive protein group identification from
+minimal sample amounts. Remarkably, while we did not optimize the
+sample preparation for low input, with 0.1 μg protein input,
+we identified almost 7,000 protein groups, demonstrating the workflow’s
+exceptional sensitivity. To ensure reliable and consistent protein
+quantification, we assessed the coefficient of variation (CV) across
+four replicates for each protein. This evaluation is crucial for determining
+measurement precision across various protein input amounts. We obtained
+CVs ranging from 4.09% to 6.49% for each input level, indicating highly
+consistent protein quantification across replicates ( D). This demonstrates efficient
+and uniform sample preparation from input to MS-ready peptides across
+a large range of protein input amounts.
+We assessed longitudinal
+performance and interday precision by
+processing HeLa cell lysate in triplicate on 4 days (day 1, day 2,
+day 3, and day 21), i.e., over a time span of 3 weeks ( A). Throughout the analyzed
+time points, we consistently identified and quantified 9,573 ±
+15 protein groups and 183,542 ± 4,042 peptides ( E). We did not observe a statistically
+significant difference between the time points at the protein group
+level (p-value = 0.18276) or at the peptide level
+(p-value = 0.16873). We calculated the CV across
+three samples for each quantified protein, resulting in average CVs
+of 7.91%, 9.70%, 10.4%, and 5.38% for day 1, day 2, day 3, and day
+21, respectively. These results reflect the highly consistent protein
+quantification across replicates of sequentially processed sample
+plates over the time course of nearly one month ( F).
+In conclusion, automated
+sample preparation allows for the processing
+of a wide range of protein input amounts without compromising data
+quality. Furthermore, the implemented workflow demonstrates high intra-
+and interplate reproducibility as well as longitudinal consistency
+over a period of several weeks. This leads to high standardization
+in sample preparation and, subsequently, to precise and reproducible
+workflows.
+
+## Automated Sample Preparation Workflow Achieves
+Better Time Efficiency
+and Consistent Precision in Comparison to Established Methods
+The need for reproducible and robust sample preparation for bottom-up
+proteomics has sparked the development of a multitude of methods over
+recent years. A) For this, we evaluated protein input amounts of 0.1 μg,
+1 μg, 10 μg, 50 μg, 75 μg, and 100 μg,
+processed in sextuplicates for each method ( and S6). Our
+analysis primarily focused on protein input amounts between 10 and
+100 μg, as this range ensures sufficient peptide output for
+peptide mass normalization in subsequent LC-MS acquisition. We chose
+75 μg of protein input to balance performance, material requirements,
+and input-output efficiency.
+ First, we compared the
+number of identified protein groups and
+peptides ( B).
+The automated workflow showed comparable protein group identifications
+to the semiautomated PAC workflow but consistently and significantly
+outperformed the manual in-solution method (TukeyHSD, p-value <0.001). Interestingly, the automated workflow also showed
+a coherently higher identification rate for peptides compared to both
+the semiautomated and the manual workflows for input amounts >10
+μg
+(TukeyHSD, p-value <0.001). These results emphasize
+the performance of the automated workflow across various input amounts
+when compared to two well-established bottom-up proteomics methods.
+In addition, we calculated the CVs for each quantified protein across
+the six replicates. The automated sample preparation showed the least
+variability, with median CVs ranging from 5.2% to 6.8%, followed by
+the semiautomated preparation, with median CVs ranging from 5.7% to
+6.5%, while the manual preparation had the highest variability, with
+median CVs ranging from 6.4% to 14.0% ( C). This demonstrates that the semiautomated
+and the automated workflows exhibit superior reproducibility in comparison
+to manual preparation, with consistent average CVs across all samples.
+To better assess the differences among the methods, we examined
+the correlation of protein quantities within and between the tested
+methods ( D).
+Spearman correlation coefficients indicated a very high correlation
+(>0.97) between the semiautomated and automated sample processing
+methods. This is likely due to both processes utilizing the same lysis
+buffer and following the same sample processing principles. The correlation
+remained high (>0.93) between the automated and manually processed
+samples, reinforcing the robustness of both procedures. Additionally,
+we observed an exceptionally high correlation even between different
+input amounts within each preparation method, further highlighting
+the consistency and reliability of these methods across varying protein
+input amounts (median Spearman correlation coefficient ρ = 0.9833
+[95% CI: 0.931, 0.997]). However, it is important to acknowledge the
+presence of outliers, specifically in the manually prepared samples,
+which indicate variability in the manual process.
+Beyond the
+number of proteins and the precision of each workflow,
+it was critical to consider whether the different methods varied in
+their identity and quantity of the proteins they extracted. Therefore,
+we compared the overlap and uniqueness of protein group identifications
+across the three sample preparation strategies using a 75 μg
+input amount ( E). Notably, 9,322 protein groups, representing 93.4% of the total,
+were shared across all three workflows. This substantial overlap indicates
+that the majority of proteins are effectively extracted and processed,
+regardless of the sample preparation protocol. A principal component
+analysis (PCA) of protein quantifications delineated distinct clusters
+along the first principal component (PC1), accounting for 42.8% of
+the variance. These clusters correspond to different sample preparation
+methods, indicating method-dependent variability. While the identified
+proteins were largely consistent across methods, subtle differences
+in protein quantities were evident, corroborating the effect of the
+different biochemistry underlying sample preparation methods.
+The main differences among the three sample preparation methods
+are summarized in F and S6C. We tested whether individual
+sample preparation methods are prone to protein modification artifacts.
+Indeed, we observed method-specific modifications and adducts. For
+example, peptides originating from samples treated with urea buffer
+showed increased levels of carbamylation on arginine and lysine, a
+well-known modification associated with this buffer compound. A). These comprised primarily cancerous and
+tissue-derived cells: A549 (lung carcinoma), HCT116 (colorectal carcinoma),
+K562 (chronic myeloid leukemia), MCF7 (mammary carcinoma), NB4 (acute
+promyelocytic leukemia), SKOV3 (ovarian carcinoma), U251 (glioblastoma),
+and U937 (histiocytic lymphoma). Additionally, we included the nonmalignant
+cell line HEK293 and patient-derived peripheral blood mononuclear
+cells (PBMCs).
+ B). As expected, the CVs for each protein group quantity calculated
+across replicates were low, within the range of 5.80% to 9.03% for
+all samples (Figure S7A). This finding
+underlines the high reproducibility of the experimental approach.
+Next, we examined the biological differences of the samples using
+a PCA based on protein quantities across cell samples ( C). Each distinct cell line
+was clearly separated in PCA space, with PBMCs showing the greatest
+distance from the other nine cell line samples. This shows that the
+cellular heterogeneity in patient-derived PBMCs was preserved, while
+the cultured cell lines displayed a higher level of relative homogeneity.
+Nevertheless, the individual cell lines clustered as distinct groups,
+demonstrating that their specific traits are preserved and readily
+detectable when processed with the automated sample processing platform.
+ Some of the most prominent
+functional differences between various
+cell types are represented through differential expression profiles
+of kinases and ubiquitin ligases.
+ D and S7B). We observed significant differences in the expression
+patterns of most of the kinases and ligases (Tukey HSD, p-value <0.05), recapitulating the expected functional heterogeneity.
+The comprehensive data enabled us to further investigate the differential
+expression patterns of specific proteins. For this, we focused on
+a protein with an overall high expression level and high sequence
+coverage: ABL proto-oncogene 1 (ABL1), a nonreceptor tyrosine kinase.
+ABL1 has been associated with chronic myeloid leukemia, where its
+abnormal activation leads to uncontrolled cell proliferation and survival. E), a cell line derived from
+a chronic myelogenous leukemia patient. F,G), underscoring the robustness and reproducibility
+of our workflow. Taken together, these data demonstrate the power
+of the platform to rapidly generate accurate, high-content data that
+can be interrogated to drive decision-making in experimental approaches
+for drug discovery.
+
+## Automated Sample Preparation Coupled to LC-MS
+Can Be Utilized
+for Target Identification, Quantification, and Selectivity Profiling
+of Molecular Degraders
+Targeted protein degradation (TPD)
+is a pharmaceutical modality that enables the modulation of proteins
+traditionally considered undruggable by conventional small molecules.
+ A, top panel). Molecular glues act by promoting or stabilizing
+protein–protein interactions between the E3 ligase and a protein
+of interest (POI), leading to selective ubiquitination and degradation
+of the target. A). We demonstrated
+this by simultaneously screening two cell lines treated with ten preclinical
+and clinical-stage molecular degraders: eight molecular glue degraders
+and two PROTACs, each targeting one of six disease-relevant proteins
+known to be involved in oncology
+ B). The median protein CVs
+were 4.9% for K562 cell samples and 5.5% for A549 cell samples, which
+confirms the high reproducibility of the experimental approach. The
+proteome profiling data can also be used for the identification of
+suitable peptides for quantitative analysis of POI protein levels. C). Stable TTRs are key for reference-based quantification,
+as they indicate precise pipetting of the reference and thus low technical
+variations. We observed median peptide CVs of 8.2% in K562 samples
+and 7.3% in A549 samples ( C), which highlights the robustness and reproducibility
+of the automated workflow, and particularly of the postprocessing
+system.
+To monitor protein degradation, we performed differential
+expression
+analysis of the proteomic data and assessed proteins that showed a
+significant change in abundance in compound- vs vehicle-treated conditions
+(|log2­(FC)| > 0.58, q < 0.05) ( D and S9F,G). Five out of ten compounds led to the known POI being
+ranked as the top candidate among the down-regulated proteins in the
+cell line with the highest POI expression. D illustrates the results of K562 cells treated
+with compound E7820its POI, RBM39, is the most downregulated
+protein (for evaluation of other compounds, see Supplementary Results). For compounds XL01126 and Compound-68,
+POIs were identified only in A549 cells due to low expression in K562
+cells. Conversely, for cemsidomide, pomalidomide, and iberdomide,
+POIs were identified only in K562 cells due to low expression in A549
+cells (Figure S9A). We confirmed the successful
+degradation of each POI by quantitative analysis of the protein levels
+( E and S9F,G). E illustrates an 80% degradation of the RBM39 protein
+in K562 cells treated with E7820 compared to vehicle-treated cells,
+indicating a significant reduction in protein levels upon treatment.
+Across all compounds, we demonstrated 35–95% degradation of
+the known POI in the cell line with the highest POI expression ( E and S9F,G). Overall, our results highlight the selective
+degradation of specific POIs for each compound in the two cell lines
+( F). Interestingly,
+we observed cell line-dependent differences, particularly with certain
+POIs, varying from high endogenous abundance in one cell line to inconclusive
+measurements below the limit of quantification (<BLQ) in the other.
+This illustrates the critical importance of selecting appropriate
+cell lines or incorporating multiple cell lines in the characterization
+approach for TPDs.
+In conclusion, we demonstrated that the automated
+sample preparation
+workflow is highly suitable for high-content compound characterization
+due to its robustness, reproducibility, and efficiency. This workflow
+encompasses both target identification and subsequent quantification
+evaluation, ensuring a comprehensive analysis. The automated solution
+for targeted assays facilitates longitudinally stable reference peptide
+spike-ins for measuring protein levels, which is crucial for maintaining
+consistency over time. This makes the workflow particularly well-suited
+for drug development, where precise and reliable quantification of
+target proteins is essential.
+
+## Discussion
+In
+this work, we developed an end-to-end automated sample preparation
+platform designed to enhance the performance of bottom-up proteomics.
+Its modular, block-wise design allows a seamless integration of customizable
+workflows with various combinations of pre- and postprocessing methods.
+It efficiently processes a wide range of protein input amounts and
+various sample types simultaneously without compromising data quality.
+The implemented workflow demonstrates high reproducibility through
+longitudinal consistency over several weeks and exhibits high intra-
+and interplate reproducibility. The marked increase in efficiency,
+reduced error rates, and optimized user experience make it an ideal
+system for a cost-efficient and simple application that does not require
+extensive expert knowledge. We showed that the platform is suitable
+for high-content compound characterization, where precise and reliable
+quantification of target proteins is essential, especially for downstream
+clinical research.
+Sample preparation remains one of the most
+critical and error-prone
+steps in bottom-up proteomics, since it encompasses multiple sequential
+processes such as sample preprocessing, protein quantification, reduction
+and alkylation, enzymatic digestion, peptide quantification, and postprocessing.
+In standard workflows, these steps can involve up to 15 pipetting
+steps per sample, which translates to approximately 2,880 pipetting
+steps for a 192-sample batch. Each step introduces a potential source
+of technical variability that can accumulate throughout the process.
+However, with automated liquid handling, pipetting steps can be parameter-controlled
+and standardized over time. While individual automation solutions
+for selected steps, such as automated digestion or protein quantification,
+have been proposed, comprehensive automation of the full sample preparation
+pipeline has remained limited.
+−
+
+ Our end-to-end automated solution
+addresses this gap by fully integrating all key steps from biological
+sample input to MS-ready peptide output within a single, autonomous
+workflow. In contrast to existing systems that often require manual
+interventions, such as sample dilution when the concentration is outside
+of the calibration range, centrifugation
+steps, or manual sealing/unsealing of plates, our system is designed for hands-free processing with built-in redundancies,
+automated recovery options, and real-time error handling, ensuring
+uninterrupted operation. This complete automation minimizes human
+interaction, reduces the risk of contamination or sample loss, and
+enhances reproducibility through standardized pipetting across batches
+and time points. By decoupling the sample preparation process from
+operator, time, and location variability, our system facilitates robust
+scaling and seamless integration into regulated or clinical environments,
+supported by comprehensive logbooks and audit trails.
+Recent
+advancements in LC-MS measurement time have significantly
+enhanced bottom-up proteomics. Within five years, the time required
+to identify 10,000 protein groups has been reduced 3-fold, from 100
+to 30 min, enabled by advances in MS instrumentation and the adoption
+of shorter LC gradients.
+,
+ Consequently, to keep
+pace with the speed of LC-MS acquisition, sample preparation must
+be scaled up accordingly, which can be best achieved through the use
+of robotics. Our automated platform processed 30 cell samples within
+10 h, requiring only 2.5 h of manual hands-on time. When scaled to
+192 samples, the workflow, enabled by parallelized processing, completes
+sample preparation from biological input to MS-ready output within
+24 h. Notably, the required manual hands-on time increases marginally
+to approximately 3 h, underscoring the efficiency gains achieved through
+automation and parallelization. Extrapolating this capacity to continuous
+weekly operation, our system can process approximately 960 samples
+per workweek with an estimated 5 h of total manual interaction, thereby
+enabling high-throughput sample preparation with minimal hands-on
+effort. In contrast, workflows such as autoSP3 prepare 96 samples
+up to digestion within 3.5 h, enabling ∼300 samples per day
+under manual supervision, while postprocessing is not included. Similarly, a recently published plasma proteomics
+pipeline could process up to 40 × 96-well plates in under 300
+min by coordinating liquid handling systems, centrifuges, and PCR
+cyclers. However, this approach remains
+labor-intensive and highly specialized for plasma proteomics, limiting
+its flexibility and generalizability. When workflows are compared,
+it is crucial to note that our platform offers several additional
+steps beyond the primary processes of protein reduction, alkylation,
+and digestion. These include protein and peptide concentration determination
+with subsequent sample normalization, as well as peptide cleanup and
+desalting, which are essential for maintaining high-quality results.
+Our platform operates completely hands-free, including overnight and
+weekend runs, enabling the processing of hundreds of samples per week.
+With further integration of 96- or 384-well pipetting heads and adaptations
+to shorten incubation times, throughput could scale to thousands of
+samples per week, advancing both efficiency and reproducibility in
+proteomic sample preparation.
+Bottom-up proteomic workflows
+are often used to address a variety
+of biological questions and can assess various information such as
+qualitative and quantitative protein expression,
+,−
+
+ post-translational modifications, protein structural alterations, or identification of binding sites.
+,
+ All of these
+different applications pose distinct requirements for sample preparation,
+making the corresponding workflows highly complex and versatile. This
+adds unique challenges to automation initiatives. A compelling example
+is the quantification of proteins using heavy-labeled reference peptides.
+Following protein identification, this approach requires spiking synthetic
+peptides into the digested sample at precisely defined amounts. Because the reference-based quantification directly
+depends on the spiked-in volume, even minor inaccuracies during this
+step can lead to significant errors. Therefore, the automation system
+must support microliter pipetting precision and maintain consistency
+across large-scale, high-throughput operations. Beyond peptide spike-ins,
+modern proteomics workflows often require additional modules tailored
+to specific experimental goals. This includes depletion of high-abundance
+proteins (e.g., in plasma or CSF), proteome-wide
+enrichment of proteins, peptides or modified peptides (PTMs),
+,
+ and targeted protein and peptide capture strategies such as pull-downs
+or immunoprecipitations. Furthermore,
+recent advances such as limited proteolysis-MS55 or thermal
+proteome profiling demand workflows capable
+of accommodating diverse sample inputs and proteome states. Our automated
+platform addresses these challenges through a modular, block-wise
+architecture, where processing blocks can be rearranged or extended
+to suit specific applications. Each module operates independently,
+allowing for flexible configuration without compromising throughput
+or reproducibility. For instance, enrichment steps can be inserted
+pre- or postdigestion, depletion modules can precede lysis, and heavy-labeled
+peptide spiking can be integrated seamlessly after cleanup, all on
+the same instrument. This design also future-proofs the system, allowing
+rapid adaptation as new proteomic techniques emerge. As the field
+continues to evolve, driven by improvements in enrichment techniques
+or miniaturized sample formats, having a platform that can scale,
+reconfigure, and expand is crucial for keeping pace.
+Taken together,
+our flexible end-to-end automated sample preparation
+workflow enables reproducible large-scale applications in human medical
+research, supporting both current and next-generation applications
+in bottom-up proteomics.
+
+## Supplementary Material
+
+The authors gratefully acknowledge Hamilton Bonaduz
+AG for their contributions to system design, initial method implementation,
+programming, and ongoing application support. We would also like to
+thank Matthew Carr at Sygnature Discovery for his assistance with
+the Echo protocol design.
+The raw MS data,
+the libraries, and the quantitative data tables have been deposited
+to the ProteomeXchange Consortium via the PRIDE partner repository. The saved projects from Spectronaut or Spectrodive
+can be viewed with the corresponding data viewer (www.biognosys.com/software/viewers/). PRIDE Data accession information: Data to Figure 2, PXD063610;
+Figure 3, PXD063636; Figure 4, PXD063679; Figure 5, PXD063831.
+The Supporting Information
+is
+available free of charge at https://pubs.acs.org/doi/10.1021/acs.analchem.5c03829.Supplementary Results
+detail the selection of optimal
+cell counts for compound treatment screens, differential expression
+analysis, and quantitative assessments; Supplementary Figures 1–5
+illustrate the graphical projection overview, automated sample preparation
+layout, workflow scheduling, protein groups, and peptide identifications
+of the intra- and interplate reproducibility assessment, as well as
+the throughput assessment between automated, semiautomated, and manual
+sample processing workflows; Supplementary Figure 6 compares performance
+at low protein inputs (0.1 and 1 μg); Supplementary Figure 7
+characterizes multiple cell lines with a focus on selected E3 ligases;
+Supplementary Figure 8 presents the molecular structures of targeted
+protein degradation compounds; Supplementary Figure 9 details their
+profiling results; Supplementary Figures 10–16 show sequence
+coverage of known targets; Supplementary Figures 17–30 display
+LLOQ curves for all absolutely quantified proteins. (PDF)
+Supplementary Data 1 lists
+materials used in the automated
+sample preparation system and workflows (XLSX)
+Supplementary Data 2 provides a list
+of all materials
+utilized in this manuscript, supplementing those in Supplementary
+Data 1 (XLSX)
+Supplementary Data 3 lists the cell line samples used
+(XLSX)
+Supplementary
+Data 4 includes selected chemical compounds
+for cell treatment experiments (XLSX)
+Supplementary Data 5 contains selected heavy-labeled
+peptides for targeted proteomic assay (XLSX)
+Supplementary Data 6 presents the
+final panel list for
+the targeted proteomic assay (XLSX)
+
+#S.S. and L.R.
+contributed equally. L.R. designed, implemented, programmed,
+and optimized the automated workflow. L.R. and S.S. carried out all
+proteomics experiments and initial data analysis. S.S., L.M., and
+P.S. carried out all downstream data analysis and visualization. C.B.
+established LC-MS methods. F.C. performed compound selection and cell
+treatment in cell-based assays. L.I. and G.R. performed compound synthesis.
+S.S. carried out the targeted proteomics assay development, measurement,
+and initial data analysis. M.T. established the initial workflow and
+system design. M.T., J.V., Y.F., R.H., B.G., R.B., and L.R. provided
+project supervision. S.S., L.R., and L.M. conceived and designed the
+project and wrote the paper with input from all authors.
+The authors
+declare the following competing financial interest(s): Competing financial
+interests: The authors SSC, LR, LM, SSA, CB, MT, PS, JV, YF, RB and
+LRE are full-time employees of Biognosys AG. Spectronaut and Spectrodive
+are trademarks of Biognosys AG. The authors FC, LI, GR, BG and RH
+are full-time employees of Sygnature Discovery.

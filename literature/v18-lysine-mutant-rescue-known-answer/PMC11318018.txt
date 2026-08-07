@@ -1,0 +1,364 @@
+pmcACS Med Chem LettACS Med Chem Lett2426acsmedlett101521073mlACS Medicinal Chemistry Letters1948-5875American Chemical SocietyPMC11318018PMC11318018.111318018113180183914007010.1021/acsmedchemlett.4c002711LetterLysineless
+HiBiT and NanoLuc Tagging Systems as Alternative
+Tools for Monitoring Targeted Protein Degradation
+LinHanfeng RichingKristin LaiMay Poh LuDong ChengRan QiXiaoli https://orcid.org/0000-0003-3625-7919WangJin †The
+Verna and Marrs McLean Department of Biochemistry and Molecular Pharmacology, Baylor College of Medicine, Houston, Texas 77030, United States‡Promega
+Corporation, 2800 Woods Hollow Road, Madison, Wisconsin 53711, United States§Malvern
+Panalytical Inc., 2400
+Computer Drive, Westborough, Massachusetts 01581, United States∥Department
+of Molecular and Cellular Biology, Baylor
+College of Medicine, Houston, Texas 77030, United States⊥Center
+for NextGen Therapeutics, Baylor College
+of Medicine, Houston, Texas 77030, United
+States*Email: wangj@bcm.edu.280720240808202415846866513671375110620240207202401072024280720241308202428082024© 2024 American Chemical Society2024American Chemical Societyhttps://pubs.acs.org/page/policy/termsofuse.htmlMade available for a limited time for personal research and study only License.
+Lysineless HiBiT and NanoLuc Tagging Systems as Alternative Tools Monitoring Targeted Protein Degradation
+
+17520242024.05.14.594249bioRxiv10.1101/2024.05.14.594249PMC1111829938798562 
+Target protein degradation (TPD) has emerged as a revolutionary
+approach in drug discovery, leveraging the cell’s intrinsic
+machinery to selectively degrade disease-associated proteins. Nanoluciferase
+(nLuc) fusion proteins and the NanoBiT technology offer two robust
+and sensitive screening platforms to monitor the subtle changes in
+protein abundance induced by TPD molecules. Despite these advantages,
+concerns have arisen regarding potential degradation artifacts introduced
+by tagging systems due to the presence of lysine residues on them,
+prompting the development of alternative tools. In this study, we
+introduce HiBiT-RR and nLucK0, variants devoid of lysine
+residues, to mitigate such artifacts. Our findings demonstrate that
+HiBiT-RR maintains a similar sensitivity and binding affinity with
+the original HiBiT. Moreover, the comparison between nLucWT and nLucK0 constructs reveals variations in degradation
+patterns induced by certain TPD molecules, emphasizing the importance
+of choosing appropriate tagging systems to ensure the reliability
+of experimental outcomes in studying protein degradation processes.
+
+HiBiTNano luciferaseTagging systemTargeted protein degradation (TPD)Proteolysis targeting
+chimeras (PROTACs)High-throughput screeningU.S. Department of Health and Human Services10.13039/100000054R01-CA250503Cancer Prevention and Research Institute of Texas10.13039/100004917RP220480U.S. Department of Health and Human Services10.13039/100000054R01-CA268518pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementyespmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyesdocument-id-old-9ml4c00271document-id-new-14ml4c00271ccc-priceTargeted protein degradation
+(TPD) is a groundbreaking approach in drug discovery that utilizes
+the intrinsic machinery of the cell to selectively degrade disease-associated
+proteins. Unlike traditional therapeutics that inhibit protein function,
+TPD molecules (also known as degraders) modulate protein levels within
+the cell, providing a unique strategy to tackle diseases. A key player
+in the TPD field is proteolysis-targeting chimeras (PROTACs). PROTACs
+are heterobifunctional molecules that can provide body-wide phenocopy
+knockdown without modification on the genome. The warhead part can
+bind to the target protein, and the E3 ligand part can bind to E3
+ubiquitin ligase to facilitate the formation of a ternary complex,
+leading to ubiquitination on surface-exposed lysine residues of the
+target protein, ultimately leading to targeted protein degradation. , The ability of PROTACs to harness the natural protein degradation
+pathway has broadened the scope of “druggable” targets,
+offering new possibilities for therapeutic intervention. As of 2023,
+a total of 26 PROTAC projects worldwide have entered the clinical
+stage. The most rapid progression was observed in the ARV-471 project,
+a collaborative effort between Arvinas and Pfizer, which commenced
+phase III clinical trials in 2022. − Simultaneously, several other degraders
+are either already in the initial stages of clinical trials or poised
+to enter them. The PROTAC field is flourishing with a multitude of
+degraders competing for a place in the clinical market.
+To monitor
+the subtle target protein abundance change induced by
+the TPD molecules in the complex cellular environment, a highly sensitive
+and high-throughput compatible protein abundance assay with broad
+dynamic range is ideal for screening purposes. Nanoluciferase (nLuc),
+a small 19-kDa, highly stable, ATP-independent, bioluminescent protein
+engineered from the original deep-sea shrimp luciferase (Oplophorus-luciferin
+2-monooxygenase), has been utilized to develop robust and ultrahigh
+sensitivity screening systems. As a commonly
+used chemical biology tool in the high throughput evaluation of degrader
+efficacy, a strong bioluminescence signal generated from the nLuc
+fusion protein could sensitively reflect the real-time fusion protein
+level in live cells or crude cell lysates, allowing for the kinetic
+monitoring of protein degradation events upon degrader treatment. , To further minimize the tagging size, NanoBiT technology was utilized. This approach involves a complementing system
+in which an 11-amino acid peptide (HiBiT) is tagged onto the protein
+of interest, enabling interaction with an 18 kDa polypeptide (LgBiT).
+This interaction results in the formation of an active luciferase
+capable of producing light upon reaction with its luminogenic substrate,
+furimazine, or its stabilized version endurazine. , , 
+The efficient ubiquitination of a
+substrate lysine requires the
+appropriate spatial proximity between the substrate lysine and the
+narrow catalytic site on the E2 enzyme. − This spatial arrangement
+is crucial for facilitating the ubiquitination reaction. Therefore,
+the accessibility and positioning of lysine residues play a critical
+role in determining their susceptibility to ubiquitination. , It has been reported that lysine residues of the target protein
+located on the ubiquitin accessible band of the E3 ligase machinery
+will contribute more to the degradation. − Therefore,
+recently, there have been increasing concerns that the introduced
+lysine residues on the tagging protein or peptide may contribute to
+degradation artifacts. A typical example was the successful degradation
+of GFP-KRASG12C but not the endogenous KRASG12C by XY-4-88. For those target proteins
+with only a few lysine residues on the surface, the artificially introduced
+lysine on the tag may even mislead the researchers for pursuing a
+nondegradable PROTAC molecule.
+In this study, we present two
+alternative tools, HiBiT-RR and nLucK0, in which all of
+the lysine residues have been replaced
+by arginine residues from their original sequences to avoid potential
+risks from degradation artifacts. We show here that HiBiT-RR shows
+a comparable binding affinity toward LgBiT to the original HiBiT peptide,
+with no sacrifice on the luminescence intensity. The HiBiT-RR tag
+is as sensitive as HiBiT in detecting and quantifying drug-induced
+protein degradation. On the other hand, by comparing nLucWT and nLucK0 constructs, we report that some PROTAC molecules
+tested in this paper can trigger stronger degradation in the nLucWT fusion protein than the nLucK0 counterpart. This
+discovery suggests that degradation artifacts stemming from the tagging
+system might be more widespread than currently understood. It also
+highlights the importance of choosing the right tagging system to
+help minimize potential interference or artifacts in studying protein
+degradation processes, thereby enhancing the reliability and validity
+of the experimental results.
+Lysine is the most common residue
+to accept ubiquitin transfer
+from E2 enzymes due to their reactivity. In order to deal with the
+potential artificial degradation of the target protein originating
+from the two lysine residues in the original version of HiBiT tag
+(VSGWRLFKKIS), referred as HiBiT-KK thereafter, , we started to characterize the biophysical and enzymatic properties
+of the lysine-less version of the HiBiT (VSGWRLFRRIS), hereinafter referred to as HiBiT-RR, by substituting the two
+lysine with arginine residues ( A). We first characterized the binding between LgBiT
+protein and HiBiT-KK or HiBiT-RR. Fixing the amount of LgBiT, we titrated
+a series of HiBiT concentrations for both KK and RR variants. Both
+HiBiT-KK and HiBiT-RR showed low nM EC50 values and comparable
+luminescence signal intensities no matter whether our homemade His-LgBiT
+protein or the LgBiT protein from Promega Corp. was used ( B,C). A comparable
+level of luminescence signal is as expected since the KK to RR mutation
+site is distant from the luciferase catalytic pocket according to
+a recently deposited nLuc structure (PDB: 7SNT). However, the EC50 value
+we got from LgBiT-HiBiT interaction was ∼10 times weaker than
+previously reported 700 pM. Therefore,
+we performed a reverse titration of various concentrations of the
+LgBiT protein into a fixed amount of HiBiT variants. After subtracting
+the signal from LgBiT itself in the absence of any HiBiT peptide,
+both HiBiT-KK or RR still showed similar EC50 levels as
+are in the forward titration ( D,E). The EC50 levels remain unchanged for
+up to 6 h incubation, indicating the establishment of equilibrium
+(Figure S1).
+ We also biophysically determined their affinity
+and binding kinetics
+in the absence of an enzyme substrate using grating-coupled interferometry
+(GCI). In parallel with enzymatic measurements, both HiBiT-KK and
+RR demonstrated an affinity at the single-digit nanomolar level toward
+His-LgBiT. Notably, HiBiT-RR exhibited a marginally superior performance
+compared to HiBiT-KK, displaying a slower dissociation rate (koff) under conditions of both high and low density
+of LgBiT ( ).
+ All this evidence indicates that under such experimental
+conditions,
+the binding affinity between HiBiT and LgBiT in the presence of enzyme
+substrate may not be as tight as determined before in sub-nM range
+yet still tight enough for applications such as sensitively detecting
+HiBiT in cell lysates. Also, introducing the RR mutation into the
+established HiBiT sequence does not compromise the readout intensity,
+from which a robust luminescence assay with good sensitivity can be
+developed.
+Protein degrader molecules like PROTACs or molecular
+glue are gathering
+increasing attention as both therapeutic modalities and chemical biology
+tools. The warhead component of these molecules binds to the target
+protein, while the E3 ligand portion interacts with the E3 ubiquitin
+ligase, facilitating the formation of a ternary complex. This complex,
+in turn, triggers ubiquitination, leading to eventual degradation
+of the target protein. A pivotal step in the protein degradation pathway
+is the transfer of ubiquitin onto lysine residues exposed on the protein
+surface, navigating the protein to the proteasome for degradation.
+There have been concerns since the release of the HiBiT-tagging system
+about the existing lysine in the HiBiT sequence, with apprehensions
+about whether these artificially introduced lysine residues could
+potentially contribute to the degradation of the target protein. This
+concern becomes particularly relevant in the case of protein degraders
+since the protein of interest has already been recruited and loaded
+onto the E3 ligase complex.
+Here we characterized the degradation
+efficiency of four BTK PROTACs
+(RC-1, NX-2127, , NRX-0492, and DD-03-171 ) covering different target engagement mechanisms
+(RC-1 for reversible covalent PROTAC, others for reversible PROTAC)
+using the BTK kinase domain (residue 382–659, BTKKD) tagged with either HiBiT-KK or RR ( ). Results show that the HiBiT-RR construct
+( B, D) was
+able to reproduce those characteristic parameters of PROTACs observed
+in the traditional HiBiT-KK construct ( A, C) such as DC50, Dmax, and the strong hook effect observed in RC-1 at high
+doses. In our previous research, RC-1 did not show a very strong hook
+effect, and we believe it was due to the difference of the cooperativity
+between BTKKD and full length BTK. Indeed, in Ramos BTK-HiBiT-KK
+knock-in cell line, we observed a weaker hook effect and a deeper Dmax (Figure S2).
+ With the robustness of the transiently expressed
+HiBiT-RR construct
+confirmed, we tested both systems in the context of HiBiT in situ knock-in cell lines. By CRISPR knocking in either
+HiBiT-KK or -RR at the N-terminus of BRD4 in HEK293 cells, MZ1 and
+dBET6, two classical BRD4 PROTACs, , were further
+used to characterize the degradation potency difference in the HiBiT-KK
+or -RR knock-in cells. Similarly, no significant DC50 or Dmax difference was observed for MZ1 degrading
+HiBiT-BRD4 ( A–D). For dBET6, we observe a marginal difference in that
+HiBiT-RR BRD4 undergoes slower degradation kinetics than HiBiT-KK
+in high concentration dBET6 treatment, although a similar Dmax was observed, and the degradation potency
+when a plateau was achieved shows less than a 2-fold difference ( E–H). Altogether,
+our data indicate that HiBiT-RR also works as well as the original
+HiBiT-KK in the in situ genome knock-in systems.
+ So far, we have validated HiBiT-RR as a feasible
+tool for protein
+abundance monitoring, which shows a sensitivity comparable to that
+of HiBiT-KK but ablated the potential pitfall of degradation artifacts.
+However, using the HiBiT-tag protein alone does not allow continuously
+monitoring the protein level changes in the time course study, unless
+an additional copy of LgBiT was also knocked into the genome. However, potential ubiquitination could still
+happen on the lysine residue of wild-type LgBiT. Ectopically expressing
+a nLuc fusion protein is a common way to evaluate degradation kinetics.
+Here we would also like to report our attempt of using a no-lysine
+version of nLuc (nLucK0), where all the lysine residues
+in the original nLuc sequence were mutated into arginine (sequence
+as shown in A). By fusing nLuc WT or K0 to the N-terminus of the RIPK1 kinase
+domain (RIPK1KD) and expressing it in HEK293T cells, we
+head-to-head compared the degradation capacity of a series of RIPK1
+degraders (Table S1) against these constructs
+( B, C). , For majority compounds, both nLuc WT and K0 constructs show similar
+maximal degradation (Dmax) and DC50 values, while the negative control compound 4172NC shows
+no degradation in both constructs. But for compound 5037, we observed
+a 3-fold worsening in DC50 when the nLucK0 construct
+was used (nLucWT 47 nM versus nLucK0 147 nM).
+A similar potency reduction was also observed in compound 5077, a
+CRBN-based RIPK1 PROTAC (nLucWT = 10 nM versus nLucK0 = 39 nM). This observed potency reduction could be due to
+the removal of the ubiquitin-able lysine residues on the nLuc surface,
+highlighting the potential degradation artifacts when ubiquitination
+happens on the nLuc protein. Transition to the K0 construct could
+avoid such degradation artifacts from the nLuc part. An immunoblot
+confirmed the degradation of both nLuc-RIPK1KD fusion proteins
+( D).
+ Since we observed a lower luminescence intensity
+when expressing
+the nLucK0 construct in the mammalian cell, we purified
+both His6-tagged nLuc WT and K0 protein from Escherichia
+coli BL21(DE3) (Figure S3A, B).
+Surprisingly, we found that nLucK0 protein had significantly
+decreased enzyme activity (up to 400-fold) compared to nLucWT under the same in vitro assay condition (Figure S3C). This result could explain the decrease
+in luminescence intensity from nLucK0 when overexpressed
+in mammalian cells. nLucK0 protein activity may heavily
+rely on the cellular environment to maintain the protein stability.
+Target protein degradation (TPD) represents a revolutionary approach
+in drug discovery, harnessing the intrinsic machinery of the cell
+protein degradation pathway to selectively degrade disease-associated
+proteins. Unlike conventional therapeutics that inhibit protein function,
+TPD molecules, also known as degraders, modulate protein levels within
+cells, offering a unique strategy to combat diseases. However, amidst
+this progress, challenges exist in accurately monitoring subtle changes
+in target protein abundance induced by TPD molecules within complex
+cellular environments. The immunoblot has long been used as the gold
+standard to detect and quantify target protein degradation, but the
+long processing steps and the limited numbers of samples in each gel
+make the throughput very low, sometimes even leading to artifacts.
+Capillary electrophoresis immunoassay typically requires less sample
+consumption, involves simpler procedures, and shortens analysis time. It has been applied to monitor BTK level changes and BRD4 bromodomain ubiquitination levels after PROTAC treatment. Time-resolved fluorescence
+resonance energy transfer (TR-FRET) has recently been developed to
+quantify the protein level in the crude lysate in a high-throughput
+manner. However, all these methods depend
+on highly specific antibody–antigen interactions. In addition,
+the TR-FRET based assay also requires the development of tracer compounds.
+To address these problems, highly sensitive and high-throughput compatible
+protein abundance assays with broad dynamic ranges are indispensable
+for screening purposes.
+Reporter assays represent a rapid and
+sensitive method to measure
+protein degradation based on fluorescence or bioluminescence. GFP
+has been used to quantitatively monitor the target protein degradation
+event for KRASG12C and BRD4
+bromodomains. The development of a complementary
+luciferase based HiBiT tagging system offered another reporter assay
+to monitor protein degradation. The high affinity between HiBiT and
+LgBiT complexes allows immediate quantification of HiBiT tagged protein
+using bioluminescence readout. This system has been successfully applied
+in kinetically monitoring the potency of BRD2/3/4 PROTAC MZ1 and BRD7/9 PROTAC VZ185, IMiD molecular glues, kinases , and fusion-tag PROTACs. However, there
+has been reported cases that fusion tags on the target protein may
+alter the degradability of the target protein by introducing artificial
+ubiquitination sites. 
+Since there
+is currently no way to guarantee whether a fusion tag
+may contribute to the protein degradability by introducing novel ubiquitination
+sites, as an expansion of the current chemical biology toolbox, this
+study introduced two alternative tagging systems, HiBiT-RR and nLucK0, aimed at minimizing potential degradation artifacts during
+TPD molecule discovery processes. HiBiT-RR, a lysine-less version
+of the HiBiT tag, demonstrated comparable binding affinity to LgBiT
+protein with the original HiBiT-KK, ensuring reliable protein abundance
+monitoring without sacrificing assay sensitivity. Moreover, HiBiT-RR
+maintained similar degradation efficiency as HiBiT-KK when tested
+with various BTK and BRD4 PROTACs, indicating its suitability for
+evaluating degrader potency. Interestingly, we observed in the HiBiT-RR
+BRD4 knock-in cells only dBET6 showed a slightly slower degradation
+kinetics compared to HiBiT-KK, but not MZ1. This suggests that the
+fusion tag may or may not contribute to the degradation event depending
+on the compound used. It is plausible that the tag on the target protein
+adopts a conformation that is more favorable for accepting ubiquitin
+in the presence of certain compounds but not in others. This nuanced
+understanding underscores the complex interplay among the tagging
+system, compound-induced ternary complex conformation, and protein
+degradation mechanism.
+Furthermore, the study explored the potential
+of nLucK0, a no-lysine version of nLuc, in targeted protein
+degradation studies.
+While both nLucWT and nLucK0 constructs exhibited
+a similar degradation potency for most compounds tested, a notable
+reduction in degradation potency was observed for specific compounds
+with nLucK0, suggesting potential degradation artifacts
+stemming from ubiquitination on the lysine residues of nLucWT. Transitioning to the nLucK0 construct could mitigate
+such artifacts, enhancing the reliability of the degradation studies.
+However, it is worth noting that the relatively lower luminescence
+intensity observed with the nLucK0 construct when expressed
+in mammalian cells could be attributed to decreased enzyme activity
+compared to nLucWT. The enzyme activity difference was
+even more obvious using purified nLucWT and nLucK0 protein, which indicates the unstable nature of nLucK0 in a noncellular environment. But out of all the PROTACs we tested,
+we did not find any compounds that show more than a 2-fold stronger
+degradation potency in the nLucK0 than the nLucWT construct. This observation helps alleviate concerns regarding potential
+artificial degradation due to the instability of the nLucK0 protein. Although the luminescence signal decrease in the cellular
+assay is trivial and can be easily compensated by increasing instrument
+photomultiplier tube (PMT) gain setting, this finding underscores
+the importance of considering the influence on the cellular environment
+when overexpressing proteins with less stability, especially in the
+context of assay development and interpretation.
+Overall, the
+study underscores the significance of choosing appropriate
+tagging systems, such as HiBiT-RR and nLucK0, to minimize
+potential interference and artifacts in studying protein degradation
+processes. By enhancing the reliability and validity of experimental
+results, these tools contribute to advancing drug discovery efforts
+utilizing TPD molecules, ultimately leading to more effective therapeutic
+interventions.
+
+## Supporting Information Available
+The Supporting Information is
+available free of charge at https://pubs.acs.org/doi/10.1021/acsmedchemlett.4c00271.Detailed experiment methods, biochemistry assay data,
+and RIPK1 degrader common structures (PDF)
+
+## Supplementary Material
+ml4c00271_si_001.pdf
+
+The authors
+declare the following competing financial interest(s): J.W. is a co-founder
+of Chemical Biology Probes, LLC. and serves as a consultant for CoRegen
+Inc.
+
+## Acknowledgments
+This research was supported in part by the National
+Institutes of Health (R01-CA250503 and R01-CA268518 to J.W.), the
+Cancer Prevention & Research Institute of Texas (CPRIT, RP220480
+to J.W.), and Michael E. DeBakey, M.D., Professor in Pharmacology
+(to J.W.). We also appreciate all suggestions and advice from Dr.
+Chris Eggers at Promega and Dr. Ryan Potts at Amgen.
+
+## Abbreviations
+BRD4Bromodomain-containing
+protein
+4
+BTKBruton’s
+tyrosine kinase
+DC50Concentration of compound for inducing 50% protein
+degradation
+DmaxPercentage of maximal protein degradation
+can be achieved
+GCIGrating coupled interferometry
+HiBiT-KKHigh affinity small subunit of nanoluciferase
+binary technology–with two Lys residues (peptide VSGWRLFKKIS)
+HiBiT-RRHigh affinity small subunit of nanoluciferase binary technology–with
+two Arg residues (peptide VSGWRLFRRIS)
+K0free of any lysine residues
+KDKinase domain
+LgBiTLarge subunit
+of nanoluciferase binary technology
+nLucNano-luciferase
+PROTACProteolysis targeting chimera
+RIPK1Receptor-interacting serine/threonine-protein
+kinase 1
+TPDTargeted
+protein degradation
