@@ -1,0 +1,152 @@
+{
+ "_what": "roadmap \u00a710.1a row Q12 \u2014 verify the RT-TCIP citation through verify-refs, then grade the mechanism against the failure record.",
+ "_cost": "$0 \u2014 public Actions API reads and a local grep. No GPU, no rental, no token.",
+ "doi_registration": {
+  "doi": "10.1021/jacs.5c05634",
+  "workflow": ".github/workflows/verify-refs.yml",
+  "memo_grep_pattern": "jacs.5c05634",
+  "memo_grep_c_result": 2,
+  "n_occurrences_of_full_doi": 1,
+  "registered": true,
+  "in_enforced_section": true,
+  "error": null,
+  "_why_two_checks": "section 8a of verify-refs.yml is PRINT-ONLY; only section 1's FIXED_DOIS is read by the verdict, and the expected count is derived from that array. A DOI registered outside it would resolve in the log and gate nothing."
+ },
+ "route_memo_claim": {
+  "memo": "research/modalities/nr4a3-tcip-route-memo.md",
+  "still_asserts_absence": true,
+  "quoted": "- `grep -c \"jacs.5c05634\" .github/workflows/verify-refs.yml` \u2192 **0**. The DOI is **absent from the",
+  "error": null,
+  "_consequence": "if this is true while the DOI IS registered, the memo is a stale blocker: a session reading it would conclude the route is still citation-gated and would either re-do a committed workflow edit or refuse to quote a cleared citation. Prose does not un-record itself."
+ },
+ "memo_is_stale": true,
+ "_memo_is_stale_means": "the DOI IS registered while the route memo still records it as absent. The BLOCKER is discharged; the RECORD of it is not, and the record is what the next session reads.",
+ "verify_refs_runs": {
+  "_source": "https://api.github.com/repos/trimcrae/Rare-cancers/actions/workflows/verify-refs.yml/runs",
+  "runs": [
+   {
+    "run_id": 31175823997,
+    "created_at": "2026-08-07T11:52:22Z",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/31175823997"
+   },
+   {
+    "run_id": 30178335270,
+    "created_at": "2026-07-25T22:50:36Z",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/30178335270"
+   },
+   {
+    "run_id": 28260225630,
+    "created_at": "2026-06-26T19:22:11Z",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/28260225630"
+   },
+   {
+    "run_id": 27916336362,
+    "created_at": "2026-06-21T20:20:44Z",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/27916336362"
+   },
+   {
+    "run_id": 27909638227,
+    "created_at": "2026-06-21T15:55:37Z",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/27909638227"
+   }
+  ],
+  "error": null
+ },
+ "verification_evidence": {
+  "run_id": 31175823997,
+  "job_id": 92857493826,
+  "job_name": "verify",
+  "dispatched_at_et": "2026-08-07 7:52 AM ET",
+  "ref": "main",
+  "conclusion": "success",
+  "quoted_expect": "expect: EV-EB-TCIP-2025 (expect: Rewiring the fusion oncoprotein EWSR1::FLI1 in Ewing sarcoma with bivalent small molecules; J Am Chem Soc 2025, 147(49):44739-44758; PMC12851799)",
+  "quoted_crossref": "crossref: Rewiring the Fusion Oncoprotein EWSR1::FLI1 in Ewing Sarcoma with Bivalent Small Molecules | Journal of the American Chemical Society | 2025",
+  "quoted_verdict_notice": "reference-verification census: crossref_titles=7 dois_resolved=42 parse_errors=0 undefined_dois=0 | ::notice:: 7/7 enumerated DOIs resolved, 42 DOI(s) resolved overall, no parse errors.",
+  "matched": [
+   "title",
+   "journal",
+   "year"
+  ],
+  "\u26a0_not_verified_by_this_run": "VOLUME, PAGES and PMCID. The `expect` string names 147(49):44739-44758 and PMC12851799, and section 1 of verify-refs prints only title | journal | year \u2014 section 8a is the one that prints volume/page/authors, and it is print-only and degrader-scoped, which is WHY the DOI was filed in section 1. So the identity of the work is verified and its pagination is not. Closing that is a further $0 CI read, not a claim to make from here.",
+  "_why_this_badge_IS_load_bearing_unlike_row_27s": "verify-refs derives its expected count from the FIXED_DOIS array itself (NFIXED) and EXITS 1 when fewer resolve. The TCIP DOI is inside that array, so `conclusion: success` on a run after its registration mechanically entails that this DOI resolved. Contrast row 27, where the green badge covered jobs that were never requested: there the verdict was independent of the work, here it is derived from it. That difference is the whole reason one badge can be read and the other cannot."
+ },
+ "gate_status": "CLEARED",
+ "_gate_status_means": "CLEARED \u2014 the DOI is registered in the ENFORCED list and a dispatch of verify-refs on main resolved it to the expected title, journal and year. A manuscript may now quote the TCIP mechanism citing EV-EB-TCIP-2025. See `grading` for the (short) list of what that permits and the (long) list of what it does not.",
+ "gate_dischargeable_by_plain_dispatch": true,
+ "_dischargeable_means": "the DOI sits inside verify-refs.yml's ENFORCED FIXED_DOIS array, so a dispatch of the workflow as committed on main both resolves it and counts it toward the derived expected total. No workflow edit and no merge is required \u2014 which is exactly what the route memo says is required.",
+ "grading": {
+  "what_the_cleared_gate_moves": [
+   {
+    "statement": "a manuscript may QUOTE the TCIP mechanism, citing EV-EB-TCIP-2025",
+    "before": "\u26d4 forbidden \u2014 an auto-captured lead that had never cleared verify-refs",
+    "after": "\u2705 permitted \u2014 Crossref resolves the DOI to the expected title/journal/year",
+    "why": "this is the only thing the repo's gate was ever about"
+   }
+  ],
+  "what_it_does_not_move": [
+   {
+    "statement": "any number in nr4a3-tcip-reach.json",
+    "still": "\u26d4 unchanged, and none ever came from the citation",
+    "why": "required_distances() refuses the citation explicitly and uses only repository-owned bounds (nr4a3_basin_search.PARAMS, nr4a3_linker_design.CHEM_MAX_ATOMS). A verified citation may tell you which protein to fetch; it may not enter an artifact as a measurement."
+   },
+   {
+    "statement": "the route's blockers",
+    "still": "\u26d4 untouched \u2014 BLK-R4-BINDS, BLK-INDUCED-COMPLEX, BLK-PARALOGUE-DDG, BLK-UNSIZED-REQUIREMENT, BLK-NO-WET-LAB",
+    "why": "a citation is not a measurement and clears no experimental blocker"
+   },
+   {
+    "statement": "the discriminating power of the reach gate",
+    "still": "\u26d4 unchanged \u2014 the envelope admits every body tested at every rung, including a 1183-residue assembly. A test that admits everything cannot refute anything, and the route memo says so about its own headline",
+    "why": "the gate the named effector passed is the gate every body has passed"
+   },
+   {
+    "statement": "anything about binding, recruitment, chromatin retention or transcription",
+    "still": "\u26d4 not claimed, before or after",
+    "why": "a staged body is an excluded volume and one atom's coordinates"
+   },
+   {
+    "statement": "paralogue discrimination on the binder (R7)",
+    "still": "\u26d4 still not addressed",
+    "why": "not a geometry question"
+   }
+  ],
+  "the_line_to_read_before_quoting_anything": "nr4a3-tcip-route-memo.md \u00a77b \u2014 'THE LINE: what a named effector upgraded, and what it did NOT'. This module adds one row to that table (the citation) and changes none of the others.",
+  "the_R9_R10_R12_discrepancy_is_untouched": "\u26a0 Separately and still open: four prose files say RT-TCIP retires R9/R10/R12 while systems/graph/routes.json encodes the correct version \u2014 it retires R12 only. Route memo \u00a78 establishes this; clearing the citation gate does nothing about it, and the two must not be conflated because both are 'a Q12 thing'."
+ },
+ "map_edits_required": [
+  {
+   "section": "\u00a710.1a row Q12",
+   "anchor": "\u26d4 **the citation is an auto-captured lead and has never cleared `verify-refs`** \u2014 until it does, no manuscript may quote it, so the verification is a hard gate on the route existing at all",
+   "current_text": "\u26d4 **the citation is an auto-captured lead and has never cleared `verify-refs`** \u2014 until it does, no manuscript may quote it, so the verification is a hard gate on the route existing at all",
+   "proposed_text": "\u2705 **CLEARED 2026-08-07 7:52 AM ET.** `10.1021/jacs.5c05634` resolved through `verify-refs` (run `31175823997`, job `verify`, `7/7 enumerated DOIs resolved, 0 parse errors`) to the expected title, journal and year. A manuscript may now quote the TCIP mechanism. \u26d4 **That moves ONE PERMISSION AND ZERO MEASUREMENTS** \u2014 no number in `nr4a3-tcip-reach.json` came from the citation, no blocker is retired, and the reach gate's discriminating power is unchanged; read [the route memo \u00a77b](../modalities/nr4a3-tcip-route-memo.md) before quoting anything. \u26a0 Volume, pages and PMCID are NOT verified by that run \u2014 \u00a71 of the workflow prints title/journal/year only. One home: [`tcip-citation-gate.json`](../modalities/tcip-citation-gate.json)",
+   "why": "the row asserts the gate is open; it is closed, and a row that overstates a blocker stops work that is actually permitted",
+   "artifact": "research/modalities/tcip-citation-gate.json:gate_status"
+  }
+ ],
+ "doc_edits_required": [
+  {
+   "file": "research/modalities/nr4a3-tcip-route-memo.md",
+   "section": "\u00a76 \u00b7 The citation gate \u2014 still open, and it cannot be closed from here",
+   "what_is_wrong": "the section title and all three of its measured bullets are STALE. `grep -c \"jacs.5c05634\"` no longer returns 0; the DOI was added to verify-refs.yml's enforced FIXED_DOIS in commit ae7174d, and the lane the memo says holds that workflow was dead and its work adopted in the same commit.",
+   "proposed": "retitle to '\u00a76 \u00b7 The citation gate \u2014 CLOSED 2026-08-07', keep the original measurement as a \u26a0 Superseded-retained line per CLAUDE.md rule 1.2, and state the outcome: verify-refs run 31175823997 resolved the DOI; the permission to quote is granted and nothing else moved. Point at tcip-citation-gate.json rather than restating.",
+   "why_routed_not_applied": "this lane does not own the memo, and a blocker recorded in prose that has since been discharged is the single most misleading thing the file can carry \u2014 the next session reads it and either re-does a committed workflow edit or refuses to quote a cleared citation.",
+   "artifact": "research/modalities/tcip-citation-gate.json:memo_is_stale"
+  }
+ ],
+ "claim_ceiling": "\u26d4 Unchanged. A verified citation raises no claim ceiling: roadmap \u00a72.3 binds on the validation status of the INSTRUMENT producing a requirement, and no instrument's status moves because a reference resolved. What moves is a permission to quote."
+}
