@@ -1,0 +1,150 @@
+716bioinfoBioinformaticsBioinformaticsOxford University PressPMC1106086611060866110608663861413110.1093/bioinformatics/btae204Hi-GeoMVP: a hierarchical geometry-enhanced deep learning model for drug response prediction
+ChenYurui ZhangLouxin 1
+Department of Mathematics and the Centre for Data Science and Machine Learning, National University of Singapore, Singapore 119076, Singapore2
+Department of Mathematics and the Centre for Data Science and Machine Learning, National University of Singapore, Singapore 119076, Singapore✉Corresponding author. Department of Mathematics and the Centre for Data Science and Machine Learning, National University of Singapore, Singapore 119076, Singapore. E-mail: matzlx@nus.edu.sg (L.Z.)
+1342024404btae204btae2043042024© The Author(s) 2024. Published by Oxford University Press.This is an Open Access article distributed under the terms of the Creative Commons Attribution License (https://creativecommons.org/licenses/by/4.0/), which permits unrestricted reuse, distribution, and reproduction in any medium, provided the original work is properly cited.
+
+## Abstract
+
+## Motivation
+Personalized cancer treatments require accurate drug response predictions. Existing deep learning methods show promise but higher accuracy is needed to serve the purpose of precision medicine. The prediction accuracy can be improved with not only topology but geometrical information of drugs.
+
+## Results
+A novel deep learning methodology for drug response prediction is presented, named Hi-GeoMVP. It synthesizes hierarchical drug representation with multi-omics data, leveraging graph neural networks and variational autoencoders for detailed drug and cell line representations. Multi-task learning is employed to make better prediction, while both 2D and 3D molecular representations capture comprehensive drug information. Testing on the GDSC dataset confirms Hi-GeoMVP’s enhanced performance, surpassing prior state-of-the-art methods by improving the Pearson correlation coefficient from 0.934 to 0.941 and decreasing the root mean square error from 0.969 to 0.931. In the case of blind test, Hi-GeoMVP demonstrated robustness, outperforming the best previous models with a superior Pearson correlation coefficient in the drug-blind test. These results underscore Hi-GeoMVP’s capabilities in drug response prediction, implying its potential for precision medicine.
+
+## Availability and implementation
+The source code is available at https://github.com/matcyr/Hi-GeoMVP
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Aug 3; Revised 2024 Feb 11; Accepted 2024 Apr 11; Collection date 2024 Apr.
+
+## 1 Introduction
+Predicting individual patient responses to specific drugs is a critical aspect of cancer treatment. However, direct prediction of drug response in patients often proves impractical due to ethical considerations, invasiveness, and prohibitive costs. Hence, preclinical models like tumor samples and cancer cell lines are used as alternatives. Cancer cell lines, comprehensively profiled at the transcriptomic, epigenomic, and proteomic levels, offer valuable insights into drug response ( ). As a result, predicting drug response in cell lines has emerged as a vital stage in personalized cancer treatment ( ). The advent of high-throughput phenotypic drug screening has enabled efficient and systematic testing of a multitude of compounds on cancer cell lines. Two pivotal datasets, the Genomics of Drug Sensitivity in Cancer (GDSC) ( ) and the Cancer Cell Line Encyclopedia ( ), have significantly impacted the evolution of machine learning techniques for drug response prediction.
+Advancements in data collection have facilitated the profiling of cancer cell lines at the molecular level, enabling researchers to construct efficient computational models for accurate drug response prediction. Various predictive methodologies have been proposed, including matrix-factorization (MF)-based methods ( ), regression methods ( ), bayesian inference methods ( ), and deep learning (DL) methods ( , ). These methods have been systematically evaluated and compared in several survey papers ( , ). MF-based models have been particularly effective. To improve performance, researchers have considered different relationships between drugs and cell lines. For example, the similarity-regularized matrix factorization (SRMF) postulates that drugs or cell lines with similar patterns will likely exhibit similar response values. MF methods can handle sparse data effectively, even when missing pairs exist in the drug response matrix. However, as inductive methods, MF methods can only generate latent representation on seen cell lines and drugs in the training set, thus it is not efficient to make prediction on the new drug, new cell lines, or both.
+DL methods have shown potential in predicting drug responses due to their capability to handle high-dimensional features and model non-linear relationships between drugs and cell lines ( ). Models that integrate multiple types of omics data, such as genomic mutations and gene expression, have demonstrated superior prediction accuracy compared to when these models are constrained to using only a single type of omics data ( , ).
+A drug is often characterized through a molecular graph treating each atom as a node and each chemical bond as an edge, and the graph neural network (GNN) is applied. GraphDRP ( ) tests the efficacy of three distinct GNN models: GCN ( ), graph attention networks (GATs) ( ), and graph isomorphism network (GIN) ( ).
+Although these models provide innovative solutions, they do possess limitations. Firstly, a 2D molecular graph, using both the atom attributes and the connections between atom pairs, represents only the topology of the molecule without capturing intricate 3D geometric information or the spatial arrangements of atoms within the drugs. For example, cis-Platin, an FDA-approved drug, is used to treat various cancers. But, trans-Platin has no anticancer activity despite sharing the same topology ( ).
+Moreover, some cancer drugs target specific biomarkers based on distinct omics data, such as Trastuzumab’s reliance on gene expression data for its action on the HER2 gene and Vemurafenib’s targeting of the V600E mutation in the BRAF gene ( ). These interactions are not explicitly modeled, potentially reducing the accuracy of the model’s predictions.
+To address the limitations of previous studies and improve the prediction accuracy, we propose the Hierarchical Geometry-enhanced Multi-View drug response Prediction (Hi-GeoMVP) model for predicting drug responses in cancer cell lines. Hi-GeoMVP combines a hierarchical drug representation module and a multi-omics integration module. The former encodes drug features through a geometry-enhanced GNN ( ) to extract both 2D and 3D drug structures. The latter uses GNNs to learn the omics representation from omics-specific graphs incorporating gene interactions.
+Beyond this, Hi-GeoMVP employs a multi-view-omics-awarded fusion module to generate final predictions by fusing high-level drug and omics representation. Lastly, the model features a regularization module that enhances drug response prediction through multi-task learning. This module, based on the premise that similar genetic profiles and drug properties may lead to similar drug responses ( , ), involves predicting the cancer type for each cell line, the drug’s primary target pathways and drug-specific sensitivity ( ).
+In a nutshell, the Hi-GeoMVP is an end-to-end DL model ( ). Key contributions of our work include:
+ The introduction of the DL model that considers the 3D structure of drug representation for drug response prediction. The drug latent representation is hierarchically learned for more accurate predictions.
+The utilization of multi-task learning that incorporates auxiliary biological tasks enables robust representations for drugs and cell lines, resulting in improved predictions of drug response.
+Our model achieves state-of-the-art performance on the mix, cell blind, and drug-blind tests on the GDSC dataset.
+
+## 2 Method
+We first introduce Hi-GeoMVP by starting with the formal definition of the drug response prediction problem. Next, we present the four modules constituting Hi-GeoMVP. Lastly, we outline the training, validation, and evaluation methods for the model under various experimental conditions.
+
+## 2.1 Drug response prediction problems
+Drug response prediction is a supervised machine-learning task with the objective to derive a function that maps a drug and a cell line to the response elicited by the cell line when treated with the drug. Assuming a dataset comprising m drugs and n cell lines, the drug response profiles are represented by an matrix ), where denotes the response of the ith cell line to the jth drug. Drug response is quantified using the log-normalized half maximal inhibitory concentration ( ).
+The response function is learned by processing genomic profiles of the cell lines, which include gene expression, mutation, and copy number variation (CNV), as well as the drug profiles (molecular fingerprint, molecule graphs, and geometric structures).
+
+## 2.2 The Hi-GeoMVP: geometry-enhanced drug encoder
+We use GIN ( ) to learn the drug representations from the chemical graphs. The representation for an atom at the kth layer, , is updated with the message-passing scheme ( ). Initially, , where is the input atom attribute vector. To include the geometric relations of drugs, we employ GeoGNN ( ), which considers the atom-to-atom (A2A) graph and the bond-to-bond (B2B) graph. Two bonds are considered connected in the B2B graph if they share a common atom. The bond representation at the kth layer is updated by considering message passing among neighboring bonds and including the angle between connected bonds ( ). At the final layer K, we apply a max pooling operation to all atoms to generate the geometric-graph level representation , encoding the topological and geometric information of the drug. The detailed formulas are shown in .
+We utilize a multi-layer perceptron (MLP) to capture local information of a drug from its extended connectivity fingerprints (ECFP) data ( ), learning a representation . The concatenation of and provides the hierarchical representation for each drug.
+
+## 2.3 The Hi-GeoMVP: multi-view cell line encoder
+We integrate gene interaction and omics features for three kinds of omics profiles: mutation, CNV, and gene expression, linked to COSMIC cancer-related genes ( ). Each gene in the cell line graph is a node, with gene interactions forming edges and omics features acting as node attributes. For mutation and CNV profiles, cosine similarity is used to create gene interactions, while HumanNet V3’s Gold Standard Positives (GSPs) are employed for gene expression profiles ( ). We adopted the learning approach from TGSA ( ), using super-nodes clustered by Graclus ( ) and graph attention neural network to learn the representation for each omics data. As discussed in , Graclus only takes into account the cell line graph’s topology and not the omics features. Yet, since the cosine similarity of gene features was utilized to construct the cell line graph, the omics features were implicitly factored in during the clustering. We used the variational autoencoder (VAE) to learn an embedding from the full gene expression, which encapsulates all significant gene expression data, not merely cancer-related genes.
+Finally, the multi-view cell line encoder produces multi-omics-specific hidden vectors , , and , using the GAT and VAE methods. These vectors are then concatenated to form the final cell line representation, , effectively integrating information from the different omics profiles.
+
+## 2.4 The Hi-GeoMVP: omics-specific fusion layer
+The omics-specific fusion layer captures drug–omics interactions individually, resulting in three pairs: gene expression and drug ( , ), mutation and drug ( , ), and CNV and drug ( , ). Each pair is processed through separate MLPs to produce fused drug–omics embeddings: , , and . Each pair is processed through separate MLPs to produce fused drug–omics embeddings: , , and . These fused embeddings are combined with the initial drug and cell vectors, resulting in a final composite vector ( , , , , ), to make the final drug response prediction.
+Our model explicitly models the drug–omics interactions. Moreover, by leveraging jumping knowledge connection, we enhance the model’s learning capability through the inclusion of and s in the final prediction layer. This design preserves strong gradients and facilitates a direct information flow during training.
+
+## 2.5 Regularization with cancer cell types, drug target pathway, and drug sensitivity threshold
+We integrate biological and pharmacological knowledge into the learning process by adopting a multi-task learning approach. This approach harnesses the learned representations, and , for three related tasks: classification of cell lines according to their tissue cancer types, categorization of drugs based on their targeted pathways, and prediction of drug sensitivity thresholds.
+The heterogeneity of cell lines across different cancer types limits the model prediction accuracy and generalization ability ( ). In response to this, our model is designed not only to predict pan-cancer drug responses but also to differentiate between various cancer types based on .
+Our model categorizes drugs by target pathways from , enriching its understanding of molecular mechanisms. By employing the multi-task learning framework, our model implicitly integrates the pathway information to learn the robust drug representation , proving more efficient than models that explicitly use pathway data ( ).
+The drug sensitivity threshold is another important aspect we consider. We define this threshold for each drug based on its response across various cell lines ( ). This threshold serves as an indication of the drug’s potency in inhibiting cancer cell growth or inducing cell death.
+The model learned shared representations and by optimizing the final loss function:
+
+(1)Ltotal=Lpred + α1Lcancer + α2Lpathways + α3Lthresholdwhere denoted the loss between the predicted drug response and the true value, represented the classification loss for cancer type classification of cell lines, was the classification loss for drug targeted pathways threshold was the regression loss to predict the drug sensitivity thresholds.
+
+## 2.6 Model training and evaluation
+For effective training of our Hi-GeoMVP model, we incorporated graph normalization ( ) after each GNN message passing layer. To alleviate overfitting effect, we implemented an early stopping based on a separate validation set. The model was validated every five epochs, and training stopped if there was no improvement in validation error for eight consecutive iterations. We performed a grid search across the hyperparameter space given in . The optimal set of hyperparameters was then employed to train and test the model. The detailed training step is illustrated in .
+As per the best practices highlighted in recent survey papers ( , ), we employed two different data split strategies for model performance evaluation:
+
+Drug response prediction for known drug–cell line pairs. We first split the entire GDSC dataset (125 696 instances) into a 80% development set and a 20% test set. Further, the development set was divided into a 90% training subset and a 10% validation subset. This procedure was repeated five times as cross-validation, and the model was then evaluated on the test set.
+
+Blind test for new cell lines or drugs. We performed a leave-drug/cell-out test, where the model predicts drug response for new drugs or cell lines unseen during training. We split the dataset by cell line and drug tin the development and test sets using the same ratio and evaluated in the same way as the first case.
+The details of our evaluation are introduced in . Our model’s performance was benchmarked against four other DL models: DeepCDR ( ), TGSA ( ), GraphCDR ( ), and NeRD ( ).
+We assessed the model using four different metrics: the root mean square error (RMSE), mean absolute error (MAE), Pearson correlation coefficient (PCC), and statistic. The repeated results for both mix and blind tests are presented in .
+Furthermore, 10 conventional machine learning (ML) methods were compared. To specify, we evaluated five regression-based methods: ridge regression, lasso regression, elastic-net ( ), support vector regression (SVR) ( ), and kernel ridge regression (KRR), three MF-based methods: CaDRRes ( ), DualNets ( ), and SRMF ( ), and two miscellaneous methods: random forest, and KRR ( ).
+
+## 3 Results
+In this section, we conduct a comprehensive evaluation of our proposed model, Hi-GeoMVP. Our assessment includes direct comparison with cutting-edge models, examination of the impact of our developed modules through ablation studies, and a discussion on the significant biological insights that emerged from our study.
+
+## 3.1 The Hi-GeoMVP outperforms current methods
+For a comprehensive evaluation, we compared Hi-GeoMVP with current state-of-the-art DL models, including DeepCDR, GraphDRP, TGSA, and NeRD. The DL architecture and the data used in each model are compared in . We also evaluated conventional ML approaches, with the outcomes reported in and . The best-performing traditional ML model, SRMF, is compared with the DL methods in this section.
+ 
+
+## 3.1.1 Prediction on the known drug–cell line pairs
+As evident from our study, models integrating multi-omics data generally surpassed those relying on single omics data. For instance, DeepCDR, which incorporates gene expression, mutation, and methylation data, achieved a PCC of 0.926, surpassing GraphDRP’s 0.924 and SRMF’s 0.913. DL methods outperformed SRMF, the best-performing machine learning approach, thus demonstrating their overall superiority over all traditional machine learning methods.
+The Hi-GeoMVP model showed superior performance across all metrics, achieving a PCC of 0.941, of 0.880, RMSE of 0.931, and MAE of 0.680 ( ), underscoring the efficacy of Hi-GeoMVP in predicting drug responses for drug–cell line pairs.
+ Our research emphasizes Hi-GeoMVP’s adaptability and accuracy in predicting drug responses across 26 varied cancer types. This understanding is key in precision medicine, as drug response variability often links to unique molecular and genetic cancer profiles, thereby necessitating bespoke therapeutic strategies ( ). In our analysis, we calculated the average PCCs for groups of cell lines corresponding to each cancer type. Notably, our model achieved consistently high accuracy, with PCCs ranging from 0.963 for multiple myeloma ( ) to 0.920 for mesothelioma ( ), and an average RMSE of 0.921 across all the cancer types ( ). The high prediction accuracy across diverse cancer types highlights the potential of Hi-GeoMVP to advance personalized cancer treatment approaches.
+ Evaluating the efficacy of individual drugs and grouped drugs targeting shared pathways is vital for drug development and refinement. Of the drugs examined, Belinostat, an HDAC inhibitor, yielded the best PCC of 0.964. Used in peripheral T-cell lymphoma treatment, Belinostat influences gene expression, silences oncogenes or activates tumor suppressors, thus curbing tumor growth ( ). Further, we investigated the predictive performance of Hi-GeoMVP for drugs targeting specific biological pathways. The model showed strong predictability for the chromatin histone acetylation pathway, inclusive of Belinostat, achieving a PCC of 0.972 ( ). This suggests Hi-GeoMVP’s potential in assisting therapeutic decision-making, especially for challenging cases where HDAC inhibitors have demonstrated promise. In contrast, drugs targeting the p53 pathway registered a lower average PCC of 0.634 ( ).
+Moreover, to evaluate our model’s robustness, we tested it with an incrementally increasing size of testing data, ranging from 10% to 70% of the entire dataset. Although a performance decline is observed in all models due to reduced training data, our model consistently outperformed others across all evaluated test set sizes ( ).
+
+## 3.1.2 Cell line/drug-blind tests
+To further evaluate the robustness of our model and its potential in precision medicine, we conducted cell line and drug-blind tests. The cell-blind test is a simulation where patient tumor data is excluded from the training set, and drugs are selected from a list of known compounds that have been screened on other cancer cells. Additionally, the successful performance of drug-blind tests helps drug discovery. The results of the cell-blind test and the drug-blind test are presented in and and .
+ In the cell blind test, our Hi-GeoMVP model recorded its highest PCC at 0.879, while the TGSA model achieved its best RMSE at 1.337. While both models yielded similar results across cancer types, with mean PCCs of 0.889 for Hi-GeoMVP and 0.884 for TGSA ( ), Hi-GeoMVP notably excelled in per-drug results, showing a significantly higher mean PCC of 0.358 against TGSA’s 0.312 (P-value: , ).
+The drug-blind test is harder than the cell-blind test due to the vast chemical space of drugs, making it difficult to learn generalizable embedding with limited screened drugs ( ). Among the competing models, NeRD and Hi-GeoMVP, both utilizing drug FPs and drug chemical graphs, stood out. Hi-GeoMVP, leveraging drug geometry, achieved a PCC of 0.596, a 27.6% increase over NeRD’s 0.467, and emerged as the top performer across all metrics.
+
+## 3.2 Hi-GeoMVP facilitates biological findings
+Beyond quantitative performance metrics, we validated the biological relevance of our model’s predictions. It provides an alternative validation of the model’s effectiveness and also demonstrates its potential to generate new biological insights.
+
+## 3.2.1 The Hi-GeoMVP discovers unknown drug responses
+We trained Hi-GeoMVP on the known drug–cell line pairs and made predictions for 4222 undocumented instances. One interesting prediction involved the drug–cell line pair Daporinad and SUP-B15, which had the lowest predicted value (−8.15) (see ). Daporinad inhibits NAMPT, an enzyme whose suppression has been found effective in hindering leukemia progression in B-ALL cell lines like SUP-B15, aligning with our prediction ( ).
+ 
+
+## 3.2.2 The Hi-GeoMVP identifies drug-targeted pathways
+Predicting drug-targeted signaling pathways is vital in drug discovery. Hi-GeoMVP predicted CCT007093 targeting the p53 pathway, aligning with established literature ( ). Our model also correctly predicted kinase inhibitors GSK650394 and NVP-BHG712, targeting SGK1 kinase and EphB4 kinase ( ) respectively, even though these drugs are listed under ‘other’.
+
+## 3.3 Ablation study
+To substantiate the advantages of Hi-GeoMVP, we delve into an ablation study. The study shows that the use of hierarchical features of the drugs plays a vital role in the performance of the model ( ). The inclusion of the drug’s chemical graph alone leads to a PCC of 0.927. However, the combination of the chemical graph and fingerprint of drugs, the PCC increased to 0.932. The utility of drug geometry information [Hi-GeoMVP (no regularization)] further improves the PCC to 0.937. This underscores the importance of feature combinations in achieving superior model performance.
+ Next, we investigate the impact of multi-task learning. We compare the model’s performance when predicting drug response alone [Hi-GeoMVP (no regularization)], versus when incorporating additional tasks related to cancer types and pathway activities [Hi-GeoMVP (cancer-regular only), Hi-GeoMVP (pathway-regular only), and Hi-GeoMVP]. The results show that the introduction of multi-task learning leads to a slight increase in PCC from 0.937 to 0.939. When both auxiliary tasks are included (Hi-GeoMVP), the PCC improves further to 0.941.
+
+## 4 Datasets and data preparation
+We employed the GDSC datasets, containing 125 696 drug–cell line pairs with 177 drugs and 734 cancer cell lines.
+For cell line profiles, we integrated gene expression, CNV, and mutation data from the GDSC dataset. We removed genes with minimal expression variation yielding a whole gene expression set ( ).
+Subsequently, we refined the data by filtering for genes specific to cancer as listed in the COSMIC dataset. The final dataset includes the complete gene expression data ( ), filtered gene expression data ( ), mutation data ( ), and CNV data ( ).
+We further constructed cell line graphs for each genomic data type. For gene expression, we utilized experimentally validated gene pairs from HumanNet ( ) to infer gene interactions. For mutation and CNV data, we constructed graphs based on cosine similarity scores due to the limited number of genes aligning with GSPs in these omics sets.
+For a cancer drug , we formulated chemical graphs where each atom was represented as a node and each bond as an edge. We used seven distinct atom features and three bond features ( and for more details) to establish an atom feature matrix ( ) and a bond feature matrix ( ). The connectivity between the atoms was expressed through the adjacency matrix ( ). We included geometric information about the drug by calculating the angles between bonds, which led to a B2B connection alongside the A2A connection. Consequently, this atom–bond–angle relation embraces both the topology and the geometry of the drugs ( ). Finally, we utilized the ECFPs ( ) to enhance the prediction accuracy through the integration of the hierarchical representation of the drug. The drug and cell profiles are detailed in .
+
+## 5 Discussion
+In this work, we introduced Hi-GeoMVP for accurate prediction of drug responses in cancer cell lines. It incorporates a hierarchical set of drug features with three-dimensional geometry, leading to notably enhanced performance. It achieves the state-of-the-art performance in both mixed and blind tests, highlighting its potential in personalized cancer treatment. We propose three future directions that could enhance our model.
+Firstly, we have demonstrated the advantages of incorporating multi-task learning as a regularization term. Additionally, our design can accommodate other auxiliary tasks derived from biological and pharmacological knowledge related to drug response prediction, such as drug target prediction ( ) and gene–disease association prediction. Investigating different combinations of these tasks may further refine drug response predictions and contribute to understanding biological mechanisms.
+Secondly, our current handling of multi-omics data involves using separate encoders for each type of omics data and filtering cell lines with incomplete or differing missing data. Recent studies have proposed tackling this ‘missing type’ issue by modeling joint representations as products of marginal representations derived from observed omics data with different missing patterns ( ). Therefore, developing a more adaptable cell line encoder becomes an imperative step in our future work for drug response prediction.
+Lastly, TGSA achieved comparable performance with our model in cell blind test, which can be attributed to both employing cell line GNN on cancer-related genes. Hi-GeoMVP further incorporates the complete gene sets by using VAE. Exploring gene–gene interactions within the full gene spectrum, rather than limiting to cancer-specific genes, could yield more accurate results, especially with a scalable GNN model.
+
+## Supplementary Material
+btae204_Supplementary_Data
+
+## Contributor Information
+Yurui Chen, 
+Department of Mathematics and the Centre for Data Science and Machine Learning, National University of Singapore, Singapore 119076, Singapore.
+Louxin Zhang, 
+Department of Mathematics and the Centre for Data Science and Machine Learning, National University of Singapore, Singapore 119076, Singapore.
+
+## Data availability
+The GDSC drug response data is publicly available at https://www.cancerrxgene.org/downloads/bulk_download. The processed multi-omics features can be downloaded from the https://github.com/Jinyu2019/Suppl-data-BBpaper. The protein-protein interaction is publicly available at https://staging2.inetbio.org/humannetv3/download.php. The code is public and available on GitHub at https://github.com/matcyr/Hi-GeoMVP.
+
+## Supplementary data
+
+ are available at Bioinformatics online.
+
+## Conflict of interest
+None declared.
+
+## Funding
+This work was supported by Singapore MOE Research Grant [R-146–000318-114].
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+btae204_Supplementary_Data
+
+## Data Availability Statement
+The GDSC drug response data is publicly available at https://www.cancerrxgene.org/downloads/bulk_download. The processed multi-omics features can be downloaded from the https://github.com/Jinyu2019/Suppl-data-BBpaper. The protein-protein interaction is publicly available at https://staging2.inetbio.org/humannetv3/download.php. The code is public and available on GitHub at https://github.com/matcyr/Hi-GeoMVP.

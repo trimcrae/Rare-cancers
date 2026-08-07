@@ -1,0 +1,325 @@
+2992heliyonHeliyonHeliyonElsevierPMC1161792711617927116179273964103210.1016/j.heliyon.2024.e38726Reveal the potent antidepressant effects of Zhi-Zi-Hou-Pu Decoction based on integrated network pharmacology and DDI analysis by deep learning
+ZhangZhiwen LiXiaojing HuangZihui PanZhenxing LiLingjie WangYang WuSiwei XingYan XiaoGuanlin HeYan CaiDake LiuXujie aSchool of Biomedical and Pharmaceutical Sciences, Guangdong University of Technology, Guangzhou, 510006, ChinabDepartment of Pharmacy, Guangdong Provincial People's Hospital, Guangdong Academy of Medical Sciences, Southern Medical University, Guangzhou, Guangdong, 510090, ChinacSchool of Integrated Circuits, Guangdong University of Technology, Guangzhou, 510006, China⁎Corresponding author. heyan129@gdut.edu.cn
+⁎⁎Corresponding author. caidake@foxmail.com
+⁎⁎⁎Corresponding author. liuxujie@gdut.edu.cn
+1Z.Z. and X.L. contributed equally to this paper.
+31020241022e38726e387265122024© 2024 The AuthorsThis is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+
+## Background and objective
+The multi-targets and multi-components of Traditional Chinese medicine (TCM) coincide with the complex pathogenesis of depression. Zhi-Zi-Hou-Pu Decoction (ZZHPD) has been approved in clinical medication with good antidepression effects for centuries, while the mechanisms under the iceberg haven't been addressed systematically. This study explored its inner active ingredients - potent pharmacological mechanism - DDI to explore more comprehensively and deeply understanding of the complicated TCM in treatment.
+
+## Methods
+This research utilized network pharmacology combined with molecular docking to identify pharmacological targets and molecular interactions between ZZHPD and depression. Verification of major active compounds was conducted through UPLC-Q-TOF-MS/MS and assays on LPS-induced neuroblastoma cells. Additionally, the DDIMDL model, a deep learning-based approach, was used to predict DDIs, focusing on serum concentration, metabolism, effectiveness, and adverse reactions.
+
+## Results
+The antidepressant mechanisms of ZZHPD involve the serotonergic synapse, neuroactive ligand-receptor interaction, and dopaminergic synapse signaling pathways. Eighteen active compounds were identified, with honokiol and eriocitrin significantly modulating neuronal inflammation and promoting differentiation of neuroimmune cells through genes like COMT, PI3KCA, PTPN11, and MAPK1. DDI predictions indicated that eriocitrin's serum concentration increases when combined with hesperidin, while hesperetin's metabolism decreases with certain flavonoids. These findings provide crucial insights into the nervous system's effectiveness and potential cardiovascular or nervous system adverse reactions from core compound combinations.
+
+## Conclusions
+This study provides insights into the TCM interpretation, drug compatibility or combined medication for further clinical application or potential drug pairs with a cost-effective method of integrated network pharmacology and deep learning.
+
+Keywords: ZZHPD, Depression, Deep learning, Network pharmacology, Drug-drug interactions
+
+## Highlights
+•Integration of network pharmacology and deep learning uncovers the intricate interactions among diverse compounds in ZZHPD.
+•The antidepressive mechanisms and key compounds of ZZHPD were identified and validated through in vitro analysis.
+•This study proposes a cost-effective approach for developing synergistic drug combinations for clinical use.
+
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2024 Sep 13; Revised 2024 Sep 27; Accepted 2024 Sep 28; Collection date 2024 Nov 30.
+
+1.
+
+## Introduction
+Depression, the most common and severe mental disease, has been declared to be the principal cause of death by 2030 and imposes a heavy burden on human society [ ]. Single-target therapy and conventional medications prove inadequate for this multifactorial syndrome, owing to limited efficacy, numerous adverse reactions, and treatment resistance [ ]. There is an urgent and fundamental need to screen for new treatments with multigenetic effects and enhanced safety.
+Combinational therapy is becoming a powerful treatment strategy for complex diseases in clinical due to its advantage of synergistic or additive effect. Traditional Chinese medicine (TCM), historically used for depression healthcare, has gradually appear as a new and powerful treatment candidate with fewer side effects [ , ]. The medication philosophy of TCM is well consistent with the therapeutic idea of systems medicine for the complex depression treatment. It has the potential to decode the overall synergistic effects with multiple drugs on multiple targets, such as hippocampal neurons, neurotrophic factors, monoamine neurotransmitters, hypothalamic-pituitary-adrenal axis hyperactivity et al. [ , ]. Zhi-Zi-Hou-Po decoction (ZZHPD) has achieved reliable efficOacy with less side effects, ascribed to its composition of Gardenia jasminoides Ellis (ZZ), Citrus aurantium L. (ZS) and Magnolia officinalis Rehd. et Wils. (HP) [ ]. It could alleviate unpredictable, chronic, mild stress-induced depressant symptoms by improving the monoaminergic system, promoting hippocampal neurogenesis, restoring hypothalamic-pituitary-adrenal (HPA) axis function and increasing brain derived neurotrophic factor (BDNF) expression [ ]. ZZ showed quite fast antidepressant functions on CMS mice associated with BDNF signal transduction [ ]. The combination of magnolol and honokiol exhibits strong antidepressant-like effects, normalizing biochemical abnormalities of brain 5-HT and 5-HIAA in vivo [ ]. ZZHPD has demonstrated effectiveness in treating depression, benefiting significantly from the synergistic interaction beyond the individual effects of each herb. The myriad compounds in TCM may lead to drug-drug interactions (DDI), including pharmacological effects and unexpected adverse reactions. Multiple drugs or pairwise combinations enhance clinical outcomes for various complex diseases by synergistically targeting multiple disease pathways, either lowering the dosage for higher effectiveness or reducing side effects [ ]. Beneficial effects and adverse DDIs are closely linked to common biological targets/pathways or heterogeneous proteins across diverse diseases. Therefore, addressing fundamental issues at the systemic level, derived from the molecular level, is crucial to emphasize complex herbal formulas and devise novel therapeutic strategies for depressive patients [ ].
+However, it is costly, infeasible, and challenging in practice to identify various DDIs and synergistic combinations through in vivo and in vitro biological tests. Significant computational approaches in the pharmacological and bioinformatics domains offer a promising tool for prioritizing pharmacotherapies [ ]. Network pharmacology based on computer science offers a systematic strategy for drug research to elucidate actions and interactions on multitargets, which is widely applied in the pharmacological research of TCM [ , ]. This system currently faces numerous challenges, particularly in effective data mining from massive heterogeneous datasets, including drug targets, pharmacological mechanisms, drug-organism/cell interactions, and multidrug treatments. Computational algorithms, especially deep learning (DL), can aid in analyzing vast amounts of information for decision-making and overcoming bottlenecks in complex DDI prediction or multitarget drug discovery, thus facilitating all stages of network pharmacology research [ ]. DeepDDI, a deep neural network, utilizes the names and structural information of drug-drug and drug-food constituent pairs as inputs to accurately generate 86 DDI types as the prediction output [ ]. Lee et al. introduced a deep feed-forward network with an autoencoder for predicting the pharmacological effects of DDIs, trained using the similarity profiles of structure, target gene, Gene Ontology term, and target gene of existing drug pairs [ ]. DDIMDL uses four drug features (chemical substructures, targets, enzymes, and pathways) in a separately or logically combined way to predict DDI-associated events with highly accurate and highly efficient performances [ ]. Identifying drug combinations with high synergistic efficacy and minimized adverse DDIs remains a critically important yet challenging task for clinical indications, drug discovery, and medication strategies.
+Therefore, this study aimed to integrate deep learning with network pharmacology to systematically elucidate the antidepressant mechanism and the internal interactions within ZZHPD ( ). The primary contributions of this paper are outlined as follows: (1) Employing network pharmacology and UPLC-Q-TOF-MS/MS to screen and identify the core ingredients, respectively. (2) Conducting in vitro experimental research to analyze the gene expression of effective substances and key targets as predicted by network pharmacology. (3) DDIMDL is employed to predict six DDI types between 18 core antidepressant components in ZZHPD, including metabolism, serum concentration, therapeutic effect, nervous system effectiveness, cardiovascular adverse reactions and nervous system adverse reaction.
+ 
+2.
+
+## Material and methods
+2.1.
+
+## Network construction-analysis and molecular docking
+2.1.1.
+
+## Active compound screening and potential targets prediction
+The active compounds in ZZHPD were collected from related literatures, and BATMAN-TCM [ ]. The ingredients in the BATMAN-TCM platform with two conditions (Score cutoff no less than 30, Adjusted P-value ≤0.05) were chosen as candidate components in ZZHPD for further analysis. The BATMAN-TCM database also provided corresponding target information for each active compound. Then, SEA [ ], PharmMapper [ ], and SwissTargetPrediction [ ] supplement the predicted targets based on the chemical structures of the bioactive constituents. The chemical structures of ZZHPD were obtained from PubChem.
+
+2.1.2.
+
+## Acquisition depression-associated targets
+DrugBank [ ], GeneCards [ ], TTD [ ], PharmGkb [ ], DisGeNET [ ], and OMIM [ ] were adopted to screen targets from the keywords of “depression”, “major depression”, “depressant”, “antidepressant”, “depressed”, “depressive”, “depressive disorder”, “major depressive disorder” and “depressing”. Aiming to standardize names, the protein names of all integrating targets from six different databases were turned into official gene symbols through the UniprotKB [ ] database with the organism limited to Homo sapiens. Afterwards, the latent targets of ZZHPD were obtained by overlapping the targets of active ingredients and antidepressant-related targets.
+
+2.1.3.
+
+## GO function enrichment and KEGG pathway enrichment analysis
+The intersecting antidepressant targets of ZZHPD were performed and conducted with R Bioconductor package to assess Gene Ontology (GO) [ ] functions and pathway enrichment with Kyoto Encyclopedia of Genes and Genomes (KEGG) [ ], in which the screening criteria is set as p-value cutoff = 0.05.
+
+2.1.4.
+
+## Construction of Chinese herbs-compounds-targets network
+The Chinese medicines-compounds-targets network had established with Cytoscape software (version 3.8.0) to elucidate the associated mechanisms between the bioactive components and the target protein [ ]. Calculation was carried out on the important network topology parameters of the compounds and related targets, such as the degree, closeness centrality, and betweenness centrality. The width of edges, the links between nodes, represents the strength of intermolecular interactions.
+
+2.1.5.
+
+## Protein-protein interaction network integration and the key genes identification
+Selected as Homo sapiens, 251 overlapping targets of ZZHPD for depression were input to the STRING [ ] platform to conduct the protein interaction network with the score greater than 0.95. The extracted protein-protein interaction (PPI) network in a CSV format was imported into Cytoscape to visualize the network. The molecular complex detection algorithm (MCODE) [ ], a small plugin of Cytoscape applications, was used to analyze the features of densely connected PPI network and obtain the network clusters of the module.
+
+2.1.6.
+
+## Molecular docking
+Prior to docking simulation, the two-dimensional (2D) structures of protein receptor were discovered in the protein crystal structure database PDB [ ] and the mol2 format of candidate components identified previously were obtained from PubChem. Then, the 2D protein receptor files were processed and converted to three-dimensional (3D) chemical structure using Chem3D. The processed target protein is hydrogenated and charged in the AutoDock Tools 1.5.6 software [ ], following the use of PyMOL software to remove the excess inactive ligands, such as water molecules and phosphate radicals in the target protein [ ]. All files were imported into AutoDock Vina 1.1.2 to calculate the binding free energy of the active compounds in the target protein structure [ ].
+
+2.2.
+
+## Drug-drug interaction prediction
+2.2.1.
+
+## Deep learning model overview
+DDIMDL, a deep learning model, is proposed by Deng to predict five DDI types [ ]. The ECFP4 fingerprints were regarded as an input layer to the model to predict the binary classification activity of DDI. This classifier added batch normalization and dropout in every hidden layer and used a softmax activation function for binary activity as the last layer and the rectified linear unit (ReLU) to activate input and hidden layers. The EarlyStopping strategy was adopted in this paper to prevent overfitting and adaptive moment estimation (Adam) was used as an optimizer for all the experiments.
+
+2.2.2.
+
+## Molecular representation and data balance
+Extended Connectivity Fingerprints 4 (ECFP4), belonging to the extended connectivity fingerprint family, is also called Morgan fingerprints or a circular fingerprint. It is an approach that the SMILES strings of each drug were encoded into 2048-dimensional binary vector implemented by a Python package RDKit (www.rdkit.org). As for the data imbalance problems, we applied the synthetic minority oversampling technique (SMOTE) to address them. SMOTE was conducted through random replication of samples of minority classes using the Python library imblearn.
+
+2.2.3.
+
+## Datasets
+Five DDI types need to be predicted: (1) Metabolism; (2) Serum Concentration; (3) Nervous System Effectiveness; (4) Cardiovascular Adverse Reactions; (5) Nervous System Adverse Reactions. Three datasets, namely DDI-sorted, DDI-antidp, and DDI-zzhpd, are categorized according to distinct prediction tasks as shown in . Based on the type of label, the relevant data of the above five DDI types are sorted from the Shenggeng's dataset and termed DDI-sorted ( ). From the DDI-sorted dataset, 42 antidepressants and their relationships were selected as test sets for model performance verification tasks and named DDI-antidp ( ). Network pharmacology and UPLC-Q-TOF-MS/MS screened and identified 18 core compounds as predictive drugs and named DDI-zzhpd ( ).
+ 
+2.2.4.
+
+## Prediction tasks description
+In this study, we have employed DDIMDL to the three-step DDI prediction of ZZHPD, which takes structural information encoded as two-dimensional vectors of two drugs as input, and predicts DDI types as an output that are human-readable sentences. A three-step procedure was carried out for DDI prediction task of ZZHPD by DDIMDL model as follows ( ): (i) Step 1 was named as prediction interaction among the known drugs. Our dataset, consisting of drug pairs and their interaction types, was divided into training (80 %) and testing (20 %) sets. The DDIMDL model was then trained on the structural information of drug pairs, encoded as two-dimensional vectors. (ii) For this validation phase Step 2 of prediction interaction between the new drugs, we constructed a test set exclusively comprising 42 anti-depressive drugs, ensuring the training set did not include any interactions involving these drugs. (iii) During the Step 3 of prediction interaction among core components in ZZHPD, we focused on predicting DDIs among 18 core components of ZZHPD leveraging the trained DDIMDL model. The test set, named DDI-zzhpd, comprised 153 drug pairs across different DDI types without included labels.
+ 
+2.2.5.
+
+## Assessment metrics
+We utilize a group of evaluation metrics to accurately and comprehensively measure the model performance, including the area under the receiver operating characteristic curve (AUC), the area under the precision-recall curve (AUPR), Precision (Pre), Accuracy (Acc), Recall (Rec), and F1-score (F1). TP, TN, FP and FN in these expressions presented true positive, true negative, false positive, and false negative, respectively.
+(1)Accurary=(TP+TN)(TP+FP+FN+TN)(2)Recall=TP(TP+FN)(3)Precision=TP(TP+FP)(4)F1−score=2(Precision∗Recall)(Precision+Recall)
+
+2.3.
+
+## Key chemical compounds analysis and in vitro cell experiments
+2.3.1.
+
+## UPLC-Q-TOF-MS/MS analysis for ZZHPD samples
+The mixture of three herbal materials, including 9 g of ZZ, 62.4 g of HP, and 10 g of ZS, were immersed in 10- fold volumes of water (1:10, w/v) for 0.5 h, refluxed extraction for 1 h, cooled and filtered to obtain the filtrate. The crude drug residue was refluxed extraction again with 10- fold volumes of water (w/v) and then filtered. The extraction solutions were combined, concentrated, and freeze-dried powder samples of ZZHPD stored at 4 °C. 1.0 μL of sample was injected for UPLC-Q-TOF-MS/MS analysis under 30 °C on a SHIMADZU ExionLC system (Japan) with an Acquity BEH C18 column (100 × 2.1 mm, 1.7 μm, Waters, MA, USA). The flow rate was 0.25 mL/min with the mobile phase containing 0.1 % formic acid aqueous solution (A) and methanol (B): 0–20 min,5–100 % B; 20–24 min,100 % B; 24–25min, 100%–5% B. The MS analysis was acquired by an AB SCIEX X500R Q-TOF-MS/MS system (United States) with an electrospray ionization (ESI). The UPLC-Q-TOF-MS/MS instrument were set as follows: curtain gas was 35 psi, ion source gas 1 and gas 2 were both 50 psi, ion source temperature was 500 °C, a declustering potential voltage of 100/-80 V and a collision energy of ±35 V, An ion-spray voltage of +5500/−4500 V, collision energy spread was 15 V. The Q-TOF-MS/MS instrument were set as follows: curtain gas was 35 psi, ion source gas 1 and gas 2 were both 50 psi, ion source temperature was 500 °C, a declustering potential voltage of 100/−80 V and a collision energy of ±35 V, An ion-spray voltage of +5500/ −4500 V, collision energy spread was 15 V. Samples were detected in both negative and positive ionization modes with scanning m/z 100–1500 with all data collected in information-dependent acquisition (IDA) mode ( ).
+ 
+2.3.2.
+
+## In vitro cell experiment
+2.3.2.1.
+
+## Chemicals and reagents
+Gardenia jasminoides Ellis (GJ202101, Jiangxi, China), Citrus aurantium L. (CA202101, Hunan, China), and Magnolia officinalis Rehd. et Wils. (MO202101, Sichuan, China) were bought from DaSenLin Pharmaceutical Group Co., Ltd. (Guangzhou, China) and stored in Guangdong University of Technology. The standards of genipin, scatole, crocin-1, and crocin-2, naringenin, honokiol, crocetin and eriocitrin were purchased from Solarbio (Beijing, China). SH-SY5Y cells were from the Guangdong Provincial TCM Hospital. Dulbecco's modified Eagle's medium (DMEM), fetal bovine serum (FBS), pancreatin, and penicillin were bought from Gibco (Suzhou, China). The Sybr green from SYBR Green Premix Pro Taq HS qPCR Kit AG11701, cDNA from Evo M-MLV RT Premix for qPCR AG11706, AG RNAex Pro Reagent AG21102 and RNA PCR kit were obtained from Accurate Biology (Hunan, China). LPS was provided by Sigma-Aldrich (St Louis, MO, USA). CCK-8 kit was bought from Beyotime (Shanghai, China). Ultrapure water was obtained from the Milli‐Q water system (Guangzhou, China). Other reagents are of analytical grade supplied by commercial companies in Guangzhou.
+
+2.3.2.2.
+
+## Cell culture
+SH-SY5Y(Research Resource Identifier: CVCL_0019) cells, which is provided by Shanghai Zhong Qiao Xin Zhou Biotechnology Co. Ltd., were cultured in DMEM with 10 % FBS, penicillin (100 units/mL), and streptomycin (100 μg/mL) in a 5 % CO2 atmosphere at 37 °C. Cells were passaged every 2–3 days after reaching 80 % confluence. Approximately 2 × 104 cells in each well were digested to prepare suspensions for treatment.
+SH-SY5Y cell line authentication was performed using the short tandem repeat (STR) method immediately after the second passage following cell thawing in the supplier's lab. This STR analysis was conducted by Shanghai Zhong Qiao Xin Zhou Biotechnology Co. Ltd. The process involved DNA extraction using a commercial kit, PCR amplification with specific primers, followed by electrophoresis and detection. The STR profile was compared to a reference database, and the genotype results are provided in .
+ 
+2.3.2.3.
+
+## Mycoplasma testing
+SH-SY5Y cells were used after routine mycoplasma testing in our lab. Mycoplasma detection was carried out using two methods. The first method involved PCR amplification of the supernatant from cell culture plates, following the instructions provided with the Mycoplasma Detection Kit (Venor®GeM OneStep). The second method involved microscopic observation after the cells were fixed and stained with DAPI. These two methods are regularly employed in our lab to ensure that the cells are free from mycoplasma contamination. If any cell line is found to be contaminated, it is either discarded or treated with anti-mycoplasma agents until the test results return negative, confirming the absence of contamination.
+
+2.3.2.4.
+
+## Cell counting Kit-8 (CCK-8) assay
+CCK-8 assay was applied to detect the cell viability with SH-SY5Y cells exposed to LPS (0, 1.25, 2.5, 5 ng/mL) for 24 h in this research. Cells were seeded and treated with naringenin, honokiol, crocetin and eriocitrin (0.01μM–10μM) for 24 h. 10 μL of CCK-8 solution was subsequently added and incubated for 1 h under dark at 37 °C. The sample in each well was detected at 450 nm by the microplate spectrophotometer (Bio-Rad), and the cell viability was calculated.
+
+2.3.2.5.
+
+## RNA extraction and qRT-PCR
+Approximately 1.2 × 105 of SH-SY5Y cells in each plate were prepared and treated with different concentrations of naringenin, honokiol and eriocitrin (1 μM and 10 μM) for 24 h. Total RNA in treated cells was extracted for treatment and cells using Trizol following the instructions. The extracted RNA was reversely transcribed into circular DNA (cDNA) and the gene expression level were detected using an RNA PCR kit. Quantitative Reverse Transcription PCR (qRT-PCR) was adopted to determine the expression level of BRAF, COMT, P1K3CA, PTPN11, SCNN1B, MAPK1 and SGK1. The same system without cDNA was used as a negative control. The thermocycling conditions were as follows: predenaturation at 95 °C for 10 min, denaturation with 35 cycles at 95 °C for 10 s, annealing at 60 °C for 30 s, and final elongation at 72 °C for 30 s. Retrieve the target gene sequence using NCBI and design primers using Primer 5 software. All primers are shown in . Using ABI7500 software for data collection, Actin is used as the reference gene, and the classic 2- Δ Ct method for relative quantity analysis.
+ 
+
+2.4.
+
+## Statistical analyses
+Graph Pad Prism 5 software (USA) was used for all statistical analyses. One way analysis of variance (ANOVA) followed by Tukey's test was carried out for data analysis. Statistical significance was defined as P < 0.05 and results presented as Mean ± SD or Mean ± SEM.
+
+3.
+
+## Results
+3.1.
+
+## Network pharmacology and component-targets docking analysis
+3.1.1.
+
+## Analysis of intersecting genes in ZZHPD against depression
+A comprehensive search across BATMAN-TCM, PubMed, CNKI, and Web of Science databases identified a total of 33 main compounds from ZZHPD. To identify the important compounds, combined filtering criteria in BATMAN-TCM were set as follows: Score cutoff ≥30 and Adjusted P-value ≤0.05. The basic information of these compounds is presented in . SEA, PharmMapper, and SwissTargetPrediction offer complementary predictions of targets based on the structures of the candidate compounds. After retrieving from six public disease databases and removing duplicated genes, 2405 known therapeutic genes were identified as potential targets for depression. Finally, using the online Draw Venn Diagram tool, 251 intersecting genes between ZZHPD and depression were identified, as shown in .
+ 
+3.1.2.
+
+## Go and KEGG signaling pathway of 251 potential targets
+GO enrichment and KEGG pathway annotation were performed on the 251 potential targets using the clusterProfiler R package to illuminate the antidepressant molecular mechanism of ZZHPD. GO enrichment analysis includes top 10 elements of biological process (BP), cellular component (CC) and molecular function (MF) ( ). The results indicate that potential targets were closely related to the vascular process in the circulatory system, an integral component of the synaptic membrane, and neurotransmitter receptor activity. The KEGG pathway annotation showed that 251 potential targets were mapped to 173 pathways with P < 0.05. At least half of the top 30 KEGG pathways were significantly associated with depression, such as the neuroactive ligand-receptor interactions, serotonergic synapse, and dopaminergic synaptic signaling pathways, as shown in . These results indicate that ZZHPD can exert its antidepressant effects via multiple pathways with the serotonergic synapse as the most important signaling pathway for depression ( ).
+
+3.1.3.
+
+## Chinese medicine-compound-target network analysis
+Cytoscape software was used to draw network diagrams to further understanding of the underlying mechanism of ZZHPD. The Chinese medicine-compound-target network includes 1293 edges and 288 nodes with 3 of Chinese medicine, 34 compound nodes, and 251 of target ( ). The blue nodes represent the medicinal material, whereas three different circles and the cyanic diamond represent active compounds and the predicted targets, respectively. All above confirmed the direct/indirect relationship between ZZHPD and common therapeutic targets against depression.
+ 
+3.1.4.
+
+## PPI and core targets of ZZHPD against depression
+The 251 intersecting targets and depression were entered into the STRING database to generate the interaction analysis of these proteins with the minimum interaction score 0.95 and hidden nodes unconnected with the main network ( A). In order to further understand PPI network, MCODE cluster analysis towards the ZZHPD - depression genes in PPI were carried out via cytocluster (degree cut‐off value = 2, node score cut‐off value = 0.2, K‐core = 2, MAX depth value = 100) to get the most important MCODE clusters in the light of clustering scores, which can be applied for evaluating the importance of clustering networks. PPI network was divided into 8 clusters, screened and visually presented with Cytoscape software 3.8.0 ( B–I).
+ 
+3.1.5.
+
+## Core targets screening and core components identification
+Total 16 targets in top four PPI internal core network modules were chosen as core targets. The results showed that the 3 TCM materials in ZZHPD with 20 active ingredients had these 16 putative targets in treating depression. 18 out of 20 active constituents were confirmed by UPLC-Q-TOF-MS/MS except for crocetin and jasmone. Crocetin and jasmone might react with other chemical compounds. Therefore, 16 targets and 18 compounds were selected as core targets and compounds, respectively. Identified core compounds are presented in .
+
+3.1.6.
+
+## Component-targets docking analysis
+Based on the analysis of core targets and key active ingredients, further evaluation of the potential binding capabilities of various effective components in ZZHPD was conducted using molecular docking technique to study the interactions between proteins and small molecules (ligands) (see ). Molecular docking energies around −9.0 kJ/mol or lower were selected for further analysis. Using A as an illustrative example for investigation. The binding affinity of Eriocitrin with MAOB, indicated by a free binding energy of −9.2 kcal/mol, includes hydrogen bonding with THR-479, ARG-197, THR-195, ASP-123, ARG-127, and LYS-190 residues, Pi-Sigma interaction with THR-479, and hydrophobic interactions with ARG-120 and ARG-197. The molecular docking model concerning Eriocitrin to MAPK1 (B), Honokiol to COMT(C), Naringenin KIT(D), Naringenin to MAOB(E) were also presented in .
+ 
+
+3.2.
+
+## Key chemical compounds and in vitro cell experiments
+3.2.1.
+
+## The proliferation activity effect of ZZHPD active ingredients on SH-SY5Y cells
+The CCK-8 assay was used to explore the protective effect of active ingredients on SH-SY5Y cells induced with or without LPS. The protective effect of three active compounds exposed in 5 ng/mL LPS-induced inflammation SH-SY5Y was initially evaluated, and the cytotoxicity of naringenin, honokiol and eriocitrin at concentrations of from 0.01 μM to 10 μM was assessed. The CCK-8 experiment confirmed that LPS induced cell damage. LPS dose-dependently reduced SH-SY5Y cell viability in a dose dependent manner within the concentration ranging from 1.25 to 5 ng/mL. LPS exhibited greater cytotoxicity to SH-SY5Y cells at a concentration of 5 ng/mL ( A). The concentrations from 0.01 to 10 μM of naringenin, honokiol and eriocitrin had relatively little effect on the viability of SH-SY5Y ( B). Compared with the model group (5 ng/mL LPS),honokiol and eriocitrin could inhibit the toxicity of SH-SY5Y cells induced by 5 ng/mL LPS while no statistical difference in the cell viability of the naringenin treatment (5 ng/mL LPS + naringenin) (P > 0.05), which suggested that candidate components in ZZHPD can protect nerve cells ( C). Compounds at concentrations of 1 μM and 10 μM were selected for further experiments from the effects on reducing 5 ng/mL LPS.
+ 
+3.2.2.
+
+## ZZHPD active ingredients reduced the expression of inflammation genes in LPS-induced inflammation SH-SY5Y cells
+Anti-neuroinflammation is an important regulatory mechanism of antidepressants. We used LPS-stimulated SH-SY5Y cells as a model to explore the regulatory roles of ZZHPD on neuroinflammation. As shown in , honokiol and naringenin, and eriocitrin can decrease the expression of the pro-inflammatory cytokines TNF-α in LPS-induced SH-SY5Y cells by comparation with the LPS group (P < 0.05). Comparing to with the LPS group, naringenin (1 μM) and eriocitrin (10 μM) reversed the high expression of IL-1β caused by LPS (P < 0.05). Naringenin (10 μM) and eriocitrin (1 μM and 10 μM) upregulated significantly the IL-10 expression compared to the LPS group (P < 0.05).
+ 
+3.2.3.
+
+## The preliminary validation of the predicted targets on ZZHPD active ingredients
+From to the target prediction of ZZHPD using above, SH-SY5Y models and LPS-induced SH-SY5Y cell inflammation models were selected to verify the actions of potential compounds on the transcriptional expression levels as BRAF, COMT, PIK3CA, PTPN11, SCNN1B, MAPK1, and SGK1. Referring to the above results, potential active compounds in ZZHPD were preliminarily validated for their targets at concentrations of 1 μM and 10 μM. Active components in normal cells inhibited COMT, but in cells stimulated by inflammation, the compounds showed an upregulation of gene effects. These compound groups were statistically significant compared with the control group. As shown in A, the three bioactive candidates of ZZHPD did not affect the transcriptional expression of various genes in intact SH-SY5Y cells. However, three bioactive compounds showed a significant upregulation of COMT mRNA expression in LPS-induced inflammatory SH-SY5Y cells ( B). Additionally, mRNA levels of SCNN1B, PI3KCA, and PTPN11 are mildly mediated by 3 candidates in the condition of LPS challenge. As shown in the results ( B), three bioactive compounds can enhance COMT mRNA levels, and significantly reverse the inhibitory effect of LPS-induced on COMT expression ( C). Since COMT is a gene closely related to anti-inflammatory effects in the treatment of depression, its transcriptional expression level is inhibited by Nuclear factor-kappa B (NF-κB), which is a key nuclear receptor mediating inflammation [ ]. Therefore, according to our research results, it is speculated that under neuroinflammatory stimulation, three components may reverse the inhibition of NF-κB on COMT, thereby restoring downstream COMT expression ( D). COMT is found to be regulated complexly in NF-kB-dependent manner identified in previous biological research [ ]. Our research focus on the holism of our decoction rather than specific point in this signaling pathway, and this putative NF-kB-COMT axis may be complicated in protein-protein interaction. Further research would be focus on post-translational regulation system specializing for COMT regulation and interruption by herbal compounds, as well as epigenetic regulation including methylation on promoter of COMT.
+ 
+
+3.3.
+
+## Deep learning prediction was conducted on the docked complexes
+In order to prove the feasibility of DDIMDL on the DDI-zzhpd dataset, we first conducted performance tests on five DDI types of Step1. As shown in , the model on five DDI types all achieved good prediction performance with all indicators above 0.97. In this task, except for predicting the relationship between metabolism and serum concentration, the overall performance of the model is less than 0.99, the other four models are all greater than 0.99 in the six evaluation indicators, indicating that the established model has good fitting ability.
+ While Step1 is straightforward, Step2 presents significant challenges due to its entirely independent test set. The DDI-sorted dataset yielded 42 antidepressant drugs. There are missing positive or negative samples in four DDI types, including metabolism, serum concentration, and nervous system adverse reactions. Consequently, accuracy (Acc) was the sole metric used to standardize the evaluation of DDIMDL's predictions. shows that Step2's prediction results on DDI-antidp are notably good. For metabolism predictions, 72.43 % (155 out of 214) of DDI candidates were correctly predicted. However, the accuracy rate for predicting cardiovascular adverse reactions was only 66.13 %. Current research indicates that the accuracy rate for predicting interactions among new drugs reaches up to 65 % [ ]. Overall, these results validate DDIMDL's effectiveness in predicting antidepressant interactions, laying a solid foundation for the Step3 prediction task.
+ In Step 3, the potential DDIs for 18 core compounds were predicted, with associated scores presented in . Systematic analysis of the predicted results was depicted in , showing ZZHPD's metabolic increase and decrease in equal proportions. 99.35 % of the interactions resulted in higher serum concentrations, with 97.06 % having no direct impact on the nervous system's effectiveness, indicating ZZHPD's complex action. Most active ingredients in ZZHPD show metabolic effects and increased in vivo concentrations, requiring careful monitoring for potential adverse blood pressure reactions. For example, the interaction of hesperetin with other compounds ( ) may decrease metabolism and elevate serum concentrations. Efficacy seems unrelated to the nervous system, with adverse reactions more relevant to blood pressure. Significantly, the interaction of hesperetin with scatole could have effects and adverse reactions related to the nervous system.
+ As identifying most DDIs poses a challenge, these interactions necessitate a comprehensive literature review. Current research is limited, with only three studies corroborating the expected results. Ávila-Gálvez et al. corroborated the expected increase in serum eriocitrin concentration when combined with hesperidin [ ]. The flavonoids could enhance hesperetin's bioavailability, inhibit its metabolism, and reduce its metabolites [ ]. Our predictions show that flavonoids, including naringenin and eriocitrin, could decrease hesperetin metabolism, aligning with Brand et al.'s findings [ ]. Furthermore, naringenin's potential for drug interactions, due to its enzyme inhibition, was observed [ ]. More validation in vivo is required to carried out.
+
+4.
+
+## Discussion
+Network pharmacology was used here to study potential targets and core ingredients of ZZHPD for depression treatment. 33 active ingredients of ZZHPD were retrieved from BATMAN-TCM as well as literatures, and 2405 disease-related genes were searched from using DrugBank, GeneCards, TTD, PharmGkb, OMIM, and DisGeNET. Venn tool was applied to build 251 drug-disease intersecting genes, which are the potential antidepressant targets for ZZHPD. The top 30 pathways are shown from 3002 pathways of GO enrichment and 172 pathways of KEGG enrichment analysis. The pathological mechanism of depression involves the genes concerning the neuroactive ligand-receptor interaction signaling pathway and serotonin synaptic signaling pathway, and the corresponding genes are key targets. In addition, the connection between these pathways in depression may be a focus for depression. A PPI network was built with 251 intersecting genes, and 16 core targets in the top four PPI internal core network modules corresponding to 20 core depression-related components were determined. 18 out of 20 core components were verified by UPLC-Q-TOF/MS. DDIMDL gets the high scores of all performances for up to 0.97 for predicting interaction between known drugs. In Task2, acc get scores greater than 65 % in five types of DDI prediction. In Task3, predicting interaction among new drugs of 18 key components in ZZHPD, several DDIs were validated by the literature.
+The predicted KEGG pathway is mostly related with depression, indicating the neuroactive ligand-receptor interaction, the serotonergic synapse, the dopaminergic synapse signaling pathway, as well as the calcium and cyclic adenosine monophosphate (cAMP) signaling pathway. The calcium signaling pathway influences intracellular calcium ion (Ca2+) concentration, involving in the bipolar disorder, major depressive disorder, schizophrenia, and some other mental related diseases [ , ]. Calcium ion is the second intracellular messenger, which modulates activities of learning and memory [ ]. Downstream targets of cAMP pathway indicated that BDNF, which shows a very close relation to neuronal survival and synaptic plasticity, is increased by antidepressant and electroconvulsive shock in the cerebral cortex and hippocampus [ , ]. The postmortem brains of patients with psychiatric disorders changes at multiple sites of the cAMP pathway in major depressive disorder [ ]. cAMP is of great importance to maintaining hormonal stimulation of cell growth and differentiation via its activation of the extracellular signal-regulated kinase (ERK) cascade, which suggested both Ras and RaDDDp1 are essential for cAMP signaling to ERKs [ ].
+The screen of the experimental active ingredients included CADD and docking experiment, characteristic property, priority in content within the raw medicine material, and availability in the commercial pursuit. Eriocitrin, honokiol and naringenin have been identified using UPLC-Q TOF/MS in silco-predicted candidates in decoction of ZZHPD. Researchers found that eriocitrin as the potent antioxidant in citrus fruits drastically decreased oxidative stress and inflammation [ ]. Eriocitrin showed outstanding beneficial effects on attenuating pathological injury, facilitating cell proliferation, and restraining cell apoptosis [ ]. In a previous study, honokiol, the main constituent of Magnolia officinalis Rehd. et Wils., was confirmed to release the 5-HT and inhibit the tryptophan pathway enzyme IDO and its gene expression on the depression-like behavior [ ]. Researchers found that the supplement honokiol would be an effective anxiolytics, sedatives [ ], and the anti-convulsants [ ] candidate with neuroprotective activity. Besides, honokiol showed significant beneficial effects on the inhibition of inflammatory factors through modulating the glucocorticoid receptor-mediated negative feedback mechanism to restore the typical activity of the HPA axis [ ]. Naringenin alleviates social defeat stress-induced neurobehavioral derangements via reducing acetylcholinesterase activity and increasing pro-inflammatory cytokines [ ]. It has been reported naringenin could elicit depressive-/anxiety-like behaviors exposed to hypoxic stress by adjusting the expressions of oxido-inflammatory insults and NF-kB/BDNF [ , , ].
+For depression with complex etiology, which the COMT gene plays a central role in neurobiology related to depression [ ]. The three core compounds exert significant up-regulative effect on COMT mRNA expression in LPS-induced inflammation SH-SY5Y cells, that honokiol, naringin and eriocitrin significantly reversed LPS-lead suppression on COMT expression. COMT involved in the prefrontal cortex on dopamine levels for suicidal behavior and major depressive disorder (MDD) [ , , ]. COMT is suppressed by a key nuclear receptor mediating inflammation, NF-κB, which regulates the molecules, pathways, and transcription of genes involved in inflammation and pain [ ]. Jane E Hartung found the NF-κB activation in astrocytes decreases transcription COMT and inactivates catecholamines that cause pain [ ]. Our outcome suggests that 3 components may inhibit NF-κB activation in the insult of LPS, thereby restoring the expression of downstream gene COMT. ZZHPD may provide a natural source containing COMT inhibitors for developing a novel paradigm of depression prevention and treatment in both effective and safe manner.
+DDIs are followed by various pharmacological or clinical effects, but the identification in the patients need generous in vitro data which is time-consuming, expensive and inconvenient. To accelerate the synergistic DDIs discovery process, we present DDIMDL model based on deep learning to identify more interactions of drug pairs in the ZZHPD. In supervised learning of machine learning, a great deal of labeled samples is learned by building models, and then unknown labeled samples are predicted. The interaction between drugs involves a wide range of aspects. Five DDI types were summarized and generalized for model construction and prediction based on the current samples and clinical interest in this study. This is the first attempt to predict the interaction between the 18 core components of ZZHPD using deep learning. This research can provide an insight and methodology for predicting DDI in the future. The discovered nervous system effectiveness from the core drug pairs provides potential combination therapy which can be developed into compound formulations for antidepressants or other nervous diseases, and can also be used for drug compatibility and combination therapy. The predictions were made for the interactions among the core drugs in ZZHPD for promptly identifying and warning of safety issues caused by adverse reactions concerning cardiovascular and nervous system adverse reactions.
+
+5.
+
+## Conclusion
+The paper explored comprehensively the antidepressant mechanism of ZZHPD through various methods, including computer-assisted network pharmacology - molecular docking-deep learning, as well as in vitro cells and chemical experimental verification. The relationships between multiple components, targets, and pathways in ZZHPD have been revealed by network pharmacology and molecular docking, the correlation between core ingredients and the core targets in ZZHPD screened was validated in vitro. Deep learning methods were applied to predict five types of DDI, and some prediction results are supported by literature, which could offer a detailed and in-depth clarification of the ingredients interactions. Integrated network pharmacology and deep learning opens a low-cost, sustainable means to uncover the therapeutic mechanisms of TCM formulas in treating diseases and gain a more detailed and in-depth interactions insight. Additionally, using the mathematical model utilized in this study, directional predictions were made of the interactions between the investigational drug and other drugs to promptly identify and warn of potential safety issues caused by adverse reactions. Moreover, the potential drug pairs identified in this study can be developed into compound preparations for antidepressants or other diseases, or used for drug compatibility and combined medication.
+
+## Data and software availability
+The code of this study is available at the GitHub repository https://github.com/huilkq/DDI. The code and datasets for training our model can be found in this GitHub repository to ensure the reproducibility of this work. Additionally, all the trained models and datasets used for fine-tuning are publicly available.
+
+## CRediT authorship contribution statement
+Zhiwen Zhang: Writing – original draft, Software, Methodology, Formal analysis, Data curation, Conceptualization. Xiaojing Li: Writing – original draft, Software, Formal analysis, Conceptualization. Zihui Huang: Writing – original draft, Methodology, Investigation, Data curation. Zhenxing Pan: Writing – original draft, Validation, Investigation, Formal analysis, Data curation. Lingjie Li: Writing – review & editing, Writing – original draft, Software, Formal analysis, Data curation, Conceptualization. Yang Wang: Software, Conceptualization. Siwei Wu: Validation, Methodology. Yan Xing: Data curation, Conceptualization. Guanlin Xiao: Investigation. Yan He: Resources, Project administration, Conceptualization. Dake Cai: Writing – review & editing, Supervision, Conceptualization. Xujie Liu: Supervision, Conceptualization.
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Acknowledgements
+This research has been supported by the Guangdong Key Research and Development Program (grant numbers 2020B1111120003). Thanks to GDUT Analysis and Test Center for the instruments. Thanks to Guangzhou Huangpu District 2023 international science and technology cooperation project support.
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.heliyon.2024.e38726.
+
+## Contributor Information
+Yan He, Email: heyan129@gdut.edu.cn.
+Dake Cai, Email: caidake@foxmail.com.
+Xujie Liu, Email: liuxujie@gdut.edu.cn.
+
+## Abbreviations:
+
+ANOVAanalysis of variance
+AUCarea under the receiver operating characteristic curve
+AUPRarea under the precision-recall curve
+BDNFbrain derived neurotrophic factor
+BPbiological process
+CCcellular component
+COMTcatechol-O-methyltransferase
+DDIdrug-drug interaction
+DDIsdrug-drug interactions
+DMEMDulbecco's modified Eagle's medium
+DLdeep learning
+ECFPextended connectivity fingerprint
+ECFP4Extended Connectivity Fingerprints 4
+ESIelectrospray ionization
+FBSfetal bovine serum; GO: Gene Ontology
+HPAhypothalamic-pituitary-adrenal
+IDAinformation-dependent acquisition
+KEGGKyoto Encyclopedia of Genes and Genomes
+MCODEmolecular complex detection algorithm
+MFmolecular function
+PPIprotein-protein interaction
+qRT-PCRQuantitative Reverse Transcription PCR
+ReLUrectified linear unit
+SMOTEsynthetic minority oversampling technique
+TCMTraditional Chinese medicine
+3Dthree-dimensional
+2Dtwo-dimensional
+ZZHPDZhi-Zi-Hou-Pu Decoction
+
+Appendix A.
+
+## Supplementary data
+The following are the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1
+
+## Multimedia component 2
+Multimedia component 2
+
+## Multimedia component 3
+Multimedia component 3
+
+## Multimedia component 4
+Multimedia component 4
+
+## Multimedia component 5
+Multimedia component 5
+
+## Multimedia component 6
+Multimedia component 6
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Multimedia component 2
+Multimedia component 2
+
+## Multimedia component 3
+Multimedia component 3
+
+## Multimedia component 4
+Multimedia component 4
+
+## Multimedia component 5
+Multimedia component 5
+
+## Multimedia component 6
+Multimedia component 6
+
+## Data Availability Statement
+The code of this study is available at the GitHub repository https://github.com/huilkq/DDI. The code and datasets for training our model can be found in this GitHub repository to ensure the reproducibility of this work. Additionally, all the trained models and datasets used for fine-tuning are publicly available.

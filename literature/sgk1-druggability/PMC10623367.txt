@@ -1,0 +1,295 @@
+2171redoxRedox BiologyRedox BiolElsevierPMC1062336710623367106233673786616110.1016/j.redox.2023.102931The SGK3-Catalase antioxidant signaling axis drives cervical cancer growth and therapy resistance
+WangMin LiuJiannan LiaoXingming YiYasong XueYijue YangLing ChengHailing LiuPixu aCancer Institute, The Second Hospital of Dalian Medical University, Dalian Key Laboratory of Molecular Targeted Cancer Therapy, Dalian, ChinabInstitute of Cancer Stem Cell, Dalian Medical University, Dalian, Liaoning Province, ChinacSchool of Pharmacy, Zunyi Medical University, Zunyi, ChinadKey Laboratory of Basic Pharmacology of Ministry of Education and Joint International Research Laboratory of Ethnomedicine of Ministry of Education, Zunyi Medical University, Zunyi, ChinaeDepartment of Pharmacology, Key Laboratory of Basic Pharmacology of Guizhou Province, Zunyi Medical University, Zunyi, ChinafKey Laboratory of Diagnosis and Treatment of Severe Hepato-Pancreatic Diseases of Zhejiang Province, The First Affiliated Hospital of Wenzhou Medical University, Wenzhou, Zhejiang Province, China∗Corresponding author. hailingcheng_dmu@163.com
+∗∗Corresponding author. School of Pharmacy, Zunyi Medical University, Zunyi, China. yling@shutcm.edu.cn
+∗∗∗Corresponding author. Cancer Institute, The Second Hospital of Dalian Medical University, Dalian Key Laboratory of Molecular Targeted Cancer Therapy, Dalian, China. pixu_liu@163.com
+1These authors contributed equally to this work.
+16102023671029311029314112023© 2023 The Authors. Published by Elsevier B.V.This is an open access article under the CC BY-NC-ND license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+## Abstract
+Cancer cells frequently exhibit aberrant redox homeostasis and adaptation to oxidative stress. Hence abrogation of redox adaptation in cancer cells can be exploited for therapeutic benefit. Here we report SGK3 functions as an anti-oxidative factor to promote cell growth and drug resistance in cervical cancers harboring PIK3CA helical domain mutations. Mechanistically, SGK3 is activated upon oxidative stress and exerts anti-ROS activity by stabilizing and activating the antioxidant enzyme catalase. SGK3 interacts with and phosphorylates catalase, promoting its tetrameric state and activity. Meanwhile, SGK3 phosphorylates GSK3β and protects catalase from GSK3β-β-TrCP mediated ubiquitination and proteasomal degradation. Furthermore, SGK3 inhibition not only potentiates CDK4/6 inhibitor Palbociclib-mediated cytotoxicity, but also overcomes cisplatin resistance through ROS-mediated mechanisms. These data uncover the role of SGK3 in maintaining redox homeostasis and suggest that the SGK3-catalase antioxidant signaling axis may be therapeutically targeted to improve treatment efficacy for cervical cancers carrying PIK3CA helical domain mutations.
+Keywords: SGK3, Catalase, PIK3CA, Cervical cancer, Redox homeostasis, Antioxidative
+
+## Graphical abstract
+ 
+statusreleaseddisplay-pdfyesis-olfnois-manuscriptnois-preprintnois-journal-matternois-scannednois-retractednoReceived 2023 Aug 23; Revised 2023 Oct 5; Accepted 2023 Oct 10; Collection date 2023 Nov.
+
+## Abbreviations
+3Dthree dimensional
+8-OHdG8-hydroxydeoxyguanosine
+CATcatalase
+CCK-8cell counting kit-8
+CHXcycloheximide
+DCFH-DA2′,7′-dichlorofluorescin diacetate
+DHEdihydroethidium
+DOXdoxycycline
+EnRendoplasmic reticulum
+ERestrogen receptor
+GSEAgene set enrichment analysis
+HPVhuman papillomavirus
+hVPS34class III PI3K
+INPP4BInositol polyphosphate 4-phosphatase type II
+KDknockdown
+MSmass spectrometry
+NACN-Acetyl-l-cysteine
+ODoptical density
+PDpalbociclib
+PI3Kphosphatidylinositol 3 kinase
+Rbretinoblastoma protein
+ROSreactive oxygen species
+RPPAreverse phase protein array
+SERCAsarcoplasmic/EnR calcium ATPase 2b
+SGKsserum and glucocorticoid-inducible protein kinases
+SILACstable isotope labeling of amino acids
+STRshort tandem repeat
+TCGAthe cancer genome atlas
+
+1.
+
+## Introduction
+Cervical cancer remains one of the most common causes of cancer-related death among women worldwide [ ]. Although early-stage cervical cancer can be treated with surgery or radiotherapy to prolong survival, patients with advanced, recurrent or metastatic cervical cancer have very limited treatment options after receiving platinum-based chemotherapy [ ]. There is therefore an urgent need to develop effective therapeutic strategies to improve treatment efficiency for cervical cancer and overcome therapy resistance.
+Hyperactivation of the phosphatidylinositol 3 kinase (PI3K) signaling pathway occurs frequently in a variety of human malignancies including cervical cancer [ , , ]. As most of the studies have focused on AKTs as the effectors that transduce signals from PI3Ks to malignant phenotypes, a large number of PI3K pathway inhibitors including pan-/isoform-specific PI3K inhibitors and AKT inhibitors have entered clinical development for cancer treatment [ , ]. However, recent studies point to SGK3 as a critical effector of oncogenic PIK3CA mutant cancers that are independent of AKT [ , , ]. Serum and glucocorticoid-inducible protein kinases (SGKs) including SGK1, SGK2 and SGK3 are members of the AGC family of serine/threonine kinases and effectors downstream of Class I PI3Ks [ , ]. SGK isoforms share more than 50% sequence identity with the kinase domains of AKT isoforms [ , ]. Unlike AKT isoforms or the other two SGK family members (SGK1 and SGK2), SGK3 possesses a unique N-terminal PX domain which binds PtdIns-3-P. The PtdIns-3-P binding has been shown as a prerequisite for phosphorylation at Thr320 by PDK1 and at Ser486 by mTORC2, leading to full activation of SGK3 [ , , ]. As PtdIns-3-P can be generated by Class III PI3K/hVPS34 at the endosome or inositol polyphosphate 4-phosphatase B (INPP4B) on the membrane, it has been proposed that SGK3 activation induced by binding to PtdIns-3-P is controlled by VPS34 and INPP4B [ , , ]. Aberrant activation of SGK3 has been reported to contribute to tumorigenesis and/or drug resistance in a variety of cancer types including breast, liver, and prostate cancers [ , , , ]. Several lines of evidence indicate that tumors with the PIK3CA H1047R mutation are predominantly dependent on AKT activation, whereas tumors (particularly cervical cancer) with the PIK3CA E542/E545K mutation more often exhibit low AKT activity and selectively rely on SGK3 kinase activity for survival [ , , , ]. However, the precise oncogenic role of SGK3 in cervical cancer related to the setting of PI3K helical domain mutations remains obscure.
+Almost all cervical cancers (99%) are caused by chronic infection with oncogenic human papillomavirus (HPV) [ , ]. Reverse phase protein array (RPPA) analysis of HPV-positive clinical specimens harboring activating PIK3CA mutations demonstrated robust mTOR signaling but the lack of AKT activation [ ], suggesting the existence of AKT-independent effector signaling downstream of PI3K with HPV positivity. Persistent HPV infection often leads to enhanced cellular oxidative stress [ ]. To mitigate oxidative stress, cancer cells have developed an enhanced antioxidant capacity to survive and confer drug resistance [ , ]. Accumulating evidence indicates that upregulated oxidative stress response by activation of ROS scavenging system may play important roles in the pathogenesis of cervical cancer [ ]. In this scenario, cancer cells under high levels of oxidative stress are more susceptible to damage due to abrogation of redox adaptation [ ]. Therefore, understanding the redox regulatory mechanisms by which cervical cancer cells maintain redox homeostasis is important for the development of new anti-cancer strategies. Our recent work shows that SGK1 exerts anti-ROS activity in cervical cancer cells by upregulating the expression and activity of NRF2 [ ], the master regulator of antioxidant responses. However, whether SGK3 is also involved in regulation of ROS homeostasis in cervical cancer has not been reported.
+
+2.
+
+## Results
+2.1.
+
+## Activation of SGK3 augments malignant behavior of cervical cancer cells
+The PIK3CA mutations frequently found in human cancers are mainly localized to the helical domain and kinase domain of the PI3K catalytic subunit p110α [ ]. Notably, analysis of The Cancer Genome Atlas (TCGA) data showed that the helical domain mutation E542/545K predominated in cervical cancer whereas the kinase domain mutation H1047R occurred at a much lower frequency ( A). Such distribution pattern in cervical cancer was distinct from that in other women's malignancies including breast, ovarian and endometrial cancers ( A). Further analysis of TCGA reverse phase protein array (RPPA) data revealed that tumors carrying PIK3CA H1047R were significantly associated with AKT activation as determined by the levels of phospho-AKT (p-AKTS473 and p-AKTT308) ( B). In contrast, tumors carrying PIK3CA wild-type (WT), PIK3CA E542/545K or other PIK3CA mutations, but not PIK3CA H1047R exhibited comparable p-AKT levels. These observations support the notion that PIK3CA E542/545K may promote cervical cancer growth through an AKT-independent mechanism [ , , ]. SGK3 is thought to be the primary downstream effector that transduces the oncogenic signaling from PIK3CA E542/545K [ , , ]. In line with this, we observed a correlation between PIK3CA E545K and SGK3 activation as evidenced by the levels of phospho-SGK3 (p-SGK3T320) in a panel of human cervical cancer cell lines ( C). Interestingly, while treatment with SGK3-PROTAC1 [ ], a small molecule degrader of SGK3 protein, significantly attenuated the growth of ME180 and CaSki cells (both PIK3CA E545K), it had only a moderate effect on the growth of SiHa and HT-3 cells (both PIK3CA WT) ( D and S1A). These data suggest that cervical cancer cells with the PIK3CA E545K mutation may depend on SGK3 for survival.
+ Emerging evidence suggests that SGK3 mediates important cellular processes involved in malignant transformation [ , , ]. To assess the role of SGK3 kinase activity in cervical tumorigenesis, we stably expressed WT (wild-type), S486D (constitutively active) or K191 M (kinase-dead)-mutant SGK3 in SiHa cells ( ) [ ]. Strikingly, while ectopic expression of SGK3 WT or S486D resulted in significantly enhanced cell growth and migration potential, SGK3 K191 M exhibited moderate inhibitory effects, indicating the oncogenic potential of SGK3 activation in cervical cancer ( ). When cultured under three dimensional (3D) conditions, the constitutively active mutant SGK3 S486D-expressing SiHa cells grew more robustly than the SGK3 WT-expressing cells ( E). This observation was correlated with SGK3 activation as evidenced by substantially increased levels of p-SGK3 and its downstream effectors including p-GSK3β, p-S6RP and p-4EBP1 ( F). In contrast, SiHa cells expressing the kinase-dead mutant SGK3 K191 M exhibited diminished SGK3 signaling and moderate growth in 3D Matrigel ( E and F). We next tested the impact of SGK3 activation on cervical tumorigenesis by establishing SiHa cell-derived xenografts in immunodeficient mice. Indeed, ectopic expression of SGK3 WT and, to a dramatic extent, SGK3 S486D accelerated tumor formation and growth ( G and S1E), whereas ectopic expression of SGK3 K191 M markedly reduced tumor burden compared to the control, suggesting that SGK3 activation promotes cervical tumor growth.
+
+2.2.
+
+## SGK3 promotes CAT stabilization and activation through direct phosphorylation of CAT at Ser167
+To gain insights into the potential biological consequences of SGK3 activation, we assessed the impact of the constitutively active SGK3 mutant S486D on the proteome in SiHa cervical cancer cells by stable isotope labeling of amino acids (SILAC)-based mass spectrometry (MS) analysis ( A). Enrichment-based clustering analysis of KEGG pathway, Gene Ontology (biological process and molecular function) revealed that the upregulated proteins and pathways in SiHa cells with SGK3 activation are highly enriched in oxidative phosphorylation and reactive oxygen species (ROS) ( B, S2A and S2B). Meanwhile, to identify proteins associated with the catalytically active form of SGK3 protein (S486D), we performed immunoprecipitation with an SGK3 antibody followed by SILAC-MS analysis. Consistent with a previous report [ ], we observed the association of SGK3 with heat shock protein 90α (encoded by HSP90AA1) ( C). Among the other identified binding partners of the SGK3 S486D protein, the hydrogen peroxidase Catalase (CAT) caught our attention as a potential substrate of SGK3 due to the fact that CAT is an antioxidant enzyme and that CAT can be phosphorylated and activated by PKCδ [ ], also an AGC kinase family member.
+ We investigated whether SGK3 activation functionally interacts with the ROS-scavenging enzyme CAT. We first noticed that ectopic expression of SGK3 WT, and to a greater extent the SGK3 S486D mutant, but not the SGK3 K191 M mutant, was significantly correlated with higher levels of CAT protein and 8-hydroxydeoxyguanosine (8-OHdG), a marker of oxidative DNA damage, in the SiHa cell-derived xenograft tumor models ( ), suggesting a potential functional link between SGK3 and CAT. Furthermore, we found that CAT and SGK3 co-immunoprecipitated in SiHa cells and that CAT and SGK3 are colocalized by immunofluorescence analysis ( D and E). Notably, not only SGK3 CA (constitutively activated SGK3) but also CAT was present in both peroxisomes and endosomes ( ). Collectively, these data suggest that activated SGK3 functionally interacts with CAT in both endosomes and peroxisomes. We then asked whether SGK3, as a serine-threonine kinase, could phosphorylate CAT at Ser167 within an evolutionarily conserved sequence ( F), a phosphorylation event known to be critical for CAT stabilization and activation [ ]. Mass spectrometry analysis of immunoprecipitated endogenous CAT showed that CAT phosphorylation at Ser167 was only detected in SiHa cells expressing SGK3 S486D but not the K191 M mutant ( ). In addition, an in vitro kinase reaction followed by mass spectrometry analysis verified phosphorylation of recombinant CAT peptide at Ser167 after incubation with SGK3 S486D immune complex ( ). Taken together, these findings indicate that SGK3 interacts with and phosphorylates CAT at Ser167.
+Phosphorylation of bovine Catalase at Ser167 has been reported to be involved in the regulation of its multimeric structures and activity [ ]. We found that overexpression of CAT S167D (catalytically active) but not S167A (catalytically inactive) alleviated hydrogen peroxide (H2O2)-induced ROS elevation and apoptosis in CaSki cells ( ), consistent with the importance of CAT phosphorylation at Ser167 for its ROS scavenging activity [ ]. To examine whether CAT activity is correlated with CAT oligomerization in cervical cancer cells, we conducted protein crosslinking assay. We found that ectopic expression of CAT WT or S167D in CaSki cells resulted in increased formation of CAT dimers and tetramers, whereas ectopic expression of CAT S167A did not have this effect ( G). Furthermore, CAT S167A protein had a remarkably short half-life compared to CAT S167D protein in the presence of the protein synthesis inhibitor cycloheximide ( ), indicating a positive correlation between enzyme activity and CAT stability. These data suggest that phosphorylation of CAT at Ser167 promotes the formation of CAT multimeric structures critical for its stability and activity in cervical cancer cells.
+Next, we explored the functional significance of SGK3-mediated phosphorylation of CAT at Ser167. We found that CAT protein was co-immunoprecipitated with endogenous SGK3 in a CAT activity-dependent manner ( ). Furthermore, while ectopic expression of SGK3 S486D strongly enhanced dimerization and tetramerization of CAT, SGK3 K191 M did not have such effects ( H), suggesting that SGK3 kinase activity is critical for the formation of CAT multimeric structures. Consistent with this, inactivation of SGK3 by forced expression of SGK3 K191 M resulted in decreased CAT protein stability ( I). Taken together, these data suggest that in cervical cancer cells, SGK3 promotes CAT tetramerization and stability by interacting with and phosphorylating CAT at Ser167.
+
+2.3.
+
+## SGK3 protects CAT from GSK3β-β-TrCP-mediated ubiquitination-proteasome degradation
+We further explored alternative mechanisms by which SGK3 governs CAT protein stability and activity. Notably, although siRNA-mediated SGK3 knockdown (KD) reduced CAT protein levels ( ), it had no significant effect on CAT mRNA expression ( ), largely ruling out the possibility that SGK3 regulates CAT transcriptionally. Instead, we found that SGK3 KD markedly enhanced the ubiquitination of CAT in the presence of the proteasome inhibitor MG132 ( A), suggesting that SGK3 may stabilize CAT protein by negatively regulating its ubiquitination and proteasomal degradation. As SGK3 is known to directly phosphorylate GSK3β and inhibits its mediated ubiquitin-proteasomal protein degradation [ , ], whether CAT could be phosphorylated and negatively regulated by GSK3β was then investigated. By mass spectrometry analysis, we noticed that CAT was only phosphorylated at Thr511 and Ser515 in SGK3 K191 M cells but not in SGK3 S486D cells ( ). Subsequent analysis revealed that these two phosphorylation sites (Thr511 and Ser515) were localized in CAT within the evolutionarily conserved GSK3β target consensus sequence (TXXXS) ( ). These findings prompted us to test the hypothesis that SGK3 activation may promote CAT protein stability by negative regulation of GSK3β-mediated degradation of CAT protein. Indeed, SGK3 activation caused by ectopic expression of SGK3 S486D promoted phosphorylation of GSK3β ( F). Furthermore, we found that transient expression of SGK3 attenuated the association of CAT with GSK3β in HEK293T cells ( B). Treatment with CHIR99021, a GSK3β inhibitor, sufficiently suppressed CAT ubiquitination ( C), while transient expression of GSK3β decreased CAT protein levels ( D). Taken together, these data support the hypothesis that SGK3 activation promotes CAT protein stability by phosphorylating GSK3β and inhibiting its mediated ubiquitination-proteasomal degradation of CAT protein.
+ We went on to identify a specific E3 ubiquitin ligase responsible for the ubiquitination of CAT protein. Several cellular stress response proteins with an S/TXXXS/T motif, such as HIF1α, have been reported to be substrates for GSK3β-mediated phosphorylation and destruction in an SCF E3 ubiquitin ligase β-TrCP-dependent manner [ ]. To investigate this, we first confirmed the association of CAT with GSK3β and β-TrCP ( E). Next, we showed that transient expression of β-TrCP resulted in enhanced CAT ubiquitination and reduced CAT protein levels ( F and G). Conversely, siRNA-mediated silencing of β-TrCP, but not FBW7 (another SCF E3 ubiquitin ligase), resulted in the accumulation of CAT ( ). Furthermore, siRNA-mediated silencing of GSK3β or β-TrCP significantly reversed the negative effect of SGK3 K191 M (SGK3 kinase-dead mutant) on CAT protein stability ( ). Taken together, these data suggest that SGK3 promotes CAT protein stability by inhibiting the GSK3β-β-TrCP-mediated ubiquitination-proteasome pathway.
+
+2.4.
+
+## SGK3 exerts antioxidant action through regulating CAT
+As CAT is known to detoxify hydrogen peroxide, we wondered whether SGK3 could exert anti-ROS activity by modulating CAT. Consistent with this idea, siRNA-mediated knockdown (KD) of SGK3 expression resulted in a decrease in CAT activity ( A). Furthermore, we found that CaSki cells with SGK3 KD exhibited significantly high basal levels of ROS and a further increase in response to H2O2 stress ( B and C), as indicated by the fluorescence signals of 2′,7′-dichlorofluorescein diacetate (DCFH-DA) and dihydroethidium (DHE), which was correlated with increased apoptosis ( D). Consistently, knockdown of SGK3 expression or degradation of SGK3 protein by SGK3-PROTAC1 resulted in increased H2O2 levels ( E and S6A–S6C), as measured by flow cytometry or immunofluorescence analysis of oxidized HyPer7, an ultrasensitive pH-stable genetically encoded fluorescent H2O2 sensor [ , ]. In addition, the ROS scavenger N-Acetyl-l-cysteine (NAC) reversed the effects of SGK3 KD on ROS production and survival ( ). Furthermore, although CAT re-expression in cervical cancer cells abolished the effects of CAT silencing-induced cytotoxicity and apoptosis ( ), SGK3 KD led to elevated ROS levels and accelerated apoptosis, suggesting that SGK3 promotes ROS tolerance by regulating CAT activity.
+ We further investigated the role of SGK3 in oxidative stress defense. In response to H2O2, SGK3 WT-overexpressing cells exhibited SGK3 activation as evidenced by markedly increased signals of p-SGK3 and its downstream effector p-GSK3β ( F and S8A), whereas SGK3 K191M-overexpressing cells failed to respond. Compared with SGK3 WT cells, SGK3 S486D-overexpressing cells displayed a discernible increase in basal p-SGK3 signal and a further elevation upon H2O2 exposure ( F and S8B). Furthermore, SGK3 WT-expressing SiHa cells exhibited reduced sensitivity to H2O2 compared to vector control cells, as evidenced by reduced ROS levels and apoptosis ( G–J). These data support the role of SGK3 as an antioxidative factor in cervical cancer cells.
+We next addressed whether SGK3-mediated antioxidant signaling may account for the dependence of PIK3CA E545K mutant cervical cancer cells on SGK3 for survival. Indeed, ectopic expression of PIK3CA E545K in SiHa cells resulted in an overt increase in SGK3 activation as well as CAT expression, rendering cells more tolerant to H2O2 than vector control cells ( K and L). Notably, CAT protein was also more stable in PIK3CA E545K-expressing SiHa cells than in vector control cells ( ), suggesting that SGK3 may regulate CAT stability and activity in PIK3CA E545K mutant cervical cancer cells. Furthermore, we found that inhibition of SGK3 by SGK3-PROTAC1 resulted in decreased cell viability, increased ROS levels and apoptotic cell death in PIK3CA E545K-expressing cells compared to vector control cells ( M–P). These data suggest that the anti-ROS activity of SGK3 promotes the growth of cervical cancer cells carrying PIK3CA E545K mutation ( Q).
+
+2.5.
+
+## Inhibition of SGK3 sensitizes cervical cancer cells to Palbociclib through inducing ROS-mediated cytotoxicity
+Our data pointed to the notion that SGK3 possesses anti-oxidative activities in cervical cancer cells under oxidative stress. To take this concept closer to a potential clinical usefulness, we focused on approved drugs that also promote ROS production. For this, we chose CDK4/6 inhibitor Palbociclib in that CDK4/6 inhibition could induce ROS and that knockdown of Catalase was previously shown to inhibit the growth of pancreatic cancer cells in the context of CDK4/6 inhibition [ , ]. We found that CDK4/6 inhibitor Palbociclib treatment resulted in increased ROS levels and apoptosis in cervical cancer cells ( A–C). In line with the antioxidant role of SGK3, ectopic expression of SGK3 WT or the constitutively active SGK3 S486D mutant sufficiently blunted ROS production and increased overall cell viability in SiHa cells treated with Palbociclib, whereas expression of the kinase-dead SGK3 K191 M mutant elicited a significant increase in ROS levels and substantial apoptosis ( A–D). Ectopic expression of SGK3 WT, and to a greater extent the SGK3 S486D mutant, conferred resistance to Palbociclib as determined by the growth of SiHa cells cultured in 3D Matrigel ( E). Conversely, siRNA-mediated SGK3 knockdown (KD) resulted in decreased overall cell viability and enhanced apoptosis in Palbociclib-treated CaSki cells, which was reversed by NAC ( F, S8D and S8E). Furthermore, ectopic expression of the S167D mutant CAT, but not the S167A mutant, reversed the effect of SGK3 KD on the sensitivity to Palbociclib ( F and G). In addition, siRNA-mediated CAT knockdown also sensitized SGK3 S486D-overexpressing SiHa cells to Palbociclib with a concomitant increase in ROS production and apoptosis ( ). Taken together, these results suggest that upregulation of antioxidant capacity through activation of the SGK3-CAT signaling axis enables cancer cells to tolerate higher oxidative stress and confer drug resistance.
+ We next sought to evaluate whether inhibition of SGK3 could enhance the antitumor effects of Palbociclib. To this end, we generated a CaSki cell line (Tet-on-shSGK3) that allowed doxycycline to induce shRNA-mediated knockdown (KD) of SGK3 expression ( ). Notably, the inducible SGK3 KD resulted in a decrease in CAT dimerization/tetramerization and an increase in CAT ubiquitination followed by CAT degradation ( ), providing additional evidence that SGK3 regulates CAT stability. We next used the CaSki Tet-on-shSGK3 cell line to establish an in vivo therapeutic model in immunodeficient mice. While doxycycline-inducible SGK3 KD or single agent Palbociclib (150 mg/kg/day) slowed the tumor growth, the combination treatment yielded a further reduced tumor burden ( H and S9C–S9E). Notably, doxycycline-inducible SGK3 KD alone and to a greater extent in combination with Palbociclib administration resulted in significantly decreased signaling of p-SGK3 and its downstream signaling molecule p-S6RP ( I). In addition, phosphorylation of retinoblastoma protein (Rb) was suppressed in Palbociclib monotherapy and was more pronounced in combination-treated tumors ( J), validating the targeted inhibition of CDK4/6 kinase activity in vivo. The combination treatment resulted in significantly decreased Ki67 signal (a proliferation marker) and increased cleaved-PARP signal (an apoptosis marker) ( I and J), which at least partially accounted for the objective treatment response.
+
+2.6.
+
+## Aberrant activation of SGK3 is associated with cisplatin resistance
+Cisplatin treatment is known to increase directly or indirectly ROS levels [ , ]. Analysis of gene expression data from two independent cervical cancer cohorts revealed that ROS-associated signaling pathways were significantly correlated with both complete response after 6 months of cisplatin treatment (GSE56363) and cisplatin-based neoadjuvant chemotherapy responders (GSE70035) ( ). Redox adaptation often confers resistance to chemotherapy by upregulating the antioxidant capacity of cancer cells [ ]. To test this idea in cervical cancer, we generated drug-resistant derivatives of CaSki cells (CisR, resistant cells) by long-term exposure to cisplatin in culture. The resistance index was 14.5 with the IC50 values for CaSki-CisR and CaSki being 5.72 μM and 0.39 μM, respectively ( ). We found that cisplatin treatment induced significant ROS production and apoptosis in CaSki cells, but had little effect in CaSki-CisR cells ( ) and that CaSki-CisR cells were more tolerant to H2O2 than parental CaSki cells ( A). These data suggest that the cisplatin-resistant cells may have developed enhanced activities of the ROS-scavenging system to cope with oxidative stress.
+ We next investigated the potential involvement of SGK3-CAT antioxidant signaling in the CaSki-CisR cell line model. First, knockdown of CAT expression significantly increased apoptosis and decreased cell viability in CaSki cells, and to a greater extent in the cisplatin-resistant CaSki-CisR cells ( B and C). Second, CaSki-CisR cells exhibited higher levels of p-SGK3 ( D), increased CAT stability ( ), and were more sensitive to SGK3 inhibition by SGK3-PROTAC1 than parental CaSki cells ( E). Notably, SGK3-PROTAC1 treatment also further increased ROS levels and apoptosis in CaSki-CisR cells ( F–H). Taken together, these data suggest that CaSki-CisR cells are dependent on the SGK3-CAT antioxidant signaling axis for survival.
+
+3.
+
+## Discussion
+Our results implicate the role of SGK3 as an antioxidative factor in maintaining ROS homeostasis in cervical cancer. Back in 1999, the study by Kobayashi et al. reported that H2O2 induced SGK3 activation in an in vitro kinase reaction with “Crosstide” as substrate peptides [ ]. However, whether SGK3 is involved in ROS-mediated cellular signaling has not been reported since then. In the current study, we subjected SiHa cervical cancer cells with ectopic overexpression of vector control or SGK3 S486D, a constitutively active SGK3 mutant protein, to SILAC-based quantitative proteomics analyses and unbiasedly identified an association of SGK3 activation with altered redox status. Further functional studies revealed a previously uncharacterized role for SGK3 in driving malignant cell growth and therapy resistance in cervical cancer by activating the antioxidant enzyme Catalase.
+Our study reveals that in response to oxidative stress, SGK3 is activated and exerts significant anti-ROS activity to maintain redox homeostasis in cervical cancer by promoting the stability and activation of Catalase, adding another layer of complexity to the understanding of the pathophysiological role of SGK3 activation under various cellular stress conditions. Recent genome sequencing analyses reveal the presence of the PIK3CA helical domain mutations in a significant fraction of cervical cancer ( A) [ , , ]. The findings that PIK3CA E545K mutant tumors are not associated with AKT activation and that cervical cancer cell line models harboring PIK3CA E542/545K mutation exhibit strong dependency on SGK3 activation for survival have triggered our interest in deciphering biological roles of SGK3 in this cancer type. In the current study, we reported that PIK3CA E545K cells are more dependent on SGK3 for survival through SGK3-Catalase-mediated oxidative stress defense and highlighted the development of SGK3 as a therapeutic target, specifically SGK3-PROTAC1-mediated degradation of SGK3, in cervical cancer.
+The ROS scavenging enzyme Catalase functions in cellular defense against oxidative stress primarily by catalyzing the decomposition of hydrogen peroxide to water and oxygen [ ]. Previous studies have focused on the structure, mechanism of the enzyme activity of Catalase as well as its transcriptional regulation [ , ]. While the levels and activity of Catalase are low in many human and mouse tumors compared to their normal tissue counterparts [ ], increased expression of Catalase has also been observed in several cancer types associated with resistance to chronic exposure to H2O2 or chemotherapeutic agents [ , , , ]. Because inhibition of Catalase increases ROS levels, targeting Catalase can be used as a pro-oxidant strategy to abrogate aberrant redox homeostasis in cancer cells. As such, understanding the molecular mechanisms underlying the regulation of Catalase activity could, therefore, be of great importance for the future development of cancer therapies via redox modulation. In this study, we demonstrated that SGK3 exerts antioxidant action through directly and indirectly regulating Catalase activity. Importantly, we found that SGK3-dependent phosphorylation of Catalase at Ser167 enhances its assembly as dimers/tetramers and this in turn increases the catalytic activity of the enzyme. Meanwhile, we showed that the regulation of Catalase stability and activity by SGK3 also involved GSK3β-β-TrCP mediated ubiquitination and proteosome degradation. In this scenario, upon oxidative stress, SGK3 was activated and protected Catalase from degradation through phosphorylating and inhibiting GSK3β. Taken together, these data support the dual regulatory mechanisms by which SGK3 promotes Catalase stability and activation. Notably, our data also suggest that activated SGK3 functionally interacts with CAT in both endosomes and peroxisomes. Peroxisomes play an essential role in cellular metabolic processes, including the maintenance of ROS homeostasis [ ]. However, the metabolic interplay between peroxisomes and other subcellular organelles remains an interesting area of research [ ]. Given our findings that SGK3 co-localizes with and activates CAT, future studies focusing on how endosomes communicate with peroxisomes to regulate redox via the SGK3-CAT antioxidant signaling may be necessary to extend the scope of the current work.
+Hyperactivation of Cyclin D1-CDK4/6 drives uncontrolled cell proliferation in a broad spectrum of malignant tumors [ , ]. Small molecule inhibitors of CDK4/6 including Palbociclib, Ribociclib and Abemaciclib have demonstrated impressive clinical efficacy in metastatic hormone receptor-positive breast cancer [ ]. The combination of PI3K/AKT/mTOR and CDK4/6 inhibitors has demonstrated synergistic efficacy in breast cancer in preclinical and clinical studies [ , , ]. However, as alpelisib, a PI3Kα inhibitor clinically approved for the treatment of liminal positive/HER2 negative breast cancer, has been reported to causes substantial side effects including hyperglycemia [ ], alternative strategies that combine other PI3K pathway inhibitors with a CDK4/6 inhibitor may offer promising drug combination options with acceptable toxicity profile [ ]. Recent studies have indicated that CDK4/6 inhibitors display anti-tumor activities beyond simply enforcing growth inhibitory effects including tumor metabolism [ , ]. It has been shown that inhibition of mTOR, a major downstream effector of PI3K signaling, restricted the metabolic activity induced by CDK4/6 inhibitors in pancreatic cancer cells, yielding durable therapeutic response [ ]. Combining ROS-generating agents with antioxidants-abrogating drugs that inhibit ROS elimination could promote excessive accumulation of ROS in cancer cells, causing cytotoxicity [ ]. In this study, we showed that treatment with Palbociclib induced ROS in cervical cancer cells and that inhibition of SGK3, a downstream effector of PI3K signaling, enhanced the therapeutic response to Palbociclib through ROS-mediated cytotoxicity both in vitro and in vivo. More importantly, our findings indicate that inhibition of the SGK3-CAT antioxidant signaling axis may be an effective therapeutic strategy that exploits the metabolic vulnerability of cervical cancer cells to further ROS insults induced by CDK4/6 inhibitors.
+Chemotherapeutic drugs such as platinum induce high levels of ROS that are harmful to cells [ , ]. To cope with intrinsic oxidative stress, cancer cells often develop enhanced activities of the ROS-scavenging system and drug resistance [ , , ]. In this study, analysis of transcriptional profiling of two independent cohorts of clinical cervical tumor samples revealed a significant correlation of ROS-associated signaling and metabolic process with tumors that showed response to cisplatin treatment ( ). We also found that cervical cancer cells resistant to cisplatin exhibit significantly elevated ROS signaling. Moreover, using SGK3-PROTAC1 [ ], a highly selective degrader of SGK3, we showed that cisplatin resistant cervical cancer cells were more dependent on SGK3 for redox homeostasis and survival than the parental cancer cells. As chronic oxidative stress has been closely associated with advanced stage tumors and therapy resistance [ , ], targeting the SGK3-CAT antioxidant signaling axis may represent a novel therapeutic route to improve treatment response and overcome drug resistance through promoting ROS-induced cytotoxicity, especially in the setting of tumors with PIK3CA helical domain mutations and even beyond cervical cancer.
+
+4.
+
+## Materials and methods
+4.1.
+
+## Cell culture
+CaSki, SiHa, HeLa, ME180, HT-3, and HEK293T cells were obtained from the American Type Culture Collection (ATCC) authenticated using short tandem repeat (STR) profiling at the beginning of this study. CaSki cells were maintained in RPMI1640 medium (Gibco). ME180 cells were maintained in McCoy's 5A (modified) medium (Gibco). SiHa and HT-3 cells were maintained in MEM/EBSS medium (Hyclone). HeLa and HEK293T cells were maintained in DMEM medium (Gibco). All cells were cultured with 10% fetal bovine serum (FBS, Biological Industries) and 1× penicillin/streptomycin (Gibco) at 37 °C in a humidified incubator with 5% carbon dioxide and tested regularly for mycoplasma contamination. SGK3-PROTAC1, cycloheximide, MG132 and cisplatin were purchased from Med Chem Express. N-Acetyl-l-cysteine (NAC), doxycycline, puromycin, and blasticidin were purchased from Sigma-Aldrich. Palbociclib (PD 0332991) were purchased from BioChem Partner.
+
+4.2.
+
+## Plasmids
+To construct pWZL-Flag-SGK3 and pWZL-HA-CAT, human full-length cDNA for SGK3 and CAT were amplified by PCR and cloned into pWZL-blast (kindly provided by Dr. Jean Zhao at Dana-Farber Cancer Institute, USA). pBabe-puro-HA-PIK3CA-E545K was purchased from Addgene (#12525). The SGK3 (S486D), SGK3 (K191 M), CAT (S167A), CAT (S167D) mutants were generated using PCR based site-directed mutagenesis (Takara). pCS2-6 × Myc-BTRC (human) and pECMV-3 × FLAG-GSK3B (human) were purchased from MiaoLing Plasmid Sharing Platform. The sequences of plasmids were verified by sequencing.
+To construct pLKO-tet-on shRNAs (Addgene #21915) targeting human SGK3, synthesis of the following sequence specific oligonucleotides was performed by Sangon Biotech.
+shSGK3-sense:5′-CCGGCCAACTAACTTACATGCTTATCT
+CGAGATAAGCATGTAAGTTAGTTGGTTTTTG-3′;
+shSGK3-anti-sense: 5′-AATTCAAAAACCAACTAACTTACA
+TGCTTATCTCGAGATAAGCATGTAAGTTAGTTGG-3′;
+
+4.3.
+
+## siRNA transfection
+Cells were transfected with siRNAs using Lipofectamine 3000 (Invitrogen) according to the manufacturer's instruction, then harvested at 72 h post transfection and subjected to further analyses. The siRNAs were custom synthesized by GenePharma, and the sequence information was listed as follows:
+siSGK3#1-sense: 5′-CCAACUGACUUUGAUUUCUTT-3′
+siSGK3#1-anti-sense: 5′-AGAAAUCAAAGUCAGUUGGTT-3′
+siSGK3#2-sense:5′-CCCUCUAAGUUUACACUAATT-3′ (3′UTR)
+siSGK3#2-anti-sense: 5′-UUAGUGUAAACUUAGAGGGTT-3′ (3′UTR)
+siCAT (CDS)-sense:5′-GACCCAAUUAUCUUCAUAUTT-3′
+siCAT (CDS)-anti-sense: 5′-AUAUGAAGAUAAUUGGGUCTT-3′
+siCAT (3′UTR)-sense: 5′-GGCAAGUUUCUAGCUAGAATT-3′
+siCAT (3′UTR)-anti-sense: 5’ -UUCUAGCUAGAAACUUGCCTT-3′
+siGSK3β-sense:5′-GCUAGAUCACUGUAACAUATT-3′
+siGSK3β-anti-sense:5′-UAUGUUACAGUGAUCUAGCTT-3′
+siβ-TrCP-sense: 5′-GUUGUAUUCGAUUUGAUAATT-3′
+siβ-TrCP-anti-sense: 5′-UUAUCAAAUCGAAUACAACGC-3′
+siFBW7-sense: 5′-CCUUCUCUGGAGAGAGAAATT-3′
+siFBW7-anti-sense: 5′-UUUCUCUCUCCAGAGAAGGUU-3′
+
+4.4.
+
+## Western blot
+Cell lysates were prepared using RIPA buffer supplemented with protease/phosphatase inhibitors (Roche). Western blot experiments were conducted as described previously [ ]. The following antibodies were used: phospho-SGK3 Thr320 (Cell signaling technology, CST#5642,1:500), SGK3 (CST#8156,1:1000), phospho-AKT Ser473 (CST#4060,1:2000), DYKDDDDK Tag (CST#14793,1:1000), phospho-GSK-3β Ser9 (CST#9336, 1:1000), GSK3β (CST#9315, 1:1000), Catalase (CST#12980, 1:1000), HA-tag (CST#3724, 1:1000), p110α (CST#4249, 1:1000), Cleaved-PARP (CST#9541, 1:800), Ubiquitin (CST#3936, 1:1000), MYC-tag (CST#2276, 1:1000), and Vinculin (Sigma V9131, 1:10,000).
+
+4.5.
+
+## Immunoprecipitation (IP) assays and LC-MS/MS analysis
+Cells were lysed in IP lysis buffer (1% Triton X-100, 1 mM EDTA, 150 mM NaCl, 50 mM Tris-HCl pH 7.5, 5 μM PMSF, and 10% protease inhibitors). The cell lysates were subjected to immunoprecipitation using a Catalase antibody (CST#12980) and Protein A/G PLUS-Agarose (Santa Cruz, sc-2003) at 4 overnight followed by five times washes with washing buffer, and then eluted protein samples were subjected to SDS-PAGE. For LC-MS/MS analysis, bands were excised from the gel and digested with trypsin, the resulting peptides were analyzed on Thermo Fisher LTQ Orbitrap ETD mass spectrometry (MS). Mass spectrometry analysis and data processing were carried out at the AIMS Scientific Co., Ltd.
+
+4.6.
+
+## Co-immunoprecipitation assays
+Cells were washed with PBS at 4 and lysed in TEB buffer (50 mM Tris pH 7.5, 150 mM NaCl, 1.0% NP-40, 10% glycerol, 5 μM PMSF, and 10% protease inhibitors). The cell lysates were subjected to immunoprecipitation using anti-FLAG M2 Affinity Gel (Sigma-Aldrich, F2426) or anti-HA Magnetic Beads (Invitrogen 88836) at 4 overnight, followed by five times washes with 1 ml of washing buffer (50 mM Tris-HCl pH 7.5, 150 mM NaCl, 0.5% Triton X-100, and 10% Glycerol). The affinity elute was subjected to western blotting analysis.
+
+4.7.
+
+## MS/MS metabolomic profiling/isotope labelling
+The cells were labeled with either “heavy isotopic lysine” (SiHa-Vector, 13C-Lysine) or “light isotopic lysine” (SiHa-SGK3 S486D, 12C-Lysine) using a SILAC Protein Quantitation Kit (Pierce, Thermo) according to manufacturer's instructions. Briefly, the cell lines were cultured in Minimum Essential Medium supplemented with 10% fetal bovine serum and either the “heavy” form of l-lysine or “light” l-lysine for more than six generations before being harvested, to achieve more than 97% labeling efficiency. After that, the cells were further expanded in SILAC media to desired cell number (∼1 × 107) in T150 flasks. The “light” and the “heavy” labeled cells were mixed in a 1:1 ratio and lysed in TEB buffer. The cell lysates were subjected to immunoprecipitation with an anti-SGK3 antibody, and the SGK3-associated proteins were subjected to mass spectrometric peptide sequencing. For proteomics analysis, the “light” and the “heavy” labeled cells were mixed in a 1:1 ratio, lysed and subjected to mass spectrometric peptide sequencing at PTM Biolabs.
+
+4.8.
+
+## In vitro kinase assay
+Recombinant Catalase was incubated with enzymatically active human SGK3 for 30 min at 30 °C in kinase reaction buffer (50 mM Tris pH 7.5, 10 mM MgCl2, 1 mM NaF and 1 mM DTT) in the presence of 100 μM ATP. The kinase reaction was stopped by heating at 100 °C for 10 min in SDS sample loading buffer and subjected to SDS-PAGE analysis.
+
+4.9.
+
+## Protein crosslinking assay
+Cells were lysed by IP lysis buffer containing protease inhibitors for 30 min at 4 °C. Cell lysates were clarified by centrifugation at 15,000×g for 30 min at 4 °C. For protein crosslinking reactions, the supernatants were added with 0.025 wt% glutaraldehyde for 30 min at 37 °C. The reactions were terminated by a final concentration of 50 mM Glycine and then subjected to Western blot analysis using a Catalase antibody.
+
+4.10.
+
+## CAT activity assay
+CAT Activity Assay Kit (Abcam, ab83464) was performed according to the manufacturer's instructions. In this assay, H2O2 reacts with CAT present in the sample and produce water and oxygen. The unconverted H2O2 reacts with a probe to produce a product that can be measured at OD570 nm.
+
+4.11.
+
+## Quantitative reverse transcripton PCR
+Total RNA was isolated with the Nucleozol Reagent (Macherey-Nagel) according to the manufacturer's protocol. Reverse transcription was performed using the Prime Script RT reagent Kit (Takara Bio). For the quantitative real-time PCR, the complementary DNAs (cDNAs) were analyzed by a SYBR Green PCR Master Mix (Applied Biosystems) on an StepOnePlus Real-time PCR system (Applied Biosystems). Synthesis of sequence specific oligonucleotides was conducted by Sangon Biotech. All used primers were listed as follows:
+SGK3-sense: 5′-AATGCTGTATGGATTGCCTCCT-3′
+SGK3-antisense: 5′-GGCTGTAAGACTCACACTCCTGG-3′
+CAT-sense: 5′-CTGACTACGGGAGCCACAT-3′
+CAT-antisense: 5′-AGATCCGGACTGCACAAAGG-3′
+β-TrCP-sense: 5′-CTGGATGCCAAATCACTATGTG-3′
+β-TrCP-antisense: 5′-GATAAGCTTCTTCCACAGCATG-3′
+FBW7-sense: 5′-CCTCCACCCAGAGGAAACTT-3′
+FBW7-antisense: 5′-CGGCGCGGTACTCCTCTT-3′
+GAPDH-sense: 5′-CAGGAGGCATTGCTGATGAT-3′
+GAPDH-antisense: 5′-GAAGGCTGGGGCTCATTT-3′
+Quantification of mRNA expression was calculated by delta-delta-Ct (ΔΔCT) method (expressed as 2−ΔΔCT) with GAPDH as the reference gene.
+
+4.12.
+
+## Immunofluorescence staining analysis
+Immunofluorescence staining was performed as previously described [ ]. Briefly, cells were fixed with 4% formaldehyde, permeabilized with 0.2% Triton X-100, and then blocked in 5% BSA. Then, the cells were incubated with the indicated antibodies at 4 °C overnight, followed by staining with fluorescence-conjugated secondary antibodies and DAPI solution. Cells were photographed with a fluorescence microscope (Leica DM6B Thunder). The following antibodies were used: DYKDDDDK Tag (CST#14793,1:1000), Catalase (CST#12980, 1:1000), DYKDDDDK tag (Proteintech# 66008-4-Ig, 1:1000), HA-tag (CST#3724, 1:1000), HA-tag (CST#2367, 1:100), EEA1 (Santa Cruz# sc-137130,1:300).
+
+4.13.
+
+## Cell viability assays
+Cells were seeded in 96-well plates and then subjected to drug treatment as indicated for 72 h. The Cell Counting Kit-8 (CCK-8) assay (Dojindo Molecular Technologies) was carried out according to the manufacturer's suggestions as previously described [ ]. The optical density (OD) was measured at 450 nm by an xMark Microplate Spectrophotometer (Bio-Rad). The IC50 values (half maximal inhibitory concentration) were calculated from the sigmoidal dose-response curves utilizing Prism.
+
+4.14.
+
+## Clonogenic survival assay
+Cells were seeded in culture plates and replaced with fresh medium with or without drugs every three days. At the endpoint, cells were fixed with methanol containing 0.5% crystal violet solution and dissolved with 10% glacial acetic acid solution. The optical density (OD) was measured at 590 nm by an xMARK™ Microplate Spectrometer (Bio-Rad).
+
+4.15.
+
+## Three-dimensional (3D) spheroid assay
+3D sphere culture was performed as previously described [ ]. Briefly, cervical cancer cells were seeded on plates coated with Matrigel (BD Biosciences) plus 50% of medium without serum. Cells were grown in culture medium supplemented with 2% FBS and 2% Matrigel with or without drug treatments. Medium was refreshed every 3 days. 3D structures were imaged by inverted phase contrast microscope (Leica Microsystems) and colony area was quantified using ImageJ software. Over 100 colonies were scored for each group.
+
+4.16.
+
+## Flow cytometric analysis
+Apoptosis assay was performed by using the Annexin V-FITC Apoptosis Detection kit (Dojindo Molecular Technologies AD10) according to the manufacturer's protocol. Briefly, cultured cells were treated with 0.25% trypsin without EDTA, and then stained with Annexin V-FITC and Propidium iodide (PI) solution.
+Cellular ROS levels were measured using 2′,7′-dichlorofluorescein diacetate (DCFH-DA, Thermo Fischer Scientific, C2938) and dihydroethidium (DHE, Thermo Fischer Scientific, D1168) according to the manufacturer's protocol. Briefly, Cells were stained with 5 μM DCFH-DA or 1 μM DHE for 1 h at 37 °C and washed with PBS before harvest. Stained cells were analyzed by flow cytometry on BD FACS Canto II (BD Biosciences).
+To directly measure H2O2 levels, cells were transfected with pCS2-HyPer7 (Addgene # 136466) and treated with or without 1 mM H2O2 for 5 min followed by flow cytometry. The relative ratio of oxidized (Ex 488 nm/Em 530/30 nm) over reduced (Ex 405 nm/Em 525/40 nm) HyPer7 was evaluated by flow cytometry on BD FACS Canto II (BD Biosciences).
+
+4.17.
+
+## Clinical data analysis
+The data on PIK3CA mutational status in breast cancer, ovarian cancer, endometrial cancer, and cervical cancer were downloaded from The Cancer Genome Atlas data portal (https://portal.gdc.cancer.gov/).
+The data on phospho-AKTS473 and phospho-AKTT308 levels (Z-scores) in breast cancer, endometrial cancer and cervical cancer as determined by TCGA reverse phase protein array (RPPA) were downloaded from the following databases.
+Breast Invasive Carcinoma (TCGA, Cell 2015) [ ]
+https://www.cbioportal.org/study/summary?id=brca_tcga_pub2015.
+Uterine Corpus Endometrial Carcinoma (TCGA, Nature 2013) [ ]
+https://www.cbioportal.org/study/summary?id=ucec_tcga_pub.
+Cervical Squamous Cell Carcinoma (TCGA, PanCancer Atlas) [ ]
+https://www.cbioportal.org/results/mutations?cancer_study_list=cesc_tcga_pan_can_atlas_2018&tab_index=tab_visualize&case_set_id=cesc_tcga_pan_can_atlas_2018_all&Action=Submit&gene_list=PIK3CA.
+The datasets GSE56363 [ ] and GSE70035 [ ] were downloaded from GEO.
+Gene Set Enrichment Analysis (GSEA) across the Molecular Signatures Database (MSigDB) using the R package cluster Profiler to identify the molecular pathways correlated with the responses to cisplatin treatment or neoadjuvant chemotherapy in cervical cancer.
+
+4.18.
+
+## In vivo mouse xenograft study
+All the animal experiments were conducted in accordance with the approval of the Animal Research Committee of Dalian Medical University. Eight-week-old female BALB/c nude mice were purchased from Beijing Vital River Laboratory Animal Technology. Cells in PBS/Matrigel mixture were injected into mice subcutaneously. Drug treatment started when average tumor size reached about 75 mm3. Doxycycline was given in drinking water (2 mg/ml with 5% dextrose) and refreshed every 3 days. Palbociclib dissolved in sodium acetate solution (50 mM, pH 4.0) was administered to mice daily at a dose of 150 mg/kg/day by oral gavage. The tumor volumes were measured with a digital caliper and calculated according to the following formula: tumor volume = (length × width [ ])/2.
+
+4.19.
+
+## Histology and immunohistochemical staining
+Tumors were isolated and fixed in formalin overnight before paraffin embedding. Paraffin blocks were sectioned and stained with the following primary antibodies: Catalase (CST #12980, 1:500), 8-OHdG (Abcam ab48508, 1:200), phospho-RB Ser807/811 (CST#8516, 1:800), and Ki67 (Abcam ab15580, 1:3000). For each tumor sample, 3–5 random 40 × fields were scored. Protein levels were quantified using ImageJ software.
+
+4.20.
+
+## Establishment of CaSki cisplatin resistant (CisR) cells
+Cisplatin-resistant cells were generated by exposing the parental CaSki cells (IC50 values = 0.5 μM) to increasing concentrations of cisplatin for 6 months in vitro. Briefly, the parental CaSki cells were initially cultured in RPMI1640 medium containing 0.5 μM cisplatin until the cells reached about 90% confluence. The cells were then sub-cultured and continuously exposed to escalating doses of cisplatin up to 2 μM. Finally, the resultant CaSki cell line that grew exponentially in the presence of 2 μM cisplatin was designated as CaSki-CisR cisplatin resistant cells.
+
+4.21.
+
+## Statistics and reproducibility
+Statistical analyses were performed with Chi-square test, one-way ANOVA with Tukey's multiple comparisons test, two-tailed unpaired Student's t-test, or two-way ANOVA with Bonferroni's Tukey's multiple comparisons test (GraphPad Prism). All data shown represent the results obtained from three (or as indicated) independent experiments with the Mean ± S.D. or Mean ± S.E.M. The values of P < 0.05 were considered statistically significant. *, **, and *** denote P < 0.05, P < 0.01, and P < 0.001, respectively. ns, not significant.
+
+## Author contributions
+H.C., P.L., L.Y. and M.W. conceived and designed the study, and wrote the manuscript. M.W. and J.L. performed most of the experiments, collected and analyzed data. M.W. and Y.Y. performed flow cytometric analysis. M.W., J.L., and Y.X. performed quantitative RT-PCR analysis and IHC staining. M.W. and Y.X. performed animal experiments. X.L. conducted clinical data analysis. All authors contributed and approved the manuscript.
+
+## Funding
+This work was supported by the National Natural Science Foundation of China, China (No. 81972482 to P.L.; No. 82372649 to H.C.; No. 82002759 to M.W.), Discipline Cluster of Oncology, Wenzhou Medical University, China (to P.L.). Liaoning Revitalization Talents Program, China (XLYC2002043 to P.L.), the Doctoral Foundation of Liaoning Province, China (No. 2020-BS-188 to M.W.), the Science and Technology Innovation Fund of Dalian, China (2021JJ12SN39 to P.L.), and the Youth Science and Technology Star Project Support Program of Dalian City, China (2022RQ083 to M.W.).
+
+## Declaration of competing interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+## Acknowledgments
+We acknowledge the support of the Dalian Key Laboratory of Molecular Targeted Cancer Therapy and the Molecular Biology Laboratory of National Administration of Traditional Chinese Medicine (Class III).
+
+## Footnotes
+Appendix ASupplementary data to this article can be found online at https://doi.org/10.1016/j.redox.2023.102931.
+
+## Contributor Information
+Ling Yang, Email: yling@shutcm.edu.cn.
+Hailing Cheng, Email: hailingcheng_dmu@163.com.
+Pixu Liu, Email: pixu_liu@163.com.
+
+Appendix A.
+
+## Supplementary data
+The following is the Supplementary data to this article:
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data availability
+Data will be made available on request.
+
+## References
+ 
+
+## Associated Data
+
+## Supplementary Materials
+
+## Multimedia component 1
+Multimedia component 1
+
+## Data Availability Statement
+Data will be made available on request.

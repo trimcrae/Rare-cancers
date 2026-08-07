@@ -1,0 +1,513 @@
+ACS OmegaACS Omega3686acsomega101691658aoACS Omega2470-1343American Chemical SocietyPMC7315586PMC7315586.1731558673155863259660910.1021/acsomega.0c015111ArticleIdentification of Sphingosine Kinase-1 Inhibitors
+from Bioactive Natural Products Targeting Cancer Therapy
+JairajpuriDeeba
+Shamim MohammadTaj AdhikariKirtika GuptaPreeti HasanGulam Mustafa AlajmiMohamed F. RehmanMd. Tabish HussainAfzal HassanMd. Imtaiyaz †Department
+of Medical Biochemistry, College of Medicine and Medical Sciences, Arabian Gulf University, P.O. Box 22971, Manama, Bahrain‡Center
+for Interdisciplinary Research in Basic Sciences, Jamia Millia Islamia, Jamia Nagar, New Delhi 110025, India§Department
+of Computer Science, Jamia Millia Islamia, Jamia Nagar, New Delhi 110025, India∥Department
+of Biochemistry, College of Medicine, Prince
+Sattam Bin Abdulaziz University, P.O. Box 173, Al-Kharj 11942, Saudi Arabia⊥Department
+of Pharmacognosy, College of Pharmacy, King
+Saud University, Riyadh 11451, Saudi Arabia*Email: mihassan@jmi.ac.in.080620202306202052436019214720147290304202028052020080620202606202029062020Copyright © 2020 American Chemical
+Society2020American Chemical
+SocietyThis is an open access article published under an ACS AuthorChoice License, which permits copying and redistribution of the article or any adaptations for non-commercial purposes. 
+Sphingosine kinase 1 (SphK1) is an
+oncogenic lipid kinase that
+catalyzes the formation of sphingosine-1-phosphate via phosphorylation
+of sphingosine and known to play a crucial role in angiogenesis, lymphocyte
+trafficking, signal transduction pathways, and response to apoptotic
+stimuli. SphK1 has received attention because of its involvement in
+varying types of cancer and inflammatory diseases such as rheumatoid
+arthritis, diabetes, renal fibrosis, pulmonary fibrosis, asthma, and
+neurodegenerative disorders. In the malignancies of breast, lung,
+uterus, ovary, kidney, and leukemia, overexpression of SphK1 has been
+reported and thus considered as a potential drug target. In this study,
+we have performed virtual high-throughput screening of ∼90,000
+natural products from the ZINC database to find potential SphK1-inhibitors.
+Initially, the hits were selected by applying absorption, distribution,
+metabolism, excretion, and toxicity properties, Lipinski’s
+rule, and PAINS filters. Further, docking analysis was performed to
+estimate the binding affinities and specificity to find safe and effective
+preclinical leads against SphK1. Two compounds, ZINC05434006 and ZINC04260971,
+bearing appreciable binding affinity and SphK1 selectivity were selected
+for 100 ns molecular dynamics (MD) simulations under explicit water
+conditions. The all-atom MD simulation results suggested that the
+ZINC05434006 and ZINC04260971 binding induces a slight structural
+change and stabilizes the SphK1 structure. In conclusion, we propose
+natural compounds, ZINC05434006 and ZINC04260971, as potential inhibitors
+of SphK1, which may be further exploited as potential leads to develop
+effective therapeutics against SphK1-associated diseases including
+cancer after in vitro and in vivo validations.
+
+pmc-status-qastatus0pmc-status-liveyespmc-status-embargonopmc-status-releasedyespmc-prop-open-accessyespmc-prop-olfnopmc-prop-manuscriptnopmc-prop-legally-suppressednopmc-prop-has-pdfyespmc-prop-has-supplementnopmc-prop-pdf-onlynopmc-prop-suppress-copyrightnopmc-prop-is-real-versionnopmc-prop-is-scanned-articlenopmc-prop-preprintnopmc-prop-in-epmcyesdocument-id-old-9ao0c01511document-id-new-14ao0c01511ccc-price1
+
+## Introduction
+Sphingosine-1-phosphate
+(S1P) is a pleiotropic sphingolipid mediator
+that acts as a key player in the regulation of many central biological
+processes, including cell proliferation, apoptosis, angiogenesis,
+lymphocyte trafficking, and inflammation. S1P is synthesized from the sphingosine molecule by an ATP-dependent
+phosphorylation reaction catalyzed by sphingosine kinase (SphK). SphK is an evolutionary-conserved, diverse class
+of lipid kinase and does not share sequence homology with other lipid
+kinases. Two isoforms of SphK, SphK1 and SphK2, have been recognized
+in humans, both possessing five conserved domains (C1–C5).
+Domains C1–C3 and C5 share sequence homology with diacylglycerol
+kinase (DGK) and ceramide kinase, whereas domain C4 is unique to SphK. Both isoforms catalyze the same biological reaction,
+conversion of sphingosine to S1P, despite originating from the different
+genes. However, they show distinct subcellular
+location, tissue distribution, and substrate specificity. SphK1 is found in the cytoplasm and translocated
+to the plasma membrane when activated. However, SphK2 is explicitly
+present in the nucleus. 
+SphK1 is
+synthesized as a 384-amino acid residue long polypeptide
+that lacks a transmembrane domain but contains various phosphorylation
+sites for kinase and three calcium/calmodulin-binding sequences. It
+is ubiquitously expressed in the heart, brain, kidney, liver, spleen,
+and lungs. SphK1 is normally found in the cytosol but gets translocated
+to the plasma membrane upon activation. A diverse range of external
+stimuli act as activators of SphK1 such as tumor necrosis factor α,
+a proinflammatory cytokine, and various several growth factors, including
+nerve growth and epidermal growth factors (EGFs). Upon stimulation by these agonist molecules, SphK1 is phosphorylated
+at Ser225 by an extracellular signal-regulated kinase that leads to
+its activation and translocation to the plasma membrane. Activated SphK1 further catalyzes the phosphorylation
+of sphingosine, resulting in a transient increase in the intracellular
+levels of S1P, which acts as a bioactive lipid molecule having both
+extracellular function and intracellular targets. S1P binds to a family of five G protein-coupled receptors
+(S1PR1–5) and activates several downstream signaling
+pathways regulating various cellular processes. S1PRs are differentially expressed in various cell types
+that explain the diverse signaling and hence the biological functions
+of S1P. In addition to interacting with S1PRs placed on the plasma
+membrane, S1P also functions as an intracellular messenger and acts
+on specific intracellular targets.
+Structurally, SphK1 is a
+monomeric protein with two domains: N-terminal
+domain (NTD) and C-terminal domain (CTD). The NTD adopts an α/β
+fold formed by a fundamental core of a twisted parallel β-sheet
+with flanking α-helices on either side. On the other hand, CTD
+possesses a sandwiched antiparallel β-sheet assembly formed
+by 11 β-strands with four α-helices present on one side
+of the sheet. The ATP-binding site of SphK1 resides deeper inside
+the cavity between NTD and CTD, whereas the lipid-binding pocket is
+buried in the hydrophobic core of CTD. The crystal structure of SphK1 reveals
+the presence of an ATP-binding pocket that involves five conserved
+domains and a structural motif S79GDG82X17–21K103. Arg185 forms the ATP-binding site
+along with other amino acid residues that play a crucial role in catalysis.
+An upregulation of SphK1 is reported in different malignancies,
+including lung, brain, breast, colorectal, and prostate cancers. − A close link between the overexpression of SphK1 to malignant tissues
+such as angiogenesis and tumorigenesis is reported. S1P is known to be involved in many biological processes
+and plays a crucial role in breast cancer development. The SphK1 action is mediated by some developmental
+factors such as estradiol (E2), EGF, vitamins, and cytokines IL1 and
+IL6. S1P/SphK1 signaling has been associated
+with the pathophysiology of various metabolic and inflammatory diseases,
+including pulmonary fibrosis, diabetes, obesity, rheumatoid arthritis,
+sepsis, and Alzheimer’s disease. − All these findings revealed that SphK1 is an attractive
+drug target for the development of effective therapeutic molecules
+to address cancer and other SphK1-associated diseases. , Numerous synthetic molecules such as SK1-I, PF-543, and FTY-720
+have been developed that target the SphK1/S1P signaling axis and showed
+inhibitory action in μM to nM ranges. SK1-I, an inhibitor of
+SphK1, has demonstrated to inhibit the growth of glioblastoma multiforme
+cell lines and causes a reduction in the tumor growth and vascularization
+in a mice model. FTY-720 is an FDA-approved
+sphingosine analog generally used for the treatment of multiple sclerosis.
+It has been used to increase the sensitivity of prostate cancer cells
+and murine xenografts toward radiotherapy. 
+The known kinase inhibitors are often plagued with specificity
+and selectivity issues where the off-targeting leads to deleterious
+effects. − Most of the inhibitors are checked during the initial
+phases of clinical trials because of the toxicity concerns. Thus, it is imperative to design inhibitors
+that are target-specific and safer. Structure-based drug discovery
+is a smart and relevant approach to identify lead molecules that exhibit
+high affinity and target selectivity. − We adopted a systematic structure-based
+drug design approach as illustrated in .
+ In this work, we virtually screened a pool of 90,000 natural
+compounds
+by applying Lipinski’s rule of five, absorption, distribution,
+metabolism, excretion, and toxicity (ADMET) properties, carcinogenicity,
+and PAINS filter. Subsequently, we have used a structure-based virtual
+high-throughput screening (vHTS) approach to dock filtered compounds
+with SphK1 by utilizing the molecular docking approach. , The binding affinity and interaction analysis was carried out to
+explore the binding pattern of the selected compounds with SphK1.
+We further evaluated the structural dynamics and stability of SphK1
+and its docked complexes with the selected compounds by utilizing
+all-atom molecular dynamics (MD) simulations and principal component
+analysis (PCA). We performed MD simulations on three systems, one
+apo and two ligand-bound states of SphK1 for 100 ns, to describe their
+interaction and conformational dynamics of SphK1 under an explicit
+solvent environment.
+
+2
+
+## Results and Discussion
+2.1
+
+## Filtration of Natural Compounds
+First,
+the physicochemical parameters for all compounds present in the ZINC
+library of natural products were calculated through the SwissADME
+webtool and Discovery Studio. From the library of ∼90,000 compounds,
+a total of 32,902 compounds were selected after all the applied filters.
+The filtered compounds follow Lipinski’s rule of five (molecular
+weight ≤ 500 Da, log P ≤ 5, number
+of hydrogen bond donor ≤ 5, and hydrogen bond acceptor ≤
+10) and the bioavailability score of a minimum of 0.55. All these
+compounds do not possess any carcinogenic and PAINS patterns. The
+physicochemical parameters and their scores for the finally selected
+two compounds along with known SphK1 inhibitors are presented in . The identified compounds
+show similar properties when compared to the known SphK1 inhibitors
+PF-543 and SKI-II. All the four, two identified compounds, ZINC05434006
+and ZINC04260971, and two known SphK1 inhibitors, PF-543 and SKI-II,
+follow Lipinski’s rule.
+ The filtered compounds on
+the basis of their physicochemical, ADMET,
+and other druglike properties were selected. The ADMET properties
+of compounds were predicted through the pkCSM web server. These properties show all the parameters of
+the selected compounds, ZINC05434006 and ZINC04260971, and the known
+SphK1 inhibitor, PF-543, within the range of drug ability ( ). The identified
+compounds ZINC05434006 and ZINC04260971 show better ADMET properties
+than the known SphK1 inhibitors, PF-543 and SKI-II, as they have higher
+GI absorption compared with PF-543 and SKI-II ( ).
+ 
+2.2
+
+## Structure-Based Virtual Screening
+To find and select
+the high-affinity inhibitors of SphK1, the structure-based
+virtual screening was carried out on the filtered compounds employing
+the molecular docking approach. Here, we noticed that several compounds
+possess an appreciable binding affinity to the SphK1. We selected
+the top 10 hits out of 32,902 compounds showing considerably higher
+binding affinities to SphK1. Selected hits show affinity in the range
+of −11.8 to −12.2 kcal/mol to SphK1 ( ). The binding affinity for
+the finally selected two compounds ZINC05434006 and ZINC04260971 were
+estimated as −12.0 and −11.9 kcal/mol, respectively.
+Both compounds showed to have a higher affinity toward SphK1 as compared
+with known SphK1 inhibitors, PF-543 and SKI-II, as they show an affinity
+of −9.1 and −8.8 kcal/mol, respectively ( ). The free energy of binding
+was also estimated through AutoDock 4, which uses the AMBER-based
+scoring function in docking calculations. The free energy of binding
+for ZINC05434006 and ZINC04260971 for SphK1 was calculated as −11.16
+and −11.03 kcal/mol, respectively, while the free energy of
+binding for PF-543 and SKI-II toward SphK1 was calculated as −9.32
+and −8.94 kcal/mol, respectively. This comparison of predicted
+binding affinities from two different tools suggests that the selected
+compounds show a significant affinity to the SphK1.
+ 
+2.3
+
+## Molecular Docking
+To find the specific
+compounds bind to the substrate-binding site of SphK1, a detailed
+interaction analysis was carried while using Discovery Studio. The
+possible binding conformers of the top 10 hits were split and their
+interaction toward the SGK1 binding pocket was analyzed in detail.
+We identified ZINC05434006 and ZINC04260971, which interact with a
+set of functionally critical residues of SphK1 ( ). Many residues of the SphK1 kinase domain
+participate in the protein–ligand interaction. A detailed binding
+pattern of these compounds with SphK1 is illustrated in .
+ We analyzed the interactions of selected inhibitors
+with the functionally
+important residues of the binding pocket of SphK1. Both the compounds
+interact with the substrate-binding (Asp178), active site (Asp81),
+and ATP-binding site (Arg191) residues of SphK1 ( ). Both the compounds share
+hydrogen bonds with the substrate-binding site (Asp178) and offer
+many common interactions as a pattern shared by the known inhibitors
+PF-543 and SKI-II. The hydrogen bonding is strong enough to keep the
+compounds inside the SphK1 pocket. We observed many specific interactions
+between the critically important residues of SphK1 and the identified
+compounds, which suggest their strong and stable binding with SphK1.
+The SphK1 complexes with the selected compounds were stabilized by
+many noncovalent interactions offered by the lipid substrate binding
+site (Asp 178), active site (Asp81), and ATP-binding site (Arg191)
+of SphK1. Interestingly, both the compounds make hydrogen-bonded interaction
+to Asp178. We observed that ZINC05434006 and ZINC04260971 interact
+with the substrate-binding site of SphK1 and mimic the pose of cocrystallized
+known SphK1 inhibitors PF-543 and SKI-II. Analysis of interaction
+pattern suggests that the compounds ZINC05434006 and ZINC04260971
+may serve as ATP/substrate-competitive inhibitors of SphK1.
+ 
+2.4
+
+## MD Simulations
+Three systems, apo-SphK1,
+SphK1-ZINC05434006-, and SphK1-ZINC04260971-bound complexes, were
+subjected to all-atom MD simulations for 100 ns. The potential energy
+of SphK1 apo, SphK1-ZINC05434006, and SphK1-ZINC04260971 was calculated
+as −890,000, −879,465, and −880,921 kJ/mol, respectively.
+Other dynamic parameters such as systems volume, density, kinetic
+energy, enthalpy, and total energy were further calculated to ascertain
+the equilibration and stability of the systems where we found no major
+changes when comparing the free SphK1 and its complexes ( ).
+ 
+2.5
+
+## Structural
+Deviations and Compactness
+Binding of any compound to their
+receptor (protein) can induce large
+conformational changes. Root-mean-square deviation (rmsd) is used
+to estimate the structural dynamics of protein. − To assess the
+structural dynamics of SphK1 in free and complex states, we calculated
+the rmsd of all the systems. The average rmsd of SphK1 in apostate,
+SphK1-ZINC05434006, and SphK1-ZINC04260971 complex was found at 0.30,
+0.26, and 0.28 nm, respectively ( ). The rmsd of all the three systems shows that SphK1
+gets stabilized after ZINC05434006 and ZINC04260971 binding. The ZINC05434006
+and ZINC04260971 binding leads to a fewer conformational change in
+the SphK1 structure from its native one ( A). The rmsd of SphK1 complexed with ZINC05434006
+and ZINC04260971 shows a slight decrease that is equilibrated throughout
+the simulation trajectory, suggesting durable stability of these protein–ligand
+complexes ( A, upper panel). The probability distribution function (PDF) plots
+for rmsd show a minor decrease in the rmsd value of ligand-bound systems
+of SphK1 compared with SphK1 alone ( A, lower panel).
+ To explore the residual vibrations in free SphK1
+and its ligand-bound
+states, the fluctuations of each residue were plotted as root-mean-square
+fluctuation (RMSF). Random residual fluctuations present in SphK1
+can be observed in different regions from N- to C-termini ( B). The fluctuations
+of the SphK1 backbone were compared with each residue after the ZINC05434006
+and ZINC04260971 binding. The fluctuations were found to be minimum
+at several residues in the case of SphK1-ZINC05434006 and SphK1-ZINC04260971
+complexes ( ).
+Initially, the RMSF of the SphK1-ZINC05434006 system was increased
+up to that of Gly160, but thereafter, it is minimized up to Val325,
+including the substrate-binding site in SphK1. The RMSF suggested
+that the fluctuations of the residues are reduced in the region where
+ZINC05434006 and ZINC04260971 are binding ( B, upper panel). A slight increase in fluctuations
+of SphK1 after ligand binding was noticed, which might be due to ligand
+adjustment in the SphK1 binding pocket.
+ The PDF analysis suggested a slight increase in the
+PDF of SphK1
+RMSF while in the ligand-bound state ( B, lower panel). The higher fluctuations
+observed in the region of residue 25–125 flap particularly
+in the SphK1-ZINC05434006 complex can be interrelated with the docking
+results, where fewer close interactions are formed between the protein–ligand
+at this region ( A). These residual fluctuations suggest increased dynamics of internal
+vibration in SphK1 while in complexes with ZINC05434006. The decreased
+fluctuations in both the complexes, particularly in the region of
+residue 175–325 flap, suggest that this region of SphK1 directly
+binds with the ligands and forms many close interactions with ZINC05434006
+and ZINC04260971, thereby showing a reduced RMSF in comparison to
+the other regions of SphK1.
+The radius of gyration (Rg) is a structural
+parameter associated with the overall conformation and three-dimensional
+(3D) structure of a protein, which has been utilized to get insights
+into their compactness and folding behavior. − We estimated
+the stability of apo-SphK1, SphK1-ZINC05434006, and SphK1-ZINC04260971
+systems by calculating their Rg values.
+The average values of Rg for apo SphK1,
+SphK1-ZINC05434006, and SphK1-ZINC04260971 complexes were calculated
+as 1.96, 1.99, and 2.00 nm, respectively. The Rg plot depicts a minor increase in Rg values while in the case of the bound states. This increase in Rg is possibly due to the SphK1 packing while
+its binding pocket is occupied by ZINC05434006 and ZINC04260971. Here,
+no structural swift was observed in SphK1 in after compound binding,
+where Rg attains a stable equilibrium
+and thus suggests stability of the complexes throughout the trajectory
+( A).
+ The solvent-accessible surface area (SASA) is the
+surface area
+of a protein that is accessible to its surrounding solvent. SASA is one of the fundamental properties of
+a protein that is utilized to evaluate its structural folding–unfolding
+dynamic under the solvent environment. , We have calculated
+and investigated the SASA of SphK1, SphK1-ZINC05434006, and SphK1-ZINC04260971
+to explore their folding behavior during simulation. The average values
+of SASA for SphK1, SphK1-ZINC05434006, and SphK1-ZINC04260971 were
+calculated as 145.61, 147.20, and 147.05 nm2, respectively.
+We observed a slight increase in the SASA of SphK1 in the presence
+of ZINC05434006 and ZINC04260971, which is projected due to the exposure
+of some inner residues to the surface ( B). Overall, the SASA immediately achieved
+an equilibrium after 20 ns without any shift during the entire simulation,
+which suggests folding stability of SphK1 before and after ligand
+binding.
+Intramolecular hydrogen bonds (H-bonds) within a protein
+play an
+essential role to stabilize its 3D structure and overall conformation. − To validate the stability of apo-SphK1, SphK1-ZINC05434006, and
+SphK1-ZINC04260971 complexes, we computed the dynamics of intramolecular
+H-bonds paired within 0.35 nm. The computed average number of intramolecular
+H-bonds formed within SphK1 apo, SphK1-ZINC05434006, and SphK1-ZINC04260971
+were estimated as 251, 254, and 253, respectively ( C). A few numbers of H-bonds
+increased in SphK1 after compound binding, which might be due to the
+higher compactness of some intramolecular space within the protein.
+The PDF analysis of hydrogen bond dynamics indicates that the complexes
+of SphK1-ZINC05434006 and SphK1-ZINC04260971 are stable with a minimal
+change ( D).
+
+2.6
+
+## Hydrogen Bonding Analysis
+The H-bonds
+formed between a protein and ligand can be explored to get insights
+into the stability of a protein–ligand complex to understand
+the molecular recognition and specificity of interactions. To evaluate the complex stability, we have studied
+the dynamics of intermolecular H-bonds of ZINC05434006 and ZINC04260971
+with SphK1 paired within 0.35 nm. Our analysis suggests an average
+of two H-bonds were shared by ZINC05434006 and ZINC04260971 to SphK1,
+which were stable throughout the trajectory ( ). Both the compounds bind in the SphK1 binding
+pocket with two to three H-bonds with mutability and up to two H-bonds
+with higher stability, supporting the molecular docking result. The
+PDF of H-bonding suggests that ZINC05434006 and ZINC04260971 bind
+to SphK1 with one and two H-bonds, respectively, with higher stability
+and distribution throughout the simulation trajectory ( , lower panel).
+ 
+2.7
+
+## Principal
+Component and Free Energy Landscapes
+The dynamic movement
+of a protein structure can be explored through
+its phase space behavior. We performed PCA to investigate the conformational
+dynamics of apo-SphK1, SphK1-ZINC05434006, and SphK1-ZINC04260971
+via investigating their collective motions while utilizing essential
+dynamics approach. The PCA helps to understand
+the dynamic motion and overall flexibility of a protein and its docked
+complexes with the small molecules in a conformational subspace. The
+conformational sampling along the eigenvector (EV) 1 and EV2 projected
+by the Cα atom of SphK1 before and after ZINC05434006
+and ZINC04260971 binding in the essential phase space is illustrated
+in A. Here,
+we observed that the SphK1-ZINC05434006 and SphK1-ZINC04260971 complex
+occupied the same conformational subspace. However, the overall flexibility
+of the SphK1-ZINC05434006 complex was slightly increased at both EVs
+with overlapping of stable clusters with the subspace of SphK1 in
+the free state ( B). The overall PCA including the atomic fluctuations suggests that
+SphK1 is quite stable during the simulation after compound binding.
+ To further investigate the conformational behavior of SphK1, Gibbs
+free energy landscapes (FELs) were generated using the first two EVs. shows the FELs of
+apo SphK1, SphK1-ZINC05434006, and SphK1-ZINC04260971 complex systems.
+The deeper blue color in the plots illustrates the structural conformations
+with lower free energy. SphK1 shows a single global minimum restricted
+to a single local basin. However, SphK1 while in complex with ZINC05434006
+acquired multiple minima and with varying conformational states, while
+the SphK1-ZINC04260971 system did not progress to multiple global
+minima, showing the overall single global minimum limited to a single
+basin. This PCA suggests that the presence of ZINC05434006 and ZINC04260971
+does not affect much the conformation and the position of the sampled
+subspace of SphK1 ( B–C).
+ Altogether, the physicochemical and ADMET properties, interaction
+analysis in comparison of the known SphK1 inhibitors (PF-543 and SKI-II),
+and MD simulation studies suggest that the identified two natural
+compounds, ZINC05434006 and ZINC04260971, can be further utilized
+as a potent scaffold in development of high-affinity inhibitors of
+SphK1 ( ).
+
+3
+
+## Conclusions
+SphK1 is an important enzyme
+that regulates the sphingolipid rheostat
+accountable for determining cell fate. The development of targeted
+therapeutics to address the clinical management of cancer without
+being cytotoxic has received growing interest. Natural compounds have
+been acknowledged to be effective and curable in many complex diseases
+including cancer and neurodegenerative diseases. Here, we performed
+structure-based virtual screening of natural compounds against SphK1
+to identify its potent inhibitors, which can further be used in drug
+development against cancer. The identified two natural compounds (ZINC05434006
+and ZINC04260971) were selected by evaluating their druglike properties,
+binding affinities, and a specific interaction toward the SphK1 binding
+pocket. MD simulation studies further revealed that ZINC05434006 and
+ZINC04260971 strongly bind to SphK1 and forms a stable complex with
+minimal structural dynamics. Both compounds bearing anticancer activity
+and kinase inhibitor potency as predicted through the PASS analysis.
+This study predicted a considerable inhibitory potential of identified
+natural compounds that could be a starting point for the development
+of new SphK1 inhibitors. Experimental studies are further required
+before the clinical implications of these compounds.
+
+4
+
+## Materials and Methods
+4.1
+
+## Computational Environment
+and Web Resources
+Computational tools, including MGL Tools, AutoDock Vina, Discovery
+Studio visualizer, and the GROMACS package, were employed for screening and simulation studies.
+Various
+web resources such as NCBI, Protein Data
+Bank (PDB), ZINC database, SwissADME, and
+standalone QtGrace were used in retrieving
+and analyzing the data. Structural coordinates of human SphK1 were
+taken from the PDB (PDB ID: 3VZB, resolution: 2.0 Å) and refined further through the MGL tools. A library of ∼90,000
+compounds containing natural products and their derivatives was downloaded
+from the ZINC database.
+
+4.2
+
+## Filtration of Natural Compounds
+Initially,
+the ZINC library containing ∼90,000 was filtered based on their
+physicochemical properties following Lipinski’s rule of five.
+The PAINS screening was done to filter those compounds having PAINS
+patterns with a high tendency of binding with multiple targets. The
+filtered compounds were further screened for their carcinogenicity
+and ADMET properties. Compounds that were noncarcinogenic and possess
+acceptable ADMET properties were selected further to process with
+the structure-based virtual screening.
+
+4.3
+
+## Structure-Based
+Virtual Screening
+The atomic coordinates of the 3D structure
+of human SphK1 were downloaded
+from the PDB (PDB ID: 3VZB). The cocrystallized d-sphingosine and water were removed, and the structure was
+subsequently refined in MGL tools. The docking was performed using
+AutoDock Vina, with a structurally blind search space having a grid
+size of 50, 58, and 56 Å, centralized at 53.15, 51.79, and −1.54
+for X, Y, and Z coordinates, respectively. The filtered library which contains 32,902
+compounds was subjected to screen with structure-based molecular docking
+to select compounds with higher binding affinities for SphK1. The
+compounds with higher docking scores were subjected to splitting to
+generate all possible docked conformers and further analyzed through
+Discovery Studio for detailed interaction to SphK1. In interaction
+analysis, the only compounds having a specific interaction toward
+the substrate binding site of SphK1 were selected.
+
+4.4
+
+## MD Simulations
+All-atom MD simulations were performed on SphK1 before
+and after the binding of the identified compounds, ZINC05434006 and
+ZINC04260971, for 100 ns at the molecular mechanics level at 300 K
+utilizing GROMOS 54A7 force field in the GROMACS 5.1.2 package. The
+topology parameters for compounds ZINC05434006 and ZINC04260971 were
+produced in the PRODRG and complexed into the protein topology to
+make SphK1-ZINC05434006 and SphK1-ZINC04260971 complex systems. All
+apo-SphK1, SphK1-ZINC05434006, and SphK1-ZINC04260971 were solvated
+using the simple point charge (spc216) in a cubic box. All the three
+systems were minimized to remove steric clashes by utilizing 1500
+steps of the steepest descent approach. The temperature of all the
+three systems was then raised from 0 to 300 K during the equilibrium
+phase of 100 ps at a constant volume with a stable pressure of 1 bar.
+The final MD run was set to 100,000 ps for all the three systems,
+and the resulting trajectory files were studied through the GROMACS
+utilities and plotted using the QtGrace tool.
+
+## Author Contributions
+D.S.J. and
+T.M. have equally contributed. All authors have read and agreed to
+publish the final version of the manuscript. T.M., K.A, D.S.J., and
+M.I.H. conceptualized the study; T.M. and D.S.J. developed the methodology;
+M.T.R. and A.H. developed the software; D.S.J., A.H., and M.I.H. validated
+the study; M.F.A. and G.M.H. performed the formal analysis; T.M.,
+K.A, and P.G. investigated the study; M.F.A. and D.S.J. brought the
+resources; T.M., P.G., and G.M.H. performed data curation; T.M., K.A.,
+D. S.J., and M.I. H. wrote and prepared the original draft; D.S.J.,
+P.G., and M.I.H. wrote, reviewed, and edited the manuscript; M.F.A.,
+G.M.H., and A.H. visualized the study; M.F.A. and M.I.H. supervised
+the study; M.F.A. and M.I.H. involved in project administration; and
+M.F.A. and A.H. involved in funding acquisition.
+M.I.H. acknowledges
+the Indian Council of Medical Research for financial assistance (project
+no. BIC/12(01)/2015).
+The authors declare no
+competing financial interest.
+
+## Acknowledgments
+T.M. is thankful to the University Grants
+Commission,
+India, for the award of Maulana Azad National Senior Research Fellowship
+(F1-17.1/2017-18/MANF-2017-18-UTT-87495). The authors sincerely thank
+the Department of Science and Technology, Government of India, for
+the FIST support (FIST program no. SR/FST/LSI-541/2012). M.F.A., A.H.,
+and M.T.R. acknowledge the generous support from the Deanship of Scientific
+Research at King Saud University, Riyadh, Kingdom of Saudi Arabia,
+for funding their research group (grant no. RGP-1441-150).
