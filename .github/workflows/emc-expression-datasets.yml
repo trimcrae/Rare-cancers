@@ -66,7 +66,7 @@ on:
         required: false
         default: "part-b"
         type: choice
-        options: ["part-b", "gse-series", "aso-junction"]
+        options: ["part-b", "gse-series", "aso-junction", "s4-fetch"]
       junctions:
         description: >-
           aso-junction mode only: comma-separated EWSR1/NR4A3 TRANSCRIPT exon pairs to design
@@ -126,7 +126,7 @@ jobs:
           fi
 
       - name: "Part B — search four archives for an EMC expression dataset, then read every candidate series"
-        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
+        if: inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch'
         timeout-minutes: 75
         env:
           # ⚠ Must stay comfortably BELOW `timeout-minutes` above. A step that times out returns
@@ -230,8 +230,37 @@ jobs:
             research/modalities/junction-aso-regen-manifest.json
             research/modalities/junction-aso-designs-e*.json
 
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      # s4-fetch — SCRATCH-BRANCH ONLY. Raw network reads for section 4 of
+      # emc-unexplored-treatment-lanes.md: GEO GSE11185 (never read), RCSB 7WNH, RCSB 1OVL.
+      # It DERIVES NOTHING — the analysis runs in the dev sandbox against these bytes.
+      # ─────────────────────────────────────────────────────────────────────────────────────
+      - name: "s4-fetch — GEO GSE11185 + RCSB 7WNH/1OVL (fetch only, no derivation)"
+        if: inputs.mode == 's4-fetch'
+        timeout-minutes: 30
+        run: python research/modalities/s4_lane_inputs_fetch.py
+
+      - name: "s4-fetch — publish the raw inputs to the branch this run was dispatched from"
+        if: always() && inputs.mode == 's4-fetch' && github.ref_type == 'branch'
+        timeout-minutes: 10
+        env:
+          BR: ${{ github.ref_name }}
+        run: |
+          set -e
+          bash research/compute/publish_artifacts.sh "$BR" \
+            "s4 lanes: raw GEO GSE11185 + RCSB 7WNH/1OVL reads (CI, fetch only)" \
+            research/modalities/_s4_lane_inputs
+
+      - name: "s4-fetch — keep as a run artifact too"
+        if: always() && inputs.mode == 's4-fetch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: s4-lane-inputs-${{ github.run_id }}
+          path: research/modalities/_s4_lane_inputs
+          if-no-files-found: error
+
       - name: Reproduce check — the derive half must be offline-reproducible from its inputs cache
-        if: always() && inputs.mode != 'aso-junction'
+        if: always() && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch'
         timeout-minutes: 10
         run: |
           if [ "${{ inputs.mode }}" = "gse-series" ]; then
@@ -244,7 +273,7 @@ jobs:
       # a freshly rebuilt panel must not land beside six files carrying retraction banners with
       # nothing in the directory to tell a reader which is which.
       - name: Publish the artifact and the inputs cache to the branch this run was dispatched from
-        if: always() && github.ref_type == 'branch' && inputs.mode != 'aso-junction'
+        if: always() && github.ref_type == 'branch' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch'
         timeout-minutes: 10
         env:
           BR: ${{ github.ref_name }}
@@ -314,7 +343,7 @@ jobs:
           PY
 
       - name: "Summary — part-b"
-        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction'
+        if: always() && inputs.mode != 'gse-series' && inputs.mode != 'aso-junction' && inputs.mode != 's4-fetch'
         run: |
           python3 - <<'PY'
           import json
